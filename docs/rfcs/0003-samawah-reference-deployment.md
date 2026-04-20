@@ -1,0 +1,296 @@
+# RFC 0003 — Samawah Urban Rail: Reference Deployment
+
+**Status:** Draft
+**Date:** 2026-04-20
+**Depends on:** [docs/ARCHITECTURE.md](../ARCHITECTURE.md), [RFC 0001](0001-track-state-consensus.md), [RFC 0002](0002-energy-sizing.md)
+
+## 1. Summary
+
+This RFC proposes a concrete reference deployment for OpenSourceRail: a two-line urban rail network serving **Samawah (As-Samawah), capital of Al-Muthanna Governorate, Iraq**. The network comprises:
+
+- **Line 1 — "Nahrain" radial**: ~14 km, east–west along the urban corridor, connecting the **Samawah main railway station** (intercity rail interchange), the **city centre**, the **new German Hospital**, and **Al-Muthanna University**.
+- **Line 2 — "Halqa" ring**: ~16 km circumferential route serving the suburban residential belt, with two interchanges onto Line 1.
+
+Total network: ~30 km of double-track light metro, 22 stations, 14-trainset fleet.
+
+This is the reference case for `osr-sim`, the anchor for conversations with potential pilot stakeholders, and the concrete instantiation against which subsequent subsystem designs are measured. It is a planning-grade concept design, not a surveyed alignment — it exists to make the architecture *real* rather than to commit any specific routing.
+
+## 2. Why Samawah
+
+| Factor | Samawah | What it means for OSR |
+|---|---|---|
+| Population | ~220,000 (urban) | Right-sized for light metro — too small for a major vendor to bother with, ideal for an open-source first deployment |
+| Existing rail | Station on Baghdad–Basra mainline | Rail culture and a natural intercity interchange already exist |
+| Climate | Hot desert; ~6+ peak sun hours annual mean | PV yield ~20% above the RFC 0002 reference (5 PSH) — catenary-free + solar is conservative, not ambitious |
+| Grid reliability | Limited; frequent outages | Storage autonomy has real operational value, not just a planning formality |
+| Existing electrification | None on Iraqi mainlines | No legacy catenary, no vendor-locked OCS — greenfield on D7 |
+| Development context | Al-Muthanna is among Iraq's lower-income governorates | Capital sensitivity is high; the ~66% capex reduction in RFC 0002 is decisive, not marginal |
+| Institutional anchors | Al-Muthanna University (engineering faculty), new German Hospital, government buildings | Each anchor is a major daily demand generator; the radial alignment serves all of them on one line |
+| Workforce | Engineering graduates from Al-Muthanna University | Potential domestic design/build partnership — the core promise of OSR is "workers who design and build the systems in the country" |
+
+The combination is close to optimal: genuine need, favorable physics, no legacy to migrate, and domestic technical capacity to engage. If OSR cannot make sense here, it likely cannot make sense anywhere.
+
+## 3. Geography and Indicative Alignment
+
+Samawah sits on the Euphrates in southern Iraq. The city stretches roughly east–west along the river with residential suburbs fanning north and south. The mainline railway enters from the northwest, the city centre sits on the river bend, and the major newer developments (hospital, university campus, expanding residential districts) are south and east of the historic core.
+
+> **Important caveat.** The alignment below is indicative. Precise routing, station siting, and ROW acquisition are out of scope for this RFC — those depend on surveying, stakeholder consultation, and local planning processes that only Samawah's own planners and Al-Muthanna Governorate can lead. What this RFC provides is a *credible skeleton* that demonstrates how an OpenSourceRail network would be organized for a city of Samawah's size and form.
+
+### 3.1 Line 1 — Nahrain radial (indicative)
+
+East-to-west sequence of 12 stations, ~14 km total, at-grade along existing wide arterials where possible, elevated across major intersections and the river crossing:
+
+| # | Station | Purpose |
+|---|---|---|
+| 1 | Samawah Railway Station | Intercity rail interchange; Baghdad–Basra mainline connection; freight yard adjacency for shared infrastructure |
+| 2 | North Gate | Residential catchment |
+| 3 | Old Souq | Traditional market district |
+| 4 | Samawah Central | City centre; government offices, main civic square |
+| 5 | Riverside | Euphrates crossing; tourism and cultural access |
+| 6 | Eastern Bridge | Second river crossing; interchange with Line 2 (Halqa ring) |
+| 7 | Al-Salam | Residential / commercial mid-corridor |
+| 8 | Governorate Hospital | Existing regional hospital |
+| 9 | New German Hospital | Major new medical facility |
+| 10 | Engineering Quarter | Light industry + housing |
+| 11 | Al-Muthanna University | University campus; second Line 2 interchange |
+| 12 | East Depot & Yard | Fleet depot; PV farm; staff training centre |
+
+Expected daily ridership at build-up: **40,000–55,000 passenger-trips**.
+
+### 3.2 Line 2 — Halqa ring (indicative)
+
+Circumferential loop, ~16 km, serving the suburban belt north and south of the Line 1 corridor. 10 stations on the loop, of which two are interchanges onto Line 1 (Eastern Bridge and Al-Muthanna University):
+
+| # | Station | Purpose |
+|---|---|---|
+| 1 | Eastern Bridge (L1) | Interchange |
+| 2 | Northern Suburbs A | Residential |
+| 3 | Northern Suburbs B | Residential |
+| 4 | Northwest Junction | Ring–airport-road interchange (road, not rail) |
+| 5 | Industrial West | Light industrial employment |
+| 6 | Western Residential | Residential |
+| 7 | South-West Residential | Residential |
+| 8 | Southern Markets | Commercial district |
+| 9 | South-East Residential | Residential |
+| 10 | Al-Muthanna University (L1) | Interchange |
+
+Expected daily ridership at build-up: **25,000–35,000 passenger-trips**.
+
+Because the ring is a loop, Line 2 operations are simplified: trains cycle in both directions from each interchange with no turnback movements other than at a small depot lay-up near Northwest Junction.
+
+### 3.3 System totals
+
+| Metric | Value |
+|---|---|
+| Route-km (double track) | 30 km |
+| Stations (total, counting interchanges once) | 20 |
+| Interchanges | 2 (Eastern Bridge, Al-Muthanna University) |
+| Fleet (revenue) | 14 × 3-car trainsets |
+| Fleet (spare) | 2 × 3-car trainsets |
+| Main depot | East Depot (Line 1 terminus), with 20-stall capacity and 12 MWp PV farm |
+| Secondary layup | Northwest Junction (Line 2), 4-stall |
+| Service hours | 05:30 – 23:30, 18 hours |
+| Target daily ridership (steady-state) | 65,000 – 90,000 passenger-trips |
+
+## 4. Service Plan
+
+### 4.1 Headways
+
+| Period | Line 1 | Line 2 |
+|---|---|---|
+| AM peak (07:00–09:30) | 4 min | 6 min |
+| Midday (09:30–16:00) | 8 min | 10 min |
+| PM peak (16:00–19:00) | 4 min | 6 min |
+| Evening (19:00–22:00) | 10 min | 12 min |
+| Late evening (22:00–23:30) | 15 min | 15 min |
+
+Line 1 is the busier service (longer, more anchors, cross-city). Line 2 operates a simple bidirectional loop with trains beginning and ending at the small layup near Northwest Junction.
+
+### 4.2 Anchor-driven demand
+
+Unusually for light metro, ridership here is *dominated* by a few large institutional anchors rather than by distributed demand. This has design consequences:
+
+- **University:** sharp peaks 07:30 and 15:00 during term; low on Fridays and summer. Platform capacity at Al-Muthanna University must handle 2,000+ pax in 20 minutes.
+- **Hospitals (two):** steady demand through the day, with a visiting-hours peak in mid-afternoon. 24-hour operation would be justifiable for hospital access; this RFC stops at 23:30 but flags the question.
+- **Railway station:** bunched demand aligned with the (roughly twice-daily) intercity arrivals. Line 1 timetable should align a service with each mainline arrival/departure.
+- **Souq and Centre:** evenings and weekends, counter-cyclical to the university peak — this is helpful for fleet utilization.
+
+### 4.3 Rolling stock
+
+Reference platform per [ARCHITECTURE §4 D5](../ARCHITECTURE.md):
+- 3-car, ~65 m articulated consist, 65 t per car (light metro class)
+- Na-ion onboard battery, 900 kWh/trainset (300 kWh/car)
+- Open SiC traction inverter, Rust control firmware
+- TSN Ethernet trainbus
+- HVAC sized for 50 °C ambient, which is load-bearing in Samawah summers (see §5.4)
+
+## 5. Energy: Samawah-specific Numbers
+
+Applying [RFC 0002](0002-energy-sizing.md) to this network, with Samawah-specific adjustments for climate and duty cycle.
+
+### 5.1 Demand
+
+| Component | kWh/day |
+|---|---|
+| Line 1 line-haul (4 kWh/car-km × 3 cars × traffic) | ≈ 40,000 |
+| Line 2 line-haul | ≈ 22,000 |
+| HVAC uplift for extreme heat (+25% over RFC 0002 baseline in peak summer) | ≈ 15,000 |
+| Stations, depot aux, signals, info systems | ≈ 22,000 |
+| Charging losses | ≈ 10,000 |
+| **Total (peak summer)** | **≈ 110,000 kWh/day = 110 MWh/day** |
+| Total (shoulder season average) | ≈ 85 MWh/day |
+
+Slightly higher than the RFC 0002 reference because Samawah summers are more HVAC-intensive, and we've scaled up to 30 km of route.
+
+### 5.2 PV generation
+
+Samawah's 6 PSH annual mean (with summer peaks above 8 PSH) is higher than the generic reference.
+
+| Surface | Area | Notes |
+|---|---|---|
+| Station canopies (20 × 2,000 m²) | 40,000 m² | Dual-use shade — valuable in Samawah heat |
+| Depot roof (East Depot) + Northwest layup | 16,000 m² | |
+| ROW vertical bifacial along 30 km × 2 sides × 4 m effective | 240,000 m² projected, ~120,000 m² of panel | Vertical orientation also reduces dust accumulation vs. horizontal |
+| ROW ballast-shoulder panels | 120,000 m² | Tilted; subject to dust soiling management |
+| **Total panel area** | **~300,000 m²** | |
+
+At 220 W/m² × 0.75 packing × 0.78 PR (lower PR than RFC 0002 due to high module temperatures — heat derates silicon):
+- Nameplate AC: **~38 MW**
+- Annual generation at 6 PSH: **~83 GWh/yr = 228 MWh/day average**
+- Comfortable 2× headroom over peak-summer demand; clean surplus most of the year
+
+The headroom deliberately buys two things specific to Samawah:
+1. **Dust-storm resilience.** Peak soiling events in Muthanna can cut yield 40–60% for several days. The surplus lets us absorb this without grid dependence.
+2. **Grid export opportunity.** Iraq's grid is energy-constrained; feed-in under a state-utility PPA could be a material revenue line, not an afterthought.
+
+### 5.3 Storage
+
+Given grid unreliability, Samawah's storage sizing should be more generous than the RFC 0002 baseline. Target: **3-day autonomy** (vs. 2-day generic).
+
+- Trackside: 20 stations × 2.5 MWh = 50 MWh
+- Main depot: 40 MWh
+- Secondary layup: 5 MWh
+- **Total trackside storage: 95 MWh Na-ion**
+
+Onboard: 14 trainsets × 900 kWh = 12.6 MWh rolling stock battery.
+
+### 5.4 Thermal considerations
+
+Samawah summers routinely exceed 45 °C; record highs approach 55 °C. This has three design consequences:
+
+1. **HVAC energy dominates.** Per-car traction + HVAC at 50 °C ambient can reach 6 kWh/car-km. The 4 kWh/car-km reference figure is already rolled up with an average HVAC; the RFC's +25% summer uplift reflects realistic worst-case.
+2. **Battery conditioning.** Both sodium-ion and LFP prefer operation below 45 °C. Trackside battery enclosures need insulation + passive ventilation minimum; active cooling for high-C discharge periods is justified for the main depot only. Onboard packs sit under the floor with thermally managed enclosures; Na-ion's wider safe-operation temperature window is particularly useful here.
+3. **PV temperature derating.** Panels in Samawah can reach 70+ °C module temp on a summer afternoon. Bifacial + vertical mounting runs cooler than horizontal ballasted arrays and is preferred on the ROW for this reason as much as the area one.
+
+### 5.5 Capex summary (Samawah-specific)
+
+Applying RFC 0002's cost basis, scaled to 30 km and adjusted:
+
+| Item | Cost (USD) |
+|---|---|
+| 38 MW PV (blended across surfaces) @ $700/kW | $26.6 M |
+| 95 MWh trackside Na-ion storage @ $200/kWh installed | $19.0 M |
+| Charging infrastructure | $3.0 M |
+| Onboard batteries, 14 trainsets × 900 kWh @ $150/kWh | $1.9 M |
+| Grid tie + BOP + site works | $5.0 M |
+| Engineering, commissioning, contingency (20% — slightly higher for novel deployment) | $11.1 M |
+| **Energy subsystem total** | **≈ $66 M** |
+
+For comparison, a conventional 25 kV AC catenary + 4 traction substations for a 30 km system in this market would run **≈ $180 M**. The OSR energy approach is **~37% of the catenary cost.**
+
+## 6. Mapping to OpenSourceRail Architecture
+
+This is where the reference deployment connects back to the domain designs:
+
+### D1. Operations & Dispatch
+- One Operations Control Centre at East Depot, with a backup dispatch workstation at Samawah Central.
+- Dispatcher interface: web-based; full observability via the OpenTelemetry + Prometheus stack; no proprietary HMI.
+- Integration with intercity rail: the OCC subscribes to the Iraqi Republic Railways (IRR) timetable via GTFS-RT (or bilateral feed if GTFS isn't available) so that Line 1 services align with mainline arrivals.
+
+### D2. Train Control
+- **Two consensus regions:** Line 1 (12 W-Nodes, one per station plus depot) and Line 2 (10 W-Nodes).
+- Region boundaries at Eastern Bridge and Al-Muthanna University — the Line 1/Line 2 interchanges — handled by the handoff protocol in RFC 0001 §7.4.
+- Interlockings at the three turnback sidings (Line 1 termini and mid-line) plus the depot throats.
+- No track circuits: position is sensor-fused per [RFC 0001](0001-track-state-consensus.md) §5.1, with beacon-fix sites at every switch and every platform.
+
+### D3. Communications
+- Public 5G SA for primary train↔wayside link — Zain Iraq, Asiacell, or Korek presence in Samawah; one or more operators will likely carry the project with a network-slicing arrangement.
+- LoRa mesh gateways at every W-Node site as the safety-telemetry fallback, giving citywide coverage independent of carrier uptime.
+- TSN Ethernet backbone along the ROW (single fiber pair in a ruggedized conduit, ring topology per line).
+
+### D4. Passenger Services
+- **Account-based fare** per [ARCHITECTURE §4 D4](../ARCHITECTURE.md):
+    - Iraqi mobile money rails (zainCash, AsiaHawala) as primary.
+    - QR tickets via a local web-app (no native app required — important for feature-phone access).
+    - Optional reloadable NFC card for those who prefer it, but not the default channel.
+- Trilingual passenger info (Arabic, Kurdish, English) on displays and announcements; Arabic is primary for Samawah but the project infrastructure should generalize.
+- Station screens: SBC + standard displays per the D4 design, with prayer-time integration for culturally appropriate PA silence windows.
+
+### D5. Rolling Stock
+- 14 + 2 spare 3-car consists, 45 cars total.
+- Reference T-ECU hardware across all non-traction-power functions.
+- Onboard battery at 900 kWh/trainset, Na-ion.
+- HVAC designed for 50 °C ambient, verified in summer commissioning.
+
+### D6. Infrastructure
+- Switch machines: 8 on Line 1, 6 on Line 2, plus depot and yard throat switches.
+- Level crossings: ~12 on Line 1 at-grade sections, ~8 on Line 2 — all instrumented into the consensus log the same way stations are.
+- Track geometry CBM: every revenue service train carries the sensor package from D6.
+
+### D7. Energy
+- See §5. Samawah is an archetypal D7 deployment: sunny, grid-constrained, catenary-free.
+
+### D8. Depot & Maintenance
+- **East Depot:** main facility, 20 stalls, full CBM and workshop, 12 MWp PV + 40 MWh Na-ion microgrid. Training wing for operator personnel — part of the workforce domestication mission.
+- **Northwest Junction layup:** 4 stalls, PV canopy, 5 MWh buffer, basic inspection only.
+
+## 7. What This Means for `osr-sim`
+
+Samawah is the **primary reference scenario** for `osr-sim`. Simulator development priorities:
+
+1. **Topology import.** Represent Line 1 (12 stations + turnbacks), Line 2 (10 stations + layup), the two interchanges. Track geometry at RFC-0001 granularity (sections with offsets).
+2. **Demand model.** Origin–destination matrix calibrated to the four anchor-types (station, centre, hospital, university) with time-of-day curves matching §4.2. Friday schedules as a first-class variant.
+3. **Climate model.** A simple Samawah annual climate series (PSH, ambient temperature) drives both PV yield and HVAC load; this lets the simulator run an annual operations + energy profile, not just a single day.
+4. **Fleet simulation.** 14 trainsets with the battery model, running timetable-driven services, with opportunity charging at station stops per RFC 0002.
+5. **Dust event injection.** Step-function drops in PV yield lasting 1–5 days are a modeled stress, used to validate storage sizing.
+6. **Fault injection.** W-Node crashes, radio outages, grid outages. Tests that service degrades gracefully.
+
+The existence of a concrete reference case is important for discipline: every feature added to `osr-sim` should demonstrably improve fidelity of the Samawah simulation, not just be abstractly useful.
+
+## 8. Stakeholders and Partnerships
+
+This is early and speculative, but the architecture only makes sense if it's eventually deployable. Plausible stakeholders to engage, ordered by likely path-opening value:
+
+1. **Al-Muthanna University, College of Engineering** — natural partner for design-phase engineering work, student internships, and a credible domestic technical voice.
+2. **Al-Muthanna Governorate** — transit planning authority and likely project sponsor.
+3. **Iraqi Republic Railways (IRR)** — operator of the existing mainline; intercity interchange is via them.
+4. **Iraqi Ministry of Transport** — for regulatory approval of novel signaling architecture.
+5. **GIZ / German development cooperation** — given the new German Hospital anchor, there may be a natural coordination path with German-Iraqi development relations.
+6. **Multilateral development banks** (World Bank, IsDB, AIIB) — likely financing routes for a novel urban-rail pilot.
+7. **Domestic EPC and electronics industry** — the path to workforce domestication runs through companies that would actually fabricate PCBs, build switchgear, and integrate stations.
+
+No engagement is being proposed here. This list exists so that when code is running and the simulator is working, there is a clear trajectory toward a conversation, not a blank map.
+
+## 9. Open Questions
+
+1. **Urban planning compatibility.** The indicative alignment in §3 must be compared against Samawah's urban plan before it can be taken seriously as a routing proposal. This is a desk exercise that a motivated student at Al-Muthanna University could do productively.
+2. **Ridership reality check.** The 65,000–90,000 daily pax figure is a projection by analogy to mid-sized light-metro systems globally. A proper local demand study would refine it by a factor of perhaps 2×. The energy and fleet sizing have enough margin to absorb this, but station capacities and interchange geometry do not.
+3. **Intercity interchange design.** How exactly does a passenger move between an intercity IRR train and the Line 1 metro at Samawah Railway Station? Platform-level integration is best; shared fare media is ideal but depends on IRR's modernization timeline.
+4. **Bridge over the Euphrates.** Line 1 crosses the river between Samawah Central and Eastern Bridge stations. Existing road bridges may carry the alignment piggyback, or a dedicated rail bridge may be needed. Major capex item; outside this RFC.
+5. **Construction phasing.** Full network in one go is unlikely. Plausible phasing: (Phase A) Line 1 western section, station → centre → Eastern Bridge; (Phase B) Line 1 eastern section, Eastern Bridge → University; (Phase C) Line 2 ring. Each phase must be operationally meaningful on its own.
+6. **Land acquisition.** ROW is the single biggest planning-phase risk and is entirely local-authority territory; OSR technology cannot help here, only not make it worse (the catenary-free design needs no overhead easements, which is a small help).
+7. **Women-only car policy.** Common in the region; implementable as a carriage-designation display change, but the social design of the service should be discussed with local stakeholders rather than assumed.
+8. **Prayer-time service patterns.** Friday midday service should be adjusted for mosque access; Ramadan schedules differ from the standard day. These are timetable questions, not infrastructure.
+
+## 10. Next Steps
+
+With this RFC in place:
+
+1. **Stand up `osr-sim`** with the Line 1 topology as the first scenario. A working annual simulation of the Samawah network is the single most effective artifact this project can produce for advocacy and engineering discipline.
+2. **Run the energy numbers in simulation**, not just on a spreadsheet. §5 is a starting point; the sim will refine it and expose error margins.
+3. **Draft RFC 0004 — Regulatory and Certification Path for Novel Signaling in Iraq**, since the SMRaft-based train control in RFC 0001 will face its first real regulatory conversation here.
+4. **Publish an accessible summary** (Arabic + English) aimed at a non-technical audience at Al-Muthanna University and in governorate outreach, so that the project is visible to potential domestic contributors from the beginning rather than being announced after the fact.
+
+---
+
+*This RFC treats Samawah as a design target, not a prediction. Whether OpenSourceRail actually deploys here depends on decisions made by the people and institutions of Samawah and Iraq. What we commit to is: the reference design will be kept honest, the simulator will match the real geography, and the work will be done in public so that local engineers can contribute from day one.*

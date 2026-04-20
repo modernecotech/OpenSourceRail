@@ -1,0 +1,27 @@
+[package]
+name = "osr-sim"
+description = "OpenSourceRail — time-stepped simulator for urban rail networks"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+
+[[bin]]
+name = "osr-sim"
+path = "src/main.rs"
+
+[[bin]]
+name = "osr-vis"
+path = "src/bin/vis.rs"
+
+[lints]
+workspace = true
+
+[dependencies]
+osr-core = { path = "../osr-core" }
+osr-interlocking = { path = "../osr-interlocking" }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+toml = "0.8"
+clap = { version = "4", features = ["derive"] }

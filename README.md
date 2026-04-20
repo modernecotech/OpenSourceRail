@@ -1,0 +1,230 @@
+# OpenSourceRail
+
+> An open-source technology stack for designing, building, and operating rail
+> systems — built for the developing world, built to be owned by the countries
+> that deploy it.
+
+**Status:** Architecture, RFC, simulator, and safety-kernel phase.
+The simulator runs end-to-end on the Samawah two-line reference scenario
+([RFC 0003](docs/rfcs/0003-samawah-reference-deployment.md)) with kinematic
+integration, time-of-day dispatching, a PV + trackside storage + grid tie
+energy model, multi-day runs with overnight depot charging, and fault
+injection. Scenarios are defined in TOML so anyone can design a network
+for their own city. The SIL-4 safety-kernel (`osr-interlocking`) now has
+both deterministic state derivation AND the Movement Authority computer
+(M1+M2 of RFC 0004 complete; 43 passing tests workspace-wide). Kani
+formal verification of the five safety properties (M3) is the next
+milestone. Production signaling and hardware stacks remain future work.
+
+---
+
+## Why this project exists
+
+Urban rail is the most efficient way to move people through a growing city,
+and developing nations badly need more of it. But the global rail market is
+dominated by a handful of vendors — Alstom, Siemens, Hitachi, CRRC, Thales —
+whose turnkey systems lock countries into decades of imports, specialized
+foreign labor, and capital flight.
+
+OpenSourceRail is a complete, permissively licensed alternative, aimed at
+national railway authorities and domestic engineering firms in target regions
+(sub-Saharan Africa, MENA, South and Southeast Asia, most of Latin America).
+The project succeeds when an operator in one of those markets can build and
+run a modern rail network with imported content limited to raw steel, copper,
+and specialty items that genuinely cannot be made locally — everything else is
+produced by the people who will run the railway.
+
+## What's different
+
+OpenSourceRail is not a reimplementation of existing vendor practice in open
+code. The architecture actively deprecates legacy approaches where cleaner
+ones exist. The headline bets:
+
+- **Catenary-free.** Trains run on onboard sodium-ion or LFP batteries with
+  opportunity charging at stations. Eliminates the single largest capex line
+  on new-build rail (€1–3M/km of catenary) and a major copper-theft target.
+  [ARCHITECTURE §4 D7](docs/ARCHITECTURE.md) ·
+  [RFC 0002](docs/rfcs/0002-energy-sizing.md)
+- **Solar-first energy.** PV on station canopies, depot roofs, and along the
+  right-of-way the railway already owns — netting positive daily generation
+  against demand in the target climates.
+- **Distributed train control, not centralized.** Wayside nodes run a formally
+  verified consensus protocol maintaining authoritative track state. Replaces
+  €10–50M centralized zone controllers with commodity SBCs at <€5k/site.
+  [RFC 0001](docs/rfcs/0001-track-state-consensus.md) ·
+  [TLA+ spec](formal/tla/SMRaft.tla)
+- **Commodity SBCs + Rust, end to end.** One language from the SIL-4 safety
+  kernel to the dispatcher web UI. Industrial PLCs, proprietary trainbuses,
+  and Windows-based SCADA are out of the default design.
+- **TSN Ethernet trainbus, not MVB/WTB.** Off-the-shelf switches, deterministic
+  traffic, Rust stack.
+- **Account-based fare, not smart cards.** Mobile money + QR + optional NFC;
+  target markets have already leapfrogged card infrastructure.
+- **Machine-checkable safety case.** GSN-structured, version-controlled,
+  regenerated on every commit, linked to formal proofs and test evidence.
+
+Each deviation from established rail practice is justified against a concrete
+criterion: cost, simplicity, local manufacturability, or workforce transfer.
+Not novelty for its own sake.
+
+## Scope
+
+Eight subsystems; treat as a system-of-systems:
+
+| Domain | What it covers |
+|---|---|
+| D1. Operations & Dispatch | Timetable, incident management, event-sourced platform |
+| D2. Train Control | Interlocking, movement authority, ATP — the SIL-4 core |
+| D3. Communications | 5G + LoRa radio, TSN wayside backbone |
+| D4. Passenger Services | Fare, info displays, announcements |
+| D5. Rolling Stock | Unified Rust ECUs, TSN trainbus, onboard battery + inverter |
+| D6. Infrastructure | Switches, track geometry, level crossings |
+| D7. Energy | PV generation, trackside storage, station charging |
+| D8. Depot & Maintenance | CBM, work orders, depot microgrid |
+
+Full description: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
+
+## Repository layout
+
+```
+OpenSourceRail/
+├── README.md                 You are here.
+├── Cargo.toml                Rust workspace.
+├── docs/
+│   ├── ARCHITECTURE.md       Scope, subsystem design, roadmap. Start here.
+│   └── rfcs/
+│       ├── 0001-track-state-consensus.md   Distributed signaling core.
+│       ├── 0002-energy-sizing.md           Concrete numbers for solar+battery.
+│       └── 0003-samawah-reference-deployment.md   The reference pilot: Samawah, Iraq.
+├── crates/
+│   ├── osr-core/             Shared domain types (topology, trains, IDs).
+│   │   └── proto/
+│   │       └── track_state.proto           Interface definitions.
+│   ├── osr-interlocking/     SIL-4 safety-kernel (M1+M2 done).
+│   │   └── src/              Entry types + derive_state + MA computer.
+│   └── osr-sim/              Time-stepped simulator + HTML/SVG visualizer.
+│       └── src/bin/vis.rs    osr-vis — network diagram renderer.
+├── scenarios/                User-editable scenario files (see README).
+│   ├── samawah.toml          Full Samawah reference deployment.
+│   ├── samawah-line1.toml    Line 1 only.
+│   └── example-simple.toml   Template for a new city.
+└── formal/
+    └── tla/
+        ├── SMRaft.tla        Consensus protocol spec.
+        ├── MCSmall.tla       Small TLC harness.
+        └── MCSmall.cfg       TLC config.
+```
+
+Additional crates (`osr-consensus`, `osr-interlocking`, `osr-ops`) and hardware
+reference designs will land as the design matures through further RFCs.
+
+## Quick start
+
+Requirements: Rust 1.80+ via `rustup`.
+
+```
+cargo run --release --bin osr-sim -- --duration 3600 --status-every 300
+```
+
+This runs a one-hour simulation of the full Samawah network — Line 1
+"Nahrain" (radial, 6 trainsets) plus Line 2 "Halqa" (ring, 4 trainsets),
+with the two interchanges at Eastern Bridge and Al-Muthanna University,
+across the time-of-day headway schedule from RFC 0003 §4.1. The output
+shows each train's position and state-of-charge at regular intervals,
+grouped by line, followed by a summary of per-line km, energy consumed
+vs. charged, dispatch hold time (fleet idle-at-terminal time), and any
+invariant violations (there should be none).
+
+## Designing your own city
+
+Scenarios are plain-text TOML files — stations, lines, fleets, schedules,
+climate. Copy a reference and edit it:
+
+```
+cp scenarios/example-simple.toml scenarios/my-city.toml
+# edit my-city.toml — see scenarios/README.md for the file format
+cargo run --release --bin osr-sim -- --config scenarios/my-city.toml
+```
+
+Reference scenarios in [`scenarios/`](scenarios/):
+
+- **[`samawah.toml`](scenarios/samawah.toml)** — full 2-line Samawah network (12 km radial + 16 km ring, 22 stations, 10 trainsets, time-of-day schedule).
+- **[`samawah-line1.toml`](scenarios/samawah-line1.toml)** — Line 1 only, useful for scale comparisons.
+- **[`example-simple.toml`](scenarios/example-simple.toml)** — 3-station shuttle with 1 train. The smallest viable config; copy as a template.
+
+The full file-format reference is in [`scenarios/README.md`](scenarios/README.md).
+The same two built-in scenarios are also reachable without a config file via
+`--scenario samawah` (default) and `--scenario samawah-line1`.
+
+Pass `--json-out trace.json` to capture the full event trace for later
+analysis.
+
+## Reading order
+
+If you have 10 minutes: read this README and
+[ARCHITECTURE §1–3](docs/ARCHITECTURE.md) (mission, principles, system map).
+
+If you have an hour: add [ARCHITECTURE §4–11](docs/ARCHITECTURE.md) and
+whichever RFC is closest to your domain.
+
+If you're considering contributing: read everything above, then the
+[TLA+ README](formal/tla/README.md) and the
+[track_state.proto](crates/osr-core/proto/track_state.proto) header.
+
+## Target hardware
+
+- **Wayside SBC:** ARM64 (Raspberry Pi CM-class) or RISC-V (MilkV / StarFive)
+  with hardware root of trust. Runs the interlocking and consensus stack.
+- **Train ECU:** Same SoC family, EN 50155 environmental ratings, TSN PHY.
+  Unified reference design runs traction control, doors, HVAC, PIS as Rust
+  apps on identical hardware.
+- **Ops server:** Commodity x86 or ARM64 Linux.
+
+Everything is designed to be manufacturable with a 4-layer PCB fab and a
+standard SMT line — no exotic silicon, no proprietary toolchains.
+
+## How to get involved
+
+Right now the highest-leverage contributions are:
+
+1. **Review the architecture and RFCs.** Especially from people with real rail
+   signaling, power-electronics, or safety-case experience. File issues with
+   specific disagreements; we want the design bashed into shape before code
+   lands.
+2. **Climate and grid data** for specific target corridors. The energy sizing
+   in RFC 0002 uses planning-grade numbers; real deployments need real data.
+3. **Formal-methods contributions** to [formal/tla/SMRaft.tla](formal/tla/SMRaft.tla).
+   TLAPS proofs and TLC runs on larger bounded models are both welcome.
+
+Once the code phase begins, the first tangible pieces will be the Rust MA
+computer with Kani harness, and a toy `osr-sim` network that exercises the
+proto schema end to end.
+
+## License
+
+Licensing is being finalized. The current proposal, stated in
+[ARCHITECTURE §9 Phase 0](docs/ARCHITECTURE.md):
+
+- **Software:** Apache 2.0
+- **Hardware designs:** CERN-OHL-S v2
+- **Documentation:** CC-BY-SA 4.0
+
+Nothing is final until the governance RFC lands; contributions made before
+then are on the understanding that they will be licensed under these terms.
+
+## Non-goals
+
+To be clear about what this project is not:
+
+- Not a standards body. Where good open standards exist (GTFS, NeTEx, IEEE
+  802.1 TSN, IEEE 2030.5), we adopt them.
+- Not a safety certifier. The project produces artifacts suitable for
+  independent assessment; certification is done by national authorities.
+- Not a museum. We do not aim for plug-in compatibility with every legacy
+  vendor protocol. Migration paths are scoped; permanent legacy support is
+  not.
+
+---
+
+*The railways a country builds outlive the governments that commission them.
+The technology underneath should belong to the country, not be leased to it.*
