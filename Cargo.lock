@@ -299,11 +299,27 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "384b8ab6d37215f3c5301a95a4accb5d64aa607f1fcb26a11b5303878451b4fe"
 
 [[package]]
+name = "osr-ato"
+version = "0.1.0"
+dependencies = [
+ "proptest",
+ "serde",
+]
+
+[[package]]
 name = "osr-atp"
 version = "0.1.0"
 dependencies = [
  "osr-core",
  "osr-interlocking",
+ "proptest",
+ "serde",
+]
+
+[[package]]
+name = "osr-bms"
+version = "0.1.0"
+dependencies = [
  "proptest",
  "serde",
 ]
@@ -360,16 +376,27 @@ name = "osr-sim"
 version = "0.1.0"
 dependencies = [
  "clap",
+ "osr-ato",
  "osr-atp",
+ "osr-bms",
  "osr-brake",
  "osr-consensus",
  "osr-core",
  "osr-interlocking",
  "osr-odometry",
+ "osr-traction",
  "serde",
  "serde_json",
  "tempfile",
  "toml",
+]
+
+[[package]]
+name = "osr-traction"
+version = "0.1.0"
+dependencies = [
+ "proptest",
+ "serde",
 ]
 
 [[package]]

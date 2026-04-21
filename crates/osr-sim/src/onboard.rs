@@ -1,12 +1,15 @@
-//! Shadow-mode onboard stack: runs `osr-odometry`, `osr-atp`, and
-//! `osr-brake` in parallel with the simulator's countdown-based train
-//! motion model, every tick, for every Traveling train.
+//! Shadow-mode onboard stack: runs the full SIL-4 + SIL-2 onboard
+//! software chain — [`osr-odometry`], [`osr-interlocking`] MA via
+//! `forward_chain`, [`osr-atp`], [`osr-ato`], [`osr-bms`],
+//! [`osr-traction`], [`osr-brake`] — in parallel with the
+//! simulator's countdown-based train motion model, every tick, for
+//! every Traveling train.
 //!
-//! This is **integration evidence** for the Phase 2a SBC crates
-//! (RFC 0005 §11). The sim's own kinematic model is not replaced —
-//! the shadow runs alongside, exercises the real onboard decision
-//! code with real scenario inputs, and produces a summary that's
-//! folded into [`SimResult`].
+//! This is **integration evidence** for the Phase 2a + 2b SBC
+//! crates (RFC 0005 §11). The sim's own kinematic model is not
+//! replaced — the shadow runs alongside, exercises the real onboard
+//! decision code with real scenario inputs, and produces a summary
+//! that's folded into [`SimResult`].
 //!
 //! # What the shadow does each tick
 //!
@@ -18,19 +21,20 @@
 //! 2. Build a synthetic [`SensorTick`] from the integration step
 //!    (wheel pulses derived from distance moved) and run
 //!    [`odom_step`].
-//! 3. Build a **local MA** whose end is at the far end of the
-//!    current section. Because the sim's occupancy map already
-//!    enforces the no-two-trains-in-one-section invariant globally,
-//!    any ATP trip under this MA is a genuine bug in ATP or the
-//!    kinematic model — not an interlocking mis-coordination. The
-//!    full wayside-MA chain is exercised separately by the periodic
-//!    [`crate::ma_check`] integration.
-//! 4. Run [`atp_evaluate`] with that MA.
-//! 5. Run [`brake_evaluate`] with the ATP command and all-false
-//!    emergency sources (sim-driven faults like fire or derailment
-//!    are not yet wired into the shadow; see §13 of RFC 0005
-//!    for the future path).
-//! 6. Record per-train tick statistics.
+//! 3. Build a local MA via `forward_chain`, exactly as
+//!    `osr-interlocking` would.
+//! 4. Run [`atp_evaluate`] → safety envelope / brake command.
+//! 5. Run [`ato_evaluate`] → torque setpoint + service-brake demand.
+//! 6. Synthesize cell-level pack state from the BMS state's SoC and
+//!    run [`bms_evaluate`] (using the prior tick's estimated current
+//!    as the pack-current input — one-tick lag, fine for shadow
+//!    purposes).
+//! 7. Run [`traction_evaluate`] with ATO's torque and BMS's limits.
+//! 8. Compose a [`BrakeInputs`] that *unions* the ATP command with
+//!    ATO's service brake (ATP remains the hard bound; ATO drives
+//!    normal braking inside it). Regen availability comes from the
+//!    BMS charge limit. Run [`brake_evaluate`].
+//! 9. Record per-train tick statistics.
 //!
 //! On transition out of `Traveling` (section boundary crossed), the
 //! shadow's kinematic state resets. On transition into `Traveling`
@@ -47,11 +51,14 @@
 //! - Simulate wheel slip. `wheel_speed_mmps = measured_speed_mmps`
 //!   always; WSP is exercised by its own proptests in `osr-brake`.
 
+use osr_ato::{ato_evaluate, AtoInputs, AtoMode, AtoParams, AtoState};
 use osr_atp::{atp_evaluate, AtpOutcome, BrakeCommand, TriggerReason};
+use osr_bms::{bms_evaluate, BmsInputs, BmsParams, BmsState, ContactorCommand, ContactorState};
 use osr_brake::{brake_evaluate, BrakeInputs, BrakeOutput, BrakeParams};
 use osr_core::{ConsistDescriptor, Direction, Network, SectionId, TrackRef, TrainId};
 use osr_interlocking::{far_end_of, forward_chain, MovementAuthority, MAX_MA_DISTANCE_MM, MA_VALIDITY_WINDOW_NS};
 use osr_odometry::{odom_step, BaliseId, OdomCalibration, OdomState, SensorTick};
+use osr_traction::{traction_evaluate, InverterState, TractionInputs, TractionParams, TractionState};
 use serde::{Deserialize, Serialize};
 
 use crate::train::{Heading, Train, TrainPhase};
@@ -60,7 +67,7 @@ use crate::train::{Heading, Train, TrainPhase};
 // Shadow state
 // ---------------------------------------------------------------------------
 
-/// Per-train shadow state — kinematics + odometer + counters.
+/// Per-train shadow state — kinematics + odometer + Phase 2b stack + counters.
 #[derive(Clone, Debug)]
 pub struct OnboardShadow {
     pub train_id: TrainId,
@@ -70,6 +77,15 @@ pub struct OnboardShadow {
     /// Kinematic state: meaningful only during Traveling. Reset to
     /// zero at section boundaries.
     pub kin: KinematicShadow,
+
+    // --- Phase 2b stack ------------------------------------------------
+    pub ato_state: AtoState,
+    pub ato_params: AtoParams,
+    pub bms_state: BmsState,
+    pub bms_params: BmsParams,
+    pub traction_state: TractionState,
+    pub traction_params: TractionParams,
+
     /// Rolling statistics across the full run.
     pub stats: OnboardStats,
     /// Last wall-time tick when this shadow was advanced. Used to
@@ -140,6 +156,32 @@ pub struct OnboardStats {
     pub first_emergency: Option<EmergencyRecord>,
     /// Total distance covered by the shadow kinematic model, mm.
     pub shadow_distance_mm: u64,
+
+    // --- Phase 2b telemetry -------------------------------------------
+    pub ato_ticks_accelerating: u32,
+    pub ato_ticks_cruising: u32,
+    pub ato_ticks_coasting: u32,
+    pub ato_ticks_braking: u32,
+    pub ato_ticks_station_approach: u32,
+    pub ato_ticks_stopped: u32,
+    /// Peak positive torque commanded by ATO, mN·m.
+    pub peak_torque_mnm: i32,
+    /// Peak negative torque (regen) commanded, mN·m (negative value).
+    pub min_torque_mnm: i32,
+    /// Peak pack discharge current, mA.
+    pub peak_discharge_ma: i32,
+    /// Peak pack charge (regen) current, mA (negative value).
+    pub min_charge_ma: i32,
+    /// Ticks where the traction crate asserted anti-slip.
+    pub anti_slip_ticks: u32,
+    /// Final SoC observed (ppt).
+    pub final_soc_ppt: u16,
+    /// Minimum SoC observed (ppt). Useful for battery-sizing studies.
+    pub min_soc_ppt: u16,
+    /// BMS fault ticks (any latched fault active).
+    pub bms_fault_ticks: u32,
+    /// Traction fault ticks.
+    pub traction_fault_ticks: u32,
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
@@ -161,6 +203,9 @@ pub struct OnboardSummary {
     pub total_emergency_ticks: u64,
     pub total_overspeed_ticks: u64,
     pub total_approach_ticks: u64,
+    pub total_anti_slip_ticks: u64,
+    pub total_bms_fault_ticks: u64,
+    pub total_traction_fault_ticks: u64,
     pub per_train: Vec<PerTrainOnboard>,
     pub emergencies: Vec<EmergencyRecord>,
 }
@@ -174,6 +219,19 @@ pub struct PerTrainOnboard {
     pub peak_friction_ppt: u16,
     pub peak_regen_ppt: u16,
     pub shadow_distance_km: f64,
+
+    // Phase 2b
+    pub peak_torque_mnm: i32,
+    pub min_torque_mnm: i32,
+    pub peak_discharge_ma: i32,
+    pub min_charge_ma: i32,
+    pub anti_slip_ticks: u32,
+    pub final_soc_ppt: u16,
+    pub min_soc_ppt: u16,
+    pub ato_ticks_accelerating: u32,
+    pub ato_ticks_cruising: u32,
+    pub ato_ticks_braking: u32,
+    pub ato_ticks_station_approach: u32,
 }
 
 // ---------------------------------------------------------------------------
@@ -189,13 +247,28 @@ impl OnboardShadow {
             direction: Direction::Forward,
         };
         let odom_cal = OdomCalibration::light_metro_default();
+        // Pack capacity (mAh) = Wh × 1000 / nominal_voltage_V.
+        // Assume ~300 V nominal across the pack.
+        let pack_capacity_mah = ((u64::from(train.consist.battery_capacity_wh) * 1000) / 300) as u32;
+        let bms_params = BmsParams::sodium_ion_default(8, pack_capacity_mah.max(1));
+        // Initial SoC assumed 80 % — matches the sim's default start.
+        let bms_state = BmsState::initial((train.soc.clamp(0.0, 1.0) * 1000.0) as u16);
+        let mut stats = OnboardStats::default();
+        stats.min_soc_ppt = bms_state.soc_ppt;
+        stats.final_soc_ppt = bms_state.soc_ppt;
         Self {
             train_id: train.id,
             odom: OdomState::new_at(train.id, head, odom_cal.min_uncertainty_mm, 0),
             odom_cal,
             brake_params: BrakeParams::light_metro_default(),
             kin: KinematicShadow::reset(),
-            stats: OnboardStats::default(),
+            ato_state: AtoState::default(),
+            ato_params: AtoParams::light_metro_default(),
+            bms_state,
+            bms_params,
+            traction_state: TractionState::default(),
+            traction_params: TractionParams::light_metro_default(),
+            stats,
             last_t_ns: 0,
         }
     }
@@ -364,9 +437,102 @@ pub fn onboard_tick(
         now_ns,
     );
 
-    // 6. Brake.
+    // 6. ATO — controller inside the envelope. Target is the
+    //    section's permanent max speed; station approach engages
+    //    using remaining-distance-to-section-end.
+    let envelope_mmps = atp_out
+        .envelope_mmps
+        .unwrap_or(shadow.kin.v_max_mmps);
+    let distance_to_stop_mm = Some(
+        (shadow.kin.section_length_mm - shadow.kin.head_offset_mm).max(0),
+    );
+    let dt_ns = (dt_s.max(0.0) * 1_000_000_000.0) as u64;
+    let ato_in = AtoInputs {
+        now_ns,
+        dt_ns,
+        current_speed_mmps: shadow.odom.speed_mmps,
+        envelope_mmps,
+        cruise_target_mmps: shadow.kin.v_max_mmps,
+        distance_to_stop_mm,
+        at_station: false,
+        dwell_remaining_ms: 0,
+        ato_engaged: true,
+    };
+    let ato_out = ato_evaluate(&shadow.ato_state, &ato_in, &shadow.ato_params);
+    shadow.ato_state = ato_out.state;
+
+    // 7. BMS — synthesize cell voltages/temps from current SoC.
+    let cells = 8_usize;
+    let v_low = shadow.bms_params.v_trip_min_mv as u32 + 100;
+    let v_high = shadow.bms_params.v_trip_max_mv as u32 - 100;
+    let soc_frac_pptp1 = u32::from(shadow.bms_state.soc_ppt).min(1000);
+    let v_cell_mv = (v_low + (v_high - v_low) * soc_frac_pptp1 / 1000) as u16;
+    let cell_voltages: Vec<u16> = vec![v_cell_mv; cells];
+    // Constant 25 °C for v1 — thermal model is out of scope.
+    let cell_temps: Vec<i16> = vec![250_i16; cells];
+    // Sign convention swap: osr-traction uses "+ = discharge
+    // (motoring)", osr-bms uses "+ = charge (into pack)". Negate
+    // across the seam. This is the single sign-convention
+    // disagreement in the onboard stack; a future refactor could
+    // pick one convention crate-wide.
+    let pack_current_ma = shadow.traction_state.estimated_current_ma.saturating_neg();
+    let bms_in = BmsInputs {
+        now_ns,
+        cell_voltages_mv: &cell_voltages,
+        cell_temps_dc: &cell_temps,
+        pack_current_ma,
+        pack_voltage_mv: 300_000,
+        external_command: ContactorCommand::RequestClose,
+        dt_ns,
+    };
+    let bms_out = bms_evaluate(&shadow.bms_state, &bms_in, &shadow.bms_params);
+    shadow.bms_state = bms_out.state;
+
+    // 8. Traction — ATO torque clamped by BMS limits. The BMS and
+    //    traction crates use the same sign convention: `discharge`
+    //    = current out of the pack (motoring), `charge` = current
+    //    into the pack (regen).
+    let traction_in = TractionInputs {
+        now_ns,
+        torque_setpoint_mnm: ato_out.torque_setpoint_mnm,
+        enable_requested: true,
+        bms_contactor_closed: matches!(bms_out.contactor, ContactorState::Closed),
+        bms_discharge_limit_ma: bms_out.discharge_limit_ma,
+        bms_charge_limit_ma: bms_out.charge_limit_ma,
+        pack_voltage_mv: 300_000,
+        reference_speed_mmps: shadow.odom.speed_mmps,
+        wheel_speed_mmps: shadow.odom.speed_mmps,
+        inverter_over_temp: false,
+        inverter_drive_fault: false,
+    };
+    let traction_out =
+        traction_evaluate(&shadow.traction_state, &traction_in, &shadow.traction_params);
+    shadow.traction_state = traction_out.state;
+
+    // 9. Brake — combine ATP command with ATO's service brake. ATP
+    // wins on Emergency; otherwise the service level is the max of
+    // the two.
+    let effective_atp_command = match atp_out.command {
+        BrakeCommand::Emergency => BrakeCommand::Emergency,
+        BrakeCommand::Service(p) => BrakeCommand::Service(p.max(ato_out.service_brake_ppt)),
+        BrakeCommand::Release => {
+            if ato_out.service_brake_ppt > 0 {
+                BrakeCommand::Service(ato_out.service_brake_ppt)
+            } else {
+                BrakeCommand::Release
+            }
+        }
+    };
+    // Regen availability in ppt = charge_limit / max_charge.
+    let regen_available_ppt = if shadow.bms_params.max_charge_ma == 0 {
+        0_u16
+    } else {
+        let v = u64::from(bms_out.charge_limit_ma).saturating_mul(1_000)
+            / u64::from(shadow.bms_params.max_charge_ma);
+        v.min(1_000) as u16
+    };
     let brake_inputs = BrakeInputs {
-        atp_command: atp_out.command,
+        atp_command: effective_atp_command,
         vigilance_emergency: false,
         fire_emergency: false,
         derailment_emergency: false,
@@ -374,12 +540,12 @@ pub fn onboard_tick(
         park_requested: false,
         measured_speed_mmps: shadow.odom.speed_mmps,
         wheel_speed_mmps: shadow.odom.speed_mmps,
-        regen_available_ppt: 800, // placeholder: 80 % availability
+        regen_available_ppt,
         now_ns,
     };
     let brake_out = brake_evaluate(&brake_inputs, &shadow.brake_params);
 
-    // 7. Stats.
+    // 10. Stats.
     record_tick(
         &mut shadow.stats,
         t_s,
@@ -387,6 +553,12 @@ pub fn onboard_tick(
         &atp_out,
         &brake_out,
         shadow.odom.speed_mmps,
+    );
+    record_phase2b_tick(
+        &mut shadow.stats,
+        &ato_out.mode,
+        &traction_out,
+        &bms_out,
     );
 
     Some(TickReport {
@@ -526,6 +698,67 @@ fn direction_for_section(section: SectionId, network: &Network, heading: Heading
 // Stat recording
 // ---------------------------------------------------------------------------
 
+fn record_phase2b_tick(
+    stats: &mut OnboardStats,
+    ato_mode: &AtoMode,
+    traction_out: &osr_traction::TractionOutput,
+    bms_out: &osr_bms::BmsOutput,
+) {
+    // ATO mode counters.
+    match ato_mode {
+        AtoMode::Accelerating => {
+            stats.ato_ticks_accelerating = stats.ato_ticks_accelerating.saturating_add(1);
+        }
+        AtoMode::Cruising => {
+            stats.ato_ticks_cruising = stats.ato_ticks_cruising.saturating_add(1);
+        }
+        AtoMode::Coasting => {
+            stats.ato_ticks_coasting = stats.ato_ticks_coasting.saturating_add(1);
+        }
+        AtoMode::Braking => {
+            stats.ato_ticks_braking = stats.ato_ticks_braking.saturating_add(1);
+        }
+        AtoMode::StationApproach => {
+            stats.ato_ticks_station_approach =
+                stats.ato_ticks_station_approach.saturating_add(1);
+        }
+        AtoMode::Stopped | AtoMode::Dwelling => {
+            stats.ato_ticks_stopped = stats.ato_ticks_stopped.saturating_add(1);
+        }
+        AtoMode::Off => {}
+    }
+    // Torque peaks (signed).
+    if traction_out.commanded_torque_mnm > stats.peak_torque_mnm {
+        stats.peak_torque_mnm = traction_out.commanded_torque_mnm;
+    }
+    if traction_out.commanded_torque_mnm < stats.min_torque_mnm {
+        stats.min_torque_mnm = traction_out.commanded_torque_mnm;
+    }
+    // Current peaks.
+    if traction_out.estimated_current_ma > stats.peak_discharge_ma {
+        stats.peak_discharge_ma = traction_out.estimated_current_ma;
+    }
+    if traction_out.estimated_current_ma < stats.min_charge_ma {
+        stats.min_charge_ma = traction_out.estimated_current_ma;
+    }
+    // Anti-slip.
+    if traction_out.anti_slip_active {
+        stats.anti_slip_ticks = stats.anti_slip_ticks.saturating_add(1);
+    }
+    // SoC tracking.
+    stats.final_soc_ppt = bms_out.state.soc_ppt;
+    if stats.min_soc_ppt == 0 || bms_out.state.soc_ppt < stats.min_soc_ppt {
+        stats.min_soc_ppt = bms_out.state.soc_ppt;
+    }
+    // Fault counters.
+    if bms_out.state.faults.any() {
+        stats.bms_fault_ticks = stats.bms_fault_ticks.saturating_add(1);
+    }
+    if !matches!(traction_out.state.inverter, InverterState::Disabled | InverterState::Running) {
+        stats.traction_fault_ticks = stats.traction_fault_ticks.saturating_add(1);
+    }
+}
+
 fn record_tick(
     stats: &mut OnboardStats,
     t_s: u32,
@@ -593,6 +826,15 @@ pub fn summarise(shadows: &[OnboardShadow], trains: &[Train]) -> OnboardSummary 
         summary.total_approach_ticks = summary
             .total_approach_ticks
             .saturating_add(u64::from(sh.stats.approach_ticks));
+        summary.total_anti_slip_ticks = summary
+            .total_anti_slip_ticks
+            .saturating_add(u64::from(sh.stats.anti_slip_ticks));
+        summary.total_bms_fault_ticks = summary
+            .total_bms_fault_ticks
+            .saturating_add(u64::from(sh.stats.bms_fault_ticks));
+        summary.total_traction_fault_ticks = summary
+            .total_traction_fault_ticks
+            .saturating_add(u64::from(sh.stats.traction_fault_ticks));
         if let Some(e) = sh.stats.first_emergency.clone() {
             summary.emergencies.push(e);
         }
@@ -604,6 +846,17 @@ pub fn summarise(shadows: &[OnboardShadow], trains: &[Train]) -> OnboardSummary 
             peak_friction_ppt: sh.stats.peak_friction_ppt,
             peak_regen_ppt: sh.stats.peak_regen_ppt,
             shadow_distance_km: sh.stats.shadow_distance_mm as f64 / 1_000_000.0,
+            peak_torque_mnm: sh.stats.peak_torque_mnm,
+            min_torque_mnm: sh.stats.min_torque_mnm,
+            peak_discharge_ma: sh.stats.peak_discharge_ma,
+            min_charge_ma: sh.stats.min_charge_ma,
+            anti_slip_ticks: sh.stats.anti_slip_ticks,
+            final_soc_ppt: sh.stats.final_soc_ppt,
+            min_soc_ppt: sh.stats.min_soc_ppt,
+            ato_ticks_accelerating: sh.stats.ato_ticks_accelerating,
+            ato_ticks_cruising: sh.stats.ato_ticks_cruising,
+            ato_ticks_braking: sh.stats.ato_ticks_braking,
+            ato_ticks_station_approach: sh.stats.ato_ticks_station_approach,
         });
     }
     summary
