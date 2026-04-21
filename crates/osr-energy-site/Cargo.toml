@@ -1,0 +1,17 @@
+[package]
+name = "osr-energy-site"
+description = "OpenSourceRail — SIL-2 wayside PV+battery+grid-tie site controller"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+
+[lints]
+workspace = true
+
+[dependencies]
+serde = { version = "1", features = ["derive"] }
+
+[dev-dependencies]
+proptest = "1"
