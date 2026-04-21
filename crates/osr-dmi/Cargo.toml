@@ -1,0 +1,18 @@
+[package]
+name = "osr-dmi"
+description = "OpenSourceRail — SIL-2 driver machine interface decision layer"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+
+[lints]
+workspace = true
+
+[dependencies]
+osr-tcms = { path = "../osr-tcms" }
+serde = { version = "1", features = ["derive"] }
+
+[dev-dependencies]
+proptest = "1"
