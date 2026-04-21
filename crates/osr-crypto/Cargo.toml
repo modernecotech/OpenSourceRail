@@ -1,6 +1,6 @@
 [package]
-name = "osr-afc"
-description = "OpenSourceRail — SIL-0 Automatic Fare Collection (gate + token validation)"
+name = "osr-crypto"
+description = "OpenSourceRail — HMAC-SHA256 and constant-time equality wrappers around RustCrypto"
 version.workspace = true
 edition.workspace = true
 rust-version.workspace = true
@@ -11,8 +11,9 @@ repository.workspace = true
 workspace = true
 
 [dependencies]
-serde = { version = "1", features = ["derive"] }
-osr-crypto = { path = "../osr-crypto" }
+hmac = "0.12"
+sha2 = "0.10"
+subtle = "2.5"
 
 [dev-dependencies]
 proptest = "1"

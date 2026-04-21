@@ -1,6 +1,6 @@
 [package]
-name = "osr-afc"
-description = "OpenSourceRail — SIL-0 Automatic Fare Collection (gate + token validation)"
+name = "osr-ptp"
+description = "OpenSourceRail — IEEE 1588 PTP offset-and-delay state tracker"
 version.workspace = true
 edition.workspace = true
 rust-version.workspace = true
@@ -12,7 +12,6 @@ workspace = true
 
 [dependencies]
 serde = { version = "1", features = ["derive"] }
-osr-crypto = { path = "../osr-crypto" }
 
 [dev-dependencies]
 proptest = "1"
