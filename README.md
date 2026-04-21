@@ -6,10 +6,12 @@
 > systems — built for the developing world, built to be owned by the countries
 > that deploy it.
 
-**Status:** 38 Rust crates, 542 tests green. The Samawah two-line reference
-scenario ([RFC 0003](docs/rfcs/0003-samawah-reference-deployment.md)) runs
-end-to-end with most of the [RFC 0005](docs/rfcs/0005-sbc-software-architecture.md)
-crate map now in tree:
+**Status:** 46 Rust crates plus a Python design sidecar (`design-py`). The
+Samawah two-line reference scenario
+([RFC 0003](docs/rfcs/0003-samawah-reference-deployment.md)) runs end-to-end,
+and the design pipeline now synthesises two-line networks for arbitrary cities
+directly from OpenStreetMap. Most of the
+[RFC 0005](docs/rfcs/0005-sbc-software-architecture.md) crate map is in tree:
 
 - **Onboard safety chain (SIL-4):** position fusion → ATP → brake + vigilance +
   derailment + fire + door-control, all pure functions, integrated into the
@@ -35,6 +37,13 @@ crate map now in tree:
 - **Simulator:** multi-day runs, time-of-day dispatch, PV + trackside storage
   + grid tie energy model, fault injection, shadow onboard stack. Scenarios
   in TOML so anyone can design their own city.
+- **Automatic design generation:** `design-py` (Overpass + raster synthesis) +
+  `osr-routing` (cost/demand Dijkstra on a 20 m grid) + `osr-design` (emitter)
+  compose a full two-line network — corridor geometry, station placement,
+  civil-class inference (at-grade / elevated / bridge / bored tunnel) — from
+  nothing but a bounding box and a population. Scales to a 500-city batch with
+  a GeoNames-driven scanner that excludes any city already operating metro,
+  tram, or light-rail.
 
 Still to come: Kani formal refinement of `osr-interlocking` (M3 of RFC 0004),
 hardware reference designs, a real (non-mock) TCN transport, and the safety-case
@@ -122,7 +131,7 @@ OpenSourceRail/
 │       ├── 0003-samawah-reference-deployment.md   Reference pilot.
 │       ├── 0004-osr-interlocking-plan.md   MA computer implementation plan.
 │       └── 0005-sbc-software-architecture.md  Canonical 35-crate map.
-├── crates/                   38 Rust crates — grouped by role below.
+├── crates/                   46 Rust crates — grouped by role below.
 │   ├── osr-core/             Shared domain types (topology, trains, IDs).
 │   │   └── proto/track_state.proto         Interface definitions.
 │   │
@@ -176,8 +185,30 @@ OpenSourceRail/
 │   ├── osr-analytics/        Fleet analytics (adherence, MDBF, energy/km).
 │   ├── osr-t2g/              Train-to-ground radio adapter.
 │   │
+│   │
+│   │   # Design pipeline
+│   ├── osr-routing/          Cost/demand Dijkstra solver + civil-class
+│   │                         inference + station placement on a 20 m grid.
+│   ├── osr-design/           Orchestrator — reads rasters + anchors, emits
+│   │                         design.toml + corridor.geojson + quality.yaml.
+│   │
 │   └── osr-sim/              Time-stepped simulator + shadow onboard stack +
 │                             HTML/SVG visualizer (osr-vis).
+├── design-py/                Python sidecar for GIS data + raster synthesis.
+│   └── src/
+│       ├── osr_osm/          Overpass fetcher w/ SHA256 disk cache (arterials,
+│       │                     buildings, water, protected land, POI anchors).
+│       ├── osr_geo/          Numpy raster synthesis — cost / demand /
+│       │                     buildability surfaces, binary + JSON sidecar.
+│       └── osr_batch/        Batch driver + GeoNames → cities.toml scanner
+│                             with built-in existing-transit denylist.
+├── designs/                  City-specific design artifacts + templates.
+│   ├── templates/            Reusable Lego-block TOMLs (stations, switches,
+│   │                         signalling, structures, fleets, …).
+│   ├── cities/               Driver inputs (calibration + world-sample + the
+│   │                         500-city production scan).
+│   └── middle-east/…/samawah/design.toml
+│                             Hand-authored Samawah reference design.
 ├── scenarios/                User-editable scenario files (see README).
 │   ├── samawah.toml          Full Samawah reference deployment.
 │   ├── samawah-line1.toml    Line 1 only.
@@ -232,6 +263,50 @@ The same two built-in scenarios are also reachable without a config file via
 
 Pass `--json-out trace.json` to capture the full event trace for later
 analysis.
+
+## Auto-designing networks from GIS data
+
+The hand-authored Samawah scenario is the reference; it is not the only
+way in. The design pipeline can synthesise a complete two-line network for
+any bounding box on Earth using live OpenStreetMap data:
+
+```
+# 1. One-time: install the Python sidecar.
+pip install -e design-py[geotiff,batch]
+
+# 2. Scan GeoNames for candidate cities (drops any with existing metro/tram/LRT).
+osr-cities-scan --geonames cities500.txt \
+                --min-pop 400000 --max-cities 500 \
+                --out designs/cities/batch-500.toml
+
+# 3. Run the full pipeline against a calibration set or the full 500.
+cargo build --release
+osr-batch --cities designs/cities/world-sample.toml \
+          --cache /tmp/osr-cache \
+          --out   /tmp/osr-out \
+          --osr-design ./target/release/osr-design
+```
+
+For each city the pipeline:
+
+1. Pulls arterials, buildings, water, protected land, and POI anchors
+   from Overpass (cached by query hash — reproducible across runs).
+2. Rasterises them into a 20 m cost surface (arterials cheap, buildings
+   priced at tunnel cost, parks at elevated, water at bridge) plus a
+   Gaussian demand surface around POI anchors.
+3. Picks a topology archetype from the city's population
+   (`SingleRadial` ≤ 300k, `RadialPlusRing` ≤ 1M, `CrossPlusRing` ≤ 3M,
+   `HubAndSpokeDualRing` above), routes each line with a demand-rewarded
+   Dijkstra, places stations with demand-adaptive spacing, and classifies
+   every segment (at-grade / elevated / bridge / bored tunnel).
+4. Emits `{slug}.design.toml`, `{slug}.corridor.geojson`, and a
+   `{slug}.design-quality.yaml` with hard gates (has stations, reasonable
+   length) and soft gates (anchor coverage, anchor hit rate) for triage.
+
+The `osr_batch.existing_transit` denylist (≈ 600 cities, 80 countries)
+keeps Paris, Tokyo, Cairo, etc. out of auto-generation. Override with
+`--include-existing-transit` for solver calibration on cities that have
+rich OSM data because they do already run rail.
 
 ## Reading order
 
