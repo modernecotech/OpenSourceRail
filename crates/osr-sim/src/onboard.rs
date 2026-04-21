@@ -56,9 +56,19 @@ use osr_atp::{atp_evaluate, AtpOutcome, BrakeCommand, TriggerReason};
 use osr_bms::{bms_evaluate, BmsInputs, BmsParams, BmsState, ContactorCommand, ContactorState};
 use osr_brake::{brake_evaluate, BrakeInputs, BrakeOutput, BrakeParams};
 use osr_core::{ConsistDescriptor, Direction, Network, SectionId, TrackRef, TrainId};
+use osr_derailment::{
+    derailment_evaluate, DerailmentInputs, DerailmentParams, DerailmentState,
+    SensorChannel as DerailSensor,
+};
+use osr_fire_safety::{
+    fire_evaluate, BaySensors, FireInputs, FireParams, FireState,
+};
 use osr_interlocking::{far_end_of, forward_chain, MovementAuthority, MAX_MA_DISTANCE_MM, MA_VALIDITY_WINDOW_NS};
 use osr_odometry::{odom_step, BaliseId, OdomCalibration, OdomState, SensorTick};
 use osr_traction::{traction_evaluate, InverterState, TractionInputs, TractionParams, TractionState};
+use osr_vigilance::{
+    vigilance_evaluate, VigilanceInputs, VigilanceOutput, VigilanceParams,
+};
 use serde::{Deserialize, Serialize};
 
 use crate::train::{Heading, Train, TrainPhase};
@@ -85,6 +95,14 @@ pub struct OnboardShadow {
     pub bms_params: BmsParams,
     pub traction_state: TractionState,
     pub traction_params: TractionParams,
+
+    // --- SIL-4 monitors -----------------------------------------------
+    pub fire_state: FireState,
+    pub fire_params: FireParams,
+    pub derailment_state: DerailmentState,
+    pub derailment_params: DerailmentParams,
+    pub vigilance_out: VigilanceOutput,
+    pub vigilance_params: VigilanceParams,
 
     /// Rolling statistics across the full run.
     pub stats: OnboardStats,
@@ -182,6 +200,11 @@ pub struct OnboardStats {
     pub bms_fault_ticks: u32,
     /// Traction fault ticks.
     pub traction_fault_ticks: u32,
+
+    // --- SIL-4 monitor trip counters ---------------------------------
+    pub fire_trip_ticks: u32,
+    pub derailment_trip_ticks: u32,
+    pub vigilance_trip_ticks: u32,
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
@@ -206,6 +229,9 @@ pub struct OnboardSummary {
     pub total_anti_slip_ticks: u64,
     pub total_bms_fault_ticks: u64,
     pub total_traction_fault_ticks: u64,
+    pub total_fire_trip_ticks: u64,
+    pub total_derailment_trip_ticks: u64,
+    pub total_vigilance_trip_ticks: u64,
     pub per_train: Vec<PerTrainOnboard>,
     pub emergencies: Vec<EmergencyRecord>,
 }
@@ -268,6 +294,12 @@ impl OnboardShadow {
             bms_params,
             traction_state: TractionState::default(),
             traction_params: TractionParams::light_metro_default(),
+            fire_state: FireState::default(),
+            fire_params: FireParams::default_metro(),
+            derailment_state: DerailmentState::default(),
+            derailment_params: DerailmentParams::default_metro(),
+            vigilance_out: VigilanceOutput::default(),
+            vigilance_params: VigilanceParams::light_metro_default(),
             stats,
             last_t_ns: 0,
         }
@@ -509,9 +541,47 @@ pub fn onboard_tick(
         traction_evaluate(&shadow.traction_state, &traction_in, &shadow.traction_params);
     shadow.traction_state = traction_out.state;
 
-    // 9. Brake — combine ATP command with ATO's service brake. ATP
+    // 9. SIL-4 monitors — fire, derailment, vigilance. In the shadow
+    //    we feed clean synthetic sensor readings (no smoke, no
+    //    lateral g, auto-acknowledge vigilance). A real deployment
+    //    would plumb real sensor samples here. Any trip from these
+    //    crates flows into the brake inputs as an emergency source.
+    let fire_in = FireInputs {
+        now_ns,
+        battery: BaySensors { smoke_ppm: 0, temp_dc: 250, agent_available: true },
+        traction: BaySensors { smoke_ppm: 0, temp_dc: 250, agent_available: true },
+        hvac: BaySensors { smoke_ppm: 0, temp_dc: 250, agent_available: true },
+        ambient_temp_dc: 250,
+        reset_requested: false,
+    };
+    let fire_out = fire_evaluate(&shadow.fire_state, &fire_in, &shadow.fire_params);
+    shadow.fire_state = fire_out.state;
+
+    let derail_in = DerailmentInputs {
+        now_ns,
+        sensor_a: DerailSensor::default(),
+        sensor_b: DerailSensor::default(),
+        reset_requested: false,
+    };
+    let derail_out =
+        derailment_evaluate(&shadow.derailment_state, &derail_in, &shadow.derailment_params);
+    shadow.derailment_state = derail_out.state;
+
+    // Vigilance: auto-acknowledge every tick (synthetic alert driver).
+    // A real shadow-mode driver model could decay acks to exercise
+    // the timeout; kept simple for now.
+    let vig_in = VigilanceInputs {
+        now_ns,
+        speed_mmps: shadow.odom.speed_mmps,
+        ack_received_this_tick: true,
+    };
+    let vig_out = vigilance_evaluate(&shadow.vigilance_out, &vig_in, &shadow.vigilance_params);
+    shadow.vigilance_out = vig_out;
+
+    // 10. Brake — combine ATP command with ATO's service brake. ATP
     // wins on Emergency; otherwise the service level is the max of
-    // the two.
+    // the two. The SIL-4 monitor outputs all feed in as separate
+    // emergency-source flags on `BrakeInputs`.
     let effective_atp_command = match atp_out.command {
         BrakeCommand::Emergency => BrakeCommand::Emergency,
         BrakeCommand::Service(p) => BrakeCommand::Service(p.max(ato_out.service_brake_ppt)),
@@ -533,9 +603,9 @@ pub fn onboard_tick(
     };
     let brake_inputs = BrakeInputs {
         atp_command: effective_atp_command,
-        vigilance_emergency: false,
-        fire_emergency: false,
-        derailment_emergency: false,
+        vigilance_emergency: vig_out.emergency_requested,
+        fire_emergency: fire_out.emergency_requested,
+        derailment_emergency: derail_out.emergency_requested,
         driver_emergency: false,
         park_requested: false,
         measured_speed_mmps: shadow.odom.speed_mmps,
@@ -545,7 +615,20 @@ pub fn onboard_tick(
     };
     let brake_out = brake_evaluate(&brake_inputs, &shadow.brake_params);
 
-    // 10. Stats.
+    // 11. Stats — monitor trip counters.
+    if fire_out.emergency_requested {
+        shadow.stats.fire_trip_ticks = shadow.stats.fire_trip_ticks.saturating_add(1);
+    }
+    if derail_out.emergency_requested {
+        shadow.stats.derailment_trip_ticks =
+            shadow.stats.derailment_trip_ticks.saturating_add(1);
+    }
+    if vig_out.emergency_requested {
+        shadow.stats.vigilance_trip_ticks =
+            shadow.stats.vigilance_trip_ticks.saturating_add(1);
+    }
+
+    // 12. Stats.
     record_tick(
         &mut shadow.stats,
         t_s,
@@ -835,6 +918,15 @@ pub fn summarise(shadows: &[OnboardShadow], trains: &[Train]) -> OnboardSummary 
         summary.total_traction_fault_ticks = summary
             .total_traction_fault_ticks
             .saturating_add(u64::from(sh.stats.traction_fault_ticks));
+        summary.total_fire_trip_ticks = summary
+            .total_fire_trip_ticks
+            .saturating_add(u64::from(sh.stats.fire_trip_ticks));
+        summary.total_derailment_trip_ticks = summary
+            .total_derailment_trip_ticks
+            .saturating_add(u64::from(sh.stats.derailment_trip_ticks));
+        summary.total_vigilance_trip_ticks = summary
+            .total_vigilance_trip_ticks
+            .saturating_add(u64::from(sh.stats.vigilance_trip_ticks));
         if let Some(e) = sh.stats.first_emergency.clone() {
             summary.emergencies.push(e);
         }

@@ -278,7 +278,11 @@ proptest! {
     fn o5_loose_gnss_ignored(
         start_offset in 0i64..900_000,
         prev_unc in 500u32..5_000,
-        gnss_unc_extra in 0u32..10_000,
+        // Start from 50 mm: wider than the per-tick dead-reckoning
+        // uncertainty growth (≈ `uncertainty_floor_per_tick_mm`),
+        // so a fix with `prev_unc + extra` is unambiguously ≥
+        // `dr_uncertainty_mm` after one tick of growth.
+        gnss_unc_extra in 50u32..10_000,
     ) {
         let n = net();
         let c = cal();
