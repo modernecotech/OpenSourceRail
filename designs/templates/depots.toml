@@ -1,0 +1,48 @@
+# Depot archetypes — yard + workshop + crew facilities Lego block.
+#
+# City design.toml references an archetype for each station marked is_depot:
+#     [[depots]]
+#     station   = "east-depot"
+#     archetype = "main-heavy"
+#     # archetype supplies stall/workshop/PV sizing; overrides allowed.
+#
+# Unified system principle: three depot shapes cover every OSR deployment.
+# Yard throat switches, stall pit depth, crane capacity, PV canopy design,
+# and the battery-bay layout are all standardized per archetype so that
+# the CAD library doesn't need to branch per-city.
+
+# ---- Main-heavy: primary depot for a 12+ trainset fleet -----------------
+
+[archetypes.main-heavy]
+stall_count                 = 20
+workshop_m2                 = 3500
+overhead_crane_t            = 25         # for bogie / module lifts
+pv_nameplate_kw_yard        = 12000
+storage_capacity_kwh_yard   = 40000
+training_wing               = true
+heavy_maintenance            = true      # wheel lathe, bogie drop, paint
+stabling_length_m           = 2000       # total yard track length
+
+# ---- Secondary-medium: 5-12 trainsets, light maintenance only ----------
+
+[archetypes.secondary-medium]
+stall_count                 = 8
+workshop_m2                 = 1200
+overhead_crane_t            = 12
+pv_nameplate_kw_yard        = 3500
+storage_capacity_kwh_yard   = 12000
+training_wing               = false
+heavy_maintenance            = false     # scheduled service, inspection
+stabling_length_m           = 800
+
+# ---- Layup-minimal: end-of-line turnback + overnight stabling ----------
+
+[archetypes.layup-minimal]
+stall_count                 = 4
+workshop_m2                 = 400
+overhead_crane_t            = 0          # no crane — external ops only
+pv_nameplate_kw_yard        = 1000
+storage_capacity_kwh_yard   = 4000
+training_wing               = false
+heavy_maintenance            = false
+stabling_length_m           = 300

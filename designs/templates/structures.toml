@@ -1,0 +1,82 @@
+# Civil structure unit BOMs — per-km materials for each structure class.
+#
+# Used by the BOM generator (osr-design crate) to roll up quantities from
+# line sections. A 14 km line with 3 km elevated and 1 km bridge pulls the
+# corresponding unit BOMs and sums the quantities.
+#
+# Unit costs are BASE USD values; country cost factors (from a separate
+# catalog) scale them. The default factor is 1.0 (OECD mid-range).
+#
+# Unified system principle: every OSR section belongs to one of these five
+# classes, and the per-km BOM is the same everywhere. That makes BOMs
+# comparable across cities and makes the CAD block library finite.
+
+# ---- At-grade double track — the default section ------------------------
+
+[classes.at-grade]
+# Permanent way (per route-km, double track)
+rail_kg_per_km           = 240000        # UIC60, 4 rails × 60 kg/m × 1000 m
+sleepers_count_per_km    = 3334          # concrete, 0.6 m spacing, double track
+fastenings_count_per_km  = 13336         # 4 per sleeper
+ballast_m3_per_km        = 3600          # 1.8 m³/m
+formation_m3_per_km      = 5000          # subgrade prep
+drainage_m_per_km        = 2000          # both sides
+fencing_m_per_km         = 2000
+pole_count_per_km        = 40            # signalling / comms masts, 25 m spacing
+cost_usd_per_km     = 6000000       # OECD mid-range double-track at-grade
+
+# ---- Elevated viaduct — prefabricated spans ----------------------------
+
+[classes.elevated]
+# Includes at-grade permanent way on top of the deck
+rail_kg_per_km              = 240000
+sleepers_count_per_km       = 3334
+fastenings_count_per_km     = 13336
+# Viaduct superstructure
+pier_count_per_km           = 33         # 30 m span
+pier_concrete_m3_per_km     = 1650       # 50 m³/pier
+foundation_concrete_m3_per_km = 2640     # 80 m³/pier
+deck_concrete_m3_per_km     = 3500
+deck_rebar_kg_per_km        = 480000
+cost_usd_per_km        = 22000000
+
+# ---- River / highway bridge — engineered span -------------------------
+
+[classes.bridge]
+# Full engineering premium over viaduct — river protection, nav clearance.
+rail_kg_per_km              = 240000
+sleepers_count_per_km       = 3334
+fastenings_count_per_km     = 13336
+steel_deck_kg_per_km        = 2200000    # composite steel-concrete
+concrete_m3_per_km          = 4500
+rebar_kg_per_km             = 650000
+pile_count_per_km           = 40
+pile_length_m_avg           = 35
+cost_usd_per_km        = 45000000
+
+# ---- Cut-and-cover tunnel — urban shallow subway ----------------------
+
+[classes.cut-and-cover-tunnel]
+rail_kg_per_km              = 240000
+sleepers_count_per_km       = 3334
+fastenings_count_per_km     = 13336
+excavation_m3_per_km        = 90000
+diaphragm_wall_m2_per_km    = 9000
+roof_slab_concrete_m3_per_km= 4500
+base_slab_concrete_m3_per_km= 4000
+rebar_kg_per_km             = 1800000
+cost_usd_per_km        = 80000000
+
+# ---- Bored tunnel — TBM drive -----------------------------------------
+
+[classes.bored-tunnel]
+# Two single-track tubes per km of line → 2 km of track per route-km.
+rail_kg_per_km              = 240000
+sleepers_count_per_km       = 3334
+fastenings_count_per_km     = 13336
+tbm_drive_km                = 2.0        # 2 tubes × 1 km
+segment_rings_per_km        = 600        # 1.6 m ring length
+segment_concrete_m3_per_km  = 4800
+gasket_sets_per_km          = 600
+cross_passage_count_per_km  = 4          # safety regulations, 250 m spacing
+cost_usd_per_km        = 160000000  # double-tube, urban

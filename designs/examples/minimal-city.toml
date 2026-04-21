@@ -1,0 +1,77 @@
+# Minimal-city example — the SMALLEST valid OSR design.
+#
+# A single-line city of 180k people. Everything else is filled in by
+# defaults.toml + the chosen composition profile + archetypes.
+#
+# To instantiate for a real city, replace the identity fields + anchor
+# locations. The generator handles the rest; manually authored fields
+# are for preferences and local knowledge only.
+
+[design]
+schema_version = 1
+id             = "examples/minimal-city"
+name           = "Example — Single-Line Feeder"
+profile        = "mid-city-desert"            # pulls 10+ defaults in one line
+
+[location]
+country     = "XX"
+city        = "Example City"
+center_lat  = 30.0
+center_lon  = 45.0
+bbox        = { south = 29.96, west = 44.95, north = 30.04, east = 45.06 }
+
+# Stations — archetype + coords, nothing else needed.
+[[stations]]
+id = "west-terminal"
+name = "West Terminal"
+archetype = "terminal"
+lat = 29.98
+lon = 44.96
+
+[[stations]]
+id = "centre"
+name = "Centre"
+archetype = "major"
+lat = 30.00
+lon = 45.00
+
+[[stations]]
+id = "hospital"
+name = "Hospital"
+archetype = "major"
+lat = 30.01
+lon = 45.03
+
+[[stations]]
+id = "east-depot"
+name = "East Depot"
+archetype = "depot-terminal"
+lat = 30.02
+lon = 45.05
+
+# One line, one fleet — everything else is defaulted.
+[[lines]]
+id              = "line-1"
+name            = "Main Line"
+is_ring         = false
+rolling_stock   = "light-metro-3car"
+stations = [
+    { id = "west-terminal", distance_from_prev_m = 0,    civil_class = "at-grade" },
+    { id = "centre",        distance_from_prev_m = 4500, civil_class = "at-grade" },
+    { id = "hospital",      distance_from_prev_m = 3500, civil_class = "at-grade" },
+    { id = "east-depot",    distance_from_prev_m = 2500, civil_class = "at-grade" },
+]
+
+[[fleets]]
+line           = "line-1"
+trainset_count = 3
+dispatch_points = [
+    { station = "west-terminal", heading = "forward" },
+    { station = "east-depot",    heading = "reverse" },
+]
+# service_start/end/schedule are filled from service_hours preset (via profile).
+
+# Depot — archetype does the rest.
+[[depots]]
+station   = "east-depot"
+archetype = "layup-minimal"

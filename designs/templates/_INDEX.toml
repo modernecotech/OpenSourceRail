@@ -1,0 +1,208 @@
+# Template catalog — machine + human index of every archetype, kit, and preset.
+#
+# The loader reads this at startup to validate references in city design.toml
+# files. Humans read it as a one-page cheat sheet.
+#
+# Merge stack (bottom to top — later wins):
+#     1. defaults.toml             (system-wide fallback)
+#     2. archetype/kit/preset      (Lego block selected by city)
+#     3. composition-profiles.toml (optional bundle applied via [design.profile])
+#     4. city design.toml          (explicit fields)
+#
+# ID naming convention: kebab-case. Never duplicated across files of the same
+# category. The loader errors if an id appears in two files.
+
+[index.rolling_stock]
+file = "designs/templates/rolling-stock.toml"
+ids  = [
+    { id = "tram-2car",         desc = "Small city / feeder — 2-car 42 m, 450 kWh battery" },
+    { id = "light-metro-3car",  desc = "Mid-size city — 3-car 65 m, 900 kWh battery (Samawah)" },
+    { id = "metro-4car",        desc = "Larger city — 4-car 88 m, 1200 kWh battery" },
+    { id = "metro-6car",        desc = "Major city trunk — 6-car 132 m, 1800 kWh battery" },
+]
+
+[index.stations]
+file = "designs/templates/stations.toml"
+ids  = [
+    { id = "halt",             desc = "Minimum 1-platform rural / low-demand stop" },
+    { id = "standard",         desc = "Default urban/suburban 2-side-platform station" },
+    { id = "major",            desc = "Anchor stop — hospital, mall, centre (island platform)" },
+    { id = "interchange",      desc = "Two-line junction, 4 stacked platforms" },
+    { id = "terminal",         desc = "End-of-line with turnback tracks" },
+    { id = "depot-terminal",   desc = "End-of-line plus fleet depot" },
+]
+
+[index.energy_sites]
+file = "designs/templates/energy-sites.toml"
+ids  = [
+    { id = "standard",         desc = "300 kW PV + 2 MWh — default mid-line" },
+    { id = "major",            desc = "400 kW PV + 2.5 MWh — anchor stops" },
+    { id = "interchange",      desc = "500 kW PV + 3 MWh — two-line junction" },
+    { id = "terminal",         desc = "500 kW PV + 3 MWh — end-of-line charging" },
+    { id = "depot-secondary",  desc = "1.5 MW PV + 5 MWh — secondary layup" },
+    { id = "depot-main",       desc = "5 MW PV + 40 MWh — main depot microgrid" },
+]
+
+[index.climate]
+file = "designs/templates/climate.toml"
+ids  = [
+    { id = "hot-desert",             desc = "Samawah, Basra, Cairo, Riyadh — 50 °C design ambient" },
+    { id = "mediterranean",          desc = "Rabat, Athens, Valencia — 42 °C design ambient" },
+    { id = "temperate-continental",  desc = "Ankara, Tashkent — 38 °C / −15 °C" },
+    { id = "cold-continental",       desc = "Kazan, Winnipeg — 32 °C / −30 °C" },
+    { id = "tropical-wet",           desc = "Bandung, Kinshasa — 36 °C, 90% humidity" },
+    { id = "tropical-arid",          desc = "Nouakchott, Niamey — 48 °C, Sahel storms" },
+]
+
+[index.structures]
+file = "designs/templates/structures.toml"
+ids  = [
+    { id = "at-grade",               desc = "Default double-track at-grade per km" },
+    { id = "elevated",               desc = "Viaduct on 30 m spans" },
+    { id = "bridge",                 desc = "River / highway engineered span" },
+    { id = "cut-and-cover-tunnel",   desc = "Urban shallow subway" },
+    { id = "bored-tunnel",           desc = "TBM-drive dual-tube" },
+]
+
+[index.depots]
+file = "designs/templates/depots.toml"
+ids  = [
+    { id = "main-heavy",        desc = "20-stall primary depot + 12 MW PV + training wing" },
+    { id = "secondary-medium",  desc = "8-stall depot, light maintenance" },
+    { id = "layup-minimal",     desc = "4-stall overnight stabling" },
+]
+
+[index.signalling]
+file = "designs/templates/signalling.toml"
+ids  = [
+    { id = "plain-line",     desc = "Mid-section W-Node, no switches" },
+    { id = "station",        desc = "Station W-Node with platform edge sensors" },
+    { id = "interlocking",   desc = "Junction / turnback / interchange — 4 switch channels" },
+    { id = "depot-throat",   desc = "Depot entry, 12 switch channels, shunt-permissive" },
+]
+
+[index.comms_backbone]
+file = "designs/templates/comms.toml"
+ids  = [
+    { id = "single-ring-1g",   desc = "1 Gbps single-ring TSN, small deployments" },
+    { id = "single-ring-10g",  desc = "10 Gbps single-ring TSN (Samawah default)" },
+    { id = "dual-ring-10g",    desc = "10 Gbps dual physically-separated rings — major systems" },
+]
+
+[index.comms_trackside]
+file = "designs/templates/comms.toml"
+ids  = [
+    { id = "5g-only",            desc = "Single-carrier 5G, no LoRa — low-risk urban" },
+    { id = "dual-5g",            desc = "Two carriers, no LoRa" },
+    { id = "dual-5g-lora",       desc = "Dual carrier 5G + LoRa safety mesh (OSR default)" },
+    { id = "dual-5g-lora-psb",   desc = "Adds public safety band — high-assurance" },
+]
+
+[index.switches]
+file = "designs/templates/switches.toml"
+ids  = [
+    { id = "no-8-yard",       desc = "1:8 frog, yard / low-speed crossover (~36 km/h diverging)" },
+    { id = "no-10-mainline",  desc = "1:10 frog, standard mainline (~50 km/h)" },
+    { id = "no-12-mainline",  desc = "1:12 frog, high-speed mainline (~70 km/h)" },
+]
+
+[index.level_crossings]
+file = "designs/templates/level-crossings.toml"
+ids  = [
+    { id = "pedestrian",    desc = "Pedestrian only — swing gates + warnings" },
+    { id = "half-barrier",  desc = "Single-carriageway road crossing" },
+    { id = "full-barrier",  desc = "Multi-lane with obstacle detection" },
+]
+
+[index.accessibility]
+file = "designs/templates/accessibility.toml"
+ids  = [
+    { id = "ramp-only",        desc = "Compliant minimum for low-traffic stops" },
+    { id = "step-free-basic",  desc = "Ramp + one elevator per platform" },
+    { id = "step-free-full",   desc = "Redundant elevators + escalators + boarding bridge" },
+]
+
+[index.platform_doors]
+file = "designs/templates/platform-doors.toml"
+ids  = [
+    { id = "none",         desc = "No doors — at-grade default" },
+    { id = "half-height",  desc = "1.2 m glass barrier, interchanges/anchors" },
+    { id = "full-height",  desc = "Floor-to-ceiling, tunnel + climate-sealed stations" },
+]
+
+[index.passenger_info]
+file = "designs/templates/passenger-info.toml"
+ids  = [
+    { id = "basic",     desc = "Halts — 2 dot-matrix + 1 PA zone" },
+    { id = "standard",  desc = "Default urban — 4 displays + 2 PA zones + kiosk" },
+    { id = "major",     desc = "Interchange/anchor — 8 displays + LED wayfinding" },
+]
+
+[index.fare_systems]
+file = "designs/templates/fare-systems.toml"
+ids  = [
+    { id = "iraq-mobile-money",       desc = "Middle East mobile money + QR (zainCash, AsiaHawala)" },
+    { id = "east-africa-mobile-money",desc = "East Africa mobile money (M-Pesa, Airtel, MTN)" },
+    { id = "south-asia-upi",          desc = "UPI / BharatQR + NFC" },
+    { id = "latam-contactless",       desc = "NFC + contactless EMV (PIX in Brazil)" },
+    { id = "eu-contactless-emv",      desc = "Contactless EMV primary" },
+]
+
+[index.fare_gates]
+file = "designs/templates/fare-systems.toml"
+ids  = [
+    { id = "open-fare",  desc = "No gates — proof-of-payment inspection" },
+    { id = "qr-and-nfc", desc = "QR + NFC gates" },
+    { id = "full-emv",   desc = "QR + NFC + contactless EMV gates" },
+]
+
+[index.track_geometry]
+file = "designs/templates/track-geometry.toml"
+ids  = [
+    { id = "heritage-tram",    desc = "1000 mm gauge, 50 km/h, tram-only" },
+    { id = "standard-urban",   desc = "1435 mm, 80 km/h — OSR default" },
+    { id = "standard-metro",   desc = "1435 mm, 100 km/h — dedicated ROW" },
+    { id = "mainline-mixed",   desc = "1435 mm, 120 km/h, shared with freight" },
+]
+
+[index.climate_adapters]
+file = "designs/templates/climate-adapters.toml"
+ids  = [
+    { id = "snow-switch-heaters",        desc = "Heated switch blades + crossings" },
+    { id = "snow-plough-front",          desc = "Factory-fit deflector on lead cars" },
+    { id = "winterized-depot",           desc = "Shed heating + battery-bay heaters" },
+    { id = "sand-filter-hvac",           desc = "3-stage HVAC filtration for sand" },
+    { id = "dust-storm-ingress-control", desc = "Vestibule doors + positive-pressure depot" },
+    { id = "vertical-bifacial-pv",       desc = "Vertical mounted PV — sheds dust" },
+    { id = "marine-coating",             desc = "C5-M anti-corrosion for coastal" },
+    { id = "tropical-ventilation",       desc = "Cross-flow vents + dehumidifier" },
+    { id = "high-ambient-traction",      desc = "Upsized traction cooling for > 50 °C" },
+    { id = "battery-active-cooling",     desc = "Chilled-plate cooling on onboard packs" },
+]
+
+[index.service_hours]
+file = "designs/templates/service-hours.toml"
+ids  = [
+    { id = "standard-urban",           desc = "05:30–23:30, prayer-time Friday tweak" },
+    { id = "extended",                 desc = "04:30–01:00, hospital/airport adjacent" },
+    { id = "24h",                      desc = "Continuous service with odd-hour maintenance" },
+    { id = "weekdays-only",            desc = "06:00–22:00 M–F — pilot corridors" },
+    { id = "conservative-religious",   desc = "Region-specific sabbath pattern" },
+]
+
+[index.country_costs]
+file = "designs/templates/country-costs.toml"
+note = "ISO 3166-1 alpha-2 country codes; fallback id = \"XX\" (OECD mid-range)."
+
+[index.composition_profiles]
+file = "designs/templates/composition-profiles.toml"
+ids  = [
+    { id = "small-city-temperate",    desc = "< 300k pop, temperate zone — tram + single radial" },
+    { id = "mid-city-desert",         desc = "~ 200-500k pop, hot-desert — Samawah-class" },
+    { id = "mid-city-temperate",      desc = "~ 300k-1M pop, temperate — radial + short ring" },
+    { id = "large-city-tropical",     desc = "1-3M pop, tropical — cross + ring, tropical adapters" },
+    { id = "large-city-cold",         desc = "1-3M pop, cold-continental — snow adapter stack" },
+    { id = "major-city-generic",      desc = "3M+ pop, any climate — hub-and-spoke + dual ring" },
+    { id = "coastal-humid",           desc = "Marine coating + tropical ventilation add-on" },
+    { id = "sahel-arid",              desc = "Extreme dust — all sand/ingress adapters" },
+]

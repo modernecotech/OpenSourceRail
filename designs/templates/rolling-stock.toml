@@ -1,0 +1,69 @@
+# Rolling stock profiles — the "consist" Lego block.
+#
+# A city's design.toml references one of these by id, e.g.
+#     [[lines]]
+#     rolling_stock = "light-metro-3car"
+#
+# All profiles share the same architecture (RFC 0003 §4.3, ARCHITECTURE D5):
+#   - Na-ion onboard battery
+#   - Open SiC traction inverters
+#   - TSN Ethernet trainbus
+#   - Reference T-ECU
+# The variation is in scale: cars per consist, battery kWh, platform length.
+#
+# Unified system principle: every fleet in the OSR catalog uses one of these
+# four profiles. Cities do not invent custom consists — they pick the one
+# closest to their ridership band. This is what keeps maintenance, training,
+# spares, and CAD reuse viable across deployments.
+
+# ---- Tram: small city / feeder lines, < 5k pphpd --------------------------
+
+[profiles.tram-2car]
+cars                   = 2
+length_m               = 42
+tare_mass_t            = 90
+passenger_capacity     = 220
+onboard_battery_kwh    = 450
+traction_peak_kw       = 700
+hvac_design_ambient_c  = 50
+max_speed_mps          = 19              # 70 km/h
+cad_module             = "osr_cad.rolling_stock.tram_2car"
+
+# ---- Light metro 3-car: mid-size city, 5-10k pphpd (Samawah reference) ---
+
+[profiles.light-metro-3car]
+cars                   = 3
+length_m               = 65
+tare_mass_t            = 195
+passenger_capacity     = 360
+onboard_battery_kwh    = 900
+traction_peak_kw       = 1200
+hvac_design_ambient_c  = 50
+max_speed_mps          = 25              # 90 km/h
+cad_module             = "osr_cad.rolling_stock.articulated_3car"
+
+# ---- Metro 4-car: larger city, 10-20k pphpd ------------------------------
+
+[profiles.metro-4car]
+cars                   = 4
+length_m               = 88
+tare_mass_t            = 260
+passenger_capacity     = 540
+onboard_battery_kwh    = 1200
+traction_peak_kw       = 1800
+hvac_design_ambient_c  = 50
+max_speed_mps          = 25
+cad_module             = "osr_cad.rolling_stock.metro_4car"
+
+# ---- Metro 6-car: major city trunk, 20-35k pphpd -------------------------
+
+[profiles.metro-6car]
+cars                   = 6
+length_m               = 132
+tare_mass_t            = 420
+passenger_capacity     = 900
+onboard_battery_kwh    = 1800
+traction_peak_kw       = 2700
+hvac_design_ambient_c  = 50
+max_speed_mps          = 28              # 100 km/h
+cad_module             = "osr_cad.rolling_stock.metro_6car"

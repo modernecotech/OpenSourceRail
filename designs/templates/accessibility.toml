@@ -1,0 +1,53 @@
+# Station accessibility kits — step-free access + wayfinding.
+#
+# Referenced as a station field:
+#     [[stations]]
+#     accessibility = "step-free-full"
+#
+# Archetypes provide station defaults:
+#     [archetypes.halt]
+#     accessibility = "ramp-only"
+#
+# Unified system principle: every OSR station is accessible by default.
+# Cities choose between three kits based on station size and expected
+# dwell throughput. None means "no kit" — only valid for halts where a
+# ramped platform is the whole solution.
+
+# ---- Ramp-only: compliant minimum for low-traffic stops ---------------
+
+[kits.ramp-only]
+ramp_count              = 2              # one per platform
+ramp_length_m           = 12             # 1:20 gradient for 600 mm rise
+elevator_count          = 0
+escalator_count         = 0
+tactile_paving_m2       = 60             # platform edge + key paths
+braille_signage_count   = 6
+audio_wayfinding        = false
+cost_usd                = 45000
+
+# ---- Step-free-basic: ramp + elevator, standard urban --------------
+
+[kits.step-free-basic]
+ramp_count              = 2
+ramp_length_m           = 12
+elevator_count          = 2              # one per platform
+escalator_count         = 0
+tactile_paving_m2       = 120
+braille_signage_count   = 12
+audio_wayfinding        = true
+induction_loop          = true           # at info point + fare gate
+cost_usd                = 320000
+
+# ---- Step-free-full: elevators + escalators, major / interchange --
+
+[kits.step-free-full]
+ramp_count              = 2
+ramp_length_m           = 12
+elevator_count          = 4              # redundant pair per platform
+escalator_count         = 4
+tactile_paving_m2       = 240
+braille_signage_count   = 24
+audio_wayfinding        = true
+induction_loop          = true
+wheelchair_boarding_bridge_count = 2     # motorized platform→train bridge
+cost_usd                = 850000

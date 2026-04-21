@@ -1,0 +1,54 @@
+# Turnout (switch) archetypes — permanent way + switch machine kit.
+#
+# City design.toml declares switches on line sections or in yards:
+#     [[switches]]
+#     id      = "line-1-sw-1"
+#     kit     = "no-10-mainline"
+#     station = "eastern-bridge"        # nearest W-Node for interlocking
+#     side    = "facing-east"
+#
+# Unified system principle: three turnout geometries cover every OSR use
+# case. All use the same electric switch machine (per ARCHITECTURE D6),
+# the same detector circuit, and the same interlocking contract.
+
+# ---- No. 8: yard / low-speed crossover ---------------------------------
+
+[kits.no-8-yard]
+frog_number             = 8              # 1:8 frog angle
+diverging_speed_mps     = 10             # ~36 km/h through the turnout
+diverging_radius_m      = 190
+switch_rail_length_m    = 12
+rail_kg                 = 2800           # UIC60 curved rails + stock rails
+sleeper_count           = 35             # hardwood / concrete mix
+ballast_m3              = 40
+switch_machine_type     = "electric-clamp-lock"
+detection_channels      = 2
+cost_usd                = 95000
+
+# ---- No. 10: standard mainline turnback --------------------------------
+
+[kits.no-10-mainline]
+frog_number             = 10
+diverging_speed_mps     = 14             # ~50 km/h
+diverging_radius_m      = 300
+switch_rail_length_m    = 15
+rail_kg                 = 3500
+sleeper_count           = 42
+ballast_m3              = 55
+switch_machine_type     = "electric-clamp-lock"
+detection_channels      = 2
+cost_usd                = 135000
+
+# ---- No. 12: high-speed mainline -------------------------------------
+
+[kits.no-12-mainline]
+frog_number             = 12
+diverging_speed_mps     = 19             # ~70 km/h
+diverging_radius_m      = 430
+switch_rail_length_m    = 20
+rail_kg                 = 4500
+sleeper_count           = 54
+ballast_m3              = 72
+switch_machine_type     = "electric-clamp-lock"
+detection_channels      = 2
+cost_usd                = 195000

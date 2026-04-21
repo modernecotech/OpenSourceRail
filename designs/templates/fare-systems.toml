@@ -1,0 +1,99 @@
+# Fare system archetypes — account-based fare (ABF) with regional channels.
+#
+# Per ARCHITECTURE D4 / RFC 0003 §D4: OSR uses account-based fare, meaning
+# any accepted channel resolves to a backend account. Regional archetypes
+# differ in which channels are primary.
+#
+# Referenced at city level:
+#     [fare]
+#     system = "iraq-mobile-money"
+#
+# Also referenced per station for the physical gate kit:
+#     [[stations]]
+#     fare_gates = "qr-and-nfc"
+#
+# Unified system principle: one backend (ABF), four channel mixes tuned to
+# regional payment habits. Native apps are optional — QR always works on
+# feature phones.
+
+# ---- System: Middle East mobile money + QR --------------------------
+
+[systems.iraq-mobile-money]
+region                  = "middle-east"
+primary_channels        = ["mobile-money", "qr-web-app"]
+secondary_channels      = ["nfc-card"]
+mobile_money_providers  = ["zainCash", "AsiaHawala"]
+bank_card_supported     = false
+qr_standard             = "dynamic-qr-emv"
+native_app_required     = false
+languages               = ["ar", "ku", "en"]
+cert_cycle_months       = 24
+
+[systems.east-africa-mobile-money]
+region                  = "east-africa"
+primary_channels        = ["mobile-money", "qr-web-app"]
+secondary_channels      = ["nfc-card"]
+mobile_money_providers  = ["M-Pesa", "AirtelMoney", "MTN-MoMo"]
+bank_card_supported     = false
+qr_standard             = "dynamic-qr-emv"
+native_app_required     = false
+languages               = ["sw", "en"]
+cert_cycle_months       = 24
+
+[systems.south-asia-upi]
+region                  = "south-asia"
+primary_channels        = ["upi-qr", "nfc-card"]
+secondary_channels      = ["mobile-money"]
+mobile_money_providers  = []
+bank_card_supported     = true
+qr_standard             = "upi-bharat-qr"
+native_app_required     = false
+languages               = ["hi", "en", "local"]
+cert_cycle_months       = 18
+
+[systems.latam-contactless]
+region                  = "latin-america"
+primary_channels        = ["nfc-card", "contactless-emv"]
+secondary_channels      = ["qr-web-app"]
+mobile_money_providers  = ["PIX"]        # Brazil particularly
+bank_card_supported     = true
+qr_standard             = "emv-qr"
+native_app_required     = false
+languages               = ["es", "pt", "en"]
+cert_cycle_months       = 18
+
+[systems.eu-contactless-emv]
+region                  = "europe"
+primary_channels        = ["contactless-emv"]
+secondary_channels      = ["nfc-card", "qr-web-app"]
+mobile_money_providers  = []
+bank_card_supported     = true
+qr_standard             = "emv-qr"
+native_app_required     = false
+languages               = ["en", "local"]
+cert_cycle_months       = 12
+
+# ---- Gate kits (per station) ----------------------------------------
+
+[gates.open-fare]
+# No physical gates — proof-of-payment inspection model.
+gate_count_per_entry    = 0
+inspector_handheld_count= 2              # per line, total
+validator_posts_per_platform = 2
+cost_usd                = 18000
+
+[gates.qr-and-nfc]
+gate_count_per_entry    = 4              # entry/exit pairs
+validator_posts_per_platform = 0
+qr_reader_per_gate      = true
+nfc_reader_per_gate     = true
+contactless_emv_per_gate= false
+cost_usd                = 85000
+
+[gates.full-emv]
+gate_count_per_entry    = 6
+validator_posts_per_platform = 0
+qr_reader_per_gate      = true
+nfc_reader_per_gate     = true
+contactless_emv_per_gate= true
+cost_usd                = 130000

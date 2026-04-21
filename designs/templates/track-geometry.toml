@@ -1,0 +1,51 @@
+# Track geometry standards — gauge, cant, radius, gradient.
+#
+# Referenced at line level:
+#     [[lines]]
+#     geometry = "standard-urban"
+#
+# Unified system principle: four geometry presets covering every OSR line
+# type. Rolling stock is compatible with "standard-urban" and "standard-metro"
+# by default; "heritage-tram" is for narrow-gauge legacy integration;
+# "mainline-mixed" is reserved for systems sharing track with freight.
+
+[presets.heritage-tram]
+# 1000 mm metre gauge — legacy systems (e.g. European tram heritage).
+gauge_mm                = 1000
+min_curve_radius_m      = 25             # tight street curves
+max_cant_mm             = 120
+max_gradient_per_mille  = 70             # 7%
+rail_profile            = "Ri60"         # grooved rail for street running
+nominal_speed_mps       = 14             # 50 km/h
+compatible_consists     = ["tram-2car"]
+
+[presets.standard-urban]
+# 1435 mm standard gauge, street-integrated light metro — OSR default.
+gauge_mm                = 1435
+min_curve_radius_m      = 90
+max_cant_mm             = 150
+max_gradient_per_mille  = 50             # 5%
+rail_profile            = "UIC60"
+nominal_speed_mps       = 22             # 80 km/h
+compatible_consists     = ["tram-2car", "light-metro-3car"]
+
+[presets.standard-metro]
+# 1435 mm full-metro: dedicated ROW, elevated/tunnel dominant.
+gauge_mm                = 1435
+min_curve_radius_m      = 200
+max_cant_mm             = 160
+max_gradient_per_mille  = 35             # 3.5%
+rail_profile            = "UIC60"
+nominal_speed_mps       = 28             # 100 km/h
+compatible_consists     = ["light-metro-3car", "metro-4car", "metro-6car"]
+
+[presets.mainline-mixed]
+# Shared corridor with freight/intercity — heavier constraints.
+gauge_mm                = 1435
+min_curve_radius_m      = 400
+max_cant_mm             = 180
+max_gradient_per_mille  = 25             # 2.5%
+rail_profile            = "UIC60E1"      # heavier wear spec
+nominal_speed_mps       = 33             # 120 km/h
+compatible_consists     = ["metro-4car", "metro-6car"]
+freight_axle_load_t     = 22.5           # for design; OSR itself stays light

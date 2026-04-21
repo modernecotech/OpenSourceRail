@@ -1,0 +1,93 @@
+# Fleet sizing rules — derive trainset count from line parameters.
+#
+# Used by the auto-generator. A user-picked city has:
+#   - route-km per line
+#   - peak headway (min)
+#   - nominal speed (m/s, from track-geometry preset)
+#   - dwell time (average from station archetype mix)
+#
+# Trainset count for a single line (non-ring):
+#     cycle_time_min  = 2 × (route_km / speed_kmh × 60) + (station_count × dwell_min × 2)
+#     revenue_fleet   = ceil(cycle_time_min / peak_headway_min)
+#     total_fleet     = ceil(revenue_fleet × (1 + spare_ratio) + maintenance_reserve)
+#
+# For a ring line:
+#     cycle_time_min  = (ring_route_km / speed_kmh × 60) + (station_count × dwell_min)
+#     (and the line is served in both directions, so fleet × 2)
+#
+# Unified system principle: one formula, fixed reserves by city tier.
+
+[rules]
+# Global application to every line: ratio of spare trainsets to revenue fleet.
+spare_ratio              = 0.15          # 15% spare
+maintenance_reserve_min  = 1             # at least 1 extra for scheduled maintenance
+minimum_fleet            = 2             # safety floor — never < 2 trainsets per line
+
+# Headway bands per peak hourly passenger demand (pax/hour/direction).
+# Auto-generator picks the tightest headway whose capacity equals or exceeds
+# demand, using consist.passenger_capacity × (60 / headway_min).
+[[rules.headway_bands]]
+name               = "very-dense"
+pphpd_min          = 20000
+peak_headway_min   = 2
+offpeak_headway_min= 5
+
+[[rules.headway_bands]]
+name               = "dense"
+pphpd_min          = 10000
+peak_headway_min   = 3
+offpeak_headway_min= 6
+
+[[rules.headway_bands]]
+name               = "standard"
+pphpd_min          = 5000
+peak_headway_min   = 4
+offpeak_headway_min= 8
+
+[[rules.headway_bands]]
+name               = "moderate"
+pphpd_min          = 2000
+peak_headway_min   = 6
+offpeak_headway_min= 12
+
+[[rules.headway_bands]]
+name               = "light"
+pphpd_min          = 0
+peak_headway_min   = 10
+offpeak_headway_min= 20
+
+# Consist selection rules by city population (primary demand driver).
+# Auto-generator picks the smallest consist whose capacity at peak headway
+# covers expected peak pphpd.
+[[rules.consist_bands]]
+name               = "small-city"
+pop_min            = 0
+pop_max            = 500000
+consist            = "tram-2car"
+
+[[rules.consist_bands]]
+name               = "mid-city"
+pop_min            = 500000
+pop_max            = 1500000
+consist            = "light-metro-3car"
+
+[[rules.consist_bands]]
+name               = "large-city"
+pop_min            = 1500000
+pop_max            = 5000000
+consist            = "metro-4car"
+
+[[rules.consist_bands]]
+name               = "major-city"
+pop_min            = 5000000
+pop_max            = 100000000
+consist            = "metro-6car"
+
+# Average dwell in minutes by archetype mix. Used in cycle_time_min.
+[rules.dwell_minutes]
+halt                = 0.35
+standard            = 0.50
+major               = 0.75
+interchange         = 0.75
+terminal            = 1.00
+depot-terminal      = 4.00               # not part of revenue cycle; excluded by rule

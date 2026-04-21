@@ -1,0 +1,86 @@
+# Demand profiles — anchor-driven ridership curves.
+#
+# Each profile gives a daily passenger multiplier shape (24 hourly bins,
+# sum = 1.0). The auto-generator convolves anchor weights with these to
+# estimate peak pphpd and total daily ridership.
+#
+# Anchor weighting is set per station:
+#     [[stations]]
+#     anchors = { university = 1.0, hospital = 0.3 }
+#
+# The daily curve at each station is:
+#     curve(h) = Σ_anchor weight[a] × profiles[a].curve[h]
+#     daily    = curve · (pop_catchment × mode_share)
+#
+# Unified system principle: the six anchor types below cover 95% of
+# institutional demand. Extra anchors (e.g. sports venues) can be added
+# here without touching the generator logic.
+
+# Curves are 24-bin (0..23) hourly multipliers, normalized so Σ = 1.0.
+
+[profiles.university]
+# Sharp peaks at lecture start/end during term; very low summer/Fridays.
+hourly = [
+  0.00, 0.00, 0.00, 0.00, 0.00, 0.01,    # 00-05
+  0.02, 0.10, 0.15, 0.08, 0.05, 0.04,    # 06-11
+  0.05, 0.06, 0.04, 0.12, 0.10, 0.08,    # 12-17
+  0.04, 0.03, 0.02, 0.01, 0.00, 0.00,    # 18-23
+]
+friday_multiplier     = 0.3
+summer_multiplier     = 0.4
+annual_pax_per_seat   = 180              # seats in lecture halls × days × use
+
+[profiles.hospital]
+# Steady with mid-afternoon visiting-hours peak; 24h staff signal.
+hourly = [
+  0.01, 0.01, 0.01, 0.01, 0.01, 0.02,
+  0.04, 0.06, 0.07, 0.06, 0.06, 0.06,
+  0.06, 0.07, 0.08, 0.08, 0.07, 0.06,
+  0.05, 0.04, 0.03, 0.02, 0.02, 0.01,
+]
+friday_multiplier     = 1.0              # hospitals open every day
+annual_pax_per_bed    = 220
+
+[profiles.souq]
+# Traditional market: evenings and weekends dominant.
+hourly = [
+  0.00, 0.00, 0.00, 0.00, 0.00, 0.00,
+  0.01, 0.02, 0.03, 0.05, 0.06, 0.07,
+  0.06, 0.04, 0.05, 0.07, 0.10, 0.12,
+  0.12, 0.10, 0.06, 0.03, 0.01, 0.00,
+]
+friday_multiplier     = 1.4              # larger on day-off
+annual_pax_per_stall  = 900
+
+[profiles.office-centre]
+# Commuter double-peak; weekday only.
+hourly = [
+  0.00, 0.00, 0.00, 0.00, 0.01, 0.02,
+  0.06, 0.14, 0.15, 0.07, 0.04, 0.04,
+  0.05, 0.05, 0.04, 0.05, 0.10, 0.13,
+  0.04, 0.01, 0.00, 0.00, 0.00, 0.00,
+]
+friday_multiplier     = 0.5
+annual_pax_per_sqm    = 22
+
+[profiles.intercity-rail]
+# Bunched demand aligned with mainline arrivals/departures.
+hourly = [
+  0.00, 0.00, 0.00, 0.00, 0.02, 0.05,
+  0.08, 0.06, 0.05, 0.04, 0.04, 0.04,
+  0.05, 0.06, 0.05, 0.06, 0.08, 0.10,
+  0.08, 0.05, 0.04, 0.03, 0.01, 0.01,
+]
+friday_multiplier     = 0.9
+annual_pax_per_connection = 500000
+
+[profiles.residential]
+# Distributed catchment without a single anchor; symmetrical morning/evening.
+hourly = [
+  0.01, 0.00, 0.00, 0.00, 0.01, 0.02,
+  0.05, 0.12, 0.10, 0.05, 0.04, 0.04,
+  0.05, 0.05, 0.04, 0.04, 0.08, 0.12,
+  0.08, 0.05, 0.03, 0.02, 0.01, 0.00,
+]
+friday_multiplier     = 0.7
+annual_pax_per_capita = 220              # catchment population × this

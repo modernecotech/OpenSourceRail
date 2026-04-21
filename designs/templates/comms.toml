@@ -1,0 +1,75 @@
+# Communications kit — train↔wayside + backbone tiers.
+#
+# Per RFC 0003 §D3 and ARCHITECTURE D3:
+#   - 5G SA primary for data plane (carrier-slice)
+#   - LoRa mesh fallback for safety telemetry (carrier-independent)
+#   - TSN Ethernet backbone along the ROW (ring topology per line)
+#
+# City design.toml references a backbone tier per line and a trackside tier
+# per W-Node site:
+#     [lines.line-1.comms]
+#     backbone = "dual-ring-10g"
+#     [[wayside_nodes]]
+#     comms = "dual-5g-lora"
+#
+# Unified system principle: every OSR deployment runs the same train-to-
+# wayside stack. What varies is the number of carriers subscribed to and
+# the fiber plant density.
+
+# ---- Backbone tiers (per line) -----------------------------------------
+
+[backbone.single-ring-1g]
+ring_topology           = true
+capacity_gbps           = 1
+fiber_pairs             = 2              # one ring + one spare
+tsn_enabled             = true
+cost_usd_per_km    = 85000
+
+[backbone.single-ring-10g]
+ring_topology           = true
+capacity_gbps           = 10
+fiber_pairs             = 2
+tsn_enabled             = true
+cost_usd_per_km    = 140000
+
+[backbone.dual-ring-10g]
+ring_topology           = true
+dual_path               = true           # two physically separated rings
+capacity_gbps           = 10
+fiber_pairs             = 4
+tsn_enabled             = true
+cost_usd_per_km    = 260000
+
+# ---- Train↔wayside tiers (per W-Node site) -----------------------------
+
+[trackside.5g-only]
+# Low-risk urban deployment where carrier coverage is reliable.
+cellular_modems         = 2              # dual SIM, same carrier
+lora_gateways           = 0
+backup_radio            = false
+public_safety_band      = false
+cost_usd                = 22000
+
+[trackside.dual-5g]
+# Two carriers, no LoRa. Acceptable where carrier diversity exists.
+cellular_modems         = 2              # dual SIM, two carriers
+lora_gateways           = 0
+backup_radio            = true           # LTE-M backup tier
+public_safety_band      = false
+cost_usd                = 38000
+
+[trackside.dual-5g-lora]
+# Standard OSR kit: dual-carrier 5G + LoRa safety mesh.
+cellular_modems         = 2
+lora_gateways           = 2              # redundant gateways, mesh topology
+backup_radio            = true
+public_safety_band      = false
+cost_usd                = 55000
+
+[trackside.dual-5g-lora-psb]
+# High-assurance: adds public safety band (e.g. 700 MHz) for last-resort.
+cellular_modems         = 2
+lora_gateways           = 2
+backup_radio            = true
+public_safety_band      = true
+cost_usd                = 82000

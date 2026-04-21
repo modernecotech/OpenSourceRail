@@ -1,0 +1,204 @@
+# Country cost multipliers — scale base USD to local reality.
+#
+# All unit costs in other templates are BASE USD (OECD mid-range). The loader
+# applies the factor for the city's country:
+#
+#   actual = base × labor_factor × (material mix) × overhead_factor
+#
+# Source basis: World Bank construction cost indices + ILO wage data (2024).
+# Factors are directional, not precise — refine per PPP of each engagement.
+#
+# Unified system principle: one multiplier per country covers BOM scaling.
+# No per-item tuning — that happens at the actual-procurement stage, not at
+# the planning-grade stage this template serves.
+
+# Fields:
+#   labor_factor       → applied to any *_cost_usd that is labor-heavy
+#                       (civil, workshops, training, cert)
+#   material_factor    → applied to *_cost_usd that is materials-heavy
+#                       (rail, concrete, PV, batteries, electronics)
+#   overhead_factor    → applied to ICT, EPC margin, contingency
+#   currency           → ISO 4217 of the local currency (for output)
+#   exchange_rate_usd  → local-per-USD indicative rate (2024 average)
+
+# ---- Middle East / North Africa ---------------------------------------
+
+[countries.IQ]
+name             = "Iraq"
+labor_factor     = 0.55
+material_factor  = 1.00
+overhead_factor  = 0.85
+currency         = "IQD"
+exchange_rate_usd = 1310
+
+[countries.EG]
+name             = "Egypt"
+labor_factor     = 0.35
+material_factor  = 0.95
+overhead_factor  = 0.80
+currency         = "EGP"
+exchange_rate_usd = 48
+
+[countries.MA]
+name             = "Morocco"
+labor_factor     = 0.45
+material_factor  = 1.00
+overhead_factor  = 0.85
+currency         = "MAD"
+exchange_rate_usd = 10
+
+[countries.SA]
+name             = "Saudi Arabia"
+labor_factor     = 0.95
+material_factor  = 1.00
+overhead_factor  = 0.95
+currency         = "SAR"
+exchange_rate_usd = 3.75
+
+# ---- Sub-Saharan Africa ----------------------------------------------
+
+[countries.KE]
+name             = "Kenya"
+labor_factor     = 0.30
+material_factor  = 0.90
+overhead_factor  = 0.80
+currency         = "KES"
+exchange_rate_usd = 130
+
+[countries.NG]
+name             = "Nigeria"
+labor_factor     = 0.30
+material_factor  = 0.95
+overhead_factor  = 0.85
+currency         = "NGN"
+exchange_rate_usd = 1550
+
+[countries.ZA]
+name             = "South Africa"
+labor_factor     = 0.55
+material_factor  = 1.00
+overhead_factor  = 0.90
+currency         = "ZAR"
+exchange_rate_usd = 19
+
+# ---- South & Southeast Asia -----------------------------------------
+
+[countries.IN]
+name             = "India"
+labor_factor     = 0.30
+material_factor  = 0.85
+overhead_factor  = 0.80
+currency         = "INR"
+exchange_rate_usd = 84
+
+[countries.BD]
+name             = "Bangladesh"
+labor_factor     = 0.25
+material_factor  = 0.90
+overhead_factor  = 0.80
+currency         = "BDT"
+exchange_rate_usd = 120
+
+[countries.ID]
+name             = "Indonesia"
+labor_factor     = 0.40
+material_factor  = 0.90
+overhead_factor  = 0.85
+currency         = "IDR"
+exchange_rate_usd = 16000
+
+[countries.PH]
+name             = "Philippines"
+labor_factor     = 0.40
+material_factor  = 0.90
+overhead_factor  = 0.85
+currency         = "PHP"
+exchange_rate_usd = 58
+
+# ---- Latin America --------------------------------------------------
+
+[countries.MX]
+name             = "Mexico"
+labor_factor     = 0.50
+material_factor  = 0.95
+overhead_factor  = 0.90
+currency         = "MXN"
+exchange_rate_usd = 20
+
+[countries.BR]
+name             = "Brazil"
+labor_factor     = 0.50
+material_factor  = 0.95
+overhead_factor  = 0.90
+currency         = "BRL"
+exchange_rate_usd = 5.5
+
+[countries.CO]
+name             = "Colombia"
+labor_factor     = 0.45
+material_factor  = 0.90
+overhead_factor  = 0.85
+currency         = "COP"
+exchange_rate_usd = 4200
+
+# ---- Europe ---------------------------------------------------------
+
+[countries.DE]
+name             = "Germany"
+labor_factor     = 1.35
+material_factor  = 1.05
+overhead_factor  = 1.15
+currency         = "EUR"
+exchange_rate_usd = 0.92
+
+[countries.ES]
+name             = "Spain"
+labor_factor     = 0.95
+material_factor  = 1.00
+overhead_factor  = 1.05
+currency         = "EUR"
+exchange_rate_usd = 0.92
+
+[countries.PL]
+name             = "Poland"
+labor_factor     = 0.55
+material_factor  = 0.95
+overhead_factor  = 0.95
+currency         = "PLN"
+exchange_rate_usd = 4.0
+
+# ---- Anglosphere / Asia-Pacific -------------------------------------
+
+[countries.US]
+name             = "United States"
+labor_factor     = 1.50
+material_factor  = 1.10
+overhead_factor  = 1.20
+currency         = "USD"
+exchange_rate_usd = 1.0
+
+[countries.CA]
+name             = "Canada"
+labor_factor     = 1.30
+material_factor  = 1.05
+overhead_factor  = 1.15
+currency         = "CAD"
+exchange_rate_usd = 1.38
+
+[countries.AU]
+name             = "Australia"
+labor_factor     = 1.40
+material_factor  = 1.05
+overhead_factor  = 1.20
+currency         = "AUD"
+exchange_rate_usd = 1.55
+
+# ---- Default fallback for unrecognized country codes ----------------
+
+[countries.XX]
+name             = "Unknown / default OECD mid-range"
+labor_factor     = 1.00
+material_factor  = 1.00
+overhead_factor  = 1.00
+currency         = "USD"
+exchange_rate_usd = 1.0

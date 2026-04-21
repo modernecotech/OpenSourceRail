@@ -1,0 +1,80 @@
+# System-wide defaults — the bottom of the merge stack.
+#
+# When the loader resolves a field on a station/line/site/etc., it looks
+# (bottom to top, later wins):
+#     1. this file
+#     2. archetype / kit / preset picked by the city
+#     3. composition-profile picked by the city (optional)
+#     4. explicit field in the city design.toml
+#
+# Putting obvious defaults here means a city design.toml can omit most
+# fields. Missing a field in BOTH archetype AND defaults is a loader
+# error — pin it down in the appropriate template rather than here.
+#
+# This file should be STABLE — changes ripple across every deployment.
+
+[defaults.schema]
+# Apply to [design] if the city omits these.
+schema_version            = 1
+
+[defaults.location]
+# No spatial defaults — every city must declare its own location.
+
+[defaults.climate]
+# Applied when a city omits [climate].
+preset                    = "temperate-continental"
+adapters                  = []
+# HVAC fractional uplift is computed from ambient unless the preset overrides.
+hvac_uplift_frac          = "auto"
+
+[defaults.fare]
+system                    = "eu-contactless-emv"
+# Applied when a station omits fare_gates and no archetype default exists.
+fare_gates                = "qr-and-nfc"
+
+[defaults.costs]
+country                   = "XX"        # OECD mid-range fallback
+currency                  = "USD"
+contingency_frac          = 0.20        # 20% added to every BOM subtotal
+epc_overhead_frac         = 0.10        # EPC / engineering overhead
+
+[defaults.lines]
+track_count               = 2           # double track
+default_max_speed_mps     = 22          # 80 km/h
+geometry                  = "standard-urban"
+comms_backbone            = "single-ring-10g"
+service_hours             = "standard-urban"
+
+[defaults.stations]
+archetype                 = "standard"
+accessibility             = "step-free-basic"
+platform_doors            = "none"
+passenger_info            = "standard"
+is_terminal               = false
+is_depot                  = false
+
+[defaults.sites]
+# When a station has no [[sites]] entry, no site is built.
+# When a site is declared but tier is omitted, the loader assigns tier from
+# the station's archetype → recipe.energy_tier_rules.
+tier                      = "standard"
+
+[defaults.wayside_nodes]
+# Kit from recipe.signalling_rules unless overridden.
+comms                     = "dual-5g-lora"
+
+[defaults.switches]
+# No default kit — switches must specify because geometry varies by purpose.
+# The loader errors if kit is missing.
+
+[defaults.level_crossings]
+kit                       = "full-barrier"   # OSR default: full protection
+offset_m                  = 500              # nominal mid-section placement
+
+[defaults.depots]
+# No default archetype — depot sizing is too site-specific to default.
+
+[defaults.phases]
+# If no [[phases]] declared, the generator emits a single phase covering all
+# stations with duration = route_km × 2 months (rule of thumb).
+duration_months_per_km    = 2

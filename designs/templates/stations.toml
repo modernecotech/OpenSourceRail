@@ -1,0 +1,95 @@
+# Station archetypes — the "station shell" Lego block.
+#
+# City design.toml references an archetype per station:
+#     [[stations]]
+#     id = "samawah-rws"
+#     archetype = "terminal"
+#     name = "Samawah Railway Station"
+#     lat = 31.3221
+#     lon = 45.2578
+#     # archetype supplies: platform_*, canopy_*, charging_power_kw, dwell_seconds
+#     # anything set here overrides the archetype default.
+#
+# platform_length_m is derived by the loader: consist.length_m + platform_clearance_m.
+# This means station archetypes are consist-agnostic; the line's rolling_stock
+# reference closes the loop.
+#
+# Unified system principle: every station in every OSR deployment is built
+# from one of these six shells, parameterized only by local site constraints
+# and the consist it serves. That keeps civil drawings, canopy CAD, and the
+# PV/shelter/wayfinding kit reusable.
+
+# ---- Halt: minimum-viable single-platform rural or low-demand stop -------
+
+[archetypes.halt]
+platform_count         = 1
+platform_layout        = "side"
+platform_clearance_m      = 6               # tight margin, low-speed approach
+canopy_type            = "shelter-only"  # no PV here — too small to bother
+canopy_area_m2         = 400
+charging_power_kw      = 0               # no charging at halts
+dwell_seconds          = 20
+tpss_kva               = 0
+
+# ---- Standard: default urban/suburban station ----------------------------
+
+[archetypes.standard]
+platform_count         = 2
+platform_layout        = "side"
+platform_clearance_m      = 10
+canopy_type            = "solar-canopy"
+canopy_area_m2         = 1800
+charging_power_kw      = 0               # opportunity charging at majors only
+dwell_seconds          = 30
+tpss_kva               = 0
+
+# ---- Major: anchor stop — hospital, mall, centre -------------------------
+
+[archetypes.major]
+platform_count         = 2
+platform_layout        = "island"        # higher throughput than side
+platform_clearance_m      = 10
+canopy_type            = "solar-canopy"
+canopy_area_m2         = 2000
+charging_power_kw      = 500
+dwell_seconds          = 45
+tpss_kva               = 800
+
+# ---- Interchange: two-line junction --------------------------------------
+
+[archetypes.interchange]
+platform_count         = 4
+platform_layout        = "stacked"       # one line over the other
+platform_clearance_m      = 10
+canopy_type            = "solar-canopy"
+canopy_area_m2         = 2800
+charging_power_kw      = 500
+dwell_seconds          = 45
+tpss_kva               = 1000
+
+# ---- Terminal: end-of-line, turnback tracks ------------------------------
+
+[archetypes.terminal]
+platform_count         = 2
+platform_layout        = "side"
+platform_clearance_m      = 10
+canopy_type            = "solar-canopy"
+canopy_area_m2         = 2400
+charging_power_kw      = 1000            # terminal dwell is the charging slot
+dwell_seconds          = 60
+tpss_kva               = 1500
+has_turnback_tracks    = true
+
+# ---- Depot-terminal: end-of-line + fleet depot ---------------------------
+
+[archetypes.depot-terminal]
+platform_count         = 2
+platform_layout        = "side"
+platform_clearance_m      = 10
+canopy_type            = "solar-canopy"
+canopy_area_m2         = 1500            # smaller canopy — yard PV dominates
+charging_power_kw      = 1000
+dwell_seconds          = 240
+tpss_kva               = 2000
+has_turnback_tracks    = true
+is_depot               = true
