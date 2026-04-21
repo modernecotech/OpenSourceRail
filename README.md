@@ -1,7 +1,6 @@
 # OpenSourceRail
 
-> **Project overview:** [opensourcerail.html](opensourcerail.html) — open in a
-> browser for the visual landing page.
+![OpenSourceRail — a catenary-free light rail train at a solar-canopy station in a Samawah-like urban setting](a6gHLpbx_watermarked.jpg)
 
 > An open-source technology stack for designing, building, and operating rail
 > systems — built for the developing world, built to be owned by the countries
