@@ -7,7 +7,7 @@
 
 use crate::ids::{SectionId, StationId, TrainId};
 use serde::{Deserialize, Serialize};
-use std::collections::HashMap;
+use std::collections::BTreeMap;
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct Station {
@@ -61,8 +61,8 @@ pub struct Line {
 
 #[derive(Clone, Debug, Default, Serialize, Deserialize)]
 pub struct Network {
-    pub stations: HashMap<StationId, Station>,
-    pub sections: HashMap<SectionId, Section>,
+    pub stations: BTreeMap<StationId, Station>,
+    pub sections: BTreeMap<SectionId, Section>,
     pub lines: Vec<Line>,
 }
 
@@ -93,7 +93,7 @@ impl Network {
 /// log; it is an in-memory oracle for sim purposes.
 #[derive(Debug, Default)]
 pub struct OccupancyMap {
-    by_section: HashMap<SectionId, TrainId>,
+    by_section: BTreeMap<SectionId, TrainId>,
 }
 
 impl OccupancyMap {
