@@ -169,13 +169,39 @@ PR; none should be attempted as a single contiguous effort.
 
 **Workspace now has 43 passing tests** (osr-sim 18, osr-interlocking 25).
 
-### M3 — Kani harnesses
+### M3 — Kani harnesses ✅ *(written 2026-04-21; scaling bounds pending)*
 
 - Write one harness per safety property (§4). Bounds: 8 trains, 50 entries,
   100 sections. Sufficient to exercise all code paths.
 - Add a CI workflow that runs `cargo kani` on every PR.
 - Document harness outputs as the first set of safety-case evidence files
   (linked from `docs/safety-case/`).
+
+**Delivered:**
+- [`crates/osr-interlocking/src/kani_proofs.rs`](../../crates/osr-interlocking/src/kani_proofs.rs)
+  contains six `#[kani::proof]` harnesses covering all five properties:
+  - `kani_p1_determinism` (P1)
+  - `kani_p2_non_overlap_two_trains` (P2, tiny-network bound)
+  - `kani_p3_consist_fit_single_train` (P3)
+  - `kani_p4_fail_restrictive_is_not_less_restrictive_than_known` (P4,
+    fail-restrictive path only — full conservatism refinement proof is
+    deferred to a mutation-based harness once Kani's state space allows)
+  - `kani_p5_time_bounded`, `kani_p5_time_bounded_with_known_position` (P5)
+- [`.github/workflows/kani.yml`](../../.github/workflows/kani.yml) runs
+  `cargo kani -p osr-interlocking` on every push.
+- [`docs/safety-case/README.md`](../safety-case/README.md) documents the
+  verifier, how to run it, and what's pending.
+
+**Pending for full closure:**
+- Scaling the P2 / P4 bounds toward the RFC's 8-train / 50-entry / 100-section
+  target. Current bounds are 2 sections and 1–2 trains — enough to exercise
+  the control flow but small enough to discharge in minutes.
+- Full mutation-based P4 (conservatism): compare `compute_self_ma` on an
+  input and on a "more uncertain" mutation of that input, assert the MA
+  end never advances. Harder for Kani due to the doubled state space;
+  deferred to a dedicated harness.
+- Machine-readable evidence export (Kani already produces JSON; wire into
+  the GSN safety case when the compiler lands).
 
 ### M4 — Differential interpreter + proptest
 

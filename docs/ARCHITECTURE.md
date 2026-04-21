@@ -275,31 +275,39 @@ Only I1–I3 are safety-critical. Everything else can fail without loss of safe 
 
 Reference hardware designs (schematics, BOMs, Gerbers) are part of the repository under `hardware/`. All designs must be manufacturable by a 4-layer PCB fab and a standard SMT line.
 
-### 6.3 Repository layout (proposed)
+### 6.3 Repository layout
+
+The canonical crate map is in [RFC 0005](rfcs/0005-sbc-software-architecture.md)
+(35 crates across 8 domains). The subset that exists today:
 
 ```
 OpenSourceRail/
 ├── docs/                      # This file, RFCs, safety cases
 ├── crates/
-│   ├── osr-core/              # Shared types, interfaces, protobuf-generated code
-│   ├── osr-consensus/         # Distributed track state log (D2)
-│   ├── osr-interlocking/      # SIL-4 interlocking logic (D2)
-│   ├── osr-movement/          # Movement authority calculation (D2)
-│   ├── osr-radio/             # 5G + LoRa radio abstraction (D3)
-│   ├── osr-ops/               # Dispatching services (D1)
-│   ├── osr-ecu/               # Train ECU app framework (D5)
-│   ├── osr-fare/              # Account-based ticketing (D4)
-│   ├── osr-energy/            # PV + storage site controller, charging dispatch (D7)
-│   └── osr-sim/               # Digital twin / simulator
-├── hardware/
-│   ├── w-sbc/                 # Wayside SBC reference design
-│   ├── t-ecu/                 # Train ECU reference design
-│   └── sensors/               # Beacons, switch sensors, etc.
-├── tools/
-│   ├── safety-case/           # GSN compiler, evidence linker
-│   └── deploy/                # Fleet update, provisioning
-└── pilots/                    # Per-deployment config, kept out of the core
+│   ├── osr-core/              # Shared types, interfaces, protobuf schema
+│   ├── osr-interlocking/      # SIL-4 MA computer + rail state machine (D2)
+│   ├── osr-consensus/         # SIL-4 Raft (SMRaft refinement) (D2)
+│   ├── osr-odometry/          # SIL-4 onboard position fusion (D5)
+│   ├── osr-atp/               # SIL-4 onboard Automatic Train Protection (D5)
+│   ├── osr-brake/             # SIL-4 EP brake controller + WSP + park (D5)
+│   ├── osr-vigilance/         # SIL-4 driver alerter / dead-man (D5)
+│   ├── osr-wayside-points/    # SIL-4 power-switch controller (D6)
+│   └── osr-sim/               # Digital twin / simulator + shadow onboard stack
+├── formal/tla/                # TLA+ specs: SMRaft, TLC harness
+├── scenarios/                 # TOML scenario files (Samawah + templates)
+└── hardware/ | tools/ | pilots/   (planned; see RFC 0006+ for hardware)
 ```
+
+Not yet in-tree, enumerated in [RFC 0005 §4](rfcs/0005-sbc-software-architecture.md):
+`osr-ato`, `osr-tcms`, `osr-dmi`, `osr-event-recorder`, `osr-tcn`,
+`osr-t2g`, `osr-traction`, `osr-bms`, `osr-door-control`, `osr-hvac`,
+`osr-lighting`, `osr-pis-onboard`, `osr-aux-power`, `osr-regen`,
+`osr-fire-safety`, `osr-derailment`, `osr-hot-axle`, `osr-cbm-onboard`,
+`osr-ptp`, `osr-balise`, `osr-level-crossing`, `osr-hot-axle-wayside`,
+`osr-psd`, `osr-afc`, `osr-tvm`, `osr-pis-station`, `osr-station-scada`,
+`osr-occ`, `osr-historian`, `osr-analytics`, `osr-cbm-backend`,
+`osr-afc-backoffice`, `osr-energy-site`, `osr-crypto`, `osr-safety-case`,
+`osr-proto`.
 
 ---
 
@@ -385,8 +393,9 @@ These are questions we do not yet have good answers to. Each will spawn a focuse
 4. [`docs/rfcs/0002-energy-sizing.md`](rfcs/0002-energy-sizing.md) — quantitative sizing for the catenary-free, solar-first energy architecture.
 5. [`docs/rfcs/0003-samawah-reference-deployment.md`](rfcs/0003-samawah-reference-deployment.md) — concrete reference deployment: Samawah, Iraq.
 6. [`docs/rfcs/0004-osr-interlocking-plan.md`](rfcs/0004-osr-interlocking-plan.md) — implementation plan for the Rust SIL-4 MA computer.
-7. [`crates/osr-core/proto/track_state.proto`](../crates/osr-core/proto/track_state.proto) — the interface definitions.
-8. [`formal/tla/SMRaft.tla`](../formal/tla/SMRaft.tla) — TLA+ spec of the consensus protocol.
+7. [`docs/rfcs/0005-sbc-software-architecture.md`](rfcs/0005-sbc-software-architecture.md) — canonical 35-crate SBC software map.
+8. [`crates/osr-core/proto/track_state.proto`](../crates/osr-core/proto/track_state.proto) — the interface definitions.
+9. [`formal/tla/SMRaft.tla`](../formal/tla/SMRaft.tla) — TLA+ spec of the consensus protocol.
 
 ---
 

@@ -4,17 +4,31 @@
 > systems — built for the developing world, built to be owned by the countries
 > that deploy it.
 
-**Status:** Architecture, RFC, simulator, and safety-kernel phase.
-The simulator runs end-to-end on the Samawah two-line reference scenario
-([RFC 0003](docs/rfcs/0003-samawah-reference-deployment.md)) with kinematic
-integration, time-of-day dispatching, a PV + trackside storage + grid tie
-energy model, multi-day runs with overnight depot charging, and fault
-injection. Scenarios are defined in TOML so anyone can design a network
-for their own city. The SIL-4 safety-kernel (`osr-interlocking`) now has
-both deterministic state derivation AND the Movement Authority computer
-(M1+M2 of RFC 0004 complete; 43 passing tests workspace-wide). Kani
-formal verification of the five safety properties (M3) is the next
-milestone. Production signaling and hardware stacks remain future work.
+**Status:** The full SIL-4 safety-critical partition exists as working,
+proptest-verified Rust. The Samawah two-line reference scenario
+([RFC 0003](docs/rfcs/0003-samawah-reference-deployment.md)) runs
+end-to-end with:
+
+- **Onboard chain:** position fusion → ATP → brake + vigilance, all
+  SIL-4 pure functions, integrated into the simulator as a per-tick
+  shadow stack. Zero spurious emergencies under nominal service.
+- **Wayside:** `osr-interlocking` (MA computer) on top of
+  `osr-consensus` (a Rust refinement of the TLA+ SMRaft spec,
+  proptest-verified against all 5 safety invariants). The sim can now
+  drive the MA check through a real 3-node Raft cluster via
+  `--use-consensus`.
+- **Wayside infrastructure:** `osr-wayside-points` controls power
+  switches with dual-redundant sensor fusion, motor-timeout cooldown,
+  and fail-restrictive Unknown detection.
+- **Simulator:** multi-day runs, time-of-day dispatch, PV + trackside
+  storage + grid tie energy model, fault injection, shadow onboard
+  stack. Scenarios in TOML so anyone can design their own city.
+
+**161 tests pass across 10 crates.** Kani formal refinement of
+`osr-interlocking` (M3 of RFC 0004), hardware reference designs,
+traction-control firmware, and the remaining wayside + back-office
+crates are still to come — the full 35-crate map is in
+[RFC 0005](docs/rfcs/0005-sbc-software-architecture.md).
 
 ---
 
@@ -94,29 +108,35 @@ OpenSourceRail/
 │   ├── ARCHITECTURE.md       Scope, subsystem design, roadmap. Start here.
 │   └── rfcs/
 │       ├── 0001-track-state-consensus.md   Distributed signaling core.
-│       ├── 0002-energy-sizing.md           Concrete numbers for solar+battery.
-│       └── 0003-samawah-reference-deployment.md   The reference pilot: Samawah, Iraq.
+│       ├── 0002-energy-sizing.md           Solar+battery sizing.
+│       ├── 0003-samawah-reference-deployment.md   Reference pilot.
+│       ├── 0004-osr-interlocking-plan.md   MA computer implementation plan.
+│       └── 0005-sbc-software-architecture.md  Canonical 35-crate map.
 ├── crates/
 │   ├── osr-core/             Shared domain types (topology, trains, IDs).
-│   │   └── proto/
-│   │       └── track_state.proto           Interface definitions.
-│   ├── osr-interlocking/     SIL-4 safety-kernel (M1+M2 done).
-│   │   └── src/              Entry types + derive_state + MA computer.
-│   └── osr-sim/              Time-stepped simulator + HTML/SVG visualizer.
-│       └── src/bin/vis.rs    osr-vis — network diagram renderer.
+│   │   └── proto/track_state.proto         Interface definitions.
+│   ├── osr-interlocking/     SIL-4 MA computer (RFC 0004 M1+M2 done).
+│   ├── osr-consensus/        SIL-4 Raft — refinement of formal/tla/SMRaft.tla.
+│   ├── osr-odometry/         SIL-4 onboard position fusion.
+│   ├── osr-atp/              SIL-4 onboard Automatic Train Protection.
+│   ├── osr-brake/            SIL-4 EP brake + WSP + park brake controller.
+│   ├── osr-vigilance/        SIL-4 driver alerter / dead-man.
+│   ├── osr-wayside-points/   SIL-4 power-switch (point) controller.
+│   └── osr-sim/              Time-stepped simulator + shadow onboard stack +
+│                             HTML/SVG visualizer (osr-vis).
 ├── scenarios/                User-editable scenario files (see README).
 │   ├── samawah.toml          Full Samawah reference deployment.
 │   ├── samawah-line1.toml    Line 1 only.
 │   └── example-simple.toml   Template for a new city.
-└── formal/
-    └── tla/
-        ├── SMRaft.tla        Consensus protocol spec.
-        ├── MCSmall.tla       Small TLC harness.
-        └── MCSmall.cfg       TLC config.
+└── formal/tla/
+    ├── SMRaft.tla            Consensus protocol spec.
+    ├── MCSmall.tla           Small TLC harness.
+    └── MCSmall.cfg           TLC config.
 ```
 
-Additional crates (`osr-consensus`, `osr-interlocking`, `osr-ops`) and hardware
-reference designs will land as the design matures through further RFCs.
+The 25 additional crates mapped in RFC 0005 (traction, TCMS, passenger-facing
+systems, operations back-office, cybersecurity, safety-case tooling) are
+planned but not yet in tree.
 
 ## Quick start
 
@@ -167,8 +187,9 @@ If you have 10 minutes: read this README and
 If you have an hour: add [ARCHITECTURE §4–11](docs/ARCHITECTURE.md) and
 whichever RFC is closest to your domain.
 
-If you're considering contributing: read everything above, then the
-[TLA+ README](formal/tla/README.md) and the
+If you're considering contributing: read everything above, then
+[RFC 0005](docs/rfcs/0005-sbc-software-architecture.md) for the full
+crate map, the [TLA+ README](formal/tla/README.md), and the
 [track_state.proto](crates/osr-core/proto/track_state.proto) header.
 
 ## Target hardware
@@ -189,16 +210,20 @@ Right now the highest-leverage contributions are:
 
 1. **Review the architecture and RFCs.** Especially from people with real rail
    signaling, power-electronics, or safety-case experience. File issues with
-   specific disagreements; we want the design bashed into shape before code
-   lands.
+   specific disagreements.
 2. **Climate and grid data** for specific target corridors. The energy sizing
    in RFC 0002 uses planning-grade numbers; real deployments need real data.
-3. **Formal-methods contributions** to [formal/tla/SMRaft.tla](formal/tla/SMRaft.tla).
-   TLAPS proofs and TLC runs on larger bounded models are both welcome.
-
-Once the code phase begins, the first tangible pieces will be the Rust MA
-computer with Kani harness, and a toy `osr-sim` network that exercises the
-proto schema end to end.
+3. **Formal-methods contributions.** Kani harnesses for the SIL-4 crates
+   ([RFC 0004 §M3](docs/rfcs/0004-osr-interlocking-plan.md) — the five MA
+   safety properties are the first target). TLAPS proofs or larger TLC runs
+   on [SMRaft.tla](formal/tla/SMRaft.tla) are also welcome, as is an SMRaft →
+   `osr-consensus` refinement proof.
+4. **Hardware reference designs.** Schematics and BOMs for the T-ECU/S,
+   T-ECU/A, and W-SBC classes defined in
+   [RFC 0005 §3.1](docs/rfcs/0005-sbc-software-architecture.md).
+5. **Pick a crate from the [RFC 0005](docs/rfcs/0005-sbc-software-architecture.md)
+   map.** The passenger-facing and back-office crates (`osr-afc`, `osr-pis-*`,
+   `osr-occ`, `osr-historian`) are lower SIL tier and good on-ramps.
 
 ## License
 

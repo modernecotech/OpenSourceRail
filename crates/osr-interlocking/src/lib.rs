@@ -24,6 +24,12 @@ pub mod ma;
 pub mod state;
 pub mod topology;
 
+// Kani bounded-model-checker harnesses. Gated by `#[cfg(kani)]` so
+// they compile only when `cargo kani` is driving the build and are
+// invisible to plain `cargo test`.
+#[cfg(kani)]
+pub mod kani_proofs;
+
 pub use log::{
     Confidence, Entry, EntryPayload, FormatVersion, Heartbeat, MaintenanceOverride,
     PositionSource, RestrictionReason, RouteGrant, RouteRelease, RouteRequest,
