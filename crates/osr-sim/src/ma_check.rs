@@ -186,8 +186,21 @@ pub fn run_check(
     sim_time_s: u32,
     summary: &mut MaCheckSummary,
 ) {
+    run_check_entries(trains, log.entries(), network, occupancy, sim_time_s, summary);
+}
+
+/// Like `run_check` but operates directly on a slice of entries.
+/// Used by the consensus-backed MA log in `crate::sim::run`.
+pub fn run_check_entries(
+    trains: &[Train],
+    entries: &[Entry],
+    network: &Network,
+    occupancy: &OccupancyMap,
+    sim_time_s: u32,
+    summary: &mut MaCheckSummary,
+) {
     summary.checks_run = summary.checks_run.saturating_add(1);
-    let state: DerivedState = derive_state(log.entries());
+    let state: DerivedState = derive_state(entries);
     let now_ns = (sim_time_s as u64).saturating_mul(1_000_000_000);
 
     // Each train's footprint from its awareness.
@@ -212,7 +225,7 @@ pub fn run_check(
             &state,
             network,
             now_ns,
-            log.entries().last().map(|e| e.entry_id),
+            entries.last().map(|e| e.entry_id),
         );
         summary.total_mas_computed = summary.total_mas_computed.saturating_add(1);
         if !ma.has_known_position {

@@ -17,11 +17,59 @@ use osr_core::topology::OccupancyMap;
 use osr_core::{ConsistDescriptor, Line, Network, SectionId, StationId, TrainId};
 use serde::{Deserialize, Serialize};
 
+use crate::consensus_log::ConsensusBackend;
 use crate::energy::{EnergySiteConfig, EnergySiteSummary, EnergySystem};
 use crate::fault::{Fault, FaultEngine, FaultLogEntry};
 use crate::ma_check::{self, MaCheckSummary, SimulatedLog};
+use crate::onboard::{self, OnboardShadow, OnboardSummary};
 use crate::schedule::{DispatchThrottle, LineSchedule};
 use crate::train::{Heading, Train, TrainPhase};
+
+use osr_core::TrackRef;
+use osr_interlocking::log::Entry as InterlockingEntry;
+
+/// Backend for the MA log — either the in-process `SimulatedLog` or
+/// a real 3-node `osr-consensus::Cluster` via [`ConsensusBackend`].
+#[derive(Debug)]
+pub enum MaLogBackend {
+    Simulated(SimulatedLog),
+    Consensus(ConsensusBackend),
+}
+
+impl MaLogBackend {
+    pub fn ensure_registered(&mut self, train: &Train, initial_head: TrackRef, t_s: u32) {
+        match self {
+            Self::Simulated(l) => l.ensure_registered(train, initial_head, t_s),
+            Self::Consensus(c) => c.ensure_registered(train, initial_head, t_s),
+        }
+    }
+
+    pub fn emit_position(
+        &mut self,
+        train: &Train,
+        head: TrackRef,
+        tail: Option<i64>,
+        t_s: u32,
+    ) {
+        match self {
+            Self::Simulated(l) => l.emit_position(train, head, tail, t_s),
+            Self::Consensus(c) => c.emit_position(train, head, tail, t_s),
+        }
+    }
+
+    pub fn entries(&self) -> &[InterlockingEntry] {
+        match self {
+            Self::Simulated(l) => l.entries(),
+            Self::Consensus(c) => c.entries(),
+        }
+    }
+
+    pub fn tick(&mut self, dt_ns: u64) {
+        if let Self::Consensus(c) = self {
+            c.tick(dt_ns);
+        }
+    }
+}
 
 // --------------------------------------------------------------------------
 // Configuration
@@ -79,6 +127,12 @@ pub struct RuntimeConfig {
     /// Interval between MA consistency checks, in sim seconds. 0 disables
     /// the MA computer integration entirely. Defaults to 30.
     pub ma_check_every_s: u32,
+    /// If `true`, the MA log is backed by a real 3-node
+    /// `osr-consensus::Cluster` (see [`crate::consensus_log::ConsensusBackend`]).
+    /// Entries are serialised to bytes, committed via Raft, and
+    /// decoded back before the MA check runs. Defaults to `false`
+    /// (classic in-memory `SimulatedLog`) for backward compatibility.
+    pub use_consensus: bool,
 }
 
 impl Default for RuntimeConfig {
@@ -90,6 +144,7 @@ impl Default for RuntimeConfig {
             csv_out: None,
             csv_every_s: 60,
             ma_check_every_s: 30,
+            use_consensus: false,
         }
     }
 }
@@ -160,6 +215,12 @@ pub struct SimResult {
     /// (checks run, MAs computed, any consistency violations).
     #[serde(default = "default_ma_summary")]
     pub ma_check: MaCheckSummary,
+    /// Summary of the onboard shadow stack (osr-odometry + osr-atp +
+    /// osr-brake). Produced by [`crate::onboard`] per-tick per-train
+    /// during Traveling phase. Integration evidence for the Phase 2a
+    /// SBC crates per RFC 0005 §11.
+    #[serde(default)]
+    pub onboard: OnboardSummary,
 }
 
 fn default_ma_summary() -> MaCheckSummary {
@@ -228,13 +289,26 @@ pub fn run(config: &ScenarioConfig, runtime: &RuntimeConfig) -> SimResult {
     );
     let mut faults = FaultEngine::new(config.faults.clone());
 
-    // MA-computer integration (RFC 0004 §M5). The sim maintains a log of
-    // Entry objects as trains move; every `ma_check_every_s` sim seconds
-    // we compute each train's MA and verify consistency.
-    let mut ma_log = SimulatedLog::new();
+    // MA-computer integration (RFC 0004 §M5 + RFC 0001). The sim
+    // maintains a log of Entry objects as trains move; every
+    // `ma_check_every_s` sim seconds we compute each train's MA and
+    // verify consistency. The log is either an in-memory `Vec`
+    // (classic) or a real 3-node Raft cluster (when
+    // `RuntimeConfig::use_consensus` is set).
+    let mut ma_log: MaLogBackend = if runtime.use_consensus {
+        MaLogBackend::Consensus(ConsensusBackend::new())
+    } else {
+        MaLogBackend::Simulated(SimulatedLog::new())
+    };
     let mut ma_summary = default_ma_summary();
     let ma_check_interval = runtime.ma_check_every_s;
     let mut next_ma_check = if ma_check_interval > 0 { 0 } else { u32::MAX };
+
+    // Onboard shadow stack: one shadow per train, built from
+    // each train's consist. The shadow runs every tick during
+    // Traveling phase; see crate::onboard.
+    let mut onboard_shadows: Vec<OnboardShadow> =
+        trains.iter().map(OnboardShadow::new).collect();
 
     // Optional CSV trace.
     let mut csv_writer: Option<std::io::BufWriter<std::fs::File>> = None;
@@ -319,6 +393,23 @@ pub fn run(config: &ScenarioConfig, runtime: &RuntimeConfig) -> SimResult {
                 &mut events,
                 &mut violations,
             );
+
+            // Shadow onboard stack: only during Traveling phase. If
+            // the train just left Traveling (arrived at a station
+            // or transitioned elsewhere), reset the shadow so the
+            // next section entry re-seeds cleanly.
+            match trains[idx].phase {
+                TrainPhase::Traveling { .. } => {
+                    let _ = onboard::onboard_tick(
+                        &mut onboard_shadows[idx],
+                        &trains[idx],
+                        &config.network,
+                        t,
+                        dt,
+                    );
+                }
+                _ => onboard_shadows[idx].on_leave_section(),
+            }
         }
 
         if status_every > 0 && t >= next_status {
@@ -333,6 +424,9 @@ pub fn run(config: &ScenarioConfig, runtime: &RuntimeConfig) -> SimResult {
             }
         }
 
+        // Advance the consensus backend (no-op for SimulatedLog).
+        ma_log.tick(u64::from(runtime.time_step_s).saturating_mul(1_000_000_000));
+
         if ma_check_interval > 0 && t >= next_ma_check {
             // Emit position reports for all trains before the check, so the
             // MA computer sees the current state. Registration happens
@@ -343,9 +437,9 @@ pub fn run(config: &ScenarioConfig, runtime: &RuntimeConfig) -> SimResult {
                     ma_log.emit_position(tr, trackref, None, t);
                 }
             }
-            ma_check::run_check(
+            ma_check::run_check_entries(
                 &trains,
-                &ma_log,
+                ma_log.entries(),
                 &config.network,
                 &occupancy,
                 t,
@@ -383,6 +477,9 @@ pub fn run(config: &ScenarioConfig, runtime: &RuntimeConfig) -> SimResult {
     for tr in &trains {
         per_line_km[tr.line_index].1 += tr.odometer_km;
     }
+
+    // Onboard shadow summary.
+    let onboard_summary = onboard::summarise(&onboard_shadows, &trains);
 
     // Build per-site summaries.
     let energy_sites: Vec<EnergySiteSummary> = energy
@@ -424,6 +521,7 @@ pub fn run(config: &ScenarioConfig, runtime: &RuntimeConfig) -> SimResult {
             .map(FaultSummary::from_log)
             .collect(),
         ma_check: ma_summary,
+        onboard: onboard_summary,
     }
 }
 

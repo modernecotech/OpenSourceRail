@@ -55,6 +55,12 @@ struct Cli {
     /// sim-seconds. Zero disables the integration. Default 30.
     #[arg(long, default_value_t = 30)]
     ma_check_every: u32,
+
+    /// When set, the MA log is driven by a real 3-node Raft cluster
+    /// (osr-consensus) instead of the in-memory `SimulatedLog`.
+    /// Slower but validates the full wayside-replication path.
+    #[arg(long)]
+    use_consensus: bool,
 }
 
 fn main() -> ExitCode {
@@ -75,6 +81,7 @@ fn main() -> ExitCode {
         csv_out: cli.csv_out.clone(),
         csv_every_s: cli.csv_every,
         ma_check_every_s: cli.ma_check_every,
+        use_consensus: cli.use_consensus,
     };
 
     let result = sim::run(&config, &runtime);

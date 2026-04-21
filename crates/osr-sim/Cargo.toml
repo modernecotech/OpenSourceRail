@@ -19,9 +19,16 @@ path = "src/bin/vis.rs"
 workspace = true
 
 [dependencies]
+osr-atp = { path = "../osr-atp" }
+osr-brake = { path = "../osr-brake" }
+osr-consensus = { path = "../osr-consensus" }
 osr-core = { path = "../osr-core" }
 osr-interlocking = { path = "../osr-interlocking" }
+osr-odometry = { path = "../osr-odometry" }
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
 toml = "0.8"
 clap = { version = "4", features = ["derive"] }
+
+[dev-dependencies]
+tempfile = "3"
