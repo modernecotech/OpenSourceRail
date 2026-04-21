@@ -134,7 +134,7 @@ mod tests {
             issued_ns: now_ns - 1_000_000_000,
             expires_ns: now_ns + 3_600_000_000_000, // +1 hour
             station_restriction: station,
-            signature: 0,
+            signature: [0u8; osr_crypto::HMAC_SHA256_LEN],
         };
         t.signature = sign_token(&t, secret);
         t
@@ -250,7 +250,7 @@ mod tests {
         let blacklist = BTreeSet::new();
         let now = 1_000_000_000_000;
         let mut token = fresh_token(42, now, secret, None);
-        token.signature ^= 1; // flip a bit
+        token.signature[0] ^= 1; // flip a bit
         let out = afc_evaluate(
             &AfcState::default(),
             &AfcInputs {

@@ -168,7 +168,7 @@ pub fn tvm_evaluate(prev: &TvmState, inputs: &TvmInputs<'_>) -> TvmOutput {
         issued_ns: inputs.now_ns,
         expires_ns: inputs.now_ns.saturating_add(inputs.product.duration_ns()),
         station_restriction,
-        signature: 0,
+        signature: [0u8; osr_afc::HMAC_SHA256_LEN],
     };
     token.signature = sign_token(&token, inputs.secret);
 

@@ -1,0 +1,1 @@
+/home/hayder/Documents/OpenSourceRail/target/debug/libosr_analytics.rlib: /home/hayder/Documents/OpenSourceRail/crates/osr-analytics/src/lib.rs /home/hayder/Documents/OpenSourceRail/crates/osr-historian/src/lib.rs

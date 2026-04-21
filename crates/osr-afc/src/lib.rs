@@ -18,10 +18,11 @@
 //!
 //! # Token signing
 //!
-//! v1 uses `std::hash::SipHasher13` (from `BuildHasherDefault<DefaultHasher>`)
-//! as a placeholder HMAC — adequate for testing the protocol logic,
-//! **not cryptographically sound for production**. A follow-up will
-//! swap to a real HMAC-SHA256 via `osr-crypto` once that crate lands.
+//! Tokens are signed with HMAC-SHA256 from [`osr_crypto`] over
+//! [`FareToken::signed_bytes`]. Signature comparison is constant-time
+//! to keep a compromised gate from being turned into a MAC oracle
+//! via timing. Key rotation and distribution live outside this
+//! crate (in the back-office key-management service).
 //!
 //! # Properties (proptest-verified)
 //!
@@ -43,5 +44,6 @@ pub mod token;
 pub mod validate;
 
 pub use evaluate::{afc_evaluate, AfcEvent, AfcInputs, AfcOutput, AfcParams, AfcState, GateCommand};
+pub use osr_crypto::HMAC_SHA256_LEN;
 pub use token::{FareToken, SIGNED_BYTE_LEN};
 pub use validate::{sign_token, validate_token, Decision, DenyReason};

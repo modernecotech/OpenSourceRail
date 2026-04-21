@@ -1,17 +1,15 @@
 //! Token signing and validation.
 //!
-//! v1 uses the standard-library SipHash-13 hasher (via
-//! `std::collections::hash_map::DefaultHasher`) as a placeholder
-//! HMAC. SipHash is designed for hash-table integrity, not
-//! cryptographic authentication; a production deployment must
-//! replace this with HMAC-SHA256 from `osr-crypto` once that
-//! crate lands. The algorithm seam is isolated to a single
-//! function ([`sign_token`]) so the swap is straightforward.
+//! Signatures are HMAC-SHA256 tags over [`FareToken::signed_bytes`]
+//! under the shared back-office secret, produced and verified via
+//! [`osr_crypto`]. Comparison uses [`osr_crypto::ct_eq`] for
+//! constant-time MAC verification — a timing side-channel on the
+//! gate would let an attacker iterate tags without tripping the
+//! blacklist path.
 
-use std::collections::hash_map::DefaultHasher;
 use std::collections::BTreeSet;
-use std::hash::{Hash, Hasher};
 
+use osr_crypto::{ct_eq, hmac_sha256, Hmac256Key, HMAC_SHA256_LEN};
 use serde::{Deserialize, Serialize};
 
 use crate::token::FareToken;
@@ -38,21 +36,12 @@ pub enum Decision {
     Deny(DenyReason),
 }
 
-/// Compute the signature for a token. Pure; deterministic over
-/// `(token.signed_bytes(), secret)`.
+/// Compute the HMAC-SHA256 tag for `token_fields` under `secret`.
+/// Pure; deterministic over `(token.signed_bytes(), secret)`.
 #[must_use]
-pub fn sign_token(token_fields: &FareToken, secret: &[u8]) -> u64 {
-    let mut h = DefaultHasher::new();
-    secret.hash(&mut h);
-    token_fields.signed_bytes().hash(&mut h);
-    // Fold the secret a second time with the bytes to approximate
-    // HMAC's inner-outer composition. Not cryptographically sound;
-    // see module docs.
-    let round1 = h.finish();
-    let mut h2 = DefaultHasher::new();
-    secret.hash(&mut h2);
-    round1.hash(&mut h2);
-    h2.finish()
+pub fn sign_token(token_fields: &FareToken, secret: &[u8]) -> [u8; HMAC_SHA256_LEN] {
+    let key = Hmac256Key::from_bytes(secret.to_vec());
+    hmac_sha256(&key, &token_fields.signed_bytes())
 }
 
 /// Validate a token for a given gate / now / blacklist.
@@ -69,11 +58,8 @@ pub fn validate_token(
     if blacklist.contains(&token.account_id) {
         return Decision::Deny(DenyReason::Blacklisted);
     }
-    // Recompute signature and compare in constant-ish time via
-    // equality (SipHash is not a cryptographic MAC but the equality
-    // check is still the right shape for a real MAC later).
     let expected = sign_token(token, secret);
-    if expected != token.signature {
+    if !ct_eq(&expected, &token.signature) {
         return Decision::Deny(DenyReason::BadSignature);
     }
     if token.issued_ns > now_ns {

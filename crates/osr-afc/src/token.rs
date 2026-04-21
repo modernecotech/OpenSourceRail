@@ -1,5 +1,6 @@
 //! Fare-token wire format.
 
+use osr_crypto::HMAC_SHA256_LEN;
 use serde::{Deserialize, Serialize};
 
 /// Size of the signed portion of [`FareToken`] in bytes.
@@ -19,9 +20,9 @@ pub struct FareToken {
     /// `Some(s)` restricts to station `s` only (single-ride ticket
     /// into that station).
     pub station_restriction: Option<u32>,
-    /// SipHash-13 of the signed portion XOR-mixed with the shared
-    /// secret. See `crate::validate::sign_token`.
-    pub signature: u64,
+    /// HMAC-SHA256 of [`FareToken::signed_bytes`] under the shared
+    /// back-office secret. See [`crate::validate::sign_token`].
+    pub signature: [u8; HMAC_SHA256_LEN],
 }
 
 impl FareToken {

@@ -14,7 +14,7 @@ fn arb_token(now_ns: u64, secret: &[u8]) -> FareToken {
         issued_ns: now_ns.saturating_sub(1_000_000_000),
         expires_ns: now_ns.saturating_add(3_600_000_000_000),
         station_restriction: None,
-        signature: 0,
+        signature: [0u8; 32],
     };
     t.signature = sign_token(&t, secret);
     t
@@ -62,11 +62,11 @@ proptest! {
 
     /// AFC3 bad-signature denied.
     #[test]
-    fn afc3_bad_signature_denied(now in 1_000_000_000u64..10_000_000_000_000, bit in 0u32..64) {
+    fn afc3_bad_signature_denied(now in 1_000_000_000u64..10_000_000_000_000, bit in 0usize..256) {
         let secret = b"k";
         let blacklist = BTreeSet::new();
         let mut token = arb_token(now, secret);
-        token.signature ^= 1_u64 << bit;
+        token.signature[bit / 8] ^= 1_u8 << (bit % 8);
         let d = validate_token(&token, secret, now, 0, &blacklist);
         prop_assert_eq!(d, Decision::Deny(DenyReason::BadSignature));
     }
@@ -121,7 +121,7 @@ proptest! {
         let blacklist = BTreeSet::new();
         let mut token = arb_token(now, secret);
         if !grant {
-            token.signature ^= 1;
+            token.signature[0] ^= 1;
         }
         let inputs = AfcInputs {
             now_ns: now,
