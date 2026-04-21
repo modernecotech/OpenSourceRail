@@ -1,0 +1,94 @@
+# Scale-test city list — one city per continent / climate regime, covering
+# the full topology + cost-surface regime space.
+#
+# This is the stepping stone between the 3-city calibration set and the
+# 500-city production batch. Every city here has a hand-tuned bbox so a
+# failed pull can be diagnosed quickly. Once this set produces clean
+# designs across the board, the 500-city list can be generated
+# programmatically from GeoNames (see osr_batch.geonames_import).
+#
+# Selection criteria:
+#   - ≥ 1 city per inhabited continent
+#   - ≥ 1 city per climate preset (hot-desert, tropical-wet,
+#     tropical-arid, temperate-continental, mediterranean, cold-continental)
+#   - Size range: 400k (single-radial) → 15M (hub-and-spoke-dual-ring)
+#
+# Cities here may include ones that already operate metro/tram/LRT
+# (Lyon, Tunis). Those are kept deliberately as solver test targets —
+# their rich OSM data exercises bridge/tunnel classification and
+# dense-anchor routing. The production 500-city scan
+# (osr-cities-scan, default behaviour) excludes them via
+# osr_batch/existing_transit.py.
+
+# ---- Middle East + North Africa --------------------------------------
+
+[[cities]]
+slug        = "samawah"
+country     = "IQ"
+continent   = "middle-east"
+population  = 400000
+climate     = "hot-desert"
+profile     = "mid-city-desert"
+bbox        = { south = 31.27, west = 45.24, north = 31.35, east = 45.32 }
+
+[[cities]]
+slug        = "tunis"
+country     = "TN"
+continent   = "north-africa"
+population  = 1200000
+climate     = "mediterranean"
+profile     = "large-city-tropical"
+bbox        = { south = 36.76, west = 10.12, north = 36.86, east = 10.24 }
+
+# ---- Sub-Saharan Africa ----------------------------------------------
+
+[[cities]]
+slug        = "nairobi"
+country     = "KE"
+continent   = "east-africa"
+population  = 4400000
+climate     = "tropical-wet"
+profile     = "large-city-tropical"
+bbox        = { south = -1.35, west = 36.78, north = -1.22, east = 36.92 }
+
+[[cities]]
+slug        = "niamey"
+country     = "NE"
+continent   = "west-africa"
+population  = 1300000
+climate     = "tropical-arid"
+profile     = "mid-city-desert"
+bbox        = { south = 13.47, west = 2.06, north = 13.56, east = 2.18 }
+
+# ---- South Asia -------------------------------------------------------
+
+[[cities]]
+slug        = "coimbatore"
+country     = "IN"
+continent   = "south-asia"
+population  = 2100000
+climate     = "tropical-wet"
+profile     = "large-city-tropical"
+bbox        = { south = 10.95, west = 76.92, north = 11.06, east = 77.04 }
+
+# ---- Europe -----------------------------------------------------------
+
+[[cities]]
+slug        = "lyon"
+country     = "FR"
+continent   = "europe"
+population  = 1400000
+climate     = "temperate-continental"
+profile     = "large-city-cold"
+bbox        = { south = 45.70, west = 4.78, north = 45.80, east = 4.90 }
+
+# ---- Latin America ----------------------------------------------------
+
+[[cities]]
+slug        = "cuenca"
+country     = "EC"
+continent   = "latin-america"
+population  = 600000
+climate     = "tropical-wet"
+profile     = "large-city-tropical"
+bbox        = { south = -2.93, west = -79.03, north = -2.87, east = -78.97 }

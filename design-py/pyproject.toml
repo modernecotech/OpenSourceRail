@@ -1,0 +1,51 @@
+# design-py — Python sidecar for OpenSourceRail design generation.
+#
+# Two submodules:
+#   osr_osm  — Overpass / Geofabrik fetchers with disk cache
+#   osr_geo  — cost / demand / buildability raster synthesis
+#
+# The Rust crates/osr-routing/ + crates/osr-design/ consume the artefacts
+# these modules produce. Python lives on this side of the boundary because
+# every meaningful geo library is Python-native; the solver stays in Rust
+# for speed and type-safety.
+
+[build-system]
+requires      = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name            = "osr-design-py"
+version         = "0.1.0"
+description     = "OSR design pipeline: OSM pull, raster synthesis, batch driver."
+requires-python = ">=3.11"
+license         = { text = "Apache-2.0" }
+
+# Keep deps tight — everything here must be pip-installable on a vanilla
+# Linux box without system GIS libraries. Heavy geo deps (rasterio, geopandas)
+# are optional extras, not required for the core pipeline.
+dependencies = [
+    "requests>=2.31",     # Overpass HTTP client
+    "numpy>=1.26",        # raster grids
+]
+
+[project.optional-dependencies]
+# GeoTIFF export for downstream GIS tools. Without this, rasters ship as
+# .npy + .json sidecar metadata (lossless, smaller, Rust-readable).
+geotiff = [
+    "rasterio>=1.3",
+]
+
+# Extras for the batch driver pulling city lists from public datasets.
+batch = [
+    "pycountry>=23",
+]
+
+[project.scripts]
+osr-osm-pull      = "osr_osm.cli:main"
+osr-geo-rasterize = "osr_geo.cli:main"
+osr-batch         = "osr_batch.cli:main"
+osr-cities-scan   = "osr_batch.geonames_import:main"
+
+[tool.setuptools.packages.find]
+where   = ["src"]
+include = ["osr_osm*", "osr_geo*", "osr_batch*"]
