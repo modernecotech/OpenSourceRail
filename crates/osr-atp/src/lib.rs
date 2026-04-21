@@ -75,6 +75,12 @@ pub mod envelope;
 pub mod evaluate;
 pub mod state;
 
+// Kani bounded-model-checker harnesses. Gated by `#[cfg(kani)]` so
+// they compile only when `cargo kani` is driving the build and are
+// invisible to plain `cargo test`.
+#[cfg(kani)]
+pub mod kani_proofs;
+
 pub use envelope::{isqrt, max_safe_speed_mmps, DecelTable};
 pub use evaluate::{
     atp_evaluate, AtpOutcome, BrakeCommand, TriggerReason, OVERSPEED_EMERGENCY_MARGIN_MMPS,

@@ -38,7 +38,7 @@ directly.
 
 | Crate | Properties | Verification |
 |---|---|---|
-| [osr-atp](../../crates/osr-atp/) | A1–A7 (determinism, expired MA trips, unknown position trips, train mismatch trips, head past MA end trips, overspeed trips, conservatism) | proptest, not yet Kani |
+| [osr-atp](../../crates/osr-atp/) | A1–A7 (determinism, expired MA trips, unknown position trips, train mismatch trips, head past MA end trips, overspeed trips, conservatism) | proptest for A1–A7; Kani harnesses written for A1–A2 in [`src/kani_proofs.rs`](../../crates/osr-atp/src/kani_proofs.rs), A3–A7 still proptest-only |
 | [osr-brake](../../crates/osr-brake/) | B1–B5 (determinism, emergency union, emergency completeness, WSP conservative, park safe) | proptest, not yet Kani |
 | [osr-odometry](../../crates/osr-odometry/) | O1–O5 (determinism, forward non-regression, uncertainty monotone, balise reset, GNSS conservative) | proptest, not yet Kani |
 | [osr-vigilance](../../crates/osr-vigilance/) | V1–V6 (determinism, suppression, warning precedes trip, tripped iff emergency, in-window ack clears, trip latches) | proptest, not yet Kani |
