@@ -4,31 +4,39 @@
 > systems — built for the developing world, built to be owned by the countries
 > that deploy it.
 
-**Status:** The full SIL-4 safety-critical partition exists as working,
-proptest-verified Rust. The Samawah two-line reference scenario
-([RFC 0003](docs/rfcs/0003-samawah-reference-deployment.md)) runs
-end-to-end with:
+**Status:** 38 Rust crates, 542 tests green. The Samawah two-line reference
+scenario ([RFC 0003](docs/rfcs/0003-samawah-reference-deployment.md)) runs
+end-to-end with most of the [RFC 0005](docs/rfcs/0005-sbc-software-architecture.md)
+crate map now in tree:
 
-- **Onboard chain:** position fusion → ATP → brake + vigilance, all
-  SIL-4 pure functions, integrated into the simulator as a per-tick
-  shadow stack. Zero spurious emergencies under nominal service.
-- **Wayside:** `osr-interlocking` (MA computer) on top of
-  `osr-consensus` (a Rust refinement of the TLA+ SMRaft spec,
-  proptest-verified against all 5 safety invariants). The sim can now
-  drive the MA check through a real 3-node Raft cluster via
-  `--use-consensus`.
-- **Wayside infrastructure:** `osr-wayside-points` controls power
-  switches with dual-redundant sensor fusion, motor-timeout cooldown,
-  and fail-restrictive Unknown detection.
-- **Simulator:** multi-day runs, time-of-day dispatch, PV + trackside
-  storage + grid tie energy model, fault injection, shadow onboard
-  stack. Scenarios in TOML so anyone can design their own city.
+- **Onboard safety chain (SIL-4):** position fusion → ATP → brake + vigilance +
+  derailment + fire + door-control, all pure functions, integrated into the
+  simulator as a per-tick shadow stack. Zero spurious emergencies under nominal
+  service.
+- **Onboard traction & power:** `osr-traction` + `osr-bms` + `osr-regen` +
+  `osr-aux-power`, with signed-current sign convention enforced at the seam.
+- **Onboard systems:** `osr-tcms`, `osr-hvac`, `osr-lighting`, `osr-dmi`,
+  `osr-pis-onboard`, `osr-hot-axle`, `osr-odometry`, `osr-event-recorder`,
+  `osr-tcn` (IEC 61375-style TSN trainbus, mock transport).
+- **Wayside core:** `osr-interlocking` (MA computer) on top of `osr-consensus`
+  (a Rust refinement of the TLA+ SMRaft spec, proptest-verified against all 5
+  safety invariants; the sim can drive MA through a real 3-node Raft cluster
+  via `--use-consensus`). `osr-wayside-points` controls power switches with
+  dual-redundant sensor fusion and fail-restrictive Unknown detection.
+- **Wayside infrastructure (Phase 2d):** `osr-balise`, `osr-level-crossing`
+  (SIL-4 five-state barrier controller), `osr-hot-axle-wayside` (SIL-4 HABD),
+  `osr-energy-site` (PV + battery + grid-tie dispatch).
+- **Stations & fare:** `osr-psd` (platform screen doors), `osr-station-scada`,
+  `osr-pis-station`, `osr-afc` (HMAC-signed account-based tokens), `osr-tvm`.
+- **Back office:** `osr-occ` (dispatcher), `osr-historian` (ring-buffered
+  per-metric storage with decimation), `osr-analytics`, `osr-t2g`.
+- **Simulator:** multi-day runs, time-of-day dispatch, PV + trackside storage
+  + grid tie energy model, fault injection, shadow onboard stack. Scenarios
+  in TOML so anyone can design their own city.
 
-**161 tests pass across 10 crates.** Kani formal refinement of
-`osr-interlocking` (M3 of RFC 0004), hardware reference designs,
-traction-control firmware, and the remaining wayside + back-office
-crates are still to come — the full 35-crate map is in
-[RFC 0005](docs/rfcs/0005-sbc-software-architecture.md).
+Still to come: Kani formal refinement of `osr-interlocking` (M3 of RFC 0004),
+hardware reference designs, a real (non-mock) TCN transport, and the safety-case
+tooling.
 
 ---
 
@@ -112,16 +120,60 @@ OpenSourceRail/
 │       ├── 0003-samawah-reference-deployment.md   Reference pilot.
 │       ├── 0004-osr-interlocking-plan.md   MA computer implementation plan.
 │       └── 0005-sbc-software-architecture.md  Canonical 35-crate map.
-├── crates/
+├── crates/                   38 Rust crates — grouped by role below.
 │   ├── osr-core/             Shared domain types (topology, trains, IDs).
 │   │   └── proto/track_state.proto         Interface definitions.
-│   ├── osr-interlocking/     SIL-4 MA computer (RFC 0004 M1+M2 done).
-│   ├── osr-consensus/        SIL-4 Raft — refinement of formal/tla/SMRaft.tla.
-│   ├── osr-odometry/         SIL-4 onboard position fusion.
-│   ├── osr-atp/              SIL-4 onboard Automatic Train Protection.
-│   ├── osr-brake/            SIL-4 EP brake + WSP + park brake controller.
-│   ├── osr-vigilance/        SIL-4 driver alerter / dead-man.
-│   ├── osr-wayside-points/   SIL-4 power-switch (point) controller.
+│   │
+│   │   # Onboard safety (SIL-4)
+│   ├── osr-odometry/         Onboard position fusion.
+│   ├── osr-atp/              Automatic Train Protection.
+│   ├── osr-ato/              Automatic Train Operation.
+│   ├── osr-brake/            EP brake + WSP + park brake.
+│   ├── osr-vigilance/        Driver alerter / dead-man.
+│   ├── osr-derailment/       2oo2 derailment detection.
+│   ├── osr-fire-safety/      Onboard fire detection + suppression.
+│   ├── osr-door-control/     Door interlock + enable gating.
+│   │
+│   │   # Onboard traction & power
+│   ├── osr-traction/         Motor control (signed-current convention).
+│   ├── osr-bms/              Battery management (pack-level).
+│   ├── osr-regen/            Regenerative braking arbitration.
+│   ├── osr-aux-power/        Auxiliary / HVAC / lighting bus.
+│   │
+│   │   # Onboard systems
+│   ├── osr-tcms/             Train Control & Management System.
+│   ├── osr-hvac/             HVAC controller.
+│   ├── osr-lighting/         Passenger/cab lighting.
+│   ├── osr-dmi/              Driver-Machine Interface state.
+│   ├── osr-pis-onboard/      Onboard Passenger Information System.
+│   ├── osr-hot-axle/         Onboard hot-axle advisory.
+│   ├── osr-event-recorder/   Black-box ring buffer.
+│   ├── osr-tcn/              IEC 61375-style TSN trainbus (mock v1).
+│   │
+│   │   # Wayside core (SIL-4)
+│   ├── osr-interlocking/     MA computer (RFC 0004 M1+M2 done).
+│   ├── osr-consensus/        Raft — refinement of formal/tla/SMRaft.tla.
+│   ├── osr-wayside-points/   Power-switch (point) controller.
+│   │
+│   │   # Wayside infrastructure
+│   ├── osr-balise/           Balise registry + sighting audit.
+│   ├── osr-level-crossing/   SIL-4 five-state crossing controller.
+│   ├── osr-hot-axle-wayside/ SIL-4 wayside HABD.
+│   ├── osr-energy-site/      PV + battery + grid-tie dispatch.
+│   │
+│   │   # Stations & fare
+│   ├── osr-psd/              Platform screen doors.
+│   ├── osr-station-scada/    Station SCADA.
+│   ├── osr-pis-station/      Station passenger information.
+│   ├── osr-afc/              Automatic fare collection (HMAC tokens).
+│   ├── osr-tvm/              Ticket vending machine.
+│   │
+│   │   # Back office
+│   ├── osr-occ/              Operations Control Centre / dispatcher.
+│   ├── osr-historian/        Ring-buffered metric storage w/ decimation.
+│   ├── osr-analytics/        Fleet analytics (adherence, MDBF, energy/km).
+│   ├── osr-t2g/              Train-to-ground radio adapter.
+│   │
 │   └── osr-sim/              Time-stepped simulator + shadow onboard stack +
 │                             HTML/SVG visualizer (osr-vis).
 ├── scenarios/                User-editable scenario files (see README).
@@ -134,8 +186,8 @@ OpenSourceRail/
     └── MCSmall.cfg           TLC config.
 ```
 
-The 25 additional crates mapped in RFC 0005 (traction, TCMS, passenger-facing
-systems, operations back-office, cybersecurity, safety-case tooling) are
+Remaining crates from the 35-crate RFC 0005 map — notably cybersecurity
+(`osr-secbus`), safety-case tooling, and full (non-mock) TCN transports — are
 planned but not yet in tree.
 
 ## Quick start
@@ -221,9 +273,9 @@ Right now the highest-leverage contributions are:
 4. **Hardware reference designs.** Schematics and BOMs for the T-ECU/S,
    T-ECU/A, and W-SBC classes defined in
    [RFC 0005 §3.1](docs/rfcs/0005-sbc-software-architecture.md).
-5. **Pick a crate from the [RFC 0005](docs/rfcs/0005-sbc-software-architecture.md)
-   map.** The passenger-facing and back-office crates (`osr-afc`, `osr-pis-*`,
-   `osr-occ`, `osr-historian`) are lower SIL tier and good on-ramps.
+5. **Pick an unscaffolded crate from the [RFC 0005](docs/rfcs/0005-sbc-software-architecture.md)
+   map.** The cybersecurity (`osr-secbus`) and safety-case tooling crates are
+   still open, as is a real (non-mock) transport for `osr-tcn`.
 
 ## License
 

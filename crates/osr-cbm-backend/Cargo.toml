@@ -1,0 +1,18 @@
+[package]
+name = "osr-cbm-backend"
+description = "OpenSourceRail — SIL-0 depot-side CBM analysis and work-order generation"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+
+[lints]
+workspace = true
+
+[dependencies]
+serde = { version = "1", features = ["derive"] }
+osr-cbm-onboard = { path = "../osr-cbm-onboard" }
+
+[dev-dependencies]
+proptest = "1"
