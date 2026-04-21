@@ -1,5 +1,8 @@
 # OpenSourceRail
 
+> **Project overview:** [opensourcerail.html](opensourcerail.html) — open in a
+> browser for the visual landing page.
+
 > An open-source technology stack for designing, building, and operating rail
 > systems — built for the developing world, built to be owned by the countries
 > that deploy it.
