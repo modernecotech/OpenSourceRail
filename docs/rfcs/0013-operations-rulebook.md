@@ -67,18 +67,49 @@ The rulebook is organised by **role, not by scenario**. A driver
 reads one section; a dispatcher reads another; the sections
 overlap only where the roles interact.
 
-### 4.1 Driver rulebook (target ≤ 20 pages)
+### 4.1 Driver rulebook (target ≤ 20 pages) — **DEPRECATED FOR GoA 4**
 
-| Section | Scope |
-|---|---|
-| D1 | Before-service checks — cab DMI, brake test, vigilance test, door-interlock test |
-| D2 | Starting a service run — authority acknowledgement, platform-clearance confirmation, door close + MA release |
-| D3 | In-service operation — speed within envelope, vigilance ack cadence, station dwell |
-| D4 | Entering / leaving stations — PSD coordination, passenger communication |
-| D5 | Terminal turnback — stop, transfer cab, blade observation (where applicable), outbound authority |
-| D6 | Degraded-mode operation — MA failure, PSD failure, door failure, single-wheelset operation |
-| D7 | Emergencies — plunger use, emergency-brake recovery, passenger medical, fire-suppression activation |
-| D8 | End-of-service — return to depot, powering down, handover |
+> **Note (2026-04-22):** Per [RFC 0015](0015-driverless-
+> operation.md), new OpenSourceRail deployments ship as GoA 4
+> (Unattended) systems with no driver role. This section is
+> retained as the reference for legacy GoA 2 cabbed fleets and
+> for the transitional mixed-fleet window (if any). For the
+> GoA 4 default, every D-section item has migrated elsewhere:
+>
+> - **D1 depot checks** → depot-automation + M1 lone-worker
+>   protocol; trainset self-tests replace driver's-eye
+>   brake/door/DMI checks.
+> - **D2 service-start** → dispatcher S2.1 (route grant) +
+>   automated consist self-readiness check.
+> - **D3 in-service** → onboard ATP + `osr-obstacle-detect`
+>   (RFC 0015) + OCC fleet-health supervisor.
+> - **D4 stations** → station-staff T2 (boarding) + OCC
+>   remote-assist; PSDs become mandatory (RFC 0015 §5.4).
+> - **D5 turnback** → onboard ATO handles the move; OCC
+>   confirms via CCTV.
+> - **D6 degraded mode** → dispatcher S5 work-block +
+>   restricted-MA flow.
+> - **D7 emergencies** → passenger emergency intercom →
+>   OCC remote-assist (RFC 0015 §5.3); fire/derailment/medical
+>   all handled by OCC dispatching emergency services to the
+>   stopped trainset.
+> - **D8 end-of-service** → depot-automation + M5 fleet
+>   maintenance.
+>
+> Full D1–D8 rule text remains under [`docs/operations/driver/`](../operations/driver/)
+> and is still authoritative for any GoA 2 deployment
+> operator electing the `goa2-cab` feature flag.
+
+| Section | Scope | GoA 4 replacement |
+|---|---|---|
+| D1 | Before-service checks — cab DMI, brake test, vigilance test, door-interlock test | Trainset self-test + M1 depot safety |
+| D2 | Starting a service run — authority acknowledgement, platform-clearance confirmation, door close + MA release | S2.1 + automated consist readiness |
+| D3 | In-service operation — speed within envelope, vigilance ack cadence, station dwell | `osr-atp` + `osr-obstacle-detect` + OCC |
+| D4 | Entering / leaving stations — PSD coordination, passenger communication | T2 + OCC remote-assist + mandatory PSDs |
+| D5 | Terminal turnback — stop, transfer cab, blade observation, outbound authority | `osr-ato` auto-turnback + OCC CCTV check |
+| D6 | Degraded-mode operation — MA failure, PSD failure, door failure, single-wheelset | S5 dispatcher work-block + restricted MA |
+| D7 | Emergencies — plunger, EB recovery, passenger medical, fire-suppression | RFC 0015 §5.3 intercom + OCC remote-assist |
+| D8 | End-of-service — return to depot, powering down, handover | Depot-automation + M5 fleet maintenance |
 
 ### 4.2 Dispatcher rulebook (target ≤ 15 pages)
 

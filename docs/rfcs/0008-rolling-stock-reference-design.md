@@ -98,15 +98,22 @@ one supplier-qualification set.
 | Fire safety | EN 45545-2 HL2 R1 for body, R7 for seats, R1 for cable | HL2 is the hazard level for metro; R1/R7 are the tests for rigid surfaces and upholstery respectively. |
 | Lighting | LED, 300 lx average, with sunset/sunrise dimming | Cut from `osr-lighting`'s evaluator. |
 
-### 3.4 Cab
+### 3.4 Nose + obstacle-detection (replaces driver cab)
+
+**Per [RFC 0015](0015-driverless-operation.md) every trainset
+ships as a GoA 4 (Unattended) system from day one.** There is
+no driver cab, no DMI, no master controller, no dead-man
+handle. Both ends of the trainset are symmetric; there is no
+"leading / trailing" distinction at the rolling-stock level.
 
 | Aspect | Choice | Rationale |
 |---|---|---|
-| Cabs per consist | One per end (all families); drive-from-either-end | Enables terminal turnarounds without a yard move. |
-| DMI | 10.1" touchscreen driven by `osr-dmi` over USB-C from the T-ECU/A | Commodity touchscreen; spares are off the shelf. |
-| Driver controls | Combined master controller (tractive + service brake on one lever), separate emergency-brake plunger, dead-man handle on the master controller | Reduces driver ergonomic complexity. Emergency plunger is hardwired — cannot be masked by software. |
-| GoA level | GoA 2 at commissioning (driver supervises; ATO operates) for all families; GoA 4 (unattended) feasible for `metro-4car` / `metro-6car` after deployment-specific certification | Entry-level GoA 2 is achievable with the current `osr-ato` + `osr-atp` + `osr-vigilance` stack on any family. |
-| Cameras | Forward-view (cab), door-sill (one per door), in-car (per `osr-pis-onboard` config) | Wired to the event recorder via `osr-event-recorder`. |
+| GoA level | **GoA 4 default (RFC 0015).** GoA 2 retrofit possible via the `goa2-cab` feature flag, but not the shipped default for new deployments. | Removes driver capex + driver rostering; eliminates the densest section of RFC 0013 |
+| Nose geometry | **Sensor cowl + coupler, no windscreen, no cab door.** Cars are symmetric end-to-end; passenger floor extends to the full car length. | ~14 extra seats per `light-metro-3car` consist; ~€140 k + ~2.3 t saved vs. a cabbed reference |
+| Obstacle-detection sensor suite | 4× ultrasonic (close-range safety, 0.2–20 m) + solid-state LIDAR (5–200 m, Livox-class) + mmWave radar (5–200 m, all-weather) + stereo camera pair (classifier only). Hosted on the dedicated T-OBS ECU (RFC 0007 §5.5). | Replaces the driver's eyes. Multi-physics architecture so no single sensor failure produces a `Clear` verdict |
+| Passenger emergency intercom | ≥ 4 per car (one per car-end, both doors). Press opens audio+video to OCC remote-assist and commands a controlled brake to the next station. | Replaces the cab's emergency plunger at the passenger interface |
+| Recovery-mode cabinet | Steel-locked enclosure behind each nose. Keyswitch + wired pendant: forward/reverse, 0–15 km/h throttle, emergency stop. | The *only* manual-control path. Physical, locked, slow-speed — not a full cab |
+| Cameras | Forward-view × 2 (nose cowl, part of the sensor suite) + door-sill (one per door) + cabin × 4 per car, all live to OCC | Replaces driver supervision of the cabin; informs OCC remote-assist + fleet-health operators |
 
 ### 3.5 Thermal + acoustic
 

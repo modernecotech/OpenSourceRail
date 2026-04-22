@@ -6,10 +6,14 @@
 > systems — built for the developing world, built to be owned by the countries
 > that deploy it.
 
-**Status:** 46 Rust crates (628 tests passing, 0 failing) plus two Python
+**Status:** 47 Rust crates (654 tests passing, 0 failing) plus two Python
 sidecars (`design-py` for GIS + network synthesis, `mechanical-py` for
 parametric mechanical + civil + station components under build123d).
-The Samawah two-line reference scenario
+Deployments ship as **GoA 4 (Unattended, driverless)** from day one
+per [RFC 0015](docs/rfcs/0015-driverless-operation.md) — the driver
+cab is replaced by a nose-cone obstacle-detection sensor suite
+(ultrasonic safety belt + solid-state LIDAR + mmWave radar + stereo
+camera) on a dedicated T-OBS ECU. The Samawah two-line reference scenario
 ([RFC 0003](docs/rfcs/0003-samawah-reference-deployment.md)) runs end-to-end,
 and the design pipeline now synthesises two-line networks for arbitrary cities
 directly from OpenStreetMap. Fourteen RFCs cover the full system from software
@@ -19,10 +23,22 @@ five role families (driver / dispatcher / station-staff / maintenance /
 control-centre). Most of the
 [RFC 0005](docs/rfcs/0005-sbc-software-architecture.md) crate map is in tree:
 
-- **Onboard safety chain (SIL-4):** position fusion → ATP → brake + vigilance +
-  derailment + fire + door-control, all pure functions, integrated into the
-  simulator as a per-tick shadow stack. Zero spurious emergencies under nominal
-  service.
+- **Onboard safety chain (SIL-4):** position fusion → ATP → brake + obstacle-
+  detect (GoA 4 driverless) + derailment + fire + door-control, all pure
+  functions, integrated into the simulator as a per-tick shadow stack. Zero
+  spurious emergencies under nominal service. `osr-vigilance` and `osr-dmi`
+  are kept in tree under the `goa2-cab` feature flag for legacy fleets but
+  disabled by default.
+- **Onboard obstacle detection (SIL-4, RFC 0015):** `osr-obstacle-detect`
+  fuses a multi-physics sensor suite — 4× ultrasonic (close-range safety
+  belt, 0.2–20 m), solid-state LIDAR (5–200 m primary 3D, affordable
+  Chinese Livox / RoboSense / Leishen-class units), mmWave radar (all-
+  weather validation), stereo camera (classification only) — into an
+  `ObstacleVerdict` per tick: `Clear` / `RestrictedSpeed` (40 km/h cap,
+  LIDAR degraded) / `CrawlOnly` (15 km/h cap, soft obstacle) /
+  `EmergencyBrake`. **Two sensor packs per trainset, one at each end**;
+  either nose can lead on a given run. Five SIL-4 properties O1–O5 with
+  Kani harnesses + 8 proptests; 2oo2 peer cross-check fail-restrictive.
 - **Onboard traction & power:** `osr-traction` + `osr-bms` + `osr-regen` +
   `osr-aux-power`, with signed-current sign convention enforced at the seam.
 - **Onboard systems:** `osr-tcms`, `osr-hvac`, `osr-lighting`, `osr-dmi`,
@@ -216,7 +232,8 @@ OpenSourceRail/
 │       ├── 0011-civil-infrastructure-design-standard.md  At-grade + elevated only (NO tunnels).
 │       ├── 0012-switches-and-crossings.md  3 turnout tangents + LX equipment envelope.
 │       ├── 0013-operations-rulebook.md     ≤ 60-page per-role rulebook, 3 degraded modes.
-│       └── 0014-depot-design-standard.md   3 depot archetypes + fleet-sizing formula.
+│       ├── 0014-depot-design-standard.md   3 depot archetypes + fleet-sizing formula.
+│       └── 0015-driverless-operation.md    GoA 4 by default — sensor suite, T-OBS ECU, cab elimination.
 ├── crates/                   46 Rust crates — grouped by role below.
 │   ├── osr-core/             Shared domain types (topology, trains, IDs).
 │   │   └── proto/track_state.proto         Interface definitions.
@@ -224,9 +241,10 @@ OpenSourceRail/
 │   │   # Onboard safety (SIL-4)
 │   ├── osr-odometry/         Onboard position fusion.
 │   ├── osr-atp/              Automatic Train Protection.
-│   ├── osr-ato/              Automatic Train Operation.
+│   ├── osr-ato/              Automatic Train Operation (GoA 4 default).
+│   ├── osr-obstacle-detect/  NEW (RFC 0015): ultrasonic + LIDAR + radar fusion.
 │   ├── osr-brake/            EP brake + WSP + park brake.
-│   ├── osr-vigilance/        Driver alerter / dead-man.
+│   ├── osr-vigilance/        Driver alerter / dead-man (GoA 2 legacy only).
 │   ├── osr-derailment/       2oo2 derailment detection.
 │   ├── osr-fire-safety/      Onboard fire detection + suppression.
 │   ├── osr-door-control/     Door interlock + enable gating.
@@ -303,6 +321,7 @@ OpenSourceRail/
 ├── hardware/                 Hardware reference designs (RFC 0007).
 │   ├── t-ecu-s/              Train safety kernel (2 × RP2350 2oo2 + RPi CM5).
 │   ├── t-ecu-a/              Train application (RPi CM5 carrier).
+│   ├── t-obs/                Train obstacle-detect ECU (2 × RP2350 + CM5 + sensors).
 │   ├── w-sbc/                Wayside (Radxa CM5 RK3588S, one SKU).
 │   └── s-sbc/                Station / depot (RPi CM5 + commodity carrier).
 ├── tools/
@@ -444,6 +463,13 @@ aren't at the mercy of a dozen silicon suppliers:
   dual-redundant per consist. ~€280/board.
 - **T-ECU/A** — train application. Raspberry Pi **CM5** on a custom
   baseboard (Radxa CM5 drop-in via same SO-DIMM). EN 50155 OT4.
+- **T-OBS** — train obstacle-detection ECU (new in RFC 0015).
+  Two modules per trainset (one at each nose). Two **RP2350**
+  safety MCUs in a 2oo2 cross-check plus a **CM5** for sensor
+  fusion. Sensor interfaces: 4× ultrasonic AFE, mmWave-radar
+  CAN-FD, LIDAR 1000BASE-T, stereo-camera MIPI-CSI. ~€780/module,
+  ~€1 560 per consist — a small fraction of the ~€140 k cab capex
+  eliminated.
 - **W-SBC** — wayside. **Radxa CM5** (RK3588S, industrial-temp
   variant) in an IP67 DIN enclosure — +85 °C rated for pole-mount
   cabinets in hot climates. Same one baseboard selectively populated

@@ -245,6 +245,65 @@ radios ≈ €60 volume).
 **Form factor:** 160 × 100 mm Eurocard, same DIN mount as T-ECU/S so a
 cabinet can accept either without re-designing the slot.
 
+## 5.5 Class T-OBS — Train Obstacle-Detection ECU
+
+**Role:** Hosts the SIL-4 `osr-obstacle-detect` evaluator per
+[RFC 0015 §5.2](0015-driverless-operation.md). Fuses the nose-
+cone sensor suite (ultrasonic × 4, LIDAR, mmWave radar, stereo
+camera) into an `ObstacleVerdict` bus message consumed by the
+T-ECU/S 2oo2 AND-gate relay stage.
+
+**Two modules per trainset** — one at each nose. Only the
+leading module is active for a given direction of travel; the
+trailing module self-tests continuously and publishes an
+`Inactive` status.
+
+**Environment:** EN 50155 OT4, dual-redundant (both nose-end
+modules duplicate the safety evaluator; either can drive the
+brake chain).
+
+**Architecture:** mirrors T-ECU/S: **two Raspberry Pi RP2350**
+safety MCUs running the `osr-obstacle-detect` evaluator in a
+2oo2 cross-check plus a **Raspberry Pi CM5** application
+processor for sensor fusion, classifier inference, and the
+non-safety data path. The safety-critical verdict is produced
+*inside* the RP2350 pair; the CM5 supplies pre-processed
+detection lists but cannot emit a `Clear` on its own.
+
+**Peripherals (baseboard):**
+
+| Peripheral | Qty | Purpose |
+|---|---|---|
+| Ultrasonic transceivers (40 kHz, 200 µs drive, 10-bit ADC) | 4 | Close-range safety belt per RFC 0015 §5.1 |
+| CAN-FD to mmWave radar (TI AWR1843 or eq.) | 1 | All-weather long-range |
+| 1000BASE-T Ethernet to LIDAR (Livox HAP / Tele / RoboSense M1) | 1 | Mid-range 3D primary |
+| MIPI-CSI to stereo camera pair (IMX477 / IMX219) | 2 | Classification |
+| TSN Ethernet | 2 | TCN-E A/B back to T-ECU/S + T-ECU/A |
+| CCA-B2B to T-ECU/S | 1 | Direct brake-demand line (2oo2 AND-gate stage) |
+| ATECC608 SE | 1 | Trust anchor (shared with T-ECU/S) |
+
+**Power budget:** ~18 W under full load (LIDAR dominates at
+~12 W); 24 V DC in with the same EN 50155 isolation as the rest
+of the cab.
+
+**Target BOM:** €780 per board module, dominated by the LIDAR
+unit (~€500 for a Livox-class sensor in volume) + mmWave radar
+(~€500 / €250 volume) + stereo camera pair (~€150) + baseboard
++ 2× RP2350 + CM5 (~€220 per the T-ECU/A BOM). Trainset total
+(2 modules): **~€1 560 per consist**, well below the ~€140 k
+cab capex removed.
+
+**Form factor:** 180 × 120 mm Eurocard — slightly larger than
+T-ECU/S to accommodate the four ultrasonic analog front-ends.
+Mounted behind the RF-transparent nose panel; cooling is
+ambient-air natural convection.
+
+**Detailed v2 spec:** scaffold at
+[`hardware/t-obs/schematics/v2-spec/`](../../hardware/t-obs/schematics/v2-spec/)
+follows the T-ECU/S v2 template (block diagram, power budget,
+pinouts, connector table, safety-net routing rules). KiCad
+capture is v3 per §11 rollout.
+
 ## 6. Class W-SBC — Wayside
 
 **Role:** Hosts `osr-consensus`, `osr-interlocking`,

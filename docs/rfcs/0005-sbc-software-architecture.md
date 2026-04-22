@@ -119,11 +119,12 @@ interlocking crate.
 | Crate | Class | SIL | Scope |
 |---|---|---|---|
 | **osr-atp** | T-ECU/S | 4 | Onboard ATP. Receives MA from `osr-interlocking`, computes a time-based speed envelope from the braking curve, commands emergency brake on violation. Pure function of `(MA, consist, position, speed, now)`; no I/O in the core. |
-| **osr-ato** | T-ECU/A | 2 | Automatic Train Operation. Generates traction and service-brake setpoints inside the envelope `osr-atp` permits. Station-stopping, energy-optimal driving, dwell management. GoA 2–4 configurable per deployment. |
+| **osr-ato** | T-ECU/A | 2 | Automatic Train Operation. Generates traction and service-brake setpoints inside the envelope `osr-atp` permits. Station-stopping, energy-optimal driving, dwell management. GoA 4 is now the default per [RFC 0015](0015-driverless-operation.md); GoA 2 remains configurable for legacy fleets. |
 | **osr-odometry** | T-ECU/S | 4 | Sensor fusion: wheel tachometers + IMU + GNSS + balise fixes → train head/tail position and confidence. Feeds `osr-atp` and emits `TrainPositionReport` entries. |
-| **osr-tcms** | T-ECU/A | 2 | Train Management System. Aggregates ECU state onto TCN-E; drives the DMI; records the event recorder stream. Non-safety *subscribers*; does **not** mediate between `osr-atp` and the brake. |
-| **osr-dmi** | T-ECU/A | 2 | Driver Machine Interface. Touchscreen rendering (speed, signal, route, faults, ATO state). Linux + `wgpu`. The DMI never commands the train; it only displays TCMS state and forwards driver inputs to `osr-tcms`. |
-| **osr-vigilance** | T-ECU/S | 4 | Alerter/dead-man. Requires driver acknowledgement on a configurable cadence; triggers emergency brake on timeout. Trivial logic, SIL-4 because it commands the brake. |
+| **osr-obstacle-detect** | **T-OBS** | **4** | **NEW (RFC 0015 v1, 2026-04-22):** onboard obstacle detection for GoA 4. Fuses ultrasonic + LIDAR + mmWave radar + stereo camera into an `ObstacleVerdict` per tick (Clear / CrawlOnly / EmergencyBrake). Five SIL-4 properties O1–O5 with Kani harnesses + proptest coverage. Substitutes for the driver's eyes in the unattended-operation safety case. |
+| **osr-tcms** | T-ECU/A | 2 | Train Management System. Aggregates ECU state onto TCN-E; records the event recorder stream; publishes passenger PIS status. Non-safety *subscribers*; does **not** mediate between `osr-atp` and the brake. |
+| **osr-dmi** | T-ECU/A | 2 | **Deprecated for GoA 4 deployments (RFC 0015).** Kept in tree under the `goa2-cab` feature flag for legacy fleets that retain a driver cab. Driver Machine Interface touchscreen — speed / signal / route / faults / ATO state. Disabled by default. |
+| **osr-vigilance** | T-ECU/S | 4 | **Deprecated for GoA 4 deployments (RFC 0015).** Kept in tree under the `goa2-cab` feature flag; there is no driver to vigil in GoA 4. Alerter/dead-man that commanded EB on timeout. |
 | **osr-event-recorder** | T-ECU/A | 2 | Onboard "black box". Crash-survivable circular storage of TCN-E traffic at a deterministic sample rate. Feeds incident investigation. |
 
 ### 4.2 D5 — Rolling stock ECUs
