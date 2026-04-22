@@ -228,19 +228,51 @@ dispatches from. Canopy area targets from the template:
 
 Canopy design envelope:
 
-- Structural: steel or glulam truss spanning ≥ 4 m off platform
-  edge; column-free in the middle third of the platform for
-  passenger circulation.
-- Roof: 7° pitch, south-facing (northern hemisphere) / north-
-  facing (southern hemisphere). PV modules mounted flush.
-- Shading coefficient target: ≥ 90 % midday-summer coverage of
-  the platform.
-- Rainwater: gutter + downspout integrated. In the dry target
-  regions we do not bank on rain; the drainage handles the
-  occasional storm.
+- **Prefabricated bolt-together steel portal frames.** No on-site
+  welding, no wet concrete beyond pad footings. One standard 6 m
+  bay module (HEA 200 column + HEA 180 cantilever rafter + SHS 100
+  bracing) replicates along the platform. Hot-dip galvanised in the
+  fabrication shop. Detailed parametric geometry at
+  [`mechanical-py/src/osr_mech/station/portal.py`](../../mechanical-py/src/osr_mech/station/portal.py);
+  STEP artifacts under
+  [`mechanical-py/catalog/station/`](../../mechanical-py/catalog/station/).
+- **Solar-integrated roof sandwich panel.** One factory-bonded
+  panel per bay: CIGS or lightweight c-Si PV on standing-seam
+  galvanised steel, polyurethane foam core, white-coated underside.
+  Delivered pre-terminated with MC4 connectors; bays plug into
+  each other to form a single DC string. ~200 W/m², ~20 kg/m².
+  See [`mechanical-py/src/osr_mech/station/solar_roof.py`](../../mechanical-py/src/osr_mech/station/solar_roof.py).
+- **Cantilever-from-rear geometry.** Columns sit at the platform
+  rear edge only (no columns at the platform edge); the rafter
+  cantilevers 3.5 m + 0.7 m eave over the platform. Middle third
+  of the platform is column-free for passenger circulation by
+  construction, not by careful placement.
+- **Roof: 1:15 mono-pitch (3.8°) toward the track shoulder.**
+  Rainwater runs off directly onto the track drainage;
+  integrated gutter only at the rear column face. In the dry
+  target regions we do not bank on rain; the mono-pitch handles
+  the occasional storm without integrated gutters at all.
+- **Shading coefficient target: ≥ 90 % midday-summer coverage**
+  of the platform.
+- **No station building.** Fare gates on rolled-steel plinths at
+  the platform entry; PIS / CCTV / lighting / radio mount to
+  the canopy columns. The whole station is the canopy + the
+  L-unit platform + the plinth — no masonry, no curtain wall,
+  no on-site architecture.
 
-Canopy-PV sizing math lives in [RFC 0002](0002-energy-sizing.md)
-— this RFC fixes the footprint the architects must respect.
+Erection: a `standard` archetype canopy is ~11 t of steel
+delivered in two lorry-loads, erected in 3–5 days with a small
+crew and a 30 t crawler crane. No structural engineer is needed
+on site — the deployment partner picks the kit size from the
+catalogue; load envelopes are published on the STEP artifact
+docstring.
+
+Canopy-PV sizing math lives in [RFC 0002](0002-energy-sizing.md);
+`mechanical-py/src/osr_mech/station/canopy.py` exposes
+`canopy_kwp(archetype, consist)` which `osr-energy-site` can
+consume directly. A `standard × light-metro-3car` canopy (13
+bays) produces ~55 kWp — plenty to cover daytime station
+demand.
 
 ## 10. Passenger-flow model
 
@@ -332,7 +364,7 @@ Mismatch fails the `design-quality.yaml` hard gate.
 | **v0** | This RFC ratified | — |
 | **v1** ✅ | Architectural envelope + canopy structural first-pass + accessibility + services + compliance matrix for Samawah's `standard` archetype at [`docs/stations/samawah-standard/`](../stations/samawah-standard/) (done 2026-04-22). Applied unchanged to all 12 `standard` stations on Line 1 + Line 2. | RFC 0003 |
 | **v2** ✅ | Emitter: terminal / interchange auto-detection + platform-length derivation from consist + depot-terminal promotion at the farthest radial endpoint (done 2026-04-22). **Architectural drawing register** for the `standard` archetype at [`docs/stations/samawah-standard/drawing-register.md`](../stations/samawah-standard/drawing-register.md) — 43 drawings across A/S/M/E/F/T disciplines with scale + size + v1-envelope cross-refs. Quality-gate failure on compatibility mismatch is deferred to v3. | v0, RFC 0008 v2, RFC 0009 v2 |
-| **v3** | Reference architectural drawings (canopy + access + ticket hall) under CERN-OHL-S v2 | v1 |
+| **v3** ✅ (partial) | Parametric prefab catalogue landed at [`mechanical-py/`](../../mechanical-py/) (done 2026-04-22): bolt-together steel portal-frame bay, factory-bonded solar-roof sandwich panel, full-canopy assembly driven by `(archetype, consist)` — `STANDARD × light-metro-3car` emits a 13-bay / ~55 kWp canopy. STEP artifacts for every canonical archetype under `mechanical-py/catalog/station/` round-trip into Revit/Tekla/Civil 3D. Remaining for v3 full-complete: ticket-hall parametric kit and access-ramp kit (no station building → these collapse to rolled-steel plinths + ramps, scheduled). | v1 |
 | **v4** | Platform-flow simulator extension in `osr-sim` — peak-hour passenger flow against archetype capacity | v2 |
 | **v5** | First-article station at Samawah pilot | v1, RFC 0003 §5 |
 

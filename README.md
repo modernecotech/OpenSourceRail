@@ -6,8 +6,10 @@
 > systems — built for the developing world, built to be owned by the countries
 > that deploy it.
 
-**Status:** 46 Rust crates (628 tests passing, 0 failing) plus a Python
-design sidecar (`design-py`). The Samawah two-line reference scenario
+**Status:** 46 Rust crates (628 tests passing, 0 failing) plus two Python
+sidecars (`design-py` for GIS + network synthesis, `mechanical-py` for
+parametric mechanical + civil + station components under build123d).
+The Samawah two-line reference scenario
 ([RFC 0003](docs/rfcs/0003-samawah-reference-deployment.md)) runs end-to-end,
 and the design pipeline now synthesises two-line networks for arbitrary cities
 directly from OpenStreetMap. Fourteen RFCs cover the full system from software
@@ -83,6 +85,21 @@ control-centre). Most of the
   every station gets a derived platform length consistent with the chosen
   consist family. Scales to a 500-city batch with a GeoNames-driven scanner
   that excludes any city already operating metro, tram, or light-rail.
+
+- **Parametric mechanical + civil + station catalogue:** `mechanical-py`
+  ships build123d assemblies for every non-trivial physical piece of
+  the system — UIC 54E1 / 60E1 rail, EN 13230 B70-class sleeper,
+  Pandrol-style fastener, precast U-girder (20/25/30 m), precast L-unit
+  platform edge, and a prefab-bolt-together steel portal-frame bay
+  with a factory-bonded solar-roof sandwich panel that composes into
+  a full canopy by `(archetype, consist)`. `osr-mech-export`
+  regenerates 16 STEP artifacts under `catalog/` that round-trip into
+  Revit, Tekla, Civil 3D, and FreeCAD — deployment partners keep
+  their existing structural tooling while the repository stays the
+  canonical source. Design bias throughout: **prefab, bolt-together,
+  no on-site welding, no wet concrete except pad footings** — a
+  `standard` station canopy is ~11 t of steel in two lorry-loads,
+  erected in 3–5 days.
 
 Still to come: KiCad schematics and gerbers for the [RFC 0007](docs/rfcs/0007-hardware-reference-designs.md)
 host classes (v2 specs at [`hardware/*/schematics/v2-spec/`](hardware/)
@@ -263,6 +280,18 @@ OpenSourceRail/
 │   │
 │   └── osr-sim/              Time-stepped simulator + shadow onboard stack +
 │                             HTML/SVG visualizer (osr-vis).
+├── mechanical-py/            Python sidecar for parametric mechanical / civil /
+│   │                         station components (build123d). Every RFC-level
+│   │                         choice (consist, archetype, span) is a parameter;
+│   │                         STEP artifacts under catalog/ round-trip into
+│   │                         Revit / Tekla / Civil 3D.
+│   ├── src/osr_mech/
+│   │   ├── track/            Rail (54E1/60E1), sleeper (B70), fastener, panel.
+│   │   ├── civil/            Precast U-girder (20/25/30 m), platform L-unit.
+│   │   └── station/          Portal-frame bay + solar-roof sandwich panel +
+│   │                         multi-bay canopy — the full "prefab metal canopy
+│   │                         with solar roof" reference station.
+│   └── catalog/              Regenerable STEP artifacts (run `osr-mech-export`).
 ├── design-py/                Python sidecar for GIS data + raster synthesis.
 │   └── src/
 │       ├── osr_osm/          Overpass fetcher w/ SHA256 disk cache (arterials,

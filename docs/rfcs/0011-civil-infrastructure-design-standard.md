@@ -333,7 +333,7 @@ civil contractor can mobilise.
 | **v0** | This RFC ratified | — |
 | **v1** | `osr-routing::civil` updated to drop tunnel classes (in this RFC's commit) | v0 |
 | **v2** ✅ | Emit `[costs]` block (at_grade / elevated / bridge / total_eur) per city in the auto-gen output, using the §9 rate table (done 2026-04-22) | v1 |
-| **v3** | Reference drawings for the U-girder + pier + abutment under CERN-OHL-S v2 | v0 |
+| **v3** ✅ (partial) | Parametric U-girder at [`mechanical-py/src/osr_mech/civil/ugirder.py`](../../mechanical-py/src/osr_mech/civil/ugirder.py) with 20 / 25 / 30 m spans under the one-mould constraint (done 2026-04-22); STEP artifacts at [`mechanical-py/catalog/civil/`](../../mechanical-py/catalog/civil/) round-trip into Revit / Tekla / Civil 3D. Precast L-unit platform edge at [`mechanical-py/src/osr_mech/civil/platform_l_unit.py`](../../mechanical-py/src/osr_mech/civil/platform_l_unit.py). Remaining for v3 full-complete: pier + abutment parametric kits + CERN-OHL-S v2 relicensing of the catalogue tree. | v0 |
 | **v4** | Worked civil design for Samawah Line 1 (an 11 km at-grade stretch + 2 km elevated over the existing rail corridor + 1 km bridge over the Euphrates approach) | v3, RFC 0003 |
 | **v5** | First-article viaduct erected at the Samawah pilot | v3 |
 

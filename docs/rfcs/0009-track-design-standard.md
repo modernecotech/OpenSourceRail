@@ -282,7 +282,7 @@ city recipe.
 | **v0** | This RFC ratified | — |
 | **v1** ✅ | Worked civil alignment for Samawah Line 1 + Line 2 references against `standard-urban`, with per-segment table + civil-class summary + compliance report at [`docs/civil/samawah/`](../civil/samawah/) (done 2026-04-22) | RFC 0003 |
 | **v2** ✅ | Emitter enforces geometry/consist compatibility + emits `geometry` per line in auto-gen output (done 2026-04-22). **OSR-ALN alignment interchange format** at [`docs/civil/osr-aln-format.md`](../civil/osr-aln-format.md) — tool-agnostic TOML schema civil firms export to. | v0, RFC 0008 v2 |
-| **v3** | Reference standard drawings (fastener, sleeper layout, turnout geometry) under CERN-OHL-S v2 | v1 |
+| **v3** ✅ (partial) | Parametric track components at [`mechanical-py/src/osr_mech/track/`](../../mechanical-py/src/osr_mech/track/) (done 2026-04-22): UIC 54E1 / 60E1 rail profiles matching published linear mass ± 2 %, EN 13230 B70-class prestressed mono-block sleeper, Pandrol-style fastener kit (shoulder + clip + pad), and assembled track panel driven by geometry preset. STEP artifacts at [`mechanical-py/catalog/track/`](../../mechanical-py/catalog/track/) round-trip into Civil 3D / Tekla. Remaining for v3 full-complete: turnout blade kit, CERN-OHL-S v2 relicensing. | v1 |
 | **v4** | `osr-track-geometry` crate that ingests EN 13848 recording data and feeds the CBM pipeline | v3 |
 | **v5** | First-article track constructed and recorded at a pilot deployment | v1, v3 |
 

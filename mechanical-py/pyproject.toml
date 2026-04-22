@@ -1,0 +1,44 @@
+# mechanical-py — parametric mechanical + civil + station catalogue for OSR.
+#
+# Every component in the OpenSourceRail physical catalogue is expressed as
+# a parametric build123d assembly. One Python function per component, each
+# taking the RFC-level parameters (span, platform length, consist family,
+# …) as keyword arguments and returning a build123d `Part` or `Compound`.
+#
+# The emitted STEP files round-trip into Revit, Tekla, Civil 3D, and
+# QGIS-with-IfcOpenShell, so deployment partners can keep their existing
+# structural / civil workflows while the OSR repository stays the
+# canonical source for the geometry.
+#
+# See README.md for the design philosophy (prefabricated, bolt-together,
+# minimal on-site work) and `scripts/export_catalog.py` for regenerating
+# every artifact under `catalog/`.
+
+[build-system]
+requires      = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name            = "osr-mechanical-py"
+version         = "0.1.0"
+description     = "OSR parametric mechanical / civil / station catalogue."
+requires-python = ">=3.11"
+license         = { text = "Apache-2.0" }
+
+dependencies = [
+    "build123d>=0.9",
+]
+
+[project.optional-dependencies]
+test = [
+    "pytest>=7.4",
+]
+
+[project.scripts]
+osr-mech-export = "osr_mech.catalog:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
