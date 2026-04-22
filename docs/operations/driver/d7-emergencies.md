@@ -1,5 +1,17 @@
 # D7 — Emergencies
 
+> **Deprecated for GoA 4 deployments (RFC 0015, 2026-04-22).**
+> OpenSourceRail ships as Unattended Train Operation by default
+> — no driver cab, no driver role. This rule file is retained
+> as the reference for legacy GoA 2 cabbed fleets. GoA 4
+> deployments absorb these responsibilities into dispatcher (S),
+> station-staff (T), maintenance (M), and control-centre (C)
+> rulebooks plus the onboard automation stack (`osr-atp`,
+> `osr-ato`, `osr-obstacle-detect`). Passenger emergency
+> intercoms (RFC 0015 §5.3) replace the driver's plunger.
+> See [RFC 0013 §4.1](../../rfcs/0013-operations-rulebook.md)
+> for the per-section migration table.
+
 **Scope:** driver response to emergencies — emergency-brake
 plunger, EB recovery, passenger medical, fire, derailment,
 onboard violence.

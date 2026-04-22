@@ -1,5 +1,16 @@
 # D8 — End of service
 
+> **Deprecated for GoA 4 deployments (RFC 0015, 2026-04-22).**
+> OpenSourceRail ships as Unattended Train Operation by default
+> — no driver cab, no driver role. This rule file is retained
+> as the reference for legacy GoA 2 cabbed fleets. GoA 4
+> deployments absorb these responsibilities into dispatcher (S),
+> station-staff (T), maintenance (M), and control-centre (C)
+> rulebooks plus the onboard automation stack (`osr-atp`,
+> `osr-ato`, `osr-obstacle-detect`). See
+> [RFC 0013 §4.1](../../rfcs/0013-operations-rulebook.md)
+> for the per-section migration table.
+
 **Scope:** return of a trainset to depot, cab powerdown,
 handover to the depot shift or the CBM team.
 
