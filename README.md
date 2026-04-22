@@ -6,11 +6,15 @@
 > systems — built for the developing world, built to be owned by the countries
 > that deploy it.
 
-**Status:** 46 Rust crates plus a Python design sidecar (`design-py`). The
-Samawah two-line reference scenario
+**Status:** 46 Rust crates (628 tests passing, 0 failing) plus a Python
+design sidecar (`design-py`). The Samawah two-line reference scenario
 ([RFC 0003](docs/rfcs/0003-samawah-reference-deployment.md)) runs end-to-end,
 and the design pipeline now synthesises two-line networks for arbitrary cities
-directly from OpenStreetMap. Most of the
+directly from OpenStreetMap. Fourteen RFCs cover the full system from software
+architecture through rail civil engineering; the operations rulebook
+([RFC 0013](docs/rfcs/0013-operations-rulebook.md)) is drafted across all
+five role families (driver / dispatcher / station-staff / maintenance /
+control-centre). Most of the
 [RFC 0005](docs/rfcs/0005-sbc-software-architecture.md) crate map is in tree:
 
 - **Onboard safety chain (SIL-4):** position fusion → ATP → brake + vigilance +
@@ -70,7 +74,8 @@ directly from OpenStreetMap. Most of the
 - **Automatic design generation:** `design-py` (Overpass + raster synthesis) +
   `osr-routing` (cost/demand Dijkstra on a 20 m grid) + `osr-design` (emitter)
   compose a full two-line network — corridor geometry, station placement,
-  civil-class inference (at-grade / elevated / bridge / bored tunnel),
+  civil-class inference (at-grade / elevated / bridge — no tunnels per
+  [RFC 0011](docs/rfcs/0011-civil-infrastructure-design-standard.md)),
   **rolling-stock + track-geometry + station-archetype selection under the
   RFC 0008/0009/0010 compatibility matrix** — from nothing but a bounding box
   and a population. Terminals are detected at line endpoints; interchanges
@@ -79,9 +84,14 @@ directly from OpenStreetMap. Most of the
   consist family. Scales to a 500-city batch with a GeoNames-driven scanner
   that excludes any city already operating metro, tram, or light-rail.
 
-Still to come: Kani formal refinement of `osr-interlocking` (M3 of RFC 0004),
-hardware reference designs, a real (non-mock) TCN transport, and the safety-case
-tooling.
+Still to come: KiCad schematics and gerbers for the [RFC 0007](docs/rfcs/0007-hardware-reference-designs.md)
+host classes (v2 specs at [`hardware/*/schematics/v2-spec/`](hardware/)
+— the board nets, pinouts, safety-critical routing rules, and power
+budgets are locked; KiCad capture and PCB layout are the v3
+deliverable), cybersecurity (`osr-secbus`), full TSN replacement for the
+UDP TCN transport, and per-tool converter scripts for the
+[OSR-ALN alignment interchange format](docs/civil/osr-aln-format.md)
+(Civil 3D / OpenRail / Trimble / QGIS).
 
 ---
 
@@ -159,7 +169,9 @@ OpenSourceRail/
 ├── Cargo.toml                Rust workspace.
 ├── docs/
 │   ├── ARCHITECTURE.md       Scope, subsystem design, roadmap. Start here.
-│   ├── operations/           Operations rulebook stubs (RFC 0013 v1).
+│   ├── operations/           Full operations rulebook (RFC 0013 v2): one-sentence
+│   │   │                     rule + Why: paragraph per clause, every clause
+│   │   │                     cross-referenced to the relevant crate and safety-case goal.
 │   │   ├── driver/           D1–D8 (before-service → emergencies → end-of-service).
 │   │   ├── dispatcher/       S1–S6 (shift start → incident handling → shift end).
 │   │   ├── station-staff/    T1–T5 (opening → passenger incidents → closure).
@@ -357,13 +369,14 @@ For each city the pipeline:
 1. Pulls arterials, buildings, water, protected land, and POI anchors
    from Overpass (cached by query hash — reproducible across runs).
 2. Rasterises them into a 20 m cost surface (arterials cheap, buildings
-   priced at tunnel cost, parks at elevated, water at bridge) plus a
+   priced at elevated, parks at elevated, water at bridge) plus a
    Gaussian demand surface around POI anchors.
 3. Picks a topology archetype from the city's population
    (`SingleRadial` ≤ 300k, `RadialPlusRing` ≤ 1M, `CrossPlusRing` ≤ 3M,
    `HubAndSpokeDualRing` above), routes each line with a demand-rewarded
    Dijkstra, places stations with demand-adaptive spacing, and classifies
-   every segment (at-grade / elevated / bridge / bored tunnel).
+   every segment (at-grade / elevated / bridge — tunnels are not in the
+   palette per RFC 0011).
 4. Emits `{slug}.design.toml`, `{slug}.corridor.geojson`, and a
    `{slug}.design-quality.yaml` with hard gates (has stations, reasonable
    length) and soft gates (anchor coverage, anchor hit rate) for triage.
@@ -442,20 +455,23 @@ Right now the highest-leverage contributions are:
    specific disagreements.
 2. **Climate and grid data** for specific target corridors. The energy sizing
    in RFC 0002 uses planning-grade numbers; real deployments need real data.
-3. **Formal-methods contributions.** Kani harnesses for the SIL-4 crates
-   ([RFC 0004 §M3](docs/rfcs/0004-osr-interlocking-plan.md) — the five MA
-   safety properties are the first target). TLAPS proofs or larger TLC runs
-   on [SMRaft.tla](formal/tla/SMRaft.tla) are also welcome, as is an SMRaft →
-   `osr-consensus` refinement proof.
-4. **Hardware reference designs.** Schematics, gerbers, and BOMs for
-   the T-ECU/S, T-ECU/A, W-SBC, and S-SBC classes specified in
-   [RFC 0007](docs/rfcs/0007-hardware-reference-designs.md); the
-   per-class stubs live under [`hardware/`](hardware/). First-priority
-   is T-ECU/S bring-up on two Raspberry Pi Pico 2 boards (RP2350
-   safety MCUs) + a stock RPi CM5 IO Board.
-5. **Pick an unscaffolded crate from the [RFC 0005](docs/rfcs/0005-sbc-software-architecture.md)
-   map.** The cybersecurity (`osr-secbus`) and safety-case tooling crates are
-   still open, as is a real (non-mock) transport for `osr-tcn`.
+3. **KiCad capture of the T-ECU/S and W-SBC v2 specs.** The net list,
+   pinouts, safety-critical routing rules, power budget, and connector
+   tables are locked at [`hardware/t-ecu-s/schematics/v2-spec/`](hardware/t-ecu-s/schematics/v2-spec/)
+   and [`hardware/w-sbc/schematics/v2-spec/`](hardware/w-sbc/). KiCad
+   schematic capture + 4-layer PCB layout are the remaining v3
+   deliverable.
+4. **Civil-tool converters for OSR-ALN.** The alignment interchange
+   format at [`docs/civil/osr-aln-format.md`](docs/civil/osr-aln-format.md)
+   specifies round-trip civil-engineering data, but the Civil 3D /
+   OpenRail / Trimble / QGIS converter scripts are not yet in tree.
+5. **Operator review of the RFC 0013 v2 rulebook.** Practising
+   drivers, dispatchers, and maintenance leads reading the
+   [`docs/operations/`](docs/operations/) rule text against their
+   real-world practice. Red-line comments are the v2.1 input.
+6. **Pick an unscaffolded crate from the [RFC 0005](docs/rfcs/0005-sbc-software-architecture.md)
+   map.** Cybersecurity (`osr-secbus`) is still open, as is a full-TSN
+   replacement for the current UDP TCN transport.
 
 ## License
 
