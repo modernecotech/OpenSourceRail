@@ -1,0 +1,392 @@
+# RFC 0010 — Station Design Standard
+
+**Status:** Draft — planning only, no architectural drawings ship with this RFC
+**Date:** 2026-04-22
+**Depends on:** [RFC 0003 Samawah Reference Deployment](0003-samawah-reference-deployment.md), [RFC 0008 Rolling-Stock Reference Design](0008-rolling-stock-reference-design.md), [RFC 0009 Track Design Standard](0009-track-design-standard.md)
+
+## 1. Summary
+
+OpenSourceRail commits to **six station archetypes** covering every
+stop in every deployment. The archetypes already exist as a
+schema in
+[`designs/templates/stations.toml`](../../designs/templates/stations.toml);
+this RFC promotes them into a committed architectural envelope with
+platform geometry, passenger-flow throughput, accessibility, fire
+egress, and canopy-PV integration spelled out.
+
+| Archetype | Platforms | Layout | Canopy | Charging | Dwell | Role |
+|---|---|---|---|---|---|---|
+| `halt` | 1 | side | shelter-only | 0 kW | 20 s | rural / low-demand stop |
+| `standard` | 2 | side | solar-canopy | 0 kW | 30 s | default urban / suburban |
+| `major` | 2 | island | solar-canopy | 500 kW | 45 s | anchor stop (hospital / mall / centre) |
+| `interchange` | 4 | stacked (at-grade + elevated) | solar-canopy | 500 kW | 45 s | two-line junction |
+| `terminal` | 2 | side | solar-canopy | 1 000 kW | 60 s | end-of-line with turnback |
+| `depot-terminal` | 2 | side | solar-canopy | 1 000 kW | 240 s | end-of-line + fleet depot |
+
+Platform length is **not** fixed by the archetype — it is derived
+at design-emission time from the line's rolling-stock choice:
+
+```text
+  platform_length_m = consist.length_m + station.platform_clearance_m
+```
+
+with `platform_clearance_m` defaulting to 6 m for `halt` and 10 m
+elsewhere. This keeps archetypes consist-agnostic and prevents
+drift between the rolling stock, the station, and the line plan.
+
+## 2. Non-goals
+
+- **Not a full architectural spec.** Column spacing, façade
+  materials, HVAC layout, and wayfinding graphics are architect-
+  of-record decisions per deployment. This RFC fixes the functional
+  envelope the archetype must meet.
+- **Not a fare-system spec.** `osr-afc` + `osr-tvm` handle the
+  ticketing logic. This RFC specifies the *number* of gate lanes
+  and TVMs per archetype, nothing about payment UX.
+- **Not a passenger-experience spec.** Seat count per platform,
+  vending machine placement, retail integration — operator
+  choices.
+- **Not an emergency-management plan.** Emergency egress calculation
+  is specified; the incident response procedures that use those
+  egress paths live in the operations rulebook (separate, per
+  deployment).
+- **Not a land-use spec.** Parking, bus-bay integration, TOD
+  (transit-oriented development) are municipal planning work
+  outside OSR's scope.
+
+## 3. Why six archetypes, not a continuum
+
+A continuum of allowable station designs — pick your platform
+length, pick your canopy, pick your fare gate count — fractures
+the per-spare-part economics and the simulator validation. Six
+archetypes cover the real distribution of stops:
+
+- `halt` for rural / low-demand points where a full station would
+  over-build.
+- `standard` is the bread-and-butter urban stop.
+- `major` for generator stops (hospital, mall, transit square).
+- `interchange` for where two OSR lines cross. Stacked vertically:
+  one line at-grade + one line elevated (never two elevated,
+  never underground — see [RFC 0011 §7](0011-civil-infrastructure-design-standard.md#7-stations-as-structures)).
+- `terminal` for end-of-line with turnback tracks.
+- `depot-terminal` for end-of-line + the fleet parking + the
+  maintenance shop.
+
+On the Samawah reference ([RFC 0003](0003-samawah-reference-deployment.md)),
+Line 1 has 10 `standard` + 1 `terminal` + 1 `interchange` stops;
+Line 2 is a ring with 1 `interchange` + 1 `depot-terminal` + 8
+`standard` stops. That distribution (roughly 75 % `standard`,
+15 % anchor archetypes, 10 % termini) matches every other
+reference metro we surveyed.
+
+## 4. Platform
+
+### 4.1 Length
+
+Derived, not fixed. For every consist/archetype pair:
+
+| Consist (RFC 0008) | consist length | clearance | platform length |
+|---|---|---|---|
+| `tram-2car` | 42 m | 6 m (halt) / 10 m (others) | 48 / 52 m |
+| `light-metro-3car` | 65 m | 6 / 10 m | 71 / 75 m |
+| `metro-4car` | 88 m | 10 m | 98 m |
+| `metro-6car` | 132 m | 10 m | 142 m |
+
+`metro-6car` on `heritage-tram` geometry is not a supported
+combination (RFC 0008 §4) — the compatibility matrix rejects it
+at design-emission time.
+
+### 4.2 Height
+
+Defined by the rolling-stock family the line uses:
+
+- `tram-2car`, `light-metro-3car`, `metro-4car` use **low-floor**
+  consists (350 mm floor height). Platform top is 350 mm above top-
+  of-rail (ToR), matching the floor exactly. Level boarding, no
+  gap-filler.
+- `metro-6car` uses a **high-floor** consist (1 100 mm). Platform
+  top is 1 100 mm above ToR. Level boarding, with gap-filler at
+  door sills on curved platforms.
+
+Mixed-consist lines are not supported (RFC 0008 §5 fixes one
+family per line). A line that carries mixed heights is a safety
+red flag rejected at design-emission time.
+
+### 4.3 Width
+
+| Archetype | Minimum usable width | Notes |
+|---|---|---|
+| `halt` | 2.5 m | Single-platform, assumes ≤ 5 boardings/min at peak. |
+| `standard` (side) | 3.5 m per side platform | Per-platform; total station width with two side platforms + track = 3.5 + 1.435 + 3.5 = 8.4 m minimum. |
+| `major` (island) | 6.0 m island platform | One platform serves both directions; drops footprint versus side-side. |
+| `interchange` (stacked) | 4.5 m per platform, two levels | Vertical circulation (stairs/escalators/lift) dominates the plan. |
+| `terminal` | 4.0 m per side platform | Accommodates peak alighting surge from inbound terminal runs. |
+| `depot-terminal` | 4.0 m per side platform | Same as terminal. |
+
+Minimum widths are derived from peak boarding flow at the
+archetype's design pphpd plus egress (§6) and wheelchair circulation
+(§7). Operators may go wider; below the minimum is rejected.
+
+### 4.4 Edge treatment
+
+- **Platform edge coping:** tactile paving 600 mm deep along the
+  full platform edge per ISO 23599 (compliant with regional
+  disability-access regulations).
+- **Horizontal gap:** ≤ 75 mm between platform edge and vehicle
+  sill at the consist's door — UIC 741 normal.
+- **Vertical gap:** ≤ 50 mm between platform and sill — same.
+- **Platform screen doors (PSD):** optional on every archetype,
+  required on `metro-4car` and `metro-6car` from v1. Full-height
+  PSDs preferred over half-height for environmental reasons (HVAC
+  doesn't bleed to open-air). `osr-psd` ([crates/osr-psd](../../crates/osr-psd/))
+  handles the controller.
+
+## 5. Vertical circulation
+
+Every archetype's platform connects to a concourse (at grade or
+mezzanine) via one or more of:
+
+| Mode | Capacity | When required |
+|---|---|---|
+| Ramp (max 1:12) | ≤ 60 pax/min per 1.5 m width | Always — primary accessible path for every station. |
+| Stair | ≤ 80 pax/min per 1.5 m width | Always alongside a ramp, for capacity. |
+| Escalator (one-way, 0.5 m/s) | 100 pax/min per unit | Required for `major`, `interchange`, `terminal`, `depot-terminal`; optional elsewhere. |
+| Elevator (≥ 1 100 × 1 400 mm car) | 10 pax/min per car | Required on every archetype except `halt`. One lift per platform. |
+
+Total upward capacity at peak must exceed expected alighting
+rate + 25 % reserve. The auto-gen emitter computes this at design
+time.
+
+## 6. Egress
+
+Emergency egress capacity is fixed at **4 minutes** from the
+furthest passenger on the platform to a safe point of discharge.
+This matches NFPA 130 and the industry consensus for tunnel/station
+design.
+
+Minimum effective egress width per direction:
+
+- `halt`: 1.0 m (one direction of travel only — the passenger
+  exits to street level directly).
+- `standard`: 2.0 m aggregate.
+- `major`: 3.0 m aggregate.
+- `interchange`: 4.0 m aggregate, redundant on each level.
+- `terminal`: 3.0 m aggregate, with distinct primary + emergency
+  routes.
+- `depot-terminal`: same as terminal.
+
+A single exit is never the only path. Even a `halt` must have two
+evacuation directions — either two opposite-side street accesses
+or a platform exit + a walk-path along the rail reserve.
+
+## 7. Accessibility
+
+All archetypes meet these minima (per the accessibility template
+[`designs/templates/accessibility.toml`](../../designs/templates/accessibility.toml)):
+
+- **Step-free path** from street to platform on every approach.
+- **Tactile paving** at every platform edge + at stair/escalator
+  landings.
+- **Audio + visual** train-arrival announcements on every platform.
+- **Seating** on every platform — `halt` excepted.
+- **Wheelchair space** at 1 per 30 m of platform length; co-located
+  with door-2 of every consist for quickest dwell.
+- **Ticket gate accessibility:** at least one gate per direction
+  is a wide wheelchair gate (≥ 900 mm).
+
+## 8. Fare gates + TVMs
+
+| Archetype | Fare-gate lanes per direction | TVMs per direction |
+|---|---|---|
+| `halt` | 0 (open) | 0 — buy via app / TVM at neighbouring standard station |
+| `standard` | 2 | 1 |
+| `major` | 3 | 2 |
+| `interchange` | 4 (each level) | 2 per level |
+| `terminal` | 3 | 2 |
+| `depot-terminal` | 3 | 2 |
+
+Gates are driven by [`osr-afc`](../../crates/osr-afc/); TVMs by
+[`osr-tvm`](../../crates/osr-tvm/). At `halt` stations the line is
+still revenue-positive because fare inspection happens on-board by
+a roving inspector (GoA 2 deployments) or via QR-scan-on-boarding
+(GoA 4).
+
+## 9. Canopy and solar
+
+Every non-`halt` archetype carries a **solar canopy** over the
+platform — the primary PV source the `osr-energy-site` controller
+dispatches from. Canopy area targets from the template:
+
+| Archetype | Canopy area |
+|---|---|
+| `halt` | 400 m² (shelter only, no PV) |
+| `standard` | 1 800 m² |
+| `major` | 2 000 m² |
+| `interchange` | 2 800 m² |
+| `terminal` | 2 400 m² |
+| `depot-terminal` | 1 500 m² (smaller canopy — yard PV dominates) |
+
+Canopy design envelope:
+
+- Structural: steel or glulam truss spanning ≥ 4 m off platform
+  edge; column-free in the middle third of the platform for
+  passenger circulation.
+- Roof: 7° pitch, south-facing (northern hemisphere) / north-
+  facing (southern hemisphere). PV modules mounted flush.
+- Shading coefficient target: ≥ 90 % midday-summer coverage of
+  the platform.
+- Rainwater: gutter + downspout integrated. In the dry target
+  regions we do not bank on rain; the drainage handles the
+  occasional storm.
+
+Canopy-PV sizing math lives in [RFC 0002](0002-energy-sizing.md)
+— this RFC fixes the footprint the architects must respect.
+
+## 10. Passenger-flow model
+
+The auto-gen emitter computes expected peak passenger flow per
+station using:
+
+```
+  boarding_per_hour = demand_at_station × population_capture_radius
+                       × modal_share × peak_factor
+```
+
+with planning-grade defaults:
+
+- `demand_at_station`: from the `osr-routing` raster (0..1 normalised).
+- `population_capture_radius`: 500 m walking, 1 500 m bike+feeder bus.
+- `modal_share`: 8 % of catchment population per day.
+- `peak_factor`: 0.12 (peak hour share of all-day boardings).
+
+Outputs per station:
+
+- Expected peak boardings/minute.
+- Required platform width (from §4.3) — must fit.
+- Required vertical-circulation capacity (from §5) — must fit.
+- Required egress capacity (from §6) — must fit.
+
+Mismatch surfaces in `design-quality.yaml` as a hard gate, just
+like station-spacing does today.
+
+## 11. Thermal + environmental
+
+- Outdoor stations (the common case in the target regions):
+  passive cooling via canopy shade + cross-ventilation. No HVAC
+  on the platform; just on enclosed spaces (TVM kiosk, ticket
+  hall, control room).
+- Underground stations (where the civil segment classifies as
+  tunnel): mechanical ventilation required; emergency smoke
+  extraction per NFPA 130; cooling by chiller or absorption unit
+  fed from the depot-scale PV.
+- Interior noise (outdoor platform): ≤ 80 dB(A) during train
+  approach at 80 km/h per ISO 3095-1.
+- Lighting: 100 lx on platform at night per EN 12464-2.
+
+## 12. Self-consistency with RFC 0008 + 0009
+
+The auto-gen pipeline enforces:
+
+- `station.platform_length_m` = `consist.length_m + station.platform_clearance_m`
+- `station.platform_height_mm` = `consist.floor_height_mm`
+- Every `interchange` archetype on line A also exists in line B's
+  station list (otherwise the operator has two adjacent but
+  disconnected stations, a common error).
+- Every `terminal` archetype is at a line endpoint (not mid-line).
+- Every `depot-terminal` sits at a line endpoint and is tagged
+  `is_depot = true`.
+
+Mismatch fails the `design-quality.yaml` hard gate.
+
+## 13. Pitfalls and decisions
+
+- **Level boarding is a hard requirement.** Some operators push
+  back on the platform-height cost (either low-floor needs floor
+  adaption on existing infrastructure, or high-floor needs taller
+  platforms). We absorb that cost because level boarding is the
+  single biggest accessibility win — it's not optional.
+- **Solar canopy is mandatory on non-halt archetypes.** This is
+  a project-wide bet, not a station-level choice. Operators who
+  want to skip the canopy must fork the project; upstream keeps
+  the bet.
+- **Platform screen doors are optional below `metro-4car`.** PSDs
+  are a top-quartile CAPEX line; for `tram-2car` and most
+  `light-metro-3car` cases the simpler yellow-line + tactile
+  edge is sufficient. Above that capacity, PSDs become
+  mandatory — the risk/benefit crosses over.
+- **No island platform at `standard`.** Island platforms halve
+  platform width for equal footprint but require passengers to
+  choose direction before descending, which slows wayfinding.
+  We reserve them for `major` and above where the throughput
+  win dominates.
+- **Depot-terminal is a single archetype.** Some operators have
+  depot-only facilities (freight, maintenance) separate from
+  passenger terminals; those are out of scope — OSR deployments
+  co-locate the two. This is a simplicity bet; a future
+  depot-only archetype is opt-in.
+
+## 14. Rollout
+
+| Phase | Deliverable | Dependencies |
+|---|---|---|
+| **v0** | This RFC ratified | — |
+| **v1** ✅ | Architectural envelope + canopy structural first-pass + accessibility + services + compliance matrix for Samawah's `standard` archetype at [`docs/stations/samawah-standard/`](../stations/samawah-standard/) (done 2026-04-22). Applied unchanged to all 12 `standard` stations on Line 1 + Line 2. | RFC 0003 |
+| **v2** ✅ | Emitter: terminal / interchange auto-detection + platform-length derivation from consist + depot-terminal promotion at the farthest radial endpoint (done 2026-04-22). **Architectural drawing register** for the `standard` archetype at [`docs/stations/samawah-standard/drawing-register.md`](../stations/samawah-standard/drawing-register.md) — 43 drawings across A/S/M/E/F/T disciplines with scale + size + v1-envelope cross-refs. Quality-gate failure on compatibility mismatch is deferred to v3. | v0, RFC 0008 v2, RFC 0009 v2 |
+| **v3** | Reference architectural drawings (canopy + access + ticket hall) under CERN-OHL-S v2 | v1 |
+| **v4** | Platform-flow simulator extension in `osr-sim` — peak-hour passenger flow against archetype capacity | v2 |
+| **v5** | First-article station at Samawah pilot | v1, RFC 0003 §5 |
+
+## 15. Relationship to existing work
+
+- [`designs/templates/stations.toml`](../../designs/templates/stations.toml) —
+  the Lego-block schema this RFC ratifies.
+- [`designs/templates/platform-doors.toml`](../../designs/templates/platform-doors.toml) —
+  PSD calibration defaults.
+- [`designs/templates/accessibility.toml`](../../designs/templates/accessibility.toml) —
+  the accessibility envelope §7 references.
+- [`crates/osr-design/src/emit.rs`](../../crates/osr-design/src/emit.rs) —
+  already picks a station archetype (halt/standard/major) from
+  demand thresholds. v2 adds terminal/interchange detection,
+  per-archetype platform length, and the compatibility gate.
+- [`crates/osr-psd`](../../crates/osr-psd/), [`crates/osr-afc`](../../crates/osr-afc/),
+  [`crates/osr-tvm`](../../crates/osr-tvm/),
+  [`crates/osr-pis-station`](../../crates/osr-pis-station/),
+  [`crates/osr-station-scada`](../../crates/osr-station-scada/)
+  — the station-side software already targets this envelope.
+
+## 16. Open questions
+
+1. **`interchange` at 3-line junctions.** Stacked 4-platform works
+   for 2 lines crossing. A 3-line junction needs a different
+   archetype; extend to `mega-interchange` when an actual
+   deployment needs it.
+2. **Outdoor air-quality filtering** for stations near heavy road
+   traffic (common in target corridors). HEPA-grade canopies are
+   a real market niche; candidate v4 addendum.
+3. **Depot-terminal scaling.** For deployments with more than 20
+   trainsets, the 1 500 m² canopy + yard footprint may
+   under-serve. Introduce a `mega-depot` archetype at that
+   threshold.
+4. **Retail footprint.** Some operators depend on retail concessions
+   for revenue. The `standard` archetype should accommodate ≈ 50 m²
+   optional retail without redesign; confirm at v3.
+5. **Overnight stabling** at `terminal` vs `depot-terminal`. The
+   line's fleet parks overnight at the depot-terminal, not at a
+   normal terminal. How does the auto-gen pipeline enforce this
+   when the population distribution picks two terminals and no
+   obvious depot site?
+
+## 17. Done criteria
+
+- [x] Six archetypes committed (§1)
+- [x] Platform geometry envelope (§4) + vertical circulation (§5) + egress (§6)
+- [x] Accessibility minima (§7) + fare-gate sizing (§8) + canopy-PV sizing (§9)
+- [x] Passenger-flow model (§10)
+- [x] Self-consistency rules with RFC 0008/0009 (§12)
+- [x] Pitfalls + alternatives explicit (§13)
+- [x] Rollout ordered (§14)
+- [x] Relationship to existing software + templates (§15)
+
+The next session picks up at **v2 — emitter upgrade**, a shared
+deliverable with RFC 0008 v2 and RFC 0009 v2 (same
+[`emit.rs`](../../crates/osr-design/src/emit.rs) file).

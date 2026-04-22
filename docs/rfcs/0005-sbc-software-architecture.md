@@ -30,9 +30,10 @@ part of this document; implementation begins in RFC 0006 (see §11).
 ## 2. Non-goals
 
 - Not a hardware reference design. Schematics, BOMs, and ratings are the
-  domain of a future RFC 0007 and the `hardware/` directory. This RFC
-  specifies *which software targets which hardware class*, not what that
-  hardware looks like.
+  domain of [RFC 0007](0007-hardware-reference-designs.md) and the
+  [`hardware/`](../../hardware/) directory. This RFC specifies *which
+  software targets which hardware class*, not what that hardware looks
+  like.
 - Not a formal safety case. SIL targets here are *allocations*, not
   claims. The evidence that a crate meets its allocation is produced per
   crate (cf. [RFC 0004 §7](0004-osr-interlocking-plan.md#7-safety-case-anchors)
@@ -49,7 +50,9 @@ part of this document; implementation begins in RFC 0006 (see §11).
 ### 3.1 Hardware classes
 
 Five hardware classes host OpenSourceRail software. Every crate is
-tagged with the class(es) it targets.
+tagged with the class(es) it targets. The reference designs for
+each class — SoC, peripherals, baseboard, manufacturability — are
+in [RFC 0007](0007-hardware-reference-designs.md).
 
 | Class | Acronym | Environment | Typical SoC | Reference OS |
 |---|---|---|---|---|

@@ -1,48 +1,85 @@
 # Depot archetypes — yard + workshop + crew facilities Lego block.
 #
-# City design.toml references an archetype for each station marked is_depot:
-#     [[depots]]
-#     station   = "east-depot"
-#     archetype = "main-heavy"
-#     # archetype supplies stall/workshop/PV sizing; overrides allowed.
+# Per RFC 0014, there are three archetypes. Every OSR deployment
+# has exactly one `main-heavy`; optional `secondary-medium` (≥ 2-line
+# deployments where geography makes daily depot-trips uneconomic);
+# optional `layup-minimal` at a remote terminal.
 #
-# Unified system principle: three depot shapes cover every OSR deployment.
-# Yard throat switches, stall pit depth, crane capacity, PV canopy design,
-# and the battery-bay layout are all standardized per archetype so that
-# the CAD library doesn't need to branch per-city.
+# City design.toml references an archetype per depot site:
+#
+#     [[depots]]
+#     station      = "east-depot"
+#     archetype    = "main-heavy"
+#     fleet_stalls = 10              # per RFC 0014 §4 formula
+#     # ...sizing overrides per §§5-7...
+#
+# The `fleet_stalls` field is per-deployment — computed from the
+# fleet-sizing formula in RFC 0014 §4:
+#     stalls = ceil(fleet_on_line × 1.25)
+#     fleet = peak_revenue_trainsets + spare + cold_reserve
+# The archetype values below are CATALOGUE DEFAULTS at a reference
+# size (10-stall main-heavy, 8-stall secondary-medium, 4-stall
+# layup-minimal — what a Samawah-class 2-line deployment needs).
+# Larger deployments scale the PV canopy + battery bank roughly
+# proportionally.
 
-# ---- Main-heavy: primary depot for a 12+ trainset fleet -----------------
+# ---- Main-heavy: primary depot per deployment, with overhaul bay --------
 
 [archetypes.main-heavy]
-stall_count                 = 20
-workshop_m2                 = 3500
-overhead_crane_t            = 25         # for bogie / module lifts
-pv_nameplate_kw_yard        = 12000
-storage_capacity_kwh_yard   = 40000
-training_wing               = true
-heavy_maintenance            = true      # wheel lathe, bogie drop, paint
-stabling_length_m           = 2000       # total yard track length
+# One main-heavy per deployment per RFC 0014 §1. Sized below for a
+# Samawah-class 8-trainset fleet; larger deployments scale linearly
+# up to the ~40-trainset throughput ceiling before a second
+# main-heavy is needed.
+default_fleet_stalls        = 10          # reference 8-trainset fleet × 1.25
+max_fleet_stalls_catalog    = 20          # beyond this, add a 2nd main-heavy
+workshop_m2                 = 1800        # includes overhaul bay
+overhead_crane_t            = 40          # 40 t for bogie drop per RFC 0014 §5.2
+pv_canopy_m2                = 4000        # per RFC 0014 §5.3
+pv_nominal_kwp              = 600         # 150 W/m² nominal yield
+battery_kwh                 = 2000        # Na-ion per RFC 0002 + RFC 0014 §5.3
+stabling_length_m           = 1000        # 10 stalls × 100 m track allocation
+wheel_lathe                 = true
+overhaul_bay                = true
+wash_track                  = true        # automated 2-pass with water recycling
+has_training_wing           = true        # opt-in, co-located per RFC 0014 §1 note
+approx_footprint_m2         = 8000
 
 # ---- Secondary-medium: 5-12 trainsets, light maintenance only ----------
 
 [archetypes.secondary-medium]
-stall_count                 = 8
-workshop_m2                 = 1200
-overhead_crane_t            = 12
-pv_nameplate_kw_yard        = 3500
-storage_capacity_kwh_yard   = 12000
-training_wing               = false
-heavy_maintenance            = false     # scheduled service, inspection
+# Deployed on long lines where daily trip-back to the main-heavy is
+# uneconomic. Light maintenance only (module swap, brake-disc,
+# HVAC swap); no overhaul bay, no wheel lathe — anything heavier
+# rolls back to the main-heavy.
+default_fleet_stalls        = 8
+max_fleet_stalls_catalog    = 12
+workshop_m2                 = 900
+overhead_crane_t            = 12           # light module handling
+pv_canopy_m2                = 1500         # per RFC 0014 §6
+pv_nominal_kwp              = 225          # 150 W/m² nominal
+battery_kwh                 = 500          # per RFC 0014 §6
 stabling_length_m           = 800
+wheel_lathe                 = false
+overhaul_bay                = false
+wash_track                  = false
+has_training_wing           = false
+approx_footprint_m2         = 2500
 
-# ---- Layup-minimal: end-of-line turnback + overnight stabling ----------
+# ---- Layup-minimal: overnight stabling only ---------------------------
 
 [archetypes.layup-minimal]
-stall_count                 = 4
-workshop_m2                 = 400
-overhead_crane_t            = 0          # no crane — external ops only
-pv_nameplate_kw_yard        = 1000
-storage_capacity_kwh_yard   = 4000
-training_wing               = false
-heavy_maintenance            = false
+# Overnight parking only. No inspection pit, no wash, no workshop.
+# CCTV-monitored, no on-site overnight staff. Per RFC 0014 §7.
+default_fleet_stalls        = 4
+max_fleet_stalls_catalog    = 6
+workshop_m2                 = 0            # no workshop
+overhead_crane_t            = 0
+pv_canopy_m2                = 600          # per RFC 0014 §7
+pv_nominal_kwp              = 90           # 150 W/m² nominal
+battery_kwh                 = 150          # per RFC 0014 §7
 stabling_length_m           = 300
+wheel_lathe                 = false
+overhaul_bay                = false
+wash_track                  = false
+has_training_wing           = false
+approx_footprint_m2         = 1000

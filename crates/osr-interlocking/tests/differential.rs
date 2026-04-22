@@ -24,11 +24,13 @@ use std::path::{Path, PathBuf};
 use std::process::{Command, Stdio};
 
 use osr_core::{
-    BrakingCurve, ConsistDescriptor, Direction, EntryId, Line, Network, Position, Section,
-    SectionId, Station, StationId, TrackRef, TrainClass, TrainId,
+    BrakingCurve, ConsistDescriptor, Direction, EntityId, EntryId, Line, Network, Position,
+    RouteId, Section, SectionId, Station, StationId, SwitchId, TrackRef, TrainClass, TrainId,
 };
 use osr_interlocking::log::{
-    Entry, EntryPayload, PositionSource, TrainPositionReport, TrainRegistration,
+    Confidence, Entry, EntryPayload, PositionSource, RestrictionReason, RouteGrant,
+    SpeedRestriction, SwitchObservation, SwitchPosition, TrainPositionReport,
+    TrainRegistration,
 };
 use osr_interlocking::{compute_self_ma, MovementAuthority};
 use proptest::prelude::*;
@@ -210,6 +212,129 @@ fn registration_entry(
     }
 }
 
+/// 4-station ring fixture. Mirrors the ring network the Python twin
+/// builds in its unit tests — four sections of 1 km each, forward and
+/// reverse, wrapping back to station 1.
+fn simple_ring_network() -> Network {
+    let mut net = Network::default();
+    for i in 1..=4u64 {
+        net.stations.insert(
+            StationId::new(i),
+            Station {
+                id: StationId::new(i),
+                name: format!("R{i}"),
+                charging_power_kw: 0,
+                dwell_seconds: 0,
+                is_terminal: false,
+                is_depot: false,
+            },
+        );
+    }
+    let mut fwd = Vec::new();
+    let mut rev = Vec::new();
+    for i in 0..4u64 {
+        let f = SectionId::new(3000 + i);
+        let r = SectionId::new(4000 + i);
+        let from_idx = i + 1;
+        let to_idx = if i + 2 > 4 { 1 } else { i + 2 };
+        net.sections.insert(
+            f,
+            Section {
+                id: f,
+                from_station: StationId::new(from_idx),
+                to_station: StationId::new(to_idx),
+                length_mm: 1_000_000,
+                max_speed_mps: 22.0,
+            },
+        );
+        net.sections.insert(
+            r,
+            Section {
+                id: r,
+                from_station: StationId::new(to_idx),
+                to_station: StationId::new(from_idx),
+                length_mm: 1_000_000,
+                max_speed_mps: 22.0,
+            },
+        );
+        fwd.push(f);
+        rev.push(r);
+    }
+    net.lines.push(Line {
+        name: "Ring".into(),
+        stations: (1..=4u64).map(StationId::new).collect(),
+        forward_sections: fwd,
+        reverse_sections: rev,
+        is_ring: true,
+    });
+    net
+}
+
+fn switch_observation_entry(
+    entry_id: u64,
+    ts_ns: u64,
+    switch_id: u64,
+    position: SwitchPosition,
+    confidence: Confidence,
+) -> Entry {
+    Entry {
+        entry_id: EntryId::new(entry_id),
+        term: 1,
+        timestamp_ns: ts_ns,
+        payload: EntryPayload::SwitchObservation(SwitchObservation {
+            switch_id: SwitchId::new(switch_id),
+            observed_position: position,
+            confidence,
+            observed_at_ns: ts_ns,
+        }),
+    }
+}
+
+fn route_grant_entry(
+    entry_id: u64,
+    ts_ns: u64,
+    route_id: u64,
+    train_id: u64,
+    locked_sections: Vec<u64>,
+) -> Entry {
+    Entry {
+        entry_id: EntryId::new(entry_id),
+        term: 1,
+        timestamp_ns: ts_ns,
+        payload: EntryPayload::RouteGrant(RouteGrant {
+            route_id: RouteId::new(route_id),
+            train_id: TrainId::new(train_id),
+            locked_switches: vec![],
+            locked_sections: locked_sections.into_iter().map(SectionId::new).collect(),
+            expires_at_ns: ts_ns.saturating_add(10_000_000_000),
+        }),
+    }
+}
+
+fn speed_restriction_entry(
+    entry_id: u64,
+    ts_ns: u64,
+    section: u64,
+    max_speed_mmps: i64,
+    reason: RestrictionReason,
+) -> Entry {
+    Entry {
+        entry_id: EntryId::new(entry_id),
+        term: 1,
+        timestamp_ns: ts_ns,
+        payload: EntryPayload::SpeedRestriction(SpeedRestriction {
+            section: SectionId::new(section),
+            from_offset_mm: 0,
+            to_offset_mm: 1_000_000,
+            max_speed_mmps,
+            reason,
+            effective_from_ns: 0,
+            effective_until_ns: None,
+            issued_by: EntityId::new(1),
+        }),
+    }
+}
+
 fn position_entry(
     entry_id: u64,
     ts_ns: u64,
@@ -290,20 +415,94 @@ fn smoke_other_train_blocks() {
     cross_check(&net, &entries, TrainId::new(1), 0);
 }
 
+#[test]
+fn smoke_ring_network() {
+    let net = simple_ring_network();
+    let entries = vec![registration_entry(1, 0, 1, 3000, 65_000)];
+    cross_check(&net, &entries, TrainId::new(1), 0);
+}
+
+#[test]
+fn smoke_switch_observation_in_log() {
+    let net = simple_linear_network();
+    let entries = vec![
+        registration_entry(1, 0, 1, 1000, 65_000),
+        // Switch observations currently have no blocking effect on the
+        // forward chain in osr-interlocking's v1 — they update state,
+        // and the Python twin folds them identically. Exercising them
+        // here catches any serde-shape or state-application drift.
+        switch_observation_entry(2, 100, 99, SwitchPosition::Normal, Confidence::Locked),
+        switch_observation_entry(3, 200, 99, SwitchPosition::Unknown, Confidence::Unknown),
+    ];
+    cross_check(&net, &entries, TrainId::new(1), 500);
+}
+
+#[test]
+fn smoke_route_grant_blocks_another_trains_ma() {
+    let net = simple_linear_network();
+    // Train 1 at the start of section 1000. Train 2 holds a route
+    // grant locking section 1001 — train 1's MA must stop at the end
+    // of 1000.
+    let entries = vec![
+        registration_entry(1, 0, 1, 1000, 0),
+        route_grant_entry(2, 10, 7, 2, vec![1001]),
+    ];
+    cross_check(&net, &entries, TrainId::new(1), 1_000);
+}
+
+#[test]
+fn smoke_speed_restriction_reflected_in_ma() {
+    let net = simple_linear_network();
+    let entries = vec![
+        registration_entry(1, 0, 1, 1000, 65_000),
+        speed_restriction_entry(
+            2,
+            100,
+            1000,
+            15_000,
+            RestrictionReason::Weather,
+        ),
+    ];
+    cross_check(&net, &entries, TrainId::new(1), 500);
+}
+
+/// Which miscellaneous entry to append. Each variant exercises a
+/// different `apply_entry` branch in both the Rust and Python twins.
+#[derive(Copy, Clone, Debug)]
+enum ExtraEntry {
+    SwitchObs { switch_id: u64, normal: bool, locked: bool },
+    RouteGrant { train: u64, section: u64 },
+    SpeedRestriction { section: u64, max_mmps: i64 },
+}
+
+fn arb_extra() -> impl Strategy<Value = ExtraEntry> {
+    prop_oneof![
+        (1u64..=5, any::<bool>(), any::<bool>())
+            .prop_map(|(s, n, l)| ExtraEntry::SwitchObs { switch_id: s, normal: n, locked: l }),
+        (1u64..=3, 1000u64..=1002)
+            .prop_map(|(t, s)| ExtraEntry::RouteGrant { train: t, section: s }),
+        (1000u64..=1002, 1_000i64..=20_000)
+            .prop_map(|(s, v)| ExtraEntry::SpeedRestriction { section: s, max_mmps: v }),
+    ]
+}
+
 /// Random log-prefix generator: one registration per unique train id
-/// (1..=3) followed by one position report per train on a forward
-/// section (1000..=1002) at a random in-section offset. Small enough
-/// that each differential round-trip stays cheap while still
-/// exercising the occupancy interaction between multiple trains.
+/// (1..=3), one position report per train, and 0..=4 miscellaneous
+/// entries (switch observations, route grants, speed restrictions).
+/// The miscellaneous entries exercise every `apply_entry` branch
+/// relevant to the MA computer — switches (state only), route grants
+/// (blocking), speed restrictions (collected in the output MA).
 fn arb_entries() -> impl Strategy<Value = Vec<Entry>> {
-    // (train_id, section_idx ∈ 0..3, head_offset_mm) for up to 3 trains.
     let per_train = (1u64..=3u64, 0u64..3u64, 70_000i64..=900_000i64);
-    prop::collection::vec(per_train, 1..=3).prop_map(|rows| {
+    let trains = prop::collection::vec(per_train, 1..=3);
+    let extras = prop::collection::vec(arb_extra(), 0..=4);
+
+    (trains, extras).prop_map(|(trains, extras)| {
         let mut entries = Vec::new();
         let mut next_id: u64 = 1;
         let mut seen = std::collections::BTreeSet::new();
 
-        for (train, section_idx, head_offset) in &rows {
+        for (train, section_idx, head_offset) in &trains {
             if seen.insert(*train) {
                 entries.push(registration_entry(next_id, 0, *train, 1000, 65_000));
                 next_id += 1;
@@ -313,25 +512,96 @@ fn arb_entries() -> impl Strategy<Value = Vec<Entry>> {
             }
         }
 
+        let mut ts: u64 = 2_000_000;
+        for (i, extra) in extras.iter().enumerate() {
+            let ts_i = ts + (i as u64) * 1_000;
+            match *extra {
+                ExtraEntry::SwitchObs { switch_id, normal, locked } => {
+                    let pos = if normal {
+                        SwitchPosition::Normal
+                    } else {
+                        SwitchPosition::Reverse
+                    };
+                    let conf = if locked {
+                        Confidence::Locked
+                    } else {
+                        Confidence::Observed
+                    };
+                    entries.push(switch_observation_entry(next_id, ts_i, switch_id, pos, conf));
+                }
+                ExtraEntry::RouteGrant { train, section } => {
+                    entries.push(route_grant_entry(
+                        next_id,
+                        ts_i,
+                        10 + next_id,
+                        train,
+                        vec![section],
+                    ));
+                }
+                ExtraEntry::SpeedRestriction { section, max_mmps } => {
+                    entries.push(speed_restriction_entry(
+                        next_id,
+                        ts_i,
+                        section,
+                        max_mmps,
+                        RestrictionReason::Temporary,
+                    ));
+                }
+            }
+            next_id += 1;
+        }
+        ts = ts.saturating_add(1_000_000);
+        let _ = ts;
+
         entries
     })
 }
 
 proptest! {
     #![proptest_config(ProptestConfig {
-        // 16 cases is plenty for the differential cross-check — each
-        // round-trip spawns a Python subprocess and takes ~50 ms, and
-        // the goal is "is there any structural divergence", not
-        // "exhaustive state-space exploration". Kani is the tool for
-        // the latter.
+        // Each round-trip spawns a Python subprocess — keep the case
+        // budget modest. The goal is "any structural divergence"; the
+        // proof of no-divergence is Kani's territory.
         cases: 16,
         .. ProptestConfig::default()
     })]
 
     #[test]
-    fn prop_rust_and_python_agree(entries in arb_entries()) {
+    fn prop_rust_and_python_agree_linear(entries in arb_entries()) {
         let net = simple_linear_network();
-        let train_id = TrainId::new(1);
-        cross_check(&net, &entries, train_id, 2_000_000_000);
+        cross_check(&net, &entries, TrainId::new(1), 2_000_000_000);
+    }
+}
+
+/// Ring-network flavour of the same proptest — the forward chain
+/// wraps, so any off-by-one on wrap handling surfaces here. Uses
+/// a separate generator bound to the ring's section ids (3000..=3003).
+fn arb_entries_ring() -> impl Strategy<Value = Vec<Entry>> {
+    let per_train = (1u64..=3u64, 0u64..4u64, 70_000i64..=900_000i64);
+    prop::collection::vec(per_train, 1..=3).prop_map(|trains| {
+        let mut entries = Vec::new();
+        let mut next_id: u64 = 1;
+        let mut seen = std::collections::BTreeSet::new();
+
+        for (train, section_idx, head_offset) in &trains {
+            if seen.insert(*train) {
+                entries.push(registration_entry(next_id, 0, *train, 3000, 65_000));
+                next_id += 1;
+                let section = 3000 + *section_idx;
+                entries.push(position_entry(next_id, 1_000_000, *train, section, *head_offset));
+                next_id += 1;
+            }
+        }
+        entries
+    })
+}
+
+proptest! {
+    #![proptest_config(ProptestConfig { cases: 8, .. ProptestConfig::default() })]
+
+    #[test]
+    fn prop_rust_and_python_agree_ring(entries in arb_entries_ring()) {
+        let net = simple_ring_network();
+        cross_check(&net, &entries, TrainId::new(1), 2_000_000_000);
     }
 }

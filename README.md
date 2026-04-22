@@ -44,27 +44,40 @@ directly from OpenStreetMap. Most of the
   an independent stdlib-only Python twin of `osr-interlocking`. Every
   proptest run of `crates/osr-interlocking/tests/differential.rs`
   serialises a random log prefix, computes the MA in both Rust and
-  Python, and asserts byte-identical JSON. Catches bugs in either
-  implementation (RFC 0004 M4).
+  Python, and asserts byte-identical JSON. Coverage extends to ring
+  lines, switch observations, route grants, and speed restrictions.
+  Catches bugs in either implementation (RFC 0004 M4).
 - **GSN safety-case compiler:** `osr-safety-case` loads the TOML
-  claim files in `docs/safety-case/gsn/` (18 goals, 5 strategies, 49
-  solutions today — the G1/G2/G3 MA-computer claims plus G4/G5
-  covering every SIL-4 onboard and wayside evaluator) and CI fails if
-  any goal no longer traces to evidence. Adding a safety-relevant
-  claim without linking it to a Kani harness / proptest / sim run
-  breaks the build (RFC 0005 §4.9).
+  claim files in `docs/safety-case/gsn/` (19 goals, 5 strategies, 50
+  solutions today — the G1/G2/G3 MA-computer claims, plus G4/G5
+  covering every SIL-4 onboard and wayside evaluator, plus a
+  regression guard for the 5-node Raft fix) and CI fails if any
+  goal no longer traces to evidence. Adding a safety-relevant claim
+  without linking it to a Kani harness / proptest / sim run breaks
+  the build (RFC 0005 §4.9).
 - **Kani harnesses on every SIL-4 evaluator:** ATP A1–A7, brake
   B1–B5, vigilance V1–V6, odometry O1–O5, wayside-points W1–W6, plus
-  the MA computer's P1–P5 — the full pure-function surface of the
-  onboard and wayside safety chains has bounded formal proofs in tree
-  to match every proptest property.
+  the MA computer's P1–P5 (scaled to a 3-section network with a
+  mutation-style P4 companion) — the full pure-function surface of
+  the onboard and wayside safety chains has bounded formal proofs in
+  tree to match every proptest property.
+- **Real network transport for TCN:** `osr-tcn::UdpTcn` — drop-in
+  API replacement for the in-memory mock, running on commodity UDP
+  (one datagram per message, 5-byte header, ≤ 1400-byte payload).
+  Moves the on-train bus from simulator-only to multi-host bench
+  without dragging in TSN hardware. Full TSN stays ahead on the
+  RFC 0006 roadmap (v3).
 - **Automatic design generation:** `design-py` (Overpass + raster synthesis) +
   `osr-routing` (cost/demand Dijkstra on a 20 m grid) + `osr-design` (emitter)
   compose a full two-line network — corridor geometry, station placement,
-  civil-class inference (at-grade / elevated / bridge / bored tunnel) — from
-  nothing but a bounding box and a population. Scales to a 500-city batch with
-  a GeoNames-driven scanner that excludes any city already operating metro,
-  tram, or light-rail.
+  civil-class inference (at-grade / elevated / bridge / bored tunnel),
+  **rolling-stock + track-geometry + station-archetype selection under the
+  RFC 0008/0009/0010 compatibility matrix** — from nothing but a bounding box
+  and a population. Terminals are detected at line endpoints; interchanges
+  are detected where two lines' stations land within 200 m of each other;
+  every station gets a derived platform length consistent with the chosen
+  consist family. Scales to a 500-city batch with a GeoNames-driven scanner
+  that excludes any city already operating metro, tram, or light-rail.
 
 Still to come: Kani formal refinement of `osr-interlocking` (M3 of RFC 0004),
 hardware reference designs, a real (non-mock) TCN transport, and the safety-case
@@ -146,12 +159,35 @@ OpenSourceRail/
 ├── Cargo.toml                Rust workspace.
 ├── docs/
 │   ├── ARCHITECTURE.md       Scope, subsystem design, roadmap. Start here.
+│   ├── operations/           Operations rulebook stubs (RFC 0013 v1).
+│   │   ├── driver/           D1–D8 (before-service → emergencies → end-of-service).
+│   │   ├── dispatcher/       S1–S6 (shift start → incident handling → shift end).
+│   │   ├── station-staff/    T1–T5 (opening → passenger incidents → closure).
+│   │   ├── maintenance/      M1–M6 (depot safety → work-on-track → fleet MX).
+│   │   └── control-centre/   C1–C3 (watch roles, comms, shift handover).
+│   ├── hardware/             Hardware bring-up runbooks (RFC 0007 v1).
+│   │   └── bring-up/         Per-class procedures: t-ecu-s, t-ecu-a, w-sbc, s-sbc.
+│   ├── rolling-stock/        Rolling-stock shop-drawing packages (RFC 0008 v1+).
+│   │   └── light-metro-3car/ General arrangement, bogie, body, traction, BOM, compliance.
+│   ├── civil/                Per-deployment civil alignment (RFC 0009 v1+).
+│   │   └── samawah/          Line 1 + Line 2 segment table + compliance report.
+│   ├── stations/             Per-archetype architectural envelopes (RFC 0010 v1+).
+│   │   └── samawah-standard/ Envelope, canopy structural, accessibility, services.
 │   └── rfcs/
 │       ├── 0001-track-state-consensus.md   Distributed signaling core.
 │       ├── 0002-energy-sizing.md           Solar+battery sizing.
 │       ├── 0003-samawah-reference-deployment.md   Reference pilot.
 │       ├── 0004-osr-interlocking-plan.md   MA computer implementation plan.
-│       └── 0005-sbc-software-architecture.md  Canonical 35-crate map.
+│       ├── 0005-sbc-software-architecture.md  Canonical 35-crate map.
+│       ├── 0006-osr-tcn-design.md          On-train bus (TCN-E pub/sub).
+│       ├── 0007-hardware-reference-designs.md  T-ECU/S, T-ECU/A, W-SBC, S-SBC.
+│       ├── 0008-rolling-stock-reference-design.md  4 trainset families (tram → metro-6car).
+│       ├── 0009-track-design-standard.md   4 geometry presets (gauge, radius, grade, cant).
+│       ├── 0010-station-design-standard.md 6 station archetypes + passenger-flow model.
+│       ├── 0011-civil-infrastructure-design-standard.md  At-grade + elevated only (NO tunnels).
+│       ├── 0012-switches-and-crossings.md  3 turnout tangents + LX equipment envelope.
+│       ├── 0013-operations-rulebook.md     ≤ 60-page per-role rulebook, 3 degraded modes.
+│       └── 0014-depot-design-standard.md   3 depot archetypes + fleet-sizing formula.
 ├── crates/                   46 Rust crates — grouped by role below.
 │   ├── osr-core/             Shared domain types (topology, trains, IDs).
 │   │   └── proto/track_state.proto         Interface definitions.
@@ -223,6 +259,14 @@ OpenSourceRail/
 │       │                     buildability surfaces, binary + JSON sidecar.
 │       └── osr_batch/        Batch driver + GeoNames → cities.toml scanner
 │                             with built-in existing-transit denylist.
+├── hardware/                 Hardware reference designs (RFC 0007).
+│   ├── t-ecu-s/              Train safety kernel (2 × RP2350 2oo2 + RPi CM5).
+│   ├── t-ecu-a/              Train application (RPi CM5 carrier).
+│   ├── w-sbc/                Wayside (Radxa CM5 RK3588S, one SKU).
+│   └── s-sbc/                Station / depot (RPi CM5 + commodity carrier).
+├── tools/
+│   └── reference-ma/         Python reference interpreter for osr-interlocking
+│                             (differential twin against Rust, RFC 0004 M4).
 ├── designs/                  City-specific design artifacts + templates.
 │   ├── templates/            Reusable Lego-block TOMLs (stations, switches,
 │   │                         signalling, structures, fleets, …).
@@ -344,15 +388,50 @@ crate map, the [TLA+ README](formal/tla/README.md), and the
 
 ## Target hardware
 
-- **Wayside SBC:** ARM64 (Raspberry Pi CM-class) or RISC-V (MilkV / StarFive)
-  with hardware root of trust. Runs the interlocking and consensus stack.
-- **Train ECU:** Same SoC family, EN 50155 environmental ratings, TSN PHY.
-  Unified reference design runs traction control, doors, HVAC, PIS as Rust
-  apps on identical hardware.
-- **Ops server:** Commodity x86 or ARM64 Linux.
+Four physical host classes, specified in
+[RFC 0007](docs/rfcs/0007-hardware-reference-designs.md) and
+scaffolded under [`hardware/`](hardware/). **Two-vendor palette —
+Raspberry Pi and Radxa only** — so domestic procurement and spares
+aren't at the mercy of a dozen silicon suppliers:
 
-Everything is designed to be manufacturable with a 4-layer PCB fab and a
-standard SMT line — no exotic silicon, no proprietary toolchains.
+- **T-ECU/S** — train safety kernel. Two **Raspberry Pi RP2350** MCUs
+  in a 2-out-of-2 composite fail-safe voting arrangement, each
+  running identical Rust `no_std` code and cross-checking over SPI
+  every tick. A Raspberry Pi **CM5** app processor alongside handles
+  non-safety work (TCN-E, logging, OTA). EN 50155 OT4,
+  dual-redundant per consist. ~€280/board.
+- **T-ECU/A** — train application. Raspberry Pi **CM5** on a custom
+  baseboard (Radxa CM5 drop-in via same SO-DIMM). EN 50155 OT4.
+- **W-SBC** — wayside. **Radxa CM5** (RK3588S, industrial-temp
+  variant) in an IP67 DIN enclosure — +85 °C rated for pole-mount
+  cabinets in hot climates. Same one baseboard selectively populated
+  for switch, crossing, HABD, or energy-site role.
+- **S-SBC** — station / depot. Raspberry Pi **CM5** on a commodity
+  carrier — no custom baseboard.
+- **O-SRV** — ops server. Commodity x86-64 or ARM64 Linux.
+
+Every reference PCB is 4-layer FR-4 with 0.15 mm trace/space and 0.3 mm
+vias — routine at tier-2 fabs across the target deployment footprint.
+No micro-vias, no 0201 passives, no exotic stackups, no fans, no
+restricted-export components.
+
+## Rail civil engineering — the affordable bet
+
+Two civil classes only: **at-grade and elevated**. No tunnels.
+[RFC 0011](docs/rfcs/0011-civil-infrastructure-design-standard.md) fixes
+this as a project invariant because tunnels cost 10–40× at-grade CAPEX
+and 4–8× the build time — outside the mission of urban rail a
+developing nation can finance domestically. One reference precast
+U-girder for every viaduct and water-crossing bridge in the whole
+catalogue; one spares pool, one CAD reuse, one formwork.
+
+Complementary rail-engineering RFCs:
+- [RFC 0008](docs/rfcs/0008-rolling-stock-reference-design.md) — 4 trainset families, unified architecture (aluminium body, PMSM axle motors, SiC inverters, Na-ion battery, no pneumatic brake).
+- [RFC 0009](docs/rfcs/0009-track-design-standard.md) — 4 track-geometry presets (gauge, radius, grade, cant, rail profile).
+- [RFC 0010](docs/rfcs/0010-station-design-standard.md) — 6 station archetypes with platform geometry derived from the line's consist.
+- [RFC 0012](docs/rfcs/0012-switches-and-crossings.md) — 3 turnout tangents (1:9 / 1:14 / 1:18.5) + level-crossing equipment envelope. No diamonds.
+- [RFC 0013](docs/rfcs/0013-operations-rulebook.md) — one shared ≤ 60-page rulebook, three degraded modes (no ambiguous in-between states).
+- [RFC 0014](docs/rfcs/0014-depot-design-standard.md) — 3 depot archetypes with a fleet-sizing formula, all at-grade.
 
 ## How to get involved
 
@@ -368,9 +447,12 @@ Right now the highest-leverage contributions are:
    safety properties are the first target). TLAPS proofs or larger TLC runs
    on [SMRaft.tla](formal/tla/SMRaft.tla) are also welcome, as is an SMRaft →
    `osr-consensus` refinement proof.
-4. **Hardware reference designs.** Schematics and BOMs for the T-ECU/S,
-   T-ECU/A, and W-SBC classes defined in
-   [RFC 0005 §3.1](docs/rfcs/0005-sbc-software-architecture.md).
+4. **Hardware reference designs.** Schematics, gerbers, and BOMs for
+   the T-ECU/S, T-ECU/A, W-SBC, and S-SBC classes specified in
+   [RFC 0007](docs/rfcs/0007-hardware-reference-designs.md); the
+   per-class stubs live under [`hardware/`](hardware/). First-priority
+   is T-ECU/S bring-up on two Raspberry Pi Pico 2 boards (RP2350
+   safety MCUs) + a stock RPi CM5 IO Board.
 5. **Pick an unscaffolded crate from the [RFC 0005](docs/rfcs/0005-sbc-software-architecture.md)
    map.** The cybersecurity (`osr-secbus`) and safety-case tooling crates are
    still open, as is a real (non-mock) transport for `osr-tcn`.

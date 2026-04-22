@@ -49,7 +49,9 @@
 pub mod mock;
 pub mod payload;
 pub mod registry;
+pub mod udp;
 
 pub use mock::{MockTcn, TcnError};
 pub use payload::{TcnPayload, TrafficClass};
 pub use registry::{TopicId, TopicRegistry};
+pub use udp::{UdpTcn, HEADER_LEN, MAX_PAYLOAD_LEN};

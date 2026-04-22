@@ -1,21 +1,21 @@
 //! Civil-class assignment per polyline segment.
 //!
-//! Given a line's cell sequence, look at what each cell sits on (from the
-//! underlying cost surface) and classify the segment as at-grade /
-//! elevated / bored-tunnel / cut-and-cover.
+//! Per [RFC 0011](../../../docs/rfcs/0011-civil-infrastructure-design-standard.md),
+//! the catalogue has **three classes only — at-grade, elevated, and
+//! bridge (for water crossings)**. No tunnels. Dense built-up cells
+//! that a previous version of this inference classified as
+//! `BoredTunnel` now route `Elevated`, matching the no-tunnel
+//! invariant from RFC 0011 §1.
 //!
-//! Heuristic: the cost raster already encodes "how built-up / constrained"
+//! Heuristic: the cost raster encodes "how built-up / constrained"
 //! a cell is. So:
 //!   - low cost (on arterial)     → at-grade
 //!   - medium cost (side-street)  → at-grade (tight but feasible)
-//!   - high cost (park, through a gap between buildings) → elevated
+//!   - high cost (park, narrow gap between buildings) → elevated
 //!   - water cells                → bridge
-//!   - cells that would have been buildings had we been allowed to pass
-//!     through them (inferred by finite cost > tunnel_thr after cost
-//!     surface smoothing) → tunnel. In practice the solver never routes
-//!     through buildings, so tunnel selection instead fires when a
-//!     segment runs through a dense cluster that forced the solver into
-//!     a narrow gap.
+//!   - buildings / dense built-up → elevated (the no-tunnel rule —
+//!     where the corridor can't be at-grade, it goes above, never
+//!     below).
 
 use serde::{Deserialize, Serialize};
 
@@ -26,8 +26,6 @@ pub enum CivilClass {
     AtGrade,
     Elevated,
     Bridge,
-    CutAndCoverTunnel,
-    BoredTunnel,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -80,7 +78,8 @@ fn classify_cell(grid: &Grid, r: usize, c: usize) -> CivilClass {
     //   side street    = 25     → at-grade
     //   park           = 45     → elevated
     //   water          = 300    → bridge
-    //   building       = 600    → bored tunnel
+    //   building       = 600    → **elevated** (no-tunnel rule,
+    //                              RFC 0011 §8)
     if cost < 40.0 {
         CivilClass::AtGrade
     } else if cost < 100.0 {
@@ -88,8 +87,10 @@ fn classify_cell(grid: &Grid, r: usize, c: usize) -> CivilClass {
     } else if cost < 400.0 {
         CivilClass::Bridge
     } else {
-        // Buildings — solver tunnelled through.
-        CivilClass::BoredTunnel
+        // Dense built-up / building footprint. Previously this was
+        // `BoredTunnel`; under RFC 0011's no-tunnel invariant the
+        // corridor goes over, not under.
+        CivilClass::Elevated
     }
 }
 

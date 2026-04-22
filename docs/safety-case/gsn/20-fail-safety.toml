@@ -66,6 +66,12 @@ evidence = { kind = "tla", path = "formal/tla/SMRaft.tla", note = "TLC model-che
 
 [[solution]]
 id = "E2.3b"
-description = "Rust proptests on osr-consensus::Cluster."
+description = "Rust proptests on osr-consensus::Cluster (3-node + 5-node)."
 parent = "G2.3"
-evidence = { kind = "proptest", path = "crates/osr-consensus/tests/proptest_safety.rs", note = "A 5-node corner case is currently under investigation; 3-node safety invariants pass cleanly." }
+evidence = { kind = "proptest", path = "crates/osr-consensus/tests/proptest_safety.rs", note = "Both safety_invariants_3node and safety_invariants_5node pass cleanly over random (Tick | Propose | Partition | Heal) op sequences, verifying ElectionSafety, LogMatching, LeaderCompleteness, StateMachineSafety, and FailRestrictive on every step." }
+
+[[solution]]
+id = "E2.3c"
+description = "Deterministic regression guard for the 5-node partition+heal LeaderCompleteness fix."
+parent = "G2.3"
+evidence = { kind = "proptest", path = "crates/osr-consensus/tests/replay_5node.rs", anchor = "regression_5node_partition_heal_preserves_safety", note = "Bit-identical replay of the original counterexample (seed b6fb2d40…, 2026-04-22). Root cause was handle_append_entries returning node.log_len() as match_index instead of prev_log_index + entries.len(); the replay asserts the full cluster state converges correctly after the fix." }

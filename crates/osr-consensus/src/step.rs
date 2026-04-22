@@ -277,7 +277,21 @@ fn handle_append_entries(
     let prev_ok = m.prev_log_index == LogIndex::zero()
         || (m.prev_log_index <= node.log_len() && node.term_at(m.prev_log_index) == m.prev_log_term);
 
-    let (success, new_log_len) = if term_ok && prev_ok {
+    // The response's `match_index` must be the highest log index the
+    // follower has just verified *against the leader*, not the
+    // follower's total log length. A follower carrying stale entries
+    // from a prior term (e.g., a recently-deposed leader) would
+    // otherwise falsely report replication at indices it only holds
+    // locally, which lets the new leader advance commit_index past
+    // true quorum. That was the root cause of the 5-node
+    // LeaderCompleteness counterexample — see
+    // `crates/osr-consensus/tests/replay_5node.rs`.
+    //
+    // The correct reported value is `prev_log_index + entries.len()`:
+    // entries just written are by construction a verbatim copy of the
+    // leader's log at those indices; anything past that point is
+    // unverified and must not contribute to the leader's quorum count.
+    let (success, match_index_reply) = if term_ok && prev_ok {
         // Raft §5.3: for each entry in m.entries, if it conflicts
         // with the follower's existing log (same index, different
         // term), truncate from that point and append the rest.
@@ -302,10 +316,20 @@ fn handle_append_entries(
                 }
             }
         }
-        let len = node.log_len();
-        // Advance commit index.
+        // The up-to-which-index this AE just validated against the
+        // leader. Always ≤ node.log_len().
+        let verified = LogIndex::new(
+            m.prev_log_index
+                .0
+                .saturating_add(m.entries.len() as u64),
+        );
+        // Advance commit index — bounded by what we've verified, not
+        // by the follower's total log length. A follower that still
+        // holds un-truncated entries past `verified` must not let the
+        // leader's leader_commit advance its own commit_index into
+        // those un-verified entries.
         if m.leader_commit > node.commit_index {
-            let advance_to = core::cmp::min(m.leader_commit, len);
+            let advance_to = core::cmp::min(m.leader_commit, verified);
             if advance_to > node.commit_index {
                 let begin = node.commit_index.0;
                 let end = advance_to.0;
@@ -320,7 +344,7 @@ fn handle_append_entries(
                 node.commit_index = advance_to;
             }
         }
-        (true, len)
+        (true, verified)
     } else {
         (false, LogIndex::zero())
     };
@@ -330,7 +354,7 @@ fn handle_append_entries(
         from: node.config.me,
         to: m.from,
         success,
-        match_index: new_log_len,
+        match_index: match_index_reply,
     };
     actions.push(Action::Send(Message::AppendEntriesResponse(resp)));
 }

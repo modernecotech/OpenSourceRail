@@ -55,13 +55,12 @@ ids  = [
 ]
 
 [index.structures]
+# Per RFC 0011, three classes only — no tunnels in the catalogue.
 file = "designs/templates/structures.toml"
 ids  = [
     { id = "at-grade",               desc = "Default double-track at-grade per km" },
-    { id = "elevated",               desc = "Viaduct on 30 m spans" },
-    { id = "bridge",                 desc = "River / highway engineered span" },
-    { id = "cut-and-cover-tunnel",   desc = "Urban shallow subway" },
-    { id = "bored-tunnel",           desc = "TBM-drive dual-tube" },
+    { id = "elevated",               desc = "Viaduct on 30 m spans (U-girder)" },
+    { id = "bridge",                 desc = "Water-crossing viaduct with wet piers" },
 ]
 
 [index.depots]
@@ -98,12 +97,14 @@ ids  = [
     { id = "dual-5g-lora-psb",   desc = "Adds public safety band — high-assurance" },
 ]
 
+# Turnouts per RFC 0012 — three tangents + tram-only.
 [index.switches]
 file = "designs/templates/switches.toml"
 ids  = [
-    { id = "no-8-yard",       desc = "1:8 frog, yard / low-speed crossover (~36 km/h diverging)" },
-    { id = "no-10-mainline",  desc = "1:10 frog, standard mainline (~50 km/h)" },
-    { id = "no-12-mainline",  desc = "1:12 frog, high-speed mainline (~70 km/h)" },
+    { id = "no-5-tram",          desc = "1:5, tram-only street geometry (heritage-tram preset)" },
+    { id = "no-9-mainline",      desc = "1:9, 40 km/h — station + yard throat + turnback" },
+    { id = "no-14-crossover",    desc = "1:14, 60 km/h — dedicated-metro mainline crossover" },
+    { id = "no-185-shared",      desc = "1:18.5, 80 km/h — mainline-mixed only" },
 ]
 
 [index.level_crossings]

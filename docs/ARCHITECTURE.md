@@ -273,7 +273,7 @@ Only I1–I3 are safety-critical. Everything else can fail without loss of safe 
 - **Train ECU (T-ECU):** Same SoC family as W-SBC, EN 50155 environmental ratings, TSN Ethernet PHY, CAN-FD, isolated I/O modules.
 - **Ops server (O-SRV):** Commodity x86 or ARM64 server, Debian, standard datacenter gear. T3/T4.
 
-Reference hardware designs (schematics, BOMs, Gerbers) are part of the repository under `hardware/`. All designs must be manufacturable by a 4-layer PCB fab and a standard SMT line.
+Reference hardware designs (schematics, BOMs, Gerbers) are part of the repository under [`hardware/`](../hardware/). The per-class choices — SoC, peripherals, baseboard, manufacturability envelope, reliability targets — are fixed in [RFC 0007](rfcs/0007-hardware-reference-designs.md). All designs must be manufacturable by a 4-layer PCB fab with 0.15 mm trace/space and 0.3 mm vias — routine at tier-2 fabs across the target deployment footprint.
 
 ### 6.3 Repository layout
 
@@ -295,7 +295,9 @@ OpenSourceRail/
 │   └── osr-sim/               # Digital twin / simulator + shadow onboard stack
 ├── formal/tla/                # TLA+ specs: SMRaft, TLC harness
 ├── scenarios/                 # TOML scenario files (Samawah + templates)
-└── hardware/ | tools/ | pilots/   (planned; see RFC 0006+ for hardware)
+├── hardware/                  # Reference designs per RFC 0007 (scaffolded)
+├── tools/reference-ma/        # Python reference interpreter (RFC 0004 M4)
+└── pilots/                    # (planned)
 ```
 
 Not yet in-tree, enumerated in [RFC 0005 §4](rfcs/0005-sbc-software-architecture.md):
@@ -353,11 +355,12 @@ OpenSourceRail targets the EN 50126/50128/50129 and IEC 61508 framework because 
 - `osr-movement` MA calculator with formal proof of non-overlap.
 - Integration in simulator; shadow-mode trial against real operator data.
 
-### Phase 3 — Hardware Reference Designs (18–30 months, overlapping)
-- W-SBC v1 and T-ECU v1 schematics, fab, bring-up.
-- Hubris port to chosen SoC.
+### Phase 3 — Hardware + Rail Reference Designs (18–30 months, overlapping)
+- W-SBC v1 and T-ECU v1 schematics, fab, bring-up — per [RFC 0007](rfcs/0007-hardware-reference-designs.md) (Raspberry Pi + Radxa palette).
+- Hubris port to RP2350.
 - First hardware-in-the-loop demo: simulator driving real W-SBCs.
 - **Energy subsystem:** reference trackside storage site design (PV array + Na-ion bank + grid-tie inverter + Rust site controller); reference station charging pad design; reference onboard traction battery + inverter design.
+- **Rolling-stock / track / station reference designs** — [RFC 0008](rfcs/0008-rolling-stock-reference-design.md) (4 trainset families), [RFC 0009](rfcs/0009-track-design-standard.md) (4 geometry presets), [RFC 0010](rfcs/0010-station-design-standard.md) (6 station archetypes), each with an enforced compatibility matrix in the auto-gen emitter.
 
 ### Phase 4 — Pilot Deployment (24–36 months)
 - Reference concept: **Samawah, Iraq** — two-line light metro (14 km radial + 16 km ring) connecting mainline rail station, city centre, German Hospital, and Al-Muthanna University. See [RFC 0003](rfcs/0003-samawah-reference-deployment.md).

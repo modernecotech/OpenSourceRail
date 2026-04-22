@@ -12,9 +12,13 @@
 //! # Status
 //!
 //! All five harnesses are present and compile under Kani. The bounds
-//! below are the minimum that exercise each property's control flow;
-//! larger bounds are left to contributors with a Kani installation
-//! and compute budget (see `docs/safety-case/README.md`).
+//! are the smallest that exercise each property's control flow at a
+//! non-trivial regime: 2 sections for the arithmetic-only proofs, 3
+//! sections + 2 trains for non-overlap (P2), and a mutation-style
+//! companion harness for conservatism (P4). Larger bounds (toward the
+//! RFC 0004 target of 8 trains × 50 entries × 100 sections) remain
+//! work for dedicated CI with a compute budget — see
+//! `docs/safety-case/README.md`.
 //!
 //! # Running
 //!
@@ -47,6 +51,63 @@ use crate::ma::{compute_self_ma, MAX_MA_DISTANCE_MM, MA_VALIDITY_WINDOW_NS};
 // ---------------------------------------------------------------------------
 // Scaffolding: tiny networks Kani can reason about.
 // ---------------------------------------------------------------------------
+
+/// Three-section linear network: S1 ── 1000 ──▶ S2 ── 1001 ──▶ S3 ── 1002 ──▶ S4.
+/// Every section is 1 km. Used by the P2 non-overlap harness so MA1's
+/// forward chain has an unblocked section to reach into after train 2
+/// is moved out of the way.
+fn three_section_network() -> Network {
+    let mut net = Network::default();
+    for i in 1..=4u64 {
+        net.stations.insert(
+            StationId::new(i),
+            Station {
+                id: StationId::new(i),
+                name: String::new(),
+                charging_power_kw: 0,
+                dwell_seconds: 0,
+                is_terminal: i == 1 || i == 4,
+                is_depot: false,
+            },
+        );
+    }
+    let mut fwd = vec![];
+    let mut rev = vec![];
+    for i in 0..3u64 {
+        let f = SectionId::new(1000 + i);
+        let r = SectionId::new(2000 + i);
+        net.sections.insert(
+            f,
+            Section {
+                id: f,
+                from_station: StationId::new(i + 1),
+                to_station: StationId::new(i + 2),
+                length_mm: 1_000_000,
+                max_speed_mps: 22.0,
+            },
+        );
+        net.sections.insert(
+            r,
+            Section {
+                id: r,
+                from_station: StationId::new(i + 2),
+                to_station: StationId::new(i + 1),
+                length_mm: 1_000_000,
+                max_speed_mps: 22.0,
+            },
+        );
+        fwd.push(f);
+        rev.push(r);
+    }
+    net.lines.push(Line {
+        name: String::new(),
+        stations: (1..=4).map(StationId::new).collect(),
+        forward_sections: fwd,
+        reverse_sections: rev,
+        is_ring: false,
+    });
+    net
+}
 
 /// A minimal two-section linear network: S1 ── 1000 ──▶ S2 ── 1001 ──▶ S3.
 /// Every section is 1 km.
@@ -275,9 +336,13 @@ fn kani_p3_consist_fit_single_train() {
 // P2 (non-overlap): two registered trains' MAs do not share any
 // section (beyond their own respective footprints).
 //
-// Modelled with two trains on distinct sections of a tiny network.
-// Kani enumerates all reachable (h1, h2) combinations subject to the
-// same-section constraint below.
+// Scaled from the old two-section fixture to three sections so the
+// non-overlap claim is non-trivial: train 1 is on 1000, train 2 is
+// on 1001, and train 2's MA may now legitimately extend into 1002
+// (which is unoccupied). The property under test is that train 1's
+// MA never advances past 1000's far end while train 2 holds 1001,
+// and that the two trains' MA sets do not intersect on any section
+// outside their own footprint.
 // ---------------------------------------------------------------------------
 
 #[kani::proof]
@@ -290,10 +355,9 @@ fn kani_p2_non_overlap_two_trains() {
     kani::assume(h2 >= 100_000 && h2 <= 800_000);
 
     let now_ns: u64 = 1_000_000_000;
-    let net = tiny_network();
+    let net = three_section_network();
 
-    // Train 1 on section 1000, Train 2 on section 1001 (distinct
-    // sections — the non-overlap invariant's interesting regime).
+    // Train 1 on section 1000, Train 2 on section 1001.
     let mut log = train_on_first_section(1, h1, 500_000_000);
     log.push(Entry {
         entry_id: EntryId::new(3),
@@ -337,15 +401,18 @@ fn kani_p2_non_overlap_two_trains() {
     let ma1 = compute_self_ma(TrainId::new(1), &log, &net, now_ns);
     let ma2 = compute_self_ma(TrainId::new(2), &log, &net, now_ns);
 
-    // Train 1 sees Train 2 occupying section 1001, so its MA must
-    // end on section 1000.
+    // Train 1 sees Train 2 occupying section 1001 → its MA ends on
+    // section 1000.
     assert!(ma1.end.section == SectionId::new(1000));
-    // Train 2 has no one ahead on its forward chain (section 1002
-    // doesn't exist), so its MA ends on its own section 1001.
-    assert!(ma2.end.section == SectionId::new(1001));
+    // Train 2's forward section 1002 is unoccupied → its MA extends
+    // into 1002 and ends there. (The "full extension" direction of
+    // P2: occupancy clipping is sharp, not overly conservative.)
+    assert!(ma2.end.section == SectionId::new(1002));
 
-    // Non-overlap on section boundaries — ma1 doesn't reach ma2's
-    // starting section, and ma2 doesn't reach ma1's starting section.
+    // Non-overlap on section boundaries — the two MA end sections
+    // never coincide.
+    assert!(ma1.end.section != ma2.end.section);
+    // Neither MA reaches the other's head section.
     assert!(ma1.end.section != SectionId::new(1001));
     assert!(ma2.end.section != SectionId::new(1000));
 }
@@ -375,4 +442,90 @@ fn kani_p4_fail_restrictive_is_not_less_restrictive_than_known() {
     assert!(ma_unreg.end.offset_mm == 0);
     // applicable_restrictions is empty on the fail-restrictive path.
     assert!(ma_unreg.applicable_restrictions.is_empty());
+}
+
+// ---------------------------------------------------------------------------
+// P4 (conservatism, mutation-style): adding a *more uncertain* entry to
+// a committed log never extends an already-computed MA's end section.
+//
+// Concretely: from a baseline log with train 1 on section 1000, compare
+// two MAs:
+//   (a) baseline log alone.
+//   (b) baseline log plus one additional occupancy by train 2 on section
+//       1001 (another known-position entry is strictly more
+//       information, but crucially *more restrictive* for train 1).
+//
+// The property: the MA end section of (b) is never ahead of (a) in the
+// forward chain. Kani enumerates train-1 head offsets and checks the
+// relationship.
+// ---------------------------------------------------------------------------
+
+#[kani::proof]
+#[kani::unwind(16)]
+fn kani_p4_conservatism_extra_occupant() {
+    let h1: i64 = kani::any();
+    kani::assume(h1 >= 100_000 && h1 <= 800_000);
+
+    let now_ns: u64 = 1_000_000_000;
+    let net = three_section_network();
+
+    // Baseline: train 1 alone on section 1000.
+    let baseline = train_on_first_section(1, h1, 500_000_000);
+
+    // Mutation: add train 2 on section 1001.
+    let mut mutated = baseline.clone();
+    mutated.push(Entry {
+        entry_id: EntryId::new(3),
+        term: 1,
+        timestamp_ns: 500_000_001,
+        payload: EntryPayload::TrainRegistration(TrainRegistration {
+            train_id: TrainId::new(2),
+            consist: ConsistDescriptor::reference_3car(),
+            initial_position: Position::certain(TrackRef {
+                section: SectionId::new(1001),
+                offset_mm: 0,
+                direction: Direction::Forward,
+            }),
+        }),
+    });
+    mutated.push(Entry {
+        entry_id: EntryId::new(4),
+        term: 1,
+        timestamp_ns: 500_000_002,
+        payload: EntryPayload::TrainPositionReport(TrainPositionReport {
+            train_id: TrainId::new(2),
+            head_position: Position::certain(TrackRef {
+                section: SectionId::new(1001),
+                offset_mm: 500_000,
+                direction: Direction::Forward,
+            }),
+            tail_position: Position::certain(TrackRef {
+                section: SectionId::new(1001),
+                offset_mm: 0,
+                direction: Direction::Forward,
+            }),
+            speed_mmps: 10_000,
+            speed_uncertainty_mmps: 500,
+            heading: Direction::Forward,
+            contributing_sources: vec![PositionSource::Gnss],
+            onboard_time_ns: 499_999_900,
+            pack_soc_ppt: 900,
+        }),
+    });
+
+    let ma_baseline = compute_self_ma(TrainId::new(1), &baseline, &net, now_ns);
+    let ma_mutated = compute_self_ma(TrainId::new(1), &mutated, &net, now_ns);
+
+    // MA end section must not advance past the baseline when the
+    // mutation is strictly more restrictive.
+    let section_rank =
+        |sec: SectionId| -> u8 {
+            match sec.0 {
+                1000 => 1,
+                1001 => 2,
+                1002 => 3,
+                _ => 0,
+            }
+        };
+    assert!(section_rank(ma_mutated.end.section) <= section_rank(ma_baseline.end.section));
 }

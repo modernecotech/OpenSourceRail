@@ -1,6 +1,6 @@
 # RFC 0006 — `osr-tcn` design
 
-**Status:** Draft 1.0 (2026-04-21)
+**Status:** Draft 1.1 (2026-04-22) — v1 crate landed, v1.5 UDP transport landed
 **Depends on:** [RFC 0005 SBC Software Architecture](0005-sbc-software-architecture.md)
 **Supersedes part of:** [ARCHITECTURE.md §D5 trainbus description](../ARCHITECTURE.md#d5-rolling-stock)
 
@@ -304,10 +304,18 @@ Out of scope for v1:
 | Phase | Deliverable | Dependencies |
 |-------|-------------|--------------|
 | **v0** | This RFC ratified | — |
-| **v1** | `osr-tcn` crate with mock transport + topic registry + proptests | — |
-| **v2** | Integration into `osr-sim` shadow: publish/subscribe replaces direct field access | `osr-tcn` v1 |
+| **v1** ✅ | `osr-tcn` crate with mock transport + topic registry + proptests | — |
+| **v1.5** ✅ | Real network transport (`UdpTcn`) on commodity UDP — drop-in API replacement for `MockTcn`, loopback round-trip tested; the simplest thing that works for a multi-host bench (done 2026-04-22) | v1 |
+| **v2** | Integration into `osr-sim` shadow: publish/subscribe replaces direct field access | v1 |
 | **v3** | Real TSN driver (Linux `AF_XDP` first, Hubris bare-metal later) | reference hardware RFC |
 | **v4** | PTP client + grandmaster fail-over | v3 |
+
+v1.5 is deliberately a small step past v1. It preserves the MockTcn
+contract so downstream crates never see the transport; what changes
+is only whether bytes travel through a BTreeMap or through the
+kernel UDP stack. This gives operators a working multi-host bench
+without pulling in DPDK / AF_XDP complexity, which stays in v3 where
+the hardware story is fixed.
 
 ## 12. Relationship to `osr-crypto` and `osr-t2g`
 

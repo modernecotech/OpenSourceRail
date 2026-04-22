@@ -3,52 +3,76 @@
 # City design.toml declares switches on line sections or in yards:
 #     [[switches]]
 #     id      = "line-1-sw-1"
-#     kit     = "no-10-mainline"
+#     kit     = "no-9-mainline"
 #     station = "eastern-bridge"        # nearest W-Node for interlocking
 #     side    = "facing-east"
 #
-# Unified system principle: three turnout geometries cover every OSR use
-# case. All use the same electric switch machine (per ARCHITECTURE D6),
-# the same detector circuit, and the same interlocking contract.
+# Per RFC 0012 §1, THREE turnout tangents cover every OSR use case
+# (1:9 / 1:14 / 1:18.5), plus a tram-only 1:5 for the `heritage-tram`
+# geometry preset. All share the same electric switch machine and
+# detector circuit — a single part family across every deployment.
+#
+# Yards use the same 1:9 tangent as station throats; we do not
+# maintain a separate tight-yard kit, matching RFC 0012 §3's
+# simplicity argument.
 
-# ---- No. 8: yard / low-speed crossover ---------------------------------
+# ---- No. 5: tram-only, tight street geometry -----------------------------
 
-[kits.no-8-yard]
-frog_number             = 8              # 1:8 frog angle
-diverging_speed_mps     = 10             # ~36 km/h through the turnout
-diverging_radius_m      = 190
-switch_rail_length_m    = 12
-rail_kg                 = 2800           # UIC60 curved rails + stock rails
-sleeper_count           = 35             # hardwood / concrete mix
-ballast_m3              = 40
-switch_machine_type     = "electric-clamp-lock"
-detection_channels      = 2
-cost_usd                = 95000
-
-# ---- No. 10: standard mainline turnback --------------------------------
-
-[kits.no-10-mainline]
-frog_number             = 10
-diverging_speed_mps     = 14             # ~50 km/h
-diverging_radius_m      = 300
+[kits.no-5-tram]
+# `heritage-tram` geometry only (1000 mm metre gauge + Ri60 rail).
+frog_number             = 5              # 1:5 frog
+diverging_speed_mps     = 4              # ~15 km/h crawl
+diverging_radius_m      = 50
 switch_rail_length_m    = 15
-rail_kg                 = 3500
-sleeper_count           = 42
-ballast_m3              = 55
+rail_kg                 = 2400           # Ri60 grooved
+sleeper_count           = 30
+ballast_m3              = 0              # street-embedded, no ballast
 switch_machine_type     = "electric-clamp-lock"
 detection_channels      = 2
-cost_usd                = 135000
+cost_usd                = 75000
+compatible_geometry     = ["heritage-tram"]
 
-# ---- No. 12: high-speed mainline -------------------------------------
+# ---- No. 9: station-throat + yard-throat + mainline turnback --------------
 
-[kits.no-12-mainline]
-frog_number             = 12
-diverging_speed_mps     = 19             # ~70 km/h
-diverging_radius_m      = 430
-switch_rail_length_m    = 20
-rail_kg                 = 4500
-sleeper_count           = 54
-ballast_m3              = 72
+[kits.no-9-mainline]
+frog_number             = 9              # 1:9 frog
+diverging_speed_mps     = 11             # 40 km/h
+diverging_radius_m      = 190
+switch_rail_length_m    = 23
+rail_kg                 = 3200           # UIC60 curved + stock rails
+sleeper_count           = 40
+ballast_m3              = 50
 switch_machine_type     = "electric-clamp-lock"
 detection_channels      = 2
-cost_usd                = 195000
+cost_usd                = 120000
+compatible_geometry     = ["standard-urban", "standard-metro", "mainline-mixed"]
+
+# ---- No. 14: mid-line crossover on dedicated metro ROW -------------------
+
+[kits.no-14-crossover]
+frog_number             = 14
+diverging_speed_mps     = 17             # 60 km/h
+diverging_radius_m      = 500
+switch_rail_length_m    = 37
+rail_kg                 = 4800
+sleeper_count           = 58
+ballast_m3              = 78
+switch_machine_type     = "electric-clamp-lock"
+detection_channels      = 2
+cost_usd                = 185000
+compatible_geometry     = ["standard-metro", "mainline-mixed"]
+
+# ---- No. 18.5: shared-corridor (mainline-mixed only) ---------------------
+
+[kits.no-185-shared]
+frog_number             = 19             # rounded for integer indexing; 1:18.5 nominal
+diverging_speed_mps     = 22             # 80 km/h
+diverging_radius_m      = 900
+switch_rail_length_m    = 49
+rail_kg                 = 6100
+sleeper_count           = 74
+ballast_m3              = 100
+switch_machine_type     = "electric-clamp-lock"
+detection_channels      = 2
+cost_usd                = 260000
+compatible_geometry     = ["mainline-mixed"]
