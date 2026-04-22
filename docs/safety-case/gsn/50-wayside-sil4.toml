@@ -1,0 +1,70 @@
+# G5 — Wayside SIL-4 actuator layer is correct.
+#
+# The wayside power-switch (points) controller consumes commands
+# from the consensus log, fuses its dual-redundant sensors
+# conservatively, and never drives the motor in an unsafe way.
+# Covers the W1–W6 properties declared in RFC 0005 §7 and mirrored
+# in the osr-wayside-points crate docs.
+
+[[goal]]
+id = "G5"
+description = "The wayside SIL-4 actuator layer (switch controller) enforces conservative sensor fusion and motor commands."
+
+[[strategy]]
+id = "S5"
+description = "Single-crate decomposition — every W1–W6 claim maps to a Kani harness plus an unbounded proptest."
+parent = "G5"
+children = ["G5.1"]
+
+[[goal]]
+id = "G5.1"
+description = "osr-wayside-points fuses sensors fail-restrictively, never drives away from a commanded position, and stops on any fault (W1–W6)."
+parent = "S5"
+
+[[solution]]
+id = "E5.1a"
+description = "Kani harness W1 — determinism."
+parent = "G5.1"
+evidence = { kind = "kani", path = "crates/osr-wayside-points/src/kani_proofs.rs", anchor = "kani_w1_determinism" }
+
+[[solution]]
+id = "E5.1b"
+description = "Kani harness W2 — sensor disagreement ⇒ detected == Unknown."
+parent = "G5.1"
+evidence = { kind = "kani", path = "crates/osr-wayside-points/src/kani_proofs.rs", anchor = "kani_w2_fail_restrictive_detection" }
+
+[[solution]]
+id = "E5.1c"
+description = "Kani harness W3 — motor stops when detected matches commanded."
+parent = "G5.1"
+evidence = { kind = "kani", path = "crates/osr-wayside-points/src/kani_proofs.rs", anchor = "kani_w3_motor_stops_at_target" }
+
+[[solution]]
+id = "E5.1d"
+description = "Kani harness W4 — over-temperature immediately stops the motor and latches cooldown."
+parent = "G5.1"
+evidence = { kind = "kani", path = "crates/osr-wayside-points/src/kani_proofs.rs", anchor = "kani_w4_over_temp_stops_motor" }
+
+[[solution]]
+id = "E5.1e"
+description = "Kani harness W4 — drive fault immediately stops the motor and latches cooldown."
+parent = "G5.1"
+evidence = { kind = "kani", path = "crates/osr-wayside-points/src/kani_proofs.rs", anchor = "kani_w4_drive_fault_stops_motor" }
+
+[[solution]]
+id = "E5.1f"
+description = "Kani harness W5 — motor never drives opposite to a commanded position."
+parent = "G5.1"
+evidence = { kind = "kani", path = "crates/osr-wayside-points/src/kani_proofs.rs", anchor = "kani_w5_never_drives_away_from_commanded" }
+
+[[solution]]
+id = "E5.1g"
+description = "Kani harness W6 — any published observation carries the current detected position."
+parent = "G5.1"
+evidence = { kind = "kani", path = "crates/osr-wayside-points/src/kani_proofs.rs", anchor = "kani_w6_observation_matches_detection" }
+
+[[solution]]
+id = "E5.1h"
+description = "Proptest suite over W1–W6."
+parent = "G5.1"
+evidence = { kind = "proptest", path = "crates/osr-wayside-points/tests/proptest_switch.rs" }

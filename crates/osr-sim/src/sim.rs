@@ -1,20 +1,19 @@
 //! Time-stepped simulation engine.
 //!
-//! Service-level model (v1):
+//! Service-level model:
 //! - Trains teleport between adjacent stations over a computed travel time
-//!   derived from section length and a constant cruise speed.
+//!   derived from section length and a kinematic velocity profile.
 //! - Energy is debited on arrival (equal to section_length_km × kWh_per_km)
 //!   and credited during dwells at charging-equipped stations.
-//! - An occupancy map enforces the "no two trains in the same section"
-//!   invariant; violations are logged.
+//! - The `osr-interlocking` MA computer is the authoritative source of
+//!   section occupancy (RFC 0004 M5). Every section entry is gated by
+//!   `section_available_to`; the corresponding `TrainPositionReport`
+//!   entry becomes the record that any follower sees. The pre-M5
+//!   in-memory `OccupancyMap` is retired.
 //! - Lines can be linear or ring. Linear lines flip heading at terminals;
 //!   rings wrap around.
-//!
-//! Later iterations will add kinematic integration, proper interlocking,
-//! trackside storage + PV, and the time-of-day service plan.
 
-use osr_core::topology::OccupancyMap;
-use osr_core::{ConsistDescriptor, Line, Network, SectionId, StationId, TrainId};
+use osr_core::{ConsistDescriptor, Direction, Line, Network, SectionId, StationId, TrainId};
 use serde::{Deserialize, Serialize};
 
 use crate::consensus_log::ConsensusBackend;
@@ -27,6 +26,7 @@ use crate::train::{Heading, Train, TrainPhase};
 
 use osr_core::TrackRef;
 use osr_interlocking::log::Entry as InterlockingEntry;
+use osr_interlocking::{section_available_to, DerivedState};
 
 /// Backend for the MA log — either the in-process `SimulatedLog` or
 /// a real 3-node `osr-consensus::Cluster` via [`ConsensusBackend`].
@@ -68,6 +68,56 @@ impl MaLogBackend {
         if let Self::Consensus(c) = self {
             c.tick(dt_ns);
         }
+    }
+
+    /// Cached `DerivedState` from whichever backend is in use.
+    pub fn derived_state(&self) -> &DerivedState {
+        match self {
+            Self::Simulated(l) => l.derived_state(),
+            Self::Consensus(c) => c.derived_state(),
+        }
+    }
+
+    /// Is `section` available for `train_id` to enter right now, per the
+    /// MA computer's reading of the log? Delegates to
+    /// `osr_interlocking::section_available_to` — the same primitive
+    /// `compute_self_ma` uses when clipping the forward chain.
+    pub fn section_available_to(&self, train_id: TrainId, section: SectionId) -> bool {
+        section_available_to(train_id, section, self.derived_state())
+    }
+
+    /// Who currently occupies `section` per the derived state, if anyone.
+    /// Used only for violation diagnostics; the gate uses
+    /// `section_available_to` directly.
+    pub fn occupant_of(&self, section: SectionId) -> Option<TrainId> {
+        self.derived_state()
+            .section_occupancy
+            .get(&section)
+            .copied()
+    }
+
+    /// Register + emit a position report for a train that has just
+    /// entered `section`. The head offset is placed at `consist.length_mm`
+    /// (clamped to section length) so the tail lands at offset 0 in the
+    /// same section and the derived footprint is exactly `{section}` —
+    /// matching the OccupancyMap contract M5 replaces.
+    pub fn register_and_enter(
+        &mut self,
+        train: &Train,
+        section: SectionId,
+        direction: Direction,
+        network: &Network,
+        t_s: u32,
+    ) {
+        let section_len_mm = network.section(section).length_mm as i64;
+        let head_offset = i64::from(train.consist.length_mm).min(section_len_mm);
+        let head = TrackRef {
+            section,
+            offset_mm: head_offset,
+            direction,
+        };
+        self.ensure_registered(train, head, t_s);
+        self.emit_position(train, head, Some(0), t_s);
     }
 }
 
@@ -224,12 +274,7 @@ pub struct SimResult {
 }
 
 fn default_ma_summary() -> MaCheckSummary {
-    MaCheckSummary {
-        checks_run: 0,
-        total_mas_computed: 0,
-        fail_restrictive_mas: 0,
-        violations: Vec::new(),
-    }
+    MaCheckSummary::default()
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
@@ -281,7 +326,6 @@ pub fn run(config: &ScenarioConfig, runtime: &RuntimeConfig) -> SimResult {
     use std::io::Write;
 
     let mut trains = init_fleet(config);
-    let mut occupancy = OccupancyMap::default();
     let mut throttle = DispatchThrottle::new();
     let mut energy = EnergySystem::new(
         config.energy_sites.clone(),
@@ -384,7 +428,7 @@ pub fn run(config: &ScenarioConfig, runtime: &RuntimeConfig) -> SimResult {
                 &config.climate,
                 &config.fleets,
                 clock_tod,
-                &mut occupancy,
+                &mut ma_log,
                 &mut throttle,
                 &mut energy,
                 &faults,
@@ -428,20 +472,12 @@ pub fn run(config: &ScenarioConfig, runtime: &RuntimeConfig) -> SimResult {
         ma_log.tick(u64::from(runtime.time_step_s).saturating_mul(1_000_000_000));
 
         if ma_check_interval > 0 && t >= next_ma_check {
-            // Emit position reports for all trains before the check, so the
-            // MA computer sees the current state. Registration happens
-            // automatically on first emission.
-            for tr in &trains {
-                if let Some(trackref) = ma_check::trackref_for(tr, &config.network) {
-                    ma_log.ensure_registered(tr, trackref, t);
-                    ma_log.emit_position(tr, trackref, None, t);
-                }
-            }
-            ma_check::run_check_entries(
+            let derived_from = ma_log.entries().last().map(|e| e.entry_id);
+            ma_check::run_check_state(
                 &trains,
-                ma_log.entries(),
+                ma_log.derived_state(),
                 &config.network,
-                &occupancy,
+                derived_from,
                 t,
                 &mut ma_summary,
             );
@@ -627,7 +663,7 @@ fn step_train(
     climate: &ClimateModel,
     fleets: &[LineFleet],
     clock_tod: u32,
-    occupancy: &mut OccupancyMap,
+    ma_log: &mut MaLogBackend,
     throttle: &mut DispatchThrottle,
     energy: &mut EnergySystem,
     faults: &FaultEngine,
@@ -649,7 +685,7 @@ fn step_train(
             match fleet.schedule.headway_at(clock) {
                 Some(hw) if throttle.can_dispatch(&key, clock) => {
                     throttle.mark_dispatched(&key, clock, hw);
-                    enter_first_section(idx, trains, network, t, occupancy, events, violations);
+                    enter_first_section(idx, trains, network, t, ma_log, events, violations);
                 }
                 Some(_) => throttle.record_in_service_held(dt),
                 None => throttle.record_out_of_service_held(dt),
@@ -763,7 +799,7 @@ fn step_train(
                     kind: EventKind::DepartStation,
                 },
             );
-            enter_next_section(idx, trains, network, t, occupancy, events, violations);
+            enter_next_section(idx, trains, network, t, ma_log, events, violations);
         }
         TrainPhase::Traveling {
             section,
@@ -782,7 +818,14 @@ fn step_train(
                 trains[idx].energy_consumed_kwh += f64::from(consumed);
                 trains[idx].odometer_km += km;
 
-                occupancy.leave(section, trains[idx].id);
+                // No explicit "leave" step — the MA computer records
+                // occupancy from the train's last position report, and
+                // the next section's entry report will overwrite it via
+                // `DerivedState::apply_position`'s clear_occupancy_by.
+                // Arrival-to-dwell is just a phase transition; the
+                // train still holds `section` in the derived state
+                // until it departs for the next one, which matches the
+                // physical reality of a train standing at a platform.
 
                 let line = &network.lines[trains[idx].line_index];
 
@@ -838,7 +881,7 @@ fn enter_first_section(
     trains: &mut [Train],
     network: &Network,
     t: u32,
-    occupancy: &mut OccupancyMap,
+    ma_log: &mut MaLogBackend,
     events: &mut Vec<Event>,
     violations: &mut Vec<InvariantViolation>,
 ) {
@@ -858,15 +901,15 @@ fn enter_first_section(
             kind: EventKind::Dispatched,
         },
     );
-    enter_next_section(idx, trains, network, t, occupancy, events, violations);
+    enter_next_section(idx, trains, network, t, ma_log, events, violations);
 }
 
 fn enter_next_section(
     idx: usize,
     trains: &mut [Train],
     network: &Network,
-    _t: u32,
-    occupancy: &mut OccupancyMap,
+    t: u32,
+    ma_log: &mut MaLogBackend,
     _events: &mut Vec<Event>,
     violations: &mut Vec<InvariantViolation>,
 ) {
@@ -886,26 +929,42 @@ fn enter_next_section(
         return;
     };
 
-    // Section occupancy: if busy, hold at station for one step and retry.
-    if let Some(blocker) = occupancy.occupant(section_id) {
-        if blocker != trains[idx].id {
-            trains[idx].phase = TrainPhase::Dwelling {
-                station: current_station,
-                remaining_s: 1.0,
-                energy_added_kwh: 0.0,
-            };
-            return;
-        }
+    // Gate: ask the MA computer whether the next section is available
+    // for this train. `section_available_to` folds together occupancy,
+    // route grants, and maintenance overrides — the same predicate
+    // `compute_self_ma` uses when clipping the forward chain, so the
+    // sim's entry decision matches what a real onboard ATP would do
+    // given the published MA.
+    if !ma_log.section_available_to(trains[idx].id, section_id) {
+        trains[idx].phase = TrainPhase::Dwelling {
+            station: current_station,
+            remaining_s: 1.0,
+            energy_added_kwh: 0.0,
+        };
+        return;
     }
 
-    if let Err(existing) = occupancy.enter(section_id, trains[idx].id) {
-        violations.push(InvariantViolation {
-            sim_time_s: _t,
-            description: format!(
-                "occupancy conflict: train {} entering {} already held by {}",
-                trains[idx].id, section_id, existing
-            ),
-        });
+    // Authorised — emit a position report placing the train in the
+    // new section. This is what a committed `TrainPositionReport`
+    // would look like if published by `osr-odometry` + consensus on
+    // real hardware.
+    let direction = direction_for_heading(trains[idx].heading);
+    ma_log.register_and_enter(&trains[idx], section_id, direction, network, t);
+
+    // Safety net: the derived state must now record this train as the
+    // sole occupant of `section_id`. If something else is there, the
+    // gate check above was unsound — surface it as an invariant bug
+    // rather than charging ahead silently.
+    if let Some(holder) = ma_log.occupant_of(section_id) {
+        if holder != trains[idx].id {
+            violations.push(InvariantViolation {
+                sim_time_s: t,
+                description: format!(
+                    "MA-derived occupancy conflict: train {} entered {} while derived state holds {}",
+                    trains[idx].id, section_id, holder
+                ),
+            });
+        }
     }
 
     let sec = network.section(section_id);
@@ -924,6 +983,13 @@ fn enter_next_section(
         total_travel_s: travel_s,
         remaining_s: travel_s,
     };
+}
+
+fn direction_for_heading(h: Heading) -> Direction {
+    match h {
+        Heading::Forward => Direction::Forward,
+        Heading::Reverse => Direction::Reverse,
+    }
 }
 
 fn current_station(train: &Train) -> StationId {

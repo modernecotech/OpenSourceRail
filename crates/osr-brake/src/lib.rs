@@ -75,6 +75,9 @@ pub mod evaluate;
 pub mod inputs;
 pub mod output;
 
+#[cfg(kani)]
+pub mod kani_proofs;
+
 pub use evaluate::brake_evaluate;
 pub use inputs::{BrakeInputs, BrakeParams};
 pub use output::{BrakeOutput, EmergencySources};

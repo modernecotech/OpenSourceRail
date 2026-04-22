@@ -35,8 +35,29 @@ directly from OpenStreetMap. Most of the
 - **Back office:** `osr-occ` (dispatcher), `osr-historian` (ring-buffered
   per-metric storage with decimation), `osr-analytics`, `osr-t2g`.
 - **Simulator:** multi-day runs, time-of-day dispatch, PV + trackside storage
-  + grid tie energy model, fault injection, shadow onboard stack. Scenarios
-  in TOML so anyone can design their own city.
+  + grid tie energy model, fault injection, shadow onboard stack. Every
+  section entry is gated by `osr-interlocking::section_available_to`
+  against a synthesised log — the MA computer is the sim's only source of
+  occupancy (RFC 0004 M5). Scenarios in TOML so anyone can design their
+  own city.
+- **Differential Python reference interpreter:** `tools/reference-ma/` —
+  an independent stdlib-only Python twin of `osr-interlocking`. Every
+  proptest run of `crates/osr-interlocking/tests/differential.rs`
+  serialises a random log prefix, computes the MA in both Rust and
+  Python, and asserts byte-identical JSON. Catches bugs in either
+  implementation (RFC 0004 M4).
+- **GSN safety-case compiler:** `osr-safety-case` loads the TOML
+  claim files in `docs/safety-case/gsn/` (18 goals, 5 strategies, 49
+  solutions today — the G1/G2/G3 MA-computer claims plus G4/G5
+  covering every SIL-4 onboard and wayside evaluator) and CI fails if
+  any goal no longer traces to evidence. Adding a safety-relevant
+  claim without linking it to a Kani harness / proptest / sim run
+  breaks the build (RFC 0005 §4.9).
+- **Kani harnesses on every SIL-4 evaluator:** ATP A1–A7, brake
+  B1–B5, vigilance V1–V6, odometry O1–O5, wayside-points W1–W6, plus
+  the MA computer's P1–P5 — the full pure-function surface of the
+  onboard and wayside safety chains has bounded formal proofs in tree
+  to match every proptest property.
 - **Automatic design generation:** `design-py` (Overpass + raster synthesis) +
   `osr-routing` (cost/demand Dijkstra on a 20 m grid) + `osr-design` (emitter)
   compose a full two-line network — corridor geometry, station placement,

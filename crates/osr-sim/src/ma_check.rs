@@ -1,69 +1,52 @@
-//! Continuously run the `osr-interlocking` Movement Authority computer
-//! against the running simulation and verify consistency.
+//! The `osr-interlocking` Movement Authority computer, wired into
+//! `osr-sim` as the authoritative source of train occupancy.
 //!
 //! This is M5 of [RFC 0004](../../../docs/rfcs/0004-osr-interlocking-plan.md):
-//! the MA computer (proven pure in M1 and structurally correct in M2)
-//! is wired into `osr-sim` so that every scenario run continuously
-//! produces MA outputs that can be checked against the sim's own
-//! ground-truth state.
+//! the sim no longer keeps its own `OccupancyMap`. Every time a train
+//! enters a new section, the sim:
+//! 1. asks the MA computer whether the section is available for this
+//!    train (via `osr_interlocking::section_available_to`),
+//! 2. if yes, emits a `TrainPositionReport` entry into the log so the
+//!    derived state now records this train as the section's occupant.
 //!
-//! Integration model (v1 — additive, not replacing):
-//! - The sim continues to manage an `OccupancyMap` for its own operation.
-//! - In parallel, it synthesizes a log of `Entry` objects as trains
-//!   move (registration on first encounter, position report on each
-//!   section change).
-//! - Periodically, it computes each train's MA from that log and
-//!   records any cases where the MA-covered sections conflict with
-//!   the sim's occupancy — a cross-check that reveals bugs in either
-//!   the MA computer or the sim's state tracking.
+//! Conflicts surface as real `InvariantViolation`s — a train never
+//! enters a section another train holds because the gate refuses it.
 //!
-//! Later milestones may replace the sim's `OccupancyMap` entirely with
-//! the MA-derived state. For now this is shadow-mode verification.
+//! A periodic fleet-wide MA sweep (`ma_check_every_s`) populates
+//! health stats (checks run, MAs computed, fail-restrictive count) so
+//! the run report can report MA-computer behaviour even though the
+//! computer is always on.
 
-use osr_core::topology::OccupancyMap;
-use osr_core::{
-    ConsistDescriptor, Direction, EntryId, Network, Position, SectionId, TrackRef, TrainId,
-};
+use osr_core::{EntryId, Network, Position, TrackRef, TrainId};
 use osr_interlocking::log::{
     Entry, EntryPayload, PositionSource, TrainPositionReport, TrainRegistration,
 };
-use osr_interlocking::{
-    compute_self_ma_from_state, derive_state, forward_chain, DerivedState, MovementAuthority,
-    MAX_MA_DISTANCE_MM,
-};
+use osr_interlocking::{compute_self_ma_from_state, DerivedState, MovementAuthority};
 use serde::{Deserialize, Serialize};
-use std::collections::{BTreeMap, BTreeSet};
+use std::collections::BTreeSet;
 
-use crate::train::{Train, TrainPhase};
+use crate::train::Train;
 
-/// One summary record of an MA check tick.
+/// Summary of the MA-computer integration over a sim run.
 #[derive(Clone, Debug, Default, Serialize, Deserialize)]
 pub struct MaCheckSummary {
-    /// Number of check ticks executed (every `ma_check_every_s` sim-seconds).
+    /// Number of fleet-wide MA sweeps executed (every `ma_check_every_s`
+    /// sim-seconds). Each sweep computes an MA for every train.
     pub checks_run: u32,
-    /// Total MAs computed across all checks (checks × trains).
+    /// Total MAs computed across all sweeps (sweeps × trains). Does not
+    /// count the per-tick gate checks, which use `section_available_to`
+    /// directly rather than computing a full MA.
     pub total_mas_computed: u32,
     /// MAs where `has_known_position` was false — fail-restrictive outputs.
+    /// Expected to spike briefly at startup (before the first position
+    /// report lands) and stay at zero during steady service.
     pub fail_restrictive_mas: u32,
-    /// Any consistency violations surfaced by the check.
-    pub violations: Vec<MaConsistencyViolation>,
-}
-
-/// A consistency violation between the MA computer's output and the sim's
-/// own occupancy record. Either direction signals a bug.
-#[derive(Clone, Debug, Serialize, Deserialize)]
-pub struct MaConsistencyViolation {
-    pub sim_time_s: u32,
-    pub train: String,
-    /// Section the MA purported to grant.
-    pub granted_section: String,
-    /// Sim-observed occupant of that section.
-    pub actually_occupied_by: String,
 }
 
 /// Internal log that `osr-sim` builds up as trains move, feeding the MA
-/// computer. One entry per phase transition, plus initial registration
-/// per train.
+/// computer. One entry per section change, plus initial registration
+/// per train. Maintains a cached `DerivedState` updated incrementally
+/// on each append so per-tick gate checks are O(1) in log length.
 #[derive(Debug, Default)]
 pub struct SimulatedLog {
     entries: Vec<Entry>,
@@ -72,6 +55,9 @@ pub struct SimulatedLog {
     /// position reports.
     registered: BTreeSet<TrainId>,
     next_entry_id: u64,
+    /// Cached fold of `entries`. Updated on every append, so callers can
+    /// read it without rederiving.
+    state: DerivedState,
 }
 
 impl SimulatedLog {
@@ -80,11 +66,17 @@ impl SimulatedLog {
             entries: Vec::new(),
             registered: BTreeSet::new(),
             next_entry_id: 1,
+            state: DerivedState::default(),
         }
     }
 
     pub fn entries(&self) -> &[Entry] {
         &self.entries
+    }
+
+    /// Cached derived state — kept in sync with `entries` on every append.
+    pub fn derived_state(&self) -> &DerivedState {
+        &self.state
     }
 
     /// Register a train if this is the first time we've seen it.
@@ -164,6 +156,7 @@ impl SimulatedLog {
             payload,
         };
         self.next_entry_id += 1;
+        self.state.apply(&entry);
         self.entries.push(entry);
     }
 
@@ -173,154 +166,34 @@ impl SimulatedLog {
 }
 
 // ---------------------------------------------------------------------------
-// MA consistency checker
+// MA fleet-wide health sweep
 // ---------------------------------------------------------------------------
 
-/// Compute every train's MA from the simulated log and check that each MA
-/// is consistent with the sim's own occupancy ground truth.
-pub fn run_check(
+/// Compute every train's MA from the given derived state and update
+/// the run-wide summary (checks run, MAs computed, fail-restrictive count).
+///
+/// Unlike the pre-M5 version this does not cross-check against an
+/// `OccupancyMap` — occupancy is now owned by the MA computer itself, so
+/// any cross-check would be tautological. The sweep's purpose is purely
+/// telemetry: did each train produce a valid MA at this sampling point?
+pub fn run_check_state(
     trains: &[Train],
-    log: &SimulatedLog,
+    state: &DerivedState,
     network: &Network,
-    occupancy: &OccupancyMap,
-    sim_time_s: u32,
-    summary: &mut MaCheckSummary,
-) {
-    run_check_entries(trains, log.entries(), network, occupancy, sim_time_s, summary);
-}
-
-/// Like `run_check` but operates directly on a slice of entries.
-/// Used by the consensus-backed MA log in `crate::sim::run`.
-pub fn run_check_entries(
-    trains: &[Train],
-    entries: &[Entry],
-    network: &Network,
-    occupancy: &OccupancyMap,
+    derived_from: Option<EntryId>,
     sim_time_s: u32,
     summary: &mut MaCheckSummary,
 ) {
     summary.checks_run = summary.checks_run.saturating_add(1);
-    let state: DerivedState = derive_state(entries);
-    let now_ns = (sim_time_s as u64).saturating_mul(1_000_000_000);
-
-    // Each train's footprint from its awareness.
-    let footprints: BTreeMap<TrainId, BTreeSet<SectionId>> = state
-        .trains
-        .iter()
-        .map(|(&tid, aware)| {
-            let head = aware.last_head_position.map(|p| p.track_ref);
-            let sections: BTreeSet<SectionId> = match head {
-                Some(h) => osr_interlocking::footprint_from(network, h, aware.consist.length_mm)
-                    .into_iter()
-                    .collect(),
-                None => BTreeSet::new(),
-            };
-            (tid, sections)
-        })
-        .collect();
+    let now_ns = u64::from(sim_time_s).saturating_mul(1_000_000_000);
 
     for train in trains {
-        let ma: MovementAuthority = compute_self_ma_from_state(
-            train.id,
-            &state,
-            network,
-            now_ns,
-            entries.last().map(|e| e.entry_id),
-        );
+        let ma: MovementAuthority =
+            compute_self_ma_from_state(train.id, state, network, now_ns, derived_from);
         summary.total_mas_computed = summary.total_mas_computed.saturating_add(1);
         if !ma.has_known_position {
-            summary.fail_restrictive_mas =
-                summary.fail_restrictive_mas.saturating_add(1);
-            continue;
-        }
-
-        // The MA covers sections from the train's head to the MA end.
-        let head = match state.trains.get(&train.id).and_then(|a| a.last_head_position) {
-            Some(p) => p.track_ref,
-            None => continue,
-        };
-        // Chain from head spans the MA. Clip it to the end section.
-        let chain = forward_chain(network, head, MAX_MA_DISTANCE_MM);
-        let mut ma_covered: BTreeSet<SectionId> = BTreeSet::new();
-        for s in &chain {
-            ma_covered.insert(*s);
-            if *s == ma.end.section {
-                break;
-            }
-        }
-
-        // Subtract the train's own footprint — those are its own sections
-        // by definition.
-        let own_footprint = footprints.get(&train.id).cloned().unwrap_or_default();
-
-        for sec in ma_covered.difference(&own_footprint) {
-            if let Some(occupant) = occupancy.occupant(*sec) {
-                if occupant != train.id {
-                    summary.violations.push(MaConsistencyViolation {
-                        sim_time_s,
-                        train: train.id.to_string(),
-                        granted_section: sec.to_string(),
-                        actually_occupied_by: occupant.to_string(),
-                    });
-                }
-            }
+            summary.fail_restrictive_mas = summary.fail_restrictive_mas.saturating_add(1);
         }
     }
 }
 
-// ---------------------------------------------------------------------------
-// Translation helpers — sim phase to TrackRef
-// ---------------------------------------------------------------------------
-
-/// Best-effort TrackRef for a train given its current phase and heading.
-/// Returns None if the phase provides insufficient information (rare —
-/// only happens when a dwelling train is at a terminal with no outgoing
-/// section in its heading, which is handled elsewhere).
-pub fn trackref_for(
-    train: &Train,
-    network: &Network,
-) -> Option<TrackRef> {
-    match &train.phase {
-        TrainPhase::Traveling { section, .. } => Some(TrackRef {
-            section: *section,
-            offset_mm: 0, // sim doesn't track in-section offset; use 0 (conservative)
-            direction: direction_for_section(*section, network)?,
-        }),
-        TrainPhase::Dwelling { station, .. }
-        | TrainPhase::AwaitingDispatch { station } => {
-            // Find the section the train will depart onto next.
-            let line = &network.lines[train.line_index];
-            let station_idx = line.stations.iter().position(|s| *s == *station)?;
-            use crate::train::Heading;
-            let (array, target_idx) = match train.heading {
-                Heading::Forward => (&line.forward_sections, station_idx),
-                Heading::Reverse => (&line.reverse_sections, station_idx.checked_sub(1)?),
-            };
-            if target_idx >= array.len() {
-                return None;
-            }
-            let section = array[target_idx];
-            Some(TrackRef {
-                section,
-                offset_mm: 0,
-                direction: direction_for_section(section, network)?,
-            })
-        }
-    }
-}
-
-fn direction_for_section(section: SectionId, network: &Network) -> Option<Direction> {
-    for line in &network.lines {
-        if line.forward_sections.contains(&section) {
-            return Some(Direction::Forward);
-        }
-        if line.reverse_sections.contains(&section) {
-            return Some(Direction::Reverse);
-        }
-    }
-    None
-}
-
-/// Suppress the unused warning on ConsistDescriptor import in this file.
-#[allow(dead_code)]
-fn _ensure_unused_imports_compile(_: ConsistDescriptor) {}

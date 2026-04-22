@@ -32,6 +32,7 @@ use osr_core::{Network, Position, TrackRef, TrainId};
 use osr_interlocking::log::{
     Entry, EntryPayload, PositionSource, TrainPositionReport, TrainRegistration,
 };
+use osr_interlocking::{derive_state, DerivedState};
 
 use crate::train::Train;
 
@@ -42,9 +43,13 @@ pub struct ConsensusBackend {
     cluster: Cluster,
     registered: BTreeSet<TrainId>,
     next_entry_id: u64,
-    /// Cached committed-prefix decoded back into `Entry` for
-    /// `run_check` to consume. Updated after every `tick`.
+    /// Cached committed-prefix decoded back into `Entry` for the MA
+    /// computer to consume. Updated after every `tick`.
     committed: Vec<Entry>,
+    /// Cached fold of `committed`. Rebuilt whenever `committed` is
+    /// rebuilt in `refresh_committed`, so gate checks stay O(1) in the
+    /// prefix length.
+    derived: DerivedState,
 }
 
 impl ConsensusBackend {
@@ -70,7 +75,15 @@ impl ConsensusBackend {
             registered: BTreeSet::new(),
             next_entry_id: 1,
             committed: Vec::new(),
+            derived: DerivedState::default(),
         }
+    }
+
+    /// Cached derived state — kept in sync with `committed` on every
+    /// `refresh_committed`.
+    #[must_use]
+    pub fn derived_state(&self) -> &DerivedState {
+        &self.derived
     }
 
     /// Number of entries in the committed prefix (after last tick).
@@ -160,8 +173,13 @@ impl ConsensusBackend {
         self.refresh_committed();
     }
 
-    /// Propose an entry; dropped if there is no current leader (the
-    /// sim will re-emit on subsequent ticks).
+    /// Propose an entry and synchronously wait for it to commit on the
+    /// leader. Post-M5 the sim's gate reads `derived_state()`
+    /// immediately after emitting a position report, so the commit must
+    /// land before we return — otherwise the next `section_available_to`
+    /// query sees an empty state and the gate is permissive. Dropped
+    /// silently if there is no current leader or the cluster fails to
+    /// commit within the budget.
     fn propose(&mut self, entry: &Entry, cat: Category) {
         let Some(leader) = self.cluster.leader() else {
             return;
@@ -170,10 +188,16 @@ impl ConsensusBackend {
             return;
         };
         self.cluster.propose(leader, bytes, cat);
-        // After proposing, drain the network and refresh the cache so
-        // callers can observe the commit within the same sim tick
-        // (when possible).
-        self.cluster.drain_network();
+        // After propose + drain, the leader's log has the entry at
+        // `log_len`. Drive the cluster forward until that index commits
+        // on the leader (a majority of acks). 30 ms × 30 ticks = 900 ms
+        // — comfortably inside the 3 s MA validity window.
+        if let Some(leader_node) = self.cluster.nodes.get(&leader) {
+            let expected = leader_node.log_len();
+            let _ = self
+                .cluster
+                .run_until_committed(30_000_000, expected, 30);
+        }
         self.refresh_committed();
     }
 
@@ -194,6 +218,11 @@ impl ConsensusBackend {
             }
         }
         self.committed = out;
+        // Raft commits are append-only, so incrementally applying the
+        // new suffix would also work — but the cluster is small (≤ a
+        // few thousand entries for hour-long runs) and rebuilding from
+        // scratch keeps the mental model simple.
+        self.derived = derive_state(&self.committed);
     }
 
     /// Number of consensus commit events observed so far. Useful for

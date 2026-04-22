@@ -5,7 +5,7 @@
 //! RFC 0003 describes the Samawah indicative alignment that seeds the
 //! simulator.
 
-use crate::ids::{SectionId, StationId, TrainId};
+use crate::ids::{SectionId, StationId};
 use serde::{Deserialize, Serialize};
 use std::collections::BTreeMap;
 
@@ -88,32 +88,8 @@ impl Network {
     }
 }
 
-/// Current occupancy state — used by the simulator to enforce the
-/// "no two trains in the same section" invariant. This is not a consensus
-/// log; it is an in-memory oracle for sim purposes.
-#[derive(Debug, Default)]
-pub struct OccupancyMap {
-    by_section: BTreeMap<SectionId, TrainId>,
-}
-
-impl OccupancyMap {
-    pub fn occupant(&self, section: SectionId) -> Option<TrainId> {
-        self.by_section.get(&section).copied()
-    }
-
-    pub fn enter(&mut self, section: SectionId, train: TrainId) -> Result<(), TrainId> {
-        if let Some(&existing) = self.by_section.get(&section) {
-            if existing != train {
-                return Err(existing);
-            }
-        }
-        self.by_section.insert(section, train);
-        Ok(())
-    }
-
-    pub fn leave(&mut self, section: SectionId, train: TrainId) {
-        if self.by_section.get(&section) == Some(&train) {
-            self.by_section.remove(&section);
-        }
-    }
-}
+// Pre-M5 had an `OccupancyMap` here — an in-memory oracle the simulator
+// consulted for the "no two trains in the same section" invariant.
+// RFC 0004 M5 retires it: `osr-interlocking`'s `DerivedState.section_occupancy`
+// is now the single source of truth, and the sim gates every section
+// entry through `osr_interlocking::section_available_to`.

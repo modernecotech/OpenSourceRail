@@ -130,36 +130,15 @@ pub fn print_summary(_config: &ScenarioConfig, _runtime: &RuntimeConfig, r: &Sim
 
     if r.ma_check.checks_run > 0 {
         println!("\n────────── MA computer integration (osr-interlocking) ──────────");
+        println!("Sweeps run         : {:>10}", r.ma_check.checks_run);
         println!(
-            "Checks run         : {:>10}",
-            r.ma_check.checks_run
-        );
-        println!(
-            "MAs computed       : {:>10}",
+            "MAs computed       : {:>10}  (fleet × sweeps)",
             r.ma_check.total_mas_computed
         );
         println!(
-            "Fail-restrictive   : {:>10}  (train position unknown at check time)",
+            "Fail-restrictive   : {:>10}  (train position unknown at sweep time)",
             r.ma_check.fail_restrictive_mas
         );
-        if r.ma_check.violations.is_empty() {
-            println!("MA/occupancy consistency : 0 violations  ✓");
-        } else {
-            println!(
-                "MA/occupancy consistency : {} violations ⚠",
-                r.ma_check.violations.len()
-            );
-            for v in r.ma_check.violations.iter().take(5) {
-                println!(
-                    "  [{}] {} MA covered {} but sim shows it occupied by {}",
-                    crate::sim::fmt_clock(v.sim_time_s),
-                    v.train, v.granted_section, v.actually_occupied_by
-                );
-            }
-            if r.ma_check.violations.len() > 5 {
-                println!("  ... and {} more", r.ma_check.violations.len() - 5);
-            }
-        }
     }
 
     if !r.invariant_violations.is_empty() {

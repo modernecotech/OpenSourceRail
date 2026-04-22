@@ -68,6 +68,9 @@ pub mod inputs;
 pub mod output;
 pub mod types;
 
+#[cfg(kani)]
+pub mod kani_proofs;
+
 pub use evaluate::switch_evaluate;
 pub use inputs::{SwitchInputs, SwitchParams};
 pub use output::{FaultReason, SwitchOutput, SwitchState};

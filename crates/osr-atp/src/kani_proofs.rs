@@ -3,10 +3,12 @@
 //!
 //! # Status
 //!
-//! Initial landing — **A1 (determinism)** and **A2 (expired MA trips)**
-//! written. A3–A7 are the next increment; the scaffolding
-//! ([`tiny_network`], [`nominal_ma`], [`state_on_section`]) is shared
-//! so each addition is a single `#[kani::proof]` function.
+//! **A1–A7 all written.** A1 (determinism), A2 (MA-expired trips),
+//! A3 (unknown-position trips), A4 (train-id mismatch trips),
+//! A5 (head-past-MA-end trips), A6 (overspeed trips), A7 (conservatism
+//! under widened speed uncertainty). Every proptest in
+//! [`tests/proptest_atp.rs`](../../tests/proptest_atp.rs) now has a
+//! Kani counterpart; scaling the bounds is the only remaining work.
 //!
 //! The same property is covered by an unbounded proptest in
 //! [`tests/proptest_atp.rs`](../../tests/proptest_atp.rs); the Kani
@@ -210,4 +212,214 @@ fn kani_a1_determinism() {
     let b = atp_evaluate(&state, &ma, &consist, &net, now_ns);
 
     assert!(a == b);
+}
+
+// ---------------------------------------------------------------------------
+// A3 (unknown position trips): `!ma.has_known_position` forces an
+// Emergency brake with `TriggerReason::NoKnownPosition`.
+//
+// Short-circuits before the topology walk, so an empty `Network` is
+// enough and the proof discharges in milliseconds.
+// ---------------------------------------------------------------------------
+
+#[kani::proof]
+fn kani_a3_unknown_position_trips() {
+    let now_ns: u64 = kani::any();
+    // Keep the MA technically valid so we exercise the A3 branch
+    // rather than falling through to A2.
+    let valid_until_ns: u64 = kani::any();
+    kani::assume(valid_until_ns > now_ns);
+
+    let net = Network::default();
+    let consist = ConsistDescriptor::reference_3car();
+    let state = state_on_section(7, 1000, 0);
+    let mut ma = nominal_ma(7, 1001, 500_000, 0);
+    ma.valid_until_ns = valid_until_ns;
+    ma.has_known_position = false;
+
+    let out = atp_evaluate(&state, &ma, &consist, &net, now_ns);
+
+    assert!(matches!(out.command, BrakeCommand::Emergency));
+    assert!(matches!(out.reason, TriggerReason::NoKnownPosition));
+}
+
+// ---------------------------------------------------------------------------
+// A4 (train-id mismatch trips): receiving an MA addressed to a
+// different train must trip the brake, not silently ignore the MA.
+// Short-circuits at the very top of `atp_evaluate`.
+// ---------------------------------------------------------------------------
+
+#[kani::proof]
+fn kani_a4_train_mismatch_trips() {
+    let state_id: u64 = kani::any();
+    let ma_id: u64 = kani::any();
+    kani::assume(state_id != ma_id);
+
+    let net = Network::default();
+    let consist = ConsistDescriptor::reference_3car();
+    let state = state_on_section(state_id, 1000, 0);
+    let ma = nominal_ma(ma_id, 1001, 500_000, 0);
+
+    let out = atp_evaluate(&state, &ma, &consist, &net, 0);
+
+    assert!(matches!(out.command, BrakeCommand::Emergency));
+    assert!(matches!(out.reason, TriggerReason::MaTrainMismatch));
+}
+
+// ---------------------------------------------------------------------------
+// A5 (head past MA end trips): if the train's head has already
+// advanced past the MA end (same section, head.offset > end.offset),
+// the ATP must apply the emergency brake with
+// `TriggerReason::HeadPastMaEnd`.
+//
+// Same-section case keeps the Network trivial (Kani still needs it
+// to hold up to the section-length read).
+// ---------------------------------------------------------------------------
+
+#[kani::proof]
+fn kani_a5_head_past_ma_end_trips_same_section() {
+    // Build the tiny network so the same-section length lookup succeeds
+    // if we ever reach the slow path. For this proof we stay in the
+    // same-section fast path of `distance_to_ma_end`.
+    let net = tiny_network();
+    let consist = ConsistDescriptor::reference_3car();
+
+    let head_offset: i64 = kani::any();
+    let end_offset: i64 = kani::any();
+    kani::assume(head_offset >= 0);
+    kani::assume(end_offset >= 0);
+    kani::assume(head_offset <= 1_000_000);
+    kani::assume(end_offset <= 1_000_000);
+    // Head is strictly past the MA end on the same section.
+    kani::assume(head_offset > end_offset);
+
+    let state = state_on_section(7, 1000, head_offset);
+    let ma = nominal_ma(7, 1000, end_offset, 0);
+
+    let out = atp_evaluate(&state, &ma, &consist, &net, 0);
+
+    assert!(matches!(out.command, BrakeCommand::Emergency));
+    assert!(matches!(out.reason, TriggerReason::HeadPastMaEnd));
+}
+
+// ---------------------------------------------------------------------------
+// A6 (overspeed trips): when the measured speed exceeds the envelope
+// by more than `OVERSPEED_EMERGENCY_MARGIN_MMPS`, the ATP commands
+// emergency brake for `TriggerReason::Overspeed`.
+//
+// We stay in the same-section fast path (head + end both on section
+// 1000) and pre-compute the envelope at distance `end_offset`, then
+// assume the measured speed lands above envelope + margin.
+// ---------------------------------------------------------------------------
+
+#[kani::proof]
+#[kani::unwind(4)]
+fn kani_a6_severe_overspeed_trips() {
+    use crate::envelope::{max_safe_speed_mmps, DecelTable};
+    use crate::evaluate::OVERSPEED_EMERGENCY_MARGIN_MMPS;
+
+    // Distance bounded away from 0 so the envelope is finite and
+    // bounded up so Kani doesn't explore the full i64 range. 1 km is
+    // enough to cover the ramp band.
+    let dist: i64 = kani::any();
+    kani::assume(dist >= 1_000);
+    kani::assume(dist <= 900_000);
+
+    // Pick a measured speed strictly above envelope + margin. We
+    // choose the excess nondeterministically to prove the band is
+    // reached for *every* such excess; the bound keeps i32 arithmetic
+    // from wrapping.
+    let excess: i32 = kani::any();
+    kani::assume(excess > OVERSPEED_EMERGENCY_MARGIN_MMPS);
+    kani::assume(excess <= 10_000);
+
+    let net = tiny_network();
+    let consist = ConsistDescriptor::reference_3car();
+    let decel = DecelTable::from_emergency(&consist);
+    let envelope = max_safe_speed_mmps(dist, &decel);
+
+    // Guard: envelope + excess must not overflow i32. Given the
+    // assumed bounds (envelope ≤ 100_000 mm/s for 900 m at normal
+    // decel, excess ≤ 10_000) this always holds, but we spell it
+    // out so Kani doesn't explore the overflow branch.
+    kani::assume(envelope <= i32::MAX - excess);
+
+    let speed = envelope + excess;
+
+    let state = TrainState {
+        train_id: TrainId::new(7),
+        head: TrackRef {
+            section: SectionId::new(1000),
+            offset_mm: 0,
+            direction: Direction::Forward,
+        },
+        speed_mmps: speed,
+        speed_uncertainty_mmps: 0,
+        position_uncertainty_mm: 0,
+    };
+    // MA ends `dist` mm ahead on the same section.
+    let ma = nominal_ma(7, 1000, dist, 0);
+
+    let out = atp_evaluate(&state, &ma, &consist, &net, 0);
+
+    assert!(matches!(out.command, BrakeCommand::Emergency));
+    assert!(matches!(out.reason, TriggerReason::Overspeed));
+}
+
+// ---------------------------------------------------------------------------
+// A7 (conservatism): widening `speed_uncertainty_mmps` never softens
+// the ATP's outcome. Severity is ordered
+// `Release < Service(_) < Emergency`.
+//
+// This is the refinement direction P4 captures for the MA computer,
+// ported here for the ATP's brake-command layer.
+// ---------------------------------------------------------------------------
+
+fn severity(command: &BrakeCommand) -> u8 {
+    match command {
+        BrakeCommand::Release => 0,
+        BrakeCommand::Service(_) => 1,
+        BrakeCommand::Emergency => 2,
+    }
+}
+
+#[kani::proof]
+#[kani::unwind(8)]
+fn kani_a7_uncertainty_widening_is_conservative() {
+    let head_offset: i64 = kani::any();
+    kani::assume(head_offset >= 0);
+    kani::assume(head_offset <= 800_000);
+
+    let speed_mmps: i32 = kani::any();
+    kani::assume(speed_mmps >= 0);
+    kani::assume(speed_mmps <= 20_000);
+
+    let base_unc: u32 = kani::any();
+    kani::assume(base_unc <= 1_000);
+    let extra_unc: u32 = kani::any();
+    kani::assume(extra_unc <= 1_000);
+    // Prevent the sum from wrapping the u32 range — a realistic
+    // uncertainty envelope is well under this bound.
+    kani::assume(base_unc <= u32::MAX - extra_unc);
+
+    let end_offset: i64 = kani::any();
+    kani::assume(end_offset >= 100_000);
+    kani::assume(end_offset <= 1_000_000);
+
+    let net = tiny_network();
+    let consist = ConsistDescriptor::reference_3car();
+
+    let mut state_low = state_on_section(7, 1000, head_offset);
+    state_low.speed_mmps = speed_mmps;
+    state_low.speed_uncertainty_mmps = base_unc;
+
+    let mut state_high = state_low.clone();
+    state_high.speed_uncertainty_mmps = base_unc + extra_unc;
+
+    let ma = nominal_ma(7, 1000, end_offset, 0);
+
+    let out_low = atp_evaluate(&state_low, &ma, &consist, &net, 0);
+    let out_high = atp_evaluate(&state_high, &ma, &consist, &net, 0);
+
+    assert!(severity(&out_high.command) >= severity(&out_low.command));
 }

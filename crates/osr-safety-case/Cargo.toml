@@ -1,6 +1,6 @@
 [package]
-name = "osr-interlocking"
-description = "OpenSourceRail — SIL-4 Movement Authority computer and rail state machine"
+name = "osr-safety-case"
+description = "OpenSourceRail — GSN (Goal Structuring Notation) compiler. TOML claim files in, rendered safety case out."
 version.workspace = true
 edition.workspace = true
 rust-version.workspace = true
@@ -11,9 +11,12 @@ repository.workspace = true
 workspace = true
 
 [dependencies]
-osr-core = { path = "../osr-core" }
 serde = { version = "1", features = ["derive"] }
+toml = "0.8"
 
 [dev-dependencies]
-proptest = "1"
-serde_json = "1"
+tempfile = "3"
+
+[[bin]]
+name = "osr-safety-case"
+path = "src/main.rs"

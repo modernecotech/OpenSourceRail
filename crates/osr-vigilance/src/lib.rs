@@ -84,6 +84,9 @@ pub mod evaluate;
 pub mod inputs;
 pub mod output;
 
+#[cfg(kani)]
+pub mod kani_proofs;
+
 pub use evaluate::vigilance_evaluate;
 pub use inputs::{VigilanceInputs, VigilanceParams};
 pub use output::{VigilanceOutput, VigilanceState};

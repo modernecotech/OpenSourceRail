@@ -1,0 +1,47 @@
+# G3 — Consistency / determinism decomposition.
+#
+# Every MA is a pure function of (train_id, log_prefix, network,
+# now_ns). Two observers with the same inputs must produce the same
+# output — otherwise two trains could run under contradictory
+# authorities.
+#
+# Two concurrent sub-claims:
+#  - G3.1: compute_self_ma is byte-deterministic (P1) within one
+#          implementation.
+#  - G3.2: the Rust and Python implementations agree byte-for-byte —
+#          a structural consistency check independent of the
+#          implementation-internal P1 proof.
+
+[[strategy]]
+id = "S3"
+description = "Decompose G3 into (i) single-implementation determinism, (ii) cross-implementation equivalence."
+parent = "G3"
+children = ["G3.1", "G3.2"]
+
+[[goal]]
+id = "G3.1"
+description = "The Rust compute_self_ma produces byte-identical MA output for the same input (P1)."
+parent = "S3"
+
+[[solution]]
+id = "E3.1a"
+description = "Kani harness P1."
+parent = "G3.1"
+evidence = { kind = "kani", path = "crates/osr-interlocking/src/kani_proofs.rs", anchor = "kani_p1_determinism" }
+
+[[solution]]
+id = "E3.1b"
+description = "Proptest: two invocations on the same random input produce identical outputs."
+parent = "G3.1"
+evidence = { kind = "proptest", path = "crates/osr-interlocking/tests/proptest_determinism.rs" }
+
+[[goal]]
+id = "G3.2"
+description = "The Python reference interpreter and the Rust implementation agree byte-for-byte."
+parent = "S3"
+
+[[solution]]
+id = "E3.2"
+description = "Differential proptest covering random log prefixes."
+parent = "G3.2"
+evidence = { kind = "differential", path = "crates/osr-interlocking/tests/differential.rs", anchor = "prop_rust_and_python_agree" }

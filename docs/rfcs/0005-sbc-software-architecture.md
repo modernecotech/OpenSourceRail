@@ -204,7 +204,7 @@ Not safety-critical; streams telemetry to the depot for offline analysis.
 |---|---|---|---|
 | **osr-proto** | all | n/a | Generated types for the protobuf schemas in [`crates/osr-core/proto/`](../../crates/osr-core/proto/). Pulled out of `osr-core` once `osr-consensus` demands the wire format. |
 | **osr-crypto** | all | 2 | Thin wrapper around RustCrypto primitives and `rustls` configured for IEC 62443-4-2 conformance. Every safety-relevant network node links this crate rather than rolling its own TLS/KEM usage. |
-| **osr-safety-case** | tooling | n/a | GSN (Goal Structuring Notation) compiler. TOML claim files in, rendered safety case out. CI fails if the case no longer closes. Already sketched in [ARCHITECTURE.md §7](../ARCHITECTURE.md#7-safety--certification-strategy). |
+| **osr-safety-case** ✅ | tooling | n/a | GSN (Goal Structuring Notation) compiler. TOML claim files in, rendered safety case out. CI fails if the case no longer closes. Starter case under [`docs/safety-case/gsn/`](../safety-case/gsn/) — 11 goals / 3 strategies / 14 solutions, all linked to real evidence in-tree. |
 
 ## 5. Dependency graph
 

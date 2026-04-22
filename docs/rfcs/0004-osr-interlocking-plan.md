@@ -203,7 +203,7 @@ PR; none should be attempted as a single contiguous effort.
 - Machine-readable evidence export (Kani already produces JSON; wire into
   the GSN safety case when the compiler lands).
 
-### M4 — Differential interpreter + proptest
+### M4 — Differential interpreter + proptest ✅ *(done 2026-04-22)*
 
 - Reference interpreter in Python (~500 lines) implementing the same state
   machine in a more readable style. Placed under `tools/reference-ma/`.
@@ -211,7 +211,41 @@ PR; none should be attempted as a single contiguous effort.
   to Python output. Any divergence fails the test suite.
 - Fuzz corpus under `tests/fuzz-corpus/` for regression catches.
 
-### M5 — Integration with `osr-sim`
+**Delivered:**
+- [`tools/reference-ma/`](../../tools/reference-ma/) — stdlib-only
+  Python package (~820 LoC across `types`, `log`, `topology`, `state`,
+  `ma`, and `__main__` CLI). Mirrors the five-module shape of
+  `crates/osr-interlocking/src/` for reviewability.
+- CLI accepts the exact serde JSON shape Rust produces (`u64` IDs via
+  `#[serde(transparent)]`, externally-tagged `EntryPayload`, nested
+  `Network` with stringified-int keys) and writes `MovementAuthority`
+  JSON that round-trips back through `serde_json::from_str::<MovementAuthority>()`.
+- [`crates/osr-interlocking/tests/differential.rs`](../../crates/osr-interlocking/tests/differential.rs)
+  — Rust harness with 3 smoke cases (no-registration / single-train /
+  other-train-blocks) + a proptest run of 16 random log prefixes over
+  a 4-station linear network. Each case serialises to JSON, shells out
+  to `python3 -m reference_ma`, parses the output back as a Rust
+  `MovementAuthority`, and asserts equality against the native Rust
+  result. Skipped cleanly when Python3 is unavailable or
+  `OSR_SKIP_PY_DIFF=1` is set.
+- [`tools/reference-ma/tests/test_basic.py`](../../tools/reference-ma/tests/test_basic.py)
+  — 9 Python-side unit tests mirroring the key cases from `ma.rs`
+  and `topology.rs` so the Python impl can be exercised standalone.
+- 100 % agreement on every case tested so far: Rust and Python produce
+  byte-identical `MovementAuthority` JSON.
+
+**Scope notes:**
+- The proptest generator currently stays inside a fixed 4-station
+  linear network with 1..=3 trains. Extending to ring lines, switch
+  observations, route grants, and speed restrictions is a
+  straightforward follow-up — every primitive is already implemented
+  in both twins.
+- No standalone `tests/fuzz-corpus/` directory yet; the proptest's
+  `proptest-regressions` file serves that role. A separate corpus is
+  only warranted once external fuzzing (afl/libfuzzer) surfaces cases
+  proptest alone would miss.
+
+### M5 — Integration with `osr-sim` ✅ *(done 2026-04-22)*
 
 - Replace `osr-sim`'s `OccupancyMap` with a thin shim that queries the
   `osr-interlocking` MA computer against a synthesized log.
@@ -220,6 +254,40 @@ PR; none should be attempted as a single contiguous effort.
   in-memory occupancy check failures.
 - Proves the MA computer works end-to-end on the Samawah reference
   scenario.
+
+**Delivered:**
+- `OccupancyMap` deleted from `osr-core`; the `BTreeMap<SectionId, TrainId>`
+  in `DerivedState::section_occupancy` is the single source of truth.
+- The sim's `MaLogBackend` (in
+  [`crates/osr-sim/src/sim.rs`](../../crates/osr-sim/src/sim.rs)) grew a
+  `section_available_to(train_id, section)` predicate that delegates to
+  [`osr_interlocking::section_available_to`](../../crates/osr-interlocking/src/ma.rs) —
+  the same primitive `compute_self_ma` uses when clipping the forward
+  chain.
+- `enter_next_section` ([`sim.rs`](../../crates/osr-sim/src/sim.rs))
+  gates every section entry through that predicate. On authorisation,
+  `register_and_enter` emits a `TrainPositionReport` entry into the log
+  whose head offset equals the consist length, so
+  `DerivedState.apply_position` marks exactly the new section as
+  occupied (and clears the old one).
+- `SimulatedLog` and `ConsensusBackend` both cache a `DerivedState`
+  that updates incrementally on every append; gate checks stay O(1) in
+  log length.
+- `ConsensusBackend::propose` now calls `cluster.run_until_committed`
+  synchronously (30 ms × 30 ticks = 900 ms budget, well under the 3 s
+  MA validity window) so the gate sees fresh state even when the Raft
+  cluster is driving commits. The consensus integration test
+  ([`crates/osr-sim/tests/consensus_integration.rs`](../../crates/osr-sim/tests/consensus_integration.rs))
+  proves the sim and consensus paths produce structurally equivalent
+  MA summaries.
+- `ma_check::run_check_state` (formerly `run_check_entries`) is now a
+  pure fleet-wide health sweep — no cross-check, because occupancy is
+  owned by the MA computer itself, so any cross-check would be
+  tautological. The periodic sweep populates `checks_run`,
+  `total_mas_computed`, and `fail_restrictive_mas` in the run report.
+- Samawah two-line reference scenario runs 2 hours (240 MA sweeps,
+  2400 MAs computed) with **zero invariant violations** under both
+  `SimulatedLog` and `ConsensusBackend`.
 
 After M5, the project has a formally verified MA computer running
 continuously in simulation, producing safety-case evidence on every CI run.

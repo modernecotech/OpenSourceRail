@@ -107,6 +107,9 @@ pub mod fusion;
 pub mod sensors;
 pub mod state;
 
+#[cfg(kani)]
+pub mod kani_proofs;
+
 pub use fusion::{advance_along_track, odom_step};
 pub use sensors::{BaliseFix, BaliseId, GnssFix, OdomCalibration, PositionSource, SensorTick};
 pub use state::OdomState;
