@@ -1,0 +1,36 @@
+# osr-aln-convert — Civil-tool bridge for the OSR-ALN alignment format.
+#
+# RFC 0009 v3 deliverable. Reads the canonical civil-engineering
+# interchange formats (LandXML today; Bentley OpenRail native XML and
+# Trimble TCL follow) and emits the OSR-ALN TOML spec defined at
+# `docs/civil/osr-aln-format.md`.
+#
+# Stdlib-only by design — the converter runs on any box a surveyor has
+# Python 3.11+ on, without additional dependencies. Keep it that way.
+
+[build-system]
+requires      = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name            = "osr-aln-convert"
+version         = "0.1.0"
+description     = "Civil-tool bridge to the OSR-ALN alignment format (RFC 0009 v3)."
+requires-python = ">=3.11"
+license         = { text = "Apache-2.0" }
+dependencies    = []
+
+[project.optional-dependencies]
+test = [
+    "pytest>=7.4",
+]
+
+[project.scripts]
+landxml-to-osr-aln = "osr_aln.landxml_to_osr_aln:main"
+osr-aln-validate   = "osr_aln.validate:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

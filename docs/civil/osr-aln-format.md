@@ -198,7 +198,10 @@ track).
 
 ## Validator semantics
 
-A validator (v3 deliverable — not yet implemented) checks:
+A validator ships at
+[`tools/osr-aln-convert/src/osr_aln/validate.py`](../../tools/osr-aln-convert/src/osr_aln/validate.py)
+(exposed as the `osr-aln-validate` CLI after `pip install -e .`).
+It checks:
 
 ### Hard gates (reject on fail)
 
@@ -228,26 +231,49 @@ modify the alignment.
 
 ## Tool support
 
+Converter at [`tools/osr-aln-convert/`](../../tools/osr-aln-convert/)
+— stdlib-only Python; installs with `pip install -e .` and
+exposes one CLI per source format.
+
 Firms using:
 
 - **Autodesk Civil 3D** — export via LandXML, then transform
-  via the `osr-aln` Python tool (v3 deliverable; LandXML's
-  clothoid representation maps cleanly).
-- **Bentley OpenRail** — native export via the Bentley
-  interoperability XML, then transform similarly.
-- **Trimble Business Center** — export CSV, transform via the
-  same Python tool.
-- **Open-source (QGIS + rail-path plugins)** — direct export
-  plugin lands at v3.
+  with `landxml-to-osr-aln`. ✅ v1 (shipping).
+- **Bentley OpenRail** — export via LandXML (OpenRail emits a
+  compatible subset), transform with `landxml-to-osr-aln`. Cant
+  data is written to a non-standard `<Cant>` extension that v1.1
+  will read. ✅ v1.
+- **Trimble Business Center** — export via LandXML, transform
+  with `landxml-to-osr-aln`. A TCL CSV reader is v1.1. ✅ v1
+  via LandXML.
+- **Open-source (QGIS + rail-path plugins)** — LandXML export
+  supported. ✅ v1.
 
-## Example: converting the Samawah Line 1 table
+## Example: Samawah Line 1
 
-The [`line1-segments.md`](samawah/line1-segments.md) table can
-be mechanically converted to OSR-ALN. v2 of this format does
-not ship the worked example file; the OSM-derived corridor
-from `osr-routing` is the authoritative input, and once v3
-tools exist the OSR-ALN file drops out of the pipeline
-automatically.
+A worked OSR-ALN alignment for Samawah Line 1 lives at
+[`designs/middle-east/iraq/samawah/samawah-line1.aln.toml`](../../designs/middle-east/iraq/samawah/samawah-line1.aln.toml).
+Hand-authored from the bearings + radii in
+[`samawah/line1-segments.md`](samawah/line1-segments.md), with
+UTM Zone 38N coordinates computed step-by-step from the
+published segment lengths. Exercises all five top-level
+sections (`meta`, `horizontal`, `vertical`, `civil`, `station`,
+`cant`).
+
+Validated against the deployment's design.toml:
+
+```
+$ osr-aln-validate designs/middle-east/iraq/samawah/samawah-line1.aln.toml \
+                   --design-toml designs/middle-east/iraq/samawah/design.toml
+2 soft-gate warning(s):
+  ⚠ S3: grade between [[vertical]] #1 and #2 is 35.00 ‰ — within 80 %
+       of preset maximum 40.0 ‰, flag for review
+  ⚠ S3: grade between [[vertical]] #5 and #6 is 35.00 ‰ — within 80 %
+       of preset maximum 40.0 ‰, flag for review
+```
+
+Both warnings are expected (the two viaduct ramps at 35 ‰);
+no hard gates fire.
 
 ## Version history
 

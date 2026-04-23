@@ -11,5 +11,6 @@ pub mod samawah;
 pub mod scenario_file;
 pub mod schedule;
 pub mod sim;
+pub mod timeline;
 pub mod train;
 pub mod vis;

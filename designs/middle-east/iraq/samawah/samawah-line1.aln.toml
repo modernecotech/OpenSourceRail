@@ -1,0 +1,336 @@
+# OSR-ALN v1.0 — Samawah Line 1 (Nahrain), eastbound.
+#
+# Hand-authored reference alignment per the bearing + radius table
+# in docs/civil/samawah/line1-segments.md. UTM Zone 38N coordinates
+# computed step-by-step from the published segment lengths and
+# bearings; precision is planning-grade (centimetre noise in the
+# station_m column does not match decimal rounding in the UTM
+# projection, but every field is self-consistent to < 1 m).
+#
+# Validation:
+#   osr-aln-validate designs/middle-east/iraq/samawah/samawah-line1.aln.toml \
+#       --design-toml designs/middle-east/iraq/samawah/design.toml
+
+[meta]
+schema_version = "1.0"
+line_id        = "samawah-line1"
+design_date    = "2026-04-23"
+surveyor       = "OSR reference (hand-authored; v2 substitutes survey)"
+preset         = "standard-urban"
+consist        = "light-metro-3car"
+crs            = "EPSG:32638"
+units          = "metric"
+is_ring        = false
+
+# ----------------------------------------------------------------------
+# Horizontal alignment — one PI per station, 11 inter-station segments.
+# Bearings from docs/civil/samawah/line1-segments.md. Entry radii at
+# each PI are the radius of the transition curve entering that PI
+# from the previous segment; 0 = tangent (straight-to-straight).
+# ----------------------------------------------------------------------
+
+[[horizontal]]                                         # samawah-rws (line start)
+station_m           = 0.0
+easting_m           = 477500.00
+northing_m          = 3467100.00
+bearing_in_deg      = 128.700
+bearing_out_deg     = 128.700
+curve_radius_m      = 0.0
+transition_length_m = 0.0
+
+[[horizontal]]                                         # north-gate
+station_m           = 1000.0
+easting_m           = 478280.40
+northing_m          = 3466474.80
+bearing_in_deg      = 128.700
+bearing_out_deg     = 123.700
+curve_radius_m      = 26300.0
+transition_length_m = 50.0
+
+[[horizontal]]                                         # old-souq
+station_m           = 2300.0
+easting_m           = 479360.80
+northing_m          = 3465751.90
+bearing_in_deg      = 123.700
+bearing_out_deg     = 115.800
+curve_radius_m      = 17400.0
+transition_length_m = 50.0
+
+[[horizontal]]                                         # samawah-central
+station_m           = 3400.0
+easting_m           = 480351.90
+northing_m          = 3465274.80
+bearing_in_deg      = 115.800
+bearing_out_deg     = 106.900
+curve_radius_m      = 12900.0
+transition_length_m = 50.0
+
+[[horizontal]]                                         # riverside
+station_m           = 4300.0
+easting_m           = 481213.00
+northing_m          = 3465013.20
+bearing_in_deg      = 106.900
+bearing_out_deg     = 103.200
+curve_radius_m      = 32500.0
+transition_length_m = 50.0
+
+[[horizontal]]                                         # eastern-bridge
+station_m           = 5500.0
+easting_m           = 482381.20
+northing_m          = 3464739.10
+bearing_in_deg      = 103.200
+bearing_out_deg     = 105.100
+curve_radius_m      = 78000.0
+transition_length_m = 50.0
+
+[[horizontal]]                                         # al-salam
+station_m           = 6900.0
+easting_m           = 483732.90
+northing_m          = 3464374.40
+bearing_in_deg      = 105.100
+bearing_out_deg     = 105.200
+curve_radius_m      = 0.0                             # bearing change < 0.2° — treat as tangent
+transition_length_m = 0.0
+
+[[horizontal]]                                         # governorate-hospital
+station_m           = 8200.0
+easting_m           = 484987.40
+northing_m          = 3464033.50
+bearing_in_deg      = 105.200
+bearing_out_deg     = 104.900
+curve_radius_m      = 0.0
+transition_length_m = 0.0
+
+[[horizontal]]                                         # new-german-hospital
+station_m           = 9700.0
+easting_m           = 486436.90
+northing_m          = 3463647.90
+bearing_in_deg      = 104.900
+bearing_out_deg     = 103.900
+curve_radius_m      = 0.0
+transition_length_m = 0.0
+
+[[horizontal]]                                         # engineering-quarter
+station_m           = 11000.0
+easting_m           = 487698.70
+northing_m          = 3463335.60
+bearing_in_deg      = 103.900
+bearing_out_deg     = 106.300
+curve_radius_m      = 0.0
+transition_length_m = 0.0
+
+[[horizontal]]                                         # al-muthanna-university
+station_m           = 12400.0
+easting_m           = 489042.30
+northing_m          = 3462942.70
+bearing_in_deg      = 106.300
+bearing_out_deg     = 102.000
+curve_radius_m      = 68000.0
+transition_length_m = 50.0
+
+[[horizontal]]                                         # east-depot (line end)
+station_m           = 13000.0
+easting_m           = 489629.20
+northing_m          = 3462818.00
+bearing_in_deg      = 102.000
+bearing_out_deg     = 102.000
+curve_radius_m      = 0.0
+transition_length_m = 0.0
+
+# ----------------------------------------------------------------------
+# Vertical alignment — Samawah sits on the Euphrates alluvial plain;
+# elevation is 6–12 m ToR across the full line. The only vertical
+# features are the viaduct ramp-up/ramp-down at L1-02/L1-03 + the
+# bridge approach at L1-05.
+# ----------------------------------------------------------------------
+
+[[vertical]]
+station_m   = 0.0
+elevation_m = 6.0
+vc_radius_m = 0.0
+
+[[vertical]]                                          # start of ramp up to elevated at L1-02
+station_m   = 950.0
+elevation_m = 6.0
+vc_radius_m = 300.0
+
+[[vertical]]                                          # elevated deck starts at north-gate
+station_m   = 1100.0
+elevation_m = 11.25
+vc_radius_m = 0.0
+
+[[vertical]]                                          # elevated deck at old-souq
+station_m   = 2300.0
+elevation_m = 11.25
+vc_radius_m = 0.0
+
+[[vertical]]                                          # elevated deck at samawah-central
+station_m   = 3400.0
+elevation_m = 11.25
+vc_radius_m = 0.0
+
+[[vertical]]                                          # start of ramp down from L1-03 viaduct
+station_m   = 3450.0
+elevation_m = 11.25
+vc_radius_m = 300.0
+
+[[vertical]]                                          # at-grade again at riverside
+station_m   = 3600.0
+elevation_m = 6.0
+vc_radius_m = 0.0
+
+[[vertical]]                                          # start of bridge approach at L1-05
+station_m   = 4200.0
+elevation_m = 6.0
+vc_radius_m = 500.0
+
+[[vertical]]                                          # bridge deck at eastern-bridge (12 m clearance over river)
+station_m   = 4400.0
+elevation_m = 8.0
+vc_radius_m = 0.0
+
+[[vertical]]                                          # bridge deck (flat across river)
+station_m   = 5500.0
+elevation_m = 8.0
+vc_radius_m = 0.0
+
+[[vertical]]                                          # end of bridge descent to east bank
+station_m   = 5700.0
+elevation_m = 8.0
+vc_radius_m = 500.0
+
+[[vertical]]                                          # at-grade east bank
+station_m   = 5900.0
+elevation_m = 6.0
+vc_radius_m = 0.0
+
+[[vertical]]                                          # east-depot
+station_m   = 13000.0
+elevation_m = 6.0
+vc_radius_m = 0.0
+
+# ----------------------------------------------------------------------
+# Civil classes — from line1-segments.md.
+# At-grade (72.3 %) + elevated (18.5 %) + bridge (9.2 %).
+# ----------------------------------------------------------------------
+
+[[civil]]
+from_station_m = 0.0
+to_station_m   = 1000.0
+class          = "at-grade"      # L1-01 samawah-rws → north-gate
+
+[[civil]]
+from_station_m = 1000.0
+to_station_m   = 2300.0
+class          = "elevated"      # L1-02 north-gate → old-souq
+
+[[civil]]
+from_station_m = 2300.0
+to_station_m   = 3400.0
+class          = "elevated"      # L1-03 old-souq → samawah-central
+
+[[civil]]
+from_station_m = 3400.0
+to_station_m   = 4300.0
+class          = "at-grade"      # L1-04 samawah-central → riverside
+
+[[civil]]
+from_station_m = 4300.0
+to_station_m   = 5500.0
+class          = "bridge"        # L1-05 riverside → eastern-bridge (Euphrates)
+
+[[civil]]
+from_station_m = 5500.0
+to_station_m   = 13000.0
+class          = "at-grade"      # L1-06..11 east bank → east-depot
+
+# ----------------------------------------------------------------------
+# Station pin-points — `id` matches the station id in design.toml.
+# platform_length_m = 75 m for light-metro-3car per RFC 0008 §1.
+# ----------------------------------------------------------------------
+
+[[station]]
+id                = "samawah-rws"
+station_m         = 0.0
+platform_length_m = 75.0
+
+[[station]]
+id                = "north-gate"
+station_m         = 1000.0
+platform_length_m = 75.0
+
+[[station]]
+id                = "old-souq"
+station_m         = 2300.0
+platform_length_m = 75.0
+
+[[station]]
+id                = "samawah-central"
+station_m         = 3400.0
+platform_length_m = 75.0
+
+[[station]]
+id                = "riverside"
+station_m         = 4300.0
+platform_length_m = 75.0
+
+[[station]]
+id                = "eastern-bridge"
+station_m         = 5500.0
+platform_length_m = 75.0
+
+[[station]]
+id                = "al-salam"
+station_m         = 6900.0
+platform_length_m = 75.0
+
+[[station]]
+id                = "governorate-hospital"
+station_m         = 8200.0
+platform_length_m = 75.0
+
+[[station]]
+id                = "new-german-hospital"
+station_m         = 9700.0
+platform_length_m = 75.0
+
+[[station]]
+id                = "engineering-quarter"
+station_m         = 11000.0
+platform_length_m = 75.0
+
+[[station]]
+id                = "al-muthanna-university"
+station_m         = 12400.0
+platform_length_m = 75.0
+
+[[station]]
+id                = "east-depot"
+station_m         = 13000.0
+platform_length_m = 75.0
+
+# ----------------------------------------------------------------------
+# Cant — 30 mm on the three viaduct / bridge segments where transition
+# curves apply. Values well under standard-urban's 150 mm maximum.
+# ----------------------------------------------------------------------
+
+[[cant]]
+from_station_m   = 1000.0
+to_station_m     = 2300.0
+max_cant_mm      = 30
+transition_in_m  = 50.0
+transition_out_m = 50.0
+
+[[cant]]
+from_station_m   = 2300.0
+to_station_m     = 3400.0
+max_cant_mm      = 30
+transition_in_m  = 50.0
+transition_out_m = 50.0
+
+[[cant]]
+from_station_m   = 4300.0
+to_station_m     = 5500.0
+max_cant_mm      = 30
+transition_in_m  = 50.0
+transition_out_m = 50.0

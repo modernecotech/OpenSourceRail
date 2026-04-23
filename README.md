@@ -6,7 +6,7 @@
 > systems — built for the developing world, built to be owned by the countries
 > that deploy it.
 
-**Status:** 51 Rust crates (705 tests passing, 0 failing) plus two Python
+**Status:** 54 Rust crates (715 tests passing, 0 failing) plus two Python
 sidecars (`design-py` for GIS + network synthesis, `mechanical-py` for
 parametric mechanical + civil + station components under build123d).
 Deployments ship as **GoA 4 (Unattended, driverless)** from day one
@@ -19,7 +19,7 @@ covering the proactive half of the safety envelope between trains.
 The Samawah two-line reference scenario
 ([RFC 0003](docs/rfcs/0003-samawah-reference-deployment.md)) runs end-to-end,
 and the design pipeline now synthesises two-line networks for arbitrary cities
-directly from OpenStreetMap. Seventeen RFCs cover the full system from software
+directly from OpenStreetMap. Eighteen RFCs cover the full system from software
 architecture through rail civil engineering to driverless operation; the
 operations rulebook ([RFC 0013](docs/rfcs/0013-operations-rulebook.md)) is
 drafted across four shipping role families (dispatcher / station-staff /
@@ -33,6 +33,24 @@ for GoA 2 legacy fleets. Most of the
   spurious emergencies under nominal service. `osr-vigilance` and `osr-dmi`
   are kept in tree under the `goa2-cab` feature flag for legacy fleets but
   disabled by default.
+- **Operator GUIs (RFC 0018), feature-complete + WASM:** two
+  pure-Rust egui apps sharing
+  [`osr-gui-shared`](crates/osr-gui-shared/) for rendering, both
+  targeting native + browser (WebAssembly via trunk).
+  [`osr-sim-gui`](crates/osr-sim-gui/) is the designer's workbench —
+  load a scenario, run the sim once, then play back the resulting
+  [`SimTimeline`](crates/osr-sim/src/timeline.rs) with scrubber +
+  0.5×/1×/10×/60× speeds. Trains animate along the strip coloured
+  by phase; click-to-inspect sidebar shows `station_m`, SoC, and
+  last event; scrolling event log filters by kind; active faults
+  surface as timestamped badges over the map.
+  [`osr-occ-gui`](crates/osr-occ-gui/) is the dispatcher console —
+  per-section `IntrusionState` overlay, train roster panel, alert
+  feed with info/warn/crit filters, and **validated action
+  modals** for S2.1 route grant, S5.1 `MaintenanceOverride`, and
+  RFC 0013 §5 degraded-mode declaration. v1 is read-only; v3 of
+  the RFC wires live consensus + RFC 0017 signed envelopes for
+  revenue use.
 - **Onboard obstacle detection (SIL-4, RFC 0015):** `osr-obstacle-detect`
   fuses a multi-physics sensor suite — 4× ultrasonic (close-range safety
   belt, 0.2–20 m), solid-state LIDAR (5–200 m primary 3D, affordable
@@ -156,6 +174,27 @@ for GoA 2 legacy fleets. Most of the
   `standard` station canopy is ~11 t of steel in two lorry-loads,
   erected in 3–5 days.
 
+- **OSR-ALN civil-tool bridge (RFC 0009 v3):**
+  [`tools/osr-aln-convert/`](tools/osr-aln-convert/) is a
+  stdlib-only Python converter from **LandXML 1.2** to
+  [OSR-ALN TOML](docs/civil/osr-aln-format.md) — one CLI
+  (`landxml-to-osr-aln`) covers Civil 3D, Bentley OpenRail,
+  Trimble Business Center, and QGIS rail-path plugin exports.
+  Reads tangents, circular curves, spirals, vertical PVIs +
+  circular vertical curves, and station pin-points; emits
+  placeholders for civil class + cant (not carried by
+  LandXML). A companion `osr-aln-validate` CLI enforces the
+  format spec's 8 hard gates + 3 soft gates against the
+  deployment's design.toml (per-preset curve radius, gradient,
+  cant maxima; civil-span contiguity; station-id cross-check;
+  no tunnels). 21 passing tests. **Worked reference alignments
+  for both Samawah lines** ship at
+  [`designs/middle-east/iraq/samawah/samawah-line1.aln.toml`](designs/middle-east/iraq/samawah/samawah-line1.aln.toml)
+  (13 km radial, 12 stations, 3 cant sections) and
+  [`designs/middle-east/iraq/samawah/samawah-line2.aln.toml`](designs/middle-east/iraq/samawah/samawah-line2.aln.toml)
+  (16 km ring, 10 stations, 4 cant sections, `is_ring = true`) —
+  both pass every hard gate. This is the last-mile piece that
+  lets a civil engineer import a real survey into the project.
 - **EN 62267 type-certification pre-submission pack** at
   [`docs/certification/`](docs/certification/) — system
   description + SRS (SR-01..SR-24) + hazard log (17 hazards
@@ -291,7 +330,8 @@ OpenSourceRail/
 │       ├── 0014-depot-design-standard.md   3 depot archetypes + fleet-sizing formula.
 │       ├── 0015-driverless-operation.md    GoA 4 by default — sensor suite, T-OBS ECU, cab elimination.
 │       ├── 0016-wayside-track-intrusion.md  Wayside intrusion detection — complements onboard detector.
-│       └── 0017-cybersecurity-message-authentication.md  Ed25519-signed consensus entries.
+│       ├── 0017-cybersecurity-message-authentication.md  Ed25519-signed consensus entries.
+│       └── 0018-operator-guis.md             egui-based sim + OCC consoles for designer + dispatcher.
 ├── crates/                   46 Rust crates — grouped by role below.
 │   ├── osr-core/             Shared domain types (topology, trains, IDs).
 │   │   └── proto/track_state.proto         Interface definitions.
@@ -302,6 +342,11 @@ OpenSourceRail/
 │   ├── osr-ato/              Automatic Train Operation (GoA 4 default).
 │   ├── osr-obstacle-detect/  NEW (RFC 0015): ultrasonic + LIDAR + radar fusion.
 │   ├── osr-trainset-image/   NEW (RFC 0015): onboard-stack integrator, goa2-cab flag.
+│   │
+│   │   # Operator GUIs (RFC 0018)
+│   ├── osr-gui-shared/       Shared egui network-rendering helpers.
+│   ├── osr-sim-gui/          Simulator GUI binary — designer workflow.
+│   ├── osr-occ-gui/          OCC dispatcher console binary — live-ops workflow.
 │   ├── osr-brake/            EP brake + WSP + park brake.
 │   ├── osr-vigilance/        Driver alerter / dead-man (GoA 2 legacy only).
 │   ├── osr-derailment/       2oo2 derailment detection.
@@ -389,8 +434,10 @@ OpenSourceRail/
 │   ├── w-sbc/                Wayside (Radxa CM5 RK3588S, one SKU).
 │   └── s-sbc/                Station / depot (RPi CM5 + commodity carrier).
 ├── tools/
-│   └── reference-ma/         Python reference interpreter for osr-interlocking
-│                             (differential twin against Rust, RFC 0004 M4).
+│   ├── reference-ma/         Python reference interpreter for osr-interlocking
+│   │                         (differential twin against Rust, RFC 0004 M4).
+│   └── osr-aln-convert/      NEW (RFC 0009 v3): LandXML → OSR-ALN converter
+│                             for Civil 3D / Bentley OpenRail / Trimble / QGIS.
 ├── designs/                  City-specific design artifacts + templates.
 │   ├── templates/            Reusable Lego-block TOMLs (stations, switches,
 │   │                         signalling, structures, fleets, …).

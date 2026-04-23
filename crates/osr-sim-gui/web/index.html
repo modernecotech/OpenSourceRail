@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>OSR Sim GUI</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- trunk picks up this link to build the WASM bundle. -->
+  <link data-trunk rel="rust" data-bin="osr-sim-gui" data-cargo-features="" data-wasm-opt="z" />
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background: #15161c;
+      color: #e8e8ec;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    #loading {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      font-size: 14px;
+      color: #9a9ba5;
+    }
+    canvas {
+      display: block;
+      width: 100%;
+      height: 100%;
+      background: #15161c;
+    }
+  </style>
+</head>
+<body>
+  <div id="loading">Loading OSR Sim GUI…</div>
+  <canvas id="osr_sim_canvas"></canvas>
+  <script type="module">
+    import init, { start_web } from './osr-sim-gui.js';
+    (async () => {
+      await init();
+      document.getElementById('loading').style.display = 'none';
+      await start_web('osr_sim_canvas');
+    })();
+  </script>
+</body>
+</html>

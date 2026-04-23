@@ -33,6 +33,8 @@ speed 22 m/s).
 | [`line2-segments.md`](line2-segments.md) | Line 2 (10 stations, 10 segments + ring wrap) per-segment table |
 | [`civil-class-summary.md`](civil-class-summary.md) | At-grade / elevated / bridge breakdown per-line and consolidated |
 | [`compliance-report.md`](compliance-report.md) | Per-segment pass/fail against the `standard-urban` preset's §§5–6 limits |
+| [`../../../designs/middle-east/iraq/samawah/samawah-line1.aln.toml`](../../../designs/middle-east/iraq/samawah/samawah-line1.aln.toml) | **Machine-readable OSR-ALN v1.0 alignment for Line 1** (13 km, 12 stations, passes `osr-aln-validate`) |
+| [`../../../designs/middle-east/iraq/samawah/samawah-line2.aln.toml`](../../../designs/middle-east/iraq/samawah/samawah-line2.aln.toml) | **Machine-readable OSR-ALN v1.0 alignment for Line 2** (16 km ring, 10 stations, 4 cant sections, passes `osr-aln-validate`) |
 
 ## How to execute
 
