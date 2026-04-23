@@ -53,6 +53,7 @@ fn arb_inputs() -> BrakeInputs {
         fire_emergency: kani::any(),
         derailment_emergency: kani::any(),
         driver_emergency: kani::any(),
+        obstacle_emergency: kani::any(),
         park_requested: kani::any(),
         measured_speed_mmps,
         wheel_speed_mmps,

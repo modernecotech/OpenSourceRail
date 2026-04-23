@@ -455,17 +455,23 @@ to Kani harnesses; proptest coverage across the same properties.
   display functions already split out to `osr-pis-onboard` so
   this crate is truly cab-only.
 
-A new workspace feature flag `goa4-default` disables both
-crates in the default build.
+A workspace feature flag `goa2-cab` (additive, opt-in) is the
+canonical switch for legacy fleets: integrator crates that build
+a trainset image honour this flag to include `osr-dmi` and
+`osr-vigilance`. The default build does not include them. The
+flag is a forward-looking contract — it takes effect once the
+trainset-image integrator crate lands (v2 per §11); until then
+all workspace crates compile unconditionally and the flag is
+documentation.
 
 ## 11. Rollout
 
 | Phase | Deliverable | Dependencies |
 |---|---|---|
 | **v0** | This RFC ratified | — |
-| **v1** ✅ | `osr-obstacle-detect` crate scaffolded with the five Kani harnesses + proptest properties (done 2026-04-22) | v0 |
-| **v2** | Full sensor-fusion reference implementation with simulated sensor traces from `osr-sim` | v1 |
-| **v3** | T-OBS v2 spec (net list + pinout + power budget + safety-nets) at `hardware/t-obs/schematics/v2-spec/` | v0 |
+| **v1** ✅ | `osr-obstacle-detect` crate at [`crates/osr-obstacle-detect/`](../../crates/osr-obstacle-detect/) — SIL-4 pure-function evaluator with O1/O2/O3/O4a/O4b/O5 Kani harnesses + 8 proptests (26 tests total); GSN safety-case goals G15–G19 at [`docs/safety-case/gsn/60-obstacle-detect.toml`](../safety-case/gsn/60-obstacle-detect.toml) close against real Kani + proptest evidence (done 2026-04-22). | v0 |
+| **v2** ✅ (first pass) | `osr-sim` shadow onboard stack now calls `osr_obstacle_detect::evaluate` at every tick: each `OnboardShadow` carries an `obstacle_out` field, feeds an all-clear synthetic `SensorFrame` into the evaluator, and threads `ObstacleVerdict::EmergencyBrake` through `BrakeInputs::obstacle_emergency` into the existing emergency-source union. Per-verdict tick counters roll up in `OnboardSummary::total_obstacle_{restricted,crawl,emergency}_ticks`; the simulator summary prints them under "Onboard shadow stack". `BrakeInputs`, `EmergencySources` (in both `osr-brake` and `osr-tcms`), and the brake evaluator now carry an `obstacle_emergency` field end-to-end. Scenario-driven sensor-fault injection to exercise O1..O5 under load lands as v2.1. (done 2026-04-23) | v1 |
+| **v3** ✅ | T-OBS v2 schematic specification at [`hardware/t-obs/schematics/v2-spec/`](../../hardware/t-obs/schematics/v2-spec/) — block diagram + per-rail power budget + safety-nets with 2oo2 AND-gate design + RP2350 A/B pinouts + 12-entry M12 connector table (done 2026-04-22). KiCad capture is v3.1, deferred alongside the RFC 0007 hardware KiCad rollout. | v0 |
 | **v4** | Type-certification package against EN 62267 GoA 4 | v2, v3 |
 | **v5** | First driverless revenue service at Samawah | RFC 0003, v4 |
 

@@ -14,12 +14,18 @@ pub struct EmergencySources {
     pub fire: bool,
     pub derailment: bool,
     pub driver: bool,
+    pub obstacle: bool,
 }
 
 impl EmergencySources {
     #[must_use]
     pub fn any(&self) -> bool {
-        self.atp || self.vigilance || self.fire || self.derailment || self.driver
+        self.atp
+            || self.vigilance
+            || self.fire
+            || self.derailment
+            || self.driver
+            || self.obstacle
     }
 
     #[must_use]
@@ -29,6 +35,7 @@ impl EmergencySources {
             + u8::from(self.fire)
             + u8::from(self.derailment)
             + u8::from(self.driver)
+            + u8::from(self.obstacle)
     }
 }
 

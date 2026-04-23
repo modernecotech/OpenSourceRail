@@ -24,17 +24,19 @@ fn arb_inputs() -> impl Strategy<Value = BrakeInputs> {
         any::<bool>(),
         any::<bool>(),
         any::<bool>(),
+        any::<bool>(),
         -30_000i32..30_000,
         -30_000i32..30_000,
         0u16..=1000,
     )
         .prop_map(
-            |(cmd, vig, fire, derail, driver, park, meas, wheel, regen)| BrakeInputs {
+            |(cmd, vig, fire, derail, driver, obstacle, park, meas, wheel, regen)| BrakeInputs {
                 atp_command: cmd,
                 vigilance_emergency: vig,
                 fire_emergency: fire,
                 derailment_emergency: derail,
                 driver_emergency: driver,
+                obstacle_emergency: obstacle,
                 park_requested: park,
                 measured_speed_mmps: meas,
                 wheel_speed_mmps: wheel,
@@ -85,6 +87,7 @@ proptest! {
         prop_assert_eq!(out.emergency_sources.fire, i.fire_emergency);
         prop_assert_eq!(out.emergency_sources.derailment, i.derailment_emergency);
         prop_assert_eq!(out.emergency_sources.driver, i.driver_emergency);
+        prop_assert_eq!(out.emergency_sources.obstacle, i.obstacle_emergency);
     }
 }
 
@@ -172,6 +175,7 @@ proptest! {
             fire_emergency: false,
             derailment_emergency: false,
             driver_emergency: false,
+            obstacle_emergency: false,
             park_requested: false,
             measured_speed_mmps: 10_000,
             wheel_speed_mmps: 10_000,  // no slide

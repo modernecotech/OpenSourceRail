@@ -26,7 +26,7 @@ fn arb_status() -> impl Strategy<Value = ConsistStatus> {
         -30_000i32..30_000,
         any::<bool>(),
         arb_alarm(),
-        (any::<bool>(), any::<bool>(), any::<bool>(), any::<bool>(), any::<bool>()),
+        (any::<bool>(), any::<bool>(), any::<bool>(), any::<bool>(), any::<bool>(), any::<bool>()),
         any::<bool>(),
         0u16..=1000,
         any::<bool>(),
@@ -34,8 +34,15 @@ fn arb_status() -> impl Strategy<Value = ConsistStatus> {
         any::<bool>(),
     )
         .prop_map(|(speed, at_s, alarm, src, ready, soc, r24, r110, r400)| {
-            let (atp, vig, fire, derail, driver) = src;
-            let sources = EmergencySources { atp, vigilance: vig, fire, derailment: derail, driver };
+            let (atp, vig, fire, derail, driver, obstacle) = src;
+            let sources = EmergencySources {
+                atp,
+                vigilance: vig,
+                fire,
+                derailment: derail,
+                driver,
+                obstacle,
+            };
             let any_em = sources.any();
             ConsistStatus {
                 now_ns: 0,

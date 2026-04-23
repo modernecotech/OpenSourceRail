@@ -6,7 +6,7 @@
 > systems — built for the developing world, built to be owned by the countries
 > that deploy it.
 
-**Status:** 47 Rust crates (654 tests passing, 0 failing) plus two Python
+**Status:** 48 Rust crates (654 tests passing, 0 failing) plus two Python
 sidecars (`design-py` for GIS + network synthesis, `mechanical-py` for
 parametric mechanical + civil + station components under build123d).
 Deployments ship as **GoA 4 (Unattended, driverless)** from day one
@@ -16,11 +16,12 @@ cab is replaced by a nose-cone obstacle-detection sensor suite
 camera) on a dedicated T-OBS ECU. The Samawah two-line reference scenario
 ([RFC 0003](docs/rfcs/0003-samawah-reference-deployment.md)) runs end-to-end,
 and the design pipeline now synthesises two-line networks for arbitrary cities
-directly from OpenStreetMap. Fourteen RFCs cover the full system from software
-architecture through rail civil engineering; the operations rulebook
-([RFC 0013](docs/rfcs/0013-operations-rulebook.md)) is drafted across all
-five role families (driver / dispatcher / station-staff / maintenance /
-control-centre). Most of the
+directly from OpenStreetMap. Fifteen RFCs cover the full system from software
+architecture through rail civil engineering to driverless operation; the
+operations rulebook ([RFC 0013](docs/rfcs/0013-operations-rulebook.md)) is
+drafted across four shipping role families (dispatcher / station-staff /
+maintenance / control-centre) plus a historical driver section retained
+for GoA 2 legacy fleets. Most of the
 [RFC 0005](docs/rfcs/0005-sbc-software-architecture.md) crate map is in tree:
 
 - **Onboard safety chain (SIL-4):** position fusion → ATP → brake + obstacle-

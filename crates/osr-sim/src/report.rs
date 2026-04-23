@@ -128,6 +128,29 @@ pub fn print_summary(_config: &ScenarioConfig, _runtime: &RuntimeConfig, r: &Sim
         }
     }
 
+    if r.onboard.ticks_evaluated > 0 {
+        println!("\n────────── Onboard shadow stack (SIL-4 monitors) ──────────");
+        println!("Ticks evaluated    : {:>10}", r.onboard.ticks_evaluated);
+        println!(
+            "Release / service / emergency : {} / {} / {}",
+            r.onboard.total_release_ticks,
+            r.onboard.total_service_ticks,
+            r.onboard.total_emergency_ticks,
+        );
+        println!(
+            "Fire / derail / vigilance trips: {} / {} / {}",
+            r.onboard.total_fire_trip_ticks,
+            r.onboard.total_derailment_trip_ticks,
+            r.onboard.total_vigilance_trip_ticks,
+        );
+        println!(
+            "Obstacle-detect verdicts (RFC 0015): RestrictedSpeed={}  CrawlOnly={}  EmergencyBrake={}",
+            r.onboard.total_obstacle_restricted_ticks,
+            r.onboard.total_obstacle_crawl_ticks,
+            r.onboard.total_obstacle_emergency_ticks,
+        );
+    }
+
     if r.ma_check.checks_run > 0 {
         println!("\n────────── MA computer integration (osr-interlocking) ──────────");
         println!("Sweeps run         : {:>10}", r.ma_check.checks_run);

@@ -66,6 +66,7 @@ pub struct TcmsInputs {
     pub fire_emergency: bool,
     pub derailment_emergency: bool,
     pub driver_emergency: bool,
+    pub obstacle_emergency: bool,
 
     // Interlock + traction readiness.
     pub doors_interlock_ok: bool,
@@ -93,7 +94,8 @@ pub struct TcmsInputs {
 // Output
 // ---------------------------------------------------------------------------
 
-/// Emergency-source bitmask, mirrors the 5 O4-topic sources.
+/// Emergency-source bitmask, mirrors the 6 O4-topic sources
+/// (atp + vigilance + fire + derailment + driver + obstacle).
 #[derive(Copy, Clone, Debug, PartialEq, Eq, Default, Serialize, Deserialize)]
 pub struct EmergencySources {
     pub atp: bool,
@@ -101,12 +103,18 @@ pub struct EmergencySources {
     pub fire: bool,
     pub derailment: bool,
     pub driver: bool,
+    pub obstacle: bool,
 }
 
 impl EmergencySources {
     #[must_use]
     pub fn any(&self) -> bool {
-        self.atp || self.vigilance || self.fire || self.derailment || self.driver
+        self.atp
+            || self.vigilance
+            || self.fire
+            || self.derailment
+            || self.driver
+            || self.obstacle
     }
     #[must_use]
     pub fn count(&self) -> u8 {
@@ -115,6 +123,7 @@ impl EmergencySources {
             + u8::from(self.fire)
             + u8::from(self.derailment)
             + u8::from(self.driver)
+            + u8::from(self.obstacle)
     }
 }
 
@@ -152,6 +161,7 @@ pub fn tcms_evaluate(inputs: &TcmsInputs) -> ConsistStatus {
         fire: inputs.fire_emergency,
         derailment: inputs.derailment_emergency,
         driver: inputs.driver_emergency,
+        obstacle: inputs.obstacle_emergency,
     };
     let any_emergency = emergency_sources.any();
 
@@ -220,6 +230,7 @@ mod tests {
             fire_emergency: false,
             derailment_emergency: false,
             driver_emergency: false,
+            obstacle_emergency: false,
             doors_interlock_ok: true,
             bms_contactor_closed: true,
             traction_inverter_enabled: true,

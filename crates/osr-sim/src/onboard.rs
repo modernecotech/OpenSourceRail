@@ -64,6 +64,10 @@ use osr_fire_safety::{
     fire_evaluate, BaySensors, FireInputs, FireParams, FireState,
 };
 use osr_interlocking::{far_end_of, forward_chain, MovementAuthority, MAX_MA_DISTANCE_MM, MA_VALIDITY_WINDOW_NS};
+use osr_obstacle_detect::{
+    evaluate as obstacle_evaluate, ObstacleOutcome, ObstacleVerdict, SensorFrame as ObsFrame,
+    TriggerReason as ObsReason,
+};
 use osr_odometry::{odom_step, BaliseId, OdomCalibration, OdomState, SensorTick};
 use osr_traction::{traction_evaluate, InverterState, TractionInputs, TractionParams, TractionState};
 use osr_vigilance::{
@@ -103,6 +107,10 @@ pub struct OnboardShadow {
     pub derailment_params: DerailmentParams,
     pub vigilance_out: VigilanceOutput,
     pub vigilance_params: VigilanceParams,
+    /// Last obstacle-detector outcome — re-evaluated every tick from
+    /// the synthetic sensor frame. Carried across ticks so reporting
+    /// + stats can track verdict transitions.
+    pub obstacle_out: ObstacleOutcome,
 
     /// Rolling statistics across the full run.
     pub stats: OnboardStats,
@@ -205,6 +213,13 @@ pub struct OnboardStats {
     pub fire_trip_ticks: u32,
     pub derailment_trip_ticks: u32,
     pub vigilance_trip_ticks: u32,
+    /// Obstacle-detector verdict counters — per-verdict tick counts
+    /// across the run. In the shadow stack the synthetic sensor
+    /// frame is always clear, so these should all be zero unless a
+    /// fault is injected.
+    pub obstacle_restricted_ticks: u32,
+    pub obstacle_crawl_ticks: u32,
+    pub obstacle_emergency_ticks: u32,
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
@@ -232,6 +247,9 @@ pub struct OnboardSummary {
     pub total_fire_trip_ticks: u64,
     pub total_derailment_trip_ticks: u64,
     pub total_vigilance_trip_ticks: u64,
+    pub total_obstacle_restricted_ticks: u64,
+    pub total_obstacle_crawl_ticks: u64,
+    pub total_obstacle_emergency_ticks: u64,
     pub per_train: Vec<PerTrainOnboard>,
     pub emergencies: Vec<EmergencyRecord>,
 }
@@ -300,6 +318,7 @@ impl OnboardShadow {
             derailment_params: DerailmentParams::default_metro(),
             vigilance_out: VigilanceOutput::default(),
             vigilance_params: VigilanceParams::light_metro_default(),
+            obstacle_out: ObstacleOutcome::clear(),
             stats,
             last_t_ns: 0,
         }
@@ -578,6 +597,31 @@ pub fn onboard_tick(
     let vig_out = vigilance_evaluate(&shadow.vigilance_out, &vig_in, &shadow.vigilance_params);
     shadow.vigilance_out = vig_out;
 
+    // Obstacle detection (RFC 0015). Shadow stack feeds a synthetic
+    // "all clear" sensor frame — no detections, all channels fresh,
+    // peer agrees. Under these inputs the evaluator always returns
+    // `Clear`; a fault-injection hook can later replace this with
+    // scenario-driven sensor traces to exercise O1..O5.
+    //
+    // Stopping distance here is derived from the current shadow
+    // kinematic state: `v² / (2·a)` with `a` = emergency decel. This
+    // matches the LATERAL_GATE_MM envelope used inside
+    // `osr_obstacle_detect::evaluate`.
+    let obs_frame = ObsFrame::clear();
+    let v_mmps = shadow.odom.speed_mmps.unsigned_abs();
+    let decel_mmps2 = shadow.kin.decel_mmps2.max(1) as u64;
+    // stopping_distance_mm = v² / (2·a); both v and a are positive.
+    let stopping_distance_mm: u32 = (u64::from(v_mmps) * u64::from(v_mmps)
+        / (2 * decel_mmps2))
+        .min(u64::from(u32::MAX)) as u32;
+    let obs_out = obstacle_evaluate(
+        &obs_frame,
+        v_mmps,
+        stopping_distance_mm.max(10_000),
+        /*peer_clear=*/ true,
+    );
+    shadow.obstacle_out = obs_out;
+
     // 10. Brake — combine ATP command with ATO's service brake. ATP
     // wins on Emergency; otherwise the service level is the max of
     // the two. The SIL-4 monitor outputs all feed in as separate
@@ -607,6 +651,7 @@ pub fn onboard_tick(
         fire_emergency: fire_out.emergency_requested,
         derailment_emergency: derail_out.emergency_requested,
         driver_emergency: false,
+        obstacle_emergency: obs_out.verdict == ObstacleVerdict::EmergencyBrake,
         park_requested: false,
         measured_speed_mmps: shadow.odom.speed_mmps,
         wheel_speed_mmps: shadow.odom.speed_mmps,
@@ -627,6 +672,22 @@ pub fn onboard_tick(
         shadow.stats.vigilance_trip_ticks =
             shadow.stats.vigilance_trip_ticks.saturating_add(1);
     }
+    match obs_out.verdict {
+        ObstacleVerdict::Clear => {}
+        ObstacleVerdict::RestrictedSpeed => {
+            shadow.stats.obstacle_restricted_ticks =
+                shadow.stats.obstacle_restricted_ticks.saturating_add(1);
+        }
+        ObstacleVerdict::CrawlOnly => {
+            shadow.stats.obstacle_crawl_ticks =
+                shadow.stats.obstacle_crawl_ticks.saturating_add(1);
+        }
+        ObstacleVerdict::EmergencyBrake => {
+            shadow.stats.obstacle_emergency_ticks =
+                shadow.stats.obstacle_emergency_ticks.saturating_add(1);
+        }
+    }
+    let _ = ObsReason::None; // keep TriggerReason enum referenced
 
     // 12. Stats.
     record_tick(
@@ -927,6 +988,15 @@ pub fn summarise(shadows: &[OnboardShadow], trains: &[Train]) -> OnboardSummary 
         summary.total_vigilance_trip_ticks = summary
             .total_vigilance_trip_ticks
             .saturating_add(u64::from(sh.stats.vigilance_trip_ticks));
+        summary.total_obstacle_restricted_ticks = summary
+            .total_obstacle_restricted_ticks
+            .saturating_add(u64::from(sh.stats.obstacle_restricted_ticks));
+        summary.total_obstacle_crawl_ticks = summary
+            .total_obstacle_crawl_ticks
+            .saturating_add(u64::from(sh.stats.obstacle_crawl_ticks));
+        summary.total_obstacle_emergency_ticks = summary
+            .total_obstacle_emergency_ticks
+            .saturating_add(u64::from(sh.stats.obstacle_emergency_ticks));
         if let Some(e) = sh.stats.first_emergency.clone() {
             summary.emergencies.push(e);
         }

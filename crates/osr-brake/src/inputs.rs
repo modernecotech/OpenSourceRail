@@ -24,8 +24,15 @@ pub struct BrakeInputs {
     pub vigilance_emergency: bool,
     pub fire_emergency: bool,
     pub derailment_emergency: bool,
-    /// Driver's cab emergency-brake plunger. Hardwired; safety-rated.
+    /// Driver's cab emergency-brake plunger (GoA 2 legacy) OR the
+    /// passenger-intercom-triggered emergency via OCC remote-assist
+    /// (GoA 4, RFC 0015 §5.3). Hardwired path; safety-rated.
     pub driver_emergency: bool,
+    /// Obstacle-detection emergency from `osr-obstacle-detect` —
+    /// `ObstacleVerdict::EmergencyBrake` from the T-OBS 2oo2 stage.
+    /// In GoA 4 operation this is the primary new emergency source
+    /// that replaces the driver's-eye detection (RFC 0015 §5.1).
+    pub obstacle_emergency: bool,
 
     /// Parking-brake request from the driver's console or the depot
     /// dispatch system.
@@ -58,6 +65,7 @@ impl BrakeInputs {
             || self.fire_emergency
             || self.derailment_emergency
             || self.driver_emergency
+            || self.obstacle_emergency
     }
 }
 

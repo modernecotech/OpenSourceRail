@@ -21,6 +21,7 @@ pub fn brake_evaluate(inputs: &BrakeInputs, params: &BrakeParams) -> BrakeOutput
         fire: inputs.fire_emergency,
         derailment: inputs.derailment_emergency,
         driver: inputs.driver_emergency,
+        obstacle: inputs.obstacle_emergency,
     };
 
     // 2. In emergency, produce a full-brake output (B3).
@@ -158,6 +159,7 @@ mod tests {
             fire_emergency: false,
             derailment_emergency: false,
             driver_emergency: false,
+            obstacle_emergency: false,
             park_requested: false,
             measured_speed_mmps: 10_000,
             wheel_speed_mmps: 10_000,
