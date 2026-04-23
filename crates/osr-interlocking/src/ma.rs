@@ -190,6 +190,11 @@ pub fn compute_self_ma_from_state(
 /// - Any `MaintenanceOverride` on this section is consistent with this
 ///   train (not granted exclusively to someone else).
 /// - Any `RouteGrant` locking this section is this train's route.
+/// - The latest wayside `SectionIntrusion` verdict (if any) is
+///   `Clear` — any `Unknown` / `Present` verdict withholds MA
+///   (RFC 0016 v2). Sections with no verdict on record are treated
+///   as not-instrumented and do not add a gate — see
+///   [`crate::section_intrusion_permits`].
 ///
 /// Uncertainty produces NOT available, always. This is P4's concrete
 /// enforcement point.
@@ -222,6 +227,12 @@ pub fn section_available_to(
         if over.section == section {
             return false;
         }
+    }
+
+    // (d) Wayside intrusion gate (RFC 0016 v2). If the section has a
+    // recent verdict on record, it must be `Clear`.
+    if !crate::state::section_intrusion_permits(state, section) {
+        return false;
     }
 
     true
@@ -523,5 +534,119 @@ mod tests {
         let net = net_3_sections();
         let ma = compute_self_ma(TrainId::new(7), &[], &net, 1_000_000);
         assert!(ma.valid_until_ns - 1_000_000 <= MA_VALIDITY_WINDOW_NS);
+    }
+
+    // -----------------------------------------------------------------
+    // RFC 0016 v2 — intrusion-gate tests
+    // -----------------------------------------------------------------
+
+    use crate::log::{IntrusionState, SectionIntrusion};
+    use osr_core::EntityId;
+
+    fn intrusion_entry(id: u64, section: u64, istate: IntrusionState) -> Entry {
+        entry(
+            id,
+            1_000,
+            EntryPayload::SectionIntrusion(SectionIntrusion {
+                section: SectionId::new(section),
+                state: istate,
+                issued_by: EntityId::new(100),
+                observed_at_ns: 900,
+            }),
+        )
+    }
+
+    #[test]
+    fn intrusion_clear_permits_section() {
+        let log = vec![
+            entry(1, 100, EntryPayload::TrainRegistration(TrainRegistration {
+                train_id: TrainId::new(7),
+                consist: ConsistDescriptor::reference_3car(),
+                initial_position: pos(1000, 0),
+            })),
+            intrusion_entry(2, 1001, IntrusionState::Clear),
+        ];
+        let state = derive_state(&log);
+        assert!(section_available_to(TrainId::new(7), SectionId::new(1001), &state));
+    }
+
+    #[test]
+    fn intrusion_present_blocks_section() {
+        let log = vec![
+            entry(1, 100, EntryPayload::TrainRegistration(TrainRegistration {
+                train_id: TrainId::new(7),
+                consist: ConsistDescriptor::reference_3car(),
+                initial_position: pos(1000, 0),
+            })),
+            intrusion_entry(2, 1001, IntrusionState::Present),
+        ];
+        let state = derive_state(&log);
+        assert!(
+            !section_available_to(TrainId::new(7), SectionId::new(1001), &state),
+            "a Present verdict must withhold MA"
+        );
+    }
+
+    #[test]
+    fn intrusion_unknown_is_fail_restrictive() {
+        let log = vec![
+            entry(1, 100, EntryPayload::TrainRegistration(TrainRegistration {
+                train_id: TrainId::new(7),
+                consist: ConsistDescriptor::reference_3car(),
+                initial_position: pos(1000, 0),
+            })),
+            intrusion_entry(2, 1001, IntrusionState::Unknown),
+        ];
+        let state = derive_state(&log);
+        assert!(
+            !section_available_to(TrainId::new(7), SectionId::new(1001), &state),
+            "an Unknown verdict is fail-restrictive — must withhold MA"
+        );
+    }
+
+    #[test]
+    fn no_intrusion_entry_is_permissive() {
+        // Section 1001 has no SectionIntrusion record → treated as
+        // "not instrumented" → no gate added. This preserves backwards
+        // compatibility for deployments that haven't installed wayside
+        // sensors on every section yet.
+        let log = vec![
+            entry(1, 100, EntryPayload::TrainRegistration(TrainRegistration {
+                train_id: TrainId::new(7),
+                consist: ConsistDescriptor::reference_3car(),
+                initial_position: pos(1000, 0),
+            })),
+        ];
+        let state = derive_state(&log);
+        assert!(section_available_to(TrainId::new(7), SectionId::new(1001), &state));
+    }
+
+    #[test]
+    fn latest_intrusion_verdict_wins() {
+        // Present → Clear: Clear wins (latest verdict).
+        let log = vec![
+            entry(1, 100, EntryPayload::TrainRegistration(TrainRegistration {
+                train_id: TrainId::new(7),
+                consist: ConsistDescriptor::reference_3car(),
+                initial_position: pos(1000, 0),
+            })),
+            intrusion_entry(2, 1001, IntrusionState::Present),
+            intrusion_entry(3, 1001, IntrusionState::Clear),
+        ];
+        let state = derive_state(&log);
+        assert!(section_available_to(TrainId::new(7), SectionId::new(1001), &state));
+
+        // Clear → Present: Present wins.
+        let log2 = vec![
+            entry(1, 100, EntryPayload::TrainRegistration(TrainRegistration {
+                train_id: TrainId::new(7),
+                consist: ConsistDescriptor::reference_3car(),
+                initial_position: pos(1000, 0),
+            })),
+            intrusion_entry(2, 1001, IntrusionState::Clear),
+            intrusion_entry(3, 1001, IntrusionState::Present),
+        ];
+        let state2 = derive_state(&log2);
+        assert!(!section_available_to(TrainId::new(7), SectionId::new(1001), &state2));
     }
 }

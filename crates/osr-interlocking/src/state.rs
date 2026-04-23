@@ -10,9 +10,9 @@
 //! and will also be verified with Kani in M3.
 
 use crate::log::{
-    Confidence, Entry, EntryPayload, Heartbeat, HealthStatus, MaintenanceOverride,
-    RouteGrant, SpeedRestriction, SwitchPosition, TrainDeparture, TrainPositionReport,
-    TrainRegistration,
+    Confidence, Entry, EntryPayload, Heartbeat, HealthStatus, IntrusionState,
+    MaintenanceOverride, RouteGrant, SectionIntrusion, SpeedRestriction, SwitchPosition,
+    TrainDeparture, TrainPositionReport, TrainRegistration,
 };
 use osr_core::{
     ConsistDescriptor, EntityId, Position, RouteId, SectionId, SwitchId, TrainId,
@@ -51,6 +51,11 @@ pub struct DerivedState {
 
     /// Active maintenance overrides. Same reasoning as speed_restrictions.
     pub maintenance_overrides: Vec<MaintenanceOverride>,
+
+    /// Latest intrusion-detect verdict per section (RFC 0016 v2).
+    /// Absent = never reported → fail-restrictive: treated as not-Clear
+    /// for any section referenced by an MA computation.
+    pub section_intrusions: BTreeMap<SectionId, SectionIntrusion>,
 
     /// Last-seen monotonic sequence per entity, for stale-heartbeat detection.
     pub entity_liveness: BTreeMap<EntityId, EntityLiveness>,
@@ -183,10 +188,39 @@ fn apply_entry(state: &mut DerivedState, entry: &Entry) {
         EntryPayload::FormatVersion(fv) => {
             state.format_version = Some(fv.current);
         }
+        EntryPayload::SectionIntrusion(si) => {
+            // Always overwrite with the latest verdict per section.
+            state.section_intrusions.insert(si.section, si.clone());
+        }
         // These don't mutate derived state directly. SwitchCommand is only
         // advisory until a subsequent SwitchObservation confirms; RouteRequest
         // is advisory until a subsequent RouteGrant approves.
         EntryPayload::SwitchCommand(_) | EntryPayload::RouteRequest(_) => {}
+    }
+}
+
+/// Is the section currently permitted by the wayside intrusion
+/// detector?
+///
+/// Three cases:
+/// - The section has a recent verdict of `Clear` → `true`.
+/// - The section has a verdict of `Unknown` or `Present` → `false`
+///   (MA withheld).
+/// - The section has **no verdict** on record → `true`, treated as
+///   "not instrumented." This preserves backwards compatibility for
+///   deployments that haven't installed wayside sensors on every
+///   section yet. The safety case from RFC 0016 still holds for
+///   instrumented sections; uninstrumented sections fall back to the
+///   pre-RFC-0016 gate set (occupancy, routes, overrides).
+///
+/// Per-deployment policy can tighten this default by pushing an
+/// initial `IntrusionState::Unknown` entry for every section at
+/// bootstrap, which forces an actual sensor verdict before the
+/// interlocking will issue MA.
+pub fn section_intrusion_permits(state: &DerivedState, section: SectionId) -> bool {
+    match state.section_intrusions.get(&section) {
+        Some(si) => matches!(si.state, IntrusionState::Clear),
+        None => true,
     }
 }
 

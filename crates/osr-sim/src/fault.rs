@@ -28,10 +28,19 @@
 //! - **Obstacle peer disagreement** — forces `peer_clear = false` in
 //!   the 2oo2 cross-check, forcing the O3 EB path.
 //!
+//! Wayside intrusion-detect faults (RFC 0016 v3). These exercise the
+//! full wayside→interlocking→train chain:
+//!
+//! - **Wayside intrusion** — injects a `SectionIntrusion` log entry on
+//!   the named section with state `Present` or `Unknown`, which
+//!   triggers gate (d) of `section_available_to` and withholds MA to
+//!   any train that needs to enter the section.
+//!
 //! Faults are declared in the scenario TOML under `[[faults]]`; see
 //! `scenarios/README.md` for the format.
 
-use osr_core::{StationId, TrainId};
+use osr_core::{SectionId, StationId, TrainId};
+use osr_interlocking::IntrusionState;
 use std::collections::{HashMap, HashSet};
 
 // ---------------------------------------------------------------------------
@@ -84,6 +93,15 @@ pub enum FaultKind {
     ObstaclePeerDisagreement {
         scope: TrainFaultScope,
     },
+    /// RFC 0016 v3 — inject a wayside intrusion verdict on a named
+    /// section. The sim emits a `SectionIntrusion` consensus entry
+    /// carrying this state for as long as the fault is active; the
+    /// interlocking's gate (d) then withholds MA to any train that
+    /// needs to cross the affected section.
+    WaysideIntrusion {
+        section: SectionId,
+        state: IntrusionState,
+    },
 }
 
 #[derive(Clone, Debug)]
@@ -122,6 +140,10 @@ pub struct FaultEngine {
     ultrasonic_stale_all: u8,
     peer_disagreement_trains: HashSet<TrainId>,
     peer_disagreement_all: bool,
+    /// Active wayside intrusion injections — `section → state`. The sim
+    /// emits a `SectionIntrusion` entry per tick for each key. Rebuilt
+    /// in `tick()`.
+    wayside_intrusions: HashMap<SectionId, IntrusionState>,
     /// Names of faults that ever activated during the run (for reporting).
     pub fault_log: Vec<FaultLogEntry>,
     fired_names: HashSet<String>,
@@ -152,6 +174,7 @@ impl FaultEngine {
             ultrasonic_stale_all: 0,
             peer_disagreement_trains: HashSet::new(),
             peer_disagreement_all: false,
+            wayside_intrusions: HashMap::new(),
             fault_log: Vec::new(),
             fired_names: HashSet::new(),
         }
@@ -173,6 +196,7 @@ impl FaultEngine {
         self.ultrasonic_stale_all = 0;
         self.peer_disagreement_trains.clear();
         self.peer_disagreement_all = false;
+        self.wayside_intrusions.clear();
 
         for fault in &self.faults {
             let active = t >= fault.from_sim_s && t < fault.to_sim_s;
@@ -236,8 +260,26 @@ impl FaultEngine {
                         self.peer_disagreement_trains.insert(*t);
                     }
                 },
+                FaultKind::WaysideIntrusion { section, state } => {
+                    // Most-restrictive state wins when multiple faults
+                    // overlap on the same section.
+                    let slot = self
+                        .wayside_intrusions
+                        .entry(*section)
+                        .or_insert(IntrusionState::Clear);
+                    *slot = most_restrictive(*slot, *state);
+                }
             }
         }
+    }
+
+    /// Iterator of `(section, state)` pairs for every active wayside-
+    /// intrusion fault. Called once per sim tick to emit
+    /// `SectionIntrusion` consensus entries.
+    pub fn active_wayside_intrusions(
+        &self,
+    ) -> impl Iterator<Item = (SectionId, IntrusionState)> + '_ {
+        self.wayside_intrusions.iter().map(|(s, st)| (*s, *st))
     }
 
     pub fn pv_factor_for(&self, station: StationId) -> f32 {
@@ -281,6 +323,19 @@ impl FaultEngine {
     }
 }
 
+fn most_restrictive(a: IntrusionState, b: IntrusionState) -> IntrusionState {
+    // Present > Unknown > Clear on the severity order defined in
+    // RFC 0016 §5.2.
+    fn rank(s: IntrusionState) -> u8 {
+        match s {
+            IntrusionState::Clear => 0,
+            IntrusionState::Unknown => 1,
+            IntrusionState::Present => 2,
+        }
+    }
+    if rank(a) >= rank(b) { a } else { b }
+}
+
 fn describe_kind(kind: &FaultKind) -> String {
     match kind {
         FaultKind::DustEvent { pv_output_factor, scope } => {
@@ -314,6 +369,14 @@ fn describe_kind(kind: &FaultKind) -> String {
             TrainFaultScope::All => "obstacle peer disagreement (fleet)".to_string(),
             TrainFaultScope::Train(_) => "obstacle peer disagreement (one train)".to_string(),
         },
+        FaultKind::WaysideIntrusion { section, state } => {
+            let s = match state {
+                IntrusionState::Clear => "Clear",
+                IntrusionState::Unknown => "Unknown",
+                IntrusionState::Present => "Present",
+            };
+            format!("wayside intrusion {s} on {section}")
+        }
     }
 }
 

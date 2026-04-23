@@ -57,6 +57,20 @@ impl MaLogBackend {
         }
     }
 
+    /// Emit a wayside `SectionIntrusion` verdict (RFC 0016 v3).
+    pub fn emit_intrusion(
+        &mut self,
+        section: SectionId,
+        state: osr_interlocking::IntrusionState,
+        issued_by: osr_core::EntityId,
+        t_s: u32,
+    ) {
+        match self {
+            Self::Simulated(l) => l.emit_intrusion(section, state, issued_by, t_s),
+            Self::Consensus(c) => c.emit_intrusion(section, state, issued_by, t_s),
+        }
+    }
+
     pub fn entries(&self) -> &[InterlockingEntry] {
         match self {
             Self::Simulated(l) => l.entries(),
@@ -416,6 +430,18 @@ pub fn run(config: &ScenarioConfig, runtime: &RuntimeConfig) -> SimResult {
 
         // Update fault state for this tick.
         faults.tick(t);
+
+        // Emit wayside intrusion entries driven by any active
+        // `WaysideIntrusion` fault (RFC 0016 v3). The sim re-asserts
+        // the latest state each tick so that a fault clearing
+        // produces a matching `Clear` entry on the following tick.
+        //
+        // `issued_by` is a fixed sim-wayside identity; real
+        // deployments would use the W-SBC entity id per section.
+        let wayside_identity = osr_core::EntityId::new(0xBEEF);
+        for (section, state) in faults.active_wayside_intrusions() {
+            ma_log.emit_intrusion(section, state, wayside_identity, t);
+        }
 
         // PV generation, battery storage, grid export/curtail (time-of-day).
         energy.tick_pv(clock_tod, dt, &faults);

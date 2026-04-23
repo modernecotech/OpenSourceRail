@@ -6,7 +6,7 @@
 > systems — built for the developing world, built to be owned by the countries
 > that deploy it.
 
-**Status:** 50 Rust crates (681 tests passing, 0 failing) plus two Python
+**Status:** 51 Rust crates (705 tests passing, 0 failing) plus two Python
 sidecars (`design-py` for GIS + network synthesis, `mechanical-py` for
 parametric mechanical + civil + station components under build123d).
 Deployments ship as **GoA 4 (Unattended, driverless)** from day one
@@ -19,7 +19,7 @@ covering the proactive half of the safety envelope between trains.
 The Samawah two-line reference scenario
 ([RFC 0003](docs/rfcs/0003-samawah-reference-deployment.md)) runs end-to-end,
 and the design pipeline now synthesises two-line networks for arbitrary cities
-directly from OpenStreetMap. Sixteen RFCs cover the full system from software
+directly from OpenStreetMap. Seventeen RFCs cover the full system from software
 architecture through rail civil engineering to driverless operation; the
 operations rulebook ([RFC 0013](docs/rfcs/0013-operations-rulebook.md)) is
 drafted across four shipping role families (dispatcher / station-staff /
@@ -47,16 +47,23 @@ for GoA 2 legacy fleets. Most of the
   offline, radar offline, ultrasonic channel stale, peer disagreement —
   per-train or fleet-wide) and the shadow stack produces the expected
   verdicts end-to-end; see [`scenarios/samawah-obstacle-fault.toml`](scenarios/samawah-obstacle-fault.toml).
+  Wayside intrusion injection likewise — [`scenarios/samawah-wayside-intrusion.toml`](scenarios/samawah-wayside-intrusion.toml)
+  stages Present/Unknown verdicts on specific sections and the
+  interlocking's gate (d) holds MA without any train entering.
 - **Wayside track-intrusion detection (SIL-4, RFC 0016):**
   `osr-intrusion-detect` on the W-SBC fuses fence-line contact
   sensors, ROW-mounted solid-state LIDAR, ROW-mounted mmWave radar,
   and CCTV classifier into a per-section `IntrusionVerdict` —
   `Clear` / `Unknown` / `Present`. Fail-restrictive: a stale sensor
-  yields `Unknown`, not `Clear`. The interlocking withholds MA on
-  any section whose verdict is not `Clear`. Five SIL-4 properties
-  I1–I5 with Kani harnesses + 6 proptests; GSN goals G20–G24 close
-  against real evidence. Complements the onboard obstacle-detect —
-  wayside is proactive (before a train enters), onboard is reactive.
+  yields `Unknown`, not `Clear`. The verdict flows into the consensus
+  log as `EntryPayload::SectionIntrusion`, and
+  `osr-interlocking::section_available_to` gate (d) withholds MA on
+  any section whose verdict is not `Clear` (sections with no verdict
+  are treated as "not instrumented" — backwards-compatible for
+  partially-wired deployments). Five SIL-4 properties I1–I5 with
+  Kani harnesses + 6 proptests; GSN goals G20–G24 close against real
+  evidence. Complements the onboard obstacle-detect — wayside is
+  proactive (before a train enters), onboard is reactive.
 - **Integrator crate + feature-gated legacy stack:**
   [`osr-trainset-image`](crates/osr-trainset-image/) aggregates the
   onboard stack into one versioned deployment unit. Default build is
@@ -148,6 +155,23 @@ for GoA 2 legacy fleets. Most of the
   no on-site welding, no wet concrete except pad footings** — a
   `standard` station canopy is ~11 t of steel in two lorry-loads,
   erected in 3–5 days.
+
+- **EN 62267 type-certification pre-submission pack** at
+  [`docs/certification/`](docs/certification/) — system
+  description + SRS (SR-01..SR-24) + hazard log (17 hazards
+  across 7 classes) + evidence register + clause-by-clause
+  EN 62267 compliance matrix. Every safety requirement traces to
+  a Kani harness / proptest / GSN goal / rulebook rule.
+  Ready for an independent safety assessor (deployment-partner
+  scope).
+- **Consensus-log message authentication (SIL-2, RFC 0017):**
+  `osr-crypto` now ships ed25519 sign + verify primitives alongside
+  the existing HMAC-SHA256; `osr-secbus` wraps them with a per-
+  deployment `KeyRegistry` and a `SignedBytes` envelope that carries
+  issuer + signature alongside the opaque entry bytes. Verification
+  happens before deserialisation so a hostile payload can't exploit a
+  parser bug pre-auth. Three SIL-2 properties S1–S3 with Kani harnesses
+  + 5 proptests; GSN goals G25–G27 close against real evidence.
 
 Still to come: KiCad schematics and gerbers for the [RFC 0007](docs/rfcs/0007-hardware-reference-designs.md)
 host classes (v2 specs at [`hardware/*/schematics/v2-spec/`](hardware/)
@@ -266,7 +290,8 @@ OpenSourceRail/
 │       ├── 0013-operations-rulebook.md     ≤ 60-page per-role rulebook, 3 degraded modes.
 │       ├── 0014-depot-design-standard.md   3 depot archetypes + fleet-sizing formula.
 │       ├── 0015-driverless-operation.md    GoA 4 by default — sensor suite, T-OBS ECU, cab elimination.
-│       └── 0016-wayside-track-intrusion.md  Wayside intrusion detection — complements onboard detector.
+│       ├── 0016-wayside-track-intrusion.md  Wayside intrusion detection — complements onboard detector.
+│       └── 0017-cybersecurity-message-authentication.md  Ed25519-signed consensus entries.
 ├── crates/                   46 Rust crates — grouped by role below.
 │   ├── osr-core/             Shared domain types (topology, trains, IDs).
 │   │   └── proto/track_state.proto         Interface definitions.
@@ -355,7 +380,9 @@ OpenSourceRail/
 │       │                     buildability surfaces, binary + JSON sidecar.
 │       └── osr_batch/        Batch driver + GeoNames → cities.toml scanner
 │                             with built-in existing-transit denylist.
-├── hardware/                 Hardware reference designs (RFC 0007).
+├── hardware/                 Hardware reference designs (RFC 0007 v2-spec
+│   │                         complete across every host class; KiCad capture
+│   │                         pending).
 │   ├── t-ecu-s/              Train safety kernel (2 × RP2350 2oo2 + RPi CM5).
 │   ├── t-ecu-a/              Train application (RPi CM5 carrier).
 │   ├── t-obs/                Train obstacle-detect ECU (2 × RP2350 + CM5 + sensors).
@@ -562,8 +589,10 @@ Right now the highest-leverage contributions are:
    [`docs/operations/`](docs/operations/) rule text against their
    real-world practice. Red-line comments are the v2.1 input.
 6. **Pick an unscaffolded crate from the [RFC 0005](docs/rfcs/0005-sbc-software-architecture.md)
-   map.** Cybersecurity (`osr-secbus`) is still open, as is a full-TSN
-   replacement for the current UDP TCN transport.
+   map.** A full-TSN replacement for the current UDP TCN transport is
+   still open; cybersecurity (`osr-secbus`) v1 is in tree as of
+   [RFC 0017](docs/rfcs/0017-cybersecurity-message-authentication.md)
+   but v2 (wiring into the live consensus wire layer) is open.
 
 ## License
 

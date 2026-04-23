@@ -17,9 +17,10 @@
 //! the run report can report MA-computer behaviour even though the
 //! computer is always on.
 
-use osr_core::{EntryId, Network, Position, TrackRef, TrainId};
+use osr_core::{EntityId, EntryId, Network, Position, SectionId, TrackRef, TrainId};
 use osr_interlocking::log::{
-    Entry, EntryPayload, PositionSource, TrainPositionReport, TrainRegistration,
+    Entry, EntryPayload, IntrusionState, PositionSource, SectionIntrusion, TrainPositionReport,
+    TrainRegistration,
 };
 use osr_interlocking::{compute_self_ma_from_state, DerivedState, MovementAuthority};
 use serde::{Deserialize, Serialize};
@@ -145,6 +146,29 @@ impl SimulatedLog {
                 pack_soc_ppt: (train.soc.clamp(0.0, 1.0) * 1000.0) as u16,
             }),
             ts_ns,
+        );
+    }
+
+    /// Emit a `SectionIntrusion` consensus entry carrying a wayside
+    /// intrusion verdict for one section (RFC 0016 v3). Called from
+    /// the sim tick when the fault engine has an active
+    /// `WaysideIntrusion` fault.
+    pub fn emit_intrusion(
+        &mut self,
+        section: SectionId,
+        state: IntrusionState,
+        issued_by: EntityId,
+        t_s: u32,
+    ) {
+        let ts = Self::ts_ns_from_s(t_s);
+        self.append(
+            EntryPayload::SectionIntrusion(SectionIntrusion {
+                section,
+                state,
+                issued_by,
+                observed_at_ns: ts,
+            }),
+            ts,
         );
     }
 

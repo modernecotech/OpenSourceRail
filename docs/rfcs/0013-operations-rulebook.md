@@ -121,6 +121,7 @@ overlap only where the roles interact.
 | S4 | Weather and environmental — dust storms, heatwave, flood warning |
 | S5 | Maintenance interlock — work-on-track grants, blocking a section from revenue |
 | S6 | Shift end — handover, outstanding-event log, system state summary |
+| S7 | Intrusion response (RFC 0016) — track-patrol dispatch, return-to-service gating, sustained-Unknown escalation |
 
 ### 4.3 Station staff rulebook (target ≤ 10 pages)
 
@@ -142,6 +143,7 @@ overlap only where the roles interact.
 | M4 | Switch maintenance — blade lubrication, detection-sensor cleaning, 30-day check |
 | M5 | Fleet maintenance at depot — inspection intervals (daily / 7-day / 30-day / overhaul) |
 | M6 | Incident site access — derailment response, fire site, crane operations |
+| M7 | Wayside sensor maintenance (RFC 0016) — 30-day walkthrough, post-weather inspection, sensor replacement + calibration |
 
 ### 4.5 Control-centre rulebook (target ≤ 5 pages)
 

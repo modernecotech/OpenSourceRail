@@ -1,6 +1,6 @@
 [package]
 name = "osr-crypto"
-description = "OpenSourceRail — HMAC-SHA256 and constant-time equality wrappers around RustCrypto"
+description = "OpenSourceRail — HMAC-SHA256 + ed25519 + constant-time equality wrappers around RustCrypto"
 version.workspace = true
 edition.workspace = true
 rust-version.workspace = true
@@ -14,6 +14,11 @@ workspace = true
 hmac = "0.12"
 sha2 = "0.10"
 subtle = "2.5"
+# Ed25519 signing + verification (RFC 0017). `ed25519-dalek` is the
+# de-facto audited Rust implementation; it pins its own curve25519
+# primitives and has been fuzz-tested extensively.
+ed25519-dalek = "2"
+rand_core = { version = "0.6", features = ["getrandom"] }
 
 [dev-dependencies]
 proptest = "1"

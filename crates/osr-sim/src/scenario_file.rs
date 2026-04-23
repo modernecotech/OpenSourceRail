@@ -196,6 +196,17 @@ pub struct FaultSpec {
     /// transducers (0..=3). Required for that kind.
     #[serde(default)]
     pub channel: Option<u8>,
+    /// For `wayside_intrusion` (RFC 0016 v3): the numeric section id
+    /// where the intrusion is staged. Section ids are auto-assigned
+    /// by the scenario builder in the order stations are listed;
+    /// forward-direction sections start at 1 000 and reverse-direction
+    /// at 2 000 per-line.
+    #[serde(default)]
+    pub section_id: Option<u64>,
+    /// For `wayside_intrusion`: the verdict state to inject —
+    /// `"clear"`, `"unknown"`, or `"present"`. Default `"present"`.
+    #[serde(default)]
+    pub intrusion_state: Option<String>,
 }
 
 fn default_fault_day() -> u32 {
@@ -236,6 +247,8 @@ pub enum LoadError {
     UltrasonicChannelOutOfRange { name: String, channel: u8 },
     UltrasonicChannelMissing(String),
     UnknownTrain { referenced_by: String, id: String },
+    WaysideIntrusionMissingSection(String),
+    InvalidIntrusionState { name: String, state: String },
 }
 
 impl std::fmt::Display for LoadError {
@@ -292,7 +305,8 @@ impl std::fmt::Display for LoadError {
                 f,
                 "unknown fault kind '{k}' (expected one of: dust_event, grid_outage, \
                  charging_pad_outage, lidar_offline, radar_offline, \
-                 ultrasonic_channel_stale, obstacle_peer_disagreement)"
+                 ultrasonic_channel_stale, obstacle_peer_disagreement, \
+                 wayside_intrusion)"
             ),
             UltrasonicChannelOutOfRange { name, channel } => write!(
                 f,
@@ -305,6 +319,14 @@ impl std::fmt::Display for LoadError {
             UnknownTrain { referenced_by, id } => {
                 write!(f, "train '{id}' referenced by {referenced_by} is not defined")
             }
+            WaysideIntrusionMissingSection(n) => write!(
+                f,
+                "fault '{n}' (wayside_intrusion) requires a numeric 'section_id' field"
+            ),
+            InvalidIntrusionState { name, state } => write!(
+                f,
+                "fault '{name}' has intrusion_state='{state}'; must be 'clear', 'unknown', or 'present'"
+            ),
             InvalidFaultDay { name, day } => {
                 write!(f, "fault '{name}' has day={day}; must be >= 1")
             }
@@ -698,6 +720,26 @@ fn build_faults(
             "obstacle_peer_disagreement" => FaultKind::ObstaclePeerDisagreement {
                 scope: train_scope(spec)?,
             },
+            "wayside_intrusion" => {
+                let sid = spec
+                    .section_id
+                    .ok_or_else(|| LoadError::WaysideIntrusionMissingSection(spec.name.clone()))?;
+                let state = match spec.intrusion_state.as_deref().unwrap_or("present") {
+                    "clear" => osr_interlocking::IntrusionState::Clear,
+                    "unknown" => osr_interlocking::IntrusionState::Unknown,
+                    "present" => osr_interlocking::IntrusionState::Present,
+                    other => {
+                        return Err(LoadError::InvalidIntrusionState {
+                            name: spec.name.clone(),
+                            state: other.to_string(),
+                        });
+                    }
+                };
+                FaultKind::WaysideIntrusion {
+                    section: SectionId::new(sid),
+                    state,
+                }
+            }
             other => return Err(LoadError::InvalidFaultKind(other.to_string())),
         };
 

@@ -46,6 +46,38 @@ pub enum EntryPayload {
     Heartbeat(Heartbeat),
     MaintenanceOverride(MaintenanceOverride),
     FormatVersion(FormatVersion),
+    /// Wayside intrusion-detect verdict for one section (RFC 0016 v2).
+    /// The interlocking withholds MA on any section whose latest
+    /// verdict is not `Clear`. Evaluator is `osr-intrusion-detect`
+    /// running on the W-SBC; this is the consensus-log representation
+    /// of its output.
+    SectionIntrusion(SectionIntrusion),
+}
+
+#[derive(Copy, Clone, Debug, PartialEq, Eq, Hash, Serialize, Deserialize)]
+pub enum IntrusionState {
+    /// Section is clear; MA may cross.
+    Clear,
+    /// Sensor-level uncertainty on the section — at least one
+    /// safety-primary sensor is stale / offline. Fail-restrictive:
+    /// treated as non-clear.
+    Unknown,
+    /// Intrusion confirmed — fence breach, LIDAR or radar in-profile.
+    /// Dispatcher per RFC 0016 §7.1 dispatches track-patrol.
+    Present,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Hash, Serialize, Deserialize)]
+pub struct SectionIntrusion {
+    pub section: SectionId,
+    pub state: IntrusionState,
+    /// Entity that produced this verdict — typically the W-SBC
+    /// running `osr-intrusion-detect` for this section.
+    pub issued_by: EntityId,
+    /// Wall-clock TAI ns when the sensor frame feeding this verdict
+    /// was captured. Used by the interlocking to detect stale
+    /// verdicts.
+    pub observed_at_ns: u64,
 }
 
 // ---------------------------------------------------------------------------

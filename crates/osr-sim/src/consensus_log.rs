@@ -30,7 +30,8 @@ use std::collections::BTreeSet;
 use osr_consensus::{Category, Cluster, LogIndex};
 use osr_core::{Network, Position, TrackRef, TrainId};
 use osr_interlocking::log::{
-    Entry, EntryPayload, PositionSource, TrainPositionReport, TrainRegistration,
+    Entry, EntryPayload, IntrusionState, PositionSource, SectionIntrusion, TrainPositionReport,
+    TrainRegistration,
 };
 use osr_interlocking::{derive_state, DerivedState};
 
@@ -164,6 +165,31 @@ impl ConsensusBackend {
         };
         self.next_entry_id += 1;
         self.propose(&entry, Category::Advisory);
+    }
+
+    /// Emit a `SectionIntrusion` consensus entry (RFC 0016 v3) —
+    /// mirrors `SimulatedLog::emit_intrusion`.
+    pub fn emit_intrusion(
+        &mut self,
+        section: osr_core::SectionId,
+        state: IntrusionState,
+        issued_by: osr_core::EntityId,
+        t_s: u32,
+    ) {
+        let ts = ts_ns_from_s(t_s);
+        let entry = Entry {
+            entry_id: osr_core::EntryId::new(self.next_entry_id),
+            term: 1,
+            timestamp_ns: ts,
+            payload: EntryPayload::SectionIntrusion(SectionIntrusion {
+                section,
+                state,
+                issued_by,
+                observed_at_ns: ts,
+            }),
+        };
+        self.next_entry_id += 1;
+        self.propose(&entry, Category::Safety);
     }
 
     /// Advance the consensus cluster by one sim tick and refresh the
