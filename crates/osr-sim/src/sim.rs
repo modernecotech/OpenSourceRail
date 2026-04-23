@@ -448,6 +448,7 @@ pub fn run(config: &ScenarioConfig, runtime: &RuntimeConfig) -> SimResult {
                         &mut onboard_shadows[idx],
                         &trains[idx],
                         &config.network,
+                        &faults,
                         t,
                         dt,
                     );

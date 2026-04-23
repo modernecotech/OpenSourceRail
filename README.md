@@ -6,7 +6,7 @@
 > systems — built for the developing world, built to be owned by the countries
 > that deploy it.
 
-**Status:** 48 Rust crates (654 tests passing, 0 failing) plus two Python
+**Status:** 49 Rust crates (663 tests passing, 0 failing) plus two Python
 sidecars (`design-py` for GIS + network synthesis, `mechanical-py` for
 parametric mechanical + civil + station components under build123d).
 Deployments ship as **GoA 4 (Unattended, driverless)** from day one
@@ -40,6 +40,24 @@ for GoA 2 legacy fleets. Most of the
   `EmergencyBrake`. **Two sensor packs per trainset, one at each end**;
   either nose can lead on a given run. Five SIL-4 properties O1–O5 with
   Kani harnesses + 8 proptests; 2oo2 peer cross-check fail-restrictive.
+  The sim now **injects sensor faults on a scenario schedule** (LIDAR
+  offline, radar offline, ultrasonic channel stale, peer disagreement —
+  per-train or fleet-wide) and the shadow stack produces the expected
+  verdicts end-to-end; see [`scenarios/samawah-obstacle-fault.toml`](scenarios/samawah-obstacle-fault.toml).
+- **Integrator crate + feature-gated legacy stack:**
+  [`osr-trainset-image`](crates/osr-trainset-image/) aggregates the
+  onboard stack into one versioned deployment unit. Default build is
+  **GoA 4 (Unattended)** per RFC 0015; `--features goa2-cab` opts in
+  to legacy cabbed fleets by pulling `osr-dmi` + `osr-vigilance` into
+  the image. `cab_profile()` is a compile-time witness for which
+  profile the image was built with.
+- **Parametric rolling stock in mechanical-py (RFC 0015 cabless):**
+  sensor cowl, symmetric car body with door cutouts, 2-axle bogie
+  simplified block, and the four published trainset families
+  (`tram-2car`, `light-metro-3car`, `metro-4car`, `metro-6car`) all
+  parametric on consist + track geometry. Every trainset fits
+  inside its RFC 0008 §1 platform length with ≥ 1 m stopping margin.
+  STEP artifacts round-trip into Revit / Tekla / Civil 3D.
 - **Onboard traction & power:** `osr-traction` + `osr-bms` + `osr-regen` +
   `osr-aux-power`, with signed-current sign convention enforced at the seam.
 - **Onboard systems:** `osr-tcms`, `osr-hvac`, `osr-lighting`, `osr-dmi`,
@@ -244,6 +262,7 @@ OpenSourceRail/
 │   ├── osr-atp/              Automatic Train Protection.
 │   ├── osr-ato/              Automatic Train Operation (GoA 4 default).
 │   ├── osr-obstacle-detect/  NEW (RFC 0015): ultrasonic + LIDAR + radar fusion.
+│   ├── osr-trainset-image/   NEW (RFC 0015): onboard-stack integrator, goa2-cab flag.
 │   ├── osr-brake/            EP brake + WSP + park brake.
 │   ├── osr-vigilance/        Driver alerter / dead-man (GoA 2 legacy only).
 │   ├── osr-derailment/       2oo2 derailment detection.
@@ -307,9 +326,11 @@ OpenSourceRail/
 │   ├── src/osr_mech/
 │   │   ├── track/            Rail (54E1/60E1), sleeper (B70), fastener, panel.
 │   │   ├── civil/            Precast U-girder (20/25/30 m), platform L-unit.
-│   │   └── station/          Portal-frame bay + solar-roof sandwich panel +
-│   │                         multi-bay canopy — the full "prefab metal canopy
-│   │                         with solar roof" reference station.
+│   │   ├── station/          Portal-frame bay + solar-roof sandwich panel +
+│   │   │                     multi-bay canopy — the full "prefab metal canopy
+│   │   │                     with solar roof" reference station.
+│   │   └── rolling_stock/    Cabless car body + sensor cowl + 2-axle bogie +
+│   │                         full trainset (4 consist families) per RFC 0015.
 │   └── catalog/              Regenerable STEP artifacts (run `osr-mech-export`).
 ├── design-py/                Python sidecar for GIS data + raster synthesis.
 │   └── src/

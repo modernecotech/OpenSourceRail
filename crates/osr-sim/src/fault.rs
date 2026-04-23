@@ -1,6 +1,8 @@
 //! Scenario-declared fault injection.
 //!
-//! Three kinds of fault are supported in v1:
+//! Seven kinds of fault are supported:
+//!
+//! Energy / infrastructure faults:
 //!
 //! - **Dust event** — scales PV output (affected sites produce less power
 //!   for the duration). Simulates a sandstorm, heavy haze, or module
@@ -11,10 +13,25 @@
 //! - **Charging pad outage** — disables a specific station's charging pad.
 //!   Simulates an equipment failure or scheduled maintenance.
 //!
+//! Onboard obstacle-detect faults (RFC 0015 §5.1.1). These exercise the
+//! five O-series safety properties through the sim's shadow stack:
+//!
+//! - **LIDAR offline** — forces `ObsFrame::lidar_offline = true` on the
+//!   affected train(s). The evaluator emits `RestrictedSpeed` (O4b)
+//!   under nominal radar, or `EmergencyBrake` (O4a) if radar is also
+//!   down at speed.
+//! - **Radar offline** — forces `ObsFrame::radar_offline = true`.
+//!   Alone (LIDAR up) produces no restriction; combined with LIDAR
+//!   offline exercises the O4a EB path at mainline speed.
+//! - **Ultrasonic channel stale** — marks one ultrasonic channel with
+//!   stale `age_ms`, forcing the O2 EB path.
+//! - **Obstacle peer disagreement** — forces `peer_clear = false` in
+//!   the 2oo2 cross-check, forcing the O3 EB path.
+//!
 //! Faults are declared in the scenario TOML under `[[faults]]`; see
 //! `scenarios/README.md` for the format.
 
-use osr_core::StationId;
+use osr_core::{StationId, TrainId};
 use std::collections::{HashMap, HashSet};
 
 // ---------------------------------------------------------------------------
@@ -29,6 +46,15 @@ pub enum FaultScope {
     Station(StationId),
 }
 
+/// Scope for onboard (per-train) faults.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum TrainFaultScope {
+    /// Apply to every train in the fleet.
+    All,
+    /// Apply to one specific train.
+    Train(TrainId),
+}
+
 #[derive(Clone, Debug)]
 pub enum FaultKind {
     DustEvent {
@@ -40,6 +66,23 @@ pub enum FaultKind {
     },
     ChargingPadOutage {
         station: StationId,
+    },
+    /// RFC 0015 §5.1.1 — LIDAR offline on affected train(s).
+    LidarOffline {
+        scope: TrainFaultScope,
+    },
+    /// RFC 0015 §5.1.1 — mmWave radar offline.
+    RadarOffline {
+        scope: TrainFaultScope,
+    },
+    /// RFC 0015 §5.1.1 — one ultrasonic channel stale (0..=3).
+    UltrasonicChannelStale {
+        scope: TrainFaultScope,
+        channel: u8,
+    },
+    /// RFC 0015 §5.1.1 — force the 2oo2 peer cross-check to disagree.
+    ObstaclePeerDisagreement {
+        scope: TrainFaultScope,
     },
 }
 
@@ -69,6 +112,16 @@ pub struct FaultEngine {
     global_grid_disabled: bool,
     /// Stations with charging pad currently disabled.
     pad_disabled: HashSet<StationId>,
+    // Onboard obstacle-sensor faults (RFC 0015). Per-train sets; plus
+    // a global bool for fleet-wide faults that apply to every train.
+    lidar_offline_trains: HashSet<TrainId>,
+    lidar_offline_all: bool,
+    radar_offline_trains: HashSet<TrainId>,
+    radar_offline_all: bool,
+    ultrasonic_stale_per_train: HashMap<TrainId, u8>, // bitmask of stale channels
+    ultrasonic_stale_all: u8,
+    peer_disagreement_trains: HashSet<TrainId>,
+    peer_disagreement_all: bool,
     /// Names of faults that ever activated during the run (for reporting).
     pub fault_log: Vec<FaultLogEntry>,
     fired_names: HashSet<String>,
@@ -91,6 +144,14 @@ impl FaultEngine {
             grid_disabled: HashSet::new(),
             global_grid_disabled: false,
             pad_disabled: HashSet::new(),
+            lidar_offline_trains: HashSet::new(),
+            lidar_offline_all: false,
+            radar_offline_trains: HashSet::new(),
+            radar_offline_all: false,
+            ultrasonic_stale_per_train: HashMap::new(),
+            ultrasonic_stale_all: 0,
+            peer_disagreement_trains: HashSet::new(),
+            peer_disagreement_all: false,
             fault_log: Vec::new(),
             fired_names: HashSet::new(),
         }
@@ -104,6 +165,14 @@ impl FaultEngine {
         self.grid_disabled.clear();
         self.global_grid_disabled = false;
         self.pad_disabled.clear();
+        self.lidar_offline_trains.clear();
+        self.lidar_offline_all = false;
+        self.radar_offline_trains.clear();
+        self.radar_offline_all = false;
+        self.ultrasonic_stale_per_train.clear();
+        self.ultrasonic_stale_all = 0;
+        self.peer_disagreement_trains.clear();
+        self.peer_disagreement_all = false;
 
         for fault in &self.faults {
             let active = t >= fault.from_sim_s && t < fault.to_sim_s;
@@ -121,8 +190,6 @@ impl FaultEngine {
             match &fault.kind {
                 FaultKind::DustEvent { pv_output_factor, scope } => match scope {
                     FaultScope::All => {
-                        // Compose multiple simultaneous global dust events
-                        // multiplicatively.
                         self.global_pv_factor *= pv_output_factor;
                     }
                     FaultScope::Station(s) => {
@@ -139,6 +206,36 @@ impl FaultEngine {
                 FaultKind::ChargingPadOutage { station } => {
                     self.pad_disabled.insert(*station);
                 }
+                FaultKind::LidarOffline { scope } => match scope {
+                    TrainFaultScope::All => self.lidar_offline_all = true,
+                    TrainFaultScope::Train(t) => {
+                        self.lidar_offline_trains.insert(*t);
+                    }
+                },
+                FaultKind::RadarOffline { scope } => match scope {
+                    TrainFaultScope::All => self.radar_offline_all = true,
+                    TrainFaultScope::Train(t) => {
+                        self.radar_offline_trains.insert(*t);
+                    }
+                },
+                FaultKind::UltrasonicChannelStale { scope, channel } => {
+                    let bit = 1u8 << (channel & 0x03);
+                    match scope {
+                        TrainFaultScope::All => self.ultrasonic_stale_all |= bit,
+                        TrainFaultScope::Train(train) => {
+                            *self
+                                .ultrasonic_stale_per_train
+                                .entry(*train)
+                                .or_insert(0) |= bit;
+                        }
+                    }
+                }
+                FaultKind::ObstaclePeerDisagreement { scope } => match scope {
+                    TrainFaultScope::All => self.peer_disagreement_all = true,
+                    TrainFaultScope::Train(t) => {
+                        self.peer_disagreement_trains.insert(*t);
+                    }
+                },
             }
         }
     }
@@ -154,6 +251,33 @@ impl FaultEngine {
 
     pub fn pad_disabled_at(&self, station: StationId) -> bool {
         self.pad_disabled.contains(&station)
+    }
+
+    // Onboard (obstacle-detect) fault getters. Each one OR-combines the
+    // all-fleet fault with the per-train set.
+
+    pub fn lidar_offline_for(&self, train: TrainId) -> bool {
+        self.lidar_offline_all || self.lidar_offline_trains.contains(&train)
+    }
+
+    pub fn radar_offline_for(&self, train: TrainId) -> bool {
+        self.radar_offline_all || self.radar_offline_trains.contains(&train)
+    }
+
+    /// Bitmask of stale ultrasonic channels for a given train (bit 0 =
+    /// channel 0, …, bit 3 = channel 3). Returns 0 if no ultrasonic
+    /// faults are active.
+    pub fn ultrasonic_stale_mask_for(&self, train: TrainId) -> u8 {
+        let per = self
+            .ultrasonic_stale_per_train
+            .get(&train)
+            .copied()
+            .unwrap_or(0);
+        per | self.ultrasonic_stale_all
+    }
+
+    pub fn peer_disagreement_for(&self, train: TrainId) -> bool {
+        self.peer_disagreement_all || self.peer_disagreement_trains.contains(&train)
     }
 }
 
@@ -171,6 +295,25 @@ fn describe_kind(kind: &FaultKind) -> String {
             FaultScope::Station(_) => "grid outage (one site)".to_string(),
         },
         FaultKind::ChargingPadOutage { .. } => "charging pad outage".to_string(),
+        FaultKind::LidarOffline { scope } => match scope {
+            TrainFaultScope::All => "LIDAR offline (fleet)".to_string(),
+            TrainFaultScope::Train(_) => "LIDAR offline (one train)".to_string(),
+        },
+        FaultKind::RadarOffline { scope } => match scope {
+            TrainFaultScope::All => "radar offline (fleet)".to_string(),
+            TrainFaultScope::Train(_) => "radar offline (one train)".to_string(),
+        },
+        FaultKind::UltrasonicChannelStale { scope, channel } => {
+            let s = match scope {
+                TrainFaultScope::All => "fleet",
+                TrainFaultScope::Train(_) => "one train",
+            };
+            format!("ultrasonic channel {channel} stale ({s})")
+        }
+        FaultKind::ObstaclePeerDisagreement { scope } => match scope {
+            TrainFaultScope::All => "obstacle peer disagreement (fleet)".to_string(),
+            TrainFaultScope::Train(_) => "obstacle peer disagreement (one train)".to_string(),
+        },
     }
 }
 
@@ -252,6 +395,95 @@ mod tests {
         eng.tick(200);
         eng.tick(300);
         assert_eq!(eng.fault_log.len(), 1);
+    }
+
+    #[test]
+    fn lidar_offline_all_propagates_to_every_train() {
+        let mut eng = FaultEngine::new(vec![mk(
+            0,
+            1000,
+            FaultKind::LidarOffline { scope: TrainFaultScope::All },
+        )]);
+        eng.tick(500);
+        assert!(eng.lidar_offline_for(TrainId::new(1)));
+        assert!(eng.lidar_offline_for(TrainId::new(42)));
+        // Other sensors unaffected.
+        assert!(!eng.radar_offline_for(TrainId::new(1)));
+        assert!(!eng.peer_disagreement_for(TrainId::new(1)));
+    }
+
+    #[test]
+    fn lidar_offline_scoped_to_one_train() {
+        let target = TrainId::new(3);
+        let other = TrainId::new(7);
+        let mut eng = FaultEngine::new(vec![mk(
+            0,
+            1000,
+            FaultKind::LidarOffline { scope: TrainFaultScope::Train(target) },
+        )]);
+        eng.tick(500);
+        assert!(eng.lidar_offline_for(target));
+        assert!(!eng.lidar_offline_for(other));
+    }
+
+    #[test]
+    fn ultrasonic_stale_bitmask_composes() {
+        let target = TrainId::new(5);
+        let mut eng = FaultEngine::new(vec![
+            mk(
+                0,
+                1000,
+                FaultKind::UltrasonicChannelStale {
+                    scope: TrainFaultScope::Train(target),
+                    channel: 0,
+                },
+            ),
+            mk(
+                0,
+                1000,
+                FaultKind::UltrasonicChannelStale {
+                    scope: TrainFaultScope::Train(target),
+                    channel: 2,
+                },
+            ),
+        ]);
+        eng.tick(500);
+        let mask = eng.ultrasonic_stale_mask_for(target);
+        assert_eq!(mask & 0b0001, 0b0001, "ch 0 should be set");
+        assert_eq!(mask & 0b0100, 0b0100, "ch 2 should be set");
+        assert_eq!(mask & 0b1010, 0, "ch 1 and 3 should be clear");
+    }
+
+    #[test]
+    fn ultrasonic_stale_all_applies_to_every_train() {
+        let mut eng = FaultEngine::new(vec![mk(
+            0,
+            1000,
+            FaultKind::UltrasonicChannelStale {
+                scope: TrainFaultScope::All,
+                channel: 1,
+            },
+        )]);
+        eng.tick(500);
+        assert_eq!(eng.ultrasonic_stale_mask_for(TrainId::new(99)) & 0b0010, 0b0010);
+    }
+
+    #[test]
+    fn peer_disagreement_per_train() {
+        let a = TrainId::new(1);
+        let b = TrainId::new(2);
+        let mut eng = FaultEngine::new(vec![mk(
+            100,
+            200,
+            FaultKind::ObstaclePeerDisagreement { scope: TrainFaultScope::Train(a) },
+        )]);
+        eng.tick(50);
+        assert!(!eng.peer_disagreement_for(a));
+        eng.tick(150);
+        assert!(eng.peer_disagreement_for(a));
+        assert!(!eng.peer_disagreement_for(b));
+        eng.tick(250);
+        assert!(!eng.peer_disagreement_for(a));
     }
 
     #[test]

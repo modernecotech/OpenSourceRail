@@ -404,6 +404,7 @@ pub fn onboard_tick(
     shadow: &mut OnboardShadow,
     train: &Train,
     network: &Network,
+    faults: &crate::fault::FaultEngine,
     t_s: u32,
     dt_s: f32,
 ) -> Option<TickReport> {
@@ -598,16 +599,33 @@ pub fn onboard_tick(
     shadow.vigilance_out = vig_out;
 
     // Obstacle detection (RFC 0015). Shadow stack feeds a synthetic
-    // "all clear" sensor frame — no detections, all channels fresh,
-    // peer agrees. Under these inputs the evaluator always returns
-    // `Clear`; a fault-injection hook can later replace this with
-    // scenario-driven sensor traces to exercise O1..O5.
+    // "all clear" sensor frame by default; the `FaultEngine` may
+    // inject sensor-level faults (LIDAR offline, radar offline,
+    // ultrasonic channel stale, peer disagreement) that flip the
+    // corresponding fields, exercising the O1..O5 safety paths.
     //
-    // Stopping distance here is derived from the current shadow
-    // kinematic state: `v² / (2·a)` with `a` = emergency decel. This
-    // matches the LATERAL_GATE_MM envelope used inside
+    // Stopping distance is derived from the current shadow kinematic
+    // state: `v² / (2·a)` with `a` = emergency decel. This matches
+    // the LATERAL_GATE_MM envelope used inside
     // `osr_obstacle_detect::evaluate`.
-    let obs_frame = ObsFrame::clear();
+    let mut obs_frame = ObsFrame::clear();
+    if faults.lidar_offline_for(train.id) {
+        obs_frame.lidar_offline = true;
+    }
+    if faults.radar_offline_for(train.id) {
+        obs_frame.radar_offline = true;
+    }
+    let us_stale = faults.ultrasonic_stale_mask_for(train.id);
+    if us_stale != 0 {
+        use osr_obstacle_detect::MAX_SENSOR_STALE_MS;
+        for (ch, slot) in obs_frame.ultrasonic.iter_mut().enumerate() {
+            if us_stale & (1 << ch) != 0 {
+                slot.age_ms = MAX_SENSOR_STALE_MS + 10;
+            }
+        }
+    }
+    let peer_clear = !faults.peer_disagreement_for(train.id);
+
     let v_mmps = shadow.odom.speed_mmps.unsigned_abs();
     let decel_mmps2 = shadow.kin.decel_mmps2.max(1) as u64;
     // stopping_distance_mm = v² / (2·a); both v and a are positive.
@@ -618,7 +636,7 @@ pub fn onboard_tick(
         &obs_frame,
         v_mmps,
         stopping_distance_mm.max(10_000),
-        /*peer_clear=*/ true,
+        peer_clear,
     );
     shadow.obstacle_out = obs_out;
 
@@ -1102,7 +1120,7 @@ mod tests {
         let n = net();
         let train = mock_train();
         let mut shadow = OnboardShadow::new(&train);
-        let report = onboard_tick(&mut shadow, &train, &n, 1, 1.0).expect("is traveling");
+        let report = onboard_tick(&mut shadow, &train, &n, &crate::fault::FaultEngine::default(), 1, 1.0).expect("is traveling");
         // First tick: speed very low, plenty of section ahead → Release.
         assert!(report.brake.is_release(), "{:?}", report);
         assert_eq!(shadow.stats.ticks_release, 1);
@@ -1115,7 +1133,7 @@ mod tests {
         let train = mock_train();
         let mut shadow = OnboardShadow::new(&train);
         for t in 1..=10 {
-            let _ = onboard_tick(&mut shadow, &train, &n, t, 1.0);
+            let _ = onboard_tick(&mut shadow, &train, &n, &crate::fault::FaultEngine::default(), t, 1.0);
         }
         // Accel 1 m/s² → after 10 s shadow speed should be ~10 m/s (10_000 mm/s)
         // subject to v_max clamp.
@@ -1135,7 +1153,7 @@ mod tests {
         let mut shadow = OnboardShadow::new(&train);
         // Run long enough to traverse the full 1 km section.
         for t in 1..=120 {
-            let _ = onboard_tick(&mut shadow, &train, &n, t, 1.0);
+            let _ = onboard_tick(&mut shadow, &train, &n, &crate::fault::FaultEngine::default(), t, 1.0);
         }
         // By the end, we should be clipped at section end with near-zero speed.
         assert_eq!(shadow.kin.head_offset_mm, 1_000_000);
@@ -1153,6 +1171,6 @@ mod tests {
             energy_added_kwh: 0.0,
         };
         let mut shadow = OnboardShadow::new(&train);
-        assert!(onboard_tick(&mut shadow, &train, &n, 1, 1.0).is_none());
+        assert!(onboard_tick(&mut shadow, &train, &n, &crate::fault::FaultEngine::default(), 1, 1.0).is_none());
     }
 }

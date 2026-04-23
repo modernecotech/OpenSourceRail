@@ -1,6 +1,6 @@
 """OSR parametric mechanical catalogue — see package README for scope."""
 
-from . import civil, station, track  # noqa: F401
+from . import civil, rolling_stock, station, track  # noqa: F401
 from .common import (
     ConsistFamily,
     GeometryPreset,
@@ -16,6 +16,7 @@ __all__ = [
     "StationArchetype",
     "civil",
     "consist_platform_length_m",
+    "rolling_stock",
     "station",
     "track",
 ]

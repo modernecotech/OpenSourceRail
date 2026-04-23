@@ -13,7 +13,7 @@ use serde::Deserialize;
 use std::collections::HashMap;
 
 use crate::energy::EnergySiteConfig;
-use crate::fault::{Fault, FaultKind, FaultScope};
+use crate::fault::{Fault, FaultKind, FaultScope, TrainFaultScope};
 use crate::schedule::{LineSchedule, TimeWindow};
 use crate::sim::{ClimateModel, LineFleet, ScenarioConfig};
 use crate::train::Heading;
@@ -168,7 +168,9 @@ fn default_initial_soc() -> f32 {
 #[serde(deny_unknown_fields)]
 pub struct FaultSpec {
     pub name: String,
-    /// One of: "dust_event", "grid_outage", "charging_pad_outage".
+    /// One of: `"dust_event"`, `"grid_outage"`, `"charging_pad_outage"`,
+    /// `"lidar_offline"`, `"radar_offline"`, `"ultrasonic_channel_stale"`,
+    /// `"obstacle_peer_disagreement"`.
     pub kind: String,
     /// Start time "HH:MM" (relative to `day`).
     pub from: String,
@@ -180,11 +182,20 @@ pub struct FaultSpec {
     /// For dust_event: fraction of normal PV output (0.0–1.0). Required.
     #[serde(default)]
     pub pv_output_factor: Option<f32>,
-    /// For scoped faults: which station this affects. If omitted, the fault
-    /// is all-sites (for dust_event and grid_outage). Required for
-    /// charging_pad_outage.
+    /// For scoped infrastructure faults: which station this affects. If
+    /// omitted, the fault is all-sites (for dust_event and grid_outage).
+    /// Required for charging_pad_outage.
     #[serde(default)]
     pub station: Option<String>,
+    /// For onboard obstacle-detect faults (RFC 0015): which train this
+    /// affects (e.g. `"T1"`). If omitted the fault applies to every
+    /// train in the fleet.
+    #[serde(default)]
+    pub train: Option<String>,
+    /// For `ultrasonic_channel_stale`: which of the 4 ultrasonic
+    /// transducers (0..=3). Required for that kind.
+    #[serde(default)]
+    pub channel: Option<u8>,
 }
 
 fn default_fault_day() -> u32 {
@@ -222,6 +233,9 @@ pub enum LoadError {
     DustEventMissingFactor(String),
     InvalidDustFactor { name: String, factor: f32 },
     ChargingPadOutageMissingStation(String),
+    UltrasonicChannelOutOfRange { name: String, channel: u8 },
+    UltrasonicChannelMissing(String),
+    UnknownTrain { referenced_by: String, id: String },
 }
 
 impl std::fmt::Display for LoadError {
@@ -276,8 +290,21 @@ impl std::fmt::Display for LoadError {
             }
             InvalidFaultKind(k) => write!(
                 f,
-                "unknown fault kind '{k}' (expected 'dust_event', 'grid_outage', or 'charging_pad_outage')"
+                "unknown fault kind '{k}' (expected one of: dust_event, grid_outage, \
+                 charging_pad_outage, lidar_offline, radar_offline, \
+                 ultrasonic_channel_stale, obstacle_peer_disagreement)"
             ),
+            UltrasonicChannelOutOfRange { name, channel } => write!(
+                f,
+                "fault '{name}' (ultrasonic_channel_stale) has channel={channel}; must be 0..=3"
+            ),
+            UltrasonicChannelMissing(n) => write!(
+                f,
+                "fault '{n}' (ultrasonic_channel_stale) requires a 'channel' field (0..=3)"
+            ),
+            UnknownTrain { referenced_by, id } => {
+                write!(f, "train '{id}' referenced by {referenced_by} is not defined")
+            }
             InvalidFaultDay { name, day } => {
                 write!(f, "fault '{name}' has day={day}; must be >= 1")
             }
@@ -647,6 +674,30 @@ fn build_faults(
                     ));
                 }
             },
+            "lidar_offline" => FaultKind::LidarOffline {
+                scope: train_scope(spec)?,
+            },
+            "radar_offline" => FaultKind::RadarOffline {
+                scope: train_scope(spec)?,
+            },
+            "ultrasonic_channel_stale" => {
+                let channel = spec
+                    .channel
+                    .ok_or_else(|| LoadError::UltrasonicChannelMissing(spec.name.clone()))?;
+                if channel > 3 {
+                    return Err(LoadError::UltrasonicChannelOutOfRange {
+                        name: spec.name.clone(),
+                        channel,
+                    });
+                }
+                FaultKind::UltrasonicChannelStale {
+                    scope: train_scope(spec)?,
+                    channel,
+                }
+            }
+            "obstacle_peer_disagreement" => FaultKind::ObstaclePeerDisagreement {
+                scope: train_scope(spec)?,
+            },
             other => return Err(LoadError::InvalidFaultKind(other.to_string())),
         };
 
@@ -658,6 +709,25 @@ fn build_faults(
         });
     }
     Ok(faults)
+}
+
+/// Resolve the `train` field of a fault spec into a `TrainFaultScope`.
+/// Absent → `All`; `"T{n}"` → `Train(TrainId(n))`; anything else → error.
+fn train_scope(spec: &FaultSpec) -> Result<TrainFaultScope, LoadError> {
+    match &spec.train {
+        None => Ok(TrainFaultScope::All),
+        Some(s) => {
+            let digits = s.strip_prefix('T').ok_or_else(|| LoadError::UnknownTrain {
+                referenced_by: format!("fault '{}'", spec.name),
+                id: s.clone(),
+            })?;
+            let n: u64 = digits.parse().map_err(|_| LoadError::UnknownTrain {
+                referenced_by: format!("fault '{}'", spec.name),
+                id: s.clone(),
+            })?;
+            Ok(TrainFaultScope::Train(osr_core::TrainId::new(n)))
+        }
+    }
 }
 
 fn build_consist(spec: Option<&ConsistSpec>) -> ConsistDescriptor {

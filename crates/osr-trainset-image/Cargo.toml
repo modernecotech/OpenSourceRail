@@ -1,0 +1,36 @@
+[package]
+name = "osr-trainset-image"
+description = "OpenSourceRail — onboard trainset image integrator (GoA 4 default; GoA 2 opt-in via feature)"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+
+[lints]
+workspace = true
+
+[features]
+# Default: GoA 4 (Unattended) — no driver cab.
+default = []
+# Opt-in for legacy GoA 2 cabbed fleets (RFC 0015 §10.2). Pulls in
+# the driver-facing crates that the default build omits.
+goa2-cab = ["dep:osr-dmi", "dep:osr-vigilance"]
+
+[dependencies]
+# Always-on onboard crates (SIL-4 + SIL-2).
+osr-ato = { path = "../osr-ato" }
+osr-atp = { path = "../osr-atp" }
+osr-brake = { path = "../osr-brake" }
+osr-derailment = { path = "../osr-derailment" }
+osr-door-control = { path = "../osr-door-control" }
+osr-fire-safety = { path = "../osr-fire-safety" }
+osr-obstacle-detect = { path = "../osr-obstacle-detect" }
+osr-odometry = { path = "../osr-odometry" }
+osr-tcms = { path = "../osr-tcms" }
+
+# Feature-gated: only pulled when the legacy `goa2-cab` feature is
+# enabled. The GoA 4 default build has no driver, so these crates are
+# dead weight in the image.
+osr-dmi = { path = "../osr-dmi", optional = true }
+osr-vigilance = { path = "../osr-vigilance", optional = true }

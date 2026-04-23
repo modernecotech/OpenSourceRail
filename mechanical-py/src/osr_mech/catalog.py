@@ -17,6 +17,10 @@ from build123d import export_step
 from .civil.platform_l_unit import platform_l_unit
 from .civil.ugirder import u_girder
 from .common import ConsistFamily, GeometryPreset, RailProfile, StationArchetype
+from .rolling_stock.bogie import bogie_assembly
+from .rolling_stock.car_body import car_body
+from .rolling_stock.sensor_cowl import sensor_cowl
+from .rolling_stock.trainset import trainset
 from .station.canopy import station_canopy
 from .station.portal import portal_frame
 from .station.solar_roof import solar_roof_panel
@@ -73,6 +77,21 @@ def export_all(root: Path) -> None:
                 "station",
                 f"canopy-{arch.value}-{consist.value}.step",
             ),
+        )
+
+    # Rolling stock (RFC 0015 cabless).
+    _export(sensor_cowl(), _out(root, "rolling_stock", "sensor-cowl.step"))
+    _export(car_body(), _out(root, "rolling_stock", "car-body-22m.step"))
+    _export(bogie_assembly(), _out(root, "rolling_stock", "bogie-2axle.step"))
+    for family in (
+        ConsistFamily.TRAM_2CAR,
+        ConsistFamily.LIGHT_METRO_3CAR,
+        ConsistFamily.METRO_4CAR,
+        ConsistFamily.METRO_6CAR,
+    ):
+        _export(
+            trainset(family=family),
+            _out(root, "rolling_stock", f"trainset-{family.value}.step"),
         )
 
 

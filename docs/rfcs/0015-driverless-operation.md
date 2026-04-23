@@ -456,13 +456,15 @@ to Kani harnesses; proptest coverage across the same properties.
   this crate is truly cab-only.
 
 A workspace feature flag `goa2-cab` (additive, opt-in) is the
-canonical switch for legacy fleets: integrator crates that build
-a trainset image honour this flag to include `osr-dmi` and
-`osr-vigilance`. The default build does not include them. The
-flag is a forward-looking contract — it takes effect once the
-trainset-image integrator crate lands (v2 per §11); until then
-all workspace crates compile unconditionally and the flag is
-documentation.
+canonical switch for legacy fleets. The new
+[`osr-trainset-image`](../../crates/osr-trainset-image/) integrator
+crate is the single entry point: it re-exports the always-on
+onboard stack (ATP, ATO, brake, derailment, door-control, fire-
+safety, obstacle-detect, odometry, TCMS) and gates
+[`osr-dmi`] + [`osr-vigilance`] behind `--features goa2-cab`.
+`cab_profile()` returns `CabProfile::Unattended` in the default
+build and `CabProfile::Cabbed` when the flag is enabled — a
+compile-time witness for the RFC 0015 "GoA 4 by default" claim.
 
 ## 11. Rollout
 
@@ -470,7 +472,7 @@ documentation.
 |---|---|---|
 | **v0** | This RFC ratified | — |
 | **v1** ✅ | `osr-obstacle-detect` crate at [`crates/osr-obstacle-detect/`](../../crates/osr-obstacle-detect/) — SIL-4 pure-function evaluator with O1/O2/O3/O4a/O4b/O5 Kani harnesses + 8 proptests (26 tests total); GSN safety-case goals G15–G19 at [`docs/safety-case/gsn/60-obstacle-detect.toml`](../safety-case/gsn/60-obstacle-detect.toml) close against real Kani + proptest evidence (done 2026-04-22). | v0 |
-| **v2** ✅ (first pass) | `osr-sim` shadow onboard stack now calls `osr_obstacle_detect::evaluate` at every tick: each `OnboardShadow` carries an `obstacle_out` field, feeds an all-clear synthetic `SensorFrame` into the evaluator, and threads `ObstacleVerdict::EmergencyBrake` through `BrakeInputs::obstacle_emergency` into the existing emergency-source union. Per-verdict tick counters roll up in `OnboardSummary::total_obstacle_{restricted,crawl,emergency}_ticks`; the simulator summary prints them under "Onboard shadow stack". `BrakeInputs`, `EmergencySources` (in both `osr-brake` and `osr-tcms`), and the brake evaluator now carry an `obstacle_emergency` field end-to-end. Scenario-driven sensor-fault injection to exercise O1..O5 under load lands as v2.1. (done 2026-04-23) | v1 |
+| **v2** ✅ | `osr-sim` shadow onboard stack now calls `osr_obstacle_detect::evaluate` at every tick: each `OnboardShadow` carries an `obstacle_out` field, feeds an all-clear synthetic `SensorFrame` into the evaluator, and threads `ObstacleVerdict::EmergencyBrake` through `BrakeInputs::obstacle_emergency` into the existing emergency-source union. Per-verdict tick counters roll up in `OnboardSummary::total_obstacle_{restricted,crawl,emergency}_ticks`; the simulator summary prints them under "Onboard shadow stack". `BrakeInputs`, `EmergencySources` (in both `osr-brake` and `osr-tcms`), and the brake evaluator carry `obstacle_emergency` end-to-end. **v2.1 (2026-04-23):** scenario-driven sensor-fault injection — four new `FaultKind` variants (`LidarOffline`, `RadarOffline`, `UltrasonicChannelStale`, `ObstaclePeerDisagreement`) with per-train + fleet-wide scope; parser in `scenario_file.rs`; demonstrator scenario at [`scenarios/samawah-obstacle-fault.toml`](../../scenarios/samawah-obstacle-fault.toml) exercises every O-series path through the shadow stack. Run confirms RestrictedSpeed / EmergencyBrake verdicts fire and flow through the emergency-source union without invariant violations. (done 2026-04-23) | v1 |
 | **v3** ✅ | T-OBS v2 schematic specification at [`hardware/t-obs/schematics/v2-spec/`](../../hardware/t-obs/schematics/v2-spec/) — block diagram + per-rail power budget + safety-nets with 2oo2 AND-gate design + RP2350 A/B pinouts + 12-entry M12 connector table (done 2026-04-22). KiCad capture is v3.1, deferred alongside the RFC 0007 hardware KiCad rollout. | v0 |
 | **v4** | Type-certification package against EN 62267 GoA 4 | v2, v3 |
 | **v5** | First driverless revenue service at Samawah | RFC 0003, v4 |
