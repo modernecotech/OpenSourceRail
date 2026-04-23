@@ -44,7 +44,13 @@ Pphpd = passengers per hour per direction at peak, planning-grade.
   standards; we do not publish new ones.
 - **Not a customisation catalogue.** Interior colour, seat fabric,
   route-branded livery are a per-deployment choice. This RFC fixes
-  the structural and electrical architecture only.
+  the structural and electrical architecture only. Vendor choice
+  for the COTS interior equipment (windows, HVAC, lighting, PIS
+  screens, seats, grab poles, intercom) is documented separately
+  as an envelope-reservation cookbook in
+  [`hardware/trainset-interiors/cots-catalogue.md`](../../hardware/trainset-interiors/cots-catalogue.md)
+  — the car body reserves the volume + bolt pattern + power
+  budget; the specific vendor is interchangeable per deployment.
 
 ## 3. Unified architecture — every family
 

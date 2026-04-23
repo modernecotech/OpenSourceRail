@@ -24,6 +24,15 @@ from osr_mech.rolling_stock.bogie import (
     bogie_assembly,
 )
 from osr_mech.rolling_stock.car_body import CarDimensions, car_body
+from osr_mech.rolling_stock.cots_equipment import (
+    CATALOGUE,
+    Category,
+    bom_per_car,
+    fit_out_car_body,
+    locations_for,
+    total_active_power_w,
+    total_mass_kg,
+)
 from osr_mech.rolling_stock.sensor_cowl import (
     COWL_LENGTH_MM,
     LEADING_FACE_HEIGHT_MM,
@@ -32,6 +41,7 @@ from osr_mech.rolling_stock.sensor_cowl import (
 )
 from osr_mech.rolling_stock.trainset import (
     expected_platform_length_m,
+    family_dimensions,
     trainset,
     trainset_length_m,
 )
@@ -125,3 +135,96 @@ def test_trainset_is_symmetric_in_length() -> None:
     # |min X| should equal max X within a millimetre.
     asym = abs(abs(bb.min.X) - bb.max.X)
     assert asym < 1.0, f"trainset not centred on X=0; asymmetry {asym:.2f} mm"
+
+
+# ---------------------------------------------------------------------------
+# COTS interior fit-out catalogue
+# ---------------------------------------------------------------------------
+
+
+def test_cots_catalogue_covers_every_category() -> None:
+    """Every `Category` enum value has a catalogue row."""
+    for c in Category:
+        assert c in CATALOGUE, f"missing catalogue entry for {c}"
+        item = CATALOGUE[c]
+        assert item.length_mm > 0.0
+        assert item.width_mm > 0.0
+        assert item.height_mm > 0.0
+        assert item.mass_kg > 0.0
+        assert item.power_w >= 0.0
+
+
+def test_bom_quantities_scale_with_door_count() -> None:
+    """Tram-2car has 2 doors/side; metro 3-car has 3. The COTS BOM
+    for windows, seats, grab poles, and PIS screens must scale with
+    that — it's the entire point of the parametric quantity rules."""
+    tram = bom_per_car(family_dimensions(ConsistFamily.TRAM_2CAR))
+    metro = bom_per_car(family_dimensions(ConsistFamily.LIGHT_METRO_3CAR))
+
+    def qty(bom: list, category: Category) -> int:
+        for item, n in bom:
+            if item.category == category:
+                return n
+        raise KeyError(category)
+
+    assert qty(tram, Category.WINDOW) < qty(metro, Category.WINDOW)
+    assert qty(tram, Category.GRAB_POLE) < qty(metro, Category.GRAB_POLE)
+    assert qty(tram, Category.PIS_SCREEN) < qty(metro, Category.PIS_SCREEN)
+    assert qty(tram, Category.SEAT) < qty(metro, Category.SEAT)
+    # Per-car fixed-count items don't scale.
+    assert qty(tram, Category.HVAC_ROOF) == qty(metro, Category.HVAC_ROOF) == 1
+    assert qty(tram, Category.INTERCOM) == qty(metro, Category.INTERCOM) == 2
+    assert qty(tram, Category.LIGHTING) == qty(metro, Category.LIGHTING) == 2
+
+
+def test_mass_and_power_totals_are_realistic() -> None:
+    """Per-car interior fit-out should land in the hundreds of kg and
+    draw kilowatts — if we're off by an order of magnitude one of the
+    catalogue rows is wrong."""
+    m = total_mass_kg()
+    p = total_active_power_w()
+    # Dominated by HVAC (250 kg) + seats + lighting + windows.
+    assert 500.0 <= m <= 2_000.0, f"mass {m:.0f} kg is implausible"
+    # Dominated by HVAC 15 kW; lighting + screens add ~1 kW.
+    assert 12_000.0 <= p <= 25_000.0, f"power {p:.0f} W is implausible"
+
+
+def test_envelopes_fit_inside_car_body_bounding_box() -> None:
+    """Every reserved envelope must sit inside (or on top of) the car
+    body. Specifically: no envelope extends below rail head; nothing
+    pokes outside the body width envelope for non-roof items."""
+    dims = CarDimensions()
+    half_L = dims.body_length_mm / 2.0
+    half_W = dims.body_width_mm / 2.0
+    # Tolerance: windows + seats etc. mount on the inside of the body
+    # skin; a 50 mm outward excursion is the envelope-reservation
+    # slack, not a design error.
+    tol = 60.0
+
+    for category in Category:
+        item = CATALOGUE[category]
+        for loc in locations_for(category, dims):
+            pos = loc.position
+            x, y, z = pos.X, pos.Y, pos.Z
+            assert -half_L - tol <= x <= half_L + tol, (
+                f"{category.value} X={x:.0f} outside ±{half_L:.0f}"
+            )
+            if category != Category.HVAC_ROOF:
+                assert -half_W - tol <= y <= half_W + tol, (
+                    f"{category.value} Y={y:.0f} outside ±{half_W:.0f}"
+                )
+            assert z >= -tol, f"{category.value} Z={z:.0f} below rail head"
+
+
+def test_fit_out_car_body_has_more_volume_than_plain_body() -> None:
+    """`fit_out_car_body` overlays COTS envelopes on the structural
+    body. The resulting compound must have strictly more total
+    geometry volume than the body alone."""
+    dims = CarDimensions()
+    plain = car_body(dims)
+    dressed = fit_out_car_body(dims)
+    # build123d Compound.volume sums child volumes.
+    assert dressed.volume > plain.volume, (
+        f"fit-out compound volume {dressed.volume:.0f} not greater than "
+        f"plain body {plain.volume:.0f}"
+    )

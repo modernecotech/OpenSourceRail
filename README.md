@@ -108,6 +108,12 @@ for GoA 2 legacy fleets. Most of the
   parametric on consist + track geometry. Every trainset fits
   inside its RFC 0008 §1 platform length with ≥ 1 m stopping margin.
   STEP artifacts round-trip into Revit / Tekla / Civil 3D.
+
+  ![Light-metro-3car trainset — cabless, symmetric (RFC 0015)](docs/screenshots/trainset-light-metro-3car.png)
+
+  *Light-metro-3car reference trainset: three 22 m cars + a sensor
+  cowl at each end + two bogies per car. No cab, no windscreen, no
+  directionality — either end leads.*
 - **Onboard traction & power:** `osr-traction` + `osr-bms` + `osr-regen` +
   `osr-aux-power`, with signed-current sign convention enforced at the seam.
 - **Onboard systems:** `osr-tcms`, `osr-hvac`, `osr-lighting`, `osr-dmi`,
@@ -178,13 +184,20 @@ for GoA 2 legacy fleets. Most of the
   platform edge, and a prefab-bolt-together steel portal-frame bay
   with a factory-bonded solar-roof sandwich panel that composes into
   a full canopy by `(archetype, consist)`. `osr-mech-export`
-  regenerates 16 STEP artifacts under `catalog/` that round-trip into
+  regenerates 24 STEP artifacts under `catalog/` that round-trip into
   Revit, Tekla, Civil 3D, and FreeCAD — deployment partners keep
   their existing structural tooling while the repository stays the
   canonical source. Design bias throughout: **prefab, bolt-together,
   no on-site welding, no wet concrete except pad footings** — a
   `standard` station canopy is ~11 t of steel in two lorry-loads,
   erected in 3–5 days.
+
+  ![Standard station canopy — 75 m platform, factory-bonded solar roof](docs/screenshots/station-canopy.png)
+
+  *Standard archetype canopy for a light-metro-3car consist: 13 × 6 m
+  portal bays in hot-dip galvanised steel, topped by a factory-bonded
+  sandwich panel that integrates the PV surface. One canopy covers the
+  full platform — no separate station building, no catenary.*
 
 - **OSR-ALN civil-tool bridge (RFC 0009 v3):**
   [`tools/osr-aln-convert/`](tools/osr-aln-convert/) is a
@@ -643,6 +656,25 @@ intrusion detect, secbus, HMAC) against known-good fixtures.
 Non-zero exit halts the unit at a red-LED fault state until the
 named check passes — the per-unit equivalent of a custom-PCB
 flying-probe stamp.
+
+Trainset interiors follow the same commodity-first pattern: the
+car body is a cabless shell with door cutouts, and windows /
+HVAC / LED lighting / passenger screens / seats / grab poles /
+intercom are all COTS items with reserved envelopes + bolt
+patterns documented in
+[`hardware/trainset-interiors/cots-catalogue.md`](hardware/trainset-interiors/cots-catalogue.md).
+The catalogue is parametric — [`cots_equipment.py`](mechanical-py/src/osr_mech/rolling_stock/cots_equipment.py)
+computes per-car and per-trainset BOMs and total mass + power
+from the consist family.
+
+![Car-body interior fit-out — COTS envelopes](docs/screenshots/trainset-interior-fit-out.png)
+
+*Interior fit-out of a 22 m light-metro car with every COTS item's
+reserved envelope overlaid on the translucent structural shell: grey
+HVAC unit on the roof, dark-blue seat benches under the windows,
+light-blue side glazing, silver vertical grab poles at each door,
+black PIS screens above, red emergency intercom at each end, warm
+LED strip along the ceiling.*
 
 ## Rail civil engineering — the affordable bet
 

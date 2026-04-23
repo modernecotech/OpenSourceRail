@@ -19,6 +19,7 @@ from .civil.ugirder import u_girder
 from .common import ConsistFamily, GeometryPreset, RailProfile, StationArchetype
 from .rolling_stock.bogie import bogie_assembly
 from .rolling_stock.car_body import car_body
+from .rolling_stock.cots_equipment import fit_out_car_body
 from .rolling_stock.sensor_cowl import sensor_cowl
 from .rolling_stock.trainset import trainset
 from .station.canopy import station_canopy
@@ -83,6 +84,10 @@ def export_all(root: Path) -> None:
     _export(sensor_cowl(), _out(root, "rolling_stock", "sensor-cowl.step"))
     _export(car_body(), _out(root, "rolling_stock", "car-body-22m.step"))
     _export(bogie_assembly(), _out(root, "rolling_stock", "bogie-2axle.step"))
+    _export(
+        fit_out_car_body(),
+        _out(root, "rolling_stock", "car-body-22m-cots-fit-out.step"),
+    )
     for family in (
         ConsistFamily.TRAM_2CAR,
         ConsistFamily.LIGHT_METRO_3CAR,
