@@ -6,7 +6,13 @@
 > systems — built for the developing world, built to be owned by the countries
 > that deploy it.
 
-**Status:** 54 Rust crates (715 tests passing, 0 failing) plus two Python
+**Current milestone:** [**v0.1**](CHANGELOG.md) — first publishable
+snapshot. The software + documentation surface is complete enough for
+a deployment partner to start with. See [CHANGELOG.md](CHANGELOG.md)
+for what's ready, what needs external hands (KiCad capture, civil
+survey, regulator engagement, operator review), and how to engage.
+
+**Status:** 55 Rust crates (724 tests passing, 0 failing) plus two Python
 sidecars (`design-py` for GIS + network synthesis, `mechanical-py` for
 parametric mechanical + civil + station components under build123d).
 Deployments ship as **GoA 4 (Unattended, driverless)** from day one
@@ -19,7 +25,7 @@ covering the proactive half of the safety envelope between trains.
 The Samawah two-line reference scenario
 ([RFC 0003](docs/rfcs/0003-samawah-reference-deployment.md)) runs end-to-end,
 and the design pipeline now synthesises two-line networks for arbitrary cities
-directly from OpenStreetMap. Eighteen RFCs cover the full system from software
+directly from OpenStreetMap. Nineteen RFCs cover the full system from software
 architecture through rail civil engineering to driverless operation; the
 operations rulebook ([RFC 0013](docs/rfcs/0013-operations-rulebook.md)) is
 drafted across four shipping role families (dispatcher / station-staff /
@@ -337,7 +343,8 @@ OpenSourceRail/
 │       ├── 0015-driverless-operation.md    GoA 4 by default — sensor suite, T-OBS ECU, cab elimination.
 │       ├── 0016-wayside-track-intrusion.md  Wayside intrusion detection — complements onboard detector.
 │       ├── 0017-cybersecurity-message-authentication.md  Ed25519-signed consensus entries.
-│       └── 0018-operator-guis.md             egui-based sim + OCC consoles for designer + dispatcher.
+│       ├── 0018-operator-guis.md             egui-based sim + OCC consoles for designer + dispatcher.
+│       └── 0019-diy-electronics.md           Plug-and-play DIY electronics from commodity modules.
 ├── crates/                   46 Rust crates — grouped by role below.
 │   ├── osr-core/             Shared domain types (topology, trains, IDs).
 │   │   └── proto/track_state.proto         Interface definitions.
@@ -399,6 +406,10 @@ OpenSourceRail/
 │   ├── osr-historian/        Ring-buffered metric storage w/ decimation.
 │   ├── osr-analytics/        Fleet analytics (adherence, MDBF, energy/km).
 │   ├── osr-t2g/              Train-to-ground radio adapter.
+│   │
+│   │   # Commissioning
+│   ├── osr-selftest/         NEW (RFC 0019): per-role post-assembly self-test
+│   │                         CLI — the DIY path's flying-probe substitute.
 │   │
 │   │
 │   │   # Design pipeline
@@ -599,6 +610,39 @@ Every reference PCB is 4-layer FR-4 with 0.15 mm trace/space and 0.3 mm
 vias — routine at tier-2 fabs across the target deployment footprint.
 No micro-vias, no 0201 passives, no exotic stackups, no fans, no
 restricted-export components.
+
+### DIY plug-and-play — no PCB fabrication required
+
+For pilot deployments, community builds, and developing-world
+DIY operators who can't fab custom PCBs at low volumes,
+[RFC 0019](docs/rfcs/0019-diy-electronics.md) defines a
+**parallel assembly path using commodity modules only**. Every
+host class is built from Raspberry Pi Foundation boards +
+off-the-shelf HATs + generic relay / ADC / isolator breakouts,
+wired through DIN-rail terminal blocks, booted from a prepared
+SD card. **No KiCad, no soldering iron.**
+
+Per-host-class Bills of Materials with specific SKUs +
+distributors live under [`hardware/diy-assembly/`](hardware/diy-assembly/)
+and each host class's `diy-assembly/` subfolder. A first-article
+Samawah trainset + 1 km of instrumented wayside totals
+**~$16 800 in electronics** at single-unit retail — compared
+to ~$50 M for a legacy-CBTC equivalent (two orders of magnitude,
+dominated by legacy NRE).
+
+The DIY path preserves the SIL-4 safety arguments: the RP2350
+silicon and 2oo2 AND-gate relay pattern come from the same
+parts populating the custom design; what changes is how they
+get bolted together. See [RFC 0019 §7](docs/rfcs/0019-diy-electronics.md) for the safety-case mapping.
+
+Per-unit commissioning is handled by the
+[`osr-selftest`](crates/osr-selftest/) CLI: run
+`sudo osr-selftest --role <role>` on each SoC after assembly and
+it exercises the role's evaluators (brake, ATP, obstacle /
+intrusion detect, secbus, HMAC) against known-good fixtures.
+Non-zero exit halts the unit at a red-LED fault state until the
+named check passes — the per-unit equivalent of a custom-PCB
+flying-probe stamp.
 
 ## Rail civil engineering — the affordable bet
 
