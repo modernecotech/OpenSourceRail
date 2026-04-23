@@ -192,19 +192,42 @@ fn draw_strip(painter: &Painter, strip: &LineStrip, network: &Network, palette: 
         );
     }
 
-    // Stations.
-    for (&sid, &x) in &strip.stations {
+    // Stations — alternate labels above / below the strip so adjacent
+    // names don't overlap on densely-stationed lines. We need to
+    // iterate in line-order (not BTreeMap-key order) for the
+    // alternation to follow the geographic sequence.
+    let ordered_ids: Vec<(osr_core::StationId, f32)> = network
+        .lines
+        .iter()
+        .find(|l| l.name == strip.line_name)
+        .map(|line| {
+            line.stations
+                .iter()
+                .filter_map(|sid| strip.stations.get(sid).map(|&x| (*sid, x)))
+                .collect()
+        })
+        .unwrap_or_else(|| strip.stations.iter().map(|(s, x)| (*s, *x)).collect());
+
+    for (i, (sid, x)) in ordered_ids.iter().enumerate() {
         let name = network
             .stations
-            .get(&sid)
+            .get(sid)
             .map(|s| s.name.as_str())
             .unwrap_or("?");
-        let pos = Pos2::new(x, strip.y);
+        let pos = Pos2::new(*x, strip.y);
         painter.circle_filled(pos, 5.0, palette.station);
         painter.circle_stroke(pos, 5.0, Stroke::new(1.0, palette.label));
+        // Alternate: even-index labels go below the strip, odd-index
+        // labels go above. Keeps adjacent labels from overlapping
+        // horizontally on dense lines.
+        let (anchor, y) = if i % 2 == 0 {
+            (Align2::CENTER_TOP, strip.y + 14.0)
+        } else {
+            (Align2::CENTER_BOTTOM, strip.y - 14.0)
+        };
         painter.text(
-            Pos2::new(x, strip.y + 14.0),
-            Align2::CENTER_TOP,
+            Pos2::new(*x, y),
+            anchor,
             name,
             FontId::proportional(10.0),
             palette.label,

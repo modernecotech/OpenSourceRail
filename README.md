@@ -37,6 +37,7 @@ for GoA 2 legacy fleets. Most of the
   pure-Rust egui apps sharing
   [`osr-gui-shared`](crates/osr-gui-shared/) for rendering, both
   targeting native + browser (WebAssembly via trunk).
+
   [`osr-sim-gui`](crates/osr-sim-gui/) is the designer's workbench —
   load a scenario, run the sim once, then play back the resulting
   [`SimTimeline`](crates/osr-sim/src/timeline.rs) with scrubber +
@@ -44,6 +45,9 @@ for GoA 2 legacy fleets. Most of the
   by phase; click-to-inspect sidebar shows `station_m`, SoC, and
   last event; scrolling event log filters by kind; active faults
   surface as timestamped badges over the map.
+
+  ![osr-sim-gui running the Samawah scenario](docs/screenshots/sim-gui.png)
+
   [`osr-occ-gui`](crates/osr-occ-gui/) is the dispatcher console —
   per-section `IntrusionState` overlay, train roster panel, alert
   feed with info/warn/crit filters, and **validated action
@@ -51,6 +55,8 @@ for GoA 2 legacy fleets. Most of the
   RFC 0013 §5 degraded-mode declaration. v1 is read-only; v3 of
   the RFC wires live consensus + RFC 0017 signed envelopes for
   revenue use.
+
+  ![osr-occ-gui — Samawah OCC console with SEC1001 intrusion present](docs/screenshots/occ-gui.png)
 - **Onboard obstacle detection (SIL-4, RFC 0015):** `osr-obstacle-detect`
   fuses a multi-physics sensor suite — 4× ultrasonic (close-range safety
   belt, 0.2–20 m), solid-state LIDAR (5–200 m primary 3D, affordable

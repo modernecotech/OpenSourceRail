@@ -105,6 +105,31 @@ pub enum AlertLevel {
 
 impl OccApp {
     pub fn new(operator: String) -> Self {
+        Self::with_auto_attach(operator, false)
+    }
+
+    /// Construct + optionally pre-attach a recorded sim run and
+    /// seed a Present intrusion on SEC1001 so the default view is
+    /// populated. Used for screenshots / demos.
+    pub fn with_auto_attach(operator: String, auto_attach: bool) -> Self {
+        let mut app = Self::new_internal(operator);
+        if auto_attach {
+            app.load_recorded_run(3600);
+            app.running = false;
+            app.t_s = 900.0;
+            app.intrusions
+                .insert(SectionId::new(1001), IntrusionState::Present);
+            app.alerts.push(Alert {
+                level: AlertLevel::Crit,
+                category: "S7.1".into(),
+                text: "SEC1001 — Present; dispatch track-patrol.".into(),
+                sim_time_s: 900,
+            });
+        }
+        app
+    }
+
+    fn new_internal(operator: String) -> Self {
         let scenario = full_scenario();
         let network = scenario.network.clone();
         let seeded_alerts = vec![

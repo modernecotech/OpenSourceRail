@@ -13,6 +13,9 @@ struct Cli {
     scenario: Option<String>,
     #[arg(long, default_value_t = 3600)]
     duration_s: u32,
+    /// Run the sim at startup and open on a populated frame.
+    #[arg(long)]
+    auto_run: bool,
 }
 
 fn main() -> eframe::Result<()> {
@@ -21,6 +24,12 @@ fn main() -> eframe::Result<()> {
     eframe::run_native(
         "OSR Sim GUI",
         options,
-        Box::new(move |_cc| Ok(Box::new(SimApp::new(cli.scenario.as_deref(), cli.duration_s)))),
+        Box::new(move |_cc| {
+            Ok(Box::new(SimApp::with_auto_run(
+                cli.scenario.as_deref(),
+                cli.duration_s,
+                cli.auto_run,
+            )))
+        }),
     )
 }

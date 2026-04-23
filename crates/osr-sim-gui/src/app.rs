@@ -76,6 +76,17 @@ impl EventFilter {
 
 impl SimApp {
     pub fn new(scenario_path: Option<&str>, duration_s: u32) -> Self {
+        Self::with_auto_run(scenario_path, duration_s, false)
+    }
+
+    /// Construct + optionally run the sim immediately at startup.
+    /// Used for screenshots / demos so the default view is already
+    /// populated.
+    pub fn with_auto_run(
+        scenario_path: Option<&str>,
+        duration_s: u32,
+        auto_run: bool,
+    ) -> Self {
         let (scenario, label) = match scenario_path {
             Some(path) => match load_scenario_from_path(std::path::Path::new(path)) {
                 Ok(s) => (s, path.to_string()),
@@ -86,7 +97,7 @@ impl SimApp {
             },
             None => (full_scenario(), "Samawah (built-in)".into()),
         };
-        Self {
+        let mut app = Self {
             scenario,
             scenario_label: label,
             result: None,
@@ -98,7 +109,15 @@ impl SimApp {
             palette: Palette::dark(),
             selected_train: None,
             event_filter: EventFilter::all_on(),
+        };
+        if auto_run {
+            app.run_sim();
+            // Advance playback into the middle of the run so trains
+            // are mid-journey and the event log has content.
+            app.playback_t_s = (duration_s as f32 * 0.25).max(60.0);
+            app.playing = false; // paused on a populated frame
         }
+        app
     }
 
     fn run_sim(&mut self) {

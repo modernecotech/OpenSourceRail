@@ -11,6 +11,10 @@ use osr_occ_gui::OccApp;
 struct Cli {
     #[arg(long, default_value = "unidentified dispatcher")]
     operator: String,
+    /// Pre-attach a recorded sim run at startup so the default view
+    /// is populated.
+    #[arg(long)]
+    auto_attach: bool,
 }
 
 fn main() -> eframe::Result<()> {
@@ -19,6 +23,11 @@ fn main() -> eframe::Result<()> {
     eframe::run_native(
         "OSR OCC Console",
         options,
-        Box::new(move |_cc| Ok(Box::new(OccApp::new(cli.operator)))),
+        Box::new(move |_cc| {
+            Ok(Box::new(OccApp::with_auto_attach(
+                cli.operator,
+                cli.auto_attach,
+            )))
+        }),
     )
 }
