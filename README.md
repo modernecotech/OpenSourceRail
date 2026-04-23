@@ -6,17 +6,20 @@
 > systems — built for the developing world, built to be owned by the countries
 > that deploy it.
 
-**Status:** 49 Rust crates (663 tests passing, 0 failing) plus two Python
+**Status:** 50 Rust crates (681 tests passing, 0 failing) plus two Python
 sidecars (`design-py` for GIS + network synthesis, `mechanical-py` for
 parametric mechanical + civil + station components under build123d).
 Deployments ship as **GoA 4 (Unattended, driverless)** from day one
 per [RFC 0015](docs/rfcs/0015-driverless-operation.md) — the driver
 cab is replaced by a nose-cone obstacle-detection sensor suite
 (ultrasonic safety belt + solid-state LIDAR + mmWave radar + stereo
-camera) on a dedicated T-OBS ECU. The Samawah two-line reference scenario
+camera) on a dedicated T-OBS ECU, with **wayside track-intrusion
+detection** ([RFC 0016](docs/rfcs/0016-wayside-track-intrusion.md))
+covering the proactive half of the safety envelope between trains.
+The Samawah two-line reference scenario
 ([RFC 0003](docs/rfcs/0003-samawah-reference-deployment.md)) runs end-to-end,
 and the design pipeline now synthesises two-line networks for arbitrary cities
-directly from OpenStreetMap. Fifteen RFCs cover the full system from software
+directly from OpenStreetMap. Sixteen RFCs cover the full system from software
 architecture through rail civil engineering to driverless operation; the
 operations rulebook ([RFC 0013](docs/rfcs/0013-operations-rulebook.md)) is
 drafted across four shipping role families (dispatcher / station-staff /
@@ -44,6 +47,16 @@ for GoA 2 legacy fleets. Most of the
   offline, radar offline, ultrasonic channel stale, peer disagreement —
   per-train or fleet-wide) and the shadow stack produces the expected
   verdicts end-to-end; see [`scenarios/samawah-obstacle-fault.toml`](scenarios/samawah-obstacle-fault.toml).
+- **Wayside track-intrusion detection (SIL-4, RFC 0016):**
+  `osr-intrusion-detect` on the W-SBC fuses fence-line contact
+  sensors, ROW-mounted solid-state LIDAR, ROW-mounted mmWave radar,
+  and CCTV classifier into a per-section `IntrusionVerdict` —
+  `Clear` / `Unknown` / `Present`. Fail-restrictive: a stale sensor
+  yields `Unknown`, not `Clear`. The interlocking withholds MA on
+  any section whose verdict is not `Clear`. Five SIL-4 properties
+  I1–I5 with Kani harnesses + 6 proptests; GSN goals G20–G24 close
+  against real evidence. Complements the onboard obstacle-detect —
+  wayside is proactive (before a train enters), onboard is reactive.
 - **Integrator crate + feature-gated legacy stack:**
   [`osr-trainset-image`](crates/osr-trainset-image/) aggregates the
   onboard stack into one versioned deployment unit. Default build is
@@ -252,7 +265,8 @@ OpenSourceRail/
 │       ├── 0012-switches-and-crossings.md  3 turnout tangents + LX equipment envelope.
 │       ├── 0013-operations-rulebook.md     ≤ 60-page per-role rulebook, 3 degraded modes.
 │       ├── 0014-depot-design-standard.md   3 depot archetypes + fleet-sizing formula.
-│       └── 0015-driverless-operation.md    GoA 4 by default — sensor suite, T-OBS ECU, cab elimination.
+│       ├── 0015-driverless-operation.md    GoA 4 by default — sensor suite, T-OBS ECU, cab elimination.
+│       └── 0016-wayside-track-intrusion.md  Wayside intrusion detection — complements onboard detector.
 ├── crates/                   46 Rust crates — grouped by role below.
 │   ├── osr-core/             Shared domain types (topology, trains, IDs).
 │   │   └── proto/track_state.proto         Interface definitions.
@@ -287,6 +301,7 @@ OpenSourceRail/
 │   │
 │   │   # Wayside core (SIL-4)
 │   ├── osr-interlocking/     MA computer (RFC 0004 M1+M2 done).
+│   ├── osr-intrusion-detect/ NEW (RFC 0016): wayside track-intrusion detection.
 │   ├── osr-consensus/        Raft — refinement of formal/tla/SMRaft.tla.
 │   ├── osr-wayside-points/   Power-switch (point) controller.
 │   │

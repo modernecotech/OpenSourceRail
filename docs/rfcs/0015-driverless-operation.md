@@ -493,8 +493,8 @@ compile-time witness for the RFC 0015 "GoA 4 by default" claim.
 
 ## 13. What this RFC does NOT include
 
-- Automated track-intrusion detection at wayside (future RFC
-  candidate, complements onboard detection).
+- Automated track-intrusion detection at wayside — covered by
+  [RFC 0016](0016-wayside-track-intrusion.md).
 - Autonomous platform-side boarding (still a human station-staff
   function; automation would require RFC 0015.1).
 - Retrofit path for legacy cabbed trainsets — if an operator

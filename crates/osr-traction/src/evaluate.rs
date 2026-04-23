@@ -113,7 +113,7 @@ pub fn traction_evaluate(
     // command a torque the pack can't deliver.
     let actual_torque_mnm_i64 =
         clamped_current.saturating_mul(torque_constant_unmpma) / 1_000;
-    let mut actual_torque_mnm =
+    let actual_torque_mnm =
         i32::try_from(actual_torque_mnm_i64.clamp(i32::MIN as i64, i32::MAX as i64))
             .unwrap_or(0);
 
@@ -126,7 +126,6 @@ pub fn traction_evaluate(
                     .unwrap_or(0),
             )
         } else {
-            actual_torque_mnm = 0;
             (0, 0)
         };
 

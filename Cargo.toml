@@ -26,6 +26,7 @@ members = [
     "crates/osr-hot-axle-wayside",
     "crates/osr-hvac",
     "crates/osr-interlocking",
+    "crates/osr-intrusion-detect",
     "crates/osr-level-crossing",
     "crates/osr-lighting",
     "crates/osr-obstacle-detect",
@@ -62,6 +63,10 @@ repository = "https://github.com/OpenSourceRail/OpenSourceRail"
 [workspace.lints.rust]
 unsafe_code = "forbid"
 missing_debug_implementations = "warn"
+# `#[cfg(kani)]` is set by `cargo kani`; plain `cargo build` doesn't see
+# it, so silence the new `unexpected_cfgs` lint without masking other
+# unknown cfg usage.
+unexpected_cfgs = { level = "warn", check-cfg = ["cfg(kani)"] }
 
 [workspace.lints.clippy]
 pedantic = { level = "warn", priority = -1 }
