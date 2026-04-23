@@ -398,7 +398,12 @@ def fit_out_car_body(dims: CarDimensions = CarDimensions()) -> Compound:
     fridge-freezer goes".
     """
 
-    parts: list[Part | Compound] = [car_body(dims)]
+    # Flatten the car-body Compound into the fit-out Compound.
+    # build123d's `Compound.volume` sums only direct Part children and
+    # ignores nested Compounds, so nesting would hide the shell's
+    # volume. Flatten once to preserve introspectability.
+    car = car_body(dims)
+    parts: list[Part | Compound] = list(car.children) if car.children else [car]
     for category in Category:
         item = CATALOGUE[category]
         env = envelope_part(item)

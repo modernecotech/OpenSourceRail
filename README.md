@@ -111,9 +111,22 @@ for GoA 2 legacy fleets. Most of the
 
   ![Light-metro-3car trainset — cabless, symmetric (RFC 0015)](docs/screenshots/trainset-light-metro-3car.png)
 
-  *Light-metro-3car reference trainset: three 22 m cars + a sensor
-  cowl at each end + two bogies per car. No cab, no windscreen, no
-  directionality — either end leads.*
+  *Light-metro-3car reference trainset: three 22 m cars coupled end-
+  to-end with a sensor cowl at each end. Every car is a welded-
+  aluminium monocoque with rounded vertical corners, large bonded
+  side glazing, three double-leaf sliding doors per side, a painted
+  livery band at window-sill height, an underframe skirt between
+  the bogies, and a rooftop HVAC plus auxiliary plant. No cab, no
+  windscreen, no directionality — either end leads.*
+
+  ![Car-body side elevation — welded-aluminium monocoque, rounded corners, door + window cuts](docs/screenshots/trainset-car-detail.png)
+
+  *Single-car side elevation showing the design features: rounded
+  200 mm vertical-corner radius, four side windows (light-blue
+  laminated glazing shown), three inset double-leaf doors in
+  contrasting dark-blue livery, the livery band running full length
+  at window-sill height, the dark underframe skirt, and the
+  rooftop HVAC + two auxiliary boxes.*
 - **Onboard traction & power:** `osr-traction` + `osr-bms` + `osr-regen` +
   `osr-aux-power`, with signed-current sign convention enforced at the seam.
 - **Onboard systems:** `osr-tcms`, `osr-hvac`, `osr-lighting`, `osr-dmi`,

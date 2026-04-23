@@ -73,8 +73,8 @@ def test_trainset_fits_within_published_platform(family: ConsistFamily) -> None:
     )
 
 
-def test_car_body_has_door_cutouts() -> None:
-    """Verify door cutouts reduce volume below the solid-box volume."""
+def test_car_body_has_door_and_window_cutouts() -> None:
+    """Verify doors + windows are cut through the shell."""
     dims = CarDimensions()
     body = car_body(dims)
     solid_volume_mm3 = dims.body_length_mm * dims.body_width_mm * dims.body_height_mm
@@ -82,9 +82,24 @@ def test_car_body_has_door_cutouts() -> None:
     assert v < solid_volume_mm3, (
         f"car-body volume {v:.0f} should be below solid box {solid_volume_mm3:.0f}"
     )
-    # The cutouts remove at most ~5% of the solid box; we should still
-    # be well above 80% of the solid volume.
-    assert v > solid_volume_mm3 * 0.80, "too much material removed"
+    # Doors (3 × 1.4 × 2.0 × 2.65 × 2 sides ≈ 44 m³) + windows (6 zones
+    # × ~1.3 × 0.9 × 2.65 ≈ 18 m³) remove ~30 % of the solid box. The
+    # body should still be at least half the solid volume — anything
+    # less is a geometry bug.
+    assert v > solid_volume_mm3 * 0.50, (
+        f"car-body volume {v:.0f} is under half the solid box — cut-geometry bug?"
+    )
+    # And it should be a Compound (shell + glazing + doors + livery +
+    # skirt + roof equipment), not just one Part.
+    assert hasattr(body, "children") and body.children, (
+        "car body should be a Compound with multiple named children"
+    )
+    child_labels = {(getattr(c, "label", "") or "").lower() for c in body.children}
+    assert any("shell" in l for l in child_labels), "missing shell"
+    assert any("glazing" in l for l in child_labels), "missing window glazing"
+    assert any("door leaf" in l for l in child_labels), "missing door leaves"
+    assert any("livery" in l for l in child_labels), "missing livery band"
+    assert any("skirt" in l for l in child_labels), "missing underframe skirt"
 
 
 def test_sensor_cowl_has_sensor_window() -> None:
