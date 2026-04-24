@@ -52,6 +52,9 @@ class CostAssumptions:
     solar_cost_per_w_usd: float = 1.0
     battery_cost_per_w_usd: float = 1.0
     battery_discharge_hours: float = 4.0  # BESS typical 4-hour duration
+    train_car_cost_usd: float = 1_000_000.0  # cost per CAR; a 3-car trainset = 3 × this
+    station_cost_usd: float = 1_000_000.0
+    depot_cost_usd: float = 5_000_000.0
     trainset_capacity_pax: int = 200  # 3-car light-metro crush + seated
 
 
@@ -84,6 +87,8 @@ class NetworkStats:
     total_pv_kw: float
     total_battery_kwh: float
     total_charging_kw: float
+
+    depot_count: int
 
     consist_cars: int
     consist_length_m: int
@@ -183,6 +188,7 @@ def compute_stats(
         consist_length_m=int(consist.get("length_m", 68)),
         consist_battery_kwh=int(consist.get("battery_capacity_kwh", 320)),
         consist_max_speed_kmh=float(consist.get("max_speed_kmh", 80)),
+        depot_count=len(design.get("depots", [])),
     )
 
 
@@ -245,7 +251,15 @@ def render_readme(
     solar_cost = cost.solar_cost_per_w_usd * stats.total_pv_kw * 1_000
     battery_kw_equiv = stats.total_battery_kwh / cost.battery_discharge_hours
     battery_cost = cost.battery_cost_per_w_usd * battery_kw_equiv * 1_000
-    civil_energy_subtotal = track_cost + solar_cost + battery_cost
+    total_trainsets = stats.revenue_fleet + stats.spare_fleet + stats.reserve_fleet
+    total_cars = total_trainsets * stats.consist_cars
+    rolling_stock_cost = cost.train_car_cost_usd * total_cars
+    station_cost = cost.station_cost_usd * stats.unique_station_count
+    depot_cost = cost.depot_cost_usd * stats.depot_count
+    total_capex = (
+        track_cost + solar_cost + battery_cost
+        + rolling_stock_cost + station_cost + depot_cost
+    )
 
     # Per-line table.
     by_id = {s["id"]: s for s in design.get("stations", [])}
@@ -427,11 +441,9 @@ def render_readme(
 
     out.append("## Cost estimate\n")
     out.append(
-        "User-specified rule-of-thumb rates: "
-        f"**${cost.track_cost_per_km_usd / 1e6:.1f} M/km** for civil track, "
-        f"**${cost.solar_cost_per_w_usd:.2f}/W** for solar PV, and "
-        f"**${cost.battery_cost_per_w_usd:.2f}/W** for battery power "
-        f"(assuming {cost.battery_discharge_hours:.0f}-hour BESS discharge).\n"
+        "Rule-of-thumb unit rates (see [`CostAssumptions`]"
+        "(../../../design-py/src/osr_scenario/network_readme.py) to "
+        "override per-country):\n"
     )
     out.append("| Component | Unit cost | Quantity | Estimate |")
     out.append("|---|---|---|---|")
@@ -452,16 +464,32 @@ def render_readme(
         f"{battery_kw_equiv:,.0f} kW | **${battery_cost / 1e6:.1f} M** |"
     )
     out.append(
-        f"| **Subtotal — civil + energy** | | | "
-        f"**${civil_energy_subtotal / 1e6:.1f} M** |\n"
+        f"| Rolling stock ({total_trainsets} trainsets × "
+        f"{stats.consist_cars} cars) | "
+        f"${cost.train_car_cost_usd / 1e6:.1f} M/car | "
+        f"{total_cars} cars | **${rolling_stock_cost / 1e6:.1f} M** |"
     )
     out.append(
-        "**Exclusions:** rolling stock (~$3–5 M per trainset "
-        f"× {stats.revenue_fleet + stats.spare_fleet + stats.reserve_fleet} "
-        "trainsets), signalling / OCC / comms, station buildings, "
-        "depot facilities, land acquisition, contingency, financing. "
-        "Typical all-in turnkey multiplier: **2.0–2.5 ×** of the "
-        "civil+energy subtotal.\n"
+        f"| Stations (civil + fit-out) | "
+        f"${cost.station_cost_usd / 1e6:.1f} M/station | "
+        f"{stats.unique_station_count} stations | "
+        f"**${station_cost / 1e6:.1f} M** |"
+    )
+    out.append(
+        f"| Depots | ${cost.depot_cost_usd / 1e6:.1f} M/depot | "
+        f"{stats.depot_count} depots | "
+        f"**${depot_cost / 1e6:.1f} M** |"
+    )
+    out.append(
+        f"| **Total capex (planning-grade)** | | | "
+        f"**${total_capex / 1e6:,.1f} M** |\n"
+    )
+    out.append(
+        "**Exclusions:** signalling / OCC / comms / cybersecurity, "
+        "land acquisition, contingency reserve (typically 15–25 % of "
+        "the above), design + engineering fees, financing. The "
+        "above is a planning-grade bracket for sizing and "
+        "stakeholder conversations, not a bid-ready estimate.\n"
     )
 
     out.append("## Files\n")
@@ -572,6 +600,19 @@ def main(argv: list[str] | None = None) -> int:
         help="BESS discharge duration, hours (default: 4)",
     )
     ap.add_argument(
+        "--train-car-cost", type=float, default=1_000_000.0,
+        help="rolling-stock unit cost, USD per CAR (default: 1,000,000). "
+             "A 3-car trainset costs 3 × this.",
+    )
+    ap.add_argument(
+        "--station-cost", type=float, default=1_000_000.0,
+        help="civil+fit-out unit cost, USD/station (default: 1,000,000)",
+    )
+    ap.add_argument(
+        "--depot-cost", type=float, default=5_000_000.0,
+        help="per-depot unit cost, USD/depot (default: 5,000,000)",
+    )
+    ap.add_argument(
         "--pax-per-trainset", type=int, default=200,
         help="passenger capacity per trainset (default: 200)",
     )
@@ -582,6 +623,9 @@ def main(argv: list[str] | None = None) -> int:
         solar_cost_per_w_usd=args.solar_cost_per_w,
         battery_cost_per_w_usd=args.battery_cost_per_w,
         battery_discharge_hours=args.battery_hours,
+        train_car_cost_usd=args.train_car_cost,
+        station_cost_usd=args.station_cost,
+        depot_cost_usd=args.depot_cost,
         trainset_capacity_pax=args.pax_per_trainset,
     )
     text = render_readme(

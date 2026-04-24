@@ -72,16 +72,19 @@ Aggregate station-rail charging power: **12,000 kW**. Trains opportunity-charge 
 
 ## Cost estimate
 
-User-specified rule-of-thumb rates: **$2.0 M/km** for civil track, **$1.00/W** for solar PV, and **$1.00/W** for battery power (assuming 4-hour BESS discharge).
+Rule-of-thumb unit rates (see [`CostAssumptions`](../../../design-py/src/osr_scenario/network_readme.py) to override per-country):
 
 | Component | Unit cost | Quantity | Estimate |
 |---|---|---|---|
 | Civil track (double-track) | $2.0 M/km | 45.1 km | **$90.2 M** |
 | Solar PV (installed) | $1.00/W | 7,700 kW | **$7.7 M** |
 | Battery (power rating, 46,500 kWh ÷ 4 h) | $1.00/W | 11,625 kW | **$11.6 M** |
-| **Subtotal — civil + energy** | | | **$109.5 M** |
+| Rolling stock (24 trainsets × 3 cars) | $1.0 M/car | 72 cars | **$72.0 M** |
+| Stations (civil + fit-out) | $1.0 M/station | 29 stations | **$29.0 M** |
+| Depots | $5.0 M/depot | 2 depots | **$10.0 M** |
+| **Total capex (planning-grade)** | | | **$220.5 M** |
 
-**Exclusions:** rolling stock (~$3–5 M per trainset × 24 trainsets), signalling / OCC / comms, station buildings, depot facilities, land acquisition, contingency, financing. Typical all-in turnkey multiplier: **2.0–2.5 ×** of the civil+energy subtotal.
+**Exclusions:** signalling / OCC / comms / cybersecurity, land acquisition, contingency reserve (typically 15–25 % of the above), design + engineering fees, financing. The above is a planning-grade bracket for sizing and stakeholder conversations, not a bid-ready estimate.
 
 ## Files
 
