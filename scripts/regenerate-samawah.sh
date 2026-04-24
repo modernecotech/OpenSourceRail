@@ -22,7 +22,7 @@ export PYTHONPATH="$DESIGN_PY/src"
 echo "1) scenario file → designs/west-asia/Iraq/Samawah/samawah.toml"
 python3 -m osr_scenario --design "$DESIGN"
 
-echo "2) network map PNGs → docs/screenshots/samawah-network-map{,-detail}.png"
+echo "2) network map PNGs → designs/west-asia/Iraq/Samawah/samawah-network-map{,-detail}.png"
 python3 -m osr_scenario.render_map --design "$DESIGN"
 
 echo "3) per-network README → designs/west-asia/Iraq/Samawah/README.md"

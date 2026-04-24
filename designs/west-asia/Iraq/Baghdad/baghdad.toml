@@ -1,0 +1,2137 @@
+# AUTO-GENERATED from designs/west-asia/Iraq/Baghdad/design.toml.
+# Do not hand-edit; run `python -m osr_scenario --design ...` to regenerate.
+# Source of truth: designs/west-asia/Iraq/Baghdad/design.toml
+
+[scenario]
+name = "Baghdad — auto-planned"
+start_time = "06:00"
+
+
+[climate]
+ambient_c = 42.0
+peak_sun_hours = 5.5
+
+
+[consist]
+# From rolling-stock family 'light-metro-3car'.
+car_count = 3
+length_m = 68
+mass_kg = 120000
+max_speed_kmh = 80.0
+battery_capacity_kwh = 320
+service_accel_mps2 = 1.0
+
+
+# Stations — one row per unique station in the design.
+[[stations]]
+id = "micro-lab"
+name = "Micro Lab"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "mstshfa-albnwk"
+name = "Mstshfa Albnwk"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "dr-zubaida-fahim"
+name = "Dr Zubaida fahim"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "al-mansur-railway-station"
+name = "Al Mansur Railway Station"
+charging_power_kw = 1000
+dwell_seconds = 60
+is_terminal = true
+
+[[stations]]
+id = "klyh-alamal"
+name = "Klyh Alamal"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "baghdad-hospital-al-karradah-saint-raphael"
+name = "BAGHDAD HOSPITAL AL KARRADAH SAINT RAPHAEL"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "alroz-lab"
+name = "alroz lab"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "baghdad-hospital-al-karka-jumhoori"
+name = "Baghdad Hospital Al Karka Jumhoori"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "rasheed-air-base"
+name = "Rasheed Air Base"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "hospital-12"
+name = "Hospital 12"
+charging_power_kw = 1000
+dwell_seconds = 60
+is_terminal = true
+
+[[stations]]
+id = "al-jadriya"
+name = "Al-Jadriya"
+dwell_seconds = 30
+
+[[stations]]
+id = "al-kazimiyah-pediatric"
+name = "Al Kazimiyah Pediatric"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "mrkz-aldwrh-alshy-m-h"
+name = "Mrkz Aldwrh Alshy (m&h)"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "alzhraa-private-hospital"
+name = "Alzhraa private hospital"
+charging_power_kw = 1000
+dwell_seconds = 60
+is_terminal = true
+
+[[stations]]
+id = "al-mustansiriya-university"
+name = "Al-Mustansiriya University"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "mstwsf-alamyn-altby"
+name = "Mstwsf Alamyn Altby"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "twety-market"
+name = "twety market"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "ibn-al-khateeb-hospital"
+name = "Ibn Al-khateeb Hospital"
+charging_power_kw = 1000
+dwell_seconds = 60
+is_terminal = true
+
+[[stations]]
+id = "saudi-aid"
+name = "Saudi Aid"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "swq-alwhylat-alsh-by"
+name = "Swq Alwhylat Alsh'by"
+dwell_seconds = 30
+
+[[stations]]
+id = "karkh-maternity-hospital"
+name = "Karkh Maternity Hospital"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "basmaya"
+name = "Basmaya"
+charging_power_kw = 1000
+dwell_seconds = 60
+is_terminal = true
+
+[[stations]]
+id = "shhda-alsydyh"
+name = "Shhda' Alsydyh"
+dwell_seconds = 30
+
+[[stations]]
+id = "university-2"
+name = "University 2"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "al-yadh-alsh-byh-fy-alslykh-aljdyd"
+name = "Al'yadh Alsh'byh Fy Alslykh Aljdyd"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "dktwrh-my-shwqy"
+name = "Dktwrh My Shwqy"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "al-shamasya"
+name = "al shamasya"
+dwell_seconds = 30
+
+[[stations]]
+id = "zayouna"
+name = "Zayouna"
+dwell_seconds = 30
+
+[[stations]]
+id = "hy-al-bwr"
+name = "Hy Al'bwr"
+dwell_seconds = 30
+
+[[stations]]
+id = "medinat-al-alam-university"
+name = "medinat Al Alam University"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "specialty-teaching-hospital-kadhimiya"
+name = "Specialty Teaching Hospital Kadhimiya"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "mkhtbr-aldktwr-mndhr-mstfa"
+name = "Mkhtbr Aldktwr Mndhr Mstfa"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "the-military-college-infirmary-1"
+name = "The military college infirmary-1"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "alwiya-children-s-hospital"
+name = "Alwiya Children's Hospital"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "baghdad-hospital-al-wasiti-burn-and-al-alya"
+name = "BAGHDAD HOSPITAL AL WASITI BURN AND AL ALYA"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "alqadsyh-mhlh-606-aldbat"
+name = "Alqadsyh Mhlh 606 Aldbat"
+dwell_seconds = 30
+
+[[stations]]
+id = "al-ahba-market"
+name = "Al Ahba Market"
+dwell_seconds = 30
+
+[[stations]]
+id = "madinat-al-ward-sw-nahrawan-desert"
+name = "Madinat Al Ward (SW Nahrawan desert)"
+charging_power_kw = 1000
+dwell_seconds = 60
+is_terminal = true
+
+[[stations]]
+id = "baghdad-hospital-air-force-base-rashid"
+name = "BAGHDAD HOSPITAL AIR FORCE BASE RASHID"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "jam-h-altrath"
+name = "Jam'h Altrath"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "baghdad-hospital-at-tawari"
+name = "Baghdad Hospital At Tawari"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "klyh-albany-aljam-h"
+name = "Klyh Albany Aljam'h"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "altajyat"
+name = "Altajyat"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "marina-hospital"
+name = "Marina Hospital"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "baghdad-hospital-neurosurgical-center"
+name = "Baghdad Hospital Neurosurgical Center"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "aswaq-dara"
+name = "Aswaq Dara"
+dwell_seconds = 30
+
+[[stations]]
+id = "mecca-mall"
+name = "mecca mall"
+dwell_seconds = 30
+
+[[stations]]
+id = "kadhimya-railway-station"
+name = "Kadhimya Railway Station"
+charging_power_kw = 1000
+dwell_seconds = 60
+is_terminal = true
+
+[[stations]]
+id = "hayy-al-atibba"
+name = "Hayy al Atibba"
+dwell_seconds = 30
+
+[[stations]]
+id = "taji-railway-station"
+name = "Taji Railway Station"
+charging_power_kw = 1000
+dwell_seconds = 60
+is_terminal = true
+
+[[stations]]
+id = "mstshfa-dar-alslam-alahly-ll-ywn"
+name = "Mstshfa Dar Alslam Alahly Ll'ywn"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "mstwsf-alrhmanyh"
+name = "Mstwsf Alrhmanyh"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "baghdad-university-college-of-management-and-eco"
+name = "Baghdad University - College of Management and Economics"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "almrkz-alshy-fy-hy-alslam"
+name = "Almrkz Alshy Fy Hy Alslam"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "shhda-al-bydy"
+name = "Shhda' Al'bydy"
+dwell_seconds = 30
+
+[[stations]]
+id = "arab-al-dalim-new-housing"
+name = "Arab Al Dalim New Housing"
+dwell_seconds = 30
+
+[[stations]]
+id = "baghdad-university-college-of-education"
+name = "Baghdad University - College of Education"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "klyh-alyrmwk-aljam-h-qsm-alsydlh-walthlylat-almr"
+name = "Klyh Alyrmwk Aljam'h - Qsm Alsydlh Walthlylat Almrdyh"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "mstwsf-aldhalyk"
+name = "Mstwsf Aldhalyk"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "mstshfa-alharthyh-alahly"
+name = "Mstshfa Alharthyh Alahly"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "bab-al-sharqi"
+name = "Bab Al-Sharqi"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "baghdad-hospital-al-rashad-psychiatric"
+name = "BAGHDAD HOSPITAL AL RASHAD PSYCHIATRIC"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "almlhanyh"
+name = "Almlhanyh"
+dwell_seconds = 30
+
+[[stations]]
+id = "abu-ghraib-new-developments"
+name = "Abu Ghraib New Developments"
+charging_power_kw = 1000
+dwell_seconds = 60
+is_terminal = true
+
+[[stations]]
+id = "hy-altabqyn-alskny"
+name = "Hy Altabqyn Alskny"
+dwell_seconds = 30
+
+[[stations]]
+id = "sabat-at-tahrir-hospital-civ"
+name = "SABAT AT TAHRIR HOSPITAL CIV"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "klyh-aswl-aldyn-aljam-h"
+name = "Klyh Aswl Aldyn Aljam'h"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "klyh-alhkmh-aljam-h"
+name = "Klyh Alhkmh Aljam'h"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "al-alam"
+name = "Al Alam"
+charging_power_kw = 1000
+dwell_seconds = 60
+is_terminal = true
+
+[[stations]]
+id = "hospital-4"
+name = "Hospital 4"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "karrada"
+name = "Karrada"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "al-nisour-university-college"
+name = "Al-Nisour University College"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "primary-health-care-bk-06"
+name = "Primary Health Care BK 06"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "aldktwr-dya-bdalqadr-jdw"
+name = "Aldktwr Dya' 'bdalqadr Jdw'"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "mstshfa-alqadsyh-sabqa"
+name = "Mstshfa Alqadsyh Sabqa"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "jam-h-albkr"
+name = "Jam'h Albkr"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "al-taji-2nd-health-center"
+name = "Al-Taji 2nd Health Center"
+charging_power_kw = 1000
+dwell_seconds = 60
+is_terminal = true
+
+[[stations]]
+id = "abu-ghraib-train-station"
+name = "Abu Ghraib Train Station"
+charging_power_kw = 1000
+dwell_seconds = 60
+is_terminal = true
+
+[[stations]]
+id = "sayyid-ra-uf"
+name = "Sayyid Ra'uf"
+dwell_seconds = 30
+
+[[stations]]
+id = "klyh-alhady-aljam-h-alahlyh"
+name = "Klyh Alhady Aljam'h Alahlyh"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "klyh-altqnyat-alshyh-waltbyh"
+name = "Klyh Altqnyat Alshyh Waltbyh"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "hayy-al-kindi"
+name = "Hayy al Kindi"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "shaykh-shuramat"
+name = "Shaykh Shuramat"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "mstwsf-ala-lam"
+name = "Mstwsf Ala'lam"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "mary-mwl"
+name = "Mary Mwl"
+dwell_seconds = 30
+
+[[stations]]
+id = "institute-of-fine-arts-2nd-building"
+name = "Institute of Fine Arts - 2nd building"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "mrkz-tby"
+name = "Mrkz Tby"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "sab-al-bor"
+name = "Sab al Bor"
+charging_power_kw = 1000
+dwell_seconds = 60
+is_terminal = true
+
+[[stations]]
+id = "aldbat"
+name = "Aldbat"
+dwell_seconds = 30
+
+[[stations]]
+id = "alsabyat"
+name = "Alsabyat"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "yarmuk-hospital"
+name = "YARMUK HOSPITAL"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "al-fahama"
+name = "Al-Fahama"
+dwell_seconds = 30
+
+[[stations]]
+id = "mstshfa-alz-franyh"
+name = "Mstshfa Alz'franyh"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "mrkz-shy-albawyh"
+name = "Mrkz Shy Albawyh"
+charging_power_kw = 1000
+dwell_seconds = 60
+is_terminal = true
+
+[[stations]]
+id = "jam-h-alamyn-alahlyh"
+name = "Jam'h Alamyn Alahlyh"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "mrkz-shy-alamam-alrda"
+name = "Mrkz Shy Alamam Alrda"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "al-urayfiyah"
+name = "Al 'Urayfiyah"
+dwell_seconds = 30
+
+[[stations]]
+id = "mstshfa-als-dwn-alahly"
+name = "Mstshfa Als'dwn Alahly"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "mstshfa-tb-alasnan"
+name = "Mstshfa Tb Alasnan"
+charging_power_kw = 1000
+dwell_seconds = 60
+is_terminal = true
+
+[[stations]]
+id = "al-a-amiriya"
+name = "Al-A'amiriya"
+charging_power_kw = 1000
+dwell_seconds = 60
+is_terminal = true
+
+[[stations]]
+id = "mstshfa-alhkym-al-am"
+name = "Mstshfa Alhkym Al'am"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "marh-bghdd-aldktwr-adl-hfdhy-alswfy"
+name = "'marh Bghdd /aldktwr 'adl Hfdhy Alswfy"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "al-farahidi-university"
+name = "Al - Farahidi University"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "almrkz-alshy-fy-alsalhyh"
+name = "Almrkz Alshy Fy Alsalhyh"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "university-1"
+name = "University 1"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "hospital-1"
+name = "Hospital 1"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "hy-altrath"
+name = "Hy Altrath"
+dwell_seconds = 30
+
+[[stations]]
+id = "mdmd"
+name = "Mdmd"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "tajiyat-taji-new-housing"
+name = "Tajiyat / Taji New Housing"
+charging_power_kw = 1000
+dwell_seconds = 60
+is_terminal = true
+
+[[stations]]
+id = "husayn-al-latif"
+name = "Husayn Al Latif"
+dwell_seconds = 30
+
+[[stations]]
+id = "mstwsf-shy-bwb-alsham"
+name = "Mstwsf Shy Bwb Alsham"
+charging_power_kw = 1000
+dwell_seconds = 60
+is_terminal = true
+
+[[stations]]
+id = "jam-h-klkamsh-alahlyh"
+name = "Jam'h Klkamsh Alahlyh"
+charging_power_kw = 1000
+dwell_seconds = 60
+is_terminal = true
+
+[[stations]]
+id = "uruk-university"
+name = "Uruk University"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "baghdad-hospital-ibn-zuhr-pulmonary"
+name = "Baghdad Hospital IBN Zuhr pulmonary"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "baghdad-hospital-al-karradah-maternity"
+name = "Baghdad Hospital Al Karradah Maternity"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "almstwsf-alshy-fy-alwshash"
+name = "Almstwsf Alshy Fy Alwshash"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "mrkz-alghdyr-altkhssy-lltahyl"
+name = "Mrkz Alghdyr Altkhssy Lltahyl"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "al-zohour"
+name = "Al-Zohour"
+dwell_seconds = 30
+
+[[stations]]
+id = "mashreq-university"
+name = "Mashreq University"
+charging_power_kw = 1000
+dwell_seconds = 60
+is_terminal = true
+
+[[stations]]
+id = "al-dolai-hospital"
+name = "Al_dolai Hospital"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "yadat-dhw-alfqar-altbyh"
+name = "'yadat Dhw Alfqar Altbyh"
+charging_power_kw = 500
+dwell_seconds = 45
+
+
+
+# Lines — per-line station sequences.
+[[lines]]
+id = "line-1"
+name = "Line 1"
+stations = [
+    { id = "basmaya", distance_from_prev_m = 0 },
+    { id = "husayn-al-latif", distance_from_prev_m = 1665 },
+    { id = "baghdad-hospital-air-force-base-rashid", distance_from_prev_m = 1789 },
+    { id = "the-military-college-infirmary-1", distance_from_prev_m = 1069 },
+    { id = "mrkz-shy-alamam-alrda", distance_from_prev_m = 2017 },
+    { id = "university-2", distance_from_prev_m = 1186 },
+    { id = "mstshfa-alz-franyh", distance_from_prev_m = 1132 },
+    { id = "rasheed-air-base", distance_from_prev_m = 1643 },
+    { id = "alwiya-children-s-hospital", distance_from_prev_m = 5042 },
+    { id = "klyh-alhkmh-aljam-h", distance_from_prev_m = 987 },
+    { id = "uruk-university", distance_from_prev_m = 651 },
+    { id = "karrada", distance_from_prev_m = 996 },
+    { id = "baghdad-hospital-al-wasiti-burn-and-al-alya", distance_from_prev_m = 848 },
+    { id = "bab-al-sharqi", distance_from_prev_m = 1797 },
+    { id = "sabat-at-tahrir-hospital-civ", distance_from_prev_m = 1448 },
+    { id = "baghdad-hospital-at-tawari", distance_from_prev_m = 1101 },
+    { id = "institute-of-fine-arts-2nd-building", distance_from_prev_m = 1516 },
+    { id = "hospital-1", distance_from_prev_m = 1167 },
+    { id = "baghdad-university-college-of-education", distance_from_prev_m = 928 },
+    { id = "al-kazimiyah-pediatric", distance_from_prev_m = 2434 },
+    { id = "medinat-al-alam-university", distance_from_prev_m = 747 },
+    { id = "specialty-teaching-hospital-kadhimiya", distance_from_prev_m = 849 },
+    { id = "kadhimya-railway-station", distance_from_prev_m = 961 },
+    { id = "alsabyat", distance_from_prev_m = 3119 },
+    { id = "altajyat", distance_from_prev_m = 1647 },
+    { id = "taji-railway-station", distance_from_prev_m = 6569 },
+    { id = "sab-al-bor", distance_from_prev_m = 9275 },
+]
+
+[[lines]]
+id = "line-2"
+name = "Line 2"
+stations = [
+    { id = "mstshfa-tb-alasnan", distance_from_prev_m = 0 },
+    { id = "mrkz-aldwrh-alshy-m-h", distance_from_prev_m = 2710 },
+    { id = "hy-altabqyn-alskny", distance_from_prev_m = 4413 },
+    { id = "mdmd", distance_from_prev_m = 2672 },
+    { id = "saudi-aid", distance_from_prev_m = 4890 },
+    { id = "klyh-alamal", distance_from_prev_m = 4796 },
+    { id = "yarmuk-hospital", distance_from_prev_m = 4625 },
+    { id = "baghdad-hospital-al-karradah-saint-raphael", distance_from_prev_m = 6652 },
+    { id = "hayy-al-kindi", distance_from_prev_m = 2231 },
+    { id = "al-nisour-university-college", distance_from_prev_m = 3884 },
+    { id = "mstshfa-alharthyh-alahly", distance_from_prev_m = 1116 },
+    { id = "mkhtbr-aldktwr-mndhr-mstfa", distance_from_prev_m = 4673 },
+    { id = "bab-al-sharqi", distance_from_prev_m = 775 },
+    { id = "sabat-at-tahrir-hospital-civ", distance_from_prev_m = 1448 },
+    { id = "baghdad-hospital-at-tawari", distance_from_prev_m = 1101 },
+    { id = "klyh-altqnyat-alshyh-waltbyh", distance_from_prev_m = 945 },
+    { id = "institute-of-fine-arts-2nd-building", distance_from_prev_m = 571 },
+    { id = "hospital-1", distance_from_prev_m = 1167 },
+    { id = "baghdad-university-college-of-education", distance_from_prev_m = 928 },
+    { id = "dktwrh-my-shwqy", distance_from_prev_m = 823 },
+    { id = "al-yadh-alsh-byh-fy-alslykh-aljdyd", distance_from_prev_m = 2697 },
+    { id = "alroz-lab", distance_from_prev_m = 1005 },
+    { id = "mstwsf-aldhalyk", distance_from_prev_m = 1340 },
+    { id = "al-fahama", distance_from_prev_m = 12735 },
+    { id = "tajiyat-taji-new-housing", distance_from_prev_m = 2673 },
+]
+
+[[lines]]
+id = "line-3"
+name = "Line 3"
+stations = [
+    { id = "madinat-al-ward-sw-nahrawan-desert", distance_from_prev_m = 0 },
+    { id = "hospital-12", distance_from_prev_m = 8984 },
+    { id = "mrkz-shy-albawyh", distance_from_prev_m = 1405 },
+    { id = "shhda-al-bydy", distance_from_prev_m = 2827 },
+    { id = "hy-altrath", distance_from_prev_m = 2074 },
+    { id = "hy-al-bwr", distance_from_prev_m = 1141 },
+    { id = "arab-al-dalim-new-housing", distance_from_prev_m = 813 },
+    { id = "mecca-mall", distance_from_prev_m = 2537 },
+    { id = "zayouna", distance_from_prev_m = 1631 },
+    { id = "al-ahba-market", distance_from_prev_m = 837 },
+    { id = "mary-mwl", distance_from_prev_m = 1696 },
+    { id = "baghdad-hospital-neurosurgical-center", distance_from_prev_m = 1973 },
+    { id = "sabat-at-tahrir-hospital-civ", distance_from_prev_m = 1669 },
+    { id = "baghdad-hospital-at-tawari", distance_from_prev_m = 1101 },
+    { id = "institute-of-fine-arts-2nd-building", distance_from_prev_m = 1516 },
+    { id = "baghdad-hospital-al-karka-jumhoori", distance_from_prev_m = 1530 },
+    { id = "hospital-4", distance_from_prev_m = 2809 },
+    { id = "aswaq-dara", distance_from_prev_m = 1167 },
+    { id = "al-dolai-hospital", distance_from_prev_m = 1378 },
+    { id = "twety-market", distance_from_prev_m = 548 },
+    { id = "primary-health-care-bk-06", distance_from_prev_m = 1217 },
+    { id = "mstwsf-alrhmanyh", distance_from_prev_m = 2693 },
+    { id = "abu-ghraib-train-station", distance_from_prev_m = 4801 },
+    { id = "abu-ghraib-new-developments", distance_from_prev_m = 10846 },
+]
+
+[[lines]]
+id = "line-4"
+name = "Line 4"
+stations = [
+    { id = "mashreq-university", distance_from_prev_m = 0 },
+    { id = "hayy-al-atibba", distance_from_prev_m = 1861 },
+    { id = "al-a-amiriya", distance_from_prev_m = 1670 },
+    { id = "mrkz-tby", distance_from_prev_m = 1320 },
+    { id = "klyh-albany-aljam-h", distance_from_prev_m = 2969 },
+    { id = "dr-zubaida-fahim", distance_from_prev_m = 934 },
+    { id = "al-mansur-railway-station", distance_from_prev_m = 837 },
+    { id = "almstwsf-alshy-fy-alwshash", distance_from_prev_m = 1418 },
+    { id = "micro-lab", distance_from_prev_m = 1062 },
+    { id = "mstshfa-dar-alslam-alahly-ll-ywn", distance_from_prev_m = 843 },
+    { id = "jam-h-altrath", distance_from_prev_m = 833 },
+    { id = "karkh-maternity-hospital", distance_from_prev_m = 3435 },
+    { id = "klyh-altqnyat-alshyh-waltbyh", distance_from_prev_m = 1291 },
+    { id = "baghdad-hospital-at-tawari", distance_from_prev_m = 945 },
+    { id = "sabat-at-tahrir-hospital-civ", distance_from_prev_m = 1101 },
+    { id = "aldktwr-dya-bdalqadr-jdw", distance_from_prev_m = 1976 },
+    { id = "marh-bghdd-aldktwr-adl-hfdhy-alswfy", distance_from_prev_m = 1107 },
+    { id = "mrkz-alghdyr-altkhssy-lltahyl", distance_from_prev_m = 1244 },
+    { id = "swq-alwhylat-alsh-by", distance_from_prev_m = 2064 },
+    { id = "mstshfa-alqadsyh-sabqa", distance_from_prev_m = 1282 },
+    { id = "baghdad-hospital-al-rashad-psychiatric", distance_from_prev_m = 3260 },
+    { id = "mrkz-shy-albawyh", distance_from_prev_m = 3075 },
+    { id = "hospital-12", distance_from_prev_m = 1405 },
+]
+
+[[lines]]
+id = "line-5"
+name = "Line 5"
+stations = [
+    { id = "ibn-al-khateeb-hospital", distance_from_prev_m = 0 },
+    { id = "baghdad-hospital-ibn-zuhr-pulmonary", distance_from_prev_m = 1181 },
+    { id = "al-urayfiyah", distance_from_prev_m = 2568 },
+    { id = "university-2", distance_from_prev_m = 2652 },
+    { id = "klyh-alyrmwk-aljam-h-qsm-alsydlh-walthlylat-almr", distance_from_prev_m = 6483 },
+    { id = "klyh-alhkmh-aljam-h", distance_from_prev_m = 537 },
+    { id = "karrada", distance_from_prev_m = 1273 },
+    { id = "mstshfa-als-dwn-alahly", distance_from_prev_m = 1407 },
+    { id = "bab-al-sharqi", distance_from_prev_m = 1385 },
+    { id = "sabat-at-tahrir-hospital-civ", distance_from_prev_m = 1448 },
+    { id = "baghdad-hospital-at-tawari", distance_from_prev_m = 1101 },
+    { id = "institute-of-fine-arts-2nd-building", distance_from_prev_m = 1516 },
+    { id = "jam-h-alamyn-alahlyh", distance_from_prev_m = 773 },
+    { id = "hospital-1", distance_from_prev_m = 847 },
+    { id = "baghdad-university-college-of-education", distance_from_prev_m = 928 },
+    { id = "dktwrh-my-shwqy", distance_from_prev_m = 823 },
+    { id = "al-shamasya", distance_from_prev_m = 929 },
+    { id = "alsabyat", distance_from_prev_m = 6263 },
+    { id = "altajyat", distance_from_prev_m = 1647 },
+    { id = "taji-railway-station", distance_from_prev_m = 6569 },
+    { id = "al-taji-2nd-health-center", distance_from_prev_m = 4754 },
+]
+
+[[lines]]
+id = "line-6"
+name = "Line 6"
+stations = [
+    { id = "al-alam", distance_from_prev_m = 0 },
+    { id = "shhda-alsydyh", distance_from_prev_m = 1448 },
+    { id = "mstwsf-ala-lam", distance_from_prev_m = 2436 },
+    { id = "shaykh-shuramat", distance_from_prev_m = 2586 },
+    { id = "al-farahidi-university", distance_from_prev_m = 2522 },
+    { id = "alqadsyh-mhlh-606-aldbat", distance_from_prev_m = 2024 },
+    { id = "yarmuk-hospital", distance_from_prev_m = 1417 },
+    { id = "baghdad-hospital-al-karradah-maternity", distance_from_prev_m = 3298 },
+    { id = "al-nisour-university-college", distance_from_prev_m = 3512 },
+    { id = "mstshfa-alharthyh-alahly", distance_from_prev_m = 1116 },
+    { id = "almrkz-alshy-fy-alsalhyh", distance_from_prev_m = 3124 },
+    { id = "karkh-maternity-hospital", distance_from_prev_m = 1046 },
+    { id = "baghdad-hospital-at-tawari", distance_from_prev_m = 794 },
+    { id = "institute-of-fine-arts-2nd-building", distance_from_prev_m = 1516 },
+    { id = "klyh-aswl-aldyn-aljam-h", distance_from_prev_m = 981 },
+    { id = "al-mustansiriya-university", distance_from_prev_m = 1647 },
+    { id = "jam-h-albkr", distance_from_prev_m = 989 },
+    { id = "university-1", distance_from_prev_m = 2174 },
+    { id = "mstshfa-albnwk", distance_from_prev_m = 1119 },
+    { id = "al-zohour", distance_from_prev_m = 1630 },
+    { id = "alzhraa-private-hospital", distance_from_prev_m = 1490 },
+]
+
+[[lines]]
+id = "line-7"
+name = "Line 7"
+stations = [
+    { id = "al-a-amiriya", distance_from_prev_m = 0 },
+    { id = "almrkz-alshy-fy-hy-alslam", distance_from_prev_m = 4741 },
+    { id = "aldbat", distance_from_prev_m = 1984 },
+    { id = "almlhanyh", distance_from_prev_m = 1158 },
+    { id = "mrkz-tby", distance_from_prev_m = 4590 },
+    { id = "klyh-albany-aljam-h", distance_from_prev_m = 2969 },
+    { id = "al-nisour-university-college", distance_from_prev_m = 2521 },
+    { id = "mstshfa-alharthyh-alahly", distance_from_prev_m = 1116 },
+    { id = "jam-h-altrath", distance_from_prev_m = 636 },
+    { id = "karkh-maternity-hospital", distance_from_prev_m = 3435 },
+    { id = "institute-of-fine-arts-2nd-building", distance_from_prev_m = 1777 },
+    { id = "baghdad-hospital-at-tawari", distance_from_prev_m = 1516 },
+    { id = "al-mustansiriya-university", distance_from_prev_m = 2891 },
+    { id = "marina-hospital", distance_from_prev_m = 1757 },
+    { id = "mstwsf-alamyn-altby", distance_from_prev_m = 1501 },
+    { id = "yadat-dhw-alfqar-altbyh", distance_from_prev_m = 1380 },
+    { id = "baghdad-hospital-al-rashad-psychiatric", distance_from_prev_m = 5936 },
+    { id = "mrkz-shy-albawyh", distance_from_prev_m = 3075 },
+]
+
+[[lines]]
+id = "line-8"
+name = "Line 8"
+stations = [
+    { id = "jam-h-klkamsh-alahlyh", distance_from_prev_m = 0 },
+    { id = "klyh-alhady-aljam-h-alahlyh", distance_from_prev_m = 1179 },
+    { id = "mrkz-aldwrh-alshy-m-h", distance_from_prev_m = 3875 },
+    { id = "shaykh-shuramat", distance_from_prev_m = 4350 },
+    { id = "al-farahidi-university", distance_from_prev_m = 2522 },
+    { id = "saudi-aid", distance_from_prev_m = 1267 },
+    { id = "baghdad-hospital-al-karradah-maternity", distance_from_prev_m = 2890 },
+    { id = "al-jadriya", distance_from_prev_m = 1081 },
+    { id = "klyh-alamal", distance_from_prev_m = 1110 },
+    { id = "hayy-al-kindi", distance_from_prev_m = 1488 },
+    { id = "almrkz-alshy-fy-alsalhyh", distance_from_prev_m = 2691 },
+    { id = "sabat-at-tahrir-hospital-civ", distance_from_prev_m = 1410 },
+    { id = "baghdad-hospital-at-tawari", distance_from_prev_m = 1101 },
+    { id = "institute-of-fine-arts-2nd-building", distance_from_prev_m = 1516 },
+    { id = "hospital-1", distance_from_prev_m = 1167 },
+    { id = "baghdad-university-college-of-management-and-eco", distance_from_prev_m = 1331 },
+    { id = "al-yadh-alsh-byh-fy-alslykh-aljdyd", distance_from_prev_m = 2418 },
+    { id = "mstwsf-shy-bwb-alsham", distance_from_prev_m = 5305 },
+]
+
+[[lines]]
+id = "line-ring"
+name = "Ring Line"
+stations = [
+    { id = "hospital-12", distance_from_prev_m = 0 },
+    { id = "taji-railway-station", distance_from_prev_m = 28681 },
+    { id = "altajyat", distance_from_prev_m = 6569 },
+    { id = "alsabyat", distance_from_prev_m = 1647 },
+    { id = "mstshfa-alhkym-al-am", distance_from_prev_m = 4501 },
+    { id = "abu-ghraib-train-station", distance_from_prev_m = 4822 },
+    { id = "sayyid-ra-uf", distance_from_prev_m = 35797 },
+    { id = "madinat-al-ward-sw-nahrawan-desert", distance_from_prev_m = 16347 },
+]
+
+
+
+# Fleets — copied from design.toml [[fleets]].
+[[fleets]]
+line = "line-1"
+trainset_count = 10
+dispatch_points = [
+    { station = "basmaya", heading = "forward" },
+    { station = "sab-al-bor", heading = "reverse" },
+]
+service_start = "05:30"
+service_end = "23:30"
+schedule = [
+    { from = "05:30", to = "07:00", headway_min = 10 },
+    { from = "07:00", to = "09:30", headway_min = 5 },
+    { from = "09:30", to = "16:00", headway_min = 8 },
+    { from = "16:00", to = "19:00", headway_min = 5 },
+    { from = "19:00", to = "22:00", headway_min = 10 },
+    { from = "22:00", to = "23:30", headway_min = 15 },
+]
+
+[[fleets]]
+line = "line-2"
+trainset_count = 10
+dispatch_points = [
+    { station = "mstshfa-tb-alasnan", heading = "forward" },
+    { station = "tajiyat-taji-new-housing", heading = "reverse" },
+]
+service_start = "05:30"
+service_end = "23:30"
+schedule = [
+    { from = "05:30", to = "07:00", headway_min = 10 },
+    { from = "07:00", to = "09:30", headway_min = 5 },
+    { from = "09:30", to = "16:00", headway_min = 8 },
+    { from = "16:00", to = "19:00", headway_min = 5 },
+    { from = "19:00", to = "22:00", headway_min = 10 },
+    { from = "22:00", to = "23:30", headway_min = 15 },
+]
+
+[[fleets]]
+line = "line-3"
+trainset_count = 10
+dispatch_points = [
+    { station = "madinat-al-ward-sw-nahrawan-desert", heading = "forward" },
+    { station = "abu-ghraib-new-developments", heading = "reverse" },
+]
+service_start = "05:30"
+service_end = "23:30"
+schedule = [
+    { from = "05:30", to = "07:00", headway_min = 10 },
+    { from = "07:00", to = "09:30", headway_min = 5 },
+    { from = "09:30", to = "16:00", headway_min = 8 },
+    { from = "16:00", to = "19:00", headway_min = 5 },
+    { from = "19:00", to = "22:00", headway_min = 10 },
+    { from = "22:00", to = "23:30", headway_min = 15 },
+]
+
+[[fleets]]
+line = "line-4"
+trainset_count = 10
+dispatch_points = [
+    { station = "mashreq-university", heading = "forward" },
+    { station = "hospital-12", heading = "reverse" },
+]
+service_start = "05:30"
+service_end = "23:30"
+schedule = [
+    { from = "05:30", to = "07:00", headway_min = 10 },
+    { from = "07:00", to = "09:30", headway_min = 5 },
+    { from = "09:30", to = "16:00", headway_min = 8 },
+    { from = "16:00", to = "19:00", headway_min = 5 },
+    { from = "19:00", to = "22:00", headway_min = 10 },
+    { from = "22:00", to = "23:30", headway_min = 15 },
+]
+
+[[fleets]]
+line = "line-5"
+trainset_count = 10
+dispatch_points = [
+    { station = "ibn-al-khateeb-hospital", heading = "forward" },
+    { station = "al-taji-2nd-health-center", heading = "reverse" },
+]
+service_start = "05:30"
+service_end = "23:30"
+schedule = [
+    { from = "05:30", to = "07:00", headway_min = 10 },
+    { from = "07:00", to = "09:30", headway_min = 5 },
+    { from = "09:30", to = "16:00", headway_min = 8 },
+    { from = "16:00", to = "19:00", headway_min = 5 },
+    { from = "19:00", to = "22:00", headway_min = 10 },
+    { from = "22:00", to = "23:30", headway_min = 15 },
+]
+
+[[fleets]]
+line = "line-6"
+trainset_count = 10
+dispatch_points = [
+    { station = "al-alam", heading = "forward" },
+    { station = "alzhraa-private-hospital", heading = "reverse" },
+]
+service_start = "05:30"
+service_end = "23:30"
+schedule = [
+    { from = "05:30", to = "07:00", headway_min = 10 },
+    { from = "07:00", to = "09:30", headway_min = 5 },
+    { from = "09:30", to = "16:00", headway_min = 8 },
+    { from = "16:00", to = "19:00", headway_min = 5 },
+    { from = "19:00", to = "22:00", headway_min = 10 },
+    { from = "22:00", to = "23:30", headway_min = 15 },
+]
+
+[[fleets]]
+line = "line-7"
+trainset_count = 10
+dispatch_points = [
+    { station = "al-a-amiriya", heading = "forward" },
+    { station = "mrkz-shy-albawyh", heading = "reverse" },
+]
+service_start = "05:30"
+service_end = "23:30"
+schedule = [
+    { from = "05:30", to = "07:00", headway_min = 10 },
+    { from = "07:00", to = "09:30", headway_min = 5 },
+    { from = "09:30", to = "16:00", headway_min = 8 },
+    { from = "16:00", to = "19:00", headway_min = 5 },
+    { from = "19:00", to = "22:00", headway_min = 10 },
+    { from = "22:00", to = "23:30", headway_min = 15 },
+]
+
+[[fleets]]
+line = "line-8"
+trainset_count = 10
+dispatch_points = [
+    { station = "jam-h-klkamsh-alahlyh", heading = "forward" },
+    { station = "mstwsf-shy-bwb-alsham", heading = "reverse" },
+]
+service_start = "05:30"
+service_end = "23:30"
+schedule = [
+    { from = "05:30", to = "07:00", headway_min = 10 },
+    { from = "07:00", to = "09:30", headway_min = 5 },
+    { from = "09:30", to = "16:00", headway_min = 8 },
+    { from = "16:00", to = "19:00", headway_min = 5 },
+    { from = "19:00", to = "22:00", headway_min = 10 },
+    { from = "22:00", to = "23:30", headway_min = 15 },
+]
+
+[[fleets]]
+line = "line-ring"
+trainset_count = 10
+dispatch_points = [
+    { station = "hospital-12", heading = "forward" },
+    { station = "madinat-al-ward-sw-nahrawan-desert", heading = "reverse" },
+]
+service_start = "05:30"
+service_end = "23:30"
+schedule = [
+    { from = "05:30", to = "07:00", headway_min = 10 },
+    { from = "07:00", to = "09:30", headway_min = 5 },
+    { from = "09:30", to = "16:00", headway_min = 8 },
+    { from = "16:00", to = "19:00", headway_min = 5 },
+    { from = "19:00", to = "22:00", headway_min = 10 },
+    { from = "22:00", to = "23:30", headway_min = 15 },
+]
+
+
+
+# Trackside energy sites — expanded from tier references.
+[[sites]]
+station = "micro-lab"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "mstshfa-albnwk"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "dr-zubaida-fahim"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "al-mansur-railway-station"
+pv_nameplate_kw = 500.0
+storage_capacity_kwh = 3000.0
+storage_max_charge_kw = 1500.0
+storage_max_discharge_kw = 1500.0
+storage_initial_soc = 0.6
+grid_import_kw = 800.0
+grid_export_kw = 800.0
+
+[[sites]]
+station = "klyh-alamal"
+pv_nameplate_kw = 500.0
+storage_capacity_kwh = 3000.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "baghdad-hospital-al-karradah-saint-raphael"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "alroz-lab"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "baghdad-hospital-al-karka-jumhoori"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "rasheed-air-base"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "hospital-12"
+pv_nameplate_kw = 500.0
+storage_capacity_kwh = 3000.0
+storage_max_charge_kw = 1500.0
+storage_max_discharge_kw = 1500.0
+storage_initial_soc = 0.6
+grid_import_kw = 800.0
+grid_export_kw = 800.0
+
+[[sites]]
+station = "al-kazimiyah-pediatric"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "mrkz-aldwrh-alshy-m-h"
+pv_nameplate_kw = 500.0
+storage_capacity_kwh = 3000.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "alzhraa-private-hospital"
+pv_nameplate_kw = 500.0
+storage_capacity_kwh = 3000.0
+storage_max_charge_kw = 1500.0
+storage_max_discharge_kw = 1500.0
+storage_initial_soc = 0.6
+grid_import_kw = 800.0
+grid_export_kw = 800.0
+
+[[sites]]
+station = "al-mustansiriya-university"
+pv_nameplate_kw = 500.0
+storage_capacity_kwh = 3000.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "mstwsf-alamyn-altby"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "twety-market"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "ibn-al-khateeb-hospital"
+pv_nameplate_kw = 500.0
+storage_capacity_kwh = 3000.0
+storage_max_charge_kw = 1500.0
+storage_max_discharge_kw = 1500.0
+storage_initial_soc = 0.6
+grid_import_kw = 800.0
+grid_export_kw = 800.0
+
+[[sites]]
+station = "saudi-aid"
+pv_nameplate_kw = 500.0
+storage_capacity_kwh = 3000.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "karkh-maternity-hospital"
+pv_nameplate_kw = 500.0
+storage_capacity_kwh = 3000.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "basmaya"
+pv_nameplate_kw = 500.0
+storage_capacity_kwh = 3000.0
+storage_max_charge_kw = 1500.0
+storage_max_discharge_kw = 1500.0
+storage_initial_soc = 0.6
+grid_import_kw = 800.0
+grid_export_kw = 800.0
+
+[[sites]]
+station = "university-2"
+pv_nameplate_kw = 500.0
+storage_capacity_kwh = 3000.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "al-yadh-alsh-byh-fy-alslykh-aljdyd"
+pv_nameplate_kw = 500.0
+storage_capacity_kwh = 3000.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "dktwrh-my-shwqy"
+pv_nameplate_kw = 500.0
+storage_capacity_kwh = 3000.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "medinat-al-alam-university"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "specialty-teaching-hospital-kadhimiya"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "mkhtbr-aldktwr-mndhr-mstfa"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "the-military-college-infirmary-1"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "alwiya-children-s-hospital"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "baghdad-hospital-al-wasiti-burn-and-al-alya"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "madinat-al-ward-sw-nahrawan-desert"
+pv_nameplate_kw = 500.0
+storage_capacity_kwh = 3000.0
+storage_max_charge_kw = 1500.0
+storage_max_discharge_kw = 1500.0
+storage_initial_soc = 0.6
+grid_import_kw = 800.0
+grid_export_kw = 800.0
+
+[[sites]]
+station = "baghdad-hospital-air-force-base-rashid"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "jam-h-altrath"
+pv_nameplate_kw = 500.0
+storage_capacity_kwh = 3000.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "baghdad-hospital-at-tawari"
+pv_nameplate_kw = 500.0
+storage_capacity_kwh = 3000.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "klyh-albany-aljam-h"
+pv_nameplate_kw = 500.0
+storage_capacity_kwh = 3000.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "altajyat"
+pv_nameplate_kw = 500.0
+storage_capacity_kwh = 3000.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "marina-hospital"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "baghdad-hospital-neurosurgical-center"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "kadhimya-railway-station"
+pv_nameplate_kw = 500.0
+storage_capacity_kwh = 3000.0
+storage_max_charge_kw = 1500.0
+storage_max_discharge_kw = 1500.0
+storage_initial_soc = 0.6
+grid_import_kw = 800.0
+grid_export_kw = 800.0
+
+[[sites]]
+station = "taji-railway-station"
+pv_nameplate_kw = 500.0
+storage_capacity_kwh = 3000.0
+storage_max_charge_kw = 1500.0
+storage_max_discharge_kw = 1500.0
+storage_initial_soc = 0.6
+grid_import_kw = 800.0
+grid_export_kw = 800.0
+
+[[sites]]
+station = "mstshfa-dar-alslam-alahly-ll-ywn"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "mstwsf-alrhmanyh"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "baghdad-university-college-of-management-and-eco"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "almrkz-alshy-fy-hy-alslam"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "baghdad-university-college-of-education"
+pv_nameplate_kw = 500.0
+storage_capacity_kwh = 3000.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "klyh-alyrmwk-aljam-h-qsm-alsydlh-walthlylat-almr"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "mstwsf-aldhalyk"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "mstshfa-alharthyh-alahly"
+pv_nameplate_kw = 500.0
+storage_capacity_kwh = 3000.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "bab-al-sharqi"
+pv_nameplate_kw = 500.0
+storage_capacity_kwh = 3000.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "baghdad-hospital-al-rashad-psychiatric"
+pv_nameplate_kw = 500.0
+storage_capacity_kwh = 3000.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "abu-ghraib-new-developments"
+pv_nameplate_kw = 500.0
+storage_capacity_kwh = 3000.0
+storage_max_charge_kw = 1500.0
+storage_max_discharge_kw = 1500.0
+storage_initial_soc = 0.6
+grid_import_kw = 800.0
+grid_export_kw = 800.0
+
+[[sites]]
+station = "sabat-at-tahrir-hospital-civ"
+pv_nameplate_kw = 500.0
+storage_capacity_kwh = 3000.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "klyh-aswl-aldyn-aljam-h"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "klyh-alhkmh-aljam-h"
+pv_nameplate_kw = 500.0
+storage_capacity_kwh = 3000.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "al-alam"
+pv_nameplate_kw = 500.0
+storage_capacity_kwh = 3000.0
+storage_max_charge_kw = 1500.0
+storage_max_discharge_kw = 1500.0
+storage_initial_soc = 0.6
+grid_import_kw = 800.0
+grid_export_kw = 800.0
+
+[[sites]]
+station = "hospital-4"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "karrada"
+pv_nameplate_kw = 500.0
+storage_capacity_kwh = 3000.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "al-nisour-university-college"
+pv_nameplate_kw = 500.0
+storage_capacity_kwh = 3000.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "primary-health-care-bk-06"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "aldktwr-dya-bdalqadr-jdw"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "mstshfa-alqadsyh-sabqa"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "jam-h-albkr"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "al-taji-2nd-health-center"
+pv_nameplate_kw = 500.0
+storage_capacity_kwh = 3000.0
+storage_max_charge_kw = 1500.0
+storage_max_discharge_kw = 1500.0
+storage_initial_soc = 0.6
+grid_import_kw = 800.0
+grid_export_kw = 800.0
+
+[[sites]]
+station = "abu-ghraib-train-station"
+pv_nameplate_kw = 500.0
+storage_capacity_kwh = 3000.0
+storage_max_charge_kw = 1500.0
+storage_max_discharge_kw = 1500.0
+storage_initial_soc = 0.6
+grid_import_kw = 800.0
+grid_export_kw = 800.0
+
+[[sites]]
+station = "klyh-alhady-aljam-h-alahlyh"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "klyh-altqnyat-alshyh-waltbyh"
+pv_nameplate_kw = 500.0
+storage_capacity_kwh = 3000.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "hayy-al-kindi"
+pv_nameplate_kw = 500.0
+storage_capacity_kwh = 3000.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "shaykh-shuramat"
+pv_nameplate_kw = 500.0
+storage_capacity_kwh = 3000.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "mstwsf-ala-lam"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "institute-of-fine-arts-2nd-building"
+pv_nameplate_kw = 500.0
+storage_capacity_kwh = 3000.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "mrkz-tby"
+pv_nameplate_kw = 500.0
+storage_capacity_kwh = 3000.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "sab-al-bor"
+pv_nameplate_kw = 500.0
+storage_capacity_kwh = 3000.0
+storage_max_charge_kw = 1500.0
+storage_max_discharge_kw = 1500.0
+storage_initial_soc = 0.6
+grid_import_kw = 800.0
+grid_export_kw = 800.0
+
+[[sites]]
+station = "alsabyat"
+pv_nameplate_kw = 500.0
+storage_capacity_kwh = 3000.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "yarmuk-hospital"
+pv_nameplate_kw = 500.0
+storage_capacity_kwh = 3000.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "mstshfa-alz-franyh"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "mrkz-shy-albawyh"
+pv_nameplate_kw = 500.0
+storage_capacity_kwh = 3000.0
+storage_max_charge_kw = 1500.0
+storage_max_discharge_kw = 1500.0
+storage_initial_soc = 0.6
+grid_import_kw = 800.0
+grid_export_kw = 800.0
+
+[[sites]]
+station = "jam-h-alamyn-alahlyh"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "mrkz-shy-alamam-alrda"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "mstshfa-als-dwn-alahly"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "mstshfa-tb-alasnan"
+pv_nameplate_kw = 500.0
+storage_capacity_kwh = 3000.0
+storage_max_charge_kw = 1500.0
+storage_max_discharge_kw = 1500.0
+storage_initial_soc = 0.6
+grid_import_kw = 800.0
+grid_export_kw = 800.0
+
+[[sites]]
+station = "al-a-amiriya"
+pv_nameplate_kw = 500.0
+storage_capacity_kwh = 3000.0
+storage_max_charge_kw = 1500.0
+storage_max_discharge_kw = 1500.0
+storage_initial_soc = 0.6
+grid_import_kw = 800.0
+grid_export_kw = 800.0
+
+[[sites]]
+station = "mstshfa-alhkym-al-am"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "marh-bghdd-aldktwr-adl-hfdhy-alswfy"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "al-farahidi-university"
+pv_nameplate_kw = 500.0
+storage_capacity_kwh = 3000.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "almrkz-alshy-fy-alsalhyh"
+pv_nameplate_kw = 500.0
+storage_capacity_kwh = 3000.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "university-1"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "hospital-1"
+pv_nameplate_kw = 500.0
+storage_capacity_kwh = 3000.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "mdmd"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "tajiyat-taji-new-housing"
+pv_nameplate_kw = 500.0
+storage_capacity_kwh = 3000.0
+storage_max_charge_kw = 1500.0
+storage_max_discharge_kw = 1500.0
+storage_initial_soc = 0.6
+grid_import_kw = 800.0
+grid_export_kw = 800.0
+
+[[sites]]
+station = "mstwsf-shy-bwb-alsham"
+pv_nameplate_kw = 500.0
+storage_capacity_kwh = 3000.0
+storage_max_charge_kw = 1500.0
+storage_max_discharge_kw = 1500.0
+storage_initial_soc = 0.6
+grid_import_kw = 800.0
+grid_export_kw = 800.0
+
+[[sites]]
+station = "jam-h-klkamsh-alahlyh"
+pv_nameplate_kw = 500.0
+storage_capacity_kwh = 3000.0
+storage_max_charge_kw = 1500.0
+storage_max_discharge_kw = 1500.0
+storage_initial_soc = 0.6
+grid_import_kw = 800.0
+grid_export_kw = 800.0
+
+[[sites]]
+station = "uruk-university"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "baghdad-hospital-ibn-zuhr-pulmonary"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "baghdad-hospital-al-karradah-maternity"
+pv_nameplate_kw = 500.0
+storage_capacity_kwh = 3000.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "almstwsf-alshy-fy-alwshash"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "mrkz-alghdyr-altkhssy-lltahyl"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "mashreq-university"
+pv_nameplate_kw = 500.0
+storage_capacity_kwh = 3000.0
+storage_max_charge_kw = 1500.0
+storage_max_discharge_kw = 1500.0
+storage_initial_soc = 0.6
+grid_import_kw = 800.0
+grid_export_kw = 800.0
+
+[[sites]]
+station = "al-dolai-hospital"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "yadat-dhw-alfqar-altbyh"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0

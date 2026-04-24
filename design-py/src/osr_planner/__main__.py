@@ -33,6 +33,27 @@ from pathlib import Path
 from .planner import CityInputs, plan_city
 
 
+def _parse_force_anchors(raw: list[str]) -> tuple:
+    """Parse `--force-anchor name:lat,lon[:weight]` specs into the
+    (name, lat, lon, weight) tuple form `CityInputs.force_anchors`
+    expects. Default weight is 95 (→ must-cover)."""
+    out: list[tuple[str, float, float, float]] = []
+    for spec in raw or ():
+        # Format: "Name:lat,lon" or "Name:lat,lon:weight"
+        head, _, tail = spec.partition(":")
+        name = head.strip()
+        if not tail:
+            raise ValueError(
+                f"--force-anchor '{spec}' missing coords; "
+                "use 'Name:lat,lon[:weight]'"
+            )
+        coords, _, wstr = tail.partition(":")
+        lat, lon = [float(x) for x in coords.split(",")]
+        weight = float(wstr) if wstr else 95.0
+        out.append((name, lat, lon, weight))
+    return tuple(out)
+
+
 def _run_single(args: argparse.Namespace) -> int:
     south, west, north, east = map(float, args.bbox.split(","))
     clat, clon = map(float, args.center.split(","))
@@ -47,6 +68,8 @@ def _run_single(args: argparse.Namespace) -> int:
         climate_preset=args.climate,
         peak_sun_hours=args.peak_sun,
         max_lines=args.max_lines,
+        force_anchors=_parse_force_anchors(args.force_anchor),
+        ring_line=args.ring_line,
     )
     plan = plan_city(inputs, cache_dir=args.cache_dir)
 
@@ -129,6 +152,24 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--climate", default="temperate")
     ap.add_argument("--peak-sun", type=float, default=5.0)
     ap.add_argument("--max-lines", type=int, default=None)
+    ap.add_argument(
+        "--ring-line", action="store_true",
+        help="add a suburban ring line at ~70 %% of the farthest "
+             "radial endpoint distance. Intersects every radial, "
+             "so outer-to-outer trips avoid the central hub — "
+             "standard pattern for metros over ~3 M population.",
+    )
+    ap.add_argument(
+        "--force-anchor", action="append", default=[],
+        metavar="NAME:LAT,LON[:WEIGHT]",
+        help="inject an extra high-weight anchor the planner must "
+             "treat as present (for under-construction suburbs / new "
+             "developments with sparse OSM tagging). Default weight "
+             "is 95 (triggers must-cover endpoint rule). Repeat for "
+             "multiple anchors, e.g. "
+             "--force-anchor 'Basmaya:33.275,44.570' "
+             "--force-anchor 'Madinat Al Ward:33.270,44.600'",
+    )
     ap.add_argument("--out", type=Path, default=None)
     ap.add_argument("--cache-dir", type=Path, default=Path(".cache/osm"))
     ap.add_argument("--batch", type=str, default=None)

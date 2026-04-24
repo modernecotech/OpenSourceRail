@@ -39,6 +39,15 @@ class CityInputs:
     walk_radius_m: float = 800.0
     min_station_spacing_m: float = 600.0
     snap_to_roads: bool = True
+    # Extra "forced" anchors beyond what Overpass returns. Use for
+    # under-construction suburbs / new developments / future growth
+    # areas where OSM tagging is sparse. Each tuple is
+    # (name, lat, lon, weight) — weight ≥ 90 makes it must-cover.
+    force_anchors: tuple[tuple[str, float, float, float], ...] = ()
+    # Add a suburban ring line that loops around the city at
+    # ~70 % of the farthest radial endpoint distance. Intersects
+    # every radial so outer-to-outer trips don't congest the centre.
+    ring_line: bool = False
 
 
 @dataclass
@@ -113,6 +122,21 @@ def plan_city(
     cache_dir = cache_dir or Path(".cache/osm")
     anchors = fetch_anchors(inputs.bbox, cache_dir)
 
+    # Inject user-specified force-anchors (for under-construction
+    # suburbs / new developments with sparse OSM tagging). Each one
+    # is added to the anchor set with a `city`-class kind and a
+    # configurable weight; weight ≥ 90 also marks it as must-cover
+    # for line-endpoint selection.
+    if inputs.force_anchors:
+        for name, flat, flon, fweight in inputs.force_anchors:
+            anchors.append(Anchor(
+                kind="city",
+                name=name,
+                lat=float(flat),
+                lon=float(flon),
+                weight=float(fweight),
+            ))
+
     if road_graph is None or road_nodes is None:
         road_graph, road_nodes = _fetch_arterial_graph(
             inputs.bbox, cache_dir
@@ -130,13 +154,20 @@ def plan_city(
         )
         lines = []
     else:
+        # Auto-enable the suburban ring for mid-to-large metros
+        # (≥ 3 M population). Smaller cities rarely need it — the
+        # radials already cross-cover. Caller can override via
+        # `inputs.ring_line`.
+        auto_ring = inputs.ring_line or inputs.population >= 3_000_000
         stations, lines = plan_arterial_network(
             anchors=anchors,
             road_graph=road_graph,
             road_nodes=road_nodes,
             max_lines=inputs.max_lines,
+            population=inputs.population,
             walk_radius_m=500.0,
             min_station_spacing_m=800.0,
+            ring_line=auto_ring,
         )
 
     plan = NetworkPlan(inputs=inputs, anchors=anchors, stations=stations, lines=lines)

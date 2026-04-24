@@ -114,6 +114,7 @@ def plan_arterial_network(
     road_nodes: dict,
     *,
     max_lines: int | None = None,
+    population: int | None = None,
     cluster_radius_m: float = 500.0,
     walk_radius_m: float = 900.0,
     min_station_spacing_m: float = 900.0,
@@ -127,9 +128,18 @@ def plan_arterial_network(
     min_stations_per_line: int = 5,
     min_line_length_m: float = 4_000.0,
     suburban_extend_m: float = 2_500.0,
-    max_overlap_with_existing: float = 0.6,
-    sweep_step_deg: float = 15.0,
-    min_angle_sep_deg: float = 40.0,
+    ring_line: bool = False,
+    ring_n_nodes: int = 8,
+    ring_radius_fraction: float = 0.7,
+    max_overlap_with_existing: float = 0.75,
+    sweep_step_deg: float = 10.0,
+    min_angle_sep_deg: float = 30.0,
+    # Mega-city override: reduce min_angle_sep to 20° automatically
+    # when population ≥ this threshold, so 8-10+ distinct radials
+    # can survive the angular-separation filter. Metros the size of
+    # Baghdad need finer-grained radial fanning than a 220 k town.
+    megacity_pop_threshold: int = 3_000_000,
+    megacity_min_angle_sep_deg: float = 20.0,
 ) -> tuple[list[StationCandidate], list[LinePlan]]:
     """Linear-logic planner. Returns `(stations, lines)`.
 
@@ -220,12 +230,17 @@ def plan_arterial_network(
         scores.append((float(cl_weights[mask].sum()), float(ang)))
     scores.sort(reverse=True)
 
-    n_lines = _pick_n_lines(len(clusters), max_lines)
+    n_lines = _pick_n_lines(len(clusters), max_lines, population)
+    effective_angle_sep = (
+        megacity_min_angle_sep_deg
+        if population and population >= megacity_pop_threshold
+        else min_angle_sep_deg
+    )
     picked_angles: list[float] = []
     for _s, ang in scores:
         if len(picked_angles) >= n_lines:
             break
-        if any(_angle_sep(ang, p) < min_angle_sep_deg for p in picked_angles):
+        if any(_angle_sep(ang, p) < effective_angle_sep for p in picked_angles):
             continue
         picked_angles.append(ang)
 
@@ -317,6 +332,20 @@ def plan_arterial_network(
         line_stations = _monotonise_stations(
             line_stations, hub_pos=hub_pos, axis=ax,
         )
+        # Trim tails: if the first or last few stations are separated
+        # from the main cluster by a big gap (> `max_tail_gap_m`) AND
+        # the outlier isn't a must-cover, drop them. Otherwise a line
+        # whose corridor reaches a distant OSM-tagged town can extend
+        # 15-20 km through empty desert with no intermediate stops —
+        # pointless rail. Must-cover clusters are preserved.
+        must_cover_set = {
+            clusters[cidx].primary_name for cidx in must_cover_ids
+        }
+        line_stations = _trim_isolated_tails(
+            line_stations,
+            max_gap_m=8_000.0,
+            protected_names=must_cover_set | {hub_station.name},
+        )
         if len(line_stations) < min_stations_per_line:
             continue  # too few stations — spurious stub
         line_length_m = _polyline_length_m(polyline)
@@ -350,11 +379,57 @@ def plan_arterial_network(
             polyline=[(float(p[0]), float(p[1])) for p in clipped],
         ))
 
-    # Sort lines longest → shortest, renumber.
-    lines.sort(key=lambda L: -len(L.station_ids))
-    for idx, L in enumerate(lines):
+    # Optional ring line — a suburban loop connecting N outer
+    # arterial nodes arranged around the hub at
+    # `ring_radius_fraction` of the farthest endpoint distance.
+    # Reduces traffic through the central interchange for trips
+    # between outer districts (Baghdad-style metropolitan pattern).
+    if ring_line and len(lines) >= 2:
+        ring = _build_ring_line(
+            road_graph=road_graph,
+            road_nodes=road_nodes,
+            cc_nodes=cc_nodes,
+            cc_coords=cc_coords,
+            hub_pos=hub_pos,
+            lines=lines,
+            all_stations=all_stations,
+            clusters=clusters,
+            cluster_nodes=cluster_nodes,
+            walk_radius_m=walk_radius_m,
+            min_spacing_m=min_station_spacing_m,
+            n_nodes=ring_n_nodes,
+            radius_fraction=ring_radius_fraction,
+        )
+        if ring is not None:
+            r_line, r_stations = ring
+            for s in r_stations:
+                all_stations.setdefault(s.id, s)
+            lines.append(r_line)
+
+    # Merge any pair of stations across lines that ended up within
+    # `merge_radius_m` of each other. Cluster-radius only applies
+    # within the anchor set; two DIFFERENT clusters (e.g. a
+    # university + a hospital that are 150 m apart on separate OSM
+    # nodes) each produce their own station. For a rail network
+    # there's no reason to have two platforms 150 m apart — merge
+    # into the higher-weight one and update each affected line's
+    # `station_ids` in place.
+    _merge_nearby_stations(
+        lines, all_stations, merge_radius_m=300.0,
+    )
+
+    # Sort lines longest → shortest, renumber. The ring line keeps
+    # its dedicated "Ring Line" name instead of being swept into
+    # the numbered radial sequence — it's topologically distinct
+    # (closed loop around the perimeter, no radial through-hub run)
+    # and should read that way on the map legend.
+    radials = [L for L in lines if L.id != "line-ring"]
+    ring = next((L for L in lines if L.id == "line-ring"), None)
+    radials.sort(key=lambda L: -len(L.station_ids))
+    for idx, L in enumerate(radials):
         L.id = f"line-{idx + 1}"
         L.name = f"Line {idx + 1}"
+    lines[:] = radials + ([ring] if ring is not None else [])
 
     # Promote every line's first + last station to "terminal" so the
     # renderer draws them in terminal red, not the line colour — a
@@ -463,25 +538,28 @@ def _corridor_via_clusters(
     waypoint_nodes: list = []
     waypoint_alongs: list[float] = []
     if max_waypoints > 0 and waypoint_min_weight > 0 and waypoint_deg > 0:
-        wps: list[tuple[float, float, int]] = []  # (weight, along, cluster_idx)
+        wps: list[tuple[float, float, int, bool]] = []
+        # (weight, along, cluster_idx, is_must_cover)
+        must_ids = set(must_cover_cluster_ids)
         for idx, c in enumerate(clusters):
-            if c.weight < waypoint_min_weight:
+            is_must = idx in must_ids
+            if not is_must and c.weight < waypoint_min_weight:
                 continue
             if idx in (neg_idx, pos_idx):
                 continue
             rel = np.array([c.lat, c.lon]) - hub_pos
             along = float(rel @ axis)
             perp = rel - along * axis
-            if np.linalg.norm(perp) <= waypoint_deg:
-                wps.append((c.weight, along, idx))
-        # Prefer heaviest waypoints, then by along-axis balance
-        # (one on each side of hub if possible).
-        wps.sort(key=lambda x: -x[0])
-        chosen: list[tuple[float, int]] = []
-        for _w, along, cidx in wps[: max_waypoints * 4]:
-            chosen.append((along, cidx))
-            if len(chosen) >= max_waypoints:
-                break
+            if is_must or np.linalg.norm(perp) <= waypoint_deg:
+                wps.append((c.weight, along, idx, is_must))
+        # Must-cover clusters always kept (they bypass the cap).
+        # Other waypoints are sorted heavy-first and capped.
+        must_wps = [(a, ci) for _w, a, ci, m in wps if m]
+        other_wps = sorted(
+            [(w, a, ci) for w, a, ci, m in wps if not m],
+            key=lambda x: -x[0],
+        )
+        chosen = list(must_wps) + [(a, ci) for _w, a, ci in other_wps[:max_waypoints]]
         chosen.sort(key=lambda x: x[0])
         for along, cidx in chosen:
             waypoint_nodes.append(cluster_nodes[cidx])
@@ -542,7 +620,102 @@ def _corridor_via_clusters(
             path, road_nodes, clusters=clusters,
             walk_radius_deg=(800.0 / 111_000.0),
         )
-    return [road_nodes[n] for n in path]
+    # Convert arterial-node path to a (lat, lon) polyline. For
+    # must-cover clusters whose nearest arterial node is FAR from
+    # the cluster's actual coord (e.g. a new suburb in the desert
+    # with no existing arterials), splice in a "greenfield spur":
+    # a straight segment from the arterial node out to the
+    # cluster's actual position. Represents dedicated new RoW
+    # through empty land — typical for reaching under-construction
+    # suburbs.
+    polyline = [road_nodes[n] for n in path]
+    _insert_greenfield_spurs(
+        polyline, path, road_nodes,
+        clusters=clusters, cluster_nodes=cluster_nodes,
+        must_cover_ids=must_cover_cluster_ids,
+        min_spur_m=1_500.0,
+    )
+    return polyline
+
+
+def _merge_nearby_stations(
+    lines: list[LinePlan],
+    all_stations: dict[str, StationCandidate],
+    *,
+    merge_radius_m: float,
+) -> None:
+    """If two stations are within `merge_radius_m` of each other,
+    keep the higher-score one and rewrite every line's station_ids
+    that referenced the dropped one. Mutates both `lines` and
+    `all_stations` in place.
+
+    Called after all lines are built to catch cross-line duplicates —
+    two separate-OSM-cluster anchors that ended up geographically
+    adjacent get consolidated into a single platform."""
+    ids = sorted(all_stations.keys())
+    # Build a dedup map: losing_id → winning_id.
+    remap: dict[str, str] = {}
+    for i, a in enumerate(ids):
+        if a in remap:
+            continue
+        sa = all_stations[a]
+        for b in ids[i + 1:]:
+            if b in remap:
+                continue
+            sb = all_stations[b]
+            if haversine_m((sa.lat, sa.lon), (sb.lat, sb.lon)) <= merge_radius_m:
+                # Keep the higher-score one; if tied, keep the one
+                # with more serves/member anchors (proxied by id
+                # length for simplicity).
+                keep, drop = (a, b) if sa.score >= sb.score else (b, a)
+                remap[drop] = keep
+    if not remap:
+        return
+    for L in lines:
+        new_ids: list[str] = []
+        seen: set[str] = set()
+        for sid in L.station_ids:
+            target = remap.get(sid, sid)
+            if target in seen:
+                continue
+            seen.add(target)
+            new_ids.append(target)
+        L.station_ids = new_ids
+    for drop in remap:
+        all_stations.pop(drop, None)
+
+
+def _trim_isolated_tails(
+    stations: list[StationCandidate],
+    *,
+    max_gap_m: float,
+    protected_names: set[str],
+) -> list[StationCandidate]:
+    """Drop tail stations at each end of a line whose gap to the
+    previous station exceeds `max_gap_m` unless they're in
+    `protected_names` (force-anchors + hub). Prevents a line from
+    trailing off through empty desert to hit a single distant
+    OSM-tagged town with nothing in between."""
+    if len(stations) < 3:
+        return stations
+    # Trim from the end.
+    trimmed = list(stations)
+    while len(trimmed) >= 3:
+        last = trimmed[-1]
+        prev = trimmed[-2]
+        gap = haversine_m((last.lat, last.lon), (prev.lat, prev.lon))
+        if gap <= max_gap_m or last.name in protected_names:
+            break
+        trimmed.pop()
+    # Trim from the start.
+    while len(trimmed) >= 3:
+        first = trimmed[0]
+        nxt = trimmed[1]
+        gap = haversine_m((first.lat, first.lon), (nxt.lat, nxt.lon))
+        if gap <= max_gap_m or first.name in protected_names:
+            break
+        trimmed.pop(0)
+    return trimmed
 
 
 def _monotonise_stations(
@@ -551,17 +724,41 @@ def _monotonise_stations(
     hub_pos: np.ndarray,
     axis: np.ndarray,
 ) -> list[StationCandidate]:
-    """Sort by along-axis projection, then greedily keep only
-    stations whose projection is strictly further along than the
-    previous one kept. Guarantees the resulting line visits stations
-    in strict corridor-direction order — no more back-tracking that
-    the user sees as "going back on itself"."""
+    """Sort stations by their projection onto the line's dominant
+    direction.
+
+    Uses the FIRST PRINCIPAL COMPONENT of the station coordinates as
+    the sort axis — more reliable than the grid-sweep corridor axis
+    (`axis` kwarg) when the line's actual station layout differs
+    from the idealised corridor direction (e.g. must-cover endpoints
+    pulled the line off-axis). Falls back to `axis` if PCA is
+    degenerate. Guarantees the resulting line visits stations in
+    strict corridor-direction order — no back-tracking."""
     if len(stations) < 3:
         return stations
-    proj: list[tuple[float, StationCandidate]] = []
-    for s in stations:
-        rel = np.array([s.lat, s.lon]) - hub_pos
-        proj.append((float(rel @ axis), s))
+    coords = np.array([[s.lat, s.lon] for s in stations])
+    centred = coords - coords.mean(axis=0)
+    try:
+        _u, sigma, vt = np.linalg.svd(centred, full_matrices=False)
+        # If the two singular values are comparable, the station set
+        # is 2D (probably a ring) and no linear ordering is natural —
+        # keep the input order. A ratio > 2× means a clear linear
+        # dominant direction.
+        if len(sigma) >= 2 and sigma[0] > 2.0 * sigma[1]:
+            pc_axis = vt[0]
+        else:
+            pc_axis = axis  # falls back to the grid-sweep axis
+    except Exception:
+        pc_axis = axis
+    # Ensure consistent orientation: positive projection in the
+    # direction the caller's `axis` points, so the final sequence
+    # matches the corridor's "positive" end.
+    if float(pc_axis @ axis) < 0:
+        pc_axis = -pc_axis
+    proj: list[tuple[float, StationCandidate]] = [
+        (float((np.array([s.lat, s.lon]) - hub_pos) @ pc_axis), s)
+        for s in stations
+    ]
     proj.sort(key=lambda x: x[0])
     return [s for _a, s in proj]
 
@@ -605,6 +802,207 @@ def _clip_polyline_to_axis_range(
     if clipped[-1] != last:
         clipped.append(last)
     return clipped
+
+
+def _build_ring_line(
+    *,
+    road_graph,
+    road_nodes: dict,
+    cc_nodes: list,
+    cc_coords: np.ndarray,
+    hub_pos: np.ndarray,
+    lines: list[LinePlan],
+    all_stations: dict[str, StationCandidate],
+    clusters: list[POICluster],
+    cluster_nodes: list,
+    walk_radius_m: float,
+    min_spacing_m: float,
+    n_nodes: int,
+    radius_fraction: float,
+) -> tuple[LinePlan, list[StationCandidate]] | None:
+    """Build a suburban ring line:
+
+    1. Find the farthest endpoint across all existing radial lines —
+       this gives the network's outer radius.
+    2. Multiply by `radius_fraction` (default 0.7) to get the ring
+       radius — outside the dense core but inside the outermost
+       suburbs.
+    3. Sample `n_nodes` angles evenly around the hub. For each, pick
+       the arterial node closest to that (angle, radius) point.
+    4. Connect consecutive ring nodes via arterial shortest-paths to
+       form a closed polyline.
+    5. Place stations along the polyline using the same cluster-hit
+       + spacing logic as radial lines.
+
+    Returns `(LinePlan, extra_stations)` or None if the graph can't
+    form a valid ring."""
+    import networkx as nx
+
+    if not lines:
+        return None
+
+    # Max endpoint distance from hub across all lines.
+    max_dist_deg = 0.0
+    for L in lines:
+        for sid in (L.station_ids[0], L.station_ids[-1]):
+            s = all_stations.get(sid)
+            if s is None:
+                continue
+            d = float(np.linalg.norm(
+                np.array([s.lat, s.lon]) - hub_pos
+            ))
+            if d > max_dist_deg:
+                max_dist_deg = d
+    if max_dist_deg <= 0:
+        return None
+    ring_r_deg = max_dist_deg * radius_fraction
+
+    # Sample N angles evenly around the hub.
+    ring_node_ids: list = []
+    for i in range(n_nodes):
+        theta = 2 * math.pi * i / n_nodes
+        # (dlat, dlon) offset from hub at angle theta, radius ring_r_deg.
+        target_lat = hub_pos[0] + ring_r_deg * math.sin(theta)
+        target_lon = hub_pos[1] + ring_r_deg * math.cos(theta)
+        # Nearest arterial node in the connected component.
+        best = int(np.argmin(
+            (cc_coords[:, 0] - target_lat) ** 2
+            + (cc_coords[:, 1] - target_lon) ** 2
+        ))
+        ring_node_ids.append(cc_nodes[best])
+
+    # Deduplicate consecutive ring nodes (adjacent samples can land
+    # on the same arterial node if the graph is sparse in that
+    # direction).
+    dedup: list = []
+    for n in ring_node_ids:
+        if not dedup or dedup[-1] != n:
+            dedup.append(n)
+    if len(dedup) < 4:
+        return None  # too degenerate to be a ring
+
+    # Close the ring: segment list wraps from last back to first.
+    # For each segment, pick the shorter of (a) arterial shortest-
+    # path, if within 1.8× the straight-line distance, or (b) a
+    # straight-line **viaduct** segment that cuts across the desert /
+    # edge-of-city without following any existing RoW. This is the
+    # "ring can ignore existing RoW for efficiency" rule — the cost
+    # estimator charges the full ring length at $20 M/km (viaduct
+    # rate) to reflect the required elevated structure.
+    viaduct_factor = 1.8  # arterial path ≤ this × straight-line before it's worth using
+    polyline: list[tuple[float, float]] = []
+    ring_segments = list(zip(dedup, dedup[1:])) + [(dedup[-1], dedup[0])]
+    for u, v in ring_segments:
+        u_pos = tuple(road_nodes[u])
+        v_pos = tuple(road_nodes[v])
+        straight_m = haversine_m(u_pos, v_pos)
+        arterial_coords: list[tuple[float, float]] | None = None
+        try:
+            seg_nodes = nx.shortest_path(
+                road_graph, u, v, weight="length_m"
+            )
+            arterial_m = sum(
+                road_graph[a][b].get("length_m", 0.0)
+                for a, b in zip(seg_nodes, seg_nodes[1:])
+            )
+            if arterial_m <= viaduct_factor * straight_m:
+                arterial_coords = [tuple(road_nodes[n]) for n in seg_nodes]
+        except nx.NetworkXNoPath:
+            pass
+
+        if arterial_coords is not None:
+            if polyline and polyline[-1] == arterial_coords[0]:
+                polyline.extend(arterial_coords[1:])
+            else:
+                polyline.extend(arterial_coords)
+        else:
+            # Viaduct shortcut — just u_pos → v_pos as a straight
+            # line. No intermediate vertices.
+            if not polyline or polyline[-1] != u_pos:
+                polyline.append(u_pos)
+            polyline.append(v_pos)
+
+    if len(polyline) < 4:
+        return None
+    # Do NOT run `_collapse_cycles` on the ring — a ring is supposed
+    # to close back to its start, and the cycle collapser would
+    # destroy that. Intentional loop.
+
+    # Place stations using the common logic. Use a synthetic hub
+    # station that's just the last polyline vertex — the ring
+    # doesn't need to intersect the hub (by design).
+    synthetic_hub = StationCandidate(
+        id="ring-anchor",
+        name="Ring Anchor",
+        lat=float(polyline[0][0]), lon=float(polyline[0][1]),
+        archetype="interchange",
+        score=0.0,
+        serves=("ring-anchor",),
+    )
+    line_stations = _place_stations_on_polyline(
+        polyline=polyline,
+        clusters=clusters,
+        walk_radius_m=walk_radius_m,
+        min_spacing_m=min_spacing_m,
+        hub_station=synthetic_hub,
+        existing=all_stations,
+    )
+    # Drop the synthetic anchor from the output stations.
+    line_stations = [s for s in line_stations if s.id != "ring-anchor"]
+    if len(line_stations) < 4:
+        return None
+
+    # For a ring, don't monotonise along a single axis — the order
+    # of polyline traversal is the visit order.
+    ring_line = LinePlan(
+        id="line-ring", name="Ring Line",
+        station_ids=[s.id for s in line_stations],
+        axis_dlat=0.0, axis_dlon=0.0,
+        polyline=[(float(p[0]), float(p[1])) for p in polyline],
+    )
+    return ring_line, line_stations
+
+
+def _insert_greenfield_spurs(
+    polyline: list[tuple[float, float]],
+    path: list,
+    road_nodes: dict,
+    *,
+    clusters: list[POICluster],
+    cluster_nodes: list,
+    must_cover_ids: list[int],
+    min_spur_m: float,
+) -> None:
+    """For each must-cover cluster whose nearest arterial node is
+    ≥ `min_spur_m` from the cluster's actual position, insert the
+    cluster position into `polyline` right after that arterial
+    node. This produces a straight "greenfield" segment connecting
+    the existing road network to the under-construction suburb.
+
+    Mutates `polyline` in place. No-op for clusters that happen to
+    sit on an arterial already."""
+    for cidx in must_cover_ids:
+        node = cluster_nodes[cidx]
+        if node not in path:
+            continue
+        node_pos = tuple(road_nodes[node])
+        cluster = clusters[cidx]
+        cluster_pos = (float(cluster.lat), float(cluster.lon))
+        dist = haversine_m(node_pos, cluster_pos)
+        if dist < min_spur_m:
+            continue
+        # Find the node's position in the path (first occurrence).
+        path_idx = path.index(node)
+        # Insert cluster_pos right after that node in the polyline.
+        # Avoid duplicate insertion if we've run this for the same
+        # cluster already (subsequent calls will short-circuit via
+        # the `< min_spur_m` guard since the polyline now contains
+        # cluster_pos).
+        # Check if cluster_pos already in polyline near that index.
+        insert_at = path_idx + 1
+        if insert_at < len(polyline) and polyline[insert_at] == cluster_pos:
+            continue
+        polyline.insert(insert_at, cluster_pos)
 
 
 def _collapse_cycles(path: list) -> list:
@@ -850,12 +1248,24 @@ def _polyline_length_m(polyline: list[tuple[float, float]]) -> float:
     return total
 
 
-def _pick_n_lines(n_clusters: int, max_lines: int | None) -> int:
-    # Be conservative: a city with ~20 clusters does NOT need 4 rail
-    # lines. 2 is the minimum (any cross-hatching needs two); scale
-    # slowly from there. The redundancy + min-length filters further
-    # trim so the *actual* output count is often smaller.
-    n = max(2, round(n_clusters / 15))
+def _pick_n_lines(
+    n_clusters: int,
+    max_lines: int | None,
+    population: int | None = None,
+) -> int:
+    """Scale line count with both cluster count and population. Small
+    cities need ~3-5 lines, metros (Baghdad / Cairo / Tehran) need
+    12-20. Tokyo-class cities cap at 25. Redundancy + min-length
+    filters further trim so the *actual* output count is often
+    lower than this ceiling."""
+    cluster_term = round(n_clusters / 15)
+    pop_term = 0 if not population else round(population / 500_000) + 2
+    # Take the larger of the two heuristics so neither dense-data
+    # small cities nor sparse-data big cities are under-planned.
+    n = max(2, cluster_term, pop_term)
     if max_lines is not None:
-        n = min(n, max_lines)
-    return min(n, 5)
+        return max(2, min(n, max_lines))
+    # Soft cap: 25 for mega-metros. Population > 12 M already hits
+    # this and means the batch probably needs a bespoke config
+    # rather than the default auto-planner.
+    return min(n, 25)

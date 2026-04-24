@@ -55,6 +55,11 @@ class CostAssumptions:
     train_car_cost_usd: float = 1_000_000.0  # cost per CAR; a 3-car trainset = 3 × this
     station_cost_usd: float = 1_000_000.0
     depot_cost_usd: float = 5_000_000.0
+    # Bridges/viaducts run $20 M/km (vs $2 M/km for at-grade). This
+    # fraction of the total route is assumed to be elevated — river
+    # crossings, highway overpasses, urban-core RoW constraints.
+    bridge_fraction: float = 0.15
+    bridge_cost_per_km_usd: float = 20_000_000.0
     trainset_capacity_pax: int = 200  # 3-car light-metro crush + seated
 
 
@@ -247,7 +252,23 @@ def render_readme(
     practical_daily_high = int((catchment or stats.population) * 0.15) if catchment else None
 
     # Cost.
-    track_cost = cost.track_cost_per_km_usd * stats.route_km
+    # Route-km split: any ring line is assumed to be 100 % viaduct
+    # (its whole value is crossing empty land fast without following
+    # road RoW). Radial lines carry the usual 85/15 at-grade/bridge
+    # mix. Ring detected by `line-ring` id or "Ring" in the name.
+    ring_km = 0.0
+    for L in design.get("lines", []):
+        if L.get("id") == "line-ring" or "ring" in L.get("name", "").lower():
+            ring_km += sum(
+                s.get("distance_from_prev_m", 0)
+                for s in L.get("stations", [])
+            ) / 1000.0
+    radial_km = max(0.0, stats.route_km - ring_km)
+    bridge_km_radials = radial_km * cost.bridge_fraction
+    at_grade_km = radial_km - bridge_km_radials
+    track_cost = cost.track_cost_per_km_usd * at_grade_km
+    bridge_cost = cost.bridge_cost_per_km_usd * bridge_km_radials
+    ring_cost = cost.bridge_cost_per_km_usd * ring_km
     solar_cost = cost.solar_cost_per_w_usd * stats.total_pv_kw * 1_000
     battery_kw_equiv = stats.total_battery_kwh / cost.battery_discharge_hours
     battery_cost = cost.battery_cost_per_w_usd * battery_kw_equiv * 1_000
@@ -257,7 +278,8 @@ def render_readme(
     station_cost = cost.station_cost_usd * stats.unique_station_count
     depot_cost = cost.depot_cost_usd * stats.depot_count
     total_capex = (
-        track_cost + solar_cost + battery_cost
+        track_cost + bridge_cost + ring_cost
+        + solar_cost + battery_cost
         + rolling_stock_cost + station_cost + depot_cost
     )
 
@@ -322,18 +344,38 @@ def render_readme(
         "residential grid).\n"
     )
 
-    out.append("## Network map\n")
+    out.append("## Network maps\n")
+    # Two complementary views, both auto-rendered by
+    # `osr_scenario.render_map`: the full view (every suburban line
+    # out to each terminus) + the urban core (fixed 8 km radius
+    # around the design centre). Both live in this folder.
+    out.append("### Suburban / regional map — full network\n")
     out.append(
-        f"![{stats.city_name} rail network auto-planned by osr_planner]"
-        f"({rel('docs/screenshots', f'{screenshot_slug}-network-map.png')})\n"
+        f"![{stats.city_name} full rail network including suburban lines]"
+        f"({screenshot_slug}-network-map.png)\n"
     )
     out.append(
-        f"*Detail-zoom render: "
-        f"[`{screenshot_slug}-network-map-detail.png`]"
-        f"({rel('docs/screenshots', f'{screenshot_slug}-network-map-detail.png')}). "
-        "Corridor GeoJSON for GIS / alignment tooling: "
+        "*Every line visible end-to-end — radials out to the city "
+        "edge, forced-coverage suburbs, and the ring line if "
+        "present. Auto-fit zoom based on the network's actual "
+        "bounding box.*\n"
+    )
+    out.append(f"### Inner-{stats.city_name.split(' ')[-1]} map — urban core detail\n")
+    out.append(
+        f"![{stats.city_name} urban-core detail — central district]"
+        f"({screenshot_slug}-network-map-detail.png)\n"
+    )
+    out.append(
+        "*8 km radius around the city centre at a legible street-"
+        "grid zoom. Shows interchange density, central-business-"
+        "district stations, and where the radial lines converge on "
+        "the hub.*\n"
+    )
+    out.append(
+        f"Corridor polylines + stations as GeoJSON for GIS / "
+        f"alignment tooling: "
         f"[`{screenshot_slug}-corridor.geojson`]"
-        f"({rel('docs/screenshots', f'{screenshot_slug}-corridor.geojson')}).*\n"
+        f"({screenshot_slug}-corridor.geojson).\n"
     )
 
     out.append("## At a glance\n")
@@ -448,10 +490,26 @@ def render_readme(
     out.append("| Component | Unit cost | Quantity | Estimate |")
     out.append("|---|---|---|---|")
     out.append(
-        f"| Civil track (double-track) | "
+        f"| Civil track (at-grade, double-track, radials) | "
         f"${cost.track_cost_per_km_usd / 1e6:.1f} M/km | "
-        f"{stats.route_km:.1f} km | **${track_cost / 1e6:.1f} M** |"
+        f"{at_grade_km:.1f} km "
+        f"({(1 - cost.bridge_fraction) * 100:.0f} % of radial route) | "
+        f"**${track_cost / 1e6:.1f} M** |"
     )
+    out.append(
+        f"| Bridges / viaducts on radials (river + highway crossings) | "
+        f"${cost.bridge_cost_per_km_usd / 1e6:.1f} M/km | "
+        f"{bridge_km_radials:.1f} km "
+        f"({cost.bridge_fraction * 100:.0f} % of radial route) | "
+        f"**${bridge_cost / 1e6:.1f} M** |"
+    )
+    if ring_km > 0:
+        out.append(
+            f"| Ring line (dedicated viaduct, straight across suburbs) | "
+            f"${cost.bridge_cost_per_km_usd / 1e6:.1f} M/km | "
+            f"{ring_km:.1f} km (100 % viaduct) | "
+            f"**${ring_cost / 1e6:.1f} M** |"
+        )
     out.append(
         f"| Solar PV (installed) | ${cost.solar_cost_per_w_usd:.2f}/W | "
         f"{stats.total_pv_kw:,.0f} kW | **${solar_cost / 1e6:.1f} M** |"
@@ -511,17 +569,17 @@ def render_readme(
     )
     out.append(
         f"| [`{screenshot_slug}-network-map.png`]"
-        f"({rel('docs/screenshots', f'{screenshot_slug}-network-map.png')}) "
+        f"({screenshot_slug}-network-map.png) "
         "| City-wide network map |"
     )
     out.append(
         f"| [`{screenshot_slug}-network-map-detail.png`]"
-        f"({rel('docs/screenshots', f'{screenshot_slug}-network-map-detail.png')}) "
+        f"({screenshot_slug}-network-map-detail.png) "
         "| Detail-zoom render |"
     )
     out.append(
         f"| [`{screenshot_slug}-corridor.geojson`]"
-        f"({rel('docs/screenshots', f'{screenshot_slug}-corridor.geojson')}) "
+        f"({screenshot_slug}-corridor.geojson) "
         "| Line polylines + stations (GeoJSON) |\n"
     )
 

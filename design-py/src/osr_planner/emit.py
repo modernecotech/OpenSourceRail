@@ -85,7 +85,7 @@ def _design_block(slug: str, city_name: str) -> str:
         f'schema_version = 1\n'
         f'id            = "{slug}"\n'
         f'name          = "{_esc(city_name)} — auto-planned"\n'
-        f'scenario_out  = "scenarios/{_leaf(slug)}.toml"\n'
+        f'scenario_out  = "designs/{slug}/{_leaf(slug).lower()}.toml"\n'
         f'\n'
         f"[design.templates]\n"
         + "".join(

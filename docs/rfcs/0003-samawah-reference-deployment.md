@@ -38,7 +38,7 @@ The combination is close to optimal: genuine need, favorable physics, no legacy 
 
 Samawah sits on the Euphrates in southern Iraq. The city stretches roughly east–west along the river with residential suburbs fanning north and south. The mainline railway enters from the northwest, the city centre sits on the river bend, and the major newer developments (hospital, university campus, expanding residential districts) are south and east of the historic core.
 
-![Samawah network — 4 lines road-snapped on OpenStreetMap](../screenshots/samawah-network-map.png)
+![Samawah network — 4 lines road-snapped on OpenStreetMap](../../designs/west-asia/Iraq/Samawah/samawah-network-map.png)
 
 *Four lines road-snapped on OSM tiles: blue = L1 Nahrain, orange =
 L2 Sharqiyyeh, green = L3 Mahatta, magenta = L4 Shamal. Station
@@ -119,12 +119,12 @@ Expected daily ridership at build-up: **10,000 – 15,000 passenger-trips** (new
 
 | Metric | Value |
 |---|---|
-| Route-km (double track) | ~45 km |
-| Stations (unique) | 29 |
-| Lines | 4 (auto-planned by `osr_planner`) |
-| Multi-line interchanges | 7 (hub + shared waypoints across corridors) |
-| Fleet (revenue) | 16 × 3-car trainsets |
-| Fleet (spare + cold-reserve) | 8 × 3-car trainsets |
+| Route-km (double track) | ~53 km |
+| Stations (unique) | 31 |
+| Lines | 5 (auto-planned by `osr_planner`) |
+| Multi-line interchanges | 10 (hub + shared waypoints across corridors) |
+| Fleet (revenue) | 19 × 3-car trainsets |
+| Fleet (spare + cold-reserve) | 10 × 3-car trainsets |
 | Service hours | 05:30 – 23:30, 18 hours |
 
 > The table above is **derived from** [`design.toml`](../../designs/west-asia/Iraq/Samawah/design.toml);

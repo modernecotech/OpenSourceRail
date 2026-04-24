@@ -28,7 +28,7 @@ and the design pipeline now synthesises multi-line networks for arbitrary
 cities directly from OpenStreetMap — **including road-snapped corridors**
 computed by networkx shortest-path on the OSM graph.
 
-![Samawah reference network — four auto-planned lines (blue N–S, orange cross-axis, green diagonal, magenta rail-station feeder) on OpenStreetMap, arterial-routed](docs/screenshots/samawah-network-map.png)
+![Samawah reference network — four auto-planned lines (blue N–S, orange cross-axis, green diagonal, magenta rail-station feeder) on OpenStreetMap, arterial-routed](designs/west-asia/Iraq/Samawah/samawah-network-map.png)
 
 *Samawah reference deployment — **auto-planned** end-to-end by
 `osr_planner` (linear-logic algorithm, 2026-04-24) against real
@@ -270,9 +270,9 @@ for GoA 2 legacy fleets. Most of the
   cant maxima; civil-span contiguity; station-id cross-check;
   no tunnels). 21 passing tests. **Worked reference alignments
   for both Samawah lines** ship at
-  [`designs/west-asia/Iraq/Samawah/samawah-line1.aln.toml`](designs/west-asia/Iraq/Samawah/samawah-line1.aln.toml)
+  [`docs/civil/west-asia/Iraq/Samawah/samawah-line1.aln.toml`](docs/civil/west-asia/Iraq/Samawah/samawah-line1.aln.toml)
   (13 km radial, 12 stations, 3 cant sections) and
-  [`designs/west-asia/Iraq/Samawah/samawah-line2.aln.toml`](designs/west-asia/Iraq/Samawah/samawah-line2.aln.toml)
+  [`docs/civil/west-asia/Iraq/Samawah/samawah-line2.aln.toml`](docs/civil/west-asia/Iraq/Samawah/samawah-line2.aln.toml)
   (16 km ring, 10 stations, 4 cant sections, `is_ring = true`) —
   both pass every hard gate. This is the last-mile piece that
   lets a civil engineer import a real survey into the project.
