@@ -1,29 +1,119 @@
-# Samawah urban rail network — Line 1 "Nahrain" radial + Line 2 "Halqa" ring.
-#
-# Reference deployment per docs/rfcs/0003-samawah-reference-deployment.md.
-# Indicative alignment and station properties only — not a surveyed design.
-#
-# To run:
-#   cargo run --release --bin osr-sim -- --config scenarios/samawah.toml \
-#     --duration 3600 --status-every 300
-#
-# Copy this file and edit it to describe your own city's network.
+# AUTO-GENERATED from /home/ha/Documents/OpenSourceRail/designs/middle-east/iraq/samawah/design.toml.
+# Do not hand-edit; run `python -m osr_scenario --design ...` to regenerate.
+# Source of truth: /home/ha/Documents/OpenSourceRail/designs/middle-east/iraq/samawah/design.toml
 
 [scenario]
-name = "Samawah — Line 1 Nahrain + Line 2 Halqa (RFC 0003)"
+name = "Samawah — 4-line network (Nahrain + Sharqiyyeh + Mahatta + Shamal)"
 start_time = "06:00"
 
+
 [climate]
-# Southern Iraq summer afternoon profile.
 ambient_c = 42.0
 peak_sun_hours = 6.0
-# Omit hvac_uplift_frac to have it computed linearly from ambient.
 
-# ----------------------------------------------------------------------------
-# Stations — IDs are strings, used as references in lines and fleets below.
-# ----------------------------------------------------------------------------
 
-# --- Line 1 stations, west to east ---
+[consist]
+# From rolling-stock family 'light-metro-3car'.
+car_count = 3
+length_m = 68
+mass_kg = 120000
+max_speed_kmh = 80.0
+battery_capacity_kwh = 320
+service_accel_mps2 = 1.0
+
+
+# Stations — one row per unique station in the design.
+[[stations]]
+id = "samawah-central"
+name = "Samawah Central"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "al-muthanna-university"
+name = "Al-Muthanna University"
+charging_power_kw = 1000
+dwell_seconds = 60
+is_terminal = true
+
+[[stations]]
+id = "jamia-al-muthanna"
+name = "Jamia Al-Muthanna"
+dwell_seconds = 30
+
+[[stations]]
+id = "al-qashla"
+name = "Al-Qashla"
+dwell_seconds = 30
+
+[[stations]]
+id = "samawah-hospital"
+name = "Samawah Teaching Hospital"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "al-hakam"
+name = "Al-Hakam"
+dwell_seconds = 30
+
+[[stations]]
+id = "hayy-270-dar"
+name = "Hayy 270 Dar"
+dwell_seconds = 30
+
+[[stations]]
+id = "al-maali"
+name = "Al-Maali"
+charging_power_kw = 1000
+dwell_seconds = 240
+is_terminal = true
+is_depot = true
+
+[[stations]]
+id = "al-naft"
+name = "Al-Naft"
+charging_power_kw = 1000
+dwell_seconds = 60
+is_terminal = true
+
+[[stations]]
+id = "al-mualimin"
+name = "Al-Mualimin"
+dwell_seconds = 30
+
+[[stations]]
+id = "al-sharqi"
+name = "Al-Sharqi"
+dwell_seconds = 30
+
+[[stations]]
+id = "al-sharqi-east"
+name = "Al-Sharqi East"
+dwell_seconds = 30
+
+[[stations]]
+id = "al-bustan-sharqi"
+name = "Al-Bustan Sharqi"
+charging_power_kw = 1000
+dwell_seconds = 60
+is_terminal = true
+
+[[stations]]
+id = "al-hidriya"
+name = "Al-Hidriya"
+dwell_seconds = 30
+
+[[stations]]
+id = "al-nahda"
+name = "Al-Nahda"
+dwell_seconds = 30
+
+[[stations]]
+id = "al-qasim"
+name = "Al-Qasim"
+dwell_seconds = 30
+
 [[stations]]
 id = "samawah-rws"
 name = "Samawah Railway Station"
@@ -32,189 +122,108 @@ dwell_seconds = 60
 is_terminal = true
 
 [[stations]]
-id = "north-gate"
-name = "North Gate"
+id = "um-al-asafir"
+name = "Um al-Asafir"
 dwell_seconds = 30
 
 [[stations]]
-id = "old-souq"
-name = "Old Souq"
+id = "al-sukuk"
+name = "Al-Sukuk"
 dwell_seconds = 30
 
 [[stations]]
-id = "samawah-central"
-name = "Samawah Central"
-charging_power_kw = 500
-dwell_seconds = 45
-
-[[stations]]
-id = "riverside"
-name = "Riverside"
+id = "jarbuwiya"
+name = "Jarbuwiya"
 dwell_seconds = 30
 
 [[stations]]
-id = "eastern-bridge"            # interchange L1/L2
-name = "Eastern Bridge"
-charging_power_kw = 500
-dwell_seconds = 45
-
-[[stations]]
-id = "al-salam"
-name = "Al-Salam"
-dwell_seconds = 30
-
-[[stations]]
-id = "governorate-hospital"
-name = "Governorate Hospital"
-charging_power_kw = 500
-dwell_seconds = 45
-
-[[stations]]
-id = "new-german-hospital"
-name = "New German Hospital"
-charging_power_kw = 500
-dwell_seconds = 45
-
-[[stations]]
-id = "engineering-quarter"
-name = "Engineering Quarter"
-dwell_seconds = 30
-
-[[stations]]
-id = "al-muthanna-university"    # interchange L1/L2
-name = "Al-Muthanna University"
-charging_power_kw = 500
-dwell_seconds = 60
-
-[[stations]]
-id = "east-depot"
-name = "East Depot & Yard"
+id = "abu-jwailana"
+name = "Abu Jwailana"
 charging_power_kw = 1000
-dwell_seconds = 240
+dwell_seconds = 60
 is_terminal = true
-is_depot = true
 
-# --- Line 2 additional stations (counterclockwise from Eastern Bridge) ---
-[[stations]]
-id = "northern-suburbs-a"
-name = "Northern Suburbs A"
-dwell_seconds = 30
 
-[[stations]]
-id = "northern-suburbs-b"
-name = "Northern Suburbs B"
-dwell_seconds = 30
 
-[[stations]]
-id = "northwest-junction"
-name = "Northwest Junction"
-charging_power_kw = 500
-dwell_seconds = 45
-is_depot = true
-
-[[stations]]
-id = "industrial-west"
-name = "Industrial West"
-dwell_seconds = 30
-
-[[stations]]
-id = "western-residential"
-name = "Western Residential"
-dwell_seconds = 30
-
-[[stations]]
-id = "south-west-residential"
-name = "South-West Residential"
-dwell_seconds = 30
-
-[[stations]]
-id = "southern-markets"
-name = "Southern Markets"
-charging_power_kw = 500
-dwell_seconds = 45
-
-[[stations]]
-id = "south-east-residential"
-name = "South-East Residential"
-dwell_seconds = 30
-
-# ----------------------------------------------------------------------------
-# Lines
-# ----------------------------------------------------------------------------
-
+# Lines — per-line station sequences.
 [[lines]]
-id = "line-1"
-name = "Line 1 Nahrain"
-is_ring = false
+id = "line-1-nahrain"
+name = "Line 1 Nahrain (N-S spine)"
 stations = [
-    { id = "samawah-rws",            distance_from_prev_m = 0 },
-    { id = "north-gate",             distance_from_prev_m = 1000 },
-    { id = "old-souq",               distance_from_prev_m = 1300 },
-    { id = "samawah-central",        distance_from_prev_m = 1100 },
-    { id = "riverside",              distance_from_prev_m = 900 },
-    { id = "eastern-bridge",         distance_from_prev_m = 1200 },
-    { id = "al-salam",               distance_from_prev_m = 1400 },
-    { id = "governorate-hospital",   distance_from_prev_m = 1300 },
-    { id = "new-german-hospital",    distance_from_prev_m = 1500 },
-    { id = "engineering-quarter",    distance_from_prev_m = 1300 },
-    { id = "al-muthanna-university", distance_from_prev_m = 1400 },
-    { id = "east-depot",             distance_from_prev_m = 600 },
+    { id = "al-muthanna-university", distance_from_prev_m = 0 },
+    { id = "jamia-al-muthanna", distance_from_prev_m = 400 },
+    { id = "al-qashla", distance_from_prev_m = 2100 },
+    { id = "samawah-hospital", distance_from_prev_m = 2100 },
+    { id = "samawah-central", distance_from_prev_m = 1700 },
+    { id = "al-hakam", distance_from_prev_m = 1400 },
+    { id = "hayy-270-dar", distance_from_prev_m = 1100 },
+    { id = "al-maali", distance_from_prev_m = 2300 },
 ]
 
 [[lines]]
-id = "line-2"
-name = "Line 2 Halqa"
-is_ring = true
-ring_wrap_length_m = 1600    # Al-Muthanna University → Eastern Bridge wrap
+id = "line-2-sharqiyyeh"
+name = "Line 2 Sharqiyyeh (E-W crosstown)"
 stations = [
-    { id = "eastern-bridge",         distance_from_prev_m = 0 },
-    { id = "northern-suburbs-a",     distance_from_prev_m = 1800 },
-    { id = "northern-suburbs-b",     distance_from_prev_m = 1500 },
-    { id = "northwest-junction",     distance_from_prev_m = 1700 },
-    { id = "industrial-west",        distance_from_prev_m = 1600 },
-    { id = "western-residential",    distance_from_prev_m = 1500 },
-    { id = "south-west-residential", distance_from_prev_m = 1800 },
-    { id = "southern-markets",       distance_from_prev_m = 1400 },
-    { id = "south-east-residential", distance_from_prev_m = 1600 },
-    { id = "al-muthanna-university", distance_from_prev_m = 1500 },
+    { id = "al-naft", distance_from_prev_m = 0 },
+    { id = "al-mualimin", distance_from_prev_m = 2500 },
+    { id = "samawah-central", distance_from_prev_m = 1100 },
+    { id = "al-sharqi", distance_from_prev_m = 650 },
+    { id = "al-sharqi-east", distance_from_prev_m = 370 },
+    { id = "al-bustan-sharqi", distance_from_prev_m = 2150 },
 ]
 
-# ----------------------------------------------------------------------------
-# Fleets — one per line. Dispatch points are where trains start and where
-# subsequent dispatches are throttled to honor the schedule.
-# ----------------------------------------------------------------------------
+[[lines]]
+id = "line-3-mahatta"
+name = "Line 3 Mahatta (SE branch to railway station)"
+stations = [
+    { id = "samawah-central", distance_from_prev_m = 0 },
+    { id = "al-hidriya", distance_from_prev_m = 450 },
+    { id = "al-nahda", distance_from_prev_m = 1300 },
+    { id = "al-qasim", distance_from_prev_m = 1400 },
+    { id = "samawah-rws", distance_from_prev_m = 2500 },
+]
 
+[[lines]]
+id = "line-4-shamal"
+name = "Line 4 Shamal (North cross — Jarbuwiya / Um al-Asafir)"
+stations = [
+    { id = "um-al-asafir", distance_from_prev_m = 0 },
+    { id = "al-muthanna-university", distance_from_prev_m = 1200 },
+    { id = "al-sukuk", distance_from_prev_m = 1200 },
+    { id = "jarbuwiya", distance_from_prev_m = 1200 },
+    { id = "abu-jwailana", distance_from_prev_m = 2050 },
+]
+
+
+
+# Fleets — copied from design.toml [[fleets]].
 [[fleets]]
-line = "line-1"
-trainset_count = 6
+line = "line-1-nahrain"
+trainset_count = 5
 dispatch_points = [
-    { station = "samawah-rws", heading = "forward" },
-    { station = "east-depot",  heading = "reverse" },
-]
-service_start = "05:30"
-service_end   = "23:30"
-schedule = [
-    { from = "05:30", to = "07:00", headway_min = 10 },  # pre-peak
-    { from = "07:00", to = "09:30", headway_min = 4 },   # AM peak
-    { from = "09:30", to = "16:00", headway_min = 8 },   # midday
-    { from = "16:00", to = "19:00", headway_min = 4 },   # PM peak
-    { from = "19:00", to = "22:00", headway_min = 10 },  # evening
-    { from = "22:00", to = "23:30", headway_min = 15 },  # late
-]
-
-[[fleets]]
-line = "line-2"
-trainset_count = 4
-# Ring: two CCW dispatches (Forward) and two CW dispatches (Reverse),
-# distributed around the loop at the two interchanges.
-dispatch_points = [
-    { station = "eastern-bridge",         heading = "forward" },
-    { station = "al-muthanna-university", heading = "reverse" },
-    { station = "eastern-bridge",         heading = "reverse" },
     { station = "al-muthanna-university", heading = "forward" },
+    { station = "al-maali", heading = "reverse" },
 ]
 service_start = "05:30"
-service_end   = "23:30"
+service_end = "23:30"
+schedule = [
+    { from = "05:30", to = "07:00", headway_min = 10 },
+    { from = "07:00", to = "09:30", headway_min = 5 },
+    { from = "09:30", to = "16:00", headway_min = 8 },
+    { from = "16:00", to = "19:00", headway_min = 5 },
+    { from = "19:00", to = "22:00", headway_min = 10 },
+    { from = "22:00", to = "23:30", headway_min = 15 },
+]
+
+[[fleets]]
+line = "line-2-sharqiyyeh"
+trainset_count = 4
+dispatch_points = [
+    { station = "al-naft", heading = "forward" },
+    { station = "al-bustan-sharqi", heading = "reverse" },
+]
+service_start = "05:30"
+service_end = "23:30"
 schedule = [
     { from = "05:30", to = "07:00", headway_min = 12 },
     { from = "07:00", to = "09:30", headway_min = 6 },
@@ -224,103 +233,131 @@ schedule = [
     { from = "22:00", to = "23:30", headway_min = 15 },
 ]
 
-# ----------------------------------------------------------------------------
-# Trackside energy sites — PV + Na-ion storage + grid tie at each station
-# with a charging pad. Sizing loosely follows RFC 0002 §6 distributed
-# pattern (~2 MWh per station, larger at depots).
-#
-# PV is the on-station canopy nameplate; ROW and between-rail PV are not
-# modeled in v1 (treat them as shifting into grid export when implemented).
-# ----------------------------------------------------------------------------
+[[fleets]]
+line = "line-3-mahatta"
+trainset_count = 3
+dispatch_points = [
+    { station = "samawah-central", heading = "forward" },
+    { station = "samawah-rws", heading = "reverse" },
+]
+service_start = "05:30"
+service_end = "23:30"
+schedule = [
+    { from = "05:30", to = "07:00", headway_min = 12 },
+    { from = "07:00", to = "09:30", headway_min = 7 },
+    { from = "09:30", to = "16:00", headway_min = 12 },
+    { from = "16:00", to = "19:00", headway_min = 7 },
+    { from = "19:00", to = "22:00", headway_min = 12 },
+    { from = "22:00", to = "23:30", headway_min = 15 },
+]
 
-# --- Line 1 sites ---
-[[sites]]
-station = "samawah-rws"
-pv_nameplate_kw = 500
-storage_capacity_kwh = 3000
-storage_max_charge_kw = 1500
-storage_max_discharge_kw = 1500
-storage_initial_soc = 0.6
-grid_import_kw = 800
-grid_export_kw = 800
+[[fleets]]
+line = "line-4-shamal"
+trainset_count = 3
+dispatch_points = [
+    { station = "um-al-asafir", heading = "forward" },
+    { station = "abu-jwailana", heading = "reverse" },
+]
+service_start = "05:30"
+service_end = "23:30"
+schedule = [
+    { from = "05:30", to = "07:00", headway_min = 12 },
+    { from = "07:00", to = "09:30", headway_min = 7 },
+    { from = "09:30", to = "16:00", headway_min = 12 },
+    { from = "16:00", to = "19:00", headway_min = 7 },
+    { from = "19:00", to = "22:00", headway_min = 12 },
+    { from = "22:00", to = "23:30", headway_min = 15 },
+]
 
+
+
+# Trackside energy sites — expanded from tier references.
 [[sites]]
 station = "samawah-central"
-pv_nameplate_kw = 300
-storage_capacity_kwh = 2000
-storage_max_charge_kw = 800
-storage_max_discharge_kw = 800
+pv_nameplate_kw = 500.0
+storage_capacity_kwh = 3000.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
 storage_initial_soc = 0.5
-grid_import_kw = 500
-grid_export_kw = 500
+grid_import_kw = 600.0
+grid_export_kw = 600.0
 
 [[sites]]
-station = "eastern-bridge"            # L1/L2 interchange
-pv_nameplate_kw = 400
-storage_capacity_kwh = 3000
-storage_max_charge_kw = 1000
-storage_max_discharge_kw = 1000
+station = "samawah-hospital"
+pv_nameplate_kw = 300.0
+storage_capacity_kwh = 2000.0
+storage_max_charge_kw = 800.0
+storage_max_discharge_kw = 800.0
 storage_initial_soc = 0.5
-grid_import_kw = 600
-grid_export_kw = 600
+grid_import_kw = 500.0
+grid_export_kw = 500.0
 
 [[sites]]
-station = "governorate-hospital"
-pv_nameplate_kw = 300
-storage_capacity_kwh = 2000
-storage_max_charge_kw = 800
-storage_max_discharge_kw = 800
-storage_initial_soc = 0.5
-grid_import_kw = 500
-grid_export_kw = 500
-
-[[sites]]
-station = "new-german-hospital"
-pv_nameplate_kw = 300
-storage_capacity_kwh = 2000
-storage_max_charge_kw = 800
-storage_max_discharge_kw = 800
-storage_initial_soc = 0.5
-grid_import_kw = 500
-grid_export_kw = 500
-
-[[sites]]
-station = "al-muthanna-university"    # L1/L2 interchange
-pv_nameplate_kw = 500
-storage_capacity_kwh = 3000
-storage_max_charge_kw = 1000
-storage_max_discharge_kw = 1000
-storage_initial_soc = 0.5
-grid_import_kw = 600
-grid_export_kw = 600
-
-[[sites]]
-station = "east-depot"
-pv_nameplate_kw = 5000                 # depot roof + yard PV
-storage_capacity_kwh = 40000
-storage_max_charge_kw = 10000
-storage_max_discharge_kw = 10000
+station = "al-muthanna-university"
+pv_nameplate_kw = 500.0
+storage_capacity_kwh = 3000.0
+storage_max_charge_kw = 1500.0
+storage_max_discharge_kw = 1500.0
 storage_initial_soc = 0.6
-grid_import_kw = 3000
-grid_export_kw = 3000
+grid_import_kw = 800.0
+grid_export_kw = 800.0
 
-# --- Line 2 sites ---
 [[sites]]
-station = "northwest-junction"
-pv_nameplate_kw = 1500                 # secondary layup + yard PV
-storage_capacity_kwh = 5000
-storage_max_charge_kw = 2000
-storage_max_discharge_kw = 2000
+station = "al-maali"
+pv_nameplate_kw = 5000.0
+storage_capacity_kwh = 40000.0
+storage_max_charge_kw = 10000.0
+storage_max_discharge_kw = 10000.0
 storage_initial_soc = 0.6
-grid_import_kw = 1000
-grid_export_kw = 1000
+grid_import_kw = 3000.0
+grid_export_kw = 3000.0
 
 [[sites]]
-station = "southern-markets"
-pv_nameplate_kw = 300
-storage_capacity_kwh = 2000
-storage_max_charge_kw = 800
-storage_max_discharge_kw = 800
-storage_initial_soc = 0.5
-grid_import_kw = 500
-grid_export_kw = 500
+station = "al-bustan-sharqi"
+pv_nameplate_kw = 500.0
+storage_capacity_kwh = 3000.0
+storage_max_charge_kw = 1500.0
+storage_max_discharge_kw = 1500.0
+storage_initial_soc = 0.6
+grid_import_kw = 800.0
+grid_export_kw = 800.0
+
+[[sites]]
+station = "al-naft"
+pv_nameplate_kw = 500.0
+storage_capacity_kwh = 3000.0
+storage_max_charge_kw = 1500.0
+storage_max_discharge_kw = 1500.0
+storage_initial_soc = 0.6
+grid_import_kw = 800.0
+grid_export_kw = 800.0
+
+[[sites]]
+station = "samawah-rws"
+pv_nameplate_kw = 500.0
+storage_capacity_kwh = 3000.0
+storage_max_charge_kw = 1500.0
+storage_max_discharge_kw = 1500.0
+storage_initial_soc = 0.6
+grid_import_kw = 800.0
+grid_export_kw = 800.0
+
+[[sites]]
+station = "um-al-asafir"
+pv_nameplate_kw = 500.0
+storage_capacity_kwh = 3000.0
+storage_max_charge_kw = 1500.0
+storage_max_discharge_kw = 1500.0
+storage_initial_soc = 0.6
+grid_import_kw = 800.0
+grid_export_kw = 800.0
+
+[[sites]]
+station = "abu-jwailana"
+pv_nameplate_kw = 500.0
+storage_capacity_kwh = 3000.0
+storage_max_charge_kw = 1500.0
+storage_max_discharge_kw = 1500.0
+storage_initial_soc = 0.6
+grid_import_kw = 800.0
+grid_export_kw = 800.0

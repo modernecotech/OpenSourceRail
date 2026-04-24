@@ -22,10 +22,30 @@ cab is replaced by a nose-cone obstacle-detection sensor suite
 camera) on a dedicated T-OBS ECU, with **wayside track-intrusion
 detection** ([RFC 0016](docs/rfcs/0016-wayside-track-intrusion.md))
 covering the proactive half of the safety envelope between trains.
-The Samawah two-line reference scenario
+The Samawah four-line reference scenario
 ([RFC 0003](docs/rfcs/0003-samawah-reference-deployment.md)) runs end-to-end,
-and the design pipeline now synthesises two-line networks for arbitrary cities
-directly from OpenStreetMap. Twenty-one RFCs cover the full system from software
+and the design pipeline now synthesises multi-line networks for arbitrary
+cities directly from OpenStreetMap — **including road-snapped corridors**
+computed by networkx shortest-path on the OSM graph.
+
+![Samawah reference network — L1 Nahrain (blue) + L2 Sharqiyyeh (orange) + L3 Mahatta (green) + L4 Shamal (magenta) on OpenStreetMap, road-snapped](docs/screenshots/samawah-network-map.png)
+
+*Samawah reference deployment — revised 2026-04-24 against real
+OSM data with lines **routed along actual streets** (not straight
+segments). Four lines, two interchange hubs:
+**Line 1 Nahrain** (blue, N–S, 8 stations, ~15 km routed) through
+university → hospital → centre → main depot;
+**Line 2 Sharqiyyeh** (orange, E–W, 6 stations, ~10 km routed);
+**Line 3 Mahatta** (green, SE, 5 stations, ~12 km routed) centre
+to the Baghdad–Basra rail station;
+**Line 4 Shamal** (magenta, N cross, 5 stations, ~5.5 km routed)
+covers the Jarbuwiya + Um al-Asafir northern cluster that the
+earlier 3-line design missed. Every station is an Overpass-
+verified OSM anchor; every polyline is the weighted shortest
+path on the actual road network (arterials 0.6–0.8, residentials
+1.8). Regenerate with `./scripts/regenerate-samawah.sh`.*
+
+Twenty-one RFCs cover the full system from software
 architecture through rail civil engineering to driverless operation; the
 operations rulebook ([RFC 0013](docs/rfcs/0013-operations-rulebook.md)) is
 drafted across four shipping role families (dispatcher / station-staff /
@@ -130,6 +150,20 @@ for GoA 2 legacy fleets. Most of the
   contrasting dark-blue livery, the livery band running full length
   at window-sill height, the dark underframe skirt, and the
   rooftop HVAC + two auxiliary boxes.*
+
+  ![Motor bogie — 2-axle Bo-Bo with axle-hung PMSM motors, chevron primary + air-spring secondary suspension](docs/screenshots/bogie-motor.png)
+
+  ![Trailer bogie — same frame + suspension + wheelsets, no motor or gearbox](docs/screenshots/bogie-trailer.png)
+
+  *Detailed bogie CAD per [RFC 0022](docs/rfcs/0022-bogie-traction-drive.md).
+  **Motor bogie** (top): 2-axle Bo-Bo pivoting bogie with axle-hung
+  PMSM traction motors (180 kW continuous / 320 kW peak per axle),
+  single-stage 6.5:1 parallel-spur gearboxes, chevron rubber-metal
+  primary suspension, air-spring secondary suspension, 760 mm forged
+  wheels, one axle-mounted brake disc per axle. **Trailer bogie**
+  (bottom): same frame + wheelsets + suspension SKU with the motor-
+  gearbox drivetrains omitted — one single bogie pattern scales
+  across every consist family with per-family motorisation.*
 - **Onboard traction & power:** `osr-traction` + `osr-bms` + `osr-regen` +
   `osr-aux-power`, with signed-current sign convention enforced at the seam.
 - **Onboard systems:** `osr-tcms`, `osr-hvac`, `osr-lighting`, `osr-dmi`,
@@ -182,7 +216,7 @@ for GoA 2 legacy fleets. Most of the
   RFC 0006 roadmap (v3).
 - **Automatic design generation:** `design-py` (Overpass + raster synthesis) +
   `osr-routing` (cost/demand Dijkstra on a 20 m grid) + `osr-design` (emitter)
-  compose a full two-line network — corridor geometry, station placement,
+  compose a full multi-line network — corridor geometry, station placement,
   civil-class inference (at-grade / elevated / bridge — no tunnels per
   [RFC 0011](docs/rfcs/0011-civil-infrastructure-design-standard.md)),
   **rolling-stock + track-geometry + station-archetype selection under the

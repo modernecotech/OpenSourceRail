@@ -1,7 +1,22 @@
-//! Samawah reference scenario — Line 1 "Nahrain" (radial) + Line 2 "Halqa" (ring).
+//! Samawah reference scenario — **LEGACY** hard-coded 2-line network.
 //!
-//! Corresponds to [RFC 0003](../../docs/rfcs/0003-samawah-reference-deployment.md).
-//! Inter-station distances and station properties are indicative, not surveyed.
+//! **Status:** frozen at the pre-2026-04-24 2-line geometry. Kept
+//! alive only so the existing Rust integration tests + sim / OCC
+//! GUI apps keep running against stable fixture data. New code
+//! should load `scenarios/samawah.toml` via `scenario_file::load`
+//! — that file is auto-generated from the authoritative
+//! `designs/middle-east/iraq/samawah/design.toml` and matches the
+//! current 3-line network (L1 Nahrain + L2 Sharqiyyeh + L3
+//! Mahatta) with real OSM-verified coordinates.
+//!
+//! The station IDs and inter-station distances below are legacy
+//! fixture values — they are *not* the current reference design.
+//! Corresponds to [RFC 0003](../../docs/rfcs/0003-samawah-reference-deployment.md)
+//! at a point-in-time snapshot before the 3-line redesign.
+//!
+//! Migration path: tests that rely on a fixed topology should port
+//! to loading the generated scenario file, same as the `--config`
+//! CLI path already does.
 
 use osr_core::{
     ConsistDescriptor, Line, Network, Section, SectionId, Station, StationId,

@@ -95,7 +95,10 @@ impl SimApp {
                     (full_scenario(), "Samawah (built-in; fallback)".into())
                 }
             },
-            None => (full_scenario(), "Samawah (built-in)".into()),
+            // No explicit path given: prefer the generated scenario file
+            // (auto-regenerated from designs/.../design.toml) over the
+            // legacy hardcoded fixture in `osr_sim::samawah`.
+            None => _default_scenario(),
         };
         let mut app = Self {
             scenario,
@@ -475,4 +478,26 @@ fn draw_fault_badges(
         );
         y += 24.0;
     }
+}
+
+/// Attempt to load `scenarios/samawah.toml` from the standard repo
+/// location; fall back to the legacy hardcoded fixture if the file
+/// is missing or won't parse. Used when no `--scenario` CLI arg is
+/// given — keeps the GUI default aligned with the generated scenario
+/// instead of drifting onto the legacy 2-line Samawah fixture.
+fn _default_scenario() -> (ScenarioConfig, String) {
+    let candidates = [
+        "scenarios/samawah.toml",
+        "../scenarios/samawah.toml",
+        "../../scenarios/samawah.toml",
+    ];
+    for c in candidates {
+        let p = std::path::Path::new(c);
+        if p.exists() {
+            if let Ok(s) = load_scenario_from_path(p) {
+                return (s, format!("{} (auto)", c));
+            }
+        }
+    }
+    (full_scenario(), "Samawah (built-in; scenarios/samawah.toml not found)".into())
 }

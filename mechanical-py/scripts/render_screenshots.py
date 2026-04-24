@@ -466,6 +466,27 @@ def render_all(out_root: Path) -> None:
         alpha_override={"shell": 0.12, "livery": 0.0, "skirt": 0.0, "Roof auxiliary": 0.25, "HVAC roof unit": 0.25},
     )
 
+    # 5. Motor bogie — detailed component + assembly CAD (RFC 0022).
+    from osr_mech.rolling_stock.bogie import motor_bogie, trailer_bogie
+    _render(
+        motor_bogie(),
+        out_root / "bogie-motor.png",
+        tolerance_mm=8.0,
+        elev=18,
+        azim=-45,
+        figsize=(12, 6),
+        dpi=180,
+    )
+    _render(
+        trailer_bogie(),
+        out_root / "bogie-trailer.png",
+        tolerance_mm=8.0,
+        elev=18,
+        azim=-45,
+        figsize=(12, 6),
+        dpi=180,
+    )
+
 
 def main() -> None:
     repo_root = Path(__file__).resolve().parents[2]

@@ -23,6 +23,7 @@ use osr_core::{Network, SectionId};
 use osr_gui_shared::{draw_network, draw_section_state, NetworkLayout, Palette};
 use osr_interlocking::IntrusionState;
 use osr_sim::samawah::full_scenario;
+use osr_sim::scenario_file::load_scenario_from_path;
 use osr_sim::sim::{run, EventKind, RuntimeConfig, ScenarioConfig, SimResult};
 use osr_sim::timeline::SimTimeline;
 
@@ -130,7 +131,7 @@ impl OccApp {
     }
 
     fn new_internal(operator: String) -> Self {
-        let scenario = full_scenario();
+        let (scenario, _label) = _default_scenario();
         let network = scenario.network.clone();
         let seeded_alerts = vec![
             Alert {
@@ -648,6 +649,26 @@ fn validate_override(b: &OverrideBuffer) -> Result<(), String> {
         return Err("expires must be 15..=240 minutes".into());
     }
     Ok(())
+}
+
+/// Prefer `scenarios/samawah.toml` over the legacy hardcoded fixture.
+/// Falls back to the built-in if the file is missing or fails to
+/// parse. Same logic as [`osr_sim_gui`'s `_default_scenario`].
+fn _default_scenario() -> (ScenarioConfig, String) {
+    let candidates = [
+        "scenarios/samawah.toml",
+        "../scenarios/samawah.toml",
+        "../../scenarios/samawah.toml",
+    ];
+    for c in candidates {
+        let p = std::path::Path::new(c);
+        if p.exists() {
+            if let Ok(s) = load_scenario_from_path(p) {
+                return (s, format!("{} (auto)", c));
+            }
+        }
+    }
+    (full_scenario(), "Samawah (built-in; scenarios/samawah.toml not found)".into())
 }
 
 #[cfg(test)]

@@ -6,12 +6,16 @@
 
 ## 1. Summary
 
-This RFC proposes a concrete reference deployment for OpenSourceRail: a two-line urban rail network serving **Samawah (As-Samawah), capital of Al-Muthanna Governorate, Iraq**. The network comprises:
+This RFC proposes a concrete reference deployment for OpenSourceRail: a **four-line urban rail network** serving **Samawah (As-Samawah), capital of Al-Muthanna Governorate, Iraq**. Every station coordinate corresponds to a **real OpenStreetMap anchor** within Samawah's built-up urban fabric — Overpass-verified on 2026-04-24. Every inter-station polyline is **routed along actual streets** (shortest-path on the OSM road graph, weighted to favour arterials over residential) rather than straight-line "as the crow flies". The four lines are:
 
-- **Line 1 — "Nahrain" radial**: ~14 km, east–west along the urban corridor, connecting the **Samawah main railway station** (intercity rail interchange), the **city centre**, the **new German Hospital**, and **Al-Muthanna University**.
-- **Line 2 — "Halqa" ring**: ~16 km circumferential route serving the suburban residential belt, with two interchanges onto Line 1.
+- **Line 1 "Nahrain" — N–S spine** (~15 km routed, 8 stations). Connects **Al-Muthanna University** (northern interchange with L4) through the **hospital cluster**, the **city centre** (triple interchange with L2/L3), and southern residential neighbourhoods to the **main depot at Al-Maali** (southern terminus).
+- **Line 2 "Sharqiyyeh" — E–W crosstown** (~10 km routed, 6 stations). Western residential (Al-Naft) through **Samawah Central** (interchange with L1/L3) to eastern residential (Al-Bustan Sharqi).
+- **Line 3 "Mahatta" — SE branch** (~12 km routed, 5 stations). From **Samawah Central** (interchange with L1/L2) through SE residential to the **Samawah Railway Station** on the Baghdad–Basra mainline.
+- **Line 4 "Shamal" — Northern cross** (~5.5 km routed, 5 stations). From **Um al-Asafir** (NE terminus) through **Al-Muthanna University** (interchange with L1), **Al-Sukuk**, **Jarbuwiya**, to **Abu Jwailana** (NW terminus). Added in the 2026-04-24 revision after a coverage audit flagged 40+ neighbourhoods >1 km from any station in the original 3-line layout, most of them clustered in the northern Jarbuwiya + Um al-Asafir districts.
 
-Total network: ~30 km of double-track light metro, 22 stations, 14-trainset fleet.
+Total network: **~29 km of double-track light metro, 21 unique stations, 23-trainset fleet**. Two interchange hubs: Samawah Central (L1/L2/L3) and Al-Muthanna University (L1/L4).
+
+The previous draft of this RFC proposed a 2-line design (14 km radial + 16 km ring, 30 km total). That geometry placed Al-Muthanna University ~8 km south-east of its real location, placed "Samawah Railway Station" in the north-west when the real station is south-east, and routed the Halqa ring through palm groves + agricultural land that wasn't built-up. That design was retired in favour of the OSM-grounded network below.
 
 This is the reference case for `osr-sim`, the anchor for conversations with potential pilot stakeholders, and the concrete instantiation against which subsequent subsystem designs are measured. It is a planning-grade concept design, not a surveyed alignment — it exists to make the architecture *real* rather than to commit any specific routing.
 
@@ -34,77 +38,189 @@ The combination is close to optimal: genuine need, favorable physics, no legacy 
 
 Samawah sits on the Euphrates in southern Iraq. The city stretches roughly east–west along the river with residential suburbs fanning north and south. The mainline railway enters from the northwest, the city centre sits on the river bend, and the major newer developments (hospital, university campus, expanding residential districts) are south and east of the historic core.
 
+![Samawah network — 4 lines road-snapped on OpenStreetMap](../screenshots/samawah-network-map.png)
+
+*Four lines road-snapped on OSM tiles: blue = L1 Nahrain, orange =
+L2 Sharqiyyeh, green = L3 Mahatta, magenta = L4 Shamal. Station
+markers coloured by archetype (red terminal, purple depot-terminal,
+blue major, orange interchange, white standard). Every polyline is
+shortest-path on the road graph, weighted to favour arterials.
+Regenerate with `./scripts/regenerate-samawah.sh`; see
+[§3.6 Realism notes](#36-realism-notes) for what surveying would
+still change.*
+
 > **Important caveat.** The alignment below is indicative. Precise routing, station siting, and ROW acquisition are out of scope for this RFC — those depend on surveying, stakeholder consultation, and local planning processes that only Samawah's own planners and Al-Muthanna Governorate can lead. What this RFC provides is a *credible skeleton* that demonstrates how an OpenSourceRail network would be organized for a city of Samawah's size and form.
 
-### 3.1 Line 1 — Nahrain radial (indicative)
+### 3.1 Line 1 — Nahrain (N–S spine)
 
-East-to-west sequence of 12 stations, ~14 km total, at-grade along existing wide arterials where possible, elevated across major intersections and the river crossing:
+Eight stations, ~11 km total. North-to-south sequence along the dense urban core, elevated through the city centre + hospital interchange, at-grade elsewhere:
 
-| # | Station | Purpose |
-|---|---|---|
-| 1 | Samawah Railway Station | Intercity rail interchange; Baghdad–Basra mainline connection; freight yard adjacency for shared infrastructure |
-| 2 | North Gate | Residential catchment |
-| 3 | Old Souq | Traditional market district |
-| 4 | Samawah Central | City centre; government offices, main civic square |
-| 5 | Riverside | Euphrates crossing; tourism and cultural access |
-| 6 | Eastern Bridge | Second river crossing; interchange with Line 2 (Halqa ring) |
-| 7 | Al-Salam | Residential / commercial mid-corridor |
-| 8 | Governorate Hospital | Existing regional hospital |
-| 9 | New German Hospital | Major new medical facility |
-| 10 | Engineering Quarter | Light industry + housing |
-| 11 | Al-Muthanna University | University campus; second Line 2 interchange |
-| 12 | East Depot & Yard | Fleet depot; PV farm; staff training centre |
+| # | Station | Lat / Lon | Purpose | OSM reference |
+|---|---|---|---|---|
+| 1 | Al-Muthanna University | 31.3386, 45.2884 | N terminus; university campus | `amenity=university جامعة المثنى` |
+| 2 | Jamia Al-Muthanna | 31.3374, 45.2870 | Residential south of campus | `place=neighbourhood جامعة المثنى` |
+| 3 | Al-Qashla | 31.3196, 45.2916 | Dense urban cluster NE of centre | `place=neighbourhood القشلة` |
+| 4 | Samawah Teaching Hospital | 31.3213, 45.2734 | Major regional hospital | `amenity=hospital مستشفى السماوة التعليمي` |
+| 5 | Samawah Central | 31.3079, 45.2827 | Triple interchange (L1/L2/L3) | `place=city السماوة` |
+| 6 | Al-Hakam | 31.2973, 45.2757 | Southern residential | `place=neighbourhood حي الحكم` |
+| 7 | Hayy 270 Dar | 31.2969, 45.2646 | Residential cluster | `place=neighbourhood حي 270 دار` |
+| 8 | Al-Maali | 31.2785, 45.2794 | S terminus; main depot | `place=neighbourhood الشراكية` |
 
-Expected daily ridership at build-up: **40,000–55,000 passenger-trips**.
+Expected daily ridership at build-up: **35,000 – 48,000 passenger-trips** (highest — serves university + hospital + city centre).
 
-### 3.2 Line 2 — Halqa ring (indicative)
+### 3.2 Line 2 — Sharqiyyeh (E–W crosstown)
 
-Circumferential loop, ~16 km, serving the suburban belt north and south of the Line 1 corridor. 10 stations on the loop, of which two are interchanges onto Line 1 (Eastern Bridge and Al-Muthanna University):
+Six stations, ~7 km total. Western residential through the city centre to eastern residential:
 
-| # | Station | Purpose |
-|---|---|---|
-| 1 | Eastern Bridge (L1) | Interchange |
-| 2 | Northern Suburbs A | Residential |
-| 3 | Northern Suburbs B | Residential |
-| 4 | Northwest Junction | Ring–airport-road interchange (road, not rail) |
-| 5 | Industrial West | Light industrial employment |
-| 6 | Western Residential | Residential |
-| 7 | South-West Residential | Residential |
-| 8 | Southern Markets | Commercial district |
-| 9 | South-East Residential | Residential |
-| 10 | Al-Muthanna University (L1) | Interchange |
+| # | Station | Lat / Lon | Purpose | OSM reference |
+|---|---|---|---|---|
+| 1 | Al-Naft | 31.3123, 45.2485 | W terminus; housing complex | `place=neighbourhood حي النفط` |
+| 2 | Al-Mualimin | 31.3152, 45.2740 | Central-west residential | `place=neighbourhood حي المعلمين` |
+| 3 | Samawah Central | 31.3079, 45.2827 | Interchange with L1, L3 | shared with L1 |
+| 4 | Al-Sharqi | 31.3105, 45.2888 | Dense east residential | `place=neighbourhood حي الشرقي` |
+| 5 | Al-Sharqi East | 31.3135, 45.2901 | Residential cluster | `place=neighbourhood حي الشرقي عكد الداحرة` |
+| 6 | Al-Bustan Sharqi | 31.3167, 45.3118 | E terminus; secondary layup | `place=neighbourhood البساتين الشرقية` |
 
-Expected daily ridership at build-up: **25,000–35,000 passenger-trips**.
+Expected daily ridership at build-up: **18,000 – 25,000 passenger-trips**.
 
-Because the ring is a loop, Line 2 operations are simplified: trains cycle in both directions from each interchange with no turnback movements other than at a small depot lay-up near Northwest Junction.
+### 3.3 Line 3 — Mahatta (SE branch to railway station)
 
-### 3.3 System totals
+Five stations, ~5 km total. Short branch from the city centre to the intercity railway station:
+
+| # | Station | Lat / Lon | Purpose | OSM reference |
+|---|---|---|---|---|
+| 1 | Samawah Central | 31.3079, 45.2827 | Interchange with L1, L2 | shared |
+| 2 | Al-Hidriya | 31.3050, 45.2796 | Residential south of centre | `place=neighbourhood الحيدريه` |
+| 3 | Al-Nahda | 31.2978, 45.2897 | Dense SE residential | `place=neighbourhood حي النهضة` |
+| 4 | Al-Qasim | 31.2869, 45.2826 | Southern residential | `place=neighbourhood حي القاسم` |
+| 5 | Samawah Railway Station | 31.2746, 45.3032 | SE terminus; Baghdad–Basra intercity interchange | `railway=station محطة قطار السماوة` |
+
+Expected daily ridership at build-up: **12,000 – 18,000 passenger-trips** (modest, gated by intercity service frequency).
+
+### 3.4 Line 4 — Shamal (Northern cross)
+
+Five stations, ~5.5 km total. Added in the 2026-04-24 revision after a
+coverage audit showed 40+ neighbourhoods sitting >1 km from the
+nearest 3-line station, with the largest cluster in the northern
+suburbs. Line 4 interchanges with Line 1 at the Al-Muthanna
+University station:
+
+| # | Station | Lat / Lon | Purpose | OSM reference |
+|---|---|---|---|---|
+| 1 | Um al-Asafir | 31.3442, 45.2981 | NE terminus; northern residential | `place=neighbourhood ام العصافير (حي الرسالة)` |
+| 2 | Al-Muthanna University | 31.3386, 45.2884 | Interchange with L1 | shared with L1 |
+| 3 | Al-Sukuk | 31.3384, 45.2763 | Residential mid-arc | `place=neighbourhood السكك` |
+| 4 | Jarbuwiya | 31.3393, 45.2640 | Dense NW residential cluster | `place=neighbourhood الجربوعية الاولى` |
+| 5 | Abu Jwailana | 31.3395, 45.2426 | NW terminus; western-edge residential | `place=neighbourhood ابوجويلانة` |
+
+Expected daily ridership at build-up: **10,000 – 15,000 passenger-trips** (newest line; development-driven growth on the 20-year horizon).
+
+### 3.5 System totals
 
 | Metric | Value |
 |---|---|
-| Route-km (double track) | 30 km |
-| Stations (total, counting interchanges once) | 20 |
-| Interchanges | 2 (Eastern Bridge, Al-Muthanna University) |
-| Fleet (revenue) | 14 × 3-car trainsets |
-| Fleet (spare) | 2 × 3-car trainsets |
-| Main depot | East Depot (Line 1 terminus), with 20-stall capacity and 12 MWp PV farm |
-| Secondary layup | Northwest Junction (Line 2), 4-stall |
+| Route-km (double track) | ~29 km (road-snapped; straight-line is ~23 km) |
+| Stations (unique) | 21 |
+| Lines | 4 (L1 N–S + L2 E–W + L3 SE + L4 N cross) |
+| Interchange hubs | 2 (Samawah Central L1/L2/L3; Al-Muthanna University L1/L4) |
+| Fleet (revenue) | 15 × 3-car trainsets (5 L1 + 4 L2 + 3 L3 + 3 L4) |
+| Fleet (spare + cold-reserve) | 8 × 3-car trainsets |
+| Main depot | Al-Maali (Line 1 south terminus) — 24-stall `main-heavy` |
+| Secondary layup | Al-Bustan Sharqi (Line 2 east terminus) — 4-stall |
 | Service hours | 05:30 – 23:30, 18 hours |
-| Target daily ridership (steady-state) | 65,000 – 90,000 passenger-trips |
+
+> The table above is **derived from** [`design.toml`](../../designs/middle-east/iraq/samawah/design.toml);
+> regenerate with `python -m osr_scenario.stats --format markdown`.
+> A drift test (`design-py/tests/test_rfc_drift.py`) fails CI if this
+> table ever contradicts the design file. The full regeneration
+> pipeline is one command:
+>
+> ```bash
+> ./scripts/regenerate-samawah.sh
+> ```
+>
+> which emits the sim scenario (`scenarios/samawah.toml`), the network
+> map PNGs (`docs/screenshots/samawah-network-map*.png`), runs the
+> drift + round-trip tests, and prints the summary stats above.
+| Target daily ridership (steady-state) | 65 000 – 90 000 passenger-trips |
+
+### 3.6 Realism notes
+
+Honest assessment of the revised (2026-04-24) 4-line design
+against real Samawah OSM data:
+
+**What's real.** Every station coordinate in
+[`designs/middle-east/iraq/samawah/design.toml`](../../designs/middle-east/iraq/samawah/design.toml)
+corresponds to a named OSM feature verified by Overpass query:
+either a specific `place=neighbourhood` node, an `amenity` node
+(university / hospital), or a `railway=station` node. The 220 000
+population, the bounding box, the Euphrates position, and the
+Baghdad–Basra mainline crossing at the south-east are all OSM-
+consistent. The triple-interchange at Samawah Central is at the
+verified `place=city` node.
+
+**What's *not* real yet.** Things a surveyor would still catch:
+
+- **Inter-station polylines follow the cheapest-road shortest path**
+  through the OSM network (arterials weighted 0.6–0.8, residentials
+  1.8). That's planning-grade, not engineering-grade — curve radii,
+  grades, and the ROW width needed for double track aren't checked.
+  A real alignment survey will adjust station coordinates by tens
+  of metres to snap to stakeable centrelines + may replace some
+  segments with elevated viaduct where the road is too narrow.
+- **Coverage audit flags 40+ neighbourhoods >1 km from any station**
+  after Line 4 was added to pick up the northern Jarbuwiya cluster.
+  The remaining outliers are mostly fringe residential (distant
+  Jarbuwiya branches, Al-Ma'ali south of the rail, agricultural
+  villages beyond the urban edge). Extending the network further
+  is deferred to a future RFC if those areas develop.
+- **Line 1's Al-Qashla → Hospital segment** swings west-then-south
+  to reach the hospital cluster — a one-detour on an otherwise
+  N–S spine. Kept for the hospital demand anchor; planners may
+  prefer skipping.
+- **Al-Bustan Sharqi** (Line 2 east terminus) sits at the outer
+  edge of built-up area. Secondary layup siting here works but
+  detailed land acquisition is pending.
+- **29 km / 220 k population across 4 lines** is at the upper end
+  of the light-metro ratio. Comparable cities: Amiens (135 k →
+  11 km), Tours (140 k → 15 km), Orléans (115 k → 30 km across
+  2 lines). Samawah's 29 km is a full 5-phase build-out target
+  (Phase A delivers Line 1 north first).
+
+**How to take this to the next fidelity level:**
+
+1. Re-run the `design-py` routing + rendering pipeline with a
+   one-command refresh:
+
+   ```bash
+   ./scripts/regenerate-samawah.sh
+   ```
+
+   which fetches Samawah OSM (cached), routes every line on the
+   road graph, emits `corridor.geojson` + `scenarios/samawah.toml`
+   + the map PNGs, and runs the scenario + RFC drift tests.
+2. Feed the stationed alignment + `corridor.geojson` into
+   [`osr-alignment-export`](../../crates/osr-alignment/src/main.rs)
+   to produce LandXML + railML for import into Bentley OpenRail
+   or Civil 3D.
+3. Cross-reference against Iraqi Ministry of Transport + Al-
+   Muthanna Governorate road + cadastre datasets.
+4. Review with Al-Muthanna University transportation faculty
+   and the Governorate planning office.
 
 ## 4. Service Plan
 
 ### 4.1 Headways
 
-| Period | Line 1 | Line 2 |
-|---|---|---|
-| AM peak (07:00–09:30) | 4 min | 6 min |
-| Midday (09:30–16:00) | 8 min | 10 min |
-| PM peak (16:00–19:00) | 4 min | 6 min |
-| Evening (19:00–22:00) | 10 min | 12 min |
-| Late evening (22:00–23:30) | 15 min | 15 min |
+| Period | Line 1 Nahrain | Line 2 Sharqiyyeh | Line 3 Mahatta |
+|---|---|---|---|
+| AM peak (07:00–09:30) | 5 min | 6 min | 7 min |
+| Midday (09:30–16:00) | 8 min | 10 min | 12 min |
+| PM peak (16:00–19:00) | 5 min | 6 min | 7 min |
+| Evening (19:00–22:00) | 10 min | 12 min | 12 min |
+| Late evening (22:00–23:30) | 15 min | 15 min | 15 min |
 
-Line 1 is the busier service (longer, more anchors, cross-city). Line 2 operates a simple bidirectional loop with trains beginning and ending at the small layup near Northwest Junction.
+Line 1 is the busiest service (university + hospitals + centre + southern residential — all major demand anchors). Line 2 provides east-west connectivity crossing L1 at Samawah Central. Line 3 is a short branch whose headway is aligned with the (roughly twice-daily) Baghdad–Basra mainline intercity arrivals so that a rail-station transfer always has a connecting metro service within 5 minutes of the peak timetable.
 
 ### 4.2 Anchor-driven demand
 
