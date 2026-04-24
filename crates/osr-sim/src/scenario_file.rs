@@ -4,7 +4,7 @@
 //! in a plain-text `.toml` file. The loader validates it and builds the
 //! in-memory `ScenarioConfig` that the sim engine consumes.
 //!
-//! Schema reference: see `scenarios/README.md` at the repository root.
+//! Schema reference: see `lib/examples/README.md` at the repository root.
 
 use osr_core::{
     ConsistDescriptor, Line, Network, Section, SectionId, Station, StationId,

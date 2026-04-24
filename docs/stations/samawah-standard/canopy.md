@@ -2,7 +2,7 @@
 
 Per RFC 0010 §9, every non-`halt` archetype carries a solar
 canopy over the platform. Samawah `standard` archetype target:
-**1 800 m²** (per `designs/templates/stations.toml`).
+**1 800 m²** (per `lib/templates/stations.toml`).
 
 This document is the first-pass structural envelope the civil
 engineer bids against. v2 is the full FEA + wind-tunnel +

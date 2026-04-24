@@ -1,6 +1,6 @@
 //! Topology synthesis — pick line endpoints + waypoints from anchors.
 //!
-//! Given a topology archetype (see designs/recipes/city-to-design.toml
+//! Given a topology archetype (see lib/recipes/city-to-design.toml
 //! Step 4), plus the anchor set, produce one or more lines. A line is a
 //! sequence of anchor indices that the solver will then wire together
 //! in order, calling `solver::solve_path` for each adjacent pair.

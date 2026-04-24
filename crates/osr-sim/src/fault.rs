@@ -37,7 +37,7 @@
 //!   any train that needs to enter the section.
 //!
 //! Faults are declared in the scenario TOML under `[[faults]]`; see
-//! `scenarios/README.md` for the format.
+//! `lib/examples/README.md` for the format.
 
 use osr_core::{SectionId, StationId, TrainId};
 use osr_interlocking::IntrusionState;

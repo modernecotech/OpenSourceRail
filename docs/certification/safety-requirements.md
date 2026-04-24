@@ -58,7 +58,7 @@ tick.
   `BrakeInputs::obstacle_emergency`.
 - **Evidence:** Kani `o1_ultrasonic_return_forces_eb`; proptest
   `o1_ultrasonic_return_forces_eb`; sim scenario
-  `scenarios/samawah-obstacle-fault.toml`.
+  `designs/west-asia/Iraq/Samawah/samawah-obstacle-fault.toml`.
 
 ### SR-05 — Fail-restrictive on sensor failure
 

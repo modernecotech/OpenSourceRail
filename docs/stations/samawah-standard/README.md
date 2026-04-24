@@ -39,7 +39,7 @@ adapts it only for:
 
 ## Site list — where this applies (Line 1 + Line 2)
 
-From [`design.toml`](../../../designs/middle-east/iraq/samawah/design.toml):
+From [`design.toml`](../../../designs/west-asia/Iraq/Samawah/design.toml):
 
 ### Line 1 (5 `standard` stations)
 

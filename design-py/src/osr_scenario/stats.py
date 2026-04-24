@@ -120,7 +120,7 @@ def main(argv: list[str] | None = None) -> int:
     )
     args = ap.parse_args(argv)
     if args.design is None:
-        args.design = _find_repo_root() / "designs/middle-east/iraq/samawah/design.toml"
+        args.design = _find_repo_root() / "designs/west-asia/Iraq/Samawah/design.toml"
     s = compute_stats(args.design)
     if args.format == "markdown":
         print(s.as_markdown_table())

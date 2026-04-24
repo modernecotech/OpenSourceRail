@@ -3,9 +3,9 @@
 //! **Status:** frozen at the pre-2026-04-24 2-line geometry. Kept
 //! alive only so the existing Rust integration tests + sim / OCC
 //! GUI apps keep running against stable fixture data. New code
-//! should load `scenarios/samawah.toml` via `scenario_file::load`
+//! should load `designs/west-asia/Iraq/Samawah/samawah.toml` via `scenario_file::load`
 //! — that file is auto-generated from the authoritative
-//! `designs/middle-east/iraq/samawah/design.toml` and matches the
+//! `designs/west-asia/Iraq/Samawah/design.toml` and matches the
 //! current 3-line network (L1 Nahrain + L2 Sharqiyyeh + L3
 //! Mahatta) with real OSM-verified coordinates.
 //!
@@ -357,7 +357,7 @@ pub fn full_scenario() -> ScenarioConfig {
         },
         start_time_s_after_midnight: hm(6, 0),
         // Built-in Samawah scenario runs in unlimited-charging mode; for the
-        // full catenary-free + solar model, use scenarios/samawah.toml which
+        // full catenary-free + solar model, use designs/west-asia/Iraq/Samawah/samawah.toml which
         // includes the [[sites]] configuration.
         energy_sites: Vec::new(),
         faults: Vec::new(),

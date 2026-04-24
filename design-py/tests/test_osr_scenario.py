@@ -11,8 +11,8 @@ import pytest
 from osr_scenario import generate_from_path, generate_scenario
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
-SAMAWAH_DESIGN = REPO_ROOT / "designs/middle-east/iraq/samawah/design.toml"
-TEMPLATES = REPO_ROOT / "designs/templates"
+SAMAWAH_DESIGN = REPO_ROOT / "designs/west-asia/Iraq/Samawah/design.toml"
+TEMPLATES = REPO_ROOT / "lib/templates"
 
 
 def _parse(text: str) -> dict:
@@ -110,13 +110,13 @@ def test_generator_is_deterministic() -> None:
 
 
 def test_generated_file_in_repo_matches_regenerated() -> None:
-    """The committed scenarios/samawah.toml must match what the generator
+    """The committed designs/west-asia/Iraq/Samawah/samawah.toml must match what the generator
     would produce today — catches the "someone hand-edited the generated
     file" regression."""
-    committed = (REPO_ROOT / "scenarios/samawah.toml").read_text()
+    committed = (REPO_ROOT / "designs/west-asia/Iraq/Samawah/samawah.toml").read_text()
     regenerated = generate_from_path(SAMAWAH_DESIGN)
     assert committed == regenerated, (
-        "scenarios/samawah.toml is out of sync with design.toml; run "
+        "designs/west-asia/Iraq/Samawah/samawah.toml is out of sync with design.toml; run "
         "`python -m osr_scenario` to regenerate."
     )
 

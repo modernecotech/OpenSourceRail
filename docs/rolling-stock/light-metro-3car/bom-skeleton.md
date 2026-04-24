@@ -10,7 +10,7 @@ price the consist. Parts split three ways:
   office runs the bid.
 
 Costs are BASE USD volume-100. Country cost factor from
-[`designs/templates/country-costs.toml`](../../../designs/templates/country-costs.toml)
+[`lib/templates/country-costs.toml`](../../../lib/templates/country-costs.toml)
 scales them per deployment.
 
 ## Body + interior

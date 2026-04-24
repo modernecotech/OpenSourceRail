@@ -28,7 +28,7 @@ project maintainer ratifies additions.
 - **Not a driver training manual.** Training content comes from
   the rulebook, but the pedagogy (lesson plans, sim scenarios,
   exam questions) is a per-deployment deliverable handled by
-  workforce materials ([`designs/templates/workforce.toml`](../../designs/templates/workforce.toml)).
+  workforce materials ([`lib/templates/workforce.toml`](../../lib/templates/workforce.toml)).
 - **Not a safety-case evidence file.** The rulebook is an
   operational artefact; the safety case ([`docs/safety-case/`](../safety-case/))
   references rules as supporting evidence, not the other way
@@ -182,7 +182,7 @@ challenge legacy rolling stock:
   speed cap at 50 % (`osr-ato` enforces). Dispatcher issues a
   network-wide speed restriction at the OCC. Passenger
   announcements via `osr-pis-onboard`. See also
-  [`designs/templates/climate-adapters.toml`](../../designs/templates/climate-adapters.toml).
+  [`lib/templates/climate-adapters.toml`](../../lib/templates/climate-adapters.toml).
 - **Heatwave (> 45 °C sustained):** rail-expansion risk triggers
   a pre-emptive 15 % speed cap on `mainline-mixed` and
   `standard-metro` presets with continuous-welded-rail. Switch
@@ -245,7 +245,7 @@ pipeline — but it does feed two outputs:
    reserve for I-category incidents. See RFC 0014 §4 for the
    formula.
 2. **Workforce sizing:** from
-   [`designs/templates/workforce.toml`](../../designs/templates/workforce.toml),
+   [`lib/templates/workforce.toml`](../../lib/templates/workforce.toml),
    with the rulebook's shift-structure (§4.5) as the envelope.
 
 Both are parametric in the rulebook, so changing the rulebook
@@ -288,10 +288,10 @@ updates both; the emitter v3 work wires this in.
 
 ## 12. Relationship to existing work
 
-- [`designs/templates/workforce.toml`](../../designs/templates/workforce.toml)
+- [`lib/templates/workforce.toml`](../../lib/templates/workforce.toml)
   — shift-structure + headcount inputs. v3 of this RFC aligns
   the two documents.
-- [`designs/templates/service-hours.toml`](../../designs/templates/service-hours.toml)
+- [`lib/templates/service-hours.toml`](../../lib/templates/service-hours.toml)
   — service hours drive the rosterable workforce; the rulebook
   sets the rostering envelope.
 - [`docs/safety-case/`](../safety-case/) — references specific

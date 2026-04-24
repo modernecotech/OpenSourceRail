@@ -1,7 +1,7 @@
 //! osr-vis — renders a scenario as a self-contained HTML+SVG diagram.
 //!
 //! Usage:
-//!   osr-vis --config scenarios/samawah.toml --out /tmp/samawah.html
+//!   osr-vis --config designs/west-asia/Iraq/Samawah/samawah.toml --out /tmp/samawah.html
 //! then open /tmp/samawah.html in any browser.
 
 use clap::Parser;

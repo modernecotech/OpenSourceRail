@@ -13,7 +13,7 @@ use std::process::ExitCode;
 Runs a time-stepped simulation of an urban rail network (stations, lines,
 fleet, schedule). Scenarios are defined either by name (built-in) or by a
 TOML configuration file via --config; the latter is how users define their
-own networks. See scenarios/README.md for the file format.
+own networks. See lib/examples/README.md for the file format.
 ",
     version
 )]
@@ -113,7 +113,7 @@ fn load_scenario(cli: &Cli) -> Result<sim::ScenarioConfig, String> {
         "samawah-line1" => Ok(samawah::line1_only_scenario()),
         other => Err(format!(
             "unknown scenario '{other}'. Available: samawah, samawah-line1. \
-             Use --config PATH.toml for custom scenarios (see scenarios/README.md)."
+             Use --config PATH.toml for custom scenarios (see lib/examples/README.md)."
         )),
     }
 }

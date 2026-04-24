@@ -252,7 +252,7 @@ Firms using:
 ## Example: Samawah Line 1
 
 A worked OSR-ALN alignment for Samawah Line 1 lives at
-[`designs/middle-east/iraq/samawah/samawah-line1.aln.toml`](../../designs/middle-east/iraq/samawah/samawah-line1.aln.toml).
+[`designs/west-asia/Iraq/Samawah/samawah-line1.aln.toml`](../../designs/west-asia/Iraq/Samawah/samawah-line1.aln.toml).
 Hand-authored from the bearings + radii in
 [`samawah/line1-segments.md`](samawah/line1-segments.md), with
 UTM Zone 38N coordinates computed step-by-step from the
@@ -263,8 +263,8 @@ sections (`meta`, `horizontal`, `vertical`, `civil`, `station`,
 Validated against the deployment's design.toml:
 
 ```
-$ osr-aln-validate designs/middle-east/iraq/samawah/samawah-line1.aln.toml \
-                   --design-toml designs/middle-east/iraq/samawah/design.toml
+$ osr-aln-validate designs/west-asia/Iraq/Samawah/samawah-line1.aln.toml \
+                   --design-toml designs/west-asia/Iraq/Samawah/design.toml
 2 soft-gate warning(s):
   ⚠ S3: grade between [[vertical]] #1 and #2 is 35.00 ‰ — within 80 %
        of preset maximum 40.0 ‰, flag for review

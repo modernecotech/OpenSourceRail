@@ -59,7 +59,7 @@ _CLIMATE_PRESET_AMBIENT_C: dict[str, float] = {
 }
 
 # Consist family → summary physical parameters (light-metro-3car etc.).
-# Authoritative numbers live in `designs/templates/rolling-stock.toml`;
+# Authoritative numbers live in `lib/templates/rolling-stock.toml`;
 # values here are the sim-critical subset.
 _CONSIST_DEFAULTS: dict[str, dict[str, int | float]] = {
     "tram-2car":        {"car_count": 2, "length_m": 32,  "mass_kg": 66_000,  "max_speed_kmh": 80.0, "battery_capacity_kwh": 180,  "service_accel_mps2": 1.0},
@@ -291,20 +291,24 @@ def generate_from_path(
 ) -> str:
     """Read `design_path` + generate the scenario TOML."""
     if templates_root is None:
-        # Default: assume repo layout designs/<any>/<any>/.../design.toml and
-        # walk up to the designs/ root, then into templates/.
+        # Walk up from the design file looking for `lib/templates/`
+        # (post-reorg; the old `designs/templates/` is kept as a
+        # fallback so any in-flight branch still resolves).
         cur = design_path.parent
         for _ in range(10):
-            candidate = cur / "templates"
-            if candidate.exists() and (candidate / "stations.toml").exists():
-                templates_root = candidate
+            for rel in ("lib/templates", "templates", "designs/templates"):
+                candidate = cur / rel
+                if candidate.exists() and (candidate / "stations.toml").exists():
+                    templates_root = candidate
+                    break
+            if templates_root is not None:
                 break
             if cur.parent == cur:
                 break
             cur = cur.parent
         if templates_root is None:
             raise GeneratorError(
-                f"could not locate designs/templates/ starting from {design_path}"
+                f"could not locate lib/templates/ starting from {design_path}"
             )
     design = tomllib.loads(design_path.read_text())
     return generate_scenario(design, design_path, templates_root)

@@ -4,8 +4,8 @@ Usage:
     python -m osr_scenario --design designs/.../design.toml \
                            --out scenarios/<slug>.toml
 
-With no arguments, regenerates `scenarios/samawah.toml` from
-`designs/middle-east/iraq/samawah/design.toml` relative to the
+With no arguments, regenerates `designs/west-asia/Iraq/Samawah/samawah.toml` from
+`designs/west-asia/Iraq/Samawah/design.toml` relative to the
 repo root.
 """
 
@@ -39,19 +39,28 @@ def main(argv: list[str] | None = None) -> int:
         "--templates",
         type=Path,
         default=None,
-        help="path to designs/templates/ (auto-discovered from --design)",
+        help="path to lib/templates/ (auto-discovered from --design)",
     )
     args = ap.parse_args(argv)
 
     repo_root = _find_repo_root()
     if args.design is None:
-        args.design = repo_root / "designs/middle-east/iraq/samawah/design.toml"
+        args.design = repo_root / "designs/west-asia/Iraq/Samawah/design.toml"
     if args.out is None:
-        # Derive from design slug.
+        # Prefer the `scenario_out` field committed inside the design
+        # (so a design folder self-describes where its compiled
+        # scenario goes). Fall back to a sibling file beside the
+        # design — scenarios live *with* their design, not in a
+        # separate top-level `scenarios/` tree.
         import tomllib
-        slug = tomllib.loads(args.design.read_text()).get("design", {}).get("id", "design")
-        short = slug.rsplit("/", 1)[-1]
-        args.out = repo_root / f"scenarios/{short}.toml"
+        doc = tomllib.loads(args.design.read_text())
+        scenario_out = doc.get("design", {}).get("scenario_out")
+        if scenario_out:
+            args.out = repo_root / scenario_out
+        else:
+            slug = doc.get("design", {}).get("id", "design")
+            short = slug.rsplit("/", 1)[-1].lower()
+            args.out = args.design.parent / f"{short}.toml"
 
     try:
         text = generate_from_path(args.design, args.templates)

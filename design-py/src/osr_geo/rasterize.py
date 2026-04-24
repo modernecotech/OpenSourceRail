@@ -33,7 +33,7 @@ from osr_osm.fetcher import BBox, CityOSM
 # Tuned so that a 1 km straight arterial run costs ~30 cost-units while
 # a 1 km tunnel under buildings costs ~300 — i.e., elevated/tunnel civil
 # work is ~10x more expensive than street-running, which matches the
-# spread in designs/templates/structures.toml.
+# spread in lib/templates/structures.toml.
 
 BASE_COST_OPEN = 20.0       # open ground, no constraints
 COST_ARTERIAL = 8.0         # wide road, easy ROW (light metro street-running)

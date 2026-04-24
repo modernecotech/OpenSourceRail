@@ -651,14 +651,14 @@ fn validate_override(b: &OverrideBuffer) -> Result<(), String> {
     Ok(())
 }
 
-/// Prefer `scenarios/samawah.toml` over the legacy hardcoded fixture.
+/// Prefer `designs/west-asia/Iraq/Samawah/samawah.toml` over the legacy hardcoded fixture.
 /// Falls back to the built-in if the file is missing or fails to
 /// parse. Same logic as [`osr_sim_gui`'s `_default_scenario`].
 fn _default_scenario() -> (ScenarioConfig, String) {
     let candidates = [
-        "scenarios/samawah.toml",
-        "../scenarios/samawah.toml",
-        "../../scenarios/samawah.toml",
+        "designs/west-asia/Iraq/Samawah/samawah.toml",
+        "../designs/west-asia/Iraq/Samawah/samawah.toml",
+        "../../designs/west-asia/Iraq/Samawah/samawah.toml",
     ];
     for c in candidates {
         let p = std::path::Path::new(c);
@@ -668,7 +668,7 @@ fn _default_scenario() -> (ScenarioConfig, String) {
             }
         }
     }
-    (full_scenario(), "Samawah (built-in; scenarios/samawah.toml not found)".into())
+    (full_scenario(), "Samawah (built-in; designs/west-asia/Iraq/Samawah/samawah.toml not found)".into())
 }
 
 #[cfg(test)]

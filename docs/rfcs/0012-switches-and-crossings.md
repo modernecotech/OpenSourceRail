@@ -243,14 +243,14 @@ v2 / RFC 0011 v2.
 | Phase | Deliverable | Dependencies |
 |---|---|---|
 | **v0** | This RFC ratified | — |
-| **v1** | `designs/templates/switches.toml` updated to match this RFC | v0 |
+| **v1** | `lib/templates/switches.toml` updated to match this RFC | v0 |
 | **v2** ✅ | Emitter emits turnback at every terminal archetype + one `no-9-mainline` per stall at every `depot-terminal` (yard fan) (done 2026-04-22) | v0, RFC 0010 v2 |
 | **v3** | Reference CAD drawings for the 1:9 turnout under CERN-OHL-S v2 | v1 |
 | **v4** | Worked switch-bill for Samawah (2 turnbacks at terminals, 1 depot fan, 0 mainline crossovers) | v1, RFC 0003 |
 
 ## 12. Relationship to existing work
 
-- [`designs/templates/switches.toml`](../../designs/templates/switches.toml)
+- [`lib/templates/switches.toml`](../../lib/templates/switches.toml)
   — the Lego-block schema. v1 amends to drop any non-catalogue
   tangents.
 - [`crates/osr-wayside-points`](../../crates/osr-wayside-points/) —
@@ -294,5 +294,5 @@ v2 / RFC 0011 v2.
 - [x] Rollout ordered (§11)
 - [x] Relationship to software + templates (§12)
 
-The next session picks up at **v1 — `designs/templates/switches.toml`
+The next session picks up at **v1 — `lib/templates/switches.toml`
 update**, a short editorial PR.

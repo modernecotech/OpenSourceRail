@@ -2,7 +2,7 @@
 
 **Scope:** network-wide environmental overlays per RFC 0013 §6.
 
-**Cross-refs:** RFC 0013 §6 + `designs/templates/climate-adapters.toml`.
+**Cross-refs:** RFC 0013 §6 + `lib/templates/climate-adapters.toml`.
 
 ## Rules
 

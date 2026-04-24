@@ -1,6 +1,6 @@
 # Accessibility — Samawah `standard` archetype
 
-Per RFC 0010 §7 + [`designs/templates/accessibility.toml`](../../../designs/templates/accessibility.toml).
+Per RFC 0010 §7 + [`lib/templates/accessibility.toml`](../../../lib/templates/accessibility.toml).
 Designed against EN 16586 (PRM — Persons with Reduced Mobility)
 and the corresponding Iraqi accessibility overlay.
 

@@ -147,7 +147,7 @@ the ground:
 ## Interface with the simulator
 
 `osr-sim` consumes these archetype numbers via the
-`designs/templates/stations.toml` schema. The v1 envelope does
+`lib/templates/stations.toml` schema. The v1 envelope does
 not require any sim change; all parametric sizing already
 lives in templates.
 

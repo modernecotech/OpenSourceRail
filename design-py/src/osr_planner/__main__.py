@@ -3,7 +3,7 @@
 Single-city mode (for Samawah or any other bbox):
 
     python -m osr_planner \\
-        --slug middle-east/iraq/samawah \\
+        --slug west-asia/Iraq/Samawah \\
         --country IQ \\
         --city "As-Samawah" \\
         --bbox 31.265,45.200,31.360,45.340 \\
@@ -11,7 +11,7 @@ Single-city mode (for Samawah or any other bbox):
         --population 220000 \\
         --climate hot-desert \\
         --peak-sun 6.0 \\
-        --out designs/middle-east/iraq/samawah/design.toml
+        --out designs/west-asia/Iraq/Samawah/design.toml
 
 Batch mode (500-city run from a CSV):
 
@@ -117,7 +117,7 @@ def _run_batch(args: argparse.Namespace) -> int:
 
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(prog="osr_planner")
-    ap.add_argument("--slug", help="e.g. middle-east/iraq/samawah")
+    ap.add_argument("--slug", help="e.g. west-asia/Iraq/Samawah")
     ap.add_argument("--country", default="XX", help="ISO 2-letter")
     ap.add_argument("--city", help="human-readable city name")
     ap.add_argument(

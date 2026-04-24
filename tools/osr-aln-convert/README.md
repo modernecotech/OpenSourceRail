@@ -28,7 +28,7 @@ pip install -e .
 # Convert a LandXML dump from Civil 3D / OpenRail / Trimble.
 landxml-to-osr-aln \
     --input  ./exports/samawah-line1.xml \
-    --output ./designs/middle-east/iraq/samawah/samawah-line1.aln.toml \
+    --output ./designs/west-asia/Iraq/Samawah/samawah-line1.aln.toml \
     --line-id samawah-line1 \
     --preset standard-urban \
     --consist light-metro-3car \

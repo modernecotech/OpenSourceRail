@@ -7,7 +7,7 @@ copied station lists.
 
 Usage:
     python -m osr_scenario.render_map \\
-        --design designs/middle-east/iraq/samawah/design.toml \\
+        --design designs/west-asia/Iraq/Samawah/design.toml \\
         --out-dir docs/screenshots/
 
 If called without `--design`, defaults to Samawah.
@@ -65,7 +65,10 @@ def render_city(
     doc = tomllib.loads(design_path.read_text())
     by_id = {s["id"]: s for s in doc["stations"]}
     lines = doc["lines"]
-    slug = doc.get("design", {}).get("id", "city").rsplit("/", 1)[-1]
+    # Lowercase the city component for filename stability — the
+    # design slug uses human casing (`west-asia/Iraq/Samawah`) but
+    # README + scripts reference `samawah-network-map.png`.
+    slug = doc.get("design", {}).get("id", "city").rsplit("/", 1)[-1].lower()
 
     out_dir.mkdir(parents=True, exist_ok=True)
     written: list[Path] = []
@@ -161,7 +164,7 @@ def main(argv: list[str] | None = None) -> int:
 
     repo_root = _find_repo_root()
     if args.design is None:
-        args.design = repo_root / "designs/middle-east/iraq/samawah/design.toml"
+        args.design = repo_root / "designs/west-asia/Iraq/Samawah/design.toml"
     if args.out_dir is None:
         args.out_dir = repo_root / "docs/screenshots"
 

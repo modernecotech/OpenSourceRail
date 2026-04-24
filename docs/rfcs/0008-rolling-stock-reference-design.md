@@ -15,7 +15,7 @@ arrangement, bogie and brake architecture, cab, crashworthiness,
 fire, thermal, acoustic) for each family.
 
 The four families are already named in
-[`designs/templates/rolling-stock.toml`](../../designs/templates/rolling-stock.toml).
+[`lib/templates/rolling-stock.toml`](../../lib/templates/rolling-stock.toml).
 This RFC promotes that schema into a committed engineering envelope.
 
 | Family | Cars | Length | Tare | Capacity | Peak ridership band (pphpd) | Max speed |
@@ -101,7 +101,7 @@ one supplier-qualification set.
 | Door count | 2 × 1 300 mm plug doors per car side | Throughput ≈ 4 passengers / second / door pair at saturated dwell. |
 | Door clearance | 1 250 mm wide × 2 000 mm tall opening | Wheelchair + stroller compatible. |
 | Seating | Longitudinal bench seating, ≥ 15 % seats priority (elderly, pregnant, wheelchair companion) | Standing-heavy mix maximises peak capacity; matches the pphpd planning band. |
-| Wheelchair spaces | 2 per car (4 per `tram-2car`, 6 per `light-metro-3car`, 8 per `metro-4car`, 12 per `metro-6car`) | Per accessibility template ([`designs/templates/accessibility.toml`](../../designs/templates/accessibility.toml)). |
+| Wheelchair spaces | 2 per car (4 per `tram-2car`, 6 per `light-metro-3car`, 8 per `metro-4car`, 12 per `metro-6car`) | Per accessibility template ([`lib/templates/accessibility.toml`](../../lib/templates/accessibility.toml)). |
 | HVAC | Design ambient +50 °C (all families) | Matches the Samawah reference envelope and most target-region summers. Dehumidifier + evaporator + reversible heat pump — no resistive heating. Sized per `osr-hvac`'s 25 % hot-climate uplift rule. |
 | Fire safety | EN 45545-2 HL2 R1 for body, R7 for seats, R1 for cable | HL2 is the hazard level for metro; R1/R7 are the tests for rigid surfaces and upholstery respectively. |
 | Lighting | LED, 300 lx average, with sunset/sunrise dimming | Cut from `osr-lighting`'s evaluator. |
@@ -141,7 +141,7 @@ and the station archetype
 pipeline enforces this via a compatibility matrix:
 
 - Rolling stock → track: `compatible_consists` in
-  [`designs/templates/track-geometry.toml`](../../designs/templates/track-geometry.toml).
+  [`lib/templates/track-geometry.toml`](../../lib/templates/track-geometry.toml).
 - Rolling stock → station: platform length = `consist.length_m + station.platform_clearance_m`.
 - Rolling stock → line length: max battery SoC swing ≤ 60 % over a
   full round-trip without opportunity charging.
@@ -223,7 +223,7 @@ only the envelope.
 
 ## 8. Relationship to existing work
 
-- [`designs/templates/rolling-stock.toml`](../../designs/templates/rolling-stock.toml) —
+- [`lib/templates/rolling-stock.toml`](../../lib/templates/rolling-stock.toml) —
   the Lego-block TOML that this RFC formalises.
 - [`crates/osr-bms`](../../crates/osr-bms/), [`crates/osr-traction`](../../crates/osr-traction/),
   [`crates/osr-brake`](../../crates/osr-brake/), [`crates/osr-hvac`](../../crates/osr-hvac/),

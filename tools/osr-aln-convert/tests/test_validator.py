@@ -16,11 +16,11 @@ from osr_aln.validate import PRESETS, validate, validate_file
 SAMPLES = Path(__file__).resolve().parent.parent / "samples"
 SAMAWAH_ALN = (
     Path(__file__).resolve().parent.parent.parent.parent
-    / "designs/middle-east/iraq/samawah/samawah-line1.aln.toml"
+    / "designs/west-asia/Iraq/Samawah/samawah-line1.aln.toml"
 )
 SAMAWAH_DESIGN = (
     Path(__file__).resolve().parent.parent.parent.parent
-    / "designs/middle-east/iraq/samawah/design.toml"
+    / "designs/west-asia/Iraq/Samawah/design.toml"
 )
 
 
@@ -214,7 +214,7 @@ def test_samawah_line1_passes_with_design_toml() -> None:
 
 SAMAWAH_LINE2_ALN = (
     Path(__file__).resolve().parent.parent.parent.parent
-    / "designs/middle-east/iraq/samawah/samawah-line2.aln.toml"
+    / "designs/west-asia/Iraq/Samawah/samawah-line2.aln.toml"
 )
 
 

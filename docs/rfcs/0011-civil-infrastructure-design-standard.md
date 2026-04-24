@@ -261,7 +261,7 @@ lookup:
 | bridge | 25 000 000 |
 
 Rates are deployment-localised via the
-[`country-costs.toml`](../../designs/templates/country-costs.toml)
+[`country-costs.toml`](../../lib/templates/country-costs.toml)
 template (labour, materials, finance cost adjustments). The
 base rate above is what the upstream catalogue quotes; actual
 numbers in any given deployment can be ± 40 %.
@@ -339,7 +339,7 @@ civil contractor can mobilise.
 
 ## 13. Relationship to existing work
 
-- [`designs/templates/structures.toml`](../../designs/templates/structures.toml)
+- [`lib/templates/structures.toml`](../../lib/templates/structures.toml)
   — the Lego-block schema. v1 of this RFC removes the
   `cut-and-cover-tunnel` and `bored-tunnel` entries.
 - [`crates/osr-routing/src/civil.rs`](../../crates/osr-routing/src/civil.rs)
@@ -352,7 +352,7 @@ civil contractor can mobilise.
 - RFC 0009 §5 and RFC 0010 §13 reference tunnel alignment /
   stacked-underground interchange respectively — both amended
   in this commit to match the no-tunnel invariant.
-- [`designs/templates/platform-doors.toml`](../../designs/templates/platform-doors.toml)
+- [`lib/templates/platform-doors.toml`](../../lib/templates/platform-doors.toml)
   references "tunnel stations"; that line is updated to describe
   full-height PSDs as an **optional** upgrade for climate-sealed
   stations regardless of civil class.

@@ -38,7 +38,7 @@ class PresetLimits:
 
 
 # Preset table mirrored from RFC 0009 §1. Keep in sync with
-# `designs/templates/track-geometry.toml`.
+# `lib/templates/track-geometry.toml`.
 PRESETS: dict[str, PresetLimits] = {
     "heritage-tram": PresetLimits(
         name="heritage-tram",

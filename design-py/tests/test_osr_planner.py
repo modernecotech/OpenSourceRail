@@ -166,7 +166,7 @@ def test_samawah_plan_meets_quality_thresholds() -> None:
     from osr_planner.planner import CityInputs, plan_city
 
     inputs = CityInputs(
-        slug="middle-east/iraq/samawah",
+        slug="west-asia/Iraq/Samawah",
         country_iso="IQ",
         city_name="As-Samawah",
         center_lat=31.308,

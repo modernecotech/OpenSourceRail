@@ -11,13 +11,13 @@ Mapping rules:
 
 - `[[stations]]` rows inherit `charging_power_kw` + `dwell_seconds`
   from their archetype (per
-  `designs/templates/stations.toml [archetypes.*]`). Per-station
+  `lib/templates/stations.toml [archetypes.*]`). Per-station
   overrides in the design file win.
 - `[[lines]]` copy verbatim, with per-section `distance_from_prev_m`
   preserved.
 - `[[fleets]]` copy verbatim.
 - `[[sites]]` expand their `tier` reference into concrete kW/kWh
-  fields from `designs/templates/energy-sites.toml [tiers.*]`. Per-
+  fields from `lib/templates/energy-sites.toml [tiers.*]`. Per-
   site overrides in the design file win.
 - `[climate]` maps preset → ambient_c + peak_sun_hours. Per-city
   override for peak_sun_hours is preserved.

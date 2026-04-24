@@ -480,16 +480,16 @@ fn draw_fault_badges(
     }
 }
 
-/// Attempt to load `scenarios/samawah.toml` from the standard repo
+/// Attempt to load `designs/west-asia/Iraq/Samawah/samawah.toml` from the standard repo
 /// location; fall back to the legacy hardcoded fixture if the file
 /// is missing or won't parse. Used when no `--scenario` CLI arg is
 /// given — keeps the GUI default aligned with the generated scenario
 /// instead of drifting onto the legacy 2-line Samawah fixture.
 fn _default_scenario() -> (ScenarioConfig, String) {
     let candidates = [
-        "scenarios/samawah.toml",
-        "../scenarios/samawah.toml",
-        "../../scenarios/samawah.toml",
+        "designs/west-asia/Iraq/Samawah/samawah.toml",
+        "../designs/west-asia/Iraq/Samawah/samawah.toml",
+        "../../designs/west-asia/Iraq/Samawah/samawah.toml",
     ];
     for c in candidates {
         let p = std::path::Path::new(c);
@@ -499,5 +499,5 @@ fn _default_scenario() -> (ScenarioConfig, String) {
             }
         }
     }
-    (full_scenario(), "Samawah (built-in; scenarios/samawah.toml not found)".into())
+    (full_scenario(), "Samawah (built-in; designs/west-asia/Iraq/Samawah/samawah.toml not found)".into())
 }

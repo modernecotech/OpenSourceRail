@@ -89,7 +89,7 @@ def _design_block(slug: str, city_name: str) -> str:
         f'\n'
         f"[design.templates]\n"
         + "".join(
-            f'{k:<16} = "designs/templates/{v}.toml"\n'
+            f'{k:<16} = "lib/templates/{v}.toml"\n'
             for k, v in [
                 ("rolling_stock", "rolling-stock"),
                 ("stations", "stations"),

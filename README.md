@@ -102,8 +102,8 @@ for GoA 2 legacy fleets. Most of the
   The sim now **injects sensor faults on a scenario schedule** (LIDAR
   offline, radar offline, ultrasonic channel stale, peer disagreement —
   per-train or fleet-wide) and the shadow stack produces the expected
-  verdicts end-to-end; see [`scenarios/samawah-obstacle-fault.toml`](scenarios/samawah-obstacle-fault.toml).
-  Wayside intrusion injection likewise — [`scenarios/samawah-wayside-intrusion.toml`](scenarios/samawah-wayside-intrusion.toml)
+  verdicts end-to-end; see [`designs/west-asia/Iraq/Samawah/samawah-obstacle-fault.toml`](designs/west-asia/Iraq/Samawah/samawah-obstacle-fault.toml).
+  Wayside intrusion injection likewise — [`designs/west-asia/Iraq/Samawah/samawah-wayside-intrusion.toml`](designs/west-asia/Iraq/Samawah/samawah-wayside-intrusion.toml)
   stages Present/Unknown verdicts on specific sections and the
   interlocking's gate (d) holds MA without any train entering.
 - **Wayside track-intrusion detection (SIL-4, RFC 0016):**
@@ -270,9 +270,9 @@ for GoA 2 legacy fleets. Most of the
   cant maxima; civil-span contiguity; station-id cross-check;
   no tunnels). 21 passing tests. **Worked reference alignments
   for both Samawah lines** ship at
-  [`designs/middle-east/iraq/samawah/samawah-line1.aln.toml`](designs/middle-east/iraq/samawah/samawah-line1.aln.toml)
+  [`designs/west-asia/Iraq/Samawah/samawah-line1.aln.toml`](designs/west-asia/Iraq/Samawah/samawah-line1.aln.toml)
   (13 km radial, 12 stations, 3 cant sections) and
-  [`designs/middle-east/iraq/samawah/samawah-line2.aln.toml`](designs/middle-east/iraq/samawah/samawah-line2.aln.toml)
+  [`designs/west-asia/Iraq/Samawah/samawah-line2.aln.toml`](designs/west-asia/Iraq/Samawah/samawah-line2.aln.toml)
   (16 km ring, 10 stations, 4 cant sections, `is_ring = true`) —
   both pass every hard gate. This is the last-mile piece that
   lets a civil engineer import a real survey into the project.
@@ -535,12 +535,10 @@ OpenSourceRail/
 │   │                         signalling, structures, fleets, …).
 │   ├── cities/               Driver inputs (calibration + world-sample + the
 │   │                         500-city production scan).
-│   └── middle-east/…/samawah/design.toml
-│                             Hand-authored Samawah reference design.
-├── scenarios/                User-editable scenario files (see README).
-│   ├── samawah.toml          Full Samawah reference deployment.
-│   ├── samawah-line1.toml    Line 1 only.
-│   └── example-simple.toml   Template for a new city.
+│   ├── examples/             Generic template scenarios (example-simple.toml).
+│   └── west-asia/Iraq/Samawah/
+│                             Full per-city folder: design.toml + compiled
+│                             scenario TOMLs + README with map, stats, cost.
 └── formal/tla/
     ├── SMRaft.tla            Consensus protocol spec.
     ├── MCSmall.tla           Small TLC harness.
@@ -574,18 +572,18 @@ Scenarios are plain-text TOML files — stations, lines, fleets, schedules,
 climate. Copy a reference and edit it:
 
 ```
-cp scenarios/example-simple.toml scenarios/my-city.toml
-# edit my-city.toml — see scenarios/README.md for the file format
-cargo run --release --bin osr-sim -- --config scenarios/my-city.toml
+cp lib/examples/example-simple.toml designs/my-city/my-city.toml
+# edit my-city.toml — see lib/examples/README.md for the file format
+cargo run --release --bin osr-sim -- --config designs/my-city/my-city.toml
 ```
 
-Reference scenarios in [`scenarios/`](scenarios/):
+Reference scenarios (per-city, alongside the design):
 
-- **[`samawah.toml`](scenarios/samawah.toml)** — full auto-planned Samawah network (4 lines, 45 km, 29 stations, 16 revenue trainsets + 8 spare/reserve, time-of-day schedule).
-- **[`samawah-line1.toml`](scenarios/samawah-line1.toml)** — Line 1 only, useful for scale comparisons.
-- **[`example-simple.toml`](scenarios/example-simple.toml)** — 3-station shuttle with 1 train. The smallest viable config; copy as a template.
+- **[`samawah.toml`](designs/west-asia/Iraq/Samawah/samawah.toml)** — full auto-planned Samawah network (4 lines, 45 km, 29 stations, 16 revenue trainsets + 8 spare/reserve, time-of-day schedule).
+- **[`samawah-line1.toml`](designs/west-asia/Iraq/Samawah/samawah-line1.toml)** — Line 1 only, useful for scale comparisons.
+- **[`example-simple.toml`](lib/examples/example-simple.toml)** — 3-station shuttle with 1 train. The smallest viable config; copy as a template.
 
-The full file-format reference is in [`scenarios/README.md`](scenarios/README.md).
+The full file-format reference is in [`lib/examples/README.md`](lib/examples/README.md).
 The same two built-in scenarios are also reachable without a config file via
 `--scenario samawah` (default) and `--scenario samawah-line1`.
 
@@ -605,11 +603,11 @@ pip install -e design-py[geotiff,batch]
 # 2. Scan GeoNames for candidate cities (drops any with existing metro/tram/LRT).
 osr-cities-scan --geonames cities500.txt \
                 --min-pop 400000 --max-cities 500 \
-                --out designs/cities/batch-500.toml
+                --out lib/city-batches/batch-500.toml
 
 # 3. Run the full pipeline against a calibration set or the full 500.
 cargo build --release
-osr-batch --cities designs/cities/world-sample.toml \
+osr-batch --cities lib/city-batches/world-sample.toml \
           --cache /tmp/osr-cache \
           --out   /tmp/osr-out \
           --osr-design ./target/release/osr-design

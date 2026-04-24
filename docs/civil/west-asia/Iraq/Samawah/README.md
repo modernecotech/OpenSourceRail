@@ -9,7 +9,7 @@ deployment's Line 1 (Nahrain) and Line 2 (Halqa), against the
 
 A **per-segment alignment table** for every track segment
 between adjacent stations, computed from the station
-coordinates in [`designs/middle-east/iraq/samawah/design.toml`](../../../designs/middle-east/iraq/samawah/design.toml),
+coordinates in [`designs/west-asia/Iraq/Samawah/design.toml`](../../../designs/west-asia/Iraq/Samawah/design.toml),
 validated against the `standard-urban` preset's limits (min
 curve radius 90 m, max grade 50 ‰, max cant 150 mm, nominal
 speed 22 m/s).
@@ -33,8 +33,8 @@ speed 22 m/s).
 | [`line2-segments.md`](line2-segments.md) | Line 2 (10 stations, 10 segments + ring wrap) per-segment table |
 | [`civil-class-summary.md`](civil-class-summary.md) | At-grade / elevated / bridge breakdown per-line and consolidated |
 | [`compliance-report.md`](compliance-report.md) | Per-segment pass/fail against the `standard-urban` preset's §§5–6 limits |
-| [`../../../designs/middle-east/iraq/samawah/samawah-line1.aln.toml`](../../../designs/middle-east/iraq/samawah/samawah-line1.aln.toml) | **Machine-readable OSR-ALN v1.0 alignment for Line 1** (13 km, 12 stations, passes `osr-aln-validate`) |
-| [`../../../designs/middle-east/iraq/samawah/samawah-line2.aln.toml`](../../../designs/middle-east/iraq/samawah/samawah-line2.aln.toml) | **Machine-readable OSR-ALN v1.0 alignment for Line 2** (16 km ring, 10 stations, 4 cant sections, passes `osr-aln-validate`) |
+| [`../../../designs/west-asia/Iraq/Samawah/samawah-line1.aln.toml`](../../../designs/west-asia/Iraq/Samawah/samawah-line1.aln.toml) | **Machine-readable OSR-ALN v1.0 alignment for Line 1** (13 km, 12 stations, passes `osr-aln-validate`) |
+| [`../../../designs/west-asia/Iraq/Samawah/samawah-line2.aln.toml`](../../../designs/west-asia/Iraq/Samawah/samawah-line2.aln.toml) | **Machine-readable OSR-ALN v1.0 alignment for Line 2** (16 km ring, 10 stations, 4 cant sections, passes `osr-aln-validate`) |
 
 ## How to execute
 

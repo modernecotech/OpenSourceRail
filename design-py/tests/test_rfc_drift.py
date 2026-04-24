@@ -14,7 +14,7 @@ from pathlib import Path
 from osr_scenario.stats import compute_stats
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
-SAMAWAH_DESIGN = REPO_ROOT / "designs/middle-east/iraq/samawah/design.toml"
+SAMAWAH_DESIGN = REPO_ROOT / "designs/west-asia/Iraq/Samawah/design.toml"
 RFC_0003 = REPO_ROOT / "docs/rfcs/0003-samawah-reference-deployment.md"
 
 

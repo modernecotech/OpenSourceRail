@@ -78,10 +78,10 @@ evaluator's restrictive path end-to-end.
 
 | Scenario | Fault kinds | What it demonstrates |
 |---|---|---|
-| `scenarios/samawah.toml` | None | Nominal operation: zero spurious emergencies over multi-hour revenue sim |
-| `scenarios/samawah-dust-storm.toml` | PV dust, grid outage, charging pad outage | Energy-system fault-tolerance |
-| `scenarios/samawah-obstacle-fault.toml` | LIDAR/radar/ultrasonic/peer-disagreement (RFC 0015) | O1–O5 all fire through `BrakeInputs::obstacle_emergency` |
-| `scenarios/samawah-wayside-intrusion.toml` | Present/Unknown on specific sections (RFC 0016) | Interlocking gate (d) withholds MA without a single train violating |
+| `designs/west-asia/Iraq/Samawah/samawah.toml` | None | Nominal operation: zero spurious emergencies over multi-hour revenue sim |
+| `designs/west-asia/Iraq/Samawah/samawah-dust-storm.toml` | PV dust, grid outage, charging pad outage | Energy-system fault-tolerance |
+| `designs/west-asia/Iraq/Samawah/samawah-obstacle-fault.toml` | LIDAR/radar/ultrasonic/peer-disagreement (RFC 0015) | O1–O5 all fire through `BrakeInputs::obstacle_emergency` |
+| `designs/west-asia/Iraq/Samawah/samawah-wayside-intrusion.toml` | Present/Unknown on specific sections (RFC 0016) | Interlocking gate (d) withholds MA without a single train violating |
 
 Rerun with `cargo run --release --bin osr-sim -- --config scenarios/<name>.toml`.
 

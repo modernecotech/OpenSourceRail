@@ -9,7 +9,7 @@
 OpenSourceRail commits to **six station archetypes** covering every
 stop in every deployment. The archetypes already exist as a
 schema in
-[`designs/templates/stations.toml`](../../designs/templates/stations.toml);
+[`lib/templates/stations.toml`](../../lib/templates/stations.toml);
 this RFC promotes them into a committed architectural envelope with
 platform geometry, passenger-flow throughput, accessibility, fire
 egress, and canopy-PV integration spelled out.
@@ -182,7 +182,7 @@ or a platform exit + a walk-path along the rail reserve.
 ## 7. Accessibility
 
 All archetypes meet these minima (per the accessibility template
-[`designs/templates/accessibility.toml`](../../designs/templates/accessibility.toml)):
+[`lib/templates/accessibility.toml`](../../lib/templates/accessibility.toml)):
 
 - **Step-free path** from street to platform on every approach.
 - **Tactile paving** at every platform edge + at stair/escalator
@@ -370,11 +370,11 @@ Mismatch fails the `design-quality.yaml` hard gate.
 
 ## 15. Relationship to existing work
 
-- [`designs/templates/stations.toml`](../../designs/templates/stations.toml) —
+- [`lib/templates/stations.toml`](../../lib/templates/stations.toml) —
   the Lego-block schema this RFC ratifies.
-- [`designs/templates/platform-doors.toml`](../../designs/templates/platform-doors.toml) —
+- [`lib/templates/platform-doors.toml`](../../lib/templates/platform-doors.toml) —
   PSD calibration defaults.
-- [`designs/templates/accessibility.toml`](../../designs/templates/accessibility.toml) —
+- [`lib/templates/accessibility.toml`](../../lib/templates/accessibility.toml) —
   the accessibility envelope §7 references.
 - [`crates/osr-design/src/emit.rs`](../../crates/osr-design/src/emit.rs) —
   already picks a station archetype (halt/standard/major) from

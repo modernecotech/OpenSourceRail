@@ -1,6 +1,6 @@
 # Samawah with wayside track-intrusion injection (RFC 0016 v3).
 #
-# Same topology and fleet as scenarios/samawah.toml. Demonstrates the
+# Same topology and fleet as designs/west-asia/Iraq/Samawah/samawah.toml. Demonstrates the
 # full wayside→interlocking→train safety chain: the sim injects a
 # `SectionIntrusion` log entry at the stated time, the interlocking's
 # gate (d) picks it up via `section_intrusion_permits`, and any train
@@ -17,7 +17,7 @@
 #
 # Run:
 #   cargo run --release --bin osr-sim -- \
-#       --config scenarios/samawah-wayside-intrusion.toml \
+#       --config designs/west-asia/Iraq/Samawah/samawah-wayside-intrusion.toml \
 #       --duration 18000 --status-every 1800
 
 [scenario]
@@ -28,7 +28,7 @@ start_time = "06:00"
 ambient_c = 42.0
 peak_sun_hours = 6.0
 
-# --- Stations (same as scenarios/samawah.toml) ---
+# --- Stations (same as designs/west-asia/Iraq/Samawah/samawah.toml) ---
 [[stations]]
 id = "samawah-rws"
 name = "Samawah Railway Station"
@@ -197,7 +197,7 @@ schedule = [
     { from = "22:00", to = "23:30", headway_min = 15 },
 ]
 
-# --- Sites (same as scenarios/samawah.toml) ---
+# --- Sites (same as designs/west-asia/Iraq/Samawah/samawah.toml) ---
 [[sites]]
 station = "samawah-rws"
 pv_nameplate_kw = 500

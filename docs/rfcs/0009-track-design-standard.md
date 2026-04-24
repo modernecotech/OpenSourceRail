@@ -29,7 +29,7 @@ one of these four.
 | `mainline-mixed` | 1 435 mm | 400 m | 25 ‰ | 180 mm | UIC60E1 | `metro-4car`, `metro-6car` |
 
 The presets already exist as a schema in
-[`designs/templates/track-geometry.toml`](../../designs/templates/track-geometry.toml).
+[`lib/templates/track-geometry.toml`](../../lib/templates/track-geometry.toml).
 This RFC promotes them into a committed engineering envelope with
 the civil rationale for every number.
 
@@ -47,7 +47,7 @@ the civil rationale for every number.
   — covered at a deployment level, not here.
 - **Not a tunnel/bridge standard.** Those have their own envelopes
   (gauge clearance, ventilation, emergency egress) handled by
-  `designs/templates/structures.toml` and a future structures RFC.
+  `lib/templates/structures.toml` and a future structures RFC.
 - **Not a standards body.** We reference EN 13848 (track geometry
   quality), UIC 505-1 (structure gauge), UIC 510 (wheel profile),
   UIC 720 (transition curves). We do not publish new ones.
@@ -280,15 +280,15 @@ city recipe.
 | Phase | Deliverable | Dependencies |
 |---|---|---|
 | **v0** | This RFC ratified | — |
-| **v1** ✅ | Worked civil alignment for Samawah Line 1 + Line 2 references against `standard-urban`, with per-segment table + civil-class summary + compliance report at [`docs/civil/samawah/`](../civil/samawah/) (done 2026-04-22) | RFC 0003 |
+| **v1** ✅ | Worked civil alignment for Samawah Line 1 + Line 2 references against `standard-urban`, with per-segment table + civil-class summary + compliance report at [`docs/civil/west-asia/Iraq/Samawah/`](../civil/samawah/) (done 2026-04-22) | RFC 0003 |
 | **v2** ✅ | Emitter enforces geometry/consist compatibility + emits `geometry` per line in auto-gen output (done 2026-04-22). **OSR-ALN alignment interchange format** at [`docs/civil/osr-aln-format.md`](../civil/osr-aln-format.md) — tool-agnostic TOML schema civil firms export to. | v0, RFC 0008 v2 |
-| **v3** ✅ | Parametric track components at [`mechanical-py/src/osr_mech/track/`](../../mechanical-py/src/osr_mech/track/) (done 2026-04-22). **Civil-tool bridge (done 2026-04-23):** [`tools/osr-aln-convert/`](../../tools/osr-aln-convert/) — stdlib-only Python toolchain: `landxml-to-osr-aln` reads LandXML 1.2 exports from Civil 3D / Bentley OpenRail / Trimble BC / QGIS and emits the OSR-ALN TOML spec; `osr-aln-validate` enforces the 8 hard gates + 3 soft gates from the format spec against a deployment's design.toml. 21 passing tests (5 round-trip + 16 validator). **Worked reference alignments for both Samawah lines:** Line 1 at [`designs/middle-east/iraq/samawah/samawah-line1.aln.toml`](../../designs/middle-east/iraq/samawah/samawah-line1.aln.toml) (13 km, 12 stations, 3 cant sections) and Line 2 ring at [`designs/middle-east/iraq/samawah/samawah-line2.aln.toml`](../../designs/middle-east/iraq/samawah/samawah-line2.aln.toml) (16 km, 10 stations, 4 cant sections, `is_ring = true`). Both hand-authored from the published bearings + radii tables and pass every hard gate against the live design.toml — the full reference deployment is now OSR-ALN-authorable and validator-clean. Remaining for v3.1: turnout blade kit, Trimble TCL CSV reader, Bentley cant-extension parser, CERN-OHL-S v2 relicensing. | v1 |
+| **v3** ✅ | Parametric track components at [`mechanical-py/src/osr_mech/track/`](../../mechanical-py/src/osr_mech/track/) (done 2026-04-22). **Civil-tool bridge (done 2026-04-23):** [`tools/osr-aln-convert/`](../../tools/osr-aln-convert/) — stdlib-only Python toolchain: `landxml-to-osr-aln` reads LandXML 1.2 exports from Civil 3D / Bentley OpenRail / Trimble BC / QGIS and emits the OSR-ALN TOML spec; `osr-aln-validate` enforces the 8 hard gates + 3 soft gates from the format spec against a deployment's design.toml. 21 passing tests (5 round-trip + 16 validator). **Worked reference alignments for both Samawah lines:** Line 1 at [`designs/west-asia/Iraq/Samawah/samawah-line1.aln.toml`](../../designs/west-asia/Iraq/Samawah/samawah-line1.aln.toml) (13 km, 12 stations, 3 cant sections) and Line 2 ring at [`designs/west-asia/Iraq/Samawah/samawah-line2.aln.toml`](../../designs/west-asia/Iraq/Samawah/samawah-line2.aln.toml) (16 km, 10 stations, 4 cant sections, `is_ring = true`). Both hand-authored from the published bearings + radii tables and pass every hard gate against the live design.toml — the full reference deployment is now OSR-ALN-authorable and validator-clean. Remaining for v3.1: turnout blade kit, Trimble TCL CSV reader, Bentley cant-extension parser, CERN-OHL-S v2 relicensing. | v1 |
 | **v4** | `osr-track-geometry` crate that ingests EN 13848 recording data and feeds the CBM pipeline | v3 |
 | **v5** | First-article track constructed and recorded at a pilot deployment | v1, v3 |
 
 ## 13. Relationship to existing work
 
-- [`designs/templates/track-geometry.toml`](../../designs/templates/track-geometry.toml)
+- [`lib/templates/track-geometry.toml`](../../lib/templates/track-geometry.toml)
   — the Lego-block schema that this RFC ratifies.
 - [`crates/osr-routing/src/civil.rs`](../../crates/osr-routing/src/civil.rs) —
   already classifies every 20 m cell as at-grade / elevated /

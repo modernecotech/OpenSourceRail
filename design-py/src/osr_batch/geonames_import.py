@@ -8,7 +8,7 @@ Usage:
     osr-cities-scan --geonames cities500.txt \
                     --min-pop 200000 \
                     --max-cities 500 \
-                    --out designs/cities/batch-500.toml
+                    --out lib/city-batches/batch-500.toml
 
 The bbox is derived from the centroid + a rule-of-thumb size based on
 population — 8 km per side for 100k cities, scaling up to ~20 km for

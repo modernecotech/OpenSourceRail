@@ -127,7 +127,7 @@ Expected daily ridership at build-up: **10,000 – 15,000 passenger-trips** (new
 | Fleet (spare + cold-reserve) | 8 × 3-car trainsets |
 | Service hours | 05:30 – 23:30, 18 hours |
 
-> The table above is **derived from** [`design.toml`](../../designs/middle-east/iraq/samawah/design.toml);
+> The table above is **derived from** [`design.toml`](../../designs/west-asia/Iraq/Samawah/design.toml);
 > regenerate with `python -m osr_scenario.stats --format markdown`.
 > A drift test (`design-py/tests/test_rfc_drift.py`) fails CI if this
 > table ever contradicts the design file. The full regeneration
@@ -137,7 +137,7 @@ Expected daily ridership at build-up: **10,000 – 15,000 passenger-trips** (new
 > ./scripts/regenerate-samawah.sh
 > ```
 >
-> which emits the sim scenario (`scenarios/samawah.toml`), the network
+> which emits the sim scenario (`designs/west-asia/Iraq/Samawah/samawah.toml`), the network
 > map PNGs (`docs/screenshots/samawah-network-map*.png`), runs the
 > drift + round-trip tests, and prints the summary stats above.
 | Target daily ridership (steady-state) | 65 000 – 90 000 passenger-trips |
@@ -148,7 +148,7 @@ Honest assessment of the revised (2026-04-24) 4-line design
 against real Samawah OSM data:
 
 **What's real.** Every station coordinate in
-[`designs/middle-east/iraq/samawah/design.toml`](../../designs/middle-east/iraq/samawah/design.toml)
+[`designs/west-asia/Iraq/Samawah/design.toml`](../../designs/west-asia/Iraq/Samawah/design.toml)
 corresponds to a named OSM feature verified by Overpass query:
 either a specific `place=neighbourhood` node, an `amenity` node
 (university / hospital), or a `railway=station` node. The 220 000
@@ -195,7 +195,7 @@ verified `place=city` node.
    ```
 
    which fetches Samawah OSM (cached), routes every line on the
-   road graph, emits `corridor.geojson` + `scenarios/samawah.toml`
+   road graph, emits `corridor.geojson` + `designs/west-asia/Iraq/Samawah/samawah.toml`
    + the map PNGs, and runs the scenario + RFC drift tests.
 2. Feed the stationed alignment + `corridor.geojson` into
    [`osr-alignment-export`](../../crates/osr-alignment/src/main.rs)

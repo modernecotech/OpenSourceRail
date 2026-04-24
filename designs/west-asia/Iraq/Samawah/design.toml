@@ -1,6 +1,6 @@
 # AUTO-GENERATED from osr_planner for 'As-Samawah'.
 # Regenerate with:
-#   python -m osr_planner --slug middle-east/iraq/samawah --bbox ... --population ...
+#   python -m osr_planner --slug west-asia/Iraq/Samawah --bbox ... --population ...
 # Every station is a real OSM anchor; every line is PCA-ordered
 # for low curvature; interchanges are auto-promoted so any OD pair
 # is reachable in ≤ 1 transfer.
@@ -8,31 +8,31 @@
 
 [design]
 schema_version = 1
-id            = "middle-east/iraq/samawah"
+id            = "west-asia/Iraq/Samawah"
 name          = "As-Samawah — auto-planned"
-scenario_out  = "scenarios/samawah.toml"
+scenario_out  = "designs/west-asia/Iraq/Samawah/samawah.toml"
 
 [design.templates]
-rolling_stock    = "designs/templates/rolling-stock.toml"
-stations         = "designs/templates/stations.toml"
-energy_sites     = "designs/templates/energy-sites.toml"
-climate          = "designs/templates/climate.toml"
-structures       = "designs/templates/structures.toml"
-depots           = "designs/templates/depots.toml"
-signalling       = "designs/templates/signalling.toml"
-comms            = "designs/templates/comms.toml"
-switches         = "designs/templates/switches.toml"
-level_crossings  = "designs/templates/level-crossings.toml"
-accessibility    = "designs/templates/accessibility.toml"
-platform_doors   = "designs/templates/platform-doors.toml"
-passenger_info   = "designs/templates/passenger-info.toml"
-fare_systems     = "designs/templates/fare-systems.toml"
-track_geometry   = "designs/templates/track-geometry.toml"
-country_costs    = "designs/templates/country-costs.toml"
-fleet_sizing     = "designs/templates/fleet-sizing.toml"
-demand_profiles  = "designs/templates/demand-profiles.toml"
-service_hours    = "designs/templates/service-hours.toml"
-climate_adapters = "designs/templates/climate-adapters.toml"
+rolling_stock    = "lib/templates/rolling-stock.toml"
+stations         = "lib/templates/stations.toml"
+energy_sites     = "lib/templates/energy-sites.toml"
+climate          = "lib/templates/climate.toml"
+structures       = "lib/templates/structures.toml"
+depots           = "lib/templates/depots.toml"
+signalling       = "lib/templates/signalling.toml"
+comms            = "lib/templates/comms.toml"
+switches         = "lib/templates/switches.toml"
+level_crossings  = "lib/templates/level-crossings.toml"
+accessibility    = "lib/templates/accessibility.toml"
+platform_doors   = "lib/templates/platform-doors.toml"
+passenger_info   = "lib/templates/passenger-info.toml"
+fare_systems     = "lib/templates/fare-systems.toml"
+track_geometry   = "lib/templates/track-geometry.toml"
+country_costs    = "lib/templates/country-costs.toml"
+fleet_sizing     = "lib/templates/fleet-sizing.toml"
+demand_profiles  = "lib/templates/demand-profiles.toml"
+service_hours    = "lib/templates/service-hours.toml"
+climate_adapters = "lib/templates/climate-adapters.toml"
 
 
 [location]

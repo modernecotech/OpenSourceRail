@@ -13,7 +13,7 @@
 # category. The loader errors if an id appears in two files.
 
 [index.rolling_stock]
-file = "designs/templates/rolling-stock.toml"
+file = "lib/templates/rolling-stock.toml"
 ids  = [
     { id = "tram-2car",         desc = "Small city / feeder — 2-car 42 m, 450 kWh battery" },
     { id = "light-metro-3car",  desc = "Mid-size city — 3-car 65 m, 900 kWh battery (Samawah)" },
@@ -22,7 +22,7 @@ ids  = [
 ]
 
 [index.stations]
-file = "designs/templates/stations.toml"
+file = "lib/templates/stations.toml"
 ids  = [
     { id = "halt",             desc = "Minimum 1-platform rural / low-demand stop" },
     { id = "standard",         desc = "Default urban/suburban 2-side-platform station" },
@@ -33,7 +33,7 @@ ids  = [
 ]
 
 [index.energy_sites]
-file = "designs/templates/energy-sites.toml"
+file = "lib/templates/energy-sites.toml"
 ids  = [
     { id = "standard",         desc = "300 kW PV + 2 MWh — default mid-line" },
     { id = "major",            desc = "400 kW PV + 2.5 MWh — anchor stops" },
@@ -44,7 +44,7 @@ ids  = [
 ]
 
 [index.climate]
-file = "designs/templates/climate.toml"
+file = "lib/templates/climate.toml"
 ids  = [
     { id = "hot-desert",             desc = "Samawah, Basra, Cairo, Riyadh — 50 °C design ambient" },
     { id = "mediterranean",          desc = "Rabat, Athens, Valencia — 42 °C design ambient" },
@@ -56,7 +56,7 @@ ids  = [
 
 [index.structures]
 # Per RFC 0011, three classes only — no tunnels in the catalogue.
-file = "designs/templates/structures.toml"
+file = "lib/templates/structures.toml"
 ids  = [
     { id = "at-grade",               desc = "Default double-track at-grade per km" },
     { id = "elevated",               desc = "Viaduct on 30 m spans (U-girder)" },
@@ -64,7 +64,7 @@ ids  = [
 ]
 
 [index.depots]
-file = "designs/templates/depots.toml"
+file = "lib/templates/depots.toml"
 ids  = [
     { id = "main-heavy",        desc = "20-stall primary depot + 12 MW PV + training wing" },
     { id = "secondary-medium",  desc = "8-stall depot, light maintenance" },
@@ -72,7 +72,7 @@ ids  = [
 ]
 
 [index.signalling]
-file = "designs/templates/signalling.toml"
+file = "lib/templates/signalling.toml"
 ids  = [
     { id = "plain-line",     desc = "Mid-section W-Node, no switches" },
     { id = "station",        desc = "Station W-Node with platform edge sensors" },
@@ -81,7 +81,7 @@ ids  = [
 ]
 
 [index.comms_backbone]
-file = "designs/templates/comms.toml"
+file = "lib/templates/comms.toml"
 ids  = [
     { id = "single-ring-1g",   desc = "1 Gbps single-ring TSN, small deployments" },
     { id = "single-ring-10g",  desc = "10 Gbps single-ring TSN (Samawah default)" },
@@ -89,7 +89,7 @@ ids  = [
 ]
 
 [index.comms_trackside]
-file = "designs/templates/comms.toml"
+file = "lib/templates/comms.toml"
 ids  = [
     { id = "5g-only",            desc = "Single-carrier 5G, no LoRa — low-risk urban" },
     { id = "dual-5g",            desc = "Two carriers, no LoRa" },
@@ -99,7 +99,7 @@ ids  = [
 
 # Turnouts per RFC 0012 — three tangents + tram-only.
 [index.switches]
-file = "designs/templates/switches.toml"
+file = "lib/templates/switches.toml"
 ids  = [
     { id = "no-5-tram",          desc = "1:5, tram-only street geometry (heritage-tram preset)" },
     { id = "no-9-mainline",      desc = "1:9, 40 km/h — station + yard throat + turnback" },
@@ -108,7 +108,7 @@ ids  = [
 ]
 
 [index.level_crossings]
-file = "designs/templates/level-crossings.toml"
+file = "lib/templates/level-crossings.toml"
 ids  = [
     { id = "pedestrian",    desc = "Pedestrian only — swing gates + warnings" },
     { id = "half-barrier",  desc = "Single-carriageway road crossing" },
@@ -116,7 +116,7 @@ ids  = [
 ]
 
 [index.accessibility]
-file = "designs/templates/accessibility.toml"
+file = "lib/templates/accessibility.toml"
 ids  = [
     { id = "ramp-only",        desc = "Compliant minimum for low-traffic stops" },
     { id = "step-free-basic",  desc = "Ramp + one elevator per platform" },
@@ -124,7 +124,7 @@ ids  = [
 ]
 
 [index.platform_doors]
-file = "designs/templates/platform-doors.toml"
+file = "lib/templates/platform-doors.toml"
 ids  = [
     { id = "none",         desc = "No doors — at-grade default" },
     { id = "half-height",  desc = "1.2 m glass barrier, interchanges/anchors" },
@@ -132,7 +132,7 @@ ids  = [
 ]
 
 [index.passenger_info]
-file = "designs/templates/passenger-info.toml"
+file = "lib/templates/passenger-info.toml"
 ids  = [
     { id = "basic",     desc = "Halts — 2 dot-matrix + 1 PA zone" },
     { id = "standard",  desc = "Default urban — 4 displays + 2 PA zones + kiosk" },
@@ -140,7 +140,7 @@ ids  = [
 ]
 
 [index.fare_systems]
-file = "designs/templates/fare-systems.toml"
+file = "lib/templates/fare-systems.toml"
 ids  = [
     { id = "iraq-mobile-money",       desc = "Middle East mobile money + QR (zainCash, AsiaHawala)" },
     { id = "east-africa-mobile-money",desc = "East Africa mobile money (M-Pesa, Airtel, MTN)" },
@@ -150,7 +150,7 @@ ids  = [
 ]
 
 [index.fare_gates]
-file = "designs/templates/fare-systems.toml"
+file = "lib/templates/fare-systems.toml"
 ids  = [
     { id = "open-fare",  desc = "No gates — proof-of-payment inspection" },
     { id = "qr-and-nfc", desc = "QR + NFC gates" },
@@ -158,7 +158,7 @@ ids  = [
 ]
 
 [index.track_geometry]
-file = "designs/templates/track-geometry.toml"
+file = "lib/templates/track-geometry.toml"
 ids  = [
     { id = "heritage-tram",    desc = "1000 mm gauge, 50 km/h, tram-only" },
     { id = "standard-urban",   desc = "1435 mm, 80 km/h — OSR default" },
@@ -167,7 +167,7 @@ ids  = [
 ]
 
 [index.climate_adapters]
-file = "designs/templates/climate-adapters.toml"
+file = "lib/templates/climate-adapters.toml"
 ids  = [
     { id = "snow-switch-heaters",        desc = "Heated switch blades + crossings" },
     { id = "snow-plough-front",          desc = "Factory-fit deflector on lead cars" },
@@ -182,7 +182,7 @@ ids  = [
 ]
 
 [index.service_hours]
-file = "designs/templates/service-hours.toml"
+file = "lib/templates/service-hours.toml"
 ids  = [
     { id = "standard-urban",           desc = "05:30–23:30, prayer-time Friday tweak" },
     { id = "extended",                 desc = "04:30–01:00, hospital/airport adjacent" },
@@ -192,11 +192,11 @@ ids  = [
 ]
 
 [index.country_costs]
-file = "designs/templates/country-costs.toml"
+file = "lib/templates/country-costs.toml"
 note = "ISO 3166-1 alpha-2 country codes; fallback id = \"XX\" (OECD mid-range)."
 
 [index.composition_profiles]
-file = "designs/templates/composition-profiles.toml"
+file = "lib/templates/composition-profiles.toml"
 ids  = [
     { id = "small-city-temperate",    desc = "< 300k pop, temperate zone — tram + single radial" },
     { id = "mid-city-desert",         desc = "~ 200-500k pop, hot-desert — Samawah-class" },

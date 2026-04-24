@@ -267,7 +267,7 @@ and:
 | Phase | Deliverable | Dependencies |
 |---|---|---|
 | **v0** | This RFC ratified | — |
-| **v1** ✅ | [`designs/templates/depots.toml`](../../designs/templates/depots.toml) aligned with §§5–7 (PV canopy m², nominal kWp, battery kWh, workshop flags); §1 clarified "catalogue max" vs §4 formula (done 2026-04-22) | v0 |
+| **v1** ✅ | [`lib/templates/depots.toml`](../../lib/templates/depots.toml) aligned with §§5–7 (PV canopy m², nominal kWp, battery kWh, workshop flags); §1 clarified "catalogue max" vs §4 formula (done 2026-04-22) | v0 |
 | **v2** ✅ | Emitter picks depot archetypes (main-heavy at depot-terminal, layup-minimal at other terminals) + writes `[[depots]]` with `fleet_stalls` from the §4 formula (done 2026-04-22) | v0, RFC 0010 v2 |
 | **v3** | `osr-sim` depot state machine (stabled / maint / service) | v2 |
 | **v4** | Worked site plan for Samawah main-heavy (Line 1 east terminal) + layup-minimal (Line 2 furthest stop) | RFC 0003 §5, v3 |
@@ -275,7 +275,7 @@ and:
 
 ## 11. Relationship to existing work
 
-- [`designs/templates/depots.toml`](../../designs/templates/depots.toml)
+- [`lib/templates/depots.toml`](../../lib/templates/depots.toml)
   — schema this RFC ratifies.
 - [`crates/osr-design/src/emit.rs`](../../crates/osr-design/src/emit.rs)
   — auto-gen emitter. `depot-terminal` detection today; the
@@ -320,4 +320,4 @@ and:
 - [x] Relationship to existing software + templates (§11)
 
 The next session picks up at **v1 — amend
-`designs/templates/depots.toml`** to match this RFC exactly.
+`lib/templates/depots.toml`** to match this RFC exactly.
