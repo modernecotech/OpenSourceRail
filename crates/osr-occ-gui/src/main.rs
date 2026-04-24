@@ -19,7 +19,12 @@ struct Cli {
 
 fn main() -> eframe::Result<()> {
     let cli = Cli::parse();
-    let options = eframe::NativeOptions::default();
+    let options = eframe::NativeOptions {
+        viewport: eframe::egui::ViewportBuilder::default()
+            .with_inner_size([1600.0, 1000.0])
+            .with_min_inner_size([1024.0, 768.0]),
+        ..Default::default()
+    };
     eframe::run_native(
         "OSR OCC Console",
         options,

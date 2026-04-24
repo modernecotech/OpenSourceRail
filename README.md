@@ -28,22 +28,28 @@ and the design pipeline now synthesises multi-line networks for arbitrary
 cities directly from OpenStreetMap — **including road-snapped corridors**
 computed by networkx shortest-path on the OSM graph.
 
-![Samawah reference network — L1 Nahrain (blue) + L2 Sharqiyyeh (orange) + L3 Mahatta (green) + L4 Shamal (magenta) on OpenStreetMap, road-snapped](docs/screenshots/samawah-network-map.png)
+![Samawah reference network — four auto-planned lines (blue N–S, orange cross-axis, green diagonal, magenta rail-station feeder) on OpenStreetMap, arterial-routed](docs/screenshots/samawah-network-map.png)
 
-*Samawah reference deployment — revised 2026-04-24 against real
-OSM data with lines **routed along actual streets** (not straight
-segments). Four lines, two interchange hubs:
-**Line 1 Nahrain** (blue, N–S, 8 stations, ~15 km routed) through
-university → hospital → centre → main depot;
-**Line 2 Sharqiyyeh** (orange, E–W, 6 stations, ~10 km routed);
-**Line 3 Mahatta** (green, SE, 5 stations, ~12 km routed) centre
-to the Baghdad–Basra rail station;
-**Line 4 Shamal** (magenta, N cross, 5 stations, ~5.5 km routed)
-covers the Jarbuwiya + Um al-Asafir northern cluster that the
-earlier 3-line design missed. Every station is an Overpass-
-verified OSM anchor; every polyline is the weighted shortest
-path on the actual road network (arterials 0.6–0.8, residentials
-1.8). Regenerate with `./scripts/regenerate-samawah.sh`.*
+*Samawah reference deployment — **auto-planned** end-to-end by
+`osr_planner` (linear-logic algorithm, 2026-04-24) against real
+OSM data. Four lines, 29 stations, 45 km of double-track, 7
+interchanges, **100 % transfer reachability**, 84.8 % anchor-
+weighted coverage:
+**Line 1** (blue, 11 stations, 12 km): south-bank residential →
+hospital cluster → city centre → northern neighbourhoods;
+**Line 2** (orange, 11 stations, 11 km): SE residential →
+central interchange → NW residential;
+**Line 3** (green, 11 stations, 13 km): east rail corridor →
+centre → west residential (Abu Jwailana);
+**Line 4** (magenta, 8 stations, 9 km): intercity **Samawah
+Railway Station** feeder through SW residential pocket into
+the centre. Every station sits on an OSM anchor cluster
+(weight-averaged within 500 m); every polyline follows the
+arterial graph (trunk / primary / secondary / tertiary —
+residential streets excluded by construction so no zigzag).
+Lines extend generously 2.5 km past the last anchor into
+suburban fringe for future growth. Regenerate end-to-end with
+`./scripts/regenerate-samawah.sh`.*
 
 Twenty-one RFCs cover the full system from software
 architecture through rail civil engineering to driverless operation; the
@@ -575,7 +581,7 @@ cargo run --release --bin osr-sim -- --config scenarios/my-city.toml
 
 Reference scenarios in [`scenarios/`](scenarios/):
 
-- **[`samawah.toml`](scenarios/samawah.toml)** — full 2-line Samawah network (12 km radial + 16 km ring, 22 stations, 10 trainsets, time-of-day schedule).
+- **[`samawah.toml`](scenarios/samawah.toml)** — full auto-planned Samawah network (4 lines, 45 km, 29 stations, 16 revenue trainsets + 8 spare/reserve, time-of-day schedule).
 - **[`samawah-line1.toml`](scenarios/samawah-line1.toml)** — Line 1 only, useful for scale comparisons.
 - **[`example-simple.toml`](scenarios/example-simple.toml)** — 3-station shuttle with 1 train. The smallest viable config; copy as a template.
 

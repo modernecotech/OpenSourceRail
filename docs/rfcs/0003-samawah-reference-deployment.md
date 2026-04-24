@@ -119,14 +119,12 @@ Expected daily ridership at build-up: **10,000 – 15,000 passenger-trips** (new
 
 | Metric | Value |
 |---|---|
-| Route-km (double track) | ~29 km (road-snapped; straight-line is ~23 km) |
-| Stations (unique) | 21 |
-| Lines | 4 (L1 N–S + L2 E–W + L3 SE + L4 N cross) |
-| Interchange hubs | 2 (Samawah Central L1/L2/L3; Al-Muthanna University L1/L4) |
-| Fleet (revenue) | 15 × 3-car trainsets (5 L1 + 4 L2 + 3 L3 + 3 L4) |
+| Route-km (double track) | ~45 km |
+| Stations (unique) | 29 |
+| Lines | 4 (auto-planned by `osr_planner`) |
+| Multi-line interchanges | 7 (hub + shared waypoints across corridors) |
+| Fleet (revenue) | 16 × 3-car trainsets |
 | Fleet (spare + cold-reserve) | 8 × 3-car trainsets |
-| Main depot | Al-Maali (Line 1 south terminus) — 24-stall `main-heavy` |
-| Secondary layup | Al-Bustan Sharqi (Line 2 east terminus) — 4-stall |
 | Service hours | 05:30 – 23:30, 18 hours |
 
 > The table above is **derived from** [`design.toml`](../../designs/middle-east/iraq/samawah/design.toml);

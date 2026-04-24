@@ -29,16 +29,23 @@ from typing import Any
 OVERPASS_ENDPOINT = "https://overpass-api.de/api/interpreter"
 
 # Highway-class → routing-weight multiplier. Lower = more preferred.
-# Mainline rail would follow trunk/primary arterials before falling
-# back to secondary/tertiary; residential streets are a last resort.
+# Urban rail RoW can only realistically be laid on arterials, never
+# on residential grid streets (would require demolition + narrow-
+# width track that doesn't exist). Residential + unclassified edges
+# are EXCLUDED from the routing graph entirely — see
+# `_ARTERIAL_CLASSES`. The weight table applies to the included
+# classes only.
 _HIGHWAY_WEIGHT = {
-    "trunk":        0.6,
-    "primary":      0.7,
-    "secondary":    0.8,
-    "tertiary":     1.0,
-    "unclassified": 1.4,
-    "residential":  1.8,
+    "trunk":     0.5,
+    "primary":   0.6,
+    "secondary": 0.8,
+    "tertiary":  1.1,
 }
+
+# Only these classes participate in the routing graph. Anything else
+# (residential, service, unclassified, living_street, ...) is dropped
+# so the shortest-path cannot zigzag through a residential grid.
+_ARTERIAL_CLASSES = frozenset({"trunk", "primary", "secondary", "tertiary"})
 
 
 @dataclass(frozen=True)
@@ -87,7 +94,7 @@ def fetch_roads(bbox: BBox, cache_dir: Path) -> dict:
     q = f"""
     [out:json][timeout:180];
     (
-      way["highway"~"^(trunk|primary|secondary|tertiary|unclassified|residential)$"]
+      way["highway"~"^(trunk|primary|secondary|tertiary)$"]
           ({bbox.south},{bbox.west},{bbox.north},{bbox.east});
     );
     (._;>;);
@@ -117,8 +124,10 @@ def build_road_graph(osm_data: dict):
     for w in osm_data["elements"]:
         if w["type"] != "way":
             continue
-        hw = (w.get("tags") or {}).get("highway", "residential")
-        mult = _HIGHWAY_WEIGHT.get(hw, 2.0)
+        hw = (w.get("tags") or {}).get("highway", "")
+        if hw not in _ARTERIAL_CLASSES:
+            continue  # residential / service / unclassified dropped
+        mult = _HIGHWAY_WEIGHT[hw]
         ns = w.get("nodes", [])
         for a, b in zip(ns, ns[1:]):
             if a in nodes and b in nodes:
@@ -173,11 +182,52 @@ def route_lines(design: dict, cache_dir: Path) -> dict[str, list[dict]]:
     for line in design.get("lines", []):
         segs: list[dict] = []
         ids = [s["id"] for s in line.get("stations", [])]
+        station_coords = {
+            s["id"]: (s["lat"], s["lon"])
+            for s in design.get("stations", [])
+        }
+        # If the planner committed a `track_polyline`, emit one
+        # segment per station-pair by slicing the polyline between
+        # the closest polyline vertices to each station. This
+        # preserves the planner's route and avoids shortest-path
+        # recomputation that can detour kilometres off-line.
+        track = line.get("track_polyline")
+        if track and len(track) >= 2:
+            poly = [(lat, lon) for lat, lon in track]
+            station_to_poly_idx: dict[str, int] = {}
+            for sid in ids:
+                if sid not in station_coords:
+                    continue
+                slat, slon = station_coords[sid]
+                best_i, best_d = 0, float("inf")
+                for i, (plat, plon) in enumerate(poly):
+                    d = (plat - slat) ** 2 + (plon - slon) ** 2
+                    if d < best_d:
+                        best_d, best_i = d, i
+                station_to_poly_idx[sid] = best_i
+            for a, b in zip(ids, ids[1:]):
+                ia = station_to_poly_idx.get(a, 0)
+                ib = station_to_poly_idx.get(b, len(poly) - 1)
+                lo, hi = (ia, ib) if ia <= ib else (ib, ia)
+                sub = poly[lo: hi + 1]
+                if ia > ib:
+                    sub = list(reversed(sub))
+                length = 0.0
+                for u, v in zip(sub, sub[1:]):
+                    length += _haversine_m(u, v)
+                coords = [(lon, lat) for lat, lon in sub]
+                segs.append({
+                    "from": a, "to": b, "coords": coords, "length_m": length,
+                })
+            routes[line["id"]] = segs
+            continue
+
         for a, b in zip(ids, ids[1:]):
             na, nb = station_to_node[a], station_to_node[b]
             try:
                 path = nx.shortest_path(G, na, nb, weight="weight")
                 coords = [(nodes[n][1], nodes[n][0]) for n in path]
+                coords = _smooth_polyline(coords, max_heading_deg=15.0)
                 length = sum(G[u][v]["length_m"] for u, v in zip(path, path[1:]))
             except nx.NetworkXNoPath:
                 coords = [(nodes[na][1], nodes[na][0]), (nodes[nb][1], nodes[nb][0])]
@@ -187,6 +237,31 @@ def route_lines(design: dict, cache_dir: Path) -> dict[str, list[dict]]:
             })
         routes[line["id"]] = segs
     return routes
+
+
+def _smooth_polyline(
+    coords: list[tuple[float, float]],
+    *, max_heading_deg: float = 15.0,
+) -> list[tuple[float, float]]:
+    """Remove intermediate vertices where the heading change from
+    the previous segment is less than `max_heading_deg`. Preserves
+    endpoints and significant corners."""
+    if len(coords) < 3:
+        return coords
+    import math
+
+    out = [coords[0]]
+    for i in range(1, len(coords) - 1):
+        prev = out[-1]
+        cur = coords[i]
+        nxt = coords[i + 1]
+        h1 = math.atan2(cur[1] - prev[1], cur[0] - prev[0])
+        h2 = math.atan2(nxt[1] - cur[1], nxt[0] - cur[0])
+        d = abs((h2 - h1 + math.pi) % (2 * math.pi) - math.pi)
+        if math.degrees(d) >= max_heading_deg:
+            out.append(cur)
+    out.append(coords[-1])
+    return out
 
 
 def routes_to_geojson(

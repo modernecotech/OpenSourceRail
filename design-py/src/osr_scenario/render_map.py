@@ -50,11 +50,15 @@ def render_city(
 ) -> list[Path]:
     """Render the city + detail maps.
 
-    If `route_on_roads` is True (default), lines are drawn along the
-    shortest-path through the OSM road graph between stations — a
-    `corridor.geojson` is emitted alongside the PNGs. Falls back to
-    straight segments if the road fetch fails or `networkx` is
-    unavailable. Returns the list of written artefact paths.
+    Default: route along the OSM **arterial** graph between adjacent
+    stations — residential / unclassified streets are excluded from
+    the graph (see `osr_scenario.routing._ARTERIAL_CLASSES`) so the
+    rendered line traces real trunk / primary / secondary / tertiary
+    roads and cannot zigzag through a residential grid. A
+    `corridor.geojson` is emitted alongside the PNGs.
+
+    With `route_on_roads=False`, draws straight segments between
+    stations — useful for debugging the raw station layout.
     """
     from staticmap import StaticMap, CircleMarker, Line
 
@@ -91,10 +95,19 @@ def render_city(
             *wh,
             url_template="https://tile.openstreetmap.org/{z}/{x}/{y}.png",
         )
-        # Draw lines — road-snapped if available, straight otherwise.
+        # Draw lines. Priority: (a) `track_polyline` committed by
+        # the planner into design.toml is the authoritative geometry
+        # — drawing it avoids renderer-side shortest-path detours
+        # between consecutive stations. (b) routed shortest-paths
+        # between station pairs. (c) straight segments as a last
+        # resort.
         for idx, line in enumerate(lines):
             color = _LINE_COLORS[idx % len(_LINE_COLORS)]
-            if routes is not None and line["id"] in routes:
+            track = line.get("track_polyline")
+            if track and len(track) >= 2:
+                coords = [(p[1], p[0]) for p in track]  # (lon, lat) for staticmap
+                m.add_line(Line(coords, color, 7 if zoom == 13 else 10))
+            elif routes is not None and line["id"] in routes:
                 for seg in routes[line["id"]]:
                     m.add_line(Line(seg["coords"], color, 7 if zoom == 13 else 10))
             else:
@@ -104,15 +117,26 @@ def render_city(
                 ]
                 if len(coords) >= 2:
                     m.add_line(Line(coords, color, 7 if zoom == 13 else 10))
-        # Draw stations.
+        # Draw stations. Terminals get an oversized marker so the
+        # red dot definitively dominates any line stroke at the tip;
+        # otherwise a thick line reads as "extending past" the
+        # station even when its geometry stops exactly at the
+        # station's centre.
         seen: set[str] = set()
         for s in doc.get("stations", []):
             if s["id"] in seen:
                 continue
             seen.add(s["id"])
-            outer = _ARCH_COLOR.get(s.get("archetype", "standard"), "#3f9b5b")
-            m.add_marker(CircleMarker((s["lon"], s["lat"]), outer, 16 if zoom == 13 else 22))
-            m.add_marker(CircleMarker((s["lon"], s["lat"]), "#ffffff", 7 if zoom == 13 else 9))
+            arch = s.get("archetype", "standard")
+            outer = _ARCH_COLOR.get(arch, "#3f9b5b")
+            if arch in ("terminal", "depot-terminal"):
+                outer_r = 22 if zoom == 13 else 30
+                inner_r = 9 if zoom == 13 else 12
+            else:
+                outer_r = 16 if zoom == 13 else 22
+                inner_r = 7 if zoom == 13 else 9
+            m.add_marker(CircleMarker((s["lon"], s["lat"]), outer, outer_r))
+            m.add_marker(CircleMarker((s["lon"], s["lat"]), "#ffffff", inner_r))
         img = m.render(zoom=zoom)
         out = out_dir / f"{slug}-{suffix}"
         img.save(out)
