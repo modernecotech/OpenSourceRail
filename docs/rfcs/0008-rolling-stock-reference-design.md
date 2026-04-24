@@ -82,10 +82,10 @@ one supplier-qualification set.
 | Traction motor | Permanent-magnet synchronous, axle-mounted, one per powered wheelset | PMSM efficiency ≥ 96 % at peak. Axle-mount removes gearboxes from every powered bogie, eliminating one of the top maintenance line items. |
 | Inverter | 3-phase, silicon-carbide (SiC) MOSFETs, ≥ 98 % efficiency at peak | SiC is commodity-grade in 2026. Water-cooled cold plate, no fans. One inverter per powered bogie. |
 | Powered wheelsets | 50 % of the trainset's wheelsets on `tram-2car` / `light-metro-3car`; 75 % on `metro-4car`; 100 % on `metro-6car` | Adhesion headroom drops as passenger load rises; larger consists need more powered axles to maintain gradient performance in rain/dust. |
-| Battery | Sodium-ion chemistry (Na-ion) on all families; LFP as a drop-in alternative for operators with established LFP spares | Na-ion is the target: no lithium supply dependency, better low-cost profile, thermal runaway is tamer. LFP is the fallback where Na-ion isn't yet locally serviced. |
-| Battery pack topology | String of ≤ 30 modules per pack, two packs per consist (redundant) | Either pack alone delivers enough energy for a safe-stop + inching back to a depot. `osr-bms` ([crates/osr-bms](../../crates/osr-bms/)) manages per-pack contactors. |
-| Battery size | Per family per the table in §1 (450 / 900 / 1 200 / 1 800 kWh) | Sized for one full round-trip at RFC 0003 peak headway plus 20 % reserve. |
-| Opportunity charging | Overhead pantograph at terminal stations only (RFC 0003 §4.2); no continuous catenary | Catenary-free is a project-wide invariant ([ARCHITECTURE §4 D7](../ARCHITECTURE.md#4-architectural-bets)). Pantograph at 1 500 V DC dock — same interface at every terminal nationwide. |
+| Battery | Sodium-ion primary, LFP alternative (RFC 0021 §3). Both chemistries fit the same strake envelope | Na-ion avoids lithium-chain geopolitics and runs hotter; LFP is the drop-in where Na-ion isn't locally serviceable yet. |
+| Battery pack topology | 6 side-wall strakes per car (RFC 0021 §5 bustle-wall pattern); two independent strings per car, contactor-isolated | String-level isolation means a single-module fault only sheds half of one car's capacity. `osr-bms` ([crates/osr-bms](../../crates/osr-bms/)) manages per-string contactors. |
+| Battery size | Per family per the §4 table in [RFC 0021](0021-battery-traction.md) — 180 / 320 / 460 / 720 kWh usable | Sized for one full round-trip at RFC 0003 peak headway plus 20 % reserve, accounting for 15-year / 2-cycle-a-day degradation. |
+| Charging | **Plug-in only** (CCS2-class DC coupler) — at depots (primary) + at `depot-terminal` stations (opportunity, 100 kW during turnback dwell). **No pantograph, no catenary anywhere on the network.** | RFC 0021 §6 + ARCHITECTURE §4 D7. Removes every trackside HV installation cost — the sole remaining HV install is at the depot. |
 | Regen | Default on; friction brake blends in below 8 km/h | Matches [`osr-brake`](../../crates/osr-brake/)'s WSP + regen-priority arbitration. |
 | Friction brake | Disc brake on every trailing axle, electromagnetic actuation | No pneumatic brake system — removes the compressor-maintenance line item entirely. Electric brake is continuously self-monitoring via `osr-brake`'s WSP + pressure sense loops. |
 | Emergency brake | Same discs, different current source (ultra-cap + battery fallback); independent of regen | SIL-4: emergency-brake current cannot fail with any single electronics failure. Tested on every ignition cycle by the `osr-vigilance` start-up check. |
@@ -168,10 +168,14 @@ choice into `design.toml` under `[[lines]] rolling_stock =
 
 ## 6. Pitfalls and decisions
 
-- **Na-ion before LFP.** Na-ion has a shallower cycle life than
-  LFP today (≈ 3 000 cycles at 100 % DoD vs LFP's ≈ 6 000). We
-  accept that trade because Na-ion doesn't lock a country into
-  lithium-chain geopolitics. LFP remains a drop-in.
+- **Na-ion primary, LFP as the drop-in alternative**
+  ([RFC 0021 §1](0021-battery-traction.md#1-summary)). Na-ion
+  has a shallower cycle life today (~3 000 cycles at 100 % DoD vs
+  LFP's ~6 000) — we accept that trade because Na-ion avoids
+  locking a country into lithium-chain geopolitics. LFP is the
+  drop-in for operators with established LFP spares. The side-
+  wall strake envelope accepts either chemistry without car-body
+  changes.
 - **No pneumatic brake.** A pneumatic brake + air reservoir is the
   rail industry's reference design; we replace it with
   electromagnetic disc + battery-backed ultra-cap. The winner is a

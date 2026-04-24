@@ -155,7 +155,11 @@ CATALOGUE: dict[Category, CotsItem] = {
         height_mm=950.0,
         mass_kg=25.0,
         power_w=0.0,
-        mount_pattern="4× M10 on 800 × 300 pitch, base frame bolted to floor rail",
+        mount_pattern=(
+            "Cantilevered from the battery-strake bulkhead (RFC 0021 §5) "
+            "— 4× M10 on 800 × 300 pitch into a welded strake-top rail. "
+            "No floor penetrations (the aisle stays at level-boarding height)."
+        ),
         display_color=(0.20, 0.35, 0.55),
     ),
     Category.GRAB_POLE: CotsItem(

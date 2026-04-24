@@ -14,9 +14,12 @@ from pathlib import Path
 
 from build123d import export_step
 
+from .accessibility import add_prm_zones_to_car, platform_tactile_path
 from .civil.platform_l_unit import platform_l_unit
 from .civil.ugirder import u_girder
+from .clearance import reference_envelope, swept_envelope_part
 from .common import ConsistFamily, GeometryPreset, RailProfile, StationArchetype
+from .depot import DepotArchetype, depot_layout
 from .rolling_stock.bogie import bogie_assembly
 from .rolling_stock.car_body import car_body
 from .rolling_stock.cots_equipment import fit_out_car_body
@@ -29,6 +32,7 @@ from .track.fastener import fastener_assembly
 from .track.panel import track_panel
 from .track.rail import rail_bar, rail_section
 from .track.sleeper import mono_block_sleeper
+from .track.turnout import TurnoutTangent, turnout
 
 
 def _out(root: Path, *parts: str) -> Path:
@@ -98,6 +102,34 @@ def export_all(root: Path) -> None:
             trainset(family=family),
             _out(root, "rolling_stock", f"trainset-{family.value}.step"),
         )
+
+    # Accessibility (PRM zones) — RFC 0010 + EN 16584.
+    _export(
+        add_prm_zones_to_car(),
+        _out(root, "rolling_stock", "car-prm-zones.step"),
+    )
+    _export(
+        platform_tactile_path(75.0),
+        _out(root, "station", "platform-tactile-path-75m.step"),
+    )
+
+    # Turnouts — RFC 0012.
+    for t in TurnoutTangent:
+        slug = t.value.replace(":", "to").replace(".", "p")
+        _export(turnout(t), _out(root, "track", f"turnout-{slug}.step"))
+
+    # Depot archetypes — RFC 0014.
+    for a in DepotArchetype:
+        _export(
+            depot_layout(archetype=a),
+            _out(root, "depot", f"depot-{a.value}.step"),
+        )
+
+    # Kinematic envelope — EN 15273 gauge-clearance visualisation.
+    _export(
+        swept_envelope_part(reference_envelope()),
+        _out(root, "rolling_stock", "kinematic-envelope.step"),
+    )
 
 
 def main() -> None:

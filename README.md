@@ -12,7 +12,7 @@ a deployment partner to start with. See [CHANGELOG.md](CHANGELOG.md)
 for what's ready, what needs external hands (KiCad capture, civil
 survey, regulator engagement, operator review), and how to engage.
 
-**Status:** 55 Rust crates (724 tests passing, 0 failing) plus two Python
+**Status:** 56 Rust crates (747 tests passing, 0 failing) plus two Python
 sidecars (`design-py` for GIS + network synthesis, `mechanical-py` for
 parametric mechanical + civil + station components under build123d).
 Deployments ship as **GoA 4 (Unattended, driverless)** from day one
@@ -25,7 +25,7 @@ covering the proactive half of the safety envelope between trains.
 The Samawah two-line reference scenario
 ([RFC 0003](docs/rfcs/0003-samawah-reference-deployment.md)) runs end-to-end,
 and the design pipeline now synthesises two-line networks for arbitrary cities
-directly from OpenStreetMap. Nineteen RFCs cover the full system from software
+directly from OpenStreetMap. Twenty-one RFCs cover the full system from software
 architecture through rail civil engineering to driverless operation; the
 operations rulebook ([RFC 0013](docs/rfcs/0013-operations-rulebook.md)) is
 drafted across four shipping role families (dispatcher / station-staff /
@@ -116,8 +116,11 @@ for GoA 2 legacy fleets. Most of the
   aluminium monocoque with rounded vertical corners, large bonded
   side glazing, three double-leaf sliding doors per side, a painted
   livery band at window-sill height, an underframe skirt between
-  the bogies, and a rooftop HVAC plus auxiliary plant. No cab, no
-  windscreen, no directionality — either end leads.*
+  the bogies, a rooftop HVAC plus auxiliary plant, and **side-wall
+  traction-battery strakes** (RFC 0021 bustle-wall pattern — Na-ion
+  cells under the longitudinal bench seats, centre aisle stays
+  clear at low-floor level-boarding height). No cab, no windscreen,
+  no pantograph, no directionality — either end leads.*
 
   ![Car-body side elevation — welded-aluminium monocoque, rounded corners, door + window cuts](docs/screenshots/trainset-car-detail.png)
 
@@ -197,7 +200,7 @@ for GoA 2 legacy fleets. Most of the
   platform edge, and a prefab-bolt-together steel portal-frame bay
   with a factory-bonded solar-roof sandwich panel that composes into
   a full canopy by `(archetype, consist)`. `osr-mech-export`
-  regenerates 24 STEP artifacts under `catalog/` that round-trip into
+  regenerates 33 STEP artifacts under `catalog/` that round-trip into
   Revit, Tekla, Civil 3D, and FreeCAD — deployment partners keep
   their existing structural tooling while the repository stays the
   canonical source. Design bias throughout: **prefab, bolt-together,
@@ -370,7 +373,9 @@ OpenSourceRail/
 │       ├── 0016-wayside-track-intrusion.md  Wayside intrusion detection — complements onboard detector.
 │       ├── 0017-cybersecurity-message-authentication.md  Ed25519-signed consensus entries.
 │       ├── 0018-operator-guis.md             egui-based sim + OCC consoles for designer + dispatcher.
-│       └── 0019-diy-electronics.md           Plug-and-play DIY electronics from commodity modules.
+│       ├── 0019-diy-electronics.md           Plug-and-play DIY electronics from commodity modules.
+│       ├── 0020-crashworthiness.md           EN 15227 three-zone energy budget for the cabless body.
+│       └── 0021-battery-traction.md          Side-wall battery strake + depot-only charging (Akku-inspired, catenary-free).
 ├── crates/                   46 Rust crates — grouped by role below.
 │   ├── osr-core/             Shared domain types (topology, trains, IDs).
 │   │   └── proto/track_state.proto         Interface definitions.
@@ -443,6 +448,10 @@ OpenSourceRail/
 │   │                         inference + station placement on a 20 m grid.
 │   ├── osr-design/           Orchestrator — reads rasters + anchors, emits
 │   │                         design.toml + corridor.geojson + quality.yaml.
+│   ├── osr-alignment/        Horizontal + vertical alignment artefact with
+│   │                         cant schedule, LandXML + railML exports,
+│   │                         stake-out CSV, earthworks quantities, and
+│   │                         trackside-equipment placement.
 │   │
 │   └── osr-sim/              Time-stepped simulator + shadow onboard stack +
 │                             HTML/SVG visualizer (osr-vis).

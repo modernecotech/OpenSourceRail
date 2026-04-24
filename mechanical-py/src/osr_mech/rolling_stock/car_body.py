@@ -91,6 +91,37 @@ COLOR_DOOR_LEAF = Color(0.08, 0.20, 0.38)
 COLOR_GLAZING = Color(0.55, 0.75, 0.90, 0.45)
 COLOR_SKIRT = Color(0.32, 0.33, 0.38)
 COLOR_ROOF_EQUIPMENT = Color(0.55, 0.55, 0.58)
+COLOR_BATTERY_STRAKE = Color(0.25, 0.30, 0.42)
+
+
+# Traction-battery strake placement per RFC 0021.
+#
+# OSR uses a **bustle-wall** pattern: lithium-iron-phosphate (LFP)
+# modules are tiled along the inside of each body wall, between
+# doors, under the longitudinal bench seats. The centre aisle stays
+# clear at 1 100 mm level-boarding floor. This is different from
+# Stadler's Akku (rooftop) and from most Siemens / Alstom BEMUs
+# (underfloor) — we pick side-wall because:
+#
+# - Low centre of gravity (better curve stability than rooftop).
+# - Shaded from direct 50 °C Samawah sun (not sat on the hot roof).
+# - Doesn't compete with traction inverter / brake resistor / aux
+#   converter for underframe space (already crowded).
+# - Side-plug charging at the depot matches the physical location
+#   of the battery string termination — no need to route HV DC from
+#   a rooftop pack down through the shell.
+# - Thermal runaway vents laterally out the body skin (not up into
+#   passengers or down onto the track / bogie).
+#
+# Each strake is a tall-thin slab running along the inside of the
+# skin, with the longitudinal bench seat cantilevered on top.
+BATTERY_STRAKE_WIDTH_MM = 320.0  # into the cabin from the skin
+BATTERY_STRAKE_HEIGHT_MM = 450.0  # rests between floor and seat base
+# Strake sits from floor level up to the bench base (≈ 450 mm).
+BATTERY_STRAKE_BASE_Z_MM = 20.0
+# The COTS longitudinal bench is 950 mm tall (seat-pan + backrest
+# zone). The battery strake lives below it — 20 mm above floor to
+# 470 mm. Above that is the seat structure.
 
 
 @dataclass(frozen=True)
@@ -261,24 +292,25 @@ def _underframe_skirt(dims: CarDimensions) -> list[Part]:
 
 
 def _roof_equipment(dims: CarDimensions) -> list[Part]:
-    """Representative rooftop equipment — HVAC unit + a couple of aux
-    boxes. Exposes the roof as a working surface rather than a bare
-    plane."""
+    """Rooftop equipment — HVAC unit + a couple of aux boxes.
+
+    Because OSR is catenary-free *and* side-wall battery per
+    RFC 0021, the roof is deliberately sparse: no pantograph, no
+    HV breaker, no battery pack. Just HVAC + radio / beacon aux.
+    """
     out: list[Part] = []
-    # Central HVAC unit (matches cots_equipment HVAC envelope).
     hvac = Box(1800.0, 1200.0, 400.0).locate(
         Location((0.0, 0.0, dims.body_height_mm + 200.0))
     )
     hvac.color = COLOR_ROOF_EQUIPMENT
     hvac.label = "HVAC roof unit"
     out.append(hvac)
-    # Two smaller boxes flanking the HVAC — aux cooling / radio / battery-
-    # string disconnect etc.
+    # Two small boxes flanking the HVAC — radio / beacon + aux cooling.
     for x_sign in (-1.0, 1.0):
         aux = Box(800.0, 600.0, 300.0).locate(
             Location(
                 (
-                    x_sign * (dims.body_length_mm / 2.0 - 3000.0),
+                    x_sign * (dims.body_length_mm / 2.0 - 3_000.0),
                     0.0,
                     dims.body_height_mm + 150.0,
                 )
@@ -287,6 +319,47 @@ def _roof_equipment(dims: CarDimensions) -> list[Part]:
         aux.color = COLOR_ROOF_EQUIPMENT
         aux.label = "Roof auxiliary"
         out.append(aux)
+    return out
+
+
+def _battery_strakes(dims: CarDimensions) -> list[Part]:
+    """Side-wall traction-battery strakes (RFC 0021 bustle-wall).
+
+    Three strakes per side (one per inter-door zone + end zone)
+    tiled along the inside of each body wall, from 20 mm above
+    floor to ~470 mm. The longitudinal bench seats cantilever
+    above them. The centre aisle stays clear.
+
+    The strake layout mirrors the window-zone placement, so each
+    seat run + window zone + battery strake occupy the same wall
+    segment. An operator swapping a module at depot opens the bench
+    cushion → removes the strake access panel → lifts out a module
+    with standard lifting-eye hooks. No crane, no overhead access.
+    """
+    out: list[Part] = []
+
+    # Zones are the same as the window zones — one strake per zone
+    # per side, straddling the wall between door openings.
+    for x, width in _window_zones(dims):
+        for y_sign in (-1.0, 1.0):
+            y = y_sign * (dims.body_width_mm / 2.0 - BATTERY_STRAKE_WIDTH_MM / 2.0 - 40.0)
+            strake = Box(
+                width - 100.0,  # leave a 50 mm gap each side
+                BATTERY_STRAKE_WIDTH_MM,
+                BATTERY_STRAKE_HEIGHT_MM,
+            ).locate(
+                Location(
+                    (
+                        x,
+                        y,
+                        BATTERY_STRAKE_BASE_Z_MM + BATTERY_STRAKE_HEIGHT_MM / 2.0,
+                    )
+                )
+            )
+            strake.color = COLOR_BATTERY_STRAKE
+            strake.label = "Traction battery strake (RFC 0021)"
+            out.append(strake)
+
     return out
 
 
@@ -307,7 +380,9 @@ def car_body(dims: CarDimensions = CarDimensions()) -> Compound:
     - Door leaves (both sides, double-leaf slider, shown closed)
     - Livery band (both sides, full length)
     - Underframe skirts (both sides, between the bogies)
-    - Rooftop equipment (HVAC + two aux boxes)
+    - Traction battery strakes (side-wall bustle, RFC 0021)
+    - Rooftop equipment (HVAC + two aux boxes — no pantograph,
+      no rooftop battery)
     """
     parts: list[Part | Compound] = []
     parts.append(_shell(dims))
@@ -315,18 +390,22 @@ def car_body(dims: CarDimensions = CarDimensions()) -> Compound:
     parts.extend(_door_leaves(dims))
     parts.extend(_livery_band(dims))
     parts.extend(_underframe_skirt(dims))
+    parts.extend(_battery_strakes(dims))
     parts.extend(_roof_equipment(dims))
-    return Compound(label="Passenger car (cabless, RFC 0015)", children=parts)
+    return Compound(label="Passenger car (cabless, battery-electric)", children=parts)
 
 
 __all__ = [
-    "CarDimensions",
+    "BATTERY_STRAKE_HEIGHT_MM",
+    "BATTERY_STRAKE_WIDTH_MM",
+    "COLOR_BATTERY_STRAKE",
     "COLOR_BODY",
     "COLOR_DOOR_LEAF",
     "COLOR_GLAZING",
     "COLOR_LIVERY",
     "COLOR_ROOF_EQUIPMENT",
     "COLOR_SKIRT",
+    "CarDimensions",
     "DOOR_HEIGHT_MM",
     "DOOR_SILL_HEIGHT_MM",
     "DOOR_WIDTH_MM",

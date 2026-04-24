@@ -11,7 +11,7 @@ major subsystem is ready for.
 
 ## Headline numbers
 
-- **55 Rust crates**, **724 tests passing, 0 failing** (Kani
+- **56 Rust crates**, **747 tests passing, 0 failing** (Kani
   harnesses + proptests + integration tests).
 - **Two Python sidecars**: `design-py` (GIS + network synthesis),
   `mechanical-py` (parametric mechanical / civil / station
@@ -177,6 +177,23 @@ Next milestone (**v0.2**) planned scope:
   known-good-fixture checks for each DIY-assembled SoC; the
   per-unit evidence stamp the custom-PCB path gets from
   flying-probe tests.
+- **Commercial-tool gap-closing (Tier 1 from the Bentley OpenRail
+  comparison) — LANDED:**
+  - `osr-alignment` crate: horizontal + vertical alignment with
+    cant schedule, LandXML + railML exports, stake-out CSV
+    generator.
+  - Earthworks quantities (cut / fill / rail tonnage / sleeper
+    count / ballast / concrete) in `osr-alignment::earthworks`.
+  - Trackside-equipment placement (axle counters, balises, radio
+    masts, cable cabinets) in `osr-alignment::trackside`.
+  - Parametric turnout CAD (1:9 / 1:14 / 1:18.5) in
+    `osr_mech.track.turnout`.
+  - Parametric depot CAD (three archetypes) in `osr_mech.depot`.
+  - Gauge-clearance swept-solid check (EN 15273 baseline) in
+    `osr_mech.clearance`.
+  - PRM accessibility zones (EN 16584-1/3) in `osr_mech.accessibility`.
+  - Crashworthiness scaffold (EN 15227 three-zone allocation) —
+    RFC 0020 + `osr_mech.crashworthiness`.
 - RFC 0017 v2 — secbus wired into consensus.
 - Residual-risk narrative in the certification pack.
 - First external review feedback incorporated.

@@ -28,7 +28,7 @@ Plus one optional type for edge cases:
 
 | Archetype | Purpose |
 |---|---|
-| `training-wing` | Co-located driver-training simulators + classroom. Opt-in on `main-heavy`; not a standalone depot. |
+| `training-wing` | Co-located operations-training facility — OCC dispatcher-console simulators, maintenance-technician workshop mock-ups, and recovery-mode-crew briefing rooms. OSR is GoA 4 driverless ([RFC 0015](0015-driverless-operation.md)), so there are **no revenue-service drivers to train** — the wing exists for dispatchers, maintainers, station staff, and the recovery-mode crew who operate the manual-fallback joystick ([RFC 0015 §8.2](0015-driverless-operation.md#82-recovery-mode-cabinet)). Opt-in on `main-heavy`; not a standalone depot. |
 
 **All depots are at-grade.** Per [RFC 0011 §1](0011-civil-infrastructure-design-standard.md#1-summary)
 depots are never elevated — the footprint is too large to
