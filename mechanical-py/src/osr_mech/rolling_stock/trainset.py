@@ -21,7 +21,7 @@ from __future__ import annotations
 from build123d import Axis, Compound, Part
 
 from ..common import ConsistFamily, consist_platform_length_m
-from .bogie import WHEELBASE_MM, bogie_assembly
+from .bogie import WHEELBASE_MM, motor_bogie, trailer_bogie
 from .car_body import CarDimensions, car_body
 from .sensor_cowl import COWL_LENGTH_MM, sensor_cowl
 
@@ -42,12 +42,28 @@ _FAMILY_CAR_COUNT: dict[ConsistFamily, int] = {
 COUPLING_GAP_MM = 1000.0
 
 
+# Motorisation pattern per family (RFC 0022 §8).
+# True = motor bogie on that car; False = trailer bogie.
+_FAMILY_MOTORISED_CARS: dict[ConsistFamily, tuple[bool, ...]] = {
+    ConsistFamily.TRAM_2CAR: (True, True),
+    ConsistFamily.LIGHT_METRO_3CAR: (True, False, True),
+    ConsistFamily.METRO_4CAR: (True, True, False, True),
+    ConsistFamily.METRO_6CAR: (True, True, False, False, True, True),
+}
+
+
 def family_dimensions(family: ConsistFamily) -> CarDimensions:
     """Default `CarDimensions` for each consist family."""
     return CarDimensions(
         body_length_mm=_FAMILY_CAR_LENGTH_MM[family],
         doors_per_side=3 if family != ConsistFamily.TRAM_2CAR else 2,
     )
+
+
+def family_motorisation(family: ConsistFamily) -> tuple[bool, ...]:
+    """Return the per-car motorisation pattern (True = motor car,
+    False = trailer car) for a given consist family per RFC 0022 §8."""
+    return _FAMILY_MOTORISED_CARS[family]
 
 
 def trainset(family: ConsistFamily = ConsistFamily.LIGHT_METRO_3CAR) -> Compound:
@@ -84,17 +100,19 @@ def trainset(family: ConsistFamily = ConsistFamily.LIGHT_METRO_3CAR) -> Compound
     parts.append(cowl_minus)
     x_cursor += COWL_LENGTH_MM
 
-    # Car bodies.
+    # Car bodies + bogies per RFC 0022 motorisation pattern.
+    motorised = _FAMILY_MOTORISED_CARS[family]
     for i in range(car_count):
         body = car_body(dims)
         car_centre_x = x_cursor + dims.body_length_mm / 2.0
         body = body.translate((car_centre_x, 0.0, 0.0))
         parts.append(body)
 
-        # Two bogies per car at ±(body_length/2 - 3500 mm / 2 - margin).
-        # Approximate: 3.5 m from each car end.
+        # Two bogies per car — motor or trailer variant depending
+        # on the family's motorisation pattern.
+        bogie_builder = motor_bogie if motorised[i] else trailer_bogie
         for sign in (-1, 1):
-            bog = bogie_assembly()
+            bog = bogie_builder()
             bog = bog.translate((car_centre_x + sign * (dims.body_length_mm / 2.0 - WHEELBASE_MM), 0.0, 0.0))
             parts.append(bog)
 
@@ -142,6 +160,7 @@ __all__ = [
     "COUPLING_GAP_MM",
     "expected_platform_length_m",
     "family_dimensions",
+    "family_motorisation",
     "trainset",
     "trainset_length_m",
 ]

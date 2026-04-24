@@ -73,6 +73,8 @@ one supplier-qualification set.
 | Couplers | Scharfenberg Type 10 automatic + e-coupler for 24 V / CAN-FD / Ethernet | Standard metro coupler; allows rescue of a failed train by any neighbour consist in the fleet. |
 | Articulation | Low-floor articulated body between intermediate cars on `light-metro-3car` + `tram-2car`; full bogie-per-car on `metro-4car` / `metro-6car` | Articulation keeps low-floor structure simple at short lengths; drops away above 88 m where tare cost dominates. |
 | Axle load | ≤ 14 t loaded (AW3 crush) | Well inside a 22.5 t UIC mainline limit — lets the catenary-free metros share minor infrastructure with legacy rail where needed without overstressing bridges. |
+| Bogies | 2-axle pivoting, Bo-Bo per motor car, trailer bogies on unpowered cars. See [RFC 0022](0022-bogie-traction-drive.md) for the single-SKU design. Wheels 760 mm new / 680 mm worn. Chevron-rubber primary + air-spring secondary suspension. | One bogie pattern scales across every family; wheel size is the widest-catalogue metro standard with MENA-serviceable spares. |
+| Traction | Axle-hung PMSM + single-stage parallel spur gearbox, 6.5 : 1. 180 kW continuous / 320 kW peak per axle. Per-family motorisation pattern in [RFC 0022 §8](0022-bogie-traction-drive.md#8-motorisation-pattern-per-family). | Wheel-hub direct-drive was evaluated and rejected — spares pipeline is too thin. Axle-hung is the Mireo / Urbos / Coradia sweet spot. |
 | Crashworthiness | EN 15227 Cat C-II (medium urban) for all families | Addresses metro-to-metro and metro-to-obstacle collisions at up to 25 km/h. Energy absorbers at cab ends + at each articulation; anti-climbing features. |
 
 ### 3.2 Propulsion + auxiliary

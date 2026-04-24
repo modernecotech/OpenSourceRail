@@ -20,7 +20,18 @@ from .civil.ugirder import u_girder
 from .clearance import reference_envelope, swept_envelope_part
 from .common import ConsistFamily, GeometryPreset, RailProfile, StationArchetype
 from .depot import DepotArchetype, depot_layout
-from .rolling_stock.bogie import bogie_assembly
+from .rolling_stock.bogie import (
+    bogie_frame,
+    bogie_assembly,
+    brake_unit,
+    gearbox,
+    motor_bogie,
+    primary_suspension,
+    secondary_suspension,
+    traction_motor,
+    trailer_bogie,
+    wheelset,
+)
 from .rolling_stock.car_body import car_body
 from .rolling_stock.cots_equipment import fit_out_car_body
 from .rolling_stock.sensor_cowl import sensor_cowl
@@ -87,11 +98,28 @@ def export_all(root: Path) -> None:
     # Rolling stock (RFC 0015 cabless).
     _export(sensor_cowl(), _out(root, "rolling_stock", "sensor-cowl.step"))
     _export(car_body(), _out(root, "rolling_stock", "car-body-22m.step"))
-    _export(bogie_assembly(), _out(root, "rolling_stock", "bogie-2axle.step"))
     _export(
         fit_out_car_body(),
         _out(root, "rolling_stock", "car-body-22m-cots-fit-out.step"),
     )
+
+    # Bogie components (RFC 0022).
+    _export(wheelset(), _out(root, "bogie", "wheelset.step"))
+    _export(traction_motor(), _out(root, "bogie", "motor-pmsm.step"))
+    _export(gearbox(), _out(root, "bogie", "gearbox.step"))
+    _export(primary_suspension(), _out(root, "bogie", "primary-suspension.step"))
+    _export(
+        secondary_suspension(),
+        _out(root, "bogie", "secondary-suspension.step"),
+    )
+    _export(brake_unit(), _out(root, "bogie", "brake-unit.step"))
+    _export(bogie_frame(), _out(root, "bogie", "frame.step"))
+
+    # Bogie assemblies (motor + trailer).
+    _export(motor_bogie(), _out(root, "bogie", "motor-bogie.step"))
+    _export(trailer_bogie(), _out(root, "bogie", "trailer-bogie.step"))
+    # Legacy name — identical to motor-bogie.
+    _export(bogie_assembly(), _out(root, "rolling_stock", "bogie-2axle.step"))
     for family in (
         ConsistFamily.TRAM_2CAR,
         ConsistFamily.LIGHT_METRO_3CAR,
