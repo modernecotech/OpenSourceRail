@@ -339,7 +339,10 @@ pub fn budget_for_population(pop: u64) -> GreedyBudget {
         },
         1_000_001..=3_000_000 => GreedyBudget {
             max_lines: 6,
-            max_total_route_m: 130_000.0,
+            // 220 km total: ~5 radials × 22 km plus a ~110 km ring at
+            // 0.55 × urban_radius. Tehran/Madrid scale (Tehran 280 km /
+            // 7 lines, Madrid 290 km / 13 lines).
+            max_total_route_m: 220_000.0,
             min_coverage_per_km: 150.0,
             coverage_radius_m: 600.0,
             min_line_length_m: 12_000.0,
@@ -351,11 +354,13 @@ pub fn budget_for_population(pop: u64) -> GreedyBudget {
         },
         _ => GreedyBudget {
             max_lines: 9,
-            // 380 km — fits 9 cross-city via-hub radials at ~42 km
-            // each. Real comparators: Tehran 280 km / 7 lines, Madrid
-            // 290 km / 13 lines, London ~400 km / 11 lines. Tighter
-            // caps starve the planner with the peripheral phase active.
-            max_total_route_m: 380_000.0,
+            // 500 km — fits 8 cross-city via-hub radials at ~42 km
+            // each (~325 km observed) plus a ~110 km circumferential
+            // ring at 0.55 × urban_radius. Real comparators: London
+            // ~400 km / 11 lines (no Crossrail), Beijing ~700 km / 22
+            // lines, Madrid 290 km / 13 lines. Tighter caps starve
+            // the ring with the peripheral phase active on radials.
+            max_total_route_m: 500_000.0,
             min_coverage_per_km: 100.0,
             coverage_radius_m: 600.0,
             min_line_length_m: 16_000.0,
@@ -435,9 +440,43 @@ pub fn greedy_synthesize_lines(
     let mut cross_mask = vec![0.0_f32; h * w];
     let mut lines: Vec<Line> = Vec::new();
     let mut committed_chords: Vec<((usize, usize), (usize, usize))> = Vec::new();
+    let mut used_anchor_ids: HashSet<usize> = HashSet::new();
     let mut total_route_m = 0.0_f64;
 
-    while lines.len() < budget.max_lines && total_route_m < budget.max_total_route_m {
+    // Reserve one slot for a circumferential ring on cities with
+    // ≥ 4 lines. Cross-radial trips (suburb → suburb without going
+    // downtown) and cross-radial transfers benefit from a ring at
+    // ~0.55 × urban_radius, the same band every real metro of this
+    // size deploys (London Circle, Beijing 2/10, Moscow Koltsevaya,
+    // Madrid 6, Tokyo Yamanote). Without this slot, greedy radials
+    // alone leave tangential demand stranded — the user-flagged
+    // "no way to centre from suburbs without a transfer" problem.
+    let reserve_ring = budget.max_lines >= 4;
+    // Estimated ring length at 0.55 × urban_radius, including a
+    // 1.4× road-snap detour factor (a real Dijkstra ring on the OSM
+    // graph runs ~30-50 % longer than the great-circle chord set —
+    // measured against Baghdad which produced a 108 km ring on a
+    // ~24 km urban radius, vs the ideal 83 km chord ring). Keeping
+    // this honest is what stops the radial loop from consuming the
+    // whole route-km cap and starving the ring.
+    let ring_length_estimate_m = if reserve_ring {
+        let ring_radius_cells = 0.55 * urban_r;
+        let chord_circumference_cells =
+            2.0 * std::f32::consts::PI * ring_radius_cells;
+        let detour_factor = 1.4_f32;
+        f64::from(chord_circumference_cells * detour_factor * cell_m)
+    } else {
+        0.0
+    };
+    let radial_max_lines = if reserve_ring {
+        budget.max_lines.saturating_sub(1)
+    } else {
+        budget.max_lines
+    };
+    let radial_budget_m =
+        (budget.max_total_route_m - ring_length_estimate_m).max(0.0);
+
+    while lines.len() < radial_max_lines && total_route_m < radial_budget_m {
         // Phase 2 kicks in once half the line budget is used: any
         // remaining line must reach a peripheral anchor (d > 0.9 ×
         // urban_r). Without this the greedy planner keeps picking
@@ -524,6 +563,8 @@ pub fn greedy_synthesize_lines(
         total_route_m += cand.length_m;
 
         committed_chords.push((anchors[cand.a].cell(), anchors[cand.b].cell()));
+        used_anchor_ids.insert(cand.a);
+        used_anchor_ids.insert(cand.b);
         let trimmed = trim_low_demand_tails(grid, &cand.cells, false);
         lines.push(Line {
             name: format!("line-{}", lines.len() + 1),
@@ -536,7 +577,132 @@ pub fn greedy_synthesize_lines(
     if lines.is_empty() {
         return Err(TopologyError::TooFewAnchors { min: 2, got: 0 });
     }
+
+    // Try to append a circumferential ring as the last line.
+    if reserve_ring {
+        match try_synthesize_ring(
+            grid,
+            anchors,
+            &usable,
+            &used_anchor_ids,
+            demand_w,
+            &cross_mask,
+            budget,
+            lines.len() + 1,
+        ) {
+            Ok(Some(ring_line)) => {
+                let ring_len_m =
+                    cell_path_length_m(&ring_line.cells, f64::from(cell_m));
+                // Allow up to a 10 % overshoot of the cap for the ring —
+                // the estimate above is a chord-circle approximation and
+                // the real route bends around no-build cells.
+                let cap_with_slack = budget.max_total_route_m * 1.10;
+                if total_route_m + ring_len_m <= cap_with_slack {
+                    eprintln!(
+                        "  greedy: appended ring (line-{}) — {} cells, {:.0} m",
+                        lines.len() + 1,
+                        ring_line.cells.len(),
+                        ring_len_m,
+                    );
+                    lines.push(ring_line);
+                } else {
+                    eprintln!(
+                        "  greedy: ring would exceed total budget \
+                         ({:.0} m + {:.0} m > {:.0} m × 1.10), skipping",
+                        total_route_m, ring_len_m, budget.max_total_route_m,
+                    );
+                }
+            }
+            Ok(None) => {
+                eprintln!(
+                    "  greedy: no ring synthesized (insufficient peripheral anchors)"
+                );
+            }
+            Err(e) => {
+                eprintln!("  greedy: ring synthesis failed: {e}");
+            }
+        }
+    }
+
     Ok(lines)
+}
+
+/// Build a circumferential ring from the unused-anchor pool, route it
+/// with bbox-clipped Dijkstra (so a Baghdad-sized grid doesn't cost
+/// minutes per segment), and return it as a `Line`. Returns `Ok(None)`
+/// if the ring band can't be filled with at least 3 anchors — that is
+/// the legitimate small-city case where no useful ring exists.
+fn try_synthesize_ring(
+    grid: &Grid,
+    anchors: &[Anchor],
+    usable: &[usize],
+    used: &HashSet<usize>,
+    demand_w: DemandWeight,
+    cross_mask: &[f32],
+    budget: &GreedyBudget,
+    line_idx: usize,
+) -> Result<Option<Line>, TopologyError> {
+    // 8 anchors gives the ring an average chord of
+    // 2 × R × sin(π/8) ≈ 0.77 × R per segment. Eight transfer points
+    // around the city is also what real circle lines run with
+    // (London Circle = 27 stops/7 lines, Madrid 6 = 28 stops, Beijing
+    // 2 = 18 stops). Falling back to 6 below if the band is sparse.
+    let preferred_n = 8_usize;
+    let fallback_n = 6_usize;
+
+    let mut ordered_usable: Vec<usize> = usable.to_vec();
+    ordered_usable.sort_by(|&a, &b| {
+        anchors[b]
+            .weight
+            .partial_cmp(&anchors[a].weight)
+            .unwrap_or(std::cmp::Ordering::Equal)
+    });
+
+    let ring_ids = match pick_ring_anchors_by_radius(
+        grid,
+        anchors,
+        &ordered_usable,
+        used,
+        preferred_n,
+        RingBand::Outer,
+    ) {
+        Ok(v) => v,
+        Err(_) => {
+            // Outer band sparse — try Inner as a fallback so anchor-
+            // poor cities (Samawah is below the threshold but a
+            // future ~600k city could hit this) still get a ring.
+            match pick_ring_anchors_by_radius(
+                grid,
+                anchors,
+                &ordered_usable,
+                used,
+                fallback_n,
+                RingBand::Inner,
+            ) {
+                Ok(v) => v,
+                Err(_) => return Ok(None),
+            }
+        }
+    };
+
+    let cells = match route_ring_in_bbox(
+        grid,
+        anchors,
+        &ring_ids,
+        demand_w,
+        cross_mask,
+        budget.bbox_margin_frac,
+    ) {
+        Ok(c) => c,
+        Err(_) => return Ok(None),
+    };
+
+    Ok(Some(Line {
+        name: format!("line-{}", line_idx),
+        shape: LineShape::Ring,
+        anchor_ids: ring_ids,
+        cells,
+    }))
 }
 
 struct Candidate {
@@ -1812,4 +1978,48 @@ fn append_segment(acc: &mut Vec<(usize, usize)>, seg: Vec<(usize, usize)>) {
     } else {
         acc.extend(seg);
     }
+}
+
+/// Like [`route_ring`] but bbox-clips each segment's Dijkstra to the
+/// chord-aligned rectangle plus a margin. On a Baghdad-sized grid
+/// (2668 × 2976) an 8-segment unbounded ring solve takes 30+ s; the
+/// bbox-clipped version runs each segment over ~5 % of the cells and
+/// finishes in seconds.
+fn route_ring_in_bbox(
+    grid: &Grid,
+    anchors: &[Anchor],
+    ring_ids: &[usize],
+    demand_w: DemandWeight,
+    cross_mask: &[f32],
+    bbox_margin_frac: f32,
+) -> Result<Vec<(usize, usize)>, SolverError> {
+    let h = grid.reference.height;
+    let w = grid.reference.width;
+    let mut cells: Vec<(usize, usize)> = Vec::new();
+    let mut self_mask: Vec<f32> = cross_mask.to_vec();
+
+    let solve_seg = |seg_mask: &[f32], s, e| {
+        let bbox = chord_bbox(grid, s, e, bbox_margin_frac);
+        solve_path_in_bbox(grid, s, e, demand_w, Some(seg_mask), Some(bbox))
+    };
+
+    for pair in ring_ids.windows(2) {
+        let mut seg_mask = self_mask.clone();
+        let s = anchors[pair[0]].cell();
+        let e = anchors[pair[1]].cell();
+        stamp_corridor(&mut seg_mask, s, e, h, w);
+        let seg = solve_seg(&seg_mask, s, e)?;
+        let body: Vec<(usize, usize)> =
+            seg.iter().copied().take(seg.len().saturating_sub(1)).collect();
+        stamp_penalty(&mut self_mask, &body, h, w, SELF_PENALTY);
+        append_segment(&mut cells, seg);
+    }
+    // Close the loop.
+    let s = anchors[*ring_ids.last().unwrap()].cell();
+    let e = anchors[ring_ids[0]].cell();
+    let mut seg_mask = self_mask.clone();
+    stamp_corridor(&mut seg_mask, s, e, h, w);
+    let seg = solve_seg(&seg_mask, s, e)?;
+    append_segment(&mut cells, seg);
+    Ok(cells)
 }

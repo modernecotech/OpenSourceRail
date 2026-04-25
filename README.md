@@ -22,34 +22,37 @@ cab is replaced by a nose-cone obstacle-detection sensor suite
 camera) on a dedicated T-OBS ECU, with **wayside track-intrusion
 detection** ([RFC 0016](docs/rfcs/0016-wayside-track-intrusion.md))
 covering the proactive half of the safety envelope between trains.
-The Samawah four-line reference scenario
+The Samawah reference scenario
 ([RFC 0003](docs/rfcs/0003-samawah-reference-deployment.md)) runs end-to-end,
 and the design pipeline now synthesises multi-line networks for arbitrary
 cities directly from OpenStreetMap — **including road-snapped corridors**
-computed by networkx shortest-path on the OSM graph.
+computed by `osr-routing`'s cost/demand Dijkstra on the OSM arterial graph.
+Population-tiered topology: small cities get a radial bundle; cities with
+a budget for ≥ 4 lines also get a circumferential **ring** at ~0.55 ×
+urban radius (London Circle / Beijing Line 2 / Madrid 6 / Tokyo Yamanote
+pattern), so passengers can transfer tangentially between outer-suburb
+radials without entering the CBD.
 
-![Samawah reference network — four auto-planned lines (blue N–S, orange cross-axis, green diagonal, magenta rail-station feeder) on OpenStreetMap, arterial-routed](designs/west-asia/Iraq/Samawah/samawah-network-map.png)
+![Samawah reference network — three auto-planned radial lines on OpenStreetMap, arterial-routed](designs/west-asia/Iraq/Samawah/samawah-network-map.png)
 
-*Samawah reference deployment — **auto-planned** end-to-end by
-`osr_planner` (linear-logic algorithm, 2026-04-24) against real
-OSM data. Four lines, 29 stations, 45 km of double-track, 7
-interchanges, **100 % transfer reachability**, 84.8 % anchor-
-weighted coverage:
-**Line 1** (blue, 11 stations, 12 km): south-bank residential →
-hospital cluster → city centre → northern neighbourhoods;
-**Line 2** (orange, 11 stations, 11 km): SE residential →
-central interchange → NW residential;
-**Line 3** (green, 11 stations, 13 km): east rail corridor →
-centre → west residential (Abu Jwailana);
-**Line 4** (magenta, 8 stations, 9 km): intercity **Samawah
-Railway Station** feeder through SW residential pocket into
-the centre. Every station sits on an OSM anchor cluster
-(weight-averaged within 500 m); every polyline follows the
-arterial graph (trunk / primary / secondary / tertiary —
-residential streets excluded by construction so no zigzag).
-Lines extend generously 2.5 km past the last anchor into
-suburban fringe for future growth. Regenerate end-to-end with
-`./scripts/regenerate-samawah.sh`.*
+*Samawah (220 k pop) — **auto-planned** end-to-end by `osr-design`
+against real OSM data. Three radial lines, 38 unique stations, 36.4 km of
+double-track, 3 interchange complexes, **52.7 % anchor-weighted
+coverage**, all soft gates passing. Every station sits on an OSM
+anchor cluster (weight-averaged within 240 m); every polyline follows
+the arterial graph (trunk / primary / secondary / tertiary). See
+[designs/west-asia/Iraq/Samawah/README.md](designs/west-asia/Iraq/Samawah/README.md)
+for the full breakdown (per-line termini, fleet sizing, civil cost).*
+
+![Baghdad reference network — eight radial lines plus a circumferential ring auto-planned on OpenStreetMap](designs/west-asia/Iraq/Baghdad/baghdad-network-map.png)
+
+*Baghdad (7.5 M pop) — same pipeline, megacity tier. Eight radial
+lines plus a circumferential ring (line-9, 107 km, 70 stations) at
+~0.55 × urban radius. 329 unique stations, 432.5 km double-track,
+**21 elevated interchange complexes** (auto-snapped at every
+ring↔radial crossing), 35.8 % anchor-weighted coverage,
+20.7 % anchor-hit rate, 8 % elevated. Every soft gate passing.
+See [designs/west-asia/Iraq/Baghdad/README.md](designs/west-asia/Iraq/Baghdad/README.md).*
 
 Twenty-one RFCs cover the full system from software
 architecture through rail civil engineering to driverless operation; the
@@ -99,13 +102,12 @@ for GoA 2 legacy fleets. Most of the
   `EmergencyBrake`. **Two sensor packs per trainset, one at each end**;
   either nose can lead on a given run. Five SIL-4 properties O1–O5 with
   Kani harnesses + 8 proptests; 2oo2 peer cross-check fail-restrictive.
-  The sim now **injects sensor faults on a scenario schedule** (LIDAR
+  The sim **injects sensor faults on a scenario schedule** (LIDAR
   offline, radar offline, ultrasonic channel stale, peer disagreement —
   per-train or fleet-wide) and the shadow stack produces the expected
-  verdicts end-to-end; see [`designs/west-asia/Iraq/Samawah/samawah-obstacle-fault.toml`](designs/west-asia/Iraq/Samawah/samawah-obstacle-fault.toml).
-  Wayside intrusion injection likewise — [`designs/west-asia/Iraq/Samawah/samawah-wayside-intrusion.toml`](designs/west-asia/Iraq/Samawah/samawah-wayside-intrusion.toml)
-  stages Present/Unknown verdicts on specific sections and the
-  interlocking's gate (d) holds MA without any train entering.
+  verdicts end-to-end. Wayside intrusion injection likewise — staged
+  Present/Unknown verdicts on specific sections cause the interlocking's
+  gate (d) to hold MA without any train entering.
 - **Wayside track-intrusion detection (SIL-4, RFC 0016):**
   `osr-intrusion-detect` on the W-SBC fuses fence-line contact
   sensors, ROW-mounted solid-state LIDAR, ROW-mounted mmWave radar,
@@ -577,15 +579,17 @@ cp lib/examples/example-simple.toml designs/my-city/my-city.toml
 cargo run --release --bin osr-sim -- --config designs/my-city/my-city.toml
 ```
 
-Reference scenarios (per-city, alongside the design):
+Reference scenarios:
 
-- **[`samawah.toml`](designs/west-asia/Iraq/Samawah/samawah.toml)** — full auto-planned Samawah network (4 lines, 45 km, 29 stations, 16 revenue trainsets + 8 spare/reserve, time-of-day schedule).
-- **[`samawah-line1.toml`](designs/west-asia/Iraq/Samawah/samawah-line1.toml)** — Line 1 only, useful for scale comparisons.
-- **[`example-simple.toml`](lib/examples/example-simple.toml)** — 3-station shuttle with 1 train. The smallest viable config; copy as a template.
+- **`--scenario samawah`** (default) — built-in 2-line Samawah network from RFC 0003 (Line 1 Nahrain radial + Line 2 Halqa ring, 22 stations, time-of-day headway schedule). Compiled into the binary, no TOML required.
+- **`--scenario samawah-line1`** — Line 1 only, useful for scale comparisons.
+- **[`example-simple.toml`](lib/examples/example-simple.toml)** — 3-station shuttle with 1 train. The smallest viable config; copy as a template for `--config`.
 
 The full file-format reference is in [`lib/examples/README.md`](lib/examples/README.md).
-The same two built-in scenarios are also reachable without a config file via
-`--scenario samawah` (default) and `--scenario samawah-line1`.
+For per-city auto-planned networks (Samawah, Baghdad, …), see the
+`design.toml` and accompanying README in each
+[`designs/<region>/<country>/<city>/`](designs/) folder — those are
+the output of `osr-design` against OSM rasters, not hand-authored.
 
 Pass `--json-out trace.json` to capture the full event trace for later
 analysis.

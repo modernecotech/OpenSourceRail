@@ -246,9 +246,27 @@ fn main() -> Result<()> {
     } else {
         SpacingConfig::default()
     };
+    // Rings traverse the outer urban band where anchor density is sparser
+    // and anchors are spread over wider street grids. The 6-cell (120 m)
+    // default snap radius then misses many real anchor clusters along the
+    // ring path, dragging the network's anchor-hit rate below the soft
+    // gate. Widening the ring snap to 15 cells (300 m, ~ a typical
+    // suburban block) pulls ring stations onto their nearest cluster
+    // without affecting in-line spacing or radial placement. The wider
+    // snap is safe here because rings are routed along arterials too —
+    // an anchor 300 m off-corridor is still inside the same catchment
+    // and reachable on foot via the cross-street.
+    let ring_spacing = SpacingConfig {
+        snap_radius_cells: 15,
+        ..spacing
+    };
     for line in &lines {
+        let cfg = match line.shape {
+            osr_routing::topology::LineShape::Ring => ring_spacing,
+            _ => spacing,
+        };
         let stations =
-            place_stations(&bundle.grid, &bundle.anchors, &line.name, &line.cells, spacing);
+            place_stations(&bundle.grid, &bundle.anchors, &line.name, &line.cells, cfg);
         eprintln!("  {}: {} stations", line.name, stations.len());
         all_stations.extend(stations);
         civil_per_line.push(classify_segments(&bundle.grid, &line.cells));
