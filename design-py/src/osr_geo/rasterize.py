@@ -34,12 +34,19 @@ from osr_osm.fetcher import BBox, CityOSM
 # a 1 km tunnel under buildings costs ~300 — i.e., elevated/tunnel civil
 # work is ~10x more expensive than street-running, which matches the
 # spread in lib/templates/structures.toml.
+#
+# COST_WATER = 80 (≈10× arterial, ~3× side-street). New river crossings
+# are *allowed everywhere* — the solver just pays a per-cell premium
+# proportional to the bridge length. Earlier value (300) made any
+# crossing wider than ~1 km lose to a multi-km farmland detour, so
+# satellite-town radials never crossed the Tigris and the Baghdad
+# network split into "left bank" and "right bank" subgraphs.
 
 BASE_COST_OPEN = 20.0       # open ground, no constraints
 COST_ARTERIAL = 8.0         # wide road, easy ROW (light metro street-running)
 COST_SIDE_STREET = 25.0     # narrow road, possible but slower build
 COST_PARK = 45.0            # green space — expropriation + optics
-COST_WATER = 300.0          # bridges only, very expensive
+COST_WATER = 80.0           # bridges — buildable anywhere, just expensive
 COST_EXISTING_RAIL = 3.0    # reuse corridor if we can
 # Buildings get a very high but *finite* cost. Physical interpretation:
 # the solver can always get through a built-up block, but at tunnel cost.
@@ -52,6 +59,15 @@ COST_PROTECTED = math.inf   # legally forbidden (protected area, military)
 # Demand kernel: how far a POI's gravity extends.
 DEMAND_RADIUS_M = 600.0
 DEMAND_CENTRE_BIAS = 0.3    # pull toward bbox centroid (urban density proxy)
+
+# Blend weight when a population raster is available. The population
+# layer captures pure-residential coverage that anchor-only demand
+# misses (suburbs full of houses with no shops); 0.6 is empirical —
+# enough that a residential ridge stays visible to the planner, but
+# not so high that it overwhelms the pull toward true high-traffic
+# anchors (universities, terminals, hospitals).
+POPULATION_BLEND_WEIGHT = 0.6
+ANCHOR_BLEND_WEIGHT = 0.5    # the centre-bias used to live alongside this
 
 # Default cell size. 20m is a good compromise: resolves one-street spacing
 # in dense urban tissue, keeps the grid tractable.
@@ -265,39 +281,95 @@ def build_cost_surface(city: CityOSM, grid: GridRef) -> np.ndarray:
     return cost
 
 
-def build_demand_surface(city: CityOSM, grid: GridRef) -> np.ndarray:
+def build_demand_surface(
+    city: CityOSM,
+    grid: GridRef,
+    population_layer: np.ndarray | None = None,
+) -> np.ndarray:
     """Demand potential raster.
 
-    Each anchor paints a Gaussian blob scaled by its weight. A mild
-    centre-of-city bias represents density that OSM POIs under-represent
-    in many target cities.
+    Layers (each independently normalised to [0, 1] before blending):
+      - **anchor**: Gaussian blobs from POIs, weighted by tag importance.
+      - **centre bias**: mild distance-from-centre falloff.
+      - **population** (optional): smoothed log-population from a raster
+        like WorldPop. This captures residential demand in suburbs that
+        have no mapped POIs — the failure mode where Iraqi/Pakistani
+        cities ended up with lines hugging the central anchor cluster
+        and the residential ring untouched.
     """
     h, w = grid.height, grid.width
-    demand = np.zeros((h, w), dtype=np.float32)
-
     sigma_cells = DEMAND_RADIUS_M / grid.cell_m
     two_sigma2 = 2.0 * sigma_cells * sigma_cells
 
     # Pre-compute coordinate grids once.
     rr, cc = np.meshgrid(np.arange(h), np.arange(w), indexing="ij")
 
+    anchor_layer = np.zeros((h, w), dtype=np.float32)
     for a in city.anchors:
         r0, c0 = grid.latlon_to_rc(a["lat"], a["lon"])
         d2 = (rr - r0) ** 2 + (cc - c0) ** 2
         blob = a["weight"] * np.exp(-d2 / two_sigma2, dtype=np.float32)
-        demand += blob
+        anchor_layer += blob
+    if anchor_layer.max() > 0:
+        anchor_layer /= anchor_layer.max()
 
     if DEMAND_CENTRE_BIAS > 0:
         cr, cc_ = h // 2, w // 2
         max_d = math.hypot(h / 2, w / 2)
         d = np.sqrt((rr - cr) ** 2 + (cc - cc_) ** 2) / max_d
-        demand += DEMAND_CENTRE_BIAS * (1.0 - d).astype(np.float32)
+        centre_bias = (1.0 - d).astype(np.float32)
+    else:
+        centre_bias = np.zeros((h, w), dtype=np.float32)
 
-    # Normalize to [0, 1] so Rust can compose with other surfaces.
+    demand = ANCHOR_BLEND_WEIGHT * anchor_layer + DEMAND_CENTRE_BIAS * centre_bias
+
+    if population_layer is not None and population_layer.size > 0:
+        # Population layer is already smoothed + normalised.
+        demand = demand + POPULATION_BLEND_WEIGHT * population_layer
+
     vmax = demand.max()
     if vmax > 0:
         demand /= vmax
-    return demand
+    return demand.astype(np.float32)
+
+
+def filter_anchors_by_population(
+    anchors: list[dict[str, Any]],
+    population_layer: np.ndarray,
+    bbox: BBox,
+    cell_m: float,
+    threshold: float = 0.05,
+    neighbourhood: int = 2,
+) -> list[dict[str, Any]]:
+    """Drop anchors sitting in low-population cells.
+
+    `population_layer` is the normalised demand-layer output. Anchors
+    whose neighbourhood (radius `neighbourhood` cells) peaks below
+    `threshold × layer.max()` are treated as rural noise (farm villages,
+    isolated mosques the bbox happened to enclose) and dropped.
+
+    The neighbourhood lookup tolerates a moderately misaligned anchor —
+    a clinic on the edge of a populated block stays in.
+    """
+    if population_layer.size == 0:
+        return anchors
+    peak = float(population_layer.max())
+    if peak <= 0:
+        return anchors
+    cutoff = peak * threshold
+    grid = _grid_ref(bbox, cell_m)
+    h, w = population_layer.shape
+    kept: list[dict[str, Any]] = []
+    for a in anchors:
+        r, c = grid.latlon_to_rc(a["lat"], a["lon"])
+        if not (0 <= r < h and 0 <= c < w):
+            continue
+        r0, r1 = max(0, r - neighbourhood), min(h, r + neighbourhood + 1)
+        c0, c1 = max(0, c - neighbourhood), min(w, c + neighbourhood + 1)
+        if float(population_layer[r0:r1, c0:c1].max()) < cutoff:
+            continue
+        kept.append(a)
+    return kept
 
 
 def build_buildability_mask(cost: np.ndarray) -> np.ndarray:
@@ -361,10 +433,11 @@ class RasterBundle:
 def rasterize_city(
     city: CityOSM,
     cell_m: float = DEFAULT_CELL_M,
+    population_layer: np.ndarray | None = None,
 ) -> RasterBundle:
     grid = _grid_ref(city.bbox, cell_m)
     cost = build_cost_surface(city, grid)
-    demand = build_demand_surface(city, grid)
+    demand = build_demand_surface(city, grid, population_layer=population_layer)
     buildability = build_buildability_mask(cost)
 
     # Pre-compute anchor (row, col) for Rust. OSM POIs are often the

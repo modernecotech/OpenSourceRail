@@ -1,4 +1,4 @@
-"""Render the two network-map PNGs for a city design.toml.
+"""Render the network-map PNG for a city design.toml.
 
 Consumes the same design.toml the scenario generator does, so as soon
 as coordinates / lines / stations change in the design, regenerating
@@ -41,11 +41,18 @@ _LINE_COLORS = [
 ]
 
 _ARCH_COLOR = {
-    "terminal":        "#d0382b",
-    "depot-terminal":  "#8a2a62",
-    "major":           "#2b6fd0",
-    "interchange":     "#e8a63a",
-    "standard":        "#ffffff",
+    "terminal":              "#d0382b",
+    "depot-terminal":        "#8a2a62",
+    "major":                 "#2b6fd0",
+    "interchange":           "#e8a63a",
+    # Auto-gen planner emits a junction variant when the crossing was
+    # forced to elevation (one line lifted ±1 km around the interchange).
+    # Distinct purple so it reads differently from the amber at-grade one.
+    "interchange-elevated":  "#7a3fb8",
+    # Brighter halt — original #3f9b5b vanished against thick black
+    # ring lines on the full-network zoom.
+    "halt":                  "#21c267",
+    "standard":              "#ffffff",
 }
 
 
@@ -73,17 +80,31 @@ def render_city(
     doc = tomllib.loads(design_path.read_text())
     by_id = {s["id"]: s for s in doc["stations"]}
     lines = doc["lines"]
-    # Lowercase the city component for filename stability — the
-    # design slug uses human casing (`west-asia/Iraq/Samawah`) but
-    # README + scripts reference `samawah-network-map.png`.
-    slug = doc.get("design", {}).get("id", "city").rsplit("/", 1)[-1].lower()
+    # Lowercase the city component for filename stability. Hand-authored
+    # designs carry `[design].id = "west-asia/Iraq/Samawah"`; auto-gen
+    # designs carry `[city].slug = "samawah"`. Fall through both.
+    slug = (
+        doc.get("design", {}).get("id")
+        or doc.get("city", {}).get("slug")
+        or "city"
+    ).rsplit("/", 1)[-1].lower()
+
+    # Auto-gen pipeline emits per-line geometry into a sidecar
+    # `{slug}.corridor.geojson` instead of `track_polyline` inside
+    # the TOML. Pick that up so we can render lines straight from
+    # the planner output without round-tripping through routing.py.
+    sidecar_geoms = _load_sidecar_geoms(design_path, slug)
 
     out_dir.mkdir(parents=True, exist_ok=True)
     written: list[Path] = []
 
     # Try to compute road-snapped routes (+ save the GeoJSON artefact).
+    # Skip when the planner already produced a sidecar — its geometry
+    # is the authoritative one (includes parallel-track offsets for
+    # shared trunks, anti-loop penalty masks, etc.) and shouldn't be
+    # second-guessed by a re-snap pass.
     routes: dict | None = None
-    if route_on_roads:
+    if route_on_roads and not sidecar_geoms:
         try:
             from .routing import route_lines, routes_to_geojson
 
@@ -103,32 +124,21 @@ def render_city(
             print(f"warning: road routing failed, falling back to straight segments: {e}")
             routes = None
 
-    # Two maps per city:
-    #  1. `network-map.png`        — the FULL network, auto-fit zoom
-    #                                so every suburban line is visible
-    #                                even for metros like Baghdad.
-    #  2. `network-map-detail.png` — central-city zoom, filtering
-    #                                features to those within
-    #                                `detail_radius_km` of the design
-    #                                centre so the urban core is
-    #                                legible.
-    net_south, net_west, net_north, net_east = _network_bbox(doc)
+    # One map per city: the full network at auto-fit zoom, sized large
+    # enough that every suburban terminus is visible at readable scale.
+    # Earlier we shipped a separate detail PNG for the central core; the
+    # 2400×2000 single render reads that fine on its own and avoids
+    # having two near-duplicate images in each city folder.
+    net_south, net_west, net_north, net_east = _network_bbox(doc, sidecar_geoms)
+    img_w, img_h = 2400, 2000
     full_zoom = _fit_zoom(
         net_south, net_west, net_north, net_east,
-        img_w=1600, img_h=1400,
+        img_w=img_w, img_h=img_h,
     )
     full_zoom = max(6, min(17, full_zoom))
 
-    loc = doc.get("location", {})
-    detail_center = (
-        float(loc.get("center_lat", (net_south + net_north) / 2)),
-        float(loc.get("center_lon", (net_west + net_east) / 2)),
-    )
-    detail_radius_km = 8.0  # central-city footprint
-
     renders: list[tuple[str, int, tuple[int, int], tuple[float, float] | None, float | None]] = [
-        ("network-map.png", full_zoom, (1600, 1400), None, None),
-        ("network-map-detail.png", 13, (1800, 1600), detail_center, detail_radius_km),
+        ("network-map.png", full_zoom, (img_w, img_h), None, None),
     ]
     for (suffix, zoom, wh, center_filter, radius_km) in renders:
         m = StaticMap(
@@ -170,8 +180,7 @@ def render_city(
         ring_color = "#000000"
         ring_halo = "#ffffff"
 
-        def _draw_line(line_id: str, coords: list, color: str) -> None:
-            is_ring = line_id == "line-ring"
+        def _draw_line(line_key: str, is_ring: bool, coords: list, color: str) -> None:
             if is_ring:
                 # White halo first (draws under), then black ring on top.
                 m.add_line(Line(coords, ring_halo, ring_stroke + 4))
@@ -181,22 +190,31 @@ def render_city(
 
         for idx, line in enumerate(lines):
             color = _LINE_COLORS[idx % len(_LINE_COLORS)]
+            # Auto-gen lines key on `name`; hand-authored use `id`.
+            line_key = line.get("id") or line.get("name") or f"line-{idx}"
+            # Ring detection: hand-authored uses the literal `line-ring`
+            # id; auto-gen marks the topology shape per-line.
+            is_ring = (line_key == "line-ring") or (line.get("shape") == "ring")
             track = line.get("track_polyline")
             if track and len(track) >= 2:
                 coords = [(p[1], p[0]) for p in track]  # (lon, lat)
                 if _line_in_range(coords):
-                    _draw_line(line["id"], coords, color)
-            elif routes is not None and line["id"] in routes:
-                for seg in routes[line["id"]]:
+                    _draw_line(line_key, is_ring, coords, color)
+            elif sidecar_geoms.get(line_key):
+                for seg in sidecar_geoms[line_key]:
+                    if len(seg) >= 2 and _line_in_range(seg):
+                        _draw_line(line_key, is_ring, seg, color)
+            elif routes is not None and line_key in routes:
+                for seg in routes[line_key]:
                     if _line_in_range(seg["coords"]):
-                        _draw_line(line["id"], seg["coords"], color)
+                        _draw_line(line_key, is_ring, seg["coords"], color)
             else:
                 coords = [
                     (by_id[s["id"]]["lon"], by_id[s["id"]]["lat"])
                     for s in line.get("stations", [])
                 ]
                 if len(coords) >= 2 and _line_in_range(coords):
-                    _draw_line(line["id"], coords, color)
+                    _draw_line(line_key, is_ring, coords, color)
         # Draw stations — filtered to the detail circle when present.
         seen: set[str] = set()
         big = zoom >= 13
@@ -214,6 +232,12 @@ def render_city(
             else:
                 outer_r = 22 if big else 16
                 inner_r = 9 if big else 7
+            # 3-layer marker: black outline (largest) → archetype colour
+            # → white centre. The black outline is what makes halt /
+            # standard markers visible on top of the heavy black ring
+            # line stroke, where a colour-only marker disappears into
+            # the line's halo.
+            m.add_marker(CircleMarker((s["lon"], s["lat"]), "#000000", outer_r + 3))
             m.add_marker(CircleMarker((s["lon"], s["lat"]), outer, outer_r))
             m.add_marker(CircleMarker((s["lon"], s["lat"]), "#ffffff", inner_r))
         img = m.render(zoom=zoom)
@@ -259,7 +283,10 @@ def _find_repo_root() -> Path:
     return Path.cwd()
 
 
-def _network_bbox(doc: dict) -> tuple[float, float, float, float]:
+def _network_bbox(
+    doc: dict,
+    sidecar_geoms: dict[str, list[list[tuple[float, float]]]] | None = None,
+) -> tuple[float, float, float, float]:
     """Return (south, west, north, east) covering every station
     coord and every polyline vertex in the design — used to pick a
     zoom that fits the whole network in the rendered image."""
@@ -272,9 +299,18 @@ def _network_bbox(doc: dict) -> tuple[float, float, float, float]:
         for lat, lon in L.get("track_polyline", ()) or ():
             lats.append(float(lat))
             lons.append(float(lon))
+    if sidecar_geoms:
+        for segs in sidecar_geoms.values():
+            for seg in segs:
+                for lon, lat in seg:
+                    lats.append(float(lat))
+                    lons.append(float(lon))
     if not lats:
         # Fallback to the design's input bbox.
-        bb = doc.get("location", {}).get("bbox", {})
+        bb = (
+            doc.get("location", {}).get("bbox")
+            or doc.get("city", {}).get("bbox", {})
+        )
         return (
             float(bb.get("south", 0.0)),
             float(bb.get("west", 0.0)),
@@ -311,6 +347,44 @@ def _fit_zoom(
         if w_px <= img_w and h_px <= img_h:
             return z
     return 6
+
+
+def _load_sidecar_geoms(
+    design_path: Path, slug: str,
+) -> dict[str, list[list[tuple[float, float]]]]:
+    """Pick up `{slug}.corridor.geojson` (auto-gen layout) or
+    `{slug}-corridor.geojson` (hand-authored layout) sitting next
+    to the design.toml. Returns `{line_name: [seg_coords, ...]}`,
+    where each seg_coords is a list of `(lon, lat)` tuples. Empty
+    dict if no sidecar exists or it has no `kind: line` features.
+    """
+    candidates = [
+        design_path.parent / f"{slug}.corridor.geojson",
+        design_path.parent / f"{slug}-corridor.geojson",
+    ]
+    sidecar = next((p for p in candidates if p.exists()), None)
+    if sidecar is None:
+        return {}
+    try:
+        geo = json.loads(sidecar.read_text())
+    except (OSError, ValueError):
+        return {}
+    out: dict[str, list[list[tuple[float, float]]]] = {}
+    for ft in geo.get("features", []):
+        props = ft.get("properties", {}) or {}
+        if props.get("kind") != "line":
+            continue
+        # Auto-gen tags features with `name`; hand-authored with `id`.
+        name = props.get("id") or props.get("name")
+        if not name:
+            continue
+        coords = ft.get("geometry", {}).get("coordinates") or []
+        if len(coords) < 2:
+            continue
+        out.setdefault(name, []).append(
+            [(float(lon), float(lat)) for lon, lat in coords]
+        )
+    return out
 
 
 def _find_osm_cache(start: Path) -> Path:

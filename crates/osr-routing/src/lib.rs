@@ -22,6 +22,13 @@ pub mod topology;
 
 pub use civil::{classify_segments, CivilClass, CivilSegment};
 pub use raster::{Anchor, Grid, GridRef, RasterBundle};
-pub use solver::{solve_path, DemandWeight, SolverError};
-pub use station::{place_stations, Station};
-pub use topology::{synthesize_lines, Line, LineShape, TopologyArchetype, TopologyError};
+pub use solver::{
+    solve_path, solve_path_in_bbox, solve_path_with_penalty, DemandWeight, SolverError,
+};
+pub use station::{
+    force_hub_stations, force_ring_radial_crossings, merge_interchanges, place_stations, Station,
+};
+pub use topology::{
+    budget_for_population, greedy_synthesize_lines, hub_cell, synthesize_lines, GreedyBudget,
+    Line, LineShape, TopologyArchetype, TopologyError, HUB_RADIUS_CELLS,
+};

@@ -86,9 +86,45 @@ pub fn solve_path(
     goal: (usize, usize),
     demand_w: DemandWeight,
 ) -> Result<Vec<(usize, usize)>, SolverError> {
+    solve_path_with_penalty(grid, start, goal, demand_w, None)
+}
+
+/// Same as [`solve_path`] but adds a per-cell `penalty` (length H*W,
+/// row-major) to the base cost before the demand reward. Used by
+/// topology synthesis to push later legs of a line away from cells the
+/// line has already used (anti-self-loop) and to nudge sister lines
+/// off identical track unless sharing is structurally cheap.
+pub fn solve_path_with_penalty(
+    grid: &Grid,
+    start: (usize, usize),
+    goal: (usize, usize),
+    demand_w: DemandWeight,
+    penalty: Option<&[f32]>,
+) -> Result<Vec<(usize, usize)>, SolverError> {
+    solve_path_in_bbox(grid, start, goal, demand_w, penalty, None)
+}
+
+/// Like [`solve_path_with_penalty`] but additionally restricts the
+/// search to cells inside `bbox = ((row_min, col_min), (row_max,
+/// col_max))`. Used by the greedy synthesizer to clip exploration to a
+/// margin around the chord between start and goal so each Dijkstra does
+/// O(chord²) work instead of O(grid). The bbox is *inclusive* on both
+/// corners and must contain start and goal — otherwise the result is
+/// `Unreachable`.
+pub fn solve_path_in_bbox(
+    grid: &Grid,
+    start: (usize, usize),
+    goal: (usize, usize),
+    demand_w: DemandWeight,
+    penalty: Option<&[f32]>,
+    bbox: Option<((usize, usize), (usize, usize))>,
+) -> Result<Vec<(usize, usize)>, SolverError> {
     let h = grid.reference.height;
     let w = grid.reference.width;
     let n = h * w;
+    if let Some(p) = penalty {
+        debug_assert_eq!(p.len(), n, "penalty mask must match grid cell count");
+    }
 
     let sidx = start.0 * w + start.1;
     let gidx = goal.0 * w + goal.1;
@@ -131,6 +167,11 @@ pub fn solve_path(
             }
             let nrow = nr as usize;
             let ncol = nc as usize;
+            if let Some(((rmin, cmin), (rmax, cmax))) = bbox {
+                if nrow < rmin || nrow > rmax || ncol < cmin || ncol > cmax {
+                    continue;
+                }
+            }
             if !grid.is_buildable(nrow, ncol) {
                 continue;
             }
@@ -138,10 +179,12 @@ pub fn solve_path(
             if !base.is_finite() {
                 continue;
             }
+            let nidx_pre = nrow * w + ncol;
+            let extra = penalty.map(|p| p[nidx_pre]).unwrap_or(0.0);
             let reward = demand_w.0 * grid.demand_at(nrow, ncol);
-            let effective = (base - reward).max(MIN_EDGE_COST);
+            let effective = (base + extra - reward).max(MIN_EDGE_COST);
             let edge = dist_factor * effective;
-            let nidx = nrow * w + ncol;
+            let nidx = nidx_pre;
             let ncost = cost + edge;
             if ncost < dist[nidx] {
                 dist[nidx] = ncost;

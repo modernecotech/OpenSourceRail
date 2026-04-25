@@ -32,6 +32,18 @@ pub fn write_all(
     stations: &[Station],
     civil_per_line: &[Vec<CivilSegment>],
 ) -> Result<()> {
+    // Take an owned, mutable copy of the civil mix so the
+    // elevated-junction pass can splice 1 km Elevated sections in
+    // around any all-at-grade interchange. Other emitters then read
+    // the post-pass classification.
+    let mut civil_mut: Vec<Vec<CivilSegment>> = civil_per_line.to_vec();
+    let elevated_junctions = enforce_elevated_junctions(bundle, lines, stations, &mut civil_mut);
+    eprintln!(
+        "elevated-junction upgrades: {} junction(s) (\u{20ac}{:.0} M premium)",
+        elevated_junctions.len(),
+        (elevated_junctions.len() as f64) * JUNCTION_PREMIUM_EUR / 1_000_000.0
+    );
+
     write_design_toml(
         out_dir,
         slug,
@@ -42,12 +54,201 @@ pub fn write_all(
         bundle,
         lines,
         stations,
-        civil_per_line,
+        &civil_mut,
+        &elevated_junctions,
     )?;
     write_corridor_geojson(out_dir, slug, bundle, lines, stations)?;
     write_stations_json(out_dir, slug, stations)?;
-    write_quality_yaml(out_dir, slug, bundle, lines, stations, civil_per_line)?;
+    write_quality_yaml(out_dir, slug, bundle, lines, stations, &civil_mut)?;
     Ok(())
+}
+
+// ---- Elevated-junction enforcement -----------------------------------
+//
+// At every interchange where *all* crossing lines are AtGrade, one of
+// the lines must lift to clear the others. This converts \xb1500 m
+// (50 cells \xd7 20 m = 1 km total) of that line's civil class to
+// Elevated. We pick the higher-numbered line as the one to lift, so the
+// "primary" line stays at-grade where possible and the choice is stable
+// across runs. If any line through the junction is already Elevated /
+// Bridge, no upgrade is needed.
+
+const JUNCTION_HALF_WINDOW_CELLS: usize = 25;
+const JUNCTION_PREMIUM_EUR: f64 = 20_000_000.0;
+
+#[derive(Debug, Clone)]
+pub(crate) struct ElevatedJunction {
+    pub group_id: u32,
+    pub elevated_line: String,
+    pub lat: f64,
+    pub lon: f64,
+}
+
+fn enforce_elevated_junctions(
+    bundle: &RasterBundle,
+    lines: &[Line],
+    stations: &[Station],
+    civil_per_line: &mut [Vec<CivilSegment>],
+) -> Vec<ElevatedJunction> {
+    use std::collections::BTreeMap;
+
+    // Collect station indices by junction_group.
+    let mut groups: BTreeMap<u32, Vec<usize>> = BTreeMap::new();
+    for (i, s) in stations.iter().enumerate() {
+        if let Some(g) = s.junction_group {
+            groups.entry(g).or_default().push(i);
+        }
+    }
+
+    let line_index: BTreeMap<&str, usize> = lines
+        .iter()
+        .enumerate()
+        .map(|(i, l)| (l.name.as_str(), i))
+        .collect();
+
+    let mut out = Vec::new();
+    for (gid, idxs) in &groups {
+        // Distinct line names participating in this junction.
+        let mut line_names: Vec<&str> = idxs
+            .iter()
+            .map(|&i| stations[i].line_name.as_str())
+            .collect();
+        line_names.sort();
+        line_names.dedup();
+        if line_names.len() < 2 {
+            continue; // not actually a multi-line junction
+        }
+
+        // Centroid of the junction (already snapped — any station works).
+        let lat = stations[idxs[0]].lat;
+        let lon = stations[idxs[0]].lon;
+
+        // For each line at the junction, find the civil class at the
+        // closest cell. If any line is non-at-grade, no upgrade needed.
+        let mut all_at_grade = true;
+        for &lname in &line_names {
+            let li = match line_index.get(lname) {
+                Some(li) => *li,
+                None => continue,
+            };
+            let line = &lines[li];
+            let segs = &civil_per_line[li];
+            let cell_idx = nearest_cell_idx_to_latlon(bundle, line, lat, lon);
+            let class = class_at(segs, cell_idx);
+            if class != CivilClass::AtGrade {
+                all_at_grade = false;
+                break;
+            }
+        }
+        if !all_at_grade {
+            continue;
+        }
+
+        // Pick the highest-numbered line at this junction to lift.
+        let mut sorted_names = line_names.clone();
+        sorted_names.sort();
+        let lift_name = *sorted_names.last().unwrap();
+        let lift_idx = line_index[lift_name];
+        let lift_line = &lines[lift_idx];
+        let centre_idx = nearest_cell_idx_to_latlon(bundle, lift_line, lat, lon);
+        let half = JUNCTION_HALF_WINDOW_CELLS;
+        let from_idx = centre_idx.saturating_sub(half);
+        let to_idx = (centre_idx + half).min(lift_line.cells.len().saturating_sub(1));
+
+        // Reclassify [from_idx, to_idx] inclusive on the lift line.
+        let lift_segs = &mut civil_per_line[lift_idx];
+        *lift_segs = reclass_window(bundle, lift_line, lift_segs, from_idx, to_idx, CivilClass::Elevated);
+
+        out.push(ElevatedJunction {
+            group_id: *gid,
+            elevated_line: lift_name.to_string(),
+            lat,
+            lon,
+        });
+    }
+    out
+}
+
+/// Find the cell index along `line.cells` nearest to (lat, lon).
+fn nearest_cell_idx_to_latlon(bundle: &RasterBundle, line: &Line, lat: f64, lon: f64) -> usize {
+    let mut best_idx = 0;
+    let mut best_d2 = f64::INFINITY;
+    for (i, &(r, c)) in line.cells.iter().enumerate() {
+        let (clat, clon) = bundle.grid.reference.rc_to_latlon(r, c);
+        let dlat = clat - lat;
+        let dlon = clon - lon;
+        let d2 = dlat * dlat + dlon * dlon;
+        if d2 < best_d2 {
+            best_d2 = d2;
+            best_idx = i;
+        }
+    }
+    best_idx
+}
+
+fn class_at(segs: &[CivilSegment], cell_idx: usize) -> CivilClass {
+    for s in segs {
+        if cell_idx >= s.from_idx && cell_idx <= s.to_idx {
+            return s.class;
+        }
+    }
+    CivilClass::AtGrade
+}
+
+/// Force every cell in [from_idx, to_idx] on `line` to `target_class`,
+/// then re-collapse runs to keep the segment list canonical.
+fn reclass_window(
+    bundle: &RasterBundle,
+    line: &Line,
+    segs: &[CivilSegment],
+    from_idx: usize,
+    to_idx: usize,
+    target: CivilClass,
+) -> Vec<CivilSegment> {
+    let n = line.cells.len();
+    if n == 0 {
+        return segs.to_vec();
+    }
+    // Per-cell class — start by reading the existing segment table.
+    let mut classes: Vec<CivilClass> = vec![CivilClass::AtGrade; n];
+    for s in segs {
+        for i in s.from_idx..=s.to_idx.min(n - 1) {
+            classes[i] = s.class;
+        }
+    }
+    for i in from_idx..=to_idx.min(n - 1) {
+        classes[i] = target;
+    }
+    // Re-collapse runs.
+    let mut out: Vec<CivilSegment> = Vec::new();
+    let mut run_start = 0;
+    for i in 1..=n {
+        if i == n || classes[i] != classes[run_start] {
+            let length_m = segment_length_m(bundle, &line.cells[run_start..i]);
+            out.push(CivilSegment {
+                class: classes[run_start],
+                from_idx: run_start,
+                to_idx: i - 1,
+                length_m,
+            });
+            run_start = i;
+        }
+    }
+    out
+}
+
+fn segment_length_m(bundle: &RasterBundle, cells: &[(usize, usize)]) -> f64 {
+    if cells.len() < 2 {
+        return 0.0;
+    }
+    let cell_m = bundle.grid.reference.cell_m;
+    let mut total = 0.0;
+    for pair in cells.windows(2) {
+        let dr = pair[1].0 as f64 - pair[0].0 as f64;
+        let dc = pair[1].1 as f64 - pair[0].1 as f64;
+        total += (dr * dr + dc * dc).sqrt() * cell_m;
+    }
+    total
 }
 
 // ---- design.toml -----------------------------------------------------
@@ -64,6 +265,7 @@ fn write_design_toml(
     lines: &[Line],
     stations: &[Station],
     civil_per_line: &[Vec<CivilSegment>],
+    elevated_junctions: &[ElevatedJunction],
 ) -> Result<()> {
     let mut out = String::new();
     out.push_str("# Auto-generated by osr-design from real OSM data.\n");
@@ -105,7 +307,11 @@ fn write_design_toml(
     // Precompute station archetypes: terminal (line endpoints on
     // radial lines), interchange (cross-line stations within 200 m),
     // and otherwise demand-based major/standard/halt per RFC 0010 §3.
-    let archetypes = compute_archetypes(lines, stations);
+    // Junctions reclassified by the elevated-junction pass are promoted
+    // to "interchange-elevated".
+    let elevated_groups: std::collections::BTreeSet<u32> =
+        elevated_junctions.iter().map(|j| j.group_id).collect();
+    let archetypes = compute_archetypes(lines, stations, &elevated_groups);
 
     // One [[lines]] block per synthesized line.
     for line in lines {
@@ -148,6 +354,9 @@ fn write_design_toml(
             "platform_length_m = {:.1}\n",
             platform_length_m
         ));
+        if let Some(g) = s.junction_group {
+            out.push_str(&format!("junction_group  = {g}\n"));
+        }
         out.push_str("\n");
     }
 
@@ -181,22 +390,48 @@ fn write_design_toml(
         out.push_str("]\n\n");
     }
 
+    // Junctions where one line had to be elevated to clear the other —
+    // these get a flat €20 M premium per junction (1 km of elevation
+    // including approach + departure, plus the multi-level station
+    // structure) on top of the per-segment civil cost the elevated
+    // window already incurs.
+    if !elevated_junctions.is_empty() {
+        out.push_str("# [[junctions]] — elevated-junction upgrades for cross-at-grade\n");
+        out.push_str("# interchanges, per RFC 0011 §8 follow-up. Each adds the 1 km\n");
+        out.push_str("# Elevated section already visible in the civil mix above.\n");
+        for j in elevated_junctions {
+            out.push_str("[[junctions]]\n");
+            out.push_str(&format!("group_id        = {}\n", j.group_id));
+            out.push_str(&format!("elevated_line   = \"{}\"\n", j.elevated_line));
+            out.push_str(&format!("lat             = {}\n", j.lat));
+            out.push_str(&format!("lon             = {}\n", j.lon));
+            out.push_str(&format!("premium_eur     = {:.0}\n", JUNCTION_PREMIUM_EUR));
+            out.push_str("\n");
+        }
+    }
+
     // Costs — per RFC 0011 §9 lookup. Planning-grade €/km × civil mix
     // per line. `country-costs.toml` scales these in downstream
     // reports; the base figure goes in the design.toml so the
     // operator has a one-number headline when reviewing the output.
     let costs = compute_costs(lines, civil_per_line);
+    let junction_premium_eur =
+        (elevated_junctions.len() as f64) * JUNCTION_PREMIUM_EUR;
+    let total_with_junctions = costs.total_eur + junction_premium_eur;
     out.push_str("# [costs] — RFC 0011 §9 planning-grade €/km × civil mix.\n");
     out.push_str("[costs]\n");
-    out.push_str(&format!("at_grade_eur = {:.0}\n", costs.at_grade_eur));
-    out.push_str(&format!("elevated_eur = {:.0}\n", costs.elevated_eur));
-    out.push_str(&format!("bridge_eur   = {:.0}\n", costs.bridge_eur));
+    out.push_str(&format!("at_grade_eur       = {:.0}\n", costs.at_grade_eur));
+    out.push_str(&format!("elevated_eur       = {:.0}\n", costs.elevated_eur));
+    out.push_str(&format!("bridge_eur         = {:.0}\n", costs.bridge_eur));
     out.push_str(&format!(
-        "total_eur    = {:.0}  # excludes rolling stock, stations, depots, integration\n",
-        costs.total_eur
+        "junction_premium_eur = {junction_premium_eur:.0}  # \u{20ac}{} M per elevated interchange.\n",
+        (JUNCTION_PREMIUM_EUR / 1_000_000.0) as u64
+    ));
+    out.push_str(&format!(
+        "total_eur          = {total_with_junctions:.0}  # excludes rolling stock, stations, depots, integration\n",
     ));
 
-    let path = out_dir.join(format!("{slug}.design.toml"));
+    let path = out_dir.join("design.toml");
     fs::write(&path, out)?;
     Ok(())
 }
@@ -435,8 +670,16 @@ fn family_length_m(family: &str) -> f32 {
 // ---- RFC 0010 §3 archetype selection ---------------------------------------
 
 /// Return an archetype string per station (same order/length as the
-/// input `stations` slice). See RFC 0010 §3.
-fn compute_archetypes(lines: &[Line], stations: &[Station]) -> Vec<&'static str> {
+/// input `stations` slice). See RFC 0010 §3. Stations whose
+/// `junction_group` appears in `elevated_groups` are promoted from
+/// `"interchange"` to `"interchange-elevated"` — the new archetype
+/// covers multi-level platform construction at junctions where one of
+/// the crossing lines had to be lifted.
+fn compute_archetypes(
+    lines: &[Line],
+    stations: &[Station],
+    elevated_groups: &std::collections::BTreeSet<u32>,
+) -> Vec<&'static str> {
     // Group station indices by line name to find endpoints.
     let mut by_line: std::collections::BTreeMap<&str, Vec<usize>> =
         std::collections::BTreeMap::new();
@@ -505,12 +748,20 @@ fn compute_archetypes(lines: &[Line], stations: &[Station]) -> Vec<&'static str>
     }
 
     // Apply priority: depot-terminal > terminal > interchange > demand-based.
+    // An interchange whose junction_group was elevated promotes to
+    // "interchange-elevated".
     let mut out: Vec<&'static str> = Vec::with_capacity(stations.len());
     for i in 0..stations.len() {
+        let elevated_here = stations[i]
+            .junction_group
+            .map(|g| elevated_groups.contains(&g))
+            .unwrap_or(false);
         let archetype = if Some(i) == depot_terminal_idx {
             "depot-terminal"
         } else if is_terminal[i] {
             "terminal"
+        } else if is_interchange[i] && elevated_here {
+            "interchange-elevated"
         } else if is_interchange[i] {
             "interchange"
         } else if stations[i].demand > 0.6 {
@@ -568,16 +819,46 @@ fn write_corridor_geojson(
 ) -> Result<()> {
     let mut features: Vec<serde_json::Value> = Vec::new();
 
-    for line in lines {
-        // Decimate polyline to every Nth cell to keep file size reasonable;
-        // losing sub-cell detail is fine at 20 m resolution.
+    // Shared-track detection: for every cell that two or more lines
+    // pass through, we offset each line's drawn polyline perpendicularly
+    // by `(rank - (n-1)/2) * SHARED_OFFSET_M` so both lines remain
+    // visible instead of stacking on the same pixel. Single-occupant
+    // cells get no offset, so non-shared sections render in their true
+    // location.
+    const SHARED_OFFSET_M: f64 = 12.0;
+    let cell_owners = compute_cell_owners(lines);
+
+    for (li, line) in lines.iter().enumerate() {
         let step = (line.cells.len() / 400).max(1);
         let mut coords: Vec<[f64; 2]> = Vec::new();
-        for (i, &(r, c)) in line.cells.iter().enumerate() {
-            if i == 0 || i == line.cells.len() - 1 || i % step == 0 {
-                let (lat, lon) = bundle.grid.reference.rc_to_latlon(r, c);
-                coords.push([lon, lat]);
+        let n = line.cells.len();
+        for i in 0..n {
+            // Decimate identically to the previous behaviour.
+            if i != 0 && i != n - 1 && i % step != 0 {
+                continue;
             }
+            let (r, c) = line.cells[i];
+            // Tangent from the (i-1, i+1) neighbours when available.
+            let (pr, pc) = line.cells[i.saturating_sub(1)];
+            let (nr, nc) = line.cells[(i + 1).min(n - 1)];
+            let dr = nr as f64 - pr as f64;
+            let dc = nc as f64 - pc as f64;
+            let mag = (dr * dr + dc * dc).sqrt().max(1e-6);
+            // Perpendicular in (row, col) space: (-dc, dr). Row grows
+            // southward, so positive perp_lat = north when perp_row<0;
+            // we just need consistent left/right separation so the
+            // sign convention is fine as long as each line gets a
+            // distinct rank.
+            let perp_r = -dc / mag;
+            let perp_c = dr / mag;
+
+            let offset_m = perp_offset(&cell_owners, (r, c), li, SHARED_OFFSET_M);
+            let (lat, lon) = if offset_m == 0.0 {
+                bundle.grid.reference.rc_to_latlon(r, c)
+            } else {
+                offset_latlon(&bundle.grid.reference, r, c, perp_r, perp_c, offset_m)
+            };
+            coords.push([lon, lat]);
         }
         features.push(serde_json::json!({
             "type": "Feature",
@@ -604,6 +885,7 @@ fn write_corridor_geojson(
                 "line": s.line_name,
                 "anchor_kind": s.anchor_kind,
                 "anchor_name": s.anchor_name,
+                "junction_group": s.junction_group,
             },
             "geometry": {
                 "type": "Point",
@@ -621,6 +903,63 @@ fn write_corridor_geojson(
     Ok(())
 }
 
+/// Map every cell to the sorted list of line indices that pass through
+/// it. Cells touched by only one line are absent (we skip the
+/// allocation for them since the common case in non-trunk areas is
+/// single-occupancy).
+fn compute_cell_owners(lines: &[Line]) -> std::collections::HashMap<(usize, usize), Vec<usize>> {
+    let mut tmp: std::collections::HashMap<(usize, usize), Vec<usize>> =
+        std::collections::HashMap::new();
+    for (li, line) in lines.iter().enumerate() {
+        for &cell in &line.cells {
+            let entry = tmp.entry(cell).or_default();
+            if !entry.contains(&li) {
+                entry.push(li);
+            }
+        }
+    }
+    tmp.retain(|_, v| v.len() >= 2);
+    for v in tmp.values_mut() {
+        v.sort();
+    }
+    tmp
+}
+
+/// Compute the perpendicular offset in metres for line `li` at `cell`.
+/// Returns (0.0, 1) if the cell is single-occupant.
+fn perp_offset(
+    owners: &std::collections::HashMap<(usize, usize), Vec<usize>>,
+    cell: (usize, usize),
+    li: usize,
+    offset_m: f64,
+) -> f64 {
+    let Some(v) = owners.get(&cell) else {
+        return 0.0;
+    };
+    let n = v.len();
+    let rank = v.iter().position(|&i| i == li).unwrap_or(0) as f64;
+    let centred = rank - (n as f64 - 1.0) * 0.5;
+    centred * offset_m
+}
+
+/// Apply a perpendicular metres-offset to a cell centre's lat/lon.
+/// `perp_r` / `perp_c` is the unit perpendicular in (row, col) space.
+fn offset_latlon(
+    gref: &osr_routing::raster::GridRef,
+    row: usize,
+    col: usize,
+    perp_r: f64,
+    perp_c: f64,
+    offset_m: f64,
+) -> (f64, f64) {
+    let (base_lat, base_lon) = gref.rc_to_latlon(row, col);
+    // perp in (row, col) translated to metres; row grows southward so
+    // dlat = -perp_r * offset / m_per_deg_lat.
+    let dlat = -(perp_r * offset_m) / gref.m_per_deg_lat;
+    let dlon = (perp_c * offset_m) / gref.m_per_deg_lon;
+    (base_lat + dlat, base_lon + dlon)
+}
+
 // ---- stations.json ---------------------------------------------------
 
 #[derive(Serialize)]
@@ -632,6 +971,9 @@ struct StationSummary<'a> {
     s_m: f64,
     anchor_kind: Option<&'a str>,
     anchor_name: Option<&'a str>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    junction_group: Option<u32>,
+    demand: f32,
 }
 
 fn write_stations_json(out_dir: &Path, slug: &str, stations: &[Station]) -> Result<()> {
@@ -645,6 +987,8 @@ fn write_stations_json(out_dir: &Path, slug: &str, stations: &[Station]) -> Resu
             s_m: s.s_m,
             anchor_kind: s.anchor_kind.as_deref(),
             anchor_name: s.anchor_name.as_deref(),
+            junction_group: s.junction_group,
+            demand: s.demand,
         })
         .collect();
     let path = out_dir.join(format!("{slug}.stations.json"));
@@ -847,7 +1191,12 @@ mod tests {
             line_name: line.to_string(),
             s_m,
             demand,
+            junction_group: None,
         }
+    }
+
+    fn no_elevated() -> std::collections::BTreeSet<u32> {
+        std::collections::BTreeSet::new()
     }
 
     fn radial_line(name: &str) -> Line {
@@ -877,7 +1226,7 @@ mod tests {
             st("L1", 1_000.0, 0.01, 0.0, 0.3),
             st("L1", 2_000.0, 0.02, 0.0, 0.3),
         ];
-        let a = compute_archetypes(&lines, &stations);
+        let a = compute_archetypes(&lines, &stations, &no_elevated());
         // Longest s_m terminal wins depot-terminal promotion.
         assert_eq!(a[0], "terminal");
         assert_eq!(a[1], "standard");
@@ -892,11 +1241,33 @@ mod tests {
             st("R1", 500.0, 0.005, 0.0, 0.3),
             st("R1", 1_000.0, 0.01, 0.0, 0.3),
         ];
-        let a = compute_archetypes(&lines, &stations);
+        let a = compute_archetypes(&lines, &stations, &no_elevated());
         for arch in &a {
             assert_ne!(*arch, "terminal");
             assert_ne!(*arch, "depot-terminal");
         }
+    }
+
+    #[test]
+    fn elevated_groups_promote_interchange_to_interchange_elevated() {
+        let lines = vec![radial_line("L1"), radial_line("L2")];
+        let mut a = st("L1", 1_000.0, 0.001, 0.001, 0.3);
+        a.junction_group = Some(7);
+        let mut b = st("L2", 1_000.0, 0.001, 0.001, 0.3);
+        b.junction_group = Some(7);
+        let stations = vec![
+            st("L1", 0.0, 0.0, 0.0, 0.3),
+            a,
+            st("L1", 2_000.0, 0.02, 0.02, 0.3),
+            st("L2", 0.0, 0.05, 0.05, 0.3),
+            b,
+            st("L2", 2_000.0, 0.06, 0.06, 0.3),
+        ];
+        let mut elevated = std::collections::BTreeSet::new();
+        elevated.insert(7);
+        let archetypes = compute_archetypes(&lines, &stations, &elevated);
+        assert_eq!(archetypes[1], "interchange-elevated");
+        assert_eq!(archetypes[4], "interchange-elevated");
     }
 
     #[test]
@@ -914,7 +1285,7 @@ mod tests {
             st("L2", 1_000.0, 0.0011, 0.001, 0.3),
             st("L2", 2_000.0, 0.06, 0.06, 0.3),
         ];
-        let a = compute_archetypes(&lines, &stations);
+        let a = compute_archetypes(&lines, &stations, &no_elevated());
         assert_eq!(a[1], "interchange");
         assert_eq!(a[4], "interchange");
     }
@@ -930,7 +1301,7 @@ mod tests {
             st("L1", 3_000.0, 0.03, 0.0, 0.5),
             st("L1", 4_000.0, 0.04, 0.0, 0.3),
         ];
-        let a = compute_archetypes(&lines, &stations);
+        let a = compute_archetypes(&lines, &stations, &no_elevated());
         assert_eq!(a[0], "terminal");
         assert_eq!(a[1], "major"); // demand 0.8
         assert_eq!(a[2], "halt"); // demand 0.1
