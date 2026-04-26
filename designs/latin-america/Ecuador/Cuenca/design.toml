@@ -16,7 +16,7 @@ preset          = "temperate-continental"
 [[lines]]
 name            = "line-1"
 shape           = "radial"
-length_m        = 29457.4
+length_m        = 26023.0
 rolling_stock   = "light-metro-3car"
 geometry        = "standard-urban"
 
@@ -30,7 +30,7 @@ geometry        = "standard-urban"
 [[lines]]
 name            = "line-3"
 shape           = "radial"
-length_m        = 25257.3
+length_m        = 25831.3
 rolling_stock   = "light-metro-3car"
 geometry        = "standard-urban"
 
@@ -158,6 +158,7 @@ anchor_kind     = "place:neighbourhood"
 anchor_name     = "Pasamaneria Tosi"
 archetype       = "major"
 platform_length_m = 75.0
+junction_group  = 1
 
 [[stations]]
 id              = "line-1-0495-0627"
@@ -204,25 +205,14 @@ archetype       = "standard"
 platform_length_m = 75.0
 
 [[stations]]
-id              = "line-1-0449-0859"
+id              = "line-1-0451-0897"
 line            = "line-1"
-lat             = -2.8808947917791454
-lon             = -78.94538229897101
-s_m             = 24946.2
-anchor_kind     = "place:neighbourhood"
-anchor_name     = "Condominio Las Tunas"
-archetype       = "standard"
-platform_length_m = 75.0
-
-[[stations]]
-id              = "line-1-0438-1012"
-line            = "line-1"
-lat             = -2.8789151639491775
-lon             = -78.91785872915435
-s_m             = 29457.4
-anchor_kind     = "place:neighbourhood"
-anchor_name     = "Aguacolla"
-archetype       = "depot-terminal"
+lat             = -2.8812547241118667
+lon             = -78.93854637967014
+s_m             = 26023.0
+anchor_kind     = "amenity:hospital"
+anchor_name     = "IESS Dispensario San Vicente 2"
+archetype       = "terminal"
 platform_length_m = 75.0
 
 [[stations]]
@@ -304,7 +294,6 @@ anchor_kind     = "place:neighbourhood"
 anchor_name     = "Playas del Machangara"
 archetype       = "standard"
 platform_length_m = 75.0
-junction_group  = 1
 
 [[stations]]
 id              = "line-2-0337-0743"
@@ -343,89 +332,93 @@ lon             = -78.90400699793942
 s_m             = 27108.5
 anchor_kind     = "place:neighbourhood"
 anchor_name     = "Condominio Miravalle"
-archetype       = "terminal"
+archetype       = "depot-terminal"
 platform_length_m = 75.0
 
 [[stations]]
-id              = "line-3-0756-0302"
+id              = "line-3-0783-0254"
 line            = "line-3"
-lat             = -2.9361444048518877
-lon             = -79.04558248451278
+lat             = -2.9410034913436274
+lon             = -79.05421732994546
 s_m             = 0.0
 anchor_kind     = "place:neighbourhood"
-anchor_name     = "Narancay Bajo"
+anchor_name     = "Los Laureles"
 archetype       = "terminal"
 platform_length_m = 75.0
 
 [[stations]]
-id              = "line-3-0674-0347"
+id              = "line-3-0735-0311"
 line            = "line-3"
-lat             = -2.921387179210308
-lon             = -79.03748731691964
-s_m             = 2012.8
+lat             = -2.9323651153583126
+lon             = -79.04396345099414
+s_m             = 2005.1
+anchor_kind     = "place:neighbourhood"
+anchor_name     = "Narancay Bajo"
 archetype       = "standard"
 platform_length_m = 75.0
 
 [[stations]]
-id              = "line-3-0645-0386"
+id              = "line-3-0655-0362"
 line            = "line-3"
-lat             = -2.916168160385847
-lon             = -79.03047150500558
-s_m             = 3219.3
+lat             = -2.9179678220494547
+lon             = -79.03478892772192
+s_m             = 4027.6
 anchor_kind     = "amenity:marketplace"
+archetype       = "standard"
+platform_length_m = 75.0
+
+[[stations]]
+id              = "line-3-0644-0411"
+line            = "line-3"
+lat             = -2.9159881942194867
+lon             = -79.02597418967606
+s_m             = 5238.1
+anchor_kind     = "tourism:attraction"
+anchor_name     = "Hábitat Anfibios"
 archetype       = "major"
 platform_length_m = 75.0
 
 [[stations]]
-id              = "line-3-0642-0444"
+id              = "line-3-0640-0468"
 line            = "line-3"
-lat             = -2.915628261886765
-lon             = -79.02003773344109
-s_m             = 4437.3
-archetype       = "major"
-platform_length_m = 75.0
-
-[[stations]]
-id              = "line-3-0633-0495"
-line            = "line-3"
-lat             = -2.9140085663895188
-lon             = -79.01086321016886
-s_m             = 5651.9
+lat             = -2.915268329554044
+lon             = -79.01572031072475
+s_m             = 6444.4
 anchor_kind     = "amenity:college"
 anchor_name     = "Unidad Educativa Príncipe de Paz"
 archetype       = "major"
 platform_length_m = 75.0
 
 [[stations]]
-id              = "line-3-0591-0519"
+id              = "line-3-0618-0507"
 line            = "line-3"
-lat             = -2.906449987402368
-lon             = -79.00654578745252
-s_m             = 6869.3
-anchor_kind     = "amenity:hospital"
-anchor_name     = "Centro de Rehabilitación y Fisioterapia"
+lat             = -2.911309073894108
+lon             = -79.00870449881069
+s_m             = 7672.1
+anchor_kind     = "amenity:marketplace"
+anchor_name     = "Mercado 27 de Febrero"
 archetype       = "major"
 platform_length_m = 75.0
 
 [[stations]]
-id              = "line-3-0590-0570"
+id              = "line-3-0584-0540"
 line            = "line-3"
-lat             = -2.9062700212360073
-lon             = -78.9973712641803
-s_m             = 8070.1
+lat             = -2.905190224237843
+lon             = -79.00276804257572
+s_m             = 8881.2
 anchor_kind     = "amenity:hospital"
-anchor_name     = "Clinica Santa Cecilia"
+anchor_name     = "Clinica Santa Ana"
 archetype       = "major"
 platform_length_m = 75.0
 
 [[stations]]
-id              = "line-3-0548-0574"
+id              = "line-3-0573-0581"
 line            = "line-3"
-lat             = -2.898711442248857
-lon             = -78.99665169372757
-s_m             = 9289.5
-anchor_kind     = "amenity:hospital"
-anchor_name     = "Centro de especialidades medicales"
+lat             = -2.903210596407875
+lon             = -78.9953924454353
+s_m             = 10082.1
+anchor_kind     = "place:neighbourhood"
+anchor_name     = "Clinica la Paz"
 archetype       = "major"
 platform_length_m = 75.0
 
@@ -434,7 +427,7 @@ id              = "line-3-0522-0555"
 line            = "line-3"
 lat             = -2.8940323219234783
 lon             = -79.000069653378
-s_m             = 10277.2
+s_m             = 11787.7
 anchor_kind     = "amenity:hospital"
 anchor_name     = "Clínica dental Dr. Monsalve"
 archetype       = "interchange"
@@ -442,63 +435,63 @@ platform_length_m = 75.0
 junction_group  = 0
 
 [[stations]]
-id              = "line-3-0475-0601"
+id              = "line-3-0503-0579"
 line            = "line-3"
-lat             = -2.8855739121045243
-lon             = -78.99179459317169
-s_m             = 11732.0
-anchor_kind     = "amenity:university"
-anchor_name     = "Auditorio Luna Tobar"
+lat             = -2.8906129647626244
+lon             = -78.99575223066167
+s_m             = 12500.3
+anchor_kind     = "place:neighbourhood"
+anchor_name     = "Sector Clínica España"
 archetype       = "major"
-platform_length_m = 75.0
-
-[[stations]]
-id              = "line-3-0428-0631"
-line            = "line-3"
-lat             = -2.8771155022855703
-lon             = -78.98639781477627
-s_m             = 12932.2
-archetype       = "major"
-platform_length_m = 75.0
-
-[[stations]]
-id              = "line-3-0350-0659"
-line            = "line-3"
-lat             = -2.8630781413094337
-lon             = -78.9813608216072
-s_m             = 14950.5
-anchor_kind     = "amenity:marketplace"
-anchor_name     = "Camal Municipal"
-archetype       = "standard"
 platform_length_m = 75.0
 junction_group  = 1
 
 [[stations]]
-id              = "line-3-0306-0736"
+id              = "line-3-0457-0614"
 line            = "line-3"
-lat             = -2.855159629989562
-lon             = -78.96750909039227
-s_m             = 16954.4
+lat             = -2.8823345211100313
+lon             = -78.98945598920034
+s_m             = 13722.0
 anchor_kind     = "amenity:university"
-anchor_name     = "CIITT"
+anchor_name     = "Universidad Politecnica Salesiana"
+archetype       = "major"
+platform_length_m = 75.0
+
+[[stations]]
+id              = "line-3-0375-0645"
+line            = "line-3"
+lat             = -2.8675772954684517
+lon             = -78.98387931819173
+s_m             = 15736.8
+anchor_kind     = "amenity:hospital"
+anchor_name     = "Hospital Municipal del Niño y la Mujer"
 archetype       = "standard"
 platform_length_m = 75.0
 
 [[stations]]
-id              = "line-3-0247-0866"
+id              = "line-3-0309-0714"
 line            = "line-3"
-lat             = -2.844541626174279
-lon             = -78.94412305067875
-s_m             = 20966.0
+lat             = -2.855699528488644
+lon             = -78.97146672788224
+s_m             = 17745.5
+archetype       = "standard"
+platform_length_m = 75.0
+
+[[stations]]
+id              = "line-3-0246-0854"
+line            = "line-3"
+lat             = -2.8443616600079182
+lon             = -78.94628176203692
+s_m             = 21755.1
 archetype       = "halt"
 platform_length_m = 71.0
 
 [[stations]]
-id              = "line-3-0094-0956"
+id              = "line-3-0110-0960"
 line            = "line-3"
-lat             = -2.8170068027210884
-lon             = -78.92793271549247
-s_m             = 25257.3
+lat             = -2.8198862613828597
+lon             = -78.92721314503974
+s_m             = 25831.3
 archetype       = "terminal"
 platform_length_m = 75.0
 
@@ -506,12 +499,12 @@ platform_length_m = 75.0
 [[depots]]
 station      = "line-1-0708-0006"
 archetype    = "layup-minimal"
-fleet_stalls = 35
+fleet_stalls = 33
 
 [[depots]]
-station      = "line-1-0438-1012"
-archetype    = "main-heavy"
-fleet_stalls = 35
+station      = "line-1-0451-0897"
+archetype    = "layup-minimal"
+fleet_stalls = 33
 
 [[depots]]
 station      = "line-2-0411-0142"
@@ -520,62 +513,60 @@ fleet_stalls = 33
 
 [[depots]]
 station      = "line-2-0296-1089"
-archetype    = "layup-minimal"
+archetype    = "main-heavy"
 fleet_stalls = 33
 
 [[depots]]
-station      = "line-3-0756-0302"
+station      = "line-3-0783-0254"
 archetype    = "layup-minimal"
 fleet_stalls = 32
 
 [[depots]]
-station      = "line-3-0094-0956"
+station      = "line-3-0110-0960"
 archetype    = "layup-minimal"
 fleet_stalls = 32
 
 # switches — turnbacks at terminals + depot fans per RFC 0012 §9.
 switches = [
   { id = "sw-line-1-0708-0006-tb", kit = "no-9-mainline", station = "line-1-0708-0006", side = "turnback" },
-  { id = "sw-line-1-0438-1012-tb", kit = "no-9-mainline", station = "line-1-0438-1012", side = "turnback" },
-  { id = "sw-line-1-0438-1012-yd-01", kit = "no-9-mainline", station = "line-1-0438-1012", side = "yard-throat" },
-  { id = "sw-line-1-0438-1012-yd-02", kit = "no-9-mainline", station = "line-1-0438-1012", side = "yard-throat" },
-  { id = "sw-line-1-0438-1012-yd-03", kit = "no-9-mainline", station = "line-1-0438-1012", side = "yard-throat" },
-  { id = "sw-line-1-0438-1012-yd-04", kit = "no-9-mainline", station = "line-1-0438-1012", side = "yard-throat" },
-  { id = "sw-line-1-0438-1012-yd-05", kit = "no-9-mainline", station = "line-1-0438-1012", side = "yard-throat" },
-  { id = "sw-line-1-0438-1012-yd-06", kit = "no-9-mainline", station = "line-1-0438-1012", side = "yard-throat" },
-  { id = "sw-line-1-0438-1012-yd-07", kit = "no-9-mainline", station = "line-1-0438-1012", side = "yard-throat" },
-  { id = "sw-line-1-0438-1012-yd-08", kit = "no-9-mainline", station = "line-1-0438-1012", side = "yard-throat" },
-  { id = "sw-line-1-0438-1012-yd-09", kit = "no-9-mainline", station = "line-1-0438-1012", side = "yard-throat" },
-  { id = "sw-line-1-0438-1012-yd-10", kit = "no-9-mainline", station = "line-1-0438-1012", side = "yard-throat" },
-  { id = "sw-line-1-0438-1012-yd-11", kit = "no-9-mainline", station = "line-1-0438-1012", side = "yard-throat" },
-  { id = "sw-line-1-0438-1012-yd-12", kit = "no-9-mainline", station = "line-1-0438-1012", side = "yard-throat" },
-  { id = "sw-line-1-0438-1012-yd-13", kit = "no-9-mainline", station = "line-1-0438-1012", side = "yard-throat" },
-  { id = "sw-line-1-0438-1012-yd-14", kit = "no-9-mainline", station = "line-1-0438-1012", side = "yard-throat" },
-  { id = "sw-line-1-0438-1012-yd-15", kit = "no-9-mainline", station = "line-1-0438-1012", side = "yard-throat" },
-  { id = "sw-line-1-0438-1012-yd-16", kit = "no-9-mainline", station = "line-1-0438-1012", side = "yard-throat" },
-  { id = "sw-line-1-0438-1012-yd-17", kit = "no-9-mainline", station = "line-1-0438-1012", side = "yard-throat" },
-  { id = "sw-line-1-0438-1012-yd-18", kit = "no-9-mainline", station = "line-1-0438-1012", side = "yard-throat" },
-  { id = "sw-line-1-0438-1012-yd-19", kit = "no-9-mainline", station = "line-1-0438-1012", side = "yard-throat" },
-  { id = "sw-line-1-0438-1012-yd-20", kit = "no-9-mainline", station = "line-1-0438-1012", side = "yard-throat" },
-  { id = "sw-line-1-0438-1012-yd-21", kit = "no-9-mainline", station = "line-1-0438-1012", side = "yard-throat" },
-  { id = "sw-line-1-0438-1012-yd-22", kit = "no-9-mainline", station = "line-1-0438-1012", side = "yard-throat" },
-  { id = "sw-line-1-0438-1012-yd-23", kit = "no-9-mainline", station = "line-1-0438-1012", side = "yard-throat" },
-  { id = "sw-line-1-0438-1012-yd-24", kit = "no-9-mainline", station = "line-1-0438-1012", side = "yard-throat" },
-  { id = "sw-line-1-0438-1012-yd-25", kit = "no-9-mainline", station = "line-1-0438-1012", side = "yard-throat" },
-  { id = "sw-line-1-0438-1012-yd-26", kit = "no-9-mainline", station = "line-1-0438-1012", side = "yard-throat" },
-  { id = "sw-line-1-0438-1012-yd-27", kit = "no-9-mainline", station = "line-1-0438-1012", side = "yard-throat" },
-  { id = "sw-line-1-0438-1012-yd-28", kit = "no-9-mainline", station = "line-1-0438-1012", side = "yard-throat" },
-  { id = "sw-line-1-0438-1012-yd-29", kit = "no-9-mainline", station = "line-1-0438-1012", side = "yard-throat" },
-  { id = "sw-line-1-0438-1012-yd-30", kit = "no-9-mainline", station = "line-1-0438-1012", side = "yard-throat" },
-  { id = "sw-line-1-0438-1012-yd-31", kit = "no-9-mainline", station = "line-1-0438-1012", side = "yard-throat" },
-  { id = "sw-line-1-0438-1012-yd-32", kit = "no-9-mainline", station = "line-1-0438-1012", side = "yard-throat" },
-  { id = "sw-line-1-0438-1012-yd-33", kit = "no-9-mainline", station = "line-1-0438-1012", side = "yard-throat" },
-  { id = "sw-line-1-0438-1012-yd-34", kit = "no-9-mainline", station = "line-1-0438-1012", side = "yard-throat" },
-  { id = "sw-line-1-0438-1012-yd-35", kit = "no-9-mainline", station = "line-1-0438-1012", side = "yard-throat" },
+  { id = "sw-line-1-0451-0897-tb", kit = "no-9-mainline", station = "line-1-0451-0897", side = "turnback" },
   { id = "sw-line-2-0411-0142-tb", kit = "no-9-mainline", station = "line-2-0411-0142", side = "turnback" },
   { id = "sw-line-2-0296-1089-tb", kit = "no-9-mainline", station = "line-2-0296-1089", side = "turnback" },
-  { id = "sw-line-3-0756-0302-tb", kit = "no-9-mainline", station = "line-3-0756-0302", side = "turnback" },
-  { id = "sw-line-3-0094-0956-tb", kit = "no-9-mainline", station = "line-3-0094-0956", side = "turnback" },
+  { id = "sw-line-2-0296-1089-yd-01", kit = "no-9-mainline", station = "line-2-0296-1089", side = "yard-throat" },
+  { id = "sw-line-2-0296-1089-yd-02", kit = "no-9-mainline", station = "line-2-0296-1089", side = "yard-throat" },
+  { id = "sw-line-2-0296-1089-yd-03", kit = "no-9-mainline", station = "line-2-0296-1089", side = "yard-throat" },
+  { id = "sw-line-2-0296-1089-yd-04", kit = "no-9-mainline", station = "line-2-0296-1089", side = "yard-throat" },
+  { id = "sw-line-2-0296-1089-yd-05", kit = "no-9-mainline", station = "line-2-0296-1089", side = "yard-throat" },
+  { id = "sw-line-2-0296-1089-yd-06", kit = "no-9-mainline", station = "line-2-0296-1089", side = "yard-throat" },
+  { id = "sw-line-2-0296-1089-yd-07", kit = "no-9-mainline", station = "line-2-0296-1089", side = "yard-throat" },
+  { id = "sw-line-2-0296-1089-yd-08", kit = "no-9-mainline", station = "line-2-0296-1089", side = "yard-throat" },
+  { id = "sw-line-2-0296-1089-yd-09", kit = "no-9-mainline", station = "line-2-0296-1089", side = "yard-throat" },
+  { id = "sw-line-2-0296-1089-yd-10", kit = "no-9-mainline", station = "line-2-0296-1089", side = "yard-throat" },
+  { id = "sw-line-2-0296-1089-yd-11", kit = "no-9-mainline", station = "line-2-0296-1089", side = "yard-throat" },
+  { id = "sw-line-2-0296-1089-yd-12", kit = "no-9-mainline", station = "line-2-0296-1089", side = "yard-throat" },
+  { id = "sw-line-2-0296-1089-yd-13", kit = "no-9-mainline", station = "line-2-0296-1089", side = "yard-throat" },
+  { id = "sw-line-2-0296-1089-yd-14", kit = "no-9-mainline", station = "line-2-0296-1089", side = "yard-throat" },
+  { id = "sw-line-2-0296-1089-yd-15", kit = "no-9-mainline", station = "line-2-0296-1089", side = "yard-throat" },
+  { id = "sw-line-2-0296-1089-yd-16", kit = "no-9-mainline", station = "line-2-0296-1089", side = "yard-throat" },
+  { id = "sw-line-2-0296-1089-yd-17", kit = "no-9-mainline", station = "line-2-0296-1089", side = "yard-throat" },
+  { id = "sw-line-2-0296-1089-yd-18", kit = "no-9-mainline", station = "line-2-0296-1089", side = "yard-throat" },
+  { id = "sw-line-2-0296-1089-yd-19", kit = "no-9-mainline", station = "line-2-0296-1089", side = "yard-throat" },
+  { id = "sw-line-2-0296-1089-yd-20", kit = "no-9-mainline", station = "line-2-0296-1089", side = "yard-throat" },
+  { id = "sw-line-2-0296-1089-yd-21", kit = "no-9-mainline", station = "line-2-0296-1089", side = "yard-throat" },
+  { id = "sw-line-2-0296-1089-yd-22", kit = "no-9-mainline", station = "line-2-0296-1089", side = "yard-throat" },
+  { id = "sw-line-2-0296-1089-yd-23", kit = "no-9-mainline", station = "line-2-0296-1089", side = "yard-throat" },
+  { id = "sw-line-2-0296-1089-yd-24", kit = "no-9-mainline", station = "line-2-0296-1089", side = "yard-throat" },
+  { id = "sw-line-2-0296-1089-yd-25", kit = "no-9-mainline", station = "line-2-0296-1089", side = "yard-throat" },
+  { id = "sw-line-2-0296-1089-yd-26", kit = "no-9-mainline", station = "line-2-0296-1089", side = "yard-throat" },
+  { id = "sw-line-2-0296-1089-yd-27", kit = "no-9-mainline", station = "line-2-0296-1089", side = "yard-throat" },
+  { id = "sw-line-2-0296-1089-yd-28", kit = "no-9-mainline", station = "line-2-0296-1089", side = "yard-throat" },
+  { id = "sw-line-2-0296-1089-yd-29", kit = "no-9-mainline", station = "line-2-0296-1089", side = "yard-throat" },
+  { id = "sw-line-2-0296-1089-yd-30", kit = "no-9-mainline", station = "line-2-0296-1089", side = "yard-throat" },
+  { id = "sw-line-2-0296-1089-yd-31", kit = "no-9-mainline", station = "line-2-0296-1089", side = "yard-throat" },
+  { id = "sw-line-2-0296-1089-yd-32", kit = "no-9-mainline", station = "line-2-0296-1089", side = "yard-throat" },
+  { id = "sw-line-2-0296-1089-yd-33", kit = "no-9-mainline", station = "line-2-0296-1089", side = "yard-throat" },
+  { id = "sw-line-3-0783-0254-tb", kit = "no-9-mainline", station = "line-3-0783-0254", side = "turnback" },
+  { id = "sw-line-3-0110-0960-tb", kit = "no-9-mainline", station = "line-3-0110-0960", side = "turnback" },
 ]
 
 # [[junctions]] — elevated-junction upgrades for cross-at-grade
@@ -584,17 +575,17 @@ switches = [
 [[junctions]]
 group_id        = 1
 elevated_line   = "line-3"
-lat             = -2.860918547313105
-lon             = -78.97776296934357
+lat             = -2.8925925925925924
+lon             = -78.99467287498258
 premium_eur     = 20000000
 
 # [[fleets]] — per-line fleet sizing per RFC 0014 §4.
 [[fleets]]
 line               = "line-1"
-peak_count         = 25
+peak_count         = 23
 spare_count        = 2
 cold_reserve_count = 1
-trainset_count     = 28
+trainset_count     = 26
 
 [[fleets]]
 line               = "line-2"
@@ -615,20 +606,20 @@ trainset_count     = 25
 # material multiplier downstream.
 [costs]
 # Civil works (€/km × civil mix).
-at_grade_eur         = 273467651
-elevated_eur         = 46844961
+at_grade_eur         = 264520869
+elevated_eur         = 44993792
 bridge_eur           = 0
 junction_premium_eur = 20000000  # €20 M per elevated interchange.
-civil_subtotal_eur   = 340312612
+civil_subtotal_eur   = 329514661
 # Stations (RFC 0010 archetype catalogue).
-stations_eur         = 104800000
+stations_eur         = 101800000
 # Depots (RFC 0014 archetype catalogue).
 depots_eur           = 40000000
 # Rolling stock (RFC 0008 family × fleet count).
-rolling_stock_eur    = 158000000
+rolling_stock_eur    = 154000000
 # Systems (per route-km, RFC 0015 GoA 4 battery-electric).
-signalling_eur       = 32294445
-power_eur            = 64588890
+signalling_eur       = 31230818
+power_eur            = 62461637
 # EPC integration + project management (7 % of subtotal).
-epc_overhead_eur     = 51799716
-total_eur            = 791795664  # full CAPEX stack
+epc_overhead_eur     = 50330498
+total_eur            = 769337614  # full CAPEX stack

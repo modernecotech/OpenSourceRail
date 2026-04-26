@@ -5,7 +5,7 @@
 //! then open /tmp/samawah.html in any browser.
 
 use clap::Parser;
-use osr_sim::{samawah, scenario_file, vis};
+use osr_sim::{scenario_file, vis};
 use std::path::PathBuf;
 use std::process::ExitCode;
 
@@ -20,13 +20,10 @@ and energy sites. Open it in any browser — no server required.
     version
 )]
 struct Cli {
-    /// Path to a scenario TOML file.
+    /// Path to a scenario TOML file. When omitted, falls back to the
+    /// bundled Samawah reference scenario.
     #[arg(long)]
     config: Option<PathBuf>,
-
-    /// Named built-in scenario (samawah, samawah-line1). Ignored if --config is set.
-    #[arg(long, default_value = "samawah")]
-    scenario: String,
 
     /// Output HTML file path.
     #[arg(long, default_value = "network.html")]
@@ -45,14 +42,7 @@ fn main() -> ExitCode {
             }
         }
     } else {
-        match cli.scenario.as_str() {
-            "samawah" | "samawah-full" => samawah::full_scenario(),
-            "samawah-line1" => samawah::line1_only_scenario(),
-            other => {
-                eprintln!("unknown scenario '{other}'. Available: samawah, samawah-line1.");
-                return ExitCode::from(2);
-            }
-        }
+        scenario_file::canonical_samawah_scenario()
     };
 
     let html = vis::render_html(&config);

@@ -193,11 +193,11 @@ Expected daily ridership at build-up: **10,000 – 15,000 passenger-trips** (new
 
 | Metric | Value |
 |---|---|
-| Route-km (double track) | ~64 km |
-| Stations (unique) | 36 |
+| Route-km (double track) | ~55 km |
+| Stations (unique) | 33 |
 | Lines | 3 (auto-planned by `osr-design`) |
 | Multi-line interchanges | central interchange complex + radial-junction interchanges — every radial converges on the elevated-junction at city centre per the via-centre routing rule for ≤ 3-line networks |
-| Fleet (revenue) | 56 × 3-car trainsets |
+| Fleet (revenue) | 49 × 3-car trainsets |
 | Fleet (spare + cold-reserve) | 6 × 3-car trainsets |
 | Average inter-station spacing | ~1.2 km (per [`SpacingConfig`](../../crates/osr-routing/src/station.rs) — 1.2 km inner, 2 km transitional, 4 km outer; matches the operator brief of "1.2 km inner / 2–5 km outer") |
 | Demand surface | Anchor (POI) + WorldPop residential population blend per [`build_demand_surface`](../../design-py/src/osr_geo/rasterize.py) — lines reach population centres without mapped POIs |

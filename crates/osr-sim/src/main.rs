@@ -1,7 +1,7 @@
 //! OpenSourceRail simulator CLI.
 
 use clap::Parser;
-use osr_sim::{samawah, scenario_file, sim};
+use osr_sim::{scenario_file, sim};
 use std::path::PathBuf;
 use std::process::ExitCode;
 
@@ -11,19 +11,16 @@ use std::process::ExitCode;
     about = "OpenSourceRail — urban rail network simulator",
     long_about = "\
 Runs a time-stepped simulation of an urban rail network (stations, lines,
-fleet, schedule). Scenarios are defined either by name (built-in) or by a
-TOML configuration file via --config; the latter is how users define their
-own networks. See lib/examples/README.md for the file format.
+fleet, schedule). Scenarios are TOML files emitted by `osr-design` (see
+designs/<region>/<country>/<city>/<slug>.toml). When --config is omitted,
+the bundled Samawah reference scenario is loaded.
 ",
     version
 )]
 struct Cli {
-    /// Named built-in scenario. Ignored if --config is set.
-    /// Built-ins: samawah (default), samawah-line1.
-    #[arg(long, default_value = "samawah")]
-    scenario: String,
-
-    /// Path to a scenario TOML file. Overrides --scenario when set.
+    /// Path to a scenario TOML file. When omitted, falls back to the
+    /// bundled Samawah reference scenario
+    /// (designs/west-asia/Iraq/Samawah/samawah.toml).
     #[arg(long)]
     config: Option<PathBuf>,
 
@@ -108,12 +105,5 @@ fn load_scenario(cli: &Cli) -> Result<sim::ScenarioConfig, String> {
         return scenario_file::load_scenario_from_path(path)
             .map_err(|e| format!("loading {}: {}", path.display(), e));
     }
-    match cli.scenario.as_str() {
-        "samawah" | "samawah-full" => Ok(samawah::full_scenario()),
-        "samawah-line1" => Ok(samawah::line1_only_scenario()),
-        other => Err(format!(
-            "unknown scenario '{other}'. Available: samawah, samawah-line1. \
-             Use --config PATH.toml for custom scenarios (see lib/examples/README.md)."
-        )),
-    }
+    Ok(scenario_file::canonical_samawah_scenario())
 }

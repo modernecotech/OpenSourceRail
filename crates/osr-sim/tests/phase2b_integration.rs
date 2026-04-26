@@ -11,7 +11,7 @@
 //! - ATO actually drives the train through meaningful modes
 //! - SoC decreases over time under a net-discharge duty cycle
 
-use osr_sim::samawah::line1_only_scenario;
+use osr_sim::scenario_file::canonical_samawah_scenario;
 use osr_sim::sim::{run, RuntimeConfig};
 
 fn runtime(duration_s: u32) -> RuntimeConfig {
@@ -28,7 +28,7 @@ fn runtime(duration_s: u32) -> RuntimeConfig {
 
 #[test]
 fn full_phase2b_stack_runs_clean_on_samawah() {
-    let scenario = line1_only_scenario();
+    let scenario = canonical_samawah_scenario();
     let result = run(&scenario, &runtime(900)); // 15 minutes
 
     let ob = &result.onboard;
@@ -46,7 +46,7 @@ fn full_phase2b_stack_runs_clean_on_samawah() {
 
 #[test]
 fn ato_drives_trains_through_meaningful_modes() {
-    let scenario = line1_only_scenario();
+    let scenario = canonical_samawah_scenario();
     let result = run(&scenario, &runtime(600));
 
     // Across the fleet we should see a healthy mix of ATO modes.
@@ -85,7 +85,7 @@ fn bms_soc_drops_over_run_under_net_discharge() {
     // should decrease (trains discharge more than they regen).
     // This is a sanity check that Coulomb counting + the traction
     // current feedback loop are actually connected.
-    let scenario = line1_only_scenario();
+    let scenario = canonical_samawah_scenario();
     let result = run(&scenario, &runtime(1_800));
 
     // Average min SoC across the fleet should be strictly below the
@@ -109,7 +109,7 @@ fn bms_soc_drops_over_run_under_net_discharge() {
 
 #[test]
 fn peak_torque_within_traction_rating() {
-    let scenario = line1_only_scenario();
+    let scenario = canonical_samawah_scenario();
     let result = run(&scenario, &runtime(600));
 
     // Peak torque across any train shouldn't exceed the crate's

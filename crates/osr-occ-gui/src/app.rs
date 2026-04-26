@@ -22,8 +22,7 @@ use eframe::egui::{
 use osr_core::{Network, SectionId};
 use osr_gui_shared::{draw_network, draw_section_state, NetworkLayout, Palette};
 use osr_interlocking::IntrusionState;
-use osr_sim::samawah::full_scenario;
-use osr_sim::scenario_file::load_scenario_from_path;
+use osr_sim::scenario_file::{canonical_samawah_scenario, load_scenario_from_path};
 use osr_sim::sim::{run, EventKind, RuntimeConfig, ScenarioConfig, SimResult};
 use osr_sim::timeline::SimTimeline;
 
@@ -651,9 +650,10 @@ fn validate_override(b: &OverrideBuffer) -> Result<(), String> {
     Ok(())
 }
 
-/// Prefer `designs/west-asia/Iraq/Samawah/samawah.toml` over the legacy hardcoded fixture.
-/// Falls back to the built-in if the file is missing or fails to
-/// parse. Same logic as [`osr_sim_gui`'s `_default_scenario`].
+/// Prefer the on-disk `designs/west-asia/Iraq/Samawah/samawah.toml`
+/// (so a fresh `osr-design` regeneration shows up immediately);
+/// fall back to the bundled snapshot when the binary is run from
+/// outside the repo. Same logic as [`osr_sim_gui`'s `_default_scenario`].
 fn _default_scenario() -> (ScenarioConfig, String) {
     let candidates = [
         "designs/west-asia/Iraq/Samawah/samawah.toml",
@@ -668,7 +668,10 @@ fn _default_scenario() -> (ScenarioConfig, String) {
             }
         }
     }
-    (full_scenario(), "Samawah (built-in; designs/west-asia/Iraq/Samawah/samawah.toml not found)".into())
+    (
+        canonical_samawah_scenario(),
+        "Samawah (bundled; designs/west-asia/Iraq/Samawah/samawah.toml not on disk)".into(),
+    )
 }
 
 #[cfg(test)]

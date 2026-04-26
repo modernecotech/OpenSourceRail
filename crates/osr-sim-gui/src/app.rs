@@ -15,8 +15,7 @@ use eframe::egui::{
 };
 use osr_core::TrainId;
 use osr_gui_shared::{draw_network, NetworkLayout, Palette};
-use osr_sim::samawah::full_scenario;
-use osr_sim::scenario_file::load_scenario_from_path;
+use osr_sim::scenario_file::{canonical_samawah_scenario, load_scenario_from_path};
 use osr_sim::sim::{run, EventKind, RuntimeConfig, ScenarioConfig, SimResult};
 use osr_sim::timeline::SimTimeline;
 
@@ -92,12 +91,15 @@ impl SimApp {
                 Ok(s) => (s, path.to_string()),
                 Err(e) => {
                     eprintln!("failed to load {path}: {e}");
-                    (full_scenario(), "Samawah (built-in; fallback)".into())
+                    (
+                        canonical_samawah_scenario(),
+                        "Samawah (bundled; fallback)".into(),
+                    )
                 }
             },
-            // No explicit path given: prefer the generated scenario file
-            // (auto-regenerated from designs/.../design.toml) over the
-            // legacy hardcoded fixture in `osr_sim::samawah`.
+            // No explicit path given: prefer the on-disk
+            // designs/west-asia/Iraq/Samawah/samawah.toml; fall back
+            // to the bundled snapshot if it isn't there.
             None => _default_scenario(),
         };
         let mut app = Self {
@@ -480,11 +482,9 @@ fn draw_fault_badges(
     }
 }
 
-/// Attempt to load `designs/west-asia/Iraq/Samawah/samawah.toml` from the standard repo
-/// location; fall back to the legacy hardcoded fixture if the file
-/// is missing or won't parse. Used when no `--scenario` CLI arg is
-/// given — keeps the GUI default aligned with the generated scenario
-/// instead of drifting onto the legacy 2-line Samawah fixture.
+/// Attempt to load `designs/west-asia/Iraq/Samawah/samawah.toml` from the
+/// standard repo location; if the file isn't on disk the bundled
+/// `canonical_samawah_scenario` snapshot is used instead.
 fn _default_scenario() -> (ScenarioConfig, String) {
     let candidates = [
         "designs/west-asia/Iraq/Samawah/samawah.toml",
@@ -499,5 +499,8 @@ fn _default_scenario() -> (ScenarioConfig, String) {
             }
         }
     }
-    (full_scenario(), "Samawah (built-in; designs/west-asia/Iraq/Samawah/samawah.toml not found)".into())
+    (
+        canonical_samawah_scenario(),
+        "Samawah (bundled; designs/west-asia/Iraq/Samawah/samawah.toml not on disk)".into(),
+    )
 }

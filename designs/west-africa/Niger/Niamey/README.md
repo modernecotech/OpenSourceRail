@@ -34,7 +34,7 @@ Corridor polylines + stations as GeoJSON for GIS / alignment tooling: [`niamey.c
 | Line | Length | Stations | Trainsets | Termini |
 |---|---|---|---|---|
 | line-1 | 30.9 km | 17 | 26 | SE Outer ↔ NW Outer |
-| line-2 | 24.7 km | 15 | 21 | N Outer ↔ SE Outer |
+| line-2 | 24.7 km | 15 | 21 | SE Outer ↔ N Outer |
 | line-3 | 28.7 km | 17 | 24 | SW Outer ↔ E Mid |
 | line-4 | 61.6 km | 31 | 49 | NW Outer ↔ NW Outer |
 | **Total** | **146.0 km** | **79 unique** | **120** | |
@@ -71,12 +71,12 @@ On-site trackside + depot PV and battery storage. Per-tier sizing (from [`../../
 |---|---|---|---|
 | Depot-Main | 1 | 5000 kW | 40000 kWh |
 | Interchange | 11 | 500 kW | 3000 kWh |
-| Major | 39 | 400 kW | 2500 kWh |
-| Standard | 24 | 300 kW | 2000 kWh |
+| Major | 40 | 400 kW | 2500 kWh |
+| Standard | 23 | 300 kW | 2000 kWh |
 | Terminal | 5 | 500 kW | 3000 kWh |
-| **Total installed** | **80** | **35,800 kW** | **233,500 kWh** |
+| **Total installed** | **80** | **35,900 kW** | **234,000 kWh** |
 
-Aggregate station-rail charging power: **31,000 kW**. Trains opportunity-charge during station dwell per RFC 0002; onboard 460 kWh battery covers running.
+Aggregate station-rail charging power: **31,500 kW**. Trains opportunity-charge during station dwell per RFC 0002; onboard 460 kWh battery covers running.
 
 ## CAPEX (planning grade)
 
@@ -86,10 +86,10 @@ All figures come from the `[costs]` block in `design.toml` — emitted by the `o
 
 | Bucket | Value |
 |---|---|
-| At-grade (139.0 km @ €3.5 M/km) | €487 M |
-| Elevated (6.4 km @ €18 M/km) | €115 M |
-| Elevated-interchange premium (5 sites @ €20 M) | €100 M |
-| **Civil subtotal** | **€702 M** |
+| At-grade (137.6 km @ €3.5 M/km) | €482 M |
+| Elevated (7.8 km @ €18 M/km) | €140 M |
+| Elevated-interchange premium (6 sites @ €20 M) | €120 M |
+| **Civil subtotal** | **€741 M** |
 
 ### Stations
 
@@ -97,12 +97,12 @@ Prefab portal-frame canopy + factory-bonded PV sandwich panel (RFC 0010 §3, ~11
 
 | Archetype | Count | Unit | Subtotal |
 |---|---|---|---|
-| `standard` | 24 | €1.5 M | €36 M |
-| `major` | 39 | €3.0 M | €117 M |
+| `standard` | 23 | €1.5 M | €34 M |
+| `major` | 40 | €3.0 M | €120 M |
 | `terminal` | 5 | €2.5 M | €12 M |
 | `depot-terminal` | 1 | €3.0 M | €3.0 M |
 | `interchange-elevated` | 11 | €4.5 M | €50 M |
-| **Stations subtotal** | | | **€218 M** |
+| **Stations subtotal** | | | **€220 M** |
 
 ### Depots
 
@@ -128,21 +128,21 @@ Per-trainset BOM at OSR-discipline pricing: **onboard** Na-ion traction battery 
 |---|---|---|
 | Signalling (open-source CBTC on commodity SBCs, RFC 0019) | 146.0 km × €0.4 M/km | €58 M |
 | Traction power (**trackside** stationary PV + Na-ion + grid-tie at every station, no OCS, RFC 0002 §6) | 146.0 km × €0.8 M/km | €116 M |
-| EPC integration + project management (7%) | on subtotal | €105 M |
+| EPC integration + project management (7%) | on subtotal | €107 M |
 
 ### Total
 
 | Bucket | Value |
 |---|---|
-| Civil works | €702 M |
-| Stations | €218 M |
+| Civil works | €741 M |
+| Stations | €220 M |
 | Depots | €40 M |
 | Rolling stock | €360 M |
-| Signalling + power | €175 M |
-| EPC overhead (7%) | €105 M |
-| **CAPEX total** | **€1.60 bn** |
+| Signalling + power | €174 M |
+| EPC overhead (7%) | €107 M |
+| **CAPEX total** | **€1.64 bn** |
 | Per-route-km | €11 M / km |
-| Per-capita (city pop) | €1,136 / person |
+| Per-capita (city pop) | €1,167 / person |
 
 ## Funding & affordability
 
@@ -152,21 +152,21 @@ Planning-grade financing model anchored to country financial parameters from [`l
 
 | Tranche | Share | Principal | Rate | Tenor | Annual debt service (post-grace) |
 |---|---|---|---|---|---|
-| Multilateral concessional loan (IBRD / AfDB / ADB class) | 60% | €959 M | 3.0% | 35 y, 10 y grace | €55 M / yr |
-| Sovereign bonds (10-y benchmark + project) | 25% | €400 M | 9.0% | 35 y, 10 y grace | €41 M / yr |
-| Government equity (no debt service) | 15% | €240 M | — | — | — |
-| **Total** | **100%** | **€1.60 bn** | | | **€96 M / yr** |
+| Multilateral concessional loan (IBRD / AfDB / ADB class) | 60% | €986 M | 3.0% | 35 y, 10 y grace | €57 M / yr |
+| Sovereign bonds (10-y benchmark + project) | 25% | €411 M | 9.0% | 35 y, 10 y grace | €42 M / yr |
+| Government equity (no debt service) | 15% | €246 M | — | — | — |
+| **Total** | **100%** | **€1.64 bn** | | | **€98 M / yr** |
 
 ### Annual OPEX (steady state)
 
 | Component | Basis | Annual cost |
 |---|---|---|
 | Rolling-stock maintenance | 4 % of rolling-stock CAPEX | €14 M |
-| Civil + station + depot maintenance | 2 % of fixed-asset CAPEX | €19 M |
+| Civil + station + depot maintenance | 2 % of fixed-asset CAPEX | €20 M |
 | Signalling + comms maintenance | 5 % of signalling CAPEX | €2.9 M |
 | Traction energy (336.3 GWh / yr) | trackside PV + Na-ion (RFC 0002) — **self-generated, €0 / yr** | €0 k |
 | Labour (888 FTE) | ~6 FTE/route-km + 12 admin core × country median × 12 × engineer-premium 1.4 | €1.3 M |
-| **OPEX subtotal** | | **€38 M / yr** |
+| **OPEX subtotal** | | **€39 M / yr** |
 
 _Annual fleet utilisation: 107 revenue trainsets × 20.5 h/day × 365 d/yr × 35 km/h commercial × 75% revenue factor = 21.0 M train-km / yr (~196 k km / trainset / yr)._
 
@@ -189,10 +189,10 @@ Practical-ridership bracket = 5–10 % of urban population × 365 service-days. 
 |---|---|---|
 | Annual paid trips | 25.7 M | 51.4 M |
 | Farebox revenue | €3.7 M / yr | €7.5 M / yr |
-| Farebox / OPEX recovery | 10% | 20% |
+| Farebox / OPEX recovery | 10% | 19% |
 | Country policy-target recovery (diagnostic) | 30% | 30% |
-| Operating shortfall (gov subsidy required) | €34 M / yr | €30 M / yr |
-| **Total annual government burden** (debt service + OPEX shortfall) | **€130 M / yr** | **€126 M / yr** |
+| Operating shortfall (gov subsidy required) | €35 M / yr | €31 M / yr |
+| **Total annual government burden** (debt service + OPEX shortfall) | **€133 M / yr** | **€130 M / yr** |
 
 **Caveats:** The funding-stack 60/25/15 split, the 5 % income-share affordability target, and the 5–10 % daily-pax bracket are project-level defaults. Real deployments will negotiate the share with the financing institutions and will tune fares iteratively from boarding data. Treat the numbers above as a first-iteration sanity check, not as a bid-ready financial close.
 

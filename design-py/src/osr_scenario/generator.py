@@ -294,13 +294,36 @@ class ScenarioGenerator:
         # designs default to a Samawah-class 5-min peak headway,
         # 05:30–23:30 service window). All keys defensive — missing
         # ones get sensible auto-gen defaults.
+        # Build a per-line list of stations (in s_m order) so we can
+        # synthesize default dispatch_points at the line's two termini
+        # when the design.toml doesn't carry an explicit list. The rust
+        # `osr-design` emitter doesn't pre-compute dispatch points; the
+        # rust scenario loader requires `dispatch_points` to be
+        # non-empty (otherwise no train ever leaves the depot), so
+        # without this synthesis the canonical Samawah scenario fails
+        # to load.
+        line_stations: dict[str, list[dict]] = {}
+        for st in self.design.get("stations", []):
+            line_stations.setdefault(st.get("line", ""), []).append(st)
+        for stns in line_stations.values():
+            stns.sort(key=lambda s: s.get("s_m", 0.0))
+
         out = ["\n# Fleets — copied from design.toml [[fleets]].\n"]
         for f in self.design.get("fleets", []):
+            line_id = f["line"]
             out.append(f"[[fleets]]\n")
-            out.append(f'line = "{_escape(f["line"])}"\n')
+            out.append(f'line = "{_escape(line_id)}"\n')
             out.append(f"trainset_count = {int(f['trainset_count'])}\n")
+            dispatch_points = list(f.get("dispatch_points") or [])
+            if not dispatch_points:
+                stns = line_stations.get(line_id, [])
+                if len(stns) >= 2:
+                    dispatch_points = [
+                        {"station": stns[0]["id"], "heading": "forward"},
+                        {"station": stns[-1]["id"], "heading": "reverse"},
+                    ]
             out.append(f"dispatch_points = [\n")
-            for dp in f.get("dispatch_points", []):
+            for dp in dispatch_points:
                 out.append(
                     f'    {{ station = "{_escape(dp["station"])}", heading = "{_escape(dp["heading"])}" }},\n'
                 )

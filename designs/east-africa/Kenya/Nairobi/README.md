@@ -21,7 +21,7 @@ Corridor polylines + stations as GeoJSON for GIS / alignment tooling: [`nairobi.
 | Interchange stations | 26 |
 | Multi-line transfer reachability | 0% (line-pairs sharing ≥ 1 station) |
 | Anchor-weighted coverage | 42.8% |
-| Route length (double track) | 476.3 km |
+| Route length (double track) | 476.2 km |
 | Revenue fleet | 340 × 6-car trainsets |
 | Spare + cold-reserve | 38 × 6-car trainsets |
 | Peak headway | 5 min |
@@ -37,11 +37,11 @@ Corridor polylines + stations as GeoJSON for GIS / alignment tooling: [`nairobi.
 | line-2 | 59.9 km | 27 | 48 | W Outer ↔ E Outer |
 | line-3 | 55.1 km | 23 | 43 | NW Mid ↔ SE Outer |
 | line-4 | 48.0 km | 18 | 39 | SE Mid ↔ W Outer |
-| line-5 | 47.7 km | 18 | 38 | SW Outer ↔ NE Mid |
+| line-5 | 47.7 km | 18 | 38 | NE Mid ↔ SW Outer |
 | line-6 | 52.9 km | 22 | 42 | N Mid ↔ SE Outer |
-| line-7 | 38.5 km | 14 | 31 | NW Outer ↔ E Mid |
+| line-7 | 38.4 km | 14 | 31 | E Mid ↔ NW Outer |
 | line-8 | 117.2 km | 44 | 91 | W Mid ↔ W Mid |
-| **Total** | **476.3 km** | **190 unique** | **378** | |
+| **Total** | **476.2 km** | **190 unique** | **378** | |
 
 ## Rolling stock
 
@@ -90,10 +90,10 @@ All figures come from the `[costs]` block in `design.toml` — emitted by the `o
 
 | Bucket | Value |
 |---|---|
-| At-grade (448.8 km @ €3.5 M/km) | €1.57 bn |
-| Elevated (24.5 km @ €18 M/km) | €441 M |
-| Elevated-interchange premium (17 sites @ €20 M) | €340 M |
-| **Civil subtotal** | **€2.35 bn** |
+| At-grade (450.2 km @ €3.5 M/km) | €1.58 bn |
+| Elevated (23.1 km @ €18 M/km) | €416 M |
+| Elevated-interchange premium (16 sites @ €20 M) | €320 M |
+| **Civil subtotal** | **€2.31 bn** |
 
 ### Stations
 
@@ -131,23 +131,23 @@ Per-trainset BOM at OSR-discipline pricing: **onboard** Na-ion traction battery 
 
 | Item | Basis | Subtotal |
 |---|---|---|
-| Signalling (open-source CBTC on commodity SBCs, RFC 0019) | 476.3 km × €0.4 M/km | €189 M |
-| Traction power (**trackside** stationary PV + Na-ion + grid-tie at every station, no OCS, RFC 0002 §6) | 476.3 km × €0.8 M/km | €379 M |
-| EPC integration + project management (7%) | on subtotal | €357 M |
+| Signalling (open-source CBTC on commodity SBCs, RFC 0019) | 476.2 km × €0.4 M/km | €189 M |
+| Traction power (**trackside** stationary PV + Na-ion + grid-tie at every station, no OCS, RFC 0002 §6) | 476.2 km × €0.8 M/km | €379 M |
+| EPC integration + project management (7%) | on subtotal | €354 M |
 
 ### Total
 
 | Bucket | Value |
 |---|---|
-| Civil works | €2.35 bn |
+| Civil works | €2.31 bn |
 | Stations | €419 M |
 | Depots | €64 M |
 | Rolling stock | €1.70 bn |
 | Signalling + power | €568 M |
-| EPC overhead (7%) | €357 M |
-| **CAPEX total** | **€5.46 bn** |
+| EPC overhead (7%) | €354 M |
+| **CAPEX total** | **€5.42 bn** |
 | Per-route-km | €11 M / km |
-| Per-capita (city pop) | €958 / person |
+| Per-capita (city pop) | €951 / person |
 
 ## Funding & affordability
 
@@ -157,20 +157,20 @@ Planning-grade financing model anchored to country financial parameters from [`l
 
 | Tranche | Share | Principal | Rate | Tenor | Annual debt service (post-grace) |
 |---|---|---|---|---|---|
-| Multilateral concessional loan (IBRD / AfDB / ADB class) | 60% | €3.28 bn | 4.5% | 30 y, 7 y grace | €232 M / yr |
-| Sovereign bonds (10-y benchmark + project) | 25% | €1.37 bn | 11.5% | 30 y, 7 y grace | €171 M / yr |
-| Government equity (no debt service) | 15% | €819 M | — | — | — |
-| **Total** | **100%** | **€5.46 bn** | | | **€403 M / yr** |
+| Multilateral concessional loan (IBRD / AfDB / ADB class) | 60% | €3.25 bn | 4.5% | 30 y, 7 y grace | €230 M / yr |
+| Sovereign bonds (10-y benchmark + project) | 25% | €1.35 bn | 11.5% | 30 y, 7 y grace | €170 M / yr |
+| Government equity (no debt service) | 15% | €813 M | — | — | — |
+| **Total** | **100%** | **€5.42 bn** | | | **€399 M / yr** |
 
 ### Annual OPEX (steady state)
 
 | Component | Basis | Annual cost |
 |---|---|---|
 | Rolling-stock maintenance | 4 % of rolling-stock CAPEX | €68 M |
-| Civil + station + depot maintenance | 2 % of fixed-asset CAPEX | €57 M |
+| Civil + station + depot maintenance | 2 % of fixed-asset CAPEX | €56 M |
 | Signalling + comms maintenance | 5 % of signalling CAPEX | €9.5 M |
 | Traction energy (1602.8 GWh / yr) | trackside PV + Na-ion (RFC 0002) — **self-generated, €0 / yr** | €0 k |
-| Labour (2,870 FTE) | ~6 FTE/route-km + 12 admin core × country median × 12 × engineer-premium 1.4 | €10 M |
+| Labour (2,869 FTE) | ~6 FTE/route-km + 12 admin core × country median × 12 × engineer-premium 1.4 | €10 M |
 | **OPEX subtotal** | | **€144 M / yr** |
 
 _Annual fleet utilisation: 340 revenue trainsets × 20.5 h/day × 365 d/yr × 35 km/h commercial × 75% revenue factor = 66.8 M train-km / yr (~196 k km / trainset / yr)._
@@ -194,10 +194,10 @@ Practical-ridership bracket = 5–10 % of urban population × 365 service-days. 
 |---|---|---|
 | Annual paid trips | 104.0 M | 208.1 M |
 | Farebox revenue | €37 M / yr | €73 M / yr |
-| Farebox / OPEX recovery | 25% | 51% |
+| Farebox / OPEX recovery | 26% | 51% |
 | Country policy-target recovery (diagnostic) | 50% | 50% |
-| Operating shortfall (gov subsidy required) | €108 M / yr | €71 M / yr |
-| **Total annual government burden** (debt service + OPEX shortfall) | **€510 M / yr** | **€474 M / yr** |
+| Operating shortfall (gov subsidy required) | €107 M / yr | €70 M / yr |
+| **Total annual government burden** (debt service + OPEX shortfall) | **€506 M / yr** | **€470 M / yr** |
 
 **Caveats:** The funding-stack 60/25/15 split, the 5 % income-share affordability target, and the 5–10 % daily-pax bracket are project-level defaults. Real deployments will negotiate the share with the financing institutions and will tune fares iteratively from boarding data. Treat the numbers above as a first-iteration sanity check, not as a bid-ready financial close.
 

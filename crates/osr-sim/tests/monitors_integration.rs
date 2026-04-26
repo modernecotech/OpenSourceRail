@@ -14,7 +14,7 @@
 //! logic or a scenario that the sim's shadow sensors don't model
 //! (none of which we expect under nominal service).
 
-use osr_sim::samawah::line1_only_scenario;
+use osr_sim::scenario_file::canonical_samawah_scenario;
 use osr_sim::sim::{run, RuntimeConfig};
 
 fn runtime(duration_s: u32) -> RuntimeConfig {
@@ -31,7 +31,7 @@ fn runtime(duration_s: u32) -> RuntimeConfig {
 
 #[test]
 fn nominal_run_has_no_monitor_trips() {
-    let scenario = line1_only_scenario();
+    let scenario = canonical_samawah_scenario();
     let result = run(&scenario, &runtime(900));
     let ob = &result.onboard;
 
@@ -61,7 +61,7 @@ fn monitors_run_every_traveling_tick() {
     // ticks-run counts match the Traveling-tick budget). Without
     // this check, a silent regression that disables the monitor
     // calls would pass the no-trip assertion vacuously.
-    let scenario = line1_only_scenario();
+    let scenario = canonical_samawah_scenario();
     let result = run(&scenario, &runtime(600));
     assert!(
         result.onboard.ticks_evaluated > 0,

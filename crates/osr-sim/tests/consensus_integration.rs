@@ -7,12 +7,12 @@
 //! `invariant_violations` list — if any gate decision ever disagrees
 //! with the derived state, a violation lands there.
 
-use osr_sim::samawah::line1_only_scenario;
+use osr_sim::scenario_file::canonical_samawah_scenario;
 use osr_sim::sim::{run, RuntimeConfig};
 
 #[test]
 fn consensus_backed_ma_check_produces_clean_run() {
-    let scenario = line1_only_scenario();
+    let scenario = canonical_samawah_scenario();
     let runtime = RuntimeConfig {
         duration_s: 900, // 15 minutes of service
         time_step_s: 1,
@@ -47,7 +47,7 @@ fn consensus_and_simulated_produce_equivalent_ma_summaries() {
     // zero invariant violations and roughly equal numbers of MA
     // evaluations. Not byte-equal (consensus timing adds small
     // differences in when entries commit), but structurally equivalent.
-    let scenario = line1_only_scenario();
+    let scenario = canonical_samawah_scenario();
     let short_runtime = |use_consensus: bool| RuntimeConfig {
         duration_s: 300,
         time_step_s: 1,

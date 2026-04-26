@@ -15,12 +15,12 @@
 //! default consist should produce thousands of Service and Release
 //! ticks and zero Emergencies.
 
-use osr_sim::samawah::line1_only_scenario;
+use osr_sim::scenario_file::canonical_samawah_scenario;
 use osr_sim::sim::{run, RuntimeConfig};
 
 #[test]
 fn nominal_samawah_line1_produces_no_onboard_emergency() {
-    let scenario = line1_only_scenario();
+    let scenario = canonical_samawah_scenario();
     // Run 10 minutes (600 s) from service start. Enough for every
     // trainset to dispatch and complete at least one round of
     // section traversals, but fast enough to keep the test snappy.
@@ -71,7 +71,7 @@ fn onboard_approach_ticks_fire_near_stations() {
     // Same scenario; check that ATP's EnvelopeApproach reason fires
     // at least once — a mild Service command near end-of-section is
     // expected as the kinematic shadow decelerates into the station.
-    let scenario = line1_only_scenario();
+    let scenario = canonical_samawah_scenario();
     let runtime = RuntimeConfig {
         duration_s: 600,
         time_step_s: 1,
