@@ -2,7 +2,7 @@
 
 **Country:** IQ · **Population:** 9,780,429
 
-Auto-planned by [`osr_planner`](../../../design-py/src/osr_planner/) using the linear-logic algorithm on Overpass-verified OpenStreetMap data. Every station sits on an aggregated POI cluster; every line polyline follows the OSM arterial graph (trunk / primary / secondary / tertiary — residential streets excluded, so lines cannot zigzag through a residential grid).
+Auto-planned by the OpenSourceRail design pipeline: [`osr_geo`](../../../design-py/src/osr_geo/) rasterises Overpass-verified OpenStreetMap features (arterial road graph, buildings, water, protected land, demand-anchor POIs) onto a 20 m cost / demand / buildability grid; [`osr-design`](../../../crates/osr-design/) (rust) runs a demand-rewarded Dijkstra on that grid to synthesise corridors, places stations against the demand surface, and classifies every segment (at-grade / elevated / bridge — no tunnels per [RFC 0011](../../../docs/rfcs/0011-civil-infrastructure-design-standard.md)). Population, country, and bbox are read from the canonical city catalog at [`lib/city-batches/world-sample.toml`](../../../lib/city-batches/world-sample.toml).
 
 ## Network maps
 
@@ -18,7 +18,7 @@ Auto-planned by [`osr_planner`](../../../design-py/src/osr_planner/) using the l
 
 *8 km radius around the city centre at a legible street-grid zoom. Shows interchange density, central-business-district stations, and where the radial lines converge on the hub.*
 
-Corridor polylines + stations as GeoJSON for GIS / alignment tooling: [`baghdad-corridor.geojson`](baghdad-corridor.geojson).
+Corridor polylines + stations as GeoJSON for GIS / alignment tooling: [`baghdad.corridor.geojson`](baghdad.corridor.geojson).
 
 ## At a glance
 
@@ -28,7 +28,7 @@ Corridor polylines + stations as GeoJSON for GIS / alignment tooling: [`baghdad-
 | Unique stations | 288 |
 | Interchange stations | 2 |
 | Multi-line transfer reachability | 0% (line-pairs sharing ≥ 1 station) |
-| Anchor-weighted coverage | — (set `[stats] coverage` in design.toml) |
+| Anchor-weighted coverage | 37.0% |
 | Route length (double track) | 470.2 km |
 | Revenue fleet | 340 × 6-car trainsets |
 | Spare + cold-reserve | 39 × 6-car trainsets |
@@ -50,7 +50,7 @@ Corridor polylines + stations as GeoJSON for GIS / alignment tooling: [`baghdad-
 | line-7 | 44.9 km | 26 | 37 | NW Outer ↔ E Mid |
 | line-8 | 39.1 km | 22 | 32 | E Outer ↔ S Mid |
 | line-9 | 105.7 km | 70 | 82 | W Mid ↔ W Mid |
-| **Total** | **470.2 km** | **288 unique** | **340** | |
+| **Total** | **470.2 km** | **288 unique** | **379** | |
 
 ## Rolling stock
 
@@ -68,13 +68,13 @@ Corridor polylines + stations as GeoJSON for GIS / alignment tooling: [`baghdad-
 - **Peak capacity per line per direction:** 900 × 12 = **10,800 pphpd**
 - **Network peak throughput (all lines, both directions):** 9 lines × 2 directions × 10,800 = **194,400 passengers/hour**
 - **Daily theoretical capacity (peak × 10):** ≈ **1,944,000 passenger-trips/day**
-- **Practical daily ridership estimate** (10–15 % of catchment): *(requires a coverage score)*
+- **Practical daily ridership estimate** (10–15 % of catchment): ≈ **361,875 – 542,813 trips/day**
 
 ## Catchment
 
 - City population: **9,780,429**
-- Anchor-weighted coverage: — (set `[stats] coverage` in design.toml)
-- Catchment population: *(run the planner with a fresh coverage score)*
+- Anchor-weighted coverage: 37.0%
+- Catchment population: **≈ 3,618,758** (within ~800 m walk of a station)
 
 ## Energy infrastructure (solar + battery)
 
@@ -167,8 +167,27 @@ Per-trainset BOM at OSR-discipline pricing: commodity Na-ion cells (~$80/kWh, RF
 | [`baghdad.toml`](baghdad.toml) | Expanded simulation scenario (input to `osr-sim`) |
 | [`baghdad-network-map.png`](baghdad-network-map.png) | City-wide network map |
 | [`baghdad-network-map-detail.png`](baghdad-network-map-detail.png) | Detail-zoom render |
-| [`baghdad-corridor.geojson`](baghdad-corridor.geojson) | Line polylines + stations (GeoJSON) |
+| [`baghdad.corridor.geojson`](baghdad.corridor.geojson) | Line polylines + stations (GeoJSON) |
 
 ## Reproducibility
 
-Run `python -m osr_planner --slug <slug> --bbox ... --population ...` to re-plan, then `python -m osr_scenario --design …/design.toml` + `python -m osr_scenario.render_map --design …/design.toml` + `python -m osr_scenario.network_readme --design …/design.toml --scenario …/scenario.toml --out …/README.md --population N` to regenerate this README.
+```bash
+# 1. raster bundle from OpenStreetMap (cached by query hash)
+python -m osr_geo.cli --slug baghdad
+
+# 2. design.toml + corridor.geojson + design-quality.yaml
+#    (population + country pulled from lib/city-batches/world-sample.toml)
+cargo run --release --bin osr-design -- --slug baghdad \
+    --sidecar .cache/osr-pipeline/rasters/baghdad.grid.json \
+    --out-dir designs/.../Baghdad
+
+# 3. scenario.toml + map PNGs + this README
+python -m osr_scenario --design designs/.../design.toml
+python -m osr_scenario.render_map --design designs/.../design.toml
+python -m osr_scenario.network_readme \
+    --design designs/.../design.toml \
+    --scenario designs/.../baghdad.toml \
+    --out designs/.../README.md
+```
+
+`scripts/regenerate-baghdad.sh` chains steps 3 + drift tests into a single command.

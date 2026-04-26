@@ -2,7 +2,7 @@
 
 **Country:** IQ · **Population:** 373,770
 
-Auto-planned by [`osr_planner`](../../../design-py/src/osr_planner/) using the linear-logic algorithm on Overpass-verified OpenStreetMap data. Every station sits on an aggregated POI cluster; every line polyline follows the OSM arterial graph (trunk / primary / secondary / tertiary — residential streets excluded, so lines cannot zigzag through a residential grid).
+Auto-planned by the OpenSourceRail design pipeline: [`osr_geo`](../../../design-py/src/osr_geo/) rasterises Overpass-verified OpenStreetMap features (arterial road graph, buildings, water, protected land, demand-anchor POIs) onto a 20 m cost / demand / buildability grid; [`osr-design`](../../../crates/osr-design/) (rust) runs a demand-rewarded Dijkstra on that grid to synthesise corridors, places stations against the demand surface, and classifies every segment (at-grade / elevated / bridge — no tunnels per [RFC 0011](../../../docs/rfcs/0011-civil-infrastructure-design-standard.md)). Population, country, and bbox are read from the canonical city catalog at [`lib/city-batches/world-sample.toml`](../../../lib/city-batches/world-sample.toml).
 
 ## Network maps
 
@@ -18,7 +18,7 @@ Auto-planned by [`osr_planner`](../../../design-py/src/osr_planner/) using the l
 
 *8 km radius around the city centre at a legible street-grid zoom. Shows interchange density, central-business-district stations, and where the radial lines converge on the hub.*
 
-Corridor polylines + stations as GeoJSON for GIS / alignment tooling: [`samawah-corridor.geojson`](samawah-corridor.geojson).
+Corridor polylines + stations as GeoJSON for GIS / alignment tooling: [`samawah.corridor.geojson`](samawah.corridor.geojson).
 
 ## At a glance
 
@@ -28,7 +28,7 @@ Corridor polylines + stations as GeoJSON for GIS / alignment tooling: [`samawah-
 | Unique stations | 40 |
 | Interchange stations | 0 |
 | Multi-line transfer reachability | 0% (line-pairs sharing ≥ 1 station) |
-| Anchor-weighted coverage | — (set `[stats] coverage` in design.toml) |
+| Anchor-weighted coverage | 50.9% |
 | Route length (double track) | 40.2 km |
 | Revenue fleet | 38 × 3-car trainsets |
 | Spare + cold-reserve | 6 × 3-car trainsets |
@@ -44,7 +44,7 @@ Corridor polylines + stations as GeoJSON for GIS / alignment tooling: [`samawah-
 | line-1 | 11.5 km | 14 | 13 | SE Mid ↔ N Mid |
 | line-2 | 11.3 km | 12 | 13 | SW Inner ↔ N Outer |
 | line-3 | 17.5 km | 14 | 18 | SE Outer ↔ W Outer |
-| **Total** | **40.2 km** | **40 unique** | **38** | |
+| **Total** | **40.2 km** | **40 unique** | **44** | |
 
 ## Rolling stock
 
@@ -62,13 +62,13 @@ Corridor polylines + stations as GeoJSON for GIS / alignment tooling: [`samawah-
 - **Peak capacity per line per direction:** 360 × 12 = **4,320 pphpd**
 - **Network peak throughput (all lines, both directions):** 3 lines × 2 directions × 4,320 = **25,920 passengers/hour**
 - **Daily theoretical capacity (peak × 10):** ≈ **259,200 passenger-trips/day**
-- **Practical daily ridership estimate** (10–15 % of catchment): *(requires a coverage score)*
+- **Practical daily ridership estimate** (10–15 % of catchment): ≈ **19,024 – 28,537 trips/day**
 
 ## Catchment
 
 - City population: **373,770**
-- Anchor-weighted coverage: — (set `[stats] coverage` in design.toml)
-- Catchment population: *(run the planner with a fresh coverage score)*
+- Anchor-weighted coverage: 50.9%
+- Catchment population: **≈ 190,248** (within ~800 m walk of a station)
 
 ## Energy infrastructure (solar + battery)
 
@@ -157,8 +157,27 @@ Per-trainset BOM at OSR-discipline pricing: commodity Na-ion cells (~$80/kWh, RF
 | [`samawah.toml`](samawah.toml) | Expanded simulation scenario (input to `osr-sim`) |
 | [`samawah-network-map.png`](samawah-network-map.png) | City-wide network map |
 | [`samawah-network-map-detail.png`](samawah-network-map-detail.png) | Detail-zoom render |
-| [`samawah-corridor.geojson`](samawah-corridor.geojson) | Line polylines + stations (GeoJSON) |
+| [`samawah.corridor.geojson`](samawah.corridor.geojson) | Line polylines + stations (GeoJSON) |
 
 ## Reproducibility
 
-Run `python -m osr_planner --slug <slug> --bbox ... --population ...` to re-plan, then `python -m osr_scenario --design …/design.toml` + `python -m osr_scenario.render_map --design …/design.toml` + `python -m osr_scenario.network_readme --design …/design.toml --scenario …/scenario.toml --out …/README.md --population N` to regenerate this README.
+```bash
+# 1. raster bundle from OpenStreetMap (cached by query hash)
+python -m osr_geo.cli --slug samawah
+
+# 2. design.toml + corridor.geojson + design-quality.yaml
+#    (population + country pulled from lib/city-batches/world-sample.toml)
+cargo run --release --bin osr-design -- --slug samawah \
+    --sidecar .cache/osr-pipeline/rasters/samawah.grid.json \
+    --out-dir designs/.../Samawah
+
+# 3. scenario.toml + map PNGs + this README
+python -m osr_scenario --design designs/.../design.toml
+python -m osr_scenario.render_map --design designs/.../design.toml
+python -m osr_scenario.network_readme \
+    --design designs/.../design.toml \
+    --scenario designs/.../samawah.toml \
+    --out designs/.../README.md
+```
+
+`scripts/regenerate-samawah.sh` chains steps 3 + drift tests into a single command.

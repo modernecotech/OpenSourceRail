@@ -12,9 +12,9 @@ a deployment partner to start with. See [CHANGELOG.md](CHANGELOG.md)
 for what's ready, what needs external hands (KiCad capture, civil
 survey, regulator engagement, operator review), and how to engage.
 
-**Status:** 56 Rust crates (747 tests passing, 0 failing) plus two Python
-sidecars (`design-py` for GIS + network synthesis, `mechanical-py` for
-parametric mechanical + civil + station components under build123d).
+**Status:** 56 Rust crates (~400 tests passing, 0 failing) plus two
+Python sidecars (`design-py` for GIS + network synthesis, `mechanical-py`
+for parametric mechanical + civil + station components under build123d).
 Deployments ship as **GoA 4 (Unattended, driverless)** from day one
 per [RFC 0015](docs/rfcs/0015-driverless-operation.md) — the driver
 cab is replaced by a nose-cone obstacle-detection sensor suite
@@ -35,34 +35,38 @@ radials without entering the CBD.
 
 ![Samawah reference network — three auto-planned radial lines on OpenStreetMap, arterial-routed](designs/west-asia/Iraq/Samawah/samawah-network-map.png)
 
-*Samawah (280 k pop) — **auto-planned** end-to-end by `osr-design`
-against real OSM data. Three radial lines, 40 unique stations, 39.0 km of
-double-track, 2 interchange complexes, **55.0 % anchor-weighted
-coverage**, all soft gates passing. Fleet 53 × 2-car (tram-2car).
-Planning-grade CAPEX **≈ €1.23 bn** (civil €215 M + stations €377 M +
-depots €225 M + rolling stock €212 M + signalling/power €89 M + 10 % EPC),
-≈ €32 M / route-km. Every station sits on an OSM anchor cluster
-(weight-averaged within 240 m); every polyline follows the arterial
-graph (trunk / primary / secondary / tertiary). See
+*Samawah (~374 k pop, Iraq 2024 census, As-Samawah Subdistrict
+including urban + rural per [`lib/city-batches/world-sample.toml`](lib/city-batches/world-sample.toml)) —
+**auto-planned** end-to-end by `osr-design` against real OSM data.
+Three radial lines, 40 unique stations, 40.2 km of double-track,
+**50.9 % anchor-weighted coverage**, all soft gates passing.
+Fleet 44 × 3-car `light-metro-3car` (38 revenue + 6 spare/cold-reserve)
+sized per RFC 0014 §4 round-trip / 5-min-headway formula. Planning-grade
+CAPEX **≈ €435 M** (civil €144 M + stations €86 M + depots €40 M +
+rolling stock €88 M + signalling/power €48 M + 7 % EPC), ≈ €11 M / route-km,
+≈ €1,165 per resident. **OSR-discipline unit costs** — prefab portal-frame
+canopies, at-grade depots without overhead bridge cranes, commodity
+Na-ion cells, tier-2 PMSM motors, DIY SiC inverters, open-source CBTC on
+commodity SBCs, no overhead catenary, self-EPC overhead. See
 [designs/west-asia/Iraq/Samawah/README.md](designs/west-asia/Iraq/Samawah/README.md)
 for the full breakdown (per-line termini, fleet sizing, full cost stack).*
 
 ![Baghdad reference network — eight radial lines plus a circumferential ring auto-planned on OpenStreetMap](designs/west-asia/Iraq/Baghdad/baghdad-network-map.png)
 
-*Baghdad (7.5 M pop) — same pipeline, megacity tier. Eight radial
-lines plus a circumferential ring (line-9, 105.7 km, 55 stations) at
-~0.55 × urban radius. 286 unique stations, 470.2 km double-track,
-**19 elevated interchange complexes** (auto-snapped at every
-ring↔radial crossing), 37.0 % anchor-weighted coverage, 7 % elevated.
-Fleet 379 × 6-car (RFC 0014 §4 round-trip / headway sizing at
-35 km/h commercial). Planning-grade CAPEX **≈ €14.7 bn**
-(civil €2.4 bn + stations €2.6 bn + depots €0.4 bn + rolling stock
-€6.8 bn + signalling/power €1.1 bn + 10 % EPC), ≈ €31 M / route-km —
-base OECD rates before the per-country multiplier. Every soft gate
-passing. See
+*Baghdad (~9.78 M pop, Iraq 2024 census, Baghdad Governorate) — same
+pipeline, megacity tier. Eight radial lines plus a circumferential
+ring (line-9, 105.7 km, 70 stations) at ~0.55 × urban radius. 288
+unique stations, 470.2 km double-track, **19 elevated interchange
+complexes** (auto-snapped at every ring↔radial crossing), 37.0 %
+anchor-weighted coverage, 6.8 % elevated. Fleet 379 × 6-car
+`metro-6car` (340 revenue + 39 spare/cold-reserve) per RFC 0014 §4.
+Planning-grade CAPEX **≈ €5.94 bn** (civil €2.48 bn + stations €735 M
++ depots €70 M + rolling stock €1.71 bn + signalling/power €562 M +
+7 % EPC), ≈ €13 M / route-km, ≈ €608 per resident — base OECD rates
+before the per-country multiplier. Every soft gate passing. See
 [designs/west-asia/Iraq/Baghdad/README.md](designs/west-asia/Iraq/Baghdad/README.md).*
 
-Twenty-one RFCs cover the full system from software
+Twenty-six RFCs cover the full system from software
 architecture through rail civil engineering to driverless operation; the
 operations rulebook ([RFC 0013](docs/rfcs/0013-operations-rulebook.md)) is
 drafted across four shipping role families (dispatcher / station-staff /
@@ -409,9 +413,9 @@ OpenSourceRail/
 │       ├── 0002-energy-sizing.md           Solar+battery sizing.
 │       ├── 0003-samawah-reference-deployment.md   Reference pilot.
 │       ├── 0004-osr-interlocking-plan.md   MA computer implementation plan.
-│       ├── 0005-sbc-software-architecture.md  Canonical 35-crate map.
+│       ├── 0005-sbc-software-architecture.md  Canonical software architecture + crate map.
 │       ├── 0006-osr-tcn-design.md          On-train bus (TCN-E pub/sub).
-│       ├── 0007-hardware-reference-designs.md  T-ECU/S, T-ECU/A, W-SBC, S-SBC.
+│       ├── 0007-hardware-reference-designs.md  T-ECU/S, T-ECU/A, T-OBS, W-SBC, S-SBC.
 │       ├── 0008-rolling-stock-reference-design.md  4 trainset families (tram → metro-6car).
 │       ├── 0009-track-design-standard.md   4 geometry presets (gauge, radius, grade, cant).
 │       ├── 0010-station-design-standard.md 6 station archetypes + passenger-flow model.
@@ -425,8 +429,13 @@ OpenSourceRail/
 │       ├── 0018-operator-guis.md             egui-based sim + OCC consoles for designer + dispatcher.
 │       ├── 0019-diy-electronics.md           Plug-and-play DIY electronics from commodity modules.
 │       ├── 0020-crashworthiness.md           EN 15227 three-zone energy budget for the cabless body.
-│       └── 0021-battery-traction.md          Side-wall battery strake + depot-only charging (Akku-inspired, catenary-free).
-├── crates/                   46 Rust crates — grouped by role below.
+│       ├── 0021-battery-traction.md          Side-wall battery strake + depot-only charging (Akku-inspired, catenary-free).
+│       ├── 0022-bogie-traction-drive.md      Single-SKU 2-axle Bo-Bo bogie + axle-hung PMSM motorisation pattern.
+│       ├── 0023-door-system-reference-design.md   Electric linear-actuator door operator (EN 14752, $20–40 k vendor → ~$2 k DIY).
+│       ├── 0024-battery-thermal-high-ambient.md   PCM mass + dedicated chiller for ≥ 50 °C ambient envelopes.
+│       ├── 0025-diy-switch-and-point-machine.md   Regional switch-shop bootstrap (~$580 k CAPEX, ~$10 k per 1:9 turnout vs $120 k vendor).
+│       └── 0026-charging-connector-reconciliation.md   Two-tier connector architecture (CCS2 depot + side-pin/pantograph terminal).
+├── crates/                   56 Rust crates — grouped by role below.
 │   ├── osr-core/             Shared domain types (topology, trains, IDs).
 │   │   └── proto/track_state.proto         Interface definitions.
 │   │
@@ -437,15 +446,18 @@ OpenSourceRail/
 │   ├── osr-obstacle-detect/  NEW (RFC 0015): ultrasonic + LIDAR + radar fusion.
 │   ├── osr-trainset-image/   NEW (RFC 0015): onboard-stack integrator, goa2-cab flag.
 │   │
-│   │   # Operator GUIs (RFC 0018)
-│   ├── osr-gui-shared/       Shared egui network-rendering helpers.
-│   ├── osr-sim-gui/          Simulator GUI binary — designer workflow.
-│   ├── osr-occ-gui/          OCC dispatcher console binary — live-ops workflow.
+│   │
+│   │   # Onboard safety (continued)
 │   ├── osr-brake/            EP brake + WSP + park brake.
 │   ├── osr-vigilance/        Driver alerter / dead-man (GoA 2 legacy only).
 │   ├── osr-derailment/       2oo2 derailment detection.
 │   ├── osr-fire-safety/      Onboard fire detection + suppression.
 │   ├── osr-door-control/     Door interlock + enable gating.
+│   │
+│   │   # Operator GUIs (RFC 0018)
+│   ├── osr-gui-shared/       Shared egui network-rendering helpers.
+│   ├── osr-sim-gui/          Simulator GUI binary — designer workflow.
+│   ├── osr-occ-gui/          OCC dispatcher console binary — live-ops workflow.
 │   │
 │   │   # Onboard traction & power
 │   ├── osr-traction/         Motor control (signed-current convention).
@@ -555,9 +567,13 @@ OpenSourceRail/
     └── MCSmall.cfg           TLC config.
 ```
 
-Remaining crates from the 35-crate RFC 0005 map — notably cybersecurity
-(`osr-secbus`), safety-case tooling, and full (non-mock) TCN transports — are
-planned but not yet in tree.
+Remaining items from the [RFC 0005](docs/rfcs/0005-sbc-software-architecture.md)
+roadmap — notably the **full (non-mock) TSN transport** for the on-train
+TCN bus (the UDP `osr-tcn::UdpTcn` transport ships as a drop-in stand-in
+on commodity Ethernet) and the v2 wiring of `osr-secbus` (RFC 0017
+ed25519-signed envelopes) into the live consensus wire layer — are planned
+but not yet in tree. `osr-secbus` v1 (key registry + signed-bytes envelope
++ verify-before-deserialise) is in.
 
 ## Quick start
 
@@ -567,14 +583,18 @@ Requirements: Rust 1.80+ via `rustup`.
 cargo run --release --bin osr-sim -- --duration 3600 --status-every 300
 ```
 
-This runs a one-hour simulation of the full Samawah network — Line 1
-"Nahrain" (radial, 6 trainsets) plus Line 2 "Halqa" (ring, 4 trainsets),
-with the two interchanges at Eastern Bridge and Al-Muthanna University,
-across the time-of-day headway schedule from RFC 0003 §4.1. The output
-shows each train's position and state-of-charge at regular intervals,
-grouped by line, followed by a summary of per-line km, energy consumed
-vs. charged, dispatch hold time (fleet idle-at-terminal time), and any
-invariant violations (there should be none).
+This runs a one-hour simulation of the **built-in `samawah` scenario**
+— a 2-line hand-designed reference network (Line 1 "Nahrain" radial +
+Line 2 "Halqa" ring, 22 stations, 10 trainsets) compiled into the
+binary, retained as a stable end-to-end test fixture. Note this is
+distinct from the **auto-planned** Samawah design at
+[designs/west-asia/Iraq/Samawah/](designs/west-asia/Iraq/Samawah/),
+which today's pipeline emits as 3 radial lines / 40 stations / 44
+trainsets from real OSM data — pass `--config designs/west-asia/Iraq/Samawah/samawah.toml`
+to run the auto-planned variant. The output shows each train's
+position and state-of-charge at regular intervals, grouped by line,
+followed by a summary of per-line km, energy consumed vs. charged,
+dispatch hold time, and any invariant violations (there should be none).
 
 ## Designing your own city
 
@@ -589,8 +609,9 @@ cargo run --release --bin osr-sim -- --config designs/my-city/my-city.toml
 
 Reference scenarios:
 
-- **`--scenario samawah`** (default) — built-in 2-line Samawah network from RFC 0003 (Line 1 Nahrain radial + Line 2 Halqa ring, 22 stations, time-of-day headway schedule). Compiled into the binary, no TOML required.
+- **`--scenario samawah`** (default) — built-in **hand-designed** 2-line Samawah network from RFC 0003 §3.1–§3.2 (Line 1 Nahrain radial + Line 2 Halqa ring, 22 stations, time-of-day headway schedule). Compiled into the binary, no TOML required. Used as a stable end-to-end test fixture.
 - **`--scenario samawah-line1`** — Line 1 only, useful for scale comparisons.
+- **`--config designs/west-asia/Iraq/Samawah/samawah.toml`** — the **auto-planned** Samawah design emitted by `osr-design` from real OSM data (3 lines, 40 stations, 44 trainsets at the 2024-census 374 k population). Different layout from the hand-designed built-in; the auto-plan is what scales to other cities.
 - **[`example-simple.toml`](lib/examples/example-simple.toml)** — 3-station shuttle with 1 train. The smallest viable config; copy as a template for `--config`.
 
 The full file-format reference is in [`lib/examples/README.md`](lib/examples/README.md).
@@ -618,11 +639,11 @@ osr-cities-scan --geonames cities500.txt \
                 --out lib/city-batches/batch-500.toml
 
 # 3. Run the full pipeline against a calibration set or the full 500.
-cargo build --release
-osr-batch --cities lib/city-batches/world-sample.toml \
-          --cache /tmp/osr-cache \
-          --out   /tmp/osr-out \
-          --osr-design ./target/release/osr-design
+cargo build --release --bin osr-design
+python -m osr_batch --cities lib/city-batches/world-sample.toml \
+                    --cache /tmp/osr-cache \
+                    --out   /tmp/osr-out \
+                    --osr-design ./target/release/osr-design
 ```
 
 For each city the pipeline:
@@ -759,12 +780,20 @@ U-girder for every viaduct and water-crossing bridge in the whole
 catalogue; one spares pool, one CAD reuse, one formwork.
 
 Complementary rail-engineering RFCs:
-- [RFC 0008](docs/rfcs/0008-rolling-stock-reference-design.md) — 4 trainset families, unified architecture (aluminium body, PMSM axle motors, SiC inverters, Na-ion battery, no pneumatic brake).
+- [RFC 0008](docs/rfcs/0008-rolling-stock-reference-design.md) — 4 trainset families, unified architecture (aluminium-extrusion body, PMSM axle-hung motors, SiC inverters, Na-ion battery, no pneumatic brake).
 - [RFC 0009](docs/rfcs/0009-track-design-standard.md) — 4 track-geometry presets (gauge, radius, grade, cant, rail profile).
 - [RFC 0010](docs/rfcs/0010-station-design-standard.md) — 6 station archetypes with platform geometry derived from the line's consist.
 - [RFC 0012](docs/rfcs/0012-switches-and-crossings.md) — 3 turnout tangents (1:9 / 1:14 / 1:18.5) + level-crossing equipment envelope. No diamonds.
 - [RFC 0013](docs/rfcs/0013-operations-rulebook.md) — one shared ≤ 60-page rulebook, three degraded modes (no ambiguous in-between states).
 - [RFC 0014](docs/rfcs/0014-depot-design-standard.md) — 3 depot archetypes with a fleet-sizing formula, all at-grade.
+- [RFC 0015](docs/rfcs/0015-driverless-operation.md) — GoA 4 (Unattended) by default; sensor-cowl nose replaces the driver cab.
+- [RFC 0020](docs/rfcs/0020-crashworthiness.md) — EN 15227 Cat C-II three-zone crash envelope for the cabless body.
+- [RFC 0021](docs/rfcs/0021-battery-traction.md) — Side-wall Na-ion battery strake; depot-only charging, no catenary anywhere.
+- [RFC 0022](docs/rfcs/0022-bogie-traction-drive.md) — Single-SKU 2-axle Bo-Bo bogie shared across every consist family; per-family motorisation pattern.
+- [RFC 0023](docs/rfcs/0023-door-system-reference-design.md) — Electric linear-actuator door operator, EN 14752 certified once at the project level.
+- [RFC 0024](docs/rfcs/0024-battery-thermal-high-ambient.md) — PCM thermal mass + dedicated chiller for ≥ 50 °C ambient envelopes (Samawah-class).
+- [RFC 0025](docs/rfcs/0025-diy-switch-and-point-machine.md) — Regional switch-shop bootstrap (~$10 k per 1:9 turnout vs $120 k vendor; ~15× CAPEX payback over 80 switches).
+- [RFC 0026](docs/rfcs/0026-charging-connector-reconciliation.md) — Two-tier connector architecture: CCS2 at depots + side-pin / pantograph-down at terminals.
 
 ## How to get involved
 

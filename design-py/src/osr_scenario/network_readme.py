@@ -153,10 +153,14 @@ def compute_stats(
     # Transfer reachability.
     transfer = _transfer_reachability(lines)
 
-    # Coverage — prefer a `[stats] coverage=` hint in design.toml;
-    # otherwise fall back to "unknown" (0.0) and let the caller
-    # provide it out-of-band.
-    coverage = float(design.get("stats", {}).get("coverage", 0.0))
+    # Coverage — `render_readme` injects `_quality_coverage` after
+    # reading `<slug>.design-quality.yaml` next to the design.toml
+    # (the auto-gate's anchor-weighted reachability score). Falls
+    # back to a `[stats] coverage=` override in design.toml, then 0.0.
+    coverage = float(
+        design.get("_quality_coverage")
+        or design.get("stats", {}).get("coverage", 0.0)
+    )
 
     # Fleet. The rust emitter writes `peak_count` (revenue),
     # `spare_count`, `cold_reserve_count`, and `trainset_count`
@@ -247,6 +251,30 @@ _FAMILY_CAPACITY_FALLBACK: dict[str, int] = {
 }
 
 
+def _coverage_from_quality_yaml(design_path: Path) -> float:
+    """Read the `high_demand_coverage` field from
+    `<slug>.design-quality.yaml` next to the design.toml. Returns
+    0.0 when the file is missing or unparseable — the caller falls
+    through to the legacy `[stats] coverage` override or the
+    placeholder text. Stdlib-only mini-parser since `yaml` isn't a
+    project-level dependency."""
+    parent = design_path.parent
+    candidates = list(parent.glob("*.design-quality.yaml"))
+    if not candidates:
+        return 0.0
+    try:
+        for line in candidates[0].read_text().splitlines():
+            stripped = line.strip()
+            if stripped.startswith("high_demand_coverage:"):
+                value = stripped.split(":", 1)[1].strip()
+                # Strip trailing comments and quotes.
+                value = value.split("#", 1)[0].strip().strip('"').strip("'")
+                return float(value)
+    except Exception:
+        return 0.0
+    return 0.0
+
+
 def _trainset_capacity_for_family(family: str) -> int:
     """Resolve `passenger_capacity` for a rolling-stock family.
 
@@ -299,6 +327,14 @@ def render_readme(
     cost = cost or CostAssumptions()
     design = _load(design_path)
     scenario = _load(scenario_path)
+    # Surface anchor-weighted coverage from the `osr-design`-emitted
+    # `<slug>.design-quality.yaml` so the README can report a real
+    # coverage figure (and a derived catchment estimate) instead of
+    # the "*(requires a coverage score)*" placeholder.
+    design.setdefault(
+        "_quality_coverage",
+        _coverage_from_quality_yaml(design_path),
+    )
     stats = compute_stats(design, scenario, population)
 
     # Map-image filename slug. The rust `osr-design` emitter writes
@@ -432,7 +468,11 @@ def render_readme(
         )
 
     # -- Assemble --
-    coverage_str = f"{stats.coverage:.1%}" if stats.coverage > 0 else "— (set `[stats] coverage` in design.toml)"
+    coverage_str = (
+        f"{stats.coverage:.1%}"
+        if stats.coverage > 0
+        else "— (re-emit design.toml — `<slug>.design-quality.yaml` is missing `high_demand_coverage`)"
+    )
     catchment_str = (
         f"**≈ {catchment:,}** (within ~800 m walk of a station)"
         if catchment else "*(run the planner with a fresh coverage score)*"
@@ -449,14 +489,18 @@ def render_readme(
         f"**Population:** {stats.population:,}\n"
     )
     out.append(
-        "Auto-planned by [`osr_planner`]("
-        f"{rel('design-py/src/osr_planner/')}) using the linear-logic "
-        "algorithm on Overpass-verified OpenStreetMap data. Every "
-        "station sits on an aggregated POI cluster; every line "
-        "polyline follows the OSM arterial graph "
-        "(trunk / primary / secondary / tertiary — residential "
-        "streets excluded, so lines cannot zigzag through a "
-        "residential grid).\n"
+        "Auto-planned by the OpenSourceRail design pipeline: "
+        f"[`osr_geo`]({rel('design-py/src/osr_geo/')}) rasterises "
+        "Overpass-verified OpenStreetMap features (arterial road graph, "
+        "buildings, water, protected land, demand-anchor POIs) onto a "
+        "20 m cost / demand / buildability grid; "
+        f"[`osr-design`]({rel('crates/osr-design/')}) (rust) runs a "
+        "demand-rewarded Dijkstra on that grid to synthesise corridors, "
+        "places stations against the demand surface, and classifies "
+        "every segment (at-grade / elevated / bridge — no tunnels per "
+        "[RFC 0011](" + rel('docs/rfcs/0011-civil-infrastructure-design-standard.md') + ")). "
+        "Population, country, and bbox are read from the canonical city "
+        f"catalog at [`lib/city-batches/world-sample.toml`]({rel('lib/city-batches/world-sample.toml')}).\n"
     )
 
     out.append("## Network maps\n")
@@ -489,8 +533,8 @@ def render_readme(
     out.append(
         f"Corridor polylines + stations as GeoJSON for GIS / "
         f"alignment tooling: "
-        f"[`{screenshot_slug}-corridor.geojson`]"
-        f"({screenshot_slug}-corridor.geojson).\n"
+        f"[`{screenshot_slug}.corridor.geojson`]"
+        f"({screenshot_slug}.corridor.geojson).\n"
     )
 
     out.append("## At a glance\n")
@@ -531,10 +575,16 @@ def render_readme(
     out.append("| Line | Length | Stations | Trainsets | Termini |")
     out.append("|---|---|---|---|---|")
     out.extend(line_rows)
+    # Per-line `Trainsets` columns carry the **total** per line
+    # (peak + spare + cold-reserve, as written by `osr-design` to
+    # `[[fleets]] trainset_count`). The footer must be the sum of
+    # those — i.e. the full fleet (revenue + spare + cold-reserve),
+    # not the revenue-only number — or the row totals don't add up.
+    total_fleet = stats.revenue_fleet + stats.spare_fleet + stats.reserve_fleet
     out.append(
         f"| **Total** | **{stats.route_km:.1f} km** | "
         f"**{stats.unique_station_count} unique** | "
-        f"**{stats.revenue_fleet}** | |\n"
+        f"**{total_fleet}** | |\n"
     )
 
     out.append("## Rolling stock\n")
@@ -729,19 +779,36 @@ def _finalise_readme(
         "| Detail-zoom render |"
     )
     out.append(
-        f"| [`{screenshot_slug}-corridor.geojson`]"
-        f"({screenshot_slug}-corridor.geojson) "
+        f"| [`{screenshot_slug}.corridor.geojson`]"
+        f"({screenshot_slug}.corridor.geojson) "
         "| Line polylines + stations (GeoJSON) |\n"
     )
 
     out.append("## Reproducibility\n")
+    slug = stats.city_name.split(" ")[0].lower()
     out.append(
-        "Run `python -m osr_planner --slug <slug> --bbox ... --population ...` "
-        "to re-plan, then `python -m osr_scenario --design …/design.toml` + "
-        "`python -m osr_scenario.render_map --design …/design.toml` + "
-        "`python -m osr_scenario.network_readme --design …/design.toml "
-        "--scenario …/scenario.toml --out …/README.md --population N` to "
-        "regenerate this README.\n"
+        f"```bash\n"
+        f"# 1. raster bundle from OpenStreetMap (cached by query hash)\n"
+        f"python -m osr_geo.cli --slug {slug}\n"
+        f"\n"
+        f"# 2. design.toml + corridor.geojson + design-quality.yaml\n"
+        f"#    (population + country pulled from "
+        f"lib/city-batches/world-sample.toml)\n"
+        f"cargo run --release --bin osr-design -- --slug {slug} \\\n"
+        f"    --sidecar .cache/osr-pipeline/rasters/{slug}.grid.json \\\n"
+        f"    --out-dir designs/.../{stats.city_name}\n"
+        f"\n"
+        f"# 3. scenario.toml + map PNGs + this README\n"
+        f"python -m osr_scenario --design designs/.../design.toml\n"
+        f"python -m osr_scenario.render_map --design designs/.../design.toml\n"
+        f"python -m osr_scenario.network_readme \\\n"
+        f"    --design designs/.../design.toml \\\n"
+        f"    --scenario designs/.../{slug}.toml \\\n"
+        f"    --out designs/.../README.md\n"
+        f"```\n"
+        f"\n"
+        f"`scripts/regenerate-{slug}.sh` chains steps 3 + drift tests "
+        f"into a single command.\n"
     )
 
     return "\n".join(out)
