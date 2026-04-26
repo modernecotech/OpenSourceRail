@@ -1,0 +1,2218 @@
+# AUTO-GENERATED from /home/hayder/Documents/OpenSourceRail/designs/latin-america/El Salvador/San-Salvador/design.toml.
+# Do not hand-edit; run `python -m osr_scenario --design ...` to regenerate.
+# Source of truth: /home/hayder/Documents/OpenSourceRail/designs/latin-america/El Salvador/San-Salvador/design.toml
+
+[scenario]
+name = "Unnamed"
+start_time = "06:00"
+
+
+[climate]
+ambient_c = 28.0
+peak_sun_hours = 5.0
+
+
+[consist]
+# From rolling-stock family 'metro-4car'.
+car_count = 4
+length_m = 90
+mass_kg = 160000
+max_speed_kmh = 90.0
+battery_capacity_kwh = 460
+service_accel_mps2 = 1.1
+
+
+# Stations — one row per unique station in the design.
+[[stations]]
+id = "line-1-0618-1594"
+name = "San Martín"
+charging_power_kw = 1000
+dwell_seconds = 60
+is_terminal = true
+
+[[stations]]
+id = "line-1-0662-1465"
+name = "Residencial Los Almendros"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-1-0698-1356"
+name = "Unidad de Salud Altavista"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-1-0722-1228"
+name = "Colonia Bosques del Rio"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-1-0733-1166"
+name = "Urb. Montes de San Bartolo 3"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-1-0749-1097"
+name = "Unida Medica Soyapango-ISSS"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-1-0740-1030"
+name = "Centro Comercial Espiritu Santo"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-1-0720-0991"
+name = "Barrio San Sebastián"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-1-0733-0946"
+name = "Colonia San Joaquín Oriente"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-1-0761-0891"
+name = "Universidad Cristiana"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-1-0790-0825"
+name = "Comunidad Enmanuel II"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-1-0833-0754"
+name = "Universidad Dr. Andrés Bello - Anexo"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-1-0827-0685"
+name = "Urbanización Santa Monica"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-1-0820-0614"
+name = "Hospital de La Mujer"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-1-0823-0544"
+name = "Colonia Campestre 1"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-1-0917-0481"
+name = "Comunidad El Rosal"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-1-0919-0406"
+name = "Residencial Santa Teresa"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-1-0916-0365"
+name = "line-1-0916-0365"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-1-0911-0333"
+name = "Residencial Altos de San José"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-1-0938-0273"
+name = "Residencial San Rafael"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-1-0934-0200"
+name = "Alpes Suizos 1"
+charging_power_kw = 1000
+dwell_seconds = 60
+is_terminal = true
+
+[[stations]]
+id = "line-2-1460-0306"
+name = "COLEGIO SALVADOREÑO SAN MARTIN DE PORRES"
+charging_power_kw = 1000
+dwell_seconds = 60
+is_terminal = true
+
+[[stations]]
+id = "line-2-1247-0356"
+name = "Colonia Santa Cruz"
+dwell_seconds = 20
+
+[[stations]]
+id = "line-2-1124-0422"
+name = "Condominio Florida Sky"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-2-1056-0516"
+name = "line-2-1056-0516"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-2-0999-0511"
+name = "Residencial Casa Linda"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-2-0955-0546"
+name = "Comunidad La Cuchilla"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-2-0914-0604"
+name = "Megacentro de Vacunacion"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-2-0866-0652"
+name = "Colonia Roma"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-2-0805-0669"
+name = "Campus de Maestrías y Postgrados - Universidad Tecnológica de El Salvador"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-2-0739-0687"
+name = "Urbanización Campos Eliseos I"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-2-0671-0705"
+name = "Punto de Buses Ruta 30"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-2-0644-0756"
+name = "Residencial Australia"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-2-0631-0802"
+name = "Ayutuxtepeque"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-2-0523-0868"
+name = "line-2-0523-0868"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-2-0448-0922"
+name = "Colonia El Tepito"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-2-0382-0932"
+name = "Colonia 2 de Abril"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-2-0343-0950"
+name = "Urbanización Jardines del Norte 1"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-2-0272-0935"
+name = "line-2-0272-0935"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-2-0201-0997"
+name = "Residencial Santa Teresa de Las Flores"
+charging_power_kw = 1000
+dwell_seconds = 60
+is_terminal = true
+
+[[stations]]
+id = "line-3-0069-0428"
+name = "Complejo Educativo Catolico San Jose"
+charging_power_kw = 1000
+dwell_seconds = 60
+is_terminal = true
+
+[[stations]]
+id = "line-3-0158-0518"
+name = "line-3-0158-0518"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-3-0266-0626"
+name = "line-3-0266-0626"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-3-0304-0667"
+name = "Metropoli San Gabriel"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-3-0372-0726"
+name = "line-3-0372-0726"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-3-0516-0762"
+name = "line-3-0516-0762"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-3-0588-0781"
+name = "Comunidad San Francisco"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-3-0649-0797"
+name = "Ayutuxtepeque"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-3-0693-0847"
+name = "Colonia La Fortuna"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-3-0729-0900"
+name = "Residencial Italia"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-3-0794-0916"
+name = "Centro Urbano Guatemala"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-3-0834-0954"
+name = "Comunidad La Chacra"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-3-0846-1004"
+name = "Urbanización Jardines del Boulevard"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-3-0829-1059"
+name = "Colonia Santa Maria"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-3-0945-1096"
+name = "line-3-0945-1096"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-3-1076-1099"
+name = "line-3-1076-1099"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-3-1107-1122"
+name = "line-3-1107-1122"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-3-1159-1204"
+name = "Colonia santa Isabel 2"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-3-1356-1380"
+name = "San Francisco Chinameca"
+charging_power_kw = 1000
+dwell_seconds = 60
+is_terminal = true
+
+[[stations]]
+id = "line-4-0879-1214"
+name = "Comunidad San Antonio"
+charging_power_kw = 1000
+dwell_seconds = 60
+is_terminal = true
+
+[[stations]]
+id = "line-4-0854-1159"
+name = "Colonia Maria de los Angeles"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-4-0860-1096"
+name = "Plaza Mundo"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-4-0876-1014"
+name = "Altos del Cerro"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-4-0898-0938"
+name = "Colonia Florida"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-4-0924-0878"
+name = "Urbanización Guerrero"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-4-0968-0840"
+name = "Colonia Alfa"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-4-0961-0776"
+name = "Urbanización Las Lomitas"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-4-0960-0712"
+name = "Residencial Lomas de Altamira"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-4-1019-0683"
+name = "Residencial Arcos de la Cima"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-4-1039-0572"
+name = "Urbanización Cumbres de Cuscatlán I y II"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-4-1045-0506"
+name = "line-4-1045-0506"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-4-1043-0500"
+name = "Residencial Bosques de Santa Elena 1"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-4-1020-0437"
+name = "Residencial Bosques de Santa Elena"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-4-1113-0314"
+name = "Alturas de Tenerife"
+charging_power_kw = 1000
+dwell_seconds = 60
+is_terminal = true
+
+[[stations]]
+id = "line-5-0058-1376"
+name = "Unidad de Salud de San Jose Guayabal"
+charging_power_kw = 1000
+dwell_seconds = 60
+is_terminal = true
+
+[[stations]]
+id = "line-5-0214-1336"
+name = "line-5-0214-1336"
+dwell_seconds = 20
+
+[[stations]]
+id = "line-5-0377-1246"
+name = "Tonacatepeque"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-5-0552-1188"
+name = "line-5-0552-1188"
+dwell_seconds = 20
+
+[[stations]]
+id = "line-5-0567-1169"
+name = "line-5-0567-1169"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-5-0661-1139"
+name = "terminal ruta 41 D"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-5-0726-1130"
+name = "FUSALMO centros juveniles salecianos Soyapango"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-5-0791-1112"
+name = "Reparto los Santo I"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-5-0842-1072"
+name = "Colonia Santa Maria"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-5-1015-1020"
+name = "line-5-1015-1020"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-5-1079-0936"
+name = "line-5-1079-0936"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-5-1163-0930"
+name = "line-5-1163-0930"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-5-1272-0918"
+name = "Lotificación La Esperanza"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-5-1291-0906"
+name = "line-5-1291-0906"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-5-1530-0779"
+name = "Rosario de Mora"
+charging_power_kw = 1000
+dwell_seconds = 240
+is_terminal = true
+is_depot = true
+
+[[stations]]
+id = "line-6-0590-0403"
+name = "Caserío El Pacayal"
+dwell_seconds = 20
+
+[[stations]]
+id = "line-6-0419-0562"
+name = "line-6-0419-0562"
+dwell_seconds = 20
+
+[[stations]]
+id = "line-6-0310-0661"
+name = "Metropoli San Gabriel"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-6-0304-0667"
+name = "Metropoli San Gabriel"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-6-0261-0782"
+name = "Lotificación Santa Carlota 2"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-6-0247-0863"
+name = "Lotificación El Castillo"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-6-0270-0924"
+name = "Apopa"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-6-0272-0935"
+name = "line-6-0272-0935"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-6-0365-1001"
+name = "line-6-0365-1001"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-6-0550-1135"
+name = "line-6-0550-1135"
+dwell_seconds = 20
+
+[[stations]]
+id = "line-6-0567-1169"
+name = "line-6-0567-1169"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-6-0632-1257"
+name = "line-6-0632-1257"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-6-0698-1356"
+name = "Unidad de Salud Altavista"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-6-0708-1358"
+name = "line-6-0708-1358"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-6-0767-1339"
+name = "Residencial Villa Lobos"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-6-0872-1303"
+name = "Ilopango"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-6-1052-1177"
+name = "line-6-1052-1177"
+dwell_seconds = 20
+
+[[stations]]
+id = "line-6-1107-1122"
+name = "line-6-1107-1122"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-6-1121-1063"
+name = "line-6-1121-1063"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-6-1281-0962"
+name = "line-6-1281-0962"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-6-1291-0906"
+name = "line-6-1291-0906"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-6-1202-0816"
+name = "line-6-1202-0816"
+dwell_seconds = 20
+
+[[stations]]
+id = "line-6-1087-0628"
+name = "line-6-1087-0628"
+dwell_seconds = 20
+
+[[stations]]
+id = "line-6-1056-0516"
+name = "line-6-1056-0516"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-6-1045-0506"
+name = "line-6-1045-0506"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-6-0997-0481"
+name = "line-6-0997-0481"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-6-0967-0438"
+name = "Urbanización Jardines de Merliot"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-6-0985-0390"
+name = "Escuela Especializada en Ingeniería ITCA-FEPADE"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-6-0946-0369"
+name = "Colonia Santa Monica"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-6-0916-0365"
+name = "line-6-0916-0365"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-6-0882-0367"
+name = "Condominio Luces de la Montaña"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-6-0590-0403"
+name = "Caserío El Pacayal"
+dwell_seconds = 20
+
+
+
+# Lines — per-line station sequences.
+[[lines]]
+id = "line-1"
+name = "line-1"
+stations = [
+    { id = "line-1-0618-1594", distance_from_prev_m = 0 },
+    { id = "line-1-0662-1465", distance_from_prev_m = 3003 },
+    { id = "line-1-0698-1356", distance_from_prev_m = 3130 },
+    { id = "line-1-0722-1228", distance_from_prev_m = 2864 },
+    { id = "line-1-0733-1166", distance_from_prev_m = 1520 },
+    { id = "line-1-0749-1097", distance_from_prev_m = 1512 },
+    { id = "line-1-0740-1030", distance_from_prev_m = 1509 },
+    { id = "line-1-0720-0991", distance_from_prev_m = 1515 },
+    { id = "line-1-0733-0946", distance_from_prev_m = 1500 },
+    { id = "line-1-0761-0891", distance_from_prev_m = 1505 },
+    { id = "line-1-0790-0825", distance_from_prev_m = 1860 },
+    { id = "line-1-0833-0754", distance_from_prev_m = 2678 },
+    { id = "line-1-0827-0685", distance_from_prev_m = 1512 },
+    { id = "line-1-0820-0614", distance_from_prev_m = 1511 },
+    { id = "line-1-0823-0544", distance_from_prev_m = 1524 },
+    { id = "line-1-0917-0481", distance_from_prev_m = 3015 },
+    { id = "line-1-0919-0406", distance_from_prev_m = 1516 },
+    { id = "line-1-0916-0365", distance_from_prev_m = 844 },
+    { id = "line-1-0911-0333", distance_from_prev_m = 681 },
+    { id = "line-1-0938-0273", distance_from_prev_m = 1510 },
+    { id = "line-1-0934-0200", distance_from_prev_m = 2592 },
+]
+
+[[lines]]
+id = "line-2"
+name = "line-2"
+stations = [
+    { id = "line-2-1460-0306", distance_from_prev_m = 0 },
+    { id = "line-2-1247-0356", distance_from_prev_m = 5023 },
+    { id = "line-2-1124-0422", distance_from_prev_m = 3006 },
+    { id = "line-2-1056-0516", distance_from_prev_m = 2752 },
+    { id = "line-2-0999-0511", distance_from_prev_m = 1613 },
+    { id = "line-2-0955-0546", distance_from_prev_m = 1508 },
+    { id = "line-2-0914-0604", distance_from_prev_m = 1527 },
+    { id = "line-2-0866-0652", distance_from_prev_m = 1503 },
+    { id = "line-2-0805-0669", distance_from_prev_m = 1500 },
+    { id = "line-2-0739-0687", distance_from_prev_m = 1518 },
+    { id = "line-2-0671-0705", distance_from_prev_m = 1509 },
+    { id = "line-2-0644-0756", distance_from_prev_m = 1518 },
+    { id = "line-2-0631-0802", distance_from_prev_m = 1512 },
+    { id = "line-2-0523-0868", distance_from_prev_m = 3012 },
+    { id = "line-2-0448-0922", distance_from_prev_m = 2137 },
+    { id = "line-2-0382-0932", distance_from_prev_m = 1518 },
+    { id = "line-2-0343-0950", distance_from_prev_m = 1505 },
+    { id = "line-2-0272-0935", distance_from_prev_m = 1593 },
+    { id = "line-2-0201-0997", distance_from_prev_m = 2095 },
+]
+
+[[lines]]
+id = "line-3"
+name = "line-3"
+stations = [
+    { id = "line-3-0069-0428", distance_from_prev_m = 0 },
+    { id = "line-3-0158-0518", distance_from_prev_m = 3008 },
+    { id = "line-3-0266-0626", distance_from_prev_m = 3312 },
+    { id = "line-3-0304-0667", distance_from_prev_m = 1146 },
+    { id = "line-3-0372-0726", distance_from_prev_m = 1872 },
+    { id = "line-3-0516-0762", distance_from_prev_m = 3855 },
+    { id = "line-3-0588-0781", distance_from_prev_m = 1803 },
+    { id = "line-3-0649-0797", distance_from_prev_m = 1515 },
+    { id = "line-3-0693-0847", distance_from_prev_m = 1505 },
+    { id = "line-3-0729-0900", distance_from_prev_m = 1520 },
+    { id = "line-3-0794-0916", distance_from_prev_m = 1500 },
+    { id = "line-3-0834-0954", distance_from_prev_m = 1520 },
+    { id = "line-3-0846-1004", distance_from_prev_m = 1507 },
+    { id = "line-3-0829-1059", distance_from_prev_m = 1516 },
+    { id = "line-3-0945-1096", distance_from_prev_m = 3011 },
+    { id = "line-3-1076-1099", distance_from_prev_m = 3006 },
+    { id = "line-3-1107-1122", distance_from_prev_m = 810 },
+    { id = "line-3-1159-1204", distance_from_prev_m = 2199 },
+    { id = "line-3-1356-1380", distance_from_prev_m = 6361 },
+]
+
+[[lines]]
+id = "line-4"
+name = "line-4"
+stations = [
+    { id = "line-4-0879-1214", distance_from_prev_m = 0 },
+    { id = "line-4-0854-1159", distance_from_prev_m = 1504 },
+    { id = "line-4-0860-1096", distance_from_prev_m = 1503 },
+    { id = "line-4-0876-1014", distance_from_prev_m = 1772 },
+    { id = "line-4-0898-0938", distance_from_prev_m = 1780 },
+    { id = "line-4-0924-0878", distance_from_prev_m = 1500 },
+    { id = "line-4-0968-0840", distance_from_prev_m = 1509 },
+    { id = "line-4-0961-0776", distance_from_prev_m = 1505 },
+    { id = "line-4-0960-0712", distance_from_prev_m = 1503 },
+    { id = "line-4-1019-0683", distance_from_prev_m = 1511 },
+    { id = "line-4-1039-0572", distance_from_prev_m = 3008 },
+    { id = "line-4-1045-0506", distance_from_prev_m = 1386 },
+    { id = "line-4-1043-0500", distance_from_prev_m = 136 },
+    { id = "line-4-1020-0437", distance_from_prev_m = 1516 },
+    { id = "line-4-1113-0314", distance_from_prev_m = 4153 },
+]
+
+[[lines]]
+id = "line-5"
+name = "line-5"
+stations = [
+    { id = "line-5-0058-1376", distance_from_prev_m = 0 },
+    { id = "line-5-0214-1336", distance_from_prev_m = 5016 },
+    { id = "line-5-0377-1246", distance_from_prev_m = 4438 },
+    { id = "line-5-0552-1188", distance_from_prev_m = 5025 },
+    { id = "line-5-0567-1169", distance_from_prev_m = 516 },
+    { id = "line-5-0661-1139", distance_from_prev_m = 2500 },
+    { id = "line-5-0726-1130", distance_from_prev_m = 1502 },
+    { id = "line-5-0791-1112", distance_from_prev_m = 1500 },
+    { id = "line-5-0842-1072", distance_from_prev_m = 1501 },
+    { id = "line-5-1015-1020", distance_from_prev_m = 3914 },
+    { id = "line-5-1079-0936", distance_from_prev_m = 2881 },
+    { id = "line-5-1163-0930", distance_from_prev_m = 3016 },
+    { id = "line-5-1272-0918", distance_from_prev_m = 3005 },
+    { id = "line-5-1291-0906", distance_from_prev_m = 559 },
+    { id = "line-5-1530-0779", distance_from_prev_m = 7025 },
+]
+
+[[lines]]
+id = "line-6"
+name = "line-6"
+is_ring = true
+stations = [
+    { id = "line-6-0590-0403", distance_from_prev_m = 0 },
+    { id = "line-6-0419-0562", distance_from_prev_m = 5024 },
+    { id = "line-6-0310-0661", distance_from_prev_m = 3000 },
+    { id = "line-6-0304-0667", distance_from_prev_m = 169 },
+    { id = "line-6-0261-0782", distance_from_prev_m = 2845 },
+    { id = "line-6-0247-0863", distance_from_prev_m = 1802 },
+    { id = "line-6-0270-0924", distance_from_prev_m = 1507 },
+    { id = "line-6-0272-0935", distance_from_prev_m = 236 },
+    { id = "line-6-0365-1001", distance_from_prev_m = 2774 },
+    { id = "line-6-0550-1135", distance_from_prev_m = 5009 },
+    { id = "line-6-0567-1169", distance_from_prev_m = 820 },
+    { id = "line-6-0632-1257", distance_from_prev_m = 2315 },
+    { id = "line-6-0698-1356", distance_from_prev_m = 2789 },
+    { id = "line-6-0708-1358", distance_from_prev_m = 216 },
+    { id = "line-6-0767-1339", distance_from_prev_m = 1518 },
+    { id = "line-6-0872-1303", distance_from_prev_m = 3001 },
+    { id = "line-6-1052-1177", distance_from_prev_m = 5025 },
+    { id = "line-6-1107-1122", distance_from_prev_m = 1555 },
+    { id = "line-6-1121-1063", distance_from_prev_m = 1445 },
+    { id = "line-6-1281-0962", distance_from_prev_m = 4334 },
+    { id = "line-6-1291-0906", distance_from_prev_m = 1654 },
+    { id = "line-6-1202-0816", distance_from_prev_m = 3372 },
+    { id = "line-6-1087-0628", distance_from_prev_m = 5008 },
+    { id = "line-6-1056-0516", distance_from_prev_m = 2496 },
+    { id = "line-6-1045-0506", distance_from_prev_m = 326 },
+    { id = "line-6-0997-0481", distance_from_prev_m = 1287 },
+    { id = "line-6-0967-0438", distance_from_prev_m = 1517 },
+    { id = "line-6-0985-0390", distance_from_prev_m = 1502 },
+    { id = "line-6-0946-0369", distance_from_prev_m = 1516 },
+    { id = "line-6-0916-0365", distance_from_prev_m = 798 },
+    { id = "line-6-0882-0367", distance_from_prev_m = 713 },
+    { id = "line-6-0590-0403", distance_from_prev_m = 7752 },
+]
+
+
+
+# Fleets — copied from design.toml [[fleets]].
+[[fleets]]
+line = "line-1"
+trainset_count = 30
+dispatch_points = [
+    { station = "line-1-0618-1594", heading = "forward" },
+    { station = "line-1-0934-0200", heading = "reverse" },
+]
+service_start = "05:30"
+service_end = "23:30"
+schedule = [
+    { from = "05:30", to = "07:00", headway_min = 10 },
+    { from = "07:00", to = "10:00", headway_min = 5 },
+    { from = "10:00", to = "16:00", headway_min = 10 },
+    { from = "16:00", to = "19:00", headway_min = 5 },
+    { from = "19:00", to = "23:30", headway_min = 10 },
+]
+
+[[fleets]]
+line = "line-2"
+trainset_count = 30
+dispatch_points = [
+    { station = "line-2-1460-0306", heading = "forward" },
+    { station = "line-2-0201-0997", heading = "reverse" },
+]
+service_start = "05:30"
+service_end = "23:30"
+schedule = [
+    { from = "05:30", to = "07:00", headway_min = 10 },
+    { from = "07:00", to = "10:00", headway_min = 5 },
+    { from = "10:00", to = "16:00", headway_min = 10 },
+    { from = "16:00", to = "19:00", headway_min = 5 },
+    { from = "19:00", to = "23:30", headway_min = 10 },
+]
+
+[[fleets]]
+line = "line-3"
+trainset_count = 34
+dispatch_points = [
+    { station = "line-3-0069-0428", heading = "forward" },
+    { station = "line-3-1356-1380", heading = "reverse" },
+]
+service_start = "05:30"
+service_end = "23:30"
+schedule = [
+    { from = "05:30", to = "07:00", headway_min = 10 },
+    { from = "07:00", to = "10:00", headway_min = 5 },
+    { from = "10:00", to = "16:00", headway_min = 10 },
+    { from = "16:00", to = "19:00", headway_min = 5 },
+    { from = "19:00", to = "23:30", headway_min = 10 },
+]
+
+[[fleets]]
+line = "line-4"
+trainset_count = 20
+dispatch_points = [
+    { station = "line-4-0879-1214", heading = "forward" },
+    { station = "line-4-1113-0314", heading = "reverse" },
+]
+service_start = "05:30"
+service_end = "23:30"
+schedule = [
+    { from = "05:30", to = "07:00", headway_min = 10 },
+    { from = "07:00", to = "10:00", headway_min = 5 },
+    { from = "10:00", to = "16:00", headway_min = 10 },
+    { from = "16:00", to = "19:00", headway_min = 5 },
+    { from = "19:00", to = "23:30", headway_min = 10 },
+]
+
+[[fleets]]
+line = "line-5"
+trainset_count = 35
+dispatch_points = [
+    { station = "line-5-0058-1376", heading = "forward" },
+    { station = "line-5-1530-0779", heading = "reverse" },
+]
+service_start = "05:30"
+service_end = "23:30"
+schedule = [
+    { from = "05:30", to = "07:00", headway_min = 10 },
+    { from = "07:00", to = "10:00", headway_min = 5 },
+    { from = "10:00", to = "16:00", headway_min = 10 },
+    { from = "16:00", to = "19:00", headway_min = 5 },
+    { from = "19:00", to = "23:30", headway_min = 10 },
+]
+
+[[fleets]]
+line = "line-6"
+trainset_count = 58
+dispatch_points = [
+    { station = "line-6-0590-0403", heading = "forward" },
+    { station = "line-6-0590-0403", heading = "reverse" },
+]
+service_start = "05:30"
+service_end = "23:30"
+schedule = [
+    { from = "05:30", to = "07:00", headway_min = 10 },
+    { from = "07:00", to = "10:00", headway_min = 5 },
+    { from = "10:00", to = "16:00", headway_min = 10 },
+    { from = "16:00", to = "19:00", headway_min = 5 },
+    { from = "19:00", to = "23:30", headway_min = 10 },
+]
+
+
+
+# Trackside energy sites — expanded from tier references.
+[[sites]]
+station = "line-1-0618-1594"
+tier = "terminal"
+pv_nameplate_kw = 500.0
+storage_capacity_kwh = 3000.0
+storage_max_charge_kw = 1500.0
+storage_max_discharge_kw = 1500.0
+storage_initial_soc = 0.6
+grid_import_kw = 800.0
+grid_export_kw = 800.0
+
+[[sites]]
+station = "line-1-0662-1465"
+tier = "standard"
+pv_nameplate_kw = 300.0
+storage_capacity_kwh = 2000.0
+storage_max_charge_kw = 800.0
+storage_max_discharge_kw = 800.0
+storage_initial_soc = 0.5
+grid_import_kw = 500.0
+grid_export_kw = 500.0
+
+[[sites]]
+station = "line-1-0698-1356"
+tier = "interchange"
+pv_nameplate_kw = 500.0
+storage_capacity_kwh = 3000.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "line-1-0722-1228"
+tier = "major"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "line-1-0733-1166"
+tier = "major"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "line-1-0749-1097"
+tier = "major"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "line-1-0740-1030"
+tier = "major"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "line-1-0720-0991"
+tier = "major"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "line-1-0733-0946"
+tier = "major"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "line-1-0761-0891"
+tier = "major"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "line-1-0790-0825"
+tier = "major"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "line-1-0833-0754"
+tier = "major"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "line-1-0827-0685"
+tier = "major"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "line-1-0820-0614"
+tier = "major"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "line-1-0823-0544"
+tier = "major"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "line-1-0917-0481"
+tier = "standard"
+pv_nameplate_kw = 300.0
+storage_capacity_kwh = 2000.0
+storage_max_charge_kw = 800.0
+storage_max_discharge_kw = 800.0
+storage_initial_soc = 0.5
+grid_import_kw = 500.0
+grid_export_kw = 500.0
+
+[[sites]]
+station = "line-1-0919-0406"
+tier = "major"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "line-1-0916-0365"
+tier = "interchange"
+pv_nameplate_kw = 500.0
+storage_capacity_kwh = 3000.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "line-1-0911-0333"
+tier = "major"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "line-1-0938-0273"
+tier = "major"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "line-1-0934-0200"
+tier = "terminal"
+pv_nameplate_kw = 500.0
+storage_capacity_kwh = 3000.0
+storage_max_charge_kw = 1500.0
+storage_max_discharge_kw = 1500.0
+storage_initial_soc = 0.6
+grid_import_kw = 800.0
+grid_export_kw = 800.0
+
+[[sites]]
+station = "line-2-1460-0306"
+tier = "terminal"
+pv_nameplate_kw = 500.0
+storage_capacity_kwh = 3000.0
+storage_max_charge_kw = 1500.0
+storage_max_discharge_kw = 1500.0
+storage_initial_soc = 0.6
+grid_import_kw = 800.0
+grid_export_kw = 800.0
+
+[[sites]]
+station = "line-2-1124-0422"
+tier = "standard"
+pv_nameplate_kw = 300.0
+storage_capacity_kwh = 2000.0
+storage_max_charge_kw = 800.0
+storage_max_discharge_kw = 800.0
+storage_initial_soc = 0.5
+grid_import_kw = 500.0
+grid_export_kw = 500.0
+
+[[sites]]
+station = "line-2-1056-0516"
+tier = "interchange"
+pv_nameplate_kw = 500.0
+storage_capacity_kwh = 3000.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "line-2-0999-0511"
+tier = "major"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "line-2-0955-0546"
+tier = "major"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "line-2-0914-0604"
+tier = "major"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "line-2-0866-0652"
+tier = "major"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "line-2-0805-0669"
+tier = "major"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "line-2-0739-0687"
+tier = "major"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "line-2-0671-0705"
+tier = "major"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "line-2-0644-0756"
+tier = "major"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "line-2-0631-0802"
+tier = "major"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "line-2-0523-0868"
+tier = "standard"
+pv_nameplate_kw = 300.0
+storage_capacity_kwh = 2000.0
+storage_max_charge_kw = 800.0
+storage_max_discharge_kw = 800.0
+storage_initial_soc = 0.5
+grid_import_kw = 500.0
+grid_export_kw = 500.0
+
+[[sites]]
+station = "line-2-0448-0922"
+tier = "major"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "line-2-0382-0932"
+tier = "major"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "line-2-0343-0950"
+tier = "major"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "line-2-0272-0935"
+tier = "interchange"
+pv_nameplate_kw = 500.0
+storage_capacity_kwh = 3000.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "line-2-0201-0997"
+tier = "terminal"
+pv_nameplate_kw = 500.0
+storage_capacity_kwh = 3000.0
+storage_max_charge_kw = 1500.0
+storage_max_discharge_kw = 1500.0
+storage_initial_soc = 0.6
+grid_import_kw = 800.0
+grid_export_kw = 800.0
+
+[[sites]]
+station = "line-3-0069-0428"
+tier = "terminal"
+pv_nameplate_kw = 500.0
+storage_capacity_kwh = 3000.0
+storage_max_charge_kw = 1500.0
+storage_max_discharge_kw = 1500.0
+storage_initial_soc = 0.6
+grid_import_kw = 800.0
+grid_export_kw = 800.0
+
+[[sites]]
+station = "line-3-0158-0518"
+tier = "standard"
+pv_nameplate_kw = 300.0
+storage_capacity_kwh = 2000.0
+storage_max_charge_kw = 800.0
+storage_max_discharge_kw = 800.0
+storage_initial_soc = 0.5
+grid_import_kw = 500.0
+grid_export_kw = 500.0
+
+[[sites]]
+station = "line-3-0266-0626"
+tier = "standard"
+pv_nameplate_kw = 300.0
+storage_capacity_kwh = 2000.0
+storage_max_charge_kw = 800.0
+storage_max_discharge_kw = 800.0
+storage_initial_soc = 0.5
+grid_import_kw = 500.0
+grid_export_kw = 500.0
+
+[[sites]]
+station = "line-3-0304-0667"
+tier = "interchange"
+pv_nameplate_kw = 500.0
+storage_capacity_kwh = 3000.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "line-3-0372-0726"
+tier = "standard"
+pv_nameplate_kw = 300.0
+storage_capacity_kwh = 2000.0
+storage_max_charge_kw = 800.0
+storage_max_discharge_kw = 800.0
+storage_initial_soc = 0.5
+grid_import_kw = 500.0
+grid_export_kw = 500.0
+
+[[sites]]
+station = "line-3-0516-0762"
+tier = "standard"
+pv_nameplate_kw = 300.0
+storage_capacity_kwh = 2000.0
+storage_max_charge_kw = 800.0
+storage_max_discharge_kw = 800.0
+storage_initial_soc = 0.5
+grid_import_kw = 500.0
+grid_export_kw = 500.0
+
+[[sites]]
+station = "line-3-0588-0781"
+tier = "major"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "line-3-0649-0797"
+tier = "major"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "line-3-0693-0847"
+tier = "major"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "line-3-0729-0900"
+tier = "major"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "line-3-0794-0916"
+tier = "major"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "line-3-0834-0954"
+tier = "major"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "line-3-0846-1004"
+tier = "major"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "line-3-0829-1059"
+tier = "major"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "line-3-0945-1096"
+tier = "standard"
+pv_nameplate_kw = 300.0
+storage_capacity_kwh = 2000.0
+storage_max_charge_kw = 800.0
+storage_max_discharge_kw = 800.0
+storage_initial_soc = 0.5
+grid_import_kw = 500.0
+grid_export_kw = 500.0
+
+[[sites]]
+station = "line-3-1076-1099"
+tier = "standard"
+pv_nameplate_kw = 300.0
+storage_capacity_kwh = 2000.0
+storage_max_charge_kw = 800.0
+storage_max_discharge_kw = 800.0
+storage_initial_soc = 0.5
+grid_import_kw = 500.0
+grid_export_kw = 500.0
+
+[[sites]]
+station = "line-3-1107-1122"
+tier = "interchange"
+pv_nameplate_kw = 500.0
+storage_capacity_kwh = 3000.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "line-3-1159-1204"
+tier = "standard"
+pv_nameplate_kw = 300.0
+storage_capacity_kwh = 2000.0
+storage_max_charge_kw = 800.0
+storage_max_discharge_kw = 800.0
+storage_initial_soc = 0.5
+grid_import_kw = 500.0
+grid_export_kw = 500.0
+
+[[sites]]
+station = "line-3-1356-1380"
+tier = "terminal"
+pv_nameplate_kw = 500.0
+storage_capacity_kwh = 3000.0
+storage_max_charge_kw = 1500.0
+storage_max_discharge_kw = 1500.0
+storage_initial_soc = 0.6
+grid_import_kw = 800.0
+grid_export_kw = 800.0
+
+[[sites]]
+station = "line-4-0879-1214"
+tier = "terminal"
+pv_nameplate_kw = 500.0
+storage_capacity_kwh = 3000.0
+storage_max_charge_kw = 1500.0
+storage_max_discharge_kw = 1500.0
+storage_initial_soc = 0.6
+grid_import_kw = 800.0
+grid_export_kw = 800.0
+
+[[sites]]
+station = "line-4-0854-1159"
+tier = "major"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "line-4-0860-1096"
+tier = "major"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "line-4-0876-1014"
+tier = "major"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "line-4-0898-0938"
+tier = "major"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "line-4-0924-0878"
+tier = "major"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "line-4-0968-0840"
+tier = "major"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "line-4-0961-0776"
+tier = "major"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "line-4-0960-0712"
+tier = "major"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "line-4-1019-0683"
+tier = "major"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "line-4-1039-0572"
+tier = "standard"
+pv_nameplate_kw = 300.0
+storage_capacity_kwh = 2000.0
+storage_max_charge_kw = 800.0
+storage_max_discharge_kw = 800.0
+storage_initial_soc = 0.5
+grid_import_kw = 500.0
+grid_export_kw = 500.0
+
+[[sites]]
+station = "line-4-1045-0506"
+tier = "interchange"
+pv_nameplate_kw = 500.0
+storage_capacity_kwh = 3000.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "line-4-1043-0500"
+tier = "interchange"
+pv_nameplate_kw = 500.0
+storage_capacity_kwh = 3000.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "line-4-1020-0437"
+tier = "major"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "line-4-1113-0314"
+tier = "terminal"
+pv_nameplate_kw = 500.0
+storage_capacity_kwh = 3000.0
+storage_max_charge_kw = 1500.0
+storage_max_discharge_kw = 1500.0
+storage_initial_soc = 0.6
+grid_import_kw = 800.0
+grid_export_kw = 800.0
+
+[[sites]]
+station = "line-5-0058-1376"
+tier = "terminal"
+pv_nameplate_kw = 500.0
+storage_capacity_kwh = 3000.0
+storage_max_charge_kw = 1500.0
+storage_max_discharge_kw = 1500.0
+storage_initial_soc = 0.6
+grid_import_kw = 800.0
+grid_export_kw = 800.0
+
+[[sites]]
+station = "line-5-0377-1246"
+tier = "standard"
+pv_nameplate_kw = 300.0
+storage_capacity_kwh = 2000.0
+storage_max_charge_kw = 800.0
+storage_max_discharge_kw = 800.0
+storage_initial_soc = 0.5
+grid_import_kw = 500.0
+grid_export_kw = 500.0
+
+[[sites]]
+station = "line-5-0567-1169"
+tier = "interchange"
+pv_nameplate_kw = 500.0
+storage_capacity_kwh = 3000.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "line-5-0661-1139"
+tier = "standard"
+pv_nameplate_kw = 300.0
+storage_capacity_kwh = 2000.0
+storage_max_charge_kw = 800.0
+storage_max_discharge_kw = 800.0
+storage_initial_soc = 0.5
+grid_import_kw = 500.0
+grid_export_kw = 500.0
+
+[[sites]]
+station = "line-5-0726-1130"
+tier = "major"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "line-5-0791-1112"
+tier = "major"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "line-5-0842-1072"
+tier = "major"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "line-5-1015-1020"
+tier = "standard"
+pv_nameplate_kw = 300.0
+storage_capacity_kwh = 2000.0
+storage_max_charge_kw = 800.0
+storage_max_discharge_kw = 800.0
+storage_initial_soc = 0.5
+grid_import_kw = 500.0
+grid_export_kw = 500.0
+
+[[sites]]
+station = "line-5-1079-0936"
+tier = "major"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "line-5-1163-0930"
+tier = "standard"
+pv_nameplate_kw = 300.0
+storage_capacity_kwh = 2000.0
+storage_max_charge_kw = 800.0
+storage_max_discharge_kw = 800.0
+storage_initial_soc = 0.5
+grid_import_kw = 500.0
+grid_export_kw = 500.0
+
+[[sites]]
+station = "line-5-1272-0918"
+tier = "standard"
+pv_nameplate_kw = 300.0
+storage_capacity_kwh = 2000.0
+storage_max_charge_kw = 800.0
+storage_max_discharge_kw = 800.0
+storage_initial_soc = 0.5
+grid_import_kw = 500.0
+grid_export_kw = 500.0
+
+[[sites]]
+station = "line-5-1291-0906"
+tier = "interchange"
+pv_nameplate_kw = 500.0
+storage_capacity_kwh = 3000.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "line-5-1530-0779"
+tier = "depot-main"
+pv_nameplate_kw = 5000.0
+storage_capacity_kwh = 40000.0
+storage_max_charge_kw = 10000.0
+storage_max_discharge_kw = 10000.0
+storage_initial_soc = 0.6
+grid_import_kw = 3000.0
+grid_export_kw = 3000.0
+
+[[sites]]
+station = "line-6-0310-0661"
+tier = "interchange"
+pv_nameplate_kw = 500.0
+storage_capacity_kwh = 3000.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "line-6-0304-0667"
+tier = "interchange"
+pv_nameplate_kw = 500.0
+storage_capacity_kwh = 3000.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "line-6-0261-0782"
+tier = "standard"
+pv_nameplate_kw = 300.0
+storage_capacity_kwh = 2000.0
+storage_max_charge_kw = 800.0
+storage_max_discharge_kw = 800.0
+storage_initial_soc = 0.5
+grid_import_kw = 500.0
+grid_export_kw = 500.0
+
+[[sites]]
+station = "line-6-0247-0863"
+tier = "major"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "line-6-0270-0924"
+tier = "major"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "line-6-0272-0935"
+tier = "interchange"
+pv_nameplate_kw = 500.0
+storage_capacity_kwh = 3000.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "line-6-0365-1001"
+tier = "standard"
+pv_nameplate_kw = 300.0
+storage_capacity_kwh = 2000.0
+storage_max_charge_kw = 800.0
+storage_max_discharge_kw = 800.0
+storage_initial_soc = 0.5
+grid_import_kw = 500.0
+grid_export_kw = 500.0
+
+[[sites]]
+station = "line-6-0567-1169"
+tier = "interchange"
+pv_nameplate_kw = 500.0
+storage_capacity_kwh = 3000.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "line-6-0632-1257"
+tier = "standard"
+pv_nameplate_kw = 300.0
+storage_capacity_kwh = 2000.0
+storage_max_charge_kw = 800.0
+storage_max_discharge_kw = 800.0
+storage_initial_soc = 0.5
+grid_import_kw = 500.0
+grid_export_kw = 500.0
+
+[[sites]]
+station = "line-6-0698-1356"
+tier = "interchange"
+pv_nameplate_kw = 500.0
+storage_capacity_kwh = 3000.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "line-6-0708-1358"
+tier = "major"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "line-6-0767-1339"
+tier = "major"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "line-6-0872-1303"
+tier = "standard"
+pv_nameplate_kw = 300.0
+storage_capacity_kwh = 2000.0
+storage_max_charge_kw = 800.0
+storage_max_discharge_kw = 800.0
+storage_initial_soc = 0.5
+grid_import_kw = 500.0
+grid_export_kw = 500.0
+
+[[sites]]
+station = "line-6-1107-1122"
+tier = "interchange"
+pv_nameplate_kw = 500.0
+storage_capacity_kwh = 3000.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "line-6-1121-1063"
+tier = "standard"
+pv_nameplate_kw = 300.0
+storage_capacity_kwh = 2000.0
+storage_max_charge_kw = 800.0
+storage_max_discharge_kw = 800.0
+storage_initial_soc = 0.5
+grid_import_kw = 500.0
+grid_export_kw = 500.0
+
+[[sites]]
+station = "line-6-1281-0962"
+tier = "standard"
+pv_nameplate_kw = 300.0
+storage_capacity_kwh = 2000.0
+storage_max_charge_kw = 800.0
+storage_max_discharge_kw = 800.0
+storage_initial_soc = 0.5
+grid_import_kw = 500.0
+grid_export_kw = 500.0
+
+[[sites]]
+station = "line-6-1291-0906"
+tier = "interchange"
+pv_nameplate_kw = 500.0
+storage_capacity_kwh = 3000.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "line-6-1056-0516"
+tier = "interchange"
+pv_nameplate_kw = 500.0
+storage_capacity_kwh = 3000.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "line-6-1045-0506"
+tier = "interchange"
+pv_nameplate_kw = 500.0
+storage_capacity_kwh = 3000.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "line-6-0997-0481"
+tier = "major"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "line-6-0967-0438"
+tier = "major"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "line-6-0985-0390"
+tier = "major"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "line-6-0946-0369"
+tier = "major"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "line-6-0916-0365"
+tier = "interchange"
+pv_nameplate_kw = 500.0
+storage_capacity_kwh = 3000.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "line-6-0882-0367"
+tier = "major"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0

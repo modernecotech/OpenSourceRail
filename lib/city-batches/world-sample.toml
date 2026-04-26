@@ -112,6 +112,22 @@ profile                 = "mega-city-desert"
 bbox                    = { south = 33.05, west = 44.20, north = 33.50, east = 44.75 }
 
 [[cities]]
+slug                    = "mosul"
+country                 = "IQ"
+continent               = "middle-east"
+population              = 1940000
+population_unit         = "Mosul Subdistrict (Nineveh Governorate; reconstruction-period 2024 estimate, post-2017 displacement)"
+population_source       = "Iraq 2024 General Population Census preliminary; via citypopulation.de/en/iraq/cities"
+population_source_year  = 2024
+climate                 = "hot-desert"
+profile                 = "large-city-desert"
+# ~30 × 30 km. Both banks of the Tigris (Old City west / Left Bank
+# east); covers Hammam al-Alil (south) and the northern Bashiqa
+# direction. Excludes the Sinjar Mountains (uninhabited rock) by
+# clipping west bound at 42.95.
+bbox                    = { south = 36.20, west = 42.95, north = 36.50, east = 43.30 }
+
+[[cities]]
 slug                    = "tunis"
 country                 = "TN"
 continent               = "north-africa"
@@ -146,6 +162,82 @@ profile                 = "large-city-tropical"
 bbox                    = { south = -1.50, west = 36.65, north = -1.05, east = 37.10 }
 
 [[cities]]
+slug                    = "dar-es-salaam"
+country                 = "TZ"
+continent               = "east-africa"
+population              = 7404689
+population_unit         = "Dar es Salaam Region (city + Kinondoni + Ilala + Temeke + Kigamboni + Ubungo districts)"
+population_source       = "Tanzania National Bureau of Statistics (NBS) 2022 Census; via citypopulation.de/en/tanzania"
+population_source_year  = 2022
+climate                 = "tropical-wet"
+profile                 = "mega-city-tropical"
+# ~50 × 50 km coastal metro. North-south extent covers Bagamoyo
+# Road suburbs (north), Mbagala + Kigamboni (south); inland to
+# Kibaha + Pugu (west). East bound stops at the Indian Ocean.
+bbox                    = { south = -7.05, west = 39.05, north = -6.55, east = 39.50 }
+
+[[cities]]
+slug                    = "khartoum"
+country                 = "SD"
+continent               = "north-africa"
+population              = 5829000
+population_unit         = "Greater Khartoum (Khartoum + Omdurman + Bahri tri-city); pre-2023-conflict baseline"
+population_source       = "Sudan Central Bureau of Statistics 2022 estimate; conflict has since displaced millions"
+population_source_year  = 2022
+climate                 = "hot-desert"
+profile                 = "mega-city-desert"
+# ~45 × 45 km tri-city around the Blue / White Nile confluence.
+# Covers Omdurman (west of the White Nile), Bahri (north of the
+# Blue Nile), and Khartoum proper.
+bbox                    = { south = 15.40, west = 32.35, north = 15.80, east = 32.80 }
+
+[[cities]]
+slug                    = "kampala"
+country                 = "UG"
+continent               = "east-africa"
+population              = 1875000
+population_unit         = "Kampala Capital City Authority (5 divisions); excludes Wakiso suburbs"
+population_source       = "Uganda Bureau of Statistics (UBoS) 2024 estimate"
+population_source_year  = 2024
+climate                 = "tropical-wet"
+profile                 = "large-city-tropical"
+# ~25 × 25 km centred on the seven hills. Covers Wakiso satellite
+# towns (Kira, Mukono outskirts) east + north; clipped at Lake
+# Victoria south.
+bbox                    = { south = 0.21, west = 32.45, north = 0.45, east = 32.72 }
+
+[[cities]]
+slug                    = "antananarivo"
+country                 = "MG"
+continent               = "east-africa"
+population              = 3058000
+population_unit         = "Greater Antananarivo (CUA + Antananarivo-Avaradrano + Antananarivo-Atsimondrano + Ambohidratrimo)"
+population_source       = "Institut National de la Statistique de Madagascar (INSTAT) 2024 estimate; 2018 census base"
+population_source_year  = 2024
+climate                 = "tropical-wet"
+profile                 = "large-city-tropical"
+# ~33 × 33 km on the central Madagascar plateau. Covers the
+# satellite communes north (Ivato airport district) + south
+# (Tanjombato). Steep terrain — civil-classification will pick
+# elevated for valley crossings.
+bbox                    = { south = -19.08, west = 47.35, north = -18.75, east = 47.70 }
+
+[[cities]]
+slug                    = "bamako"
+country                 = "ML"
+continent               = "west-africa"
+population              = 2929000
+population_unit         = "District de Bamako (6 communes) + immediate Koulikoro-region suburbs"
+population_source       = "Institut National de la Statistique du Mali (INSTAT) 2024 estimate; 2022 census base"
+population_source_year  = 2024
+climate                 = "tropical-arid"
+profile                 = "large-city-desert"
+# ~30 × 30 km straddling the Niger river. Both banks; covers Kati
+# (north-west satellite) + Kalaban-Coro (southern Sahelian
+# extension).
+bbox                    = { south = 12.50, west = -8.18, north = 12.80, east = -7.85 }
+
+[[cities]]
 slug                    = "niamey"
 country                 = "NE"
 continent               = "west-africa"
@@ -178,6 +270,87 @@ profile                 = "large-city-tropical"
 # Sulur + airport (south-east), Mettupalayam Road corridor (north).
 # Earlier 12 × 12 km core-only bbox starved the synthesizer.
 bbox                    = { south = 10.85, west = 76.85, north = 11.15, east = 77.15 }
+
+[[cities]]
+slug                    = "karachi"
+country                 = "PK"
+continent               = "south-asia"
+population              = 20300000
+population_unit         = "Karachi Division (Central + East + Keamari + Korangi + Malir + South + West districts)"
+population_source       = "Pakistan Bureau of Statistics (PBS) 2023 Digital Census"
+population_source_year  = 2023
+climate                 = "tropical-arid"
+profile                 = "mega-city-desert"
+# ~50 × 50 km mega-coastal extent. Covers DHA Phase 8 + Bahria Town
+# (south-east), New Karachi + North Nazimabad (north), Surjani Town
+# (north), Hawksbay (west). Clipped east at Bin Qasim industrial
+# zone (Port Qasim past the catchment edge).
+bbox                    = { south = 24.65, west = 66.85, north = 25.10, east = 67.30 }
+
+[[cities]]
+slug                    = "yangon"
+country                 = "MM"
+continent               = "southeast-asia"
+population              = 5200000
+population_unit         = "Yangon Region urban core (Yangon city + Insein + Hlaingthaya + Thanlyin / Syriam east of the river)"
+population_source       = "Myanmar Department of Population 2014 census + 2024 projection (no fresh census post-2021)"
+population_source_year  = 2024
+climate                 = "tropical-wet"
+profile                 = "mega-city-tropical"
+# ~40 × 40 km. Both banks of the Bago + Yangon rivers — covers
+# Thanlyin / Kyauktan (east bank, Pyin Hsalu industrial zone) and
+# Hlaingthaya (west bank). Clipped south of Twante to avoid the
+# delta marshland which has no metro demand.
+bbox                    = { south = 16.65, west = 95.95, north = 17.00, east = 96.35 }
+
+[[cities]]
+slug                    = "phnom-penh"
+country                 = "KH"
+continent               = "southeast-asia"
+population              = 2281000
+population_unit         = "Phnom Penh capital (12 khans / districts including the 2018 enlargement)"
+population_source       = "National Institute of Statistics Cambodia (NIS) 2019 census + 2024 projection"
+population_source_year  = 2024
+climate                 = "tropical-wet"
+profile                 = "large-city-tropical"
+# ~30 × 30 km at the Mekong / Tonlé Sap / Bassac confluence. Covers
+# Russey Keo (north), Chbar Ampov (south-east across the Bassac),
+# and the Pochentong airport district (west).
+bbox                    = { south = 11.42, west = 104.78, north = 11.70, east = 105.07 }
+
+# ---- Latin America (additional) --------------------------------------
+
+[[cities]]
+slug                    = "la-paz"
+country                 = "BO"
+continent               = "latin-america"
+population              = 1815000
+population_unit         = "La Paz + El Alto (twin-city conurbation on the altiplano)"
+population_source       = "Instituto Nacional de Estadística (INE) Bolivia 2024 estimate; 2024 census base"
+population_source_year  = 2024
+climate                 = "alpine-tropical"
+profile                 = "large-city-cold"
+# ~25 × 25 km altiplano-to-canyon configuration. North bound covers
+# El Alto (~4150 m elevation) including the airport. South bound
+# reaches Mecapaca + Río Abajo (deep valley, ~3200 m). Severe
+# 1000 m vertical relief — civil classification will need to pick
+# elevated/funicular for the El Alto cliff descent.
+bbox                    = { south = -16.65, west = -68.30, north = -16.40, east = -68.00 }
+
+[[cities]]
+slug                    = "san-salvador"
+country                 = "SV"
+continent               = "latin-america"
+population              = 1800000
+population_unit         = "Área Metropolitana de San Salvador (AMSS — 14 municipalities)"
+population_source       = "Dirección General de Estadística y Censos (DIGESTYC) 2024 estimate; 2024 census base"
+population_source_year  = 2024
+climate                 = "tropical-wet"
+profile                 = "large-city-tropical"
+# ~27 × 27 km basin of the Acelhuate. Covers Soyapango + Apopa
+# (east, dense low-income), Santa Tecla + Antiguo Cuscatlán (west,
+# higher-income), Mejicanos (north).
+bbox                    = { south = 13.55, west = -89.35, north = 13.85, east = -89.05 }
 
 # ---- Europe -----------------------------------------------------------
 

@@ -105,6 +105,19 @@ loan_tenor_years           = 25
 farebox_recovery_target    = 0.85
 currency                   = "SAR"
 
+[countries.SD]
+# Sudan — pre-2023-conflict baseline. Active war means real-world
+# financing access is currently impossible; figures kept for the
+# planning-grade exercise only. Indicative only.
+median_monthly_income_usd  = 110
+gni_per_capita_usd         = 760
+sovereign_bond_rate        = 0.150   # severely distressed
+multilateral_loan_rate     = 0.030   # IDA-eligible (pre-conflict)
+capex_grace_years          = 10
+loan_tenor_years           = 40
+farebox_recovery_target    = 0.30
+currency                   = "SDG"
+
 # ---- Sub-Saharan Africa ----------------------------------------------
 
 [countries.KE]
@@ -137,6 +150,48 @@ loan_tenor_years           = 35
 farebox_recovery_target    = 0.30
 currency                   = "XOF"
 
+[countries.ML]
+# Mali — same WAEMU regional bond market as NE; political-risk
+# premium since 2021. IDA-eligible.
+median_monthly_income_usd  = 110
+gni_per_capita_usd         = 870
+sovereign_bond_rate        = 0.095
+multilateral_loan_rate     = 0.030
+capex_grace_years          = 10
+loan_tenor_years           = 35
+farebox_recovery_target    = 0.30
+currency                   = "XOF"
+
+[countries.TZ]
+median_monthly_income_usd  = 165
+gni_per_capita_usd         = 1240
+sovereign_bond_rate        = 0.095
+multilateral_loan_rate     = 0.038
+capex_grace_years          = 7
+loan_tenor_years           = 30
+farebox_recovery_target    = 0.45
+currency                   = "TZS"
+
+[countries.UG]
+median_monthly_income_usd  = 145
+gni_per_capita_usd         = 950
+sovereign_bond_rate        = 0.140
+multilateral_loan_rate     = 0.038
+capex_grace_years          = 7
+loan_tenor_years           = 30
+farebox_recovery_target    = 0.40
+currency                   = "UGX"
+
+[countries.MG]
+median_monthly_income_usd  = 90
+gni_per_capita_usd         = 510
+sovereign_bond_rate        = 0.110
+multilateral_loan_rate     = 0.030   # IDA-eligible
+capex_grace_years          = 10
+loan_tenor_years           = 35
+farebox_recovery_target    = 0.30
+currency                   = "MGA"
+
 [countries.ZA]
 median_monthly_income_usd  = 480
 gni_per_capita_usd         = 6750
@@ -158,6 +213,16 @@ capex_grace_years          = 5
 loan_tenor_years           = 25
 farebox_recovery_target    = 0.55
 currency                   = "INR"
+
+[countries.PK]
+median_monthly_income_usd  = 165
+gni_per_capita_usd         = 1500
+sovereign_bond_rate        = 0.165   # 2024 distressed
+multilateral_loan_rate     = 0.040
+capex_grace_years          = 7
+loan_tenor_years           = 30
+farebox_recovery_target    = 0.45
+currency                   = "PKR"
 
 [countries.BD]
 median_monthly_income_usd  = 195
@@ -188,6 +253,28 @@ capex_grace_years          = 5
 loan_tenor_years           = 25
 farebox_recovery_target    = 0.55
 currency                   = "PHP"
+
+[countries.MM]
+# Myanmar — post-2021 sanctions limit IBRD access; ADB partly
+# active via humanitarian carve-outs. Conservative figures.
+median_monthly_income_usd  = 130
+gni_per_capita_usd         = 1210
+sovereign_bond_rate        = 0.130
+multilateral_loan_rate     = 0.045
+capex_grace_years          = 10
+loan_tenor_years           = 30
+farebox_recovery_target    = 0.40
+currency                   = "MMK"
+
+[countries.KH]
+median_monthly_income_usd  = 215
+gni_per_capita_usd         = 1700
+sovereign_bond_rate        = 0.080
+multilateral_loan_rate     = 0.040
+capex_grace_years          = 7
+loan_tenor_years           = 30
+farebox_recovery_target    = 0.45
+currency                   = "KHR"
 
 # ---- Latin America ---------------------------------------------------
 
@@ -225,6 +312,26 @@ currency                   = "COP"
 median_monthly_income_usd  = 410
 gni_per_capita_usd         = 6310
 sovereign_bond_rate        = 0.095
+multilateral_loan_rate     = 0.045
+capex_grace_years          = 5
+loan_tenor_years           = 25
+farebox_recovery_target    = 0.55
+currency                   = "USD"
+
+[countries.BO]
+median_monthly_income_usd  = 290
+gni_per_capita_usd         = 3450
+sovereign_bond_rate        = 0.105
+multilateral_loan_rate     = 0.045
+capex_grace_years          = 5
+loan_tenor_years           = 25
+farebox_recovery_target    = 0.50
+currency                   = "BOB"
+
+[countries.SV]
+median_monthly_income_usd  = 305
+gni_per_capita_usd         = 4720
+sovereign_bond_rate        = 0.115
 multilateral_loan_rate     = 0.045
 capex_grace_years          = 5
 loan_tenor_years           = 25
