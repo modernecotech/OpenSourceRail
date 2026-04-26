@@ -327,7 +327,12 @@ pub fn budget_for_population(pop: u64) -> GreedyBudget {
         },
         300_001..=1_000_000 => GreedyBudget {
             max_lines: 3,
-            max_total_route_m: 60_000.0,
+            // Bumped 60 → 100 km 2026-04-26 alongside the
+            // served-catchment bbox widening: a ~20 × 20 km bbox
+            // for a Cuenca-class light-metro city has a ~28 km
+            // diagonal — three radials at ~25 km each + ring
+            // exceed the old 60 km cap.
+            max_total_route_m: 100_000.0,
             // Drop min_coverage_per_km 200 → 80 cells/km 2026-04-26.
             // The new sparser spacing (1.2 / 2 / 4 km) means the 2nd
             // and 3rd radials cover incremental rather than primary
@@ -347,7 +352,9 @@ pub fn budget_for_population(pop: u64) -> GreedyBudget {
             // 3rd radial pick a shorter outer chord instead of
             // failing the whole synthesis.
             min_line_length_m: 5_000.0,
-            max_line_length_m: 22_000.0,
+            // Bumped 22 → 30 km 2026-04-26 to fit a corner-to-corner
+            // chord in the served-catchment bbox (≈ 28 km diagonal).
+            max_line_length_m: 30_000.0,
             min_anchor_weight: 0.15,
             top_k: 14,
             // Tighter coalescing (60 → 40 cells, 1.2 km → 800 m).
@@ -359,14 +366,27 @@ pub fn budget_for_population(pop: u64) -> GreedyBudget {
         },
         1_000_001..=3_000_000 => GreedyBudget {
             max_lines: 6,
-            // 220 km total: ~5 radials × 22 km plus a ~110 km ring at
-            // 0.55 × urban_radius. Tehran/Madrid scale (Tehran 280 km /
-            // 7 lines, Madrid 290 km / 13 lines).
-            max_total_route_m: 220_000.0,
+            // Bumped 220 → 320 km 2026-04-26 alongside the
+            // served-catchment bbox widening (~30 × 30 km): five
+            // radials at ~38 km each + a ~110 km ring at
+            // 0.55 × urban_radius. Tehran 280 km / 7 lines, Madrid
+            // 290 km / 13 lines, Lyon Métropole real network ~
+            // 195 km of metro+tram alone.
+            max_total_route_m: 320_000.0,
             min_coverage_per_km: 150.0,
             coverage_radius_m: 600.0,
             min_line_length_m: 12_000.0,
-            max_line_length_m: 28_000.0,
+            // Bumped 28 → 60 km 2026-04-26 to fit corner-to-corner
+            // chords in the ~30 × 30 km served-catchment bbox: the
+            // diagonal is ~42 km but Dijkstra paths through dense
+            // arterials around water / restricted zones (Lyon:
+            // Rhône + Saône + Parc de la Tête d'Or, Tunis: Lake of
+            // Tunis, Coimbatore: airport perimeter) can add 30–40%
+            // over straight-chord length. The greedy stop condition
+            // (`min_coverage_per_km`) prevents long lines from being
+            // chosen unless they actually cover demand, so a wider
+            // line-length window doesn't produce wasteful routing.
+            max_line_length_m: 60_000.0,
             min_anchor_weight: 0.20,
             top_k: 14,
             coalesce_bin_cells: 80, // 1.6 km
@@ -374,25 +394,27 @@ pub fn budget_for_population(pop: u64) -> GreedyBudget {
         },
         _ => GreedyBudget {
             max_lines: 9,
-            // 500 km — fits 8 cross-city via-hub radials at ~42 km
-            // each (~325 km observed) plus a ~110 km circumferential
-            // ring at 0.55 × urban_radius. Real comparators: London
-            // ~400 km / 11 lines (no Crossrail), Beijing ~700 km / 22
-            // lines, Madrid 290 km / 13 lines. Tighter caps starve
-            // the ring with the peripheral phase active on radials.
-            max_total_route_m: 500_000.0,
+            // 600 km — fits 8 cross-city via-hub radials at ~50 km
+            // each (~400 km) plus a ~140 km circumferential ring at
+            // 0.55 × urban_radius. Real comparators: London ~400 km
+            // / 11 lines (no Crossrail), Beijing ~700 km / 22 lines,
+            // Madrid 290 km / 13 lines, Tokyo metro+through-running
+            // ~1000 km. Bumped 500 → 600 km 2026-04-26 alongside
+            // the bbox-sizing policy widening.
+            max_total_route_m: 600_000.0,
             min_coverage_per_km: 100.0,
             coverage_radius_m: 600.0,
             min_line_length_m: 16_000.0,
-            // 48 km — sized so a centre-to-edge-of-bbox chord fits
-            // (Baghdad bbox half-width ≈ 33 km; with ~15 % via-hub
-            // routing overhead, a 36 km chord lands at ~41 km routed,
-            // and a satellite-reaching 40 km chord lands at ~46 km).
-            // Tighter caps left Baghdad's eastern satellite (Nahrawan,
-            // ~36 km from centre) unreachable by any radial. Real
+            // 60 km — sized so a centre-to-edge-of-bbox chord fits
+            // for a 50 × 50 km mega-city served-catchment bbox
+            // (~70 km diagonal); with ~15 % via-hub routing overhead
+            // a 50 km chord lands at ~58 km routed. Bumped 48 → 60 km
+            // 2026-04-26 — earlier 48 km left ~50 km Greater-Nairobi
+            // satellites (Athi River, Kiambu) just out of radial reach
+            // when the bbox extended to the metro periphery. Real
             // comparators: Cairo Line 3 = 44 km, Tehran Line 1 ≈ 38 km,
             // Beijing Line 6 = 53 km, Mumbai Aqua = 33 km.
-            max_line_length_m: 48_000.0,
+            max_line_length_m: 60_000.0,
             min_anchor_weight: 0.20,
             top_k: 14,
             coalesce_bin_cells: 100, // 2 km

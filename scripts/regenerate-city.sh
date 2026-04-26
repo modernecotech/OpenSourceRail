@@ -105,7 +105,9 @@ export PYTHONPATH="$DESIGN_PY/src"
 mkdir -p "$OSM_CACHE" "$RASTER_CACHE" "$DESIGN_DIR"
 
 echo "1) OSM pull → $OSM_CACHE/$SLUG.json (cached on query text)"
-python3 -m osr_osm.cli --slug "$SLUG" --bbox "$BBOX" \
+# Use --bbox=... (no space) so a southern-hemisphere bbox (leading
+# minus sign on south/north) doesn't get parsed as an argparse flag.
+python3 -m osr_osm.cli --slug "$SLUG" --bbox="$BBOX" \
     --out "$OSM_CACHE/$SLUG.json"
 
 echo "2) raster bundle → $RASTER_CACHE/$SLUG.{cost,demand,buildability,grid,anchors}.*"

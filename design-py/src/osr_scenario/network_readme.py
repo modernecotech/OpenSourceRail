@@ -558,21 +558,41 @@ def _funding_and_affordability_section(
         f"{(farebox_high_eur / annual_opex_eur):.0%} |"
     )
     out.append(
-        f"| Country target recovery | "
+        f"| Country policy-target recovery (diagnostic) | "
         f"{target_recovery:.0%} | {target_recovery:.0%} |"
     )
-    target_revenue = target_recovery * annual_opex_eur
-    operating_subsidy_low = max(0.0, target_revenue - farebox_low_eur)
-    operating_subsidy_high = max(0.0, target_revenue - farebox_high_eur)
+    # Cash-flow accounting:
+    #   gov fills the **actual** OPEX shortfall when farebox doesn't
+    #   cover OPEX (otherwise the operator is insolvent and service
+    #   stops). The country policy-target recovery above is a
+    #   diagnostic — it tells the operator how far they are from the
+    #   long-term affordability target — but does not change the
+    #   cash math. Earlier model wrongly subsidised only up to
+    #   `target × OPEX` and silently assumed someone else funded
+    #   the rest of the OPEX gap. Surplus farebox (high scenario,
+    #   metropolitan-scale) is retained by the operator (capex
+    #   sinking fund / fleet renewal); we conservatively do NOT
+    #   subtract it from gov debt service.
+    operating_shortfall_low = max(0.0, annual_opex_eur - farebox_low_eur)
+    operating_shortfall_high = max(0.0, annual_opex_eur - farebox_high_eur)
+    surplus_low = max(0.0, farebox_low_eur - annual_opex_eur)
+    surplus_high = max(0.0, farebox_high_eur - annual_opex_eur)
     out.append(
-        f"| Operating subsidy needed | "
-        f"{_eur(operating_subsidy_low)} / yr | "
-        f"{_eur(operating_subsidy_high)} / yr |"
+        f"| Operating shortfall (gov subsidy required) | "
+        f"{_eur(operating_shortfall_low)} / yr | "
+        f"{_eur(operating_shortfall_high)} / yr |"
     )
-    debt_subsidy_low = annual_debt_service_eur + operating_subsidy_low
-    debt_subsidy_high = annual_debt_service_eur + operating_subsidy_high
+    if surplus_low > 0 or surplus_high > 0:
+        out.append(
+            f"| Operating surplus (operator retained → capex sinking fund) | "
+            f"{_eur(surplus_low)} / yr | "
+            f"{_eur(surplus_high)} / yr |"
+        )
+    debt_subsidy_low = annual_debt_service_eur + operating_shortfall_low
+    debt_subsidy_high = annual_debt_service_eur + operating_shortfall_high
     out.append(
-        f"| **Total annual government burden** | "
+        f"| **Total annual government burden** "
+        f"(debt service + OPEX shortfall) | "
         f"**{_eur(debt_subsidy_low)} / yr** | "
         f"**{_eur(debt_subsidy_high)} / yr** |\n"
     )

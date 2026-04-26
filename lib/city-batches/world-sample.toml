@@ -51,6 +51,32 @@
 # `cargo run --bin osr-design -- --slug <slug> ...` to propagate to
 # the city's design.toml.
 # ---------------------------------------------------------------------------
+# BBOX-SIZING POLICY
+# ---------------------------------------------------------------------------
+# A bbox must cover the **served catchment**, not the city-proper
+# municipality. A successful metro ALWAYS reaches past the urban core
+# into the suburbs / satellite towns / peripheral employment zones —
+# so the bbox is sized at the *served-catchment radius* of the
+# rolling-stock family that the population implies (RFC 0008 §5):
+#
+#   tram-2car        (≤ 300 k)   →  ~15 × 15 km   (single-radial)
+#   light-metro-3car ( 300 k – 1 M) →  ~20 × 20 km   (radial+ring)
+#   metro-4car       ( 1 M – 3 M)  →  ~30 × 30 km   (cross+ring)
+#   metro-6car       ( ≥ 3 M)     →  ~40–55 × 40–55 km (hub-and-spoke-dual-ring)
+#
+# These are typical metro-system extents for systems already in
+# revenue service: the Greater Paris RER reaches 50 km radius from
+# Châtelet; the Tokyo subway 50 km via the through-running JR lines;
+# the Mexico City metro 35 km from Zócalo to Cuatro Caminos. The
+# OSR pipeline must be told this catchment via the bbox — the
+# greedy synthesizer does not invent extent it cannot see.
+#
+# Coastal / topographic exclusions: clip the bbox so that the sea
+# (Tunis: Lake of Tunis), uninhabited mountains (Cuenca: Cordillera
+# Real eastern slope), or military zones (Baghdad: BIAP perimeter)
+# do not waste raster cells on zero-demand land. Document the
+# exclusion in a comment alongside the bbox line.
+# ---------------------------------------------------------------------------
 
 # ---- Middle East + North Africa --------------------------------------
 
@@ -64,7 +90,11 @@ population_source       = "Iraq 2024 General Population Census; via citypopulati
 population_source_year  = 2024
 climate                 = "hot-desert"
 profile                 = "mid-city-desert"
-bbox                    = { south = 31.27, west = 45.24, north = 31.35, east = 45.32 }
+# Bbox widened 2026-04-26 to served-catchment scale (~20 × 20 km
+# for a ≤500 k mid-city). Previous 9 × 9 km core-only bbox starved
+# the synthesizer of suburb anchors; metros need to reach the urban
+# fringe and adjoining rural-population pockets that feed it.
+bbox                    = { south = 31.22, west = 45.18, north = 31.40, east = 45.38 }
 
 [[cities]]
 slug                    = "baghdad"
@@ -91,7 +121,11 @@ population_source       = "Recensement Général de la Population et de l'Habita
 population_source_year  = 2024
 climate                 = "mediterranean"
 profile                 = "large-city-tropical"
-bbox                    = { south = 36.76, west = 10.12, north = 36.86, east = 10.24 }
+# Bbox widened to ~36 × 36 km to cover Grand Tunis (Manouba west,
+# La Marsa / Carthage north-east, Ben Arous south, Mornaguia
+# south-west). East bound 10.40 stops short of the Cap Bon
+# peninsula; the Lake of Tunis between bears no metro demand.
+bbox                    = { south = 36.65, west = 9.95, north = 36.97, east = 10.40 }
 
 # ---- Sub-Saharan Africa ----------------------------------------------
 
@@ -105,7 +139,11 @@ population_source       = "Kenya National Bureau of Statistics 2024 estimate; 20
 population_source_year  = 2024
 climate                 = "tropical-wet"
 profile                 = "large-city-tropical"
-bbox                    = { south = -1.35, west = 36.78, north = -1.22, east = 36.92 }
+# Bbox widened to ~50 × 50 km to cover the metro: Kiambu / Ruiru
+# satellite towns (north / north-east), Athi River + Mlolongo
+# (south-east), Ngong + Karen (south-west). 5.7 M served catchment
+# extends well past Nairobi County core.
+bbox                    = { south = -1.50, west = 36.65, north = -1.05, east = 37.10 }
 
 [[cities]]
 slug                    = "niamey"
@@ -117,7 +155,11 @@ population_source       = "Institut National de la Statistique du Niger (INS) 20
 population_source_year  = 2022
 climate                 = "tropical-arid"
 profile                 = "mid-city-desert"
-bbox                    = { south = 13.47, west = 2.06, north = 13.56, east = 2.18 }
+# Bbox widened to ~28 × 28 km to cover both banks of the Niger,
+# Niamey-2000 west extension, the airport (south-east), and the
+# Saga / Goudel satellite communes that house ~250 k informal
+# residents not in the commune-proper.
+bbox                    = { south = 13.40, west = 2.00, north = 13.65, east = 2.25 }
 
 # ---- South Asia -------------------------------------------------------
 
@@ -131,7 +173,11 @@ population_source       = "2024 projection from Census of India 2011 base (2,136
 population_source_year  = 2024
 climate                 = "tropical-wet"
 profile                 = "large-city-tropical"
-bbox                    = { south = 10.95, west = 76.92, north = 11.06, east = 77.04 }
+# Bbox widened to ~33 × 33 km to cover the 3 M urban-agglomeration:
+# Saravanampatti + Singanallur (east), Madukkarai (south),
+# Sulur + airport (south-east), Mettupalayam Road corridor (north).
+# Earlier 12 × 12 km core-only bbox starved the synthesizer.
+bbox                    = { south = 10.85, west = 76.85, north = 11.15, east = 77.15 }
 
 # ---- Europe -----------------------------------------------------------
 
@@ -145,7 +191,11 @@ population_source       = "INSEE 2023 census; insee.fr/fr/statistiques/2011101?g
 population_source_year  = 2023
 climate                 = "temperate-continental"
 profile                 = "large-city-cold"
-bbox                    = { south = 45.70, west = 4.78, north = 45.80, east = 4.90 }
+# Bbox widened to ~33 × 31 km to cover the 59-commune Métropole:
+# Villeurbanne + Vaulx-en-Velin (east), Vénissieux + Saint-Priest
+# (south-east), Oullins + Saint-Genis-Laval (south), Tassin +
+# Écully (west), Caluire-et-Cuire + Rillieux (north).
+bbox                    = { south = 45.60, west = 4.65, north = 45.90, east = 5.05 }
 
 # ---- Latin America ----------------------------------------------------
 
@@ -159,4 +209,8 @@ population_source       = "INEC Censo de Población y Vivienda 2022; via citypop
 population_source_year  = 2022
 climate                 = "tropical-wet"
 profile                 = "large-city-tropical"
-bbox                    = { south = -2.93, west = -79.03, north = -2.87, east = -78.97 }
+# Bbox widened to ~22 × 22 km to cover the urban canton (city +
+# Baños + Sayausí + Ricaurte + San Joaquín + El Valle parroquias).
+# The full 3,086 km² canton extends much further into rural
+# parroquias that don't carry metro demand.
+bbox                    = { south = -3.00, west = -79.10, north = -2.80, east = -78.90 }

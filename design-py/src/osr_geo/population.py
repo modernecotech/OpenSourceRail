@@ -49,6 +49,25 @@ _ISO2_TO_ISO3 = {
     "NG": "NGA",
     "KE": "KEN",
     "ET": "ETH",
+    "TN": "TUN",
+    "MA": "MAR",
+    "DZ": "DZA",
+    "NE": "NER",
+    "ZA": "ZAF",
+    "GH": "GHA",
+    "FR": "FRA",
+    "DE": "DEU",
+    "ES": "ESP",
+    "PL": "POL",
+    "EC": "ECU",
+    "CO": "COL",
+    "MX": "MEX",
+    "BR": "BRA",
+    "PE": "PER",
+    "PH": "PHL",
+    "VN": "VNM",
+    "TH": "THA",
+    "MY": "MYS",
 }
 
 
@@ -59,19 +78,33 @@ def iso3_for(country: str) -> str | None:
     return _ISO2_TO_ISO3.get(country.upper())
 
 
-def _worldpop_url(iso3: str) -> str:
-    return (
-        "https://data.worldpop.org/GIS/Population/"
-        "Global_2000_2020_Constrained/2020/BSGM/"
-        f"{iso3}/{iso3.lower()}_ppp_2020_constrained.tif"
-    )
+_WORLDPOP_VARIANTS = (
+    # (url-suffix relative to base, local filename suffix). The
+    # constrained-2020 layer (clipped to settled pixels) has the best
+    # signal quality but ~10% of countries are missing — fall back to
+    # the unconstrained 2020 layer, then to the older Global_2000_2020
+    # 100m mastergrid which has full ISO-3 coverage.
+    (
+        "Global_2000_2020_Constrained/2020/BSGM/{iso3}/"
+        "{iso3l}_ppp_2020_constrained.tif",
+        "_ppp_2020_constrained.tif",
+    ),
+    (
+        "Global_2000_2020/2020/{iso3}/"
+        "{iso3l}_ppp_2020.tif",
+        "_ppp_2020.tif",
+    ),
+)
 
 
 def fetch_population_raster(country: str, cache_dir: Path) -> Path | None:
     """Download (or reuse a cached) WorldPop raster for the country.
 
-    Returns the local file path. Returns None if the country code is
-    unknown — caller should fall back to anchor-only demand.
+    Tries the constrained-2020 layer first; falls back to unconstrained
+    2020 if WorldPop has no constrained-coverage tile for that country
+    (KEN, NER and several other African nations are 404 on the
+    constrained layer). Returns the local file path or None if every
+    variant 404s.
     """
     iso3 = iso3_for(country)
     if iso3 is None:
@@ -79,24 +112,40 @@ def fetch_population_raster(country: str, cache_dir: Path) -> Path | None:
         return None
 
     cache_dir.mkdir(parents=True, exist_ok=True)
-    out = cache_dir / f"{iso3.lower()}_ppp_2020_constrained.tif"
-    if out.exists() and out.stat().st_size > 0:
-        return out
+    iso3l = iso3.lower()
 
-    url = _worldpop_url(iso3)
-    log.info("downloading WorldPop %s → %s", iso3, out)
     import urllib.request
 
-    tmp = out.with_suffix(".tif.part")
-    try:
-        urllib.request.urlretrieve(url, tmp)
-        tmp.rename(out)
-    except Exception as e:  # noqa: BLE001
-        log.warning("WorldPop fetch failed for %s: %s", iso3, e)
-        if tmp.exists():
-            tmp.unlink()
-        return None
-    return out
+    for path_template, suffix in _WORLDPOP_VARIANTS:
+        out = cache_dir / f"{iso3l}{suffix}"
+        if out.exists() and out.stat().st_size > 0:
+            return out
+
+        url = (
+            "https://data.worldpop.org/GIS/Population/"
+            + path_template.format(iso3=iso3, iso3l=iso3l)
+        )
+        log.info("downloading WorldPop %s → %s", iso3, out.name)
+        tmp = out.with_suffix(out.suffix + ".part")
+        try:
+            urllib.request.urlretrieve(url, tmp)
+            tmp.rename(out)
+            return out
+        except Exception as e:  # noqa: BLE001
+            log.warning(
+                "WorldPop fetch failed for %s (%s): %s",
+                iso3, suffix.lstrip("_"), e,
+            )
+            if tmp.exists():
+                tmp.unlink()
+            continue
+
+    log.warning(
+        "no WorldPop raster available for %s after trying %d variants — "
+        "falling back to anchor-only demand",
+        iso3, len(_WORLDPOP_VARIANTS),
+    )
+    return None
 
 
 def sample_population_into_grid(
