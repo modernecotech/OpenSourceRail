@@ -35,9 +35,9 @@ radials without entering the CBD.
 
 ![Samawah reference network — three auto-planned radial lines on OpenStreetMap, arterial-routed](designs/west-asia/Iraq/Samawah/samawah-network-map.png)
 
-*Samawah (220 k pop) — **auto-planned** end-to-end by `osr-design`
-against real OSM data. Three radial lines, 38 unique stations, 36.4 km of
-double-track, 3 interchange complexes, **52.7 % anchor-weighted
+*Samawah (280 k pop) — **auto-planned** end-to-end by `osr-design`
+against real OSM data. Three radial lines, 38 unique stations, 39.0 km of
+double-track, 2 interchange complexes, **55.0 % anchor-weighted
 coverage**, all soft gates passing. Every station sits on an OSM
 anchor cluster (weight-averaged within 240 m); every polyline follows
 the arterial graph (trunk / primary / secondary / tertiary). See
@@ -47,11 +47,11 @@ for the full breakdown (per-line termini, fleet sizing, civil cost).*
 ![Baghdad reference network — eight radial lines plus a circumferential ring auto-planned on OpenStreetMap](designs/west-asia/Iraq/Baghdad/baghdad-network-map.png)
 
 *Baghdad (7.5 M pop) — same pipeline, megacity tier. Eight radial
-lines plus a circumferential ring (line-9, 107 km, 70 stations) at
-~0.55 × urban radius. 329 unique stations, 432.5 km double-track,
-**21 elevated interchange complexes** (auto-snapped at every
-ring↔radial crossing), 35.8 % anchor-weighted coverage,
-20.7 % anchor-hit rate, 8 % elevated. Every soft gate passing.
+lines plus a circumferential ring (line-9, 104 km, 68 stations) at
+~0.55 × urban radius. 293 unique stations, 476.2 km double-track,
+**19 elevated interchange complexes** (auto-snapped at every
+ring↔radial crossing), 39.3 % anchor-weighted coverage,
+23.7 % anchor-hit rate, 7 % elevated. Every soft gate passing.
 See [designs/west-asia/Iraq/Baghdad/README.md](designs/west-asia/Iraq/Baghdad/README.md).*
 
 Twenty-one RFCs cover the full system from software

@@ -236,11 +236,25 @@ fn main() -> Result<()> {
     // unreadable scrum of close stops. Real megacity metros sit at
     // 1.0–1.4 km core spacing (Cairo Line 3 ≈ 1.1 km, Tehran Line 1 ≈
     // 1.2 km).
+    // Megacity (>= 4-line) radials are long-haul cross-city services —
+    // 40 km end-to-end. At 1.1/1.6/2.2 km the central trunk dropped a
+    // stop every ~1.3 km, which made the radials look like local lines
+    // rather than fast trunk routes. Bumping to 1.5/2.0/2.7 km gives a
+    // ~25-stop, ~1.7 km-average pattern that matches commuter-spaced
+    // metro radials (Tokyo Chuo Rapid 1.9 km, Madrid Line 1 1.4 km
+    // central / 2.0 km outer, Cairo Line 3 1.5 km). The ring keeps
+    // tighter spacing (it's the slow tangential service) — applied
+    // separately in `ring_spacing` below.
     let spacing = if budget.max_lines >= 4 {
         SpacingConfig {
-            urban_core_m: 1100.0,
-            urban_m: 1600.0,
-            peri_urban_m: 2200.0,
+            urban_core_m: 1500.0,
+            urban_m: 2000.0,
+            peri_urban_m: 2700.0,
+            // Wider radial snap (8 cells = 160 m) lifts anchor_hit on
+            // long megacity radials. With 1.5–2.7 km spacing each radial
+            // drops only ~25 stops over 40+ km, so the 6-cell default
+            // misses anchor clusters on the next block.
+            snap_radius_cells: 8,
             ..SpacingConfig::default()
         }
     } else {

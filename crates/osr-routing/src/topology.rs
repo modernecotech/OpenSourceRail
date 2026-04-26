@@ -364,10 +364,15 @@ pub fn budget_for_population(pop: u64) -> GreedyBudget {
             min_coverage_per_km: 100.0,
             coverage_radius_m: 600.0,
             min_line_length_m: 16_000.0,
-            // 42 km — allows ~15 % via-hub overhead on a 35 km chord.
-            // Real megacity lines (Cairo Line 3 = 44 km, Tehran Line 1
-            // ≈ 38 km) sit in this range.
-            max_line_length_m: 42_000.0,
+            // 48 km — sized so a centre-to-edge-of-bbox chord fits
+            // (Baghdad bbox half-width ≈ 33 km; with ~15 % via-hub
+            // routing overhead, a 36 km chord lands at ~41 km routed,
+            // and a satellite-reaching 40 km chord lands at ~46 km).
+            // Tighter caps left Baghdad's eastern satellite (Nahrawan,
+            // ~36 km from centre) unreachable by any radial. Real
+            // comparators: Cairo Line 3 = 44 km, Tehran Line 1 ≈ 38 km,
+            // Beijing Line 6 = 53 km, Mumbai Aqua = 33 km.
+            max_line_length_m: 48_000.0,
             min_anchor_weight: 0.20,
             top_k: 14,
             coalesce_bin_cells: 100, // 2 km
@@ -441,6 +446,7 @@ pub fn greedy_synthesize_lines(
     let mut lines: Vec<Line> = Vec::new();
     let mut committed_chords: Vec<((usize, usize), (usize, usize))> = Vec::new();
     let mut used_anchor_ids: HashSet<usize> = HashSet::new();
+    let mut committed_terminus_angles: Vec<f32> = Vec::new();
     let mut total_route_m = 0.0_f64;
 
     // Reserve one slot for a circumferential ring on cities with
@@ -485,10 +491,25 @@ pub fn greedy_synthesize_lines(
         // place (Abu Ghraib, Taji for Baghdad).
         let phase2_peripheral =
             !lines.is_empty() && lines.len() >= budget.max_lines / 2;
+        // Min angular separation between radial endpoints. Only applied
+        // for networks of ≥ 5 radials — below that the parallelism
+        // penalty already suffices and a strict angular filter starves
+        // candidate generation in small anchor pools (Samawah dropped
+        // to 2 lines under a 30° rule). For larger networks, threshold
+        // is sized so 2·N endpoints fit around 360° with slack:
+        // 360°/(2·N) · 0.5 ≈ a quarter sector.
+        let min_angular_separation_rad = if radial_max_lines >= 5 {
+            (360.0 / (2.0 * radial_max_lines as f32) * 0.5).to_radians()
+        } else {
+            0.0
+        };
         let ctx = GreedyContext {
             hub,
             urban_r,
             committed_chords: &committed_chords,
+            committed_termini: &used_anchor_ids,
+            committed_terminus_angles: &committed_terminus_angles,
+            min_angular_separation_rad,
             // 75 cells = 1500 m at 20 m grid: two arterials within this
             // perpendicular distance, running roughly parallel, are the
             // "ladder" failure mode the prescore needs to suppress.
@@ -565,6 +586,19 @@ pub fn greedy_synthesize_lines(
         committed_chords.push((anchors[cand.a].cell(), anchors[cand.b].cell()));
         used_anchor_ids.insert(cand.a);
         used_anchor_ids.insert(cand.b);
+        // Record the bearings of both endpoints from the hub. Endpoints
+        // inside a small central radius (where bearing is meaningless)
+        // are skipped — the via-hub branch routes the line through
+        // centre regardless.
+        let ang_thr = (0.20 * urban_r).max(20.0);
+        for &aid in &[cand.a, cand.b] {
+            let (ar, ac) = anchors[aid].cell();
+            let dr = ar as f32 - hub.0 as f32;
+            let dc = ac as f32 - hub.1 as f32;
+            if (dr * dr + dc * dc).sqrt() >= ang_thr {
+                committed_terminus_angles.push(dr.atan2(dc));
+            }
+        }
         let trimmed = trim_low_demand_tails(grid, &cand.cells, false);
         lines.push(Line {
             name: format!("line-{}", lines.len() + 1),
@@ -718,6 +752,21 @@ struct GreedyContext<'a> {
     hub: (usize, usize),
     urban_r: f32,
     committed_chords: &'a [((usize, usize), (usize, usize))],
+    /// Anchors already serving as a terminus on a previously committed
+    /// radial. Banning reuse here prevents the "two radials sharing a
+    /// terminus and one taking a southern bypass arc" failure mode
+    /// observed on Samawah, where lines 2 and 3 both started at the
+    /// same west anchor and one was routed around the city centre.
+    committed_termini: &'a HashSet<usize>,
+    /// Angular bearings (radians, atan2 of cell offset from hub) of the
+    /// peripheral endpoints of every previously committed radial.
+    /// Candidates whose peripheral endpoint sits within
+    /// `min_angular_separation_rad` of any committed bearing are skipped,
+    /// forcing radials to spread around the compass. Without this, a
+    /// demand-following greedy stacks 3 NE radials and leaves the eastern
+    /// satellite suburbs (Nahrawan for Baghdad) with no service.
+    committed_terminus_angles: &'a [f32],
+    min_angular_separation_rad: f32,
     parallel_proximity_cells: f32,
     parallelism_strength: f32,
     hub_proximity_cells: f32,
@@ -750,9 +799,57 @@ fn find_best_candidate(
         for j in (i + 1)..usable.len() {
             let a = usable[i];
             let b = usable[j];
+            // Hard ban on terminus reuse — a radial sharing an endpoint
+            // with a previously committed radial collapses the two
+            // lines onto one direction, and the second line typically
+            // takes a bypass arc to avoid the cross-line penalty,
+            // which in turn produces the "line going around the city
+            // centre" + orphan-hub-station artefact.
+            if ctx.committed_termini.contains(&a) || ctx.committed_termini.contains(&b) {
+                continue;
+            }
             let chord = dist_from(anchors[a].cell(), anchors[b].cell());
             if chord < min_chord_cells || chord > max_chord_cells {
                 continue;
+            }
+            // Angular-spread filter: each endpoint's bearing from the hub
+            // must sit clear of every previously-committed bearing by
+            // `min_angular_separation_rad`. Without this the greedy
+            // stacks radials in the highest-demand sector and leaves
+            // peripheral satellites (Baghdad's Nahrawan) unserved.
+            // Endpoints inside a small central core have meaningless
+            // bearings — they're skipped (the via-hub branch handles
+            // them).
+            if ctx.min_angular_separation_rad > 0.0
+                && !ctx.committed_terminus_angles.is_empty()
+            {
+                let ang_thr = (0.20 * ctx.urban_r).max(20.0);
+                let mut crowded = false;
+                for &aid in &[a, b] {
+                    let (ar, ac) = anchors[aid].cell();
+                    let dr = ar as f32 - ctx.hub.0 as f32;
+                    let dc = ac as f32 - ctx.hub.1 as f32;
+                    if (dr * dr + dc * dc).sqrt() < ang_thr {
+                        continue;
+                    }
+                    let ang = dr.atan2(dc);
+                    for &committed in ctx.committed_terminus_angles {
+                        let mut diff = (ang - committed).abs();
+                        if diff > std::f32::consts::PI {
+                            diff = 2.0 * std::f32::consts::PI - diff;
+                        }
+                        if diff < ctx.min_angular_separation_rad {
+                            crowded = true;
+                            break;
+                        }
+                    }
+                    if crowded {
+                        break;
+                    }
+                }
+                if crowded {
+                    continue;
+                }
             }
             // Phase-2 hard filter: at least one endpoint must sit
             // beyond the urban core. Forces late-stage lines to reach
