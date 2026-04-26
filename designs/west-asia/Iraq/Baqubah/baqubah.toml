@@ -1,0 +1,760 @@
+# AUTO-GENERATED from /home/hayder/Documents/OpenSourceRail/designs/west-asia/Iraq/Baqubah/design.toml.
+# Do not hand-edit; run `python -m osr_scenario --design ...` to regenerate.
+# Source of truth: /home/hayder/Documents/OpenSourceRail/designs/west-asia/Iraq/Baqubah/design.toml
+
+[scenario]
+name = "Unnamed"
+start_time = "06:00"
+
+
+[climate]
+ambient_c = 28.0
+peak_sun_hours = 5.0
+
+
+[consist]
+# From rolling-stock family 'light-metro-3car'.
+car_count = 3
+length_m = 68
+mass_kg = 120000
+max_speed_kmh = 80.0
+battery_capacity_kwh = 320
+service_accel_mps2 = 1.0
+
+
+# Stations — one row per unique station in the design.
+[[stations]]
+id = "line-1-0437-0022"
+name = "المركز الصحي في الحديد"
+charging_power_kw = 1000
+dwell_seconds = 60
+is_terminal = true
+
+[[stations]]
+id = "line-1-0467-0069"
+name = "line-1-0467-0069"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-1-0449-0137"
+name = "line-1-0449-0137"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-1-0523-0161"
+name = "المجمع الصناعي"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-1-0516-0219"
+name = "شارع الاقصى"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-1-0534-0262"
+name = "كلية اليرموك الجامعة"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-1-0523-0296"
+name = "نادي الفروسية"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-1-0506-0349"
+name = "line-1-0506-0349"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-1-0509-0408"
+name = "كورنيش ديالى"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-1-0553-0428"
+name = "بعقوبة القديمة"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-1-0565-0463"
+name = "line-1-0565-0463"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-1-0550-0560"
+name = "line-1-0550-0560"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-1-0493-0645"
+name = "line-1-0493-0645"
+charging_power_kw = 1000
+dwell_seconds = 60
+is_terminal = true
+
+[[stations]]
+id = "line-2-0967-0225"
+name = "قسم شؤون الأقسام الداخلية، للطالبات"
+charging_power_kw = 1000
+dwell_seconds = 60
+is_terminal = true
+
+[[stations]]
+id = "line-2-0849-0271"
+name = "line-2-0849-0271"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-2-0759-0293"
+name = "قسم الصحة العامة"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-2-0726-0367"
+name = "line-2-0726-0367"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-2-0696-0451"
+name = "الضباط الاولى"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-2-0645-0427"
+name = "مستشفى الحياة الاهلي"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-2-0588-0419"
+name = "مستشفى الشفاء الاهلي"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-2-0565-0463"
+name = "line-2-0565-0463"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-2-0530-0462"
+name = "دائرة صحة ديالى قسم الامراض الرئوية"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-2-0449-0494"
+name = "line-2-0449-0494"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-2-0367-0539"
+name = "line-2-0367-0539"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-2-0288-0567"
+name = "line-2-0288-0567"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-2-0123-0580"
+name = "الحاج يوسف حاي يوسف"
+charging_power_kw = 1000
+dwell_seconds = 240
+is_terminal = true
+is_depot = true
+
+[[stations]]
+id = "line-3-0309-0143"
+name = "Bermayiyên şer"
+charging_power_kw = 1000
+dwell_seconds = 60
+is_terminal = true
+
+[[stations]]
+id = "line-3-0357-0208"
+name = "line-3-0357-0208"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-3-0443-0242"
+name = "line-3-0443-0242"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-3-0443-0337"
+name = "line-3-0443-0337"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-3-0454-0413"
+name = "line-3-0454-0413"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-3-0500-0434"
+name = "مركز صحي التكية"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-3-0565-0463"
+name = "line-3-0565-0463"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-3-0595-0470"
+name = "معهد الفنون الجميلة للبنين ديالى"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-3-0653-0477"
+name = "حي العمال"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-3-0748-0481"
+name = "حي القادسية"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-3-0811-0508"
+name = "بهرز"
+charging_power_kw = 1000
+dwell_seconds = 60
+is_terminal = true
+
+
+
+# Lines — per-line station sequences.
+[[lines]]
+id = "line-1"
+name = "line-1"
+stations = [
+    { id = "line-1-0437-0022", distance_from_prev_m = 0 },
+    { id = "line-1-0467-0069", distance_from_prev_m = 2214 },
+    { id = "line-1-0449-0137", distance_from_prev_m = 2006 },
+    { id = "line-1-0523-0161", distance_from_prev_m = 2012 },
+    { id = "line-1-0516-0219", distance_from_prev_m = 1218 },
+    { id = "line-1-0534-0262", distance_from_prev_m = 1211 },
+    { id = "line-1-0523-0296", distance_from_prev_m = 1211 },
+    { id = "line-1-0506-0349", distance_from_prev_m = 1200 },
+    { id = "line-1-0509-0408", distance_from_prev_m = 1204 },
+    { id = "line-1-0553-0428", distance_from_prev_m = 1212 },
+    { id = "line-1-0565-0463", distance_from_prev_m = 879 },
+    { id = "line-1-0550-0560", distance_from_prev_m = 2340 },
+    { id = "line-1-0493-0645", distance_from_prev_m = 2347 },
+]
+
+[[lines]]
+id = "line-2"
+name = "line-2"
+stations = [
+    { id = "line-2-0967-0225", distance_from_prev_m = 0 },
+    { id = "line-2-0849-0271", distance_from_prev_m = 2816 },
+    { id = "line-2-0759-0293", distance_from_prev_m = 1982 },
+    { id = "line-2-0726-0367", distance_from_prev_m = 2016 },
+    { id = "line-2-0696-0451", distance_from_prev_m = 2027 },
+    { id = "line-2-0645-0427", distance_from_prev_m = 1218 },
+    { id = "line-2-0588-0419", distance_from_prev_m = 1206 },
+    { id = "line-2-0565-0463", distance_from_prev_m = 1615 },
+    { id = "line-2-0530-0462", distance_from_prev_m = 798 },
+    { id = "line-2-0449-0494", distance_from_prev_m = 2005 },
+    { id = "line-2-0367-0539", distance_from_prev_m = 2012 },
+    { id = "line-2-0288-0567", distance_from_prev_m = 2026 },
+    { id = "line-2-0123-0580", distance_from_prev_m = 4463 },
+]
+
+[[lines]]
+id = "line-3"
+name = "line-3"
+stations = [
+    { id = "line-3-0309-0143", distance_from_prev_m = 0 },
+    { id = "line-3-0357-0208", distance_from_prev_m = 2014 },
+    { id = "line-3-0443-0242", distance_from_prev_m = 2001 },
+    { id = "line-3-0443-0337", distance_from_prev_m = 2022 },
+    { id = "line-3-0454-0413", distance_from_prev_m = 2027 },
+    { id = "line-3-0500-0434", distance_from_prev_m = 1209 },
+    { id = "line-3-0565-0463", distance_from_prev_m = 1770 },
+    { id = "line-3-0595-0470", distance_from_prev_m = 658 },
+    { id = "line-3-0653-0477", distance_from_prev_m = 1218 },
+    { id = "line-3-0748-0481", distance_from_prev_m = 2013 },
+    { id = "line-3-0811-0508", distance_from_prev_m = 1746 },
+]
+
+
+
+# Fleets — copied from design.toml [[fleets]].
+[[fleets]]
+line = "line-1"
+trainset_count = 19
+dispatch_points = [
+    { station = "line-1-0437-0022", heading = "forward" },
+    { station = "line-1-0493-0645", heading = "reverse" },
+]
+service_start = "05:30"
+service_end = "23:30"
+schedule = [
+    { from = "05:30", to = "07:00", headway_min = 10 },
+    { from = "07:00", to = "10:00", headway_min = 5 },
+    { from = "10:00", to = "16:00", headway_min = 10 },
+    { from = "16:00", to = "19:00", headway_min = 5 },
+    { from = "19:00", to = "23:30", headway_min = 10 },
+]
+
+[[fleets]]
+line = "line-2"
+trainset_count = 24
+dispatch_points = [
+    { station = "line-2-0967-0225", heading = "forward" },
+    { station = "line-2-0123-0580", heading = "reverse" },
+]
+service_start = "05:30"
+service_end = "23:30"
+schedule = [
+    { from = "05:30", to = "07:00", headway_min = 10 },
+    { from = "07:00", to = "10:00", headway_min = 5 },
+    { from = "10:00", to = "16:00", headway_min = 10 },
+    { from = "16:00", to = "19:00", headway_min = 5 },
+    { from = "19:00", to = "23:30", headway_min = 10 },
+]
+
+[[fleets]]
+line = "line-3"
+trainset_count = 17
+dispatch_points = [
+    { station = "line-3-0309-0143", heading = "forward" },
+    { station = "line-3-0811-0508", heading = "reverse" },
+]
+service_start = "05:30"
+service_end = "23:30"
+schedule = [
+    { from = "05:30", to = "07:00", headway_min = 10 },
+    { from = "07:00", to = "10:00", headway_min = 5 },
+    { from = "10:00", to = "16:00", headway_min = 10 },
+    { from = "16:00", to = "19:00", headway_min = 5 },
+    { from = "19:00", to = "23:30", headway_min = 10 },
+]
+
+
+
+# Trackside energy sites — expanded from tier references.
+[[sites]]
+station = "line-1-0437-0022"
+tier = "terminal"
+pv_nameplate_kw = 500.0
+storage_capacity_kwh = 3000.0
+storage_max_charge_kw = 1500.0
+storage_max_discharge_kw = 1500.0
+storage_initial_soc = 0.6
+grid_import_kw = 800.0
+grid_export_kw = 800.0
+
+[[sites]]
+station = "line-1-0467-0069"
+tier = "standard"
+pv_nameplate_kw = 300.0
+storage_capacity_kwh = 2000.0
+storage_max_charge_kw = 800.0
+storage_max_discharge_kw = 800.0
+storage_initial_soc = 0.5
+grid_import_kw = 500.0
+grid_export_kw = 500.0
+
+[[sites]]
+station = "line-1-0449-0137"
+tier = "standard"
+pv_nameplate_kw = 300.0
+storage_capacity_kwh = 2000.0
+storage_max_charge_kw = 800.0
+storage_max_discharge_kw = 800.0
+storage_initial_soc = 0.5
+grid_import_kw = 500.0
+grid_export_kw = 500.0
+
+[[sites]]
+station = "line-1-0523-0161"
+tier = "standard"
+pv_nameplate_kw = 300.0
+storage_capacity_kwh = 2000.0
+storage_max_charge_kw = 800.0
+storage_max_discharge_kw = 800.0
+storage_initial_soc = 0.5
+grid_import_kw = 500.0
+grid_export_kw = 500.0
+
+[[sites]]
+station = "line-1-0516-0219"
+tier = "major"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "line-1-0534-0262"
+tier = "major"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "line-1-0523-0296"
+tier = "major"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "line-1-0506-0349"
+tier = "major"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "line-1-0509-0408"
+tier = "major"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "line-1-0553-0428"
+tier = "major"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "line-1-0565-0463"
+tier = "interchange"
+pv_nameplate_kw = 500.0
+storage_capacity_kwh = 3000.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "line-1-0550-0560"
+tier = "standard"
+pv_nameplate_kw = 300.0
+storage_capacity_kwh = 2000.0
+storage_max_charge_kw = 800.0
+storage_max_discharge_kw = 800.0
+storage_initial_soc = 0.5
+grid_import_kw = 500.0
+grid_export_kw = 500.0
+
+[[sites]]
+station = "line-1-0493-0645"
+tier = "terminal"
+pv_nameplate_kw = 500.0
+storage_capacity_kwh = 3000.0
+storage_max_charge_kw = 1500.0
+storage_max_discharge_kw = 1500.0
+storage_initial_soc = 0.6
+grid_import_kw = 800.0
+grid_export_kw = 800.0
+
+[[sites]]
+station = "line-2-0967-0225"
+tier = "terminal"
+pv_nameplate_kw = 500.0
+storage_capacity_kwh = 3000.0
+storage_max_charge_kw = 1500.0
+storage_max_discharge_kw = 1500.0
+storage_initial_soc = 0.6
+grid_import_kw = 800.0
+grid_export_kw = 800.0
+
+[[sites]]
+station = "line-2-0849-0271"
+tier = "standard"
+pv_nameplate_kw = 300.0
+storage_capacity_kwh = 2000.0
+storage_max_charge_kw = 800.0
+storage_max_discharge_kw = 800.0
+storage_initial_soc = 0.5
+grid_import_kw = 500.0
+grid_export_kw = 500.0
+
+[[sites]]
+station = "line-2-0759-0293"
+tier = "major"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "line-2-0726-0367"
+tier = "standard"
+pv_nameplate_kw = 300.0
+storage_capacity_kwh = 2000.0
+storage_max_charge_kw = 800.0
+storage_max_discharge_kw = 800.0
+storage_initial_soc = 0.5
+grid_import_kw = 500.0
+grid_export_kw = 500.0
+
+[[sites]]
+station = "line-2-0696-0451"
+tier = "standard"
+pv_nameplate_kw = 300.0
+storage_capacity_kwh = 2000.0
+storage_max_charge_kw = 800.0
+storage_max_discharge_kw = 800.0
+storage_initial_soc = 0.5
+grid_import_kw = 500.0
+grid_export_kw = 500.0
+
+[[sites]]
+station = "line-2-0645-0427"
+tier = "major"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "line-2-0588-0419"
+tier = "major"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "line-2-0565-0463"
+tier = "interchange"
+pv_nameplate_kw = 500.0
+storage_capacity_kwh = 3000.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "line-2-0530-0462"
+tier = "major"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "line-2-0449-0494"
+tier = "standard"
+pv_nameplate_kw = 300.0
+storage_capacity_kwh = 2000.0
+storage_max_charge_kw = 800.0
+storage_max_discharge_kw = 800.0
+storage_initial_soc = 0.5
+grid_import_kw = 500.0
+grid_export_kw = 500.0
+
+[[sites]]
+station = "line-2-0367-0539"
+tier = "standard"
+pv_nameplate_kw = 300.0
+storage_capacity_kwh = 2000.0
+storage_max_charge_kw = 800.0
+storage_max_discharge_kw = 800.0
+storage_initial_soc = 0.5
+grid_import_kw = 500.0
+grid_export_kw = 500.0
+
+[[sites]]
+station = "line-2-0288-0567"
+tier = "standard"
+pv_nameplate_kw = 300.0
+storage_capacity_kwh = 2000.0
+storage_max_charge_kw = 800.0
+storage_max_discharge_kw = 800.0
+storage_initial_soc = 0.5
+grid_import_kw = 500.0
+grid_export_kw = 500.0
+
+[[sites]]
+station = "line-2-0123-0580"
+tier = "depot-main"
+pv_nameplate_kw = 5000.0
+storage_capacity_kwh = 40000.0
+storage_max_charge_kw = 10000.0
+storage_max_discharge_kw = 10000.0
+storage_initial_soc = 0.6
+grid_import_kw = 3000.0
+grid_export_kw = 3000.0
+
+[[sites]]
+station = "line-3-0309-0143"
+tier = "terminal"
+pv_nameplate_kw = 500.0
+storage_capacity_kwh = 3000.0
+storage_max_charge_kw = 1500.0
+storage_max_discharge_kw = 1500.0
+storage_initial_soc = 0.6
+grid_import_kw = 800.0
+grid_export_kw = 800.0
+
+[[sites]]
+station = "line-3-0357-0208"
+tier = "standard"
+pv_nameplate_kw = 300.0
+storage_capacity_kwh = 2000.0
+storage_max_charge_kw = 800.0
+storage_max_discharge_kw = 800.0
+storage_initial_soc = 0.5
+grid_import_kw = 500.0
+grid_export_kw = 500.0
+
+[[sites]]
+station = "line-3-0443-0242"
+tier = "standard"
+pv_nameplate_kw = 300.0
+storage_capacity_kwh = 2000.0
+storage_max_charge_kw = 800.0
+storage_max_discharge_kw = 800.0
+storage_initial_soc = 0.5
+grid_import_kw = 500.0
+grid_export_kw = 500.0
+
+[[sites]]
+station = "line-3-0443-0337"
+tier = "standard"
+pv_nameplate_kw = 300.0
+storage_capacity_kwh = 2000.0
+storage_max_charge_kw = 800.0
+storage_max_discharge_kw = 800.0
+storage_initial_soc = 0.5
+grid_import_kw = 500.0
+grid_export_kw = 500.0
+
+[[sites]]
+station = "line-3-0454-0413"
+tier = "standard"
+pv_nameplate_kw = 300.0
+storage_capacity_kwh = 2000.0
+storage_max_charge_kw = 800.0
+storage_max_discharge_kw = 800.0
+storage_initial_soc = 0.5
+grid_import_kw = 500.0
+grid_export_kw = 500.0
+
+[[sites]]
+station = "line-3-0500-0434"
+tier = "major"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "line-3-0565-0463"
+tier = "interchange"
+pv_nameplate_kw = 500.0
+storage_capacity_kwh = 3000.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "line-3-0595-0470"
+tier = "major"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "line-3-0653-0477"
+tier = "major"
+pv_nameplate_kw = 400.0
+storage_capacity_kwh = 2500.0
+storage_max_charge_kw = 1000.0
+storage_max_discharge_kw = 1000.0
+storage_initial_soc = 0.5
+grid_import_kw = 600.0
+grid_export_kw = 600.0
+
+[[sites]]
+station = "line-3-0748-0481"
+tier = "standard"
+pv_nameplate_kw = 300.0
+storage_capacity_kwh = 2000.0
+storage_max_charge_kw = 800.0
+storage_max_discharge_kw = 800.0
+storage_initial_soc = 0.5
+grid_import_kw = 500.0
+grid_export_kw = 500.0
+
+[[sites]]
+station = "line-3-0811-0508"
+tier = "terminal"
+pv_nameplate_kw = 500.0
+storage_capacity_kwh = 3000.0
+storage_max_charge_kw = 1500.0
+storage_max_discharge_kw = 1500.0
+storage_initial_soc = 0.6
+grid_import_kw = 800.0
+grid_export_kw = 800.0

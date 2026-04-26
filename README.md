@@ -29,26 +29,15 @@ The design pipeline auto-synthesises a complete multi-line network for
 any city listed in [`lib/city-batches/world-sample.toml`](lib/city-batches/world-sample.toml)
 from real OpenStreetMap + WorldPop population data — population-tiered
 topology, served-catchment bbox, country-specific cost + finance
-multipliers. The catalogue currently covers **19 cities across 8
-regions** ([Samawah + Baghdad + Mosul](designs/west-asia/Iraq/) ·
-[Tunis](designs/north-africa/Tunisia/Tunis/) ·
-[Khartoum](designs/north-africa/Sudan/Khartoum/) ·
-[Nairobi](designs/east-africa/Kenya/Nairobi/) ·
-[Dar es Salaam](designs/east-africa/Tanzania/Dar-Es-Salaam/) ·
-[Kampala](designs/east-africa/Uganda/Kampala/) ·
-[Antananarivo](designs/east-africa/Madagascar/Antananarivo/) ·
-[Niamey](designs/west-africa/Niger/Niamey/) ·
-[Bamako](designs/west-africa/Mali/Bamako/) ·
-[Coimbatore](designs/south-asia/India/Coimbatore/) ·
-[Karachi](designs/south-asia/Pakistan/Karachi/) ·
-[Yangon](designs/southeast-asia/Myanmar/Yangon/) ·
-[Phnom Penh](designs/southeast-asia/Cambodia/Phnom-Penh/) ·
-[Lyon](designs/europe/France/Lyon/) ·
-[Cuenca](designs/latin-america/Ecuador/Cuenca/) ·
-[La Paz](designs/latin-america/Bolivia/La-Paz/) ·
-[San Salvador](designs/latin-america/El%20Salvador/San-Salvador/))
-spanning population bands from 374 k (Samawah, light-metro-3car) to
-20.3 M (Karachi, metro-6car). One-command regeneration:
+multipliers. The catalogue currently covers **34 cities across 8
+regions**, including **every major Iraqi urban centre** (the project's
+launch corridor) — 18 cities from the 374 k Samawah subdistrict to the
+9.78 M Baghdad governorate, exercising the tram, light-metro-3car,
+metro-4car and metro-6car family bands all on Iraqi soil — plus 16
+more across the rest of the developing world (Tunis, Khartoum,
+Nairobi, Dar es Salaam, Kampala, Antananarivo, Niamey, Bamako,
+Coimbatore, Karachi, Yangon, Phnom Penh, Lyon, Cuenca, La Paz, San
+Salvador). One-command regeneration:
 `scripts/regenerate-city.sh <slug>` for a single city or
 `scripts/regenerate-all.sh --jobs 4` for the whole catalogue.
 
@@ -88,16 +77,45 @@ stack, country-anchored ticket pricing).*
 ### Auto-design catalogue at a glance
 
 Same pipeline, every catalog city — population from a national-stats-
-office source, bbox sized to the served catchment, rolling-stock family
-auto-selected per [RFC 0008 §5](docs/rfcs/0008-rolling-stock-reference-design.md),
+office source (Iraq 2024 General Population Census preliminary results
+underpin every Iraqi figure; KRSO 2024 estimates for the three
+KRI-administered cities), bbox sized to the served catchment, rolling-
+stock family auto-selected per [RFC 0008 §5](docs/rfcs/0008-rolling-stock-reference-design.md),
 finance section anchored to country-specific median income +
-multilateral / sovereign rates from [`lib/templates/country-finance.toml`](lib/templates/country-finance.toml):
+multilateral / sovereign rates from [`lib/templates/country-finance.toml`](lib/templates/country-finance.toml).
+
+**Iraq launch corridor** — 18 cities, every governorate capital +
+Samawah; covers the full pilgrim circuit (Karbala / Najaf / Samawah)
+plus the Kurdistan Regional capitals (Erbil / Sulaymaniyah / Duhok)
+plus the post-conflict reconstruction set (Mosul / Ramadi / Fallujah):
+
+| city | family | lines | stns | km | fleet | cov% |
+|---|---|---:|---:|---:|---:|---:|
+| [Baghdad](designs/west-asia/Iraq/Baghdad/) | metro-6car | 9 | 218 | 510 | 408 | 45 |
+| [Basra](designs/west-asia/Iraq/Basra/) | metro-6car | 7 | 119 | 289 | 236 | 54 |
+| [Mosul](designs/west-asia/Iraq/Mosul/) | metro-4car | 5 | 60 | 145 | 122 | 38 |
+| [Sulaymaniyah](designs/west-asia/Iraq/Sulaymaniyah/) | metro-4car | 4 | 59 | 127 | 106 | 49 |
+| [Erbil](designs/west-asia/Iraq/Erbil/) | metro-4car | 6 | 97 | 199 | 166 | 42 |
+| [Kirkuk](designs/west-asia/Iraq/Kirkuk/) | metro-4car | 6 | 92 | 170 | 142 | 60 |
+| [Najaf](designs/west-asia/Iraq/Najaf/) | metro-4car | 6 | 91 | 172 | 144 | 60 |
+| [Karbala](designs/west-asia/Iraq/Karbala/) | metro-4car | 6 | 89 | 170 | 144 | 67 |
+| [Hillah](designs/west-asia/Iraq/Hillah/) | light-metro-3car | 3 | 42 | 69 | 68 | 43 |
+| [Nasiriyah](designs/west-asia/Iraq/Nasiriyah/) | light-metro-3car | 3 | 33 | 56 | 56 | 40 |
+| [Amarah](designs/west-asia/Iraq/Amarah/) | light-metro-3car | 3 | 32 | 45 | 46 | 43 |
+| [Ramadi](designs/west-asia/Iraq/Ramadi/) | light-metro-3car | 3 | 35 | 47 | 49 | 39 |
+| [Baqubah](designs/west-asia/Iraq/Baqubah/) | light-metro-3car | 3 | 37 | 60 | 60 | 50 |
+| [Kut](designs/west-asia/Iraq/Kut/) | light-metro-3car | 3 | 32 | 56 | 55 | 37 |
+| [Diwaniyah](designs/west-asia/Iraq/Diwaniyah/) | light-metro-3car | 3 | 36 | 54 | 55 | 43 |
+| [Duhok](designs/west-asia/Iraq/Duhok/) | light-metro-3car | 3 | 32 | 53 | 54 | 53 |
+| [Fallujah](designs/west-asia/Iraq/Fallujah/) | light-metro-3car | 3 | 28 | 46 | 48 | 57 |
+| [Samawah](designs/west-asia/Iraq/Samawah/) | light-metro-3car | 3 | 33 | 55 | 55 | 56 |
+
+**Rest of the world** — one city per region / climate / size band, kept
+deliberately diverse so any rule-set tweak that breaks one band is
+caught against the others:
 
 | city | ISO | family | lines | stns | km | fleet | cov% |
 |---|---|---|---:|---:|---:|---:|---:|
-| [Samawah](designs/west-asia/Iraq/Samawah/) | IQ | light-metro-3car | 3 | 33 | 55 | 55 | 56 |
-| [Mosul](designs/west-asia/Iraq/Mosul/) | IQ | metro-4car | 5 | 60 | 145 | 122 | 38 |
-| [Baghdad](designs/west-asia/Iraq/Baghdad/) | IQ | metro-6car | 9 | 218 | 510 | 408 | 45 |
 | [Tunis](designs/north-africa/Tunisia/Tunis/) | TN | metro-4car | 5 | 118 | 240 | 194 | 48 |
 | [Khartoum](designs/north-africa/Sudan/Khartoum/) | SD | metro-6car | 5 | 152 | 363 | 287 | 22 |
 | [Nairobi](designs/east-africa/Kenya/Nairobi/) | KE | metro-6car | 8 | 191 | 476 | 378 | 43 |
@@ -129,6 +147,17 @@ across the fleet. WorldPop residential layer + airport / suburb /
 neighbourhood OSM anchors so radials reach Baghdad International
 (BIAP), Basmaya New City, and other population centres beyond the
 POI clusters.*
+
+![Karbala — 6-line metro-4car network, pilgrim-anchored, 67% coverage of the population-blended demand surface](designs/west-asia/Iraq/Karbala/karbala-network-map.png)
+
+*Karbala (~1.39 M, Karbala Governorate) — the catalogue's strongest
+coverage score (67%) thanks to a tightly clustered shrine-anchored
+demand surface (Imam Hussein + Imam Abbas shrines anchor the
+centre, with Hindiyah east-of-the-Euphrates and date-palm
+outskirts south). Six metro-4car lines, 89 stations. Pilgrim
+volume is the binding sizing constraint — Arba'een alone draws ~25
+million pilgrims annually, an order of magnitude past the
+resident catchment.*
 
 ![Karachi — 9-line metro-6car network, 472 km, served-catchment 50 × 50 km](designs/south-asia/Pakistan/Karachi/karachi-network-map.png)
 
