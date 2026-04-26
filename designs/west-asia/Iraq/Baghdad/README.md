@@ -17,12 +17,12 @@ Corridor polylines + stations as GeoJSON for GIS tooling: [`baghdad.corridor.geo
 | Metric | Value |
 |---|---|
 | Lines | 9 |
-| Unique stations | 287 |
-| Interchange complexes | 21 |
+| Unique stations | 286 |
+| Interchange complexes | 19 |
 | Anchor-weighted coverage | 37.0% |
-| Route length (double track) | 470.1 km |
-| Civil mix (at-grade / elevated) | 436.0 km / 32.4 km (7% elevated) |
-| Revenue fleet | 339 × 6-car trainsets |
+| Route length (double track) | 470.2 km |
+| Civil mix (at-grade / elevated) | 437.9 km / 30.7 km (6% elevated) |
+| Revenue fleet | 340 × 6-car trainsets |
 | Spare + cold reserve | 39 × 6-car trainsets |
 | Peak headway | 5 min |
 | Service hours | 05:30 – 23:30 (≈ 18 h/day) |
@@ -34,16 +34,16 @@ Corridor polylines + stations as GeoJSON for GIS tooling: [`baghdad.corridor.geo
 
 | Line | Length | Stations | Trainsets | Termini |
 |---|---|---|---|---|
-| line-1 | 47.9 km | 30 | 39 | W Outer ↔ E Mid |
+| line-1 | 47.9 km | 30 | 39 | E Mid ↔ W Outer |
 | line-2 | 47.0 km | 28 | 38 | N Outer ↔ S Mid |
 | line-3 | 46.5 km | 29 | 38 | SE Mid ↔ NW Mid |
-| line-4 | 47.3 km | 31 | 38 | NE Outer ↔ SW Mid |
+| line-4 | 47.3 km | 30 | 38 | SW Mid ↔ NE Outer |
 | line-5 | 47.9 km | 27 | 39 | NW Outer ↔ SW Mid |
-| line-6 | 43.8 km | 26 | 36 | S Mid ↔ NE Outer |
-| line-7 | 44.9 km | 26 | 36 | E Mid ↔ NW Outer |
+| line-6 | 43.9 km | 26 | 36 | S Mid ↔ NE Outer |
+| line-7 | 44.9 km | 26 | 37 | NW Outer ↔ E Mid |
 | line-8 | 39.1 km | 22 | 32 | E Outer ↔ SW Mid |
 | line-9 | 105.7 km | 70 | 82 | W Mid loop |
-| **Total** | **470.1 km** | **287 unique** | **378** | |
+| **Total** | **470.2 km** | **286 unique** | **379** | |
 
 ## Rolling stock
 
@@ -67,22 +67,22 @@ Corridor polylines + stations as GeoJSON for GIS tooling: [`baghdad.corridor.geo
 ## Catchment
 
 - City population: **7,500,000** (within bbox of 3,162 km², gross density ≈ 2,372/km²)
-- Stations: **287** at 800 m walking radius ⇒ raw walkshed = 577 km²; overlap-discounted (30 %) = **404 km²**
-- Walkshed catchment population (gross density × walkshed): ≈ **958,069**
+- Stations: **286** at 800 m walking radius ⇒ raw walkshed = 575 km²; overlap-discounted (30 %) = **403 km²**
+- Walkshed catchment population (gross density × walkshed): ≈ **954,731**
 - Anchor-weighted demand coverage: **37.0%** — share of OSM POI demand-weight reachable within the walkshed (`high_demand_coverage` metric in design-quality.yaml). Cross-check on the walkshed estimate: 37.0% of 7,500,000 = **2,775,000** demand-weighted catchment.
 
 ## CAPEX (planning grade)
 
-Base OECD rates — `country-costs.toml` applies the per-country labour/material multiplier downstream. Civil-mix figures are from `[costs]` in `design.toml` (RFC 0011 §9); systems and rolling-stock figures come from the catalogue rates baked into the README generator.
+All figures come from the `[costs]` block in `design.toml` — emitted by the `osr-design` Rust planner per RFC 0011 §9. Base OECD rates; `country-costs.toml` applies the per-country labour/material multiplier downstream.
 
 ### Civil works
 
 | Bucket | Value |
 |---|---|
-| At-grade (436.0 km @ €3.5 M/km) | €1.53 bn |
-| Elevated (32.4 km @ €18 M/km) | €582 M |
-| Elevated-interchange premium (21 sites @ €20 M) | €380 M |
-| **Civil subtotal** | **€2.49 bn** |
+| At-grade (437.9 km @ €3.5 M/km) | €1.53 bn |
+| Elevated (30.7 km @ €18 M/km) | €552 M |
+| Elevated-interchange premium (19 sites @ €20 M) | €360 M |
+| **Civil subtotal** | **€2.44 bn** |
 
 ### Stations
 
@@ -90,13 +90,13 @@ At-grade construction per RFC 0010 archetype catalogue. Vertical circulation + c
 
 | Archetype | Count | Unit | Subtotal |
 |---|---|---|---|
-| `halt` | 7 | €1.5 M | €10 M |
-| `standard` | 130 | €8 M | €1.04 bn |
-| `major` | 77 | €12 M | €924 M |
+| `halt` | 8 | €1.5 M | €12 M |
+| `standard` | 131 | €8 M | €1.05 bn |
+| `major` | 75 | €12 M | €900 M |
 | `terminal` | 15 | €10 M | €150 M |
 | `depot-terminal` | 1 | €12 M | €12 M |
-| `interchange` | 4 | €18 M | €72 M |
-| **Stations subtotal** | | | **€2.65 bn** |
+| `interchange` | 2 | €18 M | €36 M |
+| **Stations subtotal** | | | **€2.61 bn** |
 
 ### Depots
 
@@ -110,29 +110,29 @@ At-grade construction per RFC 0010 archetype catalogue. Vertical circulation + c
 
 | Item | Count | Unit | Subtotal |
 |---|---|---|---|
-| `metro-6car` (revenue + spare + cold reserve) | 378 | €18 M | €6.80 bn |
+| `metro-6car` (revenue + spare + cold reserve) | 379 | €18 M | €6.82 bn |
 
 ### Systems
 
 | Item | Basis | Subtotal |
 |---|---|---|
-| Signalling / CBTC (RFC 0015 GoA 4) | 470.1 km × €1.5 M/km | €705 M |
-| Traction power (battery-electric, no OCS) | 470.1 km × €0.8 M/km | €376 M |
-| EPC integration + project management (10%) | on subtotal | €1.34 bn |
+| Signalling / CBTC (RFC 0015 GoA 4) | 470.2 km × €1.5 M/km | €703 M |
+| Traction power (battery-electric, no OCS) | 470.2 km × €0.8 M/km | €375 M |
+| EPC integration + project management (10%) | on subtotal | €1.33 bn |
 
 ### Total
 
 | Bucket | Value |
 |---|---|
-| Civil works | €2.49 bn |
-| Stations | €2.65 bn |
+| Civil works | €2.44 bn |
+| Stations | €2.61 bn |
 | Depots | €375 M |
-| Rolling stock | €6.80 bn |
+| Rolling stock | €6.82 bn |
 | Signalling + power | €1.08 bn |
-| EPC overhead (10%) | €1.34 bn |
-| **CAPEX total** | **€14.74 bn** |
+| EPC overhead (10%) | €1.33 bn |
+| **CAPEX total** | **€14.66 bn** |
 | Per-route-km | €31 M / km |
-| Per-capita (city pop) | €1,964 / person |
+| Per-capita (city pop) | €1,954 / person |
 
 ## Quality gates
 

@@ -250,25 +250,78 @@ Two downstream consequences, surfaced in `design-quality.yaml`:
 
 ## 9. Cost-anchor lookup
 
-Civil CAPEX drives the national-treasury conversation. The
-auto-gen pipeline emits `cost_estimate_eur` per line using
-lookup:
+Total CAPEX drives the national-treasury conversation. The
+auto-gen pipeline emits a full `[costs]` block per city in
+`design.toml`, broken down by bucket below.
+
+### 9.1 Civil works (€/km × civil mix)
 
 | Class | €/km planning-grade |
 |---|---|
 | at-grade | 3 500 000 |
 | elevated | 18 000 000 |
 | bridge | 25 000 000 |
+| elevated-interchange premium | 20 000 000 / site |
+
+### 9.2 Stations (RFC 0010 archetype catalogue)
+
+| Archetype | € planning-grade |
+|---|---|
+| `halt` | 1 500 000 |
+| `standard` | 8 000 000 |
+| `major` | 12 000 000 |
+| `terminal` | 10 000 000 |
+| `depot-terminal` | 12 000 000 |
+| `interchange` | 18 000 000 |
+
+The elevated-junction premium in §9.1 covers the viaduct + upper
+deck at interchanges; the table above covers the at-grade lower
+platform plus vertical circulation.
+
+### 9.3 Depots (RFC 0014 archetype catalogue)
+
+| Archetype | € planning-grade |
+|---|---|
+| `main-heavy` | 150 000 000 |
+| `secondary-medium` | 60 000 000 |
+| `layup-minimal` | 15 000 000 |
+
+### 9.4 Rolling stock (RFC 0008 family acquisition × fleet count)
+
+| Family | € / trainset planning-grade |
+|---|---|
+| `tram-2car` | 4 000 000 |
+| `light-metro-3car` | 9 000 000 |
+| `metro-4car` | 14 000 000 |
+| `metro-6car` | 18 000 000 |
+
+Fleet count = peak-revenue + spare + cold-reserve per RFC 0014 §4.
+
+### 9.5 Systems (per route-km)
+
+| Item | € / km planning-grade |
+|---|---|
+| Signalling / CBTC (RFC 0015 GoA 4) | 1 500 000 |
+| Traction power (battery-electric, no OCS) | 800 000 |
+
+RFC 0015 mandates battery-electric — there is no overhead catenary
+budget. Power infrastructure is substations + station-side charging
+pads only.
+
+### 9.6 EPC overhead
+
+Integration + project management is **10 %** of the subtotal across
+§9.1 – §9.5.
 
 Rates are deployment-localised via the
 [`country-costs.toml`](../../lib/templates/country-costs.toml)
 template (labour, materials, finance cost adjustments). The
-base rate above is what the upstream catalogue quotes; actual
+base rates above are what the upstream catalogue quotes; actual
 numbers in any given deployment can be ± 40 %.
 
-A `cost_estimate_total_eur` per city is also emitted. This is
-blunt but useful: it is the single number a municipal finance
-officer asks for first when evaluating an OpenSourceRail
+A `total_eur` per city is also emitted in the `[costs]` block.
+This is blunt but useful: it is the single number a municipal
+finance officer asks for first when evaluating an OpenSourceRail
 deployment.
 
 ## 10. Constructability constraints
@@ -333,6 +386,7 @@ civil contractor can mobilise.
 | **v0** | This RFC ratified | — |
 | **v1** | `osr-routing::civil` updated to drop tunnel classes (in this RFC's commit) | v0 |
 | **v2** ✅ | Emit `[costs]` block (at_grade / elevated / bridge / total_eur) per city in the auto-gen output, using the §9 rate table (done 2026-04-22) | v1 |
+| **v2.1** ✅ | Extend `[costs]` to the full CAPEX stack — stations (RFC 0010 archetypes), depots (RFC 0014 archetypes), rolling stock (RFC 0008 families), signalling + power (RFC 0015 GoA 4 battery-electric), and 10 % EPC overhead. The `total_eur` is now the full one-number headline a treasury asks for, not just civil works (done 2026-04-26) | v2 |
 | **v3** ✅ (partial) | Parametric U-girder at [`mechanical-py/src/osr_mech/civil/ugirder.py`](../../mechanical-py/src/osr_mech/civil/ugirder.py) with 20 / 25 / 30 m spans under the one-mould constraint (done 2026-04-22); STEP artifacts at [`mechanical-py/catalog/civil/`](../../mechanical-py/catalog/civil/) round-trip into Revit / Tekla / Civil 3D. Precast L-unit platform edge at [`mechanical-py/src/osr_mech/civil/platform_l_unit.py`](../../mechanical-py/src/osr_mech/civil/platform_l_unit.py). Remaining for v3 full-complete: pier + abutment parametric kits + CERN-OHL-S v2 relicensing of the catalogue tree. | v0 |
 | **v4** | Worked civil design for Samawah Line 1 (an 11 km at-grade stretch + 2 km elevated over the existing rail corridor + 1 km bridge over the Euphrates approach) | v3, RFC 0003 |
 | **v5** | First-article viaduct erected at the Samawah pilot | v3 |

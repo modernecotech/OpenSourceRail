@@ -17,7 +17,7 @@ Corridor polylines + stations as GeoJSON for GIS tooling: [`samawah.corridor.geo
 | Metric | Value |
 |---|---|
 | Lines | 3 |
-| Unique stations | 38 |
+| Unique stations | 40 |
 | Interchange complexes | 2 |
 | Anchor-weighted coverage | 55.0% |
 | Route length (double track) | 39.0 km |
@@ -34,10 +34,10 @@ Corridor polylines + stations as GeoJSON for GIS tooling: [`samawah.corridor.geo
 
 | Line | Length | Stations | Trainsets | Termini |
 |---|---|---|---|---|
-| line-1 | 11.5 km | 13 | 16 | N Outer ↔ SE Mid |
-| line-2 | 15.2 km | 13 | 20 | E Outer ↔ W Outer |
-| line-3 | 12.3 km | 12 | 17 | SW Mid ↔ N Outer |
-| **Total** | **39.0 km** | **38 unique** | **53** | |
+| line-1 | 11.5 km | 14 | 16 | SE Mid ↔ N Outer |
+| line-2 | 15.2 km | 13 | 20 | W Outer ↔ E Outer |
+| line-3 | 12.3 km | 13 | 17 | N Outer ↔ SW Mid |
+| **Total** | **39.0 km** | **40 unique** | **53** | |
 
 ## Rolling stock
 
@@ -61,13 +61,13 @@ Corridor polylines + stations as GeoJSON for GIS tooling: [`samawah.corridor.geo
 ## Catchment
 
 - City population: **280,000** (within bbox of 165 km², gross density ≈ 1,701/km²)
-- Stations: **38** at 800 m walking radius ⇒ raw walkshed = 76 km²; overlap-discounted (30 %) = **53 km²**
-- Walkshed catchment population (gross density × walkshed): ≈ **90,994**
+- Stations: **40** at 800 m walking radius ⇒ raw walkshed = 80 km²; overlap-discounted (30 %) = **56 km²**
+- Walkshed catchment population (gross density × walkshed): ≈ **95,783**
 - Anchor-weighted demand coverage: **55.0%** — share of OSM POI demand-weight reachable within the walkshed (`high_demand_coverage` metric in design-quality.yaml). Cross-check on the walkshed estimate: 55.0% of 280,000 = **154,000** demand-weighted catchment.
 
 ## CAPEX (planning grade)
 
-Base OECD rates — `country-costs.toml` applies the per-country labour/material multiplier downstream. Civil-mix figures are from `[costs]` in `design.toml` (RFC 0011 §9); systems and rolling-stock figures come from the catalogue rates baked into the README generator.
+All figures come from the `[costs]` block in `design.toml` — emitted by the `osr-design` Rust planner per RFC 0011 §9. Base OECD rates; `country-costs.toml` applies the per-country labour/material multiplier downstream.
 
 ### Civil works
 
@@ -84,11 +84,12 @@ At-grade construction per RFC 0010 archetype catalogue. Vertical circulation + c
 
 | Archetype | Count | Unit | Subtotal |
 |---|---|---|---|
-| `standard` | 13 | €8 M | €104 M |
-| `major` | 12 | €12 M | €144 M |
+| `halt` | 2 | €1.5 M | €3 M |
+| `standard` | 12 | €8 M | €96 M |
+| `major` | 14 | €12 M | €168 M |
 | `terminal` | 5 | €10 M | €50 M |
 | `depot-terminal` | 1 | €12 M | €12 M |
-| **Stations subtotal** | | | **€366 M** |
+| **Stations subtotal** | | | **€377 M** |
 
 ### Depots
 
@@ -110,21 +111,21 @@ At-grade construction per RFC 0010 archetype catalogue. Vertical circulation + c
 |---|---|---|
 | Signalling / CBTC (RFC 0015 GoA 4) | 39.0 km × €1.5 M/km | €58 M |
 | Traction power (battery-electric, no OCS) | 39.0 km × €0.8 M/km | €31 M |
-| EPC integration + project management (10%) | on subtotal | €111 M |
+| EPC integration + project management (10%) | on subtotal | €112 M |
 
 ### Total
 
 | Bucket | Value |
 |---|---|
 | Civil works | €215 M |
-| Stations | €366 M |
+| Stations | €377 M |
 | Depots | €225 M |
 | Rolling stock | €212 M |
-| Signalling + power | €90 M |
-| EPC overhead (10%) | €111 M |
-| **CAPEX total** | **€1.22 bn** |
-| Per-route-km | €31 M / km |
-| Per-capita (city pop) | €4,350 / person |
+| Signalling + power | €89 M |
+| EPC overhead (10%) | €112 M |
+| **CAPEX total** | **€1.23 bn** |
+| Per-route-km | €32 M / km |
+| Per-capita (city pop) | €4,392 / person |
 
 ## Quality gates
 

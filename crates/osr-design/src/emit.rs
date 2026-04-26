@@ -410,25 +410,69 @@ fn write_design_toml(
         }
     }
 
-    // Costs — per RFC 0011 §9 lookup. Planning-grade €/km × civil mix
-    // per line. `country-costs.toml` scales these in downstream
-    // reports; the base figure goes in the design.toml so the
-    // operator has a one-number headline when reviewing the output.
-    let costs = compute_costs(lines, civil_per_line);
-    let junction_premium_eur =
-        (elevated_junctions.len() as f64) * JUNCTION_PREMIUM_EUR;
-    let total_with_junctions = costs.total_eur + junction_premium_eur;
-    out.push_str("# [costs] — RFC 0011 §9 planning-grade €/km × civil mix.\n");
+    // Costs — full planning-grade CAPEX stack per RFC 0011 §9: civil
+    // works (€/km × civil mix) + stations (RFC 0010 archetype catalogue)
+    // + depots (RFC 0014 archetype catalogue) + rolling stock (RFC 0008
+    // family acquisition cost × fleet) + systems (signalling + power)
+    // + 10 % EPC overhead. `country-costs.toml` scales the totals
+    // downstream; the base figure goes in design.toml so the operator
+    // has a one-number headline when reviewing the output.
+    // Total revenue + spare + cold-reserve fleet, summed over every line.
+    // Each line's fleet is sized from its round-trip cycle vs. peak headway
+    // (RFC 0014 §4) — the depot stalls back-derive from this, so summing
+    // line fleet directly avoids a second source-of-truth divergence.
+    let fleet_total_trainsets: u32 = lines
+        .iter()
+        .map(|line| {
+            let len_m = line_cells_length_m(line);
+            fleet_total(peak_revenue_trainsets(len_m, family))
+        })
+        .sum();
+    let costs = compute_costs(
+        civil_per_line,
+        &archetypes,
+        &depot_blocks,
+        elevated_junctions.len(),
+        fleet_total_trainsets,
+        family,
+    );
+    out.push_str("# [costs] — RFC 0011 §9 planning-grade CAPEX (base OECD\n");
+    out.push_str("# rates). country-costs.toml applies the per-country labour /\n");
+    out.push_str("# material multiplier downstream.\n");
     out.push_str("[costs]\n");
-    out.push_str(&format!("at_grade_eur       = {:.0}\n", costs.at_grade_eur));
-    out.push_str(&format!("elevated_eur       = {:.0}\n", costs.elevated_eur));
-    out.push_str(&format!("bridge_eur         = {:.0}\n", costs.bridge_eur));
+    out.push_str("# Civil works (€/km × civil mix).\n");
+    out.push_str(&format!("at_grade_eur         = {:.0}\n", costs.at_grade_eur));
+    out.push_str(&format!("elevated_eur         = {:.0}\n", costs.elevated_eur));
+    out.push_str(&format!("bridge_eur           = {:.0}\n", costs.bridge_eur));
     out.push_str(&format!(
-        "junction_premium_eur = {junction_premium_eur:.0}  # \u{20ac}{} M per elevated interchange.\n",
+        "junction_premium_eur = {:.0}  # \u{20ac}{} M per elevated interchange.\n",
+        costs.junction_premium_eur,
         (JUNCTION_PREMIUM_EUR / 1_000_000.0) as u64
     ));
     out.push_str(&format!(
-        "total_eur          = {total_with_junctions:.0}  # excludes rolling stock, stations, depots, integration\n",
+        "civil_subtotal_eur   = {:.0}\n",
+        costs.civil_subtotal_eur
+    ));
+    out.push_str("# Stations (RFC 0010 archetype catalogue).\n");
+    out.push_str(&format!("stations_eur         = {:.0}\n", costs.stations_eur));
+    out.push_str("# Depots (RFC 0014 archetype catalogue).\n");
+    out.push_str(&format!("depots_eur           = {:.0}\n", costs.depots_eur));
+    out.push_str("# Rolling stock (RFC 0008 family × fleet count).\n");
+    out.push_str(&format!(
+        "rolling_stock_eur    = {:.0}\n",
+        costs.rolling_stock_eur
+    ));
+    out.push_str("# Systems (per route-km, RFC 0015 GoA 4 battery-electric).\n");
+    out.push_str(&format!("signalling_eur       = {:.0}\n", costs.signalling_eur));
+    out.push_str(&format!("power_eur            = {:.0}\n", costs.power_eur));
+    out.push_str("# EPC integration + project management (10 % of subtotal).\n");
+    out.push_str(&format!(
+        "epc_overhead_eur     = {:.0}\n",
+        costs.epc_overhead_eur
+    ));
+    out.push_str(&format!(
+        "total_eur            = {:.0}  # full CAPEX stack\n",
+        costs.total_eur
     ));
 
     let path = out_dir.join("design.toml");
@@ -624,19 +668,87 @@ fn compute_switches(
 
 #[derive(Debug, Clone, Copy, Default)]
 struct CostSummary {
+    // Civil works (RFC 0011 §9 €/km × civil mix).
     at_grade_eur: f64,
     elevated_eur: f64,
     bridge_eur: f64,
+    junction_premium_eur: f64,
+    civil_subtotal_eur: f64,
+    // Stations (RFC 0010 archetype catalogue).
+    stations_eur: f64,
+    // Depots (RFC 0014 archetype catalogue).
+    depots_eur: f64,
+    // Rolling stock (RFC 0008 family acquisition cost × fleet count).
+    rolling_stock_eur: f64,
+    // Systems — per route-km, RFC 0015 GoA 4 battery-electric.
+    signalling_eur: f64,
+    power_eur: f64,
+    // EPC integration + project management overhead on the subtotal.
+    epc_overhead_eur: f64,
+    // Grand total across every bucket above.
     total_eur: f64,
 }
 
-/// Planning-grade unit costs from RFC 0011 §9 (€/km).
+/// Planning-grade unit costs from RFC 0011 §9 (€/km of civil works).
 const COST_AT_GRADE_EUR_PER_KM: f64 = 3_500_000.0;
 const COST_ELEVATED_EUR_PER_KM: f64 = 18_000_000.0;
 const COST_BRIDGE_EUR_PER_KM: f64 = 25_000_000.0;
 
-fn compute_costs(lines: &[Line], civil_per_line: &[Vec<CivilSegment>]) -> CostSummary {
-    let _ = lines; // currently unused — future: per-line breakout if desired
+/// Station construction cost by RFC 0010 archetype (€). At-grade single-
+/// platform is the baseline; major adds an island deck; interchange adds
+/// vertical circulation between an at-grade and elevated level (the
+/// elevated junction premium covers the viaduct itself).
+fn station_cost_eur(archetype: &str) -> f64 {
+    match archetype {
+        "halt" => 1_500_000.0,
+        "standard" => 8_000_000.0,
+        "major" => 12_000_000.0,
+        "terminal" => 10_000_000.0,
+        "depot-terminal" => 12_000_000.0,
+        "interchange" => 18_000_000.0,
+        _ => 8_000_000.0,
+    }
+}
+
+/// Depot construction cost by RFC 0014 archetype (€).
+fn depot_cost_eur(archetype: &str) -> f64 {
+    match archetype {
+        "main-heavy" => 150_000_000.0,
+        "secondary-medium" => 60_000_000.0,
+        "layup-minimal" => 15_000_000.0,
+        _ => 50_000_000.0,
+    }
+}
+
+/// Per-trainset acquisition cost by RFC 0008 family (€).
+fn trainset_cost_eur(family: &str) -> f64 {
+    match family {
+        "tram-2car" => 4_000_000.0,
+        "light-metro-3car" => 9_000_000.0,
+        "metro-4car" => 14_000_000.0,
+        "metro-6car" => 18_000_000.0,
+        _ => 10_000_000.0,
+    }
+}
+
+/// Systems cost rates (€ per route-km). RFC 0015 GoA 4 battery-electric:
+/// CBTC signalling, no overhead catenary, substations + station-side
+/// charging only.
+const SIGNALLING_EUR_PER_KM: f64 = 1_500_000.0;
+const POWER_EUR_PER_KM: f64 = 800_000.0;
+
+/// EPC integration + project management overhead applied to the subtotal
+/// of civil + stations + depots + rolling stock + systems.
+const EPC_OVERHEAD_FRACTION: f64 = 0.10;
+
+fn compute_costs(
+    civil_per_line: &[Vec<CivilSegment>],
+    station_archetypes: &[&str],
+    depots: &[DepotBlock],
+    elevated_junctions_count: usize,
+    fleet_total_trainsets: u32,
+    family: &str,
+) -> CostSummary {
     let mut at_grade_m = 0.0_f64;
     let mut elevated_m = 0.0_f64;
     let mut bridge_m = 0.0_f64;
@@ -652,11 +764,48 @@ fn compute_costs(lines: &[Line], civil_per_line: &[Vec<CivilSegment>]) -> CostSu
     let at_grade_eur = at_grade_m / 1_000.0 * COST_AT_GRADE_EUR_PER_KM;
     let elevated_eur = elevated_m / 1_000.0 * COST_ELEVATED_EUR_PER_KM;
     let bridge_eur = bridge_m / 1_000.0 * COST_BRIDGE_EUR_PER_KM;
+    let junction_premium_eur =
+        (elevated_junctions_count as f64) * JUNCTION_PREMIUM_EUR;
+    let civil_subtotal_eur =
+        at_grade_eur + elevated_eur + bridge_eur + junction_premium_eur;
+
+    let stations_eur: f64 = station_archetypes
+        .iter()
+        .map(|a| station_cost_eur(a))
+        .sum();
+    let depots_eur: f64 = depots
+        .iter()
+        .map(|d| depot_cost_eur(d.archetype))
+        .sum();
+    let rolling_stock_eur =
+        f64::from(fleet_total_trainsets) * trainset_cost_eur(family);
+
+    let route_km = (at_grade_m + elevated_m + bridge_m) / 1_000.0;
+    let signalling_eur = route_km * SIGNALLING_EUR_PER_KM;
+    let power_eur = route_km * POWER_EUR_PER_KM;
+
+    let pre_epc = civil_subtotal_eur
+        + stations_eur
+        + depots_eur
+        + rolling_stock_eur
+        + signalling_eur
+        + power_eur;
+    let epc_overhead_eur = pre_epc * EPC_OVERHEAD_FRACTION;
+    let total_eur = pre_epc + epc_overhead_eur;
+
     CostSummary {
         at_grade_eur,
         elevated_eur,
         bridge_eur,
-        total_eur: at_grade_eur + elevated_eur + bridge_eur,
+        junction_premium_eur,
+        civil_subtotal_eur,
+        stations_eur,
+        depots_eur,
+        rolling_stock_eur,
+        signalling_eur,
+        power_eur,
+        epc_overhead_eur,
+        total_eur,
     }
 }
 
@@ -1421,30 +1570,64 @@ mod tests {
     #[test]
     fn cost_estimate_applies_rfc_0011_rates() {
         use osr_routing::civil::CivilSegment;
+        // Toy line: 10 km at-grade + 1 km elevated + 0.5 km bridge =
+        // 11.5 route-km. Three stations (1 standard, 1 terminal, 1
+        // depot-terminal) and two depots (1 main-heavy + 1 layup).
+        // Fleet: 12 trainsets of metro-6car at €18 M each.
         let civil_per_line = vec![vec![
             CivilSegment {
                 class: CivilClass::AtGrade,
                 from_idx: 0,
                 to_idx: 10,
-                length_m: 10_000.0, // 10 km → 35 M€
+                length_m: 10_000.0, // 10 km × €3.5 M = €35 M
             },
             CivilSegment {
                 class: CivilClass::Elevated,
                 from_idx: 10,
                 to_idx: 11,
-                length_m: 1_000.0, // 1 km → 18 M€
+                length_m: 1_000.0, // 1 km × €18 M = €18 M
             },
             CivilSegment {
                 class: CivilClass::Bridge,
                 from_idx: 11,
                 to_idx: 12,
-                length_m: 500.0, // 0.5 km → 12.5 M€
+                length_m: 500.0, // 0.5 km × €25 M = €12.5 M
             },
         ]];
-        let c = compute_costs(&[], &civil_per_line);
+        let archetypes: Vec<&str> =
+            vec!["terminal", "standard", "depot-terminal"];
+        let depots = vec![
+            DepotBlock {
+                station_id: "S1".into(),
+                archetype: "main-heavy",
+                fleet_stalls: 15,
+            },
+            DepotBlock {
+                station_id: "S2".into(),
+                archetype: "layup-minimal",
+                fleet_stalls: 5,
+            },
+        ];
+        let c = compute_costs(&civil_per_line, &archetypes, &depots, 0, 12, "metro-6car");
+        // Civil works.
         assert!((c.at_grade_eur - 35_000_000.0).abs() < 1.0);
         assert!((c.elevated_eur - 18_000_000.0).abs() < 1.0);
         assert!((c.bridge_eur - 12_500_000.0).abs() < 1.0);
-        assert!((c.total_eur - 65_500_000.0).abs() < 1.0);
+        assert!((c.junction_premium_eur - 0.0).abs() < 1.0);
+        assert!((c.civil_subtotal_eur - 65_500_000.0).abs() < 1.0);
+        // Stations: terminal (€10 M) + standard (€8 M) + depot-terminal (€12 M).
+        assert!((c.stations_eur - 30_000_000.0).abs() < 1.0);
+        // Depots: main-heavy €150 M + layup-minimal €15 M.
+        assert!((c.depots_eur - 165_000_000.0).abs() < 1.0);
+        // Rolling stock: 12 × €18 M.
+        assert!((c.rolling_stock_eur - 216_000_000.0).abs() < 1.0);
+        // Systems: 11.5 km × (€1.5 M + €0.8 M).
+        assert!((c.signalling_eur - 17_250_000.0).abs() < 1.0);
+        assert!((c.power_eur - 9_200_000.0).abs() < 1.0);
+        // Subtotal before EPC = 65.5 + 30 + 165 + 216 + 17.25 + 9.2 = 502.95 M.
+        // EPC overhead = 10 % × 502.95 M = 50.295 M.
+        assert!((c.epc_overhead_eur - 50_295_000.0).abs() < 1.0);
+        // Total = 502.95 + 50.295 = 553.245 M.
+        assert!((c.total_eur - 553_245_000.0).abs() < 1.0);
     }
 }
