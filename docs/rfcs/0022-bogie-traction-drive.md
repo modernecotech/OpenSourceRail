@@ -44,6 +44,15 @@ unpowered axles simply don't carry the drivetrain.
   geometric shell + published interface dimensions; structural
   FEA is a vendor responsibility (Škoda Transportation, CAF,
   Voestalpine VAE — three known suppliers with MENA references).
+- **Not a heritage-bogie retrofit.** Where a brownfield deployment
+  has dormant freight stock (e.g. Samawah's 300–800 stored wagons
+  per [RFC 0003 §2.1](0003-samawah-reference-deployment.md#21-physical-asset-anchor--samawah-is-brownfield-not-greenfield)),
+  the OSR consist gets a **fresh OSR bogie frame** with **recovered
+  axles re-machined to 760 mm**, **recovered axleboxes + bearings**
+  (post-NDT), and **new chevron primary + air-spring secondary**.
+  Recovered legacy bogies are NOT spliced into the OSR consist —
+  see [RFC 0027 §6](0027-brownfield-pilot-asset-recovery.md#6-phase-3--first-article-osr-trainset-1224-months)
+  for the component-level mapping.
 
 ## 3. Reference dimensions
 

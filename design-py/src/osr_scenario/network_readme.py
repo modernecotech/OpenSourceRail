@@ -272,7 +272,7 @@ def _load_country_finance(country: str) -> dict:
 
 
 def _funding_and_affordability_section(
-    design: dict, costs: dict, stats: NetworkStats
+    design: dict, costs: dict, stats: NetworkStats, rel
 ) -> list[str]:
     """Emit the `## Funding & affordability` section: CAPEX funding
     stack (multilateral + sovereign + equity), annual OPEX, ticket
@@ -392,10 +392,11 @@ def _funding_and_affordability_section(
 
     out: list[str] = []
     out.append("## Funding & affordability\n")
+    finance_link = rel("lib/templates/country-finance.toml")
     out.append(
         "Planning-grade financing model anchored to country financial "
         "parameters from "
-        "[`lib/templates/country-finance.toml`](../../../lib/templates/country-finance.toml). "
+        f"[`lib/templates/country-finance.toml`]({finance_link}). "
         "Pure function of the [costs] block above + the country code — "
         "regenerate by re-running `scripts/regenerate-city.sh "
         f"{stats.city_name.split()[0].lower()}`.\n"
@@ -455,7 +456,7 @@ def _funding_and_affordability_section(
     out.append("### Ticket pricing anchored to median income\n")
     out.append(
         f"Country median monthly income: **${monthly_income:,.0f} USD** "
-        f"(per [`lib/templates/country-finance.toml`](../../../lib/templates/country-finance.toml)). "
+        f"(per [`lib/templates/country-finance.toml`]({rel('lib/templates/country-finance.toml')})). "
         f"Target affordability: monthly unlimited pass at 5 % of "
         f"median income → single-trip price set by the 30:1 pass / trip "
         f"ratio used by every operator in the affordability literature "
@@ -934,17 +935,17 @@ def render_readme(
         # Funding & affordability section — CAPEX funding stack, annual
         # OPEX estimate, ticket pricing anchored to country median
         # income. Reads `lib/templates/country-finance.toml`.
-        out.extend(_funding_and_affordability_section(design, rust_costs, stats))
+        out.extend(_funding_and_affordability_section(design, rust_costs, stats, rel))
         # Skip the per-unit fallback section below; jump to "## Files".
         return _finalise_readme(
             out, design_path, scenario_path, stats, screenshot_slug, rel
         )
 
     out.append("## Cost estimate\n")
+    cost_link = rel("design-py/src/osr_scenario/network_readme.py")
     out.append(
-        "Rule-of-thumb unit rates (see [`CostAssumptions`]"
-        "(../../../design-py/src/osr_scenario/network_readme.py) to "
-        "override per-country):\n"
+        f"Rule-of-thumb unit rates (see [`CostAssumptions`]({cost_link}) "
+        "to override per-country):\n"
     )
     out.append("| Component | Unit cost | Quantity | Estimate |")
     out.append("|---|---|---|---|")
@@ -1416,11 +1417,18 @@ def _rich_capex_section(
 def _rel_to_repo_root(path: Path) -> str:
     """Return the relative-path prefix from `path` up to the repo root
     (containing Cargo.toml). Used to fix up links in the generated
-    README regardless of how deeply the design folder is nested."""
+    README regardless of how deeply the design folder is nested.
+
+    `enumerate(cur.parents)` counts the *number of `..` segments* to
+    walk: depth 0 = immediate parent (one `..` up), depth 3 = great-
+    great-grandparent (four `..` up). For a design at
+    `designs/west-asia/Iraq/Samawah/`, the repo root is the 4th parent
+    (depth 3) so we need `(depth + 1) = 4` dotdots to reach it.
+    """
     cur = path.resolve()
     for depth, parent in enumerate(cur.parents):
         if (parent / "Cargo.toml").exists():
-            return "/".join([".."] * depth) if depth else ""
+            return "/".join([".."] * (depth + 1))
     return ".."
 
 

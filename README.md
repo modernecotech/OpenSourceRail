@@ -7,10 +7,7 @@
 > that deploy it.
 
 **Current milestone:** [**v0.1**](CHANGELOG.md) — first publishable
-snapshot. The software + documentation surface is complete enough for
-a deployment partner to start with. See [CHANGELOG.md](CHANGELOG.md)
-for what's ready, what needs external hands (KiCad capture, civil
-survey, regulator engagement, operator review), and how to engage.
+snapshot. See [CHANGELOG.md](CHANGELOG.md) for what's in tree.
 
 **Status:** 56 Rust crates (~400 tests passing, 0 failing) plus two
 Python sidecars (`design-py` for GIS + network synthesis, `mechanical-py`
@@ -22,35 +19,49 @@ cab is replaced by a nose-cone obstacle-detection sensor suite
 camera) on a dedicated T-OBS ECU, with **wayside track-intrusion
 detection** ([RFC 0016](docs/rfcs/0016-wayside-track-intrusion.md))
 covering the proactive half of the safety envelope between trains.
-The Samawah reference scenario
-([RFC 0003](docs/rfcs/0003-samawah-reference-deployment.md)) runs end-to-end,
-and the design pipeline now synthesises multi-line networks for arbitrary
-cities directly from OpenStreetMap — **including road-snapped corridors**
-computed by `osr-routing`'s cost/demand Dijkstra on the OSM arterial graph.
-Population-tiered topology: small cities get a radial bundle; cities with
-a budget for ≥ 4 lines also get a circumferential **ring** at ~0.55 ×
-urban radius (London Circle / Beijing Line 2 / Madrid 6 / Tokyo Yamanote
-pattern), so passengers can transfer tangentially between outer-suburb
-radials without entering the CBD.
+The [Samawah pilot](docs/rfcs/0003-samawah-reference-deployment.md)
+is a **brownfield deployment** anchored on the 300–800 dormant freight
+wagons + rolling-stock workshop adjacent to Samawah Train Station per
+[RFC 0027](docs/rfcs/0027-brownfield-pilot-asset-recovery.md), not a
+greenfield reference scenario. The design pipeline synthesises
+multi-line networks for any city listed in
+[`lib/city-batches/world-sample.toml`](lib/city-batches/world-sample.toml)
+from real OSM + WorldPop population data. Population-tiered topology:
+small cities get a 3-line radial bundle converging on a central
+interchange; cities with a budget for ≥ 4 lines also get a
+circumferential **ring** at ~0.7 × urban radius (London Circle /
+Beijing Line 2 / Madrid 6 / Tokyo Yamanote pattern). One-command
+regeneration: `scripts/regenerate-city.sh <slug>`.
 
 ![Samawah reference network — three auto-planned radial lines on OpenStreetMap, arterial-routed](designs/west-asia/Iraq/Samawah/samawah-network-map.png)
 
 *Samawah (~374 k pop, Iraq 2024 census, As-Samawah Subdistrict
 including urban + rural per [`lib/city-batches/world-sample.toml`](lib/city-batches/world-sample.toml)) —
-**auto-planned** end-to-end by `osr-design` against real OSM data
-*plus* the WorldPop residential-population layer (so lines reach
-population centres without mapped POIs, not just hospital / university
-clusters). Three radial lines, **all three converging at a single
-elevated-junction interchange complex at the city centre** (3
-interchange-platform stations sharing one junction-group),
-25 unique stations at ~1.2 km average spacing
-(1.2 km inner / 2 km transitional / 4 km outer per
-[`SpacingConfig::default()`](crates/osr-routing/src/station.rs)),
-30.5 km of double-track, **61.4 % anchor-weighted coverage**, all
-soft gates passing. Fleet 35 × 3-car `light-metro-3car` (29 revenue
-+ 6 spare/cold-reserve) sized per RFC 0014 §4 round-trip /
-5-min-headway formula. Planning-grade CAPEX **≈ €392 M**, ≈ €13 M /
-route-km, ≈ €1,049 per resident. **OSR-discipline
+**a brownfield pilot, not a greenfield reference scenario.**
+2026-04-26 satellite review (RFC 0003 §2.1) identifies **300–800
+dormant freight wagons stored across two yards adjacent to Samawah
+Train Station, plus a rolling-stock workshop building** (the 2011
+Iranian Waxon Park rehabilitation target). Iraqi Republic Railways
+operates a fleet of 10,326 freight wagons + 255 passenger coaches
+on the active Baghdad–Basra mainline through the city. Standard
+gauge (1 435 mm) matches RFC 0009. The OSR Samawah pilot is
+specified by [RFC 0027 (brownfield asset-recovery doctrine)](docs/rfcs/0027-brownfield-pilot-asset-recovery.md)
+as the systematic conversion of this rail-yard + workshop complex
+into the first OSR rolling-stock production site, with
+**~$8–15 M of recoverable mechanical-component value** and
+**~$3–6 M of recoverable workshop infrastructure** offsetting the
+greenfield CAPEX baseline.*
+
+*Network — **auto-planned** end-to-end by `osr-design` against real
+OSM data *plus* the WorldPop residential-population layer (so lines
+reach population centres without mapped POIs). Three radial lines,
+**all three converging at a single elevated-junction interchange
+complex at the city centre**, 24 unique stations at ~1.2 km average
+spacing, 33.0 km of double-track, **61 %+ anchor-weighted coverage**,
+all soft gates passing. Fleet 37 × 3-car `light-metro-3car`
+(31 revenue + 6 spare/cold-reserve). Planning-grade CAPEX
+**≈ €390 M** (greenfield baseline; brownfield path drops a further
+~€20–40 M off depot + rolling-stock CAPEX per RFC 0027). **OSR-discipline
 unit costs** throughout — prefab portal-frame canopies, at-grade
 depots without overhead bridge cranes, commodity Na-ion cells,
 tier-2 PMSM motors, DIY SiC inverters, open-source CBTC on
@@ -78,7 +89,7 @@ spare/cold-reserve) per RFC 0014 §4. Planning-grade CAPEX
 rates before the per-country multiplier. See
 [designs/west-asia/Iraq/Baghdad/README.md](designs/west-asia/Iraq/Baghdad/README.md).*
 
-Twenty-six RFCs cover the full system from software
+Twenty-seven RFCs cover the full system from software
 architecture through rail civil engineering to driverless operation; the
 operations rulebook ([RFC 0013](docs/rfcs/0013-operations-rulebook.md)) is
 drafted across four shipping role families (dispatcher / station-staff /
@@ -319,15 +330,6 @@ for GoA 2 legacy fleets. Most of the
   parser bug pre-auth. Three SIL-2 properties S1–S3 with Kani harnesses
   + 5 proptests; GSN goals G25–G27 close against real evidence.
 
-Still to come: KiCad schematics and gerbers for the [RFC 0007](docs/rfcs/0007-hardware-reference-designs.md)
-host classes (v2 specs at [`hardware/*/schematics/v2-spec/`](hardware/)
-— the board nets, pinouts, safety-critical routing rules, and power
-budgets are locked; KiCad capture and PCB layout are the v3
-deliverable), cybersecurity (`osr-secbus`), full TSN replacement for the
-UDP TCN transport, and per-tool converter scripts for the
-[OSR-ALN alignment interchange format](docs/civil/osr-aln-format.md)
-(Civil 3D / OpenRail / Trimble / QGIS).
-
 ---
 
 ## Why this project exists
@@ -446,7 +448,8 @@ OpenSourceRail/
 │       ├── 0023-door-system-reference-design.md   Electric linear-actuator door operator (EN 14752, $20–40 k vendor → ~$2 k DIY).
 │       ├── 0024-battery-thermal-high-ambient.md   PCM mass + dedicated chiller for ≥ 50 °C ambient envelopes.
 │       ├── 0025-diy-switch-and-point-machine.md   Regional switch-shop bootstrap (~$580 k CAPEX, ~$10 k per 1:9 turnout vs $120 k vendor).
-│       └── 0026-charging-connector-reconciliation.md   Two-tier connector architecture (CCS2 depot + side-pin/pantograph terminal).
+│       ├── 0026-charging-connector-reconciliation.md   Two-tier connector architecture (CCS2 depot + side-pin/pantograph terminal).
+│       └── 0027-brownfield-pilot-asset-recovery.md   Three-phase doctrine for converting dormant rolling stock + dormant rail workshops into OSR production capacity (Samawah, Atbara, Karachi, Maputo, Luanda, Tashkent worked examples).
 ├── crates/                   56 Rust crates — grouped by role below.
 │   ├── osr-core/             Shared domain types (topology, trains, IDs).
 │   │   └── proto/track_state.proto         Interface definitions.
@@ -551,41 +554,47 @@ OpenSourceRail/
 │       │                     buildability surfaces, binary + JSON sidecar.
 │       └── osr_batch/        Batch driver + GeoNames → cities.toml scanner
 │                             with built-in existing-transit denylist.
-├── hardware/                 Hardware reference designs (RFC 0007 v2-spec
-│   │                         complete across every host class; KiCad capture
-│   │                         pending).
+├── hardware/                 Hardware reference designs (RFC 0007 v2-spec).
 │   ├── t-ecu-s/              Train safety kernel (2 × RP2350 2oo2 + RPi CM5).
 │   ├── t-ecu-a/              Train application (RPi CM5 carrier).
 │   ├── t-obs/                Train obstacle-detect ECU (2 × RP2350 + CM5 + sensors).
 │   ├── w-sbc/                Wayside (Radxa CM5 RK3588S, one SKU).
-│   └── s-sbc/                Station / depot (RPi CM5 + commodity carrier).
+│   ├── s-sbc/                Station / depot (RPi CM5 + commodity carrier).
+│   └── diy-assembly/         Per-host-class commodity-module BOMs (RFC 0019).
 ├── tools/
 │   ├── reference-ma/         Python reference interpreter for osr-interlocking
 │   │                         (differential twin against Rust, RFC 0004 M4).
-│   └── osr-aln-convert/      NEW (RFC 0009 v3): LandXML → OSR-ALN converter
-│                             for Civil 3D / Bentley OpenRail / Trimble / QGIS.
-├── designs/                  City-specific design artifacts + templates.
+│   └── osr-aln-convert/      LandXML → OSR-ALN converter (RFC 0009 v3) for
+│                             Civil 3D / Bentley OpenRail / Trimble / QGIS exports.
+├── lib/
+│   ├── city-batches/         Canonical city catalogue (slug → bbox / country /
+│   │                         population / climate). `world-sample.toml` is the
+│   │                         8-city calibration set; population fields source
+│   │                         national-stats-office figures (Iraq 2024 census,
+│   │                         INSEE 2023, INEC 2022, etc.).
 │   ├── templates/            Reusable Lego-block TOMLs (stations, switches,
-│   │                         signalling, structures, fleets, …).
-│   ├── cities/               Driver inputs (calibration + world-sample + the
-│   │                         500-city production scan).
-│   ├── examples/             Generic template scenarios (example-simple.toml).
-│   └── west-asia/Iraq/Samawah/
-│                             Full per-city folder: design.toml + compiled
-│                             scenario TOMLs + README with map, stats, cost.
+│   │                         signalling, structures, fleets, energy-sites,
+│   │                         country-costs, country-finance).
+│   ├── recipes/              City-to-design generation rules (climate, topology,
+│   │                         fleet sizing).
+│   └── examples/             Generic template scenarios (`example-simple.toml`,
+│                             `minimal-city.toml`).
+├── designs/                  Per-city design artifacts (`design.toml` +
+│   │                         scenario + map PNG + README + GeoJSON +
+│   │                         design-quality YAML, all auto-generated by
+│   │                         `scripts/regenerate-city.sh <slug>`).
+│   └── west-asia/Iraq/{Samawah,Baghdad}/
+│                             Two worked examples per RFC 0003 + the brownfield-
+│                             pilot doctrine in RFC 0027.
+├── scripts/
+│   └── regenerate-city.sh    Slug-driven end-to-end regeneration: OSM →
+│                             rasterise (with WorldPop) → osr-design synthesis
+│                             → scenario → map PNG → README → drift tests.
 └── formal/tla/
     ├── SMRaft.tla            Consensus protocol spec.
     ├── MCSmall.tla           Small TLC harness.
     └── MCSmall.cfg           TLC config.
 ```
-
-Remaining items from the [RFC 0005](docs/rfcs/0005-sbc-software-architecture.md)
-roadmap — notably the **full (non-mock) TSN transport** for the on-train
-TCN bus (the UDP `osr-tcn::UdpTcn` transport ships as a drop-in stand-in
-on commodity Ethernet) and the v2 wiring of `osr-secbus` (RFC 0017
-ed25519-signed envelopes) into the live consensus wire layer — are planned
-but not yet in tree. `osr-secbus` v1 (key registry + signed-bytes envelope
-+ verify-before-deserialise) is in.
 
 ## Quick start
 
@@ -598,15 +607,18 @@ cargo run --release --bin osr-sim -- --duration 3600 --status-every 300
 This runs a one-hour simulation of the **built-in `samawah` scenario**
 — a 2-line hand-designed reference network (Line 1 "Nahrain" radial +
 Line 2 "Halqa" ring, 22 stations, 10 trainsets) compiled into the
-binary, retained as a stable end-to-end test fixture. Note this is
-distinct from the **auto-planned** Samawah design at
-[designs/west-asia/Iraq/Samawah/](designs/west-asia/Iraq/Samawah/),
-which today's pipeline emits as 3 radial lines / 40 stations / 44
-trainsets from real OSM data — pass `--config designs/west-asia/Iraq/Samawah/samawah.toml`
-to run the auto-planned variant. The output shows each train's
-position and state-of-charge at regular intervals, grouped by line,
-followed by a summary of per-line km, energy consumed vs. charged,
-dispatch hold time, and any invariant violations (there should be none).
+binary as a stable end-to-end test fixture. The output shows each
+train's position and state-of-charge at regular intervals, per-line
+km, energy consumed vs. charged, dispatch hold time, and any
+invariant violations (there should be none).
+
+The **auto-planned** Samawah design at
+[designs/west-asia/Iraq/Samawah/](designs/west-asia/Iraq/Samawah/) is
+a different artefact — 3 radial lines / 24 stations / 37 trainsets
+emitted by `osr-design` from real OSM + WorldPop data per the
+brownfield pilot doctrine of [RFC 0027](docs/rfcs/0027-brownfield-pilot-asset-recovery.md)
++ [RFC 0003](docs/rfcs/0003-samawah-reference-deployment.md). Run it
+with `--config designs/west-asia/Iraq/Samawah/samawah.toml`.
 
 ## Designing your own city
 
@@ -623,7 +635,7 @@ Reference scenarios:
 
 - **`--scenario samawah`** (default) — built-in **hand-designed** 2-line Samawah network from RFC 0003 §3.1–§3.2 (Line 1 Nahrain radial + Line 2 Halqa ring, 22 stations, time-of-day headway schedule). Compiled into the binary, no TOML required. Used as a stable end-to-end test fixture.
 - **`--scenario samawah-line1`** — Line 1 only, useful for scale comparisons.
-- **`--config designs/west-asia/Iraq/Samawah/samawah.toml`** — the **auto-planned** Samawah design emitted by `osr-design` from real OSM data (3 lines, 40 stations, 44 trainsets at the 2024-census 374 k population). Different layout from the hand-designed built-in; the auto-plan is what scales to other cities.
+- **`--config designs/west-asia/Iraq/Samawah/samawah.toml`** — the **auto-planned** Samawah design emitted by `osr-design` from real OSM + WorldPop data (3 lines, 24 stations, 37 trainsets at the 2024-census 374 k population). Different layout from the hand-designed built-in; the auto-plan is what scales to other cities.
 - **[`example-simple.toml`](lib/examples/example-simple.toml)** — 3-station shuttle with 1 train. The smallest viable config; copy as a template for `--config`.
 
 The full file-format reference is in [`lib/examples/README.md`](lib/examples/README.md).
@@ -637,48 +649,56 @@ analysis.
 
 ## Auto-designing networks from GIS data
 
-The hand-authored Samawah scenario is the reference; it is not the only
-way in. The design pipeline can synthesise a complete two-line network for
-any bounding box on Earth using live OpenStreetMap data:
+The pipeline synthesises a complete network for any city listed in the
+canonical catalogue at [`lib/city-batches/world-sample.toml`](lib/city-batches/world-sample.toml)
+— or for any new city you add there — from real OpenStreetMap +
+WorldPop population data. **One command per city:**
 
 ```
-# 1. One-time: install the Python sidecar.
+# One-time: install the python sidecar.
 pip install -e design-py[geotiff,batch]
-
-# 2. Scan GeoNames for candidate cities (drops any with existing metro/tram/LRT).
-osr-cities-scan --geonames cities500.txt \
-                --min-pop 400000 --max-cities 500 \
-                --out lib/city-batches/batch-500.toml
-
-# 3. Run the full pipeline against a calibration set or the full 500.
 cargo build --release --bin osr-design
-python -m osr_batch --cities lib/city-batches/world-sample.toml \
-                    --cache /tmp/osr-cache \
-                    --out   /tmp/osr-out \
-                    --osr-design ./target/release/osr-design
+
+# Per-city, end-to-end (slug must exist in lib/city-batches/world-sample.toml):
+scripts/regenerate-city.sh samawah
+scripts/regenerate-city.sh baghdad
 ```
 
-For each city the pipeline:
+The regen script chains eight steps:
 
-1. Pulls arterials, buildings, water, protected land, and POI anchors
-   from Overpass (cached by query hash — reproducible across runs).
-2. Rasterises them into a 20 m cost surface (arterials cheap, buildings
-   priced at elevated, parks at elevated, water at bridge) plus a
-   Gaussian demand surface around POI anchors.
-3. Picks a topology archetype from the city's population
-   (`SingleRadial` ≤ 300k, `RadialPlusRing` ≤ 1M, `CrossPlusRing` ≤ 3M,
-   `HubAndSpokeDualRing` above), routes each line with a demand-rewarded
-   Dijkstra, places stations with demand-adaptive spacing, and classifies
-   every segment (at-grade / elevated / bridge — tunnels are not in the
-   palette per RFC 0011).
-4. Emits `{slug}.design.toml`, `{slug}.corridor.geojson`, and a
-   `{slug}.design-quality.yaml` with hard gates (has stations, reasonable
-   length) and soft gates (anchor coverage, anchor hit rate) for triage.
+1. **OSM pull** — Overpass query for arterials, buildings, water,
+   protected land, demand-anchor POIs (universities, hospitals,
+   `aeroway=*`, `place=*`, `railway=station`). Cache-keyed on query
+   text.
+2. **Raster bundle** — 20 m cost / demand / buildability grid via
+   `osr_geo`. Demand blends a Gaussian POI-anchor layer with the
+   WorldPop residential-population layer (so lines reach population
+   centres without mapped POIs).
+3. **Design synthesis** — `osr-design` (rust) routes each line with a
+   demand-rewarded Dijkstra against the [topology archetype](crates/osr-routing/src/topology.rs)
+   for the population band (`SingleRadial` ≤ 300 k, `RadialPlusRing`
+   ≤ 1 M, `CrossPlusRing` ≤ 3 M, `HubAndSpokeDualRing` above). Stations
+   placed at 1.2 km inner / 2 km transitional / 4 km outer
+   ([`SpacingConfig`](crates/osr-routing/src/station.rs)). Civil
+   classification (at-grade / elevated / bridge — no tunnels per
+   RFC 0011). Fleet sizing per RFC 0014 §4 round-trip / 5-min headway.
+   CAPEX per RFC 0011 §9 with OSR-discipline unit costs.
+4. **Scenario file** — expanded simulator scenario `<slug>.toml`.
+5. **Network map PNG** — auto-fit map of every line on OSM arterials,
+   one colour per line, interchange complexes flagged.
+6. **Per-network README** — full breakdown with the [costs] block,
+   [funding & affordability](lib/templates/country-finance.toml)
+   anchored to country median income, station-archetype unit table,
+   energy-infrastructure tier table.
+7. **Stats summary** — drift-test inputs.
+8. **Drift tests** — `tests/test_osr_scenario.py` +
+   `tests/test_population_drift.py` against the catalogue.
 
-The `osr_batch.existing_transit` denylist (≈ 600 cities, 80 countries)
-keeps Paris, Tokyo, Cairo, etc. out of auto-generation. Override with
-`--include-existing-transit` for solver calibration on cities that have
-rich OSM data because they do already run rail.
+For the batch path (e.g. scanning 500 cities), `python -m osr_batch
+--cities lib/city-batches/world-sample.toml` runs steps 1–4 in
+parallel. The `osr_batch.existing_transit` denylist (~600 cities,
+80 countries) keeps Paris, Tokyo, Cairo, etc. out of auto-generation
+unless `--include-existing-transit` is passed for calibration.
 
 ## Reading order
 
@@ -806,47 +826,40 @@ Complementary rail-engineering RFCs:
 - [RFC 0024](docs/rfcs/0024-battery-thermal-high-ambient.md) — PCM thermal mass + dedicated chiller for ≥ 50 °C ambient envelopes (Samawah-class).
 - [RFC 0025](docs/rfcs/0025-diy-switch-and-point-machine.md) — Regional switch-shop bootstrap (~$10 k per 1:9 turnout vs $120 k vendor; ~15× CAPEX payback over 80 switches).
 - [RFC 0026](docs/rfcs/0026-charging-connector-reconciliation.md) — Two-tier connector architecture: CCS2 at depots + side-pin / pantograph-down at terminals.
+- [RFC 0027](docs/rfcs/0027-brownfield-pilot-asset-recovery.md) — Brownfield-pilot doctrine (asset assessment → component recovery → first-article OSR trainset). Anchored on Samawah's existing rail yard + workshop; applies to any country with a dormant rolling-stock stockpile.
 
 ## How to get involved
 
-Right now the highest-leverage contributions are:
-
-1. **Review the architecture and RFCs.** Especially from people with real rail
-   signaling, power-electronics, or safety-case experience. File issues with
-   specific disagreements.
-2. **Climate and grid data** for specific target corridors. The energy sizing
-   in RFC 0002 uses planning-grade numbers; real deployments need real data.
-3. **KiCad capture of the T-ECU/S and W-SBC v2 specs.** The net list,
-   pinouts, safety-critical routing rules, power budget, and connector
-   tables are locked at [`hardware/t-ecu-s/schematics/v2-spec/`](hardware/t-ecu-s/schematics/v2-spec/)
-   and [`hardware/w-sbc/schematics/v2-spec/`](hardware/w-sbc/). KiCad
-   schematic capture + 4-layer PCB layout are the remaining v3
-   deliverable.
-4. **Civil-tool converters for OSR-ALN.** The alignment interchange
-   format at [`docs/civil/osr-aln-format.md`](docs/civil/osr-aln-format.md)
-   specifies round-trip civil-engineering data, but the Civil 3D /
-   OpenRail / Trimble / QGIS converter scripts are not yet in tree.
-5. **Operator review of the RFC 0013 v2 rulebook.** Practising
-   drivers, dispatchers, and maintenance leads reading the
-   [`docs/operations/`](docs/operations/) rule text against their
-   real-world practice. Red-line comments are the v2.1 input.
-6. **Pick an unscaffolded crate from the [RFC 0005](docs/rfcs/0005-sbc-software-architecture.md)
-   map.** A full-TSN replacement for the current UDP TCN transport is
-   still open; cybersecurity (`osr-secbus`) v1 is in tree as of
-   [RFC 0017](docs/rfcs/0017-cybersecurity-message-authentication.md)
-   but v2 (wiring into the live consensus wire layer) is open.
+1. **Phase-1 brownfield assessment for Samawah** ([RFC 0027](docs/rfcs/0027-brownfield-pilot-asset-recovery.md))
+   — site visit + fleet census + workshop tooling audit + IRR / Iraqi
+   Ministry of Transport disposition MoU. The single highest-value
+   next step on the OSR programme: turns the Samawah pilot from a
+   satellite-image observation into a deployment proposal. Diaspora
+   technical-community introductions are the gating channel.
+2. **Architecture + RFC review** from people with real rail signalling,
+   power-electronics, or safety-case experience. File issues with
+   specific disagreements; the RFCs reward red-pen.
+3. **Operator review of the [RFC 0013](docs/rfcs/0013-operations-rulebook.md)
+   rulebook.** Practising dispatchers, station staff, and maintenance
+   leads reading [`docs/operations/`](docs/operations/) against their
+   real-world practice.
+4. **Climate + grid data** for specific target corridors. The
+   [RFC 0002](docs/rfcs/0002-energy-sizing.md) energy-sizing model uses
+   planning-grade defaults; real deployments need real PSH and grid-
+   reliability data.
+5. **A new city in [`lib/city-batches/world-sample.toml`](lib/city-batches/world-sample.toml).**
+   Add a slug + bbox + country + verified population
+   (national-stats-office source) and run
+   `scripts/regenerate-city.sh <slug>`. Extending the test set to a
+   second continent is more useful than a fifteenth Iraqi city.
 
 ## License
 
-Licensing is being finalized. The current proposal, stated in
-[ARCHITECTURE §9 Phase 0](docs/ARCHITECTURE.md):
+Per [ARCHITECTURE §9](docs/ARCHITECTURE.md):
 
 - **Software:** Apache 2.0
 - **Hardware designs:** CERN-OHL-S v2
 - **Documentation:** CC-BY-SA 4.0
-
-Nothing is final until the governance RFC lands; contributions made before
-then are on the understanding that they will be licensed under these terms.
 
 ## Non-goals
 

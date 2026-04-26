@@ -53,6 +53,15 @@ depot at-grade has an alignment problem, not a depot problem.
 - **Not an HR / workforce document.** Shift patterns and
   headcount from the ops rulebook (RFC 0013) and the workforce
   template.
+- **Not a brownfield-rehabilitation scope.** Where a deployment
+  inherits an existing rail workshop (Samawah, Khartoum-Atbara,
+  Karachi Cantt, Maputo Machava, etc.), [RFC 0027](0027-brownfield-pilot-asset-recovery.md)
+  governs the conversion of the existing site into an OSR depot.
+  This RFC's archetypes are the **greenfield** envelope; the
+  brownfield path swaps depot CAPEX (€25 M / €10 M / €3 M) for
+  workshop rehabilitation (~$0.5–2 M building + $1–3 M new
+  OSR-specific tooling) — an order-of-magnitude saving that the
+  per-deployment plan should commit to whenever assets are real.
 
 ## 3. Why three archetypes
 

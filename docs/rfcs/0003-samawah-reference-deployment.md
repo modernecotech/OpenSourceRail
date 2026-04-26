@@ -24,7 +24,7 @@ This is the reference case for `osr-sim`, the anchor for conversations with pote
 | Factor | Samawah | What it means for OSR |
 |---|---|---|
 | Population | ~373,770 (As-Samawah Subdistrict, 2024 Iraq census; canonical figure in [`lib/city-batches/world-sample.toml`](../../lib/city-batches/world-sample.toml)) | Right-sized for light metro — too small for a major vendor to bother with, ideal for an open-source first deployment |
-| Existing rail | Station on Baghdad–Basra mainline | Rail culture and a natural intercity interchange already exist |
+| Existing rail | Station on Baghdad–Basra mainline + **rail yard with 300–800 stored wagons + adjacent rolling-stock workshop** (see §2.1) | Rail culture, intercity interchange, **and a brownfield-recovery anchor that turns this from a reference scenario into a deployable pilot** |
 | Climate | Hot desert; ~6+ peak sun hours annual mean | PV yield ~20% above the RFC 0002 reference (5 PSH) — catenary-free + solar is conservative, not ambitious |
 | Grid reliability | Limited; frequent outages | Storage autonomy has real operational value, not just a planning formality |
 | Existing electrification | None on Iraqi mainlines | No legacy catenary, no vendor-locked OCS — greenfield on D7 |
@@ -33,6 +33,80 @@ This is the reference case for `osr-sim`, the anchor for conversations with pote
 | Workforce | Engineering graduates from Al-Muthanna University | Potential domestic design/build partnership — the core promise of OSR is "workers who design and build the systems in the country" |
 
 The combination is close to optimal: genuine need, favorable physics, no legacy to migrate, and domestic technical capacity to engage. If OSR cannot make sense here, it likely cannot make sense anywhere.
+
+### 2.1 Physical-asset anchor — Samawah is brownfield, not greenfield
+
+Satellite imagery review (2026-04-26) of the rail yards immediately
+adjacent to **Samawah Train Station (محطة قطار السماوة)** identifies
+two stockpiles of dormant rolling stock:
+
+- **Northern yard** (along Samawah Train Station): ~4–6 parallel
+  sidings packed end-to-end. **Estimated ~120–300 wagons.**
+- **Southern yard** (diagonal NE–SW sidings): ~5–8 parallel sidings
+  with similar density, plus a large workshop / shed building at the
+  southern end. **Estimated ~150–480 wagons.**
+- **Total estimate: ~300–800 wagons.** Predominantly standard 4-axle
+  freight stock (covered wagons, hoppers, flatbeds) — passenger
+  coaches a small fraction.
+
+The southern yard's workshop building was the target of a 2011
+Iranian Waxon Park rehabilitation deal (per *Iraqi Business News*
+historical reporting). Outcome of that deal is unclear and is part of
+the [RFC 0027](0027-brownfield-pilot-asset-recovery.md) Phase 1
+assessment.
+
+National context (Iraqi Republic Railways / IRR / السكك الحديد
+العراقية):
+
+- **National fleet:** 10,326 freight wagons, 255 passenger coaches
+- **Gauge:** 1 435 mm standard nationwide → fully compatible with
+  [RFC 0009](0009-track-design-standard.md)
+- **Couplers:** SA-3 (Soviet automatic) + screw/buffer combo →
+  **incompatible** with the Scharfenberg Type 10 spec'd by RFC 0008
+  §3.1, but the recovered drawgear is resaleable to legacy operators
+  (RFC 0027 §5.3)
+
+**What this means for the Samawah pilot:** the pilot is no longer a
+hypothetical greenfield deployment. It is the systematic conversion
+of an existing rail-yard + workshop complex into the first OSR
+production site, anchored on:
+
+1. **A dormant fleet with recoverable wheelsets, axleboxes, brake
+   gear, and structural steel** worth $8–15 M in component value
+   against $1–3 M in recovery operations cost (per RFC 0027 §3).
+2. **An existing workshop building with foundations, pit tracks, and
+   crane gantries** that would otherwise require €5–8 M to build
+   greenfield (RFC 0014).
+3. **An active rail corridor** through the city, available as the
+   intercity interchange at the Samawah Railway Station terminal
+   (Line 3 SE branch in §3.3 above).
+4. **Standard gauge** matching OSR spec — no gauge conversion
+   required.
+5. **A national rail authority (IRR) under reconstruction pressure**
+   — the political context favours engagement.
+
+**Conversion strategy** is in
+[RFC 0027 — Brownfield Pilot: Existing-Asset Recovery & Workshop
+Integration](0027-brownfield-pilot-asset-recovery.md), which carries
+the per-phase doctrine, recovery yield estimates, workshop conversion
+matrix, and risk register. RFC 0027 is intended to apply to every
+brownfield deployment, not just Samawah; the candidate-city list is
+in §9 there.
+
+**Status of the brownfield assessment** at time of writing:
+- ☐ Phase 1 site visit + fleet census — **not yet started; gating item**
+- ☐ Workshop tooling audit — pending Phase 1
+- ☐ NDT campaign on a sample wheelset population — pending Phase 1
+- ☐ MoU draft with IRR / Iraqi Ministry of Transport — pending
+  diplomatic / technical-community introduction
+
+The single highest-value next step on the OSR programme is **getting
+a real Phase 1 census on the ground**. Without it, the Samawah
+deployment costs in §1 of [RFC 0021](0021-battery-traction.md) and
+the depot CAPEX in [RFC 0014](0014-depot-design-standard.md) are
+greenfield estimates; with it, the per-consist mechanical CAPEX
+drops by **~$30–60 k** and the depot CAPEX drops by **a factor of 5–10**
+per RFC 0027.
 
 ## 3. Geography and Indicative Alignment
 

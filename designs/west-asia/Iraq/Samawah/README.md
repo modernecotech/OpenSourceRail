@@ -2,7 +2,7 @@
 
 **Country:** IQ · **Population:** 373,770
 
-Auto-planned by the OpenSourceRail design pipeline: [`osr_geo`](../../../design-py/src/osr_geo/) rasterises Overpass-verified OpenStreetMap features (arterial road graph, buildings, water, protected land, demand-anchor POIs) onto a 20 m cost / demand / buildability grid; [`osr-design`](../../../crates/osr-design/) (rust) runs a demand-rewarded Dijkstra on that grid to synthesise corridors, places stations against the demand surface, and classifies every segment (at-grade / elevated / bridge — no tunnels per [RFC 0011](../../../docs/rfcs/0011-civil-infrastructure-design-standard.md)). Population, country, and bbox are read from the canonical city catalog at [`lib/city-batches/world-sample.toml`](../../../lib/city-batches/world-sample.toml).
+Auto-planned by the OpenSourceRail design pipeline: [`osr_geo`](../../../../design-py/src/osr_geo/) rasterises Overpass-verified OpenStreetMap features (arterial road graph, buildings, water, protected land, demand-anchor POIs) onto a 20 m cost / demand / buildability grid; [`osr-design`](../../../../crates/osr-design/) (rust) runs a demand-rewarded Dijkstra on that grid to synthesise corridors, places stations against the demand surface, and classifies every segment (at-grade / elevated / bridge — no tunnels per [RFC 0011](../../../../docs/rfcs/0011-civil-infrastructure-design-standard.md)). Population, country, and bbox are read from the canonical city catalog at [`lib/city-batches/world-sample.toml`](../../../../lib/city-batches/world-sample.toml).
 
 ## Network map
 
@@ -64,18 +64,18 @@ Corridor polylines + stations as GeoJSON for GIS / alignment tooling: [`samawah.
 
 ## Energy infrastructure (solar + battery)
 
-On-site trackside + depot PV and battery storage. Per-tier sizing (from [`../../../lib/templates/energy-sites.toml`](../../../lib/templates/energy-sites.toml)):
+On-site trackside + depot PV and battery storage. Per-tier sizing (from [`../../../../lib/templates/energy-sites.toml`](../../../../lib/templates/energy-sites.toml)):
 
 | Tier | Sites | PV each | Battery each |
 |---|---|---|---|
 | Depot-Main | 1 | 5000 kW | 40000 kWh |
-| Interchange | 3 | 500 kW | 3000 kWh |
-| Major | 13 | 400 kW | 2500 kWh |
-| Standard | 3 | 300 kW | 2000 kWh |
+| Interchange | 7 | 500 kW | 3000 kWh |
+| Major | 10 | 400 kW | 2500 kWh |
+| Standard | 1 | 300 kW | 2000 kWh |
 | Terminal | 5 | 500 kW | 3000 kWh |
-| **Total installed** | **25** | **15,100 kW** | **102,500 kWh** |
+| **Total installed** | **24** | **15,300 kW** | **103,000 kWh** |
 
-Aggregate station-rail charging power: **14,000 kW**. Trains opportunity-charge during station dwell per RFC 0002; onboard 320 kWh battery covers running.
+Aggregate station-rail charging power: **14,500 kW**. Trains opportunity-charge during station dwell per RFC 0002; onboard 320 kWh battery covers running.
 
 ## CAPEX (planning grade)
 
@@ -145,7 +145,7 @@ Per-trainset BOM at OSR-discipline pricing: commodity Na-ion cells (~$80/kWh, RF
 
 ## Funding & affordability
 
-Planning-grade financing model anchored to country financial parameters from [`lib/templates/country-finance.toml`](../../../lib/templates/country-finance.toml). Pure function of the [costs] block above + the country code — regenerate by re-running `scripts/regenerate-city.sh samawah`.
+Planning-grade financing model anchored to country financial parameters from [`lib/templates/country-finance.toml`](../../../../lib/templates/country-finance.toml). Pure function of the [costs] block above + the country code — regenerate by re-running `scripts/regenerate-city.sh samawah`.
 
 ### CAPEX funding stack
 
@@ -169,7 +169,7 @@ Planning-grade financing model anchored to country financial parameters from [`l
 
 ### Ticket pricing anchored to median income
 
-Country median monthly income: **$380 USD** (per [`lib/templates/country-finance.toml`](../../../lib/templates/country-finance.toml)). Target affordability: monthly unlimited pass at 5 % of median income → single-trip price set by the 30:1 pass / trip ratio used by every operator in the affordability literature (STIB, Delhi Metro, Cairo Metro).
+Country median monthly income: **$380 USD** (per [`lib/templates/country-finance.toml`](../../../../lib/templates/country-finance.toml)). Target affordability: monthly unlimited pass at 5 % of median income → single-trip price set by the 30:1 pass / trip ratio used by every operator in the affordability literature (STIB, Delhi Metro, Cairo Metro).
 
 | Product | Price target |
 |---|---|

@@ -72,6 +72,17 @@ COUNTRY="$(read_field country)"
 BBOX="$(read_field bbox)"
 CONTINENT="$(read_field continent)"
 
+# Resolve full country name from `lib/templates/country-costs.toml`
+# (e.g. IQ → Iraq, FR → France) so the design folder reads as
+# `designs/west-asia/Iraq/Samawah/` rather than `designs/west-asia/IQ/Samawah/`.
+# Falls back to the ISO-2 code if the country isn't in country-costs.
+COUNTRY_NAME="$(python3 -c "
+import sys, tomllib
+costs = tomllib.loads(open('$REPO/lib/templates/country-costs.toml').read())
+country = costs.get('countries', {}).get('$COUNTRY')
+print(country.get('name', '$COUNTRY') if country else '$COUNTRY')
+")"
+
 # Resolve `<region>/<country>/<City>` design folder. Country code → region
 # uses the catalogue's `continent` field.
 case "$CONTINENT" in
@@ -84,7 +95,7 @@ case "$CONTINENT" in
     *)                            REGION="$CONTINENT" ;;
 esac
 CITY_TITLE="$(echo "$SLUG" | python3 -c 'import sys; print(sys.stdin.read().strip().title())')"
-DESIGN_DIR="$REPO/designs/$REGION/$COUNTRY/$CITY_TITLE"
+DESIGN_DIR="$REPO/designs/$REGION/$COUNTRY_NAME/$CITY_TITLE"
 
 echo "=== regenerating $SLUG ($COUNTRY) → $DESIGN_DIR ==="
 
