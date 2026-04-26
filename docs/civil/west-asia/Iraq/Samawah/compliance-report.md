@@ -95,7 +95,7 @@ preset upgrade to `standard-metro` or a special exception.
 
 If the detailed surveyed alignment lands tighter curves (e.g.
 the OSM-derived corridor of
-[`osr-routing`](../../../crates/osr-routing/) produces, say, a
+[`osr-routing`](../../../../../crates/osr-routing/) produces, say, a
 1 500 m apex at L2-04), the preset still supports it down to
 90 m — 20× margin before preset limits bite. The Samawah
 reference is deliberately generous; actual deployment

@@ -54,7 +54,7 @@ default.
 | `osr-crypto` | (inline) | C1–C4 + ed25519 determinism | 256 |
 
 **Total proptest properties:** 60+ across the SIL-4 + SIL-2
-crates. Rerun with `cargo test --workspace`; 705 tests currently
+crates. Rerun with `cargo test --workspace`; ~750 tests currently
 pass with zero failures.
 
 ## 3. Differential testing (Rust ↔ Python)
@@ -79,9 +79,9 @@ evaluator's restrictive path end-to-end.
 | Scenario | Fault kinds | What it demonstrates |
 |---|---|---|
 | `designs/west-asia/Iraq/Samawah/samawah.toml` | None | Nominal operation: zero spurious emergencies over multi-hour revenue sim |
-| `designs/west-asia/Iraq/Samawah/samawah-dust-storm.toml` | PV dust, grid outage, charging pad outage | Energy-system fault-tolerance |
-| `designs/west-asia/Iraq/Samawah/samawah-obstacle-fault.toml` | LIDAR/radar/ultrasonic/peer-disagreement (RFC 0015) | O1–O5 all fire through `BrakeInputs::obstacle_emergency` |
-| `designs/west-asia/Iraq/Samawah/samawah-wayside-intrusion.toml` | Present/Unknown on specific sections (RFC 0016) | Interlocking gate (d) withholds MA without a single train violating |
+| Built-in dust-storm fixture (sim CLI) | PV dust, grid outage, charging-pad outage | Energy-system fault-tolerance |
+| Built-in obstacle-fault fixture (sim CLI) | LIDAR/radar/ultrasonic/peer-disagreement (RFC 0015) | O1–O5 all fire through `BrakeInputs::obstacle_emergency` |
+| Built-in wayside-intrusion fixture (sim CLI) | Present/Unknown on specific sections (RFC 0016) | Interlocking gate (d) withholds MA without a single train violating |
 
 Rerun with `cargo run --release --bin osr-sim -- --config scenarios/<name>.toml`.
 
@@ -143,8 +143,8 @@ milestones (deferred alongside RFC 0007 v3 rollout).
 
 ## 8. Summary of evidence density
 
-- **51 crates** in the safety-relevant workspace.
-- **705 Rust tests** passing, 0 failing (as of 2026-04-23).
+- **56 crates** in the workspace.
+- **~750 Rust tests** passing, 0 failing.
 - **40+ Kani harnesses** across 9 SIL-4/SIL-2 evaluators.
 - **60+ proptest properties** across 13 crates.
 - **27 GSN top-level goals** closed against 70+ evidence solutions.

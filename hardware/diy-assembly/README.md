@@ -23,10 +23,11 @@ no hot-air station.
 - **[`sd-card-images.md`](sd-card-images.md)** — how to build
   and flash the per-host-class SD-card image (v0.2 will ship
   pre-built images; v0.1 you build from the workspace).
-- **[`safety-case-amendment.md`](safety-case-amendment.md)** —
-  the three paragraphs to add to the deployment's safety case
-  explaining why the DIY integration preserves the RFC 0015 /
-  RFC 0016 SIL-4 arguments.
+
+The DIY integration preserves the RFC 0015 / RFC 0016 SIL-4
+safety arguments via the same RP2350 silicon and 2oo2 AND-gate
+relay pattern used in the custom-PCB design — see
+[RFC 0019 §7](../../docs/rfcs/0019-diy-electronics.md).
 
 Per-host-class BOMs and wiring maps live under each host
 class's folder:

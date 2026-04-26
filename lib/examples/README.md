@@ -42,10 +42,11 @@ at a glance.
 
 | File | What it is |
 |---|---|
-| [`samawah.toml`](samawah.toml) | Two-line reference deployment for Samawah, Iraq (RFC 0003). Use it to see a realistic-size network end-to-end. |
-| [`samawah-line1.toml`](samawah-line1.toml) | Line 1 only; useful for isolating radial-line behaviour. |
-| [`samawah-dust-storm.toml`](samawah-dust-storm.toml) | Samawah network with injected faults (dust storm + depot grid outage + charging-pad outage) — use as a fault-injection template. |
 | [`example-simple.toml`](example-simple.toml) | Three-station shuttle, one train. The smallest viable config — copy this as a template for a new city. |
+| [`minimal-city.toml`](minimal-city.toml) | Slightly richer fixture exercising every required block. |
+| Built-in `samawah` scenario (compiled into `osr-sim` — pass `--scenario samawah`) | Two-line hand-designed reference deployment from RFC 0003. End-to-end test fixture, no TOML required. |
+| Built-in `samawah-line1` scenario | Line 1 only; useful for isolating radial-line behaviour. |
+| [`designs/west-asia/Iraq/Samawah/samawah.toml`](../../designs/west-asia/Iraq/Samawah/samawah.toml) | The auto-planned three-line `light-metro-3car` Samawah network emitted by `osr-design` from real OSM + WorldPop data. Pass via `--config` to `osr-sim`. |
 
 ## File format
 
@@ -274,9 +275,12 @@ a higher-power pad at each terminal.
 
 ### A ring
 
-See `line-2` in [`samawah.toml`](samawah.toml). Set `is_ring = true` and
-`ring_wrap_length_m` to close the loop. Typical ring fleets dispatch both
-clockwise and counterclockwise from 1–2 major interchange stations.
+See line-2 in the built-in `samawah` scenario, or any auto-planned
+megacity design at `designs/.../<City>/<slug>.toml` whose population
+band carries a ring (e.g. Baghdad's line-9). Set `is_ring = true`
+and `ring_wrap_length_m` to close the loop. Typical ring fleets
+dispatch both clockwise and counterclockwise from 1–2 major
+interchange stations.
 
 ### Multiple lines sharing interchanges
 

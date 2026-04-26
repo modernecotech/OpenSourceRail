@@ -187,8 +187,7 @@ shall correspond to a tolerable hazard rate.
 consistent with EN 50129 (SIL-4 allocated to the safety
 functions per the hazard log).
 
-**Evidence:** [residual-risk.md](residual-risk.md) (pending
-v1.1); [hazard-log.md](hazard-log.md) severity × frequency table.
+**Evidence:** [hazard-log.md](hazard-log.md) severity × frequency table.
 
 ### §7.2 — Systematic failures
 

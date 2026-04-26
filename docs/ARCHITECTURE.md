@@ -396,7 +396,7 @@ These are questions we do not yet have good answers to. Each will spawn a focuse
 4. [`docs/rfcs/0002-energy-sizing.md`](rfcs/0002-energy-sizing.md) — quantitative sizing for the catenary-free, solar-first energy architecture.
 5. [`docs/rfcs/0003-samawah-reference-deployment.md`](rfcs/0003-samawah-reference-deployment.md) — concrete reference deployment: Samawah, Iraq.
 6. [`docs/rfcs/0004-osr-interlocking-plan.md`](rfcs/0004-osr-interlocking-plan.md) — implementation plan for the Rust SIL-4 MA computer.
-7. [`docs/rfcs/0005-sbc-software-architecture.md`](rfcs/0005-sbc-software-architecture.md) — canonical 35-crate SBC software map.
+7. [`docs/rfcs/0005-sbc-software-architecture.md`](rfcs/0005-sbc-software-architecture.md) — canonical SBC software architecture + crate map.
 8. [`crates/osr-core/proto/track_state.proto`](../crates/osr-core/proto/track_state.proto) — the interface definitions.
 9. [`formal/tla/SMRaft.tla`](../formal/tla/SMRaft.tla) — TLA+ spec of the consensus protocol.
 

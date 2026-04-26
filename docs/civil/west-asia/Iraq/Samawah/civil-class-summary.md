@@ -50,7 +50,7 @@ Planning-grade €/km × civil mix:
 | **Civil total** | | | **€ 184 200 000** |
 
 Country cost factor for Iraq applies on top (from
-[`lib/templates/country-costs.toml`](../../../lib/templates/country-costs.toml)):
+[`lib/templates/country-costs.toml`](../../../../../lib/templates/country-costs.toml)):
 - Labour discount: ~0.4 × OECD.
 - Materials: ~0.95 × OECD.
 - Effective factor: ~0.65.

@@ -5,7 +5,7 @@ counterclockwise from Eastern Bridge. Every segment is
 `standard-urban` preset per RFC 0009. Two interchange points
 with Line 1: `eastern-bridge` and `al-muthanna-university`.
 
-**Station coordinates:** from [`design.toml`](../../../designs/west-asia/Iraq/Samawah/design.toml).
+**Station coordinates:** from [`design.toml`](../../../../../designs/west-asia/Iraq/Samawah/design.toml).
 
 ## Segment table
 

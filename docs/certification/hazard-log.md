@@ -14,9 +14,8 @@ Each row carries:
 - **Frequency without controls** — order-of-magnitude estimate for
   how often the hazard would occur absent any mitigation.
 - **Residual frequency** — the frequency that remains once the
-  listed controls are in place; the residual-risk narrative
-  in [residual-risk.md](residual-risk.md) argues the residual is
-  tolerable.
+  listed controls are in place; the per-hazard "Residual
+  acceptance" rows below argue why each residual is tolerable.
 - **Mitigating controls** — cross-referenced to requirements and
   artefacts.
 

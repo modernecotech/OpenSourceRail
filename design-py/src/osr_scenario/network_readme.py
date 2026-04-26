@@ -185,8 +185,11 @@ def compute_stats(
         if sec.get("name", "").lower() in ("peak", "am-peak", "pm-peak"):
             peak_headway_min = min(peak_headway_min, float(sec.get("headway_min", 5.0)))
 
+    # Default service window 05:30–02:00 (20.5 h/day) — hot-climate
+    # cities run later than the European 18 h day. Operator can
+    # override per scenario by setting `[timetable] service_hours`.
     service_hours = scenario.get("timetable", {}).get(
-        "service_hours", "05:30-23:30"
+        "service_hours", "05:30-02:00"
     )
     service_start, _, service_end = service_hours.partition("-")
 
@@ -229,7 +232,7 @@ def compute_stats(
         reserve_fleet=reserve,
         peak_headway_min=peak_headway_min,
         service_start=service_start.strip() or "05:30",
-        service_end=service_end.strip() or "23:30",
+        service_end=service_end.strip() or "02:00",
         total_pv_kw=total_pv,
         total_battery_kwh=total_batt,
         total_charging_kw=total_charging,
@@ -319,12 +322,31 @@ def _funding_and_affordability_section(
     bond_annuity = _annuity(bond_eur, bond_rate, tenor - grace)
     annual_debt_service_eur = multi_annuity + bond_annuity
 
-    # OPEX model. Components, all in EUR / year:
-    #   • rolling-stock maintenance     — 4 % of rolling-stock CAPEX/yr
-    #   • civil + station maintenance   — 2 % of (civil+stations+depots)/yr
-    #   • signalling + power maintenance — 5 % of signalling/yr (fast cycles)
-    #   • energy                        — 4 kWh/car-km × stat
-    #   • labour                        — derived from headcount × salary
+    # OPEX model. Components, all in EUR / year. Each line covers one
+    # discrete asset class — no double-counting between rolling-stock
+    # maintenance and traction power, no electricity charge on top of
+    # solar self-generation.
+    #
+    #   • rolling-stock maintenance — 4 % of rolling-stock CAPEX. Covers
+    #     onboard motors, batteries, body, electronics, brakes, doors,
+    #     HVAC, cell-replacement amortised over the 12 y Na-ion life.
+    #     Onboard batteries appear ONLY here.
+    #   • civil + station + depot maintenance — 2 % of (civil+stations+
+    #     depots) CAPEX. Covers track, building, station canopy,
+    #     **trackside PV array**, **trackside Na-ion stationary
+    #     storage**, and depot-side power infrastructure. Stationary
+    #     batteries appear ONLY here.
+    #   • signalling + comms maintenance — 5 % of signalling CAPEX
+    #     (fast cycles for trackside electronics).
+    #   • traction energy — **€0 / yr in the steady state**. The
+    #     network is self-sufficient on its own trackside PV per
+    #     RFC 0002 §6 (~$30 M energy-subsystem CAPEX sized for the
+    #     deployment's full kWh/car-km demand). Earlier OPEX models
+    #     billed €0.10/kWh × annual car-km on top of that — i.e. they
+    #     paid for the same electricity twice (once in the PV CAPEX,
+    #     once as a phantom utility bill). Removed 2026-04-26 per the
+    #     operator-review correction.
+    #   • labour — derived from headcount × country-median salary.
     rs_maint = 0.04 * float(costs.get("rolling_stock_eur", 0.0))
     civil_maint = 0.02 * (
         float(costs.get("civil_subtotal_eur", 0.0))
@@ -332,33 +354,59 @@ def _funding_and_affordability_section(
         + float(costs.get("depots_eur", 0.0))
     )
     sig_maint = 0.05 * float(costs.get("signalling_eur", 0.0))
-    # Energy: ~4 kWh/car-km, ~280 service-days/year, 2 cycles/day at
-    # peak-equivalent — call it 0.6 × theoretical max so the figure
-    # doesn't double-count off-peak savings.
+
+    # Annual train-km from realistic per-trainset utilisation:
+    #   service-hours per day × 365 service-days × commercial speed
+    #   × revenue-factor (terminal turnarounds + dwells + off-peak
+    #   headway slack + daily depot turnaround + ~2 % maintenance
+    #   downtime).
+    #
+    # Service hours bumped 2026-04-26 from a 18 h / 280-day model
+    # (typical northern-Europe operating hours) to **20.5 h / 365 d**
+    # — operator brief: hot-climate cities run later (Samawah,
+    # Baghdad, Cairo, Karachi all have post-midnight street life and
+    # benefit from late service). 5:30 → 02:00 = 20.5 h.
     consist_cars = stats.consist_cars
     revenue_trainsets = stats.revenue_fleet
-    annual_train_km = (
-        revenue_trainsets * stats.route_km * 2.0  # round-trip
-        * 24.0  # ~24 round-trips/day at 5-min headway × ~2 h cycle
-        * 280.0
-        * 0.6
+    service_hours_per_day = 20.5  # 05:30–02:00
+    service_days_per_year = 365
+    commercial_speed_kmh = {
+        "tram-2car": 22.0,
+        "light-metro-3car": 30.0,
+        "metro-4car": 35.0,
+        "metro-6car": 35.0,
+    }.get(stats.consist_family, 30.0)
+    revenue_factor = 0.75
+    annual_km_per_trainset = (
+        service_hours_per_day
+        * service_days_per_year
+        * commercial_speed_kmh
+        * revenue_factor
     )
+    annual_train_km = revenue_trainsets * annual_km_per_trainset
     annual_car_km = annual_train_km * consist_cars
-    energy_eur = annual_car_km * 4.0 * 0.10  # 4 kWh/car-km × €0.10/kWh
-    # Labour — RFC 0014 §4 staffing typical for an OSR fleet:
-    #   ~3 maintainers per trainset + 1 dispatcher per 2 lines + 4
-    #   station-staff per terminus + 8 OCC operators (24/7 × 2). Use
-    #   country-median × 12 as the unit cost (engineers paid ~3×
-    #   median, station staff ~1× — averages out close to median).
-    headcount = (
-        revenue_trainsets * 3
-        + max(stats.line_count // 2, 1) * 8  # 24/7 dispatcher cover
-        + stats.depot_count * 12
-        + 16  # OCC + admin core
-    )
+
+    # Annual traction energy demand at 4 kWh/car-km. Reported for
+    # reference; **not** charged in OPEX because trackside PV provides
+    # it. Grid-tie standby is part of civil_maint.
+    annual_energy_gwh = annual_car_km * 4.0 / 1e6
+    energy_eur = 0.0
+
+    # Labour. OSR-discipline headcount per RFC 0014 §4 + RFC 0013
+    # rulebook: GoA 4 driverless (no train drivers), open-source CBTC
+    # (no proprietary signalling contract), reduced station staff
+    # (level boarding + PSDs handle most platform safety). Industry
+    # benchmark for legacy metros is ~45–70 FTE per route-km
+    # (Singapore SMRT, Hong Kong MTR); OSR-discipline target is
+    # ~6 FTE per route-km plus a 12-person admin/OCC core.
+    ops_fte_per_km = 6.0
+    headcount = int(round(ops_fte_per_km * stats.route_km)) + 12
     monthly_income = float(fin.get("median_monthly_income_usd", 600))
-    labour_usd = headcount * monthly_income * 12 * 1.6  # × 1.6 for engineer premium
-    labour_eur = labour_usd * 0.92  # rough USD→EUR
+    # Salary mix: country-median × 12 × engineer-premium 1.4
+    # (mainline maintainers / dispatchers / inspectors paid 1.5–2 ×
+    # median; station staff ~1.0; weighted blend ≈ 1.4).
+    labour_usd = headcount * monthly_income * 12 * 1.4
+    labour_eur = labour_usd * 0.92  # USD→EUR
 
     annual_opex_eur = rs_maint + civil_maint + sig_maint + energy_eur + labour_eur
 
@@ -371,11 +419,12 @@ def _funding_and_affordability_section(
     target_trip_eur = target_trip_usd * 0.92
 
     # Farebox revenue at affordability price, given network capacity.
-    # Daily theoretical at 10 % daily realisation × 280 service days:
+    # Daily realisation 5–10 % of population × 365 service-days
+    # (matches the OPEX service-year model — 5:30 to 02:00, 365 days).
     daily_pax_low = 0.05 * stats.population
     daily_pax_high = 0.10 * stats.population
-    annual_pax_low = daily_pax_low * 280
-    annual_pax_high = daily_pax_high * 280
+    annual_pax_low = daily_pax_low * service_days_per_year
+    annual_pax_high = daily_pax_high * service_days_per_year
     farebox_low_eur = annual_pax_low * target_trip_eur
     farebox_high_eur = annual_pax_high * target_trip_eur
 
@@ -440,17 +489,24 @@ def _funding_and_affordability_section(
         f"{_eur(sig_maint)} |"
     )
     out.append(
-        f"| Traction energy + station HVAC | "
-        f"~{annual_car_km / 1e6:.1f} M car-km × 4 kWh × €0.10 | "
+        f"| Traction energy ({annual_energy_gwh:.1f} GWh / yr) | "
+        f"trackside PV + Na-ion (RFC 0002) — **self-generated, €0 / yr** | "
         f"{_eur(energy_eur)} |"
     )
     out.append(
         f"| Labour ({headcount:,} FTE) | "
-        f"country median × 12 × engineer-premium 1.6 | "
+        f"~6 FTE/route-km + 12 admin core × country median × 12 × engineer-premium 1.4 | "
         f"{_eur(labour_eur)} |"
     )
     out.append(
         f"| **OPEX subtotal** | | **{_eur(annual_opex_eur)} / yr** |\n"
+    )
+    out.append(
+        f"_Annual fleet utilisation: {revenue_trainsets} revenue trainsets × "
+        f"{service_hours_per_day:.1f} h/day × {service_days_per_year} d/yr × "
+        f"{commercial_speed_kmh:.0f} km/h commercial × {revenue_factor:.0%} "
+        f"revenue factor = {annual_train_km / 1e6:.1f} M train-km / yr "
+        f"(~{annual_km_per_trainset / 1e3:.0f} k km / trainset / yr)._\n"
     )
 
     out.append("### Ticket pricing anchored to median income\n")
@@ -484,7 +540,7 @@ def _funding_and_affordability_section(
     out.append("### Farebox & operating subsidy\n")
     out.append(
         f"Practical-ridership bracket = 5–10 % of urban population × "
-        f"280 service-days. At the affordability-anchored fare:\n"
+        f"{service_days_per_year} service-days. At the affordability-anchored fare:\n"
     )
     out.append("| | Low scenario | High scenario |")
     out.append("|---|---|---|")
@@ -1099,12 +1155,17 @@ def _finalise_readme(
 
 
 def _hours(start: str, end: str) -> float:
+    """Service hours per day. Wraps past midnight (e.g. 05:30 → 02:00
+    = 20.5 h, not -3.5 h)."""
     try:
         sh, sm = [int(x) for x in start.split(":")]
         eh, em = [int(x) for x in end.split(":")]
-        return (eh * 60 + em - sh * 60 - sm) / 60.0
+        delta = (eh * 60 + em) - (sh * 60 + sm)
+        if delta <= 0:
+            delta += 24 * 60
+        return delta / 60.0
     except Exception:
-        return 18.0
+        return 20.5
 
 
 def _build_terminus_tagger(stations: list[dict]):
@@ -1349,11 +1410,14 @@ def _rich_capex_section(
 
     out.append("### Rolling stock\n")
     out.append(
-        "Per-trainset BOM at OSR-discipline pricing: commodity Na-ion "
-        "cells (~$80/kWh, RFC 0021), tier-2 PMSM motors + SiC inverters "
-        "(RFC 0022 §10, RFC 0008 §3.2), DIY safety electronics "
-        "(~$5 680/trainset, RFC 0019), aluminium-extrusion or steel "
-        "space-frame body.\n"
+        "Per-trainset BOM at OSR-discipline pricing: **onboard** Na-ion "
+        "traction battery (~$80/kWh, RFC 0021 §3 — distinct from the "
+        "trackside stationary battery in the *Systems* section below), "
+        "tier-2 PMSM motors + SiC inverters (RFC 0022 §10, RFC 0008 §3.2), "
+        "DIY safety electronics (~$5 680/trainset, RFC 0019), "
+        "aluminium-extrusion or steel space-frame body. Motors and "
+        "onboard batteries appear here ONLY — never re-billed elsewhere "
+        "in the cost stack.\n"
     )
     out.append("| Item | Count | Unit | Subtotal |")
     out.append("|---|---|---|---|")
@@ -1374,7 +1438,7 @@ def _rich_capex_section(
         f"{_eur(costs['signalling_eur'])} |"
     )
     out.append(
-        f"| Traction power (distributed PV + Na-ion, no OCS, RFC 0002) | "
+        f"| Traction power (**trackside** stationary PV + Na-ion + grid-tie at every station, no OCS, RFC 0002 §6) | "
         f"{stats.route_km:.1f} km × €0.8 M/km | "
         f"{_eur(costs['power_eur'])} |"
     )

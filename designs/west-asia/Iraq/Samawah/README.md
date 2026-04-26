@@ -25,7 +25,7 @@ Corridor polylines + stations as GeoJSON for GIS / alignment tooling: [`samawah.
 | Revenue fleet | 31 × 3-car trainsets |
 | Spare + cold-reserve | 6 × 3-car trainsets |
 | Peak headway | 5 min |
-| Service hours | 05:30 – 23:30 (≈ 18 h/day) |
+| Service hours | 05:30 – 02:00 (≈ 20 h/day) |
 
 ## Lines
 
@@ -115,7 +115,7 @@ At-grade portal-frame workshop sheds; pit tracks with stinger + portable wheel l
 
 ### Rolling stock
 
-Per-trainset BOM at OSR-discipline pricing: commodity Na-ion cells (~$80/kWh, RFC 0021), tier-2 PMSM motors + SiC inverters (RFC 0022 §10, RFC 0008 §3.2), DIY safety electronics (~$5 680/trainset, RFC 0019), aluminium-extrusion or steel space-frame body.
+Per-trainset BOM at OSR-discipline pricing: **onboard** Na-ion traction battery (~$80/kWh, RFC 0021 §3 — distinct from the trackside stationary battery in the *Systems* section below), tier-2 PMSM motors + SiC inverters (RFC 0022 §10, RFC 0008 §3.2), DIY safety electronics (~$5 680/trainset, RFC 0019), aluminium-extrusion or steel space-frame body. Motors and onboard batteries appear here ONLY — never re-billed elsewhere in the cost stack.
 
 | Item | Count | Unit | Subtotal |
 |---|---|---|---|
@@ -126,7 +126,7 @@ Per-trainset BOM at OSR-discipline pricing: commodity Na-ion cells (~$80/kWh, RF
 | Item | Basis | Subtotal |
 |---|---|---|
 | Signalling (open-source CBTC on commodity SBCs, RFC 0019) | 32.8 km × €0.4 M/km | €13 M |
-| Traction power (distributed PV + Na-ion, no OCS, RFC 0002) | 32.8 km × €0.8 M/km | €26 M |
+| Traction power (**trackside** stationary PV + Na-ion + grid-tie at every station, no OCS, RFC 0002 §6) | 32.8 km × €0.8 M/km | €26 M |
 | EPC integration + project management (7%) | on subtotal | €29 M |
 
 ### Total
@@ -163,9 +163,11 @@ Planning-grade financing model anchored to country financial parameters from [`l
 | Rolling-stock maintenance | 4 % of rolling-stock CAPEX | €3.0 M |
 | Civil + station + depot maintenance | 2 % of fixed-asset CAPEX | €6.0 M |
 | Signalling + comms maintenance | 5 % of signalling CAPEX | €653 k |
-| Traction energy + station HVAC | ~24.6 M car-km × 4 kWh × €0.10 | €9.8 M |
-| Labour (189 FTE) | country median × 12 × engineer-premium 1.6 | €1.3 M |
-| **OPEX subtotal** | | **€21 M / yr** |
+| Traction energy (62.6 GWh / yr) | trackside PV + Na-ion (RFC 0002) — **self-generated, €0 / yr** | €0 k |
+| Labour (209 FTE) | ~6 FTE/route-km + 12 admin core × country median × 12 × engineer-premium 1.4 | €1.2 M |
+| **OPEX subtotal** | | **€11 M / yr** |
+
+_Annual fleet utilisation: 31 revenue trainsets × 20.5 h/day × 365 d/yr × 30 km/h commercial × 75% revenue factor = 5.2 M train-km / yr (~168 k km / trainset / yr)._
 
 ### Ticket pricing anchored to median income
 
@@ -180,16 +182,16 @@ Country median monthly income: **$380 USD** (per [`lib/templates/country-finance
 
 ### Farebox & operating subsidy
 
-Practical-ridership bracket = 5–10 % of urban population × 280 service-days. At the affordability-anchored fare:
+Practical-ridership bracket = 5–10 % of urban population × 365 service-days. At the affordability-anchored fare:
 
 | | Low scenario | High scenario |
 |---|---|---|
-| Annual paid trips | 5.2 M | 10.5 M |
-| Farebox revenue | €3.0 M / yr | €6.1 M / yr |
-| Farebox / OPEX recovery | 15% | 29% |
+| Annual paid trips | 6.8 M | 13.6 M |
+| Farebox revenue | €4.0 M / yr | €7.9 M / yr |
+| Farebox / OPEX recovery | 37% | 73% |
 | Country target recovery | 45% | 45% |
-| Operating subsidy needed | €6.3 M / yr | €3.2 M / yr |
-| **Total annual government burden** | **€37 M / yr** | **€34 M / yr** |
+| Operating subsidy needed | €906 k / yr | €0 k / yr |
+| **Total annual government burden** | **€32 M / yr** | **€31 M / yr** |
 
 **Caveats:** The funding-stack 60/25/15 split, the 5 % income-share affordability target, and the 5–10 % daily-pax bracket are project-level defaults. Real deployments will negotiate the share with the financing institutions and will tune fares iteratively from boarding data. Treat the numbers above as a first-iteration sanity check, not as a bid-ready financial close.
 

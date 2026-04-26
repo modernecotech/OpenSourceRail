@@ -6,9 +6,11 @@ OpenSourceRail is an open-source urban-rail technology stack —
 software + hardware reference designs + operational rules — sized
 for GoA 4 (Unattended Train Operation) light-metro and metro
 deployments. The Samawah reference ([RFC 0003](../rfcs/0003-samawah-reference-deployment.md))
-instantiates the stack against a 30 km two-line network
-(12 km radial + 16 km ring + 2 interchanges, 22 stations, 10
-trainsets) built for a mid-size city in a hot-arid climate.
+instantiates the stack against a brownfield pilot
+([RFC 0027](../rfcs/0027-brownfield-pilot-asset-recovery.md))
+anchored on the existing rail yard + workshop adjacent to Samawah
+Train Station, with a 3-line auto-planned light-metro network
+serving a ~374 k Iraq 2024 census population.
 
 The stack is the entirety of a modern metro:
 

@@ -19,9 +19,6 @@ EN 15085 weld classes and EN 45545 material certifications.
 | [`bogie.md`](bogie.md) | 2-axle articulated bogie spec, wheel profile, suspension, brake mount |
 | [`body.md`](body.md) | Aluminium extruded body, side walls, end bulkheads, articulation joint |
 | [`traction.md`](traction.md) | PMSM motor + SiC inverter + reduction gear, adhesion budget |
-| [`electrical-architecture.md`](electrical-architecture.md) | 24 V / 110 V DC + 400 V AC aux + 1 500 V DC pantograph dock |
-| [`interior.md`](interior.md) | Seat layout, wheelchair spaces, HVAC zones, lighting, grab rails |
-| [`cab.md`](cab.md) | Console layout, DMI, plunger, deadman, camera positions |
 | [`interfaces.md`](interfaces.md) | Coupler, pantograph, platform gap, TCN-E connector, aux power |
 | [`bom-skeleton.md`](bom-skeleton.md) | Procurement BOM lines (source-identified parts vs TBD) |
 | [`compliance.md`](compliance.md) | Standards matrix: EN 15227, EN 45545, EN 14363, EN 50155, ISO 3095, EN 12299 |

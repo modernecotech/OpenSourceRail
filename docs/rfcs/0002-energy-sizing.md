@@ -152,7 +152,7 @@ Distribution across stations means no single battery failure halts service, and 
 
 ### 6.3 Chemistry and form factor
 
-Sodium-ion primary — see [energy-architecture memory](../../memory/project_energy_architecture.md). Installed cost at 2026 prices: ~$150/kWh at pack level, ~$200/kWh installed including BMS, enclosures, and site works.
+Sodium-ion primary per [RFC 0021 §3](0021-battery-traction.md). Installed cost at 2026 prices: ~$80/kWh at cell level (RFC 0021 §4 sourcing matrix), ~$120–150/kWh installed including BMS, enclosures, and site works.
 
 - 60 MWh × $200/kWh = **$12 M** for trackside storage.
 

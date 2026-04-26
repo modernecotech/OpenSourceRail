@@ -252,9 +252,9 @@ Firms using:
 ## Example: Samawah Line 1
 
 A worked OSR-ALN alignment for Samawah Line 1 lives at
-[`docs/civil/west-asia/Iraq/Samawah/samawah-line1.aln.toml`](../../docs/civil/west-asia/Iraq/Samawah/samawah-line1.aln.toml).
+[`docs/civil/west-asia/Iraq/Samawah/samawah-line1.aln.toml`](west-asia/Iraq/Samawah/samawah-line1.aln.toml).
 Hand-authored from the bearings + radii in
-[`samawah/line1-segments.md`](samawah/line1-segments.md), with
+[`west-asia/Iraq/Samawah/line1-segments.md`](west-asia/Iraq/Samawah/line1-segments.md), with
 UTM Zone 38N coordinates computed step-by-step from the
 published segment lengths. Exercises all five top-level
 sections (`meta`, `horizontal`, `vertical`, `civil`, `station`,

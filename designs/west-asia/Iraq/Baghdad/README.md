@@ -25,7 +25,7 @@ Corridor polylines + stations as GeoJSON for GIS / alignment tooling: [`baghdad.
 | Revenue fleet | 315 × 6-car trainsets |
 | Spare + cold-reserve | 37 × 6-car trainsets |
 | Peak headway | 5 min |
-| Service hours | 05:30 – 23:30 (≈ 18 h/day) |
+| Service hours | 05:30 – 02:00 (≈ 20 h/day) |
 
 ## Lines
 
@@ -123,7 +123,7 @@ At-grade portal-frame workshop sheds; pit tracks with stinger + portable wheel l
 
 ### Rolling stock
 
-Per-trainset BOM at OSR-discipline pricing: commodity Na-ion cells (~$80/kWh, RFC 0021), tier-2 PMSM motors + SiC inverters (RFC 0022 §10, RFC 0008 §3.2), DIY safety electronics (~$5 680/trainset, RFC 0019), aluminium-extrusion or steel space-frame body.
+Per-trainset BOM at OSR-discipline pricing: **onboard** Na-ion traction battery (~$80/kWh, RFC 0021 §3 — distinct from the trackside stationary battery in the *Systems* section below), tier-2 PMSM motors + SiC inverters (RFC 0022 §10, RFC 0008 §3.2), DIY safety electronics (~$5 680/trainset, RFC 0019), aluminium-extrusion or steel space-frame body. Motors and onboard batteries appear here ONLY — never re-billed elsewhere in the cost stack.
 
 | Item | Count | Unit | Subtotal |
 |---|---|---|---|
@@ -134,7 +134,7 @@ Per-trainset BOM at OSR-discipline pricing: commodity Na-ion cells (~$80/kWh, RF
 | Item | Basis | Subtotal |
 |---|---|---|
 | Signalling (open-source CBTC on commodity SBCs, RFC 0019) | 436.5 km × €0.4 M/km | €174 M |
-| Traction power (distributed PV + Na-ion, no OCS, RFC 0002) | 436.5 km × €0.8 M/km | €348 M |
+| Traction power (**trackside** stationary PV + Na-ion + grid-tie at every station, no OCS, RFC 0002 §6) | 436.5 km × €0.8 M/km | €348 M |
 | EPC integration + project management (7%) | on subtotal | €350 M |
 
 ### Total
@@ -171,9 +171,11 @@ Planning-grade financing model anchored to country financial parameters from [`l
 | Rolling-stock maintenance | 4 % of rolling-stock CAPEX | €63 M |
 | Civil + station + depot maintenance | 2 % of fixed-asset CAPEX | €58 M |
 | Signalling + comms maintenance | 5 % of signalling CAPEX | €8.7 M |
-| Traction energy + station HVAC | ~6652.7 M car-km × 4 kWh × €0.10 | €2.66 bn |
-| Labour (1,185 FTE) | country median × 12 × engineer-premium 1.6 | €8.0 M |
-| **OPEX subtotal** | | **€2.80 bn / yr** |
+| Traction energy (1484.9 GWh / yr) | trackside PV + Na-ion (RFC 0002) — **self-generated, €0 / yr** | €0 k |
+| Labour (2,631 FTE) | ~6 FTE/route-km + 12 admin core × country median × 12 × engineer-premium 1.4 | €15 M |
+| **OPEX subtotal** | | **€145 M / yr** |
+
+_Annual fleet utilisation: 315 revenue trainsets × 20.5 h/day × 365 d/yr × 35 km/h commercial × 75% revenue factor = 61.9 M train-km / yr (~196 k km / trainset / yr)._
 
 ### Ticket pricing anchored to median income
 
@@ -188,16 +190,16 @@ Country median monthly income: **$380 USD** (per [`lib/templates/country-finance
 
 ### Farebox & operating subsidy
 
-Practical-ridership bracket = 5–10 % of urban population × 280 service-days. At the affordability-anchored fare:
+Practical-ridership bracket = 5–10 % of urban population × 365 service-days. At the affordability-anchored fare:
 
 | | Low scenario | High scenario |
 |---|---|---|
-| Annual paid trips | 136.9 M | 273.9 M |
-| Farebox revenue | €80 M / yr | €160 M / yr |
-| Farebox / OPEX recovery | 3% | 6% |
+| Annual paid trips | 178.5 M | 357.0 M |
+| Farebox revenue | €104 M / yr | €208 M / yr |
+| Farebox / OPEX recovery | 72% | 143% |
 | Country target recovery | 45% | 45% |
-| Operating subsidy needed | €1.18 bn / yr | €1.10 bn / yr |
-| **Total annual government burden** | **€1.56 bn / yr** | **€1.48 bn / yr** |
+| Operating subsidy needed | €0 k / yr | €0 k / yr |
+| **Total annual government burden** | **€377 M / yr** | **€377 M / yr** |
 
 **Caveats:** The funding-stack 60/25/15 split, the 5 % income-share affordability target, and the 5–10 % daily-pax bracket are project-level defaults. Real deployments will negotiate the share with the financing institutions and will tune fares iteratively from boarding data. Treat the numbers above as a first-iteration sanity check, not as a bid-ready financial close.
 

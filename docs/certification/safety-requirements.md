@@ -57,8 +57,8 @@ tick.
   forces `ObstacleVerdict::EmergencyBrake`, which flows into
   `BrakeInputs::obstacle_emergency`.
 - **Evidence:** Kani `o1_ultrasonic_return_forces_eb`; proptest
-  `o1_ultrasonic_return_forces_eb`; sim scenario
-  `designs/west-asia/Iraq/Samawah/samawah-obstacle-fault.toml`.
+  `o1_ultrasonic_return_forces_eb`; sim built-in obstacle-fault
+  fault-injection fixture.
 
 ### SR-05 — Fail-restrictive on sensor failure
 

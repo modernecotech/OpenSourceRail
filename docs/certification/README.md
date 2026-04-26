@@ -62,9 +62,6 @@ grant type approval.
    project, indexed to the requirements + hazards it covers.
 5. **[compliance-matrix.md](compliance-matrix.md)** — EN 62267
    clause-by-clause traceability to OSR implementation.
-6. **[residual-risk.md](residual-risk.md)** — risks that remain
-   after mitigation, with the argument for why their residual
-   frequency × severity is tolerable.
 
 ## How this pack relates to the rest of the repository
 
@@ -77,7 +74,7 @@ claim here is anchored to artefacts that already exist:
   against evidence by the `osr-safety-case` compiler CI gate
 - Operational controls → per-role rules under `docs/operations/`
 - RFCs (0001–0017) carry the design rationale
-- Rust workspace (51 crates, 705 tests passing) carries the
+- Rust workspace (56 crates, ~750 tests passing) carries the
   implementation
 
 If any claim here cannot be traced to one of those artefacts, it's
@@ -88,9 +85,9 @@ a gap; file it as an issue against the evidence register.
 | Phase | Status |
 |---|---|
 | v1 — initial structure + SRS + hazard log + evidence register + compliance matrix | ✅ 2026-04-23 |
-| v1.1 — residual risk narrative + per-clause compliance prose | pending |
-| v1.2 — reviewed by an independent safety assessor | pending (deployment scope) |
-| v2 — first-article field evidence from pilot | pending (Samawah commissioning) |
+| v1.1 — per-clause compliance prose | next-iteration deliverable |
+| v1.2 — reviewed by an independent safety assessor | deployment-partner scope |
+| v2 — first-article field evidence | Samawah commissioning per [RFC 0027](../rfcs/0027-brownfield-pilot-asset-recovery.md) |
 
 ## Open questions for the reviewer
 
@@ -107,5 +104,4 @@ a gap; file it as an issue against the evidence register.
   v2 `section_available_to` gate permits sections with no
   `SectionIntrusion` verdict on record (RFC 0016 §5.2). For type
   approval of a fully-instrumented deployment, the reviewer may
-  require the gate be tightened to fail-restrictive; see
-  [residual-risk.md](residual-risk.md) item RR-03.
+  require the gate be tightened to fail-restrictive.

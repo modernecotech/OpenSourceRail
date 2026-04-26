@@ -69,8 +69,8 @@ overlap only where the roles interact.
 
 ### 4.1 Driver rulebook (target ≤ 20 pages) — **DEPRECATED FOR GoA 4**
 
-> **Note (2026-04-22):** Per [RFC 0015](0015-driverless-
-> operation.md), new OpenSourceRail deployments ship as GoA 4
+> **Note (2026-04-22):** Per [RFC 0015](0015-driverless-operation.md),
+> new OpenSourceRail deployments ship as GoA 4
 > (Unattended) systems with no driver role. This section is
 > retained as the reference for legacy GoA 2 cabbed fleets and
 > for the transitional mixed-fleet window (if any). For the

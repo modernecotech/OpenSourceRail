@@ -43,12 +43,9 @@ this spec.
 ## Revision control
 
 The v2 spec is pinned at this commit. Any deviation during
-schematic capture is logged in
-[`deviations-log.md`](deviations-log.md) (created when first
-deviation lands).
-
-Schematic + layout lands under
-[`hardware/t-ecu-s/schematics/v2-kicad/`](../) once produced.
+schematic capture is logged in `deviations-log.md` alongside this
+file (created when the first deviation lands). Schematic + layout
+go under `hardware/t-ecu-s/schematics/v2-kicad/` once produced.
 Gerbers under [`hardware/t-ecu-s/gerbers/v2-rev-A/`](../../gerbers/).
 BOM under [`hardware/t-ecu-s/bom/v2-rev-A.csv`](../../bom/).
 

@@ -6,7 +6,7 @@ Direction of travel in this table is eastbound (forward).
 Reverse-direction segments use a paired parallel track (double-
 track per RFC 0009 §7.2).
 
-**Station coordinates:** from [`design.toml`](../../../designs/west-asia/Iraq/Samawah/design.toml).
+**Station coordinates:** from [`design.toml`](../../../../../designs/west-asia/Iraq/Samawah/design.toml).
 Bearings computed from great-circle deltas; horizontal radii at
 waypoints computed from inter-segment bearing change
 `R ≈ (L1 + L2) / (2 · tan(θ/2))`. Planning-grade numbers — a
