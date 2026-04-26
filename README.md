@@ -9,85 +9,152 @@
 **Current milestone:** [**v0.1**](CHANGELOG.md) — first publishable
 snapshot. See [CHANGELOG.md](CHANGELOG.md) for what's in tree.
 
-**Status:** 56 Rust crates (~400 tests passing, 0 failing) plus two
-Python sidecars (`design-py` for GIS + network synthesis, `mechanical-py`
-for parametric mechanical + civil + station components under build123d).
-Deployments ship as **GoA 4 (Unattended, driverless)** from day one
-per [RFC 0015](docs/rfcs/0015-driverless-operation.md) — the driver
-cab is replaced by a nose-cone obstacle-detection sensor suite
-(ultrasonic safety belt + solid-state LIDAR + mmWave radar + stereo
-camera) on a dedicated T-OBS ECU, with **wayside track-intrusion
-detection** ([RFC 0016](docs/rfcs/0016-wayside-track-intrusion.md))
+**Status:** 56 Rust crates (750 tests passing, 0 failing) plus two
+Python sidecars (`design-py` for GIS + network synthesis with 32
+tests, `mechanical-py` for parametric mechanical + civil + station
+components under build123d). Deployments ship as **GoA 4 (Unattended,
+driverless)** from day one per [RFC 0015](docs/rfcs/0015-driverless-operation.md)
+— the driver cab is replaced by a nose-cone obstacle-detection sensor
+suite (ultrasonic safety belt + solid-state LIDAR + mmWave radar +
+stereo camera) on a dedicated T-OBS ECU, with **wayside track-
+intrusion detection** ([RFC 0016](docs/rfcs/0016-wayside-track-intrusion.md))
 covering the proactive half of the safety envelope between trains.
 The [Samawah pilot](docs/rfcs/0003-samawah-reference-deployment.md)
 is a **brownfield deployment** anchored on the 300–800 dormant freight
 wagons + rolling-stock workshop adjacent to Samawah Train Station per
 [RFC 0027](docs/rfcs/0027-brownfield-pilot-asset-recovery.md), not a
-greenfield reference scenario. The design pipeline synthesises
-multi-line networks for any city listed in
-[`lib/city-batches/world-sample.toml`](lib/city-batches/world-sample.toml)
-from real OSM + WorldPop population data. Population-tiered topology:
-small cities get a 3-line radial bundle converging on a central
-interchange; cities with a budget for ≥ 4 lines also get a
-circumferential **ring** at ~0.7 × urban radius (London Circle /
-Beijing Line 2 / Madrid 6 / Tokyo Yamanote pattern). One-command
-regeneration: `scripts/regenerate-city.sh <slug>`.
+greenfield reference scenario.
+
+The design pipeline auto-synthesises a complete multi-line network for
+any city listed in [`lib/city-batches/world-sample.toml`](lib/city-batches/world-sample.toml)
+from real OpenStreetMap + WorldPop population data — population-tiered
+topology, served-catchment bbox, country-specific cost + finance
+multipliers. The catalogue currently covers **19 cities across 8
+regions** ([Samawah + Baghdad + Mosul](designs/west-asia/Iraq/) ·
+[Tunis](designs/north-africa/Tunisia/Tunis/) ·
+[Khartoum](designs/north-africa/Sudan/Khartoum/) ·
+[Nairobi](designs/east-africa/Kenya/Nairobi/) ·
+[Dar es Salaam](designs/east-africa/Tanzania/Dar-Es-Salaam/) ·
+[Kampala](designs/east-africa/Uganda/Kampala/) ·
+[Antananarivo](designs/east-africa/Madagascar/Antananarivo/) ·
+[Niamey](designs/west-africa/Niger/Niamey/) ·
+[Bamako](designs/west-africa/Mali/Bamako/) ·
+[Coimbatore](designs/south-asia/India/Coimbatore/) ·
+[Karachi](designs/south-asia/Pakistan/Karachi/) ·
+[Yangon](designs/southeast-asia/Myanmar/Yangon/) ·
+[Phnom Penh](designs/southeast-asia/Cambodia/Phnom-Penh/) ·
+[Lyon](designs/europe/France/Lyon/) ·
+[Cuenca](designs/latin-america/Ecuador/Cuenca/) ·
+[La Paz](designs/latin-america/Bolivia/La-Paz/) ·
+[San Salvador](designs/latin-america/El%20Salvador/San-Salvador/))
+spanning population bands from 374 k (Samawah, light-metro-3car) to
+20.3 M (Karachi, metro-6car). One-command regeneration:
+`scripts/regenerate-city.sh <slug>` for a single city or
+`scripts/regenerate-all.sh --jobs 4` for the whole catalogue.
 
 ![Samawah reference network — three auto-planned radial lines on OpenStreetMap, arterial-routed](designs/west-asia/Iraq/Samawah/samawah-network-map.png)
 
-*Samawah (~374 k pop, Iraq 2024 census, As-Samawah Subdistrict
-including urban + rural per [`lib/city-batches/world-sample.toml`](lib/city-batches/world-sample.toml)) —
-**a brownfield pilot, not a greenfield reference scenario.**
-2026-04-26 satellite review (RFC 0003 §2.1) identifies **300–800
-dormant freight wagons stored across two yards adjacent to Samawah
-Train Station, plus a rolling-stock workshop building** (the 2011
-Iranian Waxon Park rehabilitation target). Iraqi Republic Railways
-operates a fleet of 10,326 freight wagons + 255 passenger coaches
-on the active Baghdad–Basra mainline through the city. Standard
-gauge (1 435 mm) matches RFC 0009. The OSR Samawah pilot is
-specified by [RFC 0027 (brownfield asset-recovery doctrine)](docs/rfcs/0027-brownfield-pilot-asset-recovery.md)
-as the systematic conversion of this rail-yard + workshop complex
-into the first OSR rolling-stock production site, with
-**~$8–15 M of recoverable mechanical-component value** and
-**~$3–6 M of recoverable workshop infrastructure** offsetting the
-greenfield CAPEX baseline.*
+*Samawah (~374 k pop, Iraq 2024 census, As-Samawah Subdistrict per
+[`lib/city-batches/world-sample.toml`](lib/city-batches/world-sample.toml))
+— **a brownfield pilot, not a greenfield reference scenario.**
+2026-04-26 satellite review ([RFC 0003 §2.1](docs/rfcs/0003-samawah-reference-deployment.md))
+identifies **300–800 dormant freight wagons stored across two yards
+adjacent to Samawah Train Station, plus a rolling-stock workshop
+building** (the 2011 Iranian Waxon Park rehabilitation target). Iraqi
+Republic Railways operates a fleet of 10,326 freight wagons + 255
+passenger coaches on the active Baghdad–Basra mainline through the
+city. Standard gauge (1 435 mm) matches RFC 0009. The OSR Samawah
+pilot is specified by [RFC 0027 (brownfield asset-recovery
+doctrine)](docs/rfcs/0027-brownfield-pilot-asset-recovery.md) as the
+systematic conversion of this rail-yard + workshop complex into the
+first OSR rolling-stock production site, with **~$8–15 M of
+recoverable mechanical-component value** and **~$3–6 M of recoverable
+workshop infrastructure** offsetting the greenfield CAPEX baseline.*
 
 *Network — **auto-planned** end-to-end by `osr-design` against real
 OSM data *plus* the WorldPop residential-population layer (so lines
-reach population centres without mapped POIs). Three radial lines,
-**all three converging at a single elevated-junction interchange
-complex at the city centre**, 24 unique stations at ~1.2 km average
-spacing, 33.0 km of double-track, **61 %+ anchor-weighted coverage**,
-all soft gates passing. Fleet 37 × 3-car `light-metro-3car`
-(31 revenue + 6 spare/cold-reserve). Planning-grade CAPEX
-**≈ €390 M** (greenfield baseline; brownfield path drops a further
-~€20–40 M off depot + rolling-stock CAPEX per RFC 0027). **OSR-discipline
-unit costs** throughout — prefab portal-frame canopies, at-grade
-depots without overhead bridge cranes, commodity Na-ion cells,
-tier-2 PMSM motors, DIY SiC inverters, open-source CBTC on
-commodity SBCs, no overhead catenary, self-EPC overhead. See
-[designs/west-asia/Iraq/Samawah/README.md](designs/west-asia/Iraq/Samawah/README.md)
-for the full breakdown (per-line termini, fleet sizing, full cost stack).*
+reach population centres without mapped POIs). Three radial lines
+all converging at a central elevated-junction interchange, 33 unique
+stations at ~1.2 km inner / 2 km transitional / 4 km outer spacing,
+54.9 km of double-track, **all soft gates passing**. Fleet 55 × 3-car
+`light-metro-3car`. **OSR-discipline unit costs** throughout — prefab
+portal-frame canopies, at-grade depots without overhead bridge cranes,
+commodity Na-ion cells, tier-2 PMSM motors, DIY SiC inverters, open-
+source CBTC on commodity SBCs, no overhead catenary, self-EPC overhead.
+See [designs/west-asia/Iraq/Samawah/README.md](designs/west-asia/Iraq/Samawah/README.md)
+for the full breakdown (per-line termini, fleet sizing, full cost
+stack, country-anchored ticket pricing).*
 
-![Baghdad reference network — eight radial lines plus a circumferential ring auto-planned on OpenStreetMap](designs/west-asia/Iraq/Baghdad/baghdad-network-map.png)
+### Auto-design catalogue at a glance
 
-*Baghdad (~9.78 M pop, Iraq 2024 census, Baghdad Governorate; bbox
-extended SE 2026-04-26 to cover Basmaya New City) — same pipeline,
-megacity tier, with the WorldPop residential layer + airport /
-suburb / neighbourhood OSM anchors so radials reach Baghdad
-International (BIAP), Basmaya, and other population centres beyond
-the POI clusters. Eight radial lines plus a circumferential ring at
-~0.55 × urban radius. 213 unique stations at ~2.1 km average
-spacing (1.5 km inner / 3 km transitional / 5 km outer per the
-megacity override of `SpacingConfig`), 442.2 km double-track,
-**45.1 % anchor-weighted coverage of the population-blended demand
-surface**, **24 interchange complexes** (61 interchange-platform
-stations, 23 auto-snapped to elevated at ring↔radial crossings).
-Fleet 356 × 6-car `metro-6car` (317 revenue + 39
-spare/cold-reserve) per RFC 0014 §4. Planning-grade CAPEX
-**≈ €5.67 bn**, ≈ €13 M / route-km, ≈ €580 per resident — base OECD
-rates before the per-country multiplier. See
-[designs/west-asia/Iraq/Baghdad/README.md](designs/west-asia/Iraq/Baghdad/README.md).*
+Same pipeline, every catalog city — population from a national-stats-
+office source, bbox sized to the served catchment, rolling-stock family
+auto-selected per [RFC 0008 §5](docs/rfcs/0008-rolling-stock-reference-design.md),
+finance section anchored to country-specific median income +
+multilateral / sovereign rates from [`lib/templates/country-finance.toml`](lib/templates/country-finance.toml):
+
+| city | ISO | family | lines | stns | km | fleet | cov% |
+|---|---|---|---:|---:|---:|---:|---:|
+| [Samawah](designs/west-asia/Iraq/Samawah/) | IQ | light-metro-3car | 3 | 33 | 55 | 55 | 56 |
+| [Mosul](designs/west-asia/Iraq/Mosul/) | IQ | metro-4car | 5 | 60 | 145 | 122 | 38 |
+| [Baghdad](designs/west-asia/Iraq/Baghdad/) | IQ | metro-6car | 9 | 218 | 510 | 408 | 45 |
+| [Tunis](designs/north-africa/Tunisia/Tunis/) | TN | metro-4car | 5 | 118 | 240 | 194 | 48 |
+| [Khartoum](designs/north-africa/Sudan/Khartoum/) | SD | metro-6car | 5 | 152 | 363 | 287 | 22 |
+| [Nairobi](designs/east-africa/Kenya/Nairobi/) | KE | metro-6car | 8 | 191 | 476 | 378 | 43 |
+| [Dar es Salaam](designs/east-africa/Tanzania/Dar-Es-Salaam/) | TZ | metro-6car | 7 | 163 | 393 | 314 | 28 |
+| [Kampala](designs/east-africa/Uganda/Kampala/) | UG | metro-4car | 4 | 99 | 201 | 160 | 24 |
+| [Antananarivo](designs/east-africa/Madagascar/Antananarivo/) | MG | metro-6car | 7 | 155 | 339 | 272 | 42 |
+| [Niamey](designs/west-africa/Niger/Niamey/) | NE | metro-4car | 4 | 80 | 146 | 120 | 38 |
+| [Bamako](designs/west-africa/Mali/Bamako/) | ML | metro-4car | 6 | 118 | 257 | 207 | 31 |
+| [Coimbatore](designs/south-asia/India/Coimbatore/) | IN | metro-6car | 5 | 121 | 268 | 214 | 31 |
+| [Karachi](designs/south-asia/Pakistan/Karachi/) | PK | metro-6car | 9 | 231 | 472 | 377 | 48 |
+| [Yangon](designs/southeast-asia/Myanmar/Yangon/) | MM | metro-6car | 9 | 214 | 417 | 335 | 56 |
+| [Phnom Penh](designs/southeast-asia/Cambodia/Phnom-Penh/) | KH | metro-4car | 6 | 107 | 228 | 186 | 48 |
+| [Lyon](designs/europe/France/Lyon/) | FR | metro-4car | 6 | 122 | 287 | 232 | 45 |
+| [Cuenca](designs/latin-america/Ecuador/Cuenca/) | EC | light-metro-3car | 3 | 48 | 79 | 77 | 57 |
+| [La Paz](designs/latin-america/Bolivia/La-Paz/) | BO | metro-4car | 6 | 115 | 212 | 174 | 57 |
+| [San Salvador](designs/latin-america/El%20Salvador/San-Salvador/) | SV | metro-4car | 6 | 121 | 255 | 207 | 50 |
+
+A few representative auto-planned networks:
+
+![Baghdad — 9 radial lines + ring, 510 km, metro-6car, hub-and-spoke-dual-ring topology](designs/west-asia/Iraq/Baghdad/baghdad-network-map.png)
+
+*Baghdad (~9.78 M, Baghdad Governorate) — megacity tier, nine radial
+lines plus a circumferential ring at ~0.55 × urban radius, all
+converging on the elevated-junction interchanges in the central
+business district. 218 unique stations at ~2.1 km average spacing
+(1.5 km inner / 3 km transitional / 5 km outer per the megacity
+override of `SpacingConfig`); 510 km double-track; 408 trainsets
+across the fleet. WorldPop residential layer + airport / suburb /
+neighbourhood OSM anchors so radials reach Baghdad International
+(BIAP), Basmaya New City, and other population centres beyond the
+POI clusters.*
+
+![Karachi — 9-line metro-6car network, 472 km, served-catchment 50 × 50 km](designs/south-asia/Pakistan/Karachi/karachi-network-map.png)
+
+*Karachi (~20.3 M, Karachi Division per the Pakistan 2023 Digital
+Census) — the catalogue's largest catchment. Same nine-line topology
+as Baghdad despite the very different street pattern, 231 stations,
+377 trainsets. Demonstrates the pipeline scales past Iraqi-megacity
+geography to South-Asian coastal megacity without rule-set tuning.*
+
+![Lyon — 6-line metro-4car network, 287 km — solver test on a high-OSM-density European city](designs/europe/France/Lyon/lyon-network-map.png)
+
+*Lyon (~1.44 M, Métropole de Lyon) — kept in the catalogue
+deliberately as a solver test target. Rich OSM data exercises bridge
+classification (Rhône + Saône crossings), dense-anchor routing past
+the Parc de la Tête d'Or, and the tightest civil-class corner cases.
+Six lines, 122 stations, 287 km — comparable to the city's actual
+operating metro + tram footprint (≈ 195 km), with the OSR pipeline
+extending into the Métropole's outer 58 communes.*
+
+![La Paz — 6-line metro-4car network straddling the El Alto altiplano cliff](designs/latin-america/Bolivia/La-Paz/la-paz-network-map.png)
+
+*La Paz + El Alto, Bolivia (~1.82 M conurbation) — alpine-tropical
+twin-city extending across a 1 000 m vertical drop from the
+altiplano (~4 150 m, El Alto airport district) into the canyon
+(~3 200 m, Río Abajo). Six lines, 115 stations. Severe terrain — the
+civil classifier picks elevated for the cliff descent automatically.*
 
 Twenty-seven RFCs cover the full system from software
 architecture through rail civil engineering to driverless operation; the
@@ -569,9 +636,11 @@ OpenSourceRail/
 ├── lib/
 │   ├── city-batches/         Canonical city catalogue (slug → bbox / country /
 │   │                         population / climate). `world-sample.toml` is the
-│   │                         8-city calibration set; population fields source
-│   │                         national-stats-office figures (Iraq 2024 census,
-│   │                         INSEE 2023, INEC 2022, etc.).
+│   │                         19-city calibration set spanning 8 regions and
+│   │                         the four rolling-stock family bands; population
+│   │                         fields source national-stats-office figures (Iraq
+│   │                         2024 census, INSEE 2023, INEC 2022, NBS 2022,
+│   │                         PBS 2023 Digital Census, etc.).
 │   ├── templates/            Reusable Lego-block TOMLs (stations, switches,
 │   │                         signalling, structures, fleets, energy-sites,
 │   │                         country-costs, country-finance).
@@ -579,17 +648,28 @@ OpenSourceRail/
 │   │                         fleet sizing).
 │   └── examples/             Generic template scenarios (`example-simple.toml`,
 │                             `minimal-city.toml`).
-├── designs/                  Per-city design artifacts (`design.toml` +
+├── designs/                  Per-city design artefacts (`design.toml` +
 │   │                         scenario + map PNG + README + GeoJSON +
 │   │                         design-quality YAML, all auto-generated by
-│   │                         `scripts/regenerate-city.sh <slug>`).
-│   └── west-asia/Iraq/{Samawah,Baghdad}/
-│                             Two worked examples per RFC 0003 + the brownfield-
-│                             pilot doctrine in RFC 0027.
+│   │                         `scripts/regenerate-city.sh <slug>`). 19 cities
+│   │                         today across west-asia / north-africa / east-
+│   │                         africa / west-africa / south-asia / southeast-
+│   │                         asia / europe / latin-america.
+│   └── west-asia/Iraq/Samawah/
+│                             The reference brownfield pilot per RFC 0003 +
+│                             RFC 0027 — the bundled canonical Samawah
+│                             scenario `osr-sim` defaults to is generated
+│                             from this folder's design.toml.
 ├── scripts/
-│   └── regenerate-city.sh    Slug-driven end-to-end regeneration: OSM →
-│                             rasterise (with WorldPop) → osr-design synthesis
-│                             → scenario → map PNG → README → drift tests.
+│   ├── regenerate-city.sh    Slug-driven end-to-end regeneration: OSM →
+│   │                         rasterise (with WorldPop) → osr-design synthesis
+│   │                         → scenario → map PNG → README → drift tests.
+│   └── regenerate-all.sh     Batch driver — reads slugs from world-sample.toml
+│                             and runs regenerate-city.sh per slug. Supports
+│                             --jobs N (parallel), --only / --skip filters,
+│                             and continue-on-error with a final OK / FAIL
+│                             summary; per-slug logs in
+│                             .cache/osr-pipeline/logs/.
 └── formal/tla/
     ├── SMRaft.tla            Consensus protocol spec.
     ├── MCSmall.tla           Small TLC harness.
@@ -604,26 +684,44 @@ Requirements: Rust 1.80+ via `rustup`.
 cargo run --release --bin osr-sim -- --duration 3600 --status-every 300
 ```
 
-This runs a one-hour simulation of the **built-in `samawah` scenario**
-— a 2-line hand-designed reference network (Line 1 "Nahrain" radial +
-Line 2 "Halqa" ring, 22 stations, 10 trainsets) compiled into the
-binary as a stable end-to-end test fixture. The output shows each
-train's position and state-of-charge at regular intervals, per-line
-km, energy consumed vs. charged, dispatch hold time, and any
+When run with no `--config`, `osr-sim` loads the **bundled canonical
+Samawah scenario** — the auto-generated [`designs/west-asia/Iraq/Samawah/samawah.toml`](designs/west-asia/Iraq/Samawah/samawah.toml)
+is `include_str!`-baked into the binary at build time. The output
+shows each train's position and state-of-charge at regular intervals,
+per-line km, energy consumed vs. charged, dispatch hold time, and any
 invariant violations (there should be none).
 
-The **auto-planned** Samawah design at
-[designs/west-asia/Iraq/Samawah/](designs/west-asia/Iraq/Samawah/) is
-a different artefact — 3 radial lines / 24 stations / 37 trainsets
-emitted by `osr-design` from real OSM + WorldPop data per the
-brownfield pilot doctrine of [RFC 0027](docs/rfcs/0027-brownfield-pilot-asset-recovery.md)
-+ [RFC 0003](docs/rfcs/0003-samawah-reference-deployment.md). Run it
-with `--config designs/west-asia/Iraq/Samawah/samawah.toml`.
+To simulate any other catalog city, point at its scenario file:
+
+```
+cargo run --release --bin osr-sim -- \
+    --config designs/south-asia/Pakistan/Karachi/karachi.toml \
+    --duration 3600
+```
 
 ## Designing your own city
 
-Scenarios are plain-text TOML files — stations, lines, fleets, schedules,
-climate. Copy a reference and edit it:
+Two paths, depending on whether you want to author by hand or have the
+pipeline auto-design from a bbox + population:
+
+**Auto-designed (recommended).** Add a new entry to
+[`lib/city-batches/world-sample.toml`](lib/city-batches/world-sample.toml)
+with a slug, ISO-2 country, served-catchment bbox (see the BBOX-SIZING
+POLICY in the file header), and a national-stats-office population.
+Then:
+
+```
+scripts/regenerate-city.sh <slug>
+```
+
+The pipeline pulls OSM + WorldPop, synthesises lines / stations /
+fleet / depots / costs, and emits `design.toml`, the simulator
+scenario file, the network map PNG, and the per-network README under
+`designs/<region>/<country>/<City>/`. See the **Auto-design catalogue
+at a glance** table above for representative outputs.
+
+**Hand-authored.** Scenarios are plain-text TOML files — copy a
+reference and edit it:
 
 ```
 cp lib/examples/example-simple.toml designs/my-city/my-city.toml
@@ -631,40 +729,38 @@ cp lib/examples/example-simple.toml designs/my-city/my-city.toml
 cargo run --release --bin osr-sim -- --config designs/my-city/my-city.toml
 ```
 
-Reference scenarios:
+[`example-simple.toml`](lib/examples/example-simple.toml) is a 3-
+station shuttle with 1 train — the smallest viable config; the full
+file-format reference is in [`lib/examples/README.md`](lib/examples/README.md).
 
-- **`--scenario samawah`** (default) — built-in **hand-designed** 2-line Samawah network from RFC 0003 §3.1–§3.2 (Line 1 Nahrain radial + Line 2 Halqa ring, 22 stations, time-of-day headway schedule). Compiled into the binary, no TOML required. Used as a stable end-to-end test fixture.
-- **`--scenario samawah-line1`** — Line 1 only, useful for scale comparisons.
-- **`--config designs/west-asia/Iraq/Samawah/samawah.toml`** — the **auto-planned** Samawah design emitted by `osr-design` from real OSM + WorldPop data (3 lines, 24 stations, 37 trainsets at the 2024-census 374 k population). Different layout from the hand-designed built-in; the auto-plan is what scales to other cities.
-- **[`example-simple.toml`](lib/examples/example-simple.toml)** — 3-station shuttle with 1 train. The smallest viable config; copy as a template for `--config`.
-
-The full file-format reference is in [`lib/examples/README.md`](lib/examples/README.md).
-For per-city auto-planned networks (Samawah, Baghdad, …), see the
-`design.toml` and accompanying README in each
-[`designs/<region>/<country>/<city>/`](designs/) folder — those are
-the output of `osr-design` against OSM rasters, not hand-authored.
-
-Pass `--json-out trace.json` to capture the full event trace for later
-analysis.
+Pass `--json-out trace.json` to `osr-sim` to capture the full event
+trace for later analysis.
 
 ## Auto-designing networks from GIS data
 
 The pipeline synthesises a complete network for any city listed in the
 canonical catalogue at [`lib/city-batches/world-sample.toml`](lib/city-batches/world-sample.toml)
 — or for any new city you add there — from real OpenStreetMap +
-WorldPop population data. **One command per city:**
+WorldPop population data. **One command per city, or one command for
+the whole catalogue:**
 
 ```
 # One-time: install the python sidecar.
 pip install -e design-py[geotiff,batch]
 cargo build --release --bin osr-design
 
-# Per-city, end-to-end (slug must exist in lib/city-batches/world-sample.toml):
-scripts/regenerate-city.sh samawah
-scripts/regenerate-city.sh baghdad
+# Per-city (slug must exist in lib/city-batches/world-sample.toml):
+scripts/regenerate-city.sh karachi
+
+# Whole catalogue, 4 cities in parallel (~17 min cold, faster on warm caches):
+scripts/regenerate-all.sh --jobs 4
+
+# Subset:
+scripts/regenerate-all.sh --only tunis,lyon --jobs 2
+scripts/regenerate-all.sh --skip baghdad
 ```
 
-The regen script chains eight steps:
+The per-city script chains eight steps:
 
 1. **OSM pull** — Overpass query for arterials, buildings, water,
    protected land, demand-anchor POIs (universities, hospitals,
@@ -673,16 +769,20 @@ The regen script chains eight steps:
 2. **Raster bundle** — 20 m cost / demand / buildability grid via
    `osr_geo`. Demand blends a Gaussian POI-anchor layer with the
    WorldPop residential-population layer (so lines reach population
-   centres without mapped POIs).
+   centres without mapped POIs). Falls back to the unconstrained
+   WorldPop tile for ISO-3s where the constrained layer is unavailable
+   (KEN, NER, etc.).
 3. **Design synthesis** — `osr-design` (rust) routes each line with a
    demand-rewarded Dijkstra against the [topology archetype](crates/osr-routing/src/topology.rs)
    for the population band (`SingleRadial` ≤ 300 k, `RadialPlusRing`
    ≤ 1 M, `CrossPlusRing` ≤ 3 M, `HubAndSpokeDualRing` above). Stations
    placed at 1.2 km inner / 2 km transitional / 4 km outer
-   ([`SpacingConfig`](crates/osr-routing/src/station.rs)). Civil
-   classification (at-grade / elevated / bridge — no tunnels per
-   RFC 0011). Fleet sizing per RFC 0014 §4 round-trip / 5-min headway.
-   CAPEX per RFC 0011 §9 with OSR-discipline unit costs.
+   ([`SpacingConfig`](crates/osr-routing/src/station.rs); 1.5 / 3 / 5 km
+   megacity override). Civil classification (at-grade / elevated /
+   bridge — no tunnels per RFC 0011). Fleet sizing per RFC 0014 §4
+   round-trip / 5-min headway. CAPEX per RFC 0011 §9 with OSR-discipline
+   unit costs × the country's [`country-costs.toml`](lib/templates/country-costs.toml)
+   multiplier.
 4. **Scenario file** — expanded simulator scenario `<slug>.toml`.
 5. **Network map PNG** — auto-fit map of every line on OSM arterials,
    one colour per line, interchange complexes flagged.
@@ -694,11 +794,13 @@ The regen script chains eight steps:
 8. **Drift tests** — `tests/test_osr_scenario.py` +
    `tests/test_population_drift.py` against the catalogue.
 
-For the batch path (e.g. scanning 500 cities), `python -m osr_batch
---cities lib/city-batches/world-sample.toml` runs steps 1–4 in
-parallel. The `osr_batch.existing_transit` denylist (~600 cities,
-80 countries) keeps Paris, Tokyo, Cairo, etc. out of auto-generation
-unless `--include-existing-transit` is passed for calibration.
+For the production-scale path (eventual 500-city scan via
+`python -m osr_batch`), the
+[`osr_batch.existing_transit`](design-py/src/osr_batch/existing_transit.py)
+denylist (~600 cities, 80 countries) keeps cities with operating metro
+/ tram / LRT (Paris, Tokyo, Cairo, etc.) out of auto-generation unless
+`--include-existing-transit` is passed for calibration. The 19-city
+`world-sample.toml` is the calibration set in front of that scan.
 
 ## Reading order
 
@@ -848,10 +950,14 @@ Complementary rail-engineering RFCs:
    planning-grade defaults; real deployments need real PSH and grid-
    reliability data.
 5. **A new city in [`lib/city-batches/world-sample.toml`](lib/city-batches/world-sample.toml).**
-   Add a slug + bbox + country + verified population
+   Add a slug + served-catchment bbox + country + verified population
    (national-stats-office source) and run
-   `scripts/regenerate-city.sh <slug>`. Extending the test set to a
-   second continent is more useful than a fifteenth Iraqi city.
+   `scripts/regenerate-city.sh <slug>`. The catalogue currently covers
+   19 cities across all 8 regional buckets; gaps worth filling next
+   are the cold-continental climate (Sarajevo / Ulaanbaatar) and the
+   Sub-Saharan megacities (Kinshasa, Luanda, Maputo, Mogadishu) —
+   any addition that fills a coverage gap or stresses an under-
+   exercised topology archetype is welcome.
 
 ## License
 
