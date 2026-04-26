@@ -161,20 +161,22 @@ fn make_station(
     cfg: SpacingConfig,
 ) -> Station {
     let (row, col) = cell;
-    let (mut final_row, mut final_col) = cell;
     let mut anchor_id = None;
     let mut anchor_kind = None;
     let mut anchor_name = None;
 
-    // Look for an anchor within snap_radius_cells. Score is
-    //     weight × (1 - d²/r²)
-    // so high-weight POIs (universities w=1.0, airports w=1.0,
-    // hospitals w=0.9) win over a slightly closer low-weight
-    // `place=neighbourhood` (w=0.6). Without this weighting, the
-    // 2026-04-26 anchor expansion (adding place=*, aeroway=*)
-    // displaced top-priority POIs from station snaps because their
-    // POI centroid was a few cells further from the routed path
-    // than a generic neighbourhood label.
+    // Look for an anchor within snap_radius_cells to **label** this
+    // station. Score is `weight × (1 - d²/r²)` so high-weight POIs
+    // (universities w=1.0, airports w=1.0, hospitals w=0.9) win over
+    // a slightly closer low-weight `place=neighbourhood` (w=0.6).
+    //
+    // The station's geometric position is **always** kept on the
+    // routed cell — earlier code overwrote `final_row` / `final_col`
+    // with the anchor's coordinates, which moved the station marker
+    // up to 500 m off the line corridor (snap_radius_cells × cell_m).
+    // The render then drew the station floating in space next to the
+    // routed polyline. Now we only attach the anchor's *metadata*
+    // (id / kind / name) — the marker stays on the line.
     let r2 = (cfg.snap_radius_cells * cfg.snap_radius_cells) as f32;
     let mut best_score: f32 = 0.0;
     for a in anchors {
@@ -187,19 +189,17 @@ fn make_station(
         let score = a.weight * (1.0 - d2 / r2);
         if score > best_score {
             best_score = score;
-            final_row = a.row;
-            final_col = a.col;
             anchor_id = Some(a.id);
             anchor_kind = Some(a.kind.clone());
             anchor_name = a.name.clone();
         }
     }
 
-    let (lat, lon) = grid.reference.rc_to_latlon(final_row, final_col);
-    let demand = grid.demand_at(final_row.min(grid.reference.height - 1), final_col.min(grid.reference.width - 1));
+    let (lat, lon) = grid.reference.rc_to_latlon(row, col);
+    let demand = grid.demand_at(row.min(grid.reference.height - 1), col.min(grid.reference.width - 1));
     Station {
-        row: final_row,
-        col: final_col,
+        row,
+        col,
         lat,
         lon,
         anchor_id,
@@ -277,14 +277,19 @@ pub fn force_hub_stations(
             dr * dr + dc * dc > hr2
         });
 
-        // Snap to the nearest anchor within ~8 cells (160 m) so the hub
-        // station picks up a real downtown name when one is available.
+        // Place the hub station **on the routed corridor** at the
+        // line's closest cell to the hub (best_i). Earlier the
+        // station was placed at `hub` itself or at an anchor near
+        // the hub — both off the line — which rendered as a marker
+        // floating up to 600 m from the actual rails. Anchor metadata
+        // is still attached for labelling but no longer overrides
+        // the geometric position.
+        let (final_row, final_col) = line.cells[best_i];
         let mut anchor_id = None;
         let mut anchor_kind = None;
         let mut anchor_name = None;
         let snap_r2: isize = 64;
         let mut best_a2: isize = snap_r2 + 1;
-        let (mut final_row, mut final_col) = hub;
         for a in anchors {
             let dr = a.row as isize - hub_r as isize;
             let dc = a.col as isize - hub_c as isize;
@@ -294,8 +299,6 @@ pub fn force_hub_stations(
                 anchor_id = Some(a.id);
                 anchor_kind = Some(a.kind.clone());
                 anchor_name = a.name.clone();
-                final_row = a.row;
-                final_col = a.col;
             }
         }
         let (lat, lon) = grid.reference.rc_to_latlon(final_row, final_col);
@@ -449,12 +452,16 @@ fn replace_station_near(
         dr * dr + dc * dc > 36 // 6 cells = 120 m
     });
 
+    // Anchor metadata only — keep the geometric position on the
+    // routed corridor (`cell`). Earlier code overwrote (row, col)
+    // with the anchor's coordinates, which moved the ring↔radial
+    // crossing station off the line.
     let mut anchor_id = None;
     let mut anchor_kind = None;
     let mut anchor_name = None;
     let snap_r2: i64 = 64;
     let mut best_a2 = snap_r2 + 1;
-    let (mut row, mut col) = cell;
+    let (row, col) = cell;
     for a in anchors {
         let dr = a.row as i64 - cell.0 as i64;
         let dc = a.col as i64 - cell.1 as i64;
@@ -464,8 +471,6 @@ fn replace_station_near(
             anchor_id = Some(a.id);
             anchor_kind = Some(a.kind.clone());
             anchor_name = a.name.clone();
-            row = a.row;
-            col = a.col;
         }
     }
     let (lat, lon) = grid.reference.rc_to_latlon(row, col);
@@ -552,26 +557,20 @@ pub fn merge_interchanges(stations: &mut [Station], merge_radius_m: f64) {
         }
     }
 
-    // Centroid per group.
-    let mut sums: std::collections::HashMap<usize, (f64, f64, usize)> =
-        std::collections::HashMap::new();
-    for (i, &g) in group_of.iter().enumerate() {
-        if counts[&g] < 2 {
-            continue;
-        }
-        let e = sums.entry(g).or_insert((0.0, 0.0, 0));
-        e.0 += stations[i].lat;
-        e.1 += stations[i].lon;
-        e.2 += 1;
-    }
-
+    // Tag interchange members with a stable junction_group id, but
+    // **leave each station's geometry on its own line**. Earlier code
+    // averaged the cluster's lat/lon and overwrote each member's
+    // coordinates with the centroid — which moved every interchange
+    // platform off the routed corridor (the centroid sits between the
+    // two lines, on neither). The junction_group id alone is enough
+    // for the map renderer / emitter to know "these N stations are
+    // one complex"; if a deployment wants to render the cluster as a
+    // single visual point the renderer can compute the centroid
+    // on-the-fly from the per-line platforms.
     for (i, g) in group_of.iter_mut().enumerate() {
         if counts[g] < 2 {
             continue;
         }
-        let (slat, slon, k) = sums[g];
-        stations[i].lat = slat / k as f64;
-        stations[i].lon = slon / k as f64;
         stations[i].junction_group = Some(id_map[g]);
     }
 }
@@ -625,9 +624,17 @@ mod tests {
         assert_eq!(g0, g1);
         assert_eq!(g0, g2);
         assert_eq!(s[3].junction_group, None);
-        // Merged stations share centroid lat/lon.
-        assert!((s[0].lat - s[1].lat).abs() < 1e-9);
-        assert!((s[0].lon - s[1].lon).abs() < 1e-9);
+        // Merged stations keep their original on-line lat/lon — the
+        // junction_group id alone is the marker that they form one
+        // interchange complex. Earlier behaviour (averaging the
+        // group's coordinates onto a shared centroid) was reverted
+        // because it pulled each platform off its own routed
+        // corridor; the renderer can compute a centroid on-the-fly
+        // from the per-line platforms when one visual icon is
+        // wanted.
+        assert!((s[0].lat - 0.001).abs() < 1e-9);
+        assert!((s[1].lat - 0.001003).abs() < 1e-9);
+        assert!((s[2].lat - 0.001).abs() < 1e-9);
     }
 
     #[test]

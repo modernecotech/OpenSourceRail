@@ -194,7 +194,7 @@ Expected daily ridership at build-up: **10,000 – 15,000 passenger-trips** (new
 | Metric | Value |
 |---|---|
 | Route-km (double track) | ~33 km |
-| Stations (unique) | 24 |
+| Stations (unique) | 25 |
 | Lines | 3 (auto-planned by `osr-design`) |
 | Multi-line interchanges | 7 platforms across central interchange complexes — every radial converges on the elevated-junction at city centre per the via-centre routing rule for ≤ 3-line networks |
 | Fleet (revenue) | 31 × 3-car trainsets |
