@@ -33,6 +33,7 @@ one-liner per city in a 500-city run.
 from __future__ import annotations
 
 import argparse
+import sys
 import tomllib
 from dataclasses import dataclass
 from pathlib import Path
@@ -106,6 +107,12 @@ def _load(path: Path) -> dict:
 
 
 def _line_length_km(design_line: dict) -> float:
+    # Prefer the rust-emitted `length_m` field on the line itself; the
+    # older schema nested `stations = [{ distance_from_prev_m, ... }]`
+    # inside each line, but `osr-design` now writes a flat station list
+    # keyed by `line` and a top-level `length_m` per [[lines]] block.
+    if "length_m" in design_line:
+        return float(design_line["length_m"]) / 1000.0
     return (
         sum(s.get("distance_from_prev_m", 0) for s in design_line.get("stations", []))
         / 1000.0
@@ -115,9 +122,18 @@ def _line_length_km(design_line: dict) -> float:
 def compute_stats(
     design: dict, scenario: dict, population: int
 ) -> NetworkStats:
+    # The rust `osr-design` emitter writes `[city]` with `slug` /
+    # `country` / `population`; older python-side designs used
+    # `[location]` with `city` / `country`. Read both for back-compat.
     loc = design.get("location", {})
-    city_name = loc.get("city") or design.get("design", {}).get("name", "Network")
-    country_iso = loc.get("country", "??")
+    city_block = design.get("city", {})
+    city_name = (
+        loc.get("city")
+        or city_block.get("name")
+        or (city_block.get("slug") or "").title()
+        or design.get("design", {}).get("name", "Network")
+    )
+    country_iso = loc.get("country") or city_block.get("country", "??")
 
     lines = design.get("lines", [])
     line_count = len(lines)
@@ -136,12 +152,18 @@ def compute_stats(
     # provide it out-of-band.
     coverage = float(design.get("stats", {}).get("coverage", 0.0))
 
-    # Fleet.
-    revenue = sum(int(f.get("trainset_count", 0)) for f in design.get("fleets", []))
-    spare = sum(int(f.get("spare_count", 0)) for f in design.get("fleets", []))
-    reserve = sum(
-        int(f.get("cold_reserve_count", 0)) for f in design.get("fleets", [])
+    # Fleet. The rust emitter writes `peak_count` (revenue),
+    # `spare_count`, `cold_reserve_count`, and `trainset_count`
+    # (= peak + spare + reserve). Older designs may carry only
+    # `trainset_count` — fall back to that when `peak_count` is
+    # absent so the revenue/spare/reserve split still resolves.
+    fleets = design.get("fleets", [])
+    revenue = sum(
+        int(f.get("peak_count") or f.get("trainset_count", 0))
+        for f in fleets
     )
+    spare = sum(int(f.get("spare_count", 0)) for f in fleets)
+    reserve = sum(int(f.get("cold_reserve_count", 0)) for f in fleets)
     if spare + reserve == 0:
         # Apply the template default (50 % spare+reserve).
         spare = revenue // 3
@@ -285,19 +307,36 @@ def render_readme(
 
     # Per-line table.
     by_id = {s["id"]: s for s in design.get("stations", [])}
+    # Lines emitted by `osr-design` carry `name` (slug-style id) — use
+    # it for both keying and display.
     fleet_by_line = {
         f["line"]: int(f.get("trainset_count", 0))
         for f in design.get("fleets", [])
     }
+    # Build per-line ordered station lists from the flat station list
+    # (rust schema). Falls back to inline `stations = [...]` arrays
+    # if a design.toml carries them (older schema).
+    stations_by_line: dict[str, list[dict]] = {}
+    for s in design.get("stations", []):
+        stations_by_line.setdefault(s.get("line", ""), []).append(s)
+    for sts in stations_by_line.values():
+        sts.sort(key=lambda s: float(s.get("s_m", 0.0)))
     line_rows: list[str] = []
     for L in design.get("lines", []):
+        line_id = L.get("id") or L["name"]
+        line_name = L.get("name", line_id)
         length_km = _line_length_km(L)
-        station_ids = [s["id"] for s in L.get("stations", [])]
-        first = by_id.get(station_ids[0], {}).get("name", station_ids[0]) if station_ids else ""
-        last = by_id.get(station_ids[-1], {}).get("name", station_ids[-1]) if station_ids else ""
-        trainsets = fleet_by_line.get(L["id"], 0)
+        inline_sts = L.get("stations") or stations_by_line.get(line_id, [])
+        station_ids = [s["id"] for s in inline_sts]
+
+        def _display(sid: str) -> str:
+            s = by_id.get(sid, {})
+            return s.get("name") or s.get("anchor_name") or sid
+        first = _display(station_ids[0]) if station_ids else ""
+        last = _display(station_ids[-1]) if station_ids else ""
+        trainsets = fleet_by_line.get(line_id, 0)
         line_rows.append(
-            f"| {L.get('name', L['id'])} | {length_km:4.1f} km | "
+            f"| {line_name} | {length_km:4.1f} km | "
             f"{len(station_ids)} | {trainsets} | {first} ↔ {last} |"
         )
 
@@ -481,6 +520,18 @@ def render_readme(
         f"{stats.consist_battery_kwh} kWh battery covers running.\n"
     )
 
+    # Prefer the rust-emitted [costs] block (RFC 0011 §9 OSR-discipline
+    # planning-grade CAPEX) over the rule-of-thumb per-unit calc — when
+    # design.toml carries one, the CAPEX section is broken out by
+    # archetype and references the design-discipline reasoning.
+    rust_costs = design.get("costs")
+    if rust_costs:
+        out.extend(_rich_capex_section(design, rust_costs, stats))
+        # Skip the per-unit fallback section below; jump to "## Files".
+        return _finalise_readme(
+            out, design_path, scenario_path, stats, screenshot_slug, rel
+        )
+
     out.append("## Cost estimate\n")
     out.append(
         "Rule-of-thumb unit rates (see [`CostAssumptions`]"
@@ -550,6 +601,21 @@ def render_readme(
         "stakeholder conversations, not a bid-ready estimate.\n"
     )
 
+    return _finalise_readme(
+        out, design_path, scenario_path, stats, screenshot_slug, rel
+    )
+
+
+def _finalise_readme(
+    out: list[str],
+    design_path: Path,
+    scenario_path: Path,
+    stats: NetworkStats,
+    screenshot_slug: str,
+    rel,
+) -> str:
+    """Append the Files + Reproducibility tail and join. Shared between
+    the rich `[costs]` path and the legacy per-unit fallback."""
     out.append("## Files\n")
     out.append("| File | Role |")
     out.append("|---|---|")
@@ -610,6 +676,235 @@ def _hours(start: str, end: str) -> float:
         return 18.0
 
 
+# Per-archetype unit costs — mirror of the constants in
+# `crates/osr-design/src/emit.rs` (RFC 0011 §9 OSR-discipline costs).
+# Keeping this table in sync with the rust source is part of the
+# cost-discipline review. See the matching comment in emit.rs.
+_STATION_UNIT_EUR: dict[str, float] = {
+    "halt": 400_000.0,
+    "standard": 1_500_000.0,
+    "major": 3_000_000.0,
+    "terminal": 2_500_000.0,
+    "depot-terminal": 3_000_000.0,
+    "interchange": 4_500_000.0,
+    "interchange-elevated": 4_500_000.0,
+}
+_DEPOT_UNIT_EUR: dict[str, float] = {
+    "main-heavy": 25_000_000.0,
+    "secondary-medium": 10_000_000.0,
+    "layup-minimal": 3_000_000.0,
+}
+_TRAINSET_UNIT_EUR: dict[str, float] = {
+    "tram-2car": 1_200_000.0,
+    "light-metro-3car": 2_000_000.0,
+    "metro-4car": 3_000_000.0,
+    "metro-6car": 4_500_000.0,
+}
+_AT_GRADE_EUR_PER_KM = 3_500_000.0
+_ELEVATED_EUR_PER_KM = 18_000_000.0
+_BRIDGE_EUR_PER_KM = 25_000_000.0
+_JUNCTION_PREMIUM_EUR = 20_000_000.0
+_SIGNALLING_EUR_PER_KM = 400_000.0
+_POWER_EUR_PER_KM = 800_000.0
+_EPC_OVERHEAD_FRAC = 0.07
+
+
+def _rich_capex_section(
+    design: dict, costs: dict, stats: NetworkStats
+) -> list[str]:
+    """Emit the per-archetype CAPEX breakdown sourced from
+    `design.toml`'s `[costs]` block (rust `osr-design` planner).
+    The rust emitter only writes subtotals; per-archetype rows are
+    re-derived here from the station / depot / line tables and the
+    unit-cost mirror above."""
+
+    def _eur(v: float) -> str:
+        if v >= 1e9:
+            return f"€{v / 1e9:.2f} bn"
+        return f"€{v / 1e6:.0f} M" if v >= 1e7 else f"€{v / 1e6:.1f} M"
+
+    archetype_counts: dict[str, int] = {}
+    for s in design.get("stations", []):
+        a = s.get("archetype", "standard")
+        archetype_counts[a] = archetype_counts.get(a, 0) + 1
+    depot_counts: dict[str, int] = {}
+    for d in design.get("depots", []):
+        a = d.get("archetype", "main-heavy")
+        depot_counts[a] = depot_counts.get(a, 0) + 1
+
+    # Civil mix.
+    at_grade_km = float(costs.get("at_grade_eur", 0.0)) / _AT_GRADE_EUR_PER_KM
+    elevated_km = float(costs.get("elevated_eur", 0.0)) / _ELEVATED_EUR_PER_KM
+    bridge_km = float(costs.get("bridge_eur", 0.0)) / _BRIDGE_EUR_PER_KM
+    junction_count = int(
+        round(
+            float(costs.get("junction_premium_eur", 0.0)) / _JUNCTION_PREMIUM_EUR
+        )
+    ) if costs.get("junction_premium_eur") else 0
+
+    family = (
+        design.get("lines", [{}])[0].get("rolling_stock", "tram-2car")
+    )
+    fleet_total = stats.revenue_fleet + stats.spare_fleet + stats.reserve_fleet
+
+    out: list[str] = []
+    out.append("## CAPEX (planning grade)\n")
+    out.append(
+        "All figures come from the `[costs]` block in "
+        "`design.toml` — emitted by the `osr-design` Rust planner per "
+        "RFC 0011 §9. **OSR-discipline unit costs**: prefab portal-frame "
+        "canopies (no bespoke architectural cladding), at-grade depots "
+        "without overhead bridge cranes, commodity Na-ion cells + "
+        "tier-2 PMSM motors + DIY SiC inverters in rolling stock, "
+        "open-source CBTC on commodity SBCs (no proprietary signalling "
+        "vendor), no overhead catenary, and self-EPC overhead. "
+        "Conventional metro budgets land 2–3× higher because of the "
+        "line items OSR has architected away. `country-costs.toml` "
+        "applies the per-country labour/material multiplier "
+        "downstream.\n"
+    )
+
+    out.append("### Civil works\n")
+    out.append("| Bucket | Value |")
+    out.append("|---|---|")
+    if at_grade_km > 0:
+        out.append(
+            f"| At-grade ({at_grade_km:.1f} km @ €3.5 M/km) | "
+            f"{_eur(costs['at_grade_eur'])} |"
+        )
+    if elevated_km > 0:
+        out.append(
+            f"| Elevated ({elevated_km:.1f} km @ €18 M/km) | "
+            f"{_eur(costs['elevated_eur'])} |"
+        )
+    if bridge_km > 0:
+        out.append(
+            f"| Bridges ({bridge_km:.1f} km @ €25 M/km) | "
+            f"{_eur(costs['bridge_eur'])} |"
+        )
+    if junction_count > 0:
+        out.append(
+            f"| Elevated-interchange premium ({junction_count} sites @ €20 M) | "
+            f"{_eur(costs['junction_premium_eur'])} |"
+        )
+    out.append(
+        f"| **Civil subtotal** | **{_eur(costs['civil_subtotal_eur'])}** |\n"
+    )
+
+    out.append("### Stations\n")
+    out.append(
+        "Prefab portal-frame canopy + factory-bonded PV sandwich panel "
+        "(RFC 0010 §3, ~11 t / 13-bay canopy delivered on two lorries, "
+        "3–5 day erection). Precast L-unit platform edge. Vertical "
+        "circulation per archetype.\n"
+    )
+    out.append("| Archetype | Count | Unit | Subtotal |")
+    out.append("|---|---|---|---|")
+    # Stable archetype order for output.
+    arch_order = [
+        "halt", "standard", "major", "terminal", "depot-terminal",
+        "interchange", "interchange-elevated",
+    ]
+    for a in arch_order:
+        n = archetype_counts.get(a, 0)
+        if n == 0:
+            continue
+        unit = _STATION_UNIT_EUR.get(a, 1_500_000.0)
+        out.append(
+            f"| `{a}` | {n} | {_eur(unit)} | {_eur(unit * n)} |"
+        )
+    out.append(
+        f"| **Stations subtotal** | | | **{_eur(costs['stations_eur'])}** |\n"
+    )
+
+    out.append("### Depots\n")
+    out.append(
+        "At-grade portal-frame workshop sheds; pit tracks with stinger "
+        "+ portable wheel lathe (no overhead bridge crane); on-site PV "
+        "array; Na-ion stationary storage; no traction substation.\n"
+    )
+    out.append("| Archetype | Count | Unit | Subtotal |")
+    out.append("|---|---|---|---|")
+    depot_order = ["main-heavy", "secondary-medium", "layup-minimal"]
+    for a in depot_order:
+        n = depot_counts.get(a, 0)
+        if n == 0:
+            continue
+        unit = _DEPOT_UNIT_EUR.get(a, 8_000_000.0)
+        out.append(
+            f"| `{a}` | {n} | {_eur(unit)} | {_eur(unit * n)} |"
+        )
+    out.append(
+        f"| **Depots subtotal** | | | **{_eur(costs['depots_eur'])}** |\n"
+    )
+
+    out.append("### Rolling stock\n")
+    out.append(
+        "Per-trainset BOM at OSR-discipline pricing: commodity Na-ion "
+        "cells (~$80/kWh, RFC 0021), tier-2 PMSM motors + SiC inverters "
+        "(RFC 0022 §10, RFC 0008 §3.2), DIY safety electronics "
+        "(~$5 680/trainset, RFC 0019), aluminium-extrusion or steel "
+        "space-frame body.\n"
+    )
+    out.append("| Item | Count | Unit | Subtotal |")
+    out.append("|---|---|---|---|")
+    rs_unit = _TRAINSET_UNIT_EUR.get(family, 2_000_000.0)
+    out.append(
+        f"| `{family}` (revenue + spare + cold reserve) | "
+        f"{fleet_total} | {_eur(rs_unit)} | "
+        f"{_eur(costs['rolling_stock_eur'])} |"
+    )
+    out.append("")
+
+    out.append("### Systems\n")
+    out.append("| Item | Basis | Subtotal |")
+    out.append("|---|---|---|")
+    out.append(
+        f"| Signalling (open-source CBTC on commodity SBCs, RFC 0019) | "
+        f"{stats.route_km:.1f} km × €0.4 M/km | "
+        f"{_eur(costs['signalling_eur'])} |"
+    )
+    out.append(
+        f"| Traction power (distributed PV + Na-ion, no OCS, RFC 0002) | "
+        f"{stats.route_km:.1f} km × €0.8 M/km | "
+        f"{_eur(costs['power_eur'])} |"
+    )
+    out.append(
+        f"| EPC integration + project management ({_EPC_OVERHEAD_FRAC:.0%}) | "
+        f"on subtotal | {_eur(costs['epc_overhead_eur'])} |\n"
+    )
+
+    out.append("### Total\n")
+    out.append("| Bucket | Value |")
+    out.append("|---|---|")
+    out.append(
+        f"| Civil works | {_eur(costs['civil_subtotal_eur'])} |"
+    )
+    out.append(f"| Stations | {_eur(costs['stations_eur'])} |")
+    out.append(f"| Depots | {_eur(costs['depots_eur'])} |")
+    out.append(f"| Rolling stock | {_eur(costs['rolling_stock_eur'])} |")
+    out.append(
+        f"| Signalling + power | "
+        f"{_eur(costs['signalling_eur'] + costs['power_eur'])} |"
+    )
+    out.append(
+        f"| EPC overhead ({_EPC_OVERHEAD_FRAC:.0%}) | "
+        f"{_eur(costs['epc_overhead_eur'])} |"
+    )
+    total = float(costs["total_eur"])
+    out.append(f"| **CAPEX total** | **{_eur(total)}** |")
+    if stats.route_km > 0:
+        per_km = total / stats.route_km
+        out.append(f"| Per-route-km | {_eur(per_km)} / km |")
+    if stats.population > 0:
+        per_capita = total / stats.population
+        out.append(
+            f"| Per-capita (city pop) | "
+            f"€{per_capita:,.0f} / person |\n"
+        )
+    return out
+
+
 def _rel_to_repo_root(path: Path) -> str:
     """Return the relative-path prefix from `path` up to the repo root
     (containing Cargo.toml). Used to fix up links in the generated
@@ -638,8 +933,8 @@ def main(argv: list[str] | None = None) -> int:
         help="output path (typically <design-folder>/README.md)",
     )
     ap.add_argument(
-        "--population", type=int, required=True,
-        help="urban population served (used for catchment estimates)",
+        "--population", type=int, default=None,
+        help="urban population served (default: read from design.toml [city] population)",
     )
     ap.add_argument(
         "--track-cost-per-km", type=float, default=2_000_000.0,
@@ -686,10 +981,26 @@ def main(argv: list[str] | None = None) -> int:
         depot_cost_usd=args.depot_cost,
         trainset_capacity_pax=args.pax_per_trainset,
     )
+    population = args.population
+    if population is None:
+        # Fall back to `[city] population` in the design.toml. Older
+        # designs without that field require an explicit --population.
+        try:
+            doc = tomllib.loads(args.design.read_text())
+            population = int(doc.get("city", {}).get("population", 0))
+        except Exception:
+            population = 0
+        if not population:
+            print(
+                "error: --population is required (no [city] population "
+                "field in the design.toml)",
+                file=sys.stderr,
+            )
+            return 2
     text = render_readme(
         design_path=args.design,
         scenario_path=args.scenario,
-        population=args.population,
+        population=population,
         cost=cost,
     )
     args.out.parent.mkdir(parents=True, exist_ok=True)

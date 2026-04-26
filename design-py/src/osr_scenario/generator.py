@@ -19,12 +19,13 @@ class GeneratorError(RuntimeError):
 # Per-archetype station operational defaults. The template is read first;
 # these values are a safety net for when templates are unavailable.
 _STATION_ARCHETYPE_DEFAULTS: dict[str, dict[str, Any]] = {
-    "halt":           {"charging_power_kw": 0,    "dwell_seconds": 20,  "is_depot": False},
-    "standard":       {"charging_power_kw": 0,    "dwell_seconds": 30,  "is_depot": False},
-    "major":          {"charging_power_kw": 500,  "dwell_seconds": 45,  "is_depot": False},
-    "interchange":    {"charging_power_kw": 500,  "dwell_seconds": 45,  "is_depot": False},
-    "terminal":       {"charging_power_kw": 1000, "dwell_seconds": 60,  "is_depot": False},
-    "depot-terminal": {"charging_power_kw": 1000, "dwell_seconds": 240, "is_depot": True},
+    "halt":                 {"charging_power_kw": 0,    "dwell_seconds": 20,  "is_depot": False},
+    "standard":             {"charging_power_kw": 0,    "dwell_seconds": 30,  "is_depot": False},
+    "major":                {"charging_power_kw": 500,  "dwell_seconds": 45,  "is_depot": False},
+    "interchange":          {"charging_power_kw": 500,  "dwell_seconds": 45,  "is_depot": False},
+    "interchange-elevated": {"charging_power_kw": 500,  "dwell_seconds": 45,  "is_depot": False},
+    "terminal":             {"charging_power_kw": 1000, "dwell_seconds": 60,  "is_depot": False},
+    "depot-terminal":       {"charging_power_kw": 1000, "dwell_seconds": 240, "is_depot": True},
 }
 
 # Per-tier energy-site operational defaults.
@@ -100,7 +101,13 @@ class ScenarioGenerator:
     def station_defaults(self, archetype: str) -> dict[str, Any]:
         """Resolve operational defaults for a station archetype."""
         tpl = self.station_archetypes.get(archetype, {})
-        out = dict(_STATION_ARCHETYPE_DEFAULTS.get(archetype, {}))
+        # Unknown archetypes fall back to `standard` rather than {} —
+        # `osr-design` may emit variants the templates don't yet name
+        # (e.g. `interchange-elevated`, future tier subtypes).
+        baked = _STATION_ARCHETYPE_DEFAULTS.get(
+            archetype, _STATION_ARCHETYPE_DEFAULTS["standard"]
+        )
+        out = dict(baked)
         for k in ("charging_power_kw", "dwell_seconds"):
             if k in tpl:
                 out[k] = tpl[k]
@@ -186,7 +193,14 @@ class ScenarioGenerator:
             d = self.station_defaults(arch)
             out.append(f"[[stations]]\n")
             out.append(f'id = "{_escape(s["id"])}"\n')
-            out.append(f'name = "{_escape(s["name"])}"\n')
+            # Display name: prefer explicit `name`, then OSM-derived
+            # `anchor_name`, then fall back to the id slug. The rust
+            # emitter (`osr-design`) writes `anchor_name` for stations
+            # tied to a POI and omits a separate `name` field.
+            display_name = (
+                s.get("name") or s.get("anchor_name") or s["id"]
+            )
+            out.append(f'name = "{_escape(display_name)}"\n')
             if d.get("charging_power_kw", 0) > 0:
                 out.append(f"charging_power_kw = {d['charging_power_kw']}\n")
             out.append(f"dwell_seconds = {d['dwell_seconds']}\n")
@@ -199,26 +213,64 @@ class ScenarioGenerator:
 
     def _lines_section(self) -> str:
         out = ["\n# Lines — per-line station sequences.\n"]
+        # Build a per-line ordered station list once, since the rust
+        # `osr-design` emitter writes a flat [[stations]] list keyed
+        # by the station's own `line` field rather than nesting them
+        # inside [[lines]].
+        stations_by_line: dict[str, list[dict[str, Any]]] = {}
+        for s in self.design.get("stations", []):
+            stations_by_line.setdefault(s.get("line", ""), []).append(s)
+        for sts in stations_by_line.values():
+            sts.sort(key=lambda s: float(s.get("s_m", 0.0)))
         for line in self.design.get("lines", []):
+            # Lines emitted by `osr-design` carry only `name` (which
+            # acts as the slug-style id, e.g. "line-1"). Use `name`
+            # for both `id` and `name` when no separate `id` exists.
+            line_id = line.get("id") or line["name"]
             out.append(f"[[lines]]\n")
-            out.append(f'id = "{_escape(line["id"])}"\n')
+            out.append(f'id = "{_escape(line_id)}"\n')
             out.append(f'name = "{_escape(line["name"])}"\n')
-            if line.get("is_ring"):
+            shape = line.get("shape", "")
+            if shape == "ring" or line.get("is_ring"):
                 out.append(f"is_ring = true\n")
                 if "ring_wrap_length_m" in line:
                     out.append(
                         f"ring_wrap_length_m = {int(line['ring_wrap_length_m'])}\n"
                     )
-            out.append(f"stations = [\n")
-            for st in line.get("stations", []):
-                d = int(st.get("distance_from_prev_m", 0))
-                out.append(
-                    f'    {{ id = "{_escape(st["id"])}", distance_from_prev_m = {d} }},\n'
-                )
-            out.append(f"]\n\n")
+            # Prefer an inline `stations = [...]` array if the design
+            # carries one (older schema); otherwise synthesise one
+            # from the flat station list ordered by `s_m`.
+            inline = line.get("stations")
+            if inline:
+                out.append(f"stations = [\n")
+                for st in inline:
+                    d = int(st.get("distance_from_prev_m", 0))
+                    out.append(
+                        f'    {{ id = "{_escape(st["id"])}", distance_from_prev_m = {d} }},\n'
+                    )
+                out.append(f"]\n\n")
+            else:
+                line_stations = stations_by_line.get(line_id, [])
+                out.append(f"stations = [\n")
+                prev_s_m = 0.0
+                for i, st in enumerate(line_stations):
+                    s_m = float(st.get("s_m", 0.0))
+                    distance = 0 if i == 0 else int(s_m - prev_s_m)
+                    out.append(
+                        f'    {{ id = "{_escape(st["id"])}", distance_from_prev_m = {distance} }},\n'
+                    )
+                    prev_s_m = s_m
+                out.append(f"]\n\n")
         return "".join(out)
 
     def _fleets_section(self) -> str:
+        # The rust `osr-design` emitter writes minimal [[fleets]]
+        # blocks: line + peak/spare/cold-reserve/total counts. The
+        # operational dispatch + schedule fields below are optional
+        # (older hand-crafted designs carry them; auto-generated
+        # designs default to a Samawah-class 5-min peak headway,
+        # 05:30–23:30 service window). All keys defensive — missing
+        # ones get sensible auto-gen defaults.
         out = ["\n# Fleets — copied from design.toml [[fleets]].\n"]
         for f in self.design.get("fleets", []):
             out.append(f"[[fleets]]\n")
@@ -232,8 +284,17 @@ class ScenarioGenerator:
             out.append(f"]\n")
             out.append(f'service_start = "{_escape(f.get("service_start", "05:30"))}"\n')
             out.append(f'service_end = "{_escape(f.get("service_end", "23:30"))}"\n')
+            schedule = f.get("schedule") or [
+                # Auto-gen default: peak 5-min headway both peaks,
+                # 10-min off-peak. Matches RFC 0014 §4 fleet sizing.
+                {"from": "05:30", "to": "07:00", "headway_min": 10},
+                {"from": "07:00", "to": "10:00", "headway_min": 5},
+                {"from": "10:00", "to": "16:00", "headway_min": 10},
+                {"from": "16:00", "to": "19:00", "headway_min": 5},
+                {"from": "19:00", "to": "23:30", "headway_min": 10},
+            ]
             out.append(f"schedule = [\n")
-            for w in f.get("schedule", []):
+            for w in schedule:
                 out.append(
                     f'    {{ from = "{_escape(w["from"])}", to = "{_escape(w["to"])}", headway_min = {int(w["headway_min"])} }},\n'
                 )

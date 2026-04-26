@@ -410,24 +410,35 @@ fn write_design_toml(
         }
     }
 
+    // Fleets — per-line revenue / spare / cold-reserve counts so the
+    // python README emitter and the sim scenario emitter can read fleet
+    // sizing from design.toml without re-deriving it. Sized per
+    // RFC 0014 §4: peak from round-trip / 5 min headway, spare = peak/10
+    // (min 1), cold-reserve = 1 per line.
+    out.push_str("# [[fleets]] — per-line fleet sizing per RFC 0014 §4.\n");
+    let mut fleet_total_trainsets: u32 = 0;
+    for line in lines {
+        let len_m = line_cells_length_m(line);
+        let peak = peak_revenue_trainsets(len_m, family);
+        let spare = fleet_spare(peak);
+        let reserve = fleet_cold_reserve();
+        let total = peak + spare + reserve;
+        fleet_total_trainsets += total;
+        out.push_str("[[fleets]]\n");
+        out.push_str(&format!("line               = \"{}\"\n", line.name));
+        out.push_str(&format!("peak_count         = {peak}\n"));
+        out.push_str(&format!("spare_count        = {spare}\n"));
+        out.push_str(&format!("cold_reserve_count = {reserve}\n"));
+        out.push_str(&format!("trainset_count     = {total}\n\n"));
+    }
+
     // Costs — full planning-grade CAPEX stack per RFC 0011 §9: civil
     // works (€/km × civil mix) + stations (RFC 0010 archetype catalogue)
     // + depots (RFC 0014 archetype catalogue) + rolling stock (RFC 0008
     // family acquisition cost × fleet) + systems (signalling + power)
-    // + 10 % EPC overhead. `country-costs.toml` scales the totals
+    // + 7 % EPC overhead. `country-costs.toml` scales the totals
     // downstream; the base figure goes in design.toml so the operator
     // has a one-number headline when reviewing the output.
-    // Total revenue + spare + cold-reserve fleet, summed over every line.
-    // Each line's fleet is sized from its round-trip cycle vs. peak headway
-    // (RFC 0014 §4) — the depot stalls back-derive from this, so summing
-    // line fleet directly avoids a second source-of-truth divergence.
-    let fleet_total_trainsets: u32 = lines
-        .iter()
-        .map(|line| {
-            let len_m = line_cells_length_m(line);
-            fleet_total(peak_revenue_trainsets(len_m, family))
-        })
-        .sum();
     let costs = compute_costs(
         civil_per_line,
         &archetypes,
@@ -465,7 +476,7 @@ fn write_design_toml(
     out.push_str("# Systems (per route-km, RFC 0015 GoA 4 battery-electric).\n");
     out.push_str(&format!("signalling_eur       = {:.0}\n", costs.signalling_eur));
     out.push_str(&format!("power_eur            = {:.0}\n", costs.power_eur));
-    out.push_str("# EPC integration + project management (10 % of subtotal).\n");
+    out.push_str("# EPC integration + project management (7 % of subtotal).\n");
     out.push_str(&format!(
         "epc_overhead_eur     = {:.0}\n",
         costs.epc_overhead_eur
@@ -694,52 +705,75 @@ const COST_AT_GRADE_EUR_PER_KM: f64 = 3_500_000.0;
 const COST_ELEVATED_EUR_PER_KM: f64 = 18_000_000.0;
 const COST_BRIDGE_EUR_PER_KM: f64 = 25_000_000.0;
 
-/// Station construction cost by RFC 0010 archetype (€). At-grade single-
-/// platform is the baseline; major adds an island deck; interchange adds
-/// vertical circulation between an at-grade and elevated level (the
-/// elevated junction premium covers the viaduct itself).
+/// Station construction cost by RFC 0010 archetype (€). OSR-discipline:
+/// prefab portal-frame steel canopy + factory-bonded PV sandwich panel
+/// (RFC 0010 §3, ~11 t / 13-bay canopy delivered on two lorries, 3–5 day
+/// erection), precast L-unit platform edge, commodity vertical
+/// circulation. No bespoke architectural cladding, no MEP for tunnel
+/// ventilation, no underground concourse. Conventional metro stations
+/// land 4–6× higher; this catalogue reflects the no-cladding /
+/// no-tunnel / prefab-only discipline.
 fn station_cost_eur(archetype: &str) -> f64 {
     match archetype {
-        "halt" => 1_500_000.0,
-        "standard" => 8_000_000.0,
-        "major" => 12_000_000.0,
-        "terminal" => 10_000_000.0,
-        "depot-terminal" => 12_000_000.0,
-        "interchange" => 18_000_000.0,
+        "halt" => 400_000.0,
+        "standard" => 1_500_000.0,
+        "major" => 3_000_000.0,
+        "terminal" => 2_500_000.0,
+        "depot-terminal" => 3_000_000.0,
+        "interchange" | "interchange-elevated" => 4_500_000.0,
+        _ => 1_500_000.0,
+    }
+}
+
+/// Depot construction cost by RFC 0014 archetype (€). OSR-discipline:
+/// at-grade portal-frame workshop sheds, pit tracks (no overhead bridge
+/// crane — stinger track + portable wheel lathe per RFC 0014), on-site
+/// PV array, Na-ion stationary storage, no traction substation.
+/// Conventional metro depots land at €100M+ for the same stall count
+/// because of crane infrastructure, traction substation, and bespoke
+/// architectural buildings — none of which OSR carries.
+fn depot_cost_eur(archetype: &str) -> f64 {
+    match archetype {
+        "main-heavy" => 25_000_000.0,
+        "secondary-medium" => 10_000_000.0,
+        "layup-minimal" => 3_000_000.0,
         _ => 8_000_000.0,
     }
 }
 
-/// Depot construction cost by RFC 0014 archetype (€).
-fn depot_cost_eur(archetype: &str) -> f64 {
-    match archetype {
-        "main-heavy" => 150_000_000.0,
-        "secondary-medium" => 60_000_000.0,
-        "layup-minimal" => 15_000_000.0,
-        _ => 50_000_000.0,
-    }
-}
-
-/// Per-trainset acquisition cost by RFC 0008 family (€).
+/// Per-trainset acquisition cost by RFC 0008 family (€). OSR-discipline:
+/// commodity Na-ion cells (HiNa/CATL Naxtra at ~$80/kWh, RFC 0021),
+/// tier-2 PMSM motors + SiC inverters (RFC 0022 §10 sourcing matrix
+/// + RFC 0008 §3.2 DIY inverter path), DIY safety electronics
+/// (~$5 680/trainset per RFC 0019), aluminium-extrusion or steel
+/// space-frame body. Conventional metro rolling stock lands at 3–5×
+/// these figures because of integrated-vendor margins, certification
+/// re-billed per deployment, and proprietary signalling onboard.
 fn trainset_cost_eur(family: &str) -> f64 {
     match family {
-        "tram-2car" => 4_000_000.0,
-        "light-metro-3car" => 9_000_000.0,
-        "metro-4car" => 14_000_000.0,
-        "metro-6car" => 18_000_000.0,
-        _ => 10_000_000.0,
+        "tram-2car" => 1_200_000.0,
+        "light-metro-3car" => 2_000_000.0,
+        "metro-4car" => 3_000_000.0,
+        "metro-6car" => 4_500_000.0,
+        _ => 2_000_000.0,
     }
 }
 
-/// Systems cost rates (€ per route-km). RFC 0015 GoA 4 battery-electric:
-/// CBTC signalling, no overhead catenary, substations + station-side
-/// charging only.
-const SIGNALLING_EUR_PER_KM: f64 = 1_500_000.0;
+/// Systems cost rates (€ per route-km). OSR-discipline:
+///   - Signalling: open-source CBTC on commodity SBCs (RFC 0019
+///     hardware + RFC 0001 consensus + RFC 0004 interlocking), no
+///     proprietary CBTC vendor stack. Cost dominated by trackside
+///     fibre + W-SBC enclosures.
+///   - Power: distributed PV + Na-ion at every station (RFC 0002),
+///     no overhead catenary, no traction substation.
+const SIGNALLING_EUR_PER_KM: f64 = 400_000.0;
 const POWER_EUR_PER_KM: f64 = 800_000.0;
 
 /// EPC integration + project management overhead applied to the subtotal
-/// of civil + stations + depots + rolling stock + systems.
-const EPC_OVERHEAD_FRACTION: f64 = 0.10;
+/// of civil + stations + depots + rolling stock + systems. OSR's open-
+/// source / direct-procurement model lets the deployment authority
+/// self-EPC; the integrator margin is a fraction of conventional 10–15 %.
+const EPC_OVERHEAD_FRACTION: f64 = 0.07;
 
 fn compute_costs(
     civil_per_line: &[Vec<CivilSegment>],
@@ -1573,7 +1607,8 @@ mod tests {
         // Toy line: 10 km at-grade + 1 km elevated + 0.5 km bridge =
         // 11.5 route-km. Three stations (1 standard, 1 terminal, 1
         // depot-terminal) and two depots (1 main-heavy + 1 layup).
-        // Fleet: 12 trainsets of metro-6car at €18 M each.
+        // Fleet: 12 trainsets of metro-6car at €4.5 M each
+        // (OSR-discipline pricing per emit.rs cost-constant docs).
         let civil_per_line = vec![vec![
             CivilSegment {
                 class: CivilClass::AtGrade,
@@ -1615,19 +1650,19 @@ mod tests {
         assert!((c.bridge_eur - 12_500_000.0).abs() < 1.0);
         assert!((c.junction_premium_eur - 0.0).abs() < 1.0);
         assert!((c.civil_subtotal_eur - 65_500_000.0).abs() < 1.0);
-        // Stations: terminal (€10 M) + standard (€8 M) + depot-terminal (€12 M).
-        assert!((c.stations_eur - 30_000_000.0).abs() < 1.0);
-        // Depots: main-heavy €150 M + layup-minimal €15 M.
-        assert!((c.depots_eur - 165_000_000.0).abs() < 1.0);
-        // Rolling stock: 12 × €18 M.
-        assert!((c.rolling_stock_eur - 216_000_000.0).abs() < 1.0);
-        // Systems: 11.5 km × (€1.5 M + €0.8 M).
-        assert!((c.signalling_eur - 17_250_000.0).abs() < 1.0);
+        // Stations: terminal (€2.5 M) + standard (€1.5 M) + depot-terminal (€3 M).
+        assert!((c.stations_eur - 7_000_000.0).abs() < 1.0);
+        // Depots: main-heavy €25 M + layup-minimal €3 M.
+        assert!((c.depots_eur - 28_000_000.0).abs() < 1.0);
+        // Rolling stock: 12 × €4.5 M.
+        assert!((c.rolling_stock_eur - 54_000_000.0).abs() < 1.0);
+        // Systems: 11.5 km × (€0.4 M + €0.8 M).
+        assert!((c.signalling_eur - 4_600_000.0).abs() < 1.0);
         assert!((c.power_eur - 9_200_000.0).abs() < 1.0);
-        // Subtotal before EPC = 65.5 + 30 + 165 + 216 + 17.25 + 9.2 = 502.95 M.
-        // EPC overhead = 10 % × 502.95 M = 50.295 M.
-        assert!((c.epc_overhead_eur - 50_295_000.0).abs() < 1.0);
-        // Total = 502.95 + 50.295 = 553.245 M.
-        assert!((c.total_eur - 553_245_000.0).abs() < 1.0);
+        // Subtotal before EPC = 65.5 + 7 + 28 + 54 + 4.6 + 9.2 = 168.3 M.
+        // EPC overhead = 7 % × 168.3 M = 11.781 M.
+        assert!((c.epc_overhead_eur - 11_781_000.0).abs() < 1.0);
+        // Total = 168.3 + 11.781 = 180.081 M.
+        assert!((c.total_eur - 180_081_000.0).abs() < 1.0);
     }
 }

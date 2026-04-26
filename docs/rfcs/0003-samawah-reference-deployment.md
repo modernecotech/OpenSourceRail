@@ -23,7 +23,7 @@ This is the reference case for `osr-sim`, the anchor for conversations with pote
 
 | Factor | Samawah | What it means for OSR |
 |---|---|---|
-| Population | ~220,000 (urban) | Right-sized for light metro — too small for a major vendor to bother with, ideal for an open-source first deployment |
+| Population | ~373,770 (As-Samawah Subdistrict, 2024 Iraq census; canonical figure in [`lib/city-batches/world-sample.toml`](../../lib/city-batches/world-sample.toml)) | Right-sized for light metro — too small for a major vendor to bother with, ideal for an open-source first deployment |
 | Existing rail | Station on Baghdad–Basra mainline | Rail culture and a natural intercity interchange already exist |
 | Climate | Hot desert; ~6+ peak sun hours annual mean | PV yield ~20% above the RFC 0002 reference (5 PSH) — catenary-free + solar is conservative, not ambitious |
 | Grid reliability | Limited; frequent outages | Storage autonomy has real operational value, not just a planning formality |
@@ -119,12 +119,12 @@ Expected daily ridership at build-up: **10,000 – 15,000 passenger-trips** (new
 
 | Metric | Value |
 |---|---|
-| Route-km (double track) | ~53 km |
-| Stations (unique) | 31 |
-| Lines | 5 (auto-planned by `osr_planner`) |
-| Multi-line interchanges | 10 (hub + shared waypoints across corridors) |
-| Fleet (revenue) | 19 × 3-car trainsets |
-| Fleet (spare + cold-reserve) | 10 × 3-car trainsets |
+| Route-km (double track) | ~40 km |
+| Stations (unique) | 40 |
+| Lines | 3 (auto-planned by `osr-design`) |
+| Multi-line interchanges | 0 (3-radial layout — terminals don't share endpoints; future v2 adds a tangential ring + interchanges) |
+| Fleet (revenue) | 38 × 3-car trainsets |
+| Fleet (spare + cold-reserve) | 6 × 3-car trainsets |
 | Service hours | 05:30 – 23:30, 18 hours |
 
 > The table above is **derived from** [`design.toml`](../../designs/west-asia/Iraq/Samawah/design.toml);

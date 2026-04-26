@@ -1,175 +1,167 @@
 # Baghdad — Urban Rail Network
 
-**Country:** IQ · **Population:** 7,500,000
+**Country:** IQ · **Population:** 9,780,429
 
-Auto-planned by the OSR pipeline (`osr_geo` rasters → `osr-design` greedy synthesizer) on Overpass-verified OpenStreetMap data. Every station sits on an aggregated POI cluster; every line follows the OSM road graph (trunk / primary / secondary / tertiary).
+Auto-planned by [`osr_planner`](../../../design-py/src/osr_planner/) using the linear-logic algorithm on Overpass-verified OpenStreetMap data. Every station sits on an aggregated POI cluster; every line polyline follows the OSM arterial graph (trunk / primary / secondary / tertiary — residential streets excluded, so lines cannot zigzag through a residential grid).
 
-## Network map
+## Network maps
 
-![Baghdad rail network](baghdad-network-map.png)
+### Suburban / regional map — full network
 
-*Auto-fit zoom over the network bounding box. Lines are coloured per the osr_scenario palette; interchanges show line transfers.*
+![Baghdad full rail network including suburban lines](city-network-map.png)
 
-Corridor polylines + stations as GeoJSON for GIS tooling: [`baghdad.corridor.geojson`](baghdad.corridor.geojson).
+*Every line visible end-to-end — radials out to the city edge, forced-coverage suburbs, and the ring line if present. Auto-fit zoom based on the network's actual bounding box.*
+
+### Inner-Baghdad map — urban core detail
+
+![Baghdad urban-core detail — central district](city-network-map-detail.png)
+
+*8 km radius around the city centre at a legible street-grid zoom. Shows interchange density, central-business-district stations, and where the radial lines converge on the hub.*
+
+Corridor polylines + stations as GeoJSON for GIS / alignment tooling: [`city-corridor.geojson`](city-corridor.geojson).
 
 ## At a glance
 
 | Metric | Value |
 |---|---|
 | Lines | 9 |
-| Unique stations | 286 |
-| Interchange complexes | 19 |
-| Anchor-weighted coverage | 37.0% |
+| Unique stations | 288 |
+| Interchange stations | 2 |
+| Multi-line transfer reachability | 0% (line-pairs sharing ≥ 1 station) |
+| Anchor-weighted coverage | — (set `[stats] coverage` in design.toml) |
 | Route length (double track) | 470.2 km |
-| Civil mix (at-grade / elevated) | 437.9 km / 30.7 km (6% elevated) |
 | Revenue fleet | 340 × 6-car trainsets |
-| Spare + cold reserve | 39 × 6-car trainsets |
+| Spare + cold-reserve | 39 × 6-car trainsets |
 | Peak headway | 5 min |
 | Service hours | 05:30 – 23:30 (≈ 18 h/day) |
-| Depots | 16 |
 
 ## Lines
 
-*Termini are tagged by compass quadrant + radial band (Inner < 0.33 R, Mid 0.33–0.67 R, Outer > 0.67 R, where R is the network's outermost station-to-centre distance).*
-
 | Line | Length | Stations | Trainsets | Termini |
 |---|---|---|---|---|
-| line-1 | 47.9 km | 30 | 39 | E Mid ↔ W Outer |
-| line-2 | 47.0 km | 28 | 38 | N Outer ↔ S Mid |
-| line-3 | 46.5 km | 29 | 38 | SE Mid ↔ NW Mid |
-| line-4 | 47.3 km | 30 | 38 | SW Mid ↔ NE Outer |
-| line-5 | 47.9 km | 27 | 39 | NW Outer ↔ SW Mid |
-| line-6 | 43.9 km | 26 | 36 | S Mid ↔ NE Outer |
-| line-7 | 44.9 km | 26 | 37 | NW Outer ↔ E Mid |
-| line-8 | 39.1 km | 22 | 32 | E Outer ↔ SW Mid |
-| line-9 | 105.7 km | 70 | 82 | W Mid loop |
-| **Total** | **470.2 km** | **286 unique** | **379** | |
+| line-1 | 47.9 km | 30 | 39 | عرب خيط ↔ مستشفى الدكتور قيصر |
+| line-2 | 47.0 km | 30 | 38 | شارع حارث ابن كلده ↔ معهد الكوكب للتدريس الخصوصي ودورات التقوية |
+| line-3 | 46.5 km | 29 | 38 | مدارس أكاديمية التجمع الابتدائية و الثانوية الأهلية ↔ مدرسة الغصون الابتدائيه للبنات في ابو عظام |
+| line-4 | 47.3 km | 30 | 38 | Багдад ↔ مركز صحي الشاعورة |
+| line-5 | 47.9 km | 27 | 39 | مركز صحي الباجة جي ↔ مدرسة سكينة الابتدائية للبنات /الكرخ ٢ |
+| line-6 | 43.9 km | 26 | 36 | مجمع دار الشفاء الطبي ↔ line-6-0326-2070 |
+| line-7 | 44.9 km | 26 | 37 | مركز صحي سبع البور الجديد ↔ line-7-1088-2164 |
+| line-8 | 39.1 km | 22 | 32 | مجمع الأنوار الطبي ↔ معهد الحبيب لدروس التقوية |
+| line-9 | 105.7 km | 70 | 82 | اعدادية الشعلة للبنين ↔ اعدادية الشعلة للبنين |
+| **Total** | **470.2 km** | **288 unique** | **340** | |
 
 ## Rolling stock
 
 | Property | Value |
 |---|---|
-| Family | `metro-6car` |
-| Consist | 6-car, 132 m |
-| Max speed | 100 km/h |
-| Onboard battery | 1800 kWh per trainset |
-| Nominal capacity | 900 pax (seated + standing) |
+| Consist | 6-car, 138 m |
+| Max speed | 90 km/h |
+| Onboard battery | 720 kWh per trainset |
+| Nominal capacity | 200 pax (seated + standing) |
 
 ## Ridership capacity
 
-- **Per-train capacity:** 900 passengers
-- **Peak frequency:** 12 trains/h/direction (5-min headway)
-- **Peak capacity per line per direction:** 900 × 12 = **10,800 pphpd**
-- **Network peak throughput** (all lines, both directions): 10,800 × 9 × 2 = **194,400 passengers/hour**
-- **Daily theoretical capacity** (peak ≈ 10 % of daily): ≈ **1,944,000 passenger-trips/day**
-- **Practical daily ridership estimate** (10–15 % of 37% catchment): **277,500 – 416,250 trips/day**
+- **Per-train capacity:** 200 passengers
+- **Peak frequency:** 12 trains/hour/direction (5-min headway)
+- **Peak capacity per line per direction:** 200 × 12 = **2,400 pphpd**
+- **Network peak throughput (all lines, both directions):** 9 lines × 2 directions × 2,400 = **43,200 passengers/hour**
+- **Daily theoretical capacity (peak × 10):** ≈ **432,000 passenger-trips/day**
+- **Practical daily ridership estimate** (10–15 % of catchment): *(requires a coverage score)*
 
 ## Catchment
 
-- City population: **7,500,000** (within bbox of 3,162 km², gross density ≈ 2,372/km²)
-- Stations: **286** at 800 m walking radius ⇒ raw walkshed = 575 km²; overlap-discounted (30 %) = **403 km²**
-- Walkshed catchment population (gross density × walkshed): ≈ **954,731**
-- Anchor-weighted demand coverage: **37.0%** — share of OSM POI demand-weight reachable within the walkshed (`high_demand_coverage` metric in design-quality.yaml). Cross-check on the walkshed estimate: 37.0% of 7,500,000 = **2,775,000** demand-weighted catchment.
+- City population: **9,780,429**
+- Anchor-weighted coverage: — (set `[stats] coverage` in design.toml)
+- Catchment population: *(run the planner with a fresh coverage score)*
+
+## Energy infrastructure (solar + battery)
+
+On-site trackside + depot PV and battery storage. Per-tier sizing (from [`../../../lib/templates/energy-sites.toml`](../../../lib/templates/energy-sites.toml)):
+
+| Tier | Sites | PV each | Battery each |
+|---|---|---|---|
+| **Total installed** | **0** | **0 kW** | **0 kWh** |
+
+Aggregate station-rail charging power: **84,000 kW**. Trains opportunity-charge during station dwell per RFC 0002; onboard 720 kWh battery covers running.
 
 ## CAPEX (planning grade)
 
-All figures come from the `[costs]` block in `design.toml` — emitted by the `osr-design` Rust planner per RFC 0011 §9. Base OECD rates; `country-costs.toml` applies the per-country labour/material multiplier downstream.
+All figures come from the `[costs]` block in `design.toml` — emitted by the `osr-design` Rust planner per RFC 0011 §9. **OSR-discipline unit costs**: prefab portal-frame canopies (no bespoke architectural cladding), at-grade depots without overhead bridge cranes, commodity Na-ion cells + tier-2 PMSM motors + DIY SiC inverters in rolling stock, open-source CBTC on commodity SBCs (no proprietary signalling vendor), no overhead catenary, and self-EPC overhead. Conventional metro budgets land 2–3× higher because of the line items OSR has architected away. `country-costs.toml` applies the per-country labour/material multiplier downstream.
 
 ### Civil works
 
 | Bucket | Value |
 |---|---|
-| At-grade (437.9 km @ €3.5 M/km) | €1.53 bn |
-| Elevated (30.7 km @ €18 M/km) | €552 M |
-| Elevated-interchange premium (19 sites @ €20 M) | €360 M |
-| **Civil subtotal** | **€2.44 bn** |
+| At-grade (436.6 km @ €3.5 M/km) | €1.53 bn |
+| Elevated (31.9 km @ €18 M/km) | €574 M |
+| Elevated-interchange premium (19 sites @ €20 M) | €380 M |
+| **Civil subtotal** | **€2.48 bn** |
 
 ### Stations
 
-At-grade construction per RFC 0010 archetype catalogue. Vertical circulation + canopy PV included.
+Prefab portal-frame canopy + factory-bonded PV sandwich panel (RFC 0010 §3, ~11 t / 13-bay canopy delivered on two lorries, 3–5 day erection). Precast L-unit platform edge. Vertical circulation per archetype.
 
 | Archetype | Count | Unit | Subtotal |
 |---|---|---|---|
-| `halt` | 8 | €1.5 M | €12 M |
-| `standard` | 131 | €8 M | €1.05 bn |
-| `major` | 75 | €12 M | €900 M |
-| `terminal` | 15 | €10 M | €150 M |
-| `depot-terminal` | 1 | €12 M | €12 M |
-| `interchange` | 2 | €18 M | €36 M |
-| **Stations subtotal** | | | **€2.61 bn** |
+| `halt` | 8 | €0.4 M | €3.2 M |
+| `standard` | 130 | €1.5 M | €195 M |
+| `major` | 77 | €3.0 M | €231 M |
+| `terminal` | 15 | €2.5 M | €38 M |
+| `depot-terminal` | 1 | €3.0 M | €3.0 M |
+| `interchange` | 2 | €4.5 M | €9.0 M |
+| `interchange-elevated` | 57 | €4.5 M | €256 M |
+| **Stations subtotal** | | | **€735 M** |
 
 ### Depots
 
+At-grade portal-frame workshop sheds; pit tracks with stinger + portable wheel lathe (no overhead bridge crane); on-site PV array; Na-ion stationary storage; no traction substation.
+
 | Archetype | Count | Unit | Subtotal |
 |---|---|---|---|
-| `main-heavy` | 1 | €150 M | €150 M |
-| `layup-minimal` | 15 | €15 M | €225 M |
-| **Depots subtotal** | | | **€375 M** |
+| `main-heavy` | 1 | €25 M | €25 M |
+| `layup-minimal` | 15 | €3.0 M | €45 M |
+| **Depots subtotal** | | | **€70 M** |
 
 ### Rolling stock
 
+Per-trainset BOM at OSR-discipline pricing: commodity Na-ion cells (~$80/kWh, RFC 0021), tier-2 PMSM motors + SiC inverters (RFC 0022 §10, RFC 0008 §3.2), DIY safety electronics (~$5 680/trainset, RFC 0019), aluminium-extrusion or steel space-frame body.
+
 | Item | Count | Unit | Subtotal |
 |---|---|---|---|
-| `metro-6car` (revenue + spare + cold reserve) | 379 | €18 M | €6.82 bn |
+| `metro-6car` (revenue + spare + cold reserve) | 379 | €4.5 M | €1.71 bn |
 
 ### Systems
 
 | Item | Basis | Subtotal |
 |---|---|---|
-| Signalling / CBTC (RFC 0015 GoA 4) | 470.2 km × €1.5 M/km | €703 M |
-| Traction power (battery-electric, no OCS) | 470.2 km × €0.8 M/km | €375 M |
-| EPC integration + project management (10%) | on subtotal | €1.33 bn |
+| Signalling (open-source CBTC on commodity SBCs, RFC 0019) | 470.2 km × €0.4 M/km | €187 M |
+| Traction power (distributed PV + Na-ion, no OCS, RFC 0002) | 470.2 km × €0.8 M/km | €375 M |
+| EPC integration + project management (7%) | on subtotal | €389 M |
 
 ### Total
 
 | Bucket | Value |
 |---|---|
-| Civil works | €2.44 bn |
-| Stations | €2.61 bn |
-| Depots | €375 M |
-| Rolling stock | €6.82 bn |
-| Signalling + power | €1.08 bn |
-| EPC overhead (10%) | €1.33 bn |
-| **CAPEX total** | **€14.66 bn** |
-| Per-route-km | €31 M / km |
-| Per-capita (city pop) | €1,954 / person |
+| Civil works | €2.48 bn |
+| Stations | €735 M |
+| Depots | €70 M |
+| Rolling stock | €1.71 bn |
+| Signalling + power | €562 M |
+| EPC overhead (7%) | €389 M |
+| **CAPEX total** | **€5.94 bn** |
+| Per-route-km | €13 M / km |
+| Per-capita (city pop) | €608 / person |
 
-## Quality gates
+## Files
 
-From `design-quality.yaml` — used by the planner's auto-gate to accept/reject a candidate design.
-
-| Gate | Result |
+| File | Role |
 |---|---|
-| (hard) `has_stations` | ✅ |
-| (hard) `length_reasonable` | ✅ |
-| (soft) `coverage_ge_0.30` | ✅ |
-| (soft) `anchor_hit_ge_0.20` | ✅ |
-| (soft) `elevated_le_0.30` | ✅ |
-| (soft) `soft_pass_all` | ✅ |
-| **Pass overall** | **✅** |
-
-## Files in this folder
-
-- `design.toml` — authoritative city design (lines, stations, depots, junctions, costs)
-- `baghdad.corridor.geojson` — line polylines + station points for GIS tooling
-- `baghdad.stations.json` — machine-readable station list
-- `baghdad.design-quality.yaml` — coverage / anchor-hit / civil-mix metrics + auto-gate result
-- `baghdad-network-map.png` — rendered OSM-backed map
-- `diagnose.png` — per-line diagnostic plot
-- `corridors.json` — cached greedy-planner output (skip-routing cache)
+| [`design.toml`](design.toml) | Authoritative design |
+| [`baghdad.toml`](baghdad.toml) | Expanded simulation scenario (input to `osr-sim`) |
+| [`city-network-map.png`](city-network-map.png) | City-wide network map |
+| [`city-network-map-detail.png`](city-network-map-detail.png) | Detail-zoom render |
+| [`city-corridor.geojson`](city-corridor.geojson) | Line polylines + stations (GeoJSON) |
 
 ## Reproducibility
 
-```
-# 1. raster bundle from OSM
-python -m osr_geo.cli --slug baghdad --bbox <S> <W> <N> <E>
-
-# 2. design synthesis
-cargo run --release --bin osr-design -- \
-    --slug baghdad --population 7500000 --country IQ \
-    --sidecar .cache/osr-pipeline/rasters/baghdad.grid.json \
-    --out-dir designs/west-asia/Iraq/Baghdad
-
-# 3. network map PNG
-python -m osr_scenario.render_map --design designs/west-asia/Iraq/Baghdad/design.toml
-```
+Run `python -m osr_planner --slug <slug> --bbox ... --population ...` to re-plan, then `python -m osr_scenario --design …/design.toml` + `python -m osr_scenario.render_map --design …/design.toml` + `python -m osr_scenario.network_readme --design …/design.toml --scenario …/scenario.toml --out …/README.md --population N` to regenerate this README.

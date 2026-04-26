@@ -19,76 +19,141 @@
 # dense-anchor routing. The production 500-city scan
 # (osr-cities-scan, default behaviour) excludes them via
 # osr_batch/existing_transit.py.
+#
+# ---------------------------------------------------------------------------
+# POPULATION SOURCE-OF-TRUTH POLICY
+# ---------------------------------------------------------------------------
+# This file is the **canonical source for population** across the OSR
+# pipeline. Every design.toml emitted by `osr-design` must use the
+# population from this catalogue.
+#
+# Definition of "population" — the **served catchment of a light-metro
+# network**. That means the **broadest administrative unit the metro is
+# designed to serve**, including suburban + rural portions of the
+# subdistrict / canton / governorate / agglomeration / metropolitan
+# area, not the city-proper municipality. Samawah's 373,770 is the
+# subdistrict total (urban 256,689 + rural 117,081). Baghdad's
+# 9,780,429 is the governorate, not the city limits (7,837,463). Cuenca
+# is the canton total (817,100), not the urban core (361,524). This
+# matters because the rolling-stock family band in RFC 0008 §5
+# (≤ 300k → tram-2car, 300k–1M → light-metro-3car, 1M–3M →
+# metro-4car, ≥ 3M → metro-6car) selects the consist that fits the
+# *served* ridership.
+#
+# Sources are national-statistics offices (INSEE, INEC, INS, KNBS,
+# COSIT) or the most recent census, verified against
+# citypopulation.de which integrates national-stat-office census
+# releases. Wikipedia is NOT used as a primary source — its city
+# figures are routinely stale or conflate municipality vs metro.
+#
+# When updating: bump `population` AND `population_unit` AND
+# `population_source` AND `population_source_year` together. Re-run
+# `cargo run --bin osr-design -- --slug <slug> ...` to propagate to
+# the city's design.toml.
+# ---------------------------------------------------------------------------
 
 # ---- Middle East + North Africa --------------------------------------
 
 [[cities]]
-slug        = "samawah"
-country     = "IQ"
-continent   = "middle-east"
-population  = 400000
-climate     = "hot-desert"
-profile     = "mid-city-desert"
-bbox        = { south = 31.27, west = 45.24, north = 31.35, east = 45.32 }
+slug                    = "samawah"
+country                 = "IQ"
+continent               = "middle-east"
+population              = 373770
+population_unit         = "As-Samawah Subdistrict (urban 256,689 + rural 117,081)"
+population_source       = "Iraq 2024 General Population Census; via citypopulation.de/en/iraq/mun/admin/al_muthannā/32011__as_samāwah"
+population_source_year  = 2024
+climate                 = "hot-desert"
+profile                 = "mid-city-desert"
+bbox                    = { south = 31.27, west = 45.24, north = 31.35, east = 45.32 }
 
 [[cities]]
-slug        = "tunis"
-country     = "TN"
-continent   = "north-africa"
-population  = 1200000
-climate     = "mediterranean"
-profile     = "large-city-tropical"
-bbox        = { south = 36.76, west = 10.12, north = 36.86, east = 10.24 }
+slug                    = "baghdad"
+country                 = "IQ"
+continent               = "middle-east"
+population              = 9780429
+population_unit         = "Baghdad Governorate (city 7,837,463 + surrounding governorate population)"
+population_source       = "Iraq 2024 General Population Census; via citypopulation.de/en/iraq/cities"
+population_source_year  = 2024
+climate                 = "hot-desert"
+profile                 = "mega-city-desert"
+bbox                    = { south = 33.20, west = 44.20, north = 33.45, east = 44.55 }
+
+[[cities]]
+slug                    = "tunis"
+country                 = "TN"
+continent               = "north-africa"
+population              = 2900000
+population_unit         = "Grand Tunis (Tunis + Ariana + Manouba + Ben Arous governorates)"
+population_source       = "Recensement Général de la Population et de l'Habitat 2024; INS Tunisia"
+population_source_year  = 2024
+climate                 = "mediterranean"
+profile                 = "large-city-tropical"
+bbox                    = { south = 36.76, west = 10.12, north = 36.86, east = 10.24 }
 
 # ---- Sub-Saharan Africa ----------------------------------------------
 
 [[cities]]
-slug        = "nairobi"
-country     = "KE"
-continent   = "east-africa"
-population  = 4400000
-climate     = "tropical-wet"
-profile     = "large-city-tropical"
-bbox        = { south = -1.35, west = 36.78, north = -1.22, east = 36.92 }
+slug                    = "nairobi"
+country                 = "KE"
+continent               = "east-africa"
+population              = 5700000
+population_unit         = "Nairobi metropolitan area (Nairobi County 4,750,100 (2023 projection) + surrounding satellite towns)"
+population_source       = "Kenya National Bureau of Statistics 2024 estimate; 2019 census base via citypopulation.de/en/kenya/cities"
+population_source_year  = 2024
+climate                 = "tropical-wet"
+profile                 = "large-city-tropical"
+bbox                    = { south = -1.35, west = 36.78, north = -1.22, east = 36.92 }
 
 [[cities]]
-slug        = "niamey"
-country     = "NE"
-continent   = "west-africa"
-population  = 1300000
-climate     = "tropical-arid"
-profile     = "mid-city-desert"
-bbox        = { south = 13.47, west = 2.06, north = 13.56, east = 2.18 }
+slug                    = "niamey"
+country                 = "NE"
+continent               = "west-africa"
+population              = 1407635
+population_unit         = "Niamey commune / Capital District"
+population_source       = "Institut National de la Statistique du Niger (INS) 2022 estimate"
+population_source_year  = 2022
+climate                 = "tropical-arid"
+profile                 = "mid-city-desert"
+bbox                    = { south = 13.47, west = 2.06, north = 13.56, east = 2.18 }
 
 # ---- South Asia -------------------------------------------------------
 
 [[cities]]
-slug        = "coimbatore"
-country     = "IN"
-continent   = "south-asia"
-population  = 2100000
-climate     = "tropical-wet"
-profile     = "large-city-tropical"
-bbox        = { south = 10.95, west = 76.92, north = 11.06, east = 77.04 }
+slug                    = "coimbatore"
+country                 = "IN"
+continent               = "south-asia"
+population              = 3084000
+population_unit         = "Coimbatore Urban Agglomeration (city + adjoining municipalities + town panchayats)"
+population_source       = "2024 projection from Census of India 2011 base (2,136,916), growth-rate-extrapolated; 2021 census postponed to 2027"
+population_source_year  = 2024
+climate                 = "tropical-wet"
+profile                 = "large-city-tropical"
+bbox                    = { south = 10.95, west = 76.92, north = 11.06, east = 77.04 }
 
 # ---- Europe -----------------------------------------------------------
 
 [[cities]]
-slug        = "lyon"
-country     = "FR"
-continent   = "europe"
-population  = 1400000
-climate     = "temperate-continental"
-profile     = "large-city-cold"
-bbox        = { south = 45.70, west = 4.78, north = 45.80, east = 4.90 }
+slug                    = "lyon"
+country                 = "FR"
+continent               = "europe"
+population              = 1436354
+population_unit         = "Métropole de Lyon (intercommunalité 200046977 — Lyon commune + 58 surrounding communes)"
+population_source       = "INSEE 2023 census; insee.fr/fr/statistiques/2011101?geo=EPCI-200046977"
+population_source_year  = 2023
+climate                 = "temperate-continental"
+profile                 = "large-city-cold"
+bbox                    = { south = 45.70, west = 4.78, north = 45.80, east = 4.90 }
 
 # ---- Latin America ----------------------------------------------------
 
 [[cities]]
-slug        = "cuenca"
-country     = "EC"
-continent   = "latin-america"
-population  = 600000
-climate     = "tropical-wet"
-profile     = "large-city-tropical"
-bbox        = { south = -2.93, west = -79.03, north = -2.87, east = -78.97 }
+slug                    = "cuenca"
+country                 = "EC"
+continent               = "latin-america"
+population              = 817100
+population_unit         = "Cantón Cuenca (city urban 361,524 + parroquias rurales)"
+population_source       = "INEC Censo de Población y Vivienda 2022; via citypopulation.de/en/ecuador"
+population_source_year  = 2022
+climate                 = "tropical-wet"
+profile                 = "large-city-tropical"
+bbox                    = { south = -2.93, west = -79.03, north = -2.87, east = -78.97 }

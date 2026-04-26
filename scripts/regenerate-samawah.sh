@@ -29,8 +29,8 @@ echo "3) per-network README → designs/west-asia/Iraq/Samawah/README.md"
 python3 -m osr_scenario.network_readme \
     --design "$DESIGN" \
     --scenario "$REPO/designs/west-asia/Iraq/Samawah/samawah.toml" \
-    --out "$REPO/designs/west-asia/Iraq/Samawah/README.md" \
-    --population 220000
+    --out "$REPO/designs/west-asia/Iraq/Samawah/README.md"
+# (--population reads from design.toml [city] population by default.)
 
 echo "4) stats summary:"
 python3 -m osr_scenario.stats --design "$DESIGN"

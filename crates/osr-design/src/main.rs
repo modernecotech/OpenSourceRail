@@ -69,14 +69,25 @@ struct Args {
     #[arg(long)]
     slug: String,
 
-    /// Population — selects topology archetype.
+    /// Population — selects topology archetype. When omitted, looks up
+    /// `--slug` in `--catalog` (defaults to
+    /// `lib/city-batches/world-sample.toml`) and uses the canonical
+    /// figure committed there. Pass explicitly only to override for
+    /// what-if analysis; production runs should rely on the catalog.
     #[arg(long)]
-    population: u64,
+    population: Option<u64>,
 
     /// Country ISO-2 for fare system + climate hints (passed through
-    /// to design.toml for the recipe to resolve downstream).
-    #[arg(long, default_value = "XX")]
-    country: String,
+    /// to design.toml for the recipe to resolve downstream). When
+    /// omitted, looks up `--slug` in `--catalog`.
+    #[arg(long)]
+    country: Option<String>,
+
+    /// Path to the city catalog (canonical population + country source
+    /// of truth). Defaults to walking up from `--out-dir` to find
+    /// `lib/city-batches/world-sample.toml`.
+    #[arg(long)]
+    catalog: Option<PathBuf>,
 
     /// Climate preset name (bypass lat/country inference).
     #[arg(long)]
@@ -117,13 +128,14 @@ fn corridor_cache_path(args: &Args) -> PathBuf {
 fn write_corridor_cache(
     path: &Path,
     args: &Args,
+    population: u64,
     bundle: &osr_routing::raster::RasterBundle,
     lines: &[Line],
 ) -> Result<()> {
     let cache = CorridorCache {
         schema_version: CORRIDOR_CACHE_SCHEMA_VERSION,
         slug: args.slug.clone(),
-        population: args.population,
+        population,
         demand_weight: args.demand_weight,
         grid_height: bundle.grid.reference.height,
         grid_width: bundle.grid.reference.width,
@@ -142,6 +154,7 @@ fn write_corridor_cache(
 fn read_corridor_cache(
     path: &Path,
     args: &Args,
+    population: u64,
     bundle: &osr_routing::raster::RasterBundle,
 ) -> Result<Vec<Line>> {
     let bytes = fs::read(path)
@@ -156,7 +169,7 @@ fn read_corridor_cache(
         ));
     }
     if cache.slug != args.slug
-        || cache.population != args.population
+        || cache.population != population
         || (cache.demand_weight - args.demand_weight).abs() > 1e-6
         || cache.grid_height != bundle.grid.reference.height
         || cache.grid_width != bundle.grid.reference.width
@@ -176,8 +189,104 @@ fn read_corridor_cache(
     Ok(cache.lines)
 }
 
+/// Minimal subset of the catalog schema — every city listed in
+/// `lib/city-batches/world-sample.toml` carries at least the slug,
+/// country, and population that downstream tooling consumes.
+#[derive(Deserialize)]
+struct CatalogCity {
+    slug: String,
+    country: String,
+    population: u64,
+}
+
+#[derive(Deserialize)]
+struct CatalogFile {
+    cities: Vec<CatalogCity>,
+}
+
+/// Walk upward from `out_dir` (and the binary's CWD) looking for the
+/// canonical catalog at `lib/city-batches/world-sample.toml`. Returns
+/// the path on first hit, or None.
+fn locate_catalog(out_dir: &Path) -> Option<PathBuf> {
+    const REL: &str = "lib/city-batches/world-sample.toml";
+    let mut starts: Vec<PathBuf> = Vec::new();
+    if let Ok(abs) = std::fs::canonicalize(out_dir) {
+        starts.push(abs);
+    }
+    if let Ok(cwd) = std::env::current_dir() {
+        starts.push(cwd);
+    }
+    for start in &starts {
+        for ancestor in start.ancestors() {
+            let candidate = ancestor.join(REL);
+            if candidate.exists() {
+                return Some(candidate);
+            }
+        }
+    }
+    None
+}
+
+fn lookup_catalog_city(catalog_path: &Path, slug: &str) -> Result<CatalogCity> {
+    let bytes = fs::read_to_string(catalog_path).with_context(|| {
+        format!("reading city catalog from {:?}", catalog_path)
+    })?;
+    let parsed: CatalogFile = toml::from_str(&bytes).with_context(|| {
+        format!("parsing city catalog at {:?}", catalog_path)
+    })?;
+    parsed
+        .cities
+        .into_iter()
+        .find(|c| c.slug == slug)
+        .ok_or_else(|| {
+            anyhow!(
+                "slug {:?} not found in catalog {:?}; either add it \
+                 there (canonical) or pass --population and --country \
+                 explicitly to override",
+                slug,
+                catalog_path
+            )
+        })
+}
+
 fn main() -> Result<()> {
-    let args = Args::parse();
+    let mut args = Args::parse();
+
+    // Resolve population + country from the catalog when not explicitly
+    // overridden on the CLI. The catalog is the single source of
+    // truth — see `lib/city-batches/world-sample.toml` header.
+    if args.population.is_none() || args.country.is_none() {
+        let catalog_path = args
+            .catalog
+            .clone()
+            .or_else(|| locate_catalog(&args.out_dir))
+            .ok_or_else(|| {
+                anyhow!(
+                    "could not find lib/city-batches/world-sample.toml \
+                     and --population / --country were not provided. \
+                     Pass --catalog or both --population and --country \
+                     explicitly."
+                )
+            })?;
+        let entry = lookup_catalog_city(&catalog_path, &args.slug)?;
+        if args.population.is_none() {
+            args.population = Some(entry.population);
+            eprintln!(
+                "catalog: {} → population = {} (from {:?})",
+                args.slug, entry.population, catalog_path
+            );
+        }
+        if args.country.is_none() {
+            args.country = Some(entry.country.clone());
+            eprintln!(
+                "catalog: {} → country = {} (from {:?})",
+                args.slug, entry.country, catalog_path
+            );
+        }
+    }
+    // Past this point both fields are populated.
+    let population = args.population.expect("population resolved above");
+    let country = args.country.clone().expect("country resolved above");
 
     let bundle = load_bundle(&args.sidecar, &args.slug)
         .with_context(|| format!("loading raster bundle from {:?}", args.sidecar))?;
@@ -192,10 +301,10 @@ fn main() -> Result<()> {
     );
 
     let cache_path = corridor_cache_path(&args);
-    let budget = budget_for_population(args.population);
+    let budget = budget_for_population(population);
 
     let lines = if args.design_only {
-        read_corridor_cache(&cache_path, &args, &bundle)?
+        read_corridor_cache(&cache_path, &args, population, &bundle)?
     } else {
         eprintln!(
             "budget: max_lines={}, max_total_m={:.0}, min_cov/km={:.0}, top_k={}",
@@ -212,7 +321,7 @@ fn main() -> Result<()> {
         )?;
         // Ensure parent dir exists before the cache write.
         fs::create_dir_all(&args.out_dir)?;
-        write_corridor_cache(&cache_path, &args, &bundle, &l)?;
+        write_corridor_cache(&cache_path, &args, population, &bundle, &l)?;
         l
     };
 
@@ -339,10 +448,10 @@ fn main() -> Result<()> {
     emit::write_all(
         &args.out_dir,
         &args.slug,
-        &args.country,
+        &country,
         args.climate.as_deref(),
         args.profile.as_deref(),
-        args.population,
+        population,
         &bundle,
         &lines,
         &all_stations,

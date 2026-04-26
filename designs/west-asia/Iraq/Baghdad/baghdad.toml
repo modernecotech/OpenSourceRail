@@ -1,0 +1,2129 @@
+# AUTO-GENERATED from /home/hayder/Documents/OpenSourceRail/designs/west-asia/Iraq/Baghdad/design.toml.
+# Do not hand-edit; run `python -m osr_scenario --design ...` to regenerate.
+# Source of truth: /home/hayder/Documents/OpenSourceRail/designs/west-asia/Iraq/Baghdad/design.toml
+
+[scenario]
+name = "Unnamed"
+start_time = "06:00"
+
+
+[climate]
+ambient_c = 28.0
+peak_sun_hours = 5.0
+
+
+[consist]
+# From rolling-stock family 'metro-6car'.
+car_count = 6
+length_m = 138
+mass_kg = 240000
+max_speed_kmh = 90.0
+battery_capacity_kwh = 720
+service_accel_mps2 = 1.1
+
+
+# Stations — one row per unique station in the design.
+[[stations]]
+id = "line-1-1525-0033"
+name = "عرب خيط"
+charging_power_kw = 1000
+dwell_seconds = 60
+is_terminal = true
+
+[[stations]]
+id = "line-1-1549-0116"
+name = "line-1-1549-0116"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-1-1560-0209"
+name = "line-1-1560-0209"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-1-1563-0296"
+name = "مدخل حي الغواص"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-1-1545-0396"
+name = "line-1-1545-0396"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-1-1528-0489"
+name = "line-1-1528-0489"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-1-1511-0582"
+name = "line-1-1511-0582"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-1-1494-0676"
+name = "line-1-1494-0676"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-1-1489-0721"
+name = "line-1-1489-0721"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-1-1486-0773"
+name = "line-1-1486-0773"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-1-1502-0865"
+name = "line-1-1502-0865"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-1-1519-0963"
+name = "ثانوية المأمون الاهلية للبنين"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-1-1500-1027"
+name = "line-1-1500-1027"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-1-1506-1096"
+name = "line-1-1506-1096"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-1-1533-1154"
+name = "line-1-1533-1154"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-1-1591-1179"
+name = "مدرسة الأمين الأبتدائية المختلطة"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-1-1589-1241"
+name = "line-1-1589-1241"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-1-1583-1301"
+name = "line-1-1583-1301"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-1-1578-1384"
+name = "line-1-1578-1384"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-1-1601-1450"
+name = "line-1-1601-1450"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-1-1594-1517"
+name = "مستشفى جنين الاهلي"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-1-1594-1571"
+name = "مجمع العيادات الطبية التخصصية / الكرادة"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-1-1566-1632"
+name = "قرار للتدريب الدولي . qarar itc"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-1-1538-1693"
+name = "Tahariyat Square"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-1-1506-1759"
+name = "line-1-1506-1759"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-1-1532-1818"
+name = "line-1-1532-1818"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-1-1525-1881"
+name = "line-1-1525-1881"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-1-1522-1949"
+name = "line-1-1522-1949"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-1-1563-2005"
+name = "line-1-1563-2005"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-1-1560-2042"
+name = "مستشفى الدكتور قيصر"
+charging_power_kw = 1000
+dwell_seconds = 60
+is_terminal = true
+
+[[stations]]
+id = "line-2-2099-1392"
+name = "شارع حارث ابن كلده"
+charging_power_kw = 1000
+dwell_seconds = 60
+is_terminal = true
+
+[[stations]]
+id = "line-2-2020-1375"
+name = "line-2-2020-1375"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-2-1991-1377"
+name = "line-2-1991-1377"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-2-1923-1383"
+name = "line-2-1923-1383"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-2-1827-1383"
+name = "line-2-1827-1383"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-2-1746-1335"
+name = "line-2-1746-1335"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-2-1652-1338"
+name = "line-2-1652-1338"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-2-1567-1339"
+name = "line-2-1567-1339"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-2-1502-1340"
+name = "line-2-1502-1340"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-2-1458-1345"
+name = "معهد الفنون الجميلة"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-2-1393-1350"
+name = "line-2-1393-1350"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-2-1331-1330"
+name = "line-2-1331-1330"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-2-1303-1373"
+name = "line-2-1303-1373"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-2-1333-1387"
+name = "line-2-1333-1387"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-2-1299-1396"
+name = "مستشفى امراض الجهاز الهضمي والكبد"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-2-1241-1415"
+name = "كلية الفنون الجميلة / جامعة بغداد"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-2-1162-1412"
+name = "المجمع ألعلمي العراقي"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-2-1092-1424"
+name = "مسجد آل الرسول - بغداد - حي القاهرة"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-2-1022-1425"
+name = "line-2-1022-1425"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-2-0957-1415"
+name = "مسجد وقاعة الراضي"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-2-0859-1395"
+name = "line-2-0859-1395"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-2-0759-1395"
+name = "line-2-0759-1395"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-2-0680-1391"
+name = "line-2-0680-1391"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-2-0662-1389"
+name = "line-2-0662-1389"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-2-0566-1401"
+name = "line-2-0566-1401"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-2-0471-1415"
+name = "line-2-0471-1415"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-2-0373-1422"
+name = "line-2-0373-1422"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-2-0273-1422"
+name = "line-2-0273-1422"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-2-0207-1455"
+name = "line-2-0207-1455"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-2-0138-1490"
+name = "معهد الكوكب للتدريس الخصوصي ودورات التقوية"
+charging_power_kw = 1000
+dwell_seconds = 60
+is_terminal = true
+
+[[stations]]
+id = "line-3-1976-2100"
+name = "مدارس أكاديمية التجمع الابتدائية و الثانوية الأهلية"
+charging_power_kw = 1000
+dwell_seconds = 60
+is_terminal = true
+
+[[stations]]
+id = "line-3-1955-2045"
+name = "line-3-1955-2045"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-3-1885-1981"
+name = "line-3-1885-1981"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-3-1829-1936"
+name = "مكتبة أم القرى"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-3-1808-1919"
+name = "line-3-1808-1919"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-3-1773-1895"
+name = "line-3-1773-1895"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-3-1699-1831"
+name = "line-3-1699-1831"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-3-1625-1766"
+name = "line-3-1625-1766"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-3-1597-1694"
+name = "line-3-1597-1694"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-3-1543-1660"
+name = "line-3-1543-1660"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-3-1500-1602"
+name = "line-3-1500-1602"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-3-1441-1560"
+name = "فندق قصر السدير السعدون فندق جيد"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-3-1403-1509"
+name = "line-3-1403-1509"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-3-1363-1459"
+name = "line-3-1363-1459"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-3-1333-1387"
+name = "line-3-1333-1387"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-3-1288-1369"
+name = "مستشفى حماية الطفل"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-3-1222-1364"
+name = "line-3-1222-1364"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-3-1240-1322"
+name = "line-3-1240-1322"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-3-1248-1267"
+name = "مستشفى المسرة الاهلي"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-3-1182-1228"
+name = "مستشفى الضرغام الجراحي العام الاهلي"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-3-1133-1180"
+name = "line-3-1133-1180"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-3-1082-1112"
+name = "line-3-1082-1112"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-3-1035-1052"
+name = "line-3-1035-1052"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-3-0954-1005"
+name = "line-3-0954-1005"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-3-0876-0952"
+name = "line-3-0876-0952"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-3-0811-0893"
+name = "line-3-0811-0893"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-3-0803-0886"
+name = "line-3-0803-0886"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-3-0722-0840"
+name = "line-3-0722-0840"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-3-0674-0763"
+name = "مدرسة الغصون الابتدائيه للبنات في ابو عظام"
+charging_power_kw = 1000
+dwell_seconds = 60
+is_terminal = true
+
+[[stations]]
+id = "line-4-1742-0692"
+name = "Багдад"
+charging_power_kw = 1000
+dwell_seconds = 60
+is_terminal = true
+
+[[stations]]
+id = "line-4-1731-0781"
+name = "line-4-1731-0781"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-4-1690-0847"
+name = "line-4-1690-0847"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-4-1682-0855"
+name = "line-4-1682-0855"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-4-1606-0913"
+name = "line-4-1606-0913"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-4-1563-0967"
+name = "line-4-1563-0967"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-4-1541-1033"
+name = "line-4-1541-1033"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-4-1475-1033"
+name = "line-4-1475-1033"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-4-1434-1049"
+name = "line-4-1434-1049"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-4-1459-1114"
+name = "line-4-1459-1114"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-4-1425-1157"
+name = "line-4-1425-1157"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-4-1351-1160"
+name = "line-4-1351-1160"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-4-1313-1205"
+name = "line-4-1313-1205"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-4-1283-1249"
+name = "line-4-1283-1249"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-4-1301-1296"
+name = "line-4-1301-1296"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-4-1275-1358"
+name = "line-4-1275-1358"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-4-1242-1415"
+name = "كلية الفنون الجميلة"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-4-1205-1475"
+name = "line-4-1205-1475"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-4-1150-1517"
+name = "line-4-1150-1517"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-4-1096-1567"
+name = "line-4-1096-1567"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-4-1042-1618"
+name = "line-4-1042-1618"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-4-0987-1669"
+name = "line-4-0987-1669"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-4-0915-1737"
+name = "line-4-0915-1737"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-4-0902-1749"
+name = "line-4-0902-1749"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-4-0872-1813"
+name = "line-4-0872-1813"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-4-0792-1908"
+name = "line-4-0792-1908"
+dwell_seconds = 20
+
+[[stations]]
+id = "line-4-0703-1957"
+name = "line-4-0703-1957"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-4-0692-2052"
+name = "line-4-0692-2052"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-4-0631-2106"
+name = "line-4-0631-2106"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-4-0595-2194"
+name = "مركز صحي الشاعورة"
+charging_power_kw = 1000
+dwell_seconds = 60
+is_terminal = true
+
+[[stations]]
+id = "line-5-0007-0745"
+name = "مركز صحي الباجة جي"
+charging_power_kw = 1000
+dwell_seconds = 60
+is_terminal = true
+
+[[stations]]
+id = "line-5-0069-0715"
+name = "line-5-0069-0715"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-5-0203-0719"
+name = "line-5-0203-0719"
+dwell_seconds = 20
+
+[[stations]]
+id = "line-5-0302-0721"
+name = "line-5-0302-0721"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-5-0402-0721"
+name = "line-5-0402-0721"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-5-0448-0781"
+name = "line-5-0448-0781"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-5-0495-0845"
+name = "line-5-0495-0845"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-5-0573-0869"
+name = "line-5-0573-0869"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-5-0658-0891"
+name = "line-5-0658-0891"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-5-0755-0892"
+name = "line-5-0755-0892"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-5-0829-0875"
+name = "line-5-0829-0875"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-5-0911-0924"
+name = "line-5-0911-0924"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-5-1000-0952"
+name = "line-5-1000-0952"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-5-1100-0952"
+name = "line-5-1100-0952"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-5-1143-0880"
+name = "line-5-1143-0880"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-5-1208-0906"
+name = "line-5-1208-0906"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-5-1296-0929"
+name = "line-5-1296-0929"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-5-1362-0951"
+name = "line-5-1362-0951"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-5-1452-0976"
+name = "line-5-1452-0976"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-5-1530-0966"
+name = "مركز العامرية للمفراس و الرنين المفتوح"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-5-1593-0987"
+name = "line-5-1593-0987"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-5-1662-1003"
+name = "line-5-1662-1003"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-5-1734-1012"
+name = "line-5-1734-1012"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-5-1813-1053"
+name = "line-5-1813-1053"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-5-1849-1069"
+name = "line-5-1849-1069"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-5-1885-1094"
+name = "line-5-1885-1094"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-5-1940-1075"
+name = "مدرسة سكينة الابتدائية للبنات /الكرخ ٢"
+charging_power_kw = 1000
+dwell_seconds = 240
+is_terminal = true
+is_depot = true
+
+[[stations]]
+id = "line-6-2068-1550"
+name = "مجمع دار الشفاء الطبي"
+charging_power_kw = 1000
+dwell_seconds = 60
+is_terminal = true
+
+[[stations]]
+id = "line-6-1992-1542"
+name = "line-6-1992-1542"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-6-1957-1550"
+name = "line-6-1957-1550"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-6-1900-1548"
+name = "line-6-1900-1548"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-6-1809-1570"
+name = "line-6-1809-1570"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-6-1732-1605"
+name = "line-6-1732-1605"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-6-1642-1621"
+name = "line-6-1642-1621"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-6-1580-1653"
+name = "line-6-1580-1653"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-6-1522-1665"
+name = "جامعة أوروك - كلية الإدارة والاقتصاد"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-6-1461-1674"
+name = "line-6-1461-1674"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-6-1420-1723"
+name = "Al Ameer Mall"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-6-1367-1722"
+name = "Al Ahba Market"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-6-1312-1765"
+name = "line-6-1312-1765"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-6-1261-1798"
+name = "line-6-1261-1798"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-6-1201-1805"
+name = "مدرسة اليقظة الابتدائية للبنات. رصافة/3"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-6-1147-1800"
+name = "line-6-1147-1800"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-6-1091-1800"
+name = "line-6-1091-1800"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-6-1036-1818"
+name = "line-6-1036-1818"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-6-1029-1824"
+name = "line-6-1029-1824"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-6-0964-1885"
+name = "line-6-0964-1885"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-6-0865-1971"
+name = "line-6-0865-1971"
+dwell_seconds = 20
+
+[[stations]]
+id = "line-6-0732-1978"
+name = "line-6-0732-1978"
+dwell_seconds = 20
+
+[[stations]]
+id = "line-6-0648-2001"
+name = "line-6-0648-2001"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-6-0580-2056"
+name = "line-6-0580-2056"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-6-0485-2068"
+name = "line-6-0485-2068"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-6-0326-2070"
+name = "line-6-0326-2070"
+charging_power_kw = 1000
+dwell_seconds = 60
+is_terminal = true
+
+[[stations]]
+id = "line-7-0611-0293"
+name = "مركز صحي سبع البور الجديد"
+charging_power_kw = 1000
+dwell_seconds = 60
+is_terminal = true
+
+[[stations]]
+id = "line-7-0601-0387"
+name = "line-7-0601-0387"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-7-0607-0512"
+name = "line-7-0607-0512"
+dwell_seconds = 20
+
+[[stations]]
+id = "line-7-0629-0603"
+name = "line-7-0629-0603"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-7-0652-0694"
+name = "line-7-0652-0694"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-7-0714-0769"
+name = "line-7-0714-0769"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-7-0785-0840"
+name = "line-7-0785-0840"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-7-0797-0909"
+name = "مدرسة الاوائل الأساسية الاهلية ابو الجدايل"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-7-0801-0934"
+name = "line-7-0801-0934"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-7-0855-1015"
+name = "line-7-0855-1015"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-7-0875-1104"
+name = "line-7-0875-1104"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-7-0842-1191"
+name = "line-7-0842-1191"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-7-0827-1281"
+name = "line-7-0827-1281"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-7-0830-1380"
+name = "line-7-0830-1380"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-7-0877-1441"
+name = "line-7-0877-1441"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-7-0892-1497"
+name = "line-7-0892-1497"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-7-0912-1546"
+name = "line-7-0912-1546"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-7-0899-1601"
+name = "معهد الشمس النموذجي"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-7-0937-1688"
+name = "line-7-0937-1688"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-7-0983-1745"
+name = "line-7-0983-1745"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-7-1034-1800"
+name = "line-7-1034-1800"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-7-1051-1842"
+name = "line-7-1051-1842"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-7-1056-1854"
+name = "line-7-1056-1854"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-7-1066-1928"
+name = "line-7-1066-1928"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-7-1084-2021"
+name = "line-7-1084-2021"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-7-1088-2164"
+name = "line-7-1088-2164"
+charging_power_kw = 1000
+dwell_seconds = 60
+is_terminal = true
+
+[[stations]]
+id = "line-8-1513-2762"
+name = "مجمع الأنوار الطبي"
+charging_power_kw = 1000
+dwell_seconds = 60
+is_terminal = true
+
+[[stations]]
+id = "line-8-1524-2657"
+name = "line-8-1524-2657"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-8-1524-2522"
+name = "line-8-1524-2522"
+dwell_seconds = 20
+
+[[stations]]
+id = "line-8-1551-2434"
+name = "line-8-1551-2434"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-8-1568-2340"
+name = "line-8-1568-2340"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-8-1603-2254"
+name = "line-8-1603-2254"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-8-1635-2166"
+name = "line-8-1635-2166"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-8-1670-2117"
+name = "line-8-1670-2117"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-8-1660-2074"
+name = "line-8-1660-2074"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-8-1674-2067"
+name = "line-8-1674-2067"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-8-1758-2028"
+name = "line-8-1758-2028"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-8-1782-1998"
+name = "مركز صحي الامام الرضا"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-8-1776-1949"
+name = "line-8-1776-1949"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-8-1751-1869"
+name = "line-8-1751-1869"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-8-1779-1800"
+name = "line-8-1779-1800"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-8-1835-1772"
+name = "line-8-1835-1772"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-8-1855-1682"
+name = "line-8-1855-1682"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-8-1835-1600"
+name = "line-8-1835-1600"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-8-1859-1509"
+name = "line-8-1859-1509"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-8-1887-1420"
+name = "line-8-1887-1420"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-8-1908-1328"
+name = "line-8-1908-1328"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-8-1918-1235"
+name = "معهد الحبيب لدروس التقوية"
+charging_power_kw = 1000
+dwell_seconds = 60
+is_terminal = true
+
+[[stations]]
+id = "line-9-1223-0737"
+name = "اعدادية الشعلة للبنين"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-9-1166-0779"
+name = "line-9-1166-0779"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-9-1121-0854"
+name = "line-9-1121-0854"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-9-0987-0857"
+name = "line-9-0987-0857"
+dwell_seconds = 20
+
+[[stations]]
+id = "line-9-0887-0857"
+name = "line-9-0887-0857"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-9-0830-0875"
+name = "line-9-0830-0875"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-9-0811-0893"
+name = "line-9-0811-0893"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-9-0797-0909"
+name = "مدرسة الاوائل الأساسية الاهلية ابو الجدايل"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-9-0797-0909"
+name = "مدرسة الاوائل الأساسية الاهلية ابو الجدايل"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-9-0717-0930"
+name = "line-9-0717-0930"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-9-0661-1007"
+name = "line-9-0661-1007"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-9-0645-1030"
+name = "line-9-0645-1030"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-9-0679-1110"
+name = "line-9-0679-1110"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-9-0679-1210"
+name = "line-9-0679-1210"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-9-0669-1295"
+name = "line-9-0669-1295"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-9-0680-1391"
+name = "line-9-0680-1391"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-9-0638-1466"
+name = "مركز صحي بوب الشام"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-9-0736-1473"
+name = "line-9-0736-1473"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-9-0808-1536"
+name = "line-9-0808-1536"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-9-0839-1621"
+name = "line-9-0839-1621"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-9-0877-1706"
+name = "line-9-0877-1706"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-9-0902-1749"
+name = "line-9-0902-1749"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-9-0944-1770"
+name = "line-9-0944-1770"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-9-0988-1810"
+name = "line-9-0988-1810"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-9-1029-1824"
+name = "line-9-1029-1824"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-9-1042-1838"
+name = "line-9-1042-1838"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-9-1051-1842"
+name = "line-9-1051-1842"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-9-1090-1898"
+name = "مستشفى الرشاد"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-9-1156-1933"
+name = "line-9-1156-1933"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-9-1203-1974"
+name = "line-9-1203-1974"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-9-1248-1994"
+name = "line-9-1248-1994"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-9-1283-2006"
+name = "line-9-1283-2006"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-9-1304-1959"
+name = "line-9-1304-1959"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-9-1359-2004"
+name = "line-9-1359-2004"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-9-1427-2014"
+name = "line-9-1427-2014"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-9-1505-2006"
+name = "العيادة الطبية الشعبية في الأمين"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-9-1563-2005"
+name = "line-9-1563-2005"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-9-1592-2015"
+name = "ماركت خيرات الرحمن"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-9-1643-2072"
+name = "line-9-1643-2072"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-9-1660-2074"
+name = "line-9-1660-2074"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-9-1735-2027"
+name = "line-9-1735-2027"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-9-1782-1998"
+name = "مركز صحي الامام الرضا"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-9-1809-1979"
+name = "line-9-1809-1979"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-9-1808-1919"
+name = "line-9-1808-1919"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-9-1808-1906"
+name = "ثانوية نور الابداع الاهلية للبنين"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-9-1841-1831"
+name = "line-9-1841-1831"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-9-1883-1748"
+name = "line-9-1883-1748"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-9-1901-1655"
+name = "line-9-1901-1655"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-9-1957-1578"
+name = "line-9-1957-1578"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-9-1957-1550"
+name = "line-9-1957-1550"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-9-1971-1483"
+name = "line-9-1971-1483"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-9-1989-1393"
+name = "line-9-1989-1393"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-9-1991-1377"
+name = "line-9-1991-1377"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-9-2001-1297"
+name = "line-9-2001-1297"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-9-1971-1209"
+name = "line-9-1971-1209"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-9-1919-1153"
+name = "روضه وحضانه امراء الطفوله"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-9-1870-1168"
+name = "line-9-1870-1168"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-9-1839-1093"
+name = "line-9-1839-1093"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-9-1849-1069"
+name = "line-9-1849-1069"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-9-1867-1011"
+name = "line-9-1867-1011"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-9-1787-0977"
+name = "line-9-1787-0977"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-9-1705-0940"
+name = "line-9-1705-0940"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-9-1699-0862"
+name = "ساحة عباس ابن فرناس"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-9-1690-0848"
+name = "line-9-1690-0848"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-9-1668-0778"
+name = "المجمع مطار بغداد السكني"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-9-1604-0713"
+name = "line-9-1604-0713"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-9-1512-0708"
+name = "أكاديمية التطوير الاصلاحي"
+dwell_seconds = 30
+
+[[stations]]
+id = "line-9-1489-0721"
+name = "line-9-1489-0721"
+charging_power_kw = 500
+dwell_seconds = 45
+
+[[stations]]
+id = "line-9-1381-0736"
+name = "line-9-1381-0736"
+dwell_seconds = 20
+
+[[stations]]
+id = "line-9-1223-0737"
+name = "اعدادية الشعلة للبنين"
+dwell_seconds = 30
+
+
+
+# Lines — per-line station sequences.
+[[lines]]
+id = "line-1"
+name = "line-1"
+stations = [
+    { id = "line-1-1525-0033", distance_from_prev_m = 0 },
+    { id = "line-1-1549-0116", distance_from_prev_m = 2026 },
+    { id = "line-1-1560-0209", distance_from_prev_m = 2017 },
+    { id = "line-1-1563-0296", distance_from_prev_m = 2012 },
+    { id = "line-1-1545-0396", distance_from_prev_m = 2017 },
+    { id = "line-1-1528-0489", distance_from_prev_m = 2000 },
+    { id = "line-1-1511-0582", distance_from_prev_m = 2000 },
+    { id = "line-1-1494-0676", distance_from_prev_m = 2020 },
+    { id = "line-1-1489-0721", distance_from_prev_m = 941 },
+    { id = "line-1-1486-0773", distance_from_prev_m = 1064 },
+    { id = "line-1-1502-0865", distance_from_prev_m = 2005 },
+    { id = "line-1-1519-0963", distance_from_prev_m = 2012 },
+    { id = "line-1-1500-1027", distance_from_prev_m = 1509 },
+    { id = "line-1-1506-1096", distance_from_prev_m = 1512 },
+    { id = "line-1-1533-1154", distance_from_prev_m = 1512 },
+    { id = "line-1-1591-1179", distance_from_prev_m = 1525 },
+    { id = "line-1-1589-1241", distance_from_prev_m = 1501 },
+    { id = "line-1-1583-1301", distance_from_prev_m = 1514 },
+    { id = "line-1-1578-1384", distance_from_prev_m = 2003 },
+    { id = "line-1-1601-1450", distance_from_prev_m = 2018 },
+    { id = "line-1-1594-1517", distance_from_prev_m = 1564 },
+    { id = "line-1-1594-1571", distance_from_prev_m = 1518 },
+    { id = "line-1-1566-1632", distance_from_prev_m = 1508 },
+    { id = "line-1-1538-1693", distance_from_prev_m = 1500 },
+    { id = "line-1-1506-1759", distance_from_prev_m = 1500 },
+    { id = "line-1-1532-1818", distance_from_prev_m = 1511 },
+    { id = "line-1-1525-1881", distance_from_prev_m = 1502 },
+    { id = "line-1-1522-1949", distance_from_prev_m = 1517 },
+    { id = "line-1-1563-2005", distance_from_prev_m = 1476 },
+    { id = "line-1-1560-2042", distance_from_prev_m = 1058 },
+]
+
+[[lines]]
+id = "line-2"
+name = "line-2"
+stations = [
+    { id = "line-2-2099-1392", distance_from_prev_m = 0 },
+    { id = "line-2-2020-1375", distance_from_prev_m = 2014 },
+    { id = "line-2-1991-1377", distance_from_prev_m = 596 },
+    { id = "line-2-1923-1383", distance_from_prev_m = 1409 },
+    { id = "line-2-1827-1383", distance_from_prev_m = 2002 },
+    { id = "line-2-1746-1335", distance_from_prev_m = 2017 },
+    { id = "line-2-1652-1338", distance_from_prev_m = 2020 },
+    { id = "line-2-1567-1339", distance_from_prev_m = 1953 },
+    { id = "line-2-1502-1340", distance_from_prev_m = 1504 },
+    { id = "line-2-1458-1345", distance_from_prev_m = 1504 },
+    { id = "line-2-1393-1350", distance_from_prev_m = 1695 },
+    { id = "line-2-1331-1330", distance_from_prev_m = 1500 },
+    { id = "line-2-1303-1373", distance_from_prev_m = 1515 },
+    { id = "line-2-1333-1387", distance_from_prev_m = 826 },
+    { id = "line-2-1299-1396", distance_from_prev_m = 686 },
+    { id = "line-2-1241-1415", distance_from_prev_m = 1502 },
+    { id = "line-2-1162-1412", distance_from_prev_m = 1518 },
+    { id = "line-2-1092-1424", distance_from_prev_m = 1506 },
+    { id = "line-2-1022-1425", distance_from_prev_m = 1518 },
+    { id = "line-2-0957-1415", distance_from_prev_m = 1502 },
+    { id = "line-2-0859-1395", distance_from_prev_m = 2005 },
+    { id = "line-2-0759-1395", distance_from_prev_m = 2000 },
+    { id = "line-2-0680-1391", distance_from_prev_m = 1629 },
+    { id = "line-2-0662-1389", distance_from_prev_m = 376 },
+    { id = "line-2-0566-1401", distance_from_prev_m = 2019 },
+    { id = "line-2-0471-1415", distance_from_prev_m = 2016 },
+    { id = "line-2-0373-1422", distance_from_prev_m = 2018 },
+    { id = "line-2-0273-1422", distance_from_prev_m = 2016 },
+    { id = "line-2-0207-1455", distance_from_prev_m = 2006 },
+    { id = "line-2-0138-1490", distance_from_prev_m = 2014 },
+]
+
+[[lines]]
+id = "line-3"
+name = "line-3"
+stations = [
+    { id = "line-3-1976-2100", distance_from_prev_m = 0 },
+    { id = "line-3-1955-2045", distance_from_prev_m = 2004 },
+    { id = "line-3-1885-1981", distance_from_prev_m = 2023 },
+    { id = "line-3-1829-1936", distance_from_prev_m = 1516 },
+    { id = "line-3-1808-1919", distance_from_prev_m = 607 },
+    { id = "line-3-1773-1895", distance_from_prev_m = 898 },
+    { id = "line-3-1699-1831", distance_from_prev_m = 2021 },
+    { id = "line-3-1625-1766", distance_from_prev_m = 2018 },
+    { id = "line-3-1597-1694", distance_from_prev_m = 2000 },
+    { id = "line-3-1543-1660", distance_from_prev_m = 1502 },
+    { id = "line-3-1500-1602", distance_from_prev_m = 1519 },
+    { id = "line-3-1441-1560", distance_from_prev_m = 1516 },
+    { id = "line-3-1403-1509", distance_from_prev_m = 1507 },
+    { id = "line-3-1363-1459", distance_from_prev_m = 1519 },
+    { id = "line-3-1333-1387", distance_from_prev_m = 1854 },
+    { id = "line-3-1288-1369", distance_from_prev_m = 1167 },
+    { id = "line-3-1222-1364", distance_from_prev_m = 1522 },
+    { id = "line-3-1240-1322", distance_from_prev_m = 1516 },
+    { id = "line-3-1248-1267", distance_from_prev_m = 1506 },
+    { id = "line-3-1182-1228", distance_from_prev_m = 1730 },
+    { id = "line-3-1133-1180", distance_from_prev_m = 1518 },
+    { id = "line-3-1082-1112", distance_from_prev_m = 2001 },
+    { id = "line-3-1035-1052", distance_from_prev_m = 2024 },
+    { id = "line-3-0954-1005", distance_from_prev_m = 2009 },
+    { id = "line-3-0876-0952", distance_from_prev_m = 2010 },
+    { id = "line-3-0811-0893", distance_from_prev_m = 1788 },
+    { id = "line-3-0803-0886", distance_from_prev_m = 218 },
+    { id = "line-3-0722-0840", distance_from_prev_m = 2001 },
+    { id = "line-3-0674-0763", distance_from_prev_m = 2929 },
+]
+
+[[lines]]
+id = "line-4"
+name = "line-4"
+stations = [
+    { id = "line-4-1742-0692", distance_from_prev_m = 0 },
+    { id = "line-4-1731-0781", distance_from_prev_m = 2007 },
+    { id = "line-4-1690-0847", distance_from_prev_m = 1782 },
+    { id = "line-4-1682-0855", distance_from_prev_m = 226 },
+    { id = "line-4-1606-0913", distance_from_prev_m = 2000 },
+    { id = "line-4-1563-0967", distance_from_prev_m = 1518 },
+    { id = "line-4-1541-1033", distance_from_prev_m = 1502 },
+    { id = "line-4-1475-1033", distance_from_prev_m = 1509 },
+    { id = "line-4-1434-1049", distance_from_prev_m = 1524 },
+    { id = "line-4-1459-1114", distance_from_prev_m = 1507 },
+    { id = "line-4-1425-1157", distance_from_prev_m = 1500 },
+    { id = "line-4-1351-1160", distance_from_prev_m = 1504 },
+    { id = "line-4-1313-1205", distance_from_prev_m = 1519 },
+    { id = "line-4-1283-1249", distance_from_prev_m = 1519 },
+    { id = "line-4-1301-1296", distance_from_prev_m = 1511 },
+    { id = "line-4-1275-1358", distance_from_prev_m = 1502 },
+    { id = "line-4-1242-1415", distance_from_prev_m = 1512 },
+    { id = "line-4-1205-1475", distance_from_prev_m = 1501 },
+    { id = "line-4-1150-1517", distance_from_prev_m = 1506 },
+    { id = "line-4-1096-1567", distance_from_prev_m = 1505 },
+    { id = "line-4-1042-1618", distance_from_prev_m = 1502 },
+    { id = "line-4-0987-1669", distance_from_prev_m = 1522 },
+    { id = "line-4-0915-1737", distance_from_prev_m = 2026 },
+    { id = "line-4-0902-1749", distance_from_prev_m = 359 },
+    { id = "line-4-0872-1813", distance_from_prev_m = 1644 },
+    { id = "line-4-0792-1908", distance_from_prev_m = 2703 },
+    { id = "line-4-0703-1957", distance_from_prev_m = 2610 },
+    { id = "line-4-0692-2052", distance_from_prev_m = 2014 },
+    { id = "line-4-0631-2106", distance_from_prev_m = 2007 },
+    { id = "line-4-0595-2194", distance_from_prev_m = 2232 },
+]
+
+[[lines]]
+id = "line-5"
+name = "line-5"
+stations = [
+    { id = "line-5-0007-0745", distance_from_prev_m = 0 },
+    { id = "line-5-0069-0715", distance_from_prev_m = 2014 },
+    { id = "line-5-0203-0719", distance_from_prev_m = 2713 },
+    { id = "line-5-0302-0721", distance_from_prev_m = 2013 },
+    { id = "line-5-0402-0721", distance_from_prev_m = 1999 },
+    { id = "line-5-0448-0781", distance_from_prev_m = 2014 },
+    { id = "line-5-0495-0845", distance_from_prev_m = 2014 },
+    { id = "line-5-0573-0869", distance_from_prev_m = 2010 },
+    { id = "line-5-0658-0891", distance_from_prev_m = 2011 },
+    { id = "line-5-0755-0892", distance_from_prev_m = 2014 },
+    { id = "line-5-0829-0875", distance_from_prev_m = 1997 },
+    { id = "line-5-0911-0924", distance_from_prev_m = 2046 },
+    { id = "line-5-1000-0952", distance_from_prev_m = 2011 },
+    { id = "line-5-1100-0952", distance_from_prev_m = 2000 },
+    { id = "line-5-1143-0880", distance_from_prev_m = 2012 },
+    { id = "line-5-1208-0906", distance_from_prev_m = 2003 },
+    { id = "line-5-1296-0929", distance_from_prev_m = 2000 },
+    { id = "line-5-1362-0951", distance_from_prev_m = 1502 },
+    { id = "line-5-1452-0976", distance_from_prev_m = 2007 },
+    { id = "line-5-1530-0966", distance_from_prev_m = 1624 },
+    { id = "line-5-1593-0987", distance_from_prev_m = 1502 },
+    { id = "line-5-1662-1003", distance_from_prev_m = 1512 },
+    { id = "line-5-1734-1012", distance_from_prev_m = 1514 },
+    { id = "line-5-1813-1053", distance_from_prev_m = 2011 },
+    { id = "line-5-1849-1069", distance_from_prev_m = 1071 },
+    { id = "line-5-1885-1094", distance_from_prev_m = 943 },
+    { id = "line-5-1940-1075", distance_from_prev_m = 1375 },
+]
+
+[[lines]]
+id = "line-6"
+name = "line-6"
+stations = [
+    { id = "line-6-2068-1550", distance_from_prev_m = 0 },
+    { id = "line-6-1992-1542", distance_from_prev_m = 2017 },
+    { id = "line-6-1957-1550", distance_from_prev_m = 832 },
+    { id = "line-6-1900-1548", distance_from_prev_m = 1173 },
+    { id = "line-6-1809-1570", distance_from_prev_m = 2002 },
+    { id = "line-6-1732-1605", distance_from_prev_m = 2023 },
+    { id = "line-6-1642-1621", distance_from_prev_m = 2015 },
+    { id = "line-6-1580-1653", distance_from_prev_m = 1749 },
+    { id = "line-6-1522-1665", distance_from_prev_m = 1518 },
+    { id = "line-6-1461-1674", distance_from_prev_m = 1516 },
+    { id = "line-6-1420-1723", distance_from_prev_m = 1524 },
+    { id = "line-6-1367-1722", distance_from_prev_m = 1526 },
+    { id = "line-6-1312-1765", distance_from_prev_m = 1514 },
+    { id = "line-6-1261-1798", distance_from_prev_m = 1525 },
+    { id = "line-6-1201-1805", distance_from_prev_m = 1504 },
+    { id = "line-6-1147-1800", distance_from_prev_m = 1514 },
+    { id = "line-6-1091-1800", distance_from_prev_m = 1517 },
+    { id = "line-6-1036-1818", distance_from_prev_m = 1525 },
+    { id = "line-6-1029-1824", distance_from_prev_m = 189 },
+    { id = "line-6-0964-1885", distance_from_prev_m = 1817 },
+    { id = "line-6-0865-1971", distance_from_prev_m = 2725 },
+    { id = "line-6-0732-1978", distance_from_prev_m = 2718 },
+    { id = "line-6-0648-2001", distance_from_prev_m = 2009 },
+    { id = "line-6-0580-2056", distance_from_prev_m = 2003 },
+    { id = "line-6-0485-2068", distance_from_prev_m = 2016 },
+    { id = "line-6-0326-2070", distance_from_prev_m = 3378 },
+]
+
+[[lines]]
+id = "line-7"
+name = "line-7"
+stations = [
+    { id = "line-7-0611-0293", distance_from_prev_m = 0 },
+    { id = "line-7-0601-0387", distance_from_prev_m = 2009 },
+    { id = "line-7-0607-0512", distance_from_prev_m = 2700 },
+    { id = "line-7-0629-0603", distance_from_prev_m = 2002 },
+    { id = "line-7-0652-0694", distance_from_prev_m = 2010 },
+    { id = "line-7-0714-0769", distance_from_prev_m = 2013 },
+    { id = "line-7-0785-0840", distance_from_prev_m = 2008 },
+    { id = "line-7-0797-0909", distance_from_prev_m = 1347 },
+    { id = "line-7-0801-0934", distance_from_prev_m = 664 },
+    { id = "line-7-0855-1015", distance_from_prev_m = 2083 },
+    { id = "line-7-0875-1104", distance_from_prev_m = 2007 },
+    { id = "line-7-0842-1191", distance_from_prev_m = 2013 },
+    { id = "line-7-0827-1281", distance_from_prev_m = 2016 },
+    { id = "line-7-0830-1380", distance_from_prev_m = 2004 },
+    { id = "line-7-0877-1441", distance_from_prev_m = 1895 },
+    { id = "line-7-0892-1497", distance_from_prev_m = 1515 },
+    { id = "line-7-0912-1546", distance_from_prev_m = 1503 },
+    { id = "line-7-0899-1601", distance_from_prev_m = 1509 },
+    { id = "line-7-0937-1688", distance_from_prev_m = 2013 },
+    { id = "line-7-0983-1745", distance_from_prev_m = 1521 },
+    { id = "line-7-1034-1800", distance_from_prev_m = 1522 },
+    { id = "line-7-1051-1842", distance_from_prev_m = 1174 },
+    { id = "line-7-1056-1854", distance_from_prev_m = 331 },
+    { id = "line-7-1066-1928", distance_from_prev_m = 2026 },
+    { id = "line-7-1084-2021", distance_from_prev_m = 2009 },
+    { id = "line-7-1088-2164", distance_from_prev_m = 3022 },
+]
+
+[[lines]]
+id = "line-8"
+name = "line-8"
+stations = [
+    { id = "line-8-1513-2762", distance_from_prev_m = 0 },
+    { id = "line-8-1524-2657", distance_from_prev_m = 2191 },
+    { id = "line-8-1524-2522", distance_from_prev_m = 2700 },
+    { id = "line-8-1551-2434", distance_from_prev_m = 2007 },
+    { id = "line-8-1568-2340", distance_from_prev_m = 2020 },
+    { id = "line-8-1603-2254", distance_from_prev_m = 2009 },
+    { id = "line-8-1635-2166", distance_from_prev_m = 2025 },
+    { id = "line-8-1670-2117", distance_from_prev_m = 2025 },
+    { id = "line-8-1660-2074", distance_from_prev_m = 1671 },
+    { id = "line-8-1674-2067", distance_from_prev_m = 338 },
+    { id = "line-8-1758-2028", distance_from_prev_m = 2019 },
+    { id = "line-8-1782-1998", distance_from_prev_m = 879 },
+    { id = "line-8-1776-1949", distance_from_prev_m = 1120 },
+    { id = "line-8-1751-1869", distance_from_prev_m = 2012 },
+    { id = "line-8-1779-1800", distance_from_prev_m = 2013 },
+    { id = "line-8-1835-1772", distance_from_prev_m = 2023 },
+    { id = "line-8-1855-1682", distance_from_prev_m = 2015 },
+    { id = "line-8-1835-1600", distance_from_prev_m = 2021 },
+    { id = "line-8-1859-1509", distance_from_prev_m = 2018 },
+    { id = "line-8-1887-1420", distance_from_prev_m = 2012 },
+    { id = "line-8-1908-1328", distance_from_prev_m = 2013 },
+    { id = "line-8-1918-1235", distance_from_prev_m = 1954 },
+]
+
+[[lines]]
+id = "line-9"
+name = "line-9"
+is_ring = true
+stations = [
+    { id = "line-9-1223-0737", distance_from_prev_m = 0 },
+    { id = "line-9-1166-0779", distance_from_prev_m = 2022 },
+    { id = "line-9-1121-0854", distance_from_prev_m = 2013 },
+    { id = "line-9-0987-0857", distance_from_prev_m = 2704 },
+    { id = "line-9-0887-0857", distance_from_prev_m = 2000 },
+    { id = "line-9-0830-0875", distance_from_prev_m = 1289 },
+    { id = "line-9-0811-0893", distance_from_prev_m = 529 },
+    { id = "line-9-0797-0909", distance_from_prev_m = 198 },
+    { id = "line-9-0797-0909", distance_from_prev_m = 136 },
+    { id = "line-9-0717-0930", distance_from_prev_m = 1868 },
+    { id = "line-9-0661-1007", distance_from_prev_m = 2003 },
+    { id = "line-9-0645-1030", distance_from_prev_m = 2010 },
+    { id = "line-9-0679-1110", distance_from_prev_m = 2013 },
+    { id = "line-9-0679-1210", distance_from_prev_m = 2000 },
+    { id = "line-9-0669-1295", distance_from_prev_m = 2021 },
+    { id = "line-9-0680-1391", distance_from_prev_m = 2143 },
+    { id = "line-9-0638-1466", distance_from_prev_m = 1876 },
+    { id = "line-9-0736-1473", distance_from_prev_m = 2013 },
+    { id = "line-9-0808-1536", distance_from_prev_m = 2008 },
+    { id = "line-9-0839-1621", distance_from_prev_m = 2003 },
+    { id = "line-9-0877-1706", distance_from_prev_m = 2014 },
+    { id = "line-9-0902-1749", distance_from_prev_m = 1067 },
+    { id = "line-9-0944-1770", distance_from_prev_m = 940 },
+    { id = "line-9-0988-1810", distance_from_prev_m = 1526 },
+    { id = "line-9-1029-1824", distance_from_prev_m = 1113 },
+    { id = "line-9-1042-1838", distance_from_prev_m = 387 },
+    { id = "line-9-1051-1842", distance_from_prev_m = 213 },
+    { id = "line-9-1090-1898", distance_from_prev_m = 1803 },
+    { id = "line-9-1156-1933", distance_from_prev_m = 1504 },
+    { id = "line-9-1203-1974", distance_from_prev_m = 1513 },
+    { id = "line-9-1248-1994", distance_from_prev_m = 1513 },
+    { id = "line-9-1283-2006", distance_from_prev_m = 1619 },
+    { id = "line-9-1304-1959", distance_from_prev_m = 1526 },
+    { id = "line-9-1359-2004", distance_from_prev_m = 2006 },
+    { id = "line-9-1427-2014", distance_from_prev_m = 1501 },
+    { id = "line-9-1505-2006", distance_from_prev_m = 1514 },
+    { id = "line-9-1563-2005", distance_from_prev_m = 1454 },
+    { id = "line-9-1592-2015", distance_from_prev_m = 569 },
+    { id = "line-9-1643-2072", distance_from_prev_m = 2010 },
+    { id = "line-9-1660-2074", distance_from_prev_m = 68 },
+    { id = "line-9-1735-2027", distance_from_prev_m = 1936 },
+    { id = "line-9-1782-1998", distance_from_prev_m = 1091 },
+    { id = "line-9-1809-1979", distance_from_prev_m = 914 },
+    { id = "line-9-1808-1919", distance_from_prev_m = 1473 },
+    { id = "line-9-1808-1906", distance_from_prev_m = 28 },
+    { id = "line-9-1841-1831", distance_from_prev_m = 2016 },
+    { id = "line-9-1883-1748", distance_from_prev_m = 2007 },
+    { id = "line-9-1901-1655", distance_from_prev_m = 2009 },
+    { id = "line-9-1957-1578", distance_from_prev_m = 2003 },
+    { id = "line-9-1957-1550", distance_from_prev_m = 560 },
+    { id = "line-9-1971-1483", distance_from_prev_m = 1456 },
+    { id = "line-9-1989-1393", distance_from_prev_m = 2017 },
+    { id = "line-9-1991-1377", distance_from_prev_m = 336 },
+    { id = "line-9-2001-1297", distance_from_prev_m = 1682 },
+    { id = "line-9-1971-1209", distance_from_prev_m = 2008 },
+    { id = "line-9-1919-1153", distance_from_prev_m = 1970 },
+    { id = "line-9-1870-1168", distance_from_prev_m = 1501 },
+    { id = "line-9-1839-1093", distance_from_prev_m = 2004 },
+    { id = "line-9-1849-1069", distance_from_prev_m = 562 },
+    { id = "line-9-1867-1011", distance_from_prev_m = 1445 },
+    { id = "line-9-1787-0977", distance_from_prev_m = 2010 },
+    { id = "line-9-1705-0940", distance_from_prev_m = 2005 },
+    { id = "line-9-1699-0862", distance_from_prev_m = 2025 },
+    { id = "line-9-1690-0848", distance_from_prev_m = 302 },
+    { id = "line-9-1668-0778", distance_from_prev_m = 1702 },
+    { id = "line-9-1604-0713", distance_from_prev_m = 2019 },
+    { id = "line-9-1512-0708", distance_from_prev_m = 2014 },
+    { id = "line-9-1489-0721", distance_from_prev_m = 368 },
+    { id = "line-9-1381-0736", distance_from_prev_m = 2342 },
+    { id = "line-9-1223-0737", distance_from_prev_m = 3168 },
+]
+
+
+
+# Fleets — copied from design.toml [[fleets]].
+[[fleets]]
+line = "line-1"
+trainset_count = 39
+dispatch_points = [
+]
+service_start = "05:30"
+service_end = "23:30"
+schedule = [
+    { from = "05:30", to = "07:00", headway_min = 10 },
+    { from = "07:00", to = "10:00", headway_min = 5 },
+    { from = "10:00", to = "16:00", headway_min = 10 },
+    { from = "16:00", to = "19:00", headway_min = 5 },
+    { from = "19:00", to = "23:30", headway_min = 10 },
+]
+
+[[fleets]]
+line = "line-2"
+trainset_count = 38
+dispatch_points = [
+]
+service_start = "05:30"
+service_end = "23:30"
+schedule = [
+    { from = "05:30", to = "07:00", headway_min = 10 },
+    { from = "07:00", to = "10:00", headway_min = 5 },
+    { from = "10:00", to = "16:00", headway_min = 10 },
+    { from = "16:00", to = "19:00", headway_min = 5 },
+    { from = "19:00", to = "23:30", headway_min = 10 },
+]
+
+[[fleets]]
+line = "line-3"
+trainset_count = 38
+dispatch_points = [
+]
+service_start = "05:30"
+service_end = "23:30"
+schedule = [
+    { from = "05:30", to = "07:00", headway_min = 10 },
+    { from = "07:00", to = "10:00", headway_min = 5 },
+    { from = "10:00", to = "16:00", headway_min = 10 },
+    { from = "16:00", to = "19:00", headway_min = 5 },
+    { from = "19:00", to = "23:30", headway_min = 10 },
+]
+
+[[fleets]]
+line = "line-4"
+trainset_count = 38
+dispatch_points = [
+]
+service_start = "05:30"
+service_end = "23:30"
+schedule = [
+    { from = "05:30", to = "07:00", headway_min = 10 },
+    { from = "07:00", to = "10:00", headway_min = 5 },
+    { from = "10:00", to = "16:00", headway_min = 10 },
+    { from = "16:00", to = "19:00", headway_min = 5 },
+    { from = "19:00", to = "23:30", headway_min = 10 },
+]
+
+[[fleets]]
+line = "line-5"
+trainset_count = 39
+dispatch_points = [
+]
+service_start = "05:30"
+service_end = "23:30"
+schedule = [
+    { from = "05:30", to = "07:00", headway_min = 10 },
+    { from = "07:00", to = "10:00", headway_min = 5 },
+    { from = "10:00", to = "16:00", headway_min = 10 },
+    { from = "16:00", to = "19:00", headway_min = 5 },
+    { from = "19:00", to = "23:30", headway_min = 10 },
+]
+
+[[fleets]]
+line = "line-6"
+trainset_count = 36
+dispatch_points = [
+]
+service_start = "05:30"
+service_end = "23:30"
+schedule = [
+    { from = "05:30", to = "07:00", headway_min = 10 },
+    { from = "07:00", to = "10:00", headway_min = 5 },
+    { from = "10:00", to = "16:00", headway_min = 10 },
+    { from = "16:00", to = "19:00", headway_min = 5 },
+    { from = "19:00", to = "23:30", headway_min = 10 },
+]
+
+[[fleets]]
+line = "line-7"
+trainset_count = 37
+dispatch_points = [
+]
+service_start = "05:30"
+service_end = "23:30"
+schedule = [
+    { from = "05:30", to = "07:00", headway_min = 10 },
+    { from = "07:00", to = "10:00", headway_min = 5 },
+    { from = "10:00", to = "16:00", headway_min = 10 },
+    { from = "16:00", to = "19:00", headway_min = 5 },
+    { from = "19:00", to = "23:30", headway_min = 10 },
+]
+
+[[fleets]]
+line = "line-8"
+trainset_count = 32
+dispatch_points = [
+]
+service_start = "05:30"
+service_end = "23:30"
+schedule = [
+    { from = "05:30", to = "07:00", headway_min = 10 },
+    { from = "07:00", to = "10:00", headway_min = 5 },
+    { from = "10:00", to = "16:00", headway_min = 10 },
+    { from = "16:00", to = "19:00", headway_min = 5 },
+    { from = "19:00", to = "23:30", headway_min = 10 },
+]
+
+[[fleets]]
+line = "line-9"
+trainset_count = 82
+dispatch_points = [
+]
+service_start = "05:30"
+service_end = "23:30"
+schedule = [
+    { from = "05:30", to = "07:00", headway_min = 10 },
+    { from = "07:00", to = "10:00", headway_min = 5 },
+    { from = "10:00", to = "16:00", headway_min = 10 },
+    { from = "16:00", to = "19:00", headway_min = 5 },
+    { from = "19:00", to = "23:30", headway_min = 10 },
+]

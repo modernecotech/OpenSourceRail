@@ -51,16 +51,35 @@ def main(argv: list[str] | None = None) -> int:
         # (so a design folder self-describes where its compiled
         # scenario goes). Fall back to a sibling file beside the
         # design — scenarios live *with* their design, not in a
-        # separate top-level `scenarios/` tree.
+        # separate top-level `scenarios/` tree. Try every known
+        # source-of-truth field for the slug; only `design.toml`
+        # itself is reserved as the input.
         import tomllib
         doc = tomllib.loads(args.design.read_text())
         scenario_out = doc.get("design", {}).get("scenario_out")
         if scenario_out:
             args.out = repo_root / scenario_out
         else:
-            slug = doc.get("design", {}).get("id", "design")
+            slug = (
+                doc.get("design", {}).get("id")
+                or doc.get("city", {}).get("slug")
+                or args.design.parent.name
+            )
             short = slug.rsplit("/", 1)[-1].lower()
             args.out = args.design.parent / f"{short}.toml"
+
+    # Refuse to overwrite the source design.toml. Without this guard a
+    # missing slug fell through to `<parent>/design.toml`, which is the
+    # input itself — a single command would silently destroy the
+    # source of truth.
+    if args.out.resolve() == args.design.resolve():
+        print(
+            f"error: --out resolves to the source design.toml "
+            f"({args.out}); pass --out explicitly or set "
+            f"design.scenario_out in the design.toml",
+            file=sys.stderr,
+        )
+        return 2
 
     try:
         text = generate_from_path(args.design, args.templates)
