@@ -8,17 +8,17 @@ Auto-planned by [`osr_planner`](../../../design-py/src/osr_planner/) using the l
 
 ### Suburban / regional map — full network
 
-![Samawah full rail network including suburban lines](city-network-map.png)
+![Samawah full rail network including suburban lines](samawah-network-map.png)
 
 *Every line visible end-to-end — radials out to the city edge, forced-coverage suburbs, and the ring line if present. Auto-fit zoom based on the network's actual bounding box.*
 
 ### Inner-Samawah map — urban core detail
 
-![Samawah urban-core detail — central district](city-network-map-detail.png)
+![Samawah urban-core detail — central district](samawah-network-map-detail.png)
 
 *8 km radius around the city centre at a legible street-grid zoom. Shows interchange density, central-business-district stations, and where the radial lines converge on the hub.*
 
-Corridor polylines + stations as GeoJSON for GIS / alignment tooling: [`city-corridor.geojson`](city-corridor.geojson).
+Corridor polylines + stations as GeoJSON for GIS / alignment tooling: [`samawah-corridor.geojson`](samawah-corridor.geojson).
 
 ## At a glance
 
@@ -74,7 +74,11 @@ On-site trackside + depot PV and battery storage. Per-tier sizing (from [`../../
 
 | Tier | Sites | PV each | Battery each |
 |---|---|---|---|
-| **Total installed** | **0** | **0 kW** | **0 kWh** |
+| Depot-Main | 1 | 5000 kW | 40000 kWh |
+| Major | 14 | 400 kW | 2500 kWh |
+| Standard | 19 | 300 kW | 2000 kWh |
+| Terminal | 5 | 500 kW | 3000 kWh |
+| **Total installed** | **39** | **18,800 kW** | **128,000 kWh** |
 
 Aggregate station-rail charging power: **13,000 kW**. Trains opportunity-charge during station dwell per RFC 0002; onboard 320 kWh battery covers running.
 
@@ -149,9 +153,9 @@ Per-trainset BOM at OSR-discipline pricing: commodity Na-ion cells (~$80/kWh, RF
 |---|---|
 | [`design.toml`](design.toml) | Authoritative design |
 | [`samawah.toml`](samawah.toml) | Expanded simulation scenario (input to `osr-sim`) |
-| [`city-network-map.png`](city-network-map.png) | City-wide network map |
-| [`city-network-map-detail.png`](city-network-map-detail.png) | Detail-zoom render |
-| [`city-corridor.geojson`](city-corridor.geojson) | Line polylines + stations (GeoJSON) |
+| [`samawah-network-map.png`](samawah-network-map.png) | City-wide network map |
+| [`samawah-network-map-detail.png`](samawah-network-map-detail.png) | Detail-zoom render |
+| [`samawah-corridor.geojson`](samawah-corridor.geojson) | Line polylines + stations (GeoJSON) |
 
 ## Reproducibility
 

@@ -251,9 +251,19 @@ def render_readme(
     scenario = _load(scenario_path)
     stats = compute_stats(design, scenario, population)
 
+    # Map-image filename slug. The rust `osr-design` emitter writes
+    # `[city] slug = "samawah"` and `osr_scenario.render_map` writes
+    # `<slug>-network-map.png` next to the design.toml. Older
+    # hand-crafted designs used `[design] id` (sometimes namespaced
+    # as `iraq/samawah`); strip to the basename for either case.
+    # If neither is set, fall back to the design.toml's parent
+    # directory name (e.g. "Samawah") rather than the literal
+    # "city" — that placeholder pointed at a file that never exists.
     screenshot_slug = screenshot_slug or (
-        design.get("design", {}).get("id", "city").rsplit("/", 1)[-1].lower()
-    )
+        design.get("city", {}).get("slug")
+        or design.get("design", {}).get("id", "").rsplit("/", 1)[-1]
+        or design_path.parent.name
+    ).lower()
 
     # Compute how many `..` to climb from the README's folder to repo root.
     rel_to_root = _rel_to_repo_root(design_path.parent)

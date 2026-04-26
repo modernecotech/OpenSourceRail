@@ -50,6 +50,29 @@ _SITE_TIER_DEFAULTS: dict[str, dict[str, float]] = {
                          "storage_initial_soc": 0.7,  "grid_import_kw": 3000.0, "grid_export_kw": 3000.0},
 }
 
+# Archetype → energy-site tier mapping (used when design.toml carries
+# no explicit `[[sites]]` blocks — i.e. auto-generated designs from
+# `osr-design`). Halts get no trackside energy (shelter-only stops);
+# standard / major / interchange / terminal each take the matching
+# tier from energy-sites.toml. `depot-terminal` stations colocate the
+# main depot's microgrid. Standalone depots by archetype: main-heavy
+# = depot-main, secondary-medium = depot-secondary, layup-minimal =
+# no site (overnight stabling only, no infrastructure).
+_STATION_TIER_MAP: dict[str, str] = {
+    "halt": "",  # no site
+    "standard": "standard",
+    "major": "major",
+    "interchange": "interchange",
+    "interchange-elevated": "interchange",
+    "terminal": "terminal",
+    "depot-terminal": "depot-main",
+}
+_DEPOT_TIER_MAP: dict[str, str] = {
+    "main-heavy": "depot-main",
+    "secondary-medium": "depot-secondary",
+    "layup-minimal": "",  # no site
+}
+
 # Climate preset → ambient temperature (sim design ambient).
 _CLIMATE_PRESET_AMBIENT_C: dict[str, float] = {
     "hot-desert":       42.0,
@@ -302,23 +325,40 @@ class ScenarioGenerator:
         return "".join(out)
 
     def _sites_section(self) -> str:
-        sites = self.design.get("sites", [])
-        if not sites:
+        # Sites can be either:
+        #   (a) declared explicitly in design.toml `[[sites]]` (older
+        #       hand-crafted designs), or
+        #   (b) synthesised from the station + depot archetypes that the
+        #       rust `osr-design` emitter writes (auto-generated designs).
+        # Each archetype maps to a default energy-site tier per RFC 0010
+        # (stations) + RFC 0014 (depots). The mapping below is the
+        # canonical default — explicit `[[sites]]` always wins.
+        explicit = self.design.get("sites", [])
+        if explicit:
+            sites_to_emit = [
+                {"station": s["station"], "tier": s.get("tier", "standard"), "_overrides": s}
+                for s in explicit
+            ]
+        else:
+            sites_to_emit = self._synthesise_sites_from_archetypes()
+        if not sites_to_emit:
             return ""
         out = ["\n# Trackside energy sites — expanded from tier references.\n"]
-        for s in sites:
-            tier = s.get("tier", "standard")
+        for s in sites_to_emit:
+            tier = s["tier"]
             d = self.site_defaults(tier)
             # Per-site explicit overrides.
+            overrides = s.get("_overrides", {})
             for k in (
                 "pv_nameplate_kw", "storage_capacity_kwh",
                 "storage_max_charge_kw", "storage_max_discharge_kw",
                 "storage_initial_soc", "grid_import_kw", "grid_export_kw",
             ):
-                if k in s:
-                    d[k] = s[k]
+                if k in overrides:
+                    d[k] = overrides[k]
             out.append(f"[[sites]]\n")
             out.append(f'station = "{_escape(s["station"])}"\n')
+            out.append(f'tier = "{_escape(tier)}"\n')
             out.append(f"pv_nameplate_kw = {float(d['pv_nameplate_kw'])}\n")
             out.append(f"storage_capacity_kwh = {float(d['storage_capacity_kwh'])}\n")
             out.append(f"storage_max_charge_kw = {float(d['storage_max_charge_kw'])}\n")
@@ -327,6 +367,35 @@ class ScenarioGenerator:
             out.append(f"grid_import_kw = {float(d['grid_import_kw'])}\n")
             out.append(f"grid_export_kw = {float(d['grid_export_kw'])}\n\n")
         return "".join(out)
+
+    def _synthesise_sites_from_archetypes(self) -> list[dict[str, Any]]:
+        sites: list[dict[str, Any]] = []
+        seen_stations: set[str] = set()
+        # Stations get sites by archetype.
+        for s in self.design.get("stations", []):
+            arch = s.get("archetype", "standard")
+            tier = _STATION_TIER_MAP.get(arch, "")
+            if not tier:
+                continue
+            sites.append({"station": s["id"], "tier": tier})
+            seen_stations.add(s["id"])
+        # Depots co-located with terminals already have a depot-main
+        # site (via `depot-terminal` archetype). Standalone depots add
+        # their own site keyed by their station_id, unless that station
+        # already emitted one.
+        for d in self.design.get("depots", []):
+            arch = d.get("archetype", "main-heavy")
+            tier = _DEPOT_TIER_MAP.get(arch, "")
+            if not tier:
+                continue
+            # Rust emits depot rows keyed by `station = "..."`; older
+            # python-side designs used `station_id`. Accept both.
+            station_id = d.get("station") or d.get("station_id")
+            if not station_id or station_id in seen_stations:
+                continue
+            sites.append({"station": station_id, "tier": tier})
+            seen_stations.add(station_id)
+        return sites
 
 
 # ---------------------------------------------------------------------------
