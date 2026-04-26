@@ -363,7 +363,7 @@ fn write_design_toml(
     // Depots — per RFC 0014 §8. The farthest-terminal station becomes
     // `main-heavy`; every other `terminal` / `depot-terminal` station
     // becomes `layup-minimal`. Stall count from the §4 formula.
-    let depot_blocks = compute_depots(lines, stations, &archetypes);
+    let depot_blocks = compute_depots(lines, stations, &archetypes, family);
     if !depot_blocks.is_empty() {
         out.push_str("# [[depots]] — fleet stabling + maintenance per RFC 0014.\n");
         for d in &depot_blocks {
@@ -457,13 +457,17 @@ fn compute_depots(
     lines: &[Line],
     stations: &[Station],
     archetypes: &[&'static str],
+    family: &str,
 ) -> Vec<DepotBlock> {
     // Precompute each line's fleet sizing from length.
     let mut fleet_by_line: std::collections::BTreeMap<&str, u32> =
         std::collections::BTreeMap::new();
     for line in lines {
         let len_m = line_cells_length_m(line);
-        fleet_by_line.insert(line.name.as_str(), fleet_total(peak_revenue_trainsets(len_m)));
+        fleet_by_line.insert(
+            line.name.as_str(),
+            fleet_total(peak_revenue_trainsets(len_m, family)),
+        );
     }
 
     let mut out = Vec::new();
@@ -492,11 +496,38 @@ fn compute_depots(
 
 // ---- RFC 0008 §5 + RFC 0014 §4 fleet-sizing helpers ------------------------
 
-/// Peak-revenue trainsets at nominal 5-min headway, calibrated
-/// against the Samawah reference (12 km line → 6 trainsets) — so
-/// ~1 trainset per 2 km of line length. Floor of 2.
-fn peak_revenue_trainsets(line_length_m: f64) -> u32 {
-    let k = (line_length_m / 2_000.0).ceil().max(2.0);
+/// Peak-revenue trainsets sized from the line's round-trip cycle
+/// time vs. the peak headway:
+///
+/// ```text
+///   peak = ceil(round_trip_min / headway_min)
+///   round_trip_min = 2 × line_length / commercial_speed + 2 × turnback
+/// ```
+///
+/// Commercial speed is keyed off the rolling-stock family:
+/// - `tram-2car` (70 km/h max, ~800 m spacing): 22 km/h — Strasbourg
+///   Tram A 18 km/h, Bordeaux Tram A 21 km/h, Manchester Metrolink
+///   24 km/h.
+/// - `light-metro-3car` (90 km/h max, ~1.0 km spacing): 30 km/h —
+///   Vancouver SkyTrain 32 km/h, Copenhagen Metro 30 km/h.
+/// - `metro-4car` / `metro-6car` (100 km/h max, 1.0–1.7 km spacing):
+///   35 km/h — Tehran Line 1 33, Cairo Line 3 32, Tokyo Chuo Rapid 38.
+///
+/// Turnback at each end is 3 min (single-tail, switch + driver-panel
+/// changeover for the driverless GoA 4 control logic per RFC 0015).
+/// Floor of 2.
+fn peak_revenue_trainsets(line_length_m: f64, family: &str) -> u32 {
+    const PEAK_HEADWAY_MIN: f64 = 5.0;
+    const TURNBACK_MIN: f64 = 3.0;
+    let commercial_kmh = match family {
+        "tram-2car" => 22.0,
+        "light-metro-3car" => 30.0,
+        "metro-4car" | "metro-6car" => 35.0,
+        _ => 30.0,
+    };
+    let one_way_min = (line_length_m / 1_000.0) / commercial_kmh * 60.0;
+    let round_trip_min = 2.0 * one_way_min + 2.0 * TURNBACK_MIN;
+    let k = (round_trip_min / PEAK_HEADWAY_MIN).ceil().max(2.0);
     k as u32
 }
 
@@ -1323,13 +1354,20 @@ mod tests {
 
     #[test]
     fn fleet_sizing_formula_matches_rfc_0014_samawah_example() {
-        // RFC 0014 §4 Samawah example: 12 km line → peak 6, spare 1,
-        // cold-reserve 1 → fleet 8 → stalls 10.
-        let peak = peak_revenue_trainsets(12_000.0);
-        assert_eq!(peak, 6);
+        // RFC 0014 §4 Samawah example, v0.1 calibration. 12 km line,
+        // 5-min peak headway, 3-min turnback per end. Commercial speed
+        // is keyed off the rolling-stock family (RFC 0008 §5):
+        // - tram-2car  @ 22 km/h: round-trip 71.5 min → ceil(71.5/5) = 15 peak
+        // - metro-6car @ 35 km/h: round-trip 47.1 min → ceil(47.1/5) = 10 peak
+        // Samawah (280 k pop) gets `tram-2car`. Spare = max(15/10, 1) = 1.
+        // Cold-reserve = 1. Fleet 17. Stalls ceil(17 × 1.25) = 22.
+        let peak = peak_revenue_trainsets(12_000.0, "tram-2car");
+        assert_eq!(peak, 15);
+        let peak_metro = peak_revenue_trainsets(12_000.0, "metro-6car");
+        assert_eq!(peak_metro, 10);
         let fleet = fleet_total(peak);
-        assert_eq!(fleet, 8);
-        assert_eq!(depot_stalls(fleet), 10);
+        assert_eq!(fleet, 17);
+        assert_eq!(depot_stalls(fleet), 22);
     }
 
     #[test]
@@ -1344,7 +1382,7 @@ mod tests {
         // is `depot-terminal` (farthest), middle is `standard`.
         let archetypes: Vec<&'static str> = vec!["terminal", "standard", "depot-terminal"];
 
-        let depots = compute_depots(&lines, &stations, &archetypes);
+        let depots = compute_depots(&lines, &stations, &archetypes, "tram-2car");
         assert_eq!(depots.len(), 2);
         // depot-terminal → main-heavy.
         assert!(depots.iter().any(|d| d.archetype == "main-heavy"));
@@ -1364,7 +1402,7 @@ mod tests {
             st("L1", 12_000.0, 0.10, 0.0, 0.3),
         ];
         let archetypes: Vec<&'static str> = vec!["terminal", "depot-terminal"];
-        let depots = compute_depots(&lines, &stations, &archetypes);
+        let depots = compute_depots(&lines, &stations, &archetypes, "tram-2car");
         let switches = compute_switches(&stations, &archetypes, &depots);
 
         // One turnback per terminal archetype = 2 turnbacks.

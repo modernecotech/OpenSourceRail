@@ -83,6 +83,20 @@ fleet:
 ```
 
 - `peak_revenue_trainsets` = what the schedule requires at peak.
+  Sized from the physical round-trip cycle vs. the peak headway:
+
+  ```text
+    one_way_min      = (line_length_km / commercial_speed_kmh) × 60
+    round_trip_min   = 2 × one_way_min + 2 × turnback_min
+    peak_revenue_trainsets = ceil(round_trip_min / headway_min)
+  ```
+
+  v0.1 calibration: `commercial_speed = 35 km/h` (Tehran Line 1 33,
+  Cairo Line 3 32, Tokyo Chuo Rapid 38 — the right band for 100 km/h
+  max with 1.0–1.7 km station spacing and 30 s dwells), `headway =
+  5 min`, `turnback = 3 min` per end (driverless GoA 4 single-tail
+  changeover, RFC 0015).
+
 - `spare` = 1 trainset per 10 revenue trainsets, for planned
   maintenance rotation.
 - `cold_reserve` = 1 per line, for unplanned incidents per
@@ -96,15 +110,22 @@ The 1.25× multiplier on stall count accounts for:
 - Growth headroom (15 %) for ridership uplift over the depot's
   20-year useful life without needing to build a second depot.
 
-Example (Samawah reference):
+Example (Samawah reference, 5-min peak headway):
 
-- Line 1: 6 peak + 1 spare + 1 cold-reserve = 8 trainsets. Depot
-  stalls = 10.
-- Line 2: 4 peak + 1 spare + 1 cold-reserve = 6 trainsets.
-  Layup-only at the Line 2 end-of-line; stalls = 5 in a
-  `layup-minimal`.
-- Total deployment: 14 trainsets, 1 `main-heavy` (Line 1 end),
-  1 `layup-minimal` (Line 2 end). 10 + 5 = 15 stalls total.
+- Line 1 (12 km): round-trip = 12×2/35 × 60 + 6 = 47.1 min →
+  10 peak + 1 spare + 1 cold-reserve = 12 trainsets. Main-heavy
+  depot stalls = ceil(12 × 1.25) = 15.
+- Line 2 (8 km): round-trip = 8×2/35 × 60 + 6 = 33.4 min →
+  7 peak + 1 spare + 1 cold-reserve = 9 trainsets. Layup-only at
+  the Line 2 end-of-line; stalls = ceil(9 × 1.25) = 12 in a
+  `layup-minimal` (its 6-stall catalogue cap forces a second
+  layup to be added if `secondary-medium` siting isn't economic).
+- Pre-v0.1 worked examples used 6/4 peak figures derived from a
+  back-of-envelope ~1 trainset per 2 km of length — that
+  calibration assumed an 8-min off-peak headway, not the 5-min
+  peak headway v0.1 networks publish. The emitter was retuned to
+  the physics formula above so the published peak headway and the
+  fleet count are mutually consistent.
 
 The emitter (RFC 0014 v2) computes this from the design.toml's
 `fleet_sizing` block.

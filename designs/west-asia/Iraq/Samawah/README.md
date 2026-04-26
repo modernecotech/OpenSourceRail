@@ -22,7 +22,7 @@ Corridor polylines + stations as GeoJSON for GIS tooling: [`samawah.corridor.geo
 | Anchor-weighted coverage | 55.0% |
 | Route length (double track) | 39.0 km |
 | Civil mix (at-grade / elevated) | 36.1 km / 2.7 km (7% elevated) |
-| Revenue fleet | 21 × 2-car trainsets |
+| Revenue fleet | 47 × 2-car trainsets |
 | Spare + cold reserve | 6 × 2-car trainsets |
 | Peak headway | 5 min |
 | Service hours | 05:30 – 23:30 (≈ 18 h/day) |
@@ -32,10 +32,10 @@ Corridor polylines + stations as GeoJSON for GIS tooling: [`samawah.corridor.geo
 
 | Line | Length | Stations | Trainsets | Termini |
 |---|---|---|---|---|
-| line-1 | 11.5 km | 13 | 8 | مستشفى الالماني ↔ ال مطشر |
-| line-2 | 15.2 km | 13 | 10 | كشته ↔ مدرسة الوهج الابتدائية المختلطة  |
-| line-3 | 12.3 km | 12 | 9 | مستوصف صحي حي العسكري ↔ جامعة الامام جعفر الصادق فرع المثنى |
-| **Total** | **39.0 km** | **38 unique** | **27** | |
+| line-1 | 11.5 km | 13 | 16 | مستشفى الالماني ↔ ال مطشر |
+| line-2 | 15.2 km | 13 | 20 | كشته ↔ مدرسة الوهج الابتدائية المختلطة  |
+| line-3 | 12.3 km | 12 | 17 | مستوصف صحي حي العسكري ↔ جامعة الامام جعفر الصادق فرع المثنى |
+| **Total** | **39.0 km** | **38 unique** | **53** | |
 
 ## Rolling stock
 

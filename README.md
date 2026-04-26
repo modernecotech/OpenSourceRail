@@ -47,12 +47,13 @@ for the full breakdown (per-line termini, fleet sizing, civil cost).*
 ![Baghdad reference network — eight radial lines plus a circumferential ring auto-planned on OpenStreetMap](designs/west-asia/Iraq/Baghdad/baghdad-network-map.png)
 
 *Baghdad (7.5 M pop) — same pipeline, megacity tier. Eight radial
-lines plus a circumferential ring (line-9, 104 km, 68 stations) at
-~0.55 × urban radius. 293 unique stations, 476.2 km double-track,
-**19 elevated interchange complexes** (auto-snapped at every
-ring↔radial crossing), 39.3 % anchor-weighted coverage,
-23.7 % anchor-hit rate, 7 % elevated. Every soft gate passing.
-See [designs/west-asia/Iraq/Baghdad/README.md](designs/west-asia/Iraq/Baghdad/README.md).*
+lines plus a circumferential ring (line-9, 105.7 km, 70 stations) at
+~0.55 × urban radius. 287 unique stations, 470.1 km double-track,
+**21 elevated interchange complexes** (auto-snapped at every
+ring↔radial crossing), 37.0 % anchor-weighted coverage,
+22.8 % anchor-hit rate, 7 % elevated. Fleet 378 × 6-car (RFC 0014 §4
+round-trip / headway sizing at 35 km/h commercial). Every soft gate
+passing. See [designs/west-asia/Iraq/Baghdad/README.md](designs/west-asia/Iraq/Baghdad/README.md).*
 
 Twenty-one RFCs cover the full system from software
 architecture through rail civil engineering to driverless operation; the

@@ -17,13 +17,13 @@ Corridor polylines + stations as GeoJSON for GIS tooling: [`baghdad.corridor.geo
 | Metric | Value |
 |---|---|
 | Lines | 9 |
-| Unique stations | 293 |
-| Interchange complexes | 19 |
-| Anchor-weighted coverage | 39.3% |
-| Route length (double track) | 476.2 km |
-| Civil mix (at-grade / elevated) | 443.0 km / 31.6 km (7% elevated) |
-| Revenue fleet | 242 × 6-car trainsets |
-| Spare + cold reserve | 30 × 6-car trainsets |
+| Unique stations | 287 |
+| Interchange complexes | 21 |
+| Anchor-weighted coverage | 37.0% |
+| Route length (double track) | 470.1 km |
+| Civil mix (at-grade / elevated) | 436.0 km / 32.4 km (7% elevated) |
+| Revenue fleet | 339 × 6-car trainsets |
+| Spare + cold reserve | 39 × 6-car trainsets |
 | Peak headway | 5 min |
 | Service hours | 05:30 – 23:30 (≈ 18 h/day) |
 | Depots | 16 |
@@ -32,16 +32,16 @@ Corridor polylines + stations as GeoJSON for GIS tooling: [`baghdad.corridor.geo
 
 | Line | Length | Stations | Trainsets | Termini |
 |---|---|---|---|---|
-| line-1 | 47.9 km | 30 | 27 | عرب خيط ↔ مستشفى الدكتور قيصر |
-| line-2 | 47.0 km | 30 | 27 | شارع حارث ابن كلده ↔ معهد الكوكب للتدريس الخصوصي ودورات التقوية |
-| line-3 | 46.5 km | 30 | 27 | مدرسة الغصون الابتدائيه للبنات في ابو عظام ↔ مدارس أكاديمية التجمع الابتدائية و الثانوية الأهلية |
-| line-4 | 47.2 km | 31 | 27 | مركز صحي الشاعورة ↔ Багдад |
-| line-5 | 47.9 km | 27 | 27 | مركز صحي الباجة جي ↔ مدرسة سكينة الابتدائية للبنات /الكرخ ٢ |
-| line-6 | 43.8 km | 26 | 25 | مجمع دار الشفاء الطبي ↔ line-6-0326-2070 |
-| line-7 | 44.9 km | 26 | 26 | مركز صحي سبع البور الجديد ↔ line-7-1088-2164 |
-| line-8 | 46.7 km | 27 | 27 | مركز صحي ↔ ثانوية ريحانة الرسول + بلقيس الابتدائية |
-| line-9 | 104.3 km | 68 | 59 | اعدادية الشعلة للبنين ↔ اعدادية الشعلة للبنين |
-| **Total** | **476.2 km** | **293 unique** | **272** | |
+| line-1 | 47.9 km | 30 | 39 | عرب خيط ↔ مستشفى الدكتور قيصر |
+| line-2 | 47.0 km | 28 | 38 | معهد الكوكب للتدريس الخصوصي ودورات التقوية ↔ شارع حارث ابن كلده |
+| line-3 | 46.5 km | 29 | 38 | مدارس أكاديمية التجمع الابتدائية و الثانوية الأهلية ↔ مدرسة الغصون الابتدائيه للبنات في ابو عظام |
+| line-4 | 47.3 km | 31 | 38 | مركز صحي الشاعورة ↔ Багдад |
+| line-5 | 47.9 km | 27 | 39 | مركز صحي الباجة جي ↔ مدرسة سكينة الابتدائية للبنات /الكرخ ٢ |
+| line-6 | 43.8 km | 26 | 36 | مجمع دار الشفاء الطبي ↔ line-6-0326-2070 |
+| line-7 | 44.9 km | 26 | 36 | line-7-1088-2164 ↔ مركز صحي سبع البور الجديد |
+| line-8 | 39.1 km | 22 | 32 | مجمع الأنوار الطبي ↔ معهد الحبيب لدروس التقوية |
+| line-9 | 105.7 km | 70 | 82 | اعدادية الشعلة للبنين ↔ اعدادية الشعلة للبنين |
+| **Total** | **470.1 km** | **287 unique** | **378** | |
 
 ## Rolling stock
 
@@ -60,13 +60,13 @@ Corridor polylines + stations as GeoJSON for GIS tooling: [`baghdad.corridor.geo
 - **Peak capacity per line per direction:** 900 × 12 = **10,800 pphpd**
 - **Network peak throughput** (all lines, both directions): 10,800 × 9 × 2 = **194,400 passengers/hour**
 - **Daily theoretical capacity** (peak ≈ 10 % of daily): ≈ **1,944,000 passenger-trips/day**
-- **Practical daily ridership estimate** (10–15 % of 39% catchment): **294,750 – 442,125 trips/day**
+- **Practical daily ridership estimate** (10–15 % of 37% catchment): **277,500 – 416,250 trips/day**
 
 ## Catchment
 
 - City population: **7,500,000**
-- Anchor-weighted coverage: **39.3%** (`high_demand_coverage` metric in design-quality.yaml)
-- Catchment population: ≈ **2,947,500**
+- Anchor-weighted coverage: **37.0%** (`high_demand_coverage` metric in design-quality.yaml)
+- Catchment population: ≈ **2,775,000**
 
 ## Civil cost (planning grade)
 
@@ -74,10 +74,10 @@ From `[costs]` in `design.toml` — €/km × civil-mix lengths per RFC 0011 §9
 
 | Bucket | Value |
 |---|---|
-| At-grade (443.0 km) | €1.55 bn |
-| Elevated (31.6 km) | €568 M |
-| Elevated-interchange premium (19 sites) | €360 M |
-| **Civil total** | **€2.48 bn** |
+| At-grade (436.0 km) | €1.53 bn |
+| Elevated (32.4 km) | €582 M |
+| Elevated-interchange premium (21 sites) | €380 M |
+| **Civil total** | **€2.49 bn** |
 
 ## Quality gates
 
