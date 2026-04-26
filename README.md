@@ -38,11 +38,14 @@ radials without entering the CBD.
 *Samawah (280 k pop) — **auto-planned** end-to-end by `osr-design`
 against real OSM data. Three radial lines, 38 unique stations, 39.0 km of
 double-track, 2 interchange complexes, **55.0 % anchor-weighted
-coverage**, all soft gates passing. Every station sits on an OSM
-anchor cluster (weight-averaged within 240 m); every polyline follows
-the arterial graph (trunk / primary / secondary / tertiary). See
+coverage**, all soft gates passing. Fleet 53 × 2-car (tram-2car).
+Planning-grade CAPEX **≈ €1.22 bn** (civil €215 M + stations €366 M +
+depots €225 M + rolling stock €212 M + signalling/power €90 M + 10 % EPC),
+≈ €31 M / route-km. Every station sits on an OSM anchor cluster
+(weight-averaged within 240 m); every polyline follows the arterial
+graph (trunk / primary / secondary / tertiary). See
 [designs/west-asia/Iraq/Samawah/README.md](designs/west-asia/Iraq/Samawah/README.md)
-for the full breakdown (per-line termini, fleet sizing, civil cost).*
+for the full breakdown (per-line termini, fleet sizing, full cost stack).*
 
 ![Baghdad reference network — eight radial lines plus a circumferential ring auto-planned on OpenStreetMap](designs/west-asia/Iraq/Baghdad/baghdad-network-map.png)
 
@@ -52,8 +55,12 @@ lines plus a circumferential ring (line-9, 105.7 km, 70 stations) at
 **21 elevated interchange complexes** (auto-snapped at every
 ring↔radial crossing), 37.0 % anchor-weighted coverage,
 22.8 % anchor-hit rate, 7 % elevated. Fleet 378 × 6-car (RFC 0014 §4
-round-trip / headway sizing at 35 km/h commercial). Every soft gate
-passing. See [designs/west-asia/Iraq/Baghdad/README.md](designs/west-asia/Iraq/Baghdad/README.md).*
+round-trip / headway sizing at 35 km/h commercial). Planning-grade
+CAPEX **≈ €14.7 bn** (civil €2.5 bn + stations €2.6 bn + depots
+€0.4 bn + rolling stock €6.8 bn + signalling/power €1.1 bn + 10 % EPC),
+≈ €31 M / route-km — base OECD rates before the per-country
+multiplier. Every soft gate passing. See
+[designs/west-asia/Iraq/Baghdad/README.md](designs/west-asia/Iraq/Baghdad/README.md).*
 
 Twenty-one RFCs cover the full system from software
 architecture through rail civil engineering to driverless operation; the

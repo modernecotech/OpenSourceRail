@@ -30,11 +30,13 @@ Corridor polylines + stations as GeoJSON for GIS tooling: [`samawah.corridor.geo
 
 ## Lines
 
+*Termini are tagged by compass quadrant + radial band (Inner < 0.33 R, Mid 0.33–0.67 R, Outer > 0.67 R, where R is the network's outermost station-to-centre distance).*
+
 | Line | Length | Stations | Trainsets | Termini |
 |---|---|---|---|---|
-| line-1 | 11.5 km | 13 | 16 | مستشفى الالماني ↔ ال مطشر |
-| line-2 | 15.2 km | 13 | 20 | كشته ↔ مدرسة الوهج الابتدائية المختلطة  |
-| line-3 | 12.3 km | 12 | 17 | مستوصف صحي حي العسكري ↔ جامعة الامام جعفر الصادق فرع المثنى |
+| line-1 | 11.5 km | 13 | 16 | N Outer ↔ SE Mid |
+| line-2 | 15.2 km | 13 | 20 | E Outer ↔ W Outer |
+| line-3 | 12.3 km | 12 | 17 | SW Mid ↔ N Outer |
 | **Total** | **39.0 km** | **38 unique** | **53** | |
 
 ## Rolling stock
@@ -58,20 +60,71 @@ Corridor polylines + stations as GeoJSON for GIS tooling: [`samawah.corridor.geo
 
 ## Catchment
 
-- City population: **280,000**
-- Anchor-weighted coverage: **55.0%** (`high_demand_coverage` metric in design-quality.yaml)
-- Catchment population: ≈ **154,000**
+- City population: **280,000** (within bbox of 165 km², gross density ≈ 1,701/km²)
+- Stations: **38** at 800 m walking radius ⇒ raw walkshed = 76 km²; overlap-discounted (30 %) = **53 km²**
+- Walkshed catchment population (gross density × walkshed): ≈ **90,994**
+- Anchor-weighted demand coverage: **55.0%** — share of OSM POI demand-weight reachable within the walkshed (`high_demand_coverage` metric in design-quality.yaml). Cross-check on the walkshed estimate: 55.0% of 280,000 = **154,000** demand-weighted catchment.
 
-## Civil cost (planning grade)
+## CAPEX (planning grade)
 
-From `[costs]` in `design.toml` — €/km × civil-mix lengths per RFC 0011 §9. Excludes rolling stock, stations, depots, and integration.
+Base OECD rates — `country-costs.toml` applies the per-country labour/material multiplier downstream. Civil-mix figures are from `[costs]` in `design.toml` (RFC 0011 §9); systems and rolling-stock figures come from the catalogue rates baked into the README generator.
+
+### Civil works
 
 | Bucket | Value |
 |---|---|
-| At-grade (36.1 km) | €126 M |
-| Elevated (2.7 km) | €48 M |
-| Elevated-interchange premium (2 sites) | €40 M |
-| **Civil total** | **€215 M** |
+| At-grade (36.1 km @ €3.5 M/km) | €126 M |
+| Elevated (2.7 km @ €18 M/km) | €48 M |
+| Elevated-interchange premium (2 sites @ €20 M) | €40 M |
+| **Civil subtotal** | **€215 M** |
+
+### Stations
+
+At-grade construction per RFC 0010 archetype catalogue. Vertical circulation + canopy PV included.
+
+| Archetype | Count | Unit | Subtotal |
+|---|---|---|---|
+| `standard` | 13 | €8 M | €104 M |
+| `major` | 12 | €12 M | €144 M |
+| `terminal` | 5 | €10 M | €50 M |
+| `depot-terminal` | 1 | €12 M | €12 M |
+| **Stations subtotal** | | | **€366 M** |
+
+### Depots
+
+| Archetype | Count | Unit | Subtotal |
+|---|---|---|---|
+| `main-heavy` | 1 | €150 M | €150 M |
+| `layup-minimal` | 5 | €15 M | €75 M |
+| **Depots subtotal** | | | **€225 M** |
+
+### Rolling stock
+
+| Item | Count | Unit | Subtotal |
+|---|---|---|---|
+| `tram-2car` (revenue + spare + cold reserve) | 53 | €4 M | €212 M |
+
+### Systems
+
+| Item | Basis | Subtotal |
+|---|---|---|
+| Signalling / CBTC (RFC 0015 GoA 4) | 39.0 km × €1.5 M/km | €58 M |
+| Traction power (battery-electric, no OCS) | 39.0 km × €0.8 M/km | €31 M |
+| EPC integration + project management (10%) | on subtotal | €111 M |
+
+### Total
+
+| Bucket | Value |
+|---|---|
+| Civil works | €215 M |
+| Stations | €366 M |
+| Depots | €225 M |
+| Rolling stock | €212 M |
+| Signalling + power | €90 M |
+| EPC overhead (10%) | €111 M |
+| **CAPEX total** | **€1.22 bn** |
+| Per-route-km | €31 M / km |
+| Per-capita (city pop) | €4,350 / person |
 
 ## Quality gates
 
@@ -107,8 +160,8 @@ python -m osr_geo.cli --slug samawah --bbox <S> <W> <N> <E>
 cargo run --release --bin osr-design -- \
     --slug samawah --population 280000 --country IQ \
     --sidecar .cache/osr-pipeline/rasters/samawah.grid.json \
-    --out-dir designs/west-asia/Iraq/designs/west-asia/Iraq/Samawah
+    --out-dir designs/west-asia/Iraq/Samawah
 
 # 3. network map PNG
-python -m osr_scenario.render_map --design designs/west-asia/Iraq/designs/west-asia/Iraq/Samawah/design.toml
+python -m osr_scenario.render_map --design designs/west-asia/Iraq/Samawah/design.toml
 ```

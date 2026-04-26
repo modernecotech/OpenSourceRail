@@ -30,17 +30,19 @@ Corridor polylines + stations as GeoJSON for GIS tooling: [`baghdad.corridor.geo
 
 ## Lines
 
+*Termini are tagged by compass quadrant + radial band (Inner < 0.33 R, Mid 0.33–0.67 R, Outer > 0.67 R, where R is the network's outermost station-to-centre distance).*
+
 | Line | Length | Stations | Trainsets | Termini |
 |---|---|---|---|---|
-| line-1 | 47.9 km | 30 | 39 | عرب خيط ↔ مستشفى الدكتور قيصر |
-| line-2 | 47.0 km | 28 | 38 | معهد الكوكب للتدريس الخصوصي ودورات التقوية ↔ شارع حارث ابن كلده |
-| line-3 | 46.5 km | 29 | 38 | مدارس أكاديمية التجمع الابتدائية و الثانوية الأهلية ↔ مدرسة الغصون الابتدائيه للبنات في ابو عظام |
-| line-4 | 47.3 km | 31 | 38 | مركز صحي الشاعورة ↔ Багдад |
-| line-5 | 47.9 km | 27 | 39 | مركز صحي الباجة جي ↔ مدرسة سكينة الابتدائية للبنات /الكرخ ٢ |
-| line-6 | 43.8 km | 26 | 36 | مجمع دار الشفاء الطبي ↔ line-6-0326-2070 |
-| line-7 | 44.9 km | 26 | 36 | line-7-1088-2164 ↔ مركز صحي سبع البور الجديد |
-| line-8 | 39.1 km | 22 | 32 | مجمع الأنوار الطبي ↔ معهد الحبيب لدروس التقوية |
-| line-9 | 105.7 km | 70 | 82 | اعدادية الشعلة للبنين ↔ اعدادية الشعلة للبنين |
+| line-1 | 47.9 km | 30 | 39 | W Outer ↔ E Mid |
+| line-2 | 47.0 km | 28 | 38 | N Outer ↔ S Mid |
+| line-3 | 46.5 km | 29 | 38 | SE Mid ↔ NW Mid |
+| line-4 | 47.3 km | 31 | 38 | NE Outer ↔ SW Mid |
+| line-5 | 47.9 km | 27 | 39 | NW Outer ↔ SW Mid |
+| line-6 | 43.8 km | 26 | 36 | S Mid ↔ NE Outer |
+| line-7 | 44.9 km | 26 | 36 | E Mid ↔ NW Outer |
+| line-8 | 39.1 km | 22 | 32 | E Outer ↔ SW Mid |
+| line-9 | 105.7 km | 70 | 82 | W Mid loop |
 | **Total** | **470.1 km** | **287 unique** | **378** | |
 
 ## Rolling stock
@@ -64,20 +66,73 @@ Corridor polylines + stations as GeoJSON for GIS tooling: [`baghdad.corridor.geo
 
 ## Catchment
 
-- City population: **7,500,000**
-- Anchor-weighted coverage: **37.0%** (`high_demand_coverage` metric in design-quality.yaml)
-- Catchment population: ≈ **2,775,000**
+- City population: **7,500,000** (within bbox of 3,162 km², gross density ≈ 2,372/km²)
+- Stations: **287** at 800 m walking radius ⇒ raw walkshed = 577 km²; overlap-discounted (30 %) = **404 km²**
+- Walkshed catchment population (gross density × walkshed): ≈ **958,069**
+- Anchor-weighted demand coverage: **37.0%** — share of OSM POI demand-weight reachable within the walkshed (`high_demand_coverage` metric in design-quality.yaml). Cross-check on the walkshed estimate: 37.0% of 7,500,000 = **2,775,000** demand-weighted catchment.
 
-## Civil cost (planning grade)
+## CAPEX (planning grade)
 
-From `[costs]` in `design.toml` — €/km × civil-mix lengths per RFC 0011 §9. Excludes rolling stock, stations, depots, and integration.
+Base OECD rates — `country-costs.toml` applies the per-country labour/material multiplier downstream. Civil-mix figures are from `[costs]` in `design.toml` (RFC 0011 §9); systems and rolling-stock figures come from the catalogue rates baked into the README generator.
+
+### Civil works
 
 | Bucket | Value |
 |---|---|
-| At-grade (436.0 km) | €1.53 bn |
-| Elevated (32.4 km) | €582 M |
-| Elevated-interchange premium (21 sites) | €380 M |
-| **Civil total** | **€2.49 bn** |
+| At-grade (436.0 km @ €3.5 M/km) | €1.53 bn |
+| Elevated (32.4 km @ €18 M/km) | €582 M |
+| Elevated-interchange premium (21 sites @ €20 M) | €380 M |
+| **Civil subtotal** | **€2.49 bn** |
+
+### Stations
+
+At-grade construction per RFC 0010 archetype catalogue. Vertical circulation + canopy PV included.
+
+| Archetype | Count | Unit | Subtotal |
+|---|---|---|---|
+| `halt` | 7 | €1.5 M | €10 M |
+| `standard` | 130 | €8 M | €1.04 bn |
+| `major` | 77 | €12 M | €924 M |
+| `terminal` | 15 | €10 M | €150 M |
+| `depot-terminal` | 1 | €12 M | €12 M |
+| `interchange` | 4 | €18 M | €72 M |
+| **Stations subtotal** | | | **€2.65 bn** |
+
+### Depots
+
+| Archetype | Count | Unit | Subtotal |
+|---|---|---|---|
+| `main-heavy` | 1 | €150 M | €150 M |
+| `layup-minimal` | 15 | €15 M | €225 M |
+| **Depots subtotal** | | | **€375 M** |
+
+### Rolling stock
+
+| Item | Count | Unit | Subtotal |
+|---|---|---|---|
+| `metro-6car` (revenue + spare + cold reserve) | 378 | €18 M | €6.80 bn |
+
+### Systems
+
+| Item | Basis | Subtotal |
+|---|---|---|
+| Signalling / CBTC (RFC 0015 GoA 4) | 470.1 km × €1.5 M/km | €705 M |
+| Traction power (battery-electric, no OCS) | 470.1 km × €0.8 M/km | €376 M |
+| EPC integration + project management (10%) | on subtotal | €1.34 bn |
+
+### Total
+
+| Bucket | Value |
+|---|---|
+| Civil works | €2.49 bn |
+| Stations | €2.65 bn |
+| Depots | €375 M |
+| Rolling stock | €6.80 bn |
+| Signalling + power | €1.08 bn |
+| EPC overhead (10%) | €1.34 bn |
+| **CAPEX total** | **€14.74 bn** |
+| Per-route-km | €31 M / km |
+| Per-capita (city pop) | €1,964 / person |
 
 ## Quality gates
 
@@ -113,8 +168,8 @@ python -m osr_geo.cli --slug baghdad --bbox <S> <W> <N> <E>
 cargo run --release --bin osr-design -- \
     --slug baghdad --population 7500000 --country IQ \
     --sidecar .cache/osr-pipeline/rasters/baghdad.grid.json \
-    --out-dir designs/west-asia/Iraq/designs/west-asia/Iraq/Baghdad
+    --out-dir designs/west-asia/Iraq/Baghdad
 
 # 3. network map PNG
-python -m osr_scenario.render_map --design designs/west-asia/Iraq/designs/west-asia/Iraq/Baghdad/design.toml
+python -m osr_scenario.render_map --design designs/west-asia/Iraq/Baghdad/design.toml
 ```
