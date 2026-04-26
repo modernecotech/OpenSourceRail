@@ -430,12 +430,62 @@ class RasterBundle:
         )
 
 
+def _resolve_population_layer(
+    country: str,
+    pop_cache_dir: Path | None,
+    bbox: BBox,
+    grid: GridRef,
+) -> np.ndarray | None:
+    """Fetch + sample the WorldPop population raster onto the grid.
+
+    Centralised here (rather than in the CLI) so the population
+    raster shares grid dimensions with the demand surface
+    cell-for-cell — earlier independent dimension math drifted by
+    ±1 cell and broke array broadcasting.
+    """
+    if pop_cache_dir is None:
+        pop_cache_dir = Path.home() / ".cache" / "osr-pipeline" / "population"
+    try:
+        from .population import (
+            fetch_population_raster,
+            population_demand_layer,
+            sample_population_into_grid,
+        )
+    except ImportError:
+        return None
+    raster_path = fetch_population_raster(country, pop_cache_dir)
+    if raster_path is None:
+        return None
+    try:
+        pop = sample_population_into_grid(
+            raster_path,
+            bbox.south, bbox.west, bbox.north, bbox.east,
+            grid.height, grid.width,
+        )
+    except ImportError:
+        return None
+    sigma_cells = DEMAND_RADIUS_M / grid.cell_m
+    layer = population_demand_layer(pop, sigma_cells)
+    return layer if layer.size > 0 and layer.max() > 0 else None
+
+
 def rasterize_city(
     city: CityOSM,
     cell_m: float = DEFAULT_CELL_M,
     population_layer: np.ndarray | None = None,
+    country: str | None = None,
+    pop_cache_dir: Path | None = None,
 ) -> RasterBundle:
     grid = _grid_ref(city.bbox, cell_m)
+    # Optionally fetch + sample the WorldPop residential-population
+    # layer here so it shares the grid_ref dimensions exactly. Without
+    # this layer the demand surface ignores residential neighbourhoods
+    # and lines miss population centres that have no mapped POI cluster
+    # (universities / hospitals) — operator-flagged 2026-04-26.
+    if population_layer is None and country is not None:
+        population_layer = _resolve_population_layer(
+            country, pop_cache_dir, city.bbox, grid
+        )
     cost = build_cost_surface(city, grid)
     demand = build_demand_surface(city, grid, population_layer=population_layer)
     buildability = build_buildability_mask(cost)

@@ -128,6 +128,19 @@ ANCHOR_RULES: list[tuple[str, str, float]] = [
     ("leisure", "stadium", 0.5),
     ("shop", "mall", 0.6),
     ("tourism", "attraction", 0.3),
+    # Airports — major commute generators, especially in capital cities.
+    # Baghdad International (BIAP) was previously unreachable because no
+    # POI tag in this list matched aeroway features.
+    ("aeroway", "aerodrome", 1.0),
+    ("aeroway", "terminal", 0.9),
+    # Residential / suburban catchment — `place=neighbourhood` and
+    # `place=suburb` are how OSM labels named residential districts.
+    # Without these the demand surface relied on hospitals + universities
+    # alone and missed populated suburbs (the "many urban areas not
+    # connected" failure mode flagged 2026-04-26).
+    ("place", "suburb", 0.7),
+    ("place", "neighbourhood", 0.6),
+    ("place", "town", 0.8),
 ]
 
 

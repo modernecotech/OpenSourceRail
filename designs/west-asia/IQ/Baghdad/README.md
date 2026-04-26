@@ -17,13 +17,13 @@ Corridor polylines + stations as GeoJSON for GIS / alignment tooling: [`baghdad.
 | Metric | Value |
 |---|---|
 | Lines | 9 |
-| Unique stations | 201 |
-| Interchange stations | 61 |
+| Unique stations | 209 |
+| Interchange stations | 63 |
 | Multi-line transfer reachability | 0% (line-pairs sharing ≥ 1 station) |
-| Anchor-weighted coverage | 46.5% |
-| Route length (double track) | 448.2 km |
+| Anchor-weighted coverage | 46.8% |
+| Route length (double track) | 449.9 km |
 | Revenue fleet | 323 × 6-car trainsets |
-| Spare + cold-reserve | 39 × 6-car trainsets |
+| Spare + cold-reserve | 38 × 6-car trainsets |
 | Peak headway | 5 min |
 | Service hours | 05:30 – 23:30 (≈ 18 h/day) |
 
@@ -33,16 +33,16 @@ Corridor polylines + stations as GeoJSON for GIS / alignment tooling: [`baghdad.
 
 | Line | Length | Stations | Trainsets | Termini |
 |---|---|---|---|---|
-| line-1 | 47.1 km | 22 | 38 | S Outer ↔ N Mid |
+| line-1 | 47.2 km | 21 | 38 | N Mid ↔ S Outer |
 | line-2 | 47.9 km | 22 | 39 | SE Mid ↔ NW Outer |
-| line-3 | 40.9 km | 20 | 34 | NE Outer ↔ SE Mid |
-| line-4 | 39.0 km | 22 | 31 | NE Mid ↔ W Mid |
-| line-5 | 41.0 km | 16 | 34 | E Mid ↔ W Mid |
-| line-6 | 43.0 km | 18 | 35 | NW Outer ↔ SE Mid |
-| line-7 | 45.6 km | 16 | 37 | SW Outer ↔ N Mid |
-| line-8 | 43.8 km | 22 | 36 | E Outer ↔ W Mid |
-| line-9 | 99.8 km | 44 | 78 | NW Mid ↔ NW Mid |
-| **Total** | **448.2 km** | **201 unique** | **362** | |
+| line-3 | 41.2 km | 22 | 34 | SE Mid ↔ NE Outer |
+| line-4 | 39.0 km | 22 | 31 | W Mid ↔ NE Mid |
+| line-5 | 46.9 km | 23 | 38 | W Mid ↔ E Outer |
+| line-6 | 40.4 km | 18 | 32 | SE Mid ↔ NW Mid |
+| line-7 | 41.8 km | 17 | 34 | E Mid ↔ SW Outer |
+| line-8 | 45.4 km | 16 | 37 | SW Outer ↔ N Mid |
+| line-9 | 100.2 km | 49 | 78 | NW Mid ↔ NW Mid |
+| **Total** | **449.9 km** | **209 unique** | **361** | |
 
 ## Rolling stock
 
@@ -60,13 +60,13 @@ Corridor polylines + stations as GeoJSON for GIS / alignment tooling: [`baghdad.
 - **Peak capacity per line per direction:** 900 × 12 = **10,800 pphpd**
 - **Network peak throughput (all lines, both directions):** 9 lines × 2 directions × 10,800 = **194,400 passengers/hour**
 - **Daily theoretical capacity (peak × 10):** ≈ **1,944,000 passenger-trips/day**
-- **Practical daily ridership estimate** (10–15 % of catchment): ≈ **454,789 – 682,184 trips/day**
+- **Practical daily ridership estimate** (10–15 % of catchment): ≈ **457,724 – 686,586 trips/day**
 
 ## Catchment
 
 - City population: **9,780,429**
-- Anchor-weighted coverage: 46.5%
-- Catchment population: **≈ 4,547,899** (within ~800 m walk of a station)
+- Anchor-weighted coverage: 46.8%
+- Catchment population: **≈ 4,577,240** (within ~800 m walk of a station)
 
 ## Energy infrastructure (solar + battery)
 
@@ -75,13 +75,13 @@ On-site trackside + depot PV and battery storage. Per-tier sizing (from [`../../
 | Tier | Sites | PV each | Battery each |
 |---|---|---|---|
 | Depot-Main | 1 | 5000 kW | 40000 kWh |
-| Interchange | 61 | 500 kW | 3000 kWh |
-| Major | 55 | 400 kW | 2500 kWh |
-| Standard | 75 | 300 kW | 2000 kWh |
+| Interchange | 63 | 500 kW | 3000 kWh |
+| Major | 48 | 400 kW | 2500 kWh |
+| Standard | 76 | 300 kW | 2000 kWh |
 | Terminal | 15 | 500 kW | 3000 kWh |
-| **Total installed** | **207** | **87,500 kW** | **555,500 kWh** |
+| **Total installed** | **203** | **86,000 kW** | **546,000 kWh** |
 
-Aggregate station-rail charging power: **74,000 kW**. Trains opportunity-charge during station dwell per RFC 0002; onboard 720 kWh battery covers running.
+Aggregate station-rail charging power: **71,500 kW**. Trains opportunity-charge during station dwell per RFC 0002; onboard 720 kWh battery covers running.
 
 ## CAPEX (planning grade)
 
@@ -91,10 +91,10 @@ All figures come from the `[costs]` block in `design.toml` — emitted by the `o
 
 | Bucket | Value |
 |---|---|
-| At-grade (414.8 km @ €3.5 M/km) | €1.45 bn |
-| Elevated (31.8 km @ €18 M/km) | €572 M |
-| Elevated-interchange premium (22 sites @ €20 M) | €440 M |
-| **Civil subtotal** | **€2.46 bn** |
+| At-grade (410.6 km @ €3.5 M/km) | €1.44 bn |
+| Elevated (37.5 km @ €18 M/km) | €675 M |
+| Elevated-interchange premium (26 sites @ €20 M) | €520 M |
+| **Civil subtotal** | **€2.63 bn** |
 
 ### Stations
 
@@ -103,13 +103,13 @@ Prefab portal-frame canopy + factory-bonded PV sandwich panel (RFC 0010 §3, ~11
 | Archetype | Count | Unit | Subtotal |
 |---|---|---|---|
 | `halt` | 7 | €0.4 M | €2.8 M |
-| `standard` | 74 | €1.5 M | €111 M |
-| `major` | 44 | €3.0 M | €132 M |
+| `standard` | 76 | €1.5 M | €114 M |
+| `major` | 48 | €3.0 M | €144 M |
 | `terminal` | 15 | €2.5 M | €38 M |
 | `depot-terminal` | 1 | €3.0 M | €3.0 M |
-| `interchange` | 5 | €4.5 M | €22 M |
-| `interchange-elevated` | 56 | €4.5 M | €252 M |
-| **Stations subtotal** | | | **€561 M** |
+| `interchange` | 4 | €4.5 M | €18 M |
+| `interchange-elevated` | 59 | €4.5 M | €266 M |
+| **Stations subtotal** | | | **€585 M** |
 
 ### Depots
 
@@ -127,29 +127,29 @@ Per-trainset BOM at OSR-discipline pricing: commodity Na-ion cells (~$80/kWh, RF
 
 | Item | Count | Unit | Subtotal |
 |---|---|---|---|
-| `metro-6car` (revenue + spare + cold reserve) | 362 | €4.5 M | €1.63 bn |
+| `metro-6car` (revenue + spare + cold reserve) | 361 | €4.5 M | €1.62 bn |
 
 ### Systems
 
 | Item | Basis | Subtotal |
 |---|---|---|
-| Signalling (open-source CBTC on commodity SBCs, RFC 0019) | 448.2 km × €0.4 M/km | €179 M |
-| Traction power (distributed PV + Na-ion, no OCS, RFC 0002) | 448.2 km × €0.8 M/km | €357 M |
-| EPC integration + project management (7%) | on subtotal | €368 M |
+| Signalling (open-source CBTC on commodity SBCs, RFC 0019) | 449.9 km × €0.4 M/km | €179 M |
+| Traction power (distributed PV + Na-ion, no OCS, RFC 0002) | 449.9 km × €0.8 M/km | €358 M |
+| EPC integration + project management (7%) | on subtotal | €381 M |
 
 ### Total
 
 | Bucket | Value |
 |---|---|
-| Civil works | €2.46 bn |
-| Stations | €561 M |
+| Civil works | €2.63 bn |
+| Stations | €585 M |
 | Depots | €70 M |
-| Rolling stock | €1.63 bn |
-| Signalling + power | €536 M |
-| EPC overhead (7%) | €368 M |
-| **CAPEX total** | **€5.63 bn** |
+| Rolling stock | €1.62 bn |
+| Signalling + power | €538 M |
+| EPC overhead (7%) | €381 M |
+| **CAPEX total** | **€5.83 bn** |
 | Per-route-km | €13 M / km |
-| Per-capita (city pop) | €575 / person |
+| Per-capita (city pop) | €596 / person |
 
 ## Funding & affordability
 
@@ -159,21 +159,21 @@ Planning-grade financing model anchored to country financial parameters from [`l
 
 | Tranche | Share | Principal | Rate | Tenor | Annual debt service (post-grace) |
 |---|---|---|---|---|---|
-| Multilateral concessional loan (IBRD / AfDB / ADB class) | 60% | €3.38 bn | 4.0% | 25 y, 5 y grace | €248 M / yr |
-| Sovereign bonds (10-y benchmark + project) | 25% | €1.41 bn | 8.5% | 25 y, 5 y grace | €149 M / yr |
-| Government equity (no debt service) | 15% | €844 M | — | — | — |
-| **Total** | **100%** | **€5.63 bn** | | | **€397 M / yr** |
+| Multilateral concessional loan (IBRD / AfDB / ADB class) | 60% | €3.50 bn | 4.0% | 25 y, 5 y grace | €257 M / yr |
+| Sovereign bonds (10-y benchmark + project) | 25% | €1.46 bn | 8.5% | 25 y, 5 y grace | €154 M / yr |
+| Government equity (no debt service) | 15% | €875 M | — | — | — |
+| **Total** | **100%** | **€5.83 bn** | | | **€411 M / yr** |
 
 ### Annual OPEX (steady state)
 
 | Component | Basis | Annual cost |
 |---|---|---|
 | Rolling-stock maintenance | 4 % of rolling-stock CAPEX | €65 M |
-| Civil + station + depot maintenance | 2 % of fixed-asset CAPEX | €62 M |
-| Signalling + comms maintenance | 5 % of signalling CAPEX | €8.9 M |
-| Traction energy + station HVAC | ~7004.5 M car-km × 4 kWh × €0.10 | €2.80 bn |
+| Civil + station + depot maintenance | 2 % of fixed-asset CAPEX | €66 M |
+| Signalling + comms maintenance | 5 % of signalling CAPEX | €9.0 M |
+| Traction energy + station HVAC | ~7031.1 M car-km × 4 kWh × €0.10 | €2.81 bn |
 | Labour (1,209 FTE) | country median × 12 × engineer-premium 1.6 | €8.1 M |
-| **OPEX subtotal** | | **€2.95 bn / yr** |
+| **OPEX subtotal** | | **€2.96 bn / yr** |
 
 ### Ticket pricing anchored to median income
 
@@ -197,7 +197,7 @@ Practical-ridership bracket = 5–10 % of urban population × 280 service-days. 
 | Farebox / OPEX recovery | 3% | 5% |
 | Country target recovery | 45% | 45% |
 | Operating subsidy needed | €1.25 bn / yr | €1.17 bn / yr |
-| **Total annual government burden** | **€1.64 bn / yr** | **€1.56 bn / yr** |
+| **Total annual government burden** | **€1.66 bn / yr** | **€1.58 bn / yr** |
 
 **Caveats:** The funding-stack 60/25/15 split, the 5 % income-share affordability target, and the 5–10 % daily-pax bracket are project-level defaults. Real deployments will negotiate the share with the financing institutions and will tune fares iteratively from boarding data. Treat the numbers above as a first-iteration sanity check, not as a bid-ready financial close.
 

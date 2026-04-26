@@ -76,7 +76,10 @@ population_source       = "Iraq 2024 General Population Census; via citypopulati
 population_source_year  = 2024
 climate                 = "hot-desert"
 profile                 = "mega-city-desert"
-bbox                    = { south = 33.20, west = 44.20, north = 33.45, east = 44.55 }
+# Bbox extended south + east 2026-04-26 to cover Basmaya New City
+# (~33.18 °N, 44.62 °E — was clipped at the SE corner) and the
+# Diyala-side suburbs SE of Al-Madain.
+bbox                    = { south = 33.05, west = 44.20, north = 33.50, east = 44.75 }
 
 [[cities]]
 slug                    = "tunis"

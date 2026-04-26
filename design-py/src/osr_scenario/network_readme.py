@@ -147,7 +147,7 @@ def compute_stats(
     unique_stations = {s["id"] for s in design.get("stations", [])}
     interchange_count = sum(
         1 for s in design.get("stations", [])
-        if s.get("archetype") == "interchange"
+        if s.get("archetype") in ("interchange", "interchange-elevated")
     )
 
     # Transfer reachability.
@@ -249,6 +249,287 @@ _FAMILY_CAPACITY_FALLBACK: dict[str, int] = {
     "metro-4car": 540,
     "metro-6car": 900,
 }
+
+
+def _load_country_finance(country: str) -> dict:
+    """Read country financial parameters from
+    `lib/templates/country-finance.toml`. Falls back to the `XX`
+    middle-income default if the country isn't listed."""
+    here = Path(__file__).resolve()
+    for parent in here.parents:
+        candidate = parent / "lib/templates/country-finance.toml"
+        if candidate.exists():
+            try:
+                doc = tomllib.loads(candidate.read_text())
+                table = doc.get("countries", {})
+                if country.upper() in table:
+                    return table[country.upper()]
+                return table.get("XX", {})
+            except Exception:
+                break
+            break
+    return {}
+
+
+def _funding_and_affordability_section(
+    design: dict, costs: dict, stats: NetworkStats
+) -> list[str]:
+    """Emit the `## Funding & affordability` section: CAPEX funding
+    stack (multilateral + sovereign + equity), annual OPEX, ticket
+    pricing anchored to median income, and farebox-recovery shortfall.
+
+    Pure function of the costs block + country-finance config — no
+    network calls. Designed so any new city listed in
+    `lib/city-batches/world-sample.toml` automatically gets a finance
+    section without code changes.
+    """
+    fin = _load_country_finance(stats.country_iso)
+    if not fin:
+        return []
+
+    total_eur = float(costs.get("total_eur", 0.0))
+    if total_eur <= 0:
+        return []
+
+    # Funding stack — three-tranche default that mirrors how IBRD /
+    # AfDB / ADB-financed urban-rail projects in target regions are
+    # actually capitalised. Multilateral + sovereign-bond + equity
+    # split is parametrised here so deployments can override per the
+    # specific MoU.
+    multi_frac = 0.60
+    bond_frac = 0.25
+    equity_frac = 0.15
+    multi_eur = total_eur * multi_frac
+    bond_eur = total_eur * bond_frac
+    equity_eur = total_eur * equity_frac
+
+    multi_rate = float(fin.get("multilateral_loan_rate", 0.045))
+    bond_rate = float(fin.get("sovereign_bond_rate", 0.07))
+    tenor = int(fin.get("loan_tenor_years", 25))
+    grace = int(fin.get("capex_grace_years", 5))
+
+    # Level annual debt service after grace, simple amortisation.
+    def _annuity(principal: float, rate: float, years: int) -> float:
+        if rate <= 0:
+            return principal / max(years, 1)
+        a = (1 - (1 + rate) ** -years)
+        return principal * rate / a if a > 0 else principal / max(years, 1)
+
+    multi_annuity = _annuity(multi_eur, multi_rate, tenor - grace)
+    bond_annuity = _annuity(bond_eur, bond_rate, tenor - grace)
+    annual_debt_service_eur = multi_annuity + bond_annuity
+
+    # OPEX model. Components, all in EUR / year:
+    #   • rolling-stock maintenance     — 4 % of rolling-stock CAPEX/yr
+    #   • civil + station maintenance   — 2 % of (civil+stations+depots)/yr
+    #   • signalling + power maintenance — 5 % of signalling/yr (fast cycles)
+    #   • energy                        — 4 kWh/car-km × stat
+    #   • labour                        — derived from headcount × salary
+    rs_maint = 0.04 * float(costs.get("rolling_stock_eur", 0.0))
+    civil_maint = 0.02 * (
+        float(costs.get("civil_subtotal_eur", 0.0))
+        + float(costs.get("stations_eur", 0.0))
+        + float(costs.get("depots_eur", 0.0))
+    )
+    sig_maint = 0.05 * float(costs.get("signalling_eur", 0.0))
+    # Energy: ~4 kWh/car-km, ~280 service-days/year, 2 cycles/day at
+    # peak-equivalent — call it 0.6 × theoretical max so the figure
+    # doesn't double-count off-peak savings.
+    consist_cars = stats.consist_cars
+    revenue_trainsets = stats.revenue_fleet
+    annual_train_km = (
+        revenue_trainsets * stats.route_km * 2.0  # round-trip
+        * 24.0  # ~24 round-trips/day at 5-min headway × ~2 h cycle
+        * 280.0
+        * 0.6
+    )
+    annual_car_km = annual_train_km * consist_cars
+    energy_eur = annual_car_km * 4.0 * 0.10  # 4 kWh/car-km × €0.10/kWh
+    # Labour — RFC 0014 §4 staffing typical for an OSR fleet:
+    #   ~3 maintainers per trainset + 1 dispatcher per 2 lines + 4
+    #   station-staff per terminus + 8 OCC operators (24/7 × 2). Use
+    #   country-median × 12 as the unit cost (engineers paid ~3×
+    #   median, station staff ~1× — averages out close to median).
+    headcount = (
+        revenue_trainsets * 3
+        + max(stats.line_count // 2, 1) * 8  # 24/7 dispatcher cover
+        + stats.depot_count * 12
+        + 16  # OCC + admin core
+    )
+    monthly_income = float(fin.get("median_monthly_income_usd", 600))
+    labour_usd = headcount * monthly_income * 12 * 1.6  # × 1.6 for engineer premium
+    labour_eur = labour_usd * 0.92  # rough USD→EUR
+
+    annual_opex_eur = rs_maint + civil_maint + sig_maint + energy_eur + labour_eur
+
+    # Affordability-anchored ticket pricing.
+    #   • Monthly pass priced at 5 % of country median monthly income.
+    #   • Single trip = 1/30 of monthly pass (assumes ~60 trips/month
+    #     for a daily commuter, monthly pass is a 50 % bulk discount).
+    target_monthly_pass_usd = 0.05 * monthly_income
+    target_trip_usd = target_monthly_pass_usd / 30.0
+    target_trip_eur = target_trip_usd * 0.92
+
+    # Farebox revenue at affordability price, given network capacity.
+    # Daily theoretical at 10 % daily realisation × 280 service days:
+    daily_pax_low = 0.05 * stats.population
+    daily_pax_high = 0.10 * stats.population
+    annual_pax_low = daily_pax_low * 280
+    annual_pax_high = daily_pax_high * 280
+    farebox_low_eur = annual_pax_low * target_trip_eur
+    farebox_high_eur = annual_pax_high * target_trip_eur
+
+    target_recovery = float(fin.get("farebox_recovery_target", 0.5))
+
+    def _eur(v: float) -> str:
+        if v >= 1e9:
+            return f"€{v / 1e9:.2f} bn"
+        if v >= 1e7:
+            return f"€{v / 1e6:.0f} M"
+        if v >= 1e6:
+            return f"€{v / 1e6:.1f} M"
+        return f"€{v / 1e3:.0f} k"
+
+    out: list[str] = []
+    out.append("## Funding & affordability\n")
+    out.append(
+        "Planning-grade financing model anchored to country financial "
+        "parameters from "
+        "[`lib/templates/country-finance.toml`](../../../lib/templates/country-finance.toml). "
+        "Pure function of the [costs] block above + the country code — "
+        "regenerate by re-running `scripts/regenerate-city.sh "
+        f"{stats.city_name.split()[0].lower()}`.\n"
+    )
+
+    out.append("### CAPEX funding stack\n")
+    out.append("| Tranche | Share | Principal | Rate | Tenor | Annual debt service (post-grace) |")
+    out.append("|---|---|---|---|---|---|")
+    out.append(
+        f"| Multilateral concessional loan (IBRD / AfDB / ADB class) | "
+        f"{multi_frac:.0%} | {_eur(multi_eur)} | {multi_rate:.1%} | "
+        f"{tenor} y, {grace} y grace | {_eur(multi_annuity)} / yr |"
+    )
+    out.append(
+        f"| Sovereign bonds (10-y benchmark + project) | "
+        f"{bond_frac:.0%} | {_eur(bond_eur)} | {bond_rate:.1%} | "
+        f"{tenor} y, {grace} y grace | {_eur(bond_annuity)} / yr |"
+    )
+    out.append(
+        f"| Government equity (no debt service) | "
+        f"{equity_frac:.0%} | {_eur(equity_eur)} | — | — | — |"
+    )
+    out.append(
+        f"| **Total** | **100%** | **{_eur(total_eur)}** | | | "
+        f"**{_eur(annual_debt_service_eur)} / yr** |\n"
+    )
+
+    out.append("### Annual OPEX (steady state)\n")
+    out.append("| Component | Basis | Annual cost |")
+    out.append("|---|---|---|")
+    out.append(
+        f"| Rolling-stock maintenance | 4 % of rolling-stock CAPEX | "
+        f"{_eur(rs_maint)} |"
+    )
+    out.append(
+        f"| Civil + station + depot maintenance | 2 % of fixed-asset CAPEX | "
+        f"{_eur(civil_maint)} |"
+    )
+    out.append(
+        f"| Signalling + comms maintenance | 5 % of signalling CAPEX | "
+        f"{_eur(sig_maint)} |"
+    )
+    out.append(
+        f"| Traction energy + station HVAC | "
+        f"~{annual_car_km / 1e6:.1f} M car-km × 4 kWh × €0.10 | "
+        f"{_eur(energy_eur)} |"
+    )
+    out.append(
+        f"| Labour ({headcount:,} FTE) | "
+        f"country median × 12 × engineer-premium 1.6 | "
+        f"{_eur(labour_eur)} |"
+    )
+    out.append(
+        f"| **OPEX subtotal** | | **{_eur(annual_opex_eur)} / yr** |\n"
+    )
+
+    out.append("### Ticket pricing anchored to median income\n")
+    out.append(
+        f"Country median monthly income: **${monthly_income:,.0f} USD** "
+        f"(per [`lib/templates/country-finance.toml`](../../../lib/templates/country-finance.toml)). "
+        f"Target affordability: monthly unlimited pass at 5 % of "
+        f"median income → single-trip price set by the 30:1 pass / trip "
+        f"ratio used by every operator in the affordability literature "
+        f"(STIB, Delhi Metro, Cairo Metro).\n"
+    )
+    out.append("| Product | Price target |")
+    out.append("|---|---|")
+    out.append(
+        f"| Single-trip fare | "
+        f"€{target_trip_eur:.2f} (~${target_trip_usd:.2f} USD) |"
+    )
+    out.append(
+        f"| Day pass (3 trips) | "
+        f"€{(target_trip_eur * 3 * 0.85):.2f} (15 % bulk discount) |"
+    )
+    out.append(
+        f"| Monthly unlimited pass | "
+        f"€{(target_monthly_pass_usd * 0.92):.2f} (~5 % of median monthly income) |"
+    )
+    out.append(
+        f"| Annual pass | "
+        f"€{(target_monthly_pass_usd * 0.92 * 11):.2f} (10 × monthly = ~1 free month) |\n"
+    )
+
+    out.append("### Farebox & operating subsidy\n")
+    out.append(
+        f"Practical-ridership bracket = 5–10 % of urban population × "
+        f"280 service-days. At the affordability-anchored fare:\n"
+    )
+    out.append("| | Low scenario | High scenario |")
+    out.append("|---|---|---|")
+    out.append(
+        f"| Annual paid trips | {annual_pax_low / 1e6:,.1f} M | "
+        f"{annual_pax_high / 1e6:,.1f} M |"
+    )
+    out.append(
+        f"| Farebox revenue | {_eur(farebox_low_eur)} / yr | "
+        f"{_eur(farebox_high_eur)} / yr |"
+    )
+    out.append(
+        f"| Farebox / OPEX recovery | "
+        f"{(farebox_low_eur / annual_opex_eur):.0%} | "
+        f"{(farebox_high_eur / annual_opex_eur):.0%} |"
+    )
+    out.append(
+        f"| Country target recovery | "
+        f"{target_recovery:.0%} | {target_recovery:.0%} |"
+    )
+    target_revenue = target_recovery * annual_opex_eur
+    operating_subsidy_low = max(0.0, target_revenue - farebox_low_eur)
+    operating_subsidy_high = max(0.0, target_revenue - farebox_high_eur)
+    out.append(
+        f"| Operating subsidy needed | "
+        f"{_eur(operating_subsidy_low)} / yr | "
+        f"{_eur(operating_subsidy_high)} / yr |"
+    )
+    debt_subsidy_low = annual_debt_service_eur + operating_subsidy_low
+    debt_subsidy_high = annual_debt_service_eur + operating_subsidy_high
+    out.append(
+        f"| **Total annual government burden** | "
+        f"**{_eur(debt_subsidy_low)} / yr** | "
+        f"**{_eur(debt_subsidy_high)} / yr** |\n"
+    )
+
+    out.append(
+        "**Caveats:** The funding-stack 60/25/15 split, the 5 % "
+        "income-share affordability target, and the 5–10 % daily-pax "
+        "bracket are project-level defaults. Real deployments will negotiate "
+        "the share with the financing institutions and will tune fares "
+        "iteratively from boarding data. Treat the numbers above as a "
+        "first-iteration sanity check, not as a bid-ready financial close.\n"
+    )
+
+    return out
 
 
 def _coverage_from_quality_yaml(design_path: Path) -> float:
@@ -503,14 +784,13 @@ def render_readme(
         f"catalog at [`lib/city-batches/world-sample.toml`]({rel('lib/city-batches/world-sample.toml')}).\n"
     )
 
-    out.append("## Network maps\n")
-    # Two complementary views, both auto-rendered by
-    # `osr_scenario.render_map`: the full view (every suburban line
-    # out to each terminus) + the urban core (fixed 8 km radius
-    # around the design centre). Both live in this folder.
-    out.append("### Suburban / regional map — full network\n")
+    out.append("## Network map\n")
+    # Single auto-fit map of the whole network, rendered by
+    # `osr_scenario.render_map`. (An earlier "inner-core detail"
+    # variant was retired — the auto-fit map covers the same ground
+    # without needing a second file.)
     out.append(
-        f"![{stats.city_name} full rail network including suburban lines]"
+        f"![{stats.city_name} rail network on OpenStreetMap]"
         f"({screenshot_slug}-network-map.png)\n"
     )
     out.append(
@@ -518,17 +798,6 @@ def render_readme(
         "edge, forced-coverage suburbs, and the ring line if "
         "present. Auto-fit zoom based on the network's actual "
         "bounding box.*\n"
-    )
-    out.append(f"### Inner-{stats.city_name.split(' ')[-1]} map — urban core detail\n")
-    out.append(
-        f"![{stats.city_name} urban-core detail — central district]"
-        f"({screenshot_slug}-network-map-detail.png)\n"
-    )
-    out.append(
-        "*8 km radius around the city centre at a legible street-"
-        "grid zoom. Shows interchange density, central-business-"
-        "district stations, and where the radial lines converge on "
-        "the hub.*\n"
     )
     out.append(
         f"Corridor polylines + stations as GeoJSON for GIS / "
@@ -662,6 +931,10 @@ def render_readme(
     rust_costs = design.get("costs")
     if rust_costs:
         out.extend(_rich_capex_section(design, rust_costs, stats))
+        # Funding & affordability section — CAPEX funding stack, annual
+        # OPEX estimate, ticket pricing anchored to country median
+        # income. Reads `lib/templates/country-finance.toml`.
+        out.extend(_funding_and_affordability_section(design, rust_costs, stats))
         # Skip the per-unit fallback section below; jump to "## Files".
         return _finalise_readme(
             out, design_path, scenario_path, stats, screenshot_slug, rel
@@ -771,17 +1044,22 @@ def _finalise_readme(
     out.append(
         f"| [`{screenshot_slug}-network-map.png`]"
         f"({screenshot_slug}-network-map.png) "
-        "| City-wide network map |"
-    )
-    out.append(
-        f"| [`{screenshot_slug}-network-map-detail.png`]"
-        f"({screenshot_slug}-network-map-detail.png) "
-        "| Detail-zoom render |"
+        "| Auto-fit network map (rendered by `osr_scenario.render_map`) |"
     )
     out.append(
         f"| [`{screenshot_slug}.corridor.geojson`]"
         f"({screenshot_slug}.corridor.geojson) "
-        "| Line polylines + stations (GeoJSON) |\n"
+        "| Line polylines + stations (GeoJSON) |"
+    )
+    out.append(
+        f"| [`{screenshot_slug}.stations.json`]"
+        f"({screenshot_slug}.stations.json) "
+        "| Machine-readable station list |"
+    )
+    out.append(
+        f"| [`{screenshot_slug}.design-quality.yaml`]"
+        f"({screenshot_slug}.design-quality.yaml) "
+        "| Coverage / anchor-hit / civil-mix metrics + auto-gate result |\n"
     )
 
     out.append("## Reproducibility\n")

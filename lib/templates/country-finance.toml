@@ -1,0 +1,264 @@
+# Country financial parameters — used by `osr_scenario.network_readme`
+# to estimate CAPEX funding stack, annual OPEX, and affordability-
+# anchored ticket pricing.
+#
+# All values are 2024 indicative; refresh per deployment from the
+# country's central bank / national statistics office. Numbers are
+# baked into the README's `## Funding & affordability` section.
+#
+# ---------------------------------------------------------------------------
+# FIELDS
+# ---------------------------------------------------------------------------
+#   median_monthly_income_usd  — household median per-month income, USD.
+#                                Drives the affordability-anchored ticket
+#                                price (target: ≤ 5 % of monthly income
+#                                for an unlimited monthly pass).
+#   gni_per_capita_usd         — GNI per capita, World Bank Atlas method.
+#                                Used as a sanity cross-check.
+#   sovereign_bond_rate        — 10-year sovereign yield, decimal.
+#                                Drives bond-financed CAPEX cost.
+#   multilateral_loan_rate     — IBRD / AfDB / ADB blended rate (Libor+
+#                                margin), decimal. Drives multilateral-
+#                                financed CAPEX cost.
+#   capex_grace_years          — years of construction during which
+#                                principal isn't repaid (interest only).
+#   loan_tenor_years           — total tenor for multilateral + bond
+#                                tranches.
+#   farebox_recovery_target    — fraction of OPEX that fares should
+#                                recover (rest is operating subsidy).
+#                                Singapore MRT ≈ 1.0; London Tube ≈ 0.95;
+#                                Iraqi / sub-Saharan deployments more
+#                                typically 0.4–0.6 because affordability
+#                                is the binding constraint.
+#   currency                   — local currency ISO 4217 (carried for
+#                                downstream output formatting; FX is in
+#                                country-costs.toml).
+#
+# ---------------------------------------------------------------------------
+# DEFAULT FALLBACK
+# ---------------------------------------------------------------------------
+# Country code "XX" supplies values for any city whose country isn't
+# listed below — pick conservative middle-income figures so the README
+# generates a credible bracket rather than zeroes.
+
+[countries.XX]
+median_monthly_income_usd  = 600
+gni_per_capita_usd         = 7500
+sovereign_bond_rate        = 0.07
+multilateral_loan_rate     = 0.045
+capex_grace_years          = 5
+loan_tenor_years           = 25
+farebox_recovery_target    = 0.50
+currency                   = "USD"
+
+# ---- Middle East / North Africa --------------------------------------
+
+[countries.IQ]
+# Iraq — World Bank GNI/capita 2023, household income surveys via
+# Iraqi Central Statistical Organization (COSIT).
+median_monthly_income_usd  = 380
+gni_per_capita_usd         = 5400
+sovereign_bond_rate        = 0.085   # 2024 IBRD-rated USD bonds
+multilateral_loan_rate     = 0.040   # IBRD blended (Libor+1.5)
+capex_grace_years          = 5
+loan_tenor_years           = 25
+farebox_recovery_target    = 0.45
+currency                   = "IQD"
+
+[countries.EG]
+median_monthly_income_usd  = 260
+gni_per_capita_usd         = 3450
+sovereign_bond_rate        = 0.105
+multilateral_loan_rate     = 0.045
+capex_grace_years          = 5
+loan_tenor_years           = 25
+farebox_recovery_target    = 0.55
+currency                   = "EGP"
+
+[countries.MA]
+median_monthly_income_usd  = 410
+gni_per_capita_usd         = 3700
+sovereign_bond_rate        = 0.045
+multilateral_loan_rate     = 0.038
+capex_grace_years          = 5
+loan_tenor_years           = 25
+farebox_recovery_target    = 0.60
+currency                   = "MAD"
+
+[countries.TN]
+median_monthly_income_usd  = 350
+gni_per_capita_usd         = 3850
+sovereign_bond_rate        = 0.090
+multilateral_loan_rate     = 0.045
+capex_grace_years          = 5
+loan_tenor_years           = 25
+farebox_recovery_target    = 0.50
+currency                   = "TND"
+
+[countries.SA]
+median_monthly_income_usd  = 1700
+gni_per_capita_usd         = 27940
+sovereign_bond_rate        = 0.045
+multilateral_loan_rate     = 0.038
+capex_grace_years          = 5
+loan_tenor_years           = 25
+farebox_recovery_target    = 0.85
+currency                   = "SAR"
+
+# ---- Sub-Saharan Africa ----------------------------------------------
+
+[countries.KE]
+median_monthly_income_usd  = 230
+gni_per_capita_usd         = 2110
+sovereign_bond_rate        = 0.115
+multilateral_loan_rate     = 0.045
+capex_grace_years          = 7
+loan_tenor_years           = 30
+farebox_recovery_target    = 0.50
+currency                   = "KES"
+
+[countries.NG]
+median_monthly_income_usd  = 175
+gni_per_capita_usd         = 2160
+sovereign_bond_rate        = 0.135
+multilateral_loan_rate     = 0.045
+capex_grace_years          = 7
+loan_tenor_years           = 30
+farebox_recovery_target    = 0.45
+currency                   = "NGN"
+
+[countries.NE]
+median_monthly_income_usd  = 95
+gni_per_capita_usd         = 600
+sovereign_bond_rate        = 0.090   # WAEMU regional
+multilateral_loan_rate     = 0.030   # IDA-eligible
+capex_grace_years          = 10
+loan_tenor_years           = 35
+farebox_recovery_target    = 0.30
+currency                   = "XOF"
+
+[countries.ZA]
+median_monthly_income_usd  = 480
+gni_per_capita_usd         = 6750
+sovereign_bond_rate        = 0.105
+multilateral_loan_rate     = 0.045
+capex_grace_years          = 5
+loan_tenor_years           = 25
+farebox_recovery_target    = 0.55
+currency                   = "ZAR"
+
+# ---- South & Southeast Asia ------------------------------------------
+
+[countries.IN]
+median_monthly_income_usd  = 230
+gni_per_capita_usd         = 2390
+sovereign_bond_rate        = 0.072
+multilateral_loan_rate     = 0.040
+capex_grace_years          = 5
+loan_tenor_years           = 25
+farebox_recovery_target    = 0.55
+currency                   = "INR"
+
+[countries.BD]
+median_monthly_income_usd  = 195
+gni_per_capita_usd         = 2820
+sovereign_bond_rate        = 0.085
+multilateral_loan_rate     = 0.038
+capex_grace_years          = 7
+loan_tenor_years           = 30
+farebox_recovery_target    = 0.50
+currency                   = "BDT"
+
+[countries.ID]
+median_monthly_income_usd  = 320
+gni_per_capita_usd         = 4580
+sovereign_bond_rate        = 0.067
+multilateral_loan_rate     = 0.040
+capex_grace_years          = 5
+loan_tenor_years           = 25
+farebox_recovery_target    = 0.60
+currency                   = "IDR"
+
+[countries.PH]
+median_monthly_income_usd  = 360
+gni_per_capita_usd         = 3950
+sovereign_bond_rate        = 0.062
+multilateral_loan_rate     = 0.040
+capex_grace_years          = 5
+loan_tenor_years           = 25
+farebox_recovery_target    = 0.55
+currency                   = "PHP"
+
+# ---- Latin America ---------------------------------------------------
+
+[countries.MX]
+median_monthly_income_usd  = 575
+gni_per_capita_usd         = 10410
+sovereign_bond_rate        = 0.090
+multilateral_loan_rate     = 0.045
+capex_grace_years          = 5
+loan_tenor_years           = 25
+farebox_recovery_target    = 0.65
+currency                   = "MXN"
+
+[countries.BR]
+median_monthly_income_usd  = 525
+gni_per_capita_usd         = 9070
+sovereign_bond_rate        = 0.110
+multilateral_loan_rate     = 0.045
+capex_grace_years          = 5
+loan_tenor_years           = 25
+farebox_recovery_target    = 0.60
+currency                   = "BRL"
+
+[countries.CO]
+median_monthly_income_usd  = 360
+gni_per_capita_usd         = 6630
+sovereign_bond_rate        = 0.105
+multilateral_loan_rate     = 0.045
+capex_grace_years          = 5
+loan_tenor_years           = 25
+farebox_recovery_target    = 0.60
+currency                   = "COP"
+
+[countries.EC]
+median_monthly_income_usd  = 410
+gni_per_capita_usd         = 6310
+sovereign_bond_rate        = 0.095
+multilateral_loan_rate     = 0.045
+capex_grace_years          = 5
+loan_tenor_years           = 25
+farebox_recovery_target    = 0.55
+currency                   = "USD"
+
+# ---- Europe / Anglosphere --------------------------------------------
+
+[countries.FR]
+median_monthly_income_usd  = 2750
+gni_per_capita_usd         = 45860
+sovereign_bond_rate        = 0.030
+multilateral_loan_rate     = 0.030
+capex_grace_years          = 3
+loan_tenor_years           = 30
+farebox_recovery_target    = 0.65
+currency                   = "EUR"
+
+[countries.DE]
+median_monthly_income_usd  = 3250
+gni_per_capita_usd         = 53390
+sovereign_bond_rate        = 0.025
+multilateral_loan_rate     = 0.030
+capex_grace_years          = 3
+loan_tenor_years           = 30
+farebox_recovery_target    = 0.70
+currency                   = "EUR"
+
+[countries.US]
+median_monthly_income_usd  = 4750
+gni_per_capita_usd         = 76770
+sovereign_bond_rate        = 0.045
+multilateral_loan_rate     = 0.045
+capex_grace_years          = 3
+loan_tenor_years           = 30
+farebox_recovery_target    = 0.45
+currency                   = "USD"

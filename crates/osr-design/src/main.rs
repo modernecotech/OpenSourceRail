@@ -355,19 +355,36 @@ fn main() -> Result<()> {
     // tighter spacing (it's the slow tangential service) — applied
     // separately in `ring_spacing` below.
     let spacing = if budget.max_lines >= 4 {
+        // Megacity (Baghdad-class) radials are long-haul cross-city
+        // services. Bumped per the 2026-04-26 operator review: inner
+        // 1.5 km (slight loosening from 1.2 km core for trunk-metro
+        // ridership), transitional 3 km, outer **5 km** (commuter-rail
+        // spacing — Tokyo Chuo Rapid 1.9 km outer, Madrid Line 1
+        // 1.4–2.0 km, Cairo Line 3 1.5 km central / 2.5 km outer).
+        // Wider radial snap (25 cells = 500 m) so high-weight anchors
+        // up to half a city block off the routed corridor still get
+        // picked up as station sites.
         SpacingConfig {
             urban_core_m: 1500.0,
-            urban_m: 2000.0,
-            peri_urban_m: 2700.0,
-            // Wider radial snap (8 cells = 160 m) lifts anchor_hit on
-            // long megacity radials. With 1.5–2.7 km spacing each radial
-            // drops only ~25 stops over 40+ km, so the 6-cell default
-            // misses anchor clusters on the next block.
-            snap_radius_cells: 8,
+            urban_m: 3000.0,
+            peri_urban_m: 5000.0,
+            snap_radius_cells: 25,
             ..SpacingConfig::default()
         }
     } else {
-        SpacingConfig::default()
+        // Light-metro / tram-class networks (Samawah-class) — the
+        // default 1.2 km / 2 km / 4 km spacing from
+        // `SpacingConfig::default()` matches the operator brief
+        // (1.2 km inner, 2–5 km outer). Wider snap (25 cells = 500 m)
+        // so high-weight POI anchors (universities, hospitals)
+        // sitting half a block off the routed corridor still attach
+        // — the operator-flagged 2026-04-26 failure mode where
+        // Samawah's northern university + new hospitals were within
+        // 500–800 m of the line but no station landed on them.
+        SpacingConfig {
+            snap_radius_cells: 25,
+            ..SpacingConfig::default()
+        }
     };
     // Rings traverse the outer urban band where anchor density is sparser
     // and anchors are spread over wider street grids. The 6-cell (120 m)

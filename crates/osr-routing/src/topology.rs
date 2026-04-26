@@ -328,13 +328,33 @@ pub fn budget_for_population(pop: u64) -> GreedyBudget {
         300_001..=1_000_000 => GreedyBudget {
             max_lines: 3,
             max_total_route_m: 60_000.0,
-            min_coverage_per_km: 200.0,
+            // Drop min_coverage_per_km 200 → 80 cells/km 2026-04-26.
+            // The new sparser spacing (1.2 / 2 / 4 km) means the 2nd
+            // and 3rd radials cover incremental rather than primary
+            // demand — line-1 takes the highest-density chord and
+            // raises the bar; subsequent lines must still cover real
+            // population centres but at the *new-coverage* margin,
+            // not the absolute density of line-1. 80 cells/km =
+            // ~1.6 ha new walkshed per km, equivalent to one fresh
+            // residential block per station — the user's brief.
+            min_coverage_per_km: 80.0,
             coverage_radius_m: 600.0,
-            min_line_length_m: 8_000.0,
+            // Drop min_line_length 8 km → 5 km 2026-04-26 — the
+            // canonical 8 × 8 km bbox for a 374 k-pop city
+            // (Samawah-class) can't fit an 8 km line that **also**
+            // crosses the centre and reaches a peripheral anchor.
+            // 5 km matches the small-city band's floor and lets the
+            // 3rd radial pick a shorter outer chord instead of
+            // failing the whole synthesis.
+            min_line_length_m: 5_000.0,
             max_line_length_m: 22_000.0,
             min_anchor_weight: 0.15,
             top_k: 14,
-            coalesce_bin_cells: 60, // 1.2 km
+            // Tighter coalescing (60 → 40 cells, 1.2 km → 800 m).
+            // The population-aware demand layer surfaces residential
+            // anchor clusters that the looser bin merged into a
+            // single rep, hiding ~half of the real demand peaks.
+            coalesce_bin_cells: 40,
             bbox_margin_frac: 0.30,
         },
         1_000_001..=3_000_000 => GreedyBudget {
@@ -466,7 +486,9 @@ pub fn greedy_synthesize_lines(
     // this honest is what stops the radial loop from consuming the
     // whole route-km cap and starving the ring.
     let ring_length_estimate_m = if reserve_ring {
-        let ring_radius_cells = 0.55 * urban_r;
+        // Length-budget estimate uses 0.70 × urban_r — the midpoint
+        // of the (0.55, 0.85) outer-band the ring anchors land in.
+        let ring_radius_cells = 0.70 * urban_r;
         let chord_circumference_cells =
             2.0 * std::f32::consts::PI * ring_radius_cells;
         let detour_factor = 1.4_f32;
@@ -489,8 +511,15 @@ pub fn greedy_synthesize_lines(
         // dense central rim-gap chords forever and never reaches the
         // satellite suburbs that motivated metro planning in the first
         // place (Abu Ghraib, Taji for Baghdad).
-        let phase2_peripheral =
-            !lines.is_empty() && lines.len() >= budget.max_lines / 2;
+        //
+        // Small (≤ 3-line) networks skip the peripheral requirement
+        // — their bbox is too tight to populate the 0.9 × urban_r
+        // outer ring with enough anchor reps to satisfy the filter,
+        // and the cross_mask penalty already diversifies line picks
+        // when there are only 3 candidates to choose between.
+        let phase2_peripheral = budget.max_lines >= 4
+            && !lines.is_empty()
+            && lines.len() >= budget.max_lines / 2;
         // Min angular separation between radial endpoints. Only applied
         // for networks of ≥ 5 radials — below that the parallelism
         // penalty already suffices and a strict angular filter starves
@@ -519,12 +548,37 @@ pub fn greedy_synthesize_lines(
             // alternative without zeroing it out (so a parallel chord
             // is still a fallback if nothing else exists).
             parallelism_strength: 0.85,
-            // 60 cells = 1200 m: chords passing this close to the hub
-            // get routed two-leg via the hub rather than along the raw
-            // chord — this is what stops radials from "avoiding the
-            // city centre" when the post-routing hub-station snap
-            // would otherwise create a dogleg.
-            hub_proximity_cells: 2.0 * HUB_RADIUS_CELLS as f32,
+            // chords passing this close to the hub get routed two-leg
+            // via the hub rather than along the raw chord — this is
+            // what stops radials from "avoiding the city centre" and
+            // the post-routing hub-station snap from creating a dogleg.
+            //
+            // For ≤ 3-line networks (small cities like Samawah) every
+            // radial **must** converge on the centre or the network
+            // can't function as a hub-and-spoke — without this, the
+            // 3rd radial picks an outer-to-outer pair that bypasses
+            // the CBD entirely (the "superfluous green line" failure
+            // mode flagged by operator review 2026-04-26). Make the
+            // hub-attract radius cover the whole bounding-box on
+            // ≤ 3-line networks; for megacities the inherited 1200 m
+            // (2 × HUB_RADIUS) is enough because the ring + 4+
+            // radials already create dense centre coverage.
+            // For ≤ 3-line networks (small cities like Samawah)
+            // every radial **must** converge on the centre or the
+            // network is a set of disjoint orphans. The default
+            // 60-cell (1.2 km) proximity is too tight — chords with
+            // both endpoints in the same half-plane (e.g. SE Outer
+            // ↔ N Outer) pass 1.5–2.5 km from the hub and route
+            // direct, bypassing the CBD. Bumped to 150 cells (3 km)
+            // for small-line networks: covers any chord crossing
+            // the urban core, while still leaving genuinely
+            // peripheral chords routed direct on megacity radials
+            // (which already converge via the ring + 4+ siblings).
+            hub_proximity_cells: if budget.max_lines <= 3 {
+                150.0
+            } else {
+                2.0 * HUB_RADIUS_CELLS as f32
+            },
             // Endpoint-periphery cap: deepest-suburb chord gets a 2×
             // raw-score multiplier. Modest because phase2 already
             // hard-filters peripheral chords; this just ranks among
@@ -868,7 +922,39 @@ fn find_best_candidate(
             if raw <= 0.0 {
                 continue;
             }
-            let weight_bonus = 50.0 * (anchors[a].weight + anchors[b].weight);
+            // Endpoint-weight bonus. Bumped 50 → 400 (2026-04-26
+            // operator review): at 50 a residential chord
+            // (`place=neighbourhood`, w=0.6) ran 5–10 % more covered
+            // cells than a chord terminating at a top-tier POI
+            // (`amenity=university` / `amenity=hospital` / `aeroway=
+            // aerodrome`, w=0.9–1.0) and won by raw alone, so
+            // Samawah's northern university + new hospitals were
+            // skipped. At 400 the weight bonus (~720 for a w=0.9
+            // pair) is comparable to typical raw scores
+            // (500–1500 cells) so the algorithm balances
+            // residential coverage against serving headline demand
+            // generators.
+            // The weight bonus uses the maximum committed-network demand
+            // peak in the area as the unit. A high-weight pair
+            // (university + hospital, w=1.0+0.9) gets ~2.7×
+            // chord_coverage_score worth of bonus — enough to win
+            // against a residential-only chord whose raw coverage
+            // edged it out by 30 %, but not enough to overrule a
+            // chord that genuinely covers 5× the demand.
+            let weight_bonus = 1500.0 * (anchors[a].weight + anchors[b].weight);
+            // Anchor-density-along-chord factor: count high-weight
+            // anchors within the chord buffer and add their weight
+            // contribution so the algorithm rewards chords that
+            // string MULTIPLE top POIs together (university campus
+            // → adjacent hospital → CBD), not just chords whose two
+            // ENDPOINTS are high-weight. Without this, line-1 picked
+            // a north suburb because the chord between it and a south
+            // suburb covered more residential cells, even though a
+            // chord through the university campus would have served
+            // 4 hospitals + 1 university + 3 colleges.
+            let chord_anchor_score = anchor_density_along_chord(
+                anchors, a, b, ctx.urban_r,
+            );
             // Endpoint-periphery factor: rewards chords whose endpoints
             // sit beyond the urban core. Combined with phase-2 filtering,
             // this is what pulls late-stage lines out to satellite
@@ -890,7 +976,7 @@ fn find_best_candidate(
                 ctx.committed_chords,
                 ctx.parallel_proximity_cells,
             );
-            let score = (raw + weight_bonus)
+            let score = (raw + weight_bonus + chord_anchor_score)
                 * endpoint_factor
                 * (1.0 - ctx.parallelism_strength * parallel).max(0.05);
             prescored.push((a, b, score));
@@ -1674,6 +1760,85 @@ impl Anchor {
 ///   town at 2× urban_radius (score √2 ≈ 1.41) beats an urban-edge
 ///   anchor (score 1.0) but the bonus is bounded — a single isolated
 ///   POI 4× out doesn't dominate the line choice.
+/// Count high-weight POI anchors that fall within a buffered chord
+/// between `a` and `b` (excluding the endpoints themselves), weighted by
+/// each anchor's weight. Returns a score scaled to be comparable with
+/// the chord-coverage cell count: a buffer of ~600 m around the chord
+/// catching 4 hospital anchors (w=0.9) returns 4 × 0.9 × 200 = 720,
+/// roughly equivalent to ~720 covered demand cells. This keeps the
+/// algorithm honest about chords that "thread the needle" through
+/// multiple top demand generators (university campuses, hospital
+/// districts, the airport corridor) — it doesn't only count residential
+/// cell-density.
+fn anchor_density_along_chord(
+    anchors: &[Anchor],
+    a: usize,
+    b: usize,
+    urban_r: f32,
+) -> f32 {
+    // Buffer radius — match the typical station-walkshed (600 m at
+    // 20 m cells = 30 cells). Anchors further than this from the
+    // chord don't count.
+    const BUFFER_CELLS: f32 = 30.0;
+    // Weight-to-cell-count multiplier. 200 means a w=1.0 anchor on the
+    // chord is worth ~200 covered demand cells — comparable to a large
+    // anchor blob from the demand surface.
+    const WEIGHT_PER_HIT: f32 = 200.0;
+
+    let (ar, ac) = (anchors[a].row as f32, anchors[a].col as f32);
+    let (br, bc) = (anchors[b].row as f32, anchors[b].col as f32);
+    let chord_dr = br - ar;
+    let chord_dc = bc - ac;
+    let chord_len_sq = chord_dr * chord_dr + chord_dc * chord_dc;
+    if chord_len_sq < 1.0 {
+        return 0.0;
+    }
+    let chord_len = chord_len_sq.sqrt();
+
+    // Skip if the chord is shorter than a typical station walkshed —
+    // there isn't really a "buffer" worth scoring then.
+    if chord_len < BUFFER_CELLS {
+        return 0.0;
+    }
+    // Skip degenerate chords longer than the urban diameter.
+    if chord_len > 4.0 * urban_r {
+        return 0.0;
+    }
+
+    let mut score = 0.0_f32;
+    for (i, anchor) in anchors.iter().enumerate() {
+        if i == a || i == b {
+            continue;
+        }
+        if anchor.weight < 0.5 {
+            continue; // skip low-weight residential / minor anchors
+        }
+        let pr = anchor.row as f32 - ar;
+        let pc = anchor.col as f32 - ac;
+        // Project onto chord direction.
+        let proj = (pr * chord_dr + pc * chord_dc) / chord_len_sq;
+        // Skip anchors outside [0, 1] along the chord (i.e., past the
+        // endpoints).
+        if !(0.05..=0.95).contains(&proj) {
+            continue;
+        }
+        // Perpendicular distance to chord line.
+        let nr = ar + proj * chord_dr;
+        let nc = ac + proj * chord_dc;
+        let dr = anchor.row as f32 - nr;
+        let dc = anchor.col as f32 - nc;
+        let perp_d = (dr * dr + dc * dc).sqrt();
+        if perp_d > BUFFER_CELLS {
+            continue;
+        }
+        // Linear falloff from 1.0 at chord centre to 0 at buffer edge.
+        let falloff = 1.0 - perp_d / BUFFER_CELLS;
+        score += anchor.weight * falloff * WEIGHT_PER_HIT;
+    }
+    score
+}
+
+
 fn pick_radial_endpoints(
     grid: &Grid,
     anchors: &[Anchor],
@@ -1717,7 +1882,15 @@ fn pick_radial_endpoints(
         } else {
             (d / max_d).sqrt()
         };
-        ratio + 0.15 * anchors[i].weight
+        // Weight contribution bumped 0.15 → 0.6 (2026-04-26 operator
+        // review). At 0.15 a `place=neighbourhood` (w=0.6) at 0.95×R
+        // outranked an `amenity=university` / `amenity=hospital`
+        // (w=0.9–1.0) at 0.85×R purely on distance — Samawah's
+        // northern hospital + university cluster lost to a marginally-
+        // more-peripheral suburb. At 0.6 a top-weight POI outranks a
+        // suburb by ~0.24, enough to offset a 5–10 % distance gap so
+        // sector picks favour real demand peaks over suburb edges.
+        ratio + 0.6 * anchors[i].weight
     };
 
     // Divide [-π, π) into 2*count sectors. Each sector keeps the
@@ -1957,9 +2130,16 @@ fn pick_ring_anchors_by_radius(
     // outer-suburb radial termini can transfer to the ring without ever
     // entering the CBD. A perimeter ring with nothing beyond it is just
     // an awkward circle.
+    // Bumped 2026-04-26 — the previous (0.45–0.65) outer band placed
+    // Baghdad's circumferential ring at ~12 km from centre, but the
+    // city's high-density suburbs (Sadr City to NE, Kadhimiya to NW,
+    // Doura to S) reach 14–18 km. The ring missed those northern
+    // districts entirely. Widening to (0.55–0.85) lets the ring
+    // anchor on suburbs in densely-populated outer rings while
+    // still falling back to the full anchor set for sparse cities.
     let (radius_lo_init, radius_hi_init) = match band {
-        RingBand::Inner => (0.20 * max_d, 0.40 * max_d),
-        RingBand::Outer => (0.45 * max_d, 0.65 * max_d),
+        RingBand::Inner => (0.25 * max_d, 0.50 * max_d),
+        RingBand::Outer => (0.55 * max_d, 0.85 * max_d),
     };
 
     // Try the requested band first; if the small/sparse city does not

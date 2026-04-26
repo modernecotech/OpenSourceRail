@@ -52,10 +52,18 @@ pub struct SpacingConfig {
 
 impl Default for SpacingConfig {
     fn default() -> Self {
+        // Operator-supplied spacing rule for OSR auto-planned networks:
+        // **1.2 km average between stations in inner areas, 2–5 km in
+        // outer areas.** Stops in close proximity stretch dwell-budget
+        // and add infrastructure cost without pulling new catchment.
+        // Demand thresholds (`core_thr` / `urban_thr`) bin each cell:
+        //   demand ≥ core_thr   → urban_core_m  (CBD / interchanges)
+        //   demand ≥ urban_thr  → urban_m       (transitional ring)
+        //   demand <  urban_thr → peri_urban_m  (outer suburb / rural)
         Self {
-            urban_core_m: 800.0,
-            urban_m: 1200.0,
-            peri_urban_m: 1800.0,
+            urban_core_m: 1200.0,
+            urban_m: 2000.0,
+            peri_urban_m: 4000.0,
             core_thr: 0.6,
             urban_thr: 0.25,
             snap_radius_cells: 6,
@@ -158,14 +166,27 @@ fn make_station(
     let mut anchor_kind = None;
     let mut anchor_name = None;
 
-    // Look for an anchor within snap_radius_cells.
-    let mut best_d2: isize = (cfg.snap_radius_cells * cfg.snap_radius_cells) as isize;
+    // Look for an anchor within snap_radius_cells. Score is
+    //     weight × (1 - d²/r²)
+    // so high-weight POIs (universities w=1.0, airports w=1.0,
+    // hospitals w=0.9) win over a slightly closer low-weight
+    // `place=neighbourhood` (w=0.6). Without this weighting, the
+    // 2026-04-26 anchor expansion (adding place=*, aeroway=*)
+    // displaced top-priority POIs from station snaps because their
+    // POI centroid was a few cells further from the routed path
+    // than a generic neighbourhood label.
+    let r2 = (cfg.snap_radius_cells * cfg.snap_radius_cells) as f32;
+    let mut best_score: f32 = 0.0;
     for a in anchors {
         let dr = a.row as isize - row as isize;
         let dc = a.col as isize - col as isize;
-        let d2 = dr * dr + dc * dc;
-        if d2 <= best_d2 {
-            best_d2 = d2;
+        let d2 = (dr * dr + dc * dc) as f32;
+        if d2 > r2 {
+            continue;
+        }
+        let score = a.weight * (1.0 - d2 / r2);
+        if score > best_score {
+            best_score = score;
             final_row = a.row;
             final_col = a.col;
             anchor_id = Some(a.id);

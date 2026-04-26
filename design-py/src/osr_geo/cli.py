@@ -4,7 +4,8 @@ Usage:
     osr-geo-rasterize --slug samawah \
                       --osm-json cache/samawah.osm.json \
                       --out-dir cache/rasters \
-                      --cell-m 20
+                      --cell-m 20 \
+                      --country IQ
 """
 
 from __future__ import annotations
@@ -12,12 +13,15 @@ from __future__ import annotations
 import argparse
 import json
 import logging
+import math
 import sys
 from pathlib import Path
 
 from osr_osm.fetcher import BBox, CityOSM
 
-from .rasterize import rasterize_city, save_grid
+from .rasterize import DEMAND_RADIUS_M, rasterize_city, save_grid
+
+log = logging.getLogger(__name__)
 
 
 def _load_city(path: Path) -> CityOSM:
@@ -43,6 +47,22 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--osm-json", type=Path, required=True)
     ap.add_argument("--out-dir", type=Path, required=True)
     ap.add_argument("--cell-m", type=float, default=20.0, help="Cell size in metres.")
+    ap.add_argument(
+        "--country",
+        default=None,
+        help=(
+            "ISO-2 country code for fetching the WorldPop population "
+            "raster. When set, the demand surface includes a smoothed "
+            "residential-population layer (RFC 0003 demand-blend) so "
+            "lines reach population centres that have no mapped POI."
+        ),
+    )
+    ap.add_argument(
+        "--pop-cache-dir",
+        type=Path,
+        default=Path.home() / ".cache" / "osr-pipeline" / "population",
+        help="WorldPop raster cache directory.",
+    )
     ap.add_argument("-v", "--verbose", action="store_true")
     args = ap.parse_args(argv)
 
@@ -52,7 +72,12 @@ def main(argv: list[str] | None = None) -> int:
     )
 
     city = _load_city(args.osm_json)
-    bundle = rasterize_city(city, cell_m=args.cell_m)
+    bundle = rasterize_city(
+        city,
+        cell_m=args.cell_m,
+        country=args.country,
+        pop_cache_dir=args.pop_cache_dir,
+    )
     print(bundle.summary(), file=sys.stderr)
     paths = save_grid(bundle, args.out_dir, args.slug)
     for k, p in paths.items():

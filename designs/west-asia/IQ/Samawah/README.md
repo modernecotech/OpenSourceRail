@@ -1,29 +1,29 @@
-# Baghdad — Urban Rail Network
+# Samawah — Urban Rail Network
 
-**Country:** IQ · **Population:** 9,780,429
+**Country:** IQ · **Population:** 373,770
 
 Auto-planned by the OpenSourceRail design pipeline: [`osr_geo`](../../../design-py/src/osr_geo/) rasterises Overpass-verified OpenStreetMap features (arterial road graph, buildings, water, protected land, demand-anchor POIs) onto a 20 m cost / demand / buildability grid; [`osr-design`](../../../crates/osr-design/) (rust) runs a demand-rewarded Dijkstra on that grid to synthesise corridors, places stations against the demand surface, and classifies every segment (at-grade / elevated / bridge — no tunnels per [RFC 0011](../../../docs/rfcs/0011-civil-infrastructure-design-standard.md)). Population, country, and bbox are read from the canonical city catalog at [`lib/city-batches/world-sample.toml`](../../../lib/city-batches/world-sample.toml).
 
 ## Network map
 
-![Baghdad rail network on OpenStreetMap](baghdad-network-map.png)
+![Samawah rail network on OpenStreetMap](samawah-network-map.png)
 
 *Every line visible end-to-end — radials out to the city edge, forced-coverage suburbs, and the ring line if present. Auto-fit zoom based on the network's actual bounding box.*
 
-Corridor polylines + stations as GeoJSON for GIS / alignment tooling: [`baghdad.corridor.geojson`](baghdad.corridor.geojson).
+Corridor polylines + stations as GeoJSON for GIS / alignment tooling: [`samawah.corridor.geojson`](samawah.corridor.geojson).
 
 ## At a glance
 
 | Metric | Value |
 |---|---|
-| Lines | 9 |
-| Unique stations | 201 |
-| Interchange stations | 61 |
+| Lines | 3 |
+| Unique stations | 24 |
+| Interchange stations | 7 |
 | Multi-line transfer reachability | 0% (line-pairs sharing ≥ 1 station) |
-| Anchor-weighted coverage | 46.5% |
-| Route length (double track) | 448.2 km |
-| Revenue fleet | 323 × 6-car trainsets |
-| Spare + cold-reserve | 39 × 6-car trainsets |
+| Anchor-weighted coverage | 56.9% |
+| Route length (double track) | 33.0 km |
+| Revenue fleet | 31 × 3-car trainsets |
+| Spare + cold-reserve | 6 × 3-car trainsets |
 | Peak headway | 5 min |
 | Service hours | 05:30 – 23:30 (≈ 18 h/day) |
 
@@ -33,40 +33,34 @@ Corridor polylines + stations as GeoJSON for GIS / alignment tooling: [`baghdad.
 
 | Line | Length | Stations | Trainsets | Termini |
 |---|---|---|---|---|
-| line-1 | 47.1 km | 22 | 38 | S Outer ↔ N Mid |
-| line-2 | 47.9 km | 22 | 39 | SE Mid ↔ NW Outer |
-| line-3 | 40.9 km | 20 | 34 | NE Outer ↔ SE Mid |
-| line-4 | 39.0 km | 22 | 31 | NE Mid ↔ W Mid |
-| line-5 | 41.0 km | 16 | 34 | E Mid ↔ W Mid |
-| line-6 | 43.0 km | 18 | 35 | NW Outer ↔ SE Mid |
-| line-7 | 45.6 km | 16 | 37 | SW Outer ↔ N Mid |
-| line-8 | 43.8 km | 22 | 36 | E Outer ↔ W Mid |
-| line-9 | 99.8 km | 44 | 78 | NW Mid ↔ NW Mid |
-| **Total** | **448.2 km** | **201 unique** | **362** | |
+| line-1 | 12.0 km | 9 | 13 | S Outer ↔ N Outer |
+| line-2 | 10.8 km | 8 | 12 | W Mid ↔ E Outer |
+| line-3 | 10.3 km | 7 | 12 | N Outer ↔ SW Outer |
+| **Total** | **33.0 km** | **24 unique** | **37** | |
 
 ## Rolling stock
 
 | Property | Value |
 |---|---|
-| Consist | 6-car, 138 m |
-| Max speed | 90 km/h |
-| Onboard battery | 720 kWh per trainset |
-| Nominal capacity | 900 pax (seated + standing, `metro-6car` per RFC 0008 §1) |
+| Consist | 3-car, 68 m |
+| Max speed | 80 km/h |
+| Onboard battery | 320 kWh per trainset |
+| Nominal capacity | 360 pax (seated + standing, `light-metro-3car` per RFC 0008 §1) |
 
 ## Ridership capacity
 
-- **Per-train capacity:** 900 passengers (`metro-6car`)
+- **Per-train capacity:** 360 passengers (`light-metro-3car`)
 - **Peak frequency:** 12 trains/hour/direction (5-min headway)
-- **Peak capacity per line per direction:** 900 × 12 = **10,800 pphpd**
-- **Network peak throughput (all lines, both directions):** 9 lines × 2 directions × 10,800 = **194,400 passengers/hour**
-- **Daily theoretical capacity (peak × 10):** ≈ **1,944,000 passenger-trips/day**
-- **Practical daily ridership estimate** (10–15 % of catchment): ≈ **454,789 – 682,184 trips/day**
+- **Peak capacity per line per direction:** 360 × 12 = **4,320 pphpd**
+- **Network peak throughput (all lines, both directions):** 3 lines × 2 directions × 4,320 = **25,920 passengers/hour**
+- **Daily theoretical capacity (peak × 10):** ≈ **259,200 passenger-trips/day**
+- **Practical daily ridership estimate** (10–15 % of catchment): ≈ **21,267 – 31,901 trips/day**
 
 ## Catchment
 
-- City population: **9,780,429**
-- Anchor-weighted coverage: 46.5%
-- Catchment population: **≈ 4,547,899** (within ~800 m walk of a station)
+- City population: **373,770**
+- Anchor-weighted coverage: 56.9%
+- Catchment population: **≈ 212,675** (within ~800 m walk of a station)
 
 ## Energy infrastructure (solar + battery)
 
@@ -75,13 +69,13 @@ On-site trackside + depot PV and battery storage. Per-tier sizing (from [`../../
 | Tier | Sites | PV each | Battery each |
 |---|---|---|---|
 | Depot-Main | 1 | 5000 kW | 40000 kWh |
-| Interchange | 61 | 500 kW | 3000 kWh |
-| Major | 55 | 400 kW | 2500 kWh |
-| Standard | 75 | 300 kW | 2000 kWh |
-| Terminal | 15 | 500 kW | 3000 kWh |
-| **Total installed** | **207** | **87,500 kW** | **555,500 kWh** |
+| Interchange | 7 | 500 kW | 3000 kWh |
+| Major | 9 | 400 kW | 2500 kWh |
+| Standard | 2 | 300 kW | 2000 kWh |
+| Terminal | 5 | 500 kW | 3000 kWh |
+| **Total installed** | **24** | **15,200 kW** | **102,500 kWh** |
 
-Aggregate station-rail charging power: **74,000 kW**. Trains opportunity-charge during station dwell per RFC 0002; onboard 720 kWh battery covers running.
+Aggregate station-rail charging power: **14,000 kW**. Trains opportunity-charge during station dwell per RFC 0002; onboard 320 kWh battery covers running.
 
 ## CAPEX (planning grade)
 
@@ -91,10 +85,10 @@ All figures come from the `[costs]` block in `design.toml` — emitted by the `o
 
 | Bucket | Value |
 |---|---|
-| At-grade (414.8 km @ €3.5 M/km) | €1.45 bn |
-| Elevated (31.8 km @ €18 M/km) | €572 M |
-| Elevated-interchange premium (22 sites @ €20 M) | €440 M |
-| **Civil subtotal** | **€2.46 bn** |
+| At-grade (30.4 km @ €3.5 M/km) | €106 M |
+| Elevated (2.5 km @ €18 M/km) | €45 M |
+| Elevated-interchange premium (2 sites @ €20 M) | €40 M |
+| **Civil subtotal** | **€191 M** |
 
 ### Stations
 
@@ -102,14 +96,12 @@ Prefab portal-frame canopy + factory-bonded PV sandwich panel (RFC 0010 §3, ~11
 
 | Archetype | Count | Unit | Subtotal |
 |---|---|---|---|
-| `halt` | 7 | €0.4 M | €2.8 M |
-| `standard` | 74 | €1.5 M | €111 M |
-| `major` | 44 | €3.0 M | €132 M |
-| `terminal` | 15 | €2.5 M | €38 M |
+| `standard` | 2 | €1.5 M | €3.0 M |
+| `major` | 9 | €3.0 M | €27 M |
+| `terminal` | 5 | €2.5 M | €12 M |
 | `depot-terminal` | 1 | €3.0 M | €3.0 M |
-| `interchange` | 5 | €4.5 M | €22 M |
-| `interchange-elevated` | 56 | €4.5 M | €252 M |
-| **Stations subtotal** | | | **€561 M** |
+| `interchange-elevated` | 7 | €4.5 M | €32 M |
+| **Stations subtotal** | | | **€77 M** |
 
 ### Depots
 
@@ -118,8 +110,8 @@ At-grade portal-frame workshop sheds; pit tracks with stinger + portable wheel l
 | Archetype | Count | Unit | Subtotal |
 |---|---|---|---|
 | `main-heavy` | 1 | €25 M | €25 M |
-| `layup-minimal` | 15 | €3.0 M | €45 M |
-| **Depots subtotal** | | | **€70 M** |
+| `layup-minimal` | 5 | €3.0 M | €15 M |
+| **Depots subtotal** | | | **€40 M** |
 
 ### Rolling stock
 
@@ -127,53 +119,53 @@ Per-trainset BOM at OSR-discipline pricing: commodity Na-ion cells (~$80/kWh, RF
 
 | Item | Count | Unit | Subtotal |
 |---|---|---|---|
-| `metro-6car` (revenue + spare + cold reserve) | 362 | €4.5 M | €1.63 bn |
+| `light-metro-3car` (revenue + spare + cold reserve) | 37 | €2.0 M | €74 M |
 
 ### Systems
 
 | Item | Basis | Subtotal |
 |---|---|---|
-| Signalling (open-source CBTC on commodity SBCs, RFC 0019) | 448.2 km × €0.4 M/km | €179 M |
-| Traction power (distributed PV + Na-ion, no OCS, RFC 0002) | 448.2 km × €0.8 M/km | €357 M |
-| EPC integration + project management (7%) | on subtotal | €368 M |
+| Signalling (open-source CBTC on commodity SBCs, RFC 0019) | 33.0 km × €0.4 M/km | €13 M |
+| Traction power (distributed PV + Na-ion, no OCS, RFC 0002) | 33.0 km × €0.8 M/km | €26 M |
+| EPC integration + project management (7%) | on subtotal | €29 M |
 
 ### Total
 
 | Bucket | Value |
 |---|---|
-| Civil works | €2.46 bn |
-| Stations | €561 M |
-| Depots | €70 M |
-| Rolling stock | €1.63 bn |
-| Signalling + power | €536 M |
-| EPC overhead (7%) | €368 M |
-| **CAPEX total** | **€5.63 bn** |
-| Per-route-km | €13 M / km |
-| Per-capita (city pop) | €575 / person |
+| Civil works | €191 M |
+| Stations | €77 M |
+| Depots | €40 M |
+| Rolling stock | €74 M |
+| Signalling + power | €39 M |
+| EPC overhead (7%) | €29 M |
+| **CAPEX total** | **€451 M** |
+| Per-route-km | €14 M / km |
+| Per-capita (city pop) | €1,206 / person |
 
 ## Funding & affordability
 
-Planning-grade financing model anchored to country financial parameters from [`lib/templates/country-finance.toml`](../../../lib/templates/country-finance.toml). Pure function of the [costs] block above + the country code — regenerate by re-running `scripts/regenerate-city.sh baghdad`.
+Planning-grade financing model anchored to country financial parameters from [`lib/templates/country-finance.toml`](../../../lib/templates/country-finance.toml). Pure function of the [costs] block above + the country code — regenerate by re-running `scripts/regenerate-city.sh samawah`.
 
 ### CAPEX funding stack
 
 | Tranche | Share | Principal | Rate | Tenor | Annual debt service (post-grace) |
 |---|---|---|---|---|---|
-| Multilateral concessional loan (IBRD / AfDB / ADB class) | 60% | €3.38 bn | 4.0% | 25 y, 5 y grace | €248 M / yr |
-| Sovereign bonds (10-y benchmark + project) | 25% | €1.41 bn | 8.5% | 25 y, 5 y grace | €149 M / yr |
-| Government equity (no debt service) | 15% | €844 M | — | — | — |
-| **Total** | **100%** | **€5.63 bn** | | | **€397 M / yr** |
+| Multilateral concessional loan (IBRD / AfDB / ADB class) | 60% | €270 M | 4.0% | 25 y, 5 y grace | €20 M / yr |
+| Sovereign bonds (10-y benchmark + project) | 25% | €113 M | 8.5% | 25 y, 5 y grace | €12 M / yr |
+| Government equity (no debt service) | 15% | €68 M | — | — | — |
+| **Total** | **100%** | **€451 M** | | | **€32 M / yr** |
 
 ### Annual OPEX (steady state)
 
 | Component | Basis | Annual cost |
 |---|---|---|
-| Rolling-stock maintenance | 4 % of rolling-stock CAPEX | €65 M |
-| Civil + station + depot maintenance | 2 % of fixed-asset CAPEX | €62 M |
-| Signalling + comms maintenance | 5 % of signalling CAPEX | €8.9 M |
-| Traction energy + station HVAC | ~7004.5 M car-km × 4 kWh × €0.10 | €2.80 bn |
-| Labour (1,209 FTE) | country median × 12 × engineer-premium 1.6 | €8.1 M |
-| **OPEX subtotal** | | **€2.95 bn / yr** |
+| Rolling-stock maintenance | 4 % of rolling-stock CAPEX | €3.0 M |
+| Civil + station + depot maintenance | 2 % of fixed-asset CAPEX | €6.2 M |
+| Signalling + comms maintenance | 5 % of signalling CAPEX | €657 k |
+| Traction energy + station HVAC | ~24.7 M car-km × 4 kWh × €0.10 | €9.9 M |
+| Labour (189 FTE) | country median × 12 × engineer-premium 1.6 | €1.3 M |
+| **OPEX subtotal** | | **€21 M / yr** |
 
 ### Ticket pricing anchored to median income
 
@@ -192,12 +184,12 @@ Practical-ridership bracket = 5–10 % of urban population × 280 service-days. 
 
 | | Low scenario | High scenario |
 |---|---|---|
-| Annual paid trips | 136.9 M | 273.9 M |
-| Farebox revenue | €80 M / yr | €160 M / yr |
-| Farebox / OPEX recovery | 3% | 5% |
+| Annual paid trips | 5.2 M | 10.5 M |
+| Farebox revenue | €3.0 M / yr | €6.1 M / yr |
+| Farebox / OPEX recovery | 15% | 29% |
 | Country target recovery | 45% | 45% |
-| Operating subsidy needed | €1.25 bn / yr | €1.17 bn / yr |
-| **Total annual government burden** | **€1.64 bn / yr** | **€1.56 bn / yr** |
+| Operating subsidy needed | €6.4 M / yr | €3.3 M / yr |
+| **Total annual government burden** | **€38 M / yr** | **€35 M / yr** |
 
 **Caveats:** The funding-stack 60/25/15 split, the 5 % income-share affordability target, and the 5–10 % daily-pax bracket are project-level defaults. Real deployments will negotiate the share with the financing institutions and will tune fares iteratively from boarding data. Treat the numbers above as a first-iteration sanity check, not as a bid-ready financial close.
 
@@ -206,31 +198,31 @@ Practical-ridership bracket = 5–10 % of urban population × 280 service-days. 
 | File | Role |
 |---|---|
 | [`design.toml`](design.toml) | Authoritative design |
-| [`baghdad.toml`](baghdad.toml) | Expanded simulation scenario (input to `osr-sim`) |
-| [`baghdad-network-map.png`](baghdad-network-map.png) | Auto-fit network map (rendered by `osr_scenario.render_map`) |
-| [`baghdad.corridor.geojson`](baghdad.corridor.geojson) | Line polylines + stations (GeoJSON) |
-| [`baghdad.stations.json`](baghdad.stations.json) | Machine-readable station list |
-| [`baghdad.design-quality.yaml`](baghdad.design-quality.yaml) | Coverage / anchor-hit / civil-mix metrics + auto-gate result |
+| [`samawah.toml`](samawah.toml) | Expanded simulation scenario (input to `osr-sim`) |
+| [`samawah-network-map.png`](samawah-network-map.png) | Auto-fit network map (rendered by `osr_scenario.render_map`) |
+| [`samawah.corridor.geojson`](samawah.corridor.geojson) | Line polylines + stations (GeoJSON) |
+| [`samawah.stations.json`](samawah.stations.json) | Machine-readable station list |
+| [`samawah.design-quality.yaml`](samawah.design-quality.yaml) | Coverage / anchor-hit / civil-mix metrics + auto-gate result |
 
 ## Reproducibility
 
 ```bash
 # 1. raster bundle from OpenStreetMap (cached by query hash)
-python -m osr_geo.cli --slug baghdad
+python -m osr_geo.cli --slug samawah
 
 # 2. design.toml + corridor.geojson + design-quality.yaml
 #    (population + country pulled from lib/city-batches/world-sample.toml)
-cargo run --release --bin osr-design -- --slug baghdad \
-    --sidecar .cache/osr-pipeline/rasters/baghdad.grid.json \
-    --out-dir designs/.../Baghdad
+cargo run --release --bin osr-design -- --slug samawah \
+    --sidecar .cache/osr-pipeline/rasters/samawah.grid.json \
+    --out-dir designs/.../Samawah
 
 # 3. scenario.toml + map PNGs + this README
 python -m osr_scenario --design designs/.../design.toml
 python -m osr_scenario.render_map --design designs/.../design.toml
 python -m osr_scenario.network_readme \
     --design designs/.../design.toml \
-    --scenario designs/.../baghdad.toml \
+    --scenario designs/.../samawah.toml \
     --out designs/.../README.md
 ```
 
-`scripts/regenerate-baghdad.sh` chains steps 3 + drift tests into a single command.
+`scripts/regenerate-samawah.sh` chains steps 3 + drift tests into a single command.

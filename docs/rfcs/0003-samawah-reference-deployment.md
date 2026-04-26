@@ -119,12 +119,14 @@ Expected daily ridership at build-up: **10,000 – 15,000 passenger-trips** (new
 
 | Metric | Value |
 |---|---|
-| Route-km (double track) | ~40 km |
-| Stations (unique) | 40 |
+| Route-km (double track) | ~33 km |
+| Stations (unique) | 24 |
 | Lines | 3 (auto-planned by `osr-design`) |
-| Multi-line interchanges | 0 (3-radial layout — terminals don't share endpoints; future v2 adds a tangential ring + interchanges) |
-| Fleet (revenue) | 38 × 3-car trainsets |
+| Multi-line interchanges | 7 platforms across central interchange complexes — every radial converges on the elevated-junction at city centre per the via-centre routing rule for ≤ 3-line networks |
+| Fleet (revenue) | 31 × 3-car trainsets |
 | Fleet (spare + cold-reserve) | 6 × 3-car trainsets |
+| Average inter-station spacing | ~1.2 km (per [`SpacingConfig`](../../crates/osr-routing/src/station.rs) — 1.2 km inner, 2 km transitional, 4 km outer; matches the operator brief of "1.2 km inner / 2–5 km outer") |
+| Demand surface | Anchor (POI) + WorldPop residential population blend per [`build_demand_surface`](../../design-py/src/osr_geo/rasterize.py) — lines reach population centres without mapped POIs |
 | Service hours | 05:30 – 23:30, 18 hours |
 
 > The table above is **derived from** [`design.toml`](../../designs/west-asia/Iraq/Samawah/design.toml);

@@ -37,33 +37,45 @@ radials without entering the CBD.
 
 *Samawah (~374 k pop, Iraq 2024 census, As-Samawah Subdistrict
 including urban + rural per [`lib/city-batches/world-sample.toml`](lib/city-batches/world-sample.toml)) —
-**auto-planned** end-to-end by `osr-design` against real OSM data.
-Three radial lines, 40 unique stations, 40.2 km of double-track,
-**50.9 % anchor-weighted coverage**, all soft gates passing.
-Fleet 44 × 3-car `light-metro-3car` (38 revenue + 6 spare/cold-reserve)
-sized per RFC 0014 §4 round-trip / 5-min-headway formula. Planning-grade
-CAPEX **≈ €435 M** (civil €144 M + stations €86 M + depots €40 M +
-rolling stock €88 M + signalling/power €48 M + 7 % EPC), ≈ €11 M / route-km,
-≈ €1,165 per resident. **OSR-discipline unit costs** — prefab portal-frame
-canopies, at-grade depots without overhead bridge cranes, commodity
-Na-ion cells, tier-2 PMSM motors, DIY SiC inverters, open-source CBTC on
+**auto-planned** end-to-end by `osr-design` against real OSM data
+*plus* the WorldPop residential-population layer (so lines reach
+population centres without mapped POIs, not just hospital / university
+clusters). Three radial lines, **all three converging at a single
+elevated-junction interchange complex at the city centre** (3
+interchange-platform stations sharing one junction-group),
+25 unique stations at ~1.2 km average spacing
+(1.2 km inner / 2 km transitional / 4 km outer per
+[`SpacingConfig::default()`](crates/osr-routing/src/station.rs)),
+30.5 km of double-track, **61.4 % anchor-weighted coverage**, all
+soft gates passing. Fleet 35 × 3-car `light-metro-3car` (29 revenue
++ 6 spare/cold-reserve) sized per RFC 0014 §4 round-trip /
+5-min-headway formula. Planning-grade CAPEX **≈ €392 M**, ≈ €13 M /
+route-km, ≈ €1,049 per resident. **OSR-discipline
+unit costs** throughout — prefab portal-frame canopies, at-grade
+depots without overhead bridge cranes, commodity Na-ion cells,
+tier-2 PMSM motors, DIY SiC inverters, open-source CBTC on
 commodity SBCs, no overhead catenary, self-EPC overhead. See
 [designs/west-asia/Iraq/Samawah/README.md](designs/west-asia/Iraq/Samawah/README.md)
 for the full breakdown (per-line termini, fleet sizing, full cost stack).*
 
 ![Baghdad reference network — eight radial lines plus a circumferential ring auto-planned on OpenStreetMap](designs/west-asia/Iraq/Baghdad/baghdad-network-map.png)
 
-*Baghdad (~9.78 M pop, Iraq 2024 census, Baghdad Governorate) — same
-pipeline, megacity tier. Eight radial lines plus a circumferential
-ring (line-9, 105.7 km, 70 stations) at ~0.55 × urban radius. 288
-unique stations, 470.2 km double-track, **19 elevated interchange
-complexes** (auto-snapped at every ring↔radial crossing), 37.0 %
-anchor-weighted coverage, 6.8 % elevated. Fleet 379 × 6-car
-`metro-6car` (340 revenue + 39 spare/cold-reserve) per RFC 0014 §4.
-Planning-grade CAPEX **≈ €5.94 bn** (civil €2.48 bn + stations €735 M
-+ depots €70 M + rolling stock €1.71 bn + signalling/power €562 M +
-7 % EPC), ≈ €13 M / route-km, ≈ €608 per resident — base OECD rates
-before the per-country multiplier. Every soft gate passing. See
+*Baghdad (~9.78 M pop, Iraq 2024 census, Baghdad Governorate; bbox
+extended SE 2026-04-26 to cover Basmaya New City) — same pipeline,
+megacity tier, with the WorldPop residential layer + airport /
+suburb / neighbourhood OSM anchors so radials reach Baghdad
+International (BIAP), Basmaya, and other population centres beyond
+the POI clusters. Eight radial lines plus a circumferential ring at
+~0.55 × urban radius. 213 unique stations at ~2.1 km average
+spacing (1.5 km inner / 3 km transitional / 5 km outer per the
+megacity override of `SpacingConfig`), 442.2 km double-track,
+**45.1 % anchor-weighted coverage of the population-blended demand
+surface**, **24 interchange complexes** (61 interchange-platform
+stations, 23 auto-snapped to elevated at ring↔radial crossings).
+Fleet 356 × 6-car `metro-6car` (317 revenue + 39
+spare/cold-reserve) per RFC 0014 §4. Planning-grade CAPEX
+**≈ €5.67 bn**, ≈ €13 M / route-km, ≈ €580 per resident — base OECD
+rates before the per-country multiplier. See
 [designs/west-asia/Iraq/Baghdad/README.md](designs/west-asia/Iraq/Baghdad/README.md).*
 
 Twenty-six RFCs cover the full system from software
