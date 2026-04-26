@@ -100,6 +100,13 @@ _ISO2_TO_ISO3 = {
     "SS": "SSD",
     "YE": "YEM",
     "SY": "SYR",
+    "JO": "JOR",
+    "LB": "LBN",
+    "PS": "PSE",
+    "GN": "GIN",
+    "SO": "SOM",
+    "ZM": "ZMB",
+    "BF": "BFA",
 }
 
 

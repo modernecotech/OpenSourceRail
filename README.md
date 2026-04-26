@@ -29,15 +29,29 @@ The design pipeline auto-synthesises a complete multi-line network for
 any city listed in [`lib/city-batches/world-sample.toml`](lib/city-batches/world-sample.toml)
 from real OpenStreetMap + WorldPop population data — population-tiered
 topology, served-catchment bbox, country-specific cost + finance
-multipliers. The catalogue currently covers **34 cities across 8
-regions**, including **every major Iraqi urban centre** (the project's
-launch corridor) — 18 cities from the 374 k Samawah subdistrict to the
-9.78 M Baghdad governorate, exercising the tram, light-metro-3car,
-metro-4car and metro-6car family bands all on Iraqi soil — plus 16
-more across the rest of the developing world (Tunis, Khartoum,
-Nairobi, Dar es Salaam, Kampala, Antananarivo, Niamey, Bamako,
-Coimbatore, Karachi, Yangon, Phnom Penh, Lyon, Cuenca, La Paz, San
-Salvador). One-command regeneration:
+multipliers. The catalogue currently covers **66 cities across 41
+countries**, structured as:
+
+- **Iraq launch corridor (18 cities)** — every governorate capital
+  + Samawah, exercising all four rolling-stock family bands on
+  Iraqi soil.
+- **Levant + Arabian Peninsula (9 cities)** — Sana'a, Aden, Taiz,
+  Damascus, Aleppo, Homs, Amman, Beirut, Gaza City. Several are
+  conflict-affected; financing assumptions reflect that.
+- **Sub-Saharan Africa (15 cities)** — Nairobi, Dar es Salaam,
+  Kampala, Antananarivo, Mogadishu, Kigali, Lusaka, Yaoundé,
+  Kinshasa, Lubumbashi, Luanda, Maputo, Beira plus Niamey,
+  Bamako, Dakar, Ouagadougou, Conakry from West Africa, plus
+  Khartoum.
+- **South Asia (6 cities)** — Coimbatore, Karachi, Faisalabad,
+  Multan, Patna, Kabul, Kathmandu, Colombo.
+- **Southeast Asia (6 cities)** — Yangon, Phnom Penh, Mandalay,
+  Surabaya, Bandung, Davao, Vientiane.
+- **Latin America + Europe (5 cities)** — Cuenca, La Paz, San
+  Salvador (+ Lyon as a high-OSM-density solver test target).
+
+Population bands cover 360 k (Duhok / Fallujah, light-metro-3car)
+to 20.3 M (Karachi, metro-6car). One-command regeneration:
 `scripts/regenerate-city.sh <slug>` for a single city or
 `scripts/regenerate-all.sh --jobs 4` for the whole catalogue.
 
@@ -110,9 +124,28 @@ plus the post-conflict reconstruction set (Mosul / Ramadi / Fallujah):
 | [Fallujah](designs/west-asia/Iraq/Fallujah/) | light-metro-3car | 3 | 28 | 46 | 48 | 57 |
 | [Samawah](designs/west-asia/Iraq/Samawah/) | light-metro-3car | 3 | 33 | 55 | 55 | 56 |
 
-**Rest of the world** — one city per region / climate / size band, kept
-deliberately diverse so any rule-set tweak that breaks one band is
-caught against the others:
+**Levant + Arabian Peninsula** — conflict-affected zones (Yemen,
+Syria, Lebanon, Palestine) carry planning-grade financing
+assumptions that reflect distressed sovereign access; OSR's mission
+of low-CAPEX, locally-buildable rail is most acute here:
+
+| city | ISO | family | lines | stns | km | fleet | cov% |
+|---|---|---|---:|---:|---:|---:|---:|
+| [Sana'a](designs/west-asia/Yemen/Sanaa/) | YE | metro-6car | 9 | 126 | 261 | 218 | 78 |
+| [Aden](designs/west-asia/Yemen/Aden/) | YE | light-metro-3car | 3 | 28 | 44 | 46 | 43 |
+| [Taiz](designs/west-asia/Yemen/Taiz/) | YE | light-metro-3car | 3 | 33 | 49 | 51 | 55 |
+| [Damascus](designs/west-asia/Syria/Damascus/) | SY | metro-4car | 6 | 113 | 233 | 192 | 45 |
+| [Aleppo](designs/west-asia/Syria/Aleppo/) | SY | metro-4car | 5 | 89 | 176 | 145 | 46 |
+| [Homs](designs/west-asia/Syria/Homs/) | SY | light-metro-3car | 3 | 33 | 51 | 53 | 42 |
+| [Amman](designs/west-asia/Jordan/Amman/) | JO | metro-6car | 8 | 172 | 354 | 286 | 51 |
+| [Beirut](designs/west-asia/Lebanon/Beirut/) | LB | metro-4car | 6 | 83 | 160 | 134 | 70 |
+| [Gaza City](designs/west-asia/Palestine/Gaza-City/) | PS | light-metro-3car | 1 | 15 | 24 | 24 | 30 |
+
+**North Africa + Sub-Saharan Africa** — biggest single regional
+bucket, covering megacities (Lagos-class catchments + Kinshasa /
+Luanda / Khartoum), East African capitals (Nairobi / Dar / Addis-
+class), Sahel + WAEMU bloc, and Indian-Ocean coastals (Maputo /
+Antananarivo / Beira):
 
 | city | ISO | family | lines | stns | km | fleet | cov% |
 |---|---|---|---:|---:|---:|---:|---:|
@@ -122,12 +155,48 @@ caught against the others:
 | [Dar es Salaam](designs/east-africa/Tanzania/Dar-Es-Salaam/) | TZ | metro-6car | 7 | 163 | 393 | 314 | 28 |
 | [Kampala](designs/east-africa/Uganda/Kampala/) | UG | metro-4car | 4 | 99 | 201 | 160 | 24 |
 | [Antananarivo](designs/east-africa/Madagascar/Antananarivo/) | MG | metro-6car | 7 | 155 | 339 | 272 | 42 |
+| [Mogadishu](designs/east-africa/Somalia/Mogadishu/) | SO | metro-4car | 4 | 68 | 128 | 106 | 40 |
+| [Kigali](designs/east-africa/Rwanda/Kigali/) | RW | metro-4car | 4 | 86 | 171 | 139 | 34 |
+| [Lusaka](designs/east-africa/Zambia/Lusaka/) | ZM | metro-6car | 6 | 123 | 236 | 192 | 34 |
+| [Yaoundé](designs/east-africa/Cameroon/Yaounde/) | CM | metro-6car | 8 | 136 | 267 | 219 | 43 |
+| [Kinshasa](designs/east-africa/DR%20Congo/Kinshasa/) | CD | metro-6car | 8 | 183 | 385 | 310 | 49 |
+| [Lubumbashi](designs/east-africa/DR%20Congo/Lubumbashi/) | CD | metro-4car | 4 | 75 | 130 | 107 | 34 |
+| [Luanda](designs/east-africa/Angola/Luanda/) | AO | metro-6car | 9 | 170 | 390 | 317 | 64 |
+| [Maputo](designs/east-africa/Mozambique/Maputo/) | MZ | metro-4car | 6 | 83 | 186 | 156 | 71 |
+| [Beira](designs/east-africa/Mozambique/Beira/) | MZ | light-metro-3car | 3 | 39 | 54 | 54 | 37 |
 | [Niamey](designs/west-africa/Niger/Niamey/) | NE | metro-4car | 4 | 80 | 146 | 120 | 38 |
 | [Bamako](designs/west-africa/Mali/Bamako/) | ML | metro-4car | 6 | 118 | 257 | 207 | 31 |
+| [Dakar](designs/west-africa/Senegal/Dakar/) | SN | metro-6car | 5 | 107 | 204 | 167 | 52 |
+| [Ouagadougou](designs/west-africa/Burkina%20Faso/Ouagadougou/) | BF | metro-4car | 6 | 138 | 264 | 213 | 37 |
+| [Conakry](designs/west-africa/Guinea/Conakry/) | GN | metro-4car | 3 | 55 | 93 | 78 | 40 |
+
+**South + Southeast Asia** — South-Asian megacities (Karachi
+20.3 M, Patna 2.5 M), Indo-China twin-economy capitals (Yangon /
+Mandalay / Phnom Penh / Vientiane), Indonesian island cities
+(Surabaya / Bandung), and the Islamic-Asia archipelago (Davao):
+
+| city | ISO | family | lines | stns | km | fleet | cov% |
+|---|---|---|---:|---:|---:|---:|---:|
 | [Coimbatore](designs/south-asia/India/Coimbatore/) | IN | metro-6car | 5 | 121 | 268 | 214 | 31 |
+| [Patna](designs/south-asia/India/Patna/) | IN | metro-4car | 5 | 84 | 185 | 152 | 50 |
 | [Karachi](designs/south-asia/Pakistan/Karachi/) | PK | metro-6car | 9 | 231 | 472 | 377 | 48 |
+| [Faisalabad](designs/south-asia/Pakistan/Faisalabad/) | PK | metro-6car | 5 | 93 | 166 | 137 | 52 |
+| [Multan](designs/south-asia/Pakistan/Multan/) | PK | metro-4car | 4 | 64 | 115 | 98 | 42 |
+| [Kabul](designs/south-asia/Afghanistan/Kabul/) | AF | metro-6car | 7 | 137 | 261 | 215 | 53 |
+| [Kathmandu](designs/south-asia/Nepal/Kathmandu/) | NP | metro-4car | 6 | 103 | 203 | 167 | 46 |
+| [Colombo](designs/south-asia/Sri%20Lanka/Colombo/) | LK | metro-6car | 6 | 126 | 278 | 223 | 42 |
 | [Yangon](designs/southeast-asia/Myanmar/Yangon/) | MM | metro-6car | 9 | 214 | 417 | 335 | 56 |
+| [Mandalay](designs/southeast-asia/Myanmar/Mandalay/) | MM | metro-4car | 6 | 88 | 187 | 156 | 60 |
 | [Phnom Penh](designs/southeast-asia/Cambodia/Phnom-Penh/) | KH | metro-4car | 6 | 107 | 228 | 186 | 48 |
+| [Surabaya](designs/southeast-asia/Indonesia/Surabaya/) | ID | metro-6car | 7 | 143 | 294 | 240 | 40 |
+| [Bandung](designs/southeast-asia/Indonesia/Bandung/) | ID | metro-4car | 6 | 126 | 258 | 208 | 41 |
+| [Davao](designs/southeast-asia/Philippines/Davao/) | PH | metro-4car | 6 | 108 | 229 | 186 | 72 |
+| [Vientiane](designs/southeast-asia/Laos/Vientiane/) | LA | light-metro-3car | 3 | 46 | 81 | 78 | 43 |
+
+**Latin America + Europe**:
+
+| city | ISO | family | lines | stns | km | fleet | cov% |
+|---|---|---|---:|---:|---:|---:|---:|
 | [Lyon](designs/europe/France/Lyon/) | FR | metro-4car | 6 | 122 | 287 | 232 | 45 |
 | [Cuenca](designs/latin-america/Ecuador/Cuenca/) | EC | light-metro-3car | 3 | 48 | 79 | 77 | 57 |
 | [La Paz](designs/latin-america/Bolivia/La-Paz/) | BO | metro-4car | 6 | 115 | 212 | 174 | 57 |
@@ -184,6 +253,15 @@ twin-city extending across a 1 000 m vertical drop from the
 altiplano (~4 150 m, El Alto airport district) into the canyon
 (~3 200 m, Río Abajo). Six lines, 115 stations. Severe terrain — the
 civil classifier picks elevated for the cliff descent automatically.*
+
+![Sana'a — 9-line metro-6car network, catalog's highest coverage score](designs/west-asia/Yemen/Sanaa/sanaa-network-map.png)
+
+*Sana'a, Yemen (~3.94 M, Sana'a Capital Secretariat + Governorate) —
+the catalogue's highest coverage score (78%). Mountain-plateau
+geography (~2 250 m elevation) with a tightly clustered Old City
+core driving the metric. Nine metro-6car lines, 126 stations,
+261 km. Conflict-affected since 2014 — the financing model uses
+distressed sovereign + IDA-eligible multilateral assumptions.*
 
 Twenty-seven RFCs cover the full system from software
 architecture through rail civil engineering to driverless operation; the
@@ -981,12 +1059,13 @@ Complementary rail-engineering RFCs:
 5. **A new city in [`lib/city-batches/world-sample.toml`](lib/city-batches/world-sample.toml).**
    Add a slug + served-catchment bbox + country + verified population
    (national-stats-office source) and run
-   `scripts/regenerate-city.sh <slug>`. The catalogue currently covers
-   19 cities across all 8 regional buckets; gaps worth filling next
-   are the cold-continental climate (Sarajevo / Ulaanbaatar) and the
-   Sub-Saharan megacities (Kinshasa, Luanda, Maputo, Mogadishu) —
-   any addition that fills a coverage gap or stresses an under-
-   exercised topology archetype is welcome.
+   `scripts/regenerate-city.sh <slug>`. The catalogue currently
+   covers 66 cities across 41 countries (full Iraq corridor, Levant,
+   most of Sub-Saharan Africa + South + SE Asia + Latin America);
+   gaps worth filling next are the cold-continental climate
+   (Sarajevo / Tirana / Ulaanbaatar / Dushanbe), the Caribbean
+   (Havana / Port-au-Prince / Santo Domingo), and the remaining
+   metro-less Indian Ocean island states.
 
 ## License
 

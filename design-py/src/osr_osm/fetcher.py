@@ -315,13 +315,32 @@ def fetch_city(
     cpath = _cache_path(cache_root, query, slug)
 
     if cpath.exists() and not force_refresh:
-        log.info("cache hit: %s", cpath.name)
-        raw = json.loads(cpath.read_text())
-        return _parse_overpass(raw, bbox, slug)
+        # Validate cache contents before trusting them — earlier
+        # versions cached partial / truncated downloads when an
+        # Overpass endpoint returned a 200 but the response body was
+        # cut short, and on the next run JSON parsing exploded. Treat
+        # parse errors + 0-byte files as cache misses and refetch.
+        try:
+            text = cpath.read_text()
+            if text.strip():
+                raw = json.loads(text)
+                log.info("cache hit: %s", cpath.name)
+                return _parse_overpass(raw, bbox, slug)
+            log.warning("cache empty for %s; refetching", cpath.name)
+        except (OSError, json.JSONDecodeError) as e:
+            log.warning("cache invalid for %s (%s); refetching", cpath.name, e)
+        try:
+            cpath.unlink()
+        except OSError:
+            pass
 
     log.info("cache miss: fetching %s (area %.1f km²)", slug, bbox.area_km2_approx())
     raw = _fetch_overpass(query)
-    cpath.write_text(json.dumps(raw))
+    # Atomic-ish write: stage to a sibling tmp then rename, so a
+    # mid-write SIGKILL leaves the previous good cache intact.
+    tmp = cpath.with_suffix(cpath.suffix + ".part")
+    tmp.write_text(json.dumps(raw))
+    tmp.replace(cpath)
     return _parse_overpass(raw, bbox, slug)
 
 
