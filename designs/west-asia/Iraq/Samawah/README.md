@@ -37,11 +37,13 @@ Corridor polylines + stations as GeoJSON for GIS / alignment tooling: [`samawah-
 
 ## Lines
 
+*Termini are tagged by compass quadrant + radial band (Inner < 0.33 R, Mid 0.33–0.67 R, Outer > 0.67 R, where R is the network's outermost station-to-centre distance).*
+
 | Line | Length | Stations | Trainsets | Termini |
 |---|---|---|---|---|
-| line-1 | 11.5 km | 14 | 13 | ال مطشر ↔ مستشفى الالماني |
-| line-2 | 11.3 km | 12 | 13 | مستوصف صحي حي العسكري ↔ جامعة الامام جعفر الصادق فرع المثنى |
-| line-3 | 17.5 km | 14 | 18 | سيطرة ↔ مدرسة الوهج الابتدائية المختلطة  |
+| line-1 | 11.5 km | 14 | 13 | SE Mid ↔ N Mid |
+| line-2 | 11.3 km | 12 | 13 | SW Inner ↔ N Outer |
+| line-3 | 17.5 km | 14 | 18 | SE Outer ↔ W Outer |
 | **Total** | **40.2 km** | **40 unique** | **38** | |
 
 ## Rolling stock
@@ -51,15 +53,15 @@ Corridor polylines + stations as GeoJSON for GIS / alignment tooling: [`samawah-
 | Consist | 3-car, 68 m |
 | Max speed | 80 km/h |
 | Onboard battery | 320 kWh per trainset |
-| Nominal capacity | 200 pax (seated + standing) |
+| Nominal capacity | 360 pax (seated + standing, `light-metro-3car` per RFC 0008 §1) |
 
 ## Ridership capacity
 
-- **Per-train capacity:** 200 passengers
+- **Per-train capacity:** 360 passengers (`light-metro-3car`)
 - **Peak frequency:** 12 trains/hour/direction (5-min headway)
-- **Peak capacity per line per direction:** 200 × 12 = **2,400 pphpd**
-- **Network peak throughput (all lines, both directions):** 3 lines × 2 directions × 2,400 = **14,400 passengers/hour**
-- **Daily theoretical capacity (peak × 10):** ≈ **144,000 passenger-trips/day**
+- **Peak capacity per line per direction:** 360 × 12 = **4,320 pphpd**
+- **Network peak throughput (all lines, both directions):** 3 lines × 2 directions × 4,320 = **25,920 passengers/hour**
+- **Daily theoretical capacity (peak × 10):** ≈ **259,200 passenger-trips/day**
 - **Practical daily ridership estimate** (10–15 % of catchment): *(requires a coverage score)*
 
 ## Catchment

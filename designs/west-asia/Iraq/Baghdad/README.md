@@ -37,17 +37,19 @@ Corridor polylines + stations as GeoJSON for GIS / alignment tooling: [`baghdad-
 
 ## Lines
 
+*Termini are tagged by compass quadrant + radial band (Inner < 0.33 R, Mid 0.33–0.67 R, Outer > 0.67 R, where R is the network's outermost station-to-centre distance).*
+
 | Line | Length | Stations | Trainsets | Termini |
 |---|---|---|---|---|
-| line-1 | 47.9 km | 30 | 39 | عرب خيط ↔ مستشفى الدكتور قيصر |
-| line-2 | 47.0 km | 30 | 38 | شارع حارث ابن كلده ↔ معهد الكوكب للتدريس الخصوصي ودورات التقوية |
-| line-3 | 46.5 km | 29 | 38 | مدارس أكاديمية التجمع الابتدائية و الثانوية الأهلية ↔ مدرسة الغصون الابتدائيه للبنات في ابو عظام |
-| line-4 | 47.3 km | 30 | 38 | Багдад ↔ مركز صحي الشاعورة |
-| line-5 | 47.9 km | 27 | 39 | مركز صحي الباجة جي ↔ مدرسة سكينة الابتدائية للبنات /الكرخ ٢ |
-| line-6 | 43.9 km | 26 | 36 | مجمع دار الشفاء الطبي ↔ line-6-0326-2070 |
-| line-7 | 44.9 km | 26 | 37 | مركز صحي سبع البور الجديد ↔ line-7-1088-2164 |
-| line-8 | 39.1 km | 22 | 32 | مجمع الأنوار الطبي ↔ معهد الحبيب لدروس التقوية |
-| line-9 | 105.7 km | 70 | 82 | اعدادية الشعلة للبنين ↔ اعدادية الشعلة للبنين |
+| line-1 | 47.9 km | 30 | 39 | W Outer ↔ SE Mid |
+| line-2 | 47.0 km | 30 | 38 | S Mid ↔ N Outer |
+| line-3 | 46.5 km | 29 | 38 | SE Outer ↔ NW Mid |
+| line-4 | 47.3 km | 30 | 38 | SW Mid ↔ NE Outer |
+| line-5 | 47.9 km | 27 | 39 | NW Outer ↔ SW Mid |
+| line-6 | 43.9 km | 26 | 36 | S Mid ↔ NE Outer |
+| line-7 | 44.9 km | 26 | 37 | NW Outer ↔ E Mid |
+| line-8 | 39.1 km | 22 | 32 | E Outer ↔ S Mid |
+| line-9 | 105.7 km | 70 | 82 | W Mid ↔ W Mid |
 | **Total** | **470.2 km** | **288 unique** | **340** | |
 
 ## Rolling stock
@@ -57,15 +59,15 @@ Corridor polylines + stations as GeoJSON for GIS / alignment tooling: [`baghdad-
 | Consist | 6-car, 138 m |
 | Max speed | 90 km/h |
 | Onboard battery | 720 kWh per trainset |
-| Nominal capacity | 200 pax (seated + standing) |
+| Nominal capacity | 900 pax (seated + standing, `metro-6car` per RFC 0008 §1) |
 
 ## Ridership capacity
 
-- **Per-train capacity:** 200 passengers
+- **Per-train capacity:** 900 passengers (`metro-6car`)
 - **Peak frequency:** 12 trains/hour/direction (5-min headway)
-- **Peak capacity per line per direction:** 200 × 12 = **2,400 pphpd**
-- **Network peak throughput (all lines, both directions):** 9 lines × 2 directions × 2,400 = **43,200 passengers/hour**
-- **Daily theoretical capacity (peak × 10):** ≈ **432,000 passenger-trips/day**
+- **Peak capacity per line per direction:** 900 × 12 = **10,800 pphpd**
+- **Network peak throughput (all lines, both directions):** 9 lines × 2 directions × 10,800 = **194,400 passengers/hour**
+- **Daily theoretical capacity (peak × 10):** ≈ **1,944,000 passenger-trips/day**
 - **Practical daily ridership estimate** (10–15 % of catchment): *(requires a coverage score)*
 
 ## Catchment

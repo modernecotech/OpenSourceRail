@@ -61,7 +61,11 @@ class CostAssumptions:
     # crossings, highway overpasses, urban-core RoW constraints.
     bridge_fraction: float = 0.15
     bridge_cost_per_km_usd: float = 20_000_000.0
-    trainset_capacity_pax: int = 200  # 3-car light-metro crush + seated
+    # `None` means "use the family-specific value resolved in
+    # NetworkStats from rolling-stock.toml". Pass `--pax-per-trainset`
+    # at the CLI to override (what-if analysis only — production runs
+    # should rely on the family table).
+    trainset_capacity_pax: int | None = None
 
 
 # --------------------------------------------------------------------------
@@ -100,6 +104,8 @@ class NetworkStats:
     consist_length_m: int
     consist_battery_kwh: int
     consist_max_speed_kmh: float
+    consist_family: str
+    trainset_capacity_pax: int
 
 
 def _load(path: Path) -> dict:
@@ -192,6 +198,18 @@ def compute_stats(
     )
 
     consist = scenario.get("consist", {})
+    # Resolve the rolling-stock family so we can look up family-
+    # specific passenger capacity. The rust emitter writes
+    # `rolling_stock = "<family>"` on every [[lines]] block; older
+    # designs may carry it on the consist directly.
+    family_lines = design.get("lines", [])
+    family = (
+        consist.get("family")
+        or (family_lines[0].get("rolling_stock") if family_lines else None)
+        or "light-metro-3car"
+    )
+    capacity_pax = _trainset_capacity_for_family(family)
+
     return NetworkStats(
         city_name=city_name,
         country_iso=country_iso,
@@ -215,8 +233,40 @@ def compute_stats(
         consist_length_m=int(consist.get("length_m", 68)),
         consist_battery_kwh=int(consist.get("battery_capacity_kwh", 320)),
         consist_max_speed_kmh=float(consist.get("max_speed_kmh", 80)),
+        consist_family=family,
+        trainset_capacity_pax=capacity_pax,
         depot_count=len(design.get("depots", [])),
     )
+
+
+_FAMILY_CAPACITY_FALLBACK: dict[str, int] = {
+    "tram-2car": 220,
+    "light-metro-3car": 360,
+    "metro-4car": 540,
+    "metro-6car": 900,
+}
+
+
+def _trainset_capacity_for_family(family: str) -> int:
+    """Resolve `passenger_capacity` for a rolling-stock family.
+
+    Source of truth is `lib/templates/rolling-stock.toml` (RFC 0008
+    family catalogue). Falls back to a baked table if the template
+    isn't reachable from the cwd (e.g. when this is run from a
+    detached scenario folder during tests)."""
+    here = Path(__file__).resolve()
+    for parent in here.parents:
+        candidate = parent / "lib/templates/rolling-stock.toml"
+        if candidate.exists():
+            try:
+                doc = tomllib.loads(candidate.read_text())
+                profiles = doc.get("profiles", {})
+                if family in profiles and "passenger_capacity" in profiles[family]:
+                    return int(profiles[family]["passenger_capacity"])
+            except Exception:
+                break
+            break
+    return _FAMILY_CAPACITY_FALLBACK.get(family, 360)
 
 
 def _transfer_reachability(lines: list[dict]) -> float:
@@ -272,11 +322,19 @@ def render_readme(
     def rel(*parts: str) -> str:
         return "/".join([rel_to_root, *parts]) if rel_to_root else "/".join(parts)
 
-    # Ridership capacity.
+    # Ridership capacity. Per-train capacity comes from the
+    # rolling-stock family (RFC 0008 §1) — Samawah's 3-car
+    # `light-metro-3car` carries 360 pax, Baghdad's 6-car
+    # `metro-6car` carries 900. The CLI override
+    # (`--pax-per-trainset`) wins when present so what-if analysis
+    # still works.
     trains_per_hour_per_dir = 60 / stats.peak_headway_min
-    per_line_pphpd = stats.trainset_capacity_pax if False else (
-        cost.trainset_capacity_pax * trains_per_hour_per_dir
+    capacity_pax = (
+        cost.trainset_capacity_pax
+        if cost.trainset_capacity_pax is not None
+        else stats.trainset_capacity_pax
     )
+    per_line_pphpd = capacity_pax * trains_per_hour_per_dir
     network_peak_per_h = per_line_pphpd * stats.line_count * 2
     daily_theoretical = network_peak_per_h * 10  # peak≈10% of daily
     catchment = int(stats.coverage * stats.population) if stats.coverage > 0 else None
@@ -331,6 +389,17 @@ def render_readme(
         stations_by_line.setdefault(s.get("line", ""), []).append(s)
     for sts in stations_by_line.values():
         sts.sort(key=lambda s: float(s.get("s_m", 0.0)))
+
+    # Terminus tagging — compass quadrant + radial band relative to the
+    # network's geometric centroid. Replaces raw OSM `anchor_name`
+    # display (which mixed Arabic / English / Russian / fallback IDs
+    # like "line-7-1088-2164" depending on what OSM happened to label
+    # each cell) with a clean planning-grade label like "N Outer" /
+    # "SE Mid". `Inner < 0.33 R`, `0.33 R ≤ Mid ≤ 0.67 R`,
+    # `Outer > 0.67 R`, where R is the network's outermost
+    # station-to-centroid distance.
+    terminus_tag = _build_terminus_tagger(design.get("stations", []))
+
     line_rows: list[str] = []
     for L in design.get("lines", []):
         line_id = L.get("id") or L["name"]
@@ -339,11 +408,8 @@ def render_readme(
         inline_sts = L.get("stations") or stations_by_line.get(line_id, [])
         station_ids = [s["id"] for s in inline_sts]
 
-        def _display(sid: str) -> str:
-            s = by_id.get(sid, {})
-            return s.get("name") or s.get("anchor_name") or sid
-        first = _display(station_ids[0]) if station_ids else ""
-        last = _display(station_ids[-1]) if station_ids else ""
+        first = terminus_tag(station_ids[0]) if station_ids else ""
+        last = terminus_tag(station_ids[-1]) if station_ids else ""
         trainsets = fleet_by_line.get(line_id, 0)
         line_rows.append(
             f"| {line_name} | {length_km:4.1f} km | "
@@ -457,6 +523,11 @@ def render_readme(
     out.append("")
 
     out.append("## Lines\n")
+    out.append(
+        "*Termini are tagged by compass quadrant + radial band "
+        "(Inner < 0.33 R, Mid 0.33–0.67 R, Outer > 0.67 R, where "
+        "R is the network's outermost station-to-centre distance).*\n"
+    )
     out.append("| Line | Length | Stations | Trainsets | Termini |")
     out.append("|---|---|---|---|---|")
     out.extend(line_rows)
@@ -475,11 +546,15 @@ def render_readme(
     )
     out.append(f"| Max speed | {stats.consist_max_speed_kmh:.0f} km/h |")
     out.append(f"| Onboard battery | {stats.consist_battery_kwh} kWh per trainset |")
-    out.append(f"| Nominal capacity | {cost.trainset_capacity_pax} pax (seated + standing) |\n")
+    out.append(
+        f"| Nominal capacity | {capacity_pax} pax (seated + standing, "
+        f"`{stats.consist_family}` per RFC 0008 §1) |\n"
+    )
 
     out.append("## Ridership capacity\n")
     out.append(
-        f"- **Per-train capacity:** {cost.trainset_capacity_pax} passengers"
+        f"- **Per-train capacity:** {capacity_pax} passengers "
+        f"(`{stats.consist_family}`)"
     )
     out.append(
         f"- **Peak frequency:** {trains_per_hour_per_dir:.0f} trains/hour/direction "
@@ -487,7 +562,7 @@ def render_readme(
     )
     out.append(
         f"- **Peak capacity per line per direction:** "
-        f"{cost.trainset_capacity_pax} × {trains_per_hour_per_dir:.0f} "
+        f"{capacity_pax} × {trains_per_hour_per_dir:.0f} "
         f"= **{per_line_pphpd:,.0f} pphpd**"
     )
     out.append(
@@ -684,6 +759,84 @@ def _hours(start: str, end: str) -> float:
         return (eh * 60 + em - sh * 60 - sm) / 60.0
     except Exception:
         return 18.0
+
+
+def _build_terminus_tagger(stations: list[dict]):
+    """Returns a callable that maps a station id to a "<quadrant> <band>"
+    label like "N Outer" or "SE Mid", computed from the network's
+    geometric centroid.
+
+    Replaces raw OSM `anchor_name` strings — which legitimately mix
+    Arabic / English / Russian / Cyrillic / placeholder IDs depending
+    on what the underlying OSM data happened to label each cell — with
+    a script-neutral planning-grade label that's stable across
+    networks. Operators get a tag they can read at a glance ("the line
+    runs from the SE-mid suburbs to the N-outer terminus") without
+    needing to read the local toponym.
+    """
+    import math
+
+    by_id = {s["id"]: s for s in stations if "lat" in s and "lon" in s}
+    if not by_id:
+        return lambda sid: sid
+    # Geometric centroid (simple mean of lat/lon — fine for any
+    # network smaller than a few hundred km, where flat-earth error
+    # is well below the band granularity).
+    n = len(by_id)
+    cx_lat = sum(float(s["lat"]) for s in by_id.values()) / n
+    cx_lon = sum(float(s["lon"]) for s in by_id.values()) / n
+
+    # Per-station distance from centroid (in degrees-equivalent —
+    # we only need ratios for the band check).
+    def _dist(s: dict) -> float:
+        dlat = float(s["lat"]) - cx_lat
+        # Cosine-correct longitudinal distance so the network's
+        # bearing classification works at any latitude.
+        dlon = (float(s["lon"]) - cx_lon) * math.cos(math.radians(cx_lat))
+        return math.hypot(dlat, dlon)
+
+    radii = {sid: _dist(s) for sid, s in by_id.items()}
+    r_max = max(radii.values()) if radii else 1.0
+    if r_max == 0.0:
+        r_max = 1.0  # degenerate single-point network — avoid div-by-zero
+
+    # 8-way compass binning from bearing (0° = north, increasing
+    # clockwise). Bins are centered on each cardinal/intercardinal,
+    # 45° wide.
+    quadrants = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"]
+
+    def _quadrant(s: dict) -> str:
+        dlat = float(s["lat"]) - cx_lat
+        dlon = (float(s["lon"]) - cx_lon) * math.cos(math.radians(cx_lat))
+        if dlat == 0 and dlon == 0:
+            return "Centre"
+        # math.atan2(x, y) returns bearing-from-north when x = dlon (east)
+        # and y = dlat (north). Result range -π..π.
+        bearing = math.degrees(math.atan2(dlon, dlat))
+        if bearing < 0:
+            bearing += 360.0
+        # Bin: rotate by half a bin so each cardinal is centred.
+        idx = int(((bearing + 22.5) // 45) % 8)
+        return quadrants[idx]
+
+    def _band(sid: str) -> str:
+        ratio = radii.get(sid, 0.0) / r_max
+        if ratio < 0.33:
+            return "Inner"
+        if ratio < 0.67:
+            return "Mid"
+        return "Outer"
+
+    def tag(sid: str) -> str:
+        s = by_id.get(sid)
+        if s is None:
+            return sid
+        q = _quadrant(s)
+        if q == "Centre":
+            return "Centre"
+        return f"{q} {_band(sid)}"
+
+    return tag
 
 
 # Per-archetype unit costs — mirror of the constants in
@@ -976,8 +1129,14 @@ def main(argv: list[str] | None = None) -> int:
         help="per-depot unit cost, USD/depot (default: 5,000,000)",
     )
     ap.add_argument(
-        "--pax-per-trainset", type=int, default=200,
-        help="passenger capacity per trainset (default: 200)",
+        "--pax-per-trainset", type=int, default=None,
+        help=(
+            "passenger capacity per trainset (default: read from "
+            "lib/templates/rolling-stock.toml for the design's "
+            "rolling_stock family — 220 for tram-2car, 360 for "
+            "light-metro-3car, 540 for metro-4car, 900 for metro-6car). "
+            "Pass an integer here only for what-if analysis."
+        ),
     )
     args = ap.parse_args(argv)
 
