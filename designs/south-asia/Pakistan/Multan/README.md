@@ -80,7 +80,7 @@ Aggregate station-rail charging power: **27,500 kW**. Trains opportunity-charge 
 
 ## CAPEX (planning grade)
 
-All figures come from the `[costs]` block in `design.toml` — emitted by the `osr-design` Rust planner per RFC 0011 §9. **OSR-discipline unit costs**: prefab portal-frame canopies (no bespoke architectural cladding), at-grade depots without overhead bridge cranes, commodity Na-ion cells + tier-2 PMSM motors + DIY SiC inverters in rolling stock, open-source CBTC on commodity SBCs (no proprietary signalling vendor), no overhead catenary, and self-EPC overhead. Conventional metro budgets land 2–3× higher because of the line items OSR has architected away. `country-costs.toml` applies the per-country labour/material multiplier downstream.
+All figures come from the `[costs]` block in `design.toml` — emitted by the `osr-design` Rust planner per RFC 0011 §9. **OSR-discipline unit costs**: prefab portal-frame canopies (no bespoke architectural cladding), at-grade depots without overhead bridge cranes, commodity Na-ion cells + tier-2 PMSM motors + DIY SiC inverters in rolling stock, **onboard-first train control with a sparse LoRa-linked wayside** (no trackside fibre backbone, no proprietary CBTC vendor stack, no trackside computer interlockings — the function moves into the trainset, already counted in rolling-stock CAPEX), no overhead catenary, and self-EPC overhead. Conventional metro budgets land 2–3× higher because of the line items OSR has architected away. `country-costs.toml` applies the per-country labour/material multiplier downstream.
 
 ### Civil works
 
@@ -126,9 +126,9 @@ Per-trainset BOM at OSR-discipline pricing: **onboard** Na-ion traction battery 
 
 | Item | Basis | Subtotal |
 |---|---|---|
-| Signalling (open-source CBTC on commodity SBCs, RFC 0019) | 115.4 km × €0.4 M/km | €46 M |
+| Signalling (onboard ATC + LoRa-linked wayside W-Nodes, RFC 0019/0001) | 115.4 km × €0.1 M/km | €11 M |
 | Traction power (**trackside** stationary PV + Na-ion + grid-tie at every station, no OCS, RFC 0002 §6) | 115.4 km × €0.8 M/km | €92 M |
-| EPC integration + project management (7%) | on subtotal | €87 M |
+| EPC integration + project management (7%) | on subtotal | €84 M |
 
 ### Total
 
@@ -138,24 +138,40 @@ Per-trainset BOM at OSR-discipline pricing: **onboard** Na-ion traction battery 
 | Stations | €184 M |
 | Depots | €40 M |
 | Rolling stock | €294 M |
-| Signalling + power | €138 M |
-| EPC overhead (7%) | €87 M |
-| **CAPEX total** | **€1.32 bn** |
+| Signalling + power | €103 M |
+| EPC overhead (7%) | €84 M |
+| **CAPEX total** | **€1.29 bn** |
 | Per-route-km | €11 M / km |
-| Per-capita (city pop) | €603 / person |
+| Per-capita (city pop) | €586 / person |
 
 ## Funding & affordability
 
 Planning-grade financing model anchored to country financial parameters from [`lib/templates/country-finance.toml`](../../../../lib/templates/country-finance.toml). Pure function of the [costs] block above + the country code — regenerate by re-running `scripts/regenerate-city.sh multan`.
 
+### Government commitment summary (budgetable)
+
+Bottom line for next year's budget submission. Construction phase runs **years 1–7** (equity drawdown + interest-only grace on multilateral + bonds); steady-state operation begins **year 8** and runs for **23 years** until the loans amortise.
+
+| Phase | Annual gov / municipal commitment | Per resident / yr |
+|---|---|---|
+| Construction (years 1–7) | **€112 M / yr** | €51 |
+| Steady-state, low-ridership (year 8+) | **€127 M / yr** | €58 |
+| Steady-state, high-ridership (year 8+) | **€117 M / yr** | €53 |
+| Lifecycle envelope (yr 1–30, low scenario) | **€3.70 bn cumulative** | €1,683 |
+| Lifecycle envelope (yr 1–30, high scenario) | **€3.46 bn cumulative** | €1,577 |
+
+_Population basis: 2,197,000 (catchment per `lib/city-batches/world-sample.toml`). After year 30, debt service drops to zero and only the OPEX shortfall remains — ~€20 M / yr (low) → €10.0 M / yr (high)._
+
 ### CAPEX funding stack
 
 | Tranche | Share | Principal | Rate | Tenor | Annual debt service (post-grace) |
 |---|---|---|---|---|---|
-| Multilateral concessional loan (IBRD / AfDB / ADB class) | 60% | €794 M | 4.0% | 30 y, 7 y grace | €53 M / yr |
-| Sovereign bonds (10-y benchmark + project) | 25% | €331 M | 16.5% | 30 y, 7 y grace | €56 M / yr |
-| Government equity (no debt service) | 15% | €199 M | — | — | — |
-| **Total** | **100%** | **€1.32 bn** | | | **€110 M / yr** |
+| Multilateral concessional loan (IBRD / AfDB / ADB class) | 60% | €772 M | 4.0% | 30 y, 7 y grace | €52 M / yr |
+| Sovereign bonds (10-y benchmark + project) | 25% | €322 M | 16.5% | 30 y, 7 y grace | €55 M / yr |
+| Government equity (no debt service) | 15% | €193 M | — | — | — |
+| **Total** | **100%** | **€1.29 bn** | | | **€107 M / yr** |
+
+_During the 7-year grace period the operator pays interest only — multilateral €31 M / yr + bonds €53 M / yr = **€84 M / yr** total — plus the equity tranche amortised across construction (€28 M / yr × 7 yr). Principal repayment begins in year 8 on a 23-year amortisation schedule._
 
 ### Annual OPEX (steady state)
 
@@ -163,16 +179,16 @@ Planning-grade financing model anchored to country financial parameters from [`l
 |---|---|---|
 | Rolling-stock maintenance | 4 % of rolling-stock CAPEX | €12 M |
 | Civil + station + depot maintenance | 2 % of fixed-asset CAPEX | €16 M |
-| Signalling + comms maintenance | 5 % of signalling CAPEX | €2.3 M |
+| Signalling + comms maintenance | 5 % of signalling CAPEX | €575 k |
 | Traction energy (273.4 GWh / yr) | trackside PV + Na-ion (RFC 0002) — **self-generated, €0 / yr** | €0 k |
 | Labour (704 FTE) | ~6 FTE/route-km + 12 admin core × country median × 12 × engineer-premium 1.4 | €1.8 M |
-| **OPEX subtotal** | | **€32 M / yr** |
+| **OPEX subtotal** | | **€30 M / yr** |
 
 _Annual fleet utilisation: 87 revenue trainsets × 20.5 h/day × 365 d/yr × 35 km/h commercial × 75% revenue factor = 17.1 M train-km / yr (~196 k km / trainset / yr)._
 
 ### Ticket pricing anchored to median income
 
-Country median monthly income: **$165 USD** (per [`lib/templates/country-finance.toml`](../../../../lib/templates/country-finance.toml)). Target affordability: monthly unlimited pass at 5 % of median income → single-trip price set by the 30:1 pass / trip ratio used by every operator in the affordability literature (STIB, Delhi Metro, Cairo Metro).
+Country median monthly income: **$165 USD** (per [`lib/templates/country-finance.toml`](../../../../lib/templates/country-finance.toml)). Affordability target: a monthly unlimited-ride pass costs **5 % of median monthly income**. Single-trip fare set so that 30 single trips equal one monthly pass — a frequent commuter averaging ~50 trips / month then pays an effective ~40 % bulk discount on the pass, matching the structure used by Delhi Metro, Cairo Metro, and STIB.
 
 | Product | Price target |
 |---|---|
@@ -189,10 +205,10 @@ Practical-ridership bracket = 5–10 % of urban population × 365 service-days. 
 |---|---|---|
 | Annual paid trips | 40.1 M | 80.2 M |
 | Farebox revenue | €10 M / yr | €20 M / yr |
-| Farebox / OPEX recovery | 32% | 63% |
+| Farebox / OPEX recovery | 34% | 67% |
 | Country policy-target recovery (diagnostic) | 45% | 45% |
-| Operating shortfall (gov subsidy required) | €22 M / yr | €12 M / yr |
-| **Total annual government burden** (debt service + OPEX shortfall) | **€132 M / yr** | **€121 M / yr** |
+| Operating shortfall (gov subsidy required) | €20 M / yr | €10.0 M / yr |
+| **Steady-state government commitment** (debt service + OPEX shortfall) | **€127 M / yr** | **€117 M / yr** |
 
 **Caveats:** The funding-stack 60/25/15 split, the 5 % income-share affordability target, and the 5–10 % daily-pax bracket are project-level defaults. Real deployments will negotiate the share with the financing institutions and will tune fares iteratively from boarding data. Treat the numbers above as a first-iteration sanity check, not as a bid-ready financial close.
 

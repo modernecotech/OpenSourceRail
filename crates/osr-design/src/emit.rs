@@ -760,13 +760,20 @@ fn trainset_cost_eur(family: &str) -> f64 {
 }
 
 /// Systems cost rates (€ per route-km). OSR-discipline:
-///   - Signalling: open-source CBTC on commodity SBCs (RFC 0019
-///     hardware + RFC 0001 consensus + RFC 0004 interlocking), no
-///     proprietary CBTC vendor stack. Cost dominated by trackside
-///     fibre + W-SBC enclosures.
+///   - Signalling: train-control intelligence runs **onboard** (RFC
+///     0019 hardware + RFC 0001 SMRaft consensus + RFC 0004
+///     interlocking). Wayside is a sparse mesh of LoRa-linked W-Node
+///     enclosures + axle counters + balise readers — no trackside
+///     fibre backbone, no proprietary CBTC vendor stack, no
+///     trackside computer interlockings. Conventional CBTC trackside
+///     budgets €1.5–3 M/km; legacy block + relay interlockings €0.4
+///     M/km. OSR's onboard-first architecture lands at €0.1 M/km
+///     because the function moves into the trainset (already counted
+///     in rolling-stock cost) and the wayside reduces to commodity
+///     SBCs talking LoRa to the next W-Node.
 ///   - Power: distributed PV + Na-ion at every station (RFC 0002),
 ///     no overhead catenary, no traction substation.
-const SIGNALLING_EUR_PER_KM: f64 = 400_000.0;
+const SIGNALLING_EUR_PER_KM: f64 = 100_000.0;
 const POWER_EUR_PER_KM: f64 = 800_000.0;
 
 /// EPC integration + project management overhead applied to the subtotal
@@ -1656,13 +1663,13 @@ mod tests {
         assert!((c.depots_eur - 28_000_000.0).abs() < 1.0);
         // Rolling stock: 12 × €4.5 M.
         assert!((c.rolling_stock_eur - 54_000_000.0).abs() < 1.0);
-        // Systems: 11.5 km × (€0.4 M + €0.8 M).
-        assert!((c.signalling_eur - 4_600_000.0).abs() < 1.0);
+        // Systems: 11.5 km × (€0.1 M + €0.8 M).
+        assert!((c.signalling_eur - 1_150_000.0).abs() < 1.0);
         assert!((c.power_eur - 9_200_000.0).abs() < 1.0);
-        // Subtotal before EPC = 65.5 + 7 + 28 + 54 + 4.6 + 9.2 = 168.3 M.
-        // EPC overhead = 7 % × 168.3 M = 11.781 M.
-        assert!((c.epc_overhead_eur - 11_781_000.0).abs() < 1.0);
-        // Total = 168.3 + 11.781 = 180.081 M.
-        assert!((c.total_eur - 180_081_000.0).abs() < 1.0);
+        // Subtotal before EPC = 65.5 + 7 + 28 + 54 + 1.15 + 9.2 = 164.85 M.
+        // EPC overhead = 7 % × 164.85 M = 11.5395 M.
+        assert!((c.epc_overhead_eur - 11_539_500.0).abs() < 1.0);
+        // Total = 164.85 + 11.5395 = 176.3895 M.
+        assert!((c.total_eur - 176_389_500.0).abs() < 1.0);
     }
 }

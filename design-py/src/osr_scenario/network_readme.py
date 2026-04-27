@@ -318,9 +318,27 @@ def _funding_and_affordability_section(
         a = (1 - (1 + rate) ** -years)
         return principal * rate / a if a > 0 else principal / max(years, 1)
 
-    multi_annuity = _annuity(multi_eur, multi_rate, tenor - grace)
-    bond_annuity = _annuity(bond_eur, bond_rate, tenor - grace)
+    repayment_years = max(tenor - grace, 1)
+    multi_annuity = _annuity(multi_eur, multi_rate, repayment_years)
+    bond_annuity = _annuity(bond_eur, bond_rate, repayment_years)
     annual_debt_service_eur = multi_annuity + bond_annuity
+
+    # Construction-phase commitment. During the `grace` years the
+    # government carries:
+    #   • the equity tranche, drawn down evenly across construction;
+    #   • interest-only service on multilateral + sovereign bonds (IBRD
+    #     /AfDB / ADB grace is interest-only by convention; bondholders
+    #     expect coupon payments from issuance even before revenue
+    #     service). Earlier readme versions skipped grace-period
+    #     interest entirely, understating the real construction-phase
+    #     commitment by 5 × ~25 % of post-grace annuity.
+    #   • principal repayment doesn't start until year `grace + 1`.
+    construction_years = max(grace, 1)
+    annual_equity_eur = equity_eur / construction_years
+    annual_grace_interest_eur = (multi_eur * multi_rate) + (bond_eur * bond_rate)
+    annual_construction_commitment_eur = (
+        annual_equity_eur + annual_grace_interest_eur
+    )
 
     # OPEX model. Components, all in EUR / year. Each line covers one
     # discrete asset class — no double-counting between rolling-stock
@@ -336,8 +354,13 @@ def _funding_and_affordability_section(
     #     **trackside PV array**, **trackside Na-ion stationary
     #     storage**, and depot-side power infrastructure. Stationary
     #     batteries appear ONLY here.
-    #   • signalling + comms maintenance — 5 % of signalling CAPEX
-    #     (fast cycles for trackside electronics).
+    #   • signalling + comms maintenance — 5 % of signalling CAPEX.
+    #     Fast cycles for trackside electronics, but the absolute
+    #     base is small: onboard-first train control means the
+    #     wayside is just LoRa gateways + axle counters + balise
+    #     readers (RFC 0019 commodity hardware), not a fibre-linked
+    #     CBTC backbone. Maintenance crew is one shared electronics
+    #     team, not a dedicated signalling contract.
     #   • traction energy — **€0 / yr in the steady state**. The
     #     network is self-sufficient on its own trackside PV per
     #     RFC 0002 §6 (~$30 M energy-subsystem CAPEX sized for the
@@ -393,8 +416,9 @@ def _funding_and_affordability_section(
     energy_eur = 0.0
 
     # Labour. OSR-discipline headcount per RFC 0014 §4 + RFC 0013
-    # rulebook: GoA 4 driverless (no train drivers), open-source CBTC
-    # (no proprietary signalling contract), reduced station staff
+    # rulebook: GoA 4 driverless (no train drivers), onboard-first
+    # train control + LoRa wayside (no proprietary signalling
+    # contract, no trackside fibre maintenance crew), reduced station staff
     # (level boarding + PSDs handle most platform safety). Industry
     # benchmark for legacy metros is ~45–70 FTE per route-km
     # (Singapore SMRT, Hong Kong MTR); OSR-discipline target is
@@ -451,6 +475,94 @@ def _funding_and_affordability_section(
         f"{stats.city_name.split()[0].lower()}`.\n"
     )
 
+    # ============================================================
+    # GOVERNMENT COMMITMENT SUMMARY — top-of-section budgetable view
+    # ============================================================
+    # We compute the commitment first so the finance ministry sees the
+    # bottom-line annual budget allocation immediately. The breakdowns
+    # below explain how those numbers are built up.
+    #
+    # Budget envelope split into two phases:
+    #   Phase 1 — Construction (years 1..grace, typically 5–10 yrs)
+    #     • equity drawdown (annual_equity_eur)
+    #     • grace-period interest on multilateral + bonds
+    #     • no farebox revenue, no debt-principal repayment
+    #   Phase 2 — Steady-state operation (year grace+1 onwards)
+    #     • full debt service (multilateral + bond principal + interest)
+    #     • OPEX shortfall = max(0, OPEX − farebox)
+    #     • surplus farebox (high scenario, megacities) flows to a
+    #       capex sinking fund retained by the operator and indirectly
+    #       reduces future government CAPEX commitments
+    #
+    # We place this summary table ahead of the detailed CAPEX/OPEX
+    # breakdowns so a finance ministry can pull a single number into
+    # next year's budget submission without reading the whole section.
+    operating_shortfall_low = max(0.0, annual_opex_eur - farebox_low_eur)
+    operating_shortfall_high = max(0.0, annual_opex_eur - farebox_high_eur)
+    surplus_low = max(0.0, farebox_low_eur - annual_opex_eur)
+    surplus_high = max(0.0, farebox_high_eur - annual_opex_eur)
+    steady_state_low = annual_debt_service_eur + operating_shortfall_low
+    steady_state_high = annual_debt_service_eur + operating_shortfall_high
+
+    population = max(int(stats.population), 1)
+    construction_per_capita = annual_construction_commitment_eur / population
+    steady_low_per_capita = steady_state_low / population
+    steady_high_per_capita = steady_state_high / population
+
+    # Lifecycle envelope: total cumulative gov outlay over the loan
+    # tenor (construction + repayment phases).
+    lifecycle_low = (
+        construction_years * annual_construction_commitment_eur
+        + repayment_years * steady_state_low
+    )
+    lifecycle_high = (
+        construction_years * annual_construction_commitment_eur
+        + repayment_years * steady_state_high
+    )
+
+    out.append("### Government commitment summary (budgetable)\n")
+    out.append(
+        "Bottom line for next year's budget submission. "
+        f"Construction phase runs **years 1–{construction_years}** "
+        f"(equity drawdown + interest-only grace on multilateral + "
+        f"bonds); steady-state operation begins **year {construction_years + 1}** "
+        f"and runs for **{repayment_years} years** until the loans amortise.\n"
+    )
+    out.append("| Phase | Annual gov / municipal commitment | Per resident / yr |")
+    out.append("|---|---|---|")
+    out.append(
+        f"| Construction (years 1–{construction_years}) | "
+        f"**{_eur(annual_construction_commitment_eur)} / yr** | "
+        f"€{construction_per_capita:,.0f} |"
+    )
+    out.append(
+        f"| Steady-state, low-ridership (year {construction_years + 1}+) | "
+        f"**{_eur(steady_state_low)} / yr** | "
+        f"€{steady_low_per_capita:,.0f} |"
+    )
+    out.append(
+        f"| Steady-state, high-ridership (year {construction_years + 1}+) | "
+        f"**{_eur(steady_state_high)} / yr** | "
+        f"€{steady_high_per_capita:,.0f} |"
+    )
+    out.append(
+        f"| Lifecycle envelope (yr 1–{tenor}, low scenario) | "
+        f"**{_eur(lifecycle_low)} cumulative** | "
+        f"€{lifecycle_low / population:,.0f} |"
+    )
+    out.append(
+        f"| Lifecycle envelope (yr 1–{tenor}, high scenario) | "
+        f"**{_eur(lifecycle_high)} cumulative** | "
+        f"€{lifecycle_high / population:,.0f} |\n"
+    )
+    out.append(
+        f"_Population basis: {population:,} (catchment per "
+        f"`lib/city-batches/world-sample.toml`). After year {tenor}, debt "
+        f"service drops to zero and only the OPEX shortfall remains — "
+        f"~{_eur(operating_shortfall_low)} / yr (low) → "
+        f"{_eur(operating_shortfall_high)} / yr (high)._\n"
+    )
+
     out.append("### CAPEX funding stack\n")
     out.append("| Tranche | Share | Principal | Rate | Tenor | Annual debt service (post-grace) |")
     out.append("|---|---|---|---|---|---|")
@@ -471,6 +583,16 @@ def _funding_and_affordability_section(
     out.append(
         f"| **Total** | **100%** | **{_eur(total_eur)}** | | | "
         f"**{_eur(annual_debt_service_eur)} / yr** |\n"
+    )
+    out.append(
+        f"_During the {grace}-year grace period the operator pays "
+        f"interest only — multilateral {_eur(multi_eur * multi_rate)} / yr "
+        f"+ bonds {_eur(bond_eur * bond_rate)} / yr = "
+        f"**{_eur(annual_grace_interest_eur)} / yr** total — plus the "
+        f"equity tranche amortised across construction "
+        f"({_eur(annual_equity_eur)} / yr × {grace} yr). Principal "
+        f"repayment begins in year {grace + 1} on a {repayment_years}-year "
+        f"amortisation schedule._\n"
     )
 
     out.append("### Annual OPEX (steady state)\n")
@@ -513,10 +635,12 @@ def _funding_and_affordability_section(
     out.append(
         f"Country median monthly income: **${monthly_income:,.0f} USD** "
         f"(per [`lib/templates/country-finance.toml`]({rel('lib/templates/country-finance.toml')})). "
-        f"Target affordability: monthly unlimited pass at 5 % of "
-        f"median income → single-trip price set by the 30:1 pass / trip "
-        f"ratio used by every operator in the affordability literature "
-        f"(STIB, Delhi Metro, Cairo Metro).\n"
+        f"Affordability target: a monthly unlimited-ride pass costs **5 % "
+        f"of median monthly income**. Single-trip fare set so that 30 "
+        f"single trips equal one monthly pass — a frequent commuter "
+        f"averaging ~50 trips / month then pays an effective ~40 % bulk "
+        f"discount on the pass, matching the structure used by Delhi "
+        f"Metro, Cairo Metro, and STIB.\n"
     )
     out.append("| Product | Price target |")
     out.append("|---|---|")
@@ -561,22 +685,12 @@ def _funding_and_affordability_section(
         f"| Country policy-target recovery (diagnostic) | "
         f"{target_recovery:.0%} | {target_recovery:.0%} |"
     )
-    # Cash-flow accounting:
-    #   gov fills the **actual** OPEX shortfall when farebox doesn't
-    #   cover OPEX (otherwise the operator is insolvent and service
-    #   stops). The country policy-target recovery above is a
-    #   diagnostic — it tells the operator how far they are from the
-    #   long-term affordability target — but does not change the
-    #   cash math. Earlier model wrongly subsidised only up to
-    #   `target × OPEX` and silently assumed someone else funded
-    #   the rest of the OPEX gap. Surplus farebox (high scenario,
-    #   metropolitan-scale) is retained by the operator (capex
-    #   sinking fund / fleet renewal); we conservatively do NOT
-    #   subtract it from gov debt service.
-    operating_shortfall_low = max(0.0, annual_opex_eur - farebox_low_eur)
-    operating_shortfall_high = max(0.0, annual_opex_eur - farebox_high_eur)
-    surplus_low = max(0.0, farebox_low_eur - annual_opex_eur)
-    surplus_high = max(0.0, farebox_high_eur - annual_opex_eur)
+    # Operating-shortfall + surplus + steady-state-burden values were
+    # computed at the top of the section for the Government commitment
+    # summary. We re-emit them here in the table that explains *how*
+    # the steady-state burden is assembled — readers landing in this
+    # subsection should see a consistent answer to the bottom-line
+    # question repeated in this view.
     out.append(
         f"| Operating shortfall (gov subsidy required) | "
         f"{_eur(operating_shortfall_low)} / yr | "
@@ -588,13 +702,11 @@ def _funding_and_affordability_section(
             f"{_eur(surplus_low)} / yr | "
             f"{_eur(surplus_high)} / yr |"
         )
-    debt_subsidy_low = annual_debt_service_eur + operating_shortfall_low
-    debt_subsidy_high = annual_debt_service_eur + operating_shortfall_high
     out.append(
-        f"| **Total annual government burden** "
+        f"| **Steady-state government commitment** "
         f"(debt service + OPEX shortfall) | "
-        f"**{_eur(debt_subsidy_low)} / yr** | "
-        f"**{_eur(debt_subsidy_high)} / yr** |\n"
+        f"**{_eur(steady_state_low)} / yr** | "
+        f"**{_eur(steady_state_high)} / yr** |\n"
     )
 
     out.append(
@@ -1294,7 +1406,7 @@ _AT_GRADE_EUR_PER_KM = 3_500_000.0
 _ELEVATED_EUR_PER_KM = 18_000_000.0
 _BRIDGE_EUR_PER_KM = 25_000_000.0
 _JUNCTION_PREMIUM_EUR = 20_000_000.0
-_SIGNALLING_EUR_PER_KM = 400_000.0
+_SIGNALLING_EUR_PER_KM = 100_000.0
 _POWER_EUR_PER_KM = 800_000.0
 _EPC_OVERHEAD_FRAC = 0.07
 
@@ -1346,10 +1458,13 @@ def _rich_capex_section(
         "canopies (no bespoke architectural cladding), at-grade depots "
         "without overhead bridge cranes, commodity Na-ion cells + "
         "tier-2 PMSM motors + DIY SiC inverters in rolling stock, "
-        "open-source CBTC on commodity SBCs (no proprietary signalling "
-        "vendor), no overhead catenary, and self-EPC overhead. "
-        "Conventional metro budgets land 2–3× higher because of the "
-        "line items OSR has architected away. `country-costs.toml` "
+        "**onboard-first train control with a sparse LoRa-linked "
+        "wayside** (no trackside fibre backbone, no proprietary CBTC "
+        "vendor stack, no trackside computer interlockings — the "
+        "function moves into the trainset, already counted in "
+        "rolling-stock CAPEX), no overhead catenary, and self-EPC "
+        "overhead. Conventional metro budgets land 2–3× higher because "
+        "of the line items OSR has architected away. `country-costs.toml` "
         "applies the per-country labour/material multiplier "
         "downstream.\n"
     )
@@ -1453,8 +1568,8 @@ def _rich_capex_section(
     out.append("| Item | Basis | Subtotal |")
     out.append("|---|---|---|")
     out.append(
-        f"| Signalling (open-source CBTC on commodity SBCs, RFC 0019) | "
-        f"{stats.route_km:.1f} km × €0.4 M/km | "
+        f"| Signalling (onboard ATC + LoRa-linked wayside W-Nodes, RFC 0019/0001) | "
+        f"{stats.route_km:.1f} km × €0.1 M/km | "
         f"{_eur(costs['signalling_eur'])} |"
     )
     out.append(
