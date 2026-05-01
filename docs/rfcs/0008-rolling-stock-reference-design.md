@@ -25,15 +25,18 @@ boarding zone, and its own onboard control stack. Multi-car consists
 repeat that module rather than introducing a different traction
 architecture.
 
-| Family | Cars | Length | Tare | Capacity | Peak ridership band (pphpd) | Onboard battery | Max speed |
-|---|---:|---:|---:|---:|---:|---:|---:|
-| `urban-shuttle-1car` | 1 | 21 m | 34 t | 90 | < 2 500 | 120 kWh | 19 m/s (70 km/h) |
-| `tram-2car` | 2 | 39 m | 68 t | 220 | < 5 000 | 240 kWh | 19 m/s (70 km/h) |
-| `light-metro-3car` | 3 | 57 m | 102 t | 360 | 5 000–10 000 | 360 kWh | 25 m/s (90 km/h) — **Samawah reference** |
-| `metro-4car` | 4 | 75 m | 136 t | 540 | 10 000–20 000 | 480 kWh | 25 m/s (90 km/h) |
-| `metro-6car` | 6 | 111 m | 204 t | 900 | 20 000–35 000 | 720 kWh | 28 m/s (100 km/h) |
+| Family | Cars | Length | Tare | Seats | AW2 nominal capacity | AW3 crush capacity | Peak ridership band (pphpd) | Onboard battery | Max speed |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| `urban-shuttle-1car` | 1 | 21 m | 34 t | 20 | 90 | 110 | < 2 500 | 120 kWh | 19 m/s (70 km/h) |
+| `tram-2car` | 2 | 39 m | 68 t | 40 | 210 | 260 | < 5 000 | 240 kWh | 19 m/s (70 km/h) |
+| `light-metro-3car` | 3 | 57 m | 102 t | 60 | 330 | 420 | 5 000–10 000 | 360 kWh | 25 m/s (90 km/h) — **Samawah reference** |
+| `metro-4car` | 4 | 75 m | 136 t | 80 | 440 | 560 | 10 000–20 000 | 480 kWh | 25 m/s (90 km/h) |
+| `metro-6car` | 6 | 111 m | 204 t | 120 | 660 | 840 | 20 000–35 000 | 720 kWh | 28 m/s (100 km/h) |
 
 Pphpd = passengers per hour per direction at peak, planning-grade.
+AW2 is the normal peak planning load used for capacity and farebox
+calculations. AW3 is a short-duration crush-load reference for
+structure, suspension, braking, and emergency-egress checks.
 
 ## 2. Non-goals
 
@@ -105,7 +108,7 @@ one supplier-qualification set.
 | Aspect | Choice | Rationale |
 |---|---|---|
 | Floor | Low-floor centre section at the large door zone, with raised floor over the two standard bogies | Gives level boarding where passengers move while avoiding exotic low-floor bogies. |
-| Door count | 1 large centre double-door pair per car side on `urban-shuttle-1car`; 2 pairs per side on longer cars where dwell modelling requires it | The default 1 km stop pattern favours wide, simple openings over many narrow doors. |
+| Door count | 1 large centre double-door pair per car side on every 17 m self-contained car | The default 1 km stop pattern favours wide, simple openings over many narrow doors. Capacity scales by adding identical cars, not changing the door pattern. |
 | Door clearance | 1 250 mm wide × 2 000 mm tall opening | Wheelchair + stroller compatible. |
 | Seating | Longitudinal bench seating, ≥ 15 % seats priority (elderly, pregnant, wheelchair companion) | Standing-heavy mix maximises peak capacity; matches the pphpd planning band. |
 | Wheelchair spaces | 2 per car (4 per `tram-2car`, 6 per `light-metro-3car`, 8 per `metro-4car`, 12 per `metro-6car`) | Per accessibility template ([`lib/templates/accessibility.toml`](../../lib/templates/accessibility.toml)). |
@@ -165,17 +168,18 @@ a simple ridership model:
 ```text
    population band (city)     pphpd target         chosen family
    ────────────────────────   ───────────────      ───────────────
-   ≤ 150 k                    ≤  2 500             urban-shuttle-1car
+   ≤ 150 k                    ≤  1 800             urban-shuttle-1car
    150 k … 300 k              ≤  4 000             tram-2car
-   300 k … 1 M                ≤  9 000             light-metro-3car
-   1 M … 3 M                  ≤ 18 000             metro-4car
-   ≥ 3 M                      ≤ 30 000             metro-6car
+   300 k … 1 M                ≤  7 000             light-metro-3car
+   1 M … 3 M                  ≤ 10 000             metro-4car
+   ≥ 3 M                      ≤ 15 000             metro-6car
 ```
 
 Pphpd is estimated from population × 0.012 × peak-factor 0.08,
-capped at the family's table value. The pipeline writes the
-choice into `design.toml` under `[[lines]] rolling_stock =
-"<family>"`.
+then checked against AW2 capacity at short automated headways
+(roughly 2–3 min for dense trunks, looser off-peak). The pipeline
+writes the choice into `design.toml` under `[[lines]]
+rolling_stock = "<family>"`.
 
 ## 6. Pitfalls and decisions
 

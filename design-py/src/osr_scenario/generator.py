@@ -86,11 +86,11 @@ _CLIMATE_PRESET_AMBIENT_C: dict[str, float] = {
 # Authoritative numbers live in `lib/templates/rolling-stock.toml`;
 # values here are the sim-critical subset.
 _CONSIST_DEFAULTS: dict[str, dict[str, int | float]] = {
-    "urban-shuttle-1car": {"car_count": 1, "length_m": 21,  "mass_kg": 34_000,  "max_speed_kmh": 70.0,  "battery_capacity_kwh": 120, "service_accel_mps2": 1.0},
-    "tram-2car":          {"car_count": 2, "length_m": 39,  "mass_kg": 68_000,  "max_speed_kmh": 70.0,  "battery_capacity_kwh": 240, "service_accel_mps2": 1.0},
-    "light-metro-3car":   {"car_count": 3, "length_m": 57,  "mass_kg": 102_000, "max_speed_kmh": 90.0,  "battery_capacity_kwh": 360, "service_accel_mps2": 1.0},
-    "metro-4car":         {"car_count": 4, "length_m": 75,  "mass_kg": 136_000, "max_speed_kmh": 90.0,  "battery_capacity_kwh": 480, "service_accel_mps2": 1.1},
-    "metro-6car":         {"car_count": 6, "length_m": 111, "mass_kg": 204_000, "max_speed_kmh": 100.0, "battery_capacity_kwh": 720, "service_accel_mps2": 1.1},
+    "urban-shuttle-1car": {"car_count": 1, "length_m": 21,  "mass_kg": 34_000,  "max_speed_kmh": 70.0,  "battery_capacity_kwh": 120, "passenger_capacity": 90,  "seat_count": 20,  "crush_capacity": 110, "service_accel_mps2": 1.0},
+    "tram-2car":          {"car_count": 2, "length_m": 39,  "mass_kg": 68_000,  "max_speed_kmh": 70.0,  "battery_capacity_kwh": 240, "passenger_capacity": 210, "seat_count": 40,  "crush_capacity": 260, "service_accel_mps2": 1.0},
+    "light-metro-3car":   {"car_count": 3, "length_m": 57,  "mass_kg": 102_000, "max_speed_kmh": 90.0,  "battery_capacity_kwh": 360, "passenger_capacity": 330, "seat_count": 60,  "crush_capacity": 420, "service_accel_mps2": 1.0},
+    "metro-4car":         {"car_count": 4, "length_m": 75,  "mass_kg": 136_000, "max_speed_kmh": 90.0,  "battery_capacity_kwh": 480, "passenger_capacity": 440, "seat_count": 80,  "crush_capacity": 560, "service_accel_mps2": 1.1},
+    "metro-6car":         {"car_count": 6, "length_m": 111, "mass_kg": 204_000, "max_speed_kmh": 100.0, "battery_capacity_kwh": 720, "passenger_capacity": 660, "seat_count": 120, "crush_capacity": 840, "service_accel_mps2": 1.1},
 }
 
 
@@ -207,6 +207,9 @@ class ScenarioGenerator:
             f"mass_kg = {cd['mass_kg']}\n"
             f"max_speed_kmh = {cd['max_speed_kmh']}\n"
             f"battery_capacity_kwh = {cd['battery_capacity_kwh']}\n"
+            f"passenger_capacity = {cd['passenger_capacity']}\n"
+            f"seat_count = {cd['seat_count']}\n"
+            f"crush_capacity = {cd['crush_capacity']}\n"
             f"service_accel_mps2 = {cd['service_accel_mps2']}\n"
         )
 

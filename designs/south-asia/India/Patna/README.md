@@ -47,15 +47,17 @@ Corridor polylines + stations as GeoJSON for GIS / alignment tooling: [`patna.co
 | Consist | 4-car, 75 m |
 | Max speed | 90 km/h |
 | Onboard battery | 480 kWh per trainset |
-| Nominal capacity | 540 pax (seated + standing, `metro-4car` per RFC 0008 §1) |
+| Seats | 80 longitudinal seats |
+| Nominal capacity (AW2) | 440 pax (seated + standing, `metro-4car` per RFC 0008 §1) |
+| Crush capacity (AW3) | 560 pax, short-duration structural/egress reference |
 
 ## Ridership capacity
 
-- **Per-train capacity:** 540 passengers (`metro-4car`)
+- **Per-train planning capacity:** 440 AW2 passengers (`metro-4car`)
 - **Peak frequency:** 12 trains/hour/direction (5-min headway)
-- **Peak capacity per line per direction:** 540 × 12 = **6,480 pphpd**
-- **Network peak throughput (all lines, both directions):** 5 lines × 2 directions × 6,480 = **64,800 passengers/hour**
-- **Daily theoretical capacity (peak × 10):** ≈ **648,000 passenger-trips/day**
+- **Peak capacity per line per direction:** 440 × 12 = **5,280 pphpd**
+- **Network peak throughput (all lines, both directions):** 5 lines × 2 directions × 5,280 = **52,800 passengers/hour**
+- **Daily theoretical capacity (peak × 10):** ≈ **528,000 passenger-trips/day**
 - **Practical daily ridership estimate** (10–15 % of catchment): ≈ **125,244 – 187,866 trips/day**
 
 ## Catchment

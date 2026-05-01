@@ -5,8 +5,8 @@ Runs four tests:
 1. Every consist family's trainset fits inside its published platform
    length (RFC 0008 §1).
 2. A bogie's wheel centres fall on standard gauge (within tolerance).
-3. A car body has exactly (doors_per_side × 2) door cutouts — verified
-   indirectly by volume check.
+3. A car body has the current one-centre-door-per-side pattern — verified
+   indirectly by volume and family-dimension checks.
 4. The sensor cowl has a real sensor-window cutout reducing volume
    below the solid bounding box.
 """
@@ -82,8 +82,8 @@ def test_car_body_has_door_and_window_cutouts() -> None:
     assert v < solid_volume_mm3, (
         f"car-body volume {v:.0f} should be below solid box {solid_volume_mm3:.0f}"
     )
-    # Doors (3 × 1.4 × 2.0 × 2.65 × 2 sides ≈ 44 m³) + windows (6 zones
-    # × ~1.3 × 0.9 × 2.65 ≈ 18 m³) remove ~30 % of the solid box. The
+    # Doors (1 × 1.4 × 2.0 × 2.65 × 2 sides ≈ 15 m³) + windows remove
+    # a visible share of the solid box. The
     # body should still be at least half the solid volume — anything
     # less is a geometry bug.
     assert v > solid_volume_mm3 * 0.50, (
@@ -171,10 +171,10 @@ def test_cots_catalogue_covers_every_category() -> None:
         assert item.power_w >= 0.0
 
 
-def test_bom_quantities_scale_with_door_count() -> None:
-    """Tram-2car has 2 doors/side; metro 3-car has 3. The COTS BOM
-    for windows, seats, grab poles, and PIS screens must scale with
-    that — it's the entire point of the parametric quantity rules."""
+def test_bom_quantities_are_common_per_self_contained_car() -> None:
+    """Every family repeats the same 17 m self-contained car module.
+    Per-car windows, seats, grab poles, and PIS screens therefore stay
+    common across consist length."""
     tram = bom_per_car(family_dimensions(ConsistFamily.TRAM_2CAR))
     metro = bom_per_car(family_dimensions(ConsistFamily.LIGHT_METRO_3CAR))
 
@@ -184,10 +184,10 @@ def test_bom_quantities_scale_with_door_count() -> None:
                 return n
         raise KeyError(category)
 
-    assert qty(tram, Category.WINDOW) < qty(metro, Category.WINDOW)
-    assert qty(tram, Category.GRAB_POLE) < qty(metro, Category.GRAB_POLE)
-    assert qty(tram, Category.PIS_SCREEN) < qty(metro, Category.PIS_SCREEN)
-    assert qty(tram, Category.SEAT) < qty(metro, Category.SEAT)
+    assert qty(tram, Category.WINDOW) == qty(metro, Category.WINDOW)
+    assert qty(tram, Category.GRAB_POLE) == qty(metro, Category.GRAB_POLE)
+    assert qty(tram, Category.PIS_SCREEN) == qty(metro, Category.PIS_SCREEN)
+    assert qty(tram, Category.SEAT) == qty(metro, Category.SEAT)
     # Per-car fixed-count items don't scale.
     assert qty(tram, Category.HVAC_ROOF) == qty(metro, Category.HVAC_ROOF) == 1
     assert qty(tram, Category.INTERCOM) == qty(metro, Category.INTERCOM) == 2

@@ -115,7 +115,7 @@ per RFCs 0008 §4 / 0009 §10 / 0010 §12:
 | `standard-metro` geometry | Yes — plenty of margin |
 | `mainline-mixed` geometry | Yes — meets 25 ‰ max grade (lower than the consist's 5 % capability) |
 | `halt` station | Yes — short-platform door select required |
-| `standard` station | Yes — 65 m platform |
+| `standard` station | Yes — 67 m platform |
 | `major` station | Yes |
 | `interchange` station | Yes |
 | `terminal` station | Yes — side-pin dock fits |

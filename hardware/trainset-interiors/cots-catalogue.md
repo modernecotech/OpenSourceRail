@@ -15,7 +15,7 @@ substitute. The envelope is the contract; the SKU is a
 suggestion.
 
 Parametric source: [`cots_equipment.py`](../../mechanical-py/src/osr_mech/rolling_stock/cots_equipment.py).
-STEP visualisation: [`car-body-22m-cots-fit-out.step`](../../mechanical-py/catalog/rolling_stock/car-body-22m-cots-fit-out.step)
+STEP visualisation: [`car-body-17m-cots-fit-out.step`](../../mechanical-py/catalog/rolling_stock/car-body-17m-cots-fit-out.step)
 (the plain body overlaid with every reserved envelope in its
 catalogue colour).
 
@@ -23,40 +23,38 @@ catalogue colour).
 
 Rendered rear-quarter view: the structural shell is drawn translucent
 so the reserved envelopes read through — HVAC on the roof, seats below
-the windows, grab poles at the doors, PIS screens above the doors,
+the windows, grab poles at the centre doors, PIS screens above the doors,
 intercom at each end.
 
-## Per-car fit-out BOM (22 m light-metro car, 3 doors/side)
+## Per-car fit-out BOM (17 m self-contained car, 1 door/side)
 
 | Category | Reference SKU class | Qty / car | Unit mass kg | Unit power W | Mount pattern |
 |---|---|---|---|---|---|
-| Side glazing | Laminated 8+1.52 PVB+8, Pilkington Optilam class | 8 | 25 | 0 | Bonded frame, Sikaflex 252 |
+| Side glazing | Laminated 8+1.52 PVB+8, Pilkington Optilam class | 4 | 25 | 0 | Bonded frame, Sikaflex 252 |
 | Rooftop HVAC | 15 kW bus-HVAC — Sutrak CC 210 / Thermo King T-1080R / Hispacold Compact | 1 | 250 | 15 000 | 8× M10 on 1200 × 600 pitch |
-| Ceiling lighting | Osram Ledvance T5-equivalent, 15 W/m @ 24 VDC | 2 strips (22 m each) | 35 | 330 | M6 clips at 600 mm pitch |
-| PIS screen | 21.5" industrial LCD — Advantech OSD-215 / Lilliput FA1200-NP | 6 | 6 | 30 | VESA 200 × 100, 4× M4 |
-| Longitudinal seat | Kiel Avant Metro / Grammer Ipano, textile upholstery | 8 | 25 | 0 | 4× M10 on 800 × 300 base frame |
-| Grab pole | Stainless 304, Ø35 × 2.5 wall, satin | 6 | 8 | 0 | Flanged floor + ceiling, 3× M8 |
+| Ceiling lighting | Osram Ledvance T5-equivalent, 15 W/m @ 24 VDC | 2 strips (17 m each) | 35 | 255 | M6 clips at 600 mm pitch |
+| PIS screen | 21.5" industrial LCD — Advantech OSD-215 / Lilliput FA1200-NP | 2 | 6 | 30 | VESA 200 × 100, 4× M4 |
+| Longitudinal seat | Kiel Avant Metro / Grammer Ipano, textile upholstery | 4 | 25 | 0 | 4× M10 on 800 × 300 base frame |
+| Grab pole | Stainless 304, Ø35 × 2.5 wall, satin | 2 | 8 | 0 | Flanged floor + ceiling, 3× M8 |
 | Emergency intercom | Zenitel Vingtor-Stentofon TMIS-2, IP-SIP | 2 | 3.5 | 10 | Recessed 250 × 150 cutout |
 
-**Totals (per 22 m car): ~811 kg interior fit-out, ~15.9 kW
-active electrical load.** (A 2-door tram car drops to ~683 kg /
-~15.8 kW — window + seat + pole counts scale down, but the
-HVAC unit doesn't.)
+**Totals (per 17 m car): ~555 kg interior fit-out, ~15.4 kW
+active electrical load.** The HVAC unit dominates; changing consist
+length scales by adding the same fitted car module.
 
 (Quantities are from the parametric BOM in
-`cots_equipment.bom_per_car()`. A tram-2car at 2 doors/side
-scales each door-driven quantity down proportionally —
-windows drop 8→6, grab poles drop 6→4, seats drop 8→6, screens
-drop 6→4.)
+`cots_equipment.bom_per_car()`. All current families use the same
+one-centre-door car module; a future dwell-driven variant can still
+increase `doors_per_side` and the quantities will scale.)
 
 ## Per-trainset rollup
 
 | Family | Cars | Fit-out mass kg | Fit-out active load kW |
 |---|---|---|---|
-| tram-2car | 2 | ~1 370 | ~32 |
-| light-metro-3car | 3 | ~2 430 | ~48 |
-| metro-4car | 4 | ~3 240 | ~63 |
-| metro-6car | 6 | ~4 870 | ~95 |
+| tram-2car | 2 | ~1 110 | ~31 |
+| light-metro-3car | 3 | ~1 670 | ~46 |
+| metro-4car | 4 | ~2 220 | ~61 |
+| metro-6car | 6 | ~3 330 | ~92 |
 
 The HVAC line dominates both. These totals feed the auxiliary-
 converter sizing in [RFC 0008 §3.5](../../docs/rfcs/0008-rolling-stock-reference-design.md)

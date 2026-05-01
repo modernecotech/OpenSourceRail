@@ -60,7 +60,7 @@ def family_dimensions(family: ConsistFamily) -> CarDimensions:
     """Default `CarDimensions` for each consist family."""
     return CarDimensions(
         body_length_mm=_FAMILY_CAR_LENGTH_MM[family],
-        doors_per_side=3 if family != ConsistFamily.TRAM_2CAR else 2,
+        doors_per_side=1,
     )
 
 

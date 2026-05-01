@@ -290,10 +290,11 @@ platform plus vertical circulation.
 
 | Family | € / trainset planning-grade |
 |---|---|
-| `tram-2car` | 4 000 000 |
-| `light-metro-3car` | 9 000 000 |
-| `metro-4car` | 14 000 000 |
-| `metro-6car` | 18 000 000 |
+| `urban-shuttle-1car` | 1 000 000 |
+| `tram-2car` | 2 000 000 |
+| `light-metro-3car` | 3 000 000 |
+| `metro-4car` | 4 000 000 |
+| `metro-6car` | 6 000 000 |
 
 Fleet count = peak-revenue + spare + cold-reserve per RFC 0014 §4.
 

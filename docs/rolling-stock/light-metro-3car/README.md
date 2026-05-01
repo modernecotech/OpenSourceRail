@@ -32,7 +32,9 @@ EN 15085 weld classes and EN 45545 material certifications.
 | Tare mass | 102 t |
 | Axle load (AW3 crush) | ≤ 14 t |
 | Max speed | 25 m/s (90 km/h) |
-| Passenger capacity (AW2) | 360 (seated + standing) |
+| Seats | 60 longitudinal seats |
+| Passenger capacity (AW2) | 330 (seated + standing) |
+| Passenger capacity (AW3 crush) | 420 short-duration crush load |
 | Onboard battery | 360 kWh Na-ion (120 kWh per self-contained car) |
 | Peak onboard motor output | 1 800 kW |
 | Floor height (above ToR) | Low-floor centre door zone; raised floor over standard bogies |

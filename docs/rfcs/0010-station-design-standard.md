@@ -101,13 +101,12 @@ at design-emission time.
 
 Defined by the rolling-stock family the line uses:
 
-- `tram-2car`, `light-metro-3car`, `metro-4car` use **low-floor**
-  consists (350 mm floor height). Platform top is 350 mm above top-
-  of-rail (ToR), matching the floor exactly. Level boarding, no
-  gap-filler.
-- `metro-6car` uses a **high-floor** consist (1 100 mm). Platform
-  top is 1 100 mm above ToR. Level boarding, with gap-filler at
-  door sills on curved platforms.
+- Every OSR rolling-stock family uses the same **low-floor centre
+  door zone** at 350 mm above top-of-rail (ToR), with raised floor
+  over the standard bogies. Platform top is therefore 350 mm above
+  ToR for every new-build line. Gap-fillers are only needed on tight
+  curved platforms where the horizontal gap exceeds the accessibility
+  limit.
 
 Mixed-consist lines are not supported (RFC 0008 §5 fixes one
 family per line). A line that carries mixed heights is a safety

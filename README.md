@@ -1,6 +1,6 @@
 # OpenSourceRail
 
-![OpenSourceRail — a catenary-free light rail train at a solar-canopy station in a Samawah-like urban setting](a6gHLpbx_watermarked.jpg)
+![OpenSourceRail final design — catenary-free driverless train charged at a solar-buffered station](docs/screenshots/osr-final-design-hero.png)
 
 > An open-source technology stack for designing, building, and operating rail
 > systems — built for the developing world, built to be owned by the countries
@@ -366,20 +366,20 @@ for GoA 2 legacy fleets. Most of the
   inside its RFC 0008 §1 platform length with ≥ 1 m stopping margin.
   STEP artifacts round-trip into Revit / Tekla / Civil 3D.
 
-  ![Solar metro trainset concept render — self-contained driverless cars with under-seat batteries and station charging](a_clean_infographic_technical_presentation_image_s.png)
+  ![OpenSourceRail final rolling-stock basis — 17 m self-contained cars, one powered bogie per car, under-seat batteries, station charging](a_clean_infographic_technical_presentation_image_s.png)
 
-  *Rationalised trainset concept: self-contained driverless cars,
+  *Final rolling-stock basis: self-contained driverless cars,
   one powered bogie + one trailer bogie per car, sodium-ion batteries
   under the longitudinal seats, low-floor centre door zones, and
   station-dwell charging from solar-buffered stops spaced around
-  1 km apart. The render is conceptual; the corrected envelope in
-  RFC 0008 / RFC 0021 / RFC 0022 is now the source of truth.*
+  1 km apart. The image is generated from the current planning
+  envelope in RFC 0008 / RFC 0021 / RFC 0022.*
 
   ![Car-body side elevation — welded-aluminium monocoque, rounded corners, door + window cuts](docs/screenshots/trainset-car-detail.png)
 
   *Single-car side elevation showing the design features: rounded
-  200 mm vertical-corner radius, four side windows (light-blue
-  laminated glazing shown), three inset double-leaf doors in
+  200 mm vertical-corner radius, two long side-window bays (light-blue
+  laminated glazing shown), one wide inset double-leaf centre door in
   contrasting dark-blue livery, the livery band running full length
   at window-sill height, the dark underframe skirt, and the
   rooftop HVAC + two auxiliary boxes.*
@@ -475,7 +475,7 @@ for GoA 2 legacy fleets. Most of the
   `standard` station canopy is ~11 t of steel in two lorry-loads,
   erected in 3–5 days.
 
-  ![Standard station canopy — 75 m platform, factory-bonded solar roof](docs/screenshots/station-canopy.png)
+  ![Standard station canopy — 67 m light-metro platform, factory-bonded solar roof](docs/screenshots/station-canopy.png)
 
   *Standard archetype canopy for a light-metro-3car consist: 13 × 6 m
   portal bays in hot-dip galvanised steel, topped by a factory-bonded
@@ -633,7 +633,7 @@ OpenSourceRail/
 │       ├── 0018-operator-guis.md             egui-based sim + OCC consoles for designer + dispatcher.
 │       ├── 0019-diy-electronics.md           Plug-and-play DIY electronics from commodity modules.
 │       ├── 0020-crashworthiness.md           EN 15227 three-zone energy budget for the cabless body.
-│       ├── 0021-battery-traction.md          Side-wall battery strake + depot-only charging (Akku-inspired, catenary-free).
+│       ├── 0021-battery-traction.md          Under-seat Na-ion packs + station/depot opportunity charging.
 │       ├── 0022-bogie-traction-drive.md      Single-SKU 2-axle Bo-Bo bogie + axle-hung PMSM motorisation pattern.
 │       ├── 0023-door-system-reference-design.md   Electric linear-actuator door operator (EN 14752, $20–40 k vendor → ~$2 k DIY).
 │       ├── 0024-battery-thermal-high-ambient.md   PCM mass + dedicated chiller for ≥ 50 °C ambient envelopes.
@@ -1019,10 +1019,10 @@ from the consist family.
 
 ![Car-body interior fit-out — COTS envelopes](docs/screenshots/trainset-interior-fit-out.png)
 
-*Interior fit-out of a 22 m light-metro car with every COTS item's
+*Interior fit-out of a 17 m self-contained car with every COTS item's
 reserved envelope overlaid on the translucent structural shell: grey
 HVAC unit on the roof, dark-blue seat benches under the windows,
-light-blue side glazing, silver vertical grab poles at each door,
+light-blue side glazing, silver vertical grab poles at the centre doors,
 black PIS screens above, red emergency intercom at each end, warm
 LED strip along the ceiling.*
 
@@ -1045,7 +1045,7 @@ Complementary rail-engineering RFCs:
 - [RFC 0014](docs/rfcs/0014-depot-design-standard.md) — 3 depot archetypes with a fleet-sizing formula, all at-grade.
 - [RFC 0015](docs/rfcs/0015-driverless-operation.md) — GoA 4 (Unattended) by default; sensor-cowl nose replaces the driver cab.
 - [RFC 0020](docs/rfcs/0020-crashworthiness.md) — EN 15227 Cat C-II three-zone crash envelope for the cabless body.
-- [RFC 0021](docs/rfcs/0021-battery-traction.md) — Side-wall Na-ion battery strake; depot-only charging, no catenary anywhere.
+- [RFC 0021](docs/rfcs/0021-battery-traction.md) — Under-seat Na-ion packs, station/depot opportunity charging, no catenary anywhere.
 - [RFC 0022](docs/rfcs/0022-bogie-traction-drive.md) — Single-SKU 2-axle Bo-Bo bogie shared across every consist family; per-family motorisation pattern.
 - [RFC 0023](docs/rfcs/0023-door-system-reference-design.md) — Electric linear-actuator door operator, EN 14752 certified once at the project level.
 - [RFC 0024](docs/rfcs/0024-battery-thermal-high-ambient.md) — PCM thermal mass + dedicated chiller for ≥ 50 °C ambient envelopes (Samawah-class).

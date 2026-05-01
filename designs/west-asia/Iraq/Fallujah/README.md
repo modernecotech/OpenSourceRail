@@ -45,15 +45,17 @@ Corridor polylines + stations as GeoJSON for GIS / alignment tooling: [`fallujah
 | Consist | 3-car, 57 m |
 | Max speed | 90 km/h |
 | Onboard battery | 360 kWh per trainset |
-| Nominal capacity | 360 pax (seated + standing, `light-metro-3car` per RFC 0008 §1) |
+| Seats | 60 longitudinal seats |
+| Nominal capacity (AW2) | 330 pax (seated + standing, `light-metro-3car` per RFC 0008 §1) |
+| Crush capacity (AW3) | 420 pax, short-duration structural/egress reference |
 
 ## Ridership capacity
 
-- **Per-train capacity:** 360 passengers (`light-metro-3car`)
+- **Per-train planning capacity:** 330 AW2 passengers (`light-metro-3car`)
 - **Peak frequency:** 12 trains/hour/direction (5-min headway)
-- **Peak capacity per line per direction:** 360 × 12 = **4,320 pphpd**
-- **Network peak throughput (all lines, both directions):** 3 lines × 2 directions × 4,320 = **25,920 passengers/hour**
-- **Daily theoretical capacity (peak × 10):** ≈ **259,200 passenger-trips/day**
+- **Peak capacity per line per direction:** 330 × 12 = **3,960 pphpd**
+- **Network peak throughput (all lines, both directions):** 3 lines × 2 directions × 3,960 = **23,760 passengers/hour**
+- **Daily theoretical capacity (peak × 10):** ≈ **237,600 passenger-trips/day**
 - **Practical daily ridership estimate** (10–15 % of catchment): ≈ **20,519 – 30,779 trips/day**
 
 ## Catchment

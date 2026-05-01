@@ -193,9 +193,10 @@ CATALOGUE: dict[Category, CotsItem] = {
 # Per-car quantity rules
 # ---------------------------------------------------------------------------
 
-# These are the "how many of each per car" rules driving the BOM. A
-# tram-2car family gets fewer because it has 2 doors/side not 3, but the
-# count rules are parametric in doors_per_side + body_length.
+# These are the "how many of each per car" rules driving the BOM. The
+# current OSR module uses one wide centre door per side; the rules stay
+# parametric so a future dwell-driven variant can add doors without
+# rewriting the catalogue.
 
 
 def _window_zone_count(dims: CarDimensions) -> int:

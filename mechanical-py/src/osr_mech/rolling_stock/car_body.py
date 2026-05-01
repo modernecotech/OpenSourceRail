@@ -4,10 +4,12 @@ The car is a welded-aluminium monocoque shell with:
 
 - Rounded vertical corners (200 mm radius) for a modern profile +
   better side-wind behaviour.
-- Low floor at 1100 mm rail-to-floor for level-boarding with
-  1100 mm platform-screen-doors.
-- Double-leaf sliding doors — 3 per side on the metro / light-metro
-  families, 2 per side on the short tram car.
+- Low-floor centre door zone at 350 mm rail-to-floor for level
+  boarding from the OSR low platform; raised floor remains over the
+  standard bogies.
+- One wide centre double-leaf sliding door per side. Longer consists
+  add cars, not extra door patterns, so every self-contained car stays
+  mechanically identical.
 - Large side windows between / outside the doors, sized to the
   wall segments. Laminated safety glass, bonded frame.
 - A painted livery band running the full length at window-sill
@@ -19,8 +21,8 @@ The car is a welded-aluminium monocoque shell with:
   structurally identical — the sensor cowl lives on the trainset,
   not on the car.
 
-Default dimensions reflect the `light-metro-3car` reference family
-per RFC 0008 §3.1.
+Default dimensions reflect one 17 m self-contained car module per
+RFC 0008 §3.1.
 """
 
 from __future__ import annotations
@@ -49,7 +51,7 @@ from build123d import (
 
 DOOR_WIDTH_MM = 1400.0
 DOOR_HEIGHT_MM = 2000.0
-DOOR_SILL_HEIGHT_MM = 1100.0  # above rail head
+DOOR_SILL_HEIGHT_MM = 350.0  # above rail head at the low-floor door zone
 
 # Windows: one per wall segment (between / outside doors). Height +
 # sill picked so the top of the window sits ~400 mm below the roof
@@ -128,10 +130,10 @@ BATTERY_STRAKE_BASE_Z_MM = 20.0
 class CarDimensions:
     """Parametric footprint of a single passenger car."""
 
-    body_length_mm: float = 22_000.0
+    body_length_mm: float = 17_000.0
     body_width_mm: float = 2650.0
     body_height_mm: float = 3600.0
-    doors_per_side: int = 3
+    doors_per_side: int = 1
 
 
 # ---------------------------------------------------------------------------

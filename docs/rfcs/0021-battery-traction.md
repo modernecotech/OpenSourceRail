@@ -117,7 +117,7 @@ large low-floor door zone remain clear.
                    ▲ low-floor centre aisle and door zone, clear
 ```
 
-Per 22 m car:
+Per 17 m car:
 
 - **8 under-seat modules** (4 per side) totalling ~1 200 L of
   reserved envelope per car.

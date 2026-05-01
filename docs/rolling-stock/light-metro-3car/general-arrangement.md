@@ -44,10 +44,10 @@
 
 ## Door positions
 
-One large 1 600 mm-wide double-leaf plug door per car side in the
+One large 1 400 mm-wide double-leaf plug door per car side in the
 low-floor centre zone (3 door pairs per side for the consist).
-Longer-platform variants may add a second pair per side if the dwell
-model requires it. Positioned:
+Longer-platform variants scale dwell capacity by adding identical
+cars, not by changing the car-side door pattern. Positioned:
 
 - Each car: door centre at 8.5 m from the car end.
 
@@ -86,13 +86,13 @@ presets (`heritage-tram` / `standard-urban` / `standard-metro`
 | Car A incl. powered + trailer bogie | 41 |
 | Car B incl. powered + trailer bogie | 41 |
 | Car C incl. powered + trailer bogie | 41 |
-| **Total consist (tare + AW2 passengers)** | **123** |
+| **Total consist (tare + AW2 passengers)** | **122** |
 
-Tare = 102 t per RFC 0008 §1; AW2 load = 21.6 t (360 passengers
+Tare = 102 t per RFC 0008 §1; AW2 load = 19.8 t (330 passengers
 × 60 kg average).
 
-Distribution per axle under AW3 (crush load, 540 passengers ×
-60 kg = 32 t):
+Distribution per axle under AW3 (crush load, 420 passengers ×
+60 kg = 25.2 t):
 - Powered and trailer bogies: ~10–12 t per axle depending on seated
   battery-side loading.
 

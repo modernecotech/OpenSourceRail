@@ -106,6 +106,8 @@ class NetworkStats:
     consist_max_speed_kmh: float
     consist_family: str
     trainset_capacity_pax: int
+    trainset_seats: int
+    trainset_crush_capacity_pax: int
 
 
 def _load(path: Path) -> dict:
@@ -215,7 +217,8 @@ def compute_stats(
         or (family_lines[0].get("rolling_stock") if family_lines else None)
         or "light-metro-3car"
     )
-    capacity_pax = _trainset_capacity_for_family(family)
+    profile = _trainset_profile_for_family(family)
+    capacity_pax = int(profile["passenger_capacity"])
 
     return NetworkStats(
         city_name=city_name,
@@ -242,15 +245,34 @@ def compute_stats(
         consist_max_speed_kmh=float(consist.get("max_speed_kmh", 80)),
         consist_family=family,
         trainset_capacity_pax=capacity_pax,
+        trainset_seats=int(profile["seat_count"]),
+        trainset_crush_capacity_pax=int(profile["crush_capacity"]),
         depot_count=len(design.get("depots", [])),
     )
 
 
 _FAMILY_CAPACITY_FALLBACK: dict[str, int] = {
-    "tram-2car": 220,
-    "light-metro-3car": 360,
-    "metro-4car": 540,
-    "metro-6car": 900,
+    "urban-shuttle-1car": 90,
+    "tram-2car": 210,
+    "light-metro-3car": 330,
+    "metro-4car": 440,
+    "metro-6car": 660,
+}
+
+_FAMILY_SEATS_FALLBACK: dict[str, int] = {
+    "urban-shuttle-1car": 20,
+    "tram-2car": 40,
+    "light-metro-3car": 60,
+    "metro-4car": 80,
+    "metro-6car": 120,
+}
+
+_FAMILY_CRUSH_FALLBACK: dict[str, int] = {
+    "urban-shuttle-1car": 110,
+    "tram-2car": 260,
+    "light-metro-3car": 420,
+    "metro-4car": 560,
+    "metro-6car": 840,
 }
 
 
@@ -743,8 +765,8 @@ def _coverage_from_quality_yaml(design_path: Path) -> float:
     return 0.0
 
 
-def _trainset_capacity_for_family(family: str) -> int:
-    """Resolve `passenger_capacity` for a rolling-stock family.
+def _trainset_profile_for_family(family: str) -> dict[str, int]:
+    """Resolve seat, nominal, and crush capacity for a family.
 
     Source of truth is `lib/templates/rolling-stock.toml` (RFC 0008
     family catalogue). Falls back to a baked table if the template
@@ -758,11 +780,27 @@ def _trainset_capacity_for_family(family: str) -> int:
                 doc = tomllib.loads(candidate.read_text())
                 profiles = doc.get("profiles", {})
                 if family in profiles and "passenger_capacity" in profiles[family]:
-                    return int(profiles[family]["passenger_capacity"])
+                    profile = profiles[family]
+                    nominal = int(profile["passenger_capacity"])
+                    return {
+                        "passenger_capacity": nominal,
+                        "seat_count": int(profile.get("seat_count", max(1, nominal // 5))),
+                        "crush_capacity": int(profile.get("crush_capacity", round(nominal * 1.25))),
+                    }
             except Exception:
                 break
             break
-    return _FAMILY_CAPACITY_FALLBACK.get(family, 360)
+    nominal = _FAMILY_CAPACITY_FALLBACK.get(family, 330)
+    return {
+        "passenger_capacity": nominal,
+        "seat_count": _FAMILY_SEATS_FALLBACK.get(family, max(1, nominal // 5)),
+        "crush_capacity": _FAMILY_CRUSH_FALLBACK.get(family, round(nominal * 1.25)),
+    }
+
+
+def _trainset_capacity_for_family(family: str) -> int:
+    """Back-compat wrapper for older tests and CLI callers."""
+    return _trainset_profile_for_family(family)["passenger_capacity"]
 
 
 def _transfer_reachability(lines: list[dict]) -> float:
@@ -828,8 +866,9 @@ def render_readme(
 
     # Ridership capacity. Per-train capacity comes from the
     # rolling-stock family (RFC 0008 §1) — Samawah's 3-car
-    # `light-metro-3car` carries 360 pax, Baghdad's 6-car
-    # `metro-6car` carries 900. The CLI override
+    # `light-metro-3car` carries 330 nominal pax / 420 crush,
+    # Baghdad-class 6-car corridors carry 660 nominal / 840 crush.
+    # The CLI override
     # (`--pax-per-trainset`) wins when present so what-if analysis
     # still works.
     trains_per_hour_per_dir = 60 / stats.peak_headway_min
@@ -1053,13 +1092,21 @@ def render_readme(
     out.append(f"| Max speed | {stats.consist_max_speed_kmh:.0f} km/h |")
     out.append(f"| Onboard battery | {stats.consist_battery_kwh} kWh per trainset |")
     out.append(
-        f"| Nominal capacity | {capacity_pax} pax (seated + standing, "
-        f"`{stats.consist_family}` per RFC 0008 §1) |\n"
+        f"| Seats | {stats.trainset_seats} longitudinal seats |"
     )
+    out.append(
+        f"| Nominal capacity (AW2) | {capacity_pax} pax (seated + standing, "
+        f"`{stats.consist_family}` per RFC 0008 §1) |"
+    )
+    out.append(
+        f"| Crush capacity (AW3) | {stats.trainset_crush_capacity_pax} pax, "
+        "short-duration structural/egress reference |"
+    )
+    out.append("")
 
     out.append("## Ridership capacity\n")
     out.append(
-        f"- **Per-train capacity:** {capacity_pax} passengers "
+        f"- **Per-train planning capacity:** {capacity_pax} AW2 passengers "
         f"(`{stats.consist_family}`)"
     )
     out.append(

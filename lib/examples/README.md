@@ -125,10 +125,10 @@ omitted ones fall back to the reference values.
 ```toml
 [consist]
 car_count = 3
-length_m = 65
-mass_kg = 195000
-max_speed_kmh = 80
-battery_capacity_kwh = 900
+length_m = 57
+mass_kg = 102000
+max_speed_kmh = 90
+battery_capacity_kwh = 360
 ```
 
 #### `[[stations]]`

@@ -21,20 +21,20 @@ scales them per deployment.
 | B2 | Aluminium extrusion OSR-A2 (80×40 box) | 600 m | MAKE | 6 000 | Local mill |
 | B3 | Aluminium extrusion OSR-A3 (200×40 C) | 120 m | MAKE | 2 400 | |
 | B4 | Aluminium extrusion OSR-A4 (100×100 sq) | 40 m | MAKE | 1 200 | Corner posts |
-| B5 | Aluminium skin 5083 (6 mm, sheet) | 400 m² | SOURCE | 16 000 | |
-| B6 | Aluminium deck sheet (6 mm) | 180 m² | SOURCE | 7 200 | |
+| B5 | Aluminium skin 5083 (6 mm, sheet) | 310 m² | SOURCE | 12 400 | |
+| B6 | Aluminium deck sheet (6 mm) | 135 m² | SOURCE | 5 400 | |
 | B7 | End bulkhead pressing (6 mm alu) | 2 | MAKE | 8 000 | |
 | B8 | Articulation joint, Hübner RTS-B40 | 2 | BID | 90 000 | Or local equivalent |
-| B9 | Laminated safety-glass window (900×1200) | 36 | SOURCE | 18 000 | |
-| B10 | IFE type-4 plug door (or equiv.) | 24 | BID | 144 000 | |
-| B11 | Vinyl floor covering (EN 45545 R5) | 270 m² | SOURCE | 10 800 | |
+| B9 | Laminated safety-glass window (900×1200) | 12 | SOURCE | 6 000 | |
+| B10 | IFE type-4 plug door (or equiv.) | 6 | BID | 36 000 | |
+| B11 | Vinyl floor covering (EN 45545 R5) | 135 m² | SOURCE | 5 400 | |
 | B12 | Seat, longitudinal bench (EN 45545 R7) | 60 | SOURCE | 18 000 | |
-| B13 | Grab rail + stanchion (anodised) | 80 m | MAKE | 8 000 | |
-| B14 | Interior LED strip lighting | 260 m | SOURCE | 5 200 | |
+| B13 | Grab rail + stanchion (anodised) | 45 m | MAKE | 4 500 | |
+| B14 | Interior LED strip lighting | 102 m | SOURCE | 2 040 | |
 | B15 | Exterior LED marker + head / taillight | 8 | SOURCE | 3 200 | |
 | B16 | Paint + 2K urethane topcoat | set | SOURCE | 6 000 | |
 | B17 | Conformal coat for interior electronics | set | SOURCE | 2 000 | |
-| **Body + interior subtotal** | | | | **353 500** | |
+| **Body + interior subtotal** | | | | **219 640** | |
 
 ## Bogies (6 per consist)
 

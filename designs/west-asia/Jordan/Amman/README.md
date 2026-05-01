@@ -50,15 +50,17 @@ Corridor polylines + stations as GeoJSON for GIS / alignment tooling: [`amman.co
 | Consist | 6-car, 111 m |
 | Max speed | 100 km/h |
 | Onboard battery | 720 kWh per trainset |
-| Nominal capacity | 900 pax (seated + standing, `metro-6car` per RFC 0008 §1) |
+| Seats | 120 longitudinal seats |
+| Nominal capacity (AW2) | 660 pax (seated + standing, `metro-6car` per RFC 0008 §1) |
+| Crush capacity (AW3) | 840 pax, short-duration structural/egress reference |
 
 ## Ridership capacity
 
-- **Per-train capacity:** 900 passengers (`metro-6car`)
+- **Per-train planning capacity:** 660 AW2 passengers (`metro-6car`)
 - **Peak frequency:** 12 trains/hour/direction (5-min headway)
-- **Peak capacity per line per direction:** 900 × 12 = **10,800 pphpd**
-- **Network peak throughput (all lines, both directions):** 8 lines × 2 directions × 10,800 = **172,800 passengers/hour**
-- **Daily theoretical capacity (peak × 10):** ≈ **1,728,000 passenger-trips/day**
+- **Peak capacity per line per direction:** 660 × 12 = **7,920 pphpd**
+- **Network peak throughput (all lines, both directions):** 8 lines × 2 directions × 7,920 = **126,720 passengers/hour**
+- **Daily theoretical capacity (peak × 10):** ≈ **1,267,200 passenger-trips/day**
 - **Practical daily ridership estimate** (10–15 % of catchment): ≈ **203,956 – 305,934 trips/day**
 
 ## Catchment

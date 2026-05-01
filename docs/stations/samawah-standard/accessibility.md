@@ -52,7 +52,7 @@ Per RFC 0010 §7:
 ## Wheelchair spaces
 
 - **On platform:** 1 marked wheelchair waiting area per 30 m of
-  platform length. For 75 m platform: **2 marked areas per
+  platform length. For 67 m platform: **2 marked areas per
   platform × 2 platforms = 4 per station**.
 - **On train:** 2 wheelchair spaces per car × 3 cars = 6 per
   consist (per RFC 0008 §3.3).

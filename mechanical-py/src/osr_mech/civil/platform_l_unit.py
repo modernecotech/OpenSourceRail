@@ -2,8 +2,9 @@
 
 Each L-unit is 3 m long, cast at the same yard as the U-girder,
 trucked to site, dropped onto a compacted sub-base, and grouted. A
-75 m platform = 25 L-units placed end-to-end. No formwork, no wet
-concrete, no structural design per station.
+light-metro platform uses full units plus a short closure pour at
+the non-critical rear edge. No formwork, no wet concrete at the
+rail-side edge, no structural design per station.
 
 Cross-section:
 - Vertical wall (platform edge): 1100 mm tall × 150 mm thick, sitting
