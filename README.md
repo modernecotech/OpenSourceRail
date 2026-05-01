@@ -597,7 +597,7 @@ OpenSourceRail/
 │   ├── hardware/             Hardware bring-up runbooks (RFC 0007 v1).
 │   │   └── bring-up/         Per-class procedures: t-ecu-s, t-ecu-a, w-sbc, s-sbc.
 │   ├── rolling-stock/        Rolling-stock shop-drawing packages (RFC 0008 v1+).
-│   │   └── light-metro-3car/ General arrangement, bogie, body, traction, BOM, compliance.
+│   │   └── light-metro-3car/ Fabrication plan, body, bogie, traction, BOM, compliance.
 │   ├── civil/                Per-deployment civil alignment (RFC 0009 v1+).
 │   │   └── samawah/          Line 1 + Line 2 segment table + compliance report.
 │   ├── stations/             Per-archetype architectural envelopes (RFC 0010 v1+).
@@ -998,14 +998,15 @@ named check passes — the per-unit equivalent of a custom-PCB
 flying-probe stamp.
 
 Trainset interiors follow the same commodity-first pattern: the
-car body is a cabless shell with door cutouts, and windows /
-HVAC / LED lighting / passenger screens / seats / grab poles /
-intercom are all COTS items with reserved envelopes + bolt
-patterns documented in
+car body is a welded steel primary frame with composite cladding,
+and doors / windows / HVAC / LED lighting / passenger screens /
+seats / grab poles / intercom are all COTS items with reserved
+envelopes, power budgets, evidence requirements, and bolt patterns
+documented in
 [`hardware/trainset-interiors/cots-catalogue.md`](hardware/trainset-interiors/cots-catalogue.md).
-The catalogue is parametric — [`cots_equipment.py`](mechanical-py/src/osr_mech/rolling_stock/cots_equipment.py)
-computes per-car and per-trainset BOMs and total mass + power
-from the consist family.
+The catalogue is supplier-neutral: a deployment can swap vendors
+with adapter plates and harness tails as long as the primary steel
+frame, mass/power budgets, and certification evidence still pass.
 
 The visual reference remains the Solar Metro Trainset image above;
 the fit-out screenshot is kept in [`docs/screenshots/`](docs/screenshots/)
@@ -1022,7 +1023,7 @@ U-girder for every viaduct and water-crossing bridge in the whole
 catalogue; one spares pool, one CAD reuse, one formwork.
 
 Complementary rail-engineering RFCs:
-- [RFC 0008](docs/rfcs/0008-rolling-stock-reference-design.md) — 5 trainset families, unified architecture (aluminium-extrusion body, one powered bogie per car, SiC inverters, Na-ion battery, onboard driverless stack).
+- [RFC 0008](docs/rfcs/0008-rolling-stock-reference-design.md) — 5 trainset families, unified architecture (welded steel primary frame, composite cladding, one powered bogie per car, SiC inverters, Na-ion battery, onboard driverless stack).
 - [RFC 0009](docs/rfcs/0009-track-design-standard.md) — 4 track-geometry presets (gauge, radius, grade, cant, rail profile).
 - [RFC 0010](docs/rfcs/0010-station-design-standard.md) — 6 station archetypes with platform geometry derived from the line's consist.
 - [RFC 0012](docs/rfcs/0012-switches-and-crossings.md) — 3 turnout tangents (1:9 / 1:14 / 1:18.5) + level-crossing equipment envelope. No diamonds.

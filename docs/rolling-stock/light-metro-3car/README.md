@@ -7,21 +7,32 @@ default for populations 300 k – 1 M per [RFC 0008 §5](../../rfcs/0008-rolling
 
 This is the v1 deliverable: a **specification a domestic rolling-
 stock fabricator can bid on** — dimensions, masses, interfaces,
-sub-assembly tree, and a procurement BOM skeleton. The v2
-deliverable is the full CAD pack + detailed shop drawings per
-EN 15085 weld classes and EN 45545 material certifications.
+sub-assembly tree, fabrication sequence, and a procurement BOM
+skeleton. The design deliberately favours a modern low-capex
+factory: COTS rail subsystems wherever possible, simple cut/bend/
+weld fabrication for the primary frame, and composite non-structural
+panels for sides, roof fairings, cabless cowls, and interior liners.
+The v2 deliverable is the full CAD pack + detailed shop drawings per
+EN 15085 weld classes, EN 45545 material certifications, and the
+supplier installation drawings for selected COTS modules.
 
 ## Contents
 
 | File | Scope |
 |---|---|
 | [`general-arrangement.md`](general-arrangement.md) | Overall envelope, gauge clearance, consist diagram, floor heights, door positions |
+| [`fabrication-plan.md`](fabrication-plan.md) | Cut-bend-weld primary structure, composite cladding, COTS module installation sequence |
 | [`bogie.md`](bogie.md) | 2-axle articulated bogie spec, wheel profile, suspension, brake mount |
-| [`body.md`](body.md) | Aluminium extruded body, side walls, end bulkheads, articulation joint |
+| [`body.md`](body.md) | Welded steel underframe/spaceframe, composite side panels, end bulkheads, articulation joint |
 | [`traction.md`](traction.md) | PMSM motor + SiC inverter + reduction gear, adhesion budget |
 | [`interfaces.md`](interfaces.md) | Coupler, pantograph, platform gap, TCN-E connector, aux power |
 | [`bom-skeleton.md`](bom-skeleton.md) | Procurement BOM lines (source-identified parts vs TBD) |
 | [`compliance.md`](compliance.md) | Standards matrix: EN 15227, EN 45545, EN 14363, EN 50155, ISO 3095, EN 12299 |
+| [`drawing-register.md`](drawing-register.md) | v2 drawing IDs, supplier documents, inspection evidence, release gates |
+
+COTS passenger-facing modules are controlled by the supplier-neutral
+envelope catalogue at
+[`hardware/trainset-interiors/cots-catalogue.md`](../../../hardware/trainset-interiors/cots-catalogue.md).
 
 ## Reference envelope (from RFC 0008 §1)
 
@@ -53,13 +64,19 @@ EN 15085 weld classes and EN 45545 material certifications.
 1. A fabricator reads [`general-arrangement.md`](general-arrangement.md)
    + [`interfaces.md`](interfaces.md) to size their production
    line tooling.
-2. [`bom-skeleton.md`](bom-skeleton.md) gives the procurement team
+2. [`fabrication-plan.md`](fabrication-plan.md) defines the shop
+   route: tube/plate cutting, press-brake bends, welding fixtures,
+   composite bonding, and COTS module installation.
+3. [`bom-skeleton.md`](bom-skeleton.md) gives the procurement team
    the source-identified parts (off-the-shelf commodity) and the
    TBD parts (where the fabricator bids on make-or-buy).
-3. [`compliance.md`](compliance.md) lists the test campaigns the
+4. [`drawing-register.md`](drawing-register.md) turns the v2 CAD
+   pack into controlled drawing IDs, supplier document requirements,
+   and release gates.
+5. [`compliance.md`](compliance.md) lists the test campaigns the
    type-approval needs; each is a separately-tendered scope with
    an accredited test house.
-4. The v2 CAD pack (not yet produced) is the cut-list / NC code
+6. The v2 CAD pack (not yet produced) is the cut-list / NC code
    / welding-robot path artefact that goes on the shop floor.
 
 ## Licensing

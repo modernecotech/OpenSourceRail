@@ -17,24 +17,28 @@ scales them per deployment.
 
 | Line | Desc | Qty per consist | Source | Base USD | Notes |
 |---|---|---|---|---|---|
-| B1 | Aluminium extrusion OSR-A1 (120×60 box) | 500 m | MAKE | 7 500 | Local mill |
-| B2 | Aluminium extrusion OSR-A2 (80×40 box) | 600 m | MAKE | 6 000 | Local mill |
-| B3 | Aluminium extrusion OSR-A3 (200×40 C) | 120 m | MAKE | 2 400 | |
-| B4 | Aluminium extrusion OSR-A4 (100×100 sq) | 40 m | MAKE | 1 200 | Corner posts |
-| B5 | Aluminium skin 5083 (6 mm, sheet) | 310 m² | SOURCE | 12 400 | |
-| B6 | Aluminium deck sheet (6 mm) | 135 m² | SOURCE | 5 400 | |
-| B7 | End bulkhead pressing (6 mm alu) | 2 | MAKE | 8 000 | |
-| B8 | Articulation joint, Hübner RTS-B40 | 2 | BID | 90 000 | Or local equivalent |
-| B9 | Laminated safety-glass window (900×1200) | 12 | SOURCE | 6 000 | |
-| B10 | IFE type-4 plug door (or equiv.) | 6 | BID | 36 000 | |
-| B11 | Vinyl floor covering (EN 45545 R5) | 135 m² | SOURCE | 5 400 | |
-| B12 | Seat, longitudinal bench (EN 45545 R7) | 60 | SOURCE | 18 000 | |
-| B13 | Grab rail + stanchion (anodised) | 45 m | MAKE | 4 500 | |
-| B14 | Interior LED strip lighting | 102 m | SOURCE | 2 040 | |
-| B15 | Exterior LED marker + head / taillight | 8 | SOURCE | 3 200 | |
-| B16 | Paint + 2K urethane topcoat | set | SOURCE | 6 000 | |
-| B17 | Conformal coat for interior electronics | set | SOURCE | 2 000 | |
-| **Body + interior subtotal** | | | | **219 640** | |
+| B1 | S355 RHS tube, underframe + side/roof frame | 3.2 t | SOURCE | 7 700 | Cut/bend/weld locally |
+| B2 | S355 folded plate, bolsters/coupler pockets/brackets | 2.0 t | SOURCE | 5 200 | Press-brake + weld |
+| B3 | CNC cutting, drilling, fixture consumables | set | MAKE | 12 000 | Per consist allocation |
+| B4 | Weld consumables + shielding gas | set | SOURCE | 4 800 | EN 15085 WPS-controlled |
+| B5 | Shot blast + zinc-rich primer + cavity wax | set | SOURCE | 8 500 | Corrosion package |
+| B6 | Composite side sandwich panels, fire-rated | 150 m² | BID | 45 000 | GFRP/basalt FR sandwich |
+| B7 | Composite roof fairings + skirts | 95 m² | BID | 24 000 | Removable service panels |
+| B8 | Composite sensor cowl shells | 2 | BID | 12 000 | Sacrificial over steel crash frame |
+| B9 | Articulation joint, Hübner RTS-B40 | 2 | BID | 90 000 | Or local equivalent |
+| B10 | COTS laminated safety-glass window cassette | 12 | SOURCE | 18 000 | Bonded/gasketed rail/bus unit |
+| B11 | COTS electric plug/sliding door cassette | 6 | BID | 150 000 | Door, controller, seals, emergency release |
+| B12 | Floor board + hatch system, EN 45545 | 135 m² | SOURCE | 16 200 | Phenolic/aluminium honeycomb |
+| B13 | Vinyl/rubber floor covering, EN 45545 R5 | 135 m² | SOURCE | 5 400 | |
+| B14 | COTS longitudinal seat modules, EN 45545 R7 | 60 seats | SOURCE | 24 000 | Rail/bus bench modules |
+| B15 | COTS grab rail + stanchion kit | set | SOURCE | 8 000 | Stainless modular system |
+| B16 | COTS interior LED lighting kit | 3 cars | SOURCE | 9 000 | 24 V DC, emergency mode |
+| B17 | COTS exterior marker + head/taillight kit | set | SOURCE | 6 000 | Rail/bus certified |
+| B18 | COTS PIS display + speaker kit | set | SOURCE | 12 000 | Interior/exterior |
+| B19 | COTS CCTV + intercom kit | set | SOURCE | 15 000 | PoE cameras, passenger intercom |
+| B20 | Paint + 2K urethane topcoat | set | SOURCE | 6 000 | Operator livery excluded |
+| B21 | Interior FR panels + trim clips | set | SOURCE | 28 000 | Supplier-certified HL2 |
+| **Body + interior subtotal** | | | | **506 800** | |
 
 ## Bogies (6 per consist)
 
@@ -55,7 +59,7 @@ scales them per deployment.
 | G13 | Cable-guide + centre-pin assembly | 6 | MAKE | 9 000 | |
 | G14 | Wheel-tach (quadrature encoder) | 12 | SOURCE | 6 000 | |
 | G15 | Axle bearing temp sensor | 24 | SOURCE | 4 800 | |
-| **Bogies subtotal** | | | | **240 500** | |
+| **Bogies subtotal** | | | | **471 000** | |
 
 ## Traction + power
 
@@ -74,9 +78,9 @@ scales them per deployment.
 | T11 | HV contactor + bus bar set | 3 | SOURCE | 24 000 | |
 | T12 | Station charging side-pin connector | 3 | SOURCE | 45 000 | Pantograph-down alternate per site |
 | T13 | Aux inverter (400 V / 110 V / 24 V) | 3 | SOURCE | 66 000 | |
-| T14 | HVAC unit (20 kW each, per car) | 3 | SOURCE | 45 000 | |
+| T14 | COTS packaged roof HVAC unit (20 kW each, per car) | 3 | BID | 75 000 | +50 °C hot-climate variant |
 | T15 | Regen dump resistor (roof-mount) | 1 | SOURCE | 3 500 | |
-| **Traction + power subtotal** | | | | **540 500** | |
+| **Traction + power subtotal** | | | | **688 700** | |
 
 ## Electronics + safety
 
@@ -105,28 +109,28 @@ scales them per deployment.
 
 | Bucket | Subtotal (USD) |
 |---|---|
-| Body + interior | 353 500 |
-| Bogies | 240 500 |
-| Traction + power | 540 500 |
+| Body + interior | 506 800 |
+| Bogies | 471 000 |
+| Traction + power | 688 700 |
 | Electronics + safety | 57 750 |
-| **Total direct-material consist** | **1 192 250** |
+| **Total direct-material consist** | **1 724 250** |
 
-Labour (shop weld, assembly, commissioning) adds ~35 %: ~420 000
-USD.
+Labour (shop weld, bonding, assembly, commissioning) adds ~35 %:
+~604 000 USD.
 
-**Planning-grade per-consist cost (volume 100): ~1.6 M USD.**
+**Planning-grade per-consist cost (volume 100): ~2.3 M USD.**
 
 For comparison, legacy-vendor light-metro trainsets in the target
 regions typically land 4–6 M USD each — the OSR design's
-commodity-module + no-pneumatic bets deliver a ~3× cost reduction
-at scale.
+commodity-module + COTS-fit-out + simple welded-frame bets deliver
+a ~2–3× cost reduction at scale.
 
 ## Per-deployment customisation
 
 The operator's own procurement office fills in:
 
-- Livery paint scheme (B16).
-- Seat fabric colour (B12).
+- Livery paint scheme (B20).
+- Seat fabric colour (B14).
 - TRG-1 5G carrier SIM spec (per-country mobile network).
 - Public-safety radio band (E-: not in base BOM).
 - Pantograph dock voltage if a non-1500 V DC dock is used (out

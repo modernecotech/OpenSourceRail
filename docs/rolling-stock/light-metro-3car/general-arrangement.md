@@ -105,8 +105,9 @@ The design envelope the v2 CAD model is checked against:
 - **EN 15227 Cat C-II** collision: 25 km/h train-to-obstacle.
   Cab crush zone absorbs. Anti-climbing features at both ends.
 - **EN 12663 Cat P-III** car-body static: compressive end load
-  640 kN; diagonal 600 kN. Aluminium extruded profile with
-  6 mm skin min.
+  640 kN; diagonal 600 kN. Welded S355 underframe/spaceframe
+  carries the load path; composite side and roof panels are
+  non-structural weather/aero skins.
 - **Vertical accel:** ± 0.5 g normal service; ± 2 g emergency
   brake / collision.
 - **Lateral accel:** ± 0.3 g through max-cant curve.

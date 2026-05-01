@@ -75,7 +75,7 @@ one supplier-qualification set.
 
 | Aspect | Choice | Rationale |
 |---|---|---|
-| Car body | Aluminium large-profile extrusions, bolted at end bulkheads | Locally produced in every target region; welders trained on aluminum are easier to find than on steel stainless pressings. |
+| Car body | Welded carbon-steel underframe + light spaceframe, with bonded/bolted composite side and roof panels | Keeps the primary structure to cut/bend/weld operations available in ordinary rolling-stock, bus, truck, and ship repair shops. Composite panels carry weather, aerodynamics, insulation, and finish, not crash loads. |
 | Suspension | Chevron rubber-metal primary; twin-bellows air-spring secondary with pneumatic levelling valves rated 55 °C continuous | Per [RFC 0022 §5](0022-bogie-traction-drive.md#5-suspension). Chevron primary eliminates hydraulic-damper creep failure at 50 °C ambient; twin-bellows air-spring secondary holds the door-zone floor within ± 5 mm across empty-to-AW3. |
 | Wheel | Monobloc, 760 mm new / 680 mm worn | Per [RFC 0022 §3](0022-bogie-traction-drive.md#3-reference-dimensions) — widest global wheel-forging catalogue (Lucchini, Valdunes, CAF, plus tier-2 vendors per RFC 0022 §10). 40 mm re-profiling budget over life on depot lathe. |
 | Gauge | 1 435 mm standard, 1 000 mm metre-gauge variant | Both produced from the same body and bogie frame; only the wheelset axle length changes. See [RFC 0009 §4](0009-track-design-standard.md#4-gauge). |

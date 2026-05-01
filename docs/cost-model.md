@@ -12,7 +12,7 @@ trainset is simply `cars × €1.0 M`.
 
 | Bucket | Base | Low | High | Notes |
 |---|---:|---:|---:|---|
-| Body shell, glazing, doors, interior | €300 k | €240 k | €420 k | Aluminium extrusion body, PRM zone, plug doors |
+| Body shell, glazing, doors, interior | €300 k | €240 k | €420 k | Welded steel frame, composite cladding, COTS doors/windows/interior |
 | Bogies and brakes | €220 k | €180 k | €320 k | One powered bogie plus one trailer bogie per car |
 | Traction package | €180 k | €140 k | €280 k | PMSM motors, gearbox, SiC inverter, cooling, HV contactors |
 | Battery and BMS | €120 k | €90 k | €180 k | 120 kWh usable under-seat Na-ion pack |
@@ -20,10 +20,12 @@ trainset is simply `cars × €1.0 M`.
 | HVAC, auxiliaries, QA margin | €90 k | €70 k | €160 k | HVAC, lighting, PIS, wiring, assembly QA |
 | **Total** | **€1.0 M** | **€790 k** | **€1.52 M** | Base is the catalogue value |
 
-The base value assumes direct procurement, local final assembly, common
-bogie modules, open control electronics, and no proprietary CBTC onboard
-bundle. The high value is a risk envelope for first-article procurement
-or low-volume import-heavy builds.
+The base value assumes direct procurement, local cut/bend/weld final
+assembly, common bogie modules, composite non-structural cladding,
+COTS doors/windows/HVAC/interior modules, open control electronics,
+and no proprietary CBTC onboard bundle. The high value is a risk
+envelope for first-article procurement or low-volume import-heavy
+builds.
 
 ## Charging Microgrids
 

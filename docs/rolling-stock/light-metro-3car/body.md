@@ -1,136 +1,177 @@
 # Body structure — `light-metro-3car`
 
-Aluminium large-profile extrusions bolted at end bulkheads — the
-standard European light-metro body-build technique, chosen
-because:
+The body architecture is deliberately simple to manufacture in a
+regional workshop: a welded carbon-steel primary structure with
+bonded/bolted composite cladding and COTS passenger-facing modules.
+The design avoids large aluminium extrusion dies, stainless body
+pressings, and bespoke door/window/HVAC development.
 
-- Locally produced in every target region — aluminium extrusion
-  mills exist in MENA, Latin America, South/Southeast Asia.
-- Rivetable and weldable — no stainless-steel pressing line
-  needed.
-- Lighter than stainless-steel per equivalent stiffness (tare
-  mass target 102 t for 56.6 m consist benefits from aluminium).
+## Architecture
 
-## Extrusion list
+Each 18.9 m car is split into four production zones:
 
-Each car is built from four standard extrusion profiles:
-
-| Profile | Section | Function |
+| Zone | Construction | Function |
 |---|---|---|
-| OSR-A1 | 120 × 60 mm closed section | Side-wall panel vertical members |
-| OSR-A2 | 80 × 40 mm closed section | Side-wall panel horizontal members |
-| OSR-A3 | 200 × 40 mm C-section | Roof edge beam |
-| OSR-A4 | 100 × 100 mm closed square | Corner post |
+| Underframe ladder | Cut/bend/weld S355 steel box and folded plate | Carries buff/compression, bogie pivots, battery boxes, coupler loads |
+| Side/roof spaceframe | S355 rectangular hollow section | Door posts, window rails, roof equipment rails, composite panel support |
+| Composite exterior | Fire-rated glass-fibre or basalt-fibre sandwich panels | Weather skin, insulation, aerodynamics, livery surface |
+| Interior cassette | COTS panels, seats, lights, grab rails, PIS, HVAC ducting | Passenger finish and replaceable equipment |
 
-All four profiles are stock 6063-T6 or 6082-T6 alloy, available
-from any regional extrusion mill with a 400 t press or larger.
+Steel is the certified load path. Composite panels are non-structural:
+they may stiffen local skins, but crashworthiness, jacking, lifting,
+coupler loads, and bogie loads are closed through the welded frame.
 
-## Side-wall panel assembly
+## Primary steel structure
 
-Each car side is composed of:
+### Underframe
 
-- 2 corner posts (A4) × full-height (3 500 mm from floor to roof
-  edge).
-- 10 vertical members (A1) at 900 mm pitch.
-- 7 horizontal members (A2) at 500 mm pitch.
-- 1 large centre door cut-out per side at 8.5 m from the car end.
-- 6 mm aluminium skin (alloy 5083 or equivalent) welded to the
-  frame with MIG.
+The underframe is a jig-welded ladder:
 
-Panels are prefabricated at the shop (not on-car) — the car is
-built by bolting four pre-built panels (2 side + roof + floor)
-to the end bulkheads + corner posts.
+| Member | Section | Material | Notes |
+|---|---|---|---|
+| Side sill | 200 × 100 × 8 mm RHS | S355J2 or local equivalent | Continuous between end modules |
+| Centre spine | 250 × 100 × 8 mm RHS | S355J2 | Battery-box and equipment support |
+| Cross bearer | 160 × 80 × 6 mm RHS | S355J2 | 750 mm nominal pitch |
+| Bogie bolster | Folded/welded 12 mm plate box | S355J2 | Machined centre-pivot insert after weld |
+| Coupler pocket | 16 mm folded plate + crush can interface | S355J2 | EN 15227 energy absorber bolts on |
+| Battery tray rail | 80 × 60 × 5 mm RHS | S355J2 | Under-seat module cassette support |
 
-## End bulkhead
+All primary welds are made in a rotating fixture so flat/horizontal
+weld positions dominate. The v2 drawing pack assigns EN 15085 weld
+classes per joint; the v1 assumption is CL1 for bolsters, coupler
+pockets, and crash boxes, CL2 for side sills/cross bearers, CL3/CL4
+for panel tabs and interior brackets.
 
-- Pressed aluminium, 6 mm thick.
-- Corrugated for stiffness (EN 12663 Cat P-III compressive end
-  load 640 kN).
-- Mounts the sensor-cowl interface and semi-permanent coupler gear.
+### Side frame
 
-## Inter-car connection (between Car A ↔ Car B, Car B ↔ Car C)
+The side frame is a light spaceframe welded to the underframe:
 
-Commercial off-the-shelf gangway bellows around the semi-permanent
-coupler. Reference: **Hübner RTS-B40** or local equivalent.
-- Bellow width: 2 400 mm (interior passable corridor).
-- Vertical travel: ±100 mm.
-- Horizontal travel (curve negotiation): ±250 mm at 1 800 mm
-  turning radius.
-- Roof cover: folding stainless-steel plate.
-- Under-frame: rubber skirt + drainage gutter.
+- Door posts: 120 × 80 × 6 mm RHS.
+- Window posts: 80 × 50 × 4 mm RHS.
+- Waist rail: 100 × 50 × 5 mm RHS.
+- Cant rail: 100 × 50 × 5 mm RHS.
+- Roof bows: 80 × 40 × 4 mm RHS at 1 000 mm pitch.
+- Equipment rails: bolted stainless inserts for HVAC, antennas,
+  marker lights, CCTV, and cable trays.
 
-Sourced from a single supplier; no bespoke articulation design.
+Door openings are not cut from a finished shell. They are built as
+open bays around the COTS door cassette so the door supplier's frame,
+threshold, drainage tray, and emergency-release hardware install as
+a single bolted module.
 
-## Roof
+## Composite exterior panels
 
-- A3 C-section roof edge beam runs the full car length.
-- Three transverse purlins per car (aluminium 60 × 40 mm box).
-- Roof skin: 3 mm aluminium, painted white (solar reflectance).
-- Roof penetrations:
-  - HVAC unit: 2 400 × 1 800 mm cut-out per car.
-  - LED end marker lights.
-  - Antennas: 5G (TRG-1), LoRa (TRG-2), GNSS.
-  - CCTV camera domes (2 per car).
+Exterior panels are bonded and mechanically retained to the steel
+frame:
+
+| Panel | Construction | Attachment |
+|---|---|---|
+| Side skin | 25-35 mm fire-rated GFRP or basalt-fibre sandwich | Structural adhesive + M6/M8 retained fasteners |
+| Roof fairing | 20-30 mm composite sandwich | Bolted to roof bows; removable above HVAC/equipment |
+| Nose/sensor cowl | Moulded composite shell over steel crash frame | Bolted; sacrificial and replaceable |
+| Skirts | Composite or aluminium removable panels | Quarter-turn service fasteners |
+| Interior liners | EN 45545 HL2 FRP or phenolic panels | Clip/bolt to secondary rails |
+
+The composite supplier owns laminate coupons, resin selection, fire
+test evidence, and repair manuals. The OSR body drawing owns only
+panel envelopes, edge radii, insert locations, grounding/bonding
+points, and removal clearances.
+
+## COTS windows
+
+Windows are bought as certified rail/bus glazing modules rather than
+fabricated locally:
+
+- Laminated safety glass to EN 15152 or equivalent.
+- Typical opening: 900 × 1 200 mm.
+- Bonded-in or gasketed cassette depending on supplier.
+- Emergency ventilation only where required by the authority having
+  jurisdiction; default HVAC assumes fixed glazing.
+- Drainage path and adhesive bead are per supplier installation
+  drawing, not re-engineered by OSR.
+
+## COTS doors
+
+Door modules are commercial off-the-shelf electric sliding-plug or
+plug-outward rail doors:
+
+- Clear opening: 1 250 mm × 2 000 mm.
+- Electric actuation; no trainwide pneumatic door supply.
+- Supplier-provided threshold, guide rail, controller, obstacle
+  detection, emergency release, seals, and manual isolation.
+- OSR provides 24 V DC / 110 V DC power, Ethernet/CAN-FD command,
+  hardwired closed-and-locked loop, drainage, and mounting datum.
+
+The preferred procurement pattern is to qualify two door suppliers
+against the same envelope. The carbody must not depend on a unique
+proprietary door pocket.
+
+## COTS roof and passenger systems
+
+The body reserves bolted envelopes for:
+
+- Roof HVAC: one 20 kW nominal packaged unit per car, hot-climate
+  variant for +50 °C ambient.
+- LED lighting: 24 V DC rail-rated strip or troffer modules.
+- PIS displays and speakers: off-the-shelf rail/bus units.
+- CCTV: PoE cameras in serviceable composite housings.
+- Intercom: COTS EN 50155 rail intercom stations.
+- Seats: longitudinal rail/bus bench modules bolted to under-seat
+  battery cover rails.
+- Grab rails: stainless tube systems with off-the-shelf clamps.
+
+HVAC, lighting, PIS, CCTV, intercom, seats, and grab rails are
+procurement modules. OSR fixes the envelope, fastener grid, power
+budget, data interface, fire rating, and maintainability clearance.
+Supplier-neutral envelopes and evidence requirements live in
+[`hardware/trainset-interiors/cots-catalogue.md`](../../../hardware/trainset-interiors/cots-catalogue.md).
 
 ## Floor
 
-- 6 mm aluminium deck, supported on transverse purlins at 500 mm
-  pitch.
-- Vinyl floor covering, slip-resistant, EN 45545-2 R5.
-- Fire-rated insulation (mineral wool, EN 45545 HL2 compliant)
-  between deck and purlins.
+- 5-6 mm steel or aluminium deck panels over cross bearers.
+- Removable hatches above battery and HV equipment zones.
+- Phenolic or aluminium honeycomb floor boards in the saloon.
+- Slip-resistant vinyl or rubber floor covering, EN 45545-2 R5.
+- Low-floor centre door zone; raised floor over bogies.
 
-## Windows
+## Corrosion protection
 
-- Laminated safety glass per EN 15152.
-- Fixed in seat windows, hopper-hinged at top for emergency
-  ventilation (EN 45545).
-- 900 × 1 200 mm typical.
-- Emergency hammer per window (EN 45545-2 §6.5).
+Steel primary structure receives:
 
-## Doors
+- Shot blast to Sa 2.5.
+- Zinc-rich epoxy primer.
+- Seam sealer at composite/steel interfaces.
+- Cavity wax in closed sections after weld inspection.
+- Polyurethane topcoat where visible or exposed below floor.
+- Drain holes in every closed bay that can collect condensation.
 
-Plug-outward doors, commercial off-the-shelf. Reference:
-**IFE type 4 plug door** or local equivalent.
-- Mechanism: electro-mechanical (no pneumatic).
-- Door panel: aluminium leaf 40 mm thick with internal insulation.
-- Clear opening 1 250 mm × 2 000 mm.
-- Obstacle detection: motor-current monitoring + force-limit
-  sensor — both consumed by `osr-door-control`'s interlock.
-- Interior grab handles per EN 14752.
+Composite/steel joints use isolation tape or coated inserts to avoid
+galvanic corrosion where aluminium brackets or stainless fasteners
+are present.
 
-## Paint + livery
+## Fire compliance
 
-- Exterior: PPG-V170 polyester primer + 2K polyurethane topcoat.
-- Livery colour: per-operator choice (not in upstream scope).
-- Interior panels: powder-coated aluminium + melamine-faced
-  laminate where specified by the operator.
-- Anti-graffiti clear-coat on exterior: optional per-deployment.
+Every passenger-facing material must meet EN 45545-2 HL2 or the
+deployment authority's accepted equivalent.
 
-## Fire compliance (EN 45545-2 HL2)
+| Item | Requirement |
+|---|---|
+| Steel primary frame | Non-combustible; coating fire data required |
+| Composite exterior panels | R1 HL2 or better |
+| Interior panels | R1 HL2 or better |
+| Floor covering | R5 HL2 or better |
+| Seats | R7 HL2 or better |
+| Cable insulation | R15/R24 HL2 or better |
+| Door/window seals | R23 HL2 or better |
 
-Every material in the body structure is classified under EN 45545
-HL2 metro category:
+## v2 deliverables
 
-| Item | Test | Class |
-|---|---|---|
-| Body extrusion + skin (aluminium) | inherent non-combustible | IEC 60584 N/A |
-| Vinyl floor covering | R5 | HL2 compliant |
-| Seat upholstery | R7 | HL2 compliant |
-| Cable insulation | R15 / R24 | HL2 compliant |
-| Interior GRP panels | R1 | HL2 compliant |
-| Door rubber seal | R23 | HL2 compliant |
-
-A certified test-house report per material is required before
-v2 CAD release. The certification itself is a per-deployment
-deliverable since national authorities may accept different
-test-house accreditations.
-
-## v2 deliverables (not in v1)
-
-- STEP assembly of the car body + articulation.
-- Dimensioned extrusion drawings per ISO 128.
-- EN 15227 Cat C-II crashworthiness simulation report.
-- Paint-process spec per PPG + local topcoat availability.
-- EN 15085 weld-procedure register (CL1, CL2, CL3, CL4 welds
-  enumerated).
+- Welded frame STEP assembly and 2D drawings.
+- Flat pattern DXF for folded plates.
+- Tube cut list with mitre angles and fixture datum references.
+- Weld map with EN 15085 classes, WPS references, and inspection
+  hold points.
+- Composite panel envelope drawings and insert maps.
+- Door/window/HVAC supplier interface drawings.
+- Static proof-load and fatigue FEA report.
+- EN 15227 crashworthiness simulation report.

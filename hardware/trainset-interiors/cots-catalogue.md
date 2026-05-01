@@ -1,120 +1,123 @@
-# Trainset interiors — COTS equipment catalogue
+# Trainset interiors and closures — COTS equipment catalogue
 
-The structural car body in
-[`mechanical-py/src/osr_mech/rolling_stock/car_body.py`](../../mechanical-py/src/osr_mech/rolling_stock/car_body.py)
-is a cabless box with door cutouts — a steel / aluminium shell
-on a bogie. Everything a passenger sees and uses on top of that
-shell is a **commodity item** bought from the open market:
-windows, HVAC, seats, grab poles, LED lighting, passenger-
-information screens, intercom.
+The `light-metro-3car` body is a welded steel primary frame with
+composite non-structural side/roof/nose panels. Passenger-facing
+equipment is not bespoke OSR hardware: doors, windows, HVAC,
+lighting, seats, grab rails, PIS, CCTV, and intercom are COTS rail
+or heavy-duty bus modules installed into reserved envelopes.
 
-This file is the builder's shopping list. The reference SKU for
-each row is a worked example — any replacement that fits inside
-the reserved envelope and the quoted power budget is a valid
-substitute. The envelope is the contract; the SKU is a
-suggestion.
+This file is the supplier-neutral catalogue promised by
+[RFC 0008](../../docs/rfcs/0008-rolling-stock-reference-design.md).
+The envelope is the contract; named SKU classes are examples only.
+Any replacement is acceptable if it fits the envelope, stays inside
+the mass/power budget, exposes the required interface, and arrives
+with usable certification evidence.
 
-Parametric source: [`cots_equipment.py`](../../mechanical-py/src/osr_mech/rolling_stock/cots_equipment.py).
-STEP visualisation: [`car-body-17m-cots-fit-out.step`](../../mechanical-py/catalog/rolling_stock/car-body-17m-cots-fit-out.step)
-(the plain body overlaid with every reserved envelope in its
-catalogue colour).
+Related rolling-stock package:
 
-![Car-body interior fit-out with COTS envelopes](../../docs/screenshots/trainset-interior-fit-out.png)
+- [`body.md`](../../docs/rolling-stock/light-metro-3car/body.md)
+- [`fabrication-plan.md`](../../docs/rolling-stock/light-metro-3car/fabrication-plan.md)
+- [`bom-skeleton.md`](../../docs/rolling-stock/light-metro-3car/bom-skeleton.md)
 
-Rendered rear-quarter view: the structural shell is drawn translucent
-so the reserved envelopes read through — HVAC on the roof, seats below
-the windows, grab poles at the centre doors, PIS screens above the doors,
-intercom at each end.
+## Qualification classes
 
-## Per-car fit-out BOM (17 m self-contained car, 1 door/side)
+| Class | Meaning | Typical procurement path |
+|---|---|---|
+| COTS-R | Rail-certified COTS module | Preferred for doors, windows, HVAC, intercom |
+| COTS-B | Heavy-duty bus module with rail-compatible evidence | Acceptable for seats, lighting, PIS, CCTV where authority allows |
+| COTS-I | Industrial module needing enclosure and vibration evidence | Acceptable for non-safety displays/cameras only |
+| MAKE-ADAPT | Local adapter plate, harness tail, duct, or bracket | Allowed when it does not change the primary steel frame |
 
-| Category | Reference SKU class | Qty / car | Unit mass kg | Unit power W | Mount pattern |
-|---|---|---|---|---|---|
-| Side glazing | Laminated 8+1.52 PVB+8, Pilkington Optilam class | 4 | 25 | 0 | Bonded frame, Sikaflex 252 |
-| Rooftop HVAC | 15 kW bus-HVAC — Sutrak CC 210 / Thermo King T-1080R / Hispacold Compact | 1 | 250 | 15 000 | 8× M10 on 1200 × 600 pitch |
-| Ceiling lighting | Osram Ledvance T5-equivalent, 15 W/m @ 24 VDC | 2 strips (17 m each) | 35 | 255 | M6 clips at 600 mm pitch |
-| PIS screen | 21.5" industrial LCD — Advantech OSD-215 / Lilliput FA1200-NP | 2 | 6 | 30 | VESA 200 × 100, 4× M4 |
-| Longitudinal seat | Kiel Avant Metro / Grammer Ipano, textile upholstery | 4 | 25 | 0 | 4× M10 on 800 × 300 base frame |
-| Grab pole | Stainless 304, Ø35 × 2.5 wall, satin | 2 | 8 | 0 | Flanged floor + ceiling, 3× M8 |
-| Emergency intercom | Zenitel Vingtor-Stentofon TMIS-2, IP-SIP | 2 | 3.5 | 10 | Recessed 250 × 150 cutout |
+Safety-critical rotating, braking, traction, battery, and door-lock
+parts are not downgraded to generic commodity components. They remain
+supplier-certified modules with incoming inspection and type-test
+evidence.
 
-**Totals (per 17 m car): ~555 kg interior fit-out, ~15.4 kW
-active electrical load.** The HVAC unit dominates; changing consist
-length scales by adding the same fitted car module.
+## Reserved module envelopes
 
-(Quantities are from the parametric BOM in
-`cots_equipment.bom_per_car()`. All current families use the same
-one-centre-door car module; a future dwell-driven variant can still
-increase `doors_per_side` and the quantities will scale.)
+Per 18.9 m self-contained car:
 
-## Per-trainset rollup
+| Module | Qty / car | Envelope | Mass limit | Power budget | Interface |
+|---|---:|---|---:|---:|---|
+| Door cassette | 2 | clear opening 1 250 × 2 000 mm; cassette ≤ 1 850 W × 2 450 H × 260 D mm | 180 kg each | 600 W peak each | 24/110 V DC, Ethernet/CAN, hardwired closed/locked loop |
+| Side glazing | 4 | nominal 900 × 1 200 mm aperture | 35 kg each | 0 | Bonded/gasketed cassette, drain path |
+| Roof HVAC | 1 | ≤ 2 700 L × 1 900 W × 450 H mm | 420 kg | 20 kW cooling electrical allowance | 400 V AC, condensate drain, CAN/Ethernet diagnostics |
+| Interior lighting | set | two 18.9 m ceiling runs + door-zone lights | 45 kg | 350 W | 24 V DC, emergency-light input |
+| Exterior marker/head/tail lights | set | nose/cowl mounted | 25 kg | 150 W | 24 V DC, hardwired marker functions |
+| PIS displays + speakers | set | above-door and saloon ceiling mounts | 45 kg | 250 W | Ethernet, 24 V DC, audio line |
+| CCTV | set | door sill, saloon, and nose service views | 20 kg | 180 W | PoE or 24 V DC + Ethernet |
+| Passenger intercom | 4 | recessed wall modules | 12 kg | 80 W | Ethernet/SIP, 24 V DC, OCC call button |
+| Longitudinal seats | 20 seats | under-window modules over battery covers | 120 kg | 0 | M10 floor/side inserts |
+| Grab rails/stanchions | set | centre-door and vestibule zones | 45 kg | 0-80 W | M8/M10 floor/ceiling inserts |
+| Interior wall/ceiling panels | set | FRP/phenolic cassettes | 220 kg | 0 | Clip/bolt to secondary rails |
+| Floor boards + hatches | set | full saloon floor | 280 kg | 0 | Removable panels over battery/HV zones |
 
-| Family | Cars | Fit-out mass kg | Fit-out active load kW |
-|---|---|---|---|
-| tram-2car | 2 | ~1 110 | ~31 |
-| light-metro-3car | 3 | ~1 670 | ~46 |
-| metro-4car | 4 | ~2 220 | ~61 |
-| metro-6car | 6 | ~3 330 | ~92 |
+Per `light-metro-3car` consist, multiply by three cars. HVAC
+dominates auxiliary power; the aux converter and station-energy
+models should assume roughly 60 kW HVAC peak plus lighting, PIS,
+CCTV, intercom, control electronics, and battery thermal loads.
 
-The HVAC line dominates both. These totals feed the auxiliary-
-converter sizing in [RFC 0008 §3.5](../../docs/rfcs/0008-rolling-stock-reference-design.md)
-and the consist-mass budget in §3.4.
+## Candidate supplier classes
 
-## Wiring + services
+Named suppliers are examples of the class of product, not a locked
+vendor list.
 
-All COTS interior equipment runs off three low-voltage buses
-fed from the auxiliary converter:
+| Module | Example class | Required evidence |
+|---|---|---|
+| Door cassette | IFE, Vapor, Knorr-Bremse, Fuji, Nanjing Kangni rail door family | EN 14752 or equivalent, obstruction detection, lifecycle test, emergency release |
+| Side glazing | Pilkington/AGC/Saint-Gobain rail laminated safety glass | EN 15152 or equivalent, impact, fire/smoke data for seals |
+| HVAC | Liebherr, Thermo King, Hispacold, Sutrak, Merak roof HVAC | EN 50155/50121 where applicable, +50 °C performance curve, refrigerant data |
+| Lighting | Rail/bus LED strip or troffer modules | EN 45545 material data, EMC evidence, emergency-mode behaviour |
+| Seats | Kiel, Grammer, Fainsa, McConnell, local bus/rail equivalent | EN 45545 R7, static strength, vandal-resistance data |
+| Grab rails | Stainless modular rail/bus stanchion system | Pull-load data, corrosion grade, fastener spec |
+| PIS displays | Advantech/IEI/Litemax/rail LCD class | EN 50155 preferred or vibration/temperature evidence |
+| CCTV | Axis/Hikvision/industrial PoE camera class in rail enclosure | EMC/vibration evidence, cybersecurity hardening path |
+| Intercom | Zenitel/Vingtor, Commend, rail SIP intercom class | EN 50155 preferred, audio intelligibility, emergency-call behaviour |
+| Floor/interior panels | Phenolic/FRP rail interior panel supplier | EN 45545 HL2 R1/R5 evidence, cleanability, repair method |
 
-- **400 VAC 3-phase** — HVAC only. 30 A breaker per car.
-- **24 VDC** — lighting, PIS screens, intercom, grab-pole lit
-  handles (if equipped). 60 A breaker per car.
-- **Ethernet 1000BASE-T** — PIS screens (Cat 6 to each LCD),
-  intercom (IP-SIP). Runs on the TSN car-bus.
+## Supplier-change rule
 
-None of this is safety-rated. The SIL-4 chain (ATP, brake,
-obstacle-detect, door interlock) runs on the independent TCN
-bus described in [RFC 0005](../../docs/rfcs/0005-sbc-software-architecture.md)
-and does not depend on — and is not affected by — any COTS
-interior component.
+A supplier change is valid without changing the carbody if all are true:
 
-## Installation order
+1. The replacement fits inside the reserved envelope.
+2. Mass is no more than the row limit, or the weight budget is updated
+   and bogie axle-load margins still pass.
+3. Power draw is no more than the row budget, or aux-power sizing is
+   updated and thermal checks still pass.
+4. Mounting can be handled by adapter plates or harness tails.
+5. The primary steel frame, door posts, bolsters, and coupler pockets
+   are unchanged.
+6. Required fire, EMC, vibration, lifecycle, and maintainability
+   evidence is present.
 
-1. **Shell first** — car body exits the fab with door cutouts
-   already machined, window apertures already ground flush for
-   bonding, and a pre-installed ceiling channel for the
-   lighting clips. Don't skip the ceiling channel; retrofitting
-   it after the HVAC goes on the roof is painful.
-2. **HVAC** before ceiling lining — the HVAC duct trunks feed
-   through a roof penetration plate bolted on the bench, then
-   lined over.
-3. **Windows** — bond in with Sikaflex 252 at ambient > 5 °C.
-   48 h cure before first pressure / weather test.
-4. **Interior fit-out** — lighting strips, grab poles, seats,
-   PIS screens, intercom. All of these mount to pre-tapped
-   inserts on the body shell + ceiling channel. No welding
-   inside the passenger envelope.
-5. **Commissioning** — power up the 24 VDC + 400 VAC buses,
-   verify screens enumerate on the TSN car-bus, run the HVAC
-   self-test, open + close every door through the interlock,
-   verify emergency intercom routes to the OCC.
+If any supplier change needs new primary steel, it is a body-design
+change and must go through v2 CAD/FEA release.
 
-## Swapping vendors
+## Incoming inspection
 
-To swap any row — e.g., drop Sutrak HVAC for Hispacold:
+| Module | Incoming checks |
+|---|---|
+| Door cassette | Dimensional check, serial/cert pack, lock loop continuity, manual release |
+| Window cassette | Glass marking/cert pack, edge damage inspection, seal/adhesive shelf life |
+| HVAC | Nameplate, refrigerant record, factory test sheet, drain and duct fit |
+| Lighting/PIS/CCTV/intercom | Power-on test, firmware version, MAC/serial register, mounting hardware |
+| Seats/grab rails | Fire certificate, pull-test certificate or batch test, finish defects |
+| Panels/floor | Fire certificate, flatness, insert locations, repair kit present |
 
-1. Check the replacement's envelope is ≤ `length_mm × width_mm × height_mm`
-   in [`cots_equipment.py`](../../mechanical-py/src/osr_mech/rolling_stock/cots_equipment.py).
-2. Check the replacement's mass is ≤ the published row + 20 %
-   (the body sub-frame is rated to that margin).
-3. Check the replacement's power draw is ≤ the published row
-   (the auxiliary converter is sized around the published
-   totals).
-4. Check the mount pattern matches, *or* add a transition
-   plate. Transition plates are fine — they weigh a few kg
-   and don't affect the envelope.
-5. Update the SKU reference line in `CATALOGUE` + regenerate
-   the STEP via `python3 -m osr_mech.catalog`.
+## Installation evidence
 
-No other code changes. The car body's reserved volume + the
-trainset mass / power budget are what matter; the specific
-vendor is interchangeable.
+Each car receives a COTS fit-out evidence pack:
+
+- Supplier certificate and installation manual for every COTS-R/B item.
+- Envelope compliance sheet signed by production engineering.
+- Mounting torque record for seats, rails, doors, HVAC, and hatches.
+- Water ingress test for doors/windows/roof equipment.
+- HVAC drain test.
+- Door obstruction and emergency-release test.
+- Lighting lux test and emergency-light mode test.
+- PIS/CCTV/intercom network enumeration report.
+- Material fire certificate index.
+
+This evidence pack becomes part of the trainset technical file and
+feeds the compliance matrix in
+[`docs/rolling-stock/light-metro-3car/compliance.md`](../../docs/rolling-stock/light-metro-3car/compliance.md).

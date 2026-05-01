@@ -42,7 +42,7 @@ test-house relationship.
 | **ISO 3095** | External + internal noise | Acoustic measurement (v3) |
 | **UIC 741** | Platform-to-train gap | General arrangement + gap-filler flap spec (v1 ✓) |
 | **EN 14752** | Door systems | IFE type-4 door or equiv. (v1 source-identified) |
-| **EN 16586** | Accessibility PRM | Wheelchair-space layout (v1 — see `interior.md` when it lands v2) |
+| **EN 16586** | Accessibility PRM | Wheelchair-space layout and COTS fit-out envelopes (v1 — see COTS catalogue) |
 | **EN 15152** | Windows | Laminated safety glass (v1 source-identified) |
 
 ## Onboard safety systems
@@ -70,25 +70,28 @@ NRSA-liaison scope. Upstream provides the EN-standard base.
 A typical sequence from design freeze to revenue:
 
 1. **v2 CAD release:** FEA reports (EN 15227, EN 12663, EN 13749).
-2. **First-article prototype:** EN 45545 material test campaigns.
-3. **Static test on bogie rig:** EN 13749 frame fatigue.
-4. **Dynamic test (pilot deployment):** EN 14363 derailment
+2. **v2A drawing register release:** controlled drawings, supplier
+   installation documents, and evidence gates issued per
+   [`drawing-register.md`](drawing-register.md).
+3. **First-article prototype:** EN 45545 material test campaigns.
+4. **Static test on bogie rig:** EN 13749 frame fatigue.
+5. **Dynamic test (pilot deployment):** EN 14363 derailment
    safety; EN 12299 ride comfort; ISO 3095 noise;
    EN 50121-3-2 EMC.
-5. **Safety-case sign-off:** EN 50126 lifecycle file complete.
-6. **NRSA approval.**
-7. **Revenue service.**
+6. **Safety-case sign-off:** EN 50126 lifecycle file complete.
+7. **NRSA approval.**
+8. **Revenue service.**
 
-Steps 1–4 are fabricator + accredited-test-house scope.
-Steps 5–6 are operator + project-safety-team scope.
+Steps 1–5 are fabricator + accredited-test-house scope.
+Steps 6–7 are operator + project-safety-team scope.
 
 ## What v1 commits to
 
 - Source-identified parts where such parts exist (Scharfenberg
   coupler, IFE door, PZ pantograph, EN 45545 materials).
 - BID scope clearly delimited (motor, inverter, battery pack).
-- MAKE scope matched to local fabricator capability (body
-  extrusions, bogie frames, end bulkheads, wiring harness).
+- MAKE scope matched to local fabricator capability (cut/bend/weld
+  body frame, bogie frames, brackets, wiring harness).
 - No proprietary/closed interfaces anywhere in the consist.
 
 ## What v1 does NOT commit to
