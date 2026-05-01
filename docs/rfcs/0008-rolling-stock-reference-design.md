@@ -6,7 +6,8 @@
 
 ## 1. Summary
 
-OpenSourceRail commits to **four rolling-stock families** — one per
+OpenSourceRail commits to **one modular train architecture** scaled
+into five rolling-stock families — one per
 ridership band — from which every deployment picks exactly one per
 line. No bespoke consists; every country that adopts the stack
 chooses the closest family and builds to that drawing. This RFC
@@ -14,16 +15,23 @@ fixes the engineering envelope (dimensions, masses, axle
 arrangement, bogie and brake architecture, cab, crashworthiness,
 fire, thermal, acoustic) for each family.
 
-The four families are already named in
+The families are named in
 [`lib/templates/rolling-stock.toml`](../../lib/templates/rolling-stock.toml).
 This RFC promotes that schema into a committed engineering envelope.
 
-| Family | Cars | Length | Tare | Capacity | Peak ridership band (pphpd) | Max speed |
-|---|---|---|---|---|---|---|
-| `tram-2car` | 2 | 42 m | 90 t | 220 | < 5 000 | 19 m/s (70 km/h) |
-| `light-metro-3car` | 3 | 65 m | 195 t | 360 | 5 000–10 000 | 25 m/s (90 km/h) — **Samawah reference** |
-| `metro-4car` | 4 | 88 m | 260 t | 540 | 10 000–20 000 | 25 m/s (90 km/h) |
-| `metro-6car` | 6 | 132 m | 420 t | 900 | 20 000–35 000 | 28 m/s (100 km/h) |
+Each car is a self-contained driverless unit: one powered bogie,
+one trailer bogie, under-seat sodium-ion battery, low-floor centre
+boarding zone, and its own onboard control stack. Multi-car consists
+repeat that module rather than introducing a different traction
+architecture.
+
+| Family | Cars | Length | Tare | Capacity | Peak ridership band (pphpd) | Onboard battery | Max speed |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| `urban-shuttle-1car` | 1 | 21 m | 34 t | 90 | < 2 500 | 120 kWh | 19 m/s (70 km/h) |
+| `tram-2car` | 2 | 39 m | 68 t | 220 | < 5 000 | 240 kWh | 19 m/s (70 km/h) |
+| `light-metro-3car` | 3 | 57 m | 102 t | 360 | 5 000–10 000 | 360 kWh | 25 m/s (90 km/h) — **Samawah reference** |
+| `metro-4car` | 4 | 75 m | 136 t | 540 | 10 000–20 000 | 480 kWh | 25 m/s (90 km/h) |
+| `metro-6car` | 6 | 111 m | 204 t | 900 | 20 000–35 000 | 720 kWh | 28 m/s (100 km/h) |
 
 Pphpd = passengers per hour per direction at peak, planning-grade.
 
@@ -54,8 +62,8 @@ Pphpd = passengers per hour per direction at peak, planning-grade.
 
 ## 3. Unified architecture — every family
 
-Four rolling-stock families, but **one architecture** across all of
-them. The scaling is width, length, and car count; the
+Five rolling-stock families, but **one architecture** across all of
+them. The scaling is car count, platform length, and capacity; the
 architectural decisions below are shared. Commonality is the bet:
 one spares pool, one maintainer-training syllabus, one CAD reuse,
 one supplier-qualification set.
@@ -65,14 +73,14 @@ one supplier-qualification set.
 | Aspect | Choice | Rationale |
 |---|---|---|
 | Car body | Aluminium large-profile extrusions, bolted at end bulkheads | Locally produced in every target region; welders trained on aluminum are easier to find than on steel stainless pressings. |
-| Suspension | Chevron rubber-metal primary; twin-bellows air-spring secondary with pneumatic levelling valves rated 55 °C continuous | Per [RFC 0022 §5](0022-bogie-traction-drive.md#5-suspension). Chevron primary eliminates hydraulic-damper creep failure at 50 °C ambient; twin-bellows air-spring secondary holds 1 100 mm floor within ± 5 mm across empty-to-AW3. |
+| Suspension | Chevron rubber-metal primary; twin-bellows air-spring secondary with pneumatic levelling valves rated 55 °C continuous | Per [RFC 0022 §5](0022-bogie-traction-drive.md#5-suspension). Chevron primary eliminates hydraulic-damper creep failure at 50 °C ambient; twin-bellows air-spring secondary holds the door-zone floor within ± 5 mm across empty-to-AW3. |
 | Wheel | Monobloc, 760 mm new / 680 mm worn | Per [RFC 0022 §3](0022-bogie-traction-drive.md#3-reference-dimensions) — widest global wheel-forging catalogue (Lucchini, Valdunes, CAF, plus tier-2 vendors per RFC 0022 §10). 40 mm re-profiling budget over life on depot lathe. |
 | Gauge | 1 435 mm standard, 1 000 mm metre-gauge variant | Both produced from the same body and bogie frame; only the wheelset axle length changes. See [RFC 0009 §4](0009-track-design-standard.md#4-gauge). |
 | Wheel–rail profile pairing | S1002 wheel on UIC60 rail (standard gauge) or Ri60 wheel on Ri60 rail (street-tram gauge) | Standard off-the-shelf profiles; no proprietary geometry. |
 | Couplers | Scharfenberg Type 10 automatic + e-coupler for 24 V / CAN-FD / Ethernet | Standard metro coupler; allows rescue of a failed train by any neighbour consist in the fleet. **Brownfield deployments**: SA-3 (Soviet automatic) + screw/buffer couplers from recovered legacy stock are explicitly NOT retrofitted onto OSR consists — see [RFC 0027 §5.3](0027-brownfield-pilot-asset-recovery.md). Recovered SA-3 drawgear goes to the resale stream. |
-| Articulation | Low-floor articulated body between intermediate cars on `light-metro-3car` + `tram-2car`; full bogie-per-car on `metro-4car` / `metro-6car` | Articulation keeps low-floor structure simple at short lengths; drops away above 88 m where tare cost dominates. |
+| Articulation | Semi-permanent couplers between self-contained cars; no Jacobs bogies | Keeps every car removable with its own two standard bogies, battery, traction, doors, BMS, and control equipment. |
 | Axle load | ≤ 14 t loaded (AW3 crush) | Well inside a 22.5 t UIC mainline limit — lets the catenary-free metros share minor infrastructure with legacy rail where needed without overstressing bridges. |
-| Bogies | Two 2-axle pivoting bogies per car, Bo-Bo on every motor car (Jacobs articulation explicitly rejected — see [RFC 0022 §2](0022-bogie-traction-drive.md#2-non-goals)). Trailer bogies on unpowered cars use the same frame + suspension + wheelset minus motor + gearbox. See [RFC 0022](0022-bogie-traction-drive.md) for the single-SKU design. | One bogie pattern scales across every family with MENA-serviceable spares. |
+| Bogies | Two 2-axle pivoting bogies per self-contained car: one powered bogie, one trailer bogie. Both use the same frame, suspension, wheelset, brake, and pivot; the trailer omits motors and gearbox. See [RFC 0022](0022-bogie-traction-drive.md) for the single-SKU design. | One powered bogie per car keeps the drivetrain simple while retaining enough adhesion for 1 km stop spacing and urban gradients. |
 | Traction | Axle-hung PMSM + single-stage parallel spur gearbox, 6.5 : 1. 180 kW continuous / 320 kW peak per axle. Per-family motorisation pattern in [RFC 0022 §8](0022-bogie-traction-drive.md#8-motorisation-pattern-per-family). | Wheel-hub direct-drive was evaluated and rejected — spares pipeline is too thin. Axle-hung is the Mireo / Urbos / Coradia sweet spot. |
 | Crashworthiness | EN 15227 Cat C-II (medium urban) for all families | Addresses metro-to-metro and metro-to-obstacle collisions at up to 25 km/h. Energy absorbers at cab ends + at each articulation; anti-climbing features. |
 
@@ -82,11 +90,11 @@ one supplier-qualification set.
 |---|---|---|
 | Traction motor | Permanent-magnet synchronous, axle-mounted, one per powered wheelset | PMSM efficiency ≥ 96 % at peak. Axle-mount removes gearboxes from every powered bogie, eliminating one of the top maintenance line items. |
 | Inverter | 3-phase, silicon-carbide (SiC) MOSFETs, ≥ 98 % efficiency at peak | SiC is commodity-grade in 2026. Water-cooled cold plate, no fans. One inverter per powered bogie. |
-| Powered wheelsets | 50 % of the trainset's wheelsets on `tram-2car` / `light-metro-3car`; 75 % on `metro-4car`; 100 % on `metro-6car` | Adhesion headroom drops as passenger load rises; larger consists need more powered axles to maintain gradient performance in rain/dust. |
+| Powered wheelsets | 50 % of each car's wheelsets: one powered bogie and one trailer bogie per car | The traction module is identical on every car; larger consists add complete modules instead of new motorisation patterns. |
 | Battery | Sodium-ion primary, LFP alternative (RFC 0021 §3). Both chemistries fit the same strake envelope | Na-ion avoids lithium-chain geopolitics and runs hotter; LFP is the drop-in where Na-ion isn't locally serviceable yet. |
-| Battery pack topology | 6 side-wall strakes per car (RFC 0021 §5 bustle-wall pattern); two independent strings per car, contactor-isolated | String-level isolation means a single-module fault only sheds half of one car's capacity. `osr-bms` ([crates/osr-bms](../../crates/osr-bms/)) manages per-string contactors. |
-| Battery size | Per family per the §4 table in [RFC 0021](0021-battery-traction.md) — 180 / 320 / 460 / 720 kWh usable | Sized for one full round-trip at RFC 0003 peak headway plus 20 % reserve, accounting for 15-year / 2-cycle-a-day degradation. |
-| Charging | **Plug-in only** (CCS2-class DC coupler) — at depots (primary) + at `depot-terminal` stations (opportunity, 100 kW during turnback dwell). **No pantograph, no catenary anywhere on the network.** | RFC 0021 §6 + ARCHITECTURE §4 D7. Removes every trackside HV installation cost — the sole remaining HV install is at the depot. |
+| Battery pack topology | Under-seat sodium-ion modules below the longitudinal benches, split into two contactor-isolated strings per car | Keeps the centre aisle and low-floor door zone clear, puts mass low, and lets maintenance lift modules from inside the saloon. |
+| Battery size | 120 kWh usable per car, scaled by car count (RFC 0021 §4) | Sized for roughly one route length plus reserve, not for a full day. Normal service energy is replenished by station charging. |
+| Charging | Automated conductive station charging at normal passenger stops, buffered by station solar PV + stationary battery. Typical stop spacing is ~1 km and nominal charging dwell is ~60 s. Depots still provide overnight / maintenance charging. **No continuous catenary.** | The train carries only enough battery to bridge the route and station failures, keeping vehicle mass and cost down. |
 | Regen | Default on; friction brake blends in below 8 km/h | Matches [`osr-brake`](../../crates/osr-brake/)'s WSP + regen-priority arbitration. |
 | Friction brake | Disc brake on every trailing axle, electromagnetic actuation | No pneumatic brake system — removes the compressor-maintenance line item entirely. Electric brake is continuously self-monitoring via `osr-brake`'s WSP + pressure sense loops. |
 | Emergency brake | Same discs, different current source (ultra-cap + battery fallback); independent of regen | SIL-4: emergency-brake current cannot fail with any single electronics failure. Tested on every ignition cycle by the `osr-vigilance` start-up check. |
@@ -96,8 +104,8 @@ one supplier-qualification set.
 
 | Aspect | Choice | Rationale |
 |---|---|---|
-| Floor | Low floor end-to-end (350 mm platform-top), except `metro-6car` which is high-floor (1 100 mm) for platform-compatible interchange | Low floor gives accessible boarding without lifts; matches most developing-world street-platform geometry. High floor on `metro-6car` matches the heavy-metro station archetype (island platform, mezzanine). |
-| Door count | 2 × 1 300 mm plug doors per car side | Throughput ≈ 4 passengers / second / door pair at saturated dwell. |
+| Floor | Low-floor centre section at the large door zone, with raised floor over the two standard bogies | Gives level boarding where passengers move while avoiding exotic low-floor bogies. |
+| Door count | 1 large centre double-door pair per car side on `urban-shuttle-1car`; 2 pairs per side on longer cars where dwell modelling requires it | The default 1 km stop pattern favours wide, simple openings over many narrow doors. |
 | Door clearance | 1 250 mm wide × 2 000 mm tall opening | Wheelchair + stroller compatible. |
 | Seating | Longitudinal bench seating, ≥ 15 % seats priority (elderly, pregnant, wheelchair companion) | Standing-heavy mix maximises peak capacity; matches the pphpd planning band. |
 | Wheelchair spaces | 2 per car (4 per `tram-2car`, 6 per `light-metro-3car`, 8 per `metro-4car`, 12 per `metro-6car`) | Per accessibility template ([`lib/templates/accessibility.toml`](../../lib/templates/accessibility.toml)). |
@@ -142,8 +150,9 @@ pipeline enforces this via a compatibility matrix:
 - Rolling stock → track: `compatible_consists` in
   [`lib/templates/track-geometry.toml`](../../lib/templates/track-geometry.toml).
 - Rolling stock → station: platform length = `consist.length_m + station.platform_clearance_m`.
-- Rolling stock → line length: max battery SoC swing ≤ 60 % over a
-  full round-trip without opportunity charging.
+- Rolling stock → line length: pack covers one route length plus
+  reserve, while the operations plan must prove station-charging
+  energy balance for the normal timetable.
 
 The v2 emitter (RFC 0008 §7 milestone) validates all three
 constraints and fails the build on mismatch.
@@ -156,7 +165,8 @@ a simple ridership model:
 ```text
    population band (city)     pphpd target         chosen family
    ────────────────────────   ───────────────      ───────────────
-   ≤ 300 k                    ≤  4 000             tram-2car
+   ≤ 150 k                    ≤  2 500             urban-shuttle-1car
+   150 k … 300 k              ≤  4 000             tram-2car
    300 k … 1 M                ≤  9 000             light-metro-3car
    1 M … 3 M                  ≤ 18 000             metro-4car
    ≥ 3 M                      ≤ 30 000             metro-6car
@@ -183,12 +193,10 @@ choice into `design.toml` under `[[lines]] rolling_stock =
   ~40 % maintenance-line-item reduction on trainsets. The risk is
   EN 14198 compliance for the electric brake; the safety case
   carries `osr-brake`'s Kani + proptest evidence.
-- **Low floor end-to-end on the smaller families.** This costs a
-  few centimetres of ground clearance we could spend on bigger
-  bogies or HVAC ducting; we trade it back for accessibility
-  without station lifts. The `metro-6car` family goes high-floor
-  because its archetype (island platform, mezzanine) already
-  provides level boarding via station structure.
+- **Low-floor centre, standard bogies.** Full low-floor bogies
+  would make the drivetrain and wheelset catalogue more exotic.
+  OSR keeps standard bogies at the ends and puts the large
+  accessible boarding zone between them.
 - **PMSM over induction.** Induction motors are more forgiving of
   field weakening errors and have no rare-earth magnet supply
   concerns. We pick PMSM for the 5-point efficiency advantage, then
@@ -249,9 +257,10 @@ only the envelope.
    Per-car gives graceful degradation (one failure doesn't blacken
    the whole train) but costs more HVAC-unit spares. Per-consist
    is cheaper but harsher in failure. Deployment-specific.
-3. **Cab-end pantograph vs roof-centre pantograph?** Affects
-   station canopy design at terminal archetypes. Probably roof-
-   centre for acoustic and operational reasons; commit at v1.
+3. **Side-pin vs pantograph-down deployment mix.** Side-pin is the
+   default station charger, but some island platforms may need a
+   pantograph-down dock. Commit the civil-interface selection rules
+   at v1.
 4. **Windowed vs camera-only side mirrors?** Camera-only reduces
    wind resistance and external noise; windowed meets more
    conservative certification regimes. Per-deployment choice.

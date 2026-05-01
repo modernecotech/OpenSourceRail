@@ -13,29 +13,26 @@ connectors.
 | Mechanical strength | 1 000 kN static tensile |
 | Electric coupler | 128 pins: 24 V DC aux, CAN-FD (2 pairs), Ethernet (TSN 1 Gbps), emergency-brake loop, video (MIPI over fibre) |
 | Pneumatic coupler | **None.** No pneumatic brake / air-horn compressed-air coupling. |
-| Activation | Electrical lock/unlock from cab DMI |
+| Activation | Electrical lock/unlock from recovery cabinet or OCC command |
 | Cut-out / rescue mode | Mechanical unlock handle accessible at ground level |
 
 Every OpenSourceRail consist in every deployment carries the
 same coupler — any trainset can rescue any other.
 
-## Pantograph
+## Station charging connector
 
 | Parameter | Value |
 |---|---|
-| Type | Single-arm PZ-series (Stemmann, Faiveley, or local equiv.) |
-| Contact voltage | 1 500 V DC |
-| Contact current (charging) | 400 A @ 1 500 V = 600 kW |
-| Raise/lower | Electro-mechanical (no pneumatic) |
-| Contact strip | Pure-carbon with copper insert |
-| Location | Roof-mounted, one per driving car (Car A, Car C) |
-| Height when lowered | Within 3 800 mm UIC 505-1 envelope |
-| Height when raised | 5 400 mm (at a 1 500 V DC overhead dock) |
-| ATO interface | Raise/lower via the `osr-ato` + `osr-aux-power` pairing on the T-ECU/A |
+| Primary type | Side-pin conductive connector per RFC 0026 |
+| Alternate type | Pantograph-down dock where platform geometry requires it |
+| Contact voltage | 1 000 V DC nominal |
+| Contact current (charging) | 500–1 000 A station class |
+| Actuation | Electro-mechanical (no pneumatic) |
+| Location | One train-side connector per car, platform side |
+| ATO interface | Extend/retract via the `osr-ato` + `osr-aux-power` pairing on the T-ECU/A |
 
-Only one pantograph is raised at a time (the one on the
-currently-charging car). Inter-car coordination is handled by
-`osr-aux-power`.
+The station battery buffer supplies the charge pulse. Inter-car
+coordination and per-car current limits are handled by `osr-aux-power`.
 
 ## Platform gap
 
@@ -63,7 +60,7 @@ Standard Ethernet + power bundle through each articulation joint:
 | TCN-E port A | Cat 6 RJ45, TSN-capable | Per RFC 0006 §4; single-ring backbone |
 | TCN-E port B | Cat 6 RJ45, TSN-capable | Redundant ring |
 | CAN-FD (doors + HVAC) | Twisted pair per ISO 11898 | |
-| LIN (cab panels) | Twisted pair per ISO 17987 | |
+| LIN (local panels) | Twisted pair per ISO 17987 | |
 | 24 V DC aux + control | 2.5 mm² × 2 wires | Aux + return |
 | 110 V DC backup | 4 mm² × 2 wires | Emergency battery backup |
 | Safety loop (emergency brake) | Hardwired pair; normally-closed | Electrically independent of TCN-E |
@@ -71,17 +68,17 @@ Standard Ethernet + power bundle through each articulation joint:
 Connection through the articulation bellows via drag-chain; no
 disconnects — this is an intra-consist fixed bus.
 
-## Aux power — 1 500 V DC pantograph dock
+## Aux power — station charging dock
 
 The charging interface to the station:
 
 | Parameter | Value |
 |---|---|
-| Connector | Overhead conductor bar (OCS) at terminal dock |
-| Voltage | 1 500 V DC (±10 %) |
-| Max current | 400 A continuous; 600 A peak (< 30 s) |
+| Connector | Side-pin primary; pantograph-down alternate |
+| Voltage | 1 000 V DC (±10 %) |
+| Max current | 500 A continuous; 1 000 A peak at uprated stops |
 | Ramp rate | Controlled by `osr-aux-power` soft-start to protect the dock contactor |
-| Pantograph up / down signals | From `osr-aux-power` via TCN-E |
+| Connector extend / retract signals | From `osr-aux-power` via TCN-E |
 | Isolation | Dock-side mechanical isolator; electrical monitoring via `osr-energy-site` |
 
 Full RFC 0002 energy-sizing compatibility.
@@ -114,20 +111,20 @@ per RFCs 0008 §4 / 0009 §10 / 0010 §12:
 | Compatible with | Reason |
 |---|---|
 | `heritage-tram` geometry | No — gauge 1 000 mm variant required (build order) |
-| `standard-urban` geometry | Yes — 65 m consist, 90 m min curve OK, 50 ‰ max grade OK |
+| `standard-urban` geometry | Yes — 56.6 m consist, 90 m min curve OK, 50 ‰ max grade OK |
 | `standard-metro` geometry | Yes — plenty of margin |
 | `mainline-mixed` geometry | Yes — meets 25 ‰ max grade (lower than the consist's 5 % capability) |
-| `halt` station | Yes — 71 m platform (65 consist + 6 clearance) |
-| `standard` station | Yes — 75 m platform |
+| `halt` station | Yes — short-platform door select required |
+| `standard` station | Yes — 65 m platform |
 | `major` station | Yes |
 | `interchange` station | Yes |
-| `terminal` station | Yes — pantograph dock fits |
+| `terminal` station | Yes — side-pin dock fits |
 | `depot-terminal` station | Yes |
 
 ## v2 deliverables (not in v1)
 
 - Coupler electrical connector pinout drawing.
-- Pantograph dock mechanical envelope (for terminal civil
+- Station charging dock mechanical envelope (for station civil
   design).
 - Gap-filler flap mechanism drawings.
 - Antenna radiation-pattern simulations at the consist roof.

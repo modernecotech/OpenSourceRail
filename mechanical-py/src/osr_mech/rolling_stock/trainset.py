@@ -3,15 +3,16 @@
 Each consist family from RFC 0008 §1 has a characteristic car count
 and dimensions:
 
-- `tram-2car`         : 2 cars × 15 m body.
-- `light-metro-3car`  : 3 cars × 22 m body.
-- `metro-4car`        : 4 cars × 22 m body.
-- `metro-6car`        : 6 cars × 22 m body.
+- `urban-shuttle-1car`: 1 car × 17 m body.
+- `tram-2car`         : 2 cars × 17 m body.
+- `light-metro-3car`  : 3 cars × 17 m body.
+- `metro-4car`        : 4 cars × 17 m body.
+- `metro-6car`        : 6 cars × 17 m body.
 
 The trainset assembly places one sensor cowl at each end (RFC 0015
 makes the trainset symmetric), N car bodies coupled by 1 m gaps, and
-2 bogies per car. A `metro-6car` trainset at 22 m per car is
-22 × 6 + 1 × 7 + 1.8 × 2 = 143.6 m — consistent with the 150 m
+2 bogies per car. A `metro-6car` trainset at 17 m per car is
+17 × 6 + 1 × 5 + 1.8 × 2 = 110.6 m — consistent with the 120 m
 platform length RFC 0008 publishes for that family (accounting for
 150 mm of stopping tolerance each end).
 """
@@ -28,12 +29,14 @@ from .sensor_cowl import COWL_LENGTH_MM, sensor_cowl
 
 # Car body length per family (RFC 0008 §3.1).
 _FAMILY_CAR_LENGTH_MM: dict[ConsistFamily, float] = {
-    ConsistFamily.TRAM_2CAR: 15_000.0,
-    ConsistFamily.LIGHT_METRO_3CAR: 22_000.0,
-    ConsistFamily.METRO_4CAR: 22_000.0,
-    ConsistFamily.METRO_6CAR: 22_000.0,
+    ConsistFamily.URBAN_SHUTTLE_1CAR: 17_000.0,
+    ConsistFamily.TRAM_2CAR: 17_000.0,
+    ConsistFamily.LIGHT_METRO_3CAR: 17_000.0,
+    ConsistFamily.METRO_4CAR: 17_000.0,
+    ConsistFamily.METRO_6CAR: 17_000.0,
 }
 _FAMILY_CAR_COUNT: dict[ConsistFamily, int] = {
+    ConsistFamily.URBAN_SHUTTLE_1CAR: 1,
     ConsistFamily.TRAM_2CAR: 2,
     ConsistFamily.LIGHT_METRO_3CAR: 3,
     ConsistFamily.METRO_4CAR: 4,
@@ -43,12 +46,13 @@ COUPLING_GAP_MM = 1000.0
 
 
 # Motorisation pattern per family (RFC 0022 §8).
-# True = motor bogie on that car; False = trailer bogie.
+# True = the car carries one motor bogie and one trailer bogie.
 _FAMILY_MOTORISED_CARS: dict[ConsistFamily, tuple[bool, ...]] = {
+    ConsistFamily.URBAN_SHUTTLE_1CAR: (True,),
     ConsistFamily.TRAM_2CAR: (True, True),
-    ConsistFamily.LIGHT_METRO_3CAR: (True, False, True),
-    ConsistFamily.METRO_4CAR: (True, True, False, True),
-    ConsistFamily.METRO_6CAR: (True, True, False, False, True, True),
+    ConsistFamily.LIGHT_METRO_3CAR: (True, True, True),
+    ConsistFamily.METRO_4CAR: (True, True, True, True),
+    ConsistFamily.METRO_6CAR: (True, True, True, True, True, True),
 }
 
 
@@ -108,10 +112,13 @@ def trainset(family: ConsistFamily = ConsistFamily.LIGHT_METRO_3CAR) -> Compound
         body = body.translate((car_centre_x, 0.0, 0.0))
         parts.append(body)
 
-        # Two bogies per car — motor or trailer variant depending
-        # on the family's motorisation pattern.
-        bogie_builder = motor_bogie if motorised[i] else trailer_bogie
-        for sign in (-1, 1):
+        # Two bogies per self-contained car: one powered, one trailer.
+        # Coupled consists repeat the same module rather than changing the
+        # motorisation pattern by train length.
+        bogie_builders = (
+            (motor_bogie, trailer_bogie) if motorised[i] else (trailer_bogie, trailer_bogie)
+        )
+        for sign, bogie_builder in zip((-1, 1), bogie_builders):
             bog = bogie_builder()
             bog = bog.translate((car_centre_x + sign * (dims.body_length_mm / 2.0 - WHEELBASE_MM), 0.0, 0.0))
             parts.append(bog)

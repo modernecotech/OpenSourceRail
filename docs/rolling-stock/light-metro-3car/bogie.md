@@ -1,28 +1,28 @@
 # Bogies — `light-metro-3car`
 
-Three bogies per consist. Two driving bogies (bogies 1, 3) with
-2 axles, 1 powered axle each + 1 idle. One Jacobs intermediate
-bogie (bogie 2) under the Car B articulation, 2 axles both
-idle.
+Six bogies per consist: one powered bogie and one trailer bogie
+under each self-contained car. All bogies use the RFC 0022 standard
+frame, suspension, wheelset, brake, and pivot geometry; the trailer
+variant omits motors and gearbox.
 
-## Bogie envelope (all three, common)
+## Bogie envelope (all six, common)
 
 | Parameter | Value |
 |---|---|
-| Wheelbase (axle-to-axle) | 1 800 mm |
-| Wheel diameter, new / condemning | 860 / 790 mm |
-| Wheelset type | Monobloc, machined per UIC 510-2 |
+| Wheelbase (axle-to-axle) | 2 100 mm |
+| Wheel diameter, new / worn | 760 / 680 mm |
+| Wheelset type | Monobloc, machined per RFC 0022 |
 | Wheel profile | S1002 (1 435 gauge) or Ri60 (1 000 gauge variant) |
 | Axle load (AW3, both axles) | ≤ 14 t each |
 | Gauge | 1 435 mm (default) / 1 000 mm (variant) |
 | Track-brake coil (magnetic track brake) | not fitted — per RFC 0008 §3.2 electric-only brake |
 
-## Driving bogie (bogies 1 and 3)
+## Powered bogie (one per car)
 
 ### Frame
 
 - Welded H-frame, steel S355JR per EN 10025, EN 15085 CL1 welds.
-- Length (axle-to-axle) 1 800 mm; width 2 100 mm; depth 300 mm.
+- Length (axle-to-axle) 2 100 mm; width 2 400 mm; depth 300 mm.
 - 4 suspension pedestals — 1 per axle end.
 
 ### Primary suspension
@@ -45,34 +45,27 @@ Steel coil springs + viscous damper (one per bogie end):
 
 ### Motor mount
 
-One PMSM axle-mount motor per bogie, on the centre axle of the
-driving bogie (the forward-facing axle of bogies 1 and 3 per
-the RFC 0008 "50 % powered wheelsets" allocation). Motor details
-in [`traction.md`](traction.md).
+Two PMSM axle-hung motors per powered bogie, one per axle. Motor
+details in [`traction.md`](traction.md).
 
 ### Brake
 
-- **Service + emergency:** 600 mm-diameter brake disc on the
-  trailing axle of each driving bogie (one disc per bogie).
+- **Service + emergency:** axle-mounted brake disc on each axle.
   Caliper electromagnetic actuation — two calipers per disc.
 - **Parking:** spring-applied, electromagnetic-release on the
   same caliper; cut-out spring force ≥ 12 kN per caliper.
 - **WSP:** wheel-slide protection via the per-axle tacho input +
   `osr-brake` modulation (proptest-verified B4 conservative).
 
-## Jacobs bogie (bogie 2, under Car B articulation)
+## Trailer bogie (one per car)
 
 Same basic envelope as driving bogie, with differences:
 
 - **No motor.** All axles idle.
-- **Articulation pivot:** spherical-plain bearing at the bogie
-  centre, ±4° rotation between Car A's end and Car C's end of
-  Car B.
 - **Brake:** same 600 mm disc on each axle for service /
-  emergency / park (2 discs total per Jacobs bogie — redundant
-  braking path through the consist's centre).
-- **Mass:** 7 t (vs driving bogie 9 t) — the saved motor mass
-  reduces unsprung mass under the articulation.
+  emergency / park.
+- **Mass:** lower than the powered bogie by the omitted motors,
+  gearboxes, and inverter cabling.
 
 ## Interfaces
 
@@ -87,20 +80,15 @@ Same basic envelope as driving bogie, with differences:
 
 ## Interchangeability
 
-Every driving bogie in every OSR deployment of this family is
-identical. Bogies 1 and 3 are interchangeable in the shop
-(direction of travel is not a bogie property — it's set by the
-cab that's active).
-
-The Jacobs bogie is a different SKU from the driving bogie
+Every powered bogie in every OSR deployment of this family is
+identical. The trailer bogie is the same SKU minus drivetrain lines
 (no motor mount, no traction contactor block) but shares:
 - Frame geometry (drilling pattern).
 - Suspension parts.
 - Brake disc + caliper.
 - Wheel monobloc.
 
-So ~70 % of the bogie spares inventory is shared across the
-three bogie types.
+So most bogie spares are shared across powered and trailer variants.
 
 ## Weld classes (EN 15085)
 

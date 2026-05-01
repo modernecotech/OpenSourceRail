@@ -78,6 +78,7 @@ def export_all(root: Path) -> None:
     _export(solar_roof_panel(), _out(root, "station", "solar-roof-6x3p5.step"))
 
     canopy_matrix = [
+        (StationArchetype.STANDARD, ConsistFamily.URBAN_SHUTTLE_1CAR),
         (StationArchetype.STANDARD, ConsistFamily.LIGHT_METRO_3CAR),
         (StationArchetype.MAJOR, ConsistFamily.LIGHT_METRO_3CAR),
         (StationArchetype.INTERCHANGE, ConsistFamily.LIGHT_METRO_3CAR),
@@ -121,6 +122,7 @@ def export_all(root: Path) -> None:
     # Legacy name — identical to motor-bogie.
     _export(bogie_assembly(), _out(root, "rolling_stock", "bogie-2axle.step"))
     for family in (
+        ConsistFamily.URBAN_SHUTTLE_1CAR,
         ConsistFamily.TRAM_2CAR,
         ConsistFamily.LIGHT_METRO_3CAR,
         ConsistFamily.METRO_4CAR,

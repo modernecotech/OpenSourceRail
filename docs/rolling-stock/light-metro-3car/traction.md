@@ -8,25 +8,17 @@ emergency brake application.
 ## Propulsion topology
 
 ```
-  [Na-ion battery pack A] ──DC─┐
-                               ├── 1500V DC bus
-  [Na-ion battery pack B] ──DC─┤
-                               │
-  [Pantograph dock, 1500V DC] ─┤  (charging only; no catenary)
-                               │
-                           ┌───┴───┐
-                           │       │
-              [SiC inverter 1]    [SiC inverter 3]
-                  (Bogie 1)          (Bogie 3)
-                       │                   │
-              [PMSM motor 1]        [PMSM motor 3]
-                 (axle-mount)         (axle-mount)
+  [120 kWh Na-ion under-seat pack, Car A] ──DC── [SiC inverter] ── [powered bogie A]
+  [120 kWh Na-ion under-seat pack, Car B] ──DC── [SiC inverter] ── [powered bogie B]
+  [120 kWh Na-ion under-seat pack, Car C] ──DC── [SiC inverter] ── [powered bogie C]
+
+  Station charger → side-pin / pantograph-down dock → per-car DC link
 ```
 
-Two battery packs (one under Car A, one under Car C). Either
-pack alone can deliver enough energy for safe-stop + inching
-back to depot. `osr-bms` manages per-pack contactors, cell
-balancing, and SoC / SoH estimation.
+Each car is electrically self-contained. A car can isolate its own
+pack and traction equipment while the rest of the consist remains
+recoverable at restricted speed. `osr-bms` manages per-car contactors,
+cell balancing, and SoC / SoH estimation.
 
 ## Batteries
 
@@ -35,43 +27,43 @@ balancing, and SoC / SoH estimation.
 | Chemistry (default) | Sodium-ion (Na-ion) |
 | Chemistry (alternate) | LFP (drop-in, per-operator) |
 | Nominal pack voltage | 1 500 V DC |
-| Pack capacity (each) | 450 kWh |
-| Consist total capacity | 900 kWh |
-| Module count per pack | ≤ 30 |
+| Pack capacity (each car) | 120 kWh usable (~150 kWh nameplate at commissioning) |
+| Consist total capacity | 360 kWh usable |
+| Module count per pack | 8 under-seat modules per car |
 | Cell chemistry | 3.0–3.7 V Na-ion (CATL / HiNa / local equiv.) |
-| Pack mass | 7.5 t each (15 t consist total) |
-| Location | Underfloor of Car A (pack A) + Car C (pack B) |
-| Thermal management | Forced-air cooling with 6 kW chiller-fed cold plate |
-| Fire containment | Steel battery-bay enclosure with aspirating smoke detection (feeds `osr-fire-safety`) |
+| Pack mass | ~0.9 t per car, ~2.7 t consist total |
+| Location | Under longitudinal seats, split both sides of the saloon |
+| Thermal management | Chiller-fed cold plates tied into the HVAC loop |
+| Fire containment | Sealed aluminium module boxes with side vent duct and aspirating smoke detection (feeds `osr-fire-safety`) |
 
-Pack sizing per RFC 0002: 900 kWh gives one full round-trip at
-Samawah peak headway (4 min) + 20 % reserve + HVAC uplift at
-50 °C ambient per RFC 0003 climate envelope.
+Pack sizing per RFC 0002: 360 kWh gives roughly one route length
+plus 20 % reserve and HVAC uplift at 50 °C ambient. Normal service
+energy is replaced during station dwells.
 
 ## Traction motors
 
 | Parameter | Value |
 |---|---|
-| Count | 2 (one per driving bogie) |
+| Count | 6 (two axles on each of three powered bogies) |
 | Type | Permanent-magnet synchronous (PMSM), axle-mount |
-| Continuous rating | 200 kW |
-| Peak rating | 600 kW (30 s) |
+| Continuous rating | 180 kW per axle |
+| Peak rating | 320 kW per axle (≤ 60 s) |
 | Rated torque | 1 800 Nm at wheel |
 | Efficiency at peak | ≥ 96 % |
 | Mass | 520 kg each |
 | Cooling | Water (shares cold plate with SiC inverter) |
 | Bearing grease | Sealed-for-life; EN 50155 grade |
 
-Peak traction power (both motors, both directions) = 1 200 kW,
+Peak traction power (six motors, both directions) = 1 800 kW,
 matching RFC 0008 §1.
 
 ## Inverters
 
 | Parameter | Value |
 |---|---|
-| Count | 2 (one per driving bogie) |
+| Count | 3 (one per powered bogie) |
 | Type | 3-phase voltage-source, silicon-carbide MOSFETs |
-| Rating | 300 kW continuous, 600 kW peak |
+| Rating | 360 kW continuous, 600 kW peak |
 | Switching frequency | 5 kHz nominal |
 | Efficiency at peak | ≥ 98 % |
 | Cooling | Forced water via cold plate, shared with motor |
@@ -109,27 +101,28 @@ tachometer feeds `osr-traction` anti-slip which clamps torque
 to ≤ 0.9 × F_adhesion under wheel-slip detection (matches
 `osr-brake` WSP conservative property B4).
 
-## Opportunity charging
+## Station charging
 
-- Pantograph: roof-mounted on Car A and Car C. Single-arm
-  PZ-series or local equivalent, 1 500 V DC + 400 A contact.
-- Dock: overhead bus bar at terminal + depot-terminal stations
-  (RFC 0010 archetype `terminal` / `depot-terminal`).
-- Charge power: up to 1 000 kW (matches `charging_power_kw` in
-  RFC 0010 stations template).
-- Raise/lower actuation: electrical (no pneumatic).
-- Inter-trip charging: 60 s dwell at a 1 000 kW terminal adds
-  ~17 kWh — roughly 2–3 km of operation.
+- Primary connector: side-pin per RFC 0026.
+- Alternate connector: pantograph-down OppCharge-style dock where
+  platform geometry requires it.
+- Dock: passenger stations at roughly 1 km spacing, buffered by
+  station solar PV + stationary Na-ion battery.
+- Charge power: 500 kW nominal; 1 000 kW at terminals or high-load
+  stations.
+- Dwell charge: 60 s at 500 kW adds ~8 kWh; 60 s at 1 MW adds
+  ~17 kWh before losses.
 
 **No continuous catenary.** Pantograph is raised only at
-charging docks. This is the catenary-free bet from
+discrete charging docks where the alternate connector is selected.
+This is the catenary-free bet from
 [ARCHITECTURE §D7](../../ARCHITECTURE.md#d7-energy--buildings).
 
 ## Regenerative braking
 
 - `osr-regen` arbitrates between:
   1. Battery absorb (preferred, unless pack SoC > 95 %).
-  2. Pantograph export (if in contact with terminal dock).
+  2. Station-dock export (if in contact with a charging dock).
   3. Dump resistor (only if neither of the above is available;
      roof-mounted).
 - Blend-down to friction brake below 8 km/h; friction holds
@@ -144,8 +137,8 @@ Aux inverter (400 V / 3-phase AC output + 110 V / 24 V DC):
 | HVAC (3 units — one per car) | 60 kW total | |
 | Interior + exterior lighting | 6 kW | |
 | PIS displays + onboard compute | 2 kW | |
-| Door motors | 4 kW total (all 24 doors, but not simultaneously) | |
-| Cab DMI + controls | 0.5 kW per cab | |
+| Door motors | 2 kW total (centre door pairs, not simultaneously) | |
+| Recovery cabinet + onboard controls | 0.5 kW per end | |
 | Compressor (for air-horn only — NO brake air) | 0.5 kW | |
 
 Total aux design load: ~75 kW at AW3 in Samawah climate (hot
@@ -157,7 +150,7 @@ reduced compressor duty when pack SoC < 30 %.
 - PMSM motor winding data + thermal FEA.
 - SiC inverter gate-driver schematic + PCB stackup.
 - Pack battery management system (BMS) detail schematic.
-- Pantograph + dock mechanical drawings.
+- Station charging connector + dock mechanical drawings.
 - Adhesion + slip simulation at 0.05 / 0.1 / 0.15 friction.
 - Worst-case thermal analysis for battery pack under 50 °C
   ambient + fast-charge.

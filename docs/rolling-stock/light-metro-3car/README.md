@@ -28,14 +28,14 @@ EN 15085 weld classes and EN 45545 material certifications.
 | Parameter | Value |
 |---|---|
 | Cars | 3 (articulated) |
-| Overall length (over couplers) | 65 m |
-| Tare mass | 195 t |
+| Overall length (over sensor cowls / couplers) | 56.6 m |
+| Tare mass | 102 t |
 | Axle load (AW3 crush) | ≤ 14 t |
 | Max speed | 25 m/s (90 km/h) |
 | Passenger capacity (AW2) | 360 (seated + standing) |
-| Onboard battery | 900 kWh Na-ion |
-| Peak traction power | 1 200 kW |
-| Floor height (above ToR) | 350 mm (low-floor) |
+| Onboard battery | 360 kWh Na-ion (120 kWh per self-contained car) |
+| Peak traction power | 1 800 kW |
+| Floor height (above ToR) | Low-floor centre door zone; raised floor over standard bogies |
 | Gauge | 1 435 mm (default) or 1 000 mm (variant) |
 
 ## What v1 does NOT include

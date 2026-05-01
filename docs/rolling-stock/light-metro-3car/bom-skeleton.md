@@ -36,44 +36,44 @@ scales them per deployment.
 | B17 | Conformal coat for interior electronics | set | SOURCE | 2 000 | |
 | **Body + interior subtotal** | | | | **353 500** | |
 
-## Bogies (3 per consist)
+## Bogies (6 per consist)
 
 | Line | Desc | Qty | Source | Base USD | Notes |
 |---|---|---|---|---|---|
-| G1 | Welded bogie frame (driving) | 2 | MAKE | 40 000 | EN 15085 CL1 |
-| G2 | Welded bogie frame (Jacobs) | 1 | MAKE | 22 000 | |
-| G3 | Wheelset monobloc (UIC 510-2, S1002) | 6 | BID | 72 000 | |
-| G4 | Axle bearing box (SKF / FAG) | 12 | SOURCE | 24 000 | |
-| G5 | Primary chevron spring | 12 | SOURCE | 6 000 | |
-| G6 | Secondary coil spring | 6 | SOURCE | 3 600 | |
-| G7 | Secondary damper (KONI 32-series) | 6 | SOURCE | 7 200 | |
-| G8 | 600 mm brake disc | 6 | SOURCE | 6 000 | |
-| G9 | Electromagnetic brake caliper | 12 | BID | 36 000 | |
-| G10 | Park-brake spring assembly | 12 | SOURCE | 4 800 | |
-| G11 | Centre-pin ring bearing + PTFE slider | 3 | SOURCE | 6 000 | |
-| G12 | Yaw-restraint link + bushes | 6 | SOURCE | 3 000 | |
-| G13 | Cable-guide + centre-pin assembly | 3 | MAKE | 4 500 | |
-| G14 | Wheel-tach (quadrature encoder) | 6 | SOURCE | 3 000 | |
-| G15 | Axle bearing temp sensor | 12 | SOURCE | 2 400 | |
+| G1 | Welded bogie frame (powered) | 3 | MAKE | 60 000 | EN 15085 CL1 |
+| G2 | Welded bogie frame (trailer) | 3 | MAKE | 54 000 | |
+| G3 | Wheelset monobloc (RFC 0022, S1002) | 12 | BID | 144 000 | |
+| G4 | Axle bearing box (SKF / FAG) | 24 | SOURCE | 48 000 | |
+| G5 | Primary chevron spring | 24 | SOURCE | 12 000 | |
+| G6 | Secondary spring / air spring | 12 | SOURCE | 7 200 | |
+| G7 | Secondary damper | 12 | SOURCE | 14 400 | |
+| G8 | Brake disc | 12 | SOURCE | 12 000 | |
+| G9 | Electromagnetic brake caliper | 24 | BID | 72 000 | |
+| G10 | Park-brake spring assembly | 24 | SOURCE | 9 600 | |
+| G11 | Centre-pin ring bearing + PTFE slider | 6 | SOURCE | 12 000 | |
+| G12 | Yaw-restraint link + bushes | 12 | SOURCE | 6 000 | |
+| G13 | Cable-guide + centre-pin assembly | 6 | MAKE | 9 000 | |
+| G14 | Wheel-tach (quadrature encoder) | 12 | SOURCE | 6 000 | |
+| G15 | Axle bearing temp sensor | 24 | SOURCE | 4 800 | |
 | **Bogies subtotal** | | | | **240 500** | |
 
 ## Traction + power
 
 | Line | Desc | Qty | Source | Base USD | Notes |
 |---|---|---|---|---|---|
-| T1 | PMSM axle motor (200 / 600 kW) | 2 | BID | 80 000 | |
-| T2 | Reduction gear (single-stage 3.8:1) | 2 | BID | 14 000 | |
-| T3 | SiC inverter (300 / 600 kW) | 2 | BID | 70 000 | Wolfspeed or equiv. |
-| T4 | Cold-plate + chiller for traction | 2 | SOURCE | 18 000 | |
-| T5 | Na-ion battery pack (450 kWh) | 2 | BID | 180 000 | CATL / HiNa / etc |
-| T6 | BMS electronics (pack-level) | 2 | BID | 12 000 | |
-| T7 | Pack cooling fan + cold plate | 2 | SOURCE | 4 000 | |
-| T8 | Battery-bay steel enclosure | 2 | MAKE | 16 000 | |
-| T9 | Aspirating smoke detector (battery + traction bay) | 4 | SOURCE | 12 000 | |
-| T10 | Fire suppression (aerosol, auto-discharge) | 4 | SOURCE | 16 000 | |
-| T11 | HV contactor + bus bar set | 1 | SOURCE | 8 000 | |
-| T12 | Pantograph (single-arm) | 2 | SOURCE | 40 000 | |
-| T13 | Aux inverter (400 V / 110 V / 24 V) | 1 | SOURCE | 22 000 | |
+| T1 | PMSM axle motor (180 / 320 kW) | 6 | BID | 180 000 | |
+| T2 | Reduction gear (single-stage 6.5:1) | 6 | BID | 42 000 | |
+| T3 | SiC inverter (360 / 600 kW) | 3 | BID | 105 000 | Wolfspeed or equiv. |
+| T4 | Cold-plate + chiller for traction | 3 | SOURCE | 27 000 | |
+| T5 | Na-ion under-seat pack (120 kWh usable) | 3 | BID | 43 200 | CATL / HiNa / etc |
+| T6 | BMS electronics (pack-level) | 3 | BID | 18 000 | |
+| T7 | Pack cooling plate set | 3 | SOURCE | 6 000 | |
+| T8 | Under-seat aluminium module enclosure set | 3 | MAKE | 12 000 | |
+| T9 | Aspirating smoke detector (battery + traction bay) | 6 | SOURCE | 18 000 | |
+| T10 | Fire suppression (aerosol, auto-discharge) | 6 | SOURCE | 24 000 | |
+| T11 | HV contactor + bus bar set | 3 | SOURCE | 24 000 | |
+| T12 | Station charging side-pin connector | 3 | SOURCE | 45 000 | Pantograph-down alternate per site |
+| T13 | Aux inverter (400 V / 110 V / 24 V) | 3 | SOURCE | 66 000 | |
 | T14 | HVAC unit (20 kW each, per car) | 3 | SOURCE | 45 000 | |
 | T15 | Regen dump resistor (roof-mount) | 1 | SOURCE | 3 500 | |
 | **Traction + power subtotal** | | | | **540 500** | |

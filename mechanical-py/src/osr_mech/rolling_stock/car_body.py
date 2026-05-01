@@ -94,33 +94,33 @@ COLOR_ROOF_EQUIPMENT = Color(0.55, 0.55, 0.58)
 COLOR_BATTERY_STRAKE = Color(0.25, 0.30, 0.42)
 
 
-# Traction-battery strake placement per RFC 0021.
+# Traction-battery module placement per RFC 0021.
 #
-# OSR uses a **bustle-wall** pattern: lithium-iron-phosphate (LFP)
-# modules are tiled along the inside of each body wall, between
-# doors, under the longitudinal bench seats. The centre aisle stays
-# clear at 1 100 mm level-boarding floor. This is different from
+# OSR uses an **under-seat** pattern: sodium-ion modules are tiled
+# along the inside of each body wall, under the longitudinal bench
+# seats. The low-floor centre aisle and door zone stay clear. This is
+# different from
 # Stadler's Akku (rooftop) and from most Siemens / Alstom BEMUs
-# (underfloor) — we pick side-wall because:
+# (deep underfloor) — we pick under-seat because:
 #
 # - Low centre of gravity (better curve stability than rooftop).
 # - Shaded from direct 50 °C Samawah sun (not sat on the hot roof).
 # - Doesn't compete with traction inverter / brake resistor / aux
 #   converter for underframe space (already crowded).
-# - Side-plug charging at the depot matches the physical location
-#   of the battery string termination — no need to route HV DC from
+# - Station side-pin charging matches the physical location of the
+#   battery string termination — no need to route HV DC from
 #   a rooftop pack down through the shell.
 # - Thermal runaway vents laterally out the body skin (not up into
 #   passengers or down onto the track / bogie).
 #
-# Each strake is a tall-thin slab running along the inside of the
+# Each visible module is a low slab running along the inside of the
 # skin, with the longitudinal bench seat cantilevered on top.
 BATTERY_STRAKE_WIDTH_MM = 320.0  # into the cabin from the skin
 BATTERY_STRAKE_HEIGHT_MM = 450.0  # rests between floor and seat base
-# Strake sits from floor level up to the bench base (≈ 450 mm).
+# Module sits from floor level up to the bench base (≈ 450 mm).
 BATTERY_STRAKE_BASE_Z_MM = 20.0
 # The COTS longitudinal bench is 950 mm tall (seat-pan + backrest
-# zone). The battery strake lives below it — 20 mm above floor to
+# zone). The battery module lives below it — 20 mm above floor to
 # 470 mm. Above that is the seat structure.
 
 

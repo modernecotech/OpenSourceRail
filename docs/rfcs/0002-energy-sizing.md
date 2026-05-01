@@ -11,7 +11,7 @@ This RFC puts concrete numbers to the catenary-free, solar-first energy architec
 - Daily energy demand: **≈100 MWh/day**.
 - PV nameplate required for net-positive annual generation in a 5 PSH climate: **≈25 MW**.
 - Trackside sodium-ion storage required for service continuity through a two-day solar outage: **≈60 MWh**.
-- Onboard battery per trainset: **≈900 kWh** (3 × 300 kWh cars) enabling ~1.5 round-trips between opportunity charges.
+- Onboard battery per trainset: **≈360 kWh** for the reference 3-car set (3 × 120 kWh self-contained cars), sized for roughly one route length plus reserve.
 - Total capex for the energy subsystem: **≈$30M** vs. **≈$100M** for conventional catenary + traction substations — a **60–70% cost reduction**.
 
 These numbers are first-order. They are offered as a planning baseline and as the starting point for the `osr-sim` energy model; they are not a substitute for a detailed design study on any specific line.
@@ -31,7 +31,7 @@ These numbers are first-order. They are offered as a planning baseline and as th
 | Service hours | 18 h/day (05:00–23:00) |
 | Peak headway | 5 min (both directions) |
 | Off-peak headway | 10 min |
-| Rolling stock | 3-car LRV / light metro, 60 t per car, 2.5 m wide × 3.6 m high |
+| Rolling stock | 3-car light metro built from self-contained 17 m cars, one powered bogie + one trailer bogie per car |
 | Fleet size | 12 trainsets (10 in service, 2 spare) |
 | Typical ambient | Tropical or subtropical; 5 peak sun-hours (PSH) annual mean |
 
@@ -162,21 +162,30 @@ Duty cycle at these sizings is gentle (≈0.3 C average charge, ≈0.5 C peak di
 
 ### 7.1 Per-trainset sizing
 
-A 3-car trainset consuming 12 kWh/train-km (3 × 4) uses **480 kWh per 40 km round trip**. Design goals:
+A 3-car trainset consuming ~9 kWh/train-km (3 × 3 kWh/car-km)
+uses **180 kWh over one 20 km route length**. Design goals:
 
-- Able to complete one full round trip on a single charge without intermediate charging — a "limp home" mode if charging pads fail.
-- Opportunity charge at terminals (4-minute dwell) and at mid-line charging stations.
-- Avoid deep cycling to preserve pack life: operate between 20% and 80% SoC nominally.
+- Able to complete about one route length on onboard energy if station
+  chargers are unavailable.
+- Replace normal service energy during 60-second dwells at roughly
+  1 km station spacing.
+- Avoid deep cycling to preserve pack life: operate between 20% and
+  80% SoC nominally.
 
-Usable pack = 60% of total. To absorb a 480 kWh round trip without drawing below 20% SoC: total pack ≥ 480 / 0.6 = **800 kWh**. Round up to **900 kWh per trainset = 300 kWh/car** to leave headroom for HVAC extremes and gradient cases.
+Usable pack = **360 kWh per trainset = 120 kWh/car**. That gives
+roughly 40 km at the reference 9 kWh/train-km draw before reserve,
+or one 20 km route length plus hot-weather HVAC and degradation
+margin. The onboard battery is deliberately not sized for a full day
+or repeated round trips; the station batteries carry that duty.
 
 ### 7.2 Chemistry split
 
 Onboard chemistry is a weight/volume tradeoff:
 
-- **LFP** at ~180 Wh/kg → 900 kWh = 5 t per trainset
-- **Sodium-ion** at ~140 Wh/kg → 900 kWh = 6.4 t per trainset
-- Difference: 1.4 t per trainset — about 0.8% of a 180 t light-metro consist
+- **LFP** at ~180 Wh/kg → 360 kWh = 2.0 t per trainset
+- **Sodium-ion** at ~140 Wh/kg → 360 kWh = 2.6 t per trainset
+- Difference: 0.6 t per trainset — modest against a 100 t-class
+  light-metro consist
 
 Conclusion for this reference case: **either works**. Default to sodium-ion for supply-chain sovereignty; LFP is acceptable where local supply is easier or where a specific light-vehicle platform is pack-volume-constrained. At metro duty cycles the gravimetric-density delta does not meaningfully affect energy consumption.
 
@@ -184,20 +193,26 @@ Conclusion for this reference case: **either works**. Default to sodium-ion for 
 
 | Site | Charger count | Power | Purpose |
 |---|---|---|---|
-| Terminals (2) | 2 × 1 MW | DC conductive, pantograph-up style | 4-min dwell adds ~65 kWh; 8 round-trips before reaching 20% SoC |
-| Key intermediate stations (4) | 4 × 500 kW | DC conductive, pantograph-up | 60-s dwell adds ~8 kWh; used as range-extender, not primary energy source |
+| Passenger stations (15) | 15 × 500 kW nominal | DC conductive, side-pin or pantograph-down | 60-s dwell adds ~8 kWh; normal service energy replacement |
+| Terminals (2) | included above, uprated to 1 MW where needed | DC conductive, side-pin primary | 60-s dwell adds ~17 kWh; turnback margin |
 | Depot (10 stalls) | 10 × 150 kW | AC conductive, overnight | Low-C overnight charging of full fleet; best for pack life |
 
-Capex: 2×1MW + 4×500kW + 10×150kW = **5.5 MW** of charging equipment. At ~$300/kW installed: **$1.65 M**.
+Capex: 15×500kW + 10×150kW = **9.0 MW** of charging equipment before
+terminal uprating. At ~$300/kW installed: **$2.7 M**.
 
 ### 7.4 Round-trip energy accounting
 
 For a trainset doing 8 round trips/day (320 km):
 
-- Total consumption: 8 × 480 = 3,840 kWh
-- Opportunity charge at 6 station charging events per round trip × 8 kWh + terminal charges ≈ ~130 kWh per round trip
-- Net depot draw per trainset: ~3,840 − 8×130 = ~2,800 kWh/day
-- At 10 active trainsets: 28 MWh/day depot charging — within the 30 MWh depot storage capacity
+- Total consumption: 320 km × 9 kWh/km = 2,880 kWh
+- Station charging at 15 stations × 2 directions × 8 kWh × 8 round trips ≈ 1,920 kWh/day
+- Terminal uprating + regenerative headroom closes most of the remaining
+  service energy; depot charging handles balancing and any cloudy-day
+  shortfall.
+- At 10 active trainsets: station charging supplies most daytime
+  traction energy; depot charging mainly performs overnight balancing,
+  pre-service top-up, and cloudy-day recovery within the 30 MWh depot
+  storage capacity.
 
 Numbers check out: the fleet can sustain full service without pulling from grid during a single cloudy day, provided trackside storage was charged the preceding day.
 
@@ -211,8 +226,8 @@ Greenfield 20 km double-track light metro, **energy infrastructure only** (exclu
 |---|---|
 | 25 MW PV (utility-grade + canopies + ROW mounting systems) at $700/kW blended | $17.5 M |
 | 60 MWh trackside sodium-ion storage at $200/kWh installed | $12.0 M |
-| Charging infrastructure (5.5 MW across terminals, mid-line, depot) | $1.65 M |
-| Per-trainset battery × 12 trainsets × 900 kWh × $150/kWh | $1.6 M |
+| Charging infrastructure (9.0 MW across passenger stations and depot) | $2.7 M |
+| Per-trainset battery × 12 trainsets × 360 kWh × $150/kWh | $0.65 M |
 | Grid-tie inverters, switchgear, site works | $3.0 M |
 | Engineering, commissioning, contingency (15%) | $5.4 M |
 | **Total** | **≈ $41 M** |
@@ -241,7 +256,8 @@ Additional factors not captured above:
 Against this, OSR has:
 - Novel-technology risk that may justify a reserve in financing.
 - Dependence on PV supply chain (the alternative depends on copper, steel-mast, and catenary-wire supply chains, which are equally stressed in different ways).
-- Higher onboard mass per trainset (~5–6 t battery vs. a pantograph + transformer at ~2 t); marginal impact on rolling-resistance energy.
+- Higher onboard mass per trainset (~2–3 t battery vs. a pantograph +
+  transformer at ~2 t); marginal impact on rolling-resistance energy.
 
 ## 9. Sensitivity Analysis
 
@@ -268,7 +284,10 @@ Mitigation where ROW PV is constrained: offsite solar PPA, or accept higher grid
 Energy is not in the SIL-4 safety boundary (see RFC 0001 §3 and §9: traction control is onboard, MA enforcement does not depend on charging availability). Still, energy failures degrade service, and some considerations apply:
 
 - **Loss of trackside storage at one station.** Adjacent stations' storage and fleet onboard capacity carry service until repair. No safety impact.
-- **Loss of mid-line charging.** Trainsets adjust duty cycle (reduce round-trip count) until repair; trains never strand because onboard capacity is sized for full round trip without opportunity charging.
+- **Loss of one station charger.** Adjacent station chargers and
+  onboard capacity carry service until repair. Timetable control may
+  skip express running or reduce frequency, but trains do not strand
+  because onboard capacity covers about one route length.
 - **Loss of all PV.** Grid import + storage keeps service running for the storage-sizing horizon (~2 days). Operators must negotiate grid-fallback contracts as a normal commercial matter.
 - **Thermal runaway / battery fire.** Sodium-ion and LFP are both thermal-runaway-resistant chemistries (unlike NMC). Standard battery-room fire suppression (inert-gas deluge, compartmentalization) applies. Onboard fires in BEMU/battery-electric rail stock have a well-understood mitigation playbook from ~decade of bus/truck operations — rail fire doors and passenger evacuation rules adapt directly.
 - **PV soiling and bird strike.** Operational concerns, not safety ones. Cleaning schedules and mesh protection are standard utility-PV practice.
@@ -277,7 +296,10 @@ Energy is not in the SIL-4 safety boundary (see RFC 0001 §3 and §9: traction c
 
 1. **Between-rail PV.** Sun-Ways-class on-sleeper PV could double the effective PV area per track-km. At what point is it worth the clearance and tamping complexity? Prototype in `osr-sim` first.
 2. **Battery recycling and second-life.** Traction packs at end-of-life (still ~80% capacity) are ideal candidates for cascade into trackside storage. Designing the spec so packs are physically swappable between roles would amortize the battery capex across two duty cycles — worth its own small RFC.
-3. **Dynamic opportunity-charging sizing.** For very high-frequency service (<3 min headway), the dwell-time charging energy starts to matter as a primary source, not a range-extender. Where's the crossover, and how does it change the onboard-pack sizing?
+3. **Dynamic station-charging sizing.** For very high-frequency
+   service (<3 min headway), the dwell-time charge pulse may need
+   multiple platform cabinets or higher station battery C-rates.
+   Where is the crossover, and how does it change onboard-pack sizing?
 4. **Grid-tie protocol choice.** IEEE 2030.5 is defaulted in ARCHITECTURE §D7 — this should be confirmed against target-region utility standards.
 5. **Seasonal tilt and tracking.** Fixed-tilt vs. single-axis tracking changes PV cost by ~15% and yield by ~20%. Bias toward fixed-tilt at these sizes for simplicity; revisit if yield binds.
 6. **Metro-class ridership peaks.** Full-metro duty (6-car, 2-min headway, underground) will push line-haul demand well above the light-metro reference in §4. The sizing framework scales, but a dedicated RFC validating it for a metro-class reference line is warranted before Phase 5.

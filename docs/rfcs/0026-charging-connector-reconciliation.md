@@ -25,7 +25,9 @@ no connector currently in RFC 0021 reaches the 1 000 kW target the
 station archetype assumes, and CCS2 cannot scale to 1 MW.
 
 This RFC commits a **two-tier charging-connector architecture** that
-covers both ends of the power range.
+covers both ends of the power range, updated for the rationalised
+operating model where normal passenger stops can charge the train for
+about one minute.
 
 ## 2. Non-goals
 
@@ -41,10 +43,10 @@ covers both ends of the power range.
 | Tier | Power | Connector | Use case |
 |---|---|---|---|
 | **Tier 1: depot stall** | 210 kW × 3 receptacles per consist = 630 kW | CCS2 (per RFC 0021 §6.1) | Overnight + scheduled depot charging. **Unchanged.** |
-| **Tier 2: terminal turnback** | 500 kW–1 000 kW per consist | **Side-pin** (primary) or **pantograph-down** (alternate) | `major`, `interchange`, `terminal`, `depot-terminal` opportunity charging during turnback dwell |
+| **Tier 2: station dwell** | 500 kW–1 000 kW per consist | **Side-pin** (primary) or **pantograph-down** (alternate) | Passenger-stop charging during ~60 s dwell, with terminal sites usually uprated |
 
 CCS2 stays as the depot connector — it is correct for that role and
-the per-receptacle handling is well-understood. The terminal-tier
+the per-receptacle handling is well-understood. The station-tier
 connector is the new piece this RFC commits.
 
 ## 4. Tier 2 — side-pin (primary)
@@ -52,7 +54,7 @@ connector is the new piece this RFC commits.
 | Aspect | Choice | Rationale |
 |---|---|---|
 | Architecture | Passive copper bus-bar at platform edge; train extends a side-mounted pin to contact | Matches OSR's level-boarding philosophy — the platform-edge geometry already aligns the pin without additional alignment hardware |
-| Voltage / current | 1 000 V DC × 1 000 A = 1 MW class | Matches RFC 0010 `terminal` archetype |
+| Voltage / current | 1 000 V DC × 500–1 000 A = 500 kW–1 MW class | 500 kW covers normal 1 km station spacing; 1 MW covers terminals and high-load stops |
 | Connector | Schaltbau-class high-current side connector + actuated pin | Schaltbau, Stäubli, Mersen all produce 1 000 A class units |
 | Actuation | Pneumatic or electric linear actuator on the train | Same actuator family as RFC 0023 doors — commodity industrial silicon |
 | Safety interlock | Pin retraction interlocked with door-close + brake-applied via [`osr-occ`](../../crates/osr-occ/) | No live contact while doors are open or train is moving |
@@ -98,20 +100,20 @@ has spare load capacity in the bay between two PV panels.
 ## 7. Selection rule
 
 ```text
-   archetype                Tier 1 (depot)   Tier 2 (terminal)
+   archetype                Tier 1 (depot)   Tier 2 (station dwell)
    ─────────────────        ───────────────  ──────────────────────
-   halt                     —                —
-   standard                 —                —
-   major                    —                pantograph-down (alt)
-   interchange              —                pantograph-down (alt)
-   terminal                 —                side-pin (primary)
-   depot-terminal           CCS2 (RFC 0021)  side-pin (primary)
+   halt                     —                optional, energy-model driven
+   standard                 —                side-pin (primary)
+   major                    —                side-pin or pantograph-down
+   interchange              —                side-pin or pantograph-down
+   terminal                 —                side-pin, usually 1 MW
+   depot-terminal           CCS2 (RFC 0021)  side-pin, usually 1 MW
 ```
 
-`terminal` and `depot-terminal` carry a Tier 2 connector by default.
-`major` and `interchange` carry it only when the line's operations
-plan ([RFC 0013](0013-operations-rulebook.md)) requires opportunity
-charging at that stop.
+`standard`, `major`, `interchange`, `terminal`, and `depot-terminal`
+carry Tier 2 charging by default on the stop-spaced architecture.
+`halt` sites may omit it when adjacent chargers and onboard reserve
+meet the timetable energy model.
 
 ## 8. Cost impact (USD OECD-base, per Tier 2 site)
 
@@ -128,8 +130,10 @@ sourcing matrix.
 | Civil + cabling | $80 k | $120 k |
 | **Total per site** | **~$395 k** | **~$485 k** |
 
-A 12-station line with 2 Tier 2 sites (one terminal, one
-depot-terminal): **~$790 k side-pin** vs **~$970 k pantograph**.
+A 12-station line with Tier 2 at every passenger stop is roughly
+**$4.7 M side-pin** at the same per-site budget before any terminal
+uprating. This replaces onboard battery mass and continuous catenary
+with distributed station chargers and stationary buffers.
 Country-cost multipliers from
 [`lib/templates/country-costs.toml`](../../lib/templates/country-costs.toml)
 apply to civil + integration shares downstream.

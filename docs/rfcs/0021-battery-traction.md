@@ -1,6 +1,6 @@
 # RFC 0021 — Battery Traction Architecture
 
-**Status:** Draft — catenary-free battery-electric-only, side-wall strake packaging
+**Status:** Draft — catenary-free battery-electric-only, under-seat pack packaging
 **Date:** 2026-04-24
 **Depends on:** [RFC 0002 Energy Sizing](0002-energy-sizing.md), [RFC 0008 Rolling-Stock Reference Design](0008-rolling-stock-reference-design.md), [RFC 0014 Depot Design Standard](0014-depot-design-standard.md)
 
@@ -19,10 +19,11 @@ OSR trainsets:
   batteries** — the primary chemistry per [RFC 0008 §3.2](0008-rolling-stock-reference-design.md)
   — with **lithium-iron-phosphate (LFP)** as the drop-in
   alternative for operators with established LFP supply chains or
-  spares. Both chemistries fit the same side-wall strake envelope
+  spares. Both chemistries fit the same under-seat module envelope
   (§5).
-- Charge **only at depots and depot-terminal stations** via a
-  plug-in side connector (no catenary, no trackside rail).
+- Charge at passenger stations during the normal dwell. The station
+  charger is fed by canopy solar PV plus a stationary battery buffer;
+  depots provide overnight, balancing, and maintenance charging.
 - Capture regenerative-braking energy back into the same pack
   (no brake resistors burning it off).
 - Are fed by **station + depot solar-PV canopies** via the grid or
@@ -31,7 +32,7 @@ OSR trainsets:
 
 This RFC fixes:
 
-1. The packaging (§5 — side-wall strake, not rooftop or underfloor).
+1. The packaging (§5 — under the seats, not rooftop or deep underfloor).
 2. The energy capacity targets per consist family (§4).
 3. The charging interface (§6).
 4. The thermal-management strategy for 50 °C ambient (§7).
@@ -53,9 +54,10 @@ Battery-only also removes the *legal* complexity of medium-voltage
 AC distribution along the ROW — avoiding a whole tier of electrical
 safety regulation in the host country.
 
-The tradeoff is **range limited by pack size × trip cycle**. §4
-sizes the pack for the reference lines (30 km Samawah) with room
-for turn-back + recharge at depot-terminal stations.
+The tradeoff is **range limited by pack size × route length**. §4
+sizes the pack to carry about one route length plus reserve; routine
+energy is replaced by 60-second station charging events at roughly
+1 km stop spacing.
 
 ## 3. Non-goals
 
@@ -68,75 +70,78 @@ for turn-back + recharge at depot-terminal stations.
 
 ## 4. Capacity targets
 
-Minimum usable energy per consist, sized for a full operational day
-with depot recharge overnight + opportunistic top-up at depot-
-terminal stations. Assumes:
+Minimum usable energy per consist, sized for one route length plus
+reserve, with routine energy replaced at station dwells. Assumes:
 
-- ~3.5 kWh/km traction (RFC 0002 §3 energy intensity at a 15 kg/m²
-  loading, 0.25 m/s² acceleration, 70 % regen efficiency).
+- ~3.0 kWh/car-km net traction + auxiliary draw for a 17 m OSR car
+  at 1 km stop spacing, including regenerative braking and hot-climate
+  HVAC.
 - Max 20 % state-of-charge reserve (below which the vehicle
   self-limits speed until it reaches the nearest terminal).
-- 1 hour HVAC worst-case at 15 kW (50 °C ambient, full load).
+- 30 min HVAC worst-case at 10 kW per car (50 °C ambient, full load).
+- 500 kW to 1 MW station charger class. A 60 s dwell replaces
+  8–17 kWh before charger losses, enough for several 1 km hops.
 
 | Family | Reference route | Min usable energy | Per-car share |
 |---|---|---|---|
-| tram-2car | ≤ 20 km between charges | 180 kWh | 90 kWh |
-| light-metro-3car | ≤ 30 km (Samawah L1/L2 round-trip) | 320 kWh | 107 kWh |
-| metro-4car | ≤ 40 km | 460 kWh | 115 kWh |
-| metro-6car | ≤ 60 km | 720 kWh | 120 kWh |
+| urban-shuttle-1car | ≤ 25–30 km route | 120 kWh | 120 kWh |
+| tram-2car | ≤ 25–30 km route | 240 kWh | 120 kWh |
+| light-metro-3car | ≤ 25–30 km route | 360 kWh | 120 kWh |
+| metro-4car | ≤ 25–30 km route | 480 kWh | 120 kWh |
+| metro-6car | ≤ 25–30 km route | 720 kWh | 120 kWh |
 
 **Usable** excludes the 20 % reserve. The nameplate pack sizes
 are 25 % larger to account for cycle-life degradation over
 15 years at 2 cycles/day — so a 107 kWh-per-car usable figure
-ships as ~134 kWh nameplate per car at depot commissioning.
+ships as ~150 kWh nameplate per car at depot commissioning.
 
 Cell-to-pack density target: **220 Wh/L** (Na-ion, primary) /
-**350 Wh/L** (LFP, alternative). §5 sizes the strake envelope for
+**350 Wh/L** (LFP, alternative). §5 sizes the module envelope for
 the less-dense Na-ion case so switching chemistries later doesn't
 require a body redesign.
 
-## 5. Packaging — side-wall strakes (bustle wall)
+## 5. Packaging — under-seat modules
 
-The traction pack lives along the inside of each body wall, between
-doors, under the longitudinal bench seats. Three strakes per side
-per car (light-metro), sized to the inter-door wall segments.
+The traction pack lives under the longitudinal bench seats, split
+into low modules along both sides of the saloon. The centre aisle and
+large low-floor door zone remain clear.
 
 ```
                     ┌─────── door ────┬──────── door ──────┬────── door ─┐
      seat bench ──►│  SEAT           │  SEAT              │  SEAT       │
                    │  ─ ─ ─ ─ ─ ─ ─ ─│  ─ ─ ─ ─ ─ ─ ─ ─ ─│  ─ ─ ─ ─ ─ ─│
-     battery  ──►  │  BATTERY STRAKE │  BATTERY STRAKE    │  BATTERY    │
-     strake        │  (~4 m × 0.3 m  │  (~4 m × 0.3 m     │  STRAKE     │
+     battery  ──►  │ UNDER-SEAT PACK │ UNDER-SEAT PACK    │ UNDER-SEAT  │
+     module        │ (~2 m × 0.55 m  │ (~2 m × 0.55 m     │ PACK        │
                    │   × 0.45 m)     │   × 0.45 m)        │             │
                    ├──────floor──────┼────────floor───────┼─────floor───┤
-                   ▲ low-floor aisle (1 100 mm rail-to-floor, clear)
+                   ▲ low-floor centre aisle and door zone, clear
 ```
 
 Per 22 m car:
 
-- **6 strakes** (3 per side) totalling ~4 700 L of reserved
-  envelope.
+- **8 under-seat modules** (4 per side) totalling ~1 200 L of
+  reserved envelope per car.
 - Actual battery fills ~25–30 % of the envelope — the rest is
   cooling duct, structural framing, cell spacing, and access.
-- Each strake is an independently-swappable module. Access from
-  inside: lift the bench cushion → remove the strake top cover →
+- Each pack is an independently-swappable module. Access from
+  inside: lift the bench cushion → remove the pack top cover →
   lift the pack with integrated lifting-eye hooks. No crane.
 
-### Why side-wall (vs. rooftop or underfloor)
+### Why under-seat (vs. rooftop or deep underfloor)
 
-| Criterion | Rooftop (Akku) | Underfloor (Mireo+B) | Side-wall (OSR) |
+| Criterion | Rooftop (Akku) | Deep underfloor | Under-seat (OSR) |
 |---|---|---|---|
 | Centre of gravity | High | Lowest | Low-medium |
 | Solar gain at 50 °C ambient | Worst (direct sun on roof) | None (shaded) | Minimal (shaded by skirt + wall) |
-| Thermal-runaway vent path | Up (clear of passengers) | Down (onto bogie / track) | Laterally out body skin |
-| Competes with other kit | Shares with HVAC + aux | Shares with traction inverter + brake + aux | Dedicated cavity |
-| Maintenance access | Overhead crane or shed | Pit or side jack | Bench cushion, no tools |
+| Thermal-runaway vent path | Up (clear of passengers) | Down (onto bogie / track) | Laterally out through side vent duct |
+| Competes with other kit | Shares with HVAC + aux | Shares with traction inverter + brake + aux | Uses seat plinth volume |
+| Maintenance access | Overhead crane or shed | Pit or side jack | Bench cushion, no crane |
 | Charging-cable routing | Must come down from roof | Plug at side | Plug at side (natural) |
-| Low-floor aisle | Preserved | Preserved | Preserved (aisle is central, clear) |
+| Low-floor aisle | Preserved | Harder near bogies | Preserved (aisle and door zone are central, clear) |
 
-Side-wall loses the "lowest CoG" score to pure underfloor, but
-wins everywhere else for OSR's specific constraints (50 °C ambient,
-catenary-free charging, crowded underframe).
+Under-seat packaging keeps the mass low without putting high-voltage
+boxes in the bogie swept envelope. It also makes the battery visible
+to maintenance without pit access, which matters for small depots.
 
 ## 6. Charging interface
 
@@ -155,19 +160,33 @@ to the stall's stop block.
 - Depot-side supply: 11 kV MV ring, transformer to 600 VDC, UPS-
   backed for graceful shutdown on grid loss.
 
-### 6.2 Depot-terminal station charging (opportunity)
+### 6.2 Passenger-station charging (normal service)
 
-Every `depot-terminal` station archetype ([RFC 0010](0010-station-design-standard.md))
-ships a single mid-power (100 kW) plug-in charger on the platform
-end. During the scheduled turnback dwell (typically 3–5 min at
-these terminals), an automated charge cycle can replace 5–8 kWh —
-enough to bridge a short line where a full depot visit isn't
-practical between runs.
+Every passenger station on a stop-spaced OSR route is provisioned
+for automated conductive charging unless the energy model proves
+it can be skipped. The nominal design point is:
+
+- Stop spacing: ~1 km.
+- Dwell: ~60 s.
+- Train-side connector: side-pin or pantograph-down per
+  [RFC 0026](0026-charging-connector-reconciliation.md).
+- Charger power: 500 kW standard, 1 MW at terminals and high-load
+  stations.
+- Energy per 60 s dwell: ~8 kWh at 500 kW, ~17 kWh at 1 MW before
+  losses.
+- Station supply: solar-PV canopy + stationary Na-ion battery buffer,
+  with grid-tie where available.
+
+The station battery supplies the instantaneous charge pulse; the PV
+array refills it through the day. This is why the onboard train pack
+can be sized for one route length rather than a full operating day.
 
 ### 6.3 Not in scope
 
 - Roof-pantograph + overhead contact charging (Stadler Akku's
-  approach, and the TINA dual-mode tram).
+  approach, and the TINA dual-mode tram). Pantograph-down charging
+  pads are permitted only as discrete station chargers, not continuous
+  catenary.
 - Induction / wireless charging.
 - Battery swapping (tried and abandoned in taxi / bus fleets).
 - Hydrogen refuelling.
@@ -178,12 +197,12 @@ At 50 °C ambient (Samawah design envelope), Na-ion cell
 temperature must stay below 65 °C and LFP cells below 55 °C to
 preserve cycle life. Strategy:
 
-1. **Passive:** each strake is shaded by the body skin + the
-   longitudinal bench above. No direct solar gain.
-2. **Active:** ~2.5 kW refrigerant coil per strake, fed from the
+1. **Passive:** each module is shaded by the longitudinal bench.
+   No direct solar gain.
+2. **Active:** refrigerant cold plate per module group, fed from the
    HVAC condenser loop. Cell temperature sensor per module; BMS
    (`osr-bms`) derates charge current above 50 °C cell.
-3. **Runaway containment:** each strake is a sealed aluminium
+3. **Runaway containment:** each module is a sealed aluminium
    enclosure with a weak-point vent on the outer body skin. If a
    module goes thermal, vent gases are steered laterally out into
    the trackside, not into the cabin.
@@ -205,12 +224,12 @@ design envelope.
 
 ### 8.2 Crashworthiness ([RFC 0020](0020-crashworthiness.md))
 
-Side-wall strakes sit above the floor and inboard of the skin +
+Under-seat modules sit above the floor and inboard of the skin +
 livery band. In a side impact:
 
 - The livery-band metalwork forms an intrusion-rated rub strake
   (150 kN/m² crush rating) outside the battery enclosure.
-- The strake enclosure is rated for 50 kJ side impact without cell
+- The module enclosure is rated for 50 kJ side impact without cell
   breach.
 - Crumple energy in Zones 1 + 2 ([RFC 0020 §5](0020-crashworthiness.md#5-three-zone-absorption-layout))
   stays unchanged — the forward crumple is in the sensor cowl +
@@ -222,7 +241,7 @@ livery band. In a side impact:
 - Vent-gas chemistry depends on cell choice: Na-ion thermal
   runaway produces some SO₂ (the more conservative fire case);
   LFP produces mainly CO and CO₂. Scrubber cartridges in the
-  strake vent stack are sized for the Na-ion case.
+  module vent stack are sized for the Na-ion case.
 - `osr-fire-safety` monitors cell-side temperature; an alert
   triggers OCC remote-assist (RFC 0015 §5.3) and prepares an
   emergency egress at the nearest station.
@@ -247,9 +266,9 @@ console (for fleet-level SoC visibility).
       supply chain is already LFP-flavoured).
 - [ ] Size the per-car pack against §4 and the measured line
       profile (longer routes than Samawah need more).
-- [ ] Commission one depot plug-in charger per stabling track
-      (§6.1) + one terminal charger per `depot-terminal` station
-      (§6.2).
+- [ ] Commission station charging at the route stops required by
+      the timetable energy model (§6.2) plus depot plug-in charging
+      for overnight and maintenance balancing (§6.1).
 - [ ] Wire depot substation to PV-canopy output + grid tie (§1,
       RFC 0002).
 - [ ] Fire-authority sign-off on the vent geometry for the chosen
@@ -261,4 +280,5 @@ console (for fleet-level SoC visibility).
 
 | Date | Version | Change |
 |---|---|---|
+| 2026-05-01 | v2 | Rationalised around self-contained cars: under-seat Na-ion packs, one-route onboard energy, and solar-buffered station charging at ~1 km stops. |
 | 2026-04-24 | v1 | Initial draft. Side-wall strake packaging, depot-only charging, LFP + sodium-ion in scope, Akku-inspired without catenary. |

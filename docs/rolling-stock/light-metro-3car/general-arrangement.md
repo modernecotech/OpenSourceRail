@@ -3,46 +3,40 @@
 ## Consist diagram
 
 ```
-   ←────── 22.0 m ──────→←── 21.0 m ──→←────── 22.0 m ──────→
+   ←── 17.0 m ──→←── 17.0 m ──→←── 17.0 m ──→
 
-      Car A (driving)       Car B (motor)     Car C (driving)
-   ┌─ cab ─ bogie 1 ──┐┌─ bogie 2 ──┐┌─ bogie 3 ── cab ─┐
-   │ │┐          ┌┐  ││   ┌┐   ┌┐  ││  ┌┐          ┐│ │
-   │ ││          ││  ││   ││   ││  ││  ││          ││ │
-   │ │┘          └┘  ││   └┘   └┘  ││  └┘          └│ │
-   └──────────────────┘└──────────────┘└──────────────────┘
-     |art.| = articulation joint above bogie 2 (Jacobs)
-     Length over couplers = 65.0 m
+      Car A             Car B             Car C
+   ┌─ M bogie ─ doors ─ t bogie ┐┌─ M bogie ─ doors ─ t bogie ┐┌─ M bogie ─ doors ─ t bogie ┐
+   │ raised   low-floor centre ││ raised   low-floor centre ││ raised   low-floor centre │
+   │ floor    under-seat batt. ││ floor    under-seat batt. ││ floor    under-seat batt. │
+   └───────────────────────────┘└───────────────────────────┘└───────────────────────────┘
+     M = powered bogie, t = trailer bogie
+     Length over sensor cowls / couplers = 56.6 m
 ```
 
-- **Three cars, two articulation joints** (Car A ↔ Car B,
-  Car B ↔ Car C). Car B is a "floating" intermediate car
-  supported only by the Jacobs bogie at its centre and the end
-  articulation joints into A and C.
-- **Two driving cabs** — one at each end of the consist. Either
-  cab drives the consist; terminal turnaround is a cab transfer
-  (per RFC 0013 §4.1 D5).
-- **Three bogies total** — two at Car A / Car C outer ends, one
-  Jacobs bogie under the Car B articulation. All 2-axle.
-- **Powered wheelsets:** bogies 1 and 3 are powered (50 % powered
-  wheelsets per RFC 0008 §3.2). Bogie 2 (Jacobs) is an unpowered
-  trailer.
+- **Three self-contained cars**, semi-permanently coupled.
+- **No driving cabs** — GoA 4 sensor cowls at both ends per
+  RFC 0015.
+- **Six bogies total** — two standard 2-axle bogies per car.
+- **Powered wheelsets:** one powered bogie and one trailer bogie
+  per car, giving three powered bogies across the consist.
+- **Battery:** 120 kWh sodium-ion per car under the longitudinal
+  seats. The centre door zone stays low-floor and clear.
 
 ## Key dimensions
 
 | Parameter | Value | Source |
 |---|---|---|
-| Length over couplers | 65 000 mm | RFC 0008 §1 |
-| Car A length (outer) | 22 000 mm | design envelope |
-| Car B length (inner) | 21 000 mm | design envelope |
-| Car C length (outer) | 22 000 mm | design envelope |
+| Length over sensor cowls / couplers | 56 600 mm | RFC 0008 §1 + RFC 0015 cowls |
+| Car A length | 17 000 mm | modular car envelope |
+| Car B length | 17 000 mm | modular car envelope |
+| Car C length | 17 000 mm | modular car envelope |
 | Body width (outer) | 2 700 mm | fits UIC 505-1 gauge |
 | Height over rail (roof) | 3 800 mm | fits UIC 505-1 |
-| Floor height (above top-of-rail) | 350 mm | low-floor per RFC 0008 §3.3 |
-| Bogie wheelbase | 1 800 mm | small wheelbase for RFC 0009 `standard-urban` min radius 90 m |
-| Wheel diameter (nominal / condemning) | 860 / 790 mm | UIC 510-2 |
-| Inter-bogie distance (within a car) | 14 000 mm | Car A / Car C |
-| Jacobs bogie centre-of-rotation to end articulations | 3 500 mm | |
+| Floor height (above top-of-rail) | 350 mm centre door zone; raised over bogies | low-floor access with standard bogies |
+| Bogie wheelbase | 2 100 mm | RFC 0022 single-SKU bogie |
+| Wheel diameter (new / worn) | 760 / 680 mm | RFC 0022 |
+| Inter-bogie distance (within a car) | 11 000 mm | modular car envelope |
 | Coupler face height (above ToR) | 720 mm | Scharfenberg Type 10 dim. |
 | Headroom at doors | 2 000 mm | |
 | Headroom at seats | 2 100 mm | |
@@ -50,15 +44,14 @@
 
 ## Door positions
 
-Two 1 300 mm-wide plug doors per car side (total 12 doors per
-side for the consist — 12 door pairs = 24 doors). Positioned:
+One large 1 600 mm-wide double-leaf plug door per car side in the
+low-floor centre zone (3 door pairs per side for the consist).
+Longer-platform variants may add a second pair per side if the dwell
+model requires it. Positioned:
 
-- Car A: door centres at 5.0 m + 17.0 m from the cab end.
-- Car B: door centres at 5.0 m + 16.0 m from the Car-A-facing
-  end of Car B.
-- Car C: mirror of Car A.
+- Each car: door centre at 8.5 m from the car end.
 
-All doors are plug-outward doors per RFC 0008 §3.3 with 1 250 mm
+All doors are plug-outward doors per RFC 0008 §3.3 with 1 500 mm
 clear opening at 2 000 mm height.
 
 ## Gauge compliance
@@ -76,9 +69,9 @@ presets (`heritage-tram` / `standard-urban` / `standard-metro`
 
 ## Platform clearance
 
-- Low-floor at 350 mm ToR platform height ≡ consist floor
-  height. Level boarding is gap-and-step free per RFC 0010
-  §4.2.
+- Low-floor centre door zone at 350 mm ToR platform height. Raised
+  floor over the bogies is inside the saloon, away from the boarding
+  threshold.
 - Horizontal gap at door sill: ≤ 75 mm per UIC 741. Achieved by
   a 40 mm sliding skirt at each door that extends on dwell
   (retracted in motion).
@@ -90,18 +83,18 @@ presets (`heritage-tram` / `standard-urban` / `standard-metro`
 
 | Location | Mass (t) |
 |---|---|
-| Car A (driving) incl. bogie 1 | 80 |
-| Car B (intermediate, motor) incl. ½ of Jacobs | 55 |
-| Car C (driving) incl. bogie 3 | 80 |
-| **Total consist (tare + AW2 passengers)** | **215** |
+| Car A incl. powered + trailer bogie | 41 |
+| Car B incl. powered + trailer bogie | 41 |
+| Car C incl. powered + trailer bogie | 41 |
+| **Total consist (tare + AW2 passengers)** | **123** |
 
-Tare = 195 t per RFC 0008 §1; AW2 load = 20 t (360 passengers
+Tare = 102 t per RFC 0008 §1; AW2 load = 21.6 t (360 passengers
 × 60 kg average).
 
 Distribution per axle under AW3 (crush load, 540 passengers ×
 60 kg = 32 t):
-- Bogies 1 + 3 (powered, 2 axles each): ~13.5 t per axle.
-- Bogie 2 (Jacobs, 2 axles): ~13 t per axle.
+- Powered and trailer bogies: ~10–12 t per axle depending on seated
+  battery-side loading.
 
 All ≤ 14 t per RFC 0008 §3.1 axle-load constraint ✓.
 

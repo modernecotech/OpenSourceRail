@@ -6,8 +6,9 @@
 
 ## 1. Summary
 
-Every powered OSR car rides on **two identical 2-axle pivoting
-bogies**, Bo-Bo configuration (all four axles motored), with
+Every self-contained OSR car rides on **two standard 2-axle pivoting
+bogies**: one powered bogie and one trailer bogie. The powered bogie
+has both axles motored, with
 **axle-hung PMSM traction motors**, a **single-stage parallel
 spur gearbox** at 6.5 : 1, **760 mm new / 680 mm worn wheels**,
 **chevron rubber-metal primary suspension**, and **air-spring
@@ -18,16 +19,18 @@ continuous operation.
 
 | Family | Powered bogies | Trailer bogies | Continuous power |
 |---|---|---|---|
-| tram-2car | 2 (1 per car) | 2 | 720 kW |
-| light-metro-3car | 4 (end cars Bo-Bo, middle trailer) | 2 | 1 440 kW |
-| metro-4car | 6 | 2 | 2 160 kW |
-| metro-6car | 8 | 4 | 2 880 kW |
+| urban-shuttle-1car | 1 | 1 | 360 kW |
+| tram-2car | 2 | 2 | 720 kW |
+| light-metro-3car | 3 | 3 | 1 080 kW |
+| metro-4car | 4 | 4 | 1 440 kW |
+| metro-6car | 6 | 6 | 2 160 kW |
 
 A **trailer bogie** is the same frame + suspension + wheelset
 hardware as a motor bogie with the motor + gearbox omitted — so
 a trailer SKU is the motor SKU minus two line items. Depots
-stock one bogie pattern and one motor pattern; middle-car
-unpowered axles simply don't carry the drivetrain.
+stock one bogie pattern and one motor pattern. Longer trains are
+made by coupling more identical self-contained cars, not by changing
+the motorisation pattern.
 
 ## 2. Non-goals
 
@@ -65,7 +68,7 @@ unpowered axles simply don't carry the drivetrain.
 | Wheel diameter (worn) | 680 mm | 40 mm re-profiling budget over life |
 | Track gauge | 1 435 mm (standard) | Per RFC 0009 §2 |
 | Axle load (laden) | ≤ 14 t | RFC 0008 §3.1 — comfortable inside UIC mainline limits |
-| Pivot height above rail | 580 mm | Low enough for the 1 100 mm level-boarding floor to clear with margin |
+| Pivot height above rail | 580 mm | Low enough for the raised bogie-floor zone to clear with margin |
 
 ## 4. Traction drive
 
@@ -100,12 +103,12 @@ unpowered axles simply don't carry the drivetrain.
 | Wheel-lathe compatibility | Every depot with a lathe can re-profile | Hub bearing complicates re-profiling |
 | Maintenance access | Pit + side | Wheel removal required |
 | Efficiency | 96–97 % PMSM × 98 % gearbox = ~94 % | 96 % PMSM × 100 % = 96 % (marginally better) |
-| Low-floor compatibility | Step over bogie at 1 100 mm floor | True 100 % low floor possible |
+| Low-floor compatibility | Raised floor over bogie, low-floor centre door zone | True 100 % low floor possible |
 
-OSR's 1 100 mm level-boarding floor doesn't need 100 % low-floor
-compatibility (platforms are level with the floor — no step-down
-at the doorway). So the efficiency gap doesn't offset the
-spares-pipeline win.
+OSR does not need 100 % low-floor compatibility: the large centre
+door zone is low floor and level with the platform, while the floor
+ramps up over the standard bogies. So the efficiency gap doesn't
+offset the spares-pipeline win.
 
 ## 5. Suspension
 
@@ -126,7 +129,7 @@ spares-pipeline win.
 - **Type:** twin-bellows air spring with auxiliary rubber
   emergency bearer (in case of air loss).
 - **Levelling valves:** pneumatic height-control, maintains
-  1 100 mm floor within ± 5 mm across empty-to-crush-load.
+  the centre door-zone floor within ± 5 mm across empty-to-crush-load.
 - **Temperature rating:** 55 °C continuous bellows operation —
   non-negotiable for Samawah.
 - **Reference SKU class:** Continental CF-series, ContiTech
@@ -167,23 +170,26 @@ drop links. Reduces body roll into curves by ~35 %.
 ## 8. Motorisation pattern per family
 
 ```
-tram-2car        [M]─────────[M]             — 2 motor bogies, 2 trailer
-                  car 1        car 2
+urban-shuttle    [M/t]                       — 1 motor bogie, 1 trailer
+                  car 1
 
-light-metro-3car [M]──[t]──[t]──[M]          — 4 motor, 2 trailer
-                  end   middle   end
+tram-2car        [M/t]────[M/t]              — 2 motor, 2 trailer
+                  car 1    car 2
 
-metro-4car       [M]──[M]──[t]──[M]──[M]     — 6 motor, 2 trailer
-                  end  mid  mid  end
+light-metro-3car [M/t]────[M/t]────[M/t]     — 3 motor, 3 trailer
+                  car 1    car 2    car 3
 
-metro-6car       [M]──[M]──[t]──[t]──[M]──[M]  — 8 motor, 4 trailer
-                  end  mid  mid  mid  end  end
+metro-4car       [M/t]────[M/t]────[M/t]────[M/t]
+                  car 1    car 2    car 3    car 4
+
+metro-6car       [M/t]────[M/t]────[M/t]────[M/t]────[M/t]────[M/t]
+                  car 1    car 2    car 3    car 4    car 5    car 6
 ```
 
-Every [M] is a motor bogie: frame + suspension + wheelset + motor
-+ gearbox + brake. Every [t] (trailer bogie) is the same assembly
-minus the motor + gearbox — wheelset axle is a plain axle, no
-drivetrain.
+Every [M/t] car is the same self-contained module: one motor bogie
+plus one trailer bogie. The motor bogie is frame + suspension +
+wheelset + two motors + gearbox + brake. The trailer bogie is the
+same assembly minus the motor + gearbox.
 
 ## 9. Verification path
 
@@ -215,4 +221,5 @@ drivetrain.
 
 | Date | Version | Change |
 |---|---|---|
+| 2026-05-01 | v2 | Rationalised to one powered bogie plus one trailer bogie per self-contained car. |
 | 2026-04-24 | v1 | Initial draft. Single-SKU 2-axle Bo-Bo, axle-hung PMSM, chevron + air suspension, motorisation pattern per family. |

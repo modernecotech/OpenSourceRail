@@ -19,6 +19,14 @@ suite (ultrasonic safety belt + solid-state LIDAR + mmWave radar +
 stereo camera) on a dedicated T-OBS ECU, with **wayside track-
 intrusion detection** ([RFC 0016](docs/rfcs/0016-wayside-track-intrusion.md))
 covering the proactive half of the safety envelope between trains.
+The rationalised rolling-stock baseline is a self-contained,
+driverless battery car: standard bogies with **one powered bogie and
+one trailer bogie per car**, **sodium-ion batteries under the
+longitudinal seats**, a **low-floor centre door zone**, and
+solar-buffered station charging during ~60 s dwells at roughly 1 km
+stop spacing. The onboard pack is sized for about one route length
+plus reserve, keeping mass and vehicle cost down while the station
+PV + stationary battery system supplies normal service energy.
 The [Samawah pilot](docs/rfcs/0003-samawah-reference-deployment.md)
 is a **brownfield deployment** anchored on the 300–800 dormant freight
 wagons + rolling-stock workshop adjacent to Samawah Train Station per
@@ -33,7 +41,7 @@ multipliers. The catalogue currently covers **66 cities across 41
 countries**, structured as:
 
 - **Iraq launch corridor (18 cities)** — every governorate capital
-  + Samawah, exercising all four rolling-stock family bands on
+  + Samawah, exercising the rolling-stock family bands on
   Iraqi soil.
 - **Levant + Arabian Peninsula (9 cities)** — Sana'a, Aden, Taiz,
   Damascus, Aleppo, Homs, Amman, Beirut, Gaza City. Several are
@@ -82,7 +90,8 @@ stations at ~1.2 km inner / 2 km transitional / 4 km outer spacing,
 54.9 km of double-track, **all soft gates passing**. Fleet 55 × 3-car
 `light-metro-3car`. **OSR-discipline unit costs** throughout — prefab
 portal-frame canopies, at-grade depots without overhead bridge cranes,
-commodity Na-ion cells, tier-2 PMSM motors, DIY SiC inverters, open-
+commodity Na-ion cells under the seats, one powered bogie per car,
+tier-2 PMSM motors, DIY SiC inverters, station-dwell charging, open-
 source CBTC on commodity SBCs, no overhead catenary, self-EPC overhead.
 See [designs/west-asia/Iraq/Samawah/README.md](designs/west-asia/Iraq/Samawah/README.md)
 for the full breakdown (per-line termini, fleet sizing, full cost
@@ -744,7 +753,7 @@ OpenSourceRail/
 │   ├── city-batches/         Canonical city catalogue (slug → bbox / country /
 │   │                         population / climate). `world-sample.toml` is the
 │   │                         19-city calibration set spanning 8 regions and
-│   │                         the four rolling-stock family bands; population
+│   │                         the rolling-stock family bands; population
 │   │                         fields source national-stats-office figures (Iraq
 │   │                         2024 census, INSEE 2023, INEC 2022, NBS 2022,
 │   │                         PBS 2023 Digital Census, etc.).

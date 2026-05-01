@@ -14,6 +14,7 @@ from enum import Enum
 class ConsistFamily(str, Enum):
     """RFC 0008 §1 rolling-stock families."""
 
+    URBAN_SHUTTLE_1CAR = "urban-shuttle-1car"
     TRAM_2CAR = "tram-2car"
     LIGHT_METRO_3CAR = "light-metro-3car"
     METRO_4CAR = "metro-4car"
@@ -104,10 +105,11 @@ RAIL_GEOMETRY: dict[RailProfile, RailGeometry] = {
 # published platform lengths — the mechanical catalogue uses these to
 # size canopy bay counts.
 _CONSIST_PLATFORM_LENGTH_M: dict[ConsistFamily, float] = {
-    ConsistFamily.TRAM_2CAR: 50.0,
-    ConsistFamily.LIGHT_METRO_3CAR: 75.0,
-    ConsistFamily.METRO_4CAR: 100.0,
-    ConsistFamily.METRO_6CAR: 150.0,
+    ConsistFamily.URBAN_SHUTTLE_1CAR: 25.0,
+    ConsistFamily.TRAM_2CAR: 45.0,
+    ConsistFamily.LIGHT_METRO_3CAR: 65.0,
+    ConsistFamily.METRO_4CAR: 85.0,
+    ConsistFamily.METRO_6CAR: 120.0,
 }
 
 

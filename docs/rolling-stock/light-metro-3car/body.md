@@ -9,8 +9,7 @@ because:
 - Rivetable and weldable — no stainless-steel pressing line
   needed.
 - Lighter than stainless-steel per equivalent stiffness (tare
-  mass target 195 t for 65 m consist is attainable only with
-  aluminium).
+  mass target 102 t for 56.6 m consist benefits from aluminium).
 
 ## Extrusion list
 
@@ -34,8 +33,7 @@ Each car side is composed of:
   edge).
 - 10 vertical members (A1) at 900 mm pitch.
 - 7 horizontal members (A2) at 500 mm pitch.
-- 2 door cut-outs at 5.0 m + 17.0 m (Car A / Car C) / 5.0 m +
-  16.0 m (Car B) from cab end.
+- 1 large centre door cut-out per side at 8.5 m from the car end.
 - 6 mm aluminium skin (alloy 5083 or equivalent) welded to the
   frame with MIG.
 
@@ -48,14 +46,12 @@ to the end bulkheads + corner posts.
 - Pressed aluminium, 6 mm thick.
 - Corrugated for stiffness (EN 12663 Cat P-III compressive end
   load 640 kN).
-- Mounts the cab console frame (on Car A / Car C) or the
-  articulation joint (Car B ends).
+- Mounts the sensor-cowl interface and semi-permanent coupler gear.
 
-## Articulation joint (between Car A ↔ Car B, Car B ↔ Car C)
+## Inter-car connection (between Car A ↔ Car B, Car B ↔ Car C)
 
-Commercial off-the-shelf bellows-type articulation joint sized
-for 65 m consist. Reference: **Hübner RTS-B40** or local
-equivalent.
+Commercial off-the-shelf gangway bellows around the semi-permanent
+coupler. Reference: **Hübner RTS-B40** or local equivalent.
 - Bellow width: 2 400 mm (interior passable corridor).
 - Vertical travel: ±100 mm.
 - Horizontal travel (curve negotiation): ±250 mm at 1 800 mm
@@ -71,10 +67,8 @@ Sourced from a single supplier; no bespoke articulation design.
 - Three transverse purlins per car (aluminium 60 × 40 mm box).
 - Roof skin: 3 mm aluminium, painted white (solar reflectance).
 - Roof penetrations:
-  - Pantograph base (Car A and Car C): 800 × 400 mm mounting
-    plate.
   - HVAC unit: 2 400 × 1 800 mm cut-out per car.
-  - LED cab marker lights.
+  - LED end marker lights.
   - Antennas: 5G (TRG-1), LoRa (TRG-2), GNSS.
   - CCTV camera domes (2 per car).
 
