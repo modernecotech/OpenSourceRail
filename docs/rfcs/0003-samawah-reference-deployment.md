@@ -308,8 +308,8 @@ Unusually for light metro, ridership here is *dominated* by a few large institut
 ### 4.3 Rolling stock
 
 Reference platform per [ARCHITECTURE §4 D5](../ARCHITECTURE.md):
-- 3-car, ~65 m articulated consist, 65 t per car (light metro class)
-- Na-ion onboard battery, 900 kWh/trainset (300 kWh/car)
+- 3-car, ~57 m consist with low-floor centre door zones (light metro class)
+- Na-ion onboard battery, 360 kWh/trainset (120 kWh/car), sized for one route-length with station opportunity charging
 - Open SiC traction inverter, Rust control firmware
 - TSN Ethernet trainbus
 - HVAC sized for 50 °C ambient, which is load-bearing in Samawah summers (see §5.4)
@@ -362,7 +362,8 @@ Given grid unreliability, Samawah's storage sizing should be more generous than 
 - Secondary layup: 5 MWh
 - **Total trackside storage: 95 MWh Na-ion**
 
-Onboard: 14 trainsets × 900 kWh = 12.6 MWh rolling stock battery.
+Onboard: 14 revenue trainsets × 360 kWh = 5.0 MWh rolling stock battery,
+with two spare consists adding another 0.7 MWh if fully provisioned.
 
 ### 5.4 Thermal considerations
 
@@ -381,7 +382,7 @@ Applying RFC 0002's cost basis, scaled to 30 km and adjusted:
 | 38 MW PV (blended across surfaces) @ $700/kW | $26.6 M |
 | 95 MWh trackside Na-ion storage @ $200/kWh installed | $19.0 M |
 | Charging infrastructure | $3.0 M |
-| Onboard batteries, 14 trainsets × 900 kWh @ $150/kWh | $1.9 M |
+| Onboard batteries, 16 trainsets × 360 kWh @ $150/kWh | $0.9 M |
 | Grid tie + BOP + site works | $5.0 M |
 | Engineering, commissioning, contingency (20% — slightly higher for novel deployment) | $11.1 M |
 | **Energy subsystem total** | **≈ $66 M** |
@@ -417,9 +418,9 @@ This is where the reference deployment connects back to the domain designs:
 - Station screens: SBC + standard displays per the D4 design, with prayer-time integration for culturally appropriate PA silence windows.
 
 ### D5. Rolling Stock
-- 14 + 2 spare 3-car consists, 45 cars total.
+- 14 + 2 spare 3-car consists, 48 cars total.
 - Reference T-ECU hardware across all non-traction-power functions.
-- Onboard battery at 900 kWh/trainset, Na-ion.
+- Onboard battery at 360 kWh/trainset, Na-ion.
 - HVAC designed for 50 °C ambient, verified in summer commissioning.
 
 ### D6. Infrastructure
@@ -441,7 +442,7 @@ Samawah is the **primary reference scenario** for `osr-sim`. Simulator developme
 1. **Topology import.** Represent Line 1 (12 stations + turnbacks), Line 2 (10 stations + layup), the two interchanges. Track geometry at RFC-0001 granularity (sections with offsets).
 2. **Demand model.** Origin–destination matrix calibrated to the four anchor-types (station, centre, hospital, university) with time-of-day curves matching §4.2. Friday schedules as a first-class variant.
 3. **Climate model.** A simple Samawah annual climate series (PSH, ambient temperature) drives both PV yield and HVAC load; this lets the simulator run an annual operations + energy profile, not just a single day.
-4. **Fleet simulation.** 14 trainsets with the battery model, running timetable-driven services, with opportunity charging at station stops per RFC 0002.
+4. **Fleet simulation.** 14 revenue trainsets plus spares with the battery model, running timetable-driven services, with opportunity charging at station stops per RFC 0002.
 5. **Dust event injection.** Step-function drops in PV yield lasting 1–5 days are a modeled stress, used to validate storage sizing.
 6. **Fault injection.** W-Node crashes, radio outages, grid outages. Tests that service degrades gracefully.
 

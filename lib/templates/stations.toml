@@ -25,10 +25,10 @@
 platform_count         = 1
 platform_layout        = "side"
 platform_clearance_m      = 6               # tight margin, low-speed approach
-canopy_type            = "shelter-only"  # no PV here — too small to bother
+canopy_type            = "solar-canopy"
 canopy_area_m2         = 400
-charging_power_kw      = 0               # no charging at halts
-dwell_seconds          = 20
+charging_power_kw      = 250             # low-power dwell charge for low-demand stops
+dwell_seconds          = 60
 tpss_kva               = 0
 
 # ---- Standard: default urban/suburban station ----------------------------
@@ -39,8 +39,8 @@ platform_layout        = "side"
 platform_clearance_m      = 10
 canopy_type            = "solar-canopy"
 canopy_area_m2         = 1800
-charging_power_kw      = 0               # opportunity charging at majors only
-dwell_seconds          = 30
+charging_power_kw      = 500             # normal 1 km stop-spacing dwell charge
+dwell_seconds          = 60
 tpss_kva               = 0
 
 # ---- Major: anchor stop — hospital, mall, centre -------------------------
@@ -52,7 +52,7 @@ platform_clearance_m      = 10
 canopy_type            = "solar-canopy"
 canopy_area_m2         = 2000
 charging_power_kw      = 500
-dwell_seconds          = 45
+dwell_seconds          = 60
 tpss_kva               = 800
 
 # ---- Interchange: two-line junction --------------------------------------
@@ -64,7 +64,7 @@ platform_clearance_m      = 10
 canopy_type            = "solar-canopy"
 canopy_area_m2         = 2800
 charging_power_kw      = 500
-dwell_seconds          = 45
+dwell_seconds          = 60
 tpss_kva               = 1000
 
 # ---- Terminal: end-of-line, turnback tracks ------------------------------

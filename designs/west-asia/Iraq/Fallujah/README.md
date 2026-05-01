@@ -42,9 +42,9 @@ Corridor polylines + stations as GeoJSON for GIS / alignment tooling: [`fallujah
 
 | Property | Value |
 |---|---|
-| Consist | 3-car, 68 m |
-| Max speed | 80 km/h |
-| Onboard battery | 320 kWh per trainset |
+| Consist | 3-car, 57 m |
+| Max speed | 90 km/h |
+| Onboard battery | 360 kWh per trainset |
 | Nominal capacity | 360 pax (seated + standing, `light-metro-3car` per RFC 0008 §1) |
 
 ## Ridership capacity
@@ -75,11 +75,11 @@ On-site trackside + depot PV and battery storage. Per-tier sizing (from [`../../
 | Terminal | 5 | 500 kW | 3000 kWh |
 | **Total installed** | **27** | **15,600 kW** | **106,000 kWh** |
 
-Aggregate station-rail charging power: **13,500 kW**. Trains opportunity-charge during station dwell per RFC 0002; onboard 320 kWh battery covers running.
+Aggregate station-rail charging power: **16,750 kW**. Trains opportunity-charge during station dwell per RFC 0002; onboard 360 kWh battery covers running.
 
 ## CAPEX (planning grade)
 
-All figures come from the `[costs]` block in `design.toml` — emitted by the `osr-design` Rust planner per RFC 0011 §9. **OSR-discipline unit costs**: prefab portal-frame canopies (no bespoke architectural cladding), at-grade depots without overhead bridge cranes, commodity Na-ion cells + tier-2 PMSM motors + DIY SiC inverters in rolling stock, **onboard-first train control with a sparse LoRa-linked wayside** (no trackside fibre backbone, no proprietary CBTC vendor stack, no trackside computer interlockings — the function moves into the trainset, already counted in rolling-stock CAPEX), no overhead catenary, and self-EPC overhead. Conventional metro budgets land 2–3× higher because of the line items OSR has architected away. `country-costs.toml` applies the per-country labour/material multiplier downstream.
+All figures come from the `[costs]` block in `design.toml` — emitted by the `osr-design` Rust planner per RFC 0011 §9. **OSR-discipline unit costs**: prefab portal-frame canopies (no bespoke architectural cladding), at-grade depots without overhead bridge cranes, **€1.0 M per self-contained car** rolling stock, commodity Na-ion cells + tier-2 PMSM motors + DIY SiC inverters, **onboard-first train control with only residual wayside** (no trackside fibre backbone, no proprietary CBTC vendor stack, no trackside computer interlockings — the function moves into the trainset, already counted in rolling-stock CAPEX), no overhead catenary, and self-EPC overhead. Conventional metro budgets land 2–3× higher because of the line items OSR has architected away. `country-costs.toml` applies the per-country labour/material multiplier downstream.
 
 ### Civil works
 
@@ -116,19 +116,29 @@ At-grade portal-frame workshop sheds; pit tracks with stinger + portable wheel l
 
 ### Rolling stock
 
-Per-trainset BOM at OSR-discipline pricing: **onboard** Na-ion traction battery (~$80/kWh, RFC 0021 §3 — distinct from the trackside stationary battery in the *Systems* section below), tier-2 PMSM motors + SiC inverters (RFC 0022 §10, RFC 0008 §3.2), DIY safety electronics (~$5 680/trainset, RFC 0019), aluminium-extrusion or steel space-frame body. Motors and onboard batteries appear here ONLY — never re-billed elsewhere in the cost stack.
+Rolling stock is costed at **€1.0 M per self-contained car (wagon)**. Each car carries one powered bogie, one trailer bogie, under-seat Na-ion battery, traction inverter, onboard sensor/control stack, doors, HVAC, interior, and aluminium body. Motors, sensors, train-control computers, and onboard batteries appear here ONLY — never re-billed elsewhere in the cost stack.
+
+| Per-car cost bucket | Basis | Cost |
+|---|---|---|
+| Body shell + interior + doors | Aluminium extrusion body, glazing, seats, PRM zone, plug doors | €300 k |
+| Bogies + brakes | One powered bogie + one trailer bogie, wheelsets, suspension, discs | €220 k |
+| Traction package | PMSM motors, gearbox, SiC inverter, cooling, HV contactors | €180 k |
+| Battery + BMS | 120 kWh usable under-seat Na-ion pack, BMS, fire containment | €120 k |
+| Driverless onboard stack | T-ECU/S, T-ECU/A, T-OBS sensors, radios, cameras, event recorder | €90 k |
+| HVAC, auxiliaries, fit-out margin | HVAC, lighting, PIS, wiring, assembly QA | €90 k |
+| **Total per car** | | **€1.0 M** |
 
 | Item | Count | Unit | Subtotal |
 |---|---|---|---|
-| `light-metro-3car` (revenue + spare + cold reserve) | 48 | €2.0 M | €96 M |
+| `light-metro-3car` (revenue + spare + cold reserve) | 48 | €3.0 M | €144 M |
 
 ### Systems
 
 | Item | Basis | Subtotal |
 |---|---|---|
-| Signalling (onboard ATC + LoRa-linked wayside W-Nodes, RFC 0019/0001) | 45.9 km × €0.1 M/km | €4.6 M |
+| Residual signalling / train-control wayside (onboard ATP/ATO + T-OBS carries the function; W-Nodes, balises, LoRa gateways, OCC interfaces remain) | 45.9 km × €0.015 M/km | €0.7 M |
 | Traction power (**trackside** stationary PV + Na-ion + grid-tie at every station, no OCS, RFC 0002 §6) | 45.9 km × €0.8 M/km | €37 M |
-| EPC integration + project management (7%) | on subtotal | €35 M |
+| EPC integration + project management (7%) | on subtotal | €38 M |
 
 ### Total
 
@@ -137,12 +147,12 @@ Per-trainset BOM at OSR-discipline pricing: **onboard** Na-ion traction battery 
 | Civil works | €249 M |
 | Stations | €74 M |
 | Depots | €40 M |
-| Rolling stock | €96 M |
-| Signalling + power | €41 M |
-| EPC overhead (7%) | €35 M |
-| **CAPEX total** | **€535 M** |
-| Per-route-km | €12 M / km |
-| Per-capita (city pop) | €1,487 / person |
+| Rolling stock | €144 M |
+| Residual train-control wayside + power | €37 M |
+| EPC overhead (7%) | €38 M |
+| **CAPEX total** | **€583 M** |
+| Per-route-km | €13 M / km |
+| Per-capita (city pop) | €1,618 / person |
 
 ## Funding & affordability
 
@@ -154,35 +164,35 @@ Bottom line for next year's budget submission. Construction phase runs **years 1
 
 | Phase | Annual gov / municipal commitment | Per resident / yr |
 |---|---|---|
-| Construction (years 1–5) | **€40 M / yr** | €112 |
-| Steady-state, low-ridership (year 6+) | **€47 M / yr** | €130 |
-| Steady-state, high-ridership (year 6+) | **€43 M / yr** | €120 |
-| Lifecycle envelope (yr 1–25, low scenario) | **€1.14 bn cumulative** | €3,169 |
-| Lifecycle envelope (yr 1–25, high scenario) | **€1.06 bn cumulative** | €2,956 |
+| Construction (years 1–5) | **€44 M / yr** | €122 |
+| Steady-state, low-ridership (year 6+) | **€52 M / yr** | €145 |
+| Steady-state, high-ridership (year 6+) | **€48 M / yr** | €134 |
+| Lifecycle envelope (yr 1–25, low scenario) | **€1.26 bn cumulative** | €3,499 |
+| Lifecycle envelope (yr 1–25, high scenario) | **€1.18 bn cumulative** | €3,286 |
 
-_Population basis: 360,000 (catchment per `lib/city-batches/world-sample.toml`). After year 25, debt service drops to zero and only the OPEX shortfall remains — ~€9.2 M / yr (low) → €5.4 M / yr (high)._
+_Population basis: 360,000 (catchment per `lib/city-batches/world-sample.toml`). After year 25, debt service drops to zero and only the OPEX shortfall remains — ~€11 M / yr (low) → €7.1 M / yr (high)._
 
 ### CAPEX funding stack
 
 | Tranche | Share | Principal | Rate | Tenor | Annual debt service (post-grace) |
 |---|---|---|---|---|---|
-| Multilateral concessional loan (IBRD / AfDB / ADB class) | 60% | €321 M | 4.0% | 25 y, 5 y grace | €24 M / yr |
-| Sovereign bonds (10-y benchmark + project) | 25% | €134 M | 8.5% | 25 y, 5 y grace | €14 M / yr |
-| Government equity (no debt service) | 15% | €80 M | — | — | — |
-| **Total** | **100%** | **€535 M** | | | **€38 M / yr** |
+| Multilateral concessional loan (IBRD / AfDB / ADB class) | 60% | €350 M | 4.0% | 25 y, 5 y grace | €26 M / yr |
+| Sovereign bonds (10-y benchmark + project) | 25% | €146 M | 8.5% | 25 y, 5 y grace | €15 M / yr |
+| Government equity (no debt service) | 15% | €87 M | — | — | — |
+| **Total** | **100%** | **€583 M** | | | **€41 M / yr** |
 
-_During the 5-year grace period the operator pays interest only — multilateral €13 M / yr + bonds €11 M / yr = **€24 M / yr** total — plus the equity tranche amortised across construction (€16 M / yr × 5 yr). Principal repayment begins in year 6 on a 20-year amortisation schedule._
+_During the 5-year grace period the operator pays interest only — multilateral €14 M / yr + bonds €12 M / yr = **€26 M / yr** total — plus the equity tranche amortised across construction (€17 M / yr × 5 yr). Principal repayment begins in year 6 on a 20-year amortisation schedule._
 
 ### Annual OPEX (steady state)
 
 | Component | Basis | Annual cost |
 |---|---|---|
-| Rolling-stock maintenance | 4 % of rolling-stock CAPEX | €3.8 M |
+| Rolling-stock maintenance | 4 % of rolling-stock CAPEX | €5.8 M |
 | Civil + station + depot maintenance | 2 % of fixed-asset CAPEX | €7.3 M |
-| Signalling + comms maintenance | 5 % of signalling CAPEX | €229 k |
+| Residual train-control wayside maintenance | 5 % of residual signalling CAPEX | €34 k |
 | Traction energy (84.9 GWh / yr) | trackside PV + Na-ion (RFC 0002) — **self-generated, €0 / yr** | €0 k |
 | Labour (287 FTE) | ~6 FTE/route-km + 12 admin core × country median × 12 × engineer-premium 1.4 | €1.7 M |
-| **OPEX subtotal** | | **€13 M / yr** |
+| **OPEX subtotal** | | **€15 M / yr** |
 
 _Annual fleet utilisation: 42 revenue trainsets × 20.5 h/day × 365 d/yr × 30 km/h commercial × 75% revenue factor = 7.1 M train-km / yr (~168 k km / trainset / yr)._
 
@@ -205,10 +215,10 @@ Practical-ridership bracket = 5–10 % of urban population × 365 service-days. 
 |---|---|---|
 | Annual paid trips | 6.6 M | 13.1 M |
 | Farebox revenue | €3.8 M / yr | €7.7 M / yr |
-| Farebox / OPEX recovery | 29% | 59% |
+| Farebox / OPEX recovery | 26% | 52% |
 | Country policy-target recovery (diagnostic) | 45% | 45% |
-| Operating shortfall (gov subsidy required) | €9.2 M / yr | €5.4 M / yr |
-| **Steady-state government commitment** (debt service + OPEX shortfall) | **€47 M / yr** | **€43 M / yr** |
+| Operating shortfall (gov subsidy required) | €11 M / yr | €7.1 M / yr |
+| **Steady-state government commitment** (debt service + OPEX shortfall) | **€52 M / yr** | **€48 M / yr** |
 
 **Caveats:** The funding-stack 60/25/15 split, the 5 % income-share affordability target, and the 5–10 % daily-pax bracket are project-level defaults. Real deployments will negotiate the share with the financing institutions and will tune fares iteratively from boarding data. Treat the numbers above as a first-iteration sanity check, not as a bid-ready financial close.
 

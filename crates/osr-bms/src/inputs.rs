@@ -87,7 +87,7 @@ pub struct BmsParams {
 impl BmsParams {
     /// Reasonable defaults for a Na-ion pack on a light-metro trainset
     /// (per [RFC 0003 §4.3](../../../docs/rfcs/0003-samawah-reference-deployment.md)
-    /// the reference 3-car carries 900 kWh; at ~3.2 V/cell average
+    /// the reference 3-car carries 360 kWh; at ~3.2 V/cell average
     /// that is thousands of cells in series-parallel — the numbers
     /// here describe a representative cell, not the whole pack).
     #[must_use]

@@ -87,10 +87,11 @@ Derived, not fixed. For every consist/archetype pair:
 
 | Consist (RFC 0008) | consist length | clearance | platform length |
 |---|---|---|---|
-| `tram-2car` | 42 m | 6 m (halt) / 10 m (others) | 48 / 52 m |
-| `light-metro-3car` | 65 m | 6 / 10 m | 71 / 75 m |
-| `metro-4car` | 88 m | 10 m | 98 m |
-| `metro-6car` | 132 m | 10 m | 142 m |
+| `urban-shuttle-1car` | 21 m | 6 m (halt) / 10 m (others) | 27 / 31 m |
+| `tram-2car` | 39 m | 6 / 10 m | 45 / 49 m |
+| `light-metro-3car` | 57 m | 6 / 10 m | 63 / 67 m |
+| `metro-4car` | 75 m | 10 m | 85 m |
+| `metro-6car` | 111 m | 10 m | 121 m |
 
 `metro-6car` on `heritage-tram` geometry is not a supported
 combination (RFC 0008 §4) — the compatibility matrix rejects it

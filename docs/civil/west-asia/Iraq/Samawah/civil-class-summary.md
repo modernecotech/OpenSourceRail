@@ -60,13 +60,14 @@ Country cost factor for Iraq applies on top (from
 Note: this is **civil only** — track + viaducts + bridges. It
 excludes:
 
-- Rolling stock (€ 1.6 M × 14 trainsets = ~€ 22 M USD-equivalent
-  per the RFC 0008 BOM skeleton).
+- Rolling stock (~€ 3.0 M × 16 three-car trainsets = ~€ 48 M,
+  using the current € 1.0 M/car RFC 0008 BOM basis).
 - Stations (~€ 3 M per `standard` × 17, plus majors + terminals
   + interchanges).
 - Depots (~€ 10–15 M for the `main-heavy` east depot + €1–2 M
   for the `layup-minimal`).
-- Control + signalling + radio integration (~€ 8 M).
+- Residual train-control wayside + radio/OCC integration (~€ 2 M;
+  train protection is primarily onboard driverless sensing).
 - Procurement, engineering, contingency (~20 %).
 
 ## Land acquisition
@@ -99,11 +100,10 @@ savings:
 - No continuous catenary: saves ~€ 60 M.
 - No tunnelling (vs the typical 20 % tunnelled urban alignment):
   saves ~€ 500–800 M.
-- Commodity SBCs instead of centralised zone controllers:
-  saves ~€ 30–80 M over 30 years (compared to a typical
-  vendor-signalled system).
-- Commodity rolling stock vs bespoke: saves ~€ 50–70 M over a
-  fleet of 14 trainsets.
+- Onboard-first driverless protection instead of a proprietary CBTC
+  vendor stack: saves ~€ 30–80 M over 30 years.
+- Commodity rolling stock vs bespoke: saves ~€ 40–60 M over a
+  fleet of 16 trainsets.
 
 The residual difference is OpenSourceRail's structural CAPEX
 target. A real deployment may come in higher — ~€ 400 M is a

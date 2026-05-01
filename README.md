@@ -27,6 +27,11 @@ solar-buffered station charging during ~60 s dwells at roughly 1 km
 stop spacing. The onboard pack is sized for about one route length
 plus reserve, keeping mass and vehicle cost down while the station
 PV + stationary battery system supplies normal service energy.
+Reference rolling-stock cost is now **about €1.0M per self-contained
+car / wagon**: body + interior, one powered bogie, one trailer bogie,
+under-seat Na-ion pack, traction package, onboard sensors, and GoA 4
+control electronics. A 3-car `light-metro-3car` trainset is therefore
+budgeted at ~€3.0M before country multipliers.
 The [Samawah pilot](docs/rfcs/0003-samawah-reference-deployment.md)
 is a **brownfield deployment** anchored on the 300–800 dormant freight
 wagons + rolling-stock workshop adjacent to Samawah Train Station per
@@ -349,24 +354,21 @@ for GoA 2 legacy fleets. Most of the
   profile the image was built with.
 - **Parametric rolling stock in mechanical-py (RFC 0015 cabless):**
   sensor cowl, symmetric car body with door cutouts, 2-axle bogie
-  simplified block, and the four published trainset families
-  (`tram-2car`, `light-metro-3car`, `metro-4car`, `metro-6car`) all
+  simplified block, and the published trainset families
+  (`urban-shuttle-1car`, `tram-2car`, `light-metro-3car`,
+  `metro-4car`, `metro-6car`) all
   parametric on consist + track geometry. Every trainset fits
   inside its RFC 0008 §1 platform length with ≥ 1 m stopping margin.
   STEP artifacts round-trip into Revit / Tekla / Civil 3D.
 
-  ![Light-metro-3car trainset — cabless, symmetric (RFC 0015)](docs/screenshots/trainset-light-metro-3car.png)
+  ![Solar metro trainset concept render — self-contained driverless cars with under-seat batteries and station charging](a_clean_infographic_technical_presentation_image_s.png)
 
-  *Light-metro-3car reference trainset: three 22 m cars coupled end-
-  to-end with a sensor cowl at each end. Every car is a welded-
-  aluminium monocoque with rounded vertical corners, large bonded
-  side glazing, three double-leaf sliding doors per side, a painted
-  livery band at window-sill height, an underframe skirt between
-  the bogies, a rooftop HVAC plus auxiliary plant, and **side-wall
-  traction-battery strakes** (RFC 0021 bustle-wall pattern — Na-ion
-  cells under the longitudinal bench seats, centre aisle stays
-  clear at low-floor level-boarding height). No cab, no windscreen,
-  no pantograph, no directionality — either end leads.*
+  *Rationalised trainset concept: self-contained driverless cars,
+  one powered bogie + one trailer bogie per car, sodium-ion batteries
+  under the longitudinal seats, low-floor centre door zones, and
+  station-dwell charging from solar-buffered stops spaced around
+  1 km apart. The render is conceptual; the corrected envelope in
+  RFC 0008 / RFC 0021 / RFC 0022 is now the source of truth.*
 
   ![Car-body side elevation — welded-aluminium monocoque, rounded corners, door + window cuts](docs/screenshots/trainset-car-detail.png)
 
@@ -613,7 +615,7 @@ OpenSourceRail/
 │       ├── 0005-sbc-software-architecture.md  Canonical software architecture + crate map.
 │       ├── 0006-osr-tcn-design.md          On-train bus (TCN-E pub/sub).
 │       ├── 0007-hardware-reference-designs.md  T-ECU/S, T-ECU/A, T-OBS, W-SBC, S-SBC.
-│       ├── 0008-rolling-stock-reference-design.md  4 trainset families (tram → metro-6car).
+│       ├── 0008-rolling-stock-reference-design.md  5 trainset families (urban shuttle → metro-6car).
 │       ├── 0009-track-design-standard.md   4 geometry presets (gauge, radius, grade, cant).
 │       ├── 0010-station-design-standard.md 6 station archetypes + passenger-flow model.
 │       ├── 0011-civil-infrastructure-design-standard.md  At-grade + elevated only (NO tunnels).
@@ -1030,7 +1032,7 @@ U-girder for every viaduct and water-crossing bridge in the whole
 catalogue; one spares pool, one CAD reuse, one formwork.
 
 Complementary rail-engineering RFCs:
-- [RFC 0008](docs/rfcs/0008-rolling-stock-reference-design.md) — 4 trainset families, unified architecture (aluminium-extrusion body, PMSM axle-hung motors, SiC inverters, Na-ion battery, no pneumatic brake).
+- [RFC 0008](docs/rfcs/0008-rolling-stock-reference-design.md) — 5 trainset families, unified architecture (aluminium-extrusion body, one powered bogie per car, SiC inverters, Na-ion battery, onboard driverless stack).
 - [RFC 0009](docs/rfcs/0009-track-design-standard.md) — 4 track-geometry presets (gauge, radius, grade, cant, rail profile).
 - [RFC 0010](docs/rfcs/0010-station-design-standard.md) — 6 station archetypes with platform geometry derived from the line's consist.
 - [RFC 0012](docs/rfcs/0012-switches-and-crossings.md) — 3 turnout tangents (1:9 / 1:14 / 1:18.5) + level-crossing equipment envelope. No diamonds.

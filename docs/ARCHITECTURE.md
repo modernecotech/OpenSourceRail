@@ -360,7 +360,7 @@ OpenSourceRail targets the EN 50126/50128/50129 and IEC 61508 framework because 
 - Hubris port to RP2350.
 - First hardware-in-the-loop demo: simulator driving real W-SBCs.
 - **Energy subsystem:** reference trackside storage site design (PV array + Na-ion bank + grid-tie inverter + Rust site controller); reference station charging pad design; reference onboard traction battery + inverter design.
-- **Rolling-stock / track / station reference designs** — [RFC 0008](rfcs/0008-rolling-stock-reference-design.md) (4 trainset families), [RFC 0009](rfcs/0009-track-design-standard.md) (4 geometry presets), [RFC 0010](rfcs/0010-station-design-standard.md) (6 station archetypes), each with an enforced compatibility matrix in the auto-gen emitter.
+- **Rolling-stock / track / station reference designs** — [RFC 0008](rfcs/0008-rolling-stock-reference-design.md) (5 trainset families), [RFC 0009](rfcs/0009-track-design-standard.md) (4 geometry presets), [RFC 0010](rfcs/0010-station-design-standard.md) (6 station archetypes), each with an enforced compatibility matrix in the auto-gen emitter.
 
 ### Phase 4 — Pilot Deployment (24–36 months)
 - Reference concept: **Samawah, Iraq** — two-line light metro (14 km radial + 16 km ring) connecting mainline rail station, city centre, German Hospital, and Al-Muthanna University. See [RFC 0003](rfcs/0003-samawah-reference-deployment.md).

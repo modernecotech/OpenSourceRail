@@ -78,7 +78,7 @@ def test_archetype_defaults_applied() -> None:
     for ix in interchanges:
         scen = scen_by_id[ix["id"]]
         assert scen.get("charging_power_kw") == 500
-        assert scen["dwell_seconds"] == 45
+        assert scen["dwell_seconds"] == 60
 
     # Terminals get the full 1000 kW + is_terminal=true.
     terminals = [

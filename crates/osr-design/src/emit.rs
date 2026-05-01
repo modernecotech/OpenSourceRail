@@ -435,7 +435,8 @@ fn write_design_toml(
     // Costs — full planning-grade CAPEX stack per RFC 0011 §9: civil
     // works (€/km × civil mix) + stations (RFC 0010 archetype catalogue)
     // + depots (RFC 0014 archetype catalogue) + rolling stock (RFC 0008
-    // family acquisition cost × fleet) + systems (signalling + power)
+    // family acquisition cost × fleet) + systems (residual wayside +
+    // power)
     // + 7 % EPC overhead. `country-costs.toml` scales the totals
     // downstream; the base figure goes in design.toml so the operator
     // has a one-number headline when reviewing the output.
@@ -468,7 +469,7 @@ fn write_design_toml(
     out.push_str(&format!("stations_eur         = {:.0}\n", costs.stations_eur));
     out.push_str("# Depots (RFC 0014 archetype catalogue).\n");
     out.push_str(&format!("depots_eur           = {:.0}\n", costs.depots_eur));
-    out.push_str("# Rolling stock (RFC 0008 family × fleet count).\n");
+    out.push_str("# Rolling stock (RFC 0008 family × fleet count; €1M/car).\n");
     out.push_str(&format!(
         "rolling_stock_eur    = {:.0}\n",
         costs.rolling_stock_eur
@@ -742,38 +743,36 @@ fn depot_cost_eur(archetype: &str) -> f64 {
 }
 
 /// Per-trainset acquisition cost by RFC 0008 family (€). OSR-discipline:
-/// commodity Na-ion cells (HiNa/CATL Naxtra at ~$80/kWh, RFC 0021),
-/// tier-2 PMSM motors + SiC inverters (RFC 0022 §10 sourcing matrix
-/// + RFC 0008 §3.2 DIY inverter path), DIY safety electronics
-/// (~$5 680/trainset per RFC 0019), aluminium-extrusion or steel
-/// space-frame body. Conventional metro rolling stock lands at 3–5×
-/// these figures because of integrated-vendor margins, certification
-/// re-billed per deployment, and proprietary signalling onboard.
+/// **€1.0 M per self-contained car** ("wagon" in procurement language).
+/// Each car includes aluminium body + interior, one powered bogie, one
+/// trailer bogie, under-seat Na-ion battery, SiC inverter, PMSM motors,
+/// doors, HVAC, onboard sensors, and the GoA 4 control stack. Longer
+/// trainsets are just more identical cars coupled together.
 fn trainset_cost_eur(family: &str) -> f64 {
     match family {
-        "tram-2car" => 1_200_000.0,
-        "light-metro-3car" => 2_000_000.0,
-        "metro-4car" => 3_000_000.0,
-        "metro-6car" => 4_500_000.0,
-        _ => 2_000_000.0,
+        "urban-shuttle-1car" => 1_000_000.0,
+        "tram-2car" => 2_000_000.0,
+        "light-metro-3car" => 3_000_000.0,
+        "metro-4car" => 4_000_000.0,
+        "metro-6car" => 6_000_000.0,
+        _ => 3_000_000.0,
     }
 }
 
 /// Systems cost rates (€ per route-km). OSR-discipline:
 ///   - Signalling: train-control intelligence runs **onboard** (RFC
 ///     0019 hardware + RFC 0001 SMRaft consensus + RFC 0004
-///     interlocking). Wayside is a sparse mesh of LoRa-linked W-Node
-///     enclosures + axle counters + balise readers — no trackside
-///     fibre backbone, no proprietary CBTC vendor stack, no
-///     trackside computer interlockings. Conventional CBTC trackside
-///     budgets €1.5–3 M/km; legacy block + relay interlockings €0.4
-///     M/km. OSR's onboard-first architecture lands at €0.1 M/km
-///     because the function moves into the trainset (already counted
-///     in rolling-stock cost) and the wayside reduces to commodity
-///     SBCs talking LoRa to the next W-Node.
+///     interlocking). Wayside is now residual: sparse LoRa-linked
+///     W-Node cabinets at switches / stations, passive balises,
+///     validation beacons, and OCC interfaces. No lineside signals,
+///     no trackside fibre backbone, no proprietary CBTC vendor stack,
+///     no trackside computer interlockings. Conventional CBTC
+///     trackside budgets €1.5–3 M/km; OSR's onboard-first
+///     architecture lands at €0.015 M/km because most of the cost is
+///     inside the car's €1M bill.
 ///   - Power: distributed PV + Na-ion at every station (RFC 0002),
 ///     no overhead catenary, no traction substation.
-const SIGNALLING_EUR_PER_KM: f64 = 100_000.0;
+const SIGNALLING_EUR_PER_KM: f64 = 15_000.0;
 const POWER_EUR_PER_KM: f64 = 800_000.0;
 
 /// EPC integration + project management overhead applied to the subtotal
@@ -855,7 +854,8 @@ fn compute_costs(
 /// Pick a rolling-stock family id for a population per RFC 0008 §5.
 fn family_for_population(population: u64) -> &'static str {
     match population {
-        0..=300_000 => "tram-2car",
+        0..=150_000 => "urban-shuttle-1car",
+        150_001..=300_000 => "tram-2car",
         300_001..=1_000_000 => "light-metro-3car",
         1_000_001..=3_000_000 => "metro-4car",
         _ => "metro-6car",
@@ -868,6 +868,7 @@ fn family_for_population(population: u64) -> &'static str {
 /// downstream without over-engineering the alignment.
 fn geometry_for_family(family: &str) -> &'static str {
     match family {
+        "urban-shuttle-1car" => "standard-urban",
         "tram-2car" => "standard-urban", // also supports heritage-tram for retrofit
         "light-metro-3car" => "standard-urban",
         "metro-4car" => "standard-metro",
@@ -880,11 +881,12 @@ fn geometry_for_family(family: &str) -> &'static str {
 /// platform_length_m per RFC 0010 §4.1.
 fn family_length_m(family: &str) -> f32 {
     match family {
-        "tram-2car" => 42.0,
-        "light-metro-3car" => 65.0,
-        "metro-4car" => 88.0,
-        "metro-6car" => 132.0,
-        _ => 65.0,
+        "urban-shuttle-1car" => 21.0,
+        "tram-2car" => 39.0,
+        "light-metro-3car" => 57.0,
+        "metro-4car" => 75.0,
+        "metro-6car" => 111.0,
+        _ => 57.0,
     }
 }
 
@@ -1381,7 +1383,9 @@ mod tests {
 
     #[test]
     fn family_band_boundaries_match_rfc_0008_section_5() {
-        assert_eq!(family_for_population(50_000), "tram-2car");
+        assert_eq!(family_for_population(50_000), "urban-shuttle-1car");
+        assert_eq!(family_for_population(150_000), "urban-shuttle-1car");
+        assert_eq!(family_for_population(150_001), "tram-2car");
         assert_eq!(family_for_population(300_000), "tram-2car");
         assert_eq!(family_for_population(300_001), "light-metro-3car");
         assert_eq!(family_for_population(1_000_000), "light-metro-3car");
@@ -1614,8 +1618,8 @@ mod tests {
         // Toy line: 10 km at-grade + 1 km elevated + 0.5 km bridge =
         // 11.5 route-km. Three stations (1 standard, 1 terminal, 1
         // depot-terminal) and two depots (1 main-heavy + 1 layup).
-        // Fleet: 12 trainsets of metro-6car at €4.5 M each
-        // (OSR-discipline pricing per emit.rs cost-constant docs).
+        // Fleet: 12 trainsets of metro-6car at €6.0 M each
+        // (€1.0 M per self-contained car).
         let civil_per_line = vec![vec![
             CivilSegment {
                 class: CivilClass::AtGrade,
@@ -1661,15 +1665,15 @@ mod tests {
         assert!((c.stations_eur - 7_000_000.0).abs() < 1.0);
         // Depots: main-heavy €25 M + layup-minimal €3 M.
         assert!((c.depots_eur - 28_000_000.0).abs() < 1.0);
-        // Rolling stock: 12 × €4.5 M.
-        assert!((c.rolling_stock_eur - 54_000_000.0).abs() < 1.0);
-        // Systems: 11.5 km × (€0.1 M + €0.8 M).
-        assert!((c.signalling_eur - 1_150_000.0).abs() < 1.0);
+        // Rolling stock: 12 × €6.0 M.
+        assert!((c.rolling_stock_eur - 72_000_000.0).abs() < 1.0);
+        // Systems: 11.5 km × (€0.015 M + €0.8 M).
+        assert!((c.signalling_eur - 172_500.0).abs() < 1.0);
         assert!((c.power_eur - 9_200_000.0).abs() < 1.0);
-        // Subtotal before EPC = 65.5 + 7 + 28 + 54 + 1.15 + 9.2 = 164.85 M.
-        // EPC overhead = 7 % × 164.85 M = 11.5395 M.
-        assert!((c.epc_overhead_eur - 11_539_500.0).abs() < 1.0);
-        // Total = 164.85 + 11.5395 = 176.3895 M.
-        assert!((c.total_eur - 176_389_500.0).abs() < 1.0);
+        // Subtotal before EPC = 65.5 + 7 + 28 + 72 + 0.1725 + 9.2 = 181.8725 M.
+        // EPC overhead = 7 % × 181.8725 M = 12.731075 M.
+        assert!((c.epc_overhead_eur - 12_731_075.0).abs() < 1.0);
+        // Total = 181.8725 + 12.731075 = 194.603575 M.
+        assert!((c.total_eur - 194_603_575.0).abs() < 1.0);
     }
 }

@@ -354,13 +354,11 @@ def _funding_and_affordability_section(
     #     **trackside PV array**, **trackside Na-ion stationary
     #     storage**, and depot-side power infrastructure. Stationary
     #     batteries appear ONLY here.
-    #   • signalling + comms maintenance — 5 % of signalling CAPEX.
-    #     Fast cycles for trackside electronics, but the absolute
-    #     base is small: onboard-first train control means the
-    #     wayside is just LoRa gateways + axle counters + balise
-    #     readers (RFC 0019 commodity hardware), not a fibre-linked
-    #     CBTC backbone. Maintenance crew is one shared electronics
-    #     team, not a dedicated signalling contract.
+    #   • residual train-control wayside maintenance — 5 % of the
+    #     small residual signalling CAPEX. Onboard ATP/ATO + T-OBS
+    #     carry the expensive function; wayside is LoRa gateways,
+    #     W-Nodes at switches/stations, passive balises, and OCC
+    #     interfaces, maintained by the shared electronics team.
     #   • traction energy — **€0 / yr in the steady state**. The
     #     network is self-sufficient on its own trackside PV per
     #     RFC 0002 §6 (~$30 M energy-subsystem CAPEX sized for the
@@ -417,7 +415,7 @@ def _funding_and_affordability_section(
 
     # Labour. OSR-discipline headcount per RFC 0014 §4 + RFC 0013
     # rulebook: GoA 4 driverless (no train drivers), onboard-first
-    # train control + LoRa wayside (no proprietary signalling
+    # train control + residual LoRa wayside (no proprietary signalling
     # contract, no trackside fibre maintenance crew), reduced station staff
     # (level boarding + PSDs handle most platform safety). Industry
     # benchmark for legacy metros is ~45–70 FTE per route-km
@@ -607,7 +605,7 @@ def _funding_and_affordability_section(
         f"{_eur(civil_maint)} |"
     )
     out.append(
-        f"| Signalling + comms maintenance | 5 % of signalling CAPEX | "
+        f"| Residual train-control wayside maintenance | 5 % of residual signalling CAPEX | "
         f"{_eur(sig_maint)} |"
     )
     out.append(
@@ -1397,16 +1395,17 @@ _DEPOT_UNIT_EUR: dict[str, float] = {
     "layup-minimal": 3_000_000.0,
 }
 _TRAINSET_UNIT_EUR: dict[str, float] = {
-    "tram-2car": 1_200_000.0,
-    "light-metro-3car": 2_000_000.0,
-    "metro-4car": 3_000_000.0,
-    "metro-6car": 4_500_000.0,
+    "urban-shuttle-1car": 1_000_000.0,
+    "tram-2car": 2_000_000.0,
+    "light-metro-3car": 3_000_000.0,
+    "metro-4car": 4_000_000.0,
+    "metro-6car": 6_000_000.0,
 }
 _AT_GRADE_EUR_PER_KM = 3_500_000.0
 _ELEVATED_EUR_PER_KM = 18_000_000.0
 _BRIDGE_EUR_PER_KM = 25_000_000.0
 _JUNCTION_PREMIUM_EUR = 20_000_000.0
-_SIGNALLING_EUR_PER_KM = 100_000.0
+_SIGNALLING_EUR_PER_KM = 15_000.0
 _POWER_EUR_PER_KM = 800_000.0
 _EPC_OVERHEAD_FRAC = 0.07
 
@@ -1456,13 +1455,13 @@ def _rich_capex_section(
         "`design.toml` — emitted by the `osr-design` Rust planner per "
         "RFC 0011 §9. **OSR-discipline unit costs**: prefab portal-frame "
         "canopies (no bespoke architectural cladding), at-grade depots "
-        "without overhead bridge cranes, commodity Na-ion cells + "
-        "tier-2 PMSM motors + DIY SiC inverters in rolling stock, "
-        "**onboard-first train control with a sparse LoRa-linked "
-        "wayside** (no trackside fibre backbone, no proprietary CBTC "
-        "vendor stack, no trackside computer interlockings — the "
-        "function moves into the trainset, already counted in "
-        "rolling-stock CAPEX), no overhead catenary, and self-EPC "
+        "without overhead bridge cranes, **€1.0 M per self-contained "
+        "car** rolling stock, commodity Na-ion cells + tier-2 PMSM "
+        "motors + DIY SiC inverters, **onboard-first train control "
+        "with only residual wayside** (no trackside fibre backbone, no "
+        "proprietary CBTC vendor stack, no trackside computer "
+        "interlockings — the function moves into the trainset, already "
+        "counted in rolling-stock CAPEX), no overhead catenary, and self-EPC "
         "overhead. Conventional metro budgets land 2–3× higher because "
         "of the line items OSR has architected away. `country-costs.toml` "
         "applies the per-country labour/material multiplier "
@@ -1545,18 +1544,26 @@ def _rich_capex_section(
 
     out.append("### Rolling stock\n")
     out.append(
-        "Per-trainset BOM at OSR-discipline pricing: **onboard** Na-ion "
-        "traction battery (~$80/kWh, RFC 0021 §3 — distinct from the "
-        "trackside stationary battery in the *Systems* section below), "
-        "tier-2 PMSM motors + SiC inverters (RFC 0022 §10, RFC 0008 §3.2), "
-        "DIY safety electronics (~$5 680/trainset, RFC 0019), "
-        "aluminium-extrusion or steel space-frame body. Motors and "
-        "onboard batteries appear here ONLY — never re-billed elsewhere "
-        "in the cost stack.\n"
+        "Rolling stock is costed at **€1.0 M per self-contained car "
+        "(wagon)**. Each car carries one powered bogie, one trailer "
+        "bogie, under-seat Na-ion battery, traction inverter, onboard "
+        "sensor/control stack, doors, HVAC, interior, and aluminium "
+        "body. Motors, sensors, train-control computers, and onboard "
+        "batteries appear here ONLY — never re-billed elsewhere in the "
+        "cost stack.\n"
     )
+    out.append("| Per-car cost bucket | Basis | Cost |")
+    out.append("|---|---|---|")
+    out.append("| Body shell + interior + doors | Aluminium extrusion body, glazing, seats, PRM zone, plug doors | €300 k |")
+    out.append("| Bogies + brakes | One powered bogie + one trailer bogie, wheelsets, suspension, discs | €220 k |")
+    out.append("| Traction package | PMSM motors, gearbox, SiC inverter, cooling, HV contactors | €180 k |")
+    out.append("| Battery + BMS | 120 kWh usable under-seat Na-ion pack, BMS, fire containment | €120 k |")
+    out.append("| Driverless onboard stack | T-ECU/S, T-ECU/A, T-OBS sensors, radios, cameras, event recorder | €90 k |")
+    out.append("| HVAC, auxiliaries, fit-out margin | HVAC, lighting, PIS, wiring, assembly QA | €90 k |")
+    out.append("| **Total per car** | | **€1.0 M** |\n")
     out.append("| Item | Count | Unit | Subtotal |")
     out.append("|---|---|---|---|")
-    rs_unit = _TRAINSET_UNIT_EUR.get(family, 2_000_000.0)
+    rs_unit = _TRAINSET_UNIT_EUR.get(family, 3_000_000.0)
     out.append(
         f"| `{family}` (revenue + spare + cold reserve) | "
         f"{fleet_total} | {_eur(rs_unit)} | "
@@ -1568,8 +1575,8 @@ def _rich_capex_section(
     out.append("| Item | Basis | Subtotal |")
     out.append("|---|---|---|")
     out.append(
-        f"| Signalling (onboard ATC + LoRa-linked wayside W-Nodes, RFC 0019/0001) | "
-        f"{stats.route_km:.1f} km × €0.1 M/km | "
+        f"| Residual signalling / train-control wayside (onboard ATP/ATO + T-OBS carries the function; W-Nodes, balises, LoRa gateways, OCC interfaces remain) | "
+        f"{stats.route_km:.1f} km × €0.015 M/km | "
         f"{_eur(costs['signalling_eur'])} |"
     )
     out.append(
@@ -1592,7 +1599,7 @@ def _rich_capex_section(
     out.append(f"| Depots | {_eur(costs['depots_eur'])} |")
     out.append(f"| Rolling stock | {_eur(costs['rolling_stock_eur'])} |")
     out.append(
-        f"| Signalling + power | "
+        f"| Residual train-control wayside + power | "
         f"{_eur(costs['signalling_eur'] + costs['power_eur'])} |"
     )
     out.append(

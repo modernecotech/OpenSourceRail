@@ -19,11 +19,11 @@ class GeneratorError(RuntimeError):
 # Per-archetype station operational defaults. The template is read first;
 # these values are a safety net for when templates are unavailable.
 _STATION_ARCHETYPE_DEFAULTS: dict[str, dict[str, Any]] = {
-    "halt":                 {"charging_power_kw": 0,    "dwell_seconds": 20,  "is_depot": False},
-    "standard":             {"charging_power_kw": 0,    "dwell_seconds": 30,  "is_depot": False},
-    "major":                {"charging_power_kw": 500,  "dwell_seconds": 45,  "is_depot": False},
-    "interchange":          {"charging_power_kw": 500,  "dwell_seconds": 45,  "is_depot": False},
-    "interchange-elevated": {"charging_power_kw": 500,  "dwell_seconds": 45,  "is_depot": False},
+    "halt":                 {"charging_power_kw": 250,  "dwell_seconds": 60,  "is_depot": False},
+    "standard":             {"charging_power_kw": 500,  "dwell_seconds": 60,  "is_depot": False},
+    "major":                {"charging_power_kw": 500,  "dwell_seconds": 60,  "is_depot": False},
+    "interchange":          {"charging_power_kw": 500,  "dwell_seconds": 60,  "is_depot": False},
+    "interchange-elevated": {"charging_power_kw": 500,  "dwell_seconds": 60,  "is_depot": False},
     "terminal":             {"charging_power_kw": 1000, "dwell_seconds": 60,  "is_depot": False},
     "depot-terminal":       {"charging_power_kw": 1000, "dwell_seconds": 240, "is_depot": True},
 }
@@ -86,10 +86,11 @@ _CLIMATE_PRESET_AMBIENT_C: dict[str, float] = {
 # Authoritative numbers live in `lib/templates/rolling-stock.toml`;
 # values here are the sim-critical subset.
 _CONSIST_DEFAULTS: dict[str, dict[str, int | float]] = {
-    "tram-2car":        {"car_count": 2, "length_m": 32,  "mass_kg": 66_000,  "max_speed_kmh": 80.0, "battery_capacity_kwh": 180,  "service_accel_mps2": 1.0},
-    "light-metro-3car": {"car_count": 3, "length_m": 68,  "mass_kg": 120_000, "max_speed_kmh": 80.0, "battery_capacity_kwh": 320,  "service_accel_mps2": 1.0},
-    "metro-4car":       {"car_count": 4, "length_m": 90,  "mass_kg": 160_000, "max_speed_kmh": 90.0, "battery_capacity_kwh": 460,  "service_accel_mps2": 1.1},
-    "metro-6car":       {"car_count": 6, "length_m": 138, "mass_kg": 240_000, "max_speed_kmh": 90.0, "battery_capacity_kwh": 720,  "service_accel_mps2": 1.1},
+    "urban-shuttle-1car": {"car_count": 1, "length_m": 21,  "mass_kg": 34_000,  "max_speed_kmh": 70.0,  "battery_capacity_kwh": 120, "service_accel_mps2": 1.0},
+    "tram-2car":          {"car_count": 2, "length_m": 39,  "mass_kg": 68_000,  "max_speed_kmh": 70.0,  "battery_capacity_kwh": 240, "service_accel_mps2": 1.0},
+    "light-metro-3car":   {"car_count": 3, "length_m": 57,  "mass_kg": 102_000, "max_speed_kmh": 90.0,  "battery_capacity_kwh": 360, "service_accel_mps2": 1.0},
+    "metro-4car":         {"car_count": 4, "length_m": 75,  "mass_kg": 136_000, "max_speed_kmh": 90.0,  "battery_capacity_kwh": 480, "service_accel_mps2": 1.1},
+    "metro-6car":         {"car_count": 6, "length_m": 111, "mass_kg": 204_000, "max_speed_kmh": 100.0, "battery_capacity_kwh": 720, "service_accel_mps2": 1.1},
 }
 
 
