@@ -366,23 +366,15 @@ for GoA 2 legacy fleets. Most of the
   inside its RFC 0008 §1 platform length with ≥ 1 m stopping margin.
   STEP artifacts round-trip into Revit / Tekla / Civil 3D.
 
-  ![OpenSourceRail final rolling-stock basis — 17 m self-contained cars, one powered bogie per car, under-seat batteries, station charging](a_clean_infographic_technical_presentation_image_s.png)
+  ![Solar metro trainset — current OpenSourceRail design with 17 m self-contained cars, under-seat batteries, and station charging](a_clean_infographic_technical_presentation_image_s.png)
 
-  *Final rolling-stock basis: self-contained driverless cars,
+  *Solar metro trainset — the current rolling-stock design reference:
+  self-contained driverless cars,
   one powered bogie + one trailer bogie per car, sodium-ion batteries
   under the longitudinal seats, low-floor centre door zones, and
   station-dwell charging from solar-buffered stops spaced around
-  1 km apart. The image is generated from the current planning
-  envelope in RFC 0008 / RFC 0021 / RFC 0022.*
-
-  ![Car-body side elevation — welded-aluminium monocoque, rounded corners, door + window cuts](docs/screenshots/trainset-car-detail.png)
-
-  *Single-car side elevation showing the design features: rounded
-  200 mm vertical-corner radius, two long side-window bays (light-blue
-  laminated glazing shown), one wide inset double-leaf centre door in
-  contrasting dark-blue livery, the livery band running full length
-  at window-sill height, the dark underframe skirt, and the
-  rooftop HVAC + two auxiliary boxes.*
+  1 km apart. Treat this image as the visual source of truth for the
+  train concept; the CAD screenshots are engineering checks only.*
 
   ![Motor bogie — 2-axle Bo-Bo with axle-hung PMSM motors, chevron primary + air-spring secondary suspension](docs/screenshots/bogie-motor.png)
 
@@ -1017,14 +1009,9 @@ The catalogue is parametric — [`cots_equipment.py`](mechanical-py/src/osr_mech
 computes per-car and per-trainset BOMs and total mass + power
 from the consist family.
 
-![Car-body interior fit-out — COTS envelopes](docs/screenshots/trainset-interior-fit-out.png)
-
-*Interior fit-out of a 17 m self-contained car with every COTS item's
-reserved envelope overlaid on the translucent structural shell: grey
-HVAC unit on the roof, dark-blue seat benches under the windows,
-light-blue side glazing, silver vertical grab poles at the centre doors,
-black PIS screens above, red emergency intercom at each end, warm
-LED strip along the ceiling.*
+The visual reference remains the Solar Metro Trainset image above;
+the fit-out screenshot is kept in [`docs/screenshots/`](docs/screenshots/)
+as a CAD sanity check rather than a public design render.
 
 ## Rail civil engineering — the affordable bet
 
