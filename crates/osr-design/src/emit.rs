@@ -436,7 +436,7 @@ fn write_design_toml(
     // works (€/km × civil mix) + stations (RFC 0010 archetype catalogue)
     // + depots (RFC 0014 archetype catalogue) + rolling stock (RFC 0008
     // family acquisition cost × fleet) + systems (residual wayside +
-    // power)
+    // station/depot charging microgrids)
     // + 7 % EPC overhead. `country-costs.toml` scales the totals
     // downstream; the base figure goes in design.toml so the operator
     // has a one-number headline when reviewing the output.
@@ -474,7 +474,7 @@ fn write_design_toml(
         "rolling_stock_eur    = {:.0}\n",
         costs.rolling_stock_eur
     ));
-    out.push_str("# Systems (per route-km, RFC 0015 GoA 4 battery-electric).\n");
+    out.push_str("# Systems: residual train-control wayside + station/depot charging microgrids.\n");
     out.push_str(&format!("signalling_eur       = {:.0}\n", costs.signalling_eur));
     out.push_str(&format!("power_eur            = {:.0}\n", costs.power_eur));
     out.push_str("# EPC integration + project management (7 % of subtotal).\n");
@@ -759,7 +759,7 @@ fn trainset_cost_eur(family: &str) -> f64 {
     }
 }
 
-/// Systems cost rates (€ per route-km). OSR-discipline:
+/// Systems cost rates (€). OSR-discipline:
 ///   - Signalling: train-control intelligence runs **onboard** (RFC
 ///     0019 hardware + RFC 0001 SMRaft consensus + RFC 0004
 ///     interlocking). Wayside is now residual: sparse LoRa-linked
@@ -770,10 +770,25 @@ fn trainset_cost_eur(family: &str) -> f64 {
 ///     trackside budgets €1.5–3 M/km; OSR's onboard-first
 ///     architecture lands at €0.015 M/km because most of the cost is
 ///     inside the car's €1M bill.
-///   - Power: distributed PV + Na-ion at every station (RFC 0002),
-///     no overhead catenary, no traction substation.
+///   - Charging energy infrastructure: per-stop conductive charger,
+///     local LV/MV switchgear, short cable run, inverter interface, and
+///     station/depot microgrid integration. This is **not** route
+///     traction power: no OCS, no third rail, no feeder substations, no
+///     continuous traction distribution along the railway. PV/storage
+///     capacity is sized in the energy-site catalogue; this cost bucket
+///     is the station/depot charging hardware allowance.
 const SIGNALLING_EUR_PER_KM: f64 = 15_000.0;
-const POWER_EUR_PER_KM: f64 = 800_000.0;
+
+fn charging_microgrid_cost_eur(archetype: &str) -> f64 {
+    match archetype {
+        "halt" => 125_000.0,
+        "standard" => 250_000.0,
+        "major" | "terminal" => 400_000.0,
+        "interchange" | "interchange-elevated" => 600_000.0,
+        "depot-terminal" => 750_000.0,
+        _ => 250_000.0,
+    }
+}
 
 /// EPC integration + project management overhead applied to the subtotal
 /// of civil + stations + depots + rolling stock + systems. OSR's open-
@@ -822,7 +837,10 @@ fn compute_costs(
 
     let route_km = (at_grade_m + elevated_m + bridge_m) / 1_000.0;
     let signalling_eur = route_km * SIGNALLING_EUR_PER_KM;
-    let power_eur = route_km * POWER_EUR_PER_KM;
+    let power_eur: f64 = station_archetypes
+        .iter()
+        .map(|a| charging_microgrid_cost_eur(a))
+        .sum();
 
     let pre_epc = civil_subtotal_eur
         + stations_eur
@@ -1667,13 +1685,14 @@ mod tests {
         assert!((c.depots_eur - 28_000_000.0).abs() < 1.0);
         // Rolling stock: 12 × €6.0 M.
         assert!((c.rolling_stock_eur - 72_000_000.0).abs() < 1.0);
-        // Systems: 11.5 km × (€0.015 M + €0.8 M).
+        // Systems: residual signalling at 11.5 km × €0.015 M/km,
+        // plus per-stop charging microgrid allowances.
         assert!((c.signalling_eur - 172_500.0).abs() < 1.0);
-        assert!((c.power_eur - 9_200_000.0).abs() < 1.0);
-        // Subtotal before EPC = 65.5 + 7 + 28 + 72 + 0.1725 + 9.2 = 181.8725 M.
-        // EPC overhead = 7 % × 181.8725 M = 12.731075 M.
-        assert!((c.epc_overhead_eur - 12_731_075.0).abs() < 1.0);
-        // Total = 181.8725 + 12.731075 = 194.603575 M.
-        assert!((c.total_eur - 194_603_575.0).abs() < 1.0);
+        assert!((c.power_eur - 1_400_000.0).abs() < 1.0);
+        // Subtotal before EPC = 65.5 + 7 + 28 + 72 + 0.1725 + 1.4 = 174.0725 M.
+        // EPC overhead = 7 % × 174.0725 M = 12.185075 M.
+        assert!((c.epc_overhead_eur - 12_185_075.0).abs() < 1.0);
+        // Total = 174.0725 + 12.185075 = 186.257575 M.
+        assert!((c.total_eur - 186_257_575.0).abs() < 1.0);
     }
 }

@@ -54,7 +54,7 @@ energy is replaced during station dwells.
 | Cooling | Water (shares cold plate with SiC inverter) |
 | Bearing grease | Sealed-for-life; EN 50155 grade |
 
-Peak traction power (six motors, both directions) = 1 800 kW,
+Peak onboard motor output (six motors, both directions) = 1 800 kW,
 matching RFC 0008 §1.
 
 ## Inverters

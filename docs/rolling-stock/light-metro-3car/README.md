@@ -34,7 +34,7 @@ EN 15085 weld classes and EN 45545 material certifications.
 | Max speed | 25 m/s (90 km/h) |
 | Passenger capacity (AW2) | 360 (seated + standing) |
 | Onboard battery | 360 kWh Na-ion (120 kWh per self-contained car) |
-| Peak traction power | 1 800 kW |
+| Peak onboard motor output | 1 800 kW |
 | Floor height (above ToR) | Low-floor centre door zone; raised floor over standard bogies |
 | Gauge | 1 435 mm (default) or 1 000 mm (variant) |
 

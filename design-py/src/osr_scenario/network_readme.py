@@ -342,8 +342,8 @@ def _funding_and_affordability_section(
 
     # OPEX model. Components, all in EUR / year. Each line covers one
     # discrete asset class — no double-counting between rolling-stock
-    # maintenance and traction power, no electricity charge on top of
-    # solar self-generation.
+    # maintenance and route traction power, no electricity charge on top
+    # of solar self-generation.
     #
     #   • rolling-stock maintenance — 4 % of rolling-stock CAPEX. Covers
     #     onboard motors, batteries, body, electronics, brakes, doors,
@@ -1406,8 +1406,24 @@ _ELEVATED_EUR_PER_KM = 18_000_000.0
 _BRIDGE_EUR_PER_KM = 25_000_000.0
 _JUNCTION_PREMIUM_EUR = 20_000_000.0
 _SIGNALLING_EUR_PER_KM = 15_000.0
-_POWER_EUR_PER_KM = 800_000.0
 _EPC_OVERHEAD_FRAC = 0.07
+
+
+def _charging_microgrid_unit_eur(archetype: str) -> float:
+    """Per-stop charger + switchgear + microgrid tie-in allowance.
+
+    This is not a route-km traction-power rate: OSR has no OCS, third rail,
+    feeder substations, or continuous traction distribution.
+    """
+    return {
+        "halt": 125_000.0,
+        "standard": 250_000.0,
+        "major": 400_000.0,
+        "terminal": 400_000.0,
+        "interchange": 600_000.0,
+        "interchange-elevated": 600_000.0,
+        "depot-terminal": 750_000.0,
+    }.get(archetype, 250_000.0)
 
 
 def _rich_capex_section(
@@ -1580,8 +1596,8 @@ def _rich_capex_section(
         f"{_eur(costs['signalling_eur'])} |"
     )
     out.append(
-        f"| Traction power (**trackside** stationary PV + Na-ion + grid-tie at every station, no OCS, RFC 0002 §6) | "
-        f"{stats.route_km:.1f} km × €0.8 M/km | "
+        f"| Station/depot charging microgrids (conductive charger, switchgear, inverter interface, local PV/battery tie-in; no route traction power) | "
+        f"per-stop allowance by station archetype | "
         f"{_eur(costs['power_eur'])} |"
     )
     out.append(
@@ -1599,7 +1615,7 @@ def _rich_capex_section(
     out.append(f"| Depots | {_eur(costs['depots_eur'])} |")
     out.append(f"| Rolling stock | {_eur(costs['rolling_stock_eur'])} |")
     out.append(
-        f"| Residual train-control wayside + power | "
+        f"| Residual train-control wayside + charging microgrids | "
         f"{_eur(costs['signalling_eur'] + costs['power_eur'])} |"
     )
     out.append(

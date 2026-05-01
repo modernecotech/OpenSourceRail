@@ -297,16 +297,20 @@ platform plus vertical circulation.
 
 Fleet count = peak-revenue + spare + cold-reserve per RFC 0014 §4.
 
-### 9.5 Systems (per route-km)
+### 9.5 Systems
 
-| Item | € / km planning-grade |
+| Item | Planning-grade basis |
 |---|---|
-| Signalling / CBTC (RFC 0015 GoA 4) | 1 500 000 |
-| Traction power (battery-electric, no OCS) | 800 000 |
+| Residual train-control wayside (RFC 0015 GoA 4) | €15 000 / route-km |
+| Station/depot charging microgrid interfaces | €125 000–750 000 / stop, by station archetype |
 
-RFC 0015 mandates battery-electric — there is no overhead catenary
-budget. Power infrastructure is substations + station-side charging
-pads only.
+RFC 0015 mandates battery-electric operation with station charging:
+there is no overhead catenary, third rail, feeder substation, or route
+traction-power budget. The energy infrastructure bucket covers the
+conductive chargers, local switchgear, inverter interface, and
+station/depot microgrid tie-in. PV/storage quantities are sized in the
+energy-site catalogue rather than as a continuous per-km rail-power
+system.
 
 ### 9.6 EPC overhead
 

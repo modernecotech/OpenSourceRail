@@ -139,8 +139,8 @@ Rolling stock is costed at **€1.0 M per self-contained car (wagon)**. Each car
 | Item | Basis | Subtotal |
 |---|---|---|
 | Residual signalling / train-control wayside (onboard ATP/ATO + T-OBS carries the function; W-Nodes, balises, LoRa gateways, OCC interfaces remain) | 166.0 km × €0.015 M/km | €2.5 M |
-| Traction power (**trackside** stationary PV + Na-ion + grid-tie at every station, no OCS, RFC 0002 §6) | 166.0 km × €0.8 M/km | €132 M |
-| EPC integration + project management (7%) | on subtotal | €159 M |
+| Station/depot charging microgrids (conductive charger, switchgear, inverter interface, local PV/battery tie-in; no route traction power) | per-stop allowance by station archetype | €37 M |
+| EPC integration + project management (7%) | on subtotal | €152 M |
 
 ### Total
 
@@ -150,11 +150,11 @@ Rolling stock is costed at **€1.0 M per self-contained car (wagon)**. Each car
 | Stations | €261 M |
 | Depots | €46 M |
 | Rolling stock | €822 M |
-| Residual train-control wayside + power | €135 M |
-| EPC overhead (7%) | €159 M |
-| **CAPEX total** | **€2.43 bn** |
-| Per-route-km | €15 M / km |
-| Per-capita (city pop) | €683 / person |
+| Residual train-control wayside + charging microgrids | €40 M |
+| EPC overhead (7%) | €152 M |
+| **CAPEX total** | **€2.33 bn** |
+| Per-route-km | €14 M / km |
+| Per-capita (city pop) | €655 / person |
 
 ## Funding & affordability
 
@@ -166,11 +166,11 @@ Bottom line for next year's budget submission. Construction phase runs **years 1
 
 | Phase | Annual gov / municipal commitment | Per resident / yr |
 |---|---|---|
-| Construction (years 1–7) | **€211 M / yr** | €59 |
-| Steady-state, low-ridership (year 8+) | **€247 M / yr** | €69 |
-| Steady-state, high-ridership (year 8+) | **€230 M / yr** | €65 |
-| Lifecycle envelope (yr 1–30, low scenario) | **€7.15 bn cumulative** | €2,012 |
-| Lifecycle envelope (yr 1–30, high scenario) | **€6.78 bn cumulative** | €1,905 |
+| Construction (years 1–7) | **€202 M / yr** | €57 |
+| Steady-state, low-ridership (year 8+) | **€238 M / yr** | €67 |
+| Steady-state, high-ridership (year 8+) | **€222 M / yr** | €62 |
+| Lifecycle envelope (yr 1–30, low scenario) | **€6.90 bn cumulative** | €1,940 |
+| Lifecycle envelope (yr 1–30, high scenario) | **€6.52 bn cumulative** | €1,833 |
 
 _Population basis: 3,556,000 (catchment per `lib/city-batches/world-sample.toml`). After year 30, debt service drops to zero and only the OPEX shortfall remains — ~€45 M / yr (low) → €29 M / yr (high)._
 
@@ -178,12 +178,12 @@ _Population basis: 3,556,000 (catchment per `lib/city-batches/world-sample.toml`
 
 | Tranche | Share | Principal | Rate | Tenor | Annual debt service (post-grace) |
 |---|---|---|---|---|---|
-| Multilateral concessional loan (IBRD / AfDB / ADB class) | 60% | €1.46 bn | 4.0% | 30 y, 7 y grace | €98 M / yr |
-| Sovereign bonds (10-y benchmark + project) | 25% | €607 M | 16.5% | 30 y, 7 y grace | €103 M / yr |
-| Government equity (no debt service) | 15% | €364 M | — | — | — |
-| **Total** | **100%** | **€2.43 bn** | | | **€201 M / yr** |
+| Multilateral concessional loan (IBRD / AfDB / ADB class) | 60% | €1.40 bn | 4.0% | 30 y, 7 y grace | €94 M / yr |
+| Sovereign bonds (10-y benchmark + project) | 25% | €582 M | 16.5% | 30 y, 7 y grace | €99 M / yr |
+| Government equity (no debt service) | 15% | €349 M | — | — | — |
+| **Total** | **100%** | **€2.33 bn** | | | **€193 M / yr** |
 
-_During the 7-year grace period the operator pays interest only — multilateral €58 M / yr + bonds €100 M / yr = **€159 M / yr** total — plus the equity tranche amortised across construction (€52 M / yr × 7 yr). Principal repayment begins in year 8 on a 23-year amortisation schedule._
+_During the 7-year grace period the operator pays interest only — multilateral €56 M / yr + bonds €96 M / yr = **€152 M / yr** total — plus the equity tranche amortised across construction (€50 M / yr × 7 yr). Principal repayment begins in year 8 on a 23-year amortisation schedule._
 
 ### Annual OPEX (steady state)
 
@@ -220,7 +220,7 @@ Practical-ridership bracket = 5–10 % of urban population × 365 service-days. 
 | Farebox / OPEX recovery | 27% | 53% |
 | Country policy-target recovery (diagnostic) | 45% | 45% |
 | Operating shortfall (gov subsidy required) | €45 M / yr | €29 M / yr |
-| **Steady-state government commitment** (debt service + OPEX shortfall) | **€247 M / yr** | **€230 M / yr** |
+| **Steady-state government commitment** (debt service + OPEX shortfall) | **€238 M / yr** | **€222 M / yr** |
 
 **Caveats:** The funding-stack 60/25/15 split, the 5 % income-share affordability target, and the 5–10 % daily-pax bracket are project-level defaults. Real deployments will negotiate the share with the financing institutions and will tune fares iteratively from boarding data. Treat the numbers above as a first-iteration sanity check, not as a bid-ready financial close.
 
