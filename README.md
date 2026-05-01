@@ -1,6 +1,6 @@
 # OpenSourceRail
 
-![OpenSourceRail final design — catenary-free driverless train charged at a solar-buffered station](docs/screenshots/osr-final-design-hero.png)
+![Solar metro trainset — current OpenSourceRail design with 17 m self-contained cars, under-seat batteries, and station charging](a_clean_infographic_technical_presentation_image_s.png)
 
 > An open-source technology stack for designing, building, and operating rail
 > systems — built for the developing world, built to be owned by the countries
@@ -366,15 +366,13 @@ for GoA 2 legacy fleets. Most of the
   inside its RFC 0008 §1 platform length with ≥ 1 m stopping margin.
   STEP artifacts round-trip into Revit / Tekla / Civil 3D.
 
-  ![Solar metro trainset — current OpenSourceRail design with 17 m self-contained cars, under-seat batteries, and station charging](a_clean_infographic_technical_presentation_image_s.png)
-
-  *Solar metro trainset — the current rolling-stock design reference:
-  self-contained driverless cars,
-  one powered bogie + one trailer bogie per car, sodium-ion batteries
-  under the longitudinal seats, low-floor centre door zones, and
-  station-dwell charging from solar-buffered stops spaced around
-  1 km apart. Treat this image as the visual source of truth for the
-  train concept; the CAD screenshots are engineering checks only.*
+  *Current rolling-stock design reference: self-contained driverless
+  cars, one powered bogie + one trailer bogie per car, sodium-ion
+  batteries under the longitudinal seats, low-floor centre door zones,
+  and station-dwell charging from solar-buffered stops spaced around
+  1 km apart. The solar train image at the top of this README is the
+  public-facing visual reference; CAD screenshots are engineering
+  checks only.*
 
   ![Motor bogie — 2-axle Bo-Bo with axle-hung PMSM motors, chevron primary + air-spring secondary suspension](docs/screenshots/bogie-motor.png)
 
