@@ -17,15 +17,15 @@ from osr_mech.station.solar_roof import panel_kwp
 @pytest.mark.parametrize(
     "archetype, consist, expected_min_bays, expected_max_bays",
     [
-        # Standard station × light-metro-3car = 75 m / 6 m ≈ 13 bays.
+        # Standard station × light-metro-3car = 67 m / 6 m ≈ 12 bays.
         (StationArchetype.STANDARD, ConsistFamily.LIGHT_METRO_3CAR, 12, 14),
         # Major = standard + 2 waiting-area bays.
         (StationArchetype.MAJOR, ConsistFamily.LIGHT_METRO_3CAR, 14, 16),
         # Terminal = standard + 4 end-screen bays.
         (StationArchetype.TERMINAL, ConsistFamily.LIGHT_METRO_3CAR, 16, 18),
-        # Metro-4car = 100 m / 6 m ≈ 17 bays.
-        (StationArchetype.STANDARD, ConsistFamily.METRO_4CAR, 16, 18),
-        # Halt = 0.4 × 75 m = 30 m → 5 bays.
+        # Metro-4car = 85 m / 6 m ≈ 15 bays.
+        (StationArchetype.STANDARD, ConsistFamily.METRO_4CAR, 14, 16),
+        # Halt = 0.4 × 67 m = 26.8 m → 5 bays.
         (StationArchetype.HALT, ConsistFamily.LIGHT_METRO_3CAR, 4, 6),
     ],
 )

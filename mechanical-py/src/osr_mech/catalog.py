@@ -98,10 +98,10 @@ def export_all(root: Path) -> None:
 
     # Rolling stock (RFC 0015 cabless).
     _export(sensor_cowl(), _out(root, "rolling_stock", "sensor-cowl.step"))
-    _export(car_body(), _out(root, "rolling_stock", "car-body-22m.step"))
+    _export(car_body(), _out(root, "rolling_stock", "car-body-17m.step"))
     _export(
         fit_out_car_body(),
-        _out(root, "rolling_stock", "car-body-22m-cots-fit-out.step"),
+        _out(root, "rolling_stock", "car-body-17m-cots-fit-out.step"),
     )
 
     # Bogie components (RFC 0022).

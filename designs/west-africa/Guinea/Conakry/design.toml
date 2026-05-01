@@ -699,6 +699,10 @@ trainset_count     = 38
 # [costs] — RFC 0011 §9 planning-grade CAPEX (base OECD
 # rates). country-costs.toml applies the per-country labour /
 # material multiplier downstream.
+[schema]
+version = 2
+cost_power_eur_alias = "deprecated; use costs.charging_microgrid_eur"
+
 [costs]
 # Civil works (€/km × civil mix).
 at_grade_eur         = 308375778
@@ -714,7 +718,8 @@ depots_eur           = 34000000
 rolling_stock_eur    = 312000000
 # Systems: residual train-control wayside + station/depot charging microgrids.
 signalling_eur       = 1374221
-power_eur            = 21750000
+charging_microgrid_eur = 21750000
+power_eur            = 21750000  # deprecated alias for charging_microgrid_eur
 # EPC integration + project management (7 % of subtotal).
 epc_overhead_eur     = 66859262
 total_eur            = 1021991573  # full CAPEX stack

@@ -101,15 +101,15 @@ RAIL_GEOMETRY: dict[RailProfile, RailGeometry] = {
 }
 
 
-# RFC 0008 §1 platform-length table. Four families map to four
-# published platform lengths — the mechanical catalogue uses these to
-# size canopy bay counts.
+# RFC 0008 / RFC 0010 platform-length table. The values include the
+# consist envelope plus stopping and door-control clearance; the
+# mechanical catalogue uses them to size canopy bay counts.
 _CONSIST_PLATFORM_LENGTH_M: dict[ConsistFamily, float] = {
-    ConsistFamily.URBAN_SHUTTLE_1CAR: 25.0,
-    ConsistFamily.TRAM_2CAR: 45.0,
-    ConsistFamily.LIGHT_METRO_3CAR: 65.0,
+    ConsistFamily.URBAN_SHUTTLE_1CAR: 31.0,
+    ConsistFamily.TRAM_2CAR: 49.0,
+    ConsistFamily.LIGHT_METRO_3CAR: 67.0,
     ConsistFamily.METRO_4CAR: 85.0,
-    ConsistFamily.METRO_6CAR: 120.0,
+    ConsistFamily.METRO_6CAR: 121.0,
 }
 
 

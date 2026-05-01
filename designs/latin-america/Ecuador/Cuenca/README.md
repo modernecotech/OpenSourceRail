@@ -77,6 +77,18 @@ On-site trackside + depot PV and battery storage. Per-tier sizing (from [`../../
 
 Aggregate station-rail charging power: **26,500 kW**. Trains opportunity-charge during station dwell per RFC 0002; onboard 360 kWh battery covers running.
 
+### Energy Feasibility Check
+
+| Check | Value | Interpretation |
+|---|---:|---|
+| Trainset line-haul intensity | 12.0 kWh/km | 3 cars × 4 kWh/car-km planning basis |
+| Average one-way line energy | 314 kWh | 26.2 km average line length |
+| Onboard battery coverage | 1.1× average line run | 360 kWh usable pack |
+| Average 60 s dwell charge | 9.2 kWh/stop | 552 kW average charger across stops |
+| Stops to refill one trainset pack | 39 stops | Opportunity charging supplements, not replaces, onboard reserve |
+| PV daily yield proxy | 114 MWh/day | 5 peak-sun-hour planning proxy before local derates |
+| Station/depot stationary storage | 151 MWh | Distributed Na-ion buffer for charging peaks and grid outages |
+
 ## CAPEX (planning grade)
 
 All figures come from the `[costs]` block in `design.toml` — emitted by the `osr-design` Rust planner per RFC 0011 §9. **OSR-discipline unit costs**: prefab portal-frame canopies (no bespoke architectural cladding), at-grade depots without overhead bridge cranes, **€1.0 M per self-contained car** rolling stock, commodity Na-ion cells + tier-2 PMSM motors + DIY SiC inverters, **onboard-first train control with only residual wayside** (no trackside fibre backbone, no proprietary CBTC vendor stack, no trackside computer interlockings — the function moves into the trainset, already counted in rolling-stock CAPEX), no overhead catenary, and self-EPC overhead. Conventional metro budgets land 2–3× higher because of the line items OSR has architected away. `country-costs.toml` applies the per-country labour/material multiplier downstream.
@@ -138,7 +150,7 @@ Rolling stock is costed at **€1.0 M per self-contained car (wagon)**. Each car
 | Item | Basis | Subtotal |
 |---|---|---|
 | Residual signalling / train-control wayside (onboard ATP/ATO + T-OBS carries the function; W-Nodes, balises, LoRa gateways, OCC interfaces remain) | 78.5 km × €0.015 M/km | €1.2 M |
-| Station/depot charging microgrids (conductive charger, switchgear, inverter interface, local PV/battery tie-in; no route traction power) | per-stop allowance by station archetype | €18 M |
+| Station/depot charging microgrids (conductive charger, switchgear, inverter interface, local PV/battery tie-in; no continuous wayside supply) | per-stop allowance by station archetype | €18 M |
 | EPC integration + project management (7%) | on subtotal | €57 M |
 
 ### Total

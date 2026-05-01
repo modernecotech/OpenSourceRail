@@ -12,9 +12,9 @@ and dimensions:
 The trainset assembly places one sensor cowl at each end (RFC 0015
 makes the trainset symmetric), N car bodies coupled by 1 m gaps, and
 2 bogies per car. A `metro-6car` trainset at 17 m per car is
-17 × 6 + 1 × 5 + 1.8 × 2 = 110.6 m — consistent with the 120 m
+17 × 6 + 1 × 5 + 1.8 × 2 = 110.6 m — consistent with the 121 m
 platform length RFC 0008 publishes for that family (accounting for
-150 mm of stopping tolerance each end).
+stopping tolerance and door-control clearance).
 """
 
 from __future__ import annotations

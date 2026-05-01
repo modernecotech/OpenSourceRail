@@ -54,8 +54,9 @@ default.
 | `osr-crypto` | (inline) | C1–C4 + ed25519 determinism | 256 |
 
 **Total proptest properties:** 60+ across the SIL-4 + SIL-2
-crates. Rerun with `cargo test --workspace`; ~750 tests currently
-pass with zero failures.
+crates. Rerun with `cargo test --workspace`; keep the resulting
+workspace test count in the release log rather than baking a drifting
+number into this register.
 
 ## 3. Differential testing (Rust ↔ Python)
 

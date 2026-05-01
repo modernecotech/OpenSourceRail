@@ -451,6 +451,9 @@ fn write_design_toml(
     out.push_str("# [costs] — RFC 0011 §9 planning-grade CAPEX (base OECD\n");
     out.push_str("# rates). country-costs.toml applies the per-country labour /\n");
     out.push_str("# material multiplier downstream.\n");
+    out.push_str("[schema]\n");
+    out.push_str("version = 2\n");
+    out.push_str("cost_power_eur_alias = \"deprecated; use costs.charging_microgrid_eur\"\n\n");
     out.push_str("[costs]\n");
     out.push_str("# Civil works (€/km × civil mix).\n");
     out.push_str(&format!("at_grade_eur         = {:.0}\n", costs.at_grade_eur));
@@ -476,7 +479,14 @@ fn write_design_toml(
     ));
     out.push_str("# Systems: residual train-control wayside + station/depot charging microgrids.\n");
     out.push_str(&format!("signalling_eur       = {:.0}\n", costs.signalling_eur));
-    out.push_str(&format!("power_eur            = {:.0}\n", costs.power_eur));
+    out.push_str(&format!(
+        "charging_microgrid_eur = {:.0}\n",
+        costs.charging_microgrid_eur
+    ));
+    out.push_str(&format!(
+        "power_eur            = {:.0}  # deprecated alias for charging_microgrid_eur\n",
+        costs.charging_microgrid_eur
+    ));
     out.push_str("# EPC integration + project management (7 % of subtotal).\n");
     out.push_str(&format!(
         "epc_overhead_eur     = {:.0}\n",
@@ -692,9 +702,9 @@ struct CostSummary {
     depots_eur: f64,
     // Rolling stock (RFC 0008 family acquisition cost × fleet count).
     rolling_stock_eur: f64,
-    // Systems — per route-km, RFC 0015 GoA 4 battery-electric.
+    // Systems — onboard-first train control + station/depot charging.
     signalling_eur: f64,
-    power_eur: f64,
+    charging_microgrid_eur: f64,
     // EPC integration + project management overhead on the subtotal.
     epc_overhead_eur: f64,
     // Grand total across every bucket above.
@@ -772,11 +782,11 @@ fn trainset_cost_eur(family: &str) -> f64 {
 ///     inside the car's €1M bill.
 ///   - Charging energy infrastructure: per-stop conductive charger,
 ///     local LV/MV switchgear, short cable run, inverter interface, and
-///     station/depot microgrid integration. This is **not** route
-///     traction power: no OCS, no third rail, no feeder substations, no
-///     continuous traction distribution along the railway. PV/storage
-///     capacity is sized in the energy-site catalogue; this cost bucket
-///     is the station/depot charging hardware allowance.
+///     station/depot microgrid integration. This excludes continuous
+///     wayside supply: no OCS, no third rail, no feeder substations, no
+///     distribution line along the railway. PV/storage capacity is
+///     sized in the energy-site catalogue; this cost bucket is the
+///     station/depot charging hardware allowance.
 const SIGNALLING_EUR_PER_KM: f64 = 15_000.0;
 
 fn charging_microgrid_cost_eur(archetype: &str) -> f64 {
@@ -837,7 +847,7 @@ fn compute_costs(
 
     let route_km = (at_grade_m + elevated_m + bridge_m) / 1_000.0;
     let signalling_eur = route_km * SIGNALLING_EUR_PER_KM;
-    let power_eur: f64 = station_archetypes
+    let charging_microgrid_eur: f64 = station_archetypes
         .iter()
         .map(|a| charging_microgrid_cost_eur(a))
         .sum();
@@ -847,7 +857,7 @@ fn compute_costs(
         + depots_eur
         + rolling_stock_eur
         + signalling_eur
-        + power_eur;
+        + charging_microgrid_eur;
     let epc_overhead_eur = pre_epc * EPC_OVERHEAD_FRACTION;
     let total_eur = pre_epc + epc_overhead_eur;
 
@@ -861,7 +871,7 @@ fn compute_costs(
         depots_eur,
         rolling_stock_eur,
         signalling_eur,
-        power_eur,
+        charging_microgrid_eur,
         epc_overhead_eur,
         total_eur,
     }
@@ -1688,7 +1698,7 @@ mod tests {
         // Systems: residual signalling at 11.5 km × €0.015 M/km,
         // plus per-stop charging microgrid allowances.
         assert!((c.signalling_eur - 172_500.0).abs() < 1.0);
-        assert!((c.power_eur - 1_400_000.0).abs() < 1.0);
+        assert!((c.charging_microgrid_eur - 1_400_000.0).abs() < 1.0);
         // Subtotal before EPC = 65.5 + 7 + 28 + 72 + 0.1725 + 1.4 = 174.0725 M.
         // EPC overhead = 7 % × 174.0725 M = 12.185075 M.
         assert!((c.epc_overhead_eur - 12_185_075.0).abs() < 1.0);

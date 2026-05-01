@@ -9,11 +9,13 @@
 **Current milestone:** [**v0.1**](CHANGELOG.md) — first publishable
 snapshot. See [CHANGELOG.md](CHANGELOG.md) for what's in tree.
 
-**Status:** 56 Rust crates (750 tests passing, 0 failing) plus two
-Python sidecars (`design-py` for GIS + network synthesis with 32
-tests, `mechanical-py` for parametric mechanical + civil + station
-components under build123d). Deployments ship as **GoA 4 (Unattended,
-driverless)** from day one per [RFC 0015](docs/rfcs/0015-driverless-operation.md)
+**Status:** Rust workspace plus two Python sidecars (`design-py` for
+GIS + network synthesis, `mechanical-py` for parametric mechanical +
+civil + station components under build123d). Run
+`python3 scripts/repo-health.py` for the generated-catalogue drift
+gate and the test commands in [CHANGELOG.md](CHANGELOG.md) for the
+current verification snapshot. Deployments ship as **GoA 4
+(Unattended, driverless)** from day one per [RFC 0015](docs/rfcs/0015-driverless-operation.md)
 — the driver cab is replaced by a nose-cone obstacle-detection sensor
 suite (ultrasonic safety belt + solid-state LIDAR + mmWave radar +
 stereo camera) on a dedicated T-OBS ECU, with **wayside track-
@@ -111,6 +113,9 @@ KRI-administered cities), bbox sized to the served catchment, rolling-
 stock family auto-selected per [RFC 0008 §5](docs/rfcs/0008-rolling-stock-reference-design.md),
 finance section anchored to country-specific median income +
 multilateral / sovereign rates from [`lib/templates/country-finance.toml`](lib/templates/country-finance.toml).
+For cross-city comparison see the generated
+[`designs/INDEX.md`](designs/INDEX.md). For the CAPEX audit trail see
+[`docs/cost-model.md`](docs/cost-model.md).
 
 **Iraq launch corridor** — 18 cities, every governorate capital +
 Samawah; covers the full pilgrim circuit (Karbala / Najaf / Samawah)

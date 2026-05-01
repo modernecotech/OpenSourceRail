@@ -176,7 +176,8 @@ def test_trainset_consumes_both_variants_per_family() -> None:
     m6 = family_motorisation(ConsistFamily.METRO_6CAR)
 
     assert all(tram), "tram should be all motor cars"
-    # Light-metro-3car has one trailer (middle).
-    assert lm3.count(False) == 1
-    assert m4.count(False) == 1
-    assert m6.count(False) == 2
+    # Each self-contained car now carries one powered bogie and one
+    # trailer bogie, so every car is represented as motorised.
+    assert all(lm3)
+    assert all(m4)
+    assert all(m6)

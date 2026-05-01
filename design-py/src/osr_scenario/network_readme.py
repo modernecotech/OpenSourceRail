@@ -342,8 +342,8 @@ def _funding_and_affordability_section(
 
     # OPEX model. Components, all in EUR / year. Each line covers one
     # discrete asset class — no double-counting between rolling-stock
-    # maintenance and route traction power, no electricity charge on top
-    # of solar self-generation.
+    # maintenance and stop/depot charging microgrids, no electricity
+    # charge on top of solar self-generation.
     #
     #   • rolling-stock maintenance — 4 % of rolling-stock CAPEX. Covers
     #     onboard motors, batteries, body, electronics, brakes, doors,
@@ -1110,6 +1110,54 @@ def render_readme(
         f"during station dwell per RFC 0002; onboard "
         f"{stats.consist_battery_kwh} kWh battery covers running.\n"
     )
+    out.append("### Energy Feasibility Check\n")
+    avg_line_km = stats.route_km / max(stats.line_count, 1)
+    trainset_kwh_per_km = stats.consist_cars * 4.0
+    avg_line_energy_kwh = avg_line_km * trainset_kwh_per_km
+    reserve_ratio = (
+        stats.consist_battery_kwh / avg_line_energy_kwh
+        if avg_line_energy_kwh > 0.0
+        else 0.0
+    )
+    avg_stop_charger_kw = stats.total_charging_kw / max(stats.unique_station_count, 1)
+    dwell_charge_kwh = avg_stop_charger_kw / 60.0
+    stops_to_refill = (
+        stats.consist_battery_kwh / dwell_charge_kwh
+        if dwell_charge_kwh > 0.0
+        else 0.0
+    )
+    pv_daily_mwh = stats.total_pv_kw * 5.0 / 1000.0
+    storage_mwh = stats.total_battery_kwh / 1000.0
+    out.append("| Check | Value | Interpretation |")
+    out.append("|---|---:|---|")
+    out.append(
+        f"| Trainset line-haul intensity | {trainset_kwh_per_km:.1f} kWh/km | "
+        f"{stats.consist_cars} cars × 4 kWh/car-km planning basis |"
+    )
+    out.append(
+        f"| Average one-way line energy | {avg_line_energy_kwh:,.0f} kWh | "
+        f"{avg_line_km:.1f} km average line length |"
+    )
+    out.append(
+        f"| Onboard battery coverage | {reserve_ratio:.1f}× average line run | "
+        f"{stats.consist_battery_kwh} kWh usable pack |"
+    )
+    out.append(
+        f"| Average 60 s dwell charge | {dwell_charge_kwh:.1f} kWh/stop | "
+        f"{avg_stop_charger_kw:,.0f} kW average charger across stops |"
+    )
+    out.append(
+        f"| Stops to refill one trainset pack | {stops_to_refill:.0f} stops | "
+        "Opportunity charging supplements, not replaces, onboard reserve |"
+    )
+    out.append(
+        f"| PV daily yield proxy | {pv_daily_mwh:,.0f} MWh/day | "
+        "5 peak-sun-hour planning proxy before local derates |"
+    )
+    out.append(
+        f"| Station/depot stationary storage | {storage_mwh:,.0f} MWh | "
+        "Distributed Na-ion buffer for charging peaks and grid outages |\n"
+    )
 
     # Prefer the rust-emitted [costs] block (RFC 0011 §9 OSR-discipline
     # planning-grade CAPEX) over the rule-of-thumb per-unit calc — when
@@ -1426,6 +1474,11 @@ def _charging_microgrid_unit_eur(archetype: str) -> float:
     }.get(archetype, 250_000.0)
 
 
+def _charging_microgrid_eur(costs: dict) -> float:
+    """Canonical charging-microgrid CAPEX with legacy `power_eur` fallback."""
+    return float(costs.get("charging_microgrid_eur", costs.get("power_eur", 0.0)))
+
+
 def _rich_capex_section(
     design: dict, costs: dict, stats: NetworkStats
 ) -> list[str]:
@@ -1596,9 +1649,9 @@ def _rich_capex_section(
         f"{_eur(costs['signalling_eur'])} |"
     )
     out.append(
-        f"| Station/depot charging microgrids (conductive charger, switchgear, inverter interface, local PV/battery tie-in; no route traction power) | "
+        f"| Station/depot charging microgrids (conductive charger, switchgear, inverter interface, local PV/battery tie-in; no continuous wayside supply) | "
         f"per-stop allowance by station archetype | "
-        f"{_eur(costs['power_eur'])} |"
+        f"{_eur(_charging_microgrid_eur(costs))} |"
     )
     out.append(
         f"| EPC integration + project management ({_EPC_OVERHEAD_FRAC:.0%}) | "
@@ -1616,7 +1669,7 @@ def _rich_capex_section(
     out.append(f"| Rolling stock | {_eur(costs['rolling_stock_eur'])} |")
     out.append(
         f"| Residual train-control wayside + charging microgrids | "
-        f"{_eur(costs['signalling_eur'] + costs['power_eur'])} |"
+        f"{_eur(costs['signalling_eur'] + _charging_microgrid_eur(costs))} |"
     )
     out.append(
         f"| EPC overhead ({_EPC_OVERHEAD_FRAC:.0%}) | "

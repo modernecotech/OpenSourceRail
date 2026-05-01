@@ -60,7 +60,10 @@ grant type approval.
 4. **[evidence-register.md](evidence-register.md)** — complete
    inventory of verification evidence produced by the OSR
    project, indexed to the requirements + hazards it covers.
-5. **[compliance-matrix.md](compliance-matrix.md)** — EN 62267
+5. **[evidence-status.md](evidence-status.md)** — concise status
+   matrix separating implemented, simulated, specified, and
+   deployment-partner evidence.
+6. **[compliance-matrix.md](compliance-matrix.md)** — EN 62267
    clause-by-clause traceability to OSR implementation.
 
 ## How this pack relates to the rest of the repository
@@ -74,8 +77,8 @@ claim here is anchored to artefacts that already exist:
   against evidence by the `osr-safety-case` compiler CI gate
 - Operational controls → per-role rules under `docs/operations/`
 - RFCs (0001–0017) carry the design rationale
-- Rust workspace (56 crates, ~750 tests passing) carries the
-  implementation
+- Rust workspace + Python sidecars carry the implementation and
+  generated-design verification gates
 
 If any claim here cannot be traced to one of those artefacts, it's
 a gap; file it as an issue against the evidence register.
