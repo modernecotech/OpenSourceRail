@@ -25,6 +25,7 @@ LOG_DIR="$REPO/.cache/osr-pipeline/logs"
 JOBS=1
 SKIP=()
 ONLY=()
+PYTHON="${PYTHON:-python3}"
 
 usage() {
     sed -n '2,12p' "${BASH_SOURCE[0]}" | sed 's|^# \{0,1\}||'
@@ -58,7 +59,7 @@ fi
 ALL_SLUGS=()
 while IFS= read -r slug; do
     ALL_SLUGS+=("$slug")
-done < <(python3 -c "
+done < <("$PYTHON" -c "
 import tomllib
 catalog = tomllib.loads(open('$CATALOG').read())
 for c in catalog.get('cities', []):

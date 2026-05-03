@@ -41,6 +41,7 @@ DESIGN_PY="$REPO/design-py"
 CACHE_ROOT="$REPO/.cache/osr-pipeline"
 OSM_CACHE="$CACHE_ROOT/osm"
 RASTER_CACHE="$CACHE_ROOT/rasters"
+PYTHON="${PYTHON:-python3}"
 
 if [[ ! -f "$CATALOG" ]]; then
     echo "error: missing $CATALOG" >&2
@@ -51,7 +52,7 @@ fi
 # python so we don't add a shell-side dependency.
 read_field() {
     local field="$1"
-    python3 -c "
+    "$PYTHON" -c "
 import sys, tomllib
 catalog = tomllib.loads(open('$CATALOG').read())
 for c in catalog.get('cities', []):
@@ -76,7 +77,7 @@ CONTINENT="$(read_field continent)"
 # (e.g. IQ → Iraq, FR → France) so the design folder reads as
 # `designs/west-asia/Iraq/Samawah/` rather than `designs/west-asia/IQ/Samawah/`.
 # Falls back to the ISO-2 code if the country isn't in country-costs.
-COUNTRY_NAME="$(python3 -c "
+COUNTRY_NAME="$("$PYTHON" -c "
 import sys, tomllib
 costs = tomllib.loads(open('$REPO/lib/templates/country-costs.toml').read())
 country = costs.get('countries', {}).get('$COUNTRY')
@@ -94,7 +95,7 @@ case "$CONTINENT" in
     latin-america)                REGION="latin-america" ;;
     *)                            REGION="$CONTINENT" ;;
 esac
-CITY_TITLE="$(echo "$SLUG" | python3 -c 'import sys; print(sys.stdin.read().strip().title())')"
+CITY_TITLE="$(echo "$SLUG" | "$PYTHON" -c 'import sys; print(sys.stdin.read().strip().title())')"
 DESIGN_DIR="$REPO/designs/$REGION/$COUNTRY_NAME/$CITY_TITLE"
 
 echo "=== regenerating $SLUG ($COUNTRY) → $DESIGN_DIR ==="
@@ -107,11 +108,11 @@ mkdir -p "$OSM_CACHE" "$RASTER_CACHE" "$DESIGN_DIR"
 echo "1) OSM pull → $OSM_CACHE/$SLUG.json (cached on query text)"
 # Use --bbox=... (no space) so a southern-hemisphere bbox (leading
 # minus sign on south/north) doesn't get parsed as an argparse flag.
-python3 -m osr_osm.cli --slug "$SLUG" --bbox="$BBOX" \
+"$PYTHON" -m osr_osm.cli --slug "$SLUG" --bbox="$BBOX" \
     --out "$OSM_CACHE/$SLUG.json"
 
 echo "2) raster bundle → $RASTER_CACHE/$SLUG.{cost,demand,buildability,grid,anchors}.*"
-python3 -m osr_geo.cli --slug "$SLUG" \
+"$PYTHON" -m osr_geo.cli --slug "$SLUG" \
     --osm-json "$OSM_CACHE/$SLUG.json" \
     --out-dir "$RASTER_CACHE" \
     --country "$COUNTRY"
@@ -123,23 +124,23 @@ cargo run --release --bin osr-design --manifest-path "$REPO/Cargo.toml" -- \
     --out-dir "$DESIGN_DIR"
 
 echo "4) scenario file → $DESIGN_DIR/$SLUG.toml"
-python3 -m osr_scenario --design "$DESIGN_DIR/design.toml" \
+"$PYTHON" -m osr_scenario --design "$DESIGN_DIR/design.toml" \
     --out "$DESIGN_DIR/$SLUG.toml"
 
 echo "5) network map PNG → $DESIGN_DIR/$SLUG-network-map.png"
-python3 -m osr_scenario.render_map --design "$DESIGN_DIR/design.toml"
+"$PYTHON" -m osr_scenario.render_map --design "$DESIGN_DIR/design.toml"
 
 echo "6) per-network README → $DESIGN_DIR/README.md"
-python3 -m osr_scenario.network_readme \
+"$PYTHON" -m osr_scenario.network_readme \
     --design "$DESIGN_DIR/design.toml" \
     --scenario "$DESIGN_DIR/$SLUG.toml" \
     --out "$DESIGN_DIR/README.md"
 
 echo "7) summary stats:"
-python3 -m osr_scenario.stats --design "$DESIGN_DIR/design.toml"
+"$PYTHON" -m osr_scenario.stats --design "$DESIGN_DIR/design.toml"
 
 echo "8) design-quality drift tests"
-python3 -m pytest tests/test_osr_scenario.py tests/test_population_drift.py -q
+"$PYTHON" -m pytest tests/test_osr_scenario.py tests/test_population_drift.py -q
 
 echo
 echo "Done. Output:"

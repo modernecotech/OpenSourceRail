@@ -264,19 +264,22 @@ def build_cost_surface(city: CityOSM, grid: GridRef) -> np.ndarray:
     for feat in city.water:
         for rc in _fill_polygon(grid, feat["nodes"]):
             r, c = rc
-            cost[r, c] = max(cost[r, c], COST_WATER)
+            if 0 <= r < h and 0 <= c < w:
+                cost[r, c] = max(cost[r, c], COST_WATER)
 
     # Buildings — forbidden.
     for b in city.buildings:
         for rc in _fill_polygon(grid, b["nodes"]):
             r, c = rc
-            cost[r, c] = COST_BUILDING
+            if 0 <= r < h and 0 <= c < w:
+                cost[r, c] = COST_BUILDING
 
     # Protected — forbidden.
     for p in city.protected:
         for rc in _fill_polygon(grid, p["nodes"]):
             r, c = rc
-            cost[r, c] = COST_PROTECTED
+            if 0 <= r < h and 0 <= c < w:
+                cost[r, c] = COST_PROTECTED
 
     return cost
 

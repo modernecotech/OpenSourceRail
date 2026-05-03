@@ -44,29 +44,34 @@ The design pipeline auto-synthesises a complete multi-line network for
 any city listed in [`lib/city-batches/world-sample.toml`](lib/city-batches/world-sample.toml)
 from real OpenStreetMap + WorldPop population data — population-tiered
 topology, served-catchment bbox, country-specific cost + finance
-multipliers. The catalogue currently covers **66 cities across 41
+multipliers. The catalogue currently covers **166 cities across 42
 countries**, structured as:
 
 - **Iraq launch corridor (18 cities)** — every governorate capital
   + Samawah, exercising the rolling-stock family bands on
   Iraqi soil.
-- **Levant + Arabian Peninsula (9 cities)** — Sana'a, Aden, Taiz,
-  Damascus, Aleppo, Homs, Amman, Beirut, Gaza City. Several are
-  conflict-affected; financing assumptions reflect that.
-- **North Africa + Sub-Saharan Africa (20 cities)** — Tunis,
-  Khartoum, Nairobi, Dar es Salaam,
+- **MENA expansion (42 cities)** — Levant, Arabian Peninsula, and
+  North Africa targets, including Sana'a, Aden, Taiz, Damascus,
+  Aleppo, Homs, Amman, Beirut, Gaza City, Cairo-region secondaries,
+  and additional Saudi, Syrian, Yemeni, Jordanian, Lebanese, and
+  Palestinian catchments. Several are conflict-affected; financing
+  assumptions reflect that.
+- **Sub-Saharan Africa (43 cities)** — Nairobi, Dar es Salaam,
   Kampala, Antananarivo, Mogadishu, Kigali, Lusaka, Yaoundé,
   Kinshasa, Lubumbashi, Luanda, Maputo, Beira plus Niamey,
-  Bamako, Dakar, Ouagadougou, Conakry from West Africa.
-- **South Asia (8 cities)** — Coimbatore, Karachi, Faisalabad,
-  Multan, Patna, Kabul, Kathmandu, Colombo.
+  Bamako, Dakar, Ouagadougou, Conakry, and a wider West/Central/East
+  Africa seed set.
+- **South Asia (52 cities)** — Coimbatore, Karachi, Faisalabad,
+  Multan, Patna, Kabul, Kathmandu, Colombo, Lucknow, and a broader
+  India/Pakistan/Bangladesh/Nepal/Sri Lanka/Afghanistan planning set.
 - **Southeast Asia (7 cities)** — Yangon, Phnom Penh, Mandalay,
   Surabaya, Bandung, Davao, Vientiane.
 - **Latin America + Europe (4 cities)** — Cuenca, La Paz, San
   Salvador (+ Lyon as a high-OSM-density solver test target).
 
-Population bands cover 360 k (Duhok / Fallujah, light-metro-3car)
-to 20.3 M (Karachi, metro-6car). One-command regeneration:
+Population bands cover 150 k planning seeds (Jenin / Bethlehem /
+Banepa / Jinja, light-metro-3car) to 20.3 M (Karachi, metro-6car).
+One-command regeneration:
 `scripts/regenerate-city.sh <slug>` for a single city or
 `scripts/regenerate-all.sh --jobs 4` for the whole catalogue.
 
@@ -106,13 +111,14 @@ stack, country-anchored ticket pricing).*
 
 ### Auto-design catalogue at a glance
 
-Same pipeline, every catalog city — population from a national-stats-
-office source (Iraq 2024 General Population Census preliminary results
-underpin every Iraqi figure; KRSO 2024 estimates for the three
-KRI-administered cities), bbox sized to the served catchment, rolling-
-stock family auto-selected per [RFC 0008 §5](docs/rfcs/0008-rolling-stock-reference-design.md),
+Same pipeline, every generated catalogue city — population source,
+served-catchment bbox, rolling-stock family auto-selected per
+[RFC 0008 §5](docs/rfcs/0008-rolling-stock-reference-design.md),
 finance section anchored to country-specific median income +
 multilateral / sovereign rates from [`lib/templates/country-finance.toml`](lib/templates/country-finance.toml).
+The generated-design snapshot below currently covers 67 of the 166
+catalogue entries; the additional planning seeds are queued for the
+same one-command regeneration path.
 For cross-city comparison see the generated
 [`designs/INDEX.md`](designs/INDEX.md). For the CAPEX audit trail see
 [`docs/cost-model.md`](docs/cost-model.md).
@@ -198,6 +204,7 @@ Mandalay / Phnom Penh / Vientiane), Indonesian island cities
 |---|---|---|---:|---:|---:|---:|---:|
 | [Coimbatore](designs/south-asia/India/Coimbatore/) | IN | metro-6car | 5 | 121 | 268 | 214 | 31 |
 | [Patna](designs/south-asia/India/Patna/) | IN | metro-4car | 5 | 84 | 185 | 152 | 50 |
+| [Lucknow](designs/south-asia/India/Lucknow/) | IN | metro-6car | 6 | 164 | 376 | 267 | 31 |
 | [Karachi](designs/south-asia/Pakistan/Karachi/) | PK | metro-6car | 9 | 231 | 472 | 377 | 48 |
 | [Faisalabad](designs/south-asia/Pakistan/Faisalabad/) | PK | metro-6car | 5 | 93 | 166 | 137 | 52 |
 | [Multan](designs/south-asia/Pakistan/Multan/) | PK | metro-4car | 4 | 64 | 115 | 98 | 42 |
@@ -749,11 +756,11 @@ OpenSourceRail/
 ├── lib/
 │   ├── city-batches/         Canonical city catalogue (slug → bbox / country /
 │   │                         population / climate). `world-sample.toml` is the
-│   │                         66-city catalogue spanning 8 regions and
-│   │                         the rolling-stock family bands; population
-│   │                         fields source national-stats-office figures (Iraq
-│   │                         2024 census, INSEE 2023, INEC 2022, NBS 2022,
-│   │                         PBS 2023 Digital Census, etc.).
+│   │                         166-city catalogue spanning 8 regions and
+│   │                         the rolling-stock family bands; production
+│   │                         entries source national-stats-office figures
+│   │                         while generated expansion seeds are flagged for
+│   │                         source replacement before deployment.
 │   ├── templates/            Reusable Lego-block TOMLs (stations, switches,
 │   │                         signalling, structures, fleets, energy-sites,
 │   │                         country-costs, country-finance).
@@ -764,7 +771,7 @@ OpenSourceRail/
 ├── designs/                  Per-city design artefacts (`design.toml` +
 │   │                         scenario + map PNG + README + GeoJSON +
 │   │                         design-quality YAML, all auto-generated by
-│   │                         `scripts/regenerate-city.sh <slug>`). 66 cities
+│   │                         `scripts/regenerate-city.sh <slug>`). 67 cities
 │   │                         today across west-asia / north-africa / east-
 │   │                         africa / west-africa / south-asia / southeast-
 │   │                         asia / europe / latin-america.
@@ -912,7 +919,7 @@ For the production-scale path (eventual 500-city scan via
 [`osr_batch.existing_transit`](design-py/src/osr_batch/existing_transit.py)
 denylist (~600 cities, 80 countries) keeps cities with operating metro
 / tram / LRT (Paris, Tokyo, Cairo, etc.) out of auto-generation unless
-`--include-existing-transit` is passed for calibration. The 66-city
+`--include-existing-transit` is passed for calibration. The 166-city
 `world-sample.toml` catalogue is the curated set in front of that scan.
 
 ## Reading order
@@ -1062,8 +1069,8 @@ Complementary rail-engineering RFCs:
    Add a slug + served-catchment bbox + country + verified population
    (national-stats-office source) and run
    `scripts/regenerate-city.sh <slug>`. The catalogue currently
-   covers 66 cities across 41 countries (full Iraq corridor, Levant,
-   most of Sub-Saharan Africa + South + SE Asia + Latin America);
+   covers 166 cities across 42 countries (full Iraq corridor, MENA,
+   Sub-Saharan Africa + South + SE Asia + Latin America);
    gaps worth filling next are the cold-continental climate
    (Sarajevo / Tirana / Ulaanbaatar / Dushanbe), the Caribbean
    (Havana / Port-au-Prince / Santo Domingo), and the remaining
