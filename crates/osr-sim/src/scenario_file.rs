@@ -73,6 +73,12 @@ pub struct ConsistSpec {
     pub max_speed_kmh: Option<f32>,
     #[serde(default)]
     pub battery_capacity_kwh: Option<u32>,
+    #[serde(default)]
+    pub passenger_capacity: Option<u32>,
+    #[serde(default)]
+    pub seat_count: Option<u32>,
+    #[serde(default)]
+    pub crush_capacity: Option<u32>,
     /// Service-brake acceleration, m/s² (default 1.0).
     #[serde(default)]
     pub service_accel_mps2: Option<f32>,

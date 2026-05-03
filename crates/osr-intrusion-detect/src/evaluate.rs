@@ -155,7 +155,7 @@ pub fn evaluate(
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::sensors::{CameraReturn, FenceLineState, LidarReturn, RadarReturn};
+    use crate::sensors::{CameraReturn, LidarReturn, RadarReturn};
 
     fn baseline() -> WaysideSensorFrame {
         WaysideSensorFrame::clear()

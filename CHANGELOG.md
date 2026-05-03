@@ -11,17 +11,18 @@ major subsystem is ready for.
 
 ## Headline numbers
 
-- **56 Rust crates**, **747 tests passing, 0 failing** (Kani
-  harnesses + proptests + integration tests).
+- **56 Rust crates** with Kani harnesses, proptests, and integration
+  tests across the safety-critical software surface.
 - **Two Python sidecars**: `design-py` (GIS + network synthesis),
   `mechanical-py` (parametric mechanical / civil / station
   components on build123d). 28 Python tests passing.
 - **Two egui operator GUIs**: `osr-sim-gui` (designer), `osr-occ-gui`
   (dispatcher). Both native + WebAssembly.
-- **Eighteen RFCs** covering software architecture, rail civil
+- **Twenty-seven RFCs** covering software architecture, rail civil
   engineering, operations, driverless operation, wayside
   intrusion detection, cybersecurity, and the operator GUIs.
-- **Zero workspace build warnings.**
+- Workspace builds are expected to stay warning-free; warnings are
+  treated as drift from the v0.1 verification baseline.
 
 ## What's ready
 
@@ -46,12 +47,13 @@ major subsystem is ready for.
   v2 wiring into the live consensus path is the one
   production-readiness gap on the software side.
 - **Automatic network generation** — OSM → 20 m cost grid →
-  Dijkstra → 2-line network, scales to 500-city batches.
+  Dijkstra → population-tiered multi-line network, scales to
+  500-city batches.
 - **Two operator GUIs** — see the README screenshots.
 
 ### Rail engineering
 
-- **Four trainset families** (tram-2car → metro-6car),
+- **Five trainset families** (urban-shuttle-1car → metro-6car),
   cabless per RFC 0015.
 - **Four track-geometry presets** with a machine-readable
   OSR-ALN interchange format, LandXML → OSR-ALN converter, and

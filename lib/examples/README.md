@@ -129,6 +129,9 @@ length_m = 57
 mass_kg = 102000
 max_speed_kmh = 90
 battery_capacity_kwh = 360
+passenger_capacity = 330
+seat_count = 60
+crush_capacity = 420
 ```
 
 #### `[[stations]]`

@@ -13,7 +13,7 @@
 
 use std::fmt::Write as _;
 
-use crate::alignment::{Alignment, HorizontalElement, TurnDirection, VerticalElement};
+use crate::alignment::{Alignment, HorizontalElement, TurnDirection};
 
 /// Serialize the alignment to LandXML 1.2.
 pub fn to_landxml(alignment: &Alignment) -> String {

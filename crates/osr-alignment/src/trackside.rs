@@ -88,10 +88,10 @@ pub fn place_assets(
         return out;
     }
 
-    let mut push = |kind: AssetKind,
-                    sp: &StationedPoint,
-                    idx: usize,
-                    assets: &mut Vec<Asset>| {
+    let push = |kind: AssetKind,
+                sp: &StationedPoint,
+                idx: usize,
+                assets: &mut Vec<Asset>| {
         let prefix = match kind {
             AssetKind::AxleCounter => "AC",
             AssetKind::Balise => "B",

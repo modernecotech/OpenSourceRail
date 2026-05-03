@@ -2,7 +2,7 @@
 
 use osr_core::EntityId;
 use osr_crypto::{ed25519_generate, ED25519_SIGNATURE_LEN};
-use osr_secbus::{sign_bytes, verify_signed, KeyRegistry, SignedBytes, VerifyError};
+use osr_secbus::{sign_bytes, verify_signed, KeyRegistry, VerifyError};
 use proptest::prelude::*;
 
 fn reg_with_issuer(

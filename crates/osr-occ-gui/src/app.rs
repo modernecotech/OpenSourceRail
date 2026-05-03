@@ -88,7 +88,7 @@ impl AlertFilter {
     }
 }
 
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct Alert {
     pub level: AlertLevel,
     pub category: String,
@@ -96,7 +96,7 @@ pub struct Alert {
     pub sim_time_s: u32,
 }
 
-#[derive(Clone, Copy, PartialEq, Eq)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum AlertLevel {
     Info,
     Warn,

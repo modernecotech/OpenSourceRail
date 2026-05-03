@@ -1,8 +1,8 @@
 //! Proptests exercising O1–O5 across a wide random-input space.
 
 use osr_obstacle_detect::{
-    evaluate, CameraDetection, LidarDetection, ObstacleClass, ObstacleVerdict, RadarDetection,
-    SensorFrame, TriggerReason, UltrasonicChannel, MAX_SENSOR_STALE_MS, ULTRASONIC_CHANNELS,
+    evaluate, CameraDetection, LidarDetection, ObstacleClass, ObstacleVerdict, SensorFrame,
+    TriggerReason, UltrasonicChannel, MAX_SENSOR_STALE_MS, ULTRASONIC_CHANNELS,
     ULTRASONIC_MAX_SPEED_MMPS,
 };
 use proptest::prelude::*;

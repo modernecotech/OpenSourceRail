@@ -206,15 +206,6 @@ fn arb_payload() -> BoxedStrategy<EntryPayload> {
     .boxed()
 }
 
-fn arb_entry(idx: u64) -> impl Strategy<Value = Entry> {
-    arb_payload().prop_map(move |payload| Entry {
-        entry_id: EntryId::new(idx),
-        term: 1,
-        timestamp_ns: idx * 100,
-        payload,
-    })
-}
-
 fn arb_log_prefix(max_len: usize) -> impl Strategy<Value = Vec<Entry>> {
     prop::collection::vec(arb_payload(), 0..max_len)
         .prop_map(|payloads| {

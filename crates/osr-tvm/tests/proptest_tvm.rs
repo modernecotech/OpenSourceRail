@@ -16,18 +16,6 @@ fn arb_product() -> impl Strategy<Value = Product> {
     ]
 }
 
-fn arb_payment(quoted: u32, force_insufficient: bool) -> impl Strategy<Value = PaymentMethod> {
-    if force_insufficient {
-        (0u32..quoted).prop_map(|a| PaymentMethod::Cash { amount_cents: a }).boxed()
-    } else {
-        prop_oneof![
-            Just(PaymentMethod::MobileMoney { confirmation_code: 1 }),
-            (quoted..quoted + 10_000).prop_map(|a| PaymentMethod::Cash { amount_cents: a }),
-        ]
-        .boxed()
-    }
-}
-
 proptest! {
     #![proptest_config(ProptestConfig { cases: 256, .. ProptestConfig::default() })]
 

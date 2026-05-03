@@ -87,10 +87,6 @@ fn arb_offset() -> impl Strategy<Value = i64> {
     0i64..1_000_000
 }
 
-fn arb_train_id() -> impl Strategy<Value = TrainId> {
-    (1u64..=3).prop_map(TrainId::new)
-}
-
 fn arb_position() -> impl Strategy<Value = Position> {
     (arb_forward_section(), arb_offset()).prop_map(|(section, offset_mm)| Position {
         track_ref: TrackRef {

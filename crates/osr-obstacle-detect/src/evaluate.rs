@@ -212,9 +212,7 @@ const _: () = {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::sensors::{
-        CameraDetection, LidarDetection, RadarDetection, UltrasonicChannel,
-    };
+    use crate::sensors::{CameraDetection, LidarDetection, RadarDetection};
 
     fn baseline() -> SensorFrame {
         SensorFrame::clear()
