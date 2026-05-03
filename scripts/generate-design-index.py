@@ -22,7 +22,9 @@ def _coverage(city_dir: Path) -> float:
     if not matches:
         return 0.0
     text = matches[0].read_text()
-    m = re.search(r"coverage_score:\s*([0-9.]+)", text)
+    m = re.search(r"high_demand_coverage:\s*([0-9.]+)", text)
+    if not m:
+        m = re.search(r"coverage_score:\s*([0-9.]+)", text)
     if not m:
         m = re.search(r"coverage:\s*([0-9.]+)", text)
     return float(m.group(1)) if m else 0.0
@@ -69,9 +71,11 @@ def main() -> int:
     out = [
         "# OpenSourceRail Design Catalogue Index",
         "",
-        "Generated from `designs/*/*/*/design.toml`. Sorted by CAPEX per route-km, then coverage.",
+        "Generated from `designs/*/*/*/design.toml`. Sorted by CAPEX per route-km, then high-demand coverage.",
         "",
-        "| City | ISO | Family | Lines | Stations | km | Fleet | Coverage | CAPEX | CAPEX/km | Charging microgrids |",
+        "High-demand coverage is the share of high-demand raster cells (demand >= 0.5) within about 400 m of a planned line. It is a demand / catchment proxy, not a land-area percentage.",
+        "",
+        "| City | ISO | Family | Lines | Stations | km | Fleet | High-demand coverage | CAPEX | CAPEX/km | Charging microgrids |",
         "|---|---|---|---:|---:|---:|---:|---:|---:|---:|---:|",
     ]
     for r in rows:

@@ -1,8 +1,10 @@
 # OpenSourceRail Design Catalogue Index
 
-Generated from `designs/*/*/*/design.toml`. Sorted by CAPEX per route-km, then coverage.
+Generated from `designs/*/*/*/design.toml`. Sorted by CAPEX per route-km, then high-demand coverage.
 
-| City | ISO | Family | Lines | Stations | km | Fleet | Coverage | CAPEX | CAPEX/km | Charging microgrids |
+High-demand coverage is the share of high-demand raster cells (demand >= 0.5) within about 400 m of a planned line. It is a demand / catchment proxy, not a land-area percentage.
+
+| City | ISO | Family | Lines | Stations | km | Fleet | High-demand coverage | CAPEX | CAPEX/km | Charging microgrids |
 |---|---|---|---:|---:|---:|---:|---:|---:|---:|---:|
 | [Huye](designs/east-africa/Rwanda/Huye/) | RW | `tram-2car` | 3 | 28 | 46 | 61 | 23% | €416M | €9M | €9M |
 | [Tanta](designs/west-asia/Egypt/Tanta/) | EG | `light-metro-3car` | 3 | 35 | 75 | 73 | 56% | €694M | €9M | €12M |

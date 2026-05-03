@@ -116,116 +116,19 @@ served-catchment bbox, rolling-stock family auto-selected per
 [RFC 0008 §5](docs/rfcs/0008-rolling-stock-reference-design.md),
 finance section anchored to country-specific median income +
 multilateral / sovereign rates from [`lib/templates/country-finance.toml`](lib/templates/country-finance.toml).
-The generated designs cover all 166 catalogue entries. The tables
-below are a curated front-page subset; for the full city list and
+The generated designs cover all 166 catalogue entries. The README
+does not duplicate the city table; for the full city list and
 cross-city comparison see the generated
 [`designs/INDEX.md`](designs/INDEX.md). For the CAPEX audit trail see
 [`docs/cost-model.md`](docs/cost-model.md).
 
-**Iraq launch corridor** — 18 cities, every governorate capital +
-Samawah; covers the full pilgrim circuit (Karbala / Najaf / Samawah)
-plus the Kurdistan Regional capitals (Erbil / Sulaymaniyah / Duhok)
-plus the post-conflict reconstruction set (Mosul / Ramadi / Fallujah):
-
-| city | family | lines | stns | km | fleet | cov% |
-|---|---|---:|---:|---:|---:|---:|
-| [Baghdad](designs/west-asia/Iraq/Baghdad/) | metro-6car | 9 | 218 | 510 | 408 | 45 |
-| [Basra](designs/west-asia/Iraq/Basra/) | metro-6car | 7 | 119 | 289 | 236 | 54 |
-| [Mosul](designs/west-asia/Iraq/Mosul/) | metro-4car | 5 | 60 | 145 | 122 | 38 |
-| [Sulaymaniyah](designs/west-asia/Iraq/Sulaymaniyah/) | metro-4car | 4 | 59 | 127 | 106 | 49 |
-| [Erbil](designs/west-asia/Iraq/Erbil/) | metro-4car | 6 | 97 | 199 | 166 | 42 |
-| [Kirkuk](designs/west-asia/Iraq/Kirkuk/) | metro-4car | 6 | 92 | 170 | 142 | 60 |
-| [Najaf](designs/west-asia/Iraq/Najaf/) | metro-4car | 6 | 91 | 172 | 144 | 60 |
-| [Karbala](designs/west-asia/Iraq/Karbala/) | metro-4car | 6 | 89 | 170 | 144 | 67 |
-| [Hillah](designs/west-asia/Iraq/Hillah/) | light-metro-3car | 3 | 42 | 69 | 68 | 43 |
-| [Nasiriyah](designs/west-asia/Iraq/Nasiriyah/) | light-metro-3car | 3 | 33 | 56 | 56 | 40 |
-| [Amarah](designs/west-asia/Iraq/Amarah/) | light-metro-3car | 3 | 32 | 45 | 46 | 43 |
-| [Ramadi](designs/west-asia/Iraq/Ramadi/) | light-metro-3car | 3 | 35 | 47 | 49 | 39 |
-| [Baqubah](designs/west-asia/Iraq/Baqubah/) | light-metro-3car | 3 | 37 | 60 | 60 | 50 |
-| [Kut](designs/west-asia/Iraq/Kut/) | light-metro-3car | 3 | 32 | 56 | 55 | 37 |
-| [Diwaniyah](designs/west-asia/Iraq/Diwaniyah/) | light-metro-3car | 3 | 36 | 54 | 55 | 43 |
-| [Duhok](designs/west-asia/Iraq/Duhok/) | light-metro-3car | 3 | 32 | 53 | 54 | 53 |
-| [Fallujah](designs/west-asia/Iraq/Fallujah/) | light-metro-3car | 3 | 28 | 46 | 48 | 57 |
-| [Samawah](designs/west-asia/Iraq/Samawah/) | light-metro-3car | 3 | 33 | 55 | 55 | 56 |
-
-**Levant + Arabian Peninsula** — conflict-affected zones (Yemen,
-Syria, Lebanon, Palestine) carry planning-grade financing
-assumptions that reflect distressed sovereign access; OSR's mission
-of low-CAPEX, locally-buildable rail is most acute here:
-
-| city | ISO | family | lines | stns | km | fleet | cov% |
-|---|---|---|---:|---:|---:|---:|---:|
-| [Sana'a](designs/west-asia/Yemen/Sanaa/) | YE | metro-6car | 9 | 126 | 261 | 218 | 78 |
-| [Aden](designs/west-asia/Yemen/Aden/) | YE | light-metro-3car | 3 | 28 | 44 | 46 | 43 |
-| [Taiz](designs/west-asia/Yemen/Taiz/) | YE | light-metro-3car | 3 | 33 | 49 | 51 | 55 |
-| [Damascus](designs/west-asia/Syria/Damascus/) | SY | metro-4car | 6 | 113 | 233 | 192 | 45 |
-| [Aleppo](designs/west-asia/Syria/Aleppo/) | SY | metro-4car | 5 | 89 | 176 | 145 | 46 |
-| [Homs](designs/west-asia/Syria/Homs/) | SY | light-metro-3car | 3 | 33 | 51 | 53 | 42 |
-| [Amman](designs/west-asia/Jordan/Amman/) | JO | metro-6car | 8 | 172 | 354 | 286 | 51 |
-| [Beirut](designs/west-asia/Lebanon/Beirut/) | LB | metro-4car | 6 | 83 | 160 | 134 | 70 |
-| [Gaza City](designs/west-asia/Palestine/Gaza-City/) | PS | light-metro-3car | 1 | 15 | 24 | 24 | 30 |
-
-**North Africa + Sub-Saharan Africa** — biggest single regional
-bucket, covering megacities (Lagos-class catchments + Kinshasa /
-Luanda / Khartoum), East African capitals (Nairobi / Dar / Addis-
-class), Sahel + WAEMU bloc, and Indian-Ocean coastals (Maputo /
-Antananarivo / Beira):
-
-| city | ISO | family | lines | stns | km | fleet | cov% |
-|---|---|---|---:|---:|---:|---:|---:|
-| [Tunis](designs/north-africa/Tunisia/Tunis/) | TN | metro-4car | 5 | 118 | 240 | 194 | 48 |
-| [Khartoum](designs/north-africa/Sudan/Khartoum/) | SD | metro-6car | 5 | 152 | 363 | 287 | 22 |
-| [Nairobi](designs/east-africa/Kenya/Nairobi/) | KE | metro-6car | 8 | 191 | 476 | 378 | 43 |
-| [Dar es Salaam](designs/east-africa/Tanzania/Dar-Es-Salaam/) | TZ | metro-6car | 7 | 163 | 393 | 314 | 28 |
-| [Kampala](designs/east-africa/Uganda/Kampala/) | UG | metro-4car | 4 | 99 | 201 | 160 | 24 |
-| [Antananarivo](designs/east-africa/Madagascar/Antananarivo/) | MG | metro-6car | 7 | 155 | 339 | 272 | 42 |
-| [Mogadishu](designs/east-africa/Somalia/Mogadishu/) | SO | metro-4car | 4 | 68 | 128 | 106 | 40 |
-| [Kigali](designs/east-africa/Rwanda/Kigali/) | RW | metro-4car | 4 | 86 | 171 | 139 | 34 |
-| [Lusaka](designs/east-africa/Zambia/Lusaka/) | ZM | metro-6car | 6 | 123 | 236 | 192 | 34 |
-| [Yaoundé](designs/east-africa/Cameroon/Yaounde/) | CM | metro-6car | 8 | 136 | 267 | 219 | 43 |
-| [Kinshasa](designs/east-africa/DR%20Congo/Kinshasa/) | CD | metro-6car | 8 | 183 | 385 | 310 | 49 |
-| [Lubumbashi](designs/east-africa/DR%20Congo/Lubumbashi/) | CD | metro-4car | 4 | 75 | 130 | 107 | 34 |
-| [Luanda](designs/east-africa/Angola/Luanda/) | AO | metro-6car | 9 | 170 | 390 | 317 | 64 |
-| [Maputo](designs/east-africa/Mozambique/Maputo/) | MZ | metro-4car | 6 | 83 | 186 | 156 | 71 |
-| [Beira](designs/east-africa/Mozambique/Beira/) | MZ | light-metro-3car | 3 | 39 | 54 | 54 | 37 |
-| [Niamey](designs/west-africa/Niger/Niamey/) | NE | metro-4car | 4 | 80 | 146 | 120 | 38 |
-| [Bamako](designs/west-africa/Mali/Bamako/) | ML | metro-4car | 6 | 118 | 257 | 207 | 31 |
-| [Dakar](designs/west-africa/Senegal/Dakar/) | SN | metro-6car | 5 | 107 | 204 | 167 | 52 |
-| [Ouagadougou](designs/west-africa/Burkina%20Faso/Ouagadougou/) | BF | metro-4car | 6 | 138 | 264 | 213 | 37 |
-| [Conakry](designs/west-africa/Guinea/Conakry/) | GN | metro-4car | 3 | 55 | 93 | 78 | 40 |
-
-**South + Southeast Asia** — South-Asian megacities (Karachi
-20.3 M, Patna 2.5 M), Indo-China twin-economy capitals (Yangon /
-Mandalay / Phnom Penh / Vientiane), Indonesian island cities
-(Surabaya / Bandung), and the Islamic-Asia archipelago (Davao):
-
-| city | ISO | family | lines | stns | km | fleet | cov% |
-|---|---|---|---:|---:|---:|---:|---:|
-| [Coimbatore](designs/south-asia/India/Coimbatore/) | IN | metro-6car | 5 | 121 | 268 | 214 | 31 |
-| [Patna](designs/south-asia/India/Patna/) | IN | metro-4car | 5 | 84 | 185 | 152 | 50 |
-| [Lucknow](designs/south-asia/India/Lucknow/) | IN | metro-6car | 6 | 164 | 376 | 267 | 31 |
-| [Karachi](designs/south-asia/Pakistan/Karachi/) | PK | metro-6car | 9 | 231 | 472 | 377 | 48 |
-| [Faisalabad](designs/south-asia/Pakistan/Faisalabad/) | PK | metro-6car | 5 | 93 | 166 | 137 | 52 |
-| [Multan](designs/south-asia/Pakistan/Multan/) | PK | metro-4car | 4 | 64 | 115 | 98 | 42 |
-| [Kabul](designs/south-asia/Afghanistan/Kabul/) | AF | metro-6car | 7 | 137 | 261 | 215 | 53 |
-| [Kathmandu](designs/south-asia/Nepal/Kathmandu/) | NP | metro-4car | 6 | 103 | 203 | 167 | 46 |
-| [Colombo](designs/south-asia/Sri%20Lanka/Colombo/) | LK | metro-6car | 6 | 126 | 278 | 223 | 42 |
-| [Yangon](designs/southeast-asia/Myanmar/Yangon/) | MM | metro-6car | 9 | 214 | 417 | 335 | 56 |
-| [Mandalay](designs/southeast-asia/Myanmar/Mandalay/) | MM | metro-4car | 6 | 88 | 187 | 156 | 60 |
-| [Phnom Penh](designs/southeast-asia/Cambodia/Phnom-Penh/) | KH | metro-4car | 6 | 107 | 228 | 186 | 48 |
-| [Surabaya](designs/southeast-asia/Indonesia/Surabaya/) | ID | metro-6car | 7 | 143 | 294 | 240 | 40 |
-| [Bandung](designs/southeast-asia/Indonesia/Bandung/) | ID | metro-4car | 6 | 126 | 258 | 208 | 41 |
-| [Davao](designs/southeast-asia/Philippines/Davao/) | PH | metro-4car | 6 | 108 | 229 | 186 | 72 |
-| [Vientiane](designs/southeast-asia/Laos/Vientiane/) | LA | light-metro-3car | 3 | 46 | 81 | 78 | 43 |
-
-**Latin America + Europe**:
-
-| city | ISO | family | lines | stns | km | fleet | cov% |
-|---|---|---|---:|---:|---:|---:|---:|
-| [Lyon](designs/europe/France/Lyon/) | FR | metro-4car | 6 | 122 | 287 | 232 | 45 |
-| [Cuenca](designs/latin-america/Ecuador/Cuenca/) | EC | light-metro-3car | 3 | 48 | 79 | 77 | 57 |
-| [La Paz](designs/latin-america/Bolivia/La-Paz/) | BO | metro-4car | 6 | 115 | 212 | 174 | 57 |
-| [San Salvador](designs/latin-america/El%20Salvador/San-Salvador/) | SV | metro-4car | 6 | 121 | 255 | 207 | 50 |
+In the catalogue, **coverage** means high-demand coverage: the share
+of cells in the 20 m demand raster with demand ≥ 0.5 that fall within
+about 400 m of a planned line. The demand raster blends OSM anchors
+(stations, universities, hospitals, airports, neighbourhoods), a mild
+centre bias, and WorldPop residential population. It is therefore a
+planning proxy for population / trip-generator catchment, **not**
+percentage of city land area.
 
 A few representative auto-planned networks:
 
@@ -836,8 +739,9 @@ scripts/regenerate-city.sh <slug>
 The pipeline pulls OSM + WorldPop, synthesises lines / stations /
 fleet / depots / costs, and emits `design.toml`, the simulator
 scenario file, the network map PNG, and the per-network README under
-`designs/<region>/<country>/<City>/`. See the **Auto-design catalogue
-at a glance** table above for representative outputs.
+`designs/<region>/<country>/<City>/`. See
+[`designs/INDEX.md`](designs/INDEX.md) for the generated catalogue and
+cross-city comparison.
 
 **Hand-authored.** Scenarios are plain-text TOML files — copy a
 reference and edit it:
