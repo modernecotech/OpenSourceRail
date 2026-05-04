@@ -121,7 +121,7 @@ From RFC 0004 §M3 and the cross-crate safety plan:
    entries × 100 sections target. Requires either smarter
    abstractions (reducing state-space explosion) or a fleet of
    dedicated CI workers.
-2. ~~**Kani harnesses for the other SIL-4 crates**~~ — **done.**
+2. **Kani harnesses for the other SIL-4 crates** — **done.**
    All five SIL-4 evaluators (ATP, brake, vigilance, odometry,
    wayside-points) now ship Kani harnesses alongside their proptest
    suites. The remaining work here is verification throughput —
@@ -130,7 +130,7 @@ From RFC 0004 §M3 and the cross-crate safety plan:
    `osr-consensus` implementation. TLC already checks the spec's
    safety properties; refinement would formally connect the spec to
    the code. TLAPS or a separate tool is a candidate.
-4. ~~**GSN safety case compiler**~~ — **done.** The
+4. **GSN safety case compiler** — **done.** The
    [`osr-safety-case`](../../crates/osr-safety-case/) crate compiles
    the TOML claim files in [`gsn/`](gsn/) and the
    [`starter_case_closes`](../../crates/osr-safety-case/tests/starter_case_closes.rs)

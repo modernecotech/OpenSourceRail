@@ -122,6 +122,15 @@ cross-city comparison see the generated
 [`designs/INDEX.md`](designs/INDEX.md). For the CAPEX audit trail see
 [`docs/cost-model.md`](docs/cost-model.md).
 
+**Where the city models live.** Each generated city model is a folder
+under `designs/<region>/<country>/<City>/`. For example, Samawah is
+[`designs/west-asia/Iraq/Samawah/`](designs/west-asia/Iraq/Samawah/)
+and Karachi is
+[`designs/south-asia/Pakistan/Karachi/`](designs/south-asia/Pakistan/Karachi/).
+Each folder contains the machine-readable `design.toml`, simulator
+scenario TOML, route GeoJSON, network map PNG, design-quality YAML,
+and a generated city README.
+
 In the catalogue, **coverage** means high-demand coverage: the share
 of cells in the 20 m demand raster with demand ≥ 0.5 that fall within
 about 400 m of a planned line. The demand raster blends OSM anchors

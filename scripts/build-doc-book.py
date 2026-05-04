@@ -4,9 +4,9 @@
 The book includes:
 
 1. The repository root README.
-2. The generated design catalogue index.
-3. Every Markdown file under docs/.
-4. Every generated city README under designs/<region>/<country>/<city>/.
+2. Every Markdown file under docs/.
+3. Concise generated briefs for every city model under
+   designs/<region>/<country>/<city>/.
 
 The renderer is intentionally self-contained. The repo image set is large,
 so local images are downsampled into build/doc-book-assets before being
@@ -19,9 +19,9 @@ import argparse
 import html
 import os
 import re
+import tomllib
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Iterable
 
 import mistune
 from PIL import Image as PILImage
@@ -47,7 +47,7 @@ from reportlab.platypus import (
 
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
-DEFAULT_OUT = REPO_ROOT / "build" / "opensource-rail-docs-book.pdf"
+DEFAULT_OUT = REPO_ROOT / "opensource-rail-docs-book.pdf"
 ASSET_CACHE = REPO_ROOT / "build" / "doc-book-assets"
 
 
@@ -56,6 +56,27 @@ class SourceDoc:
     path: Path
     title: str
     part: str
+
+
+@dataclass(frozen=True)
+class CityModel:
+    path: Path
+    region: str
+    country_name: str
+    city_dir: str
+    name: str
+    iso: str
+    population: int
+    family: str
+    lines: int
+    stations: int
+    route_km: float
+    fleet: int
+    coverage: float
+    capex: float
+    capex_per_km: float
+    map_path: Path | None
+    line_rows: tuple[tuple[str, str, str, str, str], ...]
 
 
 def _register_fonts() -> None:
@@ -183,20 +204,10 @@ def _styles() -> dict[str, ParagraphStyle]:
 def _doc_sources() -> list[SourceDoc]:
     docs: list[SourceDoc] = [
         SourceDoc(REPO_ROOT / "README.md", "Repository README", "Front Matter"),
-        SourceDoc(REPO_ROOT / "designs" / "INDEX.md", "Design Catalogue Index", "Design Catalogue"),
     ]
     docs.extend(
         SourceDoc(path, path.relative_to(REPO_ROOT).as_posix(), "Docs")
         for path in sorted((REPO_ROOT / "docs").rglob("*.md"))
-    )
-    city_readmes = sorted((REPO_ROOT / "designs").glob("*/*/*/README.md"))
-    docs.extend(
-        SourceDoc(
-            path,
-            path.parent.relative_to(REPO_ROOT / "designs").as_posix(),
-            "Generated City Designs",
-        )
-        for path in city_readmes
     )
     return docs
 
@@ -214,6 +225,20 @@ def _plain_inline(children: list[dict] | None) -> str:
         elif t in {"softbreak", "linebreak"}:
             parts.append(" ")
     return "".join(parts)
+
+
+def _filtered_markdown_text(path: Path) -> str:
+    text = path.read_text(errors="replace")
+    if path == REPO_ROOT / "README.md":
+        # The PDF has its own compact contents and city directory. The
+        # README's repository tree is useful on GitHub but noisy in book form.
+        text = re.sub(
+            r"\n## Repository layout\n.*?(?=\n## Quick start\n)",
+            "\n",
+            text,
+            flags=re.S,
+        )
+    return text
 
 
 def _inline(children: list[dict] | None) -> str:
@@ -379,7 +404,7 @@ def _render_markdown(
     include_images: bool,
 ) -> list:
     parser = mistune.create_markdown(renderer="ast", plugins=["table", "strikethrough"])
-    text = path.read_text(errors="replace")
+    text = _filtered_markdown_text(path)
     tokens = parser(text)
     flowables: list = []
 
@@ -422,6 +447,193 @@ def _render_markdown(
     return flowables
 
 
+def _load_toml(path: Path) -> dict:
+    with path.open("rb") as f:
+        return tomllib.load(f)
+
+
+def _quality_value(city_dir: Path, key: str) -> float:
+    for path in city_dir.glob("*.design-quality.yaml"):
+        match = re.search(rf"{re.escape(key)}:\s*([0-9.]+)", path.read_text(errors="ignore"))
+        if match:
+            return float(match.group(1))
+    return 0.0
+
+
+def _eur(value: float) -> str:
+    if value >= 1_000_000_000:
+        return f"EUR {value / 1_000_000_000:.2f}bn"
+    return f"EUR {value / 1_000_000:.0f}M"
+
+
+def _city_models() -> list[CityModel]:
+    models: list[CityModel] = []
+    for design_path in sorted((REPO_ROOT / "designs").glob("*/*/*/design.toml")):
+        city_dir = design_path.parent
+        rel_parts = city_dir.relative_to(REPO_ROOT / "designs").parts
+        design = _load_toml(design_path)
+        city = design.get("city", {})
+        lines = design.get("lines", [])
+        fleets = design.get("fleets", [])
+        stations_by_line: dict[str, int] = {}
+        for station in design.get("stations", []):
+            line_name = str(station.get("line", ""))
+            stations_by_line[line_name] = stations_by_line.get(line_name, 0) + 1
+        fleet_by_line = {
+            str(fleet.get("line", "")): int(fleet.get("trainset_count", 0))
+            for fleet in fleets
+        }
+        route_km = sum(float(line.get("length_m", 0.0)) for line in lines) / 1000.0
+        capex = float(design.get("costs", {}).get("total_eur", 0.0))
+        map_candidates = sorted(city_dir.glob("*-network-map.png"))
+        line_rows = []
+        for line in lines[:8]:
+            line_name = str(line.get("name") or line.get("id") or "?")
+            length = float(line.get("length_m", 0.0)) / 1000.0
+            line_rows.append(
+                (
+                    line_name,
+                    f"{length:.1f} km",
+                    str(stations_by_line.get(line_name, "")),
+                    str(fleet_by_line.get(line_name, "")),
+                    str(line.get("shape", "")),
+                )
+            )
+        models.append(
+            CityModel(
+                path=city_dir,
+                region=rel_parts[0],
+                country_name=rel_parts[1],
+                city_dir=rel_parts[2],
+                name=city.get("name") or rel_parts[2].replace("-", " "),
+                iso=city.get("country", "??"),
+                population=int(city.get("population", 0)),
+                family=lines[0].get("rolling_stock", "?") if lines else "?",
+                lines=len(lines),
+                stations=len(design.get("stations", [])),
+                route_km=route_km,
+                fleet=sum(int(f.get("trainset_count", 0)) for f in fleets),
+                coverage=_quality_value(city_dir, "high_demand_coverage"),
+                capex=capex,
+                capex_per_km=capex / route_km if route_km else 0.0,
+                map_path=map_candidates[0] if map_candidates else None,
+                line_rows=tuple(line_rows),
+            )
+        )
+    return models
+
+
+def _simple_table(
+    rows: list[list[str]],
+    styles: dict[str, ParagraphStyle],
+    page_width: float,
+    *,
+    header: bool = True,
+) -> Table:
+    table_rows = []
+    for idx, row in enumerate(rows):
+        style = styles["table_head"] if idx == 0 and header else styles["table"]
+        table_rows.append([Paragraph(html.escape(cell), style) for cell in row])
+    cols = max(len(row) for row in rows)
+    col_width = page_width / cols
+    table = Table(table_rows, colWidths=[col_width] * cols, repeatRows=1 if header else 0)
+    commands = [
+        ("GRID", (0, 0), (-1, -1), 0.25, colors.HexColor("#cbd5e1")),
+        ("VALIGN", (0, 0), (-1, -1), "TOP"),
+        ("LEFTPADDING", (0, 0), (-1, -1), 3),
+        ("RIGHTPADDING", (0, 0), (-1, -1), 3),
+        ("TOPPADDING", (0, 0), (-1, -1), 2),
+        ("BOTTOMPADDING", (0, 0), (-1, -1), 2),
+    ]
+    if header:
+        commands.append(("BACKGROUND", (0, 0), (-1, 0), colors.HexColor("#334155")))
+    table.setStyle(TableStyle(commands))
+    return table
+
+
+def _city_directory_flowables(
+    models: list[CityModel],
+    styles: dict[str, ParagraphStyle],
+    page_width: float,
+) -> list:
+    by_region: dict[str, dict[str, int]] = {}
+    for model in models:
+        by_region.setdefault(model.region, {})
+        by_region[model.region][model.country_name] = by_region[model.region].get(model.country_name, 0) + 1
+    rows = [["Region", "Countries", "Cities"]]
+    for region in sorted(by_region):
+        countries = by_region[region]
+        rows.append(
+            [
+                region,
+                ", ".join(f"{country} ({count})" for country, count in sorted(countries.items())),
+                str(sum(countries.values())),
+            ]
+        )
+    return [
+        Paragraph("City Model Directory", styles["part"]),
+        Paragraph(
+            "City models are grouped as designs/<region>/<country>/<City>/. "
+            "The book uses concise city briefs to avoid repeating the generated README boilerplate 166 times.",
+            styles["body"],
+        ),
+        _simple_table(rows, styles, page_width),
+        PageBreak(),
+    ]
+
+
+def _city_brief_flowables(
+    model: CityModel,
+    styles: dict[str, ParagraphStyle],
+    page_width: float,
+    page_height: float,
+    max_image_px: int,
+    image_quality: int,
+    include_images: bool,
+) -> list:
+    rel = model.path.relative_to(REPO_ROOT).as_posix()
+    rows = [
+        ["Metric", "Value"],
+        ["Path", rel],
+        ["ISO / population", f"{model.iso} / {model.population:,}"],
+        ["Family", model.family],
+        ["Lines / stations", f"{model.lines} / {model.stations}"],
+        ["Route length", f"{model.route_km:.1f} km"],
+        ["Fleet", f"{model.fleet} trainsets"],
+        ["High-demand coverage", f"{model.coverage:.0%}"],
+        ["CAPEX", f"{_eur(model.capex)} ({_eur(model.capex_per_km)} / km)"],
+    ]
+    flows: list = [
+        Paragraph(html.escape(model.name), styles["h2"]),
+        Paragraph(html.escape(f"{model.region} / {model.country_name} / {model.city_dir}"), styles["small"]),
+        _simple_table(rows, styles, page_width, header=True),
+        Spacer(1, 5),
+    ]
+    if include_images and model.map_path:
+        image_token = {"attrs": {"url": model.map_path.name}, "children": [{"type": "text", "raw": f"{model.name} network map"}]}
+        flows.extend(
+            _image_flowables(
+                image_token,
+                model.path / "README.md",
+                styles,
+                max_width=page_width,
+                max_height=page_height * 0.24,
+                max_px=max_image_px,
+                quality=image_quality,
+            )
+        )
+    if model.line_rows:
+        flows.append(
+            _simple_table(
+                [["Line", "Length", "Stations", "Trainsets", "Shape"], *[list(row) for row in model.line_rows]],
+                styles,
+                page_width,
+                header=True,
+            )
+        )
+    return flows
+
+
 def _page_footer(canvas, doc) -> None:
     canvas.saveState()
     canvas.setFont("BookSans" if "BookSans" in pdfmetrics.getRegisteredFontNames() else "Helvetica", 7)
@@ -431,17 +643,11 @@ def _page_footer(canvas, doc) -> None:
     canvas.restoreState()
 
 
-def _part_index(docs: Iterable[SourceDoc]) -> dict[str, list[SourceDoc]]:
-    grouped: dict[str, list[SourceDoc]] = {}
-    for doc in docs:
-        grouped.setdefault(doc.part, []).append(doc)
-    return grouped
-
-
 def build_pdf(out_path: Path, include_images: bool, max_image_px: int, image_quality: int) -> None:
     _register_fonts()
     styles = _styles()
     docs = _doc_sources()
+    city_models = _city_models()
     out_path.parent.mkdir(parents=True, exist_ok=True)
     page_width, page_height = A4
     left = right = 1.45 * cm
@@ -453,19 +659,15 @@ def build_pdf(out_path: Path, include_images: bool, max_image_px: int, image_qua
         Spacer(1, 5 * cm),
         Paragraph("OpenSourceRail Documentation Book", styles["title"]),
         Paragraph(
-            "Root README, docs tree, generated catalogue index, and every region/country/city design README.",
+            "Reader edition: root README, docs tree, and concise briefs for every region/country/city model.",
             styles["subtitle"],
         ),
-        Paragraph(f"Generated from {len(docs)} Markdown source files.", styles["subtitle"]),
+        Paragraph(
+            f"Generated from {len(docs)} core Markdown files and {len(city_models)} city models.",
+            styles["subtitle"],
+        ),
         PageBreak(),
-        Paragraph("Included Files", styles["part"]),
     ]
-    for part, part_docs in _part_index(docs).items():
-        story.append(Paragraph(html.escape(part), styles["h2"]))
-        for source in part_docs:
-            rel = source.path.relative_to(REPO_ROOT).as_posix()
-            story.append(Paragraph(html.escape(rel), styles["small"]))
-    story.append(PageBreak())
 
     current_part: str | None = None
     for idx, source in enumerate(docs):
@@ -489,6 +691,33 @@ def build_pdf(out_path: Path, include_images: bool, max_image_px: int, image_qua
                 include_images=include_images,
             )
         )
+
+    story.append(PageBreak())
+    story.extend(_city_directory_flowables(city_models, styles, content_width))
+    current_region: str | None = None
+    current_country: str | None = None
+    for model in city_models:
+        if model.region != current_region:
+            if current_region is not None:
+                story.append(PageBreak())
+            current_region = model.region
+            current_country = None
+            story.append(Paragraph(html.escape(model.region), styles["part"]))
+        if model.country_name != current_country:
+            current_country = model.country_name
+            story.append(Paragraph(html.escape(model.country_name), styles["h1"]))
+        story.extend(
+            _city_brief_flowables(
+                model,
+                styles,
+                page_width=content_width,
+                page_height=content_height,
+                max_image_px=max_image_px,
+                image_quality=image_quality,
+                include_images=include_images,
+            )
+        )
+        story.append(Spacer(1, 12))
 
     doc = SimpleDocTemplate(
         str(out_path),
