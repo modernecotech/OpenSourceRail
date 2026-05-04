@@ -498,214 +498,24 @@ Full description: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
 
 ## Repository layout
 
-```
-OpenSourceRail/
-├── README.md                 You are here.
-├── Cargo.toml                Rust workspace.
-├── docs/
-│   ├── ARCHITECTURE.md       Scope, subsystem design, roadmap. Start here.
-│   ├── operations/           Full operations rulebook (RFC 0013 v2): one-sentence
-│   │   │                     rule + Why: paragraph per clause, every clause
-│   │   │                     cross-referenced to the relevant crate and safety-case goal.
-│   │   ├── driver/           D1–D8 (before-service → emergencies → end-of-service).
-│   │   ├── dispatcher/       S1–S6 (shift start → incident handling → shift end).
-│   │   ├── station-staff/    T1–T5 (opening → passenger incidents → closure).
-│   │   ├── maintenance/      M1–M6 (depot safety → work-on-track → fleet MX).
-│   │   └── control-centre/   C1–C3 (watch roles, comms, shift handover).
-│   ├── hardware/             Hardware bring-up runbooks (RFC 0007 v1).
-│   │   └── bring-up/         Per-class procedures: t-ecu-s, t-ecu-a, w-sbc, s-sbc.
-│   ├── rolling-stock/        Rolling-stock shop-drawing packages (RFC 0008 v1+).
-│   │   └── light-metro-3car/ Fabrication plan, body, bogie, traction, BOM, compliance.
-│   ├── civil/                Per-deployment civil alignment (RFC 0009 v1+).
-│   │   └── samawah/          Line 1 + Line 2 segment table + compliance report.
-│   ├── stations/             Per-archetype architectural envelopes (RFC 0010 v1+).
-│   │   └── samawah-standard/ Envelope, canopy structural, accessibility, services.
-│   └── rfcs/
-│       ├── 0001-track-state-consensus.md   Distributed signaling core.
-│       ├── 0002-energy-sizing.md           Solar+battery sizing.
-│       ├── 0003-samawah-reference-deployment.md   Reference pilot.
-│       ├── 0004-osr-interlocking-plan.md   MA computer implementation plan.
-│       ├── 0005-sbc-software-architecture.md  Canonical software architecture + crate map.
-│       ├── 0006-osr-tcn-design.md          On-train bus (TCN-E pub/sub).
-│       ├── 0007-hardware-reference-designs.md  T-ECU/S, T-ECU/A, T-OBS, W-SBC, S-SBC.
-│       ├── 0008-rolling-stock-reference-design.md  5 trainset families (urban shuttle → metro-6car).
-│       ├── 0009-track-design-standard.md   4 geometry presets (gauge, radius, grade, cant).
-│       ├── 0010-station-design-standard.md 6 station archetypes + passenger-flow model.
-│       ├── 0011-civil-infrastructure-design-standard.md  At-grade + elevated only (NO tunnels).
-│       ├── 0012-switches-and-crossings.md  3 turnout tangents + LX equipment envelope.
-│       ├── 0013-operations-rulebook.md     ≤ 60-page per-role rulebook, 3 degraded modes.
-│       ├── 0014-depot-design-standard.md   3 depot archetypes + fleet-sizing formula.
-│       ├── 0015-driverless-operation.md    GoA 4 by default — sensor suite, T-OBS ECU, cab elimination.
-│       ├── 0016-wayside-track-intrusion.md  Wayside intrusion detection — complements onboard detector.
-│       ├── 0017-cybersecurity-message-authentication.md  Ed25519-signed consensus entries.
-│       ├── 0018-operator-guis.md             egui-based sim + OCC consoles for designer + dispatcher.
-│       ├── 0019-diy-electronics.md           Plug-and-play DIY electronics from commodity modules.
-│       ├── 0020-crashworthiness.md           EN 15227 three-zone energy budget for the cabless body.
-│       ├── 0021-battery-traction.md          Under-seat Na-ion packs + station/depot opportunity charging.
-│       ├── 0022-bogie-traction-drive.md      Single-SKU 2-axle Bo-Bo bogie + axle-hung PMSM motorisation pattern.
-│       ├── 0023-door-system-reference-design.md   Electric linear-actuator door operator (EN 14752, $20–40 k vendor → ~$2 k DIY).
-│       ├── 0024-battery-thermal-high-ambient.md   PCM mass + dedicated chiller for ≥ 50 °C ambient envelopes.
-│       ├── 0025-diy-switch-and-point-machine.md   Regional switch-shop bootstrap (~$580 k CAPEX, ~$10 k per 1:9 turnout vs $120 k vendor).
-│       ├── 0026-charging-connector-reconciliation.md   Two-tier connector architecture (CCS2 depot + side-pin/pantograph terminal).
-│       └── 0027-brownfield-pilot-asset-recovery.md   Three-phase doctrine for converting dormant rolling stock + dormant rail workshops into OSR production capacity (Samawah, Atbara, Karachi, Maputo, Luanda, Tashkent worked examples).
-├── crates/                   56 Rust crates — grouped by role below.
-│   ├── osr-core/             Shared domain types (topology, trains, IDs).
-│   │   └── proto/track_state.proto         Interface definitions.
-│   │
-│   │   # Onboard safety (SIL-4)
-│   ├── osr-odometry/         Onboard position fusion.
-│   ├── osr-atp/              Automatic Train Protection.
-│   ├── osr-ato/              Automatic Train Operation (GoA 4 default).
-│   ├── osr-obstacle-detect/  NEW (RFC 0015): ultrasonic + LIDAR + radar fusion.
-│   ├── osr-trainset-image/   NEW (RFC 0015): onboard-stack integrator, goa2-cab flag.
-│   │
-│   │
-│   │   # Onboard safety (continued)
-│   ├── osr-brake/            EP brake + WSP + park brake.
-│   ├── osr-vigilance/        Driver alerter / dead-man (GoA 2 legacy only).
-│   ├── osr-derailment/       2oo2 derailment detection.
-│   ├── osr-fire-safety/      Onboard fire detection + suppression.
-│   ├── osr-door-control/     Door interlock + enable gating.
-│   │
-│   │   # Operator GUIs (RFC 0018)
-│   ├── osr-gui-shared/       Shared egui network-rendering helpers.
-│   ├── osr-sim-gui/          Simulator GUI binary — designer workflow.
-│   ├── osr-occ-gui/          OCC dispatcher console binary — live-ops workflow.
-│   │
-│   │   # Onboard traction & power
-│   ├── osr-traction/         Motor control (signed-current convention).
-│   ├── osr-bms/              Battery management (pack-level).
-│   ├── osr-regen/            Regenerative braking arbitration.
-│   ├── osr-aux-power/        Auxiliary / HVAC / lighting bus.
-│   │
-│   │   # Onboard systems
-│   ├── osr-tcms/             Train Control & Management System.
-│   ├── osr-hvac/             HVAC controller.
-│   ├── osr-lighting/         Passenger/cab lighting.
-│   ├── osr-dmi/              Driver-Machine Interface state.
-│   ├── osr-pis-onboard/      Onboard Passenger Information System.
-│   ├── osr-hot-axle/         Onboard hot-axle advisory.
-│   ├── osr-event-recorder/   Black-box ring buffer.
-│   ├── osr-tcn/              IEC 61375-style TSN trainbus (mock v1).
-│   │
-│   │   # Wayside core (SIL-4)
-│   ├── osr-interlocking/     MA computer (RFC 0004 M1+M2 done).
-│   ├── osr-intrusion-detect/ NEW (RFC 0016): wayside track-intrusion detection.
-│   ├── osr-consensus/        Raft — refinement of formal/tla/SMRaft.tla.
-│   ├── osr-wayside-points/   Power-switch (point) controller.
-│   │
-│   │   # Wayside infrastructure
-│   ├── osr-balise/           Balise registry + sighting audit.
-│   ├── osr-level-crossing/   SIL-4 five-state crossing controller.
-│   ├── osr-hot-axle-wayside/ SIL-4 wayside HABD.
-│   ├── osr-energy-site/      PV + battery + grid-tie dispatch.
-│   │
-│   │   # Stations & fare
-│   ├── osr-psd/              Platform screen doors.
-│   ├── osr-station-scada/    Station SCADA.
-│   ├── osr-pis-station/      Station passenger information.
-│   ├── osr-afc/              Automatic fare collection (HMAC tokens).
-│   ├── osr-tvm/              Ticket vending machine.
-│   │
-│   │   # Back office
-│   ├── osr-occ/              Operations Control Centre / dispatcher.
-│   ├── osr-historian/        Ring-buffered metric storage w/ decimation.
-│   ├── osr-analytics/        Fleet analytics (adherence, MDBF, energy/km).
-│   ├── osr-t2g/              Train-to-ground radio adapter.
-│   │
-│   │   # Commissioning
-│   ├── osr-selftest/         NEW (RFC 0019): per-role post-assembly self-test
-│   │                         CLI — the DIY path's flying-probe substitute.
-│   │
-│   │
-│   │   # Design pipeline
-│   ├── osr-routing/          Cost/demand Dijkstra solver + civil-class
-│   │                         inference + station placement on a 20 m grid.
-│   ├── osr-design/           Orchestrator — reads rasters + anchors, emits
-│   │                         design.toml + corridor.geojson + quality.yaml.
-│   ├── osr-alignment/        Horizontal + vertical alignment artefact with
-│   │                         cant schedule, LandXML + railML exports,
-│   │                         stake-out CSV, earthworks quantities, and
-│   │                         trackside-equipment placement.
-│   │
-│   └── osr-sim/              Time-stepped simulator + shadow onboard stack +
-│                             HTML/SVG visualizer (osr-vis).
-├── mechanical-py/            Python sidecar for parametric mechanical / civil /
-│   │                         station components (build123d). Every RFC-level
-│   │                         choice (consist, archetype, span) is a parameter;
-│   │                         STEP artifacts under catalog/ round-trip into
-│   │                         Revit / Tekla / Civil 3D.
-│   ├── src/osr_mech/
-│   │   ├── track/            Rail (54E1/60E1), sleeper (B70), fastener, panel.
-│   │   ├── civil/            Precast U-girder (20/25/30 m), platform L-unit.
-│   │   ├── station/          Portal-frame bay + solar-roof sandwich panel +
-│   │   │                     multi-bay canopy — the full "prefab metal canopy
-│   │   │                     with solar roof" reference station.
-│   │   └── rolling_stock/    Cabless car body + sensor cowl + 2-axle bogie +
-│   │                         full trainset (5 consist families) per RFC 0015.
-│   └── catalog/              Regenerable STEP artifacts (run `osr-mech-export`).
-├── design-py/                Python sidecar for GIS data + raster synthesis.
-│   └── src/
-│       ├── osr_osm/          Overpass fetcher w/ SHA256 disk cache (arterials,
-│       │                     buildings, water, protected land, POI anchors).
-│       ├── osr_geo/          Numpy raster synthesis — cost / demand /
-│       │                     buildability surfaces, binary + JSON sidecar.
-│       └── osr_batch/        Batch driver + GeoNames → cities.toml scanner
-│                             with built-in existing-transit denylist.
-├── hardware/                 Hardware reference designs (RFC 0007 v2-spec).
-│   ├── t-ecu-s/              Train safety kernel (2 × RP2350 2oo2 + RPi CM5).
-│   ├── t-ecu-a/              Train application (RPi CM5 carrier).
-│   ├── t-obs/                Train obstacle-detect ECU (2 × RP2350 + CM5 + sensors).
-│   ├── w-sbc/                Wayside (Radxa CM5 RK3588S, one SKU).
-│   ├── s-sbc/                Station / depot (RPi CM5 + commodity carrier).
-│   └── diy-assembly/         Per-host-class commodity-module BOMs (RFC 0019).
-├── tools/
-│   ├── reference-ma/         Python reference interpreter for osr-interlocking
-│   │                         (differential twin against Rust, RFC 0004 M4).
-│   └── osr-aln-convert/      LandXML → OSR-ALN converter (RFC 0009 v3) for
-│                             Civil 3D / Bentley OpenRail / Trimble / QGIS exports.
-├── lib/
-│   ├── city-batches/         Canonical city catalogue (slug → bbox / country /
-│   │                         population / climate). `world-sample.toml` is the
-│   │                         166-city catalogue spanning 8 regions and
-│   │                         the rolling-stock family bands; production
-│   │                         entries source national-stats-office figures
-│   │                         while generated expansion seeds are flagged for
-│   │                         source replacement before deployment.
-│   ├── templates/            Reusable Lego-block TOMLs (stations, switches,
-│   │                         signalling, structures, fleets, energy-sites,
-│   │                         country-costs, country-finance).
-│   ├── recipes/              City-to-design generation rules (climate, topology,
-│   │                         fleet sizing).
-│   └── examples/             Generic template scenarios (`example-simple.toml`,
-│                             `minimal-city.toml`).
-├── designs/                  Per-city design artefacts (`design.toml` +
-│   │                         scenario + map PNG + README + GeoJSON +
-│   │                         design-quality YAML, all auto-generated by
-│   │                         `scripts/regenerate-city.sh <slug>`). 166 cities
-│   │                         today across west-asia / north-africa / east-
-│   │                         africa / west-africa / south-asia / southeast-
-│   │                         asia / europe / latin-america.
-│   └── west-asia/Iraq/Samawah/
-│                             The reference brownfield pilot per RFC 0003 +
-│                             RFC 0027 — the bundled canonical Samawah
-│                             scenario `osr-sim` defaults to is generated
-│                             from this folder's design.toml.
-├── scripts/
-│   ├── regenerate-city.sh    Slug-driven end-to-end regeneration: OSM →
-│   │                         rasterise (with WorldPop) → osr-design synthesis
-│   │                         → scenario → map PNG → README → drift tests.
-│   └── regenerate-all.sh     Batch driver — reads slugs from world-sample.toml
-│                             and runs regenerate-city.sh per slug. Supports
-│                             --jobs N (parallel), --only / --skip filters,
-│                             and continue-on-error with a final OK / FAIL
-│                             summary; per-slug logs in
-│                             .cache/osr-pipeline/logs/.
-└── formal/tla/
-    ├── SMRaft.tla            Consensus protocol spec.
-    ├── MCSmall.tla           Small TLC harness.
-    └── MCSmall.cfg           TLC config.
-```
+This is a compact map of the stable top-level source areas. For full,
+generated inventories, use [`designs/INDEX.md`](designs/INDEX.md), the
+workspace [`Cargo.toml`](Cargo.toml), and the RFC directory itself
+instead of treating this README as a hand-maintained file list.
+
+| Path | What lives there |
+|---|---|
+| [`Cargo.toml`](Cargo.toml), [`crates/`](crates/) | Rust workspace: 56 crates covering onboard safety, wayside signalling, train systems, GUIs, simulation, design synthesis, and safety-case tooling. |
+| [`docs/`](docs/) | Architecture, certification pack, safety case, operations rulebook, civil/station/rolling-stock packages, hardware bring-up notes, and 27 RFCs in [`docs/rfcs/`](docs/rfcs/). |
+| [`designs/`](designs/) | Generated city models. Each city lives at `designs/<region>/<country>/<City>/` with `design.toml`, scenario TOML, route GeoJSON, network map PNG, design-quality YAML, and a city README. Full list: [`designs/INDEX.md`](designs/INDEX.md). |
+| [`lib/`](lib/) | Machine-readable catalogue inputs and templates: city batches, fleet/station/switch/energy/cost/finance templates, generation recipes, and example scenarios. |
+| [`design-py/`](design-py/) | Python GIS sidecar: OSM/WorldPop ingestion, raster generation, batch tooling, map rendering, and scenario README generation. |
+| [`mechanical-py/`](mechanical-py/) | Python mechanical sidecar: parametric track, civil, station, depot, accessibility, clearance, crashworthiness, and rolling-stock CAD with regenerable STEP catalogues. |
+| [`hardware/`](hardware/) | Hardware reference designs and DIY assembly material for T-ECU/S, T-ECU/A, T-OBS, W-SBC, and S-SBC host classes. |
+| [`tools/`](tools/) | Smaller companion tools, including the Python movement-authority reference interpreter and LandXML to OSR-ALN converter. |
+| [`formal/tla/`](formal/tla/) | TLA+ consensus specification and model-checking harnesses. |
+| [`scripts/`](scripts/) | Regeneration and publishing helpers, including city/catalogue regeneration, repo health checks, and the PDF book builder. |
+| [`opensource-rail-docs-book.pdf`](opensource-rail-docs-book.pdf) | Generated reader-edition PDF of the documentation and compact city model briefs. |
 
 ## Quick start
 
