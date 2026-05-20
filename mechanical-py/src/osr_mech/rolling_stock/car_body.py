@@ -6,11 +6,11 @@ matching the `solar-metro-trainset.png` concept:
 - Rounded vertical corners (200 mm radius) and large dark glazing
   for a modern metro profile.
 - Low-floor centre door zone at 350 mm rail-to-floor for level
-  boarding from the OSR low platform; raised floor remains over the
-  standard bogies.
-- One wide centre double-leaf sliding door per side. Longer consists
-  add cars, not extra door patterns, so every self-contained car stays
-  mechanically identical.
+  boarding from the OSR low platform; about 10 m remains low-floor
+  between the raised standard-bogie end decks.
+- Two wide double-leaf sliding doors per side in the low-floor centre
+  zone. The repeated car module keeps dwell capacity high without
+  changing the high-floor bogie-end layout.
 - Large side windows between / outside the doors, sized to the
   wall segments. Laminated safety glass, bonded frame.
 - A green painted livery band running the full length below the
@@ -107,9 +107,13 @@ COLOR_SAFETY = Color(0.92, 0.68, 0.12)
 FLOOR_PLATE_THICKNESS_MM = 95.0
 LOW_FLOOR_HEIGHT_MM = DOOR_SILL_HEIGHT_MM
 HIGH_FLOOR_HEIGHT_MM = 760.0
-END_HIGH_FLOOR_LENGTH_MM = 4200.0
-LOW_FLOOR_CENTRE_LENGTH_MM = 6400.0
-FLOOR_TRANSITION_LENGTH_MM = 1100.0
+# Standard bogies are about 3 m long, so each raised end deck only
+# needs to cover the bogie envelope and local service access. The
+# remaining centre span stays low-floor for two door pairs, PRM bays,
+# and passenger circulation.
+END_HIGH_FLOOR_LENGTH_MM = 3000.0
+LOW_FLOOR_CENTRE_LENGTH_MM = 10_000.0
+FLOOR_TRANSITION_LENGTH_MM = 500.0
 SIDE_SILL_HEIGHT_MM = 300.0
 ROOF_RAIL_HEIGHT_MM = 170.0
 CEILING_DUCT_Z_MM = 3130.0
@@ -153,7 +157,7 @@ class CarDimensions:
     body_length_mm: float = 17_000.0
     body_width_mm: float = 2850.0
     body_height_mm: float = 3450.0
-    doors_per_side: int = 1
+    doors_per_side: int = 2
 
 
 # ---------------------------------------------------------------------------
@@ -398,6 +402,7 @@ def _floor_and_structure(dims: CarDimensions) -> list[Part]:
     out.append(low_floor)
 
     for x_sign in (-1.0, 1.0):
+        bogie_x = x_sign * (dims.body_length_mm / 2.0 - 2100.0)
         high_floor = Box(
             END_HIGH_FLOOR_LENGTH_MM,
             dims.body_width_mm - 300.0,
@@ -432,6 +437,34 @@ def _floor_and_structure(dims: CarDimensions) -> list[Part]:
         ramp.color = COLOR_INTERIOR
         ramp.label = "Interior ramp between low centre and raised bogie floor"
         out.append(ramp)
+
+        clearance = Box(3600.0, dims.body_width_mm + 260.0, 760.0).locate(
+            Location((bogie_x, 0.0, 430.0))
+        )
+        clearance.color = Color(0.45, 0.58, 0.68, 0.18)
+        clearance.label = "Bogie rotation and suspension-travel clearance envelope"
+        out.append(clearance)
+
+        drop_zone = Box(3200.0, dims.body_width_mm - 420.0, 120.0).locate(
+            Location((bogie_x, 0.0, -120.0))
+        )
+        drop_zone.color = COLOR_SAFETY
+        drop_zone.label = "Wheel-change and bogie drop clearance zone"
+        out.append(drop_zone)
+
+        end_ring = Box(150.0, dims.body_width_mm - 240.0, dims.body_height_mm - 420.0).locate(
+            Location((x_sign * (dims.body_length_mm / 2.0 - 210.0), 0.0, 1710.0))
+        )
+        end_ring.color = COLOR_STRUCTURE
+        end_ring.label = "End ring frame for open glass cowl"
+        out.append(end_ring)
+
+        anti_climber = Box(260.0, dims.body_width_mm - 360.0, 260.0).locate(
+            Location((x_sign * (dims.body_length_mm / 2.0 - 420.0), 0.0, 740.0))
+        )
+        anti_climber.color = COLOR_STRUCTURE
+        anti_climber.label = "Anti-climber load beam"
+        out.append(anti_climber)
 
     for y_sign in (-1.0, 1.0):
         y = y_sign * (dims.body_width_mm / 2.0 - 135.0)
@@ -488,6 +521,28 @@ def _floor_and_structure(dims: CarDimensions) -> list[Part]:
         roof_rail.label = "Roof cantrail extrusion"
         out.append(roof_rail)
 
+        for x, width in _window_zones(dims):
+            waist = Box(width + 340.0, 120.0, 105.0).locate(
+                Location((x, y_sign * (dims.body_width_mm / 2.0 - 120.0), WINDOW_SILL_MM - 120.0))
+            )
+            waist.color = COLOR_STRUCTURE
+            waist.label = "Waist rail under window cassette"
+            out.append(waist)
+
+            for side in (-1.0, 1.0):
+                post = Box(95.0, 115.0, WINDOW_HEIGHT_MM + 420.0).locate(
+                    Location(
+                        (
+                            x + side * (width / 2.0 + 120.0),
+                            y_sign * (dims.body_width_mm / 2.0 - 120.0),
+                            WINDOW_SILL_MM + WINDOW_HEIGHT_MM / 2.0,
+                        )
+                    )
+                )
+                post.color = COLOR_STRUCTURE
+                post.label = "Window post"
+                out.append(post)
+
     for x in (-7600.0, -5100.0, -2500.0, 0.0, 2500.0, 5100.0, 7600.0):
         crossmember = Box(105.0, dims.body_width_mm - 420.0, 210.0).locate(
             Location((x, 0.0, 175.0))
@@ -531,6 +586,30 @@ def _interior_fit_out(dims: CarDimensions) -> list[Part]:
     """Passenger-zone interior: seats, grab poles, PRM bays, and ceiling kit."""
 
     out: list[Part] = []
+
+    aisle = Box(dims.body_length_mm - 2300.0, 950.0, 35.0).locate(
+        Location((0.0, 0.0, LOW_FLOOR_HEIGHT_MM + 42.0))
+    )
+    aisle.color = Color(0.86, 0.74, 0.28, 0.45)
+    aisle.label = "Main saloon egress aisle envelope"
+    out.append(aisle)
+
+    for x in (-2200.0, 2200.0):
+        turn = Box(1500.0, 1500.0, 32.0).locate(
+            Location((x, 0.0, LOW_FLOOR_HEIGHT_MM + 62.0))
+        )
+        turn.color = Color(0.92, 0.72, 0.18, 0.42)
+        turn.label = "Wheelchair turning circle envelope"
+        out.append(turn)
+
+    for x_sign in (-1.0, 1.0):
+        viewing = Box(1260.0, dims.body_width_mm - 760.0, 28.0).locate(
+            Location((x_sign * (dims.body_length_mm / 2.0 - 940.0), 0.0, HIGH_FLOOR_HEIGHT_MM + 40.0))
+        )
+        viewing.color = Color(0.42, 0.64, 0.74, 0.35)
+        viewing.label = "Open glass end passenger viewing zone"
+        out.append(viewing)
+
     for x, width in _window_zones(dims):
         on_high_floor = abs(x) > LOW_FLOOR_CENTRE_LENGTH_MM / 2.0
         seat_base_z = (HIGH_FLOOR_HEIGHT_MM + 170.0) if on_high_floor else 520.0
@@ -575,6 +654,20 @@ def _interior_fit_out(dims: CarDimensions) -> list[Part]:
             step.color = COLOR_SAFETY
             step.label = "Interior step tread to raised bogie-end floor"
             out.append(step)
+
+        for y_sign in (-1.0, 1.0):
+            rail = Box(1180.0, 55.0, 55.0).locate(
+                Location(
+                    (
+                        x_sign * (LOW_FLOOR_CENTRE_LENGTH_MM / 2.0 + 660.0),
+                        y_sign * 520.0,
+                        HIGH_FLOOR_HEIGHT_MM + 780.0,
+                    )
+                )
+            )
+            rail.color = COLOR_STRUCTURE
+            rail.label = "High-floor step handrail"
+            out.append(rail)
 
     for x in (-6100.0, -3500.0, -1200.0, 1200.0, 3500.0, 6100.0):
         pole = Box(70.0, 70.0, 2400.0).locate(Location((x, 0.0, 1540.0)))

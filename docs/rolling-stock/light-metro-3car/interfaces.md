@@ -51,6 +51,22 @@ no gear train. Failure mode: flap stuck up → `osr-door-control`
 blocks door-open; failure flap stuck down → visual inspection at
 depot next cycle.
 
+## Platform automation and PSD interface
+
+The train has two door openings per side per car. On the 3-car
+reference consist that is six door centres per platform side, all in
+the 350 mm low-floor zones. Station platform screen doors or platform
+edge doors align to the train-side door centres.
+
+| Parameter | Value |
+|---|---|
+| Door centres per car | 5.67 m and 11.33 m from the car end |
+| Door centres per 3-car platform side | 6 |
+| ATO stopping target | ± 300 mm normal, ± 500 mm degraded before door-open inhibit |
+| Door-open permissive | Train stopped + correct side selected + PSD/edge-door ready + closed/locked loop healthy |
+| Intrusion sensing | Door-sill camera/obstruction harness plus station edge sensor input |
+| Short-platform operation | Selective door opening by car and side via `osr-door-control` |
+
 ## TCN-E connector (intra-consist, via articulation)
 
 Standard Ethernet + power bundle through each articulation joint:

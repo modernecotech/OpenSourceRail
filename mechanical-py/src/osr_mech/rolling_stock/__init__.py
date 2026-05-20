@@ -8,8 +8,8 @@ GoA 4 (unattended) with no driver cab. The geometry reflects that:
   RF-transparent glass carries the T-OBS sensor sightline and LED
   headlamp / marker-light clusters per RFC 0015 §5.1.
 - Passenger floor is stepped because all cars use standard bogies:
-  high-floor end zones sit over the bogies, while the centre door and
-  PRM zone stays at the 350 mm low-floor platform datum.
+  high-floor end zones sit over the bogies, while the two centre door
+  pairs and PRM zone stay at the 350 mm low-floor platform datum.
 - Bogie spacing, door openings, and coupler faces follow the RFC 0008
   §3 reference-design dimensions for each consist family.
 

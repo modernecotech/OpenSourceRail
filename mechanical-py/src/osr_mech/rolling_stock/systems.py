@@ -71,6 +71,14 @@ def system_layout(dims: CarDimensions, car_count: int) -> TrainsetSystemLayout:
     )
 
 
+def _door_centres_x(dims: CarDimensions) -> list[float]:
+    spacing = dims.body_length_mm / (dims.doors_per_side + 1)
+    return [
+        -dims.body_length_mm / 2.0 + (i + 1) * spacing
+        for i in range(dims.doors_per_side)
+    ]
+
+
 def _part(part: Part, label: str, color: Color) -> Part:
     part.label = label
     part.color = color
@@ -252,7 +260,7 @@ def inter_car_articulation() -> Compound:
     return c
 
 
-def door_system_pair() -> Compound:
+def door_system_pair(x_offset: float = 0.0) -> Compound:
     """Door cassette pair, sill gap filler, lock, and external release."""
 
     parts: list[Part] = []
@@ -264,7 +272,7 @@ def door_system_pair() -> Compound:
                 DOOR_WIDTH_MM + 260.0,
                 80.0,
                 DOOR_HEIGHT_MM + 260.0,
-                (0.0, y, frame_z),
+                (x_offset, y, frame_z),
                 "COTS electric door cassette",
                 COLOR_DOOR,
             )
@@ -274,7 +282,7 @@ def door_system_pair() -> Compound:
                 DOOR_WIDTH_MM + 480.0,
                 130.0,
                 90.0,
-                (0.0, y_sign * 1390.0, DOOR_SILL_HEIGHT_MM + DOOR_HEIGHT_MM + 105.0),
+                (x_offset, y_sign * 1390.0, DOOR_SILL_HEIGHT_MM + DOOR_HEIGHT_MM + 105.0),
                 "Door top roller track and operator rail",
                 COLOR_METAL,
             )
@@ -283,14 +291,18 @@ def door_system_pair() -> Compound:
             _cyl(
                 90.0,
                 220.0,
-                (-DOOR_WIDTH_MM / 2.0 - 250.0, y_sign * 1390.0, DOOR_SILL_HEIGHT_MM + DOOR_HEIGHT_MM + 120.0),
+                (
+                    x_offset - DOOR_WIDTH_MM / 2.0 - 250.0,
+                    y_sign * 1390.0,
+                    DOOR_SILL_HEIGHT_MM + DOOR_HEIGHT_MM + 120.0,
+                ),
                 "COTS electric door motor gearbox",
                 COLOR_ELECTRONICS,
             )
         )
         leaf_w = (DOOR_WIDTH_MM - 30.0) / 2.0
         for leaf_sign in (-1.0, 1.0):
-            leaf_x = leaf_sign * (leaf_w / 2.0 + 12.0)
+            leaf_x = x_offset + leaf_sign * (leaf_w / 2.0 + 12.0)
             parts.append(
                 _box(
                     leaf_w,
@@ -326,7 +338,7 @@ def door_system_pair() -> Compound:
                 DOOR_WIDTH_MM + 180.0,
                 90.0,
                 70.0,
-                (0.0, y_sign * 1440.0, DOOR_SILL_HEIGHT_MM - 40.0),
+                (x_offset, y_sign * 1440.0, DOOR_SILL_HEIGHT_MM - 40.0),
                 "Door sill gap-filler flap",
                 COLOR_ACCESS,
             )
@@ -336,7 +348,7 @@ def door_system_pair() -> Compound:
                 _cyl(
                     18.0,
                     75.0,
-                    (x, y_sign * 1445.0, DOOR_SILL_HEIGHT_MM - 8.0),
+                    (x_offset + x, y_sign * 1445.0, DOOR_SILL_HEIGHT_MM - 8.0),
                     "Gap-filler hinge knuckle",
                     COLOR_METAL,
                 )
@@ -346,7 +358,7 @@ def door_system_pair() -> Compound:
                 180.0,
                 80.0,
                 260.0,
-                (DOOR_WIDTH_MM / 2.0 + 120.0, y_sign * 1425.0, 1250.0),
+                (x_offset + DOOR_WIDTH_MM / 2.0 + 120.0, y_sign * 1425.0, 1250.0),
                 "Door lock and external emergency release",
                 COLOR_CRASH,
             )
@@ -356,12 +368,71 @@ def door_system_pair() -> Compound:
                 42.0,
                 35.0,
                 380.0,
-                (DOOR_WIDTH_MM / 2.0 + 255.0, y_sign * 1465.0, 1260.0),
+                (x_offset + DOOR_WIDTH_MM / 2.0 + 255.0, y_sign * 1465.0, 1260.0),
                 "External emergency release pull handle",
                 COLOR_CRASH,
             )
         )
     return Compound(label="Door cassette and platform-gap assembly", children=parts)
+
+
+def door_systems_for_car(dims: CarDimensions = CarDimensions()) -> Compound:
+    """All door pairs for one car, aligned to the car-body cutouts."""
+
+    return Compound(
+        label="All door cassette and platform-gap assemblies for car",
+        children=[door_system_pair(x) for x in _door_centres_x(dims)],
+    )
+
+
+def platform_safety_interface(dims: CarDimensions = CarDimensions()) -> Compound:
+    """Platform-edge, PSD, ATO stopping, and door-interlock reservations."""
+
+    parts: list[Part] = []
+    for x in _door_centres_x(dims):
+        for y_sign in (-1.0, 1.0):
+            platform_y = y_sign * (dims.body_width_mm / 2.0 + 105.0)
+            parts.append(
+                _box(
+                    DOOR_WIDTH_MM + 520.0,
+                    35.0,
+                    2200.0,
+                    (x, platform_y, 1450.0),
+                    "Platform screen-door alignment datum",
+                    Color(0.92, 0.72, 0.18, 0.32),
+                )
+            )
+            parts.append(
+                _box(
+                    760.0,
+                    42.0,
+                    70.0,
+                    (x, platform_y, DOOR_SILL_HEIGHT_MM + 65.0),
+                    "ATO stopping accuracy target envelope",
+                    COLOR_SENSOR,
+                )
+            )
+            parts.append(
+                _box(
+                    280.0,
+                    55.0,
+                    190.0,
+                    (x + DOOR_WIDTH_MM / 2.0 + 290.0, platform_y, 1320.0),
+                    "Door/platform safety interlock interface",
+                    COLOR_ELECTRONICS,
+                )
+            )
+            parts.append(
+                _box(
+                    DOOR_WIDTH_MM + 900.0,
+                    28.0,
+                    125.0,
+                    (x, platform_y, 820.0),
+                    "Platform intrusion sensor sightline reservation",
+                    COLOR_SENSOR,
+                )
+            )
+    return Compound(label="Platform door and automation safety interface", children=parts)
 
 
 def battery_pack_set(dims: CarDimensions = CarDimensions()) -> Compound:
@@ -713,7 +784,8 @@ def car_systems(dims: CarDimensions = CarDimensions()) -> Compound:
     """All equipment envelopes mounted to one self-contained car."""
 
     parts: list[Part | Compound] = [
-        door_system_pair(),
+        door_systems_for_car(dims),
+        platform_safety_interface(dims),
         battery_pack_set(dims),
         traction_power_rack(),
         accessibility_and_safety_kit(dims),
@@ -769,9 +841,11 @@ __all__ = [
     "battery_pack_set",
     "car_systems",
     "door_system_pair",
+    "door_systems_for_car",
     "electronics_cabinet",
     "end_coupler",
     "inter_car_articulation",
+    "platform_safety_interface",
     "system_layout",
     "tobs_sensor_pack",
     "traction_power_rack",

@@ -138,7 +138,7 @@ Aux inverter (400 V / 3-phase AC output + 110 V / 24 V DC):
 | HVAC (3 units — one per car) | 60 kW total | |
 | Interior + exterior lighting | 6 kW | |
 | PIS displays + onboard compute | 2 kW | |
-| Door motors | 2 kW total (centre door pairs, not simultaneously) | |
+| Door motors | 4 kW total (six door pairs per consist side; not simultaneously) | |
 | Recovery cabinet + onboard controls | 0.5 kW per end | |
 | Compressor (for air-horn only — NO brake air) | 0.5 kW | |
 

@@ -49,7 +49,8 @@ COUPLING_GAP_MM = 0.0
 # Motorisation pattern per family (RFC 0022 §8).
 # True = the car carries one motor bogie and one trailer bogie.
 # False = the car carries two trailer bogies. The light-metro concept
-# image uses powered end cars and a low-floor trailer middle car.
+# uses powered end cars; every car keeps a low-floor centre with raised
+# end decks over the standard bogies.
 _FAMILY_MOTORISED_CARS: dict[ConsistFamily, tuple[bool, ...]] = {
     ConsistFamily.URBAN_SHUTTLE_1CAR: (True,),
     ConsistFamily.TRAM_2CAR: (True, True),
@@ -63,7 +64,6 @@ def family_dimensions(family: ConsistFamily) -> CarDimensions:
     """Default `CarDimensions` for each consist family."""
     return CarDimensions(
         body_length_mm=_FAMILY_CAR_LENGTH_MM[family],
-        doors_per_side=1,
     )
 
 

@@ -194,9 +194,9 @@ CATALOGUE: dict[Category, CotsItem] = {
 # ---------------------------------------------------------------------------
 
 # These are the "how many of each per car" rules driving the BOM. The
-# current OSR module uses one wide centre door per side; the rules stay
-# parametric so a future dwell-driven variant can add doors without
-# rewriting the catalogue.
+# current OSR module uses two wide low-floor door openings per side;
+# the rules stay parametric so future variants can tune dwell capacity
+# without rewriting the catalogue.
 
 
 def _window_zone_count(dims: CarDimensions) -> int:
@@ -215,9 +215,10 @@ def _seat_run_count(dims: CarDimensions) -> int:
 
 
 def _grab_pole_count(dims: CarDimensions) -> int:
-    """Vertical grab poles — 2 per door zone. Passengers grab onto
-    poles at door edges; door leaves retract into the adjacent wall."""
-    return dims.doors_per_side * 2
+    """Vertical grab poles — 2 per door opening on each side.
+    Passengers grab onto poles at door edges; door leaves retract into
+    the adjacent wall."""
+    return dims.doors_per_side * 4
 
 
 def _pis_screen_count(dims: CarDimensions) -> int:

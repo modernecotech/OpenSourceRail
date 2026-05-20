@@ -112,9 +112,10 @@ then run `scripts/regenerate-city.sh <slug>`.
 ## Rolling Stock And CAD
 
 The current reference train is the `light-metro-3car`: cabless,
-driverless, battery electric, powered end cars with a low-floor trailer
-middle car, under-seat sodium-ion batteries, roof solar, COTS
-doors/windows/HVAC, and T-OBS sensor packs at both glass-end noses.
+driverless, battery electric, powered end cars plus an unpowered middle
+car, under-seat sodium-ion batteries, roof solar, COTS
+doors/windows/HVAC, two low-floor door pairs per side per car, and
+T-OBS sensor packs at both glass-end noses.
 
 Key links:
 
@@ -140,11 +141,11 @@ HVAC ducting, LV/data trays, lighting, HV/PV routing, coolant, and fire-vent pat
 
 ![Layered car body structure](docs/screenshots/trainset-car-body-structure.png)
 
-Primary body structure with translucent shell, low-floor centre pan, raised bogie-end decks, side sills, and portal frames.
+Primary body structure with translucent shell, 10 m low-floor centre pan, raised bogie-end decks, side sills, and portal frames.
 
 ![Car body and bogie subassembly](docs/screenshots/trainset-car-body-bogie-subassembly.png)
 
-Single-car structure mounted over standard motor/trailer bogies, showing why the end zones are high-floor and the centre door zone is low-floor.
+Single-car structure mounted over standard motor/trailer bogies, showing the ~3 m high-floor end decks and the 10 m low-floor centre zone.
 
 ![Body and chassis sheet-metal kit](docs/screenshots/trainset-body-sheet-metal-kit.png)
 
@@ -152,7 +153,7 @@ Manufacturing-oriented sheet-metal kit for underframe, bolsters, coupler pockets
 
 ![Per-car systems assembly](docs/screenshots/trainset-car-systems.png)
 
-One self-contained car equipment package: door cassettes, batteries, charging interface, traction power rack, and accessibility/safety reservations.
+One self-contained car equipment package: four door cassettes, platform safety interfaces, batteries, charging interface, traction power rack, and accessibility/safety reservations.
 
 ![Motor bogie](docs/screenshots/bogie-motor.png)
 

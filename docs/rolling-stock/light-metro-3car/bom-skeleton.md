@@ -24,7 +24,7 @@ This BOM is keyed to the visual and layout concept in
 [`docs/assets/solar-metro-trainset.png`](../../../docs/assets/solar-metro-trainset.png):
 
 - 3 cars, each 17 m, **51 m over couplers**.
-- Car 1 and Car 3 are powered; Car 2 is the low-floor trailer.
+- Car 1 and Car 3 are powered; Car 2 is the unpowered trailer.
 - 2 new powered bogies total, one at each outer end; 4 converted
   freight trailer bogies.
 - 4 traction motors total, 600 kW peak consist output.
@@ -32,8 +32,9 @@ This BOM is keyed to the visual and layout concept in
 - Wide passenger windows, open dark glass driverless end cowls with
   LED headlamp/marker clusters, white/silver body shell, green waist
   band, dark skirts, and yellow door thresholds.
-- Standard bogies under every car, requiring high-floor end decks over
-  the bogies and a low-floor centre door/PRM zone.
+- Standard bogies under every car, requiring ~3 m high-floor end decks
+  over the bogies and a ~10 m low-floor centre zone with two door
+  openings per side.
 - Batteries remain under longitudinal seats, not on the roof or deep
   underframe.
 
@@ -50,9 +51,9 @@ This BOM is keyed to the visual and layout concept in
 | B7 | Composite roof fairings + skirts | 95 m² | BID | 24 000 | Removable service panels |
 | B8 | Composite open-glass sensor cowl shells | 2 | BID | 12 000 | Sacrificial over steel crash frame; accepts panoramic glass and LED lamp clusters |
 | B9 | Articulation joint, Hübner RTS-B40 | 2 | BID | 90 000 | Or local equivalent |
-| B10 | COTS laminated safety-glass window cassette | 12 | SOURCE | 18 000 | Bonded/gasketed rail/bus unit |
-| B11 | COTS electric plug/sliding door cassette | 6 | BID | 150 000 | Door, controller, seals, emergency release |
-| B12 | Stepped floor board + hatch system, EN 45545 | 135 m² | SOURCE | 16 200 | 350 mm low centre, 760 mm high bogie-end decks, access hatches |
+| B10 | COTS laminated safety-glass window cassette | 18 | SOURCE | 27 000 | Bonded/gasketed rail/bus unit |
+| B11 | COTS electric plug/sliding door cassette | 12 | BID | 300 000 | Door, controller, seals, emergency release |
+| B12 | Stepped floor board + hatch system, EN 45545 | 135 m² | SOURCE | 16 200 | 350 mm, ~10 m low centre; 760 mm high bogie-end decks, access hatches |
 | B13 | Vinyl/rubber floor covering, EN 45545 R5 | 135 m² | SOURCE | 5 400 | |
 | B14 | COTS longitudinal seat modules, EN 45545 R7 | 60 seats | SOURCE | 24 000 | Rail/bus bench modules |
 | B15 | COTS grab rail + stanchion kit | set | SOURCE | 8 000 | Stainless modular system |
@@ -65,11 +66,11 @@ This BOM is keyed to the visual and layout concept in
 | B22 | Scharfenberg Type 10 end coupler + electric head | 2 | BID | 70 000 | Includes rescue unlock handle |
 | B23 | EN 15227 crash energy absorber / crush-can set | 2 | BID | 30 000 | Bolts to coupler pocket |
 | B24 | Inter-car articulation drag-chain + trainline harness | 2 | SOURCE | 12 000 | TCN-E, CAN-FD, 24 V, 110 V, EB loop |
-| B25 | Door sill gap-filler + external emergency release kit | 6 | BID | 18 000 | Per exterior door cassette |
+| B25 | Door sill gap-filler + external emergency release kit | 12 | BID | 36 000 | Per exterior door cassette |
 | B26 | Jacking, lifting, towing, and recovery fittings | set | MAKE | 8 000 | Welded pads, tow eyes, labels |
 | B27 | Large dark glass end-panel assemblies | 2 | BID | 44 000 | Open driverless passenger view, RF-transparent sensor glass, heated/de-iced |
 | B28 | Concept livery package: white/silver body, green band, yellow thresholds | set | SOURCE | 6 000 | Paint masks, vinyl safety edging, exterior decals |
-| **Body + interior subtotal** | | | | **694 800** | |
+| **Body + interior subtotal** | | | | **871 800** | |
 
 ## Bogies (6 per consist)
 
@@ -142,17 +143,17 @@ This BOM is keyed to the visual and layout concept in
 | E11 | Depot manual-control pendant + keyed enable | 2 | BID | 3 000 | For depot recovery only; normally stowed |
 | E12 | Emergency plunger (hardwired) | 2 | SOURCE | 400 | |
 | E13 | Depot enable key-switch and guarded motion consent | 2 | SOURCE | 500 | Replaces driver deadman in cabless concept |
-| E14 | PIS display (exterior + interior) | 8 | SOURCE | 6 400 | |
+| E14 | PIS display (exterior + interior) | 12 | SOURCE | 9 600 | |
 | E15 | CCTV camera (forward + door-sill + in-car) | 20 | SOURCE | 6 000 | |
 | E16 | 2oo2 relay stage (per safety output) | 4 | SOURCE | 1 200 | |
 | E17 | Cable harness (pre-terminated, per car) | 3 | MAKE | 30 000 | |
 | E18 | T-OBS complete nose module | 2 | BID | 10 000 | LIDAR, radar, stereo, ultrasonic, 2oo2 outputs |
 | E19 | Sensor-window heater, washer, and service cover kit | 2 | SOURCE | 8 000 | Keeps nose sensors inspectable in service |
-| E20 | Door-sill camera / obstruction sensor harness | 6 doors | MAKE | 6 000 | Ties doors to CCTV + door control |
+| E20 | Door-sill camera / obstruction sensor harness | 12 doors | MAKE | 12 000 | Ties doors to CCTV + door control |
 | E21 | Roof antenna kit | set | SOURCE | 3 000 | 5G MIMO, LoRa, GNSS, public-safety blank |
 | E22 | DIN cabinets, power distribution, and terminal blocks | 3 cars | MAKE | 12 000 | T-ECU, BMS, door, HVAC cabinets |
 | E23 | Crashworthy event-recorder memory module | 1 | SOURCE | 5 000 | Complements E9 NVMe operational recorder |
-| **Electronics + safety subtotal** | | | | **100 280** | |
+| **Electronics + safety subtotal** | | | | **109 480** | |
 
 ## Safety, accessibility, and maintainability
 
@@ -168,17 +169,17 @@ This BOM is keyed to the visual and layout concept in
 
 | Bucket | Subtotal (USD) |
 |---|---|
-| Body + interior | 694 800 |
+| Body + interior | 871 800 |
 | Bogies | 510 000 |
 | Traction + power | 701 500 |
-| Electronics + safety | 100 280 |
+| Electronics + safety | 109 480 |
 | Safety/accessibility/maintainability | 18 000 |
-| **Total direct-material consist** | **2 024 580** |
+| **Total direct-material consist** | **2 210 780** |
 
 Labour (shop weld, bonding, assembly, commissioning) adds ~35 %:
-~709 000 USD.
+~774 000 USD.
 
-**Planning-grade per-consist cost (volume 100): ~2.73 M USD.**
+**Planning-grade per-consist cost (volume 100): ~2.98 M USD.**
 
 For comparison, legacy-vendor light-metro trainsets in the target
 regions typically land 4–6 M USD each — the OSR design's

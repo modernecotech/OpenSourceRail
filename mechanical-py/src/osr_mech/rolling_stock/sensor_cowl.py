@@ -71,6 +71,8 @@ MARKER_LIGHT_HEIGHT_MM = 42.0
 COLOR_SENSOR_WINDOW = Color(0.10, 0.12, 0.18)
 COLOR_HEADLIGHT = Color(0.98, 0.95, 0.85)
 COLOR_MARKER_LIGHT = Color(0.85, 0.94, 1.00)
+COLOR_ENGINEERING = Color(0.62, 0.64, 0.66)
+COLOR_SERVICE = Color(0.92, 0.68, 0.12)
 
 
 def _cowl_shell(car_width_mm: float, car_height_mm: float) -> Part:
@@ -170,6 +172,57 @@ def _sensor_window_insert() -> Part:
     return p
 
 
+def _cowl_engineering(car_width_mm: float) -> list[Part]:
+    """Serviceable hardware behind the open-glass driverless end."""
+
+    out: list[Part] = []
+    x = COWL_LENGTH_MM - SENSOR_WINDOW_INSET_MM
+    frame = Box(90.0, PANORAMIC_GLASS_WIDTH_MM + 190.0, PANORAMIC_GLASS_HEIGHT_MM + 210.0).locate(
+        Location((x - 70.0, 0.0, 1850.0))
+    )
+    frame.color = COLOR_ENGINEERING
+    frame.label = "Bonded panoramic glass structural frame"
+    out.append(frame)
+
+    crash_ring = Box(140.0, PANORAMIC_GLASS_WIDTH_MM + 360.0, PANORAMIC_GLASS_HEIGHT_MM + 420.0).locate(
+        Location((x - 160.0, 0.0, 1850.0))
+    )
+    crash_ring.color = COLOR_ENGINEERING
+    crash_ring.label = "Cowl crash ring around panoramic glass aperture"
+    out.append(crash_ring)
+
+    for z in (1020.0, 2680.0):
+        busbar = Box(28.0, PANORAMIC_GLASS_WIDTH_MM - 120.0, 26.0).locate(
+            Location((x + 4.0, 0.0, z))
+        )
+        busbar.color = COLOR_SERVICE
+        busbar.label = "Heated glass demist busbar"
+        out.append(busbar)
+
+    for y in (-420.0, 0.0, 420.0):
+        nozzle = Box(75.0, 55.0, 42.0).locate(Location((x + 18.0, y, 2780.0)))
+        nozzle.color = COLOR_SERVICE
+        nozzle.label = "Washer nozzle and service access cover"
+        out.append(nozzle)
+
+    desk = Box(520.0, 760.0, 260.0).locate(
+        Location((COWL_LENGTH_MM - 820.0, 0.0, 1110.0))
+    )
+    desk.color = COLOR_ENGINEERING
+    desk.label = "Emergency recovery driving desk behind glass"
+    out.append(desk)
+
+    for y_sign in (-1.0, 1.0):
+        handhold = Box(420.0, 55.0, 55.0).locate(
+            Location((COWL_LENGTH_MM - 980.0, y_sign * (car_width_mm / 2.0 - 470.0), 1720.0))
+        )
+        handhold.color = COLOR_ENGINEERING
+        handhold.label = "Open-end passenger handhold rail"
+        out.append(handhold)
+
+    return out
+
+
 def _headlight_inserts() -> list[Part]:
     """Warm-white LED clusters filling each headlight aperture."""
     out: list[Part] = []
@@ -252,6 +305,7 @@ def sensor_cowl(
     parts: list[Part | Compound] = []
     parts.append(_cowl_shell(car_width_mm, car_height_mm))
     parts.append(_sensor_window_insert())
+    parts.extend(_cowl_engineering(car_width_mm))
     parts.extend(_headlight_inserts())
     parts.extend(_livery_band_tapered(car_width_mm))
     return Compound(label="Nose sensor cowl (RFC 0015)", children=parts)

@@ -26,7 +26,7 @@ The build123d implementation follows the same hierarchy in
 
 | build123d subassembly | Included layers |
 |---|---|
-| `car_body_structure()` | Welded shell, 350 mm low-floor centre pan, 760 mm high-floor bogie-end decks, transition ramps/steps, side sills, raised bogie plinths, crossmembers, roof cantrails, door portal posts and headers |
+| `car_body_structure()` | Welded shell, 350 mm and ~10 m low-floor centre pan, 760 mm and ~3 m high-floor bogie-end decks, transition ramps/steps, side sills, raised bogie plinths, bogie sweep/drop envelopes, crossmembers, window posts, waist rails, end rings, anti-climber beams, roof cantrails, door portal posts and headers |
 | `car_body_exterior()` | Solar-train exterior skin: glazing, door leaves, livery band, removable skirts, roof PV array, compact HVAC roof units |
 | `car_body_interior()` | Under-seat battery strakes, longitudinal seats, PRM bays, grab poles, handrails, passenger information displays |
 | `car_body_services()` | HVAC supply/return/drop ducts, LV/TCN cable trays, LED lighting, CCTV, intercoms, door harness loops, HV traction/PV routing, coolant pipes, battery fire vent paths |
@@ -49,12 +49,13 @@ The underframe is a jig-welded ladder:
 | Coupler pocket | 16 mm folded plate + crush can interface | S355J2 | EN 15227 energy absorber bolts on |
 | Battery tray rail | 80 × 60 × 5 mm RHS | S355J2 | Under-seat module cassette support |
 
-The floor is not flat. The centre door and wheelchair bay sit at
-350 mm above top-of-rail for platform boarding. The end saloon zones
-rise to 760 mm over the standard bogies, with short interior steps and
-ramp panels between the zones. The body sides therefore use a lowered
-side sill through the centre door bay and raised plinth rails over the
-bogie zones.
+The floor is not flat. The two centre doors per side and wheelchair
+bay sit in a ~10 m low-floor zone at 350 mm above top-of-rail for
+platform boarding. The end saloon zones rise to 760 mm over the
+standard ~3 m bogies, with short interior steps and ramp panels
+between the zones. The body sides therefore use a lowered side sill
+through the centre door bay and raised plinth rails over the bogie
+zones.
 
 All primary welds are made in a rotating fixture so flat/horizontal
 weld positions dominate. The v2 drawing pack assigns EN 15085 weld
@@ -156,7 +157,7 @@ fabricated steel/composite body, is in
 - Removable hatches above battery and HV equipment zones.
 - Phenolic or aluminium honeycomb floor boards in the saloon.
 - Slip-resistant vinyl or rubber floor covering, EN 45545-2 R5.
-- Low-floor centre door zone; raised floor over bogies.
+- ~10 m low-floor centre door zone; ~3 m raised end decks over bogies.
 
 ## Corrosion protection
 

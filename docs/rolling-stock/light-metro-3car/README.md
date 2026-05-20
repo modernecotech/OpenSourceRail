@@ -33,12 +33,12 @@ for sides, roof fairings, cabless cowls, and interior liners.
 The governing visual/layout reference is
 [`solar-metro-trainset.png`](../../../docs/assets/solar-metro-trainset.png):
 white/silver body, green waist band, dark skirts, large glass ends,
-roof PV, low-floor centre doors, powered end cars, trailer middle car,
+roof PV, two low-floor door pairs per side per car, powered end cars, unpowered middle car,
 and batteries under longitudinal seats. The end glazing is an open
 driverless passenger view through heated RF-transparent glass with
 LED headlamp and marker-light clusters below it. Because the cars use
-standard bogies, each car has high-floor end decks over the bogies
-and a 350 mm low-floor centre door/PRM zone.
+standard bogies, each car has ~3 m high-floor end decks over the bogies
+and a 350 mm, ~10 m low-floor centre door/PRM zone.
 The front and rear passenger ends are not walled off by cab bulkheads;
 the end saloon looks through the glass cowls at both ends of the
 driverless train.
@@ -81,14 +81,14 @@ and render to these design-review PNGs:
 |---|---|
 | [`trainset-light-metro-3car.png`](../../../docs/screenshots/trainset-light-metro-3car.png) | Final 3-car trainset assembly with car bodies, bogies, cowls, couplers, inter-car articulation, and train systems |
 | [`trainset-car-detail.png`](../../../docs/screenshots/trainset-car-detail.png) | 17 m layered car body: structure, door/window openings, glazing, livery, roof PV/HVAC, interior, ducts, LV/data and HV/thermal routes |
-| [`trainset-car-body-structure.png`](../../../docs/screenshots/trainset-car-body-structure.png) | Primary fabricated structure: shell, floor pan, side sills, crossmembers, roof cantrails, and door portals |
-| [`trainset-car-body-bogie-subassembly.png`](../../../docs/screenshots/trainset-car-body-bogie-subassembly.png) | Single-car structure with standard motor/trailer bogies under the raised high-floor end zones |
+| [`trainset-car-body-structure.png`](../../../docs/screenshots/trainset-car-body-structure.png) | Primary fabricated structure: shell, 10 m low-floor pan, side sills, crossmembers, roof cantrails, door portals, window posts, end rings, and bogie clearance envelopes |
+| [`trainset-car-body-bogie-subassembly.png`](../../../docs/screenshots/trainset-car-body-bogie-subassembly.png) | Single-car structure with standard motor/trailer bogies under the ~3 m raised high-floor end zones |
 | [`trainset-car-body-exterior.png`](../../../docs/screenshots/trainset-car-body-exterior.png) | Solar-train exterior layer: glazing, door leaves, livery band, roof PV/HVAC, and service skirts |
 | [`trainset-car-body-interior.png`](../../../docs/screenshots/trainset-car-body-interior.png) | Passenger interior layer: under-seat battery strakes, benches, PRM bays, grab poles, handrails, and PIS |
 | [`trainset-car-body-services.png`](../../../docs/screenshots/trainset-car-body-services.png) | Service layers: HVAC ducts, LV/data trays, lighting, CCTV/intercoms, HV/PV routing, coolant, and battery fire vents |
 | [`trainset-interior-fit-out.png`](../../../docs/screenshots/trainset-interior-fit-out.png) | COTS passenger fit-out envelopes inside the car body |
 | [`trainset-body-sheet-metal-kit.png`](../../../docs/screenshots/trainset-body-sheet-metal-kit.png) | Sheet-metal/chassis manufacturing kit: underframe, bolsters, coupler pockets, side posts, rails, roof bows, end rings |
-| [`trainset-car-systems.png`](../../../docs/screenshots/trainset-car-systems.png) | One self-contained car systems package: doors, batteries, traction power rack, charging connector, and accessibility/safety reservations |
+| [`trainset-car-systems.png`](../../../docs/screenshots/trainset-car-systems.png) | One self-contained car systems package: four door cassettes, platform interlocks, batteries, traction power rack, charging connector, and accessibility/safety reservations |
 | [`trainset-battery-pack.png`](../../../docs/screenshots/trainset-battery-pack.png) | Eight sodium-ion module envelopes plus HV contactor, fuse, and BMS cabinet per car |
 | [`trainset-door-system.png`](../../../docs/screenshots/trainset-door-system.png) | Door cassette pair with sill gap fillers, locks, and external emergency releases |
 | [`trainset-electronics-cabinet.png`](../../../docs/screenshots/trainset-electronics-cabinet.png) | Per-end T-ECU/S, T-ECU/A, and crashworthy event recorder, two sets per trainset |
@@ -108,6 +108,7 @@ The matching generated STEP handoff artifacts are regenerated under
 [`car-body-services.step`](../../../mechanical-py/catalog/rolling_stock/car-body-services.step),
 [`body-sheet-metal-kit.step`](../../../mechanical-py/catalog/rolling_stock/templates/body-sheet-metal-kit.step),
 [`car-systems.step`](../../../mechanical-py/catalog/rolling_stock/car-systems.step),
+[`platform-safety-interface.step`](../../../mechanical-py/catalog/rolling_stock/platform-safety-interface.step),
 [`battery-pack-set.step`](../../../mechanical-py/catalog/rolling_stock/battery-pack-set.step),
 [`door-system-pair.step`](../../../mechanical-py/catalog/rolling_stock/door-system-pair.step),
 [`electronics-cabinet.step`](../../../mechanical-py/catalog/rolling_stock/electronics-cabinet.step),
@@ -138,7 +139,7 @@ tolerances, and release drawings listed in
 | Passenger capacity (AW3 crush) | 420 short-duration crush load |
 | Onboard battery | 450 kWh Na-ion (150 kWh per car, under seats) |
 | Peak onboard motor output | 600 kW |
-| Floor height (above ToR) | 350 mm low-floor centre door/PRM zone; 760 mm high-floor end decks over standard bogies |
+| Floor height (above ToR) | 350 mm, ~10 m low-floor centre door/PRM zone; 760 mm, ~3 m high-floor end decks over standard bogies |
 | Gauge | 1 435 mm (default) or 1 000 mm (variant) |
 
 ## What v1 does NOT include
@@ -147,8 +148,6 @@ tolerances, and release drawings listed in
   internals, tolerance stacks, and manufacturing drawings (v2).
 - Detailed finite-element analysis (v3 — homologation phase).
 - Paint-and-livery guidance (operator scope).
-- Fire-load and smoke-extraction analysis for the battery bay
-  (v2, paired with EN 45545-2 test campaign).
 
 ## How to execute this package
 

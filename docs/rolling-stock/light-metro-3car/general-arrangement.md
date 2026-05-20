@@ -6,7 +6,7 @@
    ←── 17.0 m ──→←── 17.0 m ──→←── 17.0 m ──→
 
       Car A             Car B             Car C
-   ┌─ M bogie ─ doors ─ t bogie ┐┌─ t bogie ─ doors ─ t bogie ┐┌─ t bogie ─ doors ─ M bogie ┐
+   ┌─ M bogie ─ 2 doors ─ t bogie ┐┌─ t bogie ─ 2 doors ─ t bogie ┐┌─ t bogie ─ 2 doors ─ M bogie ┐
    │ powered  low-floor centre ││ trailer  low-floor centre ││ powered  low-floor centre │
    │ end car  under-seat batt. ││ car      under-seat batt. ││ end car  under-seat batt. │
    └───────────────────────────┘└───────────────────────────┘└───────────────────────────┘
@@ -25,7 +25,7 @@
 - **Powered wheelsets:** one powered bogie at each outer end car,
   giving two powered bogies and four powered axles across the consist.
 - **Battery:** 150 kWh sodium-ion per car under the longitudinal
-  seats. The centre door zone stays low-floor and clear.
+  seats. The 10 m centre door zone stays low-floor and clear.
 - **Roof:** PV strip per car, split around compact end HVAC modules.
 
 ## Key dimensions
@@ -38,7 +38,7 @@
 | Car C length | 17 000 mm | modular car envelope |
 | Body width (outer) | 2 850 mm | concept envelope, fits UIC 505-1 gauge |
 | Height over rail (roof) | 3 450 mm | concept envelope, before roof equipment |
-| Floor height (above top-of-rail) | 350 mm centre door/PRM zone; 760 mm high-floor end decks over bogies | low-floor access with standard bogies |
+| Floor height (above top-of-rail) | 350 mm, 10 m low-floor centre door/PRM zone; 760 mm, ~3 m high-floor end decks over bogies | low-floor access with standard bogies |
 | Bogie wheelbase | 2 100 mm | RFC 0022 single-SKU bogie |
 | Wheel diameter (new / worn) | 760 / 680 mm | RFC 0022 |
 | Inter-bogie distance (within a car) | 11 000 mm | modular car envelope |
@@ -47,14 +47,23 @@
 | Headroom at seats | 2 100 mm | |
 | Passenger-compartment interior width | 2 700 mm | |
 
+The 17 m car module is intentional rather than a placeholder. With
+~3 m bogie zones at each end it leaves about 10 m of low-floor centre
+span for two door pairs, wheelchair turning circles, and standing
+space, while keeping the 3-car train to 51 m for the 67 m OSR standard
+platform. Longer 19-20 m cars remain possible as a later capacity
+variant, but the v1 base favours workshop-friendly modules and curve
+overhang margin.
+
 ## Door positions
 
-One large 1 400 mm-wide double-leaf plug door per car side in the
-low-floor centre zone (3 door pairs per side for the consist).
-Longer-platform variants scale dwell capacity by adding identical
-cars, not by changing the car-side door pattern. Positioned:
+Two large 1 400 mm-wide double-leaf plug doors per car side in the
+10 m low-floor centre zone (6 door pairs per side for the consist).
+The two openings fit between the ~3 m high-floor bogie decks at each
+end, leaving the middle span for PRM circulation and standing room.
+Positioned:
 
-- Each car: door centre at 8.5 m from the car end.
+- Each car: door centres at 5.67 m and 11.33 m from the car end.
 
 All doors are plug-outward doors per RFC 0008 §3.3 with 1 500 mm
 clear opening at 2 000 mm height.
@@ -75,9 +84,10 @@ presets (`heritage-tram` / `standard-urban` / `standard-metro`
 ## Platform clearance
 
 - Low-floor centre door and PRM zone at 350 mm ToR platform height.
-  Each car steps/rises to high-floor end decks over the standard
-  bogies; those raised zones are inside the saloon, away from the
-  boarding threshold.
+  Each car has about 10 m of low-floor length between the standard
+  bogie zones. The ~3 m raised end decks sit directly over the bogies;
+  those raised zones are inside the saloon, away from the boarding
+  thresholds.
 - Horizontal gap at door sill: ≤ 75 mm per UIC 741. Achieved by
   a 40 mm sliding skirt at each door that extends on dwell
   (retracted in motion).

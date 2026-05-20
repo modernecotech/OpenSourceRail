@@ -49,6 +49,7 @@ from .rolling_stock.systems import (
     electronics_cabinet,
     end_coupler,
     inter_car_articulation,
+    platform_safety_interface,
     tobs_sensor_pack,
     traction_power_rack,
 )
@@ -137,6 +138,7 @@ def export_all(root: Path) -> None:
         _out(root, "rolling_stock", "car-body-17m-cots-fit-out.step"),
     )
     _export(door_system_pair(), _out(root, "rolling_stock", "door-system-pair.step"))
+    _export(platform_safety_interface(), _out(root, "rolling_stock", "platform-safety-interface.step"))
     _export(battery_pack_set(), _out(root, "rolling_stock", "battery-pack-set.step"))
     _export(traction_power_rack(), _out(root, "rolling_stock", "traction-power-rack.step"))
     _export(electronics_cabinet(), _out(root, "rolling_stock", "electronics-cabinet.step"))

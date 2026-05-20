@@ -89,4 +89,4 @@ Document IDs use `LM3` for the `light-metro-3car` family. Revision
 - Any mass increase above a module row limit requires a new axle-load
   report before dynamic testing.
 - Any power increase above a module row budget requires an aux-power
-  and thermal review.
+  and cooling-capacity review.

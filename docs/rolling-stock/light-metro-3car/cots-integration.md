@@ -14,8 +14,8 @@ The train is built from three repeated 17 m car modules:
 | Zone | Fabricated parts | COTS / BID modules | Build123d source |
 |---|---|---|---|
 | End cowls | Steel crash frame, cowl backing ring, panoramic glass carrier, LED lamp brackets | Dark RF-transparent open end glass, T-OBS LIDAR/radar/camera/ultrasonic pack, LED headlamps, marker/DRL bars, washer/heater | [`sensor_cowl.py`](../../../mechanical-py/src/osr_mech/rolling_stock/sensor_cowl.py), [`systems.py`](../../../mechanical-py/src/osr_mech/rolling_stock/systems.py) |
-| Body side | S355 side frame, door portal, window rail, waist rail, composite skin | Window cassettes, door cassettes, green livery band, yellow thresholds | [`car_body.py`](../../../mechanical-py/src/osr_mech/rolling_stock/car_body.py) |
-| Stepped floor | Dropped low-floor centre pan, raised bogie-end deck supports, side plinth rails, transition steps | Phenolic/aluminium floor boards, rubber covering, step nosings, PRM floor finish | [`car_body.py`](../../../mechanical-py/src/osr_mech/rolling_stock/car_body.py), [`cad_templates/rolling_stock.py`](../../../mechanical-py/src/osr_mech/cad_templates/rolling_stock.py) |
+| Body side | S355 side frame, two door portals per side, window rail, waist rail, composite skin | Window cassettes, door cassettes, green livery band, yellow thresholds | [`car_body.py`](../../../mechanical-py/src/osr_mech/rolling_stock/car_body.py) |
+| Stepped floor | Dropped ~10 m low-floor centre pan, ~3 m raised bogie-end deck supports, side plinth rails, transition steps | Phenolic/aluminium floor boards, rubber covering, step nosings, PRM floor finish | [`car_body.py`](../../../mechanical-py/src/osr_mech/rolling_stock/car_body.py), [`cad_templates/rolling_stock.py`](../../../mechanical-py/src/osr_mech/cad_templates/rolling_stock.py) |
 | Roof | Roof bows, PV/HVAC rails, cable tray brackets, composite fairings | Solar panel laminates, MPPT combiner, compact HVAC units, antennas | [`car_body.py`](../../../mechanical-py/src/osr_mech/rolling_stock/car_body.py) |
 | Under-seat bay | Battery tray rails, service covers, vent path, seat support rail | Na-ion modules, BMS, fuses, contactors, longitudinal seat modules | [`car_body.py`](../../../mechanical-py/src/osr_mech/rolling_stock/car_body.py), [`systems.py`](../../../mechanical-py/src/osr_mech/rolling_stock/systems.py) |
 | Underframe | Side sills, centre spine, cross bearers, bolsters, jacking pads | Aux inverter, HV cabling, cooling loops, brake/WSP harnesses | [`cad_templates/rolling_stock.py`](../../../mechanical-py/src/osr_mech/cad_templates/rolling_stock.py) |
@@ -36,6 +36,7 @@ and certification data.
 |---|---|---|---|
 | Window cassette | Window rail and bonded aperture | Adhesive bead or gasket, drain path, bonded earth if heated | EN 15152 or accepted equivalent, fire/smoke data for seals |
 | Door cassette | Door portal, threshold tray, lock-loop bracket | Bolted frame, 24/110 V DC, Ethernet/CAN, hardwired closed/locked loop, drain | EN 14752 or equivalent, obstruction detection, lifecycle test |
+| Platform/PSD interface | Door centre datum and sill edge | ATO stopping target, platform screen-door alignment, closed/locked interlock, intrusion sensor sightline | Station integration test, door-open permissive proof, degraded-mode procedure |
 | Solar laminate | Roof PV rails and cable gland | Bolted/bonded laminate, isolated combiner, MPPT feed, fire disconnect | IEC PV module data, rail vibration mount evidence |
 | HVAC unit | Roof equipment rails and condensate drain | Bolted rail pattern, duct adapter, 400 V AC, CAN/Ethernet diagnostics | Hot-climate curve, vibration, EMC, refrigerant record |
 | Seat module | Battery-cover seat rail | M10 cantilever bracket, service-lid clearance below cushion | EN 45545 R7, static strength, vandal-resistance data |
@@ -58,7 +59,7 @@ install COTS modules late, then close the train with test evidence.
 | Part family | Visible in design | Procurement line(s) | Source of truth |
 |---|---|---|---|
 | Windows | Dark side glazing rectangles in side walls | B10 | `car_body.py`, `cots_equipment.py` |
-| Doors | Central double-leaf black door with yellow threshold per car side | B11, B25 | `car_body.py`, `systems.py` |
+| Doors | Two double-leaf black doors with yellow thresholds per car side | B11, B25 | `car_body.py`, `systems.py` |
 | Solar panels | Blue roof PV strip on every car | T21, T22 | `car_body.py` |
 | HVAC systems | Compact grey roof modules at car ends | T14 | `car_body.py`, `cots_equipment.py` |
 | Batteries | Under-seat blue module rows, eight per car in CAD | T5-T8, T16-T20 | `car_body.py`, `systems.py` |
@@ -80,13 +81,13 @@ The same part families are visible in the generated screenshots:
 |---|---|
 | [`trainset-light-metro-3car.png`](../../../docs/screenshots/trainset-light-metro-3car.png) | Whole-train layout, powered end cars, trailer middle car, cowls, roof PV, bogies |
 | [`trainset-car-detail.png`](../../../docs/screenshots/trainset-car-detail.png) | Complete layered car body with windows, doors, solar array, HVAC, interior, electrical, and thermal routes |
-| [`trainset-car-body-structure.png`](../../../docs/screenshots/trainset-car-body-structure.png) | Primary fabricated shell, floor, side sills, crossmembers, roof rails, and door portals |
-| [`trainset-car-body-bogie-subassembly.png`](../../../docs/screenshots/trainset-car-body-bogie-subassembly.png) | Single-car body structure mounted over standard motor/trailer bogies, showing raised end decks and the low-floor centre zone |
+| [`trainset-car-body-structure.png`](../../../docs/screenshots/trainset-car-body-structure.png) | Primary fabricated shell, ~10 m floor, side sills, crossmembers, roof rails, window posts, end rings, bogie envelopes, and door portals |
+| [`trainset-car-body-bogie-subassembly.png`](../../../docs/screenshots/trainset-car-body-bogie-subassembly.png) | Single-car body structure mounted over standard motor/trailer bogies, showing raised ~3 m end decks and the low-floor centre zone |
 | [`trainset-car-body-exterior.png`](../../../docs/screenshots/trainset-car-body-exterior.png) | Exterior glazing, door leaves, livery band, skirts, solar array, and compact HVAC roof units |
 | [`trainset-car-body-interior.png`](../../../docs/screenshots/trainset-car-body-interior.png) | Under-seat battery strakes, seats, wheelchair bays, grab poles, handrails, and PIS |
 | [`trainset-car-body-services.png`](../../../docs/screenshots/trainset-car-body-services.png) | HVAC ducting, LV/data trays, lighting, CCTV/intercoms, HV/PV routing, coolant, and fire vent paths |
 | [`trainset-interior-fit-out.png`](../../../docs/screenshots/trainset-interior-fit-out.png) | COTS passenger fit-out envelopes inside the body reservation |
-| [`trainset-car-systems.png`](../../../docs/screenshots/trainset-car-systems.png) | Batteries, doors, charging connector, wheelchair bays, systems layout |
+| [`trainset-car-systems.png`](../../../docs/screenshots/trainset-car-systems.png) | Batteries, four door cassettes, platform safety interfaces, charging connector, wheelchair bays, systems layout |
 | [`trainset-door-system.png`](../../../docs/screenshots/trainset-door-system.png) | Door leaves, operator rail, lock/release, gap filler |
 | [`trainset-battery-pack.png`](../../../docs/screenshots/trainset-battery-pack.png) | Battery module set, HV contactor, fuse, BMS cabinet |
 | [`trainset-electronics-cabinet.png`](../../../docs/screenshots/trainset-electronics-cabinet.png) | T-ECU/S, T-ECU/A, event recorder, power distribution |
