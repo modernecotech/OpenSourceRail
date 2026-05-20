@@ -5,7 +5,7 @@ before diving into the full repository.
 
 | Brochure | Source | Scope |
 |---|---|---|
-| [OpenSourceRail introduction](open-source-rail-introduction.pdf) | [HTML source](open-source-rail-introduction.html) | 25-page landscape overview of the system, trainset, production strategy, software/hardware stack, and certification path |
+| [OpenSourceRail introduction](open-source-rail-introduction.pdf) | [HTML source](open-source-rail-introduction.html) | 20-page landscape overview of the system, trainset, production strategy, software/hardware stack, and certification path |
 
 Regenerate:
 
