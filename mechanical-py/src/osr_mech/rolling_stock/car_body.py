@@ -95,6 +95,8 @@ COLOR_ROOF_EQUIPMENT = Color(0.55, 0.55, 0.58)
 COLOR_BATTERY_STRAKE = Color(0.25, 0.30, 0.42)
 COLOR_SOLAR = Color(0.03, 0.10, 0.24)
 COLOR_STRUCTURE = Color(0.62, 0.64, 0.66)
+COLOR_LOW_FLOOR = Color(0.10, 0.42, 0.30)
+COLOR_HIGH_FLOOR = Color(0.44, 0.47, 0.50)
 COLOR_INTERIOR = Color(0.74, 0.70, 0.62)
 COLOR_HVAC_DUCT = Color(0.76, 0.84, 0.88)
 COLOR_LV_DATA = Color(0.05, 0.22, 0.55)
@@ -391,7 +393,7 @@ def _floor_and_structure(dims: CarDimensions) -> list[Part]:
         dims.body_width_mm - 240.0,
         FLOOR_PLATE_THICKNESS_MM,
     ).locate(Location((0.0, 0.0, LOW_FLOOR_HEIGHT_MM - FLOOR_PLATE_THICKNESS_MM / 2.0)))
-    low_floor.color = COLOR_STRUCTURE
+    low_floor.color = COLOR_LOW_FLOOR
     low_floor.label = "Low-floor centre door and PRM floor pan"
     out.append(low_floor)
 
@@ -409,7 +411,7 @@ def _floor_and_structure(dims: CarDimensions) -> list[Part]:
                 )
             )
         )
-        high_floor.color = COLOR_STRUCTURE
+        high_floor.color = COLOR_HIGH_FLOOR
         high_floor.label = "Raised high-floor bogie-end deck"
         out.append(high_floor)
 
@@ -819,6 +821,8 @@ __all__ = [
     "COLOR_HV_CABLE",
     "COLOR_HVAC_DUCT",
     "COLOR_INTERIOR",
+    "COLOR_HIGH_FLOOR",
+    "COLOR_LOW_FLOOR",
     "COLOR_LIVERY",
     "COLOR_LV_DATA",
     "COLOR_ROOF_EQUIPMENT",

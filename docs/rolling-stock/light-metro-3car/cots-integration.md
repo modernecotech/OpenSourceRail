@@ -84,7 +84,6 @@ The same part families are visible in the generated screenshots:
 | [`trainset-car-body-exterior.png`](../../../docs/screenshots/trainset-car-body-exterior.png) | Exterior glazing, door leaves, livery band, skirts, solar array, and compact HVAC roof units |
 | [`trainset-car-body-interior.png`](../../../docs/screenshots/trainset-car-body-interior.png) | Under-seat battery strakes, seats, wheelchair bays, grab poles, handrails, and PIS |
 | [`trainset-car-body-services.png`](../../../docs/screenshots/trainset-car-body-services.png) | HVAC ducting, LV/data trays, lighting, CCTV/intercoms, HV/PV routing, coolant, and fire vent paths |
-| [`trainset-open-glass-sensor-cowl.png`](../../../docs/screenshots/trainset-open-glass-sensor-cowl.png) | Open driverless front/back glass, LED headlamp clusters, marker/DRL bars, and nose livery |
 | [`trainset-interior-fit-out.png`](../../../docs/screenshots/trainset-interior-fit-out.png) | COTS passenger fit-out envelopes inside the body reservation |
 | [`trainset-car-systems.png`](../../../docs/screenshots/trainset-car-systems.png) | Batteries, doors, charging connector, wheelchair bays, systems layout |
 | [`trainset-door-system.png`](../../../docs/screenshots/trainset-door-system.png) | Door leaves, operator rail, lock/release, gap filler |
