@@ -1,0 +1,89 @@
+# COTS Integration And Part Delineation
+
+This page shows how off-the-shelf rail/bus components join to the
+fabricated `light-metro-3car` body, bogies, cowls, and electrical
+systems. The build123d source remains the design basis; these diagrams
+are the readable integration map.
+
+## Whole-Train Part Map
+
+![Annotated trainset part map](diagrams/trainset-part-map.svg)
+
+The train is built from three repeated 17 m car modules:
+
+| Zone | Fabricated parts | COTS / BID modules | Build123d source |
+|---|---|---|---|
+| End cowls | Steel crash frame, cowl backing ring, sensor window carrier | Dark RF-transparent glass, T-OBS LIDAR/radar/camera/ultrasonic pack, marker lights, washer/heater | [`sensor_cowl.py`](../../../mechanical-py/src/osr_mech/rolling_stock/sensor_cowl.py), [`systems.py`](../../../mechanical-py/src/osr_mech/rolling_stock/systems.py) |
+| Body side | S355 side frame, door portal, window rail, waist rail, composite skin | Window cassettes, door cassettes, green livery band, yellow thresholds | [`car_body.py`](../../../mechanical-py/src/osr_mech/rolling_stock/car_body.py) |
+| Roof | Roof bows, PV/HVAC rails, cable tray brackets, composite fairings | Solar panel laminates, MPPT combiner, compact HVAC units, antennas | [`car_body.py`](../../../mechanical-py/src/osr_mech/rolling_stock/car_body.py) |
+| Under-seat bay | Battery tray rails, service covers, vent path, seat support rail | Na-ion modules, BMS, fuses, contactors, longitudinal seat modules | [`car_body.py`](../../../mechanical-py/src/osr_mech/rolling_stock/car_body.py), [`systems.py`](../../../mechanical-py/src/osr_mech/rolling_stock/systems.py) |
+| Underframe | Side sills, centre spine, cross bearers, bolsters, jacking pads | Aux inverter, HV cabling, cooling loops, brake/WSP harnesses | [`cad_templates/rolling_stock.py`](../../../mechanical-py/src/osr_mech/cad_templates/rolling_stock.py) |
+| Running gear | Bogie adapter, motor cradle, torque-link brackets | Two powered bogies, four converted freight trailer bogies, wheelsets, brakes, bearings, air springs | [`bogie/`](../../../mechanical-py/src/osr_mech/rolling_stock/bogie/) |
+| Train ends and inter-car | Coupler pocket, shear plate, trainline brackets | Scharfenberg Type 10 couplers, crash absorbers, bellows, drawbars, drag chains | [`systems.py`](../../../mechanical-py/src/osr_mech/rolling_stock/systems.py) |
+
+## Interface Stack
+
+![COTS modules joining fabricated structure](diagrams/cots-fabricated-interface.svg)
+
+Every COTS module is installed through a supplier-neutral interface.
+OpenSourceRail owns the envelope, datum, power/data/drain/earth
+interfaces, maintainability clearance, and evidence requirements. The
+supplier owns detailed internals, service procedure, lifecycle tests,
+and certification data.
+
+| COTS module | Fabricated datum | Interface closure | Evidence required |
+|---|---|---|---|
+| Window cassette | Window rail and bonded aperture | Adhesive bead or gasket, drain path, bonded earth if heated | EN 15152 or accepted equivalent, fire/smoke data for seals |
+| Door cassette | Door portal, threshold tray, lock-loop bracket | Bolted frame, 24/110 V DC, Ethernet/CAN, hardwired closed/locked loop, drain | EN 14752 or equivalent, obstruction detection, lifecycle test |
+| Solar laminate | Roof PV rails and cable gland | Bolted/bonded laminate, isolated combiner, MPPT feed, fire disconnect | IEC PV module data, rail vibration mount evidence |
+| HVAC unit | Roof equipment rails and condensate drain | Bolted rail pattern, duct adapter, 400 V AC, CAN/Ethernet diagnostics | Hot-climate curve, vibration, EMC, refrigerant record |
+| Seat module | Battery-cover seat rail | M10 cantilever bracket, service-lid clearance below cushion | EN 45545 R7, static strength, vandal-resistance data |
+| Battery module | Under-seat tray and vent plenum | HV connector, coolant quick-disconnect, BMS harness, side vent | Cell/pack test report, isolation, fire containment, lifting procedure |
+| T-ECU cabinet | End electronics cabinet rail | DIN rail, 24/110 V DC, TCN-E, CAN-FD, EB loop, earth braid | Board spec, commissioning self-test, serial and firmware record |
+| T-OBS pack | Nose cowl optical/radar datum | Heated window, service fasteners, power/data, safety verdict to T-ECU/S | Sensor calibration, 2oo2 verdict test, washer/heater test |
+| Coupler | Coupler pocket and shear plate | M24 bolt pattern, drawgear carrier, brake/electric head clearance | EN 15227 absorber data, rescue procedure, inspection interval |
+| Bogie | Bolster pivot and air-spring pads | Centre pin, PTFE slider, yaw links, brake/WSP/traction harness | Wheelset certs, brake test, frame weld records, suspension data |
+
+## Assembly Sequence
+
+![Assembly sequence from fabricated parts to complete train](diagrams/assembly-sequence.svg)
+
+The sequence is intentionally ordinary for a regional manufacturer:
+fabricate datum structure first, preserve supplier-neutral interfaces,
+install COTS modules late, then close the train with test evidence.
+
+## Delineated Part Register
+
+| Part family | Visible in design | Procurement line(s) | Source of truth |
+|---|---|---|---|
+| Windows | Dark side glazing rectangles in side walls | B10 | `car_body.py`, `cots_equipment.py` |
+| Doors | Central double-leaf black door with yellow threshold per car side | B11, B25 | `car_body.py`, `systems.py` |
+| Solar panels | Blue roof PV strip on every car | T21, T22 | `car_body.py` |
+| HVAC systems | Compact grey roof modules at car ends | T14 | `car_body.py`, `cots_equipment.py` |
+| Batteries | Under-seat blue module rows, eight per car in CAD | T5-T8, T16-T20 | `car_body.py`, `systems.py` |
+| Seats | Longitudinal COTS benches over battery covers | B14, A1 | `cots_equipment.py` |
+| Grab rails | Stainless saloon stanchions and rails | B15 | `cots_equipment.py` |
+| PIS / CCTV / intercom | Saloon and doorway information/safety modules | B18, B19, E14, E15, E20 | `cots_equipment.py`, `systems.py` |
+| Electronics cabinets | End-cabinet T-ECU/S, T-ECU/A, recorder modules | E1, E2, E22, E23 | `systems.py` |
+| T-OBS sensor packs | Nose LIDAR/radar/camera/ultrasonic module | E18, E19 | `sensor_cowl.py`, `systems.py` |
+| Couplers and crash absorbers | End coupler head, shear plate, absorber cartridge | B22, B23 | `systems.py` |
+| Articulation | Inter-car bellows, drawbar, drag-chain | B9, B24 | `systems.py` |
+| Powered bogies | Two end powered bogies with motors/gearboxes | G1, G18, G19, T1-T3 | `bogie/`, `trainset.py` |
+| Converted trailer bogies | Four trailer bogies under remaining positions | G2-G17, G20 | `bogie/`, `trainset.py` |
+
+## Generated Design Views
+
+The same part families are visible in the generated screenshots:
+
+| View | What to inspect |
+|---|---|
+| [`trainset-light-metro-3car.png`](../../../docs/screenshots/trainset-light-metro-3car.png) | Whole-train layout, powered end cars, trailer middle car, cowls, roof PV, bogies |
+| [`trainset-car-detail.png`](../../../docs/screenshots/trainset-car-detail.png) | Windows, doors, livery band, skirts, solar array, HVAC |
+| [`trainset-interior-fit-out.png`](../../../docs/screenshots/trainset-interior-fit-out.png) | Seats, under-seat batteries, lighting, PIS, grab poles |
+| [`trainset-car-systems.png`](../../../docs/screenshots/trainset-car-systems.png) | Batteries, doors, charging connector, wheelchair bays, systems layout |
+| [`trainset-door-system.png`](../../../docs/screenshots/trainset-door-system.png) | Door leaves, operator rail, lock/release, gap filler |
+| [`trainset-battery-pack.png`](../../../docs/screenshots/trainset-battery-pack.png) | Battery module set, HV contactor, fuse, BMS cabinet |
+| [`trainset-electronics-cabinet.png`](../../../docs/screenshots/trainset-electronics-cabinet.png) | T-ECU/S, T-ECU/A, event recorder, power distribution |
+| [`trainset-tobs-sensor-pack.png`](../../../docs/screenshots/trainset-tobs-sensor-pack.png) | LIDAR, radar, stereo camera, ultrasonic sensors |
+| [`bogie-motor.png`](../../../docs/screenshots/bogie-motor.png) | Powered bogie with motors, gearbox, suspension, brakes |
+| [`bogie-trailer.png`](../../../docs/screenshots/bogie-trailer.png) | Converted trailer bogie envelope |

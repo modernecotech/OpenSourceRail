@@ -22,6 +22,7 @@ for sides, roof fairings, cabless cowls, and interior liners.
 | [`fabrication-plan.md`](fabrication-plan.md) | Cut-bend-weld primary structure, composite cladding, COTS module installation sequence |
 | [`bogie.md`](bogie.md) | 2-axle articulated bogie spec, wheel profile, suspension, brake mount |
 | [`body.md`](body.md) | Welded steel underframe/spaceframe, composite side panels, end bulkheads, articulation joint |
+| [`cots-integration.md`](cots-integration.md) | COTS/fabricated interface diagrams, part delineation, and assembly sequence |
 | [`traction.md`](traction.md) | PMSM motor + SiC inverter + reduction gear, adhesion budget |
 | [`interfaces.md`](interfaces.md) | Coupler, pantograph, platform gap, TCN-E connector, aux power |
 | [`bom-skeleton.md`](bom-skeleton.md) | Procurement BOM lines (source-identified parts vs TBD) |
@@ -53,6 +54,9 @@ are generated handoff artifacts.
 | [`cad_templates/rolling_stock.py`](../../../mechanical-py/src/osr_mech/cad_templates/rolling_stock.py) | Sheet-metal/chassis manufacturing templates |
 
 ## Current CAD / PNG Design Outputs
+
+The whole-train part map and COTS interface diagrams are in
+[`cots-integration.md`](cots-integration.md).
 
 The present train design now has envelope-level definitions for the
 major train assemblies, sub-assemblies, and repeated components. The

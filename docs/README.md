@@ -36,7 +36,7 @@ without duplicating them.
 
 | Artifact | Location |
 |---|---|
-| Generated city catalogue | [designs/INDEX.md](../designs/INDEX.md) |
+| Generated city catalogue | [designs/README.md](../designs/README.md) |
 | City source list | [lib/city-batches/world-sample.toml](../lib/city-batches/world-sample.toml) |
 | Mechanical STEP catalogue | [mechanical-py/catalog/](../mechanical-py/catalog/) |
 | Rolling-stock BOM | [rolling-stock/light-metro-3car/bom-skeleton.md](rolling-stock/light-metro-3car/bom-skeleton.md) |

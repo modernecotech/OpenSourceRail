@@ -92,6 +92,10 @@ The current CAD manufacturing templates generated from
 | `door-leaf.step` | COTS-style door leaf shell, bonded glazing, EPDM seals, hanger rollers |
 | `chassis-interface-assembly.step` | Bolster, bogie adapter, motor cradle, guide blocks, fasteners, service strut, connector interfaces |
 
+For a visual map of which COTS modules bolt, bond, plug, or slide into
+these fabricated datums, see
+[`cots-integration.md`](cots-integration.md).
+
 ## Build sequence per car
 
 ### 1. Kitting

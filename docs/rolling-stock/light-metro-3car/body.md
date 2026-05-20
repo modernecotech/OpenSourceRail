@@ -8,7 +8,7 @@ pressings, and bespoke door/window/HVAC development.
 
 ## Architecture
 
-Each 18.9 m car is split into four production zones:
+Each 17.0 m car is split into four production zones:
 
 | Zone | Construction | Function |
 |---|---|---|
@@ -125,6 +125,10 @@ procurement modules. OSR fixes the envelope, fastener grid, power
 budget, data interface, fire rating, and maintainability clearance.
 Supplier-neutral envelopes and evidence requirements live in
 [`hardware/trainset-interiors/cots-catalogue.md`](../../../hardware/trainset-interiors/cots-catalogue.md).
+
+The full interface map, including how the COTS modules join to the
+fabricated steel/composite body, is in
+[`cots-integration.md`](cots-integration.md).
 
 ## Floor
 

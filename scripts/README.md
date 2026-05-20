@@ -11,7 +11,7 @@ stay thin: domain logic belongs in Rust crates, `design-py`, or
 |---|---|
 | [`regenerate-city.sh`](regenerate-city.sh) | Regenerate one city design from the batch catalogue |
 | [`regenerate-all.sh`](regenerate-all.sh) | Regenerate the generated city catalogue |
-| [`generate-design-index.py`](generate-design-index.py) | Rebuild `designs/INDEX.md` from city outputs |
+| [`generate-design-index.py`](generate-design-index.py) | Rebuild the generated city catalogue in `designs/README.md` |
 | [`migrate-design-schema.py`](migrate-design-schema.py) | Apply mechanical TOML schema migrations to generated designs |
 | [`export-light-metro-bom.py`](export-light-metro-bom.py) | Export the rolling-stock BOM CSV from the Markdown BOM source |
 | [`build-doc-book.py`](build-doc-book.py) | Build the reader-edition documentation book |
@@ -22,4 +22,3 @@ Typical verification:
 ```bash
 python3 scripts/repo-health.py --quiet
 ```
-

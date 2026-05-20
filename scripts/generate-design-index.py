@@ -1,16 +1,17 @@
 #!/usr/bin/env python3
-"""Generate `designs/INDEX.md` from city `design.toml` files."""
+"""Generate `designs/README.md` from city `design.toml` files."""
 
 from __future__ import annotations
 
 import re
 import tomllib
 from pathlib import Path
+from urllib.parse import quote
 
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 DESIGNS = REPO_ROOT / "designs"
-OUT = DESIGNS / "INDEX.md"
+OUT = DESIGNS / "README.md"
 
 
 def _load(path: Path) -> dict:
@@ -34,6 +35,18 @@ def _eur(value: float) -> str:
     if value >= 1_000_000_000:
         return f"€{value / 1_000_000_000:.2f}bn"
     return f"€{value / 1_000_000:.0f}M"
+
+
+def _markdown_href(path: Path) -> str:
+    """Return a Markdown-safe relative href for a design directory.
+
+    Several generated country folders contain spaces (for example
+    `Saudi Arabia`, `Sri Lanka`, `DR Congo`). Percent-encode each path
+    segment so Markdown renderers do not treat those links as plain text
+    or truncate them at the first space.
+    """
+
+    return "/".join(quote(part) for part in path.parts)
 
 
 def main() -> int:
@@ -69,7 +82,53 @@ def main() -> int:
     rows.sort(key=lambda r: (r["capex_per_km"], -r["coverage"]))
 
     out = [
-        "# OpenSourceRail Design Catalogue Index",
+        "# Generated City Designs",
+        "",
+        "This folder is the generated design catalogue. It is intentionally the single place for city outputs so the repo does not scatter deployment models across docs, scripts, and examples.",
+        "",
+        "## What Each City Folder Contains",
+        "",
+        "City folders follow:",
+        "",
+        "```text",
+        "designs/<region>/<country>/<City>/",
+        "```",
+        "",
+        "Typical contents:",
+        "",
+        "| File | Purpose |",
+        "|---|---|",
+        "| `README.md` | Human-readable generated design report |",
+        "| `design.toml` | Machine-readable design summary |",
+        "| `<slug>.toml` | Simulator scenario |",
+        "| `*-network-map.png` | Network map render |",
+        "| route GeoJSON | Line/station geometry |",
+        "| design-quality YAML | Soft/hard design gate results |",
+        "",
+        "## Regenerate A City",
+        "",
+        "```bash",
+        "scripts/regenerate-city.sh samawah",
+        "```",
+        "",
+        "## Regenerate The Catalogue",
+        "",
+        "```bash",
+        "scripts/regenerate-all.sh --jobs 4",
+        "```",
+        "",
+        "The source city list and country assumptions live in [../lib/city-batches/world-sample.toml](../lib/city-batches/world-sample.toml) and [../lib/templates/](../lib/templates/).",
+        "",
+        "## Representative Designs",
+        "",
+        "- [Samawah, Iraq](west-asia/Iraq/Samawah/README.md): brownfield pilot",
+        "- [Baghdad, Iraq](west-asia/Iraq/Baghdad/README.md): megacity network",
+        "- [Karachi, Pakistan](south-asia/Pakistan/Karachi/README.md): largest catalogue catchment",
+        "- [Lyon, France](europe/France/Lyon/README.md): high-OSM-density solver test",
+        "",
+        "For hand-authored scenarios, use [../lib/examples/](../lib/examples/).",
+        "",
+        "## City Catalogue",
         "",
         "Generated from `designs/*/*/*/design.toml`. Sorted by CAPEX per route-km, then high-demand coverage.",
         "",
@@ -79,8 +138,9 @@ def main() -> int:
         "|---|---|---|---:|---:|---:|---:|---:|---:|---:|---:|",
     ]
     for r in rows:
+        href = _markdown_href(r["path"])
         out.append(
-            f"| [{r['city']}]({r['path']}/) | {r['country']} | `{r['family']}` | "
+            f"| [{r['city']}]({href}/) | {r['country']} | `{r['family']}` | "
             f"{r['lines']} | {r['stations']} | {r['route_km']:.0f} | {r['fleet']} | "
             f"{r['coverage']:.0%} | {_eur(r['capex'])} | {_eur(r['capex_per_km'])} | "
             f"{_eur(r['charging'])} |"

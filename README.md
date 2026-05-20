@@ -25,7 +25,7 @@ and regenerable documentation/CAD artifacts.
 | Goal | Go here |
 |---|---|
 | Understand the whole repo | [docs/README.md](docs/README.md) |
-| See generated city designs | [designs/README.md](designs/README.md) and [designs/INDEX.md](designs/INDEX.md) |
+| See generated city designs | [designs/README.md](designs/README.md) |
 | Run the simulator | [Quick Start](#quick-start) |
 | Generate a city network | [Designing Cities](#designing-cities) |
 | Review rolling-stock design | [docs/rolling-stock/light-metro-3car/README.md](docs/rolling-stock/light-metro-3car/README.md) |
@@ -87,7 +87,7 @@ designs/<region>/<country>/<City>/
 
 Each city folder contains `design.toml`, a simulator scenario TOML,
 route GeoJSON, a network map PNG, design-quality YAML, and a generated
-README. The catalogue is indexed at [designs/INDEX.md](designs/INDEX.md).
+README. The catalogue table is included in [designs/README.md](designs/README.md).
 
 Regenerate one city:
 
