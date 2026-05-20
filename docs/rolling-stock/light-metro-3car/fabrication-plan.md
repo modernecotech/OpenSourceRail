@@ -10,6 +10,12 @@ It is not a homologated shop drawing pack. The v2 pack must add
 dimensioned drawings, weld symbols, tolerances, FEA, supplier
 installation manuals, and authority-approved inspection records.
 
+![Solar metro production assembly concept](../../../docs/assets/solar-metro-production-assembly.png)
+
+The production concept is deliberately modular: make the steel datum
+structure locally, install certified supplier modules late, and repeat
+the same 17 m car body to form the trainset.
+
 ## Manufacturing doctrine
 
 | Scope | Default decision | Reason |

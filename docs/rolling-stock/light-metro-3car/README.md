@@ -43,6 +43,13 @@ The front and rear passenger ends are not walled off by cab bulkheads;
 the end saloon looks through the glass cowls at both ends of the
 driverless train.
 
+The companion production graphic is
+[`solar-metro-production-assembly.png`](../../../docs/assets/solar-metro-production-assembly.png).
+It shows the intended manufacturing story: a welded 17 m datum frame,
+bolt/bond COTS side, roof, door, glazing, battery-seat, and HVAC
+modules, then lower the car onto standard bogies and repeat the module
+to make the consist.
+
 COTS passenger-facing modules are controlled by the supplier-neutral
 envelope catalogue at
 [`hardware/trainset-interiors/cots-catalogue.md`](../../../hardware/trainset-interiors/cots-catalogue.md).

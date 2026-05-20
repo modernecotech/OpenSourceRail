@@ -151,6 +151,10 @@ Single-car structure mounted over standard motor/trailer bogies, showing the ~3 
 
 Manufacturing-oriented sheet-metal kit for underframe, bolsters, coupler pockets, side posts, roof bows, and floor transitions.
 
+![Solar metro production assembly concept](docs/assets/solar-metro-production-assembly.png)
+
+Production concept board showing the repeated 17 m car module, welded datum frame, COTS module installation, and bogie marriage sequence.
+
 ![Per-car systems assembly](docs/screenshots/trainset-car-systems.png)
 
 One self-contained car equipment package: four door cassettes, platform safety interfaces, batteries, charging interface, traction power rack, and accessibility/safety reservations.
