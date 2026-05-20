@@ -10,7 +10,6 @@ selected supplier owns internal child-part detail in v2 drawings.
 from __future__ import annotations
 
 from dataclasses import dataclass
-
 from build123d import Box, Color, Compound, Cylinder, Location, Part
 
 from .car_body import (
@@ -33,12 +32,18 @@ COLOR_HV = Color(0.80, 0.15, 0.12)
 COLOR_ELECTRONICS = Color(0.18, 0.35, 0.25)
 COLOR_SENSOR = Color(0.05, 0.08, 0.10)
 COLOR_ACCESS = Color(0.95, 0.80, 0.10)
+COLOR_METAL = Color(0.62, 0.64, 0.66)
+COLOR_RUBBER = Color(0.04, 0.04, 0.045)
+COLOR_GLASS = Color(0.35, 0.58, 0.70, 0.50)
 
 COUPLER_FACE_HEIGHT_MM = 720.0
 BATTERY_MODULES_PER_CAR = 8
 BATTERY_MODULE_LENGTH_MM = 1450.0
 BATTERY_MODULE_WIDTH_MM = BATTERY_STRAKE_WIDTH_MM - 70.0
 BATTERY_MODULE_HEIGHT_MM = BATTERY_STRAKE_HEIGHT_MM - 80.0
+LIVOX_HAP_LENGTH_MM = 131.6
+LIVOX_HAP_WIDTH_MM = 105.0
+LIVOX_HAP_HEIGHT_MM = 65.0
 
 
 @dataclass(frozen=True)
@@ -78,47 +83,178 @@ def _part(part: Part, label: str, color: Color) -> Part:
     return part
 
 
-def end_coupler(end_sign: float = 1.0) -> Compound:
-    """Scharfenberg Type 10 end coupler + crash absorber envelope."""
+def _box(
+    length: float,
+    width: float,
+    height: float,
+    loc: tuple[float, float, float],
+    label: str,
+    color: Color,
+) -> Part:
+    return _part(Box(length, width, height).locate(Location(loc)), label, color)
 
-    head = _part(
-        Box(360.0, 520.0, 360.0).locate(Location((end_sign * 180.0, 0.0, COUPLER_FACE_HEIGHT_MM))),
-        "Scharfenberg Type 10 coupler head",
-        COLOR_COUPLER,
-    )
-    shank = _part(
-        Box(620.0, 260.0, 220.0).locate(Location((-end_sign * 200.0, 0.0, COUPLER_FACE_HEIGHT_MM))),
-        "Coupler shank and electric-head carrier",
-        COLOR_COUPLER,
-    )
-    crash = _part(
-        Box(780.0, 760.0, 420.0).locate(Location((-end_sign * 720.0, 0.0, COUPLER_FACE_HEIGHT_MM))),
-        "EN 15227 crash absorber cartridge",
-        COLOR_CRASH,
-    )
-    c = Compound(label="End coupler and crash-energy assembly", children=[head, shank, crash])
+
+def _cyl(
+    radius: float,
+    height: float,
+    loc: tuple[float, float, float],
+    label: str,
+    color: Color,
+) -> Part:
+    return _part(Cylinder(radius=radius, height=height).locate(Location(loc)), label, color)
+
+
+def end_coupler(end_sign: float = 1.0) -> Compound:
+    """COTS automatic coupler integration model.
+
+    The visible features follow the common Scharfenberg Type 10
+    interface family: central coupling cone, guide horns, electrical
+    head, brake-pipe hoses, shank, bolted shear plate, and crash
+    absorber cartridge.
+    """
+
+    parts: list[Part] = [
+        _box(
+            330.0,
+            470.0,
+            300.0,
+            (end_sign * 190.0, 0.0, COUPLER_FACE_HEIGHT_MM),
+            "Scharfenberg Type 10 coupler head",
+            COLOR_COUPLER,
+        ),
+        _cyl(
+            125.0,
+            160.0,
+            (end_sign * 285.0, 0.0, COUPLER_FACE_HEIGHT_MM),
+            "Coupling cone and centering face",
+            COLOR_METAL,
+        ),
+        _box(
+            210.0,
+            120.0,
+            160.0,
+            (end_sign * 310.0, -330.0, COUPLER_FACE_HEIGHT_MM - 55.0),
+            "Automatic electrical-head contact block",
+            COLOR_HV,
+        ),
+        _box(
+            700.0,
+            250.0,
+            210.0,
+            (-end_sign * 220.0, 0.0, COUPLER_FACE_HEIGHT_MM),
+            "Coupler shank and drawgear carrier",
+            COLOR_COUPLER,
+        ),
+        _box(
+            80.0,
+            860.0,
+            520.0,
+            (-end_sign * 575.0, 0.0, COUPLER_FACE_HEIGHT_MM),
+            "Bolted coupler shear plate",
+            COLOR_METAL,
+        ),
+        _box(
+            820.0,
+            720.0,
+            400.0,
+            (-end_sign * 960.0, 0.0, COUPLER_FACE_HEIGHT_MM),
+            "EN 15227 crash absorber cartridge",
+            COLOR_CRASH,
+        ),
+    ]
+    for y in (-255.0, 255.0):
+        parts.append(
+            _box(
+                250.0,
+                72.0,
+                165.0,
+                (end_sign * 240.0, y, COUPLER_FACE_HEIGHT_MM + 95.0),
+                "Scharfenberg guide horn",
+                COLOR_COUPLER,
+            )
+        )
+    for y in (-95.0, 95.0):
+        parts.append(
+            _cyl(
+                28.0,
+                140.0,
+                (end_sign * 300.0, y, COUPLER_FACE_HEIGHT_MM - 205.0),
+                "Brake-pipe hose coupling",
+                COLOR_RUBBER,
+            )
+        )
+    for y in (-310.0, -155.0, 155.0, 310.0):
+        for z in (-170.0, 170.0):
+            parts.append(
+                _cyl(
+                    20.0,
+                    18.0,
+                    (-end_sign * 535.0, y, COUPLER_FACE_HEIGHT_MM + z),
+                    "Coupler pocket M24 bolt head",
+                    COLOR_METAL,
+                )
+            )
+    c = Compound(label="End coupler and crash-energy assembly", children=parts)
     return c
 
 
 def inter_car_articulation() -> Compound:
     """Semi-permanent inter-car connection with drag-chain trainline."""
 
-    bellows = _part(
-        Box(850.0, 2350.0, 2850.0).locate(Location((0.0, 0.0, 1850.0))),
-        "Inter-car articulation bellows envelope",
-        Color(0.18, 0.18, 0.20),
+    parts: list[Part] = []
+    for index, x in enumerate((-360.0, -240.0, -120.0, 0.0, 120.0, 240.0, 360.0)):
+        parts.append(
+            _box(
+                68.0,
+                2350.0 + (index % 2) * 120.0,
+                2850.0 + (index % 2) * 90.0,
+                (x, 0.0, 1850.0),
+                "Inter-car articulation bellows pleat",
+                Color(0.15, 0.15, 0.17),
+            )
+        )
+    parts.append(
+        _box(
+            940.0,
+            330.0,
+            210.0,
+            (0.0, 0.0, COUPLER_FACE_HEIGHT_MM),
+            "Semi-permanent drawbar",
+            COLOR_COUPLER,
+        )
     )
-    drawbar = _part(
-        Box(900.0, 360.0, 220.0).locate(Location((0.0, 0.0, COUPLER_FACE_HEIGHT_MM))),
-        "Semi-permanent drawbar",
-        COLOR_COUPLER,
+    for x in (-430.0, 430.0):
+        parts.append(
+            _cyl(
+                120.0,
+                90.0,
+                (x, 0.0, COUPLER_FACE_HEIGHT_MM),
+                "Drawbar spherical joint housing",
+                COLOR_METAL,
+            )
+        )
+    for i in range(11):
+        parts.append(
+            _box(
+                70.0,
+                170.0,
+                130.0,
+                (-350.0 + i * 70.0, 900.0, 1250.0 + (i % 2) * 18.0),
+                "TCN-E / CAN-FD / auxiliary drag-chain",
+                COLOR_HV,
+            )
+        )
+    parts.append(
+        _box(
+            900.0,
+            1700.0,
+            55.0,
+            (0.0, 0.0, 420.0),
+            "Articulation anti-slip floor bridge",
+            COLOR_METAL,
+        )
     )
-    trainline = _part(
-        Box(900.0, 120.0, 180.0).locate(Location((0.0, 900.0, 1250.0))),
-        "TCN-E / CAN-FD / auxiliary drag-chain",
-        COLOR_HV,
-    )
-    c = Compound(label="Inter-car articulation and trainline assembly", children=[bellows, drawbar, trainline])
+    c = Compound(label="Inter-car articulation and trainline assembly", children=parts)
     return c
 
 
@@ -128,28 +264,109 @@ def door_system_pair() -> Compound:
     parts: list[Part] = []
     for y_sign in (-1.0, 1.0):
         y = y_sign * 1365.0
-        cassette = _part(
-            Box(DOOR_WIDTH_MM + 260.0, 180.0, DOOR_HEIGHT_MM + 260.0).locate(
-                Location((0.0, y, DOOR_SILL_HEIGHT_MM + DOOR_HEIGHT_MM / 2.0))
-            ),
-            "COTS electric door cassette",
-            COLOR_DOOR,
+        frame_z = DOOR_SILL_HEIGHT_MM + DOOR_HEIGHT_MM / 2.0
+        parts.append(
+            _box(
+                DOOR_WIDTH_MM + 260.0,
+                80.0,
+                DOOR_HEIGHT_MM + 260.0,
+                (0.0, y, frame_z),
+                "COTS electric door cassette",
+                COLOR_DOOR,
+            )
         )
-        gap_filler = _part(
-            Box(DOOR_WIDTH_MM + 180.0, 90.0, 70.0).locate(
-                Location((0.0, y_sign * 1440.0, DOOR_SILL_HEIGHT_MM - 40.0))
-            ),
-            "Door sill gap-filler flap",
-            COLOR_ACCESS,
+        parts.append(
+            _box(
+                DOOR_WIDTH_MM + 480.0,
+                130.0,
+                90.0,
+                (0.0, y_sign * 1390.0, DOOR_SILL_HEIGHT_MM + DOOR_HEIGHT_MM + 105.0),
+                "Door top roller track and operator rail",
+                COLOR_METAL,
+            )
         )
-        lock = _part(
-            Box(180.0, 80.0, 260.0).locate(
-                Location((DOOR_WIDTH_MM / 2.0 + 120.0, y_sign * 1425.0, 1250.0))
-            ),
-            "Door lock and external emergency release",
-            COLOR_CRASH,
+        parts.append(
+            _cyl(
+                90.0,
+                220.0,
+                (-DOOR_WIDTH_MM / 2.0 - 250.0, y_sign * 1390.0, DOOR_SILL_HEIGHT_MM + DOOR_HEIGHT_MM + 120.0),
+                "COTS electric door motor gearbox",
+                COLOR_ELECTRONICS,
+            )
         )
-        parts.extend([cassette, gap_filler, lock])
+        leaf_w = (DOOR_WIDTH_MM - 30.0) / 2.0
+        for leaf_sign in (-1.0, 1.0):
+            leaf_x = leaf_sign * (leaf_w / 2.0 + 12.0)
+            parts.append(
+                _box(
+                    leaf_w,
+                    55.0,
+                    DOOR_HEIGHT_MM - 60.0,
+                    (leaf_x, y_sign * 1420.0, DOOR_SILL_HEIGHT_MM + DOOR_HEIGHT_MM / 2.0),
+                    "Powered sliding door leaf",
+                    COLOR_DOOR,
+                )
+            )
+            parts.append(
+                _box(
+                    leaf_w - 180.0,
+                    18.0,
+                    1180.0,
+                    (leaf_x, y_sign * 1458.0, DOOR_SILL_HEIGHT_MM + 1120.0),
+                    "Door glazing panel",
+                    COLOR_GLASS,
+                )
+            )
+            for roller_x in (leaf_x - leaf_w / 3.0, leaf_x + leaf_w / 3.0):
+                parts.append(
+                    _cyl(
+                        34.0,
+                        28.0,
+                        (roller_x, y_sign * 1435.0, DOOR_SILL_HEIGHT_MM + DOOR_HEIGHT_MM + 45.0),
+                        "Door hanger roller",
+                        COLOR_METAL,
+                    )
+                )
+        parts.append(
+            _box(
+                DOOR_WIDTH_MM + 180.0,
+                90.0,
+                70.0,
+                (0.0, y_sign * 1440.0, DOOR_SILL_HEIGHT_MM - 40.0),
+                "Door sill gap-filler flap",
+                COLOR_ACCESS,
+            )
+        )
+        for x in (-520.0, 0.0, 520.0):
+            parts.append(
+                _cyl(
+                    18.0,
+                    75.0,
+                    (x, y_sign * 1445.0, DOOR_SILL_HEIGHT_MM - 8.0),
+                    "Gap-filler hinge knuckle",
+                    COLOR_METAL,
+                )
+            )
+        parts.append(
+            _box(
+                180.0,
+                80.0,
+                260.0,
+                (DOOR_WIDTH_MM / 2.0 + 120.0, y_sign * 1425.0, 1250.0),
+                "Door lock and external emergency release",
+                COLOR_CRASH,
+            )
+        )
+        parts.append(
+            _box(
+                42.0,
+                35.0,
+                380.0,
+                (DOOR_WIDTH_MM / 2.0 + 255.0, y_sign * 1465.0, 1260.0),
+                "External emergency release pull handle",
+                COLOR_CRASH,
+            )
+        )
     return Compound(label="Door cassette and platform-gap assembly", children=parts)
 
 
@@ -162,51 +379,168 @@ def battery_pack_set(dims: CarDimensions = CarDimensions()) -> Compound:
     for side in (-1.0, 1.0):
         y = side * (dims.body_width_mm / 2.0 - BATTERY_STRAKE_WIDTH_MM / 2.0 - 40.0)
         for x in x_offsets:
-            module = _part(
-                Box(
+            parts.append(
+                _box(
+                    BATTERY_MODULE_LENGTH_MM + 90.0,
+                    BATTERY_MODULE_WIDTH_MM + 60.0,
+                    70.0,
+                    (x, y, BATTERY_STRAKE_BASE_Z_MM + 35.0),
+                    "Folded battery tray with drain lip",
+                    COLOR_METAL,
+                )
+            )
+            parts.append(
+                _box(
                     BATTERY_MODULE_LENGTH_MM,
                     BATTERY_MODULE_WIDTH_MM,
                     BATTERY_MODULE_HEIGHT_MM,
-                ).locate(Location((x, y, z))),
-                "Na-ion battery module envelope",
-                COLOR_BATTERY,
+                    (x, y, z + 25.0),
+                    "Na-ion battery module envelope",
+                    COLOR_BATTERY,
+                )
             )
-            parts.append(module)
+            parts.append(
+                _box(
+                    BATTERY_MODULE_LENGTH_MM - 180.0,
+                    BATTERY_MODULE_WIDTH_MM - 80.0,
+                    28.0,
+                    (x, y, z + BATTERY_MODULE_HEIGHT_MM / 2.0 + 55.0),
+                    "Battery service lid with gasket land",
+                    COLOR_METAL,
+                )
+            )
+            for lug_x in (-520.0, 520.0):
+                parts.append(
+                    _box(
+                        70.0,
+                        20.0,
+                        55.0,
+                        (x + lug_x, y + side * (BATTERY_MODULE_WIDTH_MM / 2.0 + 20.0), z + 150.0),
+                        "Battery module lifting lug",
+                        COLOR_METAL,
+                    )
+                )
+            parts.append(
+                _box(
+                    130.0,
+                    95.0,
+                    120.0,
+                    (x - 610.0, y - side * 145.0, z + 70.0),
+                    "Battery vent and pressure-relief port",
+                    COLOR_CRASH,
+                )
+            )
+    for side in (-1.0, 1.0):
+        y = side * (dims.body_width_mm / 2.0 - BATTERY_STRAKE_WIDTH_MM - 10.0)
+        for x in (-5150.0, 5150.0):
+            parts.append(
+                _box(
+                    1650.0,
+                    22.0,
+                    34.0,
+                    (x, y, z + 210.0),
+                    "Insulated battery string busbar",
+                    COLOR_HV,
+                )
+            )
     hv_box = _part(
         Box(900.0, 520.0, 460.0).locate(Location((0.0, 0.0, 620.0))),
         "HV contactor, fuse, and BMS cabinet",
         COLOR_HV,
     )
     parts.append(hv_box)
+    parts.append(
+        _box(
+            780.0,
+            430.0,
+            24.0,
+            (0.0, 0.0, 862.0),
+            "BMS cabinet bolted access lid",
+            COLOR_METAL,
+        )
+    )
+    for x in (-260.0, -90.0, 90.0, 260.0):
+        parts.append(
+            _cyl(28.0, 42.0, (x, -285.0, 640.0), "HV battery cable gland", COLOR_RUBBER)
+        )
     return Compound(label="Under-seat battery pack assembly", children=parts)
 
 
 def traction_power_rack() -> Compound:
     """Inverter, auxiliary converter, coolant, and charge-interface envelopes."""
 
+    parts: list[Part] = []
     inverter = _part(
         Box(900.0, 600.0, 420.0).locate(Location((-1850.0, 0.0, -360.0))),
         "SiC traction inverter and cold plate",
         COLOR_HV,
     )
+    parts.append(inverter)
+    for i in range(11):
+        parts.append(
+            _box(
+                820.0,
+                18.0,
+                120.0,
+                (-1850.0, -250.0 + i * 50.0, -80.0),
+                "Traction inverter cooling fin",
+                Color(0.18, 0.18, 0.20),
+            )
+        )
     aux = _part(
         Box(820.0, 520.0, 380.0).locate(Location((1850.0, 0.0, -340.0))),
         "Aux inverter 400 V / 110 V / 24 V",
         COLOR_ELECTRONICS,
+    )
+    parts.append(aux)
+    parts.append(
+        _box(
+            680.0,
+            60.0,
+            70.0,
+            (1850.0, -315.0, -130.0),
+            "Aux converter terminal strip",
+            COLOR_METAL,
+        )
     )
     coolant = _part(
         Box(780.0, 360.0, 320.0).locate(Location((0.0, 0.0, -370.0))),
         "Coolant pump and manifold",
         Color(0.12, 0.45, 0.62),
     )
+    parts.append(coolant)
+    parts.append(
+        _cyl(
+            95.0,
+            250.0,
+            (-245.0, 0.0, -130.0),
+            "Electric coolant pump body",
+            Color(0.12, 0.45, 0.62),
+        )
+    )
+    for x in (-260.0, -90.0, 90.0, 260.0):
+        parts.append(_cyl(32.0, 70.0, (x, -220.0, -245.0), "Coolant hose port", COLOR_RUBBER))
     charge = _part(
         Box(420.0, 220.0, 360.0).locate(Location((0.0, -1500.0, 760.0))),
         "Station side-pin charging connector",
         COLOR_HV,
     )
+    parts.append(charge)
+    for x in (-120.0, 0.0, 120.0):
+        parts.append(_cyl(24.0, 90.0, (x, -1630.0, 810.0), "Spring-loaded charging contact pin", COLOR_METAL))
+    for x in (-150.0, 150.0):
+        parts.append(
+            _cyl(
+                26.0,
+                75.0,
+                (x, -1500.0, 590.0),
+                "Charging connector ceramic standoff",
+                Color(0.92, 0.88, 0.72),
+            )
+        )
     return Compound(
         label="Traction power and charging assembly",
-        children=[inverter, aux, coolant, charge],
+        children=parts,
     )
 
 
@@ -228,40 +562,130 @@ def electronics_cabinet(end_sign: float = 1.0) -> Compound:
         "Crashworthy event recorder",
         COLOR_CRASH,
     )
-    return Compound(label="Per-end electronics cabinet assembly", children=[safety, app, recorder])
+    parts = [safety, app, recorder]
+    for y in (-885.0, -630.0, -500.0, -350.0):
+        for z in (1280.0, 1510.0, 1740.0):
+            parts.append(_box(420.0, 24.0, 18.0, (end_sign * 160.0, y, z), "DIN rail", COLOR_METAL))
+    for y in (-885.0, -630.0, -500.0):
+        for z in (1395.0, 1625.0):
+            for i in (-1, 0, 1):
+                parts.append(
+                    _box(
+                        160.0,
+                        14.0,
+                        100.0,
+                        (end_sign * (10.0 + i * 95.0), y, z),
+                        "Eurocard PCB on DIN carrier",
+                        Color(0.05, 0.34, 0.12),
+                    )
+                )
+    for x in (-140.0, -70.0, 0.0, 70.0, 140.0):
+        parts.append(_cyl(18.0, 32.0, (end_sign * x, -105.0, 1260.0), "M12 cable gland", COLOR_RUBBER))
+    for i in range(9):
+        parts.append(
+            _box(
+                34.0,
+                42.0,
+                48.0,
+                (end_sign * (-180.0 + i * 45.0), -85.0, 1480.0),
+                "Wago terminal block",
+                COLOR_ACCESS,
+            )
+        )
+    for y in (-760.0, -500.0):
+        parts.append(_cyl(16.0, 20.0, (end_sign * 435.0, y, 1680.0), "Quarter-turn cabinet latch", COLOR_METAL))
+    return Compound(label="Per-end electronics cabinet assembly", children=parts)
 
 
 def tobs_sensor_pack(end_sign: float = 1.0) -> Compound:
     """Obstacle-detection sensor pack behind one sensor cowl."""
 
-    lidar = _part(
-        Box(420.0, 300.0, 180.0).locate(Location((end_sign * 260.0, 0.0, 2550.0))),
-        "T-OBS solid-state LIDAR envelope",
-        COLOR_SENSOR,
-    )
-    radar = _part(
-        Box(320.0, 260.0, 160.0).locate(Location((end_sign * 300.0, 0.0, 2200.0))),
-        "T-OBS mmWave radar envelope",
-        COLOR_SENSOR,
-    )
-    stereo = _part(
-        Box(640.0, 120.0, 120.0).locate(Location((end_sign * 320.0, 0.0, 1850.0))),
-        "T-OBS stereo camera pair envelope",
-        COLOR_SENSOR,
-    )
-    ultrasonics = []
+    parts: list[Part] = [
+        _box(
+            80.0,
+            1280.0,
+            1380.0,
+            (end_sign * 185.0, 0.0, 2030.0),
+            "T-OBS adjustable sensor backplate",
+            COLOR_METAL,
+        ),
+        _box(
+            LIVOX_HAP_LENGTH_MM,
+            LIVOX_HAP_WIDTH_MM,
+            LIVOX_HAP_HEIGHT_MM,
+            (end_sign * 300.0, 0.0, 2550.0),
+            "T-OBS solid-state LIDAR envelope",
+            COLOR_SENSOR,
+        ),
+        _box(
+            150.0,
+            28.0,
+            82.0,
+            (end_sign * 380.0, 0.0, 2550.0),
+            "Heated LIDAR optical window",
+            COLOR_GLASS,
+        ),
+        _box(
+            220.0,
+            180.0,
+            70.0,
+            (end_sign * 300.0, 0.0, 2200.0),
+            "T-OBS mmWave radar envelope",
+            COLOR_SENSOR,
+        ),
+        _box(
+            260.0,
+            26.0,
+            95.0,
+            (end_sign * 410.0, 0.0, 2200.0),
+            "Radar radome window",
+            Color(0.20, 0.22, 0.24, 0.60),
+        ),
+        _box(
+            620.0,
+            70.0,
+            90.0,
+            (end_sign * 320.0, 0.0, 1850.0),
+            "T-OBS stereo camera pair envelope",
+            COLOR_SENSOR,
+        ),
+    ]
+    for y in (-250.0, 250.0):
+        parts.append(
+            _cyl(
+                38.0,
+                35.0,
+                (end_sign * 380.0, y, 1850.0),
+                "Stereo camera lens and heater ring",
+                COLOR_GLASS,
+            )
+        )
     for y in (-520.0, 520.0):
         for z in (1500.0, 2500.0):
-            ultrasonics.append(
-                _part(
-                    Cylinder(radius=55.0, height=60.0).locate(Location((end_sign * 520.0, y, z))),
+            parts.append(
+                _cyl(
+                    55.0,
+                    60.0,
+                    (end_sign * 520.0, y, z),
                     "T-OBS ultrasonic transducer",
                     COLOR_SENSOR,
                 )
             )
+            parts.append(
+                _cyl(
+                    72.0,
+                    12.0,
+                    (end_sign * 555.0, y, z),
+                    "Ultrasonic transducer retaining ring",
+                    COLOR_METAL,
+                )
+            )
+    for y in (-620.0, 620.0):
+        for z in (1360.0, 2660.0):
+            parts.append(_cyl(18.0, 14.0, (end_sign * 585.0, y, z), "Sensor cover captive screw", COLOR_METAL))
     return Compound(
         label="T-OBS nose sensor pack assembly",
-        children=[lidar, radar, stereo, *ultrasonics],
+        children=parts,
     )
 
 

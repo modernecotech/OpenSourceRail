@@ -63,12 +63,43 @@ plant:
    - HV isolation tools and test equipment.
    - Door calibration, lighting/PIS/CCTV checks, brake tests.
 
+## Sheet-metal tooling package
+
+The v2 drawing pack shall release the following tooling before first
+steel cut. The tooling is intentionally ordinary: press-brake tooling,
+laser-cut fixture plates, bolted datum towers, and removable clamps
+rather than legacy carbody megajigs.
+
+| Tooling ID | Tool | Purpose | Required accuracy |
+|---|---|---|---|
+| LM3-TL-UNDERFRAME-01 | Underframe rotating weld fixture | Holds side sills, cross-bearers, bolsters, coupler pockets, and battery trays | ±1.5 mm on bogie centres; ±2.0 mm on door datum plane |
+| LM3-TL-BOLSTER-02 | Bolster box subfixture | Pre-welds folded bolster boxes, air-spring pads, and pivot boss backing plates | ±0.5 mm before line-bore |
+| LM3-TL-COUPLER-03 | Coupler pocket fixture | Keeps crash-can plate, shear plate, and pocket inserts square to train centreline | ±0.75 mm on coupler face datum |
+| LM3-TL-SIDE-04 | Side-wall post/rail fixture | Locates door portals, window posts, waist rail, and cant rail | ±1.0 mm at door cassette opening |
+| LM3-TL-ROOF-05 | Roof bow fixture | Holds roll-formed roof bows and HVAC rail inserts | ±1.5 mm on HVAC rail pitch |
+| LM3-TL-PANEL-06 | Composite/sandwich panel drill jig | Drills quarter-turn retainers and bond-line witness holes | ±0.5 mm on retainer pitch |
+| LM3-TL-DOOR-07 | Door cassette fit-up gauge | Confirms COTS door cassette envelope, threshold, and lock-loop bracket clearances | Supplier installation tolerance |
+| LM3-TL-HV-08 | Battery tray/service-lid gauge | Checks tray drainage, lid gasket land, HV cable gland reach, and seat-base clearance | ±1.0 mm on service-lid gasket land |
+
+The current CAD manufacturing templates generated from
+`mechanical-py` are:
+
+| Template | Use |
+|---|---|
+| `main-frame.step` | Underframe ladder, formed sills, cross-bearers, bolsters, battery trays, coupler pockets |
+| `body-sheet-metal-kit.step` | Whole body/chassis sheet-metal kit: underframe, side posts, door portals, waist/cant rails, roof bows, end rings |
+| `sandwich-panel.step` | Side/roof panel aperture, folded flanges, retainers, and bond land |
+| `door-leaf.step` | COTS-style door leaf shell, bonded glazing, EPDM seals, hanger rollers |
+| `chassis-interface-assembly.step` | Bolster, bogie adapter, motor cradle, guide blocks, fasteners, service strut, connector interfaces |
+
 ## Build sequence per car
 
 ### 1. Kitting
 
 - Issue tube cut list, plate flat patterns, brackets, inserts, and
   supplier interface drawings.
+- Export NC data directly from the v2 flat-pattern drawings; each
+  part receives a QR/etched part ID before forming.
 - Mark every primary steel member with heat/batch traceability.
 - Stage COTS modules by car number: doors, windows, HVAC, lighting,
   seats, intercom, CCTV, PIS, battery pack, inverter, auxiliaries.
@@ -80,9 +111,13 @@ before cutting.
 
 - Cut side sills, centre spine, cross bearers, battery rails, and
   folded plate boxes.
+- Press-brake side sills, bolster webs, coupler-pocket plates,
+  battery-tray lips, and service-lid gutters using matched V-dies.
 - Tack in underframe fixture from centre datum outward.
 - Weld side sills, cross bearers, bolster boxes, coupler pocket, and
   battery/equipment supports.
+- Fit temporary anti-pull bars across door openings and side sills
+  before long weld runs.
 - Stress-relieve or controlled-cool where required by WPS.
 - Machine or line-bore centre-pivot and critical mounting inserts
   after welding.
@@ -94,6 +129,8 @@ CL1/CL2 joints, bogie-centre datum report.
 
 - Weld door posts, window posts, waist rail, cant rail, and roof bows
   on the side-frame fixture.
+- Trial-fit a COTS door cassette gauge before welding the portal
+  reinforcement closed.
 - Lift side frames onto underframe datum pads.
 - Weld/bolt side frames to underframe as specified by v2 drawings.
 - Install roof equipment rails and cable tray brackets.
@@ -113,6 +150,8 @@ Hold point: dry-film thickness report and sealed-drain checklist.
 ### 5. Composite exterior
 
 - Trial-fit side panels, roof fairings, skirts, and sensor cowl.
+- Use the panel drill jig to install quarter-turn retainer receptacles
+  before adhesive surface preparation.
 - Prepare steel/composite surfaces per adhesive supplier procedure.
 - Bond panels to secondary rails and install mechanical retainers.
 - Fit removable skirt panels with quarter-turn or captive fasteners.

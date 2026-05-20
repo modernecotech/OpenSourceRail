@@ -57,6 +57,38 @@ dominates auxiliary power; the aux converter and station-energy
 models should assume roughly 60 kW HVAC peak plus lighting, PIS,
 CCTV, intercom, control electronics, and battery thermal loads.
 
+## COTS Reference Baselines
+
+The CAD now uses COTS-inspired integration geometry rather than plain
+boxes. These references are not sole-source selections; they define
+the type of commodity/supplier evidence the v2 drawing pack must
+accept or replace.
+
+| Function | Reference family | CAD/design implication |
+|---|---|---|
+| Automatic coupler | Dellner / Voith Scharfenberg Type 10 family | Coupler head, guide horns, electrical-head carrier, brake-pipe hoses, bolted shear plate, EN 15227 crash absorber pocket |
+| Door cassette | Electric rail/bus sliding or plug door systems, e.g. Vapor/Wabtec class products | Top operator rail, hanger rollers, two sliding leaves, bonded glass, lock/release unit, threshold drainage, gap-filler hinge |
+| Nose LIDAR | Livox HAP class automotive-grade solid-state LIDAR | 105 × 131.6 × 65 mm LIDAR body, heated optical window, service fasteners, 9-18 V feed allowance |
+| Radar | TI AWR1843BOOST class 77 GHz radar module | Nose-centred radar envelope, radome window, CAN-FD harness clearance |
+| Power connector | Anderson SB50 class connector | Keyed service/traction connector envelope with cable strain-relief allowance |
+| Access fastener | Camloc quarter-turn class fastener | Quarter-turn retainers on removable skirts, panels, and service lids |
+| Linear guide | HIWIN HG class guide block | Guide-block envelope for removable bogie/motor service adapters |
+| Gas spring | Stabilus LIFT-O-MAT class gas spring | Rod/cylinder/end-fitting envelope for supported service flaps |
+
+The matching mechanical reference models are generated under
+`mechanical-py/catalog/fixtures/` and the rolling-stock system
+assemblies under `mechanical-py/catalog/rolling_stock/`.
+
+Reference datasheets/product pages used for the current placeholder
+geometry:
+[Dellner automatic coupler Type 10](https://www.dellner.com/products/automatic-couplers/automatic-coupler-type-10),
+[Wabtec/Vapor doors and access](https://www.wabteccorp.com/transit-bus/doors-access),
+[Livox HAP specifications](https://www.livoxtech.com/hap/specs),
+[TI AWR1843BOOST](https://www.ti.com/tool/AWR1843BOOST),
+[Anderson SB50 datasheet](https://www.andersonpower.com/content/dam/app/ecommerce/product-pdfs/DS-SB50.pdf),
+[HIWIN HGW25CC catalogue page](https://www.hiwin.de/sk/Shop/Profilschienenf%C3%BChrungen/Laufwagen/Kugelf%C3%BChrungen/HG-QH/HGW-QHW/HGW25CCZAC/p/5-001153),
+and [Stabilus LIFT-O-MAT](https://www.stabilus.com/products/gas-springs/lift-o-mat).
+
 ## Candidate supplier classes
 
 Named suppliers are examples of the class of product, not a locked

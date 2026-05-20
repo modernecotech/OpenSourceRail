@@ -5,6 +5,7 @@ from __future__ import annotations
 from osr_mech.cad_templates import (
     FIXTURE_BUILDERS,
     ROLLING_STOCK_TEMPLATE_BUILDERS,
+    body_sheet_metal_kit,
     bogie_adapter,
     bolster,
     chassis_interface_assembly,
@@ -54,3 +55,11 @@ def test_chassis_interface_assembly_contains_three_interfaces() -> None:
         "Bolster interface assembly",
         "Motor cradle interface assembly",
     }
+
+
+def test_body_sheet_metal_kit_contains_manufacturing_features() -> None:
+    labels = _child_labels(body_sheet_metal_kit())
+    assert "Rolling-stock sheet-metal underframe template" in labels
+    assert "Door portal reinforcement" in labels
+    assert "Roll-formed roof bow" in labels
+    assert "End bulkhead ring frame" in labels

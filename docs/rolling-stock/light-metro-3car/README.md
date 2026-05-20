@@ -47,6 +47,7 @@ and render to these design-review PNGs:
 | [`trainset-light-metro-3car.png`](../../../docs/screenshots/trainset-light-metro-3car.png) | Final 3-car trainset assembly with car bodies, bogies, cowls, couplers, inter-car articulation, and train systems |
 | [`trainset-car-detail.png`](../../../docs/screenshots/trainset-car-detail.png) | 17 m car body, door/window openings, glazing, skirt, livery, and roof equipment |
 | [`trainset-interior-fit-out.png`](../../../docs/screenshots/trainset-interior-fit-out.png) | COTS passenger fit-out envelopes inside the car body |
+| [`trainset-body-sheet-metal-kit.png`](../../../docs/screenshots/trainset-body-sheet-metal-kit.png) | Sheet-metal/chassis manufacturing kit: underframe, bolsters, coupler pockets, side posts, rails, roof bows, end rings |
 | [`trainset-car-systems.png`](../../../docs/screenshots/trainset-car-systems.png) | One self-contained car systems package: doors, batteries, traction power rack, charging connector, and accessibility/safety reservations |
 | [`trainset-battery-pack.png`](../../../docs/screenshots/trainset-battery-pack.png) | Eight sodium-ion module envelopes plus HV contactor, fuse, and BMS cabinet per car |
 | [`trainset-door-system.png`](../../../docs/screenshots/trainset-door-system.png) | Door cassette pair with sill gap fillers, locks, and external emergency releases |
@@ -60,6 +61,7 @@ and render to these design-review PNGs:
 The matching STEP handoff artifacts are regenerated under
 [`mechanical-py/catalog/rolling_stock`](../../../mechanical-py/catalog/rolling_stock):
 [`trainset-light-metro-3car.step`](../../../mechanical-py/catalog/rolling_stock/trainset-light-metro-3car.step),
+[`templates/body-sheet-metal-kit.step`](../../../mechanical-py/catalog/rolling_stock/templates/body-sheet-metal-kit.step),
 [`car-systems.step`](../../../mechanical-py/catalog/rolling_stock/car-systems.step),
 [`battery-pack-set.step`](../../../mechanical-py/catalog/rolling_stock/battery-pack-set.step),
 [`door-system-pair.step`](../../../mechanical-py/catalog/rolling_stock/door-system-pair.step),

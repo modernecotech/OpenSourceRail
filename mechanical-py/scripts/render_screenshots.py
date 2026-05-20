@@ -466,6 +466,18 @@ def render_all(out_root: Path) -> None:
         alpha_override={"shell": 0.12, "livery": 0.0, "skirt": 0.0, "Roof auxiliary": 0.25, "HVAC roof unit": 0.25},
     )
 
+    from osr_mech.cad_templates import body_sheet_metal_kit
+
+    _render(
+        body_sheet_metal_kit(),
+        out_root / "trainset-body-sheet-metal-kit.png",
+        tolerance_mm=12.0,
+        elev=16,
+        azim=-55,
+        figsize=(13, 5),
+        dpi=170,
+    )
+
     # 5. Motor bogie — detailed component + assembly CAD (RFC 0022).
     from osr_mech.rolling_stock.bogie import motor_bogie, trailer_bogie
     _render(

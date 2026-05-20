@@ -1,8 +1,11 @@
-"""Early rolling-stock fabrication templates.
+"""Rolling-stock fabrication templates.
 
-These are deliberately simple envelope parts for progressing supplier and
-fixture integration work. Detailed production geometry belongs in the main
-rolling-stock modules once interfaces are frozen.
+These are supplier-neutral manufacturing templates: not homologated
+shop drawings, but concrete enough for fit-up review, fixture design,
+supplier envelope checks, and first-article routing. They model the
+sheet-metal/chassis features a workshop actually needs: formed side
+sills, cross bearers, bolsters, battery trays, door posts, roof bows,
+flanges, access panels, datums, and COTS fixture interfaces.
 """
 
 from __future__ import annotations
@@ -27,39 +30,87 @@ def _with_label(part, label: str):
 
 
 def main_frame(params: TemplateParams = DEFAULT_PARAMS) -> Compound:
-    """Underframe ladder with longitudinal beams, cross-members, and bolster pocket."""
+    """Sheet-metal underframe ladder with formed sills and equipment trays."""
 
     parts = []
     length = params.car_length_mm
     width = params.car_width_mm
     height = params.frame_beam_height_mm
     beam_thickness = params.frame_beam_thickness_mm
+    y_left = -width / 2.0 + beam_thickness / 2.0
+    y_right = width / 2.0 - beam_thickness / 2.0
 
-    left_beam = Box(length=length, width=beam_thickness, height=height).locate(
-        Location((0, 0, 0))
+    left_beam = _with_label(
+        Box(length=length, width=beam_thickness, height=height).locate(
+            Location((0, y_left, 0))
+        ),
+        "Folded C-channel side sill",
     )
-    right_beam = left_beam.moved(Location((0, width - beam_thickness, 0)))
+    right_beam = _with_label(
+        Box(length=length, width=beam_thickness, height=height).locate(
+            Location((0, y_right, 0))
+        ),
+        "Folded C-channel side sill",
+    )
     parts.extend([left_beam, right_beam])
 
     cross_count = max(1, int(length / params.cross_spacing_mm))
     for index in range(1, cross_count):
         x = -length / 2 + index * params.cross_spacing_mm
-        parts.append(
-            Box(length=beam_thickness, width=width, height=height).locate(
+        cross = _with_label(
+            Box(length=beam_thickness, width=width - 2 * beam_thickness, height=height).locate(
                 Location((x, 0, 0))
+            ),
+            "Pressed cross-bearer with lightening holes",
+        )
+        for y in (-520.0, 0.0, 520.0):
+            cross = cross.cut(Cylinder(radius=95.0, height=beam_thickness + 2.0).locate(Location((x, y, 0))))
+        parts.append(cross)
+
+    for x in (-length * 0.32, length * 0.32):
+        parts.append(
+            _with_label(
+                Box(length=1250.0, width=width - 320.0, height=180.0).locate(Location((x, 0, -20.0))),
+                "Welded bogie bolster box",
             )
         )
+        parts.append(
+            _with_label(
+                Cylinder(radius=180.0, height=28.0).locate(Location((x, 0, 100.0))),
+                "Machined centre-pivot boss",
+            )
+        )
+        for y in (-620.0, 620.0):
+            parts.append(
+                _with_label(
+                    Box(length=520.0, width=140.0, height=90.0).locate(Location((x, y, 120.0))),
+                    "Air-spring mounting pad",
+                )
+            )
 
-    parts.append(
-        Cylinder(radius=150.0, height=20.0).locate(Location((0, width / 2, -10)))
-    )
+    for side in (-1.0, 1.0):
+        y = side * (width / 2.0 - 360.0)
+        for x in (-6100.0, -4200.0, 4200.0, 6100.0):
+            parts.append(
+                _with_label(
+                    Box(length=1580.0, width=420.0, height=80.0).locate(Location((x, y, -120.0))),
+                    "Folded under-seat battery tray",
+                )
+            )
+    for x in (-length / 2 + 900.0, length / 2 - 900.0):
+        parts.append(
+            _with_label(
+                Box(length=720.0, width=width - 220.0, height=260.0).locate(Location((x, 0, 40.0))),
+                "Coupler pocket folded box",
+            )
+        )
     c = Compound(children=parts)
-    c.label = "Rolling-stock main frame template"
+    c.label = "Rolling-stock sheet-metal underframe template"
     return c
 
 
 def sandwich_panel(params: TemplateParams = DEFAULT_PARAMS) -> Compound:
-    """Side-wall sandwich panel with a window aperture and edge extrusion."""
+    """Composite/sheet side panel with aperture, bond land, and retainers."""
 
     width = params.panel_width_mm
     height = params.panel_height_mm
@@ -73,16 +124,41 @@ def sandwich_panel(params: TemplateParams = DEFAULT_PARAMS) -> Compound:
         Location(((width - win_w) / 2, (height - win_h) / 2, skin_t))
     )
     result = panel.cut(window)
-    edge = Box(length=width + 20.0, width=20.0, height=thickness).locate(
-        Location((-10, -10, 0))
-    )
-    c = Compound(children=[result, edge])
-    c.label = "Sandwich panel template"
+    result.label = "Panel skin with bonded window aperture"
+    edge_parts = [
+        _with_label(
+            Box(length=width + 20.0, width=28.0, height=thickness).locate(Location((-10, -14, 0))),
+            "Folded panel edge flange",
+        ),
+        _with_label(
+            Box(length=width + 20.0, width=28.0, height=thickness).locate(Location((-10, height - 14, 0))),
+            "Folded panel edge flange",
+        ),
+        _with_label(
+            Box(length=28.0, width=height, height=thickness).locate(Location((-14, height / 2, 0))),
+            "Vertical panel splice flange",
+        ),
+        _with_label(
+            Box(length=28.0, width=height, height=thickness).locate(Location((width + 14, height / 2, 0))),
+            "Vertical panel splice flange",
+        ),
+    ]
+    retainers = []
+    for x in (120.0, width - 120.0):
+        for y in (160.0, height - 160.0):
+            retainers.append(
+                _with_label(
+                    Cylinder(radius=16.0, height=thickness + 8.0).locate(Location((x, y, thickness / 2))),
+                    "Quarter-turn retainer datum",
+                )
+            )
+    c = Compound(children=[result, *edge_parts, *retainers])
+    c.label = "Side sandwich panel manufacturing template"
     return c
 
 
 def door_leaf(params: TemplateParams = DEFAULT_PARAMS) -> Compound:
-    """Door leaf with a simple glazing cut-out."""
+    """COTS-style plug/sliding door leaf with skins, glass, and seals."""
 
     width = params.door_width_mm
     height = params.door_height_mm
@@ -104,8 +180,80 @@ def door_leaf(params: TemplateParams = DEFAULT_PARAMS) -> Compound:
             )
         )
     )
-    c = Compound(children=[leaf.cut(glazing)])
-    c.label = "Door leaf template"
+    leaf_solid = leaf.cut(glazing)
+    leaf_solid.label = "Pressed aluminium door leaf shell"
+    glass = _with_label(
+        Box(length=glazing_width - 40.0, width=thickness / 2.0, height=glazing_height - 40.0).locate(
+            Location((width / 2, thickness / 2, height / 2))
+        ),
+        "Bonded door glazing cassette",
+    )
+    seals = [
+        _with_label(Box(length=width, width=8.0, height=24.0).locate(Location((width / 2, -4.0, 14.0))), "EPDM lower door seal"),
+        _with_label(Box(length=width, width=8.0, height=24.0).locate(Location((width / 2, -4.0, height - 14.0))), "EPDM upper door seal"),
+        _with_label(Box(length=18.0, width=8.0, height=height).locate(Location((10.0, -4.0, height / 2))), "EPDM vertical door seal"),
+        _with_label(Box(length=18.0, width=8.0, height=height).locate(Location((width - 10.0, -4.0, height / 2))), "EPDM vertical door seal"),
+    ]
+    rollers = [
+        _with_label(Cylinder(radius=32.0, height=24.0).locate(Location((x, thickness + 18.0, height + 28.0))), "Door hanger roller")
+        for x in (width * 0.25, width * 0.75)
+    ]
+    c = Compound(children=[leaf_solid, glass, *seals, *rollers])
+    c.label = "Door leaf manufacturing template"
+    return c
+
+
+def body_sheet_metal_kit(params: TemplateParams = DEFAULT_PARAMS) -> Compound:
+    """Body/chassis sheet-metal kit for manufacturing and fixture review."""
+
+    length = params.car_length_mm
+    width = params.car_width_mm
+    height = 3000.0
+    parts = [main_frame(params)]
+    for side in (-1.0, 1.0):
+        y = side * (width / 2.0 - 55.0)
+        for x in (-7100.0, -5200.0, -3000.0, 3000.0, 5200.0, 7100.0):
+            parts.append(
+                _with_label(
+                    Box(length=120.0, width=110.0, height=height).locate(Location((x, y, height / 2.0 + 120.0))),
+                    "Pressed side-wall post",
+                )
+            )
+        for x in (-length / 4.0, length / 4.0):
+            parts.append(
+                _with_label(
+                    Box(length=980.0, width=130.0, height=height - 260.0).locate(Location((x, y, height / 2.0 + 250.0))),
+                    "Door portal reinforcement",
+                )
+            )
+        parts.append(
+            _with_label(
+                Box(length=length - 800.0, width=90.0, height=110.0).locate(Location((0.0, y, 2550.0))),
+                "Rolled cant rail",
+            )
+        )
+        parts.append(
+            _with_label(
+                Box(length=length - 800.0, width=80.0, height=90.0).locate(Location((0.0, y, 1150.0))),
+                "Pressed waist rail",
+            )
+        )
+    for x in (-7600.0, -5600.0, -3600.0, -1600.0, 1600.0, 3600.0, 5600.0, 7600.0):
+        parts.append(
+            _with_label(
+                Box(length=120.0, width=width - 260.0, height=95.0).locate(Location((x, 0.0, 3180.0))),
+                "Roll-formed roof bow",
+            )
+        )
+    for x in (-length / 2.0 + 650.0, length / 2.0 - 650.0):
+        parts.append(
+            _with_label(
+                Box(length=180.0, width=width - 160.0, height=2650.0).locate(Location((x, 0.0, 1600.0))),
+                "End bulkhead ring frame",
+            )
+        )
+    c = Compound(children=parts)
+    c.label = "Body and chassis sheet-metal kit"
     return c
 
 
