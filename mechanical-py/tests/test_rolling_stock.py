@@ -83,7 +83,7 @@ def test_car_body_has_door_and_window_cutouts() -> None:
     assert v < solid_volume_mm3, (
         f"car-body volume {v:.0f} should be below solid box {solid_volume_mm3:.0f}"
     )
-    # Doors (1 × 1.4 × 2.0 × 2.65 × 2 sides ≈ 15 m³) + windows remove
+    # Doors (1 × 1.4 × 2.0 × 2.85 × 2 sides ≈ 16 m³) + windows remove
     # a visible share of the solid box. The
     # body should still be at least half the solid volume — anything
     # less is a geometry bug.
@@ -113,7 +113,7 @@ def test_sensor_cowl_has_sensor_window() -> None:
     v = cowl.volume
     assert v > 0.0, "cowl produced empty geometry"
     # Tapered solid upper bound.
-    interface_area = 2650.0 * 3600.0
+    interface_area = CarDimensions().body_width_mm * CarDimensions().body_height_mm
     leading_area = LEADING_FACE_WIDTH_MM * LEADING_FACE_HEIGHT_MM
     untapered = (interface_area + leading_area) / 2.0 * COWL_LENGTH_MM
     assert v < untapered, "cowl volume should be below the average cross-section × length"

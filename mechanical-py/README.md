@@ -57,6 +57,24 @@ operator has already made in `design.toml`:
 So `design.toml` drives both the Rust planning pipeline *and* the
 mechanical catalogue. One source of truth for the whole deployment.
 
+## Canonical Source
+
+The Python build123d files under [`src/osr_mech/`](src/osr_mech/) are
+the design basis. Generated STEP files under [`catalog/`](catalog/) are
+exchange artifacts for CAD viewers, fabricators, and structural
+engineering handoff.
+
+Key rolling-stock source entry points:
+
+| Source | Scope |
+|---|---|
+| [`src/osr_mech/rolling_stock/trainset.py`](src/osr_mech/rolling_stock/trainset.py) | Trainset family assembly and motorisation |
+| [`src/osr_mech/rolling_stock/car_body.py`](src/osr_mech/rolling_stock/car_body.py) | Concept-aligned car body, livery, doors, windows, roof PV/HVAC |
+| [`src/osr_mech/rolling_stock/sensor_cowl.py`](src/osr_mech/rolling_stock/sensor_cowl.py) | Large glass end cowl and T-OBS nose envelope |
+| [`src/osr_mech/rolling_stock/systems.py`](src/osr_mech/rolling_stock/systems.py) | Doors, batteries, couplers, electronics, charging, sensor packs |
+| [`src/osr_mech/rolling_stock/bogie/`](src/osr_mech/rolling_stock/bogie/) | Powered and trailer bogie components |
+| [`src/osr_mech/cad_templates/rolling_stock.py`](src/osr_mech/cad_templates/rolling_stock.py) | Chassis/body sheet-metal templates |
+
 ## Usage
 
 ```bash

@@ -8,17 +8,17 @@ emergency brake application.
 ## Propulsion topology
 
 ```
-  [120 kWh Na-ion under-seat pack, Car A] ──DC── [SiC inverter] ── [powered bogie A]
-  [120 kWh Na-ion under-seat pack, Car B] ──DC── [SiC inverter] ── [powered bogie B]
-  [120 kWh Na-ion under-seat pack, Car C] ──DC── [SiC inverter] ── [powered bogie C]
+  [150 kWh Na-ion under-seat pack, Car A] ──DC── [SiC inverter] ── [powered bogie A]
+  [150 kWh Na-ion under-seat pack, Car B] ──DC── [aux / recovery DC link; no traction inverter]
+  [150 kWh Na-ion under-seat pack, Car C] ──DC── [SiC inverter] ── [powered bogie C]
 
   Station charger → side-pin / pantograph-down dock → per-car DC link
 ```
 
-Each car is electrically self-contained. A car can isolate its own
-pack and traction equipment while the rest of the consist remains
-recoverable at restricted speed. `osr-bms` manages per-car contactors,
-cell balancing, and SoC / SoH estimation.
+Each car has its own battery pack. The powered end cars carry traction
+inverters; the low-floor centre trailer contributes energy through the
+consist DC link but does not carry motors. `osr-bms` manages per-car
+contactors, cell balancing, and SoC / SoH estimation.
 
 ## Batteries
 
@@ -27,43 +27,44 @@ cell balancing, and SoC / SoH estimation.
 | Chemistry (default) | Sodium-ion (Na-ion) |
 | Chemistry (alternate) | LFP (drop-in, per-operator) |
 | Nominal pack voltage | 1 500 V DC |
-| Pack capacity (each car) | 120 kWh usable (~150 kWh nameplate at commissioning) |
-| Consist total capacity | 360 kWh usable |
+| Pack capacity (each car) | 150 kWh usable |
+| Consist total capacity | 450 kWh usable |
 | Module count per pack | 8 under-seat modules per car |
 | Cell chemistry | 3.0–3.7 V Na-ion (CATL / HiNa / local equiv.) |
-| Pack mass | ~0.9 t per car, ~2.7 t consist total |
+| Pack mass | ~1.1 t per car, ~3.3 t consist total |
 | Location | Under longitudinal seats, split both sides of the saloon |
 | Thermal management | Chiller-fed cold plates tied into the HVAC loop |
 | Fire containment | Sealed aluminium module boxes with side vent duct and aspirating smoke detection (feeds `osr-fire-safety`) |
 
-Pack sizing per RFC 0002: 360 kWh gives roughly one route length
-plus 20 % reserve and HVAC uplift at 50 °C ambient. Normal service
-energy is replaced during station dwells.
+Pack sizing per the concept: 450 kWh gives roughly one route length
+plus reserve, HVAC uplift at 50 °C ambient, and energy margin for the
+centre trailer's aux loads. Normal service energy is replaced during
+station dwells.
 
 ## Traction motors
 
 | Parameter | Value |
 |---|---|
-| Count | 6 (two axles on each of three powered bogies) |
+| Count | 4 (two axles on each of two powered bogies) |
 | Type | Permanent-magnet synchronous (PMSM), axle-mount |
-| Continuous rating | 180 kW per axle |
-| Peak rating | 320 kW per axle (≤ 60 s) |
-| Rated torque | 1 800 Nm at wheel |
+| Continuous rating | 90 kW per axle |
+| Peak rating | 150 kW per axle (≤ 60 s) |
+| Rated torque | 1 200 Nm at wheel |
 | Efficiency at peak | ≥ 96 % |
 | Mass | 520 kg each |
 | Cooling | Water (shares cold plate with SiC inverter) |
 | Bearing grease | Sealed-for-life; EN 50155 grade |
 
-Peak onboard motor output (six motors, both directions) = 1 800 kW,
-matching RFC 0008 §1.
+Peak onboard motor output (four motors, both directions) = 600 kW,
+matching the concept image and the low-cost peri-urban duty cycle.
 
 ## Inverters
 
 | Parameter | Value |
 |---|---|
-| Count | 3 (one per powered bogie) |
+| Count | 2 (one per powered bogie) |
 | Type | 3-phase voltage-source, silicon-carbide MOSFETs |
-| Rating | 360 kW continuous, 600 kW peak |
+| Rating | 180 kW continuous, 300 kW peak |
 | Switching frequency | 5 kHz nominal |
 | Efficiency at peak | ≥ 98 % |
 | Cooling | Forced water via cold plate, shared with motor |
@@ -93,7 +94,7 @@ conservative), each powered axle can transmit:
 Per-motor torque at wheel (wheel radius 0.43 m):
 
 ```
-  F_motor_peak = 1 800 Nm × 6.5 / 0.43 m = 27.2 kN
+  F_motor_peak = 1 200 Nm × 6.5 / 0.43 m = 18.1 kN
 ```
 
 Adhesion is the binding constraint at wet-rail AW3. Per-axle

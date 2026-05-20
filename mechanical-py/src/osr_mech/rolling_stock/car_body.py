@@ -1,9 +1,10 @@
 """One passenger car — cabless per RFC 0015.
 
-The car is a welded-aluminium monocoque shell with:
+The car is a welded steel primary frame with composite cladding,
+matching the `solar-metro-trainset.png` concept:
 
-- Rounded vertical corners (200 mm radius) for a modern profile +
-  better side-wind behaviour.
+- Rounded vertical corners (200 mm radius) and large dark glazing
+  for a modern metro profile.
 - Low-floor centre door zone at 350 mm rail-to-floor for level
   boarding from the OSR low platform; raised floor remains over the
   standard bogies.
@@ -12,13 +13,12 @@ The car is a welded-aluminium monocoque shell with:
   mechanically identical.
 - Large side windows between / outside the doors, sized to the
   wall segments. Laminated safety glass, bonded frame.
-- A painted livery band running the full length at window-sill
-  height — the only colour detail on the exterior.
+- A green painted livery band running the full length below the
+  window line.
 - An underframe skirt concealing the equipment bay between the
   bogies (traction pack, battery module, auxiliary converter).
-- No cab, no windscreen, no driver door. Both ends are
-  structurally identical — the sensor cowl lives on the trainset,
-  not on the car.
+- No cab and no driver door. Both ends are structurally identical;
+  the trainset-level sensor cowls provide the large glass end look.
 
 Default dimensions reflect one 17 m self-contained car module per
 RFC 0008 §3.1.
@@ -86,13 +86,14 @@ SKIRT_THICKNESS_MM = 30.0
 SKIRT_BOGIE_CLEAR_MM = 4200.0  # gap at each car end for the bogie
 
 # Colours (v0.1 livery — operators override per-deployment).
-COLOR_BODY = Color(0.93, 0.93, 0.95)
-COLOR_LIVERY = Color(0.10, 0.35, 0.65)
-COLOR_DOOR_LEAF = Color(0.08, 0.20, 0.38)
-COLOR_GLAZING = Color(0.55, 0.75, 0.90, 0.45)
+COLOR_BODY = Color(0.90, 0.90, 0.88)
+COLOR_LIVERY = Color(0.02, 0.34, 0.17)
+COLOR_DOOR_LEAF = Color(0.07, 0.08, 0.08)
+COLOR_GLAZING = Color(0.10, 0.16, 0.16, 0.55)
 COLOR_SKIRT = Color(0.32, 0.33, 0.38)
 COLOR_ROOF_EQUIPMENT = Color(0.55, 0.55, 0.58)
 COLOR_BATTERY_STRAKE = Color(0.25, 0.30, 0.42)
+COLOR_SOLAR = Color(0.03, 0.10, 0.24)
 
 
 # Traction-battery module placement per RFC 0021.
@@ -130,8 +131,8 @@ class CarDimensions:
     """Parametric footprint of a single passenger car."""
 
     body_length_mm: float = 17_000.0
-    body_width_mm: float = 2650.0
-    body_height_mm: float = 3600.0
+    body_width_mm: float = 2850.0
+    body_height_mm: float = 3450.0
     doors_per_side: int = 1
 
 
@@ -215,7 +216,7 @@ def _shell(dims: CarDimensions) -> Part:
         p = p - window_cut
 
     p.color = COLOR_BODY
-    p.label = "Car-body shell (welded-aluminium monocoque)"
+    p.label = "Car-body shell (welded steel frame with composite cladding)"
     return p
 
 
@@ -293,33 +294,32 @@ def _underframe_skirt(dims: CarDimensions) -> list[Part]:
 
 
 def _roof_equipment(dims: CarDimensions) -> list[Part]:
-    """Rooftop equipment — HVAC unit + a couple of aux boxes.
+    """Rooftop equipment — solar strip plus compact HVAC/end boxes.
 
-    Because OSR is catenary-free *and* side-wall battery per
-    RFC 0021, the roof is deliberately sparse: no pantograph, no
-    HV breaker, no battery pack. Just HVAC + radio / beacon aux.
+    Because OSR is catenary-free and uses under-seat batteries, the
+    concept reserves most roof area for PV panels. HVAC modules sit
+    near the car ends, matching the concept roof plan.
     """
     out: list[Part] = []
-    hvac = Box(1800.0, 1200.0, 400.0).locate(
-        Location((0.0, 0.0, dims.body_height_mm + 200.0))
+    solar = Box(dims.body_length_mm - 2_800.0, dims.body_width_mm - 560.0, 45.0).locate(
+        Location((0.0, 0.0, dims.body_height_mm + 42.0))
     )
-    hvac.color = COLOR_ROOF_EQUIPMENT
-    hvac.label = "HVAC roof unit"
-    out.append(hvac)
-    # Two small boxes flanking the HVAC — radio / beacon + aux cooling.
+    solar.color = COLOR_SOLAR
+    solar.label = "Roof solar PV array"
+    out.append(solar)
     for x_sign in (-1.0, 1.0):
-        aux = Box(800.0, 600.0, 300.0).locate(
+        hvac = Box(1150.0, 1050.0, 360.0).locate(
             Location(
                 (
-                    x_sign * (dims.body_length_mm / 2.0 - 3_000.0),
+                    x_sign * (dims.body_length_mm / 2.0 - 720.0),
                     0.0,
-                    dims.body_height_mm + 150.0,
+                    dims.body_height_mm + 180.0,
                 )
             )
         )
-        aux.color = COLOR_ROOF_EQUIPMENT
-        aux.label = "Roof auxiliary"
-        out.append(aux)
+        hvac.color = COLOR_ROOF_EQUIPMENT
+        hvac.label = "Compact end HVAC roof unit"
+        out.append(hvac)
     return out
 
 
@@ -376,14 +376,13 @@ def car_body(dims: CarDimensions = CarDimensions()) -> Compound:
     along-track, +Y is across-track.
 
     Returns a Compound containing:
-    - `Car-body shell` (aluminium monocoque with door + window cuts)
+    - `Car-body shell` (steel-frame/composite-clad body envelope)
     - Window glazing (both sides)
     - Door leaves (both sides, double-leaf slider, shown closed)
     - Livery band (both sides, full length)
     - Underframe skirts (both sides, between the bogies)
     - Traction battery strakes (side-wall bustle, RFC 0021)
-    - Rooftop equipment (HVAC + two aux boxes — no pantograph,
-      no rooftop battery)
+    - Rooftop equipment (solar PV strip + compact end HVAC units)
     """
     parts: list[Part | Compound] = []
     parts.append(_shell(dims))
@@ -405,6 +404,7 @@ __all__ = [
     "COLOR_GLAZING",
     "COLOR_LIVERY",
     "COLOR_ROOF_EQUIPMENT",
+    "COLOR_SOLAR",
     "COLOR_SKIRT",
     "CarDimensions",
     "DOOR_HEIGHT_MM",

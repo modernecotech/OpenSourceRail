@@ -43,15 +43,17 @@ _FAMILY_CAR_COUNT: dict[ConsistFamily, int] = {
     ConsistFamily.METRO_4CAR: 4,
     ConsistFamily.METRO_6CAR: 6,
 }
-COUPLING_GAP_MM = 1000.0
+COUPLING_GAP_MM = 0.0
 
 
 # Motorisation pattern per family (RFC 0022 §8).
 # True = the car carries one motor bogie and one trailer bogie.
+# False = the car carries two trailer bogies. The light-metro concept
+# image uses powered end cars and a low-floor trailer middle car.
 _FAMILY_MOTORISED_CARS: dict[ConsistFamily, tuple[bool, ...]] = {
     ConsistFamily.URBAN_SHUTTLE_1CAR: (True,),
     ConsistFamily.TRAM_2CAR: (True, True),
-    ConsistFamily.LIGHT_METRO_3CAR: (True, True, True),
+    ConsistFamily.LIGHT_METRO_3CAR: (True, False, True),
     ConsistFamily.METRO_4CAR: (True, True, True, True),
     ConsistFamily.METRO_6CAR: (True, True, True, True, True, True),
 }
@@ -85,14 +87,11 @@ def trainset(family: ConsistFamily = ConsistFamily.LIGHT_METRO_3CAR) -> Compound
     parts: list[Part | Compound] = []
 
     # Stack cars along X, centred on X=0.
-    total_length_mm = (
-        2 * COWL_LENGTH_MM
-        + car_count * dims.body_length_mm
-        + (car_count - 1) * COUPLING_GAP_MM
-    )
+    total_length_mm = car_count * dims.body_length_mm + (car_count - 1) * COUPLING_GAP_MM
     x_cursor = -total_length_mm / 2.0
 
-    # Leading-end cowl at -X (rotated 180° so its leading face points -X).
+    # Leading-end cowl at -X. The cowl is a nose overlay inside the
+    # 17 m end-car envelope, so it does not add to consist length.
     cowl_minus = sensor_cowl(
         car_width_mm=dims.body_width_mm,
         car_height_mm=dims.body_height_mm,
@@ -103,7 +102,6 @@ def trainset(family: ConsistFamily = ConsistFamily.LIGHT_METRO_3CAR) -> Compound
     # interface aligns with the first car.
     cowl_minus = cowl_minus.translate((x_cursor + COWL_LENGTH_MM, 0.0, 0.0))
     parts.append(cowl_minus)
-    x_cursor += COWL_LENGTH_MM
 
     # Car bodies + bogies per RFC 0022 motorisation pattern.
     motorised = _FAMILY_MOTORISED_CARS[family]
@@ -128,12 +126,12 @@ def trainset(family: ConsistFamily = ConsistFamily.LIGHT_METRO_3CAR) -> Compound
         if i + 1 < car_count:
             x_cursor += COUPLING_GAP_MM
 
-    # Trailing-end cowl at +X.
+    # Trailing-end cowl at +X, also inside the final car envelope.
     cowl_plus = sensor_cowl(
         car_width_mm=dims.body_width_mm,
         car_height_mm=dims.body_height_mm,
     )
-    cowl_plus = cowl_plus.translate((x_cursor, 0.0, 0.0))
+    cowl_plus = cowl_plus.translate((x_cursor - COWL_LENGTH_MM, 0.0, 0.0))
     parts.append(cowl_plus)
 
     systems = trainset_systems(system_layout(dims, car_count))
@@ -153,11 +151,7 @@ def trainset_length_m(family: ConsistFamily) -> float:
     """
     dims = family_dimensions(family)
     n = _FAMILY_CAR_COUNT[family]
-    mm = (
-        2 * COWL_LENGTH_MM
-        + n * dims.body_length_mm
-        + (n - 1) * COUPLING_GAP_MM
-    )
+    mm = n * dims.body_length_mm + (n - 1) * COUPLING_GAP_MM
     return mm / 1000.0
 
 

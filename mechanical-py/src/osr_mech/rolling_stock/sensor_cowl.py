@@ -11,11 +11,12 @@ Geometry:
 - Height at the car interface: matches the car body.
 - Profile: lofted taper from the car-body rectangle (at the
   interface) to a smaller, lower rounded rectangle at the leading
-  face (600 mm wide × 2400 mm tall). Vertical edges of the cowl
+  face (1800 mm wide × 2800 mm tall). Vertical edges of the cowl
   are filleted at 200 mm to match the car body.
 - Leading face carries three visual cutouts:
-  - A central sensor window (1200 × 1000 mm, RF-transparent
-    polycarbonate) — radar + ultrasonic see through it.
+  - A large central dark-glass sensor window (1200 × 1000 mm,
+    RF-transparent polycarbonate), giving the concept-image
+    panoramic glass-end look while radar + ultrasonic see through it.
   - Two LED headlight clusters (200 × 120 mm) flanking the sensor
     window.
 - A livery band continues from the car body onto both flanks of
@@ -55,8 +56,8 @@ from .car_body import (
 
 
 COWL_LENGTH_MM = 1800.0
-LEADING_FACE_WIDTH_MM = 600.0
-LEADING_FACE_HEIGHT_MM = 2400.0
+LEADING_FACE_WIDTH_MM = 1800.0
+LEADING_FACE_HEIGHT_MM = 2800.0
 SENSOR_WINDOW_WIDTH_MM = 1200.0
 SENSOR_WINDOW_HEIGHT_MM = 1000.0
 SENSOR_WINDOW_INSET_MM = 80.0
@@ -205,8 +206,8 @@ def _livery_band_tapered(
 
 
 def sensor_cowl(
-    car_width_mm: float = 2650.0,
-    car_height_mm: float = 3600.0,
+    car_width_mm: float = 2850.0,
+    car_height_mm: float = 3450.0,
 ) -> Compound:
     """Full sensor cowl: shell + sensor window + headlights + livery.
 

@@ -112,9 +112,9 @@ then run `scripts/regenerate-city.sh <slug>`.
 ## Rolling Stock And CAD
 
 The current reference train is the `light-metro-3car`: cabless,
-driverless, battery electric, one powered bogie plus one trailer bogie
-per car, under-seat sodium-ion batteries, COTS doors/windows/HVAC, and
-T-OBS sensor packs at both noses.
+driverless, battery electric, powered end cars with a low-floor trailer
+middle car, under-seat sodium-ion batteries, roof solar, COTS
+doors/windows/HVAC, and T-OBS sensor packs at both glass-end noses.
 
 Key links:
 
@@ -124,6 +124,7 @@ Key links:
 - [Fabrication plan](docs/rolling-stock/light-metro-3car/fabrication-plan.md)
 - [Drawing register](docs/rolling-stock/light-metro-3car/drawing-register.md)
 - [Mechanical package](mechanical-py/README.md)
+- [build123d rolling-stock source](mechanical-py/src/osr_mech/rolling_stock/)
 - [Generated STEP catalogue](mechanical-py/catalog/)
 - [Generated STEP catalogue README](mechanical-py/catalog/README.md)
 

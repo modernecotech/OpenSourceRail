@@ -1,9 +1,9 @@
 # Bogies — `light-metro-3car`
 
-Six bogies per consist: one powered bogie and one trailer bogie
-under each self-contained car. All bogies use the RFC 0022 standard
-frame, suspension, wheelset, brake, and pivot geometry; the trailer
-variant omits motors and gearbox.
+Six bogies per consist: two new powered bogies at the outer ends and
+four converted freight trailer bogies under the remaining positions.
+All bogies use the RFC 0022 suspension, wheelset, brake, and pivot
+geometry; the converted trailer variant omits motors and gearbox.
 
 ## Bogie envelope (all six, common)
 
@@ -17,7 +17,7 @@ variant omits motors and gearbox.
 | Gauge | 1 435 mm (default) / 1 000 mm (variant) |
 | Track-brake coil (magnetic track brake) | not fitted — per RFC 0008 §3.2 electric-only brake |
 
-## Powered bogie (one per car)
+## Powered bogie (two per consist)
 
 ### Frame
 
@@ -59,9 +59,11 @@ details in [`traction.md`](traction.md).
 - **WSP:** wheel-slide protection via the per-axle tacho input +
   `osr-brake` modulation (proptest-verified B4 conservative).
 
-## Trailer bogie (one per car)
+## Converted freight trailer bogie (four per consist)
 
-Same basic envelope as driving bogie, with differences:
+Reused freight frames are stripped, inspected, and rebuilt to the OSR
+wheelset/brake/suspension interface. Differences from the powered
+bogie:
 
 - **No motor.** All axles idle.
 - **Brake:** same 600 mm disc on each axle for service /
@@ -84,8 +86,7 @@ Same basic envelope as driving bogie, with differences:
 ## Interchangeability
 
 Every powered bogie in every OSR deployment of this family is
-identical. The trailer bogie is the same SKU minus drivetrain lines
-(no motor mount, no traction contactor block) but shares:
+identical. The converted trailer bogie shares:
 - Frame geometry (drilling pattern).
 - Suspension parts.
 - Brake disc + caliper.

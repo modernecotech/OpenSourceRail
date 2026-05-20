@@ -18,6 +18,22 @@ manufacturer MBOM. It now covers every train-level subassembly needed
 to build, commission, and maintain the v1 trainset concept; supplier
 drawings still break many lines into child parts during v2.
 
+## Concept alignment
+
+This BOM is keyed to the visual and layout concept in
+[`docs/assets/solar-metro-trainset.png`](../../../docs/assets/solar-metro-trainset.png):
+
+- 3 cars, each 17 m, **51 m over couplers**.
+- Car 1 and Car 3 are powered; Car 2 is the low-floor trailer.
+- 2 new powered bogies total, one at each outer end; 4 converted
+  freight trailer bogies.
+- 4 traction motors total, 600 kW peak consist output.
+- Roof solar arrays on each car, with compact end HVAC modules.
+- Wide passenger windows, large dark glass end cowls, white/silver
+  body shell, green waist band, dark skirts, and yellow door thresholds.
+- Batteries remain under longitudinal seats, not on the roof or deep
+  underframe.
+
 ## Body + interior
 
 | Line | Desc | Qty per consist | Source | Base USD | Notes |
@@ -41,21 +57,23 @@ drawings still break many lines into child parts during v2.
 | B17 | COTS exterior marker + head/taillight kit | set | SOURCE | 6 000 | Rail/bus certified |
 | B18 | COTS PIS display + speaker kit | set | SOURCE | 12 000 | Interior/exterior |
 | B19 | COTS CCTV + intercom kit | set | SOURCE | 15 000 | PoE cameras, passenger intercom |
-| B20 | Paint + 2K urethane topcoat | set | SOURCE | 6 000 | Operator livery excluded |
+| B20 | Paint + 2K urethane topcoat | set | SOURCE | 6 000 | White/silver base coat under concept livery |
 | B21 | Interior FR panels + trim clips | set | SOURCE | 28 000 | Supplier-certified HL2 |
 | B22 | Scharfenberg Type 10 end coupler + electric head | 2 | BID | 70 000 | Includes rescue unlock handle |
 | B23 | EN 15227 crash energy absorber / crush-can set | 2 | BID | 30 000 | Bolts to coupler pocket |
 | B24 | Inter-car articulation drag-chain + trainline harness | 2 | SOURCE | 12 000 | TCN-E, CAN-FD, 24 V, 110 V, EB loop |
 | B25 | Door sill gap-filler + external emergency release kit | 6 | BID | 18 000 | Per exterior door cassette |
 | B26 | Jacking, lifting, towing, and recovery fittings | set | MAKE | 8 000 | Welded pads, tow eyes, labels |
-| **Body + interior subtotal** | | | | **644 800** | |
+| B27 | Large dark glass end-panel assemblies | 2 | BID | 44 000 | RF-transparent sensor glass aesthetic, heated/de-iced |
+| B28 | Concept livery package: white/silver body, green band, yellow thresholds | set | SOURCE | 6 000 | Paint masks, vinyl safety edging, exterior decals |
+| **Body + interior subtotal** | | | | **694 800** | |
 
 ## Bogies (6 per consist)
 
 | Line | Desc | Qty | Source | Base USD | Notes |
 |---|---|---|---|---|---|
-| G1 | Welded bogie frame (powered) | 3 | MAKE | 60 000 | EN 15085 CL1 |
-| G2 | Welded bogie frame (trailer) | 3 | MAKE | 54 000 | |
+| G1 | Welded bogie frame (new powered) | 2 | MAKE | 40 000 | EN 15085 CL1; one at each outer end car |
+| G2 | Converted freight trailer bogie frame | 4 | MAKE | 72 000 | Existing frame reworked with new bearings/brakes/air springs |
 | G3 | Wheelset monobloc (RFC 0022, S1002) | 12 | BID | 144 000 | |
 | G4 | Axle bearing box (SKF / FAG) | 24 | SOURCE | 48 000 | |
 | G5 | Primary chevron spring | 24 | SOURCE | 12 000 | |
@@ -71,20 +89,20 @@ drawings still break many lines into child parts during v2.
 | G15 | Axle bearing temp sensor | 24 | SOURCE | 4 800 | |
 | G16 | Brake pad / friction lining kit | 12 axle sets | SOURCE | 6 000 | Commissioning set, per disc |
 | G17 | WSP + brake control harness | 6 | MAKE | 9 000 | Tacho, caliper command, temp sensor loom |
-| G18 | Motor cradle + torque-link weldment | 3 powered bogies | MAKE | 18 000 | Uses RFC 0022 motor mount datum |
-| G19 | Flexible gear coupling / torque flange set | 6 | BID | 12 000 | Motor-to-reduction gear interface |
+| G18 | Motor cradle + torque-link weldment | 2 powered bogies | MAKE | 12 000 | Uses RFC 0022 motor mount datum |
+| G19 | Flexible gear coupling / torque flange set | 4 | BID | 8 000 | Motor-to-reduction gear interface |
 | G20 | Bogie inspection covers and guards | 6 | MAKE | 6 000 | Removable non-structural covers |
-| **Bogies subtotal** | | | | **522 000** | |
+| **Bogies subtotal** | | | | **510 000** | |
 
 ## Traction + power
 
 | Line | Desc | Qty | Source | Base USD | Notes |
 |---|---|---|---|---|---|
-| T1 | PMSM axle motor (180 / 320 kW) | 6 | BID | 180 000 | |
-| T2 | Reduction gear (single-stage 6.5:1) | 6 | BID | 42 000 | Matches RFC 0008 / gearbox.py |
-| T3 | SiC inverter (360 / 600 kW) | 3 | BID | 105 000 | Wolfspeed or equiv. |
+| T1 | PMSM axle motor (150 kW peak) | 4 | BID | 120 000 | Two motors per powered bogie |
+| T2 | Reduction gear (single-stage 6.5:1) | 4 | BID | 28 000 | Matches RFC 0008 / gearbox.py |
+| T3 | SiC inverter (300 kW peak) | 2 | BID | 70 000 | One per powered bogie |
 | T4 | Cold-plate + chiller for traction | 3 | SOURCE | 27 000 | |
-| T5 | Na-ion under-seat pack (120 kWh usable) | 3 | BID | 43 200 | CATL / HiNa / etc |
+| T5 | Na-ion under-seat pack (150 kWh usable) | 3 | BID | 54 000 | CATL / HiNa / etc; 450 kWh consist |
 | T6 | BMS electronics (pack-level) | 3 | BID | 18 000 | |
 | T7 | Pack cooling plate set | 3 | SOURCE | 6 000 | |
 | T8 | Under-seat aluminium module enclosure set | 3 | MAKE | 12 000 | |
@@ -100,7 +118,9 @@ drawings still break many lines into child parts during v2.
 | T18 | HV cable, bonding strap, and EMC filter set | 3 cars | MAKE | 30 000 | 1 500 V DC pack, inverter, charger paths |
 | T19 | Station-charge connector actuator + contact monitor | 3 | BID | 12 000 | Completes side-pin connector line T12 |
 | T20 | Coolant pump, hose, manifold, and bleed kit | 3 cars | SOURCE | 15 000 | Battery, inverter, motor, HVAC tie-in |
-| **Traction + power subtotal** | | | | **772 700** | |
+| T21 | Roof solar panel laminate set (~30 m² per car) | 3 cars | BID | 18 000 | Concept roof plan; feeds aux bus / station energy model |
+| T22 | Solar MPPT, isolation, and roof combiner harness | 3 cars | SOURCE | 9 000 | Service disconnects and fire-isolation labels included |
+| **Traction + power subtotal** | | | | **701 500** | |
 
 ## Electronics + safety
 
@@ -115,10 +135,10 @@ drawings still break many lines into child parts during v2.
 | E7 | Cat.22 5G M.2 module | 1 | SOURCE | 500 | |
 | E8 | LoRa SX1276 breakout | 1 | SOURCE | 60 | |
 | E9 | NVMe SSD 256 GB (event recorder) | 1 | SOURCE | 60 | |
-| E10 | 10.1" touchscreen DMI (per cab) | 2 | SOURCE | 800 | |
-| E11 | Cab master-controller (combined) | 2 | BID | 6 000 | |
+| E10 | 10.1" maintenance/service touchscreen | 2 | SOURCE | 800 | Hidden end-cabinet HMI, not a driver cab |
+| E11 | Depot manual-control pendant + keyed enable | 2 | BID | 3 000 | For depot recovery only; normally stowed |
 | E12 | Emergency plunger (hardwired) | 2 | SOURCE | 400 | |
-| E13 | Deadman handle + sensor | 2 | SOURCE | 500 | |
+| E13 | Depot enable key-switch and guarded motion consent | 2 | SOURCE | 500 | Replaces driver deadman in cabless concept |
 | E14 | PIS display (exterior + interior) | 8 | SOURCE | 6 400 | |
 | E15 | CCTV camera (forward + door-sill + in-car) | 20 | SOURCE | 6 000 | |
 | E16 | 2oo2 relay stage (per safety output) | 4 | SOURCE | 1 200 | |
@@ -129,7 +149,7 @@ drawings still break many lines into child parts during v2.
 | E21 | Roof antenna kit | set | SOURCE | 3 000 | 5G MIMO, LoRa, GNSS, public-safety blank |
 | E22 | DIN cabinets, power distribution, and terminal blocks | 3 cars | MAKE | 12 000 | T-ECU, BMS, door, HVAC cabinets |
 | E23 | Crashworthy event-recorder memory module | 1 | SOURCE | 5 000 | Complements E9 NVMe operational recorder |
-| **Electronics + safety subtotal** | | | | **103 280** | |
+| **Electronics + safety subtotal** | | | | **100 280** | |
 
 ## Safety, accessibility, and maintainability
 
@@ -145,17 +165,17 @@ drawings still break many lines into child parts during v2.
 
 | Bucket | Subtotal (USD) |
 |---|---|
-| Body + interior | 644 800 |
-| Bogies | 522 000 |
-| Traction + power | 772 700 |
-| Electronics + safety | 103 280 |
+| Body + interior | 694 800 |
+| Bogies | 510 000 |
+| Traction + power | 701 500 |
+| Electronics + safety | 100 280 |
 | Safety/accessibility/maintainability | 18 000 |
-| **Total direct-material consist** | **2 060 780** |
+| **Total direct-material consist** | **2 024 580** |
 
 Labour (shop weld, bonding, assembly, commissioning) adds ~35 %:
-~721 000 USD.
+~709 000 USD.
 
-**Planning-grade per-consist cost (volume 100): ~2.8 M USD.**
+**Planning-grade per-consist cost (volume 100): ~2.73 M USD.**
 
 For comparison, legacy-vendor light-metro trainsets in the target
 regions typically land 4–6 M USD each — the OSR design's

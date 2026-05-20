@@ -28,9 +28,29 @@ for sides, roof fairings, cabless cowls, and interior liners.
 | [`compliance.md`](compliance.md) | Standards matrix: EN 15227, EN 45545, EN 14363, EN 50155, ISO 3095, EN 12299 |
 | [`drawing-register.md`](drawing-register.md) | v2 drawing IDs, supplier documents, inspection evidence, release gates |
 
+The governing visual/layout reference is
+[`solar-metro-trainset.png`](../../../docs/assets/solar-metro-trainset.png):
+white/silver body, green waist band, dark skirts, large glass ends,
+roof PV, low-floor centre doors, powered end cars, trailer middle car,
+and batteries under longitudinal seats.
+
 COTS passenger-facing modules are controlled by the supplier-neutral
 envelope catalogue at
 [`hardware/trainset-interiors/cots-catalogue.md`](../../../hardware/trainset-interiors/cots-catalogue.md).
+
+## Canonical Parametric Source
+
+The build123d source files are the design basis. STEP files and PNGs
+are generated handoff artifacts.
+
+| Source | Controls |
+|---|---|
+| [`trainset.py`](../../../mechanical-py/src/osr_mech/rolling_stock/trainset.py) | Family length, car count, motorisation, cowl/body/bogie assembly |
+| [`car_body.py`](../../../mechanical-py/src/osr_mech/rolling_stock/car_body.py) | 17 m body module, 2.85 m width, 3.45 m height, livery, doors, windows, roof PV/HVAC |
+| [`sensor_cowl.py`](../../../mechanical-py/src/osr_mech/rolling_stock/sensor_cowl.py) | Large glass end cowl and T-OBS visual envelope |
+| [`systems.py`](../../../mechanical-py/src/osr_mech/rolling_stock/systems.py) | Couplers, articulations, batteries, doors, electronics, charging, T-OBS packs |
+| [`bogie/`](../../../mechanical-py/src/osr_mech/rolling_stock/bogie/) | Powered and converted-trailer bogie assemblies |
+| [`cad_templates/rolling_stock.py`](../../../mechanical-py/src/osr_mech/cad_templates/rolling_stock.py) | Sheet-metal/chassis manufacturing templates |
 
 ## Current CAD / PNG Design Outputs
 
@@ -56,7 +76,7 @@ and render to these design-review PNGs:
 | [`bogie-motor.png`](../../../docs/screenshots/bogie-motor.png) | Powered bogie assembly with frame, wheelsets, motors, gearboxes, suspension, and brakes |
 | [`bogie-trailer.png`](../../../docs/screenshots/bogie-trailer.png) | Trailer bogie assembly using the common frame and suspension envelope |
 
-The matching STEP handoff artifacts are regenerated under
+The matching generated STEP handoff artifacts are regenerated under
 [`mechanical-py/catalog/rolling_stock`](../../../mechanical-py/catalog/rolling_stock):
 [`trainset-light-metro-3car.step`](../../../mechanical-py/catalog/rolling_stock/trainset-light-metro-3car.step),
 [`body-sheet-metal-kit.step`](../../../mechanical-py/catalog/rolling_stock/templates/body-sheet-metal-kit.step),
@@ -81,15 +101,15 @@ tolerances, and release drawings listed in
 | Parameter | Value |
 |---|---|
 | Cars | 3 (articulated) |
-| Overall length (over sensor cowls / couplers) | 56.6 m |
-| Tare mass | 102 t |
+| Overall length (over couplers) | 51.0 m |
+| Tare mass target | 98 t |
 | Axle load (AW3 crush) | ≤ 14 t |
 | Max speed | 25 m/s (90 km/h) |
 | Seats | 60 longitudinal seats |
 | Passenger capacity (AW2) | 330 (seated + standing) |
 | Passenger capacity (AW3 crush) | 420 short-duration crush load |
-| Onboard battery | 360 kWh Na-ion (120 kWh per self-contained car) |
-| Peak onboard motor output | 1 800 kW |
+| Onboard battery | 450 kWh Na-ion (150 kWh per car, under seats) |
+| Peak onboard motor output | 600 kW |
 | Floor height (above ToR) | Low-floor centre door zone; raised floor over standard bogies |
 | Gauge | 1 435 mm (default) or 1 000 mm (variant) |
 

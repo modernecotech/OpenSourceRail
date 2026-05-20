@@ -111,7 +111,7 @@ per RFCs 0008 §4 / 0009 §10 / 0010 §12:
 | Compatible with | Reason |
 |---|---|
 | `heritage-tram` geometry | No — gauge 1 000 mm variant required (build order) |
-| `standard-urban` geometry | Yes — 56.6 m consist, 90 m min curve OK, 50 ‰ max grade OK |
+| `standard-urban` geometry | Yes — 51.0 m consist, 90 m min curve OK, 50 ‰ max grade OK |
 | `standard-metro` geometry | Yes — plenty of margin |
 | `mainline-mixed` geometry | Yes — meets 25 ‰ max grade (lower than the consist's 5 % capability) |
 | `halt` station | Yes — short-platform door select required |

@@ -6,33 +6,34 @@
    ←── 17.0 m ──→←── 17.0 m ──→←── 17.0 m ──→
 
       Car A             Car B             Car C
-   ┌─ M bogie ─ doors ─ t bogie ┐┌─ M bogie ─ doors ─ t bogie ┐┌─ M bogie ─ doors ─ t bogie ┐
-   │ raised   low-floor centre ││ raised   low-floor centre ││ raised   low-floor centre │
-   │ floor    under-seat batt. ││ floor    under-seat batt. ││ floor    under-seat batt. │
+   ┌─ M bogie ─ doors ─ t bogie ┐┌─ t bogie ─ doors ─ t bogie ┐┌─ t bogie ─ doors ─ M bogie ┐
+   │ powered  low-floor centre ││ trailer  low-floor centre ││ powered  low-floor centre │
+   │ end car  under-seat batt. ││ car      under-seat batt. ││ end car  under-seat batt. │
    └───────────────────────────┘└───────────────────────────┘└───────────────────────────┘
      M = powered bogie, t = trailer bogie
-     Length over sensor cowls / couplers = 56.6 m
+     Length over couplers = 51.0 m
 ```
 
 - **Three self-contained cars**, semi-permanently coupled.
 - **No driving cabs** — GoA 4 sensor cowls at both ends per
   RFC 0015.
 - **Six bogies total** — two standard 2-axle bogies per car.
-- **Powered wheelsets:** one powered bogie and one trailer bogie
-  per car, giving three powered bogies across the consist.
-- **Battery:** 120 kWh sodium-ion per car under the longitudinal
+- **Powered wheelsets:** one powered bogie at each outer end car,
+  giving two powered bogies and four powered axles across the consist.
+- **Battery:** 150 kWh sodium-ion per car under the longitudinal
   seats. The centre door zone stays low-floor and clear.
+- **Roof:** PV strip per car, split around compact end HVAC modules.
 
 ## Key dimensions
 
 | Parameter | Value | Source |
 |---|---|---|
-| Length over sensor cowls / couplers | 56 600 mm | RFC 0008 §1 + RFC 0015 cowls |
+| Length over couplers | 51 000 mm | concept envelope: 3 × 17 m car modules |
 | Car A length | 17 000 mm | modular car envelope |
 | Car B length | 17 000 mm | modular car envelope |
 | Car C length | 17 000 mm | modular car envelope |
-| Body width (outer) | 2 700 mm | fits UIC 505-1 gauge |
-| Height over rail (roof) | 3 800 mm | fits UIC 505-1 |
+| Body width (outer) | 2 850 mm | concept envelope, fits UIC 505-1 gauge |
+| Height over rail (roof) | 3 450 mm | concept envelope, before roof equipment |
 | Floor height (above top-of-rail) | 350 mm centre door zone; raised over bogies | low-floor access with standard bogies |
 | Bogie wheelbase | 2 100 mm | RFC 0022 single-SKU bogie |
 | Wheel diameter (new / worn) | 760 / 680 mm | RFC 0022 |
@@ -40,7 +41,7 @@
 | Coupler face height (above ToR) | 720 mm | Scharfenberg Type 10 dim. |
 | Headroom at doors | 2 000 mm | |
 | Headroom at seats | 2 100 mm | |
-| Passenger-compartment interior width | 2 580 mm | |
+| Passenger-compartment interior width | 2 700 mm | |
 
 ## Door positions
 
@@ -57,10 +58,10 @@ clear opening at 2 000 mm height.
 ## Gauge compliance
 
 UIC 505-1 static envelope:
-- Width at floor level: 2 700 mm ≤ 3 150 mm limit ✓
-- Height over ToR: 3 800 mm ≤ 4 320 mm limit ✓
+- Width at floor level: 2 850 mm ≤ 3 150 mm limit ✓
+- Height over ToR: 3 450 mm ≤ 4 320 mm limit ✓
 - Dynamic outline (+ 80 mm lateral, + 50 mm vertical at max
-  cant + sway): 2 780 × 3 850 mm — still inside the 3 150 ×
+  cant + sway): 2 930 × 3 500 mm — still inside the 3 150 ×
   4 320 mm boundary ✓
 
 No interference with UIC 505-1 at any of the RFC 0009 track
@@ -83,13 +84,13 @@ presets (`heritage-tram` / `standard-urban` / `standard-metro`
 
 | Location | Mass (t) |
 |---|---|
-| Car A incl. powered + trailer bogie | 41 |
-| Car B incl. powered + trailer bogie | 41 |
-| Car C incl. powered + trailer bogie | 41 |
-| **Total consist (tare + AW2 passengers)** | **122** |
+| Car A incl. powered + trailer bogie | 40 |
+| Car B incl. two trailer bogies | 38 |
+| Car C incl. trailer + powered bogie | 40 |
+| **Total consist (tare + AW2 passengers)** | **118** |
 
-Tare = 102 t per RFC 0008 §1; AW2 load = 19.8 t (330 passengers
-× 60 kg average).
+Tare target = 98 t for the concept-aligned BOM; AW2 load = 19.8 t
+(330 passengers × 60 kg average).
 
 Distribution per axle under AW3 (crush load, 420 passengers ×
 60 kg = 25.2 t):

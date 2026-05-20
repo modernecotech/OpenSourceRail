@@ -1,8 +1,9 @@
 # Generated STEP Catalogue
 
 This directory contains generated STEP artifacts from `mechanical-py`.
-Do not hand-edit the STEP files; update the parametric source under
-[`../src/osr_mech/`](../src/osr_mech/) and regenerate the catalogue.
+The authoritative designs are the build123d source files under
+[`../src/osr_mech/`](../src/osr_mech/). Do not hand-edit the STEP
+files; update the source and regenerate the catalogue.
 
 ## Regenerate
 
@@ -21,4 +22,3 @@ PYTHONPATH=mechanical-py/src python3 -m osr_mech.catalog --out mechanical-py/cat
 | [`station/`](station/) | Platform, canopy, portal, solar-roof, and tactile-path parts |
 | [`depot/`](depot/) | Depot archetype envelopes |
 | [`fixtures/`](fixtures/) | Supplier-neutral COTS fixture envelopes |
-

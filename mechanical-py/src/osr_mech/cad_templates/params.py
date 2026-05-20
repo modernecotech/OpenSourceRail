@@ -11,7 +11,7 @@ class TemplateParams:
 
     gauge_mm: float = 1435.0
     car_length_mm: float = 20_000.0
-    car_width_mm: float = 2650.0
+    car_width_mm: float = 2850.0
     low_floor_height_mm: float = 350.0
     frame_beam_width_mm: float = 200.0
     frame_beam_height_mm: float = 100.0

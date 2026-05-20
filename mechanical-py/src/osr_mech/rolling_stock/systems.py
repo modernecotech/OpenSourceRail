@@ -58,18 +58,12 @@ class TrainsetSystemLayout:
 def system_layout(dims: CarDimensions, car_count: int) -> TrainsetSystemLayout:
     """Return X placement anchors matching `trainset.trainset`."""
 
-    total_length_mm = (
-        2 * COWL_LENGTH_MM
-        + car_count * dims.body_length_mm
-        + (car_count - 1) * 1000.0
-    )
-    x_cursor = -total_length_mm / 2.0 + COWL_LENGTH_MM
+    total_length_mm = car_count * dims.body_length_mm
+    x_cursor = -total_length_mm / 2.0
     centres = []
     for index in range(car_count):
         centres.append(x_cursor + dims.body_length_mm / 2.0)
         x_cursor += dims.body_length_mm
-        if index + 1 < car_count:
-            x_cursor += 1000.0
     return TrainsetSystemLayout(
         car_centres_x=tuple(centres),
         total_length_mm=total_length_mm,
