@@ -117,25 +117,31 @@ def _place_wheelsets() -> list[Compound]:
 
 def _place_primary_suspension() -> list[Compound]:
     """Eight chevron packs: two axles × two bearing housings × two
-    packs each. Simplified to four packs at the corners of the
-    frame (one per axle × side), which is the dominant load path."""
+    packs each."""
     mp = _mount_points()
     out: list[Compound] = []
     z = mp.wheelset_y_center_z + CHEVRON_HEIGHT_MM / 2.0 + 40.0
+    pack_x_spacing = 260.0
     for x_sign in (-1.0, 1.0):
         for y_sign in (-1.0, 1.0):
-            p = primary_suspension()
-            p = p.locate(
-                Location(
-                    (
-                        x_sign * WHEELBASE_MM / 2.0,
-                        y_sign * (STANDARD_GAUGE_MM / 2.0 + 80.0),
-                        z,
+            for pack_sign in (-1.0, 1.0):
+                p = primary_suspension()
+                p = p.locate(
+                    Location(
+                        (
+                            x_sign * WHEELBASE_MM / 2.0
+                            + pack_sign * pack_x_spacing / 2.0,
+                            y_sign * (STANDARD_GAUGE_MM / 2.0 + 80.0),
+                            z,
+                        )
                     )
                 )
-            )
-            p.label = f"Primary suspension {'+X' if x_sign > 0 else '-X'}{'+Y' if y_sign > 0 else '-Y'}"
-            out.append(p)
+                p.label = (
+                    f"Primary suspension {'+X' if x_sign > 0 else '-X'}"
+                    f"{'+Y' if y_sign > 0 else '-Y'}"
+                    f"{' leading' if pack_sign > 0 else ' trailing'}"
+                )
+                out.append(p)
     return out
 
 

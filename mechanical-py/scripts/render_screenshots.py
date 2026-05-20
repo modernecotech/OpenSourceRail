@@ -487,6 +487,83 @@ def render_all(out_root: Path) -> None:
         dpi=180,
     )
 
+    # 6. Train-level systems now represented in the final trainset:
+    # couplers, inter-car articulation, battery modules, doors,
+    # electronics, charging contacts, accessibility, and T-OBS sensors.
+    from osr_mech.rolling_stock.systems import (
+        battery_pack_set,
+        car_systems,
+        door_system_pair,
+        electronics_cabinet,
+        end_coupler,
+        inter_car_articulation,
+        tobs_sensor_pack,
+    )
+
+    _render(
+        car_systems(CarDimensions()),
+        out_root / "trainset-car-systems.png",
+        tolerance_mm=8.0,
+        elev=18,
+        azim=-55,
+        figsize=(13, 5.5),
+        dpi=170,
+    )
+    _render(
+        battery_pack_set(CarDimensions()),
+        out_root / "trainset-battery-pack.png",
+        tolerance_mm=4.0,
+        elev=22,
+        azim=-40,
+        figsize=(11, 4.5),
+        dpi=180,
+    )
+    _render(
+        door_system_pair(),
+        out_root / "trainset-door-system.png",
+        tolerance_mm=3.0,
+        elev=10,
+        azim=-65,
+        figsize=(8, 5),
+        dpi=180,
+    )
+    _render(
+        electronics_cabinet(),
+        out_root / "trainset-electronics-cabinet.png",
+        tolerance_mm=3.0,
+        elev=18,
+        azim=-45,
+        figsize=(8, 5),
+        dpi=180,
+    )
+    _render(
+        end_coupler(),
+        out_root / "trainset-end-coupler.png",
+        tolerance_mm=3.0,
+        elev=18,
+        azim=-45,
+        figsize=(8, 4.5),
+        dpi=180,
+    )
+    _render(
+        inter_car_articulation(),
+        out_root / "trainset-inter-car-articulation.png",
+        tolerance_mm=8.0,
+        elev=12,
+        azim=-50,
+        figsize=(8, 6),
+        dpi=180,
+    )
+    _render(
+        tobs_sensor_pack(),
+        out_root / "trainset-tobs-sensor-pack.png",
+        tolerance_mm=3.0,
+        elev=15,
+        azim=-45,
+        figsize=(8, 5),
+        dpi=180,
+    )
+
 
 def main() -> None:
     repo_root = Path(__file__).resolve().parents[2]

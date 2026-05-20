@@ -15,8 +15,7 @@ The car is a welded-aluminium monocoque shell with:
 - A painted livery band running the full length at window-sill
   height — the only colour detail on the exterior.
 - An underframe skirt concealing the equipment bay between the
-  bogies (traction pack, battery module, auxiliary converter, air
-  reservoir if pneumatic brake).
+  bogies (traction pack, battery module, auxiliary converter).
 - No cab, no windscreen, no driver door. Both ends are
   structurally identical — the sensor cowl lives on the trainset,
   not on the car.

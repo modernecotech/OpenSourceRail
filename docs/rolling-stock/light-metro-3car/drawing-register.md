@@ -19,12 +19,16 @@ Document IDs use `LM3` for the `light-metro-3car` family. Revision
 | LM3-BDY-130 | Coupler pocket and crash-can interface | Fabricator + coupler supplier | `body.md`, `interfaces.md` | Machined inserts, bolted energy absorber interface |
 | LM3-BDY-140 | Battery tray and under-seat enclosure | Fabricator + battery supplier | `body.md`, `traction.md` | Service hatches, vent path, HV isolation clearances |
 | LM3-BDY-150 | Composite side/roof/nose panel envelopes | Composite supplier | `body.md` | Panel mould drawings, inserts, edge radii, repair zones |
+| LM3-SYS-160 | End coupler and crash-energy assembly | Coupler supplier + integrator | `interfaces.md`, BOM | Scharfenberg head, electric-head carrier, crash absorber envelope, recovery/tow interface |
+| LM3-SYS-170 | Inter-car articulation and trainline assembly | Integrator | `body.md`, `interfaces.md` | Bellows, semi-permanent drawbar, drag-chain, TCN-E/CAN-FD/aux interfaces |
 | LM3-DOOR-200 | Door cassette installation | Door supplier | COTS catalogue | Mounting datums, threshold, drainage, lock-loop wiring |
 | LM3-WIN-210 | Window cassette installation | Glazing supplier | COTS catalogue | Bond/gasket land, drain path, replacement method |
 | LM3-HVAC-220 | Roof HVAC installation | HVAC supplier | COTS catalogue | Roof rails, ducting, condensate, service clearance |
 | LM3-INT-230 | Interior fit-out installation | Integrator | COTS catalogue | Seats, rails, floor boards, hatches, panels, signage |
 | LM3-ELC-300 | Low-voltage harness routing | Integrator | `interfaces.md` | Harness schedule, connector list, segregation, labels |
 | LM3-HV-310 | HV battery/traction routing | Integrator | `traction.md` | HVIL loop, busbars/cables, insulation clearances |
+| LM3-HV-320 | Per-car battery pack and charging assembly | Battery + traction suppliers | `traction.md`, BOM | Na-ion module envelope, HV contactor/BMS cabinet, side-pin charge connector, coolant/vent paths |
+| LM3-OBS-330 | T-OBS nose sensor-pack installation | T-OBS supplier + integrator | RFC 0015, BOM | LIDAR, radar, stereo camera, ultrasonic transducers, heated sensor windows, cleaning access |
 | LM3-BOG-400 | Powered bogie assembly | Bogie fabricator | `bogie.md` | Frame drawing, motor/gearbox/brake interfaces |
 | LM3-BOG-410 | Trailer bogie assembly | Bogie fabricator | `bogie.md` | Frame drawing, brake/suspension interfaces |
 | LM3-TRC-500 | Traction package installation | Traction supplier | `traction.md` | Motor, gearbox, inverter, cooling, EMC bonding |

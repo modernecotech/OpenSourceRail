@@ -1,7 +1,8 @@
 # T-ECU/A DIY assembly
 
 Application-tier ECU (RFC 0007 §5). Single-redundant (not 2oo2).
-One T-ECU/A per cab end × 2 per trainset.
+One T-ECU/A per train end of the cabless trainset (A end + B end,
+× 2 per trainset).
 
 ## Bill of materials
 

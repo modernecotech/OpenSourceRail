@@ -145,13 +145,13 @@ drop links. Reduces body roll into curves by ~35 %.
 ## 6. Brake
 
 - **Disc count:** one axle-mounted disc per axle = 2 per bogie.
-- **Caliper:** hydraulic, twin-piston, one per disc.
+- **Caliper:** electromagnetic, one per disc.
 - **Disc material:** forged carbon steel (replaceable; 400 mm
   diameter × 45 mm thick nominal).
-- **Holding brake:** separate spring-applied hydraulic-released
-  unit, fitted to one axle per bogie.
+- **Holding brake:** spring-applied, electromagnetic-release on
+  the same caliper, fitted to one axle per bogie.
 - **Wheel-slide protection:** speed sensor per wheel; `osr-brake`
-  WSP loop modulates caliper pressure.
+  WSP loop modulates caliper current.
 
 ## 7. Car-underframe interface
 
@@ -162,8 +162,8 @@ drop links. Reduces body roll into curves by ~35 %.
 - **Side bearers:** two polymer slide blocks per bogie (no
   spherical roller bearing — cost + maintenance win).
 - **Air supply:** two pneumatic lines to the secondary air spring;
-  one levelling line; one brake-release line. Quick-disconnect
-  cartridge coupling.
+  one levelling line. There is no pneumatic or hydraulic brake
+  supply. Quick-disconnect cartridge coupling.
 - **Electrical:** bogie-frame-mounted terminal cabinet; motor
   three-phase + encoder + resolver cables via quick-connect.
 

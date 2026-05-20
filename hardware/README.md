@@ -14,6 +14,7 @@ Rockchip-direct, or bespoke silicon. Rationale in
 |---|---|---|---|
 | [`t-ecu-s/`](t-ecu-s/) | Train safety kernel (SIL-4) | 2 × Raspberry Pi RP2350 (2oo2) + Raspberry Pi CM5 app processor | §4 |
 | [`t-ecu-a/`](t-ecu-a/) | Train application (SIL-2/-0) | Raspberry Pi CM5 (Radxa CM5 drop-in) | §5 |
+| [`t-obs/`](t-obs/) | Train obstacle detection (SIL-4 interface) | 2 × Raspberry Pi RP2350 (2oo2) + Raspberry Pi CM5 sensor pre-processor | RFC 0015 §5 |
 | [`w-sbc/`](w-sbc/) | Wayside (SIL-4 / SIL-2) | Radxa CM5 (RK3588S, industrial temp) | §6 |
 | [`s-sbc/`](s-sbc/) | Station / depot (SIL-0) | Raspberry Pi CM5 + commodity carrier | §7 |
 
@@ -34,6 +35,10 @@ Each class subdirectory has the same shape:
 
 Until the v2 rollout of RFC 0007, each `schematics/` / `gerbers/` /
 `bom/` directory is empty apart from a `.gitkeep` placeholder.
+
+For trainset quantities and the boundary between hardware docs,
+mechanical CAD envelopes, and the rolling-stock procurement BOM, see
+[`rolling-stock-integration.md`](rolling-stock-integration.md).
 
 ## Licensing
 

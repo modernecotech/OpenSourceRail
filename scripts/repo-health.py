@@ -11,6 +11,7 @@ Run from the repository root:
 from __future__ import annotations
 
 import argparse
+import runpy
 import re
 import sys
 import tomllib
@@ -203,6 +204,13 @@ def check_stale_terms() -> list[Finding]:
         r"€0\.8 M/km": "charging microgrids are costed per stop, not per route-km",
         r"\bTraction power\s*\(": "use station/depot charging microgrids or onboard motor output",
         r"car-body-22m": "car-body artifact name should match the 17 m module",
+        r"Secondary coil spring": "rolling-stock secondary suspension is twin-bellows air spring",
+        r"\bno air spring\b": "rolling-stock secondary suspension is twin-bellows air spring",
+        r"\b3\.8:1 ratio\b": "rolling-stock reduction gear ratio is 6.5:1",
+        r"single-stage 3\.8:1": "rolling-stock reduction gear ratio is 6.5:1",
+        r"hydraulic piston": "rolling-stock brake actuator is electromagnetic",
+        r"\bbrake-release line\b": "rolling-stock brake has no pneumatic/hydraulic release line",
+        r"one T-ECU/A per trainset": "standard trainset fit carries two T-ECU/A units",
     }
     text_suffixes = {".md", ".py", ".rs", ".toml", ".yaml", ".yml", ".txt"}
 
@@ -221,11 +229,32 @@ def check_stale_terms() -> list[Finding]:
     return findings
 
 
+def check_rolling_stock_bom() -> list[Finding]:
+    findings: list[Finding] = []
+    source = REPO_ROOT / "docs/rolling-stock/light-metro-3car/bom-skeleton.md"
+    csv_path = REPO_ROOT / "build/bom/rolling_stock_bom.csv"
+    exporter = REPO_ROOT / "scripts/export-light-metro-bom.py"
+    if not csv_path.exists():
+        return [Finding(csv_path, "missing generated rolling-stock BOM CSV")]
+    module = runpy.run_path(str(exporter))
+    expected = module["render_csv"](source)
+    actual = csv_path.read_text()
+    if actual != expected:
+        findings.append(
+            Finding(
+                csv_path,
+                "generated BOM CSV is stale; run scripts/export-light-metro-bom.py",
+            )
+        )
+    return findings
+
+
 def run_checks() -> list[Finding]:
     findings: list[Finding] = []
     findings.extend(check_city_artifacts())
     findings.extend(check_city_costs())
     findings.extend(check_stale_terms())
+    findings.extend(check_rolling_stock_bom())
     return findings
 
 

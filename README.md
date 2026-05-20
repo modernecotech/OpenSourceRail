@@ -292,11 +292,31 @@ for GoA 2 legacy fleets. Most of the
   public-facing visual reference; CAD screenshots are engineering
   checks only.*
 
+  ![Complete light-metro 3-car trainset: car bodies, bogies, cowls, couplers, inter-car articulation, train systems, batteries, doors, charging, electronics, accessibility, and T-OBS envelopes](docs/screenshots/trainset-light-metro-3car.png)
+
+  ![Per-car systems assembly: door cassettes, platform gap fillers, under-seat sodium-ion battery modules, traction power rack, charging connector, and accessibility/safety reservations](docs/screenshots/trainset-car-systems.png)
+
+  ![Under-seat sodium-ion battery pack: eight module envelopes plus HV contactor, fuse, and BMS cabinet per self-contained car](docs/screenshots/trainset-battery-pack.png)
+
+  ![Door cassette and platform-gap assembly: paired COTS electric door modules with sill gap-filler flaps, lock, and external release](docs/screenshots/trainset-door-system.png)
+
+  ![Per-end electronics cabinet: T-ECU/S, T-ECU/A, and crashworthy event-recorder envelope, two per trainset](docs/screenshots/trainset-electronics-cabinet.png)
+
+  ![End coupler and crash-energy assembly: Scharfenberg Type 10 coupler head, shank, electric-head carrier, and EN 15227 absorber cartridge](docs/screenshots/trainset-end-coupler.png)
+
+  ![Inter-car articulation assembly: bellows, semi-permanent drawbar, and TCN-E / CAN-FD / auxiliary drag-chain envelope](docs/screenshots/trainset-inter-car-articulation.png)
+
+  ![T-OBS nose sensor pack: solid-state LIDAR, mmWave radar, stereo camera pair, and ultrasonic transducer envelopes](docs/screenshots/trainset-tobs-sensor-pack.png)
+
   ![Motor bogie — 2-axle Bo-Bo with axle-hung PMSM motors, chevron primary + air-spring secondary suspension](docs/screenshots/bogie-motor.png)
 
   ![Trailer bogie — same frame + suspension + wheelsets, no motor or gearbox](docs/screenshots/bogie-trailer.png)
 
-  *Detailed bogie CAD per [RFC 0022](docs/rfcs/0022-bogie-traction-drive.md).
+  *Envelope train-system CAD and final trainset assembly live in
+  [`mechanical-py`](mechanical-py/) and are cross-checked against the
+  light-metro procurement BOM in
+  [`docs/rolling-stock/light-metro-3car/bom-skeleton.md`](docs/rolling-stock/light-metro-3car/bom-skeleton.md).
+  Detailed bogie CAD per [RFC 0022](docs/rfcs/0022-bogie-traction-drive.md).
   **Motor bogie** (top): 2-axle Bo-Bo pivoting bogie with axle-hung
   PMSM traction motors (180 kW continuous / 320 kW peak per axle),
   single-stage 6.5:1 parallel-spur gearboxes, chevron rubber-metal

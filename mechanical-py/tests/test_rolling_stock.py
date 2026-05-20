@@ -39,6 +39,7 @@ from osr_mech.rolling_stock.sensor_cowl import (
     LEADING_FACE_WIDTH_MM,
     sensor_cowl,
 )
+from osr_mech.rolling_stock.systems import BATTERY_MODULES_PER_CAR, car_systems
 from osr_mech.rolling_stock.trainset import (
     expected_platform_length_m,
     family_dimensions,
@@ -152,6 +153,47 @@ def test_trainset_is_symmetric_in_length() -> None:
     # |min X| should equal max X within a millimetre.
     asym = abs(abs(bb.min.X) - bb.max.X)
     assert asym < 1.0, f"trainset not centred on X=0; asymmetry {asym:.2f} mm"
+
+
+def _labels_recursive(node) -> list[str]:
+    labels: list[str] = []
+    for child in getattr(node, "children", []) or []:
+        label = getattr(child, "label", None)
+        if label:
+            labels.append(label)
+        labels.extend(_labels_recursive(child))
+    return labels
+
+
+def test_trainset_contains_complete_train_systems() -> None:
+    ts = trainset(ConsistFamily.LIGHT_METRO_3CAR)
+    labels = _labels_recursive(ts)
+    expected = {
+        "A-end coupler and crash-energy assembly",
+        "B-end coupler and crash-energy assembly",
+        "Inter-car articulation assembly",
+        "COTS electric door cassette",
+        "Na-ion battery module envelope",
+        "Station side-pin charging connector",
+        "T-ECU/S safety cabinet",
+        "T-ECU/A application cabinet",
+        "A-end T-OBS sensor pack",
+        "B-end T-OBS sensor pack",
+        "Wheelchair bay floor reservation",
+    }
+    missing = expected.difference(labels)
+    assert not missing, f"missing train systems: {sorted(missing)}"
+    assert labels.count("T-ECU/S safety cabinet") == 2
+    assert labels.count("T-ECU/A application cabinet") == 2
+
+
+def test_car_systems_have_expected_repeated_modules() -> None:
+    labels = _labels_recursive(car_systems(CarDimensions()))
+    assert labels.count("Na-ion battery module envelope") == BATTERY_MODULES_PER_CAR
+    assert labels.count("COTS electric door cassette") == 2
+    assert labels.count("Door sill gap-filler flap") == 2
+    assert labels.count("T-ECU/S safety cabinet") == 0
+    assert labels.count("T-ECU/A application cabinet") == 0
 
 
 # ---------------------------------------------------------------------------

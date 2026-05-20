@@ -85,15 +85,15 @@ section**:
 |---|---|---|---|
 | T-ECU/S per trainset | 240 | 2 | 480 |
 | T-ECU/A per trainset | 300 | 2 | 600 |
-| T-OBS per trainset (includes LIDAR) | 2 300 | 2 | 4 600 |
+| T-OBS per trainset (includes LIDAR) | 2 410 | 2 | 4 820 |
 | W-SBC per junction box | 350 | 2 | 700 |
 | Fence-line sensor (1 km) | 3 000 | 1 | 3 000 |
 | ROW LIDAR × 5 + radar × 2 | 4 500 + 1 000 | 1 | 5 500 |
 | CCTV + TPU | 190 | 2 | 380 |
 | Enclosures, cabling, consumables | — | — | 1 500 |
-| **Total** | | | **~$16 800** |
+| **Total** | | | **~$17 000** |
 
-Scale per trainset (electronics + sensors only): ~$5 700. Scale
+Scale per trainset (electronics + sensors only): ~$5 900. Scale
 per km of wayside (section + sensors): ~$10 000.
 
 For a full Samawah deployment (10 trainsets + 30 km of track =

@@ -2,8 +2,8 @@
 
 **Goal:** build a working T-ECU/S (the SIL-4 train safety
 kernel) from off-the-shelf modules, without fabricating a
-custom PCB. One T-ECU/S per cab end of the trainset (× 2 per
-trainset).
+custom PCB. One T-ECU/S per train end of the cabless trainset
+(A end + B end, × 2 per trainset).
 
 ## Bill of materials
 

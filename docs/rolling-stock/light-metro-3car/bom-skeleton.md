@@ -13,6 +13,11 @@ Costs are BASE USD volume-100. Country cost factor from
 [`lib/templates/country-costs.toml`](../../../lib/templates/country-costs.toml)
 scales them per deployment.
 
+Scope note: this is a **consist-level procurement BOM**, not a final
+manufacturer MBOM. It now covers every train-level subassembly needed
+to build, commission, and maintain the v1 trainset concept; supplier
+drawings still break many lines into child parts during v2.
+
 ## Body + interior
 
 | Line | Desc | Qty per consist | Source | Base USD | Notes |
@@ -38,7 +43,12 @@ scales them per deployment.
 | B19 | COTS CCTV + intercom kit | set | SOURCE | 15 000 | PoE cameras, passenger intercom |
 | B20 | Paint + 2K urethane topcoat | set | SOURCE | 6 000 | Operator livery excluded |
 | B21 | Interior FR panels + trim clips | set | SOURCE | 28 000 | Supplier-certified HL2 |
-| **Body + interior subtotal** | | | | **506 800** | |
+| B22 | Scharfenberg Type 10 end coupler + electric head | 2 | BID | 70 000 | Includes rescue unlock handle |
+| B23 | EN 15227 crash energy absorber / crush-can set | 2 | BID | 30 000 | Bolts to coupler pocket |
+| B24 | Inter-car articulation drag-chain + trainline harness | 2 | SOURCE | 12 000 | TCN-E, CAN-FD, 24 V, 110 V, EB loop |
+| B25 | Door sill gap-filler + external emergency release kit | 6 | BID | 18 000 | Per exterior door cassette |
+| B26 | Jacking, lifting, towing, and recovery fittings | set | MAKE | 8 000 | Welded pads, tow eyes, labels |
+| **Body + interior subtotal** | | | | **644 800** | |
 
 ## Bogies (6 per consist)
 
@@ -49,7 +59,7 @@ scales them per deployment.
 | G3 | Wheelset monobloc (RFC 0022, S1002) | 12 | BID | 144 000 | |
 | G4 | Axle bearing box (SKF / FAG) | 24 | SOURCE | 48 000 | |
 | G5 | Primary chevron spring | 24 | SOURCE | 12 000 | |
-| G6 | Secondary spring / air spring | 12 | SOURCE | 7 200 | |
+| G6 | Secondary air spring + levelling valve | 12 | SOURCE | 7 200 | Matches RFC 0022 twin-bellows spec |
 | G7 | Secondary damper | 12 | SOURCE | 14 400 | |
 | G8 | Brake disc | 12 | SOURCE | 12 000 | |
 | G9 | Electromagnetic brake caliper | 24 | BID | 72 000 | |
@@ -59,14 +69,19 @@ scales them per deployment.
 | G13 | Cable-guide + centre-pin assembly | 6 | MAKE | 9 000 | |
 | G14 | Wheel-tach (quadrature encoder) | 12 | SOURCE | 6 000 | |
 | G15 | Axle bearing temp sensor | 24 | SOURCE | 4 800 | |
-| **Bogies subtotal** | | | | **471 000** | |
+| G16 | Brake pad / friction lining kit | 12 axle sets | SOURCE | 6 000 | Commissioning set, per disc |
+| G17 | WSP + brake control harness | 6 | MAKE | 9 000 | Tacho, caliper command, temp sensor loom |
+| G18 | Motor cradle + torque-link weldment | 3 powered bogies | MAKE | 18 000 | Uses RFC 0022 motor mount datum |
+| G19 | Flexible gear coupling / torque flange set | 6 | BID | 12 000 | Motor-to-reduction gear interface |
+| G20 | Bogie inspection covers and guards | 6 | MAKE | 6 000 | Removable non-structural covers |
+| **Bogies subtotal** | | | | **522 000** | |
 
 ## Traction + power
 
 | Line | Desc | Qty | Source | Base USD | Notes |
 |---|---|---|---|---|---|
 | T1 | PMSM axle motor (180 / 320 kW) | 6 | BID | 180 000 | |
-| T2 | Reduction gear (single-stage 6.5:1) | 6 | BID | 42 000 | |
+| T2 | Reduction gear (single-stage 6.5:1) | 6 | BID | 42 000 | Matches RFC 0008 / gearbox.py |
 | T3 | SiC inverter (360 / 600 kW) | 3 | BID | 105 000 | Wolfspeed or equiv. |
 | T4 | Cold-plate + chiller for traction | 3 | SOURCE | 27 000 | |
 | T5 | Na-ion under-seat pack (120 kWh usable) | 3 | BID | 43 200 | CATL / HiNa / etc |
@@ -80,18 +95,23 @@ scales them per deployment.
 | T13 | Aux inverter (400 V / 110 V / 24 V) | 3 | SOURCE | 66 000 | |
 | T14 | COTS packaged roof HVAC unit (20 kW each, per car) | 3 | BID | 75 000 | +50 °C hot-climate variant |
 | T15 | Regen dump resistor (roof-mount) | 1 | SOURCE | 3 500 | |
-| **Traction + power subtotal** | | | | **688 700** | |
+| T16 | Battery module service disconnect, fuses, and contactors | 24 module positions | SOURCE | 18 000 | 8 modules per car per traction.md |
+| T17 | Battery vent duct + fire exhaust path | 3 cars | MAKE | 9 000 | Side vent, intumescent edge seals |
+| T18 | HV cable, bonding strap, and EMC filter set | 3 cars | MAKE | 30 000 | 1 500 V DC pack, inverter, charger paths |
+| T19 | Station-charge connector actuator + contact monitor | 3 | BID | 12 000 | Completes side-pin connector line T12 |
+| T20 | Coolant pump, hose, manifold, and bleed kit | 3 cars | SOURCE | 15 000 | Battery, inverter, motor, HVAC tie-in |
+| **Traction + power subtotal** | | | | **772 700** | |
 
 ## Electronics + safety
 
 | Line | Desc | Qty | Source | Base USD | Notes |
 |---|---|---|---|---|---|
 | E1 | T-ECU/S board (2× RP2350 + CM5) | 2 | BID | 2 500 | Custom baseboard per RFC 0007 §4 |
-| E2 | T-ECU/A board (CM5) | 1 | BID | 1 500 | Per RFC 0007 §5 |
+| E2 | T-ECU/A board (CM5) | 2 | BID | 3 000 | RFC 0007 standard: two units per consist |
 | E3 | ADIS16505 IMU (or BMI088) | 2 | SOURCE | 1 000 | |
 | E4 | u-blox NEO-F10N GNSS | 2 | SOURCE | 600 | |
 | E5 | PN5180 NFC balise reader | 1 | SOURCE | 200 | |
-| E6 | ATECC608B SE chip (on T-ECU/S + T-ECU/A carriers) | 3 | SOURCE | 30 | |
+| E6 | ATECC608B SE chip (on T-ECU/S + T-ECU/A carriers) | 6 | SOURCE | 60 | T-OBS anchors included inside E18 |
 | E7 | Cat.22 5G M.2 module | 1 | SOURCE | 500 | |
 | E8 | LoRa SX1276 breakout | 1 | SOURCE | 60 | |
 | E9 | NVMe SSD 256 GB (event recorder) | 1 | SOURCE | 60 | |
@@ -103,22 +123,39 @@ scales them per deployment.
 | E15 | CCTV camera (forward + door-sill + in-car) | 20 | SOURCE | 6 000 | |
 | E16 | 2oo2 relay stage (per safety output) | 4 | SOURCE | 1 200 | |
 | E17 | Cable harness (pre-terminated, per car) | 3 | MAKE | 30 000 | |
-| **Electronics + safety subtotal** | | | | **57 750** | |
+| E18 | T-OBS complete nose module | 2 | BID | 10 000 | LIDAR, radar, stereo, ultrasonic, 2oo2 outputs |
+| E19 | Sensor-window heater, washer, and service cover kit | 2 | SOURCE | 8 000 | Keeps nose sensors inspectable in service |
+| E20 | Door-sill camera / obstruction sensor harness | 6 doors | MAKE | 6 000 | Ties doors to CCTV + door control |
+| E21 | Roof antenna kit | set | SOURCE | 3 000 | 5G MIMO, LoRa, GNSS, public-safety blank |
+| E22 | DIN cabinets, power distribution, and terminal blocks | 3 cars | MAKE | 12 000 | T-ECU, BMS, door, HVAC cabinets |
+| E23 | Crashworthy event-recorder memory module | 1 | SOURCE | 5 000 | Complements E9 NVMe operational recorder |
+| **Electronics + safety subtotal** | | | | **103 280** | |
+
+## Safety, accessibility, and maintainability
+
+| Line | Desc | Qty | Source | Base USD | Notes |
+|---|---|---|---|---|---|
+| A1 | Wheelchair bay fixtures + passenger call buttons | 6 bays | SOURCE | 9 000 | Two PRM spaces per car |
+| A2 | Tactile / visual safety signage and labels | set | SOURCE | 3 000 | Doors, emergency, high-voltage, lift points |
+| A3 | Emergency lighting + exit marker kit | 3 cars | SOURCE | 4 500 | Battery-backed, EN 45545 materials |
+| A4 | Fire extinguisher, first-aid, and incident-seal kit | set | SOURCE | 1 500 | Operator restocks consumables |
+| **Safety/accessibility/maintainability subtotal** | | | | **18 000** | |
 
 ## Consist total
 
 | Bucket | Subtotal (USD) |
 |---|---|
-| Body + interior | 506 800 |
-| Bogies | 471 000 |
-| Traction + power | 688 700 |
-| Electronics + safety | 57 750 |
-| **Total direct-material consist** | **1 724 250** |
+| Body + interior | 644 800 |
+| Bogies | 522 000 |
+| Traction + power | 772 700 |
+| Electronics + safety | 103 280 |
+| Safety/accessibility/maintainability | 18 000 |
+| **Total direct-material consist** | **2 060 780** |
 
 Labour (shop weld, bonding, assembly, commissioning) adds ~35 %:
-~604 000 USD.
+~721 000 USD.
 
-**Planning-grade per-consist cost (volume 100): ~2.3 M USD.**
+**Planning-grade per-consist cost (volume 100): ~2.8 M USD.**
 
 For comparison, legacy-vendor light-metro trainsets in the target
 regions typically land 4–6 M USD each — the OSR design's

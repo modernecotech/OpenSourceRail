@@ -28,11 +28,12 @@ per RFC 0015 §10.2 and not included in the default image.
 
 ## Architecture
 
-Single-redundant per consist (one T-ECU/A per trainset). Unlike
-T-ECU/S this is **not** 2oo2: its crates are non-safety-critical.
-A failure of T-ECU/A degrades comfort (HVAC, lighting, PIS) and
-costs diagnostics visibility, but the safety chain (T-ECU/S +
-T-OBS + brake relay stage) continues to function.
+Single-redundant at each end: the standard trainset fit carries
+two T-ECU/A units, one behind each nose. Unlike T-ECU/S this is
+**not** 2oo2: its crates are non-safety-critical. A failure of one
+T-ECU/A degrades comfort (HVAC, lighting, PIS) and costs
+diagnostics visibility, but the safety chain (T-ECU/S + T-OBS +
+brake relay stage) continues to function.
 
 | Block | Qty | Role |
 |---|---|---|

@@ -16,15 +16,18 @@ Scope for v0.1:
 
 - `car_body`        — one parametric car shell (length, width, height,
                        door count, door openings, nose-cowl end caps).
-- `bogie`           — simplified 2-axle bogie under the car.
+- `bogie`           — detailed 2-axle motor/trailer bogie assemblies.
 - `sensor_cowl`     — nose cone with through-holes for sensors.
-- `trainset`        — full consist assembly of N cars coupled together.
+- `systems`         — supplier-neutral envelopes for couplers,
+                       articulation, doors, batteries, traction power,
+                       electronics cabinets, charging, PRM/safety, T-OBS.
+- `trainset`        — full consist assembly of N cars coupled together
+                       with train-level systems.
 
 Out of scope (reserved for v0.2 or later):
 
 - Pantograph (catenary-free system — not present).
-- Wheels + axles (part of the bogie simplified as a block).
-- Coupler mechanism (represented as a flat face only).
+- Supplier-internal geometry and production tolerance stacks.
 
 Interior fit-out (seats, poles, grab-handles, windows, HVAC, PIS
 screens, lighting, intercom) lives in [`cots_equipment`](./cots_equipment.py)
@@ -45,6 +48,17 @@ from .cots_equipment import (
     total_mass_kg,
 )
 from .sensor_cowl import sensor_cowl
+from .systems import (
+    battery_pack_set,
+    car_systems,
+    door_system_pair,
+    electronics_cabinet,
+    end_coupler,
+    inter_car_articulation,
+    tobs_sensor_pack,
+    traction_power_rack,
+    trainset_systems,
+)
 from .trainset import trainset
 
 __all__ = [
@@ -57,7 +71,16 @@ __all__ = [
     "fit_out_car_body",
     "locations_for",
     "sensor_cowl",
+    "battery_pack_set",
+    "car_systems",
+    "door_system_pair",
+    "electronics_cabinet",
+    "end_coupler",
+    "inter_car_articulation",
+    "tobs_sensor_pack",
     "total_active_power_w",
     "total_mass_kg",
+    "traction_power_rack",
     "trainset",
+    "trainset_systems",
 ]

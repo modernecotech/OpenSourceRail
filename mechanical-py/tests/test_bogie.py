@@ -91,11 +91,11 @@ def test_secondary_suspension_has_bellows_and_damper() -> None:
     assert any(l and "damper" in l.lower() for l in labels)
 
 
-def test_brake_unit_has_caliper_and_piston() -> None:
+def test_brake_unit_has_caliper_and_actuator() -> None:
     b = brake_unit()
     labels = {c.label for c in b.children}
     assert any(l and "caliper" in l.lower() for l in labels)
-    assert any(l and "piston" in l.lower() for l in labels)
+    assert any(l and "actuator" in l.lower() for l in labels)
 
 
 def test_frame_has_pivot_boss_and_bolster() -> None:
@@ -123,6 +123,13 @@ def test_motor_bogie_contains_motor_and_gearbox() -> None:
     labels = [c.label for c in m.children]
     assert any(l and "motor" in l.lower() for l in labels), labels
     assert any(l and "gearbox" in l.lower() for l in labels), labels
+
+
+def test_bogie_primary_suspension_has_eight_packs() -> None:
+    m = motor_bogie()
+    labels = [c.label for c in m.children]
+    primary = [l for l in labels if l and l.startswith("Primary suspension")]
+    assert len(primary) == 8
 
 
 def test_trailer_bogie_has_no_motor_or_gearbox() -> None:

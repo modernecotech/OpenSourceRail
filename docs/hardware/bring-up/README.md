@@ -1,6 +1,6 @@
 # Hardware bring-up — v1 deliverable of RFC 0007
 
-This directory holds the bring-up procedures for the four physical
+This directory holds the bring-up procedures for the five physical
 host classes of OpenSourceRail. Each file is a **step-by-step
 runbook** an engineer with the relevant dev kit can execute and
 produce a bring-up report at the end of.
@@ -12,6 +12,7 @@ Raspberry Pi + Radxa only:
 |---|---|---|
 | **T-ECU/S safety MCU** | Raspberry Pi Pico 2 (RP2350) × 2 | [t-ecu-s.md](t-ecu-s.md) |
 | **T-ECU/A application** | Raspberry Pi CM5 IO Board | [t-ecu-a.md](t-ecu-a.md) |
+| **T-OBS obstacle detection** | Pico 2 × 2 + Raspberry Pi CM5 IO Board + sensor eval modules | [hardware/t-obs/diy-assembly](../../../hardware/t-obs/diy-assembly/) |
 | **W-SBC wayside** | Radxa CM5 IO Board | [w-sbc.md](w-sbc.md) |
 | **S-SBC station** | Raspberry Pi CM5 + Waveshare CM5-IO | [s-sbc.md](s-sbc.md) |
 

@@ -34,6 +34,47 @@ COTS passenger-facing modules are controlled by the supplier-neutral
 envelope catalogue at
 [`hardware/trainset-interiors/cots-catalogue.md`](../../../hardware/trainset-interiors/cots-catalogue.md).
 
+## Current CAD / PNG Design Outputs
+
+The present train design now has envelope-level definitions for the
+major train assemblies, sub-assemblies, and repeated components. The
+models are supplier-neutral `build123d` geometry in
+[`mechanical-py/src/osr_mech/rolling_stock`](../../../mechanical-py/src/osr_mech/rolling_stock)
+and render to these design-review PNGs:
+
+| Output | Scope |
+|---|---|
+| [`trainset-light-metro-3car.png`](../../../docs/screenshots/trainset-light-metro-3car.png) | Final 3-car trainset assembly with car bodies, bogies, cowls, couplers, inter-car articulation, and train systems |
+| [`trainset-car-detail.png`](../../../docs/screenshots/trainset-car-detail.png) | 17 m car body, door/window openings, glazing, skirt, livery, and roof equipment |
+| [`trainset-interior-fit-out.png`](../../../docs/screenshots/trainset-interior-fit-out.png) | COTS passenger fit-out envelopes inside the car body |
+| [`trainset-car-systems.png`](../../../docs/screenshots/trainset-car-systems.png) | One self-contained car systems package: doors, batteries, traction power rack, charging connector, and accessibility/safety reservations |
+| [`trainset-battery-pack.png`](../../../docs/screenshots/trainset-battery-pack.png) | Eight sodium-ion module envelopes plus HV contactor, fuse, and BMS cabinet per car |
+| [`trainset-door-system.png`](../../../docs/screenshots/trainset-door-system.png) | Door cassette pair with sill gap fillers, locks, and external emergency releases |
+| [`trainset-electronics-cabinet.png`](../../../docs/screenshots/trainset-electronics-cabinet.png) | Per-end T-ECU/S, T-ECU/A, and crashworthy event recorder, two sets per trainset |
+| [`trainset-end-coupler.png`](../../../docs/screenshots/trainset-end-coupler.png) | Scharfenberg Type 10 coupler, electric-head carrier, and EN 15227 crash absorber envelope |
+| [`trainset-inter-car-articulation.png`](../../../docs/screenshots/trainset-inter-car-articulation.png) | Inter-car bellows, semi-permanent drawbar, and trainline drag-chain envelope |
+| [`trainset-tobs-sensor-pack.png`](../../../docs/screenshots/trainset-tobs-sensor-pack.png) | T-OBS LIDAR, mmWave radar, stereo camera, and ultrasonic sensor envelopes |
+| [`bogie-motor.png`](../../../docs/screenshots/bogie-motor.png) | Powered bogie assembly with frame, wheelsets, motors, gearboxes, suspension, and brakes |
+| [`bogie-trailer.png`](../../../docs/screenshots/bogie-trailer.png) | Trailer bogie assembly using the common frame and suspension envelope |
+
+The matching STEP handoff artifacts are regenerated under
+[`mechanical-py/catalog/rolling_stock`](../../../mechanical-py/catalog/rolling_stock):
+[`trainset-light-metro-3car.step`](../../../mechanical-py/catalog/rolling_stock/trainset-light-metro-3car.step),
+[`car-systems.step`](../../../mechanical-py/catalog/rolling_stock/car-systems.step),
+[`battery-pack-set.step`](../../../mechanical-py/catalog/rolling_stock/battery-pack-set.step),
+[`door-system-pair.step`](../../../mechanical-py/catalog/rolling_stock/door-system-pair.step),
+[`electronics-cabinet.step`](../../../mechanical-py/catalog/rolling_stock/electronics-cabinet.step),
+[`end-coupler.step`](../../../mechanical-py/catalog/rolling_stock/end-coupler.step),
+[`inter-car-articulation.step`](../../../mechanical-py/catalog/rolling_stock/inter-car-articulation.step), and
+[`tobs-sensor-pack.step`](../../../mechanical-py/catalog/rolling_stock/tobs-sensor-pack.step).
+The matching electronics host-class quantities are mirrored in
+[`hardware/rolling-stock-integration.md`](../../../hardware/rolling-stock-integration.md).
+
+The remaining gaps are not missing assemblies in the train envelope;
+they are v2 detail-design tasks: supplier exact envelopes, weld maps,
+FEA-ready brackets, harness clamp locations, manufacturing tolerances,
+and release drawings listed in [`drawing-register.md`](drawing-register.md).
+
 ## Reference envelope (from RFC 0008 §1)
 
 | Parameter | Value |
@@ -53,7 +94,8 @@ envelope catalogue at
 
 ## What v1 does NOT include
 
-- KiCad / MCAD / STEP files (v2).
+- Production-detail KiCad / MCAD / STEP files with selected supplier
+  internals, tolerance stacks, and manufacturing drawings (v2).
 - Detailed finite-element analysis (v3 — homologation phase).
 - Paint-and-livery guidance (operator scope).
 - Fire-load and smoke-extraction analysis for the battery bay

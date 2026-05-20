@@ -75,7 +75,7 @@ firmware on the T-ECU/S safety MCU (RP2350).
 
 ## Reduction gear
 
-- Single-stage helical, 3.8:1 ratio.
+- Single-stage helical, 6.5:1 ratio.
 - Axle-mounted; no separate gearbox.
 - Oil-bath, sealed for 600 000 km (matches RFC 0008 §5 bogie
   overhaul interval).
@@ -93,7 +93,7 @@ conservative), each powered axle can transmit:
 Per-motor torque at wheel (wheel radius 0.43 m):
 
 ```
-  F_motor_peak = 1 800 Nm × 3.8 / 0.43 m = 15.9 kN
+  F_motor_peak = 1 800 Nm × 6.5 / 0.43 m = 27.2 kN
 ```
 
 Adhesion is the binding constraint at wet-rail AW3. Per-axle

@@ -15,6 +15,7 @@ from pathlib import Path
 from build123d import export_step
 
 from .accessibility import add_prm_zones_to_car, platform_tactile_path
+from .cad_templates import FIXTURE_BUILDERS, ROLLING_STOCK_TEMPLATE_BUILDERS
 from .civil.platform_l_unit import platform_l_unit
 from .civil.ugirder import u_girder
 from .clearance import reference_envelope, swept_envelope_part
@@ -35,6 +36,16 @@ from .rolling_stock.bogie import (
 from .rolling_stock.car_body import car_body
 from .rolling_stock.cots_equipment import fit_out_car_body
 from .rolling_stock.sensor_cowl import sensor_cowl
+from .rolling_stock.systems import (
+    battery_pack_set,
+    car_systems,
+    door_system_pair,
+    electronics_cabinet,
+    end_coupler,
+    inter_car_articulation,
+    tobs_sensor_pack,
+    traction_power_rack,
+)
 from .rolling_stock.trainset import trainset
 from .station.canopy import station_canopy
 from .station.portal import portal_frame
@@ -103,6 +114,14 @@ def export_all(root: Path) -> None:
         fit_out_car_body(),
         _out(root, "rolling_stock", "car-body-17m-cots-fit-out.step"),
     )
+    _export(door_system_pair(), _out(root, "rolling_stock", "door-system-pair.step"))
+    _export(battery_pack_set(), _out(root, "rolling_stock", "battery-pack-set.step"))
+    _export(traction_power_rack(), _out(root, "rolling_stock", "traction-power-rack.step"))
+    _export(electronics_cabinet(), _out(root, "rolling_stock", "electronics-cabinet.step"))
+    _export(car_systems(), _out(root, "rolling_stock", "car-systems.step"))
+    _export(end_coupler(), _out(root, "rolling_stock", "end-coupler.step"))
+    _export(inter_car_articulation(), _out(root, "rolling_stock", "inter-car-articulation.step"))
+    _export(tobs_sensor_pack(), _out(root, "rolling_stock", "tobs-sensor-pack.step"))
 
     # Bogie components (RFC 0022).
     _export(wheelset(), _out(root, "bogie", "wheelset.step"))
@@ -160,6 +179,12 @@ def export_all(root: Path) -> None:
         swept_envelope_part(reference_envelope()),
         _out(root, "rolling_stock", "kinematic-envelope.step"),
     )
+
+    # Early fabrication templates and COTS fixture envelopes.
+    for slug, builder in ROLLING_STOCK_TEMPLATE_BUILDERS.items():
+        _export(builder(), _out(root, "rolling_stock", "templates", f"{slug}.step"))
+    for slug, builder in FIXTURE_BUILDERS.items():
+        _export(builder(), _out(root, "fixtures", f"{slug}.step"))
 
 
 def main() -> None:

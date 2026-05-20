@@ -25,6 +25,7 @@ from ..common import ConsistFamily, consist_platform_length_m
 from .bogie import WHEELBASE_MM, motor_bogie, trailer_bogie
 from .car_body import CarDimensions, car_body
 from .sensor_cowl import COWL_LENGTH_MM, sensor_cowl
+from .systems import system_layout, trainset_systems
 
 
 # Car body length per family (RFC 0008 §3.1).
@@ -135,8 +136,11 @@ def trainset(family: ConsistFamily = ConsistFamily.LIGHT_METRO_3CAR) -> Compound
     cowl_plus = cowl_plus.translate((x_cursor, 0.0, 0.0))
     parts.append(cowl_plus)
 
+    systems = trainset_systems(system_layout(dims, car_count))
+    parts.append(systems)
+
     return Compound(
-        label=f"Trainset ({family.value}, {car_count} cars, cabless)",
+        label=f"Complete trainset ({family.value}, {car_count} cars, cabless)",
         children=parts,
     )
 

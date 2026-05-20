@@ -33,12 +33,12 @@ criteria, in order:
 | `osr_mech.track` | Rail profile (54E1 / 60E1), precast mono-block sleeper, Pandrol-style fastener, assembled track panel |
 | `osr_mech.civil` | Precast U-girder for elevated spans (RFC 0011), precast pad footing, precast L-unit platform edge |
 | `osr_mech.station` | Steel portal-frame bay, multi-bay canopy assembly, solar-roof panel, signage + lighting mast |
+| `osr_mech.rolling_stock` | Car body, bogie components, trainset assemblies, sensor cowl, couplers, articulation, doors, batteries, traction/electronics envelopes, T-OBS sensor pack, fit-out envelopes |
+| `osr_mech.cad_templates` | Early fabrication templates plus COTS fixture placeholder envelopes |
 
-Out of scope in v0.1: turnouts (cataloged in RFC 0012 but geometry
-is vendor kit — we'll add a clearance-envelope body, not a blade
-mechanism), depots (RFC 0014 — v0.2), rolling-stock geometry (RFC
-0008 — v0.3, pending whether build123d is the right tool for bogies
-vs. a dedicated mechanical CAD).
+Out of scope in v0.1: production-detail vendor geometry for COTS
+parts. Supplier-specific parts start as envelope placeholders, then
+graduate into detailed models once a deployment selects exact SKUs.
 
 ## Parametric inputs
 

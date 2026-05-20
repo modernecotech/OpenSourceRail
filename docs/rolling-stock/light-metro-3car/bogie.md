@@ -37,11 +37,13 @@ Chevron rubber springs (one per axle end):
 
 ### Secondary suspension
 
-Steel coil springs + viscous damper (one per bogie end):
-- Coil: progressive rate, 80 kN/m at nominal load to 160 kN/m at
-  AW3.
+Twin-bellows air spring + lateral damper (one pair per bogie):
+- Air spring: Continental / ContiTech CF-series class, 55 °C
+  continuous bellows rating.
+- Levelling valves hold the centre door-zone floor within ± 5 mm
+  from empty to AW3.
 - Damper: KONI 32-series linear, 6 kNs/m at nominal velocity.
-- **No air spring.** Maintenance-free at the service interval.
+- Auxiliary rubber emergency bearer supports the car after air loss.
 
 ### Motor mount
 
@@ -76,7 +78,8 @@ Same basic envelope as driving bogie, with differences:
   ≤ 25 m/s don't demand them on the RFC 0009 preset radii).
 - **Power electrical:** 1 500 V DC + 24 V DC + 400 V AC through
   a cableguide at the centre pin; not through the pivot itself.
-- **Air:** none. (No pneumatic brake system per RFC 0008 §3.2.)
+- **Air:** local secondary-suspension levelling only. No trainwide
+  pneumatic brake or door supply per RFC 0008 §3.2.
 
 ## Interchangeability
 

@@ -67,8 +67,8 @@ tech, ~3 hours for a first-time builder.
 
 A light-metro-3car trainset needs:
 
-- **2 × T-ECU/S** (one per cab end) — ~3 hours each
-- **2 × T-ECU/A** (one per cab end) — ~2 hours each
+- **2 × T-ECU/S** (one per cabless train end) — ~3 hours each
+- **2 × T-ECU/A** (one per cabless train end) — ~2 hours each
 - **2 × T-OBS** (nose cowl, each end) — ~3 hours each
 
 **Total: ~16 labour-hours per trainset** of electronics

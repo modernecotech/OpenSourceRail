@@ -10,6 +10,11 @@
 [`osr-cbm-onboard`](../../crates/osr-cbm-onboard/),
 [`osr-t2g`](../../crates/osr-t2g/), [`osr-tcn`](../../crates/osr-tcn/).
 
+Canonical `light-metro-3car` fit: **2 boards per trainset**, one in
+the A-end electronics cabinet and one in the B-end electronics
+cabinet. T-ECU/A is single-redundant and non-safety; the T-ECU/S +
+T-OBS safety chain continues without it.
+
 **Environment:** EN 50155 OT4, single-redundant.
 
 ## SoC
@@ -45,6 +50,9 @@ conduction cooling, no fans.
 ## Target BOM
 
 ~€220 per board (CM5 ≈ €85, baseboard ≈ €75, radios ≈ €60).
+The consist-level procurement quantity is tracked in
+[`../rolling-stock-integration.md`](../rolling-stock-integration.md)
+and line E2 of the rolling-stock BOM.
 
 ## Status
 

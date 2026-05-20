@@ -13,7 +13,7 @@ Per [RFC 0022](../../../../docs/rfcs/0022-bogie-traction-drive.md):
 - `motor`         — PMSM axle-hung
 - `gearbox`       — single-stage parallel spur
 - `suspension`    — chevron primary + air secondary
-- `brake`         — caliper + piston + hydraulic head
+- `brake`         — electromagnetic caliper actuator
 - `frame`         — the H-frame that holds everything
 
 **Assemblies** (compose components):

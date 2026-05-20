@@ -8,7 +8,10 @@
 [`osr-door-control`](../../crates/osr-door-control/),
 [`osr-traction`](../../crates/osr-traction/) (MCU bring-up only).
 
-One primary + one hot-standby per consist.
+Canonical `light-metro-3car` fit: **2 boards per trainset**, one in
+the A-end electronics cabinet and one in the B-end electronics
+cabinet. The train-level role is one primary + one hot-standby per
+consist; neither unit depends on a driver cab being present.
 
 **Environment:** EN 50155 OT4 (−40…+85 °C), IEC 61373 Cat 1 Class B,
 EN 50121-3-2 EMC.
@@ -59,7 +62,9 @@ Conformal-coated (MG Chemicals 419) before integration. IP54.
 ## Target BOM (volume 100+)
 
 ~€280 per board. Two boards per trainset = €560 for the safety
-kernel layer.
+kernel layer. The consist-level procurement quantity is tracked in
+[`../rolling-stock-integration.md`](../rolling-stock-integration.md)
+and line E1 of the rolling-stock BOM.
 
 ## Status
 

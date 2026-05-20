@@ -1,6 +1,16 @@
 """OSR parametric mechanical catalogue — see package README for scope."""
 
-from . import accessibility, civil, clearance, crashworthiness, depot, rolling_stock, station, track  # noqa: F401
+from . import (  # noqa: F401
+    accessibility,
+    cad_templates,
+    civil,
+    clearance,
+    crashworthiness,
+    depot,
+    rolling_stock,
+    station,
+    track,
+)
 from .common import (
     ConsistFamily,
     GeometryPreset,
@@ -15,6 +25,7 @@ __all__ = [
     "RailProfile",
     "StationArchetype",
     "accessibility",
+    "cad_templates",
     "civil",
     "clearance",
     "consist_platform_length_m",
