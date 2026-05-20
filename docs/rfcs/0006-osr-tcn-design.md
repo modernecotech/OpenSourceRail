@@ -319,7 +319,7 @@ the hardware story is fixed.
 
 ## 12. Relationship to `osr-crypto` and `osr-t2g`
 
-- **`osr-crypto`** (not yet scaffolded) will provide HMAC-signing
+- **`osr-crypto`** provides HMAC-signing
   of safety-class payloads for defense-in-depth against a
   compromised ECU. Sign/verify wraps the Pod layout; wire format
   stays fixed-size.

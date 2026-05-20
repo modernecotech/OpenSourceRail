@@ -61,6 +61,11 @@ penetrations. Conduction-cooled.
 
 ## Status
 
-v2 deliverable. v1 bring-up uses the Radxa CM5 IO Board + a SparkFun
-RS-485 breakout to validate the `osr-consensus` + `osr-interlocking`
-+ `osr-wayside-points` stack on a real RK3588S module.
+- `schematics/v2-spec/` — board-level v2 specification overview and
+  block diagram.
+- `gerbers/` — pending KiCad layout release.
+- `bom/` — pending board BOM release.
+
+DIY bring-up uses the Radxa CM5 IO Board + a SparkFun RS-485 breakout
+to validate the `osr-consensus` + `osr-interlocking` +
+`osr-wayside-points` stack on a real RK3588S module.

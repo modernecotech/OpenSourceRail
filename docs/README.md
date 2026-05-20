@@ -16,15 +16,16 @@ without duplicating them.
 | Hardware reviewer | [hardware/README.md](../hardware/README.md) and [hardware/rolling-stock-integration.md](../hardware/rolling-stock-integration.md) |
 | Operator/maintainer | [operations/README.md](operations/README.md) |
 | Safety/certification reviewer | [certification/README.md](certification/README.md), [safety-case/README.md](safety-case/README.md), [formal/tla/README.md](../formal/tla/README.md) |
+| v0.2 contributor | [ROADMAP.md](ROADMAP.md) |
 
 ## Documentation Sets
 
 | Folder | Contents |
 |---|---|
-| [rfcs/](rfcs/) | Design decisions and standards for architecture, rolling stock, track, stations, depots, driverless operation, hardware, energy, and safety |
-| [rolling-stock/](rolling-stock/) | Light-metro trainset package: GA, body, bogie, traction, BOM, fabrication plan, drawing register, compliance |
-| [civil/](civil/) | Alignment interchange format and civil tool bridge docs |
-| [stations/](stations/) | Station design material |
+| [rfcs/](rfcs/README.md) | Design decisions and standards for architecture, rolling stock, track, stations, depots, driverless operation, hardware, energy, and safety |
+| [rolling-stock/](rolling-stock/README.md) | Light-metro trainset package: GA, body, bogie, traction, BOM, fabrication plan, drawing register, compliance |
+| [civil/](civil/README.md) | Alignment interchange format and civil tool bridge docs |
+| [stations/](stations/README.md) | Station design material |
 | [operations/](operations/) | Rulebook and operating procedures |
 | [certification/](certification/) | EN 62267 pre-submission pack: system description, hazards, safety requirements, evidence, compliance matrix |
 | [safety-case/](safety-case/) | GSN safety-case source and generated views |
@@ -42,6 +43,7 @@ without duplicating them.
 | Generated BOM CSV | [build/bom/rolling_stock_bom.csv](../build/bom/rolling_stock_bom.csv) |
 | Hardware host-class matrix | [hardware/rolling-stock-integration.md](../hardware/rolling-stock-integration.md) |
 | Reader-edition PDF | [opensource-rail-docs-book.pdf](../opensource-rail-docs-book.pdf) |
+| v0.2 roadmap | [ROADMAP.md](ROADMAP.md) |
 
 ## Regeneration
 

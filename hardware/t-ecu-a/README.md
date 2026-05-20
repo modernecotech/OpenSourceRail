@@ -56,6 +56,11 @@ and line E2 of the rolling-stock BOM.
 
 ## Status
 
-v2 deliverable. v1 bring-up on a stock RPi CM5 IO Board + Waveshare
-M.2 HAT + generic Cat.22 5G M.2 module validates peripheral
-enumeration before a custom baseboard is drawn.
+- `schematics/v2-spec/` — board-level v2 specification overview and
+  block diagram.
+- `gerbers/` — pending KiCad layout release.
+- `bom/` — pending board BOM release.
+
+DIY bring-up on a stock RPi CM5 IO Board + Waveshare M.2 HAT +
+generic Cat.22 5G M.2 module validates peripheral enumeration before
+the custom baseboard is drawn.

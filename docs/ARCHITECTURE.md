@@ -295,21 +295,14 @@ OpenSourceRail/
 │   └── osr-sim/               # Digital twin / simulator + shadow onboard stack
 ├── formal/tla/                # TLA+ specs: SMRaft, TLC harness
 ├── scenarios/                 # TOML scenario files (Samawah + templates)
-├── hardware/                  # Reference designs per RFC 0007 (scaffolded)
+├── hardware/                  # Reference designs, DIY path, and v2-spec board docs
 ├── tools/reference-ma/        # Python reference interpreter (RFC 0004 M4)
 └── pilots/                    # (planned)
 ```
 
-Not yet in-tree, enumerated in [RFC 0005 §4](rfcs/0005-sbc-software-architecture.md):
-`osr-ato`, `osr-tcms`, `osr-dmi`, `osr-event-recorder`, `osr-tcn`,
-`osr-t2g`, `osr-traction`, `osr-bms`, `osr-door-control`, `osr-hvac`,
-`osr-lighting`, `osr-pis-onboard`, `osr-aux-power`, `osr-regen`,
-`osr-fire-safety`, `osr-derailment`, `osr-hot-axle`, `osr-cbm-onboard`,
-`osr-ptp`, `osr-balise`, `osr-level-crossing`, `osr-hot-axle-wayside`,
-`osr-psd`, `osr-afc`, `osr-tvm`, `osr-pis-station`, `osr-station-scada`,
-`osr-occ`, `osr-historian`, `osr-analytics`, `osr-cbm-backend`,
-`osr-afc-backoffice`, `osr-energy-site`, `osr-crypto`, `osr-safety-case`,
-`osr-proto`.
+The broader RFC 0005 crate map is now in tree under
+[`../crates/`](../crates/); individual crate maturity varies from
+scaffold through tested safety logic.
 
 ---
 

@@ -35,14 +35,14 @@ evidence.
 
 ## Reserved module envelopes
 
-Per 18.9 m self-contained car:
+Per 17 m self-contained car:
 
 | Module | Qty / car | Envelope | Mass limit | Power budget | Interface |
 |---|---:|---|---:|---:|---|
 | Door cassette | 2 | clear opening 1 250 × 2 000 mm; cassette ≤ 1 850 W × 2 450 H × 260 D mm | 180 kg each | 600 W peak each | 24/110 V DC, Ethernet/CAN, hardwired closed/locked loop |
 | Side glazing | 4 | nominal 900 × 1 200 mm aperture | 35 kg each | 0 | Bonded/gasketed cassette, drain path |
 | Roof HVAC | 1 | ≤ 2 700 L × 1 900 W × 450 H mm | 420 kg | 20 kW cooling electrical allowance | 400 V AC, condensate drain, CAN/Ethernet diagnostics |
-| Interior lighting | set | two 18.9 m ceiling runs + door-zone lights | 45 kg | 350 W | 24 V DC, emergency-light input |
+| Interior lighting | set | two 17 m ceiling runs + door-zone lights | 45 kg | 350 W | 24 V DC, emergency-light input |
 | Exterior marker/head/tail lights | set | nose/cowl mounted | 25 kg | 150 W | 24 V DC, hardwired marker functions |
 | PIS displays + speakers | set | above-door and saloon ceiling mounts | 45 kg | 250 W | Ethernet, 24 V DC, audio line |
 | CCTV | set | door sill, saloon, and nose service views | 20 kg | 180 W | PoE or 24 V DC + Ethernet |

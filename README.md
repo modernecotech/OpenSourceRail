@@ -17,7 +17,8 @@ electric, and designed around local manufacture: welded steel primary
 structures, COTS rail/bus modules where sensible, commodity compute,
 and regenerable documentation/CAD artifacts.
 
-**Current milestone:** [v0.1](CHANGELOG.md)
+**Current milestone:** [v0.1](CHANGELOG.md), with active
+[v0.2 work](docs/ROADMAP.md).
 
 ## Start Here
 
@@ -31,7 +32,7 @@ and regenerable documentation/CAD artifacts.
 | Review mechanical CAD outputs | [mechanical-py/README.md](mechanical-py/README.md) |
 | Review hardware host classes | [hardware/README.md](hardware/README.md) |
 | Read the architecture | [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) |
-| Read the RFCs | [docs/rfcs/](docs/rfcs/) |
+| Read the RFCs | [docs/rfcs/README.md](docs/rfcs/README.md) |
 | Review certification evidence | [docs/certification/](docs/certification/) and [docs/safety-case/](docs/safety-case/) |
 
 ## Repository Map
@@ -45,7 +46,7 @@ and regenerable documentation/CAD artifacts.
 | [hardware/](hardware/) | Hardware reference designs and DIY assembly for T-ECU/S, T-ECU/A, T-OBS, W-SBC, S-SBC |
 | [docs/](docs/) | Architecture, RFCs, certification pack, safety case, operations, civil, stations, rolling-stock docs |
 | [lib/](lib/) | Machine-readable templates, recipes, examples, city batches, cost/finance inputs |
-| [formal/tla/](formal/tla/) | TLA+ consensus specification and model-checking harnesses |
+| [formal/](formal/) | TLA+ consensus specification and model-checking harnesses |
 | [tools/](tools/) | Companion tools including LandXML to OSR-ALN and the Python MA reference interpreter |
 | [scripts/](scripts/) | Regeneration, publishing, repository health, BOM, and book-builder helpers |
 
@@ -118,11 +119,13 @@ T-OBS sensor packs at both noses.
 Key links:
 
 - [Rolling-stock package](docs/rolling-stock/light-metro-3car/README.md)
+- [Rolling-stock section README](docs/rolling-stock/README.md)
 - [BOM skeleton](docs/rolling-stock/light-metro-3car/bom-skeleton.md)
 - [Fabrication plan](docs/rolling-stock/light-metro-3car/fabrication-plan.md)
 - [Drawing register](docs/rolling-stock/light-metro-3car/drawing-register.md)
 - [Mechanical package](mechanical-py/README.md)
 - [Generated STEP catalogue](mechanical-py/catalog/)
+- [Generated STEP catalogue README](mechanical-py/catalog/README.md)
 
 Selected generated design views:
 

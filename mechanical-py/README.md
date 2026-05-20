@@ -34,11 +34,14 @@ criteria, in order:
 | `osr_mech.civil` | Precast U-girder for elevated spans (RFC 0011), precast pad footing, precast L-unit platform edge |
 | `osr_mech.station` | Steel portal-frame bay, multi-bay canopy assembly, solar-roof panel, signage + lighting mast |
 | `osr_mech.rolling_stock` | Car body, bogie components, trainset assemblies, sensor cowl, couplers, articulation, doors, batteries, traction/electronics envelopes, T-OBS sensor pack, fit-out envelopes |
-| `osr_mech.cad_templates` | Early fabrication templates plus COTS fixture placeholder envelopes |
+| `osr_mech.cad_templates` | Fabrication templates plus supplier-neutral COTS fixture envelopes |
 
-Out of scope in v0.1: production-detail vendor geometry for COTS
-parts. Supplier-specific parts start as envelope placeholders, then
-graduate into detailed models once a deployment selects exact SKUs.
+The current CAD is an envelope and design-review package, not a
+homologated production drawing set. It now includes COTS-inspired
+fixture geometry, rolling-stock systems, and sheet-metal/chassis
+templates. Remaining v0.2 production-detail work is supplier-exact
+SKUs, weld maps, tolerance stacks, FEA-ready brackets, harness clamp
+locations, and controlled 2D manufacturing drawings.
 
 ## Parametric inputs
 
@@ -101,6 +104,9 @@ conservative — every kit is sized for the worst of:
 
 Deployment sites with harsher envelopes need a beefed-up variant; we'd
 rather add a "heavy" SKU than weaken the standard.
+
+See [`catalog/README.md`](catalog/README.md) for the generated STEP
+catalogue map.
 
 ## Licence
 

@@ -2,8 +2,8 @@
 
 Physical host classes for the software stack. Reference designs
 scoped in [RFC 0007](../docs/rfcs/0007-hardware-reference-designs.md);
-schematics land under each subdirectory as the v1 → v4 rollout
-lands.
+schematics and board-release artifacts land under each subdirectory as
+the RFC 0007 rollout matures.
 
 **Two-vendor palette — Raspberry Pi and Radxa only.** Every class
 below picks from those two vendors. No NXP, ST, MilkV, StarFive,
@@ -33,8 +33,15 @@ Each class subdirectory has the same shape:
 └── bom/              BOM.csv with Mouser / Digi-Key / LCSC lines
 ```
 
-Until the v2 rollout of RFC 0007, each `schematics/` / `gerbers/` /
-`bom/` directory is empty apart from a `.gitkeep` placeholder.
+Current status:
+
+| Class | Board-level spec | KiCad / gerbers / board BOM |
+|---|---|---|
+| `t-ecu-s` | Complete `schematics/v2-spec/` package with block diagram, power budget, connector tables, pinouts, and safety nets | Pending release package |
+| `t-ecu-a` | `schematics/v2-spec/` overview and block diagram | Pending release package |
+| `t-obs` | Complete `schematics/v2-spec/` package aligned with the T-ECU/S safety pattern | Pending release package |
+| `w-sbc` | `schematics/v2-spec/` overview and block diagram | Pending release package |
+| `s-sbc` | `schematics/v2-spec/` overview | Pending release package |
 
 For trainset quantities and the boundary between hardware docs,
 mechanical CAD envelopes, and the rolling-stock procurement BOM, see
@@ -50,7 +57,6 @@ for the project-wide licensing rationale.
 
 ## Contributing
 
-The hardware working group is not yet formed — contributions welcome
-once RFC 0007 is ratified. Before then, issues with specific
-disagreements on RFC 0007's class choices (SoC, peripherals, BOM
-envelope) are the highest-leverage input.
+High-leverage contributions are KiCad capture, board DFM review,
+procurement BOM completion, and DIY build feedback against
+[`diy-assembly/`](diy-assembly/).

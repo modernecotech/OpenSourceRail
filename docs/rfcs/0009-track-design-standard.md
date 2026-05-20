@@ -226,9 +226,9 @@ Measurement cadence per preset:
 
 A recording car is explicitly *not* required to be OpenSourceRail
 hardware; any EN 13848-compliant recording trolley from the
-commercial market is acceptable. The future
-[`osr-track-geometry`](../../crates/) crate (not yet scaffolded)
-will accept standard GPM/RECD data formats.
+commercial market is acceptable. Track-geometry ingestion belongs in
+[`osr-alignment`](../../crates/osr-alignment/); standard GPM/RECD
+import remains a follow-on parser.
 
 ## 10. Self-consistency constraints
 

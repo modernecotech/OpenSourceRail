@@ -12,15 +12,16 @@ book exceeds that, something gets cut before anything is added.
 | Path | Audience | RFC 0013 section |
 |---|---|---|
 | [`driver/`](driver/) | Train driver | §4.1 (D1–D8) |
-| [`dispatcher/`](dispatcher/) | OCC dispatcher | §4.2 (S1–S6) |
+| [`dispatcher/`](dispatcher/) | OCC dispatcher | §4.2 (S1–S7) |
 | [`station-staff/`](station-staff/) | Station agent / inspector | §4.3 (T1–T5) |
-| [`maintenance/`](maintenance/) | Depot + MOW worker | §4.4 (M1–M6) |
+| [`maintenance/`](maintenance/) | Depot + MOW worker | §4.4 (M1–M7) |
 | [`control-centre/`](control-centre/) | OCC supervisor / engineer | §4.5 (C1–C3) |
 
-Each subdirectory has one file per rule block, numbered per the
-RFC. Files are currently stubs with the section header, scope
-statement, and a `rules:` placeholder. Rule text lands as the
-v2 deliverable of RFC 0013.
+Each subdirectory has one file per rule block, numbered per the RFC.
+The rulebook now contains drafted one-decision rules with `Why:`
+rationales across dispatcher, station-staff, maintenance,
+control-centre, and legacy driver role families. Practising-operator
+review is still a v0.2/v2.1 task.
 
 ## How to add a rule
 

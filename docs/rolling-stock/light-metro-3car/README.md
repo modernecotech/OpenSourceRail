@@ -1,20 +1,18 @@
-# `light-metro-3car` shop-drawing package — v1 deliverable of RFC 0008
+# `light-metro-3car` trainset package
 
 This directory holds the dimensioned specification for the
 **light-metro-3car** trainset — the Samawah reference family per
 [RFC 0003](../../rfcs/0003-samawah-reference-deployment.md) and the
 default for populations 300 k – 1 M per [RFC 0008 §5](../../rfcs/0008-rolling-stock-reference-design.md#5-family-selection-policy).
 
-This is the v1 deliverable: a **specification a domestic rolling-
-stock fabricator can bid on** — dimensions, masses, interfaces,
-sub-assembly tree, fabrication sequence, and a procurement BOM
-skeleton. The design deliberately favours a modern low-capex
-factory: COTS rail subsystems wherever possible, simple cut/bend/
-weld fabrication for the primary frame, and composite non-structural
-panels for sides, roof fairings, cabless cowls, and interior liners.
-The v2 deliverable is the full CAD pack + detailed shop drawings per
-EN 15085 weld classes, EN 45545 material certifications, and the
-supplier installation drawings for selected COTS modules.
+This package started as the v1 RFC 0008 bid specification and now
+also links the current envelope-level CAD/PNG/STEP outputs. A domestic
+rolling-stock fabricator can read the dimensions, masses, interfaces,
+sub-assembly tree, fabrication sequence, procurement BOM skeleton, and
+design-review CAD. The design deliberately favours a modern low-capex
+factory: COTS rail subsystems wherever possible, simple cut/bend/weld
+fabrication for the primary frame, and composite non-structural panels
+for sides, roof fairings, cabless cowls, and interior liners.
 
 ## Contents
 
@@ -61,7 +59,7 @@ and render to these design-review PNGs:
 The matching STEP handoff artifacts are regenerated under
 [`mechanical-py/catalog/rolling_stock`](../../../mechanical-py/catalog/rolling_stock):
 [`trainset-light-metro-3car.step`](../../../mechanical-py/catalog/rolling_stock/trainset-light-metro-3car.step),
-[`templates/body-sheet-metal-kit.step`](../../../mechanical-py/catalog/rolling_stock/templates/body-sheet-metal-kit.step),
+[`body-sheet-metal-kit.step`](../../../mechanical-py/catalog/rolling_stock/templates/body-sheet-metal-kit.step),
 [`car-systems.step`](../../../mechanical-py/catalog/rolling_stock/car-systems.step),
 [`battery-pack-set.step`](../../../mechanical-py/catalog/rolling_stock/battery-pack-set.step),
 [`door-system-pair.step`](../../../mechanical-py/catalog/rolling_stock/door-system-pair.step),
@@ -73,9 +71,10 @@ The matching electronics host-class quantities are mirrored in
 [`hardware/rolling-stock-integration.md`](../../../hardware/rolling-stock-integration.md).
 
 The remaining gaps are not missing assemblies in the train envelope;
-they are v2 detail-design tasks: supplier exact envelopes, weld maps,
-FEA-ready brackets, harness clamp locations, manufacturing tolerances,
-and release drawings listed in [`drawing-register.md`](drawing-register.md).
+they are v0.2/v2 detail-design tasks: supplier exact envelopes, weld
+maps, FEA-ready brackets, harness clamp locations, manufacturing
+tolerances, and release drawings listed in
+[`drawing-register.md`](drawing-register.md).
 
 ## Reference envelope (from RFC 0008 §1)
 
@@ -114,14 +113,16 @@ and release drawings listed in [`drawing-register.md`](drawing-register.md).
 3. [`bom-skeleton.md`](bom-skeleton.md) gives the procurement team
    the source-identified parts (off-the-shelf commodity) and the
    TBD parts (where the fabricator bids on make-or-buy).
-4. [`drawing-register.md`](drawing-register.md) turns the v2 CAD
-   pack into controlled drawing IDs, supplier document requirements,
-   and release gates.
+4. [`drawing-register.md`](drawing-register.md) turns the current CAD
+   package and v2 detail work into controlled drawing IDs, supplier
+   document requirements, and release gates.
 5. [`compliance.md`](compliance.md) lists the test campaigns the
    type-approval needs; each is a separately-tendered scope with
    an accredited test house.
-6. The v2 CAD pack (not yet produced) is the cut-list / NC code
-   / welding-robot path artefact that goes on the shop floor.
+6. The current STEP/PNG package supports design review. The v2
+   production CAD pack adds cut-lists, NC code, flat patterns,
+   tolerance-controlled drawings, and welding-robot path artifacts for
+   the shop floor.
 
 ## Licensing
 

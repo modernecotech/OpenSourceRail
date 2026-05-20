@@ -171,31 +171,19 @@ these terms.
 This snapshot is **v0.1**. There is no breakage policy yet —
 the repo is pre-1.0 and interfaces can change.
 
-Next milestone (**v0.2**) planned scope:
+Next milestone (**v0.2**) work is tracked in
+[`docs/ROADMAP.md`](docs/ROADMAP.md). Several originally planned
+items have already landed after the v0.1 snapshot, including the DIY
+electronics cookbook, `osr-selftest`, commercial-tool gap-closing in
+`osr-alignment`, turnout/depot/clearance/accessibility CAD, and the
+crashworthiness scaffold. The remaining high-value v0.2 targets are:
 
-- DIY electronics cookbook (RFC 0019) with per-host-class
-  commercial-module BOMs — **LANDED**.
-- `osr-selftest` per-role commissioning CLI — **LANDED**. Runs
-  known-good-fixture checks for each DIY-assembled SoC; the
-  per-unit evidence stamp the custom-PCB path gets from
-  flying-probe tests.
-- **Commercial-tool gap-closing (Tier 1 from the Bentley OpenRail
-  comparison) — LANDED:**
-  - `osr-alignment` crate: horizontal + vertical alignment with
-    cant schedule, LandXML + railML exports, stake-out CSV
-    generator.
-  - Earthworks quantities (cut / fill / rail tonnage / sleeper
-    count / ballast / concrete) in `osr-alignment::earthworks`.
-  - Trackside-equipment placement (axle counters, balises, radio
-    masts, cable cabinets) in `osr-alignment::trackside`.
-  - Parametric turnout CAD (1:9 / 1:14 / 1:18.5) in
-    `osr_mech.track.turnout`.
-  - Parametric depot CAD (three archetypes) in `osr_mech.depot`.
-  - Gauge-clearance swept-solid check (EN 15273 baseline) in
-    `osr_mech.clearance`.
-  - PRM accessibility zones (EN 16584-1/3) in `osr_mech.accessibility`.
-  - Crashworthiness scaffold (EN 15227 three-zone allocation) —
-    RFC 0020 + `osr_mech.crashworthiness`.
-- RFC 0017 v2 — secbus wired into consensus.
-- Residual-risk narrative in the certification pack.
-- First external review feedback incorporated.
+- RFC 0017 v2 — secbus verification wired into the live consensus
+  receive path.
+- KiCad, gerber, board BOM, and assembly outputs for the v2-spec
+  hardware host classes.
+- Rolling-stock production-detail package: supplier-exact envelopes,
+  weld maps, tolerance stacks, FEA-ready brackets, and release
+  drawings.
+- Residual-risk narrative and first external safety/operator review
+  feedback incorporated into the certification pack.
