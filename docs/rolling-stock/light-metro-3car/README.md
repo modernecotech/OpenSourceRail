@@ -74,6 +74,10 @@ and render to these design-review PNGs:
 |---|---|
 | [`trainset-light-metro-3car.png`](../../../docs/screenshots/trainset-light-metro-3car.png) | Final 3-car trainset assembly with car bodies, bogies, cowls, couplers, inter-car articulation, and train systems |
 | [`trainset-car-detail.png`](../../../docs/screenshots/trainset-car-detail.png) | 17 m layered car body: structure, door/window openings, glazing, livery, roof PV/HVAC, interior, ducts, LV/data and HV/thermal routes |
+| [`trainset-car-body-structure.png`](../../../docs/screenshots/trainset-car-body-structure.png) | Primary fabricated structure: shell, floor pan, side sills, crossmembers, roof cantrails, and door portals |
+| [`trainset-car-body-exterior.png`](../../../docs/screenshots/trainset-car-body-exterior.png) | Solar-train exterior layer: glazing, door leaves, livery band, roof PV/HVAC, and service skirts |
+| [`trainset-car-body-interior.png`](../../../docs/screenshots/trainset-car-body-interior.png) | Passenger interior layer: under-seat battery strakes, benches, PRM bays, grab poles, handrails, and PIS |
+| [`trainset-car-body-services.png`](../../../docs/screenshots/trainset-car-body-services.png) | Service layers: HVAC ducts, LV/data trays, lighting, CCTV/intercoms, HV/PV routing, coolant, and battery fire vents |
 | [`trainset-interior-fit-out.png`](../../../docs/screenshots/trainset-interior-fit-out.png) | COTS passenger fit-out envelopes inside the car body |
 | [`trainset-body-sheet-metal-kit.png`](../../../docs/screenshots/trainset-body-sheet-metal-kit.png) | Sheet-metal/chassis manufacturing kit: underframe, bolsters, coupler pockets, side posts, rails, roof bows, end rings |
 | [`trainset-car-systems.png`](../../../docs/screenshots/trainset-car-systems.png) | One self-contained car systems package: doors, batteries, traction power rack, charging connector, and accessibility/safety reservations |

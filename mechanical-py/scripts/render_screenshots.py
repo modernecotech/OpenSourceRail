@@ -34,7 +34,14 @@ from mpl_toolkits.mplot3d.art3d import Poly3DCollection
 from PIL import Image, ImageChops
 
 from osr_mech.common import ConsistFamily, StationArchetype
-from osr_mech.rolling_stock.car_body import CarDimensions, car_body
+from osr_mech.rolling_stock.car_body import (
+    CarDimensions,
+    car_body,
+    car_body_exterior,
+    car_body_interior,
+    car_body_services,
+    car_body_structure,
+)
 from osr_mech.rolling_stock.cots_equipment import fit_out_car_body
 from osr_mech.rolling_stock.trainset import trainset
 from osr_mech.station.canopy import station_canopy
@@ -449,6 +456,46 @@ def render_all(out_root: Path) -> None:
         azim=-90.1,  # -90 exactly is a degenerate case; nudge slightly
         figsize=(14, 3.2),
         dpi=200,
+    )
+
+    # 3a. Layered body subassemblies. These are intentionally separate
+    # from the final car render so the current build123d hierarchy is
+    # visible in docs without opening a CAD viewer.
+    _render(
+        car_body_structure(CarDimensions()),
+        out_root / "trainset-car-body-structure.png",
+        tolerance_mm=5.0,
+        elev=16,
+        azim=-55,
+        figsize=(13, 4.5),
+        dpi=180,
+    )
+    _render(
+        car_body_exterior(CarDimensions()),
+        out_root / "trainset-car-body-exterior.png",
+        tolerance_mm=4.0,
+        elev=8,
+        azim=-80,
+        figsize=(13, 4),
+        dpi=180,
+    )
+    _render(
+        car_body_interior(CarDimensions()),
+        out_root / "trainset-car-body-interior.png",
+        tolerance_mm=5.0,
+        elev=18,
+        azim=-55,
+        figsize=(13, 4.5),
+        dpi=180,
+    )
+    _render(
+        car_body_services(CarDimensions()),
+        out_root / "trainset-car-body-services.png",
+        tolerance_mm=4.0,
+        elev=18,
+        azim=-55,
+        figsize=(13, 4.5),
+        dpi=180,
     )
 
     # 4. Fit-out car body — structural shell + all COTS envelopes in

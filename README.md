@@ -132,6 +132,10 @@ Selected generated design views:
 
 ![Complete light-metro 3-car trainset](docs/screenshots/trainset-light-metro-3car.png)
 
+![Layered car body services](docs/screenshots/trainset-car-body-services.png)
+
+![Layered car body structure](docs/screenshots/trainset-car-body-structure.png)
+
 ![Body and chassis sheet-metal kit](docs/screenshots/trainset-body-sheet-metal-kit.png)
 
 ![Per-car systems assembly](docs/screenshots/trainset-car-systems.png)

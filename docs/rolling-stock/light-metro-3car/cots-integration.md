@@ -78,8 +78,12 @@ The same part families are visible in the generated screenshots:
 | View | What to inspect |
 |---|---|
 | [`trainset-light-metro-3car.png`](../../../docs/screenshots/trainset-light-metro-3car.png) | Whole-train layout, powered end cars, trailer middle car, cowls, roof PV, bogies |
-| [`trainset-car-detail.png`](../../../docs/screenshots/trainset-car-detail.png) | Windows, doors, livery band, skirts, solar array, HVAC |
-| [`trainset-interior-fit-out.png`](../../../docs/screenshots/trainset-interior-fit-out.png) | Seats, under-seat batteries, lighting, PIS, grab poles |
+| [`trainset-car-detail.png`](../../../docs/screenshots/trainset-car-detail.png) | Complete layered car body with windows, doors, solar array, HVAC, interior, electrical, and thermal routes |
+| [`trainset-car-body-structure.png`](../../../docs/screenshots/trainset-car-body-structure.png) | Primary fabricated shell, floor, side sills, crossmembers, roof rails, and door portals |
+| [`trainset-car-body-exterior.png`](../../../docs/screenshots/trainset-car-body-exterior.png) | Exterior glazing, door leaves, livery band, skirts, solar array, and compact HVAC roof units |
+| [`trainset-car-body-interior.png`](../../../docs/screenshots/trainset-car-body-interior.png) | Under-seat battery strakes, seats, wheelchair bays, grab poles, handrails, and PIS |
+| [`trainset-car-body-services.png`](../../../docs/screenshots/trainset-car-body-services.png) | HVAC ducting, LV/data trays, lighting, CCTV/intercoms, HV/PV routing, coolant, and fire vent paths |
+| [`trainset-interior-fit-out.png`](../../../docs/screenshots/trainset-interior-fit-out.png) | COTS passenger fit-out envelopes inside the body reservation |
 | [`trainset-car-systems.png`](../../../docs/screenshots/trainset-car-systems.png) | Batteries, doors, charging connector, wheelchair bays, systems layout |
 | [`trainset-door-system.png`](../../../docs/screenshots/trainset-door-system.png) | Door leaves, operator rail, lock/release, gap filler |
 | [`trainset-battery-pack.png`](../../../docs/screenshots/trainset-battery-pack.png) | Battery module set, HV contactor, fuse, BMS cabinet |
