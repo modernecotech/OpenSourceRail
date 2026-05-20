@@ -13,8 +13,9 @@ The train is built from three repeated 17 m car modules:
 
 | Zone | Fabricated parts | COTS / BID modules | Build123d source |
 |---|---|---|---|
-| End cowls | Steel crash frame, cowl backing ring, sensor window carrier | Dark RF-transparent glass, T-OBS LIDAR/radar/camera/ultrasonic pack, marker lights, washer/heater | [`sensor_cowl.py`](../../../mechanical-py/src/osr_mech/rolling_stock/sensor_cowl.py), [`systems.py`](../../../mechanical-py/src/osr_mech/rolling_stock/systems.py) |
+| End cowls | Steel crash frame, cowl backing ring, panoramic glass carrier, LED lamp brackets | Dark RF-transparent open end glass, T-OBS LIDAR/radar/camera/ultrasonic pack, LED headlamps, marker/DRL bars, washer/heater | [`sensor_cowl.py`](../../../mechanical-py/src/osr_mech/rolling_stock/sensor_cowl.py), [`systems.py`](../../../mechanical-py/src/osr_mech/rolling_stock/systems.py) |
 | Body side | S355 side frame, door portal, window rail, waist rail, composite skin | Window cassettes, door cassettes, green livery band, yellow thresholds | [`car_body.py`](../../../mechanical-py/src/osr_mech/rolling_stock/car_body.py) |
+| Stepped floor | Dropped low-floor centre pan, raised bogie-end deck supports, side plinth rails, transition steps | Phenolic/aluminium floor boards, rubber covering, step nosings, PRM floor finish | [`car_body.py`](../../../mechanical-py/src/osr_mech/rolling_stock/car_body.py), [`cad_templates/rolling_stock.py`](../../../mechanical-py/src/osr_mech/cad_templates/rolling_stock.py) |
 | Roof | Roof bows, PV/HVAC rails, cable tray brackets, composite fairings | Solar panel laminates, MPPT combiner, compact HVAC units, antennas | [`car_body.py`](../../../mechanical-py/src/osr_mech/rolling_stock/car_body.py) |
 | Under-seat bay | Battery tray rails, service covers, vent path, seat support rail | Na-ion modules, BMS, fuses, contactors, longitudinal seat modules | [`car_body.py`](../../../mechanical-py/src/osr_mech/rolling_stock/car_body.py), [`systems.py`](../../../mechanical-py/src/osr_mech/rolling_stock/systems.py) |
 | Underframe | Side sills, centre spine, cross bearers, bolsters, jacking pads | Aux inverter, HV cabling, cooling loops, brake/WSP harnesses | [`cad_templates/rolling_stock.py`](../../../mechanical-py/src/osr_mech/cad_templates/rolling_stock.py) |
@@ -83,6 +84,7 @@ The same part families are visible in the generated screenshots:
 | [`trainset-car-body-exterior.png`](../../../docs/screenshots/trainset-car-body-exterior.png) | Exterior glazing, door leaves, livery band, skirts, solar array, and compact HVAC roof units |
 | [`trainset-car-body-interior.png`](../../../docs/screenshots/trainset-car-body-interior.png) | Under-seat battery strakes, seats, wheelchair bays, grab poles, handrails, and PIS |
 | [`trainset-car-body-services.png`](../../../docs/screenshots/trainset-car-body-services.png) | HVAC ducting, LV/data trays, lighting, CCTV/intercoms, HV/PV routing, coolant, and fire vent paths |
+| [`trainset-open-glass-sensor-cowl.png`](../../../docs/screenshots/trainset-open-glass-sensor-cowl.png) | Open driverless front/back glass, LED headlamp clusters, marker/DRL bars, and nose livery |
 | [`trainset-interior-fit-out.png`](../../../docs/screenshots/trainset-interior-fit-out.png) | COTS passenger fit-out envelopes inside the body reservation |
 | [`trainset-car-systems.png`](../../../docs/screenshots/trainset-car-systems.png) | Batteries, doors, charging connector, wheelchair bays, systems layout |
 | [`trainset-door-system.png`](../../../docs/screenshots/trainset-door-system.png) | Door leaves, operator rail, lock/release, gap filler |

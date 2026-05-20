@@ -134,6 +134,8 @@ Selected generated design views:
 
 ![Layered car body services](docs/screenshots/trainset-car-body-services.png)
 
+![Open glass driverless sensor cowl](docs/screenshots/trainset-open-glass-sensor-cowl.png)
+
 ![Layered car body structure](docs/screenshots/trainset-car-body-structure.png)
 
 ![Body and chassis sheet-metal kit](docs/screenshots/trainset-body-sheet-metal-kit.png)

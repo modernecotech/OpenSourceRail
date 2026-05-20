@@ -13,12 +13,12 @@ Geometry:
   interface) to a smaller, lower rounded rectangle at the leading
   face (1800 mm wide × 2800 mm tall). Vertical edges of the cowl
   are filleted at 200 mm to match the car body.
-- Leading face carries three visual cutouts:
-  - A large central dark-glass sensor window (1200 × 1000 mm,
-    RF-transparent polycarbonate), giving the concept-image
-    panoramic glass-end look while radar + ultrasonic see through it.
-  - Two LED headlight clusters (200 × 120 mm) flanking the sensor
-    window.
+- Leading face carries a full-height dark panoramic glass end,
+  heated and RF-transparent, so passengers see through the front/back
+  of the driverless train while the T-OBS sensors see out through the
+  same aperture.
+- Two warm-white LED headlamp clusters plus slim marker/DRL bars sit
+  below the glass, outside the passenger sightline.
 - A livery band continues from the car body onto both flanks of
   the cowl — visual continuity between nose and car.
 
@@ -61,11 +61,16 @@ LEADING_FACE_HEIGHT_MM = 2800.0
 SENSOR_WINDOW_WIDTH_MM = 1200.0
 SENSOR_WINDOW_HEIGHT_MM = 1000.0
 SENSOR_WINDOW_INSET_MM = 80.0
-HEADLIGHT_WIDTH_MM = 200.0
-HEADLIGHT_HEIGHT_MM = 120.0
+PANORAMIC_GLASS_WIDTH_MM = 1500.0
+PANORAMIC_GLASS_HEIGHT_MM = 1780.0
+HEADLIGHT_WIDTH_MM = 260.0
+HEADLIGHT_HEIGHT_MM = 145.0
+MARKER_LIGHT_WIDTH_MM = 420.0
+MARKER_LIGHT_HEIGHT_MM = 42.0
 
 COLOR_SENSOR_WINDOW = Color(0.10, 0.12, 0.18)
 COLOR_HEADLIGHT = Color(0.98, 0.95, 0.85)
+COLOR_MARKER_LIGHT = Color(0.85, 0.94, 1.00)
 
 
 def _cowl_shell(car_width_mm: float, car_height_mm: float) -> Part:
@@ -89,13 +94,13 @@ def _cowl_shell(car_width_mm: float, car_height_mm: float) -> Part:
 
     cowl = body.part
 
-    # Sensor window — centred horizontally, at ~60 % of leading-face
-    # height.
-    window_centre_z = LEADING_FACE_HEIGHT_MM * 0.60
+    # Driverless panoramic glass — a large shared passenger/sensor
+    # aperture rather than a tiny driver windscreen.
+    window_centre_z = 1850.0
     window_cut = Box(
         SENSOR_WINDOW_INSET_MM + 20.0,
-        SENSOR_WINDOW_WIDTH_MM,
-        SENSOR_WINDOW_HEIGHT_MM,
+        PANORAMIC_GLASS_WIDTH_MM,
+        PANORAMIC_GLASS_HEIGHT_MM,
     ).locate(
         Location(
             (
@@ -107,7 +112,7 @@ def _cowl_shell(car_width_mm: float, car_height_mm: float) -> Part:
     )
     cowl = cowl - window_cut
 
-    # Headlights — two clusters flanking the sensor window, lower.
+    # Headlights and marker/DRL bars — mounted below the open glass end.
     for y_sign in (-1.0, 1.0):
         hc = Box(
             SENSOR_WINDOW_INSET_MM + 20.0,
@@ -117,26 +122,40 @@ def _cowl_shell(car_width_mm: float, car_height_mm: float) -> Part:
             Location(
                 (
                     COWL_LENGTH_MM - SENSOR_WINDOW_INSET_MM / 2.0,
-                    y_sign * (SENSOR_WINDOW_WIDTH_MM / 2.0 + HEADLIGHT_WIDTH_MM),
-                    window_centre_z - SENSOR_WINDOW_HEIGHT_MM * 0.35,
+                    y_sign * 530.0,
+                    720.0,
                 )
             )
         )
         cowl = cowl - hc
+        marker_cut = Box(
+            SENSOR_WINDOW_INSET_MM + 20.0,
+            MARKER_LIGHT_WIDTH_MM,
+            MARKER_LIGHT_HEIGHT_MM,
+        ).locate(
+            Location(
+                (
+                    COWL_LENGTH_MM - SENSOR_WINDOW_INSET_MM / 2.0,
+                    y_sign * 520.0,
+                    930.0,
+                )
+            )
+        )
+        cowl = cowl - marker_cut
 
     cowl.color = COLOR_BODY
-    cowl.label = "Sensor cowl shell"
+    cowl.label = "Open-glass driverless sensor cowl shell"
     return cowl
 
 
 def _sensor_window_insert() -> Part:
     """Dark polycarbonate panel filling the sensor aperture — the
     RF-transparent radar window."""
-    window_centre_z = LEADING_FACE_HEIGHT_MM * 0.60
+    window_centre_z = 1850.0
     p = Box(
         20.0,
-        SENSOR_WINDOW_WIDTH_MM - 20.0,
-        SENSOR_WINDOW_HEIGHT_MM - 20.0,
+        PANORAMIC_GLASS_WIDTH_MM - 20.0,
+        PANORAMIC_GLASS_HEIGHT_MM - 20.0,
     ).locate(
         Location(
             (
@@ -147,13 +166,12 @@ def _sensor_window_insert() -> Part:
         )
     )
     p.color = COLOR_SENSOR_WINDOW
-    p.label = "Sensor window (polycarbonate)"
+    p.label = "Open panoramic end glass (heated RF-transparent)"
     return p
 
 
 def _headlight_inserts() -> list[Part]:
     """Warm-white LED clusters filling each headlight aperture."""
-    window_centre_z = LEADING_FACE_HEIGHT_MM * 0.60
     out: list[Part] = []
     for y_sign in (-1.0, 1.0):
         p = Box(
@@ -164,14 +182,30 @@ def _headlight_inserts() -> list[Part]:
             Location(
                 (
                     COWL_LENGTH_MM - SENSOR_WINDOW_INSET_MM / 2.0,
-                    y_sign * (SENSOR_WINDOW_WIDTH_MM / 2.0 + HEADLIGHT_WIDTH_MM),
-                    window_centre_z - SENSOR_WINDOW_HEIGHT_MM * 0.35,
+                    y_sign * 530.0,
+                    720.0,
                 )
             )
         )
         p.color = COLOR_HEADLIGHT
-        p.label = "Headlight (LED)"
+        p.label = "LED headlamp cluster"
         out.append(p)
+        marker = Box(
+            18.0,
+            MARKER_LIGHT_WIDTH_MM - 20.0,
+            MARKER_LIGHT_HEIGHT_MM - 8.0,
+        ).locate(
+            Location(
+                (
+                    COWL_LENGTH_MM - SENSOR_WINDOW_INSET_MM / 2.0,
+                    y_sign * 520.0,
+                    930.0,
+                )
+            )
+        )
+        marker.color = COLOR_MARKER_LIGHT
+        marker.label = "LED marker and daytime-running light bar"
+        out.append(marker)
     return out
 
 
@@ -209,7 +243,7 @@ def sensor_cowl(
     car_width_mm: float = 2850.0,
     car_height_mm: float = 3450.0,
 ) -> Compound:
-    """Full sensor cowl: shell + sensor window + headlights + livery.
+    """Full sensor cowl: open end glass + sensors + LED lighting + livery.
 
     Origin: at the car-body interface face, centred on car centreline,
     at floor level (z = 0 is rail head). The cowl extends in +X
@@ -229,6 +263,10 @@ __all__ = [
     "HEADLIGHT_WIDTH_MM",
     "LEADING_FACE_HEIGHT_MM",
     "LEADING_FACE_WIDTH_MM",
+    "MARKER_LIGHT_HEIGHT_MM",
+    "MARKER_LIGHT_WIDTH_MM",
+    "PANORAMIC_GLASS_HEIGHT_MM",
+    "PANORAMIC_GLASS_WIDTH_MM",
     "SENSOR_WINDOW_HEIGHT_MM",
     "SENSOR_WINDOW_WIDTH_MM",
     "sensor_cowl",

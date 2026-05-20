@@ -23,7 +23,12 @@ from osr_mech.rolling_stock.bogie import (
     WHEEL_DIAMETER_MM,
     bogie_assembly,
 )
-from osr_mech.rolling_stock.car_body import CarDimensions, car_body
+from osr_mech.rolling_stock.car_body import (
+    HIGH_FLOOR_HEIGHT_MM,
+    LOW_FLOOR_HEIGHT_MM,
+    CarDimensions,
+    car_body,
+)
 from osr_mech.rolling_stock.cots_equipment import (
     CATALOGUE,
     Category,
@@ -37,6 +42,8 @@ from osr_mech.rolling_stock.sensor_cowl import (
     COWL_LENGTH_MM,
     LEADING_FACE_HEIGHT_MM,
     LEADING_FACE_WIDTH_MM,
+    PANORAMIC_GLASS_HEIGHT_MM,
+    PANORAMIC_GLASS_WIDTH_MM,
     sensor_cowl,
 )
 from osr_mech.rolling_stock.systems import BATTERY_MODULES_PER_CAR, car_systems
@@ -113,9 +120,14 @@ def test_car_body_exposes_complete_layered_design() -> None:
         "HVAC ducting layer",
         "Electrical and data routing layer",
         "High-voltage traction, PV, thermal, and fire routing layer",
-        "Low-floor stainless floor pan",
+        "Low-floor centre door and PRM floor pan",
+        "Raised high-floor bogie-end deck",
+        "Interior ramp between low centre and raised bogie floor",
+        "Lowered side sill through low-floor door zone",
+        "Raised side plinth over standard bogie zone",
         "Door portal header beam",
-        "Longitudinal bench seat base over battery module",
+        "Longitudinal bench seat base on raised bogie floor",
+        "Interior step tread to raised bogie-end floor",
         "HVAC ducting layer - centre supply plenum",
         "Electrical and data routing layer - LV/TCN cable tray",
         "High-voltage traction routing layer - under-seat DC tray",
@@ -124,6 +136,7 @@ def test_car_body_exposes_complete_layered_design() -> None:
     }
     missing = expected.difference(labels)
     assert not missing, f"missing layered car-body design labels: {sorted(missing)}"
+    assert HIGH_FLOOR_HEIGHT_MM > LOW_FLOOR_HEIGHT_MM
 
 
 def test_sensor_cowl_has_sensor_window() -> None:
@@ -140,6 +153,17 @@ def test_sensor_cowl_has_sensor_window() -> None:
     leading_area = LEADING_FACE_WIDTH_MM * LEADING_FACE_HEIGHT_MM
     untapered = (interface_area + leading_area) / 2.0 * COWL_LENGTH_MM
     assert v < untapered, "cowl volume should be below the average cross-section × length"
+    labels = _labels_recursive(cowl)
+    expected = {
+        "Open-glass driverless sensor cowl shell",
+        "Open panoramic end glass (heated RF-transparent)",
+        "LED headlamp cluster",
+        "LED marker and daytime-running light bar",
+    }
+    missing = expected.difference(labels)
+    assert not missing, f"missing driverless nose details: {sorted(missing)}"
+    assert PANORAMIC_GLASS_WIDTH_MM >= 0.75 * LEADING_FACE_WIDTH_MM
+    assert PANORAMIC_GLASS_HEIGHT_MM >= 0.60 * LEADING_FACE_HEIGHT_MM
 
 
 def test_bogie_dimensions_are_consistent() -> None:

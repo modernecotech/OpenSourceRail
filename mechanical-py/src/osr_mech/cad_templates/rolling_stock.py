@@ -54,6 +54,27 @@ def main_frame(params: TemplateParams = DEFAULT_PARAMS) -> Compound:
     )
     parts.extend([left_beam, right_beam])
 
+    parts.append(
+        _with_label(
+            Box(length=6400.0, width=width - 520.0, height=70.0).locate(Location((0.0, 0.0, -110.0))),
+            "Dropped low-floor centre pan fixture",
+        )
+    )
+    for x_sign in (-1.0, 1.0):
+        x = x_sign * (length / 2.0 - 2380.0)
+        parts.append(
+            _with_label(
+                Box(length=4200.0, width=width - 460.0, height=170.0).locate(Location((x, 0.0, 260.0))),
+                "Raised high-floor bogie-end deck support",
+            )
+        )
+        parts.append(
+            _with_label(
+                Box(length=1100.0, width=width - 600.0, height=85.0).locate(Location((x_sign * 3750.0, 0.0, 90.0))),
+                "Stepped transition support between low and high floor",
+            )
+        )
+
     cross_count = max(1, int(length / params.cross_spacing_mm))
     for index in range(1, cross_count):
         x = -length / 2 + index * params.cross_spacing_mm
@@ -238,6 +259,19 @@ def body_sheet_metal_kit(params: TemplateParams = DEFAULT_PARAMS) -> Compound:
                 "Pressed waist rail",
             )
         )
+        parts.append(
+            _with_label(
+                Box(length=6400.0, width=90.0, height=180.0).locate(Location((0.0, y, 520.0))),
+                "Lowered side rail at low-floor door zone",
+            )
+        )
+        for x_sign in (-1.0, 1.0):
+            parts.append(
+                _with_label(
+                    Box(length=4200.0, width=95.0, height=260.0).locate(Location((x_sign * (length / 2.0 - 2380.0), y, 780.0))),
+                    "Raised side plinth rail over standard bogie",
+                )
+            )
     for x in (-7600.0, -5600.0, -3600.0, -1600.0, 1600.0, 3600.0, 5600.0, 7600.0):
         parts.append(
             _with_label(

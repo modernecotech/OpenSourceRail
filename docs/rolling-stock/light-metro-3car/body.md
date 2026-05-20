@@ -12,7 +12,7 @@ Each 17.0 m car is split into four production zones:
 
 | Zone | Construction | Function |
 |---|---|---|
-| Underframe ladder | Cut/bend/weld S355 steel box and folded plate | Carries buff/compression, bogie pivots, battery boxes, coupler loads |
+| Stepped underframe ladder | Cut/bend/weld S355 steel box and folded plate | Carries buff/compression, bogie pivots, battery boxes, coupler loads; drops through the centre door/PRM zone and rises over standard bogies |
 | Side/roof spaceframe | S355 rectangular hollow section | Door posts, window rails, roof equipment rails, composite panel support |
 | Composite exterior | Fire-rated glass-fibre or basalt-fibre sandwich panels | Weather skin, insulation, aerodynamics, livery surface |
 | Interior cassette | COTS panels, seats, lights, grab rails, PIS, HVAC ducting | Passenger finish and replaceable equipment |
@@ -26,7 +26,7 @@ The build123d implementation follows the same hierarchy in
 
 | build123d subassembly | Included layers |
 |---|---|
-| `car_body_structure()` | Welded shell, low-floor pan, side sills, crossmembers, roof cantrails, door portal posts and headers |
+| `car_body_structure()` | Welded shell, 350 mm low-floor centre pan, 760 mm high-floor bogie-end decks, transition ramps/steps, side sills, raised bogie plinths, crossmembers, roof cantrails, door portal posts and headers |
 | `car_body_exterior()` | Solar-train exterior skin: glazing, door leaves, livery band, removable skirts, roof PV array, compact HVAC roof units |
 | `car_body_interior()` | Under-seat battery strakes, longitudinal seats, PRM bays, grab poles, handrails, passenger information displays |
 | `car_body_services()` | HVAC supply/return/drop ducts, LV/TCN cable trays, LED lighting, CCTV, intercoms, door harness loops, HV traction/PV routing, coolant pipes, battery fire vent paths |
@@ -48,6 +48,13 @@ The underframe is a jig-welded ladder:
 | Bogie bolster | Folded/welded 12 mm plate box | S355J2 | Machined centre-pivot insert after weld |
 | Coupler pocket | 16 mm folded plate + crush can interface | S355J2 | EN 15227 energy absorber bolts on |
 | Battery tray rail | 80 × 60 × 5 mm RHS | S355J2 | Under-seat module cassette support |
+
+The floor is not flat. The centre door and wheelchair bay sit at
+350 mm above top-of-rail for platform boarding. The end saloon zones
+rise to 760 mm over the standard bogies, with short interior steps and
+ramp panels between the zones. The body sides therefore use a lowered
+side sill through the centre door bay and raised plinth rails over the
+bogie zones.
 
 All primary welds are made in a rotating fixture so flat/horizontal
 weld positions dominate. The v2 drawing pack assigns EN 15085 weld
@@ -81,7 +88,7 @@ frame:
 |---|---|---|
 | Side skin | 25-35 mm fire-rated GFRP or basalt-fibre sandwich | Structural adhesive + M6/M8 retained fasteners |
 | Roof fairing | 20-30 mm composite sandwich | Bolted to roof bows; removable above HVAC/equipment |
-| Nose/sensor cowl | Moulded composite shell over steel crash frame | Bolted; sacrificial and replaceable |
+| Nose/sensor cowl | Moulded composite shell over steel crash frame | Bolted; sacrificial and replaceable; large heated RF-transparent glass end with LED headlamp/marker clusters |
 | Skirts | Composite or aluminium removable panels | Quarter-turn service fasteners |
 | Interior liners | EN 45545 HL2 FRP or phenolic panels | Clip/bolt to secondary rails |
 

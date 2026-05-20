@@ -43,6 +43,7 @@ from osr_mech.rolling_stock.car_body import (
     car_body_structure,
 )
 from osr_mech.rolling_stock.cots_equipment import fit_out_car_body
+from osr_mech.rolling_stock.sensor_cowl import sensor_cowl
 from osr_mech.rolling_stock.trainset import trainset
 from osr_mech.station.canopy import station_canopy
 
@@ -496,6 +497,16 @@ def render_all(out_root: Path) -> None:
         azim=-55,
         figsize=(13, 4.5),
         dpi=180,
+    )
+
+    _render(
+        sensor_cowl(),
+        out_root / "trainset-open-glass-sensor-cowl.png",
+        tolerance_mm=3.0,
+        elev=12,
+        azim=-35,
+        figsize=(8, 5),
+        dpi=190,
     )
 
     # 4. Fit-out car body — structural shell + all COTS envelopes in

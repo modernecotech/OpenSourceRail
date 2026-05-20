@@ -15,8 +15,9 @@
 ```
 
 - **Three self-contained cars**, semi-permanently coupled.
-- **No driving cabs** — GoA 4 sensor cowls at both ends per
-  RFC 0015.
+- **No driving cabs** — GoA 4 open-glass sensor cowls at both ends
+  per RFC 0015, with heated RF-transparent glass, T-OBS sensors, and
+  LED headlamp / marker-light clusters.
 - **Six bogies total** — two standard 2-axle bogies per car.
 - **Powered wheelsets:** one powered bogie at each outer end car,
   giving two powered bogies and four powered axles across the consist.
@@ -34,7 +35,7 @@
 | Car C length | 17 000 mm | modular car envelope |
 | Body width (outer) | 2 850 mm | concept envelope, fits UIC 505-1 gauge |
 | Height over rail (roof) | 3 450 mm | concept envelope, before roof equipment |
-| Floor height (above top-of-rail) | 350 mm centre door zone; raised over bogies | low-floor access with standard bogies |
+| Floor height (above top-of-rail) | 350 mm centre door/PRM zone; 760 mm high-floor end decks over bogies | low-floor access with standard bogies |
 | Bogie wheelbase | 2 100 mm | RFC 0022 single-SKU bogie |
 | Wheel diameter (new / worn) | 760 / 680 mm | RFC 0022 |
 | Inter-bogie distance (within a car) | 11 000 mm | modular car envelope |
@@ -70,9 +71,10 @@ presets (`heritage-tram` / `standard-urban` / `standard-metro`
 
 ## Platform clearance
 
-- Low-floor centre door zone at 350 mm ToR platform height. Raised
-  floor over the bogies is inside the saloon, away from the boarding
-  threshold.
+- Low-floor centre door and PRM zone at 350 mm ToR platform height.
+  Each car steps/rises to high-floor end decks over the standard
+  bogies; those raised zones are inside the saloon, away from the
+  boarding threshold.
 - Horizontal gap at door sill: ≤ 75 mm per UIC 741. Achieved by
   a 40 mm sliding skirt at each door that extends on dwell
   (retracted in motion).

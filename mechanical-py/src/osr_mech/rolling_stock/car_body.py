@@ -103,6 +103,11 @@ COLOR_THERMAL = Color(0.10, 0.46, 0.60)
 COLOR_SAFETY = Color(0.92, 0.68, 0.12)
 
 FLOOR_PLATE_THICKNESS_MM = 95.0
+LOW_FLOOR_HEIGHT_MM = DOOR_SILL_HEIGHT_MM
+HIGH_FLOOR_HEIGHT_MM = 760.0
+END_HIGH_FLOOR_LENGTH_MM = 4200.0
+LOW_FLOOR_CENTRE_LENGTH_MM = 6400.0
+FLOOR_TRANSITION_LENGTH_MM = 1100.0
 SIDE_SILL_HEIGHT_MM = 300.0
 ROOF_RAIL_HEIGHT_MM = 170.0
 CEILING_DUCT_Z_MM = 3130.0
@@ -381,14 +386,50 @@ def _floor_and_structure(dims: CarDimensions) -> list[Part]:
     """Fabricated underframe and load paths inside the body shell."""
 
     out: list[Part] = []
-    floor = Box(
-        dims.body_length_mm - 900.0,
+    low_floor = Box(
+        LOW_FLOOR_CENTRE_LENGTH_MM,
         dims.body_width_mm - 240.0,
         FLOOR_PLATE_THICKNESS_MM,
-    ).locate(Location((0.0, 0.0, FLOOR_PLATE_THICKNESS_MM / 2.0)))
-    floor.color = COLOR_STRUCTURE
-    floor.label = "Low-floor stainless floor pan"
-    out.append(floor)
+    ).locate(Location((0.0, 0.0, LOW_FLOOR_HEIGHT_MM - FLOOR_PLATE_THICKNESS_MM / 2.0)))
+    low_floor.color = COLOR_STRUCTURE
+    low_floor.label = "Low-floor centre door and PRM floor pan"
+    out.append(low_floor)
+
+    for x_sign in (-1.0, 1.0):
+        high_floor = Box(
+            END_HIGH_FLOOR_LENGTH_MM,
+            dims.body_width_mm - 300.0,
+            FLOOR_PLATE_THICKNESS_MM,
+        ).locate(
+            Location(
+                (
+                    x_sign * (dims.body_length_mm / 2.0 - END_HIGH_FLOOR_LENGTH_MM / 2.0 - 280.0),
+                    0.0,
+                    HIGH_FLOOR_HEIGHT_MM - FLOOR_PLATE_THICKNESS_MM / 2.0,
+                )
+            )
+        )
+        high_floor.color = COLOR_STRUCTURE
+        high_floor.label = "Raised high-floor bogie-end deck"
+        out.append(high_floor)
+
+        ramp_x = x_sign * (LOW_FLOOR_CENTRE_LENGTH_MM / 2.0 + FLOOR_TRANSITION_LENGTH_MM / 2.0)
+        ramp = Box(
+            FLOOR_TRANSITION_LENGTH_MM,
+            dims.body_width_mm - 360.0,
+            70.0,
+        ).locate(
+            Location(
+                (
+                    ramp_x,
+                    0.0,
+                    (LOW_FLOOR_HEIGHT_MM + HIGH_FLOOR_HEIGHT_MM) / 2.0,
+                )
+            )
+        )
+        ramp.color = COLOR_INTERIOR
+        ramp.label = "Interior ramp between low centre and raised bogie floor"
+        out.append(ramp)
 
     for y_sign in (-1.0, 1.0):
         y = y_sign * (dims.body_width_mm / 2.0 - 135.0)
@@ -400,6 +441,33 @@ def _floor_and_structure(dims: CarDimensions) -> list[Part]:
         side_sill.color = COLOR_STRUCTURE
         side_sill.label = "Laser-cut side sill beam"
         out.append(side_sill)
+
+        centre_sill = Box(
+            LOW_FLOOR_CENTRE_LENGTH_MM + 2 * FLOOR_TRANSITION_LENGTH_MM,
+            140.0,
+            220.0,
+        ).locate(Location((0.0, y_sign * (dims.body_width_mm / 2.0 - 120.0), LOW_FLOOR_HEIGHT_MM - 110.0)))
+        centre_sill.color = COLOR_STRUCTURE
+        centre_sill.label = "Lowered side sill through low-floor door zone"
+        out.append(centre_sill)
+
+        for x_sign in (-1.0, 1.0):
+            plinth = Box(
+                END_HIGH_FLOOR_LENGTH_MM,
+                120.0,
+                310.0,
+            ).locate(
+                Location(
+                    (
+                        x_sign * (dims.body_length_mm / 2.0 - END_HIGH_FLOOR_LENGTH_MM / 2.0 - 280.0),
+                        y_sign * (dims.body_width_mm / 2.0 - 105.0),
+                        HIGH_FLOOR_HEIGHT_MM - 155.0,
+                    )
+                )
+            )
+            plinth.color = COLOR_STRUCTURE
+            plinth.label = "Raised side plinth over standard bogie zone"
+            out.append(plinth)
 
         roof_rail = Box(
             dims.body_length_mm - 1300.0,
@@ -462,26 +530,49 @@ def _interior_fit_out(dims: CarDimensions) -> list[Part]:
 
     out: list[Part] = []
     for x, width in _window_zones(dims):
+        on_high_floor = abs(x) > LOW_FLOOR_CENTRE_LENGTH_MM / 2.0
+        seat_base_z = (HIGH_FLOOR_HEIGHT_MM + 170.0) if on_high_floor else 520.0
+        seat_back_z = (HIGH_FLOOR_HEIGHT_MM + 500.0) if on_high_floor else 850.0
+        seat_label = (
+            "Longitudinal bench seat base on raised bogie floor"
+            if on_high_floor
+            else "Longitudinal bench seat base over battery module"
+        )
         for y_sign in (-1.0, 1.0):
             seat_base = Box(width - 240.0, 360.0, 120.0).locate(
-                Location((x, y_sign * (dims.body_width_mm / 2.0 - 380.0), 520.0))
+                Location((x, y_sign * (dims.body_width_mm / 2.0 - 380.0), seat_base_z))
             )
             seat_base.color = COLOR_INTERIOR
-            seat_base.label = "Longitudinal bench seat base over battery module"
+            seat_base.label = seat_label
             out.append(seat_base)
 
             back = Box(width - 240.0, 70.0, 660.0).locate(
-                Location((x, y_sign * (dims.body_width_mm / 2.0 - 205.0), 850.0))
+                Location((x, y_sign * (dims.body_width_mm / 2.0 - 205.0), seat_back_z))
             )
             back.color = COLOR_INTERIOR
             back.label = "Longitudinal bench seat back"
             out.append(back)
 
     for x in (-2700.0, 2700.0):
-        bay = Box(1450.0, 860.0, 36.0).locate(Location((x, 0.0, 135.0)))
+        bay = Box(1450.0, 860.0, 36.0).locate(Location((x, 0.0, LOW_FLOOR_HEIGHT_MM + 18.0)))
         bay.color = COLOR_SAFETY
         bay.label = "PRM wheelchair bay clear floor layer"
         out.append(bay)
+
+    for x_sign in (-1.0, 1.0):
+        for step_index, z in enumerate((LOW_FLOOR_HEIGHT_MM + 95.0, LOW_FLOOR_HEIGHT_MM + 235.0)):
+            step = Box(760.0, dims.body_width_mm - 620.0, 45.0).locate(
+                Location(
+                    (
+                        x_sign * (LOW_FLOOR_CENTRE_LENGTH_MM / 2.0 + 280.0 + step_index * 360.0),
+                        0.0,
+                        z,
+                    )
+                )
+            )
+            step.color = COLOR_SAFETY
+            step.label = "Interior step tread to raised bogie-end floor"
+            out.append(step)
 
     for x in (-6100.0, -3500.0, -1200.0, 1200.0, 3500.0, 6100.0):
         pole = Box(70.0, 70.0, 2400.0).locate(Location((x, 0.0, 1540.0)))
@@ -740,6 +831,11 @@ __all__ = [
     "DOOR_HEIGHT_MM",
     "DOOR_SILL_HEIGHT_MM",
     "DOOR_WIDTH_MM",
+    "END_HIGH_FLOOR_LENGTH_MM",
+    "FLOOR_TRANSITION_LENGTH_MM",
+    "HIGH_FLOOR_HEIGHT_MM",
+    "LOW_FLOOR_CENTRE_LENGTH_MM",
+    "LOW_FLOOR_HEIGHT_MM",
     "WINDOW_HEIGHT_MM",
     "WINDOW_SILL_MM",
     "car_body",

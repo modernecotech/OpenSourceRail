@@ -3,12 +3,13 @@
 Every trainset in the OpenSourceRail default configuration ships as
 GoA 4 (unattended) with no driver cab. The geometry reflects that:
 
-- Both car ends are symmetrical nose cowls holding the T-OBS sensor
-  pack (ultrasonic × 4 + LIDAR + radar + stereo cameras) per
-  RFC 0015 §5.1.
-- Passenger floor extends end-to-end; the only non-passenger zone
-  inside the lead and rear cars is the locked recovery-mode cabinet
-  (RFC 0015 §8.2).
+- Both train ends are symmetrical open-glass nose cowls: passengers
+  can see through the driverless front/back, while the same heated
+  RF-transparent glass carries the T-OBS sensor sightline and LED
+  headlamp / marker-light clusters per RFC 0015 §5.1.
+- Passenger floor is stepped because all cars use standard bogies:
+  high-floor end zones sit over the bogies, while the centre door and
+  PRM zone stays at the 350 mm low-floor platform datum.
 - Bogie spacing, door openings, and coupler faces follow the RFC 0008
   §3 reference-design dimensions for each consist family.
 
@@ -18,7 +19,8 @@ Scope for v0.1:
                        structure, exterior, interior, HVAC, electrical,
                        HV/PV, thermal, and fire-routing layers.
 - `bogie`           — detailed 2-axle motor/trailer bogie assemblies.
-- `sensor_cowl`     — nose cone with through-holes for sensors.
+- `sensor_cowl`     — open driverless glass end with T-OBS aperture,
+                       LED headlamps, marker lights, and livery band.
 - `systems`         — supplier-neutral envelopes for couplers,
                        articulation, doors, batteries, traction power,
                        electronics cabinets, charging, PRM/safety, T-OBS.

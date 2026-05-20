@@ -29,8 +29,11 @@ This BOM is keyed to the visual and layout concept in
   freight trailer bogies.
 - 4 traction motors total, 600 kW peak consist output.
 - Roof solar arrays on each car, with compact end HVAC modules.
-- Wide passenger windows, large dark glass end cowls, white/silver
-  body shell, green waist band, dark skirts, and yellow door thresholds.
+- Wide passenger windows, open dark glass driverless end cowls with
+  LED headlamp/marker clusters, white/silver body shell, green waist
+  band, dark skirts, and yellow door thresholds.
+- Standard bogies under every car, requiring high-floor end decks over
+  the bogies and a low-floor centre door/PRM zone.
 - Batteries remain under longitudinal seats, not on the roof or deep
   underframe.
 
@@ -45,11 +48,11 @@ This BOM is keyed to the visual and layout concept in
 | B5 | Shot blast + zinc-rich primer + cavity wax | set | SOURCE | 8 500 | Corrosion package |
 | B6 | Composite side sandwich panels, fire-rated | 150 m² | BID | 45 000 | GFRP/basalt FR sandwich |
 | B7 | Composite roof fairings + skirts | 95 m² | BID | 24 000 | Removable service panels |
-| B8 | Composite sensor cowl shells | 2 | BID | 12 000 | Sacrificial over steel crash frame |
+| B8 | Composite open-glass sensor cowl shells | 2 | BID | 12 000 | Sacrificial over steel crash frame; accepts panoramic glass and LED lamp clusters |
 | B9 | Articulation joint, Hübner RTS-B40 | 2 | BID | 90 000 | Or local equivalent |
 | B10 | COTS laminated safety-glass window cassette | 12 | SOURCE | 18 000 | Bonded/gasketed rail/bus unit |
 | B11 | COTS electric plug/sliding door cassette | 6 | BID | 150 000 | Door, controller, seals, emergency release |
-| B12 | Floor board + hatch system, EN 45545 | 135 m² | SOURCE | 16 200 | Phenolic/aluminium honeycomb |
+| B12 | Stepped floor board + hatch system, EN 45545 | 135 m² | SOURCE | 16 200 | 350 mm low centre, 760 mm high bogie-end decks, access hatches |
 | B13 | Vinyl/rubber floor covering, EN 45545 R5 | 135 m² | SOURCE | 5 400 | |
 | B14 | COTS longitudinal seat modules, EN 45545 R7 | 60 seats | SOURCE | 24 000 | Rail/bus bench modules |
 | B15 | COTS grab rail + stanchion kit | set | SOURCE | 8 000 | Stainless modular system |
@@ -64,7 +67,7 @@ This BOM is keyed to the visual and layout concept in
 | B24 | Inter-car articulation drag-chain + trainline harness | 2 | SOURCE | 12 000 | TCN-E, CAN-FD, 24 V, 110 V, EB loop |
 | B25 | Door sill gap-filler + external emergency release kit | 6 | BID | 18 000 | Per exterior door cassette |
 | B26 | Jacking, lifting, towing, and recovery fittings | set | MAKE | 8 000 | Welded pads, tow eyes, labels |
-| B27 | Large dark glass end-panel assemblies | 2 | BID | 44 000 | RF-transparent sensor glass aesthetic, heated/de-iced |
+| B27 | Large dark glass end-panel assemblies | 2 | BID | 44 000 | Open driverless passenger view, RF-transparent sensor glass, heated/de-iced |
 | B28 | Concept livery package: white/silver body, green band, yellow thresholds | set | SOURCE | 6 000 | Paint masks, vinyl safety edging, exterior decals |
 | **Body + interior subtotal** | | | | **694 800** | |
 

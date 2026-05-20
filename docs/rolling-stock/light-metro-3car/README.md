@@ -34,7 +34,11 @@ The governing visual/layout reference is
 [`solar-metro-trainset.png`](../../../docs/assets/solar-metro-trainset.png):
 white/silver body, green waist band, dark skirts, large glass ends,
 roof PV, low-floor centre doors, powered end cars, trailer middle car,
-and batteries under longitudinal seats.
+and batteries under longitudinal seats. The end glazing is an open
+driverless passenger view through heated RF-transparent glass with
+LED headlamp and marker-light clusters below it. Because the cars use
+standard bogies, each car has high-floor end decks over the bogies
+and a 350 mm low-floor centre door/PRM zone.
 
 COTS passenger-facing modules are controlled by the supplier-neutral
 envelope catalogue at
@@ -49,7 +53,7 @@ are generated handoff artifacts.
 |---|---|
 | [`trainset.py`](../../../mechanical-py/src/osr_mech/rolling_stock/trainset.py) | Family length, car count, motorisation, cowl/body/bogie assembly |
 | [`car_body.py`](../../../mechanical-py/src/osr_mech/rolling_stock/car_body.py) | 17 m body module as layered build123d subassemblies: primary structure, exterior/glazing/doors, interior, HVAC ducts, LV/data routing, HV/PV/thermal/fire paths |
-| [`sensor_cowl.py`](../../../mechanical-py/src/osr_mech/rolling_stock/sensor_cowl.py) | Large glass end cowl and T-OBS visual envelope |
+| [`sensor_cowl.py`](../../../mechanical-py/src/osr_mech/rolling_stock/sensor_cowl.py) | Open panoramic glass end, LED headlamps, marker lights, and T-OBS visual envelope |
 | [`systems.py`](../../../mechanical-py/src/osr_mech/rolling_stock/systems.py) | Couplers, articulations, batteries, doors, electronics, charging, T-OBS packs |
 | [`bogie/`](../../../mechanical-py/src/osr_mech/rolling_stock/bogie/) | Powered and converted-trailer bogie assemblies |
 | [`cad_templates/rolling_stock.py`](../../../mechanical-py/src/osr_mech/cad_templates/rolling_stock.py) | Sheet-metal/chassis manufacturing templates |
@@ -78,6 +82,7 @@ and render to these design-review PNGs:
 | [`trainset-car-body-exterior.png`](../../../docs/screenshots/trainset-car-body-exterior.png) | Solar-train exterior layer: glazing, door leaves, livery band, roof PV/HVAC, and service skirts |
 | [`trainset-car-body-interior.png`](../../../docs/screenshots/trainset-car-body-interior.png) | Passenger interior layer: under-seat battery strakes, benches, PRM bays, grab poles, handrails, and PIS |
 | [`trainset-car-body-services.png`](../../../docs/screenshots/trainset-car-body-services.png) | Service layers: HVAC ducts, LV/data trays, lighting, CCTV/intercoms, HV/PV routing, coolant, and battery fire vents |
+| [`trainset-open-glass-sensor-cowl.png`](../../../docs/screenshots/trainset-open-glass-sensor-cowl.png) | Driverless open glass end with panoramic RF-transparent glazing, LED headlamps, marker/DRL bars, and livery continuation |
 | [`trainset-interior-fit-out.png`](../../../docs/screenshots/trainset-interior-fit-out.png) | COTS passenger fit-out envelopes inside the car body |
 | [`trainset-body-sheet-metal-kit.png`](../../../docs/screenshots/trainset-body-sheet-metal-kit.png) | Sheet-metal/chassis manufacturing kit: underframe, bolsters, coupler pockets, side posts, rails, roof bows, end rings |
 | [`trainset-car-systems.png`](../../../docs/screenshots/trainset-car-systems.png) | One self-contained car systems package: doors, batteries, traction power rack, charging connector, and accessibility/safety reservations |
@@ -130,7 +135,7 @@ tolerances, and release drawings listed in
 | Passenger capacity (AW3 crush) | 420 short-duration crush load |
 | Onboard battery | 450 kWh Na-ion (150 kWh per car, under seats) |
 | Peak onboard motor output | 600 kW |
-| Floor height (above ToR) | Low-floor centre door zone; raised floor over standard bogies |
+| Floor height (above ToR) | 350 mm low-floor centre door/PRM zone; 760 mm high-floor end decks over standard bogies |
 | Gauge | 1 435 mm (default) or 1 000 mm (variant) |
 
 ## What v1 does NOT include
