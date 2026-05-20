@@ -38,6 +38,10 @@ from pathlib import Path
 import numpy as np
 
 
+REPO_ROOT = Path(__file__).resolve().parents[4]
+DEFAULT_RASTER_DIR = REPO_ROOT / ".cache" / "osr-pipeline" / "rasters"
+
+
 @dataclass
 class GridRef:
     h: int
@@ -298,7 +302,7 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument(
         "--raster-dir",
         type=Path,
-        default=Path("/home/hayder/Documents/OpenSourceRail/.cache/osr-pipeline/rasters"),
+        default=DEFAULT_RASTER_DIR,
     )
     ap.add_argument("--out", type=Path, default=None)
     args = ap.parse_args(argv)

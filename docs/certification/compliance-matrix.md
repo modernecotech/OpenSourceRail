@@ -288,5 +288,10 @@ deployment key registry (`osr-secbus`).
 - **1 clause** (§9.1 message authenticity) has library in
   tree but v2 wire integration open.
 
-No EN 62267 clause has an open gap at the stack level. Gaps
-are all on the deployment-partner side of the boundary.
+This matrix maps the clauses to implementation intent and current
+evidence. It does not close the full type-approval case by itself:
+message-auth wire integration, hardware release evidence,
+rolling-stock structural evidence, door-system certification, field
+sensor evidence, station-energy studies, assessor review, and
+deployment-specific staff competence remain tracked in
+[`release-gap-register.md`](release-gap-register.md).

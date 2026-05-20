@@ -43,6 +43,11 @@ templates. Remaining v0.2 production-detail work is supplier-exact
 SKUs, weld maps, tolerance stacks, FEA-ready brackets, harness clamp
 locations, and controlled 2D manufacturing drawings.
 
+Supplier-neutral fixture models intentionally remain generic until a
+procurement freeze. A selected SKU closes the CAD gap only when its
+datasheet envelope, mounting keep-outs, service-removal path, and
+revision are captured in build123d and the matching drawing register.
+
 ## Parametric inputs
 
 Every component takes its parameters from the RFC-level choices the

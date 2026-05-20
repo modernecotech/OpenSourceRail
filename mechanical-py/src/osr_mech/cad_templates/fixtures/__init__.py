@@ -1,19 +1,19 @@
-"""Placeholder COTS fixture envelopes for assembly integration."""
+"""Supplier-neutral COTS fixture envelopes for assembly integration."""
 
 from __future__ import annotations
 
 from build123d import Box, Compound, Cylinder, Location
 
 
-def anderson_sb50_placeholder() -> Compound:
+def anderson_sb50_envelope() -> Compound:
     """Anderson SB50 connector envelope."""
 
     c = Compound(children=[Box(length=60.0, width=35.0, height=25.0)])
-    c.label = "Anderson SB50 placeholder"
+    c.label = "Anderson SB50 reference envelope"
     return c
 
 
-def camloc_quarter_turn_placeholder() -> Compound:
+def camloc_quarter_turn_envelope() -> Compound:
     """Camloc quarter-turn fastener stud and receptacle envelope."""
 
     stud_dia = 12.0
@@ -25,51 +25,66 @@ def camloc_quarter_turn_placeholder() -> Compound:
         Location((0, 0, -receptacle_h))
     )
     c = Compound(children=[stud, receptacle])
-    c.label = "Camloc quarter-turn placeholder"
+    c.label = "Camloc quarter-turn reference envelope"
     return c
 
 
-def hiwin_hg_block_placeholder() -> Compound:
+def hiwin_hg_block_envelope() -> Compound:
     """HIWIN HG series linear guide block envelope."""
 
     c = Compound(children=[Box(length=120.0, width=60.0, height=40.0)])
-    c.label = "HIWIN HG block placeholder"
+    c.label = "HIWIN HG block reference envelope"
     return c
 
 
-def skf_ge_placeholder() -> Compound:
+def skf_ge_envelope() -> Compound:
     """SKF GE series spherical plain bearing envelope."""
 
     bearing = Cylinder(radius=50.0, height=40.0)
     inner = Cylinder(radius=25.0, height=42.0)
     c = Compound(children=[bearing.cut(inner)])
-    c.label = "SKF GE placeholder"
+    c.label = "SKF GE reference envelope"
     return c
 
 
-def stabilus_gas_strut_placeholder() -> Compound:
+def stabilus_gas_strut_envelope() -> Compound:
     """Stabilus gas strut body and rod envelope."""
 
     body = Cylinder(radius=10.0, height=300.0)
     rod = Cylinder(radius=5.0, height=150.0).locate(Location((0, 0, 150.0)))
     c = Compound(children=[body, rod])
-    c.label = "Stabilus gas strut placeholder"
+    c.label = "Stabilus gas strut reference envelope"
     return c
 
 
+# Backward-compatible aliases for older template imports. New code should
+# use the `_envelope` names because these are supplier-neutral reference
+# envelopes, not unfinished placeholders.
+anderson_sb50_placeholder = anderson_sb50_envelope
+camloc_quarter_turn_placeholder = camloc_quarter_turn_envelope
+hiwin_hg_block_placeholder = hiwin_hg_block_envelope
+skf_ge_placeholder = skf_ge_envelope
+stabilus_gas_strut_placeholder = stabilus_gas_strut_envelope
+
+
 FIXTURE_BUILDERS = {
-    "anderson_sb50_placeholder": anderson_sb50_placeholder,
-    "camloc_quarter_turn_placeholder": camloc_quarter_turn_placeholder,
-    "hiwin_hg_block_placeholder": hiwin_hg_block_placeholder,
-    "skf_ge_placeholder": skf_ge_placeholder,
-    "stabilus_gas_strut_placeholder": stabilus_gas_strut_placeholder,
+    "anderson-sb50-envelope": anderson_sb50_envelope,
+    "camloc-quarter-turn-envelope": camloc_quarter_turn_envelope,
+    "hiwin-hg-block-envelope": hiwin_hg_block_envelope,
+    "skf-ge-envelope": skf_ge_envelope,
+    "stabilus-gas-strut-envelope": stabilus_gas_strut_envelope,
 }
 
 __all__ = [
     "FIXTURE_BUILDERS",
+    "anderson_sb50_envelope",
     "anderson_sb50_placeholder",
+    "camloc_quarter_turn_envelope",
     "camloc_quarter_turn_placeholder",
+    "hiwin_hg_block_envelope",
     "hiwin_hg_block_placeholder",
+    "skf_ge_envelope",
     "skf_ge_placeholder",
+    "stabilus_gas_strut_envelope",
     "stabilus_gas_strut_placeholder",
 ]

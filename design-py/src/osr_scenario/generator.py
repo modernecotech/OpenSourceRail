@@ -166,15 +166,32 @@ class ScenarioGenerator:
     def _scenario_header(self) -> str:
         name = self.design.get("design", {}).get("name", "Unnamed")
         slug = self.design.get("design", {}).get("id", "unnamed")
+        source_path = self._display_design_path()
         return (
-            f"# AUTO-GENERATED from {self.design_path}.\n"
+            f"# AUTO-GENERATED from {source_path}.\n"
             f"# Do not hand-edit; run `python -m osr_scenario --design ...` to regenerate.\n"
-            f"# Source of truth: {self.design_path}\n"
+            f"# Source of truth: {source_path}\n"
             f"\n"
             f"[scenario]\n"
             f'name = "{_escape(name)}"\n'
             f'start_time = "06:00"\n'
         )
+
+    def _display_design_path(self) -> str:
+        """Return a stable source path for generated comments.
+
+        Generated scenarios are committed to the repository, so comments
+        must not include developer-specific absolute paths such as
+        `/home/alice/...`. The templates directory is always
+        `<repo>/lib/templates`; use it to derive the repo root when
+        possible, and fall back to the provided path for out-of-tree use.
+        """
+
+        repo_root = self.templates_root.parent.parent.resolve()
+        try:
+            return self.design_path.resolve().relative_to(repo_root).as_posix()
+        except ValueError:
+            return self.design_path.as_posix()
 
     def _climate_section(self) -> str:
         clim = self.design.get("climate", {})

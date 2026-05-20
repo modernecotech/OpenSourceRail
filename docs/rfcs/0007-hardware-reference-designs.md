@@ -504,10 +504,12 @@ without hardware, so the bring-up is a migration, not a redesign.
   first *physical* host; a second or third SoC family is additive,
   not breaking, so long as it exposes the same TCN-E / CAN-FD / GPIO
   surface specified in §§4–7.
-- **`hardware/` directory.** v0 of this RFC seeds the top-level
-  directory structure — one subdirectory per class, each with a
-  `README.md` stub and a placeholder for schematics / gerbers /
-  BOM. Skeleton lives in this commit; actual schematics land in v2.
+- **`hardware/` directory.** The top-level directory now carries one
+  subdirectory per class, board-level v2 specifications where
+  available, and an explicit
+  [`hardware/release-checklist.md`](../../hardware/release-checklist.md)
+  for KiCad, gerber, BOM, bring-up, and bench-evidence release gates.
+  A class is only fabrication-ready after that checklist is closed.
 - **Licensing.** All hardware designs under CERN-OHL-S v2 per
   [ARCHITECTURE.md §9](../ARCHITECTURE.md#9-roadmap). Documentation
   (this RFC) under CC-BY-SA 4.0. Firmware ports of existing crates

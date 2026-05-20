@@ -15,11 +15,11 @@ from math import cos, radians, sin
 from build123d import Box, Compound, Cylinder, Location
 
 from .fixtures import (
-    anderson_sb50_placeholder,
-    camloc_quarter_turn_placeholder,
-    hiwin_hg_block_placeholder,
-    skf_ge_placeholder,
-    stabilus_gas_strut_placeholder,
+    anderson_sb50_envelope,
+    camloc_quarter_turn_envelope,
+    hiwin_hg_block_envelope,
+    skf_ge_envelope,
+    stabilus_gas_strut_envelope,
 )
 from .params import DEFAULT_PARAMS, TemplateParams
 
@@ -292,14 +292,14 @@ def bogie_adapter() -> Compound:
     )
     guide_blocks = []
     for x in (plate_w * 0.32, plate_w * 0.68):
-        guide = hiwin_hg_block_placeholder().locate(
+        guide = hiwin_hg_block_envelope().locate(
             Location((x, plate_h / 2, plate_t + 32.0))
         )
         guide.label = "HIWIN HG guide block envelope"
         guide_blocks.append(guide)
     access_fasteners = []
     for x in (dowel_off, plate_w - dowel_off):
-        fastener = camloc_quarter_turn_placeholder().locate(
+        fastener = camloc_quarter_turn_envelope().locate(
             Location((x, plate_h / 2, plate_t + 18.0))
         )
         fastener.label = "Camloc access fastener envelope"
@@ -340,7 +340,7 @@ def bolster() -> Compound:
         Cylinder(radius=50.0, height=10.0).locate(Location((0, 0, -10.0))),
         "Bolster locating boss",
     )
-    bearing = skf_ge_placeholder().locate(Location((0, 0, plate_thickness / 2)))
+    bearing = skf_ge_envelope().locate(Location((0, 0, plate_thickness / 2)))
     bearing.label = "SKF GE spherical bearing envelope"
     hard_stops = []
     for y_sign in (-1.0, 1.0):
@@ -398,11 +398,11 @@ def motor_cradle() -> Compound:
     )
     plate_solid = plate_solid.cut(shim_slot)
     plate_solid.label = "Motor cradle machined plate"
-    connector = anderson_sb50_placeholder().locate(
+    connector = anderson_sb50_envelope().locate(
         Location((plate_l + 35.0, plate_w / 2, plate_t + 15.0))
     )
     connector.label = "Anderson SB50 traction connector envelope"
-    service_strut = stabilus_gas_strut_placeholder().locate(
+    service_strut = stabilus_gas_strut_envelope().locate(
         Location((-45.0, plate_w / 2, plate_t + 150.0))
     )
     service_strut.label = "Stabilus service strut envelope"

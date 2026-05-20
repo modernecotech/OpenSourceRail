@@ -4,6 +4,9 @@ This matrix separates what is already evidenced in the repository from
 what remains deployment or assessor work. It is not a safety approval;
 it is a coherence map for the pre-submission pack.
 
+For closure criteria on each open item, see
+[`release-gap-register.md`](release-gap-register.md).
+
 | Area | Current repository evidence | Status | Next action |
 |---|---|---|---|
 | Movement authority non-overlap | `osr-interlocking` unit/proptest/differential tests; RFC 0004 | Implemented + tested | Add assessor-reviewed trace from hazards to tests |
@@ -19,4 +22,5 @@ it is a coherence map for the pre-submission pack.
 
 The repo health gate (`scripts/repo-health.py`) guards generated design
 coherence. It is deliberately not a substitute for EN 50126/50128/50129
-assessment evidence.
+assessment evidence, hardware bench records, structural FEA, or
+deployment-specific field evidence.

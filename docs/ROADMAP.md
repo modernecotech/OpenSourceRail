@@ -16,6 +16,10 @@ It is a planning map, not a release contract.
 | Certification evidence | Residual-risk narrative, independent-assessor review notes, first-article field-evidence plan, and traceability updates |
 | Civil/station package | Survey-grade Samawah alignment replacement, per-span checks, station archetype variants, and deployment-specific assumptions |
 
+Open release gates for certification, hardware, rolling stock,
+civil/station, and operations are tracked in the relevant section
+checklists rather than left as implicit TODOs.
+
 ## v0.2 Definition Of Done
 
 - All top-level domains have local READMEs and current status notes.
@@ -26,4 +30,3 @@ It is a planning map, not a release contract.
   explicit KiCad/gerber/BOM gaps.
 - Certification and safety-case pages identify remaining external
   evidence rather than implying it already exists.
-

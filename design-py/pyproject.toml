@@ -1,8 +1,11 @@
 # design-py — Python sidecar for OpenSourceRail design generation.
 #
-# Two submodules:
+# Five submodules:
 #   osr_osm  — Overpass / Geofabrik fetchers with disk cache
 #   osr_geo  — cost / demand / buildability raster synthesis
+#   osr_batch — batch catalogue import and regeneration helpers
+#   osr_planner — station/line synthesis helpers
+#   osr_scenario — generated design.toml to simulator scenario emitter
 #
 # The Rust crates/osr-routing/ + crates/osr-design/ consume the artefacts
 # these modules produce. Python lives on this side of the boundary because
@@ -45,7 +48,9 @@ osr-osm-pull      = "osr_osm.cli:main"
 osr-geo-rasterize = "osr_geo.cli:main"
 osr-batch         = "osr_batch.cli:main"
 osr-cities-scan   = "osr_batch.geonames_import:main"
+osr-planner       = "osr_planner.__main__:main"
+osr-scenario      = "osr_scenario.__main__:main"
 
 [tool.setuptools.packages.find]
 where   = ["src"]
-include = ["osr_osm*", "osr_geo*", "osr_batch*"]
+include = ["osr_osm*", "osr_geo*", "osr_batch*", "osr_planner*", "osr_scenario*"]

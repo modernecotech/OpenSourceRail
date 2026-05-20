@@ -21,7 +21,9 @@ Each subdirectory has one file per rule block, numbered per the RFC.
 The rulebook now contains drafted one-decision rules with `Why:`
 rationales across dispatcher, station-staff, maintenance,
 control-centre, and legacy driver role families. Practising-operator
-review is still a v0.2/v2.1 task.
+review is tracked in
+[`validation-checklist.md`](validation-checklist.md) and remains a
+v0.2/v2.1 release gate.
 
 ## How to add a rule
 

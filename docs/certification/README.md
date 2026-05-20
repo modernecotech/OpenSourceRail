@@ -63,7 +63,9 @@ grant type approval.
 5. **[evidence-status.md](evidence-status.md)** — concise status
    matrix separating implemented, simulated, specified, and
    deployment-partner evidence.
-6. **[compliance-matrix.md](compliance-matrix.md)** — EN 62267
+6. **[release-gap-register.md](release-gap-register.md)** — release
+   gates still open before a revenue-service type-approval submission.
+7. **[compliance-matrix.md](compliance-matrix.md)** — EN 62267
    clause-by-clause traceability to OSR implementation.
 
 ## How this pack relates to the rest of the repository
@@ -91,6 +93,11 @@ a gap; file it as an issue against the evidence register.
 | v1.1 — per-clause compliance prose | next-iteration deliverable |
 | v1.2 — reviewed by an independent safety assessor | deployment-partner scope |
 | v2 — first-article field evidence | Samawah commissioning per [RFC 0027](../rfcs/0027-brownfield-pilot-asset-recovery.md) |
+
+The open release gates are tracked in
+[`release-gap-register.md`](release-gap-register.md). A gap is closed
+only when the named evidence is in-tree or explicitly handed over to a
+deployment partner's controlled safety dossier.
 
 ## Open questions for the reviewer
 

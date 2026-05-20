@@ -79,8 +79,8 @@ The matching mechanical reference models are generated under
 `mechanical-py/catalog/fixtures/` and the rolling-stock system
 assemblies under `mechanical-py/catalog/rolling_stock/`.
 
-Reference datasheets/product pages used for the current placeholder
-geometry:
+Reference datasheets/product pages used for the current supplier-neutral
+envelope geometry:
 [Dellner automatic coupler Type 10](https://www.dellner.com/products/automatic-couplers/automatic-coupler-type-10),
 [Wabtec/Vapor doors and access](https://www.wabteccorp.com/transit-bus/doors-access),
 [Livox HAP specifications](https://www.livoxtech.com/hap/specs),

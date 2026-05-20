@@ -10,6 +10,7 @@ without duplicating them.
 | Reader | Start with |
 |---|---|
 | Project reviewer | [ARCHITECTURE.md](ARCHITECTURE.md), then [RFCs](rfcs/) |
+| New contributor | [GLOSSARY.md](GLOSSARY.md), then [ARCHITECTURE.md](ARCHITECTURE.md) |
 | City/network planner | [designs/README.md](../designs/README.md), [cost model](cost-model.md), [civil OSR-ALN format](civil/osr-aln-format.md) |
 | Rolling-stock engineer | [rolling-stock/light-metro-3car/README.md](rolling-stock/light-metro-3car/README.md) |
 | Mechanical/CAD reviewer | [mechanical-py/README.md](../mechanical-py/README.md) and [mechanical-py/catalog/](../mechanical-py/catalog/) |
@@ -42,6 +43,11 @@ without duplicating them.
 | Rolling-stock BOM | [rolling-stock/light-metro-3car/bom-skeleton.md](rolling-stock/light-metro-3car/bom-skeleton.md) |
 | Generated BOM CSV | [build/bom/rolling_stock_bom.csv](../build/bom/rolling_stock_bom.csv) |
 | Hardware host-class matrix | [hardware/rolling-stock-integration.md](../hardware/rolling-stock-integration.md) |
+| Hardware release checklist | [hardware/release-checklist.md](../hardware/release-checklist.md) |
+| Rolling-stock v2 release checklist | [rolling-stock/light-metro-3car/v2-release-checklist.md](rolling-stock/light-metro-3car/v2-release-checklist.md) |
+| Certification release gaps | [certification/release-gap-register.md](certification/release-gap-register.md) |
+| Civil deployment release gates | [civil/deployment-release-checklist.md](civil/deployment-release-checklist.md) |
+| Operations validation gates | [operations/validation-checklist.md](operations/validation-checklist.md) |
 | Reader-edition PDF | [opensource-rail-docs-book.pdf](../opensource-rail-docs-book.pdf) |
 | v0.2 roadmap | [ROADMAP.md](ROADMAP.md) |
 

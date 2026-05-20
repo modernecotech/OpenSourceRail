@@ -28,6 +28,7 @@ for sides, roof fairings, cabless cowls, and interior liners.
 | [`bom-skeleton.md`](bom-skeleton.md) | Procurement BOM lines (source-identified parts vs TBD) |
 | [`compliance.md`](compliance.md) | Standards matrix: EN 15227, EN 45545, EN 14363, EN 50155, ISO 3095, EN 12299 |
 | [`drawing-register.md`](drawing-register.md) | v2 drawing IDs, supplier documents, inspection evidence, release gates |
+| [`v2-release-checklist.md`](v2-release-checklist.md) | Fabrication-release gates: supplier envelopes, FEA, weld maps, drawings, NC data, harness routing, first-article evidence |
 
 The governing visual/layout reference is
 [`solar-metro-trainset.png`](../../../docs/assets/solar-metro-trainset.png):
@@ -98,7 +99,8 @@ The remaining gaps are not missing assemblies in the train envelope;
 they are v0.2/v2 detail-design tasks: supplier exact envelopes, weld
 maps, FEA-ready brackets, harness clamp locations, manufacturing
 tolerances, and release drawings listed in
-[`drawing-register.md`](drawing-register.md).
+[`drawing-register.md`](drawing-register.md) and
+[`v2-release-checklist.md`](v2-release-checklist.md).
 
 ## Reference envelope (from RFC 0008 §1)
 

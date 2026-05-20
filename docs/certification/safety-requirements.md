@@ -164,8 +164,10 @@ the next station (not immediate EB, to avoid stranding).
 - **Implementation:** RFC 0015 §5.3 intercom path; feeds
   `BrakeInputs::driver_emergency` (legacy name, covers
   passenger-intercom route in GoA 4).
-- **Evidence:** RFC 0013 rulebook cross-refs; sim stub
-  (awaiting RFC 0015 v2.2 full integration).
+- **Evidence:** RFC 0013 rulebook cross-refs; current simulator
+  coverage is a stub. Release closure requires the live intercom
+  path and incident workflow evidence tracked in
+  [release-gap-register.md](release-gap-register.md).
 
 ### SR-15 — EB dominates all other brake commands
 
@@ -186,8 +188,8 @@ announce evacuation.
 - **Implementation:** `osr-ato` fire-response mode;
   `osr-fire-safety` coordinates with `osr-brake`; RFC 0013 S3.6
   rulebook procedure.
-- **Evidence:** Rulebook; deployment-specific sim evidence
-  pending.
+- **Evidence:** Rulebook; deployment-specific simulator and
+  first-article evacuation evidence are release gaps.
 
 ## 6. Operations supervision (EN 62267 §6.6)
 
@@ -208,8 +210,8 @@ under remote-assist; dispatcher may hold the train, request
 medical, or release to continue.
 
 - **Implementation:** RFC 0015 §5.3; RFC 0013 C2 communications.
-- **Evidence:** Rulebook cross-refs; hardware stub in RFC 0007
-  pending live-comms integration.
+- **Evidence:** Rulebook cross-refs; live-comms hardware and
+  integration evidence are release gaps.
 
 ## 7. Fault management (EN 62267 §6.7)
 

@@ -43,6 +43,12 @@ Current status:
 | `w-sbc` | `schematics/v2-spec/` overview and block diagram | Pending release package |
 | `s-sbc` | `schematics/v2-spec/` overview | Pending release package |
 
+The release gates for KiCad, gerbers, board BOMs, bring-up logs, and
+safety bench records are tracked in
+[`release-checklist.md`](release-checklist.md). Until a host class
+meets that checklist it is a board-level specification, not released
+fabrication hardware.
+
 For trainset quantities and the boundary between hardware docs,
 mechanical CAD envelopes, and the rolling-stock procurement BOM, see
 [`rolling-stock-integration.md`](rolling-stock-integration.md).

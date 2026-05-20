@@ -19,7 +19,7 @@ def test_rolling_stock_templates_build_nonzero_geometry() -> None:
         assert part.volume > 0.0, f"{name} template produced empty geometry"
 
 
-def test_fixture_placeholders_build_nonzero_geometry() -> None:
+def test_fixture_envelopes_build_nonzero_geometry() -> None:
     for name, builder in FIXTURE_BUILDERS.items():
         part = builder()
         assert part.volume > 0.0, f"{name} fixture produced empty geometry"

@@ -1,4 +1,4 @@
-"""Mechanical CAD templates and placeholder fixtures.
+"""Mechanical CAD templates and supplier-neutral fixture envelopes.
 
 This package keeps early Build123d part templates with the rest of the
 mechanical catalogue instead of the geo/design pipeline.
