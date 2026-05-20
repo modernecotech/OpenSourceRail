@@ -42,6 +42,7 @@ from osr_mech.rolling_stock.car_body import (
     car_body_services,
     car_body_structure,
 )
+from osr_mech.rolling_stock.bogie import WHEELBASE_MM, motor_bogie, trailer_bogie
 from osr_mech.rolling_stock.cots_equipment import fit_out_car_body
 from osr_mech.rolling_stock.trainset import trainset
 from osr_mech.station.canopy import station_canopy
@@ -471,6 +472,26 @@ def render_all(out_root: Path) -> None:
         dpi=200,
         alpha_override={"shell": 0.08},
     )
+    dims = CarDimensions()
+    bogie_offset_x = dims.body_length_mm / 2.0 - WHEELBASE_MM
+    structure_with_bogies = Compound(
+        label="Car body structure with standard bogies subassembly",
+        children=[
+            car_body_structure(dims),
+            motor_bogie().translate((-bogie_offset_x, 0.0, 0.0)),
+            trailer_bogie().translate((bogie_offset_x, 0.0, 0.0)),
+        ],
+    )
+    _render(
+        structure_with_bogies,
+        out_root / "trainset-car-body-bogie-subassembly.png",
+        tolerance_mm=6.0,
+        elev=16,
+        azim=-55,
+        figsize=(15, 5.6),
+        dpi=190,
+        alpha_override={"shell": 0.08},
+    )
     _render(
         car_body_exterior(CarDimensions()),
         out_root / "trainset-car-body-exterior.png",
@@ -527,7 +548,6 @@ def render_all(out_root: Path) -> None:
     )
 
     # 5. Motor bogie — detailed component + assembly CAD (RFC 0022).
-    from osr_mech.rolling_stock.bogie import motor_bogie, trailer_bogie
     _render(
         motor_bogie(),
         out_root / "bogie-motor.png",

@@ -18,6 +18,9 @@
 - **No driving cabs** — GoA 4 open-glass sensor cowls at both ends
   per RFC 0015, with heated RF-transparent glass, T-OBS sensors, and
   LED headlamp / marker-light clusters.
+- **No cab bulkhead** — the front and rear passenger ends are not
+  walled off; the saloon remains open to the large glass end cowl so
+  passengers see through both driverless ends.
 - **Six bogies total** — two standard 2-axle bogies per car.
 - **Powered wheelsets:** one powered bogie at each outer end car,
   giving two powered bogies and four powered axles across the consist.

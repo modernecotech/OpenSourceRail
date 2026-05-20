@@ -39,6 +39,9 @@ driverless passenger view through heated RF-transparent glass with
 LED headlamp and marker-light clusters below it. Because the cars use
 standard bogies, each car has high-floor end decks over the bogies
 and a 350 mm low-floor centre door/PRM zone.
+The front and rear passenger ends are not walled off by cab bulkheads;
+the end saloon looks through the glass cowls at both ends of the
+driverless train.
 
 COTS passenger-facing modules are controlled by the supplier-neutral
 envelope catalogue at
@@ -79,6 +82,7 @@ and render to these design-review PNGs:
 | [`trainset-light-metro-3car.png`](../../../docs/screenshots/trainset-light-metro-3car.png) | Final 3-car trainset assembly with car bodies, bogies, cowls, couplers, inter-car articulation, and train systems |
 | [`trainset-car-detail.png`](../../../docs/screenshots/trainset-car-detail.png) | 17 m layered car body: structure, door/window openings, glazing, livery, roof PV/HVAC, interior, ducts, LV/data and HV/thermal routes |
 | [`trainset-car-body-structure.png`](../../../docs/screenshots/trainset-car-body-structure.png) | Primary fabricated structure: shell, floor pan, side sills, crossmembers, roof cantrails, and door portals |
+| [`trainset-car-body-bogie-subassembly.png`](../../../docs/screenshots/trainset-car-body-bogie-subassembly.png) | Single-car structure with standard motor/trailer bogies under the raised high-floor end zones |
 | [`trainset-car-body-exterior.png`](../../../docs/screenshots/trainset-car-body-exterior.png) | Solar-train exterior layer: glazing, door leaves, livery band, roof PV/HVAC, and service skirts |
 | [`trainset-car-body-interior.png`](../../../docs/screenshots/trainset-car-body-interior.png) | Passenger interior layer: under-seat battery strakes, benches, PRM bays, grab poles, handrails, and PIS |
 | [`trainset-car-body-services.png`](../../../docs/screenshots/trainset-car-body-services.png) | Service layers: HVAC ducts, LV/data trays, lighting, CCTV/intercoms, HV/PV routing, coolant, and battery fire vents |

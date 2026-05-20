@@ -136,6 +136,8 @@ Selected generated design views:
 
 ![Layered car body structure](docs/screenshots/trainset-car-body-structure.png)
 
+![Car body and bogie subassembly](docs/screenshots/trainset-car-body-bogie-subassembly.png)
+
 ![Body and chassis sheet-metal kit](docs/screenshots/trainset-body-sheet-metal-kit.png)
 
 ![Per-car systems assembly](docs/screenshots/trainset-car-systems.png)

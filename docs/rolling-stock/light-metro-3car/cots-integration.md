@@ -81,6 +81,7 @@ The same part families are visible in the generated screenshots:
 | [`trainset-light-metro-3car.png`](../../../docs/screenshots/trainset-light-metro-3car.png) | Whole-train layout, powered end cars, trailer middle car, cowls, roof PV, bogies |
 | [`trainset-car-detail.png`](../../../docs/screenshots/trainset-car-detail.png) | Complete layered car body with windows, doors, solar array, HVAC, interior, electrical, and thermal routes |
 | [`trainset-car-body-structure.png`](../../../docs/screenshots/trainset-car-body-structure.png) | Primary fabricated shell, floor, side sills, crossmembers, roof rails, and door portals |
+| [`trainset-car-body-bogie-subassembly.png`](../../../docs/screenshots/trainset-car-body-bogie-subassembly.png) | Single-car body structure mounted over standard motor/trailer bogies, showing raised end decks and the low-floor centre zone |
 | [`trainset-car-body-exterior.png`](../../../docs/screenshots/trainset-car-body-exterior.png) | Exterior glazing, door leaves, livery band, skirts, solar array, and compact HVAC roof units |
 | [`trainset-car-body-interior.png`](../../../docs/screenshots/trainset-car-body-interior.png) | Under-seat battery strakes, seats, wheelchair bays, grab poles, handrails, and PIS |
 | [`trainset-car-body-services.png`](../../../docs/screenshots/trainset-car-body-services.png) | HVAC ducting, LV/data trays, lighting, CCTV/intercoms, HV/PV routing, coolant, and fire vent paths |
