@@ -79,7 +79,7 @@ def test_car_body_has_door_and_window_cutouts() -> None:
     dims = CarDimensions()
     body = car_body(dims)
     solid_volume_mm3 = dims.body_length_mm * dims.body_width_mm * dims.body_height_mm
-    v = body.volume
+    v = _volume_recursive(body)
     assert v < solid_volume_mm3, (
         f"car-body volume {v:.0f} should be below solid box {solid_volume_mm3:.0f}"
     )
@@ -95,12 +95,35 @@ def test_car_body_has_door_and_window_cutouts() -> None:
     assert hasattr(body, "children") and body.children, (
         "car body should be a Compound with multiple named children"
     )
-    child_labels = {(getattr(c, "label", "") or "").lower() for c in body.children}
+    child_labels = {label.lower() for label in _labels_recursive(body)}
     assert any("shell" in l for l in child_labels), "missing shell"
     assert any("glazing" in l for l in child_labels), "missing window glazing"
     assert any("door leaf" in l for l in child_labels), "missing door leaves"
     assert any("livery" in l for l in child_labels), "missing livery band"
     assert any("skirt" in l for l in child_labels), "missing underframe skirt"
+
+
+def test_car_body_exposes_complete_layered_design() -> None:
+    labels = _labels_recursive(car_body(CarDimensions()))
+    expected = {
+        "Primary steel shell, floor, and portal structure subassembly",
+        "Exterior cladding, glazing, doors, livery, solar, and skirt subassembly",
+        "Interior passenger fit-out and under-seat battery strake subassembly",
+        "Car body service layers subassembly",
+        "HVAC ducting layer",
+        "Electrical and data routing layer",
+        "High-voltage traction, PV, thermal, and fire routing layer",
+        "Low-floor stainless floor pan",
+        "Door portal header beam",
+        "Longitudinal bench seat base over battery module",
+        "HVAC ducting layer - centre supply plenum",
+        "Electrical and data routing layer - LV/TCN cable tray",
+        "High-voltage traction routing layer - under-seat DC tray",
+        "Roof PV high-voltage combiner spine",
+        "Battery fire vent path to exterior burst panel",
+    }
+    missing = expected.difference(labels)
+    assert not missing, f"missing layered car-body design labels: {sorted(missing)}"
 
 
 def test_sensor_cowl_has_sensor_window() -> None:
@@ -163,6 +186,13 @@ def _labels_recursive(node) -> list[str]:
             labels.append(label)
         labels.extend(_labels_recursive(child))
     return labels
+
+
+def _volume_recursive(node) -> float:
+    children = getattr(node, "children", []) or []
+    if children:
+        return sum(_volume_recursive(child) for child in children)
+    return float(getattr(node, "volume", 0.0))
 
 
 def test_trainset_contains_complete_train_systems() -> None:
@@ -283,7 +313,9 @@ def test_fit_out_car_body_has_more_volume_than_plain_body() -> None:
     plain = car_body(dims)
     dressed = fit_out_car_body(dims)
     # build123d Compound.volume sums child volumes.
-    assert dressed.volume > plain.volume, (
-        f"fit-out compound volume {dressed.volume:.0f} not greater than "
-        f"plain body {plain.volume:.0f}"
+    plain_volume = _volume_recursive(plain)
+    dressed_volume = _volume_recursive(dressed)
+    assert dressed_volume > plain_volume, (
+        f"fit-out compound volume {dressed_volume:.0f} not greater than "
+        f"plain body {plain_volume:.0f}"
     )

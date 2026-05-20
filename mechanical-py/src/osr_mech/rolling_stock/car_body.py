@@ -94,6 +94,19 @@ COLOR_SKIRT = Color(0.32, 0.33, 0.38)
 COLOR_ROOF_EQUIPMENT = Color(0.55, 0.55, 0.58)
 COLOR_BATTERY_STRAKE = Color(0.25, 0.30, 0.42)
 COLOR_SOLAR = Color(0.03, 0.10, 0.24)
+COLOR_STRUCTURE = Color(0.62, 0.64, 0.66)
+COLOR_INTERIOR = Color(0.74, 0.70, 0.62)
+COLOR_HVAC_DUCT = Color(0.76, 0.84, 0.88)
+COLOR_LV_DATA = Color(0.05, 0.22, 0.55)
+COLOR_HV_CABLE = Color(0.95, 0.38, 0.06)
+COLOR_THERMAL = Color(0.10, 0.46, 0.60)
+COLOR_SAFETY = Color(0.92, 0.68, 0.12)
+
+FLOOR_PLATE_THICKNESS_MM = 95.0
+SIDE_SILL_HEIGHT_MM = 300.0
+ROOF_RAIL_HEIGHT_MM = 170.0
+CEILING_DUCT_Z_MM = 3130.0
+UNDERFLOOR_SERVICE_Z_MM = -260.0
 
 
 # Traction-battery module placement per RFC 0021.
@@ -364,35 +377,345 @@ def _battery_strakes(dims: CarDimensions) -> list[Part]:
     return out
 
 
+def _floor_and_structure(dims: CarDimensions) -> list[Part]:
+    """Fabricated underframe and load paths inside the body shell."""
+
+    out: list[Part] = []
+    floor = Box(
+        dims.body_length_mm - 900.0,
+        dims.body_width_mm - 240.0,
+        FLOOR_PLATE_THICKNESS_MM,
+    ).locate(Location((0.0, 0.0, FLOOR_PLATE_THICKNESS_MM / 2.0)))
+    floor.color = COLOR_STRUCTURE
+    floor.label = "Low-floor stainless floor pan"
+    out.append(floor)
+
+    for y_sign in (-1.0, 1.0):
+        y = y_sign * (dims.body_width_mm / 2.0 - 135.0)
+        side_sill = Box(
+            dims.body_length_mm - 1000.0,
+            170.0,
+            SIDE_SILL_HEIGHT_MM,
+        ).locate(Location((0.0, y, SIDE_SILL_HEIGHT_MM / 2.0)))
+        side_sill.color = COLOR_STRUCTURE
+        side_sill.label = "Laser-cut side sill beam"
+        out.append(side_sill)
+
+        roof_rail = Box(
+            dims.body_length_mm - 1300.0,
+            135.0,
+            ROOF_RAIL_HEIGHT_MM,
+        ).locate(
+            Location(
+                (
+                    0.0,
+                    y_sign * (dims.body_width_mm / 2.0 - 120.0),
+                    dims.body_height_mm - 170.0,
+                )
+            )
+        )
+        roof_rail.color = COLOR_STRUCTURE
+        roof_rail.label = "Roof cantrail extrusion"
+        out.append(roof_rail)
+
+    for x in (-7600.0, -5100.0, -2500.0, 0.0, 2500.0, 5100.0, 7600.0):
+        crossmember = Box(105.0, dims.body_width_mm - 420.0, 210.0).locate(
+            Location((x, 0.0, 175.0))
+        )
+        crossmember.color = COLOR_STRUCTURE
+        crossmember.label = "Underframe crossmember"
+        out.append(crossmember)
+
+    for x in _door_centres_x(dims):
+        for y_sign in (-1.0, 1.0):
+            header = Box(DOOR_WIDTH_MM + 420.0, 145.0, 170.0).locate(
+                Location(
+                    (
+                        x,
+                        y_sign * (dims.body_width_mm / 2.0 - 120.0),
+                        DOOR_SILL_HEIGHT_MM + DOOR_HEIGHT_MM + 150.0,
+                    )
+                )
+            )
+            header.color = COLOR_STRUCTURE
+            header.label = "Door portal header beam"
+            out.append(header)
+            for side in (-1.0, 1.0):
+                post = Box(145.0, 145.0, DOOR_HEIGHT_MM + 360.0).locate(
+                    Location(
+                        (
+                            x + side * (DOOR_WIDTH_MM / 2.0 + 150.0),
+                            y_sign * (dims.body_width_mm / 2.0 - 120.0),
+                            DOOR_SILL_HEIGHT_MM + DOOR_HEIGHT_MM / 2.0,
+                        )
+                    )
+                )
+                post.color = COLOR_STRUCTURE
+                post.label = "Door portal post"
+                out.append(post)
+
+    return out
+
+
+def _interior_fit_out(dims: CarDimensions) -> list[Part]:
+    """Passenger-zone interior: seats, grab poles, PRM bays, and ceiling kit."""
+
+    out: list[Part] = []
+    for x, width in _window_zones(dims):
+        for y_sign in (-1.0, 1.0):
+            seat_base = Box(width - 240.0, 360.0, 120.0).locate(
+                Location((x, y_sign * (dims.body_width_mm / 2.0 - 380.0), 520.0))
+            )
+            seat_base.color = COLOR_INTERIOR
+            seat_base.label = "Longitudinal bench seat base over battery module"
+            out.append(seat_base)
+
+            back = Box(width - 240.0, 70.0, 660.0).locate(
+                Location((x, y_sign * (dims.body_width_mm / 2.0 - 205.0), 850.0))
+            )
+            back.color = COLOR_INTERIOR
+            back.label = "Longitudinal bench seat back"
+            out.append(back)
+
+    for x in (-2700.0, 2700.0):
+        bay = Box(1450.0, 860.0, 36.0).locate(Location((x, 0.0, 135.0)))
+        bay.color = COLOR_SAFETY
+        bay.label = "PRM wheelchair bay clear floor layer"
+        out.append(bay)
+
+    for x in (-6100.0, -3500.0, -1200.0, 1200.0, 3500.0, 6100.0):
+        pole = Box(70.0, 70.0, 2400.0).locate(Location((x, 0.0, 1540.0)))
+        pole.color = COLOR_STRUCTURE
+        pole.label = "Stainless grab pole"
+        out.append(pole)
+
+    for y_sign in (-1.0, 1.0):
+        handrail = Box(dims.body_length_mm - 3600.0, 55.0, 55.0).locate(
+            Location((0.0, y_sign * 760.0, 2520.0))
+        )
+        handrail.color = COLOR_STRUCTURE
+        handrail.label = "Overhead passenger handrail"
+        out.append(handrail)
+
+    for x in (-5200.0, 0.0, 5200.0):
+        screen = Box(520.0, 55.0, 250.0).locate(Location((x, 0.0, 2620.0)))
+        screen.color = COLOR_LV_DATA
+        screen.label = "Passenger information display"
+        out.append(screen)
+
+    return out
+
+
+def _hvac_ducting(dims: CarDimensions) -> list[Part]:
+    """Supply, return, and drop ducts connecting roof HVAC to saloon."""
+
+    out: list[Part] = []
+    centre_supply = Box(dims.body_length_mm - 2600.0, 360.0, 210.0).locate(
+        Location((0.0, 0.0, CEILING_DUCT_Z_MM))
+    )
+    centre_supply.color = COLOR_HVAC_DUCT
+    centre_supply.label = "HVAC ducting layer - centre supply plenum"
+    out.append(centre_supply)
+
+    for y_sign in (-1.0, 1.0):
+        return_duct = Box(dims.body_length_mm - 3200.0, 180.0, 150.0).locate(
+            Location((0.0, y_sign * 980.0, CEILING_DUCT_Z_MM - 120.0))
+        )
+        return_duct.color = COLOR_HVAC_DUCT
+        return_duct.label = "HVAC ducting layer - side return duct"
+        out.append(return_duct)
+
+    for x in (-6100.0, -3050.0, 0.0, 3050.0, 6100.0):
+        diffuser = Box(520.0, 720.0, 36.0).locate(Location((x, 0.0, 2945.0)))
+        diffuser.color = COLOR_HVAC_DUCT
+        diffuser.label = "HVAC linear diffuser grille"
+        out.append(diffuser)
+
+    for x in (-7100.0, 7100.0):
+        riser = Box(430.0, 430.0, 780.0).locate(Location((x, 0.0, 3270.0)))
+        riser.color = COLOR_HVAC_DUCT
+        riser.label = "HVAC roof-unit drop duct"
+        out.append(riser)
+
+    return out
+
+
+def _electrical_and_data_routing(dims: CarDimensions) -> list[Part]:
+    """Low-voltage, controls, lighting, CCTV, and passenger comms layer."""
+
+    out: list[Part] = []
+    for y_sign in (-1.0, 1.0):
+        cable_tray = Box(dims.body_length_mm - 2200.0, 105.0, 90.0).locate(
+            Location((0.0, y_sign * 1120.0, 2790.0))
+        )
+        cable_tray.color = COLOR_LV_DATA
+        cable_tray.label = "Electrical and data routing layer - LV/TCN cable tray"
+        out.append(cable_tray)
+
+        light_strip = Box(dims.body_length_mm - 3400.0, 55.0, 45.0).locate(
+            Location((0.0, y_sign * 520.0, 2870.0))
+        )
+        light_strip.color = COLOR_SAFETY
+        light_strip.label = "Continuous LED saloon lighting strip"
+        out.append(light_strip)
+
+    for x in (-6700.0, -2200.0, 2200.0, 6700.0):
+        camera = Box(170.0, 120.0, 90.0).locate(Location((x, 0.0, 2860.0)))
+        camera.color = COLOR_LV_DATA
+        camera.label = "CCTV camera and passenger-count sensor"
+        out.append(camera)
+
+    for x in _door_centres_x(dims):
+        for y_sign in (-1.0, 1.0):
+            door_loop = Box(DOOR_WIDTH_MM + 560.0, 65.0, 65.0).locate(
+                Location((x, y_sign * 1190.0, 2490.0))
+            )
+            door_loop.color = COLOR_LV_DATA
+            door_loop.label = "Door-control harness loop"
+            out.append(door_loop)
+
+            intercom = Box(180.0, 60.0, 260.0).locate(
+                Location((x + 560.0, y_sign * 1180.0, 1280.0))
+            )
+            intercom.color = COLOR_LV_DATA
+            intercom.label = "Passenger intercom and help point"
+            out.append(intercom)
+
+    return out
+
+
+def _traction_and_thermal_routing(dims: CarDimensions) -> list[Part]:
+    """HV DC, roof-PV, battery, coolant, and fire-isolation paths."""
+
+    out: list[Part] = []
+    for y_sign in (-1.0, 1.0):
+        hv_tray = Box(dims.body_length_mm - 3800.0, 120.0, 95.0).locate(
+            Location((0.0, y_sign * (dims.body_width_mm / 2.0 - 500.0), 705.0))
+        )
+        hv_tray.color = COLOR_HV_CABLE
+        hv_tray.label = "High-voltage traction routing layer - under-seat DC tray"
+        out.append(hv_tray)
+
+        coolant = Box(dims.body_length_mm - 4200.0, 70.0, 70.0).locate(
+            Location((0.0, y_sign * (dims.body_width_mm / 2.0 - 650.0), 610.0))
+        )
+        coolant.color = COLOR_THERMAL
+        coolant.label = "Battery thermal-management coolant pipe"
+        out.append(coolant)
+
+        vent = Box(dims.body_length_mm - 5000.0, 90.0, 180.0).locate(
+            Location((0.0, y_sign * (dims.body_width_mm / 2.0 - 70.0), 690.0))
+        )
+        vent.color = COLOR_SAFETY
+        vent.label = "Battery fire vent path to exterior burst panel"
+        out.append(vent)
+
+    pv_spine = Box(dims.body_length_mm - 3200.0, 90.0, 90.0).locate(
+        Location((0.0, 0.0, dims.body_height_mm + 115.0))
+    )
+    pv_spine.color = COLOR_HV_CABLE
+    pv_spine.label = "Roof PV high-voltage combiner spine"
+    out.append(pv_spine)
+
+    down_riser = Box(160.0, 120.0, 2850.0).locate(
+        Location((0.0, -dims.body_width_mm / 2.0 + 260.0, 1750.0))
+    )
+    down_riser.color = COLOR_HV_CABLE
+    down_riser.label = "High-voltage traction routing layer - side charging riser"
+    out.append(down_riser)
+
+    for x in (-2550.0, 2550.0):
+        underfloor = Box(1150.0, 260.0, 170.0).locate(
+            Location((x, 0.0, UNDERFLOOR_SERVICE_Z_MM))
+        )
+        underfloor.color = COLOR_THERMAL
+        underfloor.label = "Underfloor coolant and brake-air service manifold"
+        out.append(underfloor)
+
+    return out
+
+
+def car_body_structure(dims: CarDimensions = CarDimensions()) -> Compound:
+    """Primary fabricated structure layer for one car."""
+
+    return Compound(
+        label="Primary steel shell, floor, and portal structure subassembly",
+        children=[_shell(dims), *_floor_and_structure(dims)],
+    )
+
+
+def car_body_exterior(dims: CarDimensions = CarDimensions()) -> Compound:
+    """Exterior solar-train visual layer: glass, doors, livery, roof, skirts."""
+
+    return Compound(
+        label="Exterior cladding, glazing, doors, livery, solar, and skirt subassembly",
+        children=[
+            *_glazing(dims),
+            *_door_leaves(dims),
+            *_livery_band(dims),
+            *_underframe_skirt(dims),
+            *_roof_equipment(dims),
+        ],
+    )
+
+
+def car_body_interior(dims: CarDimensions = CarDimensions()) -> Compound:
+    """Passenger interior and under-seat battery bustle layer."""
+
+    return Compound(
+        label="Interior passenger fit-out and under-seat battery strake subassembly",
+        children=[*_battery_strakes(dims), *_interior_fit_out(dims)],
+    )
+
+
+def car_body_services(dims: CarDimensions = CarDimensions()) -> Compound:
+    """HVAC, electrical, high-voltage, thermal, and safety service layers."""
+
+    return Compound(
+        label="Car body service layers subassembly",
+        children=[
+            Compound(
+                label="HVAC ducting layer",
+                children=_hvac_ducting(dims),
+            ),
+            Compound(
+                label="Electrical and data routing layer",
+                children=_electrical_and_data_routing(dims),
+            ),
+            Compound(
+                label="High-voltage traction, PV, thermal, and fire routing layer",
+                children=_traction_and_thermal_routing(dims),
+            ),
+        ],
+    )
+
+
 # ---------------------------------------------------------------------------
 # Public API
 # ---------------------------------------------------------------------------
 
 
 def car_body(dims: CarDimensions = CarDimensions()) -> Compound:
-    """Full cabless passenger car.
+    """Full cabless passenger car as nested build123d assemblies.
 
     Origin: car centre at floor level (z = 0 is rail head); +X is
     along-track, +Y is across-track.
 
     Returns a Compound containing:
-    - `Car-body shell` (steel-frame/composite-clad body envelope)
-    - Window glazing (both sides)
-    - Door leaves (both sides, double-leaf slider, shown closed)
-    - Livery band (both sides, full length)
-    - Underframe skirts (both sides, between the bogies)
-    - Traction battery strakes (side-wall bustle, RFC 0021)
-    - Rooftop equipment (solar PV strip + compact end HVAC units)
+    - Primary steel shell, floor, and portal structure subassembly.
+    - Exterior cladding, glazing, doors, livery, solar, and skirt subassembly.
+    - Interior passenger fit-out and under-seat battery strake subassembly.
+    - HVAC / electrical / high-voltage / thermal service layers.
     """
-    parts: list[Part | Compound] = []
-    parts.append(_shell(dims))
-    parts.extend(_glazing(dims))
-    parts.extend(_door_leaves(dims))
-    parts.extend(_livery_band(dims))
-    parts.extend(_underframe_skirt(dims))
-    parts.extend(_battery_strakes(dims))
-    parts.extend(_roof_equipment(dims))
-    return Compound(label="Passenger car (cabless, battery-electric)", children=parts)
+    return Compound(
+        label="Passenger car complete layered body assembly (cabless solar train)",
+        children=[
+            car_body_structure(dims),
+            car_body_exterior(dims),
+            car_body_interior(dims),
+            car_body_services(dims),
+        ],
+    )
 
 
 __all__ = [
@@ -402,10 +725,17 @@ __all__ = [
     "COLOR_BODY",
     "COLOR_DOOR_LEAF",
     "COLOR_GLAZING",
+    "COLOR_HV_CABLE",
+    "COLOR_HVAC_DUCT",
+    "COLOR_INTERIOR",
     "COLOR_LIVERY",
+    "COLOR_LV_DATA",
     "COLOR_ROOF_EQUIPMENT",
+    "COLOR_SAFETY",
     "COLOR_SOLAR",
     "COLOR_SKIRT",
+    "COLOR_STRUCTURE",
+    "COLOR_THERMAL",
     "CarDimensions",
     "DOOR_HEIGHT_MM",
     "DOOR_SILL_HEIGHT_MM",
@@ -413,4 +743,8 @@ __all__ = [
     "WINDOW_HEIGHT_MM",
     "WINDOW_SILL_MM",
     "car_body",
+    "car_body_exterior",
+    "car_body_interior",
+    "car_body_services",
+    "car_body_structure",
 ]

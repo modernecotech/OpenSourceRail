@@ -48,7 +48,7 @@ are generated handoff artifacts.
 | Source | Controls |
 |---|---|
 | [`trainset.py`](../../../mechanical-py/src/osr_mech/rolling_stock/trainset.py) | Family length, car count, motorisation, cowl/body/bogie assembly |
-| [`car_body.py`](../../../mechanical-py/src/osr_mech/rolling_stock/car_body.py) | 17 m body module, 2.85 m width, 3.45 m height, livery, doors, windows, roof PV/HVAC |
+| [`car_body.py`](../../../mechanical-py/src/osr_mech/rolling_stock/car_body.py) | 17 m body module as layered build123d subassemblies: primary structure, exterior/glazing/doors, interior, HVAC ducts, LV/data routing, HV/PV/thermal/fire paths |
 | [`sensor_cowl.py`](../../../mechanical-py/src/osr_mech/rolling_stock/sensor_cowl.py) | Large glass end cowl and T-OBS visual envelope |
 | [`systems.py`](../../../mechanical-py/src/osr_mech/rolling_stock/systems.py) | Couplers, articulations, batteries, doors, electronics, charging, T-OBS packs |
 | [`bogie/`](../../../mechanical-py/src/osr_mech/rolling_stock/bogie/) | Powered and converted-trailer bogie assemblies |
@@ -60,7 +60,12 @@ The whole-train part map and COTS interface diagrams are in
 [`cots-integration.md`](cots-integration.md).
 
 The present train design now has envelope-level definitions for the
-major train assemblies, sub-assemblies, and repeated components. The
+major train assemblies, sub-assemblies, repeated components, and
+body service layers. The `car_body()` assembly is deliberately nested
+as components -> subassemblies -> final car body, so CAD review can
+hide/show the primary steel shell, exterior solar-train skin, passenger
+interior, HVAC ducting, LV/data harnesses, high-voltage traction/PV
+routing, thermal-management pipes, and battery fire vent paths. The
 models are supplier-neutral `build123d` geometry in
 [`mechanical-py/src/osr_mech/rolling_stock`](../../../mechanical-py/src/osr_mech/rolling_stock)
 and render to these design-review PNGs:
@@ -68,7 +73,7 @@ and render to these design-review PNGs:
 | Output | Scope |
 |---|---|
 | [`trainset-light-metro-3car.png`](../../../docs/screenshots/trainset-light-metro-3car.png) | Final 3-car trainset assembly with car bodies, bogies, cowls, couplers, inter-car articulation, and train systems |
-| [`trainset-car-detail.png`](../../../docs/screenshots/trainset-car-detail.png) | 17 m car body, door/window openings, glazing, skirt, livery, and roof equipment |
+| [`trainset-car-detail.png`](../../../docs/screenshots/trainset-car-detail.png) | 17 m layered car body: structure, door/window openings, glazing, livery, roof PV/HVAC, interior, ducts, LV/data and HV/thermal routes |
 | [`trainset-interior-fit-out.png`](../../../docs/screenshots/trainset-interior-fit-out.png) | COTS passenger fit-out envelopes inside the car body |
 | [`trainset-body-sheet-metal-kit.png`](../../../docs/screenshots/trainset-body-sheet-metal-kit.png) | Sheet-metal/chassis manufacturing kit: underframe, bolsters, coupler pockets, side posts, rails, roof bows, end rings |
 | [`trainset-car-systems.png`](../../../docs/screenshots/trainset-car-systems.png) | One self-contained car systems package: doors, batteries, traction power rack, charging connector, and accessibility/safety reservations |
@@ -84,6 +89,11 @@ and render to these design-review PNGs:
 The matching generated STEP handoff artifacts are regenerated under
 [`mechanical-py/catalog/rolling_stock`](../../../mechanical-py/catalog/rolling_stock):
 [`trainset-light-metro-3car.step`](../../../mechanical-py/catalog/rolling_stock/trainset-light-metro-3car.step),
+[`car-body-17m.step`](../../../mechanical-py/catalog/rolling_stock/car-body-17m.step),
+[`car-body-structure.step`](../../../mechanical-py/catalog/rolling_stock/car-body-structure.step),
+[`car-body-exterior.step`](../../../mechanical-py/catalog/rolling_stock/car-body-exterior.step),
+[`car-body-interior.step`](../../../mechanical-py/catalog/rolling_stock/car-body-interior.step),
+[`car-body-services.step`](../../../mechanical-py/catalog/rolling_stock/car-body-services.step),
 [`body-sheet-metal-kit.step`](../../../mechanical-py/catalog/rolling_stock/templates/body-sheet-metal-kit.step),
 [`car-systems.step`](../../../mechanical-py/catalog/rolling_stock/car-systems.step),
 [`battery-pack-set.step`](../../../mechanical-py/catalog/rolling_stock/battery-pack-set.step),

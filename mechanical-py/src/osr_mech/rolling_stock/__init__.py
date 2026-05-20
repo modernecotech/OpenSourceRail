@@ -14,8 +14,9 @@ GoA 4 (unattended) with no driver cab. The geometry reflects that:
 
 Scope for v0.1:
 
-- `car_body`        — one parametric car shell (length, width, height,
-                       door count, door openings, nose-cowl end caps).
+- `car_body`        — one parametric layered body assembly: primary
+                       structure, exterior, interior, HVAC, electrical,
+                       HV/PV, thermal, and fire-routing layers.
 - `bogie`           — detailed 2-axle motor/trailer bogie assemblies.
 - `sensor_cowl`     — nose cone with through-holes for sensors.
 - `systems`         — supplier-neutral envelopes for couplers,
@@ -36,7 +37,13 @@ car body but sized + placed on it.
 """
 
 from .bogie import bogie_assembly
-from .car_body import car_body
+from .car_body import (
+    car_body,
+    car_body_exterior,
+    car_body_interior,
+    car_body_services,
+    car_body_structure,
+)
 from .cots_equipment import (
     CATALOGUE,
     Category,
@@ -68,6 +75,10 @@ __all__ = [
     "bogie_assembly",
     "bom_per_car",
     "car_body",
+    "car_body_exterior",
+    "car_body_interior",
+    "car_body_services",
+    "car_body_structure",
     "fit_out_car_body",
     "locations_for",
     "sensor_cowl",

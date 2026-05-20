@@ -33,7 +33,13 @@ from .rolling_stock.bogie import (
     trailer_bogie,
     wheelset,
 )
-from .rolling_stock.car_body import car_body
+from .rolling_stock.car_body import (
+    car_body,
+    car_body_exterior,
+    car_body_interior,
+    car_body_services,
+    car_body_structure,
+)
 from .rolling_stock.cots_equipment import fit_out_car_body
 from .rolling_stock.sensor_cowl import sensor_cowl
 from .rolling_stock.systems import (
@@ -110,6 +116,22 @@ def export_all(root: Path) -> None:
     # Rolling stock (RFC 0015 cabless).
     _export(sensor_cowl(), _out(root, "rolling_stock", "sensor-cowl.step"))
     _export(car_body(), _out(root, "rolling_stock", "car-body-17m.step"))
+    _export(
+        car_body_structure(),
+        _out(root, "rolling_stock", "car-body-structure.step"),
+    )
+    _export(
+        car_body_exterior(),
+        _out(root, "rolling_stock", "car-body-exterior.step"),
+    )
+    _export(
+        car_body_interior(),
+        _out(root, "rolling_stock", "car-body-interior.step"),
+    )
+    _export(
+        car_body_services(),
+        _out(root, "rolling_stock", "car-body-services.step"),
+    )
     _export(
         fit_out_car_body(),
         _out(root, "rolling_stock", "car-body-17m-cots-fit-out.step"),

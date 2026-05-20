@@ -15,7 +15,7 @@ PYTHONPATH=mechanical-py/src python3 -m osr_mech.catalog --out mechanical-py/cat
 
 | Folder | Scope |
 |---|---|
-| [`rolling_stock/`](rolling_stock/) | Trainsets, car bodies, bogies, batteries, doors, couplers, electronics, sensor packs |
+| [`rolling_stock/`](rolling_stock/) | Trainsets, layered car-body subassemblies, bogies, batteries, doors, couplers, electronics, sensor packs |
 | [`bogie/`](bogie/) | Bogie frame, wheelset, suspension, brakes, PMSM motor, gearbox |
 | [`track/`](track/) | Rails, sleepers, fasteners, panels, turnouts |
 | [`civil/`](civil/) | U-girders and platform edge units |
