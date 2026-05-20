@@ -51,7 +51,7 @@ def main() -> int:
         family = lines[0].get("rolling_stock", "?") if lines else "?"
         rows.append(
             {
-                "path": city_dir.relative_to(REPO_ROOT),
+                "path": city_dir.relative_to(DESIGNS),
                 "city": city.get("name") or city_dir.name.replace("-", " "),
                 "country": city.get("country", "??"),
                 "family": family,
