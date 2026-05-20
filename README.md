@@ -132,17 +132,31 @@ Selected generated design views:
 
 ![Complete light-metro 3-car trainset](docs/screenshots/trainset-light-metro-3car.png)
 
+Final three-car reference consist with cowls, bodies, bogies, roof PV, and train-level systems.
+
 ![Layered car body services](docs/screenshots/trainset-car-body-services.png)
+
+HVAC ducting, LV/data trays, lighting, HV/PV routing, coolant, and fire-vent paths inside one car.
 
 ![Layered car body structure](docs/screenshots/trainset-car-body-structure.png)
 
+Primary body structure with translucent shell, low-floor centre pan, raised bogie-end decks, side sills, and portal frames.
+
 ![Car body and bogie subassembly](docs/screenshots/trainset-car-body-bogie-subassembly.png)
+
+Single-car structure mounted over standard motor/trailer bogies, showing why the end zones are high-floor and the centre door zone is low-floor.
 
 ![Body and chassis sheet-metal kit](docs/screenshots/trainset-body-sheet-metal-kit.png)
 
+Manufacturing-oriented sheet-metal kit for underframe, bolsters, coupler pockets, side posts, roof bows, and floor transitions.
+
 ![Per-car systems assembly](docs/screenshots/trainset-car-systems.png)
 
+One self-contained car equipment package: door cassettes, batteries, charging interface, traction power rack, and accessibility/safety reservations.
+
 ![Motor bogie](docs/screenshots/bogie-motor.png)
+
+Powered bogie assembly with frame, wheelsets, PMSM motors, gearboxes, suspension, and brakes.
 
 Generate CAD screenshots and STEP artifacts:
 
