@@ -24,6 +24,7 @@ and regenerable documentation/CAD artifacts.
 
 | Goal | Go here |
 |---|---|
+| Read the short introduction brochure | [OpenSourceRail introduction PDF](docs/brochures/open-source-rail-introduction.pdf) |
 | Understand the whole repo | [docs/README.md](docs/README.md) |
 | See generated city designs | [designs/README.md](designs/README.md) |
 | Run the simulator | [Quick Start](#quick-start) |

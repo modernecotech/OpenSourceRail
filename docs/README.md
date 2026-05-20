@@ -9,6 +9,7 @@ without duplicating them.
 
 | Reader | Start with |
 |---|---|
+| New reader / non-technical reviewer | [Brochures](brochures/) |
 | Project reviewer | [ARCHITECTURE.md](ARCHITECTURE.md), then [RFCs](rfcs/) |
 | New contributor | [GLOSSARY.md](GLOSSARY.md), then [ARCHITECTURE.md](ARCHITECTURE.md) |
 | City/network planner | [designs/README.md](../designs/README.md), [cost model](cost-model.md), [civil OSR-ALN format](civil/osr-aln-format.md) |
@@ -24,6 +25,7 @@ without duplicating them.
 | Folder | Contents |
 |---|---|
 | [rfcs/](rfcs/README.md) | Design decisions and standards for architecture, rolling stock, track, stations, depots, driverless operation, hardware, energy, and safety |
+| [brochures/](brochures/README.md) | Short PDF introductions and presentation-style summaries |
 | [rolling-stock/](rolling-stock/README.md) | Light-metro trainset package: GA, body, bogie, traction, BOM, fabrication plan, drawing register, compliance |
 | [civil/](civil/README.md) | Alignment interchange format and civil tool bridge docs |
 | [stations/](stations/README.md) | Station design material |
@@ -49,6 +51,7 @@ without duplicating them.
 | Civil deployment release gates | [civil/deployment-release-checklist.md](civil/deployment-release-checklist.md) |
 | Operations validation gates | [operations/validation-checklist.md](operations/validation-checklist.md) |
 | Reader-edition PDF | [opensource-rail-docs-book.pdf](../opensource-rail-docs-book.pdf) |
+| Introduction brochure PDF | [brochures/open-source-rail-introduction.pdf](brochures/open-source-rail-introduction.pdf) |
 | v0.2 roadmap | [ROADMAP.md](ROADMAP.md) |
 
 ## Regeneration

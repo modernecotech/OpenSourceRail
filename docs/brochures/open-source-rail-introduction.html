@@ -1,0 +1,575 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>OpenSourceRail Introduction Brochure</title>
+  <style>
+    @page {
+      size: A4 landscape;
+      margin: 10mm;
+      @bottom-right {
+        content: "OpenSourceRail introduction  |  " counter(page);
+        color: #5a6a80;
+        font-size: 8pt;
+      }
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      color: #12213a;
+      font-family: "DejaVu Sans", Arial, sans-serif;
+      background: #eef3f8;
+    }
+    .page {
+      page-break-after: always;
+      min-height: 186mm;
+      padding: 8mm;
+      background: #f8fbff;
+      border: 1px solid #ccd8e6;
+      border-radius: 4mm;
+      position: relative;
+      overflow: hidden;
+    }
+    .page:last-child { page-break-after: auto; }
+    h1, h2, h3 { margin: 0; letter-spacing: 0; }
+    h1 { font-size: 30pt; line-height: 1.03; color: #0c2344; }
+    h2 { font-size: 22pt; line-height: 1.08; color: #0c2344; }
+    h3 { font-size: 12pt; color: #0b5a35; margin-bottom: 3mm; }
+    p { font-size: 10pt; line-height: 1.42; margin: 0 0 3mm; }
+    ul { margin: 0; padding-left: 4.5mm; }
+    li { font-size: 9.5pt; line-height: 1.35; margin: 0 0 1.6mm; }
+    .kicker {
+      display: inline-block;
+      color: #fff;
+      background: #0c2344;
+      border-radius: 2mm;
+      font-size: 8pt;
+      font-weight: 700;
+      padding: 1.4mm 3mm;
+      margin-bottom: 4mm;
+      text-transform: uppercase;
+    }
+    .subhead {
+      color: #0b5a35;
+      font-weight: 700;
+      font-size: 14pt;
+      margin: 2mm 0 5mm;
+    }
+    .grid { display: grid; gap: 5mm; }
+    .two { grid-template-columns: 1.05fr 1fr; }
+    .three { grid-template-columns: repeat(3, 1fr); }
+    .four { grid-template-columns: repeat(4, 1fr); }
+    .card {
+      background: #fff;
+      border: 1px solid #c8d6e6;
+      border-radius: 3mm;
+      padding: 4mm;
+    }
+    .metric {
+      background: #edf7f1;
+      border-left: 1.3mm solid #0b6b3f;
+      padding: 3mm;
+      border-radius: 2mm;
+      min-height: 21mm;
+    }
+    .metric strong { display: block; font-size: 15pt; color: #0c2344; }
+    .metric span { display: block; font-size: 8.5pt; color: #44546a; }
+    .hero-img, .wide-img, .panel-img {
+      width: 100%;
+      object-fit: contain;
+      display: block;
+      border-radius: 3mm;
+      border: 1px solid #c8d6e6;
+      background: #fff;
+    }
+    .hero-img { max-height: 118mm; }
+    .wide-img { max-height: 102mm; }
+    .panel-img { height: 54mm; object-fit: contain; }
+    .logo {
+      height: 15mm;
+      width: auto;
+      border: 0;
+      background: transparent;
+    }
+    .band {
+      background: #0c2344;
+      color: #fff;
+      border-radius: 3mm;
+      padding: 4mm 5mm;
+      margin-bottom: 5mm;
+    }
+    .band h2 { color: #fff; }
+    .green { color: #0b6b3f; }
+    .muted { color: #5a6a80; }
+    .small { font-size: 8.5pt; }
+    .table { width: 100%; border-collapse: collapse; font-size: 8.5pt; }
+    .table th {
+      text-align: left;
+      color: #fff;
+      background: #0c2344;
+      padding: 2mm;
+    }
+    .table td {
+      border-bottom: 1px solid #d7e1ee;
+      padding: 2mm;
+      vertical-align: top;
+    }
+    .timeline {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 3mm;
+      margin-top: 4mm;
+    }
+    .step {
+      background: #fff;
+      border: 1px solid #c8d6e6;
+      border-top: 2mm solid #0b6b3f;
+      border-radius: 3mm;
+      padding: 3mm;
+      min-height: 31mm;
+    }
+    .step strong { display: block; margin-bottom: 1.5mm; font-size: 9pt; }
+    .footer-note {
+      position: absolute;
+      bottom: 7mm;
+      left: 8mm;
+      right: 8mm;
+      font-size: 7.8pt;
+      color: #5a6a80;
+    }
+  </style>
+</head>
+<body>
+
+<section class="page">
+  <div class="grid two" style="align-items:start;">
+    <div>
+      <span class="kicker">Introduction brochure</span>
+      <h1>OpenSourceRail</h1>
+      <div class="subhead">An open stack for affordable, locally buildable urban rail.</div>
+      <p>OpenSourceRail combines city design automation, a simulator and control stack, parametric mechanical CAD, hardware reference designs, operations documentation, and a machine-checkable safety case.</p>
+      <div class="grid three" style="margin-top:7mm;">
+        <div class="metric"><strong>GoA 4</strong><span>Driverless reference operation.</span></div>
+        <div class="metric"><strong>51 m</strong><span>Reference 3-car light metro trainset.</span></div>
+        <div class="metric"><strong>build123d</strong><span>CAD generated from source, not hand-edited STEP files.</span></div>
+      </div>
+    </div>
+    <img class="hero-img" src="../assets/solar-metro-trainset.png" alt="Solar metro trainset concept">
+  </div>
+  <div class="footer-note">Software: Apache 2.0. Hardware designs: CERN-OHL-S v2. Documentation: CC-BY-SA 4.0.</div>
+</section>
+
+<section class="page">
+  <div class="band"><h2>1. The Problem</h2></div>
+  <div class="grid two">
+    <div class="card">
+      <h3>Urban rail is too slow and expensive to deploy</h3>
+      <ul>
+        <li>Proprietary vehicle and signalling packages create lock-in.</li>
+        <li>Capital cost makes medium-size corridors hard to justify.</li>
+        <li>Integration evidence is often document-heavy and hard to regenerate.</li>
+        <li>Local manufacturers are pushed toward low-value installation work.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>OpenSourceRail's bet</h3>
+      <ul>
+        <li>Publish reference designs and machine-readable interfaces.</li>
+        <li>Use commodity hardware and certified COTS modules where sensible.</li>
+        <li>Keep the safety case explicit, testable, and versioned with the design.</li>
+        <li>Make local fabrication the default: cut, weld, bond, bolt, test.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="grid four" style="margin-top:7mm;">
+    <div class="metric"><strong>Open</strong><span>Readable source artifacts.</span></div>
+    <div class="metric"><strong>Repeatable</strong><span>Regenerate cities, CAD, BOMs, docs.</span></div>
+    <div class="metric"><strong>Modular</strong><span>Swap suppliers if envelopes fit.</span></div>
+    <div class="metric"><strong>Assessable</strong><span>Evidence links to tests and drawings.</span></div>
+  </div>
+</section>
+
+<section class="page">
+  <div class="band"><h2>2. System Overview</h2></div>
+  <div class="grid three">
+    <div class="card"><h3>Design automation</h3><p>GIS and city templates generate alignments, station placements, maps, cost summaries, and simulator scenarios.</p></div>
+    <div class="card"><h3>Control software</h3><p>Rust crates cover simulator, interlocking, ATP, brake, obstacle detection, TCMS, GUIs, and safety-case compilation.</p></div>
+    <div class="card"><h3>Mechanical package</h3><p>build123d source generates trainsets, bogies, track, civil works, stations, depots, and STEP handoff files.</p></div>
+    <div class="card"><h3>Hardware hosts</h3><p>Reference SBC/ECU classes define train, wayside, station, and obstacle-detection hosts.</p></div>
+    <div class="card"><h3>Operations docs</h3><p>Rulebooks, staff procedures, maintenance flows, and depot processes are part of the same repository.</p></div>
+    <div class="card"><h3>Safety evidence</h3><p>Certification and GSN documents capture assumptions, tests, and remaining evidence gaps.</p></div>
+  </div>
+</section>
+
+<section class="page">
+  <div class="band"><h2>3. Reference Vehicle</h2></div>
+  <div class="grid two">
+    <img class="wide-img" src="../assets/solar-metro-trainset.png" alt="Reference vehicle board">
+    <div>
+      <h3>Solar metro trainset</h3>
+      <ul>
+        <li>3-car, 51 m reference consist.</li>
+        <li>17 m repeated car module.</li>
+        <li>Two low-floor door pairs per side per car.</li>
+        <li>About 10 m low-floor centre section.</li>
+        <li>About 3 m high-floor end decks over standard bogies.</li>
+        <li>Open glass driverless ends at both train ends.</li>
+        <li>Under-seat sodium-ion batteries and roof solar.</li>
+      </ul>
+      <div class="metric" style="margin-top:6mm;"><strong>Design authority</strong><span>build123d source in mechanical-py/src/osr_mech/rolling_stock; PNG and STEP files are generated handoff artifacts.</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="page">
+  <div class="band"><h2>4. Trainset Layout</h2></div>
+  <div class="grid two">
+    <img class="wide-img" src="../screenshots/trainset-light-metro-3car.png" alt="Trainset CAD render">
+    <div class="card">
+      <h3>Why 17 m cars?</h3>
+      <p>The 17 m module keeps a 3-car train at 51 m, leaves platform margin on a 67 m standard station, and remains workshop-friendly.</p>
+      <ul>
+        <li>Standard bogies sit at each car end.</li>
+        <li>Raised decks cover bogie structure and service access.</li>
+        <li>The low-floor middle supports doors, PRM bays, and passenger flow.</li>
+        <li>Capacity scales by adding repeated cars or by a later 19-20 m variant.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="grid three" style="margin-top:5mm;">
+    <div class="metric"><strong>2 + 4</strong><span>Two powered bogies, four trailer bogies.</span></div>
+    <div class="metric"><strong>12</strong><span>Exterior door cassettes per consist.</span></div>
+    <div class="metric"><strong>450 kWh</strong><span>Reference sodium-ion onboard energy.</span></div>
+  </div>
+</section>
+
+<section class="page">
+  <div class="band"><h2>5. Production Assembly</h2></div>
+  <img class="wide-img" style="max-height:142mm;" src="../assets/solar-metro-production-assembly.png" alt="Production assembly board">
+  <p class="small" style="margin-top:3mm;">Make the steel datum structure locally; install supplier modules late; repeat the 17 m car body; lower onto standard bogies.</p>
+</section>
+
+<section class="page">
+  <div class="band"><h2>6. Layered Car Body</h2></div>
+  <div class="grid two">
+    <img class="wide-img" src="../screenshots/trainset-car-detail.png" alt="Layered car detail">
+    <div>
+      <h3>Components to final assembly</h3>
+      <ul>
+        <li>Primary steel shell, floor, and portal structure.</li>
+        <li>Exterior cladding, glazing, doors, livery, solar, and skirts.</li>
+        <li>Interior fit-out with seats, PRM bays, grab rails, and displays.</li>
+        <li>Service layers for HVAC, LV/data, HV traction, PV, coolant, and fire paths.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="grid three" style="margin-top:5mm;">
+    <img class="panel-img" src="../screenshots/trainset-car-body-structure.png" alt="Structure">
+    <img class="panel-img" src="../screenshots/trainset-car-body-exterior.png" alt="Exterior">
+    <img class="panel-img" src="../screenshots/trainset-car-body-services.png" alt="Services">
+  </div>
+</section>
+
+<section class="page">
+  <div class="band"><h2>7. Body Structure And Load Path</h2></div>
+  <div class="grid two">
+    <img class="wide-img" src="../screenshots/trainset-car-body-structure.png" alt="Body structure">
+    <div class="card">
+      <h3>Fabricated, inspectable steel</h3>
+      <ul>
+        <li>S355 underframe ladder and side/roof spaceframe.</li>
+        <li>Door portal posts and headers around COTS cassettes.</li>
+        <li>Window posts, waist rails, cantrails, and end rings.</li>
+        <li>Anti-climber beam and open-glass cowl structural ring.</li>
+        <li>Bogie rotation, suspension-travel, and drop-zone envelopes.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="page">
+  <div class="band"><h2>8. Access And Interior</h2></div>
+  <div class="grid two">
+    <img class="wide-img" src="../screenshots/trainset-car-body-interior.png" alt="Interior layer">
+    <div>
+      <h3>Passenger design intent</h3>
+      <ul>
+        <li>Two door pairs per side per car, concentrated in the low-floor zone.</li>
+        <li>Wheelchair turning circles and PRM bays in the centre section.</li>
+        <li>Longitudinal seats over under-seat battery strakes.</li>
+        <li>Open passenger view through both driverless glass ends.</li>
+        <li>Handrails and step treads where the floor rises over bogies.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="grid two" style="margin-top:5mm;">
+    <img class="panel-img" src="../screenshots/trainset-interior-fit-out.png" alt="Interior fit out">
+    <img class="panel-img" src="../screenshots/trainset-car-body-bogie-subassembly.png" alt="Body on bogies">
+  </div>
+</section>
+
+<section class="page">
+  <div class="band"><h2>9. Driverless Ends And Sensing</h2></div>
+  <div class="grid three">
+    <div class="card"><h3>Open glass ends</h3><p>The ends are not cab partitions. Passengers retain a forward/rear view through heated RF-transparent glass.</p></div>
+    <div class="card"><h3>T-OBS sensor pack</h3><p>LIDAR, mmWave radar, stereo cameras, and ultrasonic sensors sit behind serviceable cowl hardware.</p></div>
+    <div class="card"><h3>Recovery only</h3><p>Hidden maintenance/recovery controls are not a normal driver cab.</p></div>
+  </div>
+  <div class="grid three" style="margin-top:6mm;">
+    <img class="panel-img" src="../screenshots/trainset-tobs-sensor-pack.png" alt="T-OBS pack">
+    <img class="panel-img" src="../screenshots/trainset-electronics-cabinet.png" alt="Electronics cabinet">
+    <img class="panel-img" src="../screenshots/trainset-end-coupler.png" alt="End coupler">
+  </div>
+</section>
+
+<section class="page">
+  <div class="band"><h2>10. Bogies And Running Gear</h2></div>
+  <div class="grid two">
+    <img class="wide-img" src="../screenshots/bogie-motor.png" alt="Motor bogie">
+    <div>
+      <h3>Standardized bogie strategy</h3>
+      <ul>
+        <li>Two powered bogies total, at the outer end cars.</li>
+        <li>Four trailer bogies using the common frame and suspension envelope.</li>
+        <li>Powered bogie includes PMSM motors, gearboxes, brakes, and suspension.</li>
+        <li>Trailer bogie keeps the same maintainable running-gear architecture without traction drives.</li>
+      </ul>
+    </div>
+  </div>
+  <img class="panel-img" style="margin-top:5mm;" src="../screenshots/bogie-trailer.png" alt="Trailer bogie">
+</section>
+
+<section class="page">
+  <div class="band"><h2>11. Energy System</h2></div>
+  <div class="grid two">
+    <img class="wide-img" src="../screenshots/trainset-battery-pack.png" alt="Battery pack set">
+    <div class="card">
+      <h3>Battery electric, catenary-free</h3>
+      <ul>
+        <li>Reference 450 kWh sodium-ion consist energy.</li>
+        <li>Under-seat modules keep the roof available for solar and HVAC.</li>
+        <li>Station side-pin charging is the primary concept.</li>
+        <li>Roof PV supports auxiliary energy and site energy modelling.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="grid two" style="margin-top:5mm;">
+    <img class="panel-img" src="../screenshots/trainset-car-systems.png" alt="Car systems">
+    <img class="panel-img" src="../screenshots/trainset-door-system.png" alt="Door system">
+  </div>
+</section>
+
+<section class="page">
+  <div class="band"><h2>12. Stations And Civil Works</h2></div>
+  <div class="grid two">
+    <img class="wide-img" src="../screenshots/station-canopy.png" alt="Station canopy">
+    <div>
+      <h3>Station pattern</h3>
+      <ul>
+        <li>Low platform interface at the 350 mm train floor datum.</li>
+        <li>Platform screen-door alignment and train-side interlocks are reserved in CAD.</li>
+        <li>Station charging can be side-pin or pantograph-down depending on civil geometry.</li>
+        <li>Stations, track, and city designs regenerate from machine-readable templates.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="page">
+  <div class="band"><h2>13. City Design Automation</h2></div>
+  <div class="grid two">
+    <img class="wide-img" src="../../designs/west-asia/Iraq/Samawah/samawah-network-map.png" alt="Samawah network map">
+    <div class="card">
+      <h3>From city inputs to runnable scenarios</h3>
+      <ul>
+        <li>World sample batches define candidate cities.</li>
+        <li>GIS tooling emits route GeoJSON, maps, quality YAML, and README summaries.</li>
+        <li>Rust design synthesis produces simulator scenarios and cost summaries.</li>
+        <li>Every city folder is a reproducible design package.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="page">
+  <div class="band"><h2>14. Simulator And Control Stack</h2></div>
+  <div class="grid two">
+    <img class="wide-img" src="../screenshots/sim-gui.png" alt="Simulator GUI">
+    <div>
+      <h3>Software crates</h3>
+      <ul>
+        <li>Simulator and scenario execution.</li>
+        <li>Interlocking, ATP, brake, and obstacle-detection crates.</li>
+        <li>TCMS and GUI tooling.</li>
+        <li>Safety-case compiler and verification support.</li>
+      </ul>
+    </div>
+  </div>
+  <img class="panel-img" style="margin-top:5mm;" src="../screenshots/occ-gui.png" alt="OCC GUI">
+</section>
+
+<section class="page">
+  <div class="band"><h2>15. Hardware Host Classes</h2></div>
+  <div class="grid three">
+    <div class="card"><h3>T-ECU/S</h3><p>Train safety kernel host for safety-related train functions.</p></div>
+    <div class="card"><h3>T-ECU/A</h3><p>Train application computer for non-safety application logic and integrations.</p></div>
+    <div class="card"><h3>T-OBS</h3><p>Obstacle-detection host connected to the driverless nose sensor pack.</p></div>
+    <div class="card"><h3>W-SBC</h3><p>Wayside controller class for station and trackside equipment.</p></div>
+    <div class="card"><h3>S-SBC</h3><p>Station/depot host for local operations and maintenance integration.</p></div>
+    <div class="card"><h3>DIY pilots</h3><p>Commodity-module assembly path for lab and early integration builds.</p></div>
+  </div>
+</section>
+
+<section class="page">
+  <div class="band"><h2>16. Safety And Certification</h2></div>
+  <div class="grid two">
+    <div class="card">
+      <h3>Safety case is part of the product</h3>
+      <p>The repository includes RFCs, safety-case documents, certification packs, operations rules, and formal models. The project does not certify deployments; it produces artifacts suitable for independent assessment.</p>
+    </div>
+    <div class="card">
+      <h3>Evidence direction</h3>
+      <ul>
+        <li>Requirements and assumptions are explicit.</li>
+        <li>Tests and generated artifacts are linked to source.</li>
+        <li>Supplier documents fit controlled interface envelopes.</li>
+        <li>Authority review remains deployment-specific.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="timeline">
+    <div class="step"><strong>Concept</strong><span class="small">Reference architecture and RFCs.</span></div>
+    <div class="step"><strong>v1</strong><span class="small">Envelope CAD, BOM, docs, simulation.</span></div>
+    <div class="step"><strong>v2</strong><span class="small">Supplier envelopes and shop drawings.</span></div>
+    <div class="step"><strong>First article</strong><span class="small">Build, inspect, static test.</span></div>
+    <div class="step"><strong>Assessment</strong><span class="small">Independent review and authority process.</span></div>
+  </div>
+</section>
+
+<section class="page">
+  <div class="band"><h2>17. Manufacturing Doctrine</h2></div>
+  <table class="table">
+    <tr><th>Scope</th><th>Default</th><th>Reason</th></tr>
+    <tr><td>Primary structure</td><td>MAKE: cut, bend, weld S355 steel</td><td>Available in rail, truck, ship, oilfield, and bridge workshops.</td></tr>
+    <tr><td>Panels</td><td>BID/SOURCE composite side, roof, and cowl panels</td><td>Low tooling cost and replaceable after damage.</td></tr>
+    <tr><td>Doors/windows/HVAC</td><td>COTS or BID supplier modules</td><td>Use certified rail/bus module evidence instead of bespoke development.</td></tr>
+    <tr><td>Bogies</td><td>Qualified MAKE plus supplier-certified rotating/brake parts</td><td>Structural frame can be local; wheelsets and brakes need supplier evidence.</td></tr>
+    <tr><td>Traction and BMS</td><td>BID/SOURCE packages</td><td>Supplier qualification, EMC, and lifecycle test evidence required.</td></tr>
+  </table>
+</section>
+
+<section class="page">
+  <div class="band"><h2>18. Cost And BOM Direction</h2></div>
+  <div class="grid four">
+    <div class="metric"><strong>$2.21M</strong><span>Direct material planning estimate for 3-car consist.</span></div>
+    <div class="metric"><strong>$2.98M</strong><span>Planning-grade consist cost after shop labor uplift.</span></div>
+    <div class="metric"><strong>12</strong><span>COTS electric door cassettes per consist.</span></div>
+    <div class="metric"><strong>18</strong><span>COTS window cassettes per consist.</span></div>
+  </div>
+  <div class="grid two" style="margin-top:7mm;">
+    <div class="card"><h3>MAKE</h3><p>Fabricator-owned steel datum parts, brackets, harness supports, and local tooling.</p></div>
+    <div class="card"><h3>BID/SOURCE</h3><p>Doors, windows, HVAC, electronics, traction, bogie parts, and certified passenger modules.</p></div>
+  </div>
+</section>
+
+<section class="page">
+  <div class="band"><h2>19. Operations And Maintenance</h2></div>
+  <div class="grid three">
+    <div class="card"><h3>Operations</h3><p>Rulebook, OCC guidance, station staff procedures, and depot flows are kept with the technical design.</p></div>
+    <div class="card"><h3>Maintenance</h3><p>Design emphasizes bolted service cassettes, removable skirts, access lids, and supplier module replacement.</p></div>
+    <div class="card"><h3>Recovery</h3><p>Driverless operation includes rescue couplers, recovery cabinets, and explicit degraded-mode procedures.</p></div>
+  </div>
+  <div class="grid two" style="margin-top:7mm;">
+    <div class="metric"><strong>Local skills</strong><span>Welding, bonding, wiring, inspection, and commissioning cells.</span></div>
+    <div class="metric"><strong>Supplier evidence</strong><span>Installation, maintenance, lifecycle, and certification documents remain required.</span></div>
+  </div>
+</section>
+
+<section class="page">
+  <div class="band"><h2>20. Deployment Workflow</h2></div>
+  <div class="timeline">
+    <div class="step"><strong>1. Select corridor</strong><span class="small">Use city generation and GIS evidence.</span></div>
+    <div class="step"><strong>2. Configure system</strong><span class="small">Pick consist, station, depot, energy, and operations templates.</span></div>
+    <div class="step"><strong>3. Freeze envelopes</strong><span class="small">Supplier modules must fit reserved interfaces.</span></div>
+    <div class="step"><strong>4. Build first article</strong><span class="small">Fabricate, install COTS modules, inspect.</span></div>
+    <div class="step"><strong>5. Certify locally</strong><span class="small">Submit evidence to national authority and independent assessor.</span></div>
+  </div>
+  <div class="card" style="margin-top:8mm;">
+    <h3>Regenerable artifacts</h3>
+    <p>City designs, BOM CSVs, CAD screenshots, STEP catalogues, test outputs, and document books can be regenerated from repository source.</p>
+  </div>
+</section>
+
+<section class="page">
+  <div class="band"><h2>21. Repository Map</h2></div>
+  <table class="table">
+    <tr><th>Path</th><th>Purpose</th></tr>
+    <tr><td>crates/</td><td>Rust simulator, control, safety, GUI, and design tools.</td></tr>
+    <tr><td>design-py/ and designs/</td><td>GIS sidecar and generated city design packages.</td></tr>
+    <tr><td>mechanical-py/</td><td>build123d mechanical source and generated STEP catalogue.</td></tr>
+    <tr><td>hardware/</td><td>Hardware reference designs and host-class integration.</td></tr>
+    <tr><td>docs/</td><td>Architecture, RFCs, operations, certification, safety case, rolling-stock docs.</td></tr>
+    <tr><td>lib/</td><td>Templates, recipes, cost inputs, city batches, and examples.</td></tr>
+    <tr><td>formal/</td><td>TLA+ consensus specification and model-checking harnesses.</td></tr>
+  </table>
+</section>
+
+<section class="page">
+  <div class="band"><h2>22. Regeneration Commands</h2></div>
+  <div class="grid two">
+    <div class="card"><h3>Repository health</h3><p><code>python3 scripts/repo-health.py --quiet</code></p></div>
+    <div class="card"><h3>Mechanical tests</h3><p><code>PYTHONPATH=mechanical-py/src pytest mechanical-py/tests -q</code></p></div>
+    <div class="card"><h3>CAD screenshots</h3><p><code>PYTHONPATH=mechanical-py/src python3 mechanical-py/scripts/render_screenshots.py</code></p></div>
+    <div class="card"><h3>STEP catalogue</h3><p><code>PYTHONPATH=mechanical-py/src python3 -m osr_mech.catalog --out mechanical-py/catalog</code></p></div>
+    <div class="card"><h3>BOM CSV</h3><p><code>python3 scripts/export-light-metro-bom.py</code></p></div>
+    <div class="card"><h3>City regeneration</h3><p><code>scripts/regenerate-city.sh samawah</code></p></div>
+  </div>
+</section>
+
+<section class="page">
+  <div class="band"><h2>23. v0.2 Focus</h2></div>
+  <div class="grid two">
+    <div class="card">
+      <h3>Rolling stock</h3>
+      <ul>
+        <li>Supplier exact envelopes for doors, windows, HVAC, traction, and bogie components.</li>
+        <li>2D shop drawings, weld maps, tolerance stacks, and inspection plans.</li>
+        <li>Harness clamp locations and maintainability clearances.</li>
+        <li>FEA-ready brackets and controlled drawing register.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>System integration</h3>
+      <ul>
+        <li>Station charging interface and platform screen-door proof.</li>
+        <li>Hardware bring-up and simulated end-to-end control paths.</li>
+        <li>Expanded certification evidence and test traceability.</li>
+        <li>More generated cities and cost comparisons.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="page">
+  <div class="band"><h2>24. What To Read Next</h2></div>
+  <div class="grid two">
+    <div>
+      <h3>Core entry points</h3>
+      <ul>
+        <li>README.md for the repository overview.</li>
+        <li>docs/ARCHITECTURE.md for system structure.</li>
+        <li>docs/rolling-stock/light-metro-3car/README.md for the reference train.</li>
+        <li>docs/rfcs/README.md for design decisions.</li>
+        <li>docs/certification/ and docs/safety-case/ for assessment evidence.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Open artifact, not a certifier</h3>
+      <p>OpenSourceRail produces open designs, software, hardware references, and evidence packs. Deployment partners and national authorities remain responsible for supplier qualification, safety assessment, homologation, and operation.</p>
+      <p class="green"><strong>Start with the generated trainset and production graphics, then follow the build123d source.</strong></p>
+    </div>
+  </div>
+</section>
+
+</body>
+</html>
