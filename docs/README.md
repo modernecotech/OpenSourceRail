@@ -5,6 +5,9 @@ source code, generated city designs, mechanical CAD, hardware, and
 safety evidence in separate top-level areas; this page links those areas
 without duplicating them.
 
+For a single catalogue of every Markdown file in the repository, use
+the generated [Markdown documentation index](INDEX.md).
+
 ## Main Reading Paths
 
 | Reader | Start with |
@@ -62,4 +65,5 @@ Use the root README for the common commands. The short version:
 scripts/regenerate-city.sh samawah
 PYTHONPATH=mechanical-py/src python3 -m osr_mech.catalog --out mechanical-py/catalog
 python3 scripts/repo-health.py --quiet
+python3 scripts/generate-doc-index.py
 ```

@@ -254,7 +254,7 @@ def _inline(children: list[dict] | None) -> str:
         elif t == "linebreak":
             parts.append("<br/>")
         elif t == "codespan":
-            parts.append(f"<font name=\"BookMono\">{html.escape(child.get('raw', ''))}</font>")
+            parts.append(f"<font name=\"Courier\">{html.escape(child.get('raw', ''))}</font>")
         elif t == "strong":
             parts.append(f"<b>{_inline(child.get('children'))}</b>")
         elif t == "emphasis":

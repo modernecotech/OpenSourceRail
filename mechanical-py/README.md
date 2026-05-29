@@ -89,6 +89,16 @@ pip install -e .[test]
 # Regenerate every STEP artifact under catalog/.
 osr-mech-export
 
+# Build a FreeCAD review assembly from the generated STEP catalogue.
+# The launcher uses native FreeCADCmd or the FreeCAD Flatpak and handles
+# FreeCAD's script argument quirks.
+scripts/freecad_trainset.sh --family light-metro-3car
+
+# Optional: also emit a combined STEP assembly for CAD handoff.
+scripts/freecad_trainset.sh \
+  --family light-metro-3car \
+  --export-step catalog/freecad/trainset-light-metro-3car-freecad.step
+
 # Or: call a single component from Python.
 python3 -c "
 from osr_mech.station.canopy import station_canopy
@@ -127,6 +137,19 @@ conservative — every kit is sized for the worst of:
 
 Deployment sites with harsher envelopes need a beefed-up variant; we'd
 rather add a "heavy" SKU than weaken the standard.
+
+## FreeCAD assembly bridge
+
+`osr_mech.freecad_trainset` imports the generated STEP catalogue into a
+structured FreeCAD document. The resulting `.FCStd` file is a review and
+handoff assembly: parts are grouped as car bodies, bogies, onboard
+systems, couplers, platform interfaces, and clearance references, with
+placements and display colours applied for inspection.
+
+The bridge deliberately does not make FreeCAD the source of truth.
+Authoritative geometry stays in build123d; FreeCAD consumes the exported
+STEP files for assembly review, drawing generation, partner mark-up, and
+optional combined STEP export.
 
 See [`catalog/README.md`](catalog/README.md) for the generated STEP
 catalogue map.

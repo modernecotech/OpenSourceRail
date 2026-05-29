@@ -22,3 +22,4 @@ PYTHONPATH=mechanical-py/src python3 -m osr_mech.catalog --out mechanical-py/cat
 | [`station/`](station/) | Platform, canopy, portal, solar-roof, and tactile-path parts |
 | [`depot/`](depot/) | Depot archetype envelopes |
 | [`fixtures/`](fixtures/) | Supplier-neutral COTS fixture envelopes |
+| [`freecad/`](freecad/) | FreeCAD review assemblies generated from the STEP catalogue |
