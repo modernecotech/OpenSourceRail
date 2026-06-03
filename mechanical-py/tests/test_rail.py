@@ -12,7 +12,7 @@ STEEL_DENSITY_KG_PER_M3 = 7850.0
 
 @pytest.mark.parametrize("profile", list(RailProfile))
 def test_rail_linear_mass_within_published_tolerance(profile: RailProfile) -> None:
-    """Extruded STEP volume × steel density should match published linear
+    """Extruded model volume × steel density should match published linear
     mass within ± 5 %.
 
     The 5 % margin absorbs the polygon approximation of the rail section

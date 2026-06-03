@@ -125,7 +125,7 @@ def portal_frame() -> Compound:
 
     brace_len = math.hypot(PLATFORM_DEPTH_MM / 2.0, CLEAR_HEIGHT_MM / 2.0)
     b = _brace(brace_len)
-    # Not rotated into the diagonal — the STEP artifact uses an
+    # Not rotated into the diagonal: the review model uses an
     # axial simplification. A real structural drawing would show the
     # exact haunch angle.
     b = b.translate((0.0, PLATFORM_DEPTH_MM / 2.0, CLEAR_HEIGHT_MM / 2.0))

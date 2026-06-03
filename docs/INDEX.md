@@ -487,7 +487,7 @@ Indexed Markdown files: **426**.
 | File | Title |
 |---|---|
 | [`mechanical-py/README.md`](../mechanical-py/README.md) | mechanical-py — parametric mechanical + civil + station catalogue |
-| [`mechanical-py/catalog/README.md`](../mechanical-py/catalog/README.md) | Generated STEP Catalogue |
+| [`mechanical-py/catalog/README.md`](../mechanical-py/catalog/README.md) | Generated Mechanical Review Artifacts |
 | [`mechanical-py/catalog/freecad/README.md`](../mechanical-py/catalog/freecad/README.md) | FreeCAD Review Assemblies |
 
 ## scripts

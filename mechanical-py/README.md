@@ -65,9 +65,10 @@ mechanical catalogue. One source of truth for the whole deployment.
 ## Canonical Source
 
 The Python build123d files under [`src/osr_mech/`](src/osr_mech/) are
-the design basis. Generated STEP files under [`catalog/`](catalog/) are
-exchange artifacts for CAD viewers, fabricators, and structural
-engineering handoff.
+the design basis. Tracked FreeCAD `.FCStd` files under
+[`catalog/freecad/`](catalog/freecad/) are the compact assembly-review
+artifacts. Neutral CAD exports are local-only scratch files when a
+supplier specifically asks for them.
 
 Key rolling-stock source entry points:
 
@@ -86,12 +87,7 @@ Key rolling-stock source entry points:
 # One-time: install the package in editable mode.
 pip install -e .[test]
 
-# Regenerate every STEP artifact under catalog/.
-# The exporter refreshes its generated STEP folders first so the
-# catalogue contains the latest canonical set, not stale renamed parts.
-osr-mech-export
-
-# Build a FreeCAD review assembly from the generated STEP catalogue.
+# Build a FreeCAD review assembly.
 # The launcher uses native FreeCADCmd or the FreeCAD Flatpak and handles
 # FreeCAD's script argument quirks.
 scripts/freecad_trainset.sh --family light-metro-3car
@@ -109,21 +105,6 @@ scripts/freecad_fea.sh
 # docs/screenshots/freecad/ latest image set.
 scripts/freecad_screenshots.sh
 
-# Optional: also emit a combined STEP assembly for CAD handoff.
-scripts/freecad_trainset.sh \
-  --family light-metro-3car \
-  --export-step catalog/freecad/trainset-light-metro-3car-freecad.step
-
-# Or: call a single component from Python.
-python3 -c "
-from osr_mech.station.canopy import station_canopy
-from osr_mech.common import StationArchetype, ConsistFamily
-c = station_canopy(
-    archetype=StationArchetype.STANDARD,
-    consist=ConsistFamily.LIGHT_METRO_3CAR,
-)
-c.export_step('my-canopy.step')
-"
 ```
 
 ## Testing
@@ -135,11 +116,11 @@ model needs fixing, but the two can't silently diverge.
 
 ## Handoff to structural engineering
 
-Every component emits STEP (ISO 10303-21) on `export_catalog`. STEP
-round-trips into Revit, Tekla Structures, Civil 3D, and the open-source
-FreeCAD / QGIS-IFC stack. The civil engineer at the deployment partner
-reads the STEP, does their load check against local codes (Eurocode,
-IBC, IRC, …), and either stamps it or tells us where to beef it up.
+The tracked handoff package is the Python source, FreeCAD `.FCStd`
+review assemblies, screenshots, and design notes. A deployment partner
+can generate local neutral CAD exports from the same source if their
+toolchain requires them, but those exports are not committed because
+they are bulky and reproducible.
 
 The published load envelopes (in the component docstrings) are
 conservative — every kit is sized for the worst of:
@@ -155,22 +136,19 @@ rather add a "heavy" SKU than weaken the standard.
 
 ## FreeCAD assembly bridge
 
-`osr_mech.freecad_trainset` imports the generated STEP catalogue into a
-structured FreeCAD document. The resulting `.FCStd` file is a review and
-handoff assembly: parts are grouped as car bodies, bogies, onboard
-systems, couplers, platform interfaces, and clearance references, with
-placements and display colours applied for inspection.
+`osr_mech.freecad_trainset` builds a structured FreeCAD document
+directly from the build123d source geometry. The resulting `.FCStd`
+file is a review and handoff assembly: parts are grouped as car bodies,
+bogies, onboard systems, couplers, platform interfaces, and clearance
+references, with placements and display colours applied for inspection.
 
 The bridge deliberately does not make FreeCAD the source of truth.
-Authoritative geometry stays in build123d; FreeCAD consumes the exported
-STEP files for assembly review, drawing generation, partner mark-up, and
-optional combined STEP export.
-
-See [`catalog/README.md`](catalog/README.md) for the generated STEP
-catalogue map.
+Authoritative geometry stays in build123d; FreeCAD is the compact
+tracked review format for assembly inspection, drawing generation, and
+partner mark-up.
 
 ## Licence
 
-Apache 2.0 for the Python code. The STEP artifacts under `catalog/`
-are CERN-OHL-S v2 (open hardware licence) — same intent as the rest
-of the `hardware/` tree.
+Apache 2.0 for the Python code. Generated CAD review artifacts under
+`catalog/freecad/` follow the same open-hardware intent as the rest of
+the `hardware/` tree.

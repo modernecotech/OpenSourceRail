@@ -14,9 +14,17 @@ trap 'rm -f "$WRAPPER"' EXIT
 cat >"$WRAPPER" <<PY
 import runpy
 import sys
+import traceback
 
+sys.path.insert(0, r"$ROOT/src")
 sys.argv = [r"$SCRIPT"] + $ARGS_PY
-runpy.run_path(r"$SCRIPT", run_name="__main__")
+try:
+    runpy.run_path(r"$SCRIPT", run_name="__main__")
+except SystemExit:
+    raise
+except Exception:
+    traceback.print_exc()
+    sys.exit(1)
 PY
 
 if command -v FreeCADCmd >/dev/null 2>&1; then
@@ -32,6 +40,7 @@ fi
 if command -v flatpak >/dev/null 2>&1 && flatpak info org.freecad.FreeCAD >/dev/null 2>&1; then
     flatpak run \
         --filesystem="$ROOT" \
+        --talk-name=org.freedesktop.Flatpak \
         --env=PYTHONPATH="$ROOT/src" \
         --command=FreeCADCmd org.freecad.FreeCAD \
         "$WRAPPER"

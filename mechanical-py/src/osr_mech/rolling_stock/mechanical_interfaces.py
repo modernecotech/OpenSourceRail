@@ -5,7 +5,7 @@ envelopes. This module fills the handoff gap between those layers:
 bolsters, backing plates, rails, bond lands, retention brackets,
 mounting pads, service hatches, duct hangers, and sensor/coupler
 mounts. Geometry is supplier-neutral but deliberately installation
-aware so the STEP catalogue can be used for design-review mark-up.
+aware so the FreeCAD review assemblies can be used for mark-up.
 """
 
 from __future__ import annotations

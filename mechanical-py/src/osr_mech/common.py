@@ -50,7 +50,7 @@ class RailProfile(str, Enum):
 
 @dataclass(frozen=True)
 class RailGeometry:
-    """Simplified UIC rail cross-section, for STEP export only.
+    """Simplified UIC rail cross-section, for CAD review only.
 
     Real rolling-mill profiles include fillets and radiused transitions
     that do not affect clearance checks at 1:10 scale. The build123d

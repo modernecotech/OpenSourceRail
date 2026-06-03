@@ -2,7 +2,7 @@
 
 Every rail-seat on every sleeper has a fastener on each side (4 per
 sleeper). The real Pandrol clip is a cold-formed spring-steel wire;
-the STEP artifact approximates it as a curved rod, which is fine for
+the review geometry approximates it as a curved rod, which is fine for
 clearance + assembly purposes. Vendors supply the actual clip to the
 Pandrol datasheet.
 """

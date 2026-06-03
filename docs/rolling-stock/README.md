@@ -20,7 +20,7 @@ networks.
 |---|---|
 | Generated CAD screenshots | [`../screenshots/`](../screenshots/) |
 | Canonical build123d source | [`../../mechanical-py/src/osr_mech/rolling_stock/`](../../mechanical-py/src/osr_mech/rolling_stock/) |
-| Generated STEP catalogue | [`../../mechanical-py/catalog/rolling_stock/`](../../mechanical-py/catalog/rolling_stock/) |
+| Generated FreeCAD review artifacts | [`../../mechanical-py/catalog/freecad/`](../../mechanical-py/catalog/freecad/) |
 | Concept image | [`../assets/solar-metro-trainset.png`](../assets/solar-metro-trainset.png) |
 | Hardware integration matrix | [`../../hardware/rolling-stock-integration.md`](../../hardware/rolling-stock-integration.md) |
 | Interior COTS catalogue | [`../../hardware/trainset-interiors/cots-catalogue.md`](../../hardware/trainset-interiors/cots-catalogue.md) |

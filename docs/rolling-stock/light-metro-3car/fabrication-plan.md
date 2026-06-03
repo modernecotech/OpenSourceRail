@@ -87,16 +87,16 @@ rather than legacy carbody megajigs.
 | LM3-TL-DOOR-07 | Door cassette fit-up gauge | Confirms COTS door cassette envelope, threshold, and lock-loop bracket clearances | Supplier installation tolerance |
 | LM3-TL-HV-08 | Battery tray/service-lid gauge | Checks tray drainage, lid gasket land, HV cable gland reach, and seat-base clearance | ±1.0 mm on service-lid gasket land |
 
-The current CAD manufacturing templates generated from
-`mechanical-py` are:
+The current CAD manufacturing templates generated from `mechanical-py`
+are tracked as build123d source and FreeCAD review artifacts:
 
-| Template | Use |
+| Template/source | Use |
 |---|---|
-| `main-frame.step` | Underframe ladder, formed sills, cross-bearers, bolsters, battery trays, coupler pockets |
-| `body-sheet-metal-kit.step` | Whole body/chassis sheet-metal kit: underframe, side posts, door portals, waist/cant rails, roof bows, end rings |
-| `sandwich-panel.step` | Side/roof panel aperture, folded flanges, retainers, and bond land |
-| `door-leaf.step` | COTS-style door leaf shell, bonded glazing, EPDM seals, hanger rollers |
-| `chassis-interface-assembly.step` | Bolster, bogie adapter, motor cradle, guide blocks, fasteners, service strut, connector interfaces |
+| `main_frame()` | Underframe ladder, formed sills, cross-bearers, bolsters, battery trays, coupler pockets |
+| `body_sheet_metal_kit()` | Whole body/chassis sheet-metal kit: underframe, side posts, door portals, waist/cant rails, roof bows, end rings |
+| `sandwich_panel()` | Side/roof panel aperture, folded flanges, retainers, and bond land |
+| `door_leaf()` | COTS-style door leaf shell, bonded glazing, EPDM seals, hanger rollers |
+| `chassis_interface_assembly()` | Bolster, bogie adapter, motor cradle, guide blocks, fasteners, service strut, connector interfaces |
 
 For a visual map of which COTS modules bolt, bond, plug, or slide into
 these fabricated datums, see

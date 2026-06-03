@@ -1,6 +1,6 @@
 # FreeCAD Assembly Geometry Review
 
-Generated from the build123d STEP catalogue. The checks below use FreeCAD/OCC
+Generated directly from build123d source geometry. The checks below use FreeCAD/OCC
 `Shape.isValid()`, `Shape.check(True)`, solid counts, volume, and bounding-box
 sanity checks on each assembled-state input.
 
@@ -39,4 +39,4 @@ sanity checks on each assembled-state input.
 - Full Body Assembly: Car systems package: OCC compound check reported overlaps/self-intersections: 3221x Error in Solid: BOPAlgo SelfIntersect, 2843x Error in Face: BOPAlgo SelfIntersect, 2091x Error in Edge: BOPAlgo SelfIntersect, 827x Error in Vertex: BOPAlgo SelfIntersect
 - Full Body Assembly: Mechanical interface package: OCC compound check reported overlaps/self-intersections: 27750x Error in Face: BOPAlgo SelfIntersect, 13776x Error in Edge: BOPAlgo SelfIntersect, 11613x Error in Solid: BOPAlgo SelfIntersect, 2935x Error in Vertex: BOPAlgo SelfIntersect
 
-Note: several interface packages are review compounds made from overlapping rectangular solids. `Shape.isValid()` and child-solid validity can still be true while OCC's Boolean-operation checker reports compound self-intersections at welded/contacting envelope overlaps. Treat these as geometry cleanup flags before solid/shell meshing, not as missing STEP imports.
+Note: several interface packages are review compounds made from overlapping rectangular solids. `Shape.isValid()` and child-solid validity can still be true while OCC's Boolean-operation checker reports compound self-intersections at welded/contacting envelope overlaps. Treat these as geometry cleanup flags before solid/shell meshing.

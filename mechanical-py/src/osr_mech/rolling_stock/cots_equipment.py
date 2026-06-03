@@ -19,7 +19,7 @@ Why this matters:
 - For CAD-sanity, [`fit_out_car_body`](./cots_equipment.py)
   returns a Compound of the structural body plus every envelope
   in a distinct colour, so the whole fridge-freezer list is
-  visible in the STEP viewer at once.
+  visible in the FreeCAD review assembly at once.
 
 Nothing here is safety-rated. Door leaves + actuators, traction
 converters, and the T-OBS sensor pack are handled elsewhere — this
@@ -101,7 +101,7 @@ class CotsItem:
     """Human-readable mounting pattern — the car body must provide
     tapped holes / bonding surface per this spec."""
     mount_pattern: str
-    """Visualisation colour for the reserved envelope in the STEP
+    """Visualisation colour for the reserved envelope in the CAD
     fit-out output (RGB 0..1)."""
     display_color: tuple[float, float, float]
 
@@ -458,8 +458,8 @@ def fit_out_car_body(dims: CarDimensions = CarDimensions()) -> Compound:
 
     The returned Compound is *not* the structural car — it's the
     structural car *overlaid* with the reserved volumes in their
-    catalogue colour. Exporting this to STEP gives a builder a
-    single file showing "here's the box + here's where every
+    catalogue colour. The FreeCAD review assembly gives a builder a
+    compact view showing "here's the box + here's where every
     fridge-freezer goes".
     """
 

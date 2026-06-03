@@ -146,7 +146,7 @@
       gap: 3mm;
       margin-top: 4mm;
     }
-    .step {
+    .phase {
       background: #fff;
       border: 1px solid #c8d6e6;
       border-top: 2mm solid #0b6b3f;
@@ -154,7 +154,7 @@
       padding: 3mm;
       min-height: 31mm;
     }
-    .step strong { display: block; margin-bottom: 1.5mm; font-size: 9pt; }
+    .phase strong { display: block; margin-bottom: 1.5mm; font-size: 9pt; }
     .footer-note {
       position: absolute;
       bottom: 7mm;
@@ -202,7 +202,7 @@
   <div class="grid three" style="margin-top:7mm;">
     <div class="card"><h3>Design automation</h3><p>GIS and city templates generate alignments, station placements, maps, cost summaries, and simulator scenarios.</p></div>
     <div class="card"><h3>Control software</h3><p>Rust crates cover simulator, interlocking, ATP, brake, obstacle detection, TCMS, GUIs, and safety-case compilation.</p></div>
-    <div class="card"><h3>Mechanical CAD</h3><p>build123d source generates trainsets, bogies, track, civil works, stations, depots, and STEP handoff files.</p></div>
+    <div class="card"><h3>Mechanical CAD</h3><p>build123d source generates trainsets, bogies, track, civil works, stations, depots, FreeCAD review files, and screenshots.</p></div>
     <div class="card"><h3>Hardware hosts</h3><p>Reference SBC/ECU classes define train, wayside, station, and obstacle-detection hosts.</p></div>
     <div class="card"><h3>Operations docs</h3><p>Rulebooks, staff procedures, maintenance flows, and depot processes live with the technical design.</p></div>
     <div class="card"><h3>Safety evidence</h3><p>Certification and GSN documents capture assumptions, tests, and remaining evidence gaps.</p></div>
@@ -220,7 +220,7 @@
     <div class="card"><h3>Driverless ends</h3><ul><li>Open glass passenger view, front and rear.</li><li>LED headlamp and marker bars below the glass.</li><li>T-OBS sensors behind serviceable cowl hardware.</li></ul></div>
   </div>
   <div class="grid two" style="margin-top:5mm;">
-    <div class="card"><h3>Design authority</h3><p>build123d source in <code>mechanical-py/src/osr_mech/rolling_stock</code> is the basis. STEP files and PNGs are generated review and handoff artifacts.</p></div>
+    <div class="card"><h3>Design authority</h3><p>build123d source in <code>mechanical-py/src/osr_mech/rolling_stock</code> is the basis. FreeCAD files and PNGs are generated review and handoff artifacts.</p></div>
     <div class="card"><h3>Procurement stance</h3><p>Make the steel datum structure locally; use supplier-neutral envelopes for doors, windows, HVAC, bogies, traction, batteries, electronics, and passenger modules.</p></div>
   </div>
 </section>
@@ -445,11 +445,11 @@
     </div>
   </div>
   <div class="timeline">
-    <div class="step"><strong>Concept</strong><span class="small">Reference architecture and RFCs.</span></div>
-    <div class="step"><strong>v1</strong><span class="small">Envelope CAD, BOM, docs, simulation.</span></div>
-    <div class="step"><strong>v2</strong><span class="small">Supplier envelopes and shop drawings.</span></div>
-    <div class="step"><strong>First article</strong><span class="small">Build, inspect, static test.</span></div>
-    <div class="step"><strong>Assessment</strong><span class="small">Independent review and authority process.</span></div>
+    <div class="phase"><strong>Concept</strong><span class="small">Reference architecture and RFCs.</span></div>
+    <div class="phase"><strong>v1</strong><span class="small">Envelope CAD, BOM, docs, simulation.</span></div>
+    <div class="phase"><strong>v2</strong><span class="small">Supplier envelopes and shop drawings.</span></div>
+    <div class="phase"><strong>First article</strong><span class="small">Build, inspect, static test.</span></div>
+    <div class="phase"><strong>Assessment</strong><span class="small">Independent review and authority process.</span></div>
   </div>
 </section>
 
@@ -491,11 +491,11 @@
 <section class="page">
   <div class="band"><h2>16. Deployment Workflow And Repository Map</h2></div>
   <div class="timeline">
-    <div class="step"><strong>1. Select corridor</strong><span class="small">Use city generation and GIS evidence.</span></div>
-    <div class="step"><strong>2. Configure system</strong><span class="small">Pick consist, station, depot, energy, and operations templates.</span></div>
-    <div class="step"><strong>3. Freeze envelopes</strong><span class="small">Supplier modules must fit reserved interfaces.</span></div>
-    <div class="step"><strong>4. Build first article</strong><span class="small">Fabricate, install COTS modules, inspect.</span></div>
-    <div class="step"><strong>5. Certify locally</strong><span class="small">Submit evidence to authority and independent assessor.</span></div>
+    <div class="phase"><strong>1. Select corridor</strong><span class="small">Use city generation and GIS evidence.</span></div>
+    <div class="phase"><strong>2. Configure system</strong><span class="small">Pick consist, station, depot, energy, and operations templates.</span></div>
+    <div class="phase"><strong>3. Freeze envelopes</strong><span class="small">Supplier modules must fit reserved interfaces.</span></div>
+    <div class="phase"><strong>4. Build first article</strong><span class="small">Fabricate, install COTS modules, inspect.</span></div>
+    <div class="phase"><strong>5. Certify locally</strong><span class="small">Submit evidence to authority and independent assessor.</span></div>
   </div>
   <div class="grid two" style="margin-top:7mm;">
     <div>
@@ -504,7 +504,7 @@
         <tr><th>Path</th><th>Purpose</th></tr>
         <tr><td>crates/</td><td>Rust simulator, control, safety, GUI, and design tools.</td></tr>
         <tr><td>design-py/ and designs/</td><td>GIS sidecar and generated city design packages.</td></tr>
-        <tr><td>mechanical-py/</td><td>build123d mechanical source and generated STEP catalogue.</td></tr>
+        <tr><td>mechanical-py/</td><td>build123d mechanical source and generated FreeCAD review artifacts.</td></tr>
         <tr><td>hardware/</td><td>Hardware references and host-class integration.</td></tr>
         <tr><td>docs/</td><td>Architecture, RFCs, operations, certification, safety case, rolling-stock docs.</td></tr>
         <tr><td>formal/</td><td>TLA+ consensus specification and model-checking harnesses.</td></tr>
@@ -514,7 +514,7 @@
       <h3>Regenerable artifacts</h3>
       <div class="grid two">
         <div class="card"><h3>City packages</h3><p>Route GeoJSON, maps, quality YAML, simulator scenarios, and README summaries.</p></div>
-        <div class="card"><h3>Mechanical outputs</h3><p>CAD screenshots, STEP catalogues, rolling-stock BOM, and manufacturing views.</p></div>
+        <div class="card"><h3>Mechanical outputs</h3><p>CAD screenshots, FreeCAD review files, rolling-stock BOM, and manufacturing views.</p></div>
         <div class="card"><h3>Software evidence</h3><p>Tests, simulator runs, formal models, and safety-case traces.</p></div>
         <div class="card"><h3>Reader editions</h3><p>Brochures, documentation books, and repository indices.</p></div>
       </div>
@@ -528,7 +528,7 @@
     <div class="card"><h3>Repository health</h3><p><code>python3 scripts/repo-health.py --quiet</code></p></div>
     <div class="card"><h3>Mechanical tests</h3><p><code>PYTHONPATH=mechanical-py/src pytest mechanical-py/tests -q</code></p></div>
     <div class="card"><h3>CAD screenshots</h3><p><code>PYTHONPATH=mechanical-py/src python3 mechanical-py/scripts/render_screenshots.py</code></p></div>
-    <div class="card"><h3>STEP catalogue</h3><p><code>PYTHONPATH=mechanical-py/src python3 -m osr_mech.catalog --out mechanical-py/catalog</code></p></div>
+    <div class="card"><h3>FreeCAD review files</h3><p><code>PYTHONPATH=mechanical-py/src mechanical-py/scripts/freecad_trainset.sh --family light-metro-3car</code></p></div>
     <div class="card"><h3>BOM CSV</h3><p><code>python3 scripts/export-light-metro-bom.py</code></p></div>
     <div class="card"><h3>City regeneration</h3><p><code>scripts/regenerate-city.sh samawah</code></p></div>
   </div>
@@ -539,11 +539,11 @@
   </div>
   <h3 style="margin-top:6mm;">Evidence release chain</h3>
   <div class="timeline">
-    <div class="step"><strong>Design freeze</strong><p class="small">Generated assemblies, BOM, screenshots, and supplier envelope checks.</p></div>
-    <div class="step"><strong>Simulation freeze</strong><p class="small">Routes, stations, headways, degraded modes, and reproduced scenario logs.</p></div>
-    <div class="step"><strong>Hardware freeze</strong><p class="small">Host class, IO map, watchdog policy, and safety boundary assumptions.</p></div>
-    <div class="step"><strong>Assessment pack</strong><p class="small">Hazards, mitigations, open evidence requests, and authority handoff notes.</p></div>
-    <div class="step"><strong>Release note</strong><p class="small">What changed, which artifacts regenerated, and which checks passed.</p></div>
+    <div class="phase"><strong>Design freeze</strong><p class="small">Generated assemblies, BOM, screenshots, and supplier envelope checks.</p></div>
+    <div class="phase"><strong>Simulation freeze</strong><p class="small">Routes, stations, headways, degraded modes, and reproduced scenario logs.</p></div>
+    <div class="phase"><strong>Hardware freeze</strong><p class="small">Host class, IO map, watchdog policy, and safety boundary assumptions.</p></div>
+    <div class="phase"><strong>Assessment pack</strong><p class="small">Hazards, mitigations, open evidence requests, and authority handoff notes.</p></div>
+    <div class="phase"><strong>Release note</strong><p class="small">What changed, which artifacts regenerated, and which checks passed.</p></div>
   </div>
 </section>
 
@@ -586,10 +586,10 @@
   </div>
   <h3 style="margin-top:6mm;">v0.2 deliverable checklist</h3>
   <div class="grid four">
-    <div class="step"><strong>Rolling stock CAD</strong><p class="small">Exact supplier envelopes and 2D shop drawing register.</p></div>
-    <div class="step"><strong>Body and chassis</strong><p class="small">Bend sequence, weld map, access panels, and datum scheme.</p></div>
-    <div class="step"><strong>Electrical and HVAC</strong><p class="small">Harness zones, duct routes, service clearances, and module boundaries.</p></div>
-    <div class="step"><strong>Deployment evidence</strong><p class="small">City comparisons, cost sensitivity, and assumption ledger.</p></div>
+    <div class="phase"><strong>Rolling stock CAD</strong><p class="small">Exact supplier envelopes and 2D shop drawing register.</p></div>
+    <div class="phase"><strong>Body and chassis</strong><p class="small">Bend sequence, weld map, access panels, and datum scheme.</p></div>
+    <div class="phase"><strong>Electrical and HVAC</strong><p class="small">Harness zones, duct routes, service clearances, and module boundaries.</p></div>
+    <div class="phase"><strong>Deployment evidence</strong><p class="small">City comparisons, cost sensitivity, and assumption ledger.</p></div>
   </div>
 </section>
 </body>

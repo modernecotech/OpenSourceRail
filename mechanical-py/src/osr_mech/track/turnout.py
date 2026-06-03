@@ -114,7 +114,7 @@ CATALOGUE: dict[TurnoutTangent, TurnoutGeometry] = {
 }
 
 
-# Colours for visual distinction in the STEP viewer.
+# Colours for visual distinction in CAD review.
 COLOR_STRAIGHT_RAIL = Color(0.45, 0.45, 0.5)
 COLOR_DIVERGING_RAIL = Color(0.55, 0.35, 0.2)
 COLOR_SWITCH_BLADE = Color(0.80, 0.55, 0.15)  # highlighted
@@ -147,8 +147,8 @@ def _diverging_rail(geometry: TurnoutGeometry, from_y_mm: float) -> Part:
     A 1:9 turnout with 190 m radius + 27 m length gives a heading
     change of about 27/190 = 0.142 rad = 8.1°, close to the
     atan(1/9) = 6.34° we'd expect. The approximation is visual; the
-    straight-line sampling is dense enough (50 segments) for STEP
-    export to land inside the diverging-rail tolerance."""
+    straight-line sampling is dense enough (50 segments) for the
+    review model to land inside the diverging-rail tolerance."""
     n = 50
     arc_len = geometry.total_length_mm
     radius = geometry.diverging_radius_m * 1000.0
@@ -177,7 +177,7 @@ def _diverging_rail(geometry: TurnoutGeometry, from_y_mm: float) -> Part:
 
 def _switch_blade(geometry: TurnoutGeometry, y_mm: float) -> Part:
     """Highlight the active switch blade as a separate coloured part
-    so it reads in the STEP viewer. The blade overlays the first
+    so it reads in the CAD viewer. The blade overlays the first
     `switch_blade_length_mm` of the straight rail (for the normal-to-
     normal route)."""
     with BuildPart() as p:

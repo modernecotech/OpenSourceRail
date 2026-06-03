@@ -13,7 +13,7 @@ Document IDs use `LM3` for the `light-metro-3car` family. Revision
 | ID | Title | Owner | v1 source | v2 release content |
 |---|---|---|---|---|
 | LM3-GA-000 | Trainset general arrangement | OSR/mechanical | `general-arrangement.md` | 2D GA, clearance envelope, platform interface, mass table |
-| LM3-BDY-100 | Carbody primary steel assembly | Fabricator | `body.md` | STEP, 2D assembly, weld map, datum scheme |
+| LM3-BDY-100 | Carbody primary steel assembly | Fabricator | `body.md` | FreeCAD/neutral CAD package, 2D assembly, weld map, datum scheme |
 | LM3-BDY-110 | Underframe ladder assembly | Fabricator | `body.md` | Tube cut list, plate flat patterns, fixture drawing |
 | LM3-BDY-120 | Side/roof spaceframe assembly | Fabricator | `body.md` | RHS cut list, door/window aperture datums |
 | LM3-BDY-130 | Coupler pocket and crash-can interface | Fabricator + coupler supplier | `body.md`, `interfaces.md` | Machined inserts, bolted energy absorber interface |

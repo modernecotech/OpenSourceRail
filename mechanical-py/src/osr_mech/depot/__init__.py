@@ -19,9 +19,9 @@ Each archetype is a rectangular site with:
   — not revenue-service drivers. There are no driver-training
   simulators in an OSR depot.
 
-The emitted STEP is a massing model — the shed walls + roof + pit
-lines + track centrelines are there, but no internal MEP, no
-structural framing, no civil interface. Partners take the massing +
+The emitted review geometry is a massing model: the shed walls, roof,
+pit lines, and track centrelines are there, but no internal MEP,
+structural framing, or civil interface. Partners take the massing +
 RFC 0014 into their own structural + architectural packages.
 """
 

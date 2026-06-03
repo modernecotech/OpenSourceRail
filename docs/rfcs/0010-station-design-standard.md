@@ -234,8 +234,8 @@ Canopy design envelope:
   bracing) replicates along the platform. Hot-dip galvanised in the
   fabrication shop. Detailed parametric geometry at
   [`mechanical-py/src/osr_mech/station/portal.py`](../../mechanical-py/src/osr_mech/station/portal.py);
-  STEP artifacts under
-  [`mechanical-py/catalog/station/`](../../mechanical-py/catalog/station/).
+  FreeCAD/CAD-review artifacts under
+  [`mechanical-py/catalog/`](../../mechanical-py/catalog/).
 - **Solar-integrated roof sandwich panel.** One factory-bonded
   panel per bay: CIGS or lightweight c-Si PV on standing-seam
   galvanised steel, polyurethane foam core, white-coated underside.
@@ -264,8 +264,7 @@ Erection: a `standard` archetype canopy is ~11 t of steel
 delivered in two lorry-loads, erected in 3–5 days with a small
 crew and a 30 t crawler crane. No structural engineer is needed
 on site — the deployment partner picks the kit size from the
-catalogue; load envelopes are published on the STEP artifact
-docstring.
+catalogue; load envelopes are published in the source docstrings.
 
 Canopy-PV sizing math lives in [RFC 0002](0002-energy-sizing.md);
 `mechanical-py/src/osr_mech/station/canopy.py` exposes
@@ -364,7 +363,7 @@ Mismatch fails the `design-quality.yaml` hard gate.
 | **v0** | This RFC ratified | — |
 | **v1** ✅ | Architectural envelope + canopy structural first-pass + accessibility + services + compliance matrix for Samawah's `standard` archetype at [`docs/stations/samawah-standard/`](../stations/samawah-standard/) (done 2026-04-22). Applied unchanged to all 12 `standard` stations on Line 1 + Line 2. | RFC 0003 |
 | **v2** ✅ | Emitter: terminal / interchange auto-detection + platform-length derivation from consist + depot-terminal promotion at the farthest radial endpoint (done 2026-04-22). **Architectural drawing register** for the `standard` archetype at [`docs/stations/samawah-standard/drawing-register.md`](../stations/samawah-standard/drawing-register.md) — 43 drawings across A/S/M/E/F/T disciplines with scale + size + v1-envelope cross-refs. Quality-gate failure on compatibility mismatch is deferred to v3. | v0, RFC 0008 v2, RFC 0009 v2 |
-| **v3** ✅ (partial) | Parametric prefab catalogue landed at [`mechanical-py/`](../../mechanical-py/) (done 2026-04-22): bolt-together steel portal-frame bay, factory-bonded solar-roof sandwich panel, full-canopy assembly driven by `(archetype, consist)` — `STANDARD × light-metro-3car` emits a 13-bay / ~55 kWp canopy. STEP artifacts for every canonical archetype under `mechanical-py/catalog/station/` round-trip into Revit/Tekla/Civil 3D. Remaining for v3 full-complete: ticket-hall parametric kit and access-ramp kit (no station building → these collapse to rolled-steel plinths + ramps, scheduled). | v1 |
+| **v3** ✅ (partial) | Parametric prefab catalogue landed at [`mechanical-py/`](../../mechanical-py/) (done 2026-04-22): bolt-together steel portal-frame bay, factory-bonded solar-roof sandwich panel, full-canopy assembly driven by `(archetype, consist)` — `STANDARD × light-metro-3car` emits a 13-bay / ~55 kWp canopy. Tracked CAD review artifacts now use compact FreeCAD/PNG outputs; local neutral exports can be generated when a partner toolchain needs them. Remaining for v3 full-complete: ticket-hall parametric kit and access-ramp kit (no station building → these collapse to rolled-steel plinths + ramps, scheduled). | v1 |
 | **v4** | Platform-flow simulator extension in `osr-sim` — peak-hour passenger flow against archetype capacity | v2 |
 | **v5** | First-article station at Samawah pilot | v1, RFC 0003 §5 |
 

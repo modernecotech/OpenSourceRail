@@ -67,7 +67,7 @@ def test_single_bay_panel_kwp_matches_spec() -> None:
 def test_canopy_step_volume_nonzero() -> None:
     c = station_canopy(StationArchetype.STANDARD, ConsistFamily.LIGHT_METRO_3CAR)
     # The assembly is a Compound — volume is the sum across its children.
-    # We just need to confirm STEP export sees non-trivial geometry.
+    # We just need to confirm CAD review sees non-trivial geometry.
     # Walk children and sum volumes.
     total = 0.0
     for ch in c.children:

@@ -1,9 +1,10 @@
 """Rail section (UIC 54E1 / 60E1).
 
 The cross-section is the standard UIC straight-line polygon — head +
-web + foot — which is sufficient for STEP export, clash detection, and
+web + foot — which is sufficient for CAD review, clash detection, and
 visualisation. Real rolling-mill profiles have filleted transitions;
-deployment mills supply rail to the full UIC drawing, not to this STEP.
+deployment mills supply rail to the full UIC drawing, not to this
+simplified review extrusion.
 """
 
 from __future__ import annotations
@@ -41,8 +42,8 @@ def rail_bar(
     """Extruded rail bar of arbitrary length.
 
     Standard CWR strings are welded up from 25 m or 36 m bars, but for
-    STEP artifacts we emit one bar of the requested length — canopy +
-    track assemblies use 1 m for layout purposes.
+    CAD review artifacts use one bar of the requested length; canopy
+    and track assemblies use 1 m for layout purposes.
     """
 
     g = RAIL_GEOMETRY[profile]

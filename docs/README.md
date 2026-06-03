@@ -44,7 +44,7 @@ the generated [Markdown documentation index](INDEX.md).
 |---|---|
 | Generated city catalogue | [designs/README.md](../designs/README.md) |
 | City source list | [lib/city-batches/world-sample.toml](../lib/city-batches/world-sample.toml) |
-| Mechanical STEP catalogue | [mechanical-py/catalog/](../mechanical-py/catalog/) |
+| Mechanical FreeCAD review artifacts | [mechanical-py/catalog/](../mechanical-py/catalog/) |
 | Rolling-stock BOM | [rolling-stock/light-metro-3car/bom-skeleton.md](rolling-stock/light-metro-3car/bom-skeleton.md) |
 | Generated BOM CSV | [build/bom/rolling_stock_bom.csv](../build/bom/rolling_stock_bom.csv) |
 | Hardware host-class matrix | [hardware/rolling-stock-integration.md](../hardware/rolling-stock-integration.md) |
@@ -64,6 +64,7 @@ Use the root README for the common commands. The short version:
 ```bash
 scripts/regenerate-city.sh samawah
 PYTHONPATH=mechanical-py/src python3 -m osr_mech.catalog --out mechanical-py/catalog
+PYTHONPATH=mechanical-py/src mechanical-py/scripts/freecad_trainset.sh --family light-metro-3car
 python3 scripts/repo-health.py --quiet
 python3 scripts/generate-doc-index.py
 ```

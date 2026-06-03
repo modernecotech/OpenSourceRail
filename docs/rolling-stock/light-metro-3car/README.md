@@ -6,7 +6,7 @@ This directory holds the dimensioned specification for the
 default for populations 300 k – 1 M per [RFC 0008 §5](../../rfcs/0008-rolling-stock-reference-design.md#5-family-selection-policy).
 
 This package started as the v1 RFC 0008 bid specification and now
-also links the current envelope-level CAD/PNG/STEP outputs. A domestic
+also links the current envelope-level FreeCAD/PNG outputs. A domestic
 rolling-stock fabricator can read the dimensions, masses, interfaces,
 sub-assembly tree, fabrication sequence, procurement BOM skeleton, and
 design-review CAD. The design deliberately favours a modern low-capex
@@ -61,8 +61,8 @@ front/back sensing while keeping the CAD envelope swap-friendly.
 
 ## Canonical Parametric Source
 
-The build123d source files are the design basis. STEP files and PNGs
-are generated handoff artifacts.
+The build123d source files are the design basis. FreeCAD `.FCStd`
+documents and PNGs are generated review artifacts.
 
 | Source | Controls |
 |---|---|
@@ -147,8 +147,8 @@ service-load screen.
 
 These component images are generated from
 [`mechanical_interfaces.py`](../../../mechanical-py/src/osr_mech/rolling_stock/mechanical_interfaces.py)
-and match the STEP files under
-[`mechanical-py/catalog/rolling_stock/interfaces/`](../../../mechanical-py/catalog/rolling_stock/interfaces/).
+and match the tracked FreeCAD assembly-review documents under
+[`mechanical-py/catalog/freecad/`](../../../mechanical-py/catalog/freecad/).
 
 | Bogie to chassis | Bogie to motor | Low-floor chassis |
 |---|---|---|
@@ -178,27 +178,11 @@ and match the STEP files under
 |---|
 | ![Complete mechanical interface package](../../../docs/screenshots/rolling-stock/interfaces/mechanical-interface-package.png) |
 
-The matching generated handoff artifacts are regenerated under
-[`mechanical-py/catalog`](../../../mechanical-py/catalog). Whole-train
-STEP assemblies are intentionally local/regenerable because detailed
-trainset exports exceed GitHub's file-size limits; use the tracked
-FreeCAD review document
-[`trainset-light-metro-3car.FCStd`](../../../mechanical-py/catalog/freecad/trainset-light-metro-3car.FCStd)
-for the full assembled trainset. Smaller component STEP handoffs remain tracked:
-[`car-body-17m.step`](../../../mechanical-py/catalog/rolling_stock/car-body-17m.step),
-[`car-body-structure.step`](../../../mechanical-py/catalog/rolling_stock/car-body-structure.step),
-[`car-body-exterior.step`](../../../mechanical-py/catalog/rolling_stock/car-body-exterior.step),
-[`car-body-interior.step`](../../../mechanical-py/catalog/rolling_stock/car-body-interior.step),
-[`car-body-services.step`](../../../mechanical-py/catalog/rolling_stock/car-body-services.step),
-[`body-sheet-metal-kit.step`](../../../mechanical-py/catalog/rolling_stock/templates/body-sheet-metal-kit.step),
-[`car-systems.step`](../../../mechanical-py/catalog/rolling_stock/car-systems.step),
-[`platform-safety-interface.step`](../../../mechanical-py/catalog/rolling_stock/platform-safety-interface.step),
-[`battery-pack-set.step`](../../../mechanical-py/catalog/rolling_stock/battery-pack-set.step),
-[`door-system-pair.step`](../../../mechanical-py/catalog/rolling_stock/door-system-pair.step),
-[`electronics-cabinet.step`](../../../mechanical-py/catalog/rolling_stock/electronics-cabinet.step),
-[`end-coupler.step`](../../../mechanical-py/catalog/rolling_stock/end-coupler.step),
-[`inter-car-articulation.step`](../../../mechanical-py/catalog/rolling_stock/inter-car-articulation.step), and
-[`tobs-sensor-pack.step`](../../../mechanical-py/catalog/rolling_stock/tobs-sensor-pack.step).
+The tracked generated CAD review artifacts are:
+[`trainset-light-metro-3car.FCStd`](../../../mechanical-py/catalog/freecad/trainset-light-metro-3car.FCStd),
+[`chassis-bogie-assembly-states.FCStd`](../../../mechanical-py/catalog/freecad/chassis-bogie-assembly-states.FCStd),
+[`full-body-assembly-states.FCStd`](../../../mechanical-py/catalog/freecad/full-body-assembly-states.FCStd), and
+[`fea-screening-models.FCStd`](../../../mechanical-py/catalog/freecad/fea-screening-models.FCStd).
 The matching electronics host-class quantities are mirrored in
 [`hardware/rolling-stock-integration.md`](../../../hardware/rolling-stock-integration.md).
 
@@ -228,7 +212,7 @@ tolerances, and release drawings listed in
 
 ## What v1 does NOT include
 
-- Production-detail KiCad / MCAD / STEP files with selected supplier
+- Production-detail KiCad / MCAD files with selected supplier
   internals, tolerance stacks, and manufacturing drawings (v2).
 - Detailed finite-element analysis (v3 — homologation phase).
 - Paint-and-livery guidance (operator scope).
@@ -250,7 +234,7 @@ tolerances, and release drawings listed in
 5. [`compliance.md`](compliance.md) lists the test campaigns the
    type-approval needs; each is a separately-tendered scope with
    an accredited test house.
-6. The current STEP/PNG package supports design review. The v2
+6. The current FreeCAD/PNG package supports design review. The v2
    production CAD pack adds cut-lists, NC code, flat patterns,
    tolerance-controlled drawings, and welding-robot path artifacts for
    the shop floor.

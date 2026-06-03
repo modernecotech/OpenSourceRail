@@ -27,10 +27,10 @@ target_kani/
 # OSR pipeline cache: OSM pulls, rasters, WorldPop tiles. Re-derivable.
 .cache/
 
-# Generated whole-train STEP assemblies can exceed GitHub's 100 MB hard
-# limit after detailed CAD passes. Keep them local/regenerable; track the
-# smaller component STEP files and FreeCAD review documents instead.
-mechanical-py/catalog/rolling_stock/trainset-*.step
+# Neutral CAD interchange exports are local-only. Track FreeCAD FCStd
+# review documents and generated screenshots, not bulky STEP artifacts.
+*.step
+*.stp
 
 # Local scratch media. Canonical media belongs under docs/assets/ and
 # can be added explicitly with git add -f if needed.

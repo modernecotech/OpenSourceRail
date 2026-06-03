@@ -1,26 +1,26 @@
-"""Build FreeCAD review assemblies from the generated STEP catalogue.
+"""Build FreeCAD trainset review assemblies from build123d source geometry.
 
-The build123d source remains the design authority. This module is a
-FreeCAD bridge: run it with ``FreeCADCmd`` to turn catalogue STEP files
-into an ``.FCStd`` document with named subassemblies, placements, visual
-colours, and optional STEP re-export for downstream CAD review.
+Run this with ``FreeCADCmd`` to create a compact ``.FCStd`` document with
+named subassemblies, placements, and visual colours. The build123d source
+remains the design authority; FreeCAD is the tracked review format.
 """
 
 from __future__ import annotations
 
 import argparse
 import sys
+import tempfile
 from dataclasses import dataclass
 from pathlib import Path
+
+from osr_mech.freecad_occ_bridge import SourceGeometry, freecad_shape_from_source, safe_name
 
 
 try:
     import FreeCAD as App  # type: ignore[import-not-found]
-    import Import  # type: ignore[import-not-found]
     import Part  # type: ignore[import-not-found]
 except Exception as exc:  # pragma: no cover - only exercised outside FreeCAD.
     App = None  # type: ignore[assignment]
-    Import = None  # type: ignore[assignment]
     Part = None  # type: ignore[assignment]
     _FREECAD_IMPORT_ERROR = exc
 else:
@@ -58,27 +58,30 @@ COLOURS = {
     "mechanical": (0.60, 0.62, 0.66, 0.0),
 }
 
-CAR_INTERFACE_STEPS = (
-    ("bogie-to-chassis-connector.step", "bogie-to-chassis connectors"),
-    ("low-floor-chassis.step", "low-floor chassis"),
-    ("side-body-frame-attachments.step", "side body frame attachments"),
-    ("composite-body-roof-attachments.step", "composite body and roof attachments"),
-    ("window-installations.step", "window installations"),
-    ("door-mounts.step", "door mounts"),
-    ("door-installations.step", "door installations"),
-    ("door-to-body-installations.step", "door-to-body installations"),
-    ("cabin-flooring.step", "cabin flooring"),
-    ("battery-installations.step", "battery installations"),
-    ("bench-on-battery-installations.step", "bench installations on batteries"),
-    ("internal-lighting-installation.step", "internal lighting installation"),
-    ("hvac-roof-ducting-installation.step", "HVAC roof and ducting installation"),
-    ("screen-speaker-mountings.step", "screen and speaker mountings"),
+CAR_INTERFACE_SOURCES = (
+    ("bogie-to-chassis-connector", "bogie-to-chassis connectors"),
+    ("low-floor-chassis", "low-floor chassis"),
+    ("side-body-frame-attachments", "side body frame attachments"),
+    ("composite-body-roof-attachments", "composite body and roof attachments"),
+    ("window-installations", "window installations"),
+    ("door-mounts", "door mounts"),
+    ("door-design", "door leaf designs"),
+    ("door-installations", "door installations"),
+    ("door-to-body-installations", "door-to-body installations"),
+    ("cabin-flooring", "cabin flooring"),
+    ("battery-installations", "battery installations"),
+    ("bench-on-battery-installations", "bench installations on batteries"),
+    ("internal-lighting-installation", "internal lighting installation"),
+    ("hvac-roof-ducting-installation", "HVAC roof and ducting installation"),
+    ("screen-speaker-mountings", "screen and speaker mountings"),
+    ("external-lighting-lidar-system", "external lighting and lidar systems"),
+    ("train-connector-mount-pair", "train connector mounts"),
 )
 
 
 @dataclass(frozen=True)
-class StepItem:
-    path: Path
+class GeometryItem:
+    source: SourceGeometry
     name: str
     group: str
     x_mm: float = 0.0
@@ -89,7 +92,7 @@ class StepItem:
 
 
 def _require_freecad() -> None:
-    if App is None or Part is None or Import is None:
+    if App is None or Part is None:
         raise SystemExit(
             "FreeCAD Python modules are not importable. Run this with FreeCADCmd, for example:\n"
             "  FreeCADCmd mechanical-py/src/osr_mech/freecad_trainset.py --family light-metro-3car\n"
@@ -98,22 +101,33 @@ def _require_freecad() -> None:
         )
 
 
-def _catalog_root() -> Path:
-    return Path(__file__).resolve().parents[2] / "catalog"
+def _artifact_root() -> Path:
+    return Path(__file__).resolve().parents[2] / "catalog" / "freecad"
 
 
-def _safe_name(name: str) -> str:
-    return "".join(ch if ch.isalnum() else "_" for ch in name).strip("_")
+def _source(key: str) -> SourceGeometry:
+    return SourceGeometry(key=key)
 
 
-def _add_shape(doc, item: StepItem, groups: dict[str, object]):
-    if not item.path.exists():
-        raise FileNotFoundError(f"missing STEP input: {item.path}")
+def _interface_source(key: str) -> SourceGeometry:
+    return _source(key)
 
-    shape = Part.Shape()
-    shape.read(str(item.path))
 
-    obj = doc.addObject("Part::Feature", _safe_name(item.name))
+def _add_shape(
+    doc,
+    item: GeometryItem,
+    groups: dict[str, object],
+    shape_cache: dict[str, object],
+    temp_dir: Path,
+):
+    shape = freecad_shape_from_source(
+        item.source,
+        part_module=Part,
+        cache=shape_cache,
+        temp_dir=temp_dir,
+    )
+
+    obj = doc.addObject("Part::Feature", safe_name(item.name))
     obj.Label = item.name
     obj.Shape = shape
     obj.Placement = App.Placement(
@@ -126,27 +140,24 @@ def _add_shape(doc, item: StepItem, groups: dict[str, object]):
 
     group = groups.get(item.group)
     if group is None:
-        group = doc.addObject("App::DocumentObjectGroup", _safe_name(item.group))
+        group = doc.addObject("App::DocumentObjectGroup", safe_name(item.group))
         group.Label = item.group
         groups[item.group] = group
     group.addObject(obj)
     return obj
 
 
-def _trainset_items(catalog: Path, family: str) -> list[StepItem]:
+def _trainset_items(family: str) -> list[GeometryItem]:
     car_count = FAMILY_CAR_COUNT[family]
     motorised = FAMILY_MOTORISED[family]
-    rolling = catalog / "rolling_stock"
-    bogies = catalog / "bogie"
-    interfaces = rolling / "interfaces"
 
     total_length = car_count * CAR_LENGTH_MM + (car_count - 1) * COUPLING_GAP_MM
     start_x = -total_length / 2.0
-    items: list[StepItem] = []
+    items: list[GeometryItem] = []
 
     items.append(
-        StepItem(
-            rolling / "sensor-cowl.step",
+        GeometryItem(
+            _source("sensor-cowl"),
             "A-end sensor cowl",
             "End Modules",
             x_mm=start_x + COWL_LENGTH_MM,
@@ -155,8 +166,8 @@ def _trainset_items(catalog: Path, family: str) -> list[StepItem]:
         )
     )
     items.append(
-        StepItem(
-            rolling / "sensor-cowl.step",
+        GeometryItem(
+            _source("sensor-cowl"),
             "B-end sensor cowl",
             "End Modules",
             x_mm=start_x + total_length - COWL_LENGTH_MM,
@@ -169,29 +180,29 @@ def _trainset_items(catalog: Path, family: str) -> list[StepItem]:
         car_label = f"Car {car_index + 1}"
         items.extend(
             [
-                StepItem(
-                    rolling / "car-body-17m.step",
+                GeometryItem(
+                    _source("car-body-17m"),
                     f"{car_label} body",
                     "Car Bodies",
                     x_mm=car_centre_x,
                     colour=COLOURS["body"],
                 ),
-                StepItem(
-                    rolling / "door-system-pair.step",
+                GeometryItem(
+                    _source("door-system-pair"),
                     f"{car_label} door system",
                     "Doors and Platform Interface",
                     x_mm=car_centre_x,
                     colour=COLOURS["door"],
                 ),
-                StepItem(
-                    rolling / "battery-pack-set.step",
+                GeometryItem(
+                    _source("battery-pack-set"),
                     f"{car_label} battery pack set",
                     "Onboard Systems",
                     x_mm=car_centre_x,
                     colour=COLOURS["systems"],
                 ),
-                StepItem(
-                    rolling / "car-systems.step",
+                GeometryItem(
+                    _source("car-systems"),
                     f"{car_label} systems",
                     "Onboard Systems",
                     x_mm=car_centre_x,
@@ -199,10 +210,10 @@ def _trainset_items(catalog: Path, family: str) -> list[StepItem]:
                 ),
             ]
         )
-        for file_name, label in CAR_INTERFACE_STEPS:
+        for key, label in CAR_INTERFACE_SOURCES:
             items.append(
-                StepItem(
-                    interfaces / file_name,
+                GeometryItem(
+                    _interface_source(key),
                     f"{car_label} {label}",
                     "Mechanical Interfaces",
                     x_mm=car_centre_x,
@@ -210,18 +221,20 @@ def _trainset_items(catalog: Path, family: str) -> list[StepItem]:
                 )
             )
 
-        bogie_files = (
-            ("motor-bogie.step", "motor") if motorised[car_index] else ("trailer-bogie.step", "trailer"),
-            ("trailer-bogie.step", "trailer"),
+        bogie_specs = (
+            (_source("motor-bogie"), "motor")
+            if motorised[car_index]
+            else (_source("trailer-bogie"), "trailer"),
+            (_source("trailer-bogie"), "trailer"),
         )
         for end_name, sign, bogie_spec in (
-            ("A", -1.0, bogie_files[0]),
-            ("B", 1.0, bogie_files[1]),
+            ("A", -1.0, bogie_specs[0]),
+            ("B", 1.0, bogie_specs[1]),
         ):
-            file_name, kind = bogie_spec
+            source, kind = bogie_spec
             items.append(
-                StepItem(
-                    bogies / file_name,
+                GeometryItem(
+                    source,
                     f"{car_label} {end_name}-end {kind} bogie",
                     "Bogies",
                     x_mm=car_centre_x + sign * (CAR_LENGTH_MM / 2.0 - BOGIE_INSET_MM),
@@ -230,8 +243,8 @@ def _trainset_items(catalog: Path, family: str) -> list[StepItem]:
             )
             if kind == "motor":
                 items.append(
-                    StepItem(
-                        interfaces / "bogie-to-motor-connector.step",
+                    GeometryItem(
+                        _interface_source("bogie-to-motor-connector"),
                         f"{car_label} {end_name}-end bogie-to-motor connector",
                         "Mechanical Interfaces",
                         x_mm=car_centre_x + sign * (CAR_LENGTH_MM / 2.0 - BOGIE_INSET_MM),
@@ -243,15 +256,15 @@ def _trainset_items(catalog: Path, family: str) -> list[StepItem]:
             joint_x = car_centre_x + CAR_LENGTH_MM / 2.0 + COUPLING_GAP_MM / 2.0
             items.extend(
                 [
-                    StepItem(
-                        rolling / "inter-car-articulation.step",
+                    GeometryItem(
+                        _source("inter-car-articulation"),
                         f"Articulation {car_index + 1}-{car_index + 2}",
                         "Couplers and Articulation",
                         x_mm=joint_x,
                         colour=COLOURS["interface"],
                     ),
-                    StepItem(
-                        rolling / "end-coupler.step",
+                    GeometryItem(
+                        _source("end-coupler"),
                         f"Internal coupler {car_index + 1}-{car_index + 2}",
                         "Couplers and Articulation",
                         x_mm=joint_x,
@@ -262,30 +275,30 @@ def _trainset_items(catalog: Path, family: str) -> list[StepItem]:
 
     items.extend(
         [
-            StepItem(
-                rolling / "end-coupler.step",
+            GeometryItem(
+                _source("end-coupler"),
                 "A-end recovery coupler",
                 "Couplers and Articulation",
                 x_mm=start_x,
                 yaw_deg=180.0,
                 colour=COLOURS["interface"],
             ),
-            StepItem(
-                rolling / "end-coupler.step",
+            GeometryItem(
+                _source("end-coupler"),
                 "B-end recovery coupler",
                 "Couplers and Articulation",
                 x_mm=start_x + total_length,
                 colour=COLOURS["interface"],
             ),
-            StepItem(
-                rolling / "platform-safety-interface.step",
+            GeometryItem(
+                _source("platform-safety-interface"),
                 "Platform safety interface reference",
                 "Doors and Platform Interface",
                 y_mm=2_200.0,
                 colour=COLOURS["interface"],
             ),
-            StepItem(
-                rolling / "kinematic-envelope.step",
+            GeometryItem(
+                _source("kinematic-envelope"),
                 "Kinematic envelope reference",
                 "Clearance References",
                 colour=(0.75, 0.75, 0.75, 0.0),
@@ -295,47 +308,36 @@ def _trainset_items(catalog: Path, family: str) -> list[StepItem]:
     return items
 
 
-def build_trainset_document(
-    *,
-    family: str,
-    catalog: Path,
-    output: Path,
-    export_step: Path | None = None,
-) -> None:
+def build_trainset_document(*, family: str, output: Path) -> None:
     _require_freecad()
 
-    doc = App.newDocument(_safe_name(f"OSR_{family}_review_assembly"))
+    doc = App.newDocument(safe_name(f"OSR_{family}_review_assembly"))
     doc.Label = f"OSR {family} FreeCAD review assembly"
 
     groups: dict[str, object] = {}
-    objects = []
-    for item in _trainset_items(catalog, family):
-        objects.append(_add_shape(doc, item, groups))
+    shape_cache: dict[str, object] = {}
+    output.parent.mkdir(parents=True, exist_ok=True)
+    with tempfile.TemporaryDirectory(prefix="osr-freecad-brep-", dir=output.parent) as tmp:
+        temp_dir = Path(tmp)
+        for item in _trainset_items(family):
+            _add_shape(doc, item, groups, shape_cache, temp_dir)
 
     doc.addObject("App::DocumentObjectGroup", "SourceNotes").Label = (
-        "Generated from build123d STEP catalogue; build123d remains design authority"
+        "Generated directly from build123d source geometry; build123d remains design authority"
     )
     doc.recompute()
 
-    output.parent.mkdir(parents=True, exist_ok=True)
     if output.exists():
         output.unlink()
     doc.saveAs(str(output))
     print(f"wrote {output}")
-
-    if export_step is not None:
-        export_step.parent.mkdir(parents=True, exist_ok=True)
-        if export_step.exists():
-            export_step.unlink()
-        Import.export(objects, str(export_step))
-        print(f"wrote {export_step}")
 
     App.closeDocument(doc.Name)
 
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(
-        description="Build a FreeCAD FCStd trainset assembly from OSR catalogue STEP files.",
+        description="Build a FreeCAD FCStd trainset assembly from OSR source geometry.",
     )
     parser.add_argument(
         "--family",
@@ -344,33 +346,16 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         help="trainset family to assemble",
     )
     parser.add_argument(
-        "--catalog",
-        type=Path,
-        default=_catalog_root(),
-        help="STEP catalogue root, default: mechanical-py/catalog",
-    )
-    parser.add_argument(
         "--out",
         type=Path,
         default=None,
         help="FCStd output path, default: mechanical-py/catalog/freecad/trainset-<family>.FCStd",
     )
-    parser.add_argument(
-        "--export-step",
-        type=Path,
-        default=None,
-        help="optional combined STEP export path",
-    )
     return parser.parse_args(argv)
 
 
 def _normalise_freecad_argv(argv: list[str]) -> list[str]:
-    """Strip FreeCADCmd's script bookkeeping from ``sys.argv``.
-
-    FreeCADCmd executes ``some_script.py`` with ``__name__`` set to the
-    script stem, and keeps both the script path and optional ``--pass``
-    marker in ``sys.argv``. Normal Python execution does neither.
-    """
+    """Strip FreeCADCmd's script bookkeeping from ``sys.argv``."""
     args = list(argv)
     if args and Path(args[0]).name == "freecad_trainset.py":
         args = args[1:]
@@ -381,13 +366,8 @@ def _normalise_freecad_argv(argv: list[str]) -> list[str]:
 
 def main(argv: list[str] | None = None) -> None:
     args = parse_args(_normalise_freecad_argv(argv or []))
-    output = args.out or args.catalog / "freecad" / f"trainset-{args.family}.FCStd"
-    build_trainset_document(
-        family=args.family,
-        catalog=args.catalog,
-        output=output,
-        export_step=args.export_step,
-    )
+    output = args.out or _artifact_root() / f"trainset-{args.family}.FCStd"
+    build_trainset_document(family=args.family, output=output)
 
 
 def _running_as_freecad_script() -> bool:

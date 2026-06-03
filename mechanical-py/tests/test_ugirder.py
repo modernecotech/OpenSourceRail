@@ -24,7 +24,7 @@ def test_u_girder_mass_matches_approximation(span_m: float) -> None:
     approx = approx_mass_kg(span_m=span_m)
     ratio = mass_kg / approx
     assert 0.95 <= ratio <= 1.05, (
-        f"span {span_m} m: STEP mass {mass_kg:.0f} kg vs approx {approx:.0f} kg ({ratio:.3f}×)"
+        f"span {span_m} m: model mass {mass_kg:.0f} kg vs approx {approx:.0f} kg ({ratio:.3f}×)"
     )
 
 

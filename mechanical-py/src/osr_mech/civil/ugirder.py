@@ -85,7 +85,7 @@ def u_girder(span_m: float = 25.0) -> Part:
 def approx_mass_kg(span_m: float, concrete_density_kg_per_m3: float = 2500.0) -> float:
     """Approximate mass of a U-girder, based on cross-section area × length.
 
-    Used by tests to validate the STEP volume against a published
+    Used by tests to validate the model volume against a published
     reference. Real RFC 0011 mass includes pre-stressing strands +
     rebar, which bump the figure by ~3 %; the test tolerance absorbs
     that.

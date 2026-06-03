@@ -31,8 +31,9 @@ The build123d implementation follows the same hierarchy in
 | `car_body_interior()` | Under-seat battery strakes, longitudinal seats, PRM bays, grab poles, handrails, passenger information displays |
 | `car_body_services()` | HVAC supply/return/drop ducts, LV/TCN cable trays, LED lighting, CCTV, intercoms, door harness loops, HV traction/PV routing, coolant pipes, battery fire vent paths |
 
-`car_body()` returns the complete nested assembly. STEP and PNG files
-are generated from that source; they are not the design authority.
+`car_body()` returns the complete nested assembly. FreeCAD and PNG
+review artifacts are generated from that source; they are not the
+design authority.
 
 ## Primary steel structure
 
@@ -191,7 +192,7 @@ deployment authority's accepted equivalent.
 
 ## v2 deliverables
 
-- Welded frame STEP assembly and 2D drawings.
+- Welded frame FreeCAD assembly and 2D drawings.
 - Flat pattern DXF for folded plates.
 - Tube cut list with mitre angles and fixture datum references.
 - Weld map with EN 15085 classes, WPS references, and inspection

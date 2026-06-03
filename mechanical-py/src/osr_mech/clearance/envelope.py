@@ -219,8 +219,8 @@ def swept_envelope_part(
     body_length_mm: float = _REF_BODY_LENGTH_MM,
 ) -> Part:
     """Visualise the swept envelope as a translucent outer shell
-    enclosing the rolling-stock body. Useful as a CAD overlay in the
-    STEP viewer to see where the train 'reaches'."""
+    enclosing the rolling-stock body. Useful as a CAD overlay to see
+    where the train 'reaches'."""
     outer_half_w = body_half_width_mm + envelope.lateral_sway_mm
     outer_h = body_height_mm + envelope.vertical_mm
     outer_l = body_length_mm + 2.0 * envelope.end_throw_mm

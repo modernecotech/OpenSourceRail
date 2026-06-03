@@ -23,4 +23,4 @@ release gates are tracked in
 |---|---|
 | [`crates/osr-alignment`](../../crates/osr-alignment/) | Alignment geometry, quantities, exports, and stake-out data |
 | [`tools/osr-aln-convert`](../../tools/osr-aln-convert/) | Companion converter for external alignment formats |
-| [`mechanical-py/src/osr_mech/civil/`](../../mechanical-py/src/osr_mech/civil/) | Parametric U-girders, platform L-units, and civil STEP outputs |
+| [`mechanical-py/src/osr_mech/civil/`](../../mechanical-py/src/osr_mech/civil/) | Parametric U-girders, platform L-units, and civil CAD source |

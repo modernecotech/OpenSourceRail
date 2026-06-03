@@ -5,14 +5,13 @@
 # taking the RFC-level parameters (span, platform length, consist family,
 # …) as keyword arguments and returning a build123d `Part` or `Compound`.
 #
-# The emitted STEP files round-trip into Revit, Tekla, Civil 3D, and
-# QGIS-with-IfcOpenShell, so deployment partners can keep their existing
-# structural / civil workflows while the OSR repository stays the
-# canonical source for the geometry.
+# The persistent review artifacts are FreeCAD documents generated from
+# the same build123d source geometry, so the repository stays compact
+# while the Python source remains the canonical design authority.
 #
 # See README.md for the design philosophy (prefabricated, bolt-together,
-# minimal on-site work) and `scripts/export_catalog.py` for regenerating
-# every artifact under `catalog/`.
+# minimal on-site work) and the FreeCAD scripts for regenerating review
+# artifacts under `catalog/freecad/`.
 
 [build-system]
 requires      = ["setuptools>=68"]
@@ -35,7 +34,6 @@ test = [
 ]
 
 [project.scripts]
-osr-mech-export = "osr_mech.catalog:main"
 osr-freecad-trainset = "osr_mech.freecad_trainset:main"
 
 [tool.setuptools.packages.find]

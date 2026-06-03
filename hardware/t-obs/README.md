@@ -8,7 +8,7 @@ fail-restrictive brake-demand/verdict interface to T-ECU/S.
 Canonical `light-metro-3car` fit: **2 modules per trainset**, one
 behind the A-end nose cowl and one behind the B-end nose cowl. The
 matching mechanical envelope is `trainset-tobs-sensor-pack.png` and
-`mechanical-py/catalog/rolling_stock/tobs-sensor-pack.step`.
+`mechanical-py/src/osr_mech/rolling_stock/systems.py`.
 
 ## Architecture
 
