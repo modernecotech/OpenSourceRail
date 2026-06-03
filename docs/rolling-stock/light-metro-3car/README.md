@@ -178,9 +178,13 @@ and match the STEP files under
 |---|
 | ![Complete mechanical interface package](../../../docs/screenshots/rolling-stock/interfaces/mechanical-interface-package.png) |
 
-The matching generated STEP handoff artifacts are regenerated under
-[`mechanical-py/catalog/rolling_stock`](../../../mechanical-py/catalog/rolling_stock):
-[`trainset-light-metro-3car.step`](../../../mechanical-py/catalog/rolling_stock/trainset-light-metro-3car.step),
+The matching generated handoff artifacts are regenerated under
+[`mechanical-py/catalog`](../../../mechanical-py/catalog). Whole-train
+STEP assemblies are intentionally local/regenerable because detailed
+trainset exports exceed GitHub's file-size limits; use the tracked
+FreeCAD review document
+[`trainset-light-metro-3car.FCStd`](../../../mechanical-py/catalog/freecad/trainset-light-metro-3car.FCStd)
+for the full assembled trainset. Smaller component STEP handoffs remain tracked:
 [`car-body-17m.step`](../../../mechanical-py/catalog/rolling_stock/car-body-17m.step),
 [`car-body-structure.step`](../../../mechanical-py/catalog/rolling_stock/car-body-structure.step),
 [`car-body-exterior.step`](../../../mechanical-py/catalog/rolling_stock/car-body-exterior.step),

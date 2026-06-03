@@ -36,6 +36,7 @@ from build123d import (
     BuildSketch,
     Color,
     Compound,
+    Cylinder,
     Location,
     Part,
     Rectangle,
@@ -103,6 +104,10 @@ COLOR_LV_DATA = Color(0.05, 0.22, 0.55)
 COLOR_HV_CABLE = Color(0.95, 0.38, 0.06)
 COLOR_THERMAL = Color(0.10, 0.46, 0.60)
 COLOR_SAFETY = Color(0.92, 0.68, 0.12)
+COLOR_RUBBER = Color(0.035, 0.035, 0.040)
+COLOR_GRILLE = Color(0.12, 0.13, 0.14)
+COLOR_STAINLESS = Color(0.68, 0.69, 0.70)
+COLOR_LABEL = Color(0.95, 0.82, 0.18)
 
 FLOOR_PLATE_THICKNESS_MM = 95.0
 LOW_FLOOR_HEIGHT_MM = DOOR_SILL_HEIGHT_MM
@@ -250,12 +255,46 @@ def _glazing(dims: CarDimensions) -> list[Part]:
     for x, width in _window_zones(dims):
         for y_sign in (-1.0, 1.0):
             y = y_sign * (dims.body_width_mm / 2.0 - GLAZING_THICKNESS_MM / 2.0)
+            outer_y = y_sign * (dims.body_width_mm / 2.0 + 8.0)
             glass = Box(width, GLAZING_THICKNESS_MM, WINDOW_HEIGHT_MM).locate(
                 Location((x, y, WINDOW_SILL_MM + WINDOW_HEIGHT_MM / 2.0))
             )
             glass.color = COLOR_GLAZING
             glass.label = "Window glazing (laminated 8+1.52+8 PVB)"
             out.append(glass)
+
+            top_z = WINDOW_SILL_MM + WINDOW_HEIGHT_MM + 22.0
+            bottom_z = WINDOW_SILL_MM - 22.0
+            for z, label in (
+                (top_z, "Window black ceramic frit upper band"),
+                (bottom_z, "Window black ceramic frit lower band"),
+            ):
+                frit = Box(width + 90.0, 18.0, 44.0).locate(Location((x, outer_y, z)))
+                frit.color = COLOR_RUBBER
+                frit.label = label
+                out.append(frit)
+
+            for edge_x in (x - width / 2.0 - 22.0, x + width / 2.0 + 22.0):
+                side_frit = Box(44.0, 18.0, WINDOW_HEIGHT_MM + 90.0).locate(
+                    Location((edge_x, outer_y, WINDOW_SILL_MM + WINDOW_HEIGHT_MM / 2.0))
+                )
+                side_frit.color = COLOR_RUBBER
+                side_frit.label = "Window black ceramic frit side band"
+                out.append(side_frit)
+
+            retainer = Box(width + 160.0, 18.0, 30.0).locate(
+                Location((x, y_sign * (dims.body_width_mm / 2.0 - 42.0), WINDOW_SILL_MM - 82.0))
+            )
+            retainer.color = COLOR_STAINLESS
+            retainer.label = "Bonded window lower retainer and drain rail"
+            out.append(retainer)
+
+            busbar = Box(width - 240.0, 14.0, 18.0).locate(
+                Location((x, outer_y + y_sign * 4.0, WINDOW_SILL_MM + 96.0))
+            )
+            busbar.color = COLOR_LABEL
+            busbar.label = "Heated glazing demist busbar"
+            out.append(busbar)
     return out
 
 
@@ -266,6 +305,28 @@ def _door_leaves(dims: CarDimensions) -> list[Part]:
     for x in _door_centres_x(dims):
         for y_sign in (-1.0, 1.0):
             y = y_sign * (dims.body_width_mm / 2.0 - DOOR_LEAF_INSET_MM)
+            outer_y = y_sign * (dims.body_width_mm / 2.0 + 10.0)
+            operator = Box(DOOR_WIDTH_MM + 520.0, 58.0, 135.0).locate(
+                Location((x, y_sign * (dims.body_width_mm / 2.0 - 48.0), DOOR_SILL_HEIGHT_MM + DOOR_HEIGHT_MM + 112.0))
+            )
+            operator.color = COLOR_STAINLESS
+            operator.label = "Door top operator access cover"
+            out.append(operator)
+
+            track = Box(DOOR_WIDTH_MM + 420.0, 54.0, 44.0).locate(
+                Location((x, y_sign * (dims.body_width_mm / 2.0 - 38.0), DOOR_SILL_HEIGHT_MM - 38.0))
+            )
+            track.color = COLOR_STAINLESS
+            track.label = "Door lower guide rail and threshold extrusion"
+            out.append(track)
+
+            step_light = Box(DOOR_WIDTH_MM + 140.0, 18.0, 22.0).locate(
+                Location((x, outer_y, DOOR_SILL_HEIGHT_MM + 64.0))
+            )
+            step_light.color = COLOR_LABEL
+            step_light.label = "Door threshold warning light strip"
+            out.append(step_light)
+
             for leaf_sign in (-1.0, 1.0):
                 leaf_x = x + leaf_sign * (leaf_width / 2.0 + 8.0)
                 leaf = Box(
@@ -278,6 +339,48 @@ def _door_leaves(dims: CarDimensions) -> list[Part]:
                 leaf.color = COLOR_DOOR_LEAF
                 leaf.label = "Door leaf"
                 out.append(leaf)
+
+                window = Box(leaf_width - 180.0, 18.0, 980.0).locate(
+                    Location((leaf_x, outer_y, DOOR_SILL_HEIGHT_MM + 1200.0))
+                )
+                window.color = COLOR_GLAZING
+                window.label = "Door bonded glass vision panel"
+                out.append(window)
+
+                edge_seal = Box(34.0, 24.0, DOOR_HEIGHT_MM - 140.0).locate(
+                    Location(
+                        (
+                            leaf_x - leaf_sign * (leaf_width / 2.0 - 20.0),
+                            outer_y + y_sign * 4.0,
+                            DOOR_SILL_HEIGHT_MM + DOOR_HEIGHT_MM / 2.0,
+                        )
+                    )
+                )
+                edge_seal.color = COLOR_RUBBER
+                edge_seal.label = "Door anti-pinch rubber edge"
+                out.append(edge_seal)
+
+                pocket_cover = Box(leaf_width - 120.0, 20.0, 70.0).locate(
+                    Location((leaf_x, outer_y, DOOR_SILL_HEIGHT_MM + DOOR_HEIGHT_MM - 155.0))
+                )
+                pocket_cover.color = COLOR_STAINLESS
+                pocket_cover.label = "Door hanger cassette cover strip"
+                out.append(pocket_cover)
+
+            centre_seal = Box(38.0, 28.0, DOOR_HEIGHT_MM - 120.0).locate(
+                Location((x, outer_y + y_sign * 6.0, DOOR_SILL_HEIGHT_MM + DOOR_HEIGHT_MM / 2.0))
+            )
+            centre_seal.color = COLOR_RUBBER
+            centre_seal.label = "Door centre meeting seal and lock stile"
+            out.append(centre_seal)
+
+            for lock_z in (880.0, 1380.0):
+                keeper = Box(58.0, 34.0, 92.0).locate(
+                    Location((x + DOOR_WIDTH_MM / 2.0 + 90.0, outer_y, lock_z))
+                )
+                keeper.color = COLOR_STAINLESS
+                keeper.label = "Door lock keeper and emergency-release detail"
+                out.append(keeper)
     return out
 
 
@@ -308,12 +411,46 @@ def _underframe_skirt(dims: CarDimensions) -> list[Part]:
         return out
     for y_sign in (-1.0, 1.0):
         y = y_sign * (dims.body_width_mm / 2.0 - SKIRT_THICKNESS_MM / 2.0)
+        outer_y = y_sign * (dims.body_width_mm / 2.0 + 8.0)
         skirt = Box(length, SKIRT_THICKNESS_MM, SKIRT_DROP_MM).locate(
             Location((0.0, y, -SKIRT_DROP_MM / 2.0))
         )
         skirt.color = COLOR_SKIRT
         skirt.label = "Underframe skirt"
         out.append(skirt)
+
+        panel_count = 8
+        panel_pitch = length / panel_count
+        for index in range(panel_count):
+            panel_x = -length / 2.0 + panel_pitch * (index + 0.5)
+            panel = Box(panel_pitch - 80.0, 18.0, SKIRT_DROP_MM - 110.0).locate(
+                Location((panel_x, outer_y, -SKIRT_DROP_MM / 2.0 + 18.0))
+            )
+            panel.color = COLOR_SKIRT
+            panel.label = "Hinged underframe equipment access panel"
+            out.append(panel)
+
+            latch = Box(46.0, 20.0, 60.0).locate(
+                Location((panel_x + panel_pitch / 2.0 - 90.0, outer_y + y_sign * 4.0, -175.0))
+            )
+            latch.color = COLOR_STAINLESS
+            latch.label = "Quarter-turn skirt latch"
+            out.append(latch)
+
+            if index % 2 == 0:
+                grille = Box(panel_pitch - 260.0, 22.0, 95.0).locate(
+                    Location((panel_x, outer_y + y_sign * 5.0, -360.0))
+                )
+                grille.color = COLOR_GRILLE
+                grille.label = "Underframe converter cooling grille"
+                out.append(grille)
+
+            drain = Box(90.0, 22.0, 28.0).locate(
+                Location((panel_x - panel_pitch / 2.0 + 120.0, outer_y + y_sign * 4.0, -514.0))
+            )
+            drain.color = COLOR_STAINLESS
+            drain.label = "Skirt drain slot"
+            out.append(drain)
     return out
 
 
@@ -331,19 +468,94 @@ def _roof_equipment(dims: CarDimensions) -> list[Part]:
     solar.color = COLOR_SOLAR
     solar.label = "Roof solar PV array"
     out.append(solar)
+
+    pv_length = dims.body_length_mm - 2_800.0
+    pv_width = dims.body_width_mm - 560.0
+    for index in range(1, 10):
+        seam_x = -pv_length / 2.0 + index * pv_length / 10.0
+        seam = Box(18.0, pv_width - 90.0, 12.0).locate(
+            Location((seam_x, 0.0, dims.body_height_mm + 72.0))
+        )
+        seam.color = COLOR_STAINLESS
+        seam.label = "Roof PV module expansion joint"
+        out.append(seam)
+    for y in (-pv_width / 4.0, pv_width / 4.0):
+        string_bus = Box(pv_length - 500.0, 16.0, 18.0).locate(
+            Location((0.0, y, dims.body_height_mm + 78.0))
+        )
+        string_bus.color = COLOR_HV_CABLE
+        string_bus.label = "Roof PV string wiring raceway"
+        out.append(string_bus)
+
     for x_sign in (-1.0, 1.0):
+        hvac_x = x_sign * (dims.body_length_mm / 2.0 - 720.0)
+        hvac_z = dims.body_height_mm + 180.0
+        curb = Box(1260.0, 1160.0, 70.0).locate(
+            Location((hvac_x, 0.0, dims.body_height_mm + 52.0))
+        )
+        curb.color = COLOR_RUBBER
+        curb.label = "Roof HVAC gasketed mounting curb"
+        out.append(curb)
+
         hvac = Box(1150.0, 1050.0, 360.0).locate(
             Location(
                 (
-                    x_sign * (dims.body_length_mm / 2.0 - 720.0),
+                    hvac_x,
                     0.0,
-                    dims.body_height_mm + 180.0,
+                    hvac_z,
                 )
             )
         )
         hvac.color = COLOR_ROOF_EQUIPMENT
         hvac.label = "Compact end HVAC roof unit"
         out.append(hvac)
+
+        for fan_offset in (-250.0, 250.0):
+            fan = Cylinder(radius=152.0, height=26.0).locate(
+                Location((hvac_x + fan_offset, 0.0, dims.body_height_mm + 374.0))
+            )
+            fan.color = COLOR_GRILLE
+            fan.label = "HVAC condenser fan grille"
+            out.append(fan)
+
+            hub = Cylinder(radius=52.0, height=32.0).locate(
+                Location((hvac_x + fan_offset, 0.0, dims.body_height_mm + 386.0))
+            )
+            hub.color = COLOR_STAINLESS
+            hub.label = "HVAC fan hub"
+            out.append(hub)
+
+        for y in (-548.0, 548.0):
+            side_grille = Box(760.0, 28.0, 185.0).locate(
+                Location((hvac_x, y, dims.body_height_mm + 212.0))
+            )
+            side_grille.color = COLOR_GRILLE
+            side_grille.label = "HVAC side intake and return grille"
+            out.append(side_grille)
+
+        for x_local in (-420.0, 420.0):
+            hatch = Box(270.0, 260.0, 18.0).locate(
+                Location((hvac_x + x_local, -260.0, dims.body_height_mm + 372.0))
+            )
+            hatch.color = COLOR_STAINLESS
+            hatch.label = "HVAC service hatch with captive fasteners"
+            out.append(hatch)
+
+        for lug_x in (-520.0, 520.0):
+            for lug_y in (-470.0, 470.0):
+                lug = Box(62.0, 42.0, 58.0).locate(
+                    Location((hvac_x + lug_x, lug_y, dims.body_height_mm + 389.0))
+                )
+                lug.color = COLOR_STAINLESS
+                lug.label = "HVAC lifting lug"
+                out.append(lug)
+
+        drain = Box(42.0, 92.0, 42.0).locate(
+            Location((hvac_x - x_sign * 480.0, -590.0, dims.body_height_mm + 58.0))
+        )
+        drain.color = COLOR_STAINLESS
+        drain.label = "HVAC condensate drain spigot"
+        out.append(drain)
     return out
 
 

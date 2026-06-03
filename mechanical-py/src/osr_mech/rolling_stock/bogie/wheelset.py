@@ -18,6 +18,8 @@ on mass and silhouette).
 
 from __future__ import annotations
 
+from math import cos, pi, sin
+
 from build123d import (
     Align,
     Axis,
@@ -55,6 +57,9 @@ COLOR_WHEEL = Color(0.32, 0.32, 0.35)
 COLOR_AXLE = Color(0.38, 0.38, 0.42)
 COLOR_BRAKE_DISC = Color(0.22, 0.22, 0.25)
 COLOR_BEARING = Color(0.55, 0.45, 0.30)
+COLOR_WEB = Color(0.26, 0.27, 0.30)
+COLOR_FASTENER = Color(0.62, 0.63, 0.65)
+COLOR_WEAR = Color(0.10, 0.11, 0.12)
 
 
 def _cylinder(radius_mm: float, length_mm: float, y_centre: float = 0.0) -> Part:
@@ -72,7 +77,7 @@ def _cylinder(radius_mm: float, length_mm: float, y_centre: float = 0.0) -> Part
     return p
 
 
-def _wheel(wheel_diameter_mm: float) -> Part:
+def _wheel(wheel_diameter_mm: float) -> Compound:
     """One wheel — simplified cylinder + flange disc. Origin: wheel
     centre at y = 0, rotation axis along Y."""
     r_tread = wheel_diameter_mm / 2.0
@@ -90,7 +95,41 @@ def _wheel(wheel_diameter_mm: float) -> Part:
     flange.color = COLOR_WHEEL
     flange.label = "Wheel flange"
 
-    return Compound(label="Wheel", children=[tread, flange])
+    web = _cylinder(r_tread - 58.0, 22.0)
+    web.color = COLOR_WEB
+    web.label = "Wheel web plate with shallow dish"
+
+    hub = _cylinder(WHEEL_HUB_DIAMETER_MM / 2.0, 180.0)
+    hub.color = COLOR_AXLE
+    hub.label = "Pressed wheel hub"
+
+    children: list[Part] = [tread, flange, web, hub]
+    for face_y in (-98.0, 98.0):
+        cover = _cylinder(92.0, 12.0, y_centre=face_y)
+        cover.color = COLOR_FASTENER
+        cover.label = "Wheel hub retaining cover"
+        children.append(cover)
+        for index in range(8):
+            angle = 2.0 * pi * index / 8.0
+            x = 145.0 * cos(angle)
+            z = 145.0 * sin(angle)
+            bolt = _cylinder(12.0, 14.0, y_centre=face_y)
+            bolt = bolt.translate((x, 0.0, z))
+            bolt.color = COLOR_FASTENER
+            bolt.label = "Wheel web bolted retainer"
+            children.append(bolt)
+
+    for index in range(12):
+        angle = 2.0 * pi * index / 12.0
+        x = (r_tread - 36.0) * cos(angle)
+        z = (r_tread - 36.0) * sin(angle)
+        witness = _cylinder(7.0, 10.0, y_centre=WHEEL_TREAD_WIDTH_MM / 2.0 + 8.0)
+        witness = witness.translate((x, 0.0, z))
+        witness.color = COLOR_WEAR
+        witness.label = "Wheel tyre wear witness plug"
+        children.append(witness)
+
+    return Compound(label="Wheel", children=children)
 
 
 def _axle() -> Part:
@@ -107,11 +146,66 @@ def _brake_disc() -> Part:
     return p
 
 
+def _brake_disc_details() -> list[Part]:
+    out: list[Part] = []
+    hub = _cylinder(82.0, BRAKE_DISC_THICKNESS_MM + 18.0)
+    hub.color = COLOR_FASTENER
+    hub.label = "Brake disc mounting bell"
+    out.append(hub)
+
+    for index in range(10):
+        angle = 2.0 * pi * index / 10.0
+        x = 132.0 * cos(angle)
+        z = 132.0 * sin(angle)
+        slot = _cylinder(9.0, BRAKE_DISC_THICKNESS_MM + 20.0)
+        slot = slot.translate((x, 0.0, z))
+        slot.color = COLOR_WEAR
+        slot.label = "Brake disc ventilation drill pattern"
+        out.append(slot)
+
+    for index in range(6):
+        angle = 2.0 * pi * index / 6.0
+        x = 68.0 * cos(angle)
+        z = 68.0 * sin(angle)
+        bolt = _cylinder(11.0, BRAKE_DISC_THICKNESS_MM + 28.0)
+        bolt = bolt.translate((x, 0.0, z))
+        bolt.color = COLOR_FASTENER
+        bolt.label = "Brake disc hub bolt"
+        out.append(bolt)
+    return out
+
+
 def _bearing_housing(y_centre: float) -> Part:
     p = _cylinder(BEARING_HOUSING_DIAMETER_MM / 2.0, BEARING_HOUSING_LENGTH_MM, y_centre)
     p.color = COLOR_BEARING
     p.label = "Axle bearing housing"
     return p
+
+
+def _bearing_end_details(y_centre: float, y_sign: float) -> list[Part]:
+    out: list[Part] = []
+    cover_y = y_centre + y_sign * (BEARING_HOUSING_LENGTH_MM / 2.0 + 11.0)
+    cover = _cylinder(96.0, 22.0, cover_y)
+    cover.color = COLOR_FASTENER
+    cover.label = "Axlebox bearing end cover"
+    out.append(cover)
+
+    for index in range(6):
+        angle = 2.0 * pi * index / 6.0
+        x = 92.0 * cos(angle)
+        z = 92.0 * sin(angle)
+        bolt = _cylinder(9.0, 24.0, cover_y + y_sign * 3.0)
+        bolt = bolt.translate((x, 0.0, z))
+        bolt.color = COLOR_FASTENER
+        bolt.label = "Axlebox cover bolt head"
+        out.append(bolt)
+
+    sensor = _cylinder(20.0, 36.0, y_centre - y_sign * 72.0)
+    sensor = sensor.translate((0.0, 0.0, BEARING_HOUSING_DIAMETER_MM / 2.0 + 28.0))
+    sensor.color = COLOR_WEAR
+    sensor.label = "Wheel-speed sensor pickup boss"
+    out.append(sensor)
+    return out
 
 
 def wheelset(
@@ -125,6 +219,7 @@ def wheelset(
     parts: list[Part | Compound] = []
     parts.append(_axle())
     parts.append(_brake_disc())
+    parts.extend(_brake_disc_details())
     for y_sign in (-1.0, 1.0):
         # Wheel centre = half-gauge + half-tread — puts inner face of
         # the tread on the inside edge of the gauge line.
@@ -139,6 +234,7 @@ def wheelset(
             track_gauge_mm / 2.0 + WHEEL_TREAD_WIDTH_MM + BEARING_HOUSING_LENGTH_MM / 2.0 + 20.0
         )
         parts.append(_bearing_housing(bearing_y))
+        parts.extend(_bearing_end_details(bearing_y, y_sign))
     return Compound(label="Wheelset (760 mm new, 1435 mm gauge)", children=parts)
 
 

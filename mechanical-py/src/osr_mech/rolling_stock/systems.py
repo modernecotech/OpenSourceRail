@@ -176,6 +176,67 @@ def end_coupler(end_sign: float = 1.0) -> Compound:
                 COLOR_COUPLER,
             )
         )
+        parts.append(
+            _box(
+                160.0,
+                34.0,
+                115.0,
+                (end_sign * 375.0, y, COUPLER_FACE_HEIGHT_MM + 10.0),
+                "Guide horn replaceable wear plate",
+                COLOR_METAL,
+            )
+        )
+    for y in (-135.0, 135.0):
+        parts.append(
+            _box(
+                118.0,
+                70.0,
+                105.0,
+                (end_sign * 365.0, y, COUPLER_FACE_HEIGHT_MM + 8.0),
+                "Automatic coupler lock jaw block",
+                COLOR_COUPLER,
+            )
+        )
+    parts.append(
+        _box(
+            92.0,
+            205.0,
+            54.0,
+            (end_sign * 376.0, 0.0, COUPLER_FACE_HEIGHT_MM + 168.0),
+            "Coupler latch inspection cover",
+            COLOR_METAL,
+        )
+    )
+    parts.append(
+        _box(
+            54.0,
+            360.0,
+            38.0,
+            (end_sign * 355.0, 0.0, COUPLER_FACE_HEIGHT_MM - 170.0),
+            "Manual coupler release handle",
+            COLOR_ACCESS,
+        )
+    )
+    parts.append(
+        _box(
+            86.0,
+            170.0,
+            185.0,
+            (end_sign * 334.0, -330.0, COUPLER_FACE_HEIGHT_MM + 118.0),
+            "Electrical-head hinged protective cover",
+            COLOR_METAL,
+        )
+    )
+    for z in (-98.0, -42.0, 42.0, 98.0):
+        parts.append(
+            _cyl(
+                16.0,
+                28.0,
+                (end_sign * 354.0, -330.0, COUPLER_FACE_HEIGHT_MM + z),
+                "Electrical-head sprung contact pin",
+                COLOR_METAL,
+            )
+        )
     for y in (-95.0, 95.0):
         parts.append(
             _cyl(
@@ -184,6 +245,16 @@ def end_coupler(end_sign: float = 1.0) -> Compound:
                 (end_sign * 300.0, y, COUPLER_FACE_HEIGHT_MM - 205.0),
                 "Brake-pipe hose coupling",
                 COLOR_RUBBER,
+            )
+        )
+        parts.append(
+            _box(
+                78.0,
+                88.0,
+                46.0,
+                (end_sign * 318.0, y, COUPLER_FACE_HEIGHT_MM - 285.0),
+                "Brake-pipe hose strain-relief saddle",
+                COLOR_METAL,
             )
         )
     for y in (-310.0, -155.0, 155.0, 310.0):
