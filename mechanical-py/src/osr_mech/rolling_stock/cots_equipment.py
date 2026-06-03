@@ -10,8 +10,8 @@ draw, and the bolt-pattern the car body reserves for it.
 
 Why this matters:
 
-- A builder who wants to swap vendors (Sutrak HVAC → Hispacold,
-  Kiel seats → Grammer, etc.) can check that the replacement
+- A builder who wants to swap vendors (Liebherr HVAC -> Merak HVAC,
+  Compin-Fainsa seats -> Kiel seats, etc.) can check that the replacement
   fits inside the reserved envelope. The envelope is the
   contract; the SKU is a worked-example choice.
 - The per-car fitting-out BOM aggregates to a per-trainset
@@ -82,6 +82,15 @@ class CotsItem:
     equivalent part that fits inside the envelope + power budget is
     a valid substitute."""
     sku_reference: str
+    """Primary supplier/product-family page used to size and describe
+    the reference envelope. This is a traceability aid, not a
+    sole-source procurement lock."""
+    supplier_reference_url: str
+    """Other supplier/product families that procurement should keep in
+    the tender set."""
+    alternates: tuple[str, ...]
+    """Short integration note copied into BOM/procurement reviews."""
+    fit_note: str
     length_mm: float
     width_mm: float
     height_mm: float
@@ -101,7 +110,13 @@ CATALOGUE: dict[Category, CotsItem] = {
     Category.WINDOW: CotsItem(
         category=Category.WINDOW,
         name="Side glazing panel",
-        sku_reference="Laminated 8+1.52 PVB+8, Pilkington Optilam class",
+        sku_reference="Rail laminated safety glazing, AGC Lamisafe/Heatlight W class",
+        supplier_reference_url="https://www.agc.com/en/everyday/mobility/train.html",
+        alternates=(
+            "Pilkington rail laminated glazing",
+            "Saint-Gobain Sekurit transport glazing",
+        ),
+        fit_note="Bonded/gasketed cassette with drain channel and optional heated anti-fog pane.",
         length_mm=1400.0,
         width_mm=40.0,
         height_mm=900.0,
@@ -113,19 +128,35 @@ CATALOGUE: dict[Category, CotsItem] = {
     Category.HVAC_ROOF: CotsItem(
         category=Category.HVAC_ROOF,
         name="Rooftop HVAC unit",
-        sku_reference="15 kW bus-HVAC class — Sutrak CC 210 / Thermo King T-1080R / Hispacold Compact",
-        length_mm=1800.0,
-        width_mm=1200.0,
-        height_mm=400.0,
-        mass_kg=250.0,
-        power_w=15_000.0,
-        mount_pattern="8× M10 on 1200 × 600 pitch, EPDM gasket",
+        sku_reference="Compact/split roof rail HVAC, Liebherr passenger-saloon class",
+        supplier_reference_url=(
+            "https://www.liebherr.com/en-ca/aerospace-and-transportation-systems/"
+            "solutions-and-services/solutions-for-railway/on-board-systems/classical-hvac-7178128"
+        ),
+        alternates=(
+            "Knorr-Bremse Merak roof HVAC",
+            "Faiveley/Wabtec rail HVAC",
+            "Hispacold rail HVAC",
+        ),
+        fit_note="Roof curb accepts compact or split unit, drop ducts, condensate drains, and diagnostics harness.",
+        length_mm=2700.0,
+        width_mm=1900.0,
+        height_mm=450.0,
+        mass_kg=420.0,
+        power_w=20_000.0,
+        mount_pattern="10× M12 curb bolts, EPDM gasket, twin 450 × 260 drop ducts",
         display_color=(0.70, 0.70, 0.75),
     ),
     Category.LIGHTING: CotsItem(
         category=Category.LIGHTING,
         name="Continuous LED ceiling strip",
-        sku_reference="Osram Ledvance T5-equivalent linear, 15 W/m @ 24 VDC",
+        sku_reference="Teknoware rolling-stock main/emergency LED lighting rail",
+        supplier_reference_url="https://www.teknoware.com/rail-road/rolling-stock-lighting-and-interiors/",
+        alternates=(
+            "Luminator interior rail lighting",
+            "SBF Spezialleuchten rail LED lighting",
+        ),
+        fit_note="Two serviceable ceiling channels with emergency-input wiring and spring clips.",
         length_mm=22_000.0,  # full car length; actual supply comes as 1.5 m segments
         width_mm=100.0,
         height_mm=50.0,
@@ -137,7 +168,14 @@ CATALOGUE: dict[Category, CotsItem] = {
     Category.PIS_SCREEN: CotsItem(
         category=Category.PIS_SCREEN,
         name="Passenger-information LCD",
-        sku_reference="21.5\" industrial LCD — Advantech OSD-215 / Lilliput FA1200-NP",
+        sku_reference="Luminator on-board infotainment/destination display class",
+        supplier_reference_url="https://www.luminator.com/en-us/products.html",
+        alternates=(
+            "Televic GSP onboard display/PIS",
+            "Perrone/Vianova onboard display class",
+            "Litemax EN 50155 display class",
+        ),
+        fit_note="Above-door VESA plate reserves Ethernet, 24 V DC, and anti-vibration isolators.",
         length_mm=520.0,
         width_mm=50.0,
         height_mm=320.0,
@@ -149,7 +187,14 @@ CATALOGUE: dict[Category, CotsItem] = {
     Category.SEAT: CotsItem(
         category=Category.SEAT,
         name="Longitudinal bench (2-seat unit)",
-        sku_reference="Kiel Avant Metro / Grammer Ipano longitudinal, textile upholstery",
+        sku_reference="Compin-Fainsa SB09 Metro/LRV longitudinal seat class",
+        supplier_reference_url="https://www.compinfainsa.com/product/railway-seats-and-interiors-sb09",
+        alternates=(
+            "Kiel Avant Metro",
+            "Grammer Ipano longitudinal rail seat",
+            "McConnell lightweight metro bench",
+        ),
+        fit_note="Cantilevered rail keeps battery covers serviceable; removable pads and EN 45545 evidence required.",
         length_mm=1000.0,
         width_mm=500.0,
         height_mm=950.0,
@@ -165,7 +210,14 @@ CATALOGUE: dict[Category, CotsItem] = {
     Category.GRAB_POLE: CotsItem(
         category=Category.GRAB_POLE,
         name="Vertical grab pole",
-        sku_reference="Stainless 304, 35 mm OD × 2.5 mm wall, satin finish",
+        sku_reference="Rail interior stainless stanchion kit, Compin-Fainsa/Teknoware interior class",
+        supplier_reference_url="https://www.compinfainsa.com/products",
+        alternates=(
+            "Teknoware interior structures",
+            "FISA rail interior stanchion kit",
+            "local 316L modular rail fabricator",
+        ),
+        fit_note="Stainless modular pole with replaceable flanges into floor and ceiling inserts.",
         length_mm=35.0,
         width_mm=35.0,
         height_mm=2_300.0,  # floor to false-ceiling
@@ -177,7 +229,14 @@ CATALOGUE: dict[Category, CotsItem] = {
     Category.INTERCOM: CotsItem(
         category=Category.INTERCOM,
         name="Emergency intercom / help-point",
-        sku_reference="Zenitel Vingtor-Stentofon TMIS-2 class, IP-SIP",
+        sku_reference="Televic TRACS passenger communication unit / IP audio class",
+        supplier_reference_url="https://www.televic.com/en/rail/products/audio-communication-system-for-trains",
+        alternates=(
+            "Luminator Audio Coach Controller + TIU",
+            "Zenitel/Vingtor-Stentofon rail intercom",
+            "Commend public-transport intercom",
+        ),
+        fit_note="Recessed help-point with SIP/Ethernet, 24 V DC, audio fallback, and labelled call button.",
         length_mm=300.0,
         width_mm=100.0,
         height_mm=200.0,

@@ -38,6 +38,21 @@ from osr_mech.rolling_stock.cots_equipment import (
     total_active_power_w,
     total_mass_kg,
 )
+from osr_mech.rolling_stock.mechanical_interfaces import (
+    INTERFACE_BUILDERS,
+    battery_installations,
+    bench_on_battery_installations,
+    bogie_to_chassis_connector,
+    bogie_to_motor_connector,
+    door_installations,
+    door_mounts,
+    external_lighting_lidar_system,
+    hvac_roof_ducting_installation,
+    mechanical_interface_package,
+    screen_speaker_mountings,
+    train_connector_mount_pair,
+    window_installations,
+)
 from osr_mech.rolling_stock.sensor_cowl import (
     COWL_LENGTH_MM,
     LEADING_FACE_HEIGHT_MM,
@@ -288,6 +303,9 @@ def test_cots_catalogue_covers_every_category() -> None:
         assert item.height_mm > 0.0
         assert item.mass_kg > 0.0
         assert item.power_w >= 0.0
+        assert item.supplier_reference_url.startswith("https://")
+        assert item.alternates
+        assert item.fit_note
 
 
 def test_bom_quantities_are_common_per_self_contained_car() -> None:
@@ -370,3 +388,123 @@ def test_fit_out_car_body_has_more_volume_than_plain_body() -> None:
         f"fit-out compound volume {dressed_volume:.0f} not greater than "
         f"plain body {plain_volume:.0f}"
     )
+
+
+# ---------------------------------------------------------------------------
+# Mechanical interface and installation packages
+# ---------------------------------------------------------------------------
+
+
+def test_mechanical_interface_builders_are_registered_and_nonempty() -> None:
+    expected_slugs = {
+        "bogie-to-chassis-connector",
+        "bogie-to-motor-connector",
+        "low-floor-chassis",
+        "side-body-frame-attachments",
+        "composite-body-roof-attachments",
+        "window-installations",
+        "door-mounts",
+        "door-design",
+        "door-installations",
+        "door-to-body-installations",
+        "cabin-flooring",
+        "battery-installations",
+        "bench-on-battery-installations",
+        "internal-lighting-installation",
+        "hvac-roof-ducting-installation",
+        "screen-speaker-mountings",
+        "external-lighting-lidar-system",
+        "train-connector-mount-pair",
+        "mechanical-interface-package",
+    }
+    assert expected_slugs.issubset(INTERFACE_BUILDERS)
+    for slug in expected_slugs:
+        model = INTERFACE_BUILDERS[slug]()
+        assert _volume_recursive(model) > 0.0, f"{slug} produced empty geometry"
+        assert getattr(model, "children", None), f"{slug} should be a compound assembly"
+
+
+def test_mechanical_interface_package_covers_requested_subsystems() -> None:
+    labels = _labels_recursive(mechanical_interface_package())
+    expected = {
+        "Bogie-to-chassis welded bolster box",
+        "Bogie centre-pivot spherical-bearing socket",
+        "PMSM motor terminal-box mounting bracket",
+        "Dropped stainless low-floor centre tub",
+        "Deep low-floor side torsion box",
+        "Twin low-floor keel box beam below aisle edge",
+        "Low-floor torsion-diaphragm cross tie",
+        "Door threshold cross bearer and drain trough",
+        "Side body waist rail with window nutplates",
+        "Composite side body panel outer skin",
+        "Roof cantrail clamp extrusion",
+        "Bonded laminated window glass installation",
+        "Window aluminium bonding frame and primer land",
+        "Door top operator rail mount",
+        "Pressed aluminium sliding door leaf shell",
+        "Door cassette installed envelope",
+        "Door-to-body bolted header backing plate",
+        "Low-floor centre aisle anti-slip flooring panel",
+        "Battery installation sliding tray and drain pan",
+        "Bench seat pan above battery installation",
+        "Internal LED light strip aluminium mounting channel",
+        "Roof air-conditioner bolted curb and gasket land",
+        "HVAC centre supply duct with insulation",
+        "Internal passenger screen VESA backing plate",
+        "PA speaker grille and acoustic backbox",
+        "Front/back roofline LIDAR adjustable mount",
+        "LED headlight and marker-light sealed cassette",
+        "Train connector mount crashworthy coupler pocket",
+    }
+    missing = expected.difference(labels)
+    assert not missing, f"missing mechanical interface labels: {sorted(missing)}"
+
+
+def test_repeated_installation_counts_match_car_layout() -> None:
+    dims = CarDimensions()
+    expected_side_door_count = dims.doors_per_side * 2
+    expected_window_count = (dims.doors_per_side + 1) * 2
+
+    labels = _labels_recursive(bogie_to_chassis_connector(dims))
+    assert labels.count("Bogie-to-chassis welded bolster box") == 2
+    assert labels.count("Secondary air-spring chassis pad") == 4
+
+    labels = _labels_recursive(bogie_to_motor_connector())
+    assert labels.count("PMSM motor terminal-box mounting bracket") == 2
+    assert labels.count("Motor coolant quick-coupler pair") == 4
+
+    labels = _labels_recursive(window_installations(dims))
+    assert labels.count("Bonded laminated window glass installation") == expected_window_count
+    assert labels.count("Window condensate drain channel") == expected_window_count
+
+    labels = _labels_recursive(door_mounts(dims))
+    assert labels.count("Door top operator rail mount") == expected_side_door_count
+    assert labels.count("Door lock keeper adjustable mount") == expected_side_door_count
+
+    labels = _labels_recursive(door_installations(dims))
+    assert labels.count("Door cassette installed envelope") == expected_side_door_count
+    assert labels.count("Deployable door gap-filler cassette") == expected_side_door_count
+
+    labels = _labels_recursive(battery_installations(dims))
+    assert labels.count("Battery installation sliding tray and drain pan") == BATTERY_MODULES_PER_CAR
+    assert labels.count("Battery module stainless retention strap") == BATTERY_MODULES_PER_CAR
+
+    labels = _labels_recursive(bench_on_battery_installations(dims))
+    assert labels.count("Bench seat pan above battery installation") == expected_window_count
+    assert labels.count("Bench cantilever rail over battery strake") == expected_window_count
+
+    labels = _labels_recursive(hvac_roof_ducting_installation(dims))
+    assert labels.count("Roof air-conditioner bolted curb and gasket land") == 2
+    assert labels.count("HVAC roof-to-saloon drop duct") == 2
+
+    labels = _labels_recursive(screen_speaker_mountings(dims))
+    assert labels.count("Internal passenger screen VESA backing plate") == expected_side_door_count
+    assert labels.count("PA speaker grille and acoustic backbox") == 12
+
+    labels = _labels_recursive(external_lighting_lidar_system(dims))
+    assert labels.count("Front/back roofline LIDAR adjustable mount") == 2
+    assert labels.count("LED headlight and marker-light sealed cassette") == 4
+
+    labels = _labels_recursive(train_connector_mount_pair(dims))
+    assert labels.count("Train connector mount crashworthy coupler pocket") == 2
+    assert labels.count("Train connector M24 pocket bolt head") == 16

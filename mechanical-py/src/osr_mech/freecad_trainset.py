@@ -55,7 +55,25 @@ COLOURS = {
     "systems": (0.18, 0.39, 0.68, 0.0),
     "door": (0.05, 0.45, 0.66, 0.0),
     "interface": (0.95, 0.68, 0.18, 0.0),
+    "mechanical": (0.60, 0.62, 0.66, 0.0),
 }
+
+CAR_INTERFACE_STEPS = (
+    ("bogie-to-chassis-connector.step", "bogie-to-chassis connectors"),
+    ("low-floor-chassis.step", "low-floor chassis"),
+    ("side-body-frame-attachments.step", "side body frame attachments"),
+    ("composite-body-roof-attachments.step", "composite body and roof attachments"),
+    ("window-installations.step", "window installations"),
+    ("door-mounts.step", "door mounts"),
+    ("door-installations.step", "door installations"),
+    ("door-to-body-installations.step", "door-to-body installations"),
+    ("cabin-flooring.step", "cabin flooring"),
+    ("battery-installations.step", "battery installations"),
+    ("bench-on-battery-installations.step", "bench installations on batteries"),
+    ("internal-lighting-installation.step", "internal lighting installation"),
+    ("hvac-roof-ducting-installation.step", "HVAC roof and ducting installation"),
+    ("screen-speaker-mountings.step", "screen and speaker mountings"),
+)
 
 
 @dataclass(frozen=True)
@@ -120,6 +138,7 @@ def _trainset_items(catalog: Path, family: str) -> list[StepItem]:
     motorised = FAMILY_MOTORISED[family]
     rolling = catalog / "rolling_stock"
     bogies = catalog / "bogie"
+    interfaces = rolling / "interfaces"
 
     total_length = car_count * CAR_LENGTH_MM + (car_count - 1) * COUPLING_GAP_MM
     start_x = -total_length / 2.0
@@ -180,6 +199,16 @@ def _trainset_items(catalog: Path, family: str) -> list[StepItem]:
                 ),
             ]
         )
+        for file_name, label in CAR_INTERFACE_STEPS:
+            items.append(
+                StepItem(
+                    interfaces / file_name,
+                    f"{car_label} {label}",
+                    "Mechanical Interfaces",
+                    x_mm=car_centre_x,
+                    colour=COLOURS["mechanical"],
+                )
+            )
 
         bogie_files = (
             ("motor-bogie.step", "motor") if motorised[car_index] else ("trailer-bogie.step", "trailer"),
@@ -199,6 +228,16 @@ def _trainset_items(catalog: Path, family: str) -> list[StepItem]:
                     colour=COLOURS["bogie"],
                 )
             )
+            if kind == "motor":
+                items.append(
+                    StepItem(
+                        interfaces / "bogie-to-motor-connector.step",
+                        f"{car_label} {end_name}-end bogie-to-motor connector",
+                        "Mechanical Interfaces",
+                        x_mm=car_centre_x + sign * (CAR_LENGTH_MM / 2.0 - BOGIE_INSET_MM),
+                        colour=COLOURS["mechanical"],
+                    )
+                )
 
         if car_index + 1 < car_count:
             joint_x = car_centre_x + CAR_LENGTH_MM / 2.0 + COUPLING_GAP_MM / 2.0
@@ -279,11 +318,15 @@ def build_trainset_document(
     doc.recompute()
 
     output.parent.mkdir(parents=True, exist_ok=True)
+    if output.exists():
+        output.unlink()
     doc.saveAs(str(output))
     print(f"wrote {output}")
 
     if export_step is not None:
         export_step.parent.mkdir(parents=True, exist_ok=True)
+        if export_step.exists():
+            export_step.unlink()
         Import.export(objects, str(export_step))
         print(f"wrote {export_step}")
 

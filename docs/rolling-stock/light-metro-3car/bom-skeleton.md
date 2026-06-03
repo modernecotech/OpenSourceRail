@@ -38,6 +38,28 @@ This BOM is keyed to the visual and layout concept in
 - Batteries remain under longitudinal seats, not on the roof or deep
   underframe.
 
+## Vendor fit-in references
+
+These are reference product families used to size the CAD envelopes
+and short-list tender alternates. They are not sole-source selections:
+the v2 release gate still accepts any supplier that fits the envelope,
+keeps mass/power within budget, and supplies certification evidence.
+
+| BOM lines | Reference families fitted into the design | Fit-in implication |
+|---|---|---|
+| B10, B27 | [AGC Lamisafe/Heatlight railway glazing](https://www.agc.com/en/everyday/mobility/train.html), Pilkington/Saint-Gobain rail glazing | Laminated bonded cassette, drain channel, optional heated anti-fog busbar |
+| B11, B25 | [Knorr-Bremse/IFE entrance systems](https://www.knorr-bremse.us/en/products/door-systems/entrance-systems/), Wabtec/Faiveley, Kangni | Sliding/plug door cassette with controller, obstruction detection, emergency release, sill drainage |
+| B12, B13 | [Altro Transflor Tungsten rail flooring](https://www.altro.com/us/products/altro-transflor-tungsten), Forbo transport flooring | 2 mm anti-slip pre-cut floor covering over removable low-floor and service-bay panels |
+| B14, B15 | [Compin-Fainsa SB09 Metro/LRV seat](https://www.compinfainsa.com/product/railway-seats-and-interiors-sb09), Kiel, Grammer, McConnell | Longitudinal bench stays cantilevered over battery strakes with removable pads |
+| B16, B17 | [Teknoware rolling-stock lighting](https://www.teknoware.com/rail-road/rolling-stock-lighting-and-interiors/), Luminator lighting | Continuous main/emergency lighting channels plus sealed head/tail/marker cassettes |
+| B18, B19, E14 | [Luminator onboard products](https://www.luminator.com/en-us/products.html), Televic GSP | Above-door VESA screens, PA speakers, audio/data trunks, amplifier/service trays |
+| B22, B23 | [Dellner automatic coupler Type 10](https://www.dellner.com/products/automatic-couplers/automatic-coupler-type-10), Voith Scharfenberg class | Type 10 pocket with crash absorber, electrical head, pneumatic lines, D-REX Ethernet carrier |
+| G9 | [Knorr-Bremse WheelAct/AxleAct brake actuators](https://rail.knorr-bremse.com/en/us/portfolio/products-and-systems/braking-systems/actuation/), Wabtec Faiveley | Compact caliper envelope now includes actuator, spring park brake, pads, ports, wear indicator |
+| T1 | [TSA rail traction motors](https://tsa.at/rail/), ABB Traction, Skoda Electric | PMSM package includes water jacket, mounting feet, terminal box, HV glands, resolver cover |
+| T5, T6, T16, T17 | [Toshiba SCiB traction battery systems](https://www.global.toshiba/ww/products-solutions/railway/rolling-stock/energy-storage-applications.html), [Saft rail traction batteries](https://saft.com/en/mobility/rail-traction), CATL/HiNa Na-ion | Under-seat module envelope keeps OSR Na-ion primary, but reserves cold plate, BMS harness, vent/fire paths for rail battery suppliers |
+| T14 | [Liebherr rail HVAC](https://www.liebherr.com/en-ca/aerospace-and-transportation-systems/solutions-and-services/solutions-for-railway/on-board-systems/classical-hvac-7178128), Knorr-Bremse Merak, Wabtec/Faiveley | Roof curb sized for compact/split saloon unit, pressure-protection damper, filter, drains, ducts |
+| E18, E19 | [Rail Vision MainLine](https://railvision.io/main-line/), [Ouster OS1](https://ouster.com/product-os1/), [LSLiDAR train-end intrusion system](https://www.lslidar.com/solution/rail-transportation/train-end-railway-intrudment-inspection-system/) | Front/back sensor mount reserves LIDAR, thermal/wide/narrow cameras, radar, heaters, wash/wipe |
+
 ## Body + interior
 
 | Line | Desc | Qty per consist | Source | Base USD | Notes |
@@ -51,15 +73,15 @@ This BOM is keyed to the visual and layout concept in
 | B7 | Composite roof fairings + skirts | 95 m² | BID | 24 000 | Removable service panels |
 | B8 | Composite open-glass sensor cowl shells | 2 | BID | 12 000 | Sacrificial over steel crash frame; accepts panoramic glass and LED lamp clusters |
 | B9 | Articulation joint, Hübner RTS-B40 | 2 | BID | 90 000 | Or local equivalent |
-| B10 | COTS laminated safety-glass window cassette | 18 | SOURCE | 27 000 | Bonded/gasketed rail/bus unit |
-| B11 | COTS electric plug/sliding door cassette | 12 | BID | 300 000 | Door, controller, seals, emergency release |
+| B10 | COTS laminated safety-glass window cassette | 18 | SOURCE | 27 000 | AGC Lamisafe/Heatlight or Pilkington/Saint-Gobain class; bonded/gasketed rail unit |
+| B11 | COTS electric plug/sliding door cassette | 12 | BID | 300 000 | Knorr-Bremse/IFE, Wabtec/Faiveley, Kangni class; door, controller, obstruction sensors, seals, emergency release |
 | B12 | Stepped floor board + hatch system, EN 45545 | 135 m² | SOURCE | 16 200 | 350 mm, ~10 m low centre; 760 mm high bogie-end decks, access hatches |
-| B13 | Vinyl/rubber floor covering, EN 45545 R5 | 135 m² | SOURCE | 5 400 | |
-| B14 | COTS longitudinal seat modules, EN 45545 R7 | 60 seats | SOURCE | 24 000 | Rail/bus bench modules |
+| B13 | Vinyl/rubber floor covering, EN 45545 R5 | 135 m² | SOURCE | 5 400 | Altro Transflor / Forbo transport flooring class |
+| B14 | COTS longitudinal seat modules, EN 45545 R7 | 60 seats | SOURCE | 24 000 | Compin-Fainsa SB09 / Kiel / Grammer rail bench class |
 | B15 | COTS grab rail + stanchion kit | set | SOURCE | 8 000 | Stainless modular system |
-| B16 | COTS interior LED lighting kit | 3 cars | SOURCE | 9 000 | 24 V DC, emergency mode |
-| B17 | COTS exterior marker + head/taillight kit | set | SOURCE | 6 000 | Rail/bus certified |
-| B18 | COTS PIS display + speaker kit | set | SOURCE | 12 000 | Interior/exterior |
+| B16 | COTS interior LED lighting kit | 3 cars | SOURCE | 9 000 | Teknoware/Luminator class, 24 V DC, emergency mode |
+| B17 | COTS exterior marker + head/taillight kit | set | SOURCE | 6 000 | Teknoware sealed head/tail/marker class |
+| B18 | COTS PIS display + speaker kit | set | SOURCE | 12 000 | Luminator/Televic class, interior/exterior |
 | B19 | COTS CCTV + intercom kit | set | SOURCE | 15 000 | PoE cameras, passenger intercom |
 | B20 | Paint + 2K urethane topcoat | set | SOURCE | 6 000 | White/silver base coat under concept livery |
 | B21 | Interior FR panels + trim clips | set | SOURCE | 28 000 | Supplier-certified HL2 |
@@ -84,7 +106,7 @@ This BOM is keyed to the visual and layout concept in
 | G6 | Secondary air spring + levelling valve | 12 | SOURCE | 7 200 | Matches RFC 0022 twin-bellows spec |
 | G7 | Secondary damper | 12 | SOURCE | 14 400 | |
 | G8 | Brake disc | 12 | SOURCE | 12 000 | |
-| G9 | Electromagnetic brake caliper | 24 | BID | 72 000 | |
+| G9 | Electromagnetic brake caliper | 24 | BID | 72 000 | Knorr-Bremse WheelAct/AxleAct Compact or Wabtec Faiveley class |
 | G10 | Park-brake spring assembly | 24 | SOURCE | 9 600 | |
 | G11 | Centre-pin ring bearing + PTFE slider | 6 | SOURCE | 12 000 | |
 | G12 | Yaw-restraint link + bushes | 12 | SOURCE | 6 000 | |
@@ -102,12 +124,12 @@ This BOM is keyed to the visual and layout concept in
 
 | Line | Desc | Qty | Source | Base USD | Notes |
 |---|---|---|---|---|---|
-| T1 | PMSM axle motor (150 kW peak) | 4 | BID | 120 000 | Two motors per powered bogie |
+| T1 | PMSM axle motor (150 kW peak) | 4 | BID | 120 000 | TSA / ABB / Skoda Electric class; two motors per powered bogie |
 | T2 | Reduction gear (single-stage 6.5:1) | 4 | BID | 28 000 | Matches RFC 0008 / gearbox.py |
 | T3 | SiC inverter (300 kW peak) | 2 | BID | 70 000 | One per powered bogie |
 | T4 | Cold-plate + chiller for traction | 3 | SOURCE | 27 000 | |
-| T5 | Na-ion under-seat pack (150 kWh usable) | 3 | BID | 54 000 | CATL / HiNa / etc; 450 kWh consist |
-| T6 | BMS electronics (pack-level) | 3 | BID | 18 000 | |
+| T5 | Na-ion under-seat pack (150 kWh usable) | 3 | BID | 54 000 | CATL/HiNa Na-ion primary; Toshiba SCiB/Saft rail batteries are envelope alternates |
+| T6 | BMS electronics (pack-level) | 3 | BID | 18 000 | Rail battery supplier BMS with HVIL, thermal, and fire-path interfaces |
 | T7 | Pack cooling plate set | 3 | SOURCE | 6 000 | |
 | T8 | Under-seat aluminium module enclosure set | 3 | MAKE | 12 000 | |
 | T9 | Aspirating smoke detector (battery + traction bay) | 6 | SOURCE | 18 000 | |
@@ -115,7 +137,7 @@ This BOM is keyed to the visual and layout concept in
 | T11 | HV contactor + bus bar set | 3 | SOURCE | 24 000 | |
 | T12 | Station charging side-pin connector | 3 | SOURCE | 45 000 | Pantograph-down alternate per site |
 | T13 | Aux inverter (400 V / 110 V / 24 V) | 3 | SOURCE | 66 000 | |
-| T14 | COTS packaged roof HVAC unit (20 kW each, per car) | 3 | BID | 75 000 | +50 °C hot-climate variant |
+| T14 | COTS packaged roof HVAC unit (20 kW each, per car) | 3 | BID | 75 000 | Liebherr/Merak/Wabtec-Faiveley class; +50 °C hot-climate variant |
 | T15 | Regen dump resistor (roof-mount) | 1 | SOURCE | 3 500 | |
 | T16 | Battery module service disconnect, fuses, and contactors | 24 module positions | SOURCE | 18 000 | 8 modules per car per traction.md |
 | T17 | Battery vent duct + fire exhaust path | 3 cars | MAKE | 9 000 | Side vent, intumescent edge seals |
@@ -143,11 +165,11 @@ This BOM is keyed to the visual and layout concept in
 | E11 | Depot manual-control pendant + keyed enable | 2 | BID | 3 000 | For depot recovery only; normally stowed |
 | E12 | Emergency plunger (hardwired) | 2 | SOURCE | 400 | |
 | E13 | Depot enable key-switch and guarded motion consent | 2 | SOURCE | 500 | Replaces driver deadman in cabless concept |
-| E14 | PIS display (exterior + interior) | 12 | SOURCE | 9 600 | |
+| E14 | PIS display (exterior + interior) | 12 | SOURCE | 9 600 | Luminator/Televic class display and controller family |
 | E15 | CCTV camera (forward + door-sill + in-car) | 20 | SOURCE | 6 000 | |
 | E16 | 2oo2 relay stage (per safety output) | 4 | SOURCE | 1 200 | |
 | E17 | Cable harness (pre-terminated, per car) | 3 | MAKE | 30 000 | |
-| E18 | T-OBS complete nose module | 2 | BID | 10 000 | LIDAR, radar, stereo, ultrasonic, 2oo2 outputs |
+| E18 | T-OBS complete nose module | 2 | BID | 10 000 | Rail Vision / Ouster / LSLiDAR class: LIDAR, thermal/wide/narrow cameras, radar, ultrasonic, 2oo2 outputs |
 | E19 | Sensor-window heater, washer, and service cover kit | 2 | SOURCE | 8 000 | Keeps nose sensors inspectable in service |
 | E20 | Door-sill camera / obstruction sensor harness | 12 doors | MAKE | 12 000 | Ties doors to CCTV + door control |
 | E21 | Roof antenna kit | set | SOURCE | 3 000 | 5G MIMO, LoRa, GNSS, public-safety blank |

@@ -41,6 +41,7 @@ from .rolling_stock.car_body import (
     car_body_structure,
 )
 from .rolling_stock.cots_equipment import fit_out_car_body
+from .rolling_stock.mechanical_interfaces import INTERFACE_BUILDERS
 from .rolling_stock.sensor_cowl import sensor_cowl
 from .rolling_stock.systems import (
     battery_pack_set,
@@ -64,6 +65,17 @@ from .track.sleeper import mono_block_sleeper
 from .track.turnout import TurnoutTangent, turnout
 
 
+GENERATED_STEP_DIRS = (
+    "track",
+    "civil",
+    "station",
+    "rolling_stock",
+    "bogie",
+    "depot",
+    "fixtures",
+)
+
+
 def _out(root: Path, *parts: str) -> Path:
     p = root.joinpath(*parts)
     p.parent.mkdir(parents=True, exist_ok=True)
@@ -75,7 +87,19 @@ def _export(obj, path: Path) -> None:
     print(f"wrote {path}")
 
 
+def _refresh_latest_outputs(root: Path) -> None:
+    for folder in GENERATED_STEP_DIRS:
+        directory = root / folder
+        if not directory.exists():
+            continue
+        for path in directory.rglob("*.step"):
+            path.unlink()
+            print(f"removed old STEP artifact {path}")
+
+
 def export_all(root: Path) -> None:
+    _refresh_latest_outputs(root)
+
     # Track: one rail per profile, one sleeper, one fastener, one panel.
     _export(rail_section(RailProfile.UIC_54E1), _out(root, "track", "rail-54E1-1m.step"))
     _export(rail_section(RailProfile.UIC_60E1), _out(root, "track", "rail-60E1-1m.step"))
@@ -146,6 +170,11 @@ def export_all(root: Path) -> None:
     _export(end_coupler(), _out(root, "rolling_stock", "end-coupler.step"))
     _export(inter_car_articulation(), _out(root, "rolling_stock", "inter-car-articulation.step"))
     _export(tobs_sensor_pack(), _out(root, "rolling_stock", "tobs-sensor-pack.step"))
+    for slug, builder in INTERFACE_BUILDERS.items():
+        _export(
+            builder(),
+            _out(root, "rolling_stock", "interfaces", f"{slug}.step"),
+        )
 
     # Bogie components (RFC 0022).
     _export(wheelset(), _out(root, "bogie", "wheelset.step"))

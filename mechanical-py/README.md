@@ -87,12 +87,27 @@ Key rolling-stock source entry points:
 pip install -e .[test]
 
 # Regenerate every STEP artifact under catalog/.
+# The exporter refreshes its generated STEP folders first so the
+# catalogue contains the latest canonical set, not stale renamed parts.
 osr-mech-export
 
 # Build a FreeCAD review assembly from the generated STEP catalogue.
 # The launcher uses native FreeCADCmd or the FreeCAD Flatpak and handles
 # FreeCAD's script argument quirks.
 scripts/freecad_trainset.sh --family light-metro-3car
+
+# Build chassis/bogie and full-body FreeCAD documents with assembled
+# and disassembled/exploded review states, plus geometry-check markdown.
+scripts/freecad_assembly_review.sh
+
+# Run first-pass FreeCAD/CalculiX screening FEA beam models for the
+# low-floor chassis, bogie H-frame, and full body frame.
+scripts/freecad_fea.sh
+
+# Capture FreeCAD GUI screenshots from the review/FEA documents.
+# Uses Xvfb automatically when available and refreshes the stable
+# docs/screenshots/freecad/ latest image set.
+scripts/freecad_screenshots.sh
 
 # Optional: also emit a combined STEP assembly for CAD handoff.
 scripts/freecad_trainset.sh \

@@ -2,8 +2,9 @@
 
 Ratings: 180 kW continuous / 320 kW peak per axle at 750 VDC link.
 Geometry: water-jacketed housing, end-bell, terminal box, drive-end
-output shaft. Represented as a stepped cylinder + a rectangular
-terminal box bolted to the top. Mass reference: ≤ 620 kg.
+output shaft. Represented as a TSA/ABB/Skoda-class rail motor with
+cooling bands, lifting eyes, cable glands, resolver cover, nameplate,
+and mounting feet. Mass reference: ≤ 620 kg.
 """
 
 from __future__ import annotations
@@ -37,6 +38,8 @@ COLOR_MOTOR_BODY = Color(0.35, 0.38, 0.45)
 COLOR_ENDBELL = Color(0.42, 0.45, 0.52)
 COLOR_TERMINAL_BOX = Color(0.28, 0.30, 0.35)
 COLOR_SHAFT = Color(0.55, 0.55, 0.58)
+COLOR_HARDWARE = Color(0.62, 0.64, 0.66)
+COLOR_HV = Color(0.80, 0.15, 0.12)
 
 
 def _body() -> Part:
@@ -107,6 +110,61 @@ def _terminal_box() -> Part:
     return p
 
 
+def _accessories() -> list[Part]:
+    """Small external features that make the motor visually reviewable."""
+
+    parts: list[Part] = []
+    for y in (-270.0, -90.0, 90.0, 270.0):
+        parts.append(
+            Box(520.0, 24.0, 28.0)
+            .locate(Location((0.0, y, MOTOR_BODY_DIAMETER_MM / 2.0 - 52.0)))
+        )
+        parts[-1].color = COLOR_HARDWARE
+        parts[-1].label = "Water-jacket cooling band"
+    for x in (-170.0, 170.0):
+        parts.append(
+            Box(96.0, 82.0, 62.0)
+            .locate(Location((x, -MOTOR_BODY_LENGTH_MM / 2.0 - 26.0, -MOTOR_BODY_DIAMETER_MM / 2.0 + 42.0)))
+        )
+        parts[-1].color = COLOR_HARDWARE
+        parts[-1].label = "Motor mounting foot with slotted holes"
+        parts.append(
+            Box(96.0, 82.0, 62.0)
+            .locate(Location((x, MOTOR_BODY_LENGTH_MM / 2.0 + 26.0, -MOTOR_BODY_DIAMETER_MM / 2.0 + 42.0)))
+        )
+        parts[-1].color = COLOR_HARDWARE
+        parts[-1].label = "Motor mounting foot with slotted holes"
+    for x in (-105.0, 0.0, 105.0):
+        parts.append(
+            Box(54.0, 48.0, 62.0)
+            .locate(Location((x, -210.0, MOTOR_BODY_DIAMETER_MM / 2.0 + MOTOR_TERMINAL_BOX_HEIGHT_MM - 10.0)))
+        )
+        parts[-1].color = COLOR_HV
+        parts[-1].label = "Traction motor HV cable gland"
+    for x in (-120.0, 120.0):
+        parts.append(
+            Box(64.0, 36.0, 48.0)
+            .locate(Location((x, 0.0, MOTOR_BODY_DIAMETER_MM / 2.0 + 42.0)))
+        )
+        parts[-1].color = COLOR_HARDWARE
+        parts[-1].label = "Traction motor lifting eye"
+    parts.append(
+        Box(180.0, 24.0, 80.0).locate(
+            Location((0.0, -MOTOR_BODY_LENGTH_MM / 2.0 - MOTOR_ENDBELL_LENGTH_MM - 22.0, 65.0))
+        )
+    )
+    parts[-1].color = COLOR_TERMINAL_BOX
+    parts[-1].label = "Resolver and speed-sensor cover"
+    parts.append(
+        Box(210.0, 12.0, 64.0).locate(
+            Location((0.0, 250.0, MOTOR_BODY_DIAMETER_MM / 2.0 - 20.0))
+        )
+    )
+    parts[-1].color = COLOR_HARDWARE
+    parts[-1].label = "Supplier motor nameplate"
+    return parts
+
+
 def traction_motor() -> Compound:
     """Full PMSM motor assembly. Origin: motor centre at origin; axis
     along +Y; drive-end output shaft on +Y side."""
@@ -116,8 +174,9 @@ def traction_motor() -> Compound:
     parts.append(_endbell(MOTOR_BODY_LENGTH_MM / 2.0, 1.0))
     parts.append(_shaft())
     parts.append(_terminal_box())
+    parts.extend(_accessories())
     return Compound(
-        label="PMSM traction motor (180 kW cont / 320 kW peak)",
+        label="PMSM traction motor (TSA/ABB/Skoda class, 180 kW cont / 320 kW peak)",
         children=parts,
     )
 

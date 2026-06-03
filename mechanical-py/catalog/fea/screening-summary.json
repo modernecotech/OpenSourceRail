@@ -1,0 +1,77 @@
+{
+  "allowable_service_mpa": 213.0,
+  "dependencies": {
+    "executables": {
+      "ccx": {
+        "path": "/app/bin/ccx",
+        "version": [
+          "This is Version 2.23"
+        ]
+      },
+      "gmsh": {
+        "path": "/app/bin/gmsh",
+        "version": [
+          "4.15.0-git"
+        ]
+      }
+    },
+    "freecad_importable": true,
+    "freecad_version": [
+      "1",
+      "1",
+      "1",
+      "44874 (Git)",
+      "https://github.com/FreeCAD/FreeCAD.git",
+      "2026/04/14 22:09:59",
+      "(HEAD detached at 1.1.1)",
+      "0108fd4b4850cc46e625b60e53cea7a7bbe69f8d"
+    ],
+    "modules": {
+      "Assembly": true,
+      "Fem": true,
+      "femmesh": true,
+      "femtools": true
+    }
+  },
+  "results": [
+    {
+      "deflection_limit_mm": 25.0,
+      "elements": 159,
+      "issue": null,
+      "max_displacement_mm": 11.33465,
+      "max_von_mises_mpa": 19.77870076032074,
+      "nodes": 155,
+      "safety_factor_to_yield": 17.948600583117532,
+      "slug": "chassis-bogie-screen",
+      "solver_ok": true,
+      "title": "Low-floor chassis supported at bogie connectors",
+      "total_vertical_load_n": -360000.0
+    },
+    {
+      "deflection_limit_mm": 5.0,
+      "elements": 24,
+      "issue": null,
+      "max_displacement_mm": 0.7710599083266625,
+      "max_von_mises_mpa": 10.595274404665352,
+      "nodes": 29,
+      "safety_factor_to_yield": 33.505503155603506,
+      "slug": "bogie-frame-screen",
+      "solver_ok": true,
+      "title": "Motor/trailer bogie H-frame screening model",
+      "total_vertical_load_n": -160000.0
+    },
+    {
+      "deflection_limit_mm": 15.0,
+      "elements": 136,
+      "issue": null,
+      "max_displacement_mm": 0.3724621369521477,
+      "max_von_mises_mpa": 6.71908026548707,
+      "nodes": 72,
+      "safety_factor_to_yield": 52.83461217504385,
+      "slug": "full-body-frame-screen",
+      "solver_ok": true,
+      "title": "Full car body side/roof frame screening model",
+      "total_vertical_load_n": -450000.0
+    }
+  ]
+}

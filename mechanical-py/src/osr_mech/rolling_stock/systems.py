@@ -29,6 +29,7 @@ COLOR_CRASH = Color(0.75, 0.55, 0.22)
 COLOR_DOOR = Color(0.08, 0.17, 0.30)
 COLOR_BATTERY = Color(0.18, 0.28, 0.42)
 COLOR_HV = Color(0.80, 0.15, 0.12)
+COLOR_HVAC = Color(0.12, 0.45, 0.62)
 COLOR_ELECTRONICS = Color(0.18, 0.35, 0.25)
 COLOR_SENSOR = Color(0.05, 0.08, 0.10)
 COLOR_ACCESS = Color(0.95, 0.80, 0.10)
@@ -41,9 +42,9 @@ BATTERY_MODULES_PER_CAR = 8
 BATTERY_MODULE_LENGTH_MM = 1450.0
 BATTERY_MODULE_WIDTH_MM = BATTERY_STRAKE_WIDTH_MM - 70.0
 BATTERY_MODULE_HEIGHT_MM = BATTERY_STRAKE_HEIGHT_MM - 80.0
-LIVOX_HAP_LENGTH_MM = 131.6
-LIVOX_HAP_WIDTH_MM = 105.0
-LIVOX_HAP_HEIGHT_MM = 65.0
+RAIL_LIDAR_LENGTH_MM = 165.0
+RAIL_LIDAR_WIDTH_MM = 125.0
+RAIL_LIDAR_HEIGHT_MM = 96.0
 
 
 @dataclass(frozen=True)
@@ -300,6 +301,26 @@ def door_system_pair(x_offset: float = 0.0) -> Compound:
                 COLOR_ELECTRONICS,
             )
         )
+        parts.append(
+            _box(
+                260.0,
+                58.0,
+                170.0,
+                (x_offset - DOOR_WIDTH_MM / 2.0 - 540.0, y_sign * 1410.0, DOOR_SILL_HEIGHT_MM + DOOR_HEIGHT_MM + 25.0),
+                "IFE/Knorr-Bremse door controller and diagnostics module",
+                COLOR_ELECTRONICS,
+            )
+        )
+        parts.append(
+            _box(
+                640.0,
+                36.0,
+                82.0,
+                (x_offset + 330.0, y_sign * 1435.0, DOOR_SILL_HEIGHT_MM + DOOR_HEIGHT_MM + 5.0),
+                "Sliding-plug door harness cable chain",
+                COLOR_HV,
+            )
+        )
         leaf_w = (DOOR_WIDTH_MM - 30.0) / 2.0
         for leaf_sign in (-1.0, 1.0):
             leaf_x = x_offset + leaf_sign * (leaf_w / 2.0 + 12.0)
@@ -323,6 +344,20 @@ def door_system_pair(x_offset: float = 0.0) -> Compound:
                     COLOR_GLASS,
                 )
             )
+            parts.append(
+                _box(
+                    34.0,
+                    42.0,
+                    DOOR_HEIGHT_MM - 180.0,
+                    (
+                        leaf_x - leaf_sign * (leaf_w / 2.0 - 28.0),
+                        y_sign * 1478.0,
+                        DOOR_SILL_HEIGHT_MM + DOOR_HEIGHT_MM / 2.0,
+                    ),
+                    "Door leaf anti-pinch pressure edge",
+                    COLOR_RUBBER,
+                )
+            )
             for roller_x in (leaf_x - leaf_w / 3.0, leaf_x + leaf_w / 3.0):
                 parts.append(
                     _cyl(
@@ -343,6 +378,31 @@ def door_system_pair(x_offset: float = 0.0) -> Compound:
                 COLOR_ACCESS,
             )
         )
+        for side_x, label in (
+            (-DOOR_WIDTH_MM / 2.0 - 80.0, "Door obstruction light-curtain transmitter"),
+            (DOOR_WIDTH_MM / 2.0 + 80.0, "Door obstruction light-curtain receiver"),
+        ):
+            parts.append(
+                _box(
+                    42.0,
+                    28.0,
+                    1560.0,
+                    (x_offset + side_x, y_sign * 1485.0, DOOR_SILL_HEIGHT_MM + 900.0),
+                    label,
+                    COLOR_SENSOR,
+                )
+            )
+        for drain_x in (-480.0, 0.0, 480.0):
+            parts.append(
+                _box(
+                    90.0,
+                    24.0,
+                    26.0,
+                    (x_offset + drain_x, y_sign * 1488.0, DOOR_SILL_HEIGHT_MM - 82.0),
+                    "Door threshold drain scupper",
+                    COLOR_METAL,
+                )
+            )
         for x in (-520.0, 0.0, 520.0):
             parts.append(
                 _cyl(
@@ -464,6 +524,45 @@ def battery_pack_set(dims: CarDimensions = CarDimensions()) -> Compound:
                     COLOR_BATTERY,
                 )
             )
+            for cell_x in (-460.0, -230.0, 0.0, 230.0, 460.0):
+                parts.append(
+                    _box(
+                        165.0,
+                        BATTERY_MODULE_WIDTH_MM - 130.0,
+                        54.0,
+                        (x + cell_x, y, z + 28.0),
+                        "Rail traction battery cell-module drawer",
+                        Color(0.12, 0.22, 0.36),
+                    )
+                )
+            parts.extend(
+                [
+                    _box(
+                        BATTERY_MODULE_LENGTH_MM - 120.0,
+                        BATTERY_MODULE_WIDTH_MM - 120.0,
+                        22.0,
+                        (x, y, z - BATTERY_MODULE_HEIGHT_MM / 2.0 + 48.0),
+                        "Battery liquid cold plate",
+                        Color(0.12, 0.45, 0.62),
+                    ),
+                    _box(
+                        36.0,
+                        BATTERY_MODULE_WIDTH_MM - 90.0,
+                        BATTERY_MODULE_HEIGHT_MM - 86.0,
+                        (x + 650.0, y, z + 12.0),
+                        "Battery thermal-runaway barrier plate",
+                        COLOR_CRASH,
+                    ),
+                    _box(
+                        BATTERY_MODULE_LENGTH_MM - 220.0,
+                        22.0,
+                        34.0,
+                        (x, y - side * (BATTERY_MODULE_WIDTH_MM / 2.0 - 52.0), z + 185.0),
+                        "BMS sense-harness spine",
+                        COLOR_HV,
+                    ),
+                ]
+            )
             parts.append(
                 _box(
                     BATTERY_MODULE_LENGTH_MM - 180.0,
@@ -493,6 +592,16 @@ def battery_pack_set(dims: CarDimensions = CarDimensions()) -> Compound:
                     (x - 610.0, y - side * 145.0, z + 70.0),
                     "Battery vent and pressure-relief port",
                     COLOR_CRASH,
+                )
+            )
+            parts.append(
+                _box(
+                    BATTERY_MODULE_LENGTH_MM - 300.0,
+                    18.0,
+                    22.0,
+                    (x, y + side * (BATTERY_MODULE_WIDTH_MM / 2.0 - 46.0), z + 212.0),
+                    "Aspirating fire-detection capillary",
+                    COLOR_ACCESS,
                 )
             )
     for side in (-1.0, 1.0):
@@ -675,17 +784,17 @@ def tobs_sensor_pack(end_sign: float = 1.0) -> Compound:
             COLOR_METAL,
         ),
         _box(
-            LIVOX_HAP_LENGTH_MM,
-            LIVOX_HAP_WIDTH_MM,
-            LIVOX_HAP_HEIGHT_MM,
+            RAIL_LIDAR_LENGTH_MM,
+            RAIL_LIDAR_WIDTH_MM,
+            RAIL_LIDAR_HEIGHT_MM,
             (end_sign * 300.0, 0.0, 2550.0),
-            "T-OBS solid-state LIDAR envelope",
+            "Rail-grade LIDAR envelope (Ouster OS1 / LSLiDAR class)",
             COLOR_SENSOR,
         ),
         _box(
-            150.0,
+            205.0,
             28.0,
-            82.0,
+            122.0,
             (end_sign * 380.0, 0.0, 2550.0),
             "Heated LIDAR optical window",
             COLOR_GLASS,
@@ -713,6 +822,38 @@ def tobs_sensor_pack(end_sign: float = 1.0) -> Compound:
             (end_sign * 320.0, 0.0, 1850.0),
             "T-OBS stereo camera pair envelope",
             COLOR_SENSOR,
+        ),
+        _box(
+            280.0,
+            58.0,
+            125.0,
+            (end_sign * 330.0, -430.0, 2360.0),
+            "Rail Vision class thermal camera pod",
+            COLOR_SENSOR,
+        ),
+        _box(
+            280.0,
+            24.0,
+            125.0,
+            (end_sign * 415.0, -430.0, 2360.0),
+            "Thermal camera germanium window heater",
+            Color(0.16, 0.18, 0.20, 0.62),
+        ),
+        _box(
+            430.0,
+            78.0,
+            92.0,
+            (end_sign * 326.0, 430.0, 2360.0),
+            "Narrow/wide field camera pair pod",
+            COLOR_SENSOR,
+        ),
+        _box(
+            480.0,
+            36.0,
+            70.0,
+            (end_sign * 415.0, 430.0, 2360.0),
+            "Camera wash/wipe manifold",
+            COLOR_HVAC,
         ),
     ]
     for y in (-250.0, 250.0):

@@ -21,6 +21,7 @@ or directly::
 
 from __future__ import annotations
 
+from collections.abc import Iterable
 from pathlib import Path
 
 import matplotlib
@@ -44,11 +45,39 @@ from osr_mech.rolling_stock.car_body import (
 )
 from osr_mech.rolling_stock.bogie import WHEELBASE_MM, motor_bogie, trailer_bogie
 from osr_mech.rolling_stock.cots_equipment import fit_out_car_body
+from osr_mech.rolling_stock.mechanical_interfaces import INTERFACE_BUILDERS
 from osr_mech.rolling_stock.trainset import trainset
 from osr_mech.station.canopy import station_canopy
 
 
 DEFAULT_COLOR = (0.82, 0.82, 0.85, 1.0)
+
+ROOT_SCREENSHOT_PATTERNS = (
+    "station-canopy.png",
+    "trainset-*.png",
+    "bogie-*.png",
+)
+
+
+def _remove_generated(paths: Iterable[Path]) -> None:
+    for path in paths:
+        if not path.is_file():
+            continue
+        path.unlink()
+        print(f"removed old generated screenshot {path}")
+
+
+def _refresh_latest_outputs(out_root: Path) -> None:
+    """Clear screenshots owned by this renderer before writing new ones.
+
+    The docs reference stable filenames. Removing the renderer-owned
+    targets first keeps those filenames as "latest" views and prevents
+    stale images from surviving after a screenshot is renamed or removed.
+    """
+    for pattern in ROOT_SCREENSHOT_PATTERNS:
+        _remove_generated(out_root.glob(pattern))
+    interface_out = out_root / "rolling-stock" / "interfaces"
+    _remove_generated(interface_out.glob("*.png"))
 
 
 def _apply_location(V: np.ndarray, loc) -> np.ndarray:
@@ -411,6 +440,8 @@ def _autocrop(path: Path, *, background: str, pad_px: int) -> None:
 
 
 def render_all(out_root: Path) -> None:
+    _refresh_latest_outputs(out_root)
+
     # Titles live in the README caption, not the PNG — keeps the
     # rendered frame uncluttered.
 
@@ -643,6 +674,34 @@ def render_all(out_root: Path) -> None:
         figsize=(8, 5),
         dpi=180,
     )
+
+    # 7. Mechanical interface and installation packages. These are the
+    # explicit bracket/rail/mount/torsion-box details added for the
+    # FreeCAD assembly and FEA review loop.
+    interface_out = out_root / "rolling-stock" / "interfaces"
+    for slug, builder in INTERFACE_BUILDERS.items():
+        model = builder()
+        if slug == "mechanical-interface-package":
+            figsize = (16, 7)
+            dpi = 170
+            tolerance = 12.0
+        elif slug in {"low-floor-chassis", "side-body-frame-attachments", "composite-body-roof-attachments"}:
+            figsize = (14, 5.2)
+            dpi = 180
+            tolerance = 7.0
+        else:
+            figsize = (10, 5.5)
+            dpi = 180
+            tolerance = 5.0
+        _render(
+            model,
+            interface_out / f"{slug}.png",
+            tolerance_mm=tolerance,
+            elev=18,
+            azim=-55,
+            figsize=figsize,
+            dpi=dpi,
+        )
 
 
 def main() -> None:

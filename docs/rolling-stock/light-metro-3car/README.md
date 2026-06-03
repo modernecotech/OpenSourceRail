@@ -53,6 +53,11 @@ to make the consist.
 COTS passenger-facing modules are controlled by the supplier-neutral
 envelope catalogue at
 [`hardware/trainset-interiors/cots-catalogue.md`](../../../hardware/trainset-interiors/cots-catalogue.md).
+The current vendor-fit shortlist is captured in
+[`bom-skeleton.md`](bom-skeleton.md#vendor-fit-in-references) and names
+rail product families for doors, windows, HVAC, flooring, seats,
+lighting, PIS/audio, batteries, traction motors, brakes, couplers, and
+front/back sensing while keeping the CAD envelope swap-friendly.
 
 ## Canonical Parametric Source
 
@@ -104,6 +109,74 @@ and render to these design-review PNGs:
 | [`trainset-tobs-sensor-pack.png`](../../../docs/screenshots/trainset-tobs-sensor-pack.png) | T-OBS LIDAR, mmWave radar, stereo camera, and ultrasonic sensor envelopes |
 | [`bogie-motor.png`](../../../docs/screenshots/bogie-motor.png) | Powered bogie assembly with frame, wheelsets, motors, gearboxes, suspension, and brakes |
 | [`bogie-trailer.png`](../../../docs/screenshots/bogie-trailer.png) | Trailer bogie assembly using the common frame and suspension envelope |
+
+## FreeCAD Assembly And FEA Screenshot Review
+
+These screenshots are generated from the FreeCAD `.FCStd` review
+documents and the FreeCAD/CalculiX screening-output document. The
+assembled and exploded states are view groups in the FreeCAD files, not
+separate hand-positioned drawings.
+
+| Trainset FreeCAD review |
+|---|
+| ![FreeCAD trainset light metro 3-car](../../../docs/screenshots/freecad/freecad-trainset-light-metro-3car.png) |
+
+| Chassis + bogie assembled | Chassis + bogie exploded |
+|---|---|
+| ![Chassis bogie assembled](../../../docs/screenshots/freecad/freecad-chassis-bogie-assembled.png) | ![Chassis bogie exploded](../../../docs/screenshots/freecad/freecad-chassis-bogie-exploded.png) |
+
+| Full body assembled | Full body exploded |
+|---|---|
+| ![Full body assembled](../../../docs/screenshots/freecad/freecad-full-body-assembled.png) | ![Full body exploded](../../../docs/screenshots/freecad/freecad-full-body-exploded.png) |
+
+| FEA screening models | Chassis FEA | Bogie FEA | Body FEA |
+|---|---|---|---|
+| ![FEA screening models](../../../docs/screenshots/freecad/freecad-fea-screening-models.png) | ![Chassis FEA](../../../docs/screenshots/freecad/freecad-fea-chassis-bogie-screen.png) | ![Bogie FEA](../../../docs/screenshots/freecad/freecad-fea-bogie-frame-screen.png) | ![Body FEA](../../../docs/screenshots/freecad/freecad-fea-full-body-frame-screen.png) |
+
+The latest screening summary is
+[`mechanical-py/catalog/fea/screening-summary.md`](../../../mechanical-py/catalog/fea/screening-summary.md).
+The source FreeCAD review documents are catalogued in
+[`mechanical-py/catalog/freecad/README.md`](../../../mechanical-py/catalog/freecad/README.md),
+and raw CalculiX output folders are catalogued in
+[`mechanical-py/catalog/fea/README.md`](../../../mechanical-py/catalog/fea/README.md).
+After the low-floor chassis rework, the chassis screen is inside the
+25 mm deflection target: 11.3 mm maximum displacement under the 360 kN
+service-load screen.
+
+## Mechanical Interface Component Gallery
+
+These component images are generated from
+[`mechanical_interfaces.py`](../../../mechanical-py/src/osr_mech/rolling_stock/mechanical_interfaces.py)
+and match the STEP files under
+[`mechanical-py/catalog/rolling_stock/interfaces/`](../../../mechanical-py/catalog/rolling_stock/interfaces/).
+
+| Bogie to chassis | Bogie to motor | Low-floor chassis |
+|---|---|---|
+| ![Bogie to chassis connector](../../../docs/screenshots/rolling-stock/interfaces/bogie-to-chassis-connector.png) | ![Bogie to motor connector](../../../docs/screenshots/rolling-stock/interfaces/bogie-to-motor-connector.png) | ![Low-floor chassis](../../../docs/screenshots/rolling-stock/interfaces/low-floor-chassis.png) |
+
+| Side body frame | Composite body and roof | Window installations |
+|---|---|---|
+| ![Side body frame attachments](../../../docs/screenshots/rolling-stock/interfaces/side-body-frame-attachments.png) | ![Composite body roof attachments](../../../docs/screenshots/rolling-stock/interfaces/composite-body-roof-attachments.png) | ![Window installations](../../../docs/screenshots/rolling-stock/interfaces/window-installations.png) |
+
+| Door mounts | Door design | Door installations |
+|---|---|---|
+| ![Door mounts](../../../docs/screenshots/rolling-stock/interfaces/door-mounts.png) | ![Door design](../../../docs/screenshots/rolling-stock/interfaces/door-design.png) | ![Door installations](../../../docs/screenshots/rolling-stock/interfaces/door-installations.png) |
+
+| Door to body | Cabin flooring | Battery installations |
+|---|---|---|
+| ![Door to body installations](../../../docs/screenshots/rolling-stock/interfaces/door-to-body-installations.png) | ![Cabin flooring](../../../docs/screenshots/rolling-stock/interfaces/cabin-flooring.png) | ![Battery installations](../../../docs/screenshots/rolling-stock/interfaces/battery-installations.png) |
+
+| Benches over batteries | Internal lighting | HVAC roof and ducting |
+|---|---|---|
+| ![Bench on battery installations](../../../docs/screenshots/rolling-stock/interfaces/bench-on-battery-installations.png) | ![Internal lighting installation](../../../docs/screenshots/rolling-stock/interfaces/internal-lighting-installation.png) | ![HVAC roof ducting installation](../../../docs/screenshots/rolling-stock/interfaces/hvac-roof-ducting-installation.png) |
+
+| Screens and speakers | External lighting and LIDAR | Train connector mounts |
+|---|---|---|
+| ![Screen speaker mountings](../../../docs/screenshots/rolling-stock/interfaces/screen-speaker-mountings.png) | ![External lighting and LIDAR](../../../docs/screenshots/rolling-stock/interfaces/external-lighting-lidar-system.png) | ![Train connector mounts](../../../docs/screenshots/rolling-stock/interfaces/train-connector-mount-pair.png) |
+
+| Complete mechanical interface package |
+|---|
+| ![Complete mechanical interface package](../../../docs/screenshots/rolling-stock/interfaces/mechanical-interface-package.png) |
 
 The matching generated STEP handoff artifacts are regenerated under
 [`mechanical-py/catalog/rolling_stock`](../../../mechanical-py/catalog/rolling_stock):
