@@ -1,10 +1,15 @@
-"""Regenerate every STEP artifact under `catalog/`.
+"""Regenerate STEP handoff artifacts under `catalog/`.
 
 This is the CLI entry point (`osr-mech-export`). It walks a fixed list
 of component × parameter combinations and writes one STEP per entry.
 The set is kept deliberately small — just the canonical sizes from the
 RFCs plus a couple of Samawah-specific instantiations. Extending the
 set is a one-line addition below.
+
+Whole-train STEP assemblies are intentionally opt-in because detailed
+trainset exports quickly exceed GitHub's file-size limits. The tracked
+full-assembly review format is FreeCAD FCStd, built by
+`scripts/freecad_trainset.sh` from the smaller component STEP catalogue.
 """
 
 from __future__ import annotations
@@ -75,6 +80,14 @@ GENERATED_STEP_DIRS = (
     "fixtures",
 )
 
+TRAINSET_STEP_FAMILIES = (
+    ConsistFamily.URBAN_SHUTTLE_1CAR,
+    ConsistFamily.TRAM_2CAR,
+    ConsistFamily.LIGHT_METRO_3CAR,
+    ConsistFamily.METRO_4CAR,
+    ConsistFamily.METRO_6CAR,
+)
+
 
 def _out(root: Path, *parts: str) -> Path:
     p = root.joinpath(*parts)
@@ -97,7 +110,7 @@ def _refresh_latest_outputs(root: Path) -> None:
             print(f"removed old STEP artifact {path}")
 
 
-def export_all(root: Path) -> None:
+def export_all(root: Path, *, include_trainset_step: bool = False) -> None:
     _refresh_latest_outputs(root)
 
     # Track: one rail per profile, one sleeper, one fastener, one panel.
@@ -193,16 +206,16 @@ def export_all(root: Path) -> None:
     _export(trailer_bogie(), _out(root, "bogie", "trailer-bogie.step"))
     # Legacy name — identical to motor-bogie.
     _export(bogie_assembly(), _out(root, "rolling_stock", "bogie-2axle.step"))
-    for family in (
-        ConsistFamily.URBAN_SHUTTLE_1CAR,
-        ConsistFamily.TRAM_2CAR,
-        ConsistFamily.LIGHT_METRO_3CAR,
-        ConsistFamily.METRO_4CAR,
-        ConsistFamily.METRO_6CAR,
-    ):
-        _export(
-            trainset(family=family),
-            _out(root, "rolling_stock", f"trainset-{family.value}.step"),
+    if include_trainset_step:
+        for family in TRAINSET_STEP_FAMILIES:
+            _export(
+                trainset(family=family),
+                _out(root, "rolling_stock", f"trainset-{family.value}.step"),
+            )
+    else:
+        print(
+            "skipped whole-train STEP assemblies; use "
+            "--include-trainset-step for local neutral-format exports"
         )
 
     # Accessibility (PRM zones) — RFC 0010 + EN 16584.
@@ -248,9 +261,17 @@ def main() -> None:
         default=Path(__file__).resolve().parent.parent.parent / "catalog",
         help="output directory root (default: mechanical-py/catalog)",
     )
+    ap.add_argument(
+        "--include-trainset-step",
+        action="store_true",
+        help=(
+            "also emit very large whole-train STEP assemblies; by default "
+            "full assemblies are kept as tracked FreeCAD FCStd documents"
+        ),
+    )
     args = ap.parse_args()
     args.out.mkdir(parents=True, exist_ok=True)
-    export_all(args.out)
+    export_all(args.out, include_trainset_step=args.include_trainset_step)
 
 
 if __name__ == "__main__":
