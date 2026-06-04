@@ -132,8 +132,7 @@ def preset_rail_profile(preset: GeometryPreset) -> RailProfile:
     return _PRESET_RAIL_PROFILE[preset]
 
 
-# Gauge per preset — standard gauge everywhere in the urban-rail scope
-# (metric gauge is out-of-scope per RFC 0009 §2).
+# Gauge for upstream urban-rail components.
 STANDARD_GAUGE_MM: float = 1435.0
 
 

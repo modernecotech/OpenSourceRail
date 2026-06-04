@@ -6,22 +6,27 @@
    ←── 17.0 m ──→←── 17.0 m ──→←── 17.0 m ──→
 
       Car A             Car B             Car C
-   ┌─ M bogie ─ 2 doors ─ t bogie ┐┌─ t bogie ─ 2 doors ─ t bogie ┐┌─ t bogie ─ 2 doors ─ M bogie ┐
-   │ powered  low-floor centre ││ trailer  low-floor centre ││ powered  low-floor centre │
-   │ end car  under-seat batt. ││ car      under-seat batt. ││ end car  under-seat batt. │
-   └───────────────────────────┘└───────────────────────────┘└───────────────────────────┘
+   ┌─ M bogie ─ 2 doors ─ t bogie ┐A1┌─ t bogie ─ 2 doors ─ t bogie ┐A2┌─ t bogie ─ 2 doors ─ M bogie ┐
+   │ powered  low-floor centre │  │ trailer  low-floor centre │  │ powered  low-floor centre │
+   │ end car  under-seat batt. │  │ car      under-seat batt. │  │ end car  under-seat batt. │
+   └───────────────────────────┘  └───────────────────────────┘  └───────────────────────────┘
      M = powered bogie, t = trailer bogie
+     A1/A2 = semi-permanent articulated gangway modules
      Length over couplers = 51.0 m
 ```
 
-- **Three self-contained cars**, semi-permanently coupled.
-- **No driving cabs** — GoA 4 open-glass sensor cowls at both ends
+- **Three self-contained cars**, joined by two semi-permanent
+  articulated gangway modules.
+- **No driving cabs** — GoA 4 segmented glass-pane sensor cowls at both ends
   per RFC 0015, with heated RF-transparent glass, T-OBS sensors, and
   LED headlamp / marker-light clusters.
 - **No cab bulkhead** — the front and rear passenger ends are not
-  walled off; the saloon remains open to the large glass end cowl so
-  passengers see through both driverless ends.
+  walled off; the saloon remains open to the segmented glass end panes
+  so passengers see through both driverless ends.
 - **Six bogies total** — two standard 2-axle bogies per car.
+- **Two articulations total** — lower spherical pivot/drawbar, upper
+  roll-yaw-pitch links, double-wall bellows, segmented turntable floor,
+  and separated trainline routing at each carbody interface.
 - **Powered wheelsets:** one powered bogie at each outer end car,
   giving two powered bogies and four powered axles across the consist.
 - **Battery:** 150 kWh sodium-ion per car under the longitudinal
@@ -42,6 +47,9 @@
 | Bogie wheelbase | 2 100 mm | RFC 0022 single-SKU bogie |
 | Wheel diameter (new / worn) | 760 / 680 mm | RFC 0022 |
 | Inter-bogie distance (within a car) | 11 000 mm | modular car envelope |
+| Articulation module length envelope | 1 120 mm | straddles each carbody interface; does not add to consist length |
+| Articulation passage width | 1 650 mm | walk-through gangway target before trim tolerances |
+| Articulation yaw/pitch/roll clearance | +/- 12 deg / +/- 6 deg / +/- 5 deg | detailed in [`articulation.md`](articulation.md) |
 | Coupler face height (above ToR) | 720 mm | Scharfenberg Type 10 dim. |
 | Headroom at doors | 2 000 mm | |
 | Headroom at seats | 2 100 mm | |

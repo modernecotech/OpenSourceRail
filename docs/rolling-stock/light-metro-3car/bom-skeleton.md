@@ -46,7 +46,7 @@ This BOM is keyed to the visual and layout concept in
   freight trailer bogies.
 - 4 traction motors total, 600 kW peak consist output.
 - Roof solar arrays on each car, with compact end HVAC modules.
-- Wide passenger windows, open dark glass driverless end cowls with
+- Wide passenger windows, segmented dark glass driverless end panes with
   LED headlamp/marker clusters, white/silver body shell, green waist
   band, dark skirts, and yellow door thresholds.
 - Standard bogies under every car, requiring ~3 m high-floor end decks
@@ -71,6 +71,7 @@ keeps mass/power within budget, and supplies certification evidence.
 | B16, B17 | [Teknoware rolling-stock lighting](https://www.teknoware.com/rail-road/rolling-stock-lighting-and-interiors/), Luminator lighting | Continuous main/emergency lighting channels plus sealed head/tail/marker cassettes |
 | B18, B19, E14 | [Luminator onboard products](https://www.luminator.com/en-us/products.html), Televic GSP | Above-door VESA screens, PA speakers, audio/data trunks, amplifier/service trays |
 | B22, B23 | [Dellner automatic coupler Type 10](https://www.dellner.com/products/automatic-couplers/automatic-coupler-type-10), Voith Scharfenberg class | Type 10 pocket with crash absorber, electrical head, pneumatic lines, D-REX Ethernet carrier |
+| B9, B24, B29 | [Hübner tram/metro articulation and gangway systems](https://www.hubner-group.com/en/products/articulations/articulation-systems-for-trams/), [Hübner gangway systems](https://www.hubner-group.com/en/products/gangway-systems/gangway-systems-for-metros-subways-and-suburban-railways/), [Schaeffler central articulated pivot](https://www.schaeffler.com/remotemedien/media/_shared_media/08_media_library/01_publications/schaeffler_2/publication/downloads_18/img_de_en.pdf) | Lower spherical pivot, anti-lift keeper, upper articulation links, double-wall bellows, turntable, energy guidance, adapter-frame shim pack |
 | G9 ref | [Knorr-Bremse WheelAct/AxleAct brake actuators](https://rail.knorr-bremse.com/en/us/portfolio/products-and-systems/braking-systems/actuation/), Wabtec Faiveley | Compact caliper envelope now includes actuator, spring park brake, pads, ports, wear indicator |
 | T1 ref | [TSA rail traction motors](https://tsa.at/rail/), ABB Traction, Skoda Electric | PMSM package includes water jacket, mounting feet, terminal box, HV glands, resolver cover |
 | T5, T6, T16, T17 | [Toshiba SCiB traction battery systems](https://www.global.toshiba/ww/products-solutions/railway/rolling-stock/energy-storage-applications.html), [Saft rail traction batteries](https://saft.com/en/mobility/rail-traction), CATL/HiNa Na-ion | Under-seat module envelope keeps OSR Na-ion primary, but reserves cold plate, BMS harness, vent/fire paths for rail battery suppliers |
@@ -88,8 +89,8 @@ keeps mass/power within budget, and supplies certification evidence.
 | B5 | Shot blast + zinc-rich primer + cavity wax | set | SOURCE | 8 500 | Corrosion package |
 | B6 | Composite side sandwich panels, fire-rated | 150 m² | BID | 45 000 | GFRP/basalt FR sandwich |
 | B7 | Composite roof fairings + skirts | 95 m² | BID | 24 000 | Removable service panels |
-| B8 | Composite open-glass sensor cowl shells | 2 | BID | 12 000 | Sacrificial over steel crash frame; accepts panoramic glass and LED lamp clusters |
-| B9 | Articulation joint, Hübner RTS-B40 | 2 | BID | 90 000 | Or local equivalent |
+| B8 | Composite end-glass sensor cowl shells | 2 | BID | 12 000 | Sacrificial over steel crash frame; accepts segmented panoramic glass panes and LED lamp clusters |
+| B9 | Complete inter-car articulation/gangway module | 2 | BID | 130 000 | Hübner FXpro/metro-gangway class; lower pivot, upper links, bellows, turntable floor |
 | B10 | COTS laminated safety-glass window cassette | 18 | SOURCE | 27 000 | AGC Lamisafe/Heatlight or Pilkington/Saint-Gobain class; bonded/gasketed rail unit |
 | B11 | COTS electric plug/sliding door cassette | 12 | BID | 300 000 | Knorr-Bremse/IFE, Wabtec/Faiveley, Kangni class; door, controller, obstruction sensors, seals, emergency release |
 | B12 | Stepped floor board + hatch system, EN 45545 | 135 m² | SOURCE | 16 200 | 350 mm, ~10 m low centre; 760 mm high bogie-end decks, access hatches |
@@ -104,12 +105,13 @@ keeps mass/power within budget, and supplies certification evidence.
 | B21 | Interior FR panels + trim clips | set | SOURCE | 28 000 | Supplier-certified HL2 |
 | B22 | Scharfenberg Type 10 end coupler + electric head | 2 | BID | 70 000 | Includes rescue unlock handle |
 | B23 | EN 15227 crash energy absorber / crush-can set | 2 | BID | 30 000 | Bolts to coupler pocket |
-| B24 | Inter-car articulation drag-chain + trainline harness | 2 | SOURCE | 12 000 | TCN-E, CAN-FD, 24 V, 110 V, EB loop |
+| B24 | Inter-car energy-guidance trainline and service-loop kit | 2 | SOURCE | 18 000 | HV jumper, TCN-E, CAN-FD, 24 V, 110 V, EB loop, coolant, HVAC sleeve |
 | B25 | Door sill gap-filler + external emergency release kit | 12 | BID | 36 000 | Per exterior door cassette |
 | B26 | Jacking, lifting, towing, and recovery fittings | set | MAKE | 8 000 | Welded pads, tow eyes, labels |
-| B27 | Large dark glass end-panel assemblies | 2 | BID | 44 000 | Open driverless passenger view, RF-transparent sensor glass, heated/de-iced |
+| B27 | Segmented laminated glass end-pane assemblies | 2 | BID | 44 000 | Open driverless passenger view, RF-transparent heated/de-iced end glazing |
 | B28 | Concept livery package: white/silver body, green band, yellow thresholds | set | SOURCE | 6 000 | Paint masks, vinyl safety edging, exterior decals |
-| **Body + interior subtotal** | | | | **871 800** | |
+| B29 | Articulation adapter-frame steel, anti-lift, and shim kit | 2 | MAKE | 18 000 | Underframe anchors, upper clevis brackets, shear-key datums, machined shims |
+| **Body + interior subtotal** | | | | **935 800** | |
 
 ## Bogies (6 per consist)
 
@@ -208,23 +210,23 @@ keeps mass/power within budget, and supplies certification evidence.
 
 | Bucket | Subtotal (USD) |
 |---|---|
-| Body + interior | 871 800 |
+| Body + interior | 935 800 |
 | Bogies | 510 000 |
 | Traction + power | 701 500 |
 | Electronics + safety | 109 480 |
 | Safety/accessibility/maintainability | 18 000 |
-| **Total direct-material consist** | **2 210 780** |
+| **Total direct-material consist** | **2 274 780** |
 
 Generated cost band from the same line items:
 
 | Case | Direct material | +35% labour / assembly | Planning total |
 |---|---:|---:|---:|
-| Low | 1 736 663 | 607 832 | 2 344 495 |
-| Base | 2 210 780 | 773 773 | 2 984 553 |
-| High | 3 398 403 | 1 189 441 | 4 587 844 |
+| Low | 1 786 163 | 625 157 | 2 411 320 |
+| Base | 2 274 780 | 796 173 | 3 070 953 |
+| High | 3 498 603 | 1 224 511 | 4 723 114 |
 
-**Planning-grade per-consist cost (volume 100): 2.34-4.59 M USD,
-base 2.98 M USD.**
+**Planning-grade per-consist cost (volume 100): 2.41-4.72 M USD,
+base 3.07 M USD.**
 
 For comparison, legacy-vendor light-metro trainsets in the target
 regions typically land 4–6 M USD each — the OSR design's

@@ -4,14 +4,15 @@
 #     [[lines]]
 #     geometry = "standard-urban"
 #
-# Unified system principle: four geometry presets covering every OSR line
-# type. Rolling stock is compatible with "standard-urban" and "standard-metro"
-# by default; "heritage-tram" is for narrow-gauge legacy integration;
-# "mainline-mixed" is reserved for systems sharing track with freight.
+# Unified system principle: four standard-gauge geometry presets covering
+# every OSR line type. Rolling stock is compatible with "standard-urban"
+# and "standard-metro" by default; "heritage-tram" is for tight-radius
+# legacy street-running integration; "mainline-mixed" is reserved for
+# systems sharing track with freight.
 
 [presets.heritage-tram]
-# 1000 mm metre gauge — legacy systems (e.g. European tram heritage).
-gauge_mm                = 1000
+# 1435 mm standard gauge — tight street-running legacy geometry.
+gauge_mm                = 1435
 min_curve_radius_m      = 25             # tight street curves
 max_cant_mm             = 120
 max_gradient_per_mille  = 70             # 7%

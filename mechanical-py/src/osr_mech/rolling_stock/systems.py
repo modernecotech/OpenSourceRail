@@ -36,8 +36,15 @@ COLOR_ACCESS = Color(0.95, 0.80, 0.10)
 COLOR_METAL = Color(0.62, 0.64, 0.66)
 COLOR_RUBBER = Color(0.04, 0.04, 0.045)
 COLOR_GLASS = Color(0.35, 0.58, 0.70, 0.50)
+COLOR_ENVELOPE = Color(0.32, 0.58, 0.82)
 
 COUPLER_FACE_HEIGHT_MM = 720.0
+ARTICULATION_MODULE_LENGTH_MM = 1120.0
+ARTICULATION_PASSAGE_WIDTH_MM = 1650.0
+ARTICULATION_FLOOR_HEIGHT_MM = 760.0
+ARTICULATION_YAW_CLEARANCE_DEG = 12.0
+ARTICULATION_PITCH_CLEARANCE_DEG = 6.0
+ARTICULATION_ROLL_CLEARANCE_DEG = 5.0
 BATTERY_MODULES_PER_CAR = 8
 BATTERY_MODULE_LENGTH_MM = 1450.0
 BATTERY_MODULE_WIDTH_MM = BATTERY_STRAKE_WIDTH_MM - 70.0
@@ -273,61 +280,374 @@ def end_coupler(end_sign: float = 1.0) -> Compound:
 
 
 def inter_car_articulation() -> Compound:
-    """Semi-permanent inter-car connection with drag-chain trainline."""
+    """Detailed semi-permanent articulation module.
+
+    The light-metro train keeps two standard bogies under every car.
+    This module is therefore the inter-car structural/gangway package:
+    lower spherical bearing + drawbar, upper stabilising links, sealed
+    passenger gangway, trainline energy guidance, and service access.
+    """
 
     parts: list[Part] = []
-    for index, x in enumerate((-360.0, -240.0, -120.0, 0.0, 120.0, 240.0, 360.0)):
+    half_len = ARTICULATION_MODULE_LENGTH_MM / 2.0
+    floor_z = ARTICULATION_FLOOR_HEIGHT_MM
+    passage_top_z = floor_z + 2150.0
+    passage_mid_z = floor_z + 1075.0
+
+    # Carbody adapter portals and bellows clamp frames.
+    for x_sign in (-1.0, 1.0):
+        x = x_sign * half_len
         parts.append(
             _box(
-                68.0,
-                2350.0 + (index % 2) * 120.0,
-                2850.0 + (index % 2) * 90.0,
-                (x, 0.0, 1850.0),
-                "Inter-car articulation bellows pleat",
-                Color(0.15, 0.15, 0.17),
-            )
-        )
-    parts.append(
-        _box(
-            940.0,
-            330.0,
-            210.0,
-            (0.0, 0.0, COUPLER_FACE_HEIGHT_MM),
-            "Semi-permanent drawbar",
-            COLOR_COUPLER,
-        )
-    )
-    for x in (-430.0, 430.0):
-        parts.append(
-            _cyl(
                 120.0,
-                90.0,
-                (x, 0.0, COUPLER_FACE_HEIGHT_MM),
-                "Drawbar spherical joint housing",
+                2350.0,
+                2860.0,
+                (x, 0.0, passage_mid_z),
+                "Articulation carbody adapter frame",
                 COLOR_METAL,
             )
         )
-    for i in range(11):
         parts.append(
             _box(
-                70.0,
-                170.0,
-                130.0,
-                (-350.0 + i * 70.0, 900.0, 1250.0 + (i % 2) * 18.0),
-                "TCN-E / CAN-FD / auxiliary drag-chain",
-                COLOR_HV,
+                56.0,
+                2110.0,
+                2420.0,
+                (x - x_sign * 76.0, 0.0, passage_mid_z),
+                "Bellows bolted clamp frame",
+                COLOR_COUPLER,
+            )
+        )
+        parts.append(
+            _box(
+                470.0,
+                520.0,
+                145.0,
+                (x - x_sign * 145.0, 0.0, COUPLER_FACE_HEIGHT_MM),
+                "Articulation underframe anchor casting",
+                COLOR_METAL,
+            )
+        )
+        for y in (-420.0, 420.0):
+            parts.append(
+                _box(
+                    210.0,
+                    95.0,
+                    880.0,
+                    (x - x_sign * 95.0, y, passage_top_z - 320.0),
+                    "Upper link carbody clevis bracket",
+                    COLOR_METAL,
+                )
+            )
+        for y in (-920.0, -460.0, 460.0, 920.0):
+            for z in (floor_z - 70.0, passage_top_z + 60.0):
+                parts.append(
+                    _cyl(
+                        24.0,
+                        22.0,
+                        (x - x_sign * 70.0, y, z),
+                        "Bellows frame M16 clamp bolt head",
+                        COLOR_METAL,
+                    )
+                )
+
+    # Lower articulated drawbar and spherical central joint.
+    parts.append(
+        _box(
+            1080.0,
+            300.0,
+            190.0,
+            (0.0, 0.0, COUPLER_FACE_HEIGHT_MM),
+            "Semi-permanent articulated drawbar forging",
+            COLOR_COUPLER,
+        )
+    )
+    parts.append(
+        _cyl(
+            178.0,
+            126.0,
+            (0.0, 0.0, COUPLER_FACE_HEIGHT_MM),
+            "Lower spherical articulation bearing with anti-lift keeper",
+            COLOR_METAL,
+        )
+    )
+    parts.append(
+        _box(
+            390.0,
+            570.0,
+            72.0,
+            (0.0, 0.0, COUPLER_FACE_HEIGHT_MM + 120.0),
+            "Anti-lift keeper yoke over spherical bearing",
+            COLOR_CRASH,
+        )
+    )
+    for x in (-350.0, 350.0):
+        parts.append(
+            _box(
+                125.0,
+                500.0,
+                230.0,
+                (x, 0.0, COUPLER_FACE_HEIGHT_MM),
+                "Drawbar crush washer stack",
+                COLOR_CRASH,
+            )
+        )
+    for x in (-470.0, 470.0):
+        for y in (-180.0, 180.0):
+            parts.append(
+                _cyl(
+                    26.0,
+                    26.0,
+                    (x, y, COUPLER_FACE_HEIGHT_MM + 122.0),
+                    "Spherical joint M30 mounting bolt head",
+                    COLOR_METAL,
+                )
+            )
+    for y in (-260.0, 260.0):
+        parts.append(
+            _box(
+                180.0,
+                64.0,
+                520.0,
+                (0.0, y, COUPLER_FACE_HEIGHT_MM + 260.0),
+                "Vertical anti-climb shear key",
+                COLOR_CRASH,
+            )
+        )
+
+    # Upper articulation controls roll/yaw/pitch without carrying the
+    # passenger floor load.
+    for y in (-560.0, 560.0):
+        parts.append(
+            _box(
+                1050.0,
+                72.0,
+                84.0,
+                (0.0, y, passage_top_z - 230.0),
+                "Upper roll-yaw-pitch articulation link",
+                COLOR_COUPLER,
+            )
+        )
+        for x in (-430.0, 430.0):
+            parts.append(
+                _cyl(
+                    46.0,
+                    60.0,
+                    (x, y, passage_top_z - 230.0),
+                    "Upper link spherical bearing eye",
+                    COLOR_METAL,
+                )
+            )
+    parts.append(
+        _box(
+            ARTICULATION_MODULE_LENGTH_MM - 180.0,
+            ARTICULATION_PASSAGE_WIDTH_MM + 260.0,
+            54.0,
+            (0.0, 0.0, passage_top_z - 120.0),
+            "Articulation ceiling torsion stabiliser beam",
+            COLOR_METAL,
+        )
+    )
+
+    # Passenger gangway: double-wall bellows, segmented turntable floor,
+    # flexible interior side/ceiling panels, drains and service panels.
+    for index, x in enumerate((-420.0, -300.0, -180.0, -60.0, 60.0, 180.0, 300.0, 420.0)):
+        parts.append(
+            _box(
+                58.0,
+                2300.0 + (index % 2) * 95.0,
+                2620.0 + (index % 2) * 70.0,
+                (x, 0.0, passage_mid_z),
+                "Double-wall corrugated gangway bellows pleat",
+                COLOR_RUBBER,
+            )
+        )
+    for i, x in enumerate((-330.0, -165.0, 0.0, 165.0, 330.0)):
+        parts.append(
+            _box(
+                150.0,
+                ARTICULATION_PASSAGE_WIDTH_MM,
+                52.0,
+                (x, 0.0, floor_z + 34.0 + (i % 2) * 8.0),
+                "Segmented anti-slip gangway turntable",
+                COLOR_METAL,
+            )
+        )
+    for y in (-ARTICULATION_PASSAGE_WIDTH_MM / 2.0, ARTICULATION_PASSAGE_WIDTH_MM / 2.0):
+        parts.append(
+            _box(
+                940.0,
+                38.0,
+                1680.0,
+                (0.0, y, passage_mid_z + 80.0),
+                "Flexible vandal-resistant gangway side wall",
+                COLOR_RUBBER,
             )
         )
     parts.append(
         _box(
             900.0,
-            1700.0,
-            55.0,
-            (0.0, 0.0, 420.0),
-            "Articulation anti-slip floor bridge",
-            COLOR_METAL,
+            1420.0,
+            36.0,
+            (0.0, 0.0, passage_top_z - 34.0),
+            "Flexible articulated gangway ceiling panel",
+            COLOR_RUBBER,
         )
     )
+    parts.append(
+        _box(
+            560.0,
+            580.0,
+            28.0,
+            (0.0, 0.0, floor_z + 92.0),
+            "Articulation floor service hatch",
+            COLOR_ACCESS,
+        )
+    )
+    for y in (-690.0, 690.0):
+        parts.append(
+            _box(
+                980.0,
+                54.0,
+                46.0,
+                (0.0, y, floor_z - 38.0),
+                "Drain channel and water trap",
+                COLOR_METAL,
+            )
+        )
+
+    # Trainline routing. Keep HV/coolant/HVAC separated from data and
+    # the hardwired emergency-brake loop.
+    for i in range(13):
+        x = -390.0 + i * 65.0
+        parts.append(
+            _box(
+                58.0,
+                160.0,
+                118.0,
+                (x, 920.0, floor_z + 520.0 + (i % 2) * 24.0),
+                "HV and data energy guidance drag-chain",
+                COLOR_HV,
+            )
+        )
+    for y, z, label, color in (
+        (1040.0, floor_z + 850.0, "HV traction jumper conduit", COLOR_HV),
+        (860.0, floor_z + 1080.0, "TCN-E redundant Ethernet jumper conduit", COLOR_ELECTRONICS),
+        (700.0, floor_z + 930.0, "CAN-FD and safety-loop jumper conduit", COLOR_ACCESS),
+    ):
+        parts.append(
+            _box(
+                960.0,
+                58.0,
+                48.0,
+                (0.0, y, z),
+                label,
+                color,
+            )
+        )
+    parts.append(
+        _box(
+            900.0,
+            360.0,
+            185.0,
+            (0.0, -910.0, passage_top_z - 330.0),
+            "HVAC inter-car air duct sleeve",
+            COLOR_HVAC,
+        )
+    )
+    for y in (-1030.0, -900.0):
+        parts.append(
+            _box(
+                920.0,
+                42.0,
+                42.0,
+                (0.0, y, floor_z + 610.0),
+                "Coolant flexible hose loop",
+                COLOR_HVAC,
+            )
+        )
+
+    # Kinematic review envelopes rendered as thin frames so screenshots
+    # keep the mechanism visible. The yaw value is sized for the 90 m
+    # standard-urban minimum curve.
+    yaw_width = 2640.0
+    yaw_height = 2920.0
+    yaw_top = passage_mid_z + yaw_height / 2.0
+    yaw_bottom = passage_mid_z - yaw_height / 2.0
+    yaw_label_used = False
+    for x in (-half_len, half_len):
+        for y in (-yaw_width / 2.0, yaw_width / 2.0):
+            label = (
+                f"Articulation yaw clearance envelope +/-{ARTICULATION_YAW_CLEARANCE_DEG:.0f} deg"
+                if not yaw_label_used
+                else "Articulation yaw clearance envelope frame"
+            )
+            yaw_label_used = True
+            parts.append(_box(34.0, 34.0, yaw_height, (x, y, passage_mid_z), label, COLOR_ENVELOPE))
+    for z in (yaw_bottom, yaw_top):
+        for y in (-yaw_width / 2.0, yaw_width / 2.0):
+            parts.append(
+                _box(
+                    ARTICULATION_MODULE_LENGTH_MM,
+                    30.0,
+                    30.0,
+                    (0.0, y, z),
+                    "Articulation yaw clearance envelope frame",
+                    COLOR_ENVELOPE,
+                )
+            )
+        for x in (-half_len, half_len):
+            parts.append(
+                _box(
+                    30.0,
+                    yaw_width,
+                    30.0,
+                    (x, 0.0, z),
+                    "Articulation yaw clearance envelope frame",
+                    COLOR_ENVELOPE,
+                )
+            )
+
+    pr_width = 2100.0
+    pr_height = 2360.0
+    pr_len = ARTICULATION_MODULE_LENGTH_MM - 240.0
+    pr_label = (
+        "Articulation pitch/roll clearance envelope "
+        f"+/-{ARTICULATION_PITCH_CLEARANCE_DEG:.0f}/"
+        f"+/-{ARTICULATION_ROLL_CLEARANCE_DEG:.0f} deg"
+    )
+    parts.append(_box(pr_len, 26.0, 26.0, (0.0, -pr_width / 2.0, passage_mid_z), pr_label, COLOR_ACCESS))
+    parts.append(
+        _box(
+            pr_len,
+            26.0,
+            26.0,
+            (0.0, pr_width / 2.0, passage_mid_z),
+            "Articulation pitch/roll clearance envelope frame",
+            COLOR_ACCESS,
+        )
+    )
+    for x in (-pr_len / 2.0, pr_len / 2.0):
+        parts.append(
+            _box(
+                26.0,
+                26.0,
+                pr_height,
+                (x, -pr_width / 2.0, passage_mid_z),
+                "Articulation pitch/roll clearance envelope frame",
+                COLOR_ACCESS,
+            )
+        )
+        parts.append(
+            _box(
+                26.0,
+                26.0,
+                pr_height,
+                (x, pr_width / 2.0, passage_mid_z),
+                "Articulation pitch/roll clearance envelope frame",
+                COLOR_ACCESS,
+            )
+        )
+
     c = Compound(label="Inter-car articulation and trainline assembly", children=parts)
     return c
 

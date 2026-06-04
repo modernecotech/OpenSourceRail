@@ -117,7 +117,7 @@ The current reference train is the `light-metro-3car`: cabless,
 driverless, battery electric, powered end cars plus an unpowered middle
 car, under-seat sodium-ion batteries, roof solar, COTS
 doors/windows/HVAC, two low-floor door pairs per side per car, and
-T-OBS sensor packs at both glass-end noses.
+T-OBS sensor packs behind segmented glass-pane noses at both ends.
 
 Key links:
 
@@ -135,7 +135,11 @@ Selected generated design views:
 
 ![Complete light-metro 3-car trainset](docs/screenshots/trainset-light-metro-3car.png)
 
-Final three-car reference consist with cowls, bodies, bogies, roof PV, and train-level systems.
+Final three-car reference consist with glass-pane end cowls, bodies, bogies, roof PV, and train-level systems.
+
+![Segmented trainset end glass panes](docs/screenshots/end-glass-cowl-panes.png)
+
+Cabless front/rear cowl close-up showing three heated laminated glass panes with bonded frame, mullions, demist traces, and service hardware.
 
 ![Layered car body services](docs/screenshots/trainset-car-body-services.png)
 
@@ -161,9 +165,22 @@ Production concept board showing the repeated 17 m car module, welded datum fram
 
 One self-contained car equipment package: four door cassettes, platform safety interfaces, batteries, charging interface, traction power rack, and accessibility/safety reservations.
 
+![Inter-car articulation detail](docs/screenshots/trainset-inter-car-articulation.png)
+
+Semi-permanent articulated gangway module with lower spherical joint, anti-lift keeper, upper links, bellows, turntable floor, trainline routing, and kinematic clearance frame.
+
 ![Motor bogie](docs/screenshots/bogie-motor.png)
 
 Powered bogie assembly with frame, wheelsets, PMSM motors, gearboxes, suspension, and brakes.
+
+Selected CalculiX FEA screening result plots:
+
+| Chassis service gravity | Bogie brake/traction | Body lateral sway |
+|---|---|---|
+| ![Chassis service gravity FEA result](docs/screenshots/freecad/freecad-fea-chassis-bogie-screen-result.png) | ![Bogie brake traction FEA result](docs/screenshots/freecad/freecad-fea-bogie-brake-traction-screen-result.png) | ![Full body lateral sway FEA result](docs/screenshots/freecad/freecad-fea-full-body-lateral-sway-screen-result.png) |
+
+The full screening summary and raw solver outputs are in
+[mechanical-py/catalog/fea](mechanical-py/catalog/fea/).
 
 Generate CAD screenshots and STEP artifacts:
 

@@ -2,7 +2,7 @@
 
 This folder contains the handoff documentation for train designs. The
 current reference vehicle is the `light-metro-3car`: a cabless,
-driverless, battery-electric trainset with roof solar, open glass ends,
+driverless, battery-electric trainset with roof solar, segmented glass-pane ends,
 LED headlamps, powered end cars, standard bogies, high-floor bogie
 zones, low-floor centre door/PRM zones, and under-seat batteries for
 the Samawah reference deployment and similar 300 k to 1 M population

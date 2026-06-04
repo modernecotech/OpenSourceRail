@@ -19,6 +19,28 @@ connectors.
 Every OpenSourceRail consist in every deployment carries the
 same coupler — any trainset can rescue any other.
 
+## Inter-car articulation and gangway
+
+The 3-car reference consist has two semi-permanent articulated gangway
+modules. They are not end couplers and they are not Jacobs bogies; they
+are fixed intra-consist structural/passenger/service interfaces between
+self-contained standard-bogie cars.
+
+| Parameter | Value |
+|---|---|
+| Modules per 3-car consist | 2 |
+| Lower joint | Spherical central articulation bearing with anti-lift keeper |
+| Draft/buff path | Underframe anchor casting -> articulated drawbar -> lower joint -> opposite anchor |
+| Upper control | Two roll-yaw-pitch links with spherical bearing eyes |
+| Passenger passage | 1 650 mm target clear width, segmented anti-slip turntable floor |
+| Bellows | Double-wall corrugated gangway with bolted clamp frames |
+| Kinematic envelope | +/- 12 deg yaw, +/- 6 deg pitch, +/- 5 deg roll |
+| Trainline routing | Separated HV, TCN-E, CAN-FD/safety-loop, coolant, HVAC air sleeve, and drains |
+| Replacement | Module cassette at heavy overhaul; bellows and floor hatch serviceable in depot |
+
+Detailed structure, service routing, supplier evidence, and maintenance
+intervals are in [`articulation.md`](articulation.md).
+
 ## Station charging connector
 
 | Parameter | Value |
@@ -126,7 +148,7 @@ per RFCs 0008 §4 / 0009 §10 / 0010 §12:
 
 | Compatible with | Reason |
 |---|---|
-| `heritage-tram` geometry | No — gauge 1 000 mm variant required (build order) |
+| `heritage-tram` geometry | No — tight-radius street-tram geometry is outside the light-metro consist envelope |
 | `standard-urban` geometry | Yes — 51.0 m consist, 90 m min curve OK, 50 ‰ max grade OK |
 | `standard-metro` geometry | Yes — plenty of margin |
 | `mainline-mixed` geometry | Yes — meets 25 ‰ max grade (lower than the consist's 5 % capability) |

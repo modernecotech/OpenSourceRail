@@ -61,7 +61,11 @@ from osr_mech.rolling_stock.sensor_cowl import (
     PANORAMIC_GLASS_WIDTH_MM,
     sensor_cowl,
 )
-from osr_mech.rolling_stock.systems import BATTERY_MODULES_PER_CAR, car_systems
+from osr_mech.rolling_stock.systems import (
+    BATTERY_MODULES_PER_CAR,
+    car_systems,
+    inter_car_articulation,
+)
 from osr_mech.rolling_stock.trainset import (
     expected_platform_length_m,
     family_dimensions,
@@ -142,7 +146,7 @@ def test_car_body_exposes_complete_layered_design() -> None:
         "Raised side plinth over standard bogie zone",
         "Bogie rotation and suspension-travel clearance envelope",
         "Wheel-change and bogie drop clearance zone",
-        "End ring frame for open glass cowl",
+        "End ring frame for segmented glass-pane cowl",
         "Anti-climber load beam",
         "Waist rail under window cassette",
         "Window post",
@@ -151,7 +155,7 @@ def test_car_body_exposes_complete_layered_design() -> None:
         "Interior step tread to raised bogie-end floor",
         "Main saloon egress aisle envelope",
         "Wheelchair turning circle envelope",
-        "Open glass end passenger viewing zone",
+        "Glass-pane end passenger viewing zone",
         "High-floor step handrail",
         "HVAC ducting layer - centre supply plenum",
         "Electrical and data routing layer - LV/TCN cable tray",
@@ -182,10 +186,16 @@ def test_sensor_cowl_has_sensor_window() -> None:
     )
     labels = _labels_recursive(cowl)
     expected = {
-        "Open-glass driverless sensor cowl shell",
-        "Open panoramic end glass (heated RF-transparent)",
-        "Bonded panoramic glass structural frame",
-        "Cowl crash ring around panoramic glass aperture",
+        "Glass-pane driverless sensor cowl shell",
+        "Left laminated panoramic end glass pane",
+        "Centre laminated panoramic end glass pane",
+        "Right laminated panoramic end glass pane",
+        "Bonded panoramic end glass upper frame rail",
+        "Bonded panoramic end glass lower frame rail",
+        "Bonded panoramic end glass side frame stile",
+        "Panoramic end glass vertical mullion",
+        "Cowl crash ring around panoramic end glass panes",
+        "Heated glass centre demist trace",
         "Heated glass demist busbar",
         "Washer nozzle and service access cover",
         "Emergency recovery driving desk behind glass",
@@ -274,6 +284,42 @@ def test_trainset_contains_complete_train_systems() -> None:
     assert not missing, f"missing train systems: {sorted(missing)}"
     assert labels.count("T-ECU/S safety cabinet") == 2
     assert labels.count("T-ECU/A application cabinet") == 2
+
+
+def test_inter_car_articulation_has_detailed_load_path_and_services() -> None:
+    labels = _labels_recursive(inter_car_articulation())
+    expected = {
+        "Articulation carbody adapter frame",
+        "Bellows bolted clamp frame",
+        "Articulation underframe anchor casting",
+        "Semi-permanent articulated drawbar forging",
+        "Lower spherical articulation bearing with anti-lift keeper",
+        "Anti-lift keeper yoke over spherical bearing",
+        "Drawbar crush washer stack",
+        "Vertical anti-climb shear key",
+        "Upper roll-yaw-pitch articulation link",
+        "Upper link spherical bearing eye",
+        "Double-wall corrugated gangway bellows pleat",
+        "Segmented anti-slip gangway turntable",
+        "Flexible vandal-resistant gangway side wall",
+        "Flexible articulated gangway ceiling panel",
+        "Articulation floor service hatch",
+        "Drain channel and water trap",
+        "HV and data energy guidance drag-chain",
+        "HV traction jumper conduit",
+        "TCN-E redundant Ethernet jumper conduit",
+        "CAN-FD and safety-loop jumper conduit",
+        "HVAC inter-car air duct sleeve",
+        "Coolant flexible hose loop",
+        "Articulation yaw clearance envelope +/-12 deg",
+        "Articulation pitch/roll clearance envelope +/-6/+/-5 deg",
+    }
+    missing = expected.difference(labels)
+    assert not missing, f"missing articulation details: {sorted(missing)}"
+    assert labels.count("Articulation carbody adapter frame") == 2
+    assert labels.count("Upper roll-yaw-pitch articulation link") == 2
+    assert labels.count("Segmented anti-slip gangway turntable") == 5
+    assert labels.count("Double-wall corrugated gangway bellows pleat") == 8
 
 
 def test_car_systems_have_expected_repeated_modules() -> None:

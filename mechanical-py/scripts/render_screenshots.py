@@ -46,6 +46,7 @@ from osr_mech.rolling_stock.car_body import (
 from osr_mech.rolling_stock.bogie import WHEELBASE_MM, motor_bogie, trailer_bogie
 from osr_mech.rolling_stock.cots_equipment import fit_out_car_body
 from osr_mech.rolling_stock.mechanical_interfaces import INTERFACE_BUILDERS
+from osr_mech.rolling_stock.sensor_cowl import sensor_cowl
 from osr_mech.rolling_stock.trainset import trainset
 from osr_mech.station.canopy import station_canopy
 
@@ -54,6 +55,7 @@ DEFAULT_COLOR = (0.82, 0.82, 0.85, 1.0)
 
 ROOT_SCREENSHOT_PATTERNS = (
     "station-canopy.png",
+    "end-glass-cowl-panes.png",
     "trainset-*.png",
     "bogie-*.png",
 )
@@ -460,7 +462,19 @@ def render_all(out_root: Path) -> None:
         dpi=160,
     )
 
-    # 2. Reference trainset — light-metro 3-car, cabless symmetric.
+    # 2. Driverless end cowl close-up — a compact view where the
+    # segmented glass panes are legible before the full consist view.
+    _render(
+        sensor_cowl(),
+        out_root / "end-glass-cowl-panes.png",
+        tolerance_mm=5.0,
+        elev=3,
+        azim=0,
+        figsize=(8, 5),
+        dpi=180,
+    )
+
+    # 3. Reference trainset — light-metro 3-car, cabless symmetric.
     # Near-head-on side elevation (same as the single car) so the
     # three-car arrangement + nose cowls read cleanly without self-
     # occlusion from isometric overlap.
@@ -468,14 +482,14 @@ def render_all(out_root: Path) -> None:
     _render(
         ts,
         out_root / "trainset-light-metro-3car.png",
-        tolerance_mm=6.0,
+        tolerance_mm=18.0,
         elev=3,
         azim=-90.1,
         figsize=(16, 3.2),
-        dpi=180,
+        dpi=150,
     )
 
-    # 3. A single car — near head-on side view so the design details
+    # 4. A single car — near head-on side view so the design details
     # (rounded corners, livery, doors, windows, roof HVAC, skirt)
     # all read clearly without self-occlusion. Tight tessellation for
     # the filleted corners.
@@ -490,7 +504,7 @@ def render_all(out_root: Path) -> None:
         dpi=200,
     )
 
-    # 3a. Layered body subassemblies. These are intentionally separate
+    # 4a. Layered body subassemblies. These are intentionally separate
     # from the final car render so the current CAD hierarchy is
     # visible in docs without opening a CAD viewer.
     _render(
@@ -551,7 +565,7 @@ def render_all(out_root: Path) -> None:
         dpi=180,
     )
 
-    # 4. Fit-out car body — structural shell + all COTS envelopes in
+    # 5. Fit-out car body — structural shell + all COTS envelopes in
     # their catalogue colours. The shell is drawn translucent so the
     # coloured interior envelopes read through it.
     fit = fit_out_car_body(CarDimensions())
@@ -578,7 +592,7 @@ def render_all(out_root: Path) -> None:
         dpi=170,
     )
 
-    # 5. Motor bogie — detailed component + assembly CAD (RFC 0022).
+    # 6. Motor bogie — detailed component + assembly CAD (RFC 0022).
     _render(
         motor_bogie(),
         out_root / "bogie-motor.png",
@@ -598,7 +612,7 @@ def render_all(out_root: Path) -> None:
         dpi=180,
     )
 
-    # 6. Train-level systems now represented in the final trainset:
+    # 7. Train-level systems now represented in the final trainset:
     # couplers, inter-car articulation, battery modules, doors,
     # electronics, charging contacts, accessibility, and T-OBS sensors.
     from osr_mech.rolling_stock.systems import (
@@ -660,8 +674,8 @@ def render_all(out_root: Path) -> None:
         inter_car_articulation(),
         out_root / "trainset-inter-car-articulation.png",
         tolerance_mm=8.0,
-        elev=12,
-        azim=-50,
+        elev=18,
+        azim=-125,
         figsize=(8, 6),
         dpi=180,
     )
@@ -675,7 +689,7 @@ def render_all(out_root: Path) -> None:
         dpi=180,
     )
 
-    # 7. Mechanical interface and installation packages. These are the
+    # 8. Mechanical interface and installation packages. These are the
     # explicit bracket/rail/mount/torsion-box details added for the
     # FreeCAD assembly and FEA review loop.
     interface_out = out_root / "rolling-stock" / "interfaces"

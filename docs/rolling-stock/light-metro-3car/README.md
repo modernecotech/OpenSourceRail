@@ -20,11 +20,12 @@ for sides, roof fairings, cabless cowls, and interior liners.
 |---|---|
 | [`general-arrangement.md`](general-arrangement.md) | Overall envelope, gauge clearance, consist diagram, floor heights, door positions |
 | [`fabrication-plan.md`](fabrication-plan.md) | Cut-bend-weld primary structure, composite cladding, COTS module installation sequence |
-| [`bogie.md`](bogie.md) | 2-axle articulated bogie spec, wheel profile, suspension, brake mount |
-| [`body.md`](body.md) | Welded steel underframe/spaceframe, composite side panels, end bulkheads, articulation joint |
+| [`bogie.md`](bogie.md) | 2-axle standard bogie spec, wheel profile, suspension, brake mount |
+| [`body.md`](body.md) | Welded steel underframe/spaceframe, composite side panels, end bulkheads, articulation interface frames |
+| [`articulation.md`](articulation.md) | Inter-car articulation/gangway module: lower spherical pivot, upper links, bellows, turntable, trainline routing |
 | [`cots-integration.md`](cots-integration.md) | COTS/fabricated interface diagrams, part delineation, and assembly sequence |
 | [`traction.md`](traction.md) | PMSM motor + SiC inverter + reduction gear, adhesion budget |
-| [`interfaces.md`](interfaces.md) | Coupler, pantograph, platform gap, TCN-E connector, aux power |
+| [`interfaces.md`](interfaces.md) | Coupler, station charging, articulation, platform gap, TCN-E connector, aux power |
 | [`bom-skeleton.md`](bom-skeleton.md) | Procurement BOM lines (source-identified parts vs TBD) |
 | [`compliance.md`](compliance.md) | Standards matrix: EN 15227, EN 45545, EN 14363, EN 50155, ISO 3095, EN 12299 |
 | [`drawing-register.md`](drawing-register.md) | v2 drawing IDs, supplier documents, inspection evidence, release gates |
@@ -32,16 +33,17 @@ for sides, roof fairings, cabless cowls, and interior liners.
 
 The governing visual/layout reference is
 [`solar-metro-trainset.png`](../../../docs/assets/solar-metro-trainset.png):
-white/silver body, green waist band, dark skirts, large glass ends,
+white/silver body, green waist band, dark skirts, segmented glass-pane ends,
 roof PV, two low-floor door pairs per side per car, powered end cars, unpowered middle car,
 and batteries under longitudinal seats. The end glazing is an open
-driverless passenger view through heated RF-transparent glass with
-LED headlamp and marker-light clusters below it. Because the cars use
+driverless passenger view through heated RF-transparent laminated
+glass panes with LED headlamp and marker-light clusters below them.
+Because the cars use
 standard bogies, each car has ~3 m high-floor end decks over the bogies
 and a 350 mm, ~10 m low-floor centre door/PRM zone.
 The front and rear passenger ends are not walled off by cab bulkheads;
-the end saloon looks through the glass cowls at both ends of the
-driverless train.
+the end saloon looks through the segmented glass panes at both ends
+of the driverless train.
 
 The companion production graphic is
 [`solar-metro-production-assembly.png`](../../../docs/assets/solar-metro-production-assembly.png).
@@ -68,8 +70,8 @@ documents and PNGs are generated review artifacts.
 |---|---|
 | [`trainset.py`](../../../mechanical-py/src/osr_mech/rolling_stock/trainset.py) | Family length, car count, motorisation, cowl/body/bogie assembly |
 | [`car_body.py`](../../../mechanical-py/src/osr_mech/rolling_stock/car_body.py) | 17 m body module as layered CAD subassemblies: primary structure, exterior/glazing/doors, interior, HVAC ducts, LV/data routing, HV/PV/thermal/fire paths |
-| [`sensor_cowl.py`](../../../mechanical-py/src/osr_mech/rolling_stock/sensor_cowl.py) | Open panoramic glass end, LED headlamps, marker lights, and T-OBS visual envelope |
-| [`systems.py`](../../../mechanical-py/src/osr_mech/rolling_stock/systems.py) | Couplers, articulations, batteries, doors, electronics, charging, T-OBS packs |
+| [`sensor_cowl.py`](../../../mechanical-py/src/osr_mech/rolling_stock/sensor_cowl.py) | Segmented panoramic end glass panes, LED headlamps, marker lights, and T-OBS visual envelope |
+| [`systems.py`](../../../mechanical-py/src/osr_mech/rolling_stock/systems.py) | Couplers, detailed articulations/gangways, batteries, doors, electronics, charging, T-OBS packs |
 | [`bogie/`](../../../mechanical-py/src/osr_mech/rolling_stock/bogie/) | Powered and converted-trailer bogie assemblies |
 | [`cad_templates/rolling_stock.py`](../../../mechanical-py/src/osr_mech/cad_templates/rolling_stock.py) | Sheet-metal/chassis manufacturing templates |
 
@@ -91,7 +93,8 @@ and render to these design-review PNGs:
 
 | Output | Scope |
 |---|---|
-| [`trainset-light-metro-3car.png`](../../../docs/screenshots/trainset-light-metro-3car.png) | Final 3-car trainset assembly with car bodies, bogies, cowls, couplers, inter-car articulation, and train systems |
+| [`trainset-light-metro-3car.png`](../../../docs/screenshots/trainset-light-metro-3car.png) | Final 3-car trainset assembly with car bodies, bogies, segmented glass-pane cowls, couplers, inter-car articulation, and train systems |
+| [`end-glass-cowl-panes.png`](../../../docs/screenshots/end-glass-cowl-panes.png) | Cabless trainset end close-up with three heated laminated glass panes, bonded frame rails, mullions, demist traces, and washer/service hardware |
 | [`trainset-car-detail.png`](../../../docs/screenshots/trainset-car-detail.png) | 17 m layered car body: structure, door/window openings, glazing, livery, roof PV/HVAC, interior, ducts, LV/data and HV/thermal routes |
 | [`trainset-car-body-structure.png`](../../../docs/screenshots/trainset-car-body-structure.png) | Primary fabricated structure: shell, 10 m low-floor pan, side sills, crossmembers, roof cantrails, door portals, window posts, end rings, and bogie clearance envelopes |
 | [`trainset-car-body-bogie-subassembly.png`](../../../docs/screenshots/trainset-car-body-bogie-subassembly.png) | Single-car structure with standard motor/trailer bogies under the ~3 m raised high-floor end zones |
@@ -105,7 +108,7 @@ and render to these design-review PNGs:
 | [`trainset-door-system.png`](../../../docs/screenshots/trainset-door-system.png) | Door cassette pair with sill gap fillers, locks, and external emergency releases |
 | [`trainset-electronics-cabinet.png`](../../../docs/screenshots/trainset-electronics-cabinet.png) | Per-end T-ECU/S, T-ECU/A, and crashworthy event recorder, two sets per trainset |
 | [`trainset-end-coupler.png`](../../../docs/screenshots/trainset-end-coupler.png) | Scharfenberg Type 10 coupler, electric-head carrier, and EN 15227 crash absorber envelope |
-| [`trainset-inter-car-articulation.png`](../../../docs/screenshots/trainset-inter-car-articulation.png) | Inter-car bellows, semi-permanent drawbar, and trainline drag-chain envelope |
+| [`trainset-inter-car-articulation.png`](../../../docs/screenshots/trainset-inter-car-articulation.png) | Detailed inter-car articulation: lower spherical joint, anti-lift keeper, upper links, double-wall bellows, turntable floor, trainline routing, and kinematic envelopes |
 | [`trainset-tobs-sensor-pack.png`](../../../docs/screenshots/trainset-tobs-sensor-pack.png) | T-OBS LIDAR, mmWave radar, stereo camera, and ultrasonic sensor envelopes |
 | [`bogie-motor.png`](../../../docs/screenshots/bogie-motor.png) | Powered bogie assembly with frame, wheelsets, motors, gearboxes, suspension, and brakes |
 | [`bogie-trailer.png`](../../../docs/screenshots/bogie-trailer.png) | Trailer bogie assembly using the common frame and suspension envelope |
@@ -222,7 +225,7 @@ tolerances, and release drawings listed in
 | Onboard battery | 450 kWh Na-ion (150 kWh per car, under seats) |
 | Peak onboard motor output | 600 kW |
 | Floor height (above ToR) | 350 mm, ~10 m low-floor centre door/PRM zone; 760 mm, ~3 m high-floor end decks over standard bogies |
-| Gauge | 1 435 mm (default) or 1 000 mm (variant) |
+| Gauge | 1 435 mm standard gauge |
 
 ## What v1 does NOT include
 

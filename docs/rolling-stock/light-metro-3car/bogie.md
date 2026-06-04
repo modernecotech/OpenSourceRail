@@ -12,9 +12,9 @@ geometry; the converted trailer variant omits motors and gearbox.
 | Wheelbase (axle-to-axle) | 2 100 mm |
 | Wheel diameter, new / worn | 760 / 680 mm |
 | Wheelset type | Monobloc, machined per RFC 0022 |
-| Wheel profile | S1002 (1 435 gauge) or Ri60 (1 000 gauge variant) |
+| Wheel profile | S1002 on standard-gauge rail |
 | Axle load (AW3, both axles) | ≤ 14 t each |
-| Gauge | 1 435 mm (default) / 1 000 mm (variant) |
+| Gauge | 1 435 mm standard gauge |
 | Track-brake coil (magnetic track brake) | not fitted — per RFC 0008 §3.2 electric-only brake |
 
 ## Powered bogie (two per consist)

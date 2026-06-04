@@ -20,7 +20,7 @@ Document IDs use `LM3` for the `light-metro-3car` family. Revision
 | LM3-BDY-140 | Battery tray and under-seat enclosure | Fabricator + battery supplier | `body.md`, `traction.md` | Service hatches, vent path, HV isolation clearances |
 | LM3-BDY-150 | Composite side/roof/nose panel envelopes | Composite supplier | `body.md` | Panel mould drawings, inserts, edge radii, repair zones |
 | LM3-SYS-160 | End coupler and crash-energy assembly | Coupler supplier + integrator | `interfaces.md`, BOM | Scharfenberg head, electric-head carrier, crash absorber envelope, recovery/tow interface |
-| LM3-SYS-170 | Inter-car articulation and trainline assembly | Integrator | `body.md`, `interfaces.md` | Bellows, semi-permanent drawbar, drag-chain, TCN-E/CAN-FD/aux interfaces |
+| LM3-SYS-170 | Inter-car articulation and trainline assembly | Integrator + articulation supplier | `articulation.md`, `body.md`, `interfaces.md` | Lower spherical pivot, anti-lift keeper, upper roll-yaw-pitch links, bellows, turntable floor, drag-chain, TCN-E/CAN-FD/HV/coolant/HVAC interfaces |
 | LM3-DOOR-200 | Door cassette installation | Door supplier | COTS catalogue | Mounting datums, threshold, drainage, lock-loop wiring |
 | LM3-WIN-210 | Window cassette installation | Glazing supplier | COTS catalogue | Bond/gasket land, drain path, replacement method |
 | LM3-HVAC-220 | Roof HVAC installation | HVAC supplier | COTS catalogue | Roof rails, ducting, condensate, service clearance |
@@ -67,6 +67,7 @@ Document IDs use `LM3` for the `light-metro-3car` family. Revision
 | Battery | Cell/module certificate, BMS manual, vent/fire containment data | Fits LM3-BDY-140 and LM3-HV-310 |
 | Traction | Motor/inverter/gearbox datasheets, cooling and EMC instructions | Fits LM3-TRC-500 |
 | Bogie parts | Wheelset, bearing, spring, damper, brake supplier certificates | Fits LM3-BOG-400/410 |
+| Articulation/gangway | Bearing rating, motion-envelope proof, bellows/turntable fire evidence, maintenance manual | Fits LM3-SYS-170 without carbody adapter redesign |
 
 ## Release gates
 

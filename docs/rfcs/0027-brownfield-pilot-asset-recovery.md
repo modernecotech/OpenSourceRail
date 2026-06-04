@@ -220,9 +220,9 @@ applies wherever a country has:
 
 - An active mainline running through (or near) a candidate OSR
   deployment city.
-- A dormant rolling-stock stockpile of standard-gauge (1 435 mm) or
-  metre-gauge (1 000 mm) freight / passenger stock — even if the
-  stock is otherwise incompatible with OSR.
+- A dormant rolling-stock stockpile of standard-gauge (1 435 mm)
+  freight / passenger stock — even if the stock is otherwise
+  incompatible with OSR.
 - A rail workshop / depot building, even partially functional.
 - A national rail authority capable of negotiating disposition.
 

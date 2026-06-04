@@ -18,7 +18,7 @@ matching the `solar-metro-trainset.png` concept:
 - An underframe skirt concealing the equipment bay between the
   bogies (traction pack, battery module, auxiliary converter).
 - No cab and no driver door. Both ends are structurally identical;
-  the trainset-level sensor cowls provide the large glass end look.
+  the trainset-level sensor cowls provide the segmented glass end panes.
 
 Default dimensions reflect one 17 m self-contained car module per
 RFC 0008 §3.1.
@@ -668,7 +668,7 @@ def _floor_and_structure(dims: CarDimensions) -> list[Part]:
             Location((x_sign * (dims.body_length_mm / 2.0 - 210.0), 0.0, 1710.0))
         )
         end_ring.color = COLOR_STRUCTURE
-        end_ring.label = "End ring frame for open glass cowl"
+        end_ring.label = "End ring frame for segmented glass-pane cowl"
         out.append(end_ring)
 
         anti_climber = Box(260.0, dims.body_width_mm - 360.0, 260.0).locate(
@@ -819,7 +819,7 @@ def _interior_fit_out(dims: CarDimensions) -> list[Part]:
             Location((x_sign * (dims.body_length_mm / 2.0 - 940.0), 0.0, HIGH_FLOOR_HEIGHT_MM + 40.0))
         )
         viewing.color = Color(0.42, 0.64, 0.74, 0.35)
-        viewing.label = "Open glass end passenger viewing zone"
+        viewing.label = "Glass-pane end passenger viewing zone"
         out.append(viewing)
 
     for x, width in _window_zones(dims):

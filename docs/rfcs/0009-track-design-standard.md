@@ -16,7 +16,7 @@ one of these four.
 
 | Preset | Gauge | Min radius | Max grade | Cant max | Rail profile | Compatible consists |
 |---|---|---|---|---|---|---|
-| `heritage-tram` | 1 000 mm | 25 m | 70 ‰ | 120 mm | Ri60 grooved | `tram-2car` |
+| `heritage-tram` | 1 435 mm | 25 m | 70 ‰ | 120 mm | Ri60 grooved | `tram-2car` |
 | `standard-urban` | 1 435 mm | 90 m | 50 ‰ | 150 mm | UIC60 | `tram-2car`, `light-metro-3car` |
 | `standard-metro` | 1 435 mm | 200 m | 35 ‰ | 160 mm | UIC60 | `light-metro-3car`, `metro-4car`, `metro-6car` |
 
@@ -65,9 +65,9 @@ those calibrations at the deployment level.
 Four presets cover the actual range of urban-rail deployments in
 the target regions:
 
-- `heritage-tram` fits retrofits of legacy metre-gauge European
-  tram infrastructure (still common in some MENA and ex-French
-  colonial networks).
+- `heritage-tram` fits tight-radius street-running retrofits while
+  staying on the same 1 435 mm gauge as the rest of the upstream
+  catalogue.
 - `standard-urban` is street-integrated light metro — the Samawah
   reference ([RFC 0003](0003-samawah-reference-deployment.md)).
 - `standard-metro` is dedicated-ROW medium and large metro, the
@@ -80,24 +80,16 @@ the target regions:
 
 ## 4. Gauge
 
-**1 435 mm standard gauge** is the default for three of the four
-presets. It is the only gauge for which off-the-shelf wheelsets,
+**1 435 mm standard gauge** is the gauge for all upstream presets.
+It is the only gauge for which off-the-shelf wheelsets,
 rail profiles, switches, and fasteners are widely available from
 multiple global suppliers and from domestic producers in MENA, sub-
 Saharan Africa, South and Southeast Asia, and Latin America.
 
-**1 000 mm metre gauge** is kept only for `heritage-tram` retrofit
-work. Deploying a new metre-gauge corridor from scratch is
-explicitly discouraged: the supplier base is thinner and the
-lifetime maintenance burden higher. The preset is retained because
-some legacy networks would otherwise need full gauge conversion to
-adopt OpenSourceRail, which is a much larger CAPEX line than
-deploying against their existing gauge.
-
 **No Iberian gauge (1 668 mm), no Russian gauge (1 520 mm), no
-narrow gauges under 1 000 mm.** Operators in those regions are
+other non-standard upstream gauges.** Operators in those regions are
 free to fork the project and add them; OpenSourceRail's upstream
-envelope stays at 1 000 / 1 435.
+envelope stays at 1 435 mm.
 
 ## 5. Horizontal alignment
 
@@ -106,7 +98,7 @@ envelope stays at 1 000 / 1 435.
 | Preset | Min radius | Derivation |
 |---|---|---|
 | `heritage-tram` | 25 m | Ri60 grooved rail + `tram-2car` 2-axle bogie with small wheelbase (1.8 m) can negotiate 25 m at crawl speed (≤ 10 km/h) without excessive wheel-flange wear. |
-| `standard-urban` | 90 m | UIC60 rail + `light-metro-3car` articulated bogie + 22 m/s max speed — radius comes from balanced-cant condition at 15 m/s through the curve (2/3 of max), 150 mm max cant. |
+| `standard-urban` | 90 m | UIC60 rail + `light-metro-3car` standard-bogie articulated consist + 22 m/s max speed — radius comes from balanced-cant condition at 15 m/s through the curve (2/3 of max), 150 mm max cant. |
 | `standard-metro` | 200 m | `metro-4car` + `metro-6car` consists are less forgiving; 200 m allows 25 m/s through a well-canted curve with unbalanced cant ≤ 60 mm (EN 13803-1 normal). |
 | `mainline-mixed` | 400 m | Mainline conservative. Allows 33 m/s (120 km/h) at 180 mm cant. |
 
@@ -262,9 +254,9 @@ city recipe.
   lifetime maintenance but 2–3× the initial CAPEX. The preset
   envelope stays neutral; the deployment recipe picks based on
   the operator's capital profile and local skills.
-- **No mixed-gauge track.** Dual-gauge trackwork (1 000 + 1 435)
-  is explicitly out of scope. Operators with that legacy have to
-  choose one to extend.
+- **No mixed-gauge track.** Dual-gauge trackwork is explicitly out
+  of scope. Operators with that legacy have to choose one gauge to
+  extend outside the upstream OSR envelope.
 - **No tilting rolling stock.** The rolling-stock families in
   [RFC 0008](0008-rolling-stock-reference-design.md) do not tilt;
   cant-deficiency limits are therefore conventional. If a future

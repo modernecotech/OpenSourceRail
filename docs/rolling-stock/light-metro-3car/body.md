@@ -49,6 +49,7 @@ The underframe is a jig-welded ladder:
 | Bogie bolster | Folded/welded 12 mm plate box | S355J2 | Machined centre-pivot insert after weld |
 | Coupler pocket | 16 mm folded plate + crush can interface | S355J2 | EN 15227 energy absorber bolts on |
 | Battery tray rail | 80 × 60 × 5 mm RHS | S355J2 | Under-seat module cassette support |
+| Articulation adapter frame | 12 mm folded plate + machined inserts | S355J2 | Lower spherical joint, bellows clamp, and upper-link clevis datums |
 
 The floor is not flat. The two centre doors per side and wheelchair
 bay sit in a ~10 m low-floor zone at 350 mm above top-of-rail for
@@ -63,6 +64,27 @@ weld positions dominate. The v2 drawing pack assigns EN 15085 weld
 classes per joint; the v1 assumption is CL1 for bolsters, coupler
 pockets, and crash boxes, CL2 for side sills/cross bearers, CL3/CL4
 for panel tabs and interior brackets.
+
+### Articulation interface frames
+
+Each inner car end carries an articulation adapter frame rather than a
+simple drawbar bracket. The frame includes:
+
+- underframe anchor casting for the semi-permanent articulated drawbar,
+- machined land for the lower spherical bearing and anti-lift keeper,
+- vertical anti-climb shear-key pockets beside the lower joint,
+- upper clevis brackets for the twin roll-yaw-pitch stabilising links,
+- bellows bolted clamp frame and replaceable nutplates,
+- drain channel lands and a floor service-hatch aperture,
+- separated HV/data/coolant/HVAC bracket datums for the energy-guidance
+  routes through the gangway.
+
+The articulation supplier owns the internal bearing, bellows,
+turntable, and link details. The fabricator owns the steel adapter
+frame, weld map, machined datum survey, corrosion protection, and shim
+pack. See [`articulation.md`](articulation.md) for the motion envelope
+and [`interfaces.md`](interfaces.md#inter-car-articulation-and-gangway)
+for the trainline interface.
 
 ### Side frame
 
@@ -90,7 +112,7 @@ frame:
 |---|---|---|
 | Side skin | 25-35 mm fire-rated GFRP or basalt-fibre sandwich | Structural adhesive + M6/M8 retained fasteners |
 | Roof fairing | 20-30 mm composite sandwich | Bolted to roof bows; removable above HVAC/equipment |
-| Nose/sensor cowl | Moulded composite shell over steel crash frame | Bolted; sacrificial and replaceable; large heated RF-transparent glass end with LED headlamp/marker clusters |
+| Nose/sensor cowl | Moulded composite shell over steel crash frame | Bolted; sacrificial and replaceable; segmented heated RF-transparent end glass panes with LED headlamp/marker clusters |
 | Skirts | Composite or aluminium removable panels | Quarter-turn service fasteners |
 | Interior liners | EN 45545 HL2 FRP or phenolic panels | Clip/bolt to secondary rails |
 
