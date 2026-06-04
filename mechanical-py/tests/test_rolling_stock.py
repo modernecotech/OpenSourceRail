@@ -306,6 +306,9 @@ def test_cots_catalogue_covers_every_category() -> None:
         assert item.supplier_reference_url.startswith("https://")
         assert item.alternates
         assert item.fit_note
+        assert item.geometry_basis
+        assert item.cost_basis
+        assert 0.0 < item.unit_cost_low_usd <= item.unit_cost_base_usd <= item.unit_cost_high_usd
 
 
 def test_bom_quantities_are_common_per_self_contained_car() -> None:
@@ -388,6 +391,20 @@ def test_fit_out_car_body_has_more_volume_than_plain_body() -> None:
         f"fit-out compound volume {dressed_volume:.0f} not greater than "
         f"plain body {plain_volume:.0f}"
     )
+
+
+def test_cots_fit_out_uses_source_shaped_components() -> None:
+    labels = _labels_recursive(fit_out_car_body(CarDimensions()))
+    expected = {
+        "Laminated heated glass pane",
+        "Compact rooftop HVAC casing",
+        "Continuous opal diffuser",
+        "LED display active area",
+        "Removable bench cushion pads",
+        "Stainless vertical grab pole",
+        "Emergency call button",
+    }
+    assert expected.issubset(set(labels))
 
 
 # ---------------------------------------------------------------------------

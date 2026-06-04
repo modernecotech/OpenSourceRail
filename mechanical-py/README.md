@@ -97,8 +97,8 @@ scripts/freecad_trainset.sh --family light-metro-3car
 # and disassembled/exploded review states, plus geometry-check markdown.
 scripts/freecad_assembly_review.sh
 
-# Run first-pass FreeCAD/CalculiX screening FEA beam models for the
-# low-floor chassis, bogie H-frame, and full body frame.
+# Run first-pass FreeCAD/CalculiX screening FEA beam models and
+# solver-result PNGs for chassis, bogie, and body load cases.
 scripts/freecad_fea.sh
 
 # Capture FreeCAD GUI screenshots from the review/FEA documents.

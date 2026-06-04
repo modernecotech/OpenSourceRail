@@ -18,6 +18,23 @@ manufacturer MBOM. It now covers every train-level subassembly needed
 to build, commission, and maintain the v1 trainset concept; supplier
 drawings still break many lines into child parts during v2.
 
+Generated CSV outputs:
+
+- [`build/bom/rolling_stock_bom.csv`](../../../build/bom/rolling_stock_bom.csv)
+  adds low/base/high cost bands to every BOM line.
+- [`build/bom/rolling_stock_cots_fitout_bom.csv`](../../../build/bom/rolling_stock_cots_fitout_bom.csv)
+  is generated directly from the source-shaped COTS fit-out catalogue
+  in `mechanical-py`.
+
+Cost confidence:
+
+- **SOURCE** lines use public catalogue/distributor or commodity quote
+  bands until procurement replaces them with current supplier quotes.
+- **MAKE** lines use local fabrication estimate bands until a shop
+  route, fixture plan, and labour-rate pack are issued.
+- **BID** lines are tender-only rail components. Public product pages
+  inform shape, interface, and supplier class; exact price requires RFQ.
+
 ## Concept alignment
 
 This BOM is keyed to the visual and layout concept in
@@ -198,10 +215,16 @@ keeps mass/power within budget, and supplies certification evidence.
 | Safety/accessibility/maintainability | 18 000 |
 | **Total direct-material consist** | **2 210 780** |
 
-Labour (shop weld, bonding, assembly, commissioning) adds ~35 %:
-~774 000 USD.
+Generated cost band from the same line items:
 
-**Planning-grade per-consist cost (volume 100): ~2.98 M USD.**
+| Case | Direct material | +35% labour / assembly | Planning total |
+|---|---:|---:|---:|
+| Low | 1 736 663 | 607 832 | 2 344 495 |
+| Base | 2 210 780 | 773 773 | 2 984 553 |
+| High | 3 398 403 | 1 189 441 | 4 587 844 |
+
+**Planning-grade per-consist cost (volume 100): 2.34-4.59 M USD,
+base 2.98 M USD.**
 
 For comparison, legacy-vendor light-metro trainsets in the target
 regions typically land 4–6 M USD each — the OSR design's

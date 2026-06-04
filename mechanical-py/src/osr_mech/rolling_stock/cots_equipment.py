@@ -34,10 +34,12 @@ from enum import Enum
 
 from osr_mech.cad import (
     Align,
+    Box,
     BuildPart,
     BuildSketch,
     Color,
     Compound,
+    Cylinder,
     Location,
     Part,
     Rectangle,
@@ -91,6 +93,10 @@ class CotsItem:
     alternates: tuple[str, ...]
     """Short integration note copied into BOM/procurement reviews."""
     fit_note: str
+    """Public source basis used to turn the reservation box into a
+    recognisable component shape. Exact supplier CAD remains a v2
+    controlled drawing input."""
+    geometry_basis: str
     length_mm: float
     width_mm: float
     height_mm: float
@@ -101,6 +107,13 @@ class CotsItem:
     """Human-readable mounting pattern — the car body must provide
     tapped holes / bonding surface per this spec."""
     mount_pattern: str
+    """Planning-grade per-unit purchase-cost band. Tender-only rail
+    items must be replaced by supplier quotes before procurement."""
+    unit_cost_low_usd: float
+    unit_cost_base_usd: float
+    unit_cost_high_usd: float
+    """Audit note for the cost band."""
+    cost_basis: str
     """Visualisation colour for the reserved envelope in the CAD
     fit-out output (RGB 0..1)."""
     display_color: tuple[float, float, float]
@@ -117,12 +130,17 @@ CATALOGUE: dict[Category, CotsItem] = {
             "Saint-Gobain Sekurit transport glazing",
         ),
         fit_note="Bonded/gasketed cassette with drain channel and optional heated anti-fog pane.",
+        geometry_basis="AGC rail glazing page: laminated Lamisafe front glass and Heatlight W heated anti-fog glass family; OSR aperture sets the panel size.",
         length_mm=1400.0,
         width_mm=40.0,
         height_mm=900.0,
         mass_kg=25.0,
         power_w=0.0,
         mount_pattern="Bonded frame, Sikaflex 252 bead 12 mm",
+        unit_cost_low_usd=950.0,
+        unit_cost_base_usd=1500.0,
+        unit_cost_high_usd=2600.0,
+        cost_basis="Derived from BOM B10: 18 cassettes / 27,000 USD base; rail glazing quotes vary with heating, curvature, and certification pack.",
         display_color=(0.55, 0.75, 0.90),
     ),
     Category.HVAC_ROOF: CotsItem(
@@ -139,12 +157,17 @@ CATALOGUE: dict[Category, CotsItem] = {
             "Hispacold rail HVAC",
         ),
         fit_note="Roof curb accepts compact or split unit, drop ducts, condensate drains, and diagnostics harness.",
+        geometry_basis="Liebherr rail HVAC page: passenger saloon units integrate power supply, pressure protection, air ducts, diagnostics, and controls; available as compact/split, roof/floor mounted units.",
         length_mm=2700.0,
         width_mm=1900.0,
         height_mm=450.0,
         mass_kg=420.0,
         power_w=20_000.0,
         mount_pattern="10× M12 curb bolts, EPDM gasket, twin 450 × 260 drop ducts",
+        unit_cost_low_usd=18_000.0,
+        unit_cost_base_usd=25_000.0,
+        unit_cost_high_usd=42_000.0,
+        cost_basis="Derived from BOM T14: 3 HVAC units / 75,000 USD base; high end covers hot-climate rail-qualified package and pressure-protection options.",
         display_color=(0.70, 0.70, 0.75),
     ),
     Category.LIGHTING: CotsItem(
@@ -157,12 +180,17 @@ CATALOGUE: dict[Category, CotsItem] = {
             "SBF Spezialleuchten rail LED lighting",
         ),
         fit_note="Two serviceable ceiling channels with emergency-input wiring and spring clips.",
-        length_mm=22_000.0,  # full car length; actual supply comes as 1.5 m segments
+        geometry_basis="Teknoware rail lighting catalogue family: interior lighting, main/emergency functions, serviceable rail-and-road vehicle modules.",
+        length_mm=16_400.0,  # full usable saloon run; actual supply comes as short segments
         width_mm=100.0,
         height_mm=50.0,
         mass_kg=35.0,
-        power_w=330.0,  # 15 W/m × 22 m
+        power_w=250.0,  # roughly 15 W/m over each usable saloon run
         mount_pattern="M6 clips at 600 mm pitch into ceiling channel",
+        unit_cost_low_usd=900.0,
+        unit_cost_base_usd=1500.0,
+        unit_cost_high_usd=2500.0,
+        cost_basis="Derived from BOM B16: 6 ceiling strip runs / 9,000 USD base; includes emergency-mode rail wiring allowance.",
         display_color=(1.0, 0.95, 0.80),
     ),
     Category.PIS_SCREEN: CotsItem(
@@ -176,17 +204,22 @@ CATALOGUE: dict[Category, CotsItem] = {
             "Litemax EN 50155 display class",
         ),
         fit_note="Above-door VESA plate reserves Ethernet, 24 V DC, and anti-vibration isolators.",
-        length_mm=520.0,
-        width_mm=50.0,
-        height_mm=320.0,
-        mass_kg=6.0,
-        power_w=30.0,
+        geometry_basis="Luminator LUM LED Rail S datasheet: 1125 × 210 × 45 mm housing, 5.4 kg max, 24 V DC, 31 W typical / 65 W max.",
+        length_mm=1125.0,
+        width_mm=45.0,
+        height_mm=210.0,
+        mass_kg=5.4,
+        power_w=31.0,
         mount_pattern="VESA 200 × 100, 4× M4",
+        unit_cost_low_usd=450.0,
+        unit_cost_base_usd=800.0,
+        unit_cost_high_usd=1800.0,
+        cost_basis="Derived from BOM E14: 12 onboard displays / 9,600 USD base; high end covers rail LCD/LED display controller and EMC evidence.",
         display_color=(0.10, 0.10, 0.10),
     ),
     Category.SEAT: CotsItem(
         category=Category.SEAT,
-        name="Longitudinal bench (2-seat unit)",
+        name="Longitudinal bench run",
         sku_reference="Compin-Fainsa SB09 Metro/LRV longitudinal seat class",
         supplier_reference_url="https://www.compinfainsa.com/product/railway-seats-and-interiors-sb09",
         alternates=(
@@ -195,16 +228,21 @@ CATALOGUE: dict[Category, CotsItem] = {
             "McConnell lightweight metro bench",
         ),
         fit_note="Cantilevered rail keeps battery covers serviceable; removable pads and EN 45545 evidence required.",
-        length_mm=1000.0,
+        geometry_basis="Compin-Fainsa SB09 page: longitudinal/transversal metro/LRV installation, removable pads, light alloy frame, EN45545 HL2/HL3 evidence.",
+        length_mm=2700.0,
         width_mm=500.0,
         height_mm=950.0,
-        mass_kg=25.0,
+        mass_kg=40.0,
         power_w=0.0,
         mount_pattern=(
             "Cantilevered from the battery-strake bulkhead (RFC 0021 §5) "
             "— 4× M10 on 800 × 300 pitch into a welded strake-top rail. "
             "No floor penetrations (the aisle stays at level-boarding height)."
         ),
+        unit_cost_low_usd=800.0,
+        unit_cost_base_usd=1333.333,
+        unit_cost_high_usd=2500.0,
+        cost_basis="Derived from BOM B14: 60 seats / 24,000 USD, represented as 18 multi-seat bench runs per consist.",
         display_color=(0.20, 0.35, 0.55),
     ),
     Category.GRAB_POLE: CotsItem(
@@ -218,12 +256,17 @@ CATALOGUE: dict[Category, CotsItem] = {
             "local 316L modular rail fabricator",
         ),
         fit_note="Stainless modular pole with replaceable flanges into floor and ceiling inserts.",
+        geometry_basis="Rail interior stanchion class: stainless vertical pole with floor/ceiling flanges and modular grab-rail interfaces.",
         length_mm=35.0,
         width_mm=35.0,
         height_mm=2_300.0,  # floor to false-ceiling
         mass_kg=8.0,
         power_w=0.0,
         mount_pattern="Flanged floor + ceiling plates, 3× M8 each",
+        unit_cost_low_usd=160.0,
+        unit_cost_base_usd=333.0,
+        unit_cost_high_usd=700.0,
+        cost_basis="Derived from BOM B15: 24 primary stanchions / 8,000 USD base plus shared grab-rail fittings.",
         display_color=(0.85, 0.85, 0.85),
     ),
     Category.INTERCOM: CotsItem(
@@ -237,12 +280,17 @@ CATALOGUE: dict[Category, CotsItem] = {
             "Commend public-transport intercom",
         ),
         fit_note="Recessed help-point with SIP/Ethernet, 24 V DC, audio fallback, and labelled call button.",
+        geometry_basis="Televic TRACS passenger communication class: recessed wall help-point, audio fallback, Ethernet/SIP train communication module.",
         length_mm=300.0,
         width_mm=100.0,
         height_mm=200.0,
         mass_kg=3.5,
         power_w=10.0,
         mount_pattern="Recessed 250 × 150 cutout, 4× M5 into backing plate",
+        unit_cost_low_usd=350.0,
+        unit_cost_base_usd=800.0,
+        unit_cost_high_usd=1800.0,
+        cost_basis="BOM B19 includes CCTV + intercom kit; this row assigns an 800 USD planning unit for the intercom/help-point module.",
         display_color=(0.80, 0.15, 0.15),
     ),
 }
@@ -434,22 +482,173 @@ def locations_for(category: Category, dims: CarDimensions) -> list[Location]:
 # ---------------------------------------------------------------------------
 
 
-def envelope_part(item: CotsItem) -> Part:
-    """Build a rectangular envelope for `item`, coloured per its
-    catalogue entry. The box is a *reservation* — real hardware fits
-    *inside* it, not beyond it.
+def _colour(item: CotsItem, alpha: float | None = None) -> Color:
+    r, g, b = item.display_color
+    return Color(r, g, b) if alpha is None else Color(r, g, b, alpha)
 
-    Origin: envelope centred on (0, 0, z_min = 0). Callers translate
-    to the target location."""
+
+def _part(part: Part, label: str, color: Color) -> Part:
+    part.label = label
+    part.color = color
+    return part
+
+
+def _box(
+    length: float,
+    width: float,
+    height: float,
+    *,
+    label: str,
+    color: Color,
+    loc: tuple[float, float, float] = (0.0, 0.0, 0.0),
+) -> Part:
+    x, y, z = loc
+    return _part(
+        Box(length, width, height).locate(Location((x, y, z + height / 2.0))),
+        label,
+        color,
+    )
+
+
+def _cylinder(
+    radius: float,
+    height: float,
+    *,
+    label: str,
+    color: Color,
+    loc: tuple[float, float, float] = (0.0, 0.0, 0.0),
+) -> Part:
+    x, y, z = loc
+    return _part(
+        Cylinder(radius=radius, height=height).locate(Location((x, y, z + height / 2.0))),
+        label,
+        color,
+    )
+
+
+def _source_shape(item: CotsItem) -> Compound | None:
+    """Return a source-informed shape for catalogue items where public
+    product pages provide enough cues to be more useful than a box."""
+
+    color = _colour(item)
+    shadow = _colour(item, 0.45)
+
+    if item.category == Category.WINDOW:
+        frame = Color(0.12, 0.14, 0.15)
+        heater = Color(0.95, 0.62, 0.12)
+        parts = [
+            _box(item.length_mm, item.width_mm, item.height_mm, label="Laminated heated glass pane", color=shadow),
+            _box(item.length_mm + 90.0, item.width_mm + 18.0, 42.0, label="Upper bonded glazing cassette rail", color=frame, loc=(0.0, 0.0, item.height_mm - 42.0)),
+            _box(item.length_mm + 90.0, item.width_mm + 18.0, 42.0, label="Lower drain cassette rail", color=frame),
+            _box(42.0, item.width_mm + 18.0, item.height_mm, label="Left glazing cassette stile", color=frame, loc=(-item.length_mm / 2.0, 0.0, 0.0)),
+            _box(42.0, item.width_mm + 18.0, item.height_mm, label="Right glazing cassette stile", color=frame, loc=(item.length_mm / 2.0, 0.0, 0.0)),
+            _box(item.length_mm - 180.0, 8.0, 12.0, label="Heatlight-style heater busbar", color=heater, loc=(0.0, -item.width_mm / 2.0 - 6.0, item.height_mm - 110.0)),
+        ]
+        c = Compound(children=parts)
+        c.label = f"{item.name} (source-shaped cassette)"
+        return c
+
+    if item.category == Category.HVAC_ROOF:
+        metal = Color(0.58, 0.60, 0.64)
+        grille = Color(0.12, 0.14, 0.16)
+        parts = [
+            _box(item.length_mm, item.width_mm, 310.0, label="Compact rooftop HVAC casing", color=color),
+            _box(item.length_mm + 140.0, item.width_mm + 120.0, 55.0, label="Roof curb and gasket flange", color=metal),
+            _box(620.0, 360.0, 150.0, label="Supply-air drop duct", color=Color(0.12, 0.45, 0.62), loc=(-500.0, -item.width_mm / 2.0 + 250.0, -150.0)),
+            _box(620.0, 360.0, 150.0, label="Return-air drop duct", color=Color(0.12, 0.45, 0.62), loc=(500.0, -item.width_mm / 2.0 + 250.0, -150.0)),
+        ]
+        for x in (-650.0, 650.0):
+            parts.append(_cylinder(270.0, 28.0, label="Condenser fan guard", color=grille, loc=(x, 0.0, 330.0)))
+            for y in (-160.0, 0.0, 160.0):
+                parts.append(_box(440.0, 18.0, 16.0, label="Fan grille bar", color=metal, loc=(x, y, 360.0)))
+        c = Compound(children=parts)
+        c.label = f"{item.name} (source-shaped rooftop module)"
+        return c
+
+    if item.category == Category.LIGHTING:
+        parts = [
+            _box(item.length_mm, item.width_mm, 18.0, label="Extruded LED lighting rail", color=Color(0.86, 0.86, 0.80), loc=(0.0, 0.0, 16.0)),
+            _box(item.length_mm - 80.0, item.width_mm - 24.0, 16.0, label="Continuous opal diffuser", color=Color(1.0, 0.96, 0.74, 0.65), loc=(0.0, 0.0, 0.0)),
+        ]
+        for x in range(-7600, 7601, 1200):
+            parts.append(_box(80.0, item.width_mm + 22.0, 8.0, label="Ceiling spring clip", color=Color(0.54, 0.54, 0.54), loc=(float(x), 0.0, 38.0)))
+        c = Compound(children=parts)
+        c.label = f"{item.name} (source-shaped lighting run)"
+        return c
+
+    if item.category == Category.PIS_SCREEN:
+        face_y = -item.width_mm / 2.0 - 4.0
+        parts = [
+            _box(item.length_mm, item.width_mm, item.height_mm, label="Aluminium passenger-display housing", color=Color(0.08, 0.08, 0.08)),
+            _box(item.length_mm - 160.0, 8.0, item.height_mm - 60.0, label="LED display active area", color=Color(0.02, 0.03, 0.04), loc=(0.0, face_y, 30.0)),
+            _box(240.0, 12.0, 60.0, label="M8 side mounting boss", color=Color(0.52, 0.52, 0.52), loc=(-item.length_mm / 2.0 + 130.0, item.width_mm / 2.0, item.height_mm / 2.0 - 30.0)),
+            _box(240.0, 12.0, 60.0, label="M8 side mounting boss", color=Color(0.52, 0.52, 0.52), loc=(item.length_mm / 2.0 - 130.0, item.width_mm / 2.0, item.height_mm / 2.0 - 30.0)),
+        ]
+        c = Compound(children=parts)
+        c.label = f"{item.name} (source-shaped display)"
+        return c
+
+    if item.category == Category.SEAT:
+        parts = [
+            _box(item.length_mm, item.width_mm, 95.0, label="Removable bench cushion pads", color=color, loc=(0.0, 0.0, 430.0)),
+            _box(item.length_mm, 95.0, 460.0, label="Light-alloy backrest frame", color=Color(0.18, 0.30, 0.48), loc=(0.0, item.width_mm / 2.0 - 55.0, 470.0)),
+            _box(item.length_mm - 180.0, 60.0, 52.0, label="Cantilever wall rail", color=Color(0.58, 0.60, 0.62), loc=(0.0, item.width_mm / 2.0 + 10.0, 370.0)),
+        ]
+        for x in (-item.length_mm / 2.0 + 360.0, 0.0, item.length_mm / 2.0 - 360.0):
+            parts.append(_box(110.0, 420.0, 85.0, label="Seat support rib", color=Color(0.34, 0.36, 0.38), loc=(x, 0.0, 330.0)))
+            parts.append(_box(28.0, 26.0, 330.0, label="Seat divider grab upright", color=Color(0.72, 0.72, 0.70), loc=(x, -item.width_mm / 2.0 + 30.0, 470.0)))
+        c = Compound(children=parts)
+        c.label = f"{item.name} (source-shaped bench)"
+        return c
+
+    if item.category == Category.GRAB_POLE:
+        pole = _cylinder(item.length_mm / 2.0, item.height_mm, label="Stainless vertical grab pole", color=color)
+        parts = [
+            pole,
+            _cylinder(95.0, 16.0, label="Floor mounting flange", color=Color(0.66, 0.66, 0.64)),
+            _cylinder(95.0, 16.0, label="Ceiling mounting flange", color=Color(0.66, 0.66, 0.64), loc=(0.0, 0.0, item.height_mm - 16.0)),
+        ]
+        c = Compound(children=parts)
+        c.label = f"{item.name} (source-shaped stanchion)"
+        return c
+
+    if item.category == Category.INTERCOM:
+        parts = [
+            _box(item.length_mm, item.width_mm, item.height_mm, label="Recessed intercom backbox", color=Color(0.18, 0.18, 0.19)),
+            _box(item.length_mm + 35.0, 12.0, item.height_mm + 35.0, label="Help-point faceplate", color=color, loc=(0.0, -item.width_mm / 2.0 - 8.0, -17.5)),
+            _box(72.0, 18.0, 72.0, label="Emergency call button", color=Color(0.95, 0.10, 0.08), loc=(-82.0, -item.width_mm / 2.0 - 22.0, 64.0)),
+        ]
+        for z in (44.0, 74.0, 104.0, 134.0):
+            parts.append(_box(120.0, 16.0, 8.0, label="Speaker grille slot", color=Color(0.04, 0.04, 0.04), loc=(65.0, -item.width_mm / 2.0 - 24.0, z)))
+        c = Compound(children=parts)
+        c.label = f"{item.name} (source-shaped help point)"
+        return c
+
+    return None
+
+
+def _plain_envelope(item: CotsItem) -> Part:
     with BuildPart() as p:
         with BuildSketch():
             Rectangle(item.length_mm, item.width_mm, align=(Align.CENTER, Align.CENTER))
         extrude(amount=item.height_mm)
     part = p.part
-    r, g, b = item.display_color
-    part.color = Color(r, g, b)
+    part.color = _colour(item)
     part.label = f"{item.name} (envelope)"
     return part
+
+
+def envelope_part(item: CotsItem) -> Part | Compound:
+    """Build a source-informed component reservation for `item`.
+
+    Shapes are still supplier-neutral envelopes: public product pages
+    inform the recognisable features, while the exact vendor CAD remains
+    a v2 procurement-controlled input.
+
+    Origin: envelope centred on (0, 0, z_min = 0). Callers translate
+    to the target location."""
+
+    return _source_shape(item) or _plain_envelope(item)
 
 
 def fit_out_car_body(dims: CarDimensions = CarDimensions()) -> Compound:

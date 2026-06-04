@@ -6,6 +6,9 @@ defines the beam models, loads, supports, result parsing, and FreeCAD
 visual document generation.
 Each regeneration clears the old solver output folders and summaries
 first, then rewrites the stable latest paths documented below.
+Each study folder also includes a solver-derived `*-result.png` plot:
+deformed beam shape, support/load markers, and CalculiX von Mises
+stress colour scale parsed from the `.dat` output.
 
 ## Outputs
 
@@ -15,16 +18,29 @@ first, then rewrites the stable latest paths documented below.
 | [`screening-summary.json`](screening-summary.json) | Machine-readable result summary |
 | [`dependency-check.json`](dependency-check.json) | FreeCAD/FEM/CalculiX/gmsh availability captured at generation time |
 | [`chassis-bogie-screen/`](chassis-bogie-screen/) | Low-floor chassis supported at bogie connectors: `.inp`, `.dat`, `.frd`, `.sta`, `.cvg`, `.12d`, and solver log |
+| [`chassis-aw3-proof-screen/`](chassis-aw3-proof-screen/) | 1.5 x vertical AW3 proof-load screen for the low-floor chassis |
+| [`chassis-track-twist-screen/`](chassis-track-twist-screen/) | Asymmetric track-twist / uneven-load chassis screen |
 | [`bogie-frame-screen/`](bogie-frame-screen/) | Motor/trailer bogie H-frame screening model raw CalculiX inputs and outputs |
+| [`bogie-brake-traction-screen/`](bogie-brake-traction-screen/) | Bogie vertical plus longitudinal brake/traction reaction screen |
 | [`full-body-frame-screen/`](full-body-frame-screen/) | Full car body side/roof frame screening model raw CalculiX inputs and outputs |
+| [`full-body-lateral-sway-screen/`](full-body-lateral-sway-screen/) | Full body side-frame lateral sway/racking screen |
 
 ## Raw File Index
 
-| Study | Files |
+Every study folder contains the same generated file set:
+`{slug}.inp`, `{slug}.dat`, `{slug}.frd`, `{slug}.sta`, `{slug}.cvg`,
+`{slug}.12d`, `{slug}.ccx.log`, `spooles.out`, and
+`{slug}-result.png`.
+
+| Study | Result PNG |
 |---|---|
-| Chassis/bogie | [`chassis-bogie-screen.inp`](chassis-bogie-screen/chassis-bogie-screen.inp), [`chassis-bogie-screen.dat`](chassis-bogie-screen/chassis-bogie-screen.dat), [`chassis-bogie-screen.frd`](chassis-bogie-screen/chassis-bogie-screen.frd), [`chassis-bogie-screen.sta`](chassis-bogie-screen/chassis-bogie-screen.sta), [`chassis-bogie-screen.cvg`](chassis-bogie-screen/chassis-bogie-screen.cvg), [`chassis-bogie-screen.12d`](chassis-bogie-screen/chassis-bogie-screen.12d), [`chassis-bogie-screen.ccx.log`](chassis-bogie-screen/chassis-bogie-screen.ccx.log), [`spooles.out`](chassis-bogie-screen/spooles.out) |
-| Bogie frame | [`bogie-frame-screen.inp`](bogie-frame-screen/bogie-frame-screen.inp), [`bogie-frame-screen.dat`](bogie-frame-screen/bogie-frame-screen.dat), [`bogie-frame-screen.frd`](bogie-frame-screen/bogie-frame-screen.frd), [`bogie-frame-screen.sta`](bogie-frame-screen/bogie-frame-screen.sta), [`bogie-frame-screen.cvg`](bogie-frame-screen/bogie-frame-screen.cvg), [`bogie-frame-screen.12d`](bogie-frame-screen/bogie-frame-screen.12d), [`bogie-frame-screen.ccx.log`](bogie-frame-screen/bogie-frame-screen.ccx.log), [`spooles.out`](bogie-frame-screen/spooles.out) |
-| Full body frame | [`full-body-frame-screen.inp`](full-body-frame-screen/full-body-frame-screen.inp), [`full-body-frame-screen.dat`](full-body-frame-screen/full-body-frame-screen.dat), [`full-body-frame-screen.frd`](full-body-frame-screen/full-body-frame-screen.frd), [`full-body-frame-screen.sta`](full-body-frame-screen/full-body-frame-screen.sta), [`full-body-frame-screen.cvg`](full-body-frame-screen/full-body-frame-screen.cvg), [`full-body-frame-screen.12d`](full-body-frame-screen/full-body-frame-screen.12d), [`full-body-frame-screen.ccx.log`](full-body-frame-screen/full-body-frame-screen.ccx.log), [`spooles.out`](full-body-frame-screen/spooles.out) |
+| Chassis service gravity | [`chassis-bogie-screen-result.png`](chassis-bogie-screen/chassis-bogie-screen-result.png) |
+| Chassis AW3 proof | [`chassis-aw3-proof-screen-result.png`](chassis-aw3-proof-screen/chassis-aw3-proof-screen-result.png) |
+| Chassis track twist | [`chassis-track-twist-screen-result.png`](chassis-track-twist-screen/chassis-track-twist-screen-result.png) |
+| Bogie vertical | [`bogie-frame-screen-result.png`](bogie-frame-screen/bogie-frame-screen-result.png) |
+| Bogie brake/traction | [`bogie-brake-traction-screen-result.png`](bogie-brake-traction-screen/bogie-brake-traction-screen-result.png) |
+| Full body vertical | [`full-body-frame-screen-result.png`](full-body-frame-screen/full-body-frame-screen-result.png) |
+| Full body lateral sway | [`full-body-lateral-sway-screen-result.png`](full-body-lateral-sway-screen/full-body-lateral-sway-screen-result.png) |
 
 Regenerate from `mechanical-py/` with:
 

@@ -79,6 +79,12 @@ The matching mechanical reference models are generated under
 `mechanical-py/catalog/fixtures/` and the rolling-stock system
 assemblies under `mechanical-py/catalog/rolling_stock/`.
 
+The passenger fit-out source now generates a separate cost/source CSV at
+[`build/bom/rolling_stock_cots_fitout_bom.csv`](../../build/bom/rolling_stock_cots_fitout_bom.csv).
+Each row carries quantity per car, quantity per consist, low/base/high
+unit cost, mass, power, public source URL, and the geometry basis used
+for the source-shaped CAD placeholder.
+
 Reference datasheets/product pages used for the current supplier-neutral
 envelope geometry:
 [Dellner automatic coupler Type 10](https://www.dellner.com/products/automatic-couplers/automatic-coupler-type-10),
@@ -109,6 +115,21 @@ notes. The exact SKU remains a v2 procurement decision.
 | Motor/brake | TSA/ABB/Skoda PMSM motors; Knorr-Bremse WheelAct/AxleAct or Wabtec Faiveley brakes | Axle-hung motor package and compact caliper package with mounting/diagnostic details |
 | Coupler | Dellner Type 10, Voith Scharfenberg class | Crashworthy pocket, gas-hydraulic/deformation unit allowance, D-REX Ethernet and pneumatic heads |
 | T-OBS nose module | Rail Vision MainLine, Ouster OS1, LSLiDAR train-end intrusion | LIDAR, thermal/wide/narrow camera pods, radar, ultrasonic, heater/wash/wipe service hardware |
+
+## Generated fit-out cost band
+
+Generated from `mechanical-py/src/osr_mech/rolling_stock/cots_equipment.py`
+for one `light-metro-3car` consist:
+
+| Module | Qty / consist | Base USD | Low-high USD | Shape basis |
+|---|---:|---:|---:|---|
+| Side glazing panel | 18 | 27 000 | 17 100-46 800 | Laminated/heated rail glazing cassette |
+| Rooftop HVAC unit | 3 | 75 000 | 54 000-126 000 | Compact/split passenger-saloon rail HVAC |
+| Continuous LED ceiling strip | 6 | 9 000 | 5 400-15 000 | Serviceable main/emergency lighting rail |
+| Passenger-information LCD | 12 | 9 600 | 5 400-21 600 | Luminator rail display datasheet dimensions |
+| Longitudinal bench run | 18 | 24 000 | 14 400-45 000 | SB09-style removable-pad light-alloy bench |
+| Vertical grab pole | 24 | 7 992 | 3 840-16 800 | Stainless modular stanchion with flanges |
+| Emergency intercom / help-point | 6 | 4 800 | 2 100-10 800 | Recessed SIP/audio help-point module |
 
 ## Candidate supplier classes
 

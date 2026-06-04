@@ -27,6 +27,13 @@ and no proprietary CBTC onboard bundle. The high value is a risk
 envelope for first-article procurement or low-volume import-heavy
 builds.
 
+The rolling-stock BOM now carries line-level low/base/high bands in
+[`build/bom/rolling_stock_bom.csv`](../build/bom/rolling_stock_bom.csv).
+For the `light-metro-3car`, the direct-material band is 1.74-3.40 M USD
+before labour; adding the BOM's 35% assembly allowance gives a
+2.34-4.59 M USD planning-grade consist band, with the base case still
+landing at 2.98 M USD.
+
 ## Charging Microgrids
 
 There is no route traction-power system in the OSR baseline: no OCS,

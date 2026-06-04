@@ -11,7 +11,7 @@ authoritative geometry.
 | [`trainset-light-metro-3car.FCStd`](trainset-light-metro-3car.FCStd) | Full light-metro trainset review assembly generated from source geometry |
 | [`chassis-bogie-assembly-states.FCStd`](chassis-bogie-assembly-states.FCStd) | Chassis and bogie connector review with assembled and exploded state groups |
 | [`full-body-assembly-states.FCStd`](full-body-assembly-states.FCStd) | Body frame, roof, windows, doors, floor, battery, bench, HVAC, lighting, and sensor attachment review states |
-| [`fea-screening-models.FCStd`](fea-screening-models.FCStd) | Visual FreeCAD document for the CalculiX screening models and support/load markers |
+| [`fea-screening-models.FCStd`](fea-screening-models.FCStd) | Visual FreeCAD document for the expanded CalculiX screening models and support/load markers |
 | [`assembly-geometry-review.md`](assembly-geometry-review.md) | Geometry-review notes for assembled and exploded FreeCAD documents |
 
 The matching captured review images are documented in

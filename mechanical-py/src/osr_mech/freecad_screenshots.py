@@ -116,6 +116,8 @@ def _screenshots_root() -> Path:
 def _refresh_latest_outputs(out_dir: Path) -> None:
     out_dir.mkdir(parents=True, exist_ok=True)
     for path in out_dir.glob("freecad-*.png"):
+        if path.name.endswith("-result.png"):
+            continue
         path.unlink()
         print(f"removed old FreeCAD screenshot {path}", flush=True)
 

@@ -2,11 +2,14 @@
 
 This is a first-pass engineering screen, not a certification model. It
 uses axis-aligned B31 beam/space-frame idealisations to check gross load
-paths for:
+paths and generate solver-result PNGs for:
 
 - the low-floor chassis supported at bogie interfaces,
+- low-floor chassis AW3 proof and asymmetric twist cases,
 - the bogie H-frame supported at axlebox/primary-suspension points,
-- the full car body frame supported at bogie locations.
+- bogie longitudinal brake/traction reaction,
+- the full car body frame supported at bogie locations,
+- full body lateral sway/racking.
 
 The script runs inside FreeCADCmd so the FEM workbench and bundled
 CalculiX/Gmsh tools from the FreeCAD runtime are discoverable.
@@ -18,6 +21,7 @@ import argparse
 import importlib
 import json
 import math
+import os
 import shutil
 import subprocess
 import sys
@@ -93,6 +97,7 @@ class Study:
     boundaries: list[Boundary]
     loads: list[Load]
     deflection_limit_mm: float
+    plot_view: str = "xz"
     notes: list[str] = field(default_factory=list)
 
 
@@ -102,13 +107,22 @@ class StudyResult:
     title: str
     nodes: int
     elements: int
+    total_applied_load_n: float
     total_vertical_load_n: float
     max_displacement_mm: float
     deflection_limit_mm: float
     max_von_mises_mpa: float
     safety_factor_to_yield: float
     solver_ok: bool
+    result_png: str | None = None
+    docs_result_png: str | None = None
     issue: str | None = None
+
+
+@dataclass(frozen=True)
+class SolverFields:
+    displacements: dict[int, tuple[float, float, float]]
+    element_von_mises_mpa: dict[int, float]
 
 
 class ModelBuilder:
@@ -227,9 +241,89 @@ def chassis_bogie_study() -> Study:
         boundaries=boundaries,
         loads=loads,
         deflection_limit_mm=25.0,
+        plot_view="xz",
         notes=[
             "Bogie support points represent four secondary-air-spring/chassis interface pads.",
             "Reworked chassis uses deep side torsion boxes, twin keel beams, upper battery-zone chords, and stiffer cross-bearers.",
+        ],
+    )
+
+
+def _variant(
+    base: Study,
+    *,
+    slug: str,
+    title: str,
+    load_case: str,
+    loads: list[Load],
+    deflection_limit_mm: float,
+    plot_view: str,
+    notes: list[str],
+) -> Study:
+    return Study(
+        slug=slug,
+        title=title,
+        load_case=load_case,
+        nodes=base.nodes,
+        elements=base.elements,
+        sections=base.sections,
+        boundaries=base.boundaries,
+        loads=loads,
+        deflection_limit_mm=deflection_limit_mm,
+        plot_view=plot_view,
+        notes=notes,
+    )
+
+
+def chassis_aw3_proof_study() -> Study:
+    base = chassis_bogie_study()
+    return _variant(
+        base,
+        slug="chassis-aw3-proof-screen",
+        title="Low-floor chassis AW3 vertical proof-load screen",
+        load_case="540 kN vertical proof load: 1.5 x the baseline 360 kN service gravity case",
+        loads=[
+            Load(load.node, load.dof, load.value_n * 1.5, "1.5 x distributed AW3 proof gravity")
+            for load in base.loads
+        ],
+        deflection_limit_mm=35.0,
+        plot_view="xz",
+        notes=[
+            "Uses the same bogie support pads as the service screen with a 1.5 x vertical load multiplier.",
+            "This is a static proof-load screen only; fatigue and local weld toe stresses remain v2 work.",
+        ],
+    )
+
+
+def chassis_track_twist_study() -> Study:
+    base = chassis_bogie_study()
+    node_by_id = {node.id: node for node in base.nodes}
+    loads: list[Load] = []
+    for load in base.loads:
+        node = node_by_id[load.node]
+        if node.y < -100.0:
+            factor = 1.25
+        elif node.y > 100.0:
+            factor = 0.65
+        else:
+            factor = 1.10
+        loads.append(Load(load.node, load.dof, load.value_n * factor, "track-twist asymmetric gravity"))
+    roof_anchor_nodes = [
+        base.nodes[min(range(len(base.nodes)), key=lambda i: (base.nodes[i].x - x) ** 2 + (base.nodes[i].y - y) ** 2)].id
+        for x, y in ((-2_000.0, -700.0), (2_000.0, -700.0))
+    ]
+    loads.extend(Load(node, 3, -12_500.0, "diagonal roof/equipment offset allowance") for node in roof_anchor_nodes)
+    return _variant(
+        base,
+        slug="chassis-track-twist-screen",
+        title="Low-floor chassis asymmetric track-twist screen",
+        load_case="Asymmetric 65/110/125% side load bias plus 25 kN diagonal equipment offset",
+        loads=loads,
+        deflection_limit_mm=30.0,
+        plot_view="xz",
+        notes=[
+            "Represents uneven passenger/load distribution during a track-twist or low-speed ramp transition.",
+            "The diagonal equipment allowance biases the roof-side service mass onto one chassis side.",
         ],
     )
 
@@ -278,9 +372,33 @@ def bogie_frame_study() -> Study:
         boundaries=boundaries,
         loads=loads,
         deflection_limit_mm=5.0,
+        plot_view="xz",
         notes=[
             "Axlebox/primary-suspension support nodes constrain vertical displacement.",
             "Motor reaction brackets are not included in this load case; use the motor connector CAD for interface review.",
+        ],
+    )
+
+
+def bogie_brake_traction_study() -> Study:
+    base = bogie_frame_study()
+    loads = list(base.loads)
+    secondary_nodes = [load.node for load in base.loads]
+    loads.extend(
+        Load(node, 1, 30_000.0, "longitudinal brake/traction reaction at secondary seat")
+        for node in secondary_nodes
+    )
+    return _variant(
+        base,
+        slug="bogie-brake-traction-screen",
+        title="Bogie frame brake/traction longitudinal load screen",
+        load_case="160 kN vertical bogie load plus 60 kN longitudinal brake/traction reaction",
+        loads=loads,
+        deflection_limit_mm=6.0,
+        plot_view="xz",
+        notes=[
+            "Adds a longitudinal force path through the secondary-seat structure on top of the vertical bogie case.",
+            "Gearbox, axle, and detailed motor-bracket local stresses are still outside this beam-model screen.",
         ],
     )
 
@@ -338,6 +456,7 @@ def full_body_frame_study() -> Study:
         boundaries=boundaries,
         loads=loads,
         deflection_limit_mm=15.0,
+        plot_view="xz",
         notes=[
             "Side posts, side sills, waist rails, cant rails, and roof bows are idealised as S355 beams.",
             "Composite panels and glazing are treated as non-structural for this screening pass.",
@@ -345,8 +464,43 @@ def full_body_frame_study() -> Study:
     )
 
 
+def full_body_lateral_sway_study() -> Study:
+    base = full_body_frame_study()
+    sway_nodes = [
+        node.id
+        for node in base.nodes
+        if abs(node.y) > 1_000.0 and node.z >= 1_500.0 and abs(node.x) < 8_500.0
+    ]
+    lateral_total_n = 145_000.0
+    loads = [
+        Load(node, 2, lateral_total_n / len(sway_nodes), "0.15 g body/interior lateral sway equivalent")
+        for node in sway_nodes
+    ]
+    return _variant(
+        base,
+        slug="full-body-lateral-sway-screen",
+        title="Full car body lateral sway screen",
+        load_case="145 kN lateral body/interior equivalent load through side posts, waist rails, and cant rails",
+        loads=loads,
+        deflection_limit_mm=20.0,
+        plot_view="xy",
+        notes=[
+            "Applies an approximate 0.15 g lateral inertial load through the occupied side-frame height.",
+            "This complements the vertical body frame case; it is not a modal, ride, or fatigue analysis.",
+        ],
+    )
+
+
 def all_studies() -> list[Study]:
-    return [chassis_bogie_study(), bogie_frame_study(), full_body_frame_study()]
+    return [
+        chassis_bogie_study(),
+        chassis_aw3_proof_study(),
+        chassis_track_twist_study(),
+        bogie_frame_study(),
+        bogie_brake_traction_study(),
+        full_body_frame_study(),
+        full_body_lateral_sway_study(),
+    ]
 
 
 def _write_inp(study: Study, path: Path) -> None:
@@ -410,12 +564,12 @@ def _von_mises(vals: tuple[float, float, float, float, float, float]) -> float:
     )
 
 
-def _parse_dat(path: Path) -> tuple[float, float]:
-    max_disp = 0.0
-    max_vm = 0.0
+def _parse_dat_fields(path: Path) -> SolverFields:
+    displacements: dict[int, tuple[float, float, float]] = {}
+    element_von_mises_mpa: dict[int, float] = {}
     mode: str | None = None
     if not path.exists():
-        return max_disp, max_vm
+        return SolverFields(displacements=displacements, element_von_mises_mpa=element_von_mises_mpa)
     for raw in path.read_text(encoding="utf-8", errors="ignore").splitlines():
         line = raw.strip()
         lower = line.lower()
@@ -430,19 +584,227 @@ def _parse_dat(path: Path) -> tuple[float, float]:
         parts = line.split()
         try:
             if mode == "u" and len(parts) == 4:
-                float(parts[0])
+                node = int(float(parts[0]))
                 ux, uy, uz = (float(v) for v in parts[1:4])
-                max_disp = max(max_disp, math.sqrt(ux * ux + uy * uy + uz * uz))
+                displacements[node] = (ux, uy, uz)
             elif mode == "s" and len(parts) == 8:
-                float(parts[0])
+                element = int(float(parts[0]))
                 stresses = tuple(float(v) for v in parts[2:8])
-                max_vm = max(max_vm, _von_mises(stresses))  # type: ignore[arg-type]
+                vm = _von_mises(stresses)  # type: ignore[arg-type]
+                element_von_mises_mpa[element] = max(element_von_mises_mpa.get(element, 0.0), vm)
         except ValueError:
             continue
+    return SolverFields(displacements=displacements, element_von_mises_mpa=element_von_mises_mpa)
+
+
+def _result_maxima(fields: SolverFields) -> tuple[float, float]:
+    max_disp = 0.0
+    for ux, uy, uz in fields.displacements.values():
+        max_disp = max(max_disp, math.sqrt(ux * ux + uy * uy + uz * uz))
+    max_vm = max(fields.element_von_mises_mpa.values(), default=0.0)
     return max_disp, max_vm
 
 
-def _run_ccx(study: Study, out_dir: Path) -> StudyResult:
+def _repo_root() -> Path:
+    return Path(__file__).resolve().parents[3]
+
+
+def _display_path(path: Path) -> str:
+    try:
+        return str(path.resolve().relative_to(_repo_root()))
+    except ValueError:
+        return str(path)
+
+
+def _markdown_link_path(path_text: str, base_dir: Path) -> str:
+    path = Path(path_text)
+    if not path.is_absolute():
+        path = _repo_root() / path
+    return os.path.relpath(path, base_dir)
+
+
+def _project_point(
+    node: Node,
+    displacement: tuple[float, float, float],
+    *,
+    scale: float,
+    view: str,
+) -> tuple[float, float]:
+    x = node.x + displacement[0] * scale
+    y = node.y + displacement[1] * scale
+    z = node.z + displacement[2] * scale
+    if view == "xy":
+        return x, y
+    if view == "yz":
+        return y, z
+    return x, z
+
+
+def _view_labels(view: str) -> tuple[str, str]:
+    if view == "xy":
+        return "X mm", "Y mm"
+    if view == "yz":
+        return "Y mm", "Z mm"
+    return "X mm", "Z mm"
+
+
+def _load_components(loads: list[Load]) -> tuple[float, float, float]:
+    fx = sum(load.value_n for load in loads if load.dof == 1)
+    fy = sum(load.value_n for load in loads if load.dof == 2)
+    fz = sum(load.value_n for load in loads if load.dof == 3)
+    return fx, fy, fz
+
+
+def _total_applied_load(loads: list[Load]) -> float:
+    return sum(abs(load.value_n) for load in loads)
+
+
+def _strip_trailing_whitespace(path: Path) -> None:
+    if not path.exists():
+        return
+    text = path.read_text(encoding="utf-8", errors="ignore")
+    stripped = "\n".join(line.rstrip() for line in text.splitlines())
+    if text.endswith("\n"):
+        stripped += "\n"
+    path.write_text(stripped, encoding="utf-8")
+
+
+def _write_result_png(
+    *,
+    study: Study,
+    result: StudyResult,
+    fields: SolverFields,
+    path: Path,
+) -> None:
+    if not fields.displacements:
+        return
+    import matplotlib
+
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+    from matplotlib.collections import LineCollection
+    from matplotlib.colors import Normalize
+
+    node_by_id = {node.id: node for node in study.nodes}
+    max_disp = max(result.max_displacement_mm, 1e-9)
+    xs = [node.x for node in study.nodes]
+    ys = [node.y for node in study.nodes]
+    zs = [node.z for node in study.nodes]
+    span = max(max(xs) - min(xs), max(ys) - min(ys), max(zs) - min(zs), 1.0)
+    deformation_scale = min(max(span * 0.08 / max_disp, 1.0), 250.0)
+    view = study.plot_view
+
+    undeformed_segments: list[tuple[tuple[float, float], tuple[float, float]]] = []
+    deformed_segments: list[tuple[tuple[float, float], tuple[float, float]]] = []
+    values: list[float] = []
+    for element in study.elements:
+        n1 = node_by_id[element.n1]
+        n2 = node_by_id[element.n2]
+        zero = (0.0, 0.0, 0.0)
+        undeformed_segments.append(
+            (
+                _project_point(n1, zero, scale=0.0, view=view),
+                _project_point(n2, zero, scale=0.0, view=view),
+            )
+        )
+        deformed_segments.append(
+            (
+                _project_point(n1, fields.displacements.get(n1.id, zero), scale=deformation_scale, view=view),
+                _project_point(n2, fields.displacements.get(n2.id, zero), scale=deformation_scale, view=view),
+            )
+        )
+        values.append(fields.element_von_mises_mpa.get(element.id, 0.0))
+
+    path.parent.mkdir(parents=True, exist_ok=True)
+    fig, ax = plt.subplots(figsize=(12.5, 7.5), dpi=150)
+    ax.set_facecolor("#f7f8fb")
+    ax.add_collection(LineCollection(undeformed_segments, colors="#bcc4cc", linewidths=0.9, alpha=0.55))
+    vmax = max(result.max_von_mises_mpa, 1.0)
+    stress_lines = LineCollection(
+        deformed_segments,
+        array=values,
+        cmap="turbo",
+        norm=Normalize(vmin=0.0, vmax=vmax),
+        linewidths=3.2,
+    )
+    ax.add_collection(stress_lines)
+    cbar = fig.colorbar(stress_lines, ax=ax, fraction=0.036, pad=0.018)
+    cbar.set_label("von Mises stress, MPa")
+
+    support_nodes = sorted({bc.node for bc in study.boundaries})
+    support_points = [
+        _project_point(node_by_id[node_id], (0.0, 0.0, 0.0), scale=0.0, view=view)
+        for node_id in support_nodes
+        if node_id in node_by_id
+    ]
+    if support_points:
+        ax.scatter(
+            [p[0] for p in support_points],
+            [p[1] for p in support_points],
+            marker="s",
+            s=32,
+            c="#127333",
+            label="supports",
+            zorder=3,
+        )
+    load_points = [
+        _project_point(node_by_id[load.node], (0.0, 0.0, 0.0), scale=0.0, view=view)
+        for load in study.loads
+        if load.node in node_by_id
+    ]
+    if load_points:
+        ax.scatter(
+            [p[0] for p in load_points],
+            [p[1] for p in load_points],
+            marker="v",
+            s=22,
+            c="#bc241d",
+            label="load nodes",
+            alpha=0.80,
+            zorder=4,
+        )
+
+    all_points = [point for segment in undeformed_segments + deformed_segments for point in segment]
+    min_x, max_x = min(p[0] for p in all_points), max(p[0] for p in all_points)
+    min_y, max_y = min(p[1] for p in all_points), max(p[1] for p in all_points)
+    pad_x = max((max_x - min_x) * 0.07, 500.0)
+    pad_y = max((max_y - min_y) * 0.12, 350.0)
+    ax.set_xlim(min_x - pad_x, max_x + pad_x)
+    ax.set_ylim(min_y - pad_y, max_y + pad_y)
+    ax.set_aspect("equal", adjustable="box")
+    xlabel, ylabel = _view_labels(view)
+    ax.set_xlabel(xlabel)
+    ax.set_ylabel(ylabel)
+    fx, fy, fz = _load_components(study.loads)
+    status = "OK" if result.solver_ok and result.issue is None else f"Review: {result.issue}"
+    sf = "inf" if math.isinf(result.safety_factor_to_yield) else f"{result.safety_factor_to_yield:.1f}"
+    ax.set_title(f"{study.title}\n{study.load_case}", fontsize=12)
+    ax.text(
+        0.01,
+        0.01,
+        (
+            f"Max displacement: {result.max_displacement_mm:.3f} mm "
+            f"(limit {result.deflection_limit_mm:.1f} mm)\n"
+            f"Max von Mises: {result.max_von_mises_mpa:.1f} MPa; "
+            f"SF to S355 yield: {sf}; status: {status}\n"
+            f"Resultant load components: Fx {fx/1000:.1f} kN, "
+            f"Fy {fy/1000:.1f} kN, Fz {fz/1000:.1f} kN; "
+            f"deformation amplified x{deformation_scale:.0f}"
+        ),
+        transform=ax.transAxes,
+        fontsize=8.5,
+        va="bottom",
+        ha="left",
+        bbox={"boxstyle": "round,pad=0.35", "facecolor": "white", "edgecolor": "#d4d8de", "alpha": 0.92},
+    )
+    ax.legend(loc="upper right", fontsize=8)
+    ax.grid(color="#dfe3e8", linewidth=0.6, alpha=0.8)
+    fig.tight_layout()
+    fig.savefig(path)
+    plt.close(fig)
+
+
+def _run_ccx(study: Study, out_dir: Path, png_out_dir: Path | None = None) -> StudyResult:
     out_dir.mkdir(parents=True, exist_ok=True)
     inp = out_dir / f"{study.slug}.inp"
     _write_inp(study, inp)
@@ -453,6 +815,7 @@ def _run_ccx(study: Study, out_dir: Path) -> StudyResult:
             title=study.title,
             nodes=len(study.nodes),
             elements=len(study.elements),
+            total_applied_load_n=_total_applied_load(study.loads),
             total_vertical_load_n=sum(load.value_n for load in study.loads if load.dof == 3),
             max_displacement_mm=0.0,
             deflection_limit_mm=study.deflection_limit_mm,
@@ -471,7 +834,9 @@ def _run_ccx(study: Study, out_dir: Path) -> StudyResult:
         check=False,
     )
     (out_dir / f"{study.slug}.ccx.log").write_text(proc.stdout, encoding="utf-8")
-    max_disp, max_vm = _parse_dat(out_dir / f"{study.slug}.dat")
+    _strip_trailing_whitespace(out_dir / f"{study.slug}.frd")
+    fields = _parse_dat_fields(out_dir / f"{study.slug}.dat")
+    max_disp, max_vm = _result_maxima(fields)
     safety_factor = S355_YIELD_MPA / max_vm if max_vm > 0.0 else float("inf")
     issue = None
     if proc.returncode != 0:
@@ -480,19 +845,50 @@ def _run_ccx(study: Study, out_dir: Path) -> StudyResult:
         issue = f"screening deflection exceeds {study.deflection_limit_mm:.1f} mm target"
     elif max_vm > ALLOWABLE_SERVICE_MPA:
         issue = f"screening stress exceeds 0.6 x S355 yield ({ALLOWABLE_SERVICE_MPA:.0f} MPa)"
-    return StudyResult(
+    result_png: str | None = None
+    docs_result_png: str | None = None
+    result = StudyResult(
         slug=study.slug,
         title=study.title,
         nodes=len(study.nodes),
         elements=len(study.elements),
+        total_applied_load_n=_total_applied_load(study.loads),
         total_vertical_load_n=sum(load.value_n for load in study.loads if load.dof == 3),
         max_displacement_mm=max_disp,
         deflection_limit_mm=study.deflection_limit_mm,
         max_von_mises_mpa=max_vm,
         safety_factor_to_yield=safety_factor,
         solver_ok=proc.returncode == 0,
+        result_png=None,
+        docs_result_png=None,
         issue=issue,
     )
+    if proc.returncode == 0 and fields.displacements:
+        local_png = out_dir / f"{study.slug}-result.png"
+        _write_result_png(study=study, result=result, fields=fields, path=local_png)
+        result_png = _display_path(local_png)
+        if png_out_dir is not None:
+            png_out_dir.mkdir(parents=True, exist_ok=True)
+            docs_png = png_out_dir / f"freecad-fea-{study.slug}-result.png"
+            shutil.copyfile(local_png, docs_png)
+            docs_result_png = _display_path(docs_png)
+        result = StudyResult(
+            slug=result.slug,
+            title=result.title,
+            nodes=result.nodes,
+            elements=result.elements,
+            total_applied_load_n=result.total_applied_load_n,
+            total_vertical_load_n=result.total_vertical_load_n,
+            max_displacement_mm=result.max_displacement_mm,
+            deflection_limit_mm=result.deflection_limit_mm,
+            max_von_mises_mpa=result.max_von_mises_mpa,
+            safety_factor_to_yield=result.safety_factor_to_yield,
+            solver_ok=result.solver_ok,
+            result_png=result_png,
+            docs_result_png=docs_result_png,
+            issue=result.issue,
+        )
+    return result
 
 
 def _dependency_report() -> dict[str, object]:
@@ -542,10 +938,19 @@ def _axis_box_shape(n1: Node, n2: Node, section: BeamSection):
     return Part.makeBox(w, h, dz, App.Vector(x1 - w / 2.0, y1 - h / 2.0, min(z1, z2)))
 
 
-def _add_visual_study(doc, study: Study, offset_y: float, result: StudyResult | None = None) -> None:
+def _add_visual_study(
+    doc,
+    study: Study,
+    offset: tuple[float, float],
+    result: StudyResult | None = None,
+) -> None:
     group = doc.addObject("App::DocumentObjectGroup", _safe_name(study.slug))
     group.Label = study.title
-    node_map = {node.id: Node(node.id, node.x, node.y + offset_y, node.z) for node in study.nodes}
+    offset_x, offset_y = offset
+    node_map = {
+        node.id: Node(node.id, node.x + offset_x, node.y + offset_y, node.z)
+        for node in study.nodes
+    }
     for element in study.elements:
         n1 = node_map[element.n1]
         n2 = node_map[element.n2]
@@ -589,8 +994,15 @@ def _write_freecad_visual_doc(studies: list[Study], results: list[StudyResult], 
     doc = App.newDocument("OSR_FEA_screening_models")
     doc.Label = "OSR FEA screening beam models"
     result_by_slug = {result.slug: result for result in results}
-    for offset_y, study in zip((-5_800.0, 0.0, 5_800.0), studies):
-        _add_visual_study(doc, study, offset_y, result_by_slug.get(study.slug))
+    columns = 3
+    rows = math.ceil(len(studies) / columns)
+    for index, study in enumerate(studies):
+        row, column = divmod(index, columns)
+        offset = (
+            (column - (columns - 1) / 2.0) * 24_000.0,
+            (row - (rows - 1) / 2.0) * 6_400.0,
+        )
+        _add_visual_study(doc, study, offset, result_by_slug.get(study.slug))
     doc.recompute()
     path.parent.mkdir(parents=True, exist_ok=True)
     if path.exists():
@@ -636,19 +1048,22 @@ def _write_summary(
         "",
         "## Results",
         "",
-        "| Study | Load case | Nodes | Elements | Vertical load kN | Max displacement mm | Target mm | Max von Mises MPa | SF to S355 yield | Status |",
-        "|---|---|---:|---:|---:|---:|---:|---:|---:|---|",
+        "| Study | Load case | Nodes | Elements | Applied load kN | Vertical load kN | Max displacement mm | Target mm | Max von Mises MPa | SF to S355 yield | Result PNG | Status |",
+        "|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---|---|",
     ]
     study_by_slug = {study.slug: study for study in studies}
     for result in results:
         study = study_by_slug[result.slug]
         status = "OK" if result.solver_ok and result.issue is None else f"Review: {result.issue}"
         sf = "inf" if math.isinf(result.safety_factor_to_yield) else f"{result.safety_factor_to_yield:.2f}"
+        png = f"[PNG]({_markdown_link_path(result.result_png, out_dir)})" if result.result_png else "-"
         lines.append(
             f"| {result.title} | {study.load_case} | {result.nodes} | {result.elements} | "
-            f"{abs(result.total_vertical_load_n) / 1000.0:.1f} | {result.max_displacement_mm:.3f} | "
+            f"{result.total_applied_load_n / 1000.0:.1f} | "
+            f"{abs(result.total_vertical_load_n) / 1000.0:.1f} | "
+            f"{result.max_displacement_mm:.3f} | "
             f"{result.deflection_limit_mm:.1f} | "
-            f"{result.max_von_mises_mpa:.1f} | {sf} | {status} |"
+            f"{result.max_von_mises_mpa:.1f} | {sf} | {png} | {status} |"
         )
     lines.extend(["", "## Study Notes", ""])
     for study in studies:
@@ -662,7 +1077,7 @@ def _write_summary(
             "",
             "- Beam sections are conservative rectangular approximations of the CAD envelopes.",
             "- Composite body panels, glazing, adhesive lands, local brackets, bolt holes, weld toes, and notches are not meshed.",
-            "- Loads are static gravity/service loads only; no crash, fatigue spectrum, modal, thermal, or derailment cases are included.",
+            "- Loads are static screening loads only; no crash, fatigue spectrum, modal, thermal, or derailment cases are included.",
             "- Any stress above the 0.6 x S355 yield service screen should trigger a detailed shell/solid mesh and local joint design.",
             "",
         ]
@@ -672,7 +1087,13 @@ def _write_summary(
     print(f"wrote {out_dir / 'screening-summary.md'}")
 
 
-def _refresh_latest_outputs(*, out_dir: Path, freecad_out: Path, studies: list[Study]) -> None:
+def _refresh_latest_outputs(
+    *,
+    out_dir: Path,
+    freecad_out: Path,
+    studies: list[Study],
+    png_out_dir: Path | None = None,
+) -> None:
     out_dir.mkdir(parents=True, exist_ok=True)
     for file_name in ("dependency-check.json", "screening-summary.json", "screening-summary.md"):
         path = out_dir / file_name
@@ -687,19 +1108,28 @@ def _refresh_latest_outputs(*, out_dir: Path, freecad_out: Path, studies: list[S
     if freecad_out.exists():
         freecad_out.unlink()
         print(f"removed old FEA FreeCAD visual document {freecad_out}")
+    if png_out_dir is not None and png_out_dir.exists():
+        for path in png_out_dir.glob("freecad-fea-*-result.png"):
+            path.unlink()
+            print(f"removed old FEA result PNG {path}")
 
 
-def run_fea(*, out_dir: Path, freecad_out: Path) -> None:
+def run_fea(*, out_dir: Path, freecad_out: Path, png_out_dir: Path | None) -> None:
     _require_freecad()
     studies = all_studies()
-    _refresh_latest_outputs(out_dir=out_dir, freecad_out=freecad_out, studies=studies)
+    _refresh_latest_outputs(
+        out_dir=out_dir,
+        freecad_out=freecad_out,
+        studies=studies,
+        png_out_dir=png_out_dir,
+    )
     dependency_report = _dependency_report()
     (out_dir / "dependency-check.json").write_text(
         json.dumps(dependency_report, indent=2, sort_keys=True),
         encoding="utf-8",
     )
     print(f"wrote {out_dir / 'dependency-check.json'}")
-    results = [_run_ccx(study, out_dir / study.slug) for study in studies]
+    results = [_run_ccx(study, out_dir / study.slug, png_out_dir) for study in studies]
     _write_summary(out_dir=out_dir, dependency_report=dependency_report, studies=studies, results=results)
     _write_freecad_visual_doc(studies, results, freecad_out)
 
@@ -708,6 +1138,17 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Run FreeCAD/CalculiX rolling-stock FEA screening models.")
     parser.add_argument("--out-dir", type=Path, default=_catalog_root() / "fea")
     parser.add_argument("--freecad-out", type=Path, default=_catalog_root() / "freecad" / "fea-screening-models.FCStd")
+    parser.add_argument(
+        "--png-out-dir",
+        type=Path,
+        default=_repo_root() / "docs" / "screenshots" / "freecad",
+        help="directory for stable docs copies of solver-derived result PNGs",
+    )
+    parser.add_argument(
+        "--no-doc-pngs",
+        action="store_true",
+        help="only write result PNGs inside each solver-output folder",
+    )
     return parser.parse_args(argv)
 
 
@@ -722,7 +1163,11 @@ def _normalise_freecad_argv(argv: list[str]) -> list[str]:
 
 def main(argv: list[str] | None = None) -> None:
     args = parse_args(_normalise_freecad_argv(argv or []))
-    run_fea(out_dir=args.out_dir, freecad_out=args.freecad_out)
+    run_fea(
+        out_dir=args.out_dir,
+        freecad_out=args.freecad_out,
+        png_out_dir=None if args.no_doc_pngs else args.png_out_dir,
+    )
 
 
 def _running_as_freecad_script() -> bool:

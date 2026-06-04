@@ -133,6 +133,18 @@ separate hand-positioned drawings.
 |---|---|---|---|
 | ![FEA screening models](../../../docs/screenshots/freecad/freecad-fea-screening-models.png) | ![Chassis FEA](../../../docs/screenshots/freecad/freecad-fea-chassis-bogie-screen.png) | ![Bogie FEA](../../../docs/screenshots/freecad/freecad-fea-bogie-frame-screen.png) | ![Body FEA](../../../docs/screenshots/freecad/freecad-fea-full-body-frame-screen.png) |
 
+The actual solver-result PNGs below are generated from CalculiX
+`.dat` fields: deformed beam shape, support/load markers, and von Mises
+stress colour scale.
+
+| Chassis service gravity | Chassis AW3 proof | Chassis track twist |
+|---|---|---|
+| ![Chassis service FEA result](../../../docs/screenshots/freecad/freecad-fea-chassis-bogie-screen-result.png) | ![Chassis AW3 proof FEA result](../../../docs/screenshots/freecad/freecad-fea-chassis-aw3-proof-screen-result.png) | ![Chassis track twist FEA result](../../../docs/screenshots/freecad/freecad-fea-chassis-track-twist-screen-result.png) |
+
+| Bogie vertical | Bogie brake/traction | Full body vertical | Full body lateral sway |
+|---|---|---|---|
+| ![Bogie vertical FEA result](../../../docs/screenshots/freecad/freecad-fea-bogie-frame-screen-result.png) | ![Bogie brake traction FEA result](../../../docs/screenshots/freecad/freecad-fea-bogie-brake-traction-screen-result.png) | ![Full body vertical FEA result](../../../docs/screenshots/freecad/freecad-fea-full-body-frame-screen-result.png) | ![Full body lateral sway FEA result](../../../docs/screenshots/freecad/freecad-fea-full-body-lateral-sway-screen-result.png) |
+
 The latest screening summary is
 [`mechanical-py/catalog/fea/screening-summary.md`](../../../mechanical-py/catalog/fea/screening-summary.md).
 The source FreeCAD review documents are catalogued in
@@ -141,7 +153,9 @@ and raw CalculiX output folders are catalogued in
 [`mechanical-py/catalog/fea/README.md`](../../../mechanical-py/catalog/fea/README.md).
 After the low-floor chassis rework, the chassis screen is inside the
 25 mm deflection target: 11.3 mm maximum displacement under the 360 kN
-service-load screen.
+service-load screen. The broadened lateral body sway screen currently
+flags review: 21.8 mm displacement against the 20 mm screening target,
+with stress still low at 38.3 MPa.
 
 ## Mechanical Interface Component Gallery
 

@@ -47,6 +47,7 @@ the generated [Markdown documentation index](INDEX.md).
 | Mechanical FreeCAD review artifacts | [mechanical-py/catalog/](../mechanical-py/catalog/) |
 | Rolling-stock BOM | [rolling-stock/light-metro-3car/bom-skeleton.md](rolling-stock/light-metro-3car/bom-skeleton.md) |
 | Generated BOM CSV | [build/bom/rolling_stock_bom.csv](../build/bom/rolling_stock_bom.csv) |
+| Generated COTS fit-out BOM CSV | [build/bom/rolling_stock_cots_fitout_bom.csv](../build/bom/rolling_stock_cots_fitout_bom.csv) |
 | Hardware host-class matrix | [hardware/rolling-stock-integration.md](../hardware/rolling-stock-integration.md) |
 | Hardware release checklist | [hardware/release-checklist.md](../hardware/release-checklist.md) |
 | Rolling-stock v2 release checklist | [rolling-stock/light-metro-3car/v2-release-checklist.md](rolling-stock/light-metro-3car/v2-release-checklist.md) |
