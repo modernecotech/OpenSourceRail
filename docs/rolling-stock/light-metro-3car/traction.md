@@ -8,11 +8,17 @@ emergency brake application.
 ## Propulsion topology
 
 ```
-  [150 kWh Na-ion under-seat pack, Car A] ──DC── [SiC inverter] ── [powered bogie A]
-  [150 kWh Na-ion under-seat pack, Car B] ──DC── [aux / recovery DC link; no traction inverter]
-  [150 kWh Na-ion under-seat pack, Car C] ──DC── [SiC inverter] ── [powered bogie C]
+  Roof PV string ─┐
+                  ├── [multi-input charge inverter] ── [150 kWh Na-ion pack, Car A] ──DC── [SiC inverter] ── [powered bogie A]
+  Station dock ───┘
 
-  Station charger → side-pin / pantograph-down dock → per-car DC link
+  Roof PV string ─┐
+                  ├── [multi-input charge inverter] ── [150 kWh Na-ion pack, Car B] ──DC── [aux / recovery DC link; no traction inverter]
+  Station dock ───┘
+
+  Roof PV string ─┐
+                  ├── [multi-input charge inverter] ── [150 kWh Na-ion pack, Car C] ──DC── [SiC inverter] ── [powered bogie C]
+  Station dock ───┘
 ```
 
 Each car has its own battery pack. The powered end cars carry traction
@@ -113,11 +119,42 @@ to ≤ 0.9 × F_adhesion under wheel-slip detection (matches
   stations.
 - Dwell charge: 60 s at 500 kW adds ~8 kWh; 60 s at 1 MW adds
   ~17 kWh before losses.
+- Onboard sink: one multi-input charge inverter per car, sharing the
+  same battery DC link as rooftop PV and regenerative braking.
 
 **No continuous catenary.** Pantograph is raised only at
 discrete charging docks where the alternate connector is selected.
 This is the catenary-free bet from
 [ARCHITECTURE §D7](../../ARCHITECTURE.md#d7-energy--buildings).
+
+## Rooftop PV and charge inverter
+
+Each car carries sixteen roof solar modules in two full-length rows over
+the usable roof plan. The CAD reserves both mount styles so deployments
+can select by roof curvature, service regime, and supplier evidence:
+
+| Element | Design basis |
+|---|---|
+| Bonded flexible modules | Eight low-profile laminate panels per car, bonded to rubber isolation pads on the roof fairing |
+| Raised rigid modules | Eight framed panels per car, held on bolted aluminium mounting rails with edge clamps |
+| PV combiner | Two roof string raceways, module junction boxes, two fire-isolation switch boxes, and one MPPT combiner |
+| Downlink | Sealed roof cable gland into the per-car charge rack |
+
+The multi-input charge inverter is a separate power-electronics unit
+from the traction inverter. It accepts the roof MPPT DC feed and the
+station dock DC feed, then regulates either source onto the 1 500 V
+per-car battery link through isolation contactors, HVIL, and precharge.
+
+| Parameter | Value |
+|---|---|
+| Count | 3 per 3-car consist; one per car |
+| Inputs | Roof PV MPPT feed; 1 000 V DC station dock feed |
+| Output | 1 500 V DC battery link |
+| Station charge rating | ~170 kW continuous per car, ~330 kW for 60 s terminal-charge pulse |
+| PV rating | Envelope-sized for the per-car roof area; aux-offset/SoC maintenance, not primary traction energy |
+| Isolation | Galvanically isolated DC/DC stage, PV and station contactors, battery precharge |
+| Cooling | Shared liquid loop with battery and traction bay |
+| Control | `osr-aux-power` charge arbitration with `osr-bms` current/temperature limits |
 
 ## Regenerative braking
 
@@ -152,6 +189,8 @@ reduced compressor duty when pack SoC < 30 %.
 - SiC inverter gate-driver schematic + PCB stackup.
 - Pack battery management system (BMS) detail schematic.
 - Station charging connector + dock mechanical drawings.
+- Multi-input PV/station charge inverter schematic and thermal model.
+- Rooftop PV wind/vibration, bonding, and fire-isolation evidence.
 - Adhesion + slip simulation at 0.05 / 0.1 / 0.15 friction.
 - Worst-case thermal analysis for battery pack under 50 °C
   ambient + fast-charge.

@@ -199,7 +199,7 @@ The conversion isn't free — typically $0.5–2 M for the rehabilitation
 itself plus $1–3 M for net-new tooling required for OSR-specific
 operations (PMSM motor commissioning, SiC inverter test rigs, Na-ion
 battery pack assembly). But that's an order of magnitude less than
-greenfield depot CAPEX of €25 M (RFC 0014).
+greenfield `main-heavy` depot CAPEX of $7.5 M (RFC 0014).
 
 ## 8. Risk register
 

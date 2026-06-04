@@ -100,7 +100,7 @@ This is the heart of the safety argument and receives the most design attention.
 | | Legacy | OpenSourceRail |
 |---|---|---|
 | Block model | **Fixed block** (track circuits, axle counters) or vendor **CBTC moving block** | **Software-defined moving block** via distributed consensus across wayside nodes + self-reporting trains |
-| Interlocking | Relay panels or proprietary PLC-based (Simis, Smartlock) at €50k–€500k/site | SIL-4 Rust interlocking on redundant RISC-V SBCs at <€5k/site; formally verified with Kani/Creusot |
+| Interlocking | Relay panels or proprietary PLC-based (Simis, Smartlock) at $55k–$550k/site | SIL-4 Rust interlocking on redundant RISC-V SBCs at <$5k/site; formally verified with Kani/Creusot |
 | Position | Track circuits + balises (Eurobalise) | Sensor fusion: GNSS + IMU + wheel odometry + low-cost UWB/beacon fixes at switches and platforms |
 | Movement authority | Centralized zone controller issues MA to trains | Distributed Raft-style log holds authoritative track state; each train computes its own MA, cross-validated by two independent wayside nodes |
 | Certification path | Per-vendor SIL-4 case, years to re-certify | Open formal models + continuously regenerated safety case |
@@ -120,14 +120,14 @@ This is the heart of the safety argument and receives the most design attention.
 | Security | Often weak (GSM-R has known weaknesses) | mTLS everywhere, Noise Protocol Framework on LoRa link, signed firmware on every radio |
 
 **Deprecated:** GSM-R, TETRA for rail, proprietary fiber timing protocols.
-**Why LoRa for safety telemetry?** Safety messages are small (<100 bytes) and infrequent (~1 Hz per train). LoRa gives 5–15 km line-of-sight range at sub-€10 BOM, so a mesh of wayside LoRa gateways provides coverage redundancy at negligible cost compared to a primary 5G link.
+**Why LoRa for safety telemetry?** Safety messages are small (<100 bytes) and infrequent (~1 Hz per train). LoRa gives 5–15 km line-of-sight range at sub-$10 BOM, so a mesh of wayside LoRa gateways provides coverage redundancy at negligible cost compared to a primary 5G link.
 
 ### D4. Passenger Services
 
 | | Legacy | OpenSourceRail |
 |---|---|---|
 | Fare media | Smart cards (MIFARE, Calypso) with per-operator infrastructure | **Account-based ticketing**: mobile money (M-Pesa, UPI, etc.) + QR + optional NFC, validated via signed short-TTL tokens offline-capable |
-| Ticket vending | Dedicated TVMs at €20k+/unit | SBC-based TVMs with commodity barcode scanner + contactless reader; <€1k/unit; most passengers use phones and don't need a TVM at all |
+| Ticket vending | Dedicated TVMs at $22k+/unit | SBC-based TVMs with commodity barcode scanner + contactless reader; <$1k/unit; most passengers use phones and don't need a TVM at all |
 | Info displays | Proprietary LCD controllers with custom protocols | SBC + standard HDMI + minimal Rust display agent subscribing to the ops event stream |
 | Announcements | Per-station PA controllers, manual voicing | Text-to-speech from the same event stream, multilingual by default; human override for incidents |
 
@@ -179,7 +179,7 @@ This domain departs most sharply from legacy rail. OpenSourceRail systems are **
 
 #### 7.1 Why catenary-free
 
-- **Capex.** Catenary + support structures + paralleling posts cost €1–3M/km. Eliminating that is the single largest capex reduction available on a greenfield rail project.
+- **Capex.** Catenary + support structures + paralleling posts cost $1–3M/km. Eliminating that is the single largest capex reduction available on a greenfield rail project.
 - **Opex and workforce.** OCS maintenance requires specialized crews (live-line work, night possessions). Battery + station-charging infrastructure is maintainable by general electricians and renewable-energy technicians — skills that are more transferable and more widely available in target economies.
 - **Copper theft.** Overhead copper is a persistent operational hazard in many developing markets. Trackside infrastructure in hardened cabinets is a much harder target.
 - **Phased deployment.** Non-electrified lines become usable the day rolling stock arrives, with no "electrification project" preceding revenue service.

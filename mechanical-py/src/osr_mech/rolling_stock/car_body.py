@@ -95,6 +95,7 @@ COLOR_SKIRT = Color(0.32, 0.33, 0.38)
 COLOR_ROOF_EQUIPMENT = Color(0.55, 0.55, 0.58)
 COLOR_BATTERY_STRAKE = Color(0.25, 0.30, 0.42)
 COLOR_SOLAR = Color(0.03, 0.10, 0.24)
+COLOR_SOLAR_MOUNT = Color(0.58, 0.61, 0.64)
 COLOR_STRUCTURE = Color(0.62, 0.64, 0.66)
 COLOR_LOW_FLOOR = Color(0.10, 0.42, 0.30)
 COLOR_HIGH_FLOOR = Color(0.44, 0.47, 0.50)
@@ -455,37 +456,86 @@ def _underframe_skirt(dims: CarDimensions) -> list[Part]:
 
 
 def _roof_equipment(dims: CarDimensions) -> list[Part]:
-    """Rooftop equipment — solar strip plus compact HVAC/end boxes.
+    """Rooftop equipment — PV modules plus compact HVAC/end boxes.
 
     Because OSR is catenary-free and uses under-seat batteries, the
     concept reserves most roof area for PV panels. HVAC modules sit
     near the car ends, matching the concept roof plan.
     """
     out: list[Part] = []
-    solar = Box(dims.body_length_mm - 2_800.0, dims.body_width_mm - 560.0, 45.0).locate(
-        Location((0.0, 0.0, dims.body_height_mm + 42.0))
-    )
-    solar.color = COLOR_SOLAR
-    solar.label = "Roof solar PV array"
-    out.append(solar)
+    pv_length = dims.body_length_mm - 900.0
+    pv_width = dims.body_width_mm - 300.0
+    panel_columns = 8
+    panel_rows = 2
+    panel_count = panel_columns * panel_rows
+    panel_pitch_x = pv_length / panel_columns
+    panel_pitch_y = pv_width / panel_rows
+    panel_length = panel_pitch_x - 70.0
+    panel_width = panel_pitch_y - 70.0
+    for column in range(panel_columns):
+        panel_x = -pv_length / 2.0 + panel_pitch_x * (column + 0.5)
+        for row in range(panel_rows):
+            index = column * panel_rows + row
+            mount_y = -pv_width / 2.0 + panel_pitch_y * (row + 0.5)
+            label = (
+                "Bonded flexible rooftop solar laminate"
+                if index < panel_count / 2
+                else "Rail-clamped rooftop solar panel"
+            )
+            if index < panel_count / 2:
+                pad = Box(panel_length + 50.0, panel_width + 42.0, 18.0).locate(
+                    Location((panel_x, mount_y, dims.body_height_mm + 46.0))
+                )
+                pad.color = COLOR_RUBBER
+                pad.label = "Bonded flexible rooftop solar laminate mount"
+                out.append(pad)
+                panel_z = dims.body_height_mm + 63.0
+            else:
+                for rail_y in (mount_y - panel_width / 2.0 + 80.0, mount_y + panel_width / 2.0 - 80.0):
+                    rail = Box(panel_length + 80.0, 42.0, 46.0).locate(
+                        Location((panel_x, rail_y, dims.body_height_mm + 70.0))
+                    )
+                    rail.color = COLOR_SOLAR_MOUNT
+                    rail.label = "Rail-clamped raised rooftop solar panel mount"
+                    out.append(rail)
+                    for clamp_x in (panel_x - panel_length / 2.0 + 150.0, panel_x + panel_length / 2.0 - 150.0):
+                        clamp = Box(54.0, 72.0, 54.0).locate(
+                            Location((clamp_x, rail_y, dims.body_height_mm + 104.0))
+                        )
+                        clamp.color = COLOR_STAINLESS
+                        clamp.label = "Roof solar module edge clamp"
+                        out.append(clamp)
+                panel_z = dims.body_height_mm + 132.0
 
-    pv_length = dims.body_length_mm - 2_800.0
-    pv_width = dims.body_width_mm - 560.0
-    for index in range(1, 10):
-        seam_x = -pv_length / 2.0 + index * pv_length / 10.0
-        seam = Box(18.0, pv_width - 90.0, 12.0).locate(
-            Location((seam_x, 0.0, dims.body_height_mm + 72.0))
-        )
-        seam.color = COLOR_STAINLESS
-        seam.label = "Roof PV module expansion joint"
-        out.append(seam)
+            panel = Box(panel_length, panel_width, 34.0).locate(
+                Location((panel_x, mount_y, panel_z))
+            )
+            panel.color = COLOR_SOLAR
+            panel.label = label
+            out.append(panel)
+
+            junction = Box(130.0, 90.0, 48.0).locate(
+                Location((panel_x + panel_length / 2.0 - 120.0, mount_y, panel_z + 36.0))
+            )
+            junction.color = COLOR_HV_CABLE
+            junction.label = "Roof PV module junction box"
+            out.append(junction)
+
     for y in (-pv_width / 4.0, pv_width / 4.0):
-        string_bus = Box(pv_length - 500.0, 16.0, 18.0).locate(
-            Location((0.0, y, dims.body_height_mm + 78.0))
+        string_bus = Box(pv_length - 500.0, 18.0, 22.0).locate(
+            Location((0.0, y, dims.body_height_mm + 172.0))
         )
         string_bus.color = COLOR_HV_CABLE
         string_bus.label = "Roof PV string wiring raceway"
         out.append(string_bus)
+
+    for x in (-pv_length / 2.0 + panel_pitch_x * 4.0, pv_length / 2.0 - panel_pitch_x):
+        isolator = Box(360.0, 260.0, 115.0).locate(
+            Location((x, 0.0, dims.body_height_mm + 170.0))
+        )
+        isolator.color = COLOR_SAFETY
+        isolator.label = "Roof PV fire-isolation switch box"
+        out.append(isolator)
 
     for x_sign in (-1.0, 1.0):
         hvac_x = x_sign * (dims.body_length_mm / 2.0 - 720.0)

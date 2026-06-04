@@ -55,13 +55,13 @@ tunnel-specific signalling / ventilation / evacuation engineering.
 A planning-grade cost comparison for a 1 km segment in typical
 dense-urban conditions across the target regions:
 
-| Class | CAPEX (€/km) | Build time | Post-build maintenance |
+| Class | CAPEX (USD/km) | Build time | Post-build maintenance |
 |---|---|---|---|
-| At-grade dedicated ROW | 2–5 M | 6–12 months | Low — routine track + ballast |
-| Elevated viaduct | 12–25 M | 12–18 months | Medium — bearing + expansion-joint inspection |
-| Bridge over water | 15–35 M | 18–24 months | Medium — same as viaduct + scour inspection |
-| Cut-and-cover tunnel | 60–120 M | 30–48 months | High — ventilation + pumping + egress drills |
-| Bored tunnel | 90–200 M | 48–72 months | High — same as above, plus tunnel-boring-machine commissioning |
+| At-grade dedicated ROW | 0.85 M OSR floor / 2–5 M conventional | 6–12 months | Low — routine track + ballast |
+| Elevated viaduct | 4.0 M OSR floor / 12–25 M conventional | 12–18 months | Medium — bearing + expansion-joint inspection |
+| Bridge over water | 6.0 M OSR floor / 15–35 M conventional | 18–24 months | Medium — same as viaduct + scour inspection |
+| Cut-and-cover tunnel | 60–120 M conventional | 30–48 months | High — ventilation + pumping + egress drills |
+| Bored tunnel | 90–200 M conventional | 48–72 months | High — same as above, plus tunnel-boring-machine commissioning |
 
 Numbers are planning-grade, calibrated to the Samawah reference
 context ([RFC 0003 §2.3](0003-samawah-reference-deployment.md)).
@@ -254,25 +254,30 @@ Total CAPEX drives the national-treasury conversation. The
 auto-gen pipeline emits a full `[costs]` block per city in
 `design.toml`, broken down by bucket below.
 
-### 9.1 Civil works (€/km × civil mix)
+The source currency is USD because the marketplace and country-finance
+templates quote in USD. Generated `*_eur` fields are compatibility mirrors
+at 0.92 USD->EUR.
 
-| Class | €/km planning-grade |
+### 9.1 Civil works (USD/km × civil mix)
+
+| Class | USD planning-grade |
 |---|---|
-| at-grade | 3 500 000 |
-| elevated | 18 000 000 |
-| bridge | 25 000 000 |
-| elevated-interchange premium | 20 000 000 / site |
+| at-grade | 850 000 / route-km |
+| elevated | 4 000 000 / route-km |
+| bridge | 6 000 000 / route-km |
+| elevated-interchange premium | 2 000 000 / site |
 
 ### 9.2 Stations (RFC 0010 archetype catalogue)
 
-| Archetype | € planning-grade |
+| Archetype | USD planning-grade |
 |---|---|
-| `halt` | 1 500 000 |
-| `standard` | 8 000 000 |
-| `major` | 12 000 000 |
-| `terminal` | 10 000 000 |
-| `depot-terminal` | 12 000 000 |
-| `interchange` | 18 000 000 |
+| `halt` | 120 000 |
+| `standard` | 300 000 |
+| `major` | 600 000 |
+| `terminal` | 500 000 |
+| `depot-terminal` | 650 000 |
+| `interchange` | 900 000 |
+| `interchange-elevated` | 1 200 000 |
 
 The elevated-junction premium in §9.1 covers the viaduct + upper
 deck at interchanges; the table above covers the at-grade lower
@@ -280,21 +285,21 @@ platform plus vertical circulation.
 
 ### 9.3 Depots (RFC 0014 archetype catalogue)
 
-| Archetype | € planning-grade |
+| Archetype | USD planning-grade |
 |---|---|
-| `main-heavy` | 150 000 000 |
-| `secondary-medium` | 60 000 000 |
-| `layup-minimal` | 15 000 000 |
+| `main-heavy` | 7 500 000 |
+| `secondary-medium` | 4 000 000 |
+| `layup-minimal` | 900 000 |
 
 ### 9.4 Rolling stock (RFC 0008 family acquisition × fleet count)
 
-| Family | € / trainset planning-grade |
+| Family | USD / trainset marketplace-BOM floor |
 |---|---|
-| `urban-shuttle-1car` | 1 000 000 |
-| `tram-2car` | 2 000 000 |
-| `light-metro-3car` | 3 000 000 |
-| `metro-4car` | 4 000 000 |
-| `metro-6car` | 6 000 000 |
+| `urban-shuttle-1car` | 266 778 |
+| `tram-2car` | 533 556 |
+| `light-metro-3car` | 800 334 |
+| `metro-4car` | 1 067 113 |
+| `metro-6car` | 1 600 669 |
 
 Fleet count = peak-revenue + spare + cold-reserve per RFC 0014 §4.
 
@@ -302,8 +307,8 @@ Fleet count = peak-revenue + spare + cold-reserve per RFC 0014 §4.
 
 | Item | Planning-grade basis |
 |---|---|
-| Residual train-control wayside (RFC 0015 GoA 4) | €15 000 / route-km |
-| Station/depot charging microgrid interfaces | €125 000–750 000 / stop, by station archetype |
+| Residual train-control wayside (RFC 0015 GoA 4) | 15 000 USD / route-km |
+| Station/depot charging microgrid interfaces | 75 000–450 000 USD / stop, by station archetype |
 
 RFC 0015 mandates battery-electric operation with station charging:
 there is no overhead catenary, third rail, feeder substation, or route
@@ -315,7 +320,7 @@ system.
 
 ### 9.6 EPC overhead
 
-Integration + project management is **10 %** of the subtotal across
+Integration + project management is **7 %** of the subtotal across
 §9.1 – §9.5.
 
 Rates are deployment-localised via the
@@ -324,10 +329,8 @@ template (labour, materials, finance cost adjustments). The
 base rates above are what the upstream catalogue quotes; actual
 numbers in any given deployment can be ± 40 %.
 
-A `total_eur` per city is also emitted in the `[costs]` block.
-This is blunt but useful: it is the single number a municipal
-finance officer asks for first when evaluating an OpenSourceRail
-deployment.
+`total_usd` is the procurement-basis headline per city. `total_eur` is
+also emitted for compatibility with earlier generated schemas.
 
 ## 10. Constructability constraints
 
@@ -391,7 +394,8 @@ civil contractor can mobilise.
 | **v0** | This RFC ratified | — |
 | **v1** | `osr-routing::civil` updated to drop tunnel classes (in this RFC's commit) | v0 |
 | **v2** ✅ | Emit `[costs]` block (at_grade / elevated / bridge / total_eur) per city in the auto-gen output, using the §9 rate table (done 2026-04-22) | v1 |
-| **v2.1** ✅ | Extend `[costs]` to the full CAPEX stack — stations (RFC 0010 archetypes), depots (RFC 0014 archetypes), rolling stock (RFC 0008 families), GoA 4 onboard autonomy/residual wayside train control, station/depot charging microgrids, and EPC overhead. The `total_eur` is now the full one-number headline a treasury asks for, not just civil works (done 2026-04-26; renamed `power_eur` to `charging_microgrid_eur` in schema v2 on 2026-05-01) | v2 |
+| **v2.1** ✅ | Extend `[costs]` to the full CAPEX stack — stations (RFC 0010 archetypes), depots (RFC 0014 archetypes), rolling stock (RFC 0008 families), GoA 4 onboard autonomy/residual wayside train control, station/depot charging microgrids, and EPC overhead. The `total_eur` compatibility mirror became the full one-number headline, not just civil works (done 2026-04-26; renamed `power_eur` to `charging_microgrid_eur` in schema v2 on 2026-05-01) | v2 |
+| **v2.2** ✅ | Move the source cost basis to USD marketplace/direct-procurement floors, add `*_usd` fields, keep `*_eur` mirrors, and drop EPC overhead to 7 % (done 2026-06-04). | v2.1 |
 | **v3** ✅ (partial) | Parametric U-girder at [`mechanical-py/src/osr_mech/civil/ugirder.py`](../../mechanical-py/src/osr_mech/civil/ugirder.py) with 20 / 25 / 30 m spans under the one-mould constraint (done 2026-04-22); tracked review artifacts now use compact FreeCAD/PNG outputs, with local neutral CAD export available only when a partner toolchain requires it. Precast L-unit platform edge at [`mechanical-py/src/osr_mech/civil/platform_l_unit.py`](../../mechanical-py/src/osr_mech/civil/platform_l_unit.py). Remaining for v3 full-complete: pier + abutment parametric kits + CERN-OHL-S v2 relicensing of the catalogue tree. | v0 |
 | **v4** | Worked civil design for Samawah Line 1 (an 11 km at-grade stretch + 2 km elevated over the existing rail corridor + 1 km bridge over the Euphrates approach) | v3, RFC 0003 |
 | **v5** | First-article viaduct erected at the Samawah pilot | v3 |

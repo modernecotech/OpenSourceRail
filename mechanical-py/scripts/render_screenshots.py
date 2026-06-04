@@ -622,6 +622,7 @@ def render_all(out_root: Path) -> None:
         electronics_cabinet,
         end_coupler,
         inter_car_articulation,
+        roof_solar_system,
         tobs_sensor_pack,
     )
 
@@ -641,6 +642,15 @@ def render_all(out_root: Path) -> None:
         elev=22,
         azim=-40,
         figsize=(11, 4.5),
+        dpi=180,
+    )
+    _render(
+        roof_solar_system(CarDimensions()),
+        out_root / "trainset-roof-solar-system.png",
+        tolerance_mm=6.0,
+        elev=22,
+        azim=-55,
+        figsize=(12, 5),
         dpi=180,
     )
     _render(

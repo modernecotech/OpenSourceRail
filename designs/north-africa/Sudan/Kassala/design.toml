@@ -329,30 +329,44 @@ spare_count        = 1
 cold_reserve_count = 1
 trainset_count     = 18
 
-# [costs] — RFC 0011 §9 planning-grade CAPEX (base OECD
-# rates). country-costs.toml applies the per-country labour /
-# material multiplier downstream.
+# [costs] — RFC 0011 §9 planning-grade CAPEX (USD
+# marketplace/direct-procurement floor). country-costs.toml applies
+# the per-country labour/material multiplier downstream.
 [schema]
 version = 2
 cost_power_eur_alias = "deprecated; use costs.charging_microgrid_eur"
 
 [costs]
-# Civil works (€/km × civil mix).
-at_grade_eur         = 82459232
-elevated_eur         = 193548441
+currency_basis      = "USD marketplace/direct-procurement floor; *_eur mirrors retained for schema compatibility"
+usd_to_eur          = 0.92
+# Civil works (USD/km x civil mix; EUR mirror at usd_to_eur).
+at_grade_usd         = 20025813
+at_grade_eur         = 18423748
+elevated_usd         = 43010765
+elevated_eur         = 39569903
+bridge_usd           = 0
 bridge_eur           = 0
-junction_premium_eur = 0  # €20 M per elevated interchange.
-civil_subtotal_eur   = 276007674
+junction_premium_usd = 0  # $2 M per elevated interchange.
+junction_premium_eur = 0  # EUR 1.8 M per elevated interchange.
+civil_subtotal_usd   = 63036578
+civil_subtotal_eur   = 57993652
 # Stations (RFC 0010 archetype catalogue).
-stations_eur         = 50400000
+stations_usd         = 10170000
+stations_eur         = 9356400
 # Depots (RFC 0014 archetype catalogue).
-depots_eur           = 40000000
-# Rolling stock (RFC 0008 family × fleet count; €1M/car).
-rolling_stock_eur    = 117000000
+depots_usd           = 12000000
+depots_eur           = 11040000
+# Rolling stock (RFC 0008 family x fleet count; marketplace BOM floor).
+rolling_stock_usd    = 31213057
+rolling_stock_eur    = 28716012
 # Systems: residual train-control wayside + station/depot charging microgrids.
-signalling_eur       = 514687
-charging_microgrid_eur = 7775000
-power_eur            = 7775000  # deprecated alias for charging_microgrid_eur
+signalling_usd       = 516135
+signalling_eur       = 474844
+charging_microgrid_usd = 4725000
+charging_microgrid_eur = 4347000
+power_eur            = 4347000  # deprecated alias for charging_microgrid_eur
 # EPC integration + project management (7 % of subtotal).
-epc_overhead_eur     = 34418815
-total_eur            = 526116176  # full CAPEX stack
+epc_overhead_usd     = 8516254
+epc_overhead_eur     = 7834954
+total_usd            = 130177024  # full CAPEX stack
+total_eur            = 119762862  # full CAPEX stack

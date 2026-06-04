@@ -49,18 +49,18 @@ class CostAssumptions:
     """Rule-of-thumb unit rates. Override for a city/country-specific
     estimate (Iraqi labour/materials differ from, say, French ones)."""
 
-    track_cost_per_km_usd: float = 2_000_000.0
+    track_cost_per_km_usd: float = 850_000.0
     solar_cost_per_w_usd: float = 1.0
     battery_cost_per_w_usd: float = 1.0
     battery_discharge_hours: float = 4.0  # BESS typical 4-hour duration
-    train_car_cost_usd: float = 1_000_000.0  # cost per CAR; a 3-car trainset = 3 × this
-    station_cost_usd: float = 1_000_000.0
-    depot_cost_usd: float = 5_000_000.0
+    train_car_cost_usd: float = 266_778.0  # BOM marketplace floor per car; 3-car ~= 800,334 USD
+    station_cost_usd: float = 300_000.0
+    depot_cost_usd: float = 7_500_000.0
     # Bridges/viaducts run $20 M/km (vs $2 M/km for at-grade). This
     # fraction of the total route is assumed to be elevated — river
     # crossings, highway overpasses, urban-core RoW constraints.
     bridge_fraction: float = 0.15
-    bridge_cost_per_km_usd: float = 20_000_000.0
+    bridge_cost_per_km_usd: float = 6_000_000.0
     # `None` means "use the family-specific value resolved in
     # NetworkStats from rolling-stock.toml". Pass `--pax-per-trainset`
     # at the CLI to override (what-if analysis only — production runs
@@ -296,6 +296,60 @@ def _load_country_finance(country: str) -> dict:
     return {}
 
 
+def _station_commercial_revenue_eur(
+    design: dict, monthly_income_usd: float
+) -> dict[str, float]:
+    """Annual station retail + ad revenue, returned in EUR.
+
+    The rates deliberately scale from the same country-income table as
+    fares: higher-income cities can sustain higher kiosk rents and
+    advertising CPMs, while lower-income deployments keep rents low
+    enough for local operators.
+    """
+    retail_program = {
+        "halt": (1, 8.0),
+        "standard": (4, 18.0),
+        "major": (10, 20.0),
+        "terminal": (8, 24.0),
+        "depot-terminal": (6, 20.0),
+        "interchange": (14, 24.0),
+        "interchange-elevated": (16, 24.0),
+    }
+    ad_board_program = {
+        "halt": 4,
+        "standard": 16,
+        "major": 36,
+        "terminal": 40,
+        "depot-terminal": 28,
+        "interchange": 56,
+        "interchange-elevated": 64,
+    }
+    rentable_sqm = 0.0
+    ad_boards = 0
+    for station in design.get("stations", []):
+        archetype = station.get("archetype", "standard")
+        shops, sqm_each = retail_program.get(archetype, retail_program["standard"])
+        rentable_sqm += shops * sqm_each
+        ad_boards += ad_board_program.get(archetype, ad_board_program["standard"])
+
+    retail_rent_usd_m2_month = max(10.0, min(90.0, monthly_income_usd * 0.08))
+    ad_board_usd_month = max(75.0, min(1_200.0, monthly_income_usd * 0.70))
+    retail_occupancy = 0.88
+    ad_occupancy = 0.85
+
+    retail_usd = rentable_sqm * retail_rent_usd_m2_month * 12 * retail_occupancy
+    ads_usd = ad_boards * ad_board_usd_month * 12 * ad_occupancy
+    return {
+        "rentable_sqm": rentable_sqm,
+        "ad_boards": float(ad_boards),
+        "retail_rent_usd_m2_month": retail_rent_usd_m2_month,
+        "ad_board_usd_month": ad_board_usd_month,
+        "retail_eur": retail_usd * _USD_TO_EUR,
+        "ads_eur": ads_usd * _USD_TO_EUR,
+        "total_eur": (retail_usd + ads_usd) * _USD_TO_EUR,
+    }
+
+
 def _funding_and_affordability_section(
     design: dict, costs: dict, stats: NetworkStats, rel
 ) -> list[str]:
@@ -362,8 +416,10 @@ def _funding_and_affordability_section(
         annual_equity_eur + annual_grace_interest_eur
     )
 
-    # OPEX model. Components, all in EUR / year. Each line covers one
-    # discrete asset class — no double-counting between rolling-stock
+    # OPEX model. Components, all in EUR / year internally because the
+    # generated schema still carries `*_eur` compatibility fields. The
+    # README renders USD-first. Each line covers one discrete asset
+    # class — no double-counting between rolling-stock
     # maintenance and stop/depot charging microgrids, no electricity
     # charge on top of solar self-generation.
     #
@@ -450,38 +506,42 @@ def _funding_and_affordability_section(
     # (mainline maintainers / dispatchers / inspectors paid 1.5–2 ×
     # median; station staff ~1.0; weighted blend ≈ 1.4).
     labour_usd = headcount * monthly_income * 12 * 1.4
-    labour_eur = labour_usd * 0.92  # USD→EUR
+    labour_eur = labour_usd * _USD_TO_EUR  # USD->EUR compatibility math
 
     annual_opex_eur = rs_maint + civil_maint + sig_maint + energy_eur + labour_eur
 
-    # Affordability-anchored ticket pricing.
-    #   • Monthly pass priced at 5 % of country median monthly income.
-    #   • Single trip = 1/30 of monthly pass (assumes ~60 trips/month
-    #     for a daily commuter, monthly pass is a 50 % bulk discount).
-    target_monthly_pass_usd = 0.05 * monthly_income
+    # Affordability-anchored ticket pricing. The base affordability
+    # marker remains 5 % of country median monthly income; the
+    # cost-neutral case lifts that slightly to 6 % (+20 %) and solves
+    # the ridership needed after station retail + advertising revenue.
+    base_monthly_pass_usd = 0.05 * monthly_income
+    target_monthly_pass_usd = 0.06 * monthly_income
+    base_trip_usd = base_monthly_pass_usd / 30.0
     target_trip_usd = target_monthly_pass_usd / 30.0
-    target_trip_eur = target_trip_usd * 0.92
+    target_trip_eur = target_trip_usd * _USD_TO_EUR
 
-    # Farebox revenue at affordability price, given network capacity.
-    # Daily realisation 5–10 % of population × 365 service-days
-    # (matches the OPEX service-year model — 5:30 to 02:00, 365 days).
-    daily_pax_low = 0.05 * stats.population
-    daily_pax_high = 0.10 * stats.population
+    # Farebox revenue at the cost-neutral fare, given a more ambitious
+    # service uptake bracket. Daily realisation 8–15 % of population ×
+    # 365 service-days (matches the OPEX service-year model — 5:30 to
+    # 02:00, 365 days).
+    daily_pax_low = 0.08 * stats.population
+    daily_pax_high = 0.15 * stats.population
     annual_pax_low = daily_pax_low * service_days_per_year
     annual_pax_high = daily_pax_high * service_days_per_year
     farebox_low_eur = annual_pax_low * target_trip_eur
     farebox_high_eur = annual_pax_high * target_trip_eur
+    commercial = _station_commercial_revenue_eur(design, monthly_income)
+    retail_eur = commercial["retail_eur"]
+    ads_eur = commercial["ads_eur"]
+    nonfare_eur = commercial["total_eur"]
 
     target_recovery = float(fin.get("farebox_recovery_target", 0.5))
 
-    def _eur(v: float) -> str:
-        if v >= 1e9:
-            return f"€{v / 1e9:.2f} bn"
-        if v >= 1e7:
-            return f"€{v / 1e6:.0f} M"
-        if v >= 1e6:
-            return f"€{v / 1e6:.1f} M"
-        return f"€{v / 1e3:.0f} k"
+    def _usd(v_eur: float) -> str:
+        return _fmt_usd(_usd_from_eur(v_eur))
+
+    def _usd_per_resident(v_eur: float) -> str:
+        return f"${_usd_from_eur(v_eur):,.0f}"
 
     out: list[str] = []
     out.append("## Funding & affordability\n")
@@ -517,17 +577,30 @@ def _funding_and_affordability_section(
     # We place this summary table ahead of the detailed CAPEX/OPEX
     # breakdowns so a finance ministry can pull a single number into
     # next year's budget submission without reading the whole section.
-    operating_shortfall_low = max(0.0, annual_opex_eur - farebox_low_eur)
-    operating_shortfall_high = max(0.0, annual_opex_eur - farebox_high_eur)
-    surplus_low = max(0.0, farebox_low_eur - annual_opex_eur)
-    surplus_high = max(0.0, farebox_high_eur - annual_opex_eur)
-    steady_state_low = annual_debt_service_eur + operating_shortfall_low
-    steady_state_high = annual_debt_service_eur + operating_shortfall_high
+    total_revenue_low = farebox_low_eur + nonfare_eur
+    total_revenue_high = farebox_high_eur + nonfare_eur
+    annual_revenue_target_eur = annual_debt_service_eur + annual_opex_eur
+    operating_shortfall_low = max(0.0, annual_opex_eur - total_revenue_low)
+    operating_shortfall_high = max(0.0, annual_opex_eur - total_revenue_high)
+    surplus_low = max(0.0, total_revenue_low - annual_revenue_target_eur)
+    surplus_high = max(0.0, total_revenue_high - annual_revenue_target_eur)
+    steady_state_low = max(0.0, annual_revenue_target_eur - total_revenue_low)
+    steady_state_high = max(0.0, annual_revenue_target_eur - total_revenue_high)
+    cost_neutral_farebox_eur = max(0.0, annual_revenue_target_eur - nonfare_eur)
+    cost_neutral_annual_pax = (
+        cost_neutral_farebox_eur / target_trip_eur
+        if target_trip_eur > 0.0
+        else 0.0
+    )
+    cost_neutral_daily_pax = cost_neutral_annual_pax / service_days_per_year
+    cost_neutral_share = cost_neutral_daily_pax / max(stats.population, 1)
+    cost_neutral_revenue_eur = cost_neutral_farebox_eur + nonfare_eur
 
     population = max(int(stats.population), 1)
     construction_per_capita = annual_construction_commitment_eur / population
     steady_low_per_capita = steady_state_low / population
     steady_high_per_capita = steady_state_high / population
+    steady_neutral_per_capita = 0.0
 
     # Lifecycle envelope: total cumulative gov outlay over the loan
     # tenor (construction + repayment phases).
@@ -539,6 +612,7 @@ def _funding_and_affordability_section(
         construction_years * annual_construction_commitment_eur
         + repayment_years * steady_state_high
     )
+    lifecycle_neutral = construction_years * annual_construction_commitment_eur
 
     out.append("### Government commitment summary (budgetable)\n")
     out.append(
@@ -552,35 +626,47 @@ def _funding_and_affordability_section(
     out.append("|---|---|---|")
     out.append(
         f"| Construction (years 1–{construction_years}) | "
-        f"**{_eur(annual_construction_commitment_eur)} / yr** | "
-        f"€{construction_per_capita:,.0f} |"
+        f"**{_usd(annual_construction_commitment_eur)} / yr** | "
+        f"{_usd_per_resident(construction_per_capita)} |"
     )
     out.append(
         f"| Steady-state, low-ridership (year {construction_years + 1}+) | "
-        f"**{_eur(steady_state_low)} / yr** | "
-        f"€{steady_low_per_capita:,.0f} |"
+        f"**{_usd(steady_state_low)} / yr** | "
+        f"{_usd_per_resident(steady_low_per_capita)} |"
     )
     out.append(
         f"| Steady-state, high-ridership (year {construction_years + 1}+) | "
-        f"**{_eur(steady_state_high)} / yr** | "
-        f"€{steady_high_per_capita:,.0f} |"
+        f"**{_usd(steady_state_high)} / yr** | "
+        f"{_usd_per_resident(steady_high_per_capita)} |"
+    )
+    out.append(
+        f"| Steady-state, cost-neutral revenue case | "
+        f"**$0 / yr** | "
+        f"{_usd_per_resident(steady_neutral_per_capita)} |"
     )
     out.append(
         f"| Lifecycle envelope (yr 1–{tenor}, low scenario) | "
-        f"**{_eur(lifecycle_low)} cumulative** | "
-        f"€{lifecycle_low / population:,.0f} |"
+        f"**{_usd(lifecycle_low)} cumulative** | "
+        f"{_usd_per_resident(lifecycle_low / population)} |"
     )
     out.append(
         f"| Lifecycle envelope (yr 1–{tenor}, high scenario) | "
-        f"**{_eur(lifecycle_high)} cumulative** | "
-        f"€{lifecycle_high / population:,.0f} |\n"
+        f"**{_usd(lifecycle_high)} cumulative** | "
+        f"{_usd_per_resident(lifecycle_high / population)} |"
+    )
+    out.append(
+        f"| Lifecycle envelope (yr 1–{tenor}, cost-neutral after opening) | "
+        f"**{_usd(lifecycle_neutral)} cumulative** | "
+        f"{_usd_per_resident(lifecycle_neutral / population)} |\n"
     )
     out.append(
         f"_Population basis: {population:,} (catchment per "
         f"`lib/city-batches/world-sample.toml`). After year {tenor}, debt "
-        f"service drops to zero and only the OPEX shortfall remains — "
-        f"~{_eur(operating_shortfall_low)} / yr (low) → "
-        f"{_eur(operating_shortfall_high)} / yr (high)._\n"
+        f"service drops to zero; the cost-neutral case already covers "
+        f"steady-state OPEX + debt service from fares, station shops, and "
+        f"advertising. Low/high residual OPEX shortfall before debt is "
+        f"{_usd(operating_shortfall_low)} / yr → "
+        f"{_usd(operating_shortfall_high)} / yr._\n"
     )
 
     out.append("### CAPEX funding stack\n")
@@ -588,29 +674,29 @@ def _funding_and_affordability_section(
     out.append("|---|---|---|---|---|---|")
     out.append(
         f"| Multilateral concessional loan (IBRD / AfDB / ADB class) | "
-        f"{multi_frac:.0%} | {_eur(multi_eur)} | {multi_rate:.1%} | "
-        f"{tenor} y, {grace} y grace | {_eur(multi_annuity)} / yr |"
+        f"{multi_frac:.0%} | {_usd(multi_eur)} | {multi_rate:.1%} | "
+        f"{tenor} y, {grace} y grace | {_usd(multi_annuity)} / yr |"
     )
     out.append(
         f"| Sovereign bonds (10-y benchmark + project) | "
-        f"{bond_frac:.0%} | {_eur(bond_eur)} | {bond_rate:.1%} | "
-        f"{tenor} y, {grace} y grace | {_eur(bond_annuity)} / yr |"
+        f"{bond_frac:.0%} | {_usd(bond_eur)} | {bond_rate:.1%} | "
+        f"{tenor} y, {grace} y grace | {_usd(bond_annuity)} / yr |"
     )
     out.append(
         f"| Government equity (no debt service) | "
-        f"{equity_frac:.0%} | {_eur(equity_eur)} | — | — | — |"
+        f"{equity_frac:.0%} | {_usd(equity_eur)} | — | — | — |"
     )
     out.append(
-        f"| **Total** | **100%** | **{_eur(total_eur)}** | | | "
-        f"**{_eur(annual_debt_service_eur)} / yr** |\n"
+        f"| **Total** | **100%** | **{_usd(total_eur)}** | | | "
+        f"**{_usd(annual_debt_service_eur)} / yr** |\n"
     )
     out.append(
         f"_During the {grace}-year grace period the operator pays "
-        f"interest only — multilateral {_eur(multi_eur * multi_rate)} / yr "
-        f"+ bonds {_eur(bond_eur * bond_rate)} / yr = "
-        f"**{_eur(annual_grace_interest_eur)} / yr** total — plus the "
+        f"interest only — multilateral {_usd(multi_eur * multi_rate)} / yr "
+        f"+ bonds {_usd(bond_eur * bond_rate)} / yr = "
+        f"**{_usd(annual_grace_interest_eur)} / yr** total — plus the "
         f"equity tranche amortised across construction "
-        f"({_eur(annual_equity_eur)} / yr × {grace} yr). Principal "
+        f"({_usd(annual_equity_eur)} / yr × {grace} yr). Principal "
         f"repayment begins in year {grace + 1} on a {repayment_years}-year "
         f"amortisation schedule._\n"
     )
@@ -620,28 +706,28 @@ def _funding_and_affordability_section(
     out.append("|---|---|---|")
     out.append(
         f"| Rolling-stock maintenance | 4 % of rolling-stock CAPEX | "
-        f"{_eur(rs_maint)} |"
+        f"{_usd(rs_maint)} |"
     )
     out.append(
         f"| Civil + station + depot maintenance | 2 % of fixed-asset CAPEX | "
-        f"{_eur(civil_maint)} |"
+        f"{_usd(civil_maint)} |"
     )
     out.append(
         f"| Residual train-control wayside maintenance | 5 % of residual signalling CAPEX | "
-        f"{_eur(sig_maint)} |"
+        f"{_usd(sig_maint)} |"
     )
     out.append(
         f"| Traction energy ({annual_energy_gwh:.1f} GWh / yr) | "
-        f"trackside PV + Na-ion (RFC 0002) — **self-generated, €0 / yr** | "
-        f"{_eur(energy_eur)} |"
+        f"trackside PV + Na-ion (RFC 0002) — **self-generated, $0 / yr** | "
+        f"{_usd(energy_eur)} |"
     )
     out.append(
         f"| Labour ({headcount:,} FTE) | "
         f"~6 FTE/route-km + 12 admin core × country median × 12 × engineer-premium 1.4 | "
-        f"{_eur(labour_eur)} |"
+        f"{_usd(labour_eur)} |"
     )
     out.append(
-        f"| **OPEX subtotal** | | **{_eur(annual_opex_eur)} / yr** |\n"
+        f"| **OPEX subtotal** | | **{_usd(annual_opex_eur)} / yr** |\n"
     )
     out.append(
         f"_Annual fleet utilisation: {revenue_trainsets} revenue trainsets × "
@@ -655,87 +741,118 @@ def _funding_and_affordability_section(
     out.append(
         f"Country median monthly income: **${monthly_income:,.0f} USD** "
         f"(per [`lib/templates/country-finance.toml`]({rel('lib/templates/country-finance.toml')})). "
-        f"Affordability target: a monthly unlimited-ride pass costs **5 % "
-        f"of median monthly income**. Single-trip fare set so that 30 "
-        f"single trips equal one monthly pass — a frequent commuter "
-        f"averaging ~50 trips / month then pays an effective ~40 % bulk "
-        f"discount on the pass, matching the structure used by Delhi "
-        f"Metro, Cairo Metro, and STIB.\n"
+        f"Base affordability marker: a monthly unlimited-ride pass costs "
+        f"**5 % of median monthly income**. The cost-neutral case lifts "
+        f"that to **6 %** (+20 % over the baseline) and pairs it with "
+        f"higher service uptake plus station retail and advertising. "
+        f"Single-trip fare is set so that 30 single trips equal one "
+        f"monthly pass — a frequent commuter averaging ~50 trips / month "
+        f"still receives an effective ~40 % bulk discount.\n"
     )
     out.append("| Product | Price target |")
     out.append("|---|---|")
     out.append(
-        f"| Single-trip fare | "
-        f"€{target_trip_eur:.2f} (~${target_trip_usd:.2f} USD) |"
+        f"| Baseline single-trip fare (5 % pass) | "
+        f"${base_trip_usd:.2f} |"
+    )
+    out.append(
+        f"| Cost-neutral single-trip fare (6 % pass) | "
+        f"${target_trip_usd:.2f} |"
     )
     out.append(
         f"| Day pass (3 trips) | "
-        f"€{(target_trip_eur * 3 * 0.85):.2f} (15 % bulk discount) |"
+        f"${(target_trip_usd * 3 * 0.85):.2f} (15 % bulk discount) |"
     )
     out.append(
         f"| Monthly unlimited pass | "
-        f"€{(target_monthly_pass_usd * 0.92):.2f} (~5 % of median monthly income) |"
+        f"${target_monthly_pass_usd:.2f} (~6 % of median monthly income) |"
     )
     out.append(
         f"| Annual pass | "
-        f"€{(target_monthly_pass_usd * 0.92 * 11):.2f} (10 × monthly = ~1 free month) |\n"
+        f"${(target_monthly_pass_usd * 11):.2f} (11 × monthly = ~1 free month) |\n"
     )
 
-    out.append("### Farebox & operating subsidy\n")
+    out.append("### Revenue & cost-neutrality\n")
     out.append(
-        f"Practical-ridership bracket = 5–10 % of urban population × "
-        f"{service_days_per_year} service-days. At the affordability-anchored fare:\n"
+        f"Planning ridership bracket = 8–15 % of urban population × "
+        f"{service_days_per_year} service-days at the cost-neutral fare. "
+        "The cost-neutral column solves annual paid trips so "
+        "**farebox + station-shop leases + advertising = OPEX + "
+        "post-grace debt service**.\n"
     )
-    out.append("| | Low scenario | High scenario |")
-    out.append("|---|---|---|")
+    out.append("| | Low scenario | High scenario | Cost-neutral target |")
+    out.append("|---|---|---|---|")
+    out.append(
+        f"| Daily paid trips | {daily_pax_low:,.0f} | "
+        f"{daily_pax_high:,.0f} | {cost_neutral_daily_pax:,.0f} |"
+    )
+    out.append(
+        f"| Daily paid trips / population | {daily_pax_low / population:.0%} | "
+        f"{daily_pax_high / population:.0%} | {cost_neutral_share:.0%} |"
+    )
     out.append(
         f"| Annual paid trips | {annual_pax_low / 1e6:,.1f} M | "
-        f"{annual_pax_high / 1e6:,.1f} M |"
+        f"{annual_pax_high / 1e6:,.1f} M | "
+        f"{cost_neutral_annual_pax / 1e6:,.1f} M |"
     )
     out.append(
-        f"| Farebox revenue | {_eur(farebox_low_eur)} / yr | "
-        f"{_eur(farebox_high_eur)} / yr |"
+        f"| Farebox revenue | {_usd(farebox_low_eur)} / yr | "
+        f"{_usd(farebox_high_eur)} / yr | "
+        f"{_usd(cost_neutral_farebox_eur)} / yr |"
     )
     out.append(
-        f"| Farebox / OPEX recovery | "
-        f"{(farebox_low_eur / annual_opex_eur):.0%} | "
-        f"{(farebox_high_eur / annual_opex_eur):.0%} |"
+        f"| Station shop leases | {_usd(retail_eur)} / yr | "
+        f"{_usd(retail_eur)} / yr | {_usd(retail_eur)} / yr |"
     )
     out.append(
-        f"| Country policy-target recovery (diagnostic) | "
-        f"{target_recovery:.0%} | {target_recovery:.0%} |"
+        f"| Advertising boards | {_usd(ads_eur)} / yr | "
+        f"{_usd(ads_eur)} / yr | {_usd(ads_eur)} / yr |"
     )
-    # Operating-shortfall + surplus + steady-state-burden values were
-    # computed at the top of the section for the Government commitment
-    # summary. We re-emit them here in the table that explains *how*
-    # the steady-state burden is assembled — readers landing in this
-    # subsection should see a consistent answer to the bottom-line
-    # question repeated in this view.
     out.append(
-        f"| Operating shortfall (gov subsidy required) | "
-        f"{_eur(operating_shortfall_low)} / yr | "
-        f"{_eur(operating_shortfall_high)} / yr |"
+        f"| **Total revenue** | **{_usd(total_revenue_low)} / yr** | "
+        f"**{_usd(total_revenue_high)} / yr** | "
+        f"**{_usd(cost_neutral_revenue_eur)} / yr** |"
     )
-    if surplus_low > 0 or surplus_high > 0:
-        out.append(
-            f"| Operating surplus (operator retained → capex sinking fund) | "
-            f"{_eur(surplus_low)} / yr | "
-            f"{_eur(surplus_high)} / yr |"
-        )
     out.append(
-        f"| **Steady-state government commitment** "
-        f"(debt service + OPEX shortfall) | "
-        f"**{_eur(steady_state_low)} / yr** | "
-        f"**{_eur(steady_state_high)} / yr** |\n"
+        f"| Revenue / OPEX + debt-service recovery | "
+        f"{(total_revenue_low / annual_revenue_target_eur):.0%} | "
+        f"{(total_revenue_high / annual_revenue_target_eur):.0%} | "
+        f"100% |"
+    )
+    out.append(
+        f"| Country farebox-only policy target (diagnostic) | "
+        f"{target_recovery:.0%} | {target_recovery:.0%} | {target_recovery:.0%} |"
+    )
+    out.append(
+        f"| Remaining steady-state gov gap | "
+        f"{_usd(steady_state_low)} / yr | "
+        f"{_usd(steady_state_high)} / yr | "
+        f"**$0 / yr** |"
+    )
+    out.append(
+        f"| Operating surplus after OPEX + debt | "
+        f"{_usd(surplus_low)} / yr | "
+        f"{_usd(surplus_high)} / yr | "
+        f"$0 / yr |\n"
+    )
+    out.append(
+        f"_Commercial-revenue assumptions: {commercial['rentable_sqm']:,.0f} m² "
+        f"of station shop/kiosk leases at "
+        f"${commercial['retail_rent_usd_m2_month']:.0f}/m²/month and "
+        f"{commercial['ad_boards']:,.0f} advertising boards at "
+        f"${commercial['ad_board_usd_month']:.0f}/board/month, with "
+        "occupancy derates applied._\n"
     )
 
     out.append(
-        "**Caveats:** The funding-stack 60/25/15 split, the 5 % "
-        "income-share affordability target, and the 5–10 % daily-pax "
-        "bracket are project-level defaults. Real deployments will negotiate "
-        "the share with the financing institutions and will tune fares "
-        "iteratively from boarding data. Treat the numbers above as a "
-        "first-iteration sanity check, not as a bid-ready financial close.\n"
+        "**Caveats:** The funding-stack 60/25/15 split, the 6 % "
+        "cost-neutral fare target, the 8–15 % daily-pax bracket, and "
+        "the station-commercial assumptions are project-level defaults. "
+        "Real deployments will negotiate the capital split with financing "
+        "institutions and tune fares, retail mix, advertising inventory, "
+        "and service frequency iteratively from boarding data. Treat the "
+        "numbers above as a first-iteration sanity check, not as a "
+        "bid-ready financial close.\n"
     )
 
     return out
@@ -1265,7 +1382,7 @@ def render_readme(
     out.append(
         f"| Rolling stock ({total_trainsets} trainsets × "
         f"{stats.consist_cars} cars) | "
-        f"${cost.train_car_cost_usd / 1e6:.1f} M/car | "
+        f"${cost.train_car_cost_usd / 1e3:.0f} k/car | "
         f"{total_cars} cars | **${rolling_stock_cost / 1e6:.1f} M** |"
     )
     out.append(
@@ -1475,33 +1592,74 @@ def _build_terminus_tagger(stations: list[dict]):
 # `crates/osr-design/src/emit.rs` (RFC 0011 §9 OSR-discipline costs).
 # Keeping this table in sync with the rust source is part of the
 # cost-discipline review. See the matching comment in emit.rs.
+_USD_TO_EUR = 0.92
+_EUR_TO_USD = 1.0 / _USD_TO_EUR
+
+_STATION_UNIT_USD: dict[str, float] = {
+    "halt": 120_000.0,
+    "standard": 300_000.0,
+    "major": 600_000.0,
+    "terminal": 500_000.0,
+    "depot-terminal": 650_000.0,
+    "interchange": 900_000.0,
+    "interchange-elevated": 1_200_000.0,
+}
 _STATION_UNIT_EUR: dict[str, float] = {
-    "halt": 400_000.0,
-    "standard": 1_500_000.0,
-    "major": 3_000_000.0,
-    "terminal": 2_500_000.0,
-    "depot-terminal": 3_000_000.0,
-    "interchange": 4_500_000.0,
-    "interchange-elevated": 4_500_000.0,
+    key: value * _USD_TO_EUR for key, value in _STATION_UNIT_USD.items()
+}
+_DEPOT_UNIT_USD: dict[str, float] = {
+    "main-heavy": 7_500_000.0,
+    "secondary-medium": 4_000_000.0,
+    "layup-minimal": 900_000.0,
 }
 _DEPOT_UNIT_EUR: dict[str, float] = {
-    "main-heavy": 25_000_000.0,
-    "secondary-medium": 10_000_000.0,
-    "layup-minimal": 3_000_000.0,
+    key: value * _USD_TO_EUR for key, value in _DEPOT_UNIT_USD.items()
+}
+_TRAINSET_UNIT_USD: dict[str, float] = {
+    "urban-shuttle-1car": 245_436.0 * _EUR_TO_USD,
+    "tram-2car": 490_872.0 * _EUR_TO_USD,
+    "light-metro-3car": 736_308.0 * _EUR_TO_USD,
+    "metro-4car": 981_744.0 * _EUR_TO_USD,
+    "metro-6car": 1_472_616.0 * _EUR_TO_USD,
 }
 _TRAINSET_UNIT_EUR: dict[str, float] = {
-    "urban-shuttle-1car": 1_000_000.0,
-    "tram-2car": 2_000_000.0,
-    "light-metro-3car": 3_000_000.0,
-    "metro-4car": 4_000_000.0,
-    "metro-6car": 6_000_000.0,
+    "urban-shuttle-1car": 245_436.0,
+    "tram-2car": 490_872.0,
+    "light-metro-3car": 736_308.0,
+    "metro-4car": 981_744.0,
+    "metro-6car": 1_472_616.0,
 }
-_AT_GRADE_EUR_PER_KM = 3_500_000.0
-_ELEVATED_EUR_PER_KM = 18_000_000.0
-_BRIDGE_EUR_PER_KM = 25_000_000.0
-_JUNCTION_PREMIUM_EUR = 20_000_000.0
-_SIGNALLING_EUR_PER_KM = 15_000.0
+_AT_GRADE_USD_PER_KM = 850_000.0
+_ELEVATED_USD_PER_KM = 4_000_000.0
+_BRIDGE_USD_PER_KM = 6_000_000.0
+_JUNCTION_PREMIUM_USD = 2_000_000.0
+_SIGNALLING_USD_PER_KM = 15_000.0
+_AT_GRADE_EUR_PER_KM = _AT_GRADE_USD_PER_KM * _USD_TO_EUR
+_ELEVATED_EUR_PER_KM = _ELEVATED_USD_PER_KM * _USD_TO_EUR
+_BRIDGE_EUR_PER_KM = _BRIDGE_USD_PER_KM * _USD_TO_EUR
+_JUNCTION_PREMIUM_EUR = _JUNCTION_PREMIUM_USD * _USD_TO_EUR
+_SIGNALLING_EUR_PER_KM = _SIGNALLING_USD_PER_KM * _USD_TO_EUR
 _EPC_OVERHEAD_FRAC = 0.07
+
+
+def _fmt_usd(value: float) -> str:
+    if value >= 1e9:
+        return f"${value / 1e9:.2f} bn"
+    if value >= 1e7:
+        return f"${value / 1e6:.0f} M"
+    if value >= 1e6:
+        return f"${value / 1e6:.1f} M"
+    return f"${value / 1e3:.0f} k"
+
+
+def _fmt_usd_unit(value: float) -> str:
+    if value < 1e6:
+        return f"${value / 1e3:.0f} k"
+    return f"${value / 1e6:.2f} M"
+
+
+def _usd_from_eur(value: float) -> float:
+    return value * _EUR_TO_USD
 
 
 def _charging_microgrid_unit_eur(archetype: str) -> float:
@@ -1511,14 +1669,14 @@ def _charging_microgrid_unit_eur(archetype: str) -> float:
     feeder substations, or continuous traction distribution.
     """
     return {
-        "halt": 125_000.0,
-        "standard": 250_000.0,
-        "major": 400_000.0,
-        "terminal": 400_000.0,
-        "interchange": 600_000.0,
-        "interchange-elevated": 600_000.0,
-        "depot-terminal": 750_000.0,
-    }.get(archetype, 250_000.0)
+        "halt": 75_000.0,
+        "standard": 150_000.0,
+        "major": 250_000.0,
+        "terminal": 250_000.0,
+        "interchange": 350_000.0,
+        "interchange-elevated": 350_000.0,
+        "depot-terminal": 450_000.0,
+    }.get(archetype, 150_000.0) * _USD_TO_EUR
 
 
 def _charging_microgrid_eur(costs: dict) -> float:
@@ -1535,10 +1693,19 @@ def _rich_capex_section(
     re-derived here from the station / depot / line tables and the
     unit-cost mirror above."""
 
-    def _eur(v: float) -> str:
-        if v >= 1e9:
-            return f"€{v / 1e9:.2f} bn"
-        return f"€{v / 1e6:.0f} M" if v >= 1e7 else f"€{v / 1e6:.1f} M"
+    def _cost_usd(stem: str) -> float:
+        if f"{stem}_usd" in costs:
+            return float(costs[f"{stem}_usd"])
+        return float(costs.get(f"{stem}_eur", 0.0)) * _EUR_TO_USD
+
+    def _money(stem: str) -> str:
+        return _fmt_usd(_cost_usd(stem))
+
+    def _money_value_usd(value: float) -> str:
+        return _fmt_usd(value)
+
+    def _money_unit_usd(value: float) -> str:
+        return _fmt_usd_unit(value)
 
     archetype_counts: dict[str, int] = {}
     for s in design.get("stations", []):
@@ -1550,14 +1717,14 @@ def _rich_capex_section(
         depot_counts[a] = depot_counts.get(a, 0) + 1
 
     # Civil mix.
-    at_grade_km = float(costs.get("at_grade_eur", 0.0)) / _AT_GRADE_EUR_PER_KM
-    elevated_km = float(costs.get("elevated_eur", 0.0)) / _ELEVATED_EUR_PER_KM
-    bridge_km = float(costs.get("bridge_eur", 0.0)) / _BRIDGE_EUR_PER_KM
+    at_grade_km = _cost_usd("at_grade") / _AT_GRADE_USD_PER_KM
+    elevated_km = _cost_usd("elevated") / _ELEVATED_USD_PER_KM
+    bridge_km = _cost_usd("bridge") / _BRIDGE_USD_PER_KM
     junction_count = int(
         round(
-            float(costs.get("junction_premium_eur", 0.0)) / _JUNCTION_PREMIUM_EUR
+            _cost_usd("junction_premium") / _JUNCTION_PREMIUM_USD
         )
-    ) if costs.get("junction_premium_eur") else 0
+    ) if costs.get("junction_premium_eur") or costs.get("junction_premium_usd") else 0
 
     family = (
         design.get("lines", [{}])[0].get("rolling_stock", "tram-2car")
@@ -1569,19 +1736,24 @@ def _rich_capex_section(
     out.append(
         "All figures come from the `[costs]` block in "
         "`design.toml` — emitted by the `osr-design` Rust planner per "
-        "RFC 0011 §9. **OSR-discipline unit costs**: prefab portal-frame "
-        "canopies (no bespoke architectural cladding), at-grade depots "
-        "without overhead bridge cranes, **€1.0 M per self-contained "
-        "car** rolling stock, commodity Na-ion cells + tier-2 PMSM "
-        "motors + DIY SiC inverters, **onboard-first train control "
+        "RFC 0011 §9. The procurement basis is **USD marketplace / "
+        "direct-supplier pricing**; `*_eur` fields remain in `design.toml` "
+        "only as compatibility mirrors at 0.92 USD→EUR. **OSR-discipline "
+        "unit costs**: prefab portal-frame canopies (no bespoke "
+        "architectural cladding), at-grade depots without overhead bridge "
+        "cranes, **marketplace-BOM rolling stock at about $267 k per "
+        "self-contained car** (derived from the 800,334 USD 3-car BOM "
+        "floor), commodity Na-ion cells + "
+        "tier-2 PMSM motors + DIY SiC inverters, **onboard-first train control "
         "with only residual wayside** (no trackside fibre backbone, no "
         "proprietary CBTC vendor stack, no trackside computer "
         "interlockings — the function moves into the trainset, already "
         "counted in rolling-stock CAPEX), no overhead catenary, and self-EPC "
-        "overhead. Conventional metro budgets land 2–3× higher because "
-        "of the line items OSR has architected away. `country-costs.toml` "
-        "applies the per-country labour/material multiplier "
-        "downstream.\n"
+        "overhead. This is a listed-price floor, not a certified rail "
+        "supplier quote; freight, duty, qualification, warranty, and "
+        "acceptance testing sit outside the city CAPEX floor. "
+        "`country-costs.toml` applies the per-country labour/material "
+        "multiplier downstream where a local tender view is needed.\n"
     )
 
     out.append("### Civil works\n")
@@ -1589,26 +1761,26 @@ def _rich_capex_section(
     out.append("|---|---|")
     if at_grade_km > 0:
         out.append(
-            f"| At-grade ({at_grade_km:.1f} km @ €3.5 M/km) | "
-            f"{_eur(costs['at_grade_eur'])} |"
+            f"| At-grade ({at_grade_km:.1f} km @ $0.85 M/km) | "
+            f"{_money('at_grade')} |"
         )
     if elevated_km > 0:
         out.append(
-            f"| Elevated ({elevated_km:.1f} km @ €18 M/km) | "
-            f"{_eur(costs['elevated_eur'])} |"
+            f"| Elevated ({elevated_km:.1f} km @ $4.0 M/km) | "
+            f"{_money('elevated')} |"
         )
     if bridge_km > 0:
         out.append(
-            f"| Bridges ({bridge_km:.1f} km @ €25 M/km) | "
-            f"{_eur(costs['bridge_eur'])} |"
+            f"| Bridges ({bridge_km:.1f} km @ $6.0 M/km) | "
+            f"{_money('bridge')} |"
         )
     if junction_count > 0:
         out.append(
-            f"| Elevated-interchange premium ({junction_count} sites @ €20 M) | "
-            f"{_eur(costs['junction_premium_eur'])} |"
+            f"| Elevated-interchange premium ({junction_count} sites @ $2.0 M) | "
+            f"{_money('junction_premium')} |"
         )
     out.append(
-        f"| **Civil subtotal** | **{_eur(costs['civil_subtotal_eur'])}** |\n"
+        f"| **Civil subtotal** | **{_money('civil_subtotal')}** |\n"
     )
 
     out.append("### Stations\n")
@@ -1629,12 +1801,12 @@ def _rich_capex_section(
         n = archetype_counts.get(a, 0)
         if n == 0:
             continue
-        unit = _STATION_UNIT_EUR.get(a, 1_500_000.0)
+        unit = _STATION_UNIT_USD.get(a, 300_000.0)
         out.append(
-            f"| `{a}` | {n} | {_eur(unit)} | {_eur(unit * n)} |"
+            f"| `{a}` | {n} | {_money_unit_usd(unit)} | {_money_value_usd(unit * n)} |"
         )
     out.append(
-        f"| **Stations subtotal** | | | **{_eur(costs['stations_eur'])}** |\n"
+        f"| **Stations subtotal** | | | **{_money('stations')}** |\n"
     )
 
     out.append("### Depots\n")
@@ -1650,40 +1822,40 @@ def _rich_capex_section(
         n = depot_counts.get(a, 0)
         if n == 0:
             continue
-        unit = _DEPOT_UNIT_EUR.get(a, 8_000_000.0)
+        unit = _DEPOT_UNIT_USD.get(a, 2_500_000.0)
         out.append(
-            f"| `{a}` | {n} | {_eur(unit)} | {_eur(unit * n)} |"
+            f"| `{a}` | {n} | {_money_unit_usd(unit)} | {_money_value_usd(unit * n)} |"
         )
     out.append(
-        f"| **Depots subtotal** | | | **{_eur(costs['depots_eur'])}** |\n"
+        f"| **Depots subtotal** | | | **{_money('depots')}** |\n"
     )
 
     out.append("### Rolling stock\n")
     out.append(
-        "Rolling stock is costed at **€1.0 M per self-contained car "
-        "(wagon)**. Each car carries one powered bogie, one trailer "
-        "bogie, under-seat Na-ion battery, traction inverter, onboard "
-        "sensor/control stack, doors, HVAC, interior, and aluminium "
-        "body. Motors, sensors, train-control computers, and onboard "
-        "batteries appear here ONLY — never re-billed elsewhere in the "
-        "cost stack.\n"
+        "Rolling stock is costed at the **marketplace-BOM floor: "
+        "$267 k per self-contained car**. The value comes from the "
+        "3-car light-metro BOM base of 592,840 USD direct material plus "
+        "35 % assembly allowance = 800,334 USD per consist and is divided "
+        "across three cars. Motors, sensors, "
+        "train-control computers, onboard batteries, roof PV, and charge "
+        "hardware appear here ONLY — never re-billed elsewhere in the "
+        "city cost stack.\n"
     )
     out.append("| Per-car cost bucket | Basis | Cost |")
     out.append("|---|---|---|")
-    out.append("| Body shell + interior + doors | Aluminium extrusion body, glazing, seats, PRM zone, plug doors | €300 k |")
-    out.append("| Bogies + brakes | One powered bogie + one trailer bogie, wheelsets, suspension, discs | €220 k |")
-    out.append("| Traction package | PMSM motors, gearbox, SiC inverter, cooling, HV contactors | €180 k |")
-    out.append("| Battery + BMS | 120 kWh usable under-seat Na-ion pack, BMS, fire containment | €120 k |")
-    out.append("| Driverless onboard stack | T-ECU/S, T-ECU/A, T-OBS sensors, radios, cameras, event recorder | €90 k |")
-    out.append("| HVAC, auxiliaries, fit-out margin | HVAC, lighting, PIS, wiring, assembly QA | €90 k |")
-    out.append("| **Total per car** | | **€1.0 M** |\n")
+    out.append("| Body shell + interior + doors | Welded frame, composite panels, glass, doors, seats, PRM fixtures | $106 k |")
+    out.append("| Bogies + brakes | Two 2-axle bogies per car, wheelsets, suspension, discs, pads, sensors | $51 k |")
+    out.append("| Traction, battery, HVAC, solar + charging | PMSM/gear/inverter package, 120 kWh pack share, BMS, HVAC, roof PV, charger | $93 k |")
+    out.append("| Electronics + train-control | T-ECU/S, T-ECU/A, T-OBS sensors, radios, cameras, PIS, event recorder | $16 k |")
+    out.append("| Accessibility + safety kit | Passenger call buttons, signs, emergency lighting, first-aid/fire kit | $1 k |")
+    out.append("| **Total per car** | | **$267 k** |\n")
     out.append("| Item | Count | Unit | Subtotal |")
     out.append("|---|---|---|---|")
-    rs_unit = _TRAINSET_UNIT_EUR.get(family, 3_000_000.0)
+    rs_unit = _TRAINSET_UNIT_USD.get(family, _TRAINSET_UNIT_USD["light-metro-3car"])
     out.append(
         f"| `{family}` (revenue + spare + cold reserve) | "
-        f"{fleet_total} | {_eur(rs_unit)} | "
-        f"{_eur(costs['rolling_stock_eur'])} |"
+        f"{fleet_total} | {_money_unit_usd(rs_unit)} | "
+        f"{_money('rolling_stock')} |"
     )
     out.append("")
 
@@ -1692,46 +1864,47 @@ def _rich_capex_section(
     out.append("|---|---|---|")
     out.append(
         f"| Residual signalling / train-control wayside (onboard ATP/ATO + T-OBS carries the function; W-Nodes, balises, LoRa gateways, OCC interfaces remain) | "
-        f"{stats.route_km:.1f} km × €0.015 M/km | "
-        f"{_eur(costs['signalling_eur'])} |"
+        f"{stats.route_km:.1f} km × $0.015 M/km | "
+        f"{_money('signalling')} |"
     )
     out.append(
         f"| Station/depot charging microgrids (conductive charger, switchgear, inverter interface, local PV/battery tie-in; no continuous wayside supply) | "
         f"per-stop allowance by station archetype | "
-        f"{_eur(_charging_microgrid_eur(costs))} |"
+        f"{_money('charging_microgrid')} |"
     )
     out.append(
         f"| EPC integration + project management ({_EPC_OVERHEAD_FRAC:.0%}) | "
-        f"on subtotal | {_eur(costs['epc_overhead_eur'])} |\n"
+        f"on subtotal | {_money('epc_overhead')} |\n"
     )
 
     out.append("### Total\n")
     out.append("| Bucket | Value |")
     out.append("|---|---|")
     out.append(
-        f"| Civil works | {_eur(costs['civil_subtotal_eur'])} |"
+        f"| Civil works | {_money('civil_subtotal')} |"
     )
-    out.append(f"| Stations | {_eur(costs['stations_eur'])} |")
-    out.append(f"| Depots | {_eur(costs['depots_eur'])} |")
-    out.append(f"| Rolling stock | {_eur(costs['rolling_stock_eur'])} |")
+    out.append(f"| Stations | {_money('stations')} |")
+    out.append(f"| Depots | {_money('depots')} |")
+    out.append(f"| Rolling stock | {_money('rolling_stock')} |")
     out.append(
         f"| Residual train-control wayside + charging microgrids | "
-        f"{_eur(costs['signalling_eur'] + _charging_microgrid_eur(costs))} |"
+        f"{_fmt_usd(_cost_usd('signalling') + _cost_usd('charging_microgrid'))} |"
     )
     out.append(
         f"| EPC overhead ({_EPC_OVERHEAD_FRAC:.0%}) | "
-        f"{_eur(costs['epc_overhead_eur'])} |"
+        f"{_money('epc_overhead')} |"
     )
     total = float(costs["total_eur"])
-    out.append(f"| **CAPEX total** | **{_eur(total)}** |")
+    total_usd = _cost_usd("total")
+    out.append(f"| **CAPEX total** | **{_fmt_usd(total_usd)}** |")
     if stats.route_km > 0:
-        per_km = total / stats.route_km
-        out.append(f"| Per-route-km | {_eur(per_km)} / km |")
+        per_km = total_usd / stats.route_km
+        out.append(f"| Per-route-km | {_fmt_usd(per_km)} / km |")
     if stats.population > 0:
-        per_capita = total / stats.population
+        per_capita = total_usd / stats.population
         out.append(
             f"| Per-capita (city pop) | "
-            f"€{per_capita:,.0f} / person |\n"
+            f"${per_capita:,.0f} / person |\n"
         )
     return out
 
@@ -1775,8 +1948,8 @@ def main(argv: list[str] | None = None) -> int:
         help="urban population served (default: read from design.toml [city] population)",
     )
     ap.add_argument(
-        "--track-cost-per-km", type=float, default=2_000_000.0,
-        help="civil track unit cost, USD/km (default: 2,000,000)",
+        "--track-cost-per-km", type=float, default=850_000.0,
+        help="civil track unit cost, USD/km (default: 850,000)",
     )
     ap.add_argument(
         "--solar-cost-per-w", type=float, default=1.0,
@@ -1791,17 +1964,17 @@ def main(argv: list[str] | None = None) -> int:
         help="BESS discharge duration, hours (default: 4)",
     )
     ap.add_argument(
-        "--train-car-cost", type=float, default=1_000_000.0,
-        help="rolling-stock unit cost, USD per CAR (default: 1,000,000). "
-             "A 3-car trainset costs 3 × this.",
+        "--train-car-cost", type=float, default=266_778.0,
+        help="rolling-stock unit cost, USD per CAR (default: 266,778). "
+             "A 3-car trainset costs about 800,334 USD before rail qualification extras.",
     )
     ap.add_argument(
-        "--station-cost", type=float, default=1_000_000.0,
-        help="civil+fit-out unit cost, USD/station (default: 1,000,000)",
+        "--station-cost", type=float, default=300_000.0,
+        help="civil+fit-out unit cost, USD/station (default: 300,000)",
     )
     ap.add_argument(
-        "--depot-cost", type=float, default=5_000_000.0,
-        help="per-depot unit cost, USD/depot (default: 5,000,000)",
+        "--depot-cost", type=float, default=7_500_000.0,
+        help="per-depot unit cost, USD/depot (default: 7,500,000)",
     )
     ap.add_argument(
         "--pax-per-trainset", type=int, default=None,

@@ -995,56 +995,64 @@ group_id        = 0
 elevated_line   = "line-5"
 lat             = 25.58812043335853
 lon             = 85.22650726164777
-premium_eur     = 20000000
+premium_usd     = 2000000
+premium_eur     = 1840000
 
 [[junctions]]
 group_id        = 1
 elevated_line   = "line-5"
 lat             = 25.587220602526724
 lon             = 85.08440459771916
-premium_eur     = 20000000
+premium_usd     = 2000000
+premium_eur     = 1840000
 
 [[junctions]]
 group_id        = 2
 elevated_line   = "line-5"
 lat             = 25.61835474930713
 lon             = 85.0676631899071
-premium_eur     = 20000000
+premium_usd     = 2000000
+premium_eur     = 1840000
 
 [[junctions]]
 group_id        = 3
 elevated_line   = "line-5"
 lat             = 25.67738365187345
 lon             = 85.21753865031987
-premium_eur     = 20000000
+premium_usd     = 2000000
+premium_eur     = 1840000
 
 [[junctions]]
 group_id        = 4
 elevated_line   = "line-5"
 lat             = 25.57858222654141
 lon             = 85.09636274615634
-premium_eur     = 20000000
+premium_usd     = 2000000
+premium_eur     = 1840000
 
 [[junctions]]
 group_id        = 5
 elevated_line   = "line-5"
 lat             = 25.688901486520535
 lon             = 85.20538119940873
-premium_eur     = 20000000
+premium_usd     = 2000000
+premium_eur     = 1840000
 
 [[junctions]]
 group_id        = 6
 elevated_line   = "line-5"
 lat             = 25.649848828420257
 lon             = 85.09217739420333
-premium_eur     = 20000000
+premium_usd     = 2000000
+premium_eur     = 1840000
 
 [[junctions]]
 group_id        = 7
 elevated_line   = "line-5"
 lat             = 25.576602598711442
 lon             = 85.16013953782137
-premium_eur     = 20000000
+premium_usd     = 2000000
+premium_eur     = 1840000
 
 # [[fleets]] — per-line fleet sizing per RFC 0014 §4.
 [[fleets]]
@@ -1082,30 +1090,44 @@ spare_count        = 4
 cold_reserve_count = 1
 trainset_count     = 49
 
-# [costs] — RFC 0011 §9 planning-grade CAPEX (base OECD
-# rates). country-costs.toml applies the per-country labour /
-# material multiplier downstream.
+# [costs] — RFC 0011 §9 planning-grade CAPEX (USD
+# marketplace/direct-procurement floor). country-costs.toml applies
+# the per-country labour/material multiplier downstream.
 [schema]
 version = 2
 cost_power_eur_alias = "deprecated; use costs.charging_microgrid_eur"
 
 [costs]
-# Civil works (€/km × civil mix).
-at_grade_eur         = 539084914
-elevated_eur         = 542077480
+currency_basis      = "USD marketplace/direct-procurement floor; *_eur mirrors retained for schema compatibility"
+usd_to_eur          = 0.92
+# Civil works (USD/km x civil mix; EUR mirror at usd_to_eur).
+at_grade_usd         = 130920622
+at_grade_eur         = 120446972
+elevated_usd         = 120461662
+elevated_eur         = 110824729
+bridge_usd           = 0
 bridge_eur           = 0
-junction_premium_eur = 160000000  # €20 M per elevated interchange.
-civil_subtotal_eur   = 1241162394
+junction_premium_usd = 16000000  # $2 M per elevated interchange.
+junction_premium_eur = 14720000  # EUR 1.8 M per elevated interchange.
+civil_subtotal_usd   = 267382284
+civil_subtotal_eur   = 245991701
 # Stations (RFC 0010 archetype catalogue).
-stations_eur         = 203300000
+stations_usd         = 45790000
+stations_eur         = 42126800
 # Depots (RFC 0014 archetype catalogue).
-depots_eur           = 46000000
-# Rolling stock (RFC 0008 family × fleet count; €1M/car).
-rolling_stock_eur    = 608000000
+depots_usd           = 13800000
+depots_eur           = 12696000
+# Rolling stock (RFC 0008 family x fleet count; marketplace BOM floor).
+rolling_stock_usd    = 162201183
+rolling_stock_eur    = 149225088
 # Systems: residual train-control wayside + station/depot charging microgrids.
-signalling_eur       = 2762095
-charging_microgrid_eur = 30125000
-power_eur            = 30125000  # deprecated alias for charging_microgrid_eur
+signalling_usd       = 2779749
+signalling_eur       = 2557369
+charging_microgrid_usd = 18175000
+charging_microgrid_eur = 16721000
+power_eur            = 16721000  # deprecated alias for charging_microgrid_eur
 # EPC integration + project management (7 % of subtotal).
-epc_overhead_eur     = 149194464
-total_eur            = 2280543953  # full CAPEX stack
+epc_overhead_usd     = 35708975
+epc_overhead_eur     = 32852257
+total_usd            = 545837191  # full CAPEX stack
+total_eur            = 502170216  # full CAPEX stack

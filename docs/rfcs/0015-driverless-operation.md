@@ -22,11 +22,11 @@ eyes in the loop.
 
 Three non-novelty reasons:
 
-1. **Lower total cost.** A cab costs ~€250k per trainset when
+1. **Lower total cost.** A cab costs ~$270k per trainset when
    wiring, DMI, HVAC, controls, and emergency exits are summed.
-   Over a 40-trainset fleet that is €10 M of capex. Drivers cost
-   ~€100 k/year fully loaded; a 50-driver roster for round-the-
-   clock operation is €5 M/year in wages alone.
+   Over a 40-trainset fleet that is ~$11 M of capex. Drivers cost
+   ~$110 k/year fully loaded; a 50-driver roster for round-the-
+   clock operation is ~$5.5 M/year in wages alone.
 
 2. **Simpler trainset.** Removing the cab takes out roughly
    40 kg of wiring, four HMIs (DMI, mirror monitors, rear-view,
@@ -97,10 +97,10 @@ Each pack contains:
 
 | Sensor | Role | Range | Update rate | Unit price (2026) | Why |
 |---|---|---|---|---|---|
-| **4 × ultrasonic** (Murata MA40H1S-R or equivalent, 40 kHz) | Close-range safety belt | 0.2 – 20 m | 20 Hz | ~€25 each | Platform gap, depot yard, emergency crawl — cheap, solid-state, unaffected by darkness, failure mode self-detectable from echo pattern |
-| **1 × solid-state LIDAR** (Livox HAP / Tele-series / RoboSense M1 / Leishen CH-series — all Chinese OEMs now in the €500–2 000 bracket) | Mid-range 3D primary | 5 – 200 m | 10 Hz | €500 – €2 000 | 3D point cloud, day/night, 150–300 m published range, IP67 industrial variants available |
-| **1 × mmWave radar** (TI AWR1843 or eq., 77 GHz) | All-weather validation | 5 – 200 m | 20 Hz | ~€500 | Penetrates dust, fog, and the sandstorms the LIDAR point cloud degrades under — independent physics for a true disagreement vote |
-| **1 × stereo camera pair** | Object classification | 0 – 100 m | 30 Hz | ~€300 | Distinguishes human / animal / debris; informs verdict severity, not primary safety |
+| **4 × ultrasonic** (Murata MA40H1S-R or equivalent, 40 kHz) | Close-range safety belt | 0.2 – 20 m | 20 Hz | ~$25 each | Platform gap, depot yard, emergency crawl — cheap, solid-state, unaffected by darkness, failure mode self-detectable from echo pattern |
+| **1 × solid-state LIDAR** (Livox HAP / Tele-series / RoboSense M1 / Leishen CH-series — all Chinese OEMs now in the $550–2,200 bracket) | Mid-range 3D primary | 5 – 200 m | 10 Hz | $550 – $2,200 | 3D point cloud, day/night, 150–300 m published range, IP67 industrial variants available |
+| **1 × mmWave radar** (TI AWR1843 or eq., 77 GHz) | All-weather validation | 5 – 200 m | 20 Hz | ~$550 | Penetrates dust, fog, and the sandstorms the LIDAR point cloud degrades under — independent physics for a true disagreement vote |
+| **1 × stereo camera pair** | Object classification | 0 – 100 m | 30 Hz | ~$325 | Distinguishes human / animal / debris; informs verdict severity, not primary safety |
 
 The suite is **multi-sensor by design** — obstacle detection
 is too consequential to rest on a single physics. A
@@ -152,7 +152,7 @@ inside the ultrasonic band.
 **Why LIDAR is primary mid-range, not optional.** The 2025–
 2026 market shift in Chinese solid-state LIDAR put the
 Livox-class unit (150–300 m range, IP67, automotive-grade)
-into the €500–2 000 bracket — an order of magnitude below
+into the $550–2 200 bracket — an order of magnitude below
 where it was three years ago. At that price, LIDAR becomes
 *the cheapest way* to cover the 20 m – 200 m obstacle
 envelope with full 3D range data; it displaces radar as the
@@ -176,7 +176,7 @@ which feeds the verdict severity (`CrawlOnly` for a paper
 bag, `EmergencyBrake` for a person). They are not the
 safety-primary channel for detection — detection comes from
 ultrasonic / LIDAR / radar. Cameras are included at cheap
-cost (€300/stereo pair) because classifier data improves
+cost ($325/stereo pair) because classifier data improves
 operational availability (fewer spurious EBs on windblown
 debris).
 
@@ -392,17 +392,17 @@ family.
 
 Rough figures for the `light-metro-3car` reference:
 
-| Item | Saved mass (kg) | Saved capex (€) |
+| Item | Saved mass (kg) | Saved capex (USD) |
 |---|---|---|
-| Cab structure (front wall, door, windscreen) | ~800 | ~30 000 |
-| Cab controls + DMI + wiring | ~150 | ~80 000 |
-| Cab HVAC | ~120 | ~15 000 |
-| Cab seat + interior trim | ~80 | ~8 000 |
-| Mirror / wiper / horn package | ~40 | ~4 000 |
-| Cab lighting + accessories | ~20 | ~3 000 |
-| **Total** | **~1 210 kg / cab × 2 cabs** | **~140 k × 2** |
-| **Added (T-OBS + sensors + intercoms)** | ~60 kg × 2 ends | ~25 k × 2 |
-| **Net** | **~2 300 kg saved** | **~230 k saved** |
+| Cab structure (front wall, door, windscreen) | ~800 | ~$33 000 |
+| Cab controls + DMI + wiring | ~150 | ~$87 000 |
+| Cab HVAC | ~120 | ~$16 000 |
+| Cab seat + interior trim | ~80 | ~$9 000 |
+| Mirror / wiper / horn package | ~40 | ~$4 000 |
+| Cab lighting + accessories | ~20 | ~$3 000 |
+| **Total** | **~1 210 kg / cab × 2 cabs** | **~$150 k × 2** |
+| **Added (T-OBS + sensors + intercoms)** | ~60 kg × 2 ends | ~$27 k × 2 |
+| **Net** | **~2 300 kg saved** | **~$250 k saved** |
 
 ## 9. Hardware implications (amends RFC 0007)
 

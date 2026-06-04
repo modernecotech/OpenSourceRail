@@ -286,11 +286,11 @@ detection lists but cannot emit a `Clear` on its own.
 ~12 W); 24 V DC in with the same EN 50155 isolation as the rest
 of the cab.
 
-**Target BOM:** €780 per board module, dominated by the LIDAR
-unit (~€500 for a Livox-class sensor in volume) + mmWave radar
-(~€500 / €250 volume) + stereo camera pair (~€150) + baseboard
-+ 2× RP2350 + CM5 (~€220 per the T-ECU/A BOM). Trainset total
-(2 modules): **~€1 560 per consist**, well below the ~€140 k
+**Target BOM:** $850 per board module, dominated by the LIDAR
+unit (~$550 for a Livox-class sensor in volume) + mmWave radar
+(~$550 / $275 volume) + stereo camera pair (~$165) + baseboard
+plus 2× RP2350 + CM5 (~$240 per the T-ECU/A BOM). Trainset total
+(2 modules): **~$1 700 per consist**, well below the ~$150 k
 cab capex removed.
 
 **Form factor:** 180 × 120 mm Eurocard — slightly larger than

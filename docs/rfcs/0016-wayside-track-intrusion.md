@@ -79,10 +79,10 @@ box feeds a W-SBC running `osr-intrusion-detect`.
 
 | Sensor | Role | Typical unit | Unit price (2026) | Why |
 |---|---|---|---|---|
-| **Fence-line contact** | Perimeter breach | Vibration + cut-wire sensor (e.g., Senstar FlexZone) | €300–500 / 100 m | Instant alarm on fence cut or climb; mature tech, low false-positive rate |
-| **ROW LIDAR** (pole-mount, every ~200 m) | 3D silhouette in ROW | Livox Mid-360 (360° FoV, 70 m range) or equivalent | €800–1 200 | 3D presence detection, day/night, IP67 industrial — same supply-chain story as RFC 0015 §5.1 |
-| **ROW radar** (pole-mount, every ~500 m) | All-weather presence | TI AWR1843 or eq. 77 GHz | ~€500 | Penetrates fog/dust that degrades LIDAR; redundant physics |
-| **CCTV with AI classifier** | Classification + human oversight | Commodity 4 K IP camera + edge TPU (Google Coral or eq.) | €400–800 per camera | Per-station already required by RFC 0010; AI classification reuses existing cameras |
+| **Fence-line contact** | Perimeter breach | Vibration + cut-wire sensor (e.g., Senstar FlexZone) | $325–550 / 100 m | Instant alarm on fence cut or climb; mature tech, low false-positive rate |
+| **ROW LIDAR** (pole-mount, every ~200 m) | 3D silhouette in ROW | Livox Mid-360 (360° FoV, 70 m range) or equivalent | $875–1 300 | 3D presence detection, day/night, IP67 industrial — same supply-chain story as RFC 0015 §5.1 |
+| **ROW radar** (pole-mount, every ~500 m) | All-weather presence | TI AWR1843 or eq. 77 GHz | ~$550 | Penetrates fog/dust that degrades LIDAR; redundant physics |
+| **CCTV with AI classifier** | Classification + human oversight | Commodity 4 K IP camera + edge TPU (Google Coral or eq.) | $435–875 per camera | Per-station already required by RFC 0010; AI classification reuses existing cameras |
 
 **Sensor spacing** is driven by section length (RFC 0001):
 
@@ -95,7 +95,7 @@ box feeds a W-SBC running `osr-intrusion-detect`.
 
 A typical `standard-urban` 1 km `at-grade` section carries:
 5 LIDAR + 2 radar + 1 CCTV + 1 km fence-line. Total hardware
-cost ≈ €7 000 per section — small fraction of the €500 000+ per
+cost ≈ $7 600 per section — small fraction of the $850 000 per
 km civil cost.
 
 ## 5. The `osr-intrusion-detect` evaluator

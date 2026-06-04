@@ -310,7 +310,8 @@ group_id        = 0
 elevated_line   = "line-3"
 lat             = -0.7184769571320592
 lon             = 36.43280909496481
-premium_eur     = 20000000
+premium_usd     = 2000000
+premium_eur     = 1840000
 
 # [[fleets]] — per-line fleet sizing per RFC 0014 §4.
 [[fleets]]
@@ -334,30 +335,44 @@ spare_count        = 1
 cold_reserve_count = 1
 trainset_count     = 14
 
-# [costs] — RFC 0011 §9 planning-grade CAPEX (base OECD
-# rates). country-costs.toml applies the per-country labour /
-# material multiplier downstream.
+# [costs] — RFC 0011 §9 planning-grade CAPEX (USD
+# marketplace/direct-procurement floor). country-costs.toml applies
+# the per-country labour/material multiplier downstream.
 [schema]
 version = 2
 cost_power_eur_alias = "deprecated; use costs.charging_microgrid_eur"
 
 [costs]
-# Civil works (€/km × civil mix).
-at_grade_eur         = 110784505
-elevated_eur         = 21429688
+currency_basis      = "USD marketplace/direct-procurement floor; *_eur mirrors retained for schema compatibility"
+usd_to_eur          = 0.92
+# Civil works (USD/km x civil mix; EUR mirror at usd_to_eur).
+at_grade_usd         = 26904808
+at_grade_eur         = 24752424
+elevated_usd         = 4762153
+elevated_eur         = 4381181
+bridge_usd           = 0
 bridge_eur           = 0
-junction_premium_eur = 20000000  # €20 M per elevated interchange.
-civil_subtotal_eur   = 152214193
+junction_premium_usd = 2000000  # $2 M per elevated interchange.
+junction_premium_eur = 1840000  # EUR 1.8 M per elevated interchange.
+civil_subtotal_usd   = 33666961
+civil_subtotal_eur   = 30973604
 # Stations (RFC 0010 archetype catalogue).
-stations_eur         = 48500000
+stations_usd         = 10650000
+stations_eur         = 9798000
 # Depots (RFC 0014 archetype catalogue).
-depots_eur           = 40000000
-# Rolling stock (RFC 0008 family × fleet count; €1M/car).
-rolling_stock_eur    = 96000000
+depots_usd           = 12000000
+depots_eur           = 11040000
+# Rolling stock (RFC 0008 family x fleet count; marketplace BOM floor).
+rolling_stock_usd    = 25610713
+rolling_stock_eur    = 23561856
 # Systems: residual train-control wayside + station/depot charging microgrids.
-signalling_eur       = 492649
-charging_microgrid_eur = 7600000
-power_eur            = 7600000  # deprecated alias for charging_microgrid_eur
+signalling_usd       = 494274
+signalling_eur       = 454732
+charging_microgrid_usd = 4600000
+charging_microgrid_eur = 4232000
+power_eur            = 4232000  # deprecated alias for charging_microgrid_eur
 # EPC integration + project management (7 % of subtotal).
-epc_overhead_eur     = 24136479
-total_eur            = 368943321  # full CAPEX stack
+epc_overhead_usd     = 6091536
+epc_overhead_eur     = 5604213
+total_usd            = 93113485  # full CAPEX stack
+total_eur            = 85664406  # full CAPEX stack

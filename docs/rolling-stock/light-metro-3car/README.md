@@ -24,9 +24,10 @@ for sides, roof fairings, cabless cowls, and interior liners.
 | [`body.md`](body.md) | Welded steel underframe/spaceframe, composite side panels, end bulkheads, articulation interface frames |
 | [`articulation.md`](articulation.md) | Inter-car articulation/gangway module: lower spherical pivot, upper links, bellows, turntable, trainline routing |
 | [`cots-integration.md`](cots-integration.md) | COTS/fabricated interface diagrams, part delineation, and assembly sequence |
-| [`traction.md`](traction.md) | PMSM motor + SiC inverter + reduction gear, adhesion budget |
+| [`traction.md`](traction.md) | PMSM motor + SiC inverter + reduction gear, rooftop PV, dual-input battery charge inverter, adhesion budget |
 | [`interfaces.md`](interfaces.md) | Coupler, station charging, articulation, platform gap, TCN-E connector, aux power |
-| [`bom-skeleton.md`](bom-skeleton.md) | Procurement BOM lines (source-identified parts vs TBD) |
+| [`bom-skeleton.md`](bom-skeleton.md) | Procurement BOM lines and marketplace listed-price consist totals |
+| [`marketplace-price-anchors.md`](marketplace-price-anchors.md) | Alibaba/AliExpress line-by-line price anchors and qualification caveats |
 | [`compliance.md`](compliance.md) | Standards matrix: EN 15227, EN 45545, EN 14363, EN 50155, ISO 3095, EN 12299 |
 | [`drawing-register.md`](drawing-register.md) | v2 drawing IDs, supplier documents, inspection evidence, release gates |
 | [`v2-release-checklist.md`](v2-release-checklist.md) | Fabrication-release gates: supplier envelopes, FEA, weld maps, drawings, NC data, harness routing, first-article evidence |
@@ -34,7 +35,7 @@ for sides, roof fairings, cabless cowls, and interior liners.
 The governing visual/layout reference is
 [`solar-metro-trainset.png`](../../../docs/assets/solar-metro-trainset.png):
 white/silver body, green waist band, dark skirts, segmented glass-pane ends,
-roof PV, two low-floor door pairs per side per car, powered end cars, unpowered middle car,
+mixed bonded/rail-mounted roof PV, two low-floor door pairs per side per car, powered end cars, unpowered middle car,
 and batteries under longitudinal seats. The end glazing is an open
 driverless passenger view through heated RF-transparent laminated
 glass panes with LED headlamp and marker-light clusters below them.
@@ -71,7 +72,7 @@ documents and PNGs are generated review artifacts.
 | [`trainset.py`](../../../mechanical-py/src/osr_mech/rolling_stock/trainset.py) | Family length, car count, motorisation, cowl/body/bogie assembly |
 | [`car_body.py`](../../../mechanical-py/src/osr_mech/rolling_stock/car_body.py) | 17 m body module as layered CAD subassemblies: primary structure, exterior/glazing/doors, interior, HVAC ducts, LV/data routing, HV/PV/thermal/fire paths |
 | [`sensor_cowl.py`](../../../mechanical-py/src/osr_mech/rolling_stock/sensor_cowl.py) | Segmented panoramic end glass panes, LED headlamps, marker lights, and T-OBS visual envelope |
-| [`systems.py`](../../../mechanical-py/src/osr_mech/rolling_stock/systems.py) | Couplers, detailed articulations/gangways, batteries, doors, electronics, charging, T-OBS packs |
+| [`systems.py`](../../../mechanical-py/src/osr_mech/rolling_stock/systems.py) | Couplers, detailed articulations/gangways, batteries, rooftop solar package, charge inverters, doors, electronics, charging, T-OBS packs |
 | [`bogie/`](../../../mechanical-py/src/osr_mech/rolling_stock/bogie/) | Powered and converted-trailer bogie assemblies |
 | [`cad_templates/rolling_stock.py`](../../../mechanical-py/src/osr_mech/cad_templates/rolling_stock.py) | Sheet-metal/chassis manufacturing templates |
 
@@ -98,12 +99,13 @@ and render to these design-review PNGs:
 | [`trainset-car-detail.png`](../../../docs/screenshots/trainset-car-detail.png) | 17 m layered car body: structure, door/window openings, glazing, livery, roof PV/HVAC, interior, ducts, LV/data and HV/thermal routes |
 | [`trainset-car-body-structure.png`](../../../docs/screenshots/trainset-car-body-structure.png) | Primary fabricated structure: shell, 10 m low-floor pan, side sills, crossmembers, roof cantrails, door portals, window posts, end rings, and bogie clearance envelopes |
 | [`trainset-car-body-bogie-subassembly.png`](../../../docs/screenshots/trainset-car-body-bogie-subassembly.png) | Single-car structure with standard motor/trailer bogies under the ~3 m raised high-floor end zones |
-| [`trainset-car-body-exterior.png`](../../../docs/screenshots/trainset-car-body-exterior.png) | Solar-train exterior layer: glazing, door leaves, livery band, roof PV/HVAC, and service skirts |
+| [`trainset-car-body-exterior.png`](../../../docs/screenshots/trainset-car-body-exterior.png) | Solar-train exterior layer: glazing, door leaves, livery band, mixed bonded/rail-mounted roof PV/HVAC, and service skirts |
+| [`trainset-roof-solar-system.png`](../../../docs/screenshots/trainset-roof-solar-system.png) | Per-car rooftop solar package with bonded flexible laminates, raised rigid panels, rails, clamps, junction boxes, fire isolators, MPPT combiner, and downlink gland |
 | [`trainset-car-body-interior.png`](../../../docs/screenshots/trainset-car-body-interior.png) | Passenger interior layer: under-seat battery strakes, benches, PRM bays, grab poles, handrails, and PIS |
 | [`trainset-car-body-services.png`](../../../docs/screenshots/trainset-car-body-services.png) | Service layers: HVAC ducts, LV/data trays, lighting, CCTV/intercoms, HV/PV routing, coolant, and battery fire vents |
 | [`trainset-interior-fit-out.png`](../../../docs/screenshots/trainset-interior-fit-out.png) | COTS passenger fit-out envelopes inside the car body |
 | [`trainset-body-sheet-metal-kit.png`](../../../docs/screenshots/trainset-body-sheet-metal-kit.png) | Sheet-metal/chassis manufacturing kit: underframe, bolsters, coupler pockets, side posts, rails, roof bows, end rings |
-| [`trainset-car-systems.png`](../../../docs/screenshots/trainset-car-systems.png) | One self-contained car systems package: four door cassettes, platform interlocks, batteries, traction power rack, charging connector, and accessibility/safety reservations |
+| [`trainset-car-systems.png`](../../../docs/screenshots/trainset-car-systems.png) | One self-contained car systems package: four door cassettes, platform interlocks, batteries, rooftop PV package, traction/charge power rack, charging connector, and accessibility/safety reservations |
 | [`trainset-battery-pack.png`](../../../docs/screenshots/trainset-battery-pack.png) | Eight sodium-ion module envelopes plus HV contactor, fuse, and BMS cabinet per car |
 | [`trainset-door-system.png`](../../../docs/screenshots/trainset-door-system.png) | Door cassette pair with sill gap fillers, locks, and external emergency releases |
 | [`trainset-electronics-cabinet.png`](../../../docs/screenshots/trainset-electronics-cabinet.png) | Per-end T-ECU/S, T-ECU/A, and crashworthy event recorder, two sets per trainset |

@@ -115,7 +115,8 @@ then run `scripts/regenerate-city.sh <slug>`.
 
 The current reference train is the `light-metro-3car`: cabless,
 driverless, battery electric, powered end cars plus an unpowered middle
-car, under-seat sodium-ion batteries, roof solar, COTS
+car, under-seat sodium-ion batteries, mixed bonded/rail-mounted roof
+solar feeding a per-car PV/station charge inverter, COTS
 doors/windows/HVAC, two low-floor door pairs per side per car, and
 T-OBS sensor packs behind segmented glass-pane noses at both ends.
 
@@ -124,6 +125,8 @@ Key links:
 - [Rolling-stock package](docs/rolling-stock/light-metro-3car/README.md)
 - [Rolling-stock section README](docs/rolling-stock/README.md)
 - [BOM skeleton](docs/rolling-stock/light-metro-3car/bom-skeleton.md)
+- [Marketplace price anchors](docs/rolling-stock/light-metro-3car/marketplace-price-anchors.md)
+- [Civil marketplace cost anchors](docs/civil/marketplace-cost-anchors.md)
 - [Fabrication plan](docs/rolling-stock/light-metro-3car/fabrication-plan.md)
 - [Drawing register](docs/rolling-stock/light-metro-3car/drawing-register.md)
 - [Mechanical package](mechanical-py/README.md)
@@ -163,7 +166,11 @@ Production concept board showing the repeated 17 m car module, welded datum fram
 
 ![Per-car systems assembly](docs/screenshots/trainset-car-systems.png)
 
-One self-contained car equipment package: four door cassettes, platform safety interfaces, batteries, charging interface, traction power rack, and accessibility/safety reservations.
+One self-contained car equipment package: four door cassettes, platform safety interfaces, batteries, rooftop PV package, charging interface, traction/charge power rack, and accessibility/safety reservations.
+
+![Rooftop solar system assembly](docs/screenshots/trainset-roof-solar-system.png)
+
+Per-car rooftop PV package with bonded flexible laminates, raised rigid panels, mounting rails, edge clamps, junction boxes, fire isolators, MPPT combiner, and downlink gland.
 
 ![Inter-car articulation detail](docs/screenshots/trainset-inter-car-articulation.png)
 

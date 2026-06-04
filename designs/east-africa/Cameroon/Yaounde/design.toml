@@ -1567,105 +1567,120 @@ group_id        = 0
 elevated_line   = "line-8"
 lat             = 3.802276572004463
 lon             = 11.461018196542128
-premium_eur     = 20000000
+premium_usd     = 2000000
+premium_eur     = 1840000
 
 [[junctions]]
 group_id        = 1
 elevated_line   = "line-5"
 lat             = 3.8314310909549003
 lon             = 11.478125623422098
-premium_eur     = 20000000
+premium_usd     = 2000000
+premium_eur     = 1840000
 
 [[junctions]]
 group_id        = 2
 elevated_line   = "line-7"
 lat             = 3.8384497714429684
 lon             = 11.484248281463351
-premium_eur     = 20000000
+premium_usd     = 2000000
+premium_eur     = 1840000
 
 [[junctions]]
 group_id        = 3
 elevated_line   = "line-4"
 lat             = 3.8737231400496706
 lon             = 11.520443995177816
-premium_eur     = 20000000
+premium_usd     = 2000000
+premium_eur     = 1840000
 
 [[junctions]]
 group_id        = 4
 elevated_line   = "line-8"
 lat             = 3.847268113594644
 lon             = 11.448952958637305
-premium_eur     = 20000000
+premium_usd     = 2000000
+premium_eur     = 1840000
 
 [[junctions]]
 group_id        = 5
 elevated_line   = "line-7"
 lat             = 3.8735431738833097
 lon             = 11.460838118364443
-premium_eur     = 20000000
+premium_usd     = 2000000
+premium_eur     = 1840000
 
 [[junctions]]
 group_id        = 6
 elevated_line   = "line-8"
 lat             = 3.9532681855811105
 lon             = 11.52944790406201
-premium_eur     = 20000000
+premium_usd     = 2000000
+premium_eur     = 1840000
 
 [[junctions]]
 group_id        = 7
 elevated_line   = "line-4"
 lat             = 3.850507504589137
 lon             = 11.55159751991713
-premium_eur     = 20000000
+premium_usd     = 2000000
+premium_eur     = 1840000
 
 [[junctions]]
 group_id        = 8
 elevated_line   = "line-8"
 lat             = 3.8892002303566926
 lon             = 11.49901469203343
-premium_eur     = 20000000
+premium_usd     = 2000000
+premium_eur     = 1840000
 
 [[junctions]]
 group_id        = 9
 elevated_line   = "line-8"
 lat             = 3.9012579635028612
 lon             = 11.458317023876868
-premium_eur     = 20000000
+premium_usd     = 2000000
+premium_eur     = 1840000
 
 [[junctions]]
 group_id        = 10
 elevated_line   = "line-8"
 lat             = 3.8337706511175895
 lon             = 11.468221323649482
-premium_eur     = 20000000
+premium_usd     = 2000000
+premium_eur     = 1840000
 
 [[junctions]]
 group_id        = 11
 elevated_line   = "line-8"
 lat             = 3.9408505201022206
 lon             = 11.529627982239694
-premium_eur     = 20000000
+premium_usd     = 2000000
+premium_eur     = 1840000
 
 [[junctions]]
 group_id        = 12
 elevated_line   = "line-8"
 lat             = 3.9480491667566495
 lon             = 11.505497506430052
-premium_eur     = 20000000
+premium_usd     = 2000000
+premium_eur     = 1840000
 
 [[junctions]]
 group_id        = 13
 elevated_line   = "line-8"
 lat             = 3.8845211100313137
 lon             = 11.448412724104253
-premium_eur     = 20000000
+premium_usd     = 2000000
+premium_eur     = 1840000
 
 [[junctions]]
 group_id        = 14
 elevated_line   = "line-8"
 lat             = 3.856446388079041
 lon             = 11.476684998000627
-premium_eur     = 20000000
+premium_usd     = 2000000
+premium_eur     = 1840000
 
 # [[fleets]] — per-line fleet sizing per RFC 0014 §4.
 [[fleets]]
@@ -1724,30 +1739,44 @@ spare_count        = 3
 cold_reserve_count = 1
 trainset_count     = 40
 
-# [costs] — RFC 0011 §9 planning-grade CAPEX (base OECD
-# rates). country-costs.toml applies the per-country labour /
-# material multiplier downstream.
+# [costs] — RFC 0011 §9 planning-grade CAPEX (USD
+# marketplace/direct-procurement floor). country-costs.toml applies
+# the per-country labour/material multiplier downstream.
 [schema]
 version = 2
 cost_power_eur_alias = "deprecated; use costs.charging_microgrid_eur"
 
 [costs]
-# Civil works (€/km × civil mix).
-at_grade_eur         = 842266914
-elevated_eur         = 374847039
+currency_basis      = "USD marketplace/direct-procurement floor; *_eur mirrors retained for schema compatibility"
+usd_to_eur          = 0.92
+# Civil works (USD/km x civil mix; EUR mirror at usd_to_eur).
+at_grade_usd         = 204550536
+at_grade_eur         = 188186493
+elevated_usd         = 83299342
+elevated_eur         = 76635395
+bridge_usd           = 0
 bridge_eur           = 0
-junction_premium_eur = 300000000  # €20 M per elevated interchange.
-civil_subtotal_eur   = 1517113953
+junction_premium_usd = 30000000  # $2 M per elevated interchange.
+junction_premium_eur = 27600000  # EUR 1.8 M per elevated interchange.
+civil_subtotal_usd   = 317849878
+civil_subtotal_eur   = 292421888
 # Stations (RFC 0010 archetype catalogue).
-stations_eur         = 367100000
+stations_usd         = 82030000
+stations_eur         = 75467600
 # Depots (RFC 0014 archetype catalogue).
-depots_eur           = 64000000
-# Rolling stock (RFC 0008 family × fleet count; €1M/car).
-rolling_stock_eur    = 1314000000
+depots_usd           = 19200000
+depots_eur           = 17664000
+# Rolling stock (RFC 0008 family x fleet count; marketplace BOM floor).
+rolling_stock_usd    = 350546635
+rolling_stock_eur    = 322502904
 # Systems: residual train-control wayside + station/depot charging microgrids.
-signalling_eur       = 3922088
-charging_microgrid_eur = 52650000
-power_eur            = 52650000  # deprecated alias for charging_microgrid_eur
+signalling_usd       = 3999820
+signalling_eur       = 3679835
+charging_microgrid_usd = 31900000
+charging_microgrid_eur = 29348000
+power_eur            = 29348000  # deprecated alias for charging_microgrid_eur
 # EPC integration + project management (7 % of subtotal).
-epc_overhead_eur     = 232315023
-total_eur            = 3551101064  # full CAPEX stack
+epc_overhead_usd     = 56386843
+epc_overhead_eur     = 51875896
+total_usd            = 861913177  # full CAPEX stack
+total_eur            = 792960123  # full CAPEX stack

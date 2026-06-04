@@ -37,6 +37,7 @@ COLOR_METAL = Color(0.62, 0.64, 0.66)
 COLOR_RUBBER = Color(0.04, 0.04, 0.045)
 COLOR_GLASS = Color(0.35, 0.58, 0.70, 0.50)
 COLOR_ENVELOPE = Color(0.32, 0.58, 0.82)
+COLOR_SOLAR = Color(0.03, 0.10, 0.24)
 
 COUPLER_FACE_HEIGHT_MM = 720.0
 ARTICULATION_MODULE_LENGTH_MM = 1120.0
@@ -49,6 +50,7 @@ BATTERY_MODULES_PER_CAR = 8
 BATTERY_MODULE_LENGTH_MM = 1450.0
 BATTERY_MODULE_WIDTH_MM = BATTERY_STRAKE_WIDTH_MM - 70.0
 BATTERY_MODULE_HEIGHT_MM = BATTERY_STRAKE_HEIGHT_MM - 80.0
+ROOF_SOLAR_MODULES_PER_CAR = 16
 RAIL_LIDAR_LENGTH_MM = 165.0
 RAIL_LIDAR_WIDTH_MM = 125.0
 RAIL_LIDAR_HEIGHT_MM = 96.0
@@ -886,6 +888,130 @@ def platform_safety_interface(dims: CarDimensions = CarDimensions()) -> Compound
     return Compound(label="Platform door and automation safety interface", children=parts)
 
 
+def roof_solar_system(dims: CarDimensions = CarDimensions()) -> Compound:
+    """Rooftop PV panels, both mount styles, combiner, and isolation kit."""
+
+    parts: list[Part] = []
+    pv_columns = ROOF_SOLAR_MODULES_PER_CAR // 2
+    pv_rows = 2
+    pv_length = dims.body_length_mm - 900.0
+    pv_width = dims.body_width_mm - 300.0
+    panel_pitch_x = pv_length / pv_columns
+    panel_pitch_y = pv_width / pv_rows
+    panel_length = panel_pitch_x - 70.0
+    panel_width = panel_pitch_y - 70.0
+    roof_z = dims.body_height_mm
+
+    for column in range(pv_columns):
+        x = -pv_length / 2.0 + panel_pitch_x * (column + 0.5)
+        for row in range(pv_rows):
+            index = column * pv_rows + row
+            y = -pv_width / 2.0 + panel_pitch_y * (row + 0.5)
+            if index < ROOF_SOLAR_MODULES_PER_CAR / 2:
+                parts.append(
+                    _box(
+                        panel_length + 50.0,
+                        panel_width + 42.0,
+                        18.0,
+                        (x, y, roof_z + 46.0),
+                        "Bonded flexible rooftop solar laminate mount",
+                        COLOR_RUBBER,
+                    )
+                )
+                z = roof_z + 63.0
+                panel_label = "Lightweight flexible roof solar laminate"
+            else:
+                for rail_y in (y - panel_width / 2.0 + 80.0, y + panel_width / 2.0 - 80.0):
+                    parts.append(
+                        _box(
+                            panel_length + 80.0,
+                            42.0,
+                            46.0,
+                            (x, rail_y, roof_z + 70.0),
+                            "Bolted raised solar mounting rail",
+                            COLOR_METAL,
+                        )
+                    )
+                    for clamp_x in (x - panel_length / 2.0 + 150.0, x + panel_length / 2.0 - 150.0):
+                        parts.append(
+                            _box(
+                                54.0,
+                                72.0,
+                                54.0,
+                                (clamp_x, rail_y, roof_z + 104.0),
+                                "Solar module edge clamp",
+                                COLOR_METAL,
+                            )
+                        )
+                z = roof_z + 132.0
+                panel_label = "Raised rigid roof solar panel"
+
+            parts.append(
+                _box(
+                    panel_length,
+                    panel_width,
+                    34.0,
+                    (x, y, z),
+                    panel_label,
+                    COLOR_SOLAR,
+                )
+            )
+            parts.append(
+                _box(
+                    130.0,
+                    90.0,
+                    48.0,
+                    (x + panel_length / 2.0 - 120.0, y, z + 36.0),
+                    "Roof PV module junction box",
+                    COLOR_HV,
+                )
+            )
+
+    for y in (-pv_width / 4.0, pv_width / 4.0):
+        parts.append(
+            _box(
+                pv_length - 500.0,
+                18.0,
+                22.0,
+                (0.0, y, roof_z + 172.0),
+                "Roof PV string wiring raceway",
+                COLOR_HV,
+            )
+        )
+    for x in (-pv_length / 2.0 + panel_pitch_x * 4.0, pv_length / 2.0 - panel_pitch_x):
+        parts.append(
+            _box(
+                360.0,
+                260.0,
+                115.0,
+                (x, 0.0, roof_z + 170.0),
+                "Roof PV fire-isolation switch box",
+                COLOR_ACCESS,
+            )
+        )
+    parts.append(
+        _box(
+            540.0,
+            380.0,
+            210.0,
+            (0.0, 0.0, roof_z + 240.0),
+            "Roof PV MPPT combiner box",
+            COLOR_HV,
+        )
+    )
+    parts.append(
+        _box(
+            480.0,
+            85.0,
+            70.0,
+            (0.0, -dims.body_width_mm / 2.0 + 280.0, roof_z + 70.0),
+            "Roof PV downlink cable gland",
+            COLOR_RUBBER,
+        )
+    )
+    return Compound(label="Rooftop solar panel and mount system", children=parts)
+
+
 def battery_pack_set(dims: CarDimensions = CarDimensions()) -> Compound:
     """Eight under-seat battery module envelopes for one car."""
 
@@ -1032,7 +1158,12 @@ def battery_pack_set(dims: CarDimensions = CarDimensions()) -> Compound:
 
 
 def traction_power_rack() -> Compound:
-    """Inverter, auxiliary converter, coolant, and charge-interface envelopes."""
+    """Traction inverter, aux converter, coolant, and battery charging rack.
+
+    The charge rack accepts both rooftop PV and station-dock charging,
+    then regulates either source onto the per-car 1 500 V battery DC
+    link through isolated contactors and precharge.
+    """
 
     parts: list[Part] = []
     inverter = _part(
@@ -1085,6 +1216,85 @@ def traction_power_rack() -> Compound:
     )
     for x in (-260.0, -90.0, 90.0, 260.0):
         parts.append(_cyl(32.0, 70.0, (x, -220.0, -245.0), "Coolant hose port", COLOR_RUBBER))
+
+    charge_inverter = _part(
+        Box(980.0, 560.0, 430.0).locate(Location((0.0, -870.0, -310.0))),
+        "Multi-input battery charge inverter (roof PV + station dock)",
+        COLOR_HV,
+    )
+    parts.append(charge_inverter)
+    for i in range(9):
+        parts.append(
+            _box(
+                880.0,
+                16.0,
+                118.0,
+                (0.0, -1120.0 + i * 55.0, -34.0),
+                "Charge inverter cooling fin",
+                Color(0.18, 0.18, 0.20),
+            )
+        )
+    parts.extend(
+        [
+            _box(
+                420.0,
+                230.0,
+                190.0,
+                (-290.0, -870.0, -50.0),
+                "Roof PV MPPT DC/DC input module",
+                COLOR_ELECTRONICS,
+            ),
+            _box(
+                420.0,
+                230.0,
+                190.0,
+                (290.0, -870.0, -50.0),
+                "Station charging DC/DC input module",
+                COLOR_ELECTRONICS,
+            ),
+            _box(
+                780.0,
+                90.0,
+                58.0,
+                (0.0, -1188.0, -470.0),
+                "Battery DC-link output busbar from charge inverter",
+                COLOR_HV,
+            ),
+            _box(
+                240.0,
+                180.0,
+                145.0,
+                (-420.0, -540.0, -150.0),
+                "PV input isolation contactor",
+                COLOR_CRASH,
+            ),
+            _box(
+                240.0,
+                180.0,
+                145.0,
+                (420.0, -540.0, -150.0),
+                "Station charge isolation contactor",
+                COLOR_CRASH,
+            ),
+            _box(
+                360.0,
+                150.0,
+                135.0,
+                (0.0, -540.0, -150.0),
+                "Battery charge precharge resistor and contactor",
+                COLOR_CRASH,
+            ),
+            _box(
+                520.0,
+                80.0,
+                110.0,
+                (0.0, -1290.0, -230.0),
+                "Charge inverter CAN/Ethernet controller",
+                COLOR_ELECTRONICS,
+            ),
+        ]
+    )
+
     charge = _part(
         Box(420.0, 220.0, 360.0).locate(Location((0.0, -1500.0, 760.0))),
         "Station side-pin charging connector",
@@ -1103,6 +1313,26 @@ def traction_power_rack() -> Compound:
                 Color(0.92, 0.88, 0.72),
             )
         )
+    parts.append(
+        _box(
+            1180.0,
+            90.0,
+            72.0,
+            (0.0, -1440.0, 365.0),
+            "Station-charge cable route to multi-input inverter",
+            COLOR_HV,
+        )
+    )
+    parts.append(
+        _box(
+            90.0,
+            120.0,
+            1250.0,
+            (-620.0, -760.0, 560.0),
+            "Roof PV downlink to multi-input inverter",
+            COLOR_HV,
+        )
+    )
     return Compound(
         label="Traction power and charging assembly",
         children=parts,
@@ -1318,6 +1548,7 @@ def car_systems(dims: CarDimensions = CarDimensions()) -> Compound:
     parts: list[Part | Compound] = [
         door_systems_for_car(dims),
         platform_safety_interface(dims),
+        roof_solar_system(dims),
         battery_pack_set(dims),
         traction_power_rack(),
         accessibility_and_safety_kit(dims),
@@ -1378,6 +1609,7 @@ __all__ = [
     "end_coupler",
     "inter_car_articulation",
     "platform_safety_interface",
+    "roof_solar_system",
     "system_layout",
     "tobs_sensor_pack",
     "traction_power_rack",

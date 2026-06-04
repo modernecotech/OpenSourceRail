@@ -27,7 +27,8 @@ Document IDs use `LM3` for the `light-metro-3car` family. Revision
 | LM3-INT-230 | Interior fit-out installation | Integrator | COTS catalogue | Seats, rails, floor boards, hatches, panels, signage |
 | LM3-ELC-300 | Low-voltage harness routing | Integrator | `interfaces.md` | Harness schedule, connector list, segregation, labels |
 | LM3-HV-310 | HV battery/traction routing | Integrator | `traction.md` | HVIL loop, busbars/cables, insulation clearances |
-| LM3-HV-320 | Per-car battery pack and charging assembly | Battery + traction suppliers | `traction.md`, BOM | Na-ion module envelope, HV contactor/BMS cabinet, side-pin charge connector, coolant/vent paths |
+| LM3-HV-320 | Per-car battery pack and charging assembly | Battery + traction suppliers | `traction.md`, BOM | Na-ion module envelope, HV contactor/BMS cabinet, multi-input PV/station charge inverter, side-pin charge connector, coolant/vent paths |
+| LM3-HV-325 | Rooftop PV and charge-input assembly | Solar + traction suppliers | `traction.md`, `interfaces.md`, BOM | Bonded flexible laminates, raised rigid panels, roof rails, edge clamps, MPPT combiner, fire isolators, downlink gland, bonding/earthing details |
 | LM3-OBS-330 | T-OBS nose sensor-pack installation | T-OBS supplier + integrator | RFC 0015, BOM | LIDAR, radar, stereo camera, ultrasonic transducers, heated sensor windows, cleaning access |
 | LM3-BOG-400 | Powered bogie assembly | Bogie fabricator | `bogie.md` | Frame drawing, motor/gearbox/brake interfaces |
 | LM3-BOG-410 | Trailer bogie assembly | Bogie fabricator | `bogie.md` | Frame drawing, brake/suspension interfaces |
@@ -65,7 +66,8 @@ Document IDs use `LM3` for the `light-metro-3car` family. Revision
 | Seats/rails | Fire certificate, pull-load certificate, cleaning/repair manual | Fits LM3-INT-230 insert grid |
 | Lighting/PIS/CCTV/intercom | EMC/vibration evidence, firmware version, wiring manual | Enumerates on car network and passes static test |
 | Battery | Cell/module certificate, BMS manual, vent/fire containment data | Fits LM3-BDY-140 and LM3-HV-310 |
-| Traction | Motor/inverter/gearbox datasheets, cooling and EMC instructions | Fits LM3-TRC-500 |
+| Traction and charging | Motor/inverter/gearbox datasheets, multi-input charge inverter datasheet, cooling and EMC instructions | Fits LM3-TRC-500, LM3-HV-320, and LM3-HV-325 |
+| Rooftop solar | PV module datasheets, adhesive/bond process, rail/clamp vibration evidence, fire-isolation switch data | Fits LM3-HV-325 without roof-spaceframe redesign |
 | Bogie parts | Wheelset, bearing, spring, damper, brake supplier certificates | Fits LM3-BOG-400/410 |
 | Articulation/gangway | Bearing rating, motion-envelope proof, bellows/turntable fire evidence, maintenance manual | Fits LM3-SYS-170 without carbody adapter redesign |
 

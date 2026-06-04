@@ -127,7 +127,7 @@ handle. Both ends of the trainset are symmetric; there is no
 | Aspect | Choice | Rationale |
 |---|---|---|
 | GoA level | **GoA 4 default (RFC 0015).** GoA 2 retrofit possible via the `goa2-cab` feature flag, but not the shipped default for new deployments. | Removes driver capex + driver rostering; eliminates the densest section of RFC 0013 |
-| Nose geometry | **Segmented panoramic glass-pane end + sensor cowl + coupler, no cab door.** Cars are symmetric end-to-end; passenger floor extends to the full car length. | ~14 extra seats per `light-metro-3car` consist; ~€140 k + ~2.3 t saved vs. a cabbed reference |
+| Nose geometry | **Segmented panoramic glass-pane end + sensor cowl + coupler, no cab door.** Cars are symmetric end-to-end; passenger floor extends to the full car length. | ~14 extra seats per `light-metro-3car` consist; ~$150 k + ~2.3 t saved vs. a cabbed reference |
 | Obstacle-detection sensor suite | 4× ultrasonic (close-range safety, 0.2–20 m) + solid-state LIDAR (5–200 m, Livox-class) + mmWave radar (5–200 m, all-weather) + stereo camera pair (classifier only). Hosted on the dedicated T-OBS ECU (RFC 0007 §5.5). | Replaces the driver's eyes. Multi-physics architecture so no single sensor failure produces a `Clear` verdict |
 | Passenger emergency intercom | ≥ 4 per car (one per car-end, both doors). Press opens audio+video to OCC remote-assist and commands a controlled brake to the next station. | Replaces the cab's emergency plunger at the passenger interface |
 | Recovery-mode cabinet | Steel-locked enclosure behind each nose. Keyswitch + wired pendant: forward/reverse, 0–15 km/h throttle, emergency stop. | The *only* manual-control path. Physical, locked, slow-speed — not a full cab |

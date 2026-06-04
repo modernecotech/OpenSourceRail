@@ -1,38 +1,89 @@
 # OpenSourceRail Cost Model
 
 This file is the audit trail for the planning-grade costs emitted into
-each city `design.toml` and README. It is intentionally conservative
-about what belongs in each bucket so the same function is not paid for
-twice.
+each city `design.toml` and README. The source currency is now **USD**,
+matching marketplace listings and `lib/templates/country-finance.toml`.
+Generated `*_eur` fields are compatibility mirrors at 0.92 USD->EUR.
+
+The detailed civil marketplace anchors live in
+[`docs/civil/marketplace-cost-anchors.md`](civil/marketplace-cost-anchors.md).
 
 ## Rolling Stock
 
-Rolling stock is budgeted at **€1.0 M per self-contained car**. A
-trainset is simply `cars × €1.0 M`.
+Rolling stock is budgeted at the **marketplace-BOM floor of 267 k USD per
+self-contained car**. A trainset is simply `cars × 266,778 USD`
+(`cars × 245,436 EUR` in the compatibility mirror).
+
+The value is derived from the current
+[`light-metro-3car` BOM](rolling-stock/light-metro-3car/bom-skeleton.md):
+592,840 USD direct material plus the BOM's 35% assembly allowance =
+800,334 USD per 3-car consist.
 
 | Bucket | Base | Low | High | Notes |
 |---|---:|---:|---:|---|
-| Body shell, glazing, doors, interior | €300 k | €240 k | €420 k | Welded steel frame, composite cladding, COTS doors/windows/interior |
-| Bogies and brakes | €220 k | €180 k | €320 k | One powered bogie plus one trailer bogie per car |
-| Traction package | €180 k | €140 k | €280 k | PMSM motors, gearbox, SiC inverter, cooling, HV contactors |
-| Battery and BMS | €120 k | €90 k | €180 k | 120 kWh usable under-seat Na-ion pack |
-| Driverless onboard stack | €90 k | €70 k | €160 k | T-ECU/S, T-ECU/A, T-OBS sensors, radios, event recorder |
-| HVAC, auxiliaries, QA margin | €90 k | €70 k | €160 k | HVAC, lighting, PIS, wiring, assembly QA |
-| **Total** | **€1.0 M** | **€790 k** | **€1.52 M** | Base is the catalogue value |
+| Body shell, glazing, doors, interior | $106 k | $83 k | $166 k | Welded steel frame, composite cladding, COTS doors/windows/interior, articulation share |
+| Bogies and brakes | $51 k | $41 k | $75 k | Two 2-axle bogies per car, wheelsets, suspension, discs, pads, sensors |
+| Traction, battery, HVAC, solar + charging | $93 k | $73 k | $142 k | PMSM motors, gearbox, SiC inverter, 120 kWh pack share, roof PV, charge hardware |
+| Electronics and train-control | $16 k | $12 k | $23 k | T-ECU/S, T-ECU/A, T-OBS sensors, radios, cameras, PIS, event recorder |
+| Accessibility and safety kit | $1 k | $1 k | $2 k | Passenger call buttons, signs, emergency lighting, first-aid/fire kit |
+| **Total** | **$267 k** | **$210 k** | **$409 k** | Marketplace listed-price floor after assembly allowance |
 
 The base value assumes direct procurement, local cut/bend/weld final
 assembly, common bogie modules, composite non-structural cladding,
 COTS doors/windows/HVAC/interior modules, open control electronics,
-and no proprietary CBTC onboard bundle. The high value is a risk
-envelope for first-article procurement or low-volume import-heavy
-builds.
+and no proprietary CBTC onboard bundle. It does **not** include freight,
+duty, rail fire/smoke/toxicity evidence, homologation, warranty, or
+supplier qualification.
 
-The rolling-stock BOM now carries line-level low/base/high bands in
+The rolling-stock BOM carries line-level low/base/high bands in
 [`build/bom/rolling_stock_bom.csv`](../build/bom/rolling_stock_bom.csv).
-For the `light-metro-3car`, the direct-material band is 1.74-3.40 M USD
-before labour; adding the BOM's 35% assembly allowance gives a
-2.34-4.59 M USD planning-grade consist band, with the base case still
-landing at 2.98 M USD.
+For the `light-metro-3car`, the direct-material band is
+466,844-907,244 USD before labour; adding the BOM's 35% assembly
+allowance gives a 630,239-1,224,779 USD marketplace-floor consist band,
+with the base case landing at 800,334 USD.
+
+## Civil Works
+
+Civil work is costed as a direct-procurement floor for standard-gauge,
+double-track OSR alignments:
+
+| Civil class | Unit cost | Included scope |
+|---|---:|---|
+| At-grade | $0.85 M / route-km | UIC60 rail, concrete sleepers, clips/pads/baseplates, ballast, drainage, cable troughs, local installation |
+| Elevated | $4.0 M / route-km | Repeatable precast guideway spans, piers, foundations, bearings, parapets, trackform, erection |
+| Bridge | $6.0 M / route-km | Longer-span/water-crossing version of the elevated stack with heavier foundation and protection allowance |
+| Elevated-interchange premium | $2.0 M / site | Added stacked-platform and approach complexity where an interchange must grade-separate |
+
+These values are intentionally below turnkey metro-bid benchmarks because
+OSR excludes tunnels, overhead catenary, proprietary signalling civil
+plant, bespoke station architecture, and contractor-led EPC margin.
+
+## Stations
+
+Station costs are prefab portal-frame canopy + precast platform edge +
+commodity vertical circulation + simple MEP/signs/CCTV/fare gates.
+
+| Station archetype | Unit cost |
+|---|---:|
+| `halt` | $120 k |
+| `standard` | $300 k |
+| `major` | $600 k |
+| `terminal` | $500 k |
+| `depot-terminal` | $650 k |
+| `interchange` | $900 k |
+| `interchange-elevated` | $1.2 M |
+
+## Depots
+
+| Depot archetype | Unit cost |
+|---|---:|
+| `main-heavy` | $7.5 M |
+| `secondary-medium` | $4.0 M |
+| `layup-minimal` | $900 k |
+
+Depot scope is at-grade portal-frame workshop sheds, pit tracks, stinger
+tracks, portable wheel lathe allowance, local PV/storage tie-in, and no
+overhead bridge crane or traction substation.
 
 ## Charging Microgrids
 
@@ -43,12 +94,12 @@ therefore **station/depot charging microgrid interface CAPEX**.
 
 | Station archetype | Unit cost | Included scope |
 |---|---:|---|
-| `halt` | €125 k | 250 kW class charger, local protection, compact LV tie |
-| `standard` | €250 k | 500 kW class conductive charger, switchgear, inverter interface |
-| `major` | €400 k | Larger queueing/anchor-stop charger and buffer tie |
-| `terminal` | €400 k | End-of-line charger with higher turnback utilization |
-| `interchange` / `interchange-elevated` | €600 k | Multi-platform charger/switchgear allowance |
-| `depot-terminal` | €750 k | Passenger-stop charger plus depot/yard charging interface |
+| `halt` | $75 k | 250 kW class charger, local protection, compact LV tie |
+| `standard` | $150 k | 500 kW class conductive charger, switchgear, inverter interface |
+| `major` | $250 k | Larger queueing/anchor-stop charger and buffer tie |
+| `terminal` | $250 k | End-of-line charger with higher turnback utilization |
+| `interchange` / `interchange-elevated` | $350 k | Multi-platform charger/switchgear allowance |
+| `depot-terminal` | $450 k | Passenger-stop charger plus depot/yard charging interface |
 
 Station PV canopies, large stationary Na-ion packs, depot buildings,
 and train batteries are **not** re-billed here. They appear in station,
@@ -56,10 +107,27 @@ energy-site/depot, and rolling-stock scopes respectively.
 
 ## Train-Control Wayside
 
-Residual train-control wayside is budgeted at **€15 k per route-km**.
+Residual train-control wayside is budgeted at **$15 k per route-km**.
 The expensive ATP/ATO function lives onboard in the trainset cost. The
 wayside scope is sparse W-Nodes at switches/stations, passive balises,
 validation beacons, LoRa gateways, and OCC interfaces.
+
+## Revenue Neutrality
+
+City READMEs now include a post-opening cost-neutral revenue case. The
+model keeps a 5% median-income monthly pass as the affordability marker,
+uses a 6% monthly-pass fare for the break-even case, expands daily
+ridership to an 8-15% planning bracket, and adds station shop leases plus
+advertising boards. The cost-neutral column solves the daily paid trips
+needed so:
+
+```text
+farebox + station-shop leases + advertising
+= annual OPEX + post-grace debt service
+```
+
+Construction-period equity and interest-only grace payments remain a
+public commitment; the cost-neutral case applies after opening.
 
 ## EPC
 
@@ -71,4 +139,4 @@ civil + stations + depots + rolling_stock
 ```
 
 Country labour/material multipliers are applied downstream through
-`lib/templates/country-costs.toml`.
+`lib/templates/country-costs.toml` when a local tender view is needed.

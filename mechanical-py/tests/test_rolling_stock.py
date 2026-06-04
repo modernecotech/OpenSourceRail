@@ -63,8 +63,10 @@ from osr_mech.rolling_stock.sensor_cowl import (
 )
 from osr_mech.rolling_stock.systems import (
     BATTERY_MODULES_PER_CAR,
+    ROOF_SOLAR_MODULES_PER_CAR,
     car_systems,
     inter_car_articulation,
+    roof_solar_system,
 )
 from osr_mech.rolling_stock.trainset import (
     expected_platform_length_m,
@@ -151,6 +153,10 @@ def test_car_body_exposes_complete_layered_design() -> None:
         "Waist rail under window cassette",
         "Window post",
         "Door portal header beam",
+        "Bonded flexible rooftop solar laminate mount",
+        "Rail-clamped raised rooftop solar panel mount",
+        "Roof PV module junction box",
+        "Roof PV fire-isolation switch box",
         "Longitudinal bench seat base on raised bogie floor",
         "Interior step tread to raised bogie-end floor",
         "Main saloon egress aisle envelope",
@@ -274,6 +280,11 @@ def test_trainset_contains_complete_train_systems() -> None:
         "Door/platform safety interlock interface",
         "Na-ion battery module envelope",
         "Station side-pin charging connector",
+        "Multi-input battery charge inverter (roof PV + station dock)",
+        "Roof PV MPPT DC/DC input module",
+        "Station charging DC/DC input module",
+        "Lightweight flexible roof solar laminate",
+        "Raised rigid roof solar panel",
         "T-ECU/S safety cabinet",
         "T-ECU/A application cabinet",
         "A-end T-OBS sensor pack",
@@ -282,6 +293,12 @@ def test_trainset_contains_complete_train_systems() -> None:
     }
     missing = expected.difference(labels)
     assert not missing, f"missing train systems: {sorted(missing)}"
+    assert labels.count("Multi-input battery charge inverter (roof PV + station dock)") == 3
+    assert (
+        labels.count("Lightweight flexible roof solar laminate")
+        + labels.count("Raised rigid roof solar panel")
+        == ROOF_SOLAR_MODULES_PER_CAR * 3
+    )
     assert labels.count("T-ECU/S safety cabinet") == 2
     assert labels.count("T-ECU/A application cabinet") == 2
 
@@ -326,12 +343,34 @@ def test_car_systems_have_expected_repeated_modules() -> None:
     dims = CarDimensions()
     labels = _labels_recursive(car_systems(dims))
     assert labels.count("Na-ion battery module envelope") == BATTERY_MODULES_PER_CAR
+    assert (
+        labels.count("Lightweight flexible roof solar laminate")
+        + labels.count("Raised rigid roof solar panel")
+        == ROOF_SOLAR_MODULES_PER_CAR
+    )
+    assert labels.count("Bonded flexible rooftop solar laminate mount") == ROOF_SOLAR_MODULES_PER_CAR // 2
+    assert labels.count("Roof PV MPPT DC/DC input module") == 1
+    assert labels.count("Station charging DC/DC input module") == 1
+    assert labels.count("Multi-input battery charge inverter (roof PV + station dock)") == 1
     assert labels.count("COTS electric door cassette") == dims.doors_per_side * 2
     assert labels.count("Door sill gap-filler flap") == dims.doors_per_side * 2
     assert labels.count("Platform screen-door alignment datum") == dims.doors_per_side * 2
     assert labels.count("Door/platform safety interlock interface") == dims.doors_per_side * 2
     assert labels.count("T-ECU/S safety cabinet") == 0
     assert labels.count("T-ECU/A application cabinet") == 0
+
+
+def test_roof_solar_system_exposes_both_mount_styles() -> None:
+    labels = _labels_recursive(roof_solar_system(CarDimensions()))
+    assert labels.count("Bonded flexible rooftop solar laminate mount") == ROOF_SOLAR_MODULES_PER_CAR // 2
+    assert labels.count("Lightweight flexible roof solar laminate") == ROOF_SOLAR_MODULES_PER_CAR // 2
+    assert labels.count("Raised rigid roof solar panel") == ROOF_SOLAR_MODULES_PER_CAR // 2
+    assert labels.count("Bolted raised solar mounting rail") == ROOF_SOLAR_MODULES_PER_CAR
+    assert labels.count("Solar module edge clamp") == ROOF_SOLAR_MODULES_PER_CAR * 2
+    assert labels.count("Roof PV module junction box") == ROOF_SOLAR_MODULES_PER_CAR
+    assert labels.count("Roof PV fire-isolation switch box") == 2
+    assert "Roof PV MPPT combiner box" in labels
+    assert "Roof PV downlink cable gland" in labels
 
 
 # ---------------------------------------------------------------------------

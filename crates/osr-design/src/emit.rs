@@ -39,8 +39,9 @@ pub fn write_all(
     let mut civil_mut: Vec<Vec<CivilSegment>> = civil_per_line.to_vec();
     let elevated_junctions = enforce_elevated_junctions(bundle, lines, stations, &mut civil_mut);
     eprintln!(
-        "elevated-junction upgrades: {} junction(s) (\u{20ac}{:.0} M premium)",
+        "elevated-junction upgrades: {} junction(s) (${:.0} M / EUR {:.0} M premium)",
         elevated_junctions.len(),
+        (elevated_junctions.len() as f64) * JUNCTION_PREMIUM_USD / 1_000_000.0,
         (elevated_junctions.len() as f64) * JUNCTION_PREMIUM_EUR / 1_000_000.0
     );
 
@@ -74,7 +75,9 @@ pub fn write_all(
 // Bridge, no upgrade is needed.
 
 const JUNCTION_HALF_WINDOW_CELLS: usize = 25;
-const JUNCTION_PREMIUM_EUR: f64 = 20_000_000.0;
+const USD_TO_EUR: f64 = 0.92;
+const JUNCTION_PREMIUM_USD: f64 = 2_000_000.0;
+const JUNCTION_PREMIUM_EUR: f64 = JUNCTION_PREMIUM_USD * USD_TO_EUR;
 
 #[derive(Debug, Clone)]
 pub(crate) struct ElevatedJunction {
@@ -391,7 +394,7 @@ fn write_design_toml(
     }
 
     // Junctions where one line had to be elevated to clear the other —
-    // these get a flat €20 M premium per junction (1 km of elevation
+    // these get a flat $2 M premium per junction (1 km of elevation
     // including approach + departure, plus the multi-level station
     // structure) on top of the per-segment civil cost the elevated
     // window already incurs.
@@ -405,6 +408,7 @@ fn write_design_toml(
             out.push_str(&format!("elevated_line   = \"{}\"\n", j.elevated_line));
             out.push_str(&format!("lat             = {}\n", j.lat));
             out.push_str(&format!("lon             = {}\n", j.lon));
+            out.push_str(&format!("premium_usd     = {:.0}\n", JUNCTION_PREMIUM_USD));
             out.push_str(&format!("premium_eur     = {:.0}\n", JUNCTION_PREMIUM_EUR));
             out.push_str("\n");
         }
@@ -448,37 +452,62 @@ fn write_design_toml(
         fleet_total_trainsets,
         family,
     );
-    out.push_str("# [costs] — RFC 0011 §9 planning-grade CAPEX (base OECD\n");
-    out.push_str("# rates). country-costs.toml applies the per-country labour /\n");
-    out.push_str("# material multiplier downstream.\n");
+    out.push_str("# [costs] — RFC 0011 §9 planning-grade CAPEX (USD\n");
+    out.push_str("# marketplace/direct-procurement floor). country-costs.toml applies\n");
+    out.push_str("# the per-country labour/material multiplier downstream.\n");
     out.push_str("[schema]\n");
     out.push_str("version = 2\n");
     out.push_str("cost_power_eur_alias = \"deprecated; use costs.charging_microgrid_eur\"\n\n");
     out.push_str("[costs]\n");
-    out.push_str("# Civil works (€/km × civil mix).\n");
+    out.push_str("currency_basis      = \"USD marketplace/direct-procurement floor; *_eur mirrors retained for schema compatibility\"\n");
+    out.push_str(&format!("usd_to_eur          = {:.2}\n", USD_TO_EUR));
+    out.push_str("# Civil works (USD/km × civil mix; EUR mirror at usd_to_eur).\n");
+    out.push_str(&format!("at_grade_usd         = {:.0}\n", costs.at_grade_usd));
     out.push_str(&format!("at_grade_eur         = {:.0}\n", costs.at_grade_eur));
+    out.push_str(&format!("elevated_usd         = {:.0}\n", costs.elevated_usd));
     out.push_str(&format!("elevated_eur         = {:.0}\n", costs.elevated_eur));
+    out.push_str(&format!("bridge_usd           = {:.0}\n", costs.bridge_usd));
     out.push_str(&format!("bridge_eur           = {:.0}\n", costs.bridge_eur));
     out.push_str(&format!(
-        "junction_premium_eur = {:.0}  # \u{20ac}{} M per elevated interchange.\n",
+        "junction_premium_usd = {:.0}  # ${} M per elevated interchange.\n",
+        costs.junction_premium_usd,
+        (JUNCTION_PREMIUM_USD / 1_000_000.0) as u64
+    ));
+    out.push_str(&format!(
+        "junction_premium_eur = {:.0}  # EUR {:.1} M per elevated interchange.\n",
         costs.junction_premium_eur,
-        (JUNCTION_PREMIUM_EUR / 1_000_000.0) as u64
+        JUNCTION_PREMIUM_EUR / 1_000_000.0
+    ));
+    out.push_str(&format!(
+        "civil_subtotal_usd   = {:.0}\n",
+        costs.civil_subtotal_usd
     ));
     out.push_str(&format!(
         "civil_subtotal_eur   = {:.0}\n",
         costs.civil_subtotal_eur
     ));
     out.push_str("# Stations (RFC 0010 archetype catalogue).\n");
+    out.push_str(&format!("stations_usd         = {:.0}\n", costs.stations_usd));
     out.push_str(&format!("stations_eur         = {:.0}\n", costs.stations_eur));
     out.push_str("# Depots (RFC 0014 archetype catalogue).\n");
+    out.push_str(&format!("depots_usd           = {:.0}\n", costs.depots_usd));
     out.push_str(&format!("depots_eur           = {:.0}\n", costs.depots_eur));
-    out.push_str("# Rolling stock (RFC 0008 family × fleet count; €1M/car).\n");
+    out.push_str("# Rolling stock (RFC 0008 family × fleet count; marketplace BOM floor).\n");
+    out.push_str(&format!(
+        "rolling_stock_usd    = {:.0}\n",
+        costs.rolling_stock_usd
+    ));
     out.push_str(&format!(
         "rolling_stock_eur    = {:.0}\n",
         costs.rolling_stock_eur
     ));
     out.push_str("# Systems: residual train-control wayside + station/depot charging microgrids.\n");
+    out.push_str(&format!("signalling_usd       = {:.0}\n", costs.signalling_usd));
     out.push_str(&format!("signalling_eur       = {:.0}\n", costs.signalling_eur));
+    out.push_str(&format!(
+        "charging_microgrid_usd = {:.0}\n",
+        costs.charging_microgrid_usd
+    ));
     out.push_str(&format!(
         "charging_microgrid_eur = {:.0}\n",
         costs.charging_microgrid_eur
@@ -489,8 +518,16 @@ fn write_design_toml(
     ));
     out.push_str("# EPC integration + project management (7 % of subtotal).\n");
     out.push_str(&format!(
+        "epc_overhead_usd     = {:.0}\n",
+        costs.epc_overhead_usd
+    ));
+    out.push_str(&format!(
         "epc_overhead_eur     = {:.0}\n",
         costs.epc_overhead_eur
+    ));
+    out.push_str(&format!(
+        "total_usd            = {:.0}  # full CAPEX stack\n",
+        costs.total_usd
     ));
     out.push_str(&format!(
         "total_eur            = {:.0}  # full CAPEX stack\n",
@@ -690,33 +727,48 @@ fn compute_switches(
 
 #[derive(Debug, Clone, Copy, Default)]
 struct CostSummary {
-    // Civil works (RFC 0011 §9 €/km × civil mix).
+    // Civil works (RFC 0011 §9 USD/km × civil mix, with EUR mirrors).
+    at_grade_usd: f64,
     at_grade_eur: f64,
+    elevated_usd: f64,
     elevated_eur: f64,
+    bridge_usd: f64,
     bridge_eur: f64,
+    junction_premium_usd: f64,
     junction_premium_eur: f64,
+    civil_subtotal_usd: f64,
     civil_subtotal_eur: f64,
     // Stations (RFC 0010 archetype catalogue).
+    stations_usd: f64,
     stations_eur: f64,
     // Depots (RFC 0014 archetype catalogue).
+    depots_usd: f64,
     depots_eur: f64,
     // Rolling stock (RFC 0008 family acquisition cost × fleet count).
+    rolling_stock_usd: f64,
     rolling_stock_eur: f64,
     // Systems — onboard-first train control + station/depot charging.
+    signalling_usd: f64,
     signalling_eur: f64,
+    charging_microgrid_usd: f64,
     charging_microgrid_eur: f64,
     // EPC integration + project management overhead on the subtotal.
+    epc_overhead_usd: f64,
     epc_overhead_eur: f64,
     // Grand total across every bucket above.
+    total_usd: f64,
     total_eur: f64,
 }
 
-/// Planning-grade unit costs from RFC 0011 §9 (€/km of civil works).
-const COST_AT_GRADE_EUR_PER_KM: f64 = 3_500_000.0;
-const COST_ELEVATED_EUR_PER_KM: f64 = 18_000_000.0;
-const COST_BRIDGE_EUR_PER_KM: f64 = 25_000_000.0;
+/// Planning-grade marketplace/direct-procurement floor from RFC 0011 §9
+/// (USD/km of double-track civil works). These are not turnkey metro-bid
+/// numbers: rails, sleepers, fasteners, ballast, prefab viaduct/bridge
+/// components, local installation labour, repeatable QA, and self-EPC.
+const COST_AT_GRADE_USD_PER_KM: f64 = 850_000.0;
+const COST_ELEVATED_USD_PER_KM: f64 = 4_000_000.0;
+const COST_BRIDGE_USD_PER_KM: f64 = 6_000_000.0;
 
-/// Station construction cost by RFC 0010 archetype (€). OSR-discipline:
+/// Station construction cost by RFC 0010 archetype (USD). OSR-discipline:
 /// prefab portal-frame steel canopy + factory-bonded PV sandwich panel
 /// (RFC 0010 §3, ~11 t / 13-bay canopy delivered on two lorries, 3–5 day
 /// erection), precast L-unit platform edge, commodity vertical
@@ -724,52 +776,56 @@ const COST_BRIDGE_EUR_PER_KM: f64 = 25_000_000.0;
 /// ventilation, no underground concourse. Conventional metro stations
 /// land 4–6× higher; this catalogue reflects the no-cladding /
 /// no-tunnel / prefab-only discipline.
-fn station_cost_eur(archetype: &str) -> f64 {
+fn station_cost_usd(archetype: &str) -> f64 {
     match archetype {
-        "halt" => 400_000.0,
-        "standard" => 1_500_000.0,
-        "major" => 3_000_000.0,
-        "terminal" => 2_500_000.0,
-        "depot-terminal" => 3_000_000.0,
-        "interchange" | "interchange-elevated" => 4_500_000.0,
-        _ => 1_500_000.0,
+        "halt" => 120_000.0,
+        "standard" => 300_000.0,
+        "major" => 600_000.0,
+        "terminal" => 500_000.0,
+        "depot-terminal" => 650_000.0,
+        "interchange" => 900_000.0,
+        "interchange-elevated" => 1_200_000.0,
+        _ => 300_000.0,
     }
 }
 
-/// Depot construction cost by RFC 0014 archetype (€). OSR-discipline:
+/// Depot construction cost by RFC 0014 archetype (USD). OSR-discipline:
 /// at-grade portal-frame workshop sheds, pit tracks (no overhead bridge
 /// crane — stinger track + portable wheel lathe per RFC 0014), on-site
 /// PV array, Na-ion stationary storage, no traction substation.
 /// Conventional metro depots land at €100M+ for the same stall count
 /// because of crane infrastructure, traction substation, and bespoke
 /// architectural buildings — none of which OSR carries.
-fn depot_cost_eur(archetype: &str) -> f64 {
+fn depot_cost_usd(archetype: &str) -> f64 {
     match archetype {
-        "main-heavy" => 25_000_000.0,
-        "secondary-medium" => 10_000_000.0,
-        "layup-minimal" => 3_000_000.0,
-        _ => 8_000_000.0,
+        "main-heavy" => 7_500_000.0,
+        "secondary-medium" => 4_000_000.0,
+        "layup-minimal" => 900_000.0,
+        _ => 2_500_000.0,
     }
 }
 
-/// Per-trainset acquisition cost by RFC 0008 family (€). OSR-discipline:
-/// **€1.0 M per self-contained car** ("wagon" in procurement language).
-/// Each car includes aluminium body + interior, one powered bogie, one
-/// trailer bogie, under-seat Na-ion battery, SiC inverter, PMSM motors,
-/// doors, HVAC, onboard sensors, and the GoA 4 control stack. Longer
-/// trainsets are just more identical cars coupled together.
-fn trainset_cost_eur(family: &str) -> f64 {
+/// Per-trainset acquisition cost by RFC 0008 family. OSR-discipline:
+/// the rolling-stock BOM marketplace floor is 800,334 USD for the
+/// 3-car reference consist, including the 35% assembly allowance. City
+/// CAPEX converts that at 0.92 USD->EUR and scales by the number of
+/// self-contained cars. Certification, freight, duty, and supplier
+/// qualification sit outside this marketplace floor.
+const MARKETPLACE_CAR_COST_EUR: f64 = 245_436.0;
+const MARKETPLACE_CAR_COST_USD: f64 = MARKETPLACE_CAR_COST_EUR / USD_TO_EUR;
+
+fn trainset_cost_usd(family: &str) -> f64 {
     match family {
-        "urban-shuttle-1car" => 1_000_000.0,
-        "tram-2car" => 2_000_000.0,
-        "light-metro-3car" => 3_000_000.0,
-        "metro-4car" => 4_000_000.0,
-        "metro-6car" => 6_000_000.0,
-        _ => 3_000_000.0,
+        "urban-shuttle-1car" => MARKETPLACE_CAR_COST_USD,
+        "tram-2car" => 2.0 * MARKETPLACE_CAR_COST_USD,
+        "light-metro-3car" => 3.0 * MARKETPLACE_CAR_COST_USD,
+        "metro-4car" => 4.0 * MARKETPLACE_CAR_COST_USD,
+        "metro-6car" => 6.0 * MARKETPLACE_CAR_COST_USD,
+        _ => 3.0 * MARKETPLACE_CAR_COST_USD,
     }
 }
 
-/// Systems cost rates (€). OSR-discipline:
+/// Systems cost rates (USD). OSR-discipline:
 ///   - Signalling: train-control intelligence runs **onboard** (RFC
 ///     0019 hardware + RFC 0001 SMRaft consensus + RFC 0004
 ///     interlocking). Wayside is now residual: sparse LoRa-linked
@@ -787,16 +843,17 @@ fn trainset_cost_eur(family: &str) -> f64 {
 ///     distribution line along the railway. PV/storage capacity is
 ///     sized in the energy-site catalogue; this cost bucket is the
 ///     station/depot charging hardware allowance.
-const SIGNALLING_EUR_PER_KM: f64 = 15_000.0;
+const SIGNALLING_USD_PER_KM: f64 = 15_000.0;
+const SIGNALLING_EUR_PER_KM: f64 = SIGNALLING_USD_PER_KM * USD_TO_EUR;
 
-fn charging_microgrid_cost_eur(archetype: &str) -> f64 {
+fn charging_microgrid_cost_usd(archetype: &str) -> f64 {
     match archetype {
-        "halt" => 125_000.0,
-        "standard" => 250_000.0,
-        "major" | "terminal" => 400_000.0,
-        "interchange" | "interchange-elevated" => 600_000.0,
-        "depot-terminal" => 750_000.0,
-        _ => 250_000.0,
+        "halt" => 75_000.0,
+        "standard" => 150_000.0,
+        "major" | "terminal" => 250_000.0,
+        "interchange" | "interchange-elevated" => 350_000.0,
+        "depot-terminal" => 450_000.0,
+        _ => 150_000.0,
     }
 }
 
@@ -826,53 +883,78 @@ fn compute_costs(
             }
         }
     }
-    let at_grade_eur = at_grade_m / 1_000.0 * COST_AT_GRADE_EUR_PER_KM;
-    let elevated_eur = elevated_m / 1_000.0 * COST_ELEVATED_EUR_PER_KM;
-    let bridge_eur = bridge_m / 1_000.0 * COST_BRIDGE_EUR_PER_KM;
-    let junction_premium_eur =
-        (elevated_junctions_count as f64) * JUNCTION_PREMIUM_EUR;
+    let at_grade_usd = at_grade_m / 1_000.0 * COST_AT_GRADE_USD_PER_KM;
+    let elevated_usd = elevated_m / 1_000.0 * COST_ELEVATED_USD_PER_KM;
+    let bridge_usd = bridge_m / 1_000.0 * COST_BRIDGE_USD_PER_KM;
+    let junction_premium_usd =
+        (elevated_junctions_count as f64) * JUNCTION_PREMIUM_USD;
+    let at_grade_eur = at_grade_usd * USD_TO_EUR;
+    let elevated_eur = elevated_usd * USD_TO_EUR;
+    let bridge_eur = bridge_usd * USD_TO_EUR;
+    let junction_premium_eur = junction_premium_usd * USD_TO_EUR;
+    let civil_subtotal_usd =
+        at_grade_usd + elevated_usd + bridge_usd + junction_premium_usd;
     let civil_subtotal_eur =
         at_grade_eur + elevated_eur + bridge_eur + junction_premium_eur;
 
-    let stations_eur: f64 = station_archetypes
+    let stations_usd: f64 = station_archetypes
         .iter()
-        .map(|a| station_cost_eur(a))
+        .map(|a| station_cost_usd(a))
         .sum();
-    let depots_eur: f64 = depots
+    let stations_eur = stations_usd * USD_TO_EUR;
+    let depots_usd: f64 = depots
         .iter()
-        .map(|d| depot_cost_eur(d.archetype))
+        .map(|d| depot_cost_usd(d.archetype))
         .sum();
-    let rolling_stock_eur =
-        f64::from(fleet_total_trainsets) * trainset_cost_eur(family);
+    let depots_eur = depots_usd * USD_TO_EUR;
+    let rolling_stock_usd =
+        f64::from(fleet_total_trainsets) * trainset_cost_usd(family);
+    let rolling_stock_eur = rolling_stock_usd * USD_TO_EUR;
 
     let route_km = (at_grade_m + elevated_m + bridge_m) / 1_000.0;
+    let signalling_usd = route_km * SIGNALLING_USD_PER_KM;
     let signalling_eur = route_km * SIGNALLING_EUR_PER_KM;
-    let charging_microgrid_eur: f64 = station_archetypes
+    let charging_microgrid_usd: f64 = station_archetypes
         .iter()
-        .map(|a| charging_microgrid_cost_eur(a))
+        .map(|a| charging_microgrid_cost_usd(a))
         .sum();
+    let charging_microgrid_eur = charging_microgrid_usd * USD_TO_EUR;
 
-    let pre_epc = civil_subtotal_eur
-        + stations_eur
-        + depots_eur
-        + rolling_stock_eur
-        + signalling_eur
-        + charging_microgrid_eur;
-    let epc_overhead_eur = pre_epc * EPC_OVERHEAD_FRACTION;
-    let total_eur = pre_epc + epc_overhead_eur;
+    let pre_epc_usd = civil_subtotal_usd
+        + stations_usd
+        + depots_usd
+        + rolling_stock_usd
+        + signalling_usd
+        + charging_microgrid_usd;
+    let epc_overhead_usd = pre_epc_usd * EPC_OVERHEAD_FRACTION;
+    let total_usd = pre_epc_usd + epc_overhead_usd;
+    let epc_overhead_eur = epc_overhead_usd * USD_TO_EUR;
+    let total_eur = total_usd * USD_TO_EUR;
 
     CostSummary {
+        at_grade_usd,
         at_grade_eur,
+        elevated_usd,
         elevated_eur,
+        bridge_usd,
         bridge_eur,
+        junction_premium_usd,
         junction_premium_eur,
+        civil_subtotal_usd,
         civil_subtotal_eur,
+        stations_usd,
         stations_eur,
+        depots_usd,
         depots_eur,
+        rolling_stock_usd,
         rolling_stock_eur,
+        signalling_usd,
         signalling_eur,
+        charging_microgrid_usd,
         charging_microgrid_eur,
+        epc_overhead_usd,
         epc_overhead_eur,
+        total_usd,
         total_eur,
     }
 }
@@ -1646,26 +1728,26 @@ mod tests {
         // Toy line: 10 km at-grade + 1 km elevated + 0.5 km bridge =
         // 11.5 route-km. Three stations (1 standard, 1 terminal, 1
         // depot-terminal) and two depots (1 main-heavy + 1 layup).
-        // Fleet: 12 trainsets of metro-6car at €6.0 M each
-        // (€1.0 M per self-contained car).
+        // Fleet: 12 trainsets of metro-6car at the marketplace BOM
+        // family floor (6 × $266,778 per self-contained car).
         let civil_per_line = vec![vec![
             CivilSegment {
                 class: CivilClass::AtGrade,
                 from_idx: 0,
                 to_idx: 10,
-                length_m: 10_000.0, // 10 km × €3.5 M = €35 M
+                length_m: 10_000.0, // 10 km × $0.85 M = $8.5 M
             },
             CivilSegment {
                 class: CivilClass::Elevated,
                 from_idx: 10,
                 to_idx: 11,
-                length_m: 1_000.0, // 1 km × €18 M = €18 M
+                length_m: 1_000.0, // 1 km × $4 M = $4 M
             },
             CivilSegment {
                 class: CivilClass::Bridge,
                 from_idx: 11,
                 to_idx: 12,
-                length_m: 500.0, // 0.5 km × €25 M = €12.5 M
+                length_m: 500.0, // 0.5 km × $6 M = $3 M
             },
         ]];
         let archetypes: Vec<&str> =
@@ -1683,26 +1765,36 @@ mod tests {
             },
         ];
         let c = compute_costs(&civil_per_line, &archetypes, &depots, 0, 12, "metro-6car");
-        // Civil works.
-        assert!((c.at_grade_eur - 35_000_000.0).abs() < 1.0);
-        assert!((c.elevated_eur - 18_000_000.0).abs() < 1.0);
-        assert!((c.bridge_eur - 12_500_000.0).abs() < 1.0);
+        // Civil works: USD direct-procurement floor mirrored into EUR.
+        assert!((c.at_grade_usd - 8_500_000.0).abs() < 1.0);
+        assert!((c.at_grade_eur - 7_820_000.0).abs() < 1.0);
+        assert!((c.elevated_usd - 4_000_000.0).abs() < 1.0);
+        assert!((c.elevated_eur - 3_680_000.0).abs() < 1.0);
+        assert!((c.bridge_usd - 3_000_000.0).abs() < 1.0);
+        assert!((c.bridge_eur - 2_760_000.0).abs() < 1.0);
         assert!((c.junction_premium_eur - 0.0).abs() < 1.0);
-        assert!((c.civil_subtotal_eur - 65_500_000.0).abs() < 1.0);
-        // Stations: terminal (€2.5 M) + standard (€1.5 M) + depot-terminal (€3 M).
-        assert!((c.stations_eur - 7_000_000.0).abs() < 1.0);
-        // Depots: main-heavy €25 M + layup-minimal €3 M.
-        assert!((c.depots_eur - 28_000_000.0).abs() < 1.0);
-        // Rolling stock: 12 × €6.0 M.
-        assert!((c.rolling_stock_eur - 72_000_000.0).abs() < 1.0);
-        // Systems: residual signalling at 11.5 km × €0.015 M/km,
+        assert!((c.civil_subtotal_usd - 15_500_000.0).abs() < 1.0);
+        assert!((c.civil_subtotal_eur - 14_260_000.0).abs() < 1.0);
+        // Stations: terminal ($500 k) + standard ($300 k) + depot-terminal ($650 k).
+        assert!((c.stations_usd - 1_450_000.0).abs() < 1.0);
+        assert!((c.stations_eur - 1_334_000.0).abs() < 1.0);
+        // Depots: main-heavy $7.5 M + layup-minimal $0.9 M.
+        assert!((c.depots_usd - 8_400_000.0).abs() < 1.0);
+        assert!((c.depots_eur - 7_728_000.0).abs() < 1.0);
+        // Rolling stock: 12 × €1,472,616.
+        assert!((c.rolling_stock_eur - 17_671_392.0).abs() < 1.0);
+        // Systems: residual signalling at 11.5 km × $0.015 M/km,
         // plus per-stop charging microgrid allowances.
-        assert!((c.signalling_eur - 172_500.0).abs() < 1.0);
-        assert!((c.charging_microgrid_eur - 1_400_000.0).abs() < 1.0);
-        // Subtotal before EPC = 65.5 + 7 + 28 + 72 + 0.1725 + 1.4 = 174.0725 M.
-        // EPC overhead = 7 % × 174.0725 M = 12.185075 M.
-        assert!((c.epc_overhead_eur - 12_185_075.0).abs() < 1.0);
-        // Total = 174.0725 + 12.185075 = 186.257575 M.
-        assert!((c.total_eur - 186_257_575.0).abs() < 1.0);
+        assert!((c.signalling_usd - 172_500.0).abs() < 1.0);
+        assert!((c.signalling_eur - 158_700.0).abs() < 1.0);
+        assert!((c.charging_microgrid_usd - 850_000.0).abs() < 1.0);
+        assert!((c.charging_microgrid_eur - 782_000.0).abs() < 1.0);
+        // Subtotal before EPC = $15.5 + $1.45 + $8.4 + $19.208 + $0.1725 + $0.85 = $45.580535 M.
+        // EPC overhead = 7 % × $45.580535 M = $3.190637 M.
+        assert!((c.epc_overhead_usd - 3_190_637.43).abs() < 1.0);
+        assert!((c.epc_overhead_eur - 2_935_386.44).abs() < 1.0);
+        // Total = $48.771172 M = €44.869478 M.
+        assert!((c.total_usd - 48_771_172.22).abs() < 1.0);
+        assert!((c.total_eur - 44_869_478.44).abs() < 1.0);
     }
 }

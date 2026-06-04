@@ -20,26 +20,27 @@ from pathlib import Path
 
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
+USD_TO_EUR = 0.92
 
 TRAINSET_COST_EUR = {
-    "urban-shuttle-1car": 1_000_000,
-    "tram-2car": 2_000_000,
-    "light-metro-3car": 3_000_000,
-    "metro-4car": 4_000_000,
-    "metro-6car": 6_000_000,
+    "urban-shuttle-1car": 245_436,
+    "tram-2car": 490_872,
+    "light-metro-3car": 736_308,
+    "metro-4car": 981_744,
+    "metro-6car": 1_472_616,
 }
 
 CHARGING_MICROGRID_EUR = {
-    "halt": 125_000,
-    "standard": 250_000,
-    "major": 400_000,
-    "terminal": 400_000,
-    "interchange": 600_000,
-    "interchange-elevated": 600_000,
-    "depot-terminal": 750_000,
+    "halt": 69_000,
+    "standard": 138_000,
+    "major": 230_000,
+    "terminal": 230_000,
+    "interchange": 322_000,
+    "interchange-elevated": 322_000,
+    "depot-terminal": 414_000,
 }
 
-SIGNALLING_EUR_PER_KM = 15_000
+SIGNALLING_EUR_PER_KM = 13_800
 EPC_OVERHEAD_FRAC = 0.07
 
 
@@ -90,6 +91,22 @@ def _charging_microgrid_total(design: dict) -> int:
 
 def _almost_equal(a: float, b: float, tolerance: float = 2.0) -> bool:
     return abs(a - b) <= tolerance
+
+
+def _check_usd_mirror(
+    findings: list[Finding],
+    design_path: Path,
+    costs: dict,
+    stem: str,
+    tolerance: float = 2.0,
+) -> None:
+    usd_key = f"{stem}_usd"
+    eur_key = f"{stem}_eur"
+    if usd_key not in costs or eur_key not in costs:
+        return
+    expected_eur = float(costs[usd_key]) * USD_TO_EUR
+    if not _almost_equal(expected_eur, float(costs[eur_key]), tolerance):
+        findings.append(Finding(design_path, f"{eur_key} does not match {usd_key} × usd_to_eur"))
 
 
 def check_city_artifacts() -> list[Finding]:
@@ -147,9 +164,9 @@ def check_city_costs() -> list[Finding]:
         if family == "<mixed>":
             findings.append(Finding(design_path, "mixed rolling_stock families are not supported by health check"))
         else:
-            expected_rolling = _fleet_total(design) * TRAINSET_COST_EUR.get(family, 3_000_000)
+            expected_rolling = _fleet_total(design) * TRAINSET_COST_EUR.get(family, 736_308)
             if not _almost_equal(expected_rolling, float(costs.get("rolling_stock_eur", 0))):
-                findings.append(Finding(design_path, "rolling_stock_eur does not match €1M/car family cost"))
+                findings.append(Finding(design_path, "rolling_stock_eur does not match marketplace-BOM family cost"))
 
         # osr-design computes signalling from emitted civil segment length.
         # The line headline length can differ slightly after station/segment
@@ -161,7 +178,7 @@ def check_city_costs() -> list[Finding]:
             float(costs.get("signalling_eur", 0)),
             tolerance=signalling_tolerance,
         ):
-            findings.append(Finding(design_path, "signalling_eur does not match €15k/km residual wayside rate"))
+            findings.append(Finding(design_path, "signalling_eur does not match $15k/km residual wayside rate converted to EUR"))
 
         expected_charging = _charging_microgrid_total(design)
         actual_charging = float(costs.get("charging_microgrid_eur", costs.get("power_eur", 0)))
@@ -184,6 +201,22 @@ def check_city_costs() -> list[Finding]:
             findings.append(Finding(design_path, "epc_overhead_eur does not equal 7% of subtotal"))
         if not _almost_equal(expected_total, float(costs.get("total_eur", 0))):
             findings.append(Finding(design_path, "total_eur does not equal subtotal + EPC overhead"))
+
+        for stem in (
+            "at_grade",
+            "elevated",
+            "bridge",
+            "junction_premium",
+            "civil_subtotal",
+            "stations",
+            "depots",
+            "rolling_stock",
+            "signalling",
+            "charging_microgrid",
+            "epc_overhead",
+            "total",
+        ):
+            _check_usd_mirror(findings, design_path, costs, stem)
     return findings
 
 

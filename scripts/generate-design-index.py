@@ -31,10 +31,13 @@ def _coverage(city_dir: Path) -> float:
     return float(m.group(1)) if m else 0.0
 
 
-def _eur(value: float) -> str:
+EUR_TO_USD = 1.0 / 0.92
+
+
+def _usd(value: float) -> str:
     if value >= 1_000_000_000:
-        return f"€{value / 1_000_000_000:.2f}bn"
-    return f"€{value / 1_000_000:.0f}M"
+        return f"${value / 1_000_000_000:.2f}bn"
+    return f"${value / 1_000_000:.0f}M"
 
 
 def _markdown_href(path: Path) -> str:
@@ -59,8 +62,15 @@ def main() -> int:
         lines = design.get("lines", [])
         fleets = design.get("fleets", [])
         route_km = sum(float(line.get("length_m", 0.0)) for line in lines) / 1000.0
-        total_eur = float(costs.get("total_eur", 0.0))
-        charging_eur = float(costs.get("charging_microgrid_eur", costs.get("power_eur", 0.0)))
+        total_usd = float(
+            costs.get("total_usd", float(costs.get("total_eur", 0.0)) * EUR_TO_USD)
+        )
+        charging_usd = float(
+            costs.get(
+                "charging_microgrid_usd",
+                float(costs.get("charging_microgrid_eur", costs.get("power_eur", 0.0))) * EUR_TO_USD,
+            )
+        )
         family = lines[0].get("rolling_stock", "?") if lines else "?"
         rows.append(
             {
@@ -73,9 +83,9 @@ def main() -> int:
                 "route_km": route_km,
                 "fleet": sum(int(f.get("trainset_count", 0)) for f in fleets),
                 "coverage": _coverage(city_dir),
-                "capex": total_eur,
-                "capex_per_km": total_eur / route_km if route_km else 0.0,
-                "charging": charging_eur,
+                "capex": total_usd,
+                "capex_per_km": total_usd / route_km if route_km else 0.0,
+                "charging": charging_usd,
             }
         )
 
@@ -130,7 +140,7 @@ def main() -> int:
         "",
         "## City Catalogue",
         "",
-        "Generated from `designs/*/*/*/design.toml`. Sorted by CAPEX per route-km, then high-demand coverage.",
+        "Generated from `designs/*/*/*/design.toml`. Sorted by USD CAPEX per route-km, then high-demand coverage.",
         "",
         "High-demand coverage is the share of high-demand raster cells (demand >= 0.5) within about 400 m of a planned line. It is a demand / catchment proxy, not a land-area percentage.",
         "",
@@ -142,8 +152,8 @@ def main() -> int:
         out.append(
             f"| [{r['city']}]({href}/) | {r['country']} | `{r['family']}` | "
             f"{r['lines']} | {r['stations']} | {r['route_km']:.0f} | {r['fleet']} | "
-            f"{r['coverage']:.0%} | {_eur(r['capex'])} | {_eur(r['capex_per_km'])} | "
-            f"{_eur(r['charging'])} |"
+            f"{r['coverage']:.0%} | {_usd(r['capex'])} | {_usd(r['capex_per_km'])} | "
+            f"{_usd(r['charging'])} |"
         )
 
     OUT.write_text("\n".join(out) + "\n")

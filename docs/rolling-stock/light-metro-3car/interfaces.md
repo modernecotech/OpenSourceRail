@@ -52,9 +52,11 @@ intervals are in [`articulation.md`](articulation.md).
 | Actuation | Electro-mechanical (no pneumatic) |
 | Location | One train-side connector per car, platform side |
 | ATO interface | Extend/retract via the `osr-ato` + `osr-aux-power` pairing on the T-ECU/A |
+| Onboard power electronics | Per-car multi-input charge inverter shared with rooftop PV input |
 
 The station battery buffer supplies the charge pulse. Inter-car
-coordination and per-car current limits are handled by `osr-aux-power`.
+coordination and per-car current limits are handled by `osr-aux-power`;
+pack current and temperature limits come from `osr-bms`.
 
 ## Platform gap
 
@@ -118,8 +120,22 @@ The charging interface to the station:
 | Ramp rate | Controlled by `osr-aux-power` soft-start to protect the dock contactor |
 | Connector extend / retract signals | From `osr-aux-power` via TCN-E |
 | Isolation | Dock-side mechanical isolator; electrical monitoring via `osr-energy-site` |
+| Onboard sink | Per-car isolated charge inverter, common with roof PV MPPT input |
 
 Full RFC 0002 energy-sizing compatibility.
+
+## Roof PV charge input
+
+The roof solar input is an onboard source, not a wayside interface, but
+it shares the same charge rack and isolation logic as the station dock.
+
+| Parameter | Value |
+|---|---|
+| Modules per car | 16 |
+| Mount styles | 8 bonded flexible laminates; 8 raised rigid panels on rails and edge clamps |
+| String hardware | Module junction boxes, two string raceways, MPPT combiner, fire-isolation switches |
+| Battery interface | PV downlink cable gland into the multi-input charge inverter |
+| Control | `osr-aux-power` selects PV harvest, station charge, regen absorb, or shed-load mode against `osr-bms` limits |
 
 ## Emergency door release (external)
 

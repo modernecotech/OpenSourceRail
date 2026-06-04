@@ -460,10 +460,13 @@ def _quality_value(city_dir: Path, key: str) -> float:
     return 0.0
 
 
-def _eur(value: float) -> str:
+EUR_TO_USD = 1.0 / 0.92
+
+
+def _usd(value: float) -> str:
     if value >= 1_000_000_000:
-        return f"EUR {value / 1_000_000_000:.2f}bn"
-    return f"EUR {value / 1_000_000:.0f}M"
+        return f"USD {value / 1_000_000_000:.2f}bn"
+    return f"USD {value / 1_000_000:.0f}M"
 
 
 def _city_models() -> list[CityModel]:
@@ -484,7 +487,8 @@ def _city_models() -> list[CityModel]:
             for fleet in fleets
         }
         route_km = sum(float(line.get("length_m", 0.0)) for line in lines) / 1000.0
-        capex = float(design.get("costs", {}).get("total_eur", 0.0))
+        costs = design.get("costs", {})
+        capex = float(costs.get("total_usd", float(costs.get("total_eur", 0.0)) * EUR_TO_USD))
         map_candidates = sorted(city_dir.glob("*-network-map.png"))
         line_rows = []
         for line in lines[:8]:
@@ -601,7 +605,7 @@ def _city_brief_flowables(
         ["Route length", f"{model.route_km:.1f} km"],
         ["Fleet", f"{model.fleet} trainsets"],
         ["High-demand coverage", f"{model.coverage:.0%}"],
-        ["CAPEX", f"{_eur(model.capex)} ({_eur(model.capex_per_km)} / km)"],
+        ["CAPEX", f"{_usd(model.capex)} ({_usd(model.capex_per_km)} / km)"],
     ]
     flows: list = [
         Paragraph(html.escape(model.name), styles["h2"]),
