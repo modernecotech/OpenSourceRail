@@ -1,7 +1,7 @@
-"""Build FreeCAD trainset review assemblies from build123d source geometry.
+"""Build FreeCAD trainset review assemblies from parametric source geometry.
 
 Run this with ``FreeCADCmd`` to create a compact ``.FCStd`` document with
-named subassemblies, placements, and visual colours. The build123d source
+named subassemblies, placements, and visual colours. The Python source
 remains the design authority; FreeCAD is the tracked review format.
 """
 
@@ -323,7 +323,7 @@ def build_trainset_document(*, family: str, output: Path) -> None:
             _add_shape(doc, item, groups, shape_cache, temp_dir)
 
     doc.addObject("App::DocumentObjectGroup", "SourceNotes").Label = (
-        "Generated directly from build123d source geometry; build123d remains design authority"
+        "Generated directly from parametric source geometry; Python source remains design authority"
     )
     doc.recompute()
 

@@ -1,8 +1,8 @@
-"""Move build123d source geometry into FreeCAD documents.
+"""Move parametric source geometry into FreeCAD documents.
 
-FreeCAD and build123d both sit on OpenCascade, so the bridge uses a
-temporary BREP handoff during document generation. The only persistent
-review artifacts are the saved FreeCAD documents.
+FreeCAD and the Python CAD source both sit on OpenCascade, so the bridge
+uses a temporary BREP handoff during document generation. The only
+persistent review artifacts are the saved FreeCAD documents.
 """
 
 from __future__ import annotations
@@ -70,9 +70,7 @@ def _export_source_brep_with_host_python(source: SourceGeometry, brep_path: Path
 def _export_source_brep(source: SourceGeometry, brep_path: Path) -> None:
     try:
         _export_source_brep_in_process(source, brep_path)
-    except ModuleNotFoundError as exc:
-        if exc.name not in {"build123d", "OCP"}:
-            raise
+    except ModuleNotFoundError:
         _export_source_brep_with_host_python(source, brep_path)
 
 

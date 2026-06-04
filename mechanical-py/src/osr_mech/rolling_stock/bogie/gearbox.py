@@ -10,7 +10,7 @@ centred on the wheelset axle.
 
 from __future__ import annotations
 
-from build123d import (
+from osr_mech.cad import (
     Align,
     Axis,
     Box,

@@ -5,7 +5,7 @@ from __future__ import annotations
 from collections.abc import Callable
 from pathlib import Path
 
-from build123d import export_brep
+from osr_mech.cad import export_brep
 
 from osr_mech.clearance import reference_envelope, swept_envelope_part
 from osr_mech.rolling_stock.bogie import motor_bogie, trailer_bogie

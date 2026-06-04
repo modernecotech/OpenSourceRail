@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from build123d import Box, Compound, Cylinder, Location
+from osr_mech.cad import Box, Compound, Cylinder, Location
 
 
 def anderson_sb50_envelope() -> Compound:

@@ -381,7 +381,7 @@ def test_fit_out_car_body_has_more_volume_than_plain_body() -> None:
     dims = CarDimensions()
     plain = car_body(dims)
     dressed = fit_out_car_body(dims)
-    # build123d Compound.volume sums child volumes.
+    # Compound.volume sums child volumes.
     plain_volume = _volume_recursive(plain)
     dressed_volume = _volume_recursive(dressed)
     assert dressed_volume > plain_volume, (

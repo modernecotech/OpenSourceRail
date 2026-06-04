@@ -92,7 +92,7 @@ Each end of every consist must provide the summed per-end budget
 The mechanical-py car body + sensor cowl enforce these constraints
 via the `Crashworthiness` helper in
 [osr_mech.rolling_stock.car_body](../../mechanical-py/src/osr_mech/rolling_stock/car_body.py)
-(added in v0.1). The build123d geometry **reserves** the zone
+(added in v0.1). The CAD geometry **reserves** the zone
 envelopes — vendor-supplied shells that fit in must meet the
 mechanical targets below.
 

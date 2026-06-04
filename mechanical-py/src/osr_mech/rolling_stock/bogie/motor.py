@@ -9,7 +9,7 @@ and mounting feet. Mass reference: ≤ 620 kg.
 
 from __future__ import annotations
 
-from build123d import (
+from osr_mech.cad import (
     Align,
     Axis,
     Box,
@@ -92,7 +92,7 @@ def _terminal_box() -> Part:
     """Three-phase + encoder + resolver terminal box, top of housing."""
     with BuildPart() as b:
         with BuildSketch():
-            from build123d import Rectangle
+            from osr_mech.cad import Rectangle
 
             Rectangle(MOTOR_TERMINAL_BOX_WIDTH_MM, MOTOR_TERMINAL_BOX_LENGTH_MM)
         extrude(amount=MOTOR_TERMINAL_BOX_HEIGHT_MM)

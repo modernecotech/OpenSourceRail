@@ -13,7 +13,7 @@ Dimensions follow the EN 13230 B70 family:
 
 from __future__ import annotations
 
-from build123d import (
+from osr_mech.cad import (
     Align,
     BuildPart,
     BuildSketch,

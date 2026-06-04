@@ -32,7 +32,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from enum import Enum
 
-from build123d import (
+from osr_mech.cad import (
     Align,
     BuildPart,
     BuildSketch,
@@ -464,7 +464,7 @@ def fit_out_car_body(dims: CarDimensions = CarDimensions()) -> Compound:
     """
 
     # Flatten the car-body Compound into the fit-out Compound.
-    # build123d's `Compound.volume` sums only direct Part children and
+    # `Compound.volume` sums only direct Part children and
     # ignores nested Compounds, so nesting would hide the shell's
     # volume. Flatten once to preserve introspectability.
     car = car_body(dims)

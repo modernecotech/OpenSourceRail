@@ -8,7 +8,7 @@ are loaded separately and the panel is assembled on site.
 
 from __future__ import annotations
 
-from build123d import Axis, Compound, Part
+from osr_mech.cad import Axis, Compound, Part
 
 from ..common import (
     STANDARD_GAUGE_MM,

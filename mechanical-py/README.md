@@ -2,7 +2,7 @@
 
 Every piece of the OpenSourceRail physical catalogue — rails, sleepers,
 U-girders, station canopies, turnout kits, depot doors, solar mounts —
-is expressed as a parametric `build123d` assembly.
+is expressed as a parametric Python CAD assembly.
 
 ## Design philosophy
 
@@ -46,7 +46,8 @@ locations, and controlled 2D manufacturing drawings.
 Supplier-neutral fixture models intentionally remain generic until a
 procurement freeze. A selected SKU closes the CAD gap only when its
 datasheet envelope, mounting keep-outs, service-removal path, and
-revision are captured in build123d and the matching drawing register.
+revision are captured in the parametric source and matching drawing
+register.
 
 ## Parametric inputs
 
@@ -64,7 +65,7 @@ mechanical catalogue. One source of truth for the whole deployment.
 
 ## Canonical Source
 
-The Python build123d files under [`src/osr_mech/`](src/osr_mech/) are
+The Python CAD source files under [`src/osr_mech/`](src/osr_mech/) are
 the design basis. Tracked FreeCAD `.FCStd` files under
 [`catalog/freecad/`](catalog/freecad/) are the compact assembly-review
 artifacts. Neutral CAD exports are local-only scratch files when a
@@ -137,13 +138,13 @@ rather add a "heavy" SKU than weaken the standard.
 ## FreeCAD assembly bridge
 
 `osr_mech.freecad_trainset` builds a structured FreeCAD document
-directly from the build123d source geometry. The resulting `.FCStd`
+directly from the parametric source geometry. The resulting `.FCStd`
 file is a review and handoff assembly: parts are grouped as car bodies,
 bogies, onboard systems, couplers, platform interfaces, and clearance
 references, with placements and display colours applied for inspection.
 
 The bridge deliberately does not make FreeCAD the source of truth.
-Authoritative geometry stays in build123d; FreeCAD is the compact
+Authoritative geometry stays in the Python source; FreeCAD is the compact
 tracked review format for assembly inspection, drawing generation, and
 partner mark-up.
 

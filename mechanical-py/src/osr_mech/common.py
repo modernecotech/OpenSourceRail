@@ -1,4 +1,4 @@
-"""Shared enums + parameter helpers that bridge the RFCs to build123d.
+"""Shared enums + parameter helpers for RFC-driven CAD models.
 
 The enums mirror the RFC 0008 / 0009 / 0010 / 0011 catalogues exactly —
 if an RFC changes, this file changes first, and every parametric
@@ -53,8 +53,8 @@ class RailGeometry:
     """Simplified UIC rail cross-section, for CAD review only.
 
     Real rolling-mill profiles include fillets and radiused transitions
-    that do not affect clearance checks at 1:10 scale. The build123d
-    extrusion uses a tapered polygon approximation of the UIC standard
+    that do not affect clearance checks at 1:10 scale. The CAD extrusion
+    uses a tapered polygon approximation of the UIC standard
     (head tapers inward at its crown, foot tapers inward at its
     underside edges) — this matches the published linear mass within
     ~2 %. Vendors supplying actual rail stock still roll to the full

@@ -1,7 +1,7 @@
 # FreeCAD Review Assemblies
 
 This folder contains `.FCStd` review assemblies generated directly from
-the build123d source under `../../src/osr_mech/`, which remains the
+the parametric source under `../../src/osr_mech/`, which remains the
 authoritative geometry.
 
 ## Documents

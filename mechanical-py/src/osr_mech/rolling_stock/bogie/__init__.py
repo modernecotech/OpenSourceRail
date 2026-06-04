@@ -7,7 +7,7 @@ Per [RFC 0022](../../../../docs/rfcs/0022-bogie-traction-drive.md):
 - Chevron rubber primary suspension; air-spring secondary.
 - 760 mm / 680 mm wheels, 2 100 mm wheelbase, 1 435 mm gauge.
 
-**Components** (each is a separate build123d function):
+**Components** (each is a separate CAD builder function):
 
 - `wheelset`      — axle + 2 wheels + bearings + brake disc
 - `motor`         — PMSM axle-hung

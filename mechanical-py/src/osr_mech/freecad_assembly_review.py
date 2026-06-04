@@ -1,6 +1,6 @@
 """Create FreeCAD assembled/exploded review states and shape checks.
 
-The review documents are generated directly from build123d source
+The review documents are generated directly from parametric source
 geometry, then saved as compact FreeCAD documents. Assembled and
 disassembled states are placement views for design review.
 """
@@ -325,7 +325,7 @@ def _write_review_doc(
             _add_shape(doc, item, exploded_group, shape_cache, temp_dir)
 
     notes = doc.addObject("App::DocumentObjectGroup", "SourceNotes")
-    notes.Label = "Generated directly from build123d source geometry; assembled and exploded states are placement views"
+    notes.Label = "Generated directly from parametric source geometry; assembled and exploded states are placement views"
     doc.recompute()
     if output.exists():
         output.unlink()
@@ -340,7 +340,7 @@ def _write_report(path: Path, checks_by_doc: dict[str, list[ShapeCheck]]) -> Non
     lines = [
         "# FreeCAD Assembly Geometry Review",
         "",
-        "Generated directly from build123d source geometry. The checks below use FreeCAD/OCC",
+        "Generated directly from parametric source geometry. The checks below use FreeCAD/OCC",
         "`Shape.isValid()`, `Shape.check(True)`, solid counts, volume, and bounding-box",
         "sanity checks on each assembled-state input.",
         "",

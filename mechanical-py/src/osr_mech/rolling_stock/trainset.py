@@ -19,7 +19,7 @@ stopping tolerance and door-control clearance).
 
 from __future__ import annotations
 
-from build123d import Axis, Compound, Part
+from osr_mech.cad import Axis, Compound, Part
 
 from ..common import ConsistFamily, consist_platform_length_m
 from .bogie import WHEELBASE_MM, motor_bogie, trailer_bogie

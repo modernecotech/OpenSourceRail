@@ -2,7 +2,7 @@
 
 This page shows how off-the-shelf rail/bus components join to the
 fabricated `light-metro-3car` body, bogies, cowls, and electrical
-systems. The build123d source remains the design basis; these diagrams
+systems. The parametric source remains the design basis; these diagrams
 are the readable integration map.
 
 ## Whole-Train Part Map
@@ -11,7 +11,7 @@ are the readable integration map.
 
 The train is built from three repeated 17 m car modules:
 
-| Zone | Fabricated parts | COTS / BID modules | Build123d source |
+| Zone | Fabricated parts | COTS / BID modules | Parametric source |
 |---|---|---|---|
 | End cowls | Steel crash frame, cowl backing ring, panoramic glass carrier, LED lamp brackets | Dark RF-transparent open end glass, T-OBS LIDAR/radar/camera/ultrasonic pack, LED headlamps, marker/DRL bars, washer/heater | [`sensor_cowl.py`](../../../mechanical-py/src/osr_mech/rolling_stock/sensor_cowl.py), [`systems.py`](../../../mechanical-py/src/osr_mech/rolling_stock/systems.py) |
 | Body side | S355 side frame, two door portals per side, window rail, waist rail, composite skin | Window cassettes, door cassettes, green livery band, yellow thresholds | [`car_body.py`](../../../mechanical-py/src/osr_mech/rolling_stock/car_body.py) |

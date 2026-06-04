@@ -1,6 +1,6 @@
 # FreeCAD Assembly Geometry Review
 
-Generated directly from build123d source geometry. The checks below use FreeCAD/OCC
+Generated directly from parametric source geometry. The checks below use FreeCAD/OCC
 `Shape.isValid()`, `Shape.check(True)`, solid counts, volume, and bounding-box
 sanity checks on each assembled-state input.
 

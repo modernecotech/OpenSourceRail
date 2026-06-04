@@ -17,7 +17,7 @@ deployment gets the same girder, the same moulds, the same QC.
 
 from __future__ import annotations
 
-from build123d import (
+from osr_mech.cad import (
     Align,
     BuildPart,
     BuildSketch,

@@ -18,7 +18,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from enum import Enum
 
-from build123d import Axis, Compound, Location, Part
+from osr_mech.cad import Axis, Compound, Location, Part
 
 from ...common import STANDARD_GAUGE_MM
 from .brake import brake_unit

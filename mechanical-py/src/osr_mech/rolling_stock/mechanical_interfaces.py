@@ -12,7 +12,7 @@ from __future__ import annotations
 
 from collections.abc import Callable
 
-from build123d import Box, Color, Compound, Cylinder, Location, Part
+from osr_mech.cad import Box, Color, Compound, Cylinder, Location, Part
 
 from .bogie import WHEELBASE_MM
 from .car_body import (

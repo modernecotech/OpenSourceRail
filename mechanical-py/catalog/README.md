@@ -1,7 +1,7 @@
 # Generated Mechanical Review Artifacts
 
 This directory contains generated mechanical review artifacts from
-`mechanical-py`. The authoritative designs are the build123d source
+`mechanical-py`. The authoritative designs are the parametric source
 files under [`../src/osr_mech/`](../src/osr_mech/). Tracked artifacts
 are FreeCAD `.FCStd` review documents, FEA screening output, and
 screenshots referenced from the docs. Neutral CAD interchange exports

@@ -61,13 +61,13 @@ front/back sensing while keeping the CAD envelope swap-friendly.
 
 ## Canonical Parametric Source
 
-The build123d source files are the design basis. FreeCAD `.FCStd`
+The parametric Python source files are the design basis. FreeCAD `.FCStd`
 documents and PNGs are generated review artifacts.
 
 | Source | Controls |
 |---|---|
 | [`trainset.py`](../../../mechanical-py/src/osr_mech/rolling_stock/trainset.py) | Family length, car count, motorisation, cowl/body/bogie assembly |
-| [`car_body.py`](../../../mechanical-py/src/osr_mech/rolling_stock/car_body.py) | 17 m body module as layered build123d subassemblies: primary structure, exterior/glazing/doors, interior, HVAC ducts, LV/data routing, HV/PV/thermal/fire paths |
+| [`car_body.py`](../../../mechanical-py/src/osr_mech/rolling_stock/car_body.py) | 17 m body module as layered CAD subassemblies: primary structure, exterior/glazing/doors, interior, HVAC ducts, LV/data routing, HV/PV/thermal/fire paths |
 | [`sensor_cowl.py`](../../../mechanical-py/src/osr_mech/rolling_stock/sensor_cowl.py) | Open panoramic glass end, LED headlamps, marker lights, and T-OBS visual envelope |
 | [`systems.py`](../../../mechanical-py/src/osr_mech/rolling_stock/systems.py) | Couplers, articulations, batteries, doors, electronics, charging, T-OBS packs |
 | [`bogie/`](../../../mechanical-py/src/osr_mech/rolling_stock/bogie/) | Powered and converted-trailer bogie assemblies |
@@ -85,7 +85,7 @@ as components -> subassemblies -> final car body, so CAD review can
 hide/show the primary steel shell, exterior solar-train skin, passenger
 interior, HVAC ducting, LV/data harnesses, high-voltage traction/PV
 routing, thermal-management pipes, and battery fire vent paths. The
-models are supplier-neutral `build123d` geometry in
+models are supplier-neutral CAD geometry in
 [`mechanical-py/src/osr_mech/rolling_stock`](../../../mechanical-py/src/osr_mech/rolling_stock)
 and render to these design-review PNGs:
 

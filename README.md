@@ -44,7 +44,7 @@ and regenerable documentation/CAD artifacts.
 | [crates/](crates/) | Rust workspace: simulator, interlocking, ATP, brake, obstacle detection, TCMS, GUIs, design synthesis, safety-case compiler |
 | [designs/](designs/) | Generated city models, maps, scenarios, and cost summaries |
 | [design-py/](design-py/) | Python GIS/design sidecar for OSM, WorldPop, raster generation, maps, and batch tooling |
-| [mechanical-py/](mechanical-py/) | Python build123d mechanical catalogue: rolling stock, track, civil, stations, depots, fixtures, generated STEP files |
+| [mechanical-py/](mechanical-py/) | Python parametric mechanical catalogue: rolling stock, track, civil, stations, depots, fixtures, generated FreeCAD review artifacts |
 | [hardware/](hardware/) | Hardware reference designs and DIY assembly for T-ECU/S, T-ECU/A, T-OBS, W-SBC, S-SBC |
 | [docs/](docs/) | Architecture, RFCs, certification pack, safety case, operations, civil, stations, rolling-stock docs |
 | [lib/](lib/) | Machine-readable templates, recipes, examples, city batches, cost/finance inputs |
@@ -127,9 +127,9 @@ Key links:
 - [Fabrication plan](docs/rolling-stock/light-metro-3car/fabrication-plan.md)
 - [Drawing register](docs/rolling-stock/light-metro-3car/drawing-register.md)
 - [Mechanical package](mechanical-py/README.md)
-- [build123d rolling-stock source](mechanical-py/src/osr_mech/rolling_stock/)
-- [Generated STEP catalogue](mechanical-py/catalog/)
-- [Generated STEP catalogue README](mechanical-py/catalog/README.md)
+- [Parametric rolling-stock source](mechanical-py/src/osr_mech/rolling_stock/)
+- [Generated mechanical review catalogue](mechanical-py/catalog/)
+- [Generated review catalogue README](mechanical-py/catalog/README.md)
 
 Selected generated design views:
 

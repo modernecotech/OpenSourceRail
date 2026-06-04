@@ -29,7 +29,7 @@ from __future__ import annotations
 
 import math
 
-from build123d import Compound, Part
+from osr_mech.cad import Compound, Part
 
 from ..common import (
     ConsistFamily,

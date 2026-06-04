@@ -18,7 +18,7 @@ as production-ready.
 
 ## COTS CAD Rule
 
-Build123d and FreeCAD review models may stay supplier-neutral until procurement
+Parametric CAD and FreeCAD review models may stay supplier-neutral until procurement
 freeze. After freeze, each selected supplier module gets a named
 envelope model with revision, datasheet source, keep-out zones, and
 service-removal path. Generic envelope models remain useful for early

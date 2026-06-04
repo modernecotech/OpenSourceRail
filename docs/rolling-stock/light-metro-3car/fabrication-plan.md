@@ -88,7 +88,7 @@ rather than legacy carbody megajigs.
 | LM3-TL-HV-08 | Battery tray/service-lid gauge | Checks tray drainage, lid gasket land, HV cable gland reach, and seat-base clearance | ±1.0 mm on service-lid gasket land |
 
 The current CAD manufacturing templates generated from `mechanical-py`
-are tracked as build123d source and FreeCAD review artifacts:
+are tracked as parametric source and FreeCAD review artifacts:
 
 | Template/source | Use |
 |---|---|

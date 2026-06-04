@@ -202,7 +202,7 @@
   <div class="grid three" style="margin-top:7mm;">
     <div class="card"><h3>Design automation</h3><p>GIS and city templates generate alignments, station placements, maps, cost summaries, and simulator scenarios.</p></div>
     <div class="card"><h3>Control software</h3><p>Rust crates cover simulator, interlocking, ATP, brake, obstacle detection, TCMS, GUIs, and safety-case compilation.</p></div>
-    <div class="card"><h3>Mechanical CAD</h3><p>build123d source generates trainsets, bogies, track, civil works, stations, depots, FreeCAD review files, and screenshots.</p></div>
+    <div class="card"><h3>Mechanical CAD</h3><p>Parametric source generates trainsets, bogies, track, civil works, stations, depots, FreeCAD review files, and screenshots.</p></div>
     <div class="card"><h3>Hardware hosts</h3><p>Reference SBC/ECU classes define train, wayside, station, and obstacle-detection hosts.</p></div>
     <div class="card"><h3>Operations docs</h3><p>Rulebooks, staff procedures, maintenance flows, and depot processes live with the technical design.</p></div>
     <div class="card"><h3>Safety evidence</h3><p>Certification and GSN documents capture assumptions, tests, and remaining evidence gaps.</p></div>
@@ -220,7 +220,7 @@
     <div class="card"><h3>Driverless ends</h3><ul><li>Open glass passenger view, front and rear.</li><li>LED headlamp and marker bars below the glass.</li><li>T-OBS sensors behind serviceable cowl hardware.</li></ul></div>
   </div>
   <div class="grid two" style="margin-top:5mm;">
-    <div class="card"><h3>Design authority</h3><p>build123d source in <code>mechanical-py/src/osr_mech/rolling_stock</code> is the basis. FreeCAD files and PNGs are generated review and handoff artifacts.</p></div>
+    <div class="card"><h3>Design authority</h3><p>Parametric source in <code>mechanical-py/src/osr_mech/rolling_stock</code> is the basis. FreeCAD files and PNGs are generated review and handoff artifacts.</p></div>
     <div class="card"><h3>Procurement stance</h3><p>Make the steel datum structure locally; use supplier-neutral envelopes for doors, windows, HVAC, bogies, traction, batteries, electronics, and passenger modules.</p></div>
   </div>
 </section>
@@ -504,7 +504,7 @@
         <tr><th>Path</th><th>Purpose</th></tr>
         <tr><td>crates/</td><td>Rust simulator, control, safety, GUI, and design tools.</td></tr>
         <tr><td>design-py/ and designs/</td><td>GIS sidecar and generated city design packages.</td></tr>
-        <tr><td>mechanical-py/</td><td>build123d mechanical source and generated FreeCAD review artifacts.</td></tr>
+        <tr><td>mechanical-py/</td><td>Parametric mechanical source and generated FreeCAD review artifacts.</td></tr>
         <tr><td>hardware/</td><td>Hardware references and host-class integration.</td></tr>
         <tr><td>docs/</td><td>Architecture, RFCs, operations, certification, safety case, rolling-stock docs.</td></tr>
         <tr><td>formal/</td><td>TLA+ consensus specification and model-checking harnesses.</td></tr>
@@ -581,7 +581,7 @@
     <div class="card">
       <h3>Open artifact, not a certifier</h3>
       <p>OpenSourceRail produces open designs, software, hardware references, and evidence packs. Deployment partners and national authorities remain responsible for supplier qualification, safety assessment, homologation, and operation.</p>
-      <p class="green"><strong>Start with the generated trainset and production graphics, then follow the build123d source.</strong></p>
+      <p class="green"><strong>Start with the generated trainset and production graphics, then follow the parametric source.</strong></p>
     </div>
   </div>
   <h3 style="margin-top:6mm;">v0.2 deliverable checklist</h3>

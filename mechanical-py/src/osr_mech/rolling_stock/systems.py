@@ -10,7 +10,7 @@ selected supplier owns internal child-part detail in v2 drawings.
 from __future__ import annotations
 
 from dataclasses import dataclass
-from build123d import Box, Color, Compound, Cylinder, Location, Part
+from osr_mech.cad import Box, Color, Compound, Cylinder, Location, Part
 
 from .car_body import (
     BATTERY_STRAKE_BASE_Z_MM,

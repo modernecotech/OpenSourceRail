@@ -28,7 +28,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-from build123d import (
+from osr_mech.cad import (
     Align,
     Axis,
     Box,
@@ -1094,7 +1094,7 @@ def car_body_services(dims: CarDimensions = CarDimensions()) -> Compound:
 
 
 def car_body(dims: CarDimensions = CarDimensions()) -> Compound:
-    """Full cabless passenger car as nested build123d assemblies.
+    """Full cabless passenger car as nested CAD assemblies.
 
     Origin: car centre at floor level (z = 0 is rail head); +X is
     along-track, +Y is across-track.

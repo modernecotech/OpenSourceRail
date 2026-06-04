@@ -22,7 +22,7 @@ Overall height to ridge: 4.2 m (with 1:15 mono-pitch roof).
 
 from __future__ import annotations
 
-from build123d import (
+from osr_mech.cad import (
     Align,
     Axis,
     BuildPart,

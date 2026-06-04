@@ -21,10 +21,10 @@ Steel is the certified load path. Composite panels are non-structural:
 they may stiffen local skins, but crashworthiness, jacking, lifting,
 coupler loads, and bogie loads are closed through the welded frame.
 
-The build123d implementation follows the same hierarchy in
+The CAD implementation follows the same hierarchy in
 [`car_body.py`](../../../mechanical-py/src/osr_mech/rolling_stock/car_body.py):
 
-| build123d subassembly | Included layers |
+| CAD subassembly | Included layers |
 |---|---|
 | `car_body_structure()` | Welded shell, 350 mm and ~10 m low-floor centre pan, 760 mm and ~3 m high-floor bogie-end decks, transition ramps/steps, side sills, raised bogie plinths, bogie sweep/drop envelopes, crossmembers, window posts, waist rails, end rings, anti-climber beams, roof cantrails, door portal posts and headers |
 | `car_body_exterior()` | Solar-train exterior skin: glazing, door leaves, livery band, removable skirts, roof PV array, compact HVAC roof units |

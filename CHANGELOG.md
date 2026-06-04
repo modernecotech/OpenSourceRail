@@ -15,7 +15,7 @@ major subsystem is ready for.
   tests across the safety-critical software surface.
 - **Two Python sidecars**: `design-py` (GIS + network synthesis),
   `mechanical-py` (parametric mechanical / civil / station
-  components on build123d). 28 Python tests passing.
+  source geometry). 28 Python tests passing.
 - **Two egui operator GUIs**: `osr-sim-gui` (designer), `osr-occ-gui`
   (dispatcher). Both native + WebAssembly.
 - **Twenty-seven RFCs** covering software architecture, rail civil

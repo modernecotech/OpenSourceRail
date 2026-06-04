@@ -9,7 +9,7 @@ Pandrol datasheet.
 
 from __future__ import annotations
 
-from build123d import (
+from osr_mech.cad import (
     Align,
     Axis,
     BuildPart,

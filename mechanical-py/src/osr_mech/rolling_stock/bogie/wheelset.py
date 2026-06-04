@@ -20,7 +20,7 @@ from __future__ import annotations
 
 from math import cos, pi, sin
 
-from build123d import (
+from osr_mech.cad import (
     Align,
     Axis,
     BuildPart,
@@ -64,14 +64,14 @@ COLOR_WEAR = Color(0.10, 0.11, 0.12)
 
 def _cylinder(radius_mm: float, length_mm: float, y_centre: float = 0.0) -> Part:
     """A cylinder with axis along Y, centred on y = y_centre."""
-    from build123d import Plane
+    from osr_mech.cad import Plane
 
     with BuildPart() as b:
         with BuildSketch(Plane.XZ):
             Circle(radius_mm)
         extrude(amount=length_mm)
     # extrude on Plane.XZ goes along the plane normal (-Y in
-    # build123d's default handedness). So the raw part spans
+    # the CAD backend's default handedness). So the raw part spans
     # y = 0 to y = -length. Translate to put its centre at y_centre.
     p = b.part.translate((0.0, y_centre + length_mm / 2.0, 0.0))
     return p

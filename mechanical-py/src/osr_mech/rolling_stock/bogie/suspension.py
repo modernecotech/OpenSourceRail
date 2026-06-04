@@ -15,7 +15,7 @@ sandwich plates; air spring as a convoluted toroidal bellows.
 
 from __future__ import annotations
 
-from build123d import (
+from osr_mech.cad import (
     Align,
     Axis,
     BuildPart,
@@ -104,7 +104,7 @@ def primary_suspension() -> Compound:
     packs each = 8 total); the `motor_bogie` assembly instances
     this at 8 positions."""
     pack = _chevron_pack()
-    # Flatten — build123d Compound.volume doesn't recurse, so nesting a
+    # Flatten: Compound.volume doesn't recurse, so nesting a
     # Compound inside a Compound loses the volume reporting path.
     children = list(pack.children) if pack.children else [pack]
     return Compound(

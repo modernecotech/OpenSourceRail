@@ -12,7 +12,7 @@ by the beam cross-section only (no actual material removal).
 
 from __future__ import annotations
 
-from build123d import (
+from osr_mech.cad import (
     Align,
     Axis,
     Box,
@@ -118,7 +118,7 @@ def _end_cross(x_sign: float) -> Part:
 
 def _pivot_boss() -> Part:
     """Central ball-joint pivot boss — where the car body rests."""
-    from build123d import Circle
+    from osr_mech.cad import Circle
 
     with BuildPart() as b:
         with BuildSketch():

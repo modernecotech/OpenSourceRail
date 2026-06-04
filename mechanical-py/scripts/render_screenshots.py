@@ -5,7 +5,7 @@ body), tessellates every solid in each, and rasterises an isometric
 matplotlib 3D view per drawing. Outputs under ``docs/screenshots/``.
 
 The rendering is deliberately simple — a single pass with
-``Poly3DCollection``, per-solid face colour taken from the build123d
+``Poly3DCollection``, per-solid face colour taken from the CAD object's
 ``.color`` attribute where present, default off-white otherwise. No
 camera setup, no raytracing; this is the CAD-sanity view, not a
 marketing render.
@@ -30,7 +30,7 @@ matplotlib.use("Agg")
 
 import matplotlib.pyplot as plt
 import numpy as np
-from build123d import Compound, Part
+from osr_mech.cad import Compound, Part
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection
 from PIL import Image, ImageChops
 
@@ -81,9 +81,9 @@ def _refresh_latest_outputs(out_root: Path) -> None:
 
 
 def _apply_location(V: np.ndarray, loc) -> np.ndarray:
-    """Apply a build123d Location to an (N, 3) vertex array.
+    """Apply a CAD Location to an (N, 3) vertex array.
 
-    build123d Locations wrap an OCP TopLoc_Location whose underlying
+    Locations wrap an OCP TopLoc_Location whose underlying
     gp_Trsf is a 3×4 matrix (rotation + translation). We pull the
     values out one cell at a time and apply `v' = R·v + t`."""
     try:
@@ -143,9 +143,9 @@ def _apply_soft_shading(
 
 
 def _leaf_solids(node) -> list:
-    """Flatten a build123d tree to leaf shapes in world space.
+    """Flatten a CAD tree to leaf shapes in world space.
 
-    build123d's `.children` is an anytree view that can diverge from
+    The `.children` view can diverge from
     the OCP TopoDS tree once `.translate()` is called on a nested
     Compound. We walk the TopoDS tree for the authoritative world-
     space geometry, then pair each Solid with the nearest anytree
@@ -155,7 +155,7 @@ def _leaf_solids(node) -> list:
     anytree_meta = _collect_anytree_meta(node)
 
     # Walk TopoDS for the authoritative solid list.
-    from build123d import Solid
+    from osr_mech.cad import Solid
     from OCP.TopoDS import TopoDS_Iterator
     from OCP.TopAbs import TopAbs_SOLID
 
@@ -491,7 +491,7 @@ def render_all(out_root: Path) -> None:
     )
 
     # 3a. Layered body subassemblies. These are intentionally separate
-    # from the final car render so the current build123d hierarchy is
+    # from the final car render so the current CAD hierarchy is
     # visible in docs without opening a CAD viewer.
     _render(
         car_body_structure(CarDimensions()),

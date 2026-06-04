@@ -12,7 +12,7 @@ from __future__ import annotations
 
 from math import cos, radians, sin
 
-from build123d import Box, Compound, Cylinder, Location
+from osr_mech.cad import Box, Compound, Cylinder, Location
 
 from .fixtures import (
     anderson_sb50_envelope,
