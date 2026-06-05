@@ -22,8 +22,16 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parents[1]
 CAPEX_COSTS = tomllib.loads((REPO_ROOT / "lib/templates/capex-costs.toml").read_text())
 USD_TO_EUR = float(CAPEX_COSTS["schema"]["usd_to_eur"])
-TRAINSET_COST_EUR = {
-    str(k): float(v) for k, v in CAPEX_COSTS["trainset_unit_eur"].items()
+TRAINSET_COST_USD = {
+    str(k): float(v) for k, v in CAPEX_COSTS["trainset_unit_usd"].items()
+}
+PRODUCTION_PLANT_PER_VEHICLE_USD = float(CAPEX_COSTS["production_plant"]["per_vehicle_usd"])
+FAMILY_CAR_COUNT = {
+    "urban-shuttle-1car": 1,
+    "tram-2car": 2,
+    "light-metro-3car": 3,
+    "metro-4car": 4,
+    "metro-6car": 6,
 }
 CHARGING_MICROGRID_EUR = {
     str(k): float(v) * USD_TO_EUR
@@ -122,6 +130,8 @@ def check_city_artifacts() -> list[Finding]:
             text = readme.read_text()
             if "Station/depot charging microgrids" not in text:
                 findings.append(Finding(readme, "missing station/depot charging microgrid cost row"))
+            if "Railway production plant" not in text:
+                findings.append(Finding(readme, "missing railway production plant cost section"))
             for stale in ("Traction power", "€0.8 M/km", "Residual train-control wayside + power"):
                 if stale in text:
                     findings.append(Finding(readme, f"stale generated README wording: {stale!r}"))
@@ -153,9 +163,21 @@ def check_city_costs() -> list[Finding]:
         if family == "<mixed>":
             findings.append(Finding(design_path, "mixed rolling_stock families are not supported by health check"))
         else:
-            expected_rolling = _fleet_total(design) * TRAINSET_COST_EUR.get(family, 736_308)
+            expected_rolling = (
+                _fleet_total(design)
+                * TRAINSET_COST_USD.get(family, 4_200_000)
+                * USD_TO_EUR
+            )
             if not _almost_equal(expected_rolling, float(costs.get("rolling_stock_eur", 0))):
-                findings.append(Finding(design_path, "rolling_stock_eur does not match marketplace-BOM family cost"))
+                findings.append(Finding(design_path, "rolling_stock_eur does not match delivered trainset family cost"))
+            expected_production_plant = (
+                _fleet_total(design)
+                * FAMILY_CAR_COUNT.get(family, 3)
+                * PRODUCTION_PLANT_PER_VEHICLE_USD
+                * USD_TO_EUR
+            )
+            if not _almost_equal(expected_production_plant, float(costs.get("production_plant_eur", 0))):
+                findings.append(Finding(design_path, "production_plant_eur does not match per-vehicle city plant allowance"))
 
         # osr-design computes signalling from emitted civil segment length.
         # The line headline length can differ slightly after station/segment
@@ -184,6 +206,7 @@ def check_city_costs() -> list[Finding]:
             + int(costs.get("stations_eur", 0))
             + int(costs.get("depots_eur", 0))
             + int(costs.get("rolling_stock_eur", 0))
+            + int(costs.get("production_plant_eur", 0))
             + int(costs.get("signalling_eur", 0))
             + int(round(actual_charging))
         )
@@ -203,6 +226,7 @@ def check_city_costs() -> list[Finding]:
             "stations",
             "depots",
             "rolling_stock",
+            "production_plant",
             "signalling",
             "charging_microgrid",
             "epc_overhead",
@@ -227,6 +251,9 @@ def check_stale_terms() -> list[Finding]:
         r"\b900 kWh/trainset\b": "3-car battery basis is now 360 kWh/trainset",
         r"\b450 kWh battery\b": "tram battery basis is now 240 kWh",
         r"€0\.8 M/km": "charging microgrids are costed per stop, not per route-km",
+        r"marketplace-BOM rolling stock": "city CAPEX rolling-stock cost must include delivered production costs",
+        r"\$267 k per self-contained car": "city CAPEX rolling-stock cost is now $1.4 M per self-contained car",
+        r"outside the city CAPEX": "delivery, qualification, warranty, and acceptance testing are now included in city CAPEX train costs",
         r"\bTraction power\s*\(": "use station/depot charging microgrids or onboard motor output",
         r"car-body-22m": "car-body artifact name should match the 17 m module",
         r"Secondary coil spring": "rolling-stock secondary suspension is twin-bellows air spring",

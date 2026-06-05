@@ -72,10 +72,16 @@ _USD_TO_EUR = float(_CAPEX_COSTS["schema"]["usd_to_eur"])
 _EUR_TO_USD = 1.0 / _USD_TO_EUR
 _STATION_UNIT_USD = _float_map(_CAPEX_COSTS["station_unit_usd"])
 _DEPOT_UNIT_USD = _float_map(_CAPEX_COSTS["depot_unit_usd"])
-_TRAINSET_UNIT_EUR = _float_map(_CAPEX_COSTS["trainset_unit_eur"])
-_TRAINSET_UNIT_USD = {
-    key: value * _EUR_TO_USD for key, value in _TRAINSET_UNIT_EUR.items()
-}
+_TRAINSET_UNIT_USD = _float_map(_CAPEX_COSTS["trainset_unit_usd"])
+_PRODUCTION_PLANT_PER_VEHICLE_USD = float(
+    _CAPEX_COSTS["production_plant"]["per_vehicle_usd"]
+)
+_PRODUCTION_PLANT_HIGH_PER_VEHICLE_USD = float(
+    _CAPEX_COSTS["production_plant"].get(
+        "high_sensitivity_per_vehicle_usd",
+        _PRODUCTION_PLANT_PER_VEHICLE_USD,
+    )
+)
 _CIVIL_USD_PER_KM = _float_map(_CAPEX_COSTS["civil_usd_per_km"])
 _AT_GRADE_USD_PER_KM = _CIVIL_USD_PER_KM["at_grade"]
 _ELEVATED_USD_PER_KM = _CIVIL_USD_PER_KM["elevated"]
@@ -108,6 +114,16 @@ _DAILY_RIDERSHIP_POPULATION_FALLBACK_HIGH = float(
 _PRACTICAL_CAPACITY_LOAD_FACTOR = float(
     _RIDERSHIP_PLANNING["practical_capacity_load_factor"]
 )
+
+
+def _family_car_count(family: str) -> int:
+    return {
+        "urban-shuttle-1car": 1,
+        "tram-2car": 2,
+        "light-metro-3car": 3,
+        "metro-4car": 4,
+        "metro-6car": 6,
+    }.get(family, 3)
 
 
 def _pct_range(low: float, high: float) -> str:
@@ -1820,28 +1836,32 @@ def _rich_capex_section(
         design.get("lines", [{}])[0].get("rolling_stock", "tram-2car")
     )
     fleet_total = stats.revenue_fleet + stats.spare_fleet + stats.reserve_fleet
+    vehicle_count = fleet_total * _family_car_count(family)
 
     out: list[str] = []
     out.append("## CAPEX (planning grade)\n")
     out.append(
         "All figures come from the `[costs]` block in "
         "`design.toml` — emitted by the `osr-design` Rust planner per "
-        "RFC 0011 §9. The procurement basis is **USD marketplace / "
-        "direct-supplier pricing**; `*_eur` fields remain in `design.toml` "
+        "RFC 0011 §9. The procurement basis is **USD direct-supplier "
+        "planning pricing**; `*_eur` fields remain in `design.toml` "
         f"only as compatibility mirrors at {_USD_TO_EUR:.2f} USD→EUR. "
         "**OSR-discipline unit costs**: prefab portal-frame canopies (no bespoke "
         "architectural cladding), at-grade depots without overhead bridge "
-        "cranes, **marketplace-BOM rolling stock at about $267 k per "
-        "self-contained car** (derived from the 800,334 USD 3-car BOM "
-        "floor), commodity Na-ion cells + "
-        "tier-2 PMSM motors + DIY SiC inverters, **onboard-first train control "
+        "cranes, **delivered rolling stock at about $1.4 M per "
+        "self-contained car** (raw marketplace BOM retained only as an "
+        "audit floor), commodity Na-ion cells + tier-2 PMSM motors + "
+        "DIY SiC inverters, **onboard-first train control "
         "with only residual wayside** (no trackside fibre backbone, no "
         "proprietary CBTC vendor stack, no trackside computer "
         "interlockings — the function moves into the trainset, already "
         "counted in rolling-stock CAPEX), no overhead catenary, and self-EPC "
-        "overhead. This is a listed-price floor, not a certified rail "
-        "supplier quote; freight, duty, qualification, warranty, and "
-        "acceptance testing sit outside the city CAPEX floor. "
+        "overhead. The rolling-stock line now includes production labour, "
+        "shop overhead, fixtures/tool amortisation, rail QA and "
+        "homologation evidence, freight, duty, warranty, initial spares, "
+        "training, commissioning, and acceptance testing. A separate lean "
+        "railway production-plant setup line adds $100 k per vehicle/car "
+        "module, with $200 k retained as the high sensitivity check. "
         "`country-costs.toml` applies the per-country labour/material "
         "multiplier downstream where a local tender view is needed.\n"
     )
@@ -1928,23 +1948,24 @@ def _rich_capex_section(
 
     out.append("### Rolling stock\n")
     out.append(
-        "Rolling stock is costed at the **marketplace-BOM floor: "
-        "$267 k per self-contained car**. The value comes from the "
-        "3-car light-metro BOM base of 592,840 USD direct material plus "
-        "35 % assembly allowance = 800,334 USD per consist and is divided "
-        "across three cars. Motors, sensors, "
-        "train-control computers, onboard batteries, roof PV, and charge "
-        "hardware appear here ONLY — never re-billed elsewhere in the "
-        "city cost stack.\n"
+        "Rolling stock is costed at the **delivered production planning "
+        "unit: $1.4 M per self-contained car**. The raw 3-car "
+        "light-metro BOM floor remains 592,840 USD direct material plus "
+        "35 % assembly allowance = 800,334 USD per consist, but city CAPEX "
+        "now adds production labour, shop overhead, fixtures/tool "
+        "amortisation, rail QA and homologation evidence, freight, duty, "
+        "warranty, initial spares, training, commissioning, and acceptance "
+        "testing. Motors, sensors, train-control computers, onboard "
+        "batteries, roof PV, and charge hardware appear here ONLY — never "
+        "re-billed elsewhere in the city cost stack.\n"
     )
     out.append("| Per-car cost bucket | Basis | Cost |")
     out.append("|---|---|---|")
-    out.append("| Body shell + interior + doors | Welded frame, composite panels, glass, doors, seats, PRM fixtures | $106 k |")
-    out.append("| Bogies + brakes | Two 2-axle bogies per car, wheelsets, suspension, discs, pads, sensors | $51 k |")
-    out.append("| Traction, battery, HVAC, solar + charging | PMSM/gear/inverter package, 120 kWh pack share, BMS, HVAC, roof PV, charger | $93 k |")
-    out.append("| Electronics + train-control | T-ECU/S, T-ECU/A, T-OBS sensors, radios, cameras, PIS, event recorder | $16 k |")
-    out.append("| Accessibility + safety kit | Passenger call buttons, signs, emergency lighting, first-aid/fire kit | $1 k |")
-    out.append("| **Total per car** | | **$267 k** |\n")
+    out.append("| Direct material BOM floor | Welded frame, panels, glazing, doors, bogies, traction, batteries, HVAC, electronics, interiors | $267 k |")
+    out.append("| Production labour + shop overhead | Cut/bend/weld, fit-out, harnessing, paint, factory supervision, utilities, rework reserve | $420 k |")
+    out.append("| Fixtures, tooling, QA, certification evidence | Jigs/fixtures, dimensional QA, EN 15085/45545 evidence, supplier audits, homologation dossier amortisation | $310 k |")
+    out.append("| Logistics, warranty, spares, commissioning | Freight, duty, insurance, initial spares/tools, manuals/training, site testing, acceptance runs | $403 k |")
+    out.append("| **Total per car** | Delivered production planning unit | **$1.4 M** |\n")
     out.append("| Item | Count | Unit | Subtotal |")
     out.append("|---|---|---|---|")
     rs_unit = _TRAINSET_UNIT_USD.get(family, _TRAINSET_UNIT_USD["light-metro-3car"])
@@ -1952,6 +1973,28 @@ def _rich_capex_section(
         f"| `{family}` (revenue + spare + cold reserve) | "
         f"{fleet_total} | {_money_unit_usd(rs_unit)} | "
         f"{_money('rolling_stock')} |"
+    )
+    out.append("")
+
+    out.append("### Railway production plant\n")
+    out.append(
+        "Each city carries a lean local railway production-plant setup "
+        "allowance for tooling, basic fixtures, plant services, and "
+        "commissioning bay setup. It is costed per vehicle/car module, "
+        "not per trainset, and stays separate from the delivered "
+        "rolling-stock procurement line.\n"
+    )
+    out.append("| Item | Count | Unit | Subtotal |")
+    out.append("|---|---:|---:|---:|")
+    out.append(
+        f"| Vehicle/car modules supported by city fleet | {vehicle_count} | "
+        f"{_money_unit_usd(_PRODUCTION_PLANT_PER_VEHICLE_USD)} | "
+        f"{_money('production_plant')} |"
+    )
+    out.append(
+        f"| High sensitivity check | {vehicle_count} | "
+        f"{_money_unit_usd(_PRODUCTION_PLANT_HIGH_PER_VEHICLE_USD)} | "
+        f"{_money_value_usd(vehicle_count * _PRODUCTION_PLANT_HIGH_PER_VEHICLE_USD)} |"
     )
     out.append("")
 
@@ -1982,6 +2025,7 @@ def _rich_capex_section(
     out.append(f"| Stations | {_money('stations')} |")
     out.append(f"| Depots | {_money('depots')} |")
     out.append(f"| Rolling stock | {_money('rolling_stock')} |")
+    out.append(f"| Railway production plant | {_money('production_plant')} |")
     out.append(
         f"| Residual train-control wayside + charging microgrids | "
         f"{_fmt_usd(_cost_usd('signalling') + _cost_usd('charging_microgrid'))} |"
@@ -2064,8 +2108,9 @@ def main(argv: list[str] | None = None) -> int:
         help=(
             "rolling-stock unit cost, USD per CAR "
             f"(default: {_DEFAULT_TRAIN_CAR_USD:,.0f}). "
-            "A 3-car trainset costs about 800,334 USD before rail "
-            "qualification extras."
+            "A 3-car light-metro trainset costs about 4.2 M USD including "
+            "labour, shop overhead, rail QA, freight/duty, warranty, spares, "
+            "training, commissioning, and acceptance testing."
         ),
     )
     ap.add_argument(

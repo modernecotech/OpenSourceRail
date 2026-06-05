@@ -112,14 +112,14 @@ cold_reserve_count = 1
 trainset_count     = 11
 
 # [costs] — RFC 0011 §9 planning-grade CAPEX (USD
-# marketplace/direct-procurement floor). country-costs.toml applies
+# direct-procurement planning basis). country-costs.toml applies
 # the per-country labour/material multiplier downstream.
 [schema]
 version = 2
 cost_power_eur_alias = "deprecated; use costs.charging_microgrid_eur"
 
 [costs]
-currency_basis      = "USD marketplace/direct-procurement floor; *_eur mirrors retained for schema compatibility"
+currency_basis      = "USD direct-procurement planning basis with labour, shop overhead, rail QA, freight/duty, warranty, spares, training, and acceptance testing included; raw marketplace BOM retained only as audit lower bound; *_eur mirrors retained for schema compatibility"
 usd_to_eur          = 0.92
 # Civil works (USD/km x civil mix; EUR mirror at usd_to_eur).
 at_grade_usd         = 19358700
@@ -138,17 +138,20 @@ stations_eur         = 21160000
 # Depots (RFC 0014 archetype catalogue).
 depots_usd           = 14000000
 depots_eur           = 12880000
-# Rolling stock (RFC 0008 family x fleet count; marketplace BOM floor).
-rolling_stock_usd    = 5869122
-rolling_stock_eur    = 5399592
+# Rolling stock (RFC 0008 family x fleet count; delivered all-in planning unit).
+rolling_stock_usd    = 30800000
+rolling_stock_eur    = 28336000
+# Railway production plant (tooling + plant setup per vehicle/car module, not per trainset).
+production_plant_usd = 2200000
+production_plant_eur = 2024000
 # Systems: residual train-control wayside + station/depot charging microgrids.
 signalling_usd       = 322647
 signalling_eur       = 296835
 charging_microgrid_usd = 2850000
 charging_microgrid_eur = 2622000
 power_eur            = 2622000  # deprecated alias for charging_microgrid_eur
-# EPC integration + project management (7 % of subtotal).
-epc_overhead_usd     = 4578033
-epc_overhead_eur     = 4211790
-total_usd            = 69978502  # full CAPEX stack
-total_eur            = 64380222  # full CAPEX stack
+# EPC integration + project management (7% of subtotal).
+epc_overhead_usd     = 6477194
+epc_overhead_eur     = 5959018
+total_usd            = 99008541  # full CAPEX stack
+total_eur            = 91087858  # full CAPEX stack

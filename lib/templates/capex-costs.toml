@@ -1,13 +1,13 @@
 # CAPEX cost model source of truth.
 #
-# These are planning-grade USD marketplace/direct-procurement floor rates
+# These are planning-grade USD direct-procurement planning rates
 # used by `osr-design` and the generated city README reports. Prose docs
 # may summarize these values, but generated artefacts should read this file
 # rather than carrying parallel constants.
 
 [schema]
 version = 1
-currency_basis = "USD marketplace/direct-procurement floor; *_eur mirrors retained for schema compatibility"
+currency_basis = "USD direct-procurement planning basis with labour, shop overhead, rail QA, freight/duty, warranty, spares, training, and acceptance testing included; raw marketplace BOM retained only as audit lower bound; *_eur mirrors retained for schema compatibility"
 usd_to_eur = 0.92
 
 [civil_usd_per_km]
@@ -32,12 +32,17 @@ interchange = 8000000
 "secondary-medium" = 7000000
 "layup-minimal" = 2000000
 
-[trainset_unit_eur]
-"urban-shuttle-1car" = 245436
-"tram-2car" = 490872
-"light-metro-3car" = 736308
-"metro-4car" = 981744
-"metro-6car" = 1472616
+[trainset_unit_usd]
+"urban-shuttle-1car" = 1400000
+"tram-2car" = 2800000
+"light-metro-3car" = 4200000
+"metro-4car" = 5600000
+"metro-6car" = 8400000
+
+[production_plant]
+per_vehicle_usd = 100000
+high_sensitivity_per_vehicle_usd = 200000
+scope = "City railway production plant, tooling, basic fixtures, plant services, and setup allowance per vehicle/car module, not per trainset"
 
 [systems]
 signalling_usd_per_km = 50000

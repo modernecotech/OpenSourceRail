@@ -18,6 +18,14 @@ manufacturer MBOM. It now covers every train-level subassembly needed
 to build, commission, and maintain the v1 trainset concept; supplier
 drawings still break many lines into child parts during v2.
 
+City CAPEX uses this BOM as an audit lower bound, not as the delivered
+rolling-stock price. The deployable trainset cost is carried in
+[`lib/templates/capex-costs.toml`](../../../lib/templates/capex-costs.toml)
+as a delivered planning unit, and the separate city railway
+production-plant setup allowance is 100 k USD per vehicle/car module
+base, with 200 k USD per vehicle/car module retained as a high
+sensitivity check.
+
 Generated CSV outputs:
 
 - [`build/bom/rolling_stock_bom.csv`](../../../build/bom/rolling_stock_bom.csv)
@@ -250,6 +258,14 @@ Generated cost band from the same line items:
 
 **Marketplace listed-price per-consist floor (volume 100): 0.63-1.22 M
 USD with assembly allowance, base 0.80 M USD.**
+
+This table is an audit lower bound for raw procurement. City CAPEX uses
+the delivered rolling-stock planning unit in
+[`lib/templates/capex-costs.toml`](../../../lib/templates/capex-costs.toml):
+**4.2 M USD per `light-metro-3car` trainset**. That unit adds production
+labour, shop overhead, fixture/tool amortisation, rail QA and
+homologation evidence, freight, duty, insurance, warranty, initial
+spares/tools, manuals, training, commissioning, and acceptance testing.
 
 For comparison, legacy-vendor light-metro trainsets in the target
 regions typically land 4-6 M USD each. The marketplace floor shows how

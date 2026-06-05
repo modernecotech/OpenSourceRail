@@ -439,7 +439,7 @@ fn write_design_toml(
     // Costs — full planning-grade CAPEX stack per RFC 0011 §9: civil
     // works (USD/km × civil mix) + stations (RFC 0010 archetype catalogue)
     // + depots (RFC 0014 archetype catalogue) + rolling stock (RFC 0008
-    // family acquisition cost × fleet) + systems (residual wayside +
+    // delivered family acquisition cost × fleet) + systems (residual wayside +
     // station/depot charging microgrids)
     // + 7 % EPC overhead. `country-costs.toml` scales the totals
     // downstream; the base figure goes in design.toml so the operator
@@ -453,7 +453,7 @@ fn write_design_toml(
         family,
     );
     out.push_str("# [costs] — RFC 0011 §9 planning-grade CAPEX (USD\n");
-    out.push_str("# marketplace/direct-procurement floor). country-costs.toml applies\n");
+    out.push_str("# direct-procurement planning basis). country-costs.toml applies\n");
     out.push_str("# the per-country labour/material multiplier downstream.\n");
     out.push_str("[schema]\n");
     out.push_str("version = 2\n");
@@ -495,7 +495,7 @@ fn write_design_toml(
     out.push_str("# Depots (RFC 0014 archetype catalogue).\n");
     out.push_str(&format!("depots_usd           = {:.0}\n", costs.depots_usd));
     out.push_str(&format!("depots_eur           = {:.0}\n", costs.depots_eur));
-    out.push_str("# Rolling stock (RFC 0008 family × fleet count; marketplace BOM floor).\n");
+    out.push_str("# Rolling stock (RFC 0008 family × fleet count; delivered all-in planning unit).\n");
     out.push_str(&format!(
         "rolling_stock_usd    = {:.0}\n",
         costs.rolling_stock_usd
@@ -503,6 +503,15 @@ fn write_design_toml(
     out.push_str(&format!(
         "rolling_stock_eur    = {:.0}\n",
         costs.rolling_stock_eur
+    ));
+    out.push_str("# Railway production plant (tooling + plant setup per vehicle/car module, not per trainset).\n");
+    out.push_str(&format!(
+        "production_plant_usd = {:.0}\n",
+        costs.production_plant_usd
+    ));
+    out.push_str(&format!(
+        "production_plant_eur = {:.0}\n",
+        costs.production_plant_eur
     ));
     out.push_str("# Systems: residual train-control wayside + station/depot charging microgrids.\n");
     out.push_str(&format!("signalling_usd       = {:.0}\n", costs.signalling_usd));
@@ -750,6 +759,9 @@ struct CostSummary {
     // Rolling stock (RFC 0008 family acquisition cost × fleet count).
     rolling_stock_usd: f64,
     rolling_stock_eur: f64,
+    // City railway production plant (tooling + plant setup per vehicle).
+    production_plant_usd: f64,
+    production_plant_eur: f64,
     // Systems — onboard-first train control + station/depot charging.
     signalling_usd: f64,
     signalling_eur: f64,
@@ -772,7 +784,8 @@ struct CapexCostConfig {
     junctions: JunctionCostRates,
     station_unit_usd: BTreeMap<String, f64>,
     depot_unit_usd: BTreeMap<String, f64>,
-    trainset_unit_eur: BTreeMap<String, f64>,
+    trainset_unit_usd: BTreeMap<String, f64>,
+    production_plant: ProductionPlantCostRates,
     systems: SystemCostRates,
     charging_microgrid_unit_usd: BTreeMap<String, f64>,
     overhead: OverheadCostRates,
@@ -799,6 +812,11 @@ struct JunctionCostRates {
 #[derive(Debug, Deserialize)]
 struct SystemCostRates {
     signalling_usd_per_km: f64,
+}
+
+#[derive(Debug, Deserialize)]
+struct ProductionPlantCostRates {
+    per_vehicle_usd: f64,
 }
 
 #[derive(Debug, Deserialize)]
@@ -853,10 +871,10 @@ fn depot_cost_usd(archetype: &str) -> f64 {
 
 fn trainset_cost_usd(family: &str) -> f64 {
     mapped_cost(
-        &cost_config().trainset_unit_eur,
+        &cost_config().trainset_unit_usd,
         family,
         "light-metro-3car",
-    ) / usd_to_eur()
+    )
 }
 
 fn charging_microgrid_cost_usd(archetype: &str) -> f64 {
@@ -915,6 +933,11 @@ fn compute_costs(
     let rolling_stock_usd =
         f64::from(fleet_total_trainsets) * trainset_cost_usd(family);
     let rolling_stock_eur = eur_from_usd(rolling_stock_usd);
+    let production_vehicle_count =
+        f64::from(fleet_total_trainsets) * f64::from(family_car_count(family));
+    let production_plant_usd =
+        production_vehicle_count * rates.production_plant.per_vehicle_usd;
+    let production_plant_eur = eur_from_usd(production_plant_usd);
 
     let route_km = (at_grade_m + elevated_m + bridge_m) / 1_000.0;
     let signalling_usd = route_km * rates.systems.signalling_usd_per_km;
@@ -929,6 +952,7 @@ fn compute_costs(
         + stations_usd
         + depots_usd
         + rolling_stock_usd
+        + production_plant_usd
         + signalling_usd
         + charging_microgrid_usd;
     let epc_overhead_usd = pre_epc_usd * rates.overhead.epc_fraction;
@@ -953,6 +977,8 @@ fn compute_costs(
         depots_eur,
         rolling_stock_usd,
         rolling_stock_eur,
+        production_plant_usd,
+        production_plant_eur,
         signalling_usd,
         signalling_eur,
         charging_microgrid_usd,
@@ -1002,6 +1028,17 @@ fn family_length_m(family: &str) -> f32 {
         "metro-4car" => 75.0,
         "metro-6car" => 111.0,
         _ => 51.0,
+    }
+}
+
+fn family_car_count(family: &str) -> u32 {
+    match family {
+        "urban-shuttle-1car" => 1,
+        "tram-2car" => 2,
+        "light-metro-3car" => 3,
+        "metro-4car" => 4,
+        "metro-6car" => 6,
+        _ => 3,
     }
 }
 
@@ -1734,7 +1771,7 @@ mod tests {
         // 11.5 route-km. Three stations (1 standard, 1 terminal, 1
         // depot-terminal) and two depots (1 main-heavy + 1 layup).
         // Fleet: 12 trainsets of metro-6car at the configured
-        // marketplace BOM family floor.
+        // delivered rolling-stock family cost.
         let civil_per_line = vec![vec![
             CivilSegment {
                 class: CivilClass::AtGrade,
@@ -1786,20 +1823,24 @@ mod tests {
         // Depots: main-heavy $12.0 M + layup-minimal $2.0 M.
         assert!((c.depots_usd - 14_000_000.0).abs() < 1.0);
         assert!((c.depots_eur - 12_880_000.0).abs() < 1.0);
-        // Rolling stock: 12 × €1,472,616.
-        assert!((c.rolling_stock_eur - 17_671_392.0).abs() < 1.0);
+        // Rolling stock: 12 x $8.4 M mirrored to EUR.
+        assert!((c.rolling_stock_usd - 100_800_000.0).abs() < 1.0);
+        assert!((c.rolling_stock_eur - 92_736_000.0).abs() < 1.0);
+        // Production plant: 12 x 6-car trainsets x $100k/car module.
+        assert!((c.production_plant_usd - 7_200_000.0).abs() < 1.0);
+        assert!((c.production_plant_eur - 6_624_000.0).abs() < 1.0);
         // Systems: residual signalling at 11.5 km × $0.05 M/km,
         // plus per-stop charging microgrid allowances.
         assert!((c.signalling_usd - 575_000.0).abs() < 1.0);
         assert!((c.signalling_eur - 529_000.0).abs() < 1.0);
         assert!((c.charging_microgrid_usd - 1_750_000.0).abs() < 1.0);
         assert!((c.charging_microgrid_eur - 1_610_000.0).abs() < 1.0);
-        // Subtotal before EPC = $98.533035 M.
-        // EPC overhead = 7 % x $98.533035 M = $6.897312 M.
-        assert!((c.epc_overhead_usd - 6_897_312.43).abs() < 1.0);
-        assert!((c.epc_overhead_eur - 6_345_527.44).abs() < 1.0);
-        // Total = $105.430347 M = EUR 96.995919 M.
-        assert!((c.total_usd - 105_430_347.22).abs() < 1.0);
-        assert!((c.total_eur - 96_995_919.44).abs() < 1.0);
+        // Subtotal before EPC = $187.325 M.
+        // EPC overhead = 7 % x $187.325 M = $13.11275 M.
+        assert!((c.epc_overhead_usd - 13_112_750.0).abs() < 1.0);
+        assert!((c.epc_overhead_eur - 12_063_730.0).abs() < 1.0);
+        // Total = $200.43775 M = EUR 184.40273 M.
+        assert!((c.total_usd - 200_437_750.0).abs() < 1.0);
+        assert!((c.total_eur - 184_402_730.0).abs() < 1.0);
     }
 }

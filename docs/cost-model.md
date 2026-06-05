@@ -13,37 +13,70 @@ The detailed civil marketplace anchors live in
 
 ## Rolling Stock
 
-Rolling stock is budgeted at the **marketplace-BOM floor of 267 k USD per
-self-contained car**. A trainset is simply `cars × 266,778 USD`
-(`cars × 245,436 EUR` in the compatibility mirror).
+Rolling stock is budgeted at the **delivered production planning unit of
+1.4 M USD per self-contained car**. A trainset is `cars × 1.4 M USD`
+with `*_eur` mirrors retained at 0.92 USD->EUR.
 
-The value is derived from the current
-[`light-metro-3car` BOM](rolling-stock/light-metro-3car/bom-skeleton.md):
-592,840 USD direct material plus the BOM's 35% assembly allowance =
-800,334 USD per 3-car consist.
+The current
+[`light-metro-3car` BOM](rolling-stock/light-metro-3car/bom-skeleton.md)
+still provides the raw procurement lower bound: 592,840 USD direct
+material plus the BOM's 35% assembly allowance = 800,334 USD per 3-car
+consist. City CAPEX no longer uses that value directly. The planning
+unit now adds the production and delivery costs that a deployable train
+must actually carry.
 
-| Bucket | Base | Low | High | Notes |
-|---|---:|---:|---:|---|
-| Body shell, glazing, doors, interior | $106 k | $83 k | $166 k | Welded steel frame, composite cladding, COTS doors/windows/interior, articulation share |
-| Bogies and brakes | $51 k | $41 k | $75 k | Two 2-axle bogies per car, wheelsets, suspension, discs, pads, sensors |
-| Traction, battery, HVAC, solar + charging | $93 k | $73 k | $142 k | PMSM motors, gearbox, SiC inverter, 120 kWh pack share, roof PV, charge hardware |
-| Electronics and train-control | $16 k | $12 k | $23 k | T-ECU/S, T-ECU/A, T-OBS sensors, radios, cameras, PIS, event recorder |
-| Accessibility and safety kit | $1 k | $1 k | $2 k | Passenger call buttons, signs, emergency lighting, first-aid/fire kit |
-| **Total** | **$267 k** | **$210 k** | **$409 k** | Marketplace listed-price floor after assembly allowance |
+| Per-car cost bucket | Basis | Cost |
+|---|---|---:|
+| Direct material BOM floor | Welded frame, panels, glazing, doors, bogies, traction, batteries, HVAC, electronics, interiors | $267 k |
+| Production labour + shop overhead | Cut/bend/weld, fit-out, harnessing, paint, factory supervision, utilities, rework reserve | $420 k |
+| Fixtures, tooling, QA, certification evidence | Jigs/fixtures, dimensional QA, EN 15085/45545 evidence, supplier audits, homologation dossier amortisation | $310 k |
+| Logistics, warranty, spares, commissioning | Freight, duty, insurance, initial spares/tools, manuals/training, site testing, acceptance runs | $403 k |
+| **Total per car** | Delivered production planning unit | **$1.4 M** |
 
-The base value assumes direct procurement, local cut/bend/weld final
-assembly, common bogie modules, composite non-structural cladding,
-COTS doors/windows/HVAC/interior modules, open control electronics,
-and no proprietary CBTC onboard bundle. It does **not** include freight,
-duty, rail fire/smoke/toxicity evidence, homologation, warranty, or
-supplier qualification.
+| Family | USD / trainset | EUR mirror |
+|---|---:|---:|
+| `urban-shuttle-1car` | $1.4 M | EUR 1.288 M |
+| `tram-2car` | $2.8 M | EUR 2.576 M |
+| `light-metro-3car` | $4.2 M | EUR 3.864 M |
+| `metro-4car` | $5.6 M | EUR 5.152 M |
+| `metro-6car` | $8.4 M | EUR 7.728 M |
+
+The base value assumes direct procurement, local final assembly, common
+bogie modules, composite non-structural cladding, COTS
+doors/windows/HVAC/interior modules, open control electronics, and no
+proprietary CBTC onboard bundle. It **does** include labour, shop
+overhead, tooling amortisation, QA, fire/smoke/toxicity evidence,
+homologation dossier allowance, freight, duty, insurance, warranty,
+initial spares/tools, manuals/training, commissioning, and acceptance
+testing.
 
 The rolling-stock BOM carries line-level low/base/high bands in
 [`build/bom/rolling_stock_bom.csv`](../build/bom/rolling_stock_bom.csv).
 For the `light-metro-3car`, the direct-material band is
 466,844-907,244 USD before labour; adding the BOM's 35% assembly
 allowance gives a 630,239-1,224,779 USD marketplace-floor consist band,
-with the base case landing at 800,334 USD.
+with the base case landing at 800,334 USD. This remains an audit lower
+bound, not the city CAPEX unit.
+
+## Railway Production Plant
+
+Each city also carries a separate local railway production-plant setup
+allowance. The base case is **100 k USD per vehicle/car module**, not
+per trainset; the earlier **200 k USD per vehicle/car module** value is
+kept as a high sensitivity check rather than the default.
+
+This line covers lean local production/assembly setup: basic tooling,
+fixtures, plant services, commissioning bay setup, material handling,
+and production-readiness work. It is deliberately separate from the
+delivered trainset unit above, so procurement costs and city plant setup
+remain auditable instead of being hidden in one large rolling-stock
+number.
+
+| Example | Base plant allowance | High sensitivity |
+|---|---:|---:|
+| 1-car vehicle module | $100 k | $200 k |
+| 3-car `light-metro-3car` trainset | $300 k | $600 k |
+| 55 x 3-car trainsets | $16.5 M | $33.0 M |
 
 ## Civil Works
 
@@ -145,6 +178,7 @@ EPC integration and project management is **7% of subtotal**:
 
 ```text
 civil + stations + depots + rolling_stock
++ railway_production_plant
 + residual_train_control_wayside + charging_microgrids
 ```
 

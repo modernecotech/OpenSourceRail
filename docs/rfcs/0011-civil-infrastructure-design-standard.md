@@ -298,17 +298,40 @@ carry a smaller protected-crossing or compact-access allowance.
 
 ### 9.4 Rolling stock (RFC 0008 family acquisition × fleet count)
 
-| Family | USD / trainset marketplace-BOM floor |
-|---|---|
-| `urban-shuttle-1car` | 266 778 |
-| `tram-2car` | 533 556 |
-| `light-metro-3car` | 800 334 |
-| `metro-4car` | 1 067 113 |
-| `metro-6car` | 1 600 669 |
+Rolling-stock city CAPEX uses a delivered production planning unit, not
+the raw marketplace BOM floor. The unit includes production labour, shop
+overhead, fixture/tool amortisation, rail QA, homologation evidence,
+freight, duty, insurance, warranty, initial spares/tools, manuals,
+training, commissioning, and acceptance testing.
+
+| Family | USD / trainset delivered planning unit |
+|---|---:|
+| `urban-shuttle-1car` | 1 400 000 |
+| `tram-2car` | 2 800 000 |
+| `light-metro-3car` | 4 200 000 |
+| `metro-4car` | 5 600 000 |
+| `metro-6car` | 8 400 000 |
 
 Fleet count = peak-revenue + spare + cold-reserve per RFC 0014 §4.
 
-### 9.5 Systems
+### 9.5 Railway production plant
+
+Every city carries a lean railway production-plant setup allowance for
+the fleet it will build or assemble locally. This is costed per
+vehicle/car module, not per trainset, and stays separate from the
+delivered rolling-stock procurement line.
+
+| Item | Planning-grade basis |
+|---|---:|
+| Base local plant setup | 100 000 USD / vehicle-car module |
+| High sensitivity check | 200 000 USD / vehicle-car module |
+
+The allowance covers basic tooling, fixtures, plant services,
+commissioning bay setup, material handling, and production-readiness
+work. A 3-car `light-metro-3car` trainset therefore carries 300 000 USD
+of base plant allowance, while the high sensitivity is 600 000 USD.
+
+### 9.6 Systems
 
 | Item | Planning-grade basis |
 |---|---|
@@ -323,10 +346,10 @@ station/depot microgrid tie-in. PV/storage quantities are sized in the
 energy-site catalogue rather than as a continuous per-km rail-power
 system.
 
-### 9.6 EPC overhead
+### 9.7 EPC overhead
 
 Integration + project management is **7 %** of the subtotal across
-§9.1 – §9.5.
+§9.1 – §9.6.
 
 Rates are deployment-localised via the
 [`country-costs.toml`](../../lib/templates/country-costs.toml)
@@ -400,7 +423,8 @@ civil contractor can mobilise.
 | **v1** | `osr-routing::civil` updated to drop tunnel classes (in this RFC's commit) | v0 |
 | **v2** ✅ | Emit `[costs]` block (at_grade / elevated / bridge / total_eur) per city in the auto-gen output, using the §9 rate table (done 2026-04-22) | v1 |
 | **v2.1** ✅ | Extend `[costs]` to the full CAPEX stack — stations (RFC 0010 archetypes), depots (RFC 0014 archetypes), rolling stock (RFC 0008 families), GoA 4 onboard autonomy/residual wayside train control, station/depot charging microgrids, and EPC overhead. The `total_eur` compatibility mirror became the full one-number headline, not just civil works (done 2026-04-26; renamed `power_eur` to `charging_microgrid_eur` in schema v2 on 2026-05-01) | v2 |
-| **v2.2** ✅ | Move the source cost basis to USD marketplace/direct-procurement floors, add `*_usd` fields, keep `*_eur` mirrors, and drop EPC overhead to 7 % (done 2026-06-04). | v2.1 |
+| **v2.2** ✅ | Move the source cost basis to USD direct-procurement planning rates, add `*_usd` fields, keep `*_eur` mirrors, and drop EPC overhead to 7 % (done 2026-06-04). | v2.1 |
+| **v2.3** ✅ | Add the city railway production-plant setup bucket at 100 000 USD per vehicle/car module, with 200 000 USD per vehicle/car module retained as a high sensitivity check (done 2026-06-05). | v2.2 |
 | **v3** ✅ (partial) | Parametric U-girder at [`mechanical-py/src/osr_mech/civil/ugirder.py`](../../mechanical-py/src/osr_mech/civil/ugirder.py) with 20 / 25 / 30 m spans under the one-mould constraint (done 2026-04-22); tracked review artifacts now use compact FreeCAD/PNG outputs, with local neutral CAD export available only when a partner toolchain requires it. Precast L-unit platform edge at [`mechanical-py/src/osr_mech/civil/platform_l_unit.py`](../../mechanical-py/src/osr_mech/civil/platform_l_unit.py). Remaining for v3 full-complete: pier + abutment parametric kits + CERN-OHL-S v2 relicensing of the catalogue tree. | v0 |
 | **v4** | Worked civil design for Samawah Line 1 (an 11 km at-grade stretch + 2 km elevated over the existing rail corridor + 1 km bridge over the Euphrates approach) | v3, RFC 0003 |
 | **v5** | First-article viaduct erected at the Samawah pilot | v3 |

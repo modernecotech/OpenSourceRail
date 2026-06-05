@@ -17,6 +17,14 @@ electric, and designed around local manufacture: welded steel primary
 structures, COTS rail/bus modules where sensible, commodity compute,
 and regenerable documentation/CAD artifacts.
 
+Current city CAPEX uses delivered rolling stock at about **$1.4M per
+self-contained car** plus a separate lean **$100k per vehicle/car
+module** railway production-plant setup allowance; **$200k per
+vehicle/car module** is retained only as the high sensitivity check.
+The machine-readable source is
+[lib/templates/capex-costs.toml](lib/templates/capex-costs.toml), with
+the audit trail in [docs/cost-model.md](docs/cost-model.md).
+
 **Current milestone:** [v0.1](CHANGELOG.md), with active
 [v0.2 work](docs/ROADMAP.md).
 
