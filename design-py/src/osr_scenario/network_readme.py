@@ -941,7 +941,7 @@ def _funding_and_affordability_section(
         f"{target_recovery:.0%} | {target_recovery:.0%} | {target_recovery:.0%} |"
     )
     out.append(
-        f"| Remaining steady-state gov commitment | "
+        f"| Gov debt service + residual OPEX subsidy | "
         f"{_usd(steady_state_low)} / yr | "
         f"{_usd(steady_state_high)} / yr | "
         f"**{_usd(cost_neutral_steady_state)} / yr** |"

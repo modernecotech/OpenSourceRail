@@ -248,7 +248,7 @@ Planning ridership bracket = 18-30% of catchment × 365 service-days at the oper
 | **Total revenue** | **$67 M / yr** | **$102 M / yr** | **$29 M / yr** |
 | Revenue / OPEX recovery | 232% | 354% | 100% |
 | Country farebox-only policy target (diagnostic) | 85% | 85% | 85% |
-| Remaining steady-state gov commitment | $43 M / yr | $43 M / yr | **$43 M / yr** |
+| Gov debt service + residual OPEX subsidy | $43 M / yr | $43 M / yr | **$43 M / yr** |
 | Operating surplus after OPEX | $38 M / yr | $73 M / yr | $0 / yr |
 
 _Commercial-revenue assumptions: 4,304 m² of station shop/kiosk leases at $90/m²/month and 868 advertising boards at $1190/board/month, with occupancy derates applied._
