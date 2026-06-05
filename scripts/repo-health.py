@@ -20,28 +20,17 @@ from pathlib import Path
 
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
-USD_TO_EUR = 0.92
-
+CAPEX_COSTS = tomllib.loads((REPO_ROOT / "lib/templates/capex-costs.toml").read_text())
+USD_TO_EUR = float(CAPEX_COSTS["schema"]["usd_to_eur"])
 TRAINSET_COST_EUR = {
-    "urban-shuttle-1car": 245_436,
-    "tram-2car": 490_872,
-    "light-metro-3car": 736_308,
-    "metro-4car": 981_744,
-    "metro-6car": 1_472_616,
+    str(k): float(v) for k, v in CAPEX_COSTS["trainset_unit_eur"].items()
 }
-
 CHARGING_MICROGRID_EUR = {
-    "halt": 69_000,
-    "standard": 138_000,
-    "major": 230_000,
-    "terminal": 230_000,
-    "interchange": 322_000,
-    "interchange-elevated": 322_000,
-    "depot-terminal": 414_000,
+    str(k): float(v) * USD_TO_EUR
+    for k, v in CAPEX_COSTS["charging_microgrid_unit_usd"].items()
 }
-
-SIGNALLING_EUR_PER_KM = 13_800
-EPC_OVERHEAD_FRAC = 0.07
+SIGNALLING_EUR_PER_KM = float(CAPEX_COSTS["systems"]["signalling_usd_per_km"]) * USD_TO_EUR
+EPC_OVERHEAD_FRAC = float(CAPEX_COSTS["overhead"]["epc_fraction"])
 
 
 @dataclass
@@ -178,7 +167,10 @@ def check_city_costs() -> list[Finding]:
             float(costs.get("signalling_eur", 0)),
             tolerance=signalling_tolerance,
         ):
-            findings.append(Finding(design_path, "signalling_eur does not match $15k/km residual wayside rate converted to EUR"))
+            findings.append(Finding(
+                design_path,
+                "signalling_eur does not match residual wayside rate converted to EUR",
+            ))
 
         expected_charging = _charging_microgrid_total(design)
         actual_charging = float(costs.get("charging_microgrid_eur", costs.get("power_eur", 0)))

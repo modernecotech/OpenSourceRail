@@ -44,10 +44,10 @@ Planning-grade USD/km direct-procurement floor × civil mix:
 
 | Class | USD/km | Length | Subtotal (USD) |
 |---|---|---|---|
-| at-grade | 1 200 000 | 24 km | 28 800 000 |
-| elevated | 5 500 000 | 3.9 km | 21 450 000 |
-| bridge | 8 000 000 | 1.2 km | 9 600 000 |
-| **Civil total** | | | **$59 850 000** |
+| at-grade | 2 000 000 | 24 km | 48 000 000 |
+| elevated | 9 000 000 | 3.9 km | 35 100 000 |
+| bridge | 13 000 000 | 1.2 km | 15 600 000 |
+| **Civil total** | | | **$98 700 000** |
 
 Generated city `design.toml` files keep EUR mirrors at 0.92 USD->EUR
 for schema compatibility, but the procurement basis is USD. Country
@@ -57,7 +57,7 @@ cost factors for Iraq can still be applied downstream (from
 - Materials: ~0.95 × OECD.
 - Effective factor: ~0.65.
 
-**Samawah two-line civil CAPEX floor: ~$60 M before local factor; ~$39 M
+**Samawah two-line civil CAPEX floor: ~$99 M before local factor; ~$64 M
 if the full Iraq factor is applied.**
 
 Note: this is **civil only** — track + viaducts + bridges. It
@@ -65,12 +65,12 @@ excludes:
 
 - Rolling stock (~$0.800 M × 16 three-car trainsets = ~$13 M,
   using the current marketplace-BOM floor for the 3-car RFC 0008 basis).
-- Stations (~$0.450 M per `standard`, with majors/terminals/interchanges
+- Stations (~$0.800 M per `standard`, with majors/terminals/interchanges
   scaled from the station archetype table
   + interchanges).
-- Depots (~$7.5 M for the `main-heavy` east depot + ~$0.9 M
+- Depots (~$12.0 M for the `main-heavy` east depot + ~$2.0 M
   for the `layup-minimal`).
-- Residual train-control wayside + radio/OCC integration (~$0.4 M;
+- Residual train-control wayside + radio/OCC integration (~$1.5 M;
   train protection is primarily onboard driverless sensing).
 - Procurement, engineering, contingency (~20 %).
 

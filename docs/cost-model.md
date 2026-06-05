@@ -52,10 +52,10 @@ double-track OSR alignments:
 
 | Civil class | Unit cost | Included scope |
 |---|---:|---|
-| At-grade | $1.2 M / route-km | UIC60 rail, concrete sleepers, clips/pads/baseplates, ballast, drainage, cable troughs, local installation |
-| Elevated | $5.5 M / route-km | Repeatable precast guideway spans, piers, foundations, bearings, parapets, trackform, erection |
-| Bridge | $8.0 M / route-km | Longer-span/water-crossing version of the elevated stack with heavier foundation and protection allowance |
-| Elevated-interchange premium | $2.5 M / site | Added stacked-platform and approach complexity where an interchange must grade-separate |
+| At-grade | $2.0 M / route-km | UIC60 rail, concrete sleepers, clips/pads/baseplates, ballast, drainage, cable troughs, local installation |
+| Elevated | $9.0 M / route-km | Repeatable precast guideway spans, piers, foundations, bearings, parapets, trackform, erection |
+| Bridge | $13.0 M / route-km | Longer-span/water-crossing version of the elevated stack with heavier foundation and protection allowance |
+| Elevated-interchange premium | $4.5 M / site | Added stacked-platform and approach complexity where an interchange must grade-separate |
 
 These values are intentionally below turnkey metro-bid benchmarks because
 OSR excludes tunnels, overhead catenary, proprietary signalling civil
@@ -68,21 +68,21 @@ commodity vertical circulation + simple MEP/signs/CCTV/fare gates.
 
 | Station archetype | Unit cost |
 |---|---:|
-| `halt` | $180 k |
-| `standard` | $450 k |
-| `major` | $900 k |
-| `terminal` | $800 k |
-| `depot-terminal` | $1.0 M |
-| `interchange` | $1.35 M |
-| `interchange-elevated` | $1.8 M |
+| `halt` | $300 k |
+| `standard` | $800 k |
+| `major` | $1.6 M |
+| `terminal` | $1.4 M |
+| `depot-terminal` | $2.0 M |
+| `interchange` | $2.5 M |
+| `interchange-elevated` | $3.5 M |
 
 ## Depots
 
 | Depot archetype | Unit cost |
 |---|---:|
-| `main-heavy` | $7.5 M |
-| `secondary-medium` | $4.0 M |
-| `layup-minimal` | $900 k |
+| `main-heavy` | $12.0 M |
+| `secondary-medium` | $7.0 M |
+| `layup-minimal` | $2.0 M |
 
 Depot scope is at-grade portal-frame workshop sheds, pit tracks, stinger
 tracks, portable wheel lathe allowance, local PV/storage tie-in, and no
@@ -97,12 +97,13 @@ therefore **station/depot charging microgrid interface CAPEX**.
 
 | Station archetype | Unit cost | Included scope |
 |---|---:|---|
-| `halt` | $75 k | 250 kW class charger, local protection, compact LV tie |
-| `standard` | $150 k | 500 kW class conductive charger, switchgear, inverter interface |
-| `major` | $250 k | Larger queueing/anchor-stop charger and buffer tie |
-| `terminal` | $250 k | End-of-line charger with higher turnback utilization |
-| `interchange` / `interchange-elevated` | $350 k | Multi-platform charger/switchgear allowance |
-| `depot-terminal` | $450 k | Passenger-stop charger plus depot/yard charging interface |
+| `halt` | $120 k | 250 kW class charger, local protection, compact LV tie |
+| `standard` | $250 k | 500 kW class conductive charger, switchgear, inverter interface |
+| `major` | $450 k | Larger queueing/anchor-stop charger and buffer tie |
+| `terminal` | $500 k | End-of-line charger with higher turnback utilization |
+| `interchange` | $700 k | Multi-platform charger/switchgear allowance |
+| `interchange-elevated` | $850 k | Elevated multi-platform charger/switchgear allowance |
+| `depot-terminal` | $1.0 M | Passenger-stop charger plus depot/yard charging interface |
 
 Station PV canopies, large stationary Na-ion packs, depot buildings,
 and train batteries are **not** re-billed here. They appear in station,
@@ -110,7 +111,7 @@ energy-site/depot, and rolling-stock scopes respectively.
 
 ## Train-Control Wayside
 
-Residual train-control wayside is budgeted at **$15 k per route-km**.
+Residual train-control wayside is budgeted at **$50 k per route-km**.
 The expensive ATP/ATO function lives onboard in the trainset cost. The
 wayside scope is sparse W-Nodes at switches/stations, passive balises,
 validation beacons, LoRa gateways, and OCC interfaces.
@@ -120,7 +121,7 @@ validation beacons, LoRa gateways, and OCC interfaces.
 City READMEs now include a post-opening cost-neutral revenue case. The
 model keeps a 5% median-income monthly pass as the affordability marker,
 uses a 6% monthly-pass fare for the break-even case, expands daily
-ridership to an 8-15% planning bracket, and adds station shop leases plus
+ridership to a 15-25% planning bracket, and adds station shop leases plus
 advertising boards. The cost-neutral column solves the daily paid trips
 needed so:
 

@@ -18,6 +18,16 @@
 
 # Curves are 24-bin (0..23) hourly multipliers, normalized so Σ = 1.0.
 
+[planning]
+# README ridership sanity bands. These are daily paid-trip estimates after
+# opening, not peak design capacity. Catchment share is used in the capacity
+# section when coverage is known; urban-population share is used in the
+# finance/revenue section so every city has a bracket.
+practical_daily_catchment_low = 0.18
+practical_daily_catchment_high = 0.30
+finance_daily_population_low = 0.15
+finance_daily_population_high = 0.25
+
 [profiles.university]
 # Sharp peaks at lecture start/end during term; very low summer/Fridays.
 hourly = [

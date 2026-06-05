@@ -393,7 +393,8 @@ fn write_design_toml(
     }
 
     // Junctions where one line had to be elevated to clear the other —
-    // these get a flat $2.5 M premium per junction (1 km of elevation
+    // these get the configured elevated-interchange premium per junction
+    // (1 km of elevation
     // including approach + departure, plus the multi-level station
     // structure) on top of the per-segment civil cost the elevated
     // window already incurs.
@@ -463,7 +464,7 @@ fn write_design_toml(
         escape_toml_string(cost_config().schema.currency_basis.as_str())
     ));
     out.push_str(&format!("usd_to_eur          = {:.2}\n", usd_to_eur()));
-    out.push_str("# Civil works (USD/km × civil mix; EUR mirror at usd_to_eur).\n");
+    out.push_str("# Civil works (USD/km x civil mix; EUR mirror at usd_to_eur).\n");
     out.push_str(&format!("at_grade_usd         = {:.0}\n", costs.at_grade_usd));
     out.push_str(&format!("at_grade_eur         = {:.0}\n", costs.at_grade_eur));
     out.push_str(&format!("elevated_usd         = {:.0}\n", costs.elevated_usd));
@@ -1739,19 +1740,19 @@ mod tests {
                 class: CivilClass::AtGrade,
                 from_idx: 0,
                 to_idx: 10,
-                length_m: 10_000.0, // 10 km x $1.2 M = $12.0 M
+                length_m: 10_000.0, // 10 km x $2.0 M = $20.0 M
             },
             CivilSegment {
                 class: CivilClass::Elevated,
                 from_idx: 10,
                 to_idx: 11,
-                length_m: 1_000.0, // 1 km x $5.5 M = $5.5 M
+                length_m: 1_000.0, // 1 km x $9.0 M = $9.0 M
             },
             CivilSegment {
                 class: CivilClass::Bridge,
                 from_idx: 11,
                 to_idx: 12,
-                length_m: 500.0, // 0.5 km x $8 M = $4 M
+                length_m: 500.0, // 0.5 km x $13 M = $6.5 M
             },
         ]];
         let archetypes: Vec<&str> =
@@ -1770,35 +1771,35 @@ mod tests {
         ];
         let c = compute_costs(&civil_per_line, &archetypes, &depots, 0, 12, "metro-6car");
         // Civil works: USD direct-procurement floor mirrored into EUR.
-        assert!((c.at_grade_usd - 12_000_000.0).abs() < 1.0);
-        assert!((c.at_grade_eur - 11_040_000.0).abs() < 1.0);
-        assert!((c.elevated_usd - 5_500_000.0).abs() < 1.0);
-        assert!((c.elevated_eur - 5_060_000.0).abs() < 1.0);
-        assert!((c.bridge_usd - 4_000_000.0).abs() < 1.0);
-        assert!((c.bridge_eur - 3_680_000.0).abs() < 1.0);
+        assert!((c.at_grade_usd - 20_000_000.0).abs() < 1.0);
+        assert!((c.at_grade_eur - 18_400_000.0).abs() < 1.0);
+        assert!((c.elevated_usd - 9_000_000.0).abs() < 1.0);
+        assert!((c.elevated_eur - 8_280_000.0).abs() < 1.0);
+        assert!((c.bridge_usd - 6_500_000.0).abs() < 1.0);
+        assert!((c.bridge_eur - 5_980_000.0).abs() < 1.0);
         assert!((c.junction_premium_eur - 0.0).abs() < 1.0);
-        assert!((c.civil_subtotal_usd - 21_500_000.0).abs() < 1.0);
-        assert!((c.civil_subtotal_eur - 19_780_000.0).abs() < 1.0);
-        // Stations: terminal ($800 k) + standard ($450 k) + depot-terminal ($1.0 M).
-        assert!((c.stations_usd - 2_250_000.0).abs() < 1.0);
-        assert!((c.stations_eur - 2_070_000.0).abs() < 1.0);
-        // Depots: main-heavy $7.5 M + layup-minimal $0.9 M.
-        assert!((c.depots_usd - 8_400_000.0).abs() < 1.0);
-        assert!((c.depots_eur - 7_728_000.0).abs() < 1.0);
+        assert!((c.civil_subtotal_usd - 35_500_000.0).abs() < 1.0);
+        assert!((c.civil_subtotal_eur - 32_660_000.0).abs() < 1.0);
+        // Stations: terminal ($1.4 M) + standard ($0.8 M) + depot-terminal ($2.0 M).
+        assert!((c.stations_usd - 4_200_000.0).abs() < 1.0);
+        assert!((c.stations_eur - 3_864_000.0).abs() < 1.0);
+        // Depots: main-heavy $12.0 M + layup-minimal $2.0 M.
+        assert!((c.depots_usd - 14_000_000.0).abs() < 1.0);
+        assert!((c.depots_eur - 12_880_000.0).abs() < 1.0);
         // Rolling stock: 12 × €1,472,616.
         assert!((c.rolling_stock_eur - 17_671_392.0).abs() < 1.0);
-        // Systems: residual signalling at 11.5 km × $0.015 M/km,
+        // Systems: residual signalling at 11.5 km × $0.05 M/km,
         // plus per-stop charging microgrid allowances.
-        assert!((c.signalling_usd - 172_500.0).abs() < 1.0);
-        assert!((c.signalling_eur - 158_700.0).abs() < 1.0);
-        assert!((c.charging_microgrid_usd - 850_000.0).abs() < 1.0);
-        assert!((c.charging_microgrid_eur - 782_000.0).abs() < 1.0);
-        // Subtotal before EPC = $21.5 + $2.25 + $8.4 + $19.208 + $0.1725 + $0.85 = $52.380535 M.
-        // EPC overhead = 7 % x $52.380535 M = $3.666637 M.
-        assert!((c.epc_overhead_usd - 3_666_637.43).abs() < 1.0);
-        assert!((c.epc_overhead_eur - 3_373_306.44).abs() < 1.0);
-        // Total = $56.047172 M = EUR 51.563398 M.
-        assert!((c.total_usd - 56_047_172.22).abs() < 1.0);
-        assert!((c.total_eur - 51_563_398.44).abs() < 1.0);
+        assert!((c.signalling_usd - 575_000.0).abs() < 1.0);
+        assert!((c.signalling_eur - 529_000.0).abs() < 1.0);
+        assert!((c.charging_microgrid_usd - 1_750_000.0).abs() < 1.0);
+        assert!((c.charging_microgrid_eur - 1_610_000.0).abs() < 1.0);
+        // Subtotal before EPC = $75.233035 M.
+        // EPC overhead = 7 % x $75.233035 M = $5.266312 M.
+        assert!((c.epc_overhead_usd - 5_266_312.43).abs() < 1.0);
+        assert!((c.epc_overhead_eur - 4_845_007.44).abs() < 1.0);
+        // Total = $80.499347 M = EUR 74.059399 M.
+        assert!((c.total_usd - 80_499_347.22).abs() < 1.0);
+        assert!((c.total_eur - 74_059_399.44).abs() < 1.0);
     }
 }

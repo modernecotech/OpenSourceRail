@@ -57,9 +57,9 @@ dense-urban conditions across the target regions:
 
 | Class | CAPEX (USD/km) | Build time | Post-build maintenance |
 |---|---|---|---|
-| At-grade dedicated ROW | 1.2 M OSR floor / 2–5 M conventional | 6–12 months | Low — routine track + ballast |
-| Elevated viaduct | 5.5 M OSR floor / 12–25 M conventional | 12–18 months | Medium — bearing + expansion-joint inspection |
-| Bridge over water | 8.0 M OSR floor / 15–35 M conventional | 18–24 months | Medium — same as viaduct + scour inspection |
+| At-grade dedicated ROW | 2.0 M OSR floor / 2–5 M conventional | 6–12 months | Low — routine track + ballast |
+| Elevated viaduct | 9.0 M OSR floor / 12–25 M conventional | 12–18 months | Medium — bearing + expansion-joint inspection |
+| Bridge over water | 13.0 M OSR floor / 15–35 M conventional | 18–24 months | Medium — same as viaduct + scour inspection |
 | Cut-and-cover tunnel | 60–120 M conventional | 30–48 months | High — ventilation + pumping + egress drills |
 | Bored tunnel | 90–200 M conventional | 48–72 months | High — same as above, plus tunnel-boring-machine commissioning |
 
@@ -264,22 +264,22 @@ keeps the narrative summary.
 
 | Class | USD planning-grade |
 |---|---|
-| at-grade | 1 200 000 / route-km |
-| elevated | 5 500 000 / route-km |
-| bridge | 8 000 000 / route-km |
-| elevated-interchange premium | 2 500 000 / site |
+| at-grade | 2 000 000 / route-km |
+| elevated | 9 000 000 / route-km |
+| bridge | 13 000 000 / route-km |
+| elevated-interchange premium | 4 500 000 / site |
 
 ### 9.2 Stations (RFC 0010 archetype catalogue)
 
 | Archetype | USD planning-grade |
 |---|---|
-| `halt` | 180 000 |
-| `standard` | 450 000 |
-| `major` | 900 000 |
-| `terminal` | 800 000 |
-| `depot-terminal` | 1 000 000 |
-| `interchange` | 1 350 000 |
-| `interchange-elevated` | 1 800 000 |
+| `halt` | 300 000 |
+| `standard` | 800 000 |
+| `major` | 1 600 000 |
+| `terminal` | 1 400 000 |
+| `depot-terminal` | 2 000 000 |
+| `interchange` | 2 500 000 |
+| `interchange-elevated` | 3 500 000 |
 
 The elevated-junction premium in §9.1 covers the viaduct + upper
 deck at interchanges; the table above covers the at-grade lower
@@ -289,9 +289,9 @@ platform plus vertical circulation.
 
 | Archetype | USD planning-grade |
 |---|---|
-| `main-heavy` | 7 500 000 |
-| `secondary-medium` | 4 000 000 |
-| `layup-minimal` | 900 000 |
+| `main-heavy` | 12 000 000 |
+| `secondary-medium` | 7 000 000 |
+| `layup-minimal` | 2 000 000 |
 
 ### 9.4 Rolling stock (RFC 0008 family acquisition × fleet count)
 
@@ -309,8 +309,8 @@ Fleet count = peak-revenue + spare + cold-reserve per RFC 0014 §4.
 
 | Item | Planning-grade basis |
 |---|---|
-| Residual train-control wayside (RFC 0015 GoA 4) | 15 000 USD / route-km |
-| Station/depot charging microgrid interfaces | 75 000–450 000 USD / stop, by station archetype |
+| Residual train-control wayside (RFC 0015 GoA 4) | 50 000 USD / route-km |
+| Station/depot charging microgrid interfaces | 120 000–1 000 000 USD / stop, by station archetype |
 
 RFC 0015 mandates battery-electric operation with station charging:
 there is no overhead catenary, third rail, feeder substation, or route

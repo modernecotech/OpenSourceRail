@@ -43,14 +43,22 @@ from pathlib import Path
 # Cost + capacity assumptions
 # --------------------------------------------------------------------------
 
-@lru_cache(maxsize=1)
-def _capex_costs() -> dict:
+@lru_cache(maxsize=None)
+def _template_toml(filename: str) -> dict:
     here = Path(__file__).resolve()
     for parent in here.parents:
-        candidate = parent / "lib/templates/capex-costs.toml"
+        candidate = parent / "lib/templates" / filename
         if candidate.exists():
             return tomllib.loads(candidate.read_text())
-    raise FileNotFoundError("lib/templates/capex-costs.toml not found")
+    raise FileNotFoundError(f"lib/templates/{filename} not found")
+
+
+def _capex_costs() -> dict:
+    return _template_toml("capex-costs.toml")
+
+
+def _demand_profiles() -> dict:
+    return _template_toml("demand-profiles.toml")
 
 
 def _float_map(table: dict) -> dict[str, float]:
@@ -58,6 +66,8 @@ def _float_map(table: dict) -> dict[str, float]:
 
 
 _CAPEX_COSTS = _capex_costs()
+_DEMAND_PROFILES = _demand_profiles()
+_RIDERSHIP_PLANNING = _DEMAND_PROFILES["planning"]
 _USD_TO_EUR = float(_CAPEX_COSTS["schema"]["usd_to_eur"])
 _EUR_TO_USD = 1.0 / _USD_TO_EUR
 _STATION_UNIT_USD = _float_map(_CAPEX_COSTS["station_unit_usd"])
@@ -83,6 +93,22 @@ _CHARGING_MICROGRID_UNIT_USD = _float_map(
     _CAPEX_COSTS["charging_microgrid_unit_usd"]
 )
 _EPC_OVERHEAD_FRAC = float(_CAPEX_COSTS["overhead"]["epc_fraction"])
+_PRACTICAL_DAILY_CATCHMENT_LOW = float(
+    _RIDERSHIP_PLANNING["practical_daily_catchment_low"]
+)
+_PRACTICAL_DAILY_CATCHMENT_HIGH = float(
+    _RIDERSHIP_PLANNING["practical_daily_catchment_high"]
+)
+_FINANCE_DAILY_POPULATION_LOW = float(
+    _RIDERSHIP_PLANNING["finance_daily_population_low"]
+)
+_FINANCE_DAILY_POPULATION_HIGH = float(
+    _RIDERSHIP_PLANNING["finance_daily_population_high"]
+)
+
+
+def _pct_range(low: float, high: float) -> str:
+    return f"{low * 100:.0f}-{high * 100:.0f}%"
 
 
 @dataclass
@@ -572,11 +598,12 @@ def _funding_and_affordability_section(
     target_trip_eur = target_trip_usd * _USD_TO_EUR
 
     # Farebox revenue at the cost-neutral fare, given a more ambitious
-    # service uptake bracket. Daily realisation 8–15 % of population ×
+    # service uptake bracket. Daily realisation is a configured share of
+    # population ×
     # 365 service-days (matches the OPEX service-year model — 5:30 to
     # 02:00, 365 days).
-    daily_pax_low = 0.08 * stats.population
-    daily_pax_high = 0.15 * stats.population
+    daily_pax_low = _FINANCE_DAILY_POPULATION_LOW * stats.population
+    daily_pax_high = _FINANCE_DAILY_POPULATION_HIGH * stats.population
     annual_pax_low = daily_pax_low * service_days_per_year
     annual_pax_high = daily_pax_high * service_days_per_year
     farebox_low_eur = annual_pax_low * target_trip_eur
@@ -825,7 +852,9 @@ def _funding_and_affordability_section(
 
     out.append("### Revenue & cost-neutrality\n")
     out.append(
-        f"Planning ridership bracket = 8–15 % of urban population × "
+        f"Planning ridership bracket = "
+        f"{_pct_range(_FINANCE_DAILY_POPULATION_LOW, _FINANCE_DAILY_POPULATION_HIGH)} "
+        f"of urban population × "
         f"{service_days_per_year} service-days at the cost-neutral fare. "
         "The cost-neutral column solves annual paid trips so "
         "**farebox + station-shop leases + advertising = OPEX + "
@@ -897,8 +926,10 @@ def _funding_and_affordability_section(
 
     out.append(
         "**Caveats:** The funding-stack 60/25/15 split, the 6 % "
-        "cost-neutral fare target, the 8–15 % daily-pax bracket, and "
-        "the station-commercial assumptions are project-level defaults. "
+        f"cost-neutral fare target, the "
+        f"{_pct_range(_FINANCE_DAILY_POPULATION_LOW, _FINANCE_DAILY_POPULATION_HIGH)} "
+        "daily-pax bracket, and the station-commercial assumptions are "
+        "project-level defaults. "
         "Real deployments will negotiate the capital split with financing "
         "institutions and tune fares, retail mix, advertising inventory, "
         "and service frequency iteratively from boarding data. Treat the "
@@ -1049,8 +1080,16 @@ def render_readme(
     network_peak_per_h = per_line_pphpd * stats.line_count * 2
     daily_theoretical = network_peak_per_h * 10  # peak≈10% of daily
     catchment = int(stats.coverage * stats.population) if stats.coverage > 0 else None
-    practical_daily_low = int((catchment or stats.population) * 0.10) if catchment else None
-    practical_daily_high = int((catchment or stats.population) * 0.15) if catchment else None
+    practical_daily_low = (
+        int((catchment or stats.population) * _PRACTICAL_DAILY_CATCHMENT_LOW)
+        if catchment
+        else None
+    )
+    practical_daily_high = (
+        int((catchment or stats.population) * _PRACTICAL_DAILY_CATCHMENT_HIGH)
+        if catchment
+        else None
+    )
 
     # Cost.
     # Route-km split: any ring line is assumed to be 100 % viaduct
@@ -1295,7 +1334,9 @@ def render_readme(
         f"- **Daily theoretical capacity (peak × 10):** ≈ **{daily_theoretical:,.0f} passenger-trips/day**"
     )
     out.append(
-        f"- **Practical daily ridership estimate** (10–15 % of catchment): "
+        f"- **Practical daily ridership estimate** "
+        f"({_pct_range(_PRACTICAL_DAILY_CATCHMENT_LOW, _PRACTICAL_DAILY_CATCHMENT_HIGH)} "
+        "of catchment): "
         f"{daily_practical_str}\n"
     )
 
@@ -1652,7 +1693,10 @@ def _fmt_usd(value: float) -> str:
 def _fmt_usd_unit(value: float) -> str:
     if value < 1e6:
         return f"${value / 1e3:.0f} k"
-    return f"${value / 1e6:.2f} M"
+    amount = value / 1e6
+    if amount.is_integer():
+        return f"${amount:.1f} M"
+    return f"${amount:.2f} M"
 
 
 def _usd_from_eur(value: float) -> float:
@@ -1754,22 +1798,26 @@ def _rich_capex_section(
     out.append("|---|---|")
     if at_grade_km > 0:
         out.append(
-            f"| At-grade ({at_grade_km:.1f} km @ $1.2 M/km) | "
+            f"| At-grade ({at_grade_km:.1f} km @ "
+            f"{_money_unit_usd(_AT_GRADE_USD_PER_KM)}/km) | "
             f"{_money('at_grade')} |"
         )
     if elevated_km > 0:
         out.append(
-            f"| Elevated ({elevated_km:.1f} km @ $5.5 M/km) | "
+            f"| Elevated ({elevated_km:.1f} km @ "
+            f"{_money_unit_usd(_ELEVATED_USD_PER_KM)}/km) | "
             f"{_money('elevated')} |"
         )
     if bridge_km > 0:
         out.append(
-            f"| Bridges ({bridge_km:.1f} km @ $8.0 M/km) | "
+            f"| Bridges ({bridge_km:.1f} km @ "
+            f"{_money_unit_usd(_BRIDGE_USD_PER_KM)}/km) | "
             f"{_money('bridge')} |"
         )
     if junction_count > 0:
         out.append(
-            f"| Elevated-interchange premium ({junction_count} sites @ $2.5 M) | "
+            f"| Elevated-interchange premium ({junction_count} sites @ "
+            f"{_money_unit_usd(_JUNCTION_PREMIUM_USD)}) | "
             f"{_money('junction_premium')} |"
         )
     out.append(
