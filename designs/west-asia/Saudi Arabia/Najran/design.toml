@@ -440,8 +440,8 @@ group_id        = 0
 elevated_line   = "line-3"
 lat             = 17.55573048626858
 lon             = 44.22516077062556
-premium_usd     = 2000000
-premium_eur     = 1840000
+premium_usd     = 2500000
+premium_eur     = 2300000
 
 # [[fleets]] — per-line fleet sizing per RFC 0014 §4.
 [[fleets]]
@@ -476,19 +476,19 @@ cost_power_eur_alias = "deprecated; use costs.charging_microgrid_eur"
 currency_basis      = "USD marketplace/direct-procurement floor; *_eur mirrors retained for schema compatibility"
 usd_to_eur          = 0.92
 # Civil works (USD/km x civil mix; EUR mirror at usd_to_eur).
-at_grade_usd         = 37400557
-at_grade_eur         = 34408512
-elevated_usd         = 49728173
-elevated_eur         = 45749919
+at_grade_usd         = 52800786
+at_grade_eur         = 48576723
+elevated_usd         = 68376238
+elevated_eur         = 62906139
 bridge_usd           = 0
 bridge_eur           = 0
-junction_premium_usd = 2000000  # $2 M per elevated interchange.
-junction_premium_eur = 1840000  # EUR 1.8 M per elevated interchange.
-civil_subtotal_usd   = 89128730
-civil_subtotal_eur   = 81998432
+junction_premium_usd = 2500000  # $2.5 M per elevated interchange.
+junction_premium_eur = 2300000  # EUR 2.3 M per elevated interchange.
+civil_subtotal_usd   = 123677024
+civil_subtotal_eur   = 113782862
 # Stations (RFC 0010 archetype catalogue).
-stations_usd         = 15750000
-stations_eur         = 14490000
+stations_usd         = 23900000
+stations_eur         = 21988000
 # Depots (RFC 0014 archetype catalogue).
 depots_usd           = 12000000
 depots_eur           = 11040000
@@ -502,7 +502,7 @@ charging_microgrid_usd = 7050000
 charging_microgrid_eur = 6486000
 power_eur            = 6486000  # deprecated alias for charging_microgrid_eur
 # EPC integration + project management (7 % of subtotal).
-epc_overhead_usd     = 11927864
-epc_overhead_eur     = 10973634
-total_usd            = 182325914  # full CAPEX stack
-total_eur            = 167739841  # full CAPEX stack
+epc_overhead_usd     = 14916744
+epc_overhead_eur     = 13723405
+total_usd            = 228013089  # full CAPEX stack
+total_eur            = 209772041  # full CAPEX stack

@@ -95,8 +95,8 @@ box feeds a W-SBC running `osr-intrusion-detect`.
 
 A typical `standard-urban` 1 km `at-grade` section carries:
 5 LIDAR + 2 radar + 1 CCTV + 1 km fence-line. Total hardware
-cost ≈ $7 600 per section — small fraction of the $850 000 per
-km civil cost.
+cost ≈ $7 600 per section — small fraction of the $1.2 M per km
+civil cost.
 
 ## 5. The `osr-intrusion-detect` evaluator
 

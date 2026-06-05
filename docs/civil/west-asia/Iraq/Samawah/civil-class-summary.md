@@ -44,10 +44,10 @@ Planning-grade USD/km direct-procurement floor × civil mix:
 
 | Class | USD/km | Length | Subtotal (USD) |
 |---|---|---|---|
-| at-grade | 850 000 | 24 km | 20 400 000 |
-| elevated | 4 000 000 | 3.9 km | 15 600 000 |
-| bridge | 6 000 000 | 1.2 km | 7 200 000 |
-| **Civil total** | | | **$43 200 000** |
+| at-grade | 1 200 000 | 24 km | 28 800 000 |
+| elevated | 5 500 000 | 3.9 km | 21 450 000 |
+| bridge | 8 000 000 | 1.2 km | 9 600 000 |
+| **Civil total** | | | **$59 850 000** |
 
 Generated city `design.toml` files keep EUR mirrors at 0.92 USD->EUR
 for schema compatibility, but the procurement basis is USD. Country
@@ -57,7 +57,7 @@ cost factors for Iraq can still be applied downstream (from
 - Materials: ~0.95 × OECD.
 - Effective factor: ~0.65.
 
-**Samawah two-line civil CAPEX floor: ~$43 M before local factor; ~$28 M
+**Samawah two-line civil CAPEX floor: ~$60 M before local factor; ~$39 M
 if the full Iraq factor is applied.**
 
 Note: this is **civil only** — track + viaducts + bridges. It
@@ -65,7 +65,7 @@ excludes:
 
 - Rolling stock (~$0.800 M × 16 three-car trainsets = ~$13 M,
   using the current marketplace-BOM floor for the 3-car RFC 0008 basis).
-- Stations (~$0.300 M per `standard`, with majors/terminals/interchanges
+- Stations (~$0.450 M per `standard`, with majors/terminals/interchanges
   scaled from the station archetype table
   + interchanges).
 - Depots (~$7.5 M for the `main-heavy` east depot + ~$0.9 M
@@ -96,9 +96,9 @@ A 29 km light-metro project in the Middle East at legacy-vendor
 pricing (CAPEX-only, civil + signalling + rolling stock) is
 typically quoted at **$1–3 billion** in 2026-era bids.
 
-The OSR Samawah deployment budgets around **$100–160 M** all-in under
+The OSR Samawah deployment budgets around **$120–185 M** all-in under
 the direct-procurement floor; the current auto-generated larger network
-lands near **$145 M**.
+lands near **$165 M** after the 2026 rail/station-rate refresh.
 This is the catenary-free + local-manufacturability +
 simple-civil bet playing out in practice. The largest single
 savings:

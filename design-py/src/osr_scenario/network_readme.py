@@ -14,8 +14,7 @@ resolved) and writes a human-readable summary with:
   theoretical, practical estimate)
 - Catchment population
 - Energy infrastructure (PV + battery per tier, totals)
-- Cost estimate at configurable unit rates
-  ($2M/km track, $1/W solar, $1/W battery by default)
+- Cost estimate at configurable unit rates from the canonical CAPEX table
 - File map + reproducibility command
 
 Usage:
@@ -35,7 +34,8 @@ from __future__ import annotations
 import argparse
 import sys
 import tomllib
-from dataclasses import dataclass
+from dataclasses import dataclass, field
+from functools import lru_cache
 from pathlib import Path
 
 
@@ -43,24 +43,75 @@ from pathlib import Path
 # Cost + capacity assumptions
 # --------------------------------------------------------------------------
 
+@lru_cache(maxsize=1)
+def _capex_costs() -> dict:
+    here = Path(__file__).resolve()
+    for parent in here.parents:
+        candidate = parent / "lib/templates/capex-costs.toml"
+        if candidate.exists():
+            return tomllib.loads(candidate.read_text())
+    raise FileNotFoundError("lib/templates/capex-costs.toml not found")
+
+
+def _float_map(table: dict) -> dict[str, float]:
+    return {str(k): float(v) for k, v in table.items()}
+
+
+_CAPEX_COSTS = _capex_costs()
+_USD_TO_EUR = float(_CAPEX_COSTS["schema"]["usd_to_eur"])
+_EUR_TO_USD = 1.0 / _USD_TO_EUR
+_STATION_UNIT_USD = _float_map(_CAPEX_COSTS["station_unit_usd"])
+_DEPOT_UNIT_USD = _float_map(_CAPEX_COSTS["depot_unit_usd"])
+_TRAINSET_UNIT_EUR = _float_map(_CAPEX_COSTS["trainset_unit_eur"])
+_TRAINSET_UNIT_USD = {
+    key: value * _EUR_TO_USD for key, value in _TRAINSET_UNIT_EUR.items()
+}
+_CIVIL_USD_PER_KM = _float_map(_CAPEX_COSTS["civil_usd_per_km"])
+_AT_GRADE_USD_PER_KM = _CIVIL_USD_PER_KM["at_grade"]
+_ELEVATED_USD_PER_KM = _CIVIL_USD_PER_KM["elevated"]
+_BRIDGE_USD_PER_KM = _CIVIL_USD_PER_KM["bridge"]
+_DEFAULT_TRAIN_CAR_USD = _TRAINSET_UNIT_USD["urban-shuttle-1car"]
+_DEFAULT_STATION_USD = _STATION_UNIT_USD["standard"]
+_DEFAULT_DEPOT_USD = _DEPOT_UNIT_USD["main-heavy"]
+_JUNCTION_PREMIUM_USD = float(
+    _CAPEX_COSTS["junctions"]["elevated_interchange_premium_usd"]
+)
+_SIGNALLING_USD_PER_KM = float(
+    _CAPEX_COSTS["systems"]["signalling_usd_per_km"]
+)
+_CHARGING_MICROGRID_UNIT_USD = _float_map(
+    _CAPEX_COSTS["charging_microgrid_unit_usd"]
+)
+_EPC_OVERHEAD_FRAC = float(_CAPEX_COSTS["overhead"]["epc_fraction"])
+
 
 @dataclass
 class CostAssumptions:
     """Rule-of-thumb unit rates. Override for a city/country-specific
     estimate (Iraqi labour/materials differ from, say, French ones)."""
 
-    track_cost_per_km_usd: float = 850_000.0
+    track_cost_per_km_usd: float = field(
+        default_factory=lambda: _AT_GRADE_USD_PER_KM
+    )
     solar_cost_per_w_usd: float = 1.0
     battery_cost_per_w_usd: float = 1.0
     battery_discharge_hours: float = 4.0  # BESS typical 4-hour duration
-    train_car_cost_usd: float = 266_778.0  # BOM marketplace floor per car; 3-car ~= 800,334 USD
-    station_cost_usd: float = 300_000.0
-    depot_cost_usd: float = 7_500_000.0
-    # Bridges/viaducts run $20 M/km (vs $2 M/km for at-grade). This
+    train_car_cost_usd: float = field(
+        default_factory=lambda: _DEFAULT_TRAIN_CAR_USD
+    )
+    station_cost_usd: float = field(
+        default_factory=lambda: _DEFAULT_STATION_USD
+    )
+    depot_cost_usd: float = field(
+        default_factory=lambda: _DEFAULT_DEPOT_USD
+    )
+    # Bridges/viaducts run above the at-grade fallback. This
     # fraction of the total route is assumed to be elevated — river
     # crossings, highway overpasses, urban-core RoW constraints.
     bridge_fraction: float = 0.15
-    bridge_cost_per_km_usd: float = 6_000_000.0
+    bridge_cost_per_km_usd: float = field(
+        default_factory=lambda: _BRIDGE_USD_PER_KM
+    )
     # `None` means "use the family-specific value resolved in
     # NetworkStats from rolling-stock.toml". Pass `--pax-per-trainset`
     # at the CLI to override (what-if analysis only — production runs
@@ -1588,60 +1639,6 @@ def _build_terminus_tagger(stations: list[dict]):
     return tag
 
 
-# Per-archetype unit costs — mirror of the constants in
-# `crates/osr-design/src/emit.rs` (RFC 0011 §9 OSR-discipline costs).
-# Keeping this table in sync with the rust source is part of the
-# cost-discipline review. See the matching comment in emit.rs.
-_USD_TO_EUR = 0.92
-_EUR_TO_USD = 1.0 / _USD_TO_EUR
-
-_STATION_UNIT_USD: dict[str, float] = {
-    "halt": 120_000.0,
-    "standard": 300_000.0,
-    "major": 600_000.0,
-    "terminal": 500_000.0,
-    "depot-terminal": 650_000.0,
-    "interchange": 900_000.0,
-    "interchange-elevated": 1_200_000.0,
-}
-_STATION_UNIT_EUR: dict[str, float] = {
-    key: value * _USD_TO_EUR for key, value in _STATION_UNIT_USD.items()
-}
-_DEPOT_UNIT_USD: dict[str, float] = {
-    "main-heavy": 7_500_000.0,
-    "secondary-medium": 4_000_000.0,
-    "layup-minimal": 900_000.0,
-}
-_DEPOT_UNIT_EUR: dict[str, float] = {
-    key: value * _USD_TO_EUR for key, value in _DEPOT_UNIT_USD.items()
-}
-_TRAINSET_UNIT_USD: dict[str, float] = {
-    "urban-shuttle-1car": 245_436.0 * _EUR_TO_USD,
-    "tram-2car": 490_872.0 * _EUR_TO_USD,
-    "light-metro-3car": 736_308.0 * _EUR_TO_USD,
-    "metro-4car": 981_744.0 * _EUR_TO_USD,
-    "metro-6car": 1_472_616.0 * _EUR_TO_USD,
-}
-_TRAINSET_UNIT_EUR: dict[str, float] = {
-    "urban-shuttle-1car": 245_436.0,
-    "tram-2car": 490_872.0,
-    "light-metro-3car": 736_308.0,
-    "metro-4car": 981_744.0,
-    "metro-6car": 1_472_616.0,
-}
-_AT_GRADE_USD_PER_KM = 850_000.0
-_ELEVATED_USD_PER_KM = 4_000_000.0
-_BRIDGE_USD_PER_KM = 6_000_000.0
-_JUNCTION_PREMIUM_USD = 2_000_000.0
-_SIGNALLING_USD_PER_KM = 15_000.0
-_AT_GRADE_EUR_PER_KM = _AT_GRADE_USD_PER_KM * _USD_TO_EUR
-_ELEVATED_EUR_PER_KM = _ELEVATED_USD_PER_KM * _USD_TO_EUR
-_BRIDGE_EUR_PER_KM = _BRIDGE_USD_PER_KM * _USD_TO_EUR
-_JUNCTION_PREMIUM_EUR = _JUNCTION_PREMIUM_USD * _USD_TO_EUR
-_SIGNALLING_EUR_PER_KM = _SIGNALLING_USD_PER_KM * _USD_TO_EUR
-_EPC_OVERHEAD_FRAC = 0.07
-
-
 def _fmt_usd(value: float) -> str:
     if value >= 1e9:
         return f"${value / 1e9:.2f} bn"
@@ -1668,15 +1665,11 @@ def _charging_microgrid_unit_eur(archetype: str) -> float:
     This is not a route-km traction-power rate: OSR has no OCS, third rail,
     feeder substations, or continuous traction distribution.
     """
-    return {
-        "halt": 75_000.0,
-        "standard": 150_000.0,
-        "major": 250_000.0,
-        "terminal": 250_000.0,
-        "interchange": 350_000.0,
-        "interchange-elevated": 350_000.0,
-        "depot-terminal": 450_000.0,
-    }.get(archetype, 150_000.0) * _USD_TO_EUR
+    unit = _CHARGING_MICROGRID_UNIT_USD.get(
+        archetype,
+        _CHARGING_MICROGRID_UNIT_USD["standard"],
+    )
+    return unit * _USD_TO_EUR
 
 
 def _charging_microgrid_eur(costs: dict) -> float:
@@ -1738,8 +1731,8 @@ def _rich_capex_section(
         "`design.toml` — emitted by the `osr-design` Rust planner per "
         "RFC 0011 §9. The procurement basis is **USD marketplace / "
         "direct-supplier pricing**; `*_eur` fields remain in `design.toml` "
-        "only as compatibility mirrors at 0.92 USD→EUR. **OSR-discipline "
-        "unit costs**: prefab portal-frame canopies (no bespoke "
+        f"only as compatibility mirrors at {_USD_TO_EUR:.2f} USD→EUR. "
+        "**OSR-discipline unit costs**: prefab portal-frame canopies (no bespoke "
         "architectural cladding), at-grade depots without overhead bridge "
         "cranes, **marketplace-BOM rolling stock at about $267 k per "
         "self-contained car** (derived from the 800,334 USD 3-car BOM "
@@ -1761,22 +1754,22 @@ def _rich_capex_section(
     out.append("|---|---|")
     if at_grade_km > 0:
         out.append(
-            f"| At-grade ({at_grade_km:.1f} km @ $0.85 M/km) | "
+            f"| At-grade ({at_grade_km:.1f} km @ $1.2 M/km) | "
             f"{_money('at_grade')} |"
         )
     if elevated_km > 0:
         out.append(
-            f"| Elevated ({elevated_km:.1f} km @ $4.0 M/km) | "
+            f"| Elevated ({elevated_km:.1f} km @ $5.5 M/km) | "
             f"{_money('elevated')} |"
         )
     if bridge_km > 0:
         out.append(
-            f"| Bridges ({bridge_km:.1f} km @ $6.0 M/km) | "
+            f"| Bridges ({bridge_km:.1f} km @ $8.0 M/km) | "
             f"{_money('bridge')} |"
         )
     if junction_count > 0:
         out.append(
-            f"| Elevated-interchange premium ({junction_count} sites @ $2.0 M) | "
+            f"| Elevated-interchange premium ({junction_count} sites @ $2.5 M) | "
             f"{_money('junction_premium')} |"
         )
     out.append(
@@ -1801,7 +1794,7 @@ def _rich_capex_section(
         n = archetype_counts.get(a, 0)
         if n == 0:
             continue
-        unit = _STATION_UNIT_USD.get(a, 300_000.0)
+        unit = _STATION_UNIT_USD.get(a, _STATION_UNIT_USD["standard"])
         out.append(
             f"| `{a}` | {n} | {_money_unit_usd(unit)} | {_money_value_usd(unit * n)} |"
         )
@@ -1822,7 +1815,7 @@ def _rich_capex_section(
         n = depot_counts.get(a, 0)
         if n == 0:
             continue
-        unit = _DEPOT_UNIT_USD.get(a, 2_500_000.0)
+        unit = _DEPOT_UNIT_USD.get(a, _DEPOT_UNIT_USD["main-heavy"])
         out.append(
             f"| `{a}` | {n} | {_money_unit_usd(unit)} | {_money_value_usd(unit * n)} |"
         )
@@ -1948,8 +1941,8 @@ def main(argv: list[str] | None = None) -> int:
         help="urban population served (default: read from design.toml [city] population)",
     )
     ap.add_argument(
-        "--track-cost-per-km", type=float, default=850_000.0,
-        help="civil track unit cost, USD/km (default: 850,000)",
+        "--track-cost-per-km", type=float, default=_AT_GRADE_USD_PER_KM,
+        help=f"civil track unit cost, USD/km (default: {_AT_GRADE_USD_PER_KM:,.0f})",
     )
     ap.add_argument(
         "--solar-cost-per-w", type=float, default=1.0,
@@ -1964,17 +1957,24 @@ def main(argv: list[str] | None = None) -> int:
         help="BESS discharge duration, hours (default: 4)",
     )
     ap.add_argument(
-        "--train-car-cost", type=float, default=266_778.0,
-        help="rolling-stock unit cost, USD per CAR (default: 266,778). "
-             "A 3-car trainset costs about 800,334 USD before rail qualification extras.",
+        "--train-car-cost", type=float, default=_DEFAULT_TRAIN_CAR_USD,
+        help=(
+            "rolling-stock unit cost, USD per CAR "
+            f"(default: {_DEFAULT_TRAIN_CAR_USD:,.0f}). "
+            "A 3-car trainset costs about 800,334 USD before rail "
+            "qualification extras."
+        ),
     )
     ap.add_argument(
-        "--station-cost", type=float, default=300_000.0,
-        help="civil+fit-out unit cost, USD/station (default: 300,000)",
+        "--station-cost", type=float, default=_DEFAULT_STATION_USD,
+        help=(
+            "civil+fit-out unit cost, USD/station "
+            f"(default: {_DEFAULT_STATION_USD:,.0f})"
+        ),
     )
     ap.add_argument(
-        "--depot-cost", type=float, default=7_500_000.0,
-        help="per-depot unit cost, USD/depot (default: 7,500,000)",
+        "--depot-cost", type=float, default=_DEFAULT_DEPOT_USD,
+        help=f"per-depot unit cost, USD/depot (default: {_DEFAULT_DEPOT_USD:,.0f})",
     )
     ap.add_argument(
         "--pax-per-trainset", type=int, default=None,

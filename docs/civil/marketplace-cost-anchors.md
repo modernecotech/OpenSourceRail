@@ -3,6 +3,9 @@
 Planning-grade OSR city costs now use **USD marketplace/direct-procurement
 floors** as the source currency. Generated `design.toml` files still keep
 `*_eur` mirrors at 0.92 USD->EUR for schema compatibility.
+The canonical machine-readable rates live in
+[`lib/templates/capex-costs.toml`](../../lib/templates/capex-costs.toml);
+this note is the civil-work audit trail.
 
 These are not turnkey EPC bid prices. They are component-priced floors for
 direct procurement, local fabrication, self-performed assembly, repeatable
@@ -10,22 +13,22 @@ QA, and the no-tunnel/no-catenary OSR civil discipline.
 
 ## At-Grade Double Track
 
-Base unit: **850,000 USD per route-km**.
+Base unit: **1,200,000 USD per route-km**.
 
 | Component | Marketplace anchor | Planning basis |
 |---|---:|---|
 | UIC60/60E1 rail | Alibaba UIC60 rail listings show about **600-700 USD/t** for 60E1/UIC60 rail: <https://www.alibaba.com/showroom/railway-rail-uic60.html> | Double track uses ~241 t/km of rail, so rail steel lands near 145-170 k USD/km before freight |
 | Concrete sleepers | Alibaba concrete-sleeper listings show **15-55 USD/sleeper** common ranges: <https://www.alibaba.com/showroom/concrete-sleeper-price.html> | ~3,300 sleepers/km for double track gives ~50-180 k USD/km |
 | Clips, baseplates, pads | Alibaba rail-fastening listings show clips around **0.5-2.5 USD** and assemblies/baseplates around **4-6 USD**: <https://www.alibaba.com/showroom/rail-fastening-system.html> | Double-track fastening hardware, pads, fishplates, weld kits, and small parts budgeted as a bundled allowance |
-| Ballast, drainage, cable trough, installation | Local quarry/supplier item rather than rail-specific Alibaba commodity | Residual allowance plus local labour/equipment brings the installed direct-procurement floor to **850 k USD/km** |
+| Ballast, drainage, cable trough, installation | Local quarry/supplier item rather than rail-specific Alibaba commodity | Residual allowance plus local labour/equipment, freight, QA, welding, tamping, and possession logistics brings the installed direct-procurement floor to **1.2 M USD/km** |
 
 ## Elevated Guideway And Bridges
 
 | Civil class | Unit | Marketplace anchors | Included scope |
 |---|---:|---|---|
-| Elevated viaduct | **4.0 M USD/km** | Prefab bridge steel/trestle listings around **820-1,280 USD/t** and **990-1,200 USD/t**: <https://www.alibaba.com/showroom/prefab-bridges.html>, <https://www.alibaba.com/showroom/prefabricated-steel-trestle.html>; precast/box-girder formwork and bridge products: <https://www.alibaba.com/showroom/precast-concrete-beams-bridge.html> | Repeatable precast U-girders, piers, pile caps, bearings, parapets, trackform, local launching/erection crew |
-| Bridge / water crossing | **6.0 M USD/km** | Same bridge/trestle anchors plus pile/foundation equipment examples: <https://www.alibaba.com/showroom/reinforced-concrete-pile.html> | Longer spans, harder foundations, flood/scour detailing, and bridge-specific protection |
-| Elevated interchange premium | **2.0 M USD/site** | Uses the elevated guideway component stack above | Added stacked platform/approach complexity where an at-grade crossing is forced to grade-separate |
+| Elevated viaduct | **5.5 M USD/km** | Prefab bridge steel/trestle listings around **820-1,280 USD/t** and **990-1,200 USD/t**: <https://www.alibaba.com/showroom/prefab-bridges.html>, <https://www.alibaba.com/showroom/prefabricated-steel-trestle.html>; precast/box-girder formwork and bridge products: <https://www.alibaba.com/showroom/precast-concrete-beams-bridge.html> | Repeatable precast U-girders, piers, pile caps, bearings, parapets, trackform, local launching/erection crew, plus transport and QA allowance |
+| Bridge / water crossing | **8.0 M USD/km** | Same bridge/trestle anchors plus pile/foundation equipment examples: <https://www.alibaba.com/showroom/reinforced-concrete-pile.html> | Longer spans, harder foundations, flood/scour detailing, bridge-specific protection, and water-working contingency |
+| Elevated interchange premium | **2.5 M USD/site** | Uses the elevated guideway component stack above | Added stacked platform/approach complexity where an at-grade crossing is forced to grade-separate |
 
 ## Stations
 
@@ -36,13 +39,13 @@ architectural cladding, no continuous traction-power plant.
 
 | Archetype | Unit |
 |---|---:|
-| `halt` | 120 k USD |
-| `standard` | 300 k USD |
-| `major` | 600 k USD |
-| `terminal` | 500 k USD |
-| `depot-terminal` | 650 k USD |
-| `interchange` | 900 k USD |
-| `interchange-elevated` | 1.2 M USD |
+| `halt` | 180 k USD |
+| `standard` | 450 k USD |
+| `major` | 900 k USD |
+| `terminal` | 800 k USD |
+| `depot-terminal` | 1.0 M USD |
+| `interchange` | 1.35 M USD |
+| `interchange-elevated` | 1.8 M USD |
 
 Marketplace anchors:
 

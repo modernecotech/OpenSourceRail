@@ -4,6 +4,9 @@ This file is the audit trail for the planning-grade costs emitted into
 each city `design.toml` and README. The source currency is now **USD**,
 matching marketplace listings and `lib/templates/country-finance.toml`.
 Generated `*_eur` fields are compatibility mirrors at 0.92 USD->EUR.
+The machine-readable source of truth is
+[`lib/templates/capex-costs.toml`](../lib/templates/capex-costs.toml);
+this document records the assumptions behind those rates.
 
 The detailed civil marketplace anchors live in
 [`docs/civil/marketplace-cost-anchors.md`](civil/marketplace-cost-anchors.md).
@@ -49,10 +52,10 @@ double-track OSR alignments:
 
 | Civil class | Unit cost | Included scope |
 |---|---:|---|
-| At-grade | $0.85 M / route-km | UIC60 rail, concrete sleepers, clips/pads/baseplates, ballast, drainage, cable troughs, local installation |
-| Elevated | $4.0 M / route-km | Repeatable precast guideway spans, piers, foundations, bearings, parapets, trackform, erection |
-| Bridge | $6.0 M / route-km | Longer-span/water-crossing version of the elevated stack with heavier foundation and protection allowance |
-| Elevated-interchange premium | $2.0 M / site | Added stacked-platform and approach complexity where an interchange must grade-separate |
+| At-grade | $1.2 M / route-km | UIC60 rail, concrete sleepers, clips/pads/baseplates, ballast, drainage, cable troughs, local installation |
+| Elevated | $5.5 M / route-km | Repeatable precast guideway spans, piers, foundations, bearings, parapets, trackform, erection |
+| Bridge | $8.0 M / route-km | Longer-span/water-crossing version of the elevated stack with heavier foundation and protection allowance |
+| Elevated-interchange premium | $2.5 M / site | Added stacked-platform and approach complexity where an interchange must grade-separate |
 
 These values are intentionally below turnkey metro-bid benchmarks because
 OSR excludes tunnels, overhead catenary, proprietary signalling civil
@@ -65,13 +68,13 @@ commodity vertical circulation + simple MEP/signs/CCTV/fare gates.
 
 | Station archetype | Unit cost |
 |---|---:|
-| `halt` | $120 k |
-| `standard` | $300 k |
-| `major` | $600 k |
-| `terminal` | $500 k |
-| `depot-terminal` | $650 k |
-| `interchange` | $900 k |
-| `interchange-elevated` | $1.2 M |
+| `halt` | $180 k |
+| `standard` | $450 k |
+| `major` | $900 k |
+| `terminal` | $800 k |
+| `depot-terminal` | $1.0 M |
+| `interchange` | $1.35 M |
+| `interchange-elevated` | $1.8 M |
 
 ## Depots
 

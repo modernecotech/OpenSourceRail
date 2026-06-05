@@ -1,0 +1,55 @@
+# CAPEX cost model source of truth.
+#
+# These are planning-grade USD marketplace/direct-procurement floor rates
+# used by `osr-design` and the generated city README reports. Prose docs
+# may summarize these values, but generated artefacts should read this file
+# rather than carrying parallel constants.
+
+[schema]
+version = 1
+currency_basis = "USD marketplace/direct-procurement floor; *_eur mirrors retained for schema compatibility"
+usd_to_eur = 0.92
+
+[civil_usd_per_km]
+at_grade = 1200000
+elevated = 5500000
+bridge = 8000000
+
+[junctions]
+elevated_interchange_premium_usd = 2500000
+
+[station_unit_usd]
+halt = 180000
+standard = 450000
+major = 900000
+terminal = 800000
+"depot-terminal" = 1000000
+interchange = 1350000
+"interchange-elevated" = 1800000
+
+[depot_unit_usd]
+"main-heavy" = 7500000
+"secondary-medium" = 4000000
+"layup-minimal" = 900000
+
+[trainset_unit_eur]
+"urban-shuttle-1car" = 245436
+"tram-2car" = 490872
+"light-metro-3car" = 736308
+"metro-4car" = 981744
+"metro-6car" = 1472616
+
+[systems]
+signalling_usd_per_km = 15000
+
+[charging_microgrid_unit_usd]
+halt = 75000
+standard = 150000
+major = 250000
+terminal = 250000
+interchange = 350000
+"interchange-elevated" = 350000
+"depot-terminal" = 450000
+
+[overhead]
+epc_fraction = 0.07

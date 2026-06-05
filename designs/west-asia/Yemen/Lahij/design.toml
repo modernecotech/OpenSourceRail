@@ -298,24 +298,24 @@ group_id        = 0
 elevated_line   = "line-2"
 lat             = 13.075799118165785
 lon             = 44.88783978426461
-premium_usd     = 2000000
-premium_eur     = 1840000
+premium_usd     = 2500000
+premium_eur     = 2300000
 
 [[junctions]]
 group_id        = 1
 elevated_line   = "line-3"
 lat             = 13.055282975200662
 lon             = 44.88212244445506
-premium_usd     = 2000000
-premium_eur     = 1840000
+premium_usd     = 2500000
+premium_eur     = 2300000
 
 [[junctions]]
 group_id        = 3
 elevated_line   = "line-3"
 lat             = 13.066620843681388
 lon             = 44.881384723189306
-premium_usd     = 2000000
-premium_eur     = 1840000
+premium_usd     = 2500000
+premium_eur     = 2300000
 
 # [[fleets]] — per-line fleet sizing per RFC 0014 §4.
 [[fleets]]
@@ -350,19 +350,19 @@ cost_power_eur_alias = "deprecated; use costs.charging_microgrid_eur"
 currency_basis      = "USD marketplace/direct-procurement floor; *_eur mirrors retained for schema compatibility"
 usd_to_eur          = 0.92
 # Civil works (USD/km x civil mix; EUR mirror at usd_to_eur).
-at_grade_usd         = 22156819
-at_grade_eur         = 20384273
-elevated_usd         = 9292346
-elevated_eur         = 8548959
+at_grade_usd         = 31280215
+at_grade_eur         = 28777798
+elevated_usd         = 12776976
+elevated_eur         = 11754818
 bridge_usd           = 0
 bridge_eur           = 0
-junction_premium_usd = 6000000  # $2 M per elevated interchange.
-junction_premium_eur = 5520000  # EUR 1.8 M per elevated interchange.
-civil_subtotal_usd   = 37449165
-civil_subtotal_eur   = 34453232
+junction_premium_usd = 7500000  # $2.5 M per elevated interchange.
+junction_premium_eur = 6900000  # EUR 2.3 M per elevated interchange.
+civil_subtotal_usd   = 51557191
+civil_subtotal_eur   = 47432616
 # Stations (RFC 0010 archetype catalogue).
-stations_usd         = 11250000
-stations_eur         = 10350000
+stations_usd         = 17150000
+stations_eur         = 15778000
 # Depots (RFC 0014 archetype catalogue).
 depots_usd           = 12000000
 depots_eur           = 11040000
@@ -376,7 +376,7 @@ charging_microgrid_usd = 4750000
 charging_microgrid_eur = 4370000
 power_eur            = 4370000  # deprecated alias for charging_microgrid_eur
 # EPC integration + project management (7 % of subtotal).
-epc_overhead_usd     = 6217847
-epc_overhead_eur     = 5720419
-total_usd            = 95044235  # full CAPEX stack
-total_eur            = 87440696  # full CAPEX stack
+epc_overhead_usd     = 7618409
+epc_overhead_eur     = 7008936
+total_usd            = 116452822  # full CAPEX stack
+total_eur            = 107136597  # full CAPEX stack
