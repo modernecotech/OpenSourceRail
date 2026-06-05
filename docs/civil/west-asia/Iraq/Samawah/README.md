@@ -14,6 +14,10 @@ validated against the `standard-urban` preset's limits (min
 curve radius 90 m, max grade 50 ‰, max cant 150 mm, nominal
 speed 22 m/s).
 
+The generated city model remains the source of truth for network
+topology, scenario data, CAPEX, ridership, and the public-facing report:
+[`designs/west-asia/Iraq/Samawah/`](../../../../../designs/west-asia/Iraq/Samawah/).
+
 ## What this is NOT
 
 - A surveyed alignment. Station lat/lons are planning-grade
@@ -24,6 +28,8 @@ speed 22 m/s).
 - A structural design for the viaducts / bridges. Those are
   RFC 0011 work, summarised per-segment in
   [`civil-class-summary.md`](civil-class-summary.md).
+- A second Samawah deployment report. Cost and ridership numbers are
+  generated only under `designs/`.
 
 ## Contents
 
@@ -31,7 +37,7 @@ speed 22 m/s).
 |---|---|
 | [`line1-segments.md`](line1-segments.md) | Line 1 (12 stations, 11 segments, radial) per-segment table |
 | [`line2-segments.md`](line2-segments.md) | Line 2 (10 stations, 10 segments + ring wrap) per-segment table |
-| [`civil-class-summary.md`](civil-class-summary.md) | At-grade / elevated / bridge breakdown per-line and consolidated |
+| [`civil-class-summary.md`](civil-class-summary.md) | At-grade / elevated / bridge breakdown per-line and consolidated, without a separate CAPEX model |
 | [`compliance-report.md`](compliance-report.md) | Per-segment pass/fail against the `standard-urban` preset's §§5–6 limits |
 | [`samawah-line1.aln.toml`](samawah-line1.aln.toml) | **Machine-readable OSR-ALN v1.0 alignment for Line 1** (13 km, 12 stations, passes `osr-aln-validate`) |
 | [`samawah-line2.aln.toml`](samawah-line2.aln.toml) | **Machine-readable OSR-ALN v1.0 alignment for Line 2** (16 km ring, 10 stations, 4 cant sections, passes `osr-aln-validate`) |

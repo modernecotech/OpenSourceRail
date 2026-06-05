@@ -38,41 +38,18 @@ target (≥ 70 %).
 margin. No soft-gate trip for `elevated_le_0.30` per the
 emitter's quality YAML.
 
-## Cost estimate (per RFC 0011 §9 rates)
+## Costing
 
-Planning-grade USD/km direct-procurement floor × civil mix:
+This file deliberately does not carry a separate Samawah cost model.
+Generated CAPEX lives in
+[`designs/west-asia/Iraq/Samawah/design.toml`](../../../../../designs/west-asia/Iraq/Samawah/design.toml)
+and the generated city report at
+[`designs/west-asia/Iraq/Samawah/README.md`](../../../../../designs/west-asia/Iraq/Samawah/README.md).
+Those artefacts read the canonical rates from
+[`lib/templates/capex-costs.toml`](../../../../../lib/templates/capex-costs.toml).
 
-| Class | USD/km | Length | Subtotal (USD) |
-|---|---|---|---|
-| at-grade | 2 000 000 | 24 km | 48 000 000 |
-| elevated | 9 000 000 | 3.9 km | 35 100 000 |
-| bridge | 13 000 000 | 1.2 km | 15 600 000 |
-| **Civil total** | | | **$98 700 000** |
-
-Generated city `design.toml` files keep EUR mirrors at 0.92 USD->EUR
-for schema compatibility, but the procurement basis is USD. Country
-cost factors for Iraq can still be applied downstream (from
-[`lib/templates/country-costs.toml`](../../../../../lib/templates/country-costs.toml)):
-- Labour discount: ~0.4 × OECD.
-- Materials: ~0.95 × OECD.
-- Effective factor: ~0.65.
-
-**Samawah two-line civil CAPEX floor: ~$99 M before local factor; ~$64 M
-if the full Iraq factor is applied.**
-
-Note: this is **civil only** — track + viaducts + bridges. It
-excludes:
-
-- Rolling stock (~$0.800 M × 16 three-car trainsets = ~$13 M,
-  using the current marketplace-BOM floor for the 3-car RFC 0008 basis).
-- Stations (~$0.800 M per `standard`, with majors/terminals/interchanges
-  scaled from the station archetype table
-  + interchanges).
-- Depots (~$12.0 M for the `main-heavy` east depot + ~$2.0 M
-  for the `layup-minimal`).
-- Residual train-control wayside + radio/OCC integration (~$1.5 M;
-  train protection is primarily onboard driverless sensing).
-- Procurement, engineering, contingency (~20 %).
+The civil package here is only the worked alignment envelope: line
+lengths, civil class shares, land take, and constructability risks.
 
 ## Land acquisition
 
@@ -89,32 +66,6 @@ area ~50 km²), this is a small fraction of urban land — ≈ 0.06 %.
 Several segments follow the existing Mosul Street corridor +
 the highway east of the river; those use existing public ROW
 with minimal acquisition.
-
-## Comparison to legacy equivalents
-
-A 29 km light-metro project in the Middle East at legacy-vendor
-pricing (CAPEX-only, civil + signalling + rolling stock) is
-typically quoted at **$1–3 billion** in 2026-era bids.
-
-The OSR Samawah deployment budgets around **$120–185 M** all-in under
-the direct-procurement floor; the current auto-generated larger network
-lands near **$165 M** after the 2026 rail/station-rate refresh.
-This is the catenary-free + local-manufacturability +
-simple-civil bet playing out in practice. The largest single
-savings:
-
-- No continuous catenary: saves ~$60 M.
-- No tunnelling (vs the typical 20 % tunnelled urban alignment):
-  saves ~$500–800 M.
-- Onboard-first driverless protection instead of a proprietary CBTC
-  vendor stack: saves ~$30–80 M over 30 years.
-- Commodity rolling stock vs bespoke: saves ~$75–95 M over a
-  fleet of 16 trainsets at the marketplace-BOM floor.
-
-The residual difference is OpenSourceRail's structural CAPEX
-target. A real deployment may come in higher — ~$250 M is a
-realistic upper bound for contingency + land + overheads — but
-not an order of magnitude higher like legacy bids.
 
 ## Risk register (civil-side)
 

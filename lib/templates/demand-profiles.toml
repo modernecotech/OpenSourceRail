@@ -19,14 +19,14 @@
 # Curves are 24-bin (0..23) hourly multipliers, normalized so Σ = 1.0.
 
 [planning]
-# README ridership sanity bands. These are daily paid-trip estimates after
-# opening, not peak design capacity. Catchment share is used in the capacity
-# section when coverage is known; urban-population share is used in the
-# finance/revenue section so every city has a bracket.
-practical_daily_catchment_low = 0.18
-practical_daily_catchment_high = 0.30
-finance_daily_population_low = 0.15
-finance_daily_population_high = 0.25
+# README ridership sanity bands. These are daily paid-trip demand scenarios
+# after opening, not physical train capacity. The same low/high pair is used
+# in the ridership and finance sections so the generated report has one story.
+daily_ridership_catchment_low = 0.18
+daily_ridership_catchment_high = 0.30
+daily_ridership_population_fallback_low = 0.10
+daily_ridership_population_fallback_high = 0.18
+practical_capacity_load_factor = 0.65
 
 [profiles.university]
 # Sharp peaks at lecture start/end during term; very low summer/Fridays.

@@ -93,17 +93,20 @@ _CHARGING_MICROGRID_UNIT_USD = _float_map(
     _CAPEX_COSTS["charging_microgrid_unit_usd"]
 )
 _EPC_OVERHEAD_FRAC = float(_CAPEX_COSTS["overhead"]["epc_fraction"])
-_PRACTICAL_DAILY_CATCHMENT_LOW = float(
-    _RIDERSHIP_PLANNING["practical_daily_catchment_low"]
+_DAILY_RIDERSHIP_CATCHMENT_LOW = float(
+    _RIDERSHIP_PLANNING["daily_ridership_catchment_low"]
 )
-_PRACTICAL_DAILY_CATCHMENT_HIGH = float(
-    _RIDERSHIP_PLANNING["practical_daily_catchment_high"]
+_DAILY_RIDERSHIP_CATCHMENT_HIGH = float(
+    _RIDERSHIP_PLANNING["daily_ridership_catchment_high"]
 )
-_FINANCE_DAILY_POPULATION_LOW = float(
-    _RIDERSHIP_PLANNING["finance_daily_population_low"]
+_DAILY_RIDERSHIP_POPULATION_FALLBACK_LOW = float(
+    _RIDERSHIP_PLANNING["daily_ridership_population_fallback_low"]
 )
-_FINANCE_DAILY_POPULATION_HIGH = float(
-    _RIDERSHIP_PLANNING["finance_daily_population_high"]
+_DAILY_RIDERSHIP_POPULATION_FALLBACK_HIGH = float(
+    _RIDERSHIP_PLANNING["daily_ridership_population_fallback_high"]
+)
+_PRACTICAL_CAPACITY_LOAD_FACTOR = float(
+    _RIDERSHIP_PLANNING["practical_capacity_load_factor"]
 )
 
 
@@ -428,7 +431,18 @@ def _station_commercial_revenue_eur(
 
 
 def _funding_and_affordability_section(
-    design: dict, costs: dict, stats: NetworkStats, rel
+    design: dict,
+    costs: dict,
+    stats: NetworkStats,
+    rel,
+    *,
+    daily_pax_low: int,
+    daily_pax_high: int,
+    ridership_basis_label: str,
+    ridership_basis_population: int,
+    ridership_low_share: float,
+    ridership_high_share: float,
+    practical_daily_capacity: int,
 ) -> list[str]:
     """Emit the `## Funding & affordability` section: CAPEX funding
     stack (multilateral + sovereign + equity), annual OPEX, ticket
@@ -589,21 +603,17 @@ def _funding_and_affordability_section(
 
     # Affordability-anchored ticket pricing. The base affordability
     # marker remains 5 % of country median monthly income; the
-    # cost-neutral case lifts that slightly to 6 % (+20 %) and solves
-    # the ridership needed after station retail + advertising revenue.
+    # operating-neutral case lifts that slightly to 6 % (+20 %) and
+    # solves the ridership needed after station retail + advertising
+    # revenue.
     base_monthly_pass_usd = 0.05 * monthly_income
     target_monthly_pass_usd = 0.06 * monthly_income
     base_trip_usd = base_monthly_pass_usd / 30.0
     target_trip_usd = target_monthly_pass_usd / 30.0
     target_trip_eur = target_trip_usd * _USD_TO_EUR
 
-    # Farebox revenue at the cost-neutral fare, given a more ambitious
-    # service uptake bracket. Daily realisation is a configured share of
-    # population ×
-    # 365 service-days (matches the OPEX service-year model — 5:30 to
-    # 02:00, 365 days).
-    daily_pax_low = _FINANCE_DAILY_POPULATION_LOW * stats.population
-    daily_pax_high = _FINANCE_DAILY_POPULATION_HIGH * stats.population
+    # Farebox revenue at the operating-neutral fare, using the same
+    # ridership scenarios reported in the capacity section.
     annual_pax_low = daily_pax_low * service_days_per_year
     annual_pax_high = daily_pax_high * service_days_per_year
     farebox_low_eur = annual_pax_low * target_trip_eur
@@ -647,24 +657,23 @@ def _funding_and_affordability_section(
     #     • no farebox revenue, no debt-principal repayment
     #   Phase 2 — Steady-state operation (year grace+1 onwards)
     #     • full debt service (multilateral + bond principal + interest)
-    #     • OPEX shortfall = max(0, OPEX − farebox)
-    #     • surplus farebox (high scenario, megacities) flows to a
-    #       capex sinking fund retained by the operator and indirectly
-    #       reduces future government CAPEX commitments
+    #     • OPEX shortfall = max(0, OPEX − operating revenue)
+    #     • operating surplus is reported separately; it is not assumed
+    #       to retire sovereign/project debt unless a deployment finance
+    #       agreement explicitly hypothecates it.
     #
     # We place this summary table ahead of the detailed CAPEX/OPEX
     # breakdowns so a finance ministry can pull a single number into
     # next year's budget submission without reading the whole section.
     total_revenue_low = farebox_low_eur + nonfare_eur
     total_revenue_high = farebox_high_eur + nonfare_eur
-    annual_revenue_target_eur = annual_debt_service_eur + annual_opex_eur
     operating_shortfall_low = max(0.0, annual_opex_eur - total_revenue_low)
     operating_shortfall_high = max(0.0, annual_opex_eur - total_revenue_high)
-    surplus_low = max(0.0, total_revenue_low - annual_revenue_target_eur)
-    surplus_high = max(0.0, total_revenue_high - annual_revenue_target_eur)
-    steady_state_low = max(0.0, annual_revenue_target_eur - total_revenue_low)
-    steady_state_high = max(0.0, annual_revenue_target_eur - total_revenue_high)
-    cost_neutral_farebox_eur = max(0.0, annual_revenue_target_eur - nonfare_eur)
+    surplus_low = max(0.0, total_revenue_low - annual_opex_eur)
+    surplus_high = max(0.0, total_revenue_high - annual_opex_eur)
+    steady_state_low = annual_debt_service_eur + operating_shortfall_low
+    steady_state_high = annual_debt_service_eur + operating_shortfall_high
+    cost_neutral_farebox_eur = max(0.0, annual_opex_eur - nonfare_eur)
     cost_neutral_annual_pax = (
         cost_neutral_farebox_eur / target_trip_eur
         if target_trip_eur > 0.0
@@ -673,12 +682,13 @@ def _funding_and_affordability_section(
     cost_neutral_daily_pax = cost_neutral_annual_pax / service_days_per_year
     cost_neutral_share = cost_neutral_daily_pax / max(stats.population, 1)
     cost_neutral_revenue_eur = cost_neutral_farebox_eur + nonfare_eur
+    cost_neutral_steady_state = annual_debt_service_eur
 
     population = max(int(stats.population), 1)
     construction_per_capita = annual_construction_commitment_eur / population
     steady_low_per_capita = steady_state_low / population
     steady_high_per_capita = steady_state_high / population
-    steady_neutral_per_capita = 0.0
+    steady_neutral_per_capita = cost_neutral_steady_state / population
 
     # Lifecycle envelope: total cumulative gov outlay over the loan
     # tenor (construction + repayment phases).
@@ -690,7 +700,10 @@ def _funding_and_affordability_section(
         construction_years * annual_construction_commitment_eur
         + repayment_years * steady_state_high
     )
-    lifecycle_neutral = construction_years * annual_construction_commitment_eur
+    lifecycle_neutral = (
+        construction_years * annual_construction_commitment_eur
+        + repayment_years * cost_neutral_steady_state
+    )
 
     out.append("### Government commitment summary (budgetable)\n")
     out.append(
@@ -718,8 +731,8 @@ def _funding_and_affordability_section(
         f"{_usd_per_resident(steady_high_per_capita)} |"
     )
     out.append(
-        f"| Steady-state, cost-neutral revenue case | "
-        f"**$0 / yr** | "
+        f"| Steady-state, operating-neutral revenue case | "
+        f"**{_usd(cost_neutral_steady_state)} / yr** | "
         f"{_usd_per_resident(steady_neutral_per_capita)} |"
     )
     out.append(
@@ -733,16 +746,16 @@ def _funding_and_affordability_section(
         f"{_usd_per_resident(lifecycle_high / population)} |"
     )
     out.append(
-        f"| Lifecycle envelope (yr 1–{tenor}, cost-neutral after opening) | "
+        f"| Lifecycle envelope (yr 1–{tenor}, operating-neutral after opening) | "
         f"**{_usd(lifecycle_neutral)} cumulative** | "
         f"{_usd_per_resident(lifecycle_neutral / population)} |\n"
     )
     out.append(
         f"_Population basis: {population:,} (catchment per "
         f"`lib/city-batches/world-sample.toml`). After year {tenor}, debt "
-        f"service drops to zero; the cost-neutral case already covers "
-        f"steady-state OPEX + debt service from fares, station shops, and "
-        f"advertising. Low/high residual OPEX shortfall before debt is "
+        f"service drops to zero; the operating-neutral case already covers "
+        f"steady-state OPEX from fares, station shops, and advertising. "
+        f"Low/high residual OPEX shortfall before debt is "
         f"{_usd(operating_shortfall_low)} / yr → "
         f"{_usd(operating_shortfall_high)} / yr._\n"
     )
@@ -820,7 +833,7 @@ def _funding_and_affordability_section(
         f"Country median monthly income: **${monthly_income:,.0f} USD** "
         f"(per [`lib/templates/country-finance.toml`]({rel('lib/templates/country-finance.toml')})). "
         f"Base affordability marker: a monthly unlimited-ride pass costs "
-        f"**5 % of median monthly income**. The cost-neutral case lifts "
+        f"**5 % of median monthly income**. The operating-neutral case lifts "
         f"that to **6 %** (+20 % over the baseline) and pairs it with "
         f"higher service uptake plus station retail and advertising. "
         f"Single-trip fare is set so that 30 single trips equal one "
@@ -834,7 +847,7 @@ def _funding_and_affordability_section(
         f"${base_trip_usd:.2f} |"
     )
     out.append(
-        f"| Cost-neutral single-trip fare (6 % pass) | "
+        f"| Operating-neutral single-trip fare (6 % pass) | "
         f"${target_trip_usd:.2f} |"
     )
     out.append(
@@ -850,24 +863,32 @@ def _funding_and_affordability_section(
         f"${(target_monthly_pass_usd * 11):.2f} (11 × monthly = ~1 free month) |\n"
     )
 
-    out.append("### Revenue & cost-neutrality\n")
+    out.append("### Revenue & operating neutrality\n")
     out.append(
         f"Planning ridership bracket = "
-        f"{_pct_range(_FINANCE_DAILY_POPULATION_LOW, _FINANCE_DAILY_POPULATION_HIGH)} "
-        f"of urban population × "
-        f"{service_days_per_year} service-days at the cost-neutral fare. "
-        "The cost-neutral column solves annual paid trips so "
-        "**farebox + station-shop leases + advertising = OPEX + "
-        "post-grace debt service**.\n"
+        f"{_pct_range(ridership_low_share, ridership_high_share)} of "
+        f"{ridership_basis_label} × {service_days_per_year} service-days "
+        f"at the operating-neutral fare, capped by practical service "
+        f"capacity ({practical_daily_capacity:,} trips/day). The "
+        "operating-neutral column solves annual paid trips so "
+        "**farebox + station-shop leases + advertising = steady-state OPEX**. "
+        "Post-grace debt service remains a capital-funding obligation in "
+        "the government commitment table above.\n"
     )
-    out.append("| | Low scenario | High scenario | Cost-neutral target |")
+    out.append("| | Low scenario | High scenario | Operating-neutral target |")
     out.append("|---|---|---|---|")
     out.append(
         f"| Daily paid trips | {daily_pax_low:,.0f} | "
         f"{daily_pax_high:,.0f} | {cost_neutral_daily_pax:,.0f} |"
     )
     out.append(
-        f"| Daily paid trips / population | {daily_pax_low / population:.0%} | "
+        f"| Daily paid trips / {ridership_basis_label} | "
+        f"{daily_pax_low / ridership_basis_population:.0%} | "
+        f"{daily_pax_high / ridership_basis_population:.0%} | "
+        f"{cost_neutral_daily_pax / ridership_basis_population:.0%} |"
+    )
+    out.append(
+        f"| Daily paid trips / city population | {daily_pax_low / population:.0%} | "
         f"{daily_pax_high / population:.0%} | {cost_neutral_share:.0%} |"
     )
     out.append(
@@ -894,9 +915,9 @@ def _funding_and_affordability_section(
         f"**{_usd(cost_neutral_revenue_eur)} / yr** |"
     )
     out.append(
-        f"| Revenue / OPEX + debt-service recovery | "
-        f"{(total_revenue_low / annual_revenue_target_eur):.0%} | "
-        f"{(total_revenue_high / annual_revenue_target_eur):.0%} | "
+        f"| Revenue / OPEX recovery | "
+        f"{(total_revenue_low / annual_opex_eur):.0%} | "
+        f"{(total_revenue_high / annual_opex_eur):.0%} | "
         f"100% |"
     )
     out.append(
@@ -904,13 +925,13 @@ def _funding_and_affordability_section(
         f"{target_recovery:.0%} | {target_recovery:.0%} | {target_recovery:.0%} |"
     )
     out.append(
-        f"| Remaining steady-state gov gap | "
+        f"| Remaining steady-state gov commitment | "
         f"{_usd(steady_state_low)} / yr | "
         f"{_usd(steady_state_high)} / yr | "
-        f"**$0 / yr** |"
+        f"**{_usd(cost_neutral_steady_state)} / yr** |"
     )
     out.append(
-        f"| Operating surplus after OPEX + debt | "
+        f"| Operating surplus after OPEX | "
         f"{_usd(surplus_low)} / yr | "
         f"{_usd(surplus_high)} / yr | "
         f"$0 / yr |\n"
@@ -926,8 +947,8 @@ def _funding_and_affordability_section(
 
     out.append(
         "**Caveats:** The funding-stack 60/25/15 split, the 6 % "
-        f"cost-neutral fare target, the "
-        f"{_pct_range(_FINANCE_DAILY_POPULATION_LOW, _FINANCE_DAILY_POPULATION_HIGH)} "
+        f"operating-neutral fare target, the "
+        f"{_pct_range(ridership_low_share, ridership_high_share)} "
         "daily-pax bracket, and the station-commercial assumptions are "
         "project-level defaults. "
         "Real deployments will negotiate the capital split with financing "
@@ -1079,16 +1100,31 @@ def render_readme(
     per_line_pphpd = capacity_pax * trains_per_hour_per_dir
     network_peak_per_h = per_line_pphpd * stats.line_count * 2
     daily_theoretical = network_peak_per_h * 10  # peak≈10% of daily
+    practical_daily_capacity = int(daily_theoretical * _PRACTICAL_CAPACITY_LOAD_FACTOR)
     catchment = int(stats.coverage * stats.population) if stats.coverage > 0 else None
+    if catchment:
+        ridership_basis_population = catchment
+        ridership_basis_label = "catchment"
+        ridership_low_share = _DAILY_RIDERSHIP_CATCHMENT_LOW
+        ridership_high_share = _DAILY_RIDERSHIP_CATCHMENT_HIGH
+    else:
+        ridership_basis_population = stats.population
+        ridership_basis_label = "city population"
+        ridership_low_share = _DAILY_RIDERSHIP_POPULATION_FALLBACK_LOW
+        ridership_high_share = _DAILY_RIDERSHIP_POPULATION_FALLBACK_HIGH
     practical_daily_low = (
-        int((catchment or stats.population) * _PRACTICAL_DAILY_CATCHMENT_LOW)
-        if catchment
+        min(int(ridership_basis_population * ridership_low_share), practical_daily_capacity)
+        if ridership_basis_population > 0
         else None
     )
     practical_daily_high = (
-        int((catchment or stats.population) * _PRACTICAL_DAILY_CATCHMENT_HIGH)
-        if catchment
+        min(int(ridership_basis_population * ridership_high_share), practical_daily_capacity)
+        if ridership_basis_population > 0
         else None
+    )
+    ridership_capped = (
+        practical_daily_high is not None
+        and int(ridership_basis_population * ridership_high_share) > practical_daily_capacity
     )
 
     # Cost.
@@ -1193,8 +1229,9 @@ def render_readme(
     )
     daily_practical_str = (
         f"≈ **{practical_daily_low:,} – {practical_daily_high:,} trips/day**"
-        if practical_daily_low else "*(requires a coverage score)*"
+        if practical_daily_low is not None else "*(requires a coverage score)*"
     )
+    cap_note = " (capped by practical service capacity)" if ridership_capped else ""
 
     out: list[str] = []
     out.append(f"# {stats.city_name} — Urban Rail Network\n")
@@ -1334,10 +1371,14 @@ def render_readme(
         f"- **Daily theoretical capacity (peak × 10):** ≈ **{daily_theoretical:,.0f} passenger-trips/day**"
     )
     out.append(
-        f"- **Practical daily ridership estimate** "
-        f"({_pct_range(_PRACTICAL_DAILY_CATCHMENT_LOW, _PRACTICAL_DAILY_CATCHMENT_HIGH)} "
-        "of catchment): "
-        f"{daily_practical_str}\n"
+        f"- **Practical daily service capacity** "
+        f"({_PRACTICAL_CAPACITY_LOAD_FACTOR:.0%} load factor): "
+        f"≈ **{practical_daily_capacity:,} passenger-trips/day**"
+    )
+    out.append(
+        f"- **Planning daily ridership scenario** "
+        f"({_pct_range(ridership_low_share, ridership_high_share)} of "
+        f"{ridership_basis_label}{cap_note}): {daily_practical_str}\n"
     )
 
     out.append("## Catchment\n")
@@ -1425,7 +1466,19 @@ def render_readme(
         # Funding & affordability section — CAPEX funding stack, annual
         # OPEX estimate, ticket pricing anchored to country median
         # income. Reads `lib/templates/country-finance.toml`.
-        out.extend(_funding_and_affordability_section(design, rust_costs, stats, rel))
+        out.extend(_funding_and_affordability_section(
+            design,
+            rust_costs,
+            stats,
+            rel,
+            daily_pax_low=practical_daily_low or 0,
+            daily_pax_high=practical_daily_high or 0,
+            ridership_basis_label=ridership_basis_label,
+            ridership_basis_population=ridership_basis_population,
+            ridership_low_share=ridership_low_share,
+            ridership_high_share=ridership_high_share,
+            practical_daily_capacity=practical_daily_capacity,
+        ))
         # Skip the per-unit fallback section below; jump to "## Files".
         return _finalise_readme(
             out, design_path, scenario_path, stats, screenshot_slug, rel

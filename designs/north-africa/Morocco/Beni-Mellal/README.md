@@ -56,7 +56,8 @@ Corridor polylines + stations as GeoJSON for GIS / alignment tooling: [`beni-mel
 - **Peak capacity per line per direction:** 210 × 12 = **2,520 pphpd**
 - **Network peak throughput (all lines, both directions):** 3 lines × 2 directions × 2,520 = **15,120 passengers/hour**
 - **Daily theoretical capacity (peak × 10):** ≈ **151,200 passenger-trips/day**
-- **Practical daily ridership estimate** (18-30% of catchment): ≈ **45,792 – 76,320 trips/day**
+- **Practical daily service capacity** (65% load factor): ≈ **98,280 passenger-trips/day**
+- **Planning daily ridership scenario** (18-30% of catchment): ≈ **45,792 – 76,320 trips/day**
 
 ## Catchment
 
@@ -178,14 +179,14 @@ Bottom line for next year's budget submission. Construction phase runs **years 1
 | Phase | Annual gov / municipal commitment | Per resident / yr |
 |---|---|---|
 | Construction (years 1–5) | **$12 M / yr** | $38 |
-| Steady-state, low-ridership (year 6+) | **$55 k / yr** | $0 |
-| Steady-state, high-ridership (year 6+) | **$0 k / yr** | $0 |
-| Steady-state, cost-neutral revenue case | **$0 / yr** | $0 |
-| Lifecycle envelope (yr 1–25, low scenario) | **$59 M cumulative** | $196 |
-| Lifecycle envelope (yr 1–25, high scenario) | **$58 M cumulative** | $192 |
-| Lifecycle envelope (yr 1–25, cost-neutral after opening) | **$58 M cumulative** | $192 |
+| Steady-state, low-ridership (year 6+) | **$11 M / yr** | $38 |
+| Steady-state, high-ridership (year 6+) | **$11 M / yr** | $38 |
+| Steady-state, operating-neutral revenue case | **$11 M / yr** | $38 |
+| Lifecycle envelope (yr 1–25, low scenario) | **$283 M cumulative** | $944 |
+| Lifecycle envelope (yr 1–25, high scenario) | **$283 M cumulative** | $944 |
+| Lifecycle envelope (yr 1–25, operating-neutral after opening) | **$283 M cumulative** | $944 |
 
-_Population basis: 300,000 (catchment per `lib/city-batches/world-sample.toml`). After year 25, debt service drops to zero; the cost-neutral case already covers steady-state OPEX + debt service from fares, station shops, and advertising. Low/high residual OPEX shortfall before debt is $0 k / yr → $0 k / yr._
+_Population basis: 300,000 (catchment per `lib/city-batches/world-sample.toml`). After year 25, debt service drops to zero; the operating-neutral case already covers steady-state OPEX from fares, station shops, and advertising. Low/high residual OPEX shortfall before debt is $0 k / yr → $0 k / yr._
 
 ### CAPEX funding stack
 
@@ -213,37 +214,38 @@ _Annual fleet utilisation: 39 revenue trainsets × 20.5 h/day × 365 d/yr × 22 
 
 ### Ticket pricing anchored to median income
 
-Country median monthly income: **$410 USD** (per [`lib/templates/country-finance.toml`](../../../../lib/templates/country-finance.toml)). Base affordability marker: a monthly unlimited-ride pass costs **5 % of median monthly income**. The cost-neutral case lifts that to **6 %** (+20 % over the baseline) and pairs it with higher service uptake plus station retail and advertising. Single-trip fare is set so that 30 single trips equal one monthly pass — a frequent commuter averaging ~50 trips / month still receives an effective ~40 % bulk discount.
+Country median monthly income: **$410 USD** (per [`lib/templates/country-finance.toml`](../../../../lib/templates/country-finance.toml)). Base affordability marker: a monthly unlimited-ride pass costs **5 % of median monthly income**. The operating-neutral case lifts that to **6 %** (+20 % over the baseline) and pairs it with higher service uptake plus station retail and advertising. Single-trip fare is set so that 30 single trips equal one monthly pass — a frequent commuter averaging ~50 trips / month still receives an effective ~40 % bulk discount.
 
 | Product | Price target |
 |---|---|
 | Baseline single-trip fare (5 % pass) | $0.68 |
-| Cost-neutral single-trip fare (6 % pass) | $0.82 |
+| Operating-neutral single-trip fare (6 % pass) | $0.82 |
 | Day pass (3 trips) | $2.09 (15 % bulk discount) |
 | Monthly unlimited pass | $24.60 (~6 % of median monthly income) |
 | Annual pass | $270.60 (11 × monthly = ~1 free month) |
 
-### Revenue & cost-neutrality
+### Revenue & operating neutrality
 
-Planning ridership bracket = 15-25% of urban population × 365 service-days at the cost-neutral fare. The cost-neutral column solves annual paid trips so **farebox + station-shop leases + advertising = OPEX + post-grace debt service**.
+Planning ridership bracket = 18-30% of catchment × 365 service-days at the operating-neutral fare, capped by practical service capacity (98,280 trips/day). The operating-neutral column solves annual paid trips so **farebox + station-shop leases + advertising = steady-state OPEX**. Post-grace debt service remains a capital-funding obligation in the government commitment table above.
 
-| | Low scenario | High scenario | Cost-neutral target |
+| | Low scenario | High scenario | Operating-neutral target |
 |---|---|---|---|
-| Daily paid trips | 45,000 | 75,000 | 45,183 |
-| Daily paid trips / population | 15% | 25% | 15% |
-| Annual paid trips | 16.4 M | 27.4 M | 16.5 M |
-| Farebox revenue | $13 M / yr | $22 M / yr | $14 M / yr |
+| Daily paid trips | 45,792 | 76,320 | 7,525 |
+| Daily paid trips / catchment | 18% | 30% | 3% |
+| Daily paid trips / city population | 15% | 25% | 3% |
+| Annual paid trips | 16.7 M | 27.9 M | 2.7 M |
+| Farebox revenue | $14 M / yr | $23 M / yr | $2.3 M / yr |
 | Station shop leases | $1.1 M / yr | $1.1 M / yr | $1.1 M / yr |
 | Advertising boards | $1.7 M / yr | $1.7 M / yr | $1.7 M / yr |
-| **Total revenue** | **$16 M / yr** | **$25 M / yr** | **$16 M / yr** |
-| Revenue / OPEX + debt-service recovery | 100% | 155% | 100% |
+| **Total revenue** | **$17 M / yr** | **$26 M / yr** | **$5.0 M / yr** |
+| Revenue / OPEX recovery | 327% | 508% | 100% |
 | Country farebox-only policy target (diagnostic) | 60% | 60% | 60% |
-| Remaining steady-state gov gap | $55 k / yr | $0 k / yr | **$0 / yr** |
-| Operating surplus after OPEX + debt | $0 k / yr | $8.9 M / yr | $0 / yr |
+| Remaining steady-state gov commitment | $11 M / yr | $11 M / yr | **$11 M / yr** |
+| Operating surplus after OPEX | $11 M / yr | $21 M / yr | $0 / yr |
 
 _Commercial-revenue assumptions: 3,072 m² of station shop/kiosk leases at $33/m²/month and 592 advertising boards at $287/board/month, with occupancy derates applied._
 
-**Caveats:** The funding-stack 60/25/15 split, the 6 % cost-neutral fare target, the 15-25% daily-pax bracket, and the station-commercial assumptions are project-level defaults. Real deployments will negotiate the capital split with financing institutions and tune fares, retail mix, advertising inventory, and service frequency iteratively from boarding data. Treat the numbers above as a first-iteration sanity check, not as a bid-ready financial close.
+**Caveats:** The funding-stack 60/25/15 split, the 6 % operating-neutral fare target, the 18-30% daily-pax bracket, and the station-commercial assumptions are project-level defaults. Real deployments will negotiate the capital split with financing institutions and tune fares, retail mix, advertising inventory, and service frequency iteratively from boarding data. Treat the numbers above as a first-iteration sanity check, not as a bid-ready financial close.
 
 ## Files
 
