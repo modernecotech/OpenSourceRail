@@ -31,7 +31,7 @@ criteria, in order:
 | Module | Components |
 |---|---|
 | `osr_mech.track` | Rail profile (54E1 / 60E1), precast mono-block sleeper, Pandrol-style fastener, assembled track panel |
-| `osr_mech.civil` | Precast U-girder for elevated spans (RFC 0011), precast pad footing, precast L-unit platform edge |
+| `osr_mech.civil` | Precast U-girder for elevated spans (RFC 0011), at-grade/elevated ballastless slab panels, precast pad footing, precast L-unit platform edge |
 | `osr_mech.station` | Steel portal-frame bay, multi-bay canopy assembly, solar-roof panel, signage + lighting mast |
 | `osr_mech.rolling_stock` | Car body, bogie components, trainset assemblies, sensor cowl, couplers, articulation, doors, batteries, traction/electronics envelopes, T-OBS sensor pack, fit-out envelopes |
 | `osr_mech.cad_templates` | Fabrication templates plus supplier-neutral COTS fixture envelopes |
@@ -70,6 +70,11 @@ the design basis. Tracked FreeCAD `.FCStd` files under
 [`catalog/freecad/`](catalog/freecad/) are the compact assembly-review
 artifacts. Neutral CAD exports are local-only scratch files when a
 supplier specifically asks for them.
+
+The source geometry uses the local `osr_mech.cad` facade. Under
+`FreeCADCmd` that facade emits native FreeCAD `Part` shapes directly; in
+ordinary Python it keeps lightweight volume and bounding-box metadata so
+the unit tests can run without a local FreeCAD install.
 
 Key rolling-stock source entry points:
 

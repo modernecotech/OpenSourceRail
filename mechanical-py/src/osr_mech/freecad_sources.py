@@ -5,7 +5,7 @@ from __future__ import annotations
 from collections.abc import Callable
 from pathlib import Path
 
-from osr_mech.cad import export_brep
+from osr_mech.cad import export_brep, to_freecad_shape
 
 from osr_mech.clearance import reference_envelope, swept_envelope_part
 from osr_mech.rolling_stock.bogie import motor_bogie, trailer_bogie
@@ -53,12 +53,29 @@ SOURCE_BUILDERS: dict[str, Callable[[], object]] = {
 
 
 def export_source_brep(key: str, path: str | Path) -> None:
+    """Export a source shape as temporary BREP for compatibility tools."""
+
+    ok = export_brep(source_object(key), str(path))
+    if not ok:
+        raise RuntimeError(f"could not export temporary BREP for {key}")
+
+
+def source_object(key: str) -> object:
     try:
         builder = SOURCE_BUILDERS[key]
     except KeyError as exc:
         known = ", ".join(sorted(SOURCE_BUILDERS))
         raise KeyError(f"unknown FreeCAD source geometry {key!r}; known keys: {known}") from exc
 
-    ok = export_brep(builder(), str(path))
-    if not ok:
-        raise RuntimeError(f"could not export temporary BREP for {key}")
+    return builder()
+
+
+def source_shape(key: str):
+    """Build a catalogue item and return its native FreeCAD shape."""
+
+    shape = to_freecad_shape(source_object(key))
+    if shape is None:
+        raise RuntimeError(
+            f"could not build FreeCAD shape for {key!r}; run under FreeCADCmd or install FreeCAD modules"
+        )
+    return shape

@@ -14,6 +14,8 @@ release gates are tracked in
 | File | Scope |
 |---|---|
 | [`marketplace-cost-anchors.md`](marketplace-cost-anchors.md) | USD direct-procurement floor for at-grade track, elevated guideway, bridges, stations, depots, and charging interfaces |
+| [`rapid-implementation-materials-review.md`](rapid-implementation-materials-review.md) | Internet review of rapid ballastless track, modular stations, and recycled or lower-carbon materials |
+| [`slab-trackforms.md`](slab-trackforms.md) | Reference ballastless slab designs for at-grade and elevated guideway sections |
 | [`osr-aln-format.md`](osr-aln-format.md) | OSR-ALN alignment interchange format and validation gates |
 | [`deployment-release-checklist.md`](deployment-release-checklist.md) | Survey, geotechnical, structure, station, energy-site, and permit release gates |
 | [`west-asia/Iraq/Samawah/`](west-asia/Iraq/Samawah/) | Worked planning-grade line segments, compliance report, and reference alignment docs |

@@ -98,7 +98,7 @@ All figures come from the `[costs]` block in `design.toml` — emitted by the `o
 | Bucket | Value |
 |---|---|
 | At-grade (9.5 km @ $3.0 M/km) | $29 M |
-| Elevated (0.0 km @ $9.0 M/km) | $435 k |
+| Elevated (0.0 km @ $12.0 M/km) | $580 k |
 | **Civil subtotal** | **$29 M** |
 
 ### Stations
@@ -144,7 +144,7 @@ Rolling stock is costed at the **marketplace-BOM floor: $267 k per self-containe
 
 | Item | Basis | Subtotal |
 |---|---|---|
-| Residual signalling / train-control wayside (onboard ATP/ATO + T-OBS carries the function; W-Nodes, balises, LoRa gateways, OCC interfaces remain) | 9.6 km × $0.015 M/km | $478 k |
+| Residual signalling / train-control wayside (onboard ATP/ATO + T-OBS carries the function; W-Nodes, balises, LoRa gateways, OCC interfaces remain) | 9.6 km × $0.050 M/km | $478 k |
 | Station/depot charging microgrids (conductive charger, switchgear, inverter interface, local PV/battery tie-in; no continuous wayside supply) | per-stop allowance by station archetype | $3.5 M |
 | EPC integration + project management (7%) | on subtotal | $4.6 M |
 
@@ -176,9 +176,9 @@ Bottom line for next year's budget submission. Construction phase runs **years 1
 | Steady-state, low-ridership (year 8+) | **$4.5 M / yr** | $18 |
 | Steady-state, high-ridership (year 8+) | **$4.5 M / yr** | $18 |
 | Steady-state, operating-neutral revenue case | **$4.5 M / yr** | $18 |
-| Lifecycle envelope (yr 1–30, low scenario) | **$135 M cumulative** | $542 |
-| Lifecycle envelope (yr 1–30, high scenario) | **$135 M cumulative** | $542 |
-| Lifecycle envelope (yr 1–30, operating-neutral after opening) | **$135 M cumulative** | $542 |
+| Lifecycle envelope (yr 1–30, low scenario) | **$136 M cumulative** | $543 |
+| Lifecycle envelope (yr 1–30, high scenario) | **$136 M cumulative** | $543 |
+| Lifecycle envelope (yr 1–30, operating-neutral after opening) | **$136 M cumulative** | $543 |
 
 _Population basis: 250,000 (catchment per `lib/city-batches/world-sample.toml`). After year 30, debt service drops to zero; the operating-neutral case already covers steady-state OPEX from fares, station shops, and advertising. Low/high residual OPEX shortfall before debt is $0 k / yr → $0 k / yr._
 
@@ -187,7 +187,7 @@ _Population basis: 250,000 (catchment per `lib/city-batches/world-sample.toml`).
 | Tranche | Share | Principal | Rate | Tenor | Annual debt service (post-grace) |
 |---|---|---|---|---|---|
 | Multilateral concessional loan (IBRD / AfDB / ADB class) | 60% | $42 M | 3.8% | 30 y, 7 y grace | $2.8 M / yr |
-| Sovereign bonds (10-y benchmark + project) | 25% | $17 M | 8.5% | 30 y, 7 y grace | $1.7 M / yr |
+| Sovereign bonds (10-y benchmark + project) | 25% | $17 M | 8.5% | 30 y, 7 y grace | $1.8 M / yr |
 | Government equity (no debt service) | 15% | $10 M | — | — | — |
 | **Total** | **100%** | **$70 M** | | | **$4.5 M / yr** |
 
@@ -224,18 +224,18 @@ Planning ridership bracket = 18-30% of catchment × 365 service-days at the oper
 
 | | Low scenario | High scenario | Operating-neutral target |
 |---|---|---|---|
-| Daily paid trips | 27,270 | 37,440 | 8,621 |
+| Daily paid trips | 27,270 | 37,440 | 8,643 |
 | Daily paid trips / catchment | 18% | 25% | 6% |
 | Daily paid trips / city population | 11% | 15% | 3% |
-| Annual paid trips | 10.0 M | 13.7 M | 3.1 M |
+| Annual paid trips | 10.0 M | 13.7 M | 3.2 M |
 | Farebox revenue | $3.6 M / yr | $4.9 M / yr | $1.1 M / yr |
 | Station shop leases | $180 k / yr | $180 k / yr | $180 k / yr |
 | Advertising boards | $293 k / yr | $293 k / yr | $293 k / yr |
 | **Total revenue** | **$4.1 M / yr** | **$5.4 M / yr** | **$1.6 M / yr** |
-| Revenue / OPEX recovery | 253% | 336% | 100% |
+| Revenue / OPEX recovery | 252% | 335% | 100% |
 | Country farebox-only policy target (diagnostic) | 40% | 40% | 40% |
 | Remaining steady-state gov commitment | $4.5 M / yr | $4.5 M / yr | **$4.5 M / yr** |
-| Operating surplus after OPEX | $2.5 M / yr | $3.8 M / yr | $0 / yr |
+| Operating surplus after OPEX | $2.4 M / yr | $3.8 M / yr | $0 / yr |
 
 _Commercial-revenue assumptions: 1,184 m² of station shop/kiosk leases at $14/m²/month and 228 advertising boards at $126/board/month, with occupancy derates applied._
 

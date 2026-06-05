@@ -101,7 +101,7 @@ All figures come from the `[costs]` block in `design.toml` — emitted by the `o
 | Bucket | Value |
 |---|---|
 | At-grade (68.6 km @ $3.0 M/km) | $206 M |
-| Elevated (0.0 km @ $9.0 M/km) | $255 k |
+| Elevated (0.0 km @ $12.0 M/km) | $340 k |
 | **Civil subtotal** | **$206 M** |
 
 ### Stations
@@ -149,7 +149,7 @@ Rolling stock is costed at the **marketplace-BOM floor: $267 k per self-containe
 
 | Item | Basis | Subtotal |
 |---|---|---|
-| Residual signalling / train-control wayside (onboard ATP/ATO + T-OBS carries the function; W-Nodes, balises, LoRa gateways, OCC interfaces remain) | 68.8 km × $0.015 M/km | $3.4 M |
+| Residual signalling / train-control wayside (onboard ATP/ATO + T-OBS carries the function; W-Nodes, balises, LoRa gateways, OCC interfaces remain) | 68.8 km × $0.050 M/km | $3.4 M |
 | Station/depot charging microgrids (conductive charger, switchgear, inverter interface, local PV/battery tie-in; no continuous wayside supply) | per-stop allowance by station archetype | $14 M |
 | EPC integration + project management (7%) | on subtotal | $24 M |
 
@@ -229,7 +229,7 @@ Planning ridership bracket = 18-30% of catchment × 365 service-days at the oper
 
 | | Low scenario | High scenario | Operating-neutral target |
 |---|---|---|---|
-| Daily paid trips | 64,890 | 108,150 | 35,319 |
+| Daily paid trips | 64,890 | 108,150 | 35,328 |
 | Daily paid trips / catchment | 18% | 30% | 10% |
 | Daily paid trips / city population | 13% | 22% | 7% |
 | Annual paid trips | 23.7 M | 39.5 M | 12.9 M |

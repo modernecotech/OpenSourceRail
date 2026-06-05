@@ -17,3 +17,4 @@ canopy, platform edge systems, and minimal station-building scope.
 | Station canopy CAD source | [`../../mechanical-py/src/osr_mech/station/`](../../mechanical-py/src/osr_mech/station/) |
 | Generated station CAD screenshots and review artifacts | [`../../docs/screenshots/`](../screenshots/) and [`../../mechanical-py/catalog/freecad/`](../../mechanical-py/catalog/freecad/) |
 | Station design RFC | [`../rfcs/0010-station-design-standard.md`](../rfcs/0010-station-design-standard.md) |
+| Rapid implementation and recycled materials review | [`../civil/rapid-implementation-materials-review.md`](../civil/rapid-implementation-materials-review.md) |

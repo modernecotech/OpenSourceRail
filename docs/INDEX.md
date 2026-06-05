@@ -10,7 +10,7 @@ Regenerate from the repository root with:
 python3 scripts/generate-doc-index.py
 ```
 
-Indexed Markdown files: **426**.
+Indexed Markdown files: **434**.
 
 ## Sections
 
@@ -19,11 +19,11 @@ Indexed Markdown files: **426**.
 | [Repository Root](#repository-root) | 2 |
 | [crates](#crates) | 3 |
 | [designs](#designs) | 264 |
-| [docs](#docs) | 110 |
+| [docs](#docs) | 115 |
 | [formal](#formal) | 2 |
 | [hardware](#hardware) | 36 |
 | [lib](#lib) | 3 |
-| [mechanical-py](#mechanical-py) | 3 |
+| [mechanical-py](#mechanical-py) | 6 |
 | [scripts](#scripts) | 1 |
 | [tools](#tools) | 2 |
 
@@ -331,7 +331,10 @@ Indexed Markdown files: **426**.
 | [`docs/certification/system-description.md`](../docs/certification/system-description.md) | System description |
 | [`docs/civil/README.md`](../docs/civil/README.md) | Civil And Alignment |
 | [`docs/civil/deployment-release-checklist.md`](../docs/civil/deployment-release-checklist.md) | Civil And Station Deployment Release Checklist |
+| [`docs/civil/marketplace-cost-anchors.md`](../docs/civil/marketplace-cost-anchors.md) | Civil Marketplace Cost Anchors |
 | [`docs/civil/osr-aln-format.md`](../docs/civil/osr-aln-format.md) | OSR-ALN — alignment interchange format (v1.0) |
+| [`docs/civil/rapid-implementation-materials-review.md`](../docs/civil/rapid-implementation-materials-review.md) | Rapid Implementation And Recycled Materials Review |
+| [`docs/civil/slab-trackforms.md`](../docs/civil/slab-trackforms.md) | Ballastless Slab Trackform Designs |
 | [`docs/civil/west-asia/Iraq/Samawah/README.md`](../docs/civil/west-asia/Iraq/Samawah/README.md) | Samawah civil alignment — v1 deliverable of RFC 0009 |
 | [`docs/civil/west-asia/Iraq/Samawah/civil-class-summary.md`](../docs/civil/west-asia/Iraq/Samawah/civil-class-summary.md) | Samawah civil-class summary |
 | [`docs/civil/west-asia/Iraq/Samawah/compliance-report.md`](../docs/civil/west-asia/Iraq/Samawah/compliance-report.md) | Samawah alignment — `standard-urban` compliance report |
@@ -405,6 +408,7 @@ Indexed Markdown files: **426**.
 | [`docs/rfcs/README.md`](../docs/rfcs/README.md) | RFC Index |
 | [`docs/rolling-stock/README.md`](../docs/rolling-stock/README.md) | Rolling Stock |
 | [`docs/rolling-stock/light-metro-3car/README.md`](../docs/rolling-stock/light-metro-3car/README.md) | `light-metro-3car` trainset package |
+| [`docs/rolling-stock/light-metro-3car/articulation.md`](../docs/rolling-stock/light-metro-3car/articulation.md) | Inter-car articulation - `light-metro-3car` |
 | [`docs/rolling-stock/light-metro-3car/body.md`](../docs/rolling-stock/light-metro-3car/body.md) | Body structure — `light-metro-3car` |
 | [`docs/rolling-stock/light-metro-3car/bogie.md`](../docs/rolling-stock/light-metro-3car/bogie.md) | Bogies — `light-metro-3car` |
 | [`docs/rolling-stock/light-metro-3car/bom-skeleton.md`](../docs/rolling-stock/light-metro-3car/bom-skeleton.md) | Procurement BOM skeleton — `light-metro-3car` |
@@ -414,6 +418,7 @@ Indexed Markdown files: **426**.
 | [`docs/rolling-stock/light-metro-3car/fabrication-plan.md`](../docs/rolling-stock/light-metro-3car/fabrication-plan.md) | Fabrication plan — `light-metro-3car` |
 | [`docs/rolling-stock/light-metro-3car/general-arrangement.md`](../docs/rolling-stock/light-metro-3car/general-arrangement.md) | General arrangement — `light-metro-3car` |
 | [`docs/rolling-stock/light-metro-3car/interfaces.md`](../docs/rolling-stock/light-metro-3car/interfaces.md) | Interfaces — `light-metro-3car` |
+| [`docs/rolling-stock/light-metro-3car/marketplace-price-anchors.md`](../docs/rolling-stock/light-metro-3car/marketplace-price-anchors.md) | Marketplace Price Anchors |
 | [`docs/rolling-stock/light-metro-3car/traction.md`](../docs/rolling-stock/light-metro-3car/traction.md) | Traction + auxiliary power — `light-metro-3car` |
 | [`docs/rolling-stock/light-metro-3car/v2-release-checklist.md`](../docs/rolling-stock/light-metro-3car/v2-release-checklist.md) | Light-Metro 3-Car V2 Release Checklist |
 | [`docs/safety-case/README.md`](../docs/safety-case/README.md) | Safety-case artifacts |
@@ -488,7 +493,10 @@ Indexed Markdown files: **426**.
 |---|---|
 | [`mechanical-py/README.md`](../mechanical-py/README.md) | mechanical-py — parametric mechanical + civil + station catalogue |
 | [`mechanical-py/catalog/README.md`](../mechanical-py/catalog/README.md) | Generated Mechanical Review Artifacts |
+| [`mechanical-py/catalog/fea/README.md`](../mechanical-py/catalog/fea/README.md) | FEA Screening Outputs |
+| [`mechanical-py/catalog/fea/screening-summary.md`](../mechanical-py/catalog/fea/screening-summary.md) | Rolling-Stock FEA Screening Summary |
 | [`mechanical-py/catalog/freecad/README.md`](../mechanical-py/catalog/freecad/README.md) | FreeCAD Review Assemblies |
+| [`mechanical-py/catalog/freecad/assembly-geometry-review.md`](../mechanical-py/catalog/freecad/assembly-geometry-review.md) | FreeCAD Assembly Geometry Review |
 
 ## scripts
 

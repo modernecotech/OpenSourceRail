@@ -147,7 +147,7 @@ Rolling stock is costed at the **marketplace-BOM floor: $267 k per self-containe
 
 | Item | Basis | Subtotal |
 |---|---|---|
-| Residual signalling / train-control wayside (onboard ATP/ATO + T-OBS carries the function; W-Nodes, balises, LoRa gateways, OCC interfaces remain) | 32.3 km × $0.015 M/km | $1.6 M |
+| Residual signalling / train-control wayside (onboard ATP/ATO + T-OBS carries the function; W-Nodes, balises, LoRa gateways, OCC interfaces remain) | 32.3 km × $0.050 M/km | $1.6 M |
 | Station/depot charging microgrids (conductive charger, switchgear, inverter interface, local PV/battery tie-in; no continuous wayside supply) | per-stop allowance by station archetype | $8.4 M |
 | EPC integration + project management (7%) | on subtotal | $12 M |
 
@@ -227,7 +227,7 @@ Planning ridership bracket = 18-30% of catchment × 365 service-days at the oper
 
 | | Low scenario | High scenario | Operating-neutral target |
 |---|---|---|---|
-| Daily paid trips | 40,986 | 68,310 | 58,366 |
+| Daily paid trips | 40,986 | 68,310 | 58,367 |
 | Daily paid trips / catchment | 18% | 30% | 26% |
 | Daily paid trips / city population | 14% | 23% | 19% |
 | Annual paid trips | 15.0 M | 24.9 M | 21.3 M |

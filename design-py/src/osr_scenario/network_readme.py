@@ -1958,7 +1958,7 @@ def _rich_capex_section(
     out.append("|---|---|---|")
     out.append(
         f"| Residual signalling / train-control wayside (onboard ATP/ATO + T-OBS carries the function; W-Nodes, balises, LoRa gateways, OCC interfaces remain) | "
-        f"{stats.route_km:.1f} km × $0.015 M/km | "
+        f"{stats.route_km:.1f} km × ${_SIGNALLING_USD_PER_KM / 1_000_000:.3f} M/km | "
         f"{_money('signalling')} |"
     )
     out.append(
