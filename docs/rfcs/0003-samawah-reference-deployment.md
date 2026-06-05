@@ -287,7 +287,7 @@ Unusually for light metro, ridership here is *dominated* by a few large institut
 ### 4.3 Rolling stock
 
 Reference platform per [ARCHITECTURE §4 D5](../ARCHITECTURE.md):
-- 3-car, ~57 m consist with low-floor centre door zones (light metro class)
+- 3-car, ~51 m consist with low-floor centre door zones (light metro class)
 - Na-ion onboard battery, 360 kWh/trainset (120 kWh/car), sized for one route-length with station opportunity charging
 - Open SiC traction inverter, Rust control firmware
 - TSN Ethernet trainbus

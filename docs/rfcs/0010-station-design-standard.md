@@ -89,7 +89,7 @@ Derived, not fixed. For every consist/archetype pair:
 |---|---|---|---|
 | `urban-shuttle-1car` | 21 m | 6 m (halt) / 10 m (others) | 27 / 31 m |
 | `tram-2car` | 39 m | 6 / 10 m | 45 / 49 m |
-| `light-metro-3car` | 57 m | 6 / 10 m | 63 / 67 m |
+| `light-metro-3car` | 51 m | 6 / 10 m | 57 / 61 m |
 | `metro-4car` | 75 m | 10 m | 85 m |
 | `metro-6car` | 111 m | 10 m | 121 m |
 

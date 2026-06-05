@@ -124,12 +124,12 @@ class          = "bridge"
 [[station]]
 id          = "samawah-rws"
 station_m   = 0.0
-platform_length_m = 75.0              # derived from consist per RFC 0010
+platform_length_m = 61.0              # derived from consist per RFC 0010
 
 [[station]]
 id          = "north-gate"
 station_m   = 1_000.0
-platform_length_m = 75.0
+platform_length_m = 61.0
 
 # ...
 

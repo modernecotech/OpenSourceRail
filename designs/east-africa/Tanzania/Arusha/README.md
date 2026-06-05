@@ -42,21 +42,21 @@ Corridor polylines + stations as GeoJSON for GIS / alignment tooling: [`arusha.c
 
 | Property | Value |
 |---|---|
-| Consist | 3-car, 57 m |
+| Consist | 3-car, 51 m |
 | Max speed | 90 km/h |
 | Onboard battery | 360 kWh per trainset |
 | Seats | 60 longitudinal seats |
-| Nominal capacity (AW2) | 330 pax (seated + standing, `light-metro-3car` per RFC 0008 §1) |
-| Crush capacity (AW3) | 420 pax, short-duration structural/egress reference |
+| Nominal capacity (AW2) | 240 pax (seated + standing, `light-metro-3car` per RFC 0008 §1) |
+| Crush capacity (AW3) | 320 pax, short-duration structural/egress reference |
 
 ## Ridership capacity
 
-- **Per-train planning capacity:** 330 AW2 passengers (`light-metro-3car`)
+- **Per-train planning capacity:** 240 AW2 passengers (`light-metro-3car`)
 - **Peak frequency:** 12 trains/hour/direction (5-min headway)
-- **Peak capacity per line per direction:** 330 × 12 = **3,960 pphpd**
-- **Network peak throughput (all lines, both directions):** 3 lines × 2 directions × 3,960 = **23,760 passengers/hour**
-- **Daily theoretical capacity (peak × 10):** ≈ **237,600 passenger-trips/day**
-- **Practical daily service capacity** (65% load factor): ≈ **154,440 passenger-trips/day**
+- **Peak capacity per line per direction:** 240 × 12 = **2,880 pphpd**
+- **Network peak throughput (all lines, both directions):** 3 lines × 2 directions × 2,880 = **17,280 passengers/hour**
+- **Daily theoretical capacity (peak × 10):** ≈ **172,800 passenger-trips/day**
+- **Practical daily service capacity** (65% load factor): ≈ **112,320 passenger-trips/day**
 - **Planning daily ridership scenario** (18-30% of catchment): ≈ **45,864 – 76,440 trips/day**
 
 ## Catchment
@@ -224,7 +224,7 @@ Country median monthly income: **$165 USD** (per [`lib/templates/country-finance
 
 ### Revenue & operating neutrality
 
-Planning ridership bracket = 18-30% of catchment × 365 service-days at the operating-neutral fare, capped by practical service capacity (154,440 trips/day). The operating-neutral column solves annual paid trips so **farebox + station-shop leases + advertising = steady-state OPEX**. Post-grace debt service remains a capital-funding obligation in the government commitment table above.
+Planning ridership bracket = 18-30% of catchment × 365 service-days at the operating-neutral fare, capped by practical service capacity (112,320 trips/day). The operating-neutral column solves annual paid trips so **farebox + station-shop leases + advertising = steady-state OPEX**. Post-grace debt service remains a capital-funding obligation in the government commitment table above.
 
 | | Low scenario | High scenario | Operating-neutral target |
 |---|---|---|---|

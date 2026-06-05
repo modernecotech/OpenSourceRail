@@ -47,18 +47,18 @@ Corridor polylines + stations as GeoJSON for GIS / alignment tooling: [`mogadish
 | Max speed | 90 km/h |
 | Onboard battery | 480 kWh per trainset |
 | Seats | 80 longitudinal seats |
-| Nominal capacity (AW2) | 440 pax (seated + standing, `metro-4car` per RFC 0008 §1) |
-| Crush capacity (AW3) | 560 pax, short-duration structural/egress reference |
+| Nominal capacity (AW2) | 320 pax (seated + standing, `metro-4car` per RFC 0008 §1) |
+| Crush capacity (AW3) | 430 pax, short-duration structural/egress reference |
 
 ## Ridership capacity
 
-- **Per-train planning capacity:** 440 AW2 passengers (`metro-4car`)
+- **Per-train planning capacity:** 320 AW2 passengers (`metro-4car`)
 - **Peak frequency:** 12 trains/hour/direction (5-min headway)
-- **Peak capacity per line per direction:** 440 × 12 = **5,280 pphpd**
-- **Network peak throughput (all lines, both directions):** 4 lines × 2 directions × 5,280 = **42,240 passengers/hour**
-- **Daily theoretical capacity (peak × 10):** ≈ **422,400 passenger-trips/day**
-- **Practical daily service capacity** (65% load factor): ≈ **274,560 passenger-trips/day**
-- **Planning daily ridership scenario** (18-30% of catchment (capped by practical service capacity)): ≈ **186,510 – 274,560 trips/day**
+- **Peak capacity per line per direction:** 320 × 12 = **3,840 pphpd**
+- **Network peak throughput (all lines, both directions):** 4 lines × 2 directions × 3,840 = **30,720 passengers/hour**
+- **Daily theoretical capacity (peak × 10):** ≈ **307,200 passenger-trips/day**
+- **Practical daily service capacity** (65% load factor): ≈ **199,680 passenger-trips/day**
+- **Planning daily ridership scenario** (18-30% of catchment (capped by practical service capacity)): ≈ **186,510 – 199,680 trips/day**
 
 ## Catchment
 
@@ -228,22 +228,22 @@ Country median monthly income: **$95 USD** (per [`lib/templates/country-finance.
 
 ### Revenue & operating neutrality
 
-Planning ridership bracket = 18-30% of catchment × 365 service-days at the operating-neutral fare, capped by practical service capacity (274,560 trips/day). The operating-neutral column solves annual paid trips so **farebox + station-shop leases + advertising = steady-state OPEX**. Post-grace debt service remains a capital-funding obligation in the government commitment table above.
+Planning ridership bracket = 18-30% of catchment × 365 service-days at the operating-neutral fare, capped by practical service capacity (199,680 trips/day). The operating-neutral column solves annual paid trips so **farebox + station-shop leases + advertising = steady-state OPEX**. Post-grace debt service remains a capital-funding obligation in the government commitment table above.
 
 | | Low scenario | High scenario | Operating-neutral target |
 |---|---|---|---|
-| Daily paid trips | 186,510 | 274,560 | 179,888 |
-| Daily paid trips / catchment | 18% | 26% | 17% |
-| Daily paid trips / city population | 7% | 11% | 7% |
-| Annual paid trips | 68.1 M | 100.2 M | 65.7 M |
-| Farebox revenue | $13 M / yr | $19 M / yr | $12 M / yr |
+| Daily paid trips | 186,510 | 199,680 | 179,888 |
+| Daily paid trips / catchment | 18% | 19% | 17% |
+| Daily paid trips / city population | 7% | 8% | 7% |
+| Annual paid trips | 68.1 M | 72.9 M | 65.7 M |
+| Farebox revenue | $13 M / yr | $14 M / yr | $12 M / yr |
 | Station shop leases | $1.3 M / yr | $1.3 M / yr | $1.3 M / yr |
 | Advertising boards | $1.8 M / yr | $1.8 M / yr | $1.8 M / yr |
-| **Total revenue** | **$16 M / yr** | **$22 M / yr** | **$16 M / yr** |
-| Revenue / OPEX recovery | 103% | 142% | 100% |
+| **Total revenue** | **$16 M / yr** | **$17 M / yr** | **$16 M / yr** |
+| Revenue / OPEX recovery | 103% | 109% | 100% |
 | Country farebox-only policy target (diagnostic) | 25% | 25% | 25% |
 | Remaining steady-state gov commitment | $46 M / yr | $46 M / yr | **$46 M / yr** |
-| Operating surplus after OPEX | $459 k / yr | $6.6 M / yr | $0 / yr |
+| Operating surplus after OPEX | $459 k / yr | $1.4 M / yr | $0 / yr |
 
 _Commercial-revenue assumptions: 12,568 m² of station shop/kiosk leases at $10/m²/month and 2,296 advertising boards at $75/board/month, with occupancy derates applied._
 

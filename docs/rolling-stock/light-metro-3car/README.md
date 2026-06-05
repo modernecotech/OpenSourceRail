@@ -222,8 +222,8 @@ tolerances, and release drawings listed in
 | Axle load (AW3 crush) | ≤ 14 t |
 | Max speed | 25 m/s (90 km/h) |
 | Seats | 60 longitudinal seats |
-| Passenger capacity (AW2) | 330 (seated + standing) |
-| Passenger capacity (AW3 crush) | 420 short-duration crush load |
+| Passenger capacity (AW2) | 240 (seated + standing) |
+| Passenger capacity (AW3 crush) | 320 short-duration crush load |
 | Onboard battery | 450 kWh Na-ion (150 kWh per car, under seats) |
 | Peak onboard motor output | 600 kW |
 | Floor height (above ToR) | 350 mm, ~10 m low-floor centre door/PRM zone; 760 mm, ~3 m high-floor end decks over standard bogies |

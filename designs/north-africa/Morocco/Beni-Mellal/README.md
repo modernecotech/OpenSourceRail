@@ -46,18 +46,18 @@ Corridor polylines + stations as GeoJSON for GIS / alignment tooling: [`beni-mel
 | Max speed | 70 km/h |
 | Onboard battery | 240 kWh per trainset |
 | Seats | 40 longitudinal seats |
-| Nominal capacity (AW2) | 210 pax (seated + standing, `tram-2car` per RFC 0008 §1) |
-| Crush capacity (AW3) | 260 pax, short-duration structural/egress reference |
+| Nominal capacity (AW2) | 160 pax (seated + standing, `tram-2car` per RFC 0008 §1) |
+| Crush capacity (AW3) | 210 pax, short-duration structural/egress reference |
 
 ## Ridership capacity
 
-- **Per-train planning capacity:** 210 AW2 passengers (`tram-2car`)
+- **Per-train planning capacity:** 160 AW2 passengers (`tram-2car`)
 - **Peak frequency:** 12 trains/hour/direction (5-min headway)
-- **Peak capacity per line per direction:** 210 × 12 = **2,520 pphpd**
-- **Network peak throughput (all lines, both directions):** 3 lines × 2 directions × 2,520 = **15,120 passengers/hour**
-- **Daily theoretical capacity (peak × 10):** ≈ **151,200 passenger-trips/day**
-- **Practical daily service capacity** (65% load factor): ≈ **98,280 passenger-trips/day**
-- **Planning daily ridership scenario** (18-30% of catchment): ≈ **45,792 – 76,320 trips/day**
+- **Peak capacity per line per direction:** 160 × 12 = **1,920 pphpd**
+- **Network peak throughput (all lines, both directions):** 3 lines × 2 directions × 1,920 = **11,520 passengers/hour**
+- **Daily theoretical capacity (peak × 10):** ≈ **115,200 passenger-trips/day**
+- **Practical daily service capacity** (65% load factor): ≈ **74,880 passenger-trips/day**
+- **Planning daily ridership scenario** (18-30% of catchment (capped by practical service capacity)): ≈ **45,792 – 74,880 trips/day**
 
 ## Catchment
 
@@ -226,22 +226,22 @@ Country median monthly income: **$410 USD** (per [`lib/templates/country-finance
 
 ### Revenue & operating neutrality
 
-Planning ridership bracket = 18-30% of catchment × 365 service-days at the operating-neutral fare, capped by practical service capacity (98,280 trips/day). The operating-neutral column solves annual paid trips so **farebox + station-shop leases + advertising = steady-state OPEX**. Post-grace debt service remains a capital-funding obligation in the government commitment table above.
+Planning ridership bracket = 18-30% of catchment × 365 service-days at the operating-neutral fare, capped by practical service capacity (74,880 trips/day). The operating-neutral column solves annual paid trips so **farebox + station-shop leases + advertising = steady-state OPEX**. Post-grace debt service remains a capital-funding obligation in the government commitment table above.
 
 | | Low scenario | High scenario | Operating-neutral target |
 |---|---|---|---|
-| Daily paid trips | 45,792 | 76,320 | 7,525 |
-| Daily paid trips / catchment | 18% | 30% | 3% |
+| Daily paid trips | 45,792 | 74,880 | 7,525 |
+| Daily paid trips / catchment | 18% | 29% | 3% |
 | Daily paid trips / city population | 15% | 25% | 3% |
-| Annual paid trips | 16.7 M | 27.9 M | 2.7 M |
-| Farebox revenue | $14 M / yr | $23 M / yr | $2.3 M / yr |
+| Annual paid trips | 16.7 M | 27.3 M | 2.7 M |
+| Farebox revenue | $14 M / yr | $22 M / yr | $2.3 M / yr |
 | Station shop leases | $1.1 M / yr | $1.1 M / yr | $1.1 M / yr |
 | Advertising boards | $1.7 M / yr | $1.7 M / yr | $1.7 M / yr |
-| **Total revenue** | **$17 M / yr** | **$26 M / yr** | **$5.0 M / yr** |
-| Revenue / OPEX recovery | 327% | 508% | 100% |
+| **Total revenue** | **$17 M / yr** | **$25 M / yr** | **$5.0 M / yr** |
+| Revenue / OPEX recovery | 327% | 499% | 100% |
 | Country farebox-only policy target (diagnostic) | 60% | 60% | 60% |
 | Remaining steady-state gov commitment | $11 M / yr | $11 M / yr | **$11 M / yr** |
-| Operating surplus after OPEX | $11 M / yr | $21 M / yr | $0 / yr |
+| Operating surplus after OPEX | $11 M / yr | $20 M / yr | $0 / yr |
 
 _Commercial-revenue assumptions: 3,072 m² of station shop/kiosk leases at $33/m²/month and 592 advertising boards at $287/board/month, with occupancy derates applied._
 

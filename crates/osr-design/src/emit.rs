@@ -998,10 +998,10 @@ fn family_length_m(family: &str) -> f32 {
     match family {
         "urban-shuttle-1car" => 21.0,
         "tram-2car" => 39.0,
-        "light-metro-3car" => 57.0,
+        "light-metro-3car" => 51.0,
         "metro-4car" => 75.0,
         "metro-6car" => 111.0,
-        _ => 57.0,
+        _ => 51.0,
     }
 }
 

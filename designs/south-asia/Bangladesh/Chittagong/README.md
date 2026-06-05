@@ -51,18 +51,18 @@ Corridor polylines + stations as GeoJSON for GIS / alignment tooling: [`chittago
 | Max speed | 100 km/h |
 | Onboard battery | 720 kWh per trainset |
 | Seats | 120 longitudinal seats |
-| Nominal capacity (AW2) | 660 pax (seated + standing, `metro-6car` per RFC 0008 §1) |
-| Crush capacity (AW3) | 840 pax, short-duration structural/egress reference |
+| Nominal capacity (AW2) | 480 pax (seated + standing, `metro-6car` per RFC 0008 §1) |
+| Crush capacity (AW3) | 640 pax, short-duration structural/egress reference |
 
 ## Ridership capacity
 
-- **Per-train planning capacity:** 660 AW2 passengers (`metro-6car`)
+- **Per-train planning capacity:** 480 AW2 passengers (`metro-6car`)
 - **Peak frequency:** 12 trains/hour/direction (5-min headway)
-- **Peak capacity per line per direction:** 660 × 12 = **7,920 pphpd**
-- **Network peak throughput (all lines, both directions):** 8 lines × 2 directions × 7,920 = **126,720 passengers/hour**
-- **Daily theoretical capacity (peak × 10):** ≈ **1,267,200 passenger-trips/day**
-- **Practical daily service capacity** (65% load factor): ≈ **823,680 passenger-trips/day**
-- **Planning daily ridership scenario** (18-30% of catchment (capped by practical service capacity)): ≈ **595,296 – 823,680 trips/day**
+- **Peak capacity per line per direction:** 480 × 12 = **5,760 pphpd**
+- **Network peak throughput (all lines, both directions):** 8 lines × 2 directions × 5,760 = **92,160 passengers/hour**
+- **Daily theoretical capacity (peak × 10):** ≈ **921,600 passenger-trips/day**
+- **Practical daily service capacity** (65% load factor): ≈ **599,040 passenger-trips/day**
+- **Planning daily ridership scenario** (18-30% of catchment (capped by practical service capacity)): ≈ **595,296 – 599,040 trips/day**
 
 ## Catchment
 
@@ -232,22 +232,22 @@ Country median monthly income: **$195 USD** (per [`lib/templates/country-finance
 
 ### Revenue & operating neutrality
 
-Planning ridership bracket = 18-30% of catchment × 365 service-days at the operating-neutral fare, capped by practical service capacity (823,680 trips/day). The operating-neutral column solves annual paid trips so **farebox + station-shop leases + advertising = steady-state OPEX**. Post-grace debt service remains a capital-funding obligation in the government commitment table above.
+Planning ridership bracket = 18-30% of catchment × 365 service-days at the operating-neutral fare, capped by practical service capacity (599,040 trips/day). The operating-neutral column solves annual paid trips so **farebox + station-shop leases + advertising = steady-state OPEX**. Post-grace debt service remains a capital-funding obligation in the government commitment table above.
 
 | | Low scenario | High scenario | Operating-neutral target |
 |---|---|---|---|
-| Daily paid trips | 595,296 | 823,680 | 304,476 |
-| Daily paid trips / catchment | 18% | 25% | 9% |
-| Daily paid trips / city population | 11% | 16% | 6% |
-| Annual paid trips | 217.3 M | 300.6 M | 111.1 M |
-| Farebox revenue | $85 M / yr | $117 M / yr | $43 M / yr |
+| Daily paid trips | 595,296 | 599,040 | 304,476 |
+| Daily paid trips / catchment | 18% | 18% | 9% |
+| Daily paid trips / city population | 11% | 12% | 6% |
+| Annual paid trips | 217.3 M | 218.6 M | 111.1 M |
+| Farebox revenue | $85 M / yr | $85 M / yr | $43 M / yr |
 | Station shop leases | $4.6 M / yr | $4.6 M / yr | $4.6 M / yr |
 | Advertising boards | $7.2 M / yr | $7.2 M / yr | $7.2 M / yr |
-| **Total revenue** | **$96 M / yr** | **$129 M / yr** | **$55 M / yr** |
-| Revenue / OPEX recovery | 175% | 234% | 100% |
+| **Total revenue** | **$96 M / yr** | **$97 M / yr** | **$55 M / yr** |
+| Revenue / OPEX recovery | 175% | 176% | 100% |
 | Country farebox-only policy target (diagnostic) | 50% | 50% | 50% |
 | Remaining steady-state gov commitment | $135 M / yr | $135 M / yr | **$135 M / yr** |
-| Operating surplus after OPEX | $41 M / yr | $74 M / yr | $0 / yr |
+| Operating surplus after OPEX | $41 M / yr | $42 M / yr | $0 / yr |
 
 _Commercial-revenue assumptions: 27,856 m² of station shop/kiosk leases at $16/m²/month and 5,140 advertising boards at $136/board/month, with occupancy derates applied._
 

@@ -49,18 +49,18 @@ Corridor polylines + stations as GeoJSON for GIS / alignment tooling: [`kano.cor
 | Max speed | 100 km/h |
 | Onboard battery | 720 kWh per trainset |
 | Seats | 120 longitudinal seats |
-| Nominal capacity (AW2) | 660 pax (seated + standing, `metro-6car` per RFC 0008 §1) |
-| Crush capacity (AW3) | 840 pax, short-duration structural/egress reference |
+| Nominal capacity (AW2) | 480 pax (seated + standing, `metro-6car` per RFC 0008 §1) |
+| Crush capacity (AW3) | 640 pax, short-duration structural/egress reference |
 
 ## Ridership capacity
 
-- **Per-train planning capacity:** 660 AW2 passengers (`metro-6car`)
+- **Per-train planning capacity:** 480 AW2 passengers (`metro-6car`)
 - **Peak frequency:** 12 trains/hour/direction (5-min headway)
-- **Peak capacity per line per direction:** 660 × 12 = **7,920 pphpd**
-- **Network peak throughput (all lines, both directions):** 6 lines × 2 directions × 7,920 = **95,040 passengers/hour**
-- **Daily theoretical capacity (peak × 10):** ≈ **950,400 passenger-trips/day**
-- **Practical daily service capacity** (65% load factor): ≈ **617,760 passenger-trips/day**
-- **Planning daily ridership scenario** (18-30% of catchment): ≈ **278,964 – 464,940 trips/day**
+- **Peak capacity per line per direction:** 480 × 12 = **5,760 pphpd**
+- **Network peak throughput (all lines, both directions):** 6 lines × 2 directions × 5,760 = **69,120 passengers/hour**
+- **Daily theoretical capacity (peak × 10):** ≈ **691,200 passenger-trips/day**
+- **Practical daily service capacity** (65% load factor): ≈ **449,280 passenger-trips/day**
+- **Planning daily ridership scenario** (18-30% of catchment (capped by practical service capacity)): ≈ **278,964 – 449,280 trips/day**
 
 ## Catchment
 
@@ -230,22 +230,22 @@ Country median monthly income: **$175 USD** (per [`lib/templates/country-finance
 
 ### Revenue & operating neutrality
 
-Planning ridership bracket = 18-30% of catchment × 365 service-days at the operating-neutral fare, capped by practical service capacity (617,760 trips/day). The operating-neutral column solves annual paid trips so **farebox + station-shop leases + advertising = steady-state OPEX**. Post-grace debt service remains a capital-funding obligation in the government commitment table above.
+Planning ridership bracket = 18-30% of catchment × 365 service-days at the operating-neutral fare, capped by practical service capacity (449,280 trips/day). The operating-neutral column solves annual paid trips so **farebox + station-shop leases + advertising = steady-state OPEX**. Post-grace debt service remains a capital-funding obligation in the government commitment table above.
 
 | | Low scenario | High scenario | Operating-neutral target |
 |---|---|---|---|
-| Daily paid trips | 278,964 | 464,940 | 359,668 |
-| Daily paid trips / catchment | 18% | 30% | 23% |
+| Daily paid trips | 278,964 | 449,280 | 359,668 |
+| Daily paid trips / catchment | 18% | 29% | 23% |
 | Daily paid trips / city population | 7% | 11% | 9% |
-| Annual paid trips | 101.8 M | 169.7 M | 131.3 M |
-| Farebox revenue | $36 M / yr | $59 M / yr | $46 M / yr |
+| Annual paid trips | 101.8 M | 164.0 M | 131.3 M |
+| Farebox revenue | $36 M / yr | $57 M / yr | $46 M / yr |
 | Station shop leases | $3.1 M / yr | $3.1 M / yr | $3.1 M / yr |
 | Advertising boards | $5.1 M / yr | $5.1 M / yr | $5.1 M / yr |
-| **Total revenue** | **$44 M / yr** | **$68 M / yr** | **$54 M / yr** |
-| Revenue / OPEX recovery | 81% | 125% | 100% |
+| **Total revenue** | **$44 M / yr** | **$66 M / yr** | **$54 M / yr** |
+| Revenue / OPEX recovery | 81% | 121% | 100% |
 | Country farebox-only policy target (diagnostic) | 45% | 45% | 45% |
 | Remaining steady-state gov commitment | $174 M / yr | $164 M / yr | **$164 M / yr** |
-| Operating surplus after OPEX | $0 k / yr | $13 M / yr | $0 / yr |
+| Operating surplus after OPEX | $0 k / yr | $11 M / yr | $0 / yr |
 
 _Commercial-revenue assumptions: 21,136 m² of station shop/kiosk leases at $14/m²/month and 4,064 advertising boards at $122/board/month, with occupancy derates applied._
 

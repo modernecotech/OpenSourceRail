@@ -49,18 +49,18 @@ Corridor polylines + stations as GeoJSON for GIS / alignment tooling: [`omdurman
 | Max speed | 90 km/h |
 | Onboard battery | 480 kWh per trainset |
 | Seats | 80 longitudinal seats |
-| Nominal capacity (AW2) | 440 pax (seated + standing, `metro-4car` per RFC 0008 §1) |
-| Crush capacity (AW3) | 560 pax, short-duration structural/egress reference |
+| Nominal capacity (AW2) | 320 pax (seated + standing, `metro-4car` per RFC 0008 §1) |
+| Crush capacity (AW3) | 430 pax, short-duration structural/egress reference |
 
 ## Ridership capacity
 
-- **Per-train planning capacity:** 440 AW2 passengers (`metro-4car`)
+- **Per-train planning capacity:** 320 AW2 passengers (`metro-4car`)
 - **Peak frequency:** 12 trains/hour/direction (5-min headway)
-- **Peak capacity per line per direction:** 440 × 12 = **5,280 pphpd**
-- **Network peak throughput (all lines, both directions):** 6 lines × 2 directions × 5,280 = **63,360 passengers/hour**
-- **Daily theoretical capacity (peak × 10):** ≈ **633,600 passenger-trips/day**
-- **Practical daily service capacity** (65% load factor): ≈ **411,840 passenger-trips/day**
-- **Planning daily ridership scenario** (18-30% of catchment): ≈ **238,896 – 398,160 trips/day**
+- **Peak capacity per line per direction:** 320 × 12 = **3,840 pphpd**
+- **Network peak throughput (all lines, both directions):** 6 lines × 2 directions × 3,840 = **46,080 passengers/hour**
+- **Daily theoretical capacity (peak × 10):** ≈ **460,800 passenger-trips/day**
+- **Practical daily service capacity** (65% load factor): ≈ **299,520 passenger-trips/day**
+- **Planning daily ridership scenario** (18-30% of catchment (capped by practical service capacity)): ≈ **238,896 – 299,520 trips/day**
 
 ## Catchment
 
@@ -186,10 +186,10 @@ Bottom line for next year's budget submission. Construction phase runs **years 1
 | Steady-state, high-ridership (year 11+) | **$78 M / yr** | $28 |
 | Steady-state, operating-neutral revenue case | **$78 M / yr** | $28 |
 | Lifecycle envelope (yr 1–40, low scenario) | **$3.28 bn cumulative** | $1,172 |
-| Lifecycle envelope (yr 1–40, high scenario) | **$3.13 bn cumulative** | $1,118 |
+| Lifecycle envelope (yr 1–40, high scenario) | **$3.13 bn cumulative** | $1,119 |
 | Lifecycle envelope (yr 1–40, operating-neutral after opening) | **$3.13 bn cumulative** | $1,118 |
 
-_Population basis: 2,800,000 (catchment per `lib/city-batches/world-sample.toml`). After year 40, debt service drops to zero; the operating-neutral case already covers steady-state OPEX from fares, station shops, and advertising. Low/high residual OPEX shortfall before debt is $5.0 M / yr → $0 k / yr._
+_Population basis: 2,800,000 (catchment per `lib/city-batches/world-sample.toml`). After year 40, debt service drops to zero; the operating-neutral case already covers steady-state OPEX from fares, station shops, and advertising. Low/high residual OPEX shortfall before debt is $5.0 M / yr → $127 k / yr._
 
 ### CAPEX funding stack
 
@@ -229,22 +229,22 @@ Country median monthly income: **$110 USD** (per [`lib/templates/country-finance
 
 ### Revenue & operating neutrality
 
-Planning ridership bracket = 18-30% of catchment × 365 service-days at the operating-neutral fare, capped by practical service capacity (411,840 trips/day). The operating-neutral column solves annual paid trips so **farebox + station-shop leases + advertising = steady-state OPEX**. Post-grace debt service remains a capital-funding obligation in the government commitment table above.
+Planning ridership bracket = 18-30% of catchment × 365 service-days at the operating-neutral fare, capped by practical service capacity (299,520 trips/day). The operating-neutral column solves annual paid trips so **farebox + station-shop leases + advertising = steady-state OPEX**. Post-grace debt service remains a capital-funding obligation in the government commitment table above.
 
 | | Low scenario | High scenario | Operating-neutral target |
 |---|---|---|---|
-| Daily paid trips | 238,896 | 398,160 | 301,104 |
-| Daily paid trips / catchment | 18% | 30% | 23% |
-| Daily paid trips / city population | 9% | 14% | 11% |
-| Annual paid trips | 87.2 M | 145.3 M | 109.9 M |
-| Farebox revenue | $19 M / yr | $32 M / yr | $24 M / yr |
+| Daily paid trips | 238,896 | 299,520 | 301,104 |
+| Daily paid trips / catchment | 18% | 23% | 23% |
+| Daily paid trips / city population | 9% | 11% | 11% |
+| Annual paid trips | 87.2 M | 109.3 M | 109.9 M |
+| Farebox revenue | $19 M / yr | $24 M / yr | $24 M / yr |
 | Station shop leases | $1.6 M / yr | $1.6 M / yr | $1.6 M / yr |
 | Advertising boards | $2.2 M / yr | $2.2 M / yr | $2.2 M / yr |
-| **Total revenue** | **$23 M / yr** | **$36 M / yr** | **$28 M / yr** |
-| Revenue / OPEX recovery | 82% | 128% | 100% |
+| **Total revenue** | **$23 M / yr** | **$28 M / yr** | **$28 M / yr** |
+| Revenue / OPEX recovery | 82% | 100% | 100% |
 | Country farebox-only policy target (diagnostic) | 30% | 30% | 30% |
 | Remaining steady-state gov commitment | $83 M / yr | $78 M / yr | **$78 M / yr** |
-| Operating surplus after OPEX | $0 k / yr | $7.8 M / yr | $0 / yr |
+| Operating surplus after OPEX | $0 k / yr | $0 k / yr | $0 / yr |
 
 _Commercial-revenue assumptions: 14,880 m² of station shop/kiosk leases at $10/m²/month and 2,856 advertising boards at $77/board/month, with occupancy derates applied._
 

@@ -24,15 +24,15 @@
 # closest to their ridership band. This is what keeps maintenance, training,
 # spares, and CAD reuse viable across deployments.
 
-# ---- Tram: small city / feeder lines, < 5k pphpd --------------------------
+# ---- Tram: small city / feeder lines, < 4k pphpd --------------------------
 
 [profiles.urban-shuttle-1car]
 cars                   = 1
 length_m               = 21
 tare_mass_t            = 34
-passenger_capacity     = 90
+passenger_capacity     = 75
 seat_count             = 20
-crush_capacity         = 110
+crush_capacity         = 95
 onboard_battery_kwh    = 120
 traction_peak_kw       = 600
 hvac_design_ambient_c  = 50
@@ -43,9 +43,9 @@ cad_module             = "osr_cad.rolling_stock.urban_shuttle_1car"
 cars                   = 2
 length_m               = 39
 tare_mass_t            = 68
-passenger_capacity     = 210
+passenger_capacity     = 160
 seat_count             = 40
-crush_capacity         = 260
+crush_capacity         = 210
 onboard_battery_kwh    = 240
 traction_peak_kw       = 1200
 hvac_design_ambient_c  = 50
@@ -56,11 +56,11 @@ cad_module             = "osr_cad.rolling_stock.tram_2car"
 
 [profiles.light-metro-3car]
 cars                   = 3
-length_m               = 57
+length_m               = 51
 tare_mass_t            = 102
-passenger_capacity     = 330
+passenger_capacity     = 240
 seat_count             = 60
-crush_capacity         = 420
+crush_capacity         = 320
 onboard_battery_kwh    = 360
 traction_peak_kw       = 1800
 hvac_design_ambient_c  = 50
@@ -73,9 +73,9 @@ cad_module             = "osr_cad.rolling_stock.articulated_3car"
 cars                   = 4
 length_m               = 75
 tare_mass_t            = 136
-passenger_capacity     = 440
+passenger_capacity     = 320
 seat_count             = 80
-crush_capacity         = 560
+crush_capacity         = 430
 onboard_battery_kwh    = 480
 traction_peak_kw       = 2400
 hvac_design_ambient_c  = 50
@@ -88,9 +88,9 @@ cad_module             = "osr_cad.rolling_stock.metro_4car"
 cars                   = 6
 length_m               = 111
 tare_mass_t            = 204
-passenger_capacity     = 660
+passenger_capacity     = 480
 seat_count             = 120
-crush_capacity         = 840
+crush_capacity         = 640
 onboard_battery_kwh    = 720
 traction_peak_kw       = 3600
 hvac_design_ambient_c  = 50

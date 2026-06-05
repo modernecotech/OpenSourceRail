@@ -45,18 +45,18 @@ Corridor polylines + stations as GeoJSON for GIS / alignment tooling: [`soyo.cor
 | Max speed | 70 km/h |
 | Onboard battery | 240 kWh per trainset |
 | Seats | 40 longitudinal seats |
-| Nominal capacity (AW2) | 210 pax (seated + standing, `tram-2car` per RFC 0008 §1) |
-| Crush capacity (AW3) | 260 pax, short-duration structural/egress reference |
+| Nominal capacity (AW2) | 160 pax (seated + standing, `tram-2car` per RFC 0008 §1) |
+| Crush capacity (AW3) | 210 pax, short-duration structural/egress reference |
 
 ## Ridership capacity
 
-- **Per-train planning capacity:** 210 AW2 passengers (`tram-2car`)
+- **Per-train planning capacity:** 160 AW2 passengers (`tram-2car`)
 - **Peak frequency:** 12 trains/hour/direction (5-min headway)
-- **Peak capacity per line per direction:** 210 × 12 = **2,520 pphpd**
-- **Network peak throughput (all lines, both directions):** 2 lines × 2 directions × 2,520 = **10,080 passengers/hour**
-- **Daily theoretical capacity (peak × 10):** ≈ **100,800 passenger-trips/day**
-- **Practical daily service capacity** (65% load factor): ≈ **65,520 passenger-trips/day**
-- **Planning daily ridership scenario** (18-30% of catchment): ≈ **31,590 – 52,650 trips/day**
+- **Peak capacity per line per direction:** 160 × 12 = **1,920 pphpd**
+- **Network peak throughput (all lines, both directions):** 2 lines × 2 directions × 1,920 = **7,680 passengers/hour**
+- **Daily theoretical capacity (peak × 10):** ≈ **76,800 passenger-trips/day**
+- **Practical daily service capacity** (65% load factor): ≈ **49,920 passenger-trips/day**
+- **Planning daily ridership scenario** (18-30% of catchment (capped by practical service capacity)): ≈ **31,590 – 49,920 trips/day**
 
 ## Catchment
 
@@ -224,22 +224,22 @@ Country median monthly income: **$240 USD** (per [`lib/templates/country-finance
 
 ### Revenue & operating neutrality
 
-Planning ridership bracket = 18-30% of catchment × 365 service-days at the operating-neutral fare, capped by practical service capacity (65,520 trips/day). The operating-neutral column solves annual paid trips so **farebox + station-shop leases + advertising = steady-state OPEX**. Post-grace debt service remains a capital-funding obligation in the government commitment table above.
+Planning ridership bracket = 18-30% of catchment × 365 service-days at the operating-neutral fare, capped by practical service capacity (49,920 trips/day). The operating-neutral column solves annual paid trips so **farebox + station-shop leases + advertising = steady-state OPEX**. Post-grace debt service remains a capital-funding obligation in the government commitment table above.
 
 | | Low scenario | High scenario | Operating-neutral target |
 |---|---|---|---|
-| Daily paid trips | 31,590 | 52,650 | 12,526 |
-| Daily paid trips / catchment | 18% | 30% | 7% |
-| Daily paid trips / city population | 13% | 21% | 5% |
-| Annual paid trips | 11.5 M | 19.2 M | 4.6 M |
-| Farebox revenue | $5.5 M / yr | $9.2 M / yr | $2.2 M / yr |
+| Daily paid trips | 31,590 | 49,920 | 12,526 |
+| Daily paid trips / catchment | 18% | 28% | 7% |
+| Daily paid trips / city population | 13% | 20% | 5% |
+| Annual paid trips | 11.5 M | 18.2 M | 4.6 M |
+| Farebox revenue | $5.5 M / yr | $8.7 M / yr | $2.2 M / yr |
 | Station shop leases | $466 k / yr | $466 k / yr | $466 k / yr |
 | Advertising boards | $761 k / yr | $761 k / yr | $761 k / yr |
-| **Total revenue** | **$6.8 M / yr** | **$10 M / yr** | **$3.4 M / yr** |
-| Revenue / OPEX recovery | 198% | 305% | 100% |
+| **Total revenue** | **$6.8 M / yr** | **$10.0 M / yr** | **$3.4 M / yr** |
+| Revenue / OPEX recovery | 198% | 292% | 100% |
 | Country farebox-only policy target (diagnostic) | 45% | 45% | 45% |
 | Remaining steady-state gov commitment | $11 M / yr | $11 M / yr | **$11 M / yr** |
-| Operating surplus after OPEX | $3.3 M / yr | $7.0 M / yr | $0 / yr |
+| Operating surplus after OPEX | $3.3 M / yr | $6.6 M / yr | $0 / yr |
 
 _Commercial-revenue assumptions: 2,296 m² of station shop/kiosk leases at $19/m²/month and 444 advertising boards at $168/board/month, with occupancy derates applied._
 
