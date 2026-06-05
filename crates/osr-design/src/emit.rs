@@ -1780,9 +1780,9 @@ mod tests {
         assert!((c.junction_premium_eur - 0.0).abs() < 1.0);
         assert!((c.civil_subtotal_usd - 51_000_000.0).abs() < 1.0);
         assert!((c.civil_subtotal_eur - 46_920_000.0).abs() < 1.0);
-        // Stations: terminal ($1.4 M) + standard ($0.8 M) + depot-terminal ($2.0 M).
-        assert!((c.stations_usd - 4_200_000.0).abs() < 1.0);
-        assert!((c.stations_eur - 3_864_000.0).abs() < 1.0);
+        // Stations: terminal ($4.5 M) + standard ($2.5 M) + depot-terminal ($5.0 M).
+        assert!((c.stations_usd - 12_000_000.0).abs() < 1.0);
+        assert!((c.stations_eur - 11_040_000.0).abs() < 1.0);
         // Depots: main-heavy $12.0 M + layup-minimal $2.0 M.
         assert!((c.depots_usd - 14_000_000.0).abs() < 1.0);
         assert!((c.depots_eur - 12_880_000.0).abs() < 1.0);
@@ -1794,12 +1794,12 @@ mod tests {
         assert!((c.signalling_eur - 529_000.0).abs() < 1.0);
         assert!((c.charging_microgrid_usd - 1_750_000.0).abs() < 1.0);
         assert!((c.charging_microgrid_eur - 1_610_000.0).abs() < 1.0);
-        // Subtotal before EPC = $90.733035 M.
-        // EPC overhead = 7 % x $90.733035 M = $6.351312 M.
-        assert!((c.epc_overhead_usd - 6_351_312.43).abs() < 1.0);
-        assert!((c.epc_overhead_eur - 5_843_207.44).abs() < 1.0);
-        // Total = $97.084347 M = EUR 89.317599 M.
-        assert!((c.total_usd - 97_084_347.22).abs() < 1.0);
-        assert!((c.total_eur - 89_317_599.44).abs() < 1.0);
+        // Subtotal before EPC = $98.533035 M.
+        // EPC overhead = 7 % x $98.533035 M = $6.897312 M.
+        assert!((c.epc_overhead_usd - 6_897_312.43).abs() < 1.0);
+        assert!((c.epc_overhead_eur - 6_345_527.44).abs() < 1.0);
+        // Total = $105.430347 M = EUR 96.995919 M.
+        assert!((c.total_usd - 105_430_347.22).abs() < 1.0);
+        assert!((c.total_eur - 96_995_919.44).abs() < 1.0);
     }
 }

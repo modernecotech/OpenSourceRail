@@ -1881,8 +1881,10 @@ def _rich_capex_section(
     out.append(
         "Prefab portal-frame canopy + factory-bonded PV sandwich panel "
         "(RFC 0010 §3, ~11 t / 13-bay canopy delivered on two lorries, "
-        "3–5 day erection). Precast L-unit platform edge. Vertical "
-        "circulation per archetype.\n"
+        "3–5 day erection). Precast L-unit platform edge. Standard and "
+        "larger stations include a covered pedestrian overbridge/concourse "
+        "for safe access to central or median platforms, with step-free "
+        "vertical circulation per archetype.\n"
     )
     out.append("| Archetype | Count | Unit | Subtotal |")
     out.append("|---|---|---|---|")

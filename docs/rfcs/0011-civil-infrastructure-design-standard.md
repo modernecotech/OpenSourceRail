@@ -273,17 +273,20 @@ keeps the narrative summary.
 
 | Archetype | USD planning-grade |
 |---|---|
-| `halt` | 300 000 |
-| `standard` | 800 000 |
-| `major` | 1 600 000 |
-| `terminal` | 1 400 000 |
-| `depot-terminal` | 2 000 000 |
-| `interchange` | 2 500 000 |
-| `interchange-elevated` | 3 500 000 |
+| `halt` | 600 000 |
+| `standard` | 2 500 000 |
+| `major` | 4 500 000 |
+| `terminal` | 4 500 000 |
+| `depot-terminal` | 5 000 000 |
+| `interchange` | 8 000 000 |
+| `interchange-elevated` | 12 000 000 |
 
 The elevated-junction premium in §9.1 covers the viaduct + upper
 deck at interchanges; the table above covers the at-grade lower
-platform plus vertical circulation.
+platform, ordinary pedestrian overbridge/concourse access, and vertical
+circulation. Standard and larger stations assume passengers need a safe
+cross-corridor access bridge to reach central or median platforms; halts
+carry a smaller protected-crossing or compact-access allowance.
 
 ### 9.3 Depots (RFC 0014 archetype catalogue)
 

@@ -20,6 +20,17 @@ and regenerable documentation/CAD artifacts.
 **Current milestone:** [v0.1](CHANGELOG.md), with active
 [v0.2 work](docs/ROADMAP.md).
 
+## Station And Track Renders
+
+| At-grade station | Elevated station | Elevated interchange |
+|---|---|---|
+| ![At-grade side-platform station with ballastless track and driverless train](docs/screenshots/stations/freecad-at-grade-station-track-train.png) | ![Elevated side-platform station with ballastless track and driverless train](docs/screenshots/stations/freecad-elevated-station-track-train.png) | ![Elevated interchange station with stacked tracks and driverless trains](docs/screenshots/stations/freecad-elevated-interchange-track-train.png) |
+
+Generated from the FreeCAD station scene package in
+[mechanical-py/catalog/freecad/station-scenes.FCStd](mechanical-py/catalog/freecad/station-scenes.FCStd);
+see [docs/stations/README.md](docs/stations/README.md) for the station
+artifact index.
+
 ## Start Here
 
 | Goal | Go here |
@@ -31,6 +42,7 @@ and regenerable documentation/CAD artifacts.
 | Run the simulator | [Quick Start](#quick-start) |
 | Generate a city network | [Designing Cities](#designing-cities) |
 | Review rolling-stock design | [docs/rolling-stock/light-metro-3car/README.md](docs/rolling-stock/light-metro-3car/README.md) |
+| Review station and track renders | [docs/stations/README.md](docs/stations/README.md#freecad-station-scene-renders) |
 | Review mechanical CAD outputs | [mechanical-py/README.md](mechanical-py/README.md) |
 | Review hardware host classes | [hardware/README.md](hardware/README.md) |
 | Read the architecture | [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) |

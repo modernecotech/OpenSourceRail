@@ -15,7 +15,7 @@
 # reference closes the loop.
 #
 # Unified system principle: every station in every OSR deployment is built
-# from one of these six shells, parameterized only by local site constraints
+# from one of these standard shells, parameterized only by local site constraints
 # and the consist it serves. That keeps civil drawings, canopy CAD, and the
 # PV/shelter/wayfinding kit reusable.
 
@@ -30,6 +30,9 @@ canopy_area_m2         = 400
 charging_power_kw      = 250             # low-power dwell charge for low-demand stops
 dwell_seconds          = 60
 tpss_kva               = 0
+access_type            = "protected-crossing-or-compact-overbridge"
+access_bridge_count    = 0
+step_free_core_count   = 1
 
 # ---- Standard: default urban/suburban station ----------------------------
 
@@ -42,6 +45,9 @@ canopy_area_m2         = 1800
 charging_power_kw      = 500             # normal 1 km stop-spacing dwell charge
 dwell_seconds          = 60
 tpss_kva               = 0
+access_type            = "covered-pedestrian-overbridge"
+access_bridge_count    = 1
+step_free_core_count   = 2
 
 # ---- Major: anchor stop — hospital, mall, centre -------------------------
 
@@ -54,6 +60,9 @@ canopy_area_m2         = 2000
 charging_power_kw      = 500
 dwell_seconds          = 60
 tpss_kva               = 800
+access_type            = "covered-pedestrian-overbridge"
+access_bridge_count    = 1
+step_free_core_count   = 2
 
 # ---- Interchange: two-line junction --------------------------------------
 
@@ -66,6 +75,24 @@ canopy_area_m2         = 2800
 charging_power_kw      = 500
 dwell_seconds          = 60
 tpss_kva               = 1000
+access_type            = "transfer-concourse-with-pedestrian-overbridge"
+access_bridge_count    = 2
+step_free_core_count   = 4
+
+# ---- Elevated interchange: stacked transfer on viaduct approaches ---------
+
+[archetypes.interchange-elevated]
+platform_count         = 4
+platform_layout        = "stacked"
+platform_clearance_m      = 10
+canopy_type            = "solar-canopy"
+canopy_area_m2         = 3200
+charging_power_kw      = 500
+dwell_seconds          = 60
+tpss_kva               = 1000
+access_type            = "elevated-transfer-concourse-with-pedestrian-overbridge"
+access_bridge_count    = 2
+step_free_core_count   = 4
 
 # ---- Terminal: end-of-line, turnback tracks ------------------------------
 
@@ -79,6 +106,9 @@ charging_power_kw      = 1000            # terminal dwell is the charging slot
 dwell_seconds          = 60
 tpss_kva               = 1500
 has_turnback_tracks    = true
+access_type            = "covered-pedestrian-overbridge"
+access_bridge_count    = 1
+step_free_core_count   = 2
 
 # ---- Depot-terminal: end-of-line + fleet depot ---------------------------
 
@@ -93,3 +123,6 @@ dwell_seconds          = 240
 tpss_kva               = 2000
 has_turnback_tracks    = true
 is_depot               = true
+access_type            = "covered-pedestrian-overbridge"
+access_bridge_count    = 1
+step_free_core_count   = 2

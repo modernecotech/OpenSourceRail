@@ -111,6 +111,10 @@ scripts/freecad_fea.sh
 # docs/screenshots/freecad/ latest image set.
 scripts/freecad_screenshots.sh
 
+# Build and capture FreeCAD station, ballastless track, and rolling-stock
+# scene renders for at-grade, elevated, and interchange configurations.
+scripts/freecad_station_scenes.sh
+
 ```
 
 ## Testing

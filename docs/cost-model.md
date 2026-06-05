@@ -64,17 +64,21 @@ plant, bespoke station architecture, and contractor-led EPC margin.
 ## Stations
 
 Station costs are prefab portal-frame canopy + precast platform edge +
-commodity vertical circulation + simple MEP/signs/CCTV/fare gates.
+ordinary median/platform access works + commodity vertical circulation +
+simple MEP/signs/CCTV/fare gates. Standard and larger urban stations
+include a covered pedestrian overbridge or concourse to reach central
+platforms safely from both sides of the street or corridor; halts carry a
+smaller protected-crossing/compact-access allowance.
 
 | Station archetype | Unit cost |
 |---|---:|
-| `halt` | $300 k |
-| `standard` | $800 k |
-| `major` | $1.6 M |
-| `terminal` | $1.4 M |
-| `depot-terminal` | $2.0 M |
-| `interchange` | $2.5 M |
-| `interchange-elevated` | $3.5 M |
+| `halt` | $600 k |
+| `standard` | $2.5 M |
+| `major` | $4.5 M |
+| `terminal` | $4.5 M |
+| `depot-terminal` | $5.0 M |
+| `interchange` | $8.0 M |
+| `interchange-elevated` | $12.0 M |
 
 ## Depots
 

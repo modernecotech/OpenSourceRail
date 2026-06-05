@@ -33,19 +33,22 @@ Base unit: **3,000,000 USD per route-km**.
 ## Stations
 
 Station costs assume prefab portal-frame canopies, precast platform edges,
-commodity lifts/escalators where required, simple MEP, lighting, signs,
-fare gates, CCTV, and local assembly. No underground concourse, no bespoke
+ordinary median/platform access works, commodity lifts/escalators where
+required, simple MEP, lighting, signs, fare gates, CCTV, and local
+assembly. Standard and larger stations include a covered pedestrian
+overbridge/concourse so passengers can reach central platforms safely
+from both sides of the corridor. No underground concourse, no bespoke
 architectural cladding, no continuous traction-power plant.
 
 | Archetype | Unit |
 |---|---:|
-| `halt` | 300 k USD |
-| `standard` | 800 k USD |
-| `major` | 1.6 M USD |
-| `terminal` | 1.4 M USD |
-| `depot-terminal` | 2.0 M USD |
-| `interchange` | 2.5 M USD |
-| `interchange-elevated` | 3.5 M USD |
+| `halt` | 600 k USD |
+| `standard` | 2.5 M USD |
+| `major` | 4.5 M USD |
+| `terminal` | 4.5 M USD |
+| `depot-terminal` | 5.0 M USD |
+| `interchange` | 8.0 M USD |
+| `interchange-elevated` | 12.0 M USD |
 
 Marketplace anchors:
 
@@ -58,6 +61,16 @@ Marketplace anchors:
 - Lifts/elevators: Alibaba outdoor/passenger lift listings show small
   lift entries from roughly **1,300-4,000 USD** and broader commercial
   elevator bands above that: <https://www.alibaba.com/showroom/elevator-outdoor.html>
+- Footbridges: station foot-overbridge examples range from sub-1 M USD
+  low-cost-market steel packages to multi-million USD rail overbridges
+  once access cores, possessions, utilities, and crowd-flow width are
+  included. Examples include a 12 m wide Guindy station FOB reported at
+  about Rs 6.5 crore
+  (<https://www.newindianexpress.com/cities/chennai/2023/mar/14/new-foot-overbridge-at-guindy-railway-station-to-ease-passenger-flow-2555815.html>)
+  and UK station-footbridge commentary noting costs above GBP 4 M each
+  (<https://www.ingenia.org.uk/articles/the-flat-pack-footbridge-for-train-stations/>).
+  OSR uses a modular low-cost floor but no longer treats the access
+  bridge as free.
 
 ## Depots And Charging Interfaces
 

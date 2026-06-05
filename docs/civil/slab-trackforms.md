@@ -60,6 +60,20 @@ the U-girder carries the main structural depth. The slab provides direct
 fixation, local tolerance recovery, drainage/cable troughs, and a
 maintainable track support surface.
 
+## FreeCAD Scene Renders
+
+The slab trackforms are shown below in station context with driverless
+rolling stock and the station access elements that affect civil cost.
+
+| At-grade ballastless station track | Elevated deck station track |
+|---|---|
+| ![At-grade ballastless station track with driverless train](../screenshots/stations/freecad-at-grade-station-track-train.png) | ![Elevated deck station track with driverless train](../screenshots/stations/freecad-elevated-station-track-train.png) |
+
+The source scene document is
+[`mechanical-py/catalog/freecad/station-scenes.FCStd`](../../mechanical-py/catalog/freecad/station-scenes.FCStd)
+and is regenerated with
+[`mechanical-py/scripts/freecad_station_scenes.sh`](../../mechanical-py/scripts/freecad_station_scenes.sh).
+
 ## Fabrication And Installation Rules
 
 - Keep the 6 m slab module for ordinary urban geometry; use closure pours
