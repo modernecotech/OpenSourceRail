@@ -46,18 +46,18 @@ Corridor polylines + stations as GeoJSON for GIS / alignment tooling: [`bukavu.c
 | Max speed | 90 km/h |
 | Onboard battery | 360 kWh per trainset |
 | Seats | 60 longitudinal seats |
-| Nominal capacity (AW2) | 240 pax (seated + standing, `light-metro-3car` per RFC 0008 §1) |
-| Crush capacity (AW3) | 320 pax, short-duration structural/egress reference |
+| Nominal capacity (AW2) | 360 pax (seated + standing, `light-metro-3car` per RFC 0008 §1) |
+| Crush capacity (AW3) | 480 pax, short-duration structural/egress reference |
 
 ## Ridership capacity
 
-- **Per-train planning capacity:** 240 AW2 passengers (`light-metro-3car`)
+- **Per-train planning capacity:** 360 AW2 passengers (`light-metro-3car`)
 - **Peak frequency:** 12 trains/hour/direction (5-min headway)
-- **Peak capacity per line per direction:** 240 × 12 = **2,880 pphpd**
-- **Network peak throughput (all lines, both directions):** 3 lines × 2 directions × 2,880 = **17,280 passengers/hour**
-- **Daily theoretical capacity (peak × 10):** ≈ **172,800 passenger-trips/day**
-- **Practical daily service capacity** (65% load factor): ≈ **112,320 passenger-trips/day**
-- **Planning daily ridership scenario** (18-30% of catchment (capped by practical service capacity)): ≈ **108,180 – 112,320 trips/day**
+- **Peak capacity per line per direction:** 360 × 12 = **4,320 pphpd**
+- **Network peak throughput (all lines, both directions):** 3 lines × 2 directions × 4,320 = **25,920 passengers/hour**
+- **Daily theoretical capacity (peak × 10):** ≈ **259,200 passenger-trips/day**
+- **Practical daily service capacity** (65% load factor): ≈ **168,480 passenger-trips/day**
+- **Planning daily ridership scenario** (18-30% of catchment (capped by practical service capacity)): ≈ **108,180 – 168,480 trips/day**
 
 ## Catchment
 
@@ -100,9 +100,9 @@ All figures come from the `[costs]` block in `design.toml` — emitted by the `o
 
 | Bucket | Value |
 |---|---|
-| At-grade (57.3 km @ $2.0 M/km) | $115 M |
+| At-grade (57.3 km @ $3.0 M/km) | $172 M |
 | Elevated (0.8 km @ $9.0 M/km) | $7.5 M |
-| **Civil subtotal** | **$122 M** |
+| **Civil subtotal** | **$179 M** |
 
 ### Stations
 
@@ -151,21 +151,21 @@ Rolling stock is costed at the **marketplace-BOM floor: $267 k per self-containe
 |---|---|---|
 | Residual signalling / train-control wayside (onboard ATP/ATO + T-OBS carries the function; W-Nodes, balises, LoRa gateways, OCC interfaces remain) | 60.2 km × $0.015 M/km | $2.9 M |
 | Station/depot charging microgrids (conductive charger, switchgear, inverter interface, local PV/battery tie-in; no continuous wayside supply) | per-stop allowance by station archetype | $15 M |
-| EPC integration + project management (7%) | on subtotal | $18 M |
+| EPC integration + project management (7%) | on subtotal | $22 M |
 
 ### Total
 
 | Bucket | Value |
 |---|---|
-| Civil works | $122 M |
+| Civil works | $179 M |
 | Stations | $48 M |
 | Depots | $22 M |
 | Rolling stock | $48 M |
 | Residual train-control wayside + charging microgrids | $18 M |
-| EPC overhead (7%) | $18 M |
-| **CAPEX total** | **$276 M** |
-| Per-route-km | $4.6 M / km |
-| Per-capita (city pop) | $276 / person |
+| EPC overhead (7%) | $22 M |
+| **CAPEX total** | **$337 M** |
+| Per-route-km | $5.6 M / km |
+| Per-capita (city pop) | $337 / person |
 
 ## Funding & affordability
 
@@ -177,13 +177,13 @@ Bottom line for next year's budget submission. Construction phase runs **years 1
 
 | Phase | Annual gov / municipal commitment | Per resident / yr |
 |---|---|---|
-| Construction (years 1–10) | **$18 M / yr** | $18 |
-| Steady-state, low-ridership (year 11+) | **$18 M / yr** | $18 |
-| Steady-state, high-ridership (year 11+) | **$18 M / yr** | $18 |
-| Steady-state, operating-neutral revenue case | **$18 M / yr** | $18 |
-| Lifecycle envelope (yr 1–40, low scenario) | **$710 M cumulative** | $710 |
-| Lifecycle envelope (yr 1–40, high scenario) | **$710 M cumulative** | $710 |
-| Lifecycle envelope (yr 1–40, operating-neutral after opening) | **$710 M cumulative** | $710 |
+| Construction (years 1–10) | **$22 M / yr** | $22 |
+| Steady-state, low-ridership (year 11+) | **$22 M / yr** | $22 |
+| Steady-state, high-ridership (year 11+) | **$22 M / yr** | $22 |
+| Steady-state, operating-neutral revenue case | **$22 M / yr** | $22 |
+| Lifecycle envelope (yr 1–40, low scenario) | **$868 M cumulative** | $868 |
+| Lifecycle envelope (yr 1–40, high scenario) | **$868 M cumulative** | $868 |
+| Lifecycle envelope (yr 1–40, operating-neutral after opening) | **$868 M cumulative** | $868 |
 
 _Population basis: 1,000,000 (catchment per `lib/city-batches/world-sample.toml`). After year 40, debt service drops to zero; the operating-neutral case already covers steady-state OPEX from fares, station shops, and advertising. Low/high residual OPEX shortfall before debt is $0 k / yr → $0 k / yr._
 
@@ -191,23 +191,23 @@ _Population basis: 1,000,000 (catchment per `lib/city-batches/world-sample.toml`
 
 | Tranche | Share | Principal | Rate | Tenor | Annual debt service (post-grace) |
 |---|---|---|---|---|---|
-| Multilateral concessional loan (IBRD / AfDB / ADB class) | 60% | $166 M | 3.0% | 40 y, 10 y grace | $8.4 M / yr |
-| Sovereign bonds (10-y benchmark + project) | 25% | $69 M | 13.0% | 40 y, 10 y grace | $9.2 M / yr |
-| Government equity (no debt service) | 15% | $41 M | — | — | — |
-| **Total** | **100%** | **$276 M** | | | **$18 M / yr** |
+| Multilateral concessional loan (IBRD / AfDB / ADB class) | 60% | $202 M | 3.0% | 40 y, 10 y grace | $10 M / yr |
+| Sovereign bonds (10-y benchmark + project) | 25% | $84 M | 13.0% | 40 y, 10 y grace | $11 M / yr |
+| Government equity (no debt service) | 15% | $51 M | — | — | — |
+| **Total** | **100%** | **$337 M** | | | **$22 M / yr** |
 
-_During the 10-year grace period the operator pays interest only — multilateral $5.0 M / yr + bonds $9.0 M / yr = **$14 M / yr** total — plus the equity tranche amortised across construction ($4.1 M / yr × 10 yr). Principal repayment begins in year 11 on a 30-year amortisation schedule._
+_During the 10-year grace period the operator pays interest only — multilateral $6.1 M / yr + bonds $11 M / yr = **$17 M / yr** total — plus the equity tranche amortised across construction ($5.1 M / yr × 10 yr). Principal repayment begins in year 11 on a 30-year amortisation schedule._
 
 ### Annual OPEX (steady state)
 
 | Component | Basis | Annual cost |
 |---|---|---|
 | Rolling-stock maintenance | 4 % of rolling-stock CAPEX | $1.9 M |
-| Civil + station + depot maintenance | 2 % of fixed-asset CAPEX | $3.8 M |
+| Civil + station + depot maintenance | 2 % of fixed-asset CAPEX | $5.0 M |
 | Residual train-control wayside maintenance | 5 % of residual signalling CAPEX | $145 k |
 | Traction energy (107.1 GWh / yr) | trackside PV + Na-ion (RFC 0002) — **self-generated, $0 / yr** | $0 k |
 | Labour (373 FTE) | ~6 FTE/route-km + 12 admin core × country median × 12 × engineer-premium 1.4 | $689 k |
-| **OPEX subtotal** | | **$6.6 M / yr** |
+| **OPEX subtotal** | | **$7.7 M / yr** |
 
 _Annual fleet utilisation: 53 revenue trainsets × 20.5 h/day × 365 d/yr × 30 km/h commercial × 75% revenue factor = 8.9 M train-km / yr (~168 k km / trainset / yr)._
 
@@ -225,22 +225,22 @@ Country median monthly income: **$110 USD** (per [`lib/templates/country-finance
 
 ### Revenue & operating neutrality
 
-Planning ridership bracket = 18-30% of catchment × 365 service-days at the operating-neutral fare, capped by practical service capacity (112,320 trips/day). The operating-neutral column solves annual paid trips so **farebox + station-shop leases + advertising = steady-state OPEX**. Post-grace debt service remains a capital-funding obligation in the government commitment table above.
+Planning ridership bracket = 18-30% of catchment × 365 service-days at the operating-neutral fare, capped by practical service capacity (168,480 trips/day). The operating-neutral column solves annual paid trips so **farebox + station-shop leases + advertising = steady-state OPEX**. Post-grace debt service remains a capital-funding obligation in the government commitment table above.
 
 | | Low scenario | High scenario | Operating-neutral target |
 |---|---|---|---|
-| Daily paid trips | 108,180 | 112,320 | 64,340 |
-| Daily paid trips / catchment | 18% | 19% | 11% |
-| Daily paid trips / city population | 11% | 11% | 6% |
-| Annual paid trips | 39.5 M | 41.0 M | 23.5 M |
-| Farebox revenue | $8.7 M / yr | $9.0 M / yr | $5.2 M / yr |
+| Daily paid trips | 108,180 | 168,480 | 78,614 |
+| Daily paid trips / catchment | 18% | 28% | 13% |
+| Daily paid trips / city population | 11% | 17% | 8% |
+| Annual paid trips | 39.5 M | 61.5 M | 28.7 M |
+| Farebox revenue | $8.7 M / yr | $14 M / yr | $6.3 M / yr |
 | Station shop leases | $589 k / yr | $589 k / yr | $589 k / yr |
 | Advertising boards | $842 k / yr | $842 k / yr | $842 k / yr |
-| **Total revenue** | **$10 M / yr** | **$10 M / yr** | **$6.6 M / yr** |
-| Revenue / OPEX recovery | 153% | 158% | 100% |
+| **Total revenue** | **$10 M / yr** | **$15 M / yr** | **$7.7 M / yr** |
+| Revenue / OPEX recovery | 131% | 193% | 100% |
 | Country farebox-only policy target (diagnostic) | 30% | 30% | 30% |
-| Remaining steady-state gov commitment | $18 M / yr | $18 M / yr | **$18 M / yr** |
-| Operating surplus after OPEX | $3.5 M / yr | $3.9 M / yr | $0 / yr |
+| Remaining steady-state gov commitment | $22 M / yr | $22 M / yr | **$22 M / yr** |
+| Operating surplus after OPEX | $2.4 M / yr | $7.2 M / yr | $0 / yr |
 
 _Commercial-revenue assumptions: 5,576 m² of station shop/kiosk leases at $10/m²/month and 1,072 advertising boards at $77/board/month, with occupancy derates applied._
 

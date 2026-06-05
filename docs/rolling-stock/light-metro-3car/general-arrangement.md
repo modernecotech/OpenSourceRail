@@ -107,16 +107,16 @@ presets (`heritage-tram` / `standard-urban` / `standard-metro`
 
 | Location | Mass (t) |
 |---|---|
-| Car A incl. powered + trailer bogie | 38 |
-| Car B incl. two trailer bogies | 36 |
-| Car C incl. trailer + powered bogie | 38 |
-| **Total consist (tare + AW2 passengers)** | **112** |
+| Car A incl. powered + trailer bogie | 41 |
+| Car B incl. two trailer bogies | 38 |
+| Car C incl. trailer + powered bogie | 41 |
+| **Total consist (tare + AW2 passengers)** | **120** |
 
-Tare target = 98 t for the concept-aligned BOM; AW2 load = 14.4 t
-(240 passengers × 60 kg average).
+Tare target = 98 t for the concept-aligned BOM; AW2 load = 21.6 t
+(360 passengers × 60 kg average).
 
-Distribution per axle under AW3 (crush load, 320 passengers ×
-60 kg = 19.2 t):
+Distribution per axle under AW3 (crush load, 480 passengers ×
+60 kg = 28.8 t):
 - Powered and trailer bogies: ~10–12 t per axle depending on seated
   battery-side loading.
 

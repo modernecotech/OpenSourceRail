@@ -332,11 +332,11 @@ def compute_stats(
 
 
 _FAMILY_CAPACITY_FALLBACK: dict[str, int] = {
-    "urban-shuttle-1car": 75,
-    "tram-2car": 160,
-    "light-metro-3car": 240,
-    "metro-4car": 320,
-    "metro-6car": 480,
+    "urban-shuttle-1car": 100,
+    "tram-2car": 240,
+    "light-metro-3car": 360,
+    "metro-4car": 480,
+    "metro-6car": 720,
 }
 
 _FAMILY_SEATS_FALLBACK: dict[str, int] = {
@@ -348,11 +348,11 @@ _FAMILY_SEATS_FALLBACK: dict[str, int] = {
 }
 
 _FAMILY_CRUSH_FALLBACK: dict[str, int] = {
-    "urban-shuttle-1car": 95,
-    "tram-2car": 210,
-    "light-metro-3car": 320,
-    "metro-4car": 430,
-    "metro-6car": 640,
+    "urban-shuttle-1car": 130,
+    "tram-2car": 320,
+    "light-metro-3car": 480,
+    "metro-4car": 640,
+    "metro-6car": 960,
 }
 
 
@@ -1086,8 +1086,8 @@ def render_readme(
 
     # Ridership capacity. Per-train capacity comes from the
     # rolling-stock family (RFC 0008 §1) — Samawah's 3-car
-    # `light-metro-3car` carries 240 nominal pax / 320 crush,
-    # Baghdad-class 6-car corridors carry 480 nominal / 640 crush.
+    # `light-metro-3car` carries 360 nominal pax / 480 crush,
+    # Baghdad-class 6-car corridors carry 720 nominal / 960 crush.
     # The CLI override
     # (`--pax-per-trainset`) wins when present so what-if analysis
     # still works.
@@ -2082,9 +2082,9 @@ def main(argv: list[str] | None = None) -> int:
         help=(
             "passenger capacity per trainset (default: read from "
             "lib/templates/rolling-stock.toml for the design's "
-            "rolling_stock family — 75 for urban-shuttle-1car, 160 for "
-            "tram-2car, 240 for light-metro-3car, 320 for metro-4car, "
-            "480 for metro-6car). "
+            "rolling_stock family — 100 for urban-shuttle-1car, 240 for "
+            "tram-2car, 360 for light-metro-3car, 480 for metro-4car, "
+            "720 for metro-6car). "
             "Pass an integer here only for what-if analysis."
         ),
     )

@@ -57,7 +57,7 @@ dense-urban conditions across the target regions:
 
 | Class | CAPEX (USD/km) | Build time | Post-build maintenance |
 |---|---|---|---|
-| At-grade dedicated ROW | 2.0 M OSR floor / 2–5 M conventional | 6–12 months | Low — routine track + ballast |
+| At-grade dedicated ROW | 3.0 M OSR floor / 3–6 M conventional | 6–12 months | Low — ballastless slab/embedded trackform |
 | Elevated viaduct | 9.0 M OSR floor / 12–25 M conventional | 12–18 months | Medium — bearing + expansion-joint inspection |
 | Bridge over water | 13.0 M OSR floor / 15–35 M conventional | 18–24 months | Medium — same as viaduct + scour inspection |
 | Cut-and-cover tunnel | 60–120 M conventional | 30–48 months | High — ventilation + pumping + egress drills |
@@ -85,20 +85,20 @@ avoids.
 
 ### 4.1 Envelope
 
-- **Subgrade:** compacted fill or in-situ soil graded to ±25 mm of
-  design. Capping layer of 150 mm crushed stone, then 300 mm
-  ballast below sleeper, or direct-fixed slab where vibration
-  demands (station throats, curves sharper than 2× the preset
-  minimum).
+- **Subgrade:** compacted fill or in-situ soil graded to +/-25 mm of
+  design. Capping layer of 150 mm crushed stone, then ballastless
+  reinforced slab / embedded direct-fixation plinths for the running
+  rails. The default urban trackform avoids ballast migration,
+  tamping cycles, and loose aggregate at crossings.
 - **Earthworks:** cut / fill up to 3 m depth only. Beyond 3 m the
   segment is either:
   - Re-classified to **elevated** (bridge over the gap / viaduct
     over the hill), or
   - Deviated around the constraint.
-- **Drainage:** transverse slope ≥ 2 % either side; longitudinal
+- **Drainage:** transverse slope >= 2 % either side; longitudinal
   channels every 50 m; culverts at every flow-path crossing.
-  Drainage is not optional — a flooded ballast destroys track
-  geometry within hours.
+  Drainage is not optional: a flooded slab undermines fastener
+  integrity, corrodes embedded hardware, and damages the subgrade.
 - **Fencing:** dedicated ROW is fenced the full length on both
   sides. No uncontrolled pedestrian crossings. Level crossings
   only where a city street intersects and an underpass / overpass
@@ -264,7 +264,7 @@ keeps the narrative summary.
 
 | Class | USD planning-grade |
 |---|---|
-| at-grade | 2 000 000 / route-km |
+| at-grade | 3 000 000 / route-km |
 | elevated | 9 000 000 / route-km |
 | bridge | 13 000 000 / route-km |
 | elevated-interchange premium | 4 500 000 / site |

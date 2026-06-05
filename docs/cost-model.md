@@ -52,7 +52,7 @@ double-track OSR alignments:
 
 | Civil class | Unit cost | Included scope |
 |---|---:|---|
-| At-grade | $2.0 M / route-km | UIC60 rail, concrete sleepers, clips/pads/baseplates, ballast, drainage, cable troughs, local installation |
+| At-grade | $3.0 M / route-km | UIC60 rail, ballastless slab/embedded trackform, direct-fixation fasteners, drainage, cable troughs, local installation |
 | Elevated | $9.0 M / route-km | Repeatable precast guideway spans, piers, foundations, bearings, parapets, trackform, erection |
 | Bridge | $13.0 M / route-km | Longer-span/water-crossing version of the elevated stack with heavier foundation and protection allowance |
 | Elevated-interchange premium | $4.5 M / site | Added stacked-platform and approach complexity where an interchange must grade-separate |

@@ -13,14 +13,14 @@ QA, and the no-tunnel/no-catenary OSR civil discipline.
 
 ## At-Grade Double Track
 
-Base unit: **2,000,000 USD per route-km**.
+Base unit: **3,000,000 USD per route-km**.
 
 | Component | Marketplace anchor | Planning basis |
 |---|---:|---|
 | UIC60/60E1 rail | Alibaba UIC60 rail listings show about **600-700 USD/t** for 60E1/UIC60 rail: <https://www.alibaba.com/showroom/railway-rail-uic60.html> | Double track uses ~241 t/km of rail, so rail steel lands near 145-170 k USD/km before freight |
-| Concrete sleepers | Alibaba concrete-sleeper listings show **15-55 USD/sleeper** common ranges: <https://www.alibaba.com/showroom/concrete-sleeper-price.html> | ~3,300 sleepers/km for double track gives ~50-180 k USD/km |
-| Clips, baseplates, pads | Alibaba rail-fastening listings show clips around **0.5-2.5 USD** and assemblies/baseplates around **4-6 USD**: <https://www.alibaba.com/showroom/rail-fastening-system.html> | Double-track fastening hardware, pads, fishplates, weld kits, and small parts budgeted as a bundled allowance |
-| Ballast, drainage, cable trough, installation | Local quarry/supplier item rather than rail-specific Alibaba commodity | Residual allowance plus local labour/equipment, freight, QA, welding, tamping, and possession logistics brings the installed planning floor to **2.0 M USD/km** |
+| Slab/plinth concrete and reinforcement | Local concrete, rebar, mesh, formwork, and precast suppliers rather than a rail-specific commodity | Ballastless urban track shifts spend from sleepers/ballast/tamping into slab, plinth, embedment, and drainage works |
+| Direct-fixation fasteners, baseplates, pads | Alibaba rail-fastening listings show clips around **0.5-2.5 USD** and assemblies/baseplates around **4-6 USD**: <https://www.alibaba.com/showroom/rail-fastening-system.html> | Double-track fastening hardware, pads, baseplates, weld kits, and small parts budgeted as a bundled allowance |
+| Ballastless slab/embedded trackform, drainage, cable trough, installation | Local concrete/rebar/precast and civil supplier item rather than rail-specific Alibaba commodity | Residual allowance plus local labour/equipment, freight, QA, welding, direct-fixation installation, drainage, and urban possession logistics brings the installed planning floor to **3.0 M USD/km** |
 
 ## Elevated Guideway And Bridges
 

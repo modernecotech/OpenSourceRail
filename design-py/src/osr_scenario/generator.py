@@ -86,11 +86,11 @@ _CLIMATE_PRESET_AMBIENT_C: dict[str, float] = {
 # Authoritative numbers live in `lib/templates/rolling-stock.toml`;
 # values here are the sim-critical subset.
 _CONSIST_DEFAULTS: dict[str, dict[str, int | float]] = {
-    "urban-shuttle-1car": {"car_count": 1, "length_m": 21,  "mass_kg": 34_000,  "max_speed_kmh": 70.0,  "battery_capacity_kwh": 120, "passenger_capacity": 75,  "seat_count": 20,  "crush_capacity": 95,  "service_accel_mps2": 1.0},
-    "tram-2car":          {"car_count": 2, "length_m": 39,  "mass_kg": 68_000,  "max_speed_kmh": 70.0,  "battery_capacity_kwh": 240, "passenger_capacity": 160, "seat_count": 40,  "crush_capacity": 210, "service_accel_mps2": 1.0},
-    "light-metro-3car":   {"car_count": 3, "length_m": 51,  "mass_kg": 102_000, "max_speed_kmh": 90.0,  "battery_capacity_kwh": 360, "passenger_capacity": 240, "seat_count": 60,  "crush_capacity": 320, "service_accel_mps2": 1.0},
-    "metro-4car":         {"car_count": 4, "length_m": 75,  "mass_kg": 136_000, "max_speed_kmh": 90.0,  "battery_capacity_kwh": 480, "passenger_capacity": 320, "seat_count": 80,  "crush_capacity": 430, "service_accel_mps2": 1.1},
-    "metro-6car":         {"car_count": 6, "length_m": 111, "mass_kg": 204_000, "max_speed_kmh": 100.0, "battery_capacity_kwh": 720, "passenger_capacity": 480, "seat_count": 120, "crush_capacity": 640, "service_accel_mps2": 1.1},
+    "urban-shuttle-1car": {"car_count": 1, "length_m": 21,  "mass_kg": 34_000,  "max_speed_kmh": 70.0,  "battery_capacity_kwh": 120, "passenger_capacity": 100, "seat_count": 20,  "crush_capacity": 130, "service_accel_mps2": 1.0},
+    "tram-2car":          {"car_count": 2, "length_m": 39,  "mass_kg": 68_000,  "max_speed_kmh": 70.0,  "battery_capacity_kwh": 240, "passenger_capacity": 240, "seat_count": 40,  "crush_capacity": 320, "service_accel_mps2": 1.0},
+    "light-metro-3car":   {"car_count": 3, "length_m": 51,  "mass_kg": 102_000, "max_speed_kmh": 90.0,  "battery_capacity_kwh": 360, "passenger_capacity": 360, "seat_count": 60,  "crush_capacity": 480, "service_accel_mps2": 1.0},
+    "metro-4car":         {"car_count": 4, "length_m": 75,  "mass_kg": 136_000, "max_speed_kmh": 90.0,  "battery_capacity_kwh": 480, "passenger_capacity": 480, "seat_count": 80,  "crush_capacity": 640, "service_accel_mps2": 1.1},
+    "metro-6car":         {"car_count": 6, "length_m": 111, "mass_kg": 204_000, "max_speed_kmh": 100.0, "battery_capacity_kwh": 720, "passenger_capacity": 720, "seat_count": 120, "crush_capacity": 960, "service_accel_mps2": 1.1},
 }
 
 

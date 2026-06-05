@@ -27,11 +27,11 @@ architecture.
 
 | Family | Cars | Length | Tare | Seats | AW2 nominal capacity | AW3 crush capacity | Peak ridership band (pphpd) | Onboard battery | Max speed |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| `urban-shuttle-1car` | 1 | 21 m | 34 t | 20 | 75 | 95 | < 2 500 | 120 kWh | 19 m/s (70 km/h) |
-| `tram-2car` | 2 | 39 m | 68 t | 40 | 160 | 210 | < 5 000 | 240 kWh | 19 m/s (70 km/h) |
-| `light-metro-3car` | 3 | 51 m | 102 t | 60 | 240 | 320 | 5 000–10 000 | 360 kWh | 25 m/s (90 km/h) — **Samawah reference** |
-| `metro-4car` | 4 | 75 m | 136 t | 80 | 320 | 430 | 10 000–20 000 | 480 kWh | 25 m/s (90 km/h) |
-| `metro-6car` | 6 | 111 m | 204 t | 120 | 480 | 640 | 20 000–35 000 | 720 kWh | 28 m/s (100 km/h) |
+| `urban-shuttle-1car` | 1 | 21 m | 34 t | 20 | 100 | 130 | < 2 500 | 120 kWh | 19 m/s (70 km/h) |
+| `tram-2car` | 2 | 39 m | 68 t | 40 | 240 | 320 | < 5 000 | 240 kWh | 19 m/s (70 km/h) |
+| `light-metro-3car` | 3 | 51 m | 102 t | 60 | 360 | 480 | 5 000–10 000 | 360 kWh | 25 m/s (90 km/h) — **Samawah reference** |
+| `metro-4car` | 4 | 75 m | 136 t | 80 | 480 | 640 | 10 000–20 000 | 480 kWh | 25 m/s (90 km/h) |
+| `metro-6car` | 6 | 111 m | 204 t | 120 | 720 | 960 | 20 000–35 000 | 720 kWh | 28 m/s (100 km/h) |
 
 Pphpd = passengers per hour per direction at peak, planning-grade.
 AW2 is the normal peak planning load used for capacity and farebox

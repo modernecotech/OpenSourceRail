@@ -1740,7 +1740,7 @@ mod tests {
                 class: CivilClass::AtGrade,
                 from_idx: 0,
                 to_idx: 10,
-                length_m: 10_000.0, // 10 km x $2.0 M = $20.0 M
+                length_m: 10_000.0, // 10 km x $3.0 M = $30.0 M
             },
             CivilSegment {
                 class: CivilClass::Elevated,
@@ -1771,15 +1771,15 @@ mod tests {
         ];
         let c = compute_costs(&civil_per_line, &archetypes, &depots, 0, 12, "metro-6car");
         // Civil works: USD direct-procurement floor mirrored into EUR.
-        assert!((c.at_grade_usd - 20_000_000.0).abs() < 1.0);
-        assert!((c.at_grade_eur - 18_400_000.0).abs() < 1.0);
+        assert!((c.at_grade_usd - 30_000_000.0).abs() < 1.0);
+        assert!((c.at_grade_eur - 27_600_000.0).abs() < 1.0);
         assert!((c.elevated_usd - 9_000_000.0).abs() < 1.0);
         assert!((c.elevated_eur - 8_280_000.0).abs() < 1.0);
         assert!((c.bridge_usd - 6_500_000.0).abs() < 1.0);
         assert!((c.bridge_eur - 5_980_000.0).abs() < 1.0);
         assert!((c.junction_premium_eur - 0.0).abs() < 1.0);
-        assert!((c.civil_subtotal_usd - 35_500_000.0).abs() < 1.0);
-        assert!((c.civil_subtotal_eur - 32_660_000.0).abs() < 1.0);
+        assert!((c.civil_subtotal_usd - 45_500_000.0).abs() < 1.0);
+        assert!((c.civil_subtotal_eur - 41_860_000.0).abs() < 1.0);
         // Stations: terminal ($1.4 M) + standard ($0.8 M) + depot-terminal ($2.0 M).
         assert!((c.stations_usd - 4_200_000.0).abs() < 1.0);
         assert!((c.stations_eur - 3_864_000.0).abs() < 1.0);
@@ -1794,12 +1794,12 @@ mod tests {
         assert!((c.signalling_eur - 529_000.0).abs() < 1.0);
         assert!((c.charging_microgrid_usd - 1_750_000.0).abs() < 1.0);
         assert!((c.charging_microgrid_eur - 1_610_000.0).abs() < 1.0);
-        // Subtotal before EPC = $75.233035 M.
-        // EPC overhead = 7 % x $75.233035 M = $5.266312 M.
-        assert!((c.epc_overhead_usd - 5_266_312.43).abs() < 1.0);
-        assert!((c.epc_overhead_eur - 4_845_007.44).abs() < 1.0);
-        // Total = $80.499347 M = EUR 74.059399 M.
-        assert!((c.total_usd - 80_499_347.22).abs() < 1.0);
-        assert!((c.total_eur - 74_059_399.44).abs() < 1.0);
+        // Subtotal before EPC = $85.233035 M.
+        // EPC overhead = 7 % x $85.233035 M = $5.966312 M.
+        assert!((c.epc_overhead_usd - 5_966_312.43).abs() < 1.0);
+        assert!((c.epc_overhead_eur - 5_489_007.44).abs() < 1.0);
+        // Total = $91.199347 M = EUR 83.903399 M.
+        assert!((c.total_usd - 91_199_347.22).abs() < 1.0);
+        assert!((c.total_eur - 83_903_399.44).abs() < 1.0);
     }
 }
