@@ -17,9 +17,9 @@
 
 - **Three self-contained cars**, joined by two semi-permanent
   articulated gangway modules.
-- **No driving cabs** — GoA 4 segmented glass-pane sensor cowls at both ends
-  per RFC 0015, with heated RF-transparent glass, T-OBS sensors, and
-  LED headlamp / marker-light clusters.
+- **No driving cabs** — GoA 4 identical A/B-end multi-part fiberglass
+  sensor cowls at both ends per RFC 0015, with heated RF-transparent
+  glass, T-OBS sensors, and LED headlamp / marker-light clusters.
 - **No cab bulkhead** — the front and rear passenger ends are not
   walled off; the saloon remains open to the segmented glass end panes
   so passengers see through both driverless ends.
@@ -141,5 +141,6 @@ v1 of this doc does not include the FEA result; v2 does.
 ## Cross-refs
 - Bogie detail → [`bogie.md`](bogie.md)
 - Body structure → [`body.md`](body.md)
+- Identical fiberglass end cowl → [`end-cowl.md`](end-cowl.md)
 - Traction → [`traction.md`](traction.md)
 - Interfaces → [`interfaces.md`](interfaces.md)

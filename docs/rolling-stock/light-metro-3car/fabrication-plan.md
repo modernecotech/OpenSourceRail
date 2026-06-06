@@ -21,7 +21,7 @@ the same 17 m car body to form the trainset.
 | Scope | Default decision | Reason |
 |---|---|---|
 | Primary structure | MAKE: cut/bend/weld S355 steel | Available in rail, truck, ship, oilfield, and bridge workshops |
-| Side/roof/nose panels | BID/SOURCE: certified composite panels | Low tooling cost, corrosion resistant, replaceable after damage |
+| Side/roof/nose panels | BID/SOURCE: certified composite panels and multi-part fiberglass end-cowl casts | Low tooling cost, corrosion resistant, replaceable after damage |
 | Doors | BID: COTS electric rail door cassette | Certified obstacle detection, locking, seals, emergency release |
 | Windows | SOURCE/BID: COTS bonded/gasketed glazing | Avoids bespoke glass certification |
 | HVAC | SOURCE/BID: packaged roof unit | Mature hot-climate bus/rail supply chain |
@@ -58,6 +58,8 @@ plant:
 
 4. **Composite and glazing cell**
    - Panel trial-fit stands.
+   - End-cowl cast trim/drill jigs or incoming-inspection fixtures for
+     supplier-made fiberglass casts.
    - Adhesive metering and surface-prep tools.
    - Controlled cure area.
    - Window bonding/gasket installation.
@@ -86,6 +88,7 @@ rather than legacy carbody megajigs.
 | LM3-TL-PANEL-06 | Composite/sandwich panel drill jig | Drills quarter-turn retainers and bond-line witness holes | ±0.5 mm on retainer pitch |
 | LM3-TL-DOOR-07 | Door cassette fit-up gauge | Confirms COTS door cassette envelope, threshold, and lock-loop bracket clearances | Supplier installation tolerance |
 | LM3-TL-HV-08 | Battery tray/service-lid gauge | Checks tray drainage, lid gasket land, HV cable gland reach, and seat-base clearance | ±1.0 mm on service-lid gasket land |
+| LM3-TL-COWL-09 | Fiberglass end-cowl cast fit-up fixture | Holds CWL-FRP-01 through CWL-FRP-06 to the steel backing-ring datum and checks split-line gaps, insert pitch, glass carrier land, and lamp/sensor hatch access | ±1.0 mm on glass-carrier land; ±2.0 mm on cast split gaps |
 
 The current CAD manufacturing templates generated from `mechanical-py`
 are tracked as parametric source and FreeCAD review artifacts:
@@ -95,6 +98,8 @@ are tracked as parametric source and FreeCAD review artifacts:
 | `main_frame()` | Underframe ladder, formed sills, cross-bearers, bolsters, battery trays, coupler pockets |
 | `body_sheet_metal_kit()` | Whole body/chassis sheet-metal kit: underframe, side posts, door portals, waist/cant rails, roof bows, end rings |
 | `sandwich_panel()` | Side/roof panel aperture, folded flanges, retainers, and bond land |
+| Surface-modelled LM3-BDY-155 cowl CAD | Final fiberglass cowl A-surface, B-surface, flanges, trim curves, and mould surfaces |
+| `sensor_cowl()` | Identical A/B-end fiberglass cowl envelope, segmented glass, lamp/service hatches, and T-OBS visual interface |
 | `door_leaf()` | COTS-style door leaf shell, bonded glazing, EPDM seals, hanger rollers |
 | `chassis_interface_assembly()` | Bolster, bogie adapter, motor cradle, guide blocks, fasteners, service strut, connector interfaces |
 
@@ -159,14 +164,23 @@ Hold point: dry-film thickness report and sealed-drain checklist.
 
 ### 5. Composite exterior
 
-- Trial-fit side panels, roof fairings, skirts, and sensor cowl.
+- Trial-fit side panels, roof fairings, skirts, and the identical
+  A/B-end fiberglass cowl kit.
+- Dry-build CWL-FRP-01 upper brow, CWL-FRP-02/03 cheek casts,
+  CWL-FRP-04 lower apron, CWL-FRP-05 lamp/service hatches, and
+  CWL-FRP-06 backing-ring flanges on the end-cowl fit-up fixture.
 - Use the panel drill jig to install quarter-turn retainer receptacles
   before adhesive surface preparation.
 - Prepare steel/composite surfaces per adhesive supplier procedure.
-- Bond panels to secondary rails and install mechanical retainers.
+- Bond/seal panels to secondary rails and install mechanical retainers;
+  keep slotted tolerance only in fiberglass flanges, not in steel crash
+  datums.
 - Fit removable skirt panels with quarter-turn or captive fasteners.
+  Fit cowl hatches with retained fasteners and continuous gasketed
+  drain paths.
 
-Hold point: adhesive batch record, cure record, bond-line witness
+Hold point: adhesive batch record, cure record, laminate coupons,
+insert pull-out evidence, split-line water test, bond-line witness
 coupons, removable-panel access check.
 
 ### 6. COTS doors and windows

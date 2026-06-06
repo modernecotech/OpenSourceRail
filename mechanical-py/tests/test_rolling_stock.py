@@ -192,7 +192,16 @@ def test_sensor_cowl_has_sensor_window() -> None:
     )
     labels = _labels_recursive(cowl)
     expected = {
-        "Glass-pane driverless sensor cowl shell",
+        "Multipart fiberglass driverless sensor cowl aerodynamic envelope",
+        "Fiberglass upper brow and roof cap cast (CWL-FRP-01)",
+        "Fiberglass left cheek side-return cast (CWL-FRP-02)",
+        "Fiberglass right cheek side-return cast (CWL-FRP-03)",
+        "Fiberglass lower apron and anti-climber cover cast (CWL-FRP-04)",
+        "Fiberglass lamp and washer service hatch cast (CWL-FRP-05)",
+        "Fiberglass backing-ring upper flange datum (CWL-FRP-06)",
+        "Fiberglass backing-ring lower flange datum (CWL-FRP-06)",
+        "Fiberglass backing-ring side flange datum (CWL-FRP-06)",
+        "Black gasketed fiberglass cowl split line",
         "Left laminated panoramic end glass pane",
         "Centre laminated panoramic end glass pane",
         "Right laminated panoramic end glass pane",

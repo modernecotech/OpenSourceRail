@@ -1,8 +1,9 @@
-"""Nose-cone sensor cowl — replaces the driver cab per RFC 0015.
+"""Identical fiberglass end cowl — replaces the driver cab per RFC 0015.
 
-The cowl is a rounded fairing that holds the T-OBS sensor pack. It
-is *identical at both ends of the trainset* — there is no "front"
-or "rear"; either end can lead on a given run.
+The cowl is a rounded multi-part fiberglass fairing that holds the
+T-OBS sensor pack. It is *identical at both ends of the trainset* —
+there is no unique "front" or "rear"; either end can lead on a given
+run.
 
 Geometry:
 
@@ -17,6 +18,9 @@ Geometry:
   pane assembly, heated and RF-transparent, so passengers see through
   the front/back of the driverless train while the T-OBS sensors see
   out through the same aperture.
+- Fiberglass pieces are non-structural sacrificial casts: upper brow,
+  left/right cheeks, lower apron, removable lamp/service hatches, and
+  segmented backing-ring flanges over a steel crash frame.
 - Two warm-white LED headlamp clusters plus slim marker/DRL bars sit
   below the glass, outside the passenger sightline.
 - A livery band continues from the car body onto both flanks of
@@ -24,6 +28,11 @@ Geometry:
 
 The cowl is a service item: 10-year replacement interval per
 RFC 0013 M5.
+
+This module is the envelope/integration proxy. The production
+fiberglass A-surfaces should be authored in a surface modeller and
+released through LM3-BDY-155; those neutral CAD surfaces control mould
+manufacture.
 """
 
 from __future__ import annotations
@@ -70,12 +79,17 @@ HEADLIGHT_WIDTH_MM = 260.0
 HEADLIGHT_HEIGHT_MM = 145.0
 MARKER_LIGHT_WIDTH_MM = 420.0
 MARKER_LIGHT_HEIGHT_MM = 42.0
+COWL_CAST_SURFACE_THICKNESS_MM = 48.0
+COWL_CAST_SPLIT_GAP_MM = 6.0
 
 COLOR_SENSOR_WINDOW = Color(0.04, 0.09, 0.13)
 COLOR_HEADLIGHT = Color(0.98, 0.95, 0.85)
 COLOR_MARKER_LIGHT = Color(0.85, 0.94, 1.00)
 COLOR_ENGINEERING = Color(0.62, 0.64, 0.66)
 COLOR_SERVICE = Color(0.92, 0.68, 0.12)
+COLOR_FIBERGLASS_CAST = Color(0.86, 0.86, 0.82)
+COLOR_FIBERGLASS_CAST_SHADOW = Color(0.72, 0.74, 0.70)
+COLOR_CAST_SEAM = Color(0.04, 0.05, 0.06)
 
 
 def _cowl_shell(car_width_mm: float, car_height_mm: float) -> Part:
@@ -149,8 +163,174 @@ def _cowl_shell(car_width_mm: float, car_height_mm: float) -> Part:
         cowl = cowl - marker_cut
 
     cowl.color = COLOR_BODY
-    cowl.label = "Glass-pane driverless sensor cowl shell"
+    cowl.label = "Multipart fiberglass driverless sensor cowl aerodynamic envelope"
     return cowl
+
+
+def _fiberglass_cast_parts(car_width_mm: float) -> list[Part]:
+    """Manufacturable multi-part GFRP cast kit over the steel cowl frame.
+
+    The CAD facade represents the casts as surface-envelope pieces. The
+    drawing-controlled laminate, mould split, and insert rules live in
+    docs/rolling-stock/light-metro-3car/end-cowl.md.
+    """
+
+    del car_width_mm
+    out: list[Part] = []
+    front_x = COWL_LENGTH_MM - COWL_CAST_SURFACE_THICKNESS_MM / 2.0 - 12.0
+    window_centre_z = 1850.0
+
+    for label, x, y, z, length, width, height, color in (
+        (
+            "Fiberglass upper brow and roof cap cast (CWL-FRP-01)",
+            770.0,
+            0.0,
+            2970.0,
+            1260.0,
+            1960.0,
+            150.0,
+            COLOR_FIBERGLASS_CAST,
+        ),
+        (
+            "Fiberglass left cheek side-return cast (CWL-FRP-02)",
+            760.0,
+            -1160.0,
+            1720.0,
+            1260.0,
+            70.0,
+            2240.0,
+            COLOR_FIBERGLASS_CAST,
+        ),
+        (
+            "Fiberglass right cheek side-return cast (CWL-FRP-03)",
+            760.0,
+            1160.0,
+            1720.0,
+            1260.0,
+            70.0,
+            2240.0,
+            COLOR_FIBERGLASS_CAST,
+        ),
+        (
+            "Fiberglass lower apron and anti-climber cover cast (CWL-FRP-04)",
+            1180.0,
+            0.0,
+            525.0,
+            860.0,
+            1660.0,
+            210.0,
+            COLOR_FIBERGLASS_CAST_SHADOW,
+        ),
+        (
+            "Fiberglass leading-face brow skin cast (CWL-FRP-01)",
+            front_x,
+            0.0,
+            2790.0,
+            COWL_CAST_SURFACE_THICKNESS_MM,
+            1700.0,
+            220.0,
+            COLOR_FIBERGLASS_CAST,
+        ),
+        (
+            "Fiberglass leading-face lower apron skin cast (CWL-FRP-04)",
+            front_x,
+            0.0,
+            635.0,
+            COWL_CAST_SURFACE_THICKNESS_MM,
+            1610.0,
+            420.0,
+            COLOR_FIBERGLASS_CAST_SHADOW,
+        ),
+        (
+            "Fiberglass leading-face left cheek skin cast (CWL-FRP-02)",
+            front_x,
+            -842.0,
+            window_centre_z,
+            COWL_CAST_SURFACE_THICKNESS_MM,
+            130.0,
+            1900.0,
+            COLOR_FIBERGLASS_CAST,
+        ),
+        (
+            "Fiberglass leading-face right cheek skin cast (CWL-FRP-03)",
+            front_x,
+            842.0,
+            window_centre_z,
+            COWL_CAST_SURFACE_THICKNESS_MM,
+            130.0,
+            1900.0,
+            COLOR_FIBERGLASS_CAST,
+        ),
+    ):
+        part = Box(length, width, height).locate(Location((x, y, z)))
+        part.color = color
+        part.label = label
+        out.append(part)
+
+    for y_sign in (-1.0, 1.0):
+        hatch = Box(
+            COWL_CAST_SURFACE_THICKNESS_MM + 12.0,
+            410.0,
+            250.0,
+        ).locate(Location((front_x + 4.0, y_sign * 530.0, 735.0)))
+        hatch.color = COLOR_FIBERGLASS_CAST_SHADOW
+        hatch.label = "Fiberglass lamp and washer service hatch cast (CWL-FRP-05)"
+        out.append(hatch)
+
+    outer_width = PANORAMIC_GLASS_WIDTH_MM + 210.0
+    outer_height = PANORAMIC_GLASS_HEIGHT_MM + 230.0
+    flange_depth = COWL_CAST_SURFACE_THICKNESS_MM
+    flange_width = 54.0
+    for label, y, z, width, height in (
+        (
+            "Fiberglass backing-ring upper flange datum (CWL-FRP-06)",
+            0.0,
+            window_centre_z + outer_height / 2.0 - flange_width / 2.0,
+            outer_width,
+            flange_width,
+        ),
+        (
+            "Fiberglass backing-ring lower flange datum (CWL-FRP-06)",
+            0.0,
+            window_centre_z - outer_height / 2.0 + flange_width / 2.0,
+            outer_width,
+            flange_width,
+        ),
+        (
+            "Fiberglass backing-ring side flange datum (CWL-FRP-06)",
+            -outer_width / 2.0 + flange_width / 2.0,
+            window_centre_z,
+            flange_width,
+            outer_height,
+        ),
+        (
+            "Fiberglass backing-ring side flange datum (CWL-FRP-06)",
+            outer_width / 2.0 - flange_width / 2.0,
+            window_centre_z,
+            flange_width,
+            outer_height,
+        ),
+    ):
+        flange = Box(flange_depth, width, height).locate(
+            Location((front_x - 34.0, y, z))
+        )
+        flange.color = COLOR_FIBERGLASS_CAST_SHADOW
+        flange.label = label
+        out.append(flange)
+
+    seam_specs = (
+        (0.0, 2710.0, 1620.0, COWL_CAST_SPLIT_GAP_MM),
+        (0.0, 860.0, 1540.0, COWL_CAST_SPLIT_GAP_MM),
+        (-746.0, window_centre_z, COWL_CAST_SPLIT_GAP_MM, 1880.0),
+        (746.0, window_centre_z, COWL_CAST_SPLIT_GAP_MM, 1880.0),
+    )
+    for y, z, width, height in seam_specs:
+        seam = Box(18.0, width, height).locate(Location((front_x + 30.0, y, z)))
+        seam.color = COLOR_CAST_SEAM
+        seam.label = "Black gasketed fiberglass cowl split line"
+        out.append(seam)
+
+    return out
 
 
 def _sensor_window_inserts() -> list[Part]:
@@ -417,15 +597,18 @@ def sensor_cowl(
     """
     parts: list[Part | Compound] = []
     parts.append(_cowl_shell(car_width_mm, car_height_mm))
+    parts.extend(_fiberglass_cast_parts(car_width_mm))
     parts.extend(_sensor_window_inserts())
     parts.extend(_cowl_engineering(car_width_mm))
     parts.extend(_headlight_inserts())
     parts.extend(_livery_band_tapered(car_width_mm))
-    return Compound(label="Nose sensor cowl (RFC 0015)", children=parts)
+    return Compound(label="Identical A/B-end fiberglass sensor cowl (RFC 0015)", children=parts)
 
 
 __all__ = [
     "COWL_LENGTH_MM",
+    "COWL_CAST_SPLIT_GAP_MM",
+    "COWL_CAST_SURFACE_THICKNESS_MM",
     "HEADLIGHT_HEIGHT_MM",
     "HEADLIGHT_WIDTH_MM",
     "LEADING_FACE_HEIGHT_MM",

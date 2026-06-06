@@ -162,7 +162,9 @@ Final three-car reference consist with glass-pane end cowls, bodies, bogies, roo
 
 ![Segmented trainset end glass panes](docs/screenshots/end-glass-cowl-panes.png)
 
-Cabless front/rear cowl close-up showing three heated laminated glass panes with bonded frame, mullions, demist traces, and service hardware.
+Cabless front/rear cowl close-up showing the identical multi-part
+fiberglass end kit, three heated laminated glass panes with bonded
+frame, mullions, demist traces, and service hardware.
 
 ![Layered car body services](docs/screenshots/trainset-car-body-services.png)
 

@@ -54,9 +54,10 @@ This BOM is keyed to the visual and layout concept in
   freight trailer bogies.
 - 4 traction motors total, 600 kW peak consist output.
 - Roof solar arrays on each car, with compact end HVAC modules.
-- Wide passenger windows, segmented dark glass driverless end panes with
-  LED headlamp/marker clusters, white/silver body shell, green waist
-  band, dark skirts, and yellow door thresholds.
+- Wide passenger windows, identical multi-part fiberglass driverless end
+  cowls with segmented dark glass panes and LED headlamp/marker
+  clusters, white/silver body shell, green waist band, dark skirts, and
+  yellow door thresholds.
 - Standard bogies under every car, requiring ~3 m high-floor end decks
   over the bogies and a ~10 m low-floor centre zone with two door
   openings per side.
@@ -119,7 +120,7 @@ duty, warranty terms, or acceptance testing.
 | B5 | Shot blast + zinc-rich primer + cavity wax | set | SOURCE | 4 000 | Alibaba zinc-rich primer/blast proxy; corrosion package |
 | B6 | Composite side sandwich panels, fire-rated | 150 m² | BID | 9 000 | Alibaba fire-rated panel anchor; GFRP/basalt FR sandwich needs EN 45545 evidence |
 | B7 | Composite roof fairings + skirts | 95 m² | BID | 4 000 | Alibaba fire-rated/composite-panel anchor; removable service panels |
-| B8 | Composite end-glass sensor cowl shells | 2 | BID | 4 000 | Alibaba FRP/composite proxy; accepts segmented panoramic glass panes and LED lamp clusters |
+| B8 | Multi-part fiberglass A/B-end sensor cowl cast kits | 2 | BID | 4 000 | Alibaba FRP/composite proxy; CWL-FRP-01 through CWL-FRP-06 cast kit accepts segmented panoramic glass panes, LED lamp clusters, washer/heater service hatches, and T-OBS aperture |
 | B9 | Complete inter-car articulation/gangway module | 2 | BID | 30 000 | Alibaba train-gangway anchor; lower pivot, upper links, bellows, turntable floor |
 | B10 | COTS laminated safety-glass window cassette | 18 | SOURCE | 6 000 | Alibaba laminated transport-glass anchor; bonded/gasketed rail-style cassette |
 | B11 | COTS electric plug/sliding door cassette | 12 | BID | 90 000 | Alibaba sliding-door-system proxy; door, controller, obstruction sensors, seals, emergency release |

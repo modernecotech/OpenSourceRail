@@ -10,7 +10,7 @@ Regenerate from the repository root with:
 python3 scripts/generate-doc-index.py
 ```
 
-Indexed Markdown files: **434**.
+Indexed Markdown files: **436**.
 
 ## Sections
 
@@ -19,7 +19,7 @@ Indexed Markdown files: **434**.
 | [Repository Root](#repository-root) | 2 |
 | [crates](#crates) | 3 |
 | [designs](#designs) | 264 |
-| [docs](#docs) | 115 |
+| [docs](#docs) | 117 |
 | [formal](#formal) | 2 |
 | [hardware](#hardware) | 36 |
 | [lib](#lib) | 3 |
@@ -378,6 +378,7 @@ Indexed Markdown files: **434**.
 | [`docs/operations/station-staff/t4-fare-enforcement.md`](../docs/operations/station-staff/t4-fare-enforcement.md) | T4 — Fare enforcement |
 | [`docs/operations/station-staff/t5-station-closure.md`](../docs/operations/station-staff/t5-station-closure.md) | T5 — Station closure |
 | [`docs/operations/validation-checklist.md`](../docs/operations/validation-checklist.md) | Operations Validation Checklist |
+| [`docs/outreach/open-source-rail-outreach-contacts.md`](../docs/outreach/open-source-rail-outreach-contacts.md) | OpenSourceRail Outreach Contacts |
 | [`docs/rfcs/0001-track-state-consensus.md`](../docs/rfcs/0001-track-state-consensus.md) | RFC 0001 — Track State Consensus |
 | [`docs/rfcs/0002-energy-sizing.md`](../docs/rfcs/0002-energy-sizing.md) | RFC 0002 — Energy Sizing for a Reference Light Metro Line |
 | [`docs/rfcs/0003-samawah-reference-deployment.md`](../docs/rfcs/0003-samawah-reference-deployment.md) | RFC 0003 — Samawah Urban Rail: Reference Deployment |
@@ -415,6 +416,7 @@ Indexed Markdown files: **434**.
 | [`docs/rolling-stock/light-metro-3car/compliance.md`](../docs/rolling-stock/light-metro-3car/compliance.md) | Compliance matrix — `light-metro-3car` |
 | [`docs/rolling-stock/light-metro-3car/cots-integration.md`](../docs/rolling-stock/light-metro-3car/cots-integration.md) | COTS Integration And Part Delineation |
 | [`docs/rolling-stock/light-metro-3car/drawing-register.md`](../docs/rolling-stock/light-metro-3car/drawing-register.md) | Drawing and evidence register — `light-metro-3car` |
+| [`docs/rolling-stock/light-metro-3car/end-cowl.md`](../docs/rolling-stock/light-metro-3car/end-cowl.md) | Identical fiberglass end-cowl design |
 | [`docs/rolling-stock/light-metro-3car/fabrication-plan.md`](../docs/rolling-stock/light-metro-3car/fabrication-plan.md) | Fabrication plan — `light-metro-3car` |
 | [`docs/rolling-stock/light-metro-3car/general-arrangement.md`](../docs/rolling-stock/light-metro-3car/general-arrangement.md) | General arrangement — `light-metro-3car` |
 | [`docs/rolling-stock/light-metro-3car/interfaces.md`](../docs/rolling-stock/light-metro-3car/interfaces.md) | Interfaces — `light-metro-3car` |

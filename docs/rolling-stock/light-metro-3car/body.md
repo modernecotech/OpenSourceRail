@@ -112,7 +112,7 @@ frame:
 |---|---|---|
 | Side skin | 25-35 mm fire-rated GFRP or basalt-fibre sandwich | Structural adhesive + M6/M8 retained fasteners |
 | Roof fairing | 20-30 mm composite sandwich | Bolted to roof bows; removable above HVAC/equipment |
-| Nose/sensor cowl | Moulded composite shell over steel crash frame | Bolted; sacrificial and replaceable; segmented heated RF-transparent end glass panes with LED headlamp/marker clusters |
+| Nose/sensor cowl | Multi-part fiberglass (GFRP) cast kit over steel crash frame | Identical at both train ends; bolted, sacrificial, and replaceable; segmented heated RF-transparent end glass panes with LED headlamp/marker clusters |
 | Skirts | Composite or aluminium removable panels | Quarter-turn service fasteners |
 | Interior liners | EN 45545 HL2 FRP or phenolic panels | Clip/bolt to secondary rails |
 
@@ -120,6 +120,12 @@ The composite supplier owns laminate coupons, resin selection, fire
 test evidence, and repair manuals. The OSR body drawing owns only
 panel envelopes, edge radii, insert locations, grounding/bonding
 points, and removal clearances.
+
+The front and rear exterior ends use the same A/B-end fiberglass kit:
+upper brow, left/right cheek casts, lower apron, lamp/service hatches,
+and segmented backing-ring flanges over the steel crash frame. See
+[`end-cowl.md`](end-cowl.md) for the cast split, laminate schedule,
+mould/tooling rules, and glass/sensor service interfaces.
 
 ## COTS windows
 

@@ -13,7 +13,7 @@ The train is built from three repeated 17 m car modules:
 
 | Zone | Fabricated parts | COTS / BID modules | Parametric source |
 |---|---|---|---|
-| End cowls | Steel crash frame, cowl backing ring, segmented panoramic glass carrier, LED lamp brackets | Dark RF-transparent laminated end glass panes, T-OBS LIDAR/radar/camera/ultrasonic pack, LED headlamps, marker/DRL bars, washer/heater | [`sensor_cowl.py`](../../../mechanical-py/src/osr_mech/rolling_stock/sensor_cowl.py), [`systems.py`](../../../mechanical-py/src/osr_mech/rolling_stock/systems.py) |
+| End cowls | Steel crash frame, multi-part fiberglass A/B-end cowl casts, cowl backing ring, segmented panoramic glass carrier, LED lamp brackets | Dark RF-transparent laminated end glass panes, T-OBS LIDAR/radar/camera/ultrasonic pack, LED headlamps, marker/DRL bars, washer/heater | [`end-cowl.md`](end-cowl.md), [`sensor_cowl.py`](../../../mechanical-py/src/osr_mech/rolling_stock/sensor_cowl.py), [`systems.py`](../../../mechanical-py/src/osr_mech/rolling_stock/systems.py) |
 | Body side | S355 side frame, two door portals per side, window rail, waist rail, composite skin | Window cassettes, door cassettes, green livery band, yellow thresholds | [`car_body.py`](../../../mechanical-py/src/osr_mech/rolling_stock/car_body.py) |
 | Stepped floor | Dropped ~10 m low-floor centre pan, ~3 m raised bogie-end deck supports, side plinth rails, transition steps | Phenolic/aluminium floor boards, rubber covering, step nosings, PRM floor finish | [`car_body.py`](../../../mechanical-py/src/osr_mech/rolling_stock/car_body.py), [`cad_templates/rolling_stock.py`](../../../mechanical-py/src/osr_mech/cad_templates/rolling_stock.py) |
 | Roof | Roof bows, PV/HVAC rails, bonded-pad lands, cable tray brackets, composite fairings | Bonded flexible PV laminates, raised rigid panels on clamped rails, MPPT combiner, compact HVAC units, antennas | [`car_body.py`](../../../mechanical-py/src/osr_mech/rolling_stock/car_body.py), [`systems.py`](../../../mechanical-py/src/osr_mech/rolling_stock/systems.py) |
@@ -61,6 +61,7 @@ install COTS modules late, then close the train with test evidence.
 | Part family | Visible in design | Procurement line(s) | Source of truth |
 |---|---|---|---|
 | Windows | Dark side glazing rectangles in side walls | B10 | `car_body.py`, `cots_equipment.py` |
+| Fiberglass end-cowl casts | Identical A/B-end upper brow, cheek casts, lower apron, backing-ring flanges, and lamp/service hatches | B8 | `end-cowl.md`, `sensor_cowl.py` |
 | Doors | Two double-leaf black doors with yellow thresholds per car side | B11, B25 | `car_body.py`, `systems.py` |
 | Solar panels and charge inverter | Mixed bonded/raised roof PV modules, roof combiner, charge inverter in every car systems rack | T21, T22, T23 | `car_body.py`, `systems.py` |
 | HVAC systems | Compact grey roof modules at car ends | T14 | `car_body.py`, `cots_equipment.py` |
