@@ -73,6 +73,14 @@ def test_every_station_appears() -> None:
     produced = convert(xml_path, _meta())
     station_count = produced.count("[[station]]")
     assert station_count == 3, f"expected exactly 3 station rows, got {station_count}"
+    assert produced.count("platform_length_m = 61.000") == 3
+
+
+def test_station_platform_default_can_be_overridden() -> None:
+    """Civil packages may safeguard a longer local platform."""
+    xml_path = SAMPLES / "samawah-line1.xml"
+    produced = convert(xml_path, _meta(), platform_length_default_m=75.0)
+    assert produced.count("platform_length_m = 75.000") == 3
 
 
 def test_civil_placeholder_covers_full_length() -> None:

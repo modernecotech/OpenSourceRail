@@ -31,25 +31,23 @@ block's *site* field varies.
 
 ## Drawing list
 
-### A — Architectural (15 drawings)
+### A — Architectural (13 drawings)
 
 | No. | Title | Scale | Size | Input |
 |---|---|---|---|---|
 | OSR-STD-A-001 | Site plan + ROW | 1:500 | A1 | Envelope §Plan |
 | OSR-STD-A-002 | Platform plan (both platforms) | 1:100 | A1 | Envelope §Plan |
-| OSR-STD-A-003 | Ticket-hall plan | 1:50 | A1 | Envelope §Sub-areas |
+| OSR-STD-A-003 | Fare/TVM plinth plan | 1:50 | A1 | Envelope §Sub-areas |
 | OSR-STD-A-004 | Typical cross-section | 1:50 | A1 | Envelope §Section |
 | OSR-STD-A-005 | Longitudinal section | 1:100 | A1 | Envelope §Sub-areas |
-| OSR-STD-A-006 | West-end elevation (ticket hall) | 1:50 | A1 | Envelope §Sub-areas |
+| OSR-STD-A-006 | West-end elevation (fare/TVM plinths) | 1:50 | A1 | Envelope §Sub-areas |
 | OSR-STD-A-007 | East-end elevation (emergency egress) | 1:50 | A1 | Envelope §Egress |
 | OSR-STD-A-008 | Canopy plan | 1:100 | A1 | Canopy §Geometry |
 | OSR-STD-A-009 | Canopy section | 1:50 | A1 | Canopy §Structural system |
 | OSR-STD-A-010 | Fare-zone plan (paid / unpaid) | 1:100 | A1 | Envelope §Fare paid/unpaid |
 | OSR-STD-A-011 | Platform-edge detail (tactile + coping) | 1:10 | A3 | Accessibility §Tactile paving |
-| OSR-STD-A-012 | Ramp + stair details | 1:20 | A3 | Envelope §Access modes |
-| OSR-STD-A-013 | Lift-shaft plan + section | 1:50 | A1 | Envelope §Access modes + Accessibility |
-| OSR-STD-A-014 | Door + frame schedule | n/a (table) | A1 | |
-| OSR-STD-A-015 | Interior finishes schedule | n/a (table) | A1 | Services §Signage |
+| OSR-STD-A-012 | Local approach grading details (if needed) | 1:20 | A3 | Envelope §Access modes |
+| OSR-STD-A-013 | Equipment plinth + cabinet enclosure schedule | n/a (table) | A1 | Services §Signage |
 
 ### S — Structural (8 drawings)
 
@@ -61,17 +59,17 @@ block's *site* field varies.
 | OSR-STD-S-004 | Canopy truss plan | 1:100 | A1 | Canopy §Truss spans |
 | OSR-STD-S-005 | Weld details + bolt tables | 1:5 | A3 | Canopy §Structural system |
 | OSR-STD-S-006 | Platform slab reinforcement | 1:100 | A1 | |
-| OSR-STD-S-007 | Ticket-hall structural frame | 1:50 | A1 | |
+| OSR-STD-S-007 | Fare/TVM plinth anchorage | 1:50 | A1 | |
 | OSR-STD-S-008 | Seismic-bracing plan (when PGA > 0.2 g) | 1:100 | A1 | Canopy §Seismic load |
 
 ### M — Mechanical (5 drawings)
 
 | No. | Title | Scale | Size | Input |
 |---|---|---|---|---|
-| OSR-STD-M-001 | Ticket-hall HVAC layout + ductwork | 1:50 | A1 | Services §HVAC |
+| OSR-STD-M-001 | Services-cabinet cooling layout | 1:50 | A1 | Services §HVAC |
 | OSR-STD-M-002 | Platform drainage — trough + downspout | 1:100 | A1 | Services §Drainage |
 | OSR-STD-M-003 | Canopy-drainage layout | 1:100 | A1 | Services §Drainage |
-| OSR-STD-M-004 | Lift-machinery spec | n/a | A3 | Envelope §Access modes |
+| OSR-STD-M-004 | Local ramp/kerb interface spec (if needed) | n/a | A3 | Envelope §Access modes |
 | OSR-STD-M-005 | Accessible-toilet plumbing (if fitted per operator) | 1:20 | A3 | Services §Utilities |
 
 ### E — Electrical (8 drawings)

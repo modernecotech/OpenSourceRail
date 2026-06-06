@@ -46,17 +46,17 @@ pub struct ConsistDescriptor {
 }
 
 impl ConsistDescriptor {
-    /// Reference 3-car light-metro consist per RFC 0003 §4.3.
+    /// Reference 3-car light-metro consist per RFC 0008 §1.
     pub fn reference_3car() -> Self {
         Self {
             train_class: TrainClass::LightMetro,
             car_count: 3,
-            length_mm: 65_000,
+            length_mm: 51_000,
             mass_kg: 195_000,
             max_speed_mps: 22.0, // ≈ 80 km/h
             braking: BrakingCurve::light_metro_default(),
             service_accel_mps2: 1.0, // typical light metro service accel
-            has_pantograph: true, // pantograph is for opportunity charging only
+            has_pantograph: false, // side-pin is the default station charger
             battery_capacity_wh: 900_000,
         }
     }

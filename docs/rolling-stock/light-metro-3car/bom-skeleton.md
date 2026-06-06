@@ -55,7 +55,7 @@ This BOM is keyed to the visual and layout concept in
 - 4 traction motors total, 600 kW peak consist output.
 - Roof solar arrays on each car, with compact end HVAC modules.
 - Wide passenger windows, identical multi-part fiberglass driverless end
-  cowls with segmented dark glass panes and LED headlamp/marker
+  cowls with one large dark panoramic glass pane and LED headlamp/marker
   clusters, white/silver body shell, green waist band, dark skirts, and
   yellow door thresholds.
 - Standard bogies under every car, requiring ~3 m high-floor end decks
@@ -120,7 +120,7 @@ duty, warranty terms, or acceptance testing.
 | B5 | Shot blast + zinc-rich primer + cavity wax | set | SOURCE | 4 000 | Alibaba zinc-rich primer/blast proxy; corrosion package |
 | B6 | Composite side sandwich panels, fire-rated | 150 m² | BID | 9 000 | Alibaba fire-rated panel anchor; GFRP/basalt FR sandwich needs EN 45545 evidence |
 | B7 | Composite roof fairings + skirts | 95 m² | BID | 4 000 | Alibaba fire-rated/composite-panel anchor; removable service panels |
-| B8 | Multi-part fiberglass A/B-end sensor cowl cast kits | 2 | BID | 4 000 | Alibaba FRP/composite proxy; CWL-FRP-01 through CWL-FRP-06 cast kit accepts segmented panoramic glass panes, LED lamp clusters, washer/heater service hatches, and T-OBS aperture |
+| B8 | Multi-part fiberglass A/B-end sensor cowl cast kits | 2 | BID | 4 000 | Alibaba FRP/composite proxy; CWL-FRP-01 through CWL-FRP-06 cast kit accepts one bonded panoramic glass pane, LED lamp clusters, washer/heater service hatches, and T-OBS aperture |
 | B9 | Complete inter-car articulation/gangway module | 2 | BID | 30 000 | Alibaba train-gangway anchor; lower pivot, upper links, bellows, turntable floor |
 | B10 | COTS laminated safety-glass window cassette | 18 | SOURCE | 6 000 | Alibaba laminated transport-glass anchor; bonded/gasketed rail-style cassette |
 | B11 | COTS electric plug/sliding door cassette | 12 | BID | 90 000 | Alibaba sliding-door-system proxy; door, controller, obstruction sensors, seals, emergency release |
@@ -139,7 +139,7 @@ duty, warranty terms, or acceptance testing.
 | B24 | Inter-car energy-guidance trainline and service-loop kit | 2 | SOURCE | 4 000 | Commodity HV jumper/cable-chain anchor; TCN-E, CAN-FD, 24 V, 110 V, EB loop, coolant, HVAC sleeve |
 | B25 | Door sill gap-filler + external emergency release kit | 12 | BID | 6 000 | Commodity actuator anchor plus door-safety qualification; per exterior door cassette |
 | B26 | Jacking, lifting, towing, and recovery fittings | set | MAKE | 3 000 | Alibaba machined/welded steel proxy; welded pads, tow eyes, labels |
-| B27 | Segmented laminated glass end-pane assemblies | 2 | BID | 10 000 | Alibaba train curved/laminated glass anchor; RF-transparent heated/de-iced end glazing still needs RFQ |
+| B27 | Single laminated panoramic end-glass assemblies | 2 | BID | 10 000 | Alibaba train curved/laminated glass anchor; RF-transparent heated/de-iced end glazing still needs RFQ |
 | B28 | Concept livery package: white/silver body, green band, yellow thresholds | set | SOURCE | 2 000 | Alibaba vinyl/paint-mask anchor; exterior decals and safety edging |
 | B29 | Articulation adapter-frame steel, anti-lift, and shim kit | 2 | MAKE | 6 000 | Marketplace machined-steel proxy; underframe anchors, clevis brackets, shear-key datums, machined shims |
 | **Body + interior subtotal** | | | | **235 200** | |

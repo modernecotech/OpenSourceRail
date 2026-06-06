@@ -9,16 +9,18 @@ stations in the deployment.
 
 **Reference consist:** `light-metro-3car` per RFC 0008.
 **Platform clearance:** 10 m per RFC 0010 §4.1.
-**Platform length:** 65 + 10 = **75 m**.
+**Generic platform length:** 51 + 10 = **61 m**.
+**Samawah build allowance:** **75 m** safeguarded civil length for
+local clearance and later fleet growth.
 
 ## Contents
 
 | File | Scope |
 |---|---|
-| [`envelope.md`](envelope.md) | Plan + section geometry, vertical circulation, egress |
+| [`envelope.md`](envelope.md) | Plan + section geometry, ground-level access, egress |
 | [`canopy.md`](canopy.md) | Solar canopy structural envelope + PV sizing + first-pass load calc |
 | [`accessibility.md`](accessibility.md) | Step-free path, tactile paving, wheelchair zones, audio+visual per EN 16586 |
-| [`services.md`](services.md) | HVAC (ticket hall only), lighting, fire, drainage, signage |
+| [`services.md`](services.md) | Lighting, fire, drainage, small service cabinet, signage |
 | [`compliance.md`](compliance.md) | Standards matrix (NFPA 130 egress, EN 12464-2 lighting, etc.) |
 
 ## Why this is repeatable

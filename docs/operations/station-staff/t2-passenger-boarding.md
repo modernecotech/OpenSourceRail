@@ -3,7 +3,7 @@
 **Scope:** platform supervision during revenue hours. PSD
 monitoring, wheelchair assistance, queue regulation.
 
-**Cross-refs:** RFC 0010 §§5, 7 (vertical circulation,
+**Cross-refs:** RFC 0010 §§5, 7 (access/circulation,
 accessibility), RFC 0013 §4.3 T2.
 
 ## Rules

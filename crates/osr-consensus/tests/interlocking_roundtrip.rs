@@ -18,6 +18,8 @@ use osr_interlocking::log::{
 };
 use osr_core::{Direction, EntryId, SectionId};
 
+const REFERENCE_3CAR_LENGTH_MM: i64 = 51_000;
+
 fn registration_entry(id: u64, train: u64) -> Entry {
     Entry {
         entry_id: EntryId::new(id),
@@ -49,7 +51,7 @@ fn position_report_entry(id: u64, train: u64, offset: i64) -> Entry {
             }),
             tail_position: Position::certain(TrackRef {
                 section: SectionId::new(1000),
-                offset_mm: (offset - 65_000).max(0),
+                offset_mm: (offset - REFERENCE_3CAR_LENGTH_MM).max(0),
                 direction: Direction::Forward,
             }),
             speed_mmps: 15_000,

@@ -17,15 +17,15 @@ from osr_mech.station.solar_roof import panel_kwp
 @pytest.mark.parametrize(
     "archetype, consist, expected_min_bays, expected_max_bays",
     [
-        # Standard station × light-metro-3car = 67 m / 6 m ≈ 12 bays.
-        (StationArchetype.STANDARD, ConsistFamily.LIGHT_METRO_3CAR, 12, 14),
+        # Standard station × light-metro-3car = 61 m / 6 m ≈ 11 bays.
+        (StationArchetype.STANDARD, ConsistFamily.LIGHT_METRO_3CAR, 11, 12),
         # Major = standard + 2 waiting-area bays.
-        (StationArchetype.MAJOR, ConsistFamily.LIGHT_METRO_3CAR, 14, 16),
+        (StationArchetype.MAJOR, ConsistFamily.LIGHT_METRO_3CAR, 13, 14),
         # Terminal = standard + 4 end-screen bays.
-        (StationArchetype.TERMINAL, ConsistFamily.LIGHT_METRO_3CAR, 16, 18),
+        (StationArchetype.TERMINAL, ConsistFamily.LIGHT_METRO_3CAR, 15, 16),
         # Metro-4car = 85 m / 6 m ≈ 15 bays.
         (StationArchetype.STANDARD, ConsistFamily.METRO_4CAR, 14, 16),
-        # Halt = 0.4 × 67 m = 26.8 m → 5 bays.
+        # Halt = 0.4 × 61 m = 24.4 m → 5 bays.
         (StationArchetype.HALT, ConsistFamily.LIGHT_METRO_3CAR, 4, 6),
     ],
 )
@@ -42,8 +42,8 @@ def test_bay_counts(
 
 
 def test_standard_canopy_generates_tens_of_kwp() -> None:
-    # A 13-bay canopy at 6 m × 4.2 m per bay × 200 W/m² × 0.85 pack
-    # factor ≈ 55 kWp — plenty to cover daytime station demand.
+    # An 11-bay canopy at 6 m × 4.2 m per bay × 200 W/m² × 0.85 pack
+    # factor ≈ 47 kWp — plenty to cover daytime station demand.
     kwp = canopy_kwp(StationArchetype.STANDARD, ConsistFamily.LIGHT_METRO_3CAR)
     assert 40.0 <= kwp <= 70.0, f"standard canopy PV = {kwp:.1f} kWp, expected 40–70"
 

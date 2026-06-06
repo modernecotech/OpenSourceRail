@@ -12,8 +12,8 @@ stamped drawings.
 
 | Parameter | Value |
 |---|---|
-| Canopy footprint (roof area) | 1 800 m² (canopied platform + eave) |
-| Length (along track) | 77 m (67 m platform + 5 m each end eave) |
+| Canopy footprint (roof area) | ~1 870 m² Samawah safeguarded roof; 1 800 m² archetype template target |
+| Length (along track) | 85 m (75 m safeguarded platform + 5 m each end eave) |
 | Width | ~22 m spanning both platforms + track between |
 | Height above platform | 2 200 mm clear (min), 3 800 mm roof peak above ToR |
 | Pitch | 7° south-facing (Samawah is N of equator) |

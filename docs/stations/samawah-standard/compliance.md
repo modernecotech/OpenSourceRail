@@ -23,8 +23,8 @@ approvals overlay — those are per-country and not repeated here.
 | **EN 16586** | PRM (Persons with Reduced Mobility) | [`accessibility.md`](accessibility.md) (v1 ✓) |
 | **ISO 23599** | Tactile walking-surface indicators | Applied throughout [`accessibility.md`](accessibility.md) |
 | **ISO 7001** | Public-information pictograms | Applied in [`services.md`](services.md) signage |
-| **ISO 21542** | Building construction — accessibility | Ramp 1:12 max, lift sizing, etc. |
-| **EN 81-70** | Lifts accessible to persons with disabilities | Lift spec'd at 1 100 × 1 400 mm with 900 mm door (v1) |
+| **ISO 21542** | Building construction — accessibility | Flat pedestrian-grade access; local ramps only where site grading requires them |
+| **EN 81-70** | Lifts accessible to persons with disabilities | n/a for flat at-grade `standard`; applies to elevated/stacked overrides |
 
 ## Electrical + MEP
 
@@ -74,7 +74,7 @@ A `standard` station's pre-opening sign-off checklist:
    to train door on both platforms — no step, no gap > spec.
 3. **Emergency lighting:** simulate mains-fail; confirm 1-hour
    battery operation of exit signs + egress lighting.
-4. **Fire alarm:** test smoke pot in ticket hall → OCC alarm
+4. **Fire alarm:** test services-cabinet detector → OCC alarm
    ≤ 30 s latency.
 5. **PIS:** next-train information updates correctly from the
    OCC's mock schedule.
@@ -99,5 +99,5 @@ Checklist lands with actual pass/fail values in the deployment's
 
 - Stamped structural calculations (v2).
 - Product-specific equipment selections (operator discretion).
-- Specific lift-service contracts (operator procurement).
+- Specific lift-service contracts (only for elevated/stacked overrides).
 - National approval-body sign-off procedure (per-deployment).

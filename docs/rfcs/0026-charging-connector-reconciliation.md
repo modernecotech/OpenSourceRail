@@ -62,9 +62,10 @@ connector is the new piece this RFC commits.
 
 **Why side-pin over pantograph:** OSR is already a level-boarding system
 (350 mm low floor, platform-edge gap < 100 mm). The platform-edge
-geometry is dimensionally controlled to ± 5 mm by the precast L-unit
-([RFC 0010](0010-station-design-standard.md)). The side-pin reuses
-this precision rather than adding a roof-level alignment problem.
+geometry is dimensionally controlled to ± 5 mm by the ground-level
+platform slab and drained guideway channel ([RFC 0010](0010-station-design-standard.md)).
+The side-pin reuses this precision rather than adding a roof-level
+alignment problem.
 Pantograph-down also imposes a structural-load case on the canopy
 that the current portal-frame catenary-free design ([RFC 0010 §X](0010-station-design-standard.md))
 explicitly avoids.

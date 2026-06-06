@@ -283,10 +283,10 @@ keeps the narrative summary.
 
 The elevated-junction premium in §9.1 covers the viaduct + upper
 deck at interchanges; the table above covers the at-grade lower
-platform, ordinary pedestrian overbridge/concourse access, and vertical
-circulation. Standard and larger stations assume passengers need a safe
-cross-corridor access bridge to reach central or median platforms; halts
-carry a smaller protected-crossing or compact-access allowance.
+platform, ground-level pedestrian access, and protected crossing
+equipment where needed. Overbridges, lifts, and stairs are not the
+standard station assumption; they are carried only by elevated/stacked
+sites or local road-barrier overrides.
 
 ### 9.3 Depots (RFC 0014 archetype catalogue)
 
@@ -425,7 +425,7 @@ civil contractor can mobilise.
 | **v2.1** ✅ | Extend `[costs]` to the full CAPEX stack — stations (RFC 0010 archetypes), depots (RFC 0014 archetypes), rolling stock (RFC 0008 families), GoA 4 onboard autonomy/residual wayside train control, station/depot charging microgrids, and EPC overhead. The `total_eur` compatibility mirror became the full one-number headline, not just civil works (done 2026-04-26; renamed `power_eur` to `charging_microgrid_eur` in schema v2 on 2026-05-01) | v2 |
 | **v2.2** ✅ | Move the source cost basis to USD direct-procurement planning rates, add `*_usd` fields, keep `*_eur` mirrors, and drop EPC overhead to 7 % (done 2026-06-04). | v2.1 |
 | **v2.3** ✅ | Add the city railway production-plant setup bucket at 100 000 USD per vehicle/car module, with 200 000 USD per vehicle/car module retained as a high sensitivity check (done 2026-06-05). | v2.2 |
-| **v3** ✅ (partial) | Parametric U-girder at [`mechanical-py/src/osr_mech/civil/ugirder.py`](../../mechanical-py/src/osr_mech/civil/ugirder.py) with 20 / 25 / 30 m spans under the one-mould constraint (done 2026-04-22); tracked review artifacts now use compact FreeCAD/PNG outputs, with local neutral CAD export available only when a partner toolchain requires it. Precast L-unit platform edge at [`mechanical-py/src/osr_mech/civil/platform_l_unit.py`](../../mechanical-py/src/osr_mech/civil/platform_l_unit.py). Remaining for v3 full-complete: pier + abutment parametric kits + CERN-OHL-S v2 relicensing of the catalogue tree. | v0 |
+| **v3** ✅ (partial) | Parametric U-girder at [`mechanical-py/src/osr_mech/civil/ugirder.py`](../../mechanical-py/src/osr_mech/civil/ugirder.py) with 20 / 25 / 30 m spans under the one-mould constraint (done 2026-04-22); tracked review artifacts now use compact FreeCAD/PNG outputs, with local neutral CAD export available only when a partner toolchain requires it. The previous precast L-unit platform edge is retained only as a legacy/elevated option; the default at-grade station uses a ground-level slab plus lowered guideway channel per RFC 0010. Remaining for v3 full-complete: pier + abutment parametric kits + CERN-OHL-S v2 relicensing of the catalogue tree. | v0 |
 | **v4** | Worked civil design for Samawah Line 1 (an 11 km at-grade stretch + 2 km elevated over the existing rail corridor + 1 km bridge over the Euphrates approach) | v3, RFC 0003 |
 | **v5** | First-article viaduct erected at the Samawah pilot | v3 |
 

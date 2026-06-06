@@ -66,8 +66,8 @@ def _minimal_good() -> dict:
             {"from_station_m": 0.0, "to_station_m": 1000.0, "class": "at-grade"},
         ],
         "station": [
-            {"id": "s-a", "station_m": 0.0, "platform_length_m": 75.0},
-            {"id": "s-b", "station_m": 1000.0, "platform_length_m": 75.0},
+            {"id": "s-a", "station_m": 0.0, "platform_length_m": 61.0},
+            {"id": "s-b", "station_m": 1000.0, "platform_length_m": 61.0},
         ],
     }
 
@@ -121,7 +121,7 @@ def test_h5_unknown_station_id_fails() -> None:
     doc = _minimal_good()
     # "s-c" is not in the design.toml set.
     doc["station"].append(
-        {"id": "s-c", "station_m": 500.0, "platform_length_m": 75.0}
+        {"id": "s-c", "station_m": 500.0, "platform_length_m": 61.0}
     )
     r = validate(doc, known_station_ids={"s-a", "s-b"})
     assert not r.ok

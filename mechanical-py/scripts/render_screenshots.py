@@ -55,7 +55,7 @@ DEFAULT_COLOR = (0.82, 0.82, 0.85, 1.0)
 
 ROOT_SCREENSHOT_PATTERNS = (
     "station-canopy.png",
-    "end-glass-cowl-panes.png",
+    "end-glass-cowl*.png",
     "trainset-*.png",
     "bogie-*.png",
 )
@@ -153,6 +153,20 @@ def _leaf_solids(node) -> list:
     space geometry, then pair each Solid with the nearest anytree
     leaf's label + colour by matching centroid locations.
     """
+    if getattr(node, "wrapped", None) is None:
+        solids: list = []
+
+        def rec_anytree(n):
+            children = getattr(n, "children", None)
+            if children:
+                for child in children:
+                    rec_anytree(child)
+                return
+            solids.append(n)
+
+        rec_anytree(node)
+        return solids
+
     # Anytree leaves → (label, color, centroid).
     anytree_meta = _collect_anytree_meta(node)
 
@@ -463,15 +477,16 @@ def render_all(out_root: Path) -> None:
     )
 
     # 2. Driverless end cowl close-up — a compact view where the
-    # segmented glass panes are legible before the full consist view.
+    # single panoramic glass face is legible before the full consist view.
     _render(
         sensor_cowl(),
-        out_root / "end-glass-cowl-panes.png",
+        out_root / "end-glass-cowl.png",
         tolerance_mm=5.0,
         elev=3,
         azim=0,
         figsize=(8, 5),
         dpi=180,
+        alpha_override={"aerodynamic envelope": 0.18},
     )
 
     # 3. Reference trainset — light-metro 3-car, cabless symmetric.

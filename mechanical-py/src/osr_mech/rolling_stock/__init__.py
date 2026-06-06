@@ -3,8 +3,8 @@
 Every trainset in the OpenSourceRail default configuration ships as
 GoA 4 (unattended) with no driver cab. The geometry reflects that:
 
-- Both train ends are symmetrical multi-part fiberglass cowls with
-  segmented glass panes: passengers can see through the driverless
+- Both train ends are symmetrical multi-part fiberglass cowls with one
+  large dark glass face: passengers can see through the driverless
   front/back, while the same heated RF-transparent glazing carries the
   T-OBS sensor sightline and LED headlamp / marker-light clusters per
   RFC 0015 §5.1.
@@ -21,7 +21,7 @@ Scope for v0.1:
                        HV/PV, thermal, and fire-routing layers.
 - `bogie`           — detailed 2-axle motor/trailer bogie assemblies.
 - `sensor_cowl`     — identical A/B-end fiberglass cowl casts with
-                       segmented driverless end glass panes, T-OBS
+                       single driverless panoramic end glass, T-OBS
                        aperture, LED headlamps, marker lights, and
                        livery band.
 - `systems`         — supplier-neutral envelopes for couplers,

@@ -255,7 +255,7 @@ def _train_y(doc, group, *, x_center: float, y_center: float, bottom_z: float, c
 
 
 def _build_at_grade_scene(doc):
-    group = _group(doc, "At-grade side-platform station")
+    group = _group(doc, "At-grade ground-level side-platform station")
     _ground(doc, group, 86, 38)
     _add_boxes(
         doc,
@@ -265,11 +265,16 @@ def _build_at_grade_scene(doc):
             Box("parallel urban road south", (0, 12.0, 0.01), (86, 5.2, 0.03), "road"),
         ],
     )
-    _double_track(doc, group, length=72, z=0.0)
-    _platform_pair(doc, group, length=58, z=0.0, y_centers=(-5.0, 5.0))
-    _canopies(doc, group, length=50, z=1.0, y_centers=(-5.0, 5.0))
-    _access_bridge(doc, group, x=-10.0, span_y=26.0, z=5.35)
-    _train_x(doc, group, x_center=7.0, y_center=-1.75, bottom_z=0.85)
+    # Rail datum is below the pedestrian-grade platform slab; the station
+    # keeps level boarding without a raised access structure.
+    _double_track(doc, group, length=72, z=-0.84)
+    _platform_pair(doc, group, length=58, z=0.0, y_centers=(-5.0, 5.0), height=0.16)
+    _canopies(doc, group, length=50, z=0.16, y_centers=(-5.0, 5.0))
+    _add_box(doc, group, Box("north ground-level fare gate plinth", (-19.0, -5.0, 0.20), (6.0, 0.75, 0.24), "access", 10))
+    _add_box(doc, group, Box("south ground-level fare gate plinth", (-19.0, 5.0, 0.20), (6.0, 0.75, 0.24), "access", 10))
+    _add_box(doc, group, Box("west pedestrian forecourt paving", (-23.5, 0.0, 0.03), (8.0, 22.0, 0.06), "ground"))
+    _add_box(doc, group, Box("services cabinet under canopy", (-22.0, 8.2, 0.75), (2.2, 1.2, 1.5), "core", 8))
+    _train_x(doc, group, x_center=7.0, y_center=-1.75, bottom_z=0.01)
     return group
 
 

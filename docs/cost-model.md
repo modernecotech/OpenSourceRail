@@ -96,12 +96,12 @@ plant, bespoke station architecture, and contractor-led EPC margin.
 
 ## Stations
 
-Station costs are prefab portal-frame canopy + precast platform edge +
-ordinary median/platform access works + commodity vertical circulation +
-simple MEP/signs/CCTV/fare gates. Standard and larger urban stations
-include a covered pedestrian overbridge or concourse to reach central
-platforms safely from both sides of the street or corridor; halts carry a
-smaller protected-crossing/compact-access allowance.
+Station costs are prefab portal-frame canopy + ground-level platform
+slab/guideway channel + direct pedestrian access + simple
+MEP/signs/CCTV/fare gates. Overbridges, lifts, stairs, and concourses
+are not the default at-grade station assumption; they appear only where
+an elevated/stacked interchange or local road-barrier override requires
+them.
 
 | Station archetype | Unit cost |
 |---|---:|

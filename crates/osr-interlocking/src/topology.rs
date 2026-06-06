@@ -149,7 +149,7 @@ pub fn far_end_of(network: &Network, section: SectionId, direction: Direction) -
 /// Simplification (v1): walks backward through the line's section array,
 /// matching the head's direction. Works for both linear and ring lines.
 /// Formal verification in M3 will bound this to at most 2 sections for a
-/// 65 m consist on >= 200 m sections.
+/// 51 m reference consist on >= 200 m sections.
 pub fn footprint_from(
     network: &Network,
     head: TrackRef,
@@ -369,26 +369,28 @@ mod tests {
     #[test]
     fn footprint_single_section() {
         let net = simple_linear_network();
-        // Consist length 65 m; head at offset 100 m on section 1001 → tail also on 1001.
+        // Reference consist length 51 m; head at offset 100 m on section 1001
+        // → tail also on 1001.
         let head = TrackRef {
             section: SectionId::new(1001),
             offset_mm: 100_000,
             direction: Direction::Forward,
         };
-        let footprint = footprint_from(&net, head, 65_000);
+        let footprint = footprint_from(&net, head, 51_000);
         assert_eq!(footprint, vec![SectionId::new(1001)]);
     }
 
     #[test]
     fn footprint_crosses_section_boundary() {
         let net = simple_linear_network();
-        // Head at offset 20 m on section 1001; consist length 65 m → tail on 1000.
+        // Head at offset 20 m on section 1001; reference consist length 51 m
+        // → tail on 1000.
         let head = TrackRef {
             section: SectionId::new(1001),
             offset_mm: 20_000,
             direction: Direction::Forward,
         };
-        let footprint = footprint_from(&net, head, 65_000);
+        let footprint = footprint_from(&net, head, 51_000);
         assert_eq!(footprint, vec![SectionId::new(1001), SectionId::new(1000)]);
     }
 }

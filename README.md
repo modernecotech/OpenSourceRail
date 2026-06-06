@@ -138,7 +138,7 @@ driverless, battery electric, powered end cars plus an unpowered middle
 car, under-seat sodium-ion batteries, mixed bonded/rail-mounted roof
 solar feeding a per-car PV/station charge inverter, COTS
 doors/windows/HVAC, two low-floor door pairs per side per car, and
-T-OBS sensor packs behind segmented glass-pane noses at both ends.
+T-OBS sensor packs behind single dark panoramic-glass noses at both ends.
 
 Key links:
 
@@ -158,13 +158,13 @@ Selected generated design views:
 
 ![Complete light-metro 3-car trainset](docs/screenshots/trainset-light-metro-3car.png)
 
-Final three-car reference consist with glass-pane end cowls, bodies, bogies, roof PV, and train-level systems.
+Final three-car reference consist with panoramic-glass end cowls, bodies, bogies, roof PV, and train-level systems.
 
-![Segmented trainset end glass panes](docs/screenshots/end-glass-cowl-panes.png)
+![Single panoramic trainset end glass](docs/screenshots/end-glass-cowl.png)
 
 Cabless front/rear cowl close-up showing the identical multi-part
-fiberglass end kit, three heated laminated glass panes with bonded
-frame, mullions, demist traces, and service hardware.
+fiberglass end kit, one heated laminated panoramic glass pane, bonded
+edge frame, demist busbars, and service hardware.
 
 ![Layered car body services](docs/screenshots/trainset-car-body-services.png)
 

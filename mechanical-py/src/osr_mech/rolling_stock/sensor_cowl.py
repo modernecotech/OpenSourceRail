@@ -14,10 +14,10 @@ Geometry:
   interface) to a smaller, lower rounded rectangle at the leading
   face (1800 mm wide × 2800 mm tall). Vertical edges of the cowl
   are filleted at 200 mm to match the car body.
-- Leading face carries a segmented full-height dark panoramic glass
-  pane assembly, heated and RF-transparent, so passengers see through
-  the front/back of the driverless train while the T-OBS sensors see
-  out through the same aperture.
+- Leading face carries one large full-height dark panoramic glass pane,
+  heated and RF-transparent, so passengers see through the front/back of
+  the driverless train while the T-OBS sensors see out through the same
+  aperture. Structural support stays hidden behind the black glass edge.
 - Fiberglass pieces are non-structural sacrificial casts: upper brow,
   left/right cheeks, lower apron, removable lamp/service hatches, and
   segmented backing-ring flanges over a steel crash frame.
@@ -72,9 +72,6 @@ SENSOR_WINDOW_HEIGHT_MM = 1000.0
 SENSOR_WINDOW_INSET_MM = 80.0
 PANORAMIC_GLASS_WIDTH_MM = 1500.0
 PANORAMIC_GLASS_HEIGHT_MM = 1780.0
-PANORAMIC_GLASS_MULLION_WIDTH_MM = 56.0
-PANORAMIC_GLASS_PANE_GAP_MM = 18.0
-PANORAMIC_GLASS_SIDE_CLEARANCE_MM = 36.0
 HEADLIGHT_WIDTH_MM = 260.0
 HEADLIGHT_HEIGHT_MM = 145.0
 MARKER_LIGHT_WIDTH_MM = 420.0
@@ -131,7 +128,7 @@ def _cowl_shell(car_width_mm: float, car_height_mm: float) -> Part:
     )
     cowl = cowl - window_cut
 
-    # Headlights and marker/DRL bars — mounted below the end glass panes.
+    # Headlights and marker/DRL bars — mounted below the single end glass.
     for y_sign in (-1.0, 1.0):
         hc = Box(
             SENSOR_WINDOW_INSET_MM + 20.0,
@@ -334,48 +331,33 @@ def _fiberglass_cast_parts(car_width_mm: float) -> list[Part]:
 
 
 def _sensor_window_inserts() -> list[Part]:
-    """Dark laminated glass panes filling the end aperture.
+    """Dark laminated glass pane filling the end aperture.
 
     The trainset has no driver windscreen, but the passenger-facing
-    end is still real glazing: segmented heated glass panes with
-    RF-transparent coating for the T-OBS sensor path.
+    end is still real glazing: one heated RF-transparent bonded pane for
+    the T-OBS sensor path and the passenger forward/rearward view.
     """
     window_centre_z = 1850.0
-    pane_width = (
-        PANORAMIC_GLASS_WIDTH_MM
-        - 2.0 * PANORAMIC_GLASS_SIDE_CLEARANCE_MM
-        - 2.0 * (PANORAMIC_GLASS_MULLION_WIDTH_MM + PANORAMIC_GLASS_PANE_GAP_MM)
-    ) / 3.0
-    pane_spacing = (
-        pane_width + PANORAMIC_GLASS_MULLION_WIDTH_MM + PANORAMIC_GLASS_PANE_GAP_MM
-    )
-    out: list[Part] = []
-    for label, y in (
-        ("Left laminated panoramic end glass pane", -pane_spacing),
-        ("Centre laminated panoramic end glass pane", 0.0),
-        ("Right laminated panoramic end glass pane", pane_spacing),
-    ):
-        p = Box(
-            22.0,
-            pane_width,
-            PANORAMIC_GLASS_HEIGHT_MM - 24.0,
-        ).locate(
-            Location(
-                (
-                    COWL_LENGTH_MM - SENSOR_WINDOW_INSET_MM / 2.0,
-                    y,
-                    window_centre_z,
-                )
+    p = Box(
+        22.0,
+        PANORAMIC_GLASS_WIDTH_MM,
+        PANORAMIC_GLASS_HEIGHT_MM,
+    ).locate(
+        Location(
+            (
+                COWL_LENGTH_MM - SENSOR_WINDOW_INSET_MM / 2.0,
+                0.0,
+                window_centre_z,
             )
         )
-        p.color = COLOR_SENSOR_WINDOW
-        p.label = label
-        out.append(p)
-    return out
+    )
+    p.color = COLOR_SENSOR_WINDOW
+    p.label = "Single laminated panoramic end glass pane"
+    return [p]
 
 
 def _cowl_engineering(car_width_mm: float) -> list[Part]:
-    """Serviceable hardware behind the segmented glass-pane end."""
+    """Serviceable hardware behind the single glass-pane end."""
 
     out: list[Part] = []
     x = COWL_LENGTH_MM - SENSOR_WINDOW_INSET_MM
@@ -384,15 +366,6 @@ def _cowl_engineering(car_width_mm: float) -> list[Part]:
     outer_height = PANORAMIC_GLASS_HEIGHT_MM + 230.0
     frame_thickness = 86.0
     frame_depth = 118.0
-    pane_width = (
-        PANORAMIC_GLASS_WIDTH_MM
-        - 2.0 * PANORAMIC_GLASS_SIDE_CLEARANCE_MM
-        - 2.0 * (PANORAMIC_GLASS_MULLION_WIDTH_MM + PANORAMIC_GLASS_PANE_GAP_MM)
-    ) / 3.0
-    pane_spacing = (
-        pane_width + PANORAMIC_GLASS_MULLION_WIDTH_MM + PANORAMIC_GLASS_PANE_GAP_MM
-    )
-
     for label, y, z, width, height in (
         (
             "Bonded panoramic end glass upper frame rail",
@@ -428,18 +401,6 @@ def _cowl_engineering(car_width_mm: float) -> list[Part]:
         member.label = label
         out.append(member)
 
-    for y in (-pane_spacing / 2.0, pane_spacing / 2.0):
-        mullion = Box(
-            frame_depth - 12.0,
-            PANORAMIC_GLASS_MULLION_WIDTH_MM,
-            PANORAMIC_GLASS_HEIGHT_MM - 70.0,
-        ).locate(
-            Location((x - 52.0, y, window_centre_z))
-        )
-        mullion.color = COLOR_ENGINEERING
-        mullion.label = "Panoramic end glass vertical mullion"
-        out.append(mullion)
-
     crash_width = PANORAMIC_GLASS_WIDTH_MM + 420.0
     crash_height = PANORAMIC_GLASS_HEIGHT_MM + 520.0
     crash_thickness = 145.0
@@ -474,15 +435,8 @@ def _cowl_engineering(car_width_mm: float) -> list[Part]:
             Location((x - 175.0, y, z))
         )
         ring.color = COLOR_ENGINEERING
-        ring.label = "Cowl crash ring around panoramic end glass panes"
+        ring.label = "Cowl crash ring around single panoramic end glass"
         out.append(ring)
-
-    centre_heater = Box(24.0, 28.0, PANORAMIC_GLASS_HEIGHT_MM - 160.0).locate(
-        Location((x + 8.0, 0.0, window_centre_z))
-    )
-    centre_heater.color = COLOR_SERVICE
-    centre_heater.label = "Heated glass centre demist trace"
-    out.append(centre_heater)
 
     for z in (1020.0, 2680.0):
         busbar = Box(28.0, PANORAMIC_GLASS_WIDTH_MM - 120.0, 26.0).locate(
@@ -589,7 +543,7 @@ def sensor_cowl(
     car_width_mm: float = 2850.0,
     car_height_mm: float = 3450.0,
 ) -> Compound:
-    """Full sensor cowl: end glass panes + sensors + LED lighting + livery.
+    """Full sensor cowl: single end glass + sensors + LED lighting + livery.
 
     Origin: at the car-body interface face, centred on car centreline,
     at floor level (z = 0 is rail head). The cowl extends in +X

@@ -129,12 +129,12 @@ class TopologyTests(unittest.TestCase):
     def test_footprint_single_section(self):
         net = simple_linear_network()
         head = TrackRef(section=1001, offset_mm=100_000, direction=Direction.Forward)
-        self.assertEqual(footprint_from(net, head, 65_000), [1001])
+        self.assertEqual(footprint_from(net, head, 51_000), [1001])
 
     def test_footprint_crosses_section_boundary(self):
         net = simple_linear_network()
         head = TrackRef(section=1001, offset_mm=20_000, direction=Direction.Forward)
-        self.assertEqual(footprint_from(net, head, 65_000), [1001, 1000])
+        self.assertEqual(footprint_from(net, head, 51_000), [1001, 1000])
 
 
 class MaTests(unittest.TestCase):
@@ -147,21 +147,21 @@ class MaTests(unittest.TestCase):
 
     def test_single_train_full_extension(self):
         net = simple_linear_network()
-        entries = [register(1, 1000, 65_000, 0, 1)]
+        entries = [register(1, 1000, 51_000, 0, 1)]
         ma = compute_self_ma(1, entries, net, 0)
         self.assertTrue(ma.has_known_position)
         # MA end should advance down the line toward section 1002 (2 km budget).
-        # Head offset 65 mm into 1000; forward_chain → [1000, 1001, 1002]
-        # budget-wise (0.935 + 1 + 1 = 2.935 > 2), so MA end at far end of 1001.
+        # Head offset 51 m into 1000; forward_chain → [1000, 1001, 1002]
+        # budget-wise (0.949 + 1 + 1 = 2.949 > 2), so MA end at far end of 1001.
         self.assertEqual(ma.end.section, 1001)
         self.assertEqual(ma.end.offset_mm, 1_000_000)
 
     def test_other_train_blocks(self):
         net = simple_linear_network()
         entries = [
-            register(1, 1000, 65_000, 0, 1),
-            register(2, 1001, 65_000, 0, 2),
-            position(2, 1001, 65_000, 0, 3),
+            register(1, 1000, 51_000, 0, 1),
+            register(2, 1001, 51_000, 0, 2),
+            position(2, 1001, 51_000, 0, 3),
         ]
         ma = compute_self_ma(1, entries, net, 0)
         self.assertTrue(ma.has_known_position)

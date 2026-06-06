@@ -60,6 +60,15 @@ class StationRef:
     platform_length_m: float
 
 
+DEFAULT_PLATFORM_LENGTH_M: dict[str, float] = {
+    "urban-shuttle-1car": 31.0,
+    "tram-2car": 49.0,
+    "light-metro-3car": 61.0,
+    "metro-4car": 85.0,
+    "metro-6car": 121.0,
+}
+
+
 @dataclass
 class Alignment:
     name: str
@@ -117,9 +126,8 @@ def _parse_alignment(el: ET.Element) -> Alignment:
             StationRef(
                 placeholder_id=sta_name,
                 station_m=station_m,
-                # Default 75 m platform for light-metro-3car; CLI
-                # caller can override via --platform-length-default.
-                platform_length_m=75.0,
+                # Filled after parsing from the selected consist family.
+                platform_length_m=0.0,
             )
         )
 
@@ -372,7 +380,11 @@ def emit_toml(aln: Alignment, meta: Meta) -> str:
 # ---------------------------------------------------------------------------
 
 
-def convert(xml_path: Path, meta: Meta) -> str:
+def convert(
+    xml_path: Path,
+    meta: Meta,
+    platform_length_default_m: float | None = None,
+) -> str:
     tree = ET.parse(xml_path)
     root = tree.getroot()
 
@@ -387,6 +399,13 @@ def convert(xml_path: Path, meta: Meta) -> str:
         raise SystemExit(f"no <Alignment> element found in {xml_path}")
 
     aln = _parse_alignment(aln_el)
+    platform_length_m = (
+        platform_length_default_m
+        if platform_length_default_m is not None
+        else DEFAULT_PLATFORM_LENGTH_M.get(meta.consist, 61.0)
+    )
+    for station in aln.stations:
+        station.platform_length_m = platform_length_m
     return emit_toml(aln, meta)
 
 
@@ -420,6 +439,15 @@ def main(argv: Iterable[str] | None = None) -> int:
         action="store_true",
         help="Set meta.is_ring = true (for ring lines).",
     )
+    ap.add_argument(
+        "--platform-length-default",
+        type=float,
+        default=None,
+        help=(
+            "Placeholder station platform length in metres; default derives "
+            "from --consist using RFC 0008/0010."
+        ),
+    )
     args = ap.parse_args(list(argv) if argv is not None else None)
 
     meta = Meta(
@@ -432,7 +460,7 @@ def main(argv: Iterable[str] | None = None) -> int:
         is_ring=args.is_ring,
     )
 
-    text = convert(args.input, meta)
+    text = convert(args.input, meta, platform_length_default_m=args.platform_length_default)
 
     if args.output:
         args.output.write_text(text)

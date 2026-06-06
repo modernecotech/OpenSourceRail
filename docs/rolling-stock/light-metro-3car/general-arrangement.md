@@ -21,8 +21,8 @@
   sensor cowls at both ends per RFC 0015, with heated RF-transparent
   glass, T-OBS sensors, and LED headlamp / marker-light clusters.
 - **No cab bulkhead** — the front and rear passenger ends are not
-  walled off; the saloon remains open to the segmented glass end panes
-  so passengers see through both driverless ends.
+  walled off; the saloon remains open to the single panoramic glass
+  end pane so passengers see through both driverless ends.
 - **Six bogies total** — two standard 2-axle bogies per car.
 - **Two articulations total** — lower spherical pivot/drawbar, upper
   roll-yaw-pitch links, double-wall bellows, segmented turntable floor,
@@ -58,10 +58,10 @@
 The 17 m car module is intentional rather than a placeholder. With
 ~3 m bogie zones at each end it leaves about 10 m of low-floor centre
 span for two door pairs, wheelchair turning circles, and standing
-space, while keeping the 3-car train to 51 m for the 67 m OSR standard
-platform. Longer 19-20 m cars remain possible as a later capacity
-variant, but the v1 base favours workshop-friendly modules and curve
-overhang margin.
+space, while keeping the 3-car train to 51 m for the derived 61 m OSR
+standard platform. Longer 19-20 m cars remain possible as a later
+capacity variant, but the v1 base favours workshop-friendly modules
+and curve overhang margin.
 
 ## Door positions
 

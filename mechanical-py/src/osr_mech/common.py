@@ -107,7 +107,7 @@ RAIL_GEOMETRY: dict[RailProfile, RailGeometry] = {
 _CONSIST_PLATFORM_LENGTH_M: dict[ConsistFamily, float] = {
     ConsistFamily.URBAN_SHUTTLE_1CAR: 31.0,
     ConsistFamily.TRAM_2CAR: 49.0,
-    ConsistFamily.LIGHT_METRO_3CAR: 67.0,
+    ConsistFamily.LIGHT_METRO_3CAR: 61.0,
     ConsistFamily.METRO_4CAR: 85.0,
     ConsistFamily.METRO_6CAR: 121.0,
 }

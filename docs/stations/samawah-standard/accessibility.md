@@ -9,18 +9,16 @@ and the corresponding Iraqi accessibility overlay.
 Every passenger, including wheelchair users, must have a
 step-free path from street to any door on any train:
 
-1. **Street → Ticket hall:** ramp at max 1:12, with 1.5 m×1.5 m
-   landings every 9 m. Samawah: typical site has ≤ 400 mm
-   elevation delta between street and ticket-hall entrance →
-   one 5 m ramp suffices.
-2. **Ticket hall → Paid zone:** wide fare gate (min 900 mm
-   clear, per RFC 0010 §8). One per direction on this archetype.
-3. **Paid zone → Platform:** ramp or elevator. `standard`
-   archetype has both (redundant path).
-4. **Platform → Train:** 350 mm platform level = consist floor
-   level (level boarding per RFC 0008 §3.3). 75 mm horizontal
-   gap max with the retractable skirt on the consist. Wheelchair
-   spaces in the train at door-2 of every car.
+1. **Street / footpath → platform:** direct paved path at local
+   pedestrian level. Local kerbs are ramped by the municipal footpath
+   standard; the station kit itself adds no raised access.
+2. **Fare line → paid zone:** wide fare gate (min 900 mm clear, per
+   RFC 0010 §8). One per direction on this archetype.
+3. **Platform → train:** the platform walking surface is flat with
+   the adjacent pedestrian pavement, while ToR sits 350 mm below it in
+   the station guideway channel. This matches the consist floor level
+   for level boarding per RFC 0008 §3.3. Horizontal gap is ≤ 75 mm
+   with the retractable skirt on the consist.
 
 ## Tactile paving
 
@@ -30,10 +28,9 @@ Per ISO 23599 / Iraqi national code:
   Bright-colour contrast against the platform deck for vision-
   impaired users.
 - **Directional tactile:** 300 mm wide strips guiding from
-  ticket hall to platform access points.
-- **Landing tactile:** 1 500 × 1 500 mm at the top / bottom of
-  ramps + stairs.
-- **Lift approach:** tactile strip at lift-call button height.
+  footpath entries and fare gates to platform access points.
+- **Decision-point tactile:** 1 500 × 1 500 mm at fare gates,
+  emergency exits, and any local site ramp if one is needed.
 
 ## Audio + visual information
 
@@ -52,8 +49,8 @@ Per RFC 0010 §7:
 ## Wheelchair spaces
 
 - **On platform:** 1 marked wheelchair waiting area per 30 m of
-  platform length. For 67 m platform: **2 marked areas per
-  platform × 2 platforms = 4 per station**.
+  platform length. For the 75 m Samawah safeguarded platform:
+  **3 marked areas per platform × 2 platforms = 6 per station**.
 - **On train:** 2 wheelchair spaces per car × 3 cars = 6 per
   consist (per RFC 0008 §3.3).
 
@@ -62,18 +59,13 @@ car when the train stops — so a wheelchair user doesn't have
 to travel along the platform to reach the wheelchair-spaced
 door.
 
-## Lift per platform
+## Vertical circulation
 
-Per RFC 0010 §5 — every archetype except `halt` gets one lift
-per platform. Samawah `standard`:
-
-- Type: Otis Gen3 (or local equivalent), MRL (machine-room-less).
-- Car size: 1 100 × 1 400 mm, 630 kg rating.
-- Doors: 900 mm clear, automatic open/close with wheelchair-
-  button override.
-- Height of controls: 900 mm from floor for accessibility.
-- Voice announcement: floor-arrival and door-status.
-- Braille on all buttons.
+None for the at-grade Samawah `standard` archetype. The platform is
+already at pedestrian level, so lifts, stairs, and station ramps are
+not part of the base package. If a local site creates a level mismatch,
+the local approach path must meet ISO 21542 gradients and landing
+requirements before handover.
 
 ## Seating on platform
 
@@ -105,7 +97,6 @@ Not at `standard` archetype (per-operator choice). `major` and
 - **Help buttons** on each platform at 2 m height, 25 m
   intervals — directly connected to the OCC via the station
   SCADA. Wheelchair-user reach height max 1 200 mm.
-- **Help buttons in lifts** — voice intercom + visual status.
 - **Audio-induction loop** at ticket-gate staff position for
   hearing-aid users.
 
@@ -116,9 +107,9 @@ Not at `standard` archetype (per-operator choice). `major` and
 | Step-free path from street to platform | ✓ specified |
 | Platform-edge tactile paving 600 mm | ✓ |
 | Directional tactile to platform | ✓ |
-| Lift ≥ 1 100 × 1 400 mm | ✓ |
+| Lift ≥ 1 100 × 1 400 mm | n/a at flat at-grade `standard` station |
 | Audio + visual PIS | ✓ |
-| 2 wheelchair waiting areas per platform | ✓ |
+| 3 wheelchair waiting areas per platform | ✓ |
 | Wide fare gate ≥ 900 mm | ✓ |
 | Accessible seating on platform | ✓ |
 | Accessible help buttons | ✓ |

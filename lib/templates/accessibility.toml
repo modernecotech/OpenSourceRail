@@ -8,41 +8,41 @@
 #     [archetypes.halt]
 #     accessibility = "ramp-only"
 #
-# Unified system principle: every OSR station is accessible by default.
-# Cities choose between three kits based on station size and expected
-# dwell throughput. None means "no kit" — only valid for halts where a
-# ramped platform is the whole solution.
+# Unified system principle: every OSR station is accessible by default,
+# but at-grade stations should not buy vertical-circulation hardware.
+# The walking surface is at local pedestrian grade; the rail datum is
+# lowered through the station bay to keep level boarding.
 
-# ---- Ramp-only: compliant minimum for low-traffic stops ---------------
+# ---- Ramp-only: legacy key for direct ground-level access ------------
 
 [kits.ramp-only]
-ramp_count              = 2              # one per platform
-ramp_length_m           = 12             # 1:20 gradient for 600 mm rise
+ramp_count              = 0
+ramp_length_m           = 0
 elevator_count          = 0
 escalator_count         = 0
 tactile_paving_m2       = 60             # platform edge + key paths
 braille_signage_count   = 6
 audio_wayfinding        = false
-cost_usd                = 45000
+cost_usd                = 18000
 
-# ---- Step-free-basic: ramp + elevator, standard urban --------------
+# ---- Step-free-basic: ground-level urban station --------------------
 
 [kits.step-free-basic]
-ramp_count              = 2
-ramp_length_m           = 12
-elevator_count          = 2              # one per platform
+ramp_count              = 0
+ramp_length_m           = 0
+elevator_count          = 0
 escalator_count         = 0
 tactile_paving_m2       = 120
 braille_signage_count   = 12
 audio_wayfinding        = true
 induction_loop          = true           # at info point + fare gate
-cost_usd                = 320000
+cost_usd                = 90000
 
-# ---- Step-free-full: elevators + escalators, major / interchange --
+# ---- Step-free-full: grade-separated stations only -----------------
 
 [kits.step-free-full]
-ramp_count              = 2
-ramp_length_m           = 12
+ramp_count              = 0
+ramp_length_m           = 0
 elevator_count          = 4              # redundant pair per platform
 escalator_count         = 4
 tactile_paving_m2       = 240

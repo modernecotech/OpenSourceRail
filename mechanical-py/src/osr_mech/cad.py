@@ -342,7 +342,29 @@ class Part:
     def tessellate(self, tolerance: float):  # pragma: no cover - renderer path.
         if self._shape is not None:
             return self._shape.tessellate(tolerance)
-        return ([], [])
+        del tolerance
+        bb = self.bounding_box()
+        if bb.volume <= 0.0:
+            return ([], [])
+        verts = [
+            _Point(bb.min.X, bb.min.Y, bb.min.Z),
+            _Point(bb.min.X, bb.min.Y, bb.max.Z),
+            _Point(bb.min.X, bb.max.Y, bb.min.Z),
+            _Point(bb.min.X, bb.max.Y, bb.max.Z),
+            _Point(bb.max.X, bb.min.Y, bb.min.Z),
+            _Point(bb.max.X, bb.min.Y, bb.max.Z),
+            _Point(bb.max.X, bb.max.Y, bb.min.Z),
+            _Point(bb.max.X, bb.max.Y, bb.max.Z),
+        ]
+        tris = [
+            (0, 1, 3), (0, 3, 2),
+            (4, 6, 7), (4, 7, 5),
+            (0, 4, 5), (0, 5, 1),
+            (2, 3, 7), (2, 7, 6),
+            (0, 2, 6), (0, 6, 4),
+            (1, 5, 7), (1, 7, 3),
+        ]
+        return (verts, tris)
 
 
 class Solid(Part):

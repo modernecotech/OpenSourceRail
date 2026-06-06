@@ -98,7 +98,7 @@ class ConsistDescriptor:
         return ConsistDescriptor(
             train_class="LightMetro",
             car_count=3,
-            length_mm=65_000,
+            length_mm=51_000,
             mass_kg=195_000,
             max_speed_mps=22.0,
             braking=BrakingCurve(
@@ -107,7 +107,7 @@ class ConsistDescriptor:
                 reaction_time_ms=400,
             ),
             service_accel_mps2=1.0,
-            has_pantograph=True,
+            has_pantograph=False,
             battery_capacity_wh=900_000,
         )
 

@@ -117,7 +117,7 @@ fn reference_3car() -> ConsistDescriptor {
     ConsistDescriptor {
         train_class: TrainClass::LightMetro,
         car_count: 3,
-        length_mm: 65_000,
+        length_mm: 51_000,
         mass_kg: 195_000,
         max_speed_mps: 22.0,
         braking: BrakingCurve {
@@ -126,7 +126,7 @@ fn reference_3car() -> ConsistDescriptor {
             reaction_time_ms: 400,
         },
         service_accel_mps2: 1.0,
-        has_pantograph: true,
+        has_pantograph: false,
         battery_capacity_wh: 900_000,
     }
 }
@@ -400,7 +400,7 @@ fn smoke_no_registration_fail_restrictive() {
 #[test]
 fn smoke_single_train_full_extension() {
     let net = simple_linear_network();
-    let entries = vec![registration_entry(1, 0, 1, 1000, 65_000)];
+    let entries = vec![registration_entry(1, 0, 1, 1000, 51_000)];
     cross_check(&net, &entries, TrainId::new(1), 0);
 }
 
@@ -408,9 +408,9 @@ fn smoke_single_train_full_extension() {
 fn smoke_other_train_blocks() {
     let net = simple_linear_network();
     let entries = vec![
-        registration_entry(1, 0, 1, 1000, 65_000),
-        registration_entry(2, 0, 2, 1001, 65_000),
-        position_entry(3, 0, 2, 1001, 65_000),
+        registration_entry(1, 0, 1, 1000, 51_000),
+        registration_entry(2, 0, 2, 1001, 51_000),
+        position_entry(3, 0, 2, 1001, 51_000),
     ];
     cross_check(&net, &entries, TrainId::new(1), 0);
 }
@@ -418,7 +418,7 @@ fn smoke_other_train_blocks() {
 #[test]
 fn smoke_ring_network() {
     let net = simple_ring_network();
-    let entries = vec![registration_entry(1, 0, 1, 3000, 65_000)];
+    let entries = vec![registration_entry(1, 0, 1, 3000, 51_000)];
     cross_check(&net, &entries, TrainId::new(1), 0);
 }
 
@@ -426,7 +426,7 @@ fn smoke_ring_network() {
 fn smoke_switch_observation_in_log() {
     let net = simple_linear_network();
     let entries = vec![
-        registration_entry(1, 0, 1, 1000, 65_000),
+        registration_entry(1, 0, 1, 1000, 51_000),
         // Switch observations currently have no blocking effect on the
         // forward chain in osr-interlocking's v1 — they update state,
         // and the Python twin folds them identically. Exercising them
@@ -454,7 +454,7 @@ fn smoke_route_grant_blocks_another_trains_ma() {
 fn smoke_speed_restriction_reflected_in_ma() {
     let net = simple_linear_network();
     let entries = vec![
-        registration_entry(1, 0, 1, 1000, 65_000),
+        registration_entry(1, 0, 1, 1000, 51_000),
         speed_restriction_entry(
             2,
             100,
@@ -504,7 +504,7 @@ fn arb_entries() -> impl Strategy<Value = Vec<Entry>> {
 
         for (train, section_idx, head_offset) in &trains {
             if seen.insert(*train) {
-                entries.push(registration_entry(next_id, 0, *train, 1000, 65_000));
+                entries.push(registration_entry(next_id, 0, *train, 1000, 51_000));
                 next_id += 1;
                 let section = 1000 + *section_idx;
                 entries.push(position_entry(next_id, 1_000_000, *train, section, *head_offset));
@@ -585,7 +585,7 @@ fn arb_entries_ring() -> impl Strategy<Value = Vec<Entry>> {
 
         for (train, section_idx, head_offset) in &trains {
             if seen.insert(*train) {
-                entries.push(registration_entry(next_id, 0, *train, 3000, 65_000));
+                entries.push(registration_entry(next_id, 0, *train, 3000, 51_000));
                 next_id += 1;
                 let section = 3000 + *section_idx;
                 entries.push(position_entry(next_id, 1_000_000, *train, section, *head_offset));

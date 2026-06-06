@@ -9,9 +9,9 @@ axis. There are no handed cab moulds and no rear-only cosmetic parts.
 ![Multipart fiberglass end-cowl cast kit](diagrams/end-fiberglass-cowl-casts.svg)
 
 The form language follows the README reference image: white/silver
-rounded ends, dark segmented panoramic glass, green waist band carried
-onto the cowl flanks, low dark skirt, and LED head/marker lights below
-the glass. The cowl is a sacrificial weather/aero/sensor fairing over a
+rounded ends, one uninterrupted dark panoramic glass face, green waist
+band carried onto the cowl flanks, low dark skirt, and LED head/marker
+lights below the glass. The cowl is a sacrificial weather/aero/sensor fairing over a
 steel crash frame; it is not the buff, collision, coupler, or
 anti-climber load path.
 
@@ -33,7 +33,7 @@ geometry.
 | Car interface height | 3 450 mm | Matches `CarDimensions.body_height_mm` |
 | Leading-face width | 1 800 mm | Rounded/tapered visual face |
 | Leading-face height | 2 800 mm | Allows roof cap transition into body |
-| Panoramic glass opening | 1 500 mm x 1 780 mm | Three heated laminated panes |
+| Panoramic glass opening | 1 500 mm x 1 780 mm | One heated laminated pane |
 | Exterior corner target radius | >= 200 mm | Keep edges easy to laminate and repair |
 | Nominal panel mass target | <= 180 kg per end kit | Excludes glass, T-OBS, coupler, and crash absorber |
 
@@ -45,12 +45,12 @@ minor collision damage without cutting the steel body.
 
 | ID | Cast part | Qty per end | Function | Main interfaces |
 |---|---|---:|---|---|
-| CWL-FRP-01 | Upper brow and roof cap cast | 1 | Blends roof into the black glass surround and sheds rain above the panes | Roof bow tabs, upper backing ring, washer nozzle covers |
+| CWL-FRP-01 | Upper brow and roof cap cast | 1 | Blends roof into the black glass surround and sheds rain above the pane | Roof bow tabs, upper backing ring, washer nozzle covers |
 | CWL-FRP-02 | Left cheek side-return cast | 1 | Tapered side surface, green livery continuation, side split-line closure | Left side frame tabs, backing ring, lower apron |
 | CWL-FRP-03 | Right cheek side-return cast | 1 | Mirror of CWL-FRP-02 | Right side frame tabs, backing ring, lower apron |
 | CWL-FRP-04 | Lower apron and anti-climber cover cast | 1 | Lower rounded nose, lamp recess support, removable access to coupler recovery space | Lower crash-frame tabs, lamp pods, skirt edge |
 | CWL-FRP-05 | Lamp/washer service hatch casts | 2 | Replaceable local covers around LED clusters, washer manifold, and service fasteners | M6 captive fasteners, gasketed edge, lamp bracket |
-| CWL-FRP-06 | Segmented backing-ring flange casts | 4 | Bond/bolt land behind glass carrier and cast split lines; carries seals, not crash loads | Steel crash ring, glass carrier, EPDM seals |
+| CWL-FRP-06 | Sectional backing-ring flange casts | 4 | Bond/bolt land behind glass carrier and cast split lines; carries seals, not crash loads | Steel crash ring, glass carrier, EPDM seals |
 
 The cheek casts may use mirrored moulds, but they keep the same datum
 scheme and hole pattern. The full end kit is duplicated at the other
@@ -117,10 +117,13 @@ kit attaches to secondary tabs and a bolted backing ring:
 
 ## Glazing, lamps, and sensors
 
-The cowl carries three heated RF-transparent laminated glass panes in a
-dark bonded carrier. The carrier bolts to the steel-backed ring through
+The cowl carries one large heated RF-transparent laminated glass pane in
+a dark bonded carrier. The carrier bolts to the steel-backed ring through
 the fiberglass flange, so a damaged cast can be removed without
-discarding the glass if the panes are intact.
+discarding the glass if the pane is intact. Any necessary structural
+support, heater traces, sensor brackets, or busbars must sit behind the
+black edge band or read visually as part of the dark glass, not as
+visible vertical dividers.
 
 The LED headlamp/marker-light cassette is symmetrical: either train end
 can lead or trail. Software decides head/tail aspect; the physical lamp

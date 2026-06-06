@@ -32,13 +32,13 @@ Base unit: **3,000,000 USD per route-km**.
 
 ## Stations
 
-Station costs assume prefab portal-frame canopies, precast platform edges,
-ordinary median/platform access works, commodity lifts/escalators where
-required, simple MEP, lighting, signs, fare gates, CCTV, and local
-assembly. Standard and larger stations include a covered pedestrian
-overbridge/concourse so passengers can reach central platforms safely
-from both sides of the corridor. No underground concourse, no bespoke
-architectural cladding, no continuous traction-power plant.
+Station costs assume prefab portal-frame canopies, ground-level
+platform slabs with lowered guideway channels, direct pedestrian
+access, simple MEP, lighting, signs, fare gates, CCTV, and local
+assembly. Commodity lifts/escalators and overbridges appear only where
+an elevated/stacked interchange or local road-barrier override requires
+them. No underground concourse, no bespoke architectural cladding, no
+continuous traction-power plant.
 
 | Archetype | Unit |
 |---|---:|

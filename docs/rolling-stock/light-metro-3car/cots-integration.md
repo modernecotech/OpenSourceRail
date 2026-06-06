@@ -13,7 +13,7 @@ The train is built from three repeated 17 m car modules:
 
 | Zone | Fabricated parts | COTS / BID modules | Parametric source |
 |---|---|---|---|
-| End cowls | Steel crash frame, multi-part fiberglass A/B-end cowl casts, cowl backing ring, segmented panoramic glass carrier, LED lamp brackets | Dark RF-transparent laminated end glass panes, T-OBS LIDAR/radar/camera/ultrasonic pack, LED headlamps, marker/DRL bars, washer/heater | [`end-cowl.md`](end-cowl.md), [`sensor_cowl.py`](../../../mechanical-py/src/osr_mech/rolling_stock/sensor_cowl.py), [`systems.py`](../../../mechanical-py/src/osr_mech/rolling_stock/systems.py) |
+| End cowls | Steel crash frame, multi-part fiberglass A/B-end cowl casts, cowl backing ring, single panoramic glass carrier, LED lamp brackets | Dark RF-transparent laminated end glass pane, T-OBS LIDAR/radar/camera/ultrasonic pack, LED headlamps, marker/DRL bars, washer/heater | [`end-cowl.md`](end-cowl.md), [`sensor_cowl.py`](../../../mechanical-py/src/osr_mech/rolling_stock/sensor_cowl.py), [`systems.py`](../../../mechanical-py/src/osr_mech/rolling_stock/systems.py) |
 | Body side | S355 side frame, two door portals per side, window rail, waist rail, composite skin | Window cassettes, door cassettes, green livery band, yellow thresholds | [`car_body.py`](../../../mechanical-py/src/osr_mech/rolling_stock/car_body.py) |
 | Stepped floor | Dropped ~10 m low-floor centre pan, ~3 m raised bogie-end deck supports, side plinth rails, transition steps | Phenolic/aluminium floor boards, rubber covering, step nosings, PRM floor finish | [`car_body.py`](../../../mechanical-py/src/osr_mech/rolling_stock/car_body.py), [`cad_templates/rolling_stock.py`](../../../mechanical-py/src/osr_mech/cad_templates/rolling_stock.py) |
 | Roof | Roof bows, PV/HVAC rails, bonded-pad lands, cable tray brackets, composite fairings | Bonded flexible PV laminates, raised rigid panels on clamped rails, MPPT combiner, compact HVAC units, antennas | [`car_body.py`](../../../mechanical-py/src/osr_mech/rolling_stock/car_body.py), [`systems.py`](../../../mechanical-py/src/osr_mech/rolling_stock/systems.py) |
@@ -82,7 +82,7 @@ The same part families are visible in the generated screenshots:
 
 | View | What to inspect |
 |---|---|
-| [`trainset-light-metro-3car.png`](../../../docs/screenshots/trainset-light-metro-3car.png) | Whole-train layout, powered end cars, trailer middle car, segmented glass-pane cowls, roof PV, bogies |
+| [`trainset-light-metro-3car.png`](../../../docs/screenshots/trainset-light-metro-3car.png) | Whole-train layout, powered end cars, trailer middle car, single panoramic-glass cowls, roof PV, bogies |
 | [`trainset-car-detail.png`](../../../docs/screenshots/trainset-car-detail.png) | Complete layered car body with windows, doors, solar array, HVAC, interior, electrical, and thermal routes |
 | [`trainset-car-body-structure.png`](../../../docs/screenshots/trainset-car-body-structure.png) | Primary fabricated shell, ~10 m floor, side sills, crossmembers, roof rails, window posts, end rings, bogie envelopes, and door portals |
 | [`trainset-car-body-bogie-subassembly.png`](../../../docs/screenshots/trainset-car-body-bogie-subassembly.png) | Single-car body structure mounted over standard motor/trailer bogies, showing raised ~3 m end decks and the low-floor centre zone |

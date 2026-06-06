@@ -38,7 +38,10 @@ landxml-to-osr-aln \
 
 The `--line-id`, `--preset`, `--consist`, `--crs`, `--surveyor`
 flags populate the `[meta]` block in the output TOML; the rest of
-the document is derived from the LandXML geometry.
+the document is derived from the LandXML geometry. Station
+placeholder platform lengths default from the selected `--consist`
+per RFC 0008/0010; use `--platform-length-default` when a civil
+package deliberately safeguards a longer local platform.
 
 ## What the v1 converter reads
 

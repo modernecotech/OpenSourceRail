@@ -2,8 +2,9 @@
 
 This folder contains station envelope and drawing-register material.
 The default architecture is a prefab steel portal frame with a solar
-canopy, platform edge systems, covered pedestrian overbridge/concourse
-access for ordinary median stations, and minimal station-building scope.
+canopy, platform edge systems, flat ground-level passenger slabs, and
+minimal station-building scope. Overbridges, lifts, and stairs are
+reserved for elevated/stacked sites or local road barriers.
 
 ## Packages
 

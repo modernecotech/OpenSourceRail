@@ -30,9 +30,9 @@ canopy_area_m2         = 400
 charging_power_kw      = 250             # low-power dwell charge for low-demand stops
 dwell_seconds          = 60
 tpss_kva               = 0
-access_type            = "protected-crossing-or-compact-overbridge"
+access_type            = "ground-level-side-access"
 access_bridge_count    = 0
-step_free_core_count   = 1
+step_free_core_count   = 0
 
 # ---- Standard: default urban/suburban station ----------------------------
 
@@ -45,9 +45,9 @@ canopy_area_m2         = 1800
 charging_power_kw      = 500             # normal 1 km stop-spacing dwell charge
 dwell_seconds          = 60
 tpss_kva               = 0
-access_type            = "covered-pedestrian-overbridge"
-access_bridge_count    = 1
-step_free_core_count   = 2
+access_type            = "ground-level-side-access"
+access_bridge_count    = 0
+step_free_core_count   = 0
 
 # ---- Major: anchor stop — hospital, mall, centre -------------------------
 
@@ -60,24 +60,24 @@ canopy_area_m2         = 2000
 charging_power_kw      = 500
 dwell_seconds          = 60
 tpss_kva               = 800
-access_type            = "covered-pedestrian-overbridge"
-access_bridge_count    = 1
-step_free_core_count   = 2
+access_type            = "ground-level-protected-crossing"
+access_bridge_count    = 0
+step_free_core_count   = 0
 
 # ---- Interchange: two-line junction --------------------------------------
 
 [archetypes.interchange]
 platform_count         = 4
-platform_layout        = "stacked"       # one line over the other
+platform_layout        = "same-grade-transfer"
 platform_clearance_m      = 10
 canopy_type            = "solar-canopy"
 canopy_area_m2         = 2800
 charging_power_kw      = 500
 dwell_seconds          = 60
 tpss_kva               = 1000
-access_type            = "transfer-concourse-with-pedestrian-overbridge"
-access_bridge_count    = 2
-step_free_core_count   = 4
+access_type            = "ground-level-transfer-crossing"
+access_bridge_count    = 0
+step_free_core_count   = 0
 
 # ---- Elevated interchange: stacked transfer on viaduct approaches ---------
 
@@ -106,9 +106,9 @@ charging_power_kw      = 1000            # terminal dwell is the charging slot
 dwell_seconds          = 60
 tpss_kva               = 1500
 has_turnback_tracks    = true
-access_type            = "covered-pedestrian-overbridge"
-access_bridge_count    = 1
-step_free_core_count   = 2
+access_type            = "ground-level-side-access"
+access_bridge_count    = 0
+step_free_core_count   = 0
 
 # ---- Depot-terminal: end-of-line + fleet depot ---------------------------
 
@@ -123,6 +123,6 @@ dwell_seconds          = 240
 tpss_kva               = 2000
 has_turnback_tracks    = true
 is_depot               = true
-access_type            = "covered-pedestrian-overbridge"
-access_bridge_count    = 1
-step_free_core_count   = 2
+access_type            = "ground-level-side-access"
+access_bridge_count    = 0
+step_free_core_count   = 0

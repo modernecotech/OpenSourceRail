@@ -99,7 +99,7 @@ are tracked as parametric source and FreeCAD review artifacts:
 | `body_sheet_metal_kit()` | Whole body/chassis sheet-metal kit: underframe, side posts, door portals, waist/cant rails, roof bows, end rings |
 | `sandwich_panel()` | Side/roof panel aperture, folded flanges, retainers, and bond land |
 | Surface-modelled LM3-BDY-155 cowl CAD | Final fiberglass cowl A-surface, B-surface, flanges, trim curves, and mould surfaces |
-| `sensor_cowl()` | Identical A/B-end fiberglass cowl envelope, segmented glass, lamp/service hatches, and T-OBS visual interface |
+| `sensor_cowl()` | Identical A/B-end fiberglass cowl envelope, single panoramic glass, lamp/service hatches, and T-OBS visual interface |
 | `door_leaf()` | COTS-style door leaf shell, bonded glazing, EPDM seals, hanger rollers |
 | `chassis_interface_assembly()` | Bolster, bogie adapter, motor cradle, guide blocks, fasteners, service strut, connector interfaces |
 

@@ -104,6 +104,9 @@ message ConsistDescriptor {
   float max_speed_mps = 4;
   BrakingCurve braking = 5;
   uint32 car_count = 6;
+  // True only for deployments selecting the pantograph-down opportunity
+  // charger alternate. The OSR default is side-pin charging and no
+  // continuous catenary.
   bool has_pantograph = 7;
   uint32 battery_capacity_wh = 8;
 }

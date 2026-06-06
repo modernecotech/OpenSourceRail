@@ -36,16 +36,16 @@ interior liners.
 
 The governing visual/layout reference is
 [`solar-metro-trainset.png`](../../../docs/assets/solar-metro-trainset.png):
-white/silver body, green waist band, dark skirts, segmented glass-pane ends,
+white/silver body, green waist band, dark skirts, single dark panoramic-glass ends,
 mixed bonded/rail-mounted roof PV, two low-floor door pairs per side per car, powered end cars, unpowered middle car,
 and batteries under longitudinal seats. The end glazing is an open
 driverless passenger view through heated RF-transparent laminated
-glass panes with LED headlamp and marker-light clusters below them.
+glass with LED headlamp and marker-light clusters below it.
 Because the cars use
 standard bogies, each car has ~3 m high-floor end decks over the bogies
 and a 350 mm, ~10 m low-floor centre door/PRM zone.
 The front and rear passenger ends are not walled off by cab bulkheads;
-the end saloon looks through the segmented glass panes at both ends
+the end saloon looks through the single panoramic glass pane at both ends
 of the driverless train. The front/back exterior module is the same
 multi-part fiberglass cast kit at both ends; its controlled design is
 in [`end-cowl.md`](end-cowl.md).
@@ -78,7 +78,7 @@ exported back into the drawing pack as neutral CAD.
 |---|---|
 | [`trainset.py`](../../../mechanical-py/src/osr_mech/rolling_stock/trainset.py) | Family length, car count, motorisation, cowl/body/bogie assembly |
 | [`car_body.py`](../../../mechanical-py/src/osr_mech/rolling_stock/car_body.py) | 17 m body module as layered CAD subassemblies: primary structure, exterior/glazing/doors, interior, HVAC ducts, LV/data routing, HV/PV/thermal/fire paths |
-| [`sensor_cowl.py`](../../../mechanical-py/src/osr_mech/rolling_stock/sensor_cowl.py) | Identical A/B-end multi-part fiberglass cowl kit envelope with segmented panoramic glass panes, LED headlamps, marker lights, and T-OBS visual interface |
+| [`sensor_cowl.py`](../../../mechanical-py/src/osr_mech/rolling_stock/sensor_cowl.py) | Identical A/B-end multi-part fiberglass cowl kit envelope with one dark panoramic glass pane, LED headlamps, marker lights, and T-OBS visual interface |
 | [`systems.py`](../../../mechanical-py/src/osr_mech/rolling_stock/systems.py) | Couplers, detailed articulations/gangways, batteries, rooftop solar package, charge inverters, doors, electronics, charging, T-OBS packs |
 | [`bogie/`](../../../mechanical-py/src/osr_mech/rolling_stock/bogie/) | Powered and converted-trailer bogie assemblies |
 | [`cad_templates/rolling_stock.py`](../../../mechanical-py/src/osr_mech/cad_templates/rolling_stock.py) | Sheet-metal/chassis manufacturing templates |
@@ -101,8 +101,8 @@ and render to these design-review PNGs:
 
 | Output | Scope |
 |---|---|
-| [`trainset-light-metro-3car.png`](../../../docs/screenshots/trainset-light-metro-3car.png) | Final 3-car trainset assembly with car bodies, bogies, segmented glass-pane cowls, couplers, inter-car articulation, and train systems |
-| [`end-glass-cowl-panes.png`](../../../docs/screenshots/end-glass-cowl-panes.png) | Cabless trainset end close-up with multi-part fiberglass cowl casts, three heated laminated glass panes, bonded frame rails, mullions, demist traces, and washer/service hardware |
+| [`trainset-light-metro-3car.png`](../../../docs/screenshots/trainset-light-metro-3car.png) | Final 3-car trainset assembly with car bodies, bogies, single panoramic-glass cowls, couplers, inter-car articulation, and train systems |
+| [`end-glass-cowl.png`](../../../docs/screenshots/end-glass-cowl.png) | Cabless trainset end close-up with multi-part fiberglass cowl casts, one heated laminated panoramic glass pane, bonded edge frame, demist busbars, and washer/service hardware |
 | [`trainset-car-detail.png`](../../../docs/screenshots/trainset-car-detail.png) | 17 m layered car body: structure, door/window openings, glazing, livery, roof PV/HVAC, interior, ducts, LV/data and HV/thermal routes |
 | [`trainset-car-body-structure.png`](../../../docs/screenshots/trainset-car-body-structure.png) | Primary fabricated structure: shell, 10 m low-floor pan, side sills, crossmembers, roof cantrails, door portals, window posts, end rings, and bogie clearance envelopes |
 | [`trainset-car-body-bogie-subassembly.png`](../../../docs/screenshots/trainset-car-body-bogie-subassembly.png) | Single-car structure with standard motor/trailer bogies under the ~3 m raised high-floor end zones |

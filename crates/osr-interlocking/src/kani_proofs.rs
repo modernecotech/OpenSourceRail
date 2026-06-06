@@ -48,6 +48,8 @@ use osr_core::{
 use crate::log::{Entry, EntryPayload, PositionSource, TrainPositionReport, TrainRegistration};
 use crate::ma::{compute_self_ma, MAX_MA_DISTANCE_MM, MA_VALIDITY_WINDOW_NS};
 
+const REFERENCE_3CAR_LENGTH_MM: i64 = 51_000;
+
 // ---------------------------------------------------------------------------
 // Scaffolding: tiny networks Kani can reason about.
 // ---------------------------------------------------------------------------
@@ -195,7 +197,7 @@ fn train_on_first_section(train_id: u64, head_offset_mm: i64, ts_ns: u64) -> Vec
                 }),
                 tail_position: Position::certain(TrackRef {
                     section: SectionId::new(1000),
-                    offset_mm: (head_offset_mm - 65_000).max(0),
+                    offset_mm: (head_offset_mm - REFERENCE_3CAR_LENGTH_MM).max(0),
                     direction: Direction::Forward,
                 }),
                 speed_mmps: 10_000,
@@ -386,7 +388,7 @@ fn kani_p2_non_overlap_two_trains() {
             }),
             tail_position: Position::certain(TrackRef {
                 section: SectionId::new(1001),
-                offset_mm: (h2 - 65_000).max(0),
+                offset_mm: (h2 - REFERENCE_3CAR_LENGTH_MM).max(0),
                 direction: Direction::Forward,
             }),
             speed_mmps: 10_000,
