@@ -19,9 +19,12 @@
 # Curves are 24-bin (0..23) hourly multipliers, normalized so Σ = 1.0.
 
 [planning]
-# README ridership sanity bands. These are daily paid-trip demand scenarios
-# after opening, not physical train capacity. The same low/high pair is used
-# in the ridership and finance sections so the generated report has one story.
+# README ridership sanity bands. The low/high shares are daily active-rider
+# uptake after opening, not physical train capacity and not paid-trip count.
+# The generated report converts active riders to paid trips with
+# paid_trips_per_daily_rider, then caps paid trips by practical service
+# capacity. The same low/high pair is used in the ridership and finance
+# sections so the generated report has one story.
 # The current planning case assumes a more intensive 3-min peak / 6-min
 # off-peak operating plan, so demand uptake and practical load factor are
 # correspondingly higher than the earlier cautious 5-min service case.
@@ -29,6 +32,7 @@ daily_ridership_catchment_low = 0.25
 daily_ridership_catchment_high = 0.45
 daily_ridership_population_fallback_low = 0.16
 daily_ridership_population_fallback_high = 0.30
+paid_trips_per_daily_rider = 2.0
 practical_capacity_load_factor = 0.80
 
 [profiles.university]

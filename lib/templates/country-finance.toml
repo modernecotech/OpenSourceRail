@@ -49,6 +49,10 @@
 #                                Iraqi / sub-Saharan deployments more
 #                                typically 0.4–0.6 because affordability
 #                                is the binding constraint.
+#   grid_energy_usd_per_kwh    — planning price for residual grid / PPA
+#                                import after on-site PV and any dedicated
+#                                solar plant cover generated timetable
+#                                energy demand.
 #   currency                   — local currency ISO 4217 (carried for
 #                                downstream output formatting; FX is in
 #                                country-costs.toml).
@@ -75,6 +79,7 @@ capex_grace_years          = 5
 loan_tenor_years           = 25
 concessional_loan_tenor_years = 40
 farebox_recovery_target    = 0.50
+grid_energy_usd_per_kwh    = 0.10
 currency                   = "USD"
 
 # ---- Middle East / North Africa --------------------------------------

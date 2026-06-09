@@ -32,6 +32,7 @@ one-liner per city in a 500-city run.
 from __future__ import annotations
 
 import argparse
+import math
 import sys
 import tomllib
 from dataclasses import dataclass, field
@@ -82,6 +83,13 @@ _PRODUCTION_PLANT_HIGH_PER_VEHICLE_USD = float(
         _PRODUCTION_PLANT_PER_VEHICLE_USD,
     )
 )
+_SOLAR_PLANT = _CAPEX_COSTS["solar_power_plant"]
+_SOLAR_PLANT_UTILITY_USD_PER_KW = float(_SOLAR_PLANT["utility_pv_usd_per_kw"])
+_SOLAR_PLANT_INTERCONNECTION_USD_PER_KW = float(
+    _SOLAR_PLANT["interconnection_usd_per_kw"]
+)
+_SOLAR_PLANT_COVERAGE_MARGIN = float(_SOLAR_PLANT["coverage_margin"])
+_SOLAR_PLANT_MAINT_FRAC = float(_SOLAR_PLANT["annual_maintenance_fraction"])
 _CIVIL_USD_PER_KM = _float_map(_CAPEX_COSTS["civil_usd_per_km"])
 _AT_GRADE_USD_PER_KM = _CIVIL_USD_PER_KM["at_grade"]
 _ELEVATED_USD_PER_KM = _CIVIL_USD_PER_KM["elevated"]
@@ -110,6 +118,9 @@ _DAILY_RIDERSHIP_POPULATION_FALLBACK_LOW = float(
 )
 _DAILY_RIDERSHIP_POPULATION_FALLBACK_HIGH = float(
     _RIDERSHIP_PLANNING["daily_ridership_population_fallback_high"]
+)
+_PAID_TRIPS_PER_DAILY_RIDER = float(
+    _RIDERSHIP_PLANNING.get("paid_trips_per_daily_rider", 2.0)
 )
 _PRACTICAL_CAPACITY_LOAD_FACTOR = float(
     _RIDERSHIP_PLANNING["practical_capacity_load_factor"]
@@ -204,6 +215,25 @@ class NetworkStats:
     trainset_capacity_pax: int
     trainset_seats: int
     trainset_crush_capacity_pax: int
+
+
+@dataclass(frozen=True)
+class EnergyPlan:
+    service_days_per_year: int
+    service_hours_per_day: float
+    peak_sun_hours: float
+    scheduled_daily_train_km: float
+    annual_train_km: float
+    annual_car_km: float
+    annual_energy_kwh: float
+    onsite_pv_kwh: float
+    pre_plant_grid_import_kwh: float
+    solar_plant_kw: float
+    solar_plant_generation_kwh: float
+    residual_grid_import_kwh: float
+    solar_plant_capex_usd: float
+    solar_plant_maintenance_usd: float
+    train_km_basis: str
 
 
 def _load(path: Path) -> dict:
@@ -530,18 +560,204 @@ def _station_commercial_revenue_eur(
     }
 
 
+_ENERGY_KWH_PER_CAR_KM = 4.0
+_NON_REVENUE_TRAIN_KM_FACTOR = 1.08
+
+
+def _scheduled_daily_train_km(design: dict, scenario: dict) -> float:
+    """Daily train-km from the generated fleet schedules.
+
+    Each schedule window is interpreted as departures per direction;
+    train-km is therefore one-way line length × departures × 2 directions.
+    """
+    line_km = {
+        str(line.get("name") or line.get("id")): _line_length_km(line)
+        for line in design.get("lines", [])
+    }
+    daily_train_km = 0.0
+    for fleet in scenario.get("fleets", []):
+        length_km = line_km.get(str(fleet.get("line")))
+        if not length_km:
+            continue
+        trips_per_direction = 0.0
+        for window in fleet.get("schedule", []):
+            headway = float(window.get("headway_min", 0.0))
+            if headway <= 0.0:
+                continue
+            trips_per_direction += (
+                _hours(str(window.get("from", "05:30")), str(window.get("to", "02:00")))
+                * 60.0
+                / headway
+            )
+        daily_train_km += length_km * trips_per_direction * 2.0
+    return daily_train_km
+
+
+def _station_posts_per_shift(design: dict) -> float:
+    """Driverless-platform staff posts per shift by station archetype."""
+    weights = {
+        "halt": 0.25,
+        "standard": 0.50,
+        "major": 1.00,
+        "terminal": 1.00,
+        "depot-terminal": 1.50,
+        "interchange": 2.00,
+        "interchange-elevated": 2.00,
+    }
+    return sum(
+        weights.get(str(station.get("archetype", "standard")), 0.50)
+        for station in design.get("stations", [])
+    )
+
+
+def _driverless_workforce_breakdown(
+    *,
+    design: dict,
+    stats: NetworkStats,
+    service_hours_per_day: float,
+    total_trainsets: int,
+    annual_train_km: float,
+    daily_paid_trips_high: int,
+) -> dict[str, int]:
+    """Deployment workforce that scales with service intensity.
+
+    No train drivers are counted: RFC 0015 moves safety presence to OCC,
+    remote-assist, platform/station, and maintenance roles.
+    """
+    shifts_per_day = max(1, math.ceil(service_hours_per_day / 8.0))
+    roster_relief = 1.35
+    remote_assist_posts = max(1, math.ceil(stats.revenue_fleet / 8))
+    occ_posts = stats.line_count + remote_assist_posts + 2
+    station_posts = _station_posts_per_shift(design)
+
+    return {
+        "occ_remote_assist": math.ceil(occ_posts * shifts_per_day * roster_relief),
+        "station_platform": math.ceil(station_posts * shifts_per_day * roster_relief),
+        "passenger_service": math.ceil(
+            (stats.line_count * 4 * roster_relief)
+            + (daily_paid_trips_high / 10_000)
+        ),
+        "fleet_maintenance": math.ceil(
+            (total_trainsets * 0.30)
+            + (annual_train_km / 300_000)
+        ),
+        "infrastructure_energy": math.ceil(
+            (stats.route_km * 0.65)
+            + (stats.unique_station_count * 0.35)
+            + (stats.depot_count * 4)
+        ),
+        "admin_training": math.ceil(
+            12 + stats.line_count * 2 + stats.depot_count * 3
+        ),
+    }
+
+
+def _energy_plan(design: dict, scenario: dict, stats: NetworkStats) -> EnergyPlan:
+    """Timetable-derived traction energy plan, including supplemental solar.
+
+    On-site station/depot PV is counted first. If the generated timetable
+    still has an annual traction-energy shortfall, a dedicated utility-scale
+    solar plant (or contracted offsite PPA asset) is sized as infrastructure
+    with a planning reserve margin.
+    """
+    service_days_per_year = 365
+    service_hours_per_day = _hours(stats.service_start, stats.service_end)
+    peak_sun_hours = float(scenario.get("climate", {}).get("peak_sun_hours", 5.0))
+    commercial_speed_kmh = {
+        "tram-2car": 22.0,
+        "light-metro-3car": 30.0,
+        "metro-4car": 35.0,
+        "metro-6car": 35.0,
+    }.get(stats.consist_family, 30.0)
+
+    scheduled_daily_train_km = _scheduled_daily_train_km(design, scenario)
+    if scheduled_daily_train_km > 0.0:
+        annual_train_km = (
+            scheduled_daily_train_km
+            * service_days_per_year
+            * _NON_REVENUE_TRAIN_KM_FACTOR
+        )
+        train_km_basis = (
+            f"{scheduled_daily_train_km:,.0f} scheduled train-km/day × "
+            f"{service_days_per_year} d/yr × "
+            f"{_NON_REVENUE_TRAIN_KM_FACTOR:.0%} depot/deadhead factor"
+        )
+    else:
+        utilisation_factor = 0.75
+        annual_train_km = (
+            stats.revenue_fleet
+            * service_hours_per_day
+            * service_days_per_year
+            * commercial_speed_kmh
+            * utilisation_factor
+        )
+        scheduled_daily_train_km = annual_train_km / service_days_per_year
+        train_km_basis = (
+            f"{stats.revenue_fleet} trainsets × {service_hours_per_day:.1f} h/day "
+            f"× {commercial_speed_kmh:.0f} km/h × {utilisation_factor:.0%} "
+            "utilisation fallback"
+        )
+
+    annual_car_km = annual_train_km * stats.consist_cars
+    annual_energy_kwh = annual_car_km * _ENERGY_KWH_PER_CAR_KM
+    onsite_pv_kwh = stats.total_pv_kw * peak_sun_hours * service_days_per_year
+    pre_plant_grid_import_kwh = max(0.0, annual_energy_kwh - onsite_pv_kwh)
+
+    solar_plant_kw = 0.0
+    if pre_plant_grid_import_kwh > 0.0 and peak_sun_hours > 0.0:
+        solar_plant_kw = (
+            pre_plant_grid_import_kwh
+            / (peak_sun_hours * service_days_per_year)
+            * _SOLAR_PLANT_COVERAGE_MARGIN
+        )
+    solar_plant_generation_kwh = solar_plant_kw * peak_sun_hours * service_days_per_year
+    residual_grid_import_kwh = max(
+        0.0,
+        annual_energy_kwh - onsite_pv_kwh - solar_plant_generation_kwh,
+    )
+    solar_plant_unit_usd_per_kw = (
+        _SOLAR_PLANT_UTILITY_USD_PER_KW
+        + _SOLAR_PLANT_INTERCONNECTION_USD_PER_KW
+    )
+    solar_plant_capex_usd = solar_plant_kw * solar_plant_unit_usd_per_kw
+    solar_plant_maintenance_usd = solar_plant_capex_usd * _SOLAR_PLANT_MAINT_FRAC
+
+    return EnergyPlan(
+        service_days_per_year=service_days_per_year,
+        service_hours_per_day=service_hours_per_day,
+        peak_sun_hours=peak_sun_hours,
+        scheduled_daily_train_km=scheduled_daily_train_km,
+        annual_train_km=annual_train_km,
+        annual_car_km=annual_car_km,
+        annual_energy_kwh=annual_energy_kwh,
+        onsite_pv_kwh=onsite_pv_kwh,
+        pre_plant_grid_import_kwh=pre_plant_grid_import_kwh,
+        solar_plant_kw=solar_plant_kw,
+        solar_plant_generation_kwh=solar_plant_generation_kwh,
+        residual_grid_import_kwh=residual_grid_import_kwh,
+        solar_plant_capex_usd=solar_plant_capex_usd,
+        solar_plant_maintenance_usd=solar_plant_maintenance_usd,
+        train_km_basis=train_km_basis,
+    )
+
+
 def _funding_and_affordability_section(
     design: dict,
+    scenario: dict,
     costs: dict,
     stats: NetworkStats,
+    energy_plan: EnergyPlan,
     rel,
     *,
+    daily_active_low: int,
+    daily_active_high: int,
     daily_pax_low: int,
     daily_pax_high: int,
     ridership_basis_label: str,
     ridership_basis_population: int,
     ridership_low_share: float,
     ridership_high_share: float,
+    paid_trips_per_daily_rider: float,
     practical_daily_capacity: int,
 ) -> list[str]:
     """Emit the `## Funding & affordability` section: grant-first CAPEX
@@ -557,9 +773,11 @@ def _funding_and_affordability_section(
     if not fin:
         return []
 
-    total_eur = float(costs.get("total_eur", 0.0))
-    if total_eur <= 0:
+    base_total_eur = float(costs.get("total_eur", 0.0))
+    if base_total_eur <= 0:
         return []
+    solar_plant_eur = energy_plan.solar_plant_capex_usd * _USD_TO_EUR
+    total_eur = base_total_eur + solar_plant_eur
 
     # Funding stack — grant-first and concessional-debt-heavy. The older
     # three-tranche default borrowed 85 % of CAPEX, including a large
@@ -609,8 +827,8 @@ def _funding_and_affordability_section(
     # generated schema still carries `*_eur` compatibility fields. The
     # README renders USD-first. Each line covers one discrete asset
     # class — no double-counting between rolling-stock
-    # maintenance and stop/depot charging microgrids, no electricity
-    # charge on top of solar self-generation.
+    # maintenance and stop/depot charging microgrids. Traction energy
+    # is charged only for the net grid/PPA top-up after on-site PV.
     #
     #   • rolling-stock maintenance — 4 % of rolling-stock CAPEX. Covers
     #     onboard motors, batteries, body, electronics, brakes, doors,
@@ -626,14 +844,12 @@ def _funding_and_affordability_section(
     #     carry the expensive function; wayside is LoRa gateways,
     #     W-Nodes at switches/stations, passive balises, and OCC
     #     interfaces, maintained by the shared electronics team.
-    #   • traction energy — **€0 / yr in the steady state**. The
-    #     network is self-sufficient on its own trackside PV per
-    #     RFC 0002 §6 (~$30 M energy-subsystem CAPEX sized for the
-    #     deployment's full kWh/car-km demand). Earlier OPEX models
-    #     billed €0.10/kWh × annual car-km on top of that — i.e. they
-    #     paid for the same electricity twice (once in the PV CAPEX,
-    #     once as a phantom utility bill). Removed 2026-04-26 per the
-    #     operator-review correction.
+    #   • traction energy — timetable demand minus on-site PV and the
+    #     dedicated solar plant. Earlier OPEX models made the opposite
+    #     error in two directions: either billing all car-km despite PV
+    #     CAPEX, or billing none even when the generated PV estate no
+    #     longer covered the uplifted timetable. The row below charges
+    #     only residual grid/PPA shortfall plus annual solar-plant O&M.
     #   • labour — derived from headcount × country-median salary.
     rs_maint = 0.04 * float(costs.get("rolling_stock_eur", 0.0))
     civil_maint = 0.02 * (
@@ -643,53 +859,50 @@ def _funding_and_affordability_section(
     )
     sig_maint = 0.05 * float(costs.get("signalling_eur", 0.0))
 
-    # Annual train-km from realistic per-trainset utilisation:
-    #   service-hours per day × 365 service-days × commercial speed
-    #   × revenue-factor (terminal turnarounds + dwells + off-peak
-    #   headway slack + daily depot turnaround + ~2 % maintenance
-    #   downtime).
-    #
-    # Service hours bumped 2026-04-26 from a 18 h / 280-day model
-    # (typical northern-Europe operating hours) to **20.5 h / 365 d**
-    # — operator brief: hot-climate cities run later (Samawah,
-    # Baghdad, Cairo, Karachi all have post-midnight street life and
-    # benefit from late service). 5:30 → 02:00 = 20.5 h.
     consist_cars = stats.consist_cars
-    revenue_trainsets = stats.revenue_fleet
-    service_hours_per_day = 20.5  # 05:30–02:00
-    service_days_per_year = 365
-    commercial_speed_kmh = {
-        "tram-2car": 22.0,
-        "light-metro-3car": 30.0,
-        "metro-4car": 35.0,
-        "metro-6car": 35.0,
-    }.get(stats.consist_family, 30.0)
-    revenue_factor = 0.75
-    annual_km_per_trainset = (
-        service_hours_per_day
-        * service_days_per_year
-        * commercial_speed_kmh
-        * revenue_factor
+    total_trainsets = stats.revenue_fleet + stats.spare_fleet + stats.reserve_fleet
+    service_hours_per_day = energy_plan.service_hours_per_day
+    service_days_per_year = energy_plan.service_days_per_year
+    annual_train_km = energy_plan.annual_train_km
+    annual_car_km = energy_plan.annual_car_km
+    train_km_basis = energy_plan.train_km_basis
+
+    # Annual traction energy demand. On-site station/depot PV offsets the
+    # demand first, then the dedicated solar plant covers the remaining
+    # generated-timetable shortfall. Grid-tie standby and local charger
+    # maintenance stay in civil_maint.
+    annual_energy_kwh = energy_plan.annual_energy_kwh
+    annual_energy_gwh = annual_energy_kwh / 1e6
+    onsite_pv_kwh = energy_plan.onsite_pv_kwh
+    solar_plant_kwh = energy_plan.solar_plant_generation_kwh
+    residual_grid_import_kwh = energy_plan.residual_grid_import_kwh
+    grid_energy_usd_per_kwh = float(fin.get("grid_energy_usd_per_kwh", 0.10))
+    residual_grid_eur = (
+        residual_grid_import_kwh * grid_energy_usd_per_kwh * _USD_TO_EUR
     )
-    annual_train_km = revenue_trainsets * annual_km_per_trainset
-    annual_car_km = annual_train_km * consist_cars
+    solar_plant_maint_eur = energy_plan.solar_plant_maintenance_usd * _USD_TO_EUR
+    energy_eur = residual_grid_eur + solar_plant_maint_eur
+    onsite_pv_gwh = onsite_pv_kwh / 1e6
+    solar_plant_gwh = solar_plant_kwh / 1e6
+    residual_grid_import_gwh = residual_grid_import_kwh / 1e6
+    pv_coverage_pct = (
+        min(1.0, (onsite_pv_kwh + solar_plant_kwh) / annual_energy_kwh)
+        if annual_energy_kwh > 0.0 else 1.0
+    )
 
-    # Annual traction energy demand at 4 kWh/car-km. Reported for
-    # reference; **not** charged in OPEX because trackside PV provides
-    # it. Grid-tie standby is part of civil_maint.
-    annual_energy_gwh = annual_car_km * 4.0 / 1e6
-    energy_eur = 0.0
-
-    # Labour. OSR-discipline headcount per RFC 0014 §4 + RFC 0013
-    # rulebook: GoA 4 driverless (no train drivers), onboard-first
-    # train control + residual LoRa wayside (no proprietary signalling
-    # contract, no trackside fibre maintenance crew), reduced station staff
-    # (level boarding + PSDs handle most platform safety). Industry
-    # benchmark for legacy metros is ~45–70 FTE per route-km
-    # (Singapore SMRT, Hong Kong MTR); OSR-discipline target is
-    # ~6 FTE per route-km plus a 12-person admin/OCC core.
-    ops_fte_per_km = 6.0
-    headcount = int(round(ops_fte_per_km * stats.route_km)) + 12
+    # Labour. GoA 4 driverless (no train drivers), but RFC 0015 moves
+    # safety presence to OCC remote assist, station/platform staff, and
+    # maintenance. The headcount model therefore scales with service
+    # hours, fleet size, station count, route-km, and high-case ridership.
+    workforce = _driverless_workforce_breakdown(
+        design=design,
+        stats=stats,
+        service_hours_per_day=service_hours_per_day,
+        total_trainsets=total_trainsets,
+        annual_train_km=annual_train_km,
+        daily_paid_trips_high=daily_pax_high,
+    )
+    headcount = sum(workforce.values())
     monthly_income = float(fin.get("median_monthly_income_usd", 600))
     # Salary mix: country-median × 12 × engineer-premium 1.4
     # (mainline maintainers / dispatchers / inspectors paid 1.5–2 ×
@@ -785,7 +998,14 @@ def _funding_and_affordability_section(
         else 0.0
     )
     cost_neutral_daily_pax = cost_neutral_annual_pax / service_days_per_year
-    cost_neutral_share = cost_neutral_daily_pax / max(stats.population, 1)
+    cost_neutral_daily_active = (
+        cost_neutral_daily_pax / paid_trips_per_daily_rider
+        if paid_trips_per_daily_rider > 0.0
+        else cost_neutral_daily_pax
+    )
+    cost_neutral_basis_share = (
+        cost_neutral_daily_active / max(ridership_basis_population, 1)
+    )
     cost_neutral_revenue_eur = cost_neutral_farebox_eur + nonfare_eur
     cost_neutral_surplus = max(0.0, cost_neutral_revenue_eur - annual_opex_eur)
     gross_cost_neutral_steady_state = annual_debt_service_eur
@@ -932,25 +1152,52 @@ def _funding_and_affordability_section(
         f"| Residual train-control wayside maintenance | 5 % of residual signalling CAPEX | "
         f"{_usd(sig_maint)} |"
     )
+    if energy_plan.solar_plant_kw > 0.0:
+        solar_supply_basis = (
+            f"on-site PV {onsite_pv_gwh:.1f} GWh/yr + dedicated solar plant "
+            f"{energy_plan.solar_plant_kw / 1000.0:.1f} MW / "
+            f"{solar_plant_gwh:.1f} GWh/yr ({pv_coverage_pct:.0%} coverage)"
+        )
+    else:
+        solar_supply_basis = (
+            f"on-site PV {onsite_pv_gwh:.1f} GWh/yr "
+            f"({pv_coverage_pct:.0%} coverage)"
+        )
     out.append(
         f"| Traction energy ({annual_energy_gwh:.1f} GWh / yr) | "
-        f"trackside PV + Na-ion (RFC 0002) — **self-generated, $0 / yr** | "
+        f"{train_km_basis}; {consist_cars} cars × "
+        f"{_ENERGY_KWH_PER_CAR_KM:.1f} kWh/car-km; "
+        f"{solar_supply_basis}; residual grid/PPA top-up "
+        f"{residual_grid_import_gwh:.1f} GWh/yr @ "
+        f"${grid_energy_usd_per_kwh:.2f}/kWh; solar plant O&M "
+        f"{_SOLAR_PLANT_MAINT_FRAC:.1%}/yr | "
         f"{_usd(energy_eur)} |"
     )
     out.append(
         f"| Labour ({headcount:,} FTE) | "
-        f"~6 FTE/route-km + 12 admin core × country median × 12 × engineer-premium 1.4 | "
+        f"driverless roster: OCC/remote {workforce['occ_remote_assist']}, "
+        f"station/platform {workforce['station_platform']}, passenger service "
+        f"{workforce['passenger_service']}, fleet maintenance "
+        f"{workforce['fleet_maintenance']}, infrastructure/energy "
+        f"{workforce['infrastructure_energy']}, admin/training "
+        f"{workforce['admin_training']}; no train drivers × country median × "
+        f"12 × engineer-premium 1.4 | "
         f"{_usd(labour_eur)} |"
     )
     out.append(
         f"| **OPEX subtotal** | | **{_usd(annual_opex_eur)} / yr** |\n"
     )
     out.append(
-        f"_Annual fleet utilisation: {revenue_trainsets} revenue trainsets × "
-        f"{service_hours_per_day:.1f} h/day × {service_days_per_year} d/yr × "
-        f"{commercial_speed_kmh:.0f} km/h commercial × {revenue_factor:.0%} "
-        f"revenue factor = {annual_train_km / 1e6:.1f} M train-km / yr "
-        f"(~{annual_km_per_trainset / 1e3:.0f} k km / trainset / yr)._\n"
+        f"_Annual service work: {train_km_basis} = "
+        f"{annual_train_km / 1e6:.1f} M train-km / yr "
+        f"({annual_car_km / 1e6:.1f} M car-km / yr). On-site PV covers "
+        f"{onsite_pv_gwh:.1f} GWh/yr and the dedicated solar plant adds "
+        f"{solar_plant_gwh:.1f} GWh/yr against {annual_energy_gwh:.1f} "
+        f"GWh/yr traction demand before residual grid/PPA top-up "
+        f"({residual_grid_import_gwh:.1f} GWh/yr). "
+        f"Driverless labour follows RFC 0015: train drivers are not counted, "
+        f"but OCC remote-assist, platform presence, passenger service, "
+        f"and fleet/energy maintenance scale with the larger service._\n"
     )
 
     out.append("### Ticket pricing anchored to median income\n")
@@ -985,11 +1232,13 @@ def _funding_and_affordability_section(
 
     out.append("### Revenue & operating neutrality\n")
     out.append(
-        f"Planning ridership bracket = "
+        f"Planning ridership bracket = daily active riders at "
         f"{_pct_range(ridership_low_share, ridership_high_share)} of "
-        f"{ridership_basis_label} × {service_days_per_year} service-days "
-        f"at the operating-neutral fare, capped by practical service "
-        f"capacity ({practical_daily_capacity:,} trips/day). The "
+        f"{ridership_basis_label}, converted to paid trips at "
+        f"{paid_trips_per_daily_rider:g} trips/rider/day and capped by "
+        f"practical service capacity ({practical_daily_capacity:,} trips/day). "
+        f"Annual paid trips multiply daily paid trips by "
+        f"{service_days_per_year} service-days at the operating-neutral fare. The "
         "operating-neutral column solves annual paid trips so "
         "**farebox + station-shop leases + advertising = steady-state OPEX**. "
         "Gross post-grace repayable-debt service remains visible in the "
@@ -999,18 +1248,29 @@ def _funding_and_affordability_section(
     out.append("| | Low scenario | High scenario | Operating-neutral target |")
     out.append("|---|---|---|---|")
     out.append(
+        f"| Daily active riders | {daily_active_low:,.0f} | "
+        f"{daily_active_high:,.0f} | {cost_neutral_daily_active:,.0f} |"
+    )
+    out.append(
+        f"| Daily active riders / {ridership_basis_label} | "
+        f"{daily_active_low / ridership_basis_population:.0%} | "
+        f"{daily_active_high / ridership_basis_population:.0%} | "
+        f"{cost_neutral_basis_share:.0%} |"
+    )
+    out.append(
+        f"| Paid trips / active rider | "
+        f"{paid_trips_per_daily_rider:g} | "
+        f"{paid_trips_per_daily_rider:g} | "
+        f"{paid_trips_per_daily_rider:g} |"
+    )
+    out.append(
         f"| Daily paid trips | {daily_pax_low:,.0f} | "
         f"{daily_pax_high:,.0f} | {cost_neutral_daily_pax:,.0f} |"
     )
     out.append(
-        f"| Daily paid trips / {ridership_basis_label} | "
-        f"{daily_pax_low / ridership_basis_population:.0%} | "
-        f"{daily_pax_high / ridership_basis_population:.0%} | "
-        f"{cost_neutral_daily_pax / ridership_basis_population:.0%} |"
-    )
-    out.append(
         f"| Daily paid trips / city population | {daily_pax_low / population:.0%} | "
-        f"{daily_pax_high / population:.0%} | {cost_neutral_share:.0%} |"
+        f"{daily_pax_high / population:.0%} | "
+        f"{cost_neutral_daily_pax / population:.0%} |"
     )
     out.append(
         f"| Annual paid trips | {annual_pax_low / 1e6:,.1f} M | "
@@ -1082,7 +1342,7 @@ def _funding_and_affordability_section(
         "**Caveats:** The grant-first funding stack, the "
         f"{target_pass_pct} operating-neutral fare target, the "
         f"{_pct_range(ridership_low_share, ridership_high_share)} "
-        "daily-pax bracket, and the station-commercial assumptions are "
+        "daily-active-rider bracket, and the station-commercial assumptions are "
         "project-level defaults. "
         "Real deployments will negotiate the capital split with financing "
         "institutions and tune fares, retail mix, advertising inventory, "
@@ -1195,6 +1455,7 @@ def render_readme(
         _coverage_from_quality_yaml(design_path),
     )
     stats = compute_stats(design, scenario, population)
+    energy_plan = _energy_plan(design, scenario, stats)
 
     # Map-image filename slug. The rust `osr-design` emitter writes
     # `[city] slug = "samawah"` and `osr_scenario.render_map` writes
@@ -1250,19 +1511,38 @@ def render_readme(
         ridership_basis_label = "city population"
         ridership_low_share = _DAILY_RIDERSHIP_POPULATION_FALLBACK_LOW
         ridership_high_share = _DAILY_RIDERSHIP_POPULATION_FALLBACK_HIGH
+    uncapped_daily_active_low = int(ridership_basis_population * ridership_low_share)
+    uncapped_daily_active_high = int(ridership_basis_population * ridership_high_share)
+    paid_trips_per_daily_rider = _PAID_TRIPS_PER_DAILY_RIDER
+    uncapped_daily_paid_low = int(
+        uncapped_daily_active_low * paid_trips_per_daily_rider
+    )
+    uncapped_daily_paid_high = int(
+        uncapped_daily_active_high * paid_trips_per_daily_rider
+    )
     practical_daily_low = (
-        min(int(ridership_basis_population * ridership_low_share), practical_daily_capacity)
+        min(uncapped_daily_paid_low, practical_daily_capacity)
         if ridership_basis_population > 0
         else None
     )
     practical_daily_high = (
-        min(int(ridership_basis_population * ridership_high_share), practical_daily_capacity)
+        min(uncapped_daily_paid_high, practical_daily_capacity)
         if ridership_basis_population > 0
         else None
     )
+    daily_active_low = (
+        int(practical_daily_low / paid_trips_per_daily_rider)
+        if practical_daily_low is not None and paid_trips_per_daily_rider > 0.0
+        else 0
+    )
+    daily_active_high = (
+        int(practical_daily_high / paid_trips_per_daily_rider)
+        if practical_daily_high is not None and paid_trips_per_daily_rider > 0.0
+        else 0
+    )
     ridership_capped = (
         practical_daily_high is not None
-        and int(ridership_basis_population * ridership_high_share) > practical_daily_capacity
+        and uncapped_daily_paid_high > practical_daily_capacity
     )
 
     # Cost.
@@ -1366,7 +1646,9 @@ def render_readme(
         if catchment else "*(run the planner with a fresh coverage score)*"
     )
     daily_practical_str = (
-        f"≈ **{practical_daily_low:,} – {practical_daily_high:,} trips/day**"
+        f"≈ **{practical_daily_low:,} – {practical_daily_high:,} paid trips/day** "
+        f"({daily_active_low:,} – {daily_active_high:,} daily active riders "
+        f"at {paid_trips_per_daily_rider:g} trips/rider/day)"
         if practical_daily_low is not None else "*(requires a coverage score)*"
     )
     cap_note = " (capped by practical service capacity)" if ridership_capped else ""
@@ -1540,7 +1822,7 @@ def render_readme(
     )
     out.append(
         f"- **Planning daily ridership scenario** "
-        f"({_pct_range(ridership_low_share, ridership_high_share)} of "
+        f"({_pct_range(ridership_low_share, ridership_high_share)} active-rider uptake of "
         f"{ridership_basis_label}{cap_note}): {daily_practical_str}\n"
     )
 
@@ -1570,9 +1852,17 @@ def render_readme(
         f"during station dwell per RFC 0002; onboard "
         f"{stats.consist_battery_kwh} kWh battery covers running.\n"
     )
+    if energy_plan.solar_plant_kw > 0.0:
+        out.append(
+            "Dedicated utility-scale solar plant / contracted offsite PPA asset: "
+            f"**{energy_plan.solar_plant_kw / 1000.0:,.1f} MW** sized to cover "
+            "the generated timetable traction-energy gap after station/depot "
+            f"PV, including a {_SOLAR_PLANT_COVERAGE_MARGIN:.0%} planning "
+            "coverage margin. This is carried as infrastructure CAPEX below.\n"
+        )
     out.append("### Energy Feasibility Check\n")
     avg_line_km = stats.route_km / max(stats.line_count, 1)
-    trainset_kwh_per_km = stats.consist_cars * 4.0
+    trainset_kwh_per_km = stats.consist_cars * _ENERGY_KWH_PER_CAR_KM
     avg_line_energy_kwh = avg_line_km * trainset_kwh_per_km
     reserve_ratio = (
         stats.consist_battery_kwh / avg_line_energy_kwh
@@ -1586,13 +1876,37 @@ def render_readme(
         if dwell_charge_kwh > 0.0
         else 0.0
     )
-    pv_daily_mwh = stats.total_pv_kw * 5.0 / 1000.0
+    traction_daily_mwh = (
+        energy_plan.annual_energy_kwh
+        / energy_plan.service_days_per_year
+        / 1000.0
+    )
+    pv_daily_mwh = (
+        energy_plan.onsite_pv_kwh
+        / energy_plan.service_days_per_year
+        / 1000.0
+    )
+    pre_plant_grid_daily_mwh = (
+        energy_plan.pre_plant_grid_import_kwh
+        / energy_plan.service_days_per_year
+        / 1000.0
+    )
+    solar_plant_daily_mwh = (
+        energy_plan.solar_plant_generation_kwh
+        / energy_plan.service_days_per_year
+        / 1000.0
+    )
+    residual_grid_daily_mwh = (
+        energy_plan.residual_grid_import_kwh
+        / energy_plan.service_days_per_year
+        / 1000.0
+    )
     storage_mwh = stats.total_battery_kwh / 1000.0
     out.append("| Check | Value | Interpretation |")
     out.append("|---|---:|---|")
     out.append(
         f"| Trainset line-haul intensity | {trainset_kwh_per_km:.1f} kWh/km | "
-        f"{stats.consist_cars} cars × 4 kWh/car-km planning basis |"
+        f"{stats.consist_cars} cars × {_ENERGY_KWH_PER_CAR_KM:.1f} kWh/car-km planning basis |"
     )
     out.append(
         f"| Average one-way line energy | {avg_line_energy_kwh:,.0f} kWh | "
@@ -1612,7 +1926,27 @@ def render_readme(
     )
     out.append(
         f"| PV daily yield proxy | {pv_daily_mwh:,.0f} MWh/day | "
-        "5 peak-sun-hour planning proxy before local derates |"
+        f"{energy_plan.peak_sun_hours:.1f} peak-sun-hour planning proxy before local derates |"
+    )
+    out.append(
+        f"| Scheduled traction demand | {traction_daily_mwh:,.0f} MWh/day | "
+        f"{energy_plan.scheduled_daily_train_km:,.0f} scheduled train-km/day × "
+        f"{_NON_REVENUE_TRAIN_KM_FACTOR:.0%} depot/deadhead factor |"
+    )
+    out.append(
+        f"| On-site PV shortfall before solar plant | {pre_plant_grid_daily_mwh:,.0f} MWh/day | "
+        "Gap used to size the dedicated plant / offsite solar PPA asset |"
+    )
+    out.append(
+        f"| Dedicated solar plant | "
+        f"{energy_plan.solar_plant_kw / 1000.0:,.1f} MW / "
+        f"{solar_plant_daily_mwh:,.0f} MWh/day | "
+        f"Utility PV + interconnection with {_SOLAR_PLANT_COVERAGE_MARGIN:.0%} "
+        "planning coverage margin |"
+    )
+    out.append(
+        f"| Residual grid/PPA top-up need | {residual_grid_daily_mwh:,.0f} MWh/day | "
+        "Backup import after on-site PV plus the dedicated solar plant |"
     )
     out.append(
         f"| Station/depot stationary storage | {storage_mwh:,.0f} MWh | "
@@ -1625,21 +1959,26 @@ def render_readme(
     # archetype and references the design-discipline reasoning.
     rust_costs = design.get("costs")
     if rust_costs:
-        out.extend(_rich_capex_section(design, rust_costs, stats))
+        out.extend(_rich_capex_section(design, rust_costs, stats, energy_plan))
         # Funding & affordability section — CAPEX funding stack, annual
         # OPEX estimate, ticket pricing anchored to country median
         # income. Reads `lib/templates/country-finance.toml`.
         out.extend(_funding_and_affordability_section(
             design,
+            scenario,
             rust_costs,
             stats,
+            energy_plan,
             rel,
+            daily_active_low=daily_active_low,
+            daily_active_high=daily_active_high,
             daily_pax_low=practical_daily_low or 0,
             daily_pax_high=practical_daily_high or 0,
             ridership_basis_label=ridership_basis_label,
             ridership_basis_population=ridership_basis_population,
             ridership_low_share=ridership_low_share,
             ridership_high_share=ridership_high_share,
+            paid_trips_per_daily_rider=paid_trips_per_daily_rider,
             practical_daily_capacity=practical_daily_capacity,
         ))
         # Skip the per-unit fallback section below; jump to "## Files".
@@ -1938,7 +2277,10 @@ def _charging_microgrid_eur(costs: dict) -> float:
 
 
 def _rich_capex_section(
-    design: dict, costs: dict, stats: NetworkStats
+    design: dict,
+    costs: dict,
+    stats: NetworkStats,
+    energy_plan: EnergyPlan,
 ) -> list[str]:
     """Emit the per-archetype CAPEX breakdown sourced from
     `design.toml`'s `[costs]` block (rust `osr-design` planner).
@@ -2002,8 +2344,9 @@ def _rich_capex_section(
         "with only residual wayside** (no trackside fibre backbone, no "
         "proprietary CBTC vendor stack, no trackside computer "
         "interlockings — the function moves into the trainset, already "
-        "counted in rolling-stock CAPEX), no overhead catenary, and self-EPC "
-        "overhead. The rolling-stock line now includes production labour, "
+        "counted in rolling-stock CAPEX), no overhead catenary, a dedicated "
+        "solar plant when the generated timetable exceeds station/depot PV, "
+        "and self-EPC overhead. The rolling-stock line now includes production labour, "
         "shop overhead, fixtures/tool amortisation, rail QA and "
         "homologation evidence, freight, duty, warranty, initial spares, "
         "training, commissioning, and acceptance testing. A separate lean "
@@ -2145,6 +2488,50 @@ def _rich_capex_section(
     )
     out.append("")
 
+    out.append("### Dedicated solar power plant\n")
+    out.append(
+        "Station/depot PV is counted in the charging microgrid and depot "
+        "asset lines. When the generated timetable still has a traction-energy "
+        "shortfall, the README adds a separate utility-scale solar plant "
+        "or contracted offsite PPA asset sized from that gap.\n"
+    )
+    out.append("| Item | Basis | Value |")
+    out.append("|---|---|---:|")
+    if energy_plan.solar_plant_kw > 0.0:
+        utility_pv_usd = (
+            energy_plan.solar_plant_kw * _SOLAR_PLANT_UTILITY_USD_PER_KW
+        )
+        interconnection_usd = (
+            energy_plan.solar_plant_kw * _SOLAR_PLANT_INTERCONNECTION_USD_PER_KW
+        )
+        out.append(
+            f"| Utility-scale PV field | "
+            f"{energy_plan.solar_plant_kw:,.0f} kW @ "
+            f"${_SOLAR_PLANT_UTILITY_USD_PER_KW:,.0f}/kW | "
+            f"{_money_value_usd(utility_pv_usd)} |"
+        )
+        out.append(
+            f"| Grid interconnection / PPA tie-in | "
+            f"{energy_plan.solar_plant_kw:,.0f} kW @ "
+            f"${_SOLAR_PLANT_INTERCONNECTION_USD_PER_KW:,.0f}/kW | "
+            f"{_money_value_usd(interconnection_usd)} |"
+        )
+        out.append(
+            f"| Annual generation proxy | "
+            f"{energy_plan.solar_plant_kw / 1000.0:,.1f} MW × "
+            f"{energy_plan.peak_sun_hours:.1f} peak-sun-h/day × "
+            f"{energy_plan.service_days_per_year} d/yr | "
+            f"{energy_plan.solar_plant_generation_kwh / 1e6:,.1f} GWh/yr |"
+        )
+    else:
+        out.append(
+            "| Supplemental plant | on-site station/depot PV covers generated timetable demand | $0 |"
+        )
+    out.append(
+        f"| **Dedicated solar plant subtotal** | | "
+        f"**{_money_value_usd(energy_plan.solar_plant_capex_usd)}** |\n"
+    )
+
     out.append("### Systems\n")
     out.append("| Item | Basis | Subtotal |")
     out.append("|---|---|---|")
@@ -2174,6 +2561,10 @@ def _rich_capex_section(
     out.append(f"| Rolling stock | {_money('rolling_stock')} |")
     out.append(f"| Railway production plant | {_money('production_plant')} |")
     out.append(
+        f"| Dedicated solar power plant | "
+        f"{_money_value_usd(energy_plan.solar_plant_capex_usd)} |"
+    )
+    out.append(
         f"| Residual train-control wayside + charging microgrids | "
         f"{_fmt_usd(_cost_usd('signalling') + _cost_usd('charging_microgrid'))} |"
     )
@@ -2181,8 +2572,7 @@ def _rich_capex_section(
         f"| EPC overhead ({_EPC_OVERHEAD_FRAC:.0%}) | "
         f"{_money('epc_overhead')} |"
     )
-    total = float(costs["total_eur"])
-    total_usd = _cost_usd("total")
+    total_usd = _cost_usd("total") + energy_plan.solar_plant_capex_usd
     out.append(f"| **CAPEX total** | **{_fmt_usd(total_usd)}** |")
     if stats.route_km > 0:
         per_km = total_usd / stats.route_km

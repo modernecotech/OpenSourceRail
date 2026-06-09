@@ -169,12 +169,51 @@ def test_readme_nets_operating_surplus_against_gov_debt_support() -> None:
     )
     assert (
         "| Operating surplus applied to debt support | "
-        "$0 k / yr | -$15 M / yr | **$0 k / yr** |"
+        "-$18 M / yr | -$18 M / yr | **$0 k / yr** |"
         in text
     )
     assert (
         "| **Net gov repayable-debt support + residual OPEX subsidy** | "
-        "$17 M / yr | $1.5 M / yr | **$17 M / yr** |"
+        "$0 k / yr | $0 k / yr | **$18 M / yr** |"
+        in text
+    )
+    assert (
+        "Dedicated utility-scale solar plant / contracted offsite PPA asset: "
+        "**63.3 MW**"
+        in text
+    )
+    assert (
+        "| Dedicated solar plant | 63.3 MW / 317 MWh/day |"
+        in text
+    )
+    assert (
+        "| Residual grid/PPA top-up need | 0 MWh/day |"
+        in text
+    )
+    assert (
+        "| **CAPEX total** | **$885 M** |"
+        in text
+    )
+    assert (
+        "| Traction energy (131.2 GWh / yr) |"
+        in text
+    )
+    assert (
+        "on-site PV 30.7 GWh/yr + dedicated solar plant 63.3 MW / "
+        "115.6 GWh/yr (100% coverage); residual grid/PPA top-up 0.0 GWh/yr"
+        in text
+    )
+    assert (
+        "| Labour (400 FTE) | driverless roster: OCC/remote 65, "
+        "station/platform 127, passenger service 36, fleet maintenance 64"
+        in text
+    )
+    assert (
+        "| Daily active riders | 52,795 | 95,031 | 28,489 |"
+        in text
+    )
+    assert (
+        "| Daily paid trips | 105,590 | 190,062 | 56,977 |"
         in text
     )
     assert (

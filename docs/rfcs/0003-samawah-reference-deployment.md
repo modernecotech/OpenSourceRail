@@ -138,7 +138,7 @@ Eight stations, ~11 km total. North-to-south sequence along the dense urban core
 | 7 | Hayy 270 Dar | 31.2969, 45.2646 | Residential cluster | `place=neighbourhood حي 270 دار` |
 | 8 | Al-Maali | 31.2785, 45.2794 | S terminus; main depot | `place=neighbourhood الشراكية` |
 
-Expected daily ridership at build-up: **35,000 – 48,000 passenger-trips** (highest — serves university + hospital + city centre).
+Expected daily active riders at build-up: **35,000 – 48,000** (highest — serves university + hospital + city centre), equivalent to roughly **70,000 – 96,000 paid passenger-trips/day** at 2 trips/rider/day.
 
 ### 3.2 Line 2 — Sharqiyyeh (E–W crosstown)
 
@@ -153,7 +153,7 @@ Six stations, ~7 km total. Western residential through the city centre to easter
 | 5 | Al-Sharqi East | 31.3135, 45.2901 | Residential cluster | `place=neighbourhood حي الشرقي عكد الداحرة` |
 | 6 | Al-Bustan Sharqi | 31.3167, 45.3118 | E terminus; secondary layup | `place=neighbourhood البساتين الشرقية` |
 
-Expected daily ridership at build-up: **18,000 – 25,000 passenger-trips**.
+Expected daily active riders at build-up: **18,000 – 25,000**, equivalent to roughly **36,000 – 50,000 paid passenger-trips/day** at 2 trips/rider/day.
 
 ### 3.3 Line 3 — Mahatta (SE branch to railway station)
 
@@ -167,7 +167,7 @@ Five stations, ~5 km total. Short branch from the city centre to the intercity r
 | 4 | Al-Qasim | 31.2869, 45.2826 | Southern residential | `place=neighbourhood حي القاسم` |
 | 5 | Samawah Railway Station | 31.2746, 45.3032 | SE terminus; Baghdad–Basra intercity interchange | `railway=station محطة قطار السماوة` |
 
-Expected daily ridership at build-up: **53,000 – 95,000 passenger-trips** under the revenue-forward 3-minute peak service plan.
+Expected daily active riders at build-up: **53,000 – 95,000**, equivalent to roughly **106,000 – 190,000 paid passenger-trips/day** under the revenue-forward 3-minute peak service plan.
 
 ### 3.4 System totals
 
@@ -196,7 +196,7 @@ Expected daily ridership at build-up: **53,000 – 95,000 passenger-trips** unde
 > which emits the sim scenario (`designs/west-asia/Iraq/Samawah/samawah.toml`), the network
 > map PNGs (`docs/screenshots/samawah-network-map*.png`), runs the
 > drift + round-trip tests, and prints the summary stats above.
-| Target daily ridership (steady-state) | 65 000 – 90 000 passenger-trips |
+| Target daily paid trips (steady-state) | 105 000 – 190 000 passenger-trips (53 000 – 95 000 daily active riders) |
 
 ### 3.6 Realism notes
 
@@ -301,15 +301,14 @@ Applying [RFC 0002](0002-energy-sizing.md) to this network, with Samawah-specifi
 
 | Component | kWh/day |
 |---|---|
-| Line 1 line-haul (4 kWh/car-km × 3 cars × traffic) | ≈ 40,000 |
-| Line 2 line-haul | ≈ 22,000 |
-| HVAC uplift for extreme heat (+25% over RFC 0002 baseline in peak summer) | ≈ 15,000 |
-| Stations, depot aux, signals, info systems | ≈ 22,000 |
-| Charging losses | ≈ 10,000 |
-| **Total (peak summer)** | **≈ 110,000 kWh/day = 110 MWh/day** |
-| Total (shoulder season average) | ≈ 85 MWh/day |
+| Scheduled traction service (27,734 train-km/day × 3 cars × 4 kWh/car-km) | ≈ 333,000 |
+| Depot/deadhead allowance (+8%) | ≈ 26,000 |
+| **Generated traction-energy model** | **≈ 359,000 kWh/day = 359 MWh/day** |
 
-Slightly higher than the RFC 0002 reference because Samawah summers are more HVAC-intensive, and we've scaled up to 30 km of route.
+This replaces the earlier 85-110 MWh/day sketch. The 3-minute peak /
+6-minute off-peak plan changes the duty cycle materially: Samawah now
+needs roughly **131 GWh/year** of traction energy before station/building
+auxiliaries.
 
 ### 5.2 PV generation
 
@@ -326,11 +325,25 @@ Samawah's 6 PSH annual mean (with summer peaks above 8 PSH) is higher than the g
 At 220 W/m² × 0.75 packing × 0.78 PR (lower PR than RFC 0002 due to high module temperatures — heat derates silicon):
 - Nameplate AC: **~38 MW**
 - Annual generation at 6 PSH: **~83 GWh/yr = 228 MWh/day average**
-- Comfortable 2× headroom over peak-summer demand; clean surplus most of the year
+- Not enough for the revised 3-minute peak service on its own. The generated README currently reports **16.8 MW** of station/depot PV (~31 GWh/yr at 5 PSH), leaving a **~100.5 GWh/yr** traction-energy shortfall before any supplemental plant.
 
-The headroom deliberately buys two things specific to Samawah:
-1. **Dust-storm resilience.** Peak soiling events in Muthanna can cut yield 40–60% for several days. The surplus lets us absorb this without grid dependence.
-2. **Grid export opportunity.** Iraq's grid is energy-constrained; feed-in under a state-utility PPA could be a material revenue line, not an afterthought.
+The generated infrastructure model now closes that gap with a dedicated
+utility-scale solar plant or contracted offsite solar PPA asset:
+
+| Component | Generated Samawah planning value |
+|---|---:|
+| On-site station/depot PV | 16.8 MW / 30.7 GWh/yr |
+| Traction demand | 131.2 GWh/yr |
+| Shortfall before supplemental plant | 100.5 GWh/yr |
+| Dedicated solar plant, incl. 115% coverage margin | 63.3 MW / 115.6 GWh/yr |
+| Residual grid/PPA import in normal-year proxy | 0.0 GWh/yr |
+
+Samawah therefore remains catenary-free and net-positive in the
+planning case, with the grid/PPA contract retained as backup import and
+export settlement rather than as the primary energy supply. The headroom
+case still matters for:
+1. **Dust-storm resilience.** Peak soiling events in Muthanna can cut yield 40–60% for several days.
+2. **Grid export opportunity.** Iraq's grid is energy-constrained; feed-in under a state-utility PPA could be a material revenue line once generation exceeds service demand.
 
 ### 5.3 Storage
 
@@ -358,15 +371,20 @@ Applying RFC 0002's cost basis, scaled to 30 km and adjusted:
 
 | Item | Cost (USD) |
 |---|---|
-| 38 MW PV (blended across surfaces) @ $700/kW | $26.6 M |
-| 95 MWh trackside Na-ion storage @ $200/kWh installed | $19.0 M |
-| Charging infrastructure | $3.0 M |
-| Onboard batteries, 16 trainsets × 360 kWh @ $150/kWh | $0.9 M |
-| Grid tie + BOP + site works | $5.0 M |
-| Engineering, commissioning, contingency (20% — slightly higher for novel deployment) | $11.1 M |
-| **Energy subsystem total** | **≈ $66 M** |
+| Dedicated 63.3 MW solar plant @ $700/kW utility PV | $44 M |
+| Grid interconnection / PPA tie-in @ $100/kW | $6.3 M |
+| Station/depot charging microgrids | $15 M |
+| Station/depot PV + stationary storage | included in station/depot archetype CAPEX |
+| Onboard batteries | included in rolling-stock CAPEX |
+| **Visible energy adders in generated CAPEX** | **≈ $66 M** |
 
-For comparison, a conventional 25 kV AC catenary + 4 traction substations for a 30 km system in this market would run **≈ $180 M**. The OSR energy approach is **~37% of the catenary cost.**
+The dedicated plant adds about **$51 M** to infrastructure CAPEX and
+about **$0.76 M/year** of plant O&M, but removes the earlier
+~$10 M/year recurring grid/PPA energy purchase in the Samawah README.
+For comparison, a conventional 25 kV AC catenary + 4 traction
+substations for a 30 km system in this market would run **≈ $180 M**.
+The OSR energy approach remains materially below the catenary case while
+also avoiding a large recurring import bill.
 
 ## 6. Mapping to OpenSourceRail Architecture
 
@@ -444,7 +462,7 @@ No engagement is being proposed here. This list exists so that when code is runn
 ## 9. Open Questions
 
 1. **Urban planning compatibility.** The indicative alignment in §3 must be compared against Samawah's urban plan before it can be taken seriously as a routing proposal. This is a desk exercise that a motivated student at Al-Muthanna University could do productively.
-2. **Ridership reality check.** The 65,000–90,000 daily pax figure is a projection by analogy to mid-sized light-metro systems globally. A proper local demand study would refine it by a factor of perhaps 2×. The energy and fleet sizing have enough margin to absorb this, but station capacities and interchange geometry do not.
+2. **Ridership reality check.** The 53,000–95,000 daily-active-rider figure (105,000–190,000 paid trips/day) is a projection by analogy to mid-sized light-metro systems globally. A proper local demand study would refine it by a factor of perhaps 2×. Fleet capacity now has margin; the generated energy plan closes the on-site PV gap with a dedicated solar plant, but its land/PPA counterpart, interconnection, outage reserve, and export-settlement terms need local feasibility work.
 3. **Intercity interchange design.** How exactly does a passenger move between an intercity IRR train and the Line 1 metro at Samawah Railway Station? Platform-level integration is best; shared fare media is ideal but depends on IRR's modernization timeline.
 4. **Bridge over the Euphrates.** Line 1 crosses the river between Samawah Central and Eastern Bridge stations. Existing road bridges may carry the alignment piggyback, or a dedicated rail bridge may be needed. Major capex item; outside this RFC.
 5. **Construction phasing.** Full network in one go is unlikely. Plausible phasing: (Phase A) Line 1 western section, station → centre → Eastern Bridge; (Phase B) Line 1 eastern section, Eastern Bridge → University; (Phase C) Line 2 ring. Each phase must be operationally meaningful on its own.

@@ -146,6 +146,24 @@ Station PV canopies, large stationary Na-ion packs, depot buildings,
 and train batteries are **not** re-billed here. They appear in station,
 energy-site/depot, and rolling-stock scopes respectively.
 
+## Dedicated Solar Plant
+
+Generated city READMEs now add a separate utility-scale solar plant
+or contracted offsite solar PPA asset when the timetable traction-energy
+model exceeds station/depot PV generation. The plant is sized from the
+annual shortfall after on-site PV, with a **115% planning coverage
+margin**, and uses:
+
+| Item | Planning rate |
+|---|---:|
+| Utility PV field | $700/kW |
+| Grid interconnection / PPA tie-in | $100/kW |
+| Annual plant O&M | 1.5% of plant CAPEX |
+
+This plant is carried as infrastructure CAPEX. Its O&M is carried in
+annual traction-energy OPEX; grid/PPA energy purchases are charged only
+for any residual import after on-site PV plus the dedicated plant.
+
 ## Train-Control Wayside
 
 Residual train-control wayside is budgeted at **$50 k per route-km**.
@@ -157,15 +175,26 @@ validation beacons, LoRa gateways, and OCC interfaces.
 
 City READMEs now include a post-opening operating-neutral revenue case. The
 model uses an 8% median-income monthly pass for the stronger service/revenue
-case, expands daily ridership from the generated catchment-based planning
-bracket, and adds station shop leases plus advertising boards. The
-operating-neutral column solves the daily paid trips
+case, expands daily active riders from the generated catchment-based planning
+bracket, converts them to paid trips using the configured
+`paid_trips_per_daily_rider` multiplier, and adds station shop leases plus
+advertising boards. The operating-neutral column solves the daily paid trips
 needed so:
 
 ```text
 farebox + station-shop leases + advertising
 = annual OPEX
 ```
+
+OPEX uses the generated fleet schedule for train-km. On-site PV
+generation offsets traction demand first, the dedicated solar plant
+covers the remaining planned shortfall, and only residual import is
+charged as grid/PPA energy using `grid_energy_usd_per_kwh` from
+`lib/templates/country-finance.toml`. Driverless labour is no longer a
+flat route-km scalar: the README roster scales with service hours,
+lines, revenue fleet, station archetypes, high-case paid trips, annual
+train-km, depots, and the RFC 0015 shift of safety staff from train cabs
+to OCC and platform posts.
 
 Construction-period equity and interest-only grace payments on the
 repayable tranche remain public capital commitments; non-repayable
@@ -185,6 +214,9 @@ civil + stations + depots + rolling_stock
 + railway_production_plant
 + residual_train_control_wayside + charging_microgrids
 ```
+
+Dedicated solar plant CAPEX is then added as a separate infrastructure
+bucket when the generated energy plan requires it.
 
 Country labour/material multipliers are applied downstream through
 `lib/templates/country-costs.toml` when a local tender view is needed.
