@@ -220,53 +220,56 @@ stations = [
 # Fleets — copied from design.toml [[fleets]].
 [[fleets]]
 line = "line-1"
-trainset_count = 20
+trainset_count = 34
 dispatch_points = [
     { station = "line-1-0101-0416", heading = "forward" },
     { station = "line-1-0690-0486", heading = "reverse" },
 ]
 service_start = "05:30"
-service_end = "23:30"
+service_end = "02:00"
 schedule = [
-    { from = "05:30", to = "07:00", headway_min = 10 },
-    { from = "07:00", to = "10:00", headway_min = 5 },
-    { from = "10:00", to = "16:00", headway_min = 10 },
-    { from = "16:00", to = "19:00", headway_min = 5 },
-    { from = "19:00", to = "23:30", headway_min = 10 },
+    { from = "05:30", to = "07:00", headway_min = 6 },
+    { from = "07:00", to = "10:00", headway_min = 3 },
+    { from = "10:00", to = "16:00", headway_min = 6 },
+    { from = "16:00", to = "19:00", headway_min = 3 },
+    { from = "19:00", to = "23:30", headway_min = 6 },
+    { from = "23:30", to = "02:00", headway_min = 12 },
 ]
 
 [[fleets]]
 line = "line-2"
-trainset_count = 15
+trainset_count = 25
 dispatch_points = [
     { station = "line-2-0506-0606", heading = "forward" },
     { station = "line-2-0257-0324", heading = "reverse" },
 ]
 service_start = "05:30"
-service_end = "23:30"
+service_end = "02:00"
 schedule = [
-    { from = "05:30", to = "07:00", headway_min = 10 },
-    { from = "07:00", to = "10:00", headway_min = 5 },
-    { from = "10:00", to = "16:00", headway_min = 10 },
-    { from = "16:00", to = "19:00", headway_min = 5 },
-    { from = "19:00", to = "23:30", headway_min = 10 },
+    { from = "05:30", to = "07:00", headway_min = 6 },
+    { from = "07:00", to = "10:00", headway_min = 3 },
+    { from = "10:00", to = "16:00", headway_min = 6 },
+    { from = "16:00", to = "19:00", headway_min = 3 },
+    { from = "19:00", to = "23:30", headway_min = 6 },
+    { from = "23:30", to = "02:00", headway_min = 12 },
 ]
 
 [[fleets]]
 line = "line-3"
-trainset_count = 14
+trainset_count = 21
 dispatch_points = [
     { station = "line-3-0642-0474", heading = "forward" },
     { station = "line-3-0401-0333", heading = "reverse" },
 ]
 service_start = "05:30"
-service_end = "23:30"
+service_end = "02:00"
 schedule = [
-    { from = "05:30", to = "07:00", headway_min = 10 },
-    { from = "07:00", to = "10:00", headway_min = 5 },
-    { from = "10:00", to = "16:00", headway_min = 10 },
-    { from = "16:00", to = "19:00", headway_min = 5 },
-    { from = "19:00", to = "23:30", headway_min = 10 },
+    { from = "05:30", to = "07:00", headway_min = 6 },
+    { from = "07:00", to = "10:00", headway_min = 3 },
+    { from = "10:00", to = "16:00", headway_min = 6 },
+    { from = "16:00", to = "19:00", headway_min = 3 },
+    { from = "19:00", to = "23:30", headway_min = 6 },
+    { from = "23:30", to = "02:00", headway_min = 12 },
 ]
 
 

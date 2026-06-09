@@ -310,24 +310,24 @@ switches = [
 # [[fleets]] — per-line fleet sizing per RFC 0014 §4.
 [[fleets]]
 line               = "line-1"
-peak_count         = 10
-spare_count        = 1
-cold_reserve_count = 1
-trainset_count     = 12
-
-[[fleets]]
-line               = "line-2"
-peak_count         = 7
-spare_count        = 1
-cold_reserve_count = 1
-trainset_count     = 9
-
-[[fleets]]
-line               = "line-3"
 peak_count         = 16
 spare_count        = 1
 cold_reserve_count = 1
 trainset_count     = 18
+
+[[fleets]]
+line               = "line-2"
+peak_count         = 11
+spare_count        = 1
+cold_reserve_count = 1
+trainset_count     = 13
+
+[[fleets]]
+line               = "line-3"
+peak_count         = 26
+spare_count        = 2
+cold_reserve_count = 1
+trainset_count     = 29
 
 # [costs] — RFC 0011 §9 planning-grade CAPEX (USD
 # direct-procurement planning basis). country-costs.toml applies
@@ -357,11 +357,11 @@ stations_eur         = 78292000
 depots_usd           = 22000000
 depots_eur           = 20240000
 # Rolling stock (RFC 0008 family x fleet count; delivered all-in planning unit).
-rolling_stock_usd    = 163800000
-rolling_stock_eur    = 150696000
+rolling_stock_usd    = 252000000
+rolling_stock_eur    = 231840000
 # Railway production plant (tooling + plant setup per vehicle/car module, not per trainset).
-production_plant_usd = 11700000
-production_plant_eur = 10764000
+production_plant_usd = 18000000
+production_plant_eur = 16560000
 # Systems: residual train-control wayside + station/depot charging microgrids.
 signalling_usd       = 1715624
 signalling_eur       = 1578374
@@ -369,7 +369,7 @@ charging_microgrid_usd = 9020000
 charging_microgrid_eur = 8298400
 power_eur            = 8298400  # deprecated alias for charging_microgrid_eur
 # EPC integration + project management (7% of subtotal).
-epc_overhead_usd     = 34513320
-epc_overhead_eur     = 31752254
-total_usd            = 527560744  # full CAPEX stack
-total_eur            = 485355884  # full CAPEX stack
+epc_overhead_usd     = 41128320
+epc_overhead_eur     = 37838054
+total_usd            = 628675744  # full CAPEX stack
+total_eur            = 578381684  # full CAPEX stack

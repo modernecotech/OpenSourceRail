@@ -417,7 +417,7 @@ fn write_design_toml(
     // Fleets — per-line revenue / spare / cold-reserve counts so the
     // python README emitter and the sim scenario emitter can read fleet
     // sizing from design.toml without re-deriving it. Sized per
-    // RFC 0014 §4: peak from round-trip / 5 min headway, spare = peak/10
+    // RFC 0014 §4: peak from round-trip / 3 min headway, spare = peak/10
     // (min 1), cold-reserve = 1 per line.
     out.push_str("# [[fleets]] — per-line fleet sizing per RFC 0014 §4.\n");
     let mut fleet_total_trainsets: u32 = 0;
@@ -632,7 +632,7 @@ fn compute_depots(
 /// changeover for the driverless GoA 4 control logic per RFC 0015).
 /// Floor of 2.
 fn peak_revenue_trainsets(line_length_m: f64, family: &str) -> u32 {
-    const PEAK_HEADWAY_MIN: f64 = 5.0;
+    const PEAK_HEADWAY_MIN: f64 = 3.0;
     const TURNBACK_MIN: f64 = 3.0;
     let commercial_kmh = match family {
         "tram-2car" => 22.0,
@@ -1700,20 +1700,20 @@ mod tests {
 
     #[test]
     fn fleet_sizing_formula_matches_rfc_0014_samawah_example() {
-        // RFC 0014 §4 Samawah example, v0.1 calibration. 12 km line,
-        // 5-min peak headway, 3-min turnback per end. Commercial speed
+        // RFC 0014 §4 Samawah example, v0.2 calibration. 12 km line,
+        // 3-min peak headway, 3-min turnback per end. Commercial speed
         // is keyed off the rolling-stock family (RFC 0008 §5):
-        // - tram-2car  @ 22 km/h: round-trip 71.5 min → ceil(71.5/5) = 15 peak
-        // - metro-6car @ 35 km/h: round-trip 47.1 min → ceil(47.1/5) = 10 peak
-        // Samawah (280 k pop) gets `tram-2car`. Spare = max(15/10, 1) = 1.
-        // Cold-reserve = 1. Fleet 17. Stalls ceil(17 × 1.25) = 22.
+        // - tram-2car  @ 22 km/h: round-trip 71.5 min → ceil(71.5/3) = 24 peak
+        // - metro-6car @ 35 km/h: round-trip 47.1 min → ceil(47.1/3) = 16 peak
+        // Samawah (280 k pop) gets `tram-2car`. Spare = max(24/10, 1) = 2.
+        // Cold-reserve = 1. Fleet 27. Stalls ceil(27 × 1.25) = 34.
         let peak = peak_revenue_trainsets(12_000.0, "tram-2car");
-        assert_eq!(peak, 15);
+        assert_eq!(peak, 24);
         let peak_metro = peak_revenue_trainsets(12_000.0, "metro-6car");
-        assert_eq!(peak_metro, 10);
+        assert_eq!(peak_metro, 16);
         let fleet = fleet_total(peak);
-        assert_eq!(fleet, 17);
-        assert_eq!(depot_stalls(fleet), 22);
+        assert_eq!(fleet, 27);
+        assert_eq!(depot_stalls(fleet), 34);
     }
 
     #[test]

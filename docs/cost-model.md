@@ -157,10 +157,10 @@ validation beacons, LoRa gateways, and OCC interfaces.
 
 City READMEs now include a post-opening operating-neutral revenue case. The
 model keeps a 5% median-income monthly pass as the affordability marker,
-uses a 6% monthly-pass fare for the break-even case, expands daily
-ridership from the generated catchment-based planning bracket, and adds
-station shop leases plus advertising boards. The operating-neutral column
-solves the daily paid trips
+uses an 8% monthly-pass fare for the stronger service/revenue case, expands
+daily ridership from the generated catchment-based planning bracket, and
+adds station shop leases plus advertising boards. The operating-neutral
+column solves the daily paid trips
 needed so:
 
 ```text
@@ -168,9 +168,11 @@ farebox + station-shop leases + advertising
 = annual OPEX
 ```
 
-Construction-period equity, interest-only grace payments, and post-grace
-debt service remain public capital commitments; the operating-neutral
-case applies only to steady-state operations after opening.
+Construction-period equity and interest-only grace payments on the
+repayable tranche remain public capital commitments; non-repayable
+climate/development grants do not enter debt service. The
+operating-neutral case applies only to steady-state operations after
+opening.
 
 ## EPC
 

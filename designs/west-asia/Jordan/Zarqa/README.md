@@ -22,9 +22,9 @@ Corridor polylines + stations as GeoJSON for GIS / alignment tooling: [`zarqa.co
 | Multi-line transfer reachability | 0% (line-pairs sharing ≥ 1 station) |
 | Anchor-weighted coverage | 47.5% |
 | Route length (double track) | 83.2 km |
-| Revenue fleet | 71 × 3-car trainsets |
-| Spare + cold-reserve | 9 × 3-car trainsets |
-| Peak headway | 5 min |
+| Revenue fleet | 119 × 3-car trainsets |
+| Spare + cold-reserve | 13 × 3-car trainsets |
+| Peak headway | 3 min |
 | Service hours | 05:30 – 02:00 (≈ 20 h/day) |
 
 ## Lines
@@ -33,10 +33,10 @@ Corridor polylines + stations as GeoJSON for GIS / alignment tooling: [`zarqa.co
 
 | Line | Length | Stations | Trainsets | Termini |
 |---|---|---|---|---|
-| line-1 | 29.7 km | 21 | 28 | SW Outer ↔ NE Outer |
-| line-2 | 27.0 km | 19 | 26 | NE Outer ↔ SW Outer |
-| line-3 | 26.4 km | 17 | 26 | SW Outer ↔ NE Outer |
-| **Total** | **83.2 km** | **57 unique** | **80** | |
+| line-1 | 29.7 km | 21 | 47 | SW Outer ↔ NE Outer |
+| line-2 | 27.0 km | 19 | 43 | NE Outer ↔ SW Outer |
+| line-3 | 26.4 km | 17 | 42 | SW Outer ↔ NE Outer |
+| **Total** | **83.2 km** | **57 unique** | **132** | |
 
 ## Rolling stock
 
@@ -52,12 +52,12 @@ Corridor polylines + stations as GeoJSON for GIS / alignment tooling: [`zarqa.co
 ## Ridership capacity
 
 - **Per-train planning capacity:** 360 AW2 passengers (`light-metro-3car`)
-- **Peak frequency:** 12 trains/hour/direction (5-min headway)
-- **Peak capacity per line per direction:** 360 × 12 = **4,320 pphpd**
-- **Network peak throughput (all lines, both directions):** 3 lines × 2 directions × 4,320 = **25,920 passengers/hour**
-- **Daily theoretical capacity (peak × 10):** ≈ **259,200 passenger-trips/day**
-- **Practical daily service capacity** (65% load factor): ≈ **168,480 passenger-trips/day**
-- **Planning daily ridership scenario** (18-30% of catchment): ≈ **59,850 – 99,750 trips/day**
+- **Peak frequency:** 20 trains/hour/direction (3-min headway)
+- **Peak capacity per line per direction:** 360 × 20 = **7,200 pphpd**
+- **Network peak throughput (all lines, both directions):** 3 lines × 2 directions × 7,200 = **43,200 passengers/hour**
+- **Daily theoretical capacity (peak × 10):** ≈ **432,000 passenger-trips/day**
+- **Practical daily service capacity** (80% load factor): ≈ **345,600 passenger-trips/day**
+- **Planning daily ridership scenario** (25-45% of catchment): ≈ **83,125 – 149,625 trips/day**
 
 ## Catchment
 
@@ -142,7 +142,7 @@ Rolling stock is costed at the **delivered production planning unit: $1.4 M per 
 
 | Item | Count | Unit | Subtotal |
 |---|---|---|---|
-| `light-metro-3car` (revenue + spare + cold reserve) | 80 | $4.20 M | $336 M |
+| `light-metro-3car` (revenue + spare + cold reserve) | 132 | $4.20 M | $554 M |
 
 ### Railway production plant
 
@@ -150,8 +150,8 @@ Each city carries a lean local railway production-plant setup allowance for tool
 
 | Item | Count | Unit | Subtotal |
 |---|---:|---:|---:|
-| Vehicle/car modules supported by city fleet | 240 | $100 k | $24 M |
-| High sensitivity check | 240 | $200 k | $48 M |
+| Vehicle/car modules supported by city fleet | 396 | $100 k | $40 M |
+| High sensitivity check | 396 | $200 k | $79 M |
 
 ### Systems
 
@@ -159,7 +159,7 @@ Each city carries a lean local railway production-plant setup allowance for tool
 |---|---|---|
 | Residual signalling / train-control wayside (onboard ATP/ATO + T-OBS carries the function; W-Nodes, balises, LoRa gateways, OCC interfaces remain) | 83.2 km × $0.050 M/km | $4.1 M |
 | Station/depot charging microgrids (conductive charger, switchgear, inverter interface, local PV/battery tie-in; no continuous wayside supply) | per-stop allowance by station archetype | $24 M |
-| EPC integration + project management (7%) | on subtotal | $76 M |
+| EPC integration + project management (7%) | on subtotal | $92 M |
 
 ### Total
 
@@ -168,13 +168,13 @@ Each city carries a lean local railway production-plant setup allowance for tool
 | Civil works | $433 M |
 | Stations | $236 M |
 | Depots | $22 M |
-| Rolling stock | $336 M |
-| Railway production plant | $24 M |
+| Rolling stock | $554 M |
+| Railway production plant | $40 M |
 | Residual train-control wayside + charging microgrids | $28 M |
-| EPC overhead (7%) | $76 M |
-| **CAPEX total** | **$1.15 bn** |
-| Per-route-km | $14 M / km |
-| Per-capita (city pop) | $1,649 / person |
+| EPC overhead (7%) | $92 M |
+| **CAPEX total** | **$1.40 bn** |
+| Per-route-km | $17 M / km |
+| Per-capita (city pop) | $2,007 / person |
 
 ## Funding & affordability
 
@@ -182,78 +182,79 @@ Planning-grade financing model anchored to country financial parameters from [`l
 
 ### Government commitment summary (budgetable)
 
-Bottom line for next year's budget submission. Construction phase runs **years 1–5** (equity drawdown + interest-only grace on multilateral + bonds); steady-state operation begins **year 6** and runs for **20 years** until the loans amortise.
+Bottom line for next year's budget submission. Construction phase runs **years 1–5** (public equity drawdown + interest-only grace on repayable debt; grant disbursements are non-repayable); steady-state operation begins **year 6** and runs for **35 years** until the loans amortise.
 
 | Phase | Annual gov / municipal commitment | Per resident / yr |
 |---|---|---|
-| Construction (years 1–5) | **$84 M / yr** | $120 |
-| Steady-state, low-ridership (year 6+) | **$79 M / yr** | $113 |
-| Steady-state, high-ridership (year 6+) | **$79 M / yr** | $113 |
-| Steady-state, operating-neutral revenue case | **$79 M / yr** | $113 |
-| Lifecycle envelope (yr 1–25, low scenario) | **$2.01 bn cumulative** | $2,864 |
-| Lifecycle envelope (yr 1–25, high scenario) | **$2.01 bn cumulative** | $2,864 |
-| Lifecycle envelope (yr 1–25, operating-neutral after opening) | **$2.01 bn cumulative** | $2,864 |
+| Construction (years 1–5) | **$42 M / yr** | $60 |
+| Steady-state, low-ridership (year 6+) | **$28 M / yr** | $40 |
+| Steady-state, high-ridership (year 6+) | **$28 M / yr** | $40 |
+| Steady-state, operating-neutral revenue case | **$28 M / yr** | $40 |
+| Lifecycle envelope (yr 1–40, low scenario) | **$1.19 bn cumulative** | $1,706 |
+| Lifecycle envelope (yr 1–40, high scenario) | **$1.19 bn cumulative** | $1,706 |
+| Lifecycle envelope (yr 1–40, operating-neutral after opening) | **$1.19 bn cumulative** | $1,706 |
 
-_Population basis: 700,000 (catchment per `lib/city-batches/world-sample.toml`). After year 25, debt service drops to zero; the operating-neutral case already covers steady-state OPEX from fares, station shops, and advertising. Low/high residual OPEX shortfall before debt is $0 k / yr → $0 k / yr._
+_Population basis: 700,000 (catchment per `lib/city-batches/world-sample.toml`). After year 40, debt service drops to zero; the operating-neutral case already covers steady-state OPEX from fares, station shops, and advertising. Low/high residual OPEX shortfall before debt is $0 k / yr → $0 k / yr._
 
 ### CAPEX funding stack
 
 | Tranche | Share | Principal | Rate | Tenor | Annual debt service (post-grace) |
 |---|---|---|---|---|---|
-| Multilateral concessional loan (IBRD / AfDB / ADB class) | 60% | $693 M | 4.0% | 25 y, 5 y grace | $51 M / yr |
-| Sovereign bonds (10-y benchmark + project) | 25% | $289 M | 7.5% | 25 y, 5 y grace | $28 M / yr |
-| Government equity (no debt service) | 15% | $173 M | — | — | — |
-| **Total** | **100%** | **$1.15 bn** | | | **$79 M / yr** |
+| Climate / development grant (non-repayable) | 40% | $562 M | — | — | — |
+| Green concessional loan (World Bank / AfDB / ADB / GCF class) | 50% | $702 M | 2.0% | 40 y, 5 y grace | $28 M / yr |
+| Sovereign / project bonds (fallback only) | 0% | $0 k | 7.5% | 40 y, 5 y grace | $0 k / yr |
+| Government equity (no debt service) | 10% | $140 M | — | — | — |
+| **Total** | **100%** | **$1.40 bn** | | | **$28 M / yr** |
 
-_During the 5-year grace period the operator pays interest only — multilateral $28 M / yr + bonds $22 M / yr = **$49 M / yr** total — plus the equity tranche amortised across construction ($35 M / yr × 5 yr). Principal repayment begins in year 6 on a 20-year amortisation schedule._
+_During the 5-year grace period the public sponsor pays interest only on repayable debt — concessional loan $14 M / yr + fallback bonds $0 k / yr = **$14 M / yr** total. The $562 M grant tranche carries no repayment or coupon. Government equity is drawn across construction ($28 M / yr × 5 yr). Principal repayment begins in year 6 on a 35-year amortisation schedule._
 
 ### Annual OPEX (steady state)
 
 | Component | Basis | Annual cost |
 |---|---|---|
-| Rolling-stock maintenance | 4 % of rolling-stock CAPEX | $13 M |
+| Rolling-stock maintenance | 4 % of rolling-stock CAPEX | $22 M |
 | Civil + station + depot maintenance | 2 % of fixed-asset CAPEX | $14 M |
 | Residual train-control wayside maintenance | 5 % of residual signalling CAPEX | $207 k |
-| Traction energy (143.4 GWh / yr) | trackside PV + Na-ion (RFC 0002) — **self-generated, $0 / yr** | $0 k |
+| Traction energy (240.4 GWh / yr) | trackside PV + Na-ion (RFC 0002) — **self-generated, $0 / yr** | $0 k |
 | Labour (511 FTE) | ~6 FTE/route-km + 12 admin core × country median × 12 × engineer-premium 1.4 | $5.0 M |
-| **OPEX subtotal** | | **$32 M / yr** |
+| **OPEX subtotal** | | **$41 M / yr** |
 
-_Annual fleet utilisation: 71 revenue trainsets × 20.5 h/day × 365 d/yr × 30 km/h commercial × 75% revenue factor = 12.0 M train-km / yr (~168 k km / trainset / yr)._
+_Annual fleet utilisation: 119 revenue trainsets × 20.5 h/day × 365 d/yr × 30 km/h commercial × 75% revenue factor = 20.0 M train-km / yr (~168 k km / trainset / yr)._
 
 ### Ticket pricing anchored to median income
 
-Country median monthly income: **$580 USD** (per [`lib/templates/country-finance.toml`](../../../../lib/templates/country-finance.toml)). Base affordability marker: a monthly unlimited-ride pass costs **5 % of median monthly income**. The operating-neutral case lifts that to **6 %** (+20 % over the baseline) and pairs it with higher service uptake plus station retail and advertising. Single-trip fare is set so that 30 single trips equal one monthly pass — a frequent commuter averaging ~50 trips / month still receives an effective ~40 % bulk discount.
+Country median monthly income: **$580 USD** (per [`lib/templates/country-finance.toml`](../../../../lib/templates/country-finance.toml)). Base affordability marker: a monthly unlimited-ride pass costs **5 % of median monthly income**. The revenue-forward case lifts that to **8 %** and pairs it with higher service uptake, more frequent trains, station retail, and advertising. Single-trip fare is set so that 30 single trips equal one monthly pass — a frequent commuter averaging ~50 trips / month still receives an effective ~40 % bulk discount.
 
 | Product | Price target |
 |---|---|
 | Baseline single-trip fare (5 % pass) | $0.97 |
-| Operating-neutral single-trip fare (6 % pass) | $1.16 |
-| Day pass (3 trips) | $2.96 (15 % bulk discount) |
-| Monthly unlimited pass | $34.80 (~6 % of median monthly income) |
-| Annual pass | $382.80 (11 × monthly = ~1 free month) |
+| Operating-neutral single-trip fare (8 % pass) | $1.55 |
+| Day pass (3 trips) | $3.94 (15 % bulk discount) |
+| Monthly unlimited pass | $46.40 (~8 % of median monthly income) |
+| Annual pass | $510.40 (11 × monthly = ~1 free month) |
 
 ### Revenue & operating neutrality
 
-Planning ridership bracket = 18-30% of catchment × 365 service-days at the operating-neutral fare, capped by practical service capacity (168,480 trips/day). The operating-neutral column solves annual paid trips so **farebox + station-shop leases + advertising = steady-state OPEX**. Post-grace debt service remains a capital-funding obligation in the government commitment table above.
+Planning ridership bracket = 25-45% of catchment × 365 service-days at the operating-neutral fare, capped by practical service capacity (345,600 trips/day). The operating-neutral column solves annual paid trips so **farebox + station-shop leases + advertising = steady-state OPEX**. Post-grace repayable-debt service remains a capital-funding obligation in the government commitment table above.
 
 | | Low scenario | High scenario | Operating-neutral target |
 |---|---|---|---|
-| Daily paid trips | 59,850 | 99,750 | 47,811 |
-| Daily paid trips / catchment | 18% | 30% | 14% |
-| Daily paid trips / city population | 9% | 14% | 7% |
-| Annual paid trips | 21.8 M | 36.4 M | 17.5 M |
-| Farebox revenue | $25 M / yr | $42 M / yr | $20 M / yr |
+| Daily paid trips | 83,125 | 149,625 | 51,333 |
+| Daily paid trips / catchment | 25% | 45% | 15% |
+| Daily paid trips / city population | 12% | 21% | 7% |
+| Annual paid trips | 30.3 M | 54.6 M | 18.7 M |
+| Farebox revenue | $47 M / yr | $84 M / yr | $29 M / yr |
 | Station shop leases | $4.7 M / yr | $4.7 M / yr | $4.7 M / yr |
 | Advertising boards | $7.5 M / yr | $7.5 M / yr | $7.5 M / yr |
-| **Total revenue** | **$38 M / yr** | **$54 M / yr** | **$32 M / yr** |
-| Revenue / OPEX recovery | 116% | 168% | 100% |
+| **Total revenue** | **$59 M / yr** | **$97 M / yr** | **$41 M / yr** |
+| Revenue / OPEX recovery | 144% | 235% | 100% |
 | Country farebox-only policy target (diagnostic) | 55% | 55% | 55% |
-| Gov debt service + residual OPEX subsidy | $79 M / yr | $79 M / yr | **$79 M / yr** |
-| Operating surplus after OPEX | $5.1 M / yr | $22 M / yr | $0 / yr |
+| Gov repayable-debt service + residual OPEX subsidy | $28 M / yr | $28 M / yr | **$28 M / yr** |
+| Operating surplus after OPEX | $18 M / yr | $55 M / yr | $0 / yr |
 
 _Commercial-revenue assumptions: 9,640 m² of station shop/kiosk leases at $46/m²/month and 1,804 advertising boards at $406/board/month, with occupancy derates applied._
 
-**Caveats:** The funding-stack 60/25/15 split, the 6 % operating-neutral fare target, the 18-30% daily-pax bracket, and the station-commercial assumptions are project-level defaults. Real deployments will negotiate the capital split with financing institutions and tune fares, retail mix, advertising inventory, and service frequency iteratively from boarding data. Treat the numbers above as a first-iteration sanity check, not as a bid-ready financial close.
+**Caveats:** The grant-first funding stack, the 8 % operating-neutral fare target, the 25-45% daily-pax bracket, and the station-commercial assumptions are project-level defaults. Real deployments will negotiate the capital split with financing institutions and tune fares, retail mix, advertising inventory, and service frequency iteratively from boarding data. Treat the numbers above as a first-iteration sanity check, not as a bid-ready financial close.
 
 ## Files
 

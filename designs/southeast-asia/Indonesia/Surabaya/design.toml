@@ -1723,52 +1723,52 @@ premium_eur     = 2300000
 # [[fleets]] — per-line fleet sizing per RFC 0014 §4.
 [[fleets]]
 line               = "line-1"
+peak_count         = 56
+spare_count        = 5
+cold_reserve_count = 1
+trainset_count     = 62
+
+[[fleets]]
+line               = "line-2"
+peak_count         = 48
+spare_count        = 4
+cold_reserve_count = 1
+trainset_count     = 53
+
+[[fleets]]
+line               = "line-3"
+peak_count         = 37
+spare_count        = 3
+cold_reserve_count = 1
+trainset_count     = 41
+
+[[fleets]]
+line               = "line-4"
 peak_count         = 34
 spare_count        = 3
 cold_reserve_count = 1
 trainset_count     = 38
 
 [[fleets]]
-line               = "line-2"
-peak_count         = 29
-spare_count        = 2
-cold_reserve_count = 1
-trainset_count     = 32
-
-[[fleets]]
-line               = "line-3"
-peak_count         = 23
-spare_count        = 2
-cold_reserve_count = 1
-trainset_count     = 26
-
-[[fleets]]
-line               = "line-4"
-peak_count         = 21
-spare_count        = 2
-cold_reserve_count = 1
-trainset_count     = 24
-
-[[fleets]]
 line               = "line-5"
-peak_count         = 28
-spare_count        = 2
+peak_count         = 46
+spare_count        = 4
 cold_reserve_count = 1
-trainset_count     = 31
+trainset_count     = 51
 
 [[fleets]]
 line               = "line-6"
-peak_count         = 19
-spare_count        = 1
+peak_count         = 32
+spare_count        = 3
 cold_reserve_count = 1
-trainset_count     = 21
+trainset_count     = 36
 
 [[fleets]]
 line               = "line-7"
-peak_count         = 61
-spare_count        = 6
+peak_count         = 101
+spare_count        = 10
 cold_reserve_count = 1
-trainset_count     = 68
+trainset_count     = 112
 
 # [costs] — RFC 0011 §9 planning-grade CAPEX (USD
 # direct-procurement planning basis). country-costs.toml applies
@@ -1798,11 +1798,11 @@ stations_eur         = 620816000
 depots_usd           = 34000000
 depots_eur           = 31280000
 # Rolling stock (RFC 0008 family x fleet count; delivered all-in planning unit).
-rolling_stock_usd    = 2016000000
-rolling_stock_eur    = 1854720000
+rolling_stock_usd    = 3301200000
+rolling_stock_eur    = 3037104000
 # Railway production plant (tooling + plant setup per vehicle/car module, not per trainset).
-production_plant_usd = 144000000
-production_plant_eur = 132480000
+production_plant_usd = 235800000
+production_plant_eur = 216936000
 # Systems: residual train-control wayside + station/depot charging microgrids.
 signalling_usd       = 14205559
 signalling_eur       = 13069114
@@ -1810,7 +1810,7 @@ charging_microgrid_usd = 61410000
 charging_microgrid_eur = 56497200
 power_eur            = 56497200  # deprecated alias for charging_microgrid_eur
 # EPC integration + project management (7% of subtotal).
-epc_overhead_usd     = 290826785
-epc_overhead_eur     = 267560642
-total_usd            = 4445495144  # full CAPEX stack
-total_eur            = 4089855532  # full CAPEX stack
+epc_overhead_usd     = 387216785
+epc_overhead_eur     = 356239442
+total_usd            = 5918885144  # full CAPEX stack
+total_eur            = 5445374333  # full CAPEX stack

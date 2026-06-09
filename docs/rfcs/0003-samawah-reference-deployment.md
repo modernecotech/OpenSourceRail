@@ -12,7 +12,7 @@ This RFC proposes a concrete reference deployment for OpenSourceRail: a **three-
 - **Line 2** — eastern/western radial spine through the city-centre interchange.
 - **Line 3** — third radial service tying the remaining catchment into the city-centre interchange.
 
-Total generated network: **~55 km of double-track light metro, 33 unique stations, 55-trainset fleet including spare and cold-reserve sets**.
+Total generated network: **~55 km of double-track light metro, 33 unique stations, 91-trainset fleet including spare and cold-reserve sets**.
 
 The previous draft of this RFC proposed a 2-line design (14 km radial + 16 km ring, 30 km total). That geometry placed Al-Muthanna University ~8 km south-east of its real location, placed "Samawah Railway Station" in the north-west when the real station is south-east, and routed the Halqa ring through palm groves + agricultural land that wasn't built-up. That design was retired in favour of the OSM-grounded network below.
 
@@ -167,7 +167,7 @@ Five stations, ~5 km total. Short branch from the city centre to the intercity r
 | 4 | Al-Qasim | 31.2869, 45.2826 | Southern residential | `place=neighbourhood حي القاسم` |
 | 5 | Samawah Railway Station | 31.2746, 45.3032 | SE terminus; Baghdad–Basra intercity interchange | `railway=station محطة قطار السماوة` |
 
-Expected daily ridership at build-up: **12,000 – 18,000 passenger-trips** (modest, gated by intercity service frequency).
+Expected daily ridership at build-up: **53,000 – 95,000 passenger-trips** under the revenue-forward 3-minute peak service plan.
 
 ### 3.4 System totals
 
@@ -177,11 +177,11 @@ Expected daily ridership at build-up: **12,000 – 18,000 passenger-trips** (mod
 | Stations (unique) | 33 |
 | Lines | 3 (auto-planned by `osr-design`) |
 | Multi-line interchanges | central interchange complex + radial-junction interchanges — every radial converges on the elevated-junction at city centre per the via-centre routing rule for ≤ 3-line networks |
-| Fleet (revenue) | 49 × 3-car trainsets |
-| Fleet (spare + cold-reserve) | 6 × 3-car trainsets |
+| Fleet (revenue) | 81 × 3-car trainsets |
+| Fleet (spare + cold-reserve) | 10 × 3-car trainsets |
 | Average inter-station spacing | ~1.2 km (per [`SpacingConfig`](../../crates/osr-routing/src/station.rs) — 1.2 km inner, 2 km transitional, 4 km outer; matches the operator brief of "1.2 km inner / 2–5 km outer") |
 | Demand surface | Anchor (POI) + WorldPop residential population blend per [`build_demand_surface`](../../design-py/src/osr_geo/rasterize.py) — lines reach population centres without mapped POIs |
-| Service hours | 05:30 – 23:30, 18 hours |
+| Service hours | 05:30 – 02:00, ~20.5 hours |
 
 > The table above is **derived from** [`design.toml`](../../designs/west-asia/Iraq/Samawah/design.toml);
 > regenerate with `python -m osr_scenario.stats --format markdown`.
@@ -267,13 +267,13 @@ verified `place=city` node.
 
 | Period | Line 1 Nahrain | Line 2 Sharqiyyeh | Line 3 Mahatta |
 |---|---|---|---|
-| AM peak (07:00–09:30) | 5 min | 6 min | 7 min |
-| Midday (09:30–16:00) | 8 min | 10 min | 12 min |
-| PM peak (16:00–19:00) | 5 min | 6 min | 7 min |
-| Evening (19:00–22:00) | 10 min | 12 min | 12 min |
-| Late evening (22:00–23:30) | 15 min | 15 min | 15 min |
+| AM peak (07:00–10:00) | 3 min | 3 min | 3 min |
+| Midday (10:00–16:00) | 6 min | 6 min | 6 min |
+| PM peak (16:00–19:00) | 3 min | 3 min | 3 min |
+| Evening (19:00–23:30) | 6 min | 6 min | 6 min |
+| Late evening (23:30–02:00) | 12 min | 12 min | 12 min |
 
-Line 1 is the busiest service (university + hospitals + centre + southern residential — all major demand anchors). Line 2 provides east-west connectivity crossing L1 at Samawah Central. Line 3 is a short branch whose headway is aligned with the (roughly twice-daily) Baghdad–Basra mainline intercity arrivals so that a rail-station transfer always has a connecting metro service within 5 minutes of the peak timetable.
+Line 1 is the busiest service (university + hospitals + centre + southern residential — all major demand anchors). Line 2 provides east-west connectivity crossing L1 at Samawah Central. Line 3 is a short branch whose headway is aligned with the (roughly twice-daily) Baghdad–Basra mainline intercity arrivals so that a rail-station transfer always has a connecting metro service within 3 minutes of the peak timetable.
 
 ### 4.2 Anchor-driven demand
 

@@ -312,8 +312,8 @@ class ScenarioGenerator:
         # blocks: line + peak/spare/cold-reserve/total counts. The
         # operational dispatch + schedule fields below are optional
         # (older hand-crafted designs carry them; auto-generated
-        # designs default to a Samawah-class 5-min peak headway,
-        # 05:30–23:30 service window). All keys defensive — missing
+        # designs default to a 3-min peak / 6-min off-peak headway,
+        # 05:30–02:00 service window). All keys defensive — missing
         # ones get sensible auto-gen defaults.
         # Build a per-line list of stations (in s_m order) so we can
         # synthesize default dispatch_points at the line's two termini
@@ -350,15 +350,16 @@ class ScenarioGenerator:
                 )
             out.append(f"]\n")
             out.append(f'service_start = "{_escape(f.get("service_start", "05:30"))}"\n')
-            out.append(f'service_end = "{_escape(f.get("service_end", "23:30"))}"\n')
+            out.append(f'service_end = "{_escape(f.get("service_end", "02:00"))}"\n')
             schedule = f.get("schedule") or [
-                # Auto-gen default: peak 5-min headway both peaks,
-                # 10-min off-peak. Matches RFC 0014 §4 fleet sizing.
-                {"from": "05:30", "to": "07:00", "headway_min": 10},
-                {"from": "07:00", "to": "10:00", "headway_min": 5},
-                {"from": "10:00", "to": "16:00", "headway_min": 10},
-                {"from": "16:00", "to": "19:00", "headway_min": 5},
-                {"from": "19:00", "to": "23:30", "headway_min": 10},
+                # Auto-gen default: peak 3-min headway both peaks,
+                # 6-min off-peak. Matches RFC 0014 §4 fleet sizing.
+                {"from": "05:30", "to": "07:00", "headway_min": 6},
+                {"from": "07:00", "to": "10:00", "headway_min": 3},
+                {"from": "10:00", "to": "16:00", "headway_min": 6},
+                {"from": "16:00", "to": "19:00", "headway_min": 3},
+                {"from": "19:00", "to": "23:30", "headway_min": 6},
+                {"from": "23:30", "to": "02:00", "headway_min": 12},
             ]
             out.append(f"schedule = [\n")
             for w in schedule:

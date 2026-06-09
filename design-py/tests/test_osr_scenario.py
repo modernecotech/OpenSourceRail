@@ -9,6 +9,7 @@ from pathlib import Path
 import pytest
 
 from osr_scenario import generate_from_path, generate_scenario
+from osr_scenario.network_readme import _funding_stack, _load_country_finance
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 SAMAWAH_DESIGN = REPO_ROOT / "designs/west-asia/Iraq/Samawah/design.toml"
@@ -127,6 +128,25 @@ def test_generated_file_in_repo_matches_regenerated() -> None:
         "designs/west-asia/Iraq/Samawah/samawah.toml is out of sync with design.toml; run "
         "`python -m osr_scenario` to regenerate."
     )
+
+
+def test_finance_stack_defaults_are_grant_first() -> None:
+    stack = _funding_stack({})
+    assert stack.grant_frac == pytest.approx(0.40)
+    assert stack.multi_frac == pytest.approx(0.50)
+    assert stack.bond_frac == pytest.approx(0.0)
+    assert stack.equity_frac == pytest.approx(0.10)
+    assert stack.multi_rate == pytest.approx(0.020)
+    assert stack.tenor == 40
+
+
+def test_country_finance_inherits_grant_first_defaults() -> None:
+    stack = _funding_stack(_load_country_finance("IQ"))
+    assert stack.grant_frac == pytest.approx(0.40)
+    assert stack.multi_frac == pytest.approx(0.50)
+    assert stack.bond_frac == pytest.approx(0.0)
+    assert stack.equity_frac == pytest.approx(0.10)
+    assert stack.multi_rate == pytest.approx(0.020)
 
 
 def test_consist_matches_light_metro_family() -> None:

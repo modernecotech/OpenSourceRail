@@ -2143,66 +2143,66 @@ premium_eur     = 2300000
 # [[fleets]] — per-line fleet sizing per RFC 0014 §4.
 [[fleets]]
 line               = "line-1"
-peak_count         = 41
-spare_count        = 4
+peak_count         = 68
+spare_count        = 6
 cold_reserve_count = 1
-trainset_count     = 46
+trainset_count     = 75
 
 [[fleets]]
 line               = "line-2"
-peak_count         = 32
-spare_count        = 3
+peak_count         = 53
+spare_count        = 5
 cold_reserve_count = 1
-trainset_count     = 36
+trainset_count     = 59
 
 [[fleets]]
 line               = "line-3"
+peak_count         = 58
+spare_count        = 5
+cold_reserve_count = 1
+trainset_count     = 64
+
+[[fleets]]
+line               = "line-4"
+peak_count         = 33
+spare_count        = 3
+cold_reserve_count = 1
+trainset_count     = 37
+
+[[fleets]]
+line               = "line-5"
+peak_count         = 46
+spare_count        = 4
+cold_reserve_count = 1
+trainset_count     = 51
+
+[[fleets]]
+line               = "line-6"
+peak_count         = 40
+spare_count        = 4
+cold_reserve_count = 1
+trainset_count     = 45
+
+[[fleets]]
+line               = "line-7"
 peak_count         = 35
 spare_count        = 3
 cold_reserve_count = 1
 trainset_count     = 39
 
 [[fleets]]
-line               = "line-4"
-peak_count         = 20
-spare_count        = 2
-cold_reserve_count = 1
-trainset_count     = 23
-
-[[fleets]]
-line               = "line-5"
-peak_count         = 28
-spare_count        = 2
-cold_reserve_count = 1
-trainset_count     = 31
-
-[[fleets]]
-line               = "line-6"
-peak_count         = 24
-spare_count        = 2
-cold_reserve_count = 1
-trainset_count     = 27
-
-[[fleets]]
-line               = "line-7"
-peak_count         = 21
-spare_count        = 2
-cold_reserve_count = 1
-trainset_count     = 24
-
-[[fleets]]
 line               = "line-8"
-peak_count         = 24
-spare_count        = 2
+peak_count         = 40
+spare_count        = 4
 cold_reserve_count = 1
-trainset_count     = 27
+trainset_count     = 45
 
 [[fleets]]
 line               = "line-9"
-peak_count         = 65
-spare_count        = 6
+peak_count         = 108
+spare_count        = 10
 cold_reserve_count = 1
-trainset_count     = 72
+trainset_count     = 119
 
 # [costs] — RFC 0011 §9 planning-grade CAPEX (USD
 # direct-procurement planning basis). country-costs.toml applies
@@ -2232,11 +2232,11 @@ stations_eur         = 806012000
 depots_usd           = 42000000
 depots_eur           = 38640000
 # Rolling stock (RFC 0008 family x fleet count; delivered all-in planning unit).
-rolling_stock_usd    = 2730000000
-rolling_stock_eur    = 2511600000
+rolling_stock_usd    = 4485600000
+rolling_stock_eur    = 4126752000
 # Railway production plant (tooling + plant setup per vehicle/car module, not per trainset).
-production_plant_usd = 195000000
-production_plant_eur = 179400000
+production_plant_usd = 320400000
+production_plant_eur = 294768000
 # Systems: residual train-control wayside + station/depot charging microgrids.
 signalling_usd       = 19919519
 signalling_eur       = 18325957
@@ -2244,7 +2244,7 @@ charging_microgrid_usd = 74520000
 charging_microgrid_eur = 68558400
 power_eur            = 68558400  # deprecated alias for charging_microgrid_eur
 # EPC integration + project management (7% of subtotal).
-epc_overhead_usd     = 385065675
-epc_overhead_eur     = 354260421
-total_usd            = 5886003894  # full CAPEX stack
-total_eur            = 5415123582  # full CAPEX stack
+epc_overhead_usd     = 516735675
+epc_overhead_eur     = 475396821
+total_usd            = 7898673894  # full CAPEX stack
+total_eur            = 7266779983  # full CAPEX stack

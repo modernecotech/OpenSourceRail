@@ -22,11 +22,14 @@
 # README ridership sanity bands. These are daily paid-trip demand scenarios
 # after opening, not physical train capacity. The same low/high pair is used
 # in the ridership and finance sections so the generated report has one story.
-daily_ridership_catchment_low = 0.18
-daily_ridership_catchment_high = 0.30
-daily_ridership_population_fallback_low = 0.10
-daily_ridership_population_fallback_high = 0.18
-practical_capacity_load_factor = 0.65
+# The current planning case assumes a more intensive 3-min peak / 6-min
+# off-peak operating plan, so demand uptake and practical load factor are
+# correspondingly higher than the earlier cautious 5-min service case.
+daily_ridership_catchment_low = 0.25
+daily_ridership_catchment_high = 0.45
+daily_ridership_population_fallback_low = 0.16
+daily_ridership_population_fallback_high = 0.30
+practical_capacity_load_factor = 0.80
 
 [profiles.university]
 # Sharp peaks at lecture start/end during term; very low summer/Fridays.

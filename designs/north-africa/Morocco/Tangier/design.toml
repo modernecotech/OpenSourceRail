@@ -815,38 +815,38 @@ premium_eur     = 2300000
 # [[fleets]] — per-line fleet sizing per RFC 0014 §4.
 [[fleets]]
 line               = "line-1"
-peak_count         = 16
-spare_count        = 1
+peak_count         = 26
+spare_count        = 2
 cold_reserve_count = 1
-trainset_count     = 18
+trainset_count     = 29
 
 [[fleets]]
 line               = "line-2"
-peak_count         = 18
-spare_count        = 1
+peak_count         = 29
+spare_count        = 2
 cold_reserve_count = 1
-trainset_count     = 20
+trainset_count     = 32
 
 [[fleets]]
 line               = "line-3"
-peak_count         = 16
-spare_count        = 1
+peak_count         = 26
+spare_count        = 2
 cold_reserve_count = 1
-trainset_count     = 18
+trainset_count     = 29
 
 [[fleets]]
 line               = "line-4"
-peak_count         = 22
-spare_count        = 2
+peak_count         = 36
+spare_count        = 3
 cold_reserve_count = 1
-trainset_count     = 25
+trainset_count     = 40
 
 [[fleets]]
 line               = "line-5"
-peak_count         = 43
-spare_count        = 4
+peak_count         = 71
+spare_count        = 7
 cold_reserve_count = 1
-trainset_count     = 48
+trainset_count     = 79
 
 # [costs] — RFC 0011 §9 planning-grade CAPEX (USD
 # direct-procurement planning basis). country-costs.toml applies
@@ -876,11 +876,11 @@ stations_eur         = 253736000
 depots_usd           = 26000000
 depots_eur           = 23920000
 # Rolling stock (RFC 0008 family x fleet count; delivered all-in planning unit).
-rolling_stock_usd    = 722400000
-rolling_stock_eur    = 664608000
+rolling_stock_usd    = 1170400000
+rolling_stock_eur    = 1076768000
 # Railway production plant (tooling + plant setup per vehicle/car module, not per trainset).
-production_plant_usd = 51600000
-production_plant_eur = 47472000
+production_plant_usd = 83600000
+production_plant_eur = 76912000
 # Systems: residual train-control wayside + station/depot charging microgrids.
 signalling_usd       = 7645014
 signalling_eur       = 7033413
@@ -888,7 +888,7 @@ charging_microgrid_usd = 25110000
 charging_microgrid_eur = 23101200
 power_eur            = 23101200  # deprecated alias for charging_microgrid_eur
 # EPC integration + project management (7% of subtotal).
-epc_overhead_usd     = 116005457
-epc_overhead_eur     = 106725020
-total_usd            = 1773226271  # full CAPEX stack
-total_eur            = 1631368169  # full CAPEX stack
+epc_overhead_usd     = 149605457
+epc_overhead_eur     = 137637020
+total_usd            = 2286826271  # full CAPEX stack
+total_eur            = 2103880169  # full CAPEX stack

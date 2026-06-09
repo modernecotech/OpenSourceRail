@@ -11,19 +11,40 @@
 # ---------------------------------------------------------------------------
 #   median_monthly_income_usd  — household median per-month income, USD.
 #                                Drives the affordability-anchored ticket
-#                                price (target: ≤ 5 % of monthly income
-#                                for an unlimited monthly pass).
+#                                price.
+#   base_monthly_pass_income_share
+#                              — affordability marker for a monthly pass.
+#   revenue_case_monthly_pass_income_share
+#                              — higher monthly-pass share used for the
+#                                stronger service/revenue case.
 #   gni_per_capita_usd         — GNI per capita, World Bank Atlas method.
 #                                Used as a sanity cross-check.
-#   sovereign_bond_rate        — 10-year sovereign yield, decimal.
-#                                Drives bond-financed CAPEX cost.
-#   multilateral_loan_rate     — IBRD / AfDB / ADB blended rate (Libor+
-#                                margin), decimal. Drives multilateral-
-#                                financed CAPEX cost.
+#   climate_development_grant_share
+#                              — non-repayable climate/development grant
+#                                share of CAPEX. This is excluded from
+#                                government debt service.
+#   multilateral_loan_share    — repayable concessional-loan share of CAPEX.
+#   sovereign_bond_share       — sovereign/project bond share of CAPEX.
+#                                Default is zero because bond coupons are the
+#                                expensive fallback, not the target structure.
+#   government_equity_share    — direct public equity share of CAPEX. This is
+#                                budgeted during construction but carries no
+#                                interest repayment.
+#   sovereign_bond_rate        — 10-year sovereign yield, decimal. Used only
+#                                when sovereign_bond_share > 0.
+#   multilateral_loan_rate     — IBRD / AfDB / ADB blended rate, decimal.
+#                                Kept as the country comparator.
+#   green_concessional_loan_rate
+#                              — climate-window / GCF-blended concessional
+#                                rate used for the repayable loan tranche
+#                                when it is below the country comparator.
 #   capex_grace_years          — years of construction during which
 #                                principal isn't repaid (interest only).
 #   loan_tenor_years           — total tenor for multilateral + bond
 #                                tranches.
+#   concessional_loan_tenor_years
+#                              — preferred tenor for the grant-first
+#                                concessional package.
 #   farebox_recovery_target    — fraction of OPEX that fares should
 #                                recover (rest is operating subsidy).
 #                                Singapore MRT ≈ 1.0; London Tube ≈ 0.95;
@@ -43,11 +64,19 @@
 
 [countries.XX]
 median_monthly_income_usd  = 600
+base_monthly_pass_income_share = 0.05
+revenue_case_monthly_pass_income_share = 0.08
 gni_per_capita_usd         = 7500
+climate_development_grant_share = 0.40
+multilateral_loan_share    = 0.50
+sovereign_bond_share       = 0.00
+government_equity_share    = 0.10
 sovereign_bond_rate        = 0.07
 multilateral_loan_rate     = 0.045
+green_concessional_loan_rate = 0.020
 capex_grace_years          = 5
 loan_tenor_years           = 25
+concessional_loan_tenor_years = 40
 farebox_recovery_target    = 0.50
 currency                   = "USD"
 

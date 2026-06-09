@@ -277,11 +277,23 @@ def compute_stats(
         spare = revenue // 3
         reserve = revenue // 4
 
-    # Peak headway (from the scenario's timetable section, if present).
-    peak_headway_min = 5.0
+    # Peak headway (from generated fleet schedules, with older timetable
+    # sections retained for back-compat).
+    peak_headway_min = float("inf")
+    for fleet in scenario.get("fleets", []):
+        for window in fleet.get("schedule", []):
+            peak_headway_min = min(
+                peak_headway_min,
+                float(window.get("headway_min", peak_headway_min)),
+            )
     for sec in scenario.get("timetable", {}).get("sections", []):
         if sec.get("name", "").lower() in ("peak", "am-peak", "pm-peak"):
-            peak_headway_min = min(peak_headway_min, float(sec.get("headway_min", 5.0)))
+            peak_headway_min = min(
+                peak_headway_min,
+                float(sec.get("headway_min", peak_headway_min)),
+            )
+    if peak_headway_min == float("inf"):
+        peak_headway_min = 3.0
 
     # Default service window 05:30–02:00 (20.5 h/day) — hot-climate
     # cities run later than the European 18 h day. Operator can
@@ -383,13 +395,85 @@ def _load_country_finance(country: str) -> dict:
             try:
                 doc = tomllib.loads(candidate.read_text())
                 table = doc.get("countries", {})
+                defaults = dict(table.get("XX", {}))
                 if country.upper() in table:
-                    return table[country.upper()]
-                return table.get("XX", {})
+                    defaults.update(table[country.upper()])
+                return defaults
             except Exception:
                 break
             break
     return {}
+
+
+@dataclass(frozen=True)
+class FundingStack:
+    grant_frac: float
+    multi_frac: float
+    bond_frac: float
+    equity_frac: float
+    multi_rate: float
+    bond_rate: float
+    tenor: int
+    grace: int
+
+
+def _funding_stack(fin: dict) -> FundingStack:
+    """Debt-light default finance stack for generated city reports.
+
+    The previous model borrowed 85 % of CAPEX, including 25 % at sovereign
+    bond rates. That made government debt-service figures dominate the
+    README. The default here reflects the target OSR deployment posture:
+    treat climate/development grants as the first source of capital, keep
+    the bond market as a fallback only, and make the repayable portion a
+    long-tenor concessional facility.
+    """
+
+    def _frac(key: str, default: float) -> float:
+        return max(0.0, float(fin.get(key, default)))
+
+    grant = _frac("climate_development_grant_share", 0.40)
+    multi = _frac("multilateral_loan_share", 0.50)
+    bond = _frac("sovereign_bond_share", 0.00)
+    equity = _frac(
+        "government_equity_share",
+        max(0.0, 1.0 - grant - multi - bond),
+    )
+    total = grant + multi + bond + equity
+    if total <= 0.0:
+        grant, multi, bond, equity = 0.40, 0.50, 0.00, 0.10
+        total = 1.0
+    grant, multi, bond, equity = (
+        grant / total,
+        multi / total,
+        bond / total,
+        equity / total,
+    )
+
+    base_multi_rate = float(fin.get("multilateral_loan_rate", 0.045))
+    climate_rate = float(fin.get("green_concessional_loan_rate", 0.020))
+    multi_rate = min(base_multi_rate, climate_rate)
+    bond_rate = float(fin.get("sovereign_bond_rate", 0.07))
+
+    tenor = int(
+        fin.get(
+            "concessional_loan_tenor_years",
+            max(int(fin.get("loan_tenor_years", 25)), 40),
+        )
+    )
+    grace = int(fin.get("capex_grace_years", 5))
+    tenor = max(tenor, 1)
+    grace = min(max(grace, 0), tenor - 1)
+
+    return FundingStack(
+        grant_frac=grant,
+        multi_frac=multi,
+        bond_frac=bond,
+        equity_frac=equity,
+        multi_rate=multi_rate,
+        bond_rate=bond_rate,
+        tenor=tenor,
+        grace=grace,
+    )
 
 
 def _station_commercial_revenue_eur(
@@ -460,9 +544,9 @@ def _funding_and_affordability_section(
     ridership_high_share: float,
     practical_daily_capacity: int,
 ) -> list[str]:
-    """Emit the `## Funding & affordability` section: CAPEX funding
-    stack (multilateral + sovereign + equity), annual OPEX, ticket
-    pricing anchored to median income, and farebox-recovery shortfall.
+    """Emit the `## Funding & affordability` section: grant-first CAPEX
+    funding stack, annual OPEX, ticket pricing anchored to median income,
+    and farebox-recovery shortfall.
 
     Pure function of the costs block + country-finance config — no
     network calls. Designed so any new city listed in
@@ -477,22 +561,24 @@ def _funding_and_affordability_section(
     if total_eur <= 0:
         return []
 
-    # Funding stack — three-tranche default that mirrors how IBRD /
-    # AfDB / ADB-financed urban-rail projects in target regions are
-    # actually capitalised. Multilateral + sovereign-bond + equity
-    # split is parametrised here so deployments can override per the
-    # specific MoU.
-    multi_frac = 0.60
-    bond_frac = 0.25
-    equity_frac = 0.15
+    # Funding stack — grant-first and concessional-debt-heavy. The older
+    # three-tranche default borrowed 85 % of CAPEX, including a large
+    # sovereign-bond slice; that made government interest repayment dominate
+    # otherwise affordable OSR deployments.
+    stack = _funding_stack(fin)
+    grant_frac = stack.grant_frac
+    multi_frac = stack.multi_frac
+    bond_frac = stack.bond_frac
+    equity_frac = stack.equity_frac
+    grant_eur = total_eur * grant_frac
     multi_eur = total_eur * multi_frac
     bond_eur = total_eur * bond_frac
     equity_eur = total_eur * equity_frac
 
-    multi_rate = float(fin.get("multilateral_loan_rate", 0.045))
-    bond_rate = float(fin.get("sovereign_bond_rate", 0.07))
-    tenor = int(fin.get("loan_tenor_years", 25))
-    grace = int(fin.get("capex_grace_years", 5))
+    multi_rate = stack.multi_rate
+    bond_rate = stack.bond_rate
+    tenor = stack.tenor
+    grace = stack.grace
 
     # Level annual debt service after grace, simple amortisation.
     def _annuity(principal: float, rate: float, years: int) -> float:
@@ -506,16 +592,12 @@ def _funding_and_affordability_section(
     bond_annuity = _annuity(bond_eur, bond_rate, repayment_years)
     annual_debt_service_eur = multi_annuity + bond_annuity
 
-    # Construction-phase commitment. During the `grace` years the
-    # government carries:
+    # Construction-phase commitment. During the `grace` years the public
+    # sponsor carries:
     #   • the equity tranche, drawn down evenly across construction;
-    #   • interest-only service on multilateral + sovereign bonds (IBRD
-    #     /AfDB / ADB grace is interest-only by convention; bondholders
-    #     expect coupon payments from issuance even before revenue
-    #     service). Earlier readme versions skipped grace-period
-    #     interest entirely, understating the real construction-phase
-    #     commitment by 5 × ~25 % of post-grace annuity.
-    #   • principal repayment doesn't start until year `grace + 1`.
+    #   • interest-only service on repayable debt;
+    #   • no repayment on the climate/development grant tranche.
+    # Principal repayment doesn't start until year `grace + 1`.
     construction_years = max(grace, 1)
     annual_equity_eur = equity_eur / construction_years
     annual_grace_interest_eur = (multi_eur * multi_rate) + (bond_eur * bond_rate)
@@ -618,15 +700,20 @@ def _funding_and_affordability_section(
     annual_opex_eur = rs_maint + civil_maint + sig_maint + energy_eur + labour_eur
 
     # Affordability-anchored ticket pricing. The base affordability
-    # marker remains 5 % of country median monthly income; the
-    # operating-neutral case lifts that slightly to 6 % (+20 %) and
-    # solves the ridership needed after station retail + advertising
-    # revenue.
-    base_monthly_pass_usd = 0.05 * monthly_income
-    target_monthly_pass_usd = 0.06 * monthly_income
+    # marker remains a low-income-pass sanity check; the revenue case
+    # uses a higher monthly-pass share and solves the ridership needed
+    # after station retail + advertising revenue.
+    base_pass_share = float(fin.get("base_monthly_pass_income_share", 0.05))
+    target_pass_share = float(
+        fin.get("revenue_case_monthly_pass_income_share", 0.08)
+    )
+    base_monthly_pass_usd = base_pass_share * monthly_income
+    target_monthly_pass_usd = target_pass_share * monthly_income
     base_trip_usd = base_monthly_pass_usd / 30.0
     target_trip_usd = target_monthly_pass_usd / 30.0
     target_trip_eur = target_trip_usd * _USD_TO_EUR
+    base_pass_pct = f"{base_pass_share * 100:.0f} %"
+    target_pass_pct = f"{target_pass_share * 100:.0f} %"
 
     # Farebox revenue at the operating-neutral fare, using the same
     # ridership scenarios reported in the capacity section.
@@ -725,8 +812,9 @@ def _funding_and_affordability_section(
     out.append(
         "Bottom line for next year's budget submission. "
         f"Construction phase runs **years 1–{construction_years}** "
-        f"(equity drawdown + interest-only grace on multilateral + "
-        f"bonds); steady-state operation begins **year {construction_years + 1}** "
+        f"(public equity drawdown + interest-only grace on repayable "
+        f"debt; grant disbursements are non-repayable); steady-state "
+        f"operation begins **year {construction_years + 1}** "
         f"and runs for **{repayment_years} years** until the loans amortise.\n"
     )
     out.append("| Phase | Annual gov / municipal commitment | Per resident / yr |")
@@ -780,12 +868,16 @@ def _funding_and_affordability_section(
     out.append("| Tranche | Share | Principal | Rate | Tenor | Annual debt service (post-grace) |")
     out.append("|---|---|---|---|---|---|")
     out.append(
-        f"| Multilateral concessional loan (IBRD / AfDB / ADB class) | "
+        f"| Climate / development grant (non-repayable) | "
+        f"{grant_frac:.0%} | {_usd(grant_eur)} | — | — | — |"
+    )
+    out.append(
+        f"| Green concessional loan (World Bank / AfDB / ADB / GCF class) | "
         f"{multi_frac:.0%} | {_usd(multi_eur)} | {multi_rate:.1%} | "
         f"{tenor} y, {grace} y grace | {_usd(multi_annuity)} / yr |"
     )
     out.append(
-        f"| Sovereign bonds (10-y benchmark + project) | "
+        f"| Sovereign / project bonds (fallback only) | "
         f"{bond_frac:.0%} | {_usd(bond_eur)} | {bond_rate:.1%} | "
         f"{tenor} y, {grace} y grace | {_usd(bond_annuity)} / yr |"
     )
@@ -798,11 +890,13 @@ def _funding_and_affordability_section(
         f"**{_usd(annual_debt_service_eur)} / yr** |\n"
     )
     out.append(
-        f"_During the {grace}-year grace period the operator pays "
-        f"interest only — multilateral {_usd(multi_eur * multi_rate)} / yr "
-        f"+ bonds {_usd(bond_eur * bond_rate)} / yr = "
-        f"**{_usd(annual_grace_interest_eur)} / yr** total — plus the "
-        f"equity tranche amortised across construction "
+        f"_During the {grace}-year grace period the public sponsor pays "
+        f"interest only on repayable debt — concessional loan "
+        f"{_usd(multi_eur * multi_rate)} / yr + fallback bonds "
+        f"{_usd(bond_eur * bond_rate)} / yr = "
+        f"**{_usd(annual_grace_interest_eur)} / yr** total. The "
+        f"{_usd(grant_eur)} grant tranche carries no repayment or coupon. "
+        f"Government equity is drawn across construction "
         f"({_usd(annual_equity_eur)} / yr × {grace} yr). Principal "
         f"repayment begins in year {grace + 1} on a {repayment_years}-year "
         f"amortisation schedule._\n"
@@ -849,9 +943,10 @@ def _funding_and_affordability_section(
         f"Country median monthly income: **${monthly_income:,.0f} USD** "
         f"(per [`lib/templates/country-finance.toml`]({rel('lib/templates/country-finance.toml')})). "
         f"Base affordability marker: a monthly unlimited-ride pass costs "
-        f"**5 % of median monthly income**. The operating-neutral case lifts "
-        f"that to **6 %** (+20 % over the baseline) and pairs it with "
-        f"higher service uptake plus station retail and advertising. "
+        f"**{base_pass_pct} of median monthly income**. The "
+        f"revenue-forward case lifts that to **{target_pass_pct}** "
+        f"and pairs it with higher service uptake, more frequent trains, "
+        f"station retail, and advertising. "
         f"Single-trip fare is set so that 30 single trips equal one "
         f"monthly pass — a frequent commuter averaging ~50 trips / month "
         f"still receives an effective ~40 % bulk discount.\n"
@@ -859,11 +954,11 @@ def _funding_and_affordability_section(
     out.append("| Product | Price target |")
     out.append("|---|---|")
     out.append(
-        f"| Baseline single-trip fare (5 % pass) | "
+        f"| Baseline single-trip fare ({base_pass_pct} pass) | "
         f"${base_trip_usd:.2f} |"
     )
     out.append(
-        f"| Operating-neutral single-trip fare (6 % pass) | "
+        f"| Operating-neutral single-trip fare ({target_pass_pct} pass) | "
         f"${target_trip_usd:.2f} |"
     )
     out.append(
@@ -872,7 +967,7 @@ def _funding_and_affordability_section(
     )
     out.append(
         f"| Monthly unlimited pass | "
-        f"${target_monthly_pass_usd:.2f} (~6 % of median monthly income) |"
+        f"${target_monthly_pass_usd:.2f} (~{target_pass_pct} of median monthly income) |"
     )
     out.append(
         f"| Annual pass | "
@@ -888,8 +983,8 @@ def _funding_and_affordability_section(
         f"capacity ({practical_daily_capacity:,} trips/day). The "
         "operating-neutral column solves annual paid trips so "
         "**farebox + station-shop leases + advertising = steady-state OPEX**. "
-        "Post-grace debt service remains a capital-funding obligation in "
-        "the government commitment table above.\n"
+        "Post-grace repayable-debt service remains a capital-funding "
+        "obligation in the government commitment table above.\n"
     )
     out.append("| | Low scenario | High scenario | Operating-neutral target |")
     out.append("|---|---|---|---|")
@@ -941,7 +1036,7 @@ def _funding_and_affordability_section(
         f"{target_recovery:.0%} | {target_recovery:.0%} | {target_recovery:.0%} |"
     )
     out.append(
-        f"| Gov debt service + residual OPEX subsidy | "
+        f"| Gov repayable-debt service + residual OPEX subsidy | "
         f"{_usd(steady_state_low)} / yr | "
         f"{_usd(steady_state_high)} / yr | "
         f"**{_usd(cost_neutral_steady_state)} / yr** |"
@@ -962,8 +1057,8 @@ def _funding_and_affordability_section(
     )
 
     out.append(
-        "**Caveats:** The funding-stack 60/25/15 split, the 6 % "
-        f"operating-neutral fare target, the "
+        "**Caveats:** The grant-first funding stack, the "
+        f"{target_pass_pct} operating-neutral fare target, the "
         f"{_pct_range(ridership_low_share, ridership_high_share)} "
         "daily-pax bracket, and the station-commercial assumptions are "
         "project-level defaults. "

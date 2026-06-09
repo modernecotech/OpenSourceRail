@@ -355,24 +355,24 @@ premium_eur     = 2300000
 # [[fleets]] — per-line fleet sizing per RFC 0014 §4.
 [[fleets]]
 line               = "line-1"
-peak_count         = 19
-spare_count        = 1
+peak_count         = 31
+spare_count        = 3
 cold_reserve_count = 1
-trainset_count     = 21
+trainset_count     = 35
 
 [[fleets]]
 line               = "line-2"
-peak_count         = 11
+peak_count         = 18
 spare_count        = 1
 cold_reserve_count = 1
-trainset_count     = 13
+trainset_count     = 20
 
 [[fleets]]
 line               = "line-3"
-peak_count         = 11
+peak_count         = 18
 spare_count        = 1
 cold_reserve_count = 1
-trainset_count     = 13
+trainset_count     = 20
 
 # [costs] — RFC 0011 §9 planning-grade CAPEX (USD
 # direct-procurement planning basis). country-costs.toml applies
@@ -402,11 +402,11 @@ stations_eur         = 99452000
 depots_usd           = 22000000
 depots_eur           = 20240000
 # Rolling stock (RFC 0008 family x fleet count; delivered all-in planning unit).
-rolling_stock_usd    = 131600000
-rolling_stock_eur    = 121072000
+rolling_stock_usd    = 210000000
+rolling_stock_eur    = 193200000
 # Railway production plant (tooling + plant setup per vehicle/car module, not per trainset).
-production_plant_usd = 9400000
-production_plant_eur = 8648000
+production_plant_usd = 15000000
+production_plant_eur = 13800000
 # Systems: residual train-control wayside + station/depot charging microgrids.
 signalling_usd       = 1645594
 signalling_eur       = 1513946
@@ -414,7 +414,7 @@ charging_microgrid_usd = 10570000
 charging_microgrid_eur = 9724400
 power_eur            = 9724400  # deprecated alias for charging_microgrid_eur
 # EPC integration + project management (7% of subtotal).
-epc_overhead_usd     = 28574308
-epc_overhead_eur     = 26288363
-total_usd            = 436778702  # full CAPEX stack
-total_eur            = 401836406  # full CAPEX stack
+epc_overhead_usd     = 34454308
+epc_overhead_eur     = 31697963
+total_usd            = 526658702  # full CAPEX stack
+total_eur            = 484526005  # full CAPEX stack

@@ -112,7 +112,7 @@ def compute_stats(design_path: Path) -> DesignStats:
         interchange_count = sum(1 for v in appearances.values() if v > 1)
 
     # Peak headway: smallest `headway_min` across all fleets' schedules.
-    # Auto-generated fleets carry a 5-min peak by default; honour the
+    # Auto-generated fleets carry a 3-min peak by default; honour the
     # design's value when present.
     peak_headway = math.inf
     for f in fleets:
