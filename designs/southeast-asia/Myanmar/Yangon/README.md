@@ -23,9 +23,10 @@ Corridor polylines + stations as GeoJSON for GIS / alignment tooling: [`yangon.c
 | Anchor-weighted coverage | 56.4% |
 | Route length (double track) | 417.5 km |
 | Revenue fleet | 501 × 6-car trainsets |
+| Revenue fleet passenger capacity | 360,720 AW2 pax (480,960 AW3 crush) |
 | Spare + cold-reserve | 55 × 6-car trainsets |
 | Peak headway | 3 min |
-| Service hours | 05:30 – 02:00 (≈ 20 h/day) |
+| Service hours | 05:30 – 02:00 (20.5 h/day) |
 
 ## Lines
 
@@ -54,10 +55,14 @@ Corridor polylines + stations as GeoJSON for GIS / alignment tooling: [`yangon.c
 | Seats | 120 longitudinal seats |
 | Nominal capacity (AW2) | 720 pax (seated + standing, `metro-6car` per RFC 0008 §1) |
 | Crush capacity (AW3) | 960 pax, short-duration structural/egress reference |
+| Revenue fleet capacity | 360,720 AW2 pax (480,960 AW3 crush) |
+| Total fleet capacity | 400,320 AW2 pax (533,760 AW3 crush, incl. spare + reserve) |
 
 ## Ridership capacity
 
 - **Per-train planning capacity:** 720 AW2 passengers (`metro-6car`)
+- **Revenue fleet simultaneous capacity:** 501 × 720 = **360,720 AW2 passengers** (480,960 AW3 crush)
+- **Total fleet passenger capacity:** 556 × 720 = **400,320 AW2 passengers** (533,760 AW3 crush, incl. spare + reserve)
 - **Peak frequency:** 20 trains/hour/direction (3-min headway)
 - **Peak capacity per line per direction:** 720 × 20 = **14,400 pphpd**
 - **Network peak throughput (all lines, both directions):** 9 lines × 2 directions × 14,400 = **259,200 passengers/hour**
@@ -202,7 +207,7 @@ Bottom line for next year's budget submission. Construction phase runs **years 1
 | Lifecycle envelope (yr 1–40, high scenario) | **$9.59 bn cumulative** | $1,844 |
 | Lifecycle envelope (yr 1–40, operating-neutral after opening) | **$7.43 bn cumulative** | $1,430 |
 
-_Population basis: 5,200,000 (catchment per `lib/city-batches/world-sample.toml`). After year 40, debt service drops to zero; the operating-neutral case already covers steady-state OPEX from fares, station shops, and advertising. Low/high residual OPEX shortfall before debt is $146 M / yr → $72 M / yr._
+_Population basis: 5,200,000 (catchment per `lib/city-batches/world-sample.toml`). After year 40, debt service drops to zero; steady-state commitments below are net of any operating surplus applied to repayable-debt support. The operating-neutral case already covers steady-state OPEX from fares, station shops, and advertising. Low/high residual OPEX shortfall before debt is $146 M / yr → $72 M / yr; surplus applied to debt support is $0 k / yr → $0 k / yr._
 
 ### CAPEX funding stack
 
@@ -231,11 +236,10 @@ _Annual fleet utilisation: 501 revenue trainsets × 20.5 h/day × 365 d/yr × 35
 
 ### Ticket pricing anchored to median income
 
-Country median monthly income: **$130 USD** (per [`lib/templates/country-finance.toml`](../../../../lib/templates/country-finance.toml)). Base affordability marker: a monthly unlimited-ride pass costs **5 % of median monthly income**. The revenue-forward case lifts that to **8 %** and pairs it with higher service uptake, more frequent trains, station retail, and advertising. Single-trip fare is set so that 30 single trips equal one monthly pass — a frequent commuter averaging ~50 trips / month still receives an effective ~40 % bulk discount.
+Country median monthly income: **$130 USD** (per [`lib/templates/country-finance.toml`](../../../../lib/templates/country-finance.toml)). The revenue-forward case sets the monthly unlimited pass at **8 % of median monthly income** and pairs it with higher service uptake, more frequent trains, station retail, and advertising. Single-trip fare is set so that 30 single trips equal one monthly pass — a frequent commuter averaging ~50 trips / month still receives an effective ~40 % bulk discount.
 
 | Product | Price target |
 |---|---|
-| Baseline single-trip fare (5 % pass) | $0.22 |
 | Operating-neutral single-trip fare (8 % pass) | $0.35 |
 | Day pass (3 trips) | $0.88 (15 % bulk discount) |
 | Monthly unlimited pass | $10.40 (~8 % of median monthly income) |
@@ -243,7 +247,7 @@ Country median monthly income: **$130 USD** (per [`lib/templates/country-finance
 
 ### Revenue & operating neutrality
 
-Planning ridership bracket = 25-45% of catchment × 365 service-days at the operating-neutral fare, capped by practical service capacity (2,073,600 trips/day). The operating-neutral column solves annual paid trips so **farebox + station-shop leases + advertising = steady-state OPEX**. Post-grace repayable-debt service remains a capital-funding obligation in the government commitment table above.
+Planning ridership bracket = 25-45% of catchment × 365 service-days at the operating-neutral fare, capped by practical service capacity (2,073,600 trips/day). The operating-neutral column solves annual paid trips so **farebox + station-shop leases + advertising = steady-state OPEX**. Gross post-grace repayable-debt service remains visible in the CAPEX funding stack, while any operating surplus is netted from the budgetable government support line.
 
 | | Low scenario | High scenario | Operating-neutral target |
 |---|---|---|---|
@@ -257,8 +261,10 @@ Planning ridership bracket = 25-45% of catchment × 365 service-days at the oper
 | **Total revenue** | **$105 M / yr** | **$179 M / yr** | **$251 M / yr** |
 | Revenue / OPEX recovery | 42% | 71% | 100% |
 | Country farebox-only policy target (diagnostic) | 40% | 40% | 40% |
-| Gov repayable-debt service + residual OPEX subsidy | $337 M / yr | $263 M / yr | **$191 M / yr** |
-| Operating surplus after OPEX | $0 k / yr | $0 k / yr | $0 / yr |
+| Gross repayable-debt service + residual OPEX subsidy | $337 M / yr | $263 M / yr | **$191 M / yr** |
+| Operating surplus applied to debt support | $0 k / yr | $0 k / yr | **$0 k / yr** |
+| **Net gov repayable-debt support + residual OPEX subsidy** | $337 M / yr | $263 M / yr | **$191 M / yr** |
+| Operating surplus after OPEX (before debt support) | $0 k / yr | $0 k / yr | $0 / yr |
 
 _Commercial-revenue assumptions: 42,448 m² of station shop/kiosk leases at $10/m²/month and 7,684 advertising boards at $91/board/month, with occupancy derates applied._
 

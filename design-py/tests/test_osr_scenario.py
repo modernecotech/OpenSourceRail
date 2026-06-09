@@ -9,10 +9,15 @@ from pathlib import Path
 import pytest
 
 from osr_scenario import generate_from_path, generate_scenario
-from osr_scenario.network_readme import _funding_stack, _load_country_finance
+from osr_scenario.network_readme import (
+    _funding_stack,
+    _load_country_finance,
+    render_readme,
+)
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 SAMAWAH_DESIGN = REPO_ROOT / "designs/west-asia/Iraq/Samawah/design.toml"
+SAMAWAH_SCENARIO = REPO_ROOT / "designs/west-asia/Iraq/Samawah/samawah.toml"
 TEMPLATES = REPO_ROOT / "lib/templates"
 
 
@@ -147,6 +152,35 @@ def test_country_finance_inherits_grant_first_defaults() -> None:
     assert stack.bond_frac == pytest.approx(0.0)
     assert stack.equity_frac == pytest.approx(0.10)
     assert stack.multi_rate == pytest.approx(0.020)
+
+
+def test_readme_nets_operating_surplus_against_gov_debt_support() -> None:
+    text = render_readme(
+        design_path=SAMAWAH_DESIGN,
+        scenario_path=SAMAWAH_SCENARIO,
+        population=373_770,
+    )
+
+    assert "| Gross repayable-debt service + residual OPEX subsidy |" in text
+    assert "| Operating surplus applied to debt support |" in text
+    assert (
+        "| **Net gov repayable-debt support + residual OPEX subsidy** |"
+        in text
+    )
+    assert (
+        "| Operating surplus applied to debt support | "
+        "$0 k / yr | -$15 M / yr | **$0 k / yr** |"
+        in text
+    )
+    assert (
+        "| **Net gov repayable-debt support + residual OPEX subsidy** | "
+        "$17 M / yr | $1.5 M / yr | **$17 M / yr** |"
+        in text
+    )
+    assert (
+        "| Gov repayable-debt service + residual OPEX subsidy |"
+        not in text
+    )
 
 
 def test_consist_matches_light_metro_family() -> None:

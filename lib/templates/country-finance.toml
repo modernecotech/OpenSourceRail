@@ -12,11 +12,9 @@
 #   median_monthly_income_usd  — household median per-month income, USD.
 #                                Drives the affordability-anchored ticket
 #                                price.
-#   base_monthly_pass_income_share
-#                              — affordability marker for a monthly pass.
 #   revenue_case_monthly_pass_income_share
-#                              — higher monthly-pass share used for the
-#                                stronger service/revenue case.
+#                              — monthly-pass share of median income used
+#                                for the stronger service/revenue case.
 #   gni_per_capita_usd         — GNI per capita, World Bank Atlas method.
 #                                Used as a sanity cross-check.
 #   climate_development_grant_share
@@ -64,7 +62,6 @@
 
 [countries.XX]
 median_monthly_income_usd  = 600
-base_monthly_pass_income_share = 0.05
 revenue_case_monthly_pass_income_share = 0.08
 gni_per_capita_usd         = 7500
 climate_development_grant_share = 0.40

@@ -23,9 +23,10 @@ Corridor polylines + stations as GeoJSON for GIS / alignment tooling: [`surabaya
 | Anchor-weighted coverage | 39.6% |
 | Route length (double track) | 294.0 km |
 | Revenue fleet | 354 × 6-car trainsets |
+| Revenue fleet passenger capacity | 254,880 AW2 pax (339,840 AW3 crush) |
 | Spare + cold-reserve | 39 × 6-car trainsets |
 | Peak headway | 3 min |
-| Service hours | 05:30 – 02:00 (≈ 20 h/day) |
+| Service hours | 05:30 – 02:00 (20.5 h/day) |
 
 ## Lines
 
@@ -52,10 +53,14 @@ Corridor polylines + stations as GeoJSON for GIS / alignment tooling: [`surabaya
 | Seats | 120 longitudinal seats |
 | Nominal capacity (AW2) | 720 pax (seated + standing, `metro-6car` per RFC 0008 §1) |
 | Crush capacity (AW3) | 960 pax, short-duration structural/egress reference |
+| Revenue fleet capacity | 254,880 AW2 pax (339,840 AW3 crush) |
+| Total fleet capacity | 282,960 AW2 pax (377,280 AW3 crush, incl. spare + reserve) |
 
 ## Ridership capacity
 
 - **Per-train planning capacity:** 720 AW2 passengers (`metro-6car`)
+- **Revenue fleet simultaneous capacity:** 354 × 720 = **254,880 AW2 passengers** (339,840 AW3 crush)
+- **Total fleet passenger capacity:** 393 × 720 = **282,960 AW2 passengers** (377,280 AW3 crush, incl. spare + reserve)
 - **Peak frequency:** 20 trains/hour/direction (3-min headway)
 - **Peak capacity per line per direction:** 720 × 20 = **14,400 pphpd**
 - **Network peak throughput (all lines, both directions):** 7 lines × 2 directions × 14,400 = **201,600 passengers/hour**
@@ -194,13 +199,13 @@ Bottom line for next year's budget submission. Construction phase runs **years 1
 |---|---|---|
 | Construction (years 1–5) | **$178 M / yr** | $59 |
 | Steady-state, low-ridership (year 6+) | **$189 M / yr** | $63 |
-| Steady-state, high-ridership (year 6+) | **$118 M / yr** | $39 |
+| Steady-state, high-ridership (year 6+) | **$115 M / yr** | $38 |
 | Steady-state, operating-neutral revenue case | **$118 M / yr** | $39 |
 | Lifecycle envelope (yr 1–40, low scenario) | **$7.52 bn cumulative** | $2,498 |
-| Lifecycle envelope (yr 1–40, high scenario) | **$5.03 bn cumulative** | $1,672 |
+| Lifecycle envelope (yr 1–40, high scenario) | **$4.92 bn cumulative** | $1,634 |
 | Lifecycle envelope (yr 1–40, operating-neutral after opening) | **$5.03 bn cumulative** | $1,672 |
 
-_Population basis: 3,009,000 (catchment per `lib/city-batches/world-sample.toml`). After year 40, debt service drops to zero; the operating-neutral case already covers steady-state OPEX from fares, station shops, and advertising. Low/high residual OPEX shortfall before debt is $71 M / yr → $0 k / yr._
+_Population basis: 3,009,000 (catchment per `lib/city-batches/world-sample.toml`). After year 40, debt service drops to zero; steady-state commitments below are net of any operating surplus applied to repayable-debt support. The operating-neutral case already covers steady-state OPEX from fares, station shops, and advertising. Low/high residual OPEX shortfall before debt is $71 M / yr → $0 k / yr; surplus applied to debt support is $0 k / yr → $3.3 M / yr._
 
 ### CAPEX funding stack
 
@@ -229,11 +234,10 @@ _Annual fleet utilisation: 354 revenue trainsets × 20.5 h/day × 365 d/yr × 35
 
 ### Ticket pricing anchored to median income
 
-Country median monthly income: **$320 USD** (per [`lib/templates/country-finance.toml`](../../../../lib/templates/country-finance.toml)). Base affordability marker: a monthly unlimited-ride pass costs **5 % of median monthly income**. The revenue-forward case lifts that to **8 %** and pairs it with higher service uptake, more frequent trains, station retail, and advertising. Single-trip fare is set so that 30 single trips equal one monthly pass — a frequent commuter averaging ~50 trips / month still receives an effective ~40 % bulk discount.
+Country median monthly income: **$320 USD** (per [`lib/templates/country-finance.toml`](../../../../lib/templates/country-finance.toml)). The revenue-forward case sets the monthly unlimited pass at **8 % of median monthly income** and pairs it with higher service uptake, more frequent trains, station retail, and advertising. Single-trip fare is set so that 30 single trips equal one monthly pass — a frequent commuter averaging ~50 trips / month still receives an effective ~40 % bulk discount.
 
 | Product | Price target |
 |---|---|
-| Baseline single-trip fare (5 % pass) | $0.53 |
 | Operating-neutral single-trip fare (8 % pass) | $0.85 |
 | Day pass (3 trips) | $2.18 (15 % bulk discount) |
 | Monthly unlimited pass | $25.60 (~8 % of median monthly income) |
@@ -241,7 +245,7 @@ Country median monthly income: **$320 USD** (per [`lib/templates/country-finance
 
 ### Revenue & operating neutrality
 
-Planning ridership bracket = 25-45% of catchment × 365 service-days at the operating-neutral fare, capped by practical service capacity (1,612,800 trips/day). The operating-neutral column solves annual paid trips so **farebox + station-shop leases + advertising = steady-state OPEX**. Post-grace repayable-debt service remains a capital-funding obligation in the government commitment table above.
+Planning ridership bracket = 25-45% of catchment × 365 service-days at the operating-neutral fare, capped by practical service capacity (1,612,800 trips/day). The operating-neutral column solves annual paid trips so **farebox + station-shop leases + advertising = steady-state OPEX**. Gross post-grace repayable-debt service remains visible in the CAPEX funding stack, while any operating surplus is netted from the budgetable government support line.
 
 | | Low scenario | High scenario | Operating-neutral target |
 |---|---|---|---|
@@ -255,8 +259,10 @@ Planning ridership bracket = 25-45% of catchment × 365 service-days at the oper
 | **Total revenue** | **$110 M / yr** | **$184 M / yr** | **$181 M / yr** |
 | Revenue / OPEX recovery | 61% | 102% | 100% |
 | Country farebox-only policy target (diagnostic) | 60% | 60% | 60% |
-| Gov repayable-debt service + residual OPEX subsidy | $189 M / yr | $118 M / yr | **$118 M / yr** |
-| Operating surplus after OPEX | $0 k / yr | $3.3 M / yr | $0 / yr |
+| Gross repayable-debt service + residual OPEX subsidy | $189 M / yr | $118 M / yr | **$118 M / yr** |
+| Operating surplus applied to debt support | $0 k / yr | -$3.3 M / yr | **$0 k / yr** |
+| **Net gov repayable-debt support + residual OPEX subsidy** | $189 M / yr | $115 M / yr | **$118 M / yr** |
+| Operating surplus after OPEX (before debt support) | $0 k / yr | $3.3 M / yr | $0 / yr |
 
 _Commercial-revenue assumptions: 24,392 m² of station shop/kiosk leases at $26/m²/month and 4,528 advertising boards at $224/board/month, with occupancy derates applied._
 

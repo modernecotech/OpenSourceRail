@@ -699,20 +699,15 @@ def _funding_and_affordability_section(
 
     annual_opex_eur = rs_maint + civil_maint + sig_maint + energy_eur + labour_eur
 
-    # Affordability-anchored ticket pricing. The base affordability
-    # marker remains a low-income-pass sanity check; the revenue case
-    # uses a higher monthly-pass share and solves the ridership needed
-    # after station retail + advertising revenue.
-    base_pass_share = float(fin.get("base_monthly_pass_income_share", 0.05))
+    # Affordability-anchored ticket pricing. The revenue case uses a
+    # monthly-pass share of country median income and solves the ridership
+    # needed after station retail + advertising revenue.
     target_pass_share = float(
         fin.get("revenue_case_monthly_pass_income_share", 0.08)
     )
-    base_monthly_pass_usd = base_pass_share * monthly_income
     target_monthly_pass_usd = target_pass_share * monthly_income
-    base_trip_usd = base_monthly_pass_usd / 30.0
     target_trip_usd = target_monthly_pass_usd / 30.0
     target_trip_eur = target_trip_usd * _USD_TO_EUR
-    base_pass_pct = f"{base_pass_share * 100:.0f} %"
     target_pass_pct = f"{target_pass_share * 100:.0f} %"
 
     # Farebox revenue at the operating-neutral fare, using the same
@@ -730,6 +725,9 @@ def _funding_and_affordability_section(
 
     def _usd(v_eur: float) -> str:
         return _fmt_usd(_usd_from_eur(v_eur))
+
+    def _usd_credit(v_eur: float) -> str:
+        return f"-{_usd(v_eur)}" if v_eur > 0.0 else _usd(0.0)
 
     def _usd_per_resident(v_eur: float) -> str:
         return f"${_usd_from_eur(v_eur):,.0f}"
@@ -761,9 +759,9 @@ def _funding_and_affordability_section(
     #   Phase 2 — Steady-state operation (year grace+1 onwards)
     #     • full debt service (multilateral + bond principal + interest)
     #     • OPEX shortfall = max(0, OPEX − operating revenue)
-    #     • operating surplus is reported separately; it is not assumed
-    #       to retire sovereign/project debt unless a deployment finance
-    #       agreement explicitly hypothecates it.
+    #     • operating surplus = max(0, operating revenue − OPEX), applied
+    #       against repayable-debt support before asking government for
+    #       a steady-state budget allocation.
     #
     # We place this summary table ahead of the detailed CAPEX/OPEX
     # breakdowns so a finance ministry can pull a single number into
@@ -774,8 +772,12 @@ def _funding_and_affordability_section(
     operating_shortfall_high = max(0.0, annual_opex_eur - total_revenue_high)
     surplus_low = max(0.0, total_revenue_low - annual_opex_eur)
     surplus_high = max(0.0, total_revenue_high - annual_opex_eur)
-    steady_state_low = annual_debt_service_eur + operating_shortfall_low
-    steady_state_high = annual_debt_service_eur + operating_shortfall_high
+    gross_steady_state_low = annual_debt_service_eur + operating_shortfall_low
+    gross_steady_state_high = annual_debt_service_eur + operating_shortfall_high
+    steady_state_low = max(0.0, gross_steady_state_low - surplus_low)
+    steady_state_high = max(0.0, gross_steady_state_high - surplus_high)
+    surplus_credit_low = min(surplus_low, gross_steady_state_low)
+    surplus_credit_high = min(surplus_high, gross_steady_state_high)
     cost_neutral_farebox_eur = max(0.0, annual_opex_eur - nonfare_eur)
     cost_neutral_annual_pax = (
         cost_neutral_farebox_eur / target_trip_eur
@@ -785,7 +787,16 @@ def _funding_and_affordability_section(
     cost_neutral_daily_pax = cost_neutral_annual_pax / service_days_per_year
     cost_neutral_share = cost_neutral_daily_pax / max(stats.population, 1)
     cost_neutral_revenue_eur = cost_neutral_farebox_eur + nonfare_eur
-    cost_neutral_steady_state = annual_debt_service_eur
+    cost_neutral_surplus = max(0.0, cost_neutral_revenue_eur - annual_opex_eur)
+    gross_cost_neutral_steady_state = annual_debt_service_eur
+    cost_neutral_steady_state = max(
+        0.0,
+        gross_cost_neutral_steady_state - cost_neutral_surplus,
+    )
+    cost_neutral_surplus_credit = min(
+        cost_neutral_surplus,
+        gross_cost_neutral_steady_state,
+    )
 
     population = max(int(stats.population), 1)
     construction_per_capita = annual_construction_commitment_eur / population
@@ -857,11 +868,15 @@ def _funding_and_affordability_section(
     out.append(
         f"_Population basis: {population:,} (catchment per "
         f"`lib/city-batches/world-sample.toml`). After year {tenor}, debt "
-        f"service drops to zero; the operating-neutral case already covers "
-        f"steady-state OPEX from fares, station shops, and advertising. "
+        f"service drops to zero; steady-state commitments below are net of "
+        f"any operating surplus applied to repayable-debt support. The "
+        f"operating-neutral case already covers steady-state OPEX from "
+        f"fares, station shops, and advertising. "
         f"Low/high residual OPEX shortfall before debt is "
         f"{_usd(operating_shortfall_low)} / yr → "
-        f"{_usd(operating_shortfall_high)} / yr._\n"
+        f"{_usd(operating_shortfall_high)} / yr; surplus applied to debt "
+        f"support is {_usd(surplus_credit_low)} / yr → "
+        f"{_usd(surplus_credit_high)} / yr._\n"
     )
 
     out.append("### CAPEX funding stack\n")
@@ -942,21 +957,15 @@ def _funding_and_affordability_section(
     out.append(
         f"Country median monthly income: **${monthly_income:,.0f} USD** "
         f"(per [`lib/templates/country-finance.toml`]({rel('lib/templates/country-finance.toml')})). "
-        f"Base affordability marker: a monthly unlimited-ride pass costs "
-        f"**{base_pass_pct} of median monthly income**. The "
-        f"revenue-forward case lifts that to **{target_pass_pct}** "
-        f"and pairs it with higher service uptake, more frequent trains, "
-        f"station retail, and advertising. "
-        f"Single-trip fare is set so that 30 single trips equal one "
+        f"The revenue-forward case sets the monthly unlimited pass at "
+        f"**{target_pass_pct} of median monthly income** and pairs it with "
+        f"higher service uptake, more frequent trains, station retail, "
+        f"and advertising. Single-trip fare is set so that 30 single trips equal one "
         f"monthly pass — a frequent commuter averaging ~50 trips / month "
         f"still receives an effective ~40 % bulk discount.\n"
     )
     out.append("| Product | Price target |")
     out.append("|---|---|")
-    out.append(
-        f"| Baseline single-trip fare ({base_pass_pct} pass) | "
-        f"${base_trip_usd:.2f} |"
-    )
     out.append(
         f"| Operating-neutral single-trip fare ({target_pass_pct} pass) | "
         f"${target_trip_usd:.2f} |"
@@ -983,8 +992,9 @@ def _funding_and_affordability_section(
         f"capacity ({practical_daily_capacity:,} trips/day). The "
         "operating-neutral column solves annual paid trips so "
         "**farebox + station-shop leases + advertising = steady-state OPEX**. "
-        "Post-grace repayable-debt service remains a capital-funding "
-        "obligation in the government commitment table above.\n"
+        "Gross post-grace repayable-debt service remains visible in the "
+        "CAPEX funding stack, while any operating surplus is netted from "
+        "the budgetable government support line.\n"
     )
     out.append("| | Low scenario | High scenario | Operating-neutral target |")
     out.append("|---|---|---|---|")
@@ -1036,13 +1046,25 @@ def _funding_and_affordability_section(
         f"{target_recovery:.0%} | {target_recovery:.0%} | {target_recovery:.0%} |"
     )
     out.append(
-        f"| Gov repayable-debt service + residual OPEX subsidy | "
+        f"| Gross repayable-debt service + residual OPEX subsidy | "
+        f"{_usd(gross_steady_state_low)} / yr | "
+        f"{_usd(gross_steady_state_high)} / yr | "
+        f"**{_usd(gross_cost_neutral_steady_state)} / yr** |"
+    )
+    out.append(
+        f"| Operating surplus applied to debt support | "
+        f"{_usd_credit(surplus_credit_low)} / yr | "
+        f"{_usd_credit(surplus_credit_high)} / yr | "
+        f"**{_usd_credit(cost_neutral_surplus_credit)} / yr** |"
+    )
+    out.append(
+        f"| **Net gov repayable-debt support + residual OPEX subsidy** | "
         f"{_usd(steady_state_low)} / yr | "
         f"{_usd(steady_state_high)} / yr | "
         f"**{_usd(cost_neutral_steady_state)} / yr** |"
     )
     out.append(
-        f"| Operating surplus after OPEX | "
+        f"| Operating surplus after OPEX (before debt support) | "
         f"{_usd(surplus_low)} / yr | "
         f"{_usd(surplus_high)} / yr | "
         f"$0 / yr |\n"
@@ -1208,6 +1230,11 @@ def render_readme(
         if cost.trainset_capacity_pax is not None
         else stats.trainset_capacity_pax
     )
+    total_fleet_trainsets = stats.revenue_fleet + stats.spare_fleet + stats.reserve_fleet
+    revenue_fleet_capacity_pax = stats.revenue_fleet * capacity_pax
+    total_fleet_capacity_pax = total_fleet_trainsets * capacity_pax
+    revenue_fleet_crush_pax = stats.revenue_fleet * stats.trainset_crush_capacity_pax
+    total_fleet_crush_pax = total_fleet_trainsets * stats.trainset_crush_capacity_pax
     per_line_pphpd = capacity_pax * trains_per_hour_per_dir
     network_peak_per_h = per_line_pphpd * stats.line_count * 2
     daily_theoretical = network_peak_per_h * 10  # peak≈10% of daily
@@ -1404,6 +1431,11 @@ def render_readme(
         f"{stats.consist_cars}-car trainsets |"
     )
     out.append(
+        f"| Revenue fleet passenger capacity | "
+        f"{revenue_fleet_capacity_pax:,} AW2 pax "
+        f"({revenue_fleet_crush_pax:,} AW3 crush) |"
+    )
+    out.append(
         f"| Spare + cold-reserve | "
         f"{stats.spare_fleet + stats.reserve_fleet} × "
         f"{stats.consist_cars}-car trainsets |"
@@ -1412,7 +1444,7 @@ def render_readme(
     out.append(
         f"| Service hours | "
         f"{stats.service_start} – {stats.service_end} "
-        f"(≈ {_hours(stats.service_start, stats.service_end):.0f} h/day) |"
+        f"({_hours(stats.service_start, stats.service_end):.1f} h/day) |"
     )
     out.append("")
 
@@ -1457,12 +1489,32 @@ def render_readme(
         f"| Crush capacity (AW3) | {stats.trainset_crush_capacity_pax} pax, "
         "short-duration structural/egress reference |"
     )
+    out.append(
+        f"| Revenue fleet capacity | {revenue_fleet_capacity_pax:,} AW2 pax "
+        f"({revenue_fleet_crush_pax:,} AW3 crush) |"
+    )
+    out.append(
+        f"| Total fleet capacity | {total_fleet_capacity_pax:,} AW2 pax "
+        f"({total_fleet_crush_pax:,} AW3 crush, incl. spare + reserve) |"
+    )
     out.append("")
 
     out.append("## Ridership capacity\n")
     out.append(
         f"- **Per-train planning capacity:** {capacity_pax} AW2 passengers "
         f"(`{stats.consist_family}`)"
+    )
+    out.append(
+        f"- **Revenue fleet simultaneous capacity:** "
+        f"{stats.revenue_fleet} × {capacity_pax} = "
+        f"**{revenue_fleet_capacity_pax:,} AW2 passengers** "
+        f"({revenue_fleet_crush_pax:,} AW3 crush)"
+    )
+    out.append(
+        f"- **Total fleet passenger capacity:** "
+        f"{total_fleet_trainsets} × {capacity_pax} = "
+        f"**{total_fleet_capacity_pax:,} AW2 passengers** "
+        f"({total_fleet_crush_pax:,} AW3 crush, incl. spare + reserve)"
     )
     out.append(
         f"- **Peak frequency:** {trains_per_hour_per_dir:.0f} trains/hour/direction "
