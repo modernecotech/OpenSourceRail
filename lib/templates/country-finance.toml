@@ -18,10 +18,11 @@
 #   gni_per_capita_usd         — GNI per capita, World Bank Atlas method.
 #                                Used as a sanity cross-check.
 #   climate_development_grant_share
-#                              — non-repayable climate/development grant
-#                                share of CAPEX. This is excluded from
-#                                government debt service.
-#   multilateral_loan_share    — repayable concessional-loan share of CAPEX.
+#                              — optional non-repayable grant override share
+#                                of CAPEX. Default is zero; generated
+#                                finance reports do not assume grants.
+#   multilateral_loan_share    — repayable green concessional-loan share of
+#                                CAPEX.
 #   sovereign_bond_share       — sovereign/project bond share of CAPEX.
 #                                Default is zero because bond coupons are the
 #                                expensive fallback, not the target structure.
@@ -41,8 +42,8 @@
 #   loan_tenor_years           — total tenor for multilateral + bond
 #                                tranches.
 #   concessional_loan_tenor_years
-#                              — preferred tenor for the grant-first
-#                                concessional package.
+#                              — preferred tenor for the green concessional
+#                                loan package.
 #   farebox_recovery_target    — fraction of OPEX that fares should
 #                                recover (rest is operating subsidy).
 #                                Singapore MRT ≈ 1.0; London Tube ≈ 0.95;
@@ -68,10 +69,10 @@
 median_monthly_income_usd  = 600
 revenue_case_monthly_pass_income_share = 0.08
 gni_per_capita_usd         = 7500
-climate_development_grant_share = 0.40
-multilateral_loan_share    = 0.50
+climate_development_grant_share = 0.00
+multilateral_loan_share    = 0.80
 sovereign_bond_share       = 0.00
-government_equity_share    = 0.10
+government_equity_share    = 0.20
 sovereign_bond_rate        = 0.07
 multilateral_loan_rate     = 0.045
 green_concessional_loan_rate = 0.020

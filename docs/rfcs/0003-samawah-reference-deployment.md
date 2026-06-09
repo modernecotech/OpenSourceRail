@@ -138,7 +138,10 @@ Eight stations, ~11 km total. North-to-south sequence along the dense urban core
 | 7 | Hayy 270 Dar | 31.2969, 45.2646 | Residential cluster | `place=neighbourhood حي 270 دار` |
 | 8 | Al-Maali | 31.2785, 45.2794 | S terminus; main depot | `place=neighbourhood الشراكية` |
 
-Expected daily active riders at build-up: **35,000 – 48,000** (highest — serves university + hospital + city centre), equivalent to roughly **70,000 – 96,000 paid passenger-trips/day** at 2 trips/rider/day.
+Capacity-led revenue model contribution: this is the busiest corridor
+(university + hospital + city centre) and forms part of the generated
+system-wide **63.1–100.9 M annual paid-trip** bracket, based on
+50–80% use of practical service capacity.
 
 ### 3.2 Line 2 — Sharqiyyeh (E–W crosstown)
 
@@ -153,7 +156,9 @@ Six stations, ~7 km total. Western residential through the city centre to easter
 | 5 | Al-Sharqi East | 31.3135, 45.2901 | Residential cluster | `place=neighbourhood حي الشرقي عكد الداحرة` |
 | 6 | Al-Bustan Sharqi | 31.3167, 45.3118 | E terminus; secondary layup | `place=neighbourhood البساتين الشرقية` |
 
-Expected daily active riders at build-up: **18,000 – 25,000**, equivalent to roughly **36,000 – 50,000 paid passenger-trips/day** at 2 trips/rider/day.
+Capacity-led revenue model contribution: this crosstown corridor is
+counted inside the generated system-wide **63.1–100.9 M annual
+paid-trip** bracket.
 
 ### 3.3 Line 3 — Mahatta (SE branch to railway station)
 
@@ -167,7 +172,9 @@ Five stations, ~5 km total. Short branch from the city centre to the intercity r
 | 4 | Al-Qasim | 31.2869, 45.2826 | Southern residential | `place=neighbourhood حي القاسم` |
 | 5 | Samawah Railway Station | 31.2746, 45.3032 | SE terminus; Baghdad–Basra intercity interchange | `railway=station محطة قطار السماوة` |
 
-Expected daily active riders at build-up: **53,000 – 95,000**, equivalent to roughly **106,000 – 190,000 paid passenger-trips/day** under the revenue-forward 3-minute peak service plan.
+Generated revenue model: **63.1–100.9 M annual paid trips** under the
+revenue-forward 3-minute peak service plan, calculated from practical
+system capacity.
 
 ### 3.4 System totals
 
@@ -196,7 +203,7 @@ Expected daily active riders at build-up: **53,000 – 95,000**, equivalent to r
 > which emits the sim scenario (`designs/west-asia/Iraq/Samawah/samawah.toml`), the network
 > map PNGs (`docs/screenshots/samawah-network-map*.png`), runs the
 > drift + round-trip tests, and prints the summary stats above.
-| Target daily paid trips (steady-state) | 105 000 – 190 000 passenger-trips (53 000 – 95 000 daily active riders) |
+| Target annual paid trips (steady-state) | 63.1 M – 100.9 M passenger-trips, equal to 50–80% use of practical service capacity |
 
 ### 3.6 Realism notes
 
@@ -462,7 +469,7 @@ No engagement is being proposed here. This list exists so that when code is runn
 ## 9. Open Questions
 
 1. **Urban planning compatibility.** The indicative alignment in §3 must be compared against Samawah's urban plan before it can be taken seriously as a routing proposal. This is a desk exercise that a motivated student at Al-Muthanna University could do productively.
-2. **Ridership reality check.** The 53,000–95,000 daily-active-rider figure (105,000–190,000 paid trips/day) is a projection by analogy to mid-sized light-metro systems globally. A proper local demand study would refine it by a factor of perhaps 2×. Fleet capacity now has margin; the generated energy plan closes the on-site PV gap with a dedicated solar plant, but its land/PPA counterpart, interconnection, outage reserve, and export-settlement terms need local feasibility work.
+2. **Demand reality check.** The generated finance model now uses the system's practical capacity as the revenue basis: 63.1–100.9 M annual paid trips at 50–80% capacity use. A proper local demand study would refine that capacity-use bracket and its line-by-line distribution. Fleet capacity now has margin; the generated energy plan closes the on-site PV gap with a dedicated solar plant, but its land/PPA counterpart, interconnection, outage reserve, and export-settlement terms need local feasibility work.
 3. **Intercity interchange design.** How exactly does a passenger move between an intercity IRR train and the Line 1 metro at Samawah Railway Station? Platform-level integration is best; shared fare media is ideal but depends on IRR's modernization timeline.
 4. **Bridge over the Euphrates.** Line 1 crosses the river between Samawah Central and Eastern Bridge stations. Existing road bridges may carry the alignment piggyback, or a dedicated rail bridge may be needed. Major capex item; outside this RFC.
 5. **Construction phasing.** Full network in one go is unlikely. Plausible phasing: (Phase A) Line 1 western section, station → centre → Eastern Bridge; (Phase B) Line 1 eastern section, Eastern Bridge → University; (Phase C) Line 2 ring. Each phase must be operationally meaningful on its own.

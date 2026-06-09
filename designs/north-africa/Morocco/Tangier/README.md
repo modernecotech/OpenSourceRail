@@ -64,7 +64,7 @@ Corridor polylines + stations as GeoJSON for GIS / alignment tooling: [`tangier.
 - **Network peak throughput (all lines, both directions):** 5 lines × 2 directions × 9,600 = **96,000 passengers/hour**
 - **Daily theoretical capacity (peak × 10):** ≈ **960,000 passenger-trips/day**
 - **Practical daily service capacity** (80% load factor): ≈ **768,000 passenger-trips/day**
-- **Planning daily ridership scenario** (25-45% active-rider uptake of catchment): ≈ **340,198 – 612,358 paid trips/day** (170,099 – 306,179 daily active riders at 2 trips/rider/day)
+- **Planning annual paid-trip scenario** (capacity-led): ≈ **140.2 – 224.3 M paid trips/year** at 50%–80% practical capacity utilisation
 
 ## Catchment
 
@@ -208,31 +208,29 @@ Planning-grade financing model anchored to country financial parameters from [`l
 
 ### Government commitment summary (budgetable)
 
-Bottom line for next year's budget submission. Construction phase runs **years 1–5** (public equity drawdown + interest-only grace on repayable debt; grant disbursements are non-repayable); steady-state operation begins **year 6** and runs for **35 years** until the loans amortise.
+Bottom line for next year's budget submission. Construction phase runs **years 1–5** (public equity drawdown + interest-only grace on repayable debt; no climate-development grant assumed); steady-state operation begins **year 6** and runs for **35 years** until the loans amortise.
 
 | Phase | Annual gov / municipal commitment | Per resident / yr |
 |---|---|---|
-| Construction (years 1–5) | **$75 M / yr** | $63 |
-| Steady-state, low-ridership (year 6+) | **$0 k / yr** | $0 |
-| Steady-state, high-ridership (year 6+) | **$0 k / yr** | $0 |
-| Steady-state, operating-neutral revenue case | **$50 M / yr** | $42 |
-| Lifecycle envelope (yr 1–40, low scenario) | **$376 M cumulative** | $314 |
-| Lifecycle envelope (yr 1–40, high scenario) | **$376 M cumulative** | $314 |
-| Lifecycle envelope (yr 1–40, operating-neutral after opening) | **$2.13 bn cumulative** | $1,777 |
+| Construction (years 1–5) | **$140 M / yr** | $117 |
+| Steady-state, low capacity-use (year 6+) | **$0 k / yr** | $0 |
+| Steady-state, high capacity-use (year 6+) | **$0 k / yr** | $0 |
+| Steady-state, operating-neutral revenue case | **$80 M / yr** | $67 |
+| Lifecycle envelope (yr 1–40, low scenario) | **$702 M cumulative** | $585 |
+| Lifecycle envelope (yr 1–40, high scenario) | **$702 M cumulative** | $585 |
+| Lifecycle envelope (yr 1–40, operating-neutral after opening) | **$3.51 bn cumulative** | $2,926 |
 
-_Population basis: 1,200,000 (catchment per `lib/city-batches/world-sample.toml`). After year 40, debt service drops to zero; steady-state commitments below are net of any operating surplus applied to repayable-debt support. The operating-neutral case already covers steady-state OPEX from fares, station shops, and advertising. Low/high residual OPEX shortfall before debt is $0 k / yr → $0 k / yr; surplus applied to debt support is $50 M / yr → $50 M / yr._
+_Population basis: 1,200,000 (city population per `lib/city-batches/world-sample.toml`). After year 40, debt service drops to zero; steady-state commitments below are net of any operating surplus applied to repayable-debt support. The operating-neutral case already covers steady-state OPEX from fares, station shops, and advertising. Low/high residual OPEX shortfall before debt is $0 k / yr → $0 k / yr; surplus applied to debt support is $80 M / yr → $80 M / yr._
 
 ### CAPEX funding stack
 
 | Tranche | Share | Principal | Rate | Tenor | Annual debt service (post-grace) |
 |---|---|---|---|---|---|
-| Climate / development grant (non-repayable) | 40% | $1.00 bn | — | — | — |
-| Green concessional loan (World Bank / AfDB / ADB / GCF class) | 50% | $1.25 bn | 2.0% | 40 y, 5 y grace | $50 M / yr |
-| Sovereign / project bonds (fallback only) | 0% | $0 k | 4.5% | 40 y, 5 y grace | $0 k / yr |
-| Government equity (no debt service) | 10% | $251 M | — | — | — |
-| **Total** | **100%** | **$2.51 bn** | | | **$50 M / yr** |
+| Green concessional loan | 80% | $2.01 bn | 2.0% | 40 y, 5 y grace | $80 M / yr |
+| Government equity (no debt service) | 20% | $502 M | — | — | — |
+| **Total** | **100%** | **$2.51 bn** | | | **$80 M / yr** |
 
-_During the 5-year grace period the public sponsor pays interest only on repayable debt — concessional loan $25 M / yr + fallback bonds $0 k / yr = **$25 M / yr** total. The $1.00 bn grant tranche carries no repayment or coupon. Government equity is drawn across construction ($50 M / yr × 5 yr). Principal repayment begins in year 6 on a 35-year amortisation schedule._
+_During the 5-year grace period the public sponsor pays interest only on repayable debt — green concessional loan $40 M / yr = **$40 M / yr** total. The base case assumes no climate-development grant. Government equity is drawn across construction ($100 M / yr × 5 yr). Principal repayment begins in year 6 on a 35-year amortisation schedule._
 
 ### Annual OPEX (steady state)
 
@@ -260,30 +258,64 @@ Country median monthly income: **$410 USD** (per [`lib/templates/country-finance
 
 ### Revenue & operating neutrality
 
-Planning ridership bracket = daily active riders at 25-45% of catchment, converted to paid trips at 2 trips/rider/day and capped by practical service capacity (768,000 trips/day). Annual paid trips multiply daily paid trips by 365 service-days at the operating-neutral fare. The operating-neutral column solves annual paid trips so **farebox + station-shop leases + advertising = steady-state OPEX**. Gross post-grace repayable-debt service remains visible in the CAPEX funding stack, while any operating surplus is netted from the budgetable government support line.
+Planning revenue is capacity-led: annual paid trips are calculated from practical daily service capacity (768,000 trips/day) × 365 service-days × capacity utilisation. The low/high bracket uses 50%–80% of that practical capacity. The operating-neutral column solves the capacity utilisation needed so **farebox + station-shop leases + advertising = steady-state OPEX**. Gross post-grace repayable-debt service remains visible in the CAPEX funding stack, while any operating surplus is netted from the budgetable government support line.
 
 | | Low scenario | High scenario | Operating-neutral target |
 |---|---|---|---|
-| Daily active riders | 170,099 | 306,179 | 81,133 |
-| Daily active riders / catchment | 25% | 45% | 12% |
-| Paid trips / active rider | 2 | 2 | 2 |
-| Daily paid trips | 340,198 | 612,358 | 162,267 |
-| Daily paid trips / city population | 28% | 51% | 14% |
-| Annual paid trips | 124.2 M | 223.5 M | 59.2 M |
-| Farebox revenue | $136 M / yr | $244 M / yr | $65 M / yr |
+| Practical service capacity used | 50% | 80% | 21% |
+| Annual paid trips | 140.2 M | 224.3 M | 59.2 M |
+| Annual paid trips / city resident | 117 | 187 | 49 |
+| Farebox revenue | $153 M / yr | $245 M / yr | $65 M / yr |
 | Station shop leases | $3.1 M / yr | $3.1 M / yr | $3.1 M / yr |
 | Advertising boards | $5.1 M / yr | $5.1 M / yr | $5.1 M / yr |
-| **Total revenue** | **$144 M / yr** | **$253 M / yr** | **$73 M / yr** |
-| Revenue / OPEX recovery | 197% | 346% | 100% |
+| **Total revenue** | **$161 M / yr** | **$253 M / yr** | **$73 M / yr** |
+| Revenue / OPEX recovery | 221% | 347% | 100% |
 | Country farebox-only policy target (diagnostic) | 60% | 60% | 60% |
-| Gross repayable-debt service + residual OPEX subsidy | $50 M / yr | $50 M / yr | **$50 M / yr** |
-| Operating surplus applied to debt support | -$50 M / yr | -$50 M / yr | **$0 k / yr** |
-| **Net gov repayable-debt support + residual OPEX subsidy** | $0 k / yr | $0 k / yr | **$50 M / yr** |
-| Operating surplus after OPEX (before debt support) | $71 M / yr | $180 M / yr | $0 / yr |
+| Gross repayable-debt service + residual OPEX subsidy | $80 M / yr | $80 M / yr | **$80 M / yr** |
+| Operating surplus applied to debt support | -$80 M / yr | -$80 M / yr | **$0 k / yr** |
+| **Net gov repayable-debt support + residual OPEX subsidy** | $0 k / yr | $0 k / yr | **$80 M / yr** |
+| Operating surplus after OPEX (before debt support) | $88 M / yr | $180 M / yr | $0 / yr |
 
 _Commercial-revenue assumptions: 9,064 m² of station shop/kiosk leases at $33/m²/month and 1,748 advertising boards at $287/board/month, with occupancy derates applied._
 
-**Caveats:** The grant-first funding stack, the 8 % operating-neutral fare target, the 25-45% daily-active-rider bracket, and the station-commercial assumptions are project-level defaults. Real deployments will negotiate the capital split with financing institutions and tune fares, retail mix, advertising inventory, and service frequency iteratively from boarding data. Treat the numbers above as a first-iteration sanity check, not as a bid-ready financial close.
+**Caveats:** The grant-free funding stack, the 8 % operating-neutral fare target, the 50%–80% capacity-utilisation bracket, and the station-commercial assumptions are project-level defaults. Real deployments will negotiate the capital split with financing institutions and tune fares, retail mix, advertising inventory, and service frequency iteratively from boarding data. Treat the numbers above as a first-iteration sanity check, not as a bid-ready financial close.
+
+## Broad economic benefits (planning proxy)
+
+This is a broad-benefit screen, not a bankable benefit-cost analysis. The rows quantify useful channels for discussion — travel time, road externalities, access to essential services, station-area activity, and local CAPEX recirculation — but some channels overlap and should not be treated as audited fiscal revenue. Assumptions are loaded from [`lib/templates/economic-benefits.toml`](../../../../lib/templates/economic-benefits.toml).
+
+### Annual benefit / activity proxy
+
+| Channel | Low scenario | High scenario | Basis |
+|---|---:|---:|---|
+| Travel time + reliability dividend | $44 M / yr | $71 M / yr | 16 min/trip × $1.18/h value-of-time proxy |
+| Avoided road congestion | $40 M / yr | $65 M / yr | 505 M - 807 M vehicle-km/yr avoided × $0.08/vehicle-km |
+| Avoided CO2e | $7.3 M / yr | $12 M / yr | 90.8–145.3 ktCO2e/yr after rail residual-grid emissions × $80/t |
+| Local air / noise / safety externalities | $20 M / yr | $32 M / yr | avoided road vehicle-km × $0.04/vehicle-km |
+| Station-area commerce turnover supported | $57 M / yr | $91 M / yr | 20% of paid trips × $2.05 local spend proxy |
+| Entertainment / community activity supported | $30 M / yr | $49 M / yr | 11% of paid trips × $2.05 local spend proxy |
+| **Annual quantified benefit / activity proxy** | **$199 M / yr** | **$319 M / yr** | sum of rows above; use as a screening envelope, not audited revenue |
+
+### Access to education, healthcare, commerce, and entertainment
+
+| Access channel | Anchored stations / signal | Low scenario | High scenario |
+|---|---:|---:|---:|
+| Education | 2 education anchors | 19,507 trips/school day; 4.3 M access-events/yr | 31,212 trips/school day; 6.9 M access-events/yr |
+| Healthcare | 4 healthcare anchors | 29,491 trips/day; 10.8 M access-events/yr | 47,186 trips/day; 17.2 M access-events/yr |
+| Commerce | 23 major/terminal/interchange nodes | 76,160 trips/trading day; 25.1 M access-events/yr | 121,856 trips/trading day; 40.2 M access-events/yr |
+| Entertainment / community | 20.5 h/day service span | 40,704 trips/activity day; 12.2 M access-events/yr | 65,126 trips/activity day; 19.5 M access-events/yr |
+
+### Local recirculation of initial CAPEX
+
+| Channel | Value | Basis |
+|---|---:|---|
+| CAPEX retained in local procurement / payroll | $1.29 bn | 51% of $2.51 bn CAPEX using bucket local-content shares |
+| Construction-phase local economic activity | $2.06 bn | retained CAPEX × 1.6 local supplier / wage multiplier |
+| Annualised during construction | $412 M / yr | spread across 5 construction / grace years |
+| Construction employment supported | 65,479 job-years | retained CAPEX ÷ (4.0 × median annual income) |
+| Annual paid-trip capacity used in revenue model | 140.2 M - 224.3 M trips/yr | 50%-80% of practical service capacity |
+
+_Interpretation: the strongest fiscal result remains the farebox + commercial revenue table above. The broader rows here capture welfare, access, avoided external costs, and local supplier circulation that usually matter to a finance ministry, city authority, or development bank even when they do not appear as railway revenue._
 
 ## Files
 

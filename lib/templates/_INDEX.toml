@@ -158,6 +158,15 @@ ids  = [
     { id = "full-emv",   desc = "QR + NFC + contactless EMV gates" },
 ]
 
+[index.economic_benefits]
+file = "lib/templates/economic-benefits.toml"
+ids  = [
+    { id = "access",              desc = "Travel-time, service-access, and road-displacement assumptions" },
+    { id = "environment",         desc = "CO2e, congestion, and local road externality proxy rates" },
+    { id = "station-area",        desc = "Station-area commerce and entertainment turnover proxy" },
+    { id = "local-recirculation", desc = "CAPEX local-content, construction multiplier, and job-year proxy" },
+]
+
 [index.track_geometry]
 file = "lib/templates/track-geometry.toml"
 ids  = [
@@ -202,7 +211,7 @@ note = "Canonical planning-grade CAPEX rates consumed by osr-design and generate
 
 [index.demand_profiles]
 file = "lib/templates/demand-profiles.toml"
-note = "Anchor-driven demand curves plus README ridership uptake bands."
+note = "Anchor-driven demand curves plus README practical-capacity utilisation bands."
 
 [index.composition_profiles]
 file = "lib/templates/composition-profiles.toml"

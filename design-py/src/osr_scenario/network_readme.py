@@ -62,12 +62,17 @@ def _demand_profiles() -> dict:
     return _template_toml("demand-profiles.toml")
 
 
+def _economic_benefits() -> dict:
+    return _template_toml("economic-benefits.toml")
+
+
 def _float_map(table: dict) -> dict[str, float]:
     return {str(k): float(v) for k, v in table.items()}
 
 
 _CAPEX_COSTS = _capex_costs()
 _DEMAND_PROFILES = _demand_profiles()
+_ECONOMIC_BENEFITS = _economic_benefits()
 _RIDERSHIP_PLANNING = _DEMAND_PROFILES["planning"]
 _USD_TO_EUR = float(_CAPEX_COSTS["schema"]["usd_to_eur"])
 _EUR_TO_USD = 1.0 / _USD_TO_EUR
@@ -90,6 +95,13 @@ _SOLAR_PLANT_INTERCONNECTION_USD_PER_KW = float(
 )
 _SOLAR_PLANT_COVERAGE_MARGIN = float(_SOLAR_PLANT["coverage_margin"])
 _SOLAR_PLANT_MAINT_FRAC = float(_SOLAR_PLANT["annual_maintenance_fraction"])
+_BENEFIT_ACCESS = _ECONOMIC_BENEFITS["access"]
+_BENEFIT_ENVIRONMENT = _ECONOMIC_BENEFITS["environment"]
+_BENEFIT_STATION_AREA = _ECONOMIC_BENEFITS["station_area"]
+_BENEFIT_LOCAL_RECIRC = _ECONOMIC_BENEFITS["local_recirculation"]
+_BENEFIT_LOCAL_CAPEX_SHARE = _float_map(
+    _BENEFIT_LOCAL_RECIRC["capex_local_share"]
+)
 _CIVIL_USD_PER_KM = _float_map(_CAPEX_COSTS["civil_usd_per_km"])
 _AT_GRADE_USD_PER_KM = _CIVIL_USD_PER_KM["at_grade"]
 _ELEVATED_USD_PER_KM = _CIVIL_USD_PER_KM["elevated"]
@@ -107,23 +119,14 @@ _CHARGING_MICROGRID_UNIT_USD = _float_map(
     _CAPEX_COSTS["charging_microgrid_unit_usd"]
 )
 _EPC_OVERHEAD_FRAC = float(_CAPEX_COSTS["overhead"]["epc_fraction"])
-_DAILY_RIDERSHIP_CATCHMENT_LOW = float(
-    _RIDERSHIP_PLANNING["daily_ridership_catchment_low"]
-)
-_DAILY_RIDERSHIP_CATCHMENT_HIGH = float(
-    _RIDERSHIP_PLANNING["daily_ridership_catchment_high"]
-)
-_DAILY_RIDERSHIP_POPULATION_FALLBACK_LOW = float(
-    _RIDERSHIP_PLANNING["daily_ridership_population_fallback_low"]
-)
-_DAILY_RIDERSHIP_POPULATION_FALLBACK_HIGH = float(
-    _RIDERSHIP_PLANNING["daily_ridership_population_fallback_high"]
-)
-_PAID_TRIPS_PER_DAILY_RIDER = float(
-    _RIDERSHIP_PLANNING.get("paid_trips_per_daily_rider", 2.0)
-)
 _PRACTICAL_CAPACITY_LOAD_FACTOR = float(
     _RIDERSHIP_PLANNING["practical_capacity_load_factor"]
+)
+_CAPACITY_UTILIZATION_LOW = float(
+    _RIDERSHIP_PLANNING.get("capacity_utilization_low", 0.50)
+)
+_CAPACITY_UTILIZATION_HIGH = float(
+    _RIDERSHIP_PLANNING.get("capacity_utilization_high", 0.80)
 )
 
 
@@ -448,21 +451,19 @@ class FundingStack:
 
 
 def _funding_stack(fin: dict) -> FundingStack:
-    """Debt-light default finance stack for generated city reports.
+    """Grant-free default finance stack for generated city reports.
 
-    The previous model borrowed 85 % of CAPEX, including 25 % at sovereign
-    bond rates. That made government debt-service figures dominate the
-    README. The default here reflects the target OSR deployment posture:
-    treat climate/development grants as the first source of capital, keep
-    the bond market as a fallback only, and make the repayable portion a
-    long-tenor concessional facility.
+    The default assumes the public sponsor contributes 20% equity during
+    construction and finances the remaining 80% with a long-tenor green
+    concessional loan. Climate/development grants and sovereign bonds are
+    available as explicit country overrides only, not as the base case.
     """
 
     def _frac(key: str, default: float) -> float:
         return max(0.0, float(fin.get(key, default)))
 
-    grant = _frac("climate_development_grant_share", 0.40)
-    multi = _frac("multilateral_loan_share", 0.50)
+    grant = _frac("climate_development_grant_share", 0.00)
+    multi = _frac("multilateral_loan_share", 0.80)
     bond = _frac("sovereign_bond_share", 0.00)
     equity = _frac(
         "government_equity_share",
@@ -470,7 +471,7 @@ def _funding_stack(fin: dict) -> FundingStack:
     )
     total = grant + multi + bond + equity
     if total <= 0.0:
-        grant, multi, bond, equity = 0.40, 0.50, 0.00, 0.10
+        grant, multi, bond, equity = 0.00, 0.80, 0.00, 0.20
         total = 1.0
     grant, multi, bond, equity = (
         grant / total,
@@ -741,6 +742,384 @@ def _energy_plan(design: dict, scenario: dict, stats: NetworkStats) -> EnergyPla
     )
 
 
+def _cost_usd_from_costs(costs: dict, stem: str) -> float:
+    if f"{stem}_usd" in costs:
+        return float(costs[f"{stem}_usd"])
+    return float(costs.get(f"{stem}_eur", 0.0)) * _EUR_TO_USD
+
+
+def _anchor_access_counts(design: dict) -> dict[str, int]:
+    categories = {
+        "education": (
+            "school", "university", "college", "kindergarten", "academy",
+        ),
+        "healthcare": (
+            "hospital", "clinic", "doctors", "pharmacy", "dentist",
+        ),
+        "commerce": (
+            "market", "marketplace", "shop", "mall", "retail", "commercial",
+            "office", "bank", "restaurant", "cafe",
+        ),
+        "entertainment": (
+            "cinema", "theatre", "theater", "stadium", "park", "leisure",
+            "tourism", "arts", "sports", "community_centre",
+        ),
+    }
+    counts = {key: 0 for key in categories}
+    counts["anchored"] = 0
+    counts["service_nodes"] = 0
+    service_archetypes = {
+        "major", "terminal", "depot-terminal", "interchange",
+        "interchange-elevated",
+    }
+    for station in design.get("stations", []):
+        archetype = str(station.get("archetype", "standard"))
+        if archetype in service_archetypes:
+            counts["service_nodes"] += 1
+        anchor_kind = str(station.get("anchor_kind", "")).lower()
+        anchor_name = str(station.get("anchor_name", "")).lower()
+        if anchor_kind or anchor_name:
+            counts["anchored"] += 1
+        signal = f"{anchor_kind} {anchor_name}"
+        for category, needles in categories.items():
+            if any(needle in signal for needle in needles):
+                counts[category] += 1
+    return counts
+
+
+def _share_from_signal(base: float, maximum: float, signal: float) -> float:
+    signal = min(max(signal, 0.0), 1.0)
+    return min(maximum, base + (maximum - base) * signal)
+
+
+def _benefit_number_range(low: float, high: float, suffix: str = "") -> str:
+    return f"{low:,.0f}{suffix} - {high:,.0f}{suffix}"
+
+
+def _broad_economic_benefits_section(
+    design: dict,
+    costs: dict,
+    stats: NetworkStats,
+    energy_plan: EnergyPlan,
+    rel,
+    *,
+    daily_pax_low: int,
+    daily_pax_high: int,
+    capacity_utilization_low: float,
+    capacity_utilization_high: float,
+) -> list[str]:
+    fin = _load_country_finance(stats.country_iso)
+    if not fin:
+        return []
+
+    monthly_income = float(fin.get("median_monthly_income_usd", 600))
+    median_annual_income = monthly_income * 12.0
+    median_hourly_income = median_annual_income / (52.0 * 40.0)
+    value_of_time = median_hourly_income * float(
+        _BENEFIT_ACCESS["value_of_time_income_share"]
+    )
+    time_saving_min = float(_BENEFIT_ACCESS["time_saving_min_per_paid_trip"])
+    reliability_min = float(_BENEFIT_ACCESS["reliability_buffer_min_per_paid_trip"])
+    generalized_min_saved = time_saving_min + reliability_min
+    value_per_trip = value_of_time * generalized_min_saved / 60.0
+
+    service_days = energy_plan.service_days_per_year
+    annual_pax_low = daily_pax_low * service_days
+    annual_pax_high = daily_pax_high * service_days
+    time_value_low = annual_pax_low * value_per_trip
+    time_value_high = annual_pax_high * value_per_trip
+
+    avg_line_km = stats.route_km / max(stats.line_count, 1)
+    avg_trip_km = avg_line_km * float(
+        _BENEFIT_ACCESS["average_trip_length_route_share"]
+    )
+    avg_trip_km = min(
+        float(_BENEFIT_ACCESS["max_average_trip_km"]),
+        max(float(_BENEFIT_ACCESS["min_average_trip_km"]), avg_trip_km),
+    )
+    road_shift = float(_BENEFIT_ACCESS["road_mode_shift_share"])
+    road_occupancy = float(_BENEFIT_ACCESS["road_vehicle_occupancy"])
+    road_vkm_low = annual_pax_low * avg_trip_km * road_shift / road_occupancy
+    road_vkm_high = annual_pax_high * avg_trip_km * road_shift / road_occupancy
+
+    road_kg_per_vkm = float(
+        _BENEFIT_ENVIRONMENT["road_emission_kg_co2e_per_vehicle_km"]
+    )
+    rail_kg_per_kwh = float(
+        _BENEFIT_ENVIRONMENT["rail_grid_emission_kg_co2e_per_kwh"]
+    )
+    road_co2_t_low = road_vkm_low * road_kg_per_vkm / 1000.0
+    road_co2_t_high = road_vkm_high * road_kg_per_vkm / 1000.0
+    rail_co2_t = energy_plan.residual_grid_import_kwh * rail_kg_per_kwh / 1000.0
+    co2_avoided_low = max(0.0, road_co2_t_low - rail_co2_t)
+    co2_avoided_high = max(0.0, road_co2_t_high - rail_co2_t)
+    carbon_value = float(_BENEFIT_ENVIRONMENT["social_carbon_usd_per_tonne"])
+    carbon_value_low = co2_avoided_low * carbon_value
+    carbon_value_high = co2_avoided_high * carbon_value
+    congestion_rate = float(_BENEFIT_ENVIRONMENT["congestion_usd_per_vehicle_km"])
+    local_externality_rate = float(
+        _BENEFIT_ENVIRONMENT["local_air_noise_safety_usd_per_vehicle_km"]
+    )
+    congestion_low = road_vkm_low * congestion_rate
+    congestion_high = road_vkm_high * congestion_rate
+    local_externality_low = road_vkm_low * local_externality_rate
+    local_externality_high = road_vkm_high * local_externality_rate
+
+    counts = _anchor_access_counts(design)
+    anchored = max(counts["anchored"], 1)
+    station_count = max(stats.unique_station_count, 1)
+    service_node_signal = counts["service_nodes"] / station_count
+
+    anchor_weight = float(_BENEFIT_ACCESS["anchor_signal_weight"])
+    education_signal = anchor_weight * counts["education"] / anchored
+    healthcare_signal = anchor_weight * counts["healthcare"] / anchored
+    commerce_signal = max(
+        anchor_weight * counts["commerce"] / anchored,
+        service_node_signal * 0.75,
+    )
+    entertainment_signal = max(
+        anchor_weight * counts["entertainment"] / anchored,
+        service_node_signal * 0.35,
+        min(1.0, max(0.0, (energy_plan.service_hours_per_day - 14.0) / 10.0))
+        * 0.40,
+    )
+    education_share = _share_from_signal(
+        float(_BENEFIT_ACCESS["education_base_trip_share"]),
+        float(_BENEFIT_ACCESS["education_max_trip_share"]),
+        education_signal,
+    )
+    healthcare_share = _share_from_signal(
+        float(_BENEFIT_ACCESS["healthcare_base_trip_share"]),
+        float(_BENEFIT_ACCESS["healthcare_max_trip_share"]),
+        healthcare_signal,
+    )
+    commerce_share = _share_from_signal(
+        float(_BENEFIT_ACCESS["commerce_base_trip_share"]),
+        float(_BENEFIT_ACCESS["commerce_max_trip_share"]),
+        commerce_signal,
+    )
+    entertainment_share = _share_from_signal(
+        float(_BENEFIT_ACCESS["entertainment_base_trip_share"]),
+        float(_BENEFIT_ACCESS["entertainment_max_trip_share"]),
+        entertainment_signal,
+    )
+
+    spend_per_relevant_trip = max(
+        float(_BENEFIT_STATION_AREA["minimum_spend_per_relevant_trip_usd"]),
+        monthly_income
+        * float(_BENEFIT_STATION_AREA["spend_per_relevant_trip_income_share"]),
+    )
+    commerce_spend_low = annual_pax_low * commerce_share * spend_per_relevant_trip
+    commerce_spend_high = annual_pax_high * commerce_share * spend_per_relevant_trip
+    entertainment_spend_low = (
+        annual_pax_low * entertainment_share * spend_per_relevant_trip
+    )
+    entertainment_spend_high = (
+        annual_pax_high * entertainment_share * spend_per_relevant_trip
+    )
+
+    quantified_low = (
+        time_value_low + congestion_low + local_externality_low
+        + carbon_value_low + commerce_spend_low + entertainment_spend_low
+    )
+    quantified_high = (
+        time_value_high + congestion_high + local_externality_high
+        + carbon_value_high + commerce_spend_high + entertainment_spend_high
+    )
+
+    def _daily_trips(share: float, daily: int) -> float:
+        return share * daily
+
+    def _annual_events(share: float, daily: int, days_key: str) -> float:
+        days = float(_BENEFIT_ACCESS[days_key])
+        return _daily_trips(share, daily) * days
+
+    education_events_low = _annual_events(
+        education_share, daily_pax_low, "education_service_days_per_year"
+    )
+    education_events_high = _annual_events(
+        education_share, daily_pax_high, "education_service_days_per_year"
+    )
+    healthcare_events_low = _annual_events(
+        healthcare_share, daily_pax_low, "healthcare_service_days_per_year"
+    )
+    healthcare_events_high = _annual_events(
+        healthcare_share, daily_pax_high, "healthcare_service_days_per_year"
+    )
+    commerce_events_low = _annual_events(
+        commerce_share, daily_pax_low, "commerce_service_days_per_year"
+    )
+    commerce_events_high = _annual_events(
+        commerce_share, daily_pax_high, "commerce_service_days_per_year"
+    )
+    entertainment_events_low = _annual_events(
+        entertainment_share, daily_pax_low, "entertainment_service_days_per_year"
+    )
+    entertainment_events_high = _annual_events(
+        entertainment_share, daily_pax_high, "entertainment_service_days_per_year"
+    )
+
+    local_shares = _BENEFIT_LOCAL_CAPEX_SHARE
+    capex_buckets = {
+        "civil": _cost_usd_from_costs(costs, "civil_subtotal"),
+        "stations": _cost_usd_from_costs(costs, "stations"),
+        "depots": _cost_usd_from_costs(costs, "depots"),
+        "rolling_stock": _cost_usd_from_costs(costs, "rolling_stock"),
+        "production_plant": _cost_usd_from_costs(costs, "production_plant"),
+        "solar_plant": energy_plan.solar_plant_capex_usd,
+        "signalling": _cost_usd_from_costs(costs, "signalling"),
+        "charging_microgrid": _cost_usd_from_costs(costs, "charging_microgrid"),
+        "epc_overhead": _cost_usd_from_costs(costs, "epc_overhead"),
+    }
+    local_capex = sum(
+        value * local_shares.get(bucket, 0.0)
+        for bucket, value in capex_buckets.items()
+    )
+    total_capex = _cost_usd_from_costs(costs, "total") + energy_plan.solar_plant_capex_usd
+    local_capex_share = local_capex / total_capex if total_capex > 0.0 else 0.0
+    construction_multiplier = float(
+        _BENEFIT_LOCAL_RECIRC["construction_multiplier"]
+    )
+    local_activity = local_capex * construction_multiplier
+    stack = _funding_stack(fin)
+    construction_years = max(stack.grace, 1)
+    annual_local_activity = local_activity / construction_years
+    job_output_multiple = float(
+        _BENEFIT_LOCAL_RECIRC["job_year_output_multiple_of_median_income"]
+    )
+    job_years = (
+        local_capex / max(median_annual_income * job_output_multiple, 1.0)
+    )
+
+    out: list[str] = []
+    out.append("## Broad economic benefits (planning proxy)\n")
+    assumptions_link = rel("lib/templates/economic-benefits.toml")
+    out.append(
+        "This is a broad-benefit screen, not a bankable benefit-cost "
+        "analysis. The rows quantify useful channels for discussion — travel "
+        "time, road externalities, access to essential services, station-area "
+        "activity, and local CAPEX recirculation — but some channels overlap "
+        "and should not be treated as audited fiscal revenue. Assumptions are "
+        f"loaded from [`lib/templates/economic-benefits.toml`]({assumptions_link}).\n"
+    )
+
+    out.append("### Annual benefit / activity proxy\n")
+    out.append("| Channel | Low scenario | High scenario | Basis |")
+    out.append("|---|---:|---:|---|")
+    out.append(
+        f"| Travel time + reliability dividend | {_fmt_usd(time_value_low)} / yr | "
+        f"{_fmt_usd(time_value_high)} / yr | {generalized_min_saved:.0f} min/trip "
+        f"× ${value_of_time:.2f}/h value-of-time proxy |"
+    )
+    out.append(
+        f"| Avoided road congestion | {_fmt_usd(congestion_low)} / yr | "
+        f"{_fmt_usd(congestion_high)} / yr | "
+        f"{_benefit_number_range(road_vkm_low / 1e6, road_vkm_high / 1e6, ' M')} "
+        f"vehicle-km/yr avoided × ${congestion_rate:.2f}/vehicle-km |"
+    )
+    out.append(
+        f"| Avoided CO2e | {_fmt_usd(carbon_value_low)} / yr | "
+        f"{_fmt_usd(carbon_value_high)} / yr | "
+        f"{co2_avoided_low / 1000.0:,.1f}–{co2_avoided_high / 1000.0:,.1f} ktCO2e/yr "
+        f"after rail residual-grid emissions × ${carbon_value:.0f}/t |"
+    )
+    out.append(
+        f"| Local air / noise / safety externalities | "
+        f"{_fmt_usd(local_externality_low)} / yr | "
+        f"{_fmt_usd(local_externality_high)} / yr | "
+        f"avoided road vehicle-km × ${local_externality_rate:.2f}/vehicle-km |"
+    )
+    out.append(
+        f"| Station-area commerce turnover supported | "
+        f"{_fmt_usd(commerce_spend_low)} / yr | "
+        f"{_fmt_usd(commerce_spend_high)} / yr | "
+        f"{commerce_share:.0%} of paid trips × ${spend_per_relevant_trip:.2f} "
+        "local spend proxy |"
+    )
+    out.append(
+        f"| Entertainment / community activity supported | "
+        f"{_fmt_usd(entertainment_spend_low)} / yr | "
+        f"{_fmt_usd(entertainment_spend_high)} / yr | "
+        f"{entertainment_share:.0%} of paid trips × ${spend_per_relevant_trip:.2f} "
+        "local spend proxy |"
+    )
+    out.append(
+        f"| **Annual quantified benefit / activity proxy** | "
+        f"**{_fmt_usd(quantified_low)} / yr** | "
+        f"**{_fmt_usd(quantified_high)} / yr** | "
+        "sum of rows above; use as a screening envelope, not audited revenue |\n"
+    )
+
+    out.append("### Access to education, healthcare, commerce, and entertainment\n")
+    out.append("| Access channel | Anchored stations / signal | Low scenario | High scenario |")
+    out.append("|---|---:|---:|---:|")
+    out.append(
+        f"| Education | {counts['education']} education anchors | "
+        f"{_daily_trips(education_share, daily_pax_low):,.0f} trips/school day; "
+        f"{education_events_low / 1e6:.1f} M access-events/yr | "
+        f"{_daily_trips(education_share, daily_pax_high):,.0f} trips/school day; "
+        f"{education_events_high / 1e6:.1f} M access-events/yr |"
+    )
+    out.append(
+        f"| Healthcare | {counts['healthcare']} healthcare anchors | "
+        f"{_daily_trips(healthcare_share, daily_pax_low):,.0f} trips/day; "
+        f"{healthcare_events_low / 1e6:.1f} M access-events/yr | "
+        f"{_daily_trips(healthcare_share, daily_pax_high):,.0f} trips/day; "
+        f"{healthcare_events_high / 1e6:.1f} M access-events/yr |"
+    )
+    out.append(
+        f"| Commerce | {counts['service_nodes']} major/terminal/interchange nodes | "
+        f"{_daily_trips(commerce_share, daily_pax_low):,.0f} trips/trading day; "
+        f"{commerce_events_low / 1e6:.1f} M access-events/yr | "
+        f"{_daily_trips(commerce_share, daily_pax_high):,.0f} trips/trading day; "
+        f"{commerce_events_high / 1e6:.1f} M access-events/yr |"
+    )
+    out.append(
+        f"| Entertainment / community | {energy_plan.service_hours_per_day:.1f} h/day service span | "
+        f"{_daily_trips(entertainment_share, daily_pax_low):,.0f} trips/activity day; "
+        f"{entertainment_events_low / 1e6:.1f} M access-events/yr | "
+        f"{_daily_trips(entertainment_share, daily_pax_high):,.0f} trips/activity day; "
+        f"{entertainment_events_high / 1e6:.1f} M access-events/yr |\n"
+    )
+
+    out.append("### Local recirculation of initial CAPEX\n")
+    out.append("| Channel | Value | Basis |")
+    out.append("|---|---:|---|")
+    out.append(
+        f"| CAPEX retained in local procurement / payroll | "
+        f"{_fmt_usd(local_capex)} | {local_capex_share:.0%} of "
+        f"{_fmt_usd(total_capex)} CAPEX using bucket local-content shares |"
+    )
+    out.append(
+        f"| Construction-phase local economic activity | "
+        f"{_fmt_usd(local_activity)} | retained CAPEX × "
+        f"{construction_multiplier:.1f} local supplier / wage multiplier |"
+    )
+    out.append(
+        f"| Annualised during construction | {_fmt_usd(annual_local_activity)} / yr | "
+        f"spread across {construction_years} construction / grace years |"
+    )
+    out.append(
+        f"| Construction employment supported | {job_years:,.0f} job-years | "
+        f"retained CAPEX ÷ ({job_output_multiple:.1f} × median annual income) |"
+    )
+    out.append(
+        f"| Annual paid-trip capacity used in revenue model | "
+        f"{annual_pax_low / 1e6:.1f} M - {annual_pax_high / 1e6:.1f} M trips/yr | "
+        f"{capacity_utilization_low:.0%}-{capacity_utilization_high:.0%} "
+        "of practical service capacity |\n"
+    )
+
+    out.append(
+        "_Interpretation: the strongest fiscal result remains the farebox + "
+        "commercial revenue table above. The broader rows here capture welfare, "
+        "access, avoided external costs, and local supplier circulation that "
+        "usually matter to a finance ministry, city authority, or development "
+        "bank even when they do not appear as railway revenue._\n"
+    )
+    return out
+
+
 def _funding_and_affordability_section(
     design: dict,
     scenario: dict,
@@ -749,18 +1128,13 @@ def _funding_and_affordability_section(
     energy_plan: EnergyPlan,
     rel,
     *,
-    daily_active_low: int,
-    daily_active_high: int,
     daily_pax_low: int,
     daily_pax_high: int,
-    ridership_basis_label: str,
-    ridership_basis_population: int,
-    ridership_low_share: float,
-    ridership_high_share: float,
-    paid_trips_per_daily_rider: float,
     practical_daily_capacity: int,
+    capacity_utilization_low: float,
+    capacity_utilization_high: float,
 ) -> list[str]:
-    """Emit the `## Funding & affordability` section: grant-first CAPEX
+    """Emit the `## Funding & affordability` section: grant-free CAPEX
     funding stack, annual OPEX, ticket pricing anchored to median income,
     and farebox-recovery shortfall.
 
@@ -779,10 +1153,9 @@ def _funding_and_affordability_section(
     solar_plant_eur = energy_plan.solar_plant_capex_usd * _USD_TO_EUR
     total_eur = base_total_eur + solar_plant_eur
 
-    # Funding stack — grant-first and concessional-debt-heavy. The older
-    # three-tranche default borrowed 85 % of CAPEX, including a large
-    # sovereign-bond slice; that made government interest repayment dominate
-    # otherwise affordable OSR deployments.
+    # Funding stack — grant-free and concessional-debt-heavy. Public equity
+    # covers 20% during construction; the balance is a long-tenor green
+    # concessional loan unless a country override explicitly changes it.
     stack = _funding_stack(fin)
     grant_frac = stack.grant_frac
     multi_frac = stack.multi_frac
@@ -814,7 +1187,6 @@ def _funding_and_affordability_section(
     # sponsor carries:
     #   • the equity tranche, drawn down evenly across construction;
     #   • interest-only service on repayable debt;
-    #   • no repayment on the climate/development grant tranche.
     # Principal repayment doesn't start until year `grace + 1`.
     construction_years = max(grace, 1)
     annual_equity_eur = equity_eur / construction_years
@@ -893,7 +1265,7 @@ def _funding_and_affordability_section(
     # Labour. GoA 4 driverless (no train drivers), but RFC 0015 moves
     # safety presence to OCC remote assist, station/platform staff, and
     # maintenance. The headcount model therefore scales with service
-    # hours, fleet size, station count, route-km, and high-case ridership.
+    # hours, fleet size, station count, route-km, and high-case paid trips.
     workforce = _driverless_workforce_breakdown(
         design=design,
         stats=stats,
@@ -913,7 +1285,7 @@ def _funding_and_affordability_section(
     annual_opex_eur = rs_maint + civil_maint + sig_maint + energy_eur + labour_eur
 
     # Affordability-anchored ticket pricing. The revenue case uses a
-    # monthly-pass share of country median income and solves the ridership
+    # monthly-pass share of country median income and solves the capacity use
     # needed after station retail + advertising revenue.
     target_pass_share = float(
         fin.get("revenue_case_monthly_pass_income_share", 0.08)
@@ -924,7 +1296,7 @@ def _funding_and_affordability_section(
     target_pass_pct = f"{target_pass_share * 100:.0f} %"
 
     # Farebox revenue at the operating-neutral fare, using the same
-    # ridership scenarios reported in the capacity section.
+    # capacity-use scenarios reported in the capacity section.
     annual_pax_low = daily_pax_low * service_days_per_year
     annual_pax_high = daily_pax_high * service_days_per_year
     farebox_low_eur = annual_pax_low * target_trip_eur
@@ -998,13 +1370,10 @@ def _funding_and_affordability_section(
         else 0.0
     )
     cost_neutral_daily_pax = cost_neutral_annual_pax / service_days_per_year
-    cost_neutral_daily_active = (
-        cost_neutral_daily_pax / paid_trips_per_daily_rider
-        if paid_trips_per_daily_rider > 0.0
-        else cost_neutral_daily_pax
-    )
-    cost_neutral_basis_share = (
-        cost_neutral_daily_active / max(ridership_basis_population, 1)
+    cost_neutral_capacity_utilization = (
+        cost_neutral_daily_pax / practical_daily_capacity
+        if practical_daily_capacity > 0
+        else 0.0
     )
     cost_neutral_revenue_eur = cost_neutral_farebox_eur + nonfare_eur
     cost_neutral_surplus = max(0.0, cost_neutral_revenue_eur - annual_opex_eur)
@@ -1044,7 +1413,7 @@ def _funding_and_affordability_section(
         "Bottom line for next year's budget submission. "
         f"Construction phase runs **years 1–{construction_years}** "
         f"(public equity drawdown + interest-only grace on repayable "
-        f"debt; grant disbursements are non-repayable); steady-state "
+        f"debt; no climate-development grant assumed); steady-state "
         f"operation begins **year {construction_years + 1}** "
         f"and runs for **{repayment_years} years** until the loans amortise.\n"
     )
@@ -1056,12 +1425,12 @@ def _funding_and_affordability_section(
         f"{_usd_per_resident(construction_per_capita)} |"
     )
     out.append(
-        f"| Steady-state, low-ridership (year {construction_years + 1}+) | "
+        f"| Steady-state, low capacity-use (year {construction_years + 1}+) | "
         f"**{_usd(steady_state_low)} / yr** | "
         f"{_usd_per_resident(steady_low_per_capita)} |"
     )
     out.append(
-        f"| Steady-state, high-ridership (year {construction_years + 1}+) | "
+        f"| Steady-state, high capacity-use (year {construction_years + 1}+) | "
         f"**{_usd(steady_state_high)} / yr** | "
         f"{_usd_per_resident(steady_high_per_capita)} |"
     )
@@ -1086,7 +1455,7 @@ def _funding_and_affordability_section(
         f"{_usd_per_resident(lifecycle_neutral / population)} |\n"
     )
     out.append(
-        f"_Population basis: {population:,} (catchment per "
+        f"_Population basis: {population:,} (city population per "
         f"`lib/city-batches/world-sample.toml`). After year {tenor}, debt "
         f"service drops to zero; steady-state commitments below are net of "
         f"any operating surplus applied to repayable-debt support. The "
@@ -1102,20 +1471,22 @@ def _funding_and_affordability_section(
     out.append("### CAPEX funding stack\n")
     out.append("| Tranche | Share | Principal | Rate | Tenor | Annual debt service (post-grace) |")
     out.append("|---|---|---|---|---|---|")
+    if grant_frac > 0.0:
+        out.append(
+            f"| Climate / development grant (override only) | "
+            f"{grant_frac:.0%} | {_usd(grant_eur)} | — | — | — |"
+        )
     out.append(
-        f"| Climate / development grant (non-repayable) | "
-        f"{grant_frac:.0%} | {_usd(grant_eur)} | — | — | — |"
-    )
-    out.append(
-        f"| Green concessional loan (World Bank / AfDB / ADB / GCF class) | "
+        f"| Green concessional loan | "
         f"{multi_frac:.0%} | {_usd(multi_eur)} | {multi_rate:.1%} | "
         f"{tenor} y, {grace} y grace | {_usd(multi_annuity)} / yr |"
     )
-    out.append(
-        f"| Sovereign / project bonds (fallback only) | "
-        f"{bond_frac:.0%} | {_usd(bond_eur)} | {bond_rate:.1%} | "
-        f"{tenor} y, {grace} y grace | {_usd(bond_annuity)} / yr |"
-    )
+    if bond_frac > 0.0:
+        out.append(
+            f"| Sovereign / project bonds (fallback only) | "
+            f"{bond_frac:.0%} | {_usd(bond_eur)} | {bond_rate:.1%} | "
+            f"{tenor} y, {grace} y grace | {_usd(bond_annuity)} / yr |"
+        )
     out.append(
         f"| Government equity (no debt service) | "
         f"{equity_frac:.0%} | {_usd(equity_eur)} | — | — | — |"
@@ -1126,12 +1497,12 @@ def _funding_and_affordability_section(
     )
     out.append(
         f"_During the {grace}-year grace period the public sponsor pays "
-        f"interest only on repayable debt — concessional loan "
-        f"{_usd(multi_eur * multi_rate)} / yr + fallback bonds "
-        f"{_usd(bond_eur * bond_rate)} / yr = "
+        f"interest only on repayable debt — green concessional loan "
+        f"{_usd(multi_eur * multi_rate)} / yr"
+        f"{' + fallback bonds ' + _usd(bond_eur * bond_rate) + ' / yr' if bond_eur > 0.0 else ''} = "
         f"**{_usd(annual_grace_interest_eur)} / yr** total. The "
-        f"{_usd(grant_eur)} grant tranche carries no repayment or coupon. "
-        f"Government equity is drawn across construction "
+        "base case assumes no climate-development grant. Government equity "
+        "is drawn across construction "
         f"({_usd(annual_equity_eur)} / yr × {grace} yr). Principal "
         f"repayment begins in year {grace + 1} on a {repayment_years}-year "
         f"amortisation schedule._\n"
@@ -1232,14 +1603,13 @@ def _funding_and_affordability_section(
 
     out.append("### Revenue & operating neutrality\n")
     out.append(
-        f"Planning ridership bracket = daily active riders at "
-        f"{_pct_range(ridership_low_share, ridership_high_share)} of "
-        f"{ridership_basis_label}, converted to paid trips at "
-        f"{paid_trips_per_daily_rider:g} trips/rider/day and capped by "
-        f"practical service capacity ({practical_daily_capacity:,} trips/day). "
-        f"Annual paid trips multiply daily paid trips by "
-        f"{service_days_per_year} service-days at the operating-neutral fare. The "
-        "operating-neutral column solves annual paid trips so "
+        "Planning revenue is capacity-led: annual paid trips are calculated "
+        "from practical daily service capacity "
+        f"({practical_daily_capacity:,} trips/day) × "
+        f"{service_days_per_year} service-days × capacity utilisation. "
+        f"The low/high bracket uses {capacity_utilization_low:.0%}–"
+        f"{capacity_utilization_high:.0%} of that practical capacity. "
+        "The operating-neutral column solves the capacity utilisation needed so "
         "**farebox + station-shop leases + advertising = steady-state OPEX**. "
         "Gross post-grace repayable-debt service remains visible in the "
         "CAPEX funding stack, while any operating surplus is netted from "
@@ -1248,34 +1618,18 @@ def _funding_and_affordability_section(
     out.append("| | Low scenario | High scenario | Operating-neutral target |")
     out.append("|---|---|---|---|")
     out.append(
-        f"| Daily active riders | {daily_active_low:,.0f} | "
-        f"{daily_active_high:,.0f} | {cost_neutral_daily_active:,.0f} |"
-    )
-    out.append(
-        f"| Daily active riders / {ridership_basis_label} | "
-        f"{daily_active_low / ridership_basis_population:.0%} | "
-        f"{daily_active_high / ridership_basis_population:.0%} | "
-        f"{cost_neutral_basis_share:.0%} |"
-    )
-    out.append(
-        f"| Paid trips / active rider | "
-        f"{paid_trips_per_daily_rider:g} | "
-        f"{paid_trips_per_daily_rider:g} | "
-        f"{paid_trips_per_daily_rider:g} |"
-    )
-    out.append(
-        f"| Daily paid trips | {daily_pax_low:,.0f} | "
-        f"{daily_pax_high:,.0f} | {cost_neutral_daily_pax:,.0f} |"
-    )
-    out.append(
-        f"| Daily paid trips / city population | {daily_pax_low / population:.0%} | "
-        f"{daily_pax_high / population:.0%} | "
-        f"{cost_neutral_daily_pax / population:.0%} |"
+        f"| Practical service capacity used | {capacity_utilization_low:.0%} | "
+        f"{capacity_utilization_high:.0%} | {cost_neutral_capacity_utilization:.0%} |"
     )
     out.append(
         f"| Annual paid trips | {annual_pax_low / 1e6:,.1f} M | "
         f"{annual_pax_high / 1e6:,.1f} M | "
         f"{cost_neutral_annual_pax / 1e6:,.1f} M |"
+    )
+    out.append(
+        f"| Annual paid trips / city resident | {annual_pax_low / population:,.0f} | "
+        f"{annual_pax_high / population:,.0f} | "
+        f"{cost_neutral_annual_pax / population:,.0f} |"
     )
     out.append(
         f"| Farebox revenue | {_usd(farebox_low_eur)} / yr | "
@@ -1339,10 +1693,10 @@ def _funding_and_affordability_section(
     )
 
     out.append(
-        "**Caveats:** The grant-first funding stack, the "
+        "**Caveats:** The grant-free funding stack, the "
         f"{target_pass_pct} operating-neutral fare target, the "
-        f"{_pct_range(ridership_low_share, ridership_high_share)} "
-        "daily-active-rider bracket, and the station-commercial assumptions are "
+        f"{capacity_utilization_low:.0%}–{capacity_utilization_high:.0%} "
+        "capacity-utilisation bracket, and the station-commercial assumptions are "
         "project-level defaults. "
         "Real deployments will negotiate the capital split with financing "
         "institutions and tune fares, retail mix, advertising inventory, "
@@ -1501,49 +1855,17 @@ def render_readme(
     daily_theoretical = network_peak_per_h * 10  # peak≈10% of daily
     practical_daily_capacity = int(daily_theoretical * _PRACTICAL_CAPACITY_LOAD_FACTOR)
     catchment = int(stats.coverage * stats.population) if stats.coverage > 0 else None
-    if catchment:
-        ridership_basis_population = catchment
-        ridership_basis_label = "catchment"
-        ridership_low_share = _DAILY_RIDERSHIP_CATCHMENT_LOW
-        ridership_high_share = _DAILY_RIDERSHIP_CATCHMENT_HIGH
-    else:
-        ridership_basis_population = stats.population
-        ridership_basis_label = "city population"
-        ridership_low_share = _DAILY_RIDERSHIP_POPULATION_FALLBACK_LOW
-        ridership_high_share = _DAILY_RIDERSHIP_POPULATION_FALLBACK_HIGH
-    uncapped_daily_active_low = int(ridership_basis_population * ridership_low_share)
-    uncapped_daily_active_high = int(ridership_basis_population * ridership_high_share)
-    paid_trips_per_daily_rider = _PAID_TRIPS_PER_DAILY_RIDER
-    uncapped_daily_paid_low = int(
-        uncapped_daily_active_low * paid_trips_per_daily_rider
-    )
-    uncapped_daily_paid_high = int(
-        uncapped_daily_active_high * paid_trips_per_daily_rider
-    )
-    practical_daily_low = (
-        min(uncapped_daily_paid_low, practical_daily_capacity)
-        if ridership_basis_population > 0
-        else None
-    )
-    practical_daily_high = (
-        min(uncapped_daily_paid_high, practical_daily_capacity)
-        if ridership_basis_population > 0
-        else None
-    )
-    daily_active_low = (
-        int(practical_daily_low / paid_trips_per_daily_rider)
-        if practical_daily_low is not None and paid_trips_per_daily_rider > 0.0
-        else 0
-    )
-    daily_active_high = (
-        int(practical_daily_high / paid_trips_per_daily_rider)
-        if practical_daily_high is not None and paid_trips_per_daily_rider > 0.0
-        else 0
-    )
-    ridership_capped = (
-        practical_daily_high is not None
-        and uncapped_daily_paid_high > practical_daily_capacity
-    )
+    capacity_utilization_low = _CAPACITY_UTILIZATION_LOW
+    capacity_utilization_high = _CAPACITY_UTILIZATION_HIGH
+    if capacity_utilization_high < capacity_utilization_low:
+        capacity_utilization_low, capacity_utilization_high = (
+            capacity_utilization_high,
+            capacity_utilization_low,
+        )
+    practical_daily_low = int(practical_daily_capacity * capacity_utilization_low)
+    practical_daily_high = int(practical_daily_capacity * capacity_utilization_high)
+    annual_paid_low = practical_daily_low * 365
+    annual_paid_high = practical_daily_high * 365
 
     # Cost.
     # Route-km split: any ring line is assumed to be 100 % viaduct
@@ -1646,12 +1968,11 @@ def render_readme(
         if catchment else "*(run the planner with a fresh coverage score)*"
     )
     daily_practical_str = (
-        f"≈ **{practical_daily_low:,} – {practical_daily_high:,} paid trips/day** "
-        f"({daily_active_low:,} – {daily_active_high:,} daily active riders "
-        f"at {paid_trips_per_daily_rider:g} trips/rider/day)"
-        if practical_daily_low is not None else "*(requires a coverage score)*"
+        f"≈ **{annual_paid_low / 1e6:,.1f} – {annual_paid_high / 1e6:,.1f} M "
+        f"paid trips/year** at {capacity_utilization_low:.0%}–"
+        f"{capacity_utilization_high:.0%} practical capacity utilisation"
+        if practical_daily_capacity > 0 else "*(requires a valid service capacity)*"
     )
-    cap_note = " (capped by practical service capacity)" if ridership_capped else ""
 
     out: list[str] = []
     out.append(f"# {stats.city_name} — Urban Rail Network\n")
@@ -1821,9 +2142,8 @@ def render_readme(
         f"≈ **{practical_daily_capacity:,} passenger-trips/day**"
     )
     out.append(
-        f"- **Planning daily ridership scenario** "
-        f"({_pct_range(ridership_low_share, ridership_high_share)} active-rider uptake of "
-        f"{ridership_basis_label}{cap_note}): {daily_practical_str}\n"
+        f"- **Planning annual paid-trip scenario** "
+        f"(capacity-led): {daily_practical_str}\n"
     )
 
     out.append("## Catchment\n")
@@ -1970,16 +2290,22 @@ def render_readme(
             stats,
             energy_plan,
             rel,
-            daily_active_low=daily_active_low,
-            daily_active_high=daily_active_high,
             daily_pax_low=practical_daily_low or 0,
             daily_pax_high=practical_daily_high or 0,
-            ridership_basis_label=ridership_basis_label,
-            ridership_basis_population=ridership_basis_population,
-            ridership_low_share=ridership_low_share,
-            ridership_high_share=ridership_high_share,
-            paid_trips_per_daily_rider=paid_trips_per_daily_rider,
             practical_daily_capacity=practical_daily_capacity,
+            capacity_utilization_low=capacity_utilization_low,
+            capacity_utilization_high=capacity_utilization_high,
+        ))
+        out.extend(_broad_economic_benefits_section(
+            design,
+            rust_costs,
+            stats,
+            energy_plan,
+            rel,
+            daily_pax_low=practical_daily_low or 0,
+            daily_pax_high=practical_daily_high or 0,
+            capacity_utilization_low=capacity_utilization_low,
+            capacity_utilization_high=capacity_utilization_high,
         ))
         # Skip the per-unit fallback section below; jump to "## Files".
         return _finalise_readme(

@@ -135,22 +135,22 @@ def test_generated_file_in_repo_matches_regenerated() -> None:
     )
 
 
-def test_finance_stack_defaults_are_grant_first() -> None:
+def test_finance_stack_defaults_are_grant_free() -> None:
     stack = _funding_stack({})
-    assert stack.grant_frac == pytest.approx(0.40)
-    assert stack.multi_frac == pytest.approx(0.50)
+    assert stack.grant_frac == pytest.approx(0.00)
+    assert stack.multi_frac == pytest.approx(0.80)
     assert stack.bond_frac == pytest.approx(0.0)
-    assert stack.equity_frac == pytest.approx(0.10)
+    assert stack.equity_frac == pytest.approx(0.20)
     assert stack.multi_rate == pytest.approx(0.020)
     assert stack.tenor == 40
 
 
-def test_country_finance_inherits_grant_first_defaults() -> None:
+def test_country_finance_inherits_grant_free_defaults() -> None:
     stack = _funding_stack(_load_country_finance("IQ"))
-    assert stack.grant_frac == pytest.approx(0.40)
-    assert stack.multi_frac == pytest.approx(0.50)
+    assert stack.grant_frac == pytest.approx(0.00)
+    assert stack.multi_frac == pytest.approx(0.80)
     assert stack.bond_frac == pytest.approx(0.0)
-    assert stack.equity_frac == pytest.approx(0.10)
+    assert stack.equity_frac == pytest.approx(0.20)
     assert stack.multi_rate == pytest.approx(0.020)
 
 
@@ -169,14 +169,24 @@ def test_readme_nets_operating_surplus_against_gov_debt_support() -> None:
     )
     assert (
         "| Operating surplus applied to debt support | "
-        "-$18 M / yr | -$18 M / yr | **$0 k / yr** |"
+        "-$28 M / yr | -$28 M / yr | **$0 k / yr** |"
         in text
     )
     assert (
         "| **Net gov repayable-debt support + residual OPEX subsidy** | "
-        "$0 k / yr | $0 k / yr | **$18 M / yr** |"
+        "$0 k / yr | $0 k / yr | **$28 M / yr** |"
         in text
     )
+    assert (
+        "| Green concessional loan | 80% | $708 M | 2.0% | "
+        "40 y, 5 y grace | $28 M / yr |"
+        in text
+    )
+    assert (
+        "| Government equity (no debt service) | 20% | $177 M |"
+        in text
+    )
+    assert "| Climate / development grant" not in text
     assert (
         "Dedicated utility-scale solar plant / contracted offsite PPA asset: "
         "**63.3 MW**"
@@ -204,16 +214,46 @@ def test_readme_nets_operating_surplus_against_gov_debt_support() -> None:
         in text
     )
     assert (
-        "| Labour (400 FTE) | driverless roster: OCC/remote 65, "
-        "station/platform 127, passenger service 36, fleet maintenance 64"
+        "| Labour (408 FTE) | driverless roster: OCC/remote 65, "
+        "station/platform 127, passenger service 44, fleet maintenance 64"
         in text
     )
     assert (
-        "| Daily active riders | 52,795 | 95,031 | 28,489 |"
+        "| Practical service capacity used | 50% | 80% | 17% |"
         in text
     )
     assert (
-        "| Daily paid trips | 105,590 | 190,062 | 56,977 |"
+        "| Annual paid trips | 63.1 M | 100.9 M | 20.8 M |"
+        in text
+    )
+    assert "| Daily active riders |" not in text
+    assert "| Daily paid trips |" not in text
+    assert "| Paid trips / active rider |" not in text
+    assert "## Broad economic benefits (planning proxy)" in text
+    assert (
+        "| **Annual quantified benefit / activity proxy** | "
+        "**$80 M / yr** | **$129 M / yr** |"
+        in text
+    )
+    assert (
+        "| Education | 3 education anchors | 9,065 trips/school day; "
+        "2.0 M access-events/yr | 14,505 trips/school day; "
+        "3.2 M access-events/yr |"
+        in text
+    )
+    assert (
+        "| Healthcare | 10 healthcare anchors | 15,951 trips/day; "
+        "5.8 M access-events/yr | 25,521 trips/day; "
+        "9.3 M access-events/yr |"
+        in text
+    )
+    assert (
+        "| CAPEX retained in local procurement / payroll | $466 M | "
+        "53% of $885 M CAPEX using bucket local-content shares |"
+        in text
+    )
+    assert (
+        "| Construction employment supported | 25,536 job-years |"
         in text
     )
     assert (

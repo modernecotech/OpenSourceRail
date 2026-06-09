@@ -175,11 +175,10 @@ validation beacons, LoRa gateways, and OCC interfaces.
 
 City READMEs now include a post-opening operating-neutral revenue case. The
 model uses an 8% median-income monthly pass for the stronger service/revenue
-case, expands daily active riders from the generated catchment-based planning
-bracket, converts them to paid trips using the configured
-`paid_trips_per_daily_rider` multiplier, and adds station shop leases plus
-advertising boards. The operating-neutral column solves the daily paid trips
-needed so:
+case, derives annual paid trips from practical system capacity and the
+configured low/high `capacity_utilization_*` bracket, and adds station
+shop leases plus advertising boards. The operating-neutral column solves
+the capacity utilisation needed so:
 
 ```text
 farebox + station-shop leases + advertising
@@ -197,13 +196,46 @@ train-km, depots, and the RFC 0015 shift of safety staff from train cabs
 to OCC and platform posts.
 
 Construction-period equity and interest-only grace payments on the
-repayable tranche remain public capital commitments; non-repayable
-climate/development grants do not enter debt service. The
-operating-neutral case applies only to steady-state operations after
-opening. Where the ridership scenario produces revenue above OPEX, that
+repayable tranche remain public capital commitments. The base finance
+stack assumes **no climate/development grant**: 20% government equity
+during construction and 80% green concessional loan. The operating-neutral
+case applies only to steady-state operations after opening. Where the
+capacity-use scenario produces revenue above OPEX, that
 operating surplus is netted against repayable-debt support in the
 government commitment summary; the gross post-grace debt-service figure
 remains visible in the CAPEX funding stack.
+
+## Broad Economic Benefits
+
+Generated city READMEs include a `Broad economic benefits` screening
+section sourced from `lib/templates/economic-benefits.toml`. It is not a
+formal benefit-cost analysis; it is a transparent first-pass calculation
+for channels that matter to cities and development lenders but do not
+appear as railway revenue.
+
+The annual benefit/activity proxy quantifies:
+
+| Channel | Model basis |
+|---|---|
+| Travel time + reliability | Annual paid trips from capacity use × minutes saved × median-income value-of-time proxy |
+| Congestion relief | Paid trips × average trip length × road mode-shift share ÷ vehicle occupancy |
+| Environmental effect | Avoided road CO2e minus rail residual-grid CO2e, valued with the social-carbon proxy |
+| Local road externalities | Avoided road vehicle-km × air/noise/safety proxy |
+| Commerce and entertainment | Relevant trip shares × a median-income local-spend proxy |
+
+The access table reports education, healthcare, commerce, and
+entertainment/community access-events per year. It uses station anchors
+(`anchor_kind` / `anchor_name`) where available, with conservative base
+shares so sparse-OSM cities do not report zero service-access benefit.
+
+The CAPEX recirculation table estimates how much of the initial capital
+programme is retained locally through civil works, station fabrication,
+depot works, railway production-plant setup, rolling-stock assembly,
+charging microgrids, EPC labour, and solar-plant delivery. The retained
+CAPEX is then multiplied by the construction local-supplier / wage
+multiplier and converted to approximate construction job-years using the
+country median-income table. These rows are economic-activity indicators,
+not fiscal income.
 
 ## EPC
 
