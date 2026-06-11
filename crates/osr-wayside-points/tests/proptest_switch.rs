@@ -34,16 +34,14 @@ fn arb_inputs() -> impl Strategy<Value = SwitchInputs> {
         any::<bool>(),
         any::<bool>(),
     )
-        .prop_map(
-            |(now_ns, a, b, cmd, ot, df)| SwitchInputs {
-                now_ns,
-                sensor_a: a,
-                sensor_b: b,
-                commanded: cmd,
-                motor_over_temp: ot,
-                motor_drive_fault: df,
-            },
-        )
+        .prop_map(|(now_ns, a, b, cmd, ot, df)| SwitchInputs {
+            now_ns,
+            sensor_a: a,
+            sensor_b: b,
+            commanded: cmd,
+            motor_over_temp: ot,
+            motor_drive_fault: df,
+        })
 }
 
 fn params() -> SwitchParams {

@@ -119,7 +119,10 @@ impl HorizontalElement {
                 // Angle from centre to current point.
                 let angle_start = (y0 - cy).atan2(x0 - cx);
                 let angle = angle_start + delta;
-                ((cx + radius_m * angle.cos(), cy + radius_m * angle.sin()), bearing)
+                (
+                    (cx + radius_m * angle.cos(), cy + radius_m * angle.sin()),
+                    bearing,
+                )
             }
             HorizontalElement::Spiral {
                 length_m,
@@ -140,8 +143,7 @@ impl HorizontalElement {
                 // Linear curvature variation: k(u) = k0 + (k1-k0) * u/L.
                 // Integrate bearing along s.
                 // bearing(s) - bearing(0) = k0·s + (k1-k0)·s²/(2L)
-                let bearing =
-                    start_bearing_rad + k0 * s + (k1 - k0) * s * s / (2.0 * length_m);
+                let bearing = start_bearing_rad + k0 * s + (k1 - k0) * s * s / (2.0 * length_m);
                 // Approximate position by trapezoidal quadrature at
                 // modest fidelity — adequate for urban-rail use (a
                 // single spiral is ≤ 100 m; the cumulative position
@@ -152,9 +154,7 @@ impl HorizontalElement {
                 let mut y = y0;
                 for i in 0..steps {
                     let u = (i as f64 + 0.5) * h;
-                    let theta = start_bearing_rad
-                        + k0 * u
-                        + (k1 - k0) * u * u / (2.0 * length_m);
+                    let theta = start_bearing_rad + k0 * u + (k1 - k0) * u * u / (2.0 * length_m);
                     x += h * theta.cos();
                     y += h * theta.sin();
                 }
@@ -173,7 +173,11 @@ impl HorizontalElement {
 pub enum VerticalElement {
     /// Constant-grade segment. `grade` is rise/run (dimensionless);
     /// positive = uphill in the direction of chainage.
-    Grade { length_m: f64, grade: f64, start_z_m: f64 },
+    Grade {
+        length_m: f64,
+        grade: f64,
+        start_z_m: f64,
+    },
     /// Parabolic vertical curve. Grade changes linearly with chainage;
     /// positive `k_value` = sag (grade becomes less negative / more
     /// positive); negative = crest.

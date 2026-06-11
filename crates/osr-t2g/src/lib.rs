@@ -105,10 +105,7 @@ pub fn t2g_evaluate(prev: &T2gState, inputs: &T2gInputs, params: &T2gParams) -> 
         ActiveChannel::Offline
     };
 
-    let rate_gate_ok = inputs
-        .now_ns
-        .saturating_sub(prev.last_transmit_ns)
-        >= params.rate_limit_ns;
+    let rate_gate_ok = inputs.now_ns.saturating_sub(prev.last_transmit_ns) >= params.rate_limit_ns;
 
     let transmit_now = !matches!(active, ActiveChannel::Offline)
         && inputs.queued_payloads > 0
@@ -151,7 +148,11 @@ mod tests {
     #[test]
     fn strong_primary_selected() {
         let p = T2gParams::default_metro();
-        let out = t2g_evaluate(&T2gState::default(), &inputs(1_000_000_000, 80, 40, 3, false), &p);
+        let out = t2g_evaluate(
+            &T2gState::default(),
+            &inputs(1_000_000_000, 80, 40, 3, false),
+            &p,
+        );
         assert_eq!(out.active, ActiveChannel::Primary);
         assert!(out.transmit_now);
         assert_eq!(out.queue_remaining, 2);
@@ -160,7 +161,11 @@ mod tests {
     #[test]
     fn primary_down_fails_over_to_backup() {
         let p = T2gParams::default_metro();
-        let out = t2g_evaluate(&T2gState::default(), &inputs(1_000_000_000, 10, 50, 2, false), &p);
+        let out = t2g_evaluate(
+            &T2gState::default(),
+            &inputs(1_000_000_000, 10, 50, 2, false),
+            &p,
+        );
         assert_eq!(out.active, ActiveChannel::Backup);
         assert!(out.transmit_now);
     }
@@ -168,7 +173,11 @@ mod tests {
     #[test]
     fn both_weak_is_offline() {
         let p = T2gParams::default_metro();
-        let out = t2g_evaluate(&T2gState::default(), &inputs(1_000_000_000, 5, 5, 10, true), &p);
+        let out = t2g_evaluate(
+            &T2gState::default(),
+            &inputs(1_000_000_000, 5, 5, 10, true),
+            &p,
+        );
         assert_eq!(out.active, ActiveChannel::Offline);
         assert!(!out.transmit_now);
     }
@@ -176,7 +185,9 @@ mod tests {
     #[test]
     fn rate_gate_holds_off_regular_sends() {
         let p = T2gParams::default_metro();
-        let prev = T2gState { last_transmit_ns: 1_000_000_000 };
+        let prev = T2gState {
+            last_transmit_ns: 1_000_000_000,
+        };
         let out = t2g_evaluate(&prev, &inputs(1_100_000_000, 80, 40, 3, false), &p);
         assert!(!out.transmit_now);
         assert_eq!(out.queue_remaining, 3);
@@ -185,7 +196,9 @@ mod tests {
     #[test]
     fn emergency_bypasses_rate_gate() {
         let p = T2gParams::default_metro();
-        let prev = T2gState { last_transmit_ns: 1_000_000_000 };
+        let prev = T2gState {
+            last_transmit_ns: 1_000_000_000,
+        };
         let out = t2g_evaluate(&prev, &inputs(1_100_000_000, 80, 40, 3, true), &p);
         assert!(out.transmit_now);
     }
@@ -193,7 +206,11 @@ mod tests {
     #[test]
     fn empty_queue_does_not_transmit() {
         let p = T2gParams::default_metro();
-        let out = t2g_evaluate(&T2gState::default(), &inputs(1_000_000_000, 80, 40, 0, true), &p);
+        let out = t2g_evaluate(
+            &T2gState::default(),
+            &inputs(1_000_000_000, 80, 40, 0, true),
+            &p,
+        );
         assert!(!out.transmit_now);
     }
 

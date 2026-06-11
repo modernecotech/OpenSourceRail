@@ -133,9 +133,7 @@ fn check_brake_emergency_sources() -> Outcome {
 
 fn check_interlocking_intrusion_gate() -> Outcome {
     use osr_core::{EntityId, SectionId, TrainId};
-    use osr_interlocking::{
-        section_available_to, DerivedState, IntrusionState, SectionIntrusion,
-    };
+    use osr_interlocking::{section_available_to, DerivedState, IntrusionState, SectionIntrusion};
 
     let section = SectionId::new(1001);
     let train = TrainId::new(7);
@@ -388,10 +386,7 @@ fn check_intrusion_clear() -> Outcome {
     if out.verdict == IntrusionVerdict::Clear {
         Outcome::pass()
     } else {
-        Outcome::fail(format!(
-            "clear frame expected Clear; got {:?}",
-            out.verdict
-        ))
+        Outcome::fail(format!("clear frame expected Clear; got {:?}", out.verdict))
     }
 }
 
@@ -412,8 +407,7 @@ fn check_intrusion_fence_breach() -> Outcome {
 
 fn check_intrusion_stale_lidar() -> Outcome {
     use osr_intrusion_detect::{
-        evaluate, IntrusionParams, IntrusionVerdict, WaysideSensorFrame,
-        MAX_SENSOR_STALE_MS,
+        evaluate, IntrusionParams, IntrusionVerdict, WaysideSensorFrame, MAX_SENSOR_STALE_MS,
     };
     let mut f = WaysideSensorFrame::clear();
     f.lidar_age_ms = MAX_SENSOR_STALE_MS + 50;
@@ -451,13 +445,7 @@ mod tests {
 
     #[test]
     fn every_role_produces_some_checks() {
-        for r in [
-            Role::TEcuS,
-            Role::TEcuA,
-            Role::TObs,
-            Role::WSbc,
-            Role::SSbc,
-        ] {
+        for r in [Role::TEcuS, Role::TEcuA, Role::TObs, Role::WSbc, Role::SSbc] {
             let checks = r.checks();
             assert!(!checks.is_empty(), "{} has no checks", r.name());
         }
@@ -485,13 +473,7 @@ mod tests {
 
     #[test]
     fn role_from_cli_round_trip() {
-        for expect in [
-            Role::TEcuS,
-            Role::TEcuA,
-            Role::TObs,
-            Role::WSbc,
-            Role::SSbc,
-        ] {
+        for expect in [Role::TEcuS, Role::TEcuA, Role::TObs, Role::WSbc, Role::SSbc] {
             let parsed = Role::from_cli(expect.name()).unwrap();
             assert_eq!(parsed, expect);
         }

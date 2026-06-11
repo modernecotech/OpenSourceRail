@@ -95,9 +95,7 @@ fn kani_b2_emergency_union() {
     if any_source {
         assert!(matches!(out.command, BrakeCommand::Emergency));
     }
-    assert!(
-        out.emergency_sources.atp == matches!(i.atp_command, BrakeCommand::Emergency)
-    );
+    assert!(out.emergency_sources.atp == matches!(i.atp_command, BrakeCommand::Emergency));
     assert!(out.emergency_sources.vigilance == i.vigilance_emergency);
     assert!(out.emergency_sources.fire == i.fire_emergency);
     assert!(out.emergency_sources.derailment == i.derailment_emergency);
@@ -120,7 +118,9 @@ fn kani_b3_emergency_completeness() {
     let out = brake_evaluate(&i, &p);
 
     assert!(matches!(out.command, BrakeCommand::Emergency));
-    let floor = p.min_friction_emergency_ppt.saturating_sub(p.wsp_reduction_ppt);
+    let floor = p
+        .min_friction_emergency_ppt
+        .saturating_sub(p.wsp_reduction_ppt);
     assert!(out.friction_effort_ppt >= floor);
     assert!(out.traction_cut);
 }
@@ -150,8 +150,8 @@ fn kani_b5_park_safe() {
     let p = params();
     let out = brake_evaluate(&i, &p);
 
-    let below_threshold = i.measured_speed_mmps.unsigned_abs()
-        <= p.park_brake_max_speed_mmps.unsigned_abs();
+    let below_threshold =
+        i.measured_speed_mmps.unsigned_abs() <= p.park_brake_max_speed_mmps.unsigned_abs();
     let expected = i.park_requested && below_threshold;
     assert!(out.parking_brake_engaged == expected);
 }

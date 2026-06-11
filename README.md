@@ -46,6 +46,7 @@ artifact index.
 |---|---|
 | Read the short introduction brochure | [OpenSourceRail introduction PDF](docs/brochures/open-source-rail-introduction.pdf) |
 | Understand the whole repo | [docs/README.md](docs/README.md) |
+| Understand the unified deployment model | [docs/deployment-model.md](docs/deployment-model.md) |
 | Find any Markdown document | [docs/INDEX.md](docs/INDEX.md) |
 | See generated city designs | [designs/README.md](designs/README.md) |
 | Run the simulator | [Quick Start](#quick-start) |
@@ -100,6 +101,20 @@ Check repository health and generated artifact drift:
 python3 scripts/repo-health.py --quiet
 ```
 
+## Simulation Screenshots
+
+| Simulator playback GUI | Samawah run dashboard |
+|---|---|
+| ![OpenSourceRail simulator playback GUI with animated trains, event log, and inspector](docs/screenshots/sim-gui.png) | ![Samawah simulation dashboard showing energy, SoC, charging, roof solar, air-cleaner load, speed, and acceleration](docs/screenshots/simulation/samawah-simulation-dashboard.png) |
+
+![Samawah simulator network visualizer with lines, stations, PV, and storage sites](docs/screenshots/simulation/samawah-network-visualizer.png)
+
+Regenerate the current simulator screenshots:
+
+```bash
+python3 scripts/render-sim-screenshots.py
+```
+
 ## Designing Cities
 
 Generated city models live under:
@@ -130,14 +145,15 @@ To add a city, add an entry to
 [lib/city-batches/world-sample.toml](lib/city-batches/world-sample.toml),
 then run `scripts/regenerate-city.sh <slug>`.
 
-![Samawah reference network](designs/west-asia/Iraq/Samawah/samawah-network-map.png)
+![Samawah generated network](designs/west-asia/Iraq/Samawah/samawah-network-map.png)
 
 ## Rolling Stock And CAD
 
 The current reference train is the `light-metro-3car`: cabless,
-driverless, battery electric, powered end cars plus an unpowered middle
-car, under-seat sodium-ion batteries, mixed bonded/rail-mounted roof
-solar feeding a per-car PV/station charge inverter, COTS
+driverless, battery electric, three repeated self-contained cars with
+one powered bogie and one trailer bogie each, under-seat sodium-ion
+batteries, mixed bonded/rail-mounted roof solar feeding a per-car
+PV/station charge inverter, COTS
 doors/windows/HVAC, two low-floor door pairs per side per car, and
 T-OBS sensor packs behind single dark panoramic-glass noses at both ends.
 

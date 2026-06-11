@@ -46,8 +46,8 @@ impl Config {
         Self {
             me,
             peers,
-            election_timeout_ns: 150_000_000, // 150 ms
-            heartbeat_interval_ns: 50_000_000, // 50 ms
+            election_timeout_ns: 150_000_000,        // 150 ms
+            heartbeat_interval_ns: 50_000_000,       // 50 ms
             fail_restrictive_window_ns: 500_000_000, // 500 ms
         }
     }

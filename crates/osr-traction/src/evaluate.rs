@@ -54,10 +54,7 @@ pub fn traction_evaluate(
     };
     // A fresh enable request after cooldown and with no current
     // faults clears the latch.
-    if inputs.enable_requested
-        && cooldown_expired
-        && !current_faults.any()
-    {
+    if inputs.enable_requested && cooldown_expired && !current_faults.any() {
         fault_until_ns = None;
         faults = FaultMask::empty();
     }
@@ -111,23 +108,20 @@ pub fn traction_evaluate(
 
     // Back-compute actual torque from clamped current so we never
     // command a torque the pack can't deliver.
-    let actual_torque_mnm_i64 =
-        clamped_current.saturating_mul(torque_constant_unmpma) / 1_000;
+    let actual_torque_mnm_i64 = clamped_current.saturating_mul(torque_constant_unmpma) / 1_000;
     let actual_torque_mnm =
-        i32::try_from(actual_torque_mnm_i64.clamp(i32::MIN as i64, i32::MAX as i64))
-            .unwrap_or(0);
+        i32::try_from(actual_torque_mnm_i64.clamp(i32::MIN as i64, i32::MAX as i64)).unwrap_or(0);
 
     // --- 6. If inverter isn't Running, force zero torque + current -----
-    let (commanded_torque_mnm, estimated_current_ma) =
-        if matches!(inverter, InverterState::Running) {
-            (
-                actual_torque_mnm,
-                i32::try_from(clamped_current.clamp(i32::MIN as i64, i32::MAX as i64))
-                    .unwrap_or(0),
-            )
-        } else {
-            (0, 0)
-        };
+    let (commanded_torque_mnm, estimated_current_ma) = if matches!(inverter, InverterState::Running)
+    {
+        (
+            actual_torque_mnm,
+            i32::try_from(clamped_current.clamp(i32::MIN as i64, i32::MAX as i64)).unwrap_or(0),
+        )
+    } else {
+        (0, 0)
+    };
 
     // --- 7. Build state + output ---------------------------------------
     let state = TractionState {
@@ -152,11 +146,7 @@ pub fn traction_evaluate(
 fn scale_ppt(v: i32, ppt: u16) -> i32 {
     let ppt = u32::from(ppt.min(1000));
     let abs = i64::from(v.unsigned_abs()).saturating_mul(i64::from(ppt)) / 1_000;
-    let out = if v < 0 {
-        -(abs as i64)
-    } else {
-        abs as i64
-    };
+    let out = if v < 0 { -(abs as i64) } else { abs as i64 };
     i32::try_from(out.clamp(i32::MIN as i64, i32::MAX as i64)).unwrap_or(0)
 }
 

@@ -1,16 +1,15 @@
-# Samawah `standard` archetype — architectural envelope v1
+# `standard` station archetype — Samawah worked instance v1
 
 **Scope:** architectural envelope + canopy first-pass structural
-calc for the Samawah reference deployment's standard-archetype
-station, serving as the buildable spec an architect-of-record
-can tender against. Applicable to every `standard`-archetype
-station on Samawah Line 1 + Line 2 — that's 12 of the 22
-stations in the deployment.
+calc for one generated instance of RFC 0010's `standard` station
+archetype, serving as the buildable spec an architect-of-record can
+tender against. This is not a Samawah-specific station standard; it is
+a worked instance of the shared archetype catalogue.
 
 **Reference consist:** `light-metro-3car` per RFC 0008.
 **Platform clearance:** 10 m per RFC 0010 §4.1.
 **Generic platform length:** 51 + 10 = **61 m**.
-**Samawah build allowance:** **75 m** safeguarded civil length for
+**Instance build allowance:** **75 m** safeguarded civil length for
 local clearance and later fleet growth.
 
 ## Contents
@@ -27,9 +26,8 @@ local clearance and later fleet growth.
 
 The whole point of RFC 0010's 6-archetype catalogue is to avoid
 bespoke station design per deployment. This envelope is applied
-**unchanged** at every `standard`-archetype station on Samawah
-— 12 stations out of 22. The operator's architect-of-record
-adapts it only for:
+unchanged wherever the generated design selects the `standard`
+archetype. The operator's architect-of-record adapts it only for:
 
 - Site-specific property-line constraints.
 - Cardinal orientation (to aim the canopy PV south/north of

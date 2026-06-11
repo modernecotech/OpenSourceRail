@@ -204,9 +204,7 @@ pub fn aux_evaluate(prev: &AuxState, inputs: &AuxInputs, params: &AuxParams) -> 
     let contactor_ok = inputs.pack_contactor_closed;
     let soc = inputs.pack_soc_ppt;
 
-    let v24_enabled = contactor_ok
-        && !rail_faulted(Rail::V24)
-        && inputs.v24_enable_request;
+    let v24_enabled = contactor_ok && !rail_faulted(Rail::V24) && inputs.v24_enable_request;
 
     let v110_enabled = contactor_ok
         && !rail_faulted(Rail::V110)
@@ -233,7 +231,10 @@ pub fn aux_evaluate(prev: &AuxState, inputs: &AuxInputs, params: &AuxParams) -> 
     }
 
     AuxOutput {
-        state: AuxState { faults, fault_until_ns },
+        state: AuxState {
+            faults,
+            fault_until_ns,
+        },
         v24_enabled,
         v110_enabled,
         v400_enabled,

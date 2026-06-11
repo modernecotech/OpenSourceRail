@@ -19,7 +19,7 @@ The train is built from three repeated 17 m car modules:
 | Roof | Roof bows, PV/HVAC rails, bonded-pad lands, cable tray brackets, composite fairings | Bonded flexible PV laminates, raised rigid panels on clamped rails, MPPT combiner, compact HVAC units, antennas | [`car_body.py`](../../../mechanical-py/src/osr_mech/rolling_stock/car_body.py), [`systems.py`](../../../mechanical-py/src/osr_mech/rolling_stock/systems.py) |
 | Under-seat bay | Battery tray rails, service covers, vent path, seat support rail | Na-ion modules, BMS, fuses, contactors, longitudinal seat modules | [`car_body.py`](../../../mechanical-py/src/osr_mech/rolling_stock/car_body.py), [`systems.py`](../../../mechanical-py/src/osr_mech/rolling_stock/systems.py) |
 | Underframe | Side sills, centre spine, cross bearers, bolsters, jacking pads | Aux inverter, multi-input PV/station charge inverter, HV cabling, cooling loops, brake/WSP harnesses | [`cad_templates/rolling_stock.py`](../../../mechanical-py/src/osr_mech/cad_templates/rolling_stock.py), [`systems.py`](../../../mechanical-py/src/osr_mech/rolling_stock/systems.py) |
-| Running gear | Bogie adapter, motor cradle, torque-link brackets | Two powered bogies, four converted freight trailer bogies, wheelsets, brakes, bearings, air springs | [`bogie/`](../../../mechanical-py/src/osr_mech/rolling_stock/bogie/) |
+| Running gear | Bogie adapter, motor cradle, torque-link brackets | Three powered bogies, three trailer bogies, wheelsets, brakes, bearings, air springs | [`bogie/`](../../../mechanical-py/src/osr_mech/rolling_stock/bogie/) |
 | Train ends and inter-car | Coupler pocket, shear plate, articulation adapter frames, underframe anchor castings, upper clevis brackets, trainline brackets | Scharfenberg Type 10 couplers, crash absorbers, lower spherical articulation joint, upper links, bellows, turntable floor, energy-guidance chains | [`systems.py`](../../../mechanical-py/src/osr_mech/rolling_stock/systems.py), [`articulation.md`](articulation.md) |
 
 ## Interface Stack
@@ -37,7 +37,7 @@ and certification data.
 | Window cassette | Window rail and bonded aperture | Adhesive bead or gasket, drain path, bonded earth if heated | EN 15152 or accepted equivalent, fire/smoke data for seals |
 | Door cassette | Door portal, threshold tray, lock-loop bracket | Bolted frame, 24/110 V DC, Ethernet/CAN, hardwired closed/locked loop, drain | EN 14752 or equivalent, obstruction detection, lifecycle test |
 | Platform/PSD interface | Door centre datum and sill edge | ATO stopping target, platform screen-door alignment, closed/locked interlock, intrusion sensor sightline | Station integration test, door-open permissive proof, degraded-mode procedure |
-| Rooftop PV and mounts | Bonded-pad lands, roof PV rails, edge-clamp datums, cable gland | Eight bonded flexible laminates and eight raised rigid modules per car, isolated combiner, MPPT feed, fire disconnect | IEC PV module data, adhesive/bond coupon test, rail vibration mount evidence |
+| Rooftop PV, mounts, and air cleaner | Bonded-pad lands, roof PV rails, edge-clamp datums, cable gland, blower/nozzle hardpoints | Eight bonded flexible laminates and eight raised rigid modules per car, isolated combiner, MPPT feed, fire disconnect, filtered low-pressure air-knife cleaner | IEC PV module data, adhesive/bond coupon test, rail vibration mount evidence, blower IP/noise data, filter access proof, soiling-recovery test |
 | Multi-input charge inverter | Underframe charge-rack rails and cooling ports | Roof PV MPPT DC input, station-dock DC input, isolated battery DC-link output, contactors, precharge, CAN/Ethernet | Rail power-electronics datasheet, EMC/vibration evidence, charge-state validation |
 | HVAC unit | Roof equipment rails and condensate drain | Bolted rail pattern, duct adapter, 400 V AC, CAN/Ethernet diagnostics | Hot-climate curve, vibration, EMC, refrigerant record |
 | Seat module | Battery-cover seat rail | M10 cantilever bracket, service-lid clearance below cushion | EN 45545 R7, static strength, vandal-resistance data |
@@ -63,7 +63,7 @@ install COTS modules late, then close the train with test evidence.
 | Windows | Dark side glazing rectangles in side walls | B10 | `car_body.py`, `cots_equipment.py` |
 | Fiberglass end-cowl casts | Identical A/B-end upper brow, cheek casts, lower apron, backing-ring flanges, and lamp/service hatches | B8 | `end-cowl.md`, `sensor_cowl.py` |
 | Doors | Two double-leaf black doors with yellow thresholds per car side | B11, B25 | `car_body.py`, `systems.py` |
-| Solar panels and charge inverter | Mixed bonded/raised roof PV modules, roof combiner, charge inverter in every car systems rack | T21, T22, T23 | `car_body.py`, `systems.py` |
+| Solar panels, air cleaner, and charge inverter | Mixed bonded/raised roof PV modules, filtered air pump/manifold, roof combiner, charge inverter in every car systems rack | T21, T22, T23 | `car_body.py`, `systems.py` |
 | HVAC systems | Compact grey roof modules at car ends | T14 | `car_body.py`, `cots_equipment.py` |
 | Batteries | Under-seat blue module rows, eight per car in CAD | T5-T8, T16-T20 | `car_body.py`, `systems.py` |
 | Seats | Longitudinal COTS benches over battery covers | B14, A1 | `cots_equipment.py` |
@@ -73,8 +73,8 @@ install COTS modules late, then close the train with test evidence.
 | T-OBS sensor packs | Nose LIDAR/radar/camera/ultrasonic module | E18, E19 | `sensor_cowl.py`, `systems.py` |
 | Couplers and crash absorbers | End coupler head, shear plate, absorber cartridge | B22, B23 | `systems.py` |
 | Articulation | Lower spherical joint, drawbar, anti-lift keeper, upper links, bellows, turntable, drag-chain and service loops | B9, B24, B29 | `systems.py`, `articulation.md` |
-| Powered bogies | Two end powered bogies with motors/gearboxes | G1, G18, G19, T1-T3 | `bogie/`, `trainset.py` |
-| Converted trailer bogies | Four trailer bogies under remaining positions | G2-G17, G20 | `bogie/`, `trainset.py` |
+| Powered bogies | Three powered bogies, one under each repeated car module | G1, G18, G19, T1-T3 | `bogie/`, `trainset.py` |
+| Trailer bogies | Three trailer bogies, one under each repeated car module | G2-G17, G20 | `bogie/`, `trainset.py` |
 
 ## Generated Design Views
 
@@ -82,7 +82,7 @@ The same part families are visible in the generated screenshots:
 
 | View | What to inspect |
 |---|---|
-| [`trainset-light-metro-3car.png`](../../../docs/screenshots/trainset-light-metro-3car.png) | Whole-train layout, powered end cars, trailer middle car, single panoramic-glass cowls, roof PV, bogies |
+| [`trainset-light-metro-3car.png`](../../../docs/screenshots/trainset-light-metro-3car.png) | Whole-train layout, repeated self-contained cars, single panoramic-glass cowls, roof PV, bogies |
 | [`trainset-car-detail.png`](../../../docs/screenshots/trainset-car-detail.png) | Complete layered car body with windows, doors, solar array, HVAC, interior, electrical, and thermal routes |
 | [`trainset-car-body-structure.png`](../../../docs/screenshots/trainset-car-body-structure.png) | Primary fabricated shell, ~10 m floor, side sills, crossmembers, roof rails, window posts, end rings, bogie envelopes, and door portals |
 | [`trainset-car-body-bogie-subassembly.png`](../../../docs/screenshots/trainset-car-body-bogie-subassembly.png) | Single-car body structure mounted over standard motor/trailer bogies, showing raised ~3 m end decks and the low-floor centre zone |
@@ -98,4 +98,4 @@ The same part families are visible in the generated screenshots:
 | [`trainset-inter-car-articulation.png`](../../../docs/screenshots/trainset-inter-car-articulation.png) | Inter-car lower spherical joint, upper links, bellows, turntable floor, energy guidance, and kinematic clearance envelopes |
 | [`trainset-tobs-sensor-pack.png`](../../../docs/screenshots/trainset-tobs-sensor-pack.png) | LIDAR, radar, stereo camera, ultrasonic sensors |
 | [`bogie-motor.png`](../../../docs/screenshots/bogie-motor.png) | Powered bogie with motors, gearbox, suspension, brakes |
-| [`bogie-trailer.png`](../../../docs/screenshots/bogie-trailer.png) | Converted trailer bogie envelope |
+| [`bogie-trailer.png`](../../../docs/screenshots/bogie-trailer.png) | Trailer bogie envelope |

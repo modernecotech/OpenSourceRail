@@ -502,7 +502,7 @@ Phase 2c.
    curve is already in `osr-core::consist::BrakingCurve`. Revisit if
    the curve model needs to support non-trivial consists (articulated,
    heterogeneous).
-3. **Pantograph monitoring.** If the reference deployment adds
+3. **Pantograph monitoring.** If a deployment instance adds
    opportunity-charging pads, a `osr-pantograph` crate is needed. Not
    in §4 because pads are Phase 4+ (post-Samawah baseline).
 4. **Wayside relay interlocking retrofit shim.** Some brownfield

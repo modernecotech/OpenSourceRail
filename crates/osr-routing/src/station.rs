@@ -196,7 +196,10 @@ fn make_station(
     }
 
     let (lat, lon) = grid.reference.rc_to_latlon(row, col);
-    let demand = grid.demand_at(row.min(grid.reference.height - 1), col.min(grid.reference.width - 1));
+    let demand = grid.demand_at(
+        row.min(grid.reference.height - 1),
+        col.min(grid.reference.width - 1),
+    );
     Station {
         row,
         col,
@@ -639,10 +642,7 @@ mod tests {
 
     #[test]
     fn merge_does_not_combine_same_line_stations() {
-        let mut s = vec![
-            st("L1", 0.001, 0.001),
-            st("L1", 0.001005, 0.001005),
-        ];
+        let mut s = vec![st("L1", 0.001, 0.001), st("L1", 0.001005, 0.001005)];
         merge_interchanges(&mut s, 250.0);
         assert_eq!(s[0].junction_group, None);
         assert_eq!(s[1].junction_group, None);

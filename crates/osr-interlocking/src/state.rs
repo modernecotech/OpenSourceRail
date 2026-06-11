@@ -10,13 +10,11 @@
 //! and will also be verified with Kani in M3.
 
 use crate::log::{
-    Confidence, Entry, EntryPayload, Heartbeat, HealthStatus, IntrusionState,
-    MaintenanceOverride, RouteGrant, SectionIntrusion, SpeedRestriction, SwitchPosition,
-    TrainDeparture, TrainPositionReport, TrainRegistration,
+    Confidence, Entry, EntryPayload, HealthStatus, Heartbeat, IntrusionState, MaintenanceOverride,
+    RouteGrant, SectionIntrusion, SpeedRestriction, SwitchPosition, TrainDeparture,
+    TrainPositionReport, TrainRegistration,
 };
-use osr_core::{
-    ConsistDescriptor, EntityId, Position, RouteId, SectionId, SwitchId, TrainId,
-};
+use osr_core::{ConsistDescriptor, EntityId, Position, RouteId, SectionId, SwitchId, TrainId};
 use serde::{Deserialize, Serialize};
 use std::collections::BTreeMap;
 
@@ -229,20 +227,19 @@ fn apply_position(state: &mut DerivedState, r: &TrainPositionReport, log_time_ns
     // position report should follow a registration, but derive_state is
     // tolerant: we create a minimal record if we haven't seen one. This
     // keeps the function total (never panics) and deterministic.
-    let awareness =
-        state
-            .trains
-            .entry(r.train_id)
-            .or_insert_with(|| TrainAwareness {
-                consist: ConsistDescriptor::reference_3car(),
-                last_head_position: None,
-                last_tail_position: None,
-                last_position_onboard_ns: 0,
-                last_position_log_ns: 0,
-                speed_mmps: 0,
-                speed_uncertainty_mmps: 0,
-                pack_soc_ppt: 1000,
-            });
+    let awareness = state
+        .trains
+        .entry(r.train_id)
+        .or_insert_with(|| TrainAwareness {
+            consist: ConsistDescriptor::reference_3car(),
+            last_head_position: None,
+            last_tail_position: None,
+            last_position_onboard_ns: 0,
+            last_position_log_ns: 0,
+            speed_mmps: 0,
+            speed_uncertainty_mmps: 0,
+            pack_soc_ppt: 1000,
+        });
     awareness.last_head_position = Some(r.head_position);
     awareness.last_tail_position = Some(r.tail_position);
     awareness.last_position_onboard_ns = r.onboard_time_ns;
@@ -256,9 +253,13 @@ fn apply_position(state: &mut DerivedState, r: &TrainPositionReport, log_time_ns
     // train previously held. The MA computer (M2) will refine this with
     // consist-length footprint and uncertainty padding.
     clear_occupancy_by(state, r.train_id);
-    state.section_occupancy.insert(r.head_position.track_ref.section, r.train_id);
+    state
+        .section_occupancy
+        .insert(r.head_position.track_ref.section, r.train_id);
     if r.tail_position.track_ref.section != r.head_position.track_ref.section {
-        state.section_occupancy.insert(r.tail_position.track_ref.section, r.train_id);
+        state
+            .section_occupancy
+            .insert(r.tail_position.track_ref.section, r.train_id);
     }
 }
 
@@ -266,7 +267,9 @@ fn apply_departure(state: &mut DerivedState, dep: &TrainDeparture) {
     state.trains.remove(&dep.train_id);
     clear_occupancy_by(state, dep.train_id);
     // Also release any active route grants this train held.
-    state.active_routes.retain(|_, g| g.train_id != dep.train_id);
+    state
+        .active_routes
+        .retain(|_, g| g.train_id != dep.train_id);
 }
 
 fn clear_occupancy_by(state: &mut DerivedState, train: TrainId) {

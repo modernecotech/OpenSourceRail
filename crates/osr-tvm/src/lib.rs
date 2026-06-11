@@ -65,9 +65,9 @@ impl Product {
     #[must_use]
     pub const fn duration_ns(self) -> u64 {
         match self {
-            Product::SingleRide => 3_600_000_000_000,             // 1 h
-            Product::DayPass => 24 * 3_600_000_000_000,            // 24 h
-            Product::WeekPass => 7 * 24 * 3_600_000_000_000,       // 7 days
+            Product::SingleRide => 3_600_000_000_000,        // 1 h
+            Product::DayPass => 24 * 3_600_000_000_000,      // 24 h
+            Product::WeekPass => 7 * 24 * 3_600_000_000_000, // 7 days
         }
     }
 
@@ -112,10 +112,7 @@ pub struct TvmInputs<'a> {
 
 #[derive(Copy, Clone, Debug, PartialEq, Eq, Hash, Serialize, Deserialize)]
 pub enum TvmDenyReason {
-    InsufficientPayment {
-        quoted_cents: u32,
-        paid_cents: u32,
-    },
+    InsufficientPayment { quoted_cents: u32, paid_cents: u32 },
 }
 
 #[derive(Copy, Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
@@ -213,10 +210,17 @@ mod tests {
     fn single_ride_cash_exact_issues_token() {
         let out = tvm_evaluate(
             &TvmState::default(),
-            &inputs(Product::SingleRide, PaymentMethod::Cash { amount_cents: 100 }, 7),
+            &inputs(
+                Product::SingleRide,
+                PaymentMethod::Cash { amount_cents: 100 },
+                7,
+            ),
         );
         match out.outcome {
-            TvmOutcome::Issued { token, change_returned_cents } => {
+            TvmOutcome::Issued {
+                token,
+                change_returned_cents,
+            } => {
                 assert_eq!(change_returned_cents, 0);
                 assert_eq!(token.station_restriction, Some(7));
                 let blacklist = BTreeSet::new();
@@ -235,9 +239,16 @@ mod tests {
     fn insufficient_cash_denied() {
         let out = tvm_evaluate(
             &TvmState::default(),
-            &inputs(Product::DayPass, PaymentMethod::Cash { amount_cents: 200 }, 1),
+            &inputs(
+                Product::DayPass,
+                PaymentMethod::Cash { amount_cents: 200 },
+                1,
+            ),
         );
-        assert!(matches!(out.outcome, TvmOutcome::Denied(TvmDenyReason::InsufficientPayment { .. })));
+        assert!(matches!(
+            out.outcome,
+            TvmOutcome::Denied(TvmDenyReason::InsufficientPayment { .. })
+        ));
         assert_eq!(out.state.tickets_sold, 0);
         assert_eq!(out.state.revenue_cents, 0);
     }
@@ -246,10 +257,17 @@ mod tests {
     fn change_returned() {
         let out = tvm_evaluate(
             &TvmState::default(),
-            &inputs(Product::SingleRide, PaymentMethod::Cash { amount_cents: 250 }, 1),
+            &inputs(
+                Product::SingleRide,
+                PaymentMethod::Cash { amount_cents: 250 },
+                1,
+            ),
         );
         match out.outcome {
-            TvmOutcome::Issued { change_returned_cents, .. } => assert_eq!(change_returned_cents, 150),
+            TvmOutcome::Issued {
+                change_returned_cents,
+                ..
+            } => assert_eq!(change_returned_cents, 150),
             _ => panic!("expected issue"),
         }
     }
@@ -260,12 +278,17 @@ mod tests {
             &TvmState::default(),
             &inputs(
                 Product::WeekPass,
-                PaymentMethod::MobileMoney { confirmation_code: 9 },
+                PaymentMethod::MobileMoney {
+                    confirmation_code: 9,
+                },
                 1,
             ),
         );
         match out.outcome {
-            TvmOutcome::Issued { change_returned_cents, .. } => assert_eq!(change_returned_cents, 0),
+            TvmOutcome::Issued {
+                change_returned_cents,
+                ..
+            } => assert_eq!(change_returned_cents, 0),
             _ => panic!("expected issue"),
         }
         assert_eq!(out.state.revenue_cents, 2500);
@@ -275,7 +298,11 @@ mod tests {
     fn day_pass_is_network_wide() {
         let out = tvm_evaluate(
             &TvmState::default(),
-            &inputs(Product::DayPass, PaymentMethod::Cash { amount_cents: 500 }, 3),
+            &inputs(
+                Product::DayPass,
+                PaymentMethod::Cash { amount_cents: 500 },
+                3,
+            ),
         );
         if let TvmOutcome::Issued { token, .. } = out.outcome {
             assert_eq!(token.station_restriction, None);
@@ -288,16 +315,27 @@ mod tests {
     fn ttl_matches_product_duration() {
         let out = tvm_evaluate(
             &TvmState::default(),
-            &inputs(Product::DayPass, PaymentMethod::Cash { amount_cents: 500 }, 3),
+            &inputs(
+                Product::DayPass,
+                PaymentMethod::Cash { amount_cents: 500 },
+                3,
+            ),
         );
         if let TvmOutcome::Issued { token, .. } = out.outcome {
-            assert_eq!(token.expires_ns - token.issued_ns, Product::DayPass.duration_ns());
+            assert_eq!(
+                token.expires_ns - token.issued_ns,
+                Product::DayPass.duration_ns()
+            );
         }
     }
 
     #[test]
     fn determinism() {
-        let i = inputs(Product::SingleRide, PaymentMethod::Cash { amount_cents: 100 }, 7);
+        let i = inputs(
+            Product::SingleRide,
+            PaymentMethod::Cash { amount_cents: 100 },
+            7,
+        );
         let a = tvm_evaluate(&TvmState::default(), &i);
         let b = tvm_evaluate(&TvmState::default(), &i);
         assert_eq!(a, b);

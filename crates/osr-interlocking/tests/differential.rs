@@ -29,8 +29,7 @@ use osr_core::{
 };
 use osr_interlocking::log::{
     Confidence, Entry, EntryPayload, PositionSource, RestrictionReason, RouteGrant,
-    SpeedRestriction, SwitchObservation, SwitchPosition, TrainPositionReport,
-    TrainRegistration,
+    SpeedRestriction, SwitchObservation, SwitchPosition, TrainPositionReport, TrainRegistration,
 };
 use osr_interlocking::{compute_self_ma, MovementAuthority};
 use proptest::prelude::*;
@@ -388,7 +387,10 @@ fn cross_check(network: &Network, entries: &[Entry], train_id: TrainId, now_ns: 
     let case_json = serde_json::to_string(&case).expect("serialise case");
     let py_ma = run_python(&src, &case_json);
     let rs_ma: MovementAuthority = compute_self_ma(train_id, entries, network, now_ns);
-    assert_eq!(rs_ma, py_ma, "MA divergence.\nRust: {rs_ma:#?}\nPy:   {py_ma:#?}");
+    assert_eq!(
+        rs_ma, py_ma,
+        "MA divergence.\nRust: {rs_ma:#?}\nPy:   {py_ma:#?}"
+    );
 }
 
 #[test]
@@ -455,13 +457,7 @@ fn smoke_speed_restriction_reflected_in_ma() {
     let net = simple_linear_network();
     let entries = vec![
         registration_entry(1, 0, 1, 1000, 51_000),
-        speed_restriction_entry(
-            2,
-            100,
-            1000,
-            15_000,
-            RestrictionReason::Weather,
-        ),
+        speed_restriction_entry(2, 100, 1000, 15_000, RestrictionReason::Weather),
     ];
     cross_check(&net, &entries, TrainId::new(1), 500);
 }
@@ -470,19 +466,36 @@ fn smoke_speed_restriction_reflected_in_ma() {
 /// different `apply_entry` branch in both the Rust and Python twins.
 #[derive(Copy, Clone, Debug)]
 enum ExtraEntry {
-    SwitchObs { switch_id: u64, normal: bool, locked: bool },
-    RouteGrant { train: u64, section: u64 },
-    SpeedRestriction { section: u64, max_mmps: i64 },
+    SwitchObs {
+        switch_id: u64,
+        normal: bool,
+        locked: bool,
+    },
+    RouteGrant {
+        train: u64,
+        section: u64,
+    },
+    SpeedRestriction {
+        section: u64,
+        max_mmps: i64,
+    },
 }
 
 fn arb_extra() -> impl Strategy<Value = ExtraEntry> {
     prop_oneof![
-        (1u64..=5, any::<bool>(), any::<bool>())
-            .prop_map(|(s, n, l)| ExtraEntry::SwitchObs { switch_id: s, normal: n, locked: l }),
-        (1u64..=3, 1000u64..=1002)
-            .prop_map(|(t, s)| ExtraEntry::RouteGrant { train: t, section: s }),
-        (1000u64..=1002, 1_000i64..=20_000)
-            .prop_map(|(s, v)| ExtraEntry::SpeedRestriction { section: s, max_mmps: v }),
+        (1u64..=5, any::<bool>(), any::<bool>()).prop_map(|(s, n, l)| ExtraEntry::SwitchObs {
+            switch_id: s,
+            normal: n,
+            locked: l
+        }),
+        (1u64..=3, 1000u64..=1002).prop_map(|(t, s)| ExtraEntry::RouteGrant {
+            train: t,
+            section: s
+        }),
+        (1000u64..=1002, 1_000i64..=20_000).prop_map(|(s, v)| ExtraEntry::SpeedRestriction {
+            section: s,
+            max_mmps: v
+        }),
     ]
 }
 
@@ -507,7 +520,13 @@ fn arb_entries() -> impl Strategy<Value = Vec<Entry>> {
                 entries.push(registration_entry(next_id, 0, *train, 1000, 51_000));
                 next_id += 1;
                 let section = 1000 + *section_idx;
-                entries.push(position_entry(next_id, 1_000_000, *train, section, *head_offset));
+                entries.push(position_entry(
+                    next_id,
+                    1_000_000,
+                    *train,
+                    section,
+                    *head_offset,
+                ));
                 next_id += 1;
             }
         }
@@ -516,7 +535,11 @@ fn arb_entries() -> impl Strategy<Value = Vec<Entry>> {
         for (i, extra) in extras.iter().enumerate() {
             let ts_i = ts + (i as u64) * 1_000;
             match *extra {
-                ExtraEntry::SwitchObs { switch_id, normal, locked } => {
+                ExtraEntry::SwitchObs {
+                    switch_id,
+                    normal,
+                    locked,
+                } => {
                     let pos = if normal {
                         SwitchPosition::Normal
                     } else {
@@ -527,7 +550,9 @@ fn arb_entries() -> impl Strategy<Value = Vec<Entry>> {
                     } else {
                         Confidence::Observed
                     };
-                    entries.push(switch_observation_entry(next_id, ts_i, switch_id, pos, conf));
+                    entries.push(switch_observation_entry(
+                        next_id, ts_i, switch_id, pos, conf,
+                    ));
                 }
                 ExtraEntry::RouteGrant { train, section } => {
                     entries.push(route_grant_entry(
@@ -588,7 +613,13 @@ fn arb_entries_ring() -> impl Strategy<Value = Vec<Entry>> {
                 entries.push(registration_entry(next_id, 0, *train, 3000, 51_000));
                 next_id += 1;
                 let section = 3000 + *section_idx;
-                entries.push(position_entry(next_id, 1_000_000, *train, section, *head_offset));
+                entries.push(position_entry(
+                    next_id,
+                    1_000_000,
+                    *train,
+                    section,
+                    *head_offset,
+                ));
                 next_id += 1;
             }
         }

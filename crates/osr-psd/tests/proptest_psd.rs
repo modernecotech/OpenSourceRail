@@ -18,14 +18,14 @@ fn arb_cmd() -> impl Strategy<Value = PsdCommand> {
 }
 
 fn arb_sensors() -> impl Strategy<Value = PsdSensors> {
-    (any::<bool>(), any::<bool>(), 0u32..8_000, any::<bool>()).prop_map(
-        |(cl, ol, cur, obs)| PsdSensors {
+    (any::<bool>(), any::<bool>(), 0u32..8_000, any::<bool>()).prop_map(|(cl, ol, cur, obs)| {
+        PsdSensors {
             closed_limit: cl,
             open_limit: ol,
             motor_current_ma: cur,
             obstruction_detected: obs,
-        },
-    )
+        }
+    })
 }
 
 proptest! {

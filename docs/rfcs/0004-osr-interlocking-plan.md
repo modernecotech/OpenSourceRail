@@ -252,7 +252,7 @@ PR; none should be attempted as a single contiguous effort.
 - Sim now emits `Entry` objects as trains move; the MA computer derives
   authorities; conflicts become real invariant violations rather than
   in-memory occupancy check failures.
-- Proves the MA computer works end-to-end on the Samawah reference
+- Proves the MA computer works end-to-end on a generated city instance
   scenario.
 
 **Delivered:**

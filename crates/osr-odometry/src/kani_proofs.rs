@@ -13,12 +13,12 @@
 
 #![cfg(kani)]
 
-use osr_core::{Direction, Line, Network, Section, SectionId, Station, StationId, TrackRef, TrainId};
+use osr_core::{
+    Direction, Line, Network, Section, SectionId, Station, StationId, TrackRef, TrainId,
+};
 
 use crate::fusion::odom_step;
-use crate::sensors::{
-    BaliseFix, BaliseId, GnssFix, OdomCalibration, PositionSource, SensorTick,
-};
+use crate::sensors::{BaliseFix, BaliseId, GnssFix, OdomCalibration, PositionSource, SensorTick};
 use crate::state::OdomState;
 
 // ---------------------------------------------------------------------------

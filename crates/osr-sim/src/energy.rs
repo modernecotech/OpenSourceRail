@@ -111,8 +111,7 @@ impl EnergySite {
         pv_factor: f32,
         grid_disabled: bool,
     ) {
-        let pv_kw =
-            pv_output_kw(self.config.pv_nameplate_kw, clock_s, peak_sun_hours) * pv_factor;
+        let pv_kw = pv_output_kw(self.config.pv_nameplate_kw, clock_s, peak_sun_hours) * pv_factor;
         let pv_kwh = pv_kw * dt_s / 3600.0;
         self.pv_generated_kwh += f64::from(pv_kwh);
 
@@ -121,8 +120,7 @@ impl EnergySite {
         }
 
         // Try to store in the battery.
-        let remaining_capacity =
-            (1.0 - self.storage_soc) * self.config.storage_capacity_kwh;
+        let remaining_capacity = (1.0 - self.storage_soc) * self.config.storage_capacity_kwh;
         let max_store_kwh = self.config.storage_max_charge_kw * dt_s / 3600.0;
         let stored = pv_kwh.min(remaining_capacity).min(max_store_kwh).max(0.0);
         if self.config.storage_capacity_kwh > 0.0 {
@@ -132,8 +130,11 @@ impl EnergySite {
         // Handle excess: export if possible and grid is up, otherwise curtail.
         let excess = pv_kwh - stored;
         if excess > 0.0 {
-            let export_cap_kw =
-                if grid_disabled { 0.0 } else { self.config.grid_export_kw };
+            let export_cap_kw = if grid_disabled {
+                0.0
+            } else {
+                self.config.grid_export_kw
+            };
             let max_export_kwh = export_cap_kw * dt_s / 3600.0;
             let exported = excess.min(max_export_kwh).max(0.0);
             self.grid_exported_kwh += f64::from(exported);
@@ -203,7 +204,10 @@ impl EnergySystem {
             .into_iter()
             .map(|c| (c.station, EnergySite::new(c)))
             .collect();
-        Self { sites, peak_sun_hours }
+        Self {
+            sites,
+            peak_sun_hours,
+        }
     }
 
     pub fn tick_pv(&mut self, clock_s: u32, dt_s: f32, faults: &crate::fault::FaultEngine) {

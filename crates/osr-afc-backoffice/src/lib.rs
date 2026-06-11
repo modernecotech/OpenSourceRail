@@ -45,7 +45,7 @@ impl AfcBackofficeParams {
     #[must_use]
     pub fn default_metro() -> Self {
         Self {
-            fare_cents: 50, // 50¢ flat fare
+            fare_cents: 50,                   // 50¢ flat fare
             fraud_window_ns: 300_000_000_000, // 5 min
             max_denies_per_window: 5,
         }
@@ -107,7 +107,9 @@ pub fn ingest_events(
                 });
                 let slot = state.station_revenue.entry(ev.gate_station_id).or_default();
                 slot.taps_granted = slot.taps_granted.saturating_add(1);
-                slot.revenue_cents = slot.revenue_cents.saturating_add(u64::from(params.fare_cents));
+                slot.revenue_cents = slot
+                    .revenue_cents
+                    .saturating_add(u64::from(params.fare_cents));
             }
             Decision::Deny(_) => {
                 let hist = state.deny_history.entry(ev.account_id).or_default();
@@ -125,7 +127,11 @@ pub fn ingest_events(
         }
     }
 
-    AfcBackofficeOutput { state, ledger, new_flags }
+    AfcBackofficeOutput {
+        state,
+        ledger,
+        new_flags,
+    }
 }
 
 #[cfg(test)]
@@ -169,9 +175,19 @@ mod tests {
 
     #[test]
     fn rapid_denies_flag_account() {
-        let p = AfcBackofficeParams { max_denies_per_window: 3, ..AfcBackofficeParams::default_metro() };
+        let p = AfcBackofficeParams {
+            max_denies_per_window: 3,
+            ..AfcBackofficeParams::default_metro()
+        };
         let events: Vec<_> = (0..6u64)
-            .map(|k| ev(k * 1_000_000_000, 1, 99, Decision::Deny(DenyReason::BadSignature)))
+            .map(|k| {
+                ev(
+                    k * 1_000_000_000,
+                    1,
+                    99,
+                    Decision::Deny(DenyReason::BadSignature),
+                )
+            })
             .collect();
         let out = ingest_events(&AfcBackofficeState::default(), &events, &p);
         assert!(out.new_flags.contains(&99));
@@ -180,10 +196,21 @@ mod tests {
 
     #[test]
     fn denies_outside_window_do_not_flag() {
-        let p = AfcBackofficeParams { max_denies_per_window: 3, fraud_window_ns: 1_000_000_000, ..AfcBackofficeParams::default_metro() };
+        let p = AfcBackofficeParams {
+            max_denies_per_window: 3,
+            fraud_window_ns: 1_000_000_000,
+            ..AfcBackofficeParams::default_metro()
+        };
         // 10 s apart, window is 1 s → no accumulation.
         let events: Vec<_> = (0..10u64)
-            .map(|k| ev(k * 10_000_000_000, 1, 5, Decision::Deny(DenyReason::BadSignature)))
+            .map(|k| {
+                ev(
+                    k * 10_000_000_000,
+                    1,
+                    5,
+                    Decision::Deny(DenyReason::BadSignature),
+                )
+            })
             .collect();
         let out = ingest_events(&AfcBackofficeState::default(), &events, &p);
         assert!(out.new_flags.is_empty());
@@ -191,7 +218,10 @@ mod tests {
 
     #[test]
     fn flag_not_re_emitted_once_set() {
-        let p = AfcBackofficeParams { max_denies_per_window: 2, ..AfcBackofficeParams::default_metro() };
+        let p = AfcBackofficeParams {
+            max_denies_per_window: 2,
+            ..AfcBackofficeParams::default_metro()
+        };
         let first_batch: Vec<_> = (0..5u64)
             .map(|k| ev(k * 1_000_000_000, 1, 7, Decision::Deny(DenyReason::Expired)))
             .collect();

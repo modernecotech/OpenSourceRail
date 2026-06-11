@@ -29,6 +29,6 @@ pub use station::{
     force_hub_stations, force_ring_radial_crossings, merge_interchanges, place_stations, Station,
 };
 pub use topology::{
-    budget_for_population, greedy_synthesize_lines, hub_cell, synthesize_lines, GreedyBudget,
-    Line, LineShape, TopologyArchetype, TopologyError, HUB_RADIUS_CELLS,
+    budget_for_population, greedy_synthesize_lines, hub_cell, synthesize_lines, GreedyBudget, Line,
+    LineShape, TopologyArchetype, TopologyError, HUB_RADIUS_CELLS,
 };

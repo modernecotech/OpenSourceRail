@@ -134,10 +134,10 @@ impl HotAxleParams {
     #[must_use]
     pub fn default_metro() -> Self {
         Self {
-            absolute_trip_dc: 1_000,      // 100 °C
-            absolute_warn_dc: 750,        // 75 °C
-            differential_trip_dc: 700,    // 70 °C over ambient
-            differential_warn_dc: 400,    // 40 °C over ambient
+            absolute_trip_dc: 1_000,   // 100 °C
+            absolute_warn_dc: 750,     // 75 °C
+            differential_trip_dc: 700, // 70 °C over ambient
+            differential_warn_dc: 400, // 40 °C over ambient
         }
     }
 }

@@ -273,7 +273,11 @@ mod tests {
         assert!(q.total_cut_m3 > 0.0);
         assert_eq!(q.total_fill_m3, 0.0);
         // Cut volume ≈ 2 m × 6 m × 1000 m = 12 000 m³ (± interval rounding).
-        assert!((q.total_cut_m3 - 12_000.0).abs() < 200.0, "{}", q.total_cut_m3);
+        assert!(
+            (q.total_cut_m3 - 12_000.0).abs() < 200.0,
+            "{}",
+            q.total_cut_m3
+        );
     }
 
     #[test]

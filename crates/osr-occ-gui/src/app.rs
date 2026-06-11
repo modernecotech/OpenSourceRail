@@ -16,8 +16,7 @@
 use std::collections::HashMap;
 
 use eframe::egui::{
-    self, CentralPanel, Color32, Context, Pos2, RichText, ScrollArea, SidePanel,
-    TopBottomPanel,
+    self, CentralPanel, Color32, Context, Pos2, RichText, ScrollArea, SidePanel, TopBottomPanel,
 };
 use osr_core::{Network, SectionId};
 use osr_gui_shared::{draw_network, draw_section_state, NetworkLayout, Palette};
@@ -264,10 +263,7 @@ fn top_bar(app: &mut OccApp, ctx: &Context) {
             ui.label(mode_label);
             ui.separator();
             if let Some(tl) = &app.timeline {
-                ui.label(format!(
-                    "live t = {:>5.0} / {} s",
-                    app.t_s, tl.duration_s
-                ));
+                ui.label(format!("live t = {:>5.0} / {} s", app.t_s, tl.duration_s));
             } else {
                 ui.colored_label(
                     Color32::from_rgb(230, 180, 60),
@@ -351,7 +347,8 @@ fn right_intrusions(app: &mut OccApp, ctx: &Context) {
         ui.separator();
         ui.horizontal(|ui| {
             if ui.button("Simulate Present on SEC1001").clicked() {
-                app.intrusions.insert(SectionId::new(1001), IntrusionState::Present);
+                app.intrusions
+                    .insert(SectionId::new(1001), IntrusionState::Present);
                 app.alerts.push(Alert {
                     level: AlertLevel::Crit,
                     category: "S7.1".into(),
@@ -360,7 +357,8 @@ fn right_intrusions(app: &mut OccApp, ctx: &Context) {
                 });
             }
             if ui.button("Clear SEC1001").clicked() {
-                app.intrusions.insert(SectionId::new(1001), IntrusionState::Clear);
+                app.intrusions
+                    .insert(SectionId::new(1001), IntrusionState::Clear);
             }
         });
         ui.separator();
@@ -429,8 +427,12 @@ fn central_map(app: &mut OccApp, ctx: &Context) {
             // Section-state overlays.
             for (line_idx, line) in app.network.lines.iter().enumerate() {
                 for (i, sec_id) in line.forward_sections.iter().enumerate() {
-                    let Some(&from) = line.stations.get(i) else { continue };
-                    let Some(&to) = line.stations.get(i + 1) else { continue };
+                    let Some(&from) = line.stations.get(i) else {
+                        continue;
+                    };
+                    let Some(&to) = line.stations.get(i + 1) else {
+                        continue;
+                    };
                     let state = match app.intrusions.get(sec_id) {
                         Some(IntrusionState::Present) => app.palette.intrusion_present,
                         Some(IntrusionState::Unknown) => app.palette.intrusion_unknown,
@@ -499,9 +501,7 @@ fn modal_route_grant(app: &mut OccApp, ctx: &Context) {
                     Color32::from_rgb(120, 220, 120),
                     "✓ valid — v3 will emit RFC 0017 signed envelope.",
                 ),
-                Err(e) => {
-                    ui.colored_label(Color32::from_rgb(230, 80, 80), format!("✗ {e}"))
-                }
+                Err(e) => ui.colored_label(Color32::from_rgb(230, 80, 80), format!("✗ {e}")),
             };
             ui.separator();
             if ui
@@ -510,8 +510,7 @@ fn modal_route_grant(app: &mut OccApp, ctx: &Context) {
             {
                 let msg = format!(
                     "train={} sections=[{}]",
-                    app.route_grant_buffer.train_id,
-                    app.route_grant_buffer.section_ids
+                    app.route_grant_buffer.train_id, app.route_grant_buffer.section_ids
                 );
                 app.emit_action("S2.1", msg);
                 app.show_route_grant_modal = false;
@@ -546,9 +545,7 @@ fn modal_override(app: &mut OccApp, ctx: &Context) {
                     Color32::from_rgb(120, 220, 120),
                     "✓ valid — v3 will emit RFC 0017 signed envelope.",
                 ),
-                Err(e) => {
-                    ui.colored_label(Color32::from_rgb(230, 80, 80), format!("✗ {e}"))
-                }
+                Err(e) => ui.colored_label(Color32::from_rgb(230, 80, 80), format!("✗ {e}")),
             };
             ui.separator();
             if ui
@@ -581,30 +578,19 @@ fn modal_degraded_mode(app: &mut OccApp, ctx: &Context) {
         .open(&mut open)
         .show(ctx, |ui| {
             ui.selectable_value(&mut selected, DegradedMode::Normal, "Normal");
-            ui.selectable_value(
-                &mut selected,
-                DegradedMode::ManualOnMa,
-                "M1 Manual-on-MA",
-            );
+            ui.selectable_value(&mut selected, DegradedMode::ManualOnMa, "M1 Manual-on-MA");
             ui.selectable_value(
                 &mut selected,
                 DegradedMode::RestrictedService,
                 "M2 Restricted service",
             );
-            ui.selectable_value(
-                &mut selected,
-                DegradedMode::Evacuation,
-                "M3 Evacuation",
-            );
+            ui.selectable_value(&mut selected, DegradedMode::Evacuation, "M3 Evacuation");
             ui.separator();
             if ui.button("Apply").clicked() {
                 let was = app.degraded_mode;
                 app.degraded_mode = selected;
                 if was != selected {
-                    app.emit_action(
-                        "S3",
-                        format!("degraded mode → {:?}", selected as u8),
-                    );
+                    app.emit_action("S3", format!("degraded mode → {:?}", selected as u8));
                 }
                 app.show_degraded_mode_modal = false;
             }

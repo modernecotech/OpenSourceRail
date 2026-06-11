@@ -97,7 +97,10 @@ pub fn sample_every(alignment: &Alignment, interval_m: f64) -> Vec<StationedPoin
     }
     // Always include the end.
     if let Some(p) = station_at(alignment, start + total) {
-        if out.last().map_or(true, |last| (last.chainage_m - p.chainage_m).abs() > 1e-3) {
+        if out
+            .last()
+            .map_or(true, |last| (last.chainage_m - p.chainage_m).abs() > 1e-3)
+        {
             out.push(p);
         }
     }

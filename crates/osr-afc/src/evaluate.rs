@@ -70,11 +70,7 @@ pub struct AfcOutput {
 
 /// Evaluate one AFC tick. Pure.
 #[must_use]
-pub fn afc_evaluate(
-    prev: &AfcState,
-    inputs: &AfcInputs<'_>,
-    params: &AfcParams,
-) -> AfcOutput {
+pub fn afc_evaluate(prev: &AfcState, inputs: &AfcInputs<'_>, params: &AfcParams) -> AfcOutput {
     // 1. Process scanned token if present.
     let (event, decision) = match &inputs.scanned_token {
         None => (None, None),
@@ -220,7 +216,10 @@ mod tests {
             },
             &AfcParams::metro_default(),
         );
-        assert_eq!(out.last_decision, Some(Decision::Deny(DenyReason::WrongStation)));
+        assert_eq!(
+            out.last_decision,
+            Some(Decision::Deny(DenyReason::WrongStation))
+        );
     }
 
     #[test]
@@ -241,7 +240,10 @@ mod tests {
             },
             &AfcParams::metro_default(),
         );
-        assert_eq!(out.last_decision, Some(Decision::Deny(DenyReason::Blacklisted)));
+        assert_eq!(
+            out.last_decision,
+            Some(Decision::Deny(DenyReason::Blacklisted))
+        );
     }
 
     #[test]
@@ -262,7 +264,10 @@ mod tests {
             },
             &AfcParams::metro_default(),
         );
-        assert_eq!(out.last_decision, Some(Decision::Deny(DenyReason::BadSignature)));
+        assert_eq!(
+            out.last_decision,
+            Some(Decision::Deny(DenyReason::BadSignature))
+        );
     }
 
     #[test]

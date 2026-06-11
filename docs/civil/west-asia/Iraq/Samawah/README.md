@@ -1,9 +1,15 @@
-# Samawah civil alignment — v1 deliverable of RFC 0009
+# Samawah civil alignment instance — v1 deliverable of RFC 0009
 
-Worked civil-alignment envelope for the Samawah reference
-deployment's Line 1 (Nahrain) and Line 2 (Halqa), against the
+Worked civil-alignment export for an earlier Samawah generated instance:
+Line 1 (Nahrain) and Line 2 (Halqa), against the
 [RFC 0009](../../../../rfcs/0009-track-design-standard.md)
 `standard-urban` preset.
+
+This is not a Samawah-specific civil method. It is an OSR-ALN worked
+instance of the same export/validate workflow used for any generated
+city. The current generated Samawah city model is the source of truth
+for network topology; this v1 civil package remains as a worked
+alignment example until the current 3-line network is exported.
 
 ## What this is
 
@@ -30,6 +36,8 @@ topology, scenario data, CAPEX, ridership, and the public-facing report:
   [`civil-class-summary.md`](civil-class-summary.md).
 - A second Samawah deployment report. Cost and ridership numbers are
   generated only under `designs/`.
+- A special Samawah civil standard. New city alignments must use the
+  same OSR-ALN export and validation flow.
 
 ## Contents
 

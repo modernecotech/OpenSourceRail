@@ -13,8 +13,8 @@
 //!   mutations, which Kani will cover in M3).
 
 use osr_core::{
-    ConsistDescriptor, Direction, EntryId, Line, Network, Position, Section, SectionId,
-    Station, StationId, TrackRef, TrainId,
+    ConsistDescriptor, Direction, EntryId, Line, Network, Position, Section, SectionId, Station,
+    StationId, TrackRef, TrainId,
 };
 use osr_interlocking::log::{
     Entry, EntryPayload, PositionSource, TrainPositionReport, TrainRegistration,
@@ -46,20 +46,26 @@ fn test_network() -> Network {
     for i in 0..4 {
         let f = SectionId::new(1000 + i);
         let r = SectionId::new(2000 + i);
-        net.sections.insert(f, Section {
-            id: f,
-            from_station: StationId::new((i as u64) + 1),
-            to_station: StationId::new((i as u64) + 2),
-            length_mm: 1_000_000,
-            max_speed_mps: 22.0,
-        });
-        net.sections.insert(r, Section {
-            id: r,
-            from_station: StationId::new((i as u64) + 2),
-            to_station: StationId::new((i as u64) + 1),
-            length_mm: 1_000_000,
-            max_speed_mps: 22.0,
-        });
+        net.sections.insert(
+            f,
+            Section {
+                id: f,
+                from_station: StationId::new((i as u64) + 1),
+                to_station: StationId::new((i as u64) + 2),
+                length_mm: 1_000_000,
+                max_speed_mps: 22.0,
+            },
+        );
+        net.sections.insert(
+            r,
+            Section {
+                id: r,
+                from_station: StationId::new((i as u64) + 2),
+                to_station: StationId::new((i as u64) + 1),
+                length_mm: 1_000_000,
+                max_speed_mps: 22.0,
+            },
+        );
         fwd.push(f);
         rev.push(r);
     }
@@ -99,23 +105,22 @@ fn arb_position() -> impl Strategy<Value = Position> {
 }
 
 fn arb_position_report(train_id: TrainId, ts: u64) -> impl Strategy<Value = Entry> {
-    (arb_position(), arb_position())
-        .prop_map(move |(head, tail)| Entry {
-            entry_id: EntryId::new(ts),
-            term: 1,
-            timestamp_ns: ts * 100,
-            payload: EntryPayload::TrainPositionReport(TrainPositionReport {
-                train_id,
-                head_position: head,
-                tail_position: tail,
-                speed_mmps: 10_000,
-                speed_uncertainty_mmps: 500,
-                heading: Direction::Forward,
-                contributing_sources: vec![PositionSource::Gnss, PositionSource::Odometry],
-                onboard_time_ns: ts * 100 - 5,
-                pack_soc_ppt: 800,
-            }),
-        })
+    (arb_position(), arb_position()).prop_map(move |(head, tail)| Entry {
+        entry_id: EntryId::new(ts),
+        term: 1,
+        timestamp_ns: ts * 100,
+        payload: EntryPayload::TrainPositionReport(TrainPositionReport {
+            train_id,
+            head_position: head,
+            tail_position: tail,
+            speed_mmps: 10_000,
+            speed_uncertainty_mmps: 500,
+            heading: Direction::Forward,
+            contributing_sources: vec![PositionSource::Gnss, PositionSource::Odometry],
+            onboard_time_ns: ts * 100 - 5,
+            pack_soc_ppt: 800,
+        }),
+    })
 }
 
 fn arb_log_for_trains(num_trains: u64, num_reports: usize) -> impl Strategy<Value = Vec<Entry>> {
@@ -160,12 +165,11 @@ fn arb_log_for_trains(num_trains: u64, num_reports: usize) -> impl Strategy<Valu
                 arb_position_report(TrainId::new(*tid), ts)
             })
             .collect();
-        reports_strategies
-            .prop_map(move |reports| {
-                let mut all = regs.clone();
-                all.extend(reports);
-                all
-            })
+        reports_strategies.prop_map(move |reports| {
+            let mut all = regs.clone();
+            all.extend(reports);
+            all
+        })
     })
 }
 

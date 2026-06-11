@@ -124,7 +124,10 @@ pub fn synthesize_lines(
     demand_w: DemandWeight,
 ) -> Result<Vec<Line>, TopologyError> {
     if anchors.len() < 2 {
-        return Err(TopologyError::TooFewAnchors { min: 2, got: anchors.len() });
+        return Err(TopologyError::TooFewAnchors {
+            min: 2,
+            got: anchors.len(),
+        });
     }
 
     // Order anchors by weight for consistent endpoint selection.
@@ -168,11 +171,16 @@ pub fn synthesize_lines(
         TopologyArchetype::RadialPlusRing => {
             let (endpoints, used) = pick_radial_endpoints(grid, anchors, &ordered, 1)?;
             let (a, b) = endpoints[0];
-            let radial_cells =
-                via_centre(grid, anchors, a, b, centre, demand_w, &cross_mask)?;
+            let radial_cells = via_centre(grid, anchors, a, b, centre, demand_w, &cross_mask)?;
             let radial_cells = trim_low_demand_tails(grid, &radial_cells, false);
             stamp_penalty_excluding_hub(
-                &mut cross_mask, &radial_cells, h, w, CROSS_LINE_PENALTY, centre, HUB_RADIUS_CELLS,
+                &mut cross_mask,
+                &radial_cells,
+                h,
+                w,
+                CROSS_LINE_PENALTY,
+                centre,
+                HUB_RADIUS_CELLS,
             );
 
             let ring_anchors = pick_ring_anchors(grid, anchors, &ordered, &used, 4)?;
@@ -201,7 +209,13 @@ pub fn synthesize_lines(
                 let cells = via_centre(grid, anchors, *a, *b, centre, demand_w, &cross_mask)?;
                 let cells = trim_low_demand_tails(grid, &cells, false);
                 stamp_penalty_excluding_hub(
-                    &mut cross_mask, &cells, h, w, CROSS_LINE_PENALTY, centre, HUB_RADIUS_CELLS,
+                    &mut cross_mask,
+                    &cells,
+                    h,
+                    w,
+                    CROSS_LINE_PENALTY,
+                    centre,
+                    HUB_RADIUS_CELLS,
                 );
                 lines.push(Line {
                     name: format!("line-{}", i + 1),
@@ -228,7 +242,13 @@ pub fn synthesize_lines(
                 let cells = via_centre(grid, anchors, *a, *b, centre, demand_w, &cross_mask)?;
                 let cells = trim_low_demand_tails(grid, &cells, false);
                 stamp_penalty_excluding_hub(
-                    &mut cross_mask, &cells, h, w, CROSS_LINE_PENALTY, centre, HUB_RADIUS_CELLS,
+                    &mut cross_mask,
+                    &cells,
+                    h,
+                    w,
+                    CROSS_LINE_PENALTY,
+                    centre,
+                    HUB_RADIUS_CELLS,
                 );
                 lines.push(Line {
                     name: format!("line-{}", i + 1),
@@ -239,7 +259,8 @@ pub fn synthesize_lines(
             }
 
             // Inner ring: 6 anchors closer to centre.
-            let inner = pick_ring_anchors_by_radius(grid, anchors, &ordered, &used, 6, RingBand::Inner)?;
+            let inner =
+                pick_ring_anchors_by_radius(grid, anchors, &ordered, &used, 6, RingBand::Inner)?;
             let mut used2 = used.clone();
             used2.extend(&inner);
             let inner_cells = route_ring(grid, anchors, &inner, demand_w, &cross_mask)?;
@@ -252,7 +273,8 @@ pub fn synthesize_lines(
             });
 
             // Outer ring: 8 anchors farther out.
-            let outer = pick_ring_anchors_by_radius(grid, anchors, &ordered, &used2, 8, RingBand::Outer)?;
+            let outer =
+                pick_ring_anchors_by_radius(grid, anchors, &ordered, &used2, 8, RingBand::Outer)?;
             let outer_cells = route_ring(grid, anchors, &outer, demand_w, &cross_mask)?;
             stamp_penalty(&mut cross_mask, &outer_cells, h, w, CROSS_LINE_PENALTY);
             lines.push(Line {
@@ -454,7 +476,10 @@ pub fn greedy_synthesize_lines(
     budget: &GreedyBudget,
 ) -> Result<Vec<Line>, TopologyError> {
     if anchors.len() < 2 {
-        return Err(TopologyError::TooFewAnchors { min: 2, got: anchors.len() });
+        return Err(TopologyError::TooFewAnchors {
+            min: 2,
+            got: anchors.len(),
+        });
     }
     let h = grid.reference.height;
     let w = grid.reference.width;
@@ -465,7 +490,10 @@ pub fn greedy_synthesize_lines(
         .filter(|&i| anchors[i].weight >= budget.min_anchor_weight)
         .collect();
     if raw_usable.len() < 2 {
-        return Err(TopologyError::TooFewAnchors { min: 2, got: raw_usable.len() });
+        return Err(TopologyError::TooFewAnchors {
+            min: 2,
+            got: raw_usable.len(),
+        });
     }
     let usable = coalesce_anchors(anchors, &raw_usable, budget.coalesce_bin_cells);
     eprintln!(
@@ -476,7 +504,10 @@ pub fn greedy_synthesize_lines(
         budget.coalesce_bin_cells,
     );
     if usable.len() < 2 {
-        return Err(TopologyError::TooFewAnchors { min: 2, got: usable.len() });
+        return Err(TopologyError::TooFewAnchors {
+            min: 2,
+            got: usable.len(),
+        });
     }
 
     let hub_raw = grid_centre(grid);
@@ -511,8 +542,7 @@ pub fn greedy_synthesize_lines(
         // Length-budget estimate uses 0.70 × urban_r — the midpoint
         // of the (0.55, 0.85) outer-band the ring anchors land in.
         let ring_radius_cells = 0.70 * urban_r;
-        let chord_circumference_cells =
-            2.0 * std::f32::consts::PI * ring_radius_cells;
+        let chord_circumference_cells = 2.0 * std::f32::consts::PI * ring_radius_cells;
         let detour_factor = 1.4_f32;
         f64::from(chord_circumference_cells * detour_factor * cell_m)
     } else {
@@ -523,8 +553,7 @@ pub fn greedy_synthesize_lines(
     } else {
         budget.max_lines
     };
-    let radial_budget_m =
-        (budget.max_total_route_m - ring_length_estimate_m).max(0.0);
+    let radial_budget_m = (budget.max_total_route_m - ring_length_estimate_m).max(0.0);
 
     while lines.len() < radial_max_lines && total_route_m < radial_budget_m {
         // Phase 2 kicks in once half the line budget is used: any
@@ -539,9 +568,8 @@ pub fn greedy_synthesize_lines(
         // outer ring with enough anchor reps to satisfy the filter,
         // and the cross_mask penalty already diversifies line picks
         // when there are only 3 candidates to choose between.
-        let phase2_peripheral = budget.max_lines >= 4
-            && !lines.is_empty()
-            && lines.len() >= budget.max_lines / 2;
+        let phase2_peripheral =
+            budget.max_lines >= 4 && !lines.is_empty() && lines.len() >= budget.max_lines / 2;
         // Min angular separation between radial endpoints. Only applied
         // for networks of ≥ 5 radials — below that the parallelism
         // penalty already suffices and a strict angular filter starves
@@ -609,7 +637,15 @@ pub fn greedy_synthesize_lines(
             require_peripheral_endpoint: phase2_peripheral,
         };
         let cand = match find_best_candidate(
-            grid, anchors, &usable, demand_w, &cross_mask, &covered, budget, radius_cells, &ctx,
+            grid,
+            anchors,
+            &usable,
+            demand_w,
+            &cross_mask,
+            &covered,
+            budget,
+            radius_cells,
+            &ctx,
         )? {
             Some(c) => c,
             None => break,
@@ -701,8 +737,7 @@ pub fn greedy_synthesize_lines(
             lines.len() + 1,
         ) {
             Ok(Some(ring_line)) => {
-                let ring_len_m =
-                    cell_path_length_m(&ring_line.cells, f64::from(cell_m));
+                let ring_len_m = cell_path_length_m(&ring_line.cells, f64::from(cell_m));
                 // Allow up to a 10 % overshoot of the cap for the ring —
                 // the estimate above is a chord-circle approximation and
                 // the real route bends around no-build cells.
@@ -724,9 +759,7 @@ pub fn greedy_synthesize_lines(
                 }
             }
             Ok(None) => {
-                eprintln!(
-                    "  greedy: no ring synthesized (insufficient peripheral anchors)"
-                );
+                eprintln!("  greedy: no ring synthesized (insufficient peripheral anchors)");
             }
             Err(e) => {
                 eprintln!("  greedy: ring synthesis failed: {e}");
@@ -896,9 +929,7 @@ fn find_best_candidate(
             // Endpoints inside a small central core have meaningless
             // bearings — they're skipped (the via-hub branch handles
             // them).
-            if ctx.min_angular_separation_rad > 0.0
-                && !ctx.committed_terminus_angles.is_empty()
-            {
+            if ctx.min_angular_separation_rad > 0.0 && !ctx.committed_terminus_angles.is_empty() {
                 let ang_thr = (0.20 * ctx.urban_r).max(20.0);
                 let mut crowded = false;
                 for &aid in &[a, b] {
@@ -939,7 +970,11 @@ fn find_best_candidate(
                 }
             }
             let raw = chord_coverage_score(
-                grid, anchors[a].cell(), anchors[b].cell(), covered, radius_cells,
+                grid,
+                anchors[a].cell(),
+                anchors[b].cell(),
+                covered,
+                radius_cells,
             );
             if raw <= 0.0 {
                 continue;
@@ -974,9 +1009,7 @@ fn find_best_candidate(
             // suburb covered more residential cells, even though a
             // chord through the university campus would have served
             // 4 hospitals + 1 university + 3 colleges.
-            let chord_anchor_score = anchor_density_along_chord(
-                anchors, a, b, ctx.urban_r,
-            );
+            let chord_anchor_score = anchor_density_along_chord(anchors, a, b, ctx.urban_r);
             // Endpoint-periphery factor: rewards chords whose endpoints
             // sit beyond the urban core. Combined with phase-2 filtering,
             // this is what pulls late-stage lines out to satellite
@@ -1029,7 +1062,13 @@ fn find_best_candidate(
         // mode on Samawah. Other chords are routed directly.
         let cells_res = if chord_passes_near_hub(s, g, ctx.hub, ctx.hub_proximity_cells) {
             solve_via_hub_in_bbox(
-                grid, s, g, ctx.hub, demand_w, cross_mask, budget.bbox_margin_frac,
+                grid,
+                s,
+                g,
+                ctx.hub,
+                demand_w,
+                cross_mask,
+                budget.bbox_margin_frac,
             )
         } else {
             let bbox = chord_bbox(grid, s, g, budget.bbox_margin_frac);
@@ -1453,9 +1492,7 @@ fn solve_via_hub_in_bbox(
         .copied()
         .take(path1.len().saturating_sub(1))
         .collect();
-    stamp_penalty_excluding_hub(
-        &mut mask2, &body, h, w, SELF_PENALTY, hub, HUB_RADIUS_CELLS,
-    );
+    stamp_penalty_excluding_hub(&mut mask2, &body, h, w, SELF_PENALTY, hub, HUB_RADIUS_CELLS);
     stamp_corridor(&mut mask2, hub, b, h, w);
     let path2 = solve_path_in_bbox(grid, hub, b, demand_w, Some(&mask2), Some(bbox2))?;
 
@@ -1579,13 +1616,7 @@ fn stamp_corridor(
 
 /// Add `weight` to every cell within `PENALTY_RADIUS_CELLS` of any cell
 /// in `cells` (max-merged so repeat passes don't compound infinitely).
-fn stamp_penalty(
-    mask: &mut [f32],
-    cells: &[(usize, usize)],
-    h: usize,
-    w: usize,
-    weight: f32,
-) {
+fn stamp_penalty(mask: &mut [f32], cells: &[(usize, usize)], h: usize, w: usize, weight: f32) {
     let radius = PENALTY_RADIUS_CELLS;
     let r2 = (radius * radius) as isize;
     for &(r, c) in cells {
@@ -1792,12 +1823,7 @@ impl Anchor {
 /// multiple top demand generators (university campuses, hospital
 /// districts, the airport corridor) — it doesn't only count residential
 /// cell-density.
-fn anchor_density_along_chord(
-    anchors: &[Anchor],
-    a: usize,
-    b: usize,
-    urban_r: f32,
-) -> f32 {
+fn anchor_density_along_chord(anchors: &[Anchor], a: usize, b: usize, urban_r: f32) -> f32 {
     // Buffer radius — match the typical station-walkshed (600 m at
     // 20 m cells = 30 cells). Anchors further than this from the
     // chord don't count.
@@ -1859,7 +1885,6 @@ fn anchor_density_along_chord(
     }
     score
 }
-
 
 fn pick_radial_endpoints(
     grid: &Grid,
@@ -1995,7 +2020,10 @@ fn pick_radial_endpoints(
     }
 
     if endpoints.is_empty() {
-        return Err(TopologyError::TooFewAnchors { min: 2 * count, got: 0 });
+        return Err(TopologyError::TooFewAnchors {
+            min: 2 * count,
+            got: 0,
+        });
     }
     Ok((endpoints, used))
 }
@@ -2049,13 +2077,8 @@ fn via_centre(
     // tortuosity-1.9× backfold seen in early Samawah runs).
     let mut first_mask = cross_mask.to_vec();
     stamp_corridor(&mut first_mask, anchors[a].cell(), centre, h, w);
-    let mut path = solve_path_with_penalty(
-        grid,
-        anchors[a].cell(),
-        centre,
-        demand_w,
-        Some(&first_mask),
-    )?;
+    let mut path =
+        solve_path_with_penalty(grid, anchors[a].cell(), centre, demand_w, Some(&first_mask))?;
 
     // Stamp the just-routed cells (excluding the centre itself, so the
     // second leg can still depart from it) onto a fresh mask layered
@@ -2064,19 +2087,24 @@ fn via_centre(
     // trunk so the line presents a clean axis through downtown rather
     // than two narrowly-parallel corridors meeting awkwardly off-centre.
     let mut tail_mask = cross_mask.to_vec();
-    let body: Vec<(usize, usize)> = path.iter().copied().take(path.len().saturating_sub(1)).collect();
+    let body: Vec<(usize, usize)> = path
+        .iter()
+        .copied()
+        .take(path.len().saturating_sub(1))
+        .collect();
     stamp_penalty_excluding_hub(
-        &mut tail_mask, &body, h, w, SELF_PENALTY, centre, HUB_RADIUS_CELLS,
+        &mut tail_mask,
+        &body,
+        h,
+        w,
+        SELF_PENALTY,
+        centre,
+        HUB_RADIUS_CELLS,
     );
     stamp_corridor(&mut tail_mask, centre, anchors[b].cell(), h, w);
 
-    let tail = solve_path_with_penalty(
-        grid,
-        centre,
-        anchors[b].cell(),
-        demand_w,
-        Some(&tail_mask),
-    )?;
+    let tail =
+        solve_path_with_penalty(grid, centre, anchors[b].cell(), demand_w, Some(&tail_mask))?;
     if path.last() == tail.first() {
         path.extend(tail.into_iter().skip(1));
     } else {
@@ -2108,7 +2136,8 @@ fn nudge_to_buildable(grid: &Grid, (r, c): (usize, usize)) -> Option<(usize, usi
                 }
                 let nr = nr as usize;
                 let nc = nc as usize;
-                if nr < h && nc < w && grid.is_buildable(nr, nc) && grid.cost_at(nr, nc).is_finite() {
+                if nr < h && nc < w && grid.is_buildable(nr, nc) && grid.cost_at(nr, nc).is_finite()
+                {
                     return Some((nr, nc));
                 }
             }
@@ -2170,10 +2199,7 @@ fn pick_ring_anchors_by_radius(
     // Samawah hit "need at least 3 anchors" from `pick_ring_anchors_by_radius`
     // when the population threshold lands them in RadialPlusRing.
     let mut buckets: Vec<Option<(usize, f32)>> = vec![None; n];
-    let attempts: [(f32, f32); 2] = [
-        (radius_lo_init, radius_hi_init),
-        (0.0, f32::INFINITY),
-    ];
+    let attempts: [(f32, f32); 2] = [(radius_lo_init, radius_hi_init), (0.0, f32::INFINITY)];
     for &(radius_lo, radius_hi) in &attempts {
         buckets = vec![None; n];
         for &i in ordered {
@@ -2254,8 +2280,11 @@ fn route_ring(
         let seg = solve_path_with_penalty(grid, s, e, demand_w, Some(&seg_mask))?;
         // Stamp this segment so the next one cannot drift back through it.
         // Skip the last cell so the next segment is allowed to start from it.
-        let body: Vec<(usize, usize)> =
-            seg.iter().copied().take(seg.len().saturating_sub(1)).collect();
+        let body: Vec<(usize, usize)> = seg
+            .iter()
+            .copied()
+            .take(seg.len().saturating_sub(1))
+            .collect();
         stamp_penalty(&mut self_mask, &body, h, w, SELF_PENALTY);
         append_segment(&mut cells, seg);
     }
@@ -2308,8 +2337,11 @@ fn route_ring_in_bbox(
         let e = anchors[pair[1]].cell();
         stamp_corridor(&mut seg_mask, s, e, h, w);
         let seg = solve_seg(&seg_mask, s, e)?;
-        let body: Vec<(usize, usize)> =
-            seg.iter().copied().take(seg.len().saturating_sub(1)).collect();
+        let body: Vec<(usize, usize)> = seg
+            .iter()
+            .copied()
+            .take(seg.len().saturating_sub(1))
+            .collect();
         stamp_penalty(&mut self_mask, &body, h, w, SELF_PENALTY);
         append_segment(&mut cells, seg);
     }

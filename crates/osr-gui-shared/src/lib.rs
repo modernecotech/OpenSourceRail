@@ -92,8 +92,16 @@ impl NetworkLayout {
 }
 
 fn strip_edges(strip: &LineStrip) -> Option<(f32, f32)> {
-    let left = strip.stations.values().copied().fold(f32::INFINITY, f32::min);
-    let right = strip.stations.values().copied().fold(f32::NEG_INFINITY, f32::max);
+    let left = strip
+        .stations
+        .values()
+        .copied()
+        .fold(f32::INFINITY, f32::min);
+    let right = strip
+        .stations
+        .values()
+        .copied()
+        .fold(f32::NEG_INFINITY, f32::max);
     if left.is_finite() && right.is_finite() {
         Some((left, right))
     } else {
@@ -126,7 +134,11 @@ fn station_positions_on_strip(
                 cumulative += sec.length_mm as f64 / 1000.0;
             }
         }
-        let t = if total > 0.0 { (cumulative / total) as f32 } else { 0.0 };
+        let t = if total > 0.0 {
+            (cumulative / total) as f32
+        } else {
+            0.0
+        };
         let x = left + (right - left) * t.clamp(0.0, 1.0);
         positions.insert(sid, x);
     }
@@ -169,10 +181,8 @@ fn draw_strip(painter: &Painter, strip: &LineStrip, network: &Network, palette: 
 
         if strip.is_ring {
             // Ring wrap: semi-arc from right → left above the strip.
-            let rect = Rect::from_min_max(
-                Pos2::new(left, strip.y - 30.0),
-                Pos2::new(right, strip.y),
-            );
+            let rect =
+                Rect::from_min_max(Pos2::new(left, strip.y - 30.0), Pos2::new(right, strip.y));
             painter.rect_stroke(
                 rect,
                 Rounding::same(30.0),
@@ -248,11 +258,7 @@ pub fn draw_train(
     if let Some(line) = network.lines.get(line_idx) {
         let total = line_total_length_m(network, line);
         if let Some(x) = layout.station_m_to_x(line_idx, station_m, total) {
-            let y = layout
-                .strips
-                .get(line_idx)
-                .map(|s| s.y)
-                .unwrap_or(0.0);
+            let y = layout.strips.get(line_idx).map(|s| s.y).unwrap_or(0.0);
             let pos = Pos2::new(x, y - 12.0);
             painter.rect_filled(
                 Rect::from_center_size(pos, Vec2::new(14.0, 10.0)),

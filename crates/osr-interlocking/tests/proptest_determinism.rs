@@ -9,16 +9,16 @@
 //! cheaply across larger random inputs.
 
 use osr_core::{
-    ConsistDescriptor, Direction, EntityId, EntryId, Position, RegionId, RouteId,
-    SectionId, SwitchId, TrackRef, TrainId,
-};
-use osr_interlocking::{
-    derive_state, Confidence, DerivedState, Entry, EntryPayload, Heartbeat,
-    MaintenanceOverride, PositionSource, RestrictionReason, RouteGrant, RouteRelease,
-    RouteRequest, SpeedRestriction, SwitchCommand, SwitchObservation, SwitchPosition,
-    TrainDeparture, TrainPositionReport, TrainRegistration,
+    ConsistDescriptor, Direction, EntityId, EntryId, Position, RegionId, RouteId, SectionId,
+    SwitchId, TrackRef, TrainId,
 };
 use osr_interlocking::log::HealthStatus;
+use osr_interlocking::{
+    derive_state, Confidence, DerivedState, Entry, EntryPayload, Heartbeat, MaintenanceOverride,
+    PositionSource, RestrictionReason, RouteGrant, RouteRelease, RouteRequest, SpeedRestriction,
+    SwitchCommand, SwitchObservation, SwitchPosition, TrainDeparture, TrainPositionReport,
+    TrainRegistration,
+};
 use proptest::prelude::*;
 
 // ---------------------------------------------------------------------------
@@ -30,15 +30,20 @@ use proptest::prelude::*;
 // ---------------------------------------------------------------------------
 
 fn arb_position() -> impl Strategy<Value = Position> {
-    (1u64..8, -10_000i64..10_000, prop::bool::ANY)
-        .prop_map(|(section, offset_mm, forward)| Position {
+    (1u64..8, -10_000i64..10_000, prop::bool::ANY).prop_map(|(section, offset_mm, forward)| {
+        Position {
             track_ref: TrackRef {
                 section: SectionId::new(section),
                 offset_mm,
-                direction: if forward { Direction::Forward } else { Direction::Reverse },
+                direction: if forward {
+                    Direction::Forward
+                } else {
+                    Direction::Reverse
+                },
             },
             uncertainty_mm: 100,
-        })
+        }
+    })
 }
 
 fn arb_train_id() -> impl Strategy<Value = TrainId> {
@@ -156,16 +161,24 @@ fn arb_payload() -> BoxedStrategy<EntryPayload> {
                 reason: "test".to_string(),
             })
         }),
-        (arb_route_id(), arb_entity_id(), arb_position(), arb_position(), arb_train_id())
-            .prop_map(|(route_id, requested_by, entry_point, exit_point, train_id)| {
-                EntryPayload::RouteRequest(RouteRequest {
-                    route_id,
-                    requested_by,
-                    entry_point: entry_point.track_ref,
-                    exit_point: exit_point.track_ref,
-                    train_id: Some(train_id),
-                })
-            }),
+        (
+            arb_route_id(),
+            arb_entity_id(),
+            arb_position(),
+            arb_position(),
+            arb_train_id()
+        )
+            .prop_map(
+                |(route_id, requested_by, entry_point, exit_point, train_id)| {
+                    EntryPayload::RouteRequest(RouteRequest {
+                        route_id,
+                        requested_by,
+                        entry_point: entry_point.track_ref,
+                        exit_point: exit_point.track_ref,
+                        train_id: Some(train_id),
+                    })
+                }
+            ),
         (arb_restriction_reason(), arb_entity_id()).prop_map(|(reason, issued_by)| {
             EntryPayload::SpeedRestriction(SpeedRestriction {
                 section: SectionId::new(1),
@@ -178,13 +191,13 @@ fn arb_payload() -> BoxedStrategy<EntryPayload> {
                 issued_by,
             })
         }),
-        (arb_entity_id(), arb_health(), 0u64..1000).prop_map(
-            |(from_entity, health, seq)| EntryPayload::Heartbeat(Heartbeat {
+        (arb_entity_id(), arb_health(), 0u64..1000).prop_map(|(from_entity, health, seq)| {
+            EntryPayload::Heartbeat(Heartbeat {
                 from_entity,
                 health,
                 monotonic_seq: seq,
             })
-        ),
+        }),
         arb_train_id().prop_map(|train_id| {
             EntryPayload::TrainDeparture(TrainDeparture {
                 train_id,
@@ -207,19 +220,18 @@ fn arb_payload() -> BoxedStrategy<EntryPayload> {
 }
 
 fn arb_log_prefix(max_len: usize) -> impl Strategy<Value = Vec<Entry>> {
-    prop::collection::vec(arb_payload(), 0..max_len)
-        .prop_map(|payloads| {
-            payloads
-                .into_iter()
-                .enumerate()
-                .map(|(i, payload)| Entry {
-                    entry_id: EntryId::new(i as u64 + 1),
-                    term: 1,
-                    timestamp_ns: (i as u64 + 1) * 100,
-                    payload,
-                })
-                .collect()
-        })
+    prop::collection::vec(arb_payload(), 0..max_len).prop_map(|payloads| {
+        payloads
+            .into_iter()
+            .enumerate()
+            .map(|(i, payload)| Entry {
+                entry_id: EntryId::new(i as u64 + 1),
+                term: 1,
+                timestamp_ns: (i as u64 + 1) * 100,
+                payload,
+            })
+            .collect()
+    })
 }
 
 // ---------------------------------------------------------------------------

@@ -60,19 +60,19 @@ use osr_derailment::{
     derailment_evaluate, DerailmentInputs, DerailmentParams, DerailmentState,
     SensorChannel as DerailSensor,
 };
-use osr_fire_safety::{
-    fire_evaluate, BaySensors, FireInputs, FireParams, FireState,
+use osr_fire_safety::{fire_evaluate, BaySensors, FireInputs, FireParams, FireState};
+use osr_interlocking::{
+    far_end_of, forward_chain, MovementAuthority, MAX_MA_DISTANCE_MM, MA_VALIDITY_WINDOW_NS,
 };
-use osr_interlocking::{far_end_of, forward_chain, MovementAuthority, MAX_MA_DISTANCE_MM, MA_VALIDITY_WINDOW_NS};
 use osr_obstacle_detect::{
     evaluate as obstacle_evaluate, ObstacleOutcome, ObstacleVerdict, SensorFrame as ObsFrame,
     TriggerReason as ObsReason,
 };
 use osr_odometry::{odom_step, BaliseId, OdomCalibration, OdomState, SensorTick};
-use osr_traction::{traction_evaluate, InverterState, TractionInputs, TractionParams, TractionState};
-use osr_vigilance::{
-    vigilance_evaluate, VigilanceInputs, VigilanceOutput, VigilanceParams,
+use osr_traction::{
+    traction_evaluate, InverterState, TractionInputs, TractionParams, TractionState,
 };
+use osr_vigilance::{vigilance_evaluate, VigilanceInputs, VigilanceOutput, VigilanceParams};
 use serde::{Deserialize, Serialize};
 
 use crate::train::{Heading, Train, TrainPhase};
@@ -293,7 +293,8 @@ impl OnboardShadow {
         let odom_cal = OdomCalibration::light_metro_default();
         // Pack capacity (mAh) = Wh × 1000 / nominal_voltage_V.
         // Assume ~300 V nominal across the pack.
-        let pack_capacity_mah = ((u64::from(train.consist.battery_capacity_wh) * 1000) / 300) as u32;
+        let pack_capacity_mah =
+            ((u64::from(train.consist.battery_capacity_wh) * 1000) / 300) as u32;
         let bms_params = BmsParams::sodium_ion_default(8, pack_capacity_mah.max(1));
         // Initial SoC assumed 80 % — matches the sim's default start.
         let bms_state = BmsState::initial((train.soc.clamp(0.0, 1.0) * 1000.0) as u16);
@@ -492,12 +493,9 @@ pub fn onboard_tick(
     // 6. ATO — controller inside the envelope. Target is the
     //    section's permanent max speed; station approach engages
     //    using remaining-distance-to-section-end.
-    let envelope_mmps = atp_out
-        .envelope_mmps
-        .unwrap_or(shadow.kin.v_max_mmps);
-    let distance_to_stop_mm = Some(
-        (shadow.kin.section_length_mm - shadow.kin.head_offset_mm).max(0),
-    );
+    let envelope_mmps = atp_out.envelope_mmps.unwrap_or(shadow.kin.v_max_mmps);
+    let distance_to_stop_mm =
+        Some((shadow.kin.section_length_mm - shadow.kin.head_offset_mm).max(0));
     let dt_ns = (dt_s.max(0.0) * 1_000_000_000.0) as u64;
     let ato_in = AtoInputs {
         now_ns,
@@ -557,8 +555,11 @@ pub fn onboard_tick(
         inverter_over_temp: false,
         inverter_drive_fault: false,
     };
-    let traction_out =
-        traction_evaluate(&shadow.traction_state, &traction_in, &shadow.traction_params);
+    let traction_out = traction_evaluate(
+        &shadow.traction_state,
+        &traction_in,
+        &shadow.traction_params,
+    );
     shadow.traction_state = traction_out.state;
 
     // 9. SIL-4 monitors — fire, derailment, vigilance. In the shadow
@@ -568,9 +569,21 @@ pub fn onboard_tick(
     //    crates flows into the brake inputs as an emergency source.
     let fire_in = FireInputs {
         now_ns,
-        battery: BaySensors { smoke_ppm: 0, temp_dc: 250, agent_available: true },
-        traction: BaySensors { smoke_ppm: 0, temp_dc: 250, agent_available: true },
-        hvac: BaySensors { smoke_ppm: 0, temp_dc: 250, agent_available: true },
+        battery: BaySensors {
+            smoke_ppm: 0,
+            temp_dc: 250,
+            agent_available: true,
+        },
+        traction: BaySensors {
+            smoke_ppm: 0,
+            temp_dc: 250,
+            agent_available: true,
+        },
+        hvac: BaySensors {
+            smoke_ppm: 0,
+            temp_dc: 250,
+            agent_available: true,
+        },
         ambient_temp_dc: 250,
         reset_requested: false,
     };
@@ -583,8 +596,11 @@ pub fn onboard_tick(
         sensor_b: DerailSensor::default(),
         reset_requested: false,
     };
-    let derail_out =
-        derailment_evaluate(&shadow.derailment_state, &derail_in, &shadow.derailment_params);
+    let derail_out = derailment_evaluate(
+        &shadow.derailment_state,
+        &derail_in,
+        &shadow.derailment_params,
+    );
     shadow.derailment_state = derail_out.state;
 
     // Vigilance: auto-acknowledge every tick (synthetic alert driver).
@@ -629,9 +645,8 @@ pub fn onboard_tick(
     let v_mmps = shadow.odom.speed_mmps.unsigned_abs();
     let decel_mmps2 = shadow.kin.decel_mmps2.max(1) as u64;
     // stopping_distance_mm = v² / (2·a); both v and a are positive.
-    let stopping_distance_mm: u32 = (u64::from(v_mmps) * u64::from(v_mmps)
-        / (2 * decel_mmps2))
-        .min(u64::from(u32::MAX)) as u32;
+    let stopping_distance_mm: u32 =
+        (u64::from(v_mmps) * u64::from(v_mmps) / (2 * decel_mmps2)).min(u64::from(u32::MAX)) as u32;
     let obs_out = obstacle_evaluate(
         &obs_frame,
         v_mmps,
@@ -683,12 +698,10 @@ pub fn onboard_tick(
         shadow.stats.fire_trip_ticks = shadow.stats.fire_trip_ticks.saturating_add(1);
     }
     if derail_out.emergency_requested {
-        shadow.stats.derailment_trip_ticks =
-            shadow.stats.derailment_trip_ticks.saturating_add(1);
+        shadow.stats.derailment_trip_ticks = shadow.stats.derailment_trip_ticks.saturating_add(1);
     }
     if vig_out.emergency_requested {
-        shadow.stats.vigilance_trip_ticks =
-            shadow.stats.vigilance_trip_ticks.saturating_add(1);
+        shadow.stats.vigilance_trip_ticks = shadow.stats.vigilance_trip_ticks.saturating_add(1);
     }
     match obs_out.verdict {
         ObstacleVerdict::Clear => {}
@@ -697,8 +710,7 @@ pub fn onboard_tick(
                 shadow.stats.obstacle_restricted_ticks.saturating_add(1);
         }
         ObstacleVerdict::CrawlOnly => {
-            shadow.stats.obstacle_crawl_ticks =
-                shadow.stats.obstacle_crawl_ticks.saturating_add(1);
+            shadow.stats.obstacle_crawl_ticks = shadow.stats.obstacle_crawl_ticks.saturating_add(1);
         }
         ObstacleVerdict::EmergencyBrake => {
             shadow.stats.obstacle_emergency_ticks =
@@ -716,12 +728,7 @@ pub fn onboard_tick(
         &brake_out,
         shadow.odom.speed_mmps,
     );
-    record_phase2b_tick(
-        &mut shadow.stats,
-        &ato_out.mode,
-        &traction_out,
-        &bms_out,
-    );
+    record_phase2b_tick(&mut shadow.stats, &ato_out.mode, &traction_out, &bms_out);
 
     Some(TickReport {
         atp: atp_out,
@@ -881,8 +888,7 @@ fn record_phase2b_tick(
             stats.ato_ticks_braking = stats.ato_ticks_braking.saturating_add(1);
         }
         AtoMode::StationApproach => {
-            stats.ato_ticks_station_approach =
-                stats.ato_ticks_station_approach.saturating_add(1);
+            stats.ato_ticks_station_approach = stats.ato_ticks_station_approach.saturating_add(1);
         }
         AtoMode::Stopped | AtoMode::Dwelling => {
             stats.ato_ticks_stopped = stats.ato_ticks_stopped.saturating_add(1);
@@ -916,7 +922,10 @@ fn record_phase2b_tick(
     if bms_out.state.faults.any() {
         stats.bms_fault_ticks = stats.bms_fault_ticks.saturating_add(1);
     }
-    if !matches!(traction_out.state.inverter, InverterState::Disabled | InverterState::Running) {
+    if !matches!(
+        traction_out.state.inverter,
+        InverterState::Disabled | InverterState::Running
+    ) {
         stats.traction_fault_ticks = stats.traction_fault_ticks.saturating_add(1);
     }
 }
@@ -1067,20 +1076,26 @@ mod tests {
         for i in 0..2 {
             let f = SectionId::new(1000 + i);
             let r = SectionId::new(2000 + i);
-            net.sections.insert(f, Section {
-                id: f,
-                from_station: StationId::new((i as u64) + 1),
-                to_station: StationId::new((i as u64) + 2),
-                length_mm: 1_000_000,
-                max_speed_mps: 22.0,
-            });
-            net.sections.insert(r, Section {
-                id: r,
-                from_station: StationId::new((i as u64) + 2),
-                to_station: StationId::new((i as u64) + 1),
-                length_mm: 1_000_000,
-                max_speed_mps: 22.0,
-            });
+            net.sections.insert(
+                f,
+                Section {
+                    id: f,
+                    from_station: StationId::new((i as u64) + 1),
+                    to_station: StationId::new((i as u64) + 2),
+                    length_mm: 1_000_000,
+                    max_speed_mps: 22.0,
+                },
+            );
+            net.sections.insert(
+                r,
+                Section {
+                    id: r,
+                    from_station: StationId::new((i as u64) + 2),
+                    to_station: StationId::new((i as u64) + 1),
+                    length_mm: 1_000_000,
+                    max_speed_mps: 22.0,
+                },
+            );
             fwd.push(f);
             rev.push(r);
         }
@@ -1111,6 +1126,7 @@ mod tests {
             odometer_km: 0.0,
             energy_consumed_kwh: 0.0,
             energy_charged_kwh: 0.0,
+            energy_roof_pv_kwh: 0.0,
             min_soc_seen: 0.9,
         }
     }
@@ -1120,7 +1136,15 @@ mod tests {
         let n = net();
         let train = mock_train();
         let mut shadow = OnboardShadow::new(&train);
-        let report = onboard_tick(&mut shadow, &train, &n, &crate::fault::FaultEngine::default(), 1, 1.0).expect("is traveling");
+        let report = onboard_tick(
+            &mut shadow,
+            &train,
+            &n,
+            &crate::fault::FaultEngine::default(),
+            1,
+            1.0,
+        )
+        .expect("is traveling");
         // First tick: speed very low, plenty of section ahead → Release.
         assert!(report.brake.is_release(), "{:?}", report);
         assert_eq!(shadow.stats.ticks_release, 1);
@@ -1133,7 +1157,14 @@ mod tests {
         let train = mock_train();
         let mut shadow = OnboardShadow::new(&train);
         for t in 1..=10 {
-            let _ = onboard_tick(&mut shadow, &train, &n, &crate::fault::FaultEngine::default(), t, 1.0);
+            let _ = onboard_tick(
+                &mut shadow,
+                &train,
+                &n,
+                &crate::fault::FaultEngine::default(),
+                t,
+                1.0,
+            );
         }
         // Accel 1 m/s² → after 10 s shadow speed should be ~10 m/s (10_000 mm/s)
         // subject to v_max clamp.
@@ -1153,11 +1184,22 @@ mod tests {
         let mut shadow = OnboardShadow::new(&train);
         // Run long enough to traverse the full 1 km section.
         for t in 1..=120 {
-            let _ = onboard_tick(&mut shadow, &train, &n, &crate::fault::FaultEngine::default(), t, 1.0);
+            let _ = onboard_tick(
+                &mut shadow,
+                &train,
+                &n,
+                &crate::fault::FaultEngine::default(),
+                t,
+                1.0,
+            );
         }
         // By the end, we should be clipped at section end with near-zero speed.
         assert_eq!(shadow.kin.head_offset_mm, 1_000_000);
-        assert!(shadow.odom.speed_mmps.abs() < 2_000, "residual speed {}", shadow.odom.speed_mmps);
+        assert!(
+            shadow.odom.speed_mmps.abs() < 2_000,
+            "residual speed {}",
+            shadow.odom.speed_mmps
+        );
         assert_eq!(shadow.stats.ticks_emergency, 0);
     }
 
@@ -1171,6 +1213,14 @@ mod tests {
             energy_added_kwh: 0.0,
         };
         let mut shadow = OnboardShadow::new(&train);
-        assert!(onboard_tick(&mut shadow, &train, &n, &crate::fault::FaultEngine::default(), 1, 1.0).is_none());
+        assert!(onboard_tick(
+            &mut shadow,
+            &train,
+            &n,
+            &crate::fault::FaultEngine::default(),
+            1,
+            1.0
+        )
+        .is_none());
     }
 }

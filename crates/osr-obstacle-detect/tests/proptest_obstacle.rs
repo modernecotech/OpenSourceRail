@@ -8,13 +8,16 @@ use osr_obstacle_detect::{
 use proptest::prelude::*;
 
 fn arb_ultrasonic() -> impl Strategy<Value = UltrasonicChannel> {
-    (proptest::option::of(1u32..=30_000u32), 0u32..=300u32, any::<bool>()).prop_map(
-        |(near, age, healthy)| UltrasonicChannel {
+    (
+        proptest::option::of(1u32..=30_000u32),
+        0u32..=300u32,
+        any::<bool>(),
+    )
+        .prop_map(|(near, age, healthy)| UltrasonicChannel {
             nearest_mm: near,
             age_ms: age,
             healthy,
-        },
-    )
+        })
 }
 
 fn arb_frame() -> impl Strategy<Value = SensorFrame> {

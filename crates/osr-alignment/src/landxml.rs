@@ -113,8 +113,12 @@ pub fn to_landxml(alignment: &Alignment) -> String {
                     TurnDirection::Left => "ccw",
                     TurnDirection::Right => "cw",
                 };
-                let rs = start_radius_m.map(|r| format!("{r:.6}")).unwrap_or_else(|| "0".into());
-                let re = end_radius_m.map(|r| format!("{r:.6}")).unwrap_or_else(|| "0".into());
+                let rs = start_radius_m
+                    .map(|r| format!("{r:.6}"))
+                    .unwrap_or_else(|| "0".into());
+                let re = end_radius_m
+                    .map(|r| format!("{r:.6}"))
+                    .unwrap_or_else(|| "0".into());
                 writeln!(
                     &mut s,
                     "        <Spiral length=\"{l:.6}\" staStart=\"{s:.6}\" \

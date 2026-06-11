@@ -1,6 +1,8 @@
 //! Property tests HW1–HW3.
 
-use osr_hot_axle_wayside::{habd_evaluate, AxleReading, HabdAction, HabdInputs, HabdParams, HwAlarmLevel};
+use osr_hot_axle_wayside::{
+    habd_evaluate, AxleReading, HabdAction, HabdInputs, HabdParams, HwAlarmLevel,
+};
 use proptest::prelude::*;
 
 proptest! {

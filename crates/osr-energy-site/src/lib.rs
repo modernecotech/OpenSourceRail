@@ -72,7 +72,7 @@ impl EnergySiteParams {
     #[must_use]
     pub fn default_samawah() -> Self {
         Self {
-            pad_max_w: 1_000_000,       // 1 MW per pad
+            pad_max_w: 1_000_000,         // 1 MW per pad
             grid_import_limit_w: 500_000, // 500 kW tie
             grid_export_limit_w: 500_000,
         }
@@ -101,7 +101,11 @@ pub fn energy_site_evaluate(
     let pad_request = inputs.pad_request_w.min(params.pad_max_w);
 
     // --- Source-side: how much can we raise this tick? -------------
-    let grid_import_cap = if inputs.grid_up { params.grid_import_limit_w } else { 0 };
+    let grid_import_cap = if inputs.grid_up {
+        params.grid_import_limit_w
+    } else {
+        0
+    };
     let battery_discharge_cap = inputs.battery_discharge_limit_w;
 
     // --- Sink-side ---------------------------------------------------
@@ -165,7 +169,7 @@ mod tests {
         let out = energy_site_evaluate(&i, &EnergySiteParams::default_samawah());
         assert_eq!(out.to_pad_w, 0);
         assert_eq!(out.battery_charge_w, 500_000); // capped at limit
-        assert_eq!(out.grid_export_w, 100_000);    // overflow
+        assert_eq!(out.grid_export_w, 100_000); // overflow
         assert_eq!(out.curtailed_w, 0);
     }
 
@@ -174,7 +178,7 @@ mod tests {
         let i = inputs(1_500_000, 0, 1000, true); // battery full
         let mut i = i;
         i.battery_charge_limit_w = 0; // simulate full
-        i.export_allowed = false;      // no export
+        i.export_allowed = false; // no export
         let out = energy_site_evaluate(&i, &EnergySiteParams::default_samawah());
         assert_eq!(out.curtailed_w, 1_500_000);
     }

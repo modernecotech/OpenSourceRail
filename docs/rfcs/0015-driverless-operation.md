@@ -475,12 +475,12 @@ compile-time witness for the RFC 0015 "GoA 4 by default" claim.
 | **v2** ✅ | `osr-sim` shadow onboard stack now calls `osr_obstacle_detect::evaluate` at every tick: each `OnboardShadow` carries an `obstacle_out` field, feeds an all-clear synthetic `SensorFrame` into the evaluator, and threads `ObstacleVerdict::EmergencyBrake` through `BrakeInputs::obstacle_emergency` into the existing emergency-source union. Per-verdict tick counters roll up in `OnboardSummary::total_obstacle_{restricted,crawl,emergency}_ticks`; the simulator summary prints them under "Onboard shadow stack". `BrakeInputs`, `EmergencySources` (in both `osr-brake` and `osr-tcms`), and the brake evaluator carry `obstacle_emergency` end-to-end. **v2.1 (2026-04-23):** scenario-driven sensor-fault injection — four new `FaultKind` variants (`LidarOffline`, `RadarOffline`, `UltrasonicChannelStale`, `ObstaclePeerDisagreement`) with per-train + fleet-wide scope; parser in `scenario_file.rs`; a demonstrator fault-injection scenario exercises every O-series path through the shadow stack. Run confirms RestrictedSpeed / EmergencyBrake verdicts fire and flow through the emergency-source union without invariant violations. (done 2026-04-23) | v1 |
 | **v3** ✅ | T-OBS v2 schematic specification at [`hardware/t-obs/schematics/v2-spec/`](../../hardware/t-obs/schematics/v2-spec/) — block diagram + per-rail power budget + safety-nets with 2oo2 AND-gate design + RP2350 A/B pinouts + 12-entry M12 connector table (done 2026-04-22). KiCad capture is v3.1, deferred alongside the RFC 0007 hardware KiCad rollout. | v0 |
 | **v4** ✅ (v1) | Type-certification pre-submission pack at [`docs/certification/`](../certification/) — README + system-description + safety-requirements (SR-01..SR-24) + hazard-log (17 hazards, 7 classes) + evidence-register + EN 62267 clause-by-clause compliance-matrix. Every SR cross-referenced to a Kani harness / proptest / GSN goal / rulebook rule. Remaining for v4.1 (open): residual-risk narrative, per-clause compliance prose for §5–§9, and independent-assessor review (deployment-partner scope). (done 2026-04-23) | v2, v3 |
-| **v5** | First driverless revenue service at Samawah | RFC 0003, v4 |
+| **v5** | First driverless revenue service on an OSR deployment instance | v4 |
 
 ## 12. Relationship to existing RFCs
 
-- **RFC 0003 (Samawah)** — Samawah becomes a GoA 4 deployment
-  from day one.
+- **RFC 0003 (Samawah worked instance)** — shows how one city can
+  instantiate the GoA 4 operating model.
 - **RFC 0005 (SBC software architecture)** — crate map amended
   in §10.
 - **RFC 0007 (hardware reference designs)** — new T-OBS class in

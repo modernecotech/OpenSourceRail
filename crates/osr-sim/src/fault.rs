@@ -212,7 +212,10 @@ impl FaultEngine {
                 });
             }
             match &fault.kind {
-                FaultKind::DustEvent { pv_output_factor, scope } => match scope {
+                FaultKind::DustEvent {
+                    pv_output_factor,
+                    scope,
+                } => match scope {
                     FaultScope::All => {
                         self.global_pv_factor *= pv_output_factor;
                     }
@@ -247,10 +250,7 @@ impl FaultEngine {
                     match scope {
                         TrainFaultScope::All => self.ultrasonic_stale_all |= bit,
                         TrainFaultScope::Train(train) => {
-                            *self
-                                .ultrasonic_stale_per_train
-                                .entry(*train)
-                                .or_insert(0) |= bit;
+                            *self.ultrasonic_stale_per_train.entry(*train).or_insert(0) |= bit;
                         }
                     }
                 }
@@ -285,6 +285,14 @@ impl FaultEngine {
     pub fn pv_factor_for(&self, station: StationId) -> f32 {
         let per_site = self.pv_factor.get(&station).copied().unwrap_or(1.0);
         (per_site * self.global_pv_factor).clamp(0.0, 1.0)
+    }
+
+    /// Fleet-wide PV derate for mobile sources such as train roof PV.
+    ///
+    /// Station-scoped dust events only affect fixed sites. A global dust event
+    /// applies to all PV, including onboard arrays.
+    pub fn global_pv_factor(&self) -> f32 {
+        self.global_pv_factor.clamp(0.0, 1.0)
     }
 
     pub fn grid_disabled_at(&self, station: StationId) -> bool {
@@ -333,12 +341,19 @@ fn most_restrictive(a: IntrusionState, b: IntrusionState) -> IntrusionState {
             IntrusionState::Present => 2,
         }
     }
-    if rank(a) >= rank(b) { a } else { b }
+    if rank(a) >= rank(b) {
+        a
+    } else {
+        b
+    }
 }
 
 fn describe_kind(kind: &FaultKind) -> String {
     match kind {
-        FaultKind::DustEvent { pv_output_factor, scope } => {
+        FaultKind::DustEvent {
+            pv_output_factor,
+            scope,
+        } => {
             let s = match scope {
                 FaultScope::All => "all sites".to_string(),
                 FaultScope::Station(_) => "one site".to_string(),
@@ -400,8 +415,11 @@ mod tests {
     #[test]
     fn inactive_before_and_after() {
         let mut eng = FaultEngine::new(vec![mk(
-            100, 200,
-            FaultKind::GridOutage { scope: FaultScope::All },
+            100,
+            200,
+            FaultKind::GridOutage {
+                scope: FaultScope::All,
+            },
         )]);
         eng.tick(50);
         assert!(!eng.grid_disabled_at(StationId::new(1)));
@@ -412,8 +430,11 @@ mod tests {
     #[test]
     fn active_in_window() {
         let mut eng = FaultEngine::new(vec![mk(
-            100, 200,
-            FaultKind::GridOutage { scope: FaultScope::All },
+            100,
+            200,
+            FaultKind::GridOutage {
+                scope: FaultScope::All,
+            },
         )]);
         eng.tick(150);
         assert!(eng.grid_disabled_at(StationId::new(1)));
@@ -423,7 +444,8 @@ mod tests {
     fn dust_event_scales_pv() {
         let station = StationId::new(42);
         let mut eng = FaultEngine::new(vec![mk(
-            0, 1000,
+            0,
+            1000,
             FaultKind::DustEvent {
                 pv_output_factor: 0.3,
                 scope: FaultScope::Station(station),
@@ -440,7 +462,8 @@ mod tests {
         let s = StationId::new(1);
         let other = StationId::new(2);
         let mut eng = FaultEngine::new(vec![mk(
-            0, 1000,
+            0,
+            1000,
             FaultKind::ChargingPadOutage { station: s },
         )]);
         eng.tick(500);
@@ -451,8 +474,11 @@ mod tests {
     #[test]
     fn fault_log_records_first_firing_only() {
         let mut eng = FaultEngine::new(vec![mk(
-            0, 1000,
-            FaultKind::GridOutage { scope: FaultScope::All },
+            0,
+            1000,
+            FaultKind::GridOutage {
+                scope: FaultScope::All,
+            },
         )]);
         eng.tick(100);
         eng.tick(200);
@@ -465,7 +491,9 @@ mod tests {
         let mut eng = FaultEngine::new(vec![mk(
             0,
             1000,
-            FaultKind::LidarOffline { scope: TrainFaultScope::All },
+            FaultKind::LidarOffline {
+                scope: TrainFaultScope::All,
+            },
         )]);
         eng.tick(500);
         assert!(eng.lidar_offline_for(TrainId::new(1)));
@@ -482,7 +510,9 @@ mod tests {
         let mut eng = FaultEngine::new(vec![mk(
             0,
             1000,
-            FaultKind::LidarOffline { scope: TrainFaultScope::Train(target) },
+            FaultKind::LidarOffline {
+                scope: TrainFaultScope::Train(target),
+            },
         )]);
         eng.tick(500);
         assert!(eng.lidar_offline_for(target));
@@ -528,7 +558,10 @@ mod tests {
             },
         )]);
         eng.tick(500);
-        assert_eq!(eng.ultrasonic_stale_mask_for(TrainId::new(99)) & 0b0010, 0b0010);
+        assert_eq!(
+            eng.ultrasonic_stale_mask_for(TrainId::new(99)) & 0b0010,
+            0b0010
+        );
     }
 
     #[test]
@@ -538,7 +571,9 @@ mod tests {
         let mut eng = FaultEngine::new(vec![mk(
             100,
             200,
-            FaultKind::ObstaclePeerDisagreement { scope: TrainFaultScope::Train(a) },
+            FaultKind::ObstaclePeerDisagreement {
+                scope: TrainFaultScope::Train(a),
+            },
         )]);
         eng.tick(50);
         assert!(!eng.peer_disagreement_for(a));
@@ -552,14 +587,22 @@ mod tests {
     #[test]
     fn multiple_dust_events_compose_multiplicatively() {
         let mut eng = FaultEngine::new(vec![
-            mk(0, 1000, FaultKind::DustEvent {
-                pv_output_factor: 0.5,
-                scope: FaultScope::All,
-            }),
-            mk(0, 1000, FaultKind::DustEvent {
-                pv_output_factor: 0.5,
-                scope: FaultScope::All,
-            }),
+            mk(
+                0,
+                1000,
+                FaultKind::DustEvent {
+                    pv_output_factor: 0.5,
+                    scope: FaultScope::All,
+                },
+            ),
+            mk(
+                0,
+                1000,
+                FaultKind::DustEvent {
+                    pv_output_factor: 0.5,
+                    scope: FaultScope::All,
+                },
+            ),
         ]);
         eng.tick(500);
         assert!((eng.pv_factor_for(StationId::new(1)) - 0.25).abs() < 1e-6);

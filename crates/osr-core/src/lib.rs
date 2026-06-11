@@ -7,9 +7,9 @@
 //! either switch to generated types or maintain a mapping — either way, the
 //! proto file remains the canonical schema.
 
+pub mod consist;
 pub mod geometry;
 pub mod ids;
-pub mod consist;
 pub mod topology;
 
 pub use consist::{BrakingCurve, ConsistDescriptor, TrainClass};

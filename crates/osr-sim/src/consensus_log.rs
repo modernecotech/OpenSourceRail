@@ -139,7 +139,9 @@ impl ConsensusBackend {
                 direction: head.direction,
             }),
             None => {
-                let tail_off = head.offset_mm.saturating_sub(train.consist.length_mm as i64);
+                let tail_off = head
+                    .offset_mm
+                    .saturating_sub(train.consist.length_mm as i64);
                 Position::certain(TrackRef {
                     section: head.section,
                     offset_mm: tail_off.max(0),
@@ -220,9 +222,7 @@ impl ConsensusBackend {
         // — comfortably inside the 3 s MA validity window.
         if let Some(leader_node) = self.cluster.nodes.get(&leader) {
             let expected = leader_node.log_len();
-            let _ = self
-                .cluster
-                .run_until_committed(30_000_000, expected, 30);
+            let _ = self.cluster.run_until_committed(30_000_000, expected, 30);
         }
         self.refresh_committed();
     }

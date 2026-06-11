@@ -4,11 +4,9 @@ use osr_event_recorder::{EventCategory, EventRecord, EventRecorder};
 use proptest::prelude::*;
 
 fn arb_record() -> impl Strategy<Value = EventRecord> {
-    (any::<u64>(), any::<u16>(), any::<i64>(), any::<i64>()).prop_map(
-        |(ts, code, a, b)| {
-            EventRecord::new(ts, EventCategory::Diagnostic, code).with_values(a, b)
-        },
-    )
+    (any::<u64>(), any::<u16>(), any::<i64>(), any::<i64>()).prop_map(|(ts, code, a, b)| {
+        EventRecord::new(ts, EventCategory::Diagnostic, code).with_values(a, b)
+    })
 }
 
 proptest! {

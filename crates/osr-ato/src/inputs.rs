@@ -97,10 +97,10 @@ impl AtoParams {
             full_brake_demand_mnm: 8_000_000,
             coast_band_mnm: 500_000,
             station_approach_decel_mmps2: 900, // 0.9 m/s² comfort decel
-            station_stop_distance_mm: 300,      // 30 cm
-            stop_tolerance_mmps: 100,            // 0.1 m/s
+            station_stop_distance_mm: 300,     // 30 cm
+            stop_tolerance_mmps: 100,          // 0.1 m/s
             holding_brake_ppt: 500,
-            envelope_margin_mmps: 500,           // 0.5 m/s guard band
+            envelope_margin_mmps: 500, // 0.5 m/s guard band
         }
     }
 }

@@ -21,7 +21,7 @@ Useful flags:
 | `--time-step SECS` | Simulation tick length (default 1 s) |
 | `--status-every SECS` | Print a status snapshot every N sim-seconds; 0 disables |
 | `--json-out PATH` | Write the full event trace + summary as JSON |
-| `--csv-out PATH` | Write per-train periodic snapshots (time, position, SoC) as CSV, suitable for loading into a spreadsheet or plotting tool |
+| `--csv-out PATH` | Write per-train periodic snapshots as CSV, including SoC, cumulative kWh, section position, speed, acceleration, battery-draw power, roof PV, and station-charge power |
 | `--csv-every SECS` | CSV snapshot interval (default 60 sim-seconds) |
 
 ## Visualization
@@ -44,7 +44,7 @@ at a glance.
 |---|---|
 | [`example-simple.toml`](example-simple.toml) | Three-station shuttle, one train. The smallest viable config — copy this as a template for a new city. |
 | [`minimal-city.toml`](minimal-city.toml) | Slightly richer fixture exercising every required block. |
-| Built-in `samawah` scenario (compiled into `osr-sim` — pass `--scenario samawah`) | Two-line hand-designed reference deployment from RFC 0003. End-to-end test fixture, no TOML required. |
+| Built-in `samawah` scenario (compiled into `osr-sim` — pass `--scenario samawah`) | Legacy compiled fixture retained for regression tests. Prefer generated city TOML via `--config` for deployment work. |
 | Built-in `samawah-line1` scenario | Line 1 only; useful for isolating radial-line behaviour. |
 | [`designs/west-asia/Iraq/Samawah/samawah.toml`](../../designs/west-asia/Iraq/Samawah/samawah.toml) | The auto-planned three-line `light-metro-3car` Samawah network emitted by `osr-design` from real OSM + WorldPop data. Pass via `--config` to `osr-sim`. |
 
@@ -59,7 +59,7 @@ start_time = "06:00"        # sim wall-clock start, HH:MM
 
 [climate]
 ambient_c = 30.0             # degrees Celsius
-peak_sun_hours = 5.0         # for annual PV math (not yet used in 1-day sim)
+peak_sun_hours = 5.0         # used by station/depot PV and onboard roof PV
 
 [[stations]]
 id = "terminal-a"            # string ID, used by lines & fleets below
@@ -111,8 +111,8 @@ schedule = [
 
 - `ambient_c` — ambient temperature in °C. Drives the HVAC uplift applied to
   traction energy consumption.
-- `peak_sun_hours` — average daily peak sun-hours (used by future PV sizing;
-  already honored in the energy reports).
+- `peak_sun_hours` — average daily peak sun-hours used by trackside
+  station/depot PV and onboard roof PV.
 - `hvac_uplift_frac` *(optional)* — override the automatic calculation of
   HVAC load. If omitted, a linear curve from 25 °C baseline, capped at 25 %
   at 50 °C, is used.
@@ -132,7 +132,28 @@ battery_capacity_kwh = 360
 passenger_capacity = 360
 seat_count = 60
 crush_capacity = 480
+
+[consist.roof_pv]             # optional trainset-level onboard solar
+nameplate_kw = 19.2
+usable_factor = 0.65          # heat/MPPT/cable/soiling derate
+charges_while_moving = true
+charges_while_dwelled = true
+
+[consist.roof_pv.air_cleaner]  # optional low-pressure air-knife cleaner
+enabled = true
+compressor_power_kw = 0.9      # trainset-level parasitic draw
+dust_loss_recovery_frac = 0.75 # fraction of dust loss recovered
 ```
+
+`[consist.roof_pv]` applies the shared PV curve from `[climate]`, then
+`usable_factor`, then any fleet-wide dust derate. If
+`[consist.roof_pv.air_cleaner]` is enabled, the simulator recovers the
+configured fraction of dust-driven PV loss and subtracts the compressor
+load from the net PV credited to the train battery. Energy is credited
+every tick while moving or dwelled according to the boolean flags. The CSV
+trace reports this as `roof_pv_charged_kwh`, `roof_pv_kw`, and
+`roof_pv_cleaner_power_kw`; JSON summaries include
+`total_roof_pv_charged_kwh`.
 
 #### `[[stations]]`
 
@@ -170,9 +191,13 @@ Declare each station once. Referenced by `id` from lines and fleets.
   their scheduled slot. `heading` is `"forward"` or `"reverse"`, interpreted
   relative to the line's station order.
 - `service_start`, `service_end` — `"HH:MM"`. Outside this window,
-  dispatches are blocked.
+  dispatches are blocked. If `service_end` is earlier than
+  `service_start`, the service window crosses midnight, e.g. `05:30` to
+  `02:00`.
 - `schedule` — ordered array of `{ from, to, headway_min }` windows. Any
   point in time within service hours should be covered by exactly one window.
+  A schedule window may also cross midnight, e.g. `{ from = "23:30", to =
+  "02:00", headway_min = 12 }`.
 
 #### `[[sites]]` *(optional)*
 
@@ -204,10 +229,11 @@ grid_export_kw = 3000           # 0 = no export capability
 4. **Train charging** — draws from battery first (rate-limited by
    `storage_max_discharge_kw`); any shortfall pulled from `grid_import_kw`.
 
-**PV sources not modeled in v1:** right-of-way vertical bifacial panels
-and between-rail ("Sun-Ways-style") PV are treated as future extensions.
-For now, allocate the ROW PV generation to nearby stations' `pv_nameplate_kw`
-or to a dedicated depot site.
+**PV sources not modeled yet:** right-of-way vertical bifacial panels and
+between-rail ("Sun-Ways-style") PV are treated as future extensions. For
+now, allocate the ROW PV generation to nearby stations' `pv_nameplate_kw`
+or to a dedicated depot site. Onboard roof PV is modeled under
+`[consist.roof_pv]`.
 
 #### `[[faults]]` *(optional)*
 

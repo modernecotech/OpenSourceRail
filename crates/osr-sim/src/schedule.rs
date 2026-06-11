@@ -2,7 +2,8 @@
 //!
 //! Each line has a `LineSchedule` consisting of ordered time windows, each
 //! with a target headway. Service is defined between `service_start_s` and
-//! `service_end_s` (seconds since midnight).
+//! `service_end_s` (seconds since midnight). Windows may cross midnight:
+//! `23:30` to `02:00` means late-night service into the next day.
 //!
 //! The sim uses the schedule via a `DispatchThrottle` that tracks the next
 //! allowed departure time per (line, dispatch_point, heading).
@@ -38,11 +39,11 @@ impl LineSchedule {
     /// Headway (s) applicable at the given sim-clock time (seconds since
     /// midnight). Returns `None` outside service hours.
     pub fn headway_at(&self, t_since_midnight: u32) -> Option<u32> {
-        if t_since_midnight < self.service_start_s || t_since_midnight >= self.service_end_s {
+        if !time_in_window(t_since_midnight, self.service_start_s, self.service_end_s) {
             return None;
         }
         for w in &self.windows {
-            if t_since_midnight >= w.start_s && t_since_midnight < w.end_s {
+            if time_in_window(t_since_midnight, w.start_s, w.end_s) {
                 return Some(w.headway_s);
             }
         }
@@ -52,7 +53,7 @@ impl LineSchedule {
     /// Is the given sim-clock time within service hours?
     #[allow(dead_code)]
     pub fn in_service(&self, t_since_midnight: u32) -> bool {
-        t_since_midnight >= self.service_start_s && t_since_midnight < self.service_end_s
+        time_in_window(t_since_midnight, self.service_start_s, self.service_end_s)
     }
 
     /// Summary string for header printing (e.g. "4/8/4/10/15 min peak→late").
@@ -65,13 +66,23 @@ impl LineSchedule {
     }
 }
 
+fn time_in_window(t: u32, start: u32, end: u32) -> bool {
+    if start < end {
+        t >= start && t < end
+    } else if start > end {
+        t >= start || t < end
+    } else {
+        false
+    }
+}
+
 pub type ThrottleKey = (usize, StationId, Heading);
 
 /// Tracks when the next train may depart from each dispatch point.
 #[derive(Debug, Default)]
 pub struct DispatchThrottle {
-    /// Earliest sim-clock time (seconds since midnight) at which the next
-    /// train may depart from this (line, station, heading) tuple.
+    /// Earliest sim-elapsed second at which the next train may depart from
+    /// this (line, station, heading) tuple.
     next_allowed: HashMap<ThrottleKey, u32>,
     /// Set of tuples that are throttled (i.e., configured as dispatch
     /// points). Stations *not* in this set are not throttled.
@@ -145,5 +156,35 @@ impl DispatchThrottle {
     /// outside service hours (overnight idle, pre-service morning).
     pub fn record_out_of_service_held(&mut self, dt: f32) {
         self.out_of_service_held_s += dt as u64;
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn overnight_service_window_wraps_midnight() {
+        let schedule = LineSchedule {
+            service_start_s: hm(5, 30),
+            service_end_s: hm(2, 0),
+            windows: vec![
+                TimeWindow {
+                    start_s: hm(5, 30),
+                    end_s: hm(23, 30),
+                    headway_s: 360,
+                },
+                TimeWindow {
+                    start_s: hm(23, 30),
+                    end_s: hm(2, 0),
+                    headway_s: 720,
+                },
+            ],
+        };
+
+        assert_eq!(schedule.headway_at(hm(6, 0)), Some(360));
+        assert_eq!(schedule.headway_at(hm(23, 45)), Some(720));
+        assert_eq!(schedule.headway_at(hm(1, 30)), Some(720));
+        assert_eq!(schedule.headway_at(hm(3, 0)), None);
     }
 }

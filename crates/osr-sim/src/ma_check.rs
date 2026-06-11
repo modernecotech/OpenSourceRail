@@ -84,14 +84,17 @@ impl SimulatedLog {
     pub fn ensure_registered(&mut self, train: &Train, initial_head: TrackRef, t_s: u32) {
         if self.registered.insert(train.id) {
             let ts_ns = Self::ts_ns_from_s(t_s);
-            self.append(EntryPayload::TrainRegistration(TrainRegistration {
-                train_id: train.id,
-                consist: train.consist.clone(),
-                initial_position: Position {
-                    track_ref: initial_head,
-                    uncertainty_mm: 0,
-                },
-            }), ts_ns);
+            self.append(
+                EntryPayload::TrainRegistration(TrainRegistration {
+                    train_id: train.id,
+                    consist: train.consist.clone(),
+                    initial_position: Position {
+                        track_ref: initial_head,
+                        uncertainty_mm: 0,
+                    },
+                }),
+                ts_ns,
+            );
         }
     }
 
@@ -117,7 +120,9 @@ impl SimulatedLog {
                 // Simplified: place tail at head offset minus consist length,
                 // clamping to 0 (a more accurate computation would walk
                 // backward through the previous section).
-                let tail_off = head.offset_mm.saturating_sub(train.consist.length_mm as i64);
+                let tail_off = head
+                    .offset_mm
+                    .saturating_sub(train.consist.length_mm as i64);
                 Position {
                     track_ref: TrackRef {
                         section: head.section,
@@ -220,4 +225,3 @@ pub fn run_check_state(
         }
     }
 }
-

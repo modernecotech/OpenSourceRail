@@ -3,7 +3,7 @@
 # Source of truth: designs/west-asia/Iraq/Samawah/design.toml
 
 [scenario]
-name = "Unnamed"
+name = "Samawah"
 start_time = "06:00"
 
 
@@ -23,6 +23,17 @@ passenger_capacity = 360
 seat_count = 60
 crush_capacity = 480
 service_accel_mps2 = 1.0
+
+[consist.roof_pv]
+nameplate_kw = 19.2
+usable_factor = 0.65
+charges_while_moving = true
+charges_while_dwelled = true
+
+[consist.roof_pv.air_cleaner]
+enabled = true
+compressor_power_kw = 0.9
+dust_loss_recovery_frac = 0.75
 
 
 # Stations — one row per unique station in the design.

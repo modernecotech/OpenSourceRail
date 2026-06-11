@@ -159,7 +159,9 @@ pub fn pis_station_evaluate(
     for a in &sorted {
         let within_band = a.approaching || a.eta_s <= params.approach_threshold_s;
         if within_band && !announced_trains.contains(&a.train_id) {
-            audio_cue = AudioCue::Approaching { train_id: a.train_id };
+            audio_cue = AudioCue::Approaching {
+                train_id: a.train_id,
+            };
             announced_trains.push(a.train_id);
             break;
         }

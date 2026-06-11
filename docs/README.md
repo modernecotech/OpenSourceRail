@@ -15,6 +15,7 @@ the generated [Markdown documentation index](INDEX.md).
 | New reader / non-technical reviewer | [Brochures](brochures/) |
 | Project reviewer | [ARCHITECTURE.md](ARCHITECTURE.md), then [RFCs](rfcs/) |
 | New contributor | [GLOSSARY.md](GLOSSARY.md), then [ARCHITECTURE.md](ARCHITECTURE.md) |
+| Deployment reviewer | [Unified deployment model](deployment-model.md), then [designs/README.md](../designs/README.md) |
 | City/network planner | [designs/README.md](../designs/README.md), [cost model](cost-model.md), [civil OSR-ALN format](civil/osr-aln-format.md) |
 | Rolling-stock engineer | [rolling-stock/light-metro-3car/README.md](rolling-stock/light-metro-3car/README.md) |
 | Mechanical/CAD reviewer | [mechanical-py/README.md](../mechanical-py/README.md) and [mechanical-py/catalog/](../mechanical-py/catalog/) |
@@ -29,6 +30,7 @@ the generated [Markdown documentation index](INDEX.md).
 |---|---|
 | [rfcs/](rfcs/README.md) | Design decisions and standards for architecture, rolling stock, track, stations, depots, driverless operation, hardware, energy, and safety |
 | [brochures/](brochures/README.md) | Short PDF introductions and presentation-style summaries |
+| [deployment-model.md](deployment-model.md) | Unified city/deployment pipeline; Samawah is an instance, not a special fork |
 | [rolling-stock/](rolling-stock/README.md) | Light-metro trainset package: GA, body, bogie, traction, BOM, fabrication plan, drawing register, compliance |
 | [civil/](civil/README.md) | Alignment interchange format and civil tool bridge docs |
 | [stations/](stations/README.md) | Station design material |

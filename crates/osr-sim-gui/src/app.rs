@@ -10,8 +10,8 @@
 use std::collections::HashSet;
 
 use eframe::egui::{
-    self, CentralPanel, Color32, Context, FontId, Pos2, Rect, RichText, ScrollArea,
-    SidePanel, Slider, TopBottomPanel,
+    self, CentralPanel, Color32, Context, FontId, Pos2, Rect, RichText, ScrollArea, SidePanel,
+    Slider, TopBottomPanel,
 };
 use osr_core::TrainId;
 use osr_gui_shared::{draw_network, NetworkLayout, Palette};
@@ -81,11 +81,7 @@ impl SimApp {
     /// Construct + optionally run the sim immediately at startup.
     /// Used for screenshots / demos so the default view is already
     /// populated.
-    pub fn with_auto_run(
-        scenario_path: Option<&str>,
-        duration_s: u32,
-        auto_run: bool,
-    ) -> Self {
+    pub fn with_auto_run(scenario_path: Option<&str>, duration_s: u32, auto_run: bool) -> Self {
         let (scenario, label) = match scenario_path {
             Some(path) => match load_scenario_from_path(std::path::Path::new(path)) {
                 Ok(s) => (s, path.to_string()),
@@ -144,8 +140,7 @@ impl SimApp {
             return;
         }
         let dt = ctx.input(|i| i.stable_dt).min(1.0 / 20.0);
-        self.playback_t_s = (self.playback_t_s + dt * self.speed)
-            .min(tl.duration_s as f32);
+        self.playback_t_s = (self.playback_t_s + dt * self.speed).min(tl.duration_s as f32);
         if self.playback_t_s >= tl.duration_s as f32 {
             self.playing = false;
         }
@@ -204,7 +199,10 @@ fn left_sidebar(app: &mut SimApp, ctx: &Context) {
         if let Some(tl) = &app.timeline {
             ui.separator();
             ui.horizontal(|ui| {
-                if ui.button(if app.playing { "⏸ Pause" } else { "▶ Play" }).clicked() {
+                if ui
+                    .button(if app.playing { "⏸ Pause" } else { "▶ Play" })
+                    .clicked()
+                {
                     app.playing = !app.playing;
                 }
                 if ui.button("⏹ Reset").clicked() {
@@ -220,10 +218,7 @@ fn left_sidebar(app: &mut SimApp, ctx: &Context) {
                     }
                 }
             });
-            ui.add(
-                Slider::new(&mut app.playback_t_s, 0.0..=(tl.duration_s as f32))
-                    .text("t (s)"),
-            );
+            ui.add(Slider::new(&mut app.playback_t_s, 0.0..=(tl.duration_s as f32)).text("t (s)"));
         }
 
         ui.separator();
@@ -236,10 +231,7 @@ fn left_sidebar(app: &mut SimApp, ctx: &Context) {
                 .get(fleet.line_index)
                 .map(|l| l.name.as_str())
                 .unwrap_or("?");
-            ui.label(format!(
-                "  {name}: {} trainsets",
-                fleet.trainset_count
-            ));
+            ui.label(format!("  {name}: {} trainsets", fleet.trainset_count));
         }
 
         if let Some(r) = &app.result {
@@ -310,10 +302,7 @@ fn right_inspector(app: &mut SimApp, ctx: &Context) {
                 } else {
                     Color32::from_rgb(120, 220, 120)
                 };
-                ui.colored_label(
-                    soc_colour,
-                    format!("SoC: {:.2}", tf.soc),
-                );
+                ui.colored_label(soc_colour, format!("SoC: {:.2}", tf.soc));
                 if let Some(e) = &tf.last_event {
                     ui.separator();
                     ui.label(RichText::new("last event:").monospace());
@@ -348,9 +337,11 @@ fn bottom_event_log(app: &mut SimApp, ctx: &Context) {
             };
             let cutoff_s = app.playback_t_s as u32;
             ScrollArea::vertical().stick_to_bottom(true).show(ui, |ui| {
-                for e in r.events.iter().filter(|e| {
-                    e.sim_time_s <= cutoff_s && app.event_filter.passes(&e.kind)
-                }) {
+                for e in r
+                    .events
+                    .iter()
+                    .filter(|e| e.sim_time_s <= cutoff_s && app.event_filter.passes(&e.kind))
+                {
                     let colour = match &e.kind {
                         EventKind::SocWarning { .. } => Color32::from_rgb(230, 180, 60),
                         EventKind::DepartStation => Color32::from_rgb(90, 200, 120),
@@ -442,20 +433,12 @@ fn phase_colour(app: &SimApp, phase: &str) -> Color32 {
     }
 }
 
-fn draw_fault_badges(
-    painter: &egui::Painter,
-    rect: &Rect,
-    result: &SimResult,
-    app: &SimApp,
-) {
+fn draw_fault_badges(painter: &egui::Painter, rect: &Rect, result: &SimResult, app: &SimApp) {
     let cutoff_s = app.playback_t_s as u32;
     let active_now: HashSet<&String> = result
         .faults_fired
         .iter()
-        .filter(|f| {
-            f.started_at_sim_s <= cutoff_s
-                && cutoff_s < f.started_at_sim_s + f.duration_s
-        })
+        .filter(|f| f.started_at_sim_s <= cutoff_s && cutoff_s < f.started_at_sim_s + f.duration_s)
         .map(|f| &f.name)
         .collect();
     if active_now.is_empty() {

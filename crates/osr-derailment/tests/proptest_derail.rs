@@ -28,14 +28,18 @@ fn arb_channel() -> impl Strategy<Value = SensorChannel> {
 }
 
 fn arb_inputs() -> impl Strategy<Value = DerailmentInputs> {
-    (0u64..60_000_000_000, arb_channel(), arb_channel(), any::<bool>()).prop_map(
-        |(now, a, b, reset)| DerailmentInputs {
+    (
+        0u64..60_000_000_000,
+        arb_channel(),
+        arb_channel(),
+        any::<bool>(),
+    )
+        .prop_map(|(now, a, b, reset)| DerailmentInputs {
             now_ns: now,
             sensor_a: a,
             sensor_b: b,
             reset_requested: reset,
-        },
-    )
+        })
 }
 
 proptest! {

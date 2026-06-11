@@ -45,15 +45,18 @@ pub fn render_html(config: &ScenarioConfig) -> String {
         Vec::with_capacity(line_count);
     for (line_idx, line) in config.network.lines.iter().enumerate() {
         let strip_y = margin_y + strip_spacing * line_idx as f32 + strip_spacing * 0.5;
-        per_line_positions.push(layout_line(line, &config.network, margin_x, canvas_w, strip_y));
+        per_line_positions.push(layout_line(
+            line,
+            &config.network,
+            margin_x,
+            canvas_w,
+            strip_y,
+        ));
     }
 
     // Energy sites keyed by station for decoration.
-    let site_by_station: HashMap<StationId, &EnergySiteConfig> = config
-        .energy_sites
-        .iter()
-        .map(|s| (s.station, s))
-        .collect();
+    let site_by_station: HashMap<StationId, &EnergySiteConfig> =
+        config.energy_sites.iter().map(|s| (s.station, s)).collect();
 
     let mut svg = String::new();
     svg.push_str(&format!(
@@ -79,7 +82,14 @@ pub fn render_html(config: &ScenarioConfig) -> String {
     // Draw each line strip.
     for (line_idx, line) in config.network.lines.iter().enumerate() {
         let color = LINE_COLORS[line_idx % LINE_COLORS.len()];
-        draw_line_strip(&mut svg, line_idx, line, color, &per_line_positions[line_idx], &config.network);
+        draw_line_strip(
+            &mut svg,
+            line_idx,
+            line,
+            color,
+            &per_line_positions[line_idx],
+            &config.network,
+        );
     }
 
     // Draw interchange connectors: dotted vertical lines between the same
@@ -215,9 +225,7 @@ fn layout_line(
             margin_x
         };
         positions.insert(*sid, StationPos { x, y: strip_y });
-        if i < line.forward_sections.len()
-            && (i < line.stations.len() - 1 || !line.is_ring)
-        {
+        if i < line.forward_sections.len() && (i < line.stations.len() - 1 || !line.is_ring) {
             // Don't advance past the last station index on a ring; the wrap
             // section connects last->first and we draw it separately.
             if i < line.stations.len().saturating_sub(1) {
@@ -250,8 +258,12 @@ fn draw_line_strip(
 
     // Non-wrap sections.
     for pair in line.stations.windows(2) {
-        let Some(a) = positions.get(&pair[0]) else { continue };
-        let Some(b) = positions.get(&pair[1]) else { continue };
+        let Some(a) = positions.get(&pair[0]) else {
+            continue;
+        };
+        let Some(b) = positions.get(&pair[1]) else {
+            continue;
+        };
         svg.push_str(&format!(
             r#"<line class="section-line" stroke="{color}" x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}"/>"#,
             x1 = a.x, y1 = a.y, x2 = b.x, y2 = b.y,

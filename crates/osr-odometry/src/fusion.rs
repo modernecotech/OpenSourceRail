@@ -106,11 +106,11 @@ pub fn odom_step(
 
     let wheel_position = advance_along_track(network, prev.head, dist_mm);
 
-    let (new_speed_mmps, new_speed_uncertainty_mmps) =
-        derive_speed(prev, dist_mm, dt_ns, cal);
+    let (new_speed_mmps, new_speed_uncertainty_mmps) = derive_speed(prev, dist_mm, dt_ns, cal);
 
     // Uncertainty after dead-reckoning only.
-    let dr_uncertainty_mm = grow_uncertainty(prev.position_uncertainty_mm, dist_mm.unsigned_abs(), cal);
+    let dr_uncertainty_mm =
+        grow_uncertainty(prev.position_uncertainty_mm, dist_mm.unsigned_abs(), cal);
 
     // --- 2. GNSS soft correction --------------------------------------------
     let (after_gnss_pos, after_gnss_uncertainty_mm, after_gnss_src) = match sensors.gnss {
@@ -119,7 +119,11 @@ pub fn odom_step(
             fix.uncertainty_mm.max(cal.min_uncertainty_mm),
             PositionSource::Gnss,
         ),
-        _ => (wheel_position, dr_uncertainty_mm, PositionSource::WheelTachometer),
+        _ => (
+            wheel_position,
+            dr_uncertainty_mm,
+            PositionSource::WheelTachometer,
+        ),
     };
 
     // --- 3. Balise absolute fix ---------------------------------------------
@@ -179,12 +183,7 @@ fn pulses_to_mm(pulses: i32, cal: &OdomCalibration) -> i64 {
 /// Returns `(speed_mmps, speed_uncertainty_mmps)`. Uncertainty
 /// accounts for the one-pulse quantisation: a pulse either has or
 /// hasn't crossed the encoder threshold at the sample instant.
-fn derive_speed(
-    prev: &OdomState,
-    dist_mm: i64,
-    dt_ns: u64,
-    cal: &OdomCalibration,
-) -> (i32, u32) {
+fn derive_speed(prev: &OdomState, dist_mm: i64, dt_ns: u64, cal: &OdomCalibration) -> (i32, u32) {
     if dt_ns == 0 {
         // No time elapsed — keep the previous speed. Uncertainty is
         // "no information" so we preserve the previous uncertainty.
@@ -199,8 +198,8 @@ fn derive_speed(
         .unwrap_or(if v_mmps_i64 < 0 { i32::MIN } else { i32::MAX });
 
     // One-pulse quantisation in mm/s.
-    let one_pulse_mm = (1_000_u64 + u64::from(cal.pulses_per_meter) - 1)
-        / u64::from(cal.pulses_per_meter.max(1));
+    let one_pulse_mm =
+        (1_000_u64 + u64::from(cal.pulses_per_meter) - 1) / u64::from(cal.pulses_per_meter.max(1));
     let quant_mmps = ((one_pulse_mm.saturating_mul(1_000_000_000)) / dt_ns.max(1)) as u32;
 
     // Add the wheel-slip term scaled by current speed magnitude.
@@ -213,8 +212,7 @@ fn derive_speed(
 /// Grow position uncertainty by the wheel-slip fraction of the
 /// distance travelled plus the per-tick floor.
 fn grow_uncertainty(prev: u32, dist_mm: u64, cal: &OdomCalibration) -> u32 {
-    let growth_mm =
-        dist_mm.saturating_mul(u64::from(cal.wheel_slip_ppm)) / 1_000_000;
+    let growth_mm = dist_mm.saturating_mul(u64::from(cal.wheel_slip_ppm)) / 1_000_000;
     prev.saturating_add(growth_mm as u32)
         .saturating_add(cal.uncertainty_floor_per_tick_mm)
         .max(cal.min_uncertainty_mm)
@@ -262,20 +260,26 @@ mod tests {
         for i in 0..3 {
             let f = SectionId::new(1000 + i);
             let r = SectionId::new(2000 + i);
-            net.sections.insert(f, Section {
-                id: f,
-                from_station: StationId::new((i as u64) + 1),
-                to_station: StationId::new((i as u64) + 2),
-                length_mm: 1_000_000,
-                max_speed_mps: 22.0,
-            });
-            net.sections.insert(r, Section {
-                id: r,
-                from_station: StationId::new((i as u64) + 2),
-                to_station: StationId::new((i as u64) + 1),
-                length_mm: 1_000_000,
-                max_speed_mps: 22.0,
-            });
+            net.sections.insert(
+                f,
+                Section {
+                    id: f,
+                    from_station: StationId::new((i as u64) + 1),
+                    to_station: StationId::new((i as u64) + 2),
+                    length_mm: 1_000_000,
+                    max_speed_mps: 22.0,
+                },
+            );
+            net.sections.insert(
+                r,
+                Section {
+                    id: r,
+                    from_station: StationId::new((i as u64) + 2),
+                    to_station: StationId::new((i as u64) + 1),
+                    length_mm: 1_000_000,
+                    max_speed_mps: 22.0,
+                },
+            );
             fwd.push(f);
             rev.push(r);
         }
@@ -304,14 +308,20 @@ mod tests {
     #[test]
     fn advance_within_section() {
         let n = net();
-        assert_eq!(advance_along_track(&n, sec(1000, 100_000), 50_000), sec(1000, 150_000));
+        assert_eq!(
+            advance_along_track(&n, sec(1000, 100_000), 50_000),
+            sec(1000, 150_000)
+        );
     }
 
     #[test]
     fn advance_crosses_section_boundary() {
         let n = net();
         // 100 m into section 1000, advance 950 m → 50 m into section 1001.
-        assert_eq!(advance_along_track(&n, sec(1000, 100_000), 950_000), sec(1001, 50_000));
+        assert_eq!(
+            advance_along_track(&n, sec(1000, 100_000), 950_000),
+            sec(1001, 50_000)
+        );
     }
 
     #[test]
@@ -319,19 +329,28 @@ mod tests {
         let n = net();
         // Start at 500 m into section 1002 (last forward section),
         // advance 5 km. Clip at far end of 1002 (offset = 1_000_000).
-        assert_eq!(advance_along_track(&n, sec(1002, 500_000), 5_000_000), sec(1002, 1_000_000));
+        assert_eq!(
+            advance_along_track(&n, sec(1002, 500_000), 5_000_000),
+            sec(1002, 1_000_000)
+        );
     }
 
     #[test]
     fn advance_negative_within_section() {
         let n = net();
-        assert_eq!(advance_along_track(&n, sec(1000, 100_000), -40_000), sec(1000, 60_000));
+        assert_eq!(
+            advance_along_track(&n, sec(1000, 100_000), -40_000),
+            sec(1000, 60_000)
+        );
     }
 
     #[test]
     fn advance_negative_clipped_at_section_start() {
         let n = net();
-        assert_eq!(advance_along_track(&n, sec(1000, 20_000), -50_000), sec(1000, 0));
+        assert_eq!(
+            advance_along_track(&n, sec(1000, 20_000), -50_000),
+            sec(1000, 0)
+        );
     }
 
     #[test]
@@ -342,7 +361,7 @@ mod tests {
         // pulses_per_meter = 410 → 410 pulses = 1 m.
         let sensors = SensorTick {
             timestamp_ns: 1_000_000_000, // 1 second after t=0
-            wheel_pulses: 4_100, // ~10 m
+            wheel_pulses: 4_100,         // ~10 m
             gnss: None,
             balise: None,
         };
@@ -431,7 +450,11 @@ mod tests {
         };
         let next = odom_step(&prev, &cal, &sensors, &n);
         // Allow ±20 mm/s for one-pulse quantisation at this rate.
-        assert!((9_980..=10_020).contains(&next.speed_mmps), "speed={}", next.speed_mmps);
+        assert!(
+            (9_980..=10_020).contains(&next.speed_mmps),
+            "speed={}",
+            next.speed_mmps
+        );
     }
 
     #[test]

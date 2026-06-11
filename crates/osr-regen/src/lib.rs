@@ -265,10 +265,7 @@ mod tests {
 
     #[test]
     fn no_sink_refuses_everything() {
-        let out = regen_evaluate(
-            &inputs(300_000, 0, true, false),
-            &RegenParams::pack_only(),
-        );
+        let out = regen_evaluate(&inputs(300_000, 0, true, false), &RegenParams::pack_only());
         assert_eq!(out.to_pack_ma, 0);
         assert_eq!(out.to_resistor_ma, 0);
         assert_eq!(out.refused_ma, 300_000);

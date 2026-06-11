@@ -113,12 +113,30 @@ pub struct Case {
 #[derive(Debug)]
 pub enum CaseError {
     Io(std::io::Error),
-    Parse { path: PathBuf, source: toml::de::Error },
-    DuplicateId { kind: &'static str, id: String },
-    DanglingParent { kind: &'static str, id: String, parent: String },
-    DanglingChild { strategy_id: String, missing_child: String },
-    MissingEvidence { solution_id: String, path: String },
-    Unclosed { goals: Vec<String> },
+    Parse {
+        path: PathBuf,
+        source: toml::de::Error,
+    },
+    DuplicateId {
+        kind: &'static str,
+        id: String,
+    },
+    DanglingParent {
+        kind: &'static str,
+        id: String,
+        parent: String,
+    },
+    DanglingChild {
+        strategy_id: String,
+        missing_child: String,
+    },
+    MissingEvidence {
+        solution_id: String,
+        path: String,
+    },
+    Unclosed {
+        goals: Vec<String>,
+    },
 }
 
 impl fmt::Display for CaseError {
@@ -132,12 +150,12 @@ impl fmt::Display for CaseError {
                 write!(f, "duplicate {kind} id {id:?}")
             }
             CaseError::DanglingParent { kind, id, parent } => {
-                write!(
-                    f,
-                    "{kind} {id:?} references unknown parent {parent:?}"
-                )
+                write!(f, "{kind} {id:?} references unknown parent {parent:?}")
             }
-            CaseError::DanglingChild { strategy_id, missing_child } => {
+            CaseError::DanglingChild {
+                strategy_id,
+                missing_child,
+            } => {
                 write!(
                     f,
                     "strategy {strategy_id:?} lists unknown child goal {missing_child:?}"
@@ -177,19 +195,16 @@ impl Case {
         let mut case = Case::default();
         let mut entries: Vec<_> = fs::read_dir(dir)?
             .filter_map(|r| r.ok())
-            .filter(|e| {
-                e.path().extension().and_then(|s| s.to_str()) == Some("toml")
-            })
+            .filter(|e| e.path().extension().and_then(|s| s.to_str()) == Some("toml"))
             .collect();
         entries.sort_by_key(|e| e.path());
         for entry in entries {
             let path = entry.path();
             let text = fs::read_to_string(&path)?;
-            let file: CaseFile =
-                toml::from_str(&text).map_err(|source| CaseError::Parse {
-                    path: path.clone(),
-                    source,
-                })?;
+            let file: CaseFile = toml::from_str(&text).map_err(|source| CaseError::Parse {
+                path: path.clone(),
+                source,
+            })?;
             case.absorb(file)?;
         }
         case.validate_links()?;
@@ -349,8 +364,7 @@ impl Case {
 
     /// Goals with no parent strategy — the case's top-level claims.
     pub fn root_goals(&self) -> Vec<&Goal> {
-        let mut roots: Vec<&Goal> =
-            self.goals.values().filter(|g| g.parent.is_none()).collect();
+        let mut roots: Vec<&Goal> = self.goals.values().filter(|g| g.parent.is_none()).collect();
         roots.sort_by(|a, b| a.id.cmp(&b.id));
         roots
     }

@@ -39,7 +39,9 @@ use serde::{Deserialize, Serialize};
 // Shared alarm level (mirrors the per-crate levels)
 // ---------------------------------------------------------------------------
 
-#[derive(Copy, Clone, Debug, PartialEq, Eq, Hash, Ord, PartialOrd, Default, Serialize, Deserialize)]
+#[derive(
+    Copy, Clone, Debug, PartialEq, Eq, Hash, Ord, PartialOrd, Default, Serialize, Deserialize,
+)]
 pub enum AlarmLevel {
     #[default]
     Nominal = 0,
@@ -109,12 +111,7 @@ pub struct EmergencySources {
 impl EmergencySources {
     #[must_use]
     pub fn any(&self) -> bool {
-        self.atp
-            || self.vigilance
-            || self.fire
-            || self.derailment
-            || self.driver
-            || self.obstacle
+        self.atp || self.vigilance || self.fire || self.derailment || self.driver || self.obstacle
     }
     #[must_use]
     pub fn count(&self) -> u8 {
@@ -191,9 +188,15 @@ pub fn tcms_evaluate(inputs: &TcmsInputs) -> ConsistStatus {
         && inputs.bms_contactor_closed
         && inputs.traction_inverter_enabled
         && matches!(inputs.bms_alarm, AlarmLevel::Nominal | AlarmLevel::Warning)
-        && matches!(inputs.traction_alarm, AlarmLevel::Nominal | AlarmLevel::Warning)
+        && matches!(
+            inputs.traction_alarm,
+            AlarmLevel::Nominal | AlarmLevel::Warning
+        )
         && matches!(inputs.fire_alarm, AlarmLevel::Nominal | AlarmLevel::Warning)
-        && matches!(inputs.derailment_alarm, AlarmLevel::Nominal | AlarmLevel::Warning);
+        && matches!(
+            inputs.derailment_alarm,
+            AlarmLevel::Nominal | AlarmLevel::Warning
+        );
 
     ConsistStatus {
         now_ns: inputs.now_ns,

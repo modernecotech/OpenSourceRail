@@ -143,9 +143,7 @@ pub fn max_safe_speed_mmps(distance_to_end_mm: i64, decel: &DecelTable) -> i32 {
     let dt_sq = dt_mmps.saturating_mul(dt_mmps);
 
     // 2·d·x in (mm/s)²
-    let two_d_x = 2_i64
-        .saturating_mul(d)
-        .saturating_mul(distance_to_end_mm);
+    let two_d_x = 2_i64.saturating_mul(d).saturating_mul(distance_to_end_mm);
 
     // Under-sqrt
     let under = dt_sq.saturating_add(two_d_x);

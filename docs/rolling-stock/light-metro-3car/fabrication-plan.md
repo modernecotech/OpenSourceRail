@@ -27,7 +27,7 @@ the same 17 m car body to form the trainset.
 | HVAC | SOURCE/BID: packaged roof unit | Mature hot-climate bus/rail supply chain |
 | Lighting | SOURCE: rail/bus LED modules | Commodity, low-voltage, easy replacement |
 | Passenger interior | SOURCE/BID: bus/rail seats, rails, PIS, CCTV | Keeps OSR focused on interfaces and safety evidence |
-| Bogie frame | MAKE under controlled weld procedure | Structural rail part; can be local but must be qualified |
+| Bogie frame | MAKE fresh OSR powered/trailer frames under controlled weld procedure | Structural rail part; can be local but must be qualified; recovered freight frames are not used |
 | Wheelsets, bearings, brakes | BID/SOURCE | Safety-critical rotating/brake parts stay supplier-certified |
 | Traction, batteries, BMS | BID/SOURCE | Supplier qualification and test evidence required |
 
@@ -118,6 +118,10 @@ these fabricated datums, see
 - Mark every primary steel member with heat/batch traceability.
 - Stage COTS modules by car number: doors, windows, HVAC, lighting,
   seats, intercom, CCTV, PIS, battery pack, inverter, auxiliaries.
+- If a brownfield deployment proposes donor axles or axlebox hardware,
+  quarantine them in a separate incoming-inspection lot until cleaning,
+  dimensional survey, UT/MT inspection, and supplier acceptance are
+  complete.
 
 Hold point: material certificates and supplier certificates accepted
 before cutting.
@@ -229,6 +233,12 @@ Hold point: HV safety sign-off before first energisation.
 ### 10. Bogie marriage and commissioning
 
 - Assemble powered and trailer bogies separately.
+- Build one powered bogie and one trailer bogie through full weld,
+  dimensional, NDT, wheelset, brake, suspension, and harness inspection
+  before committing the remaining four bogies.
+- Reject recovered freight bogie frames. Only accepted donor axles or
+  axlebox hardware may enter the OSR bogie build, and only with the
+  inspection records linked to the vehicle serial file.
 - Drop carbody onto bogies using surveyed bolster datums.
 - Connect traction, brake, WSP, tachometer, bearing-temperature, and
   suspension interfaces.
@@ -261,6 +271,7 @@ in [`hardware/trainset-interiors/cots-catalogue.md`](../../../hardware/trainset-
 | Gate | Evidence |
 |---|---|
 | G0 material release | Mill certificates, supplier certificates, incoming inspection |
+| G0B recovered-component release | Quarantine record, cleaning record, dimensional report, UT/MT/NDT evidence, supplier sign-off for any donor axle/axlebox item |
 | G1 frame complete | Dimensional survey, weld map, NDT report, traceability register |
 | G2 corrosion complete | Blast record, coating DFT report, cavity wax checklist |
 | G3 shell complete | Composite cure records, water test, removable-panel access report |
@@ -272,6 +283,8 @@ in [`hardware/trainset-interiors/cots-catalogue.md`](../../../hardware/trainset-
 ## First-article constraints
 
 - Build one carbody first, not a full three-car batch.
+- Build one powered bogie and one trailer bogie first, not all six
+  bogies as an uncontrolled batch.
 - Do not commit to production tooling until G1 and G3 are passed on
   the first carbody.
 - Freeze COTS supplier envelopes only after fit-up review with actual

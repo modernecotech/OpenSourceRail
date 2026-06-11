@@ -9,21 +9,21 @@ emergency brake application.
 
 ```
   Roof PV string ─┐
-                  ├── [multi-input charge inverter] ── [150 kWh Na-ion pack, Car A] ──DC── [SiC inverter] ── [powered bogie A]
+                  ├── [multi-input charge inverter] ── [120 kWh usable / 150 kWh nameplate Na-ion pack, Car A] ──DC── [SiC inverter] ── [powered bogie A]
   Station dock ───┘
 
   Roof PV string ─┐
-                  ├── [multi-input charge inverter] ── [150 kWh Na-ion pack, Car B] ──DC── [aux / recovery DC link; no traction inverter]
+                  ├── [multi-input charge inverter] ── [120 kWh usable / 150 kWh nameplate Na-ion pack, Car B] ──DC── [SiC inverter] ── [powered bogie B]
   Station dock ───┘
 
   Roof PV string ─┐
-                  ├── [multi-input charge inverter] ── [150 kWh Na-ion pack, Car C] ──DC── [SiC inverter] ── [powered bogie C]
+                  ├── [multi-input charge inverter] ── [120 kWh usable / 150 kWh nameplate Na-ion pack, Car C] ──DC── [SiC inverter] ── [powered bogie C]
   Station dock ───┘
 ```
 
-Each car has its own battery pack. The powered end cars carry traction
-inverters; the low-floor centre trailer contributes energy through the
-consist DC link but does not carry motors. `osr-bms` manages per-car
+Each car has the same self-contained traction package: one battery
+pack, one multi-input charge inverter, one SiC traction inverter, one
+powered bogie, and one trailer bogie. `osr-bms` manages per-car
 contactors, cell balancing, and SoC / SoH estimation.
 
 ## Batteries
@@ -33,44 +33,45 @@ contactors, cell balancing, and SoC / SoH estimation.
 | Chemistry (default) | Sodium-ion (Na-ion) |
 | Chemistry (alternate) | LFP (drop-in, per-operator) |
 | Nominal pack voltage | 1 500 V DC |
-| Pack capacity (each car) | 150 kWh usable |
-| Consist total capacity | 450 kWh usable |
+| Pack capacity (each car) | 120 kWh usable, about 150 kWh nameplate at depot commissioning |
+| Consist total capacity | 360 kWh usable |
 | Module count per pack | 8 under-seat modules per car |
 | Cell chemistry | 3.0–3.7 V Na-ion (CATL / HiNa / local equiv.) |
-| Pack mass | ~1.1 t per car, ~3.3 t consist total |
+| Pack mass | ~0.9 t per car, ~2.7 t consist total |
 | Location | Under longitudinal seats, split both sides of the saloon |
 | Thermal management | Chiller-fed cold plates tied into the HVAC loop |
 | Fire containment | Sealed aluminium module boxes with side vent duct and aspirating smoke detection (feeds `osr-fire-safety`) |
 
-Pack sizing per the concept: 450 kWh gives roughly one route length
-plus reserve, HVAC uplift at 50 °C ambient, and energy margin for the
-centre trailer's aux loads. Normal service energy is replaced during
-station dwells.
+Pack sizing follows RFC 0021: 360 kWh usable gives roughly one route
+length plus reserve, including HVAC uplift at 50 °C ambient. The
+larger nameplate capacity provides degradation reserve over pack life;
+normal service energy is replaced during station dwells.
 
 ## Traction motors
 
 | Parameter | Value |
 |---|---|
-| Count | 4 (two axles on each of two powered bogies) |
+| Count | 6 (two axles on each of three powered bogies) |
 | Type | Permanent-magnet synchronous (PMSM), axle-mount |
-| Continuous rating | 90 kW per axle |
-| Peak rating | 150 kW per axle (≤ 60 s) |
+| Continuous rating | 180 kW per axle |
+| Peak rating | 320 kW per axle (≤ 60 s motor capability) |
 | Rated torque | 1 200 Nm at wheel |
 | Efficiency at peak | ≥ 96 % |
-| Mass | 520 kg each |
+| Mass | ≤ 620 kg each |
 | Cooling | Water (shares cold plate with SiC inverter) |
 | Bearing grease | Sealed-for-life; EN 50155 grade |
 
-Peak onboard motor output (four motors, both directions) = 600 kW,
-matching the concept image and the low-cost peri-urban duty cycle.
+Installed motor capability is 1.92 MW peak. The train planning
+profile caps consist traction peak at 1.8 MW so the inverter, thermal,
+and adhesion budgets stay inside the shared RFC 0008 family table.
 
 ## Inverters
 
 | Parameter | Value |
 |---|---|
-| Count | 2 (one per powered bogie) |
+| Count | 3 (one per powered bogie) |
 | Type | 3-phase voltage-source, silicon-carbide MOSFETs |
-| Rating | 180 kW continuous, 300 kW peak |
+| Rating | 360 kW continuous, 600 kW peak |
 | Switching frequency | 5 kHz nominal |
 | Efficiency at peak | ≥ 98 % |
 | Cooling | Forced water via cold plate, shared with motor |
@@ -138,12 +139,20 @@ can select by roof curvature, service regime, and supplier evidence:
 | Bonded flexible modules | Eight low-profile laminate panels per car, bonded to rubber isolation pads on the roof fairing |
 | Raised rigid modules | Eight framed panels per car, held on bolted aluminium mounting rails with edge clamps |
 | PV combiner | Two roof string raceways, module junction boxes, two fire-isolation switch boxes, and one MPPT combiner |
+| Air cleaner | Filtered low-pressure air pump feeding two roof-edge air-knife manifolds; blows dust off modules without water or brushes |
 | Downlink | Sealed roof cable gland into the per-car charge rack |
 
 The multi-input charge inverter is a separate power-electronics unit
 from the traction inverter. It accepts the roof MPPT DC feed and the
 station dock DC feed, then regulates either source onto the 1 500 V
 per-car battery link through isolation contactors, HVIL, and precharge.
+
+The air cleaner is a continuous daylight service aid for dusty cities,
+not a substitute for depot washing. Each car has a small filtered blower
+in the roof service plenum and replaceable nozzle manifolds aimed across
+the PV rows. The controller runs the pump only when PV is available or
+soiling/dust mode is active, nets the compressor draw against PV output,
+and raises a maintenance alert when filter differential pressure rises.
 
 | Parameter | Value |
 |---|---|
@@ -152,6 +161,7 @@ per-car battery link through isolation contactors, HVIL, and precharge.
 | Output | 1 500 V DC battery link |
 | Station charge rating | ~170 kW continuous per car, ~330 kW for 60 s terminal-charge pulse |
 | PV rating | Envelope-sized for the per-car roof area; aux-offset/SoC maintenance, not primary traction energy |
+| PV air-cleaner load | ~0.3 kW per car when active; recovers most dust-event loss in the simulator but is verified by soiling tests before procurement |
 | Isolation | Galvanically isolated DC/DC stage, PV and station contactors, battery precharge |
 | Cooling | Shared liquid loop with battery and traction bay |
 | Control | `osr-aux-power` charge arbitration with `osr-bms` current/temperature limits |

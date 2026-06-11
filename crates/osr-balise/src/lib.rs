@@ -82,10 +82,7 @@ impl BaliseRegistry {
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub enum SightingEvent {
     /// Balise id was sighted; position matched the registry.
-    Seen {
-        id: BaliseId,
-        now_ns: u64,
-    },
+    Seen { id: BaliseId, now_ns: u64 },
     /// Balise id was sighted but its claimed position disagrees
     /// with the survey (possible sensor fault or installation
     /// error).
@@ -95,9 +92,7 @@ pub enum SightingEvent {
         surveyed: SurveyedPosition,
     },
     /// An unknown id was reported — not in registry.
-    Unknown {
-        id: BaliseId,
-    },
+    Unknown { id: BaliseId },
     /// A balise has not been sighted in longer than its
     /// `stale_after_ns` window.
     Stale {
@@ -171,7 +166,10 @@ mod tests {
         BaliseRecord {
             id: BaliseId(id),
             balise_type: BaliseType::Passive,
-            position: SurveyedPosition { section_id: sec, offset_mm: off },
+            position: SurveyedPosition {
+                section_id: sec,
+                offset_mm: off,
+            },
             installed_ns: 0,
             last_seen_ns: Some(0),
             stale_after_ns: 86_400_000_000_000, // 24 h
@@ -185,7 +183,10 @@ mod tests {
             &reg,
             &[SightingReport {
                 id: BaliseId(99),
-                reported_position: SurveyedPosition { section_id: 1, offset_mm: 0 },
+                reported_position: SurveyedPosition {
+                    section_id: 1,
+                    offset_mm: 0,
+                },
                 now_ns: 0,
             }],
             0,
@@ -201,7 +202,10 @@ mod tests {
             &reg,
             &[SightingReport {
                 id: BaliseId(5),
-                reported_position: SurveyedPosition { section_id: 100, offset_mm: 200_000 },
+                reported_position: SurveyedPosition {
+                    section_id: 100,
+                    offset_mm: 200_000,
+                },
                 now_ns: 1000,
             }],
             1000,
@@ -218,12 +222,17 @@ mod tests {
             &reg,
             &[SightingReport {
                 id: BaliseId(5),
-                reported_position: SurveyedPosition { section_id: 100, offset_mm: 999_999 },
+                reported_position: SurveyedPosition {
+                    section_id: 100,
+                    offset_mm: 999_999,
+                },
                 now_ns: 1000,
             }],
             1000,
         );
-        let mismatch = ev.iter().any(|e| matches!(e, SightingEvent::PositionMismatch { .. }));
+        let mismatch = ev
+            .iter()
+            .any(|e| matches!(e, SightingEvent::PositionMismatch { .. }));
         assert!(mismatch);
     }
 

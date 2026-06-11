@@ -165,28 +165,30 @@ pub fn hvac_evaluate(prev: &HvacState, inputs: &HvacInputs, params: &HvacParams)
     let demand = p_term.saturating_add(integral);
 
     // Partition into heater (+demand) vs compressor (-demand).
-    let (compressor_ppt, heater_ppt, mode) =
-        if err_dc.unsigned_abs() as i16 <= params.deadband_dc {
-            (0u16, 0u16, HvacMode::Ventilating)
-        } else if demand > 0 {
-            let h = demand.clamp(0, i64::from(params.max_heater_ppt)) as u16;
-            (0u16, h, HvacMode::Heating)
-        } else {
-            let c = (-demand).clamp(0, i64::from(params.max_compressor_ppt)) as u16;
-            (c, 0u16, HvacMode::Cooling)
-        };
+    let (compressor_ppt, heater_ppt, mode) = if err_dc.unsigned_abs() as i16 <= params.deadband_dc {
+        (0u16, 0u16, HvacMode::Ventilating)
+    } else if demand > 0 {
+        let h = demand.clamp(0, i64::from(params.max_heater_ppt)) as u16;
+        (0u16, h, HvacMode::Heating)
+    } else {
+        let c = (-demand).clamp(0, i64::from(params.max_compressor_ppt)) as u16;
+        (c, 0u16, HvacMode::Cooling)
+    };
 
     // Fan ramps between idle and max based on the greater of
     // compressor/heater demand.
     let load = compressor_ppt.max(heater_ppt);
-    let fan_range =
-        i64::from(params.max_fan_ppt).saturating_sub(i64::from(params.idle_fan_ppt)).max(0);
+    let fan_range = i64::from(params.max_fan_ppt)
+        .saturating_sub(i64::from(params.idle_fan_ppt))
+        .max(0);
     let fan_bonus = (i64::from(load) * fan_range / 1_000).max(0);
-    let fan_ppt = (i64::from(params.idle_fan_ppt) + fan_bonus)
-        .clamp(0, i64::from(params.max_fan_ppt)) as u16;
+    let fan_ppt =
+        (i64::from(params.idle_fan_ppt) + fan_bonus).clamp(0, i64::from(params.max_fan_ppt)) as u16;
 
     HvacOutput {
-        state: HvacState { integral_ppt: integral },
+        state: HvacState {
+            integral_ppt: integral,
+        },
         mode,
         compressor_ppt,
         heater_ppt,
@@ -218,7 +220,11 @@ mod tests {
     fn disabled_outputs_zero() {
         let mut i = nominal(300, 230);
         i.hvac_enable_request = false;
-        let out = hvac_evaluate(&HvacState::default(), &i, &HvacParams::light_metro_default());
+        let out = hvac_evaluate(
+            &HvacState::default(),
+            &i,
+            &HvacParams::light_metro_default(),
+        );
         assert_eq!(out.mode, HvacMode::Off);
         assert_eq!(out.compressor_ppt, 0);
     }
@@ -227,7 +233,11 @@ mod tests {
     fn rail_down_is_reduced() {
         let mut i = nominal(400, 230);
         i.v400_rail_enabled = false;
-        let out = hvac_evaluate(&HvacState::default(), &i, &HvacParams::light_metro_default());
+        let out = hvac_evaluate(
+            &HvacState::default(),
+            &i,
+            &HvacParams::light_metro_default(),
+        );
         assert_eq!(out.mode, HvacMode::Reduced);
         assert_eq!(out.compressor_ppt, 0);
         assert_eq!(out.heater_ppt, 0);

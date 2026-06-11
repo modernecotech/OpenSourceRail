@@ -37,7 +37,10 @@ fn drive() -> Cluster {
         f(c);
         let res = check_all(c);
         let lc = leader_completeness(c);
-        let leader = c.leader().map(|id| format!("{id}")).unwrap_or_else(|| "none".into());
+        let leader = c
+            .leader()
+            .map(|id| format!("{id}"))
+            .unwrap_or_else(|| "none".into());
         eprintln!(
             "\n[step {step:2}] {label:30}  leader={leader}  check_all={}  lc={}",
             res.as_ref().err().map(String::as_str).unwrap_or("ok"),
@@ -47,10 +50,7 @@ fn drive() -> Cluster {
             let terms: Vec<u64> = n.log.iter().map(|e| e.term.0).collect();
             eprintln!(
                 "   {id}: role={:?} term={} voted_for={:?} commit={} log_terms={:?}",
-                n.role, n.current_term.0,
-                n.voted_for,
-                n.commit_index.0,
-                terms,
+                n.role, n.current_term.0, n.voted_for, n.commit_index.0, terms,
             );
         }
     };

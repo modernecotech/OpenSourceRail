@@ -69,8 +69,8 @@ impl CbmParams {
             // Bearing RMS: ISO 10816 style. 4 mm/s = watch, 7 mm/s = service.
             bearing_watch_ppt: 4_000,
             bearing_service_ppt: 7_000,
-            motor_watch_dc: 1_400,  // 140 °C
-            motor_service_dc: 1_600, // 160 °C
+            motor_watch_dc: 1_400,      // 140 °C
+            motor_service_dc: 1_600,    // 160 °C
             brake_pad_watch_ppt: 300,   // 30 % remaining = watch
             brake_pad_service_ppt: 150, // 15 % remaining = service
             wheel_watch_ppt: 300,
@@ -79,7 +79,9 @@ impl CbmParams {
     }
 }
 
-#[derive(Copy, Clone, Debug, PartialEq, Eq, Hash, Default, PartialOrd, Ord, Serialize, Deserialize)]
+#[derive(
+    Copy, Clone, Debug, PartialEq, Eq, Hash, Default, PartialOrd, Ord, Serialize, Deserialize,
+)]
 pub enum ComponentHealth {
     #[default]
     Nominal,
@@ -134,7 +136,11 @@ pub fn cbm_evaluate(inputs: &CbmInputs, params: &CbmParams) -> CbmOutput {
             ComponentHealth::Nominal
         };
         if h != ComponentHealth::Nominal {
-            flags.push(ComponentFlag { component: Component::Bearing, index: i as u16, health: h });
+            flags.push(ComponentFlag {
+                component: Component::Bearing,
+                index: i as u16,
+                health: h,
+            });
         }
     }
     for (i, &t) in inputs.motor_temp_dc.iter().enumerate() {
@@ -146,7 +152,11 @@ pub fn cbm_evaluate(inputs: &CbmInputs, params: &CbmParams) -> CbmOutput {
             ComponentHealth::Nominal
         };
         if h != ComponentHealth::Nominal {
-            flags.push(ComponentFlag { component: Component::Motor, index: i as u16, health: h });
+            flags.push(ComponentFlag {
+                component: Component::Motor,
+                index: i as u16,
+                health: h,
+            });
         }
     }
     for (i, &w) in inputs.brake_pad_remaining_ppt.iter().enumerate() {
@@ -159,7 +169,11 @@ pub fn cbm_evaluate(inputs: &CbmInputs, params: &CbmParams) -> CbmOutput {
             ComponentHealth::Nominal
         };
         if h != ComponentHealth::Nominal {
-            flags.push(ComponentFlag { component: Component::BrakePad, index: i as u16, health: h });
+            flags.push(ComponentFlag {
+                component: Component::BrakePad,
+                index: i as u16,
+                health: h,
+            });
         }
     }
     for (i, &w) in inputs.wheel_tread_remaining_ppt.iter().enumerate() {

@@ -1,7 +1,7 @@
 //! Property tests PR1–PR2.
 
 use osr_proto::{
-    decode, encode, Direction, Entry, EntryId, Heartbeat, HealthStatus, Payload, Position,
+    decode, encode, Direction, Entry, EntryId, HealthStatus, Heartbeat, Payload, Position,
     PositionSource, SectionId, SwitchCommand, SwitchId, SwitchPosition, TrackRef, TrainId,
     TrainPositionReport,
 };
@@ -24,7 +24,10 @@ fn arb_track_ref() -> impl Strategy<Value = TrackRef> {
 }
 
 fn arb_position() -> impl Strategy<Value = Position> {
-    (arb_track_ref(), 0u32..10_000).prop_map(|(r, u)| Position { track_ref: r, uncertainty_mm: u })
+    (arb_track_ref(), 0u32..10_000).prop_map(|(r, u)| Position {
+        track_ref: r,
+        uncertainty_mm: u,
+    })
 }
 
 fn arb_source() -> impl Strategy<Value = PositionSource> {
@@ -61,17 +64,21 @@ fn arb_train_position() -> impl Strategy<Value = TrainPositionReport> {
 }
 
 fn arb_switch_cmd() -> impl Strategy<Value = SwitchCommand> {
-    (0u64..1000, prop_oneof![
-        Just(SwitchPosition::Normal),
-        Just(SwitchPosition::Reverse),
-        Just(SwitchPosition::Transitioning),
-        Just(SwitchPosition::Unknown),
-    ]).prop_map(|(id, pos)| SwitchCommand {
-        switch_id: SwitchId(id),
-        requested_position: pos,
-        requested_by: osr_proto::EntityId(1),
-        lock_until: None,
-    })
+    (
+        0u64..1000,
+        prop_oneof![
+            Just(SwitchPosition::Normal),
+            Just(SwitchPosition::Reverse),
+            Just(SwitchPosition::Transitioning),
+            Just(SwitchPosition::Unknown),
+        ],
+    )
+        .prop_map(|(id, pos)| SwitchCommand {
+            switch_id: SwitchId(id),
+            requested_position: pos,
+            requested_by: osr_proto::EntityId(1),
+            lock_until: None,
+        })
 }
 
 fn arb_payload() -> impl Strategy<Value = Payload> {
@@ -87,15 +94,19 @@ fn arb_payload() -> impl Strategy<Value = Payload> {
 }
 
 fn arb_entry() -> impl Strategy<Value = Entry> {
-    (0u64..10_000, 0u64..100, 0u64..1_000_000_000_000, arb_payload()).prop_map(
-        |(id, term, ts, p)| Entry {
+    (
+        0u64..10_000,
+        0u64..100,
+        0u64..1_000_000_000_000,
+        arb_payload(),
+    )
+        .prop_map(|(id, term, ts, p)| Entry {
             entry_id: EntryId(id),
             term,
             timestamp_ns: ts,
             leader_signature: vec![],
             payload: p,
-        },
-    )
+        })
 }
 
 proptest! {

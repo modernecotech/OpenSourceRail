@@ -2,7 +2,7 @@
 
 **Status:** Draft — extends [RFC 0021 §7](0021-battery-traction.md#7-thermal-management)
 **Date:** 2026-04-26
-**Depends on:** [RFC 0021 Battery Traction](0021-battery-traction.md), [RFC 0008 Rolling-Stock Reference Design](0008-rolling-stock-reference-design.md), [RFC 0003 Samawah Reference Deployment](0003-samawah-reference-deployment.md)
+**Depends on:** [RFC 0021 Battery Traction](0021-battery-traction.md), [RFC 0008 Rolling-Stock Reference Design](0008-rolling-stock-reference-design.md)
 
 ## 1. Summary
 

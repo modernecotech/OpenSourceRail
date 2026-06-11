@@ -1,13 +1,14 @@
 # Rolling Stock
 
 This folder contains the handoff documentation for train designs. The
-current reference vehicle is the `light-metro-3car`: a cabless,
+current mid-size-city vehicle is the `light-metro-3car`: a cabless,
 driverless, battery-electric trainset with roof solar, identical
 multi-part fiberglass end cowls with single panoramic glass faces, LED
-headlamps, powered end cars, standard bogies, high-floor bogie zones,
-low-floor centre door/PRM zones, and under-seat batteries for the
-Samawah reference deployment and similar 300 k to 1 M population
-networks.
+headlamps, repeated self-contained cars, one powered bogie and one
+trailer bogie per car, high-floor bogie zones, low-floor centre
+door/PRM zones, and under-seat batteries for the
+300 k to 1 M population networks. Samawah is one generated instance of
+this shared family, not the reason the family exists.
 
 ## Packages
 

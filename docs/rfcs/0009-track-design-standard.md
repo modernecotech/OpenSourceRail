@@ -2,7 +2,7 @@
 
 **Status:** Draft — planning only, no civil drawings ship with this RFC
 **Date:** 2026-04-22
-**Depends on:** [RFC 0003 Samawah Reference Deployment](0003-samawah-reference-deployment.md), [RFC 0008 Rolling-Stock Reference Design](0008-rolling-stock-reference-design.md)
+**Depends on:** [RFC 0008 Rolling-Stock Reference Design](0008-rolling-stock-reference-design.md)
 
 ## 1. Summary
 
@@ -234,7 +234,7 @@ that family as compatible:
   pop band         chosen family           chosen geometry preset
   ──────────────   ───────────────────     ─────────────────────────
   ≤ 300 k          tram-2car               heritage-tram OR standard-urban
-  300 k … 1 M      light-metro-3car        standard-urban (Samawah)
+  300 k … 1 M      light-metro-3car        standard-urban
   1 M … 3 M        metro-4car              standard-metro
   ≥ 3 M            metro-6car              standard-metro OR mainline-mixed
 ```
@@ -274,7 +274,7 @@ city recipe.
 | **v0** | This RFC ratified | — |
 | **v1** ✅ | Worked civil alignment for Samawah Line 1 + Line 2 references against `standard-urban`, with per-segment table + civil-class summary + compliance report at [`docs/civil/west-asia/Iraq/Samawah/`](../civil/west-asia/Iraq/Samawah/) (done 2026-04-22) | RFC 0003 |
 | **v2** ✅ | Emitter enforces geometry/consist compatibility + emits `geometry` per line in auto-gen output (done 2026-04-22). **OSR-ALN alignment interchange format** at [`docs/civil/osr-aln-format.md`](../civil/osr-aln-format.md) — tool-agnostic TOML schema civil firms export to. | v0, RFC 0008 v2 |
-| **v3** ✅ | Parametric track components at [`mechanical-py/src/osr_mech/track/`](../../mechanical-py/src/osr_mech/track/) (done 2026-04-22). **Civil-tool bridge (done 2026-04-23):** [`tools/osr-aln-convert/`](../../tools/osr-aln-convert/) — stdlib-only Python toolchain: `landxml-to-osr-aln` reads LandXML 1.2 exports from Civil 3D / Bentley OpenRail / Trimble BC / QGIS and emits the OSR-ALN TOML spec; `osr-aln-validate` enforces the 8 hard gates + 3 soft gates from the format spec against a deployment's design.toml. 21 passing tests (5 round-trip + 16 validator). **Worked reference alignments for both Samawah lines:** Line 1 at [`docs/civil/west-asia/Iraq/Samawah/samawah-line1.aln.toml`](../../docs/civil/west-asia/Iraq/Samawah/samawah-line1.aln.toml) (13 km, 12 stations, 3 cant sections) and Line 2 ring at [`docs/civil/west-asia/Iraq/Samawah/samawah-line2.aln.toml`](../../docs/civil/west-asia/Iraq/Samawah/samawah-line2.aln.toml) (16 km, 10 stations, 4 cant sections, `is_ring = true`). Both hand-authored from the published bearings + radii tables and pass every hard gate against the live design.toml — the full reference deployment is now OSR-ALN-authorable and validator-clean. Remaining for v3.1: turnout blade kit, Trimble TCL CSV reader, Bentley cant-extension parser, CERN-OHL-S v2 relicensing. | v1 |
+| **v3** ✅ | Parametric track components at [`mechanical-py/src/osr_mech/track/`](../../mechanical-py/src/osr_mech/track/) (done 2026-04-22). **Civil-tool bridge (done 2026-04-23):** [`tools/osr-aln-convert/`](../../tools/osr-aln-convert/) — stdlib-only Python toolchain: `landxml-to-osr-aln` reads LandXML 1.2 exports from Civil 3D / Bentley OpenRail / Trimble BC / QGIS and emits the OSR-ALN TOML spec; `osr-aln-validate` enforces the 8 hard gates + 3 soft gates from the format spec against a deployment's design.toml. 21 passing tests (5 round-trip + 16 validator). **Worked OSR-ALN instance:** Samawah Line 1 at [`docs/civil/west-asia/Iraq/Samawah/samawah-line1.aln.toml`](../../docs/civil/west-asia/Iraq/Samawah/samawah-line1.aln.toml) (13 km, 12 stations, 3 cant sections) and Line 2 ring at [`docs/civil/west-asia/Iraq/Samawah/samawah-line2.aln.toml`](../../docs/civil/west-asia/Iraq/Samawah/samawah-line2.aln.toml) (16 km, 10 stations, 4 cant sections, `is_ring = true`). These are worked exports of an earlier Samawah generated instance, not a Samawah-specific civil standard and not the full current 3-line generated network. Remaining for v3.1: current-network OSR-ALN export, turnout blade kit, Trimble TCL CSV reader, Bentley cant-extension parser, CERN-OHL-S v2 relicensing. | v1 |
 | **v4** | `osr-track-geometry` crate that ingests EN 13848 recording data and feeds the CBM pipeline | v3 |
 | **v5** | First-article track constructed and recorded at a pilot deployment | v1, v3 |
 

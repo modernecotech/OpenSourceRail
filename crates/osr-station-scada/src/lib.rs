@@ -128,7 +128,9 @@ impl StationScadaParams {
 // Output
 // ---------------------------------------------------------------------------
 
-#[derive(Copy, Clone, Debug, PartialEq, Eq, Hash, Default, Serialize, Deserialize, PartialOrd, Ord)]
+#[derive(
+    Copy, Clone, Debug, PartialEq, Eq, Hash, Default, Serialize, Deserialize, PartialOrd, Ord,
+)]
 pub enum StationHealth {
     #[default]
     Nominal = 0,
@@ -213,7 +215,11 @@ pub fn station_scada_evaluate(
                 fault_count += 1;
             }
             // Lighting stays on during emergency — evacuation requires visibility.
-            if z.faulted { false } else { z.enabled }
+            if z.faulted {
+                false
+            } else {
+                z.enabled
+            }
         })
         .collect();
 
@@ -232,7 +238,9 @@ pub fn station_scada_evaluate(
     if !inputs.cctv.online {
         fault_count += 1;
     }
-    if inputs.cctv.free_storage_ppt < params.min_free_storage_ppt && health == StationHealth::Nominal {
+    if inputs.cctv.free_storage_ppt < params.min_free_storage_ppt
+        && health == StationHealth::Nominal
+    {
         health = StationHealth::Warning;
     }
     if inputs.cctv.channels_offline > 0 && health == StationHealth::Nominal {

@@ -2,7 +2,7 @@
 
 **Status:** Draft — planning only, no mechanical drawings ship with this RFC
 **Date:** 2026-04-22
-**Depends on:** [RFC 0003 Samawah Reference Deployment](0003-samawah-reference-deployment.md), [RFC 0007 Hardware Reference Designs](0007-hardware-reference-designs.md)
+**Depends on:** [RFC 0007 Hardware Reference Designs](0007-hardware-reference-designs.md)
 
 ## 1. Summary
 
@@ -29,7 +29,7 @@ architecture.
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
 | `urban-shuttle-1car` | 1 | 21 m | 34 t | 20 | 100 | 130 | < 2 500 | 120 kWh | 19 m/s (70 km/h) |
 | `tram-2car` | 2 | 39 m | 68 t | 40 | 240 | 320 | < 5 000 | 240 kWh | 19 m/s (70 km/h) |
-| `light-metro-3car` | 3 | 51 m | 102 t | 60 | 360 | 480 | 5 000–10 000 | 360 kWh | 25 m/s (90 km/h) — **Samawah reference** |
+| `light-metro-3car` | 3 | 51 m | 102 t | 60 | 360 | 480 | 5 000–10 000 | 360 kWh | 25 m/s (90 km/h) — selected by mid-size city instances |
 | `metro-4car` | 4 | 75 m | 136 t | 80 | 480 | 640 | 10 000–20 000 | 480 kWh | 25 m/s (90 km/h) |
 | `metro-6car` | 6 | 111 m | 204 t | 120 | 720 | 960 | 20 000–35 000 | 720 kWh | 28 m/s (100 km/h) |
 
@@ -99,7 +99,7 @@ one supplier-qualification set.
 | Battery size | 120 kWh usable per car, scaled by car count (RFC 0021 §4) | Sized for roughly one route length plus reserve, not for a full day. Normal service energy is replenished by station charging. |
 | Charging | Automated conductive station charging at normal passenger stops, buffered by station solar PV + stationary battery. Typical stop spacing is ~1 km and nominal charging dwell is ~60 s. Depots still provide overnight / maintenance charging. **No continuous catenary.** | The train carries only enough battery to bridge the route and station failures, keeping vehicle mass and cost down. |
 | Regen | Default on; friction brake blends in below 8 km/h | Matches [`osr-brake`](../../crates/osr-brake/)'s WSP + regen-priority arbitration. |
-| Friction brake | Disc brake on every trailing axle, electromagnetic actuation | No pneumatic brake system — removes the compressor-maintenance line item entirely. Electric brake is continuously self-monitoring via `osr-brake`'s WSP + pressure sense loops. |
+| Friction brake | Disc brake on every axle, electromagnetic actuation | No pneumatic brake system — removes the compressor-maintenance line item entirely. Electric brake is continuously self-monitoring via `osr-brake`'s WSP + pressure sense loops. |
 | Emergency brake | Same discs, different current source (ultra-cap + battery fallback); independent of regen | SIL-4: emergency-brake current cannot fail with any single electronics failure. Tested on every ignition cycle by the `osr-vigilance` start-up check. |
 | Aux inverter | 400 V 3-phase AC, 24 V DC, 110 V DC outputs | Runs HVAC, lighting, compressors (if any — per-deployment choice), PIS, comms. `osr-aux-power` drives it. |
 
@@ -108,11 +108,11 @@ one supplier-qualification set.
 | Aspect | Choice | Rationale |
 |---|---|---|
 | Floor | Low-floor centre section at the large door zone, with raised floor over the two standard bogies | Gives level boarding where passengers move while avoiding exotic low-floor bogies. |
-| Door count | 1 large centre double-door pair per car side on every 17 m self-contained car | The default 1 km stop pattern favours wide, simple openings over many narrow doors. Capacity scales by adding identical cars, not changing the door pattern. |
-| Door clearance | 1 250 mm wide × 2 000 mm tall opening | Wheelchair + stroller compatible. |
+| Door count | 2 large centre-zone double-door pairs per car side on every 17 m self-contained car | The default 1 km stop pattern favours wide, simple openings and short dwell times. Capacity scales by adding identical cars, not changing the door pattern. |
+| Door clearance | 1 400 mm nominal structural opening, ≥ 1 250 mm clear after seals/thresholds, × 2 000 mm tall | Wheelchair + stroller compatible. |
 | Seating | Longitudinal bench seating, ≥ 15 % seats priority (elderly, pregnant, wheelchair companion) | Standing-heavy mix maximises peak capacity; matches the pphpd planning band. |
 | Wheelchair spaces | 2 per car (4 per `tram-2car`, 6 per `light-metro-3car`, 8 per `metro-4car`, 12 per `metro-6car`) | Per accessibility template ([`lib/templates/accessibility.toml`](../../lib/templates/accessibility.toml)). |
-| HVAC | Design ambient +50 °C (all families) | Matches the Samawah reference envelope and most target-region summers. Dehumidifier + evaporator + reversible heat pump — no resistive heating. Sized per `osr-hvac`'s 25 % hot-climate uplift rule. |
+| HVAC | Design ambient +50 °C (all families) | Matches hot-climate deployment instances such as Samawah and most target-region summers. Dehumidifier + evaporator + reversible heat pump — no resistive heating. Sized per `osr-hvac`'s 25 % hot-climate uplift rule. |
 | Fire safety | EN 45545-2 HL2 R1 for body, R7 for seats, R1 for cable | HL2 is the hazard level for metro; R1/R7 are the tests for rigid surfaces and upholstery respectively. |
 | Lighting | LED, 300 lx average, with sunset/sunrise dimming | Cut from `osr-lighting`'s evaluator. |
 
@@ -227,7 +227,7 @@ rolling_stock = "<family>"`.
 | **v2** ✅ | Emitter enforces `rolling_stock` / track / station compatibility in the auto-gen pipeline — family picked by population band, geometry paired from the compatibility matrix, platform length derived per line (done 2026-04-22) | v0 |
 | **v3** | BOM + shop drawings for `tram-2car`, `metro-4car`, `metro-6car` | v1 |
 | **v4** | EN 15227 simulation + EN 45545-2 sample tests for the `light-metro-3car` cab module | v1 |
-| **v5** | First-article rolling-stock prototype produced by the Samawah pilot operator or equivalent | v1, RFC 0003 §5 |
+| **v5** | First-article rolling-stock prototype produced by a deployment operator | v1, RFC 0003 §5 |
 
 Each phase owns a separate session. This RFC's v0 deliverable is
 only the envelope.

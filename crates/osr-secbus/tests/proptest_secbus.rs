@@ -5,10 +5,7 @@ use osr_crypto::{ed25519_generate, ED25519_SIGNATURE_LEN};
 use osr_secbus::{sign_bytes, verify_signed, KeyRegistry, VerifyError};
 use proptest::prelude::*;
 
-fn reg_with_issuer(
-    issuer: EntityId,
-    sk: &osr_crypto::Ed25519SigningKey,
-) -> KeyRegistry {
+fn reg_with_issuer(issuer: EntityId, sk: &osr_crypto::Ed25519SigningKey) -> KeyRegistry {
     let mut r = KeyRegistry::new();
     r.insert(issuer, sk.public());
     r

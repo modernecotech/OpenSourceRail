@@ -22,7 +22,9 @@ fn single_advisory_entry_commits() {
     assert!(ok, "no quorum commit within budget");
     check_all(&c).unwrap();
     for (_id, committed) in &c.committed {
-        assert!(committed.iter().any(|(i, e)| i.0 == 1 && e.value == b"hello"));
+        assert!(committed
+            .iter()
+            .any(|(i, e)| i.0 == 1 && e.value == b"hello"));
     }
 }
 
@@ -58,7 +60,11 @@ fn quorum_loss_prevents_new_commits() {
     c.tick(100_000_000);
     let ln = c.nodes.get(&leader).unwrap();
     assert_eq!(ln.log.len(), 1);
-    assert_eq!(ln.commit_index, LogIndex::zero(), "should not commit without quorum");
+    assert_eq!(
+        ln.commit_index,
+        LogIndex::zero(),
+        "should not commit without quorum"
+    );
     check_all(&c).unwrap();
 }
 

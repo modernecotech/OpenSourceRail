@@ -43,7 +43,7 @@ FAMILY_CAR_COUNT = {
 FAMILY_MOTORISED = {
     "urban-shuttle-1car": (True,),
     "tram-2car": (True, True),
-    "light-metro-3car": (True, False, True),
+    "light-metro-3car": (True, True, True),
     "metro-4car": (True, True, True, True),
     "metro-6car": (True, True, True, True, True, True),
 }

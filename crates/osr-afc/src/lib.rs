@@ -43,7 +43,9 @@ pub mod evaluate;
 pub mod token;
 pub mod validate;
 
-pub use evaluate::{afc_evaluate, AfcEvent, AfcInputs, AfcOutput, AfcParams, AfcState, GateCommand};
+pub use evaluate::{
+    afc_evaluate, AfcEvent, AfcInputs, AfcOutput, AfcParams, AfcState, GateCommand,
+};
 pub use osr_crypto::HMAC_SHA256_LEN;
 pub use token::{FareToken, SIGNED_BYTE_LEN};
 pub use validate::{sign_token, validate_token, Decision, DenyReason};

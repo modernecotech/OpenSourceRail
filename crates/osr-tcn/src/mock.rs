@@ -194,10 +194,14 @@ mod tests {
         let mut tcn = MockTcn::new();
         let t = topic(&tcn, "osr.train.atp.envelope");
         for i in 0..5 {
-            tcn.publish(t, &TestSafetyPayload { value: i, ts: 0 }).unwrap();
+            tcn.publish(t, &TestSafetyPayload { value: i, ts: 0 })
+                .unwrap();
         }
         let drained: Vec<_> = tcn.drain::<TestSafetyPayload>(t);
-        assert_eq!(drained.iter().map(|p| p.value).collect::<Vec<_>>(), vec![0, 1, 2, 3, 4]);
+        assert_eq!(
+            drained.iter().map(|p| p.value).collect::<Vec<_>>(),
+            vec![0, 1, 2, 3, 4]
+        );
     }
 
     #[test]
@@ -206,7 +210,8 @@ mod tests {
         let t = topic(&tcn, "osr.train.atp.envelope");
         tcn.set_capacity(t, 3);
         for i in 0..3 {
-            tcn.publish(t, &TestSafetyPayload { value: i, ts: 0 }).unwrap();
+            tcn.publish(t, &TestSafetyPayload { value: i, ts: 0 })
+                .unwrap();
         }
         // 4th publish fails.
         let err = tcn.publish(t, &TestSafetyPayload { value: 99, ts: 0 });
@@ -219,14 +224,22 @@ mod tests {
         let t = topic(&tcn, "osr.train.pis.display");
         tcn.set_capacity(t, 3);
         for i in 0..5 {
-            tcn.publish(t, &TestAppPayload { text: format!("{i}") }).unwrap();
+            tcn.publish(
+                t,
+                &TestAppPayload {
+                    text: format!("{i}"),
+                },
+            )
+            .unwrap();
         }
         assert_eq!(tcn.depth(t), 3);
         assert_eq!(tcn.drops(t), 2);
         let drained: Vec<_> = tcn.drain::<TestAppPayload>(t);
         // Oldest two dropped; [2, 3, 4] remain.
-        assert_eq!(drained.iter().map(|p| p.text.clone()).collect::<Vec<_>>(),
-            vec!["2", "3", "4"]);
+        assert_eq!(
+            drained.iter().map(|p| p.text.clone()).collect::<Vec<_>>(),
+            vec!["2", "3", "4"]
+        );
     }
 
     #[test]
@@ -234,7 +247,8 @@ mod tests {
         let mut tcn = MockTcn::new();
         let a = topic(&tcn, "osr.train.atp.envelope");
         let b = topic(&tcn, "osr.train.atp.command");
-        tcn.publish(a, &TestSafetyPayload { value: 1, ts: 0 }).unwrap();
+        tcn.publish(a, &TestSafetyPayload { value: 1, ts: 0 })
+            .unwrap();
         assert!(tcn.recv_one::<TestSafetyPayload>(b).is_none());
         assert!(tcn.recv_one::<TestSafetyPayload>(a).unwrap().is_ok());
     }
@@ -244,7 +258,8 @@ mod tests {
         let mut tcn = MockTcn::new();
         let t = topic(&tcn, "osr.train.atp.envelope");
         for i in 0..3 {
-            tcn.publish(t, &TestSafetyPayload { value: i, ts: 0 }).unwrap();
+            tcn.publish(t, &TestSafetyPayload { value: i, ts: 0 })
+                .unwrap();
         }
         assert_eq!(tcn.depth(t), 3);
         assert_eq!(tcn.published(t), 3);

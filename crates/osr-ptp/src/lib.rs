@@ -145,7 +145,11 @@ pub fn ptp_update(prev: &PtpState, sample: &PtpSample, params: &PtpParams) -> Pt
         }
     }
 
-    PtpOutput { state, offset_ns: offset, path_delay_ns }
+    PtpOutput {
+        state,
+        offset_ns: offset,
+        path_delay_ns,
+    }
 }
 
 #[cfg(test)]
@@ -196,7 +200,11 @@ mod tests {
 
     #[test]
     fn lock_transitions_up_then_down() {
-        let p = PtpParams { lock_threshold_ns: 50, lock_streak: 3, unlock_streak: 2 };
+        let p = PtpParams {
+            lock_threshold_ns: 50,
+            lock_streak: 3,
+            unlock_streak: 2,
+        };
         let mut st = PtpState::default();
         // Feed 3 good samples → Locked
         for _ in 0..3 {

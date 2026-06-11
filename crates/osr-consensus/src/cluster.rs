@@ -75,8 +75,7 @@ impl Cluster {
         let mut committed = BTreeMap::new();
         for id in &ids {
             let mut cfg = Config::with_defaults(*id, ids.clone());
-            cfg.election_timeout_ns =
-                base_election_timeout_ns + 20_000_000_u64 * u64::from(id.0);
+            cfg.election_timeout_ns = base_election_timeout_ns + 20_000_000_u64 * u64::from(id.0);
             nodes.insert(*id, RaftNode::new(cfg, 0));
             inbox.insert(*id, VecDeque::new());
             committed.insert(*id, Vec::new());
@@ -133,7 +132,9 @@ impl Cluster {
     }
 
     fn run_node(&mut self, id: NodeId, event: Event) {
-        let Some(node) = self.nodes.get_mut(&id) else { return };
+        let Some(node) = self.nodes.get_mut(&id) else {
+            return;
+        };
         let actions = step(node, event, self.now_ns);
         for action in actions {
             match action {
@@ -146,10 +147,7 @@ impl Cluster {
                     }
                 }
                 Action::Committed { index, entry } => {
-                    self.committed
-                        .entry(id)
-                        .or_default()
-                        .push((index, entry));
+                    self.committed.entry(id).or_default().push((index, entry));
                 }
                 Action::BecameLeader { term } => {
                     self.became_leader.push((self.now_ns, id, term));

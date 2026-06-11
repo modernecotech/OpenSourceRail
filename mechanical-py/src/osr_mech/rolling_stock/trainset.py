@@ -50,13 +50,12 @@ COUPLING_GAP_MM = 0.0
 
 # Motorisation pattern per family (RFC 0022 §8).
 # True = the car carries one motor bogie and one trailer bogie.
-# False = the car carries two trailer bogies. The light-metro concept
-# uses powered end cars; every car keeps a low-floor centre with raised
-# end decks over the standard bogies.
+# False is retained for legacy/trailer-only experiments, but catalog
+# OSR families repeat the same self-contained car module.
 _FAMILY_MOTORISED_CARS: dict[ConsistFamily, tuple[bool, ...]] = {
     ConsistFamily.URBAN_SHUTTLE_1CAR: (True,),
     ConsistFamily.TRAM_2CAR: (True, True),
-    ConsistFamily.LIGHT_METRO_3CAR: (True, False, True),
+    ConsistFamily.LIGHT_METRO_3CAR: (True, True, True),
     ConsistFamily.METRO_4CAR: (True, True, True, True),
     ConsistFamily.METRO_6CAR: (True, True, True, True, True, True),
 }
@@ -70,8 +69,13 @@ def family_dimensions(family: ConsistFamily) -> CarDimensions:
 
 
 def family_motorisation(family: ConsistFamily) -> tuple[bool, ...]:
-    """Return the per-car motorisation pattern (True = motor car,
-    False = trailer car) for a given consist family per RFC 0022 §8."""
+    """Return the per-car motorisation pattern.
+
+    True means the car carries one motor bogie and one trailer bogie;
+    False means two trailer bogies for a legacy/trailer-only variant.
+    Catalog OSR families are all repeated self-contained cars per
+    RFC 0022 §8.
+    """
     return _FAMILY_MOTORISED_CARS[family]
 
 

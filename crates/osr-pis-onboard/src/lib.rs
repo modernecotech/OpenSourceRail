@@ -210,9 +210,7 @@ pub fn pis_evaluate(prev: &PisState, inputs: &PisInputs, params: &PisParams) -> 
                 if d <= params.approach_distance_mm {
                     let first_approach = prev.last_announce_station != Some(sid)
                         || prev.last_announce_kind != AnnouncementKind::NextStation;
-                    let ann = if first_approach
-                        && inputs.now_ns >= prev.next_announce_allowed_ns
-                    {
+                    let ann = if first_approach && inputs.now_ns >= prev.next_announce_allowed_ns {
                         new_state.next_announce_allowed_ns = inputs
                             .now_ns
                             .saturating_add(u64::from(params.announce_cooldown_ms) * 1_000_000);
@@ -226,7 +224,10 @@ pub fn pis_evaluate(prev: &PisState, inputs: &PisInputs, params: &PisParams) -> 
                 } else {
                     let eta = eta_s(d, inputs.speed_mmps);
                     (
-                        DisplayMessage::NextStation { station_id: sid, eta_s: eta },
+                        DisplayMessage::NextStation {
+                            station_id: sid,
+                            eta_s: eta,
+                        },
                         AnnouncementKind::None,
                     )
                 }
@@ -266,9 +267,16 @@ mod tests {
 
     #[test]
     fn cruising_shows_next_station() {
-        let out = pis_evaluate(&PisState::default(), &nominal(42, 2_000_000, 15_000), &PisParams::light_metro_default());
+        let out = pis_evaluate(
+            &PisState::default(),
+            &nominal(42, 2_000_000, 15_000),
+            &PisParams::light_metro_default(),
+        );
         assert_eq!(out.mode, PisMode::Normal);
-        assert!(matches!(out.display_message, DisplayMessage::NextStation { station_id: 42, .. }));
+        assert!(matches!(
+            out.display_message,
+            DisplayMessage::NextStation { station_id: 42, .. }
+        ));
         assert_eq!(out.audio_announcement, AnnouncementKind::None);
     }
 
@@ -276,7 +284,10 @@ mod tests {
     fn approach_within_threshold_announces() {
         let p = PisParams::light_metro_default();
         let out = pis_evaluate(&PisState::default(), &nominal(42, 400_000, 15_000), &p);
-        assert!(matches!(out.display_message, DisplayMessage::Approaching { station_id: 42 }));
+        assert!(matches!(
+            out.display_message,
+            DisplayMessage::Approaching { station_id: 42 }
+        ));
         assert_eq!(out.audio_announcement, AnnouncementKind::NextStation);
     }
 
@@ -286,7 +297,10 @@ mod tests {
         let mut i = nominal(42, 0, 0);
         i.at_station = true;
         let first = pis_evaluate(&PisState::default(), &i, &p);
-        assert!(matches!(first.display_message, DisplayMessage::ArrivedAt { station_id: 42 }));
+        assert!(matches!(
+            first.display_message,
+            DisplayMessage::ArrivedAt { station_id: 42 }
+        ));
         assert_eq!(first.audio_announcement, AnnouncementKind::Arrival);
 
         // Second tick at the same station: cooldown suppresses repeat.

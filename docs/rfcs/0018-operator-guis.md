@@ -201,7 +201,7 @@ trivially "read-only view of committed log."
 | **v2** | `osr-sim-gui` full sim integration (live tick stream, click-to-inspect) | v1, RFC 0003 |
 | **v3** | `osr-occ-gui` live consensus integration (read + write via RFC 0017 signed envelopes) | v1, RFC 0017 v2 |
 | **v4** | WebAssembly builds for remote access to both GUIs | v2, v3 |
-| **v5** | First Samawah deployment uses `osr-occ-gui` in revenue service | RFC 0003, v3 |
+| **v5** | First OSR deployment instance uses `osr-occ-gui` in revenue service | v3 |
 
 ## 10. What this RFC does NOT include
 

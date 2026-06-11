@@ -31,10 +31,10 @@ pub mod topology;
 pub mod kani_proofs;
 
 pub use log::{
-    Confidence, Entry, EntryPayload, FormatVersion, Heartbeat, IntrusionState,
-    MaintenanceOverride, PositionSource, RestrictionReason, RouteGrant, RouteRelease,
-    RouteRequest, SectionIntrusion, SpeedRestriction, SwitchCommand, SwitchObservation,
-    SwitchPosition, TrainDeparture, TrainPositionReport, TrainRegistration,
+    Confidence, Entry, EntryPayload, FormatVersion, Heartbeat, IntrusionState, MaintenanceOverride,
+    PositionSource, RestrictionReason, RouteGrant, RouteRelease, RouteRequest, SectionIntrusion,
+    SpeedRestriction, SwitchCommand, SwitchObservation, SwitchPosition, TrainDeparture,
+    TrainPositionReport, TrainRegistration,
 };
 pub use ma::{
     compute_self_ma, compute_self_ma_from_state, section_available_to, MovementAuthority,
@@ -43,4 +43,4 @@ pub use ma::{
 pub use state::{
     derive_state, section_intrusion_permits, DerivedState, SwitchState, TrainAwareness,
 };
-pub use topology::{footprint_from, forward_chain, far_end_of};
+pub use topology::{far_end_of, footprint_from, forward_chain};

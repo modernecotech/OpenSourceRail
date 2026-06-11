@@ -3,8 +3,8 @@
 use std::collections::BTreeSet;
 
 use osr_afc::{
-    afc_evaluate, sign_token, validate_token, AfcInputs, AfcParams, AfcState, Decision,
-    DenyReason, FareToken, GateCommand,
+    afc_evaluate, sign_token, validate_token, AfcInputs, AfcParams, AfcState, Decision, DenyReason,
+    FareToken, GateCommand,
 };
 use proptest::prelude::*;
 

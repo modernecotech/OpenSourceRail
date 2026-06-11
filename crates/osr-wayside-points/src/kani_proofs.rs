@@ -92,8 +92,16 @@ fn arb_prev() -> SwitchState {
         detected: arb_detected(),
         commanded: arb_commanded_opt(),
         motor: arb_motor(),
-        motor_started_ns: if has_started { Some(motor_started_ns) } else { None },
-        fault_until_ns: if has_fault { Some(fault_until_ns) } else { None },
+        motor_started_ns: if has_started {
+            Some(motor_started_ns)
+        } else {
+            None
+        },
+        fault_until_ns: if has_fault {
+            Some(fault_until_ns)
+        } else {
+            None
+        },
         fault_reason: arb_fault_reason_opt(),
         last_emitted_detected: arb_detected(),
     }

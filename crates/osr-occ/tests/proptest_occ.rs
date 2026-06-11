@@ -7,8 +7,13 @@ use osr_occ::{
 use proptest::prelude::*;
 
 fn arb_report() -> impl Strategy<Value = TrainReport> {
-    (0u32..10, 0u64..1_000_000_000_000, 0u32..50, -30_000i32..30_000).prop_map(
-        |(tid, now, sec, speed)| TrainReport {
+    (
+        0u32..10,
+        0u64..1_000_000_000_000,
+        0u32..50,
+        -30_000i32..30_000,
+    )
+        .prop_map(|(tid, now, sec, speed)| TrainReport {
             train_id: tid,
             now_ns: now,
             position_section: Some(sec),
@@ -16,8 +21,7 @@ fn arb_report() -> impl Strategy<Value = TrainReport> {
             any_emergency: false,
             worst_alarm: 0,
             soc_ppt: 800,
-        },
-    )
+        })
 }
 
 fn arb_severity() -> impl Strategy<Value = IncidentSeverity> {

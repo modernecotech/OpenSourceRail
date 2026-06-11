@@ -489,7 +489,7 @@ implementation session doesn't rediscover them.
 | **v2** ✅ (spec) | Board-level specifications for every host class: T-ECU/S at [`hardware/t-ecu-s/schematics/v2-spec/`](../../hardware/t-ecu-s/schematics/v2-spec/) (done 2026-04-22), T-OBS at [`hardware/t-obs/schematics/v2-spec/`](../../hardware/t-obs/schematics/v2-spec/) (done 2026-04-22), T-ECU/A at [`hardware/t-ecu-a/schematics/v2-spec/`](../../hardware/t-ecu-a/schematics/v2-spec/), W-SBC at [`hardware/w-sbc/schematics/v2-spec/`](../../hardware/w-sbc/schematics/v2-spec/), S-SBC at [`hardware/s-sbc/schematics/v2-spec/`](../../hardware/s-sbc/schematics/v2-spec/) (all done 2026-04-23). Each covers block diagram, power budget, connector tables, and (for SIL-4 boards) safety-nets. KiCad capture + gerbers + BOM are custom-board deliverables under CERN-OHL-S v2, not prerequisites for an RFC 0019 pilot build. | v1 |
 | **v3** | Compliance-test campaign for T-ECU/S (EN 50155 OT4, IEC 61373 Cat 1B, EN 50121-3-2) on one v2 prototype | v2 |
 | **v4** | Quantity-100 procurement package published — canonical BOM with Mouser / Digi-Key / LCSC lines, pick-and-place + stencil files, assembly drawings | v2 |
-| **v5** | First-article approval by the Samawah reference operator (or equivalent pilot) | v4, RFC 0003 |
+| **v5** | First-article approval by a deployment operator | v4, RFC 0003 |
 
 **This RFC's v0 deliverable is only the plan.** Every later phase is
 a dedicated piece of work owned by the hardware working group. The

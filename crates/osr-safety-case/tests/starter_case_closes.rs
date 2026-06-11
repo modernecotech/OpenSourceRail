@@ -12,8 +12,7 @@ use osr_safety_case::Case;
 
 fn workspace_root() -> PathBuf {
     // CARGO_MANIFEST_DIR → crates/osr-safety-case/. Go up twice.
-    let manifest =
-        std::env::var("CARGO_MANIFEST_DIR").expect("CARGO_MANIFEST_DIR set by cargo");
+    let manifest = std::env::var("CARGO_MANIFEST_DIR").expect("CARGO_MANIFEST_DIR set by cargo");
     Path::new(&manifest)
         .parent()
         .and_then(|p| p.parent())

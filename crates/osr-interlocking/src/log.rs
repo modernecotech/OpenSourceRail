@@ -6,8 +6,7 @@
 //! path's authoritative arithmetic.
 
 use osr_core::{
-    ConsistDescriptor, EntityId, EntryId, RegionId, RouteId, SectionId, SwitchId,
-    TrainId,
+    ConsistDescriptor, EntityId, EntryId, RegionId, RouteId, SectionId, SwitchId, TrainId,
 };
 use osr_core::{Direction, Position, TrackRef};
 use serde::{Deserialize, Serialize};

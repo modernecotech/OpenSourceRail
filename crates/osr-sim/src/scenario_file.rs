@@ -6,16 +6,14 @@
 //!
 //! Schema reference: see `lib/examples/README.md` at the repository root.
 
-use osr_core::{
-    ConsistDescriptor, Line, Network, Section, SectionId, Station, StationId,
-};
+use osr_core::{ConsistDescriptor, Line, Network, Section, SectionId, Station, StationId};
 use serde::Deserialize;
 use std::collections::HashMap;
 
 use crate::energy::EnergySiteConfig;
 use crate::fault::{Fault, FaultKind, FaultScope, TrainFaultScope};
 use crate::schedule::{LineSchedule, TimeWindow};
-use crate::sim::{ClimateModel, LineFleet, ScenarioConfig};
+use crate::sim::{ClimateModel, LineFleet, RoofPvAirCleanerConfig, RoofPvConfig, ScenarioConfig};
 use crate::train::Heading;
 
 // ===========================================================================
@@ -82,6 +80,52 @@ pub struct ConsistSpec {
     /// Service-brake acceleration, m/s² (default 1.0).
     #[serde(default)]
     pub service_accel_mps2: Option<f32>,
+    /// Optional onboard PV package. In TOML this is written as
+    /// `[consist.roof_pv]`.
+    #[serde(default)]
+    pub roof_pv: Option<RoofPvSpec>,
+}
+
+#[derive(Debug, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct RoofPvSpec {
+    /// Trainset-level DC nameplate after module/string aggregation.
+    pub nameplate_kw: f32,
+    /// Usable output derate applied after the shared PV curve
+    /// (module heat, MPPT, cable, dirt, and mounting losses). Default 1.0.
+    #[serde(default = "default_roof_pv_usable_factor")]
+    pub usable_factor: f32,
+    /// Whether roof PV charges while the train is in a section. Default true.
+    #[serde(default = "default_true")]
+    pub charges_while_moving: bool,
+    /// Whether roof PV charges during station dwell or dispatch hold. Default true.
+    #[serde(default = "default_true")]
+    pub charges_while_dwelled: bool,
+    /// Optional low-pressure air-pump / air-knife cleaner for dusty service.
+    #[serde(default)]
+    pub air_cleaner: Option<RoofPvAirCleanerSpec>,
+}
+
+#[derive(Debug, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct RoofPvAirCleanerSpec {
+    /// If the block is present, default to enabled unless explicitly disabled.
+    #[serde(default = "default_true")]
+    pub enabled: bool,
+    /// Trainset-level compressor/blower parasitic load while PV is available.
+    #[serde(default)]
+    pub compressor_power_kw: f32,
+    /// Fraction of dust-driven PV loss recovered by the cleaner, 0.0..1.0.
+    #[serde(default)]
+    pub dust_loss_recovery_frac: f32,
+}
+
+fn default_roof_pv_usable_factor() -> f32 {
+    1.0
+}
+
+fn default_true() -> bool {
+    true
 }
 
 #[derive(Debug, Deserialize)]
@@ -233,35 +277,77 @@ fn default_fault_day() -> u32 {
 #[derive(Debug)]
 pub enum LoadError {
     Parse(String),
-    InvalidTime { field: &'static str, value: String },
+    InvalidTime {
+        field: &'static str,
+        value: String,
+    },
     InvalidHeading(String),
     DuplicateStationId(String),
     DuplicateLineId(String),
-    UnknownStation { referenced_by: String, id: String },
-    UnknownLine { referenced_by: String, id: String },
+    UnknownStation {
+        referenced_by: String,
+        id: String,
+    },
+    UnknownLine {
+        referenced_by: String,
+        id: String,
+    },
     RingMissingWrapLength(String),
     LinearWithWrapLength(String),
     LineWithFewerThanTwoStations(String),
     EmptyFleetDispatchPoints(String),
     EmptySchedule(String),
-    ZeroHeadway { line: String, from: String, to: String },
-    ServiceWindowInverted { line: String },
-    ScheduleWindowInverted { line: String, from: String, to: String },
-    DispatchPointNotOnLine { line: String, station: String },
+    ZeroHeadway {
+        line: String,
+        from: String,
+        to: String,
+    },
+    ServiceWindowInverted {
+        line: String,
+    },
+    ScheduleWindowInverted {
+        line: String,
+        from: String,
+        to: String,
+    },
+    DispatchPointNotOnLine {
+        line: String,
+        station: String,
+    },
     InconsistentFirstStationDistance(String),
     DuplicateSite(String),
-    InvalidSocInitial { station: String, soc: f32 },
+    InvalidSocInitial {
+        station: String,
+        soc: f32,
+    },
     InvalidFaultKind(String),
-    InvalidFaultDay { name: String, day: u32 },
-    InvalidFaultWindow { name: String },
+    InvalidFaultDay {
+        name: String,
+        day: u32,
+    },
+    InvalidFaultWindow {
+        name: String,
+    },
     DustEventMissingFactor(String),
-    InvalidDustFactor { name: String, factor: f32 },
+    InvalidDustFactor {
+        name: String,
+        factor: f32,
+    },
     ChargingPadOutageMissingStation(String),
-    UltrasonicChannelOutOfRange { name: String, channel: u8 },
+    UltrasonicChannelOutOfRange {
+        name: String,
+        channel: u8,
+    },
     UltrasonicChannelMissing(String),
-    UnknownTrain { referenced_by: String, id: String },
+    UnknownTrain {
+        referenced_by: String,
+        id: String,
+    },
     WaysideIntrusionMissingSection(String),
-    InvalidIntrusionState { name: String, state: String },
+    InvalidIntrusionState {
+        name: String,
+        state: String,
+    },
 }
 
 impl std::fmt::Display for LoadError {
@@ -296,10 +382,16 @@ impl std::fmt::Display for LoadError {
                 write!(f, "schedule window {from}–{to} on line '{line}' has headway_min = 0")
             }
             ServiceWindowInverted { line } => {
-                write!(f, "service_end must be after service_start for line '{line}'")
+                write!(
+                    f,
+                    "service_end must differ from service_start for line '{line}'"
+                )
             }
             ScheduleWindowInverted { line, from, to } => {
-                write!(f, "schedule window {from}–{to} on line '{line}' is inverted")
+                write!(
+                    f,
+                    "schedule window {from}–{to} on line '{line}' has zero duration"
+                )
             }
             DispatchPointNotOnLine { line, station } => {
                 write!(f, "dispatch point station '{station}' is not on line '{line}'")
@@ -392,9 +484,7 @@ pub fn load_scenario_from_path(path: &std::path::Path) -> Result<ScenarioConfig,
 /// parse failure means the schema drifted and the build was wrong.
 #[must_use]
 pub fn canonical_samawah_scenario() -> ScenarioConfig {
-    const SAMAWAH_TOML: &str = include_str!(
-        "../../../designs/west-asia/Iraq/Samawah/samawah.toml"
-    );
+    const SAMAWAH_TOML: &str = include_str!("../../../designs/west-asia/Iraq/Samawah/samawah.toml");
     load_scenario_from_str(SAMAWAH_TOML)
         .expect("bundled samawah.toml failed to parse — schema drifted vs scenario_file.rs")
 }
@@ -480,14 +570,26 @@ fn build_scenario(file: ScenarioFile) -> Result<ScenarioConfig, LoadError> {
             next_fwd_section += 1;
             next_rev_section += 1;
 
-            network.sections.insert(fwd_id, Section {
-                id: fwd_id, from_station: from, to_station: to,
-                length_mm, max_speed_mps: 22.0,
-            });
-            network.sections.insert(rev_id, Section {
-                id: rev_id, from_station: to, to_station: from,
-                length_mm, max_speed_mps: 22.0,
-            });
+            network.sections.insert(
+                fwd_id,
+                Section {
+                    id: fwd_id,
+                    from_station: from,
+                    to_station: to,
+                    length_mm,
+                    max_speed_mps: 22.0,
+                },
+            );
+            network.sections.insert(
+                rev_id,
+                Section {
+                    id: rev_id,
+                    from_station: to,
+                    to_station: from,
+                    length_mm,
+                    max_speed_mps: 22.0,
+                },
+            );
             forward_sections.push(fwd_id);
             reverse_sections.push(rev_id);
         }
@@ -500,14 +602,26 @@ fn build_scenario(file: ScenarioFile) -> Result<ScenarioConfig, LoadError> {
             let rev_id = SectionId::new(next_rev_section);
             next_fwd_section += 1;
             next_rev_section += 1;
-            network.sections.insert(fwd_id, Section {
-                id: fwd_id, from_station: last, to_station: first,
-                length_mm: wrap_len_mm, max_speed_mps: 22.0,
-            });
-            network.sections.insert(rev_id, Section {
-                id: rev_id, from_station: first, to_station: last,
-                length_mm: wrap_len_mm, max_speed_mps: 22.0,
-            });
+            network.sections.insert(
+                fwd_id,
+                Section {
+                    id: fwd_id,
+                    from_station: last,
+                    to_station: first,
+                    length_mm: wrap_len_mm,
+                    max_speed_mps: 22.0,
+                },
+            );
+            network.sections.insert(
+                rev_id,
+                Section {
+                    id: rev_id,
+                    from_station: first,
+                    to_station: last,
+                    length_mm: wrap_len_mm,
+                    max_speed_mps: 22.0,
+                },
+            );
             forward_sections.push(fwd_id);
             reverse_sections.push(rev_id);
         }
@@ -549,12 +663,13 @@ fn build_scenario(file: ScenarioFile) -> Result<ScenarioConfig, LoadError> {
 
         let mut dispatch_points: Vec<(StationId, Heading)> = Vec::new();
         for dp in &spec.dispatch_points {
-            let station = *station_ids
-                .get(&dp.station)
-                .ok_or_else(|| LoadError::UnknownStation {
-                    referenced_by: format!("fleet for line '{}'", spec.line),
-                    id: dp.station.clone(),
-                })?;
+            let station =
+                *station_ids
+                    .get(&dp.station)
+                    .ok_or_else(|| LoadError::UnknownStation {
+                        referenced_by: format!("fleet for line '{}'", spec.line),
+                        id: dp.station.clone(),
+                    })?;
             if !line_station_set.contains(&station) {
                 return Err(LoadError::DispatchPointNotOnLine {
                     line: spec.line.clone(),
@@ -568,15 +683,17 @@ fn build_scenario(file: ScenarioFile) -> Result<ScenarioConfig, LoadError> {
         // Schedule.
         let service_start_s = parse_time("service_start", &spec.service_start)?;
         let service_end_s = parse_time("service_end", &spec.service_end)?;
-        if service_end_s <= service_start_s {
-            return Err(LoadError::ServiceWindowInverted { line: spec.line.clone() });
+        if service_end_s == service_start_s {
+            return Err(LoadError::ServiceWindowInverted {
+                line: spec.line.clone(),
+            });
         }
 
         let mut windows = Vec::new();
         for w in &spec.schedule {
             let start_s = parse_time("schedule.from", &w.from)?;
             let end_s = parse_time("schedule.to", &w.to)?;
-            if end_s <= start_s {
+            if end_s == start_s {
                 return Err(LoadError::ScheduleWindowInverted {
                     line: spec.line.clone(),
                     from: w.from.clone(),
@@ -616,12 +733,13 @@ fn build_scenario(file: ScenarioFile) -> Result<ScenarioConfig, LoadError> {
         if !seen_sites.insert(site.station.clone()) {
             return Err(LoadError::DuplicateSite(site.station.clone()));
         }
-        let station_id = *station_ids
-            .get(&site.station)
-            .ok_or_else(|| LoadError::UnknownStation {
-                referenced_by: "site".to_string(),
-                id: site.station.clone(),
-            })?;
+        let station_id =
+            *station_ids
+                .get(&site.station)
+                .ok_or_else(|| LoadError::UnknownStation {
+                    referenced_by: "site".to_string(),
+                    id: site.station.clone(),
+                })?;
         if !(0.0..=1.0).contains(&site.storage_initial_soc) {
             return Err(LoadError::InvalidSocInitial {
                 station: site.station.clone(),
@@ -645,12 +763,14 @@ fn build_scenario(file: ScenarioFile) -> Result<ScenarioConfig, LoadError> {
 
     // --- Consist & climate --------------------------------------------------
     let consist = build_consist(file.consist.as_ref());
+    let roof_pv = build_roof_pv(file.consist.as_ref().and_then(|c| c.roof_pv.as_ref()));
     let climate = ClimateModel {
         ambient_c: file.climate.ambient_c,
         peak_sun_hours: file.climate.peak_sun_hours,
-        hvac_uplift_frac: file.climate.hvac_uplift_frac.unwrap_or_else(|| {
-            ((file.climate.ambient_c - 25.0) / 25.0).clamp(0.0, 0.25)
-        }),
+        hvac_uplift_frac: file
+            .climate
+            .hvac_uplift_frac
+            .unwrap_or_else(|| ((file.climate.ambient_c - 25.0) / 25.0).clamp(0.0, 0.25)),
     };
 
     Ok(ScenarioConfig {
@@ -658,6 +778,7 @@ fn build_scenario(file: ScenarioFile) -> Result<ScenarioConfig, LoadError> {
         network,
         fleets,
         consist,
+        roof_pv,
         climate,
         start_time_s_after_midnight: start_time_s,
         energy_sites,
@@ -682,7 +803,9 @@ fn build_faults(
         let from_tod = parse_time("fault.from", &spec.from)?;
         let to_tod = parse_time("fault.to", &spec.to)?;
         if to_tod <= from_tod {
-            return Err(LoadError::InvalidFaultWindow { name: spec.name.clone() });
+            return Err(LoadError::InvalidFaultWindow {
+                name: spec.name.clone(),
+            });
         }
 
         // Absolute seconds since midnight of day 1, then shift by -sim_start_s
@@ -811,18 +934,57 @@ fn train_scope(spec: &FaultSpec) -> Result<TrainFaultScope, LoadError> {
 fn build_consist(spec: Option<&ConsistSpec>) -> ConsistDescriptor {
     let mut c = ConsistDescriptor::reference_3car();
     let Some(s) = spec else { return c };
-    if let Some(v) = s.car_count { c.car_count = v; }
-    if let Some(v) = s.length_m { c.length_mm = v * 1_000; }
-    if let Some(v) = s.mass_kg { c.mass_kg = v; }
-    if let Some(v) = s.max_speed_kmh { c.max_speed_mps = v / 3.6; }
-    if let Some(v) = s.battery_capacity_kwh { c.battery_capacity_wh = v * 1_000; }
-    if let Some(v) = s.service_accel_mps2 { c.service_accel_mps2 = v; }
+    if let Some(v) = s.car_count {
+        c.car_count = v;
+    }
+    if let Some(v) = s.length_m {
+        c.length_mm = v * 1_000;
+    }
+    if let Some(v) = s.mass_kg {
+        c.mass_kg = v;
+    }
+    if let Some(v) = s.max_speed_kmh {
+        c.max_speed_mps = v / 3.6;
+    }
+    if let Some(v) = s.battery_capacity_kwh {
+        c.battery_capacity_wh = v * 1_000;
+    }
+    if let Some(v) = s.service_accel_mps2 {
+        c.service_accel_mps2 = v;
+    }
     c
+}
+
+fn build_roof_pv(spec: Option<&RoofPvSpec>) -> RoofPvConfig {
+    let Some(s) = spec else {
+        return RoofPvConfig::default();
+    };
+    RoofPvConfig {
+        nameplate_kw: s.nameplate_kw.max(0.0),
+        usable_factor: s.usable_factor.clamp(0.0, 1.0),
+        charges_while_moving: s.charges_while_moving,
+        charges_while_dwelled: s.charges_while_dwelled,
+        air_cleaner: build_roof_pv_air_cleaner(s.air_cleaner.as_ref()),
+    }
+}
+
+fn build_roof_pv_air_cleaner(spec: Option<&RoofPvAirCleanerSpec>) -> RoofPvAirCleanerConfig {
+    let Some(s) = spec else {
+        return RoofPvAirCleanerConfig::default();
+    };
+    RoofPvAirCleanerConfig {
+        enabled: s.enabled,
+        compressor_power_kw: s.compressor_power_kw.max(0.0),
+        dust_loss_recovery_frac: s.dust_loss_recovery_frac.clamp(0.0, 1.0),
+    }
 }
 
 fn parse_time(field: &'static str, s: &str) -> Result<u32, LoadError> {
     let parts: Vec<&str> = s.split(':').collect();
-    let bad = || LoadError::InvalidTime { field, value: s.to_string() };
+    let bad = || LoadError::InvalidTime {
+        field,
+        value: s.to_string(),
+    };
     if parts.len() != 2 {
         return Err(bad());
     }

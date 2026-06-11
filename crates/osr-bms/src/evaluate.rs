@@ -13,8 +13,7 @@ pub fn bms_evaluate(prev: &BmsState, inputs: &BmsInputs<'_>, params: &BmsParams)
     // --- 1. Integrate SoC via Coulomb counting -------------------------
     // dQ (mA·s) = pack_current_ma · dt_s = pack_current_ma · dt_ns / 1e9
     let dt_ns_i = i64::try_from(inputs.dt_ns).unwrap_or(i64::MAX);
-    let d_charge_mas =
-        i64::from(inputs.pack_current_ma).saturating_mul(dt_ns_i) / 1_000_000_000;
+    let d_charge_mas = i64::from(inputs.pack_current_ma).saturating_mul(dt_ns_i) / 1_000_000_000;
     let charge_accum_mas = prev.charge_accum_mas.saturating_add(d_charge_mas);
 
     // Pack capacity in mA·s, assuming cells in series (series-parallel
@@ -27,8 +26,7 @@ pub fn bms_evaluate(prev: &BmsState, inputs: &BmsInputs<'_>, params: &BmsParams)
     let soc_ppt = if pack_capacity_mas <= 0 {
         prev.soc_ppt
     } else {
-        let prev_soc_mas =
-            i64::from(prev.soc_ppt).saturating_mul(pack_capacity_mas) / 1_000;
+        let prev_soc_mas = i64::from(prev.soc_ppt).saturating_mul(pack_capacity_mas) / 1_000;
         let new_soc_mas = prev_soc_mas.saturating_add(d_charge_mas);
         let clamped = new_soc_mas.max(0).min(pack_capacity_mas);
         let ppt = clamped.saturating_mul(1_000) / pack_capacity_mas.max(1);
@@ -183,11 +181,7 @@ pub fn bms_evaluate(prev: &BmsState, inputs: &BmsInputs<'_>, params: &BmsParams)
 /// worst-case margin of any cell to any voltage / temperature
 /// threshold. Monotone: as the margin narrows, the limit decreases
 /// linearly toward 0.
-fn derate_limits(
-    inputs: &BmsInputs<'_>,
-    params: &BmsParams,
-    alarm: AlarmLevel,
-) -> (u32, u32) {
+fn derate_limits(inputs: &BmsInputs<'_>, params: &BmsParams, alarm: AlarmLevel) -> (u32, u32) {
     if matches!(alarm, AlarmLevel::Trip) {
         return (0, 0);
     }
@@ -207,8 +201,14 @@ fn derate_limits(
     }
     let charge_headroom_mv = params.v_trip_max_mv.saturating_sub(v_max);
     let discharge_headroom_mv = v_min.saturating_sub(params.v_trip_min_mv);
-    let v_charge_window = params.v_trip_max_mv.saturating_sub(params.v_warn_max_mv).max(1);
-    let v_discharge_window = params.v_warn_min_mv.saturating_sub(params.v_trip_min_mv).max(1);
+    let v_charge_window = params
+        .v_trip_max_mv
+        .saturating_sub(params.v_warn_max_mv)
+        .max(1);
+    let v_discharge_window = params
+        .v_warn_min_mv
+        .saturating_sub(params.v_trip_min_mv)
+        .max(1);
 
     charge = scale_down(charge, charge_headroom_mv, v_charge_window);
     discharge = scale_down(discharge, discharge_headroom_mv, v_discharge_window);
@@ -246,8 +246,7 @@ fn scale_down(limit: u32, headroom: u16, window: u16) -> u32 {
     if headroom >= window {
         return limit;
     }
-    let scaled = u64::from(limit).saturating_mul(u64::from(headroom))
-        / u64::from(window.max(1));
+    let scaled = u64::from(limit).saturating_mul(u64::from(headroom)) / u64::from(window.max(1));
     scaled as u32
 }
 

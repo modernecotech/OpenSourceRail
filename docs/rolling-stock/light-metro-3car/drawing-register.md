@@ -29,7 +29,7 @@ Document IDs use `LM3` for the `light-metro-3car` family. Revision
 | LM3-ELC-300 | Low-voltage harness routing | Integrator | `interfaces.md` | Harness schedule, connector list, segregation, labels |
 | LM3-HV-310 | HV battery/traction routing | Integrator | `traction.md` | HVIL loop, busbars/cables, insulation clearances |
 | LM3-HV-320 | Per-car battery pack and charging assembly | Battery + traction suppliers | `traction.md`, BOM | Na-ion module envelope, HV contactor/BMS cabinet, multi-input PV/station charge inverter, side-pin charge connector, coolant/vent paths |
-| LM3-HV-325 | Rooftop PV and charge-input assembly | Solar + traction suppliers | `traction.md`, `interfaces.md`, BOM | Bonded flexible laminates, raised rigid panels, roof rails, edge clamps, MPPT combiner, fire isolators, downlink gland, bonding/earthing details |
+| LM3-HV-325 | Rooftop PV and charge-input assembly | Solar + traction suppliers | `traction.md`, `interfaces.md`, BOM | Bonded flexible laminates, raised rigid panels, roof rails, edge clamps, MPPT combiner, fire isolators, downlink gland, air-cleaner pump/nozzle manifold, bonding/earthing details |
 | LM3-OBS-330 | T-OBS nose sensor-pack installation | T-OBS supplier + integrator | RFC 0015, BOM | LIDAR, radar, stereo camera, ultrasonic transducers, heated sensor windows, cleaning access |
 | LM3-BOG-400 | Powered bogie assembly | Bogie fabricator | `bogie.md` | Frame drawing, motor/gearbox/brake interfaces |
 | LM3-BOG-410 | Trailer bogie assembly | Bogie fabricator | `bogie.md` | Frame drawing, brake/suspension interfaces |
@@ -40,7 +40,9 @@ Document IDs use `LM3` for the `light-metro-3car` family. Revision
 
 | ID | Evidence | Required before | Notes |
 |---|---|---|---|
+| LM3-EV-CFG-000 | Configuration baseline sheet | v2A design freeze | Confirms 3 repeated cars, 3 powered bogies, 3 trailer bogies, 360 kWh usable battery, 102 t tare target, and no city-specific train variant |
 | LM3-EV-MAT-001 | Steel mill certificates and heat traceability | G0 material release | Covers RHS, plate, machined inserts |
+| LM3-EV-REC-005 | Recovered axle/axlebox acceptance pack | G0B recovered-component release | Quarantine, cleaning, dimensional survey, UT/MT/NDT, bearing replacement or supplier re-certification |
 | LM3-EV-WLD-010 | WPS/PQR register and welder qualifications | First production weld | EN 15085 / EN ISO 9606 basis |
 | LM3-EV-WLD-020 | Weld inspection and NDT report | G1 frame complete | VT + MT/UT per weld class |
 | LM3-EV-DIM-030 | Frame dimensional survey | G1 frame complete | Bogie centres, door/window apertures, coupler height |
@@ -70,7 +72,7 @@ Document IDs use `LM3` for the `light-metro-3car` family. Revision
 | Lighting/PIS/CCTV/intercom | EMC/vibration evidence, firmware version, wiring manual | Enumerates on car network and passes static test |
 | Battery | Cell/module certificate, BMS manual, vent/fire containment data | Fits LM3-BDY-140 and LM3-HV-310 |
 | Traction and charging | Motor/inverter/gearbox datasheets, multi-input charge inverter datasheet, cooling and EMC instructions | Fits LM3-TRC-500, LM3-HV-320, and LM3-HV-325 |
-| Rooftop solar | PV module datasheets, adhesive/bond process, rail/clamp vibration evidence, fire-isolation switch data | Fits LM3-HV-325 without roof-spaceframe redesign |
+| Rooftop solar and air cleaner | PV module datasheets, adhesive/bond process, rail/clamp vibration evidence, fire-isolation switch data, blower/nozzle IP and vibration evidence, filter-service access, soiling-recovery test | Fits LM3-HV-325 without roof-spaceframe redesign |
 | Bogie parts | Wheelset, bearing, spring, damper, brake supplier certificates | Fits LM3-BOG-400/410 |
 | Articulation/gangway | Bearing rating, motion-envelope proof, bellows/turntable fire evidence, maintenance manual | Fits LM3-SYS-170 without carbody adapter redesign |
 
@@ -78,7 +80,7 @@ Document IDs use `LM3` for the `light-metro-3car` family. Revision
 
 | Gate | Minimum drawing/evidence state |
 |---|---|
-| v2A design freeze | All controlled drawings issued at rev A; supplier envelopes frozen |
+| v2A design freeze | LM3-EV-CFG-000 complete; all controlled drawings issued at rev A; supplier envelopes frozen |
 | First steel cut | LM3-BDY-100/110/120, LM3-EV-MAT-001, LM3-EV-WLD-010 complete |
 | First carbody shell complete | LM3-EV-WLD-020, LM3-EV-DIM-030, LM3-EV-COR-040 complete |
 | First COTS fit-out complete | Door/window/HVAC/interior supplier docs accepted; LM3-EV-WTR-070 complete |

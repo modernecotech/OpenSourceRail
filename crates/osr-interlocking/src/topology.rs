@@ -62,11 +62,7 @@ impl SectionArray {
 /// `line.forward_sections`, and symmetrically for Reverse. We validate that
 /// and return an empty chain otherwise, which is the fail-restrictive
 /// response.
-pub fn forward_chain(
-    network: &Network,
-    start: TrackRef,
-    max_distance_mm: i64,
-) -> Vec<SectionId> {
+pub fn forward_chain(network: &Network, start: TrackRef, max_distance_mm: i64) -> Vec<SectionId> {
     let Some((line_idx, start_idx, which)) = locate_section(network, start.section) else {
         return Vec::new();
     };
@@ -150,11 +146,7 @@ pub fn far_end_of(network: &Network, section: SectionId, direction: Direction) -
 /// matching the head's direction. Works for both linear and ring lines.
 /// Formal verification in M3 will bound this to at most 2 sections for a
 /// 51 m reference consist on >= 200 m sections.
-pub fn footprint_from(
-    network: &Network,
-    head: TrackRef,
-    consist_length_mm: u32,
-) -> Vec<SectionId> {
+pub fn footprint_from(network: &Network, head: TrackRef, consist_length_mm: u32) -> Vec<SectionId> {
     let Some((line_idx, head_idx, which)) = locate_section(network, head.section) else {
         return Vec::new();
     };
@@ -232,20 +224,26 @@ mod tests {
         for i in 0..3 {
             let f = SectionId::new(1000 + i);
             let r = SectionId::new(2000 + i);
-            net.sections.insert(f, Section {
-                id: f,
-                from_station: StationId::new((i as u64) + 1),
-                to_station: StationId::new((i as u64) + 2),
-                length_mm: 1_000_000, // 1 km
-                max_speed_mps: 22.0,
-            });
-            net.sections.insert(r, Section {
-                id: r,
-                from_station: StationId::new((i as u64) + 2),
-                to_station: StationId::new((i as u64) + 1),
-                length_mm: 1_000_000,
-                max_speed_mps: 22.0,
-            });
+            net.sections.insert(
+                f,
+                Section {
+                    id: f,
+                    from_station: StationId::new((i as u64) + 1),
+                    to_station: StationId::new((i as u64) + 2),
+                    length_mm: 1_000_000, // 1 km
+                    max_speed_mps: 22.0,
+                },
+            );
+            net.sections.insert(
+                r,
+                Section {
+                    id: r,
+                    from_station: StationId::new((i as u64) + 2),
+                    to_station: StationId::new((i as u64) + 1),
+                    length_mm: 1_000_000,
+                    max_speed_mps: 22.0,
+                },
+            );
             fwd.push(f);
             rev.push(r);
         }
@@ -282,20 +280,26 @@ mod tests {
             let from_idx = (i as u64) + 1;
             let to_idx = ((i as u64) % 4) + 2;
             let to_idx = if to_idx > 4 { 1 } else { to_idx };
-            net.sections.insert(f, Section {
-                id: f,
-                from_station: StationId::new(from_idx),
-                to_station: StationId::new(to_idx),
-                length_mm: 1_000_000,
-                max_speed_mps: 22.0,
-            });
-            net.sections.insert(r, Section {
-                id: r,
-                from_station: StationId::new(to_idx),
-                to_station: StationId::new(from_idx),
-                length_mm: 1_000_000,
-                max_speed_mps: 22.0,
-            });
+            net.sections.insert(
+                f,
+                Section {
+                    id: f,
+                    from_station: StationId::new(from_idx),
+                    to_station: StationId::new(to_idx),
+                    length_mm: 1_000_000,
+                    max_speed_mps: 22.0,
+                },
+            );
+            net.sections.insert(
+                r,
+                Section {
+                    id: r,
+                    from_station: StationId::new(to_idx),
+                    to_station: StationId::new(from_idx),
+                    length_mm: 1_000_000,
+                    max_speed_mps: 22.0,
+                },
+            );
             fwd.push(f);
             rev.push(r);
         }

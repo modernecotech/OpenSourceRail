@@ -18,12 +18,12 @@ urban guided transport (AUGT) — Safety requirements, GoA 4
   RFC 0017)
 - CENELEC EN 50701 — Rail cybersecurity (referenced from RFC 0017)
 
-**Scope of this pack:** establish that an OSR deployment — taking
-the Samawah reference ([RFC 0003](../rfcs/0003-samawah-reference-deployment.md))
-as the first-article instantiation — meets the GoA 4 requirements
-of EN 62267 with sufficient evidence that a national safety
-authority can review and (with deployment-specific additions)
-grant type approval.
+**Scope of this pack:** establish that an OSR deployment instance can
+meet the GoA 4 requirements of EN 62267 with sufficient evidence that a
+national safety authority can review and (with deployment-specific
+additions) grant type approval. Samawah ([RFC 0003](../rfcs/0003-samawah-reference-deployment.md))
+is the worked Iraq instance of the same pack, not a special
+certification path.
 
 ## Audience
 

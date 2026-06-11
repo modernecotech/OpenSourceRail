@@ -35,6 +35,9 @@ pub struct Position {
 
 impl Position {
     pub fn certain(track_ref: TrackRef) -> Self {
-        Self { track_ref, uncertainty_mm: 0 }
+        Self {
+            track_ref,
+            uncertainty_mm: 0,
+        }
     }
 }

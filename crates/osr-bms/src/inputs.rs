@@ -105,7 +105,7 @@ impl BmsParams {
             t_warn_min_dc: -150, // −15 °C
             t_trip_min_dc: -250, // −25 °C
             imbalance_trip_mv: 150,
-            current_trip_ma: 1_500_000, // 1500 A
+            current_trip_ma: 1_500_000,  // 1500 A
             max_charge_ma: 1_000_000,    // 1000 A
             max_discharge_ma: 1_200_000, // 1200 A
             fault_cooldown_ms: 10_000,

@@ -13,10 +13,10 @@
 
 use osr_consensus::{Category, Cluster, LogIndex};
 use osr_core::{ConsistDescriptor, Position, TrackRef, TrainId};
+use osr_core::{Direction, EntryId, SectionId};
 use osr_interlocking::log::{
     Entry, EntryPayload, PositionSource, TrainPositionReport, TrainRegistration,
 };
-use osr_core::{Direction, EntryId, SectionId};
 
 const REFERENCE_3CAR_LENGTH_MM: i64 = 51_000;
 
@@ -91,8 +91,7 @@ fn interlocking_entries_round_trip_through_consensus() {
         let prefix = node.committed_prefix();
         assert_eq!(prefix.len(), 2);
         for (i, slot) in prefix.iter().enumerate() {
-            let decoded: Entry =
-                serde_json::from_slice(&slot.value).expect("deserialise");
+            let decoded: Entry = serde_json::from_slice(&slot.value).expect("deserialise");
             assert_eq!(decoded, originals[i]);
         }
     }

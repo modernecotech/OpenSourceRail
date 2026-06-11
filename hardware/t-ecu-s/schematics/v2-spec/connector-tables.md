@@ -1,9 +1,9 @@
 # T-ECU/S v2 — connector pinouts
 
 Every external connector on the baseboard, pin-by-pin.
-Populating all connectors exactly as below means the v2
-hardware plugs directly into the Samawah reference wiring
-harness without per-site adaptation.
+Populating all connectors exactly as below means the v2 hardware plugs
+into the standard OSR trainset wiring harness without city-specific
+adaptation.
 
 ## J1, J2 — 24 V DC inputs
 

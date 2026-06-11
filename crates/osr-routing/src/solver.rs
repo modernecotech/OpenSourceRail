@@ -146,7 +146,10 @@ pub fn solve_path_in_bbox(
     dist[sidx] = 0.0;
 
     let mut heap: BinaryHeap<State> = BinaryHeap::new();
-    heap.push(State { cost: 0.0, idx: sidx });
+    heap.push(State {
+        cost: 0.0,
+        idx: sidx,
+    });
 
     while let Some(State { cost, idx }) = heap.pop() {
         if idx == gidx {
@@ -189,7 +192,10 @@ pub fn solve_path_in_bbox(
             if ncost < dist[nidx] {
                 dist[nidx] = ncost;
                 prev[nidx] = idx as i32;
-                heap.push(State { cost: ncost, idx: nidx });
+                heap.push(State {
+                    cost: ncost,
+                    idx: nidx,
+                });
             }
         }
     }

@@ -10,7 +10,7 @@ Most OSR target countries — Iraq, Sudan, Pakistan, Mozambique, Angola,
 Venezuela, several CIS states — already own large quantities of
 **dormant Soviet-era / British-era / American-aid-era rolling stock
 and rail workshops**, mostly stored or partially functional. RFC 0003
-(Samawah reference deployment) is the worked example: satellite
+(Samawah deployment instance) is the worked example: satellite
 imagery identifies **300–800 wagons stored in the rail yards adjacent
 to Samawah Train Station**, plus a rolling-stock workshop building
 (historically the target of a 2011 Iranian Waxon Park rehabilitation
@@ -27,8 +27,8 @@ The doctrine has three phases:
 | Phase | Scope | Duration |
 |---|---|---|
 | **P1 — Asset assessment** | Site visit, fleet inventory, workshop tooling audit, bogie/wheelset NDT sample, IRR/national-rail-authority disposition negotiation | 3–6 months |
-| **P2 — Component recovery** | Strip 50–100 wagons for bogies, wheelsets, brake hardware, fasteners, couplers; sell scrap steel; train workforce on the strip operation | 6–12 months |
-| **P3 — First-article OSR trainset** | Build OSR bogie frame (RFC 0022 §2.2) + wheelset recovered in P2, OSR car body (RFC 0008 Track A or B), commission at the rehabilitated workshop. Workshop becomes the regional rolling-stock factory. | 12–24 months |
+| **P2 — Component recovery** | Strip 50–100 wagons for wheelsets, axleboxes, selected brake hardware, fasteners, and couplers; sell scrap steel; train workforce on the strip operation | 6–12 months |
+| **P3 — First-article OSR trainset** | Build fresh OSR powered/trailer bogie frames (RFC 0022 §2.2) + accepted wheelset components recovered in P2, OSR car body (RFC 0008 Track A or B), commission at the rehabilitated workshop. Workshop becomes the regional rolling-stock factory. | 12–24 months |
 
 **This RFC does NOT replace any greenfield-spec RFC.** It runs in
 parallel to RFC 0008 / RFC 0014 / RFC 0022. Where a deployment has no
@@ -162,7 +162,7 @@ process:
 |---|---|
 | Bogie frame (RFC 0022 §2.2) | New, fabricated in the rehabilitated workshop using its CNC + welding capability |
 | Wheelset (RFC 0022 §3) | Recovered axle + new (or refurbished 760 mm) wheel forging press-fit at the workshop |
-| Axlebox + bearing | Recovered, NDT-passed, with new gaskets / seals |
+| Axlebox + bearing | Recovered housing only if NDT/metrology pass; bearing replaced or re-certified by supplier, with new gaskets / seals |
 | Primary suspension (chevron rubber) | New (RFC 0022 §5.1) — recovered rubber elements are usually weathered |
 | Secondary suspension (air-spring) | New (RFC 0022 §5.2) — recovered air-spring assemblies are usually leak-prone after >5 y storage |
 | Traction motor (PMSM) | New (RFC 0022 §4.1, sourced from RFC 0022 §10 tier-2 supplier) |

@@ -33,7 +33,9 @@
 
 use serde::{Deserialize, Serialize};
 
-#[derive(Copy, Clone, Debug, PartialEq, Eq, Hash, Default, Serialize, Deserialize, PartialOrd, Ord)]
+#[derive(
+    Copy, Clone, Debug, PartialEq, Eq, Hash, Default, Serialize, Deserialize, PartialOrd, Ord,
+)]
 pub enum HwAlarmLevel {
     #[default]
     Nominal,
@@ -72,10 +74,10 @@ impl HabdParams {
     #[must_use]
     pub fn default_metro() -> Self {
         Self {
-            warn_dc: 750,        // 75 °C
-            trip_dc: 1_000,      // 100 °C
-            warn_diff_dc: 400,   // 40 °C over ambient
-            trip_diff_dc: 700,   // 70 °C over ambient
+            warn_dc: 750,                     // 75 °C
+            trip_dc: 1_000,                   // 100 °C
+            warn_diff_dc: 400,                // 40 °C over ambient
+            trip_diff_dc: 700,                // 70 °C over ambient
             warning_speed_limit_mmps: 11_000, // ~40 km/h
         }
     }
@@ -93,10 +95,7 @@ pub enum HabdAction {
     },
     /// Emit a stop order for this train (speed restriction of 0
     /// on its current section).
-    StopOrder {
-        train_id: u32,
-        section_id: u32,
-    },
+    StopOrder { train_id: u32, section_id: u32 },
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
@@ -158,7 +157,13 @@ mod tests {
 
     #[test]
     fn nominal_cool_axles() {
-        let axles = vec![AxleReading { axle_index: 0, peak_dc: 300 }; 4];
+        let axles = vec![
+            AxleReading {
+                axle_index: 0,
+                peak_dc: 300
+            };
+            4
+        ];
         let out = habd_evaluate(
             &HabdInputs {
                 now_ns: 0,
@@ -176,8 +181,14 @@ mod tests {
     #[test]
     fn hot_axle_trips_with_stop_order() {
         let axles = vec![
-            AxleReading { axle_index: 0, peak_dc: 300 },
-            AxleReading { axle_index: 1, peak_dc: 1_200 },
+            AxleReading {
+                axle_index: 0,
+                peak_dc: 300,
+            },
+            AxleReading {
+                axle_index: 1,
+                peak_dc: 1_200,
+            },
         ];
         let out = habd_evaluate(
             &HabdInputs {
@@ -190,13 +201,19 @@ mod tests {
             &HabdParams::default_metro(),
         );
         assert_eq!(out.alarm, HwAlarmLevel::Trip);
-        assert!(matches!(out.action, HabdAction::StopOrder { train_id: 7, .. }));
+        assert!(matches!(
+            out.action,
+            HabdAction::StopOrder { train_id: 7, .. }
+        ));
         assert_eq!(out.worst_axle_index, Some(1));
     }
 
     #[test]
     fn warm_axle_warns_with_restriction() {
-        let axles = vec![AxleReading { axle_index: 2, peak_dc: 850 }];
+        let axles = vec![AxleReading {
+            axle_index: 2,
+            peak_dc: 850,
+        }];
         let out = habd_evaluate(
             &HabdInputs {
                 now_ns: 0,
@@ -214,7 +231,10 @@ mod tests {
 
     #[test]
     fn determinism() {
-        let axles = vec![AxleReading { axle_index: 0, peak_dc: 700 }];
+        let axles = vec![AxleReading {
+            axle_index: 0,
+            peak_dc: 700,
+        }];
         let i = HabdInputs {
             now_ns: 0,
             train_id: 1,

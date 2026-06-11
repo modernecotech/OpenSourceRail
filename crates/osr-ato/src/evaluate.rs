@@ -60,8 +60,7 @@ pub fn ato_evaluate(prev: &AtoState, inputs: &AtoInputs, params: &AtoParams) -> 
     let mut mode = AtoMode::Cruising;
 
     if let Some(d_mm) = inputs.distance_to_stop_mm {
-        let approach =
-            station_approach_speed_mmps(d_mm, params.station_approach_decel_mmps2);
+        let approach = station_approach_speed_mmps(d_mm, params.station_approach_decel_mmps2);
         if approach < target {
             target = approach;
             mode = AtoMode::StationApproach;
@@ -126,8 +125,7 @@ pub fn ato_evaluate(prev: &AtoState, inputs: &AtoInputs, params: &AtoParams) -> 
         } else {
             // Service brake: demand is a large-magnitude negative value.
             let brake_abs_i64 = (-i64::from(demand_mnm)).max(0);
-            let ppt_i64 = brake_abs_i64
-                .saturating_mul(i64::from(params.max_service_brake_ppt))
+            let ppt_i64 = brake_abs_i64.saturating_mul(i64::from(params.max_service_brake_ppt))
                 / i64::from(params.full_brake_demand_mnm.max(1));
             let ppt = u16::try_from(ppt_i64.clamp(0, 1_000)).unwrap_or(0);
             let ppt = ppt.min(params.max_service_brake_ppt);

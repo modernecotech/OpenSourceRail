@@ -10,7 +10,7 @@ Regenerate from the repository root with:
 python3 scripts/generate-doc-index.py
 ```
 
-Indexed Markdown files: **436**.
+Indexed Markdown files: **437**.
 
 ## Sections
 
@@ -19,7 +19,7 @@ Indexed Markdown files: **436**.
 | [Repository Root](#repository-root) | 2 |
 | [crates](#crates) | 3 |
 | [designs](#designs) | 264 |
-| [docs](#docs) | 117 |
+| [docs](#docs) | 118 |
 | [formal](#formal) | 2 |
 | [hardware](#hardware) | 36 |
 | [lib](#lib) | 3 |
@@ -335,12 +335,13 @@ Indexed Markdown files: **436**.
 | [`docs/civil/osr-aln-format.md`](../docs/civil/osr-aln-format.md) | OSR-ALN — alignment interchange format (v1.0) |
 | [`docs/civil/rapid-implementation-materials-review.md`](../docs/civil/rapid-implementation-materials-review.md) | Rapid Implementation And Recycled Materials Review |
 | [`docs/civil/slab-trackforms.md`](../docs/civil/slab-trackforms.md) | Ballastless Slab Trackform Designs |
-| [`docs/civil/west-asia/Iraq/Samawah/README.md`](../docs/civil/west-asia/Iraq/Samawah/README.md) | Samawah civil alignment — v1 deliverable of RFC 0009 |
+| [`docs/civil/west-asia/Iraq/Samawah/README.md`](../docs/civil/west-asia/Iraq/Samawah/README.md) | Samawah civil alignment instance — v1 deliverable of RFC 0009 |
 | [`docs/civil/west-asia/Iraq/Samawah/civil-class-summary.md`](../docs/civil/west-asia/Iraq/Samawah/civil-class-summary.md) | Samawah civil-class summary |
 | [`docs/civil/west-asia/Iraq/Samawah/compliance-report.md`](../docs/civil/west-asia/Iraq/Samawah/compliance-report.md) | Samawah alignment — `standard-urban` compliance report |
 | [`docs/civil/west-asia/Iraq/Samawah/line1-segments.md`](../docs/civil/west-asia/Iraq/Samawah/line1-segments.md) | Samawah Line 1 — per-segment alignment table |
 | [`docs/civil/west-asia/Iraq/Samawah/line2-segments.md`](../docs/civil/west-asia/Iraq/Samawah/line2-segments.md) | Samawah Line 2 — per-segment alignment table |
 | [`docs/cost-model.md`](../docs/cost-model.md) | OpenSourceRail Cost Model |
+| [`docs/deployment-model.md`](../docs/deployment-model.md) | Unified Deployment Model |
 | [`docs/hardware/bring-up/README.md`](../docs/hardware/bring-up/README.md) | Hardware bring-up — v1 deliverable of RFC 0007 |
 | [`docs/hardware/bring-up/s-sbc.md`](../docs/hardware/bring-up/s-sbc.md) | S-SBC bring-up — RPi CM5 on Waveshare CM5-IO |
 | [`docs/hardware/bring-up/t-ecu-a.md`](../docs/hardware/bring-up/t-ecu-a.md) | T-ECU/A bring-up — Raspberry Pi CM5 IO Board |
@@ -425,7 +426,7 @@ Indexed Markdown files: **436**.
 | [`docs/rolling-stock/light-metro-3car/v2-release-checklist.md`](../docs/rolling-stock/light-metro-3car/v2-release-checklist.md) | Light-Metro 3-Car V2 Release Checklist |
 | [`docs/safety-case/README.md`](../docs/safety-case/README.md) | Safety-case artifacts |
 | [`docs/stations/README.md`](../docs/stations/README.md) | Stations |
-| [`docs/stations/samawah-standard/README.md`](../docs/stations/samawah-standard/README.md) | Samawah `standard` archetype — architectural envelope v1 |
+| [`docs/stations/samawah-standard/README.md`](../docs/stations/samawah-standard/README.md) | `standard` station archetype — Samawah worked instance v1 |
 | [`docs/stations/samawah-standard/accessibility.md`](../docs/stations/samawah-standard/accessibility.md) | Accessibility — Samawah `standard` archetype |
 | [`docs/stations/samawah-standard/canopy.md`](../docs/stations/samawah-standard/canopy.md) | Solar canopy — first-pass structural envelope |
 | [`docs/stations/samawah-standard/compliance.md`](../docs/stations/samawah-standard/compliance.md) | Compliance matrix — Samawah `standard` archetype |

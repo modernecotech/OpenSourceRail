@@ -41,8 +41,7 @@ pub fn brake_evaluate(inputs: &BrakeInputs, params: &BrakeParams) -> BrakeOutput
         blend_service(service_ppt, inputs.regen_available_ppt, params);
 
     // 5. WSP modulation on friction only (B4).
-    let (friction_effort_ppt, wsp_active) =
-        wsp_modulate(friction_command, inputs, params);
+    let (friction_effort_ppt, wsp_active) = wsp_modulate(friction_command, inputs, params);
 
     // 6. Park brake (B5).
     let parking_brake_engaged = inputs.park_requested
@@ -50,9 +49,8 @@ pub fn brake_evaluate(inputs: &BrakeInputs, params: &BrakeParams) -> BrakeOutput
             <= params.park_brake_max_speed_mmps.unsigned_abs();
 
     // 7. Traction cut whenever the brake is active in any form.
-    let traction_cut = !matches!(inputs.atp_command, BrakeCommand::Release)
-        || wsp_active
-        || parking_brake_engaged;
+    let traction_cut =
+        !matches!(inputs.atp_command, BrakeCommand::Release) || wsp_active || parking_brake_engaged;
 
     BrakeOutput {
         command: inputs.atp_command,
@@ -76,8 +74,7 @@ fn emergency_output(
     // slide would lock the wheel and prolong the stopping distance.
     // But WSP must still be subtractive; the floor is
     // `min_friction_emergency_ppt` minus the maximum modulation.
-    let (friction_effort_ppt, wsp_active) =
-        wsp_modulate(friction_command, inputs, params);
+    let (friction_effort_ppt, wsp_active) = wsp_modulate(friction_command, inputs, params);
 
     let parking_brake_engaged = inputs.park_requested
         && inputs.measured_speed_mmps.unsigned_abs()
@@ -132,8 +129,7 @@ fn wsp_modulate(
     let ref_speed_abs = inputs.measured_speed_mmps.unsigned_abs();
     let wheel_speed_abs = inputs.wheel_speed_mmps.unsigned_abs();
     let slide_mmps = ref_speed_abs.saturating_sub(wheel_speed_abs) as i32;
-    let slide_detected =
-        slide_mmps >= params.wsp_slide_threshold_mmps.max(1);
+    let slide_detected = slide_mmps >= params.wsp_slide_threshold_mmps.max(1);
 
     if !slide_detected {
         return (friction_command_ppt, false);
@@ -212,7 +208,11 @@ mod tests {
         let p = BrakeParams::light_metro_default();
         let out = brake_evaluate(&i, &p);
         assert!(out.is_emergency());
-        assert!(out.friction_effort_ppt >= p.min_friction_emergency_ppt.saturating_sub(p.wsp_reduction_ppt));
+        assert!(
+            out.friction_effort_ppt
+                >= p.min_friction_emergency_ppt
+                    .saturating_sub(p.wsp_reduction_ppt)
+        );
         assert!(out.traction_cut);
         assert!(out.emergency_sources.atp);
     }
@@ -260,7 +260,10 @@ mod tests {
         let out = brake_evaluate(&i, &p);
         assert!(out.wsp_active);
         assert_eq!(out.friction_command_before_wsp_ppt, 800);
-        assert!(out.friction_effort_ppt < 800, "WSP did not subtract: {out:?}");
+        assert!(
+            out.friction_effort_ppt < 800,
+            "WSP did not subtract: {out:?}"
+        );
         assert_eq!(out.friction_effort_ppt, 800 - p.wsp_reduction_ppt);
     }
 

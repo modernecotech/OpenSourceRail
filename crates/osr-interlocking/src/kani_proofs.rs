@@ -520,14 +520,13 @@ fn kani_p4_conservatism_extra_occupant() {
 
     // MA end section must not advance past the baseline when the
     // mutation is strictly more restrictive.
-    let section_rank =
-        |sec: SectionId| -> u8 {
-            match sec.0 {
-                1000 => 1,
-                1001 => 2,
-                1002 => 3,
-                _ => 0,
-            }
-        };
+    let section_rank = |sec: SectionId| -> u8 {
+        match sec.0 {
+            1000 => 1,
+            1001 => 2,
+            1002 => 3,
+            _ => 0,
+        }
+    };
     assert!(section_rank(ma_mutated.end.section) <= section_rank(ma_baseline.end.section));
 }

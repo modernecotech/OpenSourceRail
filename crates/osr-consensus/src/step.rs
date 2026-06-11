@@ -90,7 +90,10 @@ fn on_tick(node: &mut RaftNode, now_ns: u64, actions: &mut Vec<Action>) {
     // TLA+ `QuorumConfirmationExpires(s)`: as leader, window elapses.
     if node.role == Role::Leader
         && node.last_quorum_confirmed_term == node.current_term
-        && now_ns >= node.last_quorum_confirmed_ns.saturating_add(node.config.fail_restrictive_window_ns)
+        && now_ns
+            >= node
+                .last_quorum_confirmed_ns
+                .saturating_add(node.config.fail_restrictive_window_ns)
     {
         // Mark stale: set to a strictly-earlier term than current.
         node.last_quorum_confirmed_term = Term(node.current_term.0.saturating_sub(1));
@@ -165,12 +168,7 @@ fn become_leader(node: &mut RaftNode, now_ns: u64, actions: &mut Vec<Action>) {
 // Proposals (client requests)
 // ---------------------------------------------------------------------------
 
-fn propose(
-    node: &mut RaftNode,
-    value: Vec<u8>,
-    category: Category,
-    actions: &mut Vec<Action>,
-) {
+fn propose(node: &mut RaftNode, value: Vec<u8>, category: Category, actions: &mut Vec<Action>) {
     if node.role != Role::Leader {
         actions.push(Action::ProposeRejected {
             reason: RejectReason::NotLeader,
@@ -184,7 +182,8 @@ fn propose(
         });
         return;
     }
-    node.log.push(Entry::new(node.current_term, value, category));
+    node.log
+        .push(Entry::new(node.current_term, value, category));
     // Self-match bumps with our own append.
     node.match_index.insert(node.config.me, node.log_len());
     // The new entry ships on the next heartbeat tick; no immediate AE.
@@ -212,7 +211,9 @@ fn on_recv(node: &mut RaftNode, msg: Message, now_ns: u64, actions: &mut Vec<Act
         Message::RequestVoteRequest(m) => handle_request_vote(node, m, actions),
         Message::RequestVoteResponse(m) => handle_request_vote_response(node, m, now_ns, actions),
         Message::AppendEntriesRequest(m) => handle_append_entries(node, m, now_ns, actions),
-        Message::AppendEntriesResponse(m) => handle_append_entries_response(node, m, now_ns, actions),
+        Message::AppendEntriesResponse(m) => {
+            handle_append_entries_response(node, m, now_ns, actions)
+        }
     }
 }
 
@@ -222,9 +223,7 @@ fn handle_request_vote(node: &mut RaftNode, m: RequestVoteRequest, actions: &mut
         || (m.last_log_term == node.last_log_term() && m.last_log_index >= node.log_len());
     let term_ok = m.term == node.current_term;
     let already_voted_for_candidate = matches!(node.voted_for, Some(v) if v == m.from);
-    let can_grant = term_ok
-        && log_ok
-        && (node.voted_for.is_none() || already_voted_for_candidate);
+    let can_grant = term_ok && log_ok && (node.voted_for.is_none() || already_voted_for_candidate);
 
     if can_grant {
         node.voted_for = Some(m.from);
@@ -275,7 +274,8 @@ fn handle_append_entries(
     }
 
     let prev_ok = m.prev_log_index == LogIndex::zero()
-        || (m.prev_log_index <= node.log_len() && node.term_at(m.prev_log_index) == m.prev_log_term);
+        || (m.prev_log_index <= node.log_len()
+            && node.term_at(m.prev_log_index) == m.prev_log_term);
 
     // The response's `match_index` must be the highest log index the
     // follower has just verified *against the leader*, not the
@@ -318,11 +318,7 @@ fn handle_append_entries(
         }
         // The up-to-which-index this AE just validated against the
         // leader. Always ≤ node.log_len().
-        let verified = LogIndex::new(
-            m.prev_log_index
-                .0
-                .saturating_add(m.entries.len() as u64),
-        );
+        let verified = LogIndex::new(m.prev_log_index.0.saturating_add(m.entries.len() as u64));
         // Advance commit index — bounded by what we've verified, not
         // by the follower's total log length. A follower that still
         // holds un-truncated entries past `verified` must not let the
@@ -390,7 +386,11 @@ fn handle_append_entries_response(
             .get(&m.from)
             .copied()
             .unwrap_or(LogIndex::new(1));
-        let new = if cur.0 > 1 { cur.pred() } else { LogIndex::new(1) };
+        let new = if cur.0 > 1 {
+            cur.pred()
+        } else {
+            LogIndex::new(1)
+        };
         node.next_index.insert(m.from, new);
     }
 }
@@ -414,11 +414,7 @@ fn advance_commit_index(node: &mut RaftNode, actions: &mut Vec<Action>) {
             continue;
         }
         // Count match_index >= n (self already bumped to log_len in propose).
-        let replicated_count = node
-            .match_index
-            .values()
-            .filter(|mi| **mi >= idx)
-            .count();
+        let replicated_count = node.match_index.values().filter(|mi| **mi >= idx).count();
         if replicated_count >= quorum {
             best = Some(idx);
         }
@@ -448,11 +444,7 @@ fn emit_append_entries_broadcast(node: &RaftNode, actions: &mut Vec<Action>) {
         if *p == node.config.me {
             continue;
         }
-        let next = node
-            .next_index
-            .get(p)
-            .copied()
-            .unwrap_or(LogIndex::new(1));
+        let next = node.next_index.get(p).copied().unwrap_or(LogIndex::new(1));
         let prev_idx = if next.0 > 0 {
             LogIndex::new(next.0.saturating_sub(1))
         } else {

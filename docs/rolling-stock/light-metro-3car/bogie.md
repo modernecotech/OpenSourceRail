@@ -1,9 +1,10 @@
 # Bogies — `light-metro-3car`
 
-Six bogies per consist: two new powered bogies at the outer ends and
-four converted freight trailer bogies under the remaining positions.
-All bogies use the RFC 0022 suspension, wheelset, brake, and pivot
-geometry; the converted trailer variant omits motors and gearbox.
+Six bogies per consist: three powered bogies and three trailer
+bogies, arranged as one powered bogie plus one trailer bogie under
+each repeated 17 m car module. All bogies use the RFC 0022 suspension,
+wheelset, brake, and pivot geometry; the trailer variant omits motors
+and gearbox.
 
 ## Bogie envelope (all six, common)
 
@@ -17,7 +18,7 @@ geometry; the converted trailer variant omits motors and gearbox.
 | Gauge | 1 435 mm standard gauge |
 | Track-brake coil (magnetic track brake) | not fitted — per RFC 0008 §3.2 electric-only brake |
 
-## Powered bogie (two per consist)
+## Powered bogie (three per consist)
 
 ### Frame
 
@@ -59,17 +60,35 @@ details in [`traction.md`](traction.md).
 - **WSP:** wheel-slide protection via the per-axle tacho input +
   `osr-brake` modulation (proptest-verified B4 conservative).
 
-## Converted freight trailer bogie (four per consist)
+## Trailer bogie (three per consist)
 
-Reused freight frames are stripped, inspected, and rebuilt to the OSR
-wheelset/brake/suspension interface. Differences from the powered
-bogie:
+The trailer bogie is a fresh OSR bogie frame built to the same datum
+scheme as the powered bogie. Differences from the powered bogie:
 
 - **No motor.** All axles idle.
 - **Brake:** same 600 mm disc on each axle for service /
   emergency / park.
 - **Mass:** lower than the powered bogie by the omitted motors,
   gearboxes, and inverter cabling.
+
+## Brownfield recovered-component policy
+
+Recovered freight bogie frames are not spliced into the OSR consist.
+Where a deployment has usable donor stock, only component-level
+recovery is allowed after quarantine, cleaning, dimensional survey,
+and NDT:
+
+- Axles may be re-machined/reprofiled only if UT/MT inspection and
+  metrology pass the supplier acceptance sheet.
+- Axleboxes and bearing housings may be reused only after crack
+  inspection, bore measurement, and traceable bearing replacement or
+  bearing supplier re-certification.
+- Chevron primary springs, air springs, dampers, brake calipers,
+  yaw links, and motor/gearbox mounts are new qualified parts.
+
+This keeps the mechanical release on one fresh bogie-frame drawing
+while still allowing brownfield cost recovery where the evidence is
+credible.
 
 ## Interfaces
 
@@ -86,7 +105,7 @@ bogie:
 ## Interchangeability
 
 Every powered bogie in every OSR deployment of this family is
-identical. The converted trailer bogie shares:
+identical. The trailer bogie shares:
 - Frame geometry (drilling pattern).
 - Suspension parts.
 - Brake disc + caliper.

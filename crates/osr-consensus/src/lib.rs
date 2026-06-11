@@ -77,7 +77,9 @@ pub mod step;
 pub mod types;
 
 pub use cluster::{Cluster, NetworkPolicy};
-pub use messages::{AppendEntriesRequest, AppendEntriesResponse, Message, RequestVoteRequest, RequestVoteResponse};
+pub use messages::{
+    AppendEntriesRequest, AppendEntriesResponse, Message, RequestVoteRequest, RequestVoteResponse,
+};
 pub use node::{Config, RaftNode, Role};
 pub use step::{step, Action, Event};
 pub use types::{Category, Entry, LogIndex, NodeId, Term};

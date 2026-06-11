@@ -1,10 +1,10 @@
 //! Time-stepped simulation engine.
 //!
 //! Service-level model:
-//! - Trains teleport between adjacent stations over a computed travel time
-//!   derived from section length and a kinematic velocity profile.
-//! - Energy is debited on arrival (equal to section_length_km × kWh_per_km)
-//!   and credited during dwells at charging-equipped stations.
+//! - Trains move between adjacent stations over a computed travel time
+//!   derived from section length and a continuous kinematic velocity profile.
+//! - Energy is debited progressively while travelling (distance × kWh/km)
+//!   and credited from station chargers and onboard roof PV.
 //! - The `osr-interlocking` MA computer is the authoritative source of
 //!   section occupancy (RFC 0004 M5). Every section entry is gated by
 //!   `section_available_to`; the corresponding `TrainPositionReport`
@@ -13,14 +13,17 @@
 //! - Lines can be linear or ring. Linear lines flip heading at terminals;
 //!   rings wrap around.
 
-use osr_core::{ConsistDescriptor, Direction, Line, Network, SectionId, StationId, TrainId};
+use osr_core::{
+    ConsistDescriptor, Direction, Line, Network, Section, SectionId, StationId, TrainId,
+};
 use serde::{Deserialize, Serialize};
 
 use crate::consensus_log::ConsensusBackend;
-use crate::energy::{EnergySiteConfig, EnergySiteSummary, EnergySystem};
+use crate::energy::{pv_output_kw, EnergySiteConfig, EnergySiteSummary, EnergySystem};
 use crate::fault::{Fault, FaultEngine, FaultLogEntry};
 use crate::ma_check::{self, MaCheckSummary, SimulatedLog};
 use crate::onboard::{self, OnboardShadow, OnboardSummary};
+use crate::physics::{kinematic_profile, sample_kinematic_profile, MotionSample};
 use crate::schedule::{DispatchThrottle, LineSchedule};
 use crate::train::{Heading, Train, TrainPhase};
 
@@ -44,13 +47,7 @@ impl MaLogBackend {
         }
     }
 
-    pub fn emit_position(
-        &mut self,
-        train: &Train,
-        head: TrackRef,
-        tail: Option<i64>,
-        t_s: u32,
-    ) {
+    pub fn emit_position(&mut self, train: &Train, head: TrackRef, tail: Option<i64>, t_s: u32) {
         match self {
             Self::Simulated(l) => l.emit_position(train, head, tail, t_s),
             Self::Consensus(c) => c.emit_position(train, head, tail, t_s),
@@ -147,6 +144,8 @@ pub struct ScenarioConfig {
     pub fleets: Vec<LineFleet>,
     /// Shared reference consist used by every trainset in every line.
     pub consist: ConsistDescriptor,
+    /// Onboard roof PV package shared by the fleet.
+    pub roof_pv: RoofPvConfig,
     pub climate: ClimateModel,
     /// Sim-clock start time in seconds since midnight. Used for status display
     /// and dispatch-gate timing.
@@ -175,6 +174,44 @@ pub struct ClimateModel {
     pub ambient_c: f32,
     pub peak_sun_hours: f32,
     pub hvac_uplift_frac: f32,
+}
+
+#[derive(Clone, Debug)]
+pub struct RoofPvConfig {
+    pub nameplate_kw: f32,
+    pub usable_factor: f32,
+    pub charges_while_moving: bool,
+    pub charges_while_dwelled: bool,
+    pub air_cleaner: RoofPvAirCleanerConfig,
+}
+
+#[derive(Clone, Debug)]
+pub struct RoofPvAirCleanerConfig {
+    pub enabled: bool,
+    pub compressor_power_kw: f32,
+    pub dust_loss_recovery_frac: f32,
+}
+
+impl Default for RoofPvConfig {
+    fn default() -> Self {
+        Self {
+            nameplate_kw: 0.0,
+            usable_factor: 1.0,
+            charges_while_moving: true,
+            charges_while_dwelled: true,
+            air_cleaner: RoofPvAirCleanerConfig::default(),
+        }
+    }
+}
+
+impl Default for RoofPvAirCleanerConfig {
+    fn default() -> Self {
+        Self {
+            enabled: false,
+            compressor_power_kw: 0.0,
+            dust_loss_recovery_frac: 0.0,
+        }
+    }
 }
 
 #[derive(Clone, Debug)]
@@ -220,11 +257,18 @@ impl Default for RuntimeConfig {
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub enum EventKind {
     Dispatched,
-    ArriveStation { soc: f32 },
+    ArriveStation {
+        soc: f32,
+    },
     DepartStation,
-    ChargingTick { power_kw: f32, energy_added_kwh: f32 },
+    ChargingTick {
+        power_kw: f32,
+        energy_added_kwh: f32,
+    },
     Turnaround,
-    SocWarning { soc: f32 },
+    SocWarning {
+        soc: f32,
+    },
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
@@ -250,6 +294,8 @@ pub struct SimResult {
     pub total_train_km: f64,
     pub total_energy_consumed_kwh: f64,
     pub total_energy_charged_kwh: f64,
+    #[serde(default)]
+    pub total_roof_pv_charged_kwh: f64,
     /// Train-seconds held at dispatch points during service hours (fleet
     /// oversized for the headway). High values mean off-peak overstaffing.
     pub in_service_held_s: u64,
@@ -321,19 +367,7 @@ const SOC_WARNING_THRESHOLD: f32 = 0.30;
 /// Falls back to a triangular profile when the section is too short to
 /// reach `v_max`. All units in SI (m, m/s, m/s²).
 pub fn kinematic_travel_time(length_m: f32, v_max: f32, a: f32, d: f32) -> f32 {
-    let accel_dist = (v_max * v_max) / (2.0 * a);
-    let decel_dist = (v_max * v_max) / (2.0 * d);
-
-    if accel_dist + decel_dist >= length_m {
-        // Triangular profile: peak velocity below v_max.
-        // Peak v such that v²/(2a) + v²/(2d) = length → v = sqrt(2·L·a·d/(a+d))
-        let v_peak = ((2.0 * length_m * a * d) / (a + d)).sqrt();
-        v_peak / a + v_peak / d
-    } else {
-        let cruise_dist = length_m - accel_dist - decel_dist;
-        let cruise_time = cruise_dist / v_max;
-        v_max / a + cruise_time + v_max / d
-    }
+    kinematic_profile(length_m, v_max, a, d).total_s
 }
 
 pub fn run(config: &ScenarioConfig, runtime: &RuntimeConfig) -> SimResult {
@@ -341,10 +375,7 @@ pub fn run(config: &ScenarioConfig, runtime: &RuntimeConfig) -> SimResult {
 
     let mut trains = init_fleet(config);
     let mut throttle = DispatchThrottle::new();
-    let mut energy = EnergySystem::new(
-        config.energy_sites.clone(),
-        config.climate.peak_sun_hours,
-    );
+    let mut energy = EnergySystem::new(config.energy_sites.clone(), config.climate.peak_sun_hours);
     let mut faults = FaultEngine::new(config.faults.clone());
 
     // MA-computer integration (RFC 0004 §M5 + RFC 0001). The sim
@@ -365,8 +396,7 @@ pub fn run(config: &ScenarioConfig, runtime: &RuntimeConfig) -> SimResult {
     // Onboard shadow stack: one shadow per train, built from
     // each train's consist. The shadow runs every tick during
     // Traveling phase; see crate::onboard.
-    let mut onboard_shadows: Vec<OnboardShadow> =
-        trains.iter().map(OnboardShadow::new).collect();
+    let mut onboard_shadows: Vec<OnboardShadow> = trains.iter().map(OnboardShadow::new).collect();
 
     // Optional CSV trace.
     let mut csv_writer: Option<std::io::BufWriter<std::fs::File>> = None;
@@ -376,7 +406,7 @@ pub fn run(config: &ScenarioConfig, runtime: &RuntimeConfig) -> SimResult {
                 let mut w = std::io::BufWriter::new(f);
                 let _ = writeln!(
                     w,
-                    "sim_time_s,clock_tod_hms,train_id,line,phase,station,soc,odometer_km,energy_consumed_kwh,energy_charged_kwh"
+                    "sim_time_s,clock_tod_hms,train_id,line,phase,station,soc,odometer_km,energy_consumed_kwh,energy_charged_kwh,roof_pv_charged_kwh,section_id,section_position_m,section_speed_mps,section_accel_mps2,motion_phase,battery_draw_power_kw,mechanical_traction_power_kw,mechanical_brake_power_kw,roof_pv_kw,roof_pv_cleaner_power_kw,station_charge_power_kw"
                 );
                 csv_writer = Some(w);
             }
@@ -396,11 +426,10 @@ pub fn run(config: &ScenarioConfig, runtime: &RuntimeConfig) -> SimResult {
 
     // Register throttle points from each line's dispatch configuration.
     for fleet in &config.fleets {
+        let initial_next_allowed =
+            seconds_until_next_service(&fleet.schedule, config.start_time_s_after_midnight);
         for (station, heading) in &fleet.dispatch_points {
-            throttle.register(
-                (fleet.line_index, *station, *heading),
-                fleet.schedule.service_start_s,
-            );
+            throttle.register((fleet.line_index, *station, *heading), initial_next_allowed);
         }
     }
 
@@ -410,23 +439,15 @@ pub fn run(config: &ScenarioConfig, runtime: &RuntimeConfig) -> SimResult {
     print_header(config, runtime, &trains);
 
     let mut t: u32 = 0;
-    let mut next_status = if status_every > 0 { status_every } else { u32::MAX };
-    let mut prev_day: u32 = 0;
+    let mut next_status = if status_every > 0 {
+        status_every
+    } else {
+        u32::MAX
+    };
 
     while t < runtime.duration_s {
         let clock_absolute = t + config.start_time_s_after_midnight;
-        let day = clock_absolute / 86400;
         let clock_tod = clock_absolute % 86400;
-
-        // Midnight crossing: re-arm all throttle points for the new day.
-        if day > prev_day {
-            let keys: Vec<_> = throttle.registered_keys().collect();
-            for key in keys {
-                let fleet = fleet_for_line(&config.fleets, key.0);
-                throttle.reset(key, fleet.schedule.service_start_s);
-            }
-            prev_day = day;
-        }
 
         // Update fault state for this tick.
         faults.tick(t);
@@ -452,6 +473,7 @@ pub fn run(config: &ScenarioConfig, runtime: &RuntimeConfig) -> SimResult {
                 &mut trains,
                 &config.network,
                 &config.climate,
+                &config.roof_pv,
                 &config.fleets,
                 clock_tod,
                 &mut ma_log,
@@ -484,13 +506,27 @@ pub fn run(config: &ScenarioConfig, runtime: &RuntimeConfig) -> SimResult {
         }
 
         if status_every > 0 && t >= next_status {
-            print_status_line(t, &trains, &config.network, config.start_time_s_after_midnight);
+            print_status_line(
+                t,
+                &trains,
+                &config.network,
+                config.start_time_s_after_midnight,
+            );
             next_status = t.saturating_add(status_every);
         }
 
         if let Some(w) = csv_writer.as_mut() {
             if t >= next_csv {
-                write_csv_snapshot(w, t, clock_tod, &trains, &config.network);
+                write_csv_snapshot(
+                    w,
+                    t,
+                    clock_tod,
+                    &trains,
+                    &config.network,
+                    &config.climate,
+                    &config.roof_pv,
+                    &faults,
+                );
                 next_csv = t.saturating_add(csv_every);
             }
         }
@@ -560,6 +596,7 @@ pub fn run(config: &ScenarioConfig, runtime: &RuntimeConfig) -> SimResult {
         total_train_km: trains.iter().map(|t| t.odometer_km).sum(),
         total_energy_consumed_kwh: trains.iter().map(|t| t.energy_consumed_kwh).sum(),
         total_energy_charged_kwh: trains.iter().map(|t| t.energy_charged_kwh).sum(),
+        total_roof_pv_charged_kwh: trains.iter().map(|t| t.energy_roof_pv_kwh).sum(),
         in_service_held_s: throttle.in_service_held_s,
         out_of_service_held_s: throttle.out_of_service_held_s,
         per_train_final_soc: trains
@@ -633,6 +670,20 @@ fn print_header(config: &ScenarioConfig, runtime: &RuntimeConfig, trains: &[Trai
         trains[0].consist.car_count,
         trains[0].consist.battery_capacity_wh / 1000
     );
+    if config.roof_pv.nameplate_kw > 0.0 {
+        println!(
+            "Roof PV: {:.1} kW nameplate × {:.0}% usable",
+            config.roof_pv.nameplate_kw,
+            config.roof_pv.usable_factor * 100.0
+        );
+        if config.roof_pv.air_cleaner.enabled {
+            println!(
+                "Roof PV cleaner: {:.1} kW air pump, recovers {:.0}% of dust loss",
+                config.roof_pv.air_cleaner.compressor_power_kw,
+                config.roof_pv.air_cleaner.dust_loss_recovery_frac * 100.0
+            );
+        }
+    }
     println!(
         "Running {} s ({}) at {}s step, start {}…\n",
         runtime.duration_s,
@@ -661,11 +712,14 @@ fn init_fleet(config: &ScenarioConfig) -> Vec<Train> {
                 line_index: fleet.line_index,
                 consist: config.consist.clone(),
                 heading,
-                phase: TrainPhase::AwaitingDispatch { station: start_station },
+                phase: TrainPhase::AwaitingDispatch {
+                    station: start_station,
+                },
                 soc: 0.95,
                 odometer_km: 0.0,
                 energy_consumed_kwh: 0.0,
                 energy_charged_kwh: 0.0,
+                energy_roof_pv_kwh: 0.0,
                 min_soc_seen: 0.95,
             });
             next_train_num += 1;
@@ -682,12 +736,26 @@ fn fleet_for_line(fleets: &[LineFleet], line_index: usize) -> &LineFleet {
         .unwrap_or_else(|| panic!("no fleet configured for line {line_index}"))
 }
 
+fn seconds_until_next_service(schedule: &LineSchedule, start_tod_s: u32) -> u32 {
+    if schedule.headway_at(start_tod_s).is_some() {
+        return 0;
+    }
+    for delta in 1..=86_400 {
+        let tod = (start_tod_s + delta) % 86_400;
+        if schedule.headway_at(tod).is_some() {
+            return delta;
+        }
+    }
+    u32::MAX
+}
+
 #[allow(clippy::too_many_arguments)]
 fn step_train(
     idx: usize,
     trains: &mut [Train],
     network: &Network,
     climate: &ClimateModel,
+    roof_pv: &RoofPvConfig,
     fleets: &[LineFleet],
     clock_tod: u32,
     ma_log: &mut MaLogBackend,
@@ -701,6 +769,15 @@ fn step_train(
 ) {
     let phase = trains[idx].phase.clone();
     let clock = clock_tod;
+    apply_roof_pv_tick(
+        &mut trains[idx],
+        &phase,
+        climate,
+        roof_pv,
+        faults,
+        clock,
+        dt,
+    );
 
     match phase {
         TrainPhase::AwaitingDispatch { station } => {
@@ -710,8 +787,8 @@ fn step_train(
             let fleet = fleet_for_line(fleets, line_idx);
 
             match fleet.schedule.headway_at(clock) {
-                Some(hw) if throttle.can_dispatch(&key, clock) => {
-                    throttle.mark_dispatched(&key, clock, hw);
+                Some(hw) if throttle.can_dispatch(&key, t) => {
+                    throttle.mark_dispatched(&key, t, hw);
                     enter_first_section(idx, trains, network, t, ma_log, events, violations);
                 }
                 Some(_) => throttle.record_in_service_held(dt),
@@ -727,8 +804,7 @@ fn step_train(
             let pad_up = !faults.pad_disabled_at(station);
             if pad_up && s.charging_power_kw > 0 && trains[idx].soc < 1.0 {
                 let pad_rate_kwh = (s.charging_power_kw as f32 / 3600.0) * dt;
-                let headroom_kwh = (1.0 - trains[idx].soc)
-                    * trains[idx].battery_capacity_kwh();
+                let headroom_kwh = (1.0 - trains[idx].soc) * trains[idx].battery_capacity_kwh();
                 let requested = pad_rate_kwh.min(headroom_kwh);
                 if requested > 0.0 {
                     let delivered = energy.draw_at_station(station, requested, dt, faults);
@@ -764,8 +840,8 @@ fn step_train(
                 let fleet = fleet_for_line(fleets, line_idx);
                 let in_service = fleet.schedule.headway_at(clock);
                 match in_service {
-                    Some(hw) if throttle.can_dispatch(&key, clock) => {
-                        throttle.mark_dispatched(&key, clock, hw);
+                    Some(hw) if throttle.can_dispatch(&key, t) => {
+                        throttle.mark_dispatched(&key, t, hw);
                         // Fall through to departure logic below.
                     }
                     _ => {
@@ -835,16 +911,26 @@ fn step_train(
             total_travel_s,
             mut remaining_s,
         } => {
-            remaining_s -= dt;
-            if remaining_s <= 0.0 {
-                let sec = network.section(section);
-                let km = sec.length_km();
+            let previous_remaining_s = remaining_s;
+            remaining_s = (remaining_s - dt).max(0.0);
+
+            let sec = network.section(section);
+            let consist = trains[idx].consist.clone();
+            let elapsed_start = (total_travel_s - previous_remaining_s).max(0.0);
+            let elapsed_end = (total_travel_s - remaining_s).max(elapsed_start);
+            let start_sample = motion_sample_for_section(&consist, sec, elapsed_start);
+            let end_sample = motion_sample_for_section(&consist, sec, elapsed_end);
+            let delta_m = (end_sample.position_m - start_sample.position_m).max(0.0);
+            if delta_m > 0.0 {
+                let delta_km = f64::from(delta_m) / 1000.0;
                 let kwh_per_km = trains[idx].kwh_per_km(climate.hvac_uplift_frac);
-                let consumed = kwh_per_km * km as f32;
+                let consumed = kwh_per_km * (delta_m / 1000.0);
                 trains[idx].apply_energy_kwh(-consumed);
                 trains[idx].energy_consumed_kwh += f64::from(consumed);
-                trains[idx].odometer_km += km;
+                trains[idx].odometer_km += delta_km;
+            }
 
+            if remaining_s <= 0.0 {
                 // No explicit "leave" step — the MA computer records
                 // occupancy from the train's last position report, and
                 // the next section's entry report will overwrite it via
@@ -865,7 +951,9 @@ fn step_train(
                             line: line.name.clone(),
                             station: Some(to_station),
                             station_name: Some(network.station(to_station).name.clone()),
-                            kind: EventKind::SocWarning { soc: trains[idx].soc },
+                            kind: EventKind::SocWarning {
+                                soc: trains[idx].soc,
+                            },
                         },
                     );
                 }
@@ -878,7 +966,9 @@ fn step_train(
                         line: line.name.clone(),
                         station: Some(to_station),
                         station_name: Some(network.station(to_station).name.clone()),
-                        kind: EventKind::ArriveStation { soc: trains[idx].soc },
+                        kind: EventKind::ArriveStation {
+                            soc: trains[idx].soc,
+                        },
                     },
                 );
 
@@ -1021,8 +1111,9 @@ fn direction_for_heading(h: Heading) -> Direction {
 
 fn current_station(train: &Train) -> StationId {
     match &train.phase {
-        TrainPhase::Dwelling { station, .. }
-        | TrainPhase::AwaitingDispatch { station, .. } => *station,
+        TrainPhase::Dwelling { station, .. } | TrainPhase::AwaitingDispatch { station, .. } => {
+            *station
+        }
         TrainPhase::Traveling { to_station, .. } => *to_station,
     }
 }
@@ -1065,6 +1156,95 @@ fn next_station_for(
 
 fn emit_event(buf: &mut Vec<Event>, ev: Event) {
     buf.push(ev);
+}
+
+fn apply_roof_pv_tick(
+    train: &mut Train,
+    phase: &TrainPhase,
+    climate: &ClimateModel,
+    roof_pv: &RoofPvConfig,
+    faults: &FaultEngine,
+    clock_tod: u32,
+    dt: f32,
+) {
+    let eligible = match phase {
+        TrainPhase::Traveling { .. } => roof_pv.charges_while_moving,
+        TrainPhase::Dwelling { .. } | TrainPhase::AwaitingDispatch { .. } => {
+            roof_pv.charges_while_dwelled
+        }
+    };
+    if !eligible {
+        return;
+    }
+    let power = roof_pv_power_breakdown(roof_pv, climate, faults, clock_tod);
+    if power.net_kw <= 0.0 {
+        return;
+    }
+    let generated_kwh = power.net_kw * dt / 3600.0;
+    let applied = train.apply_energy_kwh(generated_kwh);
+    if applied > 0.0 {
+        train.energy_charged_kwh += f64::from(applied);
+        train.energy_roof_pv_kwh += f64::from(applied);
+    }
+}
+
+#[derive(Clone, Copy, Debug, Default)]
+struct RoofPvPowerBreakdown {
+    net_kw: f32,
+    cleaner_power_kw: f32,
+}
+
+fn roof_pv_power_breakdown(
+    roof_pv: &RoofPvConfig,
+    climate: &ClimateModel,
+    faults: &FaultEngine,
+    clock_tod: u32,
+) -> RoofPvPowerBreakdown {
+    if roof_pv.nameplate_kw <= 0.0 {
+        return RoofPvPowerBreakdown::default();
+    }
+    let base_kw = pv_output_kw(roof_pv.nameplate_kw, clock_tod, climate.peak_sun_hours)
+        * roof_pv.usable_factor.clamp(0.0, 1.0);
+    if base_kw <= 0.0 {
+        return RoofPvPowerBreakdown::default();
+    }
+
+    let dust_factor = faults.global_pv_factor();
+    let air = &roof_pv.air_cleaner;
+    let effective_dust_factor = if air.enabled {
+        dust_factor + (1.0 - dust_factor) * air.dust_loss_recovery_frac.clamp(0.0, 1.0)
+    } else {
+        dust_factor
+    }
+    .clamp(0.0, 1.0);
+
+    let gross_kw = base_kw * effective_dust_factor;
+    let cleaner_power_kw = if air.enabled {
+        air.compressor_power_kw.max(0.0).min(gross_kw)
+    } else {
+        0.0
+    };
+    RoofPvPowerBreakdown {
+        net_kw: (gross_kw - cleaner_power_kw).max(0.0),
+        cleaner_power_kw,
+    }
+}
+
+fn motion_sample_for_section(
+    consist: &ConsistDescriptor,
+    section: &Section,
+    elapsed_s: f32,
+) -> MotionSample {
+    let length_m = section.length_mm as f32 / 1_000.0;
+    let v_max = section.max_speed_mps.min(consist.max_speed_mps);
+    sample_kinematic_profile(
+        length_m,
+        v_max,
+        consist.service_accel_mps2,
+        consist.service_decel_mps2(),
+        elapsed_s,
+        consist.mass_kg as f32,
+    )
 }
 
 // --------------------------------------------------------------------------
@@ -1164,27 +1344,71 @@ fn write_csv_snapshot<W: std::io::Write>(
     clock_tod: u32,
     trains: &[Train],
     network: &Network,
+    climate: &ClimateModel,
+    roof_pv: &RoofPvConfig,
+    faults: &FaultEngine,
 ) {
     let tod = fmt_time_of_day(clock_tod);
     for tr in trains {
         let line_name = network.lines[tr.line_index].name.clone();
-        let (phase, station) = match &tr.phase {
+        let (phase, station, section_id, motion, station_charge_power_kw) = match &tr.phase {
             TrainPhase::Dwelling { station, .. } => (
                 "dwelling",
                 network.station(*station).name.clone(),
+                String::new(),
+                None,
+                if !faults.pad_disabled_at(*station) && tr.soc < 1.0 {
+                    network.station(*station).charging_power_kw as f32
+                } else {
+                    0.0
+                },
             ),
             TrainPhase::Traveling { to_station, .. } => (
                 "traveling",
                 format!("→{}", network.station(*to_station).name),
+                traveling_section_id(&tr.phase),
+                traveling_motion_sample(tr, network),
+                0.0,
             ),
             TrainPhase::AwaitingDispatch { station } => (
                 "awaiting",
                 network.station(*station).name.clone(),
+                String::new(),
+                None,
+                0.0,
             ),
+        };
+        let (
+            position_m,
+            speed_mps,
+            accel_mps2,
+            motion_phase,
+            battery_draw_power_kw,
+            traction_power_kw,
+            brake_power_kw,
+        ) = match motion {
+            Some(sample) => {
+                let draw_kw = tr.kwh_per_km(climate.hvac_uplift_frac) * sample.speed_mps * 3.6;
+                (
+                    sample.position_m,
+                    sample.speed_mps,
+                    sample.accel_mps2,
+                    sample.phase.as_str(),
+                    draw_kw,
+                    sample.traction_power_kw,
+                    sample.brake_power_kw,
+                )
+            }
+            None => (0.0, 0.0, 0.0, "", 0.0, 0.0, 0.0),
+        };
+        let roof_pv_power = if roof_pv_active_for_phase(roof_pv, &tr.phase) {
+            roof_pv_power_breakdown(roof_pv, climate, faults, clock_tod)
+        } else {
+            RoofPvPowerBreakdown::default()
         };
         let _ = writeln!(
             w,
-            "{t},{tod},{id},{line},{phase},\"{station}\",{soc:.4},{odo:.3},{consumed:.2},{charged:.2}",
+            "{t},{tod},{id},{line},{phase},\"{station}\",{soc:.4},{odo:.3},{consumed:.2},{charged:.2},{roof_charged:.2},{section_id},{position_m:.2},{speed_mps:.3},{accel_mps2:.3},{motion_phase},{battery_draw_power_kw:.2},{traction_power_kw:.2},{brake_power_kw:.2},{roof_kw:.2},{cleaner_kw:.2},{station_charge_power_kw:.2}",
             id = tr.id,
             line = csv_escape(&line_name),
             station = csv_escape(&station),
@@ -1192,7 +1416,45 @@ fn write_csv_snapshot<W: std::io::Write>(
             odo = tr.odometer_km,
             consumed = tr.energy_consumed_kwh,
             charged = tr.energy_charged_kwh,
+            roof_charged = tr.energy_roof_pv_kwh,
+            roof_kw = roof_pv_power.net_kw,
+            cleaner_kw = roof_pv_power.cleaner_power_kw,
         );
+    }
+}
+
+fn traveling_section_id(phase: &TrainPhase) -> String {
+    match phase {
+        TrainPhase::Traveling { section, .. } => section.to_string(),
+        _ => String::new(),
+    }
+}
+
+fn traveling_motion_sample(train: &Train, network: &Network) -> Option<MotionSample> {
+    match &train.phase {
+        TrainPhase::Traveling {
+            section,
+            total_travel_s,
+            remaining_s,
+            ..
+        } => {
+            let elapsed_s = (total_travel_s - remaining_s).max(0.0);
+            Some(motion_sample_for_section(
+                &train.consist,
+                network.section(*section),
+                elapsed_s,
+            ))
+        }
+        _ => None,
+    }
+}
+
+fn roof_pv_active_for_phase(roof_pv: &RoofPvConfig, phase: &TrainPhase) -> bool {
+    match phase {
+        TrainPhase::Traveling { .. } => roof_pv.charges_while_moving,
+        TrainPhase::Dwelling { .. } | TrainPhase::AwaitingDispatch { .. } => {
+            roof_pv.charges_while_dwelled
+        }
     }
 }
 
@@ -1215,7 +1477,12 @@ pub fn fmt_duration(s: u32) -> String {
 
 #[cfg(test)]
 mod tests {
-    use super::kinematic_travel_time;
+    use super::{
+        kinematic_travel_time, roof_pv_power_breakdown, run, ClimateModel, RoofPvAirCleanerConfig,
+        RoofPvConfig, RuntimeConfig,
+    };
+    use crate::fault::{Fault, FaultEngine, FaultKind, FaultScope};
+    use crate::scenario_file::load_scenario_from_str;
 
     /// Approximate equality for time comparisons (±0.1 s).
     fn approx(a: f32, b: f32) {
@@ -1253,5 +1520,165 @@ mod tests {
         // v_max = 20, a = d = 1 → 200 + 200 = 400m section.
         // Trapezoidal with zero cruise: 20 + 0 + 20 = 40s.
         approx(kinematic_travel_time(400.0, 20.0, 1.0, 1.0), 40.0);
+    }
+
+    fn simple_two_station_scenario(extra_consist: &str, service_start: &str) -> String {
+        format!(
+            r#"
+[scenario]
+name = "unit"
+start_time = "12:00"
+
+[climate]
+ambient_c = 30.0
+peak_sun_hours = 6.0
+
+[consist]
+car_count = 3
+length_m = 51
+mass_kg = 102000
+max_speed_kmh = 80.0
+battery_capacity_kwh = 360
+service_accel_mps2 = 1.0
+{extra_consist}
+
+[[stations]]
+id = "a"
+name = "A"
+charging_power_kw = 0
+dwell_seconds = 30
+is_terminal = true
+
+[[stations]]
+id = "b"
+name = "B"
+charging_power_kw = 0
+dwell_seconds = 30
+is_terminal = true
+
+[[lines]]
+id = "l1"
+name = "L1"
+stations = [
+  {{ id = "a", distance_from_prev_m = 0 }},
+  {{ id = "b", distance_from_prev_m = 2000 }},
+]
+
+[[fleets]]
+line = "l1"
+trainset_count = 1
+dispatch_points = [{{ station = "a", heading = "forward" }}]
+service_start = "{service_start}"
+service_end = "23:00"
+schedule = [
+  {{ from = "{service_start}", to = "23:00", headway_min = 5 }},
+]
+"#
+        )
+    }
+
+    #[test]
+    fn travel_energy_is_debited_before_station_arrival() {
+        let scenario = load_scenario_from_str(&simple_two_station_scenario("", "12:00")).unwrap();
+        let result = run(
+            &scenario,
+            &RuntimeConfig {
+                duration_s: 30,
+                time_step_s: 1,
+                status_every_s: 0,
+                csv_out: None,
+                csv_every_s: 60,
+                ma_check_every_s: 0,
+                use_consensus: false,
+            },
+        );
+
+        assert!(
+            result.total_train_km > 0.0,
+            "partial section run should accrue train-km"
+        );
+        assert!(
+            result.total_energy_consumed_kwh > 0.0,
+            "partial section run should accrue energy consumption"
+        );
+    }
+
+    #[test]
+    fn roof_pv_charges_held_train() {
+        let roof = r#"
+[consist.roof_pv]
+nameplate_kw = 100.0
+usable_factor = 1.0
+charges_while_moving = true
+charges_while_dwelled = true
+"#;
+        let scenario = load_scenario_from_str(&simple_two_station_scenario(roof, "13:00")).unwrap();
+        let result = run(
+            &scenario,
+            &RuntimeConfig {
+                duration_s: 600,
+                time_step_s: 1,
+                status_every_s: 0,
+                csv_out: None,
+                csv_every_s: 60,
+                ma_check_every_s: 0,
+                use_consensus: false,
+            },
+        );
+
+        assert!(
+            result.total_roof_pv_charged_kwh > 0.0,
+            "roof PV should charge while train is awaiting dispatch"
+        );
+        assert_eq!(
+            result.total_energy_charged_kwh,
+            result.total_roof_pv_charged_kwh
+        );
+    }
+
+    #[test]
+    fn air_cleaner_recovers_dust_derated_roof_pv_after_parasitic_load() {
+        let climate = ClimateModel {
+            ambient_c: 30.0,
+            peak_sun_hours: 6.0,
+            hvac_uplift_frac: 0.0,
+        };
+        let mut faults = FaultEngine::new(vec![Fault {
+            name: "dust".to_string(),
+            from_sim_s: 0,
+            to_sim_s: 3600,
+            kind: FaultKind::DustEvent {
+                pv_output_factor: 0.2,
+                scope: FaultScope::All,
+            },
+        }]);
+        faults.tick(60);
+
+        let without_cleaner = RoofPvConfig {
+            nameplate_kw: 100.0,
+            usable_factor: 1.0,
+            charges_while_moving: true,
+            charges_while_dwelled: true,
+            air_cleaner: RoofPvAirCleanerConfig::default(),
+        };
+        let with_cleaner = RoofPvConfig {
+            air_cleaner: RoofPvAirCleanerConfig {
+                enabled: true,
+                compressor_power_kw: 1.0,
+                dust_loss_recovery_frac: 0.75,
+            },
+            ..without_cleaner.clone()
+        };
+
+        let no_clean = roof_pv_power_breakdown(&without_cleaner, &climate, &faults, 12 * 3600);
+        let cleaned = roof_pv_power_breakdown(&with_cleaner, &climate, &faults, 12 * 3600);
+
+        assert!(cleaned.cleaner_power_kw > 0.0);
+        assert!(
+            cleaned.net_kw > no_clean.net_kw * 3.0,
+            "cleaned net {:.2} kW should materially exceed dusty net {:.2} kW",
+            cleaned.net_kw,
+            no_clean.net_kw
+        );
     }
 }

@@ -10,7 +10,10 @@ fn make_record(id: u32) -> BaliseRecord {
     BaliseRecord {
         id: BaliseId(id),
         balise_type: BaliseType::Passive,
-        position: SurveyedPosition { section_id: 1, offset_mm: 100 },
+        position: SurveyedPosition {
+            section_id: 1,
+            offset_mm: 100,
+        },
         installed_ns: 0,
         last_seen_ns: Some(0),
         stale_after_ns: u64::MAX,

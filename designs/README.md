@@ -37,7 +37,7 @@ The source city list and country assumptions live in [../lib/city-batches/world-
 
 ## Representative Designs
 
-- [Samawah, Iraq](west-asia/Iraq/Samawah/README.md): brownfield pilot
+- [Samawah, Iraq](west-asia/Iraq/Samawah/README.md): brownfield deployment instance
 - [Baghdad, Iraq](west-asia/Iraq/Baghdad/README.md): megacity network
 - [Karachi, Pakistan](south-asia/Pakistan/Karachi/README.md): largest catalogue catchment
 - [Lyon, France](europe/France/Lyon/README.md): high-OSM-density solver test

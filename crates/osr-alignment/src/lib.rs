@@ -54,13 +54,11 @@ pub mod landxml;
 pub mod railml;
 pub mod trackside;
 
-pub use alignment::{
-    Alignment, AlignmentError, HorizontalElement, TurnDirection, VerticalElement,
-};
+pub use alignment::{Alignment, AlignmentError, HorizontalElement, TurnDirection, VerticalElement};
 pub use cant::{cant_design, CantSchedule};
 pub use chainage::{station_at, StationedPoint};
 pub use earthworks::{
-    compute_quantities, format_summary, CivilSection, EarthworksQuantities,
-    EarthworksSample, PermanentWayParams,
+    compute_quantities, format_summary, CivilSection, EarthworksQuantities, EarthworksSample,
+    PermanentWayParams,
 };
 pub use trackside::{place_assets, Asset, AssetKind, PlacementRules};

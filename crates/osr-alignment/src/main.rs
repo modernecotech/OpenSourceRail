@@ -60,8 +60,7 @@ fn main() -> Result<()> {
     let alignment = fit_polyline(&doc.line_slug, doc.design_speed_kmh, &doc.points);
     let cant = cant_design(&alignment, cli.max_cant_mm, cli.max_deficiency_mm);
 
-    fs::create_dir_all(&cli.out)
-        .with_context(|| format!("creating {}", cli.out.display()))?;
+    fs::create_dir_all(&cli.out).with_context(|| format!("creating {}", cli.out.display()))?;
 
     let slug = &doc.line_slug;
     fs::write(
@@ -89,7 +88,12 @@ fn main() -> Result<()> {
     }
     fs::write(cli.out.join(format!("{slug}.stakeout.csv")), csv)?;
 
-    println!("wrote {}/ ({} horizontal elements, {:.1} m)", cli.out.display(), alignment.horizontal.len(), alignment.total_length_m());
+    println!(
+        "wrote {}/ ({} horizontal elements, {:.1} m)",
+        cli.out.display(),
+        alignment.horizontal.len(),
+        alignment.total_length_m()
+    );
     Ok(())
 }
 

@@ -1,7 +1,7 @@
 //! Property tests BO1–BO3.
 
-use osr_afc::{AfcEvent, Decision};
 use osr_afc::validate::DenyReason;
+use osr_afc::{AfcEvent, Decision};
 use osr_afc_backoffice::{ingest_events, AfcBackofficeParams, AfcBackofficeState};
 use proptest::prelude::*;
 
@@ -15,10 +15,7 @@ fn arb_deny() -> impl Strategy<Value = DenyReason> {
 }
 
 fn arb_decision() -> impl Strategy<Value = Decision> {
-    prop_oneof![
-        Just(Decision::Grant),
-        arb_deny().prop_map(Decision::Deny),
-    ]
+    prop_oneof![Just(Decision::Grant), arb_deny().prop_map(Decision::Deny),]
 }
 
 fn arb_event() -> impl Strategy<Value = AfcEvent> {

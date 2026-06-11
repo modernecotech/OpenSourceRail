@@ -3,7 +3,11 @@
 use crate::sim::{EventKind, RuntimeConfig, ScenarioConfig, SimResult};
 
 fn max_usize(a: usize, b: usize) -> usize {
-    if a > b { a } else { b }
+    if a > b {
+        a
+    } else {
+        b
+    }
 }
 
 pub fn print_summary(_config: &ScenarioConfig, _runtime: &RuntimeConfig, r: &SimResult) {
@@ -11,8 +15,20 @@ pub fn print_summary(_config: &ScenarioConfig, _runtime: &RuntimeConfig, r: &Sim
     println!("Scenario           : {}", r.scenario_name);
     println!("Sim duration       : {} s", r.sim_duration_s);
     println!("Total train-km     : {:>10.2}", r.total_train_km);
-    println!("Energy consumed    : {:>10.2} kWh", r.total_energy_consumed_kwh);
-    println!("Energy charged     : {:>10.2} kWh", r.total_energy_charged_kwh);
+    println!(
+        "Energy consumed    : {:>10.2} kWh",
+        r.total_energy_consumed_kwh
+    );
+    println!(
+        "Energy charged     : {:>10.2} kWh",
+        r.total_energy_charged_kwh
+    );
+    if r.total_roof_pv_charged_kwh > 0.0 {
+        println!(
+            "  of which roof PV : {:>10.2} kWh",
+            r.total_roof_pv_charged_kwh
+        );
+    }
     println!(
         "Fleet battery net  : {:>10.2} kWh",
         r.total_energy_charged_kwh - r.total_energy_consumed_kwh
@@ -63,14 +79,24 @@ pub fn print_summary(_config: &ScenarioConfig, _runtime: &RuntimeConfig, r: &Sim
 
     if !r.energy_sites.is_empty() {
         println!("\n────────── Energy system ──────────");
-        println!("PV generated       : {:>10.2} kWh", r.total_pv_generated_kwh);
-        println!("To train charging  : {:>10.2} kWh", r.total_delivered_to_trains_kwh);
-        println!("Grid imported      : {:>10.2} kWh", r.total_grid_imported_kwh);
-        println!("Grid exported      : {:>10.2} kWh", r.total_grid_exported_kwh);
+        println!(
+            "PV generated       : {:>10.2} kWh",
+            r.total_pv_generated_kwh
+        );
+        println!(
+            "To train charging  : {:>10.2} kWh",
+            r.total_delivered_to_trains_kwh
+        );
+        println!(
+            "Grid imported      : {:>10.2} kWh",
+            r.total_grid_imported_kwh
+        );
+        println!(
+            "Grid exported      : {:>10.2} kWh",
+            r.total_grid_exported_kwh
+        );
         println!("Curtailed          : {:>10.2} kWh", r.total_curtailed_kwh);
-        let pv_used = r.total_pv_generated_kwh
-            - r.total_grid_exported_kwh
-            - r.total_curtailed_kwh;
+        let pv_used = r.total_pv_generated_kwh - r.total_grid_exported_kwh - r.total_curtailed_kwh;
         if r.total_pv_generated_kwh > 0.0 {
             let self_consumption = pv_used / r.total_pv_generated_kwh * 100.0;
             println!("PV self-consumed   : {pv_used:>10.2} kWh ({self_consumption:.1}%)");
@@ -88,17 +114,29 @@ pub fn print_summary(_config: &ScenarioConfig, _runtime: &RuntimeConfig, r: &Sim
                 + b.delivered_to_trains_kwh
                 + b.grid_imported_kwh
                 + b.grid_exported_kwh;
-            score_b.partial_cmp(&score_a).unwrap_or(std::cmp::Ordering::Equal)
+            score_b
+                .partial_cmp(&score_a)
+                .unwrap_or(std::cmp::Ordering::Equal)
         });
         let shown = sorted.iter().take(8);
         let name_w = max_usize(
             10,
-            sorted.iter().take(8).map(|s| s.station_name.len()).max().unwrap_or(0),
+            sorted
+                .iter()
+                .take(8)
+                .map(|s| s.station_name.len())
+                .max()
+                .unwrap_or(0),
         );
         println!("\nPer-site (top by activity):");
         println!(
             "  {:<width$}  {:>7}  {:>8}  {:>8}  {:>8}  {:>6}",
-            "station", "PV kWh", "→trains", "grid←", "grid→", "SoC",
+            "station",
+            "PV kWh",
+            "→trains",
+            "grid←",
+            "grid→",
+            "SoC",
             width = name_w
         );
         for s in shown {
@@ -167,7 +205,11 @@ pub fn print_summary(_config: &ScenarioConfig, _runtime: &RuntimeConfig, r: &Sim
     if !r.invariant_violations.is_empty() {
         println!("\n⚠ Invariant violations: {}", r.invariant_violations.len());
         for v in &r.invariant_violations {
-            println!("  [{}] {}", crate::sim::fmt_clock(v.sim_time_s), v.description);
+            println!(
+                "  [{}] {}",
+                crate::sim::fmt_clock(v.sim_time_s),
+                v.description
+            );
         }
     } else {
         println!("\nInvariant violations: 0  ✓");

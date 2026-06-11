@@ -10,13 +10,11 @@ fn params() -> FireParams {
 }
 
 fn arb_bay() -> impl Strategy<Value = BaySensors> {
-    (0u32..200, -200i16..1_000, any::<bool>()).prop_map(
-        |(smoke, temp, agent)| BaySensors {
-            smoke_ppm: smoke,
-            temp_dc: temp,
-            agent_available: agent,
-        },
-    )
+    (0u32..200, -200i16..1_000, any::<bool>()).prop_map(|(smoke, temp, agent)| BaySensors {
+        smoke_ppm: smoke,
+        temp_dc: temp,
+        agent_available: agent,
+    })
 }
 
 fn arb_inputs() -> impl Strategy<Value = FireInputs> {
@@ -144,9 +142,21 @@ fn alarm_level_rolls_up_correctly() {
     // All clean → Nominal.
     let clean = FireInputs {
         now_ns: 0,
-        battery: BaySensors { smoke_ppm: 0, temp_dc: 200, agent_available: true },
-        traction: BaySensors { smoke_ppm: 0, temp_dc: 200, agent_available: true },
-        hvac: BaySensors { smoke_ppm: 0, temp_dc: 200, agent_available: true },
+        battery: BaySensors {
+            smoke_ppm: 0,
+            temp_dc: 200,
+            agent_available: true,
+        },
+        traction: BaySensors {
+            smoke_ppm: 0,
+            temp_dc: 200,
+            agent_available: true,
+        },
+        hvac: BaySensors {
+            smoke_ppm: 0,
+            temp_dc: 200,
+            agent_available: true,
+        },
         ambient_temp_dc: 200,
         reset_requested: false,
     };

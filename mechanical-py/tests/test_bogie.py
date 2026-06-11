@@ -183,6 +183,6 @@ def test_trainset_consumes_both_variants_per_family() -> None:
     m6 = family_motorisation(ConsistFamily.METRO_6CAR)
 
     assert all(tram), "tram should be all motor cars"
-    assert lm3 == (True, False, True), "light metro concept uses powered end cars"
+    assert all(lm3), "light metro should repeat one powered/trailer car module"
     assert all(m4)
     assert all(m6)

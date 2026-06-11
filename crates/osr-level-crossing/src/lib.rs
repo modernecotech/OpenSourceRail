@@ -99,9 +99,9 @@ impl LcParams {
     #[must_use]
     pub fn default_metro() -> Self {
         Self {
-            min_warning_ns: 20_000_000_000,      // 20 s
+            min_warning_ns: 20_000_000_000,          // 20 s
             barrier_move_timeout_ns: 15_000_000_000, // 15 s
-            fault_cooldown_ns: 60_000_000_000,   // 60 s
+            fault_cooldown_ns: 60_000_000_000,       // 60 s
         }
     }
 }
@@ -153,11 +153,7 @@ pub fn lc_evaluate(prev: &LcStatePersistent, inputs: &LcInputs, params: &LcParam
     let hardware_fault_now = barrier_fault(&inputs.barrier_a, &inputs.barrier_b);
 
     if hardware_fault_now {
-        fault_until_ns = Some(
-            inputs
-                .now_ns
-                .saturating_add(params.fault_cooldown_ns),
-        );
+        fault_until_ns = Some(inputs.now_ns.saturating_add(params.fault_cooldown_ns));
     }
     if let Some(until) = fault_until_ns {
         if inputs.now_ns >= until {
@@ -172,7 +168,11 @@ pub fn lc_evaluate(prev: &LcStatePersistent, inputs: &LcInputs, params: &LcParam
     let time_in_state = inputs.now_ns.saturating_sub(prev.state_entered_ns);
 
     let (next_state, barrier_command, state_entered_ns) = if in_fault {
-        (LcState::Faulted, BarrierCommand::Hold, prev.state_entered_ns)
+        (
+            LcState::Faulted,
+            BarrierCommand::Hold,
+            prev.state_entered_ns,
+        )
     } else {
         match prev.state {
             LcState::Idle => {
@@ -191,7 +191,11 @@ pub fn lc_evaluate(prev: &LcStatePersistent, inputs: &LcInputs, params: &LcParam
                     // Train withdrew; abort and raise.
                     (LcState::Clearing, BarrierCommand::Raise, inputs.now_ns)
                 } else {
-                    (LcState::Warning, BarrierCommand::Lower, prev.state_entered_ns)
+                    (
+                        LcState::Warning,
+                        BarrierCommand::Lower,
+                        prev.state_entered_ns,
+                    )
                 }
             }
             LcState::Closed => {
@@ -219,16 +223,23 @@ pub fn lc_evaluate(prev: &LcStatePersistent, inputs: &LcInputs, params: &LcParam
                 if inputs.manual_reset && !hardware_fault_now {
                     (LcState::Idle, BarrierCommand::Raise, inputs.now_ns)
                 } else {
-                    (LcState::Faulted, BarrierCommand::Hold, prev.state_entered_ns)
+                    (
+                        LcState::Faulted,
+                        BarrierCommand::Hold,
+                        prev.state_entered_ns,
+                    )
                 }
             }
         }
     };
 
-    let warning_lights_on = matches!(next_state, LcState::Warning | LcState::Closed | LcState::Clearing | LcState::Faulted);
+    let warning_lights_on = matches!(
+        next_state,
+        LcState::Warning | LcState::Closed | LcState::Clearing | LcState::Faulted
+    );
     let bell_on = matches!(next_state, LcState::Warning);
-    let crossing_safe_for_train = next_state == LcState::Closed
-        && barriers_down(&inputs.barrier_a, &inputs.barrier_b);
+    let crossing_safe_for_train =
+        next_state == LcState::Closed && barriers_down(&inputs.barrier_a, &inputs.barrier_b);
 
     LcOutput {
         state: LcStatePersistent {
@@ -252,7 +263,11 @@ mod tests {
     use super::*;
 
     fn barriers_both(up: bool, down: bool) -> BarrierSensors {
-        BarrierSensors { fully_up: up, fully_down: down, motor_fault: false }
+        BarrierSensors {
+            fully_up: up,
+            fully_down: down,
+            motor_fault: false,
+        }
     }
 
     fn idle_inputs(now: u64) -> LcInputs {
@@ -283,7 +298,11 @@ mod tests {
     fn approach_enters_warning() {
         let mut i = idle_inputs(1_000);
         i.train_approaching = true;
-        let out = lc_evaluate(&LcStatePersistent::default(), &i, &LcParams::default_metro());
+        let out = lc_evaluate(
+            &LcStatePersistent::default(),
+            &i,
+            &LcParams::default_metro(),
+        );
         assert_eq!(out.state.state, LcState::Warning);
         assert_eq!(out.barrier_command, BarrierCommand::Lower);
         assert!(out.bell_on);
@@ -310,7 +329,11 @@ mod tests {
     fn fault_forces_unsafe() {
         let mut i = idle_inputs(1_000);
         i.barrier_a.motor_fault = true;
-        let out = lc_evaluate(&LcStatePersistent::default(), &i, &LcParams::default_metro());
+        let out = lc_evaluate(
+            &LcStatePersistent::default(),
+            &i,
+            &LcParams::default_metro(),
+        );
         assert_eq!(out.state.state, LcState::Faulted);
         assert!(!out.crossing_safe_for_train);
     }

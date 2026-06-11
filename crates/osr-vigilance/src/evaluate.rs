@@ -69,22 +69,21 @@ pub fn vigilance_evaluate(
     let ack_interval_ms = u64::from(params.ack_interval_ms);
     let warning_ms = u64::from(params.warning_ms);
 
-    let (state, time_to_warning_ms, time_to_trip_ms) =
-        if elapsed_ms < ack_interval_ms {
-            (
-                VigilanceState::Nominal,
-                Some((ack_interval_ms - elapsed_ms) as u32),
-                Some((ack_interval_ms + warning_ms - elapsed_ms) as u32),
-            )
-        } else if elapsed_ms < ack_interval_ms + warning_ms {
-            (
-                VigilanceState::Warning,
-                None,
-                Some((ack_interval_ms + warning_ms - elapsed_ms) as u32),
-            )
-        } else {
-            (VigilanceState::Tripped, None, None)
-        };
+    let (state, time_to_warning_ms, time_to_trip_ms) = if elapsed_ms < ack_interval_ms {
+        (
+            VigilanceState::Nominal,
+            Some((ack_interval_ms - elapsed_ms) as u32),
+            Some((ack_interval_ms + warning_ms - elapsed_ms) as u32),
+        )
+    } else if elapsed_ms < ack_interval_ms + warning_ms {
+        (
+            VigilanceState::Warning,
+            None,
+            Some((ack_interval_ms + warning_ms - elapsed_ms) as u32),
+        )
+    } else {
+        (VigilanceState::Tripped, None, None)
+    };
 
     VigilanceOutput {
         state,

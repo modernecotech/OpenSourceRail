@@ -69,7 +69,9 @@ pub fn cant_design(
         let (start_cant, end_cant, defc, dir) = match *el {
             HorizontalElement::Tangent { .. } => (0.0, 0.0, 0.0, None),
             HorizontalElement::Arc {
-                radius_m, direction, ..
+                radius_m,
+                direction,
+                ..
             } => {
                 let eq = equilibrium_cant_mm(v, radius_m);
                 let applied = eq.min(max_allowed_cant_mm);

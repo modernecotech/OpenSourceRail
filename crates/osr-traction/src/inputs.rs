@@ -72,10 +72,10 @@ impl TractionParams {
     #[must_use]
     pub fn light_metro_default() -> Self {
         Self {
-            max_torque_mnm: 12_000_000,       // 12 kN·m aggregate
-            torque_constant_unmpma: 3_000,    // 3 N·m/A — light-metro-ish
+            max_torque_mnm: 12_000_000,    // 12 kN·m aggregate
+            torque_constant_unmpma: 3_000, // 3 N·m/A — light-metro-ish
             efficiency_ppt: 950,
-            slip_threshold_mmps: 500,          // 0.5 m/s slip band
+            slip_threshold_mmps: 500, // 0.5 m/s slip band
             anti_slip_retention_ppt: 400,
             severe_slip_mmps: 2_000,
             fault_cooldown_ms: 5_000,

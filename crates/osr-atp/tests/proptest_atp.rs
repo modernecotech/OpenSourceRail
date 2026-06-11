@@ -36,20 +36,26 @@ fn net() -> Network {
     for i in 0..3 {
         let f = SectionId::new(1000 + i);
         let r = SectionId::new(2000 + i);
-        net.sections.insert(f, Section {
-            id: f,
-            from_station: StationId::new((i as u64) + 1),
-            to_station: StationId::new((i as u64) + 2),
-            length_mm: 1_000_000,
-            max_speed_mps: 22.0,
-        });
-        net.sections.insert(r, Section {
-            id: r,
-            from_station: StationId::new((i as u64) + 2),
-            to_station: StationId::new((i as u64) + 1),
-            length_mm: 1_000_000,
-            max_speed_mps: 22.0,
-        });
+        net.sections.insert(
+            f,
+            Section {
+                id: f,
+                from_station: StationId::new((i as u64) + 1),
+                to_station: StationId::new((i as u64) + 2),
+                length_mm: 1_000_000,
+                max_speed_mps: 22.0,
+            },
+        );
+        net.sections.insert(
+            r,
+            Section {
+                id: r,
+                from_station: StationId::new((i as u64) + 2),
+                to_station: StationId::new((i as u64) + 1),
+                length_mm: 1_000_000,
+                max_speed_mps: 22.0,
+            },
+        );
         fwd.push(f);
         rev.push(r);
     }

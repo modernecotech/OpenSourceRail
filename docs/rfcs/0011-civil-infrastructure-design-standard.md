@@ -2,7 +2,7 @@
 
 **Status:** Draft — planning only, no structural drawings ship with this RFC
 **Date:** 2026-04-22
-**Depends on:** [RFC 0003 Samawah Reference Deployment](0003-samawah-reference-deployment.md), [RFC 0008 Rolling-Stock Reference Design](0008-rolling-stock-reference-design.md), [RFC 0009 Track Design Standard](0009-track-design-standard.md), [RFC 0010 Station Design Standard](0010-station-design-standard.md)
+**Depends on:** [RFC 0008 Rolling-Stock Reference Design](0008-rolling-stock-reference-design.md), [RFC 0009 Track Design Standard](0009-track-design-standard.md), [RFC 0010 Station Design Standard](0010-station-design-standard.md)
 
 ## 1. Summary
 
@@ -63,7 +63,8 @@ dense-urban conditions across the target regions:
 | Cut-and-cover tunnel | 60–120 M conventional | 30–48 months | High — ventilation + pumping + egress drills |
 | Bored tunnel | 90–200 M conventional | 48–72 months | High — same as above, plus tunnel-boring-machine commissioning |
 
-Numbers are planning-grade, calibrated to the Samawah reference
+Numbers are planning-grade, calibrated against generated deployment
+instances including Samawah
 context ([RFC 0003 §2.3](0003-samawah-reference-deployment.md)).
 
 A tunnel segment is 10–40× the CAPEX and 4–8× the build-time of an
@@ -427,7 +428,7 @@ civil contractor can mobilise.
 | **v2.3** ✅ | Add the city railway production-plant setup bucket at 100 000 USD per vehicle/car module, with 200 000 USD per vehicle/car module retained as a high sensitivity check (done 2026-06-05). | v2.2 |
 | **v3** ✅ (partial) | Parametric U-girder at [`mechanical-py/src/osr_mech/civil/ugirder.py`](../../mechanical-py/src/osr_mech/civil/ugirder.py) with 20 / 25 / 30 m spans under the one-mould constraint (done 2026-04-22); tracked review artifacts now use compact FreeCAD/PNG outputs, with local neutral CAD export available only when a partner toolchain requires it. The previous precast L-unit platform edge is retained only as a legacy/elevated option; the default at-grade station uses a ground-level slab plus lowered guideway channel per RFC 0010. Remaining for v3 full-complete: pier + abutment parametric kits + CERN-OHL-S v2 relicensing of the catalogue tree. | v0 |
 | **v4** | Worked civil design for Samawah Line 1 (an 11 km at-grade stretch + 2 km elevated over the existing rail corridor + 1 km bridge over the Euphrates approach) | v3, RFC 0003 |
-| **v5** | First-article viaduct erected at the Samawah pilot | v3 |
+| **v5** | First-article viaduct erected for a deployment instance | v3 |
 
 ## 13. Relationship to existing work
 

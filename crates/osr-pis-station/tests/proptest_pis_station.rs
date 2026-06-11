@@ -11,12 +11,14 @@ fn params() -> PisStationParams {
 }
 
 fn arb_arrival() -> impl Strategy<Value = PendingArrival> {
-    (0u32..100, 0u32..5, 0u32..1_000, any::<bool>()).prop_map(|(id, line, eta, app)| PendingArrival {
-        train_id: id,
-        line_id: line,
-        direction: Direction::Forward,
-        eta_s: eta,
-        approaching: app,
+    (0u32..100, 0u32..5, 0u32..1_000, any::<bool>()).prop_map(|(id, line, eta, app)| {
+        PendingArrival {
+            train_id: id,
+            line_id: line,
+            direction: Direction::Forward,
+            eta_s: eta,
+            approaching: app,
+        }
     })
 }
 

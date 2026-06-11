@@ -184,9 +184,8 @@ pub fn psd_evaluate(prev: &PsdState, inputs: &PsdInputs<'_>, params: &PsdParams)
     // Effective command per panel. Emergency stop opens for
     // evacuation (PSD5). Otherwise obey the OCC command gated by
     // train-side preconditions.
-    let allowed_to_open = inputs.train_at_platform
-        && inputs.train_interlock_ok
-        && inputs.train_doors_open_or_opening;
+    let allowed_to_open =
+        inputs.train_at_platform && inputs.train_interlock_ok && inputs.train_doors_open_or_opening;
 
     // Derive a single "this-panel-should-do-X" action to then
     // resolve per-panel with obstruction / fault handling.
@@ -257,8 +256,9 @@ fn evaluate_panel(
         if let Some(started) = prev.motor_started_ns {
             let run_ms = inputs.now_ns.saturating_sub(started) / 1_000_000;
             if run_ms > u64::from(params.motor_timeout_ms) {
-                let deadline =
-                    inputs.now_ns.saturating_add(u64::from(params.fault_cooldown_ms) * 1_000_000);
+                let deadline = inputs
+                    .now_ns
+                    .saturating_add(u64::from(params.fault_cooldown_ms) * 1_000_000);
                 fault_until_ns = Some(match fault_until_ns {
                     Some(existing) => existing.max(deadline),
                     None => deadline,

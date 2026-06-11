@@ -49,10 +49,12 @@ This BOM is keyed to the visual and layout concept in
 [`docs/assets/solar-metro-trainset.png`](../../../docs/assets/solar-metro-trainset.png):
 
 - 3 cars, each 17 m, **51 m over couplers**.
-- Car 1 and Car 3 are powered; Car 2 is the unpowered trailer.
-- 2 new powered bogies total, one at each outer end; 4 converted
-  freight trailer bogies.
-- 4 traction motors total, 600 kW peak consist output.
+- Each car repeats the same self-contained architecture: one powered
+  bogie, one trailer bogie, one 120 kWh usable under-seat battery pack,
+  and one traction/charge rack.
+- 3 powered bogies and 3 trailer bogies total.
+- 6 traction motors total; the planning profile caps consist traction
+  peak at 1.8 MW.
 - Roof solar arrays on each car, with compact end HVAC modules.
 - Wide passenger windows, identical multi-part fiberglass driverless end
   cowls with one large dark panoramic glass pane and LED headlamp/marker
@@ -85,7 +87,7 @@ keeps mass/power within budget, and supplies certification evidence.
 | T1 ref | [TSA rail traction motors](https://tsa.at/rail/), ABB Traction, Skoda Electric | PMSM package includes water jacket, mounting feet, terminal box, HV glands, resolver cover |
 | T5, T6, T16, T17 | [Toshiba SCiB traction battery systems](https://www.global.toshiba/ww/products-solutions/railway/rolling-stock/energy-storage-applications.html), [Saft rail traction batteries](https://saft.com/en/mobility/rail-traction), CATL/HiNa Na-ion | Under-seat module envelope keeps OSR Na-ion primary, but reserves cold plate, BMS harness, vent/fire paths for rail battery suppliers |
 | T14 ref | [Liebherr rail HVAC](https://www.liebherr.com/en-ca/aerospace-and-transportation-systems/solutions-and-services/solutions-for-railway/on-board-systems/classical-hvac-7178128), Knorr-Bremse Merak, Wabtec/Faiveley | Roof curb sized for compact/split saloon unit, pressure-protection damper, filter, drains, ducts |
-| T21, T22 | [Sunman eArc lightweight modules](https://www.sunman-energy.com/), [Solbian flexible solar panels](https://www.solbian.eu/en/4-solar-panels), [SnapNrack Ultra Rail](https://www.snapnrack.com/ultra-rail-roof-mount-system), [IronRidge QRail](https://www.ironridge.com/quickmount/qrail-system/) | CAD reserves both bonded flexible laminates and raised clamped rail panels, with junction boxes, fire isolation, roof raceways, and MPPT combiner |
+| T21, T22 | [Sunman eArc lightweight modules](https://www.sunman-energy.com/), [Solbian flexible solar panels](https://www.solbian.eu/en/4-solar-panels), [SnapNrack Ultra Rail](https://www.snapnrack.com/ultra-rail-roof-mount-system), [IronRidge QRail](https://www.ironridge.com/quickmount/qrail-system/) | CAD reserves both bonded flexible laminates and raised clamped rail panels, with junction boxes, fire isolation, roof raceways, MPPT combiner, and a filtered low-pressure air-knife cleaner |
 | T12, T19, T23 | [ABB BORDLINE rail converters](https://www.abb.com/global/en/areas/motion/traction/traction-converter/cc400), [SepsaMedha auxiliary converters/battery chargers](https://www.sepsamedha.com/products/auxiliary-power/), [Wabtec DepotPANTO](https://www.wabteccorp.com/transit-bus/e-bus-charging/depotpanto), [ABB HVC150](https://e-mobility.abb.com/en/products/power/hvc150) | Per-car charge inverter uses commodity DC charge power modules; side-pin primary keeps pantograph-down alternate as a deployment option |
 | E18, E19 | [Rail Vision MainLine](https://railvision.io/main-line/), [Ouster OS1](https://ouster.com/product-os1/), [LSLiDAR train-end intrusion system](https://www.lslidar.com/solution/rail-transportation/train-end-railway-intrudment-inspection-system/) | Front/back sensor mount reserves LIDAR, thermal/wide/narrow cameras, radar, heaters, wash/wipe |
 
@@ -148,8 +150,8 @@ duty, warranty terms, or acceptance testing.
 
 | Line | Desc | Qty | Source | Base USD | Notes |
 |---|---|---|---|---|---|
-| G1 | Welded bogie frame (new powered) | 2 | MAKE | 10 000 | Alibaba train-bogie fabrication proxy; EN 15085 CL1 required |
-| G2 | Converted freight trailer bogie frame | 4 | MAKE | 12 000 | Alibaba bogie-frame/rail-part proxy; existing frame reworked with new bearings/brakes/air springs |
+| G1 | Welded common bogie frame, powered build | 3 | MAKE | 15 000 | Alibaba train-bogie fabrication proxy; EN 15085 CL1 required |
+| G2 | Welded common bogie frame, trailer build | 3 | MAKE | 9 000 | Alibaba bogie-frame/rail-part proxy; fresh OSR frame, no recovered freight-frame splice |
 | G3 | Wheelset monobloc (RFC 0022, S1002) | 12 | BID | 18 000 | Alibaba railway wheelset anchor; inspection and profile verification required |
 | G4 | Axle bearing box (SKF / FAG) | 24 | SOURCE | 12 000 | Alibaba railway axle-bearing/box anchor with certified bearing uplift |
 | G5 | Primary chevron spring | 24 | SOURCE | 4 800 | Alibaba rail spring/rubber anchor; qualified compound required |
@@ -165,20 +167,20 @@ duty, warranty terms, or acceptance testing.
 | G15 | Axle bearing temp sensor | 24 | SOURCE | 500 | Commodity sealed temperature-sensor anchor |
 | G16 | Brake pad / friction lining kit | 12 axle sets | SOURCE | 1 500 | Alibaba rail brake-pad anchor; commissioning set, per disc |
 | G17 | WSP + brake control harness | 6 | MAKE | 3 000 | Tacho, caliper command, temp sensor loom |
-| G18 | Motor cradle + torque-link weldment | 2 powered bogies | MAKE | 4 000 | Alibaba machined/welded steel proxy; uses RFC 0022 motor mount datum |
-| G19 | Flexible gear coupling / torque flange set | 4 | BID | 2 000 | Alibaba industrial coupling anchor; motor-to-reduction gear interface |
+| G18 | Motor cradle + torque-link weldment | 3 powered bogies | MAKE | 6 000 | Alibaba machined/welded steel proxy; uses RFC 0022 motor mount datum |
+| G19 | Flexible gear coupling / torque flange set | 6 | BID | 3 000 | Alibaba industrial coupling anchor; motor-to-reduction gear interface |
 | G20 | Bogie inspection covers and guards | 6 | MAKE | 3 000 | Removable non-structural covers |
-| **Bogies subtotal** | | | | **114 600** | |
+| **Bogies subtotal** | | | | **119 600** | |
 
 ## Traction + power
 
 | Line | Desc | Qty | Source | Base USD | Notes |
 |---|---|---|---|---|---|
-| T1 | PMSM axle motor (150 kW peak) | 4 | BID | 30 000 | Alibaba 150 kW EV PMSM anchor plus rail mounting/cooling allowance |
-| T2 | Reduction gear (single-stage 6.5:1) | 4 | BID | 10 000 | Alibaba industrial gearbox proxy; matches RFC 0008 / gearbox.py |
-| T3 | SiC inverter (300 kW peak) | 2 | BID | 15 000 | Alibaba EV/PCS inverter proxy; one per powered bogie |
+| T1 | PMSM axle motor (180 kW continuous / 320 kW peak class) | 6 | BID | 45 000 | Commodity PMSM anchor plus rail mounting/cooling allowance; final rail motor RFQ required |
+| T2 | Reduction gear (single-stage 6.5:1) | 6 | BID | 15 000 | Alibaba industrial gearbox proxy; matches RFC 0008 / gearbox.py |
+| T3 | SiC inverter (600 kW peak per powered bogie) | 3 | BID | 22 500 | Alibaba EV/PCS inverter proxy; one per powered bogie |
 | T4 | Cold-plate + chiller for traction | 3 | SOURCE | 6 000 | Alibaba EV cooling-module anchor |
-| T5 | Na-ion under-seat pack (150 kWh usable) | 3 | BID | 45 000 | Alibaba 150 kWh battery-pack anchor; rail battery certification excluded |
+| T5 | Na-ion under-seat pack (120 kWh usable / ~150 kWh nameplate) | 3 | BID | 45 000 | Alibaba 150 kWh battery-pack anchor; rail battery certification excluded |
 | T6 | BMS electronics (pack-level) | 3 | BID | 4 500 | Commodity pack-BMS anchor; rail battery supplier must verify HVIL, thermal, and fire-path interfaces |
 | T7 | Pack cooling plate set | 3 | SOURCE | 2 000 | Alibaba battery cold-plate anchor |
 | T8 | Under-seat aluminium module enclosure set | 3 | MAKE | 6 000 | Alibaba aluminium battery-box fabrication proxy |
@@ -197,7 +199,7 @@ duty, warranty terms, or acceptance testing.
 | T21 | Commodity full-roof solar panel set | 3 cars | SOURCE | 6 000 | Alibaba 400 W rigid/flexible solar-panel anchors; sixteen modules per car |
 | T22 | Roof solar mounts, MPPT combiner, isolation, and roof harness | 3 cars | SOURCE | 6 000 | Alibaba roof-mount/combiner/MPPT proxies; bond pads, raised rails, edge clamps, junction boxes, fire-isolation labels |
 | T23 | Multi-input PV/station battery charge inverter | 3 | SOURCE | 12 000 | Alibaba 30 kW DC charge-module stack accepts roof PV MPPT and station dock DC; contactors/cooling/harness covered by T11/T18/T20 |
-| **Traction + power subtotal** | | | | **205 700** | |
+| **Traction + power subtotal** | | | | **233 200** | |
 
 ## Electronics + safety
 
@@ -243,22 +245,22 @@ duty, warranty terms, or acceptance testing.
 | Bucket | Subtotal (USD) |
 |---|---|
 | Body + interior | 235 200 |
-| Bogies | 114 600 |
-| Traction + power | 205 700 |
+| Bogies | 119 600 |
+| Traction + power | 233 200 |
 | Electronics + safety | 34 340 |
 | Safety/accessibility/maintainability | 3 000 |
-| **Total direct-material consist** | **592 840** |
+| **Total direct-material consist** | **625 340** |
 
 Generated cost band from the same line items:
 
 | Case | Direct material | +35% labour / assembly | Planning total |
 |---|---:|---:|---:|
-| Low | 466 844 | 163 395 | 630 239 |
-| Base | 592 840 | 207 494 | 800 334 |
-| High | 907 244 | 317 535 | 1 224 779 |
+| Low | 492 437 | 172 353 | 664 790 |
+| Base | 625 340 | 218 869 | 844 209 |
+| High | 956 980 | 334 943 | 1 291 923 |
 
-**Marketplace listed-price per-consist floor (volume 100): 0.63-1.22 M
-USD with assembly allowance, base 0.80 M USD.**
+**Marketplace listed-price per-consist floor (volume 100): 0.66-1.29 M
+USD with assembly allowance, base 0.84 M USD.**
 
 This table is an audit lower bound for raw procurement. City CAPEX uses
 the delivered rolling-stock planning unit in

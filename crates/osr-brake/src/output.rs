@@ -20,12 +20,7 @@ pub struct EmergencySources {
 impl EmergencySources {
     #[must_use]
     pub fn any(&self) -> bool {
-        self.atp
-            || self.vigilance
-            || self.fire
-            || self.derailment
-            || self.driver
-            || self.obstacle
+        self.atp || self.vigilance || self.fire || self.derailment || self.driver || self.obstacle
     }
 
     #[must_use]

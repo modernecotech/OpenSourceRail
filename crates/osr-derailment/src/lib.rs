@@ -250,20 +250,15 @@ pub fn derailment_evaluate(
     }
 
     // Single-channel anomaly warning.
-    let any_single = (lat_trip_a ^ lat_trip_b)
-        || (vert_trip_a ^ vert_trip_b)
-        || (tilt_trip_a ^ tilt_trip_b);
+    let any_single =
+        (lat_trip_a ^ lat_trip_b) || (vert_trip_a ^ vert_trip_b) || (tilt_trip_a ^ tilt_trip_b);
     if any_single && !this_tick_trip {
         faults.insert(FaultReason::SingleChannelAnomaly);
     }
 
     // Warn-level aggregate.
-    let any_warn = lat_warn_a
-        || lat_warn_b
-        || vert_warn_a
-        || vert_warn_b
-        || tilt_warn_a
-        || tilt_warn_b;
+    let any_warn =
+        lat_warn_a || lat_warn_b || vert_warn_a || vert_warn_b || tilt_warn_a || tilt_warn_b;
     if (any_warn || any_single) && alarm == AlarmLevel::Nominal {
         alarm = AlarmLevel::Warning;
     }
@@ -271,8 +266,9 @@ pub fn derailment_evaluate(
     // Cooldown handling.
     let mut cooldown_until_ns = prev.cooldown_until_ns;
     if this_tick_trip {
-        let deadline =
-            inputs.now_ns.saturating_add(u64::from(params.cooldown_ms) * 1_000_000);
+        let deadline = inputs
+            .now_ns
+            .saturating_add(u64::from(params.cooldown_ms) * 1_000_000);
         cooldown_until_ns = Some(match cooldown_until_ns {
             Some(existing) => existing.max(deadline),
             None => deadline,
@@ -352,7 +348,7 @@ mod tests {
         let p = DerailmentParams::default_metro();
         let mut i = nominal_inputs();
         i.sensor_a.lateral_mg = 400; // above trip
-        // sensor_b stays quiet
+                                     // sensor_b stays quiet
         let out = derailment_evaluate(&DerailmentState::default(), &i, &p);
         assert!(!out.emergency_requested);
         assert!(out.faults.contains(FaultReason::SingleChannelAnomaly));

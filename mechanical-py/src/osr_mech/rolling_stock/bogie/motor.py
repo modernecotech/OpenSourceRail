@@ -1,6 +1,7 @@
 """PMSM traction motor — axle-hung per RFC 0022 §4.1.
 
-Ratings: 180 kW continuous / 320 kW peak per axle at 750 VDC link.
+Ratings: 180 kW continuous / 320 kW peak per axle at 1 500 VDC train
+link.
 Geometry: water-jacketed housing, end-bell, terminal box, drive-end
 output shaft. Represented as a TSA/ABB/Skoda-class rail motor with
 cooling bands, lifting eyes, cable glands, resolver cover, nameplate,

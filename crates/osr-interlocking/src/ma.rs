@@ -34,7 +34,7 @@ use serde::{Deserialize, Serialize};
 use std::collections::BTreeSet;
 
 use crate::log::{Entry, SpeedRestriction};
-use crate::state::{DerivedState, derive_state};
+use crate::state::{derive_state, DerivedState};
 use crate::topology::{far_end_of, footprint_from, forward_chain};
 
 /// How far ahead an MA can extend, in millimetres. Per RFC 0001 §6.3
@@ -198,11 +198,7 @@ pub fn compute_self_ma_from_state(
 ///
 /// Uncertainty produces NOT available, always. This is P4's concrete
 /// enforcement point.
-pub fn section_available_to(
-    train_id: TrainId,
-    section: SectionId,
-    state: &DerivedState,
-) -> bool {
+pub fn section_available_to(train_id: TrainId, section: SectionId, state: &DerivedState) -> bool {
     // (a) Occupancy: must be empty or already ours.
     if let Some(occupant) = state.section_occupancy.get(&section) {
         if *occupant != train_id {
@@ -303,9 +299,7 @@ fn fail_restrictive(
 mod tests {
     use super::*;
     use crate::log::{EntryPayload, PositionSource, TrainPositionReport, TrainRegistration};
-    use osr_core::{
-        ConsistDescriptor, Line, Position, Section, Station, StationId, TrackRef,
-    };
+    use osr_core::{ConsistDescriptor, Line, Position, Section, Station, StationId, TrackRef};
 
     fn net_3_sections() -> Network {
         let mut net = Network::default();
@@ -327,20 +321,26 @@ mod tests {
         for i in 0..3 {
             let f = SectionId::new(1000 + i);
             let r = SectionId::new(2000 + i);
-            net.sections.insert(f, Section {
-                id: f,
-                from_station: StationId::new((i as u64) + 1),
-                to_station: StationId::new((i as u64) + 2),
-                length_mm: 1_000_000,
-                max_speed_mps: 22.0,
-            });
-            net.sections.insert(r, Section {
-                id: r,
-                from_station: StationId::new((i as u64) + 2),
-                to_station: StationId::new((i as u64) + 1),
-                length_mm: 1_000_000,
-                max_speed_mps: 22.0,
-            });
+            net.sections.insert(
+                f,
+                Section {
+                    id: f,
+                    from_station: StationId::new((i as u64) + 1),
+                    to_station: StationId::new((i as u64) + 2),
+                    length_mm: 1_000_000,
+                    max_speed_mps: 22.0,
+                },
+            );
+            net.sections.insert(
+                r,
+                Section {
+                    id: r,
+                    from_station: StationId::new((i as u64) + 2),
+                    to_station: StationId::new((i as u64) + 1),
+                    length_mm: 1_000_000,
+                    max_speed_mps: 22.0,
+                },
+            );
             fwd.push(f);
             rev.push(r);
         }
@@ -387,22 +387,30 @@ mod tests {
     fn single_train_extends_to_max_distance() {
         let net = net_3_sections();
         let log = vec![
-            entry(1, 100, EntryPayload::TrainRegistration(TrainRegistration {
-                train_id: TrainId::new(7),
-                consist: ConsistDescriptor::reference_3car(),
-                initial_position: pos(1000, 0),
-            })),
-            entry(2, 200, EntryPayload::TrainPositionReport(TrainPositionReport {
-                train_id: TrainId::new(7),
-                head_position: pos(1000, 100_000), // 100 m into section 1000
-                tail_position: pos(1000, 35_000),
-                speed_mmps: 10_000,
-                speed_uncertainty_mmps: 500,
-                heading: Direction::Forward,
-                contributing_sources: vec![PositionSource::Gnss],
-                onboard_time_ns: 190,
-                pack_soc_ppt: 900,
-            })),
+            entry(
+                1,
+                100,
+                EntryPayload::TrainRegistration(TrainRegistration {
+                    train_id: TrainId::new(7),
+                    consist: ConsistDescriptor::reference_3car(),
+                    initial_position: pos(1000, 0),
+                }),
+            ),
+            entry(
+                2,
+                200,
+                EntryPayload::TrainPositionReport(TrainPositionReport {
+                    train_id: TrainId::new(7),
+                    head_position: pos(1000, 100_000), // 100 m into section 1000
+                    tail_position: pos(1000, 35_000),
+                    speed_mmps: 10_000,
+                    speed_uncertainty_mmps: 500,
+                    heading: Direction::Forward,
+                    contributing_sources: vec![PositionSource::Gnss],
+                    onboard_time_ns: 190,
+                    pack_soc_ppt: 900,
+                }),
+            ),
         ];
         let ma = compute_self_ma(TrainId::new(7), &log, &net, 1_000_000);
         assert!(ma.has_known_position);
@@ -417,38 +425,54 @@ mod tests {
     fn other_train_blocks_extension() {
         let net = net_3_sections();
         let log = vec![
-            entry(1, 100, EntryPayload::TrainRegistration(TrainRegistration {
-                train_id: TrainId::new(7),
-                consist: ConsistDescriptor::reference_3car(),
-                initial_position: pos(1000, 0),
-            })),
-            entry(2, 150, EntryPayload::TrainRegistration(TrainRegistration {
-                train_id: TrainId::new(9),
-                consist: ConsistDescriptor::reference_3car(),
-                initial_position: pos(1001, 0),
-            })),
-            entry(3, 200, EntryPayload::TrainPositionReport(TrainPositionReport {
-                train_id: TrainId::new(9),
-                head_position: pos(1001, 500_000),
-                tail_position: pos(1001, 435_000),
-                speed_mmps: 10_000,
-                speed_uncertainty_mmps: 500,
-                heading: Direction::Forward,
-                contributing_sources: vec![PositionSource::Gnss],
-                onboard_time_ns: 190,
-                pack_soc_ppt: 900,
-            })),
-            entry(4, 300, EntryPayload::TrainPositionReport(TrainPositionReport {
-                train_id: TrainId::new(7),
-                head_position: pos(1000, 100_000),
-                tail_position: pos(1000, 35_000),
-                speed_mmps: 10_000,
-                speed_uncertainty_mmps: 500,
-                heading: Direction::Forward,
-                contributing_sources: vec![PositionSource::Gnss],
-                onboard_time_ns: 290,
-                pack_soc_ppt: 900,
-            })),
+            entry(
+                1,
+                100,
+                EntryPayload::TrainRegistration(TrainRegistration {
+                    train_id: TrainId::new(7),
+                    consist: ConsistDescriptor::reference_3car(),
+                    initial_position: pos(1000, 0),
+                }),
+            ),
+            entry(
+                2,
+                150,
+                EntryPayload::TrainRegistration(TrainRegistration {
+                    train_id: TrainId::new(9),
+                    consist: ConsistDescriptor::reference_3car(),
+                    initial_position: pos(1001, 0),
+                }),
+            ),
+            entry(
+                3,
+                200,
+                EntryPayload::TrainPositionReport(TrainPositionReport {
+                    train_id: TrainId::new(9),
+                    head_position: pos(1001, 500_000),
+                    tail_position: pos(1001, 435_000),
+                    speed_mmps: 10_000,
+                    speed_uncertainty_mmps: 500,
+                    heading: Direction::Forward,
+                    contributing_sources: vec![PositionSource::Gnss],
+                    onboard_time_ns: 190,
+                    pack_soc_ppt: 900,
+                }),
+            ),
+            entry(
+                4,
+                300,
+                EntryPayload::TrainPositionReport(TrainPositionReport {
+                    train_id: TrainId::new(7),
+                    head_position: pos(1000, 100_000),
+                    tail_position: pos(1000, 35_000),
+                    speed_mmps: 10_000,
+                    speed_uncertainty_mmps: 500,
+                    heading: Direction::Forward,
+                    contributing_sources: vec![PositionSource::Gnss],
+                    onboard_time_ns: 290,
+                    pack_soc_ppt: 900,
+                }),
+            ),
         ];
         let ma = compute_self_ma(TrainId::new(7), &log, &net, 1_000_000);
         // Train 7 sees train 9 occupying section 1001, so MA ends at far
@@ -463,38 +487,54 @@ mod tests {
         // this formally. Here we just assert it for a specific example.
         let net = net_3_sections();
         let log = vec![
-            entry(1, 100, EntryPayload::TrainRegistration(TrainRegistration {
-                train_id: TrainId::new(7),
-                consist: ConsistDescriptor::reference_3car(),
-                initial_position: pos(1000, 0),
-            })),
-            entry(2, 150, EntryPayload::TrainRegistration(TrainRegistration {
-                train_id: TrainId::new(9),
-                consist: ConsistDescriptor::reference_3car(),
-                initial_position: pos(1002, 0),
-            })),
-            entry(3, 200, EntryPayload::TrainPositionReport(TrainPositionReport {
-                train_id: TrainId::new(9),
-                head_position: pos(1002, 500_000),
-                tail_position: pos(1002, 435_000),
-                speed_mmps: 10_000,
-                speed_uncertainty_mmps: 500,
-                heading: Direction::Forward,
-                contributing_sources: vec![PositionSource::Gnss],
-                onboard_time_ns: 190,
-                pack_soc_ppt: 900,
-            })),
-            entry(4, 250, EntryPayload::TrainPositionReport(TrainPositionReport {
-                train_id: TrainId::new(7),
-                head_position: pos(1000, 100_000),
-                tail_position: pos(1000, 35_000),
-                speed_mmps: 10_000,
-                speed_uncertainty_mmps: 500,
-                heading: Direction::Forward,
-                contributing_sources: vec![PositionSource::Gnss],
-                onboard_time_ns: 240,
-                pack_soc_ppt: 900,
-            })),
+            entry(
+                1,
+                100,
+                EntryPayload::TrainRegistration(TrainRegistration {
+                    train_id: TrainId::new(7),
+                    consist: ConsistDescriptor::reference_3car(),
+                    initial_position: pos(1000, 0),
+                }),
+            ),
+            entry(
+                2,
+                150,
+                EntryPayload::TrainRegistration(TrainRegistration {
+                    train_id: TrainId::new(9),
+                    consist: ConsistDescriptor::reference_3car(),
+                    initial_position: pos(1002, 0),
+                }),
+            ),
+            entry(
+                3,
+                200,
+                EntryPayload::TrainPositionReport(TrainPositionReport {
+                    train_id: TrainId::new(9),
+                    head_position: pos(1002, 500_000),
+                    tail_position: pos(1002, 435_000),
+                    speed_mmps: 10_000,
+                    speed_uncertainty_mmps: 500,
+                    heading: Direction::Forward,
+                    contributing_sources: vec![PositionSource::Gnss],
+                    onboard_time_ns: 190,
+                    pack_soc_ppt: 900,
+                }),
+            ),
+            entry(
+                4,
+                250,
+                EntryPayload::TrainPositionReport(TrainPositionReport {
+                    train_id: TrainId::new(7),
+                    head_position: pos(1000, 100_000),
+                    tail_position: pos(1000, 35_000),
+                    speed_mmps: 10_000,
+                    speed_uncertainty_mmps: 500,
+                    heading: Direction::Forward,
+                    contributing_sources: vec![PositionSource::Gnss],
+                    onboard_time_ns: 240,
+                    pack_soc_ppt: 900,
+                }),
+            ),
         ];
         let ma7 = compute_self_ma(TrainId::new(7), &log, &net, 1_000_000);
         let ma9 = compute_self_ma(TrainId::new(9), &log, &net, 1_000_000);
@@ -559,25 +599,37 @@ mod tests {
     #[test]
     fn intrusion_clear_permits_section() {
         let log = vec![
-            entry(1, 100, EntryPayload::TrainRegistration(TrainRegistration {
-                train_id: TrainId::new(7),
-                consist: ConsistDescriptor::reference_3car(),
-                initial_position: pos(1000, 0),
-            })),
+            entry(
+                1,
+                100,
+                EntryPayload::TrainRegistration(TrainRegistration {
+                    train_id: TrainId::new(7),
+                    consist: ConsistDescriptor::reference_3car(),
+                    initial_position: pos(1000, 0),
+                }),
+            ),
             intrusion_entry(2, 1001, IntrusionState::Clear),
         ];
         let state = derive_state(&log);
-        assert!(section_available_to(TrainId::new(7), SectionId::new(1001), &state));
+        assert!(section_available_to(
+            TrainId::new(7),
+            SectionId::new(1001),
+            &state
+        ));
     }
 
     #[test]
     fn intrusion_present_blocks_section() {
         let log = vec![
-            entry(1, 100, EntryPayload::TrainRegistration(TrainRegistration {
-                train_id: TrainId::new(7),
-                consist: ConsistDescriptor::reference_3car(),
-                initial_position: pos(1000, 0),
-            })),
+            entry(
+                1,
+                100,
+                EntryPayload::TrainRegistration(TrainRegistration {
+                    train_id: TrainId::new(7),
+                    consist: ConsistDescriptor::reference_3car(),
+                    initial_position: pos(1000, 0),
+                }),
+            ),
             intrusion_entry(2, 1001, IntrusionState::Present),
         ];
         let state = derive_state(&log);
@@ -590,11 +642,15 @@ mod tests {
     #[test]
     fn intrusion_unknown_is_fail_restrictive() {
         let log = vec![
-            entry(1, 100, EntryPayload::TrainRegistration(TrainRegistration {
-                train_id: TrainId::new(7),
-                consist: ConsistDescriptor::reference_3car(),
-                initial_position: pos(1000, 0),
-            })),
+            entry(
+                1,
+                100,
+                EntryPayload::TrainRegistration(TrainRegistration {
+                    train_id: TrainId::new(7),
+                    consist: ConsistDescriptor::reference_3car(),
+                    initial_position: pos(1000, 0),
+                }),
+            ),
             intrusion_entry(2, 1001, IntrusionState::Unknown),
         ];
         let state = derive_state(&log);
@@ -610,43 +666,65 @@ mod tests {
         // "not instrumented" → no gate added. This preserves backwards
         // compatibility for deployments that haven't installed wayside
         // sensors on every section yet.
-        let log = vec![
-            entry(1, 100, EntryPayload::TrainRegistration(TrainRegistration {
+        let log = vec![entry(
+            1,
+            100,
+            EntryPayload::TrainRegistration(TrainRegistration {
                 train_id: TrainId::new(7),
                 consist: ConsistDescriptor::reference_3car(),
                 initial_position: pos(1000, 0),
-            })),
-        ];
+            }),
+        )];
         let state = derive_state(&log);
-        assert!(section_available_to(TrainId::new(7), SectionId::new(1001), &state));
+        assert!(section_available_to(
+            TrainId::new(7),
+            SectionId::new(1001),
+            &state
+        ));
     }
 
     #[test]
     fn latest_intrusion_verdict_wins() {
         // Present → Clear: Clear wins (latest verdict).
         let log = vec![
-            entry(1, 100, EntryPayload::TrainRegistration(TrainRegistration {
-                train_id: TrainId::new(7),
-                consist: ConsistDescriptor::reference_3car(),
-                initial_position: pos(1000, 0),
-            })),
+            entry(
+                1,
+                100,
+                EntryPayload::TrainRegistration(TrainRegistration {
+                    train_id: TrainId::new(7),
+                    consist: ConsistDescriptor::reference_3car(),
+                    initial_position: pos(1000, 0),
+                }),
+            ),
             intrusion_entry(2, 1001, IntrusionState::Present),
             intrusion_entry(3, 1001, IntrusionState::Clear),
         ];
         let state = derive_state(&log);
-        assert!(section_available_to(TrainId::new(7), SectionId::new(1001), &state));
+        assert!(section_available_to(
+            TrainId::new(7),
+            SectionId::new(1001),
+            &state
+        ));
 
         // Clear → Present: Present wins.
         let log2 = vec![
-            entry(1, 100, EntryPayload::TrainRegistration(TrainRegistration {
-                train_id: TrainId::new(7),
-                consist: ConsistDescriptor::reference_3car(),
-                initial_position: pos(1000, 0),
-            })),
+            entry(
+                1,
+                100,
+                EntryPayload::TrainRegistration(TrainRegistration {
+                    train_id: TrainId::new(7),
+                    consist: ConsistDescriptor::reference_3car(),
+                    initial_position: pos(1000, 0),
+                }),
+            ),
             intrusion_entry(2, 1001, IntrusionState::Clear),
             intrusion_entry(3, 1001, IntrusionState::Present),
         ];
         let state2 = derive_state(&log2);
-        assert!(!section_available_to(TrainId::new(7), SectionId::new(1001), &state2));
+        assert!(!section_available_to(
+            TrainId::new(7),
+            SectionId::new(1001),
+            &state2
+        ));
     }
 }

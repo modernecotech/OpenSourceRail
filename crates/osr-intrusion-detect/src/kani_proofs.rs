@@ -4,8 +4,8 @@
 
 use crate::evaluate::{evaluate, IntrusionParams};
 use crate::sensors::{
-    CameraReturn, LidarReturn, RadarReturn, WaysideSensorFrame,
-    LATERAL_GATE_MM, MAX_SENSOR_STALE_MS,
+    CameraReturn, LidarReturn, RadarReturn, WaysideSensorFrame, LATERAL_GATE_MM,
+    MAX_SENSOR_STALE_MS,
 };
 use crate::verdict::IntrusionVerdict;
 

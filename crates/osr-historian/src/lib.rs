@@ -48,7 +48,7 @@ impl HistorianParams {
     #[must_use]
     pub fn default_metro() -> Self {
         Self {
-            raw_capacity: 3_600,      // ~1 h at 1 Hz
+            raw_capacity: 3_600,       // ~1 h at 1 Hz
             decimated_capacity: 8_640, // ~24 h at every-10th
             decimate_every: 10,
         }
@@ -84,10 +84,7 @@ impl Historian {
     pub fn ingest(&mut self, metric: &str, sample: Sample) {
         let raw = self.raw.entry(metric.to_string()).or_default();
         let dec = self.decimated.entry(metric.to_string()).or_default();
-        let count = self
-            .insert_count
-            .entry(metric.to_string())
-            .or_insert(0);
+        let count = self.insert_count.entry(metric.to_string()).or_insert(0);
 
         // Raw tier — tail-drop oldest on overflow.
         if raw.len() >= self.params.raw_capacity {
@@ -163,7 +160,13 @@ mod tests {
     fn ingest_and_query_basic() {
         let mut h = Historian::new(HistorianParams::default_metro());
         for i in 0..10 {
-            h.ingest("speed", Sample { timestamp_ns: i * 1_000, value: i as f64 });
+            h.ingest(
+                "speed",
+                Sample {
+                    timestamp_ns: i * 1_000,
+                    value: i as f64,
+                },
+            );
         }
         let out = h.query("speed", 0, u64::MAX);
         assert_eq!(out.len(), 10);
@@ -176,7 +179,13 @@ mod tests {
         params.decimate_every = 1_000; // never decimate
         let mut h = Historian::new(params);
         for i in 0..20 {
-            h.ingest("x", Sample { timestamp_ns: i, value: i as f64 });
+            h.ingest(
+                "x",
+                Sample {
+                    timestamp_ns: i,
+                    value: i as f64,
+                },
+            );
         }
         assert_eq!(h.raw_len("x"), 5);
     }
@@ -189,7 +198,13 @@ mod tests {
         params.decimate_every = 5;
         let mut h = Historian::new(params);
         for i in 0..20 {
-            h.ingest("x", Sample { timestamp_ns: i, value: i as f64 });
+            h.ingest(
+                "x",
+                Sample {
+                    timestamp_ns: i,
+                    value: i as f64,
+                },
+            );
         }
         // 20 samples, every 5th decimated: 20/5 = 4.
         assert_eq!(h.decimated_len("x"), 4);
@@ -199,7 +214,13 @@ mod tests {
     fn query_respects_range() {
         let mut h = Historian::new(HistorianParams::default_metro());
         for i in 0..20 {
-            h.ingest("x", Sample { timestamp_ns: i * 1_000, value: 0.0 });
+            h.ingest(
+                "x",
+                Sample {
+                    timestamp_ns: i * 1_000,
+                    value: 0.0,
+                },
+            );
         }
         let out = h.query("x", 5_000, 10_000);
         assert_eq!(out.len(), 6); // 5000, 6000, ..., 10000
@@ -208,9 +229,27 @@ mod tests {
     #[test]
     fn query_is_sorted() {
         let mut h = Historian::new(HistorianParams::default_metro());
-        h.ingest("x", Sample { timestamp_ns: 100, value: 0.0 });
-        h.ingest("x", Sample { timestamp_ns: 50, value: 0.0 });
-        h.ingest("x", Sample { timestamp_ns: 200, value: 0.0 });
+        h.ingest(
+            "x",
+            Sample {
+                timestamp_ns: 100,
+                value: 0.0,
+            },
+        );
+        h.ingest(
+            "x",
+            Sample {
+                timestamp_ns: 50,
+                value: 0.0,
+            },
+        );
+        h.ingest(
+            "x",
+            Sample {
+                timestamp_ns: 200,
+                value: 0.0,
+            },
+        );
         let out = h.query("x", 0, u64::MAX);
         for w in out.windows(2) {
             assert!(w[0].timestamp_ns <= w[1].timestamp_ns);

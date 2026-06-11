@@ -75,12 +75,12 @@ the motorisation pattern.
 ### 4.1 Motor
 
 - **Type:** permanent-magnet synchronous (PMSM), axle-hung.
-- **Continuous rating:** 180 kW per axle at line voltage (DC link
-  nominal 750 V).
+- **Continuous rating:** 180 kW per axle at line voltage (train DC
+  link nominal 1 500 V).
 - **Peak rating:** 320 kW per axle for acceleration windows
   (≤ 60 seconds duty).
 - **Cooling:** forced-air (underframe fan) or water-jacketed
-  depending on ambient — Samawah + 50 °C ambient uses water.
+  depending on ambient; high-ambient deployments use water.
 - **Reference SKU class:** Traktionssysteme Austria PMM-2, TSA
   TMR-180, or equivalent catalogue unit ≤ 620 kg per motor.
 

@@ -151,13 +151,25 @@ pub enum RasterError {
     #[error("JSON: {0}")]
     Json(#[from] serde_json::Error),
     #[error("dtype mismatch for {name}: expected {expected}, got {got}")]
-    Dtype { name: &'static str, expected: &'static str, got: String },
+    Dtype {
+        name: &'static str,
+        expected: &'static str,
+        got: String,
+    },
     #[error("shape mismatch for {name}: expected {expected:?}, got {got:?}")]
-    Shape { name: &'static str, expected: Vec<usize>, got: Vec<usize> },
+    Shape {
+        name: &'static str,
+        expected: Vec<usize>,
+        got: Vec<usize>,
+    },
     #[error("unsupported byteorder for {name}: {got}")]
     ByteOrder { name: &'static str, got: String },
     #[error("raster byte length mismatch for {name}: expected {expected}, got {got}")]
-    ByteLen { name: &'static str, expected: usize, got: usize },
+    ByteLen {
+        name: &'static str,
+        expected: usize,
+        got: usize,
+    },
 }
 
 // ---- Public loader ---------------------------------------------------
@@ -172,8 +184,18 @@ pub fn load_bundle<P: AsRef<Path>>(sidecar: P, slug: &str) -> Result<RasterBundl
     let reference = side.grid.clone();
 
     let expected_shape = vec![reference.height, reference.width];
-    let cost = load_f32(&dir.join(format!("{slug}.cost.npy")), "cost", &side.rasters.cost, &expected_shape)?;
-    let demand = load_f32(&dir.join(format!("{slug}.demand.npy")), "demand", &side.rasters.demand, &expected_shape)?;
+    let cost = load_f32(
+        &dir.join(format!("{slug}.cost.npy")),
+        "cost",
+        &side.rasters.cost,
+        &expected_shape,
+    )?;
+    let demand = load_f32(
+        &dir.join(format!("{slug}.demand.npy")),
+        "demand",
+        &side.rasters.demand,
+        &expected_shape,
+    )?;
     let buildability = load_u8(
         &dir.join(format!("{slug}.buildability.npy")),
         "buildability",
@@ -229,8 +251,20 @@ fn check_sidecar(
     Ok(())
 }
 
-fn load_f32(path: &Path, name: &'static str, side: &RasterSidecar, expected_shape: &[usize]) -> Result<Vec<f32>, RasterError> {
-    check_sidecar(name, &side.dtype, "f32", &side.shape, expected_shape, &side.byteorder)?;
+fn load_f32(
+    path: &Path,
+    name: &'static str,
+    side: &RasterSidecar,
+    expected_shape: &[usize],
+) -> Result<Vec<f32>, RasterError> {
+    check_sidecar(
+        name,
+        &side.dtype,
+        "f32",
+        &side.shape,
+        expected_shape,
+        &side.byteorder,
+    )?;
     let bytes = fs::read(path)?;
     let ncells: usize = expected_shape.iter().product();
     let expected_bytes = ncells * 4;
@@ -248,8 +282,20 @@ fn load_f32(path: &Path, name: &'static str, side: &RasterSidecar, expected_shap
     Ok(out)
 }
 
-fn load_u8(path: &Path, name: &'static str, side: &RasterSidecar, expected_shape: &[usize]) -> Result<Vec<u8>, RasterError> {
-    check_sidecar(name, &side.dtype, "u8", &side.shape, expected_shape, &side.byteorder)?;
+fn load_u8(
+    path: &Path,
+    name: &'static str,
+    side: &RasterSidecar,
+    expected_shape: &[usize],
+) -> Result<Vec<u8>, RasterError> {
+    check_sidecar(
+        name,
+        &side.dtype,
+        "u8",
+        &side.shape,
+        expected_shape,
+        &side.byteorder,
+    )?;
     let bytes = fs::read(path)?;
     let ncells: usize = expected_shape.iter().product();
     if bytes.len() != ncells {

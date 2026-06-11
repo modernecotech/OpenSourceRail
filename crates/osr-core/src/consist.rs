@@ -14,8 +14,8 @@ pub enum TrainClass {
 /// Piecewise-linear deceleration profile keyed by speed (m/s).
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 pub struct BrakingCurve {
-    pub service: Vec<(f32, f32)>,    // (speed_mps, decel_mps2) — nominal
-    pub emergency: Vec<(f32, f32)>,  // (speed_mps, decel_mps2) — guaranteed
+    pub service: Vec<(f32, f32)>,   // (speed_mps, decel_mps2) — nominal
+    pub emergency: Vec<(f32, f32)>, // (speed_mps, decel_mps2) — guaranteed
     pub reaction_time_ms: u32,
 }
 
@@ -56,7 +56,7 @@ impl ConsistDescriptor {
             max_speed_mps: 22.0, // ≈ 80 km/h
             braking: BrakingCurve::light_metro_default(),
             service_accel_mps2: 1.0, // typical light metro service accel
-            has_pantograph: false, // side-pin is the default station charger
+            has_pantograph: false,   // side-pin is the default station charger
             battery_capacity_wh: 900_000,
         }
     }
@@ -64,10 +64,6 @@ impl ConsistDescriptor {
     /// Effective low-speed service deceleration derived from the braking
     /// curve. Used by the sim engine for travel-time calculations.
     pub fn service_decel_mps2(&self) -> f32 {
-        self.braking
-            .service
-            .first()
-            .map(|(_, d)| *d)
-            .unwrap_or(1.0)
+        self.braking.service.first().map(|(_, d)| *d).unwrap_or(1.0)
     }
 }

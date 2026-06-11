@@ -33,7 +33,11 @@ fn full_phase2b_stack_runs_clean_on_samawah() {
 
     let ob = &result.onboard;
     assert!(ob.ticks_evaluated > 0, "no shadow ticks");
-    assert_eq!(ob.total_emergency_ticks, 0, "emergencies: {:?}", ob.emergencies);
+    assert_eq!(
+        ob.total_emergency_ticks, 0,
+        "emergencies: {:?}",
+        ob.emergencies
+    );
     assert_eq!(
         ob.total_bms_fault_ticks, 0,
         "BMS faults observed — pack state drove out of range under nominal load"
@@ -120,7 +124,9 @@ fn peak_torque_within_traction_rating() {
         assert!(
             t.peak_torque_mnm.abs() <= max_rating && t.min_torque_mnm.abs() <= max_rating,
             "train {} torque out of rating: peak={} min={}",
-            t.train, t.peak_torque_mnm, t.min_torque_mnm
+            t.train,
+            t.peak_torque_mnm,
+            t.min_torque_mnm
         );
     }
 }

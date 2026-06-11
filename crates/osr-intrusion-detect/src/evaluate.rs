@@ -6,9 +6,7 @@
 
 use serde::{Deserialize, Serialize};
 
-use crate::sensors::{
-    CameraClass, WaysideSensorFrame, LATERAL_GATE_MM, MAX_SENSOR_STALE_MS,
-};
+use crate::sensors::{CameraClass, WaysideSensorFrame, LATERAL_GATE_MM, MAX_SENSOR_STALE_MS};
 use crate::verdict::IntrusionVerdict;
 
 /// Per-deployment tuning.
@@ -180,7 +178,10 @@ mod tests {
     #[test]
     fn lidar_in_profile_forces_present_i1() {
         let mut f = baseline();
-        f.lidar[0] = Some(LidarReturn { longitudinal_mm: 12_000, lateral_mm: 500 });
+        f.lidar[0] = Some(LidarReturn {
+            longitudinal_mm: 12_000,
+            lateral_mm: 500,
+        });
         let o = evaluate(&f, 0, &IntrusionParams::default());
         assert_eq!(o.verdict, IntrusionVerdict::Present);
         assert_eq!(o.reason, TriggerReason::LidarReturn);
@@ -190,7 +191,10 @@ mod tests {
     fn lidar_off_profile_stays_clear() {
         let mut f = baseline();
         // Lateral 3000 mm > LATERAL_GATE_MM (1500).
-        f.lidar[0] = Some(LidarReturn { longitudinal_mm: 12_000, lateral_mm: 3_000 });
+        f.lidar[0] = Some(LidarReturn {
+            longitudinal_mm: 12_000,
+            lateral_mm: 3_000,
+        });
         let o = evaluate(&f, 0, &IntrusionParams::default());
         assert_eq!(o.verdict, IntrusionVerdict::Clear);
     }

@@ -68,8 +68,10 @@ major subsystem is ready for.
   tunnels explicitly excluded per RFC 0011.
 - **Three turnout tangents** covering tram / urban / mainline.
 - **Three depot archetypes** with a fleet-sizing formula.
-- **Worked reference alignments** for both Samawah lines
-  (29 km, 22 stations, validator-clean).
+- **Worked OSR-ALN alignment instance** for an earlier Samawah
+  generated network (29 km, 22 stations, validator-clean), proving the
+  shared civil export/validate workflow rather than a Samawah-specific
+  civil standard.
 
 ### Operations
 

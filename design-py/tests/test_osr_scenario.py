@@ -264,8 +264,14 @@ def test_readme_nets_operating_surplus_against_gov_debt_support() -> None:
 
 def test_consist_matches_light_metro_family() -> None:
     scenario = _parse(generate_from_path(SAMAWAH_DESIGN))
+    assert scenario["scenario"]["name"] == "Samawah"
     consist = scenario["consist"]
     assert consist["car_count"] == 3
     assert 50 < consist["length_m"] < 80
     # Battery sized for Samawah line-length per RFC 0021.
     assert 200 <= consist["battery_capacity_kwh"] <= 500
+    assert consist["roof_pv"]["nameplate_kw"] == 19.2
+    assert consist["roof_pv"]["usable_factor"] == 0.65
+    assert consist["roof_pv"]["air_cleaner"]["enabled"] is True
+    assert consist["roof_pv"]["air_cleaner"]["compressor_power_kw"] == 0.9
+    assert consist["roof_pv"]["air_cleaner"]["dust_loss_recovery_frac"] == 0.75

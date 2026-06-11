@@ -127,9 +127,9 @@ impl FireParams {
         Self {
             smoke_trip_ppm: 50,
             smoke_warn_ppm: 20,
-            heat_trip_dc: 800,       // 80 °C
-            heat_warn_dc: 650,       // 65 °C
-            heat_diff_trip_dc: 400,  // 40 °C over ambient
+            heat_trip_dc: 800,      // 80 °C
+            heat_warn_dc: 650,      // 65 °C
+            heat_diff_trip_dc: 400, // 40 °C over ambient
             cooldown_ms: 60_000,
         }
     }
@@ -212,11 +212,7 @@ fn bay_trips(bay: &BaySensors, ambient_dc: i16, p: &FireParams) -> (bool, bool) 
 
 /// Evaluate one fire-detection tick. Pure.
 #[must_use]
-pub fn fire_evaluate(
-    prev: &FireState,
-    inputs: &FireInputs,
-    params: &FireParams,
-) -> FireOutput {
+pub fn fire_evaluate(prev: &FireState, inputs: &FireInputs, params: &FireParams) -> FireOutput {
     // --- 1. Per-bay trip evaluation ----------------------------------
     let (b_trip, b_warn) = bay_trips(&inputs.battery, inputs.ambient_temp_dc, params);
     let (t_trip, t_warn) = bay_trips(&inputs.traction, inputs.ambient_temp_dc, params);
@@ -234,14 +230,14 @@ pub fn fire_evaluate(
     }
 
     // --- 2. Update latch ---------------------------------------------
-    let mut latched_tripped =
-        BayMask(prev.latched_tripped.0 | current_tripped.0);
+    let mut latched_tripped = BayMask(prev.latched_tripped.0 | current_tripped.0);
 
     // --- 3. Cooldown handling ----------------------------------------
     let mut cooldown_until_ns = prev.cooldown_until_ns;
     if current_tripped.any() {
-        let new_deadline =
-            inputs.now_ns.saturating_add(u64::from(params.cooldown_ms) * 1_000_000);
+        let new_deadline = inputs
+            .now_ns
+            .saturating_add(u64::from(params.cooldown_ms) * 1_000_000);
         cooldown_until_ns = Some(match cooldown_until_ns {
             Some(existing) => existing.max(new_deadline),
             None => new_deadline,
@@ -252,10 +248,7 @@ pub fn fire_evaluate(
         Some(until) => inputs.now_ns >= until,
         None => true,
     };
-    if inputs.reset_requested
-        && cooldown_expired
-        && !current_tripped.any()
-    {
+    if inputs.reset_requested && cooldown_expired && !current_tripped.any() {
         cooldown_until_ns = None;
         latched_tripped = BayMask::empty();
     }
@@ -322,7 +315,11 @@ mod tests {
 
     #[test]
     fn nominal_operation_is_quiet() {
-        let out = fire_evaluate(&FireState::default(), &clean_inputs(0), &FireParams::default_metro());
+        let out = fire_evaluate(
+            &FireState::default(),
+            &clean_inputs(0),
+            &FireParams::default_metro(),
+        );
         assert!(!out.emergency_requested);
         assert_eq!(out.alarm, AlarmLevel::Nominal);
         assert!(!out.activate_battery);

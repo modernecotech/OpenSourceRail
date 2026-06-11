@@ -107,7 +107,7 @@ Single vendor / single machine family across every deployment:
   position when a train approaches.
 
 **Every deployment counts and minimises FPSes.** A typical
-Samawah-scale reference deployment ([RFC 0003](0003-samawah-reference-deployment.md))
+Samawah-scale deployment instance ([RFC 0003](0003-samawah-reference-deployment.md))
 has 0 FPSes on a linear line (only crossovers at depot entry,
 which are TPSes on the way in and FPSes only if an operator
 reverses a train on the mainline — normally handled by the

@@ -89,12 +89,8 @@ pub const fn cab_profile() -> CabProfile {
 #[must_use]
 pub fn boot_banner() -> &'static str {
     match cab_profile() {
-        CabProfile::Unattended => {
-            "OSR trainset image — GoA 4 (Unattended, RFC 0015 default)"
-        }
-        CabProfile::Cabbed => {
-            "OSR trainset image — GoA 2 legacy (goa2-cab feature enabled)"
-        }
+        CabProfile::Unattended => "OSR trainset image — GoA 4 (Unattended, RFC 0015 default)",
+        CabProfile::Cabbed => "OSR trainset image — GoA 2 legacy (goa2-cab feature enabled)",
     }
 }
 

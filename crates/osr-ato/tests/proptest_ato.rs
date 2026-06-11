@@ -14,10 +14,7 @@ fn arb_inputs() -> impl Strategy<Value = AtoInputs> {
         0i32..40_000,
         0i32..40_000,
         0i32..40_000,
-        prop_oneof![
-            Just(None),
-            (0i64..3_000_000).prop_map(Some),
-        ],
+        prop_oneof![Just(None), (0i64..3_000_000).prop_map(Some),],
         any::<bool>(),
         0u32..60_000,
         any::<bool>(),

@@ -277,7 +277,11 @@ mod tests {
         }];
         let out = occ_evaluate(&OccState::default(), &i);
         assert_eq!(out.opened_incident_ids, vec![0]);
-        let key = HoldKey { line_id: 1, station_id: 0, heading: 0 };
+        let key = HoldKey {
+            line_id: 1,
+            station_id: 0,
+            heading: 0,
+        };
         assert!(out.state.holds.contains_key(&key));
         assert!(out.state.holds[&key].auto);
     }
@@ -316,7 +320,11 @@ mod tests {
 
     #[test]
     fn manual_hold_set_and_cleared() {
-        let key = HoldKey { line_id: 1, station_id: 5, heading: 0 };
+        let key = HoldKey {
+            line_id: 1,
+            station_id: 5,
+            heading: 0,
+        };
         let out = occ_evaluate(
             &OccState::default(),
             &OccInputs {

@@ -188,11 +188,7 @@ impl EventRecorder {
     /// the tail.
     pub fn iter(&self) -> impl DoubleEndedIterator<Item = &EventRecord> + ExactSizeIterator {
         let cap = self.capacity();
-        let start = if self.is_full() {
-            self.head
-        } else {
-            0
-        };
+        let start = if self.is_full() { self.head } else { 0 };
         (0..self.len).map(move |i| &self.slots[(start + i) % cap])
     }
 

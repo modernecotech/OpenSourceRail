@@ -107,11 +107,7 @@ impl UdpTcn {
 
     /// Publish a typed payload. Serialises with `serde_json`,
     /// prepends the header, and sends one datagram per peer.
-    pub fn publish<P: TcnPayload>(
-        &mut self,
-        topic: TopicId,
-        payload: &P,
-    ) -> Result<(), TcnError> {
+    pub fn publish<P: TcnPayload>(&mut self, topic: TopicId, payload: &P) -> Result<(), TcnError> {
         self.classes.insert(topic, P::CLASS);
         let bytes = serde_json::to_vec(payload).map_err(|_| TcnError::DecodeError)?;
         if bytes.len() > MAX_PAYLOAD_LEN {
@@ -318,14 +314,8 @@ mod tests {
         let (mut a, mut b) = pair();
         let t = topic_id(&a, "osr.train.atp.envelope");
         for i in 0..5 {
-            a.publish(
-                t,
-                &TestSafetyPayload {
-                    value: i,
-                    ts: 0,
-                },
-            )
-            .expect("publish");
+            a.publish(t, &TestSafetyPayload { value: i, ts: 0 })
+                .expect("publish");
         }
         // Poll repeatedly until all 5 land or we time out overall.
         let mut received = 0;
@@ -348,14 +338,8 @@ mod tests {
         let (mut a, mut b) = pair();
         let t1 = topic_id(&a, "osr.train.atp.envelope");
         let t2 = topic_id(&a, "osr.train.atp.command");
-        a.publish(
-            t1,
-            &TestSafetyPayload {
-                value: 1,
-                ts: 0,
-            },
-        )
-        .expect("publish");
+        a.publish(t1, &TestSafetyPayload { value: 1, ts: 0 })
+            .expect("publish");
         let _ = b.poll_until(Duration::from_millis(100)).unwrap_or(0);
         assert!(b.recv_one::<TestSafetyPayload>(t2).is_none());
         assert!(b.recv_one::<TestSafetyPayload>(t1).is_some());

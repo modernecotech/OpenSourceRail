@@ -86,11 +86,11 @@ _CLIMATE_PRESET_AMBIENT_C: dict[str, float] = {
 # Authoritative numbers live in `lib/templates/rolling-stock.toml`;
 # values here are the sim-critical subset.
 _CONSIST_DEFAULTS: dict[str, dict[str, int | float]] = {
-    "urban-shuttle-1car": {"car_count": 1, "length_m": 21,  "mass_kg": 34_000,  "max_speed_kmh": 70.0,  "battery_capacity_kwh": 120, "passenger_capacity": 100, "seat_count": 20,  "crush_capacity": 130, "service_accel_mps2": 1.0},
-    "tram-2car":          {"car_count": 2, "length_m": 39,  "mass_kg": 68_000,  "max_speed_kmh": 70.0,  "battery_capacity_kwh": 240, "passenger_capacity": 240, "seat_count": 40,  "crush_capacity": 320, "service_accel_mps2": 1.0},
-    "light-metro-3car":   {"car_count": 3, "length_m": 51,  "mass_kg": 102_000, "max_speed_kmh": 90.0,  "battery_capacity_kwh": 360, "passenger_capacity": 360, "seat_count": 60,  "crush_capacity": 480, "service_accel_mps2": 1.0},
-    "metro-4car":         {"car_count": 4, "length_m": 75,  "mass_kg": 136_000, "max_speed_kmh": 90.0,  "battery_capacity_kwh": 480, "passenger_capacity": 480, "seat_count": 80,  "crush_capacity": 640, "service_accel_mps2": 1.1},
-    "metro-6car":         {"car_count": 6, "length_m": 111, "mass_kg": 204_000, "max_speed_kmh": 100.0, "battery_capacity_kwh": 720, "passenger_capacity": 720, "seat_count": 120, "crush_capacity": 960, "service_accel_mps2": 1.1},
+    "urban-shuttle-1car": {"car_count": 1, "length_m": 21,  "mass_kg": 34_000,  "max_speed_kmh": 70.0,  "battery_capacity_kwh": 120, "passenger_capacity": 100, "seat_count": 20,  "crush_capacity": 130, "service_accel_mps2": 1.0, "roof_pv_nameplate_kw": 6.4,  "roof_pv_cleaner_kw": 0.3},
+    "tram-2car":          {"car_count": 2, "length_m": 39,  "mass_kg": 68_000,  "max_speed_kmh": 70.0,  "battery_capacity_kwh": 240, "passenger_capacity": 240, "seat_count": 40,  "crush_capacity": 320, "service_accel_mps2": 1.0, "roof_pv_nameplate_kw": 12.8, "roof_pv_cleaner_kw": 0.6},
+    "light-metro-3car":   {"car_count": 3, "length_m": 51,  "mass_kg": 102_000, "max_speed_kmh": 90.0,  "battery_capacity_kwh": 360, "passenger_capacity": 360, "seat_count": 60,  "crush_capacity": 480, "service_accel_mps2": 1.0, "roof_pv_nameplate_kw": 19.2, "roof_pv_cleaner_kw": 0.9},
+    "metro-4car":         {"car_count": 4, "length_m": 75,  "mass_kg": 136_000, "max_speed_kmh": 90.0,  "battery_capacity_kwh": 480, "passenger_capacity": 480, "seat_count": 80,  "crush_capacity": 640, "service_accel_mps2": 1.1, "roof_pv_nameplate_kw": 25.6, "roof_pv_cleaner_kw": 1.2},
+    "metro-6car":         {"car_count": 6, "length_m": 111, "mass_kg": 204_000, "max_speed_kmh": 100.0, "battery_capacity_kwh": 720, "passenger_capacity": 720, "seat_count": 120, "crush_capacity": 960, "service_accel_mps2": 1.1, "roof_pv_nameplate_kw": 38.4, "roof_pv_cleaner_kw": 1.8},
 }
 
 
@@ -164,8 +164,7 @@ class ScenarioGenerator:
     # ---- section builders ----
 
     def _scenario_header(self) -> str:
-        name = self.design.get("design", {}).get("name", "Unnamed")
-        slug = self.design.get("design", {}).get("id", "unnamed")
+        name = _scenario_name(self.design)
         source_path = self._display_design_path()
         return (
             f"# AUTO-GENERATED from {source_path}.\n"
@@ -228,6 +227,15 @@ class ScenarioGenerator:
             f"seat_count = {cd['seat_count']}\n"
             f"crush_capacity = {cd['crush_capacity']}\n"
             f"service_accel_mps2 = {cd['service_accel_mps2']}\n"
+            f"\n[consist.roof_pv]\n"
+            f"nameplate_kw = {cd['roof_pv_nameplate_kw']}\n"
+            f"usable_factor = 0.65\n"
+            f"charges_while_moving = true\n"
+            f"charges_while_dwelled = true\n"
+            f"\n[consist.roof_pv.air_cleaner]\n"
+            f"enabled = true\n"
+            f"compressor_power_kw = {cd['roof_pv_cleaner_kw']}\n"
+            f"dust_loss_recovery_frac = 0.75\n"
         )
 
     def _stations_section(self) -> str:
@@ -492,3 +500,21 @@ def generate_from_path(
 def _escape(s: str) -> str:
     """Minimal TOML string escape."""
     return str(s).replace("\\", "\\\\").replace('"', '\\"')
+
+
+def _scenario_name(design: dict[str, Any]) -> str:
+    design_meta = design.get("design", {})
+    city_meta = design.get("city", {})
+    return (
+        design_meta.get("name")
+        or city_meta.get("name")
+        or _title_from_slug(city_meta.get("slug") or design_meta.get("id"))
+        or "Unnamed"
+    )
+
+
+def _title_from_slug(slug: Any) -> str:
+    if not slug:
+        return ""
+    parts = str(slug).replace("_", "-").split("-")
+    return " ".join(part.capitalize() for part in parts if part)

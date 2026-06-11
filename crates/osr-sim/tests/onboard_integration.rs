@@ -54,11 +54,7 @@ fn nominal_samawah_line1_produces_no_onboard_emergency() {
 
     // Every Traveling train should have accumulated some shadow
     // distance.
-    let total_shadow_km: f64 = ob
-        .per_train
-        .iter()
-        .map(|t| t.shadow_distance_km)
-        .sum();
+    let total_shadow_km: f64 = ob.per_train.iter().map(|t| t.shadow_distance_km).sum();
     assert!(
         total_shadow_km > 0.1,
         "total shadow distance {:.3} km — kinematic shadow didn't move",

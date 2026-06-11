@@ -108,7 +108,11 @@ pub fn headway_adherence(
     for w in arrivals_ns.windows(2) {
         let delta = w[1].saturating_sub(w[0]);
         intervals += 1;
-        let diff = if delta > target_ns { delta - target_ns } else { target_ns - delta };
+        let diff = if delta > target_ns {
+            delta - target_ns
+        } else {
+            target_ns - delta
+        };
         if diff <= tolerance_ns {
             within += 1;
         }
@@ -169,7 +173,10 @@ mod tests {
     use super::*;
 
     fn s(ts: u64, v: f64) -> Sample {
-        Sample { timestamp_ns: ts, value: v }
+        Sample {
+            timestamp_ns: ts,
+            value: v,
+        }
     }
 
     #[test]

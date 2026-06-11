@@ -24,7 +24,9 @@ impl core::fmt::Display for NodeId {
 }
 
 /// A Raft term. Monotonically non-decreasing on each node.
-#[derive(Copy, Clone, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, Default, Serialize, Deserialize)]
+#[derive(
+    Copy, Clone, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, Default, Serialize, Deserialize,
+)]
 pub struct Term(pub u64);
 
 impl Term {
@@ -43,7 +45,9 @@ impl Term {
 ///
 /// Index 0 sentinel represents "no entry" (e.g., prevIdx=0 in an
 /// AppendEntries with an empty log).
-#[derive(Copy, Clone, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, Default, Serialize, Deserialize)]
+#[derive(
+    Copy, Clone, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, Default, Serialize, Deserialize,
+)]
 pub struct LogIndex(pub u64);
 
 impl LogIndex {
@@ -105,7 +109,11 @@ pub struct Entry {
 impl Entry {
     #[must_use]
     pub fn new(term: Term, value: Vec<u8>, category: Category) -> Self {
-        Self { term, value, category }
+        Self {
+            term,
+            value,
+            category,
+        }
     }
 
     /// Last-term helper: term of the final entry in a log slice, or

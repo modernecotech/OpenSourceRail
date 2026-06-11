@@ -192,11 +192,7 @@ pub struct DoorOutput {
 
 /// Evaluate one door for one tick. Pure.
 #[must_use]
-pub fn door_evaluate(
-    prev: &DoorState,
-    inputs: &DoorInputs,
-    params: &DoorParams,
-) -> DoorOutput {
+pub fn door_evaluate(prev: &DoorState, inputs: &DoorInputs, params: &DoorParams) -> DoorOutput {
     let s = &inputs.sensors;
 
     // --- 1. Interlock signal (2oo2) ----------------------------------
@@ -206,8 +202,7 @@ pub fn door_evaluate(
     // Either an explicit obstruction sensor or a motor-current spike
     // while driving closed constitutes obstruction.
     let obstruction_during_close = matches!(prev.motor, MotorCommand::DriveClose)
-        && (s.obstruction_detected
-            || s.motor_current_ma >= params.obstruction_current_trip_ma);
+        && (s.obstruction_detected || s.motor_current_ma >= params.obstruction_current_trip_ma);
 
     // --- 3. Fault / cooldown handling --------------------------------
     let mut fault_until_ns = prev.fault_until_ns;
@@ -217,8 +212,9 @@ pub fn door_evaluate(
         if let Some(started) = prev.motor_started_ns {
             let run_ms = inputs.now_ns.saturating_sub(started) / 1_000_000;
             if run_ms > u64::from(params.motor_timeout_ms) {
-                let deadline =
-                    inputs.now_ns.saturating_add(u64::from(params.fault_cooldown_ms) * 1_000_000);
+                let deadline = inputs
+                    .now_ns
+                    .saturating_add(u64::from(params.fault_cooldown_ms) * 1_000_000);
                 fault_until_ns = Some(match fault_until_ns {
                     Some(existing) => existing.max(deadline),
                     None => deadline,
@@ -242,8 +238,7 @@ pub fn door_evaluate(
     //   allowed_to_open = emergency_unlock
     //       || (speed ≤ threshold AND at_station)
     let allowed_to_open = inputs.emergency_unlock
-        || (inputs.speed_mmps <= params.stop_speed_threshold_mmps
-            && inputs.at_station);
+        || (inputs.speed_mmps <= params.stop_speed_threshold_mmps && inputs.at_station);
 
     // --- 5. Emergency-unlock override --------------------------------
     //
@@ -342,11 +337,7 @@ pub fn door_evaluate(
 // Helpers
 // ---------------------------------------------------------------------------
 
-fn start_timestamp(
-    prev: &DoorState,
-    new_motor: MotorCommand,
-    now_ns: u64,
-) -> Option<u64> {
+fn start_timestamp(prev: &DoorState, new_motor: MotorCommand, now_ns: u64) -> Option<u64> {
     match (prev.motor, new_motor) {
         (_, MotorCommand::Stop) => None,
         (MotorCommand::Stop, _) => Some(now_ns),

@@ -112,7 +112,11 @@ impl Report {
         let (pass, fail, skip) = self.counts();
         out.push_str(&format!(
             "\n  Summary: {pass} pass · {fail} fail · {skip} skip · {}\n",
-            if self.all_pass() { "OVERALL PASS" } else { "OVERALL FAIL" }
+            if self.all_pass() {
+                "OVERALL PASS"
+            } else {
+                "OVERALL FAIL"
+            }
         ));
         out
     }

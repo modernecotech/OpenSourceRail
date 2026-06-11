@@ -159,7 +159,14 @@ fn enforce_elevated_junctions(
 
         // Reclassify [from_idx, to_idx] inclusive on the lift line.
         let lift_segs = &mut civil_per_line[lift_idx];
-        *lift_segs = reclass_window(bundle, lift_line, lift_segs, from_idx, to_idx, CivilClass::Elevated);
+        *lift_segs = reclass_window(
+            bundle,
+            lift_line,
+            lift_segs,
+            from_idx,
+            to_idx,
+            CivilClass::Elevated,
+        );
 
         out.push(ElevatedJunction {
             group_id: *gid,
@@ -286,7 +293,10 @@ fn write_design_toml(
         bundle.grid.reference.bbox_north,
         bundle.grid.reference.bbox_east,
     ));
-    out.push_str(&format!("centroid_lat    = {}\n", bundle.grid.reference.lat0));
+    out.push_str(&format!(
+        "centroid_lat    = {}\n",
+        bundle.grid.reference.lat0
+    ));
     out.push_str("\n");
 
     out.push_str("[climate]\n");
@@ -320,10 +330,13 @@ fn write_design_toml(
         let length_m = line_length_m(bundle, line);
         out.push_str("[[lines]]\n");
         out.push_str(&format!("name            = \"{}\"\n", line.name));
-        out.push_str(&format!("shape           = \"{}\"\n", match line.shape {
-            osr_routing::topology::LineShape::Radial => "radial",
-            osr_routing::topology::LineShape::Ring => "ring",
-        }));
+        out.push_str(&format!(
+            "shape           = \"{}\"\n",
+            match line.shape {
+                osr_routing::topology::LineShape::Radial => "radial",
+                osr_routing::topology::LineShape::Ring => "ring",
+            }
+        ));
         out.push_str(&format!("length_m        = {length_m:.1}\n"));
         out.push_str(&format!("rolling_stock   = \"{family}\"\n"));
         out.push_str(&format!("geometry        = \"{geometry}\"\n\n"));
@@ -352,10 +365,7 @@ fn write_design_toml(
             ));
         }
         out.push_str(&format!("archetype       = \"{archetype}\"\n"));
-        out.push_str(&format!(
-            "platform_length_m = {:.1}\n",
-            platform_length_m
-        ));
+        out.push_str(&format!("platform_length_m = {:.1}\n", platform_length_m));
         if let Some(g) = s.junction_group {
             out.push_str(&format!("junction_group  = {g}\n"));
         }
@@ -408,8 +418,14 @@ fn write_design_toml(
             out.push_str(&format!("elevated_line   = \"{}\"\n", j.elevated_line));
             out.push_str(&format!("lat             = {}\n", j.lat));
             out.push_str(&format!("lon             = {}\n", j.lon));
-            out.push_str(&format!("premium_usd     = {:.0}\n", junction_premium_usd()));
-            out.push_str(&format!("premium_eur     = {:.0}\n", junction_premium_eur()));
+            out.push_str(&format!(
+                "premium_usd     = {:.0}\n",
+                junction_premium_usd()
+            ));
+            out.push_str(&format!(
+                "premium_eur     = {:.0}\n",
+                junction_premium_eur()
+            ));
             out.push_str("\n");
         }
     }
@@ -465,10 +481,22 @@ fn write_design_toml(
     ));
     out.push_str(&format!("usd_to_eur          = {:.2}\n", usd_to_eur()));
     out.push_str("# Civil works (USD/km x civil mix; EUR mirror at usd_to_eur).\n");
-    out.push_str(&format!("at_grade_usd         = {:.0}\n", costs.at_grade_usd));
-    out.push_str(&format!("at_grade_eur         = {:.0}\n", costs.at_grade_eur));
-    out.push_str(&format!("elevated_usd         = {:.0}\n", costs.elevated_usd));
-    out.push_str(&format!("elevated_eur         = {:.0}\n", costs.elevated_eur));
+    out.push_str(&format!(
+        "at_grade_usd         = {:.0}\n",
+        costs.at_grade_usd
+    ));
+    out.push_str(&format!(
+        "at_grade_eur         = {:.0}\n",
+        costs.at_grade_eur
+    ));
+    out.push_str(&format!(
+        "elevated_usd         = {:.0}\n",
+        costs.elevated_usd
+    ));
+    out.push_str(&format!(
+        "elevated_eur         = {:.0}\n",
+        costs.elevated_eur
+    ));
     out.push_str(&format!("bridge_usd           = {:.0}\n", costs.bridge_usd));
     out.push_str(&format!("bridge_eur           = {:.0}\n", costs.bridge_eur));
     out.push_str(&format!(
@@ -490,12 +518,20 @@ fn write_design_toml(
         costs.civil_subtotal_eur
     ));
     out.push_str("# Stations (RFC 0010 archetype catalogue).\n");
-    out.push_str(&format!("stations_usd         = {:.0}\n", costs.stations_usd));
-    out.push_str(&format!("stations_eur         = {:.0}\n", costs.stations_eur));
+    out.push_str(&format!(
+        "stations_usd         = {:.0}\n",
+        costs.stations_usd
+    ));
+    out.push_str(&format!(
+        "stations_eur         = {:.0}\n",
+        costs.stations_eur
+    ));
     out.push_str("# Depots (RFC 0014 archetype catalogue).\n");
     out.push_str(&format!("depots_usd           = {:.0}\n", costs.depots_usd));
     out.push_str(&format!("depots_eur           = {:.0}\n", costs.depots_eur));
-    out.push_str("# Rolling stock (RFC 0008 family × fleet count; delivered all-in planning unit).\n");
+    out.push_str(
+        "# Rolling stock (RFC 0008 family × fleet count; delivered all-in planning unit).\n",
+    );
     out.push_str(&format!(
         "rolling_stock_usd    = {:.0}\n",
         costs.rolling_stock_usd
@@ -513,9 +549,17 @@ fn write_design_toml(
         "production_plant_eur = {:.0}\n",
         costs.production_plant_eur
     ));
-    out.push_str("# Systems: residual train-control wayside + station/depot charging microgrids.\n");
-    out.push_str(&format!("signalling_usd       = {:.0}\n", costs.signalling_usd));
-    out.push_str(&format!("signalling_eur       = {:.0}\n", costs.signalling_eur));
+    out.push_str(
+        "# Systems: residual train-control wayside + station/depot charging microgrids.\n",
+    );
+    out.push_str(&format!(
+        "signalling_usd       = {:.0}\n",
+        costs.signalling_usd
+    ));
+    out.push_str(&format!(
+        "signalling_eur       = {:.0}\n",
+        costs.signalling_eur
+    ));
     out.push_str(&format!(
         "charging_microgrid_usd = {:.0}\n",
         costs.charging_microgrid_usd
@@ -591,9 +635,7 @@ fn compute_depots(
         if archetype != "terminal" && archetype != "depot-terminal" {
             continue;
         }
-        let fleet = *fleet_by_line
-            .get(s.line_name.as_str())
-            .unwrap_or(&4); // conservative fallback
+        let fleet = *fleet_by_line.get(s.line_name.as_str()).unwrap_or(&4); // conservative fallback
         let stalls = depot_stalls(fleet);
         let depot_archetype = if archetype == "depot-terminal" {
             "main-heavy"
@@ -828,8 +870,7 @@ static COST_CONFIG: OnceLock<CapexCostConfig> = OnceLock::new();
 
 fn cost_config() -> &'static CapexCostConfig {
     COST_CONFIG.get_or_init(|| {
-        toml::from_str(CAPEX_COSTS_TOML)
-            .expect("lib/templates/capex-costs.toml must parse")
+        toml::from_str(CAPEX_COSTS_TOML).expect("lib/templates/capex-costs.toml must parse")
     })
 }
 
@@ -849,11 +890,7 @@ fn junction_premium_eur() -> f64 {
     eur_from_usd(junction_premium_usd())
 }
 
-fn mapped_cost(
-    costs: &BTreeMap<String, f64>,
-    key: &str,
-    fallback_key: &str,
-) -> f64 {
+fn mapped_cost(costs: &BTreeMap<String, f64>, key: &str, fallback_key: &str) -> f64 {
     costs
         .get(key)
         .or_else(|| costs.get(fallback_key))
@@ -870,11 +907,7 @@ fn depot_cost_usd(archetype: &str) -> f64 {
 }
 
 fn trainset_cost_usd(family: &str) -> f64 {
-    mapped_cost(
-        &cost_config().trainset_unit_usd,
-        family,
-        "light-metro-3car",
-    )
+    mapped_cost(&cost_config().trainset_unit_usd, family, "light-metro-3car")
 }
 
 fn charging_microgrid_cost_usd(archetype: &str) -> f64 {
@@ -909,34 +942,23 @@ fn compute_costs(
     let at_grade_usd = at_grade_m / 1_000.0 * rates.civil_usd_per_km.at_grade;
     let elevated_usd = elevated_m / 1_000.0 * rates.civil_usd_per_km.elevated;
     let bridge_usd = bridge_m / 1_000.0 * rates.civil_usd_per_km.bridge;
-    let junction_premium_usd =
-        (elevated_junctions_count as f64) * junction_premium_usd();
+    let junction_premium_usd = (elevated_junctions_count as f64) * junction_premium_usd();
     let at_grade_eur = eur_from_usd(at_grade_usd);
     let elevated_eur = eur_from_usd(elevated_usd);
     let bridge_eur = eur_from_usd(bridge_usd);
     let junction_premium_eur = eur_from_usd(junction_premium_usd);
-    let civil_subtotal_usd =
-        at_grade_usd + elevated_usd + bridge_usd + junction_premium_usd;
-    let civil_subtotal_eur =
-        at_grade_eur + elevated_eur + bridge_eur + junction_premium_eur;
+    let civil_subtotal_usd = at_grade_usd + elevated_usd + bridge_usd + junction_premium_usd;
+    let civil_subtotal_eur = at_grade_eur + elevated_eur + bridge_eur + junction_premium_eur;
 
-    let stations_usd: f64 = station_archetypes
-        .iter()
-        .map(|a| station_cost_usd(a))
-        .sum();
+    let stations_usd: f64 = station_archetypes.iter().map(|a| station_cost_usd(a)).sum();
     let stations_eur = eur_from_usd(stations_usd);
-    let depots_usd: f64 = depots
-        .iter()
-        .map(|d| depot_cost_usd(d.archetype))
-        .sum();
+    let depots_usd: f64 = depots.iter().map(|d| depot_cost_usd(d.archetype)).sum();
     let depots_eur = eur_from_usd(depots_usd);
-    let rolling_stock_usd =
-        f64::from(fleet_total_trainsets) * trainset_cost_usd(family);
+    let rolling_stock_usd = f64::from(fleet_total_trainsets) * trainset_cost_usd(family);
     let rolling_stock_eur = eur_from_usd(rolling_stock_usd);
     let production_vehicle_count =
         f64::from(fleet_total_trainsets) * f64::from(family_car_count(family));
-    let production_plant_usd =
-        production_vehicle_count * rates.production_plant.per_vehicle_usd;
+    let production_plant_usd = production_vehicle_count * rates.production_plant.per_vehicle_usd;
     let production_plant_eur = eur_from_usd(production_plant_usd);
 
     let route_km = (at_grade_m + elevated_m + bridge_m) / 1_000.0;
@@ -1461,13 +1483,13 @@ fn write_quality_yaml(
     // Preserved for backward compatibility with existing deployment
     // scripts; always zero under RFC 0011's no-tunnel invariant.
     yaml.push_str("    tunnel:   0.0\n");
-    yaml.push_str(&format!(
-        "  elevated_fraction: {elevated_fraction:.3}\n"
-    ));
+    yaml.push_str(&format!("  elevated_fraction: {elevated_fraction:.3}\n"));
     yaml.push_str("gates:\n");
     yaml.push_str("  hard:\n");
     yaml.push_str(&format!("    has_stations:      {hard_has_stations}\n"));
-    yaml.push_str(&format!("    length_reasonable: {hard_length_reasonable}\n"));
+    yaml.push_str(&format!(
+        "    length_reasonable: {hard_length_reasonable}\n"
+    ));
     yaml.push_str("  soft:\n");
     yaml.push_str(&format!("    coverage_ge_0.30:   {soft_coverage}\n"));
     yaml.push_str(&format!("    anchor_hit_ge_0.20: {soft_anchor_hit}\n"));
@@ -1690,10 +1712,7 @@ mod tests {
     fn haversine_recovers_small_distances_under_one_percent() {
         // ~111 m at the equator between lat 0 and lat 0.001.
         let d = haversine_m(0.0, 0.0, 0.001, 0.0);
-        assert!(
-            (d - 111.0).abs() < 1.0,
-            "expected ≈ 111 m, got {d:.2} m"
-        );
+        assert!((d - 111.0).abs() < 1.0, "expected ≈ 111 m, got {d:.2} m");
     }
 
     // ---- v2 emitter: depot blocks, switches, costs --------------------
@@ -1755,8 +1774,15 @@ mod tests {
         let tbs: Vec<_> = switches.iter().filter(|s| s.side == "turnback").collect();
         assert_eq!(tbs.len(), 2);
         // Yard-throat count = depot-terminal's fleet_stalls.
-        let yd: Vec<_> = switches.iter().filter(|s| s.side == "yard-throat").collect();
-        let dt_stalls = depots.iter().find(|d| d.archetype == "main-heavy").unwrap().fleet_stalls;
+        let yd: Vec<_> = switches
+            .iter()
+            .filter(|s| s.side == "yard-throat")
+            .collect();
+        let dt_stalls = depots
+            .iter()
+            .find(|d| d.archetype == "main-heavy")
+            .unwrap()
+            .fleet_stalls;
         assert_eq!(yd.len() as u32, dt_stalls);
         // Every switch uses no-9-mainline per RFC 0012 §3.
         for s in &switches {
@@ -1792,8 +1818,7 @@ mod tests {
                 length_m: 500.0, // 0.5 km x $18 M = $9.0 M
             },
         ]];
-        let archetypes: Vec<&str> =
-            vec!["terminal", "standard", "depot-terminal"];
+        let archetypes: Vec<&str> = vec!["terminal", "standard", "depot-terminal"];
         let depots = vec![
             DepotBlock {
                 station_id: "S1".into(),

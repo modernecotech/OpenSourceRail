@@ -46,7 +46,9 @@ pub struct CbmBackendParams {
 impl CbmBackendParams {
     #[must_use]
     pub fn default_depot() -> Self {
-        Self { watch_persistence: 8 }
+        Self {
+            watch_persistence: 8,
+        }
     }
 }
 
@@ -112,20 +114,28 @@ pub fn ingest_sample(
         let _ = v;
     }
     for (i, _) in sample.motor_temp_dc.iter().enumerate() {
-        per_index.entry((Component::Motor, i as u16)).or_insert(ComponentHealth::Nominal);
+        per_index
+            .entry((Component::Motor, i as u16))
+            .or_insert(ComponentHealth::Nominal);
     }
     for (i, _) in sample.brake_pad_remaining_ppt.iter().enumerate() {
-        per_index.entry((Component::BrakePad, i as u16)).or_insert(ComponentHealth::Nominal);
+        per_index
+            .entry((Component::BrakePad, i as u16))
+            .or_insert(ComponentHealth::Nominal);
     }
     for (i, _) in sample.wheel_tread_remaining_ppt.iter().enumerate() {
-        per_index.entry((Component::WheelTread, i as u16)).or_insert(ComponentHealth::Nominal);
+        per_index
+            .entry((Component::WheelTread, i as u16))
+            .or_insert(ComponentHealth::Nominal);
     }
 
     // Flags in the sample were computed by cbm-onboard; replay them
     // so we can update state + emit orders. We don't re-derive the
     // thresholds; we trust the producer.
     for flag in reconstruct_flags(sample) {
-        let slot = per_index.entry((flag.component, flag.index)).or_insert(flag.health);
+        let slot = per_index
+            .entry((flag.component, flag.index))
+            .or_insert(flag.health);
         if flag.health > *slot {
             *slot = flag.health;
         }
@@ -135,7 +145,11 @@ pub fn ingest_sample(
     let mut orders = Vec::new();
 
     for ((comp, idx), health) in per_index {
-        let key = ComponentKey { train_id: sample.train_id, component: comp, index: idx };
+        let key = ComponentKey {
+            train_id: sample.train_id,
+            component: comp,
+            index: idx,
+        };
         let cs = state.components.entry(key).or_default();
         match health {
             ComponentHealth::Service => {
@@ -311,7 +325,9 @@ mod tests {
         let mut i = clean(3);
         i.bearing_vib_ppt[2] = 5_000; // watch
         let s = sample_from(i);
-        let p = CbmBackendParams { watch_persistence: 3 };
+        let p = CbmBackendParams {
+            watch_persistence: 3,
+        };
 
         let mut state = CbmBackendState::default();
         let mut total_orders = 0;

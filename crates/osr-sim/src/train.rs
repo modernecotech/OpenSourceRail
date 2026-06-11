@@ -40,9 +40,7 @@ pub enum TrainPhase {
     },
     /// Awaiting dispatch from a dispatch point — either pre-service-start or
     /// because the dispatch throttle (schedule) is holding the train.
-    AwaitingDispatch {
-        station: StationId,
-    },
+    AwaitingDispatch { station: StationId },
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
@@ -61,6 +59,8 @@ pub struct Train {
     pub energy_consumed_kwh: f64,
     /// Cumulative energy received from charging in kWh.
     pub energy_charged_kwh: f64,
+    /// Cumulative energy received from onboard roof PV in kWh.
+    pub energy_roof_pv_kwh: f64,
     /// Minimum SoC observed so far (for end-of-run reporting).
     pub min_soc_seen: f32,
 }

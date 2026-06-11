@@ -1,9 +1,10 @@
 # `light-metro-3car` trainset package
 
 This directory holds the dimensioned specification for the
-**light-metro-3car** trainset — the Samawah reference family per
-[RFC 0003](../../rfcs/0003-samawah-reference-deployment.md) and the
-default for populations 300 k – 1 M per [RFC 0008 §5](../../rfcs/0008-rolling-stock-reference-design.md#5-family-selection-policy).
+**light-metro-3car** trainset — the default family for populations
+300 k – 1 M per [RFC 0008 §5](../../rfcs/0008-rolling-stock-reference-design.md#5-family-selection-policy).
+Samawah is one generated city instance that selects this family; the
+trainset package itself is shared.
 
 This package started as the v1 RFC 0008 bid specification and now
 also links the current envelope-level FreeCAD/PNG outputs. A domestic
@@ -37,7 +38,7 @@ interior liners.
 The governing visual/layout reference is
 [`solar-metro-trainset.png`](../../../docs/assets/solar-metro-trainset.png):
 white/silver body, green waist band, dark skirts, single dark panoramic-glass ends,
-mixed bonded/rail-mounted roof PV, two low-floor door pairs per side per car, powered end cars, unpowered middle car,
+mixed bonded/rail-mounted roof PV, two low-floor door pairs per side per car, repeated self-contained cars with one powered bogie and one trailer bogie each,
 and batteries under longitudinal seats. The end glazing is an open
 driverless passenger view through heated RF-transparent laminated
 glass with LED headlamp and marker-light clusters below it.
@@ -76,11 +77,11 @@ exported back into the drawing pack as neutral CAD.
 
 | Source | Controls |
 |---|---|
-| [`trainset.py`](../../../mechanical-py/src/osr_mech/rolling_stock/trainset.py) | Family length, car count, motorisation, cowl/body/bogie assembly |
+| [`trainset.py`](../../../mechanical-py/src/osr_mech/rolling_stock/trainset.py) | Family length, car count, repeated car motorisation, cowl/body/bogie assembly |
 | [`car_body.py`](../../../mechanical-py/src/osr_mech/rolling_stock/car_body.py) | 17 m body module as layered CAD subassemblies: primary structure, exterior/glazing/doors, interior, HVAC ducts, LV/data routing, HV/PV/thermal/fire paths |
 | [`sensor_cowl.py`](../../../mechanical-py/src/osr_mech/rolling_stock/sensor_cowl.py) | Identical A/B-end multi-part fiberglass cowl kit envelope with one dark panoramic glass pane, LED headlamps, marker lights, and T-OBS visual interface |
 | [`systems.py`](../../../mechanical-py/src/osr_mech/rolling_stock/systems.py) | Couplers, detailed articulations/gangways, batteries, rooftop solar package, charge inverters, doors, electronics, charging, T-OBS packs |
-| [`bogie/`](../../../mechanical-py/src/osr_mech/rolling_stock/bogie/) | Powered and converted-trailer bogie assemblies |
+| [`bogie/`](../../../mechanical-py/src/osr_mech/rolling_stock/bogie/) | Powered and trailer bogie assemblies |
 | [`cad_templates/rolling_stock.py`](../../../mechanical-py/src/osr_mech/cad_templates/rolling_stock.py) | Sheet-metal/chassis manufacturing templates |
 
 ## Current CAD / PNG Design Outputs
@@ -167,7 +168,10 @@ After the low-floor chassis rework, the chassis screen is inside the
 25 mm deflection target: 11.3 mm maximum displacement under the 360 kN
 service-load screen. The broadened lateral body sway screen currently
 flags review: 21.8 mm displacement against the 20 mm screening target,
-with stress still low at 38.3 MPa.
+with stress still low at 38.3 MPa. That review flag is now an explicit
+v2 action: add side-frame diaphragm/knee-brace detail around the
+door-post, waist-rail, and roof-cant load path, then rerun the
+lateral sway model before first steel cut.
 
 ## Mechanical Interface Component Gallery
 
@@ -213,9 +217,10 @@ The matching electronics host-class quantities are mirrored in
 [`hardware/rolling-stock-integration.md`](../../../hardware/rolling-stock-integration.md).
 
 The remaining gaps are not missing assemblies in the train envelope;
-they are v0.2/v2 detail-design tasks: supplier exact envelopes, weld
-maps, FEA-ready brackets, harness clamp locations, manufacturing
-tolerances, and release drawings listed in
+they are v0.2/v2 detail-design tasks: frozen supplier exact envelopes,
+one-car-first manufacturing drawings, weld maps, NDT acceptance sheets,
+FEA-ready brackets, harness clamp locations, manufacturing tolerances,
+weight-and-balance evidence, and release drawings listed in
 [`drawing-register.md`](drawing-register.md) and
 [`v2-release-checklist.md`](v2-release-checklist.md).
 
@@ -225,14 +230,14 @@ tolerances, and release drawings listed in
 |---|---|
 | Cars | 3 (articulated) |
 | Overall length (over couplers) | 51.0 m |
-| Tare mass target | 98 t |
+| Tare mass target | 102 t |
 | Axle load (AW3 crush) | ≤ 14 t |
 | Max speed | 25 m/s (90 km/h) |
 | Seats | 60 longitudinal seats |
 | Passenger capacity (AW2) | 360 (seated + standing) |
 | Passenger capacity (AW3 crush) | 480 short-duration crush load |
-| Onboard battery | 450 kWh Na-ion (150 kWh per car, under seats) |
-| Peak onboard motor output | 600 kW |
+| Onboard battery | 360 kWh usable Na-ion (120 kWh usable / ~150 kWh nameplate per car, under seats) |
+| Peak onboard motor output | 1.8 MW planning cap (1.92 MW installed motor capability) |
 | Floor height (above ToR) | 350 mm, ~10 m low-floor centre door/PRM zone; 760 mm, ~3 m high-floor end decks over standard bogies |
 | Gauge | 1 435 mm standard gauge |
 

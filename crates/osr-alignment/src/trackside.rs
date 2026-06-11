@@ -77,21 +77,14 @@ impl Default for PlacementRules {
 }
 
 /// Place every asset kind along the alignment per the design rules.
-pub fn place_assets(
-    alignment: &Alignment,
-    rules: PlacementRules,
-    line_slug: &str,
-) -> Vec<Asset> {
+pub fn place_assets(alignment: &Alignment, rules: PlacementRules, line_slug: &str) -> Vec<Asset> {
     let mut out = Vec::new();
     let stations = sample_every(alignment, 10.0);
     if stations.is_empty() {
         return out;
     }
 
-    let push = |kind: AssetKind,
-                sp: &StationedPoint,
-                idx: usize,
-                assets: &mut Vec<Asset>| {
+    let push = |kind: AssetKind, sp: &StationedPoint, idx: usize, assets: &mut Vec<Asset>| {
         let prefix = match kind {
             AssetKind::AxleCounter => "AC",
             AssetKind::Balise => "B",
@@ -178,9 +171,7 @@ mod tests {
         let rules = PlacementRules::default();
         let assets = place_assets(&a, rules, "test-L1");
 
-        let by_kind: std::collections::HashMap<_, _> = count_by_kind(&assets)
-            .into_iter()
-            .collect();
+        let by_kind: std::collections::HashMap<_, _> = count_by_kind(&assets).into_iter().collect();
         // 1 000 m / 200 m spacing = 5 extra axle counters + the one
         // placed at origin = 6. Same logic for the others.
         assert!(by_kind[&AssetKind::AxleCounter] >= 5);

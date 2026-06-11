@@ -20,18 +20,16 @@ fn arb_inputs() -> impl Strategy<Value = PisInputs> {
         any::<bool>(),
         any::<bool>(),
     )
-        .prop_map(
-            |(now, speed, sid, dist, at_s, em, v110, v24)| PisInputs {
-                now_ns: now,
-                speed_mmps: speed,
-                station_id: sid,
-                distance_to_stop_mm: dist,
-                at_station: at_s,
-                emergency_broadcast: em,
-                v110_rail_enabled: v110,
-                v24_rail_enabled: v24,
-            },
-        )
+        .prop_map(|(now, speed, sid, dist, at_s, em, v110, v24)| PisInputs {
+            now_ns: now,
+            speed_mmps: speed,
+            station_id: sid,
+            distance_to_stop_mm: dist,
+            at_station: at_s,
+            emergency_broadcast: em,
+            v110_rail_enabled: v110,
+            v24_rail_enabled: v24,
+        })
 }
 
 proptest! {

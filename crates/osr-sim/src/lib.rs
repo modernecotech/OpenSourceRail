@@ -6,6 +6,7 @@ pub mod energy;
 pub mod fault;
 pub mod ma_check;
 pub mod onboard;
+pub mod physics;
 pub mod report;
 pub mod scenario_file;
 pub mod schedule;

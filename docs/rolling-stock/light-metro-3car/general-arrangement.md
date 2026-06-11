@@ -6,9 +6,9 @@
    ←── 17.0 m ──→←── 17.0 m ──→←── 17.0 m ──→
 
       Car A             Car B             Car C
-   ┌─ M bogie ─ 2 doors ─ t bogie ┐A1┌─ t bogie ─ 2 doors ─ t bogie ┐A2┌─ t bogie ─ 2 doors ─ M bogie ┐
-   │ powered  low-floor centre │  │ trailer  low-floor centre │  │ powered  low-floor centre │
-   │ end car  under-seat batt. │  │ car      under-seat batt. │  │ end car  under-seat batt. │
+   ┌─ M bogie ─ 2 doors ─ t bogie ┐A1┌─ M bogie ─ 2 doors ─ t bogie ┐A2┌─ M bogie ─ 2 doors ─ t bogie ┐
+   │ repeated self-contained car │  │ repeated self-contained car │  │ repeated self-contained car │
+   │ low-floor centre + battery  │  │ low-floor centre + battery  │  │ low-floor centre + battery  │
    └───────────────────────────┘  └───────────────────────────┘  └───────────────────────────┘
      M = powered bogie, t = trailer bogie
      A1/A2 = semi-permanent articulated gangway modules
@@ -27,10 +27,11 @@
 - **Two articulations total** — lower spherical pivot/drawbar, upper
   roll-yaw-pitch links, double-wall bellows, segmented turntable floor,
   and separated trainline routing at each carbody interface.
-- **Powered wheelsets:** one powered bogie at each outer end car,
-  giving two powered bogies and four powered axles across the consist.
-- **Battery:** 150 kWh sodium-ion per car under the longitudinal
-  seats. The 10 m centre door zone stays low-floor and clear.
+- **Powered wheelsets:** one powered bogie per car, giving three
+  powered bogies and six powered axles across the consist.
+- **Battery:** 120 kWh usable sodium-ion per car under the
+  longitudinal seats (about 150 kWh nameplate at commissioning).
+  The 10 m centre door zone stays low-floor and clear.
 - **Roof:** PV strip per car, split around compact end HVAC modules.
 
 ## Key dimensions
@@ -73,8 +74,9 @@ Positioned:
 
 - Each car: door centres at 5.67 m and 11.33 m from the car end.
 
-All doors are plug-outward doors per RFC 0008 §3.3 with 1 500 mm
-clear opening at 2 000 mm height.
+All doors are plug-outward doors per RFC 0008 §3.3 with a 1 400 mm
+nominal structural opening and at least 1 250 mm clear passage after
+seals/thresholds at 2 000 mm height.
 
 ## Gauge compliance
 
@@ -107,12 +109,12 @@ presets (`heritage-tram` / `standard-urban` / `standard-metro`
 
 | Location | Mass (t) |
 |---|---|
-| Car A incl. powered + trailer bogie | 41 |
-| Car B incl. two trailer bogies | 38 |
-| Car C incl. trailer + powered bogie | 41 |
-| **Total consist (tare + AW2 passengers)** | **120** |
+| Car A incl. powered + trailer bogie | 41.2 |
+| Car B incl. powered + trailer bogie | 41.2 |
+| Car C incl. powered + trailer bogie | 41.2 |
+| **Total consist (tare + AW2 passengers)** | **123.6** |
 
-Tare target = 98 t for the concept-aligned BOM; AW2 load = 21.6 t
+Tare target = 102 t per RFC 0008; AW2 load = 21.6 t
 (360 passengers × 60 kg average).
 
 Distribution per axle under AW3 (crush load, 480 passengers ×
@@ -136,7 +138,11 @@ The design envelope the v2 CAD model is checked against:
   brake / collision.
 - **Lateral accel:** ± 0.3 g through max-cant curve.
 
-v1 of this doc does not include the FEA result; v2 does.
+The current screening FEA is linked from the package README. The
+full-body lateral-sway screen is still a v2 closure item: the next
+body release must add diaphragm/knee-brace detail at the side-frame
+and waist-rail load path, then rerun the shell/beam model before
+first steel cut.
 
 ## Cross-refs
 - Bogie detail → [`bogie.md`](bogie.md)

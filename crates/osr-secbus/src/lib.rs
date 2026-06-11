@@ -139,11 +139,7 @@ pub enum VerifyError {
 /// Convenience shortcut for callers that only want one envelope —
 /// `SignedBytes::sign` is the primary API.
 #[must_use]
-pub fn sign_bytes(
-    issuer: EntityId,
-    payload: Vec<u8>,
-    key: &Ed25519SigningKey,
-) -> SignedBytes {
+pub fn sign_bytes(issuer: EntityId, payload: Vec<u8>, key: &Ed25519SigningKey) -> SignedBytes {
     SignedBytes::sign(issuer, payload, key)
 }
 
@@ -263,7 +259,7 @@ mod tests {
         let mut reg = KeyRegistry::new();
         reg.insert(issuer, sk_a.public());
         reg.insert(issuer, sk_b.public()); // rotation-style overwrite
-        // Signatures from sk_a must now fail (old key).
+                                           // Signatures from sk_a must now fail (old key).
         let env_a = sign_bytes(issuer, b"m".to_vec(), &sk_a);
         assert_eq!(verify_signed(&reg, &env_a), Err(VerifyError::BadSignature));
         // Signatures from sk_b must succeed (new key).

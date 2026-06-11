@@ -2,7 +2,7 @@
 
 **Status:** Draft — planning only, no site drawings ship with this RFC
 **Date:** 2026-04-22
-**Depends on:** [RFC 0003 Samawah Reference Deployment](0003-samawah-reference-deployment.md), [RFC 0008 Rolling-Stock Reference Design](0008-rolling-stock-reference-design.md), [RFC 0010 Station Design Standard](0010-station-design-standard.md), [RFC 0011 Civil Infrastructure Design Standard](0011-civil-infrastructure-design-standard.md), [RFC 0013 Operations Rulebook](0013-operations-rulebook.md)
+**Depends on:** [RFC 0008 Rolling-Stock Reference Design](0008-rolling-stock-reference-design.md), [RFC 0010 Station Design Standard](0010-station-design-standard.md), [RFC 0011 Civil Infrastructure Design Standard](0011-civil-infrastructure-design-standard.md), [RFC 0013 Operations Rulebook](0013-operations-rulebook.md)
 
 ## 1. Summary
 
@@ -119,7 +119,7 @@ The 1.25× multiplier on stall count accounts for:
 - Growth headroom (15 %) for ridership uplift over the depot's
   20-year useful life without needing to build a second depot.
 
-Example (Samawah reference, 3-min peak headway):
+Example (Samawah generated instance, 3-min peak headway):
 
 - Line 1 (12 km): round-trip = 12×2/35 × 60 + 6 = 47.1 min →
   16 peak + 1 spare + 1 cold-reserve = 18 trainsets. Main-heavy

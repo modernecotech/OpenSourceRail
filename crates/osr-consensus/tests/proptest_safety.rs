@@ -14,9 +14,9 @@ use proptest::prelude::*;
 
 #[derive(Clone, Debug)]
 enum Action {
-    Tick(u8),            // u8 * 10 ms, so up to 2550 ms
-    Propose(u8, u8),     // value byte + category bit (0 = Advisory, 1 = Safety)
-    Partition(u8),       // mod n picks a node
+    Tick(u8),        // u8 * 10 ms, so up to 2550 ms
+    Propose(u8, u8), // value byte + category bit (0 = Advisory, 1 = Safety)
+    Partition(u8),   // mod n picks a node
     Heal(u8),
 }
 

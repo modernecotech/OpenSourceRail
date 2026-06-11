@@ -77,7 +77,8 @@ climate; Samawah's sun angle makes the 7° choice optimal.
 
 ## Load cases (first-pass)
 
-Per EN 1991-1 basis. Samawah-specific values:
+Per EN 1991-1 basis. City-instance values for the worked Samawah
+example:
 
 | Load | Characteristic value | Source |
 |---|---|---|

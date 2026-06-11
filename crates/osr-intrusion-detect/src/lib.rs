@@ -49,7 +49,7 @@ pub mod kani_proofs;
 
 pub use evaluate::{evaluate, IntrusionOutcome, IntrusionParams, TriggerReason};
 pub use sensors::{
-    CameraClass, CameraReturn, FenceLineState, LidarReturn, RadarReturn,
-    WaysideSensorFrame, LATERAL_GATE_MM, MAX_SENSOR_STALE_MS,
+    CameraClass, CameraReturn, FenceLineState, LidarReturn, RadarReturn, WaysideSensorFrame,
+    LATERAL_GATE_MM, MAX_SENSOR_STALE_MS,
 };
 pub use verdict::IntrusionVerdict;

@@ -87,8 +87,8 @@ impl Drop for Hmac256Key {
 /// Compute HMAC-SHA256 over `msg` with `key`.
 #[must_use]
 pub fn hmac_sha256(key: &Hmac256Key, msg: &[u8]) -> [u8; HMAC_SHA256_LEN] {
-    let mut mac = <HmacSha256 as Mac>::new_from_slice(key.as_bytes())
-        .expect("HMAC accepts any key length");
+    let mut mac =
+        <HmacSha256 as Mac>::new_from_slice(key.as_bytes()).expect("HMAC accepts any key length");
     mac.update(msg);
     let bytes = mac.finalize().into_bytes();
     let mut out = [0u8; HMAC_SHA256_LEN];

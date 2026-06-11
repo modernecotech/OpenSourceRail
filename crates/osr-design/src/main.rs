@@ -25,7 +25,9 @@ use std::path::{Path, PathBuf};
 use anyhow::{anyhow, Context, Result};
 use clap::Parser;
 use osr_routing::{
-    civil::classify_segments, raster::load_bundle, solver::DemandWeight,
+    civil::classify_segments,
+    raster::load_bundle,
+    solver::DemandWeight,
     station::{place_stations, SpacingConfig},
     topology::{budget_for_population, greedy_synthesize_lines, hub_cell, Line, HUB_RADIUS_CELLS},
 };
@@ -58,7 +60,7 @@ struct CorridorCache {
 #[command(
     name = "osr-design",
     about = "Generate an OSR city design from raster inputs.",
-    version,
+    version
 )]
 struct Args {
     /// Path to the `{slug}.grid.json` sidecar written by osr_geo.
@@ -157,8 +159,8 @@ fn read_corridor_cache(
     population: u64,
     bundle: &osr_routing::raster::RasterBundle,
 ) -> Result<Vec<Line>> {
-    let bytes = fs::read(path)
-        .with_context(|| format!("reading corridor cache from {:?}", path))?;
+    let bytes =
+        fs::read(path).with_context(|| format!("reading corridor cache from {:?}", path))?;
     let cache: CorridorCache =
         serde_json::from_slice(&bytes).context("parsing corridor cache JSON")?;
     if cache.schema_version != CORRIDOR_CACHE_SCHEMA_VERSION {
@@ -228,12 +230,10 @@ fn locate_catalog(out_dir: &Path) -> Option<PathBuf> {
 }
 
 fn lookup_catalog_city(catalog_path: &Path, slug: &str) -> Result<CatalogCity> {
-    let bytes = fs::read_to_string(catalog_path).with_context(|| {
-        format!("reading city catalog from {:?}", catalog_path)
-    })?;
-    let parsed: CatalogFile = toml::from_str(&bytes).with_context(|| {
-        format!("parsing city catalog at {:?}", catalog_path)
-    })?;
+    let bytes = fs::read_to_string(catalog_path)
+        .with_context(|| format!("reading city catalog from {:?}", catalog_path))?;
+    let parsed: CatalogFile = toml::from_str(&bytes)
+        .with_context(|| format!("parsing city catalog at {:?}", catalog_path))?;
     parsed
         .cities
         .into_iter()
@@ -308,10 +308,7 @@ fn main() -> Result<()> {
     } else {
         eprintln!(
             "budget: max_lines={}, max_total_m={:.0}, min_cov/km={:.0}, top_k={}",
-            budget.max_lines,
-            budget.max_total_route_m,
-            budget.min_coverage_per_km,
-            budget.top_k,
+            budget.max_lines, budget.max_total_route_m, budget.min_coverage_per_km, budget.top_k,
         );
         let l = greedy_synthesize_lines(
             &bundle.grid,
@@ -405,8 +402,7 @@ fn main() -> Result<()> {
             osr_routing::topology::LineShape::Ring => ring_spacing,
             _ => spacing,
         };
-        let stations =
-            place_stations(&bundle.grid, &bundle.anchors, &line.name, &line.cells, cfg);
+        let stations = place_stations(&bundle.grid, &bundle.anchors, &line.name, &line.cells, cfg);
         eprintln!("  {}: {} stations", line.name, stations.len());
         all_stations.extend(stations);
         civil_per_line.push(classify_segments(&bundle.grid, &line.cells));
@@ -478,4 +474,3 @@ fn main() -> Result<()> {
     eprintln!("wrote design artefacts to {:?}", args.out_dir);
     Ok(())
 }
-
