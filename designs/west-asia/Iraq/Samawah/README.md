@@ -18,7 +18,7 @@ Corridor polylines + stations as GeoJSON for GIS / alignment tooling: [`samawah.
 |---|---|
 | Lines | 3 |
 | Unique stations | 33 |
-| Interchange stations | 3 |
+| Interchange-class stations | 3 |
 | Multi-line transfer reachability | 0% (line-pairs sharing ≥ 1 station) |
 | Anchor-weighted coverage | 56.5% |
 | Route length (double track) | 54.9 km |

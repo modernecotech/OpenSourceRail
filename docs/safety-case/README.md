@@ -39,7 +39,7 @@ and [`tests/proptest_determinism.rs`](../../crates/osr-interlocking/tests/propte
 Continuously exercised in [`osr-sim`](../../crates/osr-sim/) on every
 scenario run: per RFC 0004 M5 the simulator emits `Entry` objects as
 trains move, and every section entry is gated by
-`osr_interlocking::section_available_to`. The Samawah two-line
+`osr_interlocking::section_available_to`. The generated Samawah
 reference run produces 2400 MAs / 2 h with zero invariant violations
 under both the in-memory backend and a 3-node Raft cluster.
 

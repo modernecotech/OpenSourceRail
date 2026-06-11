@@ -136,7 +136,7 @@ Minimum viable feature set:
   → load.
 - **Playback controls.** Play / pause / step / speed (1×, 10×,
   100×).
-- **Network render.** Samawah two-line schematic with every
+- **Network render.** Generated Samawah schematic with every
   train drawn as a dot at its current `station_m`, colour-coded
   by phase.
 - **Inspector pane.** Click a train → sidebar shows ATP verdict,

@@ -109,7 +109,7 @@ From the workspace:
 
 ```bash
 cargo run --release --bin osr-sim -- \
-    --scenario samawah-line1 --duration 900 --status-every 60
+    --scenario designs/west-asia/Iraq/Samawah/samawah.toml --duration 900 --status-every 60
 ```
 
 **Expected:** the shadow onboard stack ran on every tick on the

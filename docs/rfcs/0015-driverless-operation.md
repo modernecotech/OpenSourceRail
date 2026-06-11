@@ -479,7 +479,7 @@ compile-time witness for the RFC 0015 "GoA 4 by default" claim.
 
 ## 12. Relationship to existing RFCs
 
-- **RFC 0003 (Samawah worked instance)** — shows how one city can
+- **RFC 0003 (Samawah context and pilot rationale)** — shows how one city can
   instantiate the GoA 4 operating model.
 - **RFC 0005 (SBC software architecture)** — crate map amended
   in §10.

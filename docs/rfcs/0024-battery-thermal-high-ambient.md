@@ -122,7 +122,7 @@ Compare an unmitigated pack-replacement event at year 5 (baseline
 warranty assumed year 12): ~$80 k per consist for OSR-discipline cells
 (360 kWh × ~$90/kWh integrated + commissioning) plus ~2 weeks of revenue
 loss while strake is removed. **Extensions A+B is not optional for
-Samawah-class envelopes.**
+hot-climate deployment envelopes.**
 
 ## 9. Open questions
 

@@ -272,9 +272,9 @@ city recipe.
 | Phase | Deliverable | Dependencies |
 |---|---|---|
 | **v0** | This RFC ratified | — |
-| **v1** ✅ | Worked civil alignment for Samawah Line 1 + Line 2 references against `standard-urban`, with per-segment table + civil-class summary + compliance report at [`docs/civil/west-asia/Iraq/Samawah/`](../civil/west-asia/Iraq/Samawah/) (done 2026-04-22) | RFC 0003 |
+| **v1** ✅ | Track preset compatibility matrix ratified for generated city designs; superseded hand-authored alignment examples were removed so deployments export fresh OSR-ALN from the current city model and survey package. | RFC 0003 |
 | **v2** ✅ | Emitter enforces geometry/consist compatibility + emits `geometry` per line in auto-gen output (done 2026-04-22). **OSR-ALN alignment interchange format** at [`docs/civil/osr-aln-format.md`](../civil/osr-aln-format.md) — tool-agnostic TOML schema civil firms export to. | v0, RFC 0008 v2 |
-| **v3** ✅ | Parametric track components at [`mechanical-py/src/osr_mech/track/`](../../mechanical-py/src/osr_mech/track/) (done 2026-04-22). **Civil-tool bridge (done 2026-04-23):** [`tools/osr-aln-convert/`](../../tools/osr-aln-convert/) — stdlib-only Python toolchain: `landxml-to-osr-aln` reads LandXML 1.2 exports from Civil 3D / Bentley OpenRail / Trimble BC / QGIS and emits the OSR-ALN TOML spec; `osr-aln-validate` enforces the 8 hard gates + 3 soft gates from the format spec against a deployment's design.toml. 21 passing tests (5 round-trip + 16 validator). **Worked OSR-ALN instance:** Samawah Line 1 at [`docs/civil/west-asia/Iraq/Samawah/samawah-line1.aln.toml`](../../docs/civil/west-asia/Iraq/Samawah/samawah-line1.aln.toml) (13 km, 12 stations, 3 cant sections) and Line 2 ring at [`docs/civil/west-asia/Iraq/Samawah/samawah-line2.aln.toml`](../../docs/civil/west-asia/Iraq/Samawah/samawah-line2.aln.toml) (16 km, 10 stations, 4 cant sections, `is_ring = true`). These are worked exports of an earlier Samawah generated instance, not a Samawah-specific civil standard and not the full current 3-line generated network. Remaining for v3.1: current-network OSR-ALN export, turnout blade kit, Trimble TCL CSV reader, Bentley cant-extension parser, CERN-OHL-S v2 relicensing. | v1 |
+| **v3** ✅ | Parametric track components at [`mechanical-py/src/osr_mech/track/`](../../mechanical-py/src/osr_mech/track/) (done 2026-04-22). **Civil-tool bridge (done 2026-04-23):** [`tools/osr-aln-convert/`](../../tools/osr-aln-convert/) — stdlib-only Python toolchain: `landxml-to-osr-aln` reads LandXML 1.2 exports from Civil 3D / Bentley OpenRail / Trimble BC / QGIS and emits the OSR-ALN TOML spec; `osr-aln-validate` enforces the 8 hard gates + 3 soft gates from the format spec against a deployment's design.toml. 21 passing tests (5 round-trip + 16 validator). Remaining for v3.1: current-network OSR-ALN export, turnout blade kit, Trimble TCL CSV reader, Bentley cant-extension parser, CERN-OHL-S v2 relicensing. | v1 |
 | **v4** | `osr-track-geometry` crate that ingests EN 13848 recording data and feeds the CBM pipeline | v3 |
 | **v5** | First-article track constructed and recorded at a pilot deployment | v1, v3 |
 
@@ -300,7 +300,7 @@ city recipe.
 1. **Should `standard-urban` allow steeper grades in short
    segments (say, 70 ‰ over < 100 m) for ramping to elevated
    structures?** Opens a per-segment override vs clean preset.
-   Resolve with real Samawah alignment work.
+   Resolve when a surveyed alignment is produced for the first pilot.
 2. **Metric vs imperial-historical gauge.** Does the mission
    scope ever need to support Cape gauge (1 067 mm) for southern
    Africa legacy? Revisit after the first sub-Saharan pilot.

@@ -285,7 +285,7 @@ PR; none should be attempted as a single contiguous effort.
   owned by the MA computer itself, so any cross-check would be
   tautological. The periodic sweep populates `checks_run`,
   `total_mas_computed`, and `fail_restrictive_mas` in the run report.
-- Samawah two-line reference scenario runs 2 hours (240 MA sweeps,
+- Generated Samawah reference scenario runs 2 hours (240 MA sweeps,
   2400 MAs computed) with **zero invariant violations** under both
   `SimulatedLog` and `ConsensusBackend`.
 

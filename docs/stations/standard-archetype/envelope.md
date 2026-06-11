@@ -1,7 +1,8 @@
-# `standard` archetype — envelope
+# `standard` Archetype Envelope
 
-Plan + section geometry of a Samawah `standard` station. Every
-number here is a buildable dimension.
+Plan + section geometry of the shared `standard` station archetype,
+shown with the hot-climate worked-example platform allowance. Every number
+here is a buildable dimension.
 
 ## Plan
 
@@ -24,7 +25,7 @@ number here is a buildable dimension.
 ```
 
 - **Configuration:** two side platforms, double-track.
-- **Platform length:** 75 m safeguarded Samawah build allowance.
+- **Platform length:** 75 m safeguarded worked-example build allowance.
   The generic `light-metro-3car` standard is 61 m (51 m consist
   + 10 m clearance); this package deliberately reserves more civil
   length for local clearance and later fleet growth.

@@ -1,7 +1,7 @@
 # Solar canopy — first-pass structural envelope
 
 Per RFC 0010 §9, every non-`halt` archetype carries a solar
-canopy over the platform. Samawah `standard` archetype target:
+canopy over the platform. The worked `standard` archetype target is
 **1 800 m²** (per `lib/templates/stations.toml`).
 
 This document is the first-pass structural envelope the civil
@@ -12,11 +12,11 @@ stamped drawings.
 
 | Parameter | Value |
 |---|---|
-| Canopy footprint (roof area) | ~1 870 m² Samawah safeguarded roof; 1 800 m² archetype template target |
+| Canopy footprint (roof area) | ~1 870 m² worked-example safeguarded roof; 1 800 m² archetype template target |
 | Length (along track) | 85 m (75 m safeguarded platform + 5 m each end eave) |
 | Width | ~22 m spanning both platforms + track between |
 | Height above platform | 2 200 mm clear (min), 3 800 mm roof peak above ToR |
-| Pitch | 7° south-facing (Samawah is N of equator) |
+| Pitch | 7° equator-facing (south-facing in the northern-hemisphere worked case) |
 | Column spacing along track | 8.5 m (10 column pairs over the 85 m length) |
 | Column spacing across tracks | none — roof spans the whole station column-free between outer columns |
 
@@ -64,7 +64,7 @@ Per RFC 0010 §9 target 90 % platform shading:
 | Module: 2.0 × 1.0 m, 450 Wp bifacial | (commodity — any brand) |
 | Modules per canopy | 330 |
 | Nameplate capacity | 148 kWp |
-| Yield at Samawah (6.0 peak sun hours) | 325 MWh/year |
+| Hot-climate yield case (6.0 peak sun hours) | 325 MWh/year |
 | Self-consumption (charging trains + station services) | ~20 % |
 | Export to grid | ~80 % |
 
@@ -73,21 +73,21 @@ below the `standard` archetype's 300 kWp target in the RFC 0002
 sizing; this is because the RFC 0010 §9 target is 1 800 m² but
 we only have ~1 650 m² of south-slope. The operator can adjust
 the roof pitch to flatten (more area, lower peak output) per
-climate; Samawah's sun angle makes the 7° choice optimal.
+climate; the worked hot-climate case uses 7° as the planning pitch.
 
 ## Load cases (first-pass)
 
-Per EN 1991-1 basis. City-instance values for the worked Samawah
+Per EN 1991-1 basis. City-instance values for the hot-desert worked
 example:
 
 | Load | Characteristic value | Source |
 |---|---|---|
 | Dead load (roof + PV + services) | 0.6 kN/m² | Material build-up |
-| Snow load | 0 kN/m² | Samawah never snows |
-| Wind load (50-year return) | 1.2 kN/m² | Iraq national code, Samawah zone |
+| Snow load | 0 kN/m² | Hot-desert worked case; override per city |
+| Wind load (50-year return) | 1.2 kN/m² | Iraq hot-desert baseline; override per site |
 | Dust accumulation | 0.15 kN/m² | 50 mm of desert dust, post-haboob |
 | Live load (maintenance) | 0.5 kN/m² | Per EN 1991-1-1 Cat H |
-| Seismic (PGA) | 0.1 g | Samawah seismic zone (Iraq) |
+| Seismic (PGA) | 0.1 g | Iraq hot-desert baseline; override per site |
 
 ### Governing load combination (first-pass)
 
@@ -118,7 +118,7 @@ axial + lateral wind 1.2 × 8.5 × 3.85 / 2 = 20 kN lateral.
 ### Foundation check (first-pass)
 
 Isolated pad 1.8 × 1.8 × 0.8 m on 200 kPa bearing (typical
-Samawah alluvial soil):
+alluvial soil worked case):
 - Column ultimate load: 117 × 1.5 = **175 kN**.
 - Pad bearing pressure: 175 / (1.8 × 1.8) = **54 kPa** — well
   below 200 kPa capacity. ✓

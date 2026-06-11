@@ -41,9 +41,15 @@ city network with a plausible brownfield rail-yard/workshop asset base.
 It is not a special architecture, special train, special hardware path,
 or special certification path.
 
-When a Samawah document disagrees with the generated city design, the
-generated design wins unless the document explicitly says it is a
-legacy worked example. The same rule applies to every city.
+When a city-specific document disagrees with the generated city design,
+the generated design wins. Superseded worked examples should be removed
+rather than kept as parallel plans.
+
+| Artifact | Role |
+|---|---|
+| `designs/west-asia/Iraq/Samawah/` | Authoritative generated city model and public planning numbers |
+| `docs/rfcs/0003-samawah-reference-deployment.md` | Context, pilot rationale, risks, and next steps |
+| `docs/stations/standard-archetype/` | Shared station-archetype worked example; city-specific station lists come from generated designs |
 
 ## Outputs To Keep Unified
 

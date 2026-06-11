@@ -73,12 +73,12 @@ archetypes cover the real distribution of stops:
 - `depot-terminal` for end-of-line + the fleet parking + the
   maintenance shop.
 
-On the Samawah generated instance ([RFC 0003](0003-samawah-reference-deployment.md)),
-Line 1 has 10 `standard` + 1 `terminal` + 1 `interchange` stops;
-Line 2 is a ring with 1 `interchange` + 1 `depot-terminal` + 8
-`standard` stops. That distribution (roughly 75 % `standard`,
-15 % anchor archetypes, 10 % termini) matches every other
-reference metro we surveyed.
+On the current generated Samawah model
+([RFC 0003](0003-samawah-reference-deployment.md)), the station mix is
+3 `halt`, 6 `standard`, 15 `major`, 5 `terminal`, 1
+`depot-terminal`, and 3 `interchange-elevated` stops. The archetype
+catalogue stays shared; each generated city only selects counts and
+site adaptations.
 
 ## 4. Platform
 
@@ -382,8 +382,8 @@ Mismatch fails the `design-quality.yaml` hard gate.
 | Phase | Deliverable | Dependencies |
 |---|---|---|
 | **v0** | This RFC ratified | — |
-| **v1** ✅ | Architectural envelope + canopy structural first-pass + accessibility + services + compliance matrix for Samawah's `standard` archetype at [`docs/stations/samawah-standard/`](../stations/samawah-standard/) (done 2026-04-22). Applied unchanged to all 12 `standard` stations on Line 1 + Line 2. | RFC 0003 |
-| **v2** ✅ | Emitter: terminal / interchange auto-detection + platform-length derivation from consist + depot-terminal promotion at the farthest radial endpoint (done 2026-04-22). **Architectural drawing register** for the `standard` archetype at [`docs/stations/samawah-standard/drawing-register.md`](../stations/samawah-standard/drawing-register.md) — 43 drawings across A/S/M/E/F/T disciplines with scale + size + v1-envelope cross-refs. Quality-gate failure on compatibility mismatch is deferred to v3. | v0, RFC 0008 v2, RFC 0009 v2 |
+| **v1** ✅ | Architectural envelope + canopy structural first-pass + accessibility + services + compliance matrix for the shared `standard` archetype at [`docs/stations/standard-archetype/`](../stations/standard-archetype/) (done 2026-04-22). Deployment station lists come from the generated city model before procurement. | RFC 0003 |
+| **v2** ✅ | Emitter: terminal / interchange auto-detection + platform-length derivation from consist + depot-terminal promotion at the farthest radial endpoint (done 2026-04-22). **Architectural drawing register** for the `standard` archetype at [`docs/stations/standard-archetype/drawing-register.md`](../stations/standard-archetype/drawing-register.md) — 43 drawings across A/S/M/E/F/T disciplines with scale + size + v1-envelope cross-refs. Quality-gate failure on compatibility mismatch is deferred to v3. | v0, RFC 0008 v2, RFC 0009 v2 |
 | **v3** ✅ (partial) | Parametric prefab catalogue landed at [`mechanical-py/`](../../mechanical-py/) (done 2026-04-22): bolt-together steel portal-frame bay, factory-bonded solar-roof sandwich panel, full-canopy assembly driven by `(archetype, consist)` — `STANDARD × light-metro-3car` emits an 11-bay / ~47 kWp canopy. Tracked CAD review artifacts now use compact FreeCAD/PNG outputs; local neutral exports can be generated when a partner toolchain needs them. Remaining for v3 full-complete: ground-level fare/TVM plinth kit and guideway-channel edge detail. | v1 |
 | **v4** | Platform-flow simulator extension in `osr-sim` — peak-hour passenger flow against archetype capacity | v2 |
 | **v5** | First-article station for a deployment instance | v1, RFC 0003 §5 |

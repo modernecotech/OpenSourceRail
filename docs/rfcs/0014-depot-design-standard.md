@@ -20,8 +20,8 @@ depot co-locates with a `depot-terminal` station
 
 The **catalogue max** is the upper limit of the template default;
 the **per-deployment stall count** comes from the §4 formula
-(`stalls = ceil(fleet × 1.25)`). A Samawah-class 8-trainset line
-lands on 10 stalls in its `main-heavy`, not 20 — the template's
+(`stalls = ceil(fleet × 1.25)`). An 8-trainset starter line
+lands on 10 stalls in its `main-heavy`, not 20 - the template's
 20 is the ceiling, not the target.
 
 Plus one optional type for edge cases:
@@ -119,22 +119,18 @@ The 1.25× multiplier on stall count accounts for:
 - Growth headroom (15 %) for ridership uplift over the depot's
   20-year useful life without needing to build a second depot.
 
-Example (Samawah generated instance, 3-min peak headway):
+Example (current generated Samawah output, 3-min peak headway):
 
-- Line 1 (12 km): round-trip = 12×2/35 × 60 + 6 = 47.1 min →
-  16 peak + 1 spare + 1 cold-reserve = 18 trainsets. Main-heavy
-  depot stalls = ceil(18 × 1.25) = 23.
-- Line 2 (8 km): round-trip = 8×2/35 × 60 + 6 = 33.4 min →
-  12 peak + 1 spare + 1 cold-reserve = 14 trainsets. Layup-only at
-  the Line 2 end-of-line; stalls = ceil(14 × 1.25) = 18 in a
-  `layup-minimal` (its 6-stall catalogue cap forces a second
-  layup to be added if `secondary-medium` siting isn't economic).
-- Pre-v0.1 worked examples used 6/4 peak figures derived from a
-  back-of-envelope ~1 trainset per 2 km of length — that
-  calibration assumed an 8-min off-peak headway, not the 3-min
-  peak headway v0.2 networks publish. The emitter was retuned to
-  the physics formula above so the published peak headway and the
-  fleet count are mutually consistent.
+- The authoritative generated summary is
+  [`designs/west-asia/Iraq/Samawah/README.md`](../../designs/west-asia/Iraq/Samawah/README.md).
+- As of the current generated model: `line-1` is 21.0 km / 35
+  trainsets, `line-2` is 22.2 km / 36 trainsets, and `line-3` is
+  11.7 km / 20 trainsets, for 91 total 3-car trainsets including
+  spare + cold-reserve.
+- `design.toml` emits the depot archetype, terminal assignment, and
+  `fleet_stalls` from the same run. Older hand-calculated 6/4/8
+  trainset examples were removed from the docs and must not be copied
+  into current deployment documents.
 
 The emitter (RFC 0014 v2) computes this from the design.toml's
 `fleet_sizing` block.
@@ -255,7 +251,7 @@ Every depot writes a record into `design.toml`:
 [[depots]]
 id              = "line1-east-depot"
 archetype       = "main-heavy"
-at_station      = "samawah-line1-east"
+at_station      = "line-a-east"
 fleet_stalls    = 10
 pv_canopy_m2    = 4000
 battery_kwh     = 2000
@@ -300,7 +296,7 @@ and:
 | **v1** ✅ | [`lib/templates/depots.toml`](../../lib/templates/depots.toml) aligned with §§5–7 (PV canopy m², nominal kWp, battery kWh, workshop flags); §1 clarified "catalogue max" vs §4 formula (done 2026-04-22) | v0 |
 | **v2** ✅ | Emitter picks depot archetypes (main-heavy at depot-terminal, layup-minimal at other terminals) + writes `[[depots]]` with `fleet_stalls` from the §4 formula (done 2026-04-22) | v0, RFC 0010 v2 |
 | **v3** | `osr-sim` depot state machine (stabled / maint / service) | v2 |
-| **v4** | Worked site plan for Samawah main-heavy (Line 1 east terminal) + layup-minimal (Line 2 furthest stop) | RFC 0003 §5, v3 |
+| **v4** | Generated site plan for the current Samawah depot and layup set from `designs/west-asia/Iraq/Samawah/design.toml` | RFC 0003 §5, v3 |
 | **v5** | Reference depot CAD under CERN-OHL-S v2 | v4 |
 
 ## 11. Relationship to existing work

@@ -1,4 +1,4 @@
-# Compliance matrix — Samawah `standard` archetype
+# Compliance Matrix - `standard` Archetype Worked Example
 
 Standards the envelope is designed against. Per-deployment
 NRSA / NRCA (national-rail + national-construction authority)

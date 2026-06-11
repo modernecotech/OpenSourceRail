@@ -427,7 +427,7 @@ civil contractor can mobilise.
 | **v2.2** ✅ | Move the source cost basis to USD direct-procurement planning rates, add `*_usd` fields, keep `*_eur` mirrors, and drop EPC overhead to 7 % (done 2026-06-04). | v2.1 |
 | **v2.3** ✅ | Add the city railway production-plant setup bucket at 100 000 USD per vehicle/car module, with 200 000 USD per vehicle/car module retained as a high sensitivity check (done 2026-06-05). | v2.2 |
 | **v3** ✅ (partial) | Parametric U-girder at [`mechanical-py/src/osr_mech/civil/ugirder.py`](../../mechanical-py/src/osr_mech/civil/ugirder.py) with 20 / 25 / 30 m spans under the one-mould constraint (done 2026-04-22); tracked review artifacts now use compact FreeCAD/PNG outputs, with local neutral CAD export available only when a partner toolchain requires it. The previous precast L-unit platform edge is retained only as a legacy/elevated option; the default at-grade station uses a ground-level slab plus lowered guideway channel per RFC 0010. Remaining for v3 full-complete: pier + abutment parametric kits + CERN-OHL-S v2 relicensing of the catalogue tree. | v0 |
-| **v4** | Worked civil design for Samawah Line 1 (an 11 km at-grade stretch + 2 km elevated over the existing rail corridor + 1 km bridge over the Euphrates approach) | v3, RFC 0003 |
+| **v4** | Surveyed civil design package for the first pilot line, generated from the current city model | v3, RFC 0003 |
 | **v5** | First-article viaduct erected for a deployment instance | v3 |
 
 ## 13. Relationship to existing work

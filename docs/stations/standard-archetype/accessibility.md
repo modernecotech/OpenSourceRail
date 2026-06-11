@@ -1,4 +1,4 @@
-# Accessibility — Samawah `standard` archetype
+# Accessibility - `standard` Archetype Worked Example
 
 Per RFC 0010 §7 + [`lib/templates/accessibility.toml`](../../../lib/templates/accessibility.toml).
 Designed against EN 16586 (PRM — Persons with Reduced Mobility)
@@ -49,7 +49,7 @@ Per RFC 0010 §7:
 ## Wheelchair spaces
 
 - **On platform:** 1 marked wheelchair waiting area per 30 m of
-  platform length. For the 75 m Samawah safeguarded platform:
+  platform length. For the 75 m worked-example safeguarded platform:
   **3 marked areas per platform × 2 platforms = 6 per station**.
 - **On train:** 2 wheelchair spaces per car × 3 cars = 6 per
   consist (per RFC 0008 §3.3).
@@ -61,7 +61,7 @@ door.
 
 ## Vertical circulation
 
-None for the at-grade Samawah `standard` archetype. The platform is
+None for the at-grade `standard` archetype. The platform is
 already at pedestrian level, so lifts, stairs, and station ramps are
 not part of the base package. If a local site creates a level mismatch,
 the local approach path must meet ISO 21542 gradients and landing

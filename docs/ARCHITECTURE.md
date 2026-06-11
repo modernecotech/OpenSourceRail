@@ -368,8 +368,8 @@ OpenSourceRail targets the EN 50126/50128/50129 and IEC 61508 framework because 
 - **Rolling-stock / track / station reference designs** — [RFC 0008](rfcs/0008-rolling-stock-reference-design.md) (5 trainset families), [RFC 0009](rfcs/0009-track-design-standard.md) (4 geometry presets), [RFC 0010](rfcs/0010-station-design-standard.md) (6 station archetypes), each with an enforced compatibility matrix in the auto-gen emitter.
 
 ### Phase 4 — Pilot Deployment (24–36 months)
-- Reference concept: **Samawah, Iraq** — two-line light metro (14 km radial + 16 km ring) connecting mainline rail station, city centre, German Hospital, and Al-Muthanna University. See [RFC 0003](rfcs/0003-samawah-reference-deployment.md).
-- Samawah is the scenario `osr-sim` targets; whether it becomes the actual first revenue-service deployment depends on decisions outside this project.
+- Generated reference city model: **Samawah, Iraq** - 3 generated light-metro lines, 54.9 km, 33 unique stations, and 91 3-car trainsets in [`designs/west-asia/Iraq/Samawah/`](../designs/west-asia/Iraq/Samawah/). See [RFC 0003](rfcs/0003-samawah-reference-deployment.md) for context and pilot rationale.
+- Samawah is the main `osr-sim` reference scenario; whether it becomes the first revenue-service deployment depends on local and institutional decisions outside this project.
 - Full safety case; independent assessment; revenue service.
 
 ### Phase 5 — Metro at Scale (36+ months)
@@ -399,7 +399,7 @@ These are questions we do not yet have good answers to. Each will spawn a focuse
 2. [`docs/GLOSSARY.md`](GLOSSARY.md) — rail-domain terms for software engineers and vice versa.
 3. [`docs/rfcs/0001-track-state-consensus.md`](rfcs/0001-track-state-consensus.md) — the distributed track-state log design.
 4. [`docs/rfcs/0002-energy-sizing.md`](rfcs/0002-energy-sizing.md) — quantitative sizing for the catenary-free, solar-first energy architecture.
-5. [`docs/rfcs/0003-samawah-reference-deployment.md`](rfcs/0003-samawah-reference-deployment.md) — worked deployment instance: Samawah, Iraq.
+5. [`docs/rfcs/0003-samawah-reference-deployment.md`](rfcs/0003-samawah-reference-deployment.md) - Samawah context, pilot rationale, and risks; generated city numbers live under `designs/west-asia/Iraq/Samawah/`.
 6. [`docs/rfcs/0004-osr-interlocking-plan.md`](rfcs/0004-osr-interlocking-plan.md) — implementation plan for the Rust SIL-4 MA computer.
 7. [`docs/rfcs/0005-sbc-software-architecture.md`](rfcs/0005-sbc-software-architecture.md) — canonical SBC software architecture + crate map.
 8. [`crates/osr-core/proto/track_state.proto`](../crates/osr-core/proto/track_state.proto) — the interface definitions.

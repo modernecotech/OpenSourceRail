@@ -1,10 +1,10 @@
-# `standard` station archetype — Samawah worked instance v1
+# Standard Station Archetype Worked Example
 
 **Scope:** architectural envelope + canopy first-pass structural
-calc for one generated instance of RFC 0010's `standard` station
-archetype, serving as the buildable spec an architect-of-record can
-tender against. This is not a Samawah-specific station standard; it is
-a worked instance of the shared archetype catalogue.
+calc for the shared `standard` station archetype. The worked dimensions
+use a 75 m safeguarded platform and hot-climate assumptions; each
+deployment overrides climate, orientation, and parcel interfaces through
+the generated city model and local survey package.
 
 **Reference consist:** `light-metro-3car` per RFC 0008.
 **Platform clearance:** 10 m per RFC 0010 §4.1.
@@ -31,38 +31,11 @@ archetype. The operator's architect-of-record adapts it only for:
 
 - Site-specific property-line constraints.
 - Cardinal orientation (to aim the canopy PV south/north of
-  equator for Samawah: south-facing).
+  equator; south-facing in the Iraq worked climate case).
 - Pedestrian-connection geometry to the surrounding street
   network.
 - Local material availability for façade finishes (all
   structural choices stay fixed).
-
-## Site list — where this applies (Line 1 + Line 2)
-
-From [`design.toml`](../../../designs/west-asia/Iraq/Samawah/design.toml):
-
-### Line 1 (5 `standard` stations)
-
-- north-gate
-- old-souq *(note: override sets `canopy_type = shelter-only`;
-  this arch envelope applies with canopy removed — §canopy.md
-  covers the rain-shelter alternate)*
-- riverside
-- al-salam
-- engineering-quarter
-
-### Line 2 (7 `standard` stations)
-
-- northern-suburbs-a
-- northern-suburbs-b
-- industrial-west
-- western-residential
-- south-west-residential
-- south-east-residential
-
-Other archetypes (`major`, `interchange`, `terminal`,
-`depot-terminal`) have their own envelope docs (v2 scope —
-not in this session).
 
 ## Licensing
 

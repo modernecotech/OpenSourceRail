@@ -2,8 +2,8 @@
 
 **Status:** v2 deliverable of [RFC 0010](../../rfcs/0010-station-design-standard.md).
 **Purpose:** a complete list of the architectural drawings an
-architect-of-record (AOR) produces for a Samawah-class
-`standard` station. Every drawing is scoped, sized, and keyed
+architect-of-record (AOR) produces for a deployment instance of the
+shared `standard` station archetype. Every drawing is scoped, sized, and keyed
 to the sections of the v1 envelope documents (envelope.md,
 canopy.md, accessibility.md, services.md, compliance.md).
 
@@ -114,13 +114,11 @@ block's *site* field varies.
 | T — Tactile + signage | 3 |
 | **Total per station** | **43** |
 
-For the 12 `standard`-archetype stations in Samawah, that's
-**516 drawings** — but with the archetype's repeatability,
-only the site-plan (OSR-STD-A-001) varies meaningfully
-between sites. The other 42 drawings are near-identical
-across all 12 stations, with per-site parameters (parcel
-geometry, north arrow, foundation specifics) as the only
-delta.
+For each generated `standard`-archetype station, the same
+43-drawing register is reused. Only the site-plan
+(OSR-STD-A-001) varies meaningfully between sites; the other 42
+drawings are near-identical, with per-site parameters (parcel
+geometry, north arrow, foundation specifics) as the only delta.
 
 ## Interaction with per-site adaptation
 
@@ -137,8 +135,8 @@ AOR implements:
 - **Foundation depth (S-001, S-002):** per-site geotech.
 - **Seismic (S-008):** applicable only if PGA > 0.2 g.
 
-Everything else is archetype-fixed: one set of drawings
-replicated 12× for Samawah.
+Everything else is archetype-fixed: one drawing set is reused for every
+generated `standard` station in a deployment.
 
 ## Delivery sequence (typical)
 

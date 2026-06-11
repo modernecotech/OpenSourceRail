@@ -575,10 +575,13 @@ def _city_directory_flowables(
             ]
         )
     return [
-        Paragraph("City Model Directory", styles["part"]),
+        Paragraph("Generated City Model Directory", styles["part"]),
         Paragraph(
             "City models are grouped as designs/<region>/<country>/<City>/. "
-            "The book uses concise city briefs to avoid repeating the generated README boilerplate 166 times.",
+            "These generated city models are the source of truth for city-specific "
+            "network, fleet, cost, and energy figures. RFCs and worked examples "
+            "provide context or methods, not competing city plans. The book uses "
+            "concise city briefs to avoid repeating the generated README boilerplate.",
             styles["body"],
         ),
         _simple_table(rows, styles, page_width),
@@ -608,7 +611,7 @@ def _city_brief_flowables(
         ["CAPEX", f"{_usd(model.capex)} ({_usd(model.capex_per_km)} / km)"],
     ]
     flows: list = [
-        Paragraph(html.escape(model.name), styles["h2"]),
+        Paragraph(html.escape(f"Generated City Model - {model.name}"), styles["h2"]),
         Paragraph(html.escape(f"{model.region} / {model.country_name} / {model.city_dir}"), styles["small"]),
         _simple_table(rows, styles, page_width, header=True),
         Spacer(1, 5),

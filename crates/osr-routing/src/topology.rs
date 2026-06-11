@@ -368,7 +368,7 @@ pub fn budget_for_population(pop: u64) -> GreedyBudget {
             coverage_radius_m: 600.0,
             // Drop min_line_length 8 km → 5 km 2026-04-26 — the
             // canonical 8 × 8 km bbox for a 374 k-pop city
-            // (Samawah-class) can't fit an 8 km line that **also**
+            // in the small-city band can't fit an 8 km line that **also**
             // crosses the centre and reaches a peripheral anchor.
             // 5 km matches the small-city band's floor and lets the
             // 3rd radial pick a shorter outer chord instead of

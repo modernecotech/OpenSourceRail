@@ -33,7 +33,11 @@ def _git_markdown_files() -> list[Path]:
         text=True,
     ).splitlines()
     paths = sorted({Path(p) for p in tracked + untracked})
-    return [p for p in paths if not SKIP_PARTS.intersection(p.parts)]
+    return [
+        p
+        for p in paths
+        if not SKIP_PARTS.intersection(p.parts) and (REPO_ROOT / p).exists()
+    ]
 
 
 def _title(path: Path) -> str:

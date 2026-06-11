@@ -2,22 +2,22 @@
 
 **Status:** Draft — proposed
 **Date:** 2026-04-26
-**Depends on:** [RFC 0003 Samawah Reference Deployment](0003-samawah-reference-deployment.md), [RFC 0008 Rolling-Stock Reference Design](0008-rolling-stock-reference-design.md), [RFC 0014 Depot Design Standard](0014-depot-design-standard.md), [RFC 0022 Bogie + Traction Drive](0022-bogie-traction-drive.md), [RFC 0025 DIY Switch and Point-Machine](0025-diy-switch-and-point-machine.md)
+**Depends on:** [RFC 0003 Samawah Context And Pilot Rationale](0003-samawah-reference-deployment.md), [RFC 0008 Rolling-Stock Reference Design](0008-rolling-stock-reference-design.md), [RFC 0014 Depot Design Standard](0014-depot-design-standard.md), [RFC 0022 Bogie + Traction Drive](0022-bogie-traction-drive.md), [RFC 0025 DIY Switch and Point-Machine](0025-diy-switch-and-point-machine.md)
 
 ## 1. Summary
 
 Most OSR target countries — Iraq, Sudan, Pakistan, Mozambique, Angola,
 Venezuela, several CIS states — already own large quantities of
 **dormant Soviet-era / British-era / American-aid-era rolling stock
-and rail workshops**, mostly stored or partially functional. RFC 0003
-(Samawah deployment instance) is the worked example: satellite
+and rail workshops**, mostly stored or partially functional. RFC 0003's
+Samawah context is the worked example: satellite
 imagery identifies **300–800 wagons stored in the rail yards adjacent
 to Samawah Train Station**, plus a rolling-stock workshop building
 (historically the target of a 2011 Iranian Waxon Park rehabilitation
 deal whose outcome is unclear).
 
 Stored fleet + dormant workshop + active mainline through the city
-makes Samawah a **brownfield pilot** rather than a greenfield one. This
+could make Samawah a **brownfield pilot** rather than a greenfield one. This
 RFC commits a systematic doctrine for converting brownfield assets
 into OSR-compatible production capacity, and is intended to apply to
 every deployment that begins with an existing asset stockpile.
@@ -60,8 +60,8 @@ has them, this RFC is the contract for converting them.
 | **Coupler / brake hardware** (SA-3, vacuum / air-brake fittings) | $5 k–12 k / unit | $200–500 / unit (refurbish or scrap) | Highly site-specific |
 | **Trained workforce** (rail mechanical fitters, welders, machine operators) | 18–24 months training pipeline (RFC 0027 — workforce plan, planned) | Existing workforce continues + cross-trains on OSR-specific kit | **Salary-savings + early-deployment time-savings of 1–2 years** |
 
-For a Samawah-scale pilot (16 trainsets, single light-metro line, one
-main depot), brownfield asset recovery saves on the order of
+For a brownfield starter pilot (for example 16 trainsets, a single
+light-metro line, and one main depot), asset recovery saves on the order of
 **$8–15 M in mechanical/civil capital** plus **18–24 months of
 schedule** — a meaningful fraction of the RFC 0021 §6 €435 M total
 CAPEX, and an even larger fraction of the *time* budget which is

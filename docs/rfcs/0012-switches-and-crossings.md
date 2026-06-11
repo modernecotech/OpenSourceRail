@@ -107,7 +107,7 @@ Single vendor / single machine family across every deployment:
   position when a train approaches.
 
 **Every deployment counts and minimises FPSes.** A typical
-Samawah-scale deployment instance ([RFC 0003](0003-samawah-reference-deployment.md))
+linear deployment instance ([RFC 0003](0003-samawah-reference-deployment.md))
 has 0 FPSes on a linear line (only crossovers at depot entry,
 which are TPSes on the way in and FPSes only if an operator
 reverses a train on the mainline — normally handled by the
@@ -246,7 +246,7 @@ v2 / RFC 0011 v2.
 | **v1** | `lib/templates/switches.toml` updated to match this RFC | v0 |
 | **v2** ✅ | Emitter emits turnback at every terminal archetype + one `no-9-mainline` per stall at every `depot-terminal` (yard fan) (done 2026-04-22) | v0, RFC 0010 v2 |
 | **v3** | Reference CAD drawings for the 1:9 turnout under CERN-OHL-S v2 | v1 |
-| **v4** | Worked switch-bill for Samawah (2 turnbacks at terminals, 1 depot fan, 0 mainline crossovers) | v1, RFC 0003 |
+| **v4** | Generated switch-bill for the current pilot city model, including terminal turnbacks, depot fans, and any required mainline crossovers | v1, RFC 0003 |
 
 ## 12. Relationship to existing work
 
@@ -275,7 +275,7 @@ v2 / RFC 0011 v2.
 3. **Seasonal-heated switches in hot climates.** +50 °C
    summer ambient can rail-expand beyond the standard switch
    tolerance. Temperature-compensated switch geometry is a
-   future addendum for Samawah-class deployments.
+   future addendum for deployment-scale turnout counts.
 4. **Single-vendor switch-machine risk.** The project's
    simplicity bet locks the fleet to one machine family. What
    happens if that vendor exits the market? Mitigation: the

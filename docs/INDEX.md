@@ -10,7 +10,7 @@ Regenerate from the repository root with:
 python3 scripts/generate-doc-index.py
 ```
 
-Indexed Markdown files: **437**.
+Indexed Markdown files: **432**.
 
 ## Sections
 
@@ -19,7 +19,7 @@ Indexed Markdown files: **437**.
 | [Repository Root](#repository-root) | 2 |
 | [crates](#crates) | 3 |
 | [designs](#designs) | 264 |
-| [docs](#docs) | 118 |
+| [docs](#docs) | 113 |
 | [formal](#formal) | 2 |
 | [hardware](#hardware) | 36 |
 | [lib](#lib) | 3 |
@@ -335,11 +335,6 @@ Indexed Markdown files: **437**.
 | [`docs/civil/osr-aln-format.md`](../docs/civil/osr-aln-format.md) | OSR-ALN — alignment interchange format (v1.0) |
 | [`docs/civil/rapid-implementation-materials-review.md`](../docs/civil/rapid-implementation-materials-review.md) | Rapid Implementation And Recycled Materials Review |
 | [`docs/civil/slab-trackforms.md`](../docs/civil/slab-trackforms.md) | Ballastless Slab Trackform Designs |
-| [`docs/civil/west-asia/Iraq/Samawah/README.md`](../docs/civil/west-asia/Iraq/Samawah/README.md) | Samawah civil alignment instance — v1 deliverable of RFC 0009 |
-| [`docs/civil/west-asia/Iraq/Samawah/civil-class-summary.md`](../docs/civil/west-asia/Iraq/Samawah/civil-class-summary.md) | Samawah civil-class summary |
-| [`docs/civil/west-asia/Iraq/Samawah/compliance-report.md`](../docs/civil/west-asia/Iraq/Samawah/compliance-report.md) | Samawah alignment — `standard-urban` compliance report |
-| [`docs/civil/west-asia/Iraq/Samawah/line1-segments.md`](../docs/civil/west-asia/Iraq/Samawah/line1-segments.md) | Samawah Line 1 — per-segment alignment table |
-| [`docs/civil/west-asia/Iraq/Samawah/line2-segments.md`](../docs/civil/west-asia/Iraq/Samawah/line2-segments.md) | Samawah Line 2 — per-segment alignment table |
 | [`docs/cost-model.md`](../docs/cost-model.md) | OpenSourceRail Cost Model |
 | [`docs/deployment-model.md`](../docs/deployment-model.md) | Unified Deployment Model |
 | [`docs/hardware/bring-up/README.md`](../docs/hardware/bring-up/README.md) | Hardware bring-up — v1 deliverable of RFC 0007 |
@@ -382,7 +377,7 @@ Indexed Markdown files: **437**.
 | [`docs/outreach/open-source-rail-outreach-contacts.md`](../docs/outreach/open-source-rail-outreach-contacts.md) | OpenSourceRail Outreach Contacts |
 | [`docs/rfcs/0001-track-state-consensus.md`](../docs/rfcs/0001-track-state-consensus.md) | RFC 0001 — Track State Consensus |
 | [`docs/rfcs/0002-energy-sizing.md`](../docs/rfcs/0002-energy-sizing.md) | RFC 0002 — Energy Sizing for a Reference Light Metro Line |
-| [`docs/rfcs/0003-samawah-reference-deployment.md`](../docs/rfcs/0003-samawah-reference-deployment.md) | RFC 0003 — Samawah Urban Rail: Reference Deployment |
+| [`docs/rfcs/0003-samawah-reference-deployment.md`](../docs/rfcs/0003-samawah-reference-deployment.md) | RFC 0003 — Samawah Context And Pilot Rationale |
 | [`docs/rfcs/0004-osr-interlocking-plan.md`](../docs/rfcs/0004-osr-interlocking-plan.md) | RFC 0004 — `osr-interlocking` Implementation Plan |
 | [`docs/rfcs/0005-sbc-software-architecture.md`](../docs/rfcs/0005-sbc-software-architecture.md) | RFC 0005 — SBC Software Architecture |
 | [`docs/rfcs/0006-osr-tcn-design.md`](../docs/rfcs/0006-osr-tcn-design.md) | RFC 0006 — `osr-tcn` design |
@@ -426,13 +421,13 @@ Indexed Markdown files: **437**.
 | [`docs/rolling-stock/light-metro-3car/v2-release-checklist.md`](../docs/rolling-stock/light-metro-3car/v2-release-checklist.md) | Light-Metro 3-Car V2 Release Checklist |
 | [`docs/safety-case/README.md`](../docs/safety-case/README.md) | Safety-case artifacts |
 | [`docs/stations/README.md`](../docs/stations/README.md) | Stations |
-| [`docs/stations/samawah-standard/README.md`](../docs/stations/samawah-standard/README.md) | `standard` station archetype — Samawah worked instance v1 |
-| [`docs/stations/samawah-standard/accessibility.md`](../docs/stations/samawah-standard/accessibility.md) | Accessibility — Samawah `standard` archetype |
-| [`docs/stations/samawah-standard/canopy.md`](../docs/stations/samawah-standard/canopy.md) | Solar canopy — first-pass structural envelope |
-| [`docs/stations/samawah-standard/compliance.md`](../docs/stations/samawah-standard/compliance.md) | Compliance matrix — Samawah `standard` archetype |
-| [`docs/stations/samawah-standard/drawing-register.md`](../docs/stations/samawah-standard/drawing-register.md) | `standard` station — architectural drawing register (v2) |
-| [`docs/stations/samawah-standard/envelope.md`](../docs/stations/samawah-standard/envelope.md) | `standard` archetype — envelope |
-| [`docs/stations/samawah-standard/services.md`](../docs/stations/samawah-standard/services.md) | Station services — Samawah `standard` archetype |
+| [`docs/stations/standard-archetype/README.md`](../docs/stations/standard-archetype/README.md) | Standard Station Archetype Worked Example |
+| [`docs/stations/standard-archetype/accessibility.md`](../docs/stations/standard-archetype/accessibility.md) | Accessibility - `standard` Archetype Worked Example |
+| [`docs/stations/standard-archetype/canopy.md`](../docs/stations/standard-archetype/canopy.md) | Solar canopy — first-pass structural envelope |
+| [`docs/stations/standard-archetype/compliance.md`](../docs/stations/standard-archetype/compliance.md) | Compliance Matrix - `standard` Archetype Worked Example |
+| [`docs/stations/standard-archetype/drawing-register.md`](../docs/stations/standard-archetype/drawing-register.md) | `standard` station — architectural drawing register (v2) |
+| [`docs/stations/standard-archetype/envelope.md`](../docs/stations/standard-archetype/envelope.md) | `standard` Archetype Envelope |
+| [`docs/stations/standard-archetype/services.md`](../docs/stations/standard-archetype/services.md) | Station Services - `standard` Archetype Worked Example |
 
 ## formal
 

@@ -2022,7 +2022,7 @@ def render_readme(
     out.append("|---|---|")
     out.append(f"| Lines | {stats.line_count} |")
     out.append(f"| Unique stations | {stats.unique_station_count} |")
-    out.append(f"| Interchange stations | {stats.interchange_count} |")
+    out.append(f"| Interchange-class stations | {stats.interchange_count} |")
     out.append(
         f"| Multi-line transfer reachability | "
         f"{stats.transfer_reachability:.0%} (line-pairs sharing ≥ 1 station) |"

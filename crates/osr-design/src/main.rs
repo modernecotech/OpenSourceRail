@@ -369,7 +369,7 @@ fn main() -> Result<()> {
             ..SpacingConfig::default()
         }
     } else {
-        // Light-metro / tram-class networks (Samawah-class) — the
+        // Small-city light-metro / tram-class networks — the
         // default 1.2 km / 2 km / 4 km spacing from
         // `SpacingConfig::default()` matches the operator brief
         // (1.2 km inner, 2–5 km outer). Wider snap (25 cells = 500 m)

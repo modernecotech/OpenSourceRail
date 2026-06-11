@@ -10,7 +10,7 @@ reserved for elevated/stacked sites or local road barriers.
 
 | Package | Scope |
 |---|---|
-| [`samawah-standard/`](samawah-standard/) | Standard station envelope, canopy, accessibility, services, compliance, and drawing register |
+| [`standard-archetype/`](standard-archetype/) | Shared `standard` station archetype envelope, canopy, accessibility, services, compliance, and drawing register |
 
 ## FreeCAD Station Scene Renders
 

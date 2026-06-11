@@ -1,10 +1,10 @@
-# Station services — Samawah `standard` archetype
+# Station Services - `standard` Archetype Worked Example
 
 HVAC, lighting, fire, drainage, signage — the MEP (mechanical /
 electrical / plumbing) envelope for the station.
 
-Per RFC 0010 §11 an outdoor Samawah station is passively cooled
-by the canopy. The at-grade `standard` archetype has no default
+Per RFC 0010 §11 an outdoor hot-climate station is passively cooled by
+the canopy. The at-grade `standard` archetype has no default
 ticket hall or lift rooms; only the services cabinet gets thermal
 control if the selected equipment requires it.
 
@@ -15,7 +15,7 @@ control if the selected equipment requires it.
 - **Refrigerant:** R-32 (commodity).
 - **Fresh-air intake:** n/a for open platform; filtered cabinet
   intake if active cooling is fitted.
-- **Heating:** none — Samawah sees ≥ 5 °C ambient year-round;
+- **Heating:** none in the hot-climate worked case;
   if used, reverse-cycle heat pump on the same unit.
 - **Filters:** MERV 8 standard; MERV 14 for heavy-dust days per
   operator discretion.
@@ -72,8 +72,8 @@ Per NFPA 130 + Iraqi national fire code (whichever is stricter):
   wide, 400 mm deep, to perforated pipe below the ballast.
 - **Canopy runoff:** gutter + downspout at each column base,
   discharges to station storm drain.
-- **Capacity:** sized for 50 mm/h 10-year return storm. Samawah
-  rarely hits this, but when a sandstorm is followed by rain,
+- **Capacity:** sized for 50 mm/h 10-year return storm. The hot-desert
+  worked case rarely hits this, but when a sandstorm is followed by rain,
   the first event of the year can overload the drain — catch
   pit at storm drain connection.
 
@@ -84,8 +84,8 @@ Per NFPA 130 + Iraqi national fire code (whichever is stricter):
 - **Internal:** wayfinding per ISO 7001 pictograms; bilingual
   (Arabic + English) text. Signs at 2.5 m height (overhead)
   + 1.2 m height (lateral, for accessibility).
-- **Line / route diagram:** strip map of Line 1 + Line 2 at
-  every platform-edge support column.
+- **Line / route diagram:** generated route strip for the deployment
+  network at every platform-edge support column.
 - **Real-time information:** `osr-pis-station` drives the LED
   + LCD displays.
 - **Emergency exit signs:** EN 1838 photo-luminescent + battery

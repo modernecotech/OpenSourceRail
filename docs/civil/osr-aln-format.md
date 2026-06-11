@@ -26,13 +26,13 @@ RFC 0009's compatibility matrix and feeds `osr-sim` +
 
 One alignment per line per file. Filename convention:
 `<city>-<line>.aln.toml`. Example:
-`samawah-line1.aln.toml`.
+`sample-city-line-a.aln.toml`.
 
 ```toml
 # OSR-ALN v1.0 — alignment interchange format per RFC 0009 v2.
 [meta]
 schema_version = "1.0"
-line_id        = "samawah-line1"
+line_id        = "sample-city-line-a"
 design_date    = "2026-04-22"
 surveyor       = "<firm name>"
 preset         = "standard-urban"       # RFC 0009 §1 preset key
@@ -249,21 +249,13 @@ Firms using:
 - **Open-source (QGIS + rail-path plugins)** — LandXML export
   supported. ✅ v1.
 
-## Example: Samawah Line 1
+## Validation Example
 
-A worked OSR-ALN alignment for Samawah Line 1 lives at
-[`docs/civil/west-asia/Iraq/Samawah/samawah-line1.aln.toml`](west-asia/Iraq/Samawah/samawah-line1.aln.toml).
-Hand-authored from the bearings + radii in
-[`west-asia/Iraq/Samawah/line1-segments.md`](west-asia/Iraq/Samawah/line1-segments.md), with
-UTM Zone 38N coordinates computed step-by-step from the
-published segment lengths. Exercises all five top-level
-sections (`meta`, `horizontal`, `vertical`, `civil`, `station`,
-`cant`).
-
-Validated against the deployment's design.toml:
+A deployment exports one `.aln.toml` file per surveyed line and
+validates it against the current generated `design.toml` for that city:
 
 ```
-$ osr-aln-validate docs/civil/west-asia/Iraq/Samawah/samawah-line1.aln.toml \
+$ osr-aln-validate exports/survey/samawah-line-1.aln.toml \
                    --design-toml designs/west-asia/Iraq/Samawah/design.toml
 2 soft-gate warning(s):
   ⚠ S3: grade between [[vertical]] #1 and #2 is 35.00 ‰ — within 80 %
