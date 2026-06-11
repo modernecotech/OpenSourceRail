@@ -1,10 +1,13 @@
-# OpenSourceRail — milestone 0.1
+# OpenSourceRail — milestone 0.2 development baseline
 
-First publishable snapshot. The repository has a complete,
-buildable software + documentation surface for a GoA 4 urban-
-rail deployment. What's *not* yet done is everything that
-requires external hands — fabrication, civil survey, regulator
-engagement, operator review.
+Post-v0.1 development baseline. The repository has moved beyond the
+initial publication baseline: it now has a complete, buildable software +
+documentation surface, generated design catalogues, mechanical/CAD
+evidence, COTS/DIY hardware integration paths, operations material, and
+a regulator-facing pre-submission structure for a GoA 4 urban-rail
+deployment. What's *not* yet done is everything that requires external
+hands — physical pilot build, civil survey, independent assessor review,
+regulator engagement, operator validation, and deployment approval.
 
 This file summarises how the repo arrived here and what each
 major subsystem is ready for.
@@ -22,7 +25,7 @@ major subsystem is ready for.
   engineering, operations, driverless operation, wayside
   intrusion detection, cybersecurity, and the operator GUIs.
 - Workspace builds are expected to stay warning-free; warnings are
-  treated as drift from the v0.1 verification baseline.
+  treated as drift from the v0.2 development baseline.
 
 ## What's ready
 
@@ -84,6 +87,11 @@ major subsystem is ready for.
 - **Board-level specs** per class: block diagram, power
   budget, pinouts, connector tables, safety-nets (SIL-4
   boards only).
+- **Pilot COTS/DIY path** per RFC 0019: commodity SBCs,
+  Pi Pico 2 boards, sensor modules, relay/HAT modules,
+  terminal blocks, DIN-rail enclosures, and prepared image
+  flow. KiCad is not a first-pilot prerequisite when no
+  custom PCB is used.
 
 ### Certification
 
@@ -95,12 +103,15 @@ major subsystem is ready for.
 
 ## What needs external engagement
 
-- **KiCad schematic capture + gerbers** for the five v2-spec
-  boards. All net lists + pinouts + safety-net rules are
-  frozen; someone with a KiCad workflow turns them into
-  buildable files. *See RFC 0019 for a DIY module-based
-  alternative that bypasses this step entirely for
-  first-article deployments.*
+- **Pilot hardware integration evidence** for the RFC 0019
+  COTS/SBC path: exact SKU BOMs, wiring/harness maps, connector
+  maps, enclosure/mounting notes, power/thermal margins, SD-card
+  image checksums, `osr-selftest` output, safety-net bench tests,
+  and commissioning records.
+- **Custom-board KiCad + gerbers** only where a deployment chooses
+  OSR-specific carrier, power, safety-I/O, or sensor-interface
+  boards. All net lists + pinouts + safety-net rules are frozen;
+  a KiCad workflow turns those specs into volume-production files.
 - **Civil survey** replacing the planning-grade Samawah UTM
   coordinates with real GNSS data.
 - **Independent safety-assessor review** of the certification
@@ -143,9 +154,10 @@ The project is looking for, in order:
    footprint (MENA, sub-Saharan Africa, South Asia, Latin
    America) to pilot the OSR-ALN converter against a real
    survey.
-3. **PCB designers / fabricators** to capture the v2 hardware
-   specs into KiCad, or to test the RFC 0019 DIY path against
-   a real bill of materials.
+3. **Pilot integrators and hardware reviewers** to test the RFC 0019
+   DIY path against a real bill of materials, wiring maps, enclosures,
+   power/thermal margins, and self-test logs. PCB designers remain
+   valuable for custom-board deployments and later volume production.
 4. **Independent safety assessors** familiar with EN 62267
    GoA 4 and IEC 62443-4-2 to read the `docs/certification/`
    pack and identify gaps we haven't seen.
@@ -168,20 +180,22 @@ these terms.
 
 ## Milestone version
 
-This snapshot is **v0.1**. There is no breakage policy yet —
-the repo is pre-1.0 and interfaces can change.
+This repository is now at a **v0.2 development baseline**. There is no
+breakage policy yet — the repo is pre-1.0 and interfaces can change.
 
-Next milestone (**v0.2**) work is tracked in
+Remaining v0.2 hardening work is tracked in
 [`docs/ROADMAP.md`](docs/ROADMAP.md). Several originally planned
 items have already landed after the v0.1 snapshot, including the DIY
 electronics cookbook, `osr-selftest`, commercial-tool gap-closing in
-`osr-alignment`, turnout/depot/clearance/accessibility CAD, and the
-crashworthiness scaffold. The remaining high-value v0.2 targets are:
+`osr-alignment`, turnout/depot/clearance/accessibility CAD, the
+crashworthiness scaffold, and the two-track hardware release model.
+The remaining high-value v0.2 targets are:
 
 - RFC 0017 v2 — secbus verification wired into the live consensus
   receive path.
-- KiCad, gerber, board BOM, and assembly outputs for the v2-spec
-  hardware host classes.
+- Pilot hardware integration evidence for the RFC 0019 COTS/SBC path,
+  plus KiCad, gerber, board BOM, and assembly outputs where custom
+  boards are chosen.
 - Rolling-stock production-detail package: supplier-exact envelopes,
   weld maps, tolerance stacks, FEA-ready brackets, and release
   drawings.

@@ -56,11 +56,10 @@ and line E2 of the rolling-stock BOM.
 
 ## Status
 
-- `schematics/v2-spec/` — board-level v2 specification overview and
-  block diagram.
-- `gerbers/` — pending KiCad layout release.
-- `bom/` — pending board BOM release.
-
-DIY bring-up on a stock RPi CM5 IO Board + Waveshare M.2 HAT +
-generic Cat.22 5G M.2 module validates peripheral enumeration before
-the custom baseboard is drawn.
+- Pilot / DIY track: [`diy-assembly/`](diy-assembly/) uses a stock
+  RPi CM5 IO Board + Waveshare M.2 HAT + generic Cat.22 5G M.2
+  module to validate peripheral enumeration before any custom
+  baseboard is drawn. Integration evidence is still pending.
+- Custom-board track: `schematics/v2-spec/` is the board-level v2
+  specification overview and block diagram. `gerbers/` and `bom/`
+  remain pending until a KiCad layout and board BOM are released.

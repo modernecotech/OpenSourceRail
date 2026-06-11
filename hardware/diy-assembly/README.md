@@ -21,8 +21,9 @@ no hot-air station.
   build takes (screwdriver, wire cutter/stripper, ferrule
   crimper, micro-HDMI cable for commissioning).
 - **[`sd-card-images.md`](sd-card-images.md)** — how to build
-  and flash the per-host-class SD-card image (v0.2 will ship
-  pre-built images; v0.1 you build from the workspace).
+  and flash the per-host-class SD-card image. Until signed
+  pre-built images are published, builders create images from
+  the workspace.
 
 The DIY integration preserves the RFC 0015 / RFC 0016 SIL-4
 safety arguments via the same RP2350 silicon and 2oo2 AND-gate

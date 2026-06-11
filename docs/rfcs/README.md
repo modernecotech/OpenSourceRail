@@ -14,6 +14,6 @@ implementation milestones prove the choice in code, CAD, or documents.
 | Operations and safety | [0013](0013-operations-rulebook.md), [0015](0015-driverless-operation.md), [0016](0016-wayside-track-intrusion.md), [0027](0027-brownfield-pilot-asset-recovery.md) |
 | Hardware and DIY deployment | [0007](0007-hardware-reference-designs.md), [0019](0019-diy-electronics.md) |
 
-The current milestone summary is in [`../../CHANGELOG.md`](../../CHANGELOG.md),
-and near-term v0.2 work is tracked in [`../ROADMAP.md`](../ROADMAP.md).
-
+The current v0.2 development-baseline summary is in
+[`../../CHANGELOG.md`](../../CHANGELOG.md), and remaining validation
+work is tracked in [`../ROADMAP.md`](../ROADMAP.md).

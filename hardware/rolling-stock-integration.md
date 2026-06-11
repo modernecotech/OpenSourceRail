@@ -22,8 +22,9 @@ physical envelopes remain owned by:
 
 ## Ownership rule
 
-- `hardware/` owns board architecture, DIY assembly, schematics,
-  gerbers, board-level BOMs, and bring-up notes.
+- `hardware/` owns board architecture, DIY/COTS integration packs,
+  schematics, custom-board gerbers, board-level BOMs, wiring maps,
+  enclosure notes, and bring-up evidence.
 - `mechanical-py/` owns physical CAD envelopes, FreeCAD review
   artifacts, and generated screenshots for train components.
 - `docs/rolling-stock/light-metro-3car/bom-skeleton.md` owns

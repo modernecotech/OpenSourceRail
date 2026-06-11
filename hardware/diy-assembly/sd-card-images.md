@@ -5,10 +5,10 @@ carries a minimal Linux base, the OSR crate binaries for that
 host class, `osr-selftest`, and the per-deployment configuration
 file.
 
-## v0.1 — build from source
+## Source-Build Path
 
-Until v0.2 ships pre-built images, each deployment builds its
-own from the workspace:
+Until signed pre-built images ship, each deployment builds its own
+image from the workspace:
 
 ```bash
 # On a build host (x86-64 Linux dev machine):

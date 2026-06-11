@@ -238,8 +238,9 @@ tolerances, and release drawings listed in
 
 ## What v1 does NOT include
 
-- Production-detail KiCad / MCAD files with selected supplier
-  internals, tolerance stacks, and manufacturing drawings (v2).
+- Production-detail MCAD files, selected supplier internals, tolerance
+  stacks, manufacturing drawings, and custom-board KiCad files only
+  where a deployment chooses custom electronics (v2).
 - Detailed finite-element analysis (v3 — homologation phase).
 - Paint-and-livery guidance (operator scope).
 

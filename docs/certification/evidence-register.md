@@ -139,8 +139,16 @@ Per-board spec documents under `hardware/<class>/schematics/v2-spec/`:
 | W-SBC | pending |
 | S-SBC | pending |
 
-KiCad schematic capture + gerber generation are v3.1 per-board
-milestones (deferred alongside RFC 0007 v3 rollout).
+For pilot deployments, the RFC 0019 COTS/SBC path is a valid hardware
+implementation route and does not require KiCad or gerbers when no
+custom PCB is used. Its missing evidence is the integration pack:
+exact SKUs, wiring/harness maps, connector maps, enclosure and mounting
+notes, power/thermal margins, SD-card image checksums, `osr-selftest`
+output, and bench/commissioning records.
+
+KiCad schematic capture + gerber generation remain custom-board
+milestones for any deployment that chooses OSR-specific carrier,
+power, safety-I/O, or sensor-interface boards.
 
 ## 8. Summary of evidence density
 

@@ -209,10 +209,10 @@ Under `hardware/`:
   SD-card build.
 - **`<class>/diy-bom.md`** — per-host-class specific BOM with
   SKU + price + distributor + wiring map.
-- **SD-card images** — v0.2 deliverable; for v0.1 the builder
-  flashes the reference Raspberry Pi OS image and runs
-  `cargo install --path crates/<whatever>` against the
-  on-board crate set.
+- **SD-card images** — signed pre-built images are a v0.2 hardening
+  deliverable. Until they ship, the builder flashes the reference
+  Raspberry Pi OS image and installs the relevant OSR crate binaries
+  from the workspace.
 
 ## 9. Rollout
 

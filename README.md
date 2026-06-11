@@ -25,8 +25,9 @@ The machine-readable source is
 [lib/templates/capex-costs.toml](lib/templates/capex-costs.toml), with
 the audit trail in [docs/cost-model.md](docs/cost-model.md).
 
-**Current milestone:** [v0.1](CHANGELOG.md), with active
-[v0.2 work](docs/ROADMAP.md).
+**Current milestone:** [v0.2 development baseline](CHANGELOG.md),
+with remaining validation and hardening tracked in
+[docs/ROADMAP.md](docs/ROADMAP.md).
 
 ## Station And Track Renders
 

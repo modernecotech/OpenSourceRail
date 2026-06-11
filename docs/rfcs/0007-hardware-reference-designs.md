@@ -6,12 +6,16 @@
 
 ## 1. Summary
 
-This RFC fixes the hardware reference designs for the four physical
+This RFC fixes the custom-board reference designs for the physical
 host classes on which OpenSourceRail software runs — **T-ECU/S**,
-**T-ECU/A**, **W-SBC**, **S-SBC** — *before* a schematic is drawn. It
-picks the SoC, the module form factor, the baseboard constraints, and
-the per-board BOM envelope. It does not commit the schematics; those
-land as a separate editorial PR once the decisions below are ratified.
+**T-ECU/A**, **T-OBS**, **W-SBC**, **S-SBC** — *before* a schematic is
+drawn. It picks the SoC, the module form factor, the baseboard
+constraints, and the per-board BOM envelope. It does not commit the
+schematics; those land as a separate editorial PR once the decisions
+below are ratified. For first-article and pilot deployments, the
+commodity-module path in [RFC 0019](0019-diy-electronics.md) is the
+preferred implementation route and does not require KiCad or gerbers
+when no custom PCB is used.
 
 The O-SRV class is commodity server hardware — any x86-64 or ARM64
 Linux box that meets the operator's procurement rules. It is out of
@@ -482,7 +486,7 @@ implementation session doesn't rediscover them.
 |---|---|---|
 | **v0** | This RFC ratified | — |
 | **v1** ✅ | Bring-up board for each class on vendor dev kits (RPi CM5 dev kit, Radxa CM5 dev kit, Raspberry Pi Pico 2 — which carries the RP2350) — validate software boots and all peripherals enumerate. Runbook procedures committed at [`docs/hardware/bring-up/`](../hardware/bring-up/) (done 2026-04-22) | — |
-| **v2** ✅ (spec) | Board-level specifications for every host class: T-ECU/S at [`hardware/t-ecu-s/schematics/v2-spec/`](../../hardware/t-ecu-s/schematics/v2-spec/) (done 2026-04-22), T-OBS at [`hardware/t-obs/schematics/v2-spec/`](../../hardware/t-obs/schematics/v2-spec/) (done 2026-04-22), T-ECU/A at [`hardware/t-ecu-a/schematics/v2-spec/`](../../hardware/t-ecu-a/schematics/v2-spec/), W-SBC at [`hardware/w-sbc/schematics/v2-spec/`](../../hardware/w-sbc/schematics/v2-spec/), S-SBC at [`hardware/s-sbc/schematics/v2-spec/`](../../hardware/s-sbc/schematics/v2-spec/) (all done 2026-04-23). Each covers block diagram, power budget, connector tables, and (for SIL-4 boards) safety-nets. KiCad capture + gerbers + BOM are v2.1 per-vendor deliverables under CERN-OHL-S v2. | v1 |
+| **v2** ✅ (spec) | Board-level specifications for every host class: T-ECU/S at [`hardware/t-ecu-s/schematics/v2-spec/`](../../hardware/t-ecu-s/schematics/v2-spec/) (done 2026-04-22), T-OBS at [`hardware/t-obs/schematics/v2-spec/`](../../hardware/t-obs/schematics/v2-spec/) (done 2026-04-22), T-ECU/A at [`hardware/t-ecu-a/schematics/v2-spec/`](../../hardware/t-ecu-a/schematics/v2-spec/), W-SBC at [`hardware/w-sbc/schematics/v2-spec/`](../../hardware/w-sbc/schematics/v2-spec/), S-SBC at [`hardware/s-sbc/schematics/v2-spec/`](../../hardware/s-sbc/schematics/v2-spec/) (all done 2026-04-23). Each covers block diagram, power budget, connector tables, and (for SIL-4 boards) safety-nets. KiCad capture + gerbers + BOM are custom-board deliverables under CERN-OHL-S v2, not prerequisites for an RFC 0019 pilot build. | v1 |
 | **v3** | Compliance-test campaign for T-ECU/S (EN 50155 OT4, IEC 61373 Cat 1B, EN 50121-3-2) on one v2 prototype | v2 |
 | **v4** | Quantity-100 procurement package published — canonical BOM with Mouser / Digi-Key / LCSC lines, pick-and-place + stencil files, assembly drawings | v2 |
 | **v5** | First-article approval by the Samawah reference operator (or equivalent pilot) | v4, RFC 0003 |
@@ -506,10 +510,11 @@ without hardware, so the bring-up is a migration, not a redesign.
   surface specified in §§4–7.
 - **`hardware/` directory.** The top-level directory now carries one
   subdirectory per class, board-level v2 specifications where
-  available, and an explicit
+  available, RFC 0019 DIY assembly docs, and an explicit
   [`hardware/release-checklist.md`](../../hardware/release-checklist.md)
-  for KiCad, gerber, BOM, bring-up, and bench-evidence release gates.
-  A class is only fabrication-ready after that checklist is closed.
+  with separate pilot-integration and custom-board fabrication gates.
+  A class is only pilot-ready after the integration gate is closed, and
+  only fabrication-ready after the custom-board gate is closed.
 - **Licensing.** All hardware designs under CERN-OHL-S v2 per
   [ARCHITECTURE.md §9](../ARCHITECTURE.md#9-roadmap). Documentation
   (this RFC) under CC-BY-SA 4.0. Firmware ports of existing crates

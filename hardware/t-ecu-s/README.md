@@ -68,13 +68,12 @@ and line E1 of the rolling-stock BOM.
 
 ## Status
 
-- `schematics/v2-spec/` — board-level v2 specification: block
-  diagram, power budget, connector tables, CM5/RP2350 pinouts, and
-  safety-net rules.
-- `gerbers/` — pending KiCad layout release.
-- `bom/` — pending board BOM release.
-
-DIY bring-up uses two Raspberry Pi Pico 2 boards (each carrying one
-RP2350) in a 2oo2 test jig, plus a stock RPi CM5 IO Board for the
-app processor. Boots `osr-atp` + `osr-brake` + `osr-odometry` + the
-SPI cross-check harness.
+- Pilot / DIY track: [`diy-assembly/`](diy-assembly/) uses two
+  Raspberry Pi Pico 2 boards (each carrying one RP2350) in a 2oo2
+  test jig, plus a stock RPi CM5 IO Board for the app processor.
+  Boots `osr-atp` + `osr-brake` + `osr-odometry` + the SPI
+  cross-check harness. Integration evidence is still pending.
+- Custom-board track: `schematics/v2-spec/` is the board-level v2
+  specification: block diagram, power budget, connector tables,
+  CM5/RP2350 pinouts, and safety-net rules. `gerbers/` and `bom/`
+  remain pending until a KiCad layout and board BOM are released.

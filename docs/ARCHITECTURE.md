@@ -1,6 +1,6 @@
 # OpenSourceRail — Scope & Architecture
 
-**Status:** Draft 0.1 (2026-04-20)
+**Status:** Draft 0.2 development baseline (2026-06-11)
 **Audience:** Engineers, operators, policymakers, and funders evaluating the project.
 **Purpose:** Define what OpenSourceRail is, what it is not, and the architectural stance that distinguishes it from existing rail vendor offerings.
 
@@ -273,7 +273,19 @@ Only I1–I3 are safety-critical. Everything else can fail without loss of safe 
 - **Train ECU (T-ECU):** Same SoC family as W-SBC, EN 50155 environmental ratings, TSN Ethernet PHY, CAN-FD, isolated I/O modules.
 - **Ops server (O-SRV):** Commodity x86 or ARM64 server, Debian, standard datacenter gear. T3/T4.
 
-Reference hardware designs (schematics, BOMs, Gerbers) are part of the repository under [`hardware/`](../hardware/). The per-class choices — SoC, peripherals, baseboard, manufacturability envelope, reliability targets — are fixed in [RFC 0007](rfcs/0007-hardware-reference-designs.md). All designs must be manufacturable by a 4-layer PCB fab with 0.15 mm trace/space and 0.3 mm vias — routine at tier-2 fabs across the target deployment footprint.
+Reference hardware has two implementation tracks under
+[`hardware/`](../hardware/). The first-pilot track is the
+[RFC 0019](rfcs/0019-diy-electronics.md) COTS/SBC assembly path:
+commodity compute modules, sensor boards, relay modules, power
+supplies, terminal blocks, DIN-rail enclosures, prepared firmware
+images, wiring/harness maps, and bench evidence. It does not require
+KiCad or gerbers when no custom PCB is used. The volume-production
+track is the [RFC 0007](rfcs/0007-hardware-reference-designs.md)
+custom-board path: OSR-specific carrier, power, safety-I/O, or
+sensor-interface boards captured as schematics, BOMs, layouts, and
+Gerbers. Custom boards must remain manufacturable by a 4-layer PCB fab
+with 0.15 mm trace/space and 0.3 mm vias — routine at tier-2 fabs
+across the target deployment footprint.
 
 ### 6.3 Repository layout
 

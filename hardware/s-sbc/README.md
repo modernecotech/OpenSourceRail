@@ -36,7 +36,10 @@ for the commodity-carrier rationale.
 
 ## Status
 
-The ATECC608 add-on is a simple enough board (two ICs + passives)
-that v1 and v2 land together. Tracked as a v2 deliverable alongside
-the other classes for consistency; the station-side software stack
-already runs on stock Waveshare carriers in the development lab.
+Pilot / DIY track: the station-side software stack already runs on
+stock Waveshare carriers in the development lab. Integration evidence
+is still pending.
+
+Custom-board track: usually unnecessary for S-SBC. The only custom
+piece is the small ATECC608 add-on (two ICs + passives), tracked as a
+v2 deliverable alongside the other classes for consistency.

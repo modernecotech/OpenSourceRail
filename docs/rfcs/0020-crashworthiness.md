@@ -16,8 +16,8 @@ energy-absorption-zone allocation that replaces it — the values
 the mechanical-py parametric car body tracks and that vendors
 must meet when supplying an OSR-compatible shell.
 
-OSR v0.1 does **not** ship a full finite-element crash simulation.
-What it ships is:
+The v0.2 development baseline still does **not** ship a full
+finite-element crash simulation. What it ships is:
 
 - A parametric energy budget per consist family.
 - An allocation of that budget to three absorption zones on each
@@ -120,8 +120,9 @@ mechanical targets below.
    family, at the closing speed. Carried out by the type-approval
    authority; pass/fail gate for revenue service.
 
-OSR-v0.1 closes steps 1 + documents the plan for 2–4. A deployment
-budget must include the external FEA + physical-test cost —
+The current baseline closes step 1 and documents the plan for steps
+2–4. A deployment budget must include the external FEA + physical-test
+cost —
 typically EUR 1.5–3.0 M per consist family, amortisable across
 every trainset in the family.
 

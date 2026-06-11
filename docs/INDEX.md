@@ -31,7 +31,7 @@ Indexed Markdown files: **436**.
 
 | File | Title |
 |---|---|
-| [`CHANGELOG.md`](../CHANGELOG.md) | OpenSourceRail — milestone 0.1 |
+| [`CHANGELOG.md`](../CHANGELOG.md) | OpenSourceRail — milestone 0.2 development baseline |
 | [`README.md`](../README.md) | OpenSourceRail |
 
 ## crates
