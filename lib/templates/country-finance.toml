@@ -21,8 +21,8 @@
 #                              — optional non-repayable grant override share
 #                                of CAPEX. Default is zero; generated
 #                                finance reports do not assume grants.
-#   multilateral_loan_share    — repayable green concessional-loan share of
-#                                CAPEX.
+#   multilateral_loan_share    — repayable candidate climate/MDB
+#                                concessional-debt share of CAPEX.
 #   sovereign_bond_share       — sovereign/project bond share of CAPEX.
 #                                Default is zero because bond coupons are the
 #                                expensive fallback, not the target structure.
@@ -34,16 +34,18 @@
 #   multilateral_loan_rate     — IBRD / AfDB / ADB blended rate, decimal.
 #                                Kept as the country comparator.
 #   green_concessional_loan_rate
-#                              — climate-window / GCF-blended concessional
-#                                rate used for the repayable loan tranche
-#                                when it is below the country comparator.
+#                              — target climate-window / GCF-blended
+#                                concessional rate used for the repayable
+#                                loan placeholder when it is below the
+#                                country comparator. This is not evidence
+#                                of a committed lender offer.
 #   capex_grace_years          — years of construction during which
 #                                principal isn't repaid (interest only).
 #   loan_tenor_years           — total tenor for multilateral + bond
 #                                tranches.
 #   concessional_loan_tenor_years
-#                              — preferred tenor for the green concessional
-#                                loan package.
+#                              — preferred tenor for the candidate
+#                                climate/MDB concessional package.
 #   farebox_recovery_target    — fraction of OPEX that fares should
 #                                recover (rest is operating subsidy).
 #                                Singapore MRT ≈ 1.0; London Tube ≈ 0.95;

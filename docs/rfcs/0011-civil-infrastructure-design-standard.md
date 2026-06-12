@@ -297,21 +297,22 @@ sites or local road-barrier overrides.
 | `secondary-medium` | 7 000 000 |
 | `layup-minimal` | 2 000 000 |
 
-### 9.4 Rolling stock (RFC 0008 family acquisition × fleet count)
+### 9.4 Rolling stock (RFC 0008 local-owner production × fleet count)
 
-Rolling-stock city CAPEX uses a delivered production planning unit, not
-the raw marketplace BOM floor. The unit includes production labour, shop
-overhead, fixture/tool amortisation, rail QA, homologation evidence,
-freight, duty, insurance, warranty, initial spares/tools, manuals,
-training, commissioning, and acceptance testing.
+Rolling-stock city CAPEX uses a local-owner production planning unit,
+not the raw marketplace BOM floor. The unit includes direct material,
+production labour, shop overhead, nominal per-train QA/acceptance
+evidence, and modest local handover logistics. Fixtures/tooling live in
+the railway production plant line; warranty, spares, and routine
+commissioning support are OPEX.
 
-| Family | USD / trainset delivered planning unit |
+| Family | USD / trainset local-owner unit |
 |---|---:|
-| `urban-shuttle-1car` | 1 400 000 |
-| `tram-2car` | 2 800 000 |
-| `light-metro-3car` | 4 200 000 |
-| `metro-4car` | 5 600 000 |
-| `metro-6car` | 8 400 000 |
+| `urban-shuttle-1car` | 800 000 |
+| `tram-2car` | 1 600 000 |
+| `light-metro-3car` | 2 400 000 |
+| `metro-4car` | 3 200 000 |
+| `metro-6car` | 4 800 000 |
 
 Fleet count = peak-revenue + spare + cold-reserve per RFC 0014 §4.
 
@@ -320,7 +321,7 @@ Fleet count = peak-revenue + spare + cold-reserve per RFC 0014 §4.
 Every city carries a lean railway production-plant setup allowance for
 the fleet it will build or assemble locally. This is costed per
 vehicle/car module, not per trainset, and stays separate from the
-delivered rolling-stock procurement line.
+rolling-stock procurement line.
 
 | Item | Planning-grade basis |
 |---|---:|

@@ -119,7 +119,7 @@ def compute_stats(design_path: Path) -> DesignStats:
         for w in f.get("schedule", []):
             peak_headway = min(peak_headway, float(w.get("headway_min", math.inf)))
     if peak_headway == math.inf:
-        peak_headway = 0.0
+        peak_headway = 3.0
 
     return DesignStats(
         slug=slug,

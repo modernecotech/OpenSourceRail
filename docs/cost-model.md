@@ -13,8 +13,8 @@ The detailed civil marketplace anchors live in
 
 ## Rolling Stock
 
-Rolling stock is budgeted at the **delivered production planning unit of
-1.4 M USD per self-contained car**. A trainset is `cars × 1.4 M USD`
+Rolling stock is budgeted at the **local-owner production planning unit of
+0.8 M USD per self-contained car**. A trainset is `cars × 0.8 M USD`
 with `*_eur` mirrors retained at 0.92 USD->EUR.
 
 The current
@@ -22,33 +22,36 @@ The current
 still provides the raw procurement lower bound: 592,840 USD direct
 material plus the BOM's 35% assembly allowance = 800,334 USD per 3-car
 consist. City CAPEX no longer uses that value directly. The planning
-unit now adds the production and delivery costs that a deployable train
-must actually carry.
+unit now adds the local production costs that a deployable train must
+actually carry, while fixtures/tooling sit in the railway production
+plant and warranty, spares, and routine commissioning support sit in
+OPEX.
 
 | Per-car cost bucket | Basis | Cost |
 |---|---|---:|
 | Direct material BOM floor | Welded frame, panels, glazing, doors, bogies, traction, batteries, HVAC, electronics, interiors | $267 k |
 | Production labour + shop overhead | Cut/bend/weld, fit-out, harnessing, paint, factory supervision, utilities, rework reserve | $420 k |
-| Fixtures, tooling, QA, certification evidence | Jigs/fixtures, dimensional QA, EN 15085/45545 evidence, supplier audits, homologation dossier amortisation | $310 k |
-| Logistics, warranty, spares, commissioning | Freight, duty, insurance, initial spares/tools, manuals/training, site testing, acceptance runs | $403 k |
-| **Total per car** | Delivered production planning unit | **$1.4 M** |
+| Per-train QA + acceptance evidence | Dimensional QA, weld records, functional test logs, acceptance run dossier | $50 k |
+| Local handover logistics | Local movement, manuals/training handover, site test support; warranty/spares stay in OPEX | $63 k |
+| **Total per car** | Local-owner production planning unit | **$800 k** |
 
 | Family | USD / trainset | EUR mirror |
 |---|---:|---:|
-| `urban-shuttle-1car` | $1.4 M | EUR 1.288 M |
-| `tram-2car` | $2.8 M | EUR 2.576 M |
-| `light-metro-3car` | $4.2 M | EUR 3.864 M |
-| `metro-4car` | $5.6 M | EUR 5.152 M |
-| `metro-6car` | $8.4 M | EUR 7.728 M |
+| `urban-shuttle-1car` | $0.8 M | EUR 0.736 M |
+| `tram-2car` | $1.6 M | EUR 1.472 M |
+| `light-metro-3car` | $2.4 M | EUR 2.208 M |
+| `metro-4car` | $3.2 M | EUR 2.944 M |
+| `metro-6car` | $4.8 M | EUR 4.416 M |
 
 The base value assumes direct procurement, local final assembly, common
 bogie modules, composite non-structural cladding, COTS
 doors/windows/HVAC/interior modules, open control electronics, and no
-proprietary CBTC onboard bundle. It **does** include labour, shop
-overhead, tooling amortisation, QA, fire/smoke/toxicity evidence,
-homologation dossier allowance, freight, duty, insurance, warranty,
-initial spares/tools, manuals/training, commissioning, and acceptance
-testing.
+proprietary CBTC onboard bundle. It includes labour, shop overhead,
+nominal per-unit QA/acceptance evidence, and local handover logistics.
+It does **not** repeat fixtures, tooling, production-readiness,
+warranty, initial spares, or routine commissioning support inside every
+trainset. Fixtures and tooling are carried in the production-plant line;
+spares, warranty response, and routine commissioning support are OPEX.
 
 The rolling-stock BOM carries line-level low/base/high bands in
 [`build/bom/rolling_stock_bom.csv`](../build/bom/rolling_stock_bom.csv).
@@ -67,10 +70,10 @@ kept as a high sensitivity check rather than the default.
 
 This line covers lean local production/assembly setup: basic tooling,
 fixtures, plant services, commissioning bay setup, material handling,
-and production-readiness work. It is deliberately separate from the
-delivered trainset unit above, so procurement costs and city plant setup
-remain auditable instead of being hidden in one large rolling-stock
-number.
+homologation/production-readiness work, and first-article support. It is
+deliberately separate from the trainset unit above, so procurement costs
+and city plant setup remain auditable instead of being hidden in one
+large rolling-stock number.
 
 | Example | Base plant allowance | High sensitivity |
 |---|---:|---:|
@@ -198,7 +201,11 @@ to OCC and platform posts.
 Construction-period equity and interest-only grace payments on the
 repayable tranche remain public capital commitments. The base finance
 stack assumes **no climate/development grant**: 20% government equity
-during construction and 80% green concessional loan. The operating-neutral
+during construction and 80% candidate climate/MDB concessional debt.
+That tranche is a placeholder for a lender term sheet, not evidence of
+an available loan. Plausible channels include MDB lending blended with
+climate funds such as GCF or CIF, or an equivalent national development
+bank / IsDB route where eligible. The operating-neutral
 case applies only to steady-state operations after opening. Where the
 capacity-use scenario produces revenue above OPEX, that
 operating surplus is netted against repayable-debt support in the

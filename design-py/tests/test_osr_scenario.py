@@ -169,31 +169,32 @@ def test_readme_nets_operating_surplus_against_gov_debt_support() -> None:
     )
     assert (
         "| Operating surplus applied to debt support | "
-        "-$28 M / yr | -$28 M / yr | **$0 k / yr** |"
+        "-$24 M / yr | -$24 M / yr | **$0 k / yr** |"
         in text
     )
     assert (
         "| **Net gov repayable-debt support + residual OPEX subsidy** | "
-        "$0 k / yr | $0 k / yr | **$28 M / yr** |"
+        "$0 k / yr | $0 k / yr | **$24 M / yr** |"
         in text
     )
     assert (
-        "| Green concessional loan | 80% | $708 M | 2.0% | "
-        "40 y, 5 y grace | $28 M / yr |"
+        "| Candidate climate/MDB concessional debt (unconfirmed) | "
+        "80% | $592 M | 2.0% | 40 y, 5 y grace | $24 M / yr |"
         in text
     )
     assert (
-        "| Government equity (no debt service) | 20% | $177 M |"
+        "| Government equity (no debt service) | 20% | $148 M |"
         in text
     )
+    assert "Loan availability note: this is a finance placeholder" in text
     assert "| Climate / development grant" not in text
     assert (
         "Dedicated utility-scale solar plant / contracted offsite PPA asset: "
-        "**63.3 MW**"
+        "**69.5 MW**"
         in text
     )
     assert (
-        "| Dedicated solar plant | 63.3 MW / 317 MWh/day |"
+        "| Dedicated solar plant | 69.5 MW / 347 MWh/day |"
         in text
     )
     assert (
@@ -201,29 +202,38 @@ def test_readme_nets_operating_surplus_against_gov_debt_support() -> None:
         in text
     )
     assert (
-        "| **CAPEX total** | **$885 M** |"
+        "| **CAPEX total** | **$739 M** |"
         in text
     )
     assert (
-        "| Traction energy (131.2 GWh / yr) |"
+        "| Traction energy (139.6 GWh / yr) |"
         in text
     )
     assert (
-        "on-site PV 30.7 GWh/yr + dedicated solar plant 63.3 MW / "
-        "115.6 GWh/yr (100% coverage); residual grid/PPA top-up 0.0 GWh/yr"
+        "on-site PV 29.4 GWh/yr + dedicated solar plant 69.5 MW / "
+        "126.8 GWh/yr (100% coverage); residual grid/PPA top-up 0.0 GWh/yr"
         in text
     )
     assert (
-        "| Labour (408 FTE) | driverless roster: OCC/remote 65, "
-        "station/platform 127, passenger service 44, fleet maintenance 64"
+        "| Labour (410 FTE) | driverless roster: OCC/remote 65, "
+        "station/platform 116, passenger service 52, fleet maintenance 68"
         in text
     )
     assert (
-        "| Practical service capacity used | 50% | 80% | 17% |"
+        "| Scheduled one-way train journeys | 1,515 / day |"
         in text
     )
     assert (
-        "| Annual paid trips | 63.1 M | 100.9 M | 20.8 M |"
+        "| Onboard battery adequacy | 1.2× longest line run | "
+        "Fail: 288 kWh after 20% reserve, 19 kWh short on the longest line |"
+        in text
+    )
+    assert (
+        "| Practical service capacity used | 50% | 80% | 10% |"
+        in text
+    )
+    assert (
+        "| Annual paid trips | 79.6 M | 127.4 M | 15.6 M |"
         in text
     )
     assert "| Daily active riders |" not in text
@@ -232,28 +242,28 @@ def test_readme_nets_operating_surplus_against_gov_debt_support() -> None:
     assert "## Broad economic benefits (planning proxy)" in text
     assert (
         "| **Annual quantified benefit / activity proxy** | "
-        "**$80 M / yr** | **$129 M / yr** |"
+        "**$102 M / yr** | **$163 M / yr** |"
         in text
     )
     assert (
-        "| Education | 3 education anchors | 9,065 trips/school day; "
-        "2.0 M access-events/yr | 14,505 trips/school day; "
-        "3.2 M access-events/yr |"
+        "| Education | 2 education anchors | 10,775 trips/school day; "
+        "2.4 M access-events/yr | 17,240 trips/school day; "
+        "3.8 M access-events/yr |"
         in text
     )
     assert (
-        "| Healthcare | 10 healthcare anchors | 15,951 trips/day; "
-        "5.8 M access-events/yr | 25,521 trips/day; "
-        "9.3 M access-events/yr |"
+        "| Healthcare | 3 healthcare anchors | 15,480 trips/day; "
+        "5.7 M access-events/yr | 24,768 trips/day; "
+        "9.0 M access-events/yr |"
         in text
     )
     assert (
-        "| CAPEX retained in local procurement / payroll | $466 M | "
-        "53% of $885 M CAPEX using bucket local-content shares |"
+        "| CAPEX retained in local procurement / payroll | $402 M | "
+        "54% of $739 M CAPEX using bucket local-content shares |"
         in text
     )
     assert (
-        "| Construction employment supported | 25,536 job-years |"
+        "| Construction employment supported | 22,014 job-years |"
         in text
     )
     assert (

@@ -225,6 +225,7 @@ class EnergyPlan:
     service_days_per_year: int
     service_hours_per_day: float
     peak_sun_hours: float
+    scheduled_daily_train_journeys: float
     scheduled_daily_train_km: float
     annual_train_km: float
     annual_car_km: float
@@ -454,9 +455,10 @@ def _funding_stack(fin: dict) -> FundingStack:
     """Grant-free default finance stack for generated city reports.
 
     The default assumes the public sponsor contributes 20% equity during
-    construction and finances the remaining 80% with a long-tenor green
-    concessional loan. Climate/development grants and sovereign bonds are
-    available as explicit country overrides only, not as the base case.
+    construction and finances the remaining 80% with long-tenor candidate
+    climate/MDB concessional debt. Climate/development grants and sovereign
+    bonds are available as explicit country overrides only, not as the
+    base case.
     """
 
     def _frac(key: str, default: float) -> float:
@@ -594,6 +596,30 @@ def _scheduled_daily_train_km(design: dict, scenario: dict) -> float:
     return daily_train_km
 
 
+def _scheduled_daily_train_journeys(design: dict, scenario: dict) -> float:
+    """Daily one-way train journeys from the generated fleet schedules."""
+    line_ids = {
+        str(line.get("name") or line.get("id"))
+        for line in design.get("lines", [])
+    }
+    daily_journeys = 0.0
+    for fleet in scenario.get("fleets", []):
+        if str(fleet.get("line")) not in line_ids:
+            continue
+        trips_per_direction = 0.0
+        for window in fleet.get("schedule", []):
+            headway = float(window.get("headway_min", 0.0))
+            if headway <= 0.0:
+                continue
+            trips_per_direction += (
+                _hours(str(window.get("from", "05:30")), str(window.get("to", "02:00")))
+                * 60.0
+                / headway
+            )
+        daily_journeys += trips_per_direction * 2.0
+    return daily_journeys
+
+
 def _station_posts_per_shift(design: dict) -> float:
     """Driverless-platform staff posts per shift by station archetype."""
     weights = {
@@ -671,6 +697,9 @@ def _energy_plan(design: dict, scenario: dict, stats: NetworkStats) -> EnergyPla
         "metro-6car": 35.0,
     }.get(stats.consist_family, 30.0)
 
+    scheduled_daily_train_journeys = _scheduled_daily_train_journeys(
+        design, scenario
+    )
     scheduled_daily_train_km = _scheduled_daily_train_km(design, scenario)
     if scheduled_daily_train_km > 0.0:
         annual_train_km = (
@@ -693,6 +722,7 @@ def _energy_plan(design: dict, scenario: dict, stats: NetworkStats) -> EnergyPla
             * utilisation_factor
         )
         scheduled_daily_train_km = annual_train_km / service_days_per_year
+        scheduled_daily_train_journeys = 0.0
         train_km_basis = (
             f"{stats.revenue_fleet} trainsets × {service_hours_per_day:.1f} h/day "
             f"× {commercial_speed_kmh:.0f} km/h × {utilisation_factor:.0%} "
@@ -727,6 +757,7 @@ def _energy_plan(design: dict, scenario: dict, stats: NetworkStats) -> EnergyPla
         service_days_per_year=service_days_per_year,
         service_hours_per_day=service_hours_per_day,
         peak_sun_hours=peak_sun_hours,
+        scheduled_daily_train_journeys=scheduled_daily_train_journeys,
         scheduled_daily_train_km=scheduled_daily_train_km,
         annual_train_km=annual_train_km,
         annual_car_km=annual_car_km,
@@ -1154,8 +1185,9 @@ def _funding_and_affordability_section(
     total_eur = base_total_eur + solar_plant_eur
 
     # Funding stack — grant-free and concessional-debt-heavy. Public equity
-    # covers 20% during construction; the balance is a long-tenor green
-    # concessional loan unless a country override explicitly changes it.
+    # covers 20% during construction; the balance is a long-tenor candidate
+    # climate/MDB concessional-debt placeholder unless a country override
+    # explicitly changes it.
     stack = _funding_stack(fin)
     grant_frac = stack.grant_frac
     multi_frac = stack.multi_frac
@@ -1477,7 +1509,7 @@ def _funding_and_affordability_section(
             f"{grant_frac:.0%} | {_usd(grant_eur)} | — | — | — |"
         )
     out.append(
-        f"| Green concessional loan | "
+        f"| Candidate climate/MDB concessional debt (unconfirmed) | "
         f"{multi_frac:.0%} | {_usd(multi_eur)} | {multi_rate:.1%} | "
         f"{tenor} y, {grace} y grace | {_usd(multi_annuity)} / yr |"
     )
@@ -1497,7 +1529,7 @@ def _funding_and_affordability_section(
     )
     out.append(
         f"_During the {grace}-year grace period the public sponsor pays "
-        f"interest only on repayable debt — green concessional loan "
+        f"interest only on repayable debt — candidate climate/MDB debt "
         f"{_usd(multi_eur * multi_rate)} / yr"
         f"{' + fallback bonds ' + _usd(bond_eur * bond_rate) + ' / yr' if bond_eur > 0.0 else ''} = "
         f"**{_usd(annual_grace_interest_eur)} / yr** total. The "
@@ -1506,6 +1538,23 @@ def _funding_and_affordability_section(
         f"({_usd(annual_equity_eur)} / yr × {grace} yr). Principal "
         f"repayment begins in year {grace + 1} on a {repayment_years}-year "
         f"amortisation schedule._\n"
+    )
+    out.append(
+        "_Loan availability note: this is a finance placeholder, not a "
+        "committed lender offer. Plausible providers would be a national "
+        "government borrowing through an MDB or a climate fund accredited "
+        "entity, such as the World Bank/IBRD, Islamic Development Bank, "
+        "Climate Investment Funds, or Green Climate Fund channels. Official "
+        "GCF policy allows grants and concessional loans, and World Bank/CIF "
+        "material documents below-market climate finance, but this project "
+        "still needs a lender mandate, eligibility screen, and signed term "
+        "sheet before the 2.0% / 40-year assumption can be treated as real. "
+        "Evidence anchors: "
+        "[GCF financial instruments](https://www.greenclimate.fund/about/policies/financial-instruments), "
+        "[GCF concessional-loan terms decision](https://www.greenclimate.fund/decision/b09-04), "
+        "[World Bank concessional-finance explainer](https://www.worldbank.org/en/news/feature/2021/09/16/what-you-need-to-know-about-concessional-finance-for-climate-action), "
+        "[CIF funding instruments](https://www.cif.org/cif-funding), and "
+        "[IsDB GCF accreditation](https://www.greenclimate.fund/ae/isdb)._\n"
     )
 
     out.append("### Annual OPEX (steady state)\n")
@@ -1852,7 +1901,18 @@ def render_readme(
     total_fleet_crush_pax = total_fleet_trainsets * stats.trainset_crush_capacity_pax
     per_line_pphpd = capacity_pax * trains_per_hour_per_dir
     network_peak_per_h = per_line_pphpd * stats.line_count * 2
-    daily_theoretical = network_peak_per_h * 10  # peak≈10% of daily
+    scheduled_daily_journeys = energy_plan.scheduled_daily_train_journeys
+    if scheduled_daily_journeys > 0.0:
+        daily_theoretical = scheduled_daily_journeys * capacity_pax
+        daily_capacity_basis = (
+            f"{scheduled_daily_journeys:,.0f} scheduled one-way train journeys/day "
+            f"× {capacity_pax} AW2 pax"
+        )
+    else:
+        daily_theoretical = network_peak_per_h * 10  # fallback for legacy scenarios
+        daily_capacity_basis = (
+            f"{network_peak_per_h:,.0f} peak passengers/hour × 10 h equivalent"
+        )
     practical_daily_capacity = int(daily_theoretical * _PRACTICAL_CAPACITY_LOAD_FACTOR)
     catchment = int(stats.coverage * stats.population) if stats.coverage > 0 else None
     capacity_utilization_low = _CAPACITY_UTILIZATION_LOW
@@ -2134,7 +2194,12 @@ def render_readme(
         f"= **{network_peak_per_h:,.0f} passengers/hour**"
     )
     out.append(
-        f"- **Daily theoretical capacity (peak × 10):** ≈ **{daily_theoretical:,.0f} passenger-trips/day**"
+        f"- **Scheduled one-way train journeys:** "
+        f"**{scheduled_daily_journeys:,.0f}/day**"
+    )
+    out.append(
+        f"- **Daily theoretical capacity from timetable:** "
+        f"{daily_capacity_basis} = **{daily_theoretical:,.0f} passenger-trips/day**"
     )
     out.append(
         f"- **Practical daily service capacity** "
@@ -2181,13 +2246,28 @@ def render_readme(
             "coverage margin. This is carried as infrastructure CAPEX below.\n"
         )
     out.append("### Energy Feasibility Check\n")
+    line_lengths = [_line_length_km(line) for line in design.get("lines", [])]
     avg_line_km = stats.route_km / max(stats.line_count, 1)
+    max_line_km = max(line_lengths) if line_lengths else avg_line_km
     trainset_kwh_per_km = stats.consist_cars * _ENERGY_KWH_PER_CAR_KM
     avg_line_energy_kwh = avg_line_km * trainset_kwh_per_km
+    max_line_energy_kwh = max_line_km * trainset_kwh_per_km
     reserve_ratio = (
-        stats.consist_battery_kwh / avg_line_energy_kwh
-        if avg_line_energy_kwh > 0.0
+        stats.consist_battery_kwh / max_line_energy_kwh
+        if max_line_energy_kwh > 0.0
         else 0.0
+    )
+    dispatch_reserve_kwh = stats.consist_battery_kwh * 0.20
+    dispatch_available_kwh = stats.consist_battery_kwh - dispatch_reserve_kwh
+    dispatch_margin_kwh = dispatch_available_kwh - max_line_energy_kwh
+    battery_interpretation = (
+        f"OK: {dispatch_available_kwh:,.0f} kWh after 20% reserve, "
+        f"{dispatch_margin_kwh:,.0f} kWh margin on the longest line"
+        if dispatch_margin_kwh >= 0.0
+        else (
+            f"Fail: {dispatch_available_kwh:,.0f} kWh after 20% reserve, "
+            f"{abs(dispatch_margin_kwh):,.0f} kWh short on the longest line"
+        )
     )
     avg_stop_charger_kw = stats.total_charging_kw / max(stats.unique_station_count, 1)
     dwell_charge_kwh = avg_stop_charger_kw / 60.0
@@ -2233,8 +2313,12 @@ def render_readme(
         f"{avg_line_km:.1f} km average line length |"
     )
     out.append(
-        f"| Onboard battery coverage | {reserve_ratio:.1f}× average line run | "
-        f"{stats.consist_battery_kwh} kWh usable pack |"
+        f"| Longest one-way line energy | {max_line_energy_kwh:,.0f} kWh | "
+        f"{max_line_km:.1f} km longest line × {trainset_kwh_per_km:.1f} kWh/km |"
+    )
+    out.append(
+        f"| Onboard battery adequacy | {reserve_ratio:.1f}× longest line run | "
+        f"{battery_interpretation} |"
     )
     out.append(
         f"| Average 60 s dwell charge | {dwell_charge_kwh:.1f} kWh/stop | "
@@ -2249,9 +2333,23 @@ def render_readme(
         f"{energy_plan.peak_sun_hours:.1f} peak-sun-hour planning proxy before local derates |"
     )
     out.append(
+        f"| Scheduled one-way train journeys | "
+        f"{energy_plan.scheduled_daily_train_journeys:,.0f} / day | "
+        "Train departures across both directions and all lines |"
+    )
+    out.append(
+        f"| Scheduled train journey-km | "
+        f"{energy_plan.scheduled_daily_train_km:,.0f} train-km/day | "
+        "One-way train journeys × route length |"
+    )
+    out.append(
+        f"| Annual service work | {energy_plan.annual_train_km / 1e6:,.1f} M train-km/yr | "
+        f"Includes {_NON_REVENUE_TRAIN_KM_FACTOR:.0%} depot/deadhead factor |"
+    )
+    out.append(
         f"| Scheduled traction demand | {traction_daily_mwh:,.0f} MWh/day | "
-        f"{energy_plan.scheduled_daily_train_km:,.0f} scheduled train-km/day × "
-        f"{_NON_REVENUE_TRAIN_KM_FACTOR:.0%} depot/deadhead factor |"
+        f"{energy_plan.annual_car_km / 1e6:.1f} M car-km/yr × "
+        f"{_ENERGY_KWH_PER_CAR_KM:.1f} kWh/car-km |"
     )
     out.append(
         f"| On-site PV shortfall before solar plant | {pre_plant_grid_daily_mwh:,.0f} MWh/day | "
@@ -2663,7 +2761,7 @@ def _rich_capex_section(
         f"only as compatibility mirrors at {_USD_TO_EUR:.2f} USD→EUR. "
         "**OSR-discipline unit costs**: prefab portal-frame canopies (no bespoke "
         "architectural cladding), at-grade depots without overhead bridge "
-        "cranes, **delivered rolling stock at about $1.4 M per "
+        "cranes, **locally built rolling stock at about $0.8 M per "
         "self-contained car** (raw marketplace BOM retained only as an "
         "audit floor), commodity Na-ion cells + tier-2 PMSM motors + "
         "DIY SiC inverters, **onboard-first train control "
@@ -2672,12 +2770,14 @@ def _rich_capex_section(
         "interlockings — the function moves into the trainset, already "
         "counted in rolling-stock CAPEX), no overhead catenary, a dedicated "
         "solar plant when the generated timetable exceeds station/depot PV, "
-        "and self-EPC overhead. The rolling-stock line now includes production labour, "
-        "shop overhead, fixtures/tool amortisation, rail QA and "
-        "homologation evidence, freight, duty, warranty, initial spares, "
-        "training, commissioning, and acceptance testing. A separate lean "
-        "railway production-plant setup line adds $100 k per vehicle/car "
-        "module, with $200 k retained as the high sensitivity check. "
+        "and self-EPC overhead. The rolling-stock line includes direct "
+        "material, local production labour, shop overhead, nominal "
+        "per-train QA/acceptance, and modest local handover logistics. "
+        "Fixtures, tooling, and production-readiness live in the separate "
+        "railway production-plant setup line at $100 k per vehicle/car "
+        "module, with $200 k retained as the high sensitivity check; "
+        "warranty, spares, and routine commissioning support are OPEX "
+        "rather than repeated train CAPEX. "
         "`country-costs.toml` applies the per-country labour/material "
         "multiplier downstream where a local tender view is needed.\n"
     )
@@ -2764,24 +2864,26 @@ def _rich_capex_section(
 
     out.append("### Rolling stock\n")
     out.append(
-        "Rolling stock is costed at the **delivered production planning "
-        "unit: $1.4 M per self-contained car**. The raw 3-car "
+        "Rolling stock is costed at the **local-owner production planning "
+        "unit: $0.8 M per self-contained car**. The raw 3-car "
         "light-metro BOM floor remains 592,840 USD direct material plus "
-        "35 % assembly allowance = 800,334 USD per consist, but city CAPEX "
-        "now adds production labour, shop overhead, fixtures/tool "
-        "amortisation, rail QA and homologation evidence, freight, duty, "
-        "warranty, initial spares, training, commissioning, and acceptance "
-        "testing. Motors, sensors, train-control computers, onboard "
-        "batteries, roof PV, and charge hardware appear here ONLY — never "
-        "re-billed elsewhere in the city cost stack.\n"
+        "35 % assembly allowance = 800,334 USD per consist. City CAPEX "
+        "then adds local production labour and shop overhead, plus small "
+        "per-train QA/acceptance and handover allowances. Fixtures, "
+        "tooling, and production-readiness are carried in the railway "
+        "production plant line below. Warranty, initial spares, and routine "
+        "commissioning support are treated as operating costs. Motors, "
+        "sensors, train-control computers, onboard batteries, roof PV, and "
+        "charge hardware appear here ONLY — never re-billed elsewhere in "
+        "the city cost stack.\n"
     )
     out.append("| Per-car cost bucket | Basis | Cost |")
     out.append("|---|---|---|")
     out.append("| Direct material BOM floor | Welded frame, panels, glazing, doors, bogies, traction, batteries, HVAC, electronics, interiors | $267 k |")
     out.append("| Production labour + shop overhead | Cut/bend/weld, fit-out, harnessing, paint, factory supervision, utilities, rework reserve | $420 k |")
-    out.append("| Fixtures, tooling, QA, certification evidence | Jigs/fixtures, dimensional QA, EN 15085/45545 evidence, supplier audits, homologation dossier amortisation | $310 k |")
-    out.append("| Logistics, warranty, spares, commissioning | Freight, duty, insurance, initial spares/tools, manuals/training, site testing, acceptance runs | $403 k |")
-    out.append("| **Total per car** | Delivered production planning unit | **$1.4 M** |\n")
+    out.append("| Per-train QA + acceptance evidence | Dimensional QA, weld records, functional test logs, acceptance run dossier | $50 k |")
+    out.append("| Local handover logistics | Local movement, manuals/training handover, site test support; warranty/spares stay in OPEX | $63 k |")
+    out.append("| **Total per car** | Local-owner production planning unit | **$800 k** |\n")
     out.append("| Item | Count | Unit | Subtotal |")
     out.append("|---|---|---|---|")
     rs_unit = _TRAINSET_UNIT_USD.get(family, _TRAINSET_UNIT_USD["light-metro-3car"])
@@ -2795,10 +2897,10 @@ def _rich_capex_section(
     out.append("### Railway production plant\n")
     out.append(
         "Each city carries a lean local railway production-plant setup "
-        "allowance for tooling, basic fixtures, plant services, and "
-        "commissioning bay setup. It is costed per vehicle/car module, "
-        "not per trainset, and stays separate from the delivered "
-        "rolling-stock procurement line.\n"
+        "allowance for tooling, fixtures, plant services, production-readiness, "
+        "and commissioning bay setup. It is costed per vehicle/car module, "
+        "not per trainset, and stays separate from the rolling-stock "
+        "procurement line.\n"
     )
     out.append("| Item | Count | Unit | Subtotal |")
     out.append("|---|---:|---:|---:|")
@@ -2971,9 +3073,10 @@ def main(argv: list[str] | None = None) -> int:
         help=(
             "rolling-stock unit cost, USD per CAR "
             f"(default: {_DEFAULT_TRAIN_CAR_USD:,.0f}). "
-            "A 3-car light-metro trainset costs about 4.2 M USD including "
-            "labour, shop overhead, rail QA, freight/duty, warranty, spares, "
-            "training, commissioning, and acceptance testing."
+            "A 3-car light-metro trainset costs about 2.4 M USD including "
+            "direct material, local production labour, shop overhead, nominal "
+            "per-train QA/acceptance, and local handover logistics; fixtures "
+            "and tooling sit in the railway production plant line."
         ),
     )
     ap.add_argument(

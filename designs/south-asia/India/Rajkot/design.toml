@@ -1011,7 +1011,7 @@ version = 2
 cost_power_eur_alias = "deprecated; use costs.charging_microgrid_eur"
 
 [costs]
-currency_basis      = "USD direct-procurement planning basis with labour, shop overhead, rail QA, freight/duty, warranty, spares, training, and acceptance testing included; raw marketplace BOM retained only as audit lower bound; *_eur mirrors retained for schema compatibility"
+currency_basis      = "USD local-owner production planning basis with direct material, local production labour, shop overhead, nominal per-train QA/acceptance, and modest local handover logistics included; fixtures/tooling live in the railway production plant line; warranty, spares, and routine commissioning support are treated as OPEX; raw marketplace BOM retained only as audit lower bound; *_eur mirrors retained for schema compatibility"
 usd_to_eur          = 0.92
 # Civil works (USD/km x civil mix; EUR mirror at usd_to_eur).
 at_grade_usd         = 378528000
@@ -1030,9 +1030,9 @@ stations_eur         = 364964000
 # Depots (RFC 0014 archetype catalogue).
 depots_usd           = 26000000
 depots_eur           = 23920000
-# Rolling stock (RFC 0008 family x fleet count; delivered all-in planning unit).
-rolling_stock_usd    = 1092000000
-rolling_stock_eur    = 1004640000
+# Rolling stock (RFC 0008 family x fleet count; local-owner production unit).
+rolling_stock_usd    = 624000000
+rolling_stock_eur    = 574080000
 # Railway production plant (tooling + plant setup per vehicle/car module, not per trainset).
 production_plant_usd = 78000000
 production_plant_eur = 71760000
@@ -1043,7 +1043,7 @@ charging_microgrid_usd = 35790000
 charging_microgrid_eur = 32926800
 power_eur            = 32926800  # deprecated alias for charging_microgrid_eur
 # EPC integration + project management (7% of subtotal).
-epc_overhead_usd     = 156101844
-epc_overhead_eur     = 143613696
-total_usd            = 2386128180  # full CAPEX stack
-total_eur            = 2195237925  # full CAPEX stack
+epc_overhead_usd     = 123341844
+epc_overhead_eur     = 113474496
+total_usd            = 1885368180  # full CAPEX stack
+total_eur            = 1734538726  # full CAPEX stack

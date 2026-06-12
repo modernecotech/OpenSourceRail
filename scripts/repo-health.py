@@ -169,7 +169,7 @@ def check_city_costs() -> list[Finding]:
                 * USD_TO_EUR
             )
             if not _almost_equal(expected_rolling, float(costs.get("rolling_stock_eur", 0))):
-                findings.append(Finding(design_path, "rolling_stock_eur does not match delivered trainset family cost"))
+                findings.append(Finding(design_path, "rolling_stock_eur does not match local-owner trainset family cost"))
             expected_production_plant = (
                 _fleet_total(design)
                 * FAMILY_CAR_COUNT.get(family, 3)
@@ -251,9 +251,9 @@ def check_stale_terms() -> list[Finding]:
         r"\b900 kWh/trainset\b": "3-car battery basis is now 360 kWh/trainset",
         r"\b450 kWh battery\b": "tram battery basis is now 240 kWh",
         r"€0\.8 M/km": "charging microgrids are costed per stop, not per route-km",
-        r"marketplace-BOM rolling stock": "city CAPEX rolling-stock cost must include delivered production costs",
-        r"\$267 k per self-contained car": "city CAPEX rolling-stock cost is now $1.4 M per self-contained car",
-        r"outside the city CAPEX": "delivery, qualification, warranty, and acceptance testing are now included in city CAPEX train costs",
+        r"marketplace-BOM rolling stock": "city CAPEX rolling-stock cost must include local production costs",
+        r"\$267 k per self-contained car": "city CAPEX rolling-stock cost is now $0.8 M per self-contained car",
+        r"outside the city CAPEX": "QA and acceptance remain in train CAPEX; warranty, spares, and routine commissioning support are OPEX",
         r"\bTraction power\s*\(": "use station/depot charging microgrids or onboard motor output",
         r"car-body-22m": "car-body artifact name should match the 17 m module",
         r"Secondary coil spring": "rolling-stock secondary suspension is twin-bellows air spring",

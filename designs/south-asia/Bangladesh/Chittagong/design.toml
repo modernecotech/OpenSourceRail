@@ -2083,7 +2083,7 @@ version = 2
 cost_power_eur_alias = "deprecated; use costs.charging_microgrid_eur"
 
 [costs]
-currency_basis      = "USD direct-procurement planning basis with labour, shop overhead, rail QA, freight/duty, warranty, spares, training, and acceptance testing included; raw marketplace BOM retained only as audit lower bound; *_eur mirrors retained for schema compatibility"
+currency_basis      = "USD local-owner production planning basis with direct material, local production labour, shop overhead, nominal per-train QA/acceptance, and modest local handover logistics included; fixtures/tooling live in the railway production plant line; warranty, spares, and routine commissioning support are treated as OPEX; raw marketplace BOM retained only as audit lower bound; *_eur mirrors retained for schema compatibility"
 usd_to_eur          = 0.92
 # Civil works (USD/km x civil mix; EUR mirror at usd_to_eur).
 at_grade_usd         = 991358700
@@ -2102,9 +2102,9 @@ stations_eur         = 745292000
 # Depots (RFC 0014 archetype catalogue).
 depots_usd           = 38000000
 depots_eur           = 34960000
-# Rolling stock (RFC 0008 family x fleet count; delivered all-in planning unit).
-rolling_stock_usd    = 4174800000
-rolling_stock_eur    = 3840816000
+# Rolling stock (RFC 0008 family x fleet count; local-owner production unit).
+rolling_stock_usd    = 2385600000
+rolling_stock_eur    = 2194752000
 # Railway production plant (tooling + plant setup per vehicle/car module, not per trainset).
 production_plant_usd = 298200000
 production_plant_eur = 274344000
@@ -2115,7 +2115,7 @@ charging_microgrid_usd = 70720000
 charging_microgrid_eur = 65062400
 power_eur            = 65062400  # deprecated alias for charging_microgrid_eur
 # EPC integration + project management (7% of subtotal).
-epc_overhead_usd     = 485333400
-epc_overhead_eur     = 446506728
-total_usd            = 7418667690  # full CAPEX stack
-total_eur            = 6825174275  # full CAPEX stack
+epc_overhead_usd     = 360089400
+epc_overhead_eur     = 331282248
+total_usd            = 5504223690  # full CAPEX stack
+total_eur            = 5063885795  # full CAPEX stack

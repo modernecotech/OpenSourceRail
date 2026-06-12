@@ -530,7 +530,7 @@ fn write_design_toml(
     out.push_str(&format!("depots_usd           = {:.0}\n", costs.depots_usd));
     out.push_str(&format!("depots_eur           = {:.0}\n", costs.depots_eur));
     out.push_str(
-        "# Rolling stock (RFC 0008 family × fleet count; delivered all-in planning unit).\n",
+        "# Rolling stock (RFC 0008 family × fleet count; local-owner production unit).\n",
     );
     out.push_str(&format!(
         "rolling_stock_usd    = {:.0}\n",
@@ -798,7 +798,7 @@ struct CostSummary {
     // Depots (RFC 0014 archetype catalogue).
     depots_usd: f64,
     depots_eur: f64,
-    // Rolling stock (RFC 0008 family acquisition cost × fleet count).
+    // Rolling stock (RFC 0008 local-owner production cost × fleet count).
     rolling_stock_usd: f64,
     rolling_stock_eur: f64,
     // City railway production plant (tooling + plant setup per vehicle).
@@ -1797,7 +1797,7 @@ mod tests {
         // 11.5 route-km. Three stations (1 standard, 1 terminal, 1
         // depot-terminal) and two depots (1 main-heavy + 1 layup).
         // Fleet: 12 trainsets of metro-6car at the configured
-        // delivered rolling-stock family cost.
+        // local-owner rolling-stock family cost.
         let civil_per_line = vec![vec![
             CivilSegment {
                 class: CivilClass::AtGrade,
@@ -1848,9 +1848,9 @@ mod tests {
         // Depots: main-heavy $12.0 M + layup-minimal $2.0 M.
         assert!((c.depots_usd - 14_000_000.0).abs() < 1.0);
         assert!((c.depots_eur - 12_880_000.0).abs() < 1.0);
-        // Rolling stock: 12 x $8.4 M mirrored to EUR.
-        assert!((c.rolling_stock_usd - 100_800_000.0).abs() < 1.0);
-        assert!((c.rolling_stock_eur - 92_736_000.0).abs() < 1.0);
+        // Rolling stock: 12 x $4.8 M mirrored to EUR.
+        assert!((c.rolling_stock_usd - 57_600_000.0).abs() < 1.0);
+        assert!((c.rolling_stock_eur - 52_992_000.0).abs() < 1.0);
         // Production plant: 12 x 6-car trainsets x $100k/car module.
         assert!((c.production_plant_usd - 7_200_000.0).abs() < 1.0);
         assert!((c.production_plant_eur - 6_624_000.0).abs() < 1.0);
@@ -1860,12 +1860,12 @@ mod tests {
         assert!((c.signalling_eur - 529_000.0).abs() < 1.0);
         assert!((c.charging_microgrid_usd - 1_750_000.0).abs() < 1.0);
         assert!((c.charging_microgrid_eur - 1_610_000.0).abs() < 1.0);
-        // Subtotal before EPC = $187.325 M.
-        // EPC overhead = 7 % x $187.325 M = $13.11275 M.
-        assert!((c.epc_overhead_usd - 13_112_750.0).abs() < 1.0);
-        assert!((c.epc_overhead_eur - 12_063_730.0).abs() < 1.0);
-        // Total = $200.43775 M = EUR 184.40273 M.
-        assert!((c.total_usd - 200_437_750.0).abs() < 1.0);
-        assert!((c.total_eur - 184_402_730.0).abs() < 1.0);
+        // Subtotal before EPC = $144.125 M.
+        // EPC overhead = 7 % x $144.125 M = $10.08875 M.
+        assert!((c.epc_overhead_usd - 10_088_750.0).abs() < 1.0);
+        assert!((c.epc_overhead_eur - 9_281_650.0).abs() < 1.0);
+        // Total = $154.21375 M = EUR 141.87665 M.
+        assert!((c.total_usd - 154_213_750.0).abs() < 1.0);
+        assert!((c.total_eur - 141_876_650.0).abs() < 1.0);
     }
 }

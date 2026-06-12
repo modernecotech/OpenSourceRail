@@ -7,7 +7,7 @@
 
 [schema]
 version = 1
-currency_basis = "USD direct-procurement planning basis with labour, shop overhead, rail QA, freight/duty, warranty, spares, training, and acceptance testing included; raw marketplace BOM retained only as audit lower bound; *_eur mirrors retained for schema compatibility"
+currency_basis = "USD local-owner production planning basis with direct material, local production labour, shop overhead, nominal per-train QA/acceptance, and modest local handover logistics included; fixtures/tooling live in the railway production plant line; warranty, spares, and routine commissioning support are treated as OPEX; raw marketplace BOM retained only as audit lower bound; *_eur mirrors retained for schema compatibility"
 usd_to_eur = 0.92
 
 [civil_usd_per_km]
@@ -33,11 +33,11 @@ interchange = 8000000
 "layup-minimal" = 2000000
 
 [trainset_unit_usd]
-"urban-shuttle-1car" = 1400000
-"tram-2car" = 2800000
-"light-metro-3car" = 4200000
-"metro-4car" = 5600000
-"metro-6car" = 8400000
+"urban-shuttle-1car" = 800000
+"tram-2car" = 1600000
+"light-metro-3car" = 2400000
+"metro-4car" = 3200000
+"metro-6car" = 4800000
 
 [production_plant]
 per_vehicle_usd = 100000
