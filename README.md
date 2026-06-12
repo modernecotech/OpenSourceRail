@@ -29,6 +29,46 @@ the audit trail in [docs/cost-model.md](docs/cost-model.md).
 with remaining validation and hardening tracked in
 [docs/ROADMAP.md](docs/ROADMAP.md).
 
+## Adoption And Assurance Path
+
+OpenSourceRail is not asking a city to accept an uncertified full-stack
+driverless metro as the first step. The practical first wedge is
+owner-operator software that can run without controlling trains:
+simulation/digital-twin studies, generated asset registers,
+manufacturing and construction QA, maintenance scheduling, Ops Core work
+orders, acceptance evidence, historian views, and depot CBM adapters.
+Those can be used on an existing railway, depot, test track, or city
+design study while the safety-critical train-control stack remains in
+shadow mode.
+
+| Step | Deployable result | Safety exposure |
+|---|---|---|
+| Planning / shadow mode | Simulator, cost/energy model, portal registers, QA/maintenance/evidence pack | No command of trains |
+| Depot or closed test track | COTS hardware hosts, work orders, inspection forms, telemetry, restricted movement trials | Local rules and test authority only |
+| Segregated pilot segment | Trial service with independent assessor review and deployment-specific safety case | Limited operational exposure |
+| Revenue GoA 4 service | Certified train-control, rolling-stock, station, energy, and operations system | National authority acceptance required |
+
+The GoA 4 train-control and rolling-stock stack is therefore a later
+certification program, not a README promise. OpenSourceRail produces
+reference designs, code, proofs, tests, operating rules, and evidence
+packs. It does not itself carry the statutory safety certificate,
+operating license, product liability, insurance, or sovereign finance
+package. Those responsibilities sit with the deployment owner/operator,
+prime integrator, independent safety assessor, insurer, and national
+safety authority.
+
+SIL names in this repository are target assurance and hazard-allocation
+labels. Nothing here is certified SIL-4, SIL-2, or any other SIL until a
+deployment-specific assessor and authority accept the evidence.
+
+The battery-electric, catenary-free system is the default design target,
+not a universal law. Every city model must include battery replacement,
+charger dwell, fleet reserve, charger thermal limits, grid/PPA studies,
+fire/egress constraints, and station/depot storage. Catenary or third
+rail may still win for very high-frequency trunks, constrained dwell
+times, difficult climates, or weak station power sites; the point of OSR
+is to make that trade visible rather than bury it in vendor pricing.
+
 ## Station And Track Renders
 
 | At-grade station | Elevated station | Elevated interchange |
@@ -97,7 +137,7 @@ collected in
 | [Control and data flow](docs/software-architecture-diagrams.md#6-control-and-data-flow) | Dispatcher request through route safety, movement authority, telemetry, CBM, and work orders |
 | [Energy and charging software](docs/software-architecture-diagrams.md#7-energy-and-charging-software) | Charging dispatch, train BMS, regen, station/depot PV, BESS, chargers, and grid tie |
 | [Manufacturing, QA, maintenance, and evidence flow](docs/software-architecture-diagrams.md#8-manufacturing-qa-maintenance-and-evidence-flow) | Generated asset/manufacturing/QA/maintenance data into Ops Core, SQLite, evidence, NCR, and audit |
-| [Safety and security boundaries](docs/software-architecture-diagrams.md#9-safety-and-security-boundaries) | SIL-4, SIL-2, SIL-0, crypto, time sync, self-test, and signed firmware boundaries |
+| [Safety and security boundaries](docs/software-architecture-diagrams.md#9-safety-and-security-boundaries) | Target assurance tiers, crypto, time sync, self-test, and signed firmware boundaries |
 
 ## Quick Start
 
@@ -350,7 +390,7 @@ See [CHANGELOG.md](CHANGELOG.md) for the current verification snapshot.
 
 ## License
 
-Per [ARCHITECTURE §9](docs/ARCHITECTURE.md):
+Intended project split, per [ARCHITECTURE §9](docs/ARCHITECTURE.md):
 
 - Software: Apache 2.0
 - Hardware designs: CERN-OHL-S v2
@@ -359,3 +399,8 @@ Per [ARCHITECTURE §9](docs/ARCHITECTURE.md):
 OpenSourceRail is not a safety certifier or standards body. It produces
 open artifacts suitable for independent assessment by deployment
 partners and national authorities.
+
+The formal top-level license files, contribution process, and governance
+model remain release-gate work in [docs/ROADMAP.md](docs/ROADMAP.md).
+Until then, cautious external contributors should treat the repo as
+review/build/test friendly, not yet a finalized contribution program.

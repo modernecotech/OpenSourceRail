@@ -19,7 +19,7 @@ Target deployment regions — sub-Saharan Africa, MENA, South and Southeast Asia
 ### 1.1 Non-goals
 
 - **Not a standards body.** Where good open standards exist (e.g., GTFS, NeTEx, IEEE 802.1 TSN), adopt them. Where they don't, define minimal project-local interfaces — don't chase ISO ratification.
-- **Not a safety certifier.** The project will produce artifacts suitable for independent safety assessment, but certification is performed by national authorities and independent assessors.
+- **Not a safety certifier or operator of record.** The project will produce artifacts suitable for independent safety assessment, but certification is performed by national authorities and independent assessors. Deployment owners, operators, prime integrators, insurers, and entities in charge of maintenance carry the statutory safety case, liability, and operating approvals.
 - **Not a museum.** We do not aim for plug-in compatibility with every legacy vendor protocol. Interoperability is scoped to migration paths, not permanent support.
 
 ---
@@ -57,7 +57,7 @@ energy, manufacturing, QA, and maintenance software diagrams, see
     │ D2. Train Control     │ │ D3. Communications  │ │ D4. Passenger Svcs │
     │  - interlocking       │ │  - train<->wayside  │ │  - fare/ticketing  │
     │  - movement authority │ │  - 5G SA / LoRa mesh│ │  - info displays   │
-    │  - SIL-4 safety core  │ │  - TSN wayside bkbn │ │  - announcements   │
+    │  - T1 safety target   │ │  - TSN wayside bkbn │ │  - announcements   │
     └────────────┬──────────┘ └──────────┬──────────┘ └────────────────────┘
                  │                       │
     ┌────────────▼──────────┐ ┌──────────▼──────────┐
@@ -104,14 +104,14 @@ This is the heart of the safety argument and receives the most design attention.
 | | Legacy | OpenSourceRail |
 |---|---|---|
 | Block model | **Fixed block** (track circuits, axle counters) or vendor **CBTC moving block** | **Software-defined moving block** via distributed consensus across wayside nodes + self-reporting trains |
-| Interlocking | Relay panels or proprietary PLC-based (Simis, Smartlock) at $55k–$550k/site | SIL-4 Rust interlocking on redundant RISC-V SBCs at <$5k/site; formally verified with Kani/Creusot |
+| Interlocking | Relay panels or proprietary PLC-based (Simis, Smartlock) at $55k–$550k/site | SIL-4-target Rust interlocking on redundant RISC-V SBCs at <$5k/site; formally verified with Kani/Creusot |
 | Position | Track circuits + balises (Eurobalise) | Sensor fusion: GNSS + IMU + wheel odometry + low-cost UWB/beacon fixes at switches and platforms |
 | Movement authority | Centralized zone controller issues MA to trains | Distributed Raft-style log holds authoritative track state; each train computes its own MA, cross-validated by two independent wayside nodes |
-| Certification path | Per-vendor SIL-4 case, years to re-certify | Open formal models + continuously regenerated safety case |
+| Certification path | Per-vendor SIL-4 case, years to re-certify | Open formal models + continuously regenerated safety-case evidence, assessed per deployment |
 
 **Deprecated:** Track circuits as primary train detection (kept only as a secondary sensor in legacy retrofits), centralized zone controllers, relay interlockings.
 **Why this is novel:** "Rail as a distributed system." Existing CBTC vendors use centralized zone controllers because their software isn't trusted to run distributed consensus correctly; a formally verified Rust implementation of a restricted consensus protocol (fixed membership, no dynamic reconfiguration in the hot path) changes that calculus.
-**Key risk:** Regulators will need convincing. Mitigation: publish the formal model early, solicit review from independent safety assessors, start with lower-stakes applications (new-build tram networks, yard operations, segregated-ROW light metro) before committing to a full metro deployment.
+**Key risk:** regulators, insurers, and procurement authorities need more than a technical artifact. A Git repository cannot carry the safety certificate or product liability for a railway. Mitigation: publish the formal model early, solicit review from independent safety assessors, and start with deployable non-safety subsystems, yard/test-track trials, and segregated-ROW pilots before any full metro deployment.
 
 ### D3. Communications
 
@@ -179,7 +179,7 @@ This domain departs most sharply from legacy rail. OpenSourceRail systems are **
 | Regeneration | Often wasted in resistor banks | Fully recaptured to onboard battery and exported to trackside storage during platform charging |
 | Control | Centralized SCADA | Per-site Rust controller + PV-storage-charge optimizer driven by the ops timetable (D1); autonomous on sub-second timescales |
 
-**Deprecated:** Overhead catenary, third rail, dedicated traction substations, resistor-brake dissipation, centralized thyristor rectifiers, diesel gensets on non-electrified lines.
+**Deprecated by default in the reference architecture:** overhead catenary, third rail, dedicated traction substations, resistor-brake dissipation, centralized thyristor rectifiers, diesel gensets on non-electrified lines.
 
 #### 7.1 Why catenary-free
 
@@ -189,6 +189,18 @@ This domain departs most sharply from legacy rail. OpenSourceRail systems are **
 - **Phased deployment.** Non-electrified lines become usable the day rolling stock arrives, with no "electrification project" preceding revenue service.
 - **Operational resilience.** A single catenary fault halts every train on the section; a distributed storage+generation network degrades gracefully — trains can reach the next charging station on reserve capacity.
 
+This is a deployment hypothesis, not a ban on conventional
+electrification. Catenary or third rail can still be the right answer
+for very high-frequency trunks, constrained station dwell, underground
+platforms with limited charger access, difficult cold/dust duty cycles,
+or grid interconnection rules that make distributed storage unattractive.
+The comparison must include battery replacement, reserve fleet required
+by charging dwell, platform charger power/thermal limits, fire and
+egress constraints, station/depot storage, utility studies, and degraded
+service plans. If those studies fail, the architecture should fall back
+to standard electrification instead of forcing batteries into the wrong
+service pattern.
+
 #### 7.2 Why solar-along-ROW
 
 - Railways own long, linear, already-cleared strips of land with predictable sun exposure. The real estate is effectively free.
@@ -197,7 +209,7 @@ This domain departs most sharply from legacy rail. OpenSourceRail systems are **
   1. **Platform and station canopies** — straightforward, aesthetically acceptable, dual-use as weather protection.
   2. **Vertical bifacial PV along ROW boundaries** — doubles as property fence; captures morning/evening sun at different angles than horizontal panels (smoother daily generation curve).
   3. **Between-rail / on-sleeper PV** (Sun-Ways-style) — highest area utilization but must tolerate train passage and ballast tamping; treat as Phase 4+ after basic patterns prove out.
-- First-order math at 5 peak sun-hours, 3 m usable PV width per track-km, 200 W/m² module density: ≈3 MWh/day per track-km. A light metro trainset consumes on the order of 3–5 kWh/car-km. A modestly loaded 3-car service at 20 round-trips/day consumes ≈180–300 kWh/day/km. **Net-positive self-powered operation is the default expected outcome for urban transit across the project's target regions** — sub-Saharan Africa, MENA, South/Southeast Asia, and most of Latin America all sit comfortably above the 5 PSH line. Grid import covers monsoon/cloudy stretches and overnight draw on trackside storage; grid export monetizes midday surplus where regulations allow.
+- First-order math at 5 peak sun-hours, 3 m usable PV width per track-km, 200 W/m² module density: ≈3 MWh/day per track-km. A light metro trainset consumes on the order of 3–5 kWh/car-km. A modestly loaded 3-car service at 20 round-trips/day consumes ≈180–300 kWh/day/km. That makes self-powered operation a plausible screening target across many OSR regions, but not a guarantee. The generated energy model must survive local solar, dust, temperature, grid, export-tariff, charger, storage, and timetable studies before a deployment claims net-positive operation. Grid import covers monsoon/cloudy stretches and overnight draw on trackside storage; grid export monetizes midday surplus where regulations allow.
 
 #### 7.3 Chemistry: why sodium-ion primary
 
@@ -215,7 +227,7 @@ This domain departs most sharply from legacy rail. OpenSourceRail systems are **
 
 #### 7.4 Scope fit
 
-This architecture is tuned for urban transit duty cycles: short runs, frequent stops, predictable daily service patterns, and fleet sizes in the low tens of trainsets. Within that envelope the catenary-free + solar model is conservative — not a stretch. Heavy freight and long-distance intercity service have meaningfully different energy profiles and are explicitly out of scope (§1); this section does not attempt to cover them.
+This architecture is tuned for urban transit duty cycles: short runs, frequent stops, predictable daily service patterns, and fleet sizes in the low tens of trainsets. Within that envelope the catenary-free + solar model is a credible default to test, not a universal replacement for electrification. Heavy freight and long-distance intercity service have meaningfully different energy profiles and are explicitly out of scope (§1); this section does not attempt to cover them.
 
 #### 7.5 Interfaces
 
@@ -301,13 +313,13 @@ OpenSourceRail/
 ├── docs/                      # This file, RFCs, safety cases
 ├── crates/
 │   ├── osr-core/              # Shared types, interfaces, protobuf schema
-│   ├── osr-interlocking/      # SIL-4 MA computer + rail state machine (D2)
-│   ├── osr-consensus/         # SIL-4 Raft (SMRaft refinement) (D2)
-│   ├── osr-odometry/          # SIL-4 onboard position fusion (D5)
-│   ├── osr-atp/               # SIL-4 onboard Automatic Train Protection (D5)
-│   ├── osr-brake/             # SIL-4 EP brake controller + WSP + park (D5)
-│   ├── osr-vigilance/         # SIL-4 driver alerter / dead-man (D5)
-│   ├── osr-wayside-points/    # SIL-4 power-switch controller (D6)
+│   ├── osr-interlocking/      # T1/SIL-4-target MA computer + rail state machine (D2)
+│   ├── osr-consensus/         # T1/SIL-4-target SMRaft refinement (D2)
+│   ├── osr-odometry/          # T1/SIL-4-target onboard position fusion (D5)
+│   ├── osr-atp/               # T1/SIL-4-target Automatic Train Protection (D5)
+│   ├── osr-brake/             # T1/SIL-4-target EP brake controller + WSP + park (D5)
+│   ├── osr-vigilance/         # T1/SIL-4-target driver alerter / dead-man (D5)
+│   ├── osr-wayside-points/    # T1/SIL-4-target power-switch controller (D6)
 │   └── osr-sim/               # Digital twin / simulator + shadow onboard stack
 ├── formal/tla/                # TLA+ specs: SMRaft, TLC harness
 ├── scenarios/                 # TOML scenario files (Samawah + templates)
@@ -324,13 +336,13 @@ scaffold through tested safety logic.
 
 ## 7. Safety & Certification Strategy
 
-OpenSourceRail targets the EN 50126/50128/50129 and IEC 61508 framework because that is what national safety authorities will recognize. The approach is:
+OpenSourceRail targets the EN 50126/50128/50129 and IEC 61508 framework because that is what national safety authorities will recognize. Until a deployment-specific assessor and authority accept the evidence, SIL wording in this repository means target assurance class and hazard allocation, not certification. The approach is:
 
 1. **Formal models first.** Signaling logic is expressed in a formal model (Kani, Creusot, or TLA+ where appropriate) before implementation. The Rust implementation is proven to refine the model.
 2. **Small safety kernel.** T1 binaries are aggressively minimized. Everything that can be pushed out of the safety kernel is.
 3. **Diversity by construction.** Two independent Rust implementations of each T1 function, compiled with different toolchain configurations, cross-check each other on redundant hardware. This is cheaper than the traditional "different language + different team" because the second implementation is constrained by the same formal model.
 4. **Machine-checkable safety case.** Safety arguments are written in GSN (Goal Structuring Notation) serialized as TOML, with claim → evidence links resolving to code commits, proof artifacts, and test results. CI regenerates the case on every merge; a safety case that no longer closes blocks the release.
-5. **Independent assessment.** The project produces artifacts. Certification is performed per-deployment by the national authority's chosen ISA. Reference safety cases from pilot deployments are published to compound assessor familiarity across countries.
+5. **Independent assessment.** The project produces artifacts. Certification is performed per-deployment by the national authority's chosen ISA, with the owner/operator and prime integrator carrying the accepted safety case, insurance, and liability. Reference safety cases from pilot deployments are published to compound assessor familiarity across countries.
 
 ---
 
@@ -372,9 +384,9 @@ OpenSourceRail targets the EN 50126/50128/50129 and IEC 61508 framework because 
 - **Rolling-stock / track / station reference designs** — [RFC 0008](rfcs/0008-rolling-stock-reference-design.md) (5 trainset families), [RFC 0009](rfcs/0009-track-design-standard.md) (4 geometry presets), [RFC 0010](rfcs/0010-station-design-standard.md) (6 station archetypes), each with an enforced compatibility matrix in the auto-gen emitter.
 
 ### Phase 4 — Pilot Deployment (24–36 months)
-- Generated reference city model: **Samawah, Iraq** - 3 generated light-metro lines, 54.9 km, 33 unique stations, and 91 3-car trainsets in [`designs/west-asia/Iraq/Samawah/`](../designs/west-asia/Iraq/Samawah/). See [RFC 0003](rfcs/0003-samawah-reference-deployment.md) for context and pilot rationale.
+- Generated reference city model: **Samawah, Iraq** - 3 generated light-metro lines, 58.4 km, 31 unique stations, and 96 3-car trainsets in [`designs/west-asia/Iraq/Samawah/`](../designs/west-asia/Iraq/Samawah/). See [RFC 0003](rfcs/0003-samawah-reference-deployment.md) for context and pilot rationale.
 - Samawah is the main `osr-sim` reference scenario; whether it becomes the first revenue-service deployment depends on local and institutional decisions outside this project.
-- Full safety case; independent assessment; revenue service.
+- Brownfield/depot or closed-test-track pilot; full safety case; independent assessment; revenue service only after authority acceptance.
 
 ### Phase 5 — Metro at Scale (36+ months)
 - Learnings from Phase 4 drive the full metro-grade safety case and performance envelope (higher headway, longer trains, underground alignments).

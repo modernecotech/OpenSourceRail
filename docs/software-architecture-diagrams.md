@@ -454,7 +454,7 @@ flowchart TB
 
 ```mermaid
 flowchart TB
-  subgraph SIL4["SIL-4 Safety Kernel"]
+  subgraph SIL4["T1 / SIL-4 Target Safety Kernel"]
     Interlocking["osr-interlocking"]
     Consensus["osr-consensus"]
     ATP["osr-atp"]
@@ -465,7 +465,7 @@ flowchart TB
     Points["osr-wayside-points"]
   end
 
-  subgraph SIL2["SIL-2 Safety Adjacent"]
+  subgraph SIL2["T2 / SIL-2 Target Safety Adjacent"]
     ATO["osr-ato"]
     TCMS["osr-tcms"]
     TCN["osr-tcn"]
@@ -475,7 +475,7 @@ flowchart TB
     StationSCADA["osr-station-scada"]
   end
 
-  subgraph SIL0["SIL-0 Supervisory and UX"]
+  subgraph SIL0["T3/T4 Supervisory and UX"]
     OCC["osr-occ UI"]
     Portal["operations portal"]
     Historian["osr-historian"]
