@@ -1,0 +1,138 @@
+[schema]
+version = 1
+description = "Construction QA gates for locally built OSR rolling stock and infrastructure."
+
+[[construction_qa_gate]]
+id = "qa-00-design-freeze"
+domain = "system"
+asset = "whole railway"
+stage = "design freeze"
+hold_point = "No procurement, fabrication, or site work starts until design assumptions, interfaces, hazards, and inspection/test plans are baselined."
+evidence = "approved drawing register, interface control document, hazard-log snapshot, inspection/test plan, material and supplier register"
+release_authority = "system assurance lead + owner engineer"
+
+[[construction_qa_gate]]
+id = "qa-10-carbody-structure"
+domain = "rolling-stock"
+asset = "carbody, underframe, crash structure, coupler pockets"
+stage = "fabrication"
+hold_point = "Dimensional survey, weld traceability, NDT sample, corrosion-protection record, and crash/load evidence accepted before fit-out."
+evidence = "EN 15085 weld pack, welder qualifications, material certificates, dimensional report, NDT report, coating record"
+release_authority = "rolling-stock QA lead"
+
+[[construction_qa_gate]]
+id = "qa-11-bogie-wheelset"
+domain = "rolling-stock"
+asset = "bogies, wheelsets, suspension, brake rigging"
+stage = "subassembly"
+hold_point = "Bogie frame, wheelset, bearing, brake, and suspension records accepted before bogie marriage."
+evidence = "bogie frame NDT, wheel profile and axle UT/MT, bearing certificate, brake static test, torque/fastener log"
+release_authority = "mechanical acceptance engineer"
+
+[[construction_qa_gate]]
+id = "qa-12-traction-brake-battery"
+domain = "rolling-stock"
+asset = "traction motors, inverters, brake blending, onboard battery, thermal system"
+stage = "systems integration"
+hold_point = "Bench and trainset-level functional tests accepted before dynamic movement."
+evidence = "motor/inverter factory test, insulation resistance, BMS cell map, contactor test, thermal soak, brake-rate test"
+release_authority = "traction and energy assurance lead"
+
+[[construction_qa_gate]]
+id = "qa-13-passenger-systems"
+domain = "rolling-stock"
+asset = "doors, HVAC, lighting, interiors, accessibility, passenger information"
+stage = "fit-out"
+hold_point = "Passenger-facing systems pass functional, accessibility, fire-load, and maintainability checks before trial service."
+evidence = "door cycle log, HVAC performance test, saloon inspection, PRM checklist, emergency equipment inventory"
+release_authority = "fleet acceptance engineer + accessibility reviewer"
+
+[[construction_qa_gate]]
+id = "qa-14-onboard-control"
+domain = "rolling-stock"
+asset = "TCN-E, onboard ATP/ATO computers, odometry, radios, sensor suite"
+stage = "software/hardware acceptance"
+hold_point = "Hardware identity, firmware versions, message authentication, degraded-mode response, and simulator replay pass before line testing."
+evidence = "hardware serial register, firmware hash register, cybersecurity checklist, simulator replay, trainline continuity test"
+release_authority = "safety software lead"
+
+[[construction_qa_gate]]
+id = "qa-15-first-article-trainset"
+domain = "rolling-stock"
+asset = "complete trainset"
+stage = "first article and batch release"
+hold_point = "First trainset completes static, dynamic, endurance, braking, charging, evacuation, and maintainability acceptance before series release."
+evidence = "first-article inspection report, 1,000 km fault-free run, braking curves, charging logs, rescue/coupling drill, maintainability demonstration"
+release_authority = "owner acceptance board"
+
+[[construction_qa_gate]]
+id = "qa-20-survey-geotech"
+domain = "infrastructure"
+asset = "alignment, ROW, geotechnical and utilities"
+stage = "pre-construction"
+hold_point = "Survey control, cadastral constraints, buried utilities, flood paths, and geotechnical assumptions accepted before civil construction."
+evidence = "topographic survey, utility scan, borehole/test-pit log, flood/drainage map, ROW constraint register"
+release_authority = "civil owner engineer"
+
+[[construction_qa_gate]]
+id = "qa-21-earthworks-drainage"
+domain = "infrastructure"
+asset = "earthworks, subgrade, drainage, fencing"
+stage = "civil works"
+hold_point = "Compaction, capping layer, drainage, culverts, and fence lines accepted before trackform installation."
+evidence = "compaction test, material gradation, drainage as-built, culvert inspection, fence/gate punch list"
+release_authority = "civil QA lead"
+
+[[construction_qa_gate]]
+id = "qa-22-trackform-rail"
+domain = "infrastructure"
+asset = "slab track, rail, fasteners, welds, turnouts, level crossings"
+stage = "track installation"
+hold_point = "Track geometry, rail welds, fasteners, switch detection, and crossing protection accepted before energized testing."
+evidence = "track geometry run, weld NDT, fastener torque log, turnout detection test, crossing functional test"
+release_authority = "track acceptance engineer"
+
+[[construction_qa_gate]]
+id = "qa-23-structures"
+domain = "infrastructure"
+asset = "viaducts, bridges, bearings, expansion joints, parapets, walkways"
+stage = "structures"
+hold_point = "Structural QA, bearing installation, drainage, access, and fall-protection checks accepted before track loading."
+evidence = "concrete/rebar records, bearing survey, load/test certificate where required, expansion-joint record, walkway inspection"
+release_authority = "structures engineer"
+
+[[construction_qa_gate]]
+id = "qa-24-stations-depots-plant"
+domain = "infrastructure"
+asset = "stations, depots, railway production plant, public realm"
+stage = "building works"
+hold_point = "Platforms, canopy PV, passenger circulation, depot pits, workshop tools, fire/life safety, and accessibility accepted before public opening."
+evidence = "platform gauge survey, canopy inspection, fire/life-safety signoff, accessibility audit, tool calibration, depot bay test"
+release_authority = "stations/depot acceptance board"
+
+[[construction_qa_gate]]
+id = "qa-25-power-energy"
+domain = "infrastructure"
+asset = "PV, stationary storage, chargers, grid/PPA interconnection, earthing"
+stage = "energy commissioning"
+hold_point = "PV strings, storage, chargers, protection, earthing, islanding, and emergency isolation accepted before train charging."
+evidence = "PV string test, BESS commissioning record, charger load test, protection relay settings, earthing test, isolation drill"
+release_authority = "energy systems lead"
+
+[[construction_qa_gate]]
+id = "qa-26-wayside-comms-safety"
+domain = "infrastructure"
+asset = "wayside nodes, switches, intrusion sensors, comms, fare and passenger systems"
+stage = "systems commissioning"
+hold_point = "Wayside hardware, comms resilience, switch control, intrusion verdicts, passenger systems, and cybersecurity accepted before trial running."
+evidence = "W-SBC identity register, radio coverage, switch proof test, sensor calibration, CCTV/fare-system test, penetration-test closeout"
+release_authority = "systems assurance lead"
+
+[[construction_qa_gate]]
+id = "qa-30-integrated-trial-running"
+domain = "system"
+asset = "whole railway"
+stage = "trial running and handover"
+hold_point = "No passenger opening until integrated service, degraded modes, emergency response, maintenance handback, and safety evidence are accepted."
+evidence = "trial-running log, timetable reliability report, emergency exercise, possession/handback records, open-defect register, safety-case release note"
+release_authority = "owner acceptance board + regulator/authority where applicable"

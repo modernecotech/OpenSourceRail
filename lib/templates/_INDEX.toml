@@ -167,6 +167,37 @@ ids  = [
     { id = "local-recirculation", desc = "CAPEX local-content, construction multiplier, and job-year proxy" },
 ]
 
+[index.construction_qa]
+file = "lib/templates/construction-qa.toml"
+ids  = [
+    { id = "qa-00-design-freeze",            desc = "System design-freeze and ITP baseline gate" },
+    { id = "qa-10-carbody-structure",        desc = "Carbody/weld/material acceptance" },
+    { id = "qa-11-bogie-wheelset",           desc = "Bogie, wheelset, suspension, brake subassembly acceptance" },
+    { id = "qa-12-traction-brake-battery",   desc = "Traction, brake, battery, and thermal systems acceptance" },
+    { id = "qa-13-passenger-systems",        desc = "Doors, HVAC, interiors, accessibility, passenger systems acceptance" },
+    { id = "qa-14-onboard-control",          desc = "Onboard control, comms, firmware, and cybersecurity acceptance" },
+    { id = "qa-15-first-article-trainset",   desc = "First-article trainset and batch-release acceptance" },
+    { id = "qa-20-survey-geotech",           desc = "Survey, ROW, utilities, flood, and geotech gate" },
+    { id = "qa-21-earthworks-drainage",      desc = "Earthworks, drainage, subgrade, and fencing gate" },
+    { id = "qa-22-trackform-rail",           desc = "Trackform, rail, weld, turnout, and crossing gate" },
+    { id = "qa-23-structures",               desc = "Viaduct, bridge, bearing, joint, and walkway gate" },
+    { id = "qa-24-stations-depots-plant",    desc = "Stations, depots, production plant, accessibility, and fire/life-safety gate" },
+    { id = "qa-25-power-energy",             desc = "PV, storage, charging, interconnection, and earthing gate" },
+    { id = "qa-26-wayside-comms-safety",     desc = "Wayside, comms, switches, sensors, passenger systems, and cyber gate" },
+    { id = "qa-30-integrated-trial-running", desc = "Trial running, emergency exercise, handback, and opening gate" },
+]
+
+[index.maintenance_schedule]
+file = "lib/templates/maintenance-schedule.toml"
+ids  = [
+    { id = "rolling-stock",      desc = "Daily, weekly, monthly, km-based, and overhaul fleet intervals" },
+    { id = "stations",           desc = "Daily, weekly, monthly, and annual station intervals" },
+    { id = "track-civil",        desc = "Track walks, geometry runs, switches, drainage, fencing, and structures" },
+    { id = "energy",             desc = "PV, BESS, charging, protection, and interconnection maintenance" },
+    { id = "signalling-comms",    desc = "OCC, W-SBC, train comms, sensors, software, and cybersecurity maintenance" },
+    { id = "depots-production",  desc = "Depot tools, production plant fixtures, lifting equipment, and calibration" },
+]
+
 [index.track_geometry]
 file = "lib/templates/track-geometry.toml"
 ids  = [

@@ -223,6 +223,23 @@ def test_readme_nets_operating_surplus_against_gov_debt_support() -> None:
         "| Scheduled one-way train journeys | 1,515 / day |"
         in text
     )
+    assert "## Construction QA system" in text
+    assert "`qa-10-carbody-structure`" in text
+    assert "`qa-13-passenger-systems`" in text
+    assert "`qa-22-trackform-rail`" in text
+    assert "`qa-30-integrated-trial-running`" in text
+    assert "## Maintenance schedule system" in text
+    assert (
+        "Baseline scheduled work covers 96 trainsets, 31 stations, "
+        "58.4 route-km, 3 lines, and 29,515 scheduled train-km/day."
+        in text
+    )
+    assert "rolling-stock | daily / each depot return; calendar" in text
+    assert "stations | 12 months; calendar" in text
+    assert "track-civil | 60-90 days by preset; calendar" in text
+    assert "energy | 12 months; calendar" in text
+    assert "signalling-comms | 90 days; calendar" in text
+    assert "depots-production | 30-180 days by tool criticality" in text
     assert (
         "| Onboard battery adequacy | 1.2× longest line run | "
         "Fail: 288 kWh after 20% reserve, 19 kWh short on the longest line |"

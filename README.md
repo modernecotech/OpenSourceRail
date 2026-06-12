@@ -50,12 +50,14 @@ artifact index.
 | Find any Markdown document | [docs/INDEX.md](docs/INDEX.md) |
 | See generated city designs | [designs/README.md](designs/README.md) |
 | Run the simulator | [Quick Start](#quick-start) |
+| Run the operations portal | [Operations Portal](#operations-portal) |
 | Generate a city network | [Designing Cities](#designing-cities) |
 | Review rolling-stock design | [docs/rolling-stock/light-metro-3car/README.md](docs/rolling-stock/light-metro-3car/README.md) |
 | Review station and track renders | [docs/stations/README.md](docs/stations/README.md#freecad-station-scene-renders) |
 | Review mechanical CAD outputs | [mechanical-py/README.md](mechanical-py/README.md) |
 | Review hardware host classes | [hardware/README.md](hardware/README.md) |
 | Read the architecture | [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) |
+| Review software architecture diagrams | [docs/software-architecture-diagrams.md](docs/software-architecture-diagrams.md) |
 | Read the RFCs | [docs/rfcs/README.md](docs/rfcs/README.md) |
 | Review certification evidence | [docs/certification/](docs/certification/) and [docs/safety-case/](docs/safety-case/) |
 
@@ -69,12 +71,32 @@ artifact index.
 | [mechanical-py/](mechanical-py/) | Python parametric mechanical catalogue: rolling stock, track, civil, stations, depots, fixtures, generated FreeCAD review artifacts |
 | [hardware/](hardware/) | Hardware reference designs and DIY assembly for T-ECU/S, T-ECU/A, T-OBS, W-SBC, S-SBC |
 | [docs/](docs/) | Architecture, RFCs, certification pack, safety case, operations, civil, stations, rolling-stock docs |
+| [docs/operations-portal/](docs/operations-portal/) | Browser operations portal for asset registers, QA gates, maintenance work orders, defects/NCR, audit, SQLite storage, and reconciliation |
 | [lib/](lib/) | Machine-readable templates, recipes, examples, city batches, cost/finance inputs |
 | [formal/](formal/) | TLA+ consensus specification and model-checking harnesses |
 | [tools/](tools/) | Companion tools including LandXML to OSR-ALN and the Python MA reference interpreter |
 | [scripts/](scripts/) | Regeneration, publishing, repository health, BOM, and book-builder helpers |
 
 The generated PDF reader edition is [opensource-rail-docs-book.pdf](opensource-rail-docs-book.pdf).
+
+## Software Architecture Diagrams
+
+Editable Mermaid diagrams for the backend, train, station, depot,
+wayside waypoint, energy, QA/maintenance, and safety/security layers are
+collected in
+[docs/software-architecture-diagrams.md](docs/software-architecture-diagrams.md).
+
+| Diagram | Scope |
+|---|---|
+| [Deployment context](docs/software-architecture-diagrams.md#1-deployment-context) | OCC, depot, stations, wayside nodes, trains, passengers, utilities, and regulator evidence |
+| [Backend / OCC services](docs/software-architecture-diagrams.md#2-backend--occ-services) | Event log, read models, historian, analytics, AFC back office, CBM, and Ops Core |
+| [Onboard train software](docs/software-architecture-diagrams.md#3-onboard-train-software) | T-ECU/S, T-ECU/A, T-OBS, TCN-E, CAN-FD, sensors, traction, brakes, doors, BMS |
+| [Station and depot software](docs/software-architecture-diagrams.md#4-station-and-depot-software) | S-SBC station/depot host, PIS, AFC, TVM, PSD, SCADA, energy, self-test, workshop tools |
+| [Wayside / waypoint node software](docs/software-architecture-diagrams.md#5-wayside--waypoint-node-software) | W-SBC, consensus, interlocking, points, balises, intrusion, crossings, hot-axle detection |
+| [Control and data flow](docs/software-architecture-diagrams.md#6-control-and-data-flow) | Dispatcher request through route safety, movement authority, telemetry, CBM, and work orders |
+| [Energy and charging software](docs/software-architecture-diagrams.md#7-energy-and-charging-software) | Charging dispatch, train BMS, regen, station/depot PV, BESS, chargers, and grid tie |
+| [QA, maintenance, and evidence flow](docs/software-architecture-diagrams.md#8-qa-maintenance-and-evidence-flow) | Generated asset/QA/maintenance data into Ops Core, SQLite, evidence, NCR, and audit |
+| [Safety and security boundaries](docs/software-architecture-diagrams.md#9-safety-and-security-boundaries) | SIL-4, SIL-2, SIL-0, crypto, time sync, self-test, and signed firmware boundaries |
 
 ## Quick Start
 
@@ -100,6 +122,38 @@ Check repository health and generated artifact drift:
 ```bash
 python3 scripts/repo-health.py --quiet
 ```
+
+## Operations Portal
+
+The browser portal gives each generated city an asset register, QA gate
+register, maintenance schedule, lightweight Ops Core work-order loop,
+defects/NCR register, audit trail, SQLite persistence, and a reconciliation
+path for browser-local fallback records.
+
+Run the SQLite-backed portal:
+
+```bash
+python3 scripts/generate-qa-maintenance-data.py
+python3 scripts/ops-core-server.py --port 8008
+```
+
+Then open:
+
+```text
+http://127.0.0.1:8008/docs/operations-portal/
+```
+
+Key docs:
+
+- [Operations portal](docs/operations-portal/README.md)
+- [OSR Ops Core](docs/operations-portal/ops-core.md)
+- [Operations portal gap analysis](docs/operations-portal/gap-analysis.md)
+- [RFC 0028 construction QA](docs/rfcs/0028-construction-quality-assurance.md)
+- [RFC 0029 maintenance schedule system](docs/rfcs/0029-maintenance-schedule-system.md)
+
+| Portal dashboard | Ops Core + SQLite | QA gates |
+|---|---|---|
+| ![Operations portal dashboard with Samawah asset, maintenance, QA, trainset, and station metrics](docs/screenshots/operations-portal/dashboard.png) | ![Ops Core tab showing SQLite storage, reconciliation, work orders, defect hold, and evidence counts](docs/screenshots/operations-portal/ops-core-sqlite.png) | ![QA Gates tab showing asset-level construction QA hold points and one-click work-order creation](docs/screenshots/operations-portal/qa-gates.png) |
 
 ## Simulation Screenshots
 

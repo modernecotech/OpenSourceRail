@@ -66,6 +66,14 @@ def _economic_benefits() -> dict:
     return _template_toml("economic-benefits.toml")
 
 
+def _construction_qa() -> dict:
+    return _template_toml("construction-qa.toml")
+
+
+def _maintenance_schedule() -> dict:
+    return _template_toml("maintenance-schedule.toml")
+
+
 def _float_map(table: dict) -> dict[str, float]:
     return {str(k): float(v) for k, v in table.items()}
 
@@ -73,6 +81,8 @@ def _float_map(table: dict) -> dict[str, float]:
 _CAPEX_COSTS = _capex_costs()
 _DEMAND_PROFILES = _demand_profiles()
 _ECONOMIC_BENEFITS = _economic_benefits()
+_CONSTRUCTION_QA = _construction_qa()
+_MAINTENANCE_SCHEDULE = _maintenance_schedule()
 _RIDERSHIP_PLANNING = _DEMAND_PROFILES["planning"]
 _USD_TO_EUR = float(_CAPEX_COSTS["schema"]["usd_to_eur"])
 _EUR_TO_USD = 1.0 / _USD_TO_EUR
@@ -127,6 +137,10 @@ _CAPACITY_UTILIZATION_LOW = float(
 )
 _CAPACITY_UTILIZATION_HIGH = float(
     _RIDERSHIP_PLANNING.get("capacity_utilization_high", 0.80)
+)
+_QA_GATES = list(_CONSTRUCTION_QA.get("construction_qa_gate", []))
+_MAINTENANCE_INTERVALS = list(
+    _MAINTENANCE_SCHEDULE.get("maintenance_interval", [])
 )
 
 
@@ -1620,6 +1634,8 @@ def _funding_and_affordability_section(
         f"and fleet/energy maintenance scale with the larger service._\n"
     )
 
+    out.extend(_maintenance_schedule_section(rel, stats, energy_plan))
+
     out.append("### Ticket pricing anchored to median income\n")
     out.append(
         f"Country median monthly income: **${monthly_income:,.0f} USD** "
@@ -2378,6 +2394,7 @@ def render_readme(
     rust_costs = design.get("costs")
     if rust_costs:
         out.extend(_rich_capex_section(design, rust_costs, stats, energy_plan))
+        out.extend(_construction_qa_section(rel))
         # Funding & affordability section — CAPEX funding stack, annual
         # OPEX estimate, ticket pricing anchored to country median
         # income. Reads `lib/templates/country-finance.toml`.
@@ -2478,6 +2495,9 @@ def render_readme(
         "above is a planning-grade bracket for sizing and "
         "stakeholder conversations, not a bid-ready estimate.\n"
     )
+
+    out.extend(_construction_qa_section(rel))
+    out.extend(_maintenance_schedule_section(rel, stats, energy_plan))
 
     return _finalise_readme(
         out, design_path, scenario_path, stats, screenshot_slug, rel
@@ -2698,6 +2718,121 @@ def _charging_microgrid_unit_eur(archetype: str) -> float:
 def _charging_microgrid_eur(costs: dict) -> float:
     """Canonical charging-microgrid CAPEX with legacy `power_eur` fallback."""
     return float(costs.get("charging_microgrid_eur", costs.get("power_eur", 0.0)))
+
+
+def _qa_gates_for_readme() -> list[dict]:
+    preferred = [
+        "qa-00-design-freeze",
+        "qa-10-carbody-structure",
+        "qa-11-bogie-wheelset",
+        "qa-12-traction-brake-battery",
+        "qa-13-passenger-systems",
+        "qa-14-onboard-control",
+        "qa-15-first-article-trainset",
+        "qa-20-survey-geotech",
+        "qa-21-earthworks-drainage",
+        "qa-22-trackform-rail",
+        "qa-23-structures",
+        "qa-24-stations-depots-plant",
+        "qa-25-power-energy",
+        "qa-26-wayside-comms-safety",
+        "qa-30-integrated-trial-running",
+    ]
+    by_id = {str(g.get("id")): g for g in _QA_GATES}
+    return [by_id[i] for i in preferred if i in by_id]
+
+
+def _maintenance_rows_for_readme() -> list[dict]:
+    preferred = [
+        "rs-daily",
+        "rs-weekly",
+        "rs-monthly",
+        "rs-wheel-reprofile",
+        "rs-bogie-overhaul",
+        "rs-body-overhaul",
+        "station-daily",
+        "station-weekly",
+        "station-monthly",
+        "station-annual",
+        "track-weekly",
+        "track-geometry",
+        "switch-monthly",
+        "structures-annual",
+        "energy-daily",
+        "energy-monthly",
+        "energy-annual",
+        "systems-daily",
+        "systems-monthly",
+        "systems-quarterly",
+        "depot-tooling",
+    ]
+    by_id = {str(row.get("id")): row for row in _MAINTENANCE_INTERVALS}
+    return [by_id[i] for i in preferred if i in by_id]
+
+
+def _construction_qa_section(rel) -> list[str]:
+    out: list[str] = []
+    out.append("## Construction QA system\n")
+    out.append(
+        "Every locally built trainset and every fixed-asset package moves "
+        "through owner-controlled hold points before the next construction "
+        "stage starts. The machine-readable gate list is in "
+        f"[`lib/templates/construction-qa.toml`]({rel('lib/templates/construction-qa.toml')}); "
+        "the governing doctrine is "
+        f"[RFC 0028]({rel('docs/rfcs/0028-construction-quality-assurance.md')}).\n"
+    )
+    out.append("| Gate | Domain | Asset coverage | Hold point / evidence |")
+    out.append("|---|---|---|---|")
+    for gate in _qa_gates_for_readme():
+        gate_id = str(gate.get("id", ""))
+        domain = str(gate.get("domain", ""))
+        asset = str(gate.get("asset", ""))
+        stage = str(gate.get("stage", ""))
+        evidence = str(gate.get("evidence", ""))
+        out.append(
+            f"| `{gate_id}` | {domain} | {asset} | "
+            f"{stage}: {evidence} |"
+        )
+    out.append("")
+    return out
+
+
+def _maintenance_schedule_section(
+    rel,
+    stats: NetworkStats,
+    energy_plan: EnergyPlan,
+) -> list[str]:
+    total_fleet = stats.revenue_fleet + stats.spare_fleet + stats.reserve_fleet
+    policy = _MAINTENANCE_SCHEDULE.get("policy", {})
+    escalation = str(policy.get("condition_based_escalation", ""))
+    record_system = str(policy.get("record_system", ""))
+    out: list[str] = []
+    out.append("## Maintenance schedule system\n")
+    out.append(
+        f"Baseline scheduled work covers {total_fleet} trainsets, "
+        f"{stats.unique_station_count} stations, {stats.route_km:.1f} route-km, "
+        f"{stats.line_count} lines, and "
+        f"{energy_plan.scheduled_daily_train_km:,.0f} scheduled train-km/day. "
+        "Intervals are defined in "
+        f"[`lib/templates/maintenance-schedule.toml`]({rel('lib/templates/maintenance-schedule.toml')}) "
+        "and governed by "
+        f"[RFC 0029]({rel('docs/rfcs/0029-maintenance-schedule-system.md')}).\n"
+    )
+    out.append("| Asset group | Cadence / trigger | Scope | Evidence owner |")
+    out.append("|---|---|---|---|")
+    for row in _maintenance_rows_for_readme():
+        domain = str(row.get("domain", ""))
+        cadence = str(row.get("cadence", ""))
+        trigger = str(row.get("trigger", ""))
+        scope = str(row.get("scope", ""))
+        owner = str(row.get("owner", ""))
+        evidence = str(row.get("evidence", ""))
+        out.append(
+            f"| {domain} | {cadence}; {trigger} | {scope} | "
+            f"{evidence}; {owner} |"
+        )
+    out.append(f"\n_{escalation} {record_system}_\n")
+    return out
 
 
 def _rich_capex_section(

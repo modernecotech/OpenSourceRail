@@ -40,6 +40,10 @@ Target deployment regions — sub-Saharan Africa, MENA, South and Southeast Asia
 
 A rail system is a federation of largely independent subsystems that share a handful of critical interfaces. OpenSourceRail is organized around eight top-level domains:
 
+For detailed backend, onboard train, station/depot, wayside waypoint,
+energy, and QA/maintenance software diagrams, see
+[`software-architecture-diagrams.md`](software-architecture-diagrams.md).
+
 ```
                          ┌───────────────────────────────────────┐
                          │  D1. Operations & Dispatch (OCC)      │

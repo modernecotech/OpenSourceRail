@@ -13,14 +13,14 @@ the generated [Markdown documentation index](INDEX.md).
 | Reader | Start with |
 |---|---|
 | New reader / non-technical reviewer | [Brochures](brochures/) |
-| Project reviewer | [ARCHITECTURE.md](ARCHITECTURE.md), then [RFCs](rfcs/) |
+| Project reviewer | [ARCHITECTURE.md](ARCHITECTURE.md), [software architecture diagrams](software-architecture-diagrams.md), then [RFCs](rfcs/) |
 | New contributor | [GLOSSARY.md](GLOSSARY.md), then [ARCHITECTURE.md](ARCHITECTURE.md) |
 | Deployment reviewer | [Unified deployment model](deployment-model.md), then [designs/README.md](../designs/README.md) |
 | City/network planner | [designs/README.md](../designs/README.md), [cost model](cost-model.md), [civil OSR-ALN format](civil/osr-aln-format.md) |
 | Rolling-stock engineer | [rolling-stock/light-metro-3car/README.md](rolling-stock/light-metro-3car/README.md) |
 | Mechanical/CAD reviewer | [mechanical-py/README.md](../mechanical-py/README.md) and [mechanical-py/catalog/](../mechanical-py/catalog/) |
 | Hardware reviewer | [hardware/README.md](../hardware/README.md) and [hardware/rolling-stock-integration.md](../hardware/rolling-stock-integration.md) |
-| Operator/maintainer | [operations/README.md](operations/README.md) |
+| Operator/maintainer | [operations/README.md](operations/README.md), [operations portal](operations-portal/README.md), [OSR Ops Core](operations-portal/ops-core.md) |
 | Safety/certification reviewer | [certification/README.md](certification/README.md), [safety-case/README.md](safety-case/README.md), [formal/tla/README.md](../formal/tla/README.md) |
 | v0.2 contributor | [ROADMAP.md](ROADMAP.md) |
 
@@ -35,6 +35,7 @@ the generated [Markdown documentation index](INDEX.md).
 | [civil/](civil/README.md) | Alignment interchange format and civil tool bridge docs |
 | [stations/](stations/README.md) | Station design material |
 | [operations/](operations/) | Rulebook and operating procedures |
+| [operations-portal/](operations-portal/README.md) | Browser portal for asset registers, QA gates, maintenance schedule, Ops Core work orders, defects/NCR, audit, SQLite storage, and reconciliation |
 | [certification/](certification/) | EN 62267 pre-submission pack: system description, hazards, safety requirements, evidence, compliance matrix |
 | [safety-case/](safety-case/) | GSN safety-case source and generated views |
 | [hardware/](hardware/) | Hardware bring-up docs |
@@ -51,11 +52,16 @@ the generated [Markdown documentation index](INDEX.md).
 | Generated BOM CSV | [build/bom/rolling_stock_bom.csv](../build/bom/rolling_stock_bom.csv) |
 | Generated COTS fit-out BOM CSV | [build/bom/rolling_stock_cots_fitout_bom.csv](../build/bom/rolling_stock_cots_fitout_bom.csv) |
 | Hardware host-class matrix | [hardware/rolling-stock-integration.md](../hardware/rolling-stock-integration.md) |
+| Software architecture diagrams | [software-architecture-diagrams.md](software-architecture-diagrams.md) |
 | Hardware release checklist | [hardware/release-checklist.md](../hardware/release-checklist.md) |
 | Rolling-stock v2 release checklist | [rolling-stock/light-metro-3car/v2-release-checklist.md](rolling-stock/light-metro-3car/v2-release-checklist.md) |
 | Certification release gaps | [certification/release-gap-register.md](certification/release-gap-register.md) |
 | Civil deployment release gates | [civil/deployment-release-checklist.md](civil/deployment-release-checklist.md) |
 | Operations validation gates | [operations/validation-checklist.md](operations/validation-checklist.md) |
+| Operations portal | [operations-portal/README.md](operations-portal/README.md) |
+| Ops Core operating model | [operations-portal/ops-core.md](operations-portal/ops-core.md) |
+| Construction QA system | [rfcs/0028-construction-quality-assurance.md](rfcs/0028-construction-quality-assurance.md) |
+| Maintenance schedule system | [rfcs/0029-maintenance-schedule-system.md](rfcs/0029-maintenance-schedule-system.md) |
 | Reader-edition PDF | [opensource-rail-docs-book.pdf](../opensource-rail-docs-book.pdf) |
 | Introduction brochure PDF | [brochures/open-source-rail-introduction.pdf](brochures/open-source-rail-introduction.pdf) |
 | v0.2 roadmap | [ROADMAP.md](ROADMAP.md) |

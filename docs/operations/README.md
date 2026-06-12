@@ -25,6 +25,19 @@ review is tracked in
 [`validation-checklist.md`](validation-checklist.md) and remains a
 v0.2/v2.1 release gate.
 
+Maintenance intervals across rolling stock, stations, track/civil,
+structures, energy, signalling/comms, depots, and production-plant
+tools are consolidated in
+[`../rfcs/0029-maintenance-schedule-system.md`](../rfcs/0029-maintenance-schedule-system.md)
+and the machine-readable
+[`../../lib/templates/maintenance-schedule.toml`](../../lib/templates/maintenance-schedule.toml)
+template.
+
+The browser front door for those generated city operations records is
+[`../operations-portal/`](../operations-portal/). It combines the asset
+register, QA actions, maintenance schedule, and launch panels for the
+existing OCC/simulator/back-office crates.
+
 ## How to add a rule
 
 1. Find the right block (e.g. D3 — In-service operation).

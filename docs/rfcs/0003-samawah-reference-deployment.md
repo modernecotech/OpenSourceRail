@@ -2,7 +2,7 @@
 
 **Status:** Draft
 **Date:** 2026-04-20
-**Depends on:** [docs/ARCHITECTURE.md](../ARCHITECTURE.md), [RFC 0001](0001-track-state-consensus.md), [RFC 0002](0002-energy-sizing.md)
+**Depends on:** [docs/ARCHITECTURE.md](../ARCHITECTURE.md), [RFC 0001](0001-track-state-consensus.md), [RFC 0002](0002-energy-sizing.md), [RFC 0028](0028-construction-quality-assurance.md), [RFC 0029](0029-maintenance-schedule-system.md)
 
 ## 1. Summary
 
@@ -306,6 +306,23 @@ Reference platform per [ARCHITECTURE §4 D5](../ARCHITECTURE.md):
 - Open SiC traction inverter, Rust control firmware
 - TSN Ethernet trainbus
 - HVAC sized for 50 °C ambient, which is load-bearing in Samawah summers (see §5.4)
+
+### 4.4 Construction QA and maintenance basis
+
+Samawah uses the system-wide construction QA and maintenance schedules,
+not a one-off pilot checklist:
+
+- [RFC 0028](0028-construction-quality-assurance.md) gates locally built
+  trainsets through carbody, bogie, traction/brake/battery, passenger
+  systems, onboard control, first-article, and trial-running acceptance.
+  It also gates infrastructure through survey/geotech, earthworks,
+  trackform, structures, stations/depots/plant, energy, wayside/comms,
+  and integrated opening evidence.
+- [RFC 0029](0029-maintenance-schedule-system.md) creates the baseline
+  asset schedule for 96 trainsets, 31 stations, 58.4 route-km, energy
+  sites, W-SBCs, switches, sensors, depots, and production-plant tools.
+  Condition-based escalation overrides calendar intervals when telemetry
+  or inspections raise amber/red defects.
 
 ## 5. Energy: Generated City Instance
 

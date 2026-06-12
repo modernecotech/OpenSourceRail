@@ -10,7 +10,7 @@ Regenerate from the repository root with:
 python3 scripts/generate-doc-index.py
 ```
 
-Indexed Markdown files: **432**.
+Indexed Markdown files: **438**.
 
 ## Sections
 
@@ -19,7 +19,7 @@ Indexed Markdown files: **432**.
 | [Repository Root](#repository-root) | 2 |
 | [crates](#crates) | 3 |
 | [designs](#designs) | 264 |
-| [docs](#docs) | 113 |
+| [docs](#docs) | 119 |
 | [formal](#formal) | 2 |
 | [hardware](#hardware) | 36 |
 | [lib](#lib) | 3 |
@@ -374,6 +374,9 @@ Indexed Markdown files: **432**.
 | [`docs/operations/station-staff/t4-fare-enforcement.md`](../docs/operations/station-staff/t4-fare-enforcement.md) | T4 — Fare enforcement |
 | [`docs/operations/station-staff/t5-station-closure.md`](../docs/operations/station-staff/t5-station-closure.md) | T5 — Station closure |
 | [`docs/operations/validation-checklist.md`](../docs/operations/validation-checklist.md) | Operations Validation Checklist |
+| [`docs/operations-portal/README.md`](../docs/operations-portal/README.md) | OSR Operations Portal |
+| [`docs/operations-portal/gap-analysis.md`](../docs/operations-portal/gap-analysis.md) | OSR Operations Portal Gap Analysis |
+| [`docs/operations-portal/ops-core.md`](../docs/operations-portal/ops-core.md) | OSR Ops Core |
 | [`docs/outreach/open-source-rail-outreach-contacts.md`](../docs/outreach/open-source-rail-outreach-contacts.md) | OpenSourceRail Outreach Contacts |
 | [`docs/rfcs/0001-track-state-consensus.md`](../docs/rfcs/0001-track-state-consensus.md) | RFC 0001 — Track State Consensus |
 | [`docs/rfcs/0002-energy-sizing.md`](../docs/rfcs/0002-energy-sizing.md) | RFC 0002 — Energy Sizing for a Reference Light Metro Line |
@@ -402,6 +405,8 @@ Indexed Markdown files: **432**.
 | [`docs/rfcs/0025-diy-switch-and-point-machine.md`](../docs/rfcs/0025-diy-switch-and-point-machine.md) | RFC 0025 — DIY Switch and Point-Machine Production |
 | [`docs/rfcs/0026-charging-connector-reconciliation.md`](../docs/rfcs/0026-charging-connector-reconciliation.md) | RFC 0026 — Charging Connector and DC-Link Reconciliation |
 | [`docs/rfcs/0027-brownfield-pilot-asset-recovery.md`](../docs/rfcs/0027-brownfield-pilot-asset-recovery.md) | RFC 0027 — Brownfield Pilot: Existing-Asset Recovery & Workshop Integration |
+| [`docs/rfcs/0028-construction-quality-assurance.md`](../docs/rfcs/0028-construction-quality-assurance.md) | RFC 0028 — Construction Quality Assurance System |
+| [`docs/rfcs/0029-maintenance-schedule-system.md`](../docs/rfcs/0029-maintenance-schedule-system.md) | RFC 0029 — Maintenance Schedule System |
 | [`docs/rfcs/README.md`](../docs/rfcs/README.md) | RFC Index |
 | [`docs/rolling-stock/README.md`](../docs/rolling-stock/README.md) | Rolling Stock |
 | [`docs/rolling-stock/light-metro-3car/README.md`](../docs/rolling-stock/light-metro-3car/README.md) | `light-metro-3car` trainset package |
@@ -420,6 +425,7 @@ Indexed Markdown files: **432**.
 | [`docs/rolling-stock/light-metro-3car/traction.md`](../docs/rolling-stock/light-metro-3car/traction.md) | Traction + auxiliary power — `light-metro-3car` |
 | [`docs/rolling-stock/light-metro-3car/v2-release-checklist.md`](../docs/rolling-stock/light-metro-3car/v2-release-checklist.md) | Light-Metro 3-Car V2 Release Checklist |
 | [`docs/safety-case/README.md`](../docs/safety-case/README.md) | Safety-case artifacts |
+| [`docs/software-architecture-diagrams.md`](../docs/software-architecture-diagrams.md) | Software Architecture Diagrams |
 | [`docs/stations/README.md`](../docs/stations/README.md) | Stations |
 | [`docs/stations/standard-archetype/README.md`](../docs/stations/standard-archetype/README.md) | Standard Station Archetype Worked Example |
 | [`docs/stations/standard-archetype/accessibility.md`](../docs/stations/standard-archetype/accessibility.md) | Accessibility - `standard` Archetype Worked Example |

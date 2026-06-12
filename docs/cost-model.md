@@ -198,6 +198,13 @@ lines, revenue fleet, station archetypes, high-case paid trips, annual
 train-km, depots, and the RFC 0015 shift of safety staff from train cabs
 to OCC and platform posts.
 
+The maintenance percentages are planning-cost envelopes. The actual
+work content and inspection intervals are controlled by
+[RFC 0029](rfcs/0029-maintenance-schedule-system.md) and
+[`lib/templates/maintenance-schedule.toml`](../lib/templates/maintenance-schedule.toml),
+covering rolling stock, stations, track/civil, structures, energy,
+signalling/comms, depot equipment, and railway production-plant tools.
+
 Construction-period equity and interest-only grace payments on the
 repayable tranche remain public capital commitments. The base finance
 stack assumes **no climate/development grant**: 20% government equity
