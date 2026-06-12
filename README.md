@@ -87,10 +87,14 @@ artifact index.
 | Read the short introduction brochure | [OpenSourceRail introduction PDF](docs/brochures/open-source-rail-introduction.pdf) |
 | Understand the whole repo | [docs/README.md](docs/README.md) |
 | Understand the unified deployment model | [docs/deployment-model.md](docs/deployment-model.md) |
+| Understand deployment responsibilities | [docs/deployment-roles.md](docs/deployment-roles.md) |
+| Review the first adoptable product | [docs/first-adoptable-product.md](docs/first-adoptable-product.md) |
 | Find any Markdown document | [docs/INDEX.md](docs/INDEX.md) |
 | See generated city designs | [designs/README.md](designs/README.md) |
 | Run the simulator | [Quick Start](#quick-start) |
 | Run the operations portal | [Operations Portal](#operations-portal) |
+| Contribute or review governance | [CONTRIBUTING.md](CONTRIBUTING.md) and [GOVERNANCE.md](GOVERNANCE.md) |
+| Prepare the v0.2 release | [docs/releases/v0.2.md](docs/releases/v0.2.md) |
 | Generate a city network | [Designing Cities](#designing-cities) |
 | Review rolling-stock design | [docs/rolling-stock/light-metro-3car/README.md](docs/rolling-stock/light-metro-3car/README.md) |
 | Review station and track renders | [docs/stations/README.md](docs/stations/README.md#freecad-station-scene-renders) |
@@ -116,6 +120,7 @@ artifact index.
 | [formal/](formal/) | TLA+ consensus specification and model-checking harnesses |
 | [tools/](tools/) | Companion tools including LandXML to OSR-ALN and the Python MA reference interpreter |
 | [scripts/](scripts/) | Regeneration, publishing, repository health, BOM, and book-builder helpers |
+| [.github/repository-metadata.yml](.github/repository-metadata.yml) | Recommended GitHub description, homepage, and topics |
 
 The generated PDF reader edition is [opensource-rail-docs-book.pdf](opensource-rail-docs-book.pdf).
 
@@ -400,7 +405,7 @@ OpenSourceRail is not a safety certifier or standards body. It produces
 open artifacts suitable for independent assessment by deployment
 partners and national authorities.
 
-The formal top-level license files, contribution process, and governance
-model remain release-gate work in [docs/ROADMAP.md](docs/ROADMAP.md).
-Until then, cautious external contributors should treat the repo as
-review/build/test friendly, not yet a finalized contribution program.
+The contribution process and governance model are in
+[CONTRIBUTING.md](CONTRIBUTING.md) and [GOVERNANCE.md](GOVERNANCE.md).
+Formal top-level license files remain release-readiness work in
+[docs/ROADMAP.md](docs/ROADMAP.md).

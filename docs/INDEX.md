@@ -10,16 +10,16 @@ Regenerate from the repository root with:
 python3 scripts/generate-doc-index.py
 ```
 
-Indexed Markdown files: **440**.
+Indexed Markdown files: **446**.
 
 ## Sections
 
 | Section | Files |
 |---|---:|
-| [Repository Root](#repository-root) | 2 |
+| [Repository Root](#repository-root) | 4 |
 | [crates](#crates) | 3 |
 | [designs](#designs) | 264 |
-| [docs](#docs) | 121 |
+| [docs](#docs) | 125 |
 | [formal](#formal) | 2 |
 | [hardware](#hardware) | 36 |
 | [lib](#lib) | 3 |
@@ -32,6 +32,8 @@ Indexed Markdown files: **440**.
 | File | Title |
 |---|---|
 | [`CHANGELOG.md`](../CHANGELOG.md) | OpenSourceRail — milestone 0.2 development baseline |
+| [`CONTRIBUTING.md`](../CONTRIBUTING.md) | Contributing To OpenSourceRail |
+| [`GOVERNANCE.md`](../GOVERNANCE.md) | OpenSourceRail Governance |
 | [`README.md`](../README.md) | OpenSourceRail |
 
 ## crates
@@ -337,6 +339,8 @@ Indexed Markdown files: **440**.
 | [`docs/civil/slab-trackforms.md`](../docs/civil/slab-trackforms.md) | Ballastless Slab Trackform Designs |
 | [`docs/cost-model.md`](../docs/cost-model.md) | OpenSourceRail Cost Model |
 | [`docs/deployment-model.md`](../docs/deployment-model.md) | Unified Deployment Model |
+| [`docs/deployment-roles.md`](../docs/deployment-roles.md) | Deployment Roles |
+| [`docs/first-adoptable-product.md`](../docs/first-adoptable-product.md) | First Adoptable Product |
 | [`docs/hardware/bring-up/README.md`](../docs/hardware/bring-up/README.md) | Hardware bring-up — v1 deliverable of RFC 0007 |
 | [`docs/hardware/bring-up/s-sbc.md`](../docs/hardware/bring-up/s-sbc.md) | S-SBC bring-up — RPi CM5 on Waveshare CM5-IO |
 | [`docs/hardware/bring-up/t-ecu-a.md`](../docs/hardware/bring-up/t-ecu-a.md) | T-ECU/A bring-up — Raspberry Pi CM5 IO Board |
@@ -379,6 +383,8 @@ Indexed Markdown files: **440**.
 | [`docs/operations-portal/gap-analysis.md`](../docs/operations-portal/gap-analysis.md) | OSR Operations Portal Gap Analysis |
 | [`docs/operations-portal/ops-core.md`](../docs/operations-portal/ops-core.md) | OSR Ops Core |
 | [`docs/outreach/open-source-rail-outreach-contacts.md`](../docs/outreach/open-source-rail-outreach-contacts.md) | OpenSourceRail Outreach Contacts |
+| [`docs/releases/README.md`](../docs/releases/README.md) | Releases |
+| [`docs/releases/v0.2.md`](../docs/releases/v0.2.md) | v0.2.0 Release Pack |
 | [`docs/rfcs/0001-track-state-consensus.md`](../docs/rfcs/0001-track-state-consensus.md) | RFC 0001 — Track State Consensus |
 | [`docs/rfcs/0002-energy-sizing.md`](../docs/rfcs/0002-energy-sizing.md) | RFC 0002 — Energy Sizing for a Reference Light Metro Line |
 | [`docs/rfcs/0003-samawah-reference-deployment.md`](../docs/rfcs/0003-samawah-reference-deployment.md) | RFC 0003 — Samawah Context And Pilot Rationale |

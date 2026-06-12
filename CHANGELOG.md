@@ -21,9 +21,10 @@ major subsystem is ready for.
   source geometry). 28 Python tests passing.
 - **Two egui operator GUIs**: `osr-sim-gui` (designer), `osr-occ-gui`
   (dispatcher). Both native + WebAssembly.
-- **Twenty-seven RFCs** covering software architecture, rail civil
+- **Thirty RFCs** covering software architecture, rail civil
   engineering, operations, driverless operation, wayside
-  intrusion detection, cybersecurity, and the operator GUIs.
+  intrusion detection, cybersecurity, the operator GUIs, construction
+  QA, maintenance scheduling, and manufacturing scheduling.
 - Workspace builds are expected to stay warning-free; warnings are
   treated as drift from the v0.2 development baseline.
 
@@ -79,6 +80,24 @@ major subsystem is ready for.
   (dispatcher S1–S7, station-staff T1–T5, maintenance M1–M7,
   control-centre C1–C3), plus a historical driver section
   D1–D8 for legacy GoA 2 fleets. ~170 rules total.
+- **First adoptable product path** — Ops Core + simulator + asset
+  register + QA/maintenance/evidence portal for an existing depot,
+  workshop, or pilot corridor, explicitly before safety-critical train
+  control is deployed.
+
+### Governance and release readiness
+
+- **Top-level contribution and governance docs** now define project
+  status, contribution expectations, safety-claim boundaries, decision
+  process, release responsibilities, and the current founder-led
+  pre-1.0 operating model.
+- **Deployment roles page** assigns owner/operator, prime integrator,
+  independent safety assessor, insurer, EPC/civil contractor, local
+  workshop, hardware integrator, financing entity, and regulator
+  responsibilities.
+- **v0.2 release pack** identifies release notes, PDF/brochure assets,
+  Samawah case-study links, simulator instructions, evidence matrix,
+  GitHub metadata, and publication commands.
 
 ### Hardware
 
@@ -170,15 +189,16 @@ The project is looking for, in order:
 File issues with specific disagreements; send pull requests
 with tests.
 
-## Licence
+## License
 
 - Software: Apache 2.0.
 - Hardware designs: CERN-OHL-S v2.
 - Documentation: CC-BY-SA 4.0.
 
-Governance RFC is pending. Contributions made before it lands
-are on the understanding that they will be licensed under
-these terms.
+Contribution and governance process is now in
+[`CONTRIBUTING.md`](CONTRIBUTING.md) and
+[`GOVERNANCE.md`](GOVERNANCE.md). Formal top-level license files remain
+release-readiness work.
 
 ## Milestone version
 

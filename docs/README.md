@@ -14,8 +14,9 @@ the generated [Markdown documentation index](INDEX.md).
 |---|---|
 | New reader / non-technical reviewer | [Brochures](brochures/) |
 | Project reviewer | [ARCHITECTURE.md](ARCHITECTURE.md), [software architecture diagrams](software-architecture-diagrams.md), then [RFCs](rfcs/) |
-| New contributor | [GLOSSARY.md](GLOSSARY.md), then [ARCHITECTURE.md](ARCHITECTURE.md) |
-| Deployment reviewer | [Unified deployment model](deployment-model.md), then [designs/README.md](../designs/README.md) |
+| New contributor | [../CONTRIBUTING.md](../CONTRIBUTING.md), [../GOVERNANCE.md](../GOVERNANCE.md), then [GLOSSARY.md](GLOSSARY.md) |
+| Deployment reviewer | [Unified deployment model](deployment-model.md), [deployment roles](deployment-roles.md), then [designs/README.md](../designs/README.md) |
+| First-product reviewer | [First adoptable product](first-adoptable-product.md), then [operations portal](operations-portal/README.md) |
 | City/network planner | [designs/README.md](../designs/README.md), [cost model](cost-model.md), [civil OSR-ALN format](civil/osr-aln-format.md) |
 | Rolling-stock engineer | [rolling-stock/light-metro-3car/README.md](rolling-stock/light-metro-3car/README.md) |
 | Mechanical/CAD reviewer | [mechanical-py/README.md](../mechanical-py/README.md) and [mechanical-py/catalog/](../mechanical-py/catalog/) |
@@ -23,6 +24,7 @@ the generated [Markdown documentation index](INDEX.md).
 | Operator/maintainer / production planner | [operations/README.md](operations/README.md), [operations portal](operations-portal/README.md), [OSR Ops Core](operations-portal/ops-core.md) |
 | Safety/certification reviewer | [certification/README.md](certification/README.md), [safety-case/README.md](safety-case/README.md), [formal/tla/README.md](../formal/tla/README.md) |
 | v0.2 contributor | [ROADMAP.md](ROADMAP.md) |
+| Release reviewer | [v0.2 release pack](releases/v0.2.md) |
 
 ## Documentation Sets
 
@@ -31,6 +33,8 @@ the generated [Markdown documentation index](INDEX.md).
 | [rfcs/](rfcs/README.md) | Design decisions and standards for architecture, rolling stock, track, stations, depots, driverless operation, hardware, energy, and safety |
 | [brochures/](brochures/README.md) | Short PDF introductions and presentation-style summaries |
 | [deployment-model.md](deployment-model.md) | Unified city/deployment pipeline; Samawah is an instance, not a special fork |
+| [deployment-roles.md](deployment-roles.md) | Owner/operator, prime integrator, assessor, insurer, EPC, workshop, finance, and regulator responsibilities |
+| [first-adoptable-product.md](first-adoptable-product.md) | Ops Core + simulator + asset register + QA/maintenance/evidence portal as the first low-risk deployment wedge |
 | [rolling-stock/](rolling-stock/README.md) | Light-metro trainset package: GA, body, bogie, traction, BOM, fabrication plan, drawing register, compliance |
 | [civil/](civil/README.md) | Alignment interchange format and civil tool bridge docs |
 | [stations/](stations/README.md) | Station design material |
@@ -39,6 +43,7 @@ the generated [Markdown documentation index](INDEX.md).
 | [certification/](certification/) | EN 62267 pre-submission pack: system description, hazards, safety requirements, evidence, compliance matrix |
 | [safety-case/](safety-case/) | GSN safety-case source and generated views |
 | [hardware/](hardware/) | Hardware bring-up docs |
+| [releases/](releases/README.md) | Release packs, assets, metadata, and publication checklists |
 | [screenshots/](screenshots/) | Generated UI/CAD screenshots used by READMEs |
 
 ## Canonical Design Artifacts
@@ -52,6 +57,8 @@ the generated [Markdown documentation index](INDEX.md).
 | Generated BOM CSV | [build/bom/rolling_stock_bom.csv](../build/bom/rolling_stock_bom.csv) |
 | Generated COTS fit-out BOM CSV | [build/bom/rolling_stock_cots_fitout_bom.csv](../build/bom/rolling_stock_cots_fitout_bom.csv) |
 | Hardware host-class matrix | [hardware/rolling-stock-integration.md](../hardware/rolling-stock-integration.md) |
+| Deployment roles | [deployment-roles.md](deployment-roles.md) |
+| First adoptable product | [first-adoptable-product.md](first-adoptable-product.md) |
 | Software architecture diagrams | [software-architecture-diagrams.md](software-architecture-diagrams.md) |
 | Hardware release checklist | [hardware/release-checklist.md](../hardware/release-checklist.md) |
 | Rolling-stock v2 release checklist | [rolling-stock/light-metro-3car/v2-release-checklist.md](rolling-stock/light-metro-3car/v2-release-checklist.md) |
@@ -67,6 +74,8 @@ the generated [Markdown documentation index](INDEX.md).
 | Reader-edition PDF | [opensource-rail-docs-book.pdf](../opensource-rail-docs-book.pdf) |
 | Introduction brochure PDF | [brochures/open-source-rail-introduction.pdf](brochures/open-source-rail-introduction.pdf) |
 | v0.2 roadmap | [ROADMAP.md](ROADMAP.md) |
+| v0.2 release pack | [releases/v0.2.md](releases/v0.2.md) |
+| GitHub metadata | [../.github/repository-metadata.yml](../.github/repository-metadata.yml) |
 
 ## Regeneration
 
