@@ -26,24 +26,28 @@ commercial and open-source systems:
 The portal is a strong **planning and generated-register tool**:
 
 - Deterministically expands a city design into asset ids.
-- Generates spreadsheet-friendly asset, QA, and maintenance CSVs.
+- Generates spreadsheet-friendly asset, manufacturing, QA, and maintenance
+  CSVs.
 - Gives each trainset, station, track section, switch, energy site,
-  signalling node, depot, and production-plant tool a stable row.
-- Renders QA gates and maintenance intervals in one browser UI.
+  waypoint/W-SBC, signalling node, depot, and production-plant tool a
+  stable row.
+- Renders manufacturing packages, QA gates, and maintenance intervals in
+  one browser UI.
 - Keeps the design-to-operations link explicit and reproducible.
 
-It is not yet a live CMMS/EAM or construction-management system.
+It is now a lightweight owner-operator execution tool, but it is not a
+full CMMS/EAM, construction-management platform, or manufacturing MES.
 
 ## Missing Capabilities
 
 | Priority | Gap | Why it matters | Comparator signal |
 |---|---|---|---|
-| P0 | Work-order lifecycle | OSR rows are schedules, not assignable/approvable work orders with status transitions, comments, handback, closeout, and audit history. | HxGN EAM work requests become approved work orders, can be dispatched, scheduled, rescheduled, and status-managed. |
+| P0 | Work-order lifecycle depth | OSR now has assignable work orders, basic status transitions, evidence, holds, defects/NCR, audit, SQLite, and reconciliation. It still lacks approval routing, comments, handback signatures, rejection/rework loops, and role permissions. | HxGN EAM work requests become approved work orders, can be dispatched, scheduled, rescheduled, and status-managed. |
 | P0 | Inspection forms/checklists | Tasks say what evidence is needed, but there are no fillable forms, measurements, signatures, photos, pass/fail fields, or nonconformance capture. | Procore/Autodesk emphasize mobile inspection checklists, field observations, photos, signatures, and issues for nonconforming items. |
 | P0 | NCR/CAPA workflow | QA gates are planned actions, but failed gates do not create nonconformance reports, corrective actions, owner review, re-test, or waiver/deviation decisions. | Construction QA tools center observations, corrective actions, and issue resolution. |
 | P0 | Document control / CDE | Evidence links are strings, not managed drawings, RFIs, submittals, revisions, approvals, or immutable audit trail. | Oracle Aconex sells complete project records, process workflows, document ownership, and audit trail as core features. |
 | P0 | Roles and permissions | No user accounts, authorities, segregation between contractor/owner/regulator, or e-signature. | Aconex/Procore/Maximo all rely on accountable users, permissions, and auditable actions. |
-| P1 | Calendar and crew scheduling | Next-due basis is textual. There is no opening date, actual due date generation, crew assignment, depot capacity, shift roster, possession window, or workload balancing. | HxGN EAM includes daily scheduling, labor/parts availability, labor utilization, routing, and workload balancing. |
+| P1 | Calendar and crew scheduling | Manufacturing now has project-day windows and staff-task roles, while maintenance still uses textual next-due basis. There is no actual opening date, crew assignment roster, depot capacity, possession window, or workload balancing. | HxGN EAM includes daily scheduling, labor/parts availability, labor utilization, routing, and workload balancing. |
 | P1 | Meter/telemetry ingestion | The schedule has km/condition triggers, but no live service-km, BMS, wheel, vibration, charger, W-SBC, or SCADA feed. | Maximo and Railigent emphasize condition data, sensor data, predictive maintenance, and health states. |
 | P1 | Defect and failure history | There are no defect codes, failure modes, root causes, MTBF/MTTR, bad-actor assets, or reliability trends. | Odoo computes maintenance statistics such as MTBF/MTTR; Maximo and AssetWise emphasize reliability/performance analytics. |
 | P1 | Spares, inventory, tools, warranty | Tasks list owners but do not reserve parts/tools, track stock, manage warranty claims, or roll costs against assets. | HxGN EAM work orders include labor, materials, tools, permits, safety docs, and warranty/claims tracking. |
@@ -55,10 +59,11 @@ It is not yet a live CMMS/EAM or construction-management system.
 
 ## Suggested Build Order
 
-1. **Work-order model.** Add `work_orders.json`/SQLite with states:
-   `draft`, `approved`, `assigned`, `in_progress`, `hold`, `complete`,
-   `verified`, `closed`, `rejected`.
-2. **Inspection/checksheet templates.** Expand maintenance and QA rows
+1. **Approval and handback depth.** Add approver, verifier, rejection,
+   rework, comments, and closeout signature fields to the existing Ops
+   Core work-order model.
+2. **Inspection/checksheet templates.** Expand manufacturing,
+   maintenance, and QA rows
    into fillable forms with typed fields, pass/fail, numeric readings,
    photo/evidence slots, signature, and generated NCR on failure.
 3. **Opening-date scheduler.** Convert `next_due_basis` into actual due

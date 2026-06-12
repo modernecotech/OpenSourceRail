@@ -10,7 +10,7 @@ Regenerate from the repository root with:
 python3 scripts/generate-doc-index.py
 ```
 
-Indexed Markdown files: **438**.
+Indexed Markdown files: **440**.
 
 ## Sections
 
@@ -19,7 +19,7 @@ Indexed Markdown files: **438**.
 | [Repository Root](#repository-root) | 2 |
 | [crates](#crates) | 3 |
 | [designs](#designs) | 264 |
-| [docs](#docs) | 119 |
+| [docs](#docs) | 121 |
 | [formal](#formal) | 2 |
 | [hardware](#hardware) | 36 |
 | [lib](#lib) | 3 |
@@ -375,6 +375,7 @@ Indexed Markdown files: **438**.
 | [`docs/operations/station-staff/t5-station-closure.md`](../docs/operations/station-staff/t5-station-closure.md) | T5 — Station closure |
 | [`docs/operations/validation-checklist.md`](../docs/operations/validation-checklist.md) | Operations Validation Checklist |
 | [`docs/operations-portal/README.md`](../docs/operations-portal/README.md) | OSR Operations Portal |
+| [`docs/operations-portal/acceptance-evidence-report.md`](../docs/operations-portal/acceptance-evidence-report.md) | Samawah Acceptance And Accreditation Evidence Basis |
 | [`docs/operations-portal/gap-analysis.md`](../docs/operations-portal/gap-analysis.md) | OSR Operations Portal Gap Analysis |
 | [`docs/operations-portal/ops-core.md`](../docs/operations-portal/ops-core.md) | OSR Ops Core |
 | [`docs/outreach/open-source-rail-outreach-contacts.md`](../docs/outreach/open-source-rail-outreach-contacts.md) | OpenSourceRail Outreach Contacts |
@@ -407,6 +408,7 @@ Indexed Markdown files: **438**.
 | [`docs/rfcs/0027-brownfield-pilot-asset-recovery.md`](../docs/rfcs/0027-brownfield-pilot-asset-recovery.md) | RFC 0027 — Brownfield Pilot: Existing-Asset Recovery & Workshop Integration |
 | [`docs/rfcs/0028-construction-quality-assurance.md`](../docs/rfcs/0028-construction-quality-assurance.md) | RFC 0028 — Construction Quality Assurance System |
 | [`docs/rfcs/0029-maintenance-schedule-system.md`](../docs/rfcs/0029-maintenance-schedule-system.md) | RFC 0029 — Maintenance Schedule System |
+| [`docs/rfcs/0030-manufacturing-schedule-system.md`](../docs/rfcs/0030-manufacturing-schedule-system.md) | RFC 0030 - Manufacturing Schedule System |
 | [`docs/rfcs/README.md`](../docs/rfcs/README.md) | RFC Index |
 | [`docs/rolling-stock/README.md`](../docs/rolling-stock/README.md) | Rolling Stock |
 | [`docs/rolling-stock/light-metro-3car/README.md`](../docs/rolling-stock/light-metro-3car/README.md) | `light-metro-3car` trainset package |

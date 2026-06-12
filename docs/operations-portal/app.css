@@ -114,7 +114,7 @@ main {
 .metrics {
   display: grid;
   gap: 12px;
-  grid-template-columns: repeat(5, minmax(140px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
   margin-bottom: 18px;
 }
 
@@ -149,7 +149,7 @@ main {
 .split {
   display: grid;
   gap: 18px;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
 }
 
 .surface {
@@ -209,6 +209,12 @@ input {
   border-color: var(--accent);
 }
 
+.text-button:disabled {
+  color: var(--muted);
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
 .mini-button {
   align-items: center;
   background: #ffffff;
@@ -227,6 +233,12 @@ input {
 
 .mini-button:hover {
   border-color: var(--accent);
+}
+
+.mini-button:disabled {
+  color: var(--muted);
+  cursor: not-allowed;
+  opacity: 0.55;
 }
 
 .danger-button {
@@ -332,9 +344,17 @@ code {
 
 .tag.closed,
 .tag.resolved,
+.tag.verified,
 .tag.minor {
   background: #edf1ee;
   color: #475452;
+}
+
+.tag.blocked,
+.tag.missing-materials,
+.tag.missing-qa {
+  background: #fee2e2;
+  color: var(--danger);
 }
 
 .ops-grid {

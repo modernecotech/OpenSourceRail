@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""Generate asset-level QA and maintenance data for the operations portal.
+"""Generate asset-level operations data for the operations portal.
 
 The input is a generated city `design.toml` plus its expanded
-`scenario.toml`. The output is a deterministic JSON bundle and three CSV
-tables that spreadsheet users can open directly.
+`scenario.toml`. The output is a deterministic JSON bundle and CSV tables
+that spreadsheet users can open directly.
 """
 
 from __future__ import annotations
@@ -21,11 +21,12 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_DESIGN = REPO_ROOT / "designs/west-asia/Iraq/Samawah/design.toml"
 DEFAULT_SCENARIO = REPO_ROOT / "designs/west-asia/Iraq/Samawah/samawah.toml"
 DEFAULT_OUT_DIR = REPO_ROOT / "docs/operations-portal/data"
+DEFAULT_BOM_DIR = REPO_ROOT / "build/bom"
 
 
 def main() -> int:
     parser = argparse.ArgumentParser(
-        description="Generate asset-level QA and maintenance portal data."
+        description="Generate asset-level operations portal data."
     )
     parser.add_argument("--design", type=Path, default=DEFAULT_DESIGN)
     parser.add_argument("--scenario", type=Path, default=DEFAULT_SCENARIO)
@@ -36,12 +37,16 @@ def main() -> int:
     scenario = _load_toml(args.scenario)
     qa_template = _load_toml(REPO_ROOT / "lib/templates/construction-qa.toml")
     maint_template = _load_toml(REPO_ROOT / "lib/templates/maintenance-schedule.toml")
+    manufacturing_template = _load_toml(REPO_ROOT / "lib/templates/manufacturing-schedule.toml")
+    bom_catalog = _load_bom_catalog(DEFAULT_BOM_DIR)
 
     bundle = build_bundle(
         design=design,
         scenario=scenario,
         qa_template=qa_template,
         maint_template=maint_template,
+        manufacturing_template=manufacturing_template,
+        bom_catalog=bom_catalog,
         design_path=args.design,
         scenario_path=args.scenario,
     )
@@ -51,16 +56,25 @@ def main() -> int:
     slug = bundle["meta"]["city_slug"]
     json_path = out_dir / f"{slug}-operations.json"
     assets_path = out_dir / f"{slug}-assets.csv"
+    manufacturing_path = out_dir / f"{slug}-manufacturing-schedule.csv"
+    manufacturing_materials_path = out_dir / f"{slug}-manufacturing-materials.csv"
+    manufacturing_verification_path = out_dir / f"{slug}-manufacturing-verification.csv"
     maintenance_path = out_dir / f"{slug}-maintenance-schedule.csv"
     qa_path = out_dir / f"{slug}-qa-register.csv"
 
     json_path.write_text(json.dumps(bundle, indent=2, ensure_ascii=False) + "\n")
     _write_csv(assets_path, bundle["assets"])
+    _write_csv(manufacturing_path, bundle["manufacturing_tasks"])
+    _write_csv(manufacturing_materials_path, bundle["manufacturing_materials"])
+    _write_csv(manufacturing_verification_path, bundle["manufacturing_verifications"])
     _write_csv(maintenance_path, bundle["maintenance_tasks"])
     _write_csv(qa_path, bundle["qa_actions"])
 
     print(f"wrote {json_path}")
     print(f"wrote {assets_path}")
+    print(f"wrote {manufacturing_path}")
+    print(f"wrote {manufacturing_materials_path}")
+    print(f"wrote {manufacturing_verification_path}")
     print(f"wrote {maintenance_path}")
     print(f"wrote {qa_path}")
     return 0
@@ -72,6 +86,8 @@ def build_bundle(
     scenario: dict[str, Any],
     qa_template: dict[str, Any],
     maint_template: dict[str, Any],
+    manufacturing_template: dict[str, Any],
+    bom_catalog: dict[str, dict[str, dict[str, str]]],
     design_path: Path,
     scenario_path: Path,
 ) -> dict[str, Any]:
@@ -168,8 +184,9 @@ def build_bundle(
         for idx, (a, b) in enumerate(zip(ordered, ordered[1:]), start=1):
             a_s = float(a.get("s_m", 0.0))
             b_s = float(b.get("s_m", a_s))
+            track_asset_id = f"{prefix}-TRK-{line_code}-{idx:03d}"
             assets.append({
-                "asset_id": f"{prefix}-TRK-{line_code}-{idx:03d}",
+                "asset_id": track_asset_id,
                 "source_id": f"{a.get('id')}--{b.get('id')}",
                 "asset_type": "track-section",
                 "subtype": "standard-urban",
@@ -180,6 +197,21 @@ def build_bundle(
                 "km_start": _km(a_s),
                 "km_end": _km(b_s),
                 "location": f"{_display_station(a)} to {_display_station(b)}",
+                "criticality": "safety",
+            })
+            mid_s = (a_s + b_s) / 2.0
+            assets.append({
+                "asset_id": f"{prefix}-WPT-{line_code}-{idx:03d}",
+                "source_id": f"w-node-{a.get('id')}--{b.get('id')}",
+                "asset_type": "waypoint",
+                "subtype": "wayside-node",
+                "name": f"{line} waypoint {idx:03d}",
+                "line": line,
+                "parent_asset": track_asset_id,
+                "station": f"{a.get('id')} to {b.get('id')}",
+                "km_start": _km(mid_s),
+                "km_end": _km(mid_s),
+                "location": f"{_display_station(a)} to {_display_station(b)} midpoint W-Node",
                 "criticality": "safety",
             })
 
@@ -298,6 +330,25 @@ def build_bundle(
         gates=list(qa_template.get("construction_qa_gate", [])),
         city_slug=slug,
     )
+    manufacturing_tasks = _expand_manufacturing_tasks(
+        assets=assets,
+        packages=list(manufacturing_template.get("manufacturing_package", [])),
+        city_slug=slug,
+    )
+    _resolve_manufacturing_predecessors(manufacturing_tasks, assets)
+    manufacturing_materials = _expand_manufacturing_materials(
+        manufacturing_tasks=manufacturing_tasks,
+        bom_catalog=bom_catalog,
+    )
+    manufacturing_verifications = _expand_manufacturing_verifications(
+        manufacturing_tasks=manufacturing_tasks,
+        qa_actions=qa_actions,
+    )
+    _apply_manufacturing_control_summaries(
+        manufacturing_tasks=manufacturing_tasks,
+        manufacturing_materials=manufacturing_materials,
+        manufacturing_verifications=manufacturing_verifications,
+    )
 
     apps = _portal_apps(design_path, scenario_path)
     meta = {
@@ -313,10 +364,15 @@ def build_bundle(
         "assets": len(assets),
         "qa_gates": len(qa_template.get("construction_qa_gate", [])),
         "qa_actions": len(qa_actions),
+        "manufacturing_packages": len(manufacturing_template.get("manufacturing_package", [])),
+        "manufacturing_tasks": len(manufacturing_tasks),
+        "manufacturing_materials": len(manufacturing_materials),
+        "manufacturing_verifications": len(manufacturing_verifications),
         "maintenance_tasks": len(maintenance_tasks),
         "trainsets": sum(1 for a in assets if a["asset_type"] == "rolling-stock"),
         "stations": sum(1 for a in assets if a["asset_type"] == "station"),
         "track_sections": sum(1 for a in assets if a["asset_type"] == "track-section"),
+        "waypoints": sum(1 for a in assets if a["asset_type"] == "waypoint"),
         "switches": sum(1 for a in assets if a["asset_type"] == "switch"),
         "energy_sites": sum(1 for a in assets if a["asset_type"] == "energy"),
     }
@@ -327,10 +383,17 @@ def build_bundle(
         "applications": apps,
         "qa_gates": qa_template.get("construction_qa_gate", []),
         "maintenance_intervals": maint_template.get("maintenance_interval", []),
+        "manufacturing_packages": manufacturing_template.get("manufacturing_package", []),
         "assets": assets,
+        "manufacturing_tasks": manufacturing_tasks,
+        "manufacturing_materials": manufacturing_materials,
+        "manufacturing_verifications": manufacturing_verifications,
         "maintenance_tasks": maintenance_tasks,
         "qa_actions": qa_actions,
-        "policy": maint_template.get("policy", {}),
+        "policy": {
+            "maintenance": maint_template.get("policy", {}),
+            "manufacturing": manufacturing_template.get("policy", {}),
+        },
     }
 
 
@@ -398,6 +461,334 @@ def _expand_qa_actions(
     return rows
 
 
+def _expand_manufacturing_tasks(
+    *,
+    assets: list[dict[str, Any]],
+    packages: list[dict[str, Any]],
+    city_slug: str,
+) -> list[dict[str, Any]]:
+    rows: list[dict[str, Any]] = []
+    indexed_assets = sorted(assets, key=lambda a: (str(a.get("asset_type", "")), str(a.get("asset_id", ""))))
+    sequence_by_type: dict[str, int] = {}
+    order_by_asset: dict[str, int] = {}
+    for asset in indexed_assets:
+        asset_type = str(asset.get("asset_type", ""))
+        sequence_by_type[asset_type] = sequence_by_type.get(asset_type, 0) + 1
+        order_by_asset[str(asset.get("asset_id", ""))] = sequence_by_type[asset_type]
+
+    for package in packages:
+        target_types = {str(t) for t in package.get("asset_types", [])}
+        sequence = int(package.get("sequence", 0) or 0)
+        duration_days = int(package.get("duration_days", 1) or 1)
+        for asset in indexed_assets:
+            asset_type = str(asset.get("asset_type", ""))
+            if asset_type not in target_types:
+                continue
+            asset_order = order_by_asset.get(str(asset.get("asset_id", "")), 1)
+            start_day = _manufacturing_start_day(asset_type, sequence, asset_order)
+            finish_day = start_day + max(duration_days, 1) - 1
+            rows.append({
+                "manufacturing_uid": f"{city_slug}:{asset['asset_id']}:{package.get('id')}",
+                "city": city_slug,
+                "asset_id": asset["asset_id"],
+                "asset_name": asset["name"],
+                "asset_type": asset["asset_type"],
+                "line": asset["line"],
+                "package_id": package.get("id", ""),
+                "phase": package.get("phase", ""),
+                "sequence": sequence,
+                "work_center": package.get("work_center", ""),
+                "duration_days": duration_days,
+                "planned_start_day": start_day,
+                "planned_finish_day": finish_day,
+                "planned_start_basis": f"project_day_{start_day}",
+                "planned_finish_basis": f"project_day_{finish_day}",
+                "predecessors": package.get("predecessors", ""),
+                "predecessor_uids": "",
+                "external_predecessors": "",
+                "work_order_title": package.get("work_order_title", ""),
+                "work_order_detail": package.get("work_order_detail", ""),
+                "staff_roles": "; ".join(str(role) for role in package.get("staff_roles", [])),
+                "staff_tasks": package.get("staff_tasks", ""),
+                "materials_or_inputs": package.get("materials_or_inputs", ""),
+                "bom_refs": "; ".join(str(ref) for ref in package.get("bom_refs", [])),
+                "material_count": 0,
+                "material_status": "not generated",
+                "deliverables": package.get("deliverables", ""),
+                "evidence_required": package.get("evidence_required", ""),
+                "release_authority": package.get("release_authority", ""),
+                "qa_gate_hint": package.get("qa_gate_hint", ""),
+                "qa_uid": "",
+                "verification_uid": "",
+                "verification_status": "not generated",
+                "blocks_successors": "yes",
+                "status": "planned",
+                "priority": package.get("priority", "routine"),
+            })
+    return sorted(rows, key=lambda row: (
+        int(row["planned_start_day"]),
+        str(row["asset_type"]),
+        str(row["asset_id"]),
+        int(row["sequence"]),
+    ))
+
+
+def _resolve_manufacturing_predecessors(
+    manufacturing_tasks: list[dict[str, Any]],
+    assets: list[dict[str, Any]],
+) -> None:
+    asset_by_id = {str(asset["asset_id"]): asset for asset in assets}
+    tasks_by_asset_package = {
+        (str(task["asset_id"]), str(task["package_id"])): str(task["manufacturing_uid"])
+        for task in manufacturing_tasks
+    }
+    system_by_package = {
+        str(task["package_id"]): str(task["manufacturing_uid"])
+        for task in manufacturing_tasks
+        if task.get("asset_type") == "system"
+    }
+    track_assets = [asset for asset in assets if asset.get("asset_type") == "track-section"]
+
+    for task in manufacturing_tasks:
+        resolved: list[str] = []
+        external: list[str] = []
+        asset = asset_by_id.get(str(task["asset_id"]), {})
+        for predecessor in _split_refs(str(task.get("predecessors", ""))):
+            uid = _resolve_manufacturing_predecessor(
+                predecessor=predecessor,
+                task=task,
+                asset=asset,
+                tasks_by_asset_package=tasks_by_asset_package,
+                system_by_package=system_by_package,
+                track_assets=track_assets,
+            )
+            if uid:
+                resolved.append(uid)
+            else:
+                external.append(predecessor)
+        task["predecessor_uids"] = "; ".join(resolved)
+        task["external_predecessors"] = "; ".join(external)
+
+
+def _resolve_manufacturing_predecessor(
+    *,
+    predecessor: str,
+    task: dict[str, Any],
+    asset: dict[str, Any],
+    tasks_by_asset_package: dict[tuple[str, str], str],
+    system_by_package: dict[str, str],
+    track_assets: list[dict[str, Any]],
+) -> str:
+    asset_id = str(task["asset_id"])
+    same_asset = tasks_by_asset_package.get((asset_id, predecessor))
+    if same_asset:
+        return same_asset
+    if predecessor in system_by_package:
+        return system_by_package[predecessor]
+    parent_asset_id = str(asset.get("parent_asset", ""))
+    parent = tasks_by_asset_package.get((parent_asset_id, predecessor))
+    if parent:
+        return parent
+    if predecessor.startswith("trk-"):
+        track_asset = _nearest_track_asset(asset, track_assets)
+        if track_asset:
+            return tasks_by_asset_package.get((str(track_asset["asset_id"]), predecessor), "")
+    return ""
+
+
+def _nearest_track_asset(
+    asset: dict[str, Any],
+    track_assets: list[dict[str, Any]],
+) -> dict[str, Any] | None:
+    parent_asset = str(asset.get("parent_asset", ""))
+    for track in track_assets:
+        if str(track.get("asset_id")) == parent_asset:
+            return track
+    station = str(asset.get("station", ""))
+    line = str(asset.get("line", ""))
+    candidates = [
+        track for track in track_assets
+        if (not line or track.get("line") == line)
+        and (not station or station in str(track.get("station", "")))
+    ]
+    if candidates:
+        return sorted(candidates, key=lambda row: str(row.get("asset_id", "")))[0]
+    line_candidates = [track for track in track_assets if not line or track.get("line") == line]
+    return sorted(line_candidates, key=lambda row: str(row.get("asset_id", "")))[0] if line_candidates else None
+
+
+def _expand_manufacturing_materials(
+    *,
+    manufacturing_tasks: list[dict[str, Any]],
+    bom_catalog: dict[str, dict[str, dict[str, str]]],
+) -> list[dict[str, Any]]:
+    rows: list[dict[str, Any]] = []
+    for task in manufacturing_tasks:
+        for position, ref in enumerate(_split_refs(str(task.get("bom_refs", ""))), start=1):
+            source, key = _split_bom_ref(ref)
+            bom_row = bom_catalog.get(source, {}).get(key, {})
+            material = _material_from_bom_ref(
+                task=task,
+                source=source,
+                key=key,
+                bom_row=bom_row,
+                position=position,
+            )
+            rows.append(material)
+    return rows
+
+
+def _material_from_bom_ref(
+    *,
+    task: dict[str, Any],
+    source: str,
+    key: str,
+    bom_row: dict[str, str],
+    position: int,
+) -> dict[str, Any]:
+    if source == "rolling_stock_bom" and bom_row:
+        description = bom_row.get("description", key)
+        quantity = bom_row.get("quantity", "")
+        make_buy_source = bom_row.get("source", "")
+        base_usd = bom_row.get("base_usd", "")
+        cost_basis = bom_row.get("cost_basis", "")
+        evidence = "supplier certificate, serial/lot traceability, receiving inspection"
+    elif source == "rolling_stock_cots_fitout" and bom_row:
+        description = bom_row.get("name", key)
+        quantity = bom_row.get("qty_per_consist", "")
+        make_buy_source = "COTS"
+        base_usd = bom_row.get("consist_cost_base_usd", "")
+        cost_basis = bom_row.get("cost_basis", "")
+        evidence = "supplier datasheet, fit check, fire/safety evidence where applicable"
+    else:
+        description = key.replace("-", " ")
+        quantity = "per asset package"
+        make_buy_source = "PROJECT_KIT"
+        base_usd = ""
+        cost_basis = "Controlled project-kit placeholder; replace with detailed BOM row when available."
+        evidence = "kit issue note, receiving inspection, lot/serial traceability where applicable"
+
+    material_uid = f"{task['manufacturing_uid']}:MAT-{position:03d}"
+    return {
+        "material_uid": material_uid,
+        "manufacturing_uid": task["manufacturing_uid"],
+        "city": task["city"],
+        "asset_id": task["asset_id"],
+        "asset_name": task["asset_name"],
+        "asset_type": task["asset_type"],
+        "package_id": task["package_id"],
+        "phase": task["phase"],
+        "bom_source": source,
+        "bom_ref": key,
+        "description": description,
+        "quantity_basis": quantity,
+        "make_buy_source": make_buy_source,
+        "base_usd": base_usd,
+        "cost_basis": cost_basis,
+        "traceability_required": "yes",
+        "evidence_required": evidence,
+        "material_status": "required",
+    }
+
+
+def _expand_manufacturing_verifications(
+    *,
+    manufacturing_tasks: list[dict[str, Any]],
+    qa_actions: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    qa_by_asset_gate = {
+        (str(row["asset_id"]), str(row["gate_id"])): row
+        for row in qa_actions
+    }
+    rows: list[dict[str, Any]] = []
+    for task in manufacturing_tasks:
+        gate_id = str(task.get("qa_gate_hint", ""))
+        qa = qa_by_asset_gate.get((str(task["asset_id"]), gate_id), {})
+        verification_uid = f"{task['manufacturing_uid']}:VERIFY"
+        rows.append({
+            "verification_uid": verification_uid,
+            "manufacturing_uid": task["manufacturing_uid"],
+            "qa_uid": qa.get("qa_uid", ""),
+            "city": task["city"],
+            "asset_id": task["asset_id"],
+            "asset_name": task["asset_name"],
+            "asset_type": task["asset_type"],
+            "package_id": task["package_id"],
+            "phase": task["phase"],
+            "qa_gate_id": gate_id,
+            "qa_stage": qa.get("stage", task.get("phase", "")),
+            "hold_point": qa.get("hold_point", task.get("work_order_title", "")),
+            "evidence_required": qa.get("evidence_required", task.get("evidence_required", "")),
+            "release_authority": qa.get("release_authority", task.get("release_authority", "")),
+            "required_result": "pass",
+            "blocks_successors": "yes",
+            "verification_source": "qa_action" if qa else "template",
+            "status": "required",
+        })
+    return rows
+
+
+def _apply_manufacturing_control_summaries(
+    *,
+    manufacturing_tasks: list[dict[str, Any]],
+    manufacturing_materials: list[dict[str, Any]],
+    manufacturing_verifications: list[dict[str, Any]],
+) -> None:
+    material_counts: dict[str, int] = {}
+    for row in manufacturing_materials:
+        uid = str(row["manufacturing_uid"])
+        material_counts[uid] = material_counts.get(uid, 0) + 1
+    verifications = {
+        str(row["manufacturing_uid"]): row
+        for row in manufacturing_verifications
+    }
+    for task in manufacturing_tasks:
+        uid = str(task["manufacturing_uid"])
+        verification = verifications.get(uid, {})
+        material_count = material_counts.get(uid, 0)
+        task["material_count"] = material_count
+        task["material_status"] = "required" if material_count else "missing"
+        task["qa_uid"] = verification.get("qa_uid", "")
+        task["verification_uid"] = verification.get("verification_uid", "")
+        task["verification_status"] = verification.get("status", "missing")
+        task["qa_hold_point"] = verification.get("hold_point", "")
+
+
+def _manufacturing_start_day(asset_type: str, sequence: int, asset_order: int) -> int:
+    base_by_type = {
+        "system": 0,
+        "depots-production": 8,
+        "depot": 12,
+        "energy": 28,
+        "station": 36,
+        "track-section": 42,
+        "switch": 52,
+        "waypoint": 62,
+        "signalling-comms": 66,
+        "rolling-stock": 72,
+        "structure": 44,
+    }
+    spacing_by_type = {
+        "system": 0,
+        "depots-production": 4,
+        "depot": 5,
+        "energy": 4,
+        "station": 4,
+        "track-section": 3,
+        "switch": 2,
+        "waypoint": 2,
+        "signalling-comms": 2,
+        "rolling-stock": 4,
+        "structure": 6,
+    }
+    sequence_offset = max(sequence // 10, 0) * 5
+    return (
+        base_by_type.get(asset_type, 40)
+        + (max(asset_order, 1) - 1) * spacing_by_type.get(asset_type, 3)
+        + sequence_offset
+    )
+
+
 def _maintenance_targets(task_id: str) -> list[str]:
     if task_id.startswith("rs-"):
         return ["rolling-stock"]
@@ -412,7 +803,7 @@ def _maintenance_targets(task_id: str) -> list[str]:
     if task_id.startswith("energy-"):
         return ["energy"]
     if task_id.startswith("systems-"):
-        return ["signalling-comms"]
+        return ["signalling-comms", "waypoint"]
     if task_id == "depot-tooling":
         return ["depots-production"]
     return []
@@ -436,9 +827,9 @@ def _qa_applies(gate: dict[str, Any], asset: dict[str, Any]) -> bool:
     if gate_id == "qa-24-stations-depots-plant":
         return asset_type in {"station", "depot", "depots-production"}
     if gate_id == "qa-25-power-energy":
-        return asset_type == "energy"
+        return asset_type in {"energy", "depot"}
     if gate_id == "qa-26-wayside-comms-safety":
-        return asset_type in {"signalling-comms", "switch"}
+        return asset_type in {"signalling-comms", "switch", "waypoint"}
     return False
 
 
@@ -496,10 +887,10 @@ def _portal_apps(design_path: Path, scenario_path: Path) -> list[dict[str, str]]
         },
         {
             "id": "qa-maintenance",
-            "name": "QA + Maintenance Portal",
+            "name": "Ops Core Portal",
             "category": "embedded",
             "status": "active",
-            "summary": "Asset register, construction QA gates, and maintenance schedule for the selected city.",
+            "summary": "Asset register, manufacturing schedule, construction QA gates, maintenance schedule, work orders, evidence, defects, and audit.",
             "native_command": f"python3 scripts/generate-qa-maintenance-data.py --design {_rel(design_path)} --scenario {_rel(scenario_path)}",
             "web_command": "python3 scripts/ops-core-server.py --port 8008",
             "docs": "docs/operations-portal/README.md",
@@ -516,6 +907,27 @@ def _write_csv(path: Path, rows: list[dict[str, Any]]) -> None:
         writer = csv.DictWriter(f, fieldnames=fieldnames)
         writer.writeheader()
         writer.writerows(rows)
+
+
+def _load_bom_catalog(path: Path) -> dict[str, dict[str, dict[str, str]]]:
+    return {
+        "rolling_stock_bom": _load_csv_index(path / "rolling_stock_bom.csv", "line_id"),
+        "rolling_stock_cots_fitout": _load_csv_index(
+            path / "rolling_stock_cots_fitout_bom.csv",
+            "category",
+        ),
+    }
+
+
+def _load_csv_index(path: Path, key: str) -> dict[str, dict[str, str]]:
+    if not path.exists():
+        return {}
+    with path.open(newline="", encoding="utf-8") as f:
+        return {
+            str(row.get(key, "")): row
+            for row in csv.DictReader(f)
+            if row.get(key)
+        }
 
 
 def _load_toml(path: Path) -> dict[str, Any]:
@@ -578,6 +990,23 @@ def _rel(path: Path) -> str:
         return path.resolve().relative_to(REPO_ROOT).as_posix()
     except ValueError:
         return path.as_posix()
+
+
+def _split_refs(value: str) -> list[str]:
+    return [
+        item.strip()
+        for item in re.split(r"[;,]", value)
+        if item.strip()
+    ]
+
+
+def _split_bom_ref(ref: str) -> tuple[str, str]:
+    if ":" not in ref:
+        return "project_kit", ref
+    parts = ref.split(":")
+    if len(parts) == 2:
+        return parts[0], parts[1]
+    return parts[0], ":".join(parts[1:])
 
 
 def _next_due_basis(cadence: str) -> str:

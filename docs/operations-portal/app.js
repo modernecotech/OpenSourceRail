@@ -26,6 +26,7 @@ const state = {
   },
   activeTab: "dashboard",
   qaVisible: [],
+  manufacturingVisible: [],
   tasksVisible: [],
   assetsVisible: [],
   workOrdersVisible: [],
@@ -79,6 +80,10 @@ function bindFilters() {
   [
     "qaSearch",
     "qaDomain",
+    "manufacturingSearch",
+    "manufacturingType",
+    "manufacturingPhase",
+    "manufacturingOwner",
     "taskSearch",
     "taskType",
     "taskOwner",
@@ -97,8 +102,12 @@ function bindExports() {
     button.addEventListener("click", () => {
       const kind = button.dataset.export;
       if (kind === "maintenance") return downloadCsv("maintenance-schedule.csv", state.data.maintenance_tasks);
+      if (kind === "manufacturing") return downloadCsv("manufacturing-schedule.csv", state.data.manufacturing_tasks);
+      if (kind === "manufacturing-materials") return downloadCsv("manufacturing-materials.csv", state.data.manufacturing_materials);
+      if (kind === "manufacturing-verification") return downloadCsv("manufacturing-verification.csv", state.data.manufacturing_verifications);
       if (kind === "qa") return downloadCsv("qa-register.csv", state.data.qa_actions);
       if (kind === "qa-visible") return downloadCsv("qa-visible.csv", state.qaVisible);
+      if (kind === "manufacturing-visible") return downloadCsv("manufacturing-visible.csv", state.manufacturingVisible);
       if (kind === "maintenance-visible") return downloadCsv("maintenance-visible.csv", state.tasksVisible);
       if (kind === "assets-visible") return downloadCsv("assets-visible.csv", state.assetsVisible);
       if (kind === "core-workorders") return downloadCsv("work-orders.csv", state.core.workOrders);
@@ -118,6 +127,7 @@ function bindCoreActions() {
     saveInspection();
   });
   document.getElementById("seedCorePlan")?.addEventListener("click", generateDueWork);
+  document.getElementById("openVisibleManufacturing")?.addEventListener("click", openVisibleManufacturingWork);
   document.getElementById("refreshReconcile")?.addEventListener("click", renderReconciliation);
   document.getElementById("mergeLocalToSqlite")?.addEventListener("click", mergeLocalToSqlite);
   document.addEventListener("click", (event) => {
@@ -125,6 +135,7 @@ function bindCoreActions() {
     if (!button) return;
     if (button.dataset.createTask) createWorkOrderFromTask(button.dataset.createTask);
     if (button.dataset.createQa) createWorkOrderFromQa(button.dataset.createQa);
+    if (button.dataset.createManufacturing) createWorkOrderFromManufacturing(button.dataset.createManufacturing);
     if (button.dataset.selectWo) selectWorkOrder(button.dataset.selectWo);
     if (button.dataset.advanceWo) advanceWorkOrder(button.dataset.advanceWo);
     if (button.dataset.holdWo) holdWorkOrder(button.dataset.holdWo);
@@ -148,6 +159,9 @@ function renderMetrics() {
   const totals = state.data.totals;
   const metrics = [
     ["Assets", totals.assets],
+    ["Manufacturing Tasks", totals.manufacturing_tasks],
+    ["Material / BOM Rows", totals.manufacturing_materials],
+    ["QA Verifications", totals.manufacturing_verifications],
     ["Maintenance Tasks", totals.maintenance_tasks],
     ["QA Actions", totals.qa_actions],
     ["Trainsets", totals.trainsets],
@@ -160,6 +174,9 @@ function renderMetrics() {
 
 function renderFilters() {
   fillSelect("qaDomain", ["All domains", ...unique(state.data.qa_actions.map((r) => r.domain))]);
+  fillSelect("manufacturingType", ["All asset types", ...unique(state.data.manufacturing_tasks.map((r) => r.asset_type))]);
+  fillSelect("manufacturingPhase", ["All phases", ...unique(state.data.manufacturing_tasks.map((r) => r.phase))]);
+  fillSelect("manufacturingOwner", ["All owners", ...unique(state.data.manufacturing_tasks.map((r) => r.release_authority))]);
   fillSelect("taskType", ["All asset types", ...unique(state.data.maintenance_tasks.map((r) => r.asset_type))]);
   fillSelect("taskOwner", ["All owners", ...unique(state.data.maintenance_tasks.map((r) => r.owner))]);
   fillSelect("assetType", ["All asset types", ...unique(state.data.assets.map((r) => r.asset_type))]);
@@ -184,6 +201,7 @@ function fillSelect(id, values) {
 
 function renderTables() {
   renderQaTable();
+  renderManufacturingTable();
   renderTaskTable();
   renderAssetTable();
   renderCoreTables();
@@ -232,6 +250,67 @@ function renderTaskTable() {
   )).join("");
 }
 
+function renderManufacturingTable() {
+  const search = norm(document.getElementById("manufacturingSearch").value);
+  const type = document.getElementById("manufacturingType").value;
+  const phase = document.getElementById("manufacturingPhase").value;
+  const owner = document.getElementById("manufacturingOwner").value;
+  state.manufacturingVisible = state.data.manufacturing_tasks.filter((row) => {
+    if (type && row.asset_type !== type) return false;
+    if (phase && row.phase !== phase) return false;
+    if (owner && row.release_authority !== owner) return false;
+    return matches(row, search, [
+      "asset_id",
+      "asset_name",
+      "asset_type",
+      "line",
+      "package_id",
+      "phase",
+      "work_center",
+      "work_order_title",
+      "work_order_detail",
+      "staff_roles",
+      "staff_tasks",
+      "bom_refs",
+      "qa_gate_hint",
+      "qa_uid",
+      "release_authority",
+      "evidence_required",
+      "predecessors",
+    ]);
+  }).slice(0, 700);
+  const button = document.getElementById("openVisibleManufacturing");
+  if (button) button.disabled = state.manufacturingVisible.length === 0;
+  if (!state.manufacturingVisible.length) {
+    document.getElementById("manufacturingTable").innerHTML = emptyRow(8, "No manufacturing rows");
+    return;
+  }
+  document.getElementById("manufacturingTable").innerHTML = state.manufacturingVisible.map((row) => (
+    (() => {
+      const blockers = manufacturingBlockers(row);
+      const controlStatus = manufacturingControlStatus(row, blockers);
+      const disabled = blockers.length ? " disabled" : "";
+      const blockerTitle = blockers.length ? ` title="${escapeAttr(`Blocked by ${blockers.join(", ")}`)}"` : "";
+      return `<tr>
+        <td><code>${escapeHtml(row.asset_id)}</code><br>${escapeHtml(row.asset_name)}</td>
+        <td><code>${escapeHtml(row.package_id)}</code><br>${escapeHtml(row.phase)}</td>
+        <td>${escapeHtml(row.planned_start_basis)}<br>${escapeHtml(row.planned_finish_basis)}</td>
+        <td>${escapeHtml(row.release_authority)}<br><span class="muted-text">${escapeHtml(row.staff_roles)}</span></td>
+        <td>${escapeHtml(row.work_order_title)}<br><span class="muted-text">${escapeHtml(row.staff_tasks)}</span></td>
+        <td>${escapeHtml(row.predecessors || "-")}<br><span class="muted-text">${escapeHtml(row.predecessor_uids || row.external_predecessors || "")}</span></td>
+        <td>
+          ${formatNumber(row.material_count || 0)} BOM refs<br>
+          <code>${escapeHtml(row.qa_gate_hint || "-")}</code><br>
+          ${statusTag(controlStatus)}
+        </td>
+        <td class="action-cell">
+          <button class="mini-button" type="button" data-create-manufacturing="${escapeAttr(row.manufacturing_uid)}"${disabled}${blockerTitle}>Open WO</button>
+        </td>
+      </tr>`;
+    })()
+  )).join("");
+}
+
 function renderAssetTable() {
   const search = norm(document.getElementById("assetSearch").value);
   const type = document.getElementById("assetType").value;
@@ -254,6 +333,7 @@ function renderAssetTable() {
 }
 
 function renderCharts() {
+  renderBarList("manufacturingChart", countBy(state.data.manufacturing_tasks, "phase"));
   renderBarList("maintenanceChart", countBy(state.data.maintenance_tasks, "asset_type"));
   renderBarList("qaChart", countBy(state.data.qa_actions, "domain"));
 }
@@ -377,6 +457,13 @@ function renderSelectedWorkOrder() {
     <div><dt>Asset</dt><dd><code>${escapeHtml(wo.asset_id)}</code> ${escapeHtml(wo.asset_name)}</dd></div>
     <div><dt>Owner</dt><dd>${escapeHtml(wo.owner)}</dd></div>
     <div><dt>Status</dt><dd>${statusTag(wo.status)}</dd></div>
+    ${wo.planned_window ? `<div><dt>Window</dt><dd>${escapeHtml(wo.planned_window)}</dd></div>` : ""}
+    ${wo.work_center ? `<div><dt>Center</dt><dd>${escapeHtml(wo.work_center)}</dd></div>` : ""}
+    ${wo.material_count ? `<div><dt>BOM</dt><dd>${formatNumber(wo.material_count)} refs; ${escapeHtml(wo.material_status || "required")}</dd></div>` : ""}
+    ${wo.qa_gate_hint ? `<div><dt>QA</dt><dd><code>${escapeHtml(wo.qa_gate_hint)}</code> ${escapeHtml(wo.qa_uid || "template verification")}</dd></div>` : ""}
+    ${wo.staff_tasks ? `<div><dt>Tasks</dt><dd>${escapeHtml(wo.staff_tasks)}</dd></div>` : ""}
+    ${wo.evidence_required ? `<div><dt>Evidence</dt><dd>${escapeHtml(wo.evidence_required)}</dd></div>` : ""}
+    ${wo.predecessors ? `<div><dt>Depends</dt><dd>${escapeHtml(wo.predecessors)}</dd></div>` : ""}
     <div><dt>Latest</dt><dd>${recent ? `${escapeHtml(recent.result)} - ${escapeHtml(recent.note || recent.reading || recent.evidence_ref || "recorded")}` : "No evidence yet"}</dd></div>
   </dl>`;
 }
@@ -460,6 +547,41 @@ function createWorkOrderFromQa(uid) {
   renderCore();
 }
 
+function createWorkOrderFromManufacturing(uid) {
+  const task = state.data.manufacturing_tasks.find((row) => row.manufacturing_uid === uid);
+  if (!task) return;
+  const blockers = manufacturingBlockers(task);
+  if (blockers.length) {
+    alert(`Blocked by predecessor QA/work order: ${blockers.join(", ")}`);
+    logAudit("blocked", task.manufacturing_uid, blockers.join(", "));
+    saveCoreState();
+    renderCore();
+    return;
+  }
+  const wo = createWorkOrder(workOrderFromManufacturing(task, document.getElementById("coreDueDate").value || todayString()));
+  state.selectedWorkOrderId = wo.id;
+  saveCoreState();
+  renderCore();
+}
+
+function openVisibleManufacturingWork() {
+  const dueDate = document.getElementById("coreDueDate").value || todayString();
+  let created = 0;
+  let skipped = 0;
+  state.manufacturingVisible.forEach((task) => {
+    if (manufacturingBlockers(task).length) {
+      skipped += 1;
+      return;
+    }
+    const before = state.core.workOrders.length;
+    createWorkOrder(workOrderFromManufacturing(task, dueDate), { audit: false, save: false });
+    if (state.core.workOrders.length > before) created += 1;
+  });
+  logAudit("generated", "manufacturing-visible", `${created} manufacturing work orders for ${dueDate}; ${skipped} blocked`);
+  saveCoreState();
+  renderCore();
+}
+
 function generateDueWork() {
   const scope = document.getElementById("corePlanScope").value;
   const dueDate = document.getElementById("corePlanDate").value || todayString();
@@ -500,6 +622,22 @@ function createWorkOrder(payload, options = {}) {
     asset_name: payload.asset_name,
     asset_type: payload.asset_type,
     title: payload.title,
+    detail: payload.detail || "",
+    staff_tasks: payload.staff_tasks || "",
+    evidence_required: payload.evidence_required || "",
+    work_center: payload.work_center || "",
+    planned_window: payload.planned_window || "",
+    predecessors: payload.predecessors || "",
+    predecessor_uids: payload.predecessor_uids || "",
+    external_predecessors: payload.external_predecessors || "",
+    bom_refs: payload.bom_refs || "",
+    material_count: payload.material_count || 0,
+    material_status: payload.material_status || "",
+    qa_gate_hint: payload.qa_gate_hint || "",
+    qa_uid: payload.qa_uid || "",
+    verification_uid: payload.verification_uid || "",
+    verification_status: payload.verification_status || "",
+    blocks_successors: payload.blocks_successors || "",
     owner: payload.owner || "operations control",
     priority: payload.priority || "routine",
     due_date: payload.due_date || todayString(),
@@ -518,6 +656,13 @@ function workOrderFromTask(task, dueDate) {
     asset_name: task.asset_name,
     asset_type: task.asset_type,
     title: task.scope,
+    detail: `${task.cadence}; ${task.trigger}`,
+    staff_tasks: task.scope,
+    evidence_required: task.evidence_required,
+    work_center: task.line || task.asset_type,
+    planned_window: task.next_due_basis,
+    predecessors: "",
+    qa_gate_hint: "",
     owner: task.owner,
     priority: task.severity === "routine" ? "routine" : "attention",
     due_date: dueDate,
@@ -532,10 +677,98 @@ function workOrderFromQa(qa, dueDate) {
     asset_name: qa.asset_name,
     asset_type: qa.asset_type,
     title: `${qa.gate_id}: ${qa.hold_point}`,
+    detail: qa.evidence_required,
+    staff_tasks: qa.hold_point,
+    evidence_required: qa.evidence_required,
+    work_center: qa.stage,
+    planned_window: qa.stage,
+    predecessors: "",
+    qa_gate_hint: qa.gate_id,
     owner: qa.release_authority,
     priority: "safety",
     due_date: dueDate,
   };
+}
+
+function workOrderFromManufacturing(task, dueDate) {
+  return {
+    source_type: "manufacturing",
+    source_uid: task.manufacturing_uid,
+    asset_id: task.asset_id,
+    asset_name: task.asset_name,
+    asset_type: task.asset_type,
+    title: `${task.package_id}: ${task.work_order_title}`,
+    detail: task.work_order_detail,
+    staff_tasks: task.staff_tasks,
+    evidence_required: task.evidence_required,
+    work_center: task.work_center,
+    planned_window: `${task.planned_start_basis} to ${task.planned_finish_basis}`,
+    predecessors: task.predecessors,
+    predecessor_uids: task.predecessor_uids,
+    external_predecessors: task.external_predecessors,
+    bom_refs: task.bom_refs,
+    material_count: task.material_count,
+    material_status: task.material_status,
+    qa_gate_hint: task.qa_gate_hint,
+    qa_uid: task.qa_uid,
+    verification_uid: task.verification_uid,
+    verification_status: task.verification_status,
+    blocks_successors: task.blocks_successors,
+    owner: task.release_authority,
+    priority: task.priority || "routine",
+    due_date: dueDate,
+  };
+}
+
+function manufacturingControlStatus(task, blockers = manufacturingBlockers(task)) {
+  if (manufacturingVerificationPassed(task.manufacturing_uid)) return "verified";
+  const wo = manufacturingWorkOrderFor(task.manufacturing_uid);
+  if (wo?.status === "hold") return "hold";
+  if (blockers.length) return "blocked";
+  if (!Number(task.material_count || 0)) return "missing materials";
+  if (!task.verification_uid) return "missing qa";
+  return wo ? wo.status : "required";
+}
+
+function manufacturingBlockers(task) {
+  const blockers = [];
+  splitList(task.predecessor_uids).forEach((uid) => {
+    if (!manufacturingVerificationPassed(uid)) {
+      blockers.push(shortManufacturingRef(uid));
+    }
+  });
+  if (!Number(task.material_count || 0)) blockers.push("materials");
+  if (!task.verification_uid) blockers.push("qa verification");
+  return blockers;
+}
+
+function manufacturingAdvanceBlocker(wo, nextStatusValue) {
+  if (wo.source_type !== "manufacturing") return "";
+  if (!["ready_to_close", "closed"].includes(nextStatusValue)) return "";
+  const pass = state.core.inspections.some((row) => row.wo_id === wo.id && row.result === "pass");
+  if (!pass) return "Manufacturing QA pass evidence is required before this work can be released.";
+  if (wo.material_status === "missing" || Number(wo.material_count || 0) === 0) {
+    return "Manufacturing material/BOM references are required before this work can be released.";
+  }
+  return "";
+}
+
+function manufacturingVerificationPassed(uid) {
+  const wo = manufacturingWorkOrderFor(uid);
+  if (!wo || wo.status !== "closed") return false;
+  return state.core.inspections.some((row) => row.wo_id === wo.id && row.result === "pass");
+}
+
+function manufacturingWorkOrderFor(uid) {
+  return state.core.workOrders.find((row) => (
+    row.source_type === "manufacturing" &&
+    row.source_uid === uid
+  ));
+}
+
+function shortManufacturingRef(uid) {
+  const task = state.data.manufacturing_tasks.find((row) => row.manufacturing_uid === uid);
+  return task ? `${task.asset_id}/${task.package_id}` : uid;
 }
 
 function selectWorkOrder(id) {
@@ -547,6 +780,14 @@ function advanceWorkOrder(id) {
   const wo = state.core.workOrders.find((row) => row.id === id);
   if (!wo) return;
   const next = nextStatus(wo.status);
+  const blockReason = manufacturingAdvanceBlocker(wo, next);
+  if (blockReason) {
+    alert(blockReason);
+    logAudit("blocked", id, blockReason);
+    saveCoreState();
+    renderCore();
+    return;
+  }
   wo.status = next;
   wo.updated_at = timestamp();
   if (next === "closed") wo.closed_at = wo.updated_at;
@@ -962,6 +1203,7 @@ function findAsset(value) {
 
 function coreOwners() {
   return unique([
+    ...state.data.manufacturing_tasks.map((row) => row.release_authority),
     ...state.data.maintenance_tasks.map((row) => row.owner),
     ...state.data.qa_actions.map((row) => row.release_authority),
     "operations control",
@@ -1062,6 +1304,13 @@ function chainage(row) {
 
 function unique(values) {
   return [...new Set(values.filter(Boolean))].sort((a, b) => String(a).localeCompare(String(b)));
+}
+
+function splitList(value) {
+  return String(value || "")
+    .split(/[;,]/)
+    .map((item) => item.trim())
+    .filter(Boolean);
 }
 
 function formatNumber(value) {

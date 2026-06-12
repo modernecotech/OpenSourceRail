@@ -383,13 +383,14 @@ flowchart LR
   EnergySite <--> Grid
 ```
 
-## 8. QA, Maintenance, and Evidence Flow
+## 8. Manufacturing, QA, Maintenance, and Evidence Flow
 
 ```mermaid
 flowchart TB
   subgraph Generated["Generated Design Data"]
     DesignToml["city design.toml"]
     ScenarioToml["scenario toml"]
+    ManufacturingTemplate["manufacturing-schedule.toml"]
     QATemplate["construction-qa.toml"]
     MaintTemplate["maintenance-schedule.toml"]
   end
@@ -397,6 +398,9 @@ flowchart TB
   subgraph PortalData["Portal Data Generator"]
     Generator["generate-qa-maintenance-data.py"]
     AssetCSV["asset register CSV"]
+    ManufacturingCSV["manufacturing schedule CSV"]
+    MaterialCSV["manufacturing materials CSV"]
+    VerificationCSV["manufacturing verification CSV"]
     QACSV["QA action CSV"]
     MaintCSV["maintenance schedule CSV"]
     Bundle["operations JSON bundle"]
@@ -421,9 +425,13 @@ flowchart TB
 
   DesignToml --> Generator
   ScenarioToml --> Generator
+  ManufacturingTemplate --> Generator
   QATemplate --> Generator
   MaintTemplate --> Generator
   Generator --> AssetCSV
+  Generator --> ManufacturingCSV
+  Generator --> MaterialCSV
+  Generator --> VerificationCSV
   Generator --> QACSV
   Generator --> MaintCSV
   Generator --> Bundle

@@ -71,7 +71,7 @@ artifact index.
 | [mechanical-py/](mechanical-py/) | Python parametric mechanical catalogue: rolling stock, track, civil, stations, depots, fixtures, generated FreeCAD review artifacts |
 | [hardware/](hardware/) | Hardware reference designs and DIY assembly for T-ECU/S, T-ECU/A, T-OBS, W-SBC, S-SBC |
 | [docs/](docs/) | Architecture, RFCs, certification pack, safety case, operations, civil, stations, rolling-stock docs |
-| [docs/operations-portal/](docs/operations-portal/) | Browser operations portal for asset registers, QA gates, maintenance work orders, defects/NCR, audit, SQLite storage, and reconciliation |
+| [docs/operations-portal/](docs/operations-portal/) | Browser operations portal for asset registers, manufacturing schedules, QA gates, maintenance work orders, defects/NCR, audit, SQLite storage, and reconciliation |
 | [lib/](lib/) | Machine-readable templates, recipes, examples, city batches, cost/finance inputs |
 | [formal/](formal/) | TLA+ consensus specification and model-checking harnesses |
 | [tools/](tools/) | Companion tools including LandXML to OSR-ALN and the Python MA reference interpreter |
@@ -82,7 +82,8 @@ The generated PDF reader edition is [opensource-rail-docs-book.pdf](opensource-r
 ## Software Architecture Diagrams
 
 Editable Mermaid diagrams for the backend, train, station, depot,
-wayside waypoint, energy, QA/maintenance, and safety/security layers are
+wayside waypoint, energy, manufacturing, QA, maintenance, and
+safety/security layers are
 collected in
 [docs/software-architecture-diagrams.md](docs/software-architecture-diagrams.md).
 
@@ -95,7 +96,7 @@ collected in
 | [Wayside / waypoint node software](docs/software-architecture-diagrams.md#5-wayside--waypoint-node-software) | W-SBC, consensus, interlocking, points, balises, intrusion, crossings, hot-axle detection |
 | [Control and data flow](docs/software-architecture-diagrams.md#6-control-and-data-flow) | Dispatcher request through route safety, movement authority, telemetry, CBM, and work orders |
 | [Energy and charging software](docs/software-architecture-diagrams.md#7-energy-and-charging-software) | Charging dispatch, train BMS, regen, station/depot PV, BESS, chargers, and grid tie |
-| [QA, maintenance, and evidence flow](docs/software-architecture-diagrams.md#8-qa-maintenance-and-evidence-flow) | Generated asset/QA/maintenance data into Ops Core, SQLite, evidence, NCR, and audit |
+| [Manufacturing, QA, maintenance, and evidence flow](docs/software-architecture-diagrams.md#8-manufacturing-qa-maintenance-and-evidence-flow) | Generated asset/manufacturing/QA/maintenance data into Ops Core, SQLite, evidence, NCR, and audit |
 | [Safety and security boundaries](docs/software-architecture-diagrams.md#9-safety-and-security-boundaries) | SIL-4, SIL-2, SIL-0, crypto, time sync, self-test, and signed firmware boundaries |
 
 ## Quick Start
@@ -125,10 +126,13 @@ python3 scripts/repo-health.py --quiet
 
 ## Operations Portal
 
-The browser portal gives each generated city an asset register, QA gate
-register, maintenance schedule, lightweight Ops Core work-order loop,
-defects/NCR register, audit trail, SQLite persistence, and a reconciliation
-path for browser-local fallback records.
+The browser portal gives each generated city an asset register,
+manufacturing schedule, QA gate register, maintenance schedule,
+lightweight Ops Core work-order loop, defects/NCR register, audit trail,
+SQLite persistence, and a reconciliation path for browser-local fallback
+records. Manufacturing rows include controlled material/BOM refs, QA
+verification rows, resolved predecessor ids, and release blocking until
+predecessor work is closed with pass evidence.
 
 Run the SQLite-backed portal:
 
@@ -147,13 +151,25 @@ Key docs:
 
 - [Operations portal](docs/operations-portal/README.md)
 - [OSR Ops Core](docs/operations-portal/ops-core.md)
+- [Acceptance and accreditation evidence basis](docs/operations-portal/acceptance-evidence-report.md)
+- [Acceptance evidence matrix CSV](docs/operations-portal/data/samawah-acceptance-evidence-matrix.csv)
 - [Operations portal gap analysis](docs/operations-portal/gap-analysis.md)
 - [RFC 0028 construction QA](docs/rfcs/0028-construction-quality-assurance.md)
 - [RFC 0029 maintenance schedule system](docs/rfcs/0029-maintenance-schedule-system.md)
+- [RFC 0030 manufacturing schedule system](docs/rfcs/0030-manufacturing-schedule-system.md)
 
 | Portal dashboard | Ops Core + SQLite | QA gates |
 |---|---|---|
 | ![Operations portal dashboard with Samawah asset, maintenance, QA, trainset, and station metrics](docs/screenshots/operations-portal/dashboard.png) | ![Ops Core tab showing SQLite storage, reconciliation, work orders, defect hold, and evidence counts](docs/screenshots/operations-portal/ops-core-sqlite.png) | ![QA Gates tab showing asset-level construction QA hold points and one-click work-order creation](docs/screenshots/operations-portal/qa-gates.png) |
+
+The acceptance/accreditation evidence basis is generated from the same
+city operations bundle. It checks that every manufacturing row has
+material/BOM refs, a QA verification row, a linked QA action, resolved
+predecessor ids, and release blocking through Ops Core evidence.
+
+| Acceptance dashboard | Manufacturing controls |
+|---|---|
+| ![Operations portal dashboard showing manufacturing tasks, material BOM rows, QA verifications, maintenance tasks, QA actions, trains, and stations](docs/screenshots/operations-portal/acceptance-dashboard.png) | ![Manufacturing tab showing asset-level packages, project-day windows, crew tasks, dependencies, BOM references, QA gate links, blocked successor status, and export controls](docs/screenshots/operations-portal/manufacturing-schedule.png) |
 
 ## Simulation Screenshots
 

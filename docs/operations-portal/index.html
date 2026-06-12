@@ -22,6 +22,7 @@
     <button class="tab active" data-tab="dashboard">Dashboard</button>
     <button class="tab" data-tab="core">Ops Core</button>
     <button class="tab" data-tab="qa">QA Gates</button>
+    <button class="tab" data-tab="manufacturing">Manufacturing</button>
     <button class="tab" data-tab="maintenance">Maintenance</button>
     <button class="tab" data-tab="assets">Assets</button>
     <button class="tab" data-tab="occ">OCC</button>
@@ -33,6 +34,13 @@
     <section class="panel active" id="dashboard">
       <div class="metrics" id="metrics"></div>
       <div class="split">
+        <section class="surface">
+          <div class="section-head">
+            <h2>Manufacturing Load</h2>
+            <button class="text-button" data-export="manufacturing">Export CSV</button>
+          </div>
+          <div id="manufacturingChart" class="bar-list"></div>
+        </section>
         <section class="surface">
           <div class="section-head">
             <h2>Maintenance Load</h2>
@@ -229,6 +237,36 @@
             </tr>
           </thead>
           <tbody id="taskTable"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="panel" id="manufacturing">
+      <div class="toolbar">
+        <input id="manufacturingSearch" type="search" placeholder="Search manufacturing" />
+        <select id="manufacturingType"></select>
+        <select id="manufacturingPhase"></select>
+        <select id="manufacturingOwner"></select>
+        <button class="text-button" id="openVisibleManufacturing" type="button">Open Visible WOs</button>
+        <button class="text-button" data-export="manufacturing-visible">Export Visible</button>
+        <button class="text-button" data-export="manufacturing-materials">Export Materials</button>
+        <button class="text-button" data-export="manufacturing-verification">Export QA</button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Asset</th>
+              <th>Package</th>
+              <th>Window</th>
+              <th>Crew</th>
+              <th>Work</th>
+              <th>Dependencies</th>
+              <th>Evidence</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="manufacturingTable"></tbody>
         </table>
       </div>
     </section>

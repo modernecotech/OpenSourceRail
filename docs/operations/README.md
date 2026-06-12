@@ -33,10 +33,18 @@ and the machine-readable
 [`../../lib/templates/maintenance-schedule.toml`](../../lib/templates/maintenance-schedule.toml)
 template.
 
+Manufacturing scheduling for trains, waypoints/W-SBCs, track, switches,
+stations, depots, energy sites, and production plant tasks is documented
+in
+[`../rfcs/0030-manufacturing-schedule-system.md`](../rfcs/0030-manufacturing-schedule-system.md)
+and the machine-readable
+[`../../lib/templates/manufacturing-schedule.toml`](../../lib/templates/manufacturing-schedule.toml)
+template.
+
 The browser front door for those generated city operations records is
 [`../operations-portal/`](../operations-portal/). It combines the asset
-register, QA actions, maintenance schedule, and launch panels for the
-existing OCC/simulator/back-office crates.
+register, manufacturing schedule, QA actions, maintenance schedule, and
+launch panels for the existing OCC/simulator/back-office crates.
 
 ## How to add a rule
 
