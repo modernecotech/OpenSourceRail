@@ -463,7 +463,7 @@ This is where the city instance connects back to the shared domain designs:
 - Station screens: SBC + standard displays per the D4 design, with prayer-time integration for culturally appropriate PA silence windows.
 
 ### D5. Rolling Stock
-- 81 revenue + 10 spare/cold-reserve 3-car trainsets, 273 cars total.
+- 86 revenue + 10 spare/cold-reserve 3-car trainsets, 288 cars total.
 - Reference T-ECU hardware across all non-traction-power functions.
 - Onboard battery at 360 kWh/trainset, Na-ion.
 - Roof PV at 19.2 kW/trainset with low-pressure air-cleaner support in
