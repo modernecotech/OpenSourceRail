@@ -1,0 +1,456 @@
+# Manufacturing schedule template for OSR city deployments.
+#
+# The generator expands these work packages to each city asset. Rows are
+# intentionally spreadsheet-friendly: one asset, one package, one planned
+# production/installation work order candidate.
+
+[policy]
+planning_basis = "Project-day offsets from notice-to-proceed; replace project_day_N with real dates when the city baseline is approved."
+work_order_rule = "Every manufacturing schedule row can be converted into an Ops Core work order with assignee, due date, evidence, NCR/defect hold, audit, and SQLite persistence."
+crew_rule = "Crew roles name accountable disciplines, not contractors; local owner-builder teams may staff more than one role."
+handover_rule = "Closed manufacturing work orders hand over evidence into construction QA, commissioning, and later maintenance records."
+reconciliation = "SQLite is the source of record when available; browser-local records can be merged through Ops Core reconciliation."
+
+[[manufacturing_package]]
+id = "sys-00-baseline-freeze"
+asset_types = ["system"]
+phase = "program-control"
+sequence = 0
+duration_days = 5
+work_center = "project controls"
+work_order_title = "Manufacturing baseline, ITP, and traveller release"
+work_order_detail = "Freeze asset register, route build lots, production traveller numbering, QA hold points, material release rules, and staff authorization matrix."
+staff_roles = ["project controls lead", "quality manager", "production planner", "safety assurance lead"]
+staff_tasks = "Publish baseline schedule; assign lot numbers; approve traveller templates; map QA gates to work packages; brief production supervisors."
+materials_or_inputs = "Approved design.toml, scenario.toml, QA template, maintenance template, manufacturing template"
+bom_refs = ["project_kit:program-control:baseline-pack"]
+deliverables = "Baseline schedule, work breakdown structure, lot register, authorization matrix"
+evidence_required = "signed schedule baseline, ITP register, revision-controlled traveller pack"
+release_authority = "owner engineer"
+qa_gate_hint = "qa-00-design-freeze"
+priority = "safety"
+predecessors = ""
+
+[[manufacturing_package]]
+id = "rs-10-material-kit"
+asset_types = ["rolling-stock"]
+phase = "rolling-stock"
+sequence = 10
+duration_days = 3
+work_center = "rolling stock plant"
+work_order_title = "Trainset material kit and production traveller"
+work_order_detail = "Create the trainset production traveller, allocate BOM kit, verify cell, motor, inverter, brake, door, HVAC, interior, and fastener traceability."
+staff_roles = ["stores clerk", "production planner", "quality technician"]
+staff_tasks = "Pick kit; scan serials; quarantine substitutions; attach certificates; release first operation."
+materials_or_inputs = "Approved rolling-stock BOM, material certificates, software baseline"
+bom_refs = [
+  "rolling_stock_bom:B1", "rolling_stock_bom:B2", "rolling_stock_bom:B3",
+  "rolling_stock_bom:B4", "rolling_stock_bom:B5", "rolling_stock_bom:T5",
+  "rolling_stock_bom:T6", "rolling_stock_bom:T11", "rolling_stock_bom:T18",
+  "rolling_stock_bom:E1", "rolling_stock_bom:E2", "rolling_stock_bom:E17"
+]
+deliverables = "released kit, trainset traveller, serial traceability sheet"
+evidence_required = "kit checklist, certificates, traveller signoff"
+release_authority = "production planner"
+qa_gate_hint = "qa-10-carbody-structure"
+priority = "routine"
+predecessors = "sys-00-baseline-freeze"
+
+[[manufacturing_package]]
+id = "rs-20-carbody-bogie"
+asset_types = ["rolling-stock"]
+phase = "rolling-stock"
+sequence = 20
+duration_days = 12
+work_center = "rolling stock plant"
+work_order_title = "Carbody, bogie, wheelset, and brake build"
+work_order_detail = "Fabricate carbody modules, weld/bolt structural interfaces, assemble bogies, wheelsets, suspension, and electromagnetic brake assemblies."
+staff_roles = ["fabrication lead", "weld inspector", "bogie technician", "brake technician"]
+staff_tasks = "Build structure; record dimensions; perform weld/NDT sample; assemble bogies; torque-mark safety fasteners."
+materials_or_inputs = "Carbody kit, bogie kit, wheelsets, brake actuators, weld procedure"
+bom_refs = [
+  "rolling_stock_bom:B1", "rolling_stock_bom:B2", "rolling_stock_bom:B3",
+  "rolling_stock_bom:B4", "rolling_stock_bom:B5", "rolling_stock_bom:B22",
+  "rolling_stock_bom:B23", "rolling_stock_bom:B26", "rolling_stock_bom:B29",
+  "rolling_stock_bom:G1", "rolling_stock_bom:G2", "rolling_stock_bom:G3",
+  "rolling_stock_bom:G4", "rolling_stock_bom:G5", "rolling_stock_bom:G6",
+  "rolling_stock_bom:G7", "rolling_stock_bom:G8", "rolling_stock_bom:G9",
+  "rolling_stock_bom:G10", "rolling_stock_bom:G11", "rolling_stock_bom:G12",
+  "rolling_stock_bom:G13", "rolling_stock_bom:G14", "rolling_stock_bom:G15",
+  "rolling_stock_bom:G16", "rolling_stock_bom:G17", "rolling_stock_bom:G18",
+  "rolling_stock_bom:G19", "rolling_stock_bom:G20"
+]
+deliverables = "accepted carbody shell, bogie set, brake subsystem"
+evidence_required = "dimensional report, weld pack, NDT report, torque record"
+release_authority = "rolling-stock QA lead"
+qa_gate_hint = "qa-11-bogie-wheelset"
+priority = "safety"
+predecessors = "rs-10-material-kit"
+
+[[manufacturing_package]]
+id = "rs-25-clip-on-body"
+asset_types = ["rolling-stock"]
+phase = "rolling-stock"
+sequence = 25
+duration_days = 1
+work_center = "rolling stock clip-on body cell"
+work_order_title = "Install and release three-car clip-on fiberglass exterior body"
+work_order_detail = "Six parallel two-person crews install 96 side and 48 roof modules on three painted, dimensionally released frames using keyed hooks, captive clips, anti-lift retainers, and dry EPDM seals; complete water and rattle release within one eight-hour shift."
+staff_roles = ["body-cell lead", "composite fitter", "quality technician"]
+staff_tasks = "Verify datums and kit revisions; fit dry seals; hang/latch modules; record witness map; water/rattle test; close snags."
+materials_or_inputs = "Released three-car frame set, numbered 1 m fiberglass modules, clip/retainer kits, EPDM seals, module map"
+bom_refs = ["rolling_stock_bom:B6", "rolling_stock_bom:B7", "rolling_stock_bom:B20", "rolling_stock_bom:B28"]
+deliverables = "three-car exterior body installed and released without production adhesive cure"
+evidence_required = "frame survey, module/clip witness map, clip proof status, water test, rattle check, eight-hour route record"
+release_authority = "rolling-stock QA lead"
+qa_gate_hint = "qa-10-carbody-structure"
+priority = "safety"
+predecessors = "rs-20-carbody-bogie"
+
+[[manufacturing_package]]
+id = "rs-30-traction-battery-control"
+asset_types = ["rolling-stock"]
+phase = "rolling-stock"
+sequence = 30
+duration_days = 10
+work_center = "rolling stock plant"
+work_order_title = "Traction, battery, onboard control, and comms install"
+work_order_detail = "Install battery strings, PMSM traction equipment, inverters, brake controllers, onboard SBCs, train comms, firmware identity, and cybersecurity keys."
+staff_roles = ["electrical lead", "battery technician", "software technician", "quality technician"]
+staff_tasks = "Install harnesses; verify insulation; load signed firmware; bind keys; run static IO and BMS tests."
+materials_or_inputs = "Battery modules, inverter kit, T-ECU/SBC kit, signed firmware, key ceremony record"
+bom_refs = [
+  "rolling_stock_bom:T1", "rolling_stock_bom:T2", "rolling_stock_bom:T3",
+  "rolling_stock_bom:T4", "rolling_stock_bom:T5", "rolling_stock_bom:T6",
+  "rolling_stock_bom:T7", "rolling_stock_bom:T8", "rolling_stock_bom:T9",
+  "rolling_stock_bom:T10", "rolling_stock_bom:T11", "rolling_stock_bom:T12",
+  "rolling_stock_bom:T13", "rolling_stock_bom:T15", "rolling_stock_bom:T16",
+  "rolling_stock_bom:T17", "rolling_stock_bom:T18", "rolling_stock_bom:T19",
+  "rolling_stock_bom:T20", "rolling_stock_bom:T21", "rolling_stock_bom:T22",
+  "rolling_stock_bom:T23", "rolling_stock_bom:E1", "rolling_stock_bom:E2",
+  "rolling_stock_bom:E3", "rolling_stock_bom:E4", "rolling_stock_bom:E5",
+  "rolling_stock_bom:E6", "rolling_stock_bom:E7", "rolling_stock_bom:E8",
+  "rolling_stock_bom:E9", "rolling_stock_bom:E16", "rolling_stock_bom:E17",
+  "rolling_stock_bom:E18", "rolling_stock_bom:E20", "rolling_stock_bom:E21",
+  "rolling_stock_bom:E22", "rolling_stock_bom:E23"
+]
+deliverables = "powered static trainset with accepted control stack"
+evidence_required = "insulation test, BMS report, firmware hash, key-register entry"
+release_authority = "rolling-stock QA lead"
+qa_gate_hint = "qa-12-traction-brake-battery"
+priority = "safety"
+predecessors = "rs-25-clip-on-body"
+
+[[manufacturing_package]]
+id = "rs-40-fitout-static-test"
+asset_types = ["rolling-stock"]
+phase = "rolling-stock"
+sequence = 40
+duration_days = 8
+work_center = "rolling stock plant"
+work_order_title = "Passenger fit-out, doors, HVAC, and static acceptance"
+work_order_detail = "Install interiors, doors, HVAC, accessibility equipment, passenger information, CCTV, emergency devices, and complete static acceptance tests."
+staff_roles = ["fit-out lead", "door technician", "HVAC technician", "quality technician"]
+staff_tasks = "Install fit-out; cycle doors; test HVAC; verify accessibility features; close snags."
+materials_or_inputs = "Door kit, HVAC kit, interior kit, passenger systems kit"
+bom_refs = [
+  "rolling_stock_bom:B6", "rolling_stock_bom:B7", "rolling_stock_bom:B8",
+  "rolling_stock_bom:B9", "rolling_stock_bom:B10", "rolling_stock_bom:B11",
+  "rolling_stock_bom:B12", "rolling_stock_bom:B13", "rolling_stock_bom:B14",
+  "rolling_stock_bom:B15", "rolling_stock_bom:B16", "rolling_stock_bom:B17",
+  "rolling_stock_bom:B18", "rolling_stock_bom:B19", "rolling_stock_bom:B20",
+  "rolling_stock_bom:B21", "rolling_stock_bom:B24", "rolling_stock_bom:B25",
+  "rolling_stock_bom:B27", "rolling_stock_bom:B28", "rolling_stock_bom:T14",
+  "rolling_stock_bom:E10", "rolling_stock_bom:E11", "rolling_stock_bom:E12",
+  "rolling_stock_bom:E13", "rolling_stock_bom:E14", "rolling_stock_bom:E15",
+  "rolling_stock_cots_fitout:window", "rolling_stock_cots_fitout:hvac-roof",
+  "rolling_stock_cots_fitout:lighting", "rolling_stock_cots_fitout:pis-screen",
+  "rolling_stock_cots_fitout:seat-bench", "rolling_stock_cots_fitout:grab-pole",
+  "rolling_stock_cots_fitout:intercom"
+]
+deliverables = "fit-out complete trainset ready for dynamic trial"
+evidence_required = "door cycle test, HVAC test, accessibility checklist, snag closeout"
+release_authority = "rolling-stock QA lead"
+qa_gate_hint = "qa-13-passenger-systems"
+priority = "attention"
+predecessors = "rs-30-traction-battery-control"
+
+[[manufacturing_package]]
+id = "rs-50-dynamic-commissioning"
+asset_types = ["rolling-stock"]
+phase = "rolling-stock"
+sequence = 50
+duration_days = 6
+work_center = "test track / depot"
+work_order_title = "Trainset dynamic commissioning and release"
+work_order_detail = "Run propulsion, braking, doors, onboard control, communications, degraded mode, charging, and trial-running release checks."
+staff_roles = ["commissioning lead", "test operator", "software technician", "quality manager"]
+staff_tasks = "Run test scripts; record faults; raise NCRs; re-test; sign release for trial running."
+materials_or_inputs = "commissioning script, test track path, charging interface, prior QA evidence"
+bom_refs = ["project_kit:rolling-stock:commissioning-tools", "project_kit:rolling-stock:test-instrumentation"]
+deliverables = "trainset released for integrated trial running"
+evidence_required = "dynamic test log, fault/NCR closeout, release certificate"
+release_authority = "commissioning manager"
+qa_gate_hint = "qa-15-first-article-trainset"
+priority = "safety"
+predecessors = "rs-40-fitout-static-test"
+
+[[manufacturing_package]]
+id = "trk-10-survey-utility"
+asset_types = ["track-section"]
+phase = "track-civil"
+sequence = 10
+duration_days = 4
+work_center = "corridor civil crew"
+work_order_title = "Track section survey, permits, utilities, and access release"
+work_order_detail = "Confirm alignment, utility clashes, drainage path, traffic/access plan, laydown, and safe-work boundary for the section."
+staff_roles = ["survey lead", "civil supervisor", "permit coordinator", "safety officer"]
+staff_tasks = "Set out control; mark utilities; confirm access; brief crew; upload permits."
+materials_or_inputs = "route survey, utility maps, traffic plan, possession plan"
+bom_refs = ["project_kit:track-civil:survey-control", "project_kit:track-civil:utility-clearance", "project_kit:track-civil:site-access"]
+deliverables = "released section ready for civils"
+evidence_required = "survey control sheet, utility clearance, permit pack"
+release_authority = "civil QA lead"
+qa_gate_hint = "qa-20-survey-geotech"
+priority = "safety"
+predecessors = "sys-00-baseline-freeze"
+
+[[manufacturing_package]]
+id = "trk-20-subgrade-drainage"
+asset_types = ["track-section"]
+phase = "track-civil"
+sequence = 20
+duration_days = 10
+work_center = "corridor civil crew"
+work_order_title = "Subgrade, drainage, fencing, and foundations"
+work_order_detail = "Build formation, drainage, ducts, fence foundations, earthing points, and civil interfaces for track and wayside equipment."
+staff_roles = ["civil supervisor", "plant operator", "drainage technician", "quality technician"]
+staff_tasks = "Prepare formation; install drainage; compact layers; inspect ducts; record as-built levels."
+materials_or_inputs = "aggregate, geotextile, ducting, drainage materials, fencing materials"
+bom_refs = ["project_kit:track-civil:aggregate", "project_kit:track-civil:geotextile", "project_kit:track-civil:ducting", "project_kit:track-civil:drainage", "project_kit:track-civil:fencing"]
+deliverables = "accepted subgrade and drainage ready for trackform"
+evidence_required = "compaction results, level survey, drainage inspection, as-built photos"
+release_authority = "civil QA lead"
+qa_gate_hint = "qa-21-earthworks-drainage"
+priority = "attention"
+predecessors = "trk-10-survey-utility"
+
+[[manufacturing_package]]
+id = "trk-30-trackform-rail"
+asset_types = ["track-section"]
+phase = "track-civil"
+sequence = 30
+duration_days = 9
+work_center = "track crew"
+work_order_title = "Trackform, rail, fasteners, welds, and geometry"
+work_order_detail = "Install slab/ballast trackform, rail, fasteners, welds, insulated joints, bonding, and final geometry for the section."
+staff_roles = ["track supervisor", "rail welder", "survey technician", "quality technician"]
+staff_tasks = "Lay trackform; install rail; weld and grind; measure geometry; close defects."
+materials_or_inputs = "rail, fasteners, sleepers/slab materials, weld consumables, bonding kit"
+bom_refs = ["project_kit:track-civil:rail", "project_kit:track-civil:fasteners", "project_kit:track-civil:slab-or-sleeper", "project_kit:track-civil:weld-consumables", "project_kit:track-civil:bonding"]
+deliverables = "track section ready for systems installation"
+evidence_required = "weld log, geometry report, fastener torque record, bonding test"
+release_authority = "track QA lead"
+qa_gate_hint = "qa-22-trackform-rail"
+priority = "safety"
+predecessors = "trk-20-subgrade-drainage"
+
+[[manufacturing_package]]
+id = "st-10-civil-structure"
+asset_types = ["station"]
+phase = "stations"
+sequence = 10
+duration_days = 14
+work_center = "station civil crew"
+work_order_title = "Station foundations, platform, canopy, and access structure"
+work_order_detail = "Build platform, foundations, canopy/roof frame, ramps/lifts/escalator allowances, drainage, earthing, and public access civil works."
+staff_roles = ["station civil supervisor", "steelwork lead", "accessibility lead", "quality technician"]
+staff_tasks = "Set out station; build platform; erect canopy; inspect access routes; record dimensions."
+materials_or_inputs = "concrete, steel canopy kit, platform edge kit, drainage and earthing materials"
+bom_refs = ["project_kit:station:civil-concrete", "project_kit:station:steel-canopy", "project_kit:station:platform-edge", "project_kit:station:accessibility", "project_kit:station:drainage-earthing"]
+deliverables = "station shell ready for MEP and passenger systems"
+evidence_required = "structural inspection, access checklist, as-built survey"
+release_authority = "station QA lead"
+qa_gate_hint = "qa-24-stations-depots-plant"
+priority = "attention"
+predecessors = "trk-10-survey-utility"
+
+[[manufacturing_package]]
+id = "st-20-mep-passenger-systems"
+asset_types = ["station"]
+phase = "stations"
+sequence = 20
+duration_days = 10
+work_center = "station systems crew"
+work_order_title = "Station MEP, passenger systems, fare, and safety fit-out"
+work_order_detail = "Install lighting, power, earthing, CCTV, PA/PIS, fare equipment, emergency devices, wayfinding, and local network cabinets."
+staff_roles = ["electrical supervisor", "systems technician", "fare-system technician", "quality technician"]
+staff_tasks = "Install MEP; terminate cabinets; configure devices; test passenger systems; close punch list."
+materials_or_inputs = "electrical kit, network cabinet, PIS/PA/CCTV kit, fare kit, signage kit"
+bom_refs = ["project_kit:station:electrical-mep", "project_kit:station:network-cabinet", "project_kit:station:pis-pa-cctv", "project_kit:station:fare-kit", "project_kit:station:signage"]
+deliverables = "station ready for integrated commissioning"
+evidence_required = "MEP test sheet, device register, fare/PIS test, fire/life-safety checklist"
+release_authority = "station QA lead"
+qa_gate_hint = "qa-24-stations-depots-plant"
+priority = "safety"
+predecessors = "st-10-civil-structure"
+
+[[manufacturing_package]]
+id = "dep-10-building-plant"
+asset_types = ["depot", "depots-production"]
+phase = "depots-production"
+sequence = 10
+duration_days = 18
+work_center = "depot works"
+work_order_title = "Depot building, production plant, fixtures, and tooling install"
+work_order_detail = "Build depot/plant space, install pits or jacks, lifting equipment, calibration benches, fixtures, storage, and safe production flow."
+staff_roles = ["depot supervisor", "tooling technician", "electrical supervisor", "quality technician"]
+staff_tasks = "Install fixtures; certify lifting gear; calibrate tools; mark production lanes; release stores."
+materials_or_inputs = "depot fit-out kit, fixtures, calibrated tools, lifting equipment, stores racks"
+bom_refs = ["project_kit:depot:building-fitout", "project_kit:depot:production-fixtures", "project_kit:depot:calibrated-tools", "project_kit:depot:lifting-equipment", "project_kit:depot:stores-racks"]
+deliverables = "depot/production plant ready for train and infrastructure work"
+evidence_required = "tool calibration certificates, lifting inspection, layout acceptance, safety signoff"
+release_authority = "depot QA lead"
+qa_gate_hint = "qa-24-stations-depots-plant"
+priority = "safety"
+predecessors = "sys-00-baseline-freeze"
+
+[[manufacturing_package]]
+id = "dep-20-charging-stabling"
+asset_types = ["depot"]
+phase = "depots-production"
+sequence = 20
+duration_days = 9
+work_center = "depot works"
+work_order_title = "Depot charging, stabling, train wash, and handback systems"
+work_order_detail = "Install depot charging, stabling controls, isolation points, train wash allowances, maintenance access, and handback interfaces."
+staff_roles = ["electrical supervisor", "systems technician", "depot operations lead", "quality technician"]
+staff_tasks = "Install chargers; prove isolation; test stabling controls; verify depot handback process."
+materials_or_inputs = "depot charger kit, switchgear, stabling controls, isolation hardware"
+bom_refs = ["project_kit:depot:charger-kit", "project_kit:depot:switchgear", "project_kit:depot:stabling-controls", "project_kit:depot:isolation-hardware"]
+deliverables = "depot ready for train commissioning and service stabling"
+evidence_required = "charger test, isolation test, stabling proof, depot handback checklist"
+release_authority = "commissioning manager"
+qa_gate_hint = "qa-25-power-energy"
+priority = "safety"
+predecessors = "dep-10-building-plant"
+
+[[manufacturing_package]]
+id = "wpt-10-cabinet-bench"
+asset_types = ["waypoint", "signalling-comms"]
+phase = "wayside-systems"
+sequence = 10
+duration_days = 3
+work_center = "wayside bench"
+work_order_title = "Waypoint/W-SBC cabinet build and bench test"
+work_order_detail = "Assemble cabinet, SBC, power supply, radio, sensors interface, beacon readers, identity, firmware, and cybersecurity keys."
+staff_roles = ["systems technician", "software technician", "quality technician"]
+staff_tasks = "Build cabinet; load firmware; bind identity; run IO/radio bench test; record serials."
+materials_or_inputs = "W-SBC cabinet kit, radio kit, sensor interface, signed firmware, key register"
+bom_refs = ["project_kit:wayside:wsbc-cabinet", "project_kit:wayside:radio-kit", "project_kit:wayside:sensor-interface", "project_kit:wayside:beacon-reader", "project_kit:wayside:secure-element"]
+deliverables = "bench-accepted waypoint cabinet"
+evidence_required = "serial register, firmware hash, IO test, radio test, key ceremony record"
+release_authority = "systems QA lead"
+qa_gate_hint = "qa-26-wayside-comms-safety"
+priority = "safety"
+predecessors = "sys-00-baseline-freeze"
+
+[[manufacturing_package]]
+id = "wpt-20-install-commission"
+asset_types = ["waypoint", "signalling-comms"]
+phase = "wayside-systems"
+sequence = 20
+duration_days = 4
+work_center = "wayside systems crew"
+work_order_title = "Waypoint/W-SBC install, coverage, and proof test"
+work_order_detail = "Install the waypoint node, connect power/network/sensors, test radio coverage, prove section state messages, and release into integrated trial running."
+staff_roles = ["systems supervisor", "radio technician", "software technician", "quality technician"]
+staff_tasks = "Mount cabinet; terminate cables; verify coverage; run section-state proof; close cyber checklist."
+materials_or_inputs = "bench-accepted cabinet, power feed, comms link, sensor kit, test script"
+bom_refs = ["project_kit:wayside:power-feed", "project_kit:wayside:comms-link", "project_kit:wayside:sensor-kit", "project_kit:wayside:mounting-hardware"]
+deliverables = "commissioned waypoint node ready for trial running"
+evidence_required = "coverage map, section-state proof, cyber checklist, commissioning certificate"
+release_authority = "systems QA lead"
+qa_gate_hint = "qa-26-wayside-comms-safety"
+priority = "safety"
+predecessors = "wpt-10-cabinet-bench,trk-30-trackform-rail"
+
+[[manufacturing_package]]
+id = "sw-10-turnout-build"
+asset_types = ["switch"]
+phase = "track-civil"
+sequence = 10
+duration_days = 5
+work_center = "track/switch crew"
+work_order_title = "Switch kit build, actuator, and bench proof"
+work_order_detail = "Assemble turnout kit, actuator, detection, hand-crank provision, wiring, and bench proof before installation."
+staff_roles = ["switch technician", "track supervisor", "quality technician"]
+staff_tasks = "Assemble switch; install actuator; bench proof detection; record blade throw and torque."
+materials_or_inputs = "turnout kit, actuator, detection sensors, wiring kit"
+bom_refs = ["project_kit:switch:turnout-kit", "project_kit:switch:actuator", "project_kit:switch:detection-sensors", "project_kit:switch:wiring-kit"]
+deliverables = "bench-accepted switch kit ready for site"
+evidence_required = "bench proof record, actuator serial, detection test"
+release_authority = "track QA lead"
+qa_gate_hint = "qa-22-trackform-rail"
+priority = "safety"
+predecessors = "sys-00-baseline-freeze"
+
+[[manufacturing_package]]
+id = "sw-20-install-proof"
+asset_types = ["switch"]
+phase = "track-civil"
+sequence = 20
+duration_days = 4
+work_center = "track/switch crew"
+work_order_title = "Switch installation, geometry, detection, and route proof"
+work_order_detail = "Install switch, prove geometry, detection, hand operation, route locking interface, drainage, and safe return-to-track."
+staff_roles = ["switch technician", "survey technician", "systems technician", "quality technician"]
+staff_tasks = "Install turnout; align geometry; prove detection; run route proof; upload as-built."
+materials_or_inputs = "bench-accepted switch kit, ballast/slab materials, cabling, test script"
+bom_refs = ["project_kit:switch:site-trackform", "project_kit:switch:cabling", "project_kit:switch:route-proof-kit", "project_kit:switch:as-built-survey"]
+deliverables = "commissioned switch ready for integrated trial"
+evidence_required = "geometry report, detection proof, route proof, as-built record"
+release_authority = "commissioning manager"
+qa_gate_hint = "qa-22-trackform-rail"
+priority = "safety"
+predecessors = "sw-10-turnout-build,trk-30-trackform-rail"
+
+[[manufacturing_package]]
+id = "en-10-energy-build"
+asset_types = ["energy"]
+phase = "energy"
+sequence = 10
+duration_days = 10
+work_center = "energy crew"
+work_order_title = "PV, BESS, charger, switchgear, and earthing build"
+work_order_detail = "Install PV/BESS/charger equipment, protection, earthing, fire safety, and grid/PPA interface at the site."
+staff_roles = ["electrical supervisor", "PV technician", "battery technician", "quality technician"]
+staff_tasks = "Install equipment; terminate protection; test earthing; inspect fire safety; record serials."
+materials_or_inputs = "PV kit, BESS kit, charger, switchgear, protection relays, earthing materials"
+bom_refs = ["project_kit:energy:pv-kit", "project_kit:energy:bess-kit", "project_kit:energy:charger", "project_kit:energy:switchgear", "project_kit:energy:protection-relays", "project_kit:energy:earthing"]
+deliverables = "energy site ready for commissioning"
+evidence_required = "earthing test, protection settings, equipment serials, fire-safety inspection"
+release_authority = "energy QA lead"
+qa_gate_hint = "qa-25-power-energy"
+priority = "safety"
+predecessors = "sys-00-baseline-freeze"
+
+[[manufacturing_package]]
+id = "en-20-energy-commission"
+asset_types = ["energy"]
+phase = "energy"
+sequence = 20
+duration_days = 5
+work_center = "energy crew"
+work_order_title = "Energy site commissioning and charger proof"
+work_order_detail = "Commission PV, BESS, charger, protection, EMS/SCADA telemetry, load test, and train charging interface."
+staff_roles = ["commissioning lead", "electrical supervisor", "software technician", "quality technician"]
+staff_tasks = "Run protection test; commission EMS; load test charger; prove train interface; sign handback."
+materials_or_inputs = "commissioning test script, SCADA/EMS config, charger interface, train or load bank"
+bom_refs = ["project_kit:energy:commissioning-tools", "project_kit:energy:scada-ems-config", "project_kit:energy:load-bank", "project_kit:energy:charger-interface"]
+deliverables = "energy site released for trial running"
+evidence_required = "commissioning report, load test, telemetry proof, handback certificate"
+release_authority = "commissioning manager"
+qa_gate_hint = "qa-25-power-energy"
+priority = "safety"
+predecessors = "en-10-energy-build"

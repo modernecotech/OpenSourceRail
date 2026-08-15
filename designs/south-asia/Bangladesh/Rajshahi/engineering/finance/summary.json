@@ -1,0 +1,91 @@
+{
+  "annual_opex_usd": {
+    "components": {
+      "civil_station_depot_maintenance": 6514042.16,
+      "labour": 1172808.0,
+      "residual_grid_energy": 0.0,
+      "rolling_stock_maintenance_including_battery_renewal_reserve": 3960000.0,
+      "signalling_maintenance": 105946.5,
+      "solar_plant_maintenance": 565887.3857399999
+    },
+    "total": 12318684.04574
+  },
+  "capex_eur": {
+    "reconciled_project_total": 477142439.77872
+  },
+  "capex_usd": {
+    "authoritative_design_base": 480907261.0,
+    "reconciled_project_total": 518633086.716,
+    "risk_envelope_15_percent": 596428049.7234,
+    "risk_envelope_25_percent": 648291358.395,
+    "timetable_sized_dedicated_solar": 37725825.716
+  },
+  "cases": {
+    "high_capacity_use": {
+      "annual_operating_cash_usd": 50809811.618259996,
+      "annual_paid_trips": 117313920.0,
+      "annual_public_support_usd": 0.0,
+      "annual_revenue_usd": 63128495.664,
+      "capacity_utilisation": 0.8,
+      "project_irr": 0.07077944214371651,
+      "project_npv_usd_at_8_percent": -44389578.301666945,
+      "steady_state_dscr": 2.08463467986809
+    },
+    "low_capacity_use": {
+      "annual_operating_cash_usd": 27933597.218259998,
+      "annual_paid_trips": 73321200.0,
+      "annual_public_support_usd": 0.0,
+      "annual_revenue_usd": 40252281.264,
+      "capacity_utilisation": 0.5,
+      "project_irr": 0.03127239888054867,
+      "project_npv_usd_at_8_percent": -198077551.84101292,
+      "steady_state_dscr": 1.1460649752482936
+    }
+  },
+  "city": "rajshahi",
+  "funding": {
+    "annual_debt_service_usd": 24373484.768791765,
+    "construction_grace_years": 7,
+    "debt_principal_usd": 414906469.37280005,
+    "debt_rate": 0.045,
+    "government_equity_share": 0.2,
+    "lender_commitment_status": "unconfirmed-placeholder",
+    "repayment_years": 33
+  },
+  "limitations": [
+    "No calibrated origin-destination or stated-preference ridership survey.",
+    "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
+    "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
+  ],
+  "operations_basis": {
+    "annual_train_km_including_non_revenue": 7768124.5158,
+    "energy_kwh_per_car_km_hot_climate_planning": 4.0,
+    "non_revenue_train_km_factor": 1.08,
+    "scheduled_train_km_per_day": 19706.049
+  },
+  "passed": true,
+  "renewal_policy": {
+    "field_asset_renewals": "included in fixed-asset maintenance allowance pending condition-based asset plan",
+    "train_battery_cycle_years": 12,
+    "treatment": "included in rolling-stock maintenance reserve; do not double-count as separate CAPEX"
+  },
+  "revenue_basis": {
+    "demand_status": "capacity-led-not-calibrated-od-forecast",
+    "nonfare_revenue_usd_per_year": 2125257.264,
+    "operating_neutral_capacity_utilisation": 0.13367718893743188,
+    "operating_neutral_paid_trips_per_year": 19602743.81103846,
+    "practical_capacity_passenger_trips_per_day": 401760.0,
+    "single_trip_fare_usd": 0.52
+  },
+  "schema_version": 1,
+  "sources": {
+    "design": "designs/south-asia/Bangladesh/Rajshahi/design.toml",
+    "design_sha256": "196066b32fb7e209cfbf277a90081ae7e663de04bef72e5c2f1958f662a36ca4",
+    "generator": "scripts/generate-city-finance.py",
+    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "scenario": "designs/south-asia/Bangladesh/Rajshahi/rajshahi.toml",
+    "scenario_sha256": "3789b79696b40af802321d66352054810d03c4985b0060b2f0fdbe8ac0e0147c"
+  },
+  "status": "planning-screen"
+}

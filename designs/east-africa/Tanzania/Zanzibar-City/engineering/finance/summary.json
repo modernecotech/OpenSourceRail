@@ -1,0 +1,91 @@
+{
+  "annual_opex_usd": {
+    "components": {
+      "civil_station_depot_maintenance": 9492831.86,
+      "labour": 1322244.0,
+      "residual_grid_energy": 0.0,
+      "rolling_stock_maintenance_including_battery_renewal_reserve": 5580000.0,
+      "signalling_maintenance": 154635.30000000002,
+      "solar_plant_maintenance": 866057.9511899998
+    },
+    "total": 17415769.11119
+  },
+  "capex_eur": {
+    "reconciled_project_total": 692002975.0063201
+  },
+  "capex_usd": {
+    "authoritative_design_base": 694439950.0,
+    "reconciled_project_total": 752177146.746,
+    "risk_envelope_15_percent": 865003718.7579,
+    "risk_envelope_25_percent": 940221433.4325001,
+    "timetable_sized_dedicated_solar": 57737196.74599999
+  },
+  "cases": {
+    "high_capacity_use": {
+      "annual_operating_cash_usd": 36831108.232810006,
+      "annual_paid_trips": 117313920.0,
+      "annual_public_support_usd": 0.0,
+      "annual_revenue_usd": 54246877.344000004,
+      "capacity_utilisation": 0.8,
+      "project_irr": 0.02570612672942156,
+      "project_npv_usd_at_8_percent": -312004308.5431819,
+      "steady_state_dscr": 1.0419268885448054
+    },
+    "low_capacity_use": {
+      "annual_operating_cash_usd": 17474311.43281,
+      "annual_paid_trips": 73321200.0,
+      "annual_public_support_usd": 17874721.822536476,
+      "annual_revenue_usd": 34890080.544,
+      "capacity_utilisation": 0.5,
+      "project_irr": -0.012842054169434562,
+      "project_npv_usd_at_8_percent": -442047978.4610901,
+      "steady_state_dscr": 0.4943363318194011
+    }
+  },
+  "city": "zanzibar-city",
+  "funding": {
+    "annual_debt_service_usd": 35349033.25534648,
+    "construction_grace_years": 7,
+    "debt_principal_usd": 601741717.3968,
+    "debt_rate": 0.045,
+    "government_equity_share": 0.2,
+    "lender_commitment_status": "unconfirmed-placeholder",
+    "repayment_years": 33
+  },
+  "limitations": [
+    "No calibrated origin-destination or stated-preference ridership survey.",
+    "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
+    "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
+  ],
+  "operations_basis": {
+    "annual_train_km_including_non_revenue": 11338042.0923,
+    "energy_kwh_per_car_km_hot_climate_planning": 4.0,
+    "non_revenue_train_km_factor": 1.08,
+    "scheduled_train_km_per_day": 28762.156499999997
+  },
+  "passed": true,
+  "renewal_policy": {
+    "field_asset_renewals": "included in fixed-asset maintenance allowance pending condition-based asset plan",
+    "train_battery_cycle_years": 12,
+    "treatment": "included in rolling-stock maintenance reserve; do not double-count as separate CAPEX"
+  },
+  "revenue_basis": {
+    "demand_status": "capacity-led-not-calibrated-od-forecast",
+    "nonfare_revenue_usd_per_year": 2628752.5439999998,
+    "operating_neutral_capacity_utilisation": 0.22917557155722162,
+    "operating_neutral_paid_trips_per_year": 33606855.83452272,
+    "practical_capacity_passenger_trips_per_day": 401760.0,
+    "single_trip_fare_usd": 0.44000000000000006
+  },
+  "schema_version": 1,
+  "sources": {
+    "design": "designs/east-africa/Tanzania/Zanzibar-City/design.toml",
+    "design_sha256": "bb5f41dd2f3e554587a76aa803e0409f354a781ab61100be96a46f6fec0b4c3d",
+    "generator": "scripts/generate-city-finance.py",
+    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "scenario": "designs/east-africa/Tanzania/Zanzibar-City/zanzibar-city.toml",
+    "scenario_sha256": "88c16f05ce29a393e862f444211533adea5d8597a586fde4dfb0b4c148c1ceda"
+  },
+  "status": "planning-screen"
+}

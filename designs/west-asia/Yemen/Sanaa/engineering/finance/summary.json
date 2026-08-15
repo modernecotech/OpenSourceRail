@@ -1,0 +1,91 @@
+{
+  "annual_opex_usd": {
+    "components": {
+      "civil_station_depot_maintenance": 31979403.36,
+      "labour": 2034815.9999999998,
+      "residual_grid_energy": 0.0,
+      "rolling_stock_maintenance_including_battery_renewal_reserve": 31852800.0,
+      "signalling_maintenance": 582711.35,
+      "solar_plant_maintenance": 4886290.729920001
+    },
+    "total": 71336021.43992
+  },
+  "capex_eur": {
+    "reconciled_project_total": 2890519496.86176
+  },
+  "capex_usd": {
+    "authoritative_design_base": 2816116303.0,
+    "reconciled_project_total": 3141869018.328,
+    "risk_envelope_15_percent": 3613149371.0772,
+    "risk_envelope_25_percent": 3927336272.91,
+    "timetable_sized_dedicated_solar": 325752715.32800007
+  },
+  "cases": {
+    "high_capacity_use": {
+      "annual_operating_cash_usd": 43284800.96008001,
+      "annual_paid_trips": 508360320.0,
+      "annual_public_support_usd": 111022548.3614104,
+      "annual_revenue_usd": 114620822.4,
+      "capacity_utilisation": 0.8,
+      "project_irr": -0.040522517528750135,
+      "project_npv_usd_at_8_percent": -1882509708.8813026,
+      "steady_state_dscr": 0.28051030071094435
+    },
+    "low_capacity_use": {
+      "annual_operating_cash_usd": 2615975.3600800037,
+      "annual_paid_trips": 317725200.0,
+      "annual_public_support_usd": 151691373.9614104,
+      "annual_revenue_usd": 73951996.8,
+      "capacity_utilisation": 0.5,
+      "project_irr": -0.14076369967026697,
+      "project_npv_usd_at_8_percent": -2094578598.7235124,
+      "steady_state_dscr": 0.01695301858001443
+    }
+  },
+  "city": "sanaa",
+  "funding": {
+    "annual_debt_service_usd": 154307349.3214904,
+    "construction_grace_years": 10,
+    "debt_principal_usd": 2513495214.6624002,
+    "debt_rate": 0.045,
+    "government_equity_share": 0.2,
+    "lender_commitment_status": "unconfirmed-placeholder",
+    "repayment_years": 30
+  },
+  "limitations": [
+    "No calibrated origin-destination or stated-preference ridership survey.",
+    "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
+    "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
+  ],
+  "operations_basis": {
+    "annual_train_km_including_non_revenue": 37309235.99580001,
+    "energy_kwh_per_car_km_hot_climate_planning": 4.0,
+    "non_revenue_train_km_factor": 1.08,
+    "scheduled_train_km_per_day": 94645.44900000001
+  },
+  "passed": true,
+  "renewal_policy": {
+    "field_asset_renewals": "included in fixed-asset maintenance allowance pending condition-based asset plan",
+    "train_battery_cycle_years": 12,
+    "treatment": "included in rolling-stock maintenance reserve; do not double-count as separate CAPEX"
+  },
+  "revenue_basis": {
+    "demand_status": "capacity-led-not-calibrated-od-forecast",
+    "nonfare_revenue_usd_per_year": 6170620.8,
+    "operating_neutral_capacity_utilisation": 0.4807028455716213,
+    "operating_neutral_paid_trips_per_year": 305462815.49962497,
+    "practical_capacity_passenger_trips_per_day": 1740960.0,
+    "single_trip_fare_usd": 0.21333333333333335
+  },
+  "schema_version": 1,
+  "sources": {
+    "design": "designs/west-asia/Yemen/Sanaa/design.toml",
+    "design_sha256": "e15c3c856e7ad9553ee3d42b74d9d9ffd94f6934d05a732477062cf6a299d99e",
+    "generator": "scripts/generate-city-finance.py",
+    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "scenario": "designs/west-asia/Yemen/Sanaa/sanaa.toml",
+    "scenario_sha256": "1ce0efea09e138e2c524c666dbbcbe432a9e6f7451ed20227a6fc3849000ffb4"
+  },
+  "status": "planning-screen"
+}

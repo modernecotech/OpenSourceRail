@@ -1,0 +1,206 @@
+{
+  "bom_line_ids": [
+    "T14"
+  ],
+  "document_revision": "A-DRAFT",
+  "estimated_labor_hours": 2.55,
+  "id": "LM3-EXT-P040",
+  "material_spec": {
+    "evidence_required": [
+      "certificate of conformity",
+      "incoming inspection record",
+      "capacity test evidence",
+      "fire-material certificate"
+    ],
+    "finish_or_protection": "supplier coating, condensate protection, and fire-rated interior surfaces",
+    "form_factor": "packaged roof unit, curb gasket, diffusers, ducts, grilles, and access panels",
+    "governing_standard": "supplier rail/bus HVAC specification plus project EMC, vibration, and fire evidence",
+    "grade_or_part_class": "hot-climate roof HVAC / fire-rated interior duct kit",
+    "material_family": "supplier HVAC and air-distribution kit",
+    "nominal_section": "roof curb and saloon envelope frozen by RFQ drawing",
+    "traceability": "unit serial number, refrigerant/coolant data, CoC, and fire-material batch"
+  },
+  "operations": [
+    {
+      "labor_hours": 0.35,
+      "qa_gate": "traveler rev and parent assembly match released manifest",
+      "sequence": 10,
+      "signoff_role": "cell lead",
+      "title": "release traveler, revision, material/certificate pack, and parent interface",
+      "tooling_ids": [
+        "TRV-LM3-EXT-P040",
+        "DOC-LM3-ROOF-SA410"
+      ],
+      "work_center": "production control"
+    },
+    {
+      "labor_hours": 0.45,
+      "qa_gate": "supplier certificate/datasheet/revision accepted",
+      "sequence": 20,
+      "signoff_role": "quality inspector",
+      "title": "receive supplier component and quarantine until evidence pack passes",
+      "tooling_ids": [
+        "RFQ-LM3-EXT-P040",
+        "CERT-LM3-EXT-P040"
+      ],
+      "work_center": "receiving inspection"
+    },
+    {
+      "labor_hours": 0.75,
+      "qa_gate": "component fits without parent datum rework",
+      "sequence": 30,
+      "signoff_role": "operator",
+      "title": "perform envelope, mounting, service-removal, and connector checks",
+      "tooling_ids": [
+        "GAUGE-LM3-EXT-P040-ENVELOPE",
+        "FIX-LM3-ROOF-SA410"
+      ],
+      "work_center": "incoming fit-check cell"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "+50 C capacity evidence",
+      "sequence": 40,
+      "signoff_role": "quality inspector",
+      "title": "verify acceptance gate: +50 C capacity evidence",
+      "tooling_ids": [
+        "QA-LM3-EXT-P040"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "condensate drain test",
+      "sequence": 50,
+      "signoff_role": "quality inspector",
+      "title": "verify acceptance gate: condensate drain test",
+      "tooling_ids": [
+        "LEAK-TEST-LM3-EXT-P040"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "EMC/vibration evidence",
+      "sequence": 60,
+      "signoff_role": "quality inspector",
+      "title": "verify acceptance gate: EMC/vibration evidence",
+      "tooling_ids": [
+        "QA-LM3-EXT-P040"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "item is released, tagged, and staged for parent assembly",
+      "sequence": 70,
+      "signoff_role": "cell lead",
+      "title": "final item release to parent assembly",
+      "tooling_ids": [
+        "REL-LM3-EXT-P040",
+        "KIT-LM3-ROOF-SA410"
+      ],
+      "work_center": "production control"
+    }
+  ],
+  "parent": "LM3-ROOF-SA410",
+  "process_spec": {
+    "inspection_methods": [
+      "incoming visual inspection",
+      "envelope fit check",
+      "+50 C capacity evidence",
+      "condensate drain test",
+      "EMC/vibration evidence",
+      "bond continuity",
+      "insulation/isolation check",
+      "HVIL functional check where applicable",
+      "pressure/leak test",
+      "drain-flow test where applicable"
+    ],
+    "joining_methods": [
+      "bolted/torqued installation",
+      "sealed, gasketed, bonded, or clipped interface as supplier envelope requires"
+    ],
+    "primary_processes": [
+      "receive",
+      "quarantine",
+      "evidence review",
+      "incoming fit check",
+      "release to parent kit"
+    ],
+    "release_level": "BID supplier-controlled process; OSR controls envelope and acceptance evidence",
+    "special_process_controls": [
+      "RFQ envelope freeze",
+      "supplier certificate/revision check",
+      "incoming quarantine until evidence accepted",
+      "HV safety plan",
+      "LOTO/service-disconnect rule",
+      "EMC/bonding evidence review",
+      "fluid compatibility check",
+      "hose/pipe routing release"
+    ],
+    "tooling_basis": "RFQ-LM3-EXT-P040, CERT-LM3-EXT-P040, GAUGE-LM3-EXT-P040-ENVELOPE"
+  },
+  "quantity_per_trainset": 3,
+  "release_status": "unsigned-template",
+  "revision_approvals": [
+    {
+      "approval_id": "APP-LM3-EXT-P040-MFG",
+      "date": "",
+      "name": "",
+      "role": "manufacturing engineering",
+      "signature": "",
+      "status": "pending"
+    },
+    {
+      "approval_id": "APP-LM3-EXT-P040-QA",
+      "date": "",
+      "name": "",
+      "role": "quality",
+      "signature": "",
+      "status": "pending"
+    },
+    {
+      "approval_id": "APP-LM3-EXT-P040-DA",
+      "date": "",
+      "name": "",
+      "role": "design authority",
+      "signature": "",
+      "status": "pending"
+    }
+  ],
+  "route": "BID",
+  "signoff_blocks": [
+    {
+      "date": "",
+      "name": "",
+      "role": "operator",
+      "signature": "",
+      "status": "blank"
+    },
+    {
+      "date": "",
+      "name": "",
+      "role": "cell lead",
+      "signature": "",
+      "status": "blank"
+    },
+    {
+      "date": "",
+      "name": "",
+      "role": "quality inspector",
+      "signature": "",
+      "status": "blank"
+    },
+    {
+      "date": "",
+      "name": "",
+      "role": "manufacturing engineer",
+      "signature": "",
+      "status": "blank"
+    }
+  ],
+  "title": "hvac-24kw-direct-hv-dc roof HVAC",
+  "traveler_type": "product-item",
+  "unit": "ea"
+}

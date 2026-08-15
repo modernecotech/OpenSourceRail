@@ -1,0 +1,91 @@
+{
+  "annual_opex_usd": {
+    "components": {
+      "civil_station_depot_maintenance": 63115598.34,
+      "labour": 10510080.0,
+      "residual_grid_energy": 0.0,
+      "rolling_stock_maintenance_including_battery_renewal_reserve": 67603200.0,
+      "signalling_maintenance": 1264423.75,
+      "solar_plant_maintenance": 14733550.717949996
+    },
+    "total": 157226852.80795
+  },
+  "capex_eur": {
+    "reconciled_project_total": 6148549238.0476
+  },
+  "capex_usd": {
+    "authoritative_design_base": 5700968979.0,
+    "reconciled_project_total": 6683205693.53,
+    "risk_envelope_15_percent": 7685686547.559499,
+    "risk_envelope_25_percent": 8354007116.912499,
+    "timetable_sized_dedicated_solar": 982236714.5299997
+  },
+  "cases": {
+    "high_capacity_use": {
+      "annual_operating_cash_usd": 270310295.8320501,
+      "annual_paid_trips": 664778880.0,
+      "annual_public_support_usd": 43771116.1530571,
+      "annual_revenue_usd": 427537148.64000005,
+      "capacity_utilisation": 0.8,
+      "project_irr": 0.015029203623184287,
+      "project_npv_usd_at_8_percent": -3154738533.3385,
+      "steady_state_dscr": 0.8606376739189755
+    },
+    "low_capacity_use": {
+      "annual_operating_cash_usd": 117411153.43205002,
+      "annual_paid_trips": 415486800.0,
+      "annual_public_support_usd": 196670258.55305716,
+      "annual_revenue_usd": 274638006.24,
+      "capacity_utilisation": 0.5,
+      "project_irr": -0.025491927737822852,
+      "project_npv_usd_at_8_percent": -4181952168.4476337,
+      "steady_state_dscr": 0.3738239480329938
+    }
+  },
+  "city": "nairobi",
+  "funding": {
+    "annual_debt_service_usd": 314081411.9851072,
+    "construction_grace_years": 7,
+    "debt_principal_usd": 5346564554.824,
+    "debt_rate": 0.045,
+    "government_equity_share": 0.2,
+    "lender_commitment_status": "unconfirmed-placeholder",
+    "repayment_years": 33
+  },
+  "limitations": [
+    "No calibrated origin-destination or stated-preference ridership survey.",
+    "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
+    "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
+  ],
+  "operations_basis": {
+    "annual_train_km_including_non_revenue": 83077548.00074999,
+    "energy_kwh_per_car_km_hot_climate_planning": 4.0,
+    "non_revenue_train_km_factor": 1.08,
+    "scheduled_train_km_per_day": 210749.74124999996
+  },
+  "passed": true,
+  "renewal_policy": {
+    "field_asset_renewals": "included in fixed-asset maintenance allowance pending condition-based asset plan",
+    "train_battery_cycle_years": 12,
+    "treatment": "included in rolling-stock maintenance reserve; do not double-count as separate CAPEX"
+  },
+  "revenue_basis": {
+    "demand_status": "capacity-led-not-calibrated-od-forecast",
+    "nonfare_revenue_usd_per_year": 19806102.240000002,
+    "operating_neutral_capacity_utilisation": 0.2696301923167948,
+    "operating_neutral_paid_trips_per_year": 224055571.5781793,
+    "practical_capacity_passenger_trips_per_day": 2276640.0,
+    "single_trip_fare_usd": 0.6133333333333334
+  },
+  "schema_version": 1,
+  "sources": {
+    "design": "designs/east-africa/Kenya/Nairobi/design.toml",
+    "design_sha256": "55bc7e44ef34c8bf8218d245c5206479b2fd0b86a5a010b76f8616fbe97e3259",
+    "generator": "scripts/generate-city-finance.py",
+    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "scenario": "designs/east-africa/Kenya/Nairobi/nairobi.toml",
+    "scenario_sha256": "0dc58a0fbf69bfe64109a243e582a01d65591cc20dc42d2e1a7804bffb46d877"
+  },
+  "status": "planning-screen"
+}

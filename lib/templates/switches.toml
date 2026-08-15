@@ -1,0 +1,70 @@
+# Turnout (switch) archetypes — permanent way + switch machine kit.
+#
+# City design.toml declares switches on line sections or in yards:
+#     [[switches]]
+#     id      = "line-1-sw-1"
+#     kit     = "no-9-mainline"
+#     station = "eastern-bridge"        # nearest W-Node for interlocking
+#     side    = "facing-east"
+#
+# Per RFC 0012 §1, three turnout tangents cover every OSR use case
+# (1:9 / 1:14 / 1:18.5). All share the same electric switch machine and
+# detector circuit — a single part family across every deployment.
+#
+# Yards use the same 1:9 tangent as station throats; we do not
+# maintain a separate tight-yard kit, matching RFC 0012 §3's
+# simplicity argument.
+
+# ---- No. 9: station-throat + yard-throat + mainline turnback --------------
+
+[kits.no-9-mainline]
+frog_number             = 9              # 1:9 frog
+diverging_speed_mps     = 11             # 40 km/h
+diverging_radius_m      = 190
+switch_lead_length_m    = 23             # switch toe to crossing lead
+total_length_m          = 27
+switch_blade_length_m   = 7.8
+crossing_length_m       = 4.2
+rail_kg                 = 3200           # UIC60 curved + stock rails
+sleeper_count           = 42
+ballast_m3              = 50
+switch_machine_type     = "electric-clamp-lock"
+detection_channels      = 2
+cost_usd                = 120000
+compatible_geometry     = ["standard-urban", "standard-metro", "mainline-mixed"]
+
+# ---- No. 14: mid-line crossover on dedicated metro ROW -------------------
+
+[kits.no-14-crossover]
+frog_number             = 14
+diverging_speed_mps     = 17             # 60 km/h
+diverging_radius_m      = 500
+switch_lead_length_m    = 37
+total_length_m          = 43
+switch_blade_length_m   = 11.8
+crossing_length_m       = 6.2
+rail_kg                 = 4800
+sleeper_count           = 68
+ballast_m3              = 78
+switch_machine_type     = "electric-clamp-lock"
+detection_channels      = 2
+cost_usd                = 185000
+compatible_geometry     = ["standard-metro", "mainline-mixed"]
+
+# ---- No. 18.5: shared-corridor (mainline-mixed only) ---------------------
+
+[kits.no-185-shared]
+frog_number             = 19             # rounded for integer indexing; 1:18.5 nominal
+diverging_speed_mps     = 22             # 80 km/h
+diverging_radius_m      = 900
+switch_lead_length_m    = 49
+total_length_m          = 60
+switch_blade_length_m   = 16.2
+crossing_length_m       = 8.5
+rail_kg                 = 6100
+sleeper_count           = 94
+ballast_m3              = 100
+switch_machine_type     = "electric-clamp-lock"
+detection_channels      = 2
+cost_usd                = 260000
+compatible_geometry     = ["mainline-mixed"]

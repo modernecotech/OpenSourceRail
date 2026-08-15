@@ -1,0 +1,91 @@
+{
+  "annual_opex_usd": {
+    "components": {
+      "civil_station_depot_maintenance": 4551636.8,
+      "labour": 338688.0,
+      "residual_grid_energy": 0.0,
+      "rolling_stock_maintenance_including_battery_renewal_reserve": 1993600.0,
+      "signalling_maintenance": 69566.25,
+      "solar_plant_maintenance": 132845.6909672727
+    },
+    "total": 7086336.740967273
+  },
+  "capex_eur": {
+    "reconciled_project_total": 295364450.16599274
+  },
+  "capex_usd": {
+    "authoritative_design_base": 312191936.0,
+    "reconciled_project_total": 321048315.3978182,
+    "risk_envelope_15_percent": 369205562.7074909,
+    "risk_envelope_25_percent": 401310394.24727273,
+    "timetable_sized_dedicated_solar": 8856379.39781818
+  },
+  "cases": {
+    "high_capacity_use": {
+      "annual_operating_cash_usd": 8542604.859032728,
+      "annual_paid_trips": 78209280.0,
+      "annual_public_support_usd": 7225116.285348648,
+      "annual_revenue_usd": 15628941.600000001,
+      "capacity_utilisation": 0.8,
+      "project_irr": -0.011001684436514607,
+      "project_npv_usd_at_8_percent": -170880347.08739308,
+      "steady_state_dscr": 0.5417780274530524
+    },
+    "low_capacity_use": {
+      "annual_operating_cash_usd": 3067955.259032727,
+      "annual_paid_trips": 48880800.0,
+      "annual_public_support_usd": 12699765.885348648,
+      "annual_revenue_usd": 10154292.0,
+      "capacity_utilisation": 0.5,
+      "project_irr": -0.05556132156577866,
+      "project_npv_usd_at_8_percent": -199428082.2584598,
+      "steady_state_dscr": 0.19457188714464002
+    }
+  },
+  "city": "tartus",
+  "funding": {
+    "annual_debt_service_usd": 15767721.144381376,
+    "construction_grace_years": 10,
+    "debt_principal_usd": 256838652.3182546,
+    "debt_rate": 0.045,
+    "government_equity_share": 0.2,
+    "lender_commitment_status": "unconfirmed-placeholder",
+    "repayment_years": 30
+  },
+  "limitations": [
+    "No calibrated origin-destination or stated-preference ridership survey.",
+    "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
+    "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
+  ],
+  "operations_basis": {
+    "annual_train_km_including_non_revenue": 5100680.9295,
+    "energy_kwh_per_car_km_hot_climate_planning": 4.0,
+    "non_revenue_train_km_factor": 1.08,
+    "scheduled_train_km_per_day": 12939.322499999998
+  },
+  "passed": true,
+  "renewal_policy": {
+    "field_asset_renewals": "included in fixed-asset maintenance allowance pending condition-based asset plan",
+    "train_battery_cycle_years": 12,
+    "treatment": "included in rolling-stock maintenance reserve; do not double-count as separate CAPEX"
+  },
+  "revenue_basis": {
+    "demand_status": "capacity-led-not-calibrated-od-forecast",
+    "nonfare_revenue_usd_per_year": 1029876.0,
+    "operating_neutral_capacity_utilisation": 0.331882102973345,
+    "operating_neutral_paid_trips_per_year": 32445325.39803896,
+    "practical_capacity_passenger_trips_per_day": 267840.0,
+    "single_trip_fare_usd": 0.18666666666666668
+  },
+  "schema_version": 1,
+  "sources": {
+    "design": "designs/west-asia/Syria/Tartus/design.toml",
+    "design_sha256": "0ce358256d0d24d381bde90dda8e1707bab84e390be9256f156e59fee70704a4",
+    "generator": "scripts/generate-city-finance.py",
+    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "scenario": "designs/west-asia/Syria/Tartus/tartus.toml",
+    "scenario_sha256": "85aca2611f28cf5f06cb674a178b3a9b7d39a345c6bdd255cf209b12c81b3434"
+  },
+  "status": "planning-screen"
+}

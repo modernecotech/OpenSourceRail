@@ -1,0 +1,91 @@
+{
+  "annual_opex_usd": {
+    "components": {
+      "civil_station_depot_maintenance": 32484237.66,
+      "labour": 3232572.0,
+      "residual_grid_energy": 0.0,
+      "rolling_stock_maintenance_including_battery_renewal_reserve": 16665600.0,
+      "signalling_maintenance": 554007.3,
+      "solar_plant_maintenance": 3833505.7080599987
+    },
+    "total": 56769922.66806
+  },
+  "capex_eur": {
+    "reconciled_project_total": 2380214953.82768
+  },
+  "capex_usd": {
+    "authoritative_design_base": 2331623120.0,
+    "reconciled_project_total": 2587190167.204,
+    "risk_envelope_15_percent": 2975268692.2846,
+    "risk_envelope_25_percent": 3233987709.005,
+    "timetable_sized_dedicated_solar": 255567047.20399994
+  },
+  "cases": {
+    "high_capacity_use": {
+      "annual_operating_cash_usd": 61814443.18794001,
+      "annual_paid_trips": 286767360.0,
+      "annual_public_support_usd": 59772169.292966165,
+      "annual_revenue_usd": 118584365.856,
+      "capacity_utilisation": 0.8,
+      "project_irr": -0.011526370193696261,
+      "project_npv_usd_at_8_percent": -1508982593.3625083,
+      "steady_state_dscr": 0.5083984324149773
+    },
+    "low_capacity_use": {
+      "annual_operating_cash_usd": 20233175.987940006,
+      "annual_paid_trips": 179229600.0,
+      "annual_public_support_usd": 101353436.49296618,
+      "annual_revenue_usd": 77003098.656,
+      "capacity_utilisation": 0.5,
+      "project_irr": -0.058368426989229415,
+      "project_npv_usd_at_8_percent": -1788335662.0750518,
+      "steady_state_dscr": 0.16640957071747847
+    }
+  },
+  "city": "kampala",
+  "funding": {
+    "annual_debt_service_usd": 121586612.48090617,
+    "construction_grace_years": 7,
+    "debt_principal_usd": 2069752133.7632,
+    "debt_rate": 0.045,
+    "government_equity_share": 0.2,
+    "lender_commitment_status": "unconfirmed-placeholder",
+    "repayment_years": 33
+  },
+  "limitations": [
+    "No calibrated origin-destination or stated-preference ridership survey.",
+    "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
+    "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
+  ],
+  "operations_basis": {
+    "annual_train_km_including_non_revenue": 34644734.422649994,
+    "energy_kwh_per_car_km_hot_climate_planning": 4.0,
+    "non_revenue_train_km_factor": 1.08,
+    "scheduled_train_km_per_day": 87886.18574999999
+  },
+  "passed": true,
+  "renewal_policy": {
+    "field_asset_renewals": "included in fixed-asset maintenance allowance pending condition-based asset plan",
+    "train_battery_cycle_years": 12,
+    "treatment": "included in rolling-stock maintenance reserve; do not double-count as separate CAPEX"
+  },
+  "revenue_basis": {
+    "demand_status": "capacity-led-not-calibrated-od-forecast",
+    "nonfare_revenue_usd_per_year": 7700986.6559999995,
+    "operating_neutral_capacity_utilisation": 0.3540219381197214,
+    "operating_neutral_paid_trips_per_year": 126902420.72084484,
+    "practical_capacity_passenger_trips_per_day": 982080.0,
+    "single_trip_fare_usd": 0.38666666666666666
+  },
+  "schema_version": 1,
+  "sources": {
+    "design": "designs/east-africa/Uganda/Kampala/design.toml",
+    "design_sha256": "1cb12efcc9657e3d5392be9371ee25f1f0f7d6f71dcac3ebe1dec2763984a048",
+    "generator": "scripts/generate-city-finance.py",
+    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "scenario": "designs/east-africa/Uganda/Kampala/kampala.toml",
+    "scenario_sha256": "9465201cca7507c91e237df0c543b69cc5af4b4cb74946cdca1b738d652aafae"
+  },
+  "status": "planning-screen"
+}

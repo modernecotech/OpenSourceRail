@@ -1,0 +1,91 @@
+{
+  "annual_opex_usd": {
+    "components": {
+      "civil_station_depot_maintenance": 6141012.04,
+      "labour": 1479912.0,
+      "residual_grid_energy": 0.0,
+      "rolling_stock_maintenance_including_battery_renewal_reserve": 5076000.0,
+      "signalling_maintenance": 135657.1,
+      "solar_plant_maintenance": 509345.97896861524
+    },
+    "total": 13341927.118968615
+  },
+  "capex_eur": {
+    "reconciled_project_total": 489151998.23007506
+  },
+  "capex_usd": {
+    "authoritative_design_base": 497730556.0,
+    "reconciled_project_total": 531686954.59790766,
+    "risk_envelope_15_percent": 611439997.7875937,
+    "risk_envelope_25_percent": 664608693.2473845,
+    "timetable_sized_dedicated_solar": 33956398.597907685
+  },
+  "cases": {
+    "high_capacity_use": {
+      "annual_operating_cash_usd": 60728713.9690314,
+      "annual_paid_trips": 117313920.0,
+      "annual_public_support_usd": 0.0,
+      "annual_revenue_usd": 74070641.08800001,
+      "capacity_utilisation": 0.8,
+      "project_irr": 0.08242652529537503,
+      "project_npv_usd_at_8_percent": 12538982.578850342,
+      "steady_state_dscr": 2.4304163206717964
+    },
+    "low_capacity_use": {
+      "annual_operating_cash_usd": 33746512.36903139,
+      "annual_paid_trips": 73321200.0,
+      "annual_public_support_usd": 0.0,
+      "annual_revenue_usd": 47088439.488000005,
+      "capacity_utilisation": 0.5,
+      "project_irr": 0.041289399045026536,
+      "project_npv_usd_at_8_percent": -168734011.8521732,
+      "steady_state_dscr": 1.3505649809951787
+    }
+  },
+  "city": "nakuru",
+  "funding": {
+    "annual_debt_service_usd": 24986959.416173298,
+    "construction_grace_years": 7,
+    "debt_principal_usd": 425349563.67832613,
+    "debt_rate": 0.045,
+    "government_equity_share": 0.2,
+    "lender_commitment_status": "unconfirmed-placeholder",
+    "repayment_years": 33
+  },
+  "limitations": [
+    "No calibrated origin-destination or stated-preference ridership survey.",
+    "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
+    "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
+  ],
+  "operations_basis": {
+    "annual_train_km_including_non_revenue": 9946534.028399998,
+    "energy_kwh_per_car_km_hot_climate_planning": 4.0,
+    "non_revenue_train_km_factor": 1.08,
+    "scheduled_train_km_per_day": 25232.201999999997
+  },
+  "passed": true,
+  "renewal_policy": {
+    "field_asset_renewals": "included in fixed-asset maintenance allowance pending condition-based asset plan",
+    "train_battery_cycle_years": 12,
+    "treatment": "included in rolling-stock maintenance reserve; do not double-count as separate CAPEX"
+  },
+  "revenue_basis": {
+    "demand_status": "capacity-led-not-calibrated-od-forecast",
+    "nonfare_revenue_usd_per_year": 2118103.488,
+    "operating_neutral_capacity_utilisation": 0.12479141395528615,
+    "operating_neutral_paid_trips_per_year": 18299712.441796653,
+    "practical_capacity_passenger_trips_per_day": 401760.0,
+    "single_trip_fare_usd": 0.6133333333333334
+  },
+  "schema_version": 1,
+  "sources": {
+    "design": "designs/east-africa/Kenya/Nakuru/design.toml",
+    "design_sha256": "cd8b2dcd3016177987323640364d9795e943a462183c3d8ca31246bd6c4c056b",
+    "generator": "scripts/generate-city-finance.py",
+    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "scenario": "designs/east-africa/Kenya/Nakuru/nakuru.toml",
+    "scenario_sha256": "595c478abc508ccd863e5c538a2fa03a649670eab7b049e374a984f322383b96"
+  },
+  "status": "planning-screen"
+}

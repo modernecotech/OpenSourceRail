@@ -1,0 +1,26 @@
+# Evidence Status Matrix
+
+This matrix separates what is already evidenced in the repository from
+what remains deployment or assessor work. It is not a safety approval;
+it is a coherence map for the pre-submission pack.
+
+For closure criteria on each open item, see
+[`release-gap-register.md`](release-gap-register.md).
+
+| Area | Current repository evidence | Status | Next action |
+|---|---|---|---|
+| Movement authority non-overlap | `osr-interlocking` unit/proptest/differential tests; RFC 0004 | Implemented + tested | Add assessor-reviewed trace from hazards to tests |
+| Consensus log safety | TLA+ model, `osr-consensus` simulation/proptests | Implemented + modeled | Refinement argument from TLA+ spec to Rust harness |
+| Onboard obstacle detection | RFC 0015, `osr-obstacle-detect`, sim fault injection | Implemented + simulated | First-article sensor dataset and calibration report |
+| Wayside intrusion detection | RFC 0016, interlocking gate, sim integration | Implemented + simulated | Pilot installation evidence on representative sections |
+| Message authentication | `osr-crypto`, `osr-secbus`, authenticated `osr-consensus` ingress/commit consumer, simulator integration, and adversarial integration tests | Implemented + simulated | Freeze deployment key registry/provisioning and verify on the selected production transport/hardware |
+| Hardware safety nets | RFC 0007 v2 specs, RFC 0019 DIY path, and hardware docs | Specified | Pilot integration pack, bench test records, and custom-board KiCad/Gerber/BOM only where custom boards are used |
+| Rolling-stock mechanical concept | RFC 0008/0021/0022, `mechanical-py` source plus FreeCAD review artifacts | Parametric reference | FEA, crashworthiness simulation, supplier drawings |
+| Station charging energy | RFC 0002, generated city energy feasibility tables | Planning-grade | Site-specific solar yield, grid-tie, and charger thermal study |
+| Operations rulebook | RFC 0013 and `docs/operations/` | Drafted | Operator review and local authority adaptation |
+| Certification pack | `docs/certification/` and GSN claims | Pre-submission scaffold | Independent assessor review and evidence freeze |
+
+The repo health gate (`scripts/repo-health.py`) guards generated design
+coherence. It is deliberately not a substitute for EN 50126/50128/50129
+assessment evidence, hardware bench records, structural FEA, or
+deployment-specific field evidence.

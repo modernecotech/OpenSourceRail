@@ -1,0 +1,91 @@
+{
+  "annual_opex_usd": {
+    "components": {
+      "civil_station_depot_maintenance": 8628103.64,
+      "labour": 1800624.0,
+      "residual_grid_energy": 0.0,
+      "rolling_stock_maintenance_including_battery_renewal_reserve": 6804000.0,
+      "signalling_maintenance": 188678.15000000002,
+      "solar_plant_maintenance": 1093706.4640799996
+    },
+    "total": 18515112.25408
+  },
+  "capex_eur": {
+    "reconciled_project_total": 700171677.57024
+  },
+  "capex_usd": {
+    "authoritative_design_base": 688142407.0,
+    "reconciled_project_total": 761056171.272,
+    "risk_envelope_15_percent": 875214596.9627999,
+    "risk_envelope_25_percent": 951320214.0899999,
+    "timetable_sized_dedicated_solar": 72913764.27199997
+  },
+  "cases": {
+    "high_capacity_use": {
+      "annual_operating_cash_usd": 55804039.23392001,
+      "annual_paid_trips": 117313920.0,
+      "annual_public_support_usd": 0.0,
+      "annual_revenue_usd": 74319151.488,
+      "capacity_utilisation": 0.8,
+      "project_irr": 0.05057756851389279,
+      "project_npv_usd_at_8_percent": -191143469.2251681,
+      "steady_state_dscr": 1.5602403913459786
+    },
+    "low_capacity_use": {
+      "annual_operating_cash_usd": 28821837.63392001,
+      "annual_paid_trips": 73321200.0,
+      "annual_public_support_usd": 6944470.906380836,
+      "annual_revenue_usd": 47336949.88800001,
+      "capacity_utilisation": 0.5,
+      "project_irr": 0.011494934966290147,
+      "project_npv_usd_at_8_percent": -372416463.6561916,
+      "steady_state_dscr": 0.8058376391134711
+    }
+  },
+  "city": "thika",
+  "funding": {
+    "annual_debt_service_usd": 35766308.540300846,
+    "construction_grace_years": 7,
+    "debt_principal_usd": 608844937.0175999,
+    "debt_rate": 0.045,
+    "government_equity_share": 0.2,
+    "lender_commitment_status": "unconfirmed-placeholder",
+    "repayment_years": 33
+  },
+  "limitations": [
+    "No calibrated origin-destination or stated-preference ridership survey.",
+    "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
+    "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
+  ],
+  "operations_basis": {
+    "annual_train_km_including_non_revenue": 13834097.373599999,
+    "energy_kwh_per_car_km_hot_climate_planning": 4.0,
+    "non_revenue_train_km_factor": 1.08,
+    "scheduled_train_km_per_day": 35094.10799999999
+  },
+  "passed": true,
+  "renewal_policy": {
+    "field_asset_renewals": "included in fixed-asset maintenance allowance pending condition-based asset plan",
+    "train_battery_cycle_years": 12,
+    "treatment": "included in rolling-stock maintenance reserve; do not double-count as separate CAPEX"
+  },
+  "revenue_basis": {
+    "demand_status": "capacity-led-not-calibrated-od-forecast",
+    "nonfare_revenue_usd_per_year": 2366613.8880000003,
+    "operating_neutral_capacity_utilisation": 0.17954611642305718,
+    "operating_neutral_paid_trips_per_year": 26329073.42295652,
+    "practical_capacity_passenger_trips_per_day": 401760.0,
+    "single_trip_fare_usd": 0.6133333333333334
+  },
+  "schema_version": 1,
+  "sources": {
+    "design": "designs/east-africa/Kenya/Thika/design.toml",
+    "design_sha256": "4319bc84afe35ffafd699942eec9021f631ec57b8237d2b0a3011936e8498cee",
+    "generator": "scripts/generate-city-finance.py",
+    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "scenario": "designs/east-africa/Kenya/Thika/thika.toml",
+    "scenario_sha256": "ca94804a042b06a686ac0e830632d49ed927ea4fb44949c9515775d89dfafbd1"
+  },
+  "status": "planning-screen"
+}

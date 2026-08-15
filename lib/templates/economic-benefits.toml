@@ -1,0 +1,70 @@
+# Broad economic benefit model defaults.
+#
+# These are planning-grade proxy assumptions used by generated city
+# README reports. They are deliberately conservative and transparent:
+# deployment teams should replace them with local household travel
+# surveys, traffic counts, emissions factors, land-value studies, and
+# public-health appraisal inputs before treating the results as a formal
+# benefit-cost analysis.
+
+[schema]
+version = 1
+scope = "Planning proxy for wider economic, access, environmental, and local-recirculation benefits of generated urban rail networks"
+
+[access]
+# Generalised travel-time benefit.
+time_saving_min_per_paid_trip = 12.0
+reliability_buffer_min_per_paid_trip = 4.0
+value_of_time_income_share = 0.50
+
+# Trip-length and road-displacement proxy.
+average_trip_length_route_share = 0.45
+min_average_trip_km = 4.0
+max_average_trip_km = 12.0
+road_mode_shift_share = 0.45
+road_vehicle_occupancy = 1.50
+
+# Access-event allocation. The generator adjusts these using observed
+# station anchors where available; the base values keep sparse-OSM cities
+# from reporting zero access to essential services.
+education_base_trip_share = 0.04
+education_max_trip_share = 0.22
+healthcare_base_trip_share = 0.06
+healthcare_max_trip_share = 0.20
+commerce_base_trip_share = 0.16
+commerce_max_trip_share = 0.30
+entertainment_base_trip_share = 0.08
+entertainment_max_trip_share = 0.18
+anchor_signal_weight = 0.60
+education_service_days_per_year = 220
+healthcare_service_days_per_year = 365
+commerce_service_days_per_year = 330
+entertainment_service_days_per_year = 300
+
+[environment]
+road_emission_kg_co2e_per_vehicle_km = 0.180
+rail_grid_emission_kg_co2e_per_kwh = 0.450
+social_carbon_usd_per_tonne = 80.0
+congestion_usd_per_vehicle_km = 0.08
+local_air_noise_safety_usd_per_vehicle_km = 0.04
+
+[station_area]
+# Gross local turnover supported around stations for commerce/leisure
+# trips. This is not fare revenue and not fiscal income.
+spend_per_relevant_trip_income_share = 0.005
+minimum_spend_per_relevant_trip_usd = 1.50
+
+[local_recirculation]
+construction_multiplier = 1.60
+job_year_output_multiple_of_median_income = 4.0
+
+[local_recirculation.capex_local_share]
+civil = 0.65
+stations = 0.60
+depots = 0.60
+rolling_stock = 0.45
+production_plant = 0.75
+solar_plant = 0.30
+signalling = 0.20
+charging_microgrid = 0.45
+epc_overhead = 0.55

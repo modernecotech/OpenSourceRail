@@ -1,0 +1,78 @@
+{
+  "acceptance": [
+    "SKU/firmware record",
+    "antenna VSWR",
+    "GNSS/IMU test",
+    "balise read",
+    "radio link test"
+  ],
+  "bom_line_ids": [
+    "E3",
+    "E4",
+    "E5",
+    "E6",
+    "E7",
+    "E8",
+    "E21"
+  ],
+  "definition_type": "product-item",
+  "id": "LM3-CTRL-P020",
+  "layer": "external-component",
+  "make_or_buy_basis": "Commodity navigation and communications devices are installed as individually traceable modules on the train network.",
+  "material_spec": {
+    "evidence_required": [
+      "certificate of conformity",
+      "incoming inspection record",
+      "continuity test",
+      "EMC/IP evidence"
+    ],
+    "finish_or_protection": "halogen/fire-rated cable where required, IP sealing, bonding, and label protection",
+    "form_factor": "cabinet, harness, connector, sensor, bracket, antenna, and label kit",
+    "governing_standard": "supplier rail electronics specification plus project EMC, IP, and fire evidence",
+    "grade_or_part_class": "LV/data harness, cabinet, sensor, antenna, and trainline kit",
+    "material_family": "rail-rated electrical / control equipment",
+    "nominal_section": "connector, bend-radius, service-loop, and mounting envelope frozen by RFQ drawing",
+    "traceability": "serialised equipment CoC, firmware/config record, harness batch, and continuity record"
+  },
+  "maturity": "buildable-after-supplier-freeze",
+  "notes": "",
+  "parent": "LM3-SYS-SA900",
+  "process_spec": {
+    "inspection_methods": [
+      "incoming visual inspection",
+      "envelope fit check",
+      "SKU/firmware record",
+      "antenna VSWR",
+      "GNSS/IMU test",
+      "balise read",
+      "radio link test"
+    ],
+    "joining_methods": [
+      "bolted/torqued installation",
+      "sealed, gasketed, bonded, or clipped interface as supplier envelope requires"
+    ],
+    "primary_processes": [
+      "receive",
+      "quarantine",
+      "evidence review",
+      "incoming fit check",
+      "release to parent kit"
+    ],
+    "release_level": "SOURCE supplier-controlled process; OSR controls envelope and acceptance evidence",
+    "special_process_controls": [
+      "RFQ envelope freeze",
+      "supplier certificate/revision check",
+      "incoming quarantine until evidence accepted"
+    ],
+    "tooling_basis": "RFQ-LM3-CTRL-P020, CERT-LM3-CTRL-P020, GAUGE-LM3-CTRL-P020-ENVELOPE"
+  },
+  "quantity_per_trainset": 1,
+  "route": "SOURCE",
+  "source_refs": [
+    "bom-skeleton.md E3-E8/E21",
+    "systems.py",
+    "LM3-COM-600"
+  ],
+  "title": "navigation, balise, 5G, LoRa, GNSS, IMU, and roof-antenna kit",
+  "unit": "trainset kit"
+}

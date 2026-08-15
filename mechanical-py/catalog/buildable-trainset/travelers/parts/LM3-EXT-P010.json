@@ -1,0 +1,202 @@
+{
+  "bom_line_ids": [
+    "B11",
+    "B25",
+    "E20"
+  ],
+  "document_revision": "A-DRAFT",
+  "estimated_labor_hours": 2.55,
+  "id": "LM3-EXT-P010",
+  "material_spec": {
+    "evidence_required": [
+      "certificate of conformity",
+      "incoming inspection record",
+      "obstruction / locked-loop evidence",
+      "fire-smoke certificate pack"
+    ],
+    "finish_or_protection": "supplier corrosion/fire/smoke protection accepted by OSR evidence pack",
+    "form_factor": "preassembled door cassette with seals, drive, controller, and emergency release",
+    "governing_standard": "supplier rail door specification plus EN 14752 evidence where applicable",
+    "grade_or_part_class": "COTS/BID electric passenger door cassette",
+    "material_family": "supplier-certified rail door system",
+    "nominal_section": "supplier envelope frozen by RFQ drawing",
+    "traceability": "serialised supplier CoC, revision, and lifecycle evidence"
+  },
+  "operations": [
+    {
+      "labor_hours": 0.35,
+      "qa_gate": "traveler rev and parent assembly match released manifest",
+      "sequence": 10,
+      "signoff_role": "cell lead",
+      "title": "release traveler, revision, material/certificate pack, and parent interface",
+      "tooling_ids": [
+        "TRV-LM3-EXT-P010",
+        "DOC-LM3-DOOR-SA310"
+      ],
+      "work_center": "production control"
+    },
+    {
+      "labor_hours": 0.45,
+      "qa_gate": "supplier certificate/datasheet/revision accepted",
+      "sequence": 20,
+      "signoff_role": "quality inspector",
+      "title": "receive supplier component and quarantine until evidence pack passes",
+      "tooling_ids": [
+        "RFQ-LM3-EXT-P010",
+        "CERT-LM3-EXT-P010"
+      ],
+      "work_center": "receiving inspection"
+    },
+    {
+      "labor_hours": 0.75,
+      "qa_gate": "component fits without parent datum rework",
+      "sequence": 30,
+      "signoff_role": "operator",
+      "title": "perform envelope, mounting, service-removal, and connector checks",
+      "tooling_ids": [
+        "GAUGE-LM3-EXT-P010-ENVELOPE",
+        "FIX-LM3-DOOR-SA310"
+      ],
+      "work_center": "incoming fit-check cell"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "EN 14752 evidence",
+      "sequence": 40,
+      "signoff_role": "quality inspector",
+      "title": "verify acceptance gate: EN 14752 evidence",
+      "tooling_ids": [
+        "QA-LM3-EXT-P010"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "obstruction test",
+      "sequence": 50,
+      "signoff_role": "quality inspector",
+      "title": "verify acceptance gate: obstruction test",
+      "tooling_ids": [
+        "QA-LM3-EXT-P010"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "closed-and-locked loop test",
+      "sequence": 60,
+      "signoff_role": "quality inspector",
+      "title": "verify acceptance gate: closed-and-locked loop test",
+      "tooling_ids": [
+        "QA-LM3-EXT-P010"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "item is released, tagged, and staged for parent assembly",
+      "sequence": 70,
+      "signoff_role": "cell lead",
+      "title": "final item release to parent assembly",
+      "tooling_ids": [
+        "REL-LM3-EXT-P010",
+        "KIT-LM3-DOOR-SA310"
+      ],
+      "work_center": "production control"
+    }
+  ],
+  "parent": "LM3-DOOR-SA310",
+  "process_spec": {
+    "inspection_methods": [
+      "incoming visual inspection",
+      "envelope fit check",
+      "EN 14752 evidence",
+      "obstruction test",
+      "closed-and-locked loop test",
+      "functional static test",
+      "emergency/recovery function check where applicable"
+    ],
+    "joining_methods": [
+      "bolted/torqued installation",
+      "sealed, gasketed, bonded, or clipped interface as supplier envelope requires"
+    ],
+    "primary_processes": [
+      "receive",
+      "quarantine",
+      "evidence review",
+      "incoming fit check",
+      "release to parent kit"
+    ],
+    "release_level": "BID supplier-controlled process; OSR controls envelope and acceptance evidence",
+    "special_process_controls": [
+      "RFQ envelope freeze",
+      "supplier certificate/revision check",
+      "incoming quarantine until evidence accepted",
+      "safety interlock interface freeze",
+      "supplier lifecycle evidence review"
+    ],
+    "tooling_basis": "RFQ-LM3-EXT-P010, CERT-LM3-EXT-P010, GAUGE-LM3-EXT-P010-ENVELOPE"
+  },
+  "quantity_per_trainset": 12,
+  "release_status": "unsigned-template",
+  "revision_approvals": [
+    {
+      "approval_id": "APP-LM3-EXT-P010-MFG",
+      "date": "",
+      "name": "",
+      "role": "manufacturing engineering",
+      "signature": "",
+      "status": "pending"
+    },
+    {
+      "approval_id": "APP-LM3-EXT-P010-QA",
+      "date": "",
+      "name": "",
+      "role": "quality",
+      "signature": "",
+      "status": "pending"
+    },
+    {
+      "approval_id": "APP-LM3-EXT-P010-DA",
+      "date": "",
+      "name": "",
+      "role": "design authority",
+      "signature": "",
+      "status": "pending"
+    }
+  ],
+  "route": "BID",
+  "signoff_blocks": [
+    {
+      "date": "",
+      "name": "",
+      "role": "operator",
+      "signature": "",
+      "status": "blank"
+    },
+    {
+      "date": "",
+      "name": "",
+      "role": "cell lead",
+      "signature": "",
+      "status": "blank"
+    },
+    {
+      "date": "",
+      "name": "",
+      "role": "quality inspector",
+      "signature": "",
+      "status": "blank"
+    },
+    {
+      "date": "",
+      "name": "",
+      "role": "manufacturing engineer",
+      "signature": "",
+      "status": "blank"
+    }
+  ],
+  "title": "electric plug/sliding door cassette",
+  "traveler_type": "product-item",
+  "unit": "ea"
+}

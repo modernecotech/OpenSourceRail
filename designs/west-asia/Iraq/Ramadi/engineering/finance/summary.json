@@ -1,0 +1,91 @@
+{
+  "annual_opex_usd": {
+    "components": {
+      "civil_station_depot_maintenance": 7008447.54,
+      "labour": 2521680.0,
+      "residual_grid_energy": 0.0,
+      "rolling_stock_maintenance_including_battery_renewal_reserve": 4428000.0,
+      "signalling_maintenance": 120018.3,
+      "solar_plant_maintenance": 468075.74325599987
+    },
+    "total": 14546221.583256
+  },
+  "capex_eur": {
+    "reconciled_project_total": 510240448.86636806
+  },
+  "capex_usd": {
+    "authoritative_design_base": 523404134.0,
+    "reconciled_project_total": 554609183.5504,
+    "risk_envelope_15_percent": 637800561.08296,
+    "risk_envelope_25_percent": 693261479.438,
+    "timetable_sized_dedicated_solar": 31205049.550399993
+  },
+  "cases": {
+    "high_capacity_use": {
+      "annual_operating_cash_usd": 109267401.840744,
+      "annual_paid_trips": 117313920.0,
+      "annual_public_support_usd": 0.0,
+      "annual_revenue_usd": 123813623.42400001,
+      "capacity_utilisation": 0.8,
+      "project_irr": 0.1460130075664937,
+      "project_npv_usd_at_8_percent": 423819734.11549675,
+      "steady_state_dscr": 4.300143946825962
+    },
+    "low_capacity_use": {
+      "annual_operating_cash_usd": 64688112.240744,
+      "annual_paid_trips": 73321200.0,
+      "annual_public_support_usd": 0.0,
+      "annual_revenue_usd": 79234333.824,
+      "capacity_utilisation": 0.5,
+      "project_irr": 0.09257481240560986,
+      "project_npv_usd_at_8_percent": 70221119.97412904,
+      "steady_state_dscr": 2.545756461648651
+    }
+  },
+  "city": "ramadi",
+  "funding": {
+    "annual_debt_service_usd": 25410173.05278742,
+    "construction_grace_years": 5,
+    "debt_principal_usd": 443687346.84032005,
+    "debt_rate": 0.045,
+    "government_equity_share": 0.2,
+    "lender_commitment_status": "unconfirmed-placeholder",
+    "repayment_years": 35
+  },
+  "limitations": [
+    "No calibrated origin-destination or stated-preference ridership survey.",
+    "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
+    "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
+  ],
+  "operations_basis": {
+    "annual_train_km_including_non_revenue": 8799882.1119,
+    "energy_kwh_per_car_km_hot_climate_planning": 4.0,
+    "non_revenue_train_km_factor": 1.08,
+    "scheduled_train_km_per_day": 22323.3945
+  },
+  "passed": true,
+  "renewal_policy": {
+    "field_asset_renewals": "included in fixed-asset maintenance allowance pending condition-based asset plan",
+    "train_battery_cycle_years": 12,
+    "treatment": "included in rolling-stock maintenance reserve; do not double-count as separate CAPEX"
+  },
+  "revenue_basis": {
+    "demand_status": "capacity-led-not-calibrated-od-forecast",
+    "nonfare_revenue_usd_per_year": 4935517.824000001,
+    "operating_neutral_capacity_utilisation": 0.06467602228853822,
+    "operating_neutral_paid_trips_per_year": 9484247.130844736,
+    "practical_capacity_passenger_trips_per_day": 401760.0,
+    "single_trip_fare_usd": 1.0133333333333334
+  },
+  "schema_version": 1,
+  "sources": {
+    "design": "designs/west-asia/Iraq/Ramadi/design.toml",
+    "design_sha256": "0598b4fb454f8c95021ea2f7db044d22a2baedf07a1d5574f7525afaa97001a6",
+    "generator": "scripts/generate-city-finance.py",
+    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "scenario": "designs/west-asia/Iraq/Ramadi/ramadi.toml",
+    "scenario_sha256": "3fa39faf1f4dd919d6ede80eb21ad0cd68ecc1f411c585f73f630f1aa01401c3"
+  },
+  "status": "planning-screen"
+}

@@ -1,0 +1,91 @@
+{
+  "annual_opex_usd": {
+    "components": {
+      "civil_station_depot_maintenance": 7157461.640000001,
+      "labour": 1642368.0,
+      "residual_grid_energy": 0.0,
+      "rolling_stock_maintenance_including_battery_renewal_reserve": 2620800.0,
+      "signalling_maintenance": 97418.90000000001,
+      "solar_plant_maintenance": 183439.32844800001
+    },
+    "total": 11701487.868448
+  },
+  "capex_eur": {
+    "reconciled_project_total": 446805084.518144
+  },
+  "capex_usd": {
+    "authoritative_design_base": 473428412.0,
+    "reconciled_project_total": 485657700.5632,
+    "risk_envelope_15_percent": 558506355.6476799,
+    "risk_envelope_25_percent": 607072125.704,
+    "timetable_sized_dedicated_solar": 12229288.5632
+  },
+  "cases": {
+    "high_capacity_use": {
+      "annual_operating_cash_usd": 46145873.02755201,
+      "annual_paid_trips": 78209280.0,
+      "annual_public_support_usd": 0.0,
+      "annual_revenue_usd": 57847360.896000005,
+      "capacity_utilisation": 0.8,
+      "project_irr": 0.07530392163035227,
+      "project_npv_usd_at_8_percent": -21793472.72971702,
+      "steady_state_dscr": 2.0738723496837306
+    },
+    "low_capacity_use": {
+      "annual_operating_cash_usd": 25811460.227552,
+      "annual_paid_trips": 48880800.0,
+      "annual_public_support_usd": 0.0,
+      "annual_revenue_usd": 37512948.096,
+      "capacity_utilisation": 0.5,
+      "project_irr": 0.03444707762258298,
+      "project_npv_usd_at_8_percent": -183084068.65384972,
+      "steady_state_dscr": 1.16000998916893
+    }
+  },
+  "city": "hurghada",
+  "funding": {
+    "annual_debt_service_usd": 22251067.205071393,
+    "construction_grace_years": 5,
+    "debt_principal_usd": 388526160.45056003,
+    "debt_rate": 0.045,
+    "government_equity_share": 0.2,
+    "lender_commitment_status": "unconfirmed-placeholder",
+    "repayment_years": 35
+  },
+  "limitations": [
+    "No calibrated origin-destination or stated-preference ridership survey.",
+    "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
+    "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
+  ],
+  "operations_basis": {
+    "annual_train_km_including_non_revenue": 7142877.9828,
+    "energy_kwh_per_car_km_hot_climate_planning": 4.0,
+    "non_revenue_train_km_factor": 1.08,
+    "scheduled_train_km_per_day": 18119.934
+  },
+  "passed": true,
+  "renewal_policy": {
+    "field_asset_renewals": "included in fixed-asset maintenance allowance pending condition-based asset plan",
+    "train_battery_cycle_years": 12,
+    "treatment": "included in rolling-stock maintenance reserve; do not double-count as separate CAPEX"
+  },
+  "revenue_basis": {
+    "demand_status": "capacity-led-not-calibrated-od-forecast",
+    "nonfare_revenue_usd_per_year": 3622260.0960000004,
+    "operating_neutral_capacity_utilisation": 0.11919539332526975,
+    "operating_neutral_paid_trips_per_year": 11652732.36410769,
+    "practical_capacity_passenger_trips_per_day": 267840.0,
+    "single_trip_fare_usd": 0.6933333333333334
+  },
+  "schema_version": 1,
+  "sources": {
+    "design": "designs/west-asia/Egypt/Hurghada/design.toml",
+    "design_sha256": "34b6cffa0e2bb5763468884d4c6a13915f8525d6584ad23bff3a0ed30e76b2e1",
+    "generator": "scripts/generate-city-finance.py",
+    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "scenario": "designs/west-asia/Egypt/Hurghada/hurghada.toml",
+    "scenario_sha256": "f94d392a8bb589afa38ec3fcf6750e1fa71d0b03863232d201dd6ae8a69ff200"
+  },
+  "status": "planning-screen"
+}

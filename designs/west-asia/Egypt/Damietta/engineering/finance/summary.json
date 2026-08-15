@@ -1,0 +1,91 @@
+{
+  "annual_opex_usd": {
+    "components": {
+      "civil_station_depot_maintenance": 7554355.140000001,
+      "labour": 2022383.9999999998,
+      "residual_grid_energy": 0.0,
+      "rolling_stock_maintenance_including_battery_renewal_reserve": 6984000.0,
+      "signalling_maintenance": 183740.2,
+      "solar_plant_maintenance": 800668.8631919998
+    },
+    "total": 17545148.203192
+  },
+  "capex_eur": {
+    "reconciled_project_total": 634641175.0757761
+  },
+  "capex_usd": {
+    "authoritative_design_base": 636449440.0,
+    "reconciled_project_total": 689827364.2128,
+    "risk_envelope_15_percent": 793301468.84472,
+    "risk_envelope_25_percent": 862284205.266,
+    "timetable_sized_dedicated_solar": 53377924.21279999
+  },
+  "cases": {
+    "high_capacity_use": {
+      "annual_operating_cash_usd": 66411745.492808014,
+      "annual_paid_trips": 117313920.0,
+      "annual_public_support_usd": 0.0,
+      "annual_revenue_usd": 83956893.69600001,
+      "capacity_utilisation": 0.8,
+      "project_irr": 0.07635837736468598,
+      "project_npv_usd_at_8_percent": -24084585.1768179,
+      "steady_state_dscr": 2.1012799214744913
+    },
+    "low_capacity_use": {
+      "annual_operating_cash_usd": 35910126.292807996,
+      "annual_paid_trips": 73321200.0,
+      "annual_public_support_usd": 0.0,
+      "annual_revenue_usd": 53455274.496,
+      "capacity_utilisation": 0.5,
+      "project_irr": 0.033167174076833075,
+      "project_npv_usd_at_8_percent": -266020479.063017,
+      "steady_state_dscr": 1.13620304355443
+    }
+  },
+  "city": "damietta",
+  "funding": {
+    "annual_debt_service_usd": 31605377.662489705,
+    "construction_grace_years": 5,
+    "debt_principal_usd": 551861891.3702401,
+    "debt_rate": 0.045,
+    "government_equity_share": 0.2,
+    "lender_commitment_status": "unconfirmed-placeholder",
+    "repayment_years": 35
+  },
+  "limitations": [
+    "No calibrated origin-destination or stated-preference ridership survey.",
+    "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
+    "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
+  ],
+  "operations_basis": {
+    "annual_train_km_including_non_revenue": 13472055.618299998,
+    "energy_kwh_per_car_km_hot_climate_planning": 4.0,
+    "non_revenue_train_km_factor": 1.08,
+    "scheduled_train_km_per_day": 34175.686499999996
+  },
+  "passed": true,
+  "renewal_policy": {
+    "field_asset_renewals": "included in fixed-asset maintenance allowance pending condition-based asset plan",
+    "train_battery_cycle_years": 12,
+    "treatment": "included in rolling-stock maintenance reserve; do not double-count as separate CAPEX"
+  },
+  "revenue_basis": {
+    "demand_status": "capacity-led-not-calibrated-od-forecast",
+    "nonfare_revenue_usd_per_year": 2619242.4960000003,
+    "operating_neutral_capacity_utilisation": 0.1468043936551932,
+    "operating_neutral_paid_trips_per_year": 21527748.616142306,
+    "practical_capacity_passenger_trips_per_day": 401760.0,
+    "single_trip_fare_usd": 0.6933333333333334
+  },
+  "schema_version": 1,
+  "sources": {
+    "design": "designs/west-asia/Egypt/Damietta/design.toml",
+    "design_sha256": "04581a0e2f9e089c052ecf7300854737905f88d887bf588d78d9d4fd482046d3",
+    "generator": "scripts/generate-city-finance.py",
+    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "scenario": "designs/west-asia/Egypt/Damietta/damietta.toml",
+    "scenario_sha256": "3f88dfc388a6fd08a4c32bc32aa0f5c77907f91edf4326435e854b87fa006bda"
+  },
+  "status": "planning-screen"
+}

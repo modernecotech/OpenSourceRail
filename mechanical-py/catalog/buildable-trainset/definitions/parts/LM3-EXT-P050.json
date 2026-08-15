@@ -1,0 +1,74 @@
+{
+  "acceptance": [
+    "module datasheet",
+    "clamp pull test",
+    "isolation/bonding check"
+  ],
+  "bom_line_ids": [
+    "T21"
+  ],
+  "definition_type": "product-item",
+  "id": "LM3-EXT-P050",
+  "layer": "external-component",
+  "make_or_buy_basis": "Flexible/rigid PV modules plus isolators and roof harness.",
+  "material_spec": {
+    "evidence_required": [
+      "certificate of conformity",
+      "incoming inspection record",
+      "electrical datasheet",
+      "bonding/isolation record"
+    ],
+    "finish_or_protection": "UV/weather protection, hot-surface labelling, and galvanic isolation where required",
+    "form_factor": "module, thermal shield, aluminum/stainless clamp hardware, and UV-rated harness",
+    "governing_standard": "supplier datasheet plus project bonding, isolation, fire, and vibration evidence",
+    "grade_or_part_class": "PV module / resistor / clamp / isolator kit",
+    "material_family": "roof electrical energy equipment",
+    "nominal_section": "roof keep-out, clamp pitch, and thermal clearance frozen by RFQ drawing",
+    "traceability": "module serials, resistance/PV flash data, CoC, and harness batch"
+  },
+  "maturity": "release-candidate",
+  "notes": "",
+  "parent": "LM3-ROOF-SA410",
+  "process_spec": {
+    "inspection_methods": [
+      "incoming visual inspection",
+      "envelope fit check",
+      "module datasheet",
+      "clamp pull test",
+      "isolation/bonding check",
+      "bond continuity",
+      "insulation/isolation check",
+      "HVIL functional check where applicable"
+    ],
+    "joining_methods": [
+      "bolted/torqued installation",
+      "sealed, gasketed, bonded, or clipped interface as supplier envelope requires"
+    ],
+    "primary_processes": [
+      "receive",
+      "quarantine",
+      "evidence review",
+      "incoming fit check",
+      "release to parent kit"
+    ],
+    "release_level": "SOURCE supplier-controlled process; OSR controls envelope and acceptance evidence",
+    "special_process_controls": [
+      "RFQ envelope freeze",
+      "supplier certificate/revision check",
+      "incoming quarantine until evidence accepted",
+      "HV safety plan",
+      "LOTO/service-disconnect rule",
+      "EMC/bonding evidence review"
+    ],
+    "tooling_basis": "RFQ-LM3-EXT-P050, CERT-LM3-EXT-P050, GAUGE-LM3-EXT-P050-ENVELOPE"
+  },
+  "quantity_per_trainset": 36,
+  "route": "SOURCE",
+  "source_refs": [
+    "systems.py",
+    "car_body.py",
+    "LM3-HV-325"
+  ],
+  "title": "roof PV module and edge-clamp kit",
+  "unit": "module"
+}

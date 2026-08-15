@@ -1,0 +1,159 @@
+{
+  "bom_line_ids": [
+    "B3",
+    "B4",
+    "B26"
+  ],
+  "build_cell": "weld and fixture cell",
+  "children": [
+    "LM3-BDY-P010",
+    "LM3-BDY-P020",
+    "LM3-BDY-P030",
+    "LM3-BDY-P120"
+  ],
+  "definition_type": "assembly-node",
+  "hold_points": [
+    "material release",
+    "fixture tack survey",
+    "weld/NDT release",
+    "post-weld datum survey"
+  ],
+  "id": "LM3-BDY-SA110",
+  "integration_steps": [
+    {
+      "child_id": "LM3-BDY-P010",
+      "child_title": "laser-cut side sill beam, LH/RH",
+      "interface_classes": [
+        "mechanical datum"
+      ],
+      "join_classes": [
+        "structural-weld",
+        "bolted-structural-datum"
+      ],
+      "joint_release_status": "joint-calculation-required",
+      "placement_zone": "primary structure datum and final assembly interface",
+      "sequence": 1,
+      "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
+      "verification": [
+        "heat traceability",
+        "dimensional check",
+        "weld VT/MT where classed"
+      ]
+    },
+    {
+      "child_id": "LM3-BDY-P020",
+      "child_title": "underframe centre spine and cross-bearer kit",
+      "interface_classes": [
+        "mechanical datum"
+      ],
+      "join_classes": [
+        "structural-weld",
+        "bolted-structural-datum"
+      ],
+      "joint_release_status": "joint-calculation-required",
+      "placement_zone": "primary structure datum and final assembly interface",
+      "sequence": 2,
+      "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
+      "verification": [
+        "tube/plate certs",
+        "fixture survey",
+        "bogie-centre datum report"
+      ]
+    },
+    {
+      "child_id": "LM3-BDY-P030",
+      "child_title": "bolster box, air-spring pad, and centre-pivot insert set",
+      "interface_classes": [
+        "mechanical datum"
+      ],
+      "join_classes": [
+        "structural-weld",
+        "bolted-structural-datum"
+      ],
+      "joint_release_status": "joint-calculation-required",
+      "placement_zone": "primary structure datum and final assembly interface",
+      "sequence": 3,
+      "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
+      "verification": [
+        "line-bore report",
+        "air-spring datum survey",
+        "NDT report"
+      ]
+    },
+    {
+      "child_id": "LM3-BDY-P120",
+      "child_title": "jacking pad, lifting eye, towing lug, and recovery-label kit",
+      "interface_classes": [
+        "mechanical datum"
+      ],
+      "join_classes": [
+        "bolted-structural-datum"
+      ],
+      "joint_release_status": "joint-calculation-required",
+      "placement_zone": "primary structure datum and final assembly interface",
+      "sequence": 4,
+      "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
+      "verification": [
+        "material traceability",
+        "weld/NDT record",
+        "proof load",
+        "datum and label inspection"
+      ]
+    }
+  ],
+  "layer": "subassembly",
+  "material_spec": {
+    "evidence_required": [
+      "child material certificates accepted",
+      "assembly traveler traceability",
+      "interface-control drawing revision"
+    ],
+    "finish_or_protection": "protect damaged coating, exposed edges, seals, bonds, and labels during assembly",
+    "form_factor": "rail structural steel",
+    "governing_standard": "all child material standards plus assembly-level torque, bonding, coating, and cleanliness controls",
+    "grade_or_part_class": "LM3-BDY-SA110 inherits released child material specifications",
+    "material_family": "assembly material set",
+    "nominal_section": "as defined by child drawings and assembly interface control drawing",
+    "traceability": "child serial/heat/batch records plus assembly traveler traceability"
+  },
+  "maturity": "release-candidate",
+  "process_spec": {
+    "inspection_methods": [
+      "child acceptance evidence review",
+      "material release",
+      "fixture tack survey",
+      "weld/NDT release",
+      "post-weld datum survey",
+      "VT",
+      "MT/UT where classed"
+    ],
+    "joining_methods": [
+      "bolted/torqued interfaces",
+      "shimmed datum interfaces as required",
+      "WPS-controlled structural welding"
+    ],
+    "primary_processes": [
+      "release child kit",
+      "fixture or datum setup",
+      "fixture tack/weld",
+      "install children",
+      "torque/fit-up record",
+      "release to parent"
+    ],
+    "release_level": "assembly traveler controlled; generated template is unsigned until build",
+    "special_process_controls": [
+      "child definition/revision check",
+      "tooling calibration check",
+      "parent interface freeze",
+      "weld map release",
+      "WPS/WPQR and welder qualification"
+    ],
+    "tooling_basis": "FIX-LM3-BDY-SA110, KIT-LM3-BDY-SA110, calibrated torque/gauge set"
+  },
+  "quantity_per_trainset": 3,
+  "source_refs": [
+    "fabrication-plan.md",
+    "LM3-BDY-110"
+  ],
+  "title": "underframe datum weldment"
+}

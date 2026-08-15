@@ -1,0 +1,215 @@
+{
+  "bom_line_ids": [
+    "T11",
+    "T16"
+  ],
+  "document_revision": "A-DRAFT",
+  "estimated_labor_hours": 2.8,
+  "id": "LM3-TRC-P070",
+  "material_spec": {
+    "evidence_required": [
+      "certificate of conformity",
+      "incoming inspection record",
+      "electrical datasheet",
+      "bonding/isolation record"
+    ],
+    "finish_or_protection": "UV/weather protection, hot-surface labelling, and galvanic isolation where required",
+    "form_factor": "module, thermal shield, aluminum/stainless clamp hardware, and UV-rated harness",
+    "governing_standard": "supplier datasheet plus project bonding, isolation, fire, and vibration evidence",
+    "grade_or_part_class": "PV module / resistor / clamp / isolator kit",
+    "material_family": "roof electrical energy equipment",
+    "nominal_section": "roof keep-out, clamp pitch, and thermal clearance frozen by RFQ drawing",
+    "traceability": "module serials, resistance/PV flash data, CoC, and harness batch"
+  },
+  "operations": [
+    {
+      "labor_hours": 0.35,
+      "qa_gate": "traveler rev and parent assembly match released manifest",
+      "sequence": 10,
+      "signoff_role": "cell lead",
+      "title": "release traveler, revision, material/certificate pack, and parent interface",
+      "tooling_ids": [
+        "TRV-LM3-TRC-P070",
+        "DOC-LM3-HV-SA510"
+      ],
+      "work_center": "production control"
+    },
+    {
+      "labor_hours": 0.45,
+      "qa_gate": "supplier certificate/datasheet/revision accepted",
+      "sequence": 20,
+      "signoff_role": "quality inspector",
+      "title": "receive supplier component and quarantine until evidence pack passes",
+      "tooling_ids": [
+        "RFQ-LM3-TRC-P070",
+        "CERT-LM3-TRC-P070"
+      ],
+      "work_center": "receiving inspection"
+    },
+    {
+      "labor_hours": 0.75,
+      "qa_gate": "component fits without parent datum rework",
+      "sequence": 30,
+      "signoff_role": "operator",
+      "title": "perform envelope, mounting, service-removal, and connector checks",
+      "tooling_ids": [
+        "GAUGE-LM3-TRC-P070-ENVELOPE",
+        "FIX-LM3-HV-SA510"
+      ],
+      "work_center": "incoming fit-check cell"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "isolation test",
+      "sequence": 40,
+      "signoff_role": "quality inspector",
+      "title": "verify acceptance gate: isolation test",
+      "tooling_ids": [
+        "ELEC-TEST-LM3-TRC-P070"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "pre-charge timing",
+      "sequence": 50,
+      "signoff_role": "quality inspector",
+      "title": "verify acceptance gate: pre-charge timing",
+      "tooling_ids": [
+        "QA-LM3-TRC-P070"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "fuse rating evidence",
+      "sequence": 60,
+      "signoff_role": "quality inspector",
+      "title": "verify acceptance gate: fuse rating evidence",
+      "tooling_ids": [
+        "QA-LM3-TRC-P070"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "service-disconnect lockout",
+      "sequence": 70,
+      "signoff_role": "quality inspector",
+      "title": "verify acceptance gate: service-disconnect lockout",
+      "tooling_ids": [
+        "QA-LM3-TRC-P070"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "item is released, tagged, and staged for parent assembly",
+      "sequence": 80,
+      "signoff_role": "cell lead",
+      "title": "final item release to parent assembly",
+      "tooling_ids": [
+        "REL-LM3-TRC-P070",
+        "KIT-LM3-HV-SA510"
+      ],
+      "work_center": "production control"
+    }
+  ],
+  "parent": "LM3-HV-SA510",
+  "process_spec": {
+    "inspection_methods": [
+      "incoming visual inspection",
+      "envelope fit check",
+      "isolation test",
+      "pre-charge timing",
+      "fuse rating evidence",
+      "service-disconnect lockout",
+      "bond continuity",
+      "insulation/isolation check",
+      "HVIL functional check where applicable"
+    ],
+    "joining_methods": [
+      "bolted/torqued installation",
+      "sealed, gasketed, bonded, or clipped interface as supplier envelope requires"
+    ],
+    "primary_processes": [
+      "receive",
+      "quarantine",
+      "evidence review",
+      "incoming fit check",
+      "release to parent kit"
+    ],
+    "release_level": "SOURCE supplier-controlled process; OSR controls envelope and acceptance evidence",
+    "special_process_controls": [
+      "RFQ envelope freeze",
+      "supplier certificate/revision check",
+      "incoming quarantine until evidence accepted",
+      "HV safety plan",
+      "LOTO/service-disconnect rule",
+      "EMC/bonding evidence review"
+    ],
+    "tooling_basis": "RFQ-LM3-TRC-P070, CERT-LM3-TRC-P070, GAUGE-LM3-TRC-P070-ENVELOPE"
+  },
+  "quantity_per_trainset": 3,
+  "release_status": "unsigned-template",
+  "revision_approvals": [
+    {
+      "approval_id": "APP-LM3-TRC-P070-MFG",
+      "date": "",
+      "name": "",
+      "role": "manufacturing engineering",
+      "signature": "",
+      "status": "pending"
+    },
+    {
+      "approval_id": "APP-LM3-TRC-P070-QA",
+      "date": "",
+      "name": "",
+      "role": "quality",
+      "signature": "",
+      "status": "pending"
+    },
+    {
+      "approval_id": "APP-LM3-TRC-P070-DA",
+      "date": "",
+      "name": "",
+      "role": "design authority",
+      "signature": "",
+      "status": "pending"
+    }
+  ],
+  "route": "SOURCE",
+  "signoff_blocks": [
+    {
+      "date": "",
+      "name": "",
+      "role": "operator",
+      "signature": "",
+      "status": "blank"
+    },
+    {
+      "date": "",
+      "name": "",
+      "role": "cell lead",
+      "signature": "",
+      "status": "blank"
+    },
+    {
+      "date": "",
+      "name": "",
+      "role": "quality inspector",
+      "signature": "",
+      "status": "blank"
+    },
+    {
+      "date": "",
+      "name": "",
+      "role": "manufacturing engineer",
+      "signature": "",
+      "status": "blank"
+    }
+  ],
+  "title": "HV contactor, fuse, pre-charge, service-disconnect, and current-sensor panel",
+  "traveler_type": "product-item",
+  "unit": "car kit"
+}

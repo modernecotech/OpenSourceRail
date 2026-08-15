@@ -1,0 +1,91 @@
+{
+  "annual_opex_usd": {
+    "components": {
+      "civil_station_depot_maintenance": 25227273.84,
+      "labour": 29616719.999999996,
+      "residual_grid_energy": 0.0,
+      "rolling_stock_maintenance_including_battery_renewal_reserve": 13305600.0,
+      "signalling_maintenance": 449481.55000000005,
+      "solar_plant_maintenance": 2286486.043824
+    },
+    "total": 70885561.433824
+  },
+  "capex_eur": {
+    "reconciled_project_total": 1819917879.2878718
+  },
+  "capex_usd": {
+    "authoritative_design_base": 1825739205.0,
+    "reconciled_project_total": 1978171607.9215999,
+    "risk_envelope_15_percent": 2274897349.1098394,
+    "risk_envelope_25_percent": 2472714509.902,
+    "timetable_sized_dedicated_solar": 152432402.92159998
+  },
+  "cases": {
+    "high_capacity_use": {
+      "annual_operating_cash_usd": 1282740324.966176,
+      "annual_paid_trips": 286767360.0,
+      "annual_public_support_usd": 0.0,
+      "annual_revenue_usd": 1353625886.4,
+      "capacity_utilisation": 0.8,
+      "project_irr": 0.3351077126976565,
+      "project_npv_usd_at_8_percent": 8594919085.566195,
+      "steady_state_dscr": 14.153186100318994
+    },
+    "low_capacity_use": {
+      "annual_operating_cash_usd": 795235812.966176,
+      "annual_paid_trips": 179229600.0,
+      "annual_public_support_usd": 0.0,
+      "annual_revenue_usd": 866121374.4,
+      "capacity_utilisation": 0.5,
+      "project_irr": 0.2464880562998405,
+      "project_npv_usd_at_8_percent": 4728080439.692759,
+      "steady_state_dscr": 8.774278188257266
+    }
+  },
+  "city": "medina",
+  "funding": {
+    "annual_debt_service_usd": 90632619.10597394,
+    "construction_grace_years": 5,
+    "debt_principal_usd": 1582537286.33728,
+    "debt_rate": 0.045,
+    "government_equity_share": 0.2,
+    "lender_commitment_status": "unconfirmed-placeholder",
+    "repayment_years": 35
+  },
+  "limitations": [
+    "No calibrated origin-destination or stated-preference ridership survey.",
+    "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
+    "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
+  ],
+  "operations_basis": {
+    "annual_train_km_including_non_revenue": 27386962.11945,
+    "energy_kwh_per_car_km_hot_climate_planning": 4.0,
+    "non_revenue_train_km_factor": 1.08,
+    "scheduled_train_km_per_day": 69474.78975
+  },
+  "passed": true,
+  "renewal_policy": {
+    "field_asset_renewals": "included in fixed-asset maintenance allowance pending condition-based asset plan",
+    "train_battery_cycle_years": 12,
+    "treatment": "included in rolling-stock maintenance reserve; do not double-count as separate CAPEX"
+  },
+  "revenue_basis": {
+    "demand_status": "capacity-led-not-calibrated-od-forecast",
+    "nonfare_revenue_usd_per_year": 53613854.4,
+    "operating_neutral_capacity_utilisation": 0.010628644417853514,
+    "operating_neutral_paid_trips_per_year": 3809935.3751082364,
+    "practical_capacity_passenger_trips_per_day": 982080.0,
+    "single_trip_fare_usd": 4.533333333333333
+  },
+  "schema_version": 1,
+  "sources": {
+    "design": "designs/west-asia/Saudi Arabia/Medina/design.toml",
+    "design_sha256": "f5ed6e4e54404e986ea1c2ae65442cd43c98c98379c508106f12f4d866ac0de5",
+    "generator": "scripts/generate-city-finance.py",
+    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "scenario": "designs/west-asia/Saudi Arabia/Medina/medina.toml",
+    "scenario_sha256": "29a0ed28e08fe965349dcb3731960f9dbd9fd70e6773ac8689f705eb6942557b"
+  },
+  "status": "planning-screen"
+}

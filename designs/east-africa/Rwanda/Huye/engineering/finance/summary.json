@@ -1,0 +1,91 @@
+{
+  "annual_opex_usd": {
+    "components": {
+      "civil_station_depot_maintenance": 5409868.4,
+      "labour": 757848.0,
+      "residual_grid_energy": 0.0,
+      "rolling_stock_maintenance_including_battery_renewal_reserve": 2912000.0,
+      "signalling_maintenance": 111624.45000000001,
+      "solar_plant_maintenance": 368071.97987999994
+    },
+    "total": 9559412.829880001
+  },
+  "capex_eur": {
+    "reconciled_project_total": 380233105.67264
+  },
+  "capex_usd": {
+    "authoritative_design_base": 388758722.0,
+    "reconciled_project_total": 413296853.992,
+    "risk_envelope_15_percent": 475291382.0907999,
+    "risk_envelope_25_percent": 516621067.49,
+    "timetable_sized_dedicated_solar": 24538131.992
+  },
+  "cases": {
+    "high_capacity_use": {
+      "annual_operating_cash_usd": 18706849.922120005,
+      "annual_paid_trips": 78209280.0,
+      "annual_public_support_usd": 716293.0160777196,
+      "annual_revenue_usd": 28266262.752000004,
+      "capacity_utilisation": 0.8,
+      "project_irr": 0.02123675166200878,
+      "project_npv_usd_at_8_percent": -181719455.06536952,
+      "steady_state_dscr": 0.9631216730290827
+    },
+    "low_capacity_use": {
+      "annual_operating_cash_usd": 8539643.522119997,
+      "annual_paid_trips": 48880800.0,
+      "annual_public_support_usd": 10883499.416077727,
+      "annual_revenue_usd": 18099056.351999998,
+      "capacity_utilisation": 0.5,
+      "project_irr": -0.018246088855989967,
+      "project_npv_usd_at_8_percent": -250025221.08285666,
+      "steady_state_dscr": 0.43966332067329117
+    }
+  },
+  "city": "huye",
+  "funding": {
+    "annual_debt_service_usd": 19423142.938197725,
+    "construction_grace_years": 7,
+    "debt_principal_usd": 330637483.1936,
+    "debt_rate": 0.045,
+    "government_equity_share": 0.2,
+    "lender_commitment_status": "unconfirmed-placeholder",
+    "repayment_years": 33
+  },
+  "limitations": [
+    "No calibrated origin-destination or stated-preference ridership survey.",
+    "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
+    "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
+  ],
+  "operations_basis": {
+    "annual_train_km_including_non_revenue": 8184442.2894,
+    "energy_kwh_per_car_km_hot_climate_planning": 4.0,
+    "non_revenue_train_km_factor": 1.08,
+    "scheduled_train_km_per_day": 20762.157
+  },
+  "passed": true,
+  "renewal_policy": {
+    "field_asset_renewals": "included in fixed-asset maintenance allowance pending condition-based asset plan",
+    "train_battery_cycle_years": 12,
+    "treatment": "included in rolling-stock maintenance reserve; do not double-count as separate CAPEX"
+  },
+  "revenue_basis": {
+    "demand_status": "capacity-led-not-calibrated-od-forecast",
+    "nonfare_revenue_usd_per_year": 1153712.352,
+    "operating_neutral_capacity_utilisation": 0.24802389605900005,
+    "operating_neutral_paid_trips_per_year": 24247212.91696154,
+    "practical_capacity_passenger_trips_per_day": 267840.0,
+    "single_trip_fare_usd": 0.3466666666666667
+  },
+  "schema_version": 1,
+  "sources": {
+    "design": "designs/east-africa/Rwanda/Huye/design.toml",
+    "design_sha256": "960402d2a7f36d32aba0647d53bf322962889bfbe833e2bc69882ed6bbe7e190",
+    "generator": "scripts/generate-city-finance.py",
+    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "scenario": "designs/east-africa/Rwanda/Huye/huye.toml",
+    "scenario_sha256": "92fd1ff20672d721548bdec724f47fdcefbe4e161acf425914b2f56752764334"
+  },
+  "status": "planning-screen"
+}

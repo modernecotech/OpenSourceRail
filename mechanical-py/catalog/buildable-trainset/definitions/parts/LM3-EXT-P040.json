@@ -1,0 +1,78 @@
+{
+  "acceptance": [
+    "+50 C capacity evidence",
+    "condensate drain test",
+    "EMC/vibration evidence"
+  ],
+  "bom_line_ids": [
+    "T14"
+  ],
+  "definition_type": "product-item",
+  "id": "LM3-EXT-P040",
+  "layer": "external-component",
+  "make_or_buy_basis": "Optimizer-selected hot-climate HVAC must fit the roof curb and aux-power budget.",
+  "material_spec": {
+    "evidence_required": [
+      "certificate of conformity",
+      "incoming inspection record",
+      "capacity test evidence",
+      "fire-material certificate"
+    ],
+    "finish_or_protection": "supplier coating, condensate protection, and fire-rated interior surfaces",
+    "form_factor": "packaged roof unit, curb gasket, diffusers, ducts, grilles, and access panels",
+    "governing_standard": "supplier rail/bus HVAC specification plus project EMC, vibration, and fire evidence",
+    "grade_or_part_class": "hot-climate roof HVAC / fire-rated interior duct kit",
+    "material_family": "supplier HVAC and air-distribution kit",
+    "nominal_section": "roof curb and saloon envelope frozen by RFQ drawing",
+    "traceability": "unit serial number, refrigerant/coolant data, CoC, and fire-material batch"
+  },
+  "maturity": "buildable-after-supplier-freeze",
+  "notes": "",
+  "parent": "LM3-ROOF-SA410",
+  "process_spec": {
+    "inspection_methods": [
+      "incoming visual inspection",
+      "envelope fit check",
+      "+50 C capacity evidence",
+      "condensate drain test",
+      "EMC/vibration evidence",
+      "bond continuity",
+      "insulation/isolation check",
+      "HVIL functional check where applicable",
+      "pressure/leak test",
+      "drain-flow test where applicable"
+    ],
+    "joining_methods": [
+      "bolted/torqued installation",
+      "sealed, gasketed, bonded, or clipped interface as supplier envelope requires"
+    ],
+    "primary_processes": [
+      "receive",
+      "quarantine",
+      "evidence review",
+      "incoming fit check",
+      "release to parent kit"
+    ],
+    "release_level": "BID supplier-controlled process; OSR controls envelope and acceptance evidence",
+    "special_process_controls": [
+      "RFQ envelope freeze",
+      "supplier certificate/revision check",
+      "incoming quarantine until evidence accepted",
+      "HV safety plan",
+      "LOTO/service-disconnect rule",
+      "EMC/bonding evidence review",
+      "fluid compatibility check",
+      "hose/pipe routing release"
+    ],
+    "tooling_basis": "RFQ-LM3-EXT-P040, CERT-LM3-EXT-P040, GAUGE-LM3-EXT-P040-ENVELOPE"
+  },
+  "quantity_per_trainset": 3,
+  "route": "BID",
+  "source_refs": [
+    "design-iteration-summary.md",
+    "cots_equipment.py",
+    "LM3-HVAC-220"
+  ],
+  "title": "hvac-24kw-direct-hv-dc roof HVAC",
+  "unit": "ea"
+}

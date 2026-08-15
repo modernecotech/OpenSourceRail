@@ -1,0 +1,61 @@
+# Repository Scripts
+
+This folder contains small orchestration helpers for regeneration,
+documentation publishing, and repository health checks. Scripts should
+stay thin: domain logic belongs in Rust crates, `design-py`, or
+`mechanical-py`.
+
+## Scripts
+
+| Script | Purpose |
+|---|---|
+| [`regenerate-city.sh`](regenerate-city.sh) | Regenerate one city design from the batch catalogue |
+| [`regenerate-all.sh`](regenerate-all.sh) | Cached design synthesis plus complete city-package refresh under `designs/`; use `--from-scratch` to force source-data rebuilding |
+| [`generate-city-packages-fast.py`](generate-city-packages-fast.py) | Resynthesise designs, then refresh scenarios, maps, engineering, resilience simulation, screenshots, operations, READMEs, and completeness manifests |
+| [`generate-design-index.py`](generate-design-index.py) | Rebuild the complete city catalogue index in `designs/README.md` |
+| [`generate-cost-model.py`](generate-cost-model.py) | Rebuild `docs/cost-model.md` from the CAPEX template, finance assumptions, benefit assumptions, and rolling-stock BOM |
+| [`generate-acceptance-evidence-report.py`](generate-acceptance-evidence-report.py) | Build the acceptance/accreditation evidence-basis report and matrix from the operations bundle |
+| [`export-light-metro-bom.py`](export-light-metro-bom.py) | Export the rolling-stock BOM CSV from the Markdown BOM source plus the generated COTS fit-out cost/source CSV |
+| [`generate-qa-maintenance-data.py`](generate-qa-maintenance-data.py) | Generate operations portal assets, manufacturing schedule/materials/verification, QA register, maintenance CSVs, and a deterministic gzip JSON bundle with integrity manifest |
+| [`build-doc-book.py`](build-doc-book.py) | Build the reader-edition documentation book |
+| [`generate-doc-index.py`](generate-doc-index.py) | Rebuild the central Markdown file catalogue in `docs/INDEX.md` |
+| [`render-sim-screenshots.py`](render-sim-screenshots.py) | Generate city-local simulator screenshots from any scenario |
+| [`render-city-engineering.py`](render-city-engineering.py) | Render hash-linked QGIS engineering-layer and SUMO validation visuals for city READMEs |
+| [`validate-ring-interchanges.py`](validate-ring-interchanges.py) | Fail close ring/radial approaches without a shared transfer, flag radial corridors that double back on themselves, and report genuinely disconnected route layouts |
+| [`validate-station-clusters.py`](validate-station-clusters.py) | Fail same-line spacing below 1.2 km, unmerged cross-line stops within the 600 m station-complex envelope, and missing explicit interchange-complex records |
+| [`design-iterate.sh`](design-iterate.sh) | Iterate the rolling-stock design hierarchy across external components, fabricated parts, subassemblies, and final assemblies |
+| [`buildable-trainset.sh`](buildable-trainset.sh) | Generate the buildable rolling-stock product tree and current-design buildability review |
+| [`freecad-generate.sh`](freecad-generate.sh) | Repository-level FreeCAD generator for mechanical review models, assemblies, FEM screens, and screenshots |
+| [`engineering-toolchain.sh`](engineering-toolchain.sh) | Install/check the engineering environment; run smoke tests, JuPedSim/SUMO benchmarks, analysis-register validation, and station IFC interchange checks |
+| [`generate-city-engineering.py`](generate-city-engineering.py) | Generate city-local QGIS packages, geometry-shaped SUMO runs, pandapower/pvlib energy screens and station-to-product mappings |
+| [`generate-city-finance.py`](generate-city-finance.py) | Reconcile design-base and timetable-dependent CAPEX; emit OPEX, revenue, NPV/IRR/DSCR, renewal and risk screens |
+| [`validate-city-simulation.py`](validate-city-simulation.py) | Run nominal and mandatory degraded-energy OSR simulations on distinct physical cores, using compact result traces, and write reproducible battery, charging, and depot validation evidence |
+| [`generate-city-package-manifest.py`](generate-city-package-manifest.py) | Fail closed unless a full city package contains passing design, engineering, simulation, resilience, operations, and hash-linked acceptance artifacts |
+| [`repo-health.py`](repo-health.py) | Check generated artifact drift, required files, and repository hygiene |
+| [`check-markdown-links.py`](check-markdown-links.py) | Check that local links in tracked Markdown resolve inside the repository |
+| [`validate-host-manifests.py`](validate-host-manifests.py) | Validate all five host compositions and the complete Cargo component inventory |
+
+For a single city, nominal runs and resilience cases are assigned to distinct
+physical cores. The default all-city run resynthesises `design.toml` using
+current raster/corridor caches where available, then regenerates every
+remaining artifact required by the Samawah package manifest. It also fails if
+the compact engineering or operations review package for any generated city is
+excluded by Git ignore rules. Missing source caches are created automatically;
+`--from-scratch` forces them to be rebuilt.
+Compact
+simulator output retains acceptance counters while
+omitting the detailed event trace; validation's explicit `--ma-check-every 0`
+uses the same movement-authority gates with bounded derived state instead of
+retaining three full Raft histories. `regenerate-all.sh --jobs N`
+automatically limits each city to one simulator when `N > 1`, leaving CPU
+scheduling to the operating system and preventing nested parallelism.
+
+Typical verification:
+
+```bash
+python3 scripts/repo-health.py --quiet
+python3 scripts/validate-host-manifests.py
+scripts/design-iterate.sh
+scripts/buildable-trainset.sh
+scripts/freecad-generate.sh --check
+```

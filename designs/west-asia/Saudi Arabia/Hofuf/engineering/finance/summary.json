@@ -1,0 +1,91 @@
+{
+  "annual_opex_usd": {
+    "components": {
+      "civil_station_depot_maintenance": 8441626.84,
+      "labour": 14794079.999999998,
+      "residual_grid_energy": 0.0,
+      "rolling_stock_maintenance_including_battery_renewal_reserve": 6840000.0,
+      "signalling_maintenance": 194631.40000000002,
+      "solar_plant_maintenance": 823793.0898719997
+    },
+    "total": 31094131.329871997
+  },
+  "capex_eur": {
+    "reconciled_project_total": 676529532.338816
+  },
+  "capex_usd": {
+    "authoritative_design_base": 680438648.0,
+    "reconciled_project_total": 735358187.3248,
+    "risk_envelope_15_percent": 845661915.42352,
+    "risk_envelope_25_percent": 919197734.156,
+    "timetable_sized_dedicated_solar": 54919539.324799985
+  },
+  "cases": {
+    "high_capacity_use": {
+      "annual_operating_cash_usd": 522775147.07012796,
+      "annual_paid_trips": 117313920.0,
+      "annual_public_support_usd": 0.0,
+      "annual_revenue_usd": 553869278.4,
+      "capacity_utilisation": 0.8,
+      "project_irr": 0.35421506947317527,
+      "project_npv_usd_at_8_percent": 3559387509.3859115,
+      "steady_state_dscr": 15.516559624238823
+    },
+    "low_capacity_use": {
+      "annual_operating_cash_usd": 323341483.07012796,
+      "annual_paid_trips": 73321200.0,
+      "annual_public_support_usd": 0.0,
+      "annual_revenue_usd": 354435614.4,
+      "capacity_utilisation": 0.5,
+      "project_irr": 0.2617480481977098,
+      "project_npv_usd_at_8_percent": 1977498972.4376874,
+      "steady_state_dscr": 9.59714215407111
+    }
+  },
+  "city": "hofuf",
+  "funding": {
+    "annual_debt_service_usd": 33691434.16646866,
+    "construction_grace_years": 5,
+    "debt_principal_usd": 588286549.85984,
+    "debt_rate": 0.045,
+    "government_equity_share": 0.2,
+    "lender_commitment_status": "unconfirmed-placeholder",
+    "repayment_years": 35
+  },
+  "limitations": [
+    "No calibrated origin-destination or stated-preference ridership survey.",
+    "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
+    "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
+  ],
+  "operations_basis": {
+    "annual_train_km_including_non_revenue": 14270615.137799999,
+    "energy_kwh_per_car_km_hot_climate_planning": 4.0,
+    "non_revenue_train_km_factor": 1.08,
+    "scheduled_train_km_per_day": 36201.458999999995
+  },
+  "passed": true,
+  "renewal_policy": {
+    "field_asset_renewals": "included in fixed-asset maintenance allowance pending condition-based asset plan",
+    "train_battery_cycle_years": 12,
+    "treatment": "included in rolling-stock maintenance reserve; do not double-count as separate CAPEX"
+  },
+  "revenue_basis": {
+    "demand_status": "capacity-led-not-calibrated-od-forecast",
+    "nonfare_revenue_usd_per_year": 22046174.4,
+    "operating_neutral_capacity_utilisation": 0.01361047590722497,
+    "operating_neutral_paid_trips_per_year": 1995872.852177647,
+    "practical_capacity_passenger_trips_per_day": 401760.0,
+    "single_trip_fare_usd": 4.533333333333333
+  },
+  "schema_version": 1,
+  "sources": {
+    "design": "designs/west-asia/Saudi Arabia/Hofuf/design.toml",
+    "design_sha256": "64914d91e424907dc2ba9cb11a456b94b0fe99fcc7c6573a97ae04992de728b3",
+    "generator": "scripts/generate-city-finance.py",
+    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "scenario": "designs/west-asia/Saudi Arabia/Hofuf/hofuf.toml",
+    "scenario_sha256": "50da6e58942bfbc70b71da7eb84caa8045035ab4afd3832587ff6b4589dc4c56"
+  },
+  "status": "planning-screen"
+}

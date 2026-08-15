@@ -1,0 +1,75 @@
+# Shop traveler — LM3-INT-P020 — FRP/phenolic ceiling liner, light trough, and HVAC plenum cover set
+
+| Field | Value |
+|---|---|
+| Traveler type | `product-item` |
+| Document revision | `A-DRAFT` |
+| Release status | `unsigned-template` |
+| Estimated labor | 4.2 h |
+| Route | `MAKE` |
+| Procurement BOM lines | `B21` |
+
+## Material specification
+
+| Field | Value |
+|---|---|
+| Material family | fire-rated cabin fiberglass / phenolic composite |
+| Grade / part class | EN 45545 HL2 candidate FRP, phenolic, or glass/basalt-fibre sandwich interior panel |
+| Governing standard | EN 45545-2 interior material evidence plus supplier laminate/phenolic panel certificate |
+| Form factor | moulded or CNC-trimmed liner, reveal, cover, hatch, and kick-panel shells with potted inserts |
+| Nominal section | panel thickness, edge return, insert pattern, and clip grid per LM3-INT v2A drawing |
+| Finish / protection | cleanable interior gelcoat/paint or decorative film with sealed edges and anti-slip finish where walked on |
+| Traceability | laminate/panel batch, resin/cure or board batch, insert batch, adhesive batch, and fire certificate |
+
+Evidence required:
+
+- fire-material certificate
+- laminate/panel batch record
+- insert pull-out evidence
+- trim/cure record
+
+## Process specification
+
+- Primary processes: inspect mould/trim fixture, apply release system, cut dry reinforcement or panel blank, lay up / infuse / press laminate, controlled cure, demould and post-cure where required, trim/drill to controlled datum, fit inserts/clips/gaskets, dry-fit to parent fixture
+- Joining methods: potted/captive inserts, retained fasteners or clip grid, adhesive/sealant only where removal and repair rules allow
+- Special process controls: released laminate schedule, resin/adhesive batch and shelf-life check, mould release record, cure temperature/time record, fire-material certificate check, edge sealing and dust-control rule, passenger-facing edge-radius rule, anti-slip rule for PRM/step panels
+- Inspection methods: laminate coupon, void/delamination visual tap check, trim-line gauge, insert pull-out where classed, fit-up survey, fire-material certificate, fastener insert pull-out, rattle check, sharp-edge inspection, cleanability inspection
+- Tooling basis: MOULD/FIX-LM3-INT-P020 plus TRIM-GAUGE-LM3-INT-P020
+- Release level: v2A composite-process controlled MAKE item; generated traveler is unsigned until build
+
+
+## Revision approval block
+
+| Role | Approval ID | Name | Date | Signature | Status |
+|---|---|---|---|---|---|
+| manufacturing engineering | `APP-LM3-INT-P020-MFG` |  |  |  | `pending` |
+| quality | `APP-LM3-INT-P020-QA` |  |  |  | `pending` |
+| design authority | `APP-LM3-INT-P020-DA` |  |  |  | `pending` |
+
+## Operation router
+
+| Seq | Operation | Work center | Labor h | Tooling IDs | QA gate | Signoff role |
+|---:|---|---|---:|---|---|---|
+| 10 | release traveler, revision, material/certificate pack, and parent interface | production control | 0.35 | `TRV-LM3-INT-P020`<br>`DOC-LM3-INT-SA330` | traveler rev and parent assembly match released manifest | cell lead |
+| 20 | cut, form, machine, or fabricate local hardware | fabrication cell | 1.8 | `FIX-LM3-INT-FAB`<br>`GAUGE-LM3-INT-P020-DATUM` | fabricated geometry matches datum/gauge requirements | operator |
+| 30 | trial-fit to parent interface and record shim/adjustment pack | fit-up cell | 0.8 | `FIX-LM3-INT-SA330`<br>`TORQUE-LM3-INT-P020` | fit-up evidence recorded before release to assembly | operator |
+| 40 | verify acceptance gate: fire-material certificate | quality inspection | 0.25 | `QA-LM3-INT-P020` | fire-material certificate | quality inspector |
+| 50 | verify acceptance gate: trim-line gauge | quality inspection | 0.25 | `GAUGE-LM3-INT-P020` | trim-line gauge | quality inspector |
+| 60 | verify acceptance gate: fastener insert pull-out | quality inspection | 0.25 | `TORQUE-LM3-INT-P020` | fastener insert pull-out | quality inspector |
+| 70 | verify acceptance gate: rattle check | quality inspection | 0.25 | `QA-LM3-INT-P020` | rattle check | quality inspector |
+| 80 | final item release to parent assembly | production control | 0.25 | `REL-LM3-INT-P020`<br>`KIT-LM3-INT-SA330` | item is released, tagged, and staged for parent assembly | cell lead |
+
+## Operator / inspection signoff block
+
+| Role | Name | Date | Signature | Status |
+|---|---|---|---|---|
+| operator |  |  |  | `blank` |
+| cell lead |  |  |  | `blank` |
+| quality inspector |  |  |  | `blank` |
+| manufacturing engineer |  |  |  | `blank` |
+
+## Nonconformance / deviation log
+
+| NCR / deviation ID | Operation seq | Disposition | Approver | Closure date |
+|---|---:|---|---|---|
+|  |  |  |  |  |

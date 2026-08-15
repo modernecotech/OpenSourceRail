@@ -1,0 +1,91 @@
+{
+  "acceptance": [
+    "wheelset certificates",
+    "bearing records",
+    "spring/damper certificates",
+    "brake test",
+    "sensor test",
+    "ride-height report"
+  ],
+  "bom_line_ids": [
+    "G3",
+    "G4",
+    "G5",
+    "G6",
+    "G7",
+    "G8",
+    "G9",
+    "G10",
+    "G11",
+    "G12",
+    "G14",
+    "G15",
+    "G16"
+  ],
+  "definition_type": "product-item",
+  "id": "LM3-BOG-P040",
+  "layer": "external-component",
+  "make_or_buy_basis": "The powered-bogie G3-G16 safety-critical rotating, suspension, braking, pivot, restraint, and sensing package stays supplier-certified.",
+  "material_spec": {
+    "evidence_required": [
+      "certificate of conformity",
+      "incoming inspection record",
+      "wheelset/bearing certificates",
+      "brake evidence"
+    ],
+    "finish_or_protection": "supplier corrosion protection and lubrication preservation",
+    "form_factor": "machined/forged rotating parts, brake hardware, suspension elements, and fastener kit",
+    "governing_standard": "supplier rail running-gear specification plus project brake, ride-height, and traceability evidence",
+    "grade_or_part_class": "wheelset / bearing / brake / suspension safety-critical kit",
+    "material_family": "supplier-certified running gear",
+    "nominal_section": "bogie interface envelope frozen by RFQ drawing",
+    "traceability": "serialised wheelset, bearing, brake, and suspension records"
+  },
+  "maturity": "buildable-after-supplier-freeze",
+  "notes": "",
+  "parent": "LM3-BOG-SA610",
+  "process_spec": {
+    "inspection_methods": [
+      "incoming visual inspection",
+      "envelope fit check",
+      "wheelset certificates",
+      "bearing records",
+      "spring/damper certificates",
+      "brake test",
+      "sensor test",
+      "ride-height report",
+      "functional static test",
+      "emergency/recovery function check where applicable"
+    ],
+    "joining_methods": [
+      "bolted/torqued installation",
+      "sealed, gasketed, bonded, or clipped interface as supplier envelope requires"
+    ],
+    "primary_processes": [
+      "receive",
+      "quarantine",
+      "evidence review",
+      "incoming fit check",
+      "release to parent kit"
+    ],
+    "release_level": "BID supplier-controlled process; OSR controls envelope and acceptance evidence",
+    "special_process_controls": [
+      "RFQ envelope freeze",
+      "supplier certificate/revision check",
+      "incoming quarantine until evidence accepted",
+      "safety interlock interface freeze",
+      "supplier lifecycle evidence review"
+    ],
+    "tooling_basis": "RFQ-LM3-BOG-P040, CERT-LM3-BOG-P040, GAUGE-LM3-BOG-P040-ENVELOPE"
+  },
+  "quantity_per_trainset": 3,
+  "route": "BID",
+  "source_refs": [
+    "bogie/wheelset.py",
+    "bogie/brake.py",
+    "bogie/suspension.py",
+    "LM3-BOG-400"
+  ],
+  "title": "powered-bogie certified wheelset, axlebox, suspension, brake, centre-pivot, yaw-link, and sensor kit",
+  "unit": "bogie kit"
+}

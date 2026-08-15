@@ -1,0 +1,91 @@
+{
+  "annual_opex_usd": {
+    "components": {
+      "civil_station_depot_maintenance": 23690512.2,
+      "labour": 2641716.0,
+      "residual_grid_energy": 0.0,
+      "rolling_stock_maintenance_including_battery_renewal_reserve": 9363200.0,
+      "signalling_maintenance": 296377.05,
+      "solar_plant_maintenance": 1264588.4755643073
+    },
+    "total": 37256393.72556431
+  },
+  "capex_eur": {
+    "reconciled_project_total": 1556935613.8212776
+  },
+  "capex_usd": {
+    "authoritative_design_base": 1608015421.0,
+    "reconciled_project_total": 1692321319.3709538,
+    "risk_envelope_15_percent": 1946169517.2765968,
+    "risk_envelope_25_percent": 2115401649.2136922,
+    "timetable_sized_dedicated_solar": 84305898.37095383
+  },
+  "cases": {
+    "high_capacity_use": {
+      "annual_operating_cash_usd": 73541498.05043569,
+      "annual_paid_trips": 234627840.0,
+      "annual_public_support_usd": 5990195.854346991,
+      "annual_revenue_usd": 110797891.77600001,
+      "capacity_utilisation": 0.8,
+      "project_irr": 0.01896484419939492,
+      "project_npv_usd_at_8_percent": -764623332.146921,
+      "steady_state_dscr": 0.9246816512984295
+    },
+    "low_capacity_use": {
+      "annual_operating_cash_usd": 34827904.45043569,
+      "annual_paid_trips": 146642400.0,
+      "annual_public_support_usd": 44703789.45434699,
+      "annual_revenue_usd": 72084298.176,
+      "capacity_utilisation": 0.5,
+      "project_irr": -0.018427507731484584,
+      "project_npv_usd_at_8_percent": -1024710671.9827374,
+      "steady_state_dscr": 0.4379122679334923
+    }
+  },
+  "city": "multan",
+  "funding": {
+    "annual_debt_service_usd": 79531693.90478268,
+    "construction_grace_years": 7,
+    "debt_principal_usd": 1353857055.4967632,
+    "debt_rate": 0.045,
+    "government_equity_share": 0.2,
+    "lender_commitment_status": "unconfirmed-placeholder",
+    "repayment_years": 33
+  },
+  "limitations": [
+    "No calibrated origin-destination or stated-preference ridership survey.",
+    "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
+    "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
+  ],
+  "operations_basis": {
+    "annual_train_km_including_non_revenue": 17888182.32915,
+    "energy_kwh_per_car_km_hot_climate_planning": 4.0,
+    "non_revenue_train_km_factor": 1.08,
+    "scheduled_train_km_per_day": 45378.44325
+  },
+  "passed": true,
+  "renewal_policy": {
+    "field_asset_renewals": "included in fixed-asset maintenance allowance pending condition-based asset plan",
+    "train_battery_cycle_years": 12,
+    "treatment": "included in rolling-stock maintenance reserve; do not double-count as separate CAPEX"
+  },
+  "revenue_basis": {
+    "demand_status": "capacity-led-not-calibrated-od-forecast",
+    "nonfare_revenue_usd_per_year": 7561642.175999999,
+    "operating_neutral_capacity_utilisation": 0.23011104463495974,
+    "operating_neutral_paid_trips_per_year": 67488071.70355524,
+    "practical_capacity_passenger_trips_per_day": 803520.0,
+    "single_trip_fare_usd": 0.44000000000000006
+  },
+  "schema_version": 1,
+  "sources": {
+    "design": "designs/south-asia/Pakistan/Multan/design.toml",
+    "design_sha256": "7a52017b252670aa84a8e239592e0edcacf7e230f8e855a9c276464c599a6aae",
+    "generator": "scripts/generate-city-finance.py",
+    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "scenario": "designs/south-asia/Pakistan/Multan/multan.toml",
+    "scenario_sha256": "dbd378b3aac09f08deb1f650b798723a102f3270abd9735c7357f422a1545e89"
+  },
+  "status": "planning-screen"
+}

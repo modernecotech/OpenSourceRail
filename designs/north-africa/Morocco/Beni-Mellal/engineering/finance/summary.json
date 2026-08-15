@@ -1,0 +1,91 @@
+{
+  "annual_opex_usd": {
+    "components": {
+      "civil_station_depot_maintenance": 3957307.44,
+      "labour": 1859759.9999999998,
+      "residual_grid_energy": 0.0,
+      "rolling_stock_maintenance_including_battery_renewal_reserve": 2083200.0,
+      "signalling_maintenance": 75536.1,
+      "solar_plant_maintenance": 173477.98141090912
+    },
+    "total": 8149281.521410909
+  },
+  "capex_eur": {
+    "reconciled_project_total": 270955796.1798691
+  },
+  "capex_usd": {
+    "authoritative_design_base": 282951971.0,
+    "reconciled_project_total": 294517169.7607273,
+    "risk_envelope_15_percent": 338694745.22483635,
+    "risk_envelope_25_percent": 368146462.20090914,
+    "timetable_sized_dedicated_solar": 11565198.760727275
+  },
+  "cases": {
+    "high_capacity_use": {
+      "annual_operating_cash_usd": 79996415.11858909,
+      "annual_paid_trips": 78209280.0,
+      "annual_public_support_usd": 0.0,
+      "annual_revenue_usd": 88145696.64,
+      "capacity_utilisation": 0.8,
+      "project_irr": 0.18682726053956678,
+      "project_npv_usd_at_8_percent": 399339496.8416798,
+      "steady_state_dscr": 5.928425148040496
+    },
+    "low_capacity_use": {
+      "annual_operating_cash_usd": 47930610.31858909,
+      "annual_paid_trips": 48880800.0,
+      "annual_public_support_usd": 0.0,
+      "annual_revenue_usd": 56079891.84,
+      "capacity_utilisation": 0.5,
+      "project_irr": 0.12480195763047953,
+      "project_npv_usd_at_8_percent": 144996634.03823987,
+      "steady_state_dscr": 3.5520721166369253
+    }
+  },
+  "city": "beni-mellal",
+  "funding": {
+    "annual_debt_service_usd": 13493704.166110633,
+    "construction_grace_years": 5,
+    "debt_principal_usd": 235613735.80858183,
+    "debt_rate": 0.045,
+    "government_equity_share": 0.2,
+    "lender_commitment_status": "unconfirmed-placeholder",
+    "repayment_years": 35
+  },
+  "limitations": [
+    "No calibrated origin-destination or stated-preference ridership survey.",
+    "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
+    "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
+  ],
+  "operations_basis": {
+    "annual_train_km_including_non_revenue": 5538408.493500001,
+    "energy_kwh_per_car_km_hot_climate_planning": 4.0,
+    "non_revenue_train_km_factor": 1.08,
+    "scheduled_train_km_per_day": 14049.7425
+  },
+  "passed": true,
+  "renewal_policy": {
+    "field_asset_renewals": "included in fixed-asset maintenance allowance pending condition-based asset plan",
+    "train_battery_cycle_years": 12,
+    "treatment": "included in rolling-stock maintenance reserve; do not double-count as separate CAPEX"
+  },
+  "revenue_basis": {
+    "demand_status": "capacity-led-not-calibrated-od-forecast",
+    "nonfare_revenue_usd_per_year": 2636883.84,
+    "operating_neutral_capacity_utilisation": 0.051572674215969554,
+    "operating_neutral_paid_trips_per_year": 5041827.147631929,
+    "practical_capacity_passenger_trips_per_day": 267840.0,
+    "single_trip_fare_usd": 1.0933333333333333
+  },
+  "schema_version": 1,
+  "sources": {
+    "design": "designs/north-africa/Morocco/Beni-Mellal/design.toml",
+    "design_sha256": "42cbf2e868172a529ff53c20961c5f19719b4e892826f8421a7e1fe42e3c406b",
+    "generator": "scripts/generate-city-finance.py",
+    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "scenario": "designs/north-africa/Morocco/Beni-Mellal/beni-mellal.toml",
+    "scenario_sha256": "0bea43dff3c1b8db8f8b8e0ef6439a8ccb08b1a6ab6e628e8ccafc553004720e"
+  },
+  "status": "planning-screen"
+}

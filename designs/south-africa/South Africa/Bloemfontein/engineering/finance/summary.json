@@ -1,0 +1,91 @@
+{
+  "annual_opex_usd": {
+    "components": {
+      "civil_station_depot_maintenance": 8983225.8,
+      "labour": 3935231.9999999995,
+      "residual_grid_energy": 0.0,
+      "rolling_stock_maintenance_including_battery_renewal_reserve": 6372000.0,
+      "signalling_maintenance": 180247.55000000002,
+      "solar_plant_maintenance": 1188894.3589714286
+    },
+    "total": 20659599.70897143
+  },
+  "capex_eur": {
+    "reconciled_project_total": 711254254.8569143
+  },
+  "capex_usd": {
+    "authoritative_design_base": 693842827.0,
+    "reconciled_project_total": 773102450.9314286,
+    "risk_envelope_15_percent": 889067818.5711428,
+    "risk_envelope_25_percent": 966378063.6642857,
+    "timetable_sized_dedicated_solar": 79259623.93142858
+  },
+  "cases": {
+    "high_capacity_use": {
+      "annual_operating_cash_usd": 136386099.87502855,
+      "annual_paid_trips": 117313920.0,
+      "annual_public_support_usd": 0.0,
+      "annual_revenue_usd": 157045699.584,
+      "capacity_utilisation": 0.8,
+      "project_irr": 0.13349248589735901,
+      "project_npv_usd_at_8_percent": 464446572.1137449,
+      "steady_state_dscr": 3.8504589182566056
+    },
+    "low_capacity_use": {
+      "annual_operating_cash_usd": 80075418.27502857,
+      "annual_paid_trips": 73321200.0,
+      "annual_public_support_usd": 0.0,
+      "annual_revenue_usd": 100735017.984,
+      "capacity_utilisation": 0.5,
+      "project_irr": 0.08235672208651745,
+      "project_npv_usd_at_8_percent": 17795691.09307009,
+      "steady_state_dscr": 2.2606930523912174
+    }
+  },
+  "city": "bloemfontein",
+  "funding": {
+    "annual_debt_service_usd": 35420738.87046713,
+    "construction_grace_years": 5,
+    "debt_principal_usd": 618481960.7451428,
+    "debt_rate": 0.045,
+    "government_equity_share": 0.2,
+    "lender_commitment_status": "unconfirmed-placeholder",
+    "repayment_years": 35
+  },
+  "limitations": [
+    "No calibrated origin-destination or stated-preference ridership survey.",
+    "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
+    "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
+  ],
+  "operations_basis": {
+    "annual_train_km_including_non_revenue": 13215962.997000001,
+    "energy_kwh_per_car_km_hot_climate_planning": 4.0,
+    "non_revenue_train_km_factor": 1.08,
+    "scheduled_train_km_per_day": 33526.035
+  },
+  "passed": true,
+  "renewal_policy": {
+    "field_asset_renewals": "included in fixed-asset maintenance allowance pending condition-based asset plan",
+    "train_battery_cycle_years": 12,
+    "treatment": "included in rolling-stock maintenance reserve; do not double-count as separate CAPEX"
+  },
+  "revenue_basis": {
+    "demand_status": "capacity-led-not-calibrated-od-forecast",
+    "nonfare_revenue_usd_per_year": 6883881.983999999,
+    "operating_neutral_capacity_utilisation": 0.07339132115018528,
+    "operating_neutral_paid_trips_per_year": 10762279.47263393,
+    "practical_capacity_passenger_trips_per_day": 401760.0,
+    "single_trip_fare_usd": 1.28
+  },
+  "schema_version": 1,
+  "sources": {
+    "design": "designs/south-africa/South Africa/Bloemfontein/design.toml",
+    "design_sha256": "804b797296c0bdc239d6795e21dd94a772f5f760950ecf6145e7d5e8b720330b",
+    "generator": "scripts/generate-city-finance.py",
+    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "scenario": "designs/south-africa/South Africa/Bloemfontein/bloemfontein.toml",
+    "scenario_sha256": "dda5b3dd35369d906ef750ead5b198c31c6df56bd3644f1e3a3712da2ef040d8"
+  },
+  "status": "planning-screen"
+}

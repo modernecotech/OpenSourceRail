@@ -1,0 +1,91 @@
+{
+  "annual_opex_usd": {
+    "components": {
+      "civil_station_depot_maintenance": 6315921.5600000005,
+      "labour": 428064.0,
+      "residual_grid_energy": 0.0,
+      "rolling_stock_maintenance_including_battery_renewal_reserve": 4536000.0,
+      "signalling_maintenance": 121844.8,
+      "solar_plant_maintenance": 507183.77136
+    },
+    "total": 11909014.13136
+  },
+  "capex_eur": {
+    "reconciled_project_total": 481040062.75008005
+  },
+  "capex_usd": {
+    "authoritative_design_base": 489057382.0,
+    "reconciled_project_total": 522869633.424,
+    "risk_envelope_15_percent": 601300078.4376,
+    "risk_envelope_25_percent": 653587041.78,
+    "timetable_sized_dedicated_solar": 33812251.424
+  },
+  "cases": {
+    "high_capacity_use": {
+      "annual_operating_cash_usd": 11031906.66864,
+      "annual_paid_trips": 117313920.0,
+      "annual_public_support_usd": 14647912.16011992,
+      "annual_revenue_usd": 22940920.8,
+      "capacity_utilisation": 0.8,
+      "project_irr": -0.021817863914052448,
+      "project_npv_usd_at_8_percent": -293323550.5055612,
+      "steady_state_dscr": 0.4295944119467424
+    },
+    "low_capacity_use": {
+      "annual_operating_cash_usd": 2819932.2686400004,
+      "annual_paid_trips": 73321200.0,
+      "annual_public_support_usd": 22859886.56011992,
+      "annual_revenue_usd": 14728946.4,
+      "capacity_utilisation": 0.5,
+      "project_irr": -0.07757118971358469,
+      "project_npv_usd_at_8_percent": -336145153.26216125,
+      "steady_state_dscr": 0.10981122131133723
+    }
+  },
+  "city": "raqqa",
+  "funding": {
+    "annual_debt_service_usd": 25679818.82875992,
+    "construction_grace_years": 10,
+    "debt_principal_usd": 418295706.73920006,
+    "debt_rate": 0.045,
+    "government_equity_share": 0.2,
+    "lender_commitment_status": "unconfirmed-placeholder",
+    "repayment_years": 30
+  },
+  "limitations": [
+    "No calibrated origin-destination or stated-preference ridership survey.",
+    "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
+    "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
+  ],
+  "operations_basis": {
+    "annual_train_km_including_non_revenue": 8933821.614,
+    "energy_kwh_per_car_km_hot_climate_planning": 4.0,
+    "non_revenue_train_km_factor": 1.08,
+    "scheduled_train_km_per_day": 22663.17
+  },
+  "passed": true,
+  "renewal_policy": {
+    "field_asset_renewals": "included in fixed-asset maintenance allowance pending condition-based asset plan",
+    "train_battery_cycle_years": 12,
+    "treatment": "included in rolling-stock maintenance reserve; do not double-count as separate CAPEX"
+  },
+  "revenue_basis": {
+    "demand_status": "capacity-led-not-calibrated-od-forecast",
+    "nonfare_revenue_usd_per_year": 1042322.3999999999,
+    "operating_neutral_capacity_utilisation": 0.3969821824344703,
+    "operating_neutral_paid_trips_per_year": 58214419.989428565,
+    "practical_capacity_passenger_trips_per_day": 401760.0,
+    "single_trip_fare_usd": 0.18666666666666668
+  },
+  "schema_version": 1,
+  "sources": {
+    "design": "designs/west-asia/Syria/Raqqa/design.toml",
+    "design_sha256": "64a1f796cf218b86a02cdcd228a1b38109746b4747936e89b1dbd4d00ddc4c4b",
+    "generator": "scripts/generate-city-finance.py",
+    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "scenario": "designs/west-asia/Syria/Raqqa/raqqa.toml",
+    "scenario_sha256": "0a4f6a4301e7261f2c50f95660f06a2b5417d9e24492bda34b71fad1a256e6f2"
+  },
+  "status": "planning-screen"
+}

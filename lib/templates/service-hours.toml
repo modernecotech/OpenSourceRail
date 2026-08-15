@@ -1,0 +1,59 @@
+# Service hour / calendar presets — operational windows.
+#
+# Referenced at line level:
+#     [[lines]]
+#     service_hours = "standard-urban"
+#
+# Auto-generator picks this based on anchor mix (e.g. hospital-adjacent
+# lines get "extended"; airport lines get "24h").
+#
+# Unified system principle: five operational patterns. Extended-hour variants
+# automatically carry an HVAC/energy cost uplift.
+
+[presets.standard-urban]
+service_start           = "05:30"
+service_end             = "23:30"
+night_closure_hours     = 6
+last_train_headway_min  = 15
+friday_schedule         = "reduced-midday"  # prayer time accommodation
+sunday_schedule         = "standard"
+
+[presets.extended]
+# Hospital / airport adjacent lines.
+service_start           = "04:30"
+service_end             = "01:00"
+night_closure_hours     = 3.5
+last_train_headway_min  = 20
+friday_schedule         = "reduced-midday"
+sunday_schedule         = "standard"
+
+[presets.24h]
+# Rare — typically only major metros in global cities.
+service_start           = "00:00"
+service_end             = "24:00"
+night_closure_hours     = 0
+late_night_headway_min  = 30
+maintenance_window      = "odd-hours-per-line"  # alternating maintenance
+friday_schedule         = "reduced-midday"
+sunday_schedule         = "standard"
+
+[presets.weekdays-only]
+# Low-demand feeder lines, pilot corridors.
+service_start           = "06:00"
+service_end             = "22:00"
+night_closure_hours     = 8
+last_train_headway_min  = 20
+friday_schedule         = "no-service"
+saturday_schedule       = "no-service"
+sunday_schedule         = "no-service"
+
+[presets.conservative-religious]
+# Communities with strong sabbath/rest-day norms.
+service_start           = "05:00"
+service_end             = "22:30"
+night_closure_hours     = 6.5
+last_train_headway_min  = 20
+friday_schedule         = "reduced-midday"    # Muslim-majority
+saturday_schedule       = "reduced"           # Jewish-majority
+sunday_schedule         = "reduced"           # Christian-majority
+# Generator picks which of the above to emphasize based on country demographics.

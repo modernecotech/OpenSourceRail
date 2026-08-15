@@ -1,0 +1,170 @@
+schema_version = 1
+reviewed = "2026-08-11"
+host = "Linux Mint 22.3 x86_64"
+
+[[tool]]
+id = "freecad"
+version = "1.1.3"
+status = "installed"
+distribution = "system Flatpak org.freecad.FreeCAD"
+commit = "aa6792b7683c709b78bf533d6c05d71fb339b13898339a12e06e86b006208ad0"
+license = "LGPL-2.1"
+source = "https://flathub.org/apps/org.freecad.FreeCAD"
+
+[[tool]]
+id = "calculix"
+version = "2.23"
+status = "installed-in-freecad-runtime"
+distribution = "/app/bin/ccx in org.freecad.FreeCAD"
+license = "GPL-2.0-or-later"
+source = "https://www.calculix.de/"
+
+[[tool]]
+id = "gmsh"
+version = "4.15.0-git"
+status = "installed-in-freecad-runtime"
+distribution = "/app/bin/gmsh in org.freecad.FreeCAD"
+license = "GPL-2.0-or-later"
+source = "https://gmsh.info/"
+
+[[tool]]
+id = "qgis"
+version = "4.2.1"
+status = "installed"
+distribution = "user Flatpak org.qgis.qgis"
+commit = "63d0196503a4145958095a76234de4d78cb4e63c91588dce2ce0d7d255217f87"
+license = "GPL-2.0-or-later"
+source = "https://flathub.org/apps/org.qgis.qgis"
+
+[[tool]]
+id = "cloudcompare"
+version = "2.13.2"
+status = "installed"
+distribution = "user Flatpak org.cloudcompare.CloudCompare"
+commit = "fd2774230ee4d24b685e01615874daee20210ce16ca91b59d7726cb1f95190fd"
+license = "GPL-3.0"
+source = "https://flathub.org/apps/org.cloudcompare.CloudCompare"
+
+[[tool]]
+id = "sumo"
+version = "1.27.1"
+status = "installed"
+distribution = "user Flatpak org.eclipse.sumo"
+commit = "b9b4f8ef02f26ce2e37d22a206d5e370d726f307c2de022799056101868eda10"
+license = "EPL-2.0 OR GPL-2.0-or-later"
+source = "https://flathub.org/apps/org.eclipse.sumo"
+
+[[tool]]
+id = "rtklib"
+version = "2.4.3.b34+dfsg-1build2"
+status = "installed"
+distribution = "user-local extraction of Ubuntu noble/universe amd64 package"
+binary_sha256 = "5952dad28b92077cd41d550b2fb3bb176cd5bb6f9493f12baf3043b5ec938796"
+license = "LicenseRef-RTKLIB-BSD-style"
+source = "https://packages.ubuntu.com/noble/rtklib"
+
+[[tool]]
+id = "energyplus"
+version = "26.1.0-6f2e40d102"
+status = "installed"
+distribution = "official Ubuntu 24.04 x86_64 release archive, user-local"
+archive_sha256 = "b651f4197bfc147a0f66dc92c58895d1748bdadb7a0288145fa9d50375edfbca"
+binary_sha256 = "8bc414e178df1b98d889d04390484fd0a064494a9f1ca62b9eb9d8be286a6252"
+license = "LicenseRef-EnergyPlus"
+source = "https://github.com/NatLabRockies/EnergyPlus/releases/tag/v26.1.0"
+
+[[tool]]
+id = "fds"
+version = "6.11.1"
+status = "installed"
+distribution = "official FDS 6.11.1/Smokeview 6.11.2 Linux installer, user-local"
+archive_sha256 = "ba8793b974150fdb778b3db0b69ab8db4e4668d5c52987a317e7f5ed58102ea0"
+binary_sha256 = "fe2b123dfc759dbebb161cc91912ed60861f3fe2a141602634b53f417f731b1d"
+license = "LicenseRef-NIST-FDS"
+source = "https://github.com/firemodels/fds/releases/tag/FDS-6.11.1"
+
+[[tool]]
+id = "ifcopenshell"
+version = "0.8.5"
+status = "installed"
+distribution = "pinned Python environment"
+license = "LGPL-3.0"
+source = "https://github.com/IfcOpenShell/IfcOpenShell"
+
+[[tool]]
+id = "jupedsim"
+version = "1.4.2"
+status = "installed"
+distribution = "pinned Python environment"
+license = "LGPL-3.0-or-later"
+source = "https://github.com/PedestrianDynamics/jupedsim"
+
+[[tool]]
+id = "openseespy"
+version = "3.8.0.0"
+status = "installed"
+distribution = "pinned Python environment"
+license = "LicenseRef-OpenSees"
+source = "https://github.com/OpenSees/OpenSees"
+
+[[tool]]
+id = "pandapower"
+version = "3.5.3"
+status = "installed-compatible-pin"
+distribution = "pinned Python environment"
+license = "BSD-3-Clause"
+source = "https://github.com/e2nIEE/pandapower"
+note = "3.5.4 requires SciPy 1.18 while PyBaMM 26.7.1 excludes SciPy 1.18.0"
+
+[[tool]]
+id = "pvlib-python"
+version = "0.15.2"
+status = "installed"
+distribution = "pinned Python environment"
+license = "BSD-3-Clause"
+source = "https://github.com/pvlib/pvlib-python"
+
+[[tool]]
+id = "pybamm"
+version = "26.7.1.0"
+status = "installed"
+distribution = "pinned Python environment"
+license = "BSD-3-Clause"
+source = "https://github.com/pybamm-team/PyBaMM"
+
+[[tool]]
+id = "pyswmm"
+version = "2.1.0"
+status = "installed"
+distribution = "pinned Python environment"
+license = "BSD-2-Clause"
+source = "https://github.com/OpenWaterAnalytics/pyswmm"
+
+[[tool]]
+id = "swmm-toolkit"
+version = "0.17.0"
+status = "installed"
+distribution = "pinned Python environment"
+license = "CC0-1.0 AND (MIT OR Apache-2.0)"
+source = "https://github.com/OpenWaterAnalytics/swmm-python"
+
+[[tool]]
+id = "opendronemap"
+status = "deferred-to-survey-mobilisation"
+license = "AGPL-3.0"
+source = "https://github.com/OpenDroneMap/ODM"
+note = "Requires a supported container/GPU/storage deployment and raw survey imagery; no project dataset exists yet"
+
+[[tool]]
+id = "code-aster-opengeosys-osrd-project-chrono"
+status = "not-adopted-conditional-or-evaluation"
+license = "mixed-open-source"
+source = "../../docs/engineering-design-simulation-plan.md"
+note = "Install only after a named design question and the OSR adoption benchmark gate"
+
+[[tool]]
+id = "opentrack"
+status = "not-installed-optional-licensed-evaluation"
+license = "proprietary-external-unless-procurement-review-proves-otherwise"
+source = "https://www.opentrack.ch/opentrack/opentrack_e/opentrack_e.html"
+note = "Must not replace SUMO or osr-sim; requires lawful full-version procurement and a Samawah Line 1 railML 2.2/API interchange benchmark per docs/opentrack-evaluation.md"

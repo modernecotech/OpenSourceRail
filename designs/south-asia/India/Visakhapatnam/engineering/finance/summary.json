@@ -1,0 +1,91 @@
+{
+  "annual_opex_usd": {
+    "components": {
+      "civil_station_depot_maintenance": 38012440.76,
+      "labour": 5386416.0,
+      "residual_grid_energy": 0.0,
+      "rolling_stock_maintenance_including_battery_renewal_reserve": 17875200.0,
+      "signalling_maintenance": 592114.3,
+      "solar_plant_maintenance": 4068328.63188
+    },
+    "total": 65934499.691879995
+  },
+  "capex_eur": {
+    "reconciled_project_total": 2708338122.92864
+  },
+  "capex_usd": {
+    "authoritative_design_base": 2672623877.0,
+    "reconciled_project_total": 2943845785.792,
+    "risk_envelope_15_percent": 3385422653.6607995,
+    "risk_envelope_25_percent": 3679807232.24,
+    "timetable_sized_dedicated_solar": 271221908.792
+  },
+  "cases": {
+    "high_capacity_use": {
+      "annual_operating_cash_usd": 122661157.90812004,
+      "annual_paid_trips": 286767360.0,
+      "annual_public_support_usd": 12215135.302224725,
+      "annual_revenue_usd": 188595657.60000002,
+      "capacity_utilisation": 0.8,
+      "project_irr": 0.020043941794472123,
+      "project_npv_usd_at_8_percent": -1377848080.5237882,
+      "steady_state_dscr": 0.9094345269173824
+    },
+    "low_capacity_use": {
+      "annual_operating_cash_usd": 56704665.10812002,
+      "annual_paid_trips": 179229600.0,
+      "annual_public_support_usd": 78171628.10222474,
+      "annual_revenue_usd": 122639164.80000001,
+      "capacity_utilisation": 0.5,
+      "project_irr": -0.018654008673252127,
+      "project_npv_usd_at_8_percent": -1901008603.2007828,
+      "steady_state_dscr": 0.4204198066126188
+    }
+  },
+  "city": "visakhapatnam",
+  "funding": {
+    "annual_debt_service_usd": 134876293.21034476,
+    "construction_grace_years": 5,
+    "debt_principal_usd": 2355076628.6335998,
+    "debt_rate": 0.045,
+    "government_equity_share": 0.2,
+    "lender_commitment_status": "unconfirmed-placeholder",
+    "repayment_years": 35
+  },
+  "limitations": [
+    "No calibrated origin-destination or stated-preference ridership survey.",
+    "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
+    "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
+  ],
+  "operations_basis": {
+    "annual_train_km_including_non_revenue": 37033603.2747,
+    "energy_kwh_per_car_km_hot_climate_planning": 4.0,
+    "non_revenue_train_km_factor": 1.08,
+    "scheduled_train_km_per_day": 93946.2285
+  },
+  "passed": true,
+  "renewal_policy": {
+    "field_asset_renewals": "included in fixed-asset maintenance allowance pending condition-based asset plan",
+    "train_battery_cycle_years": 12,
+    "treatment": "included in rolling-stock maintenance reserve; do not double-count as separate CAPEX"
+  },
+  "revenue_basis": {
+    "demand_status": "capacity-led-not-calibrated-od-forecast",
+    "nonfare_revenue_usd_per_year": 12711676.8,
+    "operating_neutral_capacity_utilisation": 0.24208150236217524,
+    "operating_neutral_paid_trips_per_year": 86776341.67154345,
+    "practical_capacity_passenger_trips_per_day": 982080.0,
+    "single_trip_fare_usd": 0.6133333333333334
+  },
+  "schema_version": 1,
+  "sources": {
+    "design": "designs/south-asia/India/Visakhapatnam/design.toml",
+    "design_sha256": "5b670eec56404c43dfdd02ca19d974fae8e4d0c8542fa22a4fc35ee0ae22e85e",
+    "generator": "scripts/generate-city-finance.py",
+    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "scenario": "designs/south-asia/India/Visakhapatnam/visakhapatnam.toml",
+    "scenario_sha256": "492523dc77615010bdace15348021906421dab2ba67b5157a2d229f38051dc45"
+  },
+  "status": "planning-screen"
+}

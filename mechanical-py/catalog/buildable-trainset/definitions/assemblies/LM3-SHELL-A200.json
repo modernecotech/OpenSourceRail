@@ -1,0 +1,207 @@
+{
+  "bom_line_ids": [
+    "B5",
+    "B6",
+    "B7",
+    "B20",
+    "B28"
+  ],
+  "build_cell": "paint / clip-on body / glazing cells",
+  "children": [
+    "LM3-BDY-SA120",
+    "LM3-BDY-P130",
+    "LM3-BDY-P140",
+    "LM3-WIN-SA320",
+    "LM3-EXT-P080",
+    "LM3-EXT-P090"
+  ],
+  "definition_type": "assembly-node",
+  "hold_points": [
+    "corrosion report",
+    "clip and anti-lift witness map",
+    "eight-hour trainset body route",
+    "water ingress pre-test"
+  ],
+  "id": "LM3-SHELL-A200",
+  "integration_steps": [
+    {
+      "child_id": "LM3-BDY-SA120",
+      "child_title": "carbody spaceframe and floor assembly",
+      "interface_classes": [
+        "mechanical datum"
+      ],
+      "join_classes": [
+        "structural-weld",
+        "bolted-structural-datum"
+      ],
+      "joint_release_status": "joint-calculation-required",
+      "placement_zone": "primary structure datum and final assembly interface",
+      "sequence": 1,
+      "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
+      "verification": [
+        "door/window aperture survey",
+        "roof rail survey",
+        "carbody dimensional report"
+      ]
+    },
+    {
+      "child_id": "LM3-BDY-P130",
+      "child_title": "one-metre clip-on fiberglass side and roof body module",
+      "interface_classes": [
+        "mechanical datum"
+      ],
+      "join_classes": [
+        "adhesive-bonded-panel",
+        "bolted-structural-datum"
+      ],
+      "joint_release_status": "joint-calculation-required",
+      "placement_zone": "side/end glazing aperture and bonded carrier datum",
+      "sequence": 2,
+      "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
+      "verification": [
+        "material/fire certificate",
+        "trim gauge",
+        "insert pull-out",
+        "master-frame dry fit"
+      ]
+    },
+    {
+      "child_id": "LM3-BDY-P140",
+      "child_title": "keyed clip rail, captive retainer, anti-lift, and dry-seal car kit",
+      "interface_classes": [
+        "mechanical datum"
+      ],
+      "join_classes": [
+        "bolted-structural-datum"
+      ],
+      "joint_release_status": "joint-calculation-required",
+      "placement_zone": "primary structure datum and final assembly interface",
+      "sequence": 3,
+      "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
+      "verification": [
+        "clip proof load",
+        "anti-reversal gauge",
+        "retainer witness-mark check",
+        "water ingress test"
+      ]
+    },
+    {
+      "child_id": "LM3-WIN-SA320",
+      "child_title": "side glazing cassette installation",
+      "interface_classes": [
+        "mechanical datum"
+      ],
+      "join_classes": [
+        "adhesive-bonded-panel",
+        "bolted-structural-datum"
+      ],
+      "joint_release_status": "joint-calculation-required",
+      "placement_zone": "side/end glazing aperture and bonded carrier datum",
+      "sequence": 4,
+      "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
+      "verification": [
+        "aperture gauge",
+        "bond/gasket procedure",
+        "water ingress test"
+      ]
+    },
+    {
+      "child_id": "LM3-EXT-P080",
+      "child_title": "fire-rated composite exterior side sandwich-panel kit",
+      "interface_classes": [
+        "mechanical datum"
+      ],
+      "join_classes": [
+        "adhesive-bonded-panel",
+        "bolted-structural-datum"
+      ],
+      "joint_release_status": "supplier-freeze-required",
+      "placement_zone": "primary structure datum and final assembly interface",
+      "sequence": 5,
+      "torque_authority": "accepted supplier installation manual plus released OSR interface-control drawing",
+      "verification": [
+        "EN 45545 evidence",
+        "panel dimensional report",
+        "insert pull-out",
+        "bond coupon and water test"
+      ]
+    },
+    {
+      "child_id": "LM3-EXT-P090",
+      "child_title": "fire-rated composite roof fairing and exterior skirt-panel kit",
+      "interface_classes": [
+        "mechanical datum"
+      ],
+      "join_classes": [
+        "adhesive-bonded-panel",
+        "gasketed-removable-panel",
+        "bolted-structural-datum"
+      ],
+      "joint_release_status": "supplier-freeze-required",
+      "placement_zone": "roof equipment rail, curb, and service-access zone",
+      "sequence": 6,
+      "torque_authority": "accepted supplier installation manual plus released OSR interface-control drawing",
+      "verification": [
+        "EN 45545 evidence",
+        "service-removal trial",
+        "fastener/insert proof",
+        "water and debris-ingress check"
+      ]
+    }
+  ],
+  "layer": "assembly",
+  "material_spec": {
+    "evidence_required": [
+      "child material certificates accepted",
+      "assembly traveler traceability",
+      "interface-control drawing revision"
+    ],
+    "finish_or_protection": "protect damaged coating, exposed edges, seals, bonds, and labels during assembly",
+    "form_factor": "LM3-BDY-SA120 child assembly material set, fire-retardant exterior fiberglass sandwich, stainless retention hardware and elastomer seal kit, LM3-WIN-SA320 child assembly material set, fire-retardant fiberglass composite",
+    "governing_standard": "all child material standards plus assembly-level torque, bonding, coating, and cleanliness controls",
+    "grade_or_part_class": "LM3-SHELL-A200 inherits released child material specifications",
+    "material_family": "assembly material set",
+    "nominal_section": "as defined by child drawings and assembly interface control drawing",
+    "traceability": "child serial/heat/batch records plus assembly traveler traceability"
+  },
+  "maturity": "release-candidate",
+  "process_spec": {
+    "inspection_methods": [
+      "child acceptance evidence review",
+      "corrosion report",
+      "clip and anti-lift witness map",
+      "eight-hour trainset body route",
+      "water ingress pre-test",
+      "water/leak test",
+      "bond/gasket witness check"
+    ],
+    "joining_methods": [
+      "bolted/torqued interfaces",
+      "shimmed datum interfaces as required",
+      "adhesive/bonded/gasketed sealing interfaces"
+    ],
+    "primary_processes": [
+      "release child kit",
+      "fixture or datum setup",
+      "install children",
+      "torque/fit-up record",
+      "release to parent"
+    ],
+    "release_level": "assembly traveler controlled; generated template is unsigned until build",
+    "special_process_controls": [
+      "child definition/revision check",
+      "tooling calibration check",
+      "parent interface freeze",
+      "surface preparation record",
+      "adhesive/sealant batch and cure record"
+    ],
+    "tooling_basis": "FIX-LM3-SHELL-A200, KIT-LM3-SHELL-A200, calibrated torque/gauge set"
+  },
+  "quantity_per_trainset": 3,
+  "source_refs": [
+    "modular_fiberglass_body.py",
+    "sensor_cowl.py",
+    "fabrication-plan.md"
+  ],
+  "title": "painted carbody frame with one-metre clip-on fiberglass exterior"
+}

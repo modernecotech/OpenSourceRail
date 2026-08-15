@@ -1,0 +1,214 @@
+{
+  "bom_line_ids": [
+    "B2"
+  ],
+  "document_revision": "A-DRAFT",
+  "estimated_labor_hours": 4.2,
+  "id": "LM3-BDY-P110",
+  "material_spec": {
+    "evidence_required": [
+      "mill certificate",
+      "weld consumable certificate",
+      "WPS/WPQR",
+      "NDT report"
+    ],
+    "finish_or_protection": "blast, rail primer/topcoat, cavity wax/sealant, and weld-edge protection",
+    "form_factor": "laser-cut RHS/plate, press-brake folds, drilled/machined inserts, and bracket kit",
+    "governing_standard": "EN 10025 material certificate; EN 15085 weld-quality evidence for classed rail weldments",
+    "grade_or_part_class": "EN 10025 S355 candidate primary-structure RHS/folded plate",
+    "material_family": "rail structural steel",
+    "nominal_section": "thickness/section per v2A controlled drawing and FEM release",
+    "traceability": "heat number, weld consumable batch, WPS/WPQR, welder ID, and NDT record"
+  },
+  "operations": [
+    {
+      "labor_hours": 0.35,
+      "qa_gate": "traveler rev and parent assembly match released manifest",
+      "sequence": 10,
+      "signoff_role": "cell lead",
+      "title": "release traveler, revision, material/certificate pack, and parent interface",
+      "tooling_ids": [
+        "TRV-LM3-BDY-P110",
+        "DOC-LM3-WIN-SA320"
+      ],
+      "work_center": "production control"
+    },
+    {
+      "labor_hours": 1.8,
+      "qa_gate": "fabricated geometry matches datum/gauge requirements",
+      "sequence": 20,
+      "signoff_role": "operator",
+      "title": "cut, form, machine, or fabricate local hardware",
+      "tooling_ids": [
+        "FIX-LM3-BDY-FAB",
+        "GAUGE-LM3-BDY-P110-DATUM"
+      ],
+      "work_center": "fabrication cell"
+    },
+    {
+      "labor_hours": 0.8,
+      "qa_gate": "fit-up evidence recorded before release to assembly",
+      "sequence": 30,
+      "signoff_role": "operator",
+      "title": "trial-fit to parent interface and record shim/adjustment pack",
+      "tooling_ids": [
+        "FIX-LM3-WIN-SA320",
+        "TORQUE-LM3-BDY-P110"
+      ],
+      "work_center": "fit-up cell"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "aperture gauge",
+      "sequence": 40,
+      "signoff_role": "quality inspector",
+      "title": "verify acceptance gate: aperture gauge",
+      "tooling_ids": [
+        "GAUGE-LM3-BDY-P110"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "bond-land surface check",
+      "sequence": 50,
+      "signoff_role": "quality inspector",
+      "title": "verify acceptance gate: bond-land surface check",
+      "tooling_ids": [
+        "QA-LM3-BDY-P110"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "water-ingress witness",
+      "sequence": 60,
+      "signoff_role": "quality inspector",
+      "title": "verify acceptance gate: water-ingress witness",
+      "tooling_ids": [
+        "LEAK-TEST-LM3-BDY-P110"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "replacement tool clearance",
+      "sequence": 70,
+      "signoff_role": "quality inspector",
+      "title": "verify acceptance gate: replacement tool clearance",
+      "tooling_ids": [
+        "QA-LM3-BDY-P110"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "item is released, tagged, and staged for parent assembly",
+      "sequence": 80,
+      "signoff_role": "cell lead",
+      "title": "final item release to parent assembly",
+      "tooling_ids": [
+        "REL-LM3-BDY-P110",
+        "KIT-LM3-WIN-SA320"
+      ],
+      "work_center": "production control"
+    }
+  ],
+  "parent": "LM3-WIN-SA320",
+  "process_spec": {
+    "inspection_methods": [
+      "dimensional inspection",
+      "visual inspection",
+      "bond-land inspection",
+      "water/leak test where applicable",
+      "aperture gauge",
+      "bond-land surface check",
+      "water-ingress witness",
+      "replacement tool clearance"
+    ],
+    "joining_methods": [
+      "fixture tack and weld where structural",
+      "bolted/torqued installation to parent datum",
+      "adhesive bonding or gasketed interface preparation"
+    ],
+    "primary_processes": [
+      "cut",
+      "form",
+      "drill/machine",
+      "de-burr",
+      "trial fit"
+    ],
+    "release_level": "v2A drawing-controlled MAKE process; generated traveler is unsigned until build",
+    "special_process_controls": [
+      "released drawing/revision check",
+      "material certificate check",
+      "datum gauge before parent release",
+      "surface-preparation record",
+      "adhesive batch/pot-life record",
+      "bond coupon where required"
+    ],
+    "tooling_basis": "FIX-LM3-BDY-FAB plus GAUGE-LM3-BDY-P110-DATUM"
+  },
+  "quantity_per_trainset": 18,
+  "release_status": "unsigned-template",
+  "revision_approvals": [
+    {
+      "approval_id": "APP-LM3-BDY-P110-MFG",
+      "date": "",
+      "name": "",
+      "role": "manufacturing engineering",
+      "signature": "",
+      "status": "pending"
+    },
+    {
+      "approval_id": "APP-LM3-BDY-P110-QA",
+      "date": "",
+      "name": "",
+      "role": "quality",
+      "signature": "",
+      "status": "pending"
+    },
+    {
+      "approval_id": "APP-LM3-BDY-P110-DA",
+      "date": "",
+      "name": "",
+      "role": "design authority",
+      "signature": "",
+      "status": "pending"
+    }
+  ],
+  "route": "MAKE",
+  "signoff_blocks": [
+    {
+      "date": "",
+      "name": "",
+      "role": "operator",
+      "signature": "",
+      "status": "blank"
+    },
+    {
+      "date": "",
+      "name": "",
+      "role": "cell lead",
+      "signature": "",
+      "status": "blank"
+    },
+    {
+      "date": "",
+      "name": "",
+      "role": "quality inspector",
+      "signature": "",
+      "status": "blank"
+    },
+    {
+      "date": "",
+      "name": "",
+      "role": "manufacturing engineer",
+      "signature": "",
+      "status": "blank"
+    }
+  ],
+  "title": "window carrier ring, bonded-gasket land, and replacement jack-point inserts",
+  "traveler_type": "product-item",
+  "unit": "opening kit"
+}

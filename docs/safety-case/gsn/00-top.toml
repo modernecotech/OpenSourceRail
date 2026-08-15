@@ -1,0 +1,23 @@
+# Top-level safety goals for the OpenSourceRail SIL-4 kernel.
+#
+# Three root claims cover the kernel: non-overlap (no two trains in
+# the same section), fail-safety (loss of inputs produces a more-
+# restrictive MA, never less), and consistency (every observer of the
+# same log computes the same MA). All three are directly traceable to
+# RFC 0001 §7.2 and RFC 0004 §4.
+#
+# Each root decomposes through a strategy into leaf claims that have
+# direct evidence. Leaf claims are tied to Kani harnesses, proptests,
+# the differential interpreter, and the continuous sim.
+
+[[goal]]
+id = "G1"
+description = "No train occupies a section simultaneously with another train (non-overlap)."
+
+[[goal]]
+id = "G2"
+description = "Under faults or uncertainty, the system degrades safely (fail-restrictive)."
+
+[[goal]]
+id = "G3"
+description = "Every observer of the same committed log computes the same MA (consistency)."

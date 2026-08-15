@@ -1,0 +1,91 @@
+{
+  "annual_opex_usd": {
+    "components": {
+      "civil_station_depot_maintenance": 12328864.06,
+      "labour": 1164240.0,
+      "residual_grid_energy": 0.0,
+      "rolling_stock_maintenance_including_battery_renewal_reserve": 5184000.0,
+      "signalling_maintenance": 138504.45,
+      "solar_plant_maintenance": 578848.8372959999
+    },
+    "total": 19394457.347296
+  },
+  "capex_eur": {
+    "reconciled_project_total": 801374090.9274881
+  },
+  "capex_usd": {
+    "authoritative_design_base": 832468872.0,
+    "reconciled_project_total": 871058794.4864,
+    "risk_envelope_15_percent": 1001717613.6593599,
+    "risk_envelope_25_percent": 1088823493.108,
+    "timetable_sized_dedicated_solar": 38589922.48639999
+  },
+  "cases": {
+    "high_capacity_use": {
+      "annual_operating_cash_usd": 34273624.812704004,
+      "annual_paid_trips": 117313920.0,
+      "annual_public_support_usd": 6662325.484200582,
+      "annual_revenue_usd": 53668082.160000004,
+      "capacity_utilisation": 0.8,
+      "project_irr": 0.013540852166270214,
+      "project_npv_usd_at_8_percent": -417606368.8138349,
+      "steady_state_dscr": 0.837250010421662
+    },
+    "low_capacity_use": {
+      "annual_operating_cash_usd": 14916828.012704007,
+      "annual_paid_trips": 73321200.0,
+      "annual_public_support_usd": 26019122.28420058,
+      "annual_revenue_usd": 34311285.36000001,
+      "capacity_utilisation": 0.5,
+      "project_irr": -0.026609855190915875,
+      "project_npv_usd_at_8_percent": -547650038.731743,
+      "steady_state_dscr": 0.3643943258801533
+    }
+  },
+  "city": "sialkot",
+  "funding": {
+    "annual_debt_service_usd": 40935950.296904586,
+    "construction_grace_years": 7,
+    "debt_principal_usd": 696847035.58912,
+    "debt_rate": 0.045,
+    "government_equity_share": 0.2,
+    "lender_commitment_status": "unconfirmed-placeholder",
+    "repayment_years": 33
+  },
+  "limitations": [
+    "No calibrated origin-destination or stated-preference ridership survey.",
+    "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
+    "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
+  ],
+  "operations_basis": {
+    "annual_train_km_including_non_revenue": 10155316.145399999,
+    "energy_kwh_per_car_km_hot_climate_planning": 4.0,
+    "non_revenue_train_km_factor": 1.08,
+    "scheduled_train_km_per_day": 25761.837
+  },
+  "passed": true,
+  "renewal_policy": {
+    "field_asset_renewals": "included in fixed-asset maintenance allowance pending condition-based asset plan",
+    "train_battery_cycle_years": 12,
+    "treatment": "included in rolling-stock maintenance reserve; do not double-count as separate CAPEX"
+  },
+  "revenue_basis": {
+    "demand_status": "capacity-led-not-calibrated-od-forecast",
+    "nonfare_revenue_usd_per_year": 2049957.36,
+    "operating_neutral_capacity_utilisation": 0.26881255457456676,
+    "operating_neutral_paid_trips_per_year": 39419318.15294545,
+    "practical_capacity_passenger_trips_per_day": 401760.0,
+    "single_trip_fare_usd": 0.44000000000000006
+  },
+  "schema_version": 1,
+  "sources": {
+    "design": "designs/south-asia/Pakistan/Sialkot/design.toml",
+    "design_sha256": "1924c8658584c7c21ea87cfb7c043b57f893a878fbb47f28dc8534590ac3402f",
+    "generator": "scripts/generate-city-finance.py",
+    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "scenario": "designs/south-asia/Pakistan/Sialkot/sialkot.toml",
+    "scenario_sha256": "9f8ae13dcff56d4be7b38bf5c162ddb639d3e7e49aac293671e9674ee4d5401e"
+  },
+  "status": "planning-screen"
+}

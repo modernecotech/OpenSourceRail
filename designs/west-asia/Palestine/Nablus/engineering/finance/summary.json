@@ -1,0 +1,91 @@
+{
+  "annual_opex_usd": {
+    "components": {
+      "civil_station_depot_maintenance": 7394949.26,
+      "labour": 2727648.0,
+      "residual_grid_energy": 0.0,
+      "rolling_stock_maintenance_including_battery_renewal_reserve": 6696000.0,
+      "signalling_maintenance": 179319.45,
+      "solar_plant_maintenance": 895519.1628480001
+    },
+    "total": 17893435.872848
+  },
+  "capex_eur": {
+    "reconciled_project_total": 623355981.561344
+  },
+  "capex_usd": {
+    "authoritative_design_base": 617859572.0,
+    "reconciled_project_total": 677560849.5232,
+    "risk_envelope_15_percent": 779194976.95168,
+    "risk_envelope_25_percent": 846951061.904,
+    "timetable_sized_dedicated_solar": 59701277.523200005
+  },
+  "cases": {
+    "high_capacity_use": {
+      "annual_operating_cash_usd": 98350489.247152,
+      "annual_paid_trips": 117313920.0,
+      "annual_public_support_usd": 0.0,
+      "annual_revenue_usd": 116243925.12,
+      "capacity_utilisation": 0.8,
+      "project_irr": 0.10210770961157772,
+      "project_npv_usd_at_8_percent": 156795010.0365092,
+      "steady_state_dscr": 3.0886650514538063
+    },
+    "low_capacity_use": {
+      "annual_operating_cash_usd": 56117478.047152,
+      "annual_paid_trips": 73321200.0,
+      "annual_public_support_usd": 0.0,
+      "annual_revenue_usd": 74010913.92,
+      "capacity_utilisation": 0.5,
+      "project_irr": 0.05880331158158464,
+      "project_npv_usd_at_8_percent": -126936633.42074497,
+      "steady_state_dscr": 1.7623511031490242
+    }
+  },
+  "city": "nablus",
+  "funding": {
+    "annual_debt_service_usd": 31842393.917352524,
+    "construction_grace_years": 7,
+    "debt_principal_usd": 542048679.6185601,
+    "debt_rate": 0.045,
+    "government_equity_share": 0.2,
+    "lender_commitment_status": "unconfirmed-placeholder",
+    "repayment_years": 33
+  },
+  "limitations": [
+    "No calibrated origin-destination or stated-preference ridership survey.",
+    "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
+    "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
+  ],
+  "operations_basis": {
+    "annual_train_km_including_non_revenue": 13147902.593100002,
+    "energy_kwh_per_car_km_hot_climate_planning": 4.0,
+    "non_revenue_train_km_factor": 1.08,
+    "scheduled_train_km_per_day": 33353.3805
+  },
+  "passed": true,
+  "renewal_policy": {
+    "field_asset_renewals": "included in fixed-asset maintenance allowance pending condition-based asset plan",
+    "train_battery_cycle_years": 12,
+    "treatment": "included in rolling-stock maintenance reserve; do not double-count as separate CAPEX"
+  },
+  "revenue_basis": {
+    "demand_status": "capacity-led-not-calibrated-od-forecast",
+    "nonfare_revenue_usd_per_year": 3622561.92,
+    "operating_neutral_capacity_utilisation": 0.10137241139590823,
+    "operating_neutral_paid_trips_per_year": 14865493.700883333,
+    "practical_capacity_passenger_trips_per_day": 401760.0,
+    "single_trip_fare_usd": 0.9600000000000001
+  },
+  "schema_version": 1,
+  "sources": {
+    "design": "designs/west-asia/Palestine/Nablus/design.toml",
+    "design_sha256": "3cf66a8969d6cb8cf68d817b0ec39048568cdc623b94ced50987740808f98ad9",
+    "generator": "scripts/generate-city-finance.py",
+    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "scenario": "designs/west-asia/Palestine/Nablus/nablus.toml",
+    "scenario_sha256": "97f0dc9f061b30d5017961dc0615561a9d4cae61bc9fc04381c9f2e89894bd75"
+  },
+  "status": "planning-screen"
+}

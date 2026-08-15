@@ -1,0 +1,91 @@
+{
+  "annual_opex_usd": {
+    "components": {
+      "civil_station_depot_maintenance": 7208972.12,
+      "labour": 2052959.9999999998,
+      "residual_grid_energy": 0.0,
+      "rolling_stock_maintenance_including_battery_renewal_reserve": 6948000.0,
+      "signalling_maintenance": 187301.05000000002,
+      "solar_plant_maintenance": 849390.6866880002
+    },
+    "total": 17246623.856688
+  },
+  "capex_eur": {
+    "reconciled_project_total": 618898349.036864
+  },
+  "capex_usd": {
+    "authoritative_design_base": 616089551.0,
+    "reconciled_project_total": 672715596.7792001,
+    "risk_envelope_15_percent": 773622936.29608,
+    "risk_envelope_25_percent": 840894495.9740001,
+    "timetable_sized_dedicated_solar": 56626045.77920002
+  },
+  "cases": {
+    "high_capacity_use": {
+      "annual_operating_cash_usd": 66774322.19131201,
+      "annual_paid_trips": 117313920.0,
+      "annual_public_support_usd": 0.0,
+      "annual_revenue_usd": 84020946.04800001,
+      "capacity_utilisation": 0.8,
+      "project_irr": 0.07883931985076512,
+      "project_npv_usd_at_8_percent": -7544196.749803011,
+      "steady_state_dscr": 2.1664936742494887
+    },
+    "low_capacity_use": {
+      "annual_operating_cash_usd": 36272702.991312,
+      "annual_paid_trips": 73321200.0,
+      "annual_public_support_usd": 0.0,
+      "annual_revenue_usd": 53519326.848,
+      "capacity_utilisation": 0.5,
+      "project_irr": 0.03534381253716895,
+      "project_npv_usd_at_8_percent": -249480090.63600206,
+      "steady_state_dscr": 1.176868278100359
+    }
+  },
+  "city": "tanta",
+  "funding": {
+    "annual_debt_service_usd": 30821378.79513717,
+    "construction_grace_years": 5,
+    "debt_principal_usd": 538172477.4233601,
+    "debt_rate": 0.045,
+    "government_equity_share": 0.2,
+    "lender_commitment_status": "unconfirmed-placeholder",
+    "repayment_years": 35
+  },
+  "limitations": [
+    "No calibrated origin-destination or stated-preference ridership survey.",
+    "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
+    "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
+  ],
+  "operations_basis": {
+    "annual_train_km_including_non_revenue": 13733134.081200004,
+    "energy_kwh_per_car_km_hot_climate_planning": 4.0,
+    "non_revenue_train_km_factor": 1.08,
+    "scheduled_train_km_per_day": 34837.986000000004
+  },
+  "passed": true,
+  "renewal_policy": {
+    "field_asset_renewals": "included in fixed-asset maintenance allowance pending condition-based asset plan",
+    "train_battery_cycle_years": 12,
+    "treatment": "included in rolling-stock maintenance reserve; do not double-count as separate CAPEX"
+  },
+  "revenue_basis": {
+    "demand_status": "capacity-led-not-calibrated-od-forecast",
+    "nonfare_revenue_usd_per_year": 2683294.848,
+    "operating_neutral_capacity_utilisation": 0.14323825479423727,
+    "operating_neutral_paid_trips_per_year": 21004801.45483846,
+    "practical_capacity_passenger_trips_per_day": 401760.0,
+    "single_trip_fare_usd": 0.6933333333333334
+  },
+  "schema_version": 1,
+  "sources": {
+    "design": "designs/west-asia/Egypt/Tanta/design.toml",
+    "design_sha256": "f85c58ec198a3d8422e31f887744d34c00355e852087f47dacf7d7fd2de200ec",
+    "generator": "scripts/generate-city-finance.py",
+    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "scenario": "designs/west-asia/Egypt/Tanta/tanta.toml",
+    "scenario_sha256": "8e205d528c2c3c05d2ee67f8774e905e72ac1df528f5d4b35488d2da73dd89da"
+  },
+  "status": "planning-screen"
+}

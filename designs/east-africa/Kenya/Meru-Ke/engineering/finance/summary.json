@@ -1,0 +1,91 @@
+{
+  "annual_opex_usd": {
+    "components": {
+      "civil_station_depot_maintenance": 4983060.5200000005,
+      "labour": 1066464.0,
+      "residual_grid_energy": 0.0,
+      "rolling_stock_maintenance_including_battery_renewal_reserve": 1926400.0,
+      "signalling_maintenance": 69934.90000000001,
+      "solar_plant_maintenance": 187876.48440000002
+    },
+    "total": 8233735.9044
+  },
+  "capex_eur": {
+    "reconciled_project_total": 317678109.5232
+  },
+  "capex_usd": {
+    "authoritative_design_base": 332777194.0,
+    "reconciled_project_total": 345302292.96,
+    "risk_envelope_15_percent": 397097636.9039999,
+    "risk_envelope_25_percent": 431627866.2,
+    "timetable_sized_dedicated_solar": 12525098.96
+  },
+  "cases": {
+    "high_capacity_use": {
+      "annual_operating_cash_usd": 41533011.99960001,
+      "annual_paid_trips": 78209280.0,
+      "annual_public_support_usd": 0.0,
+      "annual_revenue_usd": 49766747.90400001,
+      "capacity_utilisation": 0.8,
+      "project_irr": 0.08651297348033031,
+      "project_npv_usd_at_8_percent": 22204375.758694816,
+      "steady_state_dscr": 2.5593905290219148
+    },
+    "low_capacity_use": {
+      "annual_operating_cash_usd": 23544877.599600002,
+      "annual_paid_trips": 48880800.0,
+      "annual_public_support_usd": 0.0,
+      "annual_revenue_usd": 31778613.504000004,
+      "capacity_utilisation": 0.5,
+      "project_irr": 0.04584230073500743,
+      "project_npv_usd_at_8_percent": -98644287.19532089,
+      "steady_state_dscr": 1.4509069733728157
+    }
+  },
+  "city": "meru-ke",
+  "funding": {
+    "annual_debt_service_usd": 16227696.214642193,
+    "construction_grace_years": 7,
+    "debt_principal_usd": 276241834.368,
+    "debt_rate": 0.045,
+    "government_equity_share": 0.2,
+    "lender_commitment_status": "unconfirmed-placeholder",
+    "repayment_years": 33
+  },
+  "limitations": [
+    "No calibrated origin-destination or stated-preference ridership survey.",
+    "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
+    "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
+  ],
+  "operations_basis": {
+    "annual_train_km_including_non_revenue": 5127718.122,
+    "energy_kwh_per_car_km_hot_climate_planning": 4.0,
+    "non_revenue_train_km_factor": 1.08,
+    "scheduled_train_km_per_day": 13007.91
+  },
+  "passed": true,
+  "renewal_policy": {
+    "field_asset_renewals": "included in fixed-asset maintenance allowance pending condition-based asset plan",
+    "train_battery_cycle_years": 12,
+    "treatment": "included in rolling-stock maintenance reserve; do not double-count as separate CAPEX"
+  },
+  "revenue_basis": {
+    "demand_status": "capacity-led-not-calibrated-od-forecast",
+    "nonfare_revenue_usd_per_year": 1798389.504,
+    "operating_neutral_capacity_utilisation": 0.10732652298395101,
+    "operating_neutral_paid_trips_per_year": 10492412.609347826,
+    "practical_capacity_passenger_trips_per_day": 267840.0,
+    "single_trip_fare_usd": 0.6133333333333334
+  },
+  "schema_version": 1,
+  "sources": {
+    "design": "designs/east-africa/Kenya/Meru-Ke/design.toml",
+    "design_sha256": "a5d4d8bf12c2c086ace94d7b5420ad0c1c887a230f53c3d85fd4bbbeb5c4ead0",
+    "generator": "scripts/generate-city-finance.py",
+    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "scenario": "designs/east-africa/Kenya/Meru-Ke/meru-ke.toml",
+    "scenario_sha256": "92e51d79d9a7c69fd27ce7766930cff41ca9e291d4f657575ad7a3d2cc02e64a"
+  },
+  "status": "planning-screen"
+}

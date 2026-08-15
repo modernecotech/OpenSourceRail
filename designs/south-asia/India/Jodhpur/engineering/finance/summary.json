@@ -1,0 +1,91 @@
+{
+  "annual_opex_usd": {
+    "components": {
+      "civil_station_depot_maintenance": 31045757.400000002,
+      "labour": 3782855.9999999995,
+      "residual_grid_energy": 0.0,
+      "rolling_stock_maintenance_including_battery_renewal_reserve": 11200000.0,
+      "signalling_maintenance": 375433.55000000005,
+      "solar_plant_maintenance": 1870596.8657759998
+    },
+    "total": 48274643.815776005
+  },
+  "capex_eur": {
+    "reconciled_project_total": 2013609525.2609282
+  },
+  "capex_usd": {
+    "authoritative_design_base": 2063999548.0,
+    "reconciled_project_total": 2188706005.7184,
+    "risk_envelope_15_percent": 2517011906.57616,
+    "risk_envelope_25_percent": 2735882507.148,
+    "timetable_sized_dedicated_solar": 124706457.7184
+  },
+  "cases": {
+    "high_capacity_use": {
+      "annual_operating_cash_usd": 104713889.46422403,
+      "annual_paid_trips": 234627840.0,
+      "annual_public_support_usd": 0.0,
+      "annual_revenue_usd": 152988533.28000003,
+      "capacity_utilisation": 0.8,
+      "project_irr": 0.02806200255832942,
+      "project_npv_usd_at_8_percent": -917193242.4007567,
+      "steady_state_dscr": 1.0442303111618263
+    },
+    "low_capacity_use": {
+      "annual_operating_cash_usd": 50749486.26422401,
+      "annual_paid_trips": 146642400.0,
+      "annual_public_support_usd": 49529052.23914291,
+      "annual_revenue_usd": 99024130.08000001,
+      "capacity_utilisation": 0.5,
+      "project_irr": -0.010130252128818764,
+      "project_npv_usd_at_8_percent": -1345233670.0455704,
+      "steady_state_dscr": 0.5060852204434557
+    }
+  },
+  "city": "jodhpur",
+  "funding": {
+    "annual_debt_service_usd": 100278538.50336692,
+    "construction_grace_years": 5,
+    "debt_principal_usd": 1750964804.5747201,
+    "debt_rate": 0.045,
+    "government_equity_share": 0.2,
+    "lender_commitment_status": "unconfirmed-placeholder",
+    "repayment_years": 35
+  },
+  "limitations": [
+    "No calibrated origin-destination or stated-preference ridership survey.",
+    "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
+    "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
+  ],
+  "operations_basis": {
+    "annual_train_km_including_non_revenue": 22851349.348050002,
+    "energy_kwh_per_car_km_hot_climate_planning": 4.0,
+    "non_revenue_train_km_factor": 1.08,
+    "scheduled_train_km_per_day": 57968.92275
+  },
+  "passed": true,
+  "renewal_policy": {
+    "field_asset_renewals": "included in fixed-asset maintenance allowance pending condition-based asset plan",
+    "train_battery_cycle_years": 12,
+    "treatment": "included in rolling-stock maintenance reserve; do not double-count as separate CAPEX"
+  },
+  "revenue_basis": {
+    "demand_status": "capacity-led-not-calibrated-od-forecast",
+    "nonfare_revenue_usd_per_year": 9083458.080000002,
+    "operating_neutral_capacity_utilisation": 0.21787243114981397,
+    "operating_neutral_paid_trips_per_year": 63898672.39528696,
+    "practical_capacity_passenger_trips_per_day": 803520.0,
+    "single_trip_fare_usd": 0.6133333333333334
+  },
+  "schema_version": 1,
+  "sources": {
+    "design": "designs/south-asia/India/Jodhpur/design.toml",
+    "design_sha256": "fadb2846f53f2e64f73180092b3c99a5977396baf19e2dad0b1b3bba34f38ff5",
+    "generator": "scripts/generate-city-finance.py",
+    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "scenario": "designs/south-asia/India/Jodhpur/jodhpur.toml",
+    "scenario_sha256": "1a0cd1a6ebf4940eed75a682b8cf8e259b75000595f8eb3200f287913d49aba4"
+  },
+  "status": "planning-screen"
+}

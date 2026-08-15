@@ -1,0 +1,3513 @@
+# Scale-test city list — one city per continent / climate regime, covering
+# the full topology + cost-surface regime space.
+#
+# This is the stepping stone between the 3-city calibration set and the
+# 500-city production batch. Every city here has a hand-tuned bbox so a
+# failed pull can be diagnosed quickly. Once this set produces clean
+# designs across the board, the 500-city list can be generated
+# programmatically from GeoNames (see osr_batch.geonames_import).
+#
+# Selection criteria:
+#   - ≥ 1 city per inhabited continent
+#   - ≥ 1 city per climate preset (hot-desert, tropical-wet,
+#     tropical-arid, temperate-continental, mediterranean, cold-continental)
+#   - Size range: 400k (single-radial) → 15M (hub-and-spoke-dual-ring)
+#
+# Cities here may include ones that already operate metro/tram/LRT
+# (Lyon, Tunis). Those are kept deliberately as solver test targets —
+# their rich OSM data exercises bridge/tunnel classification and
+# dense-anchor routing. The production 500-city scan
+# (osr-cities-scan, default behaviour) excludes them via
+# osr_batch/existing_transit.py.
+#
+# ---------------------------------------------------------------------------
+# POPULATION SOURCE-OF-TRUTH POLICY
+# ---------------------------------------------------------------------------
+# This file is the **canonical source for population** across the OSR
+# pipeline. Every design.toml emitted by `osr-design` must use the
+# population from this catalogue.
+#
+# Definition of "population" — the **served catchment of a light-metro
+# network**. That means the **broadest administrative unit the metro is
+# designed to serve**, including suburban + rural portions of the
+# subdistrict / canton / governorate / agglomeration / metropolitan
+# area, not the city-proper municipality. Samawah's 373,770 is the
+# subdistrict total (urban 256,689 + rural 117,081). Baghdad's
+# 9,780,429 is the governorate, not the city limits (7,837,463). Cuenca
+# is the canton total (817,100), not the urban core (361,524). This
+# matters because the rolling-stock family band in RFC 0008 §5
+# (≤ 300k → tram-2car, 300k–1M → light-metro-3car, 1M–3M →
+# metro-4car, ≥ 3M → metro-6car) selects the consist that fits the
+# *served* ridership.
+#
+# Sources are national-statistics offices (INSEE, INEC, INS, KNBS,
+# COSIT) or the most recent census, verified against
+# citypopulation.de which integrates national-stat-office census
+# releases. Wikipedia is NOT used as a primary source — its city
+# figures are routinely stale or conflate municipality vs metro.
+#
+# When updating: bump `population` AND `population_unit` AND
+# `population_source` AND `population_source_year` together. Re-run
+# `cargo run --bin osr-design -- --slug <slug> ...` to propagate to
+# the city's design.toml.
+# ---------------------------------------------------------------------------
+# BBOX-SIZING POLICY
+# ---------------------------------------------------------------------------
+# A bbox must cover the **served catchment**, not the city-proper
+# municipality. A successful metro ALWAYS reaches past the urban core
+# into the suburbs / satellite towns / peripheral employment zones —
+# so the bbox is sized at the *served-catchment radius* of the
+# rolling-stock family that the population implies (RFC 0008 §5):
+#
+#   tram-2car        (≤ 300 k)   →  ~15 × 15 km   (single-radial)
+#   light-metro-3car ( 300 k – 1 M) →  ~20 × 20 km   (radial+ring)
+#   metro-4car       ( 1 M – 3 M)  →  ~30 × 30 km   (cross+ring)
+#   metro-6car       ( ≥ 3 M)     →  ~40–55 × 40–55 km (hub-and-spoke-dual-ring)
+#
+# These are typical metro-system extents for systems already in
+# revenue service: the Greater Paris RER reaches 50 km radius from
+# Châtelet; the Tokyo subway 50 km via the through-running JR lines;
+# the Mexico City metro 35 km from Zócalo to Cuatro Caminos. The
+# OSR pipeline must be told this catchment via the bbox — the
+# greedy synthesizer does not invent extent it cannot see.
+#
+# Coastal / topographic exclusions: clip the bbox so that the sea
+# (Tunis: Lake of Tunis), uninhabited mountains (Cuenca: Cordillera
+# Real eastern slope), or military zones (Baghdad: BIAP perimeter)
+# do not waste raster cells on zero-demand land. Document the
+# exclusion in a comment alongside the bbox line.
+# ---------------------------------------------------------------------------
+
+# ---- Middle East + North Africa --------------------------------------
+
+[[cities]]
+slug                    = "samawah"
+country                 = "IQ"
+continent               = "west-asia"
+population              = 373770
+population_unit         = "As-Samawah Subdistrict (urban 256,689 + rural 117,081)"
+population_source       = "Iraq 2024 General Population Census; via citypopulation.de/en/iraq/mun/admin/al_muthannā/32011__as_samāwah"
+population_source_year  = 2024
+climate                 = "hot-desert"
+profile                 = "mid-city-desert"
+# Bbox widened 2026-04-26 to served-catchment scale (~20 × 20 km
+# for a ≤500 k mid-city). Previous 9 × 9 km core-only bbox starved
+# the synthesizer of suburb anchors; metros need to reach the urban
+# fringe and adjoining rural-population pockets that feed it.
+bbox                    = { south = 31.22, west = 45.18, north = 31.40, east = 45.38 }
+
+[[cities]]
+slug                    = "baghdad"
+country                 = "IQ"
+continent               = "west-asia"
+population              = 9780429
+population_unit         = "Baghdad Governorate (city 7,837,463 + surrounding governorate population)"
+population_source       = "Iraq 2024 General Population Census; via citypopulation.de/en/iraq/cities"
+population_source_year  = 2024
+climate                 = "hot-desert"
+profile                 = "mega-city-desert"
+# Bbox extended south + east 2026-04-26 to cover Basmaya New City
+# (~33.18 °N, 44.62 °E — was clipped at the SE corner) and the
+# Diyala-side suburbs SE of Al-Madain.
+bbox                    = { south = 33.05, west = 44.20, north = 33.50, east = 44.75 }
+
+[[cities]]
+slug                    = "mosul"
+country                 = "IQ"
+continent               = "west-asia"
+population              = 1940000
+population_unit         = "Mosul Subdistrict (Nineveh Governorate; reconstruction-period 2024 estimate, post-2017 displacement)"
+population_source       = "Iraq 2024 General Population Census preliminary; via citypopulation.de/en/iraq/cities"
+population_source_year  = 2024
+climate                 = "hot-desert"
+profile                 = "large-city-desert"
+# ~30 × 30 km. Both banks of the Tigris (Old City west / Left Bank
+# east); covers Hammam al-Alil (south) and the northern Bashiqa
+# direction. Excludes the Sinjar Mountains (uninhabited rock) by
+# clipping west bound at 42.95.
+bbox                    = { south = 36.20, west = 42.95, north = 36.50, east = 43.30 }
+
+[[cities]]
+slug                    = "basra"
+country                 = "IQ"
+continent               = "west-asia"
+population              = 3955000
+population_unit         = "Basra Governorate (Basrah city + Hartha + Zubair + Abu al-Khasib + Faw)"
+population_source       = "Iraq 2024 General Population Census preliminary; via citypopulation.de/en/iraq/cities"
+population_source_year  = 2024
+climate                 = "hot-desert"
+profile                 = "mega-city-desert"
+# ~50 × 50 km Shatt al-Arab basin. Covers Zubair (west, oilfield-
+# town extension), Hartha (north), Abu al-Khasib (south-east). Does
+# not extend to Faw (~80 km south at the Gulf) or Umm Qasr port
+# (~50 km south, separate catchment).
+bbox                    = { south = 30.30, west = 47.55, north = 30.75, east = 48.05 }
+
+[[cities]]
+slug                    = "erbil"
+country                 = "IQ"
+continent               = "west-asia"
+population              = 1952000
+population_unit         = "Erbil Governorate (Erbil city + Khabat + Shamamak + adjoining Kurdish-region urban units)"
+population_source       = "Kurdistan Regional Statistics Office (KRSO) 2024 estimate; corroborated by Iraq 2024 Census prelim"
+population_source_year  = 2024
+climate                 = "hot-desert"
+profile                 = "large-city-desert"
+# ~30 × 30 km centred on the Citadel (UNESCO heritage core). Three
+# concentric Erbil ring roads visible in OSM data already; covers
+# the airport (south-west), Ankawa (north Christian district),
+# and the new-town extensions east + south.
+bbox                    = { south = 36.05, west = 43.85, north = 36.32, east = 44.18 }
+
+[[cities]]
+slug                    = "sulaymaniyah"
+country                 = "IQ"
+continent               = "west-asia"
+population              = 2150000
+population_unit         = "Sulaymaniyah Governorate (Slemani city + Tasluja + Bakrajo + Bazian + Sarchnar + Halabja-direction)"
+population_source       = "Kurdistan Regional Statistics Office (KRSO) 2024 estimate"
+population_source_year  = 2024
+climate                 = "temperate-continental"
+profile                 = "large-city-cold"
+# ~31 × 30 km. Mountain valley topology — the city sits in a basin
+# bounded by Goyzha (NE) and Azmar (E) ranges. Bbox covers Tasluja
+# (NW, satellite town), Bazian gap (W), Sarchnar (S). Severe
+# terrain — civil classifier will tag elevated for the ridge
+# crossings.
+bbox                    = { south = 35.42, west = 45.27, north = 35.70, east = 45.60 }
+
+[[cities]]
+slug                    = "kirkuk"
+country                 = "IQ"
+continent               = "west-asia"
+population              = 1780000
+population_unit         = "Kirkuk Governorate (Kirkuk city + Daquq + Hawija + adjoining mixed Kurdish/Arab/Turkmen districts)"
+population_source       = "Iraq 2024 General Population Census preliminary; via citypopulation.de/en/iraq"
+population_source_year  = 2024
+climate                 = "hot-desert"
+profile                 = "large-city-desert"
+# ~31 × 30 km on the Khasa River. Covers the oil-field belt SW
+# (Baba Gurgur), the airport (S), and the suburban extensions to
+# the NE. Hawija (~50 km W) is a separate catchment, not included.
+bbox                    = { south = 35.32, west = 44.22, north = 35.60, east = 44.55 }
+
+[[cities]]
+slug                    = "najaf"
+country                 = "IQ"
+continent               = "west-asia"
+population              = 1540000
+population_unit         = "Najaf Governorate (Najaf city + Kufa twin-city + Manathira)"
+population_source       = "Iraq 2024 General Population Census preliminary; via citypopulation.de/en/iraq"
+population_source_year  = 2024
+climate                 = "hot-desert"
+profile                 = "large-city-desert"
+# ~28 × 31 km. Twin-city catchment: Najaf (Imam Ali shrine + Wadi
+# al-Salam cemetery west) + Kufa (Imam Ali mosque east of the
+# Euphrates). Covers Najaf International Airport (SE) which serves
+# millions of pilgrim arrivals annually.
+bbox                    = { south = 31.85, west = 44.18, north = 32.10, east = 44.50 }
+
+[[cities]]
+slug                    = "karbala"
+country                 = "IQ"
+continent               = "west-asia"
+population              = 1390000
+population_unit         = "Karbala Governorate (Karbala city + Hindiyah + Ain Al-Tamur)"
+population_source       = "Iraq 2024 General Population Census preliminary; via citypopulation.de/en/iraq"
+population_source_year  = 2024
+climate                 = "hot-desert"
+profile                 = "large-city-desert"
+# ~28 × 28 km. Pilgrim-volume city — Imam Hussein + Imam Abbas
+# shrines anchor the centre; ~25 M pilgrims annually for Arba'een
+# alone. Bbox covers Hindiyah (E across the Euphrates) and the
+# date-palm outskirts S.
+bbox                    = { south = 32.50, west = 43.90, north = 32.75, east = 44.20 }
+
+[[cities]]
+slug                    = "hillah"
+country                 = "IQ"
+continent               = "west-asia"
+population              = 700000
+population_unit         = "Hillah Subdistrict (Babil Governorate — capital city)"
+population_source       = "Iraq 2024 General Population Census preliminary; via citypopulation.de/en/iraq"
+population_source_year  = 2024
+climate                 = "hot-desert"
+profile                 = "mid-city-desert"
+# ~22 × 24 km on the Hillah branch of the Euphrates. Covers Babylon
+# archaeological site (NE — ruins of the ancient city, UNESCO 2019)
+# + Imam Hamza shrine (SW). Tourism + pilgrimage drive secondary
+# demand beyond the resident population.
+bbox                    = { south = 32.37, west = 44.30, north = 32.57, east = 44.55 }
+
+[[cities]]
+slug                    = "nasiriyah"
+country                 = "IQ"
+continent               = "west-asia"
+population              = 705000
+population_unit         = "Nasiriyah Subdistrict (Dhi Qar Governorate — capital city)"
+population_source       = "Iraq 2024 General Population Census preliminary; via citypopulation.de/en/iraq"
+population_source_year  = 2024
+climate                 = "hot-desert"
+profile                 = "mid-city-desert"
+# ~22 × 25 km on the Euphrates. Covers Suq al-Shuyukh (SE,
+# satellite town) + the Ur archaeological site (W — ziggurat,
+# major tourism draw). Marshlands extend SE beyond bbox.
+bbox                    = { south = 30.95, west = 46.15, north = 31.15, east = 46.40 }
+
+[[cities]]
+slug                    = "amarah"
+country                 = "IQ"
+continent               = "west-asia"
+population              = 660000
+population_unit         = "Amarah Subdistrict (Maysan Governorate — capital city)"
+population_source       = "Iraq 2024 General Population Census preliminary; via citypopulation.de/en/iraq"
+population_source_year  = 2024
+climate                 = "hot-desert"
+profile                 = "mid-city-desert"
+# ~23 × 23 km on the Tigris near the Iranian border. Covers Majar
+# al-Kabir (S) + the al-Halfaya oil-field employment catchment to
+# the E. Mesopotamian marshes (UNESCO) extend S/W beyond bbox.
+bbox                    = { south = 31.74, west = 47.05, north = 31.95, east = 47.28 }
+
+[[cities]]
+slug                    = "ramadi"
+country                 = "IQ"
+continent               = "west-asia"
+population              = 525000
+population_unit         = "Ramadi Subdistrict (Anbar Governorate — capital city; reconstruction-period 2024 figure)"
+population_source       = "Iraq 2024 General Population Census preliminary; via citypopulation.de/en/iraq"
+population_source_year  = 2024
+climate                 = "hot-desert"
+profile                 = "mid-city-desert"
+# ~22 × 22 km on the Euphrates. Habbaniyah lake to the W; Anbar
+# University SW. Reconstruction-period — civil-class classifier
+# may pick at-grade more aggressively for damaged-infra zones.
+bbox                    = { south = 33.32, west = 43.20, north = 33.52, east = 43.42 }
+
+[[cities]]
+slug                    = "baqubah"
+country                 = "IQ"
+continent               = "west-asia"
+population              = 470000
+population_unit         = "Baqubah Subdistrict (Diyala Governorate — capital city)"
+population_source       = "Iraq 2024 General Population Census preliminary; via citypopulation.de/en/iraq"
+population_source_year  = 2024
+climate                 = "hot-desert"
+profile                 = "mid-city-desert"
+# ~22 × 22 km on the Diyala river. Date-palm orchard belt to the
+# E + S. The mainline railway from Baghdad → Khanaqin runs through
+# the city, useful brownfield context for OSR retrofit.
+bbox                    = { south = 33.65, west = 44.55, north = 33.85, east = 44.78 }
+
+[[cities]]
+slug                    = "kut"
+country                 = "IQ"
+continent               = "west-asia"
+population              = 410000
+population_unit         = "Kut Subdistrict (Wasit Governorate — capital city)"
+population_source       = "Iraq 2024 General Population Census preliminary; via citypopulation.de/en/iraq"
+population_source_year  = 2024
+climate                 = "hot-desert"
+profile                 = "mid-city-desert"
+# ~22 × 22 km on the Tigris U-bend. Covers the Kut Barrage (E,
+# major irrigation work) and the Hayy district to the W. Wasit
+# University on the south bank.
+bbox                    = { south = 32.41, west = 45.72, north = 32.61, east = 45.95 }
+
+[[cities]]
+slug                    = "diwaniyah"
+country                 = "IQ"
+continent               = "west-asia"
+population              = 440000
+population_unit         = "Diwaniyah Subdistrict (Qadisiyyah Governorate — capital city)"
+population_source       = "Iraq 2024 General Population Census preliminary; via citypopulation.de/en/iraq"
+population_source_year  = 2024
+climate                 = "hot-desert"
+profile                 = "mid-city-desert"
+# ~22 × 22 km on the Diwaniyah branch of the Euphrates. Qadisiyyah
+# University to the E; Afaq district NW.
+bbox                    = { south = 31.89, west = 44.81, north = 32.09, east = 45.05 }
+
+[[cities]]
+slug                    = "duhok"
+country                 = "IQ"
+continent               = "west-asia"
+population              = 360000
+population_unit         = "Duhok Center Subdistrict (Duhok Governorate — KRI capital)"
+population_source       = "Kurdistan Regional Statistics Office (KRSO) 2024 estimate"
+population_source_year  = 2024
+climate                 = "temperate-continental"
+profile                 = "mid-city-cold"
+# ~21 × 21 km mountain-valley city, dammed Duhok river forming
+# Duhok Lake N of the centre. Bbox covers Duhok University +
+# Massif Resort hills (NE) + Sumel district (SW).
+bbox                    = { south = 36.78, west = 42.90, north = 36.97, east = 43.10 }
+
+[[cities]]
+slug                    = "fallujah"
+country                 = "IQ"
+continent               = "west-asia"
+population              = 360000
+population_unit         = "Fallujah Subdistrict (Anbar Governorate; post-2014 reconstruction figure)"
+population_source       = "Iraq 2024 General Population Census preliminary; via citypopulation.de/en/iraq"
+population_source_year  = 2024
+climate                 = "hot-desert"
+profile                 = "mid-city-desert"
+# ~22 × 22 km on the Euphrates. Heavily reconstructed since 2014;
+# bbox covers the city proper + Saqlawiyah (N) + Karma (E).
+bbox                    = { south = 33.25, west = 43.68, north = 33.45, east = 43.90 }
+
+[[cities]]
+slug                    = "tunis"
+country                 = "TN"
+continent               = "north-africa"
+population              = 2900000
+population_unit         = "Grand Tunis (Tunis + Ariana + Manouba + Ben Arous governorates)"
+population_source       = "Recensement Général de la Population et de l'Habitat 2024; INS Tunisia"
+population_source_year  = 2024
+climate                 = "mediterranean"
+profile                 = "large-city-tropical"
+# Bbox widened to ~36 × 36 km to cover Grand Tunis (Manouba west,
+# La Marsa / Carthage north-east, Ben Arous south, Mornaguia
+# south-west). East bound 10.40 stops short of the Cap Bon
+# peninsula; the Lake of Tunis between bears no metro demand.
+bbox                    = { south = 36.65, west = 9.95, north = 36.97, east = 10.40 }
+
+# ---- Levant + Arabian Peninsula --------------------------------------
+
+[[cities]]
+slug                    = "sanaa"
+country                 = "YE"
+continent               = "west-asia"
+population              = 3937500
+population_unit         = "Sana'a Capital Secretariat + Sana'a Governorate (Old City + Hadda + ring suburbs)"
+population_source       = "UN OCHA Yemen 2024 humanitarian data; baseline pre-conflict CSO census"
+population_source_year  = 2024
+climate                 = "hot-arid-mountain"
+profile                 = "mega-city-cold"
+# ~35 × 35 km mountain plateau (~2 250 m elevation). Bbox covers
+# Hadda (S, government district), Bani Hushaysh (E), Sa'wan (NE).
+bbox                    = { south = 15.20, west = 44.05, north = 15.50, east = 44.40 }
+
+[[cities]]
+slug                    = "aden"
+country                 = "YE"
+continent               = "west-asia"
+population              = 985000
+population_unit         = "Aden Governorate (8 districts: Crater + Khormaksar + Mualla + Tawahi + Sheikh Othman + Mansoura + Dar Saad + Buraiqa)"
+population_source       = "UN OCHA Yemen 2024 humanitarian data; pre-conflict CSO baseline"
+population_source_year  = 2024
+climate                 = "hot-desert"
+profile                 = "mid-city-desert"
+# ~22 × 22 km Gulf-of-Aden coastal volcanic-crater catchment.
+bbox                    = { south = 12.70, west = 44.92, north = 12.90, east = 45.15 }
+
+[[cities]]
+slug                    = "taiz"
+country                 = "YE"
+continent               = "west-asia"
+population              = 615000
+population_unit         = "Taiz City + adjacent Saber + Al-Hawban districts"
+population_source       = "UN OCHA Yemen 2024 humanitarian data"
+population_source_year  = 2024
+climate                 = "hot-arid-mountain"
+profile                 = "mid-city-cold"
+# ~20 × 20 km mountain-foot city (~1 400 m elevation, Jabal Sabir
+# 3 070 m to the south). Heavy conflict damage 2015–22.
+bbox                    = { south = 13.48, west = 43.92, north = 13.68, east = 44.12 }
+
+[[cities]]
+slug                    = "damascus"
+country                 = "SY"
+continent               = "west-asia"
+population              = 2503000
+population_unit         = "Greater Damascus (Damascus governorate + Rif Dimashq inner ring)"
+population_source       = "UNFPA Syria 2024 estimate; 2004 census base + displacement adjustment"
+population_source_year  = 2024
+climate                 = "hot-desert"
+profile                 = "large-city-desert"
+# ~30 × 30 km. Old City core + Mezzeh (W) + Damascus University
+# (W) + Yarmouk (S) + Ghouta agricultural ring (E). Mt Qasioun
+# (~1 150 m) bounds N.
+bbox                    = { south = 33.40, west = 36.15, north = 33.65, east = 36.45 }
+
+[[cities]]
+slug                    = "aleppo"
+country                 = "SY"
+continent               = "west-asia"
+population              = 1639000
+population_unit         = "Aleppo city + immediate suburbs; reconstruction-period figure (peak 2.3 M pre-2012)"
+population_source       = "UNFPA Syria 2024 estimate; pre-war 2010 baseline + displacement / return data"
+population_source_year  = 2024
+climate                 = "mediterranean"
+profile                 = "large-city-tropical"
+# ~30 × 30 km. Old City UNESCO core + industrial east-Aleppo
+# (heavily damaged 2012–16) + new-Aleppo west. Reconstruction-
+# period; civil-class classifier flags damaged-infra zones.
+bbox                    = { south = 36.05, west = 37.00, north = 36.32, east = 37.30 }
+
+[[cities]]
+slug                    = "homs"
+country                 = "SY"
+continent               = "west-asia"
+population              = 775000
+population_unit         = "Homs city + Talkalakh + Al-Qusayr; reconstruction-period figure"
+population_source       = "UNFPA Syria 2024 estimate"
+population_source_year  = 2024
+climate                 = "mediterranean"
+profile                 = "mid-city-tropical"
+# ~22 × 22 km on the Orontes. Old City + Khalid ibn al-Walid
+# Mosque + Bab Amr (heavily damaged 2012–14).
+bbox                    = { south = 34.62, west = 36.60, north = 34.84, east = 36.85 }
+
+[[cities]]
+slug                    = "amman"
+country                 = "JO"
+continent               = "west-asia"
+population              = 4007000
+population_unit         = "Greater Amman Municipality (22 districts; West Amman + East Amman + Zarqa-direction extensions)"
+population_source       = "Jordan Department of Statistics 2024 estimate; 2015 census base + projection"
+population_source_year  = 2024
+climate                 = "hot-desert"
+profile                 = "mega-city-desert"
+# ~35 × 35 km hilly catchment. Bbox covers Queen Alia direction
+# south + Zarqa-direction east + Wadi Saqra valleys west.
+bbox                    = { south = 31.78, west = 35.75, north = 32.10, east = 36.10 }
+
+[[cities]]
+slug                    = "beirut"
+country                 = "LB"
+continent               = "west-asia"
+population              = 2200000
+population_unit         = "Greater Beirut (Beirut + Mount Lebanon coastal strip + Beqaa-direction inland)"
+population_source       = "Lebanon CAS 2024 estimate; 2018-19 LFHLCS base + UN refugee adjustment"
+population_source_year  = 2024
+climate                 = "mediterranean"
+profile                 = "large-city-tropical"
+# ~25 × 25 km coastal. Bbox covers Hamra + Achrafieh core (W),
+# Bourj Hammoud (NE), Hazmieh (E into the mountains), and the
+# Mount-Lebanon foothills S. Clipped at the Mediterranean to the W.
+bbox                    = { south = 33.78, west = 35.40, north = 34.00, east = 35.65 }
+
+[[cities]]
+slug                    = "gaza-city"
+country                 = "PS"
+continent               = "west-asia"
+population              = 600000
+population_unit         = "Gaza City (Gaza governorate northern half; pre-2023 conflict baseline)"
+population_source       = "Palestinian Central Bureau of Statistics (PCBS) 2024 estimate"
+population_source_year  = 2024
+climate                 = "mediterranean"
+profile                 = "mid-city-tropical"
+# ~22 × 22 km coastal. Northern half of the Gaza Strip — covers
+# Gaza City core, Beit Hanoun (NE), Beit Lahia (NW). The Strip
+# is ~365 km² total; this bbox spans the densely-populated north.
+bbox                    = { south = 31.45, west = 34.32, north = 31.62, east = 34.55 }
+
+# ---- Sub-Saharan Africa ----------------------------------------------
+
+[[cities]]
+slug                    = "nairobi"
+country                 = "KE"
+continent               = "east-africa"
+population              = 5700000
+population_unit         = "Nairobi metropolitan area (Nairobi County 4,750,100 (2023 projection) + surrounding satellite towns)"
+population_source       = "Kenya National Bureau of Statistics 2024 estimate; 2019 census base via citypopulation.de/en/kenya/cities"
+population_source_year  = 2024
+climate                 = "tropical-wet"
+profile                 = "large-city-tropical"
+# Bbox widened to ~50 × 50 km to cover the metro: Kiambu / Ruiru
+# satellite towns (north / north-east), Athi River + Mlolongo
+# (south-east), Ngong + Karen (south-west). 5.7 M served catchment
+# extends well past Nairobi County core.
+bbox                    = { south = -1.50, west = 36.65, north = -1.05, east = 37.10 }
+
+[[cities]]
+slug                    = "dar-es-salaam"
+country                 = "TZ"
+continent               = "east-africa"
+population              = 7404689
+population_unit         = "Dar es Salaam Region (city + Kinondoni + Ilala + Temeke + Kigamboni + Ubungo districts)"
+population_source       = "Tanzania National Bureau of Statistics (NBS) 2022 Census; via citypopulation.de/en/tanzania"
+population_source_year  = 2022
+climate                 = "tropical-wet"
+profile                 = "mega-city-tropical"
+# ~50 × 50 km coastal metro. North-south extent covers Bagamoyo
+# Road suburbs (north), Mbagala + Kigamboni (south); inland to
+# Kibaha + Pugu (west). East bound stops at the Indian Ocean.
+bbox                    = { south = -7.05, west = 39.05, north = -6.55, east = 39.50 }
+
+[[cities]]
+slug                    = "khartoum"
+country                 = "SD"
+continent               = "north-africa"
+population              = 5829000
+population_unit         = "Greater Khartoum (Khartoum + Omdurman + Bahri tri-city); pre-2023-conflict baseline"
+population_source       = "Sudan Central Bureau of Statistics 2022 estimate; conflict has since displaced millions"
+population_source_year  = 2022
+climate                 = "hot-desert"
+profile                 = "mega-city-desert"
+# ~45 × 45 km tri-city around the Blue / White Nile confluence.
+# Covers Omdurman (west of the White Nile), Bahri (north of the
+# Blue Nile), and Khartoum proper.
+bbox                    = { south = 15.40, west = 32.35, north = 15.80, east = 32.80 }
+
+[[cities]]
+slug                    = "kampala"
+country                 = "UG"
+continent               = "east-africa"
+population              = 1875000
+population_unit         = "Kampala Capital City Authority (5 divisions); excludes Wakiso suburbs"
+population_source       = "Uganda Bureau of Statistics (UBoS) 2024 estimate"
+population_source_year  = 2024
+climate                 = "tropical-wet"
+profile                 = "large-city-tropical"
+# ~25 × 25 km centred on the seven hills. Covers Wakiso satellite
+# towns (Kira, Mukono outskirts) east + north; clipped at Lake
+# Victoria south.
+bbox                    = { south = 0.21, west = 32.45, north = 0.45, east = 32.72 }
+
+[[cities]]
+slug                    = "antananarivo"
+country                 = "MG"
+continent               = "east-africa"
+population              = 3058000
+population_unit         = "Greater Antananarivo (CUA + Antananarivo-Avaradrano + Antananarivo-Atsimondrano + Ambohidratrimo)"
+population_source       = "Institut National de la Statistique de Madagascar (INSTAT) 2024 estimate; 2018 census base"
+population_source_year  = 2024
+climate                 = "tropical-wet"
+profile                 = "large-city-tropical"
+# ~33 × 33 km on the central Madagascar plateau. Covers the
+# satellite communes north (Ivato airport district) + south
+# (Tanjombato). Steep terrain — civil-classification will pick
+# elevated for valley crossings.
+bbox                    = { south = -19.08, west = 47.35, north = -18.75, east = 47.70 }
+
+[[cities]]
+slug                    = "bamako"
+country                 = "ML"
+continent               = "west-africa"
+population              = 2929000
+population_unit         = "District de Bamako (6 communes) + immediate Koulikoro-region suburbs"
+population_source       = "Institut National de la Statistique du Mali (INSTAT) 2024 estimate; 2022 census base"
+population_source_year  = 2024
+climate                 = "tropical-arid"
+profile                 = "large-city-desert"
+# ~30 × 30 km straddling the Niger river. Both banks; covers Kati
+# (north-west satellite) + Kalaban-Coro (southern Sahelian
+# extension).
+bbox                    = { south = 12.50, west = -8.18, north = 12.80, east = -7.85 }
+
+[[cities]]
+slug                    = "dakar"
+country                 = "SN"
+continent               = "west-africa"
+population              = 4030000
+population_unit         = "Greater Dakar Region (Dakar + Pikine + Guédiawaye + Rufisque) on the Cap-Vert peninsula"
+population_source       = "Agence Nationale de la Statistique et de la Démographie (ANSD) Senegal 2024 estimate; 2023 census base"
+population_source_year  = 2024
+climate                 = "tropical-arid"
+profile                 = "mega-city-tropical"
+# ~35 × 25 km Cap-Vert peninsula; metro extends inland through
+# Pikine and Guédiawaye to Rufisque (~30 km E). Atlantic clips
+# the W and N. Note: a TER (Train Express Régional) opened in
+# 2021 — kept here for solver-test rich-OSM comparison.
+bbox                    = { south = 14.65, west = -17.55, north = 14.85, east = -17.20 }
+
+[[cities]]
+slug                    = "ouagadougou"
+country                 = "BF"
+continent               = "west-africa"
+population              = 2531000
+population_unit         = "Ouagadougou commune (12 arrondissements + adjacent communes rurales)"
+population_source       = "Institut National de la Statistique et de la Démographie (INSD) Burkina Faso 2024 estimate; 2019 RGPH census base"
+population_source_year  = 2024
+climate                 = "tropical-arid"
+profile                 = "large-city-desert"
+# ~30 × 30 km Sahelian flatland. Bbox covers Bobo-Dioulasso-route
+# extensions (W) + Loumbila reservoir direction (NE).
+bbox                    = { south = 12.27, west = -1.65, north = 12.55, east = -1.35 }
+
+[[cities]]
+slug                    = "conakry"
+country                 = "GN"
+continent               = "west-africa"
+population              = 2010000
+population_unit         = "Conakry capital district (Kaloum + Dixinn + Matam + Matoto + Ratoma) + Coyah-direction suburbs"
+population_source       = "Institut National de la Statistique (INS) Guinea 2024 estimate"
+population_source_year  = 2024
+climate                 = "tropical-wet"
+profile                 = "large-city-tropical"
+# ~30 × 22 km Atlantic peninsula. The city is built on a long thin
+# spit; bbox covers the full peninsula (Kaloum tip W) inland to
+# Coyah-direction suburbs E. Sea clips both N and S edges.
+bbox                    = { south = 9.42, west = -13.78, north = 9.65, east = -13.50 }
+
+[[cities]]
+slug                    = "mogadishu"
+country                 = "SO"
+continent               = "east-africa"
+population              = 2610000
+population_unit         = "Banaadir Region / Mogadishu (16 districts: Hodan + Hawl Wadag + Wardhigley + Wadajir + Yaaqshiid + Daynile + ...)"
+population_source       = "UN OCHA Somalia 2024 estimate; pre-conflict 1986 census + post-2007 IDP-adjusted growth"
+population_source_year  = 2024
+climate                 = "hot-desert"
+profile                 = "large-city-desert"
+# ~30 × 30 km Indian Ocean coastal. Reconstruction-period (post-
+# 2017 stabilization). Bbox covers the Old City (Hamarweyne /
+# Shangani SE), Wardhigley + Hodan core, Daynile (W), and Afgoye-
+# corridor IDP camps (NW).
+bbox                    = { south = 1.95, west = 45.12, north = 2.20, east = 45.40 }
+
+[[cities]]
+slug                    = "kigali"
+country                 = "RW"
+continent               = "east-africa"
+population              = 1208000
+population_unit         = "Kigali City (3 districts: Nyarugenge + Gasabo + Kicukiro)"
+population_source       = "National Institute of Statistics of Rwanda (NISR) 2022 census + 2024 projection"
+population_source_year  = 2024
+climate                 = "tropical-wet"
+profile                 = "large-city-tropical"
+# ~25 × 25 km hilly catchment ("city of a thousand hills"). Severe
+# terrain — civil-classifier auto-tags elevated for the Nyabarongo
+# valley crossings. Covers the airport (E) and Mt Kigali (W).
+bbox                    = { south = -2.05, west = 30.00, north = -1.83, east = 30.25 }
+
+[[cities]]
+slug                    = "lusaka"
+country                 = "ZM"
+continent               = "east-africa"
+population              = 3037000
+population_unit         = "Lusaka Province / Greater Lusaka (Lusaka City + Chongwe + Kafue + Chilanga)"
+population_source       = "Zambia Statistics Agency (ZamStats) 2022 census + 2024 projection"
+population_source_year  = 2024
+climate                 = "tropical-wet"
+profile                 = "large-city-tropical"
+# ~32 × 32 km plateau city (~1 280 m elevation). Covers Kafue Road
+# corridor S (industry), Great East Road corridor E (suburbs),
+# Lusaka airport (E).
+bbox                    = { south = -15.55, west = 28.10, north = -15.25, east = 28.45 }
+
+[[cities]]
+slug                    = "yaounde"
+country                 = "CM"
+continent               = "west-africa"
+population              = 4100000
+population_unit         = "Yaoundé Communauté Urbaine (7 arrondissements + Mfoundi peripheral villages)"
+population_source       = "Institut National de la Statistique (INS) Cameroon 2024 estimate"
+population_source_year  = 2024
+climate                 = "tropical-wet"
+profile                 = "mega-city-tropical"
+# ~35 × 35 km hilly equatorial catchment ("city of seven hills" —
+# Mt Eloundem + Mt Nkolbisson + others). Severe-terrain civil
+# class. Covers Nsimalen airport (S) + Mfoundi valley plateau.
+bbox                    = { south = 3.74, west = 11.35, north = 4.05, east = 11.70 }
+
+[[cities]]
+slug                    = "kinshasa"
+country                 = "CD"
+continent               = "central-africa"
+population              = 17178000
+population_unit         = "Kinshasa Province (24 communes; Greater Kinshasa = administrative city = province)"
+population_source       = "INS DRC 2024 estimate (no recent census); UN World Population Prospects 2024 cross-check"
+population_source_year  = 2024
+climate                 = "tropical-wet"
+profile                 = "mega-city-tropical"
+# ~50 × 50 km. World's largest French-speaking city; spans both
+# the central plateau (Mont-Ngafula, Lemba) and the Congo-river
+# floodplain (Kingabwa, N'djili airport area). Brazzaville lies
+# directly across the Congo river to the N — separate catchment.
+bbox                    = { south = -4.55, west = 15.10, north = -4.20, east = 15.55 }
+
+[[cities]]
+slug                    = "lubumbashi"
+country                 = "CD"
+continent               = "central-africa"
+population              = 2829000
+population_unit         = "Lubumbashi (city + Annexe + Kampemba + Katuba + Kenya + Lubumbashi commune + Rwashi + Kamalondo)"
+population_source       = "INS DRC 2024 estimate"
+population_source_year  = 2024
+climate                 = "tropical-wet"
+profile                 = "large-city-tropical"
+# ~30 × 30 km mining-belt plateau. Covers the Gécamines copper-
+# smelter zone NE + the Zambian-border direction (Kasumbalesa) S.
+bbox                    = { south = -11.78, west = 27.32, north = -11.50, east = 27.65 }
+
+[[cities]]
+slug                    = "luanda"
+country                 = "AO"
+continent               = "east-africa"
+population              = 9085000
+population_unit         = "Luanda Province (Luanda + Belas + Cazenga + Cacuaco + Viana + Icolo e Bengo)"
+population_source       = "INE Angola 2024 estimate; 2014 census base + UN World Population Prospects projection"
+population_source_year  = 2024
+climate                 = "tropical-wet"
+profile                 = "mega-city-tropical"
+# ~50 × 35 km Atlantic coastal megacity. Bbox covers Belas (S,
+# new-build housing), Viana (SE, industrial), Cacuaco (N), and
+# the Ilha de Luanda spit (W) — the Atlantic coast clips W.
+bbox                    = { south = -9.05, west = 13.10, north = -8.60, east = 13.50 }
+
+[[cities]]
+slug                    = "maputo"
+country                 = "MZ"
+continent               = "east-africa"
+population              = 1530000
+population_unit         = "Greater Maputo (Cidade de Maputo + Matola + Boane + Marracuene)"
+population_source       = "INE Mozambique 2024 estimate; 2017 census + projection"
+population_source_year  = 2024
+climate                 = "tropical-wet"
+profile                 = "large-city-tropical"
+# ~30 × 25 km Indian Ocean coastal. Maputo Bay clips E; bbox
+# covers Matola (W, industrial twin-city), Costa do Sol +
+# Marracuene (N). Severe road grade through the Catembe causeway
+# crossing — civil classifier picks elevated.
+bbox                    = { south = -25.95, west = 32.45, north = -25.78, east = 32.78 }
+
+[[cities]]
+slug                    = "beira"
+country                 = "MZ"
+continent               = "east-africa"
+population              = 535000
+population_unit         = "Beira city + Dondo (Sofala province coastal)"
+population_source       = "INE Mozambique 2024 estimate"
+population_source_year  = 2024
+climate                 = "tropical-wet"
+profile                 = "mid-city-tropical"
+# ~22 × 22 km port city + reconstruction post-Cyclone Idai (2019).
+# Indian Ocean clips E; Pungwe estuary clips S. Bbox covers
+# Manga (NW), Munhava (N), and the Macuti residential strip.
+bbox                    = { south = -19.92, west = 34.78, north = -19.72, east = 35.00 }
+
+[[cities]]
+slug                    = "niamey"
+country                 = "NE"
+continent               = "west-africa"
+population              = 1407635
+population_unit         = "Niamey commune / Capital District"
+population_source       = "Institut National de la Statistique du Niger (INS) 2022 estimate"
+population_source_year  = 2022
+climate                 = "tropical-arid"
+profile                 = "mid-city-desert"
+# Bbox widened to ~28 × 28 km to cover both banks of the Niger,
+# Niamey-2000 west extension, the airport (south-east), and the
+# Saga / Goudel satellite communes that house ~250 k informal
+# residents not in the commune-proper.
+bbox                    = { south = 13.40, west = 2.00, north = 13.65, east = 2.25 }
+
+# ---- South Asia -------------------------------------------------------
+
+[[cities]]
+slug                    = "coimbatore"
+country                 = "IN"
+continent               = "south-asia"
+population              = 3084000
+population_unit         = "Coimbatore Urban Agglomeration (city + adjoining municipalities + town panchayats)"
+population_source       = "2024 projection from Census of India 2011 base (2,136,916), growth-rate-extrapolated; 2021 census postponed to 2027"
+population_source_year  = 2024
+climate                 = "tropical-wet"
+profile                 = "large-city-tropical"
+# Bbox widened to ~33 × 33 km to cover the 3 M urban-agglomeration:
+# Saravanampatti + Singanallur (east), Madukkarai (south),
+# Sulur + airport (south-east), Mettupalayam Road corridor (north).
+# Earlier 12 × 12 km core-only bbox starved the synthesizer.
+bbox                    = { south = 10.85, west = 76.85, north = 11.15, east = 77.15 }
+
+[[cities]]
+slug                    = "karachi"
+country                 = "PK"
+continent               = "south-asia"
+population              = 20300000
+population_unit         = "Karachi Division (Central + East + Keamari + Korangi + Malir + South + West districts)"
+population_source       = "Pakistan Bureau of Statistics (PBS) 2023 Digital Census"
+population_source_year  = 2023
+climate                 = "tropical-arid"
+profile                 = "mega-city-desert"
+# ~50 × 50 km mega-coastal extent. Covers DHA Phase 8 + Bahria Town
+# (south-east), New Karachi + North Nazimabad (north), Surjani Town
+# (north), Hawksbay (west). Clipped east at Bin Qasim industrial
+# zone (Port Qasim past the catchment edge).
+bbox                    = { south = 24.65, west = 66.85, north = 25.10, east = 67.30 }
+
+[[cities]]
+slug                    = "yangon"
+country                 = "MM"
+continent               = "southeast-asia"
+population              = 5200000
+population_unit         = "Yangon Region urban core (Yangon city + Insein + Hlaingthaya + Thanlyin / Syriam east of the river)"
+population_source       = "Myanmar Department of Population 2014 census + 2024 projection (no fresh census post-2021)"
+population_source_year  = 2024
+climate                 = "tropical-wet"
+profile                 = "mega-city-tropical"
+# ~40 × 40 km. Both banks of the Bago + Yangon rivers — covers
+# Thanlyin / Kyauktan (east bank, Pyin Hsalu industrial zone) and
+# Hlaingthaya (west bank). Clipped south of Twante to avoid the
+# delta marshland which has no metro demand.
+bbox                    = { south = 16.65, west = 95.95, north = 17.00, east = 96.35 }
+
+[[cities]]
+slug                    = "phnom-penh"
+country                 = "KH"
+continent               = "southeast-asia"
+population              = 2281000
+population_unit         = "Phnom Penh capital (12 khans / districts including the 2018 enlargement)"
+population_source       = "National Institute of Statistics Cambodia (NIS) 2019 census + 2024 projection"
+population_source_year  = 2024
+climate                 = "tropical-wet"
+profile                 = "large-city-tropical"
+# ~30 × 30 km at the Mekong / Tonlé Sap / Bassac confluence. Covers
+# Russey Keo (north), Chbar Ampov (south-east across the Bassac),
+# and the Pochentong airport district (west).
+bbox                    = { south = 11.42, west = 104.78, north = 11.70, east = 105.07 }
+
+[[cities]]
+slug                    = "patna"
+country                 = "IN"
+continent               = "south-asia"
+population              = 2520000
+population_unit         = "Patna Urban Agglomeration (Patna Municipal Corp + Danapur + Khagaul + Phulwari Sharif)"
+population_source       = "Census of India 2011 + 2024 projection (2021 census postponed)"
+population_source_year  = 2024
+climate                 = "tropical-wet"
+profile                 = "large-city-tropical"
+# ~30 × 22 km on the south bank of the Ganges. Covers Patna City
+# (E, old core), Danapur (W, cantonment) + Phulwari Sharif (S).
+# Ganges clips N; civil classifier picks bridge for the Mahatma
+# Gandhi Setu crossing.
+bbox                    = { south = 25.55, west = 85.00, north = 25.75, east = 85.30 }
+
+[[cities]]
+slug                    = "faisalabad"
+country                 = "PK"
+continent               = "south-asia"
+population              = 3556000
+population_unit         = "Faisalabad Division (Faisalabad city + Khurrianwala + Jaranwala-direction satellites)"
+population_source       = "Pakistan Bureau of Statistics (PBS) 2023 Digital Census"
+population_source_year  = 2023
+climate                 = "tropical-arid"
+profile                 = "mega-city-desert"
+# ~33 × 33 km flat Punjab plain. Eight ring roads radiate from the
+# Clock Tower (Ghanta Ghar). Bbox covers the textile-mill belt SW
+# + Jhang Road (NE) + the new ring-road developments.
+bbox                    = { south = 31.27, west = 73.00, north = 31.55, east = 73.30 }
+
+[[cities]]
+slug                    = "multan"
+country                 = "PK"
+continent               = "south-asia"
+population              = 2197000
+population_unit         = "Multan Division (Multan city + Shujabad + Jalalpur Pirwala-direction satellites)"
+population_source       = "Pakistan Bureau of Statistics (PBS) 2023 Digital Census"
+population_source_year  = 2023
+climate                 = "tropical-arid"
+profile                 = "large-city-desert"
+# ~28 × 28 km on the Chenab-direction plain. City of Sufi shrines
+# (Bahauddin Zakariya, Shah Rukn-e-Alam — pilgrim demand). Bbox
+# covers Bosan Road suburbs (NW) + cantonment (W).
+bbox                    = { south = 30.10, west = 71.30, north = 30.34, east = 71.60 }
+
+[[cities]]
+slug                    = "kabul"
+country                 = "AF"
+continent               = "south-asia"
+population              = 4601000
+population_unit         = "Kabul Province (Kabul city + Paghman + Bagrami + Surobi-direction; war-displaced rural urbanisation post-2001)"
+population_source       = "UNFPA Afghanistan 2024 estimate; pre-2001 baseline + return-flow + IDP-camp adjustment"
+population_source_year  = 2024
+climate                 = "hot-arid-mountain"
+profile                 = "mega-city-cold"
+# ~33 × 33 km mountain-bowl city (~1 800 m elevation). Severe
+# terrain — Sher Darwaza + Asmai mountains bisect the city.
+# Bbox covers Pul-e-Charkhi (E), Khair Khana (N), Darulaman (S).
+bbox                    = { south = 34.42, west = 69.05, north = 34.70, east = 69.40 }
+
+[[cities]]
+slug                    = "kathmandu"
+country                 = "NP"
+continent               = "south-asia"
+population              = 1442000
+population_unit         = "Kathmandu Valley (Kathmandu Metro + Lalitpur Metro + Bhaktapur + Madhyapur Thimi + Kirtipur)"
+population_source       = "Central Bureau of Statistics (CBS) Nepal 2021 census + 2024 projection"
+population_source_year  = 2024
+climate                 = "temperate-continental"
+profile                 = "large-city-cold"
+# ~28 × 22 km Himalayan-foothill bowl city (~1 400 m elevation).
+# Bagmati + Bishnumati confluence. Covers Patan/Lalitpur (S),
+# Bhaktapur (E, UNESCO old city), Tribhuvan airport (E),
+# Kirtipur (W).
+bbox                    = { south = 27.62, west = 85.18, north = 27.82, east = 85.45 }
+
+[[cities]]
+slug                    = "colombo"
+country                 = "LK"
+continent               = "south-asia"
+population              = 5648000
+population_unit         = "Colombo Metropolitan Region (Colombo Municipal Council + Greater Colombo / Western Province coastal strip)"
+population_source       = "Department of Census and Statistics Sri Lanka 2024 estimate"
+population_source_year  = 2024
+climate                 = "tropical-wet"
+profile                 = "mega-city-tropical"
+# ~38 × 28 km Indian Ocean coastal megacity. Bbox covers Negombo
+# direction (N), Sri Jayawardenepura Kotte (E, parliamentary
+# capital), Dehiwala-Mt Lavinia (S). Sea clips W. Note: a 4-line
+# LRT was approved 2018 but funding stalled — kept here for the
+# OSR fallback path.
+bbox                    = { south = 6.78, west = 79.82, north = 7.05, east = 80.05 }
+
+# ---- Southeast Asia (additional) ------------------------------------
+
+[[cities]]
+slug                    = "mandalay"
+country                 = "MM"
+continent               = "southeast-asia"
+population              = 1726000
+population_unit         = "Mandalay City (6 townships) + Amarapura + Sagaing-direction across the Irrawaddy"
+population_source       = "Myanmar Department of Population 2014 census + 2024 projection"
+population_source_year  = 2024
+climate                 = "tropical-arid"
+profile                 = "large-city-desert"
+# ~28 × 28 km Irrawaddy-bank historic capital. Bbox covers
+# Mandalay Hill (N), the Royal Palace + Old City moat (centre),
+# Mandalay International Airport (S, ~35 km — clipped),
+# Amarapura (S, ancient capital). Sagaing across the river.
+bbox                    = { south = 21.85, west = 95.95, north = 22.15, east = 96.20 }
+
+[[cities]]
+slug                    = "surabaya"
+country                 = "ID"
+continent               = "southeast-asia"
+population              = 3009000
+population_unit         = "Surabaya city (31 kecamatan) — Greater Surabaya = Gerbangkertosusila is wider but split here"
+population_source       = "BPS Indonesia 2024 estimate; 2020 census base"
+population_source_year  = 2024
+climate                 = "tropical-wet"
+profile                 = "mega-city-tropical"
+# ~30 × 30 km. Java Sea coast N; Madura Strait + Suramadu bridge
+# E. Bbox covers Sidoarjo-direction industry S, Gresik-direction
+# port + chemicals N-W (clipped 30 km). Civil classifier picks
+# bridge for the Suramadu (5.4 km cable-stayed) crossing.
+bbox                    = { south = -7.40, west = 112.60, north = -7.13, east = 112.92 }
+
+[[cities]]
+slug                    = "bandung"
+country                 = "ID"
+continent               = "southeast-asia"
+population              = 2615000
+population_unit         = "Bandung City + Cimahi (twin-city) + Kabupaten Bandung Barat-direction inner ring"
+population_source       = "BPS Indonesia 2024 estimate; 2020 census base"
+population_source_year  = 2024
+climate                 = "tropical-wet"
+profile                 = "large-city-tropical"
+# ~30 × 22 km mountain-basin (~770 m elevation, Tangkuban Perahu
+# volcano N). Bbox covers Cimahi twin-city W, Soreang S, and
+# the new high-speed-rail Halim direction E.
+bbox                    = { south = -7.00, west = 107.45, north = -6.78, east = 107.75 }
+
+[[cities]]
+slug                    = "davao"
+country                 = "PH"
+continent               = "southeast-asia"
+population              = 1827000
+population_unit         = "Davao City (3 districts: Davao North + Davao South + Davao Central — single LGU, biggest in Philippines by area)"
+population_source       = "Philippine Statistics Authority (PSA) 2020 census + 2024 projection"
+population_source_year  = 2024
+climate                 = "tropical-wet"
+profile                 = "large-city-tropical"
+# ~30 × 30 km Davao Gulf coastal. Bbox covers Davao Int'l Airport
+# (NE), Toril (S), Calinan-direction inland (W) — Mt Apo
+# (~2 950 m, highest in PH) bounds W beyond bbox.
+bbox                    = { south = 7.00, west = 125.40, north = 7.28, east = 125.70 }
+
+[[cities]]
+slug                    = "vientiane"
+country                 = "LA"
+continent               = "southeast-asia"
+population              = 948000
+population_unit         = "Vientiane Prefecture (capital district — 9 muang/districts)"
+population_source       = "Lao Statistics Bureau 2024 estimate; 2015 census base + projection"
+population_source_year  = 2024
+climate                 = "tropical-wet"
+profile                 = "mid-city-tropical"
+# ~25 × 22 km on the Mekong (Thai border opposite). Bbox covers
+# the That Luang esplanade core, Wattay International Airport
+# (W), Dongdok (NE, university), Pakngum-direction (E).
+bbox                    = { south = 17.92, west = 102.50, north = 18.10, east = 102.78 }
+
+# ---- Latin America (additional) --------------------------------------
+
+[[cities]]
+slug                    = "la-paz"
+country                 = "BO"
+continent               = "latin-america"
+population              = 1815000
+population_unit         = "La Paz + El Alto (twin-city conurbation on the altiplano)"
+population_source       = "Instituto Nacional de Estadística (INE) Bolivia 2024 estimate; 2024 census base"
+population_source_year  = 2024
+climate                 = "alpine-tropical"
+profile                 = "large-city-cold"
+# ~25 × 25 km altiplano-to-canyon configuration. North bound covers
+# El Alto (~4150 m elevation) including the airport. South bound
+# reaches Mecapaca + Río Abajo (deep valley, ~3200 m). Severe
+# 1000 m vertical relief — civil classification will need to pick
+# elevated/funicular for the El Alto cliff descent.
+bbox                    = { south = -16.65, west = -68.30, north = -16.40, east = -68.00 }
+
+[[cities]]
+slug                    = "san-salvador"
+country                 = "SV"
+continent               = "latin-america"
+population              = 1800000
+population_unit         = "Área Metropolitana de San Salvador (AMSS — 14 municipalities)"
+population_source       = "Dirección General de Estadística y Censos (DIGESTYC) 2024 estimate; 2024 census base"
+population_source_year  = 2024
+climate                 = "tropical-wet"
+profile                 = "large-city-tropical"
+# ~27 × 27 km basin of the Acelhuate. Covers Soyapango + Apopa
+# (east, dense low-income), Santa Tecla + Antiguo Cuscatlán (west,
+# higher-income), Mejicanos (north).
+bbox                    = { south = 13.55, west = -89.35, north = 13.85, east = -89.05 }
+
+# ---- Europe -----------------------------------------------------------
+
+[[cities]]
+slug                    = "lyon"
+country                 = "FR"
+continent               = "europe"
+population              = 1436354
+population_unit         = "Métropole de Lyon (intercommunalité 200046977 — Lyon commune + 58 surrounding communes)"
+population_source       = "INSEE 2023 census; insee.fr/fr/statistiques/2011101?geo=EPCI-200046977"
+population_source_year  = 2023
+climate                 = "temperate-continental"
+profile                 = "large-city-cold"
+# Bbox widened to ~33 × 31 km to cover the 59-commune Métropole:
+# Villeurbanne + Vaulx-en-Velin (east), Vénissieux + Saint-Priest
+# (south-east), Oullins + Saint-Genis-Laval (south), Tassin +
+# Écully (west), Caluire-et-Cuire + Rillieux (north).
+bbox                    = { south = 45.60, west = 4.65, north = 45.90, east = 5.05 }
+
+# ---- Latin America ----------------------------------------------------
+
+[[cities]]
+slug                    = "cuenca"
+country                 = "EC"
+continent               = "latin-america"
+population              = 817100
+population_unit         = "Cantón Cuenca (city urban 361,524 + parroquias rurales)"
+population_source       = "INEC Censo de Población y Vivienda 2022; via citypopulation.de/en/ecuador"
+population_source_year  = 2022
+climate                 = "tropical-wet"
+profile                 = "large-city-tropical"
+# Bbox widened to ~22 × 22 km to cover the urban canton (city +
+# Baños + Sayausí + Ricaurte + San Joaquín + El Valle parroquias).
+# The full 3,086 km² canton extends much further into rural
+# parroquias that don't carry metro demand.
+bbox                    = { south = -3.00, west = -79.10, north = -2.80, east = -78.90 }
+
+# ---- Additional 100 generated city seeds (2026-05-03) ---------------------
+# Generated as a deterministic planning expansion for the 500-city pipeline.
+# Bboxes follow the served-catchment sizing policy above; population sources
+# are planning seeds and should be replaced by national-statistics citations
+# before a city is promoted from batch candidate to deployment reference.
+
+[[cities]]
+slug                    = "lucknow"
+country                 = "IN"
+continent               = "south-asia"
+population              = 3500000
+population_unit         = "Lucknow served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "hot-desert"
+profile                 = "mega-city-desert"
+bbox                    = { south = 26.6305, west = 80.7039, north = 27.0629, east = 81.1885 }
+
+[[cities]]
+slug                    = "kanpur"
+country                 = "IN"
+continent               = "south-asia"
+population              = 3200000
+population_unit         = "Kanpur served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "hot-desert"
+profile                 = "mega-city-desert"
+bbox                    = { south = 26.2337, west = 80.0904, north = 26.6661, east = 80.5734 }
+
+[[cities]]
+slug                    = "indore"
+country                 = "IN"
+continent               = "south-asia"
+population              = 3200000
+population_unit         = "Indore served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "hot-desert"
+profile                 = "mega-city-desert"
+bbox                    = { south = 22.5034, west = 75.6233, north = 22.9358, east = 76.0921 }
+
+[[cities]]
+slug                    = "bhopal"
+country                 = "IN"
+continent               = "south-asia"
+population              = 2400000
+population_unit         = "Bhopal served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "hot-desert"
+profile                 = "large-city-desert"
+bbox                    = { south = 23.1158, west = 77.2557, north = 23.4040, east = 77.5695 }
+
+[[cities]]
+slug                    = "vadodara"
+country                 = "IN"
+continent               = "south-asia"
+population              = 2200000
+population_unit         = "Vadodara served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "hot-desert"
+profile                 = "large-city-desert"
+bbox                    = { south = 22.1631, west = 73.0254, north = 22.4513, east = 73.3370 }
+
+[[cities]]
+slug                    = "rajkot"
+country                 = "IN"
+continent               = "south-asia"
+population              = 1800000
+population_unit         = "Rajkot served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "hot-desert"
+profile                 = "large-city-desert"
+bbox                    = { south = 22.1598, west = 70.6464, north = 22.4480, east = 70.9580 }
+
+[[cities]]
+slug                    = "agra"
+country                 = "IN"
+continent               = "south-asia"
+population              = 1700000
+population_unit         = "Agra served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "hot-desert"
+profile                 = "large-city-desert"
+bbox                    = { south = 27.0326, west = 77.8461, north = 27.3208, east = 78.1701 }
+
+[[cities]]
+slug                    = "varanasi"
+country                 = "IN"
+continent               = "south-asia"
+population              = 1500000
+population_unit         = "Varanasi served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "hot-desert"
+profile                 = "large-city-desert"
+bbox                    = { south = 25.1735, west = 82.8144, north = 25.4617, east = 83.1334 }
+
+[[cities]]
+slug                    = "madurai"
+country                 = "IN"
+continent               = "south-asia"
+population              = 1600000
+population_unit         = "Madurai served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "tropical-wet"
+profile                 = "large-city-tropical"
+bbox                    = { south = 9.7811, west = 77.9735, north = 10.0693, east = 78.2661 }
+
+[[cities]]
+slug                    = "visakhapatnam"
+country                 = "IN"
+continent               = "south-asia"
+population              = 2300000
+population_unit         = "Visakhapatnam served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "tropical-wet"
+profile                 = "large-city-tropical"
+bbox                    = { south = 17.5427, west = 83.0672, north = 17.8309, east = 83.3698 }
+
+[[cities]]
+slug                    = "vijayawada"
+country                 = "IN"
+continent               = "south-asia"
+population              = 1500000
+population_unit         = "Vijayawada served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "tropical-wet"
+profile                 = "large-city-tropical"
+bbox                    = { south = 16.3621, west = 80.4977, north = 16.6503, east = 80.7983 }
+
+[[cities]]
+slug                    = "meerut"
+country                 = "IN"
+continent               = "south-asia"
+population              = 1600000
+population_unit         = "Meerut served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "hot-desert"
+profile                 = "large-city-desert"
+bbox                    = { south = 28.8404, west = 77.5416, north = 29.1286, east = 77.8712 }
+
+[[cities]]
+slug                    = "jodhpur"
+country                 = "IN"
+continent               = "south-asia"
+population              = 1300000
+population_unit         = "Jodhpur served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "hot-desert"
+profile                 = "large-city-desert"
+bbox                    = { south = 26.0948, west = 72.8636, north = 26.3830, east = 73.1850 }
+
+[[cities]]
+slug                    = "ranchi"
+country                 = "IN"
+continent               = "south-asia"
+population              = 1400000
+population_unit         = "Ranchi served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "tropical-wet"
+profile                 = "large-city-tropical"
+bbox                    = { south = 23.2000, west = 85.1526, north = 23.4882, east = 85.4666 }
+
+[[cities]]
+slug                    = "raipur"
+country                 = "IN"
+continent               = "south-asia"
+population              = 1500000
+population_unit         = "Raipur served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "tropical-wet"
+profile                 = "large-city-tropical"
+bbox                    = { south = 21.1073, west = 81.4749, north = 21.3955, east = 81.7843 }
+
+[[cities]]
+slug                    = "hyderabad-pk"
+country                 = "PK"
+continent               = "south-asia"
+population              = 1900000
+population_unit         = "Hyderabad served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "hot-desert"
+profile                 = "large-city-desert"
+bbox                    = { south = 25.2519, west = 68.1982, north = 25.5401, east = 68.5174 }
+
+[[cities]]
+slug                    = "peshawar"
+country                 = "PK"
+continent               = "south-asia"
+population              = 2300000
+population_unit         = "Peshawar served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "hot-desert"
+profile                 = "large-city-desert"
+bbox                    = { south = 33.8710, west = 71.3510, north = 34.1592, east = 71.6988 }
+
+[[cities]]
+slug                    = "quetta"
+country                 = "PK"
+continent               = "south-asia"
+population              = 1200000
+population_unit         = "Quetta served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "hot-arid-mountain"
+profile                 = "large-city-cold"
+bbox                    = { south = 30.0357, west = 66.8083, north = 30.3239, east = 67.1417 }
+
+[[cities]]
+slug                    = "gujranwala"
+country                 = "PK"
+continent               = "south-asia"
+population              = 2300000
+population_unit         = "Gujranwala served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "hot-desert"
+profile                 = "large-city-desert"
+bbox                    = { south = 32.0436, west = 74.0242, north = 32.3318, east = 74.3648 }
+
+[[cities]]
+slug                    = "sialkot"
+country                 = "PK"
+continent               = "south-asia"
+population              = 750000
+population_unit         = "Sialkot served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "hot-desert"
+profile                 = "mid-city-desert"
+bbox                    = { south = 32.3954, west = 74.4054, north = 32.5936, east = 74.6404 }
+
+[[cities]]
+slug                    = "bahawalpur"
+country                 = "PK"
+continent               = "south-asia"
+population              = 900000
+population_unit         = "Bahawalpur served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "hot-desert"
+profile                 = "mid-city-desert"
+bbox                    = { south = 29.2965, west = 71.5699, north = 29.4947, east = 71.7973 }
+
+[[cities]]
+slug                    = "sukkur"
+country                 = "PK"
+continent               = "south-asia"
+population              = 600000
+population_unit         = "Sukkur served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "hot-desert"
+profile                 = "mid-city-desert"
+bbox                    = { south = 27.6061, west = 68.7455, north = 27.8043, east = 68.9693 }
+
+[[cities]]
+slug                    = "larkana"
+country                 = "PK"
+continent               = "south-asia"
+population              = 500000
+population_unit         = "Larkana served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "hot-desert"
+profile                 = "mid-city-desert"
+bbox                    = { south = 27.4599, west = 68.1005, north = 27.6581, east = 68.3241 }
+
+[[cities]]
+slug                    = "sheikhupura"
+country                 = "PK"
+continent               = "south-asia"
+population              = 600000
+population_unit         = "Sheikhupura served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "hot-desert"
+profile                 = "mid-city-desert"
+bbox                    = { south = 31.6140, west = 73.8618, north = 31.8122, east = 74.0948 }
+
+[[cities]]
+slug                    = "rahim-yar-khan"
+country                 = "PK"
+continent               = "south-asia"
+population              = 500000
+population_unit         = "Rahim Yar Khan served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "hot-desert"
+profile                 = "mid-city-desert"
+bbox                    = { south = 28.3208, west = 70.1908, north = 28.5190, east = 70.4162 }
+
+[[cities]]
+slug                    = "chittagong"
+country                 = "BD"
+continent               = "south-asia"
+population              = 5200000
+population_unit         = "Chittagong served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "tropical-wet"
+profile                 = "mega-city-tropical"
+bbox                    = { south = 22.1407, west = 91.5494, north = 22.5731, east = 92.0170 }
+
+[[cities]]
+slug                    = "khulna"
+country                 = "BD"
+continent               = "south-asia"
+population              = 1500000
+population_unit         = "Khulna served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "tropical-wet"
+profile                 = "large-city-tropical"
+bbox                    = { south = 22.7015, west = 89.3839, north = 22.9897, east = 89.6967 }
+
+[[cities]]
+slug                    = "rajshahi"
+country                 = "BD"
+continent               = "south-asia"
+population              = 950000
+population_unit         = "Rajshahi served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "tropical-wet"
+profile                 = "mid-city-tropical"
+bbox                    = { south = 24.2754, west = 88.4954, north = 24.4736, east = 88.7130 }
+
+[[cities]]
+slug                    = "sylhet"
+country                 = "BD"
+continent               = "south-asia"
+population              = 900000
+population_unit         = "Sylhet served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "tropical-wet"
+profile                 = "mid-city-tropical"
+bbox                    = { south = 24.7958, west = 91.7594, north = 24.9940, east = 91.9780 }
+
+[[cities]]
+slug                    = "barisal"
+country                 = "BD"
+continent               = "south-asia"
+population              = 550000
+population_unit         = "Barisal served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "tropical-wet"
+profile                 = "mid-city-tropical"
+bbox                    = { south = 22.6019, west = 90.2461, north = 22.8001, east = 90.4609 }
+
+[[cities]]
+slug                    = "rangpur"
+country                 = "BD"
+continent               = "south-asia"
+population              = 800000
+population_unit         = "Rangpur served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "tropical-wet"
+profile                 = "mid-city-tropical"
+bbox                    = { south = 25.6448, west = 89.1652, north = 25.8430, east = 89.3852 }
+
+[[cities]]
+slug                    = "mymensingh"
+country                 = "BD"
+continent               = "south-asia"
+population              = 700000
+population_unit         = "Mymensingh served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "tropical-wet"
+profile                 = "mid-city-tropical"
+bbox                    = { south = 24.6480, west = 90.3112, north = 24.8462, east = 90.5294 }
+
+[[cities]]
+slug                    = "comilla"
+country                 = "BD"
+continent               = "south-asia"
+population              = 600000
+population_unit         = "Comilla served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "tropical-wet"
+profile                 = "mid-city-tropical"
+bbox                    = { south = 23.3616, west = 91.0729, north = 23.5598, east = 91.2889 }
+
+[[cities]]
+slug                    = "narayanganj"
+country                 = "BD"
+continent               = "south-asia"
+population              = 950000
+population_unit         = "Narayanganj served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "tropical-wet"
+profile                 = "mid-city-tropical"
+bbox                    = { south = 23.5247, west = 90.3918, north = 23.7229, east = 90.6082 }
+
+[[cities]]
+slug                    = "gazipur"
+country                 = "BD"
+continent               = "south-asia"
+population              = 1400000
+population_unit         = "Gazipur served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "tropical-wet"
+profile                 = "large-city-tropical"
+bbox                    = { south = 23.8558, west = 90.2625, north = 24.1440, east = 90.5781 }
+
+[[cities]]
+slug                    = "pokhara"
+country                 = "NP"
+continent               = "south-asia"
+population              = 600000
+population_unit         = "Pokhara served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "hot-arid-mountain"
+profile                 = "mid-city-cold"
+bbox                    = { south = 28.1105, west = 83.8731, north = 28.3087, east = 84.0981 }
+
+[[cities]]
+slug                    = "biratnagar"
+country                 = "NP"
+continent               = "south-asia"
+population              = 300000
+population_unit         = "Biratnagar served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "tropical-wet"
+profile                 = "mid-city-tropical"
+bbox                    = { south = 26.3849, west = 87.1963, north = 26.5201, east = 87.3473 }
+
+[[cities]]
+slug                    = "kandy"
+country                 = "LK"
+continent               = "south-asia"
+population              = 650000
+population_unit         = "Kandy served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "tropical-wet"
+profile                 = "mid-city-tropical"
+bbox                    = { south = 7.1915, west = 80.5338, north = 7.3897, east = 80.7336 }
+
+[[cities]]
+slug                    = "jaffna"
+country                 = "LK"
+continent               = "south-asia"
+population              = 600000
+population_unit         = "Jaffna served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "tropical-wet"
+profile                 = "mid-city-tropical"
+bbox                    = { south = 9.5624, west = 79.9250, north = 9.7606, east = 80.1260 }
+
+[[cities]]
+slug                    = "galle"
+country                 = "LK"
+continent               = "south-asia"
+population              = 500000
+population_unit         = "Galle served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "tropical-wet"
+profile                 = "mid-city-tropical"
+bbox                    = { south = 5.9544, west = 80.1213, north = 6.1526, east = 80.3207 }
+
+[[cities]]
+slug                    = "herat"
+country                 = "AF"
+continent               = "south-asia"
+population              = 800000
+population_unit         = "Herat served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "hot-arid-mountain"
+profile                 = "mid-city-cold"
+bbox                    = { south = 34.2538, west = 62.0840, north = 34.4520, east = 62.3240 }
+
+[[cities]]
+slug                    = "kandahar"
+country                 = "AF"
+continent               = "south-asia"
+population              = 700000
+population_unit         = "Kandahar served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "hot-desert"
+profile                 = "mid-city-desert"
+bbox                    = { south = 31.5298, west = 65.6208, north = 31.7280, east = 65.8536 }
+
+[[cities]]
+slug                    = "mazar-e-sharif"
+country                 = "AF"
+continent               = "south-asia"
+population              = 600000
+population_unit         = "Mazar-e-Sharif served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "hot-arid-mountain"
+profile                 = "mid-city-cold"
+bbox                    = { south = 36.6099, west = 66.9873, north = 36.8081, east = 67.2345 }
+
+[[cities]]
+slug                    = "jalalabad-af"
+country                 = "AF"
+continent               = "south-asia"
+population              = 350000
+population_unit         = "Jalalabad served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "hot-arid-mountain"
+profile                 = "mid-city-cold"
+bbox                    = { south = 34.3351, west = 70.3276, north = 34.5333, east = 70.5680 }
+
+[[cities]]
+slug                    = "jeddah"
+country                 = "SA"
+continent               = "west-asia"
+population              = 4700000
+population_unit         = "Jeddah served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "hot-desert"
+profile                 = "mega-city-desert"
+bbox                    = { south = 21.2696, west = 38.9601, north = 21.7020, east = 39.4249 }
+
+[[cities]]
+slug                    = "mecca"
+country                 = "SA"
+continent               = "west-asia"
+population              = 2200000
+population_unit         = "Mecca served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "hot-desert"
+profile                 = "large-city-desert"
+bbox                    = { south = 21.2450, west = 39.7031, north = 21.5332, east = 40.0127 }
+
+[[cities]]
+slug                    = "medina"
+country                 = "SA"
+continent               = "west-asia"
+population              = 1500000
+population_unit         = "Medina served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "hot-desert"
+profile                 = "large-city-desert"
+bbox                    = { south = 24.3806, west = 39.4108, north = 24.6688, east = 39.7276 }
+
+[[cities]]
+slug                    = "dammam"
+country                 = "SA"
+continent               = "west-asia"
+population              = 1500000
+population_unit         = "Dammam served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "hot-desert"
+profile                 = "large-city-desert"
+bbox                    = { south = 26.2766, west = 49.9278, north = 26.5648, east = 50.2498 }
+
+[[cities]]
+slug                    = "taif"
+country                 = "SA"
+continent               = "west-asia"
+population              = 700000
+population_unit         = "Taif served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "hot-desert"
+profile                 = "mid-city-desert"
+bbox                    = { south = 21.3382, west = 40.4062, north = 21.5364, east = 40.6192 }
+
+[[cities]]
+slug                    = "tabuk"
+country                 = "SA"
+continent               = "west-asia"
+population              = 650000
+population_unit         = "Tabuk served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "hot-desert"
+profile                 = "mid-city-desert"
+bbox                    = { south = 28.2847, west = 36.4424, north = 28.4829, east = 36.6676 }
+
+[[cities]]
+slug                    = "buraidah"
+country                 = "SA"
+continent               = "west-asia"
+population              = 700000
+population_unit         = "Buraidah served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "hot-desert"
+profile                 = "mid-city-desert"
+bbox                    = { south = 26.2601, west = 43.8712, north = 26.4583, east = 44.0924 }
+
+[[cities]]
+slug                    = "abha"
+country                 = "SA"
+continent               = "west-asia"
+population              = 450000
+population_unit         = "Abha served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "hot-arid-mountain"
+profile                 = "mid-city-cold"
+bbox                    = { south = 18.1474, west = 42.4074, north = 18.3456, east = 42.6160 }
+
+[[cities]]
+slug                    = "zarqa"
+country                 = "JO"
+continent               = "west-asia"
+population              = 700000
+population_unit         = "Zarqa served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "hot-desert"
+profile                 = "mid-city-desert"
+bbox                    = { south = 31.9737, west = 35.9701, north = 32.1719, east = 36.2039 }
+
+[[cities]]
+slug                    = "irbid"
+country                 = "JO"
+continent               = "west-asia"
+population              = 600000
+population_unit         = "Irbid served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "mediterranean"
+profile                 = "mid-city-tropical"
+bbox                    = { south = 32.4565, west = 35.7324, north = 32.6547, east = 35.9676 }
+
+[[cities]]
+slug                    = "aqaba"
+country                 = "JO"
+continent               = "west-asia"
+population              = 250000
+population_unit         = "Aqaba served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "hot-desert"
+profile                 = "mid-city-desert"
+bbox                    = { south = 29.4645, west = 34.9286, north = 29.5997, east = 35.0840 }
+
+[[cities]]
+slug                    = "tripoli-lb"
+country                 = "LB"
+continent               = "west-asia"
+population              = 730000
+population_unit         = "Tripoli served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "mediterranean"
+profile                 = "mid-city-tropical"
+bbox                    = { south = 34.3376, west = 35.7295, north = 34.5358, east = 35.9699 }
+
+[[cities]]
+slug                    = "sidon"
+country                 = "LB"
+continent               = "west-asia"
+population              = 300000
+population_unit         = "Sidon served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "mediterranean"
+profile                 = "mid-city-tropical"
+bbox                    = { south = 33.4895, west = 35.2918, north = 33.6247, east = 35.4540 }
+
+[[cities]]
+slug                    = "latakia"
+country                 = "SY"
+continent               = "west-asia"
+population              = 700000
+population_unit         = "Latakia served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "mediterranean"
+profile                 = "mid-city-tropical"
+bbox                    = { south = 35.4326, west = 35.6683, north = 35.6308, east = 35.9119 }
+
+[[cities]]
+slug                    = "hama"
+country                 = "SY"
+continent               = "west-asia"
+population              = 600000
+population_unit         = "Hama served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "hot-desert"
+profile                 = "mid-city-desert"
+bbox                    = { south = 35.0327, west = 36.6366, north = 35.2309, east = 36.8790 }
+
+[[cities]]
+slug                    = "tartus"
+country                 = "SY"
+continent               = "west-asia"
+population              = 250000
+population_unit         = "Tartus served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "mediterranean"
+profile                 = "mid-city-tropical"
+bbox                    = { south = 34.8214, west = 35.8042, north = 34.9566, east = 35.9690 }
+
+[[cities]]
+slug                    = "deir-ez-zor"
+country                 = "SY"
+continent               = "west-asia"
+population              = 500000
+population_unit         = "Deir ez-Zor served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "hot-desert"
+profile                 = "mid-city-desert"
+bbox                    = { south = 35.2368, west = 40.0193, north = 35.4350, east = 40.2623 }
+
+[[cities]]
+slug                    = "ibb"
+country                 = "YE"
+continent               = "west-asia"
+population              = 750000
+population_unit         = "Ibb served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "hot-arid-mountain"
+profile                 = "mid-city-cold"
+bbox                    = { south = 13.8676, west = 44.0812, north = 14.0658, east = 44.2854 }
+
+[[cities]]
+slug                    = "hodeidah"
+country                 = "YE"
+continent               = "west-asia"
+population              = 750000
+population_unit         = "Hodeidah served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "hot-desert"
+profile                 = "mid-city-desert"
+bbox                    = { south = 14.6987, west = 42.8520, north = 14.8969, east = 43.0570 }
+
+[[cities]]
+slug                    = "mukalla"
+country                 = "YE"
+continent               = "west-asia"
+population              = 550000
+population_unit         = "Mukalla served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "hot-desert"
+profile                 = "mid-city-desert"
+bbox                    = { south = 14.4434, west = 49.0218, north = 14.6416, east = 49.2266 }
+
+[[cities]]
+slug                    = "sayun"
+country                 = "YE"
+continent               = "west-asia"
+population              = 200000
+population_unit         = "Sayun served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "hot-desert"
+profile                 = "mid-city-desert"
+bbox                    = { south = 15.8754, west = 48.7170, north = 16.0106, east = 48.8576 }
+
+[[cities]]
+slug                    = "mansoura-eg"
+country                 = "EG"
+continent               = "west-asia"
+population              = 1000000
+population_unit         = "Mansoura served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "hot-desert"
+profile                 = "large-city-desert"
+bbox                    = { south = 30.9418, west = 31.2628, north = 31.1400, east = 31.4942 }
+
+[[cities]]
+slug                    = "tanta"
+country                 = "EG"
+continent               = "west-asia"
+population              = 750000
+population_unit         = "Tanta served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "hot-desert"
+profile                 = "mid-city-desert"
+bbox                    = { south = 30.6874, west = 30.8850, north = 30.8856, east = 31.1158 }
+
+[[cities]]
+slug                    = "zagazig"
+country                 = "EG"
+continent               = "west-asia"
+population              = 700000
+population_unit         = "Zagazig served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "hot-desert"
+profile                 = "mid-city-desert"
+bbox                    = { south = 30.4886, west = 31.3869, north = 30.6868, east = 31.6171 }
+
+[[cities]]
+slug                    = "asyut"
+country                 = "EG"
+continent               = "west-asia"
+population              = 600000
+population_unit         = "Asyut served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "hot-desert"
+profile                 = "mid-city-desert"
+bbox                    = { south = 27.0818, west = 31.0723, north = 27.2800, east = 31.2951 }
+
+[[cities]]
+slug                    = "sohag"
+country                 = "EG"
+continent               = "west-asia"
+population              = 550000
+population_unit         = "Sohag served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "hot-desert"
+profile                 = "mid-city-desert"
+bbox                    = { south = 26.4600, west = 31.5849, north = 26.6582, east = 31.8065 }
+
+[[cities]]
+slug                    = "luxor"
+country                 = "EG"
+continent               = "west-asia"
+population              = 500000
+population_unit         = "Luxor served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "hot-desert"
+profile                 = "mid-city-desert"
+bbox                    = { south = 25.5881, west = 32.5296, north = 25.7863, east = 32.7496 }
+
+[[cities]]
+slug                    = "qena"
+country                 = "EG"
+continent               = "west-asia"
+population              = 350000
+population_unit         = "Qena served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "hot-desert"
+profile                 = "mid-city-desert"
+bbox                    = { south = 26.0560, west = 32.6056, north = 26.2542, east = 32.8264 }
+
+[[cities]]
+slug                    = "beni-suef"
+country                 = "EG"
+continent               = "west-asia"
+population              = 350000
+population_unit         = "Beni Suef served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "hot-desert"
+profile                 = "mid-city-desert"
+bbox                    = { south = 28.9670, west = 30.9860, north = 29.1652, east = 31.2128 }
+
+[[cities]]
+slug                    = "hebron"
+country                 = "PS"
+continent               = "west-asia"
+population              = 800000
+population_unit         = "Hebron served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "mediterranean"
+profile                 = "mid-city-tropical"
+bbox                    = { south = 31.4335, west = 34.9835, north = 31.6317, east = 35.2161 }
+
+[[cities]]
+slug                    = "nablus"
+country                 = "PS"
+continent               = "west-asia"
+population              = 450000
+population_unit         = "Nablus served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "mediterranean"
+profile                 = "mid-city-tropical"
+bbox                    = { south = 32.1220, west = 35.1373, north = 32.3202, east = 35.3715 }
+
+[[cities]]
+slug                    = "ibadan"
+country                 = "NG"
+continent               = "west-africa"
+population              = 3900000
+population_unit         = "Ibadan served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "tropical-wet"
+profile                 = "mega-city-tropical"
+bbox                    = { south = 7.1613, west = 3.7290, north = 7.5937, east = 4.1650 }
+
+[[cities]]
+slug                    = "kano"
+country                 = "NG"
+continent               = "west-africa"
+population              = 4200000
+population_unit         = "Kano served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "tropical-arid"
+profile                 = "mega-city-tropical"
+bbox                    = { south = 11.7860, west = 8.3710, north = 12.2184, east = 8.8130 }
+
+[[cities]]
+slug                    = "port-harcourt"
+country                 = "NG"
+continent               = "west-africa"
+population              = 3000000
+population_unit         = "Port Harcourt served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "tropical-wet"
+profile                 = "mega-city-tropical"
+bbox                    = { south = 4.6715, west = 6.9051, north = 4.9597, east = 7.1945 }
+
+[[cities]]
+slug                    = "benin-city"
+country                 = "NG"
+continent               = "west-africa"
+population              = 1800000
+population_unit         = "Benin City served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "tropical-wet"
+profile                 = "large-city-tropical"
+bbox                    = { south = 6.1909, west = 5.4587, north = 6.4791, east = 5.7487 }
+
+[[cities]]
+slug                    = "maiduguri"
+country                 = "NG"
+continent               = "west-africa"
+population              = 1200000
+population_unit         = "Maiduguri served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "tropical-arid"
+profile                 = "large-city-desert"
+bbox                    = { south = 11.6892, west = 13.0027, north = 11.9774, east = 13.2973 }
+
+[[cities]]
+slug                    = "ilorin"
+country                 = "NG"
+continent               = "west-africa"
+population              = 1000000
+population_unit         = "Ilorin served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "tropical-wet"
+profile                 = "large-city-tropical"
+bbox                    = { south = 8.3975, west = 4.4419, north = 8.5957, east = 4.6423 }
+
+[[cities]]
+slug                    = "jos"
+country                 = "NG"
+continent               = "west-africa"
+population              = 900000
+population_unit         = "Jos served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "tropical-arid"
+profile                 = "mid-city-desert"
+bbox                    = { south = 9.7974, west = 8.7577, north = 9.9956, east = 8.9589 }
+
+[[cities]]
+slug                    = "aba-ng"
+country                 = "NG"
+continent               = "west-africa"
+population              = 900000
+population_unit         = "Aba served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "tropical-wet"
+profile                 = "mid-city-tropical"
+bbox                    = { south = 5.0225, west = 7.2738, north = 5.2207, east = 7.4728 }
+
+[[cities]]
+slug                    = "onitsha"
+country                 = "NG"
+continent               = "west-africa"
+population              = 1500000
+population_unit         = "Onitsha served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "tropical-wet"
+profile                 = "large-city-tropical"
+bbox                    = { south = 6.0226, west = 6.6383, north = 6.3108, east = 6.9283 }
+
+[[cities]]
+slug                    = "uyo"
+country                 = "NG"
+continent               = "west-africa"
+population              = 800000
+population_unit         = "Uyo served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "tropical-wet"
+profile                 = "mid-city-tropical"
+bbox                    = { south = 4.9386, west = 7.8133, north = 5.1368, east = 8.0123 }
+
+[[cities]]
+slug                    = "mombasa"
+country                 = "KE"
+continent               = "east-africa"
+population              = 1350000
+population_unit         = "Mombasa served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "tropical-wet"
+profile                 = "large-city-tropical"
+bbox                    = { south = -4.1876, west = 39.5237, north = -3.8994, east = 39.8127 }
+
+[[cities]]
+slug                    = "nakuru"
+country                 = "KE"
+continent               = "east-africa"
+population              = 700000
+population_unit         = "Nakuru served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "tropical-arid"
+profile                 = "mid-city-desert"
+bbox                    = { south = -0.4022, west = 35.9809, north = -0.2040, east = 36.1791 }
+
+[[cities]]
+slug                    = "kisumu"
+country                 = "KE"
+continent               = "east-africa"
+population              = 600000
+population_unit         = "Kisumu served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "tropical-wet"
+profile                 = "mid-city-tropical"
+bbox                    = { south = -0.2013, west = 34.6626, north = -0.0031, east = 34.8608 }
+
+[[cities]]
+slug                    = "eldoret"
+country                 = "KE"
+continent               = "east-africa"
+population              = 500000
+population_unit         = "Eldoret served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "tropical-arid"
+profile                 = "mid-city-desert"
+bbox                    = { south = 0.4152, west = 35.1707, north = 0.6134, east = 35.3689 }
+
+[[cities]]
+slug                    = "mwanza"
+country                 = "TZ"
+continent               = "east-africa"
+population              = 1100000
+population_unit         = "Mwanza served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "tropical-wet"
+profile                 = "large-city-tropical"
+bbox                    = { south = -2.6605, west = 32.7732, north = -2.3723, east = 33.0618 }
+
+[[cities]]
+slug                    = "arusha"
+country                 = "TZ"
+continent               = "east-africa"
+population              = 700000
+population_unit         = "Arusha served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "tropical-arid"
+profile                 = "mid-city-desert"
+bbox                    = { south = -3.4860, west = 36.5837, north = -3.2878, east = 36.7823 }
+
+[[cities]]
+slug                    = "dodoma"
+country                 = "TZ"
+continent               = "east-africa"
+population              = 800000
+population_unit         = "Dodoma served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "tropical-arid"
+profile                 = "mid-city-desert"
+bbox                    = { south = -6.2621, west = 35.6519, north = -6.0639, east = 35.8513 }
+
+[[cities]]
+slug                    = "mbeya"
+country                 = "TZ"
+continent               = "east-africa"
+population              = 550000
+population_unit         = "Mbeya served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "tropical-arid"
+profile                 = "mid-city-desert"
+bbox                    = { south = -9.0085, west = 33.3605, north = -8.8103, east = 33.5611 }
+
+[[cities]]
+slug                    = "mbarara"
+country                 = "UG"
+continent               = "east-africa"
+population              = 500000
+population_unit         = "Mbarara served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "tropical-wet"
+profile                 = "mid-city-tropical"
+bbox                    = { south = -0.7063, west = 30.5554, north = -0.5081, east = 30.7536 }
+
+[[cities]]
+slug                    = "gulu"
+country                 = "UG"
+continent               = "east-africa"
+population              = 350000
+population_unit         = "Gulu served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "tropical-wet"
+profile                 = "mid-city-tropical"
+bbox                    = { south = 2.6755, west = 32.1998, north = 2.8737, east = 32.3982 }
+
+[[cities]]
+slug                    = "jinja"
+country                 = "UG"
+continent               = "east-africa"
+population              = 300000
+population_unit         = "Jinja served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "tropical-wet"
+profile                 = "mid-city-tropical"
+bbox                    = { south = 0.3803, west = 33.1350, north = 0.5155, east = 33.2702 }
+
+[[cities]]
+slug                    = "huye"
+country                 = "RW"
+continent               = "east-africa"
+population              = 250000
+population_unit         = "Huye served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "tropical-wet"
+profile                 = "mid-city-tropical"
+bbox                    = { south = -2.6643, west = 29.6718, north = -2.5291, east = 29.8070 }
+
+[[cities]]
+slug                    = "rubavu"
+country                 = "RW"
+continent               = "east-africa"
+population              = 250000
+population_unit         = "Rubavu served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "tropical-wet"
+profile                 = "mid-city-tropical"
+bbox                    = { south = -1.7468, west = 29.1935, north = -1.6116, east = 29.3287 }
+
+[[cities]]
+slug                    = "douala"
+country                 = "CM"
+continent               = "west-africa"
+population              = 3900000
+population_unit         = "Douala served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "tropical-wet"
+profile                 = "mega-city-tropical"
+bbox                    = { south = 3.8349, west = 9.5511, north = 4.2673, east = 9.9847 }
+
+[[cities]]
+slug                    = "garoua"
+country                 = "CM"
+continent               = "west-africa"
+population              = 600000
+population_unit         = "Garoua served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "tropical-arid"
+profile                 = "mid-city-desert"
+bbox                    = { south = 9.2023, west = 13.2973, north = 9.4005, east = 13.4981 }
+
+# ---- Additional 100-city offline design batch (2026-05-08) -----------
+
+[[cities]]
+slug                    = "thika"
+country                 = "KE"
+continent               = "east-africa"
+population              = 350000
+population_unit         = "Thika served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "tropical-wet"
+profile                 = "mid-city-tropical"
+bbox                    = { south = -1.1324, west = 36.9702, north = -0.9342, east = 37.1684 }
+
+[[cities]]
+slug                    = "nyeri"
+country                 = "KE"
+continent               = "east-africa"
+population              = 250000
+population_unit         = "Nyeri served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "tropical-wet"
+profile                 = "mid-city-tropical"
+bbox                    = { south = -0.4877, west = 36.88, north = -0.3525, east = 37.0152 }
+
+[[cities]]
+slug                    = "machakos"
+country                 = "KE"
+continent               = "east-africa"
+population              = 300000
+population_unit         = "Machakos served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "tropical-arid"
+profile                 = "mid-city-desert"
+bbox                    = { south = -1.5853, west = 37.1958, north = -1.4501, east = 37.331 }
+
+[[cities]]
+slug                    = "malindi"
+country                 = "KE"
+continent               = "east-africa"
+population              = 300000
+population_unit         = "Malindi served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "tropical-wet"
+profile                 = "mid-city-tropical"
+bbox                    = { south = -3.2868, west = 40.0492, north = -3.1516, east = 40.1846 }
+
+[[cities]]
+slug                    = "tanga"
+country                 = "TZ"
+continent               = "east-africa"
+population              = 400000
+population_unit         = "Tanga served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "tropical-wet"
+profile                 = "mid-city-tropical"
+bbox                    = { south = -5.1887, west = 39.0028, north = -4.9905, east = 39.2018 }
+
+[[cities]]
+slug                    = "morogoro"
+country                 = "TZ"
+continent               = "east-africa"
+population              = 500000
+population_unit         = "Morogoro served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "tropical-wet"
+profile                 = "mid-city-tropical"
+bbox                    = { south = -6.9269, west = 37.5593, north = -6.7287, east = 37.7589 }
+
+[[cities]]
+slug                    = "zanzibar-city"
+country                 = "TZ"
+continent               = "east-africa"
+population              = 500000
+population_unit         = "Zanzibar City served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "tropical-wet"
+profile                 = "mid-city-tropical"
+bbox                    = { south = -6.265, west = 39.1029, north = -6.0668, east = 39.3023 }
+
+[[cities]]
+slug                    = "iringa"
+country                 = "TZ"
+continent               = "east-africa"
+population              = 250000
+population_unit         = "Iringa served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "tropical-arid"
+profile                 = "mid-city-desert"
+bbox                    = { south = -7.8382, west = 35.6218, north = -7.703, east = 35.7582 }
+
+[[cities]]
+slug                    = "mbale"
+country                 = "UG"
+continent               = "east-africa"
+population              = 300000
+population_unit         = "Mbale served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "tropical-wet"
+profile                 = "mid-city-tropical"
+bbox                    = { south = 0.9968, west = 34.1118, north = 1.132, east = 34.247 }
+
+[[cities]]
+slug                    = "entebbe"
+country                 = "UG"
+continent               = "east-africa"
+population              = 250000
+population_unit         = "Entebbe served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "tropical-wet"
+profile                 = "mid-city-tropical"
+bbox                    = { south = -0.0164, west = 32.3961, north = 0.1188, east = 32.5313 }
+
+[[cities]]
+slug                    = "lira"
+country                 = "UG"
+continent               = "east-africa"
+population              = 250000
+population_unit         = "Lira served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "tropical-wet"
+profile                 = "mid-city-tropical"
+bbox                    = { south = 2.1823, west = 32.8323, north = 2.3175, east = 32.9675 }
+
+[[cities]]
+slug                    = "fort-portal"
+country                 = "UG"
+continent               = "east-africa"
+population              = 200000
+population_unit         = "Fort Portal served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "tropical-wet"
+profile                 = "mid-city-tropical"
+bbox                    = { south = 0.6034, west = 30.2074, north = 0.7386, east = 30.3426 }
+
+[[cities]]
+slug                    = "bafoussam"
+country                 = "CM"
+continent               = "west-africa"
+population              = 600000
+population_unit         = "Bafoussam served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "tropical-wet"
+profile                 = "mid-city-tropical"
+bbox                    = { south = 5.379, west = 10.318, north = 5.5772, east = 10.5172 }
+
+[[cities]]
+slug                    = "bamenda"
+country                 = "CM"
+continent               = "west-africa"
+population              = 600000
+population_unit         = "Bamenda served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "tropical-wet"
+profile                 = "mid-city-tropical"
+bbox                    = { south = 5.864, west = 10.0595, north = 6.0622, east = 10.2587 }
+
+[[cities]]
+slug                    = "maroua"
+country                 = "CM"
+continent               = "west-africa"
+population              = 500000
+population_unit         = "Maroua served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "tropical-arid"
+profile                 = "mid-city-desert"
+bbox                    = { south = 10.4918, west = 14.2151, north = 10.69, east = 14.4167 }
+
+[[cities]]
+slug                    = "kananga"
+country                 = "CD"
+continent               = "central-africa"
+population              = 1200000
+population_unit         = "Kananga served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "tropical-wet"
+profile                 = "large-city-tropical"
+bbox                    = { south = -6.0403, west = 22.2717, north = -5.7521, east = 22.5615 }
+
+[[cities]]
+slug                    = "mbuji-mayi"
+country                 = "CD"
+continent               = "central-africa"
+population              = 2500000
+population_unit         = "Mbuji-Mayi served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "tropical-wet"
+profile                 = "large-city-tropical"
+bbox                    = { south = -6.2801, west = 23.4448, north = -5.9919, east = 23.7348 }
+
+[[cities]]
+slug                    = "kisangani"
+country                 = "CD"
+continent               = "central-africa"
+population              = 1300000
+population_unit         = "Kisangani served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "tropical-wet"
+profile                 = "large-city-tropical"
+bbox                    = { south = 0.3712, west = 25.0469, north = 0.6594, east = 25.3351 }
+
+[[cities]]
+slug                    = "goma"
+country                 = "CD"
+continent               = "central-africa"
+population              = 1000000
+population_unit         = "Goma served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "tropical-wet"
+profile                 = "mid-city-tropical"
+bbox                    = { south = -1.7783, west = 29.1237, north = -1.5801, east = 29.3219 }
+
+[[cities]]
+slug                    = "bukavu"
+country                 = "CD"
+continent               = "central-africa"
+population              = 1000000
+population_unit         = "Bukavu served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "tropical-wet"
+profile                 = "mid-city-tropical"
+bbox                    = { south = -2.6074, west = 28.7616, north = -2.4092, east = 28.96 }
+
+[[cities]]
+slug                    = "nampula"
+country                 = "MZ"
+continent               = "east-africa"
+population              = 800000
+population_unit         = "Nampula served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "tropical-wet"
+profile                 = "mid-city-tropical"
+bbox                    = { south = -15.2156, west = 39.1639, north = -15.0174, east = 39.3693 }
+
+[[cities]]
+slug                    = "chimoio"
+country                 = "MZ"
+continent               = "east-africa"
+population              = 400000
+population_unit         = "Chimoio served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "tropical-wet"
+profile                 = "mid-city-tropical"
+bbox                    = { south = -19.2155, west = 33.3784, north = -19.0173, east = 33.5882 }
+
+[[cities]]
+slug                    = "nacala"
+country                 = "MZ"
+continent               = "east-africa"
+population              = 300000
+population_unit         = "Nacala served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "tropical-wet"
+profile                 = "mid-city-tropical"
+bbox                    = { south = -14.6104, west = 40.603, north = -14.4752, east = 40.7426 }
+
+[[cities]]
+slug                    = "quelimane"
+country                 = "MZ"
+continent               = "east-africa"
+population              = 350000
+population_unit         = "Quelimane served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "tropical-wet"
+profile                 = "mid-city-tropical"
+bbox                    = { south = -17.9777, west = 36.7842, north = -17.7795, east = 36.9924 }
+
+[[cities]]
+slug                    = "huambo"
+country                 = "AO"
+continent               = "east-africa"
+population              = 800000
+population_unit         = "Huambo served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "tropical-arid"
+profile                 = "mid-city-desert"
+bbox                    = { south = -12.8752, west = 15.6376, north = -12.677, east = 15.8408 }
+
+[[cities]]
+slug                    = "benguela"
+country                 = "AO"
+continent               = "east-africa"
+population              = 600000
+population_unit         = "Benguela served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "tropical-arid"
+profile                 = "mid-city-desert"
+bbox                    = { south = -12.6754, west = 13.304, north = -12.4772, east = 13.507 }
+
+[[cities]]
+slug                    = "lobito"
+country                 = "AO"
+continent               = "east-africa"
+population              = 500000
+population_unit         = "Lobito served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "tropical-arid"
+profile                 = "mid-city-desert"
+bbox                    = { south = -12.4472, west = 13.4442, north = -12.249, east = 13.647 }
+
+[[cities]]
+slug                    = "lubango"
+country                 = "AO"
+continent               = "east-africa"
+population              = 700000
+population_unit         = "Lubango served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "tropical-arid"
+profile                 = "mid-city-desert"
+bbox                    = { south = -15.0163, west = 13.3899, north = -14.8181, east = 13.5951 }
+
+[[cities]]
+slug                    = "malanje"
+country                 = "AO"
+continent               = "east-africa"
+population              = 500000
+population_unit         = "Malanje served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "tropical-wet"
+profile                 = "mid-city-tropical"
+bbox                    = { south = -9.6393, west = 16.2405, north = -9.4411, east = 16.4415 }
+
+[[cities]]
+slug                    = "bloemfontein"
+country                 = "ZA"
+continent               = "south-africa"
+population              = 600000
+population_unit         = "Bloemfontein served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "temperate-continental"
+profile                 = "mid-city-cold"
+bbox                    = { south = -29.1843, west = 26.0462, north = -28.9861, east = 26.273 }
+
+[[cities]]
+slug                    = "durban"
+country                 = "ZA"
+continent               = "south-africa"
+population              = 3900000
+population_unit         = "Durban served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "tropical-wet"
+profile                 = "mega-city-tropical"
+bbox                    = { south = -30.0839, west = 30.7621, north = -29.6335, east = 31.2815 }
+
+[[cities]]
+slug                    = "east-london-za"
+country                 = "ZA"
+continent               = "south-africa"
+population              = 800000
+population_unit         = "East London served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "temperate-continental"
+profile                 = "mid-city-cold"
+bbox                    = { south = -33.1283, west = 27.7364, north = -32.9301, east = 27.9728 }
+
+[[cities]]
+slug                    = "polokwane"
+country                 = "ZA"
+continent               = "south-africa"
+population              = 600000
+population_unit         = "Polokwane served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "tropical-arid"
+profile                 = "mid-city-desert"
+bbox                    = { south = -24.0036, west = 29.3605, north = -23.8054, east = 29.5773 }
+
+[[cities]]
+slug                    = "nelspruit"
+country                 = "ZA"
+continent               = "south-africa"
+population              = 300000
+population_unit         = "Nelspruit served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "tropical-wet"
+profile                 = "mid-city-tropical"
+bbox                    = { south = -25.5429, west = 30.8946, north = -25.4077, east = 31.0442 }
+
+[[cities]]
+slug                    = "ismailia"
+country                 = "EG"
+continent               = "west-asia"
+population              = 700000
+population_unit         = "Ismailia served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "hot-desert"
+profile                 = "mid-city-desert"
+bbox                    = { south = 30.4974, west = 32.1564, north = 30.6956, east = 32.3866 }
+
+[[cities]]
+slug                    = "port-said"
+country                 = "EG"
+continent               = "west-asia"
+population              = 800000
+population_unit         = "Port Said served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "hot-desert"
+profile                 = "mid-city-desert"
+bbox                    = { south = 31.1662, west = 32.186, north = 31.3644, east = 32.4178 }
+
+[[cities]]
+slug                    = "suez"
+country                 = "EG"
+continent               = "west-asia"
+population              = 800000
+population_unit         = "Suez served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "hot-desert"
+profile                 = "mid-city-desert"
+bbox                    = { south = 29.8677, west = 32.4354, north = 30.0659, east = 32.6642 }
+
+[[cities]]
+slug                    = "minya"
+country                 = "EG"
+continent               = "west-asia"
+population              = 600000
+population_unit         = "Minya served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "hot-desert"
+profile                 = "mid-city-desert"
+bbox                    = { south = 27.988, west = 30.6495, north = 28.1862, east = 30.8741 }
+
+[[cities]]
+slug                    = "damanhur"
+country                 = "EG"
+continent               = "west-asia"
+population              = 500000
+population_unit         = "Damanhur served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "hot-desert"
+profile                 = "mid-city-desert"
+bbox                    = { south = 30.935, west = 30.3525, north = 31.1332, east = 30.5839 }
+
+[[cities]]
+slug                    = "fez"
+country                 = "MA"
+continent               = "north-africa"
+population              = 1300000
+population_unit         = "Fez served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "mediterranean"
+profile                 = "large-city-desert"
+bbox                    = { south = 33.874, west = -5.1817, north = 34.1622, east = -4.8339 }
+
+[[cities]]
+slug                    = "marrakech"
+country                 = "MA"
+continent               = "north-africa"
+population              = 1200000
+population_unit         = "Marrakech served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "hot-desert"
+profile                 = "large-city-desert"
+bbox                    = { south = 31.4854, west = -8.1504, north = 31.7736, east = -7.8118 }
+
+[[cities]]
+slug                    = "tangier"
+country                 = "MA"
+continent               = "north-africa"
+population              = 1200000
+population_unit         = "Tangier served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "mediterranean"
+profile                 = "large-city-desert"
+bbox                    = { south = 35.6154, west = -6.0116, north = 35.9036, east = -5.6564 }
+
+[[cities]]
+slug                    = "agadir"
+country                 = "MA"
+continent               = "north-africa"
+population              = 900000
+population_unit         = "Agadir served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "hot-desert"
+profile                 = "mid-city-desert"
+bbox                    = { south = 30.3287, west = -9.713, north = 30.5269, east = -9.4832 }
+
+[[cities]]
+slug                    = "meknes"
+country                 = "MA"
+continent               = "north-africa"
+population              = 700000
+population_unit         = "Meknes served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "mediterranean"
+profile                 = "mid-city-desert"
+bbox                    = { south = 33.7944, west = -5.6667, north = 33.9926, east = -5.4279 }
+
+[[cities]]
+slug                    = "oujda"
+country                 = "MA"
+continent               = "north-africa"
+population              = 600000
+population_unit         = "Oujda served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "hot-desert"
+profile                 = "mid-city-desert"
+bbox                    = { south = 34.5823, west = -2.0291, north = 34.7805, east = -1.7881 }
+
+[[cities]]
+slug                    = "omdurman"
+country                 = "SD"
+continent               = "north-africa"
+population              = 2800000
+population_unit         = "Omdurman served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "hot-desert"
+profile                 = "large-city-desert"
+bbox                    = { south = 15.5035, west = 32.331, north = 15.7917, east = 32.6304 }
+
+[[cities]]
+slug                    = "port-sudan"
+country                 = "SD"
+continent               = "north-africa"
+population              = 500000
+population_unit         = "Port Sudan served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "hot-desert"
+profile                 = "mid-city-desert"
+bbox                    = { south = 19.5167, west = 37.1112, north = 19.7149, east = 37.3216 }
+
+[[cities]]
+slug                    = "nyala"
+country                 = "SD"
+continent               = "north-africa"
+population              = 600000
+population_unit         = "Nyala served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "hot-desert"
+profile                 = "mid-city-desert"
+bbox                    = { south = 11.9498, west = 24.7794, north = 12.148, east = 24.982 }
+
+[[cities]]
+slug                    = "kassala"
+country                 = "SD"
+continent               = "north-africa"
+population              = 500000
+population_unit         = "Kassala served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "hot-desert"
+profile                 = "mid-city-desert"
+bbox                    = { south = 15.3519, west = 36.2972, north = 15.5501, east = 36.5028 }
+
+[[cities]]
+slug                    = "el-obeid"
+country                 = "SD"
+continent               = "north-africa"
+population              = 500000
+population_unit         = "El Obeid served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "hot-desert"
+profile                 = "mid-city-desert"
+bbox                    = { south = 13.0851, west = 30.1149, north = 13.2833, east = 30.3185 }
+
+[[cities]]
+slug                    = "khamis-mushait"
+country                 = "SA"
+continent               = "west-asia"
+population              = 600000
+population_unit         = "Khamis Mushait served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "hot-desert"
+profile                 = "mid-city-desert"
+bbox                    = { south = 18.2073, west = 42.6248, north = 18.4055, east = 42.8336 }
+
+[[cities]]
+slug                    = "hail"
+country                 = "SA"
+continent               = "west-asia"
+population              = 500000
+population_unit         = "Hail served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "hot-desert"
+profile                 = "mid-city-desert"
+bbox                    = { south = 27.4123, west = 41.6091, north = 27.6105, east = 41.8325 }
+
+[[cities]]
+slug                    = "najran"
+country                 = "SA"
+continent               = "west-asia"
+population              = 500000
+population_unit         = "Najran served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "hot-desert"
+profile                 = "mid-city-desert"
+bbox                    = { south = 17.4665, west = 44.125, north = 17.6647, east = 44.3328 }
+
+[[cities]]
+slug                    = "jizan"
+country                 = "SA"
+continent               = "west-asia"
+population              = 400000
+population_unit         = "Jizan served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "hot-desert"
+profile                 = "mid-city-desert"
+bbox                    = { south = 16.7901, west = 42.4475, north = 16.9883, east = 42.6547 }
+
+[[cities]]
+slug                    = "dhamar"
+country                 = "YE"
+continent               = "west-asia"
+population              = 300000
+population_unit         = "Dhamar served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "hot-desert"
+profile                 = "mid-city-desert"
+bbox                    = { south = 14.4751, west = 44.3353, north = 14.6103, east = 44.4749 }
+
+[[cities]]
+slug                    = "lahij"
+country                 = "YE"
+continent               = "west-asia"
+population              = 250000
+population_unit         = "Lahij served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "hot-desert"
+profile                 = "mid-city-desert"
+bbox                    = { south = 12.9891, west = 44.8125, north = 13.1243, east = 44.9513 }
+
+[[cities]]
+slug                    = "raqqa"
+country                 = "SY"
+continent               = "west-asia"
+population              = 350000
+population_unit         = "Raqqa served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "hot-desert"
+profile                 = "mid-city-desert"
+bbox                    = { south = 35.8509, west = 38.8943, north = 36.0491, east = 39.1391 }
+
+[[cities]]
+slug                    = "idlib"
+country                 = "SY"
+continent               = "west-asia"
+population              = 300000
+population_unit         = "Idlib served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "mediterranean"
+profile                 = "mid-city-desert"
+bbox                    = { south = 35.863, west = 36.5505, north = 35.9982, east = 36.7173 }
+
+[[cities]]
+slug                    = "kitale"
+country                 = "KE"
+continent               = "east-africa"
+population              = 300000
+population_unit         = "Kitale served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "tropical-wet"
+profile                 = "mid-city-tropical"
+bbox                    = { south = 0.9481, west = 34.9386, north = 1.0833, east = 35.0738 }
+
+[[cities]]
+slug                    = "garissa"
+country                 = "KE"
+continent               = "east-africa"
+population              = 300000
+population_unit         = "Garissa served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "tropical-arid"
+profile                 = "mid-city-desert"
+bbox                    = { south = -0.5245, west = 39.5907, north = -0.3893, east = 39.7259 }
+
+[[cities]]
+slug                    = "moshi"
+country                 = "TZ"
+continent               = "east-africa"
+population              = 300000
+population_unit         = "Moshi served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "tropical-wet"
+profile                 = "mid-city-tropical"
+bbox                    = { south = -3.4025, west = 37.2727, north = -3.2673, east = 37.4081 }
+
+[[cities]]
+slug                    = "tabora"
+country                 = "TZ"
+continent               = "east-africa"
+population              = 300000
+population_unit         = "Tabora served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "tropical-arid"
+profile                 = "mid-city-desert"
+bbox                    = { south = -5.0838, west = 32.7588, north = -4.9486, east = 32.8944 }
+
+[[cities]]
+slug                    = "kenitra"
+country                 = "MA"
+continent               = "north-africa"
+population              = 500000
+population_unit         = "Kenitra served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "mediterranean"
+profile                 = "mid-city-desert"
+bbox                    = { south = 34.1619, west = -6.7001, north = 34.3601, east = -6.4603 }
+
+[[cities]]
+slug                    = "tetouan"
+country                 = "MA"
+continent               = "north-africa"
+population              = 500000
+population_unit         = "Tetouan served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "mediterranean"
+profile                 = "mid-city-desert"
+bbox                    = { south = 35.4794, west = -5.4902, north = 35.6776, east = -5.2466 }
+
+[[cities]]
+slug                    = "fayoum"
+country                 = "EG"
+continent               = "west-asia"
+population              = 500000
+population_unit         = "Fayoum served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "hot-desert"
+profile                 = "mid-city-desert"
+bbox                    = { south = 29.2093, west = 30.7292, north = 29.4075, east = 30.9564 }
+
+[[cities]]
+slug                    = "damietta"
+country                 = "EG"
+continent               = "west-asia"
+population              = 400000
+population_unit         = "Damietta served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "hot-desert"
+profile                 = "mid-city-desert"
+bbox                    = { south = 31.3174, west = 31.6972, north = 31.5156, east = 31.9294 }
+
+[[cities]]
+slug                    = "kisii"
+country                 = "KE"
+continent               = "east-africa"
+population              = 300000
+population_unit         = "Kisii served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "tropical-wet"
+profile                 = "mid-city-tropical"
+bbox                    = { south = -0.7493, west = 34.6991, north = -0.6141, east = 34.8343 }
+
+[[cities]]
+slug                    = "kakamega"
+country                 = "KE"
+continent               = "east-africa"
+population              = 300000
+population_unit         = "Kakamega served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "tropical-wet"
+profile                 = "mid-city-tropical"
+bbox                    = { south = 0.2151, west = 34.6843, north = 0.3503, east = 34.8195 }
+
+[[cities]]
+slug                    = "naivasha"
+country                 = "KE"
+continent               = "east-africa"
+population              = 250000
+population_unit         = "Naivasha served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "tropical-arid"
+profile                 = "mid-city-desert"
+bbox                    = { south = -0.7843, west = 36.3657, north = -0.6491, east = 36.5009 }
+
+[[cities]]
+slug                    = "meru-ke"
+country                 = "KE"
+continent               = "east-africa"
+population              = 250000
+population_unit         = "Meru served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "tropical-wet"
+profile                 = "mid-city-tropical"
+bbox                    = { south = -0.0213, west = 37.5883, north = 0.1139, east = 37.7235 }
+
+[[cities]]
+slug                    = "kigoma"
+country                 = "TZ"
+continent               = "east-africa"
+population              = 300000
+population_unit         = "Kigoma served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "tropical-wet"
+profile                 = "mid-city-tropical"
+bbox                    = { south = -4.9445, west = 29.5589, north = -4.8093, east = 29.6945 }
+
+[[cities]]
+slug                    = "sumbawanga"
+country                 = "TZ"
+continent               = "east-africa"
+population              = 250000
+population_unit         = "Sumbawanga served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "tropical-arid"
+profile                 = "mid-city-desert"
+bbox                    = { south = -8.0343, west = 31.5485, north = -7.8991, east = 31.6849 }
+
+[[cities]]
+slug                    = "songea"
+country                 = "TZ"
+continent               = "east-africa"
+population              = 250000
+population_unit         = "Songea served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "tropical-wet"
+profile                 = "mid-city-tropical"
+bbox                    = { south = -10.7509, west = 35.5812, north = -10.6157, east = 35.7188 }
+
+[[cities]]
+slug                    = "shinyanga"
+country                 = "TZ"
+continent               = "east-africa"
+population              = 250000
+population_unit         = "Shinyanga served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "tropical-arid"
+profile                 = "mid-city-desert"
+bbox                    = { south = -3.7315, west = 33.3535, north = -3.5963, east = 33.4889 }
+
+[[cities]]
+slug                    = "masaka"
+country                 = "UG"
+continent               = "east-africa"
+population              = 250000
+population_unit         = "Masaka served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "tropical-wet"
+profile                 = "mid-city-tropical"
+bbox                    = { south = -0.4014, west = 31.6665, north = -0.2662, east = 31.8017 }
+
+[[cities]]
+slug                    = "soroti"
+country                 = "UG"
+continent               = "east-africa"
+population              = 200000
+population_unit         = "Soroti served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "tropical-wet"
+profile                 = "mid-city-tropical"
+bbox                    = { south = 1.647, west = 33.5435, north = 1.7822, east = 33.6787 }
+
+[[cities]]
+slug                    = "arua"
+country                 = "UG"
+continent               = "east-africa"
+population              = 250000
+population_unit         = "Arua served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "tropical-wet"
+profile                 = "mid-city-tropical"
+bbox                    = { south = 2.9525, west = 30.8434, north = 3.0877, east = 30.9788 }
+
+[[cities]]
+slug                    = "hoima"
+country                 = "UG"
+continent               = "east-africa"
+population              = 200000
+population_unit         = "Hoima served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "tropical-wet"
+profile                 = "mid-city-tropical"
+bbox                    = { south = 1.3643, west = 31.2849, north = 1.4995, east = 31.4201 }
+
+[[cities]]
+slug                    = "bertoua"
+country                 = "CM"
+continent               = "west-africa"
+population              = 350000
+population_unit         = "Bertoua served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "tropical-wet"
+profile                 = "mid-city-tropical"
+bbox                    = { south = 4.4782, west = 13.5852, north = 4.6764, east = 13.784 }
+
+[[cities]]
+slug                    = "edea"
+country                 = "CM"
+continent               = "west-africa"
+population              = 250000
+population_unit         = "Edea served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "tropical-wet"
+profile                 = "mid-city-tropical"
+bbox                    = { south = 3.7324, west = 10.0656, north = 3.8676, east = 10.201 }
+
+[[cities]]
+slug                    = "kumba"
+country                 = "CM"
+continent               = "west-africa"
+population              = 400000
+population_unit         = "Kumba served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "tropical-wet"
+profile                 = "mid-city-tropical"
+bbox                    = { south = 4.5372, west = 9.3475, north = 4.7354, east = 9.5463 }
+
+[[cities]]
+slug                    = "ngaoundere"
+country                 = "CM"
+continent               = "west-africa"
+population              = 350000
+population_unit         = "Ngaoundere served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "tropical-arid"
+profile                 = "mid-city-desert"
+bbox                    = { south = 7.2176, west = 13.4834, north = 7.4158, east = 13.6832 }
+
+[[cities]]
+slug                    = "tete"
+country                 = "MZ"
+continent               = "east-africa"
+population              = 350000
+population_unit         = "Tete served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "tropical-arid"
+profile                 = "mid-city-desert"
+bbox                    = { south = -16.2555, west = 33.4835, north = -16.0573, east = 33.6899 }
+
+[[cities]]
+slug                    = "lichinga"
+country                 = "MZ"
+continent               = "east-africa"
+population              = 250000
+population_unit         = "Lichinga served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "tropical-wet"
+profile                 = "mid-city-tropical"
+bbox                    = { south = -13.3804, west = 35.1712, north = -13.2452, east = 35.31 }
+
+[[cities]]
+slug                    = "pemba-mz"
+country                 = "MZ"
+continent               = "east-africa"
+population              = 250000
+population_unit         = "Pemba served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "tropical-wet"
+profile                 = "mid-city-tropical"
+bbox                    = { south = -13.0406, west = 40.4485, north = -12.9054, east = 40.5871 }
+
+[[cities]]
+slug                    = "xai-xai"
+country                 = "MZ"
+continent               = "east-africa"
+population              = 250000
+population_unit         = "Xai-Xai served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "tropical-wet"
+profile                 = "mid-city-tropical"
+bbox                    = { south = -25.1195, west = 33.5696, north = -24.9843, east = 33.7188 }
+
+[[cities]]
+slug                    = "namibe"
+country                 = "AO"
+continent               = "east-africa"
+population              = 300000
+population_unit         = "Namibe served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "tropical-arid"
+profile                 = "mid-city-desert"
+bbox                    = { south = -15.2637, west = 12.0822, north = -15.1285, east = 12.2222 }
+
+[[cities]]
+slug                    = "soyo"
+country                 = "AO"
+continent               = "east-africa"
+population              = 250000
+population_unit         = "Soyo served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "tropical-wet"
+profile                 = "mid-city-tropical"
+bbox                    = { south = -6.2025, west = 12.3009, north = -6.0673, east = 12.4369 }
+
+[[cities]]
+slug                    = "uige"
+country                 = "AO"
+continent               = "east-africa"
+population              = 400000
+population_unit         = "Uige served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "tropical-wet"
+profile                 = "mid-city-tropical"
+bbox                    = { south = -7.7078, west = 14.9613, north = -7.5096, east = 15.1613 }
+
+[[cities]]
+slug                    = "nador"
+country                 = "MA"
+continent               = "north-africa"
+population              = 250000
+population_unit         = "Nador served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "mediterranean"
+profile                 = "mid-city-desert"
+bbox                    = { south = 35.1012, west = -3.0162, north = 35.2364, east = -2.8508 }
+
+[[cities]]
+slug                    = "safi"
+country                 = "MA"
+continent               = "north-africa"
+population              = 350000
+population_unit         = "Safi served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "mediterranean"
+profile                 = "mid-city-desert"
+bbox                    = { south = 32.2003, west = -9.3544, north = 32.3985, east = -9.12 }
+
+[[cities]]
+slug                    = "beni-mellal"
+country                 = "MA"
+continent               = "north-africa"
+population              = 300000
+population_unit         = "Beni Mellal served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "mediterranean"
+profile                 = "mid-city-desert"
+bbox                    = { south = 32.2697, west = -6.4298, north = 32.4049, east = -6.2698 }
+
+[[cities]]
+slug                    = "khouribga"
+country                 = "MA"
+continent               = "north-africa"
+population              = 250000
+population_unit         = "Khouribga served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "hot-desert"
+profile                 = "mid-city-desert"
+bbox                    = { south = 32.8184, west = -6.9868, north = 32.9536, east = -6.8258 }
+
+[[cities]]
+slug                    = "mahalla"
+country                 = "EG"
+continent               = "west-asia"
+population              = 600000
+population_unit         = "Mahalla served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "hot-desert"
+profile                 = "mid-city-desert"
+bbox                    = { south = 30.8715, west = 31.0513, north = 31.0697, east = 31.2825 }
+
+[[cities]]
+slug                    = "kafr-el-sheikh"
+country                 = "EG"
+continent               = "west-asia"
+population              = 300000
+population_unit         = "Kafr el-Sheikh served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "hot-desert"
+profile                 = "mid-city-desert"
+bbox                    = { south = 31.0441, west = 30.861, north = 31.1793, east = 31.0188 }
+
+[[cities]]
+slug                    = "arish"
+country                 = "EG"
+continent               = "west-asia"
+population              = 300000
+population_unit         = "Arish served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "hot-desert"
+profile                 = "mid-city-desert"
+bbox                    = { south = 31.064, west = 33.7195, north = 31.1992, east = 33.8773 }
+
+[[cities]]
+slug                    = "hurghada"
+country                 = "EG"
+continent               = "west-asia"
+population              = 300000
+population_unit         = "Hurghada served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "hot-desert"
+profile                 = "mid-city-desert"
+bbox                    = { south = 27.1903, west = 33.7356, north = 27.3255, east = 33.8876 }
+
+[[cities]]
+slug                    = "hofuf"
+country                 = "SA"
+continent               = "west-asia"
+population              = 800000
+population_unit         = "Hofuf served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "hot-desert"
+profile                 = "mid-city-desert"
+bbox                    = { south = 25.2842, west = 49.4736, north = 25.4824, east = 49.693 }
+
+[[cities]]
+slug                    = "al-kharj"
+country                 = "SA"
+continent               = "west-asia"
+population              = 400000
+population_unit         = "Al Kharj served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "hot-desert"
+profile                 = "mid-city-desert"
+bbox                    = { south = 24.0565, west = 47.2034, north = 24.2547, east = 47.4206 }
+
+[[cities]]
+slug                    = "waw"
+country                 = "SD"
+continent               = "north-africa"
+population              = 300000
+population_unit         = "Waw served urban catchment planning seed"
+population_source       = "Generated planning seed from public gazetteer / citypopulation-style metro-area estimates; replace with national-statistics source before deployment"
+population_source_year  = 2026
+climate                 = "tropical-arid"
+profile                 = "mid-city-desert"
+bbox                    = { south = 7.6324, west = 27.9318, north = 7.7676, east = 28.0682 }

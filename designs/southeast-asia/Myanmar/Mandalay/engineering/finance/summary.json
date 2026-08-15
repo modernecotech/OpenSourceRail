@@ -1,0 +1,91 @@
+{
+  "annual_opex_usd": {
+    "components": {
+      "civil_station_depot_maintenance": 31889695.32,
+      "labour": 2662296.0,
+      "residual_grid_energy": 0.0,
+      "rolling_stock_maintenance_including_battery_renewal_reserve": 16486400.0,
+      "signalling_maintenance": 554782.7000000001,
+      "solar_plant_maintenance": 2797098.813961847
+    },
+    "total": 54390272.833961844
+  },
+  "capex_eur": {
+    "reconciled_project_total": 2276286681.002993
+  },
+  "capex_usd": {
+    "authoritative_design_base": 2287751399.0,
+    "reconciled_project_total": 2474224653.264123,
+    "risk_envelope_15_percent": 2845358351.2537413,
+    "risk_envelope_25_percent": 3092780816.5801535,
+    "timetable_sized_dedicated_solar": 186473254.26412314
+  },
+  "cases": {
+    "high_capacity_use": {
+      "annual_operating_cash_usd": 50472439.19803816,
+      "annual_paid_trips": 286767360.0,
+      "annual_public_support_usd": 71044735.97505267,
+      "annual_revenue_usd": 104862712.032,
+      "capacity_utilisation": 0.8,
+      "project_irr": -0.023349867433275107,
+      "project_npv_usd_at_8_percent": -1397034736.2413259,
+      "steady_state_dscr": 0.4153523082325152
+    },
+    "low_capacity_use": {
+      "annual_operating_cash_usd": 13192682.398038149,
+      "annual_paid_trips": 179229600.0,
+      "annual_public_support_usd": 108324492.77505268,
+      "annual_revenue_usd": 67582955.232,
+      "capacity_utilisation": 0.5,
+      "project_irr": -0.07799375321691562,
+      "project_npv_usd_at_8_percent": -1591431218.596685,
+      "steady_state_dscr": 0.10856640124530792
+    }
+  },
+  "city": "mandalay",
+  "funding": {
+    "annual_debt_service_usd": 121517175.17309083,
+    "construction_grace_years": 10,
+    "debt_principal_usd": 1979379722.6112986,
+    "debt_rate": 0.045,
+    "government_equity_share": 0.2,
+    "lender_commitment_status": "unconfirmed-placeholder",
+    "repayment_years": 30
+  },
+  "limitations": [
+    "No calibrated origin-destination or stated-preference ridership survey.",
+    "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
+    "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
+  ],
+  "operations_basis": {
+    "annual_train_km_including_non_revenue": 35111268.05310001,
+    "energy_kwh_per_car_km_hot_climate_planning": 4.0,
+    "non_revenue_train_km_factor": 1.08,
+    "scheduled_train_km_per_day": 89069.68050000002
+  },
+  "passed": true,
+  "renewal_policy": {
+    "field_asset_renewals": "included in fixed-asset maintenance allowance pending condition-based asset plan",
+    "train_battery_cycle_years": 12,
+    "treatment": "included in rolling-stock maintenance reserve; do not double-count as separate CAPEX"
+  },
+  "revenue_basis": {
+    "demand_status": "capacity-led-not-calibrated-od-forecast",
+    "nonfare_revenue_usd_per_year": 5450027.232000001,
+    "operating_neutral_capacity_utilisation": 0.3938350177377915,
+    "operating_neutral_paid_trips_per_year": 141173785.39027455,
+    "practical_capacity_passenger_trips_per_day": 982080.0,
+    "single_trip_fare_usd": 0.3466666666666667
+  },
+  "schema_version": 1,
+  "sources": {
+    "design": "designs/southeast-asia/Myanmar/Mandalay/design.toml",
+    "design_sha256": "2a672b3d1c81d39394bda97d56496f756d1160bc6a5b658e00c43c7ef7373498",
+    "generator": "scripts/generate-city-finance.py",
+    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "scenario": "designs/southeast-asia/Myanmar/Mandalay/mandalay.toml",
+    "scenario_sha256": "39ccbb57ef9fbc965e7a069ad0fa079bd1956e155f9e3e77ffbb45309275752f"
+  },
+  "status": "planning-screen"
+}

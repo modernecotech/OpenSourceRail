@@ -1,0 +1,91 @@
+{
+  "annual_opex_usd": {
+    "components": {
+      "civil_station_depot_maintenance": 7791011.34,
+      "labour": 1230768.0,
+      "residual_grid_energy": 0.0,
+      "rolling_stock_maintenance_including_battery_renewal_reserve": 5724000.0,
+      "signalling_maintenance": 159711.40000000002,
+      "solar_plant_maintenance": 603472.2026879998
+    },
+    "total": 15508962.942688
+  },
+  "capex_eur": {
+    "reconciled_project_total": 596486655.364864
+  },
+  "capex_usd": {
+    "authoritative_design_base": 608123580.0,
+    "reconciled_project_total": 648355060.1791999,
+    "risk_envelope_15_percent": 745608319.2060798,
+    "risk_envelope_25_percent": 810443825.224,
+    "timetable_sized_dedicated_solar": 40231480.179199986
+  },
+  "cases": {
+    "high_capacity_use": {
+      "annual_operating_cash_usd": 38160989.921312004,
+      "annual_paid_trips": 117313920.0,
+      "annual_public_support_usd": 0.0,
+      "annual_revenue_usd": 53669952.86400001,
+      "capacity_utilisation": 0.8,
+      "project_irr": 0.036617191146783565,
+      "project_npv_usd_at_8_percent": -225850382.26385203,
+      "steady_state_dscr": 1.2524180571820185
+    },
+    "low_capacity_use": {
+      "annual_operating_cash_usd": 18804193.121312004,
+      "annual_paid_trips": 73321200.0,
+      "annual_public_support_usd": 11665656.544681694,
+      "annual_revenue_usd": 34313156.064,
+      "capacity_utilisation": 0.5,
+      "project_irr": -0.0021798548343270425,
+      "project_npv_usd_at_8_percent": -355894052.1817602,
+      "steady_state_dscr": 0.6171409878106057
+    }
+  },
+  "city": "arusha",
+  "funding": {
+    "annual_debt_service_usd": 30469849.665993698,
+    "construction_grace_years": 7,
+    "debt_principal_usd": 518684048.14335996,
+    "debt_rate": 0.045,
+    "government_equity_share": 0.2,
+    "lender_commitment_status": "unconfirmed-placeholder",
+    "repayment_years": 33
+  },
+  "limitations": [
+    "No calibrated origin-destination or stated-preference ridership survey.",
+    "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
+    "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
+  ],
+  "operations_basis": {
+    "annual_train_km_including_non_revenue": 11710238.8338,
+    "energy_kwh_per_car_km_hot_climate_planning": 4.0,
+    "non_revenue_train_km_factor": 1.08,
+    "scheduled_train_km_per_day": 29706.339
+  },
+  "passed": true,
+  "renewal_policy": {
+    "field_asset_renewals": "included in fixed-asset maintenance allowance pending condition-based asset plan",
+    "train_battery_cycle_years": 12,
+    "treatment": "included in rolling-stock maintenance reserve; do not double-count as separate CAPEX"
+  },
+  "revenue_basis": {
+    "demand_status": "capacity-led-not-calibrated-od-forecast",
+    "nonfare_revenue_usd_per_year": 2051828.0639999998,
+    "operating_neutral_capacity_utilisation": 0.20856449056728227,
+    "operating_neutral_paid_trips_per_year": 30584397.451563634,
+    "practical_capacity_passenger_trips_per_day": 401760.0,
+    "single_trip_fare_usd": 0.44000000000000006
+  },
+  "schema_version": 1,
+  "sources": {
+    "design": "designs/east-africa/Tanzania/Arusha/design.toml",
+    "design_sha256": "c865d6690d5bdf623dde19d955c27aefcd47cd32cf3602e978e422cc83bcf16d",
+    "generator": "scripts/generate-city-finance.py",
+    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "scenario": "designs/east-africa/Tanzania/Arusha/arusha.toml",
+    "scenario_sha256": "d047d589fd0f7acfa157f4c0a4ba755170c90cf8466b044a8c3cb1deec35dcca"
+  },
+  "status": "planning-screen"
+}

@@ -1,0 +1,231 @@
+{
+  "bom_line_ids": [
+    "B8"
+  ],
+  "build_cell": "composite moulding and trim cell",
+  "children": [
+    "LM3-CWL-P010",
+    "LM3-CWL-P011",
+    "LM3-CWL-P012",
+    "LM3-CWL-P013",
+    "LM3-CWL-P014",
+    "LM3-CWL-P015",
+    "LM3-CWL-P016"
+  ],
+  "definition_type": "assembly-node",
+  "hold_points": [
+    "laminate coupon release",
+    "insert pull-out",
+    "trim/drill survey",
+    "A/B-end dry-build water test"
+  ],
+  "id": "LM3-CWL-SA710",
+  "integration_steps": [
+    {
+      "child_id": "LM3-CWL-P010",
+      "child_title": "end-cowl fiberglass laminate, insert, adhesive, and coupon material kit",
+      "interface_classes": [
+        "mechanical datum"
+      ],
+      "join_classes": [
+        "adhesive-bonded-panel",
+        "gasketed-removable-panel",
+        "bolted-structural-datum"
+      ],
+      "joint_release_status": "supplier-freeze-required",
+      "placement_zone": "side/end glazing aperture and bonded carrier datum",
+      "sequence": 1,
+      "torque_authority": "accepted supplier installation manual plus released OSR interface-control drawing",
+      "verification": [
+        "material batch trace",
+        "fire/smoke certificate",
+        "coupon layup record",
+        "adhesive shelf-life check"
+      ]
+    },
+    {
+      "child_id": "LM3-CWL-P011",
+      "child_title": "CWL-FRP-01 upper brow and roof-cap fiberglass cast",
+      "interface_classes": [
+        "mechanical datum"
+      ],
+      "join_classes": [
+        "adhesive-bonded-panel",
+        "bolted-structural-datum"
+      ],
+      "joint_release_status": "joint-calculation-required",
+      "placement_zone": "side/end glazing aperture and bonded carrier datum",
+      "sequence": 2,
+      "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
+      "verification": [
+        "mould release record",
+        "laminate coupon",
+        "trim-line gauge",
+        "roof-flange fit"
+      ]
+    },
+    {
+      "child_id": "LM3-CWL-P012",
+      "child_title": "CWL-FRP-02 left cheek fiberglass cast",
+      "interface_classes": [
+        "mechanical datum"
+      ],
+      "join_classes": [
+        "adhesive-bonded-panel",
+        "bolted-structural-datum"
+      ],
+      "joint_release_status": "joint-calculation-required",
+      "placement_zone": "side/end glazing aperture and bonded carrier datum",
+      "sequence": 3,
+      "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
+      "verification": [
+        "mould release record",
+        "laminate coupon",
+        "insert pull-out",
+        "split-gap gauge"
+      ]
+    },
+    {
+      "child_id": "LM3-CWL-P013",
+      "child_title": "CWL-FRP-03 right cheek fiberglass cast",
+      "interface_classes": [
+        "mechanical datum"
+      ],
+      "join_classes": [
+        "adhesive-bonded-panel",
+        "bolted-structural-datum"
+      ],
+      "joint_release_status": "joint-calculation-required",
+      "placement_zone": "side/end glazing aperture and bonded carrier datum",
+      "sequence": 4,
+      "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
+      "verification": [
+        "mould release record",
+        "laminate coupon",
+        "insert pull-out",
+        "split-gap gauge"
+      ]
+    },
+    {
+      "child_id": "LM3-CWL-P014",
+      "child_title": "CWL-FRP-04 lower apron and anti-climber cover fiberglass cast",
+      "interface_classes": [
+        "mechanical datum"
+      ],
+      "join_classes": [
+        "adhesive-bonded-panel",
+        "bolted-structural-datum"
+      ],
+      "joint_release_status": "joint-calculation-required",
+      "placement_zone": "side/end glazing aperture and bonded carrier datum",
+      "sequence": 5,
+      "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
+      "verification": [
+        "mould release record",
+        "laminate coupon",
+        "lamp pocket gauge",
+        "drain-path water test"
+      ]
+    },
+    {
+      "child_id": "LM3-CWL-P015",
+      "child_title": "CWL-FRP-05 lamp, washer, and service-hatch fiberglass cast set",
+      "interface_classes": [
+        "mechanical datum",
+        "fluid/thermal"
+      ],
+      "join_classes": [
+        "adhesive-bonded-panel",
+        "gasketed-removable-panel",
+        "bolted-structural-datum",
+        "fluid-thermal"
+      ],
+      "joint_release_status": "joint-calculation-required",
+      "placement_zone": "side/end glazing aperture and bonded carrier datum",
+      "sequence": 6,
+      "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
+      "verification": [
+        "mould release record",
+        "insert pull-out",
+        "gasket compression check",
+        "hatch removal trial"
+      ]
+    },
+    {
+      "child_id": "LM3-CWL-P016",
+      "child_title": "CWL-FRP-06 backing-ring flange fiberglass cast set",
+      "interface_classes": [
+        "mechanical datum"
+      ],
+      "join_classes": [
+        "adhesive-bonded-panel",
+        "bolted-structural-datum"
+      ],
+      "joint_release_status": "joint-calculation-required",
+      "placement_zone": "side/end glazing aperture and bonded carrier datum",
+      "sequence": 7,
+      "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
+      "verification": [
+        "mould release record",
+        "glass-carrier land survey",
+        "bond-line witness",
+        "A/B interchange check"
+      ]
+    }
+  ],
+  "layer": "subassembly",
+  "material_spec": {
+    "evidence_required": [
+      "child material certificates accepted",
+      "assembly traveler traceability",
+      "interface-control drawing revision"
+    ],
+    "finish_or_protection": "protect damaged coating, exposed edges, seals, bonds, and labels during assembly",
+    "form_factor": "fire-retardant fiberglass composite",
+    "governing_standard": "all child material standards plus assembly-level torque, bonding, coating, and cleanliness controls",
+    "grade_or_part_class": "LM3-CWL-SA710 inherits released child material specifications",
+    "material_family": "assembly material set",
+    "nominal_section": "as defined by child drawings and assembly interface control drawing",
+    "traceability": "child serial/heat/batch records plus assembly traveler traceability"
+  },
+  "maturity": "release-candidate",
+  "process_spec": {
+    "inspection_methods": [
+      "child acceptance evidence review",
+      "laminate coupon release",
+      "insert pull-out",
+      "trim/drill survey",
+      "A/B-end dry-build water test",
+      "water/leak test",
+      "bond/gasket witness check"
+    ],
+    "joining_methods": [
+      "bolted/torqued interfaces",
+      "shimmed datum interfaces as required",
+      "adhesive/bonded/gasketed sealing interfaces"
+    ],
+    "primary_processes": [
+      "release child kit",
+      "fixture or datum setup",
+      "install children",
+      "torque/fit-up record",
+      "release to parent"
+    ],
+    "release_level": "assembly traveler controlled; generated template is unsigned until build",
+    "special_process_controls": [
+      "child definition/revision check",
+      "tooling calibration check",
+      "parent interface freeze",
+      "surface preparation record",
+      "adhesive/sealant batch and cure record"
+    ],
+    "tooling_basis": "FIX-LM3-CWL-SA710, KIT-LM3-CWL-SA710, calibrated torque/gauge set"
+  },
+  "quantity_per_trainset": 2,
+  "source_refs": [
+    "end-cowl.md",
+    "sensor_cowl.py",
+    "LM3-BDY-155"
+  ],
+  "title": "front/back fiberglass cowl cast kit"
+}

@@ -1,0 +1,71 @@
+{
+  "acceptance": [
+    "write/read test",
+    "retention configuration",
+    "crashworthy certificate",
+    "download/recovery test"
+  ],
+  "bom_line_ids": [
+    "E9",
+    "E23"
+  ],
+  "definition_type": "product-item",
+  "id": "LM3-CTRL-P050",
+  "layer": "external-component",
+  "make_or_buy_basis": "Operational NVMe storage and the crashworthy memory module are separately serialized but released as one recorder kit.",
+  "material_spec": {
+    "evidence_required": [
+      "certificate of conformity",
+      "incoming inspection record",
+      "crash-energy evidence",
+      "bolt/torque evidence"
+    ],
+    "finish_or_protection": "supplier coating, preservation, and rescue/recovery labels",
+    "form_factor": "coupler head, draft gear, absorber, jumper hardware, and bolted mounting kit",
+    "governing_standard": "supplier crashworthiness specification plus project recovery and interface evidence",
+    "grade_or_part_class": "automatic coupler and crash-energy absorber kit",
+    "material_family": "supplier crash/coupler system",
+    "nominal_section": "coupler pocket envelope and load path frozen by RFQ drawing",
+    "traceability": "serialised coupler/absorber CoC, overhaul status, and proof evidence"
+  },
+  "maturity": "buildable-after-supplier-freeze",
+  "notes": "",
+  "parent": "LM3-SYS-SA900",
+  "process_spec": {
+    "inspection_methods": [
+      "incoming visual inspection",
+      "envelope fit check",
+      "write/read test",
+      "retention configuration",
+      "crashworthy certificate",
+      "download/recovery test"
+    ],
+    "joining_methods": [
+      "bolted/torqued installation",
+      "sealed, gasketed, bonded, or clipped interface as supplier envelope requires"
+    ],
+    "primary_processes": [
+      "receive",
+      "quarantine",
+      "evidence review",
+      "incoming fit check",
+      "release to parent kit"
+    ],
+    "release_level": "SOURCE supplier-controlled process; OSR controls envelope and acceptance evidence",
+    "special_process_controls": [
+      "RFQ envelope freeze",
+      "supplier certificate/revision check",
+      "incoming quarantine until evidence accepted"
+    ],
+    "tooling_basis": "RFQ-LM3-CTRL-P050, CERT-LM3-CTRL-P050, GAUGE-LM3-CTRL-P050-ENVELOPE"
+  },
+  "quantity_per_trainset": 1,
+  "route": "SOURCE",
+  "source_refs": [
+    "bom-skeleton.md E9/E23",
+    "systems.py",
+    "LM3-ELC-300"
+  ],
+  "title": "operational and crashworthy event-recorder storage kit",
+  "unit": "trainset kit"
+}

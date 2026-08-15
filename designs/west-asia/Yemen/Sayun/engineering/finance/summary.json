@@ -1,0 +1,91 @@
+{
+  "annual_opex_usd": {
+    "components": {
+      "civil_station_depot_maintenance": 3744398.62,
+      "labour": 344064.0,
+      "residual_grid_energy": 0.0,
+      "rolling_stock_maintenance_including_battery_renewal_reserve": 1724800.0,
+      "signalling_maintenance": 61002.65,
+      "solar_plant_maintenance": 90236.95248000002
+    },
+    "total": 5964502.22248
+  },
+  "capex_eur": {
+    "reconciled_project_total": 244473006.52544
+  },
+  "capex_usd": {
+    "authoritative_design_base": 259715732.0,
+    "reconciled_project_total": 265731528.832,
+    "risk_envelope_15_percent": 305591258.1568,
+    "risk_envelope_25_percent": 332164411.03999996,
+    "timetable_sized_dedicated_solar": 6015796.832000001
+  },
+  "cases": {
+    "high_capacity_use": {
+      "annual_operating_cash_usd": 11526244.17752,
+      "annual_paid_trips": 78209280.0,
+      "annual_public_support_usd": 1524690.6660446394,
+      "annual_revenue_usd": 17490746.4,
+      "capacity_utilisation": 0.8,
+      "project_irr": 0.013559872848893463,
+      "project_npv_usd_at_8_percent": -118204050.52075069,
+      "steady_state_dscr": 0.883173835106804
+    },
+    "low_capacity_use": {
+      "annual_operating_cash_usd": 5269501.77752,
+      "annual_paid_trips": 48880800.0,
+      "annual_public_support_usd": 7781433.066044639,
+      "annual_revenue_usd": 11234004.0,
+      "capacity_utilisation": 0.5,
+      "project_irr": -0.024628249726290557,
+      "project_npv_usd_at_8_percent": -150830033.57339838,
+      "steady_state_dscr": 0.4037643157890999
+    }
+  },
+  "city": "sayun",
+  "funding": {
+    "annual_debt_service_usd": 13050934.843564639,
+    "construction_grace_years": 10,
+    "debt_principal_usd": 212585223.0656,
+    "debt_rate": 0.045,
+    "government_equity_share": 0.2,
+    "lender_commitment_status": "unconfirmed-placeholder",
+    "repayment_years": 30
+  },
+  "limitations": [
+    "No calibrated origin-destination or stated-preference ridership survey.",
+    "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
+    "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
+  ],
+  "operations_basis": {
+    "annual_train_km_including_non_revenue": 4472776.5030000005,
+    "energy_kwh_per_car_km_hot_climate_planning": 4.0,
+    "non_revenue_train_km_factor": 1.08,
+    "scheduled_train_km_per_day": 11346.465
+  },
+  "passed": true,
+  "renewal_policy": {
+    "field_asset_renewals": "included in fixed-asset maintenance allowance pending condition-based asset plan",
+    "train_battery_cycle_years": 12,
+    "treatment": "included in rolling-stock maintenance reserve; do not double-count as separate CAPEX"
+  },
+  "revenue_basis": {
+    "demand_status": "capacity-led-not-calibrated-od-forecast",
+    "nonfare_revenue_usd_per_year": 806100.0,
+    "operating_neutral_capacity_utilisation": 0.24733648403744415,
+    "operating_neutral_paid_trips_per_year": 24180010.417875,
+    "practical_capacity_passenger_trips_per_day": 267840.0,
+    "single_trip_fare_usd": 0.21333333333333335
+  },
+  "schema_version": 1,
+  "sources": {
+    "design": "designs/west-asia/Yemen/Sayun/design.toml",
+    "design_sha256": "af237d220056176edccc64330f9b9cd3ce76d9fbff40a33c3a66b2eb383ad215",
+    "generator": "scripts/generate-city-finance.py",
+    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "scenario": "designs/west-asia/Yemen/Sayun/sayun.toml",
+    "scenario_sha256": "347bf1164f08743a04da22fbd4103cb8ff6726a23391495992940b6da2c892c7"
+  },
+  "status": "planning-screen"
+}

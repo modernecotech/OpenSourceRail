@@ -1,0 +1,96 @@
+schema_version = 1
+manifest_version = "0.2.0"
+
+[defaults]
+log_format = "json-lines"
+log_sink = "journald-and-event-recorder"
+log_rotation_mib = 64
+update_strategy = "signed-a-b"
+signature_algorithm = "ed25519"
+rollback_trigger = "selftest-or-watchdog-failure"
+rollback_timeout_seconds = 120
+
+[[host]]
+id = "t-ecu-s"
+hardware_class = "T-ECU/S"
+criticality = "SIL-4-target"
+config = "deployment/config/t-ecu-s.toml"
+selftest = ["osr-selftest", "--role", "t-ecu-s", "--json"]
+services = [
+  "osr-core", "osr-crypto", "osr-secbus", "osr-tcn", "osr-ptp",
+  "osr-atp", "osr-odometry", "osr-traction", "osr-bms", "osr-brake",
+  "osr-door-control", "osr-fire-safety", "osr-derailment",
+]
+startup_order = [
+  ["osr-core", "osr-crypto"],
+  ["osr-secbus", "osr-ptp", "osr-tcn"],
+  ["osr-odometry", "osr-bms", "osr-door-control", "osr-fire-safety", "osr-derailment"],
+  ["osr-atp", "osr-traction", "osr-brake"],
+]
+
+[[host]]
+id = "t-ecu-a"
+hardware_class = "T-ECU/A"
+criticality = "SIL-2-target"
+config = "deployment/config/t-ecu-a.toml"
+selftest = ["osr-selftest", "--role", "t-ecu-a", "--json"]
+services = [
+  "osr-core", "osr-crypto", "osr-secbus", "osr-tcn", "osr-ptp", "osr-t2g",
+  "osr-ato", "osr-tcms", "osr-regen", "osr-aux-power", "osr-hvac",
+  "osr-lighting", "osr-pis-onboard", "osr-hot-axle", "osr-cbm-onboard",
+  "osr-event-recorder", "osr-passenger-assist",
+]
+startup_order = [
+  ["osr-core", "osr-crypto"],
+  ["osr-secbus", "osr-ptp", "osr-tcn", "osr-t2g"],
+  ["osr-tcms", "osr-event-recorder"],
+  ["osr-ato", "osr-regen", "osr-aux-power", "osr-hvac", "osr-lighting", "osr-pis-onboard", "osr-hot-axle", "osr-cbm-onboard", "osr-passenger-assist"],
+]
+
+[[host]]
+id = "t-obs"
+hardware_class = "T-OBS"
+criticality = "SIL-4-target"
+config = "deployment/config/t-obs.toml"
+selftest = ["osr-selftest", "--role", "t-obs", "--json"]
+services = ["osr-core", "osr-crypto", "osr-secbus", "osr-tcn", "osr-ptp", "osr-obstacle-detect"]
+startup_order = [
+  ["osr-core", "osr-crypto"],
+  ["osr-secbus", "osr-ptp", "osr-tcn"],
+  ["osr-obstacle-detect"],
+]
+
+[[host]]
+id = "w-sbc"
+hardware_class = "W-SBC"
+criticality = "SIL-4-target"
+config = "deployment/config/w-sbc.toml"
+selftest = ["osr-selftest", "--role", "w-sbc", "--json"]
+services = [
+  "osr-core", "osr-crypto", "osr-secbus", "osr-ptp", "osr-consensus",
+  "osr-interlocking", "osr-wayside-points", "osr-balise", "osr-level-crossing",
+  "osr-hot-axle-wayside", "osr-intrusion-detect", "osr-energy-site",
+]
+startup_order = [
+  ["osr-core", "osr-crypto"],
+  ["osr-secbus", "osr-ptp"],
+  ["osr-consensus"],
+  ["osr-intrusion-detect", "osr-balise", "osr-hot-axle-wayside", "osr-energy-site"],
+  ["osr-interlocking", "osr-wayside-points", "osr-level-crossing"],
+]
+
+[[host]]
+id = "s-sbc"
+hardware_class = "S-SBC"
+criticality = "SIL-2-target"
+config = "deployment/config/s-sbc.toml"
+selftest = ["osr-selftest", "--role", "s-sbc", "--json"]
+services = [
+  "osr-core", "osr-crypto", "osr-secbus", "osr-ptp", "osr-psd", "osr-afc",
+  "osr-tvm", "osr-pis-station", "osr-station-scada",
+]
+startup_order = [
+  ["osr-core", "osr-crypto"],
+  ["osr-secbus", "osr-ptp"],
+  ["osr-psd", "osr-afc", "osr-tvm", "osr-pis-station", "osr-station-scada"],
+]

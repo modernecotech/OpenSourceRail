@@ -1,0 +1,91 @@
+{
+  "annual_opex_usd": {
+    "components": {
+      "civil_station_depot_maintenance": 3269149.0,
+      "labour": 417648.0,
+      "residual_grid_energy": 0.0,
+      "rolling_stock_maintenance_including_battery_renewal_reserve": 1388800.0,
+      "signalling_maintenance": 45670.3,
+      "solar_plant_maintenance": 33000.93478892309
+    },
+    "total": 5154268.2347889235
+  },
+  "capex_eur": {
+    "reconciled_project_total": 206957292.05372062
+  },
+  "capex_usd": {
+    "authoritative_design_base": 222753516.0,
+    "reconciled_project_total": 224953578.31926155,
+    "risk_envelope_15_percent": 258696615.06715077,
+    "risk_envelope_25_percent": 281191972.89907694,
+    "timetable_sized_dedicated_solar": 2200062.3192615397
+  },
+  "cases": {
+    "high_capacity_use": {
+      "annual_operating_cash_usd": 18524182.165211078,
+      "annual_paid_trips": 78209280.0,
+      "annual_public_support_usd": 0.0,
+      "annual_revenue_usd": 23678450.400000002,
+      "capacity_utilisation": 0.8,
+      "project_irr": 0.0503989521993207,
+      "project_npv_usd_at_8_percent": -54350742.68390335,
+      "steady_state_dscr": 1.6766700318664702
+    },
+    "low_capacity_use": {
+      "annual_operating_cash_usd": 9921161.365211077,
+      "annual_paid_trips": 48880800.0,
+      "annual_public_support_usd": 1127036.439451743,
+      "annual_revenue_usd": 15075429.6,
+      "capacity_utilisation": 0.5,
+      "project_irr": 0.014444169341554642,
+      "project_npv_usd_at_8_percent": -99211469.38129392,
+      "steady_state_dscr": 0.8979891146612089
+    }
+  },
+  "city": "waw",
+  "funding": {
+    "annual_debt_service_usd": 11048197.80466282,
+    "construction_grace_years": 10,
+    "debt_principal_usd": 179962862.65540925,
+    "debt_rate": 0.045,
+    "government_equity_share": 0.2,
+    "lender_commitment_status": "unconfirmed-placeholder",
+    "repayment_years": 30
+  },
+  "limitations": [
+    "No calibrated origin-destination or stated-preference ridership survey.",
+    "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
+    "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
+  ],
+  "operations_basis": {
+    "annual_train_km_including_non_revenue": 3348597.5343000004,
+    "energy_kwh_per_car_km_hot_climate_planning": 4.0,
+    "non_revenue_train_km_factor": 1.08,
+    "scheduled_train_km_per_day": 8494.6665
+  },
+  "passed": true,
+  "renewal_policy": {
+    "field_asset_renewals": "included in fixed-asset maintenance allowance pending condition-based asset plan",
+    "train_battery_cycle_years": 12,
+    "treatment": "included in rolling-stock maintenance reserve; do not double-count as separate CAPEX"
+  },
+  "revenue_basis": {
+    "demand_status": "capacity-led-not-calibrated-od-forecast",
+    "nonfare_revenue_usd_per_year": 737061.6000000001,
+    "operating_neutral_capacity_utilisation": 0.15403449802616737,
+    "operating_neutral_paid_trips_per_year": 15058658.982234964,
+    "practical_capacity_passenger_trips_per_day": 267840.0,
+    "single_trip_fare_usd": 0.29333333333333333
+  },
+  "schema_version": 1,
+  "sources": {
+    "design": "designs/north-africa/Sudan/Waw/design.toml",
+    "design_sha256": "083c655fdb8fe773f2bb250a548b69b6f65bf083304a8203aa8ad4b2bd67b06e",
+    "generator": "scripts/generate-city-finance.py",
+    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "scenario": "designs/north-africa/Sudan/Waw/waw.toml",
+    "scenario_sha256": "f4fe910d5366e63044f0d7764f601dbca962bd505f9f33125daf0e6f8b2b8272"
+  },
+  "status": "planning-screen"
+}

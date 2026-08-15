@@ -1,0 +1,227 @@
+[schema]
+version = 1
+description = "Maintenance intervals for OSR rolling stock, stations, infrastructure, energy, and systems."
+
+[policy]
+condition_based_escalation = "Amber defects are scheduled within 7 days; red defects hold the asset out of service or isolate the affected railway section until rectified."
+record_system = "Every task produces a signed work order, asset id, date/time, finding code, defect severity, parts used, and return-to-service authority."
+
+[[maintenance_interval]]
+id = "rs-daily"
+domain = "rolling-stock"
+asset = "complete trainset"
+cadence = "daily / each depot return"
+trigger = "calendar"
+scope = "walk-around, wheel/tread visual, doors, HVAC, coupler face, saloon damage, emergency equipment, fault-log download"
+evidence = "daily inspection work order"
+owner = "fleet maintenance"
+
+[[maintenance_interval]]
+id = "rs-turnaround-service"
+domain = "rolling-stock"
+asset = "complete trainset"
+cadence = "once per round trip"
+trigger = "arrival at designated line service depot"
+scope = "12-minute concurrent interior clean, exterior/running-gear walk-around, door/coupler/emergency-equipment safety release check, fault-log download, and 150 kW low-C recharge"
+evidence = "depot service start/complete event and signed release exception when a defect is found"
+owner = "depot service team"
+
+[[maintenance_interval]]
+id = "rs-weekly"
+domain = "rolling-stock"
+asset = "wheels, brakes, battery, underframe harness"
+cadence = "7 days"
+trigger = "calendar"
+scope = "wheel wear, brake pad thickness, BMS cell spread, under-car chafe, roof/PV cleaner, door obstruction sensors"
+evidence = "weekly inspection measurements"
+owner = "fleet maintenance"
+
+[[maintenance_interval]]
+id = "rs-monthly"
+domain = "rolling-stock"
+asset = "traction, BMS, HVAC, passenger systems"
+cadence = "30 days"
+trigger = "calendar"
+scope = "BMS deep scan, motor-bearing vibration, inverter thermal log, HVAC filters, passenger information, CCTV, firmware inventory"
+evidence = "monthly A-class service report"
+owner = "fleet maintenance"
+
+[[maintenance_interval]]
+id = "rs-wheel-reprofile"
+domain = "rolling-stock"
+asset = "wheelsets"
+cadence = "150,000 km or wear limit"
+trigger = "km / condition"
+scope = "wheel profile measurement, lathe reprofiling, post-lathe inspection"
+evidence = "wheel profile before/after record"
+owner = "main-heavy depot"
+
+[[maintenance_interval]]
+id = "rs-bogie-overhaul"
+domain = "rolling-stock"
+asset = "bogies"
+cadence = "600,000 km"
+trigger = "km"
+scope = "bogie strip, frame inspection, bearing renewal, suspension check, brake rigging overhaul"
+evidence = "bogie overhaul dossier"
+owner = "main-heavy depot"
+
+[[maintenance_interval]]
+id = "rs-body-overhaul"
+domain = "rolling-stock"
+asset = "carbody and interior"
+cadence = "10 years"
+trigger = "calendar"
+scope = "corrosion inspection, interior refurbishment, cable replacement, HVAC renewal, paint/body repairs"
+evidence = "body overhaul acceptance record"
+owner = "main-heavy depot"
+
+[[maintenance_interval]]
+id = "station-daily"
+domain = "stations"
+asset = "platforms, public areas, ticketing, passenger information"
+cadence = "daily"
+trigger = "calendar"
+scope = "cleaning, lighting, platform edge inspection, PA/PIS/fare equipment check, CCTV status, emergency equipment check"
+evidence = "station opening/closing checklist"
+owner = "station operations"
+
+[[maintenance_interval]]
+id = "station-weekly"
+domain = "stations"
+asset = "canopy, drainage, accessibility, chargers"
+cadence = "7 days"
+trigger = "calendar"
+scope = "canopy/fixing visual, platform drainage, ramps/tactiles, charger cabinet visual, fire extinguishers, signage"
+evidence = "weekly station inspection"
+owner = "station maintenance"
+
+[[maintenance_interval]]
+id = "station-monthly"
+domain = "stations"
+asset = "building services and safety systems"
+cadence = "30 days"
+trigger = "calendar"
+scope = "emergency lighting, fire alarm, UPS, lift/escalator where fitted, access control, public Wi-Fi/comms cabinets"
+evidence = "monthly station systems test"
+owner = "station maintenance"
+
+[[maintenance_interval]]
+id = "station-annual"
+domain = "stations"
+asset = "structures and accessibility"
+cadence = "12 months"
+trigger = "calendar"
+scope = "structural survey, canopy PV fixings, drainage capacity, accessibility audit, passenger-flow and wayfinding review"
+evidence = "annual station condition report"
+owner = "owner engineer"
+
+[[maintenance_interval]]
+id = "track-weekly"
+domain = "track-civil"
+asset = "track, fasteners, drainage, fence"
+cadence = "7 days"
+trigger = "calendar"
+scope = "visual walk for rail damage, fasteners, slab cracking, drainage blockages, fence/gate damage, vegetation"
+evidence = "track walk log"
+owner = "maintenance of way"
+
+[[maintenance_interval]]
+id = "track-geometry"
+domain = "track-civil"
+asset = "track geometry"
+cadence = "60-90 days by preset"
+trigger = "calendar"
+scope = "geometry recording run, trend comparison, gauge/cant/alignment/twist defect classification"
+evidence = "geometry report and defect register"
+owner = "maintenance of way"
+
+[[maintenance_interval]]
+id = "switch-monthly"
+domain = "track-civil"
+asset = "turnouts, point machines, crossings"
+cadence = "30 days"
+trigger = "calendar"
+scope = "point closure, detection, lubrication, bolt torque, weld cracks, stretcher/drive inspection"
+evidence = "switch inspection and functional test"
+owner = "maintenance of way"
+
+[[maintenance_interval]]
+id = "structures-annual"
+domain = "structures"
+asset = "viaducts, bridges, bearings, expansion joints"
+cadence = "12 months"
+trigger = "calendar"
+scope = "visual structure inspection, bearing/joint survey, parapets, walkways, drainage, scour check for water crossings"
+evidence = "annual structures inspection"
+owner = "civil structures engineer"
+
+[[maintenance_interval]]
+id = "energy-daily"
+domain = "energy"
+asset = "PV, BESS, chargers, grid/PPA interface"
+cadence = "daily remote"
+trigger = "calendar / telemetry"
+scope = "SCADA alarm review, charger availability, battery SOC/temperature, PV yield anomaly, grid import/export"
+evidence = "daily energy dashboard signoff"
+owner = "energy operations"
+
+[[maintenance_interval]]
+id = "energy-monthly"
+domain = "energy"
+asset = "chargers, BESS, PV, earthing"
+cadence = "30 days"
+trigger = "calendar"
+scope = "charger load test sample, BESS thermal inspection, PV soiling/cleaning, cabinet seals, protection status"
+evidence = "monthly energy maintenance report"
+owner = "energy maintenance"
+
+[[maintenance_interval]]
+id = "energy-annual"
+domain = "energy"
+asset = "electrical protection and isolation"
+cadence = "12 months"
+trigger = "calendar"
+scope = "protection relay test, earthing resistance, emergency isolation drill, battery capacity sample, PV string insulation"
+evidence = "annual electrical safety certificate"
+owner = "energy systems lead"
+
+[[maintenance_interval]]
+id = "systems-daily"
+domain = "signalling-comms"
+asset = "OCC, W-SBCs, train comms, passenger/security systems"
+cadence = "daily remote"
+trigger = "calendar / telemetry"
+scope = "health dashboard, radio coverage alarms, time sync, message-authentication failures, CCTV/fare/PIS fault queue"
+evidence = "daily systems health report"
+owner = "systems operations"
+
+[[maintenance_interval]]
+id = "systems-monthly"
+domain = "signalling-comms"
+asset = "switch controls, sensors, comms cabinets"
+cadence = "30 days"
+trigger = "calendar"
+scope = "switch proof test, sensor calibration sample, comms cabinet inspection, backup link test, UPS test"
+evidence = "monthly systems maintenance report"
+owner = "systems maintenance"
+
+[[maintenance_interval]]
+id = "systems-quarterly"
+domain = "signalling-comms"
+asset = "software, cybersecurity, degraded modes"
+cadence = "90 days"
+trigger = "calendar"
+scope = "firmware inventory, vulnerability review, backup restore test, degraded-mode drill, simulator replay of safety scenarios"
+evidence = "quarterly assurance report"
+owner = "systems assurance"
+
+[[maintenance_interval]]
+id = "depot-tooling"
+domain = "depots-production"
+asset = "depot tools, production plant fixtures, calibration equipment"
+cadence = "30-180 days by tool criticality"
+trigger = "calendar / usage"
+scope = "tool calibration, lifting equipment inspection, pit/stinger checks, wheel-lathe calibration, welding fixture survey"
+evidence = "tool calibration and workshop safety register"
+owner = "depot workshop manager"

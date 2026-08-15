@@ -1,0 +1,208 @@
+{
+  "bom_line_ids": [
+    "B1"
+  ],
+  "document_revision": "A-DRAFT",
+  "estimated_labor_hours": 3.95,
+  "id": "LM3-BDY-P080",
+  "material_spec": {
+    "evidence_required": [
+      "mill certificate",
+      "coating/passivation record",
+      "bonding continuity record"
+    ],
+    "finish_or_protection": "zinc/paint/stainless passivation, orange HV marking, edge protection, and sealing as applicable",
+    "form_factor": "laser-cut, folded, drilled sheet/plate with inserts, studs, clips, and labels",
+    "governing_standard": "EN 10025 / EN 10088 certificate as applicable plus project bonding/corrosion evidence",
+    "grade_or_part_class": "S355 or 304/316 stainless local bracket/tray candidate, selected by exposure zone",
+    "material_family": "formed sheet metal / stainless local hardware",
+    "nominal_section": "thickness, stainless grade, and galvanic isolation frozen by v2A controlled drawing",
+    "traceability": "heat number, coating batch, bonding test, and installation batch traceability"
+  },
+  "operations": [
+    {
+      "labor_hours": 0.35,
+      "qa_gate": "traveler rev and parent assembly match released manifest",
+      "sequence": 10,
+      "signoff_role": "cell lead",
+      "title": "release traveler, revision, material/certificate pack, and parent interface",
+      "tooling_ids": [
+        "TRV-LM3-BDY-P080",
+        "DOC-LM3-ROOF-SA410"
+      ],
+      "work_center": "production control"
+    },
+    {
+      "labor_hours": 1.8,
+      "qa_gate": "fabricated geometry matches datum/gauge requirements",
+      "sequence": 20,
+      "signoff_role": "operator",
+      "title": "cut, form, machine, or fabricate local hardware",
+      "tooling_ids": [
+        "FIX-LM3-BDY-FAB",
+        "GAUGE-LM3-BDY-P080-DATUM"
+      ],
+      "work_center": "fabrication cell"
+    },
+    {
+      "labor_hours": 0.8,
+      "qa_gate": "fit-up evidence recorded before release to assembly",
+      "sequence": 30,
+      "signoff_role": "operator",
+      "title": "trial-fit to parent interface and record shim/adjustment pack",
+      "tooling_ids": [
+        "FIX-LM3-ROOF-SA410",
+        "TORQUE-LM3-BDY-P080"
+      ],
+      "work_center": "fit-up cell"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "roof rail pitch",
+      "sequence": 40,
+      "signoff_role": "quality inspector",
+      "title": "verify acceptance gate: roof rail pitch",
+      "tooling_ids": [
+        "QA-LM3-BDY-P080"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "HVAC curb gauge",
+      "sequence": 50,
+      "signoff_role": "quality inspector",
+      "title": "verify acceptance gate: HVAC curb gauge",
+      "tooling_ids": [
+        "GAUGE-LM3-BDY-P080"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "PV clamp pull test",
+      "sequence": 60,
+      "signoff_role": "quality inspector",
+      "title": "verify acceptance gate: PV clamp pull test",
+      "tooling_ids": [
+        "QA-LM3-BDY-P080"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "item is released, tagged, and staged for parent assembly",
+      "sequence": 70,
+      "signoff_role": "cell lead",
+      "title": "final item release to parent assembly",
+      "tooling_ids": [
+        "REL-LM3-BDY-P080",
+        "KIT-LM3-ROOF-SA410"
+      ],
+      "work_center": "production control"
+    }
+  ],
+  "parent": "LM3-ROOF-SA410",
+  "process_spec": {
+    "inspection_methods": [
+      "dimensional inspection",
+      "visual inspection",
+      "bond-land inspection",
+      "water/leak test where applicable",
+      "bond continuity",
+      "insulation/isolation check where applicable",
+      "roof rail pitch",
+      "HVAC curb gauge",
+      "PV clamp pull test"
+    ],
+    "joining_methods": [
+      "fixture tack and weld where structural",
+      "bolted/torqued installation to parent datum",
+      "adhesive bonding or gasketed interface preparation",
+      "bonding/earthing hardware",
+      "segregated clipped service routing"
+    ],
+    "primary_processes": [
+      "cut",
+      "form",
+      "drill/machine",
+      "de-burr",
+      "trial fit"
+    ],
+    "release_level": "v2A drawing-controlled MAKE process; generated traveler is unsigned until build",
+    "special_process_controls": [
+      "released drawing/revision check",
+      "material certificate check",
+      "datum gauge before parent release",
+      "surface-preparation record",
+      "adhesive batch/pot-life record",
+      "bond coupon where required",
+      "HV/LV segregation check",
+      "bend-radius check",
+      "label/revision check"
+    ],
+    "tooling_basis": "FIX-LM3-BDY-FAB plus GAUGE-LM3-BDY-P080-DATUM"
+  },
+  "quantity_per_trainset": 3,
+  "release_status": "unsigned-template",
+  "revision_approvals": [
+    {
+      "approval_id": "APP-LM3-BDY-P080-MFG",
+      "date": "",
+      "name": "",
+      "role": "manufacturing engineering",
+      "signature": "",
+      "status": "pending"
+    },
+    {
+      "approval_id": "APP-LM3-BDY-P080-QA",
+      "date": "",
+      "name": "",
+      "role": "quality",
+      "signature": "",
+      "status": "pending"
+    },
+    {
+      "approval_id": "APP-LM3-BDY-P080-DA",
+      "date": "",
+      "name": "",
+      "role": "design authority",
+      "signature": "",
+      "status": "pending"
+    }
+  ],
+  "route": "MAKE",
+  "signoff_blocks": [
+    {
+      "date": "",
+      "name": "",
+      "role": "operator",
+      "signature": "",
+      "status": "blank"
+    },
+    {
+      "date": "",
+      "name": "",
+      "role": "cell lead",
+      "signature": "",
+      "status": "blank"
+    },
+    {
+      "date": "",
+      "name": "",
+      "role": "quality inspector",
+      "signature": "",
+      "status": "blank"
+    },
+    {
+      "date": "",
+      "name": "",
+      "role": "manufacturing engineer",
+      "signature": "",
+      "status": "blank"
+    }
+  ],
+  "title": "roof bow, HVAC rail, PV rail, and cable-tray bracket kit",
+  "traveler_type": "product-item",
+  "unit": "kit"
+}

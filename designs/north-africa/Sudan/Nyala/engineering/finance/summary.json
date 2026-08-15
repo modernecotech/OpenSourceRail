@@ -1,0 +1,91 @@
+{
+  "annual_opex_usd": {
+    "components": {
+      "civil_station_depot_maintenance": 6886426.84,
+      "labour": 667128.0,
+      "residual_grid_energy": 0.0,
+      "rolling_stock_maintenance_including_battery_renewal_reserve": 4320000.0,
+      "signalling_maintenance": 116702.75,
+      "solar_plant_maintenance": 462112.27031999995
+    },
+    "total": 12452369.86032
+  },
+  "capex_eur": {
+    "reconciled_project_total": 500171118.91296
+  },
+  "capex_usd": {
+    "authoritative_design_base": 512856775.0,
+    "reconciled_project_total": 543664259.688,
+    "risk_envelope_15_percent": 625213898.6412,
+    "risk_envelope_25_percent": 679580324.6099999,
+    "timetable_sized_dedicated_solar": 30807484.687999997
+  },
+  "cases": {
+    "high_capacity_use": {
+      "annual_operating_cash_usd": 23013205.33968,
+      "annual_paid_trips": 117313920.0,
+      "annual_public_support_usd": 3687904.8415235244,
+      "annual_revenue_usd": 35465575.2,
+      "capacity_utilisation": 0.8,
+      "project_irr": 0.012268861867842077,
+      "project_npv_usd_at_8_percent": -244800049.4541884,
+      "steady_state_dscr": 0.8618819660869511
+    },
+    "low_capacity_use": {
+      "annual_operating_cash_usd": 10108674.13968,
+      "annual_paid_trips": 73321200.0,
+      "annual_public_support_usd": 16592436.041523525,
+      "annual_revenue_usd": 22561044.0,
+      "capacity_utilisation": 0.5,
+      "project_irr": -0.027512611099991827,
+      "project_npv_usd_at_8_percent": -312091139.50027424,
+      "steady_state_dscr": 0.378586286153603
+    }
+  },
+  "city": "nyala",
+  "funding": {
+    "annual_debt_service_usd": 26701110.181203526,
+    "construction_grace_years": 10,
+    "debt_principal_usd": 434931407.7504,
+    "debt_rate": 0.045,
+    "government_equity_share": 0.2,
+    "lender_commitment_status": "unconfirmed-placeholder",
+    "repayment_years": 30
+  },
+  "limitations": [
+    "No calibrated origin-destination or stated-preference ridership survey.",
+    "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
+    "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
+  ],
+  "operations_basis": {
+    "annual_train_km_including_non_revenue": 8556767.343,
+    "energy_kwh_per_car_km_hot_climate_planning": 4.0,
+    "non_revenue_train_km_factor": 1.08,
+    "scheduled_train_km_per_day": 21706.665
+  },
+  "passed": true,
+  "renewal_policy": {
+    "field_asset_renewals": "included in fixed-asset maintenance allowance pending condition-based asset plan",
+    "train_battery_cycle_years": 12,
+    "treatment": "included in rolling-stock maintenance reserve; do not double-count as separate CAPEX"
+  },
+  "revenue_basis": {
+    "demand_status": "capacity-led-not-calibrated-od-forecast",
+    "nonfare_revenue_usd_per_year": 1053492.0,
+    "operating_neutral_capacity_utilisation": 0.26499710102572344,
+    "operating_neutral_paid_trips_per_year": 38859810.88745455,
+    "practical_capacity_passenger_trips_per_day": 401760.0,
+    "single_trip_fare_usd": 0.29333333333333333
+  },
+  "schema_version": 1,
+  "sources": {
+    "design": "designs/north-africa/Sudan/Nyala/design.toml",
+    "design_sha256": "be2d4208a0df4a43e183beca8fab4e81689945c6ed12398913bc736a1b85dc53",
+    "generator": "scripts/generate-city-finance.py",
+    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "scenario": "designs/north-africa/Sudan/Nyala/nyala.toml",
+    "scenario_sha256": "fa1251bafef2f4fc7a6aeb2ff7a5ad656e5da73a8bd3723463d6a30d6ae34c98"
+  },
+  "status": "planning-screen"
+}

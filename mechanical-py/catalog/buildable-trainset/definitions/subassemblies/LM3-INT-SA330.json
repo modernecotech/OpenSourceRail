@@ -1,0 +1,218 @@
+{
+  "bom_line_ids": [],
+  "build_cell": "final assembly and commissioning cell",
+  "children": [
+    "LM3-EXT-P060",
+    "LM3-INT-P010",
+    "LM3-INT-P020",
+    "LM3-INT-P030",
+    "LM3-INT-P040",
+    "LM3-INT-P050"
+  ],
+  "definition_type": "assembly-node",
+  "hold_points": [
+    "egress check",
+    "fire-material pack",
+    "liner/trim fit survey",
+    "lighting/PIS/CCTV static test"
+  ],
+  "id": "LM3-INT-SA330",
+  "integration_steps": [
+    {
+      "child_id": "LM3-EXT-P060",
+      "child_title": "seats, grab rails, flooring, lighting, PIS, CCTV, intercom, signage kit",
+      "interface_classes": [
+        "mechanical datum",
+        "low-voltage/data"
+      ],
+      "join_classes": [
+        "bolted-structural-datum",
+        "electrical-data"
+      ],
+      "joint_release_status": "supplier-freeze-required",
+      "placement_zone": "saloon interior, PRM aisle, ceiling, and service-panel zone",
+      "sequence": 1,
+      "torque_authority": "accepted supplier installation manual plus released OSR interface-control drawing",
+      "verification": [
+        "fire certificates",
+        "egress gauge",
+        "lighting lux test",
+        "network enumeration"
+      ]
+    },
+    {
+      "child_id": "LM3-INT-P010",
+      "child_title": "HVAC diffusers, side return ducts, saloon grilles, and access panels",
+      "interface_classes": [
+        "mechanical datum",
+        "high-voltage electrical",
+        "fluid/thermal"
+      ],
+      "join_classes": [
+        "gasketed-removable-panel",
+        "bolted-structural-datum",
+        "electrical-data",
+        "fluid-thermal"
+      ],
+      "joint_release_status": "supplier-freeze-required",
+      "placement_zone": "roof equipment rail, curb, and service-access zone",
+      "sequence": 2,
+      "torque_authority": "accepted supplier installation manual plus released OSR interface-control drawing",
+      "verification": [
+        "airflow balance",
+        "rattle check",
+        "access-panel removal",
+        "fire-material certificate"
+      ]
+    },
+    {
+      "child_id": "LM3-INT-P020",
+      "child_title": "FRP/phenolic ceiling liner, light trough, and HVAC plenum cover set",
+      "interface_classes": [
+        "mechanical datum",
+        "high-voltage electrical",
+        "fluid/thermal"
+      ],
+      "join_classes": [
+        "gasketed-removable-panel",
+        "bolted-structural-datum",
+        "electrical-data",
+        "fluid-thermal"
+      ],
+      "joint_release_status": "joint-calculation-required",
+      "placement_zone": "roof equipment rail, curb, and service-access zone",
+      "sequence": 3,
+      "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
+      "verification": [
+        "fire-material certificate",
+        "trim-line gauge",
+        "fastener insert pull-out",
+        "rattle check"
+      ]
+    },
+    {
+      "child_id": "LM3-INT-P030",
+      "child_title": "FRP/phenolic sidewall liner, window reveal, and cable-cover panel set",
+      "interface_classes": [
+        "mechanical datum"
+      ],
+      "join_classes": [
+        "adhesive-bonded-panel",
+        "bolted-structural-datum"
+      ],
+      "joint_release_status": "joint-calculation-required",
+      "placement_zone": "side/end glazing aperture and bonded carrier datum",
+      "sequence": 4,
+      "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
+      "verification": [
+        "fire-material certificate",
+        "window-reveal gauge",
+        "access-panel removal",
+        "edge-radius inspection"
+      ]
+    },
+    {
+      "child_id": "LM3-INT-P040",
+      "child_title": "FRP battery strake covers, seat-base fairings, and service-hatch shells",
+      "interface_classes": [
+        "mechanical datum",
+        "high-voltage electrical"
+      ],
+      "join_classes": [
+        "gasketed-removable-panel",
+        "bolted-structural-datum",
+        "electrical-data"
+      ],
+      "joint_release_status": "joint-calculation-required",
+      "placement_zone": "under-seat HV bay, side-pin dock zone, and segregated cable route",
+      "sequence": 5,
+      "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
+      "verification": [
+        "fire-material certificate",
+        "service-hatch removal",
+        "HV warning label check",
+        "sharp-edge inspection"
+      ]
+    },
+    {
+      "child_id": "LM3-INT-P050",
+      "child_title": "FRP vestibule kick panels, PRM ramp/step covers, and door-pocket trims",
+      "interface_classes": [
+        "mechanical datum",
+        "safety interlock"
+      ],
+      "join_classes": [
+        "bolted-structural-datum"
+      ],
+      "joint_release_status": "joint-calculation-required",
+      "placement_zone": "side door aperture and low-floor threshold datum",
+      "sequence": 6,
+      "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
+      "verification": [
+        "fire-material certificate",
+        "PRM transition gauge",
+        "anti-slip witness",
+        "kick-panel retention test"
+      ]
+    }
+  ],
+  "layer": "subassembly",
+  "material_spec": {
+    "evidence_required": [
+      "child material certificates accepted",
+      "assembly traveler traceability",
+      "interface-control drawing revision"
+    ],
+    "finish_or_protection": "protect damaged coating, exposed edges, seals, bonds, and labels during assembly",
+    "form_factor": "rail-rated electrical / control equipment, supplier HVAC and air-distribution kit, fire-rated cabin fiberglass / phenolic composite",
+    "governing_standard": "all child material standards plus assembly-level torque, bonding, coating, and cleanliness controls",
+    "grade_or_part_class": "LM3-INT-SA330 inherits released child material specifications",
+    "material_family": "assembly material set",
+    "nominal_section": "as defined by child drawings and assembly interface control drawing",
+    "traceability": "child serial/heat/batch records plus assembly traveler traceability"
+  },
+  "maturity": "release-candidate",
+  "process_spec": {
+    "inspection_methods": [
+      "child acceptance evidence review",
+      "egress check",
+      "fire-material pack",
+      "liner/trim fit survey",
+      "lighting/PIS/CCTV static test",
+      "continuity",
+      "insulation/isolation",
+      "functional static test"
+    ],
+    "joining_methods": [
+      "bolted/torqued interfaces",
+      "shimmed datum interfaces as required",
+      "bonding/earthing",
+      "segregated harness/fluid routing"
+    ],
+    "primary_processes": [
+      "release child kit",
+      "fixture or datum setup",
+      "install children",
+      "torque/fit-up record",
+      "release to parent"
+    ],
+    "release_level": "assembly traveler controlled; generated template is unsigned until build",
+    "special_process_controls": [
+      "child definition/revision check",
+      "tooling calibration check",
+      "parent interface freeze",
+      "LOTO/HV safety rule",
+      "EMC/bonding release",
+      "software/configuration record where applicable"
+    ],
+    "tooling_basis": "FIX-LM3-INT-SA330, KIT-LM3-INT-SA330, calibrated torque/gauge set"
+  },
+  "quantity_per_trainset": 3,
+  "source_refs": [
+    "cots_equipment.py",
+    "cabin-fiberglass.md",
+    "LM3-INT-230",
+    "LM3-INT-240"
+  ],
+  "title": "interior and passenger systems fit-out"
+}

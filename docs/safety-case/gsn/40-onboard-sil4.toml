@@ -1,0 +1,164 @@
+# G4 — Onboard SIL-4 actuator layer is correct.
+#
+# The MA computer (G1..G3) decides what is allowed; the onboard
+# SIL-4 crates (osr-atp, osr-brake, osr-odometry)
+# enforce it. This goal covers the enforcement layer: every pure
+# evaluator is deterministic, fail-restrictive, and refuses to
+# soften its outcome when inputs grow more uncertain.
+
+[[goal]]
+id = "G4"
+description = "The onboard SIL-4 actuator layer (ATP, brake, odometry) enforces the MA conservatively."
+
+[[strategy]]
+id = "S4"
+description = "Decompose G4 by crate — each SIL-4 onboard evaluator claims a determinism + fail-restrictive bundle."
+parent = "G4"
+children = ["G4.1", "G4.2", "G4.4"]
+
+# ---------------------------------------------------------------------------
+# G4.1 — osr-atp
+# ---------------------------------------------------------------------------
+
+[[goal]]
+id = "G4.1"
+description = "osr-atp converts an MA into a brake command deterministically and conservatively (A1–A7)."
+parent = "S4"
+
+[[solution]]
+id = "E4.1a"
+description = "Kani harness A1 — deterministic outputs for identical inputs."
+parent = "G4.1"
+evidence = { kind = "kani", path = "crates/osr-atp/src/kani_proofs.rs", anchor = "kani_a1_determinism" }
+
+[[solution]]
+id = "E4.1b"
+description = "Kani harness A2 — expired MA trips emergency."
+parent = "G4.1"
+evidence = { kind = "kani", path = "crates/osr-atp/src/kani_proofs.rs", anchor = "kani_a2_expired_ma_trips" }
+
+[[solution]]
+id = "E4.1c"
+description = "Kani harness A3 — missing known position trips emergency."
+parent = "G4.1"
+evidence = { kind = "kani", path = "crates/osr-atp/src/kani_proofs.rs", anchor = "kani_a3_unknown_position_trips" }
+
+[[solution]]
+id = "E4.1d"
+description = "Kani harness A4 — MA addressed to wrong train trips emergency."
+parent = "G4.1"
+evidence = { kind = "kani", path = "crates/osr-atp/src/kani_proofs.rs", anchor = "kani_a4_train_mismatch_trips" }
+
+[[solution]]
+id = "E4.1e"
+description = "Kani harness A5 — head past MA end trips emergency (same-section bounded)."
+parent = "G4.1"
+evidence = { kind = "kani", path = "crates/osr-atp/src/kani_proofs.rs", anchor = "kani_a5_head_past_ma_end_trips_same_section" }
+
+[[solution]]
+id = "E4.1f"
+description = "Kani harness A6 — severe overspeed trips emergency."
+parent = "G4.1"
+evidence = { kind = "kani", path = "crates/osr-atp/src/kani_proofs.rs", anchor = "kani_a6_severe_overspeed_trips" }
+
+[[solution]]
+id = "E4.1g"
+description = "Kani harness A7 — widening speed uncertainty never softens the outcome."
+parent = "G4.1"
+evidence = { kind = "kani", path = "crates/osr-atp/src/kani_proofs.rs", anchor = "kani_a7_uncertainty_widening_is_conservative" }
+
+[[solution]]
+id = "E4.1h"
+description = "Proptest suite over A1–A7 for unbounded random inputs."
+parent = "G4.1"
+evidence = { kind = "proptest", path = "crates/osr-atp/tests/proptest_atp.rs" }
+
+# ---------------------------------------------------------------------------
+# G4.2 — osr-brake
+# ---------------------------------------------------------------------------
+
+[[goal]]
+id = "G4.2"
+description = "osr-brake takes the emergency-source union, floors friction in emergency, and keeps WSP subtractive (B1–B5)."
+parent = "S4"
+
+[[solution]]
+id = "E4.2a"
+description = "Kani harness B1 — determinism."
+parent = "G4.2"
+evidence = { kind = "kani", path = "crates/osr-brake/src/kani_proofs.rs", anchor = "kani_b1_determinism" }
+
+[[solution]]
+id = "E4.2b"
+description = "Kani harness B2 — emergency-source union is recorded and drives Emergency."
+parent = "G4.2"
+evidence = { kind = "kani", path = "crates/osr-brake/src/kani_proofs.rs", anchor = "kani_b2_emergency_union" }
+
+[[solution]]
+id = "E4.2c"
+description = "Kani harness B3 — emergency floors friction and cuts traction."
+parent = "G4.2"
+evidence = { kind = "kani", path = "crates/osr-brake/src/kani_proofs.rs", anchor = "kani_b3_emergency_completeness" }
+
+[[solution]]
+id = "E4.2d"
+description = "Kani harness B4 — WSP never increases commanded friction."
+parent = "G4.2"
+evidence = { kind = "kani", path = "crates/osr-brake/src/kani_proofs.rs", anchor = "kani_b4_wsp_conservative" }
+
+[[solution]]
+id = "E4.2e"
+description = "Kani harness B5 — parking brake never engages above the threshold speed."
+parent = "G4.2"
+evidence = { kind = "kani", path = "crates/osr-brake/src/kani_proofs.rs", anchor = "kani_b5_park_safe" }
+
+[[solution]]
+id = "E4.2f"
+description = "Proptest suite over B1–B5."
+parent = "G4.2"
+evidence = { kind = "proptest", path = "crates/osr-brake/tests/proptest_brake.rs" }
+
+# ---------------------------------------------------------------------------
+# G4.4 — osr-odometry
+# ---------------------------------------------------------------------------
+
+[[goal]]
+id = "G4.4"
+description = "osr-odometry fuses sensors deterministically; a valid balise resets uncertainty; GNSS never loosens it (O1–O5)."
+parent = "S4"
+
+[[solution]]
+id = "E4.4a"
+description = "Kani harness O1 — determinism."
+parent = "G4.4"
+evidence = { kind = "kani", path = "crates/osr-odometry/src/kani_proofs.rs", anchor = "kani_o1_determinism" }
+
+[[solution]]
+id = "E4.4b"
+description = "Kani harness O2 — forward motion is non-regressive (bounded)."
+parent = "G4.4"
+evidence = { kind = "kani", path = "crates/osr-odometry/src/kani_proofs.rs", anchor = "kani_o2_forward_non_regression" }
+
+[[solution]]
+id = "E4.4c"
+description = "Kani harness O3 — without a fix, position uncertainty only grows."
+parent = "G4.4"
+evidence = { kind = "kani", path = "crates/osr-odometry/src/kani_proofs.rs", anchor = "kani_o3_uncertainty_monotone_without_fix" }
+
+[[solution]]
+id = "E4.4d"
+description = "Kani harness O4 — a balise fix resets uncertainty to its reported precision."
+parent = "G4.4"
+evidence = { kind = "kani", path = "crates/osr-odometry/src/kani_proofs.rs", anchor = "kani_o4_balise_resets_uncertainty" }
+
+[[solution]]
+id = "E4.4e"
+description = "Kani harness O5 — GNSS with uncertainty ≥ current is ignored."
+parent = "G4.4"
+evidence = { kind = "kani", path = "crates/osr-odometry/src/kani_proofs.rs", anchor = "kani_o5_gnss_does_not_loosen" }
+
+[[solution]]
+id = "E4.4f"
+description = "Proptest suite over O1–O5."
+parent = "G4.4"
+evidence = { kind = "proptest", path = "crates/osr-odometry/tests/proptest_odom.rs" }

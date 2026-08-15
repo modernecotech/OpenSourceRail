@@ -1,0 +1,75 @@
+{
+  "acceptance": [
+    "cell/module certificate",
+    "isolation test",
+    "vent/fire containment data"
+  ],
+  "bom_line_ids": [
+    "T5",
+    "T6"
+  ],
+  "definition_type": "product-item",
+  "id": "LM3-TRC-P040",
+  "layer": "external-component",
+  "make_or_buy_basis": "Optimizer-selected per-car pack; final supplier must fit tray, cooling, BMS, and vent path.",
+  "material_spec": {
+    "evidence_required": [
+      "certificate of conformity",
+      "incoming inspection record",
+      "isolation test record",
+      "HVIL / EMC evidence"
+    ],
+    "finish_or_protection": "supplier enclosure protection, orange HV marking, bonding, and coolant compatibility",
+    "form_factor": "sealed HV module, enclosure, orange HV harness, connectors, cooling interfaces, and labels",
+    "governing_standard": "supplier rail traction specification plus project HVIL, EMC, isolation, and thermal evidence",
+    "grade_or_part_class": "battery / inverter / contactor / charger certified equipment class",
+    "material_family": "supplier high-voltage traction equipment",
+    "nominal_section": "tray, connector, bend-radius, vent, and service envelope frozen by RFQ drawing",
+    "traceability": "serialised HV equipment CoC, firmware/config revision, insulation record, and evidence pack"
+  },
+  "maturity": "buildable-after-supplier-freeze",
+  "notes": "",
+  "parent": "LM3-HV-SA510",
+  "process_spec": {
+    "inspection_methods": [
+      "incoming visual inspection",
+      "envelope fit check",
+      "cell/module certificate",
+      "isolation test",
+      "vent/fire containment data",
+      "bond continuity",
+      "insulation/isolation check",
+      "HVIL functional check where applicable"
+    ],
+    "joining_methods": [
+      "bolted/torqued installation",
+      "sealed, gasketed, bonded, or clipped interface as supplier envelope requires"
+    ],
+    "primary_processes": [
+      "receive",
+      "quarantine",
+      "evidence review",
+      "incoming fit check",
+      "release to parent kit"
+    ],
+    "release_level": "BID supplier-controlled process; OSR controls envelope and acceptance evidence",
+    "special_process_controls": [
+      "RFQ envelope freeze",
+      "supplier certificate/revision check",
+      "incoming quarantine until evidence accepted",
+      "HV safety plan",
+      "LOTO/service-disconnect rule",
+      "EMC/bonding evidence review"
+    ],
+    "tooling_basis": "RFQ-LM3-TRC-P040, CERT-LM3-TRC-P040, GAUGE-LM3-TRC-P040-ENVELOPE"
+  },
+  "quantity_per_trainset": 3,
+  "route": "BID",
+  "source_refs": [
+    "design-iteration-summary.md",
+    "systems.py",
+    "LM3-BDY-140"
+  ],
+  "title": "battery-225kwh-lfp-800v under-seat traction battery pack",
+  "unit": "ea"
+}

@@ -1,0 +1,91 @@
+{
+  "annual_opex_usd": {
+    "components": {
+      "civil_station_depot_maintenance": 6410682.34,
+      "labour": 1721664.0,
+      "residual_grid_energy": 0.0,
+      "rolling_stock_maintenance_including_battery_renewal_reserve": 4176000.0,
+      "signalling_maintenance": 114030.8,
+      "solar_plant_maintenance": 504773.8023883636
+    },
+    "total": 12927150.942388363
+  },
+  "capex_eur": {
+    "reconciled_project_total": 475189384.7598196
+  },
+  "capex_usd": {
+    "authoritative_design_base": 482858614.0,
+    "reconciled_project_total": 516510200.8258909,
+    "risk_envelope_15_percent": 593986730.9497745,
+    "risk_envelope_25_percent": 645637751.0323637,
+    "timetable_sized_dedicated_solar": 33651586.825890906
+  },
+  "cases": {
+    "high_capacity_use": {
+      "annual_operating_cash_usd": 77715964.19361165,
+      "annual_paid_trips": 117313920.0,
+      "annual_public_support_usd": 0.0,
+      "annual_revenue_usd": 90643115.136,
+      "capacity_utilisation": 0.8,
+      "project_irr": 0.10022290956521823,
+      "project_npv_usd_at_8_percent": 109102532.12174307,
+      "steady_state_dscr": 3.157645383978166
+    },
+    "low_capacity_use": {
+      "annual_operating_cash_usd": 44868066.593611635,
+      "annual_paid_trips": 73321200.0,
+      "annual_public_support_usd": 0.0,
+      "annual_revenue_usd": 57795217.536,
+      "capacity_utilisation": 0.5,
+      "project_irr": 0.059243051337912175,
+      "project_npv_usd_at_8_percent": -93830938.01708981,
+      "steady_state_dscr": 1.8230159638035965
+    }
+  },
+  "city": "tripoli-lb",
+  "funding": {
+    "annual_debt_service_usd": 24611998.734228045,
+    "construction_grace_years": 8,
+    "debt_principal_usd": 413208160.6607127,
+    "debt_rate": 0.045,
+    "government_equity_share": 0.2,
+    "lender_commitment_status": "unconfirmed-placeholder",
+    "repayment_years": 32
+  },
+  "limitations": [
+    "No calibrated origin-destination or stated-preference ridership survey.",
+    "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
+    "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
+  ],
+  "operations_basis": {
+    "annual_train_km_including_non_revenue": 8360871.4269,
+    "energy_kwh_per_car_km_hot_climate_planning": 4.0,
+    "non_revenue_train_km_factor": 1.08,
+    "scheduled_train_km_per_day": 21209.7195
+  },
+  "passed": true,
+  "renewal_policy": {
+    "field_asset_renewals": "included in fixed-asset maintenance allowance pending condition-based asset plan",
+    "train_battery_cycle_years": 12,
+    "treatment": "included in rolling-stock maintenance reserve; do not double-count as separate CAPEX"
+  },
+  "revenue_basis": {
+    "demand_status": "capacity-led-not-calibrated-od-forecast",
+    "nonfare_revenue_usd_per_year": 3048721.5360000003,
+    "operating_neutral_capacity_utilisation": 0.09021974124506857,
+    "operating_neutral_paid_trips_per_year": 13230039.383555843,
+    "practical_capacity_passenger_trips_per_day": 401760.0,
+    "single_trip_fare_usd": 0.7466666666666667
+  },
+  "schema_version": 1,
+  "sources": {
+    "design": "designs/west-asia/Lebanon/Tripoli-Lb/design.toml",
+    "design_sha256": "a8b8e64e91aacf121ed5649853e0a5461697a0624d0778579cfcbe73c99a1689",
+    "generator": "scripts/generate-city-finance.py",
+    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "scenario": "designs/west-asia/Lebanon/Tripoli-Lb/tripoli-lb.toml",
+    "scenario_sha256": "7e5d3e4c72be97deb55aaee57b793845c03ab49a7131238b8b6ee900cff8fa8e"
+  },
+  "status": "planning-screen"
+}

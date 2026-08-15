@@ -1,0 +1,338 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>OSR Operations Portal</title>
+  <link rel="stylesheet" href="app.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <p class="eyebrow">OpenSourceRail</p>
+      <h1>Operations Portal</h1>
+    </div>
+    <div class="city-chip">
+      <span id="cityName">Loading</span>
+      <strong id="cityCountry">--</strong>
+    </div>
+  </header>
+
+  <nav class="tabs" aria-label="Operations portal tabs">
+    <button class="tab active" data-tab="dashboard">Dashboard</button>
+    <button class="tab" data-tab="core">Ops Core</button>
+    <button class="tab" data-tab="qa">QA Gates</button>
+    <button class="tab" data-tab="manufacturing">Manufacturing</button>
+    <button class="tab" data-tab="maintenance">Maintenance</button>
+    <button class="tab" data-tab="assets">Assets</button>
+    <button class="tab" data-tab="occ">OCC</button>
+    <button class="tab" data-tab="simulator">Simulator</button>
+    <button class="tab" data-tab="backoffice">Back Office</button>
+  </nav>
+
+  <main>
+    <section class="panel active" id="dashboard">
+      <div class="metrics" id="metrics"></div>
+      <div class="split">
+        <section class="surface">
+          <div class="section-head">
+            <h2>Manufacturing Load</h2>
+            <button class="text-button" data-export="manufacturing">Export CSV</button>
+          </div>
+          <div id="manufacturingChart" class="bar-list"></div>
+        </section>
+        <section class="surface">
+          <div class="section-head">
+            <h2>Maintenance Load</h2>
+            <button class="text-button" data-export="maintenance">Export CSV</button>
+          </div>
+          <div id="maintenanceChart" class="bar-list"></div>
+        </section>
+        <section class="surface">
+          <div class="section-head">
+            <h2>QA Coverage</h2>
+            <button class="text-button" data-export="qa">Export CSV</button>
+          </div>
+          <div id="qaChart" class="bar-list"></div>
+        </section>
+      </div>
+    </section>
+
+    <section class="panel" id="core">
+      <div class="metrics" id="coreMetrics"></div>
+
+      <div class="ops-grid">
+        <section class="surface">
+          <div class="section-head">
+            <h2>Due Work</h2>
+            <span class="storage-status" id="coreStorageStatus">Storage: loading</span>
+            <button class="text-button" id="seedCorePlan" type="button">Generate</button>
+          </div>
+          <div class="work-form compact-form">
+            <select id="corePlanScope">
+              <option value="daily">Daily checks</option>
+              <option value="weekly">Daily + weekly</option>
+              <option value="all">All scheduled rows</option>
+            </select>
+            <input id="corePlanDate" type="date" />
+          </div>
+        </section>
+
+        <section class="surface">
+          <div class="section-head">
+            <h2>Quick Work Order</h2>
+            <button class="text-button" form="workOrderForm" type="submit">Create</button>
+          </div>
+          <form id="workOrderForm" class="work-form">
+            <input id="coreAssetInput" list="coreAssetOptions" placeholder="Asset id or name" required />
+            <datalist id="coreAssetOptions"></datalist>
+            <input id="coreTitle" placeholder="Work required" required />
+            <select id="coreOwner"></select>
+            <input id="coreDueDate" type="date" required />
+            <select id="corePriority">
+              <option value="routine">Routine</option>
+              <option value="attention">Attention</option>
+              <option value="safety">Safety critical</option>
+            </select>
+          </form>
+        </section>
+      </div>
+
+      <section class="surface ops-wide">
+        <div class="section-head">
+          <h2>Storage Reconciliation</h2>
+          <div class="button-row">
+            <button class="text-button" id="refreshReconcile" type="button">Check</button>
+            <button class="text-button" id="mergeLocalToSqlite" type="button">Merge Local</button>
+          </div>
+        </div>
+        <div id="reconcileSummary" class="reconcile-grid"></div>
+      </section>
+
+      <section class="surface ops-wide">
+        <div class="section-head">
+          <h2>Work Orders</h2>
+          <button class="text-button" data-export="core-workorders">Export CSV</button>
+        </div>
+        <div class="toolbar inline-toolbar">
+          <input id="coreSearch" type="search" placeholder="Search work orders" />
+          <select id="coreStatus"></select>
+        </div>
+        <div class="table-wrap compact-table">
+          <table>
+            <thead>
+              <tr>
+                <th>Work Order</th>
+                <th>Asset</th>
+                <th>Work</th>
+                <th>Owner</th>
+                <th>Due</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="coreWorkTable"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <div class="ops-grid">
+        <section class="surface">
+          <div class="section-head">
+            <h2>Evidence</h2>
+            <button class="text-button" form="inspectionForm" type="submit">Save</button>
+          </div>
+          <div id="selectedWorkOrder" class="selected-work"></div>
+          <form id="inspectionForm" class="work-form">
+            <select id="inspectionResult">
+              <option value="pass">Pass</option>
+              <option value="watch">Watch</option>
+              <option value="fail">Fail</option>
+            </select>
+            <select id="inspectionSeverity">
+              <option value="minor">Minor</option>
+              <option value="service">Service affecting</option>
+              <option value="safety">Safety critical</option>
+            </select>
+            <input id="inspectionReading" placeholder="Reading or reference" />
+            <input id="inspectionEvidence" placeholder="Evidence link / file ref" />
+            <textarea id="inspectionNote" placeholder="Finding / handback note"></textarea>
+          </form>
+        </section>
+
+        <section class="surface">
+          <div class="section-head">
+            <h2>Defects / NCR</h2>
+            <button class="text-button" data-export="core-defects">Export CSV</button>
+          </div>
+          <div class="table-wrap compact-table narrow-table">
+            <table>
+              <thead>
+                <tr>
+                  <th>Defect</th>
+                  <th>Asset</th>
+                  <th>Finding</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="defectTable"></tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+
+      <section class="surface ops-wide">
+        <div class="section-head">
+          <h2>Audit Trail</h2>
+          <button class="text-button" data-export="core-audit">Export CSV</button>
+        </div>
+        <div id="auditTrail" class="audit-list"></div>
+      </section>
+    </section>
+
+    <section class="panel" id="qa">
+      <div class="toolbar">
+        <input id="qaSearch" type="search" placeholder="Search QA" />
+        <select id="qaDomain"></select>
+        <button class="text-button" data-export="qa-visible">Export Visible</button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Gate</th>
+              <th>Domain</th>
+              <th>Asset</th>
+              <th>Stage</th>
+              <th>Evidence</th>
+              <th>Release</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="qaTable"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="panel" id="maintenance">
+      <div class="toolbar">
+        <input id="taskSearch" type="search" placeholder="Search maintenance" />
+        <select id="taskType"></select>
+        <select id="taskOwner"></select>
+        <button class="text-button" data-export="maintenance-visible">Export Visible</button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Asset</th>
+              <th>Type</th>
+              <th>Task</th>
+              <th>Cadence</th>
+              <th>Owner</th>
+              <th>Next Due Basis</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="taskTable"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="panel" id="manufacturing">
+      <div class="toolbar">
+        <input id="manufacturingSearch" type="search" placeholder="Search manufacturing" />
+        <select id="manufacturingType"></select>
+        <select id="manufacturingPhase"></select>
+        <select id="manufacturingOwner"></select>
+        <button class="text-button" id="openVisibleManufacturing" type="button">Open Visible WOs</button>
+        <button class="text-button" data-export="manufacturing-visible">Export Visible</button>
+        <button class="text-button" data-export="manufacturing-materials">Export Materials</button>
+        <button class="text-button" data-export="manufacturing-verification">Export QA</button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Asset</th>
+              <th>Package</th>
+              <th>Window</th>
+              <th>Crew</th>
+              <th>Work</th>
+              <th>Dependencies</th>
+              <th>Evidence</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="manufacturingTable"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="panel" id="assets">
+      <div class="toolbar">
+        <input id="assetSearch" type="search" placeholder="Search assets" />
+        <select id="assetType"></select>
+        <select id="assetLine"></select>
+        <button class="text-button" data-export="assets-visible">Export Visible</button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Asset ID</th>
+              <th>Type</th>
+              <th>Name</th>
+              <th>Line</th>
+              <th>Chainage</th>
+              <th>Location</th>
+            </tr>
+          </thead>
+          <tbody id="assetTable"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="panel app-panel" id="occ">
+      <div id="occApp"></div>
+    </section>
+
+    <section class="panel app-panel" id="simulator">
+      <div id="simApp"></div>
+    </section>
+
+    <section class="panel app-panel" id="backoffice">
+      <div class="app-grid" id="backofficeApps"></div>
+    </section>
+  </main>
+
+  <template id="appTemplate">
+    <article class="app-card">
+      <div>
+        <p class="eyebrow app-category"></p>
+        <h2 class="app-title"></h2>
+        <p class="app-summary"></p>
+      </div>
+      <dl>
+        <div>
+          <dt>Status</dt>
+          <dd class="app-status"></dd>
+        </div>
+        <div>
+          <dt>Native</dt>
+          <dd><code class="app-native"></code></dd>
+        </div>
+        <div class="web-row">
+          <dt>Web</dt>
+          <dd><code class="app-web"></code></dd>
+        </div>
+      </dl>
+      <a class="text-button app-docs" href="#">Docs</a>
+    </article>
+  </template>
+
+  <script src="app.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,91 @@
+{
+  "annual_opex_usd": {
+    "components": {
+      "civil_station_depot_maintenance": 52286908.120000005,
+      "labour": 21602448.0,
+      "residual_grid_energy": 0.0,
+      "rolling_stock_maintenance_including_battery_renewal_reserve": 50131200.0,
+      "signalling_maintenance": 895904.7000000001,
+      "solar_plant_maintenance": 7916051.106840001
+    },
+    "total": 132832511.92684
+  },
+  "capex_eur": {
+    "reconciled_project_total": 4658589726.61952
+  },
+  "capex_usd": {
+    "authoritative_design_base": 4535947745.0,
+    "reconciled_project_total": 5063684485.456,
+    "risk_envelope_15_percent": 5823237158.2744,
+    "risk_envelope_25_percent": 6329605606.820001,
+    "timetable_sized_dedicated_solar": 527736740.4560001
+  },
+  "cases": {
+    "high_capacity_use": {
+      "annual_operating_cash_usd": 940924600.58516,
+      "annual_paid_trips": 664778880.0,
+      "annual_public_support_usd": 0.0,
+      "annual_revenue_usd": 1073757112.512,
+      "capacity_utilisation": 0.8,
+      "project_irr": 0.1392881554630815,
+      "project_npv_usd_at_8_percent": 3419758167.362318,
+      "steady_state_dscr": 4.055716783009906
+    },
+    "low_capacity_use": {
+      "annual_operating_cash_usd": 555352850.1851599,
+      "annual_paid_trips": 415486800.0,
+      "annual_public_support_usd": 0.0,
+      "annual_revenue_usd": 688185362.112,
+      "capacity_utilisation": 0.5,
+      "project_irr": 0.08720205269369723,
+      "project_npv_usd_at_8_percent": 361440329.26241726,
+      "steady_state_dscr": 2.3937665925490768
+    }
+  },
+  "city": "amman",
+  "funding": {
+    "annual_debt_service_usd": 231999582.54650685,
+    "construction_grace_years": 5,
+    "debt_principal_usd": 4050947588.3648005,
+    "debt_rate": 0.045,
+    "government_equity_share": 0.2,
+    "lender_commitment_status": "unconfirmed-placeholder",
+    "repayment_years": 35
+  },
+  "limitations": [
+    "No calibrated origin-destination or stated-preference ridership survey.",
+    "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
+    "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
+  ],
+  "operations_basis": {
+    "annual_train_km_including_non_revenue": 58165203.876750015,
+    "energy_kwh_per_car_km_hot_climate_planning": 4.0,
+    "non_revenue_train_km_factor": 1.08,
+    "scheduled_train_km_per_day": 147552.52125000002
+  },
+  "passed": true,
+  "renewal_policy": {
+    "field_asset_renewals": "included in fixed-asset maintenance allowance pending condition-based asset plan",
+    "train_battery_cycle_years": 12,
+    "treatment": "included in rolling-stock maintenance reserve; do not double-count as separate CAPEX"
+  },
+  "revenue_basis": {
+    "demand_status": "capacity-led-not-calibrated-od-forecast",
+    "nonfare_revenue_usd_per_year": 45565778.112,
+    "operating_neutral_capacity_utilisation": 0.0678992175056713,
+    "operating_neutral_paid_trips_per_year": 56422457.20787069,
+    "practical_capacity_passenger_trips_per_day": 2276640.0,
+    "single_trip_fare_usd": 1.5466666666666666
+  },
+  "schema_version": 1,
+  "sources": {
+    "design": "designs/west-asia/Jordan/Amman/design.toml",
+    "design_sha256": "30aba47302ba857710f3ec4b83155b15df271a2fa36d9c2cd80a3a4286f2aa47",
+    "generator": "scripts/generate-city-finance.py",
+    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "scenario": "designs/west-asia/Jordan/Amman/amman.toml",
+    "scenario_sha256": "1d0c44bd9d5bb1424f5e0d765a9de35f212077ac80d4f23e3b2d3ddcb440d4b9"
+  },
+  "status": "planning-screen"
+}

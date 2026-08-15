@@ -1,0 +1,204 @@
+{
+  "bom_line_ids": [
+    "E15",
+    "E18",
+    "E19"
+  ],
+  "document_revision": "A-DRAFT",
+  "estimated_labor_hours": 2.55,
+  "id": "LM3-END-P020",
+  "material_spec": {
+    "evidence_required": [
+      "certificate of conformity",
+      "incoming inspection record",
+      "laminate coupon",
+      "cure record",
+      "insert pull-out evidence",
+      "fire-smoke certificate"
+    ],
+    "finish_or_protection": "UV-stable exterior gelcoat/paint, sealed cut edges, gasketed seams, and mixed-metal isolation",
+    "form_factor": "moulded cowl cast, solid flanges, local core in broad skins, potted inserts, and trim/repair coupons",
+    "governing_standard": "supplier laminate schedule plus project fire/smoke, coupon, and insert pull-out evidence",
+    "grade_or_part_class": "E-glass or basalt-fibre/vinyl-ester end-cowl laminate and insert kit",
+    "material_family": "fire-retardant fiberglass composite",
+    "nominal_section": "laminate thickness, ply drop, core map, insert pattern, split line, and trim datum per LM3-BDY-155",
+    "traceability": "laminate batch, resin batch, cure record, insert pull-out record, adhesive batch, and coupon traceability"
+  },
+  "operations": [
+    {
+      "labor_hours": 0.35,
+      "qa_gate": "traveler rev and parent assembly match released manifest",
+      "sequence": 10,
+      "signoff_role": "cell lead",
+      "title": "release traveler, revision, material/certificate pack, and parent interface",
+      "tooling_ids": [
+        "TRV-LM3-END-P020",
+        "DOC-LM3-END-SA700"
+      ],
+      "work_center": "production control"
+    },
+    {
+      "labor_hours": 0.45,
+      "qa_gate": "supplier certificate/datasheet/revision accepted",
+      "sequence": 20,
+      "signoff_role": "quality inspector",
+      "title": "receive supplier component and quarantine until evidence pack passes",
+      "tooling_ids": [
+        "RFQ-LM3-END-P020",
+        "CERT-LM3-END-P020"
+      ],
+      "work_center": "receiving inspection"
+    },
+    {
+      "labor_hours": 0.75,
+      "qa_gate": "component fits without parent datum rework",
+      "sequence": 30,
+      "signoff_role": "operator",
+      "title": "perform envelope, mounting, service-removal, and connector checks",
+      "tooling_ids": [
+        "GAUGE-LM3-END-P020-ENVELOPE",
+        "FIX-LM3-END-SA700"
+      ],
+      "work_center": "incoming fit-check cell"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "sensor calibration",
+      "sequence": 40,
+      "signoff_role": "quality inspector",
+      "title": "verify acceptance gate: sensor calibration",
+      "tooling_ids": [
+        "QA-LM3-END-P020"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "washer/heater test",
+      "sequence": 50,
+      "signoff_role": "quality inspector",
+      "title": "verify acceptance gate: washer/heater test",
+      "tooling_ids": [
+        "QA-LM3-END-P020"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "2oo2 verdict interface test",
+      "sequence": 60,
+      "signoff_role": "quality inspector",
+      "title": "verify acceptance gate: 2oo2 verdict interface test",
+      "tooling_ids": [
+        "QA-LM3-END-P020"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "item is released, tagged, and staged for parent assembly",
+      "sequence": 70,
+      "signoff_role": "cell lead",
+      "title": "final item release to parent assembly",
+      "tooling_ids": [
+        "REL-LM3-END-P020",
+        "KIT-LM3-END-SA700"
+      ],
+      "work_center": "production control"
+    }
+  ],
+  "parent": "LM3-END-SA700",
+  "process_spec": {
+    "inspection_methods": [
+      "incoming visual inspection",
+      "envelope fit check",
+      "sensor calibration",
+      "washer/heater test",
+      "2oo2 verdict interface test",
+      "pressure/leak test",
+      "drain-flow test where applicable"
+    ],
+    "joining_methods": [
+      "bolted/torqued installation",
+      "sealed, gasketed, bonded, or clipped interface as supplier envelope requires"
+    ],
+    "primary_processes": [
+      "receive",
+      "quarantine",
+      "evidence review",
+      "incoming fit check",
+      "release to parent kit"
+    ],
+    "release_level": "BID supplier-controlled process; OSR controls envelope and acceptance evidence",
+    "special_process_controls": [
+      "RFQ envelope freeze",
+      "supplier certificate/revision check",
+      "incoming quarantine until evidence accepted",
+      "fluid compatibility check",
+      "hose/pipe routing release"
+    ],
+    "tooling_basis": "RFQ-LM3-END-P020, CERT-LM3-END-P020, GAUGE-LM3-END-P020-ENVELOPE"
+  },
+  "quantity_per_trainset": 2,
+  "release_status": "unsigned-template",
+  "revision_approvals": [
+    {
+      "approval_id": "APP-LM3-END-P020-MFG",
+      "date": "",
+      "name": "",
+      "role": "manufacturing engineering",
+      "signature": "",
+      "status": "pending"
+    },
+    {
+      "approval_id": "APP-LM3-END-P020-QA",
+      "date": "",
+      "name": "",
+      "role": "quality",
+      "signature": "",
+      "status": "pending"
+    },
+    {
+      "approval_id": "APP-LM3-END-P020-DA",
+      "date": "",
+      "name": "",
+      "role": "design authority",
+      "signature": "",
+      "status": "pending"
+    }
+  ],
+  "route": "BID",
+  "signoff_blocks": [
+    {
+      "date": "",
+      "name": "",
+      "role": "operator",
+      "signature": "",
+      "status": "blank"
+    },
+    {
+      "date": "",
+      "name": "",
+      "role": "cell lead",
+      "signature": "",
+      "status": "blank"
+    },
+    {
+      "date": "",
+      "name": "",
+      "role": "quality inspector",
+      "signature": "",
+      "status": "blank"
+    },
+    {
+      "date": "",
+      "name": "",
+      "role": "manufacturing engineer",
+      "signature": "",
+      "status": "blank"
+    }
+  ],
+  "title": "T-OBS nose sensor pack, heated window services, and washer kit",
+  "traveler_type": "product-item",
+  "unit": "ea"
+}

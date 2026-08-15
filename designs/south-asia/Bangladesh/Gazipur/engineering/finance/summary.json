@@ -1,0 +1,91 @@
+{
+  "annual_opex_usd": {
+    "components": {
+      "civil_station_depot_maintenance": 38127320.34,
+      "labour": 4900896.0,
+      "residual_grid_energy": 0.0,
+      "rolling_stock_maintenance_including_battery_renewal_reserve": 20697600.0,
+      "signalling_maintenance": 661293.15,
+      "solar_plant_maintenance": 4723739.272739999
+    },
+    "total": 69110848.76274
+  },
+  "capex_eur": {
+    "reconciled_project_total": 2841520660.43472
+  },
+  "capex_usd": {
+    "authoritative_design_base": 2773693462.0,
+    "reconciled_project_total": 3088609413.516,
+    "risk_envelope_15_percent": 3551900825.5433993,
+    "risk_envelope_25_percent": 3860761766.8949995,
+    "timetable_sized_dedicated_solar": 314915951.516
+  },
+  "cases": {
+    "high_capacity_use": {
+      "annual_operating_cash_usd": 91026049.71726002,
+      "annual_paid_trips": 286767360.0,
+      "annual_public_support_usd": 54125072.386721745,
+      "annual_revenue_usd": 160136898.48000002,
+      "capacity_utilisation": 0.8,
+      "project_irr": -0.001386018268382882,
+      "project_npv_usd_at_8_percent": -1685671078.7041953,
+      "steady_state_dscr": 0.6271122702864934
+    },
+    "low_capacity_use": {
+      "annual_operating_cash_usd": 35106414.51726,
+      "annual_paid_trips": 179229600.0,
+      "annual_public_support_usd": 110044707.58672176,
+      "annual_revenue_usd": 104217263.28,
+      "capacity_utilisation": 0.5,
+      "project_irr": -0.043779608640987164,
+      "project_npv_usd_at_8_percent": -2061352791.8003745,
+      "steady_state_dscr": 0.2418611307194088
+    }
+  },
+  "city": "gazipur",
+  "funding": {
+    "annual_debt_service_usd": 145151122.10398176,
+    "construction_grace_years": 7,
+    "debt_principal_usd": 2470887530.8128,
+    "debt_rate": 0.045,
+    "government_equity_share": 0.2,
+    "lender_commitment_status": "unconfirmed-placeholder",
+    "repayment_years": 33
+  },
+  "limitations": [
+    "No calibrated origin-destination or stated-preference ridership survey.",
+    "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
+    "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
+  ],
+  "operations_basis": {
+    "annual_train_km_including_non_revenue": 42431244.22935,
+    "energy_kwh_per_car_km_hot_climate_planning": 4.0,
+    "non_revenue_train_km_factor": 1.08,
+    "scheduled_train_km_per_day": 107638.87425
+  },
+  "passed": true,
+  "renewal_policy": {
+    "field_asset_renewals": "included in fixed-asset maintenance allowance pending condition-based asset plan",
+    "train_battery_cycle_years": 12,
+    "treatment": "included in rolling-stock maintenance reserve; do not double-count as separate CAPEX"
+  },
+  "revenue_basis": {
+    "demand_status": "capacity-led-not-calibrated-od-forecast",
+    "nonfare_revenue_usd_per_year": 11017871.280000001,
+    "operating_neutral_capacity_utilisation": 0.3116596376655547,
+    "operating_neutral_paid_trips_per_year": 111717264.3898846,
+    "practical_capacity_passenger_trips_per_day": 982080.0,
+    "single_trip_fare_usd": 0.52
+  },
+  "schema_version": 1,
+  "sources": {
+    "design": "designs/south-asia/Bangladesh/Gazipur/design.toml",
+    "design_sha256": "1b9ea1231297c9af9f05a388e03b9e0f270a7857880fe05b197e77f7d38f1834",
+    "generator": "scripts/generate-city-finance.py",
+    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "scenario": "designs/south-asia/Bangladesh/Gazipur/gazipur.toml",
+    "scenario_sha256": "642f6b9f35a28731766198904be65242c6b5c1eba1355cf13e3c13b83624c7c4"
+  },
+  "status": "planning-screen"
+}

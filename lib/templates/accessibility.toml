@@ -1,0 +1,41 @@
+# Station accessibility kits — step-free access + wayfinding.
+#
+# Referenced as a station field:
+#     [[stations]]
+#     accessibility = "step-free-full"
+#
+# Archetypes provide station defaults:
+#     [archetypes.halt]
+#     accessibility = "step-free-basic"
+#
+# Unified system principle: every OSR station is accessible by default,
+# but at-grade stations should not buy vertical-circulation hardware.
+# The walking surface is at local pedestrian grade; the rail datum is
+# lowered through the station bay to keep level boarding.
+
+# ---- Step-free-basic: ground-level urban station --------------------
+
+[kits.step-free-basic]
+ramp_count              = 0
+ramp_length_m           = 0
+elevator_count          = 0
+escalator_count         = 0
+tactile_paving_m2       = 120
+braille_signage_count   = 12
+audio_wayfinding        = true
+induction_loop          = true           # at info point + fare gate
+cost_usd                = 90000
+
+# ---- Step-free-full: grade-separated stations only -----------------
+
+[kits.step-free-full]
+ramp_count              = 0
+ramp_length_m           = 0
+elevator_count          = 4              # redundant pair per platform
+escalator_count         = 4
+tactile_paving_m2       = 240
+braille_signage_count   = 24
+audio_wayfinding        = true
+induction_loop          = true
+wheelchair_boarding_bridge_count = 2     # motorized platform→train bridge
+cost_usd                = 850000

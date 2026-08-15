@@ -1,0 +1,38 @@
+name: kani
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  kani-interlocking:
+    name: Kani — osr-interlocking safety harnesses
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Kani
+        uses: model-checking/kani-github-action@v1
+        with:
+          working-directory: .
+          args: "-p osr-interlocking"
+
+      # If the above action isn't used / pinned, the manual install is:
+      # - name: Install Kani manually
+      #   run: |
+      #     cargo install --locked kani-verifier
+      #     cargo kani setup
+      # - name: Run harnesses
+      #   run: cargo kani -p osr-interlocking
+
+  # Placeholder for additional SIL-4 crates once their Kani harnesses land.
+  # kani-atp:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - uses: model-checking/kani-github-action@v1
+  #       with:
+  #         args: "-p osr-atp"

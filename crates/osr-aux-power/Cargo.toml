@@ -1,0 +1,17 @@
+[package]
+name = "osr-aux-power"
+description = "OpenSourceRail — SIL-2 auxiliary converter controller (24 V, 110 V, and direct-HV DC branches)"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+
+[lints]
+workspace = true
+
+[dependencies]
+serde = { version = "1", features = ["derive"] }
+
+[dev-dependencies]
+proptest = "1"

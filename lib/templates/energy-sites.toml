@@ -1,0 +1,125 @@
+# Trackside energy site tiers — PV + repeatable 500 kWh LFP + grid-tie Lego block.
+#
+# City design.toml references a tier per station that has a site:
+#     [[sites]]
+#     station = "samawah-rws"
+#     tier    = "terminal"
+#     # tier supplies all kW/kWh fields; overrides allowed.
+#
+# Tier sizing follows RFC 0002 §6 distributed pattern. Storage initial SoC
+# defaults to 0.5 unless the tier specifies otherwise (depots start higher
+# to buffer morning peak).
+#
+# Passenger stations repeat one 500 kWh gross LFP module and one 500 kW
+# shared charging cabinet. Larger storage values are integer replications
+# selected by the timetable/energy model. Depot tiers repeat the same
+# stationary module behind a larger common DC bus.
+#
+# Powered passenger stations may also act as overnight distributed stabling
+# points under `depots.toml [operations.overnight_distributed_stabling]`.
+# This uses low-C top-up and remote isolation on the same energy site; it does
+# not turn the passenger station into a maintenance depot.
+
+# ---- None: station has no trackside energy ------------------------------
+# (No entry — use tier = "none" or omit [[sites]] entirely.)
+
+# ---- Standard: default mid-line station ---------------------------------
+
+[tiers.standard]
+pv_nameplate_kw          = 300
+storage_capacity_kwh     = 500
+storage_module_kwh       = 500
+storage_max_charge_kw    = 500
+storage_max_discharge_kw = 500
+storage_initial_soc      = 0.5
+grid_import_kw           = 500
+grid_export_kw           = 500
+charger_max_kw           = 500
+charger_max_current_a    = 825
+charger_bus_voltage_v    = 650
+charger_efficiency       = 0.98
+charger_contact_count    = 2
+
+# ---- Major: anchor station with charging pad ----------------------------
+
+[tiers.major]
+pv_nameplate_kw          = 300
+storage_capacity_kwh     = 500
+storage_module_kwh       = 500
+storage_max_charge_kw    = 500
+storage_max_discharge_kw = 500
+storage_initial_soc      = 0.5
+grid_import_kw           = 600
+grid_export_kw           = 600
+charger_max_kw           = 500
+charger_max_current_a    = 825
+charger_bus_voltage_v    = 650
+charger_efficiency       = 0.98
+charger_contact_count    = 2
+
+# ---- Interchange: two-line junction, larger buffer ----------------------
+
+[tiers.interchange]
+pv_nameplate_kw          = 300
+storage_capacity_kwh     = 500
+storage_module_kwh       = 500
+storage_max_charge_kw    = 500
+storage_max_discharge_kw = 500
+storage_initial_soc      = 0.5
+grid_import_kw           = 600
+grid_export_kw           = 600
+charger_max_kw           = 500
+charger_max_current_a    = 825
+charger_bus_voltage_v    = 650
+charger_efficiency       = 0.98
+charger_contact_count    = 2
+
+# ---- Terminal: end-of-line, bigger charging absorb ---------------------
+
+[tiers.terminal]
+pv_nameplate_kw          = 300
+storage_capacity_kwh     = 500
+storage_module_kwh       = 500
+storage_max_charge_kw    = 500
+storage_max_discharge_kw = 500
+storage_initial_soc      = 0.6
+grid_import_kw           = 800
+grid_export_kw           = 800
+charger_max_kw           = 500
+charger_max_current_a    = 825
+charger_bus_voltage_v    = 650
+charger_efficiency       = 0.98
+charger_contact_count    = 2
+
+# ---- Depot-secondary: small layup + yard PV -----------------------------
+
+[tiers.depot-secondary]
+pv_nameplate_kw          = 1500
+storage_capacity_kwh     = 5000
+storage_max_charge_kw    = 2000
+storage_max_discharge_kw = 2000
+storage_initial_soc      = 0.6
+grid_import_kw           = 1000
+grid_export_kw           = 1000
+
+# ---- Depot-layup: overnight terminal stabling + low-C top-up ------------
+
+[tiers.depot-layup]
+pv_nameplate_kw          = 90
+storage_capacity_kwh     = 150
+storage_max_charge_kw    = 600
+storage_max_discharge_kw = 600
+storage_initial_soc      = 0.6
+grid_import_kw           = 600
+grid_export_kw           = 100
+
+# ---- Depot-main: main depot microgrid -----------------------------------
+
+[tiers.depot-main]
+pv_nameplate_kw          = 5000
+storage_capacity_kwh     = 40000
+storage_max_charge_kw    = 10000
+storage_max_discharge_kw = 10000
+storage_initial_soc      = 0.6
+grid_import_kw           = 3000
+grid_export_kw           = 3000

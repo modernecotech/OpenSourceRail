@@ -1,0 +1,203 @@
+{
+  "bom_line_ids": [
+    "T5",
+    "T6"
+  ],
+  "document_revision": "A-DRAFT",
+  "estimated_labor_hours": 2.55,
+  "id": "LM3-TRC-P040",
+  "material_spec": {
+    "evidence_required": [
+      "certificate of conformity",
+      "incoming inspection record",
+      "isolation test record",
+      "HVIL / EMC evidence"
+    ],
+    "finish_or_protection": "supplier enclosure protection, orange HV marking, bonding, and coolant compatibility",
+    "form_factor": "sealed HV module, enclosure, orange HV harness, connectors, cooling interfaces, and labels",
+    "governing_standard": "supplier rail traction specification plus project HVIL, EMC, isolation, and thermal evidence",
+    "grade_or_part_class": "battery / inverter / contactor / charger certified equipment class",
+    "material_family": "supplier high-voltage traction equipment",
+    "nominal_section": "tray, connector, bend-radius, vent, and service envelope frozen by RFQ drawing",
+    "traceability": "serialised HV equipment CoC, firmware/config revision, insulation record, and evidence pack"
+  },
+  "operations": [
+    {
+      "labor_hours": 0.35,
+      "qa_gate": "traveler rev and parent assembly match released manifest",
+      "sequence": 10,
+      "signoff_role": "cell lead",
+      "title": "release traveler, revision, material/certificate pack, and parent interface",
+      "tooling_ids": [
+        "TRV-LM3-TRC-P040",
+        "DOC-LM3-HV-SA510"
+      ],
+      "work_center": "production control"
+    },
+    {
+      "labor_hours": 0.45,
+      "qa_gate": "supplier certificate/datasheet/revision accepted",
+      "sequence": 20,
+      "signoff_role": "quality inspector",
+      "title": "receive supplier component and quarantine until evidence pack passes",
+      "tooling_ids": [
+        "RFQ-LM3-TRC-P040",
+        "CERT-LM3-TRC-P040"
+      ],
+      "work_center": "receiving inspection"
+    },
+    {
+      "labor_hours": 0.75,
+      "qa_gate": "component fits without parent datum rework",
+      "sequence": 30,
+      "signoff_role": "operator",
+      "title": "perform envelope, mounting, service-removal, and connector checks",
+      "tooling_ids": [
+        "GAUGE-LM3-TRC-P040-ENVELOPE",
+        "FIX-LM3-HV-SA510"
+      ],
+      "work_center": "incoming fit-check cell"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "cell/module certificate",
+      "sequence": 40,
+      "signoff_role": "quality inspector",
+      "title": "verify acceptance gate: cell/module certificate",
+      "tooling_ids": [
+        "QA-LM3-TRC-P040"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "isolation test",
+      "sequence": 50,
+      "signoff_role": "quality inspector",
+      "title": "verify acceptance gate: isolation test",
+      "tooling_ids": [
+        "ELEC-TEST-LM3-TRC-P040"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "vent/fire containment data",
+      "sequence": 60,
+      "signoff_role": "quality inspector",
+      "title": "verify acceptance gate: vent/fire containment data",
+      "tooling_ids": [
+        "QA-LM3-TRC-P040"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "item is released, tagged, and staged for parent assembly",
+      "sequence": 70,
+      "signoff_role": "cell lead",
+      "title": "final item release to parent assembly",
+      "tooling_ids": [
+        "REL-LM3-TRC-P040",
+        "KIT-LM3-HV-SA510"
+      ],
+      "work_center": "production control"
+    }
+  ],
+  "parent": "LM3-HV-SA510",
+  "process_spec": {
+    "inspection_methods": [
+      "incoming visual inspection",
+      "envelope fit check",
+      "cell/module certificate",
+      "isolation test",
+      "vent/fire containment data",
+      "bond continuity",
+      "insulation/isolation check",
+      "HVIL functional check where applicable"
+    ],
+    "joining_methods": [
+      "bolted/torqued installation",
+      "sealed, gasketed, bonded, or clipped interface as supplier envelope requires"
+    ],
+    "primary_processes": [
+      "receive",
+      "quarantine",
+      "evidence review",
+      "incoming fit check",
+      "release to parent kit"
+    ],
+    "release_level": "BID supplier-controlled process; OSR controls envelope and acceptance evidence",
+    "special_process_controls": [
+      "RFQ envelope freeze",
+      "supplier certificate/revision check",
+      "incoming quarantine until evidence accepted",
+      "HV safety plan",
+      "LOTO/service-disconnect rule",
+      "EMC/bonding evidence review"
+    ],
+    "tooling_basis": "RFQ-LM3-TRC-P040, CERT-LM3-TRC-P040, GAUGE-LM3-TRC-P040-ENVELOPE"
+  },
+  "quantity_per_trainset": 3,
+  "release_status": "unsigned-template",
+  "revision_approvals": [
+    {
+      "approval_id": "APP-LM3-TRC-P040-MFG",
+      "date": "",
+      "name": "",
+      "role": "manufacturing engineering",
+      "signature": "",
+      "status": "pending"
+    },
+    {
+      "approval_id": "APP-LM3-TRC-P040-QA",
+      "date": "",
+      "name": "",
+      "role": "quality",
+      "signature": "",
+      "status": "pending"
+    },
+    {
+      "approval_id": "APP-LM3-TRC-P040-DA",
+      "date": "",
+      "name": "",
+      "role": "design authority",
+      "signature": "",
+      "status": "pending"
+    }
+  ],
+  "route": "BID",
+  "signoff_blocks": [
+    {
+      "date": "",
+      "name": "",
+      "role": "operator",
+      "signature": "",
+      "status": "blank"
+    },
+    {
+      "date": "",
+      "name": "",
+      "role": "cell lead",
+      "signature": "",
+      "status": "blank"
+    },
+    {
+      "date": "",
+      "name": "",
+      "role": "quality inspector",
+      "signature": "",
+      "status": "blank"
+    },
+    {
+      "date": "",
+      "name": "",
+      "role": "manufacturing engineer",
+      "signature": "",
+      "status": "blank"
+    }
+  ],
+  "title": "battery-225kwh-lfp-800v under-seat traction battery pack",
+  "traveler_type": "product-item",
+  "unit": "ea"
+}

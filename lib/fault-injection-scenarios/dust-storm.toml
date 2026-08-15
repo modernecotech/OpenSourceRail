@@ -1,0 +1,299 @@
+# Samawah with fault injection — dust storm during AM peak, then a late
+# afternoon grid outage at the depot.
+#
+# Same topology and fleet as designs/west-asia/Iraq/Samawah/samawah.toml. Demonstrates how the
+# same network behaves under stress events (RFC 0002 §5.4 dust resilience;
+# RFC 0001 §8 degraded-mode operation).
+#
+# Run:
+#   cargo run --release --bin osr-sim -- --config designs/west-asia/Iraq/Samawah/samawah-dust-storm.toml \
+#       --duration 54000 --status-every 3600
+
+# ===========================================================================
+# This file is an overlay example — copy the full content of samawah.toml
+# then append the [[faults]] section. For brevity the body is identical to
+# designs/west-asia/Iraq/Samawah/samawah.toml. In real use you would copy and edit a single file,
+# not maintain two.
+# ===========================================================================
+
+[scenario]
+name = "Samawah — with dust storm + depot grid outage"
+start_time = "06:00"
+
+[climate]
+ambient_c = 42.0
+peak_sun_hours = 6.0
+
+# --- Stations (same as designs/west-asia/Iraq/Samawah/samawah.toml) ---
+[[stations]]
+id = "samawah-rws"
+name = "Samawah Railway Station"
+charging_power_kw = 1000
+dwell_seconds = 60
+is_terminal = true
+[[stations]]
+id = "north-gate"
+name = "North Gate"
+dwell_seconds = 30
+[[stations]]
+id = "old-souq"
+name = "Old Souq"
+dwell_seconds = 30
+[[stations]]
+id = "samawah-central"
+name = "Samawah Central"
+charging_power_kw = 500
+dwell_seconds = 45
+[[stations]]
+id = "riverside"
+name = "Riverside"
+dwell_seconds = 30
+[[stations]]
+id = "eastern-bridge"
+name = "Eastern Bridge"
+charging_power_kw = 500
+dwell_seconds = 45
+[[stations]]
+id = "al-salam"
+name = "Al-Salam"
+dwell_seconds = 30
+[[stations]]
+id = "governorate-hospital"
+name = "Governorate Hospital"
+charging_power_kw = 500
+dwell_seconds = 45
+[[stations]]
+id = "new-german-hospital"
+name = "New German Hospital"
+charging_power_kw = 500
+dwell_seconds = 45
+[[stations]]
+id = "engineering-quarter"
+name = "Engineering Quarter"
+dwell_seconds = 30
+[[stations]]
+id = "al-muthanna-university"
+name = "Al-Muthanna University"
+charging_power_kw = 500
+dwell_seconds = 60
+[[stations]]
+id = "east-depot"
+name = "East Depot & Yard"
+charging_power_kw = 1000
+dwell_seconds = 240
+is_terminal = true
+is_depot = true
+[[stations]]
+id = "northern-suburbs-a"
+name = "Northern Suburbs A"
+dwell_seconds = 30
+[[stations]]
+id = "northern-suburbs-b"
+name = "Northern Suburbs B"
+dwell_seconds = 30
+[[stations]]
+id = "northwest-junction"
+name = "Northwest Junction"
+charging_power_kw = 500
+dwell_seconds = 45
+is_depot = true
+[[stations]]
+id = "industrial-west"
+name = "Industrial West"
+dwell_seconds = 30
+[[stations]]
+id = "western-residential"
+name = "Western Residential"
+dwell_seconds = 30
+[[stations]]
+id = "south-west-residential"
+name = "South-West Residential"
+dwell_seconds = 30
+[[stations]]
+id = "southern-markets"
+name = "Southern Markets"
+charging_power_kw = 500
+dwell_seconds = 45
+[[stations]]
+id = "south-east-residential"
+name = "South-East Residential"
+dwell_seconds = 30
+
+[[lines]]
+id = "line-1"
+name = "Line 1 Nahrain"
+stations = [
+    { id = "samawah-rws",            distance_from_prev_m = 0 },
+    { id = "north-gate",             distance_from_prev_m = 1000 },
+    { id = "old-souq",               distance_from_prev_m = 1300 },
+    { id = "samawah-central",        distance_from_prev_m = 1100 },
+    { id = "riverside",              distance_from_prev_m = 900 },
+    { id = "eastern-bridge",         distance_from_prev_m = 1200 },
+    { id = "al-salam",               distance_from_prev_m = 1400 },
+    { id = "governorate-hospital",   distance_from_prev_m = 1300 },
+    { id = "new-german-hospital",    distance_from_prev_m = 1500 },
+    { id = "engineering-quarter",    distance_from_prev_m = 1300 },
+    { id = "al-muthanna-university", distance_from_prev_m = 1400 },
+    { id = "east-depot",             distance_from_prev_m = 600 },
+]
+
+[[lines]]
+id = "line-2"
+name = "Line 2 Halqa"
+is_ring = true
+ring_wrap_length_m = 1600
+stations = [
+    { id = "eastern-bridge",         distance_from_prev_m = 0 },
+    { id = "northern-suburbs-a",     distance_from_prev_m = 1800 },
+    { id = "northern-suburbs-b",     distance_from_prev_m = 1500 },
+    { id = "northwest-junction",     distance_from_prev_m = 1700 },
+    { id = "industrial-west",        distance_from_prev_m = 1600 },
+    { id = "western-residential",    distance_from_prev_m = 1500 },
+    { id = "south-west-residential", distance_from_prev_m = 1800 },
+    { id = "southern-markets",       distance_from_prev_m = 1400 },
+    { id = "south-east-residential", distance_from_prev_m = 1600 },
+    { id = "al-muthanna-university", distance_from_prev_m = 1500 },
+]
+
+[[fleets]]
+line = "line-1"
+trainset_count = 6
+dispatch_points = [
+    { station = "samawah-rws", heading = "forward" },
+    { station = "east-depot",  heading = "reverse" },
+]
+service_start = "05:30"
+service_end   = "23:30"
+schedule = [
+    { from = "05:30", to = "07:00", headway_min = 10 },
+    { from = "07:00", to = "09:30", headway_min = 4 },
+    { from = "09:30", to = "16:00", headway_min = 8 },
+    { from = "16:00", to = "19:00", headway_min = 4 },
+    { from = "19:00", to = "22:00", headway_min = 10 },
+    { from = "22:00", to = "23:30", headway_min = 15 },
+]
+
+[[fleets]]
+line = "line-2"
+trainset_count = 4
+dispatch_points = [
+    { station = "eastern-bridge",         heading = "forward" },
+    { station = "al-muthanna-university", heading = "reverse" },
+    { station = "eastern-bridge",         heading = "reverse" },
+    { station = "al-muthanna-university", heading = "forward" },
+]
+service_start = "05:30"
+service_end   = "23:30"
+schedule = [
+    { from = "05:30", to = "07:00", headway_min = 12 },
+    { from = "07:00", to = "09:30", headway_min = 6 },
+    { from = "09:30", to = "16:00", headway_min = 10 },
+    { from = "16:00", to = "19:00", headway_min = 6 },
+    { from = "19:00", to = "22:00", headway_min = 12 },
+    { from = "22:00", to = "23:30", headway_min = 15 },
+]
+
+# --- Sites (same as designs/west-asia/Iraq/Samawah/samawah.toml) ---
+[[sites]]
+station = "samawah-rws"
+pv_nameplate_kw = 500
+storage_capacity_kwh = 3000
+storage_max_charge_kw = 1500
+storage_max_discharge_kw = 1500
+storage_initial_soc = 0.6
+grid_import_kw = 800
+grid_export_kw = 800
+[[sites]]
+station = "samawah-central"
+pv_nameplate_kw = 300
+storage_capacity_kwh = 2000
+storage_max_charge_kw = 800
+storage_max_discharge_kw = 800
+grid_import_kw = 500
+grid_export_kw = 500
+[[sites]]
+station = "eastern-bridge"
+pv_nameplate_kw = 400
+storage_capacity_kwh = 3000
+storage_max_charge_kw = 1000
+storage_max_discharge_kw = 1000
+grid_import_kw = 600
+grid_export_kw = 600
+[[sites]]
+station = "governorate-hospital"
+pv_nameplate_kw = 300
+storage_capacity_kwh = 2000
+storage_max_charge_kw = 800
+storage_max_discharge_kw = 800
+grid_import_kw = 500
+grid_export_kw = 500
+[[sites]]
+station = "new-german-hospital"
+pv_nameplate_kw = 300
+storage_capacity_kwh = 2000
+storage_max_charge_kw = 800
+storage_max_discharge_kw = 800
+grid_import_kw = 500
+grid_export_kw = 500
+[[sites]]
+station = "al-muthanna-university"
+pv_nameplate_kw = 500
+storage_capacity_kwh = 3000
+storage_max_charge_kw = 1000
+storage_max_discharge_kw = 1000
+grid_import_kw = 600
+grid_export_kw = 600
+[[sites]]
+station = "east-depot"
+pv_nameplate_kw = 5000
+storage_capacity_kwh = 40000
+storage_max_charge_kw = 10000
+storage_max_discharge_kw = 10000
+storage_initial_soc = 0.6
+grid_import_kw = 3000
+grid_export_kw = 3000
+[[sites]]
+station = "northwest-junction"
+pv_nameplate_kw = 1500
+storage_capacity_kwh = 5000
+storage_max_charge_kw = 2000
+storage_max_discharge_kw = 2000
+storage_initial_soc = 0.6
+grid_import_kw = 1000
+grid_export_kw = 1000
+[[sites]]
+station = "southern-markets"
+pv_nameplate_kw = 300
+storage_capacity_kwh = 2000
+storage_max_charge_kw = 800
+storage_max_discharge_kw = 800
+grid_import_kw = 500
+grid_export_kw = 500
+
+# ===========================================================================
+#                              FAULT SCENARIOS
+# ===========================================================================
+# Two faults fire during the run: a system-wide dust storm during AM peak
+# that cuts PV output to 30% for four hours, and a depot grid-tie failure in
+# mid-afternoon so we can see the depot ride through on stored energy alone.
+
+[[faults]]
+name = "morning dust storm"
+kind = "dust_event"
+from = "07:00"
+to = "11:00"
+pv_output_factor = 0.3              # 70% PV loss system-wide
+
+[[faults]]
+name = "depot grid outage"
+kind = "grid_outage"
+from = "13:00"
+to = "16:00"
+station = "east-depot"              # omit station for system-wide outage
+
+[[faults]]
+name = "AMU pad service"
+kind = "charging_pad_outage"
+from = "14:00"
+to = "18:00"
+station = "al-muthanna-university"

@@ -1,0 +1,91 @@
+{
+  "annual_opex_usd": {
+    "components": {
+      "civil_station_depot_maintenance": 7102496.44,
+      "labour": 2134944.0,
+      "residual_grid_energy": 0.0,
+      "rolling_stock_maintenance_including_battery_renewal_reserve": 3600000.0,
+      "signalling_maintenance": 97087.3,
+      "solar_plant_maintenance": 427134.19104872737
+    },
+    "total": 13361661.931048729
+  },
+  "capex_eur": {
+    "reconciled_project_total": 486617753.4776553
+  },
+  "capex_usd": {
+    "authoritative_design_base": 500456728.0,
+    "reconciled_project_total": 528932340.7365818,
+    "risk_envelope_15_percent": 608272191.847069,
+    "risk_envelope_25_percent": 661165425.9207273,
+    "timetable_sized_dedicated_solar": 28475612.736581825
+  },
+  "cases": {
+    "high_capacity_use": {
+      "annual_operating_cash_usd": 103468860.43695128,
+      "annual_paid_trips": 117313920.0,
+      "annual_public_support_usd": 0.0,
+      "annual_revenue_usd": 116830522.368,
+      "capacity_utilisation": 0.8,
+      "project_irr": 0.12945522304719354,
+      "project_npv_usd_at_8_percent": 301726475.443699,
+      "steady_state_dscr": 4.162479782518836
+    },
+    "low_capacity_use": {
+      "annual_operating_cash_usd": 61235849.23695127,
+      "annual_paid_trips": 73321200.0,
+      "annual_public_support_usd": 0.0,
+      "annual_revenue_usd": 74597511.168,
+      "capacity_utilisation": 0.5,
+      "project_irr": 0.08348614235940655,
+      "project_npv_usd_at_8_percent": 17994831.98644478,
+      "steady_state_dscr": 2.4634753232785447
+    }
+  },
+  "city": "gaza-city",
+  "funding": {
+    "annual_debt_service_usd": 24857504.62296283,
+    "construction_grace_years": 7,
+    "debt_principal_usd": 423145872.58926547,
+    "debt_rate": 0.045,
+    "government_equity_share": 0.2,
+    "lender_commitment_status": "unconfirmed-placeholder",
+    "repayment_years": 33
+  },
+  "limitations": [
+    "No calibrated origin-destination or stated-preference ridership survey.",
+    "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
+    "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
+  ],
+  "operations_basis": {
+    "annual_train_km_including_non_revenue": 7118553.674700001,
+    "energy_kwh_per_car_km_hot_climate_planning": 4.0,
+    "non_revenue_train_km_factor": 1.08,
+    "scheduled_train_km_per_day": 18058.2285
+  },
+  "passed": true,
+  "renewal_policy": {
+    "field_asset_renewals": "included in fixed-asset maintenance allowance pending condition-based asset plan",
+    "train_battery_cycle_years": 12,
+    "treatment": "included in rolling-stock maintenance reserve; do not double-count as separate CAPEX"
+  },
+  "revenue_basis": {
+    "demand_status": "capacity-led-not-calibrated-od-forecast",
+    "nonfare_revenue_usd_per_year": 4209159.168,
+    "operating_neutral_capacity_utilisation": 0.06501432767632298,
+    "operating_neutral_paid_trips_per_year": 9533857.044842426,
+    "practical_capacity_passenger_trips_per_day": 401760.0,
+    "single_trip_fare_usd": 0.9600000000000001
+  },
+  "schema_version": 1,
+  "sources": {
+    "design": "designs/west-asia/Palestine/Gaza-City/design.toml",
+    "design_sha256": "8119d34b6def568c2450cadfd2b3f8448f6ab02ed2cd1b7cf8b2e204e142ad5b",
+    "generator": "scripts/generate-city-finance.py",
+    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "scenario": "designs/west-asia/Palestine/Gaza-City/gaza-city.toml",
+    "scenario_sha256": "b01eb2f909acf9cf205a0546aae4df5eedfaf0b7f61a90585badc2b80bf65546"
+  },
+  "status": "planning-screen"
+}

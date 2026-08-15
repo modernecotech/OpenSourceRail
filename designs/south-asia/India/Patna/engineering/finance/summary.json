@@ -1,0 +1,91 @@
+{
+  "annual_opex_usd": {
+    "components": {
+      "civil_station_depot_maintenance": 32780543.88,
+      "labour": 4331544.0,
+      "residual_grid_energy": 0.0,
+      "rolling_stock_maintenance_including_battery_renewal_reserve": 13036800.0,
+      "signalling_maintenance": 428141.2,
+      "solar_plant_maintenance": 2844460.151039999
+    },
+    "total": 53421489.23104
+  },
+  "capex_eur": {
+    "reconciled_project_total": 2218788330.9971204
+  },
+  "capex_usd": {
+    "authoritative_design_base": 2222095770.0,
+    "reconciled_project_total": 2411726446.736,
+    "risk_envelope_15_percent": 2773485413.7464,
+    "risk_envelope_25_percent": 3014658058.42,
+    "timetable_sized_dedicated_solar": 189630676.73599994
+  },
+  "cases": {
+    "high_capacity_use": {
+      "annual_operating_cash_usd": 132976938.99296,
+      "annual_paid_trips": 286767360.0,
+      "annual_public_support_usd": 0.0,
+      "annual_revenue_usd": 186398428.224,
+      "capacity_utilisation": 0.8,
+      "project_irr": 0.036742119361530226,
+      "project_npv_usd_at_8_percent": -871104657.3347892,
+      "steady_state_dscr": 1.2034490811698189
+    },
+    "low_capacity_use": {
+      "annual_operating_cash_usd": 67020446.19296001,
+      "annual_paid_trips": 179229600.0,
+      "annual_public_support_usd": 43476076.737365454,
+      "annual_revenue_usd": 120441935.42400001,
+      "capacity_utilisation": 0.5,
+      "project_irr": -0.0013818806552297344,
+      "project_npv_usd_at_8_percent": -1394265180.0117834,
+      "steady_state_dscr": 0.6065389608252229
+    }
+  },
+  "city": "patna",
+  "funding": {
+    "annual_debt_service_usd": 110496522.93032546,
+    "construction_grace_years": 5,
+    "debt_principal_usd": 1929381157.3888001,
+    "debt_rate": 0.045,
+    "government_equity_share": 0.2,
+    "lender_commitment_status": "unconfirmed-placeholder",
+    "repayment_years": 35
+  },
+  "limitations": [
+    "No calibrated origin-destination or stated-preference ridership survey.",
+    "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
+    "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
+  ],
+  "operations_basis": {
+    "annual_train_km_including_non_revenue": 26369822.937599998,
+    "energy_kwh_per_car_km_hot_climate_planning": 4.0,
+    "non_revenue_train_km_factor": 1.08,
+    "scheduled_train_km_per_day": 66894.52799999999
+  },
+  "passed": true,
+  "renewal_policy": {
+    "field_asset_renewals": "included in fixed-asset maintenance allowance pending condition-based asset plan",
+    "train_battery_cycle_years": 12,
+    "treatment": "included in rolling-stock maintenance reserve; do not double-count as separate CAPEX"
+  },
+  "revenue_basis": {
+    "demand_status": "capacity-led-not-calibrated-od-forecast",
+    "nonfare_revenue_usd_per_year": 10514447.424,
+    "operating_neutral_capacity_utilisation": 0.1951606581196506,
+    "operating_neutral_paid_trips_per_year": 69957133.38104346,
+    "practical_capacity_passenger_trips_per_day": 982080.0,
+    "single_trip_fare_usd": 0.6133333333333334
+  },
+  "schema_version": 1,
+  "sources": {
+    "design": "designs/south-asia/India/Patna/design.toml",
+    "design_sha256": "33981d5ff933ea12e46dbcebcef0462f0b8bb0a721344fb12821ccf7a5003cee",
+    "generator": "scripts/generate-city-finance.py",
+    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "scenario": "designs/south-asia/India/Patna/patna.toml",
+    "scenario_sha256": "77fd852d57521b9779ac665f3356f27f1aea8595306a491401bc029022c8afe4"
+  },
+  "status": "planning-screen"
+}

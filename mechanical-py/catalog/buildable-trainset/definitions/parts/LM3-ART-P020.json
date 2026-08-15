@@ -1,0 +1,75 @@
+{
+  "acceptance": [
+    "motion-envelope proof",
+    "fire evidence",
+    "water ingress/drain test"
+  ],
+  "bom_line_ids": [
+    "B9"
+  ],
+  "definition_type": "product-item",
+  "id": "LM3-ART-P020",
+  "layer": "external-component",
+  "make_or_buy_basis": "Supplier gangway/articulation kit integrated through OSR adapter frame.",
+  "material_spec": {
+    "evidence_required": [
+      "certificate of conformity",
+      "incoming inspection record",
+      "datasheet / evidence pack"
+    ],
+    "finish_or_protection": "supplier finish/protection accepted by OSR evidence pack",
+    "form_factor": "preassembled supplier module with installation kit",
+    "governing_standard": "supplier specification plus project interface, safety, EMC/fire, and lifecycle evidence",
+    "grade_or_part_class": "COTS/BID component class matched to OSR envelope",
+    "material_family": "supplier-controlled external component",
+    "nominal_section": "mass, volume, mounting datum, service clearance, and connector envelope frozen by RFQ drawing",
+    "traceability": "serialised CoC, datasheet, revision, and incoming inspection record"
+  },
+  "maturity": "buildable-after-supplier-freeze",
+  "notes": "",
+  "parent": "LM3-ART-SA800",
+  "process_spec": {
+    "inspection_methods": [
+      "incoming visual inspection",
+      "envelope fit check",
+      "motion-envelope proof",
+      "fire evidence",
+      "water ingress/drain test",
+      "pressure/leak test",
+      "drain-flow test where applicable",
+      "functional static test",
+      "emergency/recovery function check where applicable"
+    ],
+    "joining_methods": [
+      "bolted/torqued installation",
+      "sealed, gasketed, bonded, or clipped interface as supplier envelope requires"
+    ],
+    "primary_processes": [
+      "receive",
+      "quarantine",
+      "evidence review",
+      "incoming fit check",
+      "release to parent kit"
+    ],
+    "release_level": "BID supplier-controlled process; OSR controls envelope and acceptance evidence",
+    "special_process_controls": [
+      "RFQ envelope freeze",
+      "supplier certificate/revision check",
+      "incoming quarantine until evidence accepted",
+      "fluid compatibility check",
+      "hose/pipe routing release",
+      "safety interlock interface freeze",
+      "supplier lifecycle evidence review"
+    ],
+    "tooling_basis": "RFQ-LM3-ART-P020, CERT-LM3-ART-P020, GAUGE-LM3-ART-P020-ENVELOPE"
+  },
+  "quantity_per_trainset": 2,
+  "route": "BID",
+  "source_refs": [
+    "systems.py",
+    "articulation.md",
+    "LM3-SYS-170"
+  ],
+  "title": "gangway, lower spherical pivot, upper links, bellows, turntable, and trainline kit",
+  "unit": "kit"
+}

@@ -1,0 +1,54 @@
+# Level crossing archetypes — at-grade road intersections.
+#
+# City design.toml declares level crossings on sections:
+#     [[level_crossings]]
+#     id         = "lx-1"
+#     kit        = "full-barrier"
+#     section    = { line = "line-1", from = "al-salam", to = "governorate-hospital" }
+#     offset_m   = 600
+#
+# Each crossing is wired into the nearest W-Node's consensus log per
+# RFC 0003 §D6 — crossing state is part of track-state, not a black box.
+#
+# Unified system principle: three crossing kits. Light-rail-style (no gates,
+# only warnings) is not offered — OSR deployments default to full protection
+# for cert path simplicity.
+
+# ---- Pedestrian: sidewalk crossing, no road ---------------------------
+
+[kits.pedestrian]
+full_barriers           = false
+half_barriers           = false
+audio_warning           = true
+visual_warning          = true
+ped_gate_count          = 2              # one each side, swing-lock
+road_lane_count         = 0
+approach_length_m       = 15
+cost_usd                = 35000
+
+# ---- Half-barrier: single-carriageway road crossing ------------------
+
+[kits.half-barrier]
+full_barriers           = false
+half_barriers           = true
+audio_warning           = true
+visual_warning          = true
+ped_gate_count          = 2
+road_lane_count         = 2              # one each direction
+approach_length_m       = 35
+road_surface_m2         = 100            # 25 m × 4 m
+cost_usd                = 140000
+
+# ---- Full-barrier: multi-lane, full road closure --------------------
+
+[kits.full-barrier]
+full_barriers           = true
+half_barriers           = false
+audio_warning           = true
+visual_warning          = true
+ped_gate_count          = 2
+road_lane_count         = 4
+approach_length_m       = 50
+road_surface_m2         = 240            # 30 m × 8 m
+obstacle_detection      = true           # radar or lidar for stuck vehicles
+cost_usd                = 310000

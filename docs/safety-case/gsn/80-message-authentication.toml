@@ -1,0 +1,55 @@
+# G25..G27 — message authentication on the consensus log (RFC 0017).
+#
+# The consensus log carries safety-critical authority (MA grants,
+# intrusion verdicts, switch observations). A forged entry that
+# passed as authentic would bypass every SIL-4 gate downstream. This
+# goal family claims the `osr-secbus` envelope verifier rejects any
+# entry that is not signed by the registered issuer.
+
+[[goal]]
+id = "G25"
+description = "osr-secbus verify_signed is deterministic — identical envelope and registry produce identical result (S1)."
+
+[[solution]]
+id = "E25a"
+description = "Kani harness S1 — lookup-miss path is deterministic (full deterministic claim bounded by ed25519 primitives in osr-crypto)."
+parent = "G25"
+evidence = { kind = "kani", path = "crates/osr-secbus/src/kani_proofs.rs", anchor = "s1_unknown_issuer_lookup_is_deterministic" }
+
+[[solution]]
+id = "E25b"
+description = "Proptest S1 — verify_signed is deterministic across random issuer + payload combinations."
+parent = "G25"
+evidence = { kind = "proptest", path = "crates/osr-secbus/tests/proptest_secbus.rs" }
+
+[[goal]]
+id = "G26"
+description = "osr-secbus verify_signed rejects any envelope with a single-bit mutation in either signature or payload (S2)."
+
+[[solution]]
+id = "E26a"
+description = "Proptest S2 — signature bit-flip across every byte and bit position always rejects."
+parent = "G26"
+evidence = { kind = "proptest", path = "crates/osr-secbus/tests/proptest_secbus.rs" }
+
+[[solution]]
+id = "E26b"
+description = "Proptest S2 — payload bit-flip across random payload sizes always rejects."
+parent = "G26"
+evidence = { kind = "proptest", path = "crates/osr-secbus/tests/proptest_secbus.rs" }
+
+[[goal]]
+id = "G27"
+description = "osr-secbus verify_signed rejects any envelope whose issuer is absent from the registry (S3)."
+
+[[solution]]
+id = "E27a"
+description = "Kani harness S3 — empty registry + any envelope + any signature always yields UnknownIssuer."
+parent = "G27"
+evidence = { kind = "kani", path = "crates/osr-secbus/src/kani_proofs.rs", anchor = "s3_unknown_issuer_always_rejects" }
+
+[[solution]]
+id = "E27b"
+description = "Proptest S3 — random claimed-issuer values outside the registry always reject."
+parent = "G27"
+evidence = { kind = "proptest", path = "crates/osr-secbus/tests/proptest_secbus.rs" }

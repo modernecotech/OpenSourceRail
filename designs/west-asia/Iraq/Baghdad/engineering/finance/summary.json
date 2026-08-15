@@ -1,0 +1,91 @@
+{
+  "annual_opex_usd": {
+    "components": {
+      "civil_station_depot_maintenance": 62574541.44,
+      "labour": 17198496.0,
+      "residual_grid_energy": 0.0,
+      "rolling_stock_maintenance_including_battery_renewal_reserve": 67065600.0,
+      "signalling_maintenance": 1253126.3,
+      "solar_plant_maintenance": 11454536.67096
+    },
+    "total": 159546300.41096
+  },
+  "capex_eur": {
+    "reconciled_project_total": 5905108365.138881
+  },
+  "capex_usd": {
+    "authoritative_design_base": 5654960271.0,
+    "reconciled_project_total": 6418596049.064,
+    "risk_envelope_15_percent": 7381385456.423599,
+    "risk_envelope_25_percent": 8023245061.33,
+    "timetable_sized_dedicated_solar": 763635778.064
+  },
+  "cases": {
+    "high_capacity_use": {
+      "annual_operating_cash_usd": 546416297.5410402,
+      "annual_paid_trips": 664778880.0,
+      "annual_public_support_usd": 0.0,
+      "annual_revenue_usd": 705962597.9520001,
+      "capacity_utilisation": 0.8,
+      "project_irr": 0.06673485812559302,
+      "project_npv_usd_at_8_percent": -791397341.9904894,
+      "steady_state_dscr": 1.8580741169297574
+    },
+    "low_capacity_use": {
+      "annual_operating_cash_usd": 293800323.1410401,
+      "annual_paid_trips": 415486800.0,
+      "annual_public_support_usd": 276373.0264556408,
+      "annual_revenue_usd": 453346623.55200005,
+      "capacity_utilisation": 0.5,
+      "project_irr": 0.025452188550455848,
+      "project_npv_usd_at_8_percent": -2795122822.124907,
+      "steady_state_dscr": 0.9990602008589683
+    }
+  },
+  "city": "baghdad",
+  "funding": {
+    "annual_debt_service_usd": 294076696.1674957,
+    "construction_grace_years": 5,
+    "debt_principal_usd": 5134876839.251201,
+    "debt_rate": 0.045,
+    "government_equity_share": 0.2,
+    "lender_commitment_status": "unconfirmed-placeholder",
+    "repayment_years": 35
+  },
+  "limitations": [
+    "No calibrated origin-destination or stated-preference ridership survey.",
+    "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
+    "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
+  ],
+  "operations_basis": {
+    "annual_train_km_including_non_revenue": 82192423.6395,
+    "energy_kwh_per_car_km_hot_climate_planning": 4.0,
+    "non_revenue_train_km_factor": 1.08,
+    "scheduled_train_km_per_day": 208504.3725
+  },
+  "passed": true,
+  "renewal_policy": {
+    "field_asset_renewals": "included in fixed-asset maintenance allowance pending condition-based asset plan",
+    "train_battery_cycle_years": 12,
+    "treatment": "included in rolling-stock maintenance reserve; do not double-count as separate CAPEX"
+  },
+  "revenue_basis": {
+    "demand_status": "capacity-led-not-calibrated-od-forecast",
+    "nonfare_revenue_usd_per_year": 32319999.552,
+    "operating_neutral_capacity_utilisation": 0.15109056483202352,
+    "operating_neutral_paid_trips_per_year": 125552270.58449997,
+    "practical_capacity_passenger_trips_per_day": 2276640.0,
+    "single_trip_fare_usd": 1.0133333333333334
+  },
+  "schema_version": 1,
+  "sources": {
+    "design": "designs/west-asia/Iraq/Baghdad/design.toml",
+    "design_sha256": "2244f88d812536b05fe072900e7ec7689c2689686b700f07cb83a77cdbc9f635",
+    "generator": "scripts/generate-city-finance.py",
+    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "scenario": "designs/west-asia/Iraq/Baghdad/baghdad.toml",
+    "scenario_sha256": "20aa59393e8cd54a81a7ca523adbda8132003dc149e2e6e0cd73405fff759159"
+  },
+  "status": "planning-screen"
+}

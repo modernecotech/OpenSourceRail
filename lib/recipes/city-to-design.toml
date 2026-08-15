@@ -1,0 +1,368 @@
+# City → Design auto-generation recipe.
+#
+# This file is the rule sheet the generator follows when a user picks a city
+# that doesn't yet have a design.toml. Input is a minimal city record:
+#
+#     [city]
+#     country     = "IQ"              # required
+#     city        = "As-Samawah"      # required
+#     population  = 373000            # required (Iraq 2024 census, As-Samawah city)
+#     density_pkm2= 3200              # persons per km², urban
+#     area_km2    = 70                # urban footprint
+#     centroid    = { lat = 31.3109, lon = 45.2804 }
+#     anchors     = [                 # optional; generator can pull from OSM
+#       { type = "university", weight = 1.0 },
+#       { type = "hospital",   weight = 0.8 },
+#       { type = "intercity-rail", weight = 0.6 },
+#     ]
+#
+# Output: a complete designs/<region>/<country>/<city>/design.toml that
+# references templates (no direct kW/kWh numbers), plus corridor.geojson
+# from the OSM step, plus a bom.yaml and plan.yaml.
+#
+# This file is authoritative for the generator — no generator logic exists
+# outside these rules. Add a new rule here instead of hard-coding in Rust.
+
+[recipe]
+schema_version = 1
+
+# ---- Step 1: pick climate preset from lat/country -------------------
+#
+# Rule: match against the climate map below in order; first match wins.
+# koppen_code is used if the generator has a Köppen lookup available;
+# otherwise latitude bands + country default provide a fallback.
+
+[[recipe.climate_rules]]
+# Hot desert: 15°-35° latitude band, low precip countries.
+lat_abs_min     = 15
+lat_abs_max     = 35
+countries       = ["IQ", "SA", "EG", "SD", "MA", "LY", "DZ", "TN", "JO", "SY", "IR", "YE", "OM"]
+climate         = "hot-desert"
+
+[[recipe.climate_rules]]
+# Tropical arid: 10°-20° latitude band, Sahel/West Africa.
+lat_abs_min     = 10
+lat_abs_max     = 20
+countries       = ["NE", "ML", "MR", "BF", "TD", "SN"]
+climate         = "tropical-arid"
+
+[[recipe.climate_rules]]
+# Tropical wet: 0°-15°, high rainfall.
+lat_abs_min     = 0
+lat_abs_max     = 15
+countries       = ["ID", "MY", "PH", "VN", "TH", "BD", "KH", "LA", "NG", "CD", "CI", "GH", "CM", "CO", "VE", "EC", "PE", "BR"]
+climate         = "tropical-wet"
+
+[[recipe.climate_rules]]
+# Mediterranean.
+lat_abs_min     = 30
+lat_abs_max     = 45
+countries       = ["ES", "PT", "IT", "GR", "TR", "CY", "MT", "HR", "SI", "ME", "AL", "IL", "LB", "PS"]
+climate         = "mediterranean"
+
+[[recipe.climate_rules]]
+# Cold continental: high lat, continental interior.
+lat_abs_min     = 45
+lat_abs_max     = 70
+climate         = "cold-continental"
+
+[[recipe.climate_rules]]
+# Fallback: temperate continental.
+lat_abs_min     = 0
+lat_abs_max     = 90
+climate         = "temperate-continental"
+
+# ---- Step 2: pick consist from population band ----------------------
+
+# Uses lib/templates/fleet-sizing.toml [rules.consist_bands] — no rule here.
+
+# ---- Step 3: pick track geometry preset ----------------------------
+#
+# OSR default is "standard-urban" (1435 mm light-metro). Full-metro
+# geometry kicks in for cities large enough to justify dedicated ROW
+# throughout.
+
+[[recipe.geometry_rules]]
+# Small → large city: light-metro geometry on mostly at-grade ROW.
+pop_max         = 2000000
+geometry        = "standard-urban"
+
+[[recipe.geometry_rules]]
+# Megacity: full-metro geometry, tunnel/elevated dominant.
+pop_max         = 100000000
+geometry        = "standard-metro"
+
+# ---- Step 4: generate line topology --------------------------------
+#
+# Pick a topology archetype based on urban form and population.
+# Each archetype is a rule for synthesizing lines on the OSM corridor.
+#
+# The generator's OSM step (design-py/osr_osm/) computes:
+#   - major arterials in the bbox
+#   - anchor locations (university, hospital, rail station, mall)
+#   - urban form (monocentric vs polycentric)
+# These feed the archetype selection below.
+
+[[recipe.topology_rules]]
+# Small city, single corridor → one radial line.
+pop_max         = 300000
+name            = "single-radial"
+line_count      = 1
+line_shapes     = ["radial"]
+target_route_km = [8]                     # indicative
+
+[[recipe.topology_rules]]
+# Mid city (Samawah tier) → radial + ring.
+pop_max         = 1000000
+name            = "radial-plus-ring"
+line_count      = 2
+line_shapes     = ["radial", "ring"]
+target_route_km = [14, 16]
+
+[[recipe.topology_rules]]
+# Large city → two radials crossing at centre + outer ring.
+pop_max         = 3000000
+name            = "cross-plus-ring"
+line_count      = 3
+line_shapes     = ["radial", "radial", "ring"]
+target_route_km = [18, 18, 28]
+
+[[recipe.topology_rules]]
+# Major city → four radials, inner ring, outer ring.
+pop_max         = 100000000
+name            = "hub-and-spoke-dual-ring"
+line_count      = 6
+line_shapes     = ["radial", "radial", "radial", "radial", "ring", "ring"]
+target_route_km = [22, 22, 22, 22, 24, 48]
+
+# ---- Step 5: station spacing + count per line ---------------------
+
+[recipe.station_spacing]
+urban_core_m    = 800                     # dense centre
+urban_m         = 1200                    # suburban
+peri_urban_m    = 1800                    # outskirts
+# OSM step snaps exact positions to arterial intersections / anchors.
+
+# ---- Step 6: station archetype rules ------------------------------
+#
+# The generator assigns an archetype to each synthesized station based on
+# local context from OSM:
+
+[[recipe.station_archetype_rules]]
+# Line end points → terminal / depot-terminal.
+condition       = "is_line_endpoint"
+archetype       = "terminal"
+
+[[recipe.station_archetype_rules]]
+condition       = "is_line_endpoint_and_depot"
+archetype       = "depot-terminal"
+
+[[recipe.station_archetype_rules]]
+# Line intersection → interchange.
+condition       = "lines_intersect_here"
+archetype       = "interchange"
+
+[[recipe.station_archetype_rules]]
+# Near a major anchor (university / hospital / intercity rail / stadium).
+condition       = "near_major_anchor"
+archetype       = "major"
+
+[[recipe.station_archetype_rules]]
+# Low-traffic peripheral stop.
+condition       = "low_density_catchment"
+archetype       = "halt"
+
+[[recipe.station_archetype_rules]]
+# Default.
+condition       = "default"
+archetype       = "standard"
+
+# ---- Step 7: energy tier rules ------------------------------------
+
+[[recipe.energy_tier_rules]]
+# Terminals → charging absorb tier.
+condition       = "archetype == terminal || archetype == depot-terminal"
+tier            = "terminal"
+
+[[recipe.energy_tier_rules]]
+condition       = "is_depot && !is_terminal"
+tier            = "depot-secondary"
+
+[[recipe.energy_tier_rules]]
+condition       = "archetype == interchange"
+tier            = "interchange"
+
+[[recipe.energy_tier_rules]]
+condition       = "archetype == major"
+tier            = "major"
+
+[[recipe.energy_tier_rules]]
+condition       = "archetype == standard"
+tier            = "standard"
+
+[[recipe.energy_tier_rules]]
+condition       = "archetype == halt"
+tier            = "none"                  # no site for halts
+
+# ---- Step 8: signalling kit rules ---------------------------------
+
+[[recipe.signalling_rules]]
+condition       = "has_switches"
+kit             = "interlocking"
+
+[[recipe.signalling_rules]]
+condition       = "is_depot"
+kit             = "depot-throat"
+
+[[recipe.signalling_rules]]
+condition       = "is_station"
+kit             = "station"
+
+[[recipe.signalling_rules]]
+condition       = "section_length_km >= 2"
+kit             = "plain-line"
+
+# ---- Step 9: comms kit rules --------------------------------------
+
+[[recipe.comms_backbone_rules]]
+# Single ring is sufficient up to ~3M population / ~60 stations.
+pop_max         = 3000000
+backbone        = "single-ring-10g"
+
+[[recipe.comms_backbone_rules]]
+# Megacity: dual counter-rotating rings for fault tolerance at scale.
+pop_max         = 100000000
+backbone        = "dual-ring-10g"
+
+[[recipe.comms_trackside_rules]]
+# OSR default: dual carrier + LoRa fallback.
+condition       = "default"
+trackside       = "dual-5g-lora"
+
+[[recipe.comms_trackside_rules]]
+# Countries with limited carrier presence → LoRa-heavy.
+countries       = ["SO", "SS", "ER", "TD", "CF", "YE"]
+trackside       = "dual-5g-lora-psb"
+
+# ---- Step 10: platform door / accessibility defaults -------------
+
+[recipe.platform_doors]
+halt            = "none"
+standard        = "none"                  # at-grade — not worth the cost
+major           = "half-height"
+interchange     = "half-height"
+terminal        = "half-height"
+
+[recipe.accessibility]
+halt            = "step-free-basic"
+standard        = "step-free-basic"
+major           = "step-free-basic"
+interchange     = "step-free-full"
+terminal        = "step-free-basic"
+depot-terminal  = "step-free-basic"
+
+[recipe.passenger_info]
+halt            = "basic"
+standard        = "standard"
+major           = "major"
+interchange     = "major"
+terminal        = "standard"
+depot-terminal  = "standard"
+
+# ---- Step 11: fare system rules ----------------------------------
+
+[[recipe.fare_rules]]
+countries       = ["IQ", "SY", "LB", "JO", "YE", "PS"]
+system          = "iraq-mobile-money"
+
+[[recipe.fare_rules]]
+countries       = ["KE", "TZ", "UG", "RW", "ET", "ZM", "MW"]
+system          = "east-africa-mobile-money"
+
+[[recipe.fare_rules]]
+countries       = ["IN", "BD", "NP", "LK", "PK"]
+system          = "south-asia-upi"
+
+[[recipe.fare_rules]]
+countries       = ["MX", "BR", "CO", "AR", "CL", "PE", "EC"]
+system          = "latam-contactless"
+
+[[recipe.fare_rules]]
+countries       = ["DE", "FR", "ES", "IT", "NL", "PL", "PT", "BE", "AT", "CZ", "HU", "GR", "HR", "SI", "SK", "IE", "DK", "SE", "FI", "NO"]
+system          = "eu-contactless-emv"
+
+[[recipe.fare_rules]]
+condition       = "default"
+system          = "iraq-mobile-money"    # generic mobile-money fallback
+
+[recipe.fare_gates]
+halt            = "open-fare"
+standard        = "qr-and-nfc"
+major           = "qr-and-nfc"
+interchange     = "full-emv"
+terminal        = "qr-and-nfc"
+
+# ---- Step 12: climate adapter rules ------------------------------
+
+[[recipe.adapter_rules]]
+climate         = "cold-continental"
+adapters        = ["snow-switch-heaters", "snow-plough-front", "winterized-depot"]
+
+[[recipe.adapter_rules]]
+climate         = "temperate-continental"
+# Optional — only if city has strong winters (lat > 50).
+condition       = "lat_abs > 50"
+adapters        = ["snow-switch-heaters"]
+
+[[recipe.adapter_rules]]
+climate         = "hot-desert"
+adapters        = ["sand-filter-hvac", "vertical-bifacial-pv", "high-ambient-traction"]
+
+[[recipe.adapter_rules]]
+climate         = "tropical-arid"
+adapters        = ["sand-filter-hvac", "dust-storm-ingress-control", "vertical-bifacial-pv", "high-ambient-traction"]
+
+[[recipe.adapter_rules]]
+climate         = "tropical-wet"
+adapters        = ["tropical-ventilation", "marine-coating"]
+
+[[recipe.adapter_rules]]
+# Coastal cities regardless of climate.
+condition       = "near_coast_km < 5"
+adapters        = ["marine-coating"]
+
+# ---- Step 13: service hours --------------------------------------
+
+[[recipe.service_hours_rules]]
+# Hospital or 24/7 anchor → extended.
+condition       = "has_hospital_anchor"
+preset          = "extended"
+
+[[recipe.service_hours_rules]]
+# Muslim-majority country default.
+countries       = ["IQ", "SA", "EG", "MA", "TR", "BD", "PK", "ID", "MY", "IR", "JO", "SY", "LB", "YE", "SD", "SO"]
+preset          = "conservative-religious"
+
+[[recipe.service_hours_rules]]
+condition       = "default"
+preset          = "standard-urban"
+
+# ---- Step 14: phasing --------------------------------------------
+#
+# Auto-generate phases by consecutive-segment rule: each phase is a
+# contiguous subsequence of stations that is operationally meaningful
+# (endpoint to depot or endpoint to interchange).
+
+[recipe.phasing]
+max_phase_route_km      = 10              # split if a single phase > this
+phase_sequence_rule     = "trunk-first"   # build the busiest corridor first
+min_phase_duration_mo   = 18
+typical_phase_duration_mo = 30
+
+# ---- Output paths (generator writes these) -----------------------
+
+[recipe.output]
+design_path        = "designs/{continent}/{country_slug}/{city_slug}/design.toml"
+corridor_path      = "designs/{continent}/{country_slug}/{city_slug}/corridor.geojson"
+bom_path           = "designs/{continent}/{country_slug}/{city_slug}/bom.yaml"
+plan_path          = "designs/{continent}/{country_slug}/{city_slug}/plan.yaml"

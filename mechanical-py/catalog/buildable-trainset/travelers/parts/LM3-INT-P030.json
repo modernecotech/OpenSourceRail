@@ -1,0 +1,224 @@
+{
+  "bom_line_ids": [
+    "B21"
+  ],
+  "document_revision": "A-DRAFT",
+  "estimated_labor_hours": 4.2,
+  "id": "LM3-INT-P030",
+  "material_spec": {
+    "evidence_required": [
+      "fire-material certificate",
+      "laminate/panel batch record",
+      "insert pull-out evidence",
+      "trim/cure record"
+    ],
+    "finish_or_protection": "cleanable interior gelcoat/paint or decorative film with sealed edges and anti-slip finish where walked on",
+    "form_factor": "moulded or CNC-trimmed liner, reveal, cover, hatch, and kick-panel shells with potted inserts",
+    "governing_standard": "EN 45545-2 interior material evidence plus supplier laminate/phenolic panel certificate",
+    "grade_or_part_class": "EN 45545 HL2 candidate FRP, phenolic, or glass/basalt-fibre sandwich interior panel",
+    "material_family": "fire-rated cabin fiberglass / phenolic composite",
+    "nominal_section": "panel thickness, edge return, insert pattern, and clip grid per LM3-INT v2A drawing",
+    "traceability": "laminate/panel batch, resin/cure or board batch, insert batch, adhesive batch, and fire certificate"
+  },
+  "operations": [
+    {
+      "labor_hours": 0.35,
+      "qa_gate": "traveler rev and parent assembly match released manifest",
+      "sequence": 10,
+      "signoff_role": "cell lead",
+      "title": "release traveler, revision, material/certificate pack, and parent interface",
+      "tooling_ids": [
+        "TRV-LM3-INT-P030",
+        "DOC-LM3-INT-SA330"
+      ],
+      "work_center": "production control"
+    },
+    {
+      "labor_hours": 1.8,
+      "qa_gate": "fabricated geometry matches datum/gauge requirements",
+      "sequence": 20,
+      "signoff_role": "operator",
+      "title": "cut, form, machine, or fabricate local hardware",
+      "tooling_ids": [
+        "FIX-LM3-INT-FAB",
+        "GAUGE-LM3-INT-P030-DATUM"
+      ],
+      "work_center": "fabrication cell"
+    },
+    {
+      "labor_hours": 0.8,
+      "qa_gate": "fit-up evidence recorded before release to assembly",
+      "sequence": 30,
+      "signoff_role": "operator",
+      "title": "trial-fit to parent interface and record shim/adjustment pack",
+      "tooling_ids": [
+        "FIX-LM3-INT-SA330",
+        "TORQUE-LM3-INT-P030"
+      ],
+      "work_center": "fit-up cell"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "fire-material certificate",
+      "sequence": 40,
+      "signoff_role": "quality inspector",
+      "title": "verify acceptance gate: fire-material certificate",
+      "tooling_ids": [
+        "QA-LM3-INT-P030"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "window-reveal gauge",
+      "sequence": 50,
+      "signoff_role": "quality inspector",
+      "title": "verify acceptance gate: window-reveal gauge",
+      "tooling_ids": [
+        "GAUGE-LM3-INT-P030"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "access-panel removal",
+      "sequence": 60,
+      "signoff_role": "quality inspector",
+      "title": "verify acceptance gate: access-panel removal",
+      "tooling_ids": [
+        "QA-LM3-INT-P030"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "edge-radius inspection",
+      "sequence": 70,
+      "signoff_role": "quality inspector",
+      "title": "verify acceptance gate: edge-radius inspection",
+      "tooling_ids": [
+        "QA-LM3-INT-P030"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "item is released, tagged, and staged for parent assembly",
+      "sequence": 80,
+      "signoff_role": "cell lead",
+      "title": "final item release to parent assembly",
+      "tooling_ids": [
+        "REL-LM3-INT-P030",
+        "KIT-LM3-INT-SA330"
+      ],
+      "work_center": "production control"
+    }
+  ],
+  "parent": "LM3-INT-SA330",
+  "process_spec": {
+    "inspection_methods": [
+      "laminate coupon",
+      "void/delamination visual tap check",
+      "trim-line gauge",
+      "insert pull-out where classed",
+      "fit-up survey",
+      "fire-material certificate",
+      "window-reveal gauge",
+      "access-panel removal",
+      "edge-radius inspection",
+      "sharp-edge inspection",
+      "rattle check",
+      "cleanability inspection"
+    ],
+    "joining_methods": [
+      "potted/captive inserts",
+      "retained fasteners or clip grid",
+      "adhesive/sealant only where removal and repair rules allow"
+    ],
+    "primary_processes": [
+      "inspect mould/trim fixture",
+      "apply release system",
+      "cut dry reinforcement or panel blank",
+      "lay up / infuse / press laminate",
+      "controlled cure",
+      "demould and post-cure where required",
+      "trim/drill to controlled datum",
+      "fit inserts/clips/gaskets",
+      "dry-fit to parent fixture"
+    ],
+    "release_level": "v2A composite-process controlled MAKE item; generated traveler is unsigned until build",
+    "special_process_controls": [
+      "released laminate schedule",
+      "resin/adhesive batch and shelf-life check",
+      "mould release record",
+      "cure temperature/time record",
+      "fire-material certificate check",
+      "edge sealing and dust-control rule",
+      "passenger-facing edge-radius rule",
+      "anti-slip rule for PRM/step panels"
+    ],
+    "tooling_basis": "MOULD/FIX-LM3-INT-P030 plus TRIM-GAUGE-LM3-INT-P030"
+  },
+  "quantity_per_trainset": 6,
+  "release_status": "unsigned-template",
+  "revision_approvals": [
+    {
+      "approval_id": "APP-LM3-INT-P030-MFG",
+      "date": "",
+      "name": "",
+      "role": "manufacturing engineering",
+      "signature": "",
+      "status": "pending"
+    },
+    {
+      "approval_id": "APP-LM3-INT-P030-QA",
+      "date": "",
+      "name": "",
+      "role": "quality",
+      "signature": "",
+      "status": "pending"
+    },
+    {
+      "approval_id": "APP-LM3-INT-P030-DA",
+      "date": "",
+      "name": "",
+      "role": "design authority",
+      "signature": "",
+      "status": "pending"
+    }
+  ],
+  "route": "MAKE",
+  "signoff_blocks": [
+    {
+      "date": "",
+      "name": "",
+      "role": "operator",
+      "signature": "",
+      "status": "blank"
+    },
+    {
+      "date": "",
+      "name": "",
+      "role": "cell lead",
+      "signature": "",
+      "status": "blank"
+    },
+    {
+      "date": "",
+      "name": "",
+      "role": "quality inspector",
+      "signature": "",
+      "status": "blank"
+    },
+    {
+      "date": "",
+      "name": "",
+      "role": "manufacturing engineer",
+      "signature": "",
+      "status": "blank"
+    }
+  ],
+  "title": "FRP/phenolic sidewall liner, window reveal, and cable-cover panel set",
+  "traveler_type": "product-item",
+  "unit": "side kit"
+}

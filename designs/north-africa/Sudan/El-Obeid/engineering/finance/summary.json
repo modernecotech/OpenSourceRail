@@ -1,0 +1,91 @@
+{
+  "annual_opex_usd": {
+    "components": {
+      "civil_station_depot_maintenance": 6074339.04,
+      "labour": 644952.0,
+      "residual_grid_energy": 0.0,
+      "rolling_stock_maintenance_including_battery_renewal_reserve": 4320000.0,
+      "signalling_maintenance": 118118.20000000001,
+      "solar_plant_maintenance": 474101.5960559998
+    },
+    "total": 11631510.836056
+  },
+  "capex_eur": {
+    "reconciled_project_total": 460938759.78476804
+  },
+  "capex_usd": {
+    "authoritative_design_base": 469413618.0,
+    "reconciled_project_total": 501020391.0704,
+    "risk_envelope_15_percent": 576173449.73096,
+    "risk_envelope_25_percent": 626275488.838,
+    "timetable_sized_dedicated_solar": 31606773.07039999
+  },
+  "cases": {
+    "high_capacity_use": {
+      "annual_operating_cash_usd": 23758586.763944,
+      "annual_paid_trips": 117313920.0,
+      "annual_public_support_usd": 848145.1052388884,
+      "annual_revenue_usd": 35390097.6,
+      "capacity_utilisation": 0.8,
+      "project_irr": 0.018339840225855775,
+      "project_npv_usd_at_8_percent": -212298851.25476748,
+      "steady_state_dscr": 0.9655319889797681
+    },
+    "low_capacity_use": {
+      "annual_operating_cash_usd": 10854055.563943999,
+      "annual_paid_trips": 73321200.0,
+      "annual_public_support_usd": 13752676.30523889,
+      "annual_revenue_usd": 22485566.4,
+      "capacity_utilisation": 0.5,
+      "project_irr": -0.02060995594527646,
+      "project_npv_usd_at_8_percent": -279589941.3008533,
+      "steady_state_dscr": 0.44110106216654715
+    }
+  },
+  "city": "el-obeid",
+  "funding": {
+    "annual_debt_service_usd": 24606731.86918289,
+    "construction_grace_years": 10,
+    "debt_principal_usd": 400816312.85632,
+    "debt_rate": 0.045,
+    "government_equity_share": 0.2,
+    "lender_commitment_status": "unconfirmed-placeholder",
+    "repayment_years": 30
+  },
+  "limitations": [
+    "No calibrated origin-destination or stated-preference ridership survey.",
+    "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
+    "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
+  ],
+  "operations_basis": {
+    "annual_train_km_including_non_revenue": 8660571.831899999,
+    "energy_kwh_per_car_km_hot_climate_planning": 4.0,
+    "non_revenue_train_km_factor": 1.08,
+    "scheduled_train_km_per_day": 21969.994499999997
+  },
+  "passed": true,
+  "renewal_policy": {
+    "field_asset_renewals": "included in fixed-asset maintenance allowance pending condition-based asset plan",
+    "train_battery_cycle_years": 12,
+    "treatment": "included in rolling-stock maintenance reserve; do not double-count as separate CAPEX"
+  },
+  "revenue_basis": {
+    "demand_status": "capacity-led-not-calibrated-od-forecast",
+    "nonfare_revenue_usd_per_year": 978014.3999999999,
+    "operating_neutral_capacity_utilisation": 0.2476687359876196,
+    "operating_neutral_paid_trips_per_year": 36318737.85019091,
+    "practical_capacity_passenger_trips_per_day": 401760.0,
+    "single_trip_fare_usd": 0.29333333333333333
+  },
+  "schema_version": 1,
+  "sources": {
+    "design": "designs/north-africa/Sudan/El-Obeid/design.toml",
+    "design_sha256": "0cd2f0948bf7166936cf249ba32ad426f9d673846750b8b9a7e08f1015c42a06",
+    "generator": "scripts/generate-city-finance.py",
+    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "scenario": "designs/north-africa/Sudan/El-Obeid/el-obeid.toml",
+    "scenario_sha256": "c7c0524e86485f19840fc6bf4918cdf8fcba02ae19204a44865e51ad1592e8d3"
+  },
+  "status": "planning-screen"
+}

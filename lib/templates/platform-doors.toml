@@ -1,0 +1,33 @@
+# Platform screen doors (PSD) — edge protection + environment isolation.
+#
+# Referenced as a station field:
+#     [[stations]]
+#     platform_doors = "half-height"
+#
+# Unified system principle: three options. `none` is the default for at-grade
+# stations; `half-height` is the standard for interchanges and anchors;
+# `full-height` is reserved for tunnel stations and extreme climate.
+
+# ---- None: no platform doors -----------------------------------------
+# (Use platform_doors = "none" or omit.)
+
+# ---- Half-height: 1.2 m glass barrier with sliding panels ------------
+
+[kits.half-height]
+panel_spacing_m         = 4.2            # one bay per 4.2 m of platform
+door_height_m           = 1.2
+material                = "laminated-glass-aluminum-frame"
+train_align_tolerance_mm= 100
+door_cycles_per_day     = 1800           # wear budget
+cost_usd_per_m          = 4267           # × platform_length_m for BOM
+
+# ---- Full-height: floor-to-ceiling, sealed platform ------------------
+
+[kits.full-height]
+panel_spacing_m         = 4.2
+door_height_m           = 3.0            # matches tunnel ceiling
+material                = "laminated-glass-aluminum-frame"
+train_align_tolerance_mm= 75             # tighter — enables TOC isolation
+door_cycles_per_day     = 1800
+environment_seal        = true           # HVAC separation, dust exclusion
+cost_usd_per_m          = 10400          # × platform_length_m for BOM

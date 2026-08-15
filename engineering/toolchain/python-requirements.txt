@@ -1,0 +1,13 @@
+# Python analysis tools adopted by docs/engineering-design-simulation-plan.md.
+# Update deliberately, then run scripts/engineering-toolchain.sh --install-python.
+ifcopenshell==0.8.5
+jupedsim==1.4.2
+numba==0.66.0
+openseespy==3.8.0.0
+# 3.5.4 requires SciPy 1.18 while PyBaMM 26.7.1 explicitly excludes 1.18.0.
+# Keep the last compatible release until that upstream resolver gap closes.
+pandapower==3.5.3
+pvlib==0.15.2
+pybamm==26.7.1.0
+pyswmm==2.1.0
+swmm-toolkit==0.17.0

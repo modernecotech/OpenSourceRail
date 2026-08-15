@@ -1,0 +1,78 @@
+{
+  "acceptance": [
+    "motion envelope",
+    "bearing proof",
+    "shim pack record"
+  ],
+  "bom_line_ids": [
+    "B2",
+    "B29"
+  ],
+  "definition_type": "product-item",
+  "id": "LM3-ART-P010",
+  "layer": "fabricated-part",
+  "make_or_buy_basis": "Machined/welded adapter frames for lower pivot, upper links, bellows, and trainlines.",
+  "material_spec": {
+    "evidence_required": [
+      "mill certificate",
+      "weld consumable certificate",
+      "WPS/WPQR",
+      "NDT report"
+    ],
+    "finish_or_protection": "blast, rail primer/topcoat, cavity wax/sealant, and weld-edge protection",
+    "form_factor": "laser-cut RHS/plate, press-brake folds, drilled/machined inserts, and bracket kit",
+    "governing_standard": "EN 10025 material certificate; EN 15085 weld-quality evidence for classed rail weldments",
+    "grade_or_part_class": "EN 10025 S355 candidate primary-structure RHS/folded plate",
+    "material_family": "rail structural steel",
+    "nominal_section": "thickness/section per v2A controlled drawing and FEM release",
+    "traceability": "heat number, weld consumable batch, WPS/WPQR, welder ID, and NDT record"
+  },
+  "maturity": "release-candidate",
+  "notes": "",
+  "parent": "LM3-ART-SA800",
+  "process_spec": {
+    "inspection_methods": [
+      "dimensional inspection",
+      "visual inspection",
+      "VT",
+      "MT/UT where classed",
+      "post-weld datum survey",
+      "motion envelope",
+      "bearing proof",
+      "shim pack record"
+    ],
+    "joining_methods": [
+      "fixture tack and weld where structural",
+      "bolted/torqued installation to parent datum"
+    ],
+    "primary_processes": [
+      "cut",
+      "form",
+      "drill/machine",
+      "de-burr",
+      "trial fit",
+      "fixture weld",
+      "controlled cool / stress relief where WPS requires",
+      "post-weld machine where required"
+    ],
+    "release_level": "v2A drawing-controlled MAKE process; generated traveler is unsigned until build",
+    "special_process_controls": [
+      "released drawing/revision check",
+      "material certificate check",
+      "datum gauge before parent release",
+      "WPS/WPQR release",
+      "welder qualification",
+      "weld map and heat-input control"
+    ],
+    "tooling_basis": "FIX-LM3-ART-FAB plus GAUGE-LM3-ART-P010-DATUM"
+  },
+  "quantity_per_trainset": 2,
+  "route": "MAKE",
+  "source_refs": [
+    "systems.py",
+    "articulation.md",
+    "LM3-SYS-170"
+  ],
+  "title": "articulation adapter frame, anti-lift keeper, and shim kit",
+  "unit": "kit"
+}

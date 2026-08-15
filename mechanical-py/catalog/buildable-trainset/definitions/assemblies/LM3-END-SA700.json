@@ -1,0 +1,287 @@
+{
+  "bom_line_ids": [
+    "B17",
+    "B26"
+  ],
+  "build_cell": "composite / final assembly and commissioning cells",
+  "children": [
+    "LM3-BDY-P040",
+    "LM3-BDY-P090",
+    "LM3-CWL-SA710",
+    "LM3-EXT-P030",
+    "LM3-END-P010",
+    "LM3-END-P020",
+    "LM3-END-P030",
+    "LM3-END-P040",
+    "LM3-END-P050"
+  ],
+  "definition_type": "assembly-node",
+  "hold_points": [
+    "A/B end interchange",
+    "coupler datum survey",
+    "sensor calibration",
+    "recovery interface check"
+  ],
+  "id": "LM3-END-SA700",
+  "integration_steps": [
+    {
+      "child_id": "LM3-BDY-P040",
+      "child_title": "coupler pocket, shear plate, and crash-can insert kit",
+      "interface_classes": [
+        "mechanical datum",
+        "safety interlock"
+      ],
+      "join_classes": [
+        "bolted-structural-datum"
+      ],
+      "joint_release_status": "joint-calculation-required",
+      "placement_zone": "train-end cowl, crash, coupler, and sensor datum stack",
+      "sequence": 1,
+      "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
+      "verification": [
+        "coupler face datum",
+        "bolt-hole survey",
+        "crash-load drawing check"
+      ]
+    },
+    {
+      "child_id": "LM3-BDY-P090",
+      "child_title": "end ring frame and anti-climber beam set",
+      "interface_classes": [
+        "mechanical datum"
+      ],
+      "join_classes": [
+        "structural-weld",
+        "bolted-structural-datum"
+      ],
+      "joint_release_status": "joint-calculation-required",
+      "placement_zone": "primary structure datum and final assembly interface",
+      "sequence": 2,
+      "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
+      "verification": [
+        "A/B interchange check",
+        "glass carrier land survey",
+        "anti-climber datum"
+      ]
+    },
+    {
+      "child_id": "LM3-CWL-SA710",
+      "child_title": "front/back fiberglass cowl cast kit",
+      "interface_classes": [
+        "mechanical datum"
+      ],
+      "join_classes": [
+        "adhesive-bonded-panel",
+        "gasketed-removable-panel",
+        "bolted-structural-datum"
+      ],
+      "joint_release_status": "joint-calculation-required",
+      "placement_zone": "side/end glazing aperture and bonded carrier datum",
+      "sequence": 3,
+      "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
+      "verification": [
+        "laminate coupon release",
+        "insert pull-out",
+        "trim/drill survey",
+        "A/B-end dry-build water test"
+      ]
+    },
+    {
+      "child_id": "LM3-EXT-P030",
+      "child_title": "single panoramic heated end-glass assembly",
+      "interface_classes": [
+        "mechanical datum"
+      ],
+      "join_classes": [
+        "bolted-structural-datum"
+      ],
+      "joint_release_status": "supplier-freeze-required",
+      "placement_zone": "side/end glazing aperture and bonded carrier datum",
+      "sequence": 4,
+      "torque_authority": "accepted supplier installation manual plus released OSR interface-control drawing",
+      "verification": [
+        "glass certificate",
+        "heater test",
+        "bond/gasket procedure"
+      ]
+    },
+    {
+      "child_id": "LM3-END-P010",
+      "child_title": "automatic end coupler and crash-energy absorber",
+      "interface_classes": [
+        "mechanical datum",
+        "safety interlock"
+      ],
+      "join_classes": [
+        "bolted-structural-datum"
+      ],
+      "joint_release_status": "supplier-freeze-required",
+      "placement_zone": "train-end cowl, crash, coupler, and sensor datum stack",
+      "sequence": 5,
+      "torque_authority": "accepted supplier installation manual plus released OSR interface-control drawing",
+      "verification": [
+        "EN 15227 absorber evidence",
+        "recovery procedure",
+        "bolt torque record"
+      ]
+    },
+    {
+      "child_id": "LM3-END-P020",
+      "child_title": "T-OBS nose sensor pack, heated window services, and washer kit",
+      "interface_classes": [
+        "mechanical datum",
+        "low-voltage/data",
+        "fluid/thermal"
+      ],
+      "join_classes": [
+        "adhesive-bonded-panel",
+        "bolted-structural-datum",
+        "electrical-data",
+        "fluid-thermal"
+      ],
+      "joint_release_status": "supplier-freeze-required",
+      "placement_zone": "side/end glazing aperture and bonded carrier datum",
+      "sequence": 6,
+      "torque_authority": "accepted supplier installation manual plus released OSR interface-control drawing",
+      "verification": [
+        "sensor calibration",
+        "washer/heater test",
+        "2oo2 verdict interface test"
+      ]
+    },
+    {
+      "child_id": "LM3-END-P030",
+      "child_title": "cowl service hatch, sensor backing bracket, washer-tube, and heater-cable clip kit",
+      "interface_classes": [
+        "mechanical datum",
+        "low-voltage/data",
+        "fluid/thermal"
+      ],
+      "join_classes": [
+        "gasketed-removable-panel",
+        "bolted-structural-datum",
+        "electrical-data",
+        "fluid-thermal"
+      ],
+      "joint_release_status": "joint-calculation-required",
+      "placement_zone": "train-end cowl, crash, coupler, and sensor datum stack",
+      "sequence": 7,
+      "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
+      "verification": [
+        "hatch water test",
+        "sensor datum check",
+        "heater-cable separation",
+        "washer tube leak test"
+      ]
+    },
+    {
+      "child_id": "LM3-END-P040",
+      "child_title": "e-coupler LV jumper, recovery trainline, and end harness breakaway kit",
+      "interface_classes": [
+        "mechanical datum",
+        "low-voltage/data",
+        "safety interlock"
+      ],
+      "join_classes": [
+        "bolted-structural-datum",
+        "electrical-data"
+      ],
+      "joint_release_status": "supplier-freeze-required",
+      "placement_zone": "train-end cowl, crash, coupler, and sensor datum stack",
+      "sequence": 8,
+      "torque_authority": "accepted supplier installation manual plus released OSR interface-control drawing",
+      "verification": [
+        "pinout test",
+        "breakaway force check",
+        "ingress protection",
+        "rescue compatibility"
+      ]
+    },
+    {
+      "child_id": "LM3-END-P050",
+      "child_title": "sealed headlight, tail/marker light, threshold-warning, and end-lamp harness kit",
+      "interface_classes": [
+        "mechanical datum",
+        "low-voltage/data"
+      ],
+      "join_classes": [
+        "bolted-structural-datum",
+        "electrical-data"
+      ],
+      "joint_release_status": "supplier-freeze-required",
+      "placement_zone": "side door aperture and low-floor threshold datum",
+      "sequence": 9,
+      "torque_authority": "accepted supplier installation manual plus released OSR interface-control drawing",
+      "verification": [
+        "photometric certificate",
+        "function/polarity test",
+        "ingress protection",
+        "A/B-end interchange check"
+      ]
+    }
+  ],
+  "layer": "assembly",
+  "material_spec": {
+    "evidence_required": [
+      "child material certificates accepted",
+      "assembly traveler traceability",
+      "interface-control drawing revision"
+    ],
+    "finish_or_protection": "protect damaged coating, exposed edges, seals, bonds, and labels during assembly",
+    "form_factor": "rail structural steel, fire-retardant fiberglass composite, LM3-CWL-SA710 child assembly material set, supplier crash/coupler system",
+    "governing_standard": "all child material standards plus assembly-level torque, bonding, coating, and cleanliness controls",
+    "grade_or_part_class": "LM3-END-SA700 inherits released child material specifications",
+    "material_family": "assembly material set",
+    "nominal_section": "as defined by child drawings and assembly interface control drawing",
+    "traceability": "child serial/heat/batch records plus assembly traveler traceability"
+  },
+  "maturity": "release-candidate",
+  "process_spec": {
+    "inspection_methods": [
+      "child acceptance evidence review",
+      "A/B end interchange",
+      "coupler datum survey",
+      "sensor calibration",
+      "recovery interface check",
+      "water/leak test",
+      "bond/gasket witness check",
+      "continuity",
+      "insulation/isolation",
+      "functional static test"
+    ],
+    "joining_methods": [
+      "bolted/torqued interfaces",
+      "shimmed datum interfaces as required",
+      "adhesive/bonded/gasketed sealing interfaces",
+      "bonding/earthing",
+      "segregated harness/fluid routing"
+    ],
+    "primary_processes": [
+      "release child kit",
+      "fixture or datum setup",
+      "install children",
+      "torque/fit-up record",
+      "release to parent"
+    ],
+    "release_level": "assembly traveler controlled; generated template is unsigned until build",
+    "special_process_controls": [
+      "child definition/revision check",
+      "tooling calibration check",
+      "parent interface freeze",
+      "surface preparation record",
+      "adhesive/sealant batch and cure record",
+      "LOTO/HV safety rule",
+      "EMC/bonding release",
+      "software/configuration record where applicable"
+    ],
+    "tooling_basis": "FIX-LM3-END-SA700, KIT-LM3-END-SA700, calibrated torque/gauge set"
+  },
+  "quantity_per_trainset": 2,
+  "source_refs": [
+    "sensor_cowl.py",
+    "systems.py",
+    "LM3-SYS-160",
+    "LM3-OBS-330"
+  ],
+  "title": "train-end cowl, coupler, crash, and sensor assembly"
+}

@@ -1,0 +1,116 @@
+{
+  "bom_line_ids": [],
+  "build_cell": "final assembly and commissioning cell",
+  "children": [
+    "LM3-BDY-P100",
+    "LM3-EXT-P010"
+  ],
+  "definition_type": "assembly-node",
+  "hold_points": [
+    "door gauge fit",
+    "obstruction test",
+    "closed-and-locked test"
+  ],
+  "id": "LM3-DOOR-SA310",
+  "integration_steps": [
+    {
+      "child_id": "LM3-BDY-P100",
+      "child_title": "door portal reinforcement, threshold beam, and cassette shim kit",
+      "interface_classes": [
+        "mechanical datum",
+        "safety interlock"
+      ],
+      "join_classes": [
+        "structural-weld",
+        "bolted-structural-datum"
+      ],
+      "joint_release_status": "joint-calculation-required",
+      "placement_zone": "side door aperture and low-floor threshold datum",
+      "sequence": 1,
+      "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
+      "verification": [
+        "door aperture gauge",
+        "threshold height survey",
+        "cassette shim record",
+        "water-drain path check"
+      ]
+    },
+    {
+      "child_id": "LM3-EXT-P010",
+      "child_title": "electric plug/sliding door cassette",
+      "interface_classes": [
+        "mechanical datum",
+        "safety interlock"
+      ],
+      "join_classes": [
+        "gasketed-removable-panel",
+        "bolted-structural-datum"
+      ],
+      "joint_release_status": "supplier-freeze-required",
+      "placement_zone": "side door aperture and low-floor threshold datum",
+      "sequence": 2,
+      "torque_authority": "accepted supplier installation manual plus released OSR interface-control drawing",
+      "verification": [
+        "EN 14752 evidence",
+        "obstruction test",
+        "closed-and-locked loop test"
+      ]
+    }
+  ],
+  "layer": "subassembly",
+  "material_spec": {
+    "evidence_required": [
+      "child material certificates accepted",
+      "assembly traveler traceability",
+      "interface-control drawing revision"
+    ],
+    "finish_or_protection": "protect damaged coating, exposed edges, seals, bonds, and labels during assembly",
+    "form_factor": "rail structural steel, supplier-certified rail door system",
+    "governing_standard": "all child material standards plus assembly-level torque, bonding, coating, and cleanliness controls",
+    "grade_or_part_class": "LM3-DOOR-SA310 inherits released child material specifications",
+    "material_family": "assembly material set",
+    "nominal_section": "as defined by child drawings and assembly interface control drawing",
+    "traceability": "child serial/heat/batch records plus assembly traveler traceability"
+  },
+  "maturity": "release-candidate",
+  "process_spec": {
+    "inspection_methods": [
+      "child acceptance evidence review",
+      "door gauge fit",
+      "obstruction test",
+      "closed-and-locked test",
+      "continuity",
+      "insulation/isolation",
+      "functional static test"
+    ],
+    "joining_methods": [
+      "bolted/torqued interfaces",
+      "shimmed datum interfaces as required",
+      "bonding/earthing",
+      "segregated harness/fluid routing"
+    ],
+    "primary_processes": [
+      "release child kit",
+      "fixture or datum setup",
+      "install children",
+      "torque/fit-up record",
+      "release to parent"
+    ],
+    "release_level": "assembly traveler controlled; generated template is unsigned until build",
+    "special_process_controls": [
+      "child definition/revision check",
+      "tooling calibration check",
+      "parent interface freeze",
+      "LOTO/HV safety rule",
+      "EMC/bonding release",
+      "software/configuration record where applicable"
+    ],
+    "tooling_basis": "FIX-LM3-DOOR-SA310, KIT-LM3-DOOR-SA310, calibrated torque/gauge set"
+  },
+  "quantity_per_trainset": 12,
+  "source_refs": [
+    "systems.py",
+    "LM3-DOOR-200"
+  ],
+  "title": "door cassette and threshold assembly"
+}

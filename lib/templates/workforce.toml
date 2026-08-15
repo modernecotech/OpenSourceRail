@@ -1,0 +1,127 @@
+# Workforce archetypes — roles, headcount rules, training footprint.
+#
+# The OSR mission includes workforce domestication: the people who design,
+# build, and operate the system should be from the country. Templates
+# express the headcount model per role so the generator can produce a
+# staffing plan alongside the BOM.
+#
+# Reference at city level (optional — generator computes if omitted):
+#     [workforce]
+#     scaling = "mid-city"
+#
+# Headcount formulas (interpreted by the generator):
+#   - per_depot        → one per depot of main-heavy archetype
+#   - per_layup        → one per depot of secondary-medium or layup-minimal
+#   - per_trainset     → multiply by revenue fleet size
+#   - per_station      → multiply by station count
+#   - per_shift        → multiply by shift count (from service-hours)
+#   - per_line         → one per line
+
+[roles.dispatcher]
+category                 = "operations"
+per_line                 = 1             # one dispatcher per line, per shift
+per_shift                = true
+skill_tier               = "advanced"
+training_weeks           = 12
+salary_usd_annual_base   = 45000
+
+[roles.train-operator]
+category                 = "operations"
+per_trainset             = 1             # plus relief pool
+relief_multiplier        = 0.35
+per_shift                = true
+skill_tier               = "intermediate"
+training_weeks           = 10
+salary_usd_annual_base   = 32000
+
+[roles.station-agent]
+category                 = "operations"
+per_station              = 2
+per_shift                = true
+# Only at archetype in ["major", "interchange", "terminal", "depot-terminal"].
+skill_tier               = "basic"
+training_weeks           = 4
+salary_usd_annual_base   = 22000
+
+[roles.fare-inspector]
+category                 = "operations"
+per_line                 = 4
+per_shift                = false         # roving
+skill_tier               = "basic"
+training_weeks           = 3
+salary_usd_annual_base   = 20000
+
+[roles.signalling-engineer]
+category                 = "maintenance"
+per_depot                = 2
+per_line                 = 1
+per_shift                = false
+on_call_pool             = 2
+skill_tier               = "expert"
+training_weeks           = 24
+salary_usd_annual_base   = 85000
+
+[roles.traction-mechanic]
+category                 = "maintenance"
+per_depot                = 4             # main-heavy
+per_layup                = 1
+per_shift                = false
+skill_tier               = "advanced"
+training_weeks           = 16
+salary_usd_annual_base   = 38000
+
+[roles.permanent-way-crew]
+category                 = "maintenance"
+per_line                 = 6             # for CBM-driven inspection + repair
+per_shift                = false
+skill_tier               = "intermediate"
+training_weeks           = 6
+salary_usd_annual_base   = 26000
+
+[roles.electrical-crew]
+category                 = "maintenance"
+per_depot                = 2
+per_layup                = 1
+per_line                 = 2             # stations + TPSS
+per_shift                = false
+skill_tier               = "advanced"
+training_weeks           = 12
+salary_usd_annual_base   = 34000
+
+[roles.software-engineer]
+category                 = "engineering"
+# Not per-deployment — shared across the OSR project. One team per
+# country serves multiple cities.
+per_country              = 6
+skill_tier               = "expert"
+training_weeks           = 0             # hired with skills
+salary_usd_annual_base   = 65000
+
+[roles.trainer]
+category                 = "workforce-development"
+per_depot                = 1             # main-heavy only; carries training wing
+skill_tier               = "expert"
+training_weeks           = 0
+salary_usd_annual_base   = 48000
+
+# ---- Scaling presets (shortcuts for the generator) --------------
+
+[scaling.small-city]
+# Single line, tram-class, < 10 trainsets. Stripped-down roles.
+disabled_roles           = ["station-agent", "trainer"]
+relief_multiplier_override = 0.20
+
+[scaling.mid-city]
+# Samawah tier — 2 lines, mid-size fleet. Default.
+disabled_roles           = []
+relief_multiplier_override = 0.35
+
+[scaling.large-city]
+# 3+ lines, 40+ trainsets. Full role set + extra depots.
+disabled_roles           = []
+relief_multiplier_override = 0.45
+
+[scaling.major-city]
+# 6+ lines, 100+ trainsets. Adds control-room supervisors.
+disabled_roles           = []
+relief_multiplier_override = 0.50

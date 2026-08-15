@@ -1,0 +1,87 @@
+# G20..G24 — wayside track-intrusion detection for GoA 4 (RFC 0016).
+#
+# Complements the RFC 0015 onboard obstacle-detect goals (G15..G19):
+# wayside detection is the *proactive* half of the two-layer safety
+# envelope. A section under active intrusion has MA withheld by the
+# interlocking; onboard obstacle-detect is the reactive second line
+# if an intrusion appears between ticks.
+
+[[goal]]
+id = "G20"
+description = "osr-intrusion-detect emits Present when any LIDAR or radar detection lies inside the rail profile (I1)."
+
+[[solution]]
+id = "E20a"
+description = "Kani harness I1 — LIDAR in-profile forces Present."
+parent = "G20"
+evidence = { kind = "kani", path = "crates/osr-intrusion-detect/src/kani_proofs.rs", anchor = "i1_lidar_in_profile_forces_present" }
+
+[[solution]]
+id = "E20b"
+description = "Proptest I1 — LIDAR + radar in-profile across the parameter space always emit Present."
+parent = "G20"
+evidence = { kind = "proptest", path = "crates/osr-intrusion-detect/tests/proptest_intrusion.rs" }
+
+[[goal]]
+id = "G21"
+description = "osr-intrusion-detect emits at least Unknown when any safety-primary sensor frame is stale or offline (I2, fail-restrictive)."
+
+[[solution]]
+id = "E21a"
+description = "Kani harness I2 — stale LIDAR never produces Clear."
+parent = "G21"
+evidence = { kind = "kani", path = "crates/osr-intrusion-detect/src/kani_proofs.rs", anchor = "i2_stale_lidar_forces_unknown_or_worse" }
+
+[[solution]]
+id = "E21b"
+description = "Proptest I2 — stale sensor age across the parameter space always produces not-Clear."
+parent = "G21"
+evidence = { kind = "proptest", path = "crates/osr-intrusion-detect/tests/proptest_intrusion.rs" }
+
+[[goal]]
+id = "G22"
+description = "osr-intrusion-detect emits Present whenever the fence-line contact sensor latches a breach (I3)."
+
+[[solution]]
+id = "E22a"
+description = "Kani harness I3 — fence breach unconditional Present."
+parent = "G22"
+evidence = { kind = "kani", path = "crates/osr-intrusion-detect/src/kani_proofs.rs", anchor = "i3_fence_breach_forces_present" }
+
+[[solution]]
+id = "E22b"
+description = "Proptest I3 — fence breach forces Present regardless of other frame noise."
+parent = "G22"
+evidence = { kind = "proptest", path = "crates/osr-intrusion-detect/tests/proptest_intrusion.rs" }
+
+[[goal]]
+id = "G23"
+description = "Camera classifier alone (no safety-primary corroboration) can never emit Clear on a confident hazard class (I4)."
+
+[[solution]]
+id = "E23a"
+description = "Kani harness I4 — camera-alone + Human/LargeAnimal/Vehicle class never yields Clear."
+parent = "G23"
+evidence = { kind = "kani", path = "crates/osr-intrusion-detect/src/kani_proofs.rs", anchor = "i4_camera_alone_cannot_clear_a_hazard_class" }
+
+[[solution]]
+id = "E23b"
+description = "Proptest I4 — any confident hazard class across confidences above the floor forces not-Clear."
+parent = "G23"
+evidence = { kind = "proptest", path = "crates/osr-intrusion-detect/tests/proptest_intrusion.rs" }
+
+[[goal]]
+id = "G24"
+description = "osr-intrusion-detect is monotone in sensor freshness — fresher inputs never move the verdict in the less-restrictive direction (I5)."
+
+[[solution]]
+id = "E24a"
+description = "Kani harness I5 — strictly-fresher frame never more severe."
+parent = "G24"
+evidence = { kind = "kani", path = "crates/osr-intrusion-detect/src/kani_proofs.rs", anchor = "i5_fresher_never_increases_severity" }
+
+[[solution]]
+id = "E24b"
+description = "Proptest I5 — fresher never more severe across the parameter space."
+parent = "G24"
+evidence = { kind = "proptest", path = "crates/osr-intrusion-detect/tests/proptest_intrusion.rs" }

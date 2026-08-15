@@ -1,0 +1,91 @@
+{
+  "annual_opex_usd": {
+    "components": {
+      "civil_station_depot_maintenance": 5554842.16,
+      "labour": 2341920.0,
+      "residual_grid_energy": 0.0,
+      "rolling_stock_maintenance_including_battery_renewal_reserve": 3564000.0,
+      "signalling_maintenance": 98138.05,
+      "solar_plant_maintenance": 425209.4571752728
+    },
+    "total": 11984109.667175272
+  },
+  "capex_eur": {
+    "reconciled_project_total": 409404744.5734167
+  },
+  "capex_usd": {
+    "authoritative_design_base": 416657860.0,
+    "reconciled_project_total": 445005157.14501816,
+    "risk_envelope_15_percent": 511755930.7167708,
+    "risk_envelope_25_percent": 556256446.4312727,
+    "timetable_sized_dedicated_solar": 28347297.145018186
+  },
+  "cases": {
+    "high_capacity_use": {
+      "annual_operating_cash_usd": 120676448.09282471,
+      "annual_paid_trips": 117313920.0,
+      "annual_public_support_usd": 0.0,
+      "annual_revenue_usd": 132660557.75999999,
+      "capacity_utilisation": 0.8,
+      "project_irr": 0.1866042330076652,
+      "project_npv_usd_at_8_percent": 601838604.9608039,
+      "steady_state_dscr": 5.918844206302732
+    },
+    "low_capacity_use": {
+      "annual_operating_cash_usd": 72577740.89282472,
+      "annual_paid_trips": 73321200.0,
+      "annual_public_support_usd": 0.0,
+      "annual_revenue_usd": 84561850.56,
+      "capacity_utilisation": 0.5,
+      "project_irr": 0.12502937729766922,
+      "project_npv_usd_at_8_percent": 220324310.7556441,
+      "steady_state_dscr": 3.55973636926739
+    }
+  },
+  "city": "safi",
+  "funding": {
+    "annual_debt_service_usd": 20388515.711280484,
+    "construction_grace_years": 5,
+    "debt_principal_usd": 356004125.71601456,
+    "debt_rate": 0.045,
+    "government_equity_share": 0.2,
+    "lender_commitment_status": "unconfirmed-placeholder",
+    "repayment_years": 35
+  },
+  "limitations": [
+    "No calibrated origin-destination or stated-preference ridership survey.",
+    "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
+    "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
+  ],
+  "operations_basis": {
+    "annual_train_km_including_non_revenue": 7195595.925600001,
+    "energy_kwh_per_car_km_hot_climate_planning": 4.0,
+    "non_revenue_train_km_factor": 1.08,
+    "scheduled_train_km_per_day": 18253.668
+  },
+  "passed": true,
+  "renewal_policy": {
+    "field_asset_renewals": "included in fixed-asset maintenance allowance pending condition-based asset plan",
+    "train_battery_cycle_years": 12,
+    "treatment": "included in rolling-stock maintenance reserve; do not double-count as separate CAPEX"
+  },
+  "revenue_basis": {
+    "demand_status": "capacity-led-not-calibrated-od-forecast",
+    "nonfare_revenue_usd_per_year": 4397338.5600000005,
+    "operating_neutral_capacity_utilisation": 0.04732001055015013,
+    "operating_neutral_paid_trips_per_year": 6939119.915099335,
+    "practical_capacity_passenger_trips_per_day": 401760.0,
+    "single_trip_fare_usd": 1.0933333333333333
+  },
+  "schema_version": 1,
+  "sources": {
+    "design": "designs/north-africa/Morocco/Safi/design.toml",
+    "design_sha256": "ab0c0390d6f90d865e59e7a77bec469912dfdae6bbc5e79e255700819a76f35e",
+    "generator": "scripts/generate-city-finance.py",
+    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "scenario": "designs/north-africa/Morocco/Safi/safi.toml",
+    "scenario_sha256": "b3988c59f43286677ff7be70adbe512dda2d56fb3d75fc12e9b92281355c4c23"
+  },
+  "status": "planning-screen"
+}

@@ -1,0 +1,1317 @@
+{
+  "external_components": [
+    {
+      "base_cost_usd": 5500.0,
+      "continuous_power_kw": 250.0,
+      "id": "motor-350kw-hm47-class",
+      "interface_owner": "OSR owns envelope/datum; supplier owns internals",
+      "mass_kg": 340.0,
+      "maturity": "RFQ reference; continuous duty, rail vibration, gearing, EMC, and 50 C thermal evidence open",
+      "role": "traction motor",
+      "selection_class": "350 kW peak heavy-vehicle PMSM, HM47-class qualified reference envelope",
+      "thermal_capacity_kw": 0.0,
+      "usable_energy_kwh": 0.0
+    },
+    {
+      "base_cost_usd": 25000.0,
+      "continuous_power_kw": 0.0,
+      "id": "battery-225kwh-lfp-800v",
+      "interface_owner": "OSR owns envelope/datum; supplier owns internals",
+      "mass_kg": 1450.0,
+      "maturity": "EVE-class RFQ reference; IEC 62928, vibration, propagation, venting, and custom-pack evidence open",
+      "role": "traction battery pack per car",
+      "selection_class": "225 kWh gross / 180 kWh usable liquid-cooled LFP, 650\u2013700 V nominal",
+      "thermal_capacity_kw": 0.0,
+      "usable_energy_kwh": 180.0
+    },
+    {
+      "base_cost_usd": 5750.0,
+      "continuous_power_kw": 0.0,
+      "id": "hvac-24kw-direct-hv-dc",
+      "interface_owner": "OSR owns envelope/datum; supplier owns internals",
+      "mass_kg": 510.0,
+      "maturity": "Longertek-class RFQ reference; 50 C curve, rail vibration, EMC, and service evidence open",
+      "role": "roof HVAC per car",
+      "selection_class": "24 kW direct 650\u2013700 V DC packaged roof HVAC for high ambient",
+      "thermal_capacity_kw": 24.0,
+      "usable_energy_kwh": 0.0
+    }
+  ],
+  "fabricated_parts": [
+    {
+      "base_cost_usd": 46000.0,
+      "design_owner": "OSR",
+      "id": "fab-carbody-primary-shell",
+      "mass_kg": 8800.0,
+      "material": "S355 steel + FR composite cladding",
+      "process": "CNC cut, press-brake, MIG/MAG weld, adhesive bond",
+      "role": "primary car body shell, side frames, floor pan, roof bows"
+    },
+    {
+      "base_cost_usd": 7000.0,
+      "design_owner": "OSR",
+      "id": "fab-bogie-frame-powered",
+      "mass_kg": 1450.0,
+      "material": "S355/S460 welded steel",
+      "process": "cut plate, fixture weld, machine pivot/air-spring datums",
+      "role": "powered bogie frame and motor cradle weldment"
+    },
+    {
+      "base_cost_usd": 5200.0,
+      "design_owner": "OSR",
+      "id": "fab-bogie-frame-trailer",
+      "mass_kg": 1180.0,
+      "material": "S355/S460 welded steel",
+      "process": "cut plate, fixture weld, machine pivot/air-spring datums",
+      "role": "trailer bogie frame weldment"
+    },
+    {
+      "base_cost_usd": 9000.0,
+      "design_owner": "OSR",
+      "id": "fab-cowl-and-interface-kit",
+      "mass_kg": 620.0,
+      "material": "fire-rated FRP + steel ring",
+      "process": "low-volume moulding, trim/drill jig, adhesive bond",
+      "role": "fiberglass end cowl casts, crash ring, backing ring, lamp/sensor hatches"
+    },
+    {
+      "base_cost_usd": 9000.0,
+      "design_owner": "OSR",
+      "id": "fab-articulation-adapter-kit",
+      "mass_kg": 900.0,
+      "material": "S355 machined/welded steel",
+      "process": "cut, weld, machine shims and datum faces",
+      "role": "inter-car adapter frames, anti-lift keepers, service-loop brackets"
+    }
+  ],
+  "feasible_candidates": 81,
+  "final_assemblies": [
+    {
+      "children": [
+        "sub-final-trainset"
+      ],
+      "id": "final-light-metro-trainset",
+      "release_gates": [
+        "requirements scorecard feasible",
+        "FreeCAD review assemblies regenerated",
+        "FEM screening summary green/accepted",
+        "BOM and supplier evidence frozen"
+      ],
+      "role": "repeated-car driverless light-metro trainset"
+    }
+  ],
+  "infeasible_candidates": 0,
+  "iterations": 81,
+  "optimum": {
+    "feasible": true,
+    "id": "light-metro-3car__16p5m__reference-body__reference-bogie__motor-350kw-hm47-class__battery-225kwh-lfp-800v__hvac-24kw-direct-hv-dc__pv12",
+    "mass_breakdown_kg": {
+      "bogie frames, wheelsets, brakes, and suspension": 20190.0,
+      "carbody primary structure": 25623.53,
+      "doors, glazing, interior, and auxiliaries": 16350.0,
+      "end cowls and interfaces": 1240.0,
+      "inter-car articulation": 1800.0,
+      "roof HVAC": 1530.0,
+      "roof PV": 864.0,
+      "traction batteries": 4350.0,
+      "traction motors, gearboxes, and controllers": 3360.0
+    },
+    "metrics": {
+      "axle_load_kg": 6275.63,
+      "battery_usable_kwh": 540.0,
+      "cars": 3.0,
+      "cost_usd": 682431.18,
+      "hvac_margin": 1.2,
+      "installed_continuous_kw": 1500.0,
+      "manufacturing_complexity_index": 1.0,
+      "mass_t": 75.308,
+      "offwire_range_km": 68.915,
+      "platform_margin_m": 10.0,
+      "pv_peak_kw": 15.12,
+      "traction_margin": 2.845,
+      "trainset_length_m": 49.5
+    },
+    "parameters": {
+      "battery_id": "battery-225kwh-lfp-800v",
+      "bogie_frame_gauge": "reference",
+      "car_length_m": 16.5,
+      "family": "light-metro-3car",
+      "hvac_id": "hvac-24kw-direct-hv-dc",
+      "motor_id": "motor-350kw-hm47-class",
+      "pv_modules_per_car": 12,
+      "structure_gauge": "reference"
+    },
+    "score": 92.628,
+    "violations": []
+  },
+  "requirements": [
+    {
+      "description": "Fit the chosen consist inside the RFC platform envelope with stopping margin.",
+      "id": "RS-TOP-001",
+      "maximum": null,
+      "minimum": 1.0,
+      "target": null,
+      "unit": "m",
+      "weight": 1.5
+    },
+    {
+      "description": "Keep planning axle load inside light-metro civil envelope.",
+      "id": "RS-TOP-002",
+      "maximum": 11000.0,
+      "minimum": null,
+      "target": null,
+      "unit": "kg/axle",
+      "weight": 1.4
+    },
+    {
+      "description": "Deliver useful off-wire range for resilient/depot operation.",
+      "id": "RS-TOP-003",
+      "maximum": null,
+      "minimum": 50.0,
+      "target": null,
+      "unit": "km",
+      "weight": 1.2
+    },
+    {
+      "description": "Provide continuous traction power margin for urban acceleration.",
+      "id": "RS-TOP-004",
+      "maximum": null,
+      "minimum": 1.0,
+      "target": null,
+      "unit": "ratio",
+      "weight": 1.2
+    },
+    {
+      "description": "Provide hot-climate HVAC capacity margin.",
+      "id": "RS-TOP-005",
+      "maximum": null,
+      "minimum": 1.0,
+      "target": null,
+      "unit": "ratio",
+      "weight": 0.9
+    },
+    {
+      "description": "Minimise direct material and supplier-module cost.",
+      "id": "RS-TOP-006",
+      "maximum": null,
+      "minimum": null,
+      "target": 650000.0,
+      "unit": "USD",
+      "weight": 1.0
+    },
+    {
+      "description": "Minimise fleet mass to reduce civil, energy, and brake loads.",
+      "id": "RS-TOP-007",
+      "maximum": null,
+      "minimum": null,
+      "target": 75.0,
+      "unit": "t",
+      "weight": 1.1
+    }
+  ],
+  "subassemblies": [
+    {
+      "acceptance_checks": [
+        "body datum survey",
+        "door cassette gauge",
+        "battery vent and service-lid gauge",
+        "roof HVAC/PV clearance"
+      ],
+      "children": [
+        "fab-carbody-primary-shell",
+        "traction battery pack per car",
+        "roof HVAC per car",
+        "door/window/interior COTS interfaces",
+        "one powered bogie",
+        "one trailer bogie"
+      ],
+      "id": "sub-car-module",
+      "role": "one repeated 16.5 m car module"
+    },
+    {
+      "acceptance_checks": [
+        "weld records",
+        "wheelbase/gauge survey",
+        "motor cradle load proof"
+      ],
+      "children": [
+        "fab-bogie-frame-powered",
+        "traction motor",
+        "gearbox",
+        "wheelsets",
+        "brake/suspension COTS"
+      ],
+      "id": "sub-powered-bogie",
+      "role": "powered bogie with motor, gearbox, brakes, wheelsets, and suspension"
+    },
+    {
+      "acceptance_checks": [
+        "trainset envelope",
+        "mass budget",
+        "traction/brake thermal budget",
+        "FEM screening"
+      ],
+      "children": [
+        "sub-car-module \u00d7 N",
+        "fab-cowl-and-interface-kit \u00d7 2",
+        "fab-articulation-adapter-kit \u00d7 N-1"
+      ],
+      "id": "sub-final-trainset",
+      "role": "complete cabless consist assembled from repeated cars"
+    }
+  ],
+  "top_feasible": [
+    {
+      "feasible": true,
+      "id": "light-metro-3car__16p5m__reference-body__reference-bogie__motor-350kw-hm47-class__battery-225kwh-lfp-800v__hvac-24kw-direct-hv-dc__pv12",
+      "mass_breakdown_kg": {
+        "bogie frames, wheelsets, brakes, and suspension": 20190.0,
+        "carbody primary structure": 25623.53,
+        "doors, glazing, interior, and auxiliaries": 16350.0,
+        "end cowls and interfaces": 1240.0,
+        "inter-car articulation": 1800.0,
+        "roof HVAC": 1530.0,
+        "roof PV": 864.0,
+        "traction batteries": 4350.0,
+        "traction motors, gearboxes, and controllers": 3360.0
+      },
+      "metrics": {
+        "axle_load_kg": 6275.63,
+        "battery_usable_kwh": 540.0,
+        "cars": 3.0,
+        "cost_usd": 682431.18,
+        "hvac_margin": 1.2,
+        "installed_continuous_kw": 1500.0,
+        "manufacturing_complexity_index": 1.0,
+        "mass_t": 75.308,
+        "offwire_range_km": 68.915,
+        "platform_margin_m": 10.0,
+        "pv_peak_kw": 15.12,
+        "traction_margin": 2.845,
+        "trainset_length_m": 49.5
+      },
+      "parameters": {
+        "battery_id": "battery-225kwh-lfp-800v",
+        "bogie_frame_gauge": "reference",
+        "car_length_m": 16.5,
+        "family": "light-metro-3car",
+        "hvac_id": "hvac-24kw-direct-hv-dc",
+        "motor_id": "motor-350kw-hm47-class",
+        "pv_modules_per_car": 12,
+        "structure_gauge": "reference"
+      },
+      "score": 92.628,
+      "violations": []
+    },
+    {
+      "feasible": true,
+      "id": "light-metro-3car__16p5m__reference-body__reference-bogie__motor-350kw-hm47-class__battery-225kwh-lfp-800v__hvac-24kw-direct-hv-dc__pv16",
+      "mass_breakdown_kg": {
+        "bogie frames, wheelsets, brakes, and suspension": 20190.0,
+        "carbody primary structure": 25623.53,
+        "doors, glazing, interior, and auxiliaries": 16350.0,
+        "end cowls and interfaces": 1240.0,
+        "inter-car articulation": 1800.0,
+        "roof HVAC": 1530.0,
+        "roof PV": 1152.0,
+        "traction batteries": 4350.0,
+        "traction motors, gearboxes, and controllers": 3360.0
+      },
+      "metrics": {
+        "axle_load_kg": 6299.63,
+        "battery_usable_kwh": 540.0,
+        "cars": 3.0,
+        "cost_usd": 685311.18,
+        "hvac_margin": 1.2,
+        "installed_continuous_kw": 1500.0,
+        "manufacturing_complexity_index": 1.0,
+        "mass_t": 75.596,
+        "offwire_range_km": 68.826,
+        "platform_margin_m": 10.0,
+        "pv_peak_kw": 20.16,
+        "traction_margin": 2.835,
+        "trainset_length_m": 49.5
+      },
+      "parameters": {
+        "battery_id": "battery-225kwh-lfp-800v",
+        "bogie_frame_gauge": "reference",
+        "car_length_m": 16.5,
+        "family": "light-metro-3car",
+        "hvac_id": "hvac-24kw-direct-hv-dc",
+        "motor_id": "motor-350kw-hm47-class",
+        "pv_modules_per_car": 16,
+        "structure_gauge": "reference"
+      },
+      "score": 92.287,
+      "violations": []
+    },
+    {
+      "feasible": true,
+      "id": "light-metro-3car__16p5m__reference-body__light-bogie__motor-350kw-hm47-class__battery-225kwh-lfp-800v__hvac-24kw-direct-hv-dc__pv12",
+      "mass_breakdown_kg": {
+        "bogie frames, wheelsets, brakes, and suspension": 19795.5,
+        "carbody primary structure": 25623.53,
+        "doors, glazing, interior, and auxiliaries": 16350.0,
+        "end cowls and interfaces": 1240.0,
+        "inter-car articulation": 1800.0,
+        "roof HVAC": 1530.0,
+        "roof PV": 864.0,
+        "traction batteries": 4350.0,
+        "traction motors, gearboxes, and controllers": 3360.0
+      },
+      "metrics": {
+        "axle_load_kg": 6242.75,
+        "battery_usable_kwh": 540.0,
+        "cars": 3.0,
+        "cost_usd": 680601.18,
+        "hvac_margin": 1.2,
+        "installed_continuous_kw": 1500.0,
+        "manufacturing_complexity_index": 1.04,
+        "mass_t": 74.913,
+        "offwire_range_km": 69.036,
+        "platform_margin_m": 10.0,
+        "pv_peak_kw": 15.12,
+        "traction_margin": 2.86,
+        "trainset_length_m": 49.5
+      },
+      "parameters": {
+        "battery_id": "battery-225kwh-lfp-800v",
+        "bogie_frame_gauge": "light",
+        "car_length_m": 16.5,
+        "family": "light-metro-3car",
+        "hvac_id": "hvac-24kw-direct-hv-dc",
+        "motor_id": "motor-350kw-hm47-class",
+        "pv_modules_per_car": 12,
+        "structure_gauge": "reference"
+      },
+      "score": 92.011,
+      "violations": []
+    },
+    {
+      "feasible": true,
+      "id": "light-metro-3car__16p5m__light-body__reference-bogie__motor-350kw-hm47-class__battery-225kwh-lfp-800v__hvac-24kw-direct-hv-dc__pv12",
+      "mass_breakdown_kg": {
+        "bogie frames, wheelsets, brakes, and suspension": 20190.0,
+        "carbody primary structure": 24086.12,
+        "doors, glazing, interior, and auxiliaries": 16350.0,
+        "end cowls and interfaces": 1240.0,
+        "inter-car articulation": 1800.0,
+        "roof HVAC": 1530.0,
+        "roof PV": 864.0,
+        "traction batteries": 4350.0,
+        "traction motors, gearboxes, and controllers": 3360.0
+      },
+      "metrics": {
+        "axle_load_kg": 6147.51,
+        "battery_usable_kwh": 540.0,
+        "cars": 3.0,
+        "cost_usd": 681225.71,
+        "hvac_margin": 1.2,
+        "installed_continuous_kw": 1500.0,
+        "manufacturing_complexity_index": 1.05,
+        "mass_t": 73.77,
+        "offwire_range_km": 69.391,
+        "platform_margin_m": 10.0,
+        "pv_peak_kw": 15.12,
+        "traction_margin": 2.905,
+        "trainset_length_m": 49.5
+      },
+      "parameters": {
+        "battery_id": "battery-225kwh-lfp-800v",
+        "bogie_frame_gauge": "reference",
+        "car_length_m": 16.5,
+        "family": "light-metro-3car",
+        "hvac_id": "hvac-24kw-direct-hv-dc",
+        "motor_id": "motor-350kw-hm47-class",
+        "pv_modules_per_car": 12,
+        "structure_gauge": "light"
+      },
+      "score": 91.908,
+      "violations": []
+    },
+    {
+      "feasible": true,
+      "id": "light-metro-3car__16p5m__reference-body__light-bogie__motor-350kw-hm47-class__battery-225kwh-lfp-800v__hvac-24kw-direct-hv-dc__pv16",
+      "mass_breakdown_kg": {
+        "bogie frames, wheelsets, brakes, and suspension": 19795.5,
+        "carbody primary structure": 25623.53,
+        "doors, glazing, interior, and auxiliaries": 16350.0,
+        "end cowls and interfaces": 1240.0,
+        "inter-car articulation": 1800.0,
+        "roof HVAC": 1530.0,
+        "roof PV": 1152.0,
+        "traction batteries": 4350.0,
+        "traction motors, gearboxes, and controllers": 3360.0
+      },
+      "metrics": {
+        "axle_load_kg": 6266.75,
+        "battery_usable_kwh": 540.0,
+        "cars": 3.0,
+        "cost_usd": 683481.18,
+        "hvac_margin": 1.2,
+        "installed_continuous_kw": 1500.0,
+        "manufacturing_complexity_index": 1.04,
+        "mass_t": 75.201,
+        "offwire_range_km": 68.948,
+        "platform_margin_m": 10.0,
+        "pv_peak_kw": 20.16,
+        "traction_margin": 2.85,
+        "trainset_length_m": 49.5
+      },
+      "parameters": {
+        "battery_id": "battery-225kwh-lfp-800v",
+        "bogie_frame_gauge": "light",
+        "car_length_m": 16.5,
+        "family": "light-metro-3car",
+        "hvac_id": "hvac-24kw-direct-hv-dc",
+        "motor_id": "motor-350kw-hm47-class",
+        "pv_modules_per_car": 16,
+        "structure_gauge": "reference"
+      },
+      "score": 91.705,
+      "violations": []
+    },
+    {
+      "feasible": true,
+      "id": "light-metro-3car__16p5m__light-body__reference-bogie__motor-350kw-hm47-class__battery-225kwh-lfp-800v__hvac-24kw-direct-hv-dc__pv16",
+      "mass_breakdown_kg": {
+        "bogie frames, wheelsets, brakes, and suspension": 20190.0,
+        "carbody primary structure": 24086.12,
+        "doors, glazing, interior, and auxiliaries": 16350.0,
+        "end cowls and interfaces": 1240.0,
+        "inter-car articulation": 1800.0,
+        "roof HVAC": 1530.0,
+        "roof PV": 1152.0,
+        "traction batteries": 4350.0,
+        "traction motors, gearboxes, and controllers": 3360.0
+      },
+      "metrics": {
+        "axle_load_kg": 6171.51,
+        "battery_usable_kwh": 540.0,
+        "cars": 3.0,
+        "cost_usd": 684105.71,
+        "hvac_margin": 1.2,
+        "installed_continuous_kw": 1500.0,
+        "manufacturing_complexity_index": 1.05,
+        "mass_t": 74.058,
+        "offwire_range_km": 69.302,
+        "platform_margin_m": 10.0,
+        "pv_peak_kw": 20.16,
+        "traction_margin": 2.893,
+        "trainset_length_m": 49.5
+      },
+      "parameters": {
+        "battery_id": "battery-225kwh-lfp-800v",
+        "bogie_frame_gauge": "reference",
+        "car_length_m": 16.5,
+        "family": "light-metro-3car",
+        "hvac_id": "hvac-24kw-direct-hv-dc",
+        "motor_id": "motor-350kw-hm47-class",
+        "pv_modules_per_car": 16,
+        "structure_gauge": "light"
+      },
+      "score": 91.682,
+      "violations": []
+    },
+    {
+      "feasible": true,
+      "id": "light-metro-3car__16p5m__light-body__light-bogie__motor-350kw-hm47-class__battery-225kwh-lfp-800v__hvac-24kw-direct-hv-dc__pv12",
+      "mass_breakdown_kg": {
+        "bogie frames, wheelsets, brakes, and suspension": 19795.5,
+        "carbody primary structure": 24086.12,
+        "doors, glazing, interior, and auxiliaries": 16350.0,
+        "end cowls and interfaces": 1240.0,
+        "inter-car articulation": 1800.0,
+        "roof HVAC": 1530.0,
+        "roof PV": 864.0,
+        "traction batteries": 4350.0,
+        "traction motors, gearboxes, and controllers": 3360.0
+      },
+      "metrics": {
+        "axle_load_kg": 6114.63,
+        "battery_usable_kwh": 540.0,
+        "cars": 3.0,
+        "cost_usd": 679395.71,
+        "hvac_margin": 1.2,
+        "installed_continuous_kw": 1500.0,
+        "manufacturing_complexity_index": 1.09,
+        "mass_t": 73.376,
+        "offwire_range_km": 69.515,
+        "platform_margin_m": 10.0,
+        "pv_peak_kw": 15.12,
+        "traction_margin": 2.92,
+        "trainset_length_m": 49.5
+      },
+      "parameters": {
+        "battery_id": "battery-225kwh-lfp-800v",
+        "bogie_frame_gauge": "light",
+        "car_length_m": 16.5,
+        "family": "light-metro-3car",
+        "hvac_id": "hvac-24kw-direct-hv-dc",
+        "motor_id": "motor-350kw-hm47-class",
+        "pv_modules_per_car": 12,
+        "structure_gauge": "light"
+      },
+      "score": 91.169,
+      "violations": []
+    },
+    {
+      "feasible": true,
+      "id": "light-metro-3car__16p5m__reference-body__reference-bogie__motor-350kw-hm47-class__battery-225kwh-lfp-800v__hvac-24kw-direct-hv-dc__pv20",
+      "mass_breakdown_kg": {
+        "bogie frames, wheelsets, brakes, and suspension": 20190.0,
+        "carbody primary structure": 25623.53,
+        "doors, glazing, interior, and auxiliaries": 16350.0,
+        "end cowls and interfaces": 1240.0,
+        "inter-car articulation": 1800.0,
+        "roof HVAC": 1530.0,
+        "roof PV": 1440.0,
+        "traction batteries": 4350.0,
+        "traction motors, gearboxes, and controllers": 3360.0
+      },
+      "metrics": {
+        "axle_load_kg": 6323.63,
+        "battery_usable_kwh": 540.0,
+        "cars": 3.0,
+        "cost_usd": 688191.18,
+        "hvac_margin": 1.2,
+        "installed_continuous_kw": 1500.0,
+        "manufacturing_complexity_index": 1.04,
+        "mass_t": 75.884,
+        "offwire_range_km": 68.738,
+        "platform_margin_m": 10.0,
+        "pv_peak_kw": 25.2,
+        "traction_margin": 2.824,
+        "trainset_length_m": 49.5
+      },
+      "parameters": {
+        "battery_id": "battery-225kwh-lfp-800v",
+        "bogie_frame_gauge": "reference",
+        "car_length_m": 16.5,
+        "family": "light-metro-3car",
+        "hvac_id": "hvac-24kw-direct-hv-dc",
+        "motor_id": "motor-350kw-hm47-class",
+        "pv_modules_per_car": 20,
+        "structure_gauge": "reference"
+      },
+      "score": 91.032,
+      "violations": []
+    },
+    {
+      "feasible": true,
+      "id": "light-metro-3car__16p5m__light-body__light-bogie__motor-350kw-hm47-class__battery-225kwh-lfp-800v__hvac-24kw-direct-hv-dc__pv16",
+      "mass_breakdown_kg": {
+        "bogie frames, wheelsets, brakes, and suspension": 19795.5,
+        "carbody primary structure": 24086.12,
+        "doors, glazing, interior, and auxiliaries": 16350.0,
+        "end cowls and interfaces": 1240.0,
+        "inter-car articulation": 1800.0,
+        "roof HVAC": 1530.0,
+        "roof PV": 1152.0,
+        "traction batteries": 4350.0,
+        "traction motors, gearboxes, and controllers": 3360.0
+      },
+      "metrics": {
+        "axle_load_kg": 6138.63,
+        "battery_usable_kwh": 540.0,
+        "cars": 3.0,
+        "cost_usd": 682275.71,
+        "hvac_margin": 1.2,
+        "installed_continuous_kw": 1500.0,
+        "manufacturing_complexity_index": 1.09,
+        "mass_t": 73.664,
+        "offwire_range_km": 69.425,
+        "platform_margin_m": 10.0,
+        "pv_peak_kw": 20.16,
+        "traction_margin": 2.909,
+        "trainset_length_m": 49.5
+      },
+      "parameters": {
+        "battery_id": "battery-225kwh-lfp-800v",
+        "bogie_frame_gauge": "light",
+        "car_length_m": 16.5,
+        "family": "light-metro-3car",
+        "hvac_id": "hvac-24kw-direct-hv-dc",
+        "motor_id": "motor-350kw-hm47-class",
+        "pv_modules_per_car": 16,
+        "structure_gauge": "light"
+      },
+      "score": 90.942,
+      "violations": []
+    },
+    {
+      "feasible": true,
+      "id": "light-metro-3car__16p5m__light-body__reference-bogie__motor-350kw-hm47-class__battery-225kwh-lfp-800v__hvac-24kw-direct-hv-dc__pv20",
+      "mass_breakdown_kg": {
+        "bogie frames, wheelsets, brakes, and suspension": 20190.0,
+        "carbody primary structure": 24086.12,
+        "doors, glazing, interior, and auxiliaries": 16350.0,
+        "end cowls and interfaces": 1240.0,
+        "inter-car articulation": 1800.0,
+        "roof HVAC": 1530.0,
+        "roof PV": 1440.0,
+        "traction batteries": 4350.0,
+        "traction motors, gearboxes, and controllers": 3360.0
+      },
+      "metrics": {
+        "axle_load_kg": 6195.51,
+        "battery_usable_kwh": 540.0,
+        "cars": 3.0,
+        "cost_usd": 686985.71,
+        "hvac_margin": 1.2,
+        "installed_continuous_kw": 1500.0,
+        "manufacturing_complexity_index": 1.09,
+        "mass_t": 74.346,
+        "offwire_range_km": 69.212,
+        "platform_margin_m": 10.0,
+        "pv_peak_kw": 25.2,
+        "traction_margin": 2.882,
+        "trainset_length_m": 49.5
+      },
+      "parameters": {
+        "battery_id": "battery-225kwh-lfp-800v",
+        "bogie_frame_gauge": "reference",
+        "car_length_m": 16.5,
+        "family": "light-metro-3car",
+        "hvac_id": "hvac-24kw-direct-hv-dc",
+        "motor_id": "motor-350kw-hm47-class",
+        "pv_modules_per_car": 20,
+        "structure_gauge": "light"
+      },
+      "score": 90.541,
+      "violations": []
+    },
+    {
+      "feasible": true,
+      "id": "light-metro-3car__16p5m__reference-body__light-bogie__motor-350kw-hm47-class__battery-225kwh-lfp-800v__hvac-24kw-direct-hv-dc__pv20",
+      "mass_breakdown_kg": {
+        "bogie frames, wheelsets, brakes, and suspension": 19795.5,
+        "carbody primary structure": 25623.53,
+        "doors, glazing, interior, and auxiliaries": 16350.0,
+        "end cowls and interfaces": 1240.0,
+        "inter-car articulation": 1800.0,
+        "roof HVAC": 1530.0,
+        "roof PV": 1440.0,
+        "traction batteries": 4350.0,
+        "traction motors, gearboxes, and controllers": 3360.0
+      },
+      "metrics": {
+        "axle_load_kg": 6290.75,
+        "battery_usable_kwh": 540.0,
+        "cars": 3.0,
+        "cost_usd": 686361.18,
+        "hvac_margin": 1.2,
+        "installed_continuous_kw": 1500.0,
+        "manufacturing_complexity_index": 1.08,
+        "mass_t": 75.489,
+        "offwire_range_km": 68.859,
+        "platform_margin_m": 10.0,
+        "pv_peak_kw": 25.2,
+        "traction_margin": 2.839,
+        "trainset_length_m": 49.5
+      },
+      "parameters": {
+        "battery_id": "battery-225kwh-lfp-800v",
+        "bogie_frame_gauge": "light",
+        "car_length_m": 16.5,
+        "family": "light-metro-3car",
+        "hvac_id": "hvac-24kw-direct-hv-dc",
+        "motor_id": "motor-350kw-hm47-class",
+        "pv_modules_per_car": 20,
+        "structure_gauge": "reference"
+      },
+      "score": 90.45,
+      "violations": []
+    },
+    {
+      "feasible": true,
+      "id": "light-metro-3car__16p5m__light-body__light-bogie__motor-350kw-hm47-class__battery-225kwh-lfp-800v__hvac-24kw-direct-hv-dc__pv20",
+      "mass_breakdown_kg": {
+        "bogie frames, wheelsets, brakes, and suspension": 19795.5,
+        "carbody primary structure": 24086.12,
+        "doors, glazing, interior, and auxiliaries": 16350.0,
+        "end cowls and interfaces": 1240.0,
+        "inter-car articulation": 1800.0,
+        "roof HVAC": 1530.0,
+        "roof PV": 1440.0,
+        "traction batteries": 4350.0,
+        "traction motors, gearboxes, and controllers": 3360.0
+      },
+      "metrics": {
+        "axle_load_kg": 6162.63,
+        "battery_usable_kwh": 540.0,
+        "cars": 3.0,
+        "cost_usd": 685155.71,
+        "hvac_margin": 1.2,
+        "installed_continuous_kw": 1500.0,
+        "manufacturing_complexity_index": 1.13,
+        "mass_t": 73.952,
+        "offwire_range_km": 69.335,
+        "platform_margin_m": 10.0,
+        "pv_peak_kw": 25.2,
+        "traction_margin": 2.898,
+        "trainset_length_m": 49.5
+      },
+      "parameters": {
+        "battery_id": "battery-225kwh-lfp-800v",
+        "bogie_frame_gauge": "light",
+        "car_length_m": 16.5,
+        "family": "light-metro-3car",
+        "hvac_id": "hvac-24kw-direct-hv-dc",
+        "motor_id": "motor-350kw-hm47-class",
+        "pv_modules_per_car": 20,
+        "structure_gauge": "light"
+      },
+      "score": 89.802,
+      "violations": []
+    },
+    {
+      "feasible": true,
+      "id": "light-metro-3car__16p5m__reference-body__heavy-bogie__motor-350kw-hm47-class__battery-225kwh-lfp-800v__hvac-24kw-direct-hv-dc__pv12",
+      "mass_breakdown_kg": {
+        "bogie frames, wheelsets, brakes, and suspension": 21136.8,
+        "carbody primary structure": 25623.53,
+        "doors, glazing, interior, and auxiliaries": 16350.0,
+        "end cowls and interfaces": 1240.0,
+        "inter-car articulation": 1800.0,
+        "roof HVAC": 1530.0,
+        "roof PV": 864.0,
+        "traction batteries": 4350.0,
+        "traction motors, gearboxes, and controllers": 3360.0
+      },
+      "metrics": {
+        "axle_load_kg": 6354.53,
+        "battery_usable_kwh": 540.0,
+        "cars": 3.0,
+        "cost_usd": 686823.18,
+        "hvac_margin": 1.2,
+        "installed_continuous_kw": 1500.0,
+        "manufacturing_complexity_index": 1.1,
+        "mass_t": 76.254,
+        "offwire_range_km": 68.625,
+        "platform_margin_m": 10.0,
+        "pv_peak_kw": 15.12,
+        "traction_margin": 2.81,
+        "trainset_length_m": 49.5
+      },
+      "parameters": {
+        "battery_id": "battery-225kwh-lfp-800v",
+        "bogie_frame_gauge": "heavy",
+        "car_length_m": 16.5,
+        "family": "light-metro-3car",
+        "hvac_id": "hvac-24kw-direct-hv-dc",
+        "motor_id": "motor-350kw-hm47-class",
+        "pv_modules_per_car": 12,
+        "structure_gauge": "reference"
+      },
+      "score": 89.548,
+      "violations": []
+    },
+    {
+      "feasible": true,
+      "id": "light-metro-3car__17p0m__reference-body__reference-bogie__motor-350kw-hm47-class__battery-225kwh-lfp-800v__hvac-24kw-direct-hv-dc__pv12",
+      "mass_breakdown_kg": {
+        "bogie frames, wheelsets, brakes, and suspension": 20190.0,
+        "carbody primary structure": 26400.0,
+        "doors, glazing, interior, and auxiliaries": 16350.0,
+        "end cowls and interfaces": 1240.0,
+        "inter-car articulation": 1800.0,
+        "roof HVAC": 1530.0,
+        "roof PV": 864.0,
+        "traction batteries": 4350.0,
+        "traction motors, gearboxes, and controllers": 3360.0
+      },
+      "metrics": {
+        "axle_load_kg": 6340.33,
+        "battery_usable_kwh": 540.0,
+        "cars": 3.0,
+        "cost_usd": 686490.0,
+        "hvac_margin": 1.2,
+        "installed_continuous_kw": 1500.0,
+        "manufacturing_complexity_index": 1.0,
+        "mass_t": 76.084,
+        "offwire_range_km": 68.677,
+        "platform_margin_m": 8.5,
+        "pv_peak_kw": 15.12,
+        "traction_margin": 2.816,
+        "trainset_length_m": 51.0
+      },
+      "parameters": {
+        "battery_id": "battery-225kwh-lfp-800v",
+        "bogie_frame_gauge": "reference",
+        "car_length_m": 17.0,
+        "family": "light-metro-3car",
+        "hvac_id": "hvac-24kw-direct-hv-dc",
+        "motor_id": "motor-350kw-hm47-class",
+        "pv_modules_per_car": 12,
+        "structure_gauge": "reference"
+      },
+      "score": 89.447,
+      "violations": []
+    },
+    {
+      "feasible": true,
+      "id": "light-metro-3car__16p5m__reference-body__heavy-bogie__motor-350kw-hm47-class__battery-225kwh-lfp-800v__hvac-24kw-direct-hv-dc__pv16",
+      "mass_breakdown_kg": {
+        "bogie frames, wheelsets, brakes, and suspension": 21136.8,
+        "carbody primary structure": 25623.53,
+        "doors, glazing, interior, and auxiliaries": 16350.0,
+        "end cowls and interfaces": 1240.0,
+        "inter-car articulation": 1800.0,
+        "roof HVAC": 1530.0,
+        "roof PV": 1152.0,
+        "traction batteries": 4350.0,
+        "traction motors, gearboxes, and controllers": 3360.0
+      },
+      "metrics": {
+        "axle_load_kg": 6378.53,
+        "battery_usable_kwh": 540.0,
+        "cars": 3.0,
+        "cost_usd": 689703.18,
+        "hvac_margin": 1.2,
+        "installed_continuous_kw": 1500.0,
+        "manufacturing_complexity_index": 1.1,
+        "mass_t": 76.542,
+        "offwire_range_km": 68.537,
+        "platform_margin_m": 10.0,
+        "pv_peak_kw": 20.16,
+        "traction_margin": 2.8,
+        "trainset_length_m": 49.5
+      },
+      "parameters": {
+        "battery_id": "battery-225kwh-lfp-800v",
+        "bogie_frame_gauge": "heavy",
+        "car_length_m": 16.5,
+        "family": "light-metro-3car",
+        "hvac_id": "hvac-24kw-direct-hv-dc",
+        "motor_id": "motor-350kw-hm47-class",
+        "pv_modules_per_car": 16,
+        "structure_gauge": "reference"
+      },
+      "score": 89.207,
+      "violations": []
+    },
+    {
+      "feasible": true,
+      "id": "light-metro-3car__16p5m__light-body__heavy-bogie__motor-350kw-hm47-class__battery-225kwh-lfp-800v__hvac-24kw-direct-hv-dc__pv12",
+      "mass_breakdown_kg": {
+        "bogie frames, wheelsets, brakes, and suspension": 21136.8,
+        "carbody primary structure": 24086.12,
+        "doors, glazing, interior, and auxiliaries": 16350.0,
+        "end cowls and interfaces": 1240.0,
+        "inter-car articulation": 1800.0,
+        "roof HVAC": 1530.0,
+        "roof PV": 864.0,
+        "traction batteries": 4350.0,
+        "traction motors, gearboxes, and controllers": 3360.0
+      },
+      "metrics": {
+        "axle_load_kg": 6226.41,
+        "battery_usable_kwh": 540.0,
+        "cars": 3.0,
+        "cost_usd": 685617.71,
+        "hvac_margin": 1.2,
+        "installed_continuous_kw": 1500.0,
+        "manufacturing_complexity_index": 1.15,
+        "mass_t": 74.717,
+        "offwire_range_km": 69.097,
+        "platform_margin_m": 10.0,
+        "pv_peak_kw": 15.12,
+        "traction_margin": 2.868,
+        "trainset_length_m": 49.5
+      },
+      "parameters": {
+        "battery_id": "battery-225kwh-lfp-800v",
+        "bogie_frame_gauge": "heavy",
+        "car_length_m": 16.5,
+        "family": "light-metro-3car",
+        "hvac_id": "hvac-24kw-direct-hv-dc",
+        "motor_id": "motor-350kw-hm47-class",
+        "pv_modules_per_car": 12,
+        "structure_gauge": "light"
+      },
+      "score": 89.204,
+      "violations": []
+    },
+    {
+      "feasible": true,
+      "id": "light-metro-3car__17p0m__reference-body__reference-bogie__motor-350kw-hm47-class__battery-225kwh-lfp-800v__hvac-24kw-direct-hv-dc__pv16",
+      "mass_breakdown_kg": {
+        "bogie frames, wheelsets, brakes, and suspension": 20190.0,
+        "carbody primary structure": 26400.0,
+        "doors, glazing, interior, and auxiliaries": 16350.0,
+        "end cowls and interfaces": 1240.0,
+        "inter-car articulation": 1800.0,
+        "roof HVAC": 1530.0,
+        "roof PV": 1152.0,
+        "traction batteries": 4350.0,
+        "traction motors, gearboxes, and controllers": 3360.0
+      },
+      "metrics": {
+        "axle_load_kg": 6364.33,
+        "battery_usable_kwh": 540.0,
+        "cars": 3.0,
+        "cost_usd": 689370.0,
+        "hvac_margin": 1.2,
+        "installed_continuous_kw": 1500.0,
+        "manufacturing_complexity_index": 1.0,
+        "mass_t": 76.372,
+        "offwire_range_km": 68.589,
+        "platform_margin_m": 8.5,
+        "pv_peak_kw": 20.16,
+        "traction_margin": 2.806,
+        "trainset_length_m": 51.0
+      },
+      "parameters": {
+        "battery_id": "battery-225kwh-lfp-800v",
+        "bogie_frame_gauge": "reference",
+        "car_length_m": 17.0,
+        "family": "light-metro-3car",
+        "hvac_id": "hvac-24kw-direct-hv-dc",
+        "motor_id": "motor-350kw-hm47-class",
+        "pv_modules_per_car": 16,
+        "structure_gauge": "reference"
+      },
+      "score": 89.106,
+      "violations": []
+    },
+    {
+      "feasible": true,
+      "id": "light-metro-3car__17p0m__light-body__reference-bogie__motor-350kw-hm47-class__battery-225kwh-lfp-800v__hvac-24kw-direct-hv-dc__pv12",
+      "mass_breakdown_kg": {
+        "bogie frames, wheelsets, brakes, and suspension": 20190.0,
+        "carbody primary structure": 24816.0,
+        "doors, glazing, interior, and auxiliaries": 16350.0,
+        "end cowls and interfaces": 1240.0,
+        "inter-car articulation": 1800.0,
+        "roof HVAC": 1530.0,
+        "roof PV": 864.0,
+        "traction batteries": 4350.0,
+        "traction motors, gearboxes, and controllers": 3360.0
+      },
+      "metrics": {
+        "axle_load_kg": 6208.33,
+        "battery_usable_kwh": 540.0,
+        "cars": 3.0,
+        "cost_usd": 685248.0,
+        "hvac_margin": 1.2,
+        "installed_continuous_kw": 1500.0,
+        "manufacturing_complexity_index": 1.05,
+        "mass_t": 74.5,
+        "offwire_range_km": 69.164,
+        "platform_margin_m": 8.5,
+        "pv_peak_kw": 15.12,
+        "traction_margin": 2.876,
+        "trainset_length_m": 51.0
+      },
+      "parameters": {
+        "battery_id": "battery-225kwh-lfp-800v",
+        "bogie_frame_gauge": "reference",
+        "car_length_m": 17.0,
+        "family": "light-metro-3car",
+        "hvac_id": "hvac-24kw-direct-hv-dc",
+        "motor_id": "motor-350kw-hm47-class",
+        "pv_modules_per_car": 12,
+        "structure_gauge": "light"
+      },
+      "score": 89.044,
+      "violations": []
+    },
+    {
+      "feasible": true,
+      "id": "light-metro-3car__16p5m__light-body__heavy-bogie__motor-350kw-hm47-class__battery-225kwh-lfp-800v__hvac-24kw-direct-hv-dc__pv16",
+      "mass_breakdown_kg": {
+        "bogie frames, wheelsets, brakes, and suspension": 21136.8,
+        "carbody primary structure": 24086.12,
+        "doors, glazing, interior, and auxiliaries": 16350.0,
+        "end cowls and interfaces": 1240.0,
+        "inter-car articulation": 1800.0,
+        "roof HVAC": 1530.0,
+        "roof PV": 1152.0,
+        "traction batteries": 4350.0,
+        "traction motors, gearboxes, and controllers": 3360.0
+      },
+      "metrics": {
+        "axle_load_kg": 6250.41,
+        "battery_usable_kwh": 540.0,
+        "cars": 3.0,
+        "cost_usd": 688497.71,
+        "hvac_margin": 1.2,
+        "installed_continuous_kw": 1500.0,
+        "manufacturing_complexity_index": 1.15,
+        "mass_t": 75.005,
+        "offwire_range_km": 69.008,
+        "platform_margin_m": 10.0,
+        "pv_peak_kw": 20.16,
+        "traction_margin": 2.857,
+        "trainset_length_m": 49.5
+      },
+      "parameters": {
+        "battery_id": "battery-225kwh-lfp-800v",
+        "bogie_frame_gauge": "heavy",
+        "car_length_m": 16.5,
+        "family": "light-metro-3car",
+        "hvac_id": "hvac-24kw-direct-hv-dc",
+        "motor_id": "motor-350kw-hm47-class",
+        "pv_modules_per_car": 16,
+        "structure_gauge": "light"
+      },
+      "score": 88.976,
+      "violations": []
+    },
+    {
+      "feasible": true,
+      "id": "light-metro-3car__17p0m__reference-body__light-bogie__motor-350kw-hm47-class__battery-225kwh-lfp-800v__hvac-24kw-direct-hv-dc__pv12",
+      "mass_breakdown_kg": {
+        "bogie frames, wheelsets, brakes, and suspension": 19795.5,
+        "carbody primary structure": 26400.0,
+        "doors, glazing, interior, and auxiliaries": 16350.0,
+        "end cowls and interfaces": 1240.0,
+        "inter-car articulation": 1800.0,
+        "roof HVAC": 1530.0,
+        "roof PV": 864.0,
+        "traction batteries": 4350.0,
+        "traction motors, gearboxes, and controllers": 3360.0
+      },
+      "metrics": {
+        "axle_load_kg": 6307.46,
+        "battery_usable_kwh": 540.0,
+        "cars": 3.0,
+        "cost_usd": 684660.0,
+        "hvac_margin": 1.2,
+        "installed_continuous_kw": 1500.0,
+        "manufacturing_complexity_index": 1.04,
+        "mass_t": 75.689,
+        "offwire_range_km": 68.797,
+        "platform_margin_m": 8.5,
+        "pv_peak_kw": 15.12,
+        "traction_margin": 2.831,
+        "trainset_length_m": 51.0
+      },
+      "parameters": {
+        "battery_id": "battery-225kwh-lfp-800v",
+        "bogie_frame_gauge": "light",
+        "car_length_m": 17.0,
+        "family": "light-metro-3car",
+        "hvac_id": "hvac-24kw-direct-hv-dc",
+        "motor_id": "motor-350kw-hm47-class",
+        "pv_modules_per_car": 12,
+        "structure_gauge": "reference"
+      },
+      "score": 88.864,
+      "violations": []
+    },
+    {
+      "feasible": true,
+      "id": "light-metro-3car__17p0m__light-body__reference-bogie__motor-350kw-hm47-class__battery-225kwh-lfp-800v__hvac-24kw-direct-hv-dc__pv16",
+      "mass_breakdown_kg": {
+        "bogie frames, wheelsets, brakes, and suspension": 20190.0,
+        "carbody primary structure": 24816.0,
+        "doors, glazing, interior, and auxiliaries": 16350.0,
+        "end cowls and interfaces": 1240.0,
+        "inter-car articulation": 1800.0,
+        "roof HVAC": 1530.0,
+        "roof PV": 1152.0,
+        "traction batteries": 4350.0,
+        "traction motors, gearboxes, and controllers": 3360.0
+      },
+      "metrics": {
+        "axle_load_kg": 6232.33,
+        "battery_usable_kwh": 540.0,
+        "cars": 3.0,
+        "cost_usd": 688128.0,
+        "hvac_margin": 1.2,
+        "installed_continuous_kw": 1500.0,
+        "manufacturing_complexity_index": 1.05,
+        "mass_t": 74.788,
+        "offwire_range_km": 69.075,
+        "platform_margin_m": 8.5,
+        "pv_peak_kw": 20.16,
+        "traction_margin": 2.865,
+        "trainset_length_m": 51.0
+      },
+      "parameters": {
+        "battery_id": "battery-225kwh-lfp-800v",
+        "bogie_frame_gauge": "reference",
+        "car_length_m": 17.0,
+        "family": "light-metro-3car",
+        "hvac_id": "hvac-24kw-direct-hv-dc",
+        "motor_id": "motor-350kw-hm47-class",
+        "pv_modules_per_car": 16,
+        "structure_gauge": "light"
+      },
+      "score": 88.819,
+      "violations": []
+    },
+    {
+      "feasible": true,
+      "id": "light-metro-3car__17p0m__reference-body__light-bogie__motor-350kw-hm47-class__battery-225kwh-lfp-800v__hvac-24kw-direct-hv-dc__pv16",
+      "mass_breakdown_kg": {
+        "bogie frames, wheelsets, brakes, and suspension": 19795.5,
+        "carbody primary structure": 26400.0,
+        "doors, glazing, interior, and auxiliaries": 16350.0,
+        "end cowls and interfaces": 1240.0,
+        "inter-car articulation": 1800.0,
+        "roof HVAC": 1530.0,
+        "roof PV": 1152.0,
+        "traction batteries": 4350.0,
+        "traction motors, gearboxes, and controllers": 3360.0
+      },
+      "metrics": {
+        "axle_load_kg": 6331.46,
+        "battery_usable_kwh": 540.0,
+        "cars": 3.0,
+        "cost_usd": 687540.0,
+        "hvac_margin": 1.2,
+        "installed_continuous_kw": 1500.0,
+        "manufacturing_complexity_index": 1.04,
+        "mass_t": 75.978,
+        "offwire_range_km": 68.709,
+        "platform_margin_m": 8.5,
+        "pv_peak_kw": 20.16,
+        "traction_margin": 2.82,
+        "trainset_length_m": 51.0
+      },
+      "parameters": {
+        "battery_id": "battery-225kwh-lfp-800v",
+        "bogie_frame_gauge": "light",
+        "car_length_m": 17.0,
+        "family": "light-metro-3car",
+        "hvac_id": "hvac-24kw-direct-hv-dc",
+        "motor_id": "motor-350kw-hm47-class",
+        "pv_modules_per_car": 16,
+        "structure_gauge": "reference"
+      },
+      "score": 88.523,
+      "violations": []
+    },
+    {
+      "feasible": true,
+      "id": "light-metro-3car__17p0m__light-body__light-bogie__motor-350kw-hm47-class__battery-225kwh-lfp-800v__hvac-24kw-direct-hv-dc__pv12",
+      "mass_breakdown_kg": {
+        "bogie frames, wheelsets, brakes, and suspension": 19795.5,
+        "carbody primary structure": 24816.0,
+        "doors, glazing, interior, and auxiliaries": 16350.0,
+        "end cowls and interfaces": 1240.0,
+        "inter-car articulation": 1800.0,
+        "roof HVAC": 1530.0,
+        "roof PV": 864.0,
+        "traction batteries": 4350.0,
+        "traction motors, gearboxes, and controllers": 3360.0
+      },
+      "metrics": {
+        "axle_load_kg": 6175.46,
+        "battery_usable_kwh": 540.0,
+        "cars": 3.0,
+        "cost_usd": 683418.0,
+        "hvac_margin": 1.2,
+        "installed_continuous_kw": 1500.0,
+        "manufacturing_complexity_index": 1.09,
+        "mass_t": 74.106,
+        "offwire_range_km": 69.287,
+        "platform_margin_m": 8.5,
+        "pv_peak_kw": 15.12,
+        "traction_margin": 2.892,
+        "trainset_length_m": 51.0
+      },
+      "parameters": {
+        "battery_id": "battery-225kwh-lfp-800v",
+        "bogie_frame_gauge": "light",
+        "car_length_m": 17.0,
+        "family": "light-metro-3car",
+        "hvac_id": "hvac-24kw-direct-hv-dc",
+        "motor_id": "motor-350kw-hm47-class",
+        "pv_modules_per_car": 12,
+        "structure_gauge": "light"
+      },
+      "score": 88.305,
+      "violations": []
+    },
+    {
+      "feasible": true,
+      "id": "light-metro-3car__17p0m__light-body__light-bogie__motor-350kw-hm47-class__battery-225kwh-lfp-800v__hvac-24kw-direct-hv-dc__pv16",
+      "mass_breakdown_kg": {
+        "bogie frames, wheelsets, brakes, and suspension": 19795.5,
+        "carbody primary structure": 24816.0,
+        "doors, glazing, interior, and auxiliaries": 16350.0,
+        "end cowls and interfaces": 1240.0,
+        "inter-car articulation": 1800.0,
+        "roof HVAC": 1530.0,
+        "roof PV": 1152.0,
+        "traction batteries": 4350.0,
+        "traction motors, gearboxes, and controllers": 3360.0
+      },
+      "metrics": {
+        "axle_load_kg": 6199.46,
+        "battery_usable_kwh": 540.0,
+        "cars": 3.0,
+        "cost_usd": 686298.0,
+        "hvac_margin": 1.2,
+        "installed_continuous_kw": 1500.0,
+        "manufacturing_complexity_index": 1.09,
+        "mass_t": 74.394,
+        "offwire_range_km": 69.197,
+        "platform_margin_m": 8.5,
+        "pv_peak_kw": 20.16,
+        "traction_margin": 2.88,
+        "trainset_length_m": 51.0
+      },
+      "parameters": {
+        "battery_id": "battery-225kwh-lfp-800v",
+        "bogie_frame_gauge": "light",
+        "car_length_m": 17.0,
+        "family": "light-metro-3car",
+        "hvac_id": "hvac-24kw-direct-hv-dc",
+        "motor_id": "motor-350kw-hm47-class",
+        "pv_modules_per_car": 16,
+        "structure_gauge": "light"
+      },
+      "score": 88.078,
+      "violations": []
+    },
+    {
+      "feasible": true,
+      "id": "light-metro-3car__16p5m__heavy-body__reference-bogie__motor-350kw-hm47-class__battery-225kwh-lfp-800v__hvac-24kw-direct-hv-dc__pv12",
+      "mass_breakdown_kg": {
+        "bogie frames, wheelsets, brakes, and suspension": 20190.0,
+        "carbody primary structure": 28185.88,
+        "doors, glazing, interior, and auxiliaries": 16350.0,
+        "end cowls and interfaces": 1240.0,
+        "inter-car articulation": 1800.0,
+        "roof HVAC": 1530.0,
+        "roof PV": 864.0,
+        "traction batteries": 4350.0,
+        "traction motors, gearboxes, and controllers": 3360.0
+      },
+      "metrics": {
+        "axle_load_kg": 6489.16,
+        "battery_usable_kwh": 540.0,
+        "cars": 3.0,
+        "cost_usd": 684440.29,
+        "hvac_margin": 1.2,
+        "installed_continuous_kw": 1500.0,
+        "manufacturing_complexity_index": 1.12,
+        "mass_t": 77.87,
+        "offwire_range_km": 68.135,
+        "platform_margin_m": 10.0,
+        "pv_peak_kw": 15.12,
+        "traction_margin": 2.752,
+        "trainset_length_m": 49.5
+      },
+      "parameters": {
+        "battery_id": "battery-225kwh-lfp-800v",
+        "bogie_frame_gauge": "reference",
+        "car_length_m": 16.5,
+        "family": "light-metro-3car",
+        "hvac_id": "hvac-24kw-direct-hv-dc",
+        "motor_id": "motor-350kw-hm47-class",
+        "pv_modules_per_car": 12,
+        "structure_gauge": "heavy"
+      },
+      "score": 88.048,
+      "violations": []
+    }
+  ],
+  "top_infeasible": [],
+  "trace_note": "The optimizer evaluated the full declared discrete design space in memory; this generated JSON stores ranked shortlists to keep the repository compact."
+}

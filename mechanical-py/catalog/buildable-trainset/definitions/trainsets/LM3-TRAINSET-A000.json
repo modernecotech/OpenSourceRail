@@ -1,0 +1,167 @@
+{
+  "bom_line_ids": [],
+  "build_cell": "final assembly and commissioning cell",
+  "children": [
+    "LM3-CAR-A900",
+    "LM3-END-SA700",
+    "LM3-ART-SA800",
+    "LM3-SYS-SA900"
+  ],
+  "definition_type": "assembly-node",
+  "hold_points": [
+    "trainset weigh",
+    "static brake/door/HVAC/HV tests",
+    "FEM screening accepted",
+    "dynamic-test release"
+  ],
+  "id": "LM3-TRAINSET-A000",
+  "integration_steps": [
+    {
+      "child_id": "LM3-CAR-A900",
+      "child_title": "complete repeated car module",
+      "interface_classes": [
+        "mechanical datum"
+      ],
+      "join_classes": [
+        "bolted-structural-datum"
+      ],
+      "joint_release_status": "joint-calculation-required",
+      "placement_zone": "primary structure datum and final assembly interface",
+      "sequence": 1,
+      "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
+      "verification": [
+        "car weigh",
+        "door/HVAC/static systems test",
+        "bogie marriage report",
+        "low-speed yard movement"
+      ]
+    },
+    {
+      "child_id": "LM3-END-SA700",
+      "child_title": "train-end cowl, coupler, crash, and sensor assembly",
+      "interface_classes": [
+        "mechanical datum",
+        "low-voltage/data",
+        "safety interlock"
+      ],
+      "join_classes": [
+        "gasketed-removable-panel",
+        "bolted-structural-datum",
+        "electrical-data"
+      ],
+      "joint_release_status": "joint-calculation-required",
+      "placement_zone": "train-end cowl, crash, coupler, and sensor datum stack",
+      "sequence": 2,
+      "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
+      "verification": [
+        "A/B end interchange",
+        "coupler datum survey",
+        "sensor calibration",
+        "recovery interface check"
+      ]
+    },
+    {
+      "child_id": "LM3-ART-SA800",
+      "child_title": "inter-car articulation and trainline assembly",
+      "interface_classes": [
+        "mechanical datum",
+        "low-voltage/data",
+        "safety interlock"
+      ],
+      "join_classes": [
+        "bolted-structural-datum",
+        "electrical-data"
+      ],
+      "joint_release_status": "joint-calculation-required",
+      "placement_zone": "inter-car articulation, gangway, trainline, and flexible-service envelope",
+      "sequence": 3,
+      "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
+      "verification": [
+        "motion-envelope proof",
+        "trainline continuity",
+        "water ingress/drain test"
+      ]
+    },
+    {
+      "child_id": "LM3-SYS-SA900",
+      "child_title": "train control, communication, and safety electronics assembly",
+      "interface_classes": [
+        "mechanical datum",
+        "low-voltage/data"
+      ],
+      "join_classes": [
+        "bolted-structural-datum",
+        "electrical-data"
+      ],
+      "joint_release_status": "joint-calculation-required",
+      "placement_zone": "LV cabinet, trainline, network, and diagnostic harness zone",
+      "sequence": 4,
+      "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
+      "verification": [
+        "network enumeration",
+        "firmware record",
+        "self-test",
+        "event-recorder write/read test"
+      ]
+    }
+  ],
+  "layer": "trainset",
+  "material_spec": {
+    "evidence_required": [
+      "child material certificates accepted",
+      "assembly traveler traceability",
+      "interface-control drawing revision"
+    ],
+    "finish_or_protection": "protect damaged coating, exposed edges, seals, bonds, and labels during assembly",
+    "form_factor": "LM3-CAR-A900 child assembly material set, LM3-END-SA700 child assembly material set, LM3-ART-SA800 child assembly material set, LM3-SYS-SA900 child assembly material set",
+    "governing_standard": "all child material standards plus assembly-level torque, bonding, coating, and cleanliness controls",
+    "grade_or_part_class": "LM3-TRAINSET-A000 inherits released child material specifications",
+    "material_family": "assembly material set",
+    "nominal_section": "as defined by child drawings and assembly interface control drawing",
+    "traceability": "child serial/heat/batch records plus assembly traveler traceability"
+  },
+  "maturity": "release-candidate",
+  "process_spec": {
+    "inspection_methods": [
+      "child acceptance evidence review",
+      "trainset weigh",
+      "static brake/door/HVAC/HV tests",
+      "FEM screening accepted",
+      "dynamic-test release",
+      "continuity",
+      "insulation/isolation",
+      "functional static test"
+    ],
+    "joining_methods": [
+      "bolted/torqued interfaces",
+      "shimmed datum interfaces as required",
+      "bonding/earthing",
+      "segregated harness/fluid routing"
+    ],
+    "primary_processes": [
+      "release child kit",
+      "fixture or datum setup",
+      "install children",
+      "torque/fit-up record",
+      "release to parent"
+    ],
+    "release_level": "assembly traveler controlled; generated template is unsigned until build",
+    "special_process_controls": [
+      "child definition/revision check",
+      "tooling calibration check",
+      "parent interface freeze",
+      "LOTO/HV safety rule",
+      "EMC/bonding release",
+      "software/configuration record where applicable"
+    ],
+    "tooling_basis": "FIX-LM3-TRAINSET-A000, KIT-LM3-TRAINSET-A000, calibrated torque/gauge set"
+  },
+  "quantity_per_trainset": 1,
+  "source_refs": [
+    "trainset.py",
+    "freecad_assembly_review.py",
+    "freecad_fea.py",
+    "drawing-register.md"
+  ],
+  "title": "complete light-metro trainset"
+}

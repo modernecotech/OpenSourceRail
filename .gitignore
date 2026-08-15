@@ -1,0 +1,67 @@
+# Rust build artifacts
+/target/
+**/target/
+
+# Python build/cache artifacts
+__pycache__/
+**/__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+**/.pytest_cache/
+# All build, simulation, book, BOM, and generated deployment outputs.
+/build/
+
+# Every city publishes a compact engineering and operations review package.
+# Keep high-volume raw solver and manufacturing outputs local: they are
+# reproducible from the tracked design, summaries, manifests, and scripts.
+/designs/*/*/*/engineering/**/*.log
+/designs/*/*/*/engineering/**/*.gpkg
+/designs/*/*/*/engineering/energy/coordinated-daylight.json
+/designs/*/*/*/engineering/energy/peak-charge-grid-only.json
+/designs/*/*/*/engineering/sumo/*.xml
+/designs/*/*/*/operations/*-acceptance-evidence-matrix.csv
+/designs/*/*/*/operations/*-maintenance-schedule.csv
+/designs/*/*/*/operations/*-manufacturing-materials.csv
+/designs/*/*/*/operations/*-manufacturing-schedule.csv
+/designs/*/*/*/operations/*-manufacturing-verification.csv
+/designs/*/*/*/operations/*-operations.json.gz
+/designs/*/*/*/operations/*-qa-register.csv
+/designs/*/*/*/corridors.json
+/designs/*/*/*/diagnose.png
+
+# Mosul and Samawah retain their previously tracked full acceptance payloads.
+# Ignore rules do not remove files already tracked by Git.
+
+# Local operational state created by small demo servers.
+/var/
+
+# Kani build artifacts
+target_kani/
+
+# Editor / OS cruft
+.DS_Store
+*.swp
+*~
+
+# Claude Code runtime state (not useful in git history)
+.claude/scheduled_tasks.lock
+.claude/todos.json
+
+# OSR pipeline cache: OSM pulls, rasters, WorldPop tiles. Re-derivable.
+.cache/
+
+# Neutral CAD interchange exports are local-only. Track FreeCAD FCStd
+# review documents and generated screenshots, not bulky STEP artifacts.
+*.step
+*.stp
+
+# CalculiX/SPOOLES creates an empty solver scratch file in each run folder.
+**/spooles.out
+
+# Generated release media belongs in tagged release storage.
+/*.pdf
+/docs/brochures/*.pdf
+*.mp4
+*.mov
+*.webm

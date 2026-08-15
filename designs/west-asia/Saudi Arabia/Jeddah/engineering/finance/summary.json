@@ -1,0 +1,91 @@
+{
+  "annual_opex_usd": {
+    "components": {
+      "civil_station_depot_maintenance": 50625880.24,
+      "labour": 64631279.99999999,
+      "residual_grid_energy": 0.0,
+      "rolling_stock_maintenance_including_battery_renewal_reserve": 51609600.0,
+      "signalling_maintenance": 938473.3,
+      "solar_plant_maintenance": 8411716.004952
+    },
+    "total": 176216949.544952
+  },
+  "capex_eur": {
+    "reconciled_project_total": 4649988557.877056
+  },
+  "capex_usd": {
+    "authoritative_design_base": 4493554322.0,
+    "reconciled_project_total": 5054335388.9968,
+    "risk_envelope_15_percent": 5812485697.34632,
+    "risk_envelope_25_percent": 6317919236.246,
+    "timetable_sized_dedicated_solar": 560781066.9968001
+  },
+  "cases": {
+    "high_capacity_use": {
+      "annual_operating_cash_usd": 2952924828.055048,
+      "annual_paid_trips": 664778880.0,
+      "annual_public_support_usd": 0.0,
+      "annual_revenue_usd": 3129141777.6,
+      "capacity_utilisation": 0.8,
+      "project_irr": 0.31425251626657313,
+      "project_npv_usd_at_8_percent": 19386215050.782,
+      "steady_state_dscr": 12.751690647700645
+    },
+    "low_capacity_use": {
+      "annual_operating_cash_usd": 1822800732.055048,
+      "annual_paid_trips": 415486800.0,
+      "annual_public_support_usd": 0.0,
+      "annual_revenue_usd": 1999017681.6,
+      "capacity_utilisation": 0.5,
+      "project_irr": 0.22882418778244631,
+      "project_npv_usd_at_8_percent": 10422180008.0754,
+      "steady_state_dscr": 7.871446921619685
+    }
+  },
+  "city": "jeddah",
+  "funding": {
+    "annual_debt_service_usd": 231571240.9936413,
+    "construction_grace_years": 5,
+    "debt_principal_usd": 4043468311.1974406,
+    "debt_rate": 0.045,
+    "government_equity_share": 0.2,
+    "lender_commitment_status": "unconfirmed-placeholder",
+    "repayment_years": 35
+  },
+  "limitations": [
+    "No calibrated origin-destination or stated-preference ridership survey.",
+    "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
+    "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
+  ],
+  "operations_basis": {
+    "annual_train_km_including_non_revenue": 61251073.22115001,
+    "energy_kwh_per_car_km_hot_climate_planning": 4.0,
+    "non_revenue_train_km_factor": 1.08,
+    "scheduled_train_km_per_day": 155380.70325000002
+  },
+  "passed": true,
+  "renewal_policy": {
+    "field_asset_renewals": "included in fixed-asset maintenance allowance pending condition-based asset plan",
+    "train_battery_cycle_years": 12,
+    "treatment": "included in rolling-stock maintenance reserve; do not double-count as separate CAPEX"
+  },
+  "revenue_basis": {
+    "demand_status": "capacity-led-not-calibrated-od-forecast",
+    "nonfare_revenue_usd_per_year": 115477521.6,
+    "operating_neutral_capacity_utilisation": 0.016123741143101514,
+    "operating_neutral_paid_trips_per_year": 13398403.223151179,
+    "practical_capacity_passenger_trips_per_day": 2276640.0,
+    "single_trip_fare_usd": 4.533333333333333
+  },
+  "schema_version": 1,
+  "sources": {
+    "design": "designs/west-asia/Saudi Arabia/Jeddah/design.toml",
+    "design_sha256": "a21e024d60b3d2498c49507d5108b19e1c47c1216b65d09b5fec26c389ea1d62",
+    "generator": "scripts/generate-city-finance.py",
+    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "scenario": "designs/west-asia/Saudi Arabia/Jeddah/jeddah.toml",
+    "scenario_sha256": "9e9ba95b7dbd5dff6bd7349b78e79542b2a9d9cb1e02216c64ae32078acb4459"
+  },
+  "status": "planning-screen"
+}

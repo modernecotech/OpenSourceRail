@@ -1,0 +1,246 @@
+{
+  "bom_line_ids": [],
+  "build_cell": "final assembly and commissioning cell",
+  "children": [
+    "LM3-CAR-A900",
+    "LM3-END-SA700",
+    "LM3-ART-SA800",
+    "LM3-SYS-SA900"
+  ],
+  "document_revision": "A-DRAFT",
+  "estimated_labor_hours": 8.0,
+  "id": "LM3-TRAINSET-A000",
+  "layer": "trainset",
+  "material_spec": {
+    "evidence_required": [
+      "child material certificates accepted",
+      "assembly traveler traceability",
+      "interface-control drawing revision"
+    ],
+    "finish_or_protection": "protect damaged coating, exposed edges, seals, bonds, and labels during assembly",
+    "form_factor": "LM3-CAR-A900 child assembly material set, LM3-END-SA700 child assembly material set, LM3-ART-SA800 child assembly material set, LM3-SYS-SA900 child assembly material set",
+    "governing_standard": "all child material standards plus assembly-level torque, bonding, coating, and cleanliness controls",
+    "grade_or_part_class": "LM3-TRAINSET-A000 inherits released child material specifications",
+    "material_family": "assembly material set",
+    "nominal_section": "as defined by child drawings and assembly interface control drawing",
+    "traceability": "child serial/heat/batch records plus assembly traveler traceability"
+  },
+  "operations": [
+    {
+      "labor_hours": 0.77,
+      "qa_gate": "all child definitions/revisions match the traveler index",
+      "sequence": 10,
+      "signoff_role": "cell lead",
+      "title": "release traveler, fixture, child kit, and latest definition package",
+      "tooling_ids": [
+        "TRV-LM3-TRAINSET-A000",
+        "FIX-LM3-TRAINSET-A000",
+        "KIT-LM3-TRAINSET-A000"
+      ],
+      "work_center": "final assembly and commissioning cell"
+    },
+    {
+      "labor_hours": 1.05,
+      "qa_gate": "placement zone and joint controls accepted: primary structure datum and final assembly interface",
+      "sequence": 20,
+      "signoff_role": "operator",
+      "title": "install and integrate LM3-CAR-A900: complete repeated car module",
+      "tooling_ids": [
+        "FIX-LM3-TRAINSET-A000",
+        "GAUGE-LM3-CAR-A900",
+        "TORQUE-LM3-CAR-A900"
+      ],
+      "work_center": "final assembly and commissioning cell"
+    },
+    {
+      "labor_hours": 1.65,
+      "qa_gate": "placement zone and joint controls accepted: train-end cowl, crash, coupler, and sensor datum stack",
+      "sequence": 30,
+      "signoff_role": "operator",
+      "title": "install and integrate LM3-END-SA700: train-end cowl, coupler, crash, and sensor assembly",
+      "tooling_ids": [
+        "FIX-LM3-TRAINSET-A000",
+        "GAUGE-LM3-END-SA700",
+        "TORQUE-LM3-END-SA700"
+      ],
+      "work_center": "final assembly and commissioning cell"
+    },
+    {
+      "labor_hours": 1.48,
+      "qa_gate": "placement zone and joint controls accepted: inter-car articulation, gangway, trainline, and flexible-service envelope",
+      "sequence": 40,
+      "signoff_role": "operator",
+      "title": "install and integrate LM3-ART-SA800: inter-car articulation and trainline assembly",
+      "tooling_ids": [
+        "FIX-LM3-TRAINSET-A000",
+        "GAUGE-LM3-ART-SA800",
+        "TORQUE-LM3-ART-SA800"
+      ],
+      "work_center": "final assembly and commissioning cell"
+    },
+    {
+      "labor_hours": 1.35,
+      "qa_gate": "placement zone and joint controls accepted: LV cabinet, trainline, network, and diagnostic harness zone",
+      "sequence": 50,
+      "signoff_role": "operator",
+      "title": "install and integrate LM3-SYS-SA900: train control, communication, and safety electronics assembly",
+      "tooling_ids": [
+        "FIX-LM3-TRAINSET-A000",
+        "GAUGE-LM3-SYS-SA900",
+        "TORQUE-LM3-SYS-SA900"
+      ],
+      "work_center": "final assembly and commissioning cell"
+    },
+    {
+      "labor_hours": 0.35,
+      "qa_gate": "trainset weigh",
+      "sequence": 60,
+      "signoff_role": "quality inspector",
+      "title": "hold point: trainset weigh",
+      "tooling_ids": [
+        "QA-LM3-TRAINSET-A000"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.35,
+      "qa_gate": "static brake/door/HVAC/HV tests",
+      "sequence": 70,
+      "signoff_role": "quality inspector",
+      "title": "hold point: static brake/door/HVAC/HV tests",
+      "tooling_ids": [
+        "QA-LM3-TRAINSET-A000"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.35,
+      "qa_gate": "FEM screening accepted",
+      "sequence": 80,
+      "signoff_role": "quality inspector",
+      "title": "hold point: FEM screening accepted",
+      "tooling_ids": [
+        "QA-LM3-TRAINSET-A000"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.35,
+      "qa_gate": "dynamic-test release",
+      "sequence": 90,
+      "signoff_role": "quality inspector",
+      "title": "hold point: dynamic-test release",
+      "tooling_ids": [
+        "QA-LM3-TRAINSET-A000"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.3,
+      "qa_gate": "all operation and QA signoffs are complete",
+      "sequence": 100,
+      "signoff_role": "manufacturing engineer",
+      "title": "close traveler, attach nonconformance/deviation log, and release to next parent",
+      "tooling_ids": [
+        "REL-LM3-TRAINSET-A000",
+        "NCR-LM3-TRAINSET-A000"
+      ],
+      "work_center": "production control"
+    }
+  ],
+  "process_spec": {
+    "inspection_methods": [
+      "child acceptance evidence review",
+      "trainset weigh",
+      "static brake/door/HVAC/HV tests",
+      "FEM screening accepted",
+      "dynamic-test release",
+      "continuity",
+      "insulation/isolation",
+      "functional static test"
+    ],
+    "joining_methods": [
+      "bolted/torqued interfaces",
+      "shimmed datum interfaces as required",
+      "bonding/earthing",
+      "segregated harness/fluid routing"
+    ],
+    "primary_processes": [
+      "release child kit",
+      "fixture or datum setup",
+      "install children",
+      "torque/fit-up record",
+      "release to parent"
+    ],
+    "release_level": "assembly traveler controlled; generated template is unsigned until build",
+    "special_process_controls": [
+      "child definition/revision check",
+      "tooling calibration check",
+      "parent interface freeze",
+      "LOTO/HV safety rule",
+      "EMC/bonding release",
+      "software/configuration record where applicable"
+    ],
+    "tooling_basis": "FIX-LM3-TRAINSET-A000, KIT-LM3-TRAINSET-A000, calibrated torque/gauge set"
+  },
+  "quantity_per_trainset": 1,
+  "release_status": "unsigned-template",
+  "revision_approvals": [
+    {
+      "approval_id": "APP-LM3-TRAINSET-A000-MFG",
+      "date": "",
+      "name": "",
+      "role": "manufacturing engineering",
+      "signature": "",
+      "status": "pending"
+    },
+    {
+      "approval_id": "APP-LM3-TRAINSET-A000-QA",
+      "date": "",
+      "name": "",
+      "role": "quality",
+      "signature": "",
+      "status": "pending"
+    },
+    {
+      "approval_id": "APP-LM3-TRAINSET-A000-DA",
+      "date": "",
+      "name": "",
+      "role": "design authority",
+      "signature": "",
+      "status": "pending"
+    }
+  ],
+  "signoff_blocks": [
+    {
+      "date": "",
+      "name": "",
+      "role": "operator",
+      "signature": "",
+      "status": "blank"
+    },
+    {
+      "date": "",
+      "name": "",
+      "role": "cell lead",
+      "signature": "",
+      "status": "blank"
+    },
+    {
+      "date": "",
+      "name": "",
+      "role": "quality inspector",
+      "signature": "",
+      "status": "blank"
+    },
+    {
+      "date": "",
+      "name": "",
+      "role": "manufacturing engineer",
+      "signature": "",
+      "status": "blank"
+    }
+  ],
+  "title": "complete light-metro trainset",
+  "traveler_type": "assembly-node"
+}

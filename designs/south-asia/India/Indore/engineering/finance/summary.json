@@ -1,0 +1,91 @@
+{
+  "annual_opex_usd": {
+    "components": {
+      "civil_station_depot_maintenance": 47279837.82,
+      "labour": 7959839.999999999,
+      "residual_grid_energy": 0.0,
+      "rolling_stock_maintenance_including_battery_renewal_reserve": 48249600.0,
+      "signalling_maintenance": 923489.9,
+      "solar_plant_maintenance": 8178160.317744001
+    },
+    "total": 112590928.037744
+  },
+  "capex_eur": {
+    "reconciled_project_total": 4361211327.261632
+  },
+  "capex_usd": {
+    "authoritative_design_base": 4195236407.0,
+    "reconciled_project_total": 4740447094.8496,
+    "risk_envelope_15_percent": 5451514159.07704,
+    "risk_envelope_25_percent": 5925558868.562,
+    "timetable_sized_dedicated_solar": 545210687.8496001
+  },
+  "cases": {
+    "high_capacity_use": {
+      "annual_operating_cash_usd": 262580645.65825605,
+      "annual_paid_trips": 586569600.0,
+      "annual_public_support_usd": 0.0,
+      "annual_revenue_usd": 375171573.69600004,
+      "capacity_utilisation": 0.8,
+      "project_irr": 0.03703128118375298,
+      "project_npv_usd_at_8_percent": -1702681850.2307355,
+      "steady_state_dscr": 1.2089903702441076
+    },
+    "low_capacity_use": {
+      "annual_operating_cash_usd": 127669637.65825604,
+      "annual_paid_trips": 366606000.0,
+      "annual_public_support_usd": 89520384.7943118,
+      "annual_revenue_usd": 240260565.69600004,
+      "capacity_utilisation": 0.5,
+      "project_irr": -0.0029288314373191885,
+      "project_npv_usd_at_8_percent": -2772782919.3427696,
+      "steady_state_dscr": 0.5878245980942234
+    }
+  },
+  "city": "indore",
+  "funding": {
+    "annual_debt_service_usd": 217190022.45256785,
+    "construction_grace_years": 5,
+    "debt_principal_usd": 3792357675.87968,
+    "debt_rate": 0.045,
+    "government_equity_share": 0.2,
+    "lender_commitment_status": "unconfirmed-placeholder",
+    "repayment_years": 35
+  },
+  "limitations": [
+    "No calibrated origin-destination or stated-preference ridership survey.",
+    "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
+    "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
+  ],
+  "operations_basis": {
+    "annual_train_km_including_non_revenue": 59159228.55030001,
+    "energy_kwh_per_car_km_hot_climate_planning": 4.0,
+    "non_revenue_train_km_factor": 1.08,
+    "scheduled_train_km_per_day": 150074.1465
+  },
+  "passed": true,
+  "renewal_policy": {
+    "field_asset_renewals": "included in fixed-asset maintenance allowance pending condition-based asset plan",
+    "train_battery_cycle_years": 12,
+    "treatment": "included in rolling-stock maintenance reserve; do not double-count as separate CAPEX"
+  },
+  "revenue_basis": {
+    "demand_status": "capacity-led-not-calibrated-od-forecast",
+    "nonfare_revenue_usd_per_year": 15408885.696,
+    "operating_neutral_capacity_utilisation": 0.2161025488929947,
+    "operating_neutral_paid_trips_per_year": 158448982.07893044,
+    "practical_capacity_passenger_trips_per_day": 2008800.0,
+    "single_trip_fare_usd": 0.6133333333333334
+  },
+  "schema_version": 1,
+  "sources": {
+    "design": "designs/south-asia/India/Indore/design.toml",
+    "design_sha256": "ea6f286c9569d7b9a320587769841ff5ca8e4746f28fbfb46882a453a54f1677",
+    "generator": "scripts/generate-city-finance.py",
+    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "scenario": "designs/south-asia/India/Indore/indore.toml",
+    "scenario_sha256": "d0704bbf1149495bce0d45859cbc9f517464533d1dbde079e852de6fc45162c5"
+  },
+  "status": "planning-screen"
+}

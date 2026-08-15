@@ -1,0 +1,91 @@
+{
+  "annual_opex_usd": {
+    "components": {
+      "civil_station_depot_maintenance": 39406622.06,
+      "labour": 44924880.0,
+      "residual_grid_energy": 0.0,
+      "rolling_stock_maintenance_including_battery_renewal_reserve": 20339200.0,
+      "signalling_maintenance": 682288.8,
+      "solar_plant_maintenance": 3527278.899312
+    },
+    "total": 108880269.759312
+  },
+  "capex_eur": {
+    "reconciled_project_total": 2827305117.6911364
+  },
+  "capex_usd": {
+    "authoritative_design_base": 2838005810.0,
+    "reconciled_project_total": 3073157736.6208,
+    "risk_envelope_15_percent": 3534131397.1139197,
+    "risk_envelope_25_percent": 3841447170.776,
+    "timetable_sized_dedicated_solar": 235151926.6208
+  },
+  "cases": {
+    "high_capacity_use": {
+      "annual_operating_cash_usd": 1285188419.840688,
+      "annual_paid_trips": 286767360.0,
+      "annual_public_support_usd": 0.0,
+      "annual_revenue_usd": 1394068689.6,
+      "capacity_utilisation": 0.8,
+      "project_irr": 0.253134487796758,
+      "project_npv_usd_at_8_percent": 7739944716.068178,
+      "steady_state_dscr": 9.127700586184634
+    },
+    "low_capacity_use": {
+      "annual_operating_cash_usd": 797683907.840688,
+      "annual_paid_trips": 179229600.0,
+      "annual_public_support_usd": 0.0,
+      "annual_revenue_usd": 906564177.6,
+      "capacity_utilisation": 0.5,
+      "project_irr": 0.1806372431014323,
+      "project_npv_usd_at_8_percent": 3873106070.1947417,
+      "steady_state_dscr": 5.665332616434602
+    }
+  },
+  "city": "dammam",
+  "funding": {
+    "annual_debt_service_usd": 140800895.87797216,
+    "construction_grace_years": 5,
+    "debt_principal_usd": 2458526189.29664,
+    "debt_rate": 0.045,
+    "government_equity_share": 0.2,
+    "lender_commitment_status": "unconfirmed-placeholder",
+    "repayment_years": 35
+  },
+  "limitations": [
+    "No calibrated origin-destination or stated-preference ridership survey.",
+    "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
+    "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
+  ],
+  "operations_basis": {
+    "annual_train_km_including_non_revenue": 42034301.58285,
+    "energy_kwh_per_car_km_hot_climate_planning": 4.0,
+    "non_revenue_train_km_factor": 1.08,
+    "scheduled_train_km_per_day": 106631.91674999999
+  },
+  "passed": true,
+  "renewal_policy": {
+    "field_asset_renewals": "included in fixed-asset maintenance allowance pending condition-based asset plan",
+    "train_battery_cycle_years": 12,
+    "treatment": "included in rolling-stock maintenance reserve; do not double-count as separate CAPEX"
+  },
+  "revenue_basis": {
+    "demand_status": "capacity-led-not-calibrated-od-forecast",
+    "nonfare_revenue_usd_per_year": 94056657.6,
+    "operating_neutral_capacity_utilisation": 0.009122138438369167,
+    "operating_neutral_paid_trips_per_year": 3269914.446907061,
+    "practical_capacity_passenger_trips_per_day": 982080.0,
+    "single_trip_fare_usd": 4.533333333333333
+  },
+  "schema_version": 1,
+  "sources": {
+    "design": "designs/west-asia/Saudi Arabia/Dammam/design.toml",
+    "design_sha256": "ffbd73ec48ac4299dc8d3d8fad5d4f2974435115cc5ab2eadf042374b715621b",
+    "generator": "scripts/generate-city-finance.py",
+    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "scenario": "designs/west-asia/Saudi Arabia/Dammam/dammam.toml",
+    "scenario_sha256": "0c62547750473ced4df15b4b392a7e7432b4e4cf35f67b34ce3b50578918649c"
+  },
+  "status": "planning-screen"
+}

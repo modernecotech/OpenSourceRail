@@ -1,0 +1,91 @@
+{
+  "annual_opex_usd": {
+    "components": {
+      "civil_station_depot_maintenance": 5278272.3,
+      "labour": 587664.0,
+      "residual_grid_energy": 0.0,
+      "rolling_stock_maintenance_including_battery_renewal_reserve": 3312000.0,
+      "signalling_maintenance": 84715.65000000001,
+      "solar_plant_maintenance": 313748.51613599993
+    },
+    "total": 9576400.466136
+  },
+  "capex_eur": {
+    "reconciled_project_total": 380954059.763008
+  },
+  "capex_usd": {
+    "authoritative_design_base": 393163932.0,
+    "reconciled_project_total": 414080499.7424,
+    "risk_envelope_15_percent": 476192574.70375997,
+    "risk_envelope_25_percent": 517600624.678,
+    "timetable_sized_dedicated_solar": 20916567.742399998
+  },
+  "cases": {
+    "high_capacity_use": {
+      "annual_operating_cash_usd": 25950871.533864,
+      "annual_paid_trips": 117313920.0,
+      "annual_public_support_usd": 0.0,
+      "annual_revenue_usd": 35527272.0,
+      "capacity_utilisation": 0.8,
+      "project_irr": 0.03397491331865918,
+      "project_npv_usd_at_8_percent": -142529737.54923293,
+      "steady_state_dscr": 1.2760527672313635
+    },
+    "low_capacity_use": {
+      "annual_operating_cash_usd": 13046340.333864002,
+      "annual_paid_trips": 73321200.0,
+      "annual_public_support_usd": 7290492.280173814,
+      "annual_revenue_usd": 22622740.8,
+      "capacity_utilisation": 0.5,
+      "project_irr": -0.0028007291391396036,
+      "project_npv_usd_at_8_percent": -209820827.59531876,
+      "steady_state_dscr": 0.6415128934511937
+    }
+  },
+  "city": "port-sudan",
+  "funding": {
+    "annual_debt_service_usd": 20336832.614037815,
+    "construction_grace_years": 10,
+    "debt_principal_usd": 331264399.79392004,
+    "debt_rate": 0.045,
+    "government_equity_share": 0.2,
+    "lender_commitment_status": "unconfirmed-placeholder",
+    "repayment_years": 30
+  },
+  "limitations": [
+    "No calibrated origin-destination or stated-preference ridership survey.",
+    "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
+    "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
+  ],
+  "operations_basis": {
+    "annual_train_km_including_non_revenue": 6211460.4489,
+    "energy_kwh_per_car_km_hot_climate_planning": 4.0,
+    "non_revenue_train_km_factor": 1.08,
+    "scheduled_train_km_per_day": 15757.1295
+  },
+  "passed": true,
+  "renewal_policy": {
+    "field_asset_renewals": "included in fixed-asset maintenance allowance pending condition-based asset plan",
+    "train_battery_cycle_years": 12,
+    "treatment": "included in rolling-stock maintenance reserve; do not double-count as separate CAPEX"
+  },
+  "revenue_basis": {
+    "demand_status": "capacity-led-not-calibrated-od-forecast",
+    "nonfare_revenue_usd_per_year": 1115188.8,
+    "operating_neutral_capacity_utilisation": 0.19670327116112513,
+    "operating_neutral_paid_trips_per_year": 28845039.770918176,
+    "practical_capacity_passenger_trips_per_day": 401760.0,
+    "single_trip_fare_usd": 0.29333333333333333
+  },
+  "schema_version": 1,
+  "sources": {
+    "design": "designs/north-africa/Sudan/Port-Sudan/design.toml",
+    "design_sha256": "124a4881b30718650536831f0a2ba765d4c9734a1a28aeb3dedb4cccce0519d2",
+    "generator": "scripts/generate-city-finance.py",
+    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "scenario": "designs/north-africa/Sudan/Port-Sudan/port-sudan.toml",
+    "scenario_sha256": "3cd83e639b93d47909da66c787a1cb3a018d56423d35de75a70b3b6428277316"
+  },
+  "status": "planning-screen"
+}

@@ -1,0 +1,91 @@
+{
+  "annual_opex_usd": {
+    "components": {
+      "civil_station_depot_maintenance": 9800503.98,
+      "labour": 3733295.9999999995,
+      "residual_grid_energy": 0.0,
+      "rolling_stock_maintenance_including_battery_renewal_reserve": 7164000.0,
+      "signalling_maintenance": 203726.55000000002,
+      "solar_plant_maintenance": 870078.389232
+    },
+    "total": 21771604.919232
+  },
+  "capex_eur": {
+    "reconciled_project_total": 756196609.992896
+  },
+  "capex_usd": {
+    "authoritative_design_base": 763947611.0,
+    "reconciled_project_total": 821952836.9488,
+    "risk_envelope_15_percent": 945245762.4911199,
+    "risk_envelope_25_percent": 1027441046.186,
+    "timetable_sized_dedicated_solar": 58005225.948800005
+  },
+  "cases": {
+    "high_capacity_use": {
+      "annual_operating_cash_usd": 113150952.360768,
+      "annual_paid_trips": 117313920.0,
+      "annual_public_support_usd": 0.0,
+      "annual_revenue_usd": 134922557.28,
+      "capacity_utilisation": 0.8,
+      "project_irr": 0.10790878977782764,
+      "project_npv_usd_at_8_percent": 241138543.63346952,
+      "steady_state_dscr": 3.0046282672542977
+    },
+    "low_capacity_use": {
+      "annual_operating_cash_usd": 65052245.160768,
+      "annual_paid_trips": 73321200.0,
+      "annual_public_support_usd": 0.0,
+      "annual_revenue_usd": 86823850.08,
+      "capacity_utilisation": 0.5,
+      "project_irr": 0.06128786712064534,
+      "project_npv_usd_at_8_percent": -140375750.57169038,
+      "steady_state_dscr": 1.7274075964929285
+    }
+  },
+  "city": "agadir",
+  "funding": {
+    "annual_debt_service_usd": 37658885.65781487,
+    "construction_grace_years": 5,
+    "debt_principal_usd": 657562269.5590401,
+    "debt_rate": 0.045,
+    "government_equity_share": 0.2,
+    "lender_commitment_status": "unconfirmed-placeholder",
+    "repayment_years": 35
+  },
+  "limitations": [
+    "No calibrated origin-destination or stated-preference ridership survey.",
+    "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
+    "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
+  ],
+  "operations_basis": {
+    "annual_train_km_including_non_revenue": 14937471.451800002,
+    "energy_kwh_per_car_km_hot_climate_planning": 4.0,
+    "non_revenue_train_km_factor": 1.08,
+    "scheduled_train_km_per_day": 37893.129
+  },
+  "passed": true,
+  "renewal_policy": {
+    "field_asset_renewals": "included in fixed-asset maintenance allowance pending condition-based asset plan",
+    "train_battery_cycle_years": 12,
+    "treatment": "included in rolling-stock maintenance reserve; do not double-count as separate CAPEX"
+  },
+  "revenue_basis": {
+    "demand_status": "capacity-led-not-calibrated-od-forecast",
+    "nonfare_revenue_usd_per_year": 6659338.08,
+    "operating_neutral_capacity_utilisation": 0.0942578359313907,
+    "operating_neutral_paid_trips_per_year": 13822195.279785367,
+    "practical_capacity_passenger_trips_per_day": 401760.0,
+    "single_trip_fare_usd": 1.0933333333333333
+  },
+  "schema_version": 1,
+  "sources": {
+    "design": "designs/north-africa/Morocco/Agadir/design.toml",
+    "design_sha256": "3abda8ea0cb48dddd4b971af372132502fac0a10073fafe2f68db2c27ae63cf0",
+    "generator": "scripts/generate-city-finance.py",
+    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "scenario": "designs/north-africa/Morocco/Agadir/agadir.toml",
+    "scenario_sha256": "697c2696d31e0d2282b3ec07718fefa71c6ea8e17740416e990d7d08ea99f68f"
+  },
+  "status": "planning-screen"
+}

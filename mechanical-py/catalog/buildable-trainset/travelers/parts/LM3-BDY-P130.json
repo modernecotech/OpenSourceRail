@@ -1,0 +1,227 @@
+{
+  "bom_line_ids": [
+    "B6",
+    "B7"
+  ],
+  "document_revision": "A-DRAFT",
+  "estimated_labor_hours": 4.2,
+  "id": "LM3-BDY-P130",
+  "material_spec": {
+    "evidence_required": [
+      "certificate of conformity",
+      "incoming inspection record",
+      "laminate coupon",
+      "insert/clip proof",
+      "master-frame fit",
+      "water/vibration evidence"
+    ],
+    "finish_or_protection": "UV-stable exterior gelcoat/paint, sealed cut edges, drained joints, and mixed-metal isolation",
+    "form_factor": "994 mm finished side/window/door/roof variants CNC-trimmed from a common 1,000 mm mould pitch",
+    "governing_standard": "project exterior laminate schedule plus EN 45545 fire/smoke, insert, vibration, and aerodynamic evidence",
+    "grade_or_part_class": "UV-stable E-glass/vinyl-ester 1,000 mm body module with local core and potted inserts",
+    "material_family": "fire-retardant exterior fiberglass sandwich",
+    "nominal_section": "28 mm nominal sandwich with solid clip lands, sealed edges, and replaceable 6 mm EPDM joints",
+    "traceability": "laminate/resin/cure batch, module serial, trim record, insert batch, and fire certificate"
+  },
+  "operations": [
+    {
+      "labor_hours": 0.35,
+      "qa_gate": "traveler rev and parent assembly match released manifest",
+      "sequence": 10,
+      "signoff_role": "cell lead",
+      "title": "release traveler, revision, material/certificate pack, and parent interface",
+      "tooling_ids": [
+        "TRV-LM3-BDY-P130",
+        "DOC-LM3-SHELL-A200"
+      ],
+      "work_center": "production control"
+    },
+    {
+      "labor_hours": 1.8,
+      "qa_gate": "fabricated geometry matches datum/gauge requirements",
+      "sequence": 20,
+      "signoff_role": "operator",
+      "title": "cut, form, machine, or fabricate local hardware",
+      "tooling_ids": [
+        "FIX-LM3-BDY-FAB",
+        "GAUGE-LM3-BDY-P130-DATUM"
+      ],
+      "work_center": "fabrication cell"
+    },
+    {
+      "labor_hours": 0.8,
+      "qa_gate": "fit-up evidence recorded before release to assembly",
+      "sequence": 30,
+      "signoff_role": "operator",
+      "title": "trial-fit to parent interface and record shim/adjustment pack",
+      "tooling_ids": [
+        "FIX-LM3-SHELL-A200",
+        "TORQUE-LM3-BDY-P130"
+      ],
+      "work_center": "fit-up cell"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "material/fire certificate",
+      "sequence": 40,
+      "signoff_role": "quality inspector",
+      "title": "verify acceptance gate: material/fire certificate",
+      "tooling_ids": [
+        "QA-LM3-BDY-P130"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "trim gauge",
+      "sequence": 50,
+      "signoff_role": "quality inspector",
+      "title": "verify acceptance gate: trim gauge",
+      "tooling_ids": [
+        "GAUGE-LM3-BDY-P130"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "insert pull-out",
+      "sequence": 60,
+      "signoff_role": "quality inspector",
+      "title": "verify acceptance gate: insert pull-out",
+      "tooling_ids": [
+        "QA-LM3-BDY-P130"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "master-frame dry fit",
+      "sequence": 70,
+      "signoff_role": "quality inspector",
+      "title": "verify acceptance gate: master-frame dry fit",
+      "tooling_ids": [
+        "QA-LM3-BDY-P130"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "item is released, tagged, and staged for parent assembly",
+      "sequence": 80,
+      "signoff_role": "cell lead",
+      "title": "final item release to parent assembly",
+      "tooling_ids": [
+        "REL-LM3-BDY-P130",
+        "KIT-LM3-SHELL-A200"
+      ],
+      "work_center": "production control"
+    }
+  ],
+  "parent": "LM3-SHELL-A200",
+  "process_spec": {
+    "inspection_methods": [
+      "laminate coupon",
+      "void/delamination visual tap check",
+      "trim-line gauge",
+      "insert pull-out where classed",
+      "fit-up survey",
+      "material/fire certificate",
+      "trim gauge",
+      "insert pull-out",
+      "master-frame dry fit",
+      "split-line gap check",
+      "water-ingress test",
+      "repair coupon demonstration"
+    ],
+    "joining_methods": [
+      "potted/captive inserts",
+      "retained fasteners or clip grid",
+      "adhesive/sealant only where removal and repair rules allow"
+    ],
+    "primary_processes": [
+      "inspect mould/trim fixture",
+      "apply release system",
+      "cut dry reinforcement or panel blank",
+      "lay up / infuse / press laminate",
+      "controlled cure",
+      "demould and post-cure where required",
+      "trim/drill to controlled datum",
+      "fit inserts/clips/gaskets",
+      "dry-fit to parent fixture"
+    ],
+    "release_level": "v2A composite-process controlled MAKE item; generated traveler is unsigned until build",
+    "special_process_controls": [
+      "released laminate schedule",
+      "resin/adhesive batch and shelf-life check",
+      "mould release record",
+      "cure temperature/time record",
+      "fire-material certificate check",
+      "edge sealing and dust-control rule",
+      "A/B-end interchange rule",
+      "glass carrier and sensor datum protection"
+    ],
+    "tooling_basis": "MOULD/FIX-LM3-BDY-P130 plus TRIM-GAUGE-LM3-BDY-P130"
+  },
+  "quantity_per_trainset": 144,
+  "release_status": "unsigned-template",
+  "revision_approvals": [
+    {
+      "approval_id": "APP-LM3-BDY-P130-MFG",
+      "date": "",
+      "name": "",
+      "role": "manufacturing engineering",
+      "signature": "",
+      "status": "pending"
+    },
+    {
+      "approval_id": "APP-LM3-BDY-P130-QA",
+      "date": "",
+      "name": "",
+      "role": "quality",
+      "signature": "",
+      "status": "pending"
+    },
+    {
+      "approval_id": "APP-LM3-BDY-P130-DA",
+      "date": "",
+      "name": "",
+      "role": "design authority",
+      "signature": "",
+      "status": "pending"
+    }
+  ],
+  "route": "MAKE",
+  "signoff_blocks": [
+    {
+      "date": "",
+      "name": "",
+      "role": "operator",
+      "signature": "",
+      "status": "blank"
+    },
+    {
+      "date": "",
+      "name": "",
+      "role": "cell lead",
+      "signature": "",
+      "status": "blank"
+    },
+    {
+      "date": "",
+      "name": "",
+      "role": "quality inspector",
+      "signature": "",
+      "status": "blank"
+    },
+    {
+      "date": "",
+      "name": "",
+      "role": "manufacturing engineer",
+      "signature": "",
+      "status": "blank"
+    }
+  ],
+  "title": "one-metre clip-on fiberglass side and roof body module",
+  "traveler_type": "product-item",
+  "unit": "module"
+}

@@ -1,0 +1,91 @@
+{
+  "annual_opex_usd": {
+    "components": {
+      "civil_station_depot_maintenance": 6123183.28,
+      "labour": 1003463.9999999999,
+      "residual_grid_energy": 0.0,
+      "rolling_stock_maintenance_including_battery_renewal_reserve": 4320000.0,
+      "signalling_maintenance": 112111.1,
+      "solar_plant_maintenance": 453215.6719680001
+    },
+    "total": 12011974.051968
+  },
+  "capex_eur": {
+    "reconciled_project_total": 461697502.24070406
+  },
+  "capex_usd": {
+    "authoritative_design_base": 471630733.0,
+    "reconciled_project_total": 501845111.1312,
+    "risk_envelope_15_percent": 577121877.80088,
+    "risk_envelope_25_percent": 627306388.914,
+    "timetable_sized_dedicated_solar": 30214378.131200008
+  },
+  "cases": {
+    "high_capacity_use": {
+      "annual_operating_cash_usd": 41293003.036032006,
+      "annual_paid_trips": 117313920.0,
+      "annual_public_support_usd": 0.0,
+      "annual_revenue_usd": 53304977.08800001,
+      "capacity_utilisation": 0.8,
+      "project_irr": 0.058351741057945175,
+      "project_npv_usd_at_8_percent": -95839468.77704638,
+      "steady_state_dscr": 1.7508517058539765
+    },
+    "low_capacity_use": {
+      "annual_operating_cash_usd": 21936206.236032,
+      "annual_paid_trips": 73321200.0,
+      "annual_public_support_usd": 1648317.1693305187,
+      "annual_revenue_usd": 33948180.288,
+      "capacity_utilisation": 0.5,
+      "project_irr": 0.019289604753068887,
+      "project_npv_usd_at_8_percent": -225883138.69495457,
+      "steady_state_dscr": 0.9301102192738933
+    }
+  },
+  "city": "bahawalpur",
+  "funding": {
+    "annual_debt_service_usd": 23584523.40536252,
+    "construction_grace_years": 7,
+    "debt_principal_usd": 401476088.90496004,
+    "debt_rate": 0.045,
+    "government_equity_share": 0.2,
+    "lender_commitment_status": "unconfirmed-placeholder",
+    "repayment_years": 33
+  },
+  "limitations": [
+    "No calibrated origin-destination or stated-preference ridership survey.",
+    "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
+    "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
+  ],
+  "operations_basis": {
+    "annual_train_km_including_non_revenue": 8220113.053200001,
+    "energy_kwh_per_car_km_hot_climate_planning": 4.0,
+    "non_revenue_train_km_factor": 1.08,
+    "scheduled_train_km_per_day": 20852.646
+  },
+  "passed": true,
+  "renewal_policy": {
+    "field_asset_renewals": "included in fixed-asset maintenance allowance pending condition-based asset plan",
+    "train_battery_cycle_years": 12,
+    "treatment": "included in rolling-stock maintenance reserve; do not double-count as separate CAPEX"
+  },
+  "revenue_basis": {
+    "demand_status": "capacity-led-not-calibrated-od-forecast",
+    "nonfare_revenue_usd_per_year": 1686852.288,
+    "operating_neutral_capacity_utilisation": 0.16002319811459711,
+    "operating_neutral_paid_trips_per_year": 23466185.827199996,
+    "practical_capacity_passenger_trips_per_day": 401760.0,
+    "single_trip_fare_usd": 0.44000000000000006
+  },
+  "schema_version": 1,
+  "sources": {
+    "design": "designs/south-asia/Pakistan/Bahawalpur/design.toml",
+    "design_sha256": "4b34cf5bb84c1bef6a981ba78526d6a61b76676089d58049e1f5b6d64b862b37",
+    "generator": "scripts/generate-city-finance.py",
+    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "scenario": "designs/south-asia/Pakistan/Bahawalpur/bahawalpur.toml",
+    "scenario_sha256": "f714e7a2a4e0d652f669274fc1157ef04ad0b5ea490926262f34df8be8bd9935"
+  },
+  "status": "planning-screen"
+}

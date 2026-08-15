@@ -1,0 +1,91 @@
+{
+  "annual_opex_usd": {
+    "components": {
+      "civil_station_depot_maintenance": 8516120.34,
+      "labour": 890736.0,
+      "residual_grid_energy": 0.0,
+      "rolling_stock_maintenance_including_battery_renewal_reserve": 5472000.0,
+      "signalling_maintenance": 149815.2,
+      "solar_plant_maintenance": 816093.6159900001
+    },
+    "total": 15844765.15599
+  },
+  "capex_eur": {
+    "reconciled_project_total": 637851111.06072
+  },
+  "capex_usd": {
+    "authoritative_design_base": 638910184.0,
+    "reconciled_project_total": 693316425.066,
+    "risk_envelope_15_percent": 797313888.8259,
+    "risk_envelope_25_percent": 866645531.3325,
+    "timetable_sized_dedicated_solar": 54406241.06600001
+  },
+  "cases": {
+    "high_capacity_use": {
+      "annual_operating_cash_usd": 20544308.44401,
+      "annual_paid_trips": 117313920.0,
+      "annual_public_support_usd": 13506703.602927428,
+      "annual_revenue_usd": 36389073.6,
+      "capacity_utilisation": 0.8,
+      "project_irr": -0.005811699089063096,
+      "project_npv_usd_at_8_percent": -358092012.28182286,
+      "steady_state_dscr": 0.6033391435088864
+    },
+    "low_capacity_use": {
+      "annual_operating_cash_usd": 7639777.244009998,
+      "annual_paid_trips": 73321200.0,
+      "annual_public_support_usd": 26411234.80292743,
+      "annual_revenue_usd": 23484542.4,
+      "capacity_utilisation": 0.5,
+      "project_irr": -0.049804341949611114,
+      "project_npv_usd_at_8_percent": -425383102.32790875,
+      "steady_state_dscr": 0.2243627071488797
+    }
+  },
+  "city": "goma",
+  "funding": {
+    "annual_debt_service_usd": 34051012.04693743,
+    "construction_grace_years": 10,
+    "debt_principal_usd": 554653140.0528,
+    "debt_rate": 0.045,
+    "government_equity_share": 0.2,
+    "lender_commitment_status": "unconfirmed-placeholder",
+    "repayment_years": 30
+  },
+  "limitations": [
+    "No calibrated origin-destination or stated-preference ridership survey.",
+    "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
+    "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
+  ],
+  "operations_basis": {
+    "annual_train_km_including_non_revenue": 10984633.908300001,
+    "energy_kwh_per_car_km_hot_climate_planning": 4.0,
+    "non_revenue_train_km_factor": 1.08,
+    "scheduled_train_km_per_day": 27865.6365
+  },
+  "passed": true,
+  "renewal_policy": {
+    "field_asset_renewals": "included in fixed-asset maintenance allowance pending condition-based asset plan",
+    "train_battery_cycle_years": 12,
+    "treatment": "included in rolling-stock maintenance reserve; do not double-count as separate CAPEX"
+  },
+  "revenue_basis": {
+    "demand_status": "capacity-led-not-calibrated-od-forecast",
+    "nonfare_revenue_usd_per_year": 1976990.4,
+    "operating_neutral_capacity_utilisation": 0.32239314720685086,
+    "operating_neutral_paid_trips_per_year": 47276504.84996591,
+    "practical_capacity_passenger_trips_per_day": 401760.0,
+    "single_trip_fare_usd": 0.29333333333333333
+  },
+  "schema_version": 1,
+  "sources": {
+    "design": "designs/central-africa/DR Congo/Goma/design.toml",
+    "design_sha256": "8fe7e01d7fc80fae7aee597d957eb0ba973532d674309ad21d0811a367a4726f",
+    "generator": "scripts/generate-city-finance.py",
+    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "scenario": "designs/central-africa/DR Congo/Goma/goma.toml",
+    "scenario_sha256": "9ac6bbe2f06280e1b5cd11fcdc7ce5135ddea3c0f70e25f6d5c46d8216e8fd99"
+  },
+  "status": "planning-screen"
+}

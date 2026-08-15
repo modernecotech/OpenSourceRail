@@ -1,0 +1,260 @@
+{
+  "bom_line_ids": [],
+  "build_cell": "final assembly and commissioning cell",
+  "children": [
+    "LM3-CTRL-P010",
+    "LM3-CTRL-P020",
+    "LM3-CTRL-P030",
+    "LM3-CTRL-P040",
+    "LM3-CTRL-P050"
+  ],
+  "document_revision": "A-DRAFT",
+  "estimated_labor_hours": 9.15,
+  "id": "LM3-SYS-SA900",
+  "layer": "assembly",
+  "material_spec": {
+    "evidence_required": [
+      "child material certificates accepted",
+      "assembly traveler traceability",
+      "interface-control drawing revision"
+    ],
+    "finish_or_protection": "protect damaged coating, exposed edges, seals, bonds, and labels during assembly",
+    "form_factor": "rail-rated electrical / control equipment, supplier-controlled external component, rail structural steel, supplier crash/coupler system",
+    "governing_standard": "all child material standards plus assembly-level torque, bonding, coating, and cleanliness controls",
+    "grade_or_part_class": "LM3-SYS-SA900 inherits released child material specifications",
+    "material_family": "assembly material set",
+    "nominal_section": "as defined by child drawings and assembly interface control drawing",
+    "traceability": "child serial/heat/batch records plus assembly traveler traceability"
+  },
+  "operations": [
+    {
+      "labor_hours": 0.85,
+      "qa_gate": "all child definitions/revisions match the traveler index",
+      "sequence": 10,
+      "signoff_role": "cell lead",
+      "title": "release traveler, fixture, child kit, and latest definition package",
+      "tooling_ids": [
+        "TRV-LM3-SYS-SA900",
+        "FIX-LM3-SYS-SA900",
+        "KIT-LM3-SYS-SA900"
+      ],
+      "work_center": "final assembly and commissioning cell"
+    },
+    {
+      "labor_hours": 1.4,
+      "qa_gate": "placement zone and joint controls accepted: LV cabinet, trainline, network, and diagnostic harness zone",
+      "sequence": 20,
+      "signoff_role": "operator",
+      "title": "install and integrate LM3-CTRL-P010: T-ECU/S and T-ECU/A compute and safety-control cabinet kit",
+      "tooling_ids": [
+        "FIX-LM3-SYS-SA900",
+        "GAUGE-LM3-CTRL-P010",
+        "TORQUE-LM3-CTRL-P010"
+      ],
+      "work_center": "final assembly and commissioning cell"
+    },
+    {
+      "labor_hours": 1.4,
+      "qa_gate": "placement zone and joint controls accepted: roof equipment rail, curb, and service-access zone",
+      "sequence": 30,
+      "signoff_role": "operator",
+      "title": "install and integrate LM3-CTRL-P020: navigation, balise, 5G, LoRa, GNSS, IMU, and roof-antenna kit",
+      "tooling_ids": [
+        "FIX-LM3-SYS-SA900",
+        "GAUGE-LM3-CTRL-P020",
+        "TORQUE-LM3-CTRL-P020"
+      ],
+      "work_center": "final assembly and commissioning cell"
+    },
+    {
+      "labor_hours": 1.35,
+      "qa_gate": "placement zone and joint controls accepted: LV cabinet, trainline, network, and diagnostic harness zone",
+      "sequence": 40,
+      "signoff_role": "operator",
+      "title": "install and integrate LM3-CTRL-P030: maintenance HMI, depot pendant, emergency controls, and safety-relay kit",
+      "tooling_ids": [
+        "FIX-LM3-SYS-SA900",
+        "GAUGE-LM3-CTRL-P030",
+        "TORQUE-LM3-CTRL-P030"
+      ],
+      "work_center": "final assembly and commissioning cell"
+    },
+    {
+      "labor_hours": 1.4,
+      "qa_gate": "placement zone and joint controls accepted: LV cabinet, trainline, network, and diagnostic harness zone",
+      "sequence": 50,
+      "signoff_role": "operator",
+      "title": "install and integrate LM3-CTRL-P040: pre-terminated LV trainline harness, DIN cabinet, and terminal-distribution kit",
+      "tooling_ids": [
+        "FIX-LM3-SYS-SA900",
+        "GAUGE-LM3-CTRL-P040",
+        "TORQUE-LM3-CTRL-P040"
+      ],
+      "work_center": "final assembly and commissioning cell"
+    },
+    {
+      "labor_hours": 1.05,
+      "qa_gate": "placement zone and joint controls accepted: primary structure datum and final assembly interface",
+      "sequence": 60,
+      "signoff_role": "operator",
+      "title": "install and integrate LM3-CTRL-P050: operational and crashworthy event-recorder storage kit",
+      "tooling_ids": [
+        "FIX-LM3-SYS-SA900",
+        "GAUGE-LM3-CTRL-P050",
+        "TORQUE-LM3-CTRL-P050"
+      ],
+      "work_center": "final assembly and commissioning cell"
+    },
+    {
+      "labor_hours": 0.35,
+      "qa_gate": "network enumeration",
+      "sequence": 70,
+      "signoff_role": "quality inspector",
+      "title": "hold point: network enumeration",
+      "tooling_ids": [
+        "QA-LM3-SYS-SA900"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.35,
+      "qa_gate": "firmware record",
+      "sequence": 80,
+      "signoff_role": "quality inspector",
+      "title": "hold point: firmware record",
+      "tooling_ids": [
+        "QA-LM3-SYS-SA900"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.35,
+      "qa_gate": "self-test",
+      "sequence": 90,
+      "signoff_role": "quality inspector",
+      "title": "hold point: self-test",
+      "tooling_ids": [
+        "QA-LM3-SYS-SA900"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.35,
+      "qa_gate": "event-recorder write/read test",
+      "sequence": 100,
+      "signoff_role": "quality inspector",
+      "title": "hold point: event-recorder write/read test",
+      "tooling_ids": [
+        "QA-LM3-SYS-SA900"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.3,
+      "qa_gate": "all operation and QA signoffs are complete",
+      "sequence": 110,
+      "signoff_role": "manufacturing engineer",
+      "title": "close traveler, attach nonconformance/deviation log, and release to next parent",
+      "tooling_ids": [
+        "REL-LM3-SYS-SA900",
+        "NCR-LM3-SYS-SA900"
+      ],
+      "work_center": "production control"
+    }
+  ],
+  "process_spec": {
+    "inspection_methods": [
+      "child acceptance evidence review",
+      "network enumeration",
+      "firmware record",
+      "self-test",
+      "event-recorder write/read test",
+      "continuity",
+      "insulation/isolation",
+      "functional static test"
+    ],
+    "joining_methods": [
+      "bolted/torqued interfaces",
+      "shimmed datum interfaces as required",
+      "bonding/earthing",
+      "segregated harness/fluid routing"
+    ],
+    "primary_processes": [
+      "release child kit",
+      "fixture or datum setup",
+      "install children",
+      "torque/fit-up record",
+      "release to parent"
+    ],
+    "release_level": "assembly traveler controlled; generated template is unsigned until build",
+    "special_process_controls": [
+      "child definition/revision check",
+      "tooling calibration check",
+      "parent interface freeze",
+      "LOTO/HV safety rule",
+      "EMC/bonding release",
+      "software/configuration record where applicable"
+    ],
+    "tooling_basis": "FIX-LM3-SYS-SA900, KIT-LM3-SYS-SA900, calibrated torque/gauge set"
+  },
+  "quantity_per_trainset": 1,
+  "release_status": "unsigned-template",
+  "revision_approvals": [
+    {
+      "approval_id": "APP-LM3-SYS-SA900-MFG",
+      "date": "",
+      "name": "",
+      "role": "manufacturing engineering",
+      "signature": "",
+      "status": "pending"
+    },
+    {
+      "approval_id": "APP-LM3-SYS-SA900-QA",
+      "date": "",
+      "name": "",
+      "role": "quality",
+      "signature": "",
+      "status": "pending"
+    },
+    {
+      "approval_id": "APP-LM3-SYS-SA900-DA",
+      "date": "",
+      "name": "",
+      "role": "design authority",
+      "signature": "",
+      "status": "pending"
+    }
+  ],
+  "signoff_blocks": [
+    {
+      "date": "",
+      "name": "",
+      "role": "operator",
+      "signature": "",
+      "status": "blank"
+    },
+    {
+      "date": "",
+      "name": "",
+      "role": "cell lead",
+      "signature": "",
+      "status": "blank"
+    },
+    {
+      "date": "",
+      "name": "",
+      "role": "quality inspector",
+      "signature": "",
+      "status": "blank"
+    },
+    {
+      "date": "",
+      "name": "",
+      "role": "manufacturing engineer",
+      "signature": "",
+      "status": "blank"
+    }
+  ],
+  "title": "train control, communication, and safety electronics assembly",
+  "traveler_type": "assembly-node"
+}

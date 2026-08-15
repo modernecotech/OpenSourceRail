@@ -1,0 +1,73 @@
+{
+  "acceptance": [
+    "key/guarded-control test",
+    "emergency input test",
+    "2oo2 relay test",
+    "stowage and access check"
+  ],
+  "bom_line_ids": [
+    "E10",
+    "E11",
+    "E12",
+    "E13",
+    "E16"
+  ],
+  "definition_type": "product-item",
+  "id": "LM3-CTRL-P030",
+  "layer": "external-component",
+  "make_or_buy_basis": "Human-service and hardwired emergency interfaces remain segregated from normal unattended operation.",
+  "material_spec": {
+    "evidence_required": [
+      "certificate of conformity",
+      "incoming inspection record",
+      "datasheet / evidence pack"
+    ],
+    "finish_or_protection": "supplier finish/protection accepted by OSR evidence pack",
+    "form_factor": "preassembled supplier module with installation kit",
+    "governing_standard": "supplier specification plus project interface, safety, EMC/fire, and lifecycle evidence",
+    "grade_or_part_class": "COTS/BID component class matched to OSR envelope",
+    "material_family": "supplier-controlled external component",
+    "nominal_section": "mass, volume, mounting datum, service clearance, and connector envelope frozen by RFQ drawing",
+    "traceability": "serialised CoC, datasheet, revision, and incoming inspection record"
+  },
+  "maturity": "buildable-after-supplier-freeze",
+  "notes": "",
+  "parent": "LM3-SYS-SA900",
+  "process_spec": {
+    "inspection_methods": [
+      "incoming visual inspection",
+      "envelope fit check",
+      "key/guarded-control test",
+      "emergency input test",
+      "2oo2 relay test",
+      "stowage and access check"
+    ],
+    "joining_methods": [
+      "bolted/torqued installation",
+      "sealed, gasketed, bonded, or clipped interface as supplier envelope requires"
+    ],
+    "primary_processes": [
+      "receive",
+      "quarantine",
+      "evidence review",
+      "incoming fit check",
+      "release to parent kit"
+    ],
+    "release_level": "BID supplier-controlled process; OSR controls envelope and acceptance evidence",
+    "special_process_controls": [
+      "RFQ envelope freeze",
+      "supplier certificate/revision check",
+      "incoming quarantine until evidence accepted"
+    ],
+    "tooling_basis": "RFQ-LM3-CTRL-P030, CERT-LM3-CTRL-P030, GAUGE-LM3-CTRL-P030-ENVELOPE"
+  },
+  "quantity_per_trainset": 1,
+  "route": "BID",
+  "source_refs": [
+    "bom-skeleton.md E10-E13/E16",
+    "systems.py",
+    "LM3-ELC-300"
+  ],
+  "title": "maintenance HMI, depot pendant, emergency controls, and safety-relay kit",
+  "unit": "trainset kit"
+}

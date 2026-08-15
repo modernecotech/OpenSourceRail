@@ -1,0 +1,91 @@
+{
+  "annual_opex_usd": {
+    "components": {
+      "civil_station_depot_maintenance": 2906628.74,
+      "labour": 512819.99999999994,
+      "residual_grid_energy": 0.0,
+      "rolling_stock_maintenance_including_battery_renewal_reserve": 1584000.0,
+      "signalling_maintenance": 41383.55,
+      "solar_plant_maintenance": 114903.42852000003
+    },
+    "total": 5159735.718520001
+  },
+  "capex_eur": {
+    "reconciled_project_total": 199083284.60255998
+  },
+  "capex_usd": {
+    "authoritative_design_base": 208734646.0,
+    "reconciled_project_total": 216394874.568,
+    "risk_envelope_15_percent": 248854105.75319996,
+    "risk_envelope_25_percent": 270493593.21,
+    "timetable_sized_dedicated_solar": 7660228.568000003
+  },
+  "cases": {
+    "high_capacity_use": {
+      "annual_operating_cash_usd": 30079100.441480003,
+      "annual_paid_trips": 78209280.0,
+      "annual_public_support_usd": 0.0,
+      "annual_revenue_usd": 35238836.160000004,
+      "capacity_utilisation": 0.8,
+      "project_irr": 0.09840809742173398,
+      "project_npv_usd_at_8_percent": 41131314.827500045,
+      "steady_state_dscr": 2.9577432171908282
+    },
+    "low_capacity_use": {
+      "annual_operating_cash_usd": 17174569.241480004,
+      "annual_paid_trips": 48880800.0,
+      "annual_public_support_usd": 0.0,
+      "annual_revenue_usd": 22334304.960000005,
+      "capacity_utilisation": 0.5,
+      "project_irr": 0.05588284266236764,
+      "project_npv_usd_at_8_percent": -45564465.11777205,
+      "steady_state_dscr": 1.6888126618344528
+    }
+  },
+  "city": "sheikhupura",
+  "funding": {
+    "annual_debt_service_usd": 10169611.84008671,
+    "construction_grace_years": 7,
+    "debt_principal_usd": 173115899.6544,
+    "debt_rate": 0.045,
+    "government_equity_share": 0.2,
+    "lender_commitment_status": "unconfirmed-placeholder",
+    "repayment_years": 33
+  },
+  "limitations": [
+    "No calibrated origin-destination or stated-preference ridership survey.",
+    "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
+    "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
+  ],
+  "operations_basis": {
+    "annual_train_km_including_non_revenue": 3034306.2105000005,
+    "energy_kwh_per_car_km_hot_climate_planning": 4.0,
+    "non_revenue_train_km_factor": 1.08,
+    "scheduled_train_km_per_day": 7697.3775000000005
+  },
+  "passed": true,
+  "renewal_policy": {
+    "field_asset_renewals": "included in fixed-asset maintenance allowance pending condition-based asset plan",
+    "train_battery_cycle_years": 12,
+    "treatment": "included in rolling-stock maintenance reserve; do not double-count as separate CAPEX"
+  },
+  "revenue_basis": {
+    "demand_status": "capacity-led-not-calibrated-od-forecast",
+    "nonfare_revenue_usd_per_year": 826752.96,
+    "operating_neutral_capacity_utilisation": 0.10073165831518156,
+    "operating_neutral_paid_trips_per_year": 9847688.087545455,
+    "practical_capacity_passenger_trips_per_day": 267840.0,
+    "single_trip_fare_usd": 0.44000000000000006
+  },
+  "schema_version": 1,
+  "sources": {
+    "design": "designs/south-asia/Pakistan/Sheikhupura/design.toml",
+    "design_sha256": "a2b9e5c6a2c6e1a87c9f273b101b23fdebac244ed68638bbed78291bbfbd2564",
+    "generator": "scripts/generate-city-finance.py",
+    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "scenario": "designs/south-asia/Pakistan/Sheikhupura/sheikhupura.toml",
+    "scenario_sha256": "bfbce30605cdd5d2751bfaa251f5e8faa53b69a75e1c6f6e8e62ac170cb3e229"
+  },
+  "status": "planning-screen"
+}

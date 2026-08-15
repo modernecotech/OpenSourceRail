@@ -1,0 +1,224 @@
+schema_version = 1
+
+# disposition values: composed-service, deployable-endpoint,
+# shared-library, simulation, tooling.
+[[component]]
+name = "osr-afc"
+disposition = "composed-service"
+hosts = ["s-sbc"]
+[[component]]
+name = "osr-afc-backoffice"
+disposition = "deployable-endpoint"
+hosts = ["o-srv"]
+[[component]]
+name = "osr-alignment"
+disposition = "shared-library"
+hosts = ["design-tooling"]
+[[component]]
+name = "osr-analytics"
+disposition = "deployable-endpoint"
+hosts = ["o-srv"]
+[[component]]
+name = "osr-ato"
+disposition = "composed-service"
+hosts = ["t-ecu-a"]
+[[component]]
+name = "osr-atp"
+disposition = "composed-service"
+hosts = ["t-ecu-s"]
+[[component]]
+name = "osr-aux-power"
+disposition = "composed-service"
+hosts = ["t-ecu-a"]
+[[component]]
+name = "osr-balise"
+disposition = "composed-service"
+hosts = ["w-sbc"]
+[[component]]
+name = "osr-bms"
+disposition = "composed-service"
+hosts = ["t-ecu-s"]
+[[component]]
+name = "osr-brake"
+disposition = "composed-service"
+hosts = ["t-ecu-s"]
+[[component]]
+name = "osr-cbm-backend"
+disposition = "deployable-endpoint"
+hosts = ["o-srv"]
+[[component]]
+name = "osr-cbm-onboard"
+disposition = "composed-service"
+hosts = ["t-ecu-a"]
+[[component]]
+name = "osr-consensus"
+disposition = "composed-service"
+hosts = ["w-sbc", "o-srv"]
+[[component]]
+name = "osr-core"
+disposition = "shared-library"
+hosts = ["all"]
+[[component]]
+name = "osr-crypto"
+disposition = "shared-library"
+hosts = ["all"]
+[[component]]
+name = "osr-derailment"
+disposition = "composed-service"
+hosts = ["t-ecu-s"]
+[[component]]
+name = "osr-design"
+disposition = "tooling"
+hosts = ["design-tooling"]
+[[component]]
+name = "osr-door-control"
+disposition = "composed-service"
+hosts = ["t-ecu-s"]
+[[component]]
+name = "osr-energy-site"
+disposition = "composed-service"
+hosts = ["w-sbc"]
+[[component]]
+name = "osr-event-recorder"
+disposition = "composed-service"
+hosts = ["t-ecu-a"]
+[[component]]
+name = "osr-fire-safety"
+disposition = "composed-service"
+hosts = ["t-ecu-s"]
+[[component]]
+name = "osr-gui-shared"
+disposition = "shared-library"
+hosts = ["o-srv", "simulation"]
+[[component]]
+name = "osr-historian"
+disposition = "deployable-endpoint"
+hosts = ["o-srv"]
+[[component]]
+name = "osr-hot-axle"
+disposition = "composed-service"
+hosts = ["t-ecu-a"]
+[[component]]
+name = "osr-hot-axle-wayside"
+disposition = "composed-service"
+hosts = ["w-sbc"]
+[[component]]
+name = "osr-hvac"
+disposition = "composed-service"
+hosts = ["t-ecu-a"]
+[[component]]
+name = "osr-interlocking"
+disposition = "composed-service"
+hosts = ["w-sbc"]
+[[component]]
+name = "osr-intrusion-detect"
+disposition = "composed-service"
+hosts = ["w-sbc"]
+[[component]]
+name = "osr-level-crossing"
+disposition = "composed-service"
+hosts = ["w-sbc"]
+[[component]]
+name = "osr-lighting"
+disposition = "composed-service"
+hosts = ["t-ecu-a"]
+[[component]]
+name = "osr-obstacle-detect"
+disposition = "composed-service"
+hosts = ["t-obs"]
+[[component]]
+name = "osr-passenger-assist"
+disposition = "composed-service"
+hosts = ["t-ecu-a"]
+[[component]]
+name = "osr-occ"
+disposition = "deployable-endpoint"
+hosts = ["o-srv"]
+[[component]]
+name = "osr-occ-gui"
+disposition = "deployable-endpoint"
+hosts = ["o-srv"]
+[[component]]
+name = "osr-odometry"
+disposition = "composed-service"
+hosts = ["t-ecu-s"]
+[[component]]
+name = "osr-pis-onboard"
+disposition = "composed-service"
+hosts = ["t-ecu-a"]
+[[component]]
+name = "osr-pis-station"
+disposition = "composed-service"
+hosts = ["s-sbc"]
+[[component]]
+name = "osr-proto"
+disposition = "shared-library"
+hosts = ["all"]
+[[component]]
+name = "osr-psd"
+disposition = "composed-service"
+hosts = ["s-sbc"]
+[[component]]
+name = "osr-ptp"
+disposition = "shared-library"
+hosts = ["t-ecu-s", "t-ecu-a", "t-obs", "w-sbc", "s-sbc"]
+[[component]]
+name = "osr-regen"
+disposition = "composed-service"
+hosts = ["t-ecu-a"]
+[[component]]
+name = "osr-routing"
+disposition = "shared-library"
+hosts = ["o-srv", "design-tooling"]
+[[component]]
+name = "osr-safety-case"
+disposition = "tooling"
+hosts = ["assurance-tooling"]
+[[component]]
+name = "osr-secbus"
+disposition = "shared-library"
+hosts = ["all"]
+[[component]]
+name = "osr-selftest"
+disposition = "deployable-endpoint"
+hosts = ["t-ecu-s", "t-ecu-a", "t-obs", "w-sbc", "s-sbc"]
+[[component]]
+name = "osr-sim"
+disposition = "simulation"
+hosts = ["simulation"]
+[[component]]
+name = "osr-sim-gui"
+disposition = "simulation"
+hosts = ["simulation"]
+[[component]]
+name = "osr-station-scada"
+disposition = "composed-service"
+hosts = ["s-sbc"]
+[[component]]
+name = "osr-t2g"
+disposition = "composed-service"
+hosts = ["t-ecu-a"]
+[[component]]
+name = "osr-tcms"
+disposition = "composed-service"
+hosts = ["t-ecu-a"]
+[[component]]
+name = "osr-tcn"
+disposition = "shared-library"
+hosts = ["t-ecu-s", "t-ecu-a", "t-obs"]
+[[component]]
+name = "osr-traction"
+disposition = "composed-service"
+hosts = ["t-ecu-s"]
+[[component]]
+name = "osr-trainset-image"
+disposition = "deployable-endpoint"
+hosts = ["t-ecu-s", "t-ecu-a", "t-obs"]
+[[component]]
+name = "osr-tvm"
+disposition = "composed-service"
+hosts = ["s-sbc"]
+[[component]]
+name = "osr-wayside-points"
+disposition = "composed-service"
+hosts = ["w-sbc"]

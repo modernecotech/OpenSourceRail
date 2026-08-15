@@ -1,0 +1,22 @@
+slug: edea
+pass: true
+metrics:
+  total_route_m: 9610.0
+  n_lines: 1
+  n_stations: 6
+  anchor_hit_rate: 0.333
+  high_demand_coverage: 0.606
+  civil_mix_m:
+    at_grade: 9533.4
+    elevated: 76.6
+    bridge:   0.0
+  elevated_fraction: 0.008
+gates:
+  hard:
+    has_stations:      true
+    length_reasonable: true
+  soft:
+    coverage_ge_0.30:   true
+    anchor_hit_ge_0.20: true
+    elevated_le_0.30:   true
+    soft_pass_all:      true

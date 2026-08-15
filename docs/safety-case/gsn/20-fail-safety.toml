@@ -1,0 +1,77 @@
+# G2 — Fail-safety decomposition.
+#
+# The system is "fail-restrictive": any uncertainty in the inputs
+# (unknown switch position, stale heartbeat, missing train
+# registration, loss of quorum) must produce an MA that is no less
+# restrictive than the MA from the known-good state.
+#
+# Three concurrent sub-claims:
+#  - G2.1: a train without a registration or known head position gets
+#          a fail-restrictive MA.
+#  - G2.2: every MA expires after MA_VALIDITY_WINDOW_NS (P5).
+#  - G2.3: the consensus layer is itself fail-safe — loss of quorum
+#          prevents new safety entries rather than committing unsafe
+#          ones (SMRaft safety invariants).
+
+[[strategy]]
+id = "S2"
+description = "Decompose G2 into (i) fail-restrictive MA on missing inputs, (ii) MA expiry (P5), (iii) consensus safety."
+parent = "G2"
+children = ["G2.1", "G2.2", "G2.3"]
+
+[[goal]]
+id = "G2.1"
+description = "Trains lacking a registration or known head position receive a fail-restrictive MA (has_known_position = false)."
+parent = "S2"
+
+[[solution]]
+id = "E2.1a"
+description = "Kani harness for the fail-restrictive path (P4 sub-case)."
+parent = "G2.1"
+evidence = { kind = "kani", path = "crates/osr-interlocking/src/kani_proofs.rs", anchor = "kani_p4_fail_restrictive_is_not_less_restrictive_than_known" }
+
+[[solution]]
+id = "E2.1b"
+description = "Differential test exercises the fail-restrictive branch with an empty log."
+parent = "G2.1"
+evidence = { kind = "differential", path = "crates/osr-interlocking/tests/differential.rs", anchor = "smoke_no_registration_fail_restrictive" }
+
+[[goal]]
+id = "G2.2"
+description = "Every MA has valid_until_ns - now_ns ≤ MA_VALIDITY_WINDOW_NS (P5)."
+parent = "S2"
+
+[[solution]]
+id = "E2.2a"
+description = "Kani harness P5 — with and without known position."
+parent = "G2.2"
+evidence = { kind = "kani", path = "crates/osr-interlocking/src/kani_proofs.rs", anchor = "kani_p5_time_bounded" }
+
+[[solution]]
+id = "E2.2b"
+description = "Proptest over random log prefixes checking P5."
+parent = "G2.2"
+evidence = { kind = "proptest", path = "crates/osr-interlocking/tests/proptest_ma.rs", note = "256 cases per invocation." }
+
+[[goal]]
+id = "G2.3"
+description = "Loss of quorum in the track-state log prevents new Safety entries from committing."
+parent = "S2"
+
+[[solution]]
+id = "E2.3a"
+description = "TLA+ SMRaft safety invariants checked by TLC."
+parent = "G2.3"
+evidence = { kind = "tla", path = "formal/tla/SMRaft.tla", note = "TLC model-check of ElectionSafety, LogMatching, LeaderCompleteness, StateMachineSafety, FailRestrictive." }
+
+[[solution]]
+id = "E2.3b"
+description = "Rust proptests on osr-consensus::Cluster (3-node + 5-node)."
+parent = "G2.3"
+evidence = { kind = "proptest", path = "crates/osr-consensus/tests/proptest_safety.rs", note = "Both safety_invariants_3node and safety_invariants_5node pass cleanly over random (Tick | Propose | Partition | Heal) op sequences, verifying ElectionSafety, LogMatching, LeaderCompleteness, StateMachineSafety, and FailRestrictive on every step." }
+
+[[solution]]
+id = "E2.3c"
+description = "Deterministic regression guard for the 5-node partition+heal LeaderCompleteness fix."
+parent = "G2.3"
+evidence = { kind = "proptest", path = "crates/osr-consensus/tests/replay_5node.rs", anchor = "regression_5node_partition_heal_preserves_safety", note = "Bit-identical replay of the original counterexample (seed b6fb2d40…, 2026-04-22). Root cause was handle_append_entries returning node.log_len() as match_index instead of prev_log_index + entries.len(); the replay asserts the full cluster state converges correctly after the fix." }

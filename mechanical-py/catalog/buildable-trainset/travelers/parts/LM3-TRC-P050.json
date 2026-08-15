@@ -1,0 +1,218 @@
+{
+  "bom_line_ids": [
+    "T15"
+  ],
+  "document_revision": "A-DRAFT",
+  "estimated_labor_hours": 2.8,
+  "id": "LM3-TRC-P050",
+  "material_spec": {
+    "evidence_required": [
+      "certificate of conformity",
+      "incoming inspection record",
+      "electrical datasheet",
+      "bonding/isolation record"
+    ],
+    "finish_or_protection": "UV/weather protection, hot-surface labelling, and galvanic isolation where required",
+    "form_factor": "module, thermal shield, aluminum/stainless clamp hardware, and UV-rated harness",
+    "governing_standard": "supplier datasheet plus project bonding, isolation, fire, and vibration evidence",
+    "grade_or_part_class": "PV module / resistor / clamp / isolator kit",
+    "material_family": "roof electrical energy equipment",
+    "nominal_section": "roof keep-out, clamp pitch, and thermal clearance frozen by RFQ drawing",
+    "traceability": "module serials, resistance/PV flash data, CoC, and harness batch"
+  },
+  "operations": [
+    {
+      "labor_hours": 0.35,
+      "qa_gate": "traveler rev and parent assembly match released manifest",
+      "sequence": 10,
+      "signoff_role": "cell lead",
+      "title": "release traveler, revision, material/certificate pack, and parent interface",
+      "tooling_ids": [
+        "TRV-LM3-TRC-P050",
+        "DOC-LM3-ROOF-SA410"
+      ],
+      "work_center": "production control"
+    },
+    {
+      "labor_hours": 0.45,
+      "qa_gate": "supplier certificate/datasheet/revision accepted",
+      "sequence": 20,
+      "signoff_role": "quality inspector",
+      "title": "receive supplier component and quarantine until evidence pack passes",
+      "tooling_ids": [
+        "RFQ-LM3-TRC-P050",
+        "CERT-LM3-TRC-P050"
+      ],
+      "work_center": "receiving inspection"
+    },
+    {
+      "labor_hours": 0.75,
+      "qa_gate": "component fits without parent datum rework",
+      "sequence": 30,
+      "signoff_role": "operator",
+      "title": "perform envelope, mounting, service-removal, and connector checks",
+      "tooling_ids": [
+        "GAUGE-LM3-TRC-P050-ENVELOPE",
+        "FIX-LM3-ROOF-SA410"
+      ],
+      "work_center": "incoming fit-check cell"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "resistance certificate",
+      "sequence": 40,
+      "signoff_role": "quality inspector",
+      "title": "verify acceptance gate: resistance certificate",
+      "tooling_ids": [
+        "QA-LM3-TRC-P050"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "thermal clearance",
+      "sequence": 50,
+      "signoff_role": "quality inspector",
+      "title": "verify acceptance gate: thermal clearance",
+      "tooling_ids": [
+        "QA-LM3-TRC-P050"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "roof bonding",
+      "sequence": 60,
+      "signoff_role": "quality inspector",
+      "title": "verify acceptance gate: roof bonding",
+      "tooling_ids": [
+        "QA-LM3-TRC-P050"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "hot-surface label",
+      "sequence": 70,
+      "signoff_role": "quality inspector",
+      "title": "verify acceptance gate: hot-surface label",
+      "tooling_ids": [
+        "QA-LM3-TRC-P050"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "item is released, tagged, and staged for parent assembly",
+      "sequence": 80,
+      "signoff_role": "cell lead",
+      "title": "final item release to parent assembly",
+      "tooling_ids": [
+        "REL-LM3-TRC-P050",
+        "KIT-LM3-ROOF-SA410"
+      ],
+      "work_center": "production control"
+    }
+  ],
+  "parent": "LM3-ROOF-SA410",
+  "process_spec": {
+    "inspection_methods": [
+      "incoming visual inspection",
+      "envelope fit check",
+      "resistance certificate",
+      "thermal clearance",
+      "roof bonding",
+      "hot-surface label",
+      "bond continuity",
+      "insulation/isolation check",
+      "HVIL functional check where applicable",
+      "pressure/leak test",
+      "drain-flow test where applicable"
+    ],
+    "joining_methods": [
+      "bolted/torqued installation",
+      "sealed, gasketed, bonded, or clipped interface as supplier envelope requires"
+    ],
+    "primary_processes": [
+      "receive",
+      "quarantine",
+      "evidence review",
+      "incoming fit check",
+      "release to parent kit"
+    ],
+    "release_level": "SOURCE supplier-controlled process; OSR controls envelope and acceptance evidence",
+    "special_process_controls": [
+      "RFQ envelope freeze",
+      "supplier certificate/revision check",
+      "incoming quarantine until evidence accepted",
+      "HV safety plan",
+      "LOTO/service-disconnect rule",
+      "EMC/bonding evidence review",
+      "fluid compatibility check",
+      "hose/pipe routing release"
+    ],
+    "tooling_basis": "RFQ-LM3-TRC-P050, CERT-LM3-TRC-P050, GAUGE-LM3-TRC-P050-ENVELOPE"
+  },
+  "quantity_per_trainset": 3,
+  "release_status": "unsigned-template",
+  "revision_approvals": [
+    {
+      "approval_id": "APP-LM3-TRC-P050-MFG",
+      "date": "",
+      "name": "",
+      "role": "manufacturing engineering",
+      "signature": "",
+      "status": "pending"
+    },
+    {
+      "approval_id": "APP-LM3-TRC-P050-QA",
+      "date": "",
+      "name": "",
+      "role": "quality",
+      "signature": "",
+      "status": "pending"
+    },
+    {
+      "approval_id": "APP-LM3-TRC-P050-DA",
+      "date": "",
+      "name": "",
+      "role": "design authority",
+      "signature": "",
+      "status": "pending"
+    }
+  ],
+  "route": "SOURCE",
+  "signoff_blocks": [
+    {
+      "date": "",
+      "name": "",
+      "role": "operator",
+      "signature": "",
+      "status": "blank"
+    },
+    {
+      "date": "",
+      "name": "",
+      "role": "cell lead",
+      "signature": "",
+      "status": "blank"
+    },
+    {
+      "date": "",
+      "name": "",
+      "role": "quality inspector",
+      "signature": "",
+      "status": "blank"
+    },
+    {
+      "date": "",
+      "name": "",
+      "role": "manufacturing engineer",
+      "signature": "",
+      "status": "blank"
+    }
+  ],
+  "title": "roof-mounted regen dump resistor and thermal shield kit",
+  "traveler_type": "product-item",
+  "unit": "ea"
+}

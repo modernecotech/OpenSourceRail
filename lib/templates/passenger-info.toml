@@ -1,0 +1,46 @@
+# Passenger information systems (PIS) — screens, PA, multilingual.
+#
+# Referenced per station:
+#     [[stations]]
+#     passenger_info = "standard"
+#
+# Unified system principle: the hardware kit (SBC + standard commodity
+# displays per ARCHITECTURE D4) is identical everywhere. Tiers vary the
+# count and the PA zoning.
+
+# ---- Basic: halts and low-traffic stops -------------------------------
+
+[kits.basic]
+platform_dot_matrix     = 2              # one per platform, next-train only
+large_display_count     = 0
+pa_zones                = 1              # whole platform
+info_kiosk_count        = 0
+cctv_cameras            = 4
+languages_supported     = 2              # primary + English
+prayer_time_pa_silence  = true           # Islamic world default; ignore elsewhere
+cost_usd                = 28000
+
+# ---- Standard: default urban/suburban station ------------------------
+
+[kits.standard]
+platform_dot_matrix     = 4
+large_display_count     = 2              # station hall
+pa_zones                = 2              # per-platform + hall
+info_kiosk_count        = 1
+cctv_cameras            = 12
+languages_supported     = 3
+prayer_time_pa_silence  = true
+cost_usd                = 75000
+
+# ---- Major / interchange: high-throughput nodes ---------------------
+
+[kits.major]
+platform_dot_matrix     = 8
+large_display_count     = 6              # concourse + platforms
+pa_zones                = 4
+info_kiosk_count        = 3
+cctv_cameras            = 28
+languages_supported     = 4              # +tourist language (e.g. French/German)
+prayer_time_pa_silence  = true
+wayfinding_led_strips   = true           # real-time platform direction signs
+cost_usd                = 220000

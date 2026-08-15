@@ -1,0 +1,100 @@
+# Regulatory / certification path templates.
+#
+# Referenced at city level:
+#     [regulatory]
+#     path = "novel-urban-light-approach"
+#
+# Unified system principle: the cert artefacts OSR produces (SafetyCase.md,
+# HazardAnalysis.json, Kani proof reports, OCC test logs) are the SAME across
+# every deployment — only the AUDIENCE varies. These paths describe how that
+# evidence is packaged and the typical engagement with local authorities.
+
+# ---- Path: novel-urban-light — most OSR first deployments --------------
+
+[paths.novel-urban-light]
+description              = "Greenfield urban light rail"
+regulator_types          = ["national-transport-ministry", "local-governorate"]
+typical_review_months    = 18
+public_consultation_rounds = 2
+evidence_stack = [
+    "SafetyCase.md",
+    "HazardAnalysis.json",
+    "kani-reports/*.verified",
+    "pilot-test-report.md",
+    "operational-readiness-review.md",
+]
+pilot_km_required        = 1.5          # demonstrator segment
+third_party_auditor      = true
+notified_body_required   = false
+# First-of-kind systems usually get a derogation path for novel signalling.
+
+# ---- Path: eu-cenelec — European Union homologation --------------------
+
+[paths.eu-cenelec]
+description              = "Full CENELEC EN 50126/50128/50129/50657 compliance"
+regulator_types          = ["national-safety-authority", "era"]
+typical_review_months    = 36
+public_consultation_rounds = 3
+evidence_stack = [
+    "SafetyCase.md",
+    "HazardAnalysis.json",
+    "kani-reports/*.verified",
+    "SIL-4-evidence/*",
+    "SW-SIL-requirements-traceability.xlsx",
+    "type-approval-test-report.pdf",
+]
+pilot_km_required        = 3.0
+third_party_auditor      = true
+notified_body_required   = true         # ISA + DeBo
+
+# ---- Path: us-fra-light-rail — US FRA/FTA for light rail -------------
+
+[paths.us-fra-light-rail]
+description              = "US FTA State Safety Oversight; FRA only if shared mainline"
+regulator_types          = ["state-safety-oversight", "fta"]
+typical_review_months    = 24
+public_consultation_rounds = 3
+evidence_stack = [
+    "PTSSP.md",                         # Public Transportation Safety Plan
+    "SafetyCertificationPlan.md",
+    "HazardAnalysis.json",
+    "kani-reports/*.verified",
+    "NEPA-environmental-review.pdf",
+]
+pilot_km_required        = 2.0
+third_party_auditor      = true
+notified_body_required   = false
+
+# ---- Path: india-mor — Indian Ministry of Railways -----------------
+
+[paths.india-mor]
+description              = "Ministry of Railways (MoR) + CMRS (Commissioner of Metro Rail Safety)"
+regulator_types          = ["mor", "cmrs"]
+typical_review_months    = 30
+public_consultation_rounds = 2
+evidence_stack = [
+    "SafetyCase.md",
+    "HazardAnalysis.json",
+    "kani-reports/*.verified",
+    "RDSO-test-certification.pdf",
+    "CMRS-inspection-report.pdf",
+]
+pilot_km_required        = 2.0
+third_party_auditor      = true
+notified_body_required   = false
+
+# ---- Path: self-certification — informal pilots (demonstrators) ------
+
+[paths.self-certification]
+description              = "Research / demonstrator only — not revenue service"
+regulator_types          = []
+typical_review_months    = 0
+public_consultation_rounds = 0
+evidence_stack = [
+    "SafetyCase.md",
+    "HazardAnalysis.json",
+]
+pilot_km_required        = 0
+third_party_auditor      = false
+notified_body_required   = false
+revenue_service_allowed  = false

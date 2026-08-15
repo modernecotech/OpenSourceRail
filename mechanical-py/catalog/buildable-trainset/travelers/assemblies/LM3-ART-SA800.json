@@ -1,0 +1,225 @@
+{
+  "bom_line_ids": [],
+  "build_cell": "final assembly and commissioning cell",
+  "children": [
+    "LM3-ART-P010",
+    "LM3-ART-P020",
+    "LM3-ART-P030"
+  ],
+  "document_revision": "A-DRAFT",
+  "estimated_labor_hours": 6.35,
+  "id": "LM3-ART-SA800",
+  "layer": "assembly",
+  "material_spec": {
+    "evidence_required": [
+      "child material certificates accepted",
+      "assembly traveler traceability",
+      "interface-control drawing revision"
+    ],
+    "finish_or_protection": "protect damaged coating, exposed edges, seals, bonds, and labels during assembly",
+    "form_factor": "rail structural steel, supplier-controlled external component, rail-rated electrical / control equipment",
+    "governing_standard": "all child material standards plus assembly-level torque, bonding, coating, and cleanliness controls",
+    "grade_or_part_class": "LM3-ART-SA800 inherits released child material specifications",
+    "material_family": "assembly material set",
+    "nominal_section": "as defined by child drawings and assembly interface control drawing",
+    "traceability": "child serial/heat/batch records plus assembly traveler traceability"
+  },
+  "operations": [
+    {
+      "labor_hours": 0.69,
+      "qa_gate": "all child definitions/revisions match the traveler index",
+      "sequence": 10,
+      "signoff_role": "cell lead",
+      "title": "release traveler, fixture, child kit, and latest definition package",
+      "tooling_ids": [
+        "TRV-LM3-ART-SA800",
+        "FIX-LM3-ART-SA800",
+        "KIT-LM3-ART-SA800"
+      ],
+      "work_center": "final assembly and commissioning cell"
+    },
+    {
+      "labor_hours": 1.18,
+      "qa_gate": "placement zone and joint controls accepted: inter-car articulation, gangway, trainline, and flexible-service envelope",
+      "sequence": 20,
+      "signoff_role": "operator",
+      "title": "install and integrate LM3-ART-P010: articulation adapter frame, anti-lift keeper, and shim kit",
+      "tooling_ids": [
+        "FIX-LM3-ART-SA800",
+        "GAUGE-LM3-ART-P010",
+        "TORQUE-LM3-ART-P010"
+      ],
+      "work_center": "final assembly and commissioning cell"
+    },
+    {
+      "labor_hours": 1.48,
+      "qa_gate": "placement zone and joint controls accepted: inter-car articulation, gangway, trainline, and flexible-service envelope",
+      "sequence": 30,
+      "signoff_role": "operator",
+      "title": "install and integrate LM3-ART-P020: gangway, lower spherical pivot, upper links, bellows, turntable, and trainline kit",
+      "tooling_ids": [
+        "FIX-LM3-ART-SA800",
+        "GAUGE-LM3-ART-P020",
+        "TORQUE-LM3-ART-P020"
+      ],
+      "work_center": "final assembly and commissioning cell"
+    },
+    {
+      "labor_hours": 1.65,
+      "qa_gate": "placement zone and joint controls accepted: under-seat HV bay, side-pin dock zone, and segregated cable route",
+      "sequence": 40,
+      "signoff_role": "operator",
+      "title": "install and integrate LM3-ART-P030: inter-car HV/LV jumper, coolant hose loop, energy chain, and drain sleeve kit",
+      "tooling_ids": [
+        "FIX-LM3-ART-SA800",
+        "GAUGE-LM3-ART-P030",
+        "TORQUE-LM3-ART-P030"
+      ],
+      "work_center": "final assembly and commissioning cell"
+    },
+    {
+      "labor_hours": 0.35,
+      "qa_gate": "motion-envelope proof",
+      "sequence": 50,
+      "signoff_role": "quality inspector",
+      "title": "hold point: motion-envelope proof",
+      "tooling_ids": [
+        "QA-LM3-ART-SA800"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.35,
+      "qa_gate": "trainline continuity",
+      "sequence": 60,
+      "signoff_role": "quality inspector",
+      "title": "hold point: trainline continuity",
+      "tooling_ids": [
+        "ELEC-TEST-LM3-ART-SA800"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.35,
+      "qa_gate": "water ingress/drain test",
+      "sequence": 70,
+      "signoff_role": "quality inspector",
+      "title": "hold point: water ingress/drain test",
+      "tooling_ids": [
+        "LEAK-TEST-LM3-ART-SA800"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.3,
+      "qa_gate": "all operation and QA signoffs are complete",
+      "sequence": 80,
+      "signoff_role": "manufacturing engineer",
+      "title": "close traveler, attach nonconformance/deviation log, and release to next parent",
+      "tooling_ids": [
+        "REL-LM3-ART-SA800",
+        "NCR-LM3-ART-SA800"
+      ],
+      "work_center": "production control"
+    }
+  ],
+  "process_spec": {
+    "inspection_methods": [
+      "child acceptance evidence review",
+      "motion-envelope proof",
+      "trainline continuity",
+      "water ingress/drain test",
+      "water/leak test",
+      "bond/gasket witness check",
+      "continuity",
+      "insulation/isolation",
+      "functional static test"
+    ],
+    "joining_methods": [
+      "bolted/torqued interfaces",
+      "shimmed datum interfaces as required",
+      "adhesive/bonded/gasketed sealing interfaces",
+      "bonding/earthing",
+      "segregated harness/fluid routing"
+    ],
+    "primary_processes": [
+      "release child kit",
+      "fixture or datum setup",
+      "install children",
+      "torque/fit-up record",
+      "release to parent"
+    ],
+    "release_level": "assembly traveler controlled; generated template is unsigned until build",
+    "special_process_controls": [
+      "child definition/revision check",
+      "tooling calibration check",
+      "parent interface freeze",
+      "surface preparation record",
+      "adhesive/sealant batch and cure record",
+      "LOTO/HV safety rule",
+      "EMC/bonding release",
+      "software/configuration record where applicable"
+    ],
+    "tooling_basis": "FIX-LM3-ART-SA800, KIT-LM3-ART-SA800, calibrated torque/gauge set"
+  },
+  "quantity_per_trainset": 2,
+  "release_status": "unsigned-template",
+  "revision_approvals": [
+    {
+      "approval_id": "APP-LM3-ART-SA800-MFG",
+      "date": "",
+      "name": "",
+      "role": "manufacturing engineering",
+      "signature": "",
+      "status": "pending"
+    },
+    {
+      "approval_id": "APP-LM3-ART-SA800-QA",
+      "date": "",
+      "name": "",
+      "role": "quality",
+      "signature": "",
+      "status": "pending"
+    },
+    {
+      "approval_id": "APP-LM3-ART-SA800-DA",
+      "date": "",
+      "name": "",
+      "role": "design authority",
+      "signature": "",
+      "status": "pending"
+    }
+  ],
+  "signoff_blocks": [
+    {
+      "date": "",
+      "name": "",
+      "role": "operator",
+      "signature": "",
+      "status": "blank"
+    },
+    {
+      "date": "",
+      "name": "",
+      "role": "cell lead",
+      "signature": "",
+      "status": "blank"
+    },
+    {
+      "date": "",
+      "name": "",
+      "role": "quality inspector",
+      "signature": "",
+      "status": "blank"
+    },
+    {
+      "date": "",
+      "name": "",
+      "role": "manufacturing engineer",
+      "signature": "",
+      "status": "blank"
+    }
+  ],
+  "title": "inter-car articulation and trainline assembly",
+  "traveler_type": "assembly-node"
+}

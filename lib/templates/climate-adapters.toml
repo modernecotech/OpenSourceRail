@@ -1,0 +1,88 @@
+# Climate adapter kits — optional add-ons layered on top of climate presets.
+#
+# A city's design.toml may reference one or more adapters:
+#     [climate]
+#     preset   = "cold-continental"
+#     adapters = ["snow-switch-heaters", "winterized-depot"]
+#
+# Each adapter adds per-unit kits to the BOM (cost + physical quantities)
+# without changing the climate preset itself. This keeps the preset library
+# small and lets edge cases compose cleanly.
+#
+# Unified system principle: adapters are additive Lego blocks. A city is
+# never "snow-country special-case" — it's the standard system + a snow
+# adapter kit.
+
+# ---- Snow / ice --------------------------------------------------------
+
+[adapters.snow-switch-heaters]
+applies_to              = ["switches", "crossings"]
+heater_kw_per_switch    = 5
+annual_kwh_per_switch   = 1800           # heating season average
+controller_kit_cost_usd_per_switch = 3200
+cost_usd_per_switch     = 4500           # heating elements + cabling
+
+[adapters.snow-plough-front]
+applies_to              = ["rolling-stock"]
+cost_usd_per_trainset   = 42000          # factory-fit deflector + mount
+lead_car_only           = true
+
+[adapters.winterized-depot]
+applies_to              = ["depots"]
+heating_kw              = 400            # shed heating
+floor_heating_m2        = 3500           # workshop only
+battery_enclosure_heaters= true
+cost_multiplier         = 1.18           # applied to depot cost_usd total
+annual_heating_kwh      = 800000
+
+# ---- Dust / sand ------------------------------------------------------
+
+[adapters.sand-filter-hvac]
+applies_to              = ["rolling-stock", "stations"]
+filter_stage_count      = 3              # pre + HEPA + electrostatic
+filter_replacement_cycles_per_yr = 6
+cost_usd_per_trainset   = 28000
+cost_usd_per_station    = 14000
+
+[adapters.dust-storm-ingress-control]
+applies_to              = ["depots"]
+vestibule_door_count    = 4
+positive_pressure_hvac  = true
+cost_usd_per_depot      = 180000
+
+[adapters.vertical-bifacial-pv]
+# Reduces dust accumulation vs. horizontal; preferred on ROW in sandy zones.
+applies_to              = ["row-pv"]
+pv_yield_premium        = 0.10           # +10% effective yield in dusty ops
+structural_cost_uplift  = 0.25           # +25% on mounting vs. ballast-tilt
+
+# ---- Humidity / corrosion --------------------------------------------
+
+[adapters.marine-coating]
+applies_to              = ["all-steel", "switches", "signalling"]
+coating_system          = "C5-M-ISO12944"
+inspection_cycle_years  = 2
+cost_multiplier_steel   = 1.12           # apply to steel-cost portions
+annual_maintenance_uplift = 0.08
+
+[adapters.tropical-ventilation]
+applies_to              = ["stations", "rolling-stock"]
+cross_flow_vents_per_station = 12
+dehumidifier_kw_per_depot    = 25
+cost_usd_per_station    = 22000
+cost_usd_per_depot      = 65000
+
+# ---- High-ambient (Sahel, Gulf interior) -----------------------------
+
+[adapters.high-ambient-traction]
+# Upsizes traction cooling for sustained > 50 C operation.
+applies_to              = ["rolling-stock"]
+coolant_flow_uplift_pct = 0.40
+inverter_derate_ambient_c = 55
+cost_usd_per_trainset   = 32000
+
+[adapters.battery-active-cooling]
+# LFP onboard packs with active chilled-plate cooling.
+applies_to              = ["rolling-stock"]
+chiller_kw_per_trainset = 8
+cost_usd_per_trainset   = 18000

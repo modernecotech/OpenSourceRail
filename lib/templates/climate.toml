@@ -1,0 +1,107 @@
+# Climate presets — drives PV yield, HVAC sizing, and battery thermal.
+#
+# City design.toml references a preset:
+#     [climate]
+#     preset = "hot-desert"
+#     # individual fields can be overridden; the loader merges.
+#
+# Unified system principle: one set of climate presets, one per major
+# Köppen-ish zone OSR actually deploys in. Cities that fall between two
+# presets pick the nearer one and override the specific value that differs.
+
+# ---- Hot desert: Samawah, Basra, Cairo, Riyadh, Phoenix -----------------
+
+[presets.hot-desert]
+ambient_c_design       = 50              # HVAC/traction sizing ambient
+ambient_c_average      = 28              # Annual mean
+peak_sun_hours         = 6.0             # Annual mean
+pv_temperature_derate  = 0.22            # Heat derates silicon heavily
+dust_soiling_worst_pct = 0.55            # Multi-day storm can cut yield 55%
+storage_thermal_bias   = "cool"          # active cooling for depot packs
+hvac_uplift_summer_pct = 0.25            # +25% over baseline consumption
+
+# ---- Mediterranean: Rabat, Athens, Valencia, LA -------------------------
+
+[presets.mediterranean]
+ambient_c_design       = 42
+ambient_c_average      = 20
+peak_sun_hours         = 5.5
+pv_temperature_derate  = 0.15
+dust_soiling_worst_pct = 0.15
+storage_thermal_bias   = "neutral"
+hvac_uplift_summer_pct = 0.10
+
+# ---- Temperate continental: Ankara, Tashkent, Omaha --------------------
+
+[presets.temperate-continental]
+ambient_c_design       = 38              # summer peak
+ambient_c_min          = -15             # winter — drives heater sizing
+ambient_c_average      = 12
+peak_sun_hours         = 4.2
+pv_temperature_derate  = 0.10
+dust_soiling_worst_pct = 0.12
+storage_thermal_bias   = "heat"          # keep packs above -10 C
+hvac_uplift_summer_pct = 0.08
+hvac_uplift_winter_pct = 0.15            # heating load dominates some cities
+
+# ---- Cold continental: Kazan, Winnipeg, Harbin -------------------------
+
+[presets.cold-continental]
+ambient_c_design       = 32
+ambient_c_min          = -30
+ambient_c_average      = 4
+peak_sun_hours         = 3.6
+pv_temperature_derate  = 0.05
+dust_soiling_worst_pct = 0.08
+snow_soiling_worst_pct = 0.70            # heavy snow can bury panels days
+storage_thermal_bias   = "heat"
+hvac_uplift_winter_pct = 0.30
+
+# ---- Tropical wet: Bandung, Kinshasa, Belem ---------------------------
+
+[presets.tropical-wet]
+ambient_c_design       = 36
+ambient_c_average      = 26
+peak_sun_hours         = 4.8             # high cloud cover despite low latitude
+pv_temperature_derate  = 0.15
+humidity_design_pct    = 90              # corrosion + HVAC latent load
+dust_soiling_worst_pct = 0.10
+storage_thermal_bias   = "cool"
+hvac_uplift_summer_pct = 0.20
+
+# ---- Tropical arid: Nouakchott, Niamey --------------------------------
+
+[presets.tropical-arid]
+ambient_c_design       = 48
+ambient_c_average      = 29
+peak_sun_hours         = 6.5
+pv_temperature_derate  = 0.22
+dust_soiling_worst_pct = 0.60            # Sahel storms worse than Samawah
+storage_thermal_bias   = "cool"
+hvac_uplift_summer_pct = 0.22
+
+# ---- Hot arid mountain: Sana'a, Taiz, Asmara --------------------------
+
+[presets.hot-arid-mountain]
+ambient_c_design       = 38
+ambient_c_min          = -5
+ambient_c_average      = 17
+peak_sun_hours         = 6.2
+pv_temperature_derate  = 0.12
+dust_soiling_worst_pct = 0.35
+storage_thermal_bias   = "neutral"
+hvac_uplift_summer_pct = 0.10
+hvac_uplift_winter_pct = 0.10
+
+# ---- Alpine tropical: Addis Ababa ------------------------------------
+
+[presets.alpine-tropical]
+ambient_c_design       = 28
+ambient_c_min          = 2
+ambient_c_average      = 14
+peak_sun_hours         = 5.0
+pv_temperature_derate  = 0.06
+humidity_design_pct    = 70
+dust_soiling_worst_pct = 0.12
+storage_thermal_bias   = "neutral"
+hvac_uplift_winter_pct = 0.08

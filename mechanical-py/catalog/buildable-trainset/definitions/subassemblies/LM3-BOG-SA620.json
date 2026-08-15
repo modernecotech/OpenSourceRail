@@ -1,0 +1,171 @@
+{
+  "bom_line_ids": [
+    "B4",
+    "G21"
+  ],
+  "build_cell": "bogie weld and assembly cell",
+  "children": [
+    "LM3-BOG-P020",
+    "LM3-BOG-P031",
+    "LM3-BOG-P041",
+    "LM3-BOG-P061"
+  ],
+  "definition_type": "assembly-node",
+  "hold_points": [
+    "frame NDT",
+    "wheelset/bearing certificate",
+    "ride-height setup",
+    "static brake test"
+  ],
+  "id": "LM3-BOG-SA620",
+  "integration_steps": [
+    {
+      "child_id": "LM3-BOG-P020",
+      "child_title": "trailer bogie welded H-frame",
+      "interface_classes": [
+        "mechanical datum"
+      ],
+      "join_classes": [
+        "structural-weld",
+        "bolted-structural-datum"
+      ],
+      "joint_release_status": "joint-calculation-required",
+      "placement_zone": "bogie frame, axle, brake, suspension, and underframe marriage datums",
+      "sequence": 1,
+      "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
+      "verification": [
+        "bogie fixture survey",
+        "weld/NDT record",
+        "air-spring datum survey"
+      ]
+    },
+    {
+      "child_id": "LM3-BOG-P031",
+      "child_title": "trailer-bogie guards, cable guides, WSP brackets, and inspection covers",
+      "interface_classes": [
+        "mechanical datum",
+        "low-voltage/data"
+      ],
+      "join_classes": [
+        "bolted-structural-datum",
+        "electrical-data"
+      ],
+      "joint_release_status": "joint-calculation-required",
+      "placement_zone": "bogie frame, axle, brake, suspension, and underframe marriage datums",
+      "sequence": 2,
+      "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
+      "verification": [
+        "service access check",
+        "harness clearance",
+        "fastener torque record"
+      ]
+    },
+    {
+      "child_id": "LM3-BOG-P041",
+      "child_title": "trailer-bogie certified wheelset, axlebox, suspension, brake, centre-pivot, yaw-link, and sensor kit",
+      "interface_classes": [
+        "mechanical datum",
+        "low-voltage/data",
+        "safety interlock"
+      ],
+      "join_classes": [
+        "bolted-structural-datum",
+        "electrical-data"
+      ],
+      "joint_release_status": "supplier-freeze-required",
+      "placement_zone": "bogie frame, axle, brake, suspension, and underframe marriage datums",
+      "sequence": 3,
+      "torque_authority": "accepted supplier installation manual plus released OSR interface-control drawing",
+      "verification": [
+        "wheelset certificates",
+        "bearing records",
+        "spring/damper certificates",
+        "brake test",
+        "sensor test",
+        "ride-height report"
+      ]
+    },
+    {
+      "child_id": "LM3-BOG-P061",
+      "child_title": "trailer-bogie brake/WSP/speed-sensor harness and junction-bracket kit",
+      "interface_classes": [
+        "mechanical datum",
+        "low-voltage/data",
+        "safety interlock"
+      ],
+      "join_classes": [
+        "bolted-structural-datum",
+        "electrical-data"
+      ],
+      "joint_release_status": "joint-calculation-required",
+      "placement_zone": "bogie frame, axle, brake, suspension, and underframe marriage datums",
+      "sequence": 4,
+      "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
+      "verification": [
+        "continuity test",
+        "connector IP rating",
+        "wheelset clearance",
+        "dynamic cable sweep"
+      ]
+    }
+  ],
+  "layer": "subassembly",
+  "material_spec": {
+    "evidence_required": [
+      "child material certificates accepted",
+      "assembly traveler traceability",
+      "interface-control drawing revision"
+    ],
+    "finish_or_protection": "protect damaged coating, exposed edges, seals, bonds, and labels during assembly",
+    "form_factor": "rail structural steel, supplier-certified running gear",
+    "governing_standard": "all child material standards plus assembly-level torque, bonding, coating, and cleanliness controls",
+    "grade_or_part_class": "LM3-BOG-SA620 inherits released child material specifications",
+    "material_family": "assembly material set",
+    "nominal_section": "as defined by child drawings and assembly interface control drawing",
+    "traceability": "child serial/heat/batch records plus assembly traveler traceability"
+  },
+  "maturity": "release-candidate",
+  "process_spec": {
+    "inspection_methods": [
+      "child acceptance evidence review",
+      "frame NDT",
+      "wheelset/bearing certificate",
+      "ride-height setup",
+      "static brake test",
+      "VT",
+      "MT/UT where classed",
+      "post-weld datum survey",
+      "alignment survey"
+    ],
+    "joining_methods": [
+      "bolted/torqued interfaces",
+      "shimmed datum interfaces as required",
+      "WPS-controlled structural welding"
+    ],
+    "primary_processes": [
+      "release child kit",
+      "fixture or datum setup",
+      "fixture tack/weld",
+      "install children",
+      "torque/fit-up record",
+      "release to parent"
+    ],
+    "release_level": "assembly traveler controlled; generated template is unsigned until build",
+    "special_process_controls": [
+      "child definition/revision check",
+      "tooling calibration check",
+      "parent interface freeze",
+      "weld map release",
+      "WPS/WPQR and welder qualification",
+      "wheelset/bearing certificate review",
+      "ride-height setup"
+    ],
+    "tooling_basis": "FIX-LM3-BOG-SA620, KIT-LM3-BOG-SA620, calibrated torque/gauge set"
+  },
+  "quantity_per_trainset": 3,
+  "source_refs": [
+    "bogie/assembly.py",
+    "LM3-BOG-410"
+  ],
+  "title": "trailer bogie assembly"
+}

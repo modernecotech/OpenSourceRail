@@ -1,0 +1,61 @@
+# G1 — Non-overlap decomposition.
+#
+# We argue G1 by three concurrent sub-claims (RFC 0004 §7):
+#  - G1.1: the MA computation itself enforces section exclusivity (P2).
+#  - G1.2: the sim continuously exercises the MA computer as a hard
+#          gate on every section entry, so a violation of P2 would
+#          surface as a recorded invariant failure.
+#  - G1.3: both twins (Rust + Python reference interpreter) agree
+#          byte-for-byte on MA output, so no single-implementation
+#          bug could produce an overlap without being caught.
+
+[[strategy]]
+id = "S1"
+description = "Decompose G1 into (i) formal P2, (ii) continuous sim gating, (iii) differential equivalence."
+parent = "G1"
+children = ["G1.1", "G1.2", "G1.3"]
+
+[[goal]]
+id = "G1.1"
+description = "MA computation never grants overlapping authorities to distinct trains (P2)."
+parent = "S1"
+
+[[solution]]
+id = "E1.1a"
+description = "Kani harness P2 — two trains, bounded state."
+parent = "G1.1"
+evidence = { kind = "kani", path = "crates/osr-interlocking/src/kani_proofs.rs", anchor = "kani_p2_non_overlap_two_trains", note = "Tiny-network bound (2 sections, 2 trains); scaling pending." }
+
+[[solution]]
+id = "E1.1b"
+description = "Proptest over random log prefixes."
+parent = "G1.1"
+evidence = { kind = "proptest", path = "crates/osr-interlocking/tests/proptest_ma.rs", note = "Unbounded random inputs per proptest's default 256-case budget." }
+
+[[goal]]
+id = "G1.2"
+description = "Running simulations never admit a train into a section occupied per the MA computer's derived state."
+parent = "S1"
+
+[[solution]]
+id = "E1.2a"
+description = "osr-sim gates every section entry via osr_interlocking::section_available_to."
+parent = "G1.2"
+evidence = { kind = "sim-run", path = "crates/osr-sim/src/sim.rs", anchor = "enter_next_section", note = "Generated Samawah reference runs 2 h with 0 invariant violations under both in-memory and 3-node Raft backends." }
+
+[[solution]]
+id = "E1.2b"
+description = "Consensus-backed integration test asserts zero violations under Raft."
+parent = "G1.2"
+evidence = { kind = "sim-run", path = "crates/osr-sim/tests/consensus_integration.rs" }
+
+[[goal]]
+id = "G1.3"
+description = "Rust and Python implementations of compute_self_ma agree byte-for-byte on equivalent inputs."
+parent = "S1"
+
+[[solution]]
+id = "E1.3"
+description = "Differential test shelling out to the Python reference interpreter."
+parent = "G1.3"
+evidence = { kind = "differential", path = "crates/osr-interlocking/tests/differential.rs", note = "3 smoke cases + 16 random proptest cases; 100% agreement." }

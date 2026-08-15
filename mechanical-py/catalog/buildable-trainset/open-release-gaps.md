@@ -1,0 +1,58 @@
+# Trainset open release gap register
+
+Generated from the same controlled product rows used by the definition
+and shop-traveler packs. Product ownership and procurement-BOM links are
+already resolved; the rows below still require supplier, component, or
+interface evidence before their maturity can become `release-candidate`.
+
+Open product rows: **41 of 71**.
+
+| Engineering ID | BOM lines | Route | Maturity / blocker | Component | Parent assembly | Closure evidence |
+|---|---|---|---|---|---|---|
+| `LM3-CWL-P010` | `B8` | `SOURCE` | `buildable-after-supplier-freeze` | end-cowl fiberglass laminate, insert, adhesive, and coupon material kit | `LM3-CWL-SA710` | material batch trace; fire/smoke certificate; coupon layup record; adhesive shelf-life check |
+| `LM3-CWL-P011` | `B8` | `MAKE` | `buildable-after-supplier-freeze` | CWL-FRP-01 upper brow and roof-cap fiberglass cast | `LM3-CWL-SA710` | mould release record; laminate coupon; trim-line gauge; roof-flange fit |
+| `LM3-CWL-P012` | `B8` | `MAKE` | `buildable-after-supplier-freeze` | CWL-FRP-02 left cheek fiberglass cast | `LM3-CWL-SA710` | mould release record; laminate coupon; insert pull-out; split-gap gauge |
+| `LM3-CWL-P013` | `B8` | `MAKE` | `buildable-after-supplier-freeze` | CWL-FRP-03 right cheek fiberglass cast | `LM3-CWL-SA710` | mould release record; laminate coupon; insert pull-out; split-gap gauge |
+| `LM3-CWL-P014` | `B8` | `MAKE` | `buildable-after-supplier-freeze` | CWL-FRP-04 lower apron and anti-climber cover fiberglass cast | `LM3-CWL-SA710` | mould release record; laminate coupon; lamp pocket gauge; drain-path water test |
+| `LM3-CWL-P015` | `B8` | `MAKE` | `buildable-after-supplier-freeze` | CWL-FRP-05 lamp, washer, and service-hatch fiberglass cast set | `LM3-CWL-SA710` | mould release record; insert pull-out; gasket compression check; hatch removal trial |
+| `LM3-CWL-P016` | `B8` | `MAKE` | `buildable-after-supplier-freeze` | CWL-FRP-06 backing-ring flange fiberglass cast set | `LM3-CWL-SA710` | mould release record; glass-carrier land survey; bond-line witness; A/B interchange check |
+| `LM3-EXT-P010` | `B11`, `B25`, `E20` | `BID` | `buildable-after-supplier-freeze` | electric plug/sliding door cassette | `LM3-DOOR-SA310` | EN 14752 evidence; obstruction test; closed-and-locked loop test |
+| `LM3-EXT-P020` | `B10` | `SOURCE` | `buildable-after-supplier-freeze` | side laminated glazing cassette | `LM3-WIN-SA320` | glazing certificate; water ingress test; replacement method |
+| `LM3-EXT-P030` | `B27` | `BID` | `buildable-after-supplier-freeze` | single panoramic heated end-glass assembly | `LM3-END-SA700` | glass certificate; heater test; bond/gasket procedure |
+| `LM3-EXT-P040` | `T14` | `BID` | `buildable-after-supplier-freeze` | hvac-24kw-direct-hv-dc roof HVAC | `LM3-ROOF-SA410` | +50 C capacity evidence; condensate drain test; EMC/vibration evidence |
+| `LM3-EXT-P060` | `B12`, `B13`, `B14`, `B15`, `B16`, `B18`, `B19`, `E14`, `E15`, `A1`, `A2`, `A3`, `A4` | `SOURCE` | `buildable-after-supplier-freeze` | seats, grab rails, flooring, lighting, PIS, CCTV, intercom, signage kit | `LM3-INT-SA330` | fire certificates; egress gauge; lighting lux test; network enumeration |
+| `LM3-EXT-P070` | `E21` | `SOURCE` | `buildable-after-supplier-freeze` | roof antennas, service walkway pads, lifting covers, and maintenance labels | `LM3-ROOF-SA410` | antenna VSWR test; walkway slip certificate; lifting-cover fit; roof bonding check |
+| `LM3-EXT-P080` | `B6` | `BID` | `buildable-after-supplier-freeze` | fire-rated composite exterior side sandwich-panel kit | `LM3-SHELL-A200` | EN 45545 evidence; panel dimensional report; insert pull-out; bond coupon and water test |
+| `LM3-EXT-P090` | `B7` | `BID` | `buildable-after-supplier-freeze` | fire-rated composite roof fairing and exterior skirt-panel kit | `LM3-SHELL-A200` | EN 45545 evidence; service-removal trial; fastener/insert proof; water and debris-ingress check |
+| `LM3-INT-P010` | `T14` | `SOURCE` | `buildable-after-supplier-freeze` | HVAC diffusers, side return ducts, saloon grilles, and access panels | `LM3-INT-SA330` | airflow balance; rattle check; access-panel removal; fire-material certificate |
+| `LM3-INT-P020` | `B21` | `MAKE` | `buildable-after-supplier-freeze` | FRP/phenolic ceiling liner, light trough, and HVAC plenum cover set | `LM3-INT-SA330` | fire-material certificate; trim-line gauge; fastener insert pull-out; rattle check |
+| `LM3-INT-P030` | `B21` | `MAKE` | `buildable-after-supplier-freeze` | FRP/phenolic sidewall liner, window reveal, and cable-cover panel set | `LM3-INT-SA330` | fire-material certificate; window-reveal gauge; access-panel removal; edge-radius inspection |
+| `LM3-INT-P040` | `B7`, `B21` | `MAKE` | `buildable-after-supplier-freeze` | FRP battery strake covers, seat-base fairings, and service-hatch shells | `LM3-INT-SA330` | fire-material certificate; service-hatch removal; HV warning label check; sharp-edge inspection |
+| `LM3-INT-P050` | `B21` | `MAKE` | `buildable-after-supplier-freeze` | FRP vestibule kick panels, PRM ramp/step covers, and door-pocket trims | `LM3-INT-SA330` | fire-material certificate; PRM transition gauge; anti-slip witness; kick-panel retention test |
+| `LM3-TRC-P010` | `T1` | `BID` | `buildable-after-supplier-freeze` | motor-350kw-hm47-class axle traction motor | `LM3-BOG-SA610` | motor datasheet; thermal curve; mounting-foot load proof; EMC evidence |
+| `LM3-TRC-P020` | `G19`, `T2` | `BID` | `buildable-after-supplier-freeze` | single-stage reduction gearbox and flexible coupling | `LM3-BOG-SA610` | gear ratio certificate; oil access check; coupling alignment |
+| `LM3-TRC-P030` | `T3`, `T4`, `T7`, `T13`, `T20`, `T23` | `BID` | `buildable-after-supplier-freeze` | two independent motor controllers, isolated LV DC/DC, MPPT, station protection, and cooling-loop kit | `LM3-HV-SA510` | HVIL test; coolant pressure test; EMC/bonding check |
+| `LM3-TRC-P040` | `T5`, `T6` | `BID` | `buildable-after-supplier-freeze` | battery-225kwh-lfp-800v under-seat traction battery pack | `LM3-HV-SA510` | cell/module certificate; isolation test; vent/fire containment data |
+| `LM3-TRC-P050` | `T15` | `SOURCE` | `buildable-after-supplier-freeze` | roof-mounted regen dump resistor and thermal shield kit | `LM3-ROOF-SA410` | resistance certificate; thermal clearance; roof bonding; hot-surface label |
+| `LM3-TRC-P060` | `T12`, `T19` | `BID` | `buildable-after-supplier-freeze` | station side-pin charging connector, actuator, shutter, and alignment target | `LM3-HV-SA510` | dock alignment test; HVIL test; shutter cycle test; emergency release |
+| `LM3-TRC-P070` | `T11`, `T16` | `SOURCE` | `buildable-after-supplier-freeze` | HV contactor, fuse, pre-charge, service-disconnect, and current-sensor panel | `LM3-HV-SA510` | isolation test; pre-charge timing; fuse rating evidence; service-disconnect lockout |
+| `LM3-SAF-P010` | `T9`, `T10` | `SOURCE` | `buildable-after-supplier-freeze` | battery temperature/off-gas detection, electrical-enclosure smoke detection, and localized mist kit | `LM3-HV-SA510` | detector certificate; loop continuity; mist proof-flow; reservoir/pump/pressure diagnostic; event-recorder input |
+| `LM3-BOG-P040` | `G3`, `G4`, `G5`, `G6`, `G7`, `G8`, `G9`, `G10`, `G11`, `G12`, `G14`, `G15`, `G16` | `BID` | `buildable-after-supplier-freeze` | powered-bogie certified wheelset, axlebox, suspension, brake, centre-pivot, yaw-link, and sensor kit | `LM3-BOG-SA610` | wheelset certificates; bearing records; spring/damper certificates; brake test; sensor test; ride-height report |
+| `LM3-BOG-P041` | `G3`, `G4`, `G5`, `G6`, `G7`, `G8`, `G9`, `G10`, `G11`, `G12`, `G14`, `G15`, `G16` | `BID` | `buildable-after-supplier-freeze` | trailer-bogie certified wheelset, axlebox, suspension, brake, centre-pivot, yaw-link, and sensor kit | `LM3-BOG-SA620` | wheelset certificates; bearing records; spring/damper certificates; brake test; sensor test; ride-height report |
+| `LM3-AUX-P010` | `G21` | `SOURCE` | `buildable-after-supplier-freeze` | secondary-suspension compressor, dryer, reservoir, and isolation-manifold kit | `LM3-CAR-A900` | pressure certificate; leak test; dryer function; relief-valve test; service-access check |
+| `LM3-END-P010` | `B22`, `B23` | `BID` | `buildable-after-supplier-freeze` | automatic end coupler and crash-energy absorber | `LM3-END-SA700` | EN 15227 absorber evidence; recovery procedure; bolt torque record |
+| `LM3-ART-P020` | `B9` | `BID` | `buildable-after-supplier-freeze` | gangway, lower spherical pivot, upper links, bellows, turntable, and trainline kit | `LM3-ART-SA800` | motion-envelope proof; fire evidence; water ingress/drain test |
+| `LM3-CTRL-P010` | `E1`, `E2`, `E6`, `E14`, `E15` | `BID` | `buildable-after-supplier-freeze` | T-ECU/S and T-ECU/A compute and safety-control cabinet kit | `LM3-SYS-SA900` | hardware BOM check; self-test; network enumeration; firmware record; safety-output test |
+| `LM3-CTRL-P020` | `E3`, `E4`, `E5`, `E6`, `E7`, `E8`, `E21` | `SOURCE` | `buildable-after-supplier-freeze` | navigation, balise, 5G, LoRa, GNSS, IMU, and roof-antenna kit | `LM3-SYS-SA900` | SKU/firmware record; antenna VSWR; GNSS/IMU test; balise read; radio link test |
+| `LM3-CTRL-P030` | `E10`, `E11`, `E12`, `E13`, `E16` | `BID` | `buildable-after-supplier-freeze` | maintenance HMI, depot pendant, emergency controls, and safety-relay kit | `LM3-SYS-SA900` | key/guarded-control test; emergency input test; 2oo2 relay test; stowage and access check |
+| `LM3-CTRL-P050` | `E9`, `E23` | `SOURCE` | `buildable-after-supplier-freeze` | operational and crashworthy event-recorder storage kit | `LM3-SYS-SA900` | write/read test; retention configuration; crashworthy certificate; download/recovery test |
+| `LM3-END-P020` | `E15`, `E18`, `E19` | `BID` | `buildable-after-supplier-freeze` | T-OBS nose sensor pack, heated window services, and washer kit | `LM3-END-SA700` | sensor calibration; washer/heater test; 2oo2 verdict interface test |
+| `LM3-END-P040` | `B22`, `E17` | `BID` | `buildable-after-supplier-freeze` | e-coupler LV jumper, recovery trainline, and end harness breakaway kit | `LM3-END-SA700` | pinout test; breakaway force check; ingress protection; rescue compatibility |
+| `LM3-END-P050` | `B17` | `SOURCE` | `buildable-after-supplier-freeze` | sealed headlight, tail/marker light, threshold-warning, and end-lamp harness kit | `LM3-END-SA700` | photometric certificate; function/polarity test; ingress protection; A/B-end interchange check |
+| `LM3-ART-P030` | `B24` | `BID` | `buildable-after-supplier-freeze` | inter-car HV/LV jumper, coolant hose loop, energy chain, and drain sleeve kit | `LM3-ART-SA800` | bend-radius sweep; trainline continuity; coolant pressure test; water-drain test |
+
+## Non-product release gates
+
+The product rows above do not close controlled manufacturing drawings,
+supplier-specific mass/power/envelope freezes, structural proof, physical
+first-article inspection, or signed shop-traveler evidence.

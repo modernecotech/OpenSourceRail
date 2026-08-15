@@ -1,0 +1,39 @@
+# Calibration city list — three archetypes for validating the solver
+# before scale-up to the 500-city batch.
+#
+# Picked to cover:
+#   - Sparse desert small city (Samawah)           — single-radial, at-grade
+#   - Dense tropical highland mid-city (Nairobi)   — radial-plus-ring, mixed
+#   - Dense European temperate mid-city (Lyon)     — radial-plus-ring, elevated+bridge
+#
+# Bounding boxes are ~10-15 km on a side — large enough to capture the
+# urban footprint, small enough to keep Overpass queries under 30s.
+
+[[cities]]
+slug        = "samawah"
+country     = "IQ"
+continent   = "middle-east"
+population  = 400000
+climate     = "hot-desert"
+profile     = "mid-city-desert"
+bbox        = { south = 31.27, west = 45.24, north = 31.35, east = 45.32 }
+
+[[cities]]
+slug        = "nairobi"
+country     = "KE"
+continent   = "east-africa"
+population  = 4400000
+climate     = "tropical-wet"
+profile     = "large-city-tropical"
+# Central Nairobi — 15 km × 15 km captures CBD + Westlands + Eastlands.
+bbox        = { south = -1.35, west = 36.78, north = -1.22, east = 36.92 }
+
+[[cities]]
+slug        = "lyon"
+country     = "FR"
+continent   = "europe"
+population  = 1400000
+climate     = "temperate-continental"
+profile     = "large-city-cold"
+# Lyon proper + Villeurbanne + La Part-Dieu. ~12 km × 10 km.
+bbox        = { south = 45.70, west = 4.78, north = 45.80, east = 4.90 }

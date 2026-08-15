@@ -1,0 +1,81 @@
+{
+  "acceptance": [
+    "bend-radius gauge",
+    "bond continuity",
+    "cover fastener torque",
+    "orange-label inspection"
+  ],
+  "bom_line_ids": [
+    "T18"
+  ],
+  "definition_type": "product-item",
+  "id": "LM3-HV-P020",
+  "layer": "fabricated-part",
+  "make_or_buy_basis": "Maintains HV/LV segregation from battery, inverter, roof PV, and side-pin charger interfaces.",
+  "material_spec": {
+    "evidence_required": [
+      "mill certificate",
+      "coating/passivation record",
+      "bonding continuity record"
+    ],
+    "finish_or_protection": "zinc/paint/stainless passivation, orange HV marking, edge protection, and sealing as applicable",
+    "form_factor": "laser-cut, folded, drilled sheet/plate with inserts, studs, clips, and labels",
+    "governing_standard": "EN 10025 / EN 10088 certificate as applicable plus project bonding/corrosion evidence",
+    "grade_or_part_class": "S355 or 304/316 stainless local bracket/tray candidate, selected by exposure zone",
+    "material_family": "formed sheet metal / stainless local hardware",
+    "nominal_section": "thickness, stainless grade, and galvanic isolation frozen by v2A controlled drawing",
+    "traceability": "heat number, coating batch, bonding test, and installation batch traceability"
+  },
+  "maturity": "release-candidate",
+  "notes": "",
+  "parent": "LM3-HV-SA510",
+  "process_spec": {
+    "inspection_methods": [
+      "dimensional inspection",
+      "visual inspection",
+      "bond-land inspection",
+      "water/leak test where applicable",
+      "bond continuity",
+      "insulation/isolation check where applicable",
+      "bend-radius gauge",
+      "cover fastener torque",
+      "orange-label inspection"
+    ],
+    "joining_methods": [
+      "fixture tack and weld where structural",
+      "bolted/torqued installation to parent datum",
+      "adhesive bonding or gasketed interface preparation",
+      "bonding/earthing hardware",
+      "segregated clipped service routing"
+    ],
+    "primary_processes": [
+      "cut",
+      "form",
+      "drill/machine",
+      "de-burr",
+      "trial fit"
+    ],
+    "release_level": "v2A drawing-controlled MAKE process; generated traveler is unsigned until build",
+    "special_process_controls": [
+      "released drawing/revision check",
+      "material certificate check",
+      "datum gauge before parent release",
+      "surface-preparation record",
+      "adhesive batch/pot-life record",
+      "bond coupon where required",
+      "HV/LV segregation check",
+      "bend-radius check",
+      "label/revision check"
+    ],
+    "tooling_basis": "FIX-LM3-HV-FAB plus GAUGE-LM3-HV-P020-DATUM"
+  },
+  "quantity_per_trainset": 3,
+  "route": "MAKE",
+  "source_refs": [
+    "systems.py",
+    "mechanical_interfaces.py",
+    "LM3-HV-310"
+  ],
+  "title": "segregated HV cable tray, bonding studs, grommets, and orange cover set",
+  "unit": "car kit"
+}

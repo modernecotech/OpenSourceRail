@@ -1,0 +1,116 @@
+# Composition profiles — opt-in bundles of archetype choices.
+#
+# A city design.toml can pick one profile instead of manually setting
+# consist / geometry / backbone / fare / adapters / service_hours:
+#
+#     [design]
+#     profile = "mid-city-desert"
+#
+# The loader applies the profile's fields as if they were written at the
+# top of the city file, then lets the city override individual fields.
+#
+# Profiles exist for ease-of-use — they are NOT a new source of truth. Every
+# profile composes existing archetypes/kits/presets from other templates.
+#
+# Merge precedence: defaults < profile < explicit city fields.
+
+# ---- Small city (< 300k pop) ----------------------------------------
+
+[profiles.small-city-temperate]
+consist                   = "tram-2car"
+geometry                  = "standard-urban"
+comms_backbone            = "single-ring-1g"
+comms_trackside           = "dual-5g-lora"
+fare_system               = "eu-contactless-emv"
+climate_preset            = "temperate-continental"
+climate_adapters          = []
+service_hours             = "weekdays-only"
+platform_doors_default    = "none"
+accessibility_default     = "step-free-basic"
+
+# ---- Mid city (~ 200k-1M pop) --------------------------------------
+
+[profiles.mid-city-desert]
+consist                   = "light-metro-3car"
+geometry                  = "standard-urban"
+comms_backbone            = "single-ring-10g"
+comms_trackside           = "dual-5g-lora"
+fare_system               = "iraq-mobile-money"
+climate_preset            = "hot-desert"
+climate_adapters          = ["sand-filter-hvac", "vertical-bifacial-pv", "high-ambient-traction"]
+service_hours             = "conservative-religious"
+platform_doors_default    = "none"
+accessibility_default     = "step-free-basic"
+
+[profiles.mid-city-temperate]
+consist                   = "light-metro-3car"
+geometry                  = "standard-urban"
+comms_backbone            = "single-ring-10g"
+comms_trackside           = "dual-5g-lora"
+fare_system               = "eu-contactless-emv"
+climate_preset            = "temperate-continental"
+climate_adapters          = []
+service_hours             = "standard-urban"
+platform_doors_default    = "none"
+accessibility_default     = "step-free-basic"
+
+# ---- Large city (1-3M pop) -----------------------------------------
+
+[profiles.large-city-tropical]
+consist                   = "metro-4car"
+geometry                  = "standard-metro"
+comms_backbone            = "dual-ring-10g"
+comms_trackside           = "dual-5g-lora"
+fare_system               = "south-asia-upi"   # or latam per country rules
+climate_preset            = "tropical-wet"
+climate_adapters          = ["tropical-ventilation", "marine-coating"]
+service_hours             = "extended"
+platform_doors_default    = "half-height"
+accessibility_default     = "step-free-basic"
+
+[profiles.large-city-cold]
+consist                   = "metro-4car"
+geometry                  = "standard-metro"
+comms_backbone            = "dual-ring-10g"
+comms_trackside           = "dual-5g-lora"
+fare_system               = "eu-contactless-emv"
+climate_preset            = "cold-continental"
+climate_adapters          = ["snow-switch-heaters", "snow-plough-front", "winterized-depot"]
+service_hours             = "standard-urban"
+platform_doors_default    = "half-height"
+accessibility_default     = "step-free-basic"
+
+# ---- Major city (3M+ pop) ------------------------------------------
+
+[profiles.major-city-generic]
+consist                   = "metro-6car"
+geometry                  = "standard-metro"
+comms_backbone            = "dual-ring-10g"
+comms_trackside           = "dual-5g-lora-psb"
+fare_system               = "eu-contactless-emv"
+climate_preset            = "temperate-continental"
+climate_adapters          = []
+service_hours             = "24h"
+platform_doors_default    = "full-height"
+accessibility_default     = "step-free-full"
+
+# ---- Add-on profiles (composable with the above) ------------------
+#
+# These do not fully configure a city — they're partial overrides layered
+# on a base profile. Applied via design.profile_addons = [...].
+
+[profiles.coastal-humid]
+# Apply on top of any tropical / mediterranean base.
+climate_adapters_addon    = ["marine-coating", "tropical-ventilation"]
+
+[profiles.sahel-arid]
+consist                   = "light-metro-3car"
+geometry                  = "standard-urban"
+comms_backbone            = "single-ring-10g"
+comms_trackside           = "dual-5g-lora-psb"
+fare_system               = "east-africa-mobile-money"
+climate_preset            = "tropical-arid"
+climate_adapters          = ["sand-filter-hvac", "dust-storm-ingress-control", "vertical-bifacial-pv", "high-ambient-traction", "battery-active-cooling"]
+service_hours             = "standard-urban"
+platform_doors_default    = "none"
+accessibility_default     = "step-free-basic"

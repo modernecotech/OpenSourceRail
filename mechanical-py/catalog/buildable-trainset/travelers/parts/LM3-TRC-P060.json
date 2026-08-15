@@ -1,0 +1,215 @@
+{
+  "bom_line_ids": [
+    "T12",
+    "T19"
+  ],
+  "document_revision": "A-DRAFT",
+  "estimated_labor_hours": 2.8,
+  "id": "LM3-TRC-P060",
+  "material_spec": {
+    "evidence_required": [
+      "certificate of conformity",
+      "incoming inspection record",
+      "capacity test evidence",
+      "fire-material certificate"
+    ],
+    "finish_or_protection": "supplier coating, condensate protection, and fire-rated interior surfaces",
+    "form_factor": "packaged roof unit, curb gasket, diffusers, ducts, grilles, and access panels",
+    "governing_standard": "supplier rail/bus HVAC specification plus project EMC, vibration, and fire evidence",
+    "grade_or_part_class": "hot-climate roof HVAC / fire-rated interior duct kit",
+    "material_family": "supplier HVAC and air-distribution kit",
+    "nominal_section": "roof curb and saloon envelope frozen by RFQ drawing",
+    "traceability": "unit serial number, refrigerant/coolant data, CoC, and fire-material batch"
+  },
+  "operations": [
+    {
+      "labor_hours": 0.35,
+      "qa_gate": "traveler rev and parent assembly match released manifest",
+      "sequence": 10,
+      "signoff_role": "cell lead",
+      "title": "release traveler, revision, material/certificate pack, and parent interface",
+      "tooling_ids": [
+        "TRV-LM3-TRC-P060",
+        "DOC-LM3-HV-SA510"
+      ],
+      "work_center": "production control"
+    },
+    {
+      "labor_hours": 0.45,
+      "qa_gate": "supplier certificate/datasheet/revision accepted",
+      "sequence": 20,
+      "signoff_role": "quality inspector",
+      "title": "receive supplier component and quarantine until evidence pack passes",
+      "tooling_ids": [
+        "RFQ-LM3-TRC-P060",
+        "CERT-LM3-TRC-P060"
+      ],
+      "work_center": "receiving inspection"
+    },
+    {
+      "labor_hours": 0.75,
+      "qa_gate": "component fits without parent datum rework",
+      "sequence": 30,
+      "signoff_role": "operator",
+      "title": "perform envelope, mounting, service-removal, and connector checks",
+      "tooling_ids": [
+        "GAUGE-LM3-TRC-P060-ENVELOPE",
+        "FIX-LM3-HV-SA510"
+      ],
+      "work_center": "incoming fit-check cell"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "dock alignment test",
+      "sequence": 40,
+      "signoff_role": "quality inspector",
+      "title": "verify acceptance gate: dock alignment test",
+      "tooling_ids": [
+        "QA-LM3-TRC-P060"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "HVIL test",
+      "sequence": 50,
+      "signoff_role": "quality inspector",
+      "title": "verify acceptance gate: HVIL test",
+      "tooling_ids": [
+        "ELEC-TEST-LM3-TRC-P060"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "shutter cycle test",
+      "sequence": 60,
+      "signoff_role": "quality inspector",
+      "title": "verify acceptance gate: shutter cycle test",
+      "tooling_ids": [
+        "QA-LM3-TRC-P060"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "emergency release",
+      "sequence": 70,
+      "signoff_role": "quality inspector",
+      "title": "verify acceptance gate: emergency release",
+      "tooling_ids": [
+        "QA-LM3-TRC-P060"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "item is released, tagged, and staged for parent assembly",
+      "sequence": 80,
+      "signoff_role": "cell lead",
+      "title": "final item release to parent assembly",
+      "tooling_ids": [
+        "REL-LM3-TRC-P060",
+        "KIT-LM3-HV-SA510"
+      ],
+      "work_center": "production control"
+    }
+  ],
+  "parent": "LM3-HV-SA510",
+  "process_spec": {
+    "inspection_methods": [
+      "incoming visual inspection",
+      "envelope fit check",
+      "dock alignment test",
+      "HVIL test",
+      "shutter cycle test",
+      "emergency release",
+      "bond continuity",
+      "insulation/isolation check",
+      "HVIL functional check where applicable"
+    ],
+    "joining_methods": [
+      "bolted/torqued installation",
+      "sealed, gasketed, bonded, or clipped interface as supplier envelope requires"
+    ],
+    "primary_processes": [
+      "receive",
+      "quarantine",
+      "evidence review",
+      "incoming fit check",
+      "release to parent kit"
+    ],
+    "release_level": "BID supplier-controlled process; OSR controls envelope and acceptance evidence",
+    "special_process_controls": [
+      "RFQ envelope freeze",
+      "supplier certificate/revision check",
+      "incoming quarantine until evidence accepted",
+      "HV safety plan",
+      "LOTO/service-disconnect rule",
+      "EMC/bonding evidence review"
+    ],
+    "tooling_basis": "RFQ-LM3-TRC-P060, CERT-LM3-TRC-P060, GAUGE-LM3-TRC-P060-ENVELOPE"
+  },
+  "quantity_per_trainset": 3,
+  "release_status": "unsigned-template",
+  "revision_approvals": [
+    {
+      "approval_id": "APP-LM3-TRC-P060-MFG",
+      "date": "",
+      "name": "",
+      "role": "manufacturing engineering",
+      "signature": "",
+      "status": "pending"
+    },
+    {
+      "approval_id": "APP-LM3-TRC-P060-QA",
+      "date": "",
+      "name": "",
+      "role": "quality",
+      "signature": "",
+      "status": "pending"
+    },
+    {
+      "approval_id": "APP-LM3-TRC-P060-DA",
+      "date": "",
+      "name": "",
+      "role": "design authority",
+      "signature": "",
+      "status": "pending"
+    }
+  ],
+  "route": "BID",
+  "signoff_blocks": [
+    {
+      "date": "",
+      "name": "",
+      "role": "operator",
+      "signature": "",
+      "status": "blank"
+    },
+    {
+      "date": "",
+      "name": "",
+      "role": "cell lead",
+      "signature": "",
+      "status": "blank"
+    },
+    {
+      "date": "",
+      "name": "",
+      "role": "quality inspector",
+      "signature": "",
+      "status": "blank"
+    },
+    {
+      "date": "",
+      "name": "",
+      "role": "manufacturing engineer",
+      "signature": "",
+      "status": "blank"
+    }
+  ],
+  "title": "station side-pin charging connector, actuator, shutter, and alignment target",
+  "traveler_type": "product-item",
+  "unit": "car kit"
+}

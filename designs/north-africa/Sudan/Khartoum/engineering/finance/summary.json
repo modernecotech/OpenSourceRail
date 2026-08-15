@@ -1,0 +1,91 @@
+{
+  "annual_opex_usd": {
+    "components": {
+      "civil_station_depot_maintenance": 59555820.68,
+      "labour": 4695768.0,
+      "residual_grid_energy": 0.0,
+      "rolling_stock_maintenance_including_battery_renewal_reserve": 57254400.0,
+      "signalling_maintenance": 1042610.55,
+      "solar_plant_maintenance": 9168093.28128
+    },
+    "total": 131716692.51128
+  },
+  "capex_eur": {
+    "reconciled_project_total": 5323087883.49184
+  },
+  "capex_usd": {
+    "authoritative_design_base": 5174758872.0,
+    "reconciled_project_total": 5785965090.752,
+    "risk_envelope_15_percent": 6653859854.3647995,
+    "risk_envelope_25_percent": 7232456363.44,
+    "timetable_sized_dedicated_solar": 611206218.752
+  },
+  "cases": {
+    "high_capacity_use": {
+      "annual_operating_cash_usd": 74180181.08872002,
+      "annual_paid_trips": 664778880.0,
+      "annual_public_support_usd": 209987278.22049898,
+      "annual_revenue_usd": 205896873.60000002,
+      "capacity_utilisation": 0.8,
+      "project_irr": -0.04354726656326405,
+      "project_npv_usd_at_8_percent": -3495614749.8212132,
+      "steady_state_dscr": 0.2610438973872807
+    },
+    "low_capacity_use": {
+      "annual_operating_cash_usd": 1054504.2887199968,
+      "annual_paid_trips": 415486800.0,
+      "annual_public_support_usd": 283112955.020499,
+      "annual_revenue_usd": 132771196.8,
+      "capacity_utilisation": 0.5,
+      "project_irr": -0.18597531526743172,
+      "project_npv_usd_at_8_percent": -3876930926.7490335,
+      "steady_state_dscr": 0.0037108551812490603
+    }
+  },
+  "city": "khartoum",
+  "funding": {
+    "annual_debt_service_usd": 284167459.309219,
+    "construction_grace_years": 10,
+    "debt_principal_usd": 4628772072.6016,
+    "debt_rate": 0.045,
+    "government_equity_share": 0.2,
+    "lender_commitment_status": "unconfirmed-placeholder",
+    "repayment_years": 30
+  },
+  "limitations": [
+    "No calibrated origin-destination or stated-preference ridership survey.",
+    "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
+    "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
+  ],
+  "operations_basis": {
+    "annual_train_km_including_non_revenue": 67292730.936,
+    "energy_kwh_per_car_km_hot_climate_planning": 4.0,
+    "non_revenue_train_km_factor": 1.08,
+    "scheduled_train_km_per_day": 170707.08
+  },
+  "passed": true,
+  "renewal_policy": {
+    "field_asset_renewals": "included in fixed-asset maintenance allowance pending condition-based asset plan",
+    "train_battery_cycle_years": 12,
+    "treatment": "included in rolling-stock maintenance reserve; do not double-count as separate CAPEX"
+  },
+  "revenue_basis": {
+    "demand_status": "capacity-led-not-calibrated-od-forecast",
+    "nonfare_revenue_usd_per_year": 10895068.8,
+    "operating_neutral_capacity_utilisation": 0.49567386859910745,
+    "operating_neutral_paid_trips_per_year": 411891899.0157273,
+    "practical_capacity_passenger_trips_per_day": 2276640.0,
+    "single_trip_fare_usd": 0.29333333333333333
+  },
+  "schema_version": 1,
+  "sources": {
+    "design": "designs/north-africa/Sudan/Khartoum/design.toml",
+    "design_sha256": "067573441747ac46b24a595da4eb8081cf5f17052545b526f40d0bbc5d75c36c",
+    "generator": "scripts/generate-city-finance.py",
+    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "scenario": "designs/north-africa/Sudan/Khartoum/khartoum.toml",
+    "scenario_sha256": "f9da62cb1e095d6edfa8df67127ca315d0c404be39ac9aee243b425ee85fc893"
+  },
+  "status": "planning-screen"
+}

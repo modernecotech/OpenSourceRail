@@ -1,0 +1,91 @@
+{
+  "annual_opex_usd": {
+    "components": {
+      "civil_station_depot_maintenance": 27926089.94,
+      "labour": 2960580.0,
+      "residual_grid_energy": 0.0,
+      "rolling_stock_maintenance_including_battery_renewal_reserve": 12140800.0,
+      "signalling_maintenance": 420904.30000000005,
+      "solar_plant_maintenance": 1901295.8403987687
+    },
+    "total": 45349670.08039877
+  },
+  "capex_eur": {
+    "reconciled_project_total": 1891395037.3444579
+  },
+  "capex_usd": {
+    "authoritative_design_base": 1929111115.0,
+    "reconciled_project_total": 2055864171.0265846,
+    "risk_envelope_15_percent": 2364243796.680572,
+    "risk_envelope_25_percent": 2569830213.783231,
+    "timetable_sized_dedicated_solar": 126753056.02658458
+  },
+  "cases": {
+    "high_capacity_use": {
+      "annual_operating_cash_usd": 71096998.15960123,
+      "annual_paid_trips": 234627840.0,
+      "annual_public_support_usd": 25519618.370805904,
+      "annual_revenue_usd": 116446668.24,
+      "capacity_utilisation": 0.8,
+      "project_irr": 0.006724855165022008,
+      "project_npv_usd_at_8_percent": -1051437308.2558838,
+      "steady_state_dscr": 0.7358671904767604
+    },
+    "low_capacity_use": {
+      "annual_operating_cash_usd": 30037126.159601226,
+      "annual_paid_trips": 146642400.0,
+      "annual_public_support_usd": 66579490.370805904,
+      "annual_revenue_usd": 75386796.24,
+      "capacity_utilisation": 0.5,
+      "project_irr": -0.0334265916020022,
+      "project_npv_usd_at_8_percent": -1327287517.1726587,
+      "steady_state_dscr": 0.31088985764832655
+    }
+  },
+  "city": "maiduguri",
+  "funding": {
+    "annual_debt_service_usd": 96616616.53040713,
+    "construction_grace_years": 7,
+    "debt_principal_usd": 1644691336.8212678,
+    "debt_rate": 0.045,
+    "government_equity_share": 0.2,
+    "lender_commitment_status": "unconfirmed-placeholder",
+    "repayment_years": 33
+  },
+  "limitations": [
+    "No calibrated origin-destination or stated-preference ridership survey.",
+    "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
+    "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
+  ],
+  "operations_basis": {
+    "annual_train_km_including_non_revenue": 25174458.24885,
+    "energy_kwh_per_car_km_hot_climate_planning": 4.0,
+    "non_revenue_train_km_factor": 1.08,
+    "scheduled_train_km_per_day": 63862.14675
+  },
+  "passed": true,
+  "renewal_policy": {
+    "field_asset_renewals": "included in fixed-asset maintenance allowance pending condition-based asset plan",
+    "train_battery_cycle_years": 12,
+    "treatment": "included in rolling-stock maintenance reserve; do not double-count as separate CAPEX"
+  },
+  "revenue_basis": {
+    "demand_status": "capacity-led-not-calibrated-od-forecast",
+    "nonfare_revenue_usd_per_year": 6953676.239999999,
+    "operating_neutral_capacity_utilisation": 0.2805366308039058,
+    "operating_neutral_paid_trips_per_year": 82277129.65799735,
+    "practical_capacity_passenger_trips_per_day": 803520.0,
+    "single_trip_fare_usd": 0.4666666666666667
+  },
+  "schema_version": 1,
+  "sources": {
+    "design": "designs/west-africa/Nigeria/Maiduguri/design.toml",
+    "design_sha256": "14e9844e07960e710647e29288cc4120a42cfffcc628754d681b650ad0b5723b",
+    "generator": "scripts/generate-city-finance.py",
+    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "scenario": "designs/west-africa/Nigeria/Maiduguri/maiduguri.toml",
+    "scenario_sha256": "35843f40bad3f91cf0471eccb2c14a98668391b0cbf4ff19a71ed8e714c84212"
+  },
+  "status": "planning-screen"
+}

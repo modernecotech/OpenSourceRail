@@ -1,0 +1,91 @@
+{
+  "annual_opex_usd": {
+    "components": {
+      "civil_station_depot_maintenance": 7143405.98,
+      "labour": 1117116.0,
+      "residual_grid_energy": 0.0,
+      "rolling_stock_maintenance_including_battery_renewal_reserve": 4572000.0,
+      "signalling_maintenance": 125200.25,
+      "solar_plant_maintenance": 678622.8045900001
+    },
+    "total": 13636345.03459
+  },
+  "capex_eur": {
+    "reconciled_project_total": 533954407.28152
+  },
+  "capex_usd": {
+    "authoritative_design_base": 535143705.0,
+    "reconciled_project_total": 580385225.306,
+    "risk_envelope_15_percent": 667443009.1019,
+    "risk_envelope_25_percent": 725481531.6324999,
+    "timetable_sized_dedicated_solar": 45241520.30600001
+  },
+  "cases": {
+    "high_capacity_use": {
+      "annual_operating_cash_usd": 40034830.67741001,
+      "annual_paid_trips": 117313920.0,
+      "annual_public_support_usd": 0.0,
+      "annual_revenue_usd": 53671175.712000005,
+      "capacity_utilisation": 0.8,
+      "project_irr": 0.04658817776238032,
+      "project_npv_usd_at_8_percent": -162707733.74750078,
+      "steady_state_dscr": 1.467791069799817
+    },
+    "low_capacity_use": {
+      "annual_operating_cash_usd": 20678033.877410002,
+      "annual_paid_trips": 73321200.0,
+      "annual_public_support_usd": 6597531.086253464,
+      "annual_revenue_usd": 34314378.912,
+      "capacity_utilisation": 0.5,
+      "project_irr": 0.008275495854470535,
+      "project_npv_usd_at_8_percent": -292751403.66540897,
+      "steady_state_dscr": 0.7581156945770802
+    }
+  },
+  "city": "tanga",
+  "funding": {
+    "annual_debt_service_usd": 27275564.963663466,
+    "construction_grace_years": 7,
+    "debt_principal_usd": 464308180.24480003,
+    "debt_rate": 0.045,
+    "government_equity_share": 0.2,
+    "lender_commitment_status": "unconfirmed-placeholder",
+    "repayment_years": 33
+  },
+  "limitations": [
+    "No calibrated origin-destination or stated-preference ridership survey.",
+    "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
+    "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
+  ],
+  "operations_basis": {
+    "annual_train_km_including_non_revenue": 9179832.570300002,
+    "energy_kwh_per_car_km_hot_climate_planning": 4.0,
+    "non_revenue_train_km_factor": 1.08,
+    "scheduled_train_km_per_day": 23287.2465
+  },
+  "passed": true,
+  "renewal_policy": {
+    "field_asset_renewals": "included in fixed-asset maintenance allowance pending condition-based asset plan",
+    "train_battery_cycle_years": 12,
+    "treatment": "included in rolling-stock maintenance reserve; do not double-count as separate CAPEX"
+  },
+  "revenue_basis": {
+    "demand_status": "capacity-led-not-calibrated-od-forecast",
+    "nonfare_revenue_usd_per_year": 2053050.912,
+    "operating_neutral_capacity_utilisation": 0.1795228969277086,
+    "operating_neutral_paid_trips_per_year": 26325668.460431814,
+    "practical_capacity_passenger_trips_per_day": 401760.0,
+    "single_trip_fare_usd": 0.44000000000000006
+  },
+  "schema_version": 1,
+  "sources": {
+    "design": "designs/east-africa/Tanzania/Tanga/design.toml",
+    "design_sha256": "b01672e841f3aa1482633cd84aefc5b94f41c1ed40de7ac3c3274a25b2a764e0",
+    "generator": "scripts/generate-city-finance.py",
+    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "scenario": "designs/east-africa/Tanzania/Tanga/tanga.toml",
+    "scenario_sha256": "39f9b192a801f826f1edf6f8c2e01d59eab8cfdeaeb4153305beff29e4991952"
+  },
+  "status": "planning-screen"
+}

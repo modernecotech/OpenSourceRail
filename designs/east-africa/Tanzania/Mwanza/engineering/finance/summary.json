@@ -1,0 +1,91 @@
+{
+  "annual_opex_usd": {
+    "components": {
+      "civil_station_depot_maintenance": 28260867.0,
+      "labour": 3309768.0,
+      "residual_grid_energy": 0.0,
+      "rolling_stock_maintenance_including_battery_renewal_reserve": 13664000.0,
+      "signalling_maintenance": 439793.05000000005,
+      "solar_plant_maintenance": 2953819.0169399995
+    },
+    "total": 48628247.06694
+  },
+  "capex_eur": {
+    "reconciled_project_total": 2023855305.8923202
+  },
+  "capex_usd": {
+    "authoritative_design_base": 2002921456.0,
+    "reconciled_project_total": 2199842723.796,
+    "risk_envelope_15_percent": 2529819132.3654,
+    "risk_envelope_25_percent": 2749803404.745,
+    "timetable_sized_dedicated_solar": 196921267.79599997
+  },
+  "cases": {
+    "high_capacity_use": {
+      "annual_operating_cash_usd": 85957895.34906,
+      "annual_paid_trips": 286767360.0,
+      "annual_public_support_usd": 17425082.898025796,
+      "annual_revenue_usd": 134586142.416,
+      "capacity_utilisation": 0.8,
+      "project_irr": 0.013167300076352657,
+      "project_npv_usd_at_8_percent": -1058684703.7035661,
+      "steady_state_dscr": 0.8314511422143425
+    },
+    "low_capacity_use": {
+      "annual_operating_cash_usd": 38641280.949060015,
+      "annual_paid_trips": 179229600.0,
+      "annual_public_support_usd": 64741697.29802578,
+      "annual_revenue_usd": 87269528.01600002,
+      "capacity_utilisation": 0.5,
+      "project_irr": -0.02549845863727574,
+      "project_npv_usd_at_8_percent": -1376569230.1695635,
+      "steady_state_dscr": 0.37376830890581597
+    }
+  },
+  "city": "mwanza",
+  "funding": {
+    "annual_debt_service_usd": 103382978.2470858,
+    "construction_grace_years": 7,
+    "debt_principal_usd": 1759874179.0368001,
+    "debt_rate": 0.045,
+    "government_equity_share": 0.2,
+    "lender_commitment_status": "unconfirmed-placeholder",
+    "repayment_years": 33
+  },
+  "limitations": [
+    "No calibrated origin-destination or stated-preference ridership survey.",
+    "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
+    "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
+  ],
+  "operations_basis": {
+    "annual_train_km_including_non_revenue": 27368961.764849998,
+    "energy_kwh_per_car_km_hot_climate_planning": 4.0,
+    "non_revenue_train_km_factor": 1.08,
+    "scheduled_train_km_per_day": 69429.12675
+  },
+  "passed": true,
+  "renewal_policy": {
+    "field_asset_renewals": "included in fixed-asset maintenance allowance pending condition-based asset plan",
+    "train_battery_cycle_years": 12,
+    "treatment": "included in rolling-stock maintenance reserve; do not double-count as separate CAPEX"
+  },
+  "revenue_basis": {
+    "demand_status": "capacity-led-not-calibrated-od-forecast",
+    "nonfare_revenue_usd_per_year": 8408504.015999999,
+    "operating_neutral_capacity_utilisation": 0.2550039361075251,
+    "operating_neutral_paid_trips_per_year": 91408506.93395455,
+    "practical_capacity_passenger_trips_per_day": 982080.0,
+    "single_trip_fare_usd": 0.44000000000000006
+  },
+  "schema_version": 1,
+  "sources": {
+    "design": "designs/east-africa/Tanzania/Mwanza/design.toml",
+    "design_sha256": "6599cdd75d7857cba3f2ce9236fb8fd77be8b44b698383e4eaa8d72eb66c48ab",
+    "generator": "scripts/generate-city-finance.py",
+    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "scenario": "designs/east-africa/Tanzania/Mwanza/mwanza.toml",
+    "scenario_sha256": "408f01b67e8204b7b77e2baec21ee96296435fe4f00937ebe2f93add48f53171"
+  },
+  "status": "planning-screen"
+}

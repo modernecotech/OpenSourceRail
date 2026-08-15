@@ -1,0 +1,80 @@
+{
+  "acceptance": [
+    "motor datasheet",
+    "thermal curve",
+    "mounting-foot load proof",
+    "EMC evidence"
+  ],
+  "bom_line_ids": [
+    "T1"
+  ],
+  "definition_type": "product-item",
+  "id": "LM3-TRC-P010",
+  "layer": "external-component",
+  "make_or_buy_basis": "Optimizer-selected 250 kW motor class; CAD baseline carries the promoted envelope.",
+  "material_spec": {
+    "evidence_required": [
+      "certificate of conformity",
+      "incoming inspection record",
+      "thermal curve",
+      "mounting-foot proof evidence"
+    ],
+    "finish_or_protection": "supplier coating, lubrication preservation, earthing/bonding, and thermal labels",
+    "form_factor": "preassembled motor, gearbox, coupling, seals, oil ports, and mounting hardware",
+    "governing_standard": "supplier rail traction specification plus project EMC, thermal, and mount-load evidence",
+    "grade_or_part_class": "traction motor / gearbox / coupling certified equipment class",
+    "material_family": "supplier traction drive equipment",
+    "nominal_section": "bogie motor-cradle and axle interface frozen by RFQ drawing",
+    "traceability": "serialised drive equipment CoC, test report, oil data, and revision record"
+  },
+  "maturity": "buildable-after-supplier-freeze",
+  "notes": "",
+  "parent": "LM3-BOG-SA610",
+  "process_spec": {
+    "inspection_methods": [
+      "incoming visual inspection",
+      "envelope fit check",
+      "motor datasheet",
+      "thermal curve",
+      "mounting-foot load proof",
+      "EMC evidence",
+      "bond continuity",
+      "insulation/isolation check",
+      "HVIL functional check where applicable",
+      "pressure/leak test",
+      "drain-flow test where applicable"
+    ],
+    "joining_methods": [
+      "bolted/torqued installation",
+      "sealed, gasketed, bonded, or clipped interface as supplier envelope requires"
+    ],
+    "primary_processes": [
+      "receive",
+      "quarantine",
+      "evidence review",
+      "incoming fit check",
+      "release to parent kit"
+    ],
+    "release_level": "BID supplier-controlled process; OSR controls envelope and acceptance evidence",
+    "special_process_controls": [
+      "RFQ envelope freeze",
+      "supplier certificate/revision check",
+      "incoming quarantine until evidence accepted",
+      "HV safety plan",
+      "LOTO/service-disconnect rule",
+      "EMC/bonding evidence review",
+      "fluid compatibility check",
+      "hose/pipe routing release"
+    ],
+    "tooling_basis": "RFQ-LM3-TRC-P010, CERT-LM3-TRC-P010, GAUGE-LM3-TRC-P010-ENVELOPE"
+  },
+  "quantity_per_trainset": 6,
+  "route": "BID",
+  "source_refs": [
+    "design-iteration-summary.md",
+    "bogie/motor.py",
+    "LM3-TRC-500"
+  ],
+  "title": "motor-350kw-hm47-class axle traction motor",
+  "unit": "ea"
+}

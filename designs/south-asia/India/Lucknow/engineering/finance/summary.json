@@ -1,0 +1,91 @@
+{
+  "annual_opex_usd": {
+    "components": {
+      "civil_station_depot_maintenance": 49472181.88,
+      "labour": 8075759.999999999,
+      "residual_grid_energy": 0.0,
+      "rolling_stock_maintenance_including_battery_renewal_reserve": 48652800.0,
+      "signalling_maintenance": 919535.9500000001,
+      "solar_plant_maintenance": 8096950.155575999
+    },
+    "total": 115217227.985576
+  },
+  "capex_eur": {
+    "reconciled_project_total": 4477880742.875328
+  },
+  "capex_usd": {
+    "authoritative_design_base": 4327465000.0,
+    "reconciled_project_total": 4867261677.0384,
+    "risk_envelope_15_percent": 5597350928.594159,
+    "risk_envelope_25_percent": 6084077096.297999,
+    "timetable_sized_dedicated_solar": 539796677.0383999
+  },
+  "cases": {
+    "high_capacity_use": {
+      "annual_operating_cash_usd": 260697920.62242404,
+      "annual_paid_trips": 586569600.0,
+      "annual_public_support_usd": 0.0,
+      "annual_revenue_usd": 375915148.60800004,
+      "capacity_utilisation": 0.8,
+      "project_irr": 0.034928798780227574,
+      "project_npv_usd_at_8_percent": -1818882214.1797884,
+      "steady_state_dscr": 1.1690478978488268
+    },
+    "low_capacity_use": {
+      "annual_operating_cash_usd": 125786912.62242404,
+      "annual_paid_trips": 366606000.0,
+      "annual_public_support_usd": 97213292.16143134,
+      "annual_revenue_usd": 241004140.60800004,
+      "capacity_utilisation": 0.5,
+      "project_irr": -0.004943818144942667,
+      "project_npv_usd_at_8_percent": -2888983283.2918224,
+      "steady_state_dscr": 0.5640663547566871
+    }
+  },
+  "city": "lucknow",
+  "funding": {
+    "annual_debt_service_usd": 223000204.78385538,
+    "construction_grace_years": 5,
+    "debt_principal_usd": 3893809341.63072,
+    "debt_rate": 0.045,
+    "government_equity_share": 0.2,
+    "lender_commitment_status": "unconfirmed-placeholder",
+    "repayment_years": 35
+  },
+  "limitations": [
+    "No calibrated origin-destination or stated-preference ridership survey.",
+    "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
+    "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
+  ],
+  "operations_basis": {
+    "annual_train_km_including_non_revenue": 58786491.06495,
+    "energy_kwh_per_car_km_hot_climate_planning": 4.0,
+    "non_revenue_train_km_factor": 1.08,
+    "scheduled_train_km_per_day": 149128.59225
+  },
+  "passed": true,
+  "renewal_policy": {
+    "field_asset_renewals": "included in fixed-asset maintenance allowance pending condition-based asset plan",
+    "train_battery_cycle_years": 12,
+    "treatment": "included in rolling-stock maintenance reserve; do not double-count as separate CAPEX"
+  },
+  "revenue_basis": {
+    "demand_status": "capacity-led-not-calibrated-od-forecast",
+    "nonfare_revenue_usd_per_year": 16152460.608,
+    "operating_neutral_capacity_utilisation": 0.2202891421082022,
+    "operating_neutral_paid_trips_per_year": 161518642.46343914,
+    "practical_capacity_passenger_trips_per_day": 2008800.0,
+    "single_trip_fare_usd": 0.6133333333333334
+  },
+  "schema_version": 1,
+  "sources": {
+    "design": "designs/south-asia/India/Lucknow/design.toml",
+    "design_sha256": "55339803828dccae51bd93632d6bc8c56e1433f71f935315459ddf0ac50d6555",
+    "generator": "scripts/generate-city-finance.py",
+    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "scenario": "designs/south-asia/India/Lucknow/lucknow.toml",
+    "scenario_sha256": "fc45ee6b0f59ff28b2d5572ac8af8e93f9ddc2b26139970f17665b513bf7798d"
+  },
+  "status": "planning-screen"
+}

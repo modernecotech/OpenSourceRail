@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Sample LandXML 1.2 alignment for Samawah Line 1 (abbreviated).
+  Used by the round-trip test in tests/test_round_trip.py.
+  Geometry is illustrative (not a real survey) — the point is to
+  exercise every converter code path: tangent, circular curve,
+  spiral, vertical PVI, vertical curve, stations.
+-->
+<LandXML xmlns="http://www.landxml.org/schema/LandXML-1.2"
+         date="2026-04-23"
+         version="1.2">
+  <Units>
+    <Metric areaUnit="squareMeter" linearUnit="meter" volumeUnit="cubicMeter"
+            temperatureUnit="celsius" pressureUnit="kiloPascal" angularUnit="decimalDegrees"
+            directionUnit="decimalDegrees"/>
+  </Units>
+  <Application name="Civil 3D" version="2026"/>
+  <Project name="samawah-line1"/>
+  <Alignments name="samawah">
+    <Alignment name="samawah-line1" length="3000.000">
+      <CoordGeom>
+        <Line staStart="0.000" length="1000.000">
+          <Start>3467100.000 477500.000</Start>
+          <End>3466522.000 478135.500</End>
+        </Line>
+        <Curve staStart="1000.000" length="500.000" radius="26300.000" rot="ccw">
+          <Start>3466522.000 478135.500</Start>
+          <End>3466120.000 478450.000</End>
+        </Curve>
+        <Spiral staStart="1500.000" length="2.000" radiusEnd="26300.000" rot="ccw">
+          <Start>3466120.000 478450.000</Start>
+        </Spiral>
+        <Line staStart="1502.000" length="1498.000">
+          <Start>3466120.000 478450.000</Start>
+          <End>3465000.000 479400.000</End>
+        </Line>
+      </CoordGeom>
+      <Profile name="samawah-line1-profile">
+        <ProfAlign name="samawah-line1-pa">
+          <PVI>0.000 6.000</PVI>
+          <PVI>1000.000 6.000</PVI>
+          <PVI>1150.000 11.250</PVI>
+          <CircCurve staStart="1150.000" radius="300.000"/>
+          <PVI>2300.000 11.250</PVI>
+          <PVI>3000.000 6.000</PVI>
+        </ProfAlign>
+      </Profile>
+      <Station name="samawah-rws" staAhead="0.000"/>
+      <Station name="north-gate" staAhead="1000.000"/>
+      <Station name="central-plaza" staAhead="2300.000"/>
+    </Alignment>
+  </Alignments>
+</LandXML>

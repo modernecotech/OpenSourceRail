@@ -1,0 +1,91 @@
+{
+  "annual_opex_usd": {
+    "components": {
+      "civil_station_depot_maintenance": 20623928.14,
+      "labour": 5649840.0,
+      "residual_grid_energy": 0.0,
+      "rolling_stock_maintenance_including_battery_renewal_reserve": 10438400.0,
+      "signalling_maintenance": 359857.35000000003,
+      "solar_plant_maintenance": 1738047.2011680002
+    },
+    "total": 38810072.691168
+  },
+  "capex_eur": {
+    "reconciled_project_total": 1467679464.1783042
+  },
+  "capex_usd": {
+    "authoritative_design_base": 1479433952.0,
+    "reconciled_project_total": 1595303765.4112,
+    "risk_envelope_15_percent": 1834599330.22288,
+    "risk_envelope_25_percent": 1994129706.764,
+    "timetable_sized_dedicated_solar": 115869813.41120002
+  },
+  "cases": {
+    "high_capacity_use": {
+      "annual_operating_cash_usd": 211714444.94083202,
+      "annual_paid_trips": 234627840.0,
+      "annual_public_support_usd": 0.0,
+      "annual_revenue_usd": 250524517.63200003,
+      "capacity_utilisation": 0.8,
+      "project_irr": 0.10440638232641272,
+      "project_npv_usd_at_8_percent": 405381432.5093177,
+      "steady_state_dscr": 2.8965867106194323
+    },
+    "low_capacity_use": {
+      "annual_operating_cash_usd": 122555865.740832,
+      "annual_paid_trips": 146642400.0,
+      "annual_public_support_usd": 0.0,
+      "annual_revenue_usd": 161365938.432,
+      "capacity_utilisation": 0.5,
+      "project_irr": 0.059116793748291846,
+      "project_npv_usd_at_8_percent": -301815795.77341783,
+      "steady_state_dscr": 1.6767570682886737
+    }
+  },
+  "city": "kirkuk",
+  "funding": {
+    "annual_debt_service_usd": 73091008.86386277,
+    "construction_grace_years": 5,
+    "debt_principal_usd": 1276243012.3289602,
+    "debt_rate": 0.045,
+    "government_equity_share": 0.2,
+    "lender_commitment_status": "unconfirmed-placeholder",
+    "repayment_years": 35
+  },
+  "limitations": [
+    "No calibrated origin-destination or stated-preference ridership survey.",
+    "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
+    "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
+  ],
+  "operations_basis": {
+    "annual_train_km_including_non_revenue": 21331345.881150004,
+    "energy_kwh_per_car_km_hot_climate_planning": 4.0,
+    "non_revenue_train_km_factor": 1.08,
+    "scheduled_train_km_per_day": 54113.00325
+  },
+  "passed": true,
+  "renewal_policy": {
+    "field_asset_renewals": "included in fixed-asset maintenance allowance pending condition-based asset plan",
+    "train_battery_cycle_years": 12,
+    "treatment": "included in rolling-stock maintenance reserve; do not double-count as separate CAPEX"
+  },
+  "revenue_basis": {
+    "demand_status": "capacity-led-not-calibrated-od-forecast",
+    "nonfare_revenue_usd_per_year": 12768306.432,
+    "operating_neutral_capacity_utilisation": 0.08762510515365414,
+    "operating_neutral_paid_trips_per_year": 25699111.439968422,
+    "practical_capacity_passenger_trips_per_day": 803520.0,
+    "single_trip_fare_usd": 1.0133333333333334
+  },
+  "schema_version": 1,
+  "sources": {
+    "design": "designs/west-asia/Iraq/Kirkuk/design.toml",
+    "design_sha256": "258b740c3af53ee6aac27e63883ca19aacf9dd82f550af08cded79648e1b84f6",
+    "generator": "scripts/generate-city-finance.py",
+    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "scenario": "designs/west-asia/Iraq/Kirkuk/kirkuk.toml",
+    "scenario_sha256": "fb8d4e379abb46e1c2c89820b817fd67d2329afa979d0f3692b26e080827cf22"
+  },
+  "status": "planning-screen"
+}

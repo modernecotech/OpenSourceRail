@@ -1,0 +1,40 @@
+[package]
+name = "osr-trainset-image"
+description = "OpenSourceRail — GoA 4 onboard trainset image integrator"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+
+[lints]
+workspace = true
+
+[dependencies]
+# Always-on onboard crates (SIL-4 + SIL-2).
+osr-ato = { path = "../osr-ato" }
+osr-atp = { path = "../osr-atp" }
+osr-aux-power = { path = "../osr-aux-power" }
+osr-bms = { path = "../osr-bms" }
+osr-brake = { path = "../osr-brake" }
+osr-cbm-onboard = { path = "../osr-cbm-onboard" }
+osr-core = { path = "../osr-core" }
+osr-crypto = { path = "../osr-crypto" }
+osr-derailment = { path = "../osr-derailment" }
+osr-door-control = { path = "../osr-door-control" }
+osr-event-recorder = { path = "../osr-event-recorder" }
+osr-fire-safety = { path = "../osr-fire-safety" }
+osr-hot-axle = { path = "../osr-hot-axle" }
+osr-hvac = { path = "../osr-hvac" }
+osr-lighting = { path = "../osr-lighting" }
+osr-obstacle-detect = { path = "../osr-obstacle-detect" }
+osr-odometry = { path = "../osr-odometry" }
+osr-passenger-assist = { path = "../osr-passenger-assist" }
+osr-pis-onboard = { path = "../osr-pis-onboard" }
+osr-ptp = { path = "../osr-ptp" }
+osr-regen = { path = "../osr-regen" }
+osr-secbus = { path = "../osr-secbus" }
+osr-t2g = { path = "../osr-t2g" }
+osr-tcms = { path = "../osr-tcms" }
+osr-tcn = { path = "../osr-tcn" }
+osr-traction = { path = "../osr-traction" }

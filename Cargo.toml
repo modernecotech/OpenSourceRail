@@ -1,0 +1,93 @@
+[workspace]
+members = [
+    "crates/osr-afc",
+    "crates/osr-afc-backoffice",
+    "crates/osr-alignment",
+    "crates/osr-analytics",
+    "crates/osr-ato",
+    "crates/osr-atp",
+    "crates/osr-aux-power",
+    "crates/osr-balise",
+    "crates/osr-bms",
+    "crates/osr-brake",
+    "crates/osr-cbm-backend",
+    "crates/osr-cbm-onboard",
+    "crates/osr-consensus",
+    "crates/osr-core",
+    "crates/osr-crypto",
+    "crates/osr-derailment",
+    "crates/osr-design",
+    "crates/osr-door-control",
+    "crates/osr-energy-site",
+    "crates/osr-event-recorder",
+    "crates/osr-fire-safety",
+    "crates/osr-gui-shared",
+    "crates/osr-historian",
+    "crates/osr-hot-axle",
+    "crates/osr-hot-axle-wayside",
+    "crates/osr-hvac",
+    "crates/osr-interlocking",
+    "crates/osr-intrusion-detect",
+    "crates/osr-level-crossing",
+    "crates/osr-lighting",
+    "crates/osr-obstacle-detect",
+    "crates/osr-passenger-assist",
+    "crates/osr-occ",
+    "crates/osr-odometry",
+    "crates/osr-pis-onboard",
+    "crates/osr-pis-station",
+    "crates/osr-proto",
+    "crates/osr-psd",
+    "crates/osr-ptp",
+    "crates/osr-regen",
+    "crates/osr-routing",
+    "crates/osr-safety-case",
+    "crates/osr-occ-gui",
+    "crates/osr-secbus",
+    "crates/osr-selftest",
+    "crates/osr-sim",
+    "crates/osr-sim-gui",
+    "crates/osr-station-scada",
+    "crates/osr-t2g",
+    "crates/osr-tcms",
+    "crates/osr-tcn",
+    "crates/osr-traction",
+    "crates/osr-trainset-image",
+    "crates/osr-tvm",
+    "crates/osr-wayside-points",
+]
+resolver = "2"
+
+[workspace.package]
+version = "0.2.0"
+edition = "2021"
+rust-version = "1.80"
+license = "Apache-2.0"
+repository = "https://github.com/modernecotech/OpenSourceRail"
+
+[workspace.lints.rust]
+unsafe_code = "forbid"
+missing_debug_implementations = "warn"
+# `#[cfg(kani)]` is set by `cargo kani`; plain `cargo build` doesn't see
+# it, so silence the new `unexpected_cfgs` lint without masking other
+# unknown cfg usage.
+unexpected_cfgs = { level = "warn", check-cfg = ["cfg(kani)"] }
+
+[workspace.lints.clippy]
+# Pedantic is an explicit debt profile rather than a warning source. CI denies
+# all enabled Rust/Clippy warnings; raise individual pedantic lints to `warn`
+# here as their existing findings are retired.
+pedantic = { level = "allow", priority = -1 }
+# Pedantic lints already clean enough to enforce repository-wide.
+manual_clamp = "warn"
+manual_div_ceil = "warn"
+unnecessary_cast = "warn"
+needless_lifetimes = "warn"
+match_like_matches_macro = "warn"
+if_same_then_else = "warn"
+module_name_repetitions = "allow"
+must_use_candidate = "allow"
+cast_precision_loss = "allow"
+cast_possible_truncation = "allow"
+cast_sign_loss = "allow"
+similar_names = "allow"

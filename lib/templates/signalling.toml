@@ -1,0 +1,66 @@
+# Signalling & train-control kit archetypes.
+#
+# OSR train control is SMRaft-based per RFC 0001: every wayside node (W-Node)
+# is a peer in one of N consensus regions. Kit scales with region size and
+# the interlocking complexity at that node (plain-line vs junction vs depot).
+#
+# City design.toml references a kit per W-Node site:
+#     [[wayside_nodes]]
+#     station   = "eastern-bridge"
+#     kit       = "interlocking"
+#     region    = "line-1"
+#
+# Unified system principle: every W-Node in every OSR deployment is one of
+# four kits. The Rust firmware, T-ECU hardware, beacon reader, and enclosure
+# are identical; only quantity of switch drivers / beacon channels varies.
+
+# ---- Plain-line: mid-section W-Node, no switches ------------------------
+
+[kits.plain-line]
+tecu_count              = 2              # primary + hot spare
+beacon_readers          = 2              # one per direction
+switch_machine_channels = 0
+level_crossing_channels = 0
+axle_counter_heads      = 4              # 2 per direction boundary
+battery_backup_kwh      = 5              # 8-hour ride-through
+enclosure_class         = "IP65-small"
+cost_usd                = 180000
+
+# ---- Station: W-Node at a stop, platform edge sensors ------------------
+
+[kits.station]
+tecu_count              = 2
+beacon_readers          = 4              # platform ends both directions
+switch_machine_channels = 0
+level_crossing_channels = 0
+axle_counter_heads      = 4
+platform_edge_sensors   = 4              # intrusion / PSD interlock
+battery_backup_kwh      = 8
+enclosure_class         = "IP65-medium"
+cost_usd                = 260000
+
+# ---- Interlocking: junction / turnback / interchange -------------------
+
+[kits.interlocking]
+tecu_count              = 3              # n=3 voter for interlocking logic
+beacon_readers          = 6
+switch_machine_channels = 4              # up to 4 local switches
+level_crossing_channels = 0
+axle_counter_heads      = 8
+platform_edge_sensors   = 4
+battery_backup_kwh      = 15
+enclosure_class         = "IP65-large"
+cost_usd                = 520000
+
+# ---- Depot-throat: depot entry, yard interlocking ----------------------
+
+[kits.depot-throat]
+tecu_count              = 3
+beacon_readers          = 8
+switch_machine_channels = 12             # multiple yard switches
+level_crossing_channels = 0
+axle_counter_heads      = 12
+yard_shunt_permissive   = true           # permissive shunt block logic
+battery_backup_kwh      = 25
+enclosure_class         = "IP65-cabinet"
+cost_usd                = 850000

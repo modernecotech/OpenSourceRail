@@ -1,0 +1,101 @@
+# CAPEX cost model source of truth.
+#
+# These are planning-grade USD direct-procurement planning rates
+# used by `osr-design` and the generated city README reports. Prose docs
+# may summarize these values, but generated artefacts should read this file
+# rather than carrying parallel constants.
+
+[schema]
+version = 1
+currency_basis = "USD local-owner trainset-family planning basis with direct material, local assembly/labour, nominal per-train QA/acceptance, and modest handover logistics included; 1 m clip-on fiberglass body modules reduce shell labour, mould tooling, cure space, and production setup; distributed overnight stabling reduces depot parking scope; fixtures/tooling live in the railway production plant line per vehicle/car module; warranty, spares, and routine commissioning support are treated as OPEX; raw marketplace BOM retained only as audit lower bound; *_eur mirrors retained for schema compatibility"
+usd_to_eur = 0.92
+
+[civil_usd_per_km]
+at_grade = 3000000
+elevated = 12000000
+bridge = 18000000
+
+[junctions]
+elevated_interchange_premium_usd = 4500000
+
+[station_unit_usd]
+halt = 600000
+standard = 2500000
+major = 4500000
+terminal = 4500000
+"depot-terminal" = 5000000
+interchange = 8000000
+"interchange-elevated" = 12000000
+
+[depot_unit_usd]
+"main-heavy" = 8000000
+"secondary-medium" = 3000000
+"layup-minimal" = 400000
+
+[depot_cost_basis]
+scope = "Workshop, inspection, defect repair, wheel and heavy-maintenance functions only; healthy trains stable and recharge overnight at powered passenger stations, so fleet-wide covered parking roads and terminal layup compounds are excluded"
+distributed_station_stabling = true
+
+[trainset_unit_usd]
+"urban-shuttle-1car" = 280000
+"tram-2car" = 560000
+"light-metro-3car" = 900000
+"metro-4car" = 1120000
+"metro-6car" = 1680000
+
+[trainset_cost_basis]
+local_assembly_fraction = 0.28
+body_system = "1,000 mm clip-on fiberglass side and roof modules on a welded steel safety frame"
+body_installation = "three-car exterior body installed and released in one 8-hour shift by six parallel two-person crews after frame paint and dimensional release"
+excluded_from_one_day_claim = "doors, glazing, traction equipment, bogies, train commissioning, homologation, and first-article testing"
+
+# RFC 0021 audit basis for the 800 V-class onboard architecture. These
+# components are included in, not added to, the delivered trainset rates
+# above. Per-car values scale the common modular car architecture.
+[trainset_800v_core_electrical_usd]
+architecture = "800 V-class; 650-700 V nominal traction DC bus"
+gross_battery_kwh_per_car = 225
+traction_battery_system_per_car = 24166.67
+motor_controller_sets_per_car = 2
+motor_controller_set = 10000
+hv_distribution_per_car = 3333.33
+lv_dc_dc_per_car = 2500
+roof_pv_mppt_per_car = 1000
+core_electrical_total_per_car = 51000
+
+# RFC 0021 normal passenger-stop module. The $65k equipment subtotal is
+# contained within the $100k integrated normal-site planning unit below.
+[station_800v_module_usd]
+architecture = "500-1500 V DC/DC configured to 500 kW; 650-700 V train bus"
+stationary_lfp_500kwh = 37500
+dcdc_500kw = 15000
+contact_protection_control = 12500
+equipment_total = 65000
+normal_integrated_site = 100000
+
+[production_plant]
+per_vehicle_usd = 60000
+high_sensitivity_per_vehicle_usd = 120000
+scope = "City railway production plant, lightweight 1 m panel moulds, clip/drill gauges, basic steel fixtures, plant services, and setup allowance per vehicle/car module, not per trainset; no full-length body mould or production adhesive cure hall; distributed overnight stabling removes fleet parking roads from the production/depot complex"
+
+[systems]
+signalling_usd_per_km = 50000
+
+[solar_power_plant]
+utility_pv_usd_per_kw = 700
+interconnection_usd_per_kw = 100
+coverage_margin = 1.15
+annual_maintenance_fraction = 0.015
+scope = "Dedicated utility-scale solar plant or contracted offsite solar PPA asset sized to cover generated timetable traction-energy shortfall after on-site station/depot PV"
+
+[charging_microgrid_unit_usd]
+halt = 0
+standard = 100000
+major = 100000
+terminal = 100000
+interchange = 100000
+"interchange-elevated" = 125000
+"depot-terminal" = 250000
+
+[overhead]
+epc_fraction = 0.07

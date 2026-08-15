@@ -1,0 +1,206 @@
+{
+  "bom_line_ids": [],
+  "build_cell": "final assembly and commissioning cell",
+  "children": [
+    "LM3-BDY-P100",
+    "LM3-EXT-P010"
+  ],
+  "document_revision": "A-DRAFT",
+  "estimated_labor_hours": 4.61,
+  "id": "LM3-DOOR-SA310",
+  "layer": "subassembly",
+  "material_spec": {
+    "evidence_required": [
+      "child material certificates accepted",
+      "assembly traveler traceability",
+      "interface-control drawing revision"
+    ],
+    "finish_or_protection": "protect damaged coating, exposed edges, seals, bonds, and labels during assembly",
+    "form_factor": "rail structural steel, supplier-certified rail door system",
+    "governing_standard": "all child material standards plus assembly-level torque, bonding, coating, and cleanliness controls",
+    "grade_or_part_class": "LM3-DOOR-SA310 inherits released child material specifications",
+    "material_family": "assembly material set",
+    "nominal_section": "as defined by child drawings and assembly interface control drawing",
+    "traceability": "child serial/heat/batch records plus assembly traveler traceability"
+  },
+  "operations": [
+    {
+      "labor_hours": 0.61,
+      "qa_gate": "all child definitions/revisions match the traveler index",
+      "sequence": 10,
+      "signoff_role": "cell lead",
+      "title": "release traveler, fixture, child kit, and latest definition package",
+      "tooling_ids": [
+        "TRV-LM3-DOOR-SA310",
+        "FIX-LM3-DOOR-SA310",
+        "KIT-LM3-DOOR-SA310"
+      ],
+      "work_center": "final assembly and commissioning cell"
+    },
+    {
+      "labor_hours": 1.35,
+      "qa_gate": "placement zone and joint controls accepted: side door aperture and low-floor threshold datum",
+      "sequence": 20,
+      "signoff_role": "operator",
+      "title": "install and integrate LM3-BDY-P100: door portal reinforcement, threshold beam, and cassette shim kit",
+      "tooling_ids": [
+        "FIX-LM3-DOOR-SA310",
+        "GAUGE-LM3-BDY-P100",
+        "TORQUE-LM3-BDY-P100"
+      ],
+      "work_center": "final assembly and commissioning cell"
+    },
+    {
+      "labor_hours": 1.3,
+      "qa_gate": "placement zone and joint controls accepted: side door aperture and low-floor threshold datum",
+      "sequence": 30,
+      "signoff_role": "operator",
+      "title": "install and integrate LM3-EXT-P010: electric plug/sliding door cassette",
+      "tooling_ids": [
+        "FIX-LM3-DOOR-SA310",
+        "GAUGE-LM3-EXT-P010",
+        "TORQUE-LM3-EXT-P010"
+      ],
+      "work_center": "final assembly and commissioning cell"
+    },
+    {
+      "labor_hours": 0.35,
+      "qa_gate": "door gauge fit",
+      "sequence": 40,
+      "signoff_role": "quality inspector",
+      "title": "hold point: door gauge fit",
+      "tooling_ids": [
+        "GAUGE-LM3-DOOR-SA310"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.35,
+      "qa_gate": "obstruction test",
+      "sequence": 50,
+      "signoff_role": "quality inspector",
+      "title": "hold point: obstruction test",
+      "tooling_ids": [
+        "QA-LM3-DOOR-SA310"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.35,
+      "qa_gate": "closed-and-locked test",
+      "sequence": 60,
+      "signoff_role": "quality inspector",
+      "title": "hold point: closed-and-locked test",
+      "tooling_ids": [
+        "QA-LM3-DOOR-SA310"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.3,
+      "qa_gate": "all operation and QA signoffs are complete",
+      "sequence": 70,
+      "signoff_role": "manufacturing engineer",
+      "title": "close traveler, attach nonconformance/deviation log, and release to next parent",
+      "tooling_ids": [
+        "REL-LM3-DOOR-SA310",
+        "NCR-LM3-DOOR-SA310"
+      ],
+      "work_center": "production control"
+    }
+  ],
+  "process_spec": {
+    "inspection_methods": [
+      "child acceptance evidence review",
+      "door gauge fit",
+      "obstruction test",
+      "closed-and-locked test",
+      "continuity",
+      "insulation/isolation",
+      "functional static test"
+    ],
+    "joining_methods": [
+      "bolted/torqued interfaces",
+      "shimmed datum interfaces as required",
+      "bonding/earthing",
+      "segregated harness/fluid routing"
+    ],
+    "primary_processes": [
+      "release child kit",
+      "fixture or datum setup",
+      "install children",
+      "torque/fit-up record",
+      "release to parent"
+    ],
+    "release_level": "assembly traveler controlled; generated template is unsigned until build",
+    "special_process_controls": [
+      "child definition/revision check",
+      "tooling calibration check",
+      "parent interface freeze",
+      "LOTO/HV safety rule",
+      "EMC/bonding release",
+      "software/configuration record where applicable"
+    ],
+    "tooling_basis": "FIX-LM3-DOOR-SA310, KIT-LM3-DOOR-SA310, calibrated torque/gauge set"
+  },
+  "quantity_per_trainset": 12,
+  "release_status": "unsigned-template",
+  "revision_approvals": [
+    {
+      "approval_id": "APP-LM3-DOOR-SA310-MFG",
+      "date": "",
+      "name": "",
+      "role": "manufacturing engineering",
+      "signature": "",
+      "status": "pending"
+    },
+    {
+      "approval_id": "APP-LM3-DOOR-SA310-QA",
+      "date": "",
+      "name": "",
+      "role": "quality",
+      "signature": "",
+      "status": "pending"
+    },
+    {
+      "approval_id": "APP-LM3-DOOR-SA310-DA",
+      "date": "",
+      "name": "",
+      "role": "design authority",
+      "signature": "",
+      "status": "pending"
+    }
+  ],
+  "signoff_blocks": [
+    {
+      "date": "",
+      "name": "",
+      "role": "operator",
+      "signature": "",
+      "status": "blank"
+    },
+    {
+      "date": "",
+      "name": "",
+      "role": "cell lead",
+      "signature": "",
+      "status": "blank"
+    },
+    {
+      "date": "",
+      "name": "",
+      "role": "quality inspector",
+      "signature": "",
+      "status": "blank"
+    },
+    {
+      "date": "",
+      "name": "",
+      "role": "manufacturing engineer",
+      "signature": "",
+      "status": "blank"
+    }
+  ],
+  "title": "door cassette and threshold assembly",
+  "traveler_type": "assembly-node"
+}

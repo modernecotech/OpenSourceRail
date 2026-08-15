@@ -1,0 +1,62 @@
+{
+  "design_id": "LM3-BDY-160",
+  "description": "one-metre clip-on non-structural fiberglass body modules",
+  "module_width_mm": 1000.0,
+  "car_body_length_mm": 16500.0,
+  "steel_end_transition_mm_each": 250.0,
+  "bays_per_car": 16,
+  "side_modules_per_car": 32,
+  "roof_modules_per_car": 16,
+  "modules_per_car": 48,
+  "modules_per_three_car_trainset": 144,
+  "clips_per_module": 4,
+  "retention": "keyed hook plus captive over-centre clip and independent anti-lift retainer",
+  "seal": "replaceable dry EPDM compression gasket; no production adhesive cure",
+  "structural_role": "non-structural weather skin; steel frame remains the certified load path",
+  "assembly_elapsed_hours": 8.0,
+  "assembly_crews": 6,
+  "assembly_plan": [
+    {
+      "sequence": 10,
+      "activity": "Receive three released frames and verify clip-rail datums",
+      "elapsed_hours": 0.5,
+      "parallel_crews": 3,
+      "release_check": "frame and kit revision match"
+    },
+    {
+      "sequence": 20,
+      "activity": "Fit dry EPDM seals and inspect keyed clip receptacles",
+      "elapsed_hours": 1.0,
+      "parallel_crews": 6,
+      "release_check": "continuous seal and open drains"
+    },
+    {
+      "sequence": 30,
+      "activity": "Hang and latch left/right 1 m side modules",
+      "elapsed_hours": 3.0,
+      "parallel_crews": 6,
+      "release_check": "every captive witness mark visible"
+    },
+    {
+      "sequence": 40,
+      "activity": "Hang and latch 1 m roof modules from mobile access stands",
+      "elapsed_hours": 1.5,
+      "parallel_crews": 6,
+      "release_check": "anti-lift retainers closed"
+    },
+    {
+      "sequence": 50,
+      "activity": "Fit corner closures, skirts, labels, and earth bonds",
+      "elapsed_hours": 1.0,
+      "parallel_crews": 6,
+      "release_check": "bond continuity and service access"
+    },
+    {
+      "sequence": 60,
+      "activity": "Water test, rattle check, snag closeout, and QA release",
+      "elapsed_hours": 1.0,
+      "parallel_crews": 3,
+      "release_check": "dry interior and signed module map"
+    }
+  ]
+}

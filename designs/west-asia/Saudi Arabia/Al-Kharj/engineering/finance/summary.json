@@ -1,0 +1,91 @@
+{
+  "annual_opex_usd": {
+    "components": {
+      "civil_station_depot_maintenance": 7784126.0600000005,
+      "labour": 13023360.0,
+      "residual_grid_energy": 0.0,
+      "rolling_stock_maintenance_including_battery_renewal_reserve": 6120000.0,
+      "signalling_maintenance": 169338.35,
+      "solar_plant_maintenance": 716680.027416
+    },
+    "total": 27813504.437416002
+  },
+  "capex_eur": {
+    "reconciled_project_total": 615172263.214848
+  },
+  "capex_usd": {
+    "authoritative_design_base": 620886835.0,
+    "reconciled_project_total": 668665503.4944,
+    "risk_envelope_15_percent": 768965329.0185599,
+    "risk_envelope_25_percent": 835831879.368,
+    "timetable_sized_dedicated_solar": 47778668.4944
+  },
+  "cases": {
+    "high_capacity_use": {
+      "annual_operating_cash_usd": 521753005.96258396,
+      "annual_paid_trips": 117313920.0,
+      "annual_public_support_usd": 0.0,
+      "annual_revenue_usd": 549566510.4,
+      "capacity_utilisation": 0.8,
+      "project_irr": 0.3742441534858698,
+      "project_npv_usd_at_8_percent": 3604536894.5911856,
+      "steady_state_dscr": 17.03081671790939
+    },
+    "low_capacity_use": {
+      "annual_operating_cash_usd": 322319341.96258396,
+      "annual_paid_trips": 73321200.0,
+      "annual_public_support_usd": 0.0,
+      "annual_revenue_usd": 350132846.4,
+      "capacity_utilisation": 0.5,
+      "project_irr": 0.278037853227015,
+      "project_npv_usd_at_8_percent": 2022648357.6429617,
+      "steady_state_dscr": 10.52099666867196
+    }
+  },
+  "city": "al-kharj",
+  "funding": {
+    "annual_debt_service_usd": 30635818.270178154,
+    "construction_grace_years": 5,
+    "debt_principal_usd": 534932402.79552007,
+    "debt_rate": 0.045,
+    "government_equity_share": 0.2,
+    "lender_commitment_status": "unconfirmed-placeholder",
+    "repayment_years": 35
+  },
+  "limitations": [
+    "No calibrated origin-destination or stated-preference ridership survey.",
+    "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
+    "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
+  ],
+  "operations_basis": {
+    "annual_train_km_including_non_revenue": 12416083.6959,
+    "energy_kwh_per_car_km_hot_climate_planning": 4.0,
+    "non_revenue_train_km_factor": 1.08,
+    "scheduled_train_km_per_day": 31496.914500000003
+  },
+  "passed": true,
+  "renewal_policy": {
+    "field_asset_renewals": "included in fixed-asset maintenance allowance pending condition-based asset plan",
+    "train_battery_cycle_years": 12,
+    "treatment": "included in rolling-stock maintenance reserve; do not double-count as separate CAPEX"
+  },
+  "revenue_basis": {
+    "demand_status": "capacity-led-not-calibrated-od-forecast",
+    "nonfare_revenue_usd_per_year": 17743406.4,
+    "operating_neutral_capacity_utilisation": 0.015148041462171608,
+    "operating_neutral_paid_trips_per_year": 2221345.1553123537,
+    "practical_capacity_passenger_trips_per_day": 401760.0,
+    "single_trip_fare_usd": 4.533333333333333
+  },
+  "schema_version": 1,
+  "sources": {
+    "design": "designs/west-asia/Saudi Arabia/Al-Kharj/design.toml",
+    "design_sha256": "ea22b31e7da1c2af7cc7d4f41a5465e9d4c8d72804fe5dc3a5290daac595a003",
+    "generator": "scripts/generate-city-finance.py",
+    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "scenario": "designs/west-asia/Saudi Arabia/Al-Kharj/al-kharj.toml",
+    "scenario_sha256": "1e6f6d795f5b9b5c4bbbd58ea1b13a97da89bd4f391845eb228a588985ee625e"
+  },
+  "status": "planning-screen"
+}

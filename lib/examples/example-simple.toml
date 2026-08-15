@@ -1,0 +1,83 @@
+# Minimum viable scenario — 3 stations, 1 line, 1 trainset.
+#
+# Use this as a starting template for a brand-new city design:
+#   cp lib/examples/example-simple.toml scenarios/my-city.toml
+#   # edit my-city.toml to match your network
+#   cargo run --release --bin osr-sim -- --config scenarios/my-city.toml
+#
+# Distances are in metres; times are "HH:MM"; headways are in minutes.
+
+[scenario]
+name = "Example — 3-station shuttle"
+start_time = "07:00"
+
+[climate]
+ambient_c = 30.0
+peak_sun_hours = 5.0
+
+[[stations]]
+id = "west-terminal"
+name = "West Terminal"
+charging_power_kw = 1000
+dwell_seconds = 60
+is_terminal = true
+
+[[stations]]
+id = "midtown"
+name = "Midtown"
+charging_power_kw = 500
+dwell_seconds = 30
+
+[[stations]]
+id = "east-terminal"
+name = "East Terminal"
+charging_power_kw = 1000
+dwell_seconds = 60
+is_terminal = true
+is_depot = true
+
+[[lines]]
+id = "shuttle"
+name = "Shuttle"
+is_ring = false
+stations = [
+    { id = "west-terminal", distance_from_prev_m = 0 },
+    { id = "midtown",       distance_from_prev_m = 2000 },
+    { id = "east-terminal", distance_from_prev_m = 2000 },
+]
+
+[[fleets]]
+line = "shuttle"
+trainset_count = 1
+dispatch_points = [
+    { station = "west-terminal", heading = "forward" },
+]
+service_start = "06:00"
+service_end   = "22:00"
+schedule = [
+    { from = "06:00", to = "22:00", headway_min = 15 },
+]
+
+# --- Optional: trackside energy sites ---
+#
+# Add [[sites]] entries to model PV + battery + grid tie at each charging
+# station. Without any sites, charging is treated as free (unlimited).
+# A minimum-viable site at each terminal:
+
+[[sites]]
+station = "west-terminal"
+pv_nameplate_kw = 200
+storage_capacity_kwh = 1000
+storage_max_charge_kw = 500
+storage_max_discharge_kw = 500
+grid_import_kw = 300
+grid_export_kw = 300
+
+[[sites]]
+station = "east-terminal"
+pv_nameplate_kw = 500              # larger depot PV array
+storage_capacity_kwh = 2000
+storage_max_charge_kw = 1000
+storage_max_discharge_kw = 1000
+grid_import_kw = 500
+grid_export_kw = 500

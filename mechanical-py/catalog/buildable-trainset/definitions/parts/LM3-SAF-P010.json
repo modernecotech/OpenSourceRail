@@ -1,0 +1,83 @@
+{
+  "acceptance": [
+    "detector certificate",
+    "loop continuity",
+    "mist proof-flow",
+    "reservoir/pump/pressure diagnostic",
+    "event-recorder input"
+  ],
+  "bom_line_ids": [
+    "T9",
+    "T10"
+  ],
+  "definition_type": "product-item",
+  "id": "LM3-SAF-P010",
+  "layer": "external-component",
+  "make_or_buy_basis": "Per-car battery reservoir, DC pump, stainless pipe, nozzles, outward vents, and diagnostic sensors; no saloon or electrical-bay suppression.",
+  "material_spec": {
+    "evidence_required": [
+      "certificate of conformity",
+      "incoming inspection record",
+      "isolation test record",
+      "HVIL / EMC evidence"
+    ],
+    "finish_or_protection": "supplier enclosure protection, orange HV marking, bonding, and coolant compatibility",
+    "form_factor": "sealed HV module, enclosure, orange HV harness, connectors, cooling interfaces, and labels",
+    "governing_standard": "supplier rail traction specification plus project HVIL, EMC, isolation, and thermal evidence",
+    "grade_or_part_class": "battery / inverter / contactor / charger certified equipment class",
+    "material_family": "supplier high-voltage traction equipment",
+    "nominal_section": "tray, connector, bend-radius, vent, and service envelope frozen by RFQ drawing",
+    "traceability": "serialised HV equipment CoC, firmware/config revision, insulation record, and evidence pack"
+  },
+  "maturity": "buildable-after-supplier-freeze",
+  "notes": "",
+  "parent": "LM3-HV-SA510",
+  "process_spec": {
+    "inspection_methods": [
+      "incoming visual inspection",
+      "envelope fit check",
+      "detector certificate",
+      "loop continuity",
+      "mist proof-flow",
+      "reservoir/pump/pressure diagnostic",
+      "event-recorder input",
+      "bond continuity",
+      "insulation/isolation check",
+      "HVIL functional check where applicable",
+      "pressure/leak test",
+      "drain-flow test where applicable"
+    ],
+    "joining_methods": [
+      "bolted/torqued installation",
+      "sealed, gasketed, bonded, or clipped interface as supplier envelope requires"
+    ],
+    "primary_processes": [
+      "receive",
+      "quarantine",
+      "evidence review",
+      "incoming fit check",
+      "release to parent kit"
+    ],
+    "release_level": "SOURCE supplier-controlled process; OSR controls envelope and acceptance evidence",
+    "special_process_controls": [
+      "RFQ envelope freeze",
+      "supplier certificate/revision check",
+      "incoming quarantine until evidence accepted",
+      "HV safety plan",
+      "LOTO/service-disconnect rule",
+      "EMC/bonding evidence review",
+      "fluid compatibility check",
+      "hose/pipe routing release"
+    ],
+    "tooling_basis": "RFQ-LM3-SAF-P010, CERT-LM3-SAF-P010, GAUGE-LM3-SAF-P010-ENVELOPE"
+  },
+  "quantity_per_trainset": 3,
+  "route": "SOURCE",
+  "source_refs": [
+    "bom-skeleton.md T9/T10",
+    "systems.py",
+    "LM3-SAF-340"
+  ],
+  "title": "battery temperature/off-gas detection, electrical-enclosure smoke detection, and localized mist kit",
+  "unit": "car kit"
+}

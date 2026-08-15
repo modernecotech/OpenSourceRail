@@ -1,0 +1,250 @@
+{
+  "bom_line_ids": [
+    "B7"
+  ],
+  "build_cell": "final assembly and commissioning cell",
+  "children": [
+    "LM3-BDY-P080",
+    "LM3-ROOF-P010",
+    "LM3-ROOF-P020",
+    "LM3-EXT-P040",
+    "LM3-EXT-P050",
+    "LM3-EXT-P070",
+    "LM3-TRC-P050"
+  ],
+  "definition_type": "assembly-node",
+  "hold_points": [
+    "roof leak test",
+    "HVAC drain test",
+    "PV isolation/bonding check"
+  ],
+  "id": "LM3-ROOF-SA410",
+  "integration_steps": [
+    {
+      "child_id": "LM3-BDY-P080",
+      "child_title": "roof bow, HVAC rail, PV rail, and cable-tray bracket kit",
+      "interface_classes": [
+        "mechanical datum",
+        "high-voltage electrical",
+        "fluid/thermal"
+      ],
+      "join_classes": [
+        "structural-weld",
+        "gasketed-removable-panel",
+        "bolted-structural-datum",
+        "electrical-data",
+        "fluid-thermal"
+      ],
+      "joint_release_status": "joint-calculation-required",
+      "placement_zone": "roof equipment rail, curb, and service-access zone",
+      "sequence": 1,
+      "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
+      "verification": [
+        "roof rail pitch",
+        "HVAC curb gauge",
+        "PV clamp pull test"
+      ]
+    },
+    {
+      "child_id": "LM3-ROOF-P010",
+      "child_title": "HVAC curb, drop-duct collar, condensate tray, and drain fitting kit",
+      "interface_classes": [
+        "mechanical datum",
+        "high-voltage electrical",
+        "fluid/thermal"
+      ],
+      "join_classes": [
+        "gasketed-removable-panel",
+        "bolted-structural-datum",
+        "electrical-data",
+        "fluid-thermal"
+      ],
+      "joint_release_status": "joint-calculation-required",
+      "placement_zone": "roof equipment rail, curb, and service-access zone",
+      "sequence": 2,
+      "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
+      "verification": [
+        "curb flatness",
+        "drop-duct gauge",
+        "condensate drain flow test",
+        "roof leak test"
+      ]
+    },
+    {
+      "child_id": "LM3-ROOF-P020",
+      "child_title": "PV bonded-pad lands, raised rail kit, bonding jumpers, and roof isolation labels",
+      "interface_classes": [
+        "mechanical datum",
+        "high-voltage electrical"
+      ],
+      "join_classes": [
+        "adhesive-bonded-panel",
+        "bolted-structural-datum",
+        "electrical-data"
+      ],
+      "joint_release_status": "joint-calculation-required",
+      "placement_zone": "roof equipment rail, curb, and service-access zone",
+      "sequence": 3,
+      "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
+      "verification": [
+        "rail pitch survey",
+        "bond pull coupon",
+        "earth continuity",
+        "module keep-out gauge"
+      ]
+    },
+    {
+      "child_id": "LM3-EXT-P040",
+      "child_title": "hvac-24kw-direct-hv-dc roof HVAC",
+      "interface_classes": [
+        "mechanical datum",
+        "high-voltage electrical",
+        "fluid/thermal"
+      ],
+      "join_classes": [
+        "gasketed-removable-panel",
+        "bolted-structural-datum",
+        "electrical-data",
+        "fluid-thermal"
+      ],
+      "joint_release_status": "supplier-freeze-required",
+      "placement_zone": "roof equipment rail, curb, and service-access zone",
+      "sequence": 4,
+      "torque_authority": "accepted supplier installation manual plus released OSR interface-control drawing",
+      "verification": [
+        "+50 C capacity evidence",
+        "condensate drain test",
+        "EMC/vibration evidence"
+      ]
+    },
+    {
+      "child_id": "LM3-EXT-P050",
+      "child_title": "roof PV module and edge-clamp kit",
+      "interface_classes": [
+        "mechanical datum",
+        "high-voltage electrical"
+      ],
+      "join_classes": [
+        "bolted-structural-datum",
+        "electrical-data"
+      ],
+      "joint_release_status": "supplier-freeze-required",
+      "placement_zone": "roof equipment rail, curb, and service-access zone",
+      "sequence": 5,
+      "torque_authority": "accepted supplier installation manual plus released OSR interface-control drawing",
+      "verification": [
+        "module datasheet",
+        "clamp pull test",
+        "isolation/bonding check"
+      ]
+    },
+    {
+      "child_id": "LM3-EXT-P070",
+      "child_title": "roof antennas, service walkway pads, lifting covers, and maintenance labels",
+      "interface_classes": [
+        "mechanical datum",
+        "low-voltage/data"
+      ],
+      "join_classes": [
+        "bolted-structural-datum",
+        "electrical-data"
+      ],
+      "joint_release_status": "supplier-freeze-required",
+      "placement_zone": "roof equipment rail, curb, and service-access zone",
+      "sequence": 6,
+      "torque_authority": "accepted supplier installation manual plus released OSR interface-control drawing",
+      "verification": [
+        "antenna VSWR test",
+        "walkway slip certificate",
+        "lifting-cover fit",
+        "roof bonding check"
+      ]
+    },
+    {
+      "child_id": "LM3-TRC-P050",
+      "child_title": "roof-mounted regen dump resistor and thermal shield kit",
+      "interface_classes": [
+        "mechanical datum",
+        "high-voltage electrical",
+        "fluid/thermal"
+      ],
+      "join_classes": [
+        "bolted-structural-datum",
+        "electrical-data",
+        "fluid-thermal"
+      ],
+      "joint_release_status": "supplier-freeze-required",
+      "placement_zone": "roof equipment rail, curb, and service-access zone",
+      "sequence": 7,
+      "torque_authority": "accepted supplier installation manual plus released OSR interface-control drawing",
+      "verification": [
+        "resistance certificate",
+        "thermal clearance",
+        "roof bonding",
+        "hot-surface label"
+      ]
+    }
+  ],
+  "layer": "subassembly",
+  "material_spec": {
+    "evidence_required": [
+      "child material certificates accepted",
+      "assembly traveler traceability",
+      "interface-control drawing revision"
+    ],
+    "finish_or_protection": "protect damaged coating, exposed edges, seals, bonds, and labels during assembly",
+    "form_factor": "formed sheet metal / stainless local hardware, rail structural steel, supplier HVAC and air-distribution kit, roof electrical energy equipment",
+    "governing_standard": "all child material standards plus assembly-level torque, bonding, coating, and cleanliness controls",
+    "grade_or_part_class": "LM3-ROOF-SA410 inherits released child material specifications",
+    "material_family": "assembly material set",
+    "nominal_section": "as defined by child drawings and assembly interface control drawing",
+    "traceability": "child serial/heat/batch records plus assembly traveler traceability"
+  },
+  "maturity": "release-candidate",
+  "process_spec": {
+    "inspection_methods": [
+      "child acceptance evidence review",
+      "roof leak test",
+      "HVAC drain test",
+      "PV isolation/bonding check",
+      "water/leak test",
+      "bond/gasket witness check",
+      "continuity",
+      "insulation/isolation",
+      "functional static test"
+    ],
+    "joining_methods": [
+      "bolted/torqued interfaces",
+      "shimmed datum interfaces as required",
+      "adhesive/bonded/gasketed sealing interfaces",
+      "bonding/earthing",
+      "segregated harness/fluid routing"
+    ],
+    "primary_processes": [
+      "release child kit",
+      "fixture or datum setup",
+      "install children",
+      "torque/fit-up record",
+      "release to parent"
+    ],
+    "release_level": "assembly traveler controlled; generated template is unsigned until build",
+    "special_process_controls": [
+      "child definition/revision check",
+      "tooling calibration check",
+      "parent interface freeze",
+      "surface preparation record",
+      "adhesive/sealant batch and cure record",
+      "LOTO/HV safety rule",
+      "EMC/bonding release",
+      "software/configuration record where applicable"
+    ],
+    "tooling_basis": "FIX-LM3-ROOF-SA410, KIT-LM3-ROOF-SA410, calibrated torque/gauge set"
+  },
+  "quantity_per_trainset": 3,
+  "source_refs": [
+    "systems.py",
+    "LM3-HVAC-220",
+    "LM3-HV-325"
+  ],
+  "title": "roof HVAC, PV, antenna, and service-equipment assembly"
+}

@@ -1,0 +1,259 @@
+{
+  "bom_line_ids": [],
+  "build_cell": "final assembly and commissioning cell",
+  "children": [
+    "LM3-SHELL-A200",
+    "LM3-DOOR-SA310",
+    "LM3-INT-SA330",
+    "LM3-ROOF-SA410",
+    "LM3-HV-SA510",
+    "LM3-BOG-SA610",
+    "LM3-BOG-SA620",
+    "LM3-AUX-P010"
+  ],
+  "definition_type": "assembly-node",
+  "hold_points": [
+    "car weigh",
+    "door/HVAC/static systems test",
+    "bogie marriage report",
+    "low-speed yard movement"
+  ],
+  "id": "LM3-CAR-A900",
+  "integration_steps": [
+    {
+      "child_id": "LM3-SHELL-A200",
+      "child_title": "painted carbody frame with one-metre clip-on fiberglass exterior",
+      "interface_classes": [
+        "mechanical datum"
+      ],
+      "join_classes": [
+        "adhesive-bonded-panel",
+        "bolted-structural-datum"
+      ],
+      "joint_release_status": "joint-calculation-required",
+      "placement_zone": "side/end glazing aperture and bonded carrier datum",
+      "sequence": 1,
+      "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
+      "verification": [
+        "corrosion report",
+        "clip and anti-lift witness map",
+        "eight-hour trainset body route",
+        "water ingress pre-test"
+      ]
+    },
+    {
+      "child_id": "LM3-DOOR-SA310",
+      "child_title": "door cassette and threshold assembly",
+      "interface_classes": [
+        "mechanical datum",
+        "safety interlock"
+      ],
+      "join_classes": [
+        "gasketed-removable-panel",
+        "bolted-structural-datum"
+      ],
+      "joint_release_status": "joint-calculation-required",
+      "placement_zone": "side door aperture and low-floor threshold datum",
+      "sequence": 2,
+      "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
+      "verification": [
+        "door gauge fit",
+        "obstruction test",
+        "closed-and-locked test"
+      ]
+    },
+    {
+      "child_id": "LM3-INT-SA330",
+      "child_title": "interior and passenger systems fit-out",
+      "interface_classes": [
+        "mechanical datum"
+      ],
+      "join_classes": [
+        "bolted-structural-datum"
+      ],
+      "joint_release_status": "joint-calculation-required",
+      "placement_zone": "saloon interior, PRM aisle, ceiling, and service-panel zone",
+      "sequence": 3,
+      "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
+      "verification": [
+        "egress check",
+        "fire-material pack",
+        "liner/trim fit survey",
+        "lighting/PIS/CCTV static test"
+      ]
+    },
+    {
+      "child_id": "LM3-ROOF-SA410",
+      "child_title": "roof HVAC, PV, antenna, and service-equipment assembly",
+      "interface_classes": [
+        "mechanical datum",
+        "high-voltage electrical",
+        "low-voltage/data",
+        "fluid/thermal"
+      ],
+      "join_classes": [
+        "gasketed-removable-panel",
+        "bolted-structural-datum",
+        "electrical-data",
+        "fluid-thermal"
+      ],
+      "joint_release_status": "joint-calculation-required",
+      "placement_zone": "roof equipment rail, curb, and service-access zone",
+      "sequence": 4,
+      "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
+      "verification": [
+        "roof leak test",
+        "HVAC drain test",
+        "PV isolation/bonding check"
+      ]
+    },
+    {
+      "child_id": "LM3-HV-SA510",
+      "child_title": "per-car LFP battery, two controllers, DC auxiliary/charge interface, mist, and cooling assembly",
+      "interface_classes": [
+        "mechanical datum",
+        "high-voltage electrical",
+        "low-voltage/data",
+        "fluid/thermal"
+      ],
+      "join_classes": [
+        "bolted-structural-datum",
+        "electrical-data",
+        "fluid-thermal"
+      ],
+      "joint_release_status": "joint-calculation-required",
+      "placement_zone": "under-seat HV bay, side-pin dock zone, and segregated cable route",
+      "sequence": 5,
+      "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
+      "verification": [
+        "HVIL test",
+        "insulation resistance",
+        "coolant pressure test",
+        "first energisation release"
+      ]
+    },
+    {
+      "child_id": "LM3-BOG-SA610",
+      "child_title": "powered bogie assembly",
+      "interface_classes": [
+        "mechanical datum"
+      ],
+      "join_classes": [
+        "bolted-structural-datum"
+      ],
+      "joint_release_status": "joint-calculation-required",
+      "placement_zone": "bogie frame, axle, brake, suspension, and underframe marriage datums",
+      "sequence": 6,
+      "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
+      "verification": [
+        "frame NDT",
+        "wheelset/bearing certificate",
+        "motor/gearbox alignment",
+        "static brake test"
+      ]
+    },
+    {
+      "child_id": "LM3-BOG-SA620",
+      "child_title": "trailer bogie assembly",
+      "interface_classes": [
+        "mechanical datum"
+      ],
+      "join_classes": [
+        "bolted-structural-datum"
+      ],
+      "joint_release_status": "joint-calculation-required",
+      "placement_zone": "bogie frame, axle, brake, suspension, and underframe marriage datums",
+      "sequence": 7,
+      "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
+      "verification": [
+        "frame NDT",
+        "wheelset/bearing certificate",
+        "ride-height setup",
+        "static brake test"
+      ]
+    },
+    {
+      "child_id": "LM3-AUX-P010",
+      "child_title": "secondary-suspension compressor, dryer, reservoir, and isolation-manifold kit",
+      "interface_classes": [
+        "mechanical datum"
+      ],
+      "join_classes": [
+        "bolted-structural-datum"
+      ],
+      "joint_release_status": "supplier-freeze-required",
+      "placement_zone": "primary structure datum and final assembly interface",
+      "sequence": 8,
+      "torque_authority": "accepted supplier installation manual plus released OSR interface-control drawing",
+      "verification": [
+        "pressure certificate",
+        "leak test",
+        "dryer function",
+        "relief-valve test",
+        "service-access check"
+      ]
+    }
+  ],
+  "layer": "assembly",
+  "material_spec": {
+    "evidence_required": [
+      "child material certificates accepted",
+      "assembly traveler traceability",
+      "interface-control drawing revision"
+    ],
+    "finish_or_protection": "protect damaged coating, exposed edges, seals, bonds, and labels during assembly",
+    "form_factor": "LM3-SHELL-A200 child assembly material set, LM3-DOOR-SA310 child assembly material set, LM3-INT-SA330 child assembly material set, LM3-ROOF-SA410 child assembly material set, LM3-HV-SA510 child assembly material set, LM3-BOG-SA610 child assembly material set, LM3-BOG-SA620 child assembly material set, supplier-certified running gear",
+    "governing_standard": "all child material standards plus assembly-level torque, bonding, coating, and cleanliness controls",
+    "grade_or_part_class": "LM3-CAR-A900 inherits released child material specifications",
+    "material_family": "assembly material set",
+    "nominal_section": "as defined by child drawings and assembly interface control drawing",
+    "traceability": "child serial/heat/batch records plus assembly traveler traceability"
+  },
+  "maturity": "release-candidate",
+  "process_spec": {
+    "inspection_methods": [
+      "child acceptance evidence review",
+      "car weigh",
+      "door/HVAC/static systems test",
+      "bogie marriage report",
+      "low-speed yard movement",
+      "continuity",
+      "insulation/isolation",
+      "functional static test",
+      "alignment survey",
+      "static brake test"
+    ],
+    "joining_methods": [
+      "bolted/torqued interfaces",
+      "shimmed datum interfaces as required",
+      "bonding/earthing",
+      "segregated harness/fluid routing"
+    ],
+    "primary_processes": [
+      "release child kit",
+      "fixture or datum setup",
+      "install children",
+      "torque/fit-up record",
+      "release to parent"
+    ],
+    "release_level": "assembly traveler controlled; generated template is unsigned until build",
+    "special_process_controls": [
+      "child definition/revision check",
+      "tooling calibration check",
+      "parent interface freeze",
+      "LOTO/HV safety rule",
+      "EMC/bonding release",
+      "software/configuration record where applicable",
+      "wheelset/bearing certificate review",
+      "ride-height setup"
+    ],
+    "tooling_basis": "FIX-LM3-CAR-A900, KIT-LM3-CAR-A900, calibrated torque/gauge set"
+  },
+  "quantity_per_trainset": 3,
+  "source_refs": [
+    "trainset.py",
+    "freecad_trainset.py",
+    "fabrication-plan.md"
+  ],
+  "title": "complete repeated car module"
+}

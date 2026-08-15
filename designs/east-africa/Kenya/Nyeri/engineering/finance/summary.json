@@ -1,0 +1,91 @@
+{
+  "annual_opex_usd": {
+    "components": {
+      "civil_station_depot_maintenance": 6738045.8,
+      "labour": 1224888.0,
+      "residual_grid_energy": 0.0,
+      "rolling_stock_maintenance_including_battery_renewal_reserve": 2441600.0,
+      "signalling_maintenance": 91700.15000000001,
+      "solar_plant_maintenance": 267737.16306000005
+    },
+    "total": 10763971.11306
+  },
+  "capex_eur": {
+    "reconciled_project_total": 425150287.94768
+  },
+  "capex_usd": {
+    "authoritative_design_base": 444270734.0,
+    "reconciled_project_total": 462119878.204,
+    "risk_envelope_15_percent": 531437859.93459994,
+    "risk_envelope_25_percent": 577649847.755,
+    "timetable_sized_dedicated_solar": 17849144.204000004
+  },
+  "cases": {
+    "high_capacity_use": {
+      "annual_operating_cash_usd": 39083658.038940005,
+      "annual_paid_trips": 78209280.0,
+      "annual_public_support_usd": 0.0,
+      "annual_revenue_usd": 49847629.152,
+      "capacity_utilisation": 0.8,
+      "project_irr": 0.060254659424513135,
+      "project_npv_usd_at_8_percent": -81136062.61516833,
+      "steady_state_dscr": 1.799629683089615
+    },
+    "low_capacity_use": {
+      "annual_operating_cash_usd": 21095523.638940006,
+      "annual_paid_trips": 48880800.0,
+      "annual_public_support_usd": 622087.7153253593,
+      "annual_revenue_usd": 31859494.752000004,
+      "capacity_utilisation": 0.5,
+      "project_irr": 0.021715219923692027,
+      "project_npv_usd_at_8_percent": -201984725.56918398,
+      "steady_state_dscr": 0.9713556106526798
+    }
+  },
+  "city": "nyeri",
+  "funding": {
+    "annual_debt_service_usd": 21717611.354265366,
+    "construction_grace_years": 7,
+    "debt_principal_usd": 369695902.5632,
+    "debt_rate": 0.045,
+    "government_equity_share": 0.2,
+    "lender_commitment_status": "unconfirmed-placeholder",
+    "repayment_years": 33
+  },
+  "limitations": [
+    "No calibrated origin-destination or stated-preference ridership survey.",
+    "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
+    "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
+  ],
+  "operations_basis": {
+    "annual_train_km_including_non_revenue": 6723572.3703000005,
+    "energy_kwh_per_car_km_hot_climate_planning": 4.0,
+    "non_revenue_train_km_factor": 1.08,
+    "scheduled_train_km_per_day": 17056.2465
+  },
+  "passed": true,
+  "renewal_policy": {
+    "field_asset_renewals": "included in fixed-asset maintenance allowance pending condition-based asset plan",
+    "train_battery_cycle_years": 12,
+    "treatment": "included in rolling-stock maintenance reserve; do not double-count as separate CAPEX"
+  },
+  "revenue_basis": {
+    "demand_status": "capacity-led-not-calibrated-od-forecast",
+    "nonfare_revenue_usd_per_year": 1879270.7519999999,
+    "operating_neutral_capacity_utilisation": 0.1481760169813941,
+    "operating_neutral_paid_trips_per_year": 14485924.501728257,
+    "practical_capacity_passenger_trips_per_day": 267840.0,
+    "single_trip_fare_usd": 0.6133333333333334
+  },
+  "schema_version": 1,
+  "sources": {
+    "design": "designs/east-africa/Kenya/Nyeri/design.toml",
+    "design_sha256": "184a6f9861b560ae21721e6e4655a557b5c31e08906d1d297f53a36741615599",
+    "generator": "scripts/generate-city-finance.py",
+    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "scenario": "designs/east-africa/Kenya/Nyeri/nyeri.toml",
+    "scenario_sha256": "3d6a3e62998a8f98b7939d1992b8e355320b57b85bf67db19221e992ce5d1794"
+  },
+  "status": "planning-screen"
+}

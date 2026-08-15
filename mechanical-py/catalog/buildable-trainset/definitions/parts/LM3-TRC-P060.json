@@ -1,0 +1,77 @@
+{
+  "acceptance": [
+    "dock alignment test",
+    "HVIL test",
+    "shutter cycle test",
+    "emergency release"
+  ],
+  "bom_line_ids": [
+    "T12",
+    "T19"
+  ],
+  "definition_type": "product-item",
+  "id": "LM3-TRC-P060",
+  "layer": "external-component",
+  "make_or_buy_basis": "Conductive station charging interface with mechanical guide datum and safety interlocks.",
+  "material_spec": {
+    "evidence_required": [
+      "certificate of conformity",
+      "incoming inspection record",
+      "capacity test evidence",
+      "fire-material certificate"
+    ],
+    "finish_or_protection": "supplier coating, condensate protection, and fire-rated interior surfaces",
+    "form_factor": "packaged roof unit, curb gasket, diffusers, ducts, grilles, and access panels",
+    "governing_standard": "supplier rail/bus HVAC specification plus project EMC, vibration, and fire evidence",
+    "grade_or_part_class": "hot-climate roof HVAC / fire-rated interior duct kit",
+    "material_family": "supplier HVAC and air-distribution kit",
+    "nominal_section": "roof curb and saloon envelope frozen by RFQ drawing",
+    "traceability": "unit serial number, refrigerant/coolant data, CoC, and fire-material batch"
+  },
+  "maturity": "buildable-after-supplier-freeze",
+  "notes": "",
+  "parent": "LM3-HV-SA510",
+  "process_spec": {
+    "inspection_methods": [
+      "incoming visual inspection",
+      "envelope fit check",
+      "dock alignment test",
+      "HVIL test",
+      "shutter cycle test",
+      "emergency release",
+      "bond continuity",
+      "insulation/isolation check",
+      "HVIL functional check where applicable"
+    ],
+    "joining_methods": [
+      "bolted/torqued installation",
+      "sealed, gasketed, bonded, or clipped interface as supplier envelope requires"
+    ],
+    "primary_processes": [
+      "receive",
+      "quarantine",
+      "evidence review",
+      "incoming fit check",
+      "release to parent kit"
+    ],
+    "release_level": "BID supplier-controlled process; OSR controls envelope and acceptance evidence",
+    "special_process_controls": [
+      "RFQ envelope freeze",
+      "supplier certificate/revision check",
+      "incoming quarantine until evidence accepted",
+      "HV safety plan",
+      "LOTO/service-disconnect rule",
+      "EMC/bonding evidence review"
+    ],
+    "tooling_basis": "RFQ-LM3-TRC-P060, CERT-LM3-TRC-P060, GAUGE-LM3-TRC-P060-ENVELOPE"
+  },
+  "quantity_per_trainset": 3,
+  "route": "BID",
+  "source_refs": [
+    "bom-skeleton.md T12/T19",
+    "systems.py",
+    "LM3-HV-310"
+  ],
+  "title": "station side-pin charging connector, actuator, shutter, and alignment target",
+  "unit": "car kit"
+}

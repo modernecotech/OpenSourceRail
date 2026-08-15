@@ -1,0 +1,91 @@
+{
+  "annual_opex_usd": {
+    "components": {
+      "civil_station_depot_maintenance": 5633456.28,
+      "labour": 1550640.0,
+      "residual_grid_energy": 0.0,
+      "rolling_stock_maintenance_including_battery_renewal_reserve": 4428000.0,
+      "signalling_maintenance": 118545.25,
+      "solar_plant_maintenance": 484749.00703199994
+    },
+    "total": 12215390.537032
+  },
+  "capex_eur": {
+    "reconciled_project_total": 442892535.111296
+  },
+  "capex_usd": {
+    "authoritative_design_base": 449088329.0,
+    "reconciled_project_total": 481404929.4688,
+    "risk_envelope_15_percent": 553615668.88912,
+    "risk_envelope_25_percent": 601756161.836,
+    "timetable_sized_dedicated_solar": 32316600.468799997
+  },
+  "cases": {
+    "high_capacity_use": {
+      "annual_operating_cash_usd": 71454513.07896799,
+      "annual_paid_trips": 117313920.0,
+      "annual_public_support_usd": 0.0,
+      "annual_revenue_usd": 83669903.616,
+      "capacity_utilisation": 0.8,
+      "project_irr": 0.11532600534940678,
+      "project_npv_usd_at_8_percent": 182348229.09510025,
+      "steady_state_dscr": 3.2396535192004854
+    },
+    "low_capacity_use": {
+      "annual_operating_cash_usd": 40952893.878968,
+      "annual_paid_trips": 73321200.0,
+      "annual_public_support_usd": 0.0,
+      "annual_revenue_usd": 53168284.416,
+      "capacity_utilisation": 0.5,
+      "project_irr": 0.06668071789125399,
+      "project_npv_usd_at_8_percent": -59587664.7910986,
+      "steady_state_dscr": 1.8567502745392563
+    }
+  },
+  "city": "damanhur",
+  "funding": {
+    "annual_debt_service_usd": 22056220.720974587,
+    "construction_grace_years": 5,
+    "debt_principal_usd": 385123943.57504004,
+    "debt_rate": 0.045,
+    "government_equity_share": 0.2,
+    "lender_commitment_status": "unconfirmed-placeholder",
+    "repayment_years": 35
+  },
+  "limitations": [
+    "No calibrated origin-destination or stated-preference ridership survey.",
+    "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
+    "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
+  ],
+  "operations_basis": {
+    "annual_train_km_including_non_revenue": 8691879.9843,
+    "energy_kwh_per_car_km_hot_climate_planning": 4.0,
+    "non_revenue_train_km_factor": 1.08,
+    "scheduled_train_km_per_day": 22049.4165
+  },
+  "passed": true,
+  "renewal_policy": {
+    "field_asset_renewals": "included in fixed-asset maintenance allowance pending condition-based asset plan",
+    "train_battery_cycle_years": 12,
+    "treatment": "included in rolling-stock maintenance reserve; do not double-count as separate CAPEX"
+  },
+  "revenue_basis": {
+    "demand_status": "capacity-led-not-calibrated-od-forecast",
+    "nonfare_revenue_usd_per_year": 2332252.416,
+    "operating_neutral_capacity_utilisation": 0.09720603410816957,
+    "operating_neutral_paid_trips_per_year": 14254526.136103844,
+    "practical_capacity_passenger_trips_per_day": 401760.0,
+    "single_trip_fare_usd": 0.6933333333333334
+  },
+  "schema_version": 1,
+  "sources": {
+    "design": "designs/west-asia/Egypt/Damanhur/design.toml",
+    "design_sha256": "957ab1f89bdba798550d1f62ae60f23b94439f0110ccfd0cc80533dc17253c68",
+    "generator": "scripts/generate-city-finance.py",
+    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "scenario": "designs/west-asia/Egypt/Damanhur/damanhur.toml",
+    "scenario_sha256": "a5d79a885a939754a504f933a50750cb30c04f10385640839f6191730a54ef48"
+  },
+  "status": "planning-screen"
+}

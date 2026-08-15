@@ -1,0 +1,91 @@
+{
+  "annual_opex_usd": {
+    "components": {
+      "civil_station_depot_maintenance": 7042279.140000001,
+      "labour": 2961840.0,
+      "residual_grid_energy": 0.0,
+      "rolling_stock_maintenance_including_battery_renewal_reserve": 5544000.0,
+      "signalling_maintenance": 150162.85,
+      "solar_plant_maintenance": 702613.0024843635
+    },
+    "total": 16400894.992484365
+  },
+  "capex_eur": {
+    "reconciled_project_total": 559940230.9657077
+  },
+  "capex_usd": {
+    "authoritative_design_base": 561789819.0,
+    "reconciled_project_total": 608630685.8322909,
+    "risk_envelope_15_percent": 699925288.7071345,
+    "risk_envelope_25_percent": 760788357.2903636,
+    "timetable_sized_dedicated_solar": 46840866.8322909
+  },
+  "cases": {
+    "high_capacity_use": {
+      "annual_operating_cash_usd": 116668156.59151563,
+      "annual_paid_trips": 117313920.0,
+      "annual_public_support_usd": 0.0,
+      "annual_revenue_usd": 133069051.58399999,
+      "capacity_utilisation": 0.8,
+      "project_irr": 0.14283697080167249,
+      "project_npv_usd_at_8_percent": 439383366.2451868,
+      "steady_state_dscr": 4.183867525732457
+    },
+    "low_capacity_use": {
+      "annual_operating_cash_usd": 68569449.39151564,
+      "annual_paid_trips": 73321200.0,
+      "annual_public_support_usd": 0.0,
+      "annual_revenue_usd": 84970344.384,
+      "capacity_utilisation": 0.5,
+      "project_irr": 0.08952765314823402,
+      "project_npv_usd_at_8_percent": 57869072.04002699,
+      "steady_state_dscr": 2.4589871045188043
+    }
+  },
+  "city": "kenitra",
+  "funding": {
+    "annual_debt_service_usd": 27885241.555560697,
+    "construction_grace_years": 5,
+    "debt_principal_usd": 486904548.66583276,
+    "debt_rate": 0.045,
+    "government_equity_share": 0.2,
+    "lender_commitment_status": "unconfirmed-placeholder",
+    "repayment_years": 35
+  },
+  "limitations": [
+    "No calibrated origin-destination or stated-preference ridership survey.",
+    "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
+    "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
+  ],
+  "operations_basis": {
+    "annual_train_km_including_non_revenue": 11010131.3556,
+    "energy_kwh_per_car_km_hot_climate_planning": 4.0,
+    "non_revenue_train_km_factor": 1.08,
+    "scheduled_train_km_per_day": 27930.317999999996
+  },
+  "passed": true,
+  "renewal_policy": {
+    "field_asset_renewals": "included in fixed-asset maintenance allowance pending condition-based asset plan",
+    "train_battery_cycle_years": 12,
+    "treatment": "included in rolling-stock maintenance reserve; do not double-count as separate CAPEX"
+  },
+  "revenue_basis": {
+    "demand_status": "capacity-led-not-calibrated-od-forecast",
+    "nonfare_revenue_usd_per_year": 4805832.384,
+    "operating_neutral_capacity_utilisation": 0.07232042158807357,
+    "operating_neutral_paid_trips_per_year": 10605240.19068692,
+    "practical_capacity_passenger_trips_per_day": 401760.0,
+    "single_trip_fare_usd": 1.0933333333333333
+  },
+  "schema_version": 1,
+  "sources": {
+    "design": "designs/north-africa/Morocco/Kenitra/design.toml",
+    "design_sha256": "b70f50499dbe922aeb9f85ff607a539a27f782879ee93edffcadd975da807cba",
+    "generator": "scripts/generate-city-finance.py",
+    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "scenario": "designs/north-africa/Morocco/Kenitra/kenitra.toml",
+    "scenario_sha256": "a1f65abf8119da99278a1d940d257d9b57255891c22aaa8a521ce3b98161a666"
+  },
+  "status": "planning-screen"
+}

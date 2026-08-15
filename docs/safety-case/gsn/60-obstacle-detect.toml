@@ -1,0 +1,117 @@
+# G15..G19 — onboard obstacle detection for GoA 4 driverless operation.
+#
+# Per RFC 0015, unattended trains carry the obstacle-detection
+# burden themselves. The `osr-obstacle-detect` evaluator replaces
+# the driver's-eye detection function with a SIL-4 multi-physics
+# sensor fusion (ultrasonic belt + LIDAR + mmWave radar + stereo
+# camera). These goals claim the evaluator meets the five O-series
+# safety properties, with evidence from Kani bounded-model-checker
+# proofs + proptest suites.
+
+[[goal]]
+id = "G15"
+description = "osr-obstacle-detect emits EmergencyBrake when any safety-primary sensor reports an obstacle inside the stopping-distance envelope (O1)."
+
+[[solution]]
+id = "E15a"
+description = "Kani harness O1 — any ultrasonic echo in-band forces EB."
+parent = "G15"
+evidence = { kind = "kani", path = "crates/osr-obstacle-detect/src/kani_proofs.rs", anchor = "o1_ultrasonic_return_forces_eb" }
+
+[[solution]]
+id = "E15b"
+description = "Proptest O1 — ultrasonic detection in-band always produces EB across the full parameter space."
+parent = "G15"
+evidence = { kind = "proptest", path = "crates/osr-obstacle-detect/tests/proptest_obstacle.rs" }
+
+[[goal]]
+id = "G16"
+description = "osr-obstacle-detect emits EmergencyBrake when any safety-primary sensor frame is stale beyond MAX_SENSOR_STALE_MS (O2)."
+
+[[solution]]
+id = "E16a"
+description = "Kani harness O2 — any stale ultrasonic channel forces EB."
+parent = "G16"
+evidence = { kind = "kani", path = "crates/osr-obstacle-detect/src/kani_proofs.rs", anchor = "o2_stale_ultrasonic_forces_eb" }
+
+[[solution]]
+id = "E16b"
+description = "Proptest O2 — stale ultrasonic channel always produces EB across the full parameter space."
+parent = "G16"
+evidence = { kind = "proptest", path = "crates/osr-obstacle-detect/tests/proptest_obstacle.rs" }
+
+[[goal]]
+id = "G17"
+description = "osr-obstacle-detect emits EmergencyBrake when the 2oo2 peer cross-check disagrees (O3, fail-restrictive)."
+
+[[solution]]
+id = "E17a"
+description = "Kani harness O3 — peer-clear=false on an otherwise-clean frame forces EB."
+parent = "G17"
+evidence = { kind = "kani", path = "crates/osr-obstacle-detect/src/kani_proofs.rs", anchor = "o3_peer_disagreement_forces_eb" }
+
+[[solution]]
+id = "E17b"
+description = "Proptest O3 — peer disagreement always produces EB across the full parameter space."
+parent = "G17"
+evidence = { kind = "proptest", path = "crates/osr-obstacle-detect/tests/proptest_obstacle.rs" }
+
+[[goal]]
+id = "G18"
+description = "Speed/range degradation policy (O4a + O4b): both long-range sensors offline above 40 km/h forces EB; LIDAR offline with radar healthy restricts speed to ≤ 40 km/h (RestrictedSpeed)."
+
+[[strategy]]
+id = "S18"
+description = "Decompose G18 by the two-tier policy — O4a covers the both-offline-fast case; O4b covers the LIDAR-degraded-radar-healthy case."
+parent = "G18"
+children = ["G18.1", "G18.2"]
+
+[[goal]]
+id = "G18.1"
+description = "O4a: every long-range sensor offline AND speed > ULTRASONIC_MAX_SPEED_MMPS → EmergencyBrake."
+parent = "S18"
+
+[[solution]]
+id = "E18.1a"
+description = "Kani harness O4a — all long-range offline above band forces EB."
+parent = "G18.1"
+evidence = { kind = "kani", path = "crates/osr-obstacle-detect/src/kani_proofs.rs", anchor = "o4a_all_long_range_offline_above_band_forces_eb" }
+
+[[solution]]
+id = "E18.1b"
+description = "Proptest O4a — all long-range offline above band always forces EB."
+parent = "G18.1"
+evidence = { kind = "proptest", path = "crates/osr-obstacle-detect/tests/proptest_obstacle.rs" }
+
+[[goal]]
+id = "G18.2"
+description = "O4b: LIDAR offline with radar healthy produces at least RestrictedSpeed and never EB from the O4 branch alone."
+parent = "S18"
+
+[[solution]]
+id = "E18.2a"
+description = "Kani harness O4b — LIDAR offline + radar healthy restricts speed to 40 km/h, never EB via O4."
+parent = "G18.2"
+evidence = { kind = "kani", path = "crates/osr-obstacle-detect/src/kani_proofs.rs", anchor = "o4b_lidar_offline_with_radar_healthy_restricts_speed" }
+
+[[solution]]
+id = "E18.2b"
+description = "Proptest O4b — LIDAR offline + radar healthy always produces at least RestrictedSpeed with reason=LidarDegraded."
+parent = "G18.2"
+evidence = { kind = "proptest", path = "crates/osr-obstacle-detect/tests/proptest_obstacle.rs" }
+
+[[goal]]
+id = "G19"
+description = "osr-obstacle-detect is monotone in sensor freshness: making a frame strictly fresher never moves the verdict in the less-restrictive direction (O5)."
+
+[[solution]]
+id = "E19a"
+description = "Kani harness O5 — fresher sensors never increase severity."
+parent = "G19"
+evidence = { kind = "kani", path = "crates/osr-obstacle-detect/src/kani_proofs.rs", anchor = "o5_fresher_sensors_never_increase_severity" }
+
+[[solution]]
+id = "E19b"
+description = "Proptest O5 — fresher frame never more severe than stale frame across the parameter space."
+parent = "G19"
+evidence = { kind = "proptest", path = "crates/osr-obstacle-detect/tests/proptest_obstacle.rs" }

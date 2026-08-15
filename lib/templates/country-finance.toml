@@ -1,0 +1,606 @@
+# Country financial parameters — used by `osr_scenario.network_readme`
+# to estimate CAPEX funding stack, annual OPEX, and affordability-
+# anchored ticket pricing.
+#
+# All values are 2024 indicative; refresh per deployment from the
+# country's central bank / national statistics office. Numbers are
+# baked into the README's `## Funding & affordability` section.
+#
+# ---------------------------------------------------------------------------
+# FIELDS
+# ---------------------------------------------------------------------------
+#   median_monthly_income_usd  — household median per-month income, USD.
+#                                Drives the affordability-anchored ticket
+#                                price.
+#   revenue_case_monthly_pass_income_share
+#                              — monthly-pass share of median income used
+#                                for the stronger service/revenue case.
+#   gni_per_capita_usd         — GNI per capita, World Bank Atlas method.
+#                                Used as a sanity cross-check.
+#   climate_development_grant_share
+#                              — optional non-repayable grant override share
+#                                of CAPEX. Default is zero; generated
+#                                finance reports do not assume grants.
+#   multilateral_loan_share    — repayable candidate climate/MDB
+#                                concessional-debt share of CAPEX.
+#   sovereign_bond_share       — sovereign/project bond share of CAPEX.
+#                                Default is zero because bond coupons are the
+#                                expensive fallback, not the target structure.
+#   government_equity_share    — direct public equity share of CAPEX. This is
+#                                budgeted during construction but carries no
+#                                interest repayment.
+#   sovereign_bond_rate        — 10-year sovereign yield, decimal. Used only
+#                                when sovereign_bond_share > 0.
+#   multilateral_loan_rate     — IBRD / AfDB / ADB blended rate, decimal.
+#                                Kept as the country comparator.
+#   green_concessional_loan_rate
+#                              — target climate-window / GCF-blended
+#                                loan rate used for the repayable debt
+#                                placeholder. This is not evidence of a
+#                                committed lender offer.
+#   capex_grace_years          — years of construction during which
+#                                principal isn't repaid (interest only).
+#   loan_tenor_years           — total tenor for multilateral + bond
+#                                tranches.
+#   concessional_loan_tenor_years
+#                              — preferred tenor for the candidate
+#                                climate/MDB concessional package.
+#   farebox_recovery_target    — fraction of OPEX that fares should
+#                                recover (rest is operating subsidy).
+#                                Singapore MRT ≈ 1.0; London Tube ≈ 0.95;
+#                                Iraqi / sub-Saharan deployments more
+#                                typically 0.4–0.6 because affordability
+#                                is the binding constraint.
+#   grid_energy_usd_per_kwh    — planning price for residual grid / PPA
+#                                import after on-site PV and any dedicated
+#                                solar plant cover generated timetable
+#                                energy demand.
+#   currency                   — local currency ISO 4217 (carried for
+#                                downstream output formatting; FX is in
+#                                country-costs.toml).
+#
+# ---------------------------------------------------------------------------
+# DEFAULT FALLBACK
+# ---------------------------------------------------------------------------
+# Country code "XX" supplies values for any city whose country isn't
+# listed below — pick conservative middle-income figures so the README
+# generates a credible bracket rather than zeroes.
+
+[countries.XX]
+median_monthly_income_usd  = 600
+revenue_case_monthly_pass_income_share = 0.08
+gni_per_capita_usd         = 7500
+climate_development_grant_share = 0.00
+multilateral_loan_share    = 0.80
+sovereign_bond_share       = 0.00
+government_equity_share    = 0.20
+sovereign_bond_rate        = 0.07
+multilateral_loan_rate     = 0.045
+green_concessional_loan_rate = 0.045
+capex_grace_years          = 5
+loan_tenor_years           = 25
+concessional_loan_tenor_years = 40
+farebox_recovery_target    = 0.50
+grid_energy_usd_per_kwh    = 0.10
+currency                   = "USD"
+
+# ---- Middle East / North Africa --------------------------------------
+
+[countries.IQ]
+# Iraq — World Bank GNI/capita 2023, household income surveys via
+# Iraqi Central Statistical Organization (COSIT).
+median_monthly_income_usd  = 380
+gni_per_capita_usd         = 5400
+sovereign_bond_rate        = 0.085   # 2024 IBRD-rated USD bonds
+multilateral_loan_rate     = 0.040   # IBRD blended (Libor+1.5)
+capex_grace_years          = 5
+loan_tenor_years           = 25
+farebox_recovery_target    = 0.45
+currency                   = "IQD"
+
+[countries.EG]
+median_monthly_income_usd  = 260
+gni_per_capita_usd         = 3450
+sovereign_bond_rate        = 0.105
+multilateral_loan_rate     = 0.045
+capex_grace_years          = 5
+loan_tenor_years           = 25
+farebox_recovery_target    = 0.55
+currency                   = "EGP"
+
+[countries.MA]
+median_monthly_income_usd  = 410
+gni_per_capita_usd         = 3700
+sovereign_bond_rate        = 0.045
+multilateral_loan_rate     = 0.038
+capex_grace_years          = 5
+loan_tenor_years           = 25
+farebox_recovery_target    = 0.60
+currency                   = "MAD"
+
+[countries.TN]
+median_monthly_income_usd  = 350
+gni_per_capita_usd         = 3850
+sovereign_bond_rate        = 0.090
+multilateral_loan_rate     = 0.045
+capex_grace_years          = 5
+loan_tenor_years           = 25
+farebox_recovery_target    = 0.50
+currency                   = "TND"
+
+[countries.SA]
+median_monthly_income_usd  = 1700
+gni_per_capita_usd         = 27940
+sovereign_bond_rate        = 0.045
+multilateral_loan_rate     = 0.038
+capex_grace_years          = 5
+loan_tenor_years           = 25
+farebox_recovery_target    = 0.85
+currency                   = "SAR"
+
+[countries.SD]
+# Sudan — pre-2023-conflict baseline. Active war means real-world
+# financing access is currently impossible; figures kept for the
+# planning-grade exercise only. Indicative only.
+median_monthly_income_usd  = 110
+gni_per_capita_usd         = 760
+sovereign_bond_rate        = 0.150   # severely distressed
+multilateral_loan_rate     = 0.030   # IDA-eligible (pre-conflict)
+capex_grace_years          = 10
+loan_tenor_years           = 40
+farebox_recovery_target    = 0.30
+currency                   = "SDG"
+
+[countries.YE]
+# Yemen — active conflict; figures are planning-grade only.
+median_monthly_income_usd  = 80
+gni_per_capita_usd         = 740
+sovereign_bond_rate        = 0.180   # heavily distressed / no liquid market
+multilateral_loan_rate     = 0.030   # IDA-eligible
+capex_grace_years          = 10
+loan_tenor_years           = 40
+farebox_recovery_target    = 0.25
+currency                   = "YER"
+
+[countries.SY]
+# Syria — active conflict + sanctions; financing access deeply
+# limited. Pre-2011 GNI was $2 800; current ~$830. Planning grade.
+median_monthly_income_usd  = 70
+gni_per_capita_usd         = 830
+sovereign_bond_rate        = 0.200
+multilateral_loan_rate     = 0.045   # GCC + UN reconstruction window
+capex_grace_years          = 10
+loan_tenor_years           = 35
+farebox_recovery_target    = 0.30
+currency                   = "SYP"
+
+[countries.JO]
+# Jordan — middle-income, IBRD-rated, EU + GCC concessional access.
+median_monthly_income_usd  = 580
+gni_per_capita_usd         = 4490
+sovereign_bond_rate        = 0.075
+multilateral_loan_rate     = 0.040
+capex_grace_years          = 5
+loan_tenor_years           = 25
+farebox_recovery_target    = 0.55
+currency                   = "JOD"
+
+[countries.LB]
+# Lebanon — economic collapse 2019; financing access severely
+# constrained. Pre-collapse GNI was $7 600; current ~$3 300.
+median_monthly_income_usd  = 280
+gni_per_capita_usd         = 3300
+sovereign_bond_rate        = 0.250   # default / restructuring
+multilateral_loan_rate     = 0.045
+capex_grace_years          = 8
+loan_tenor_years           = 30
+farebox_recovery_target    = 0.40
+currency                   = "LBP"
+
+[countries.PS]
+# Palestine — pegged ILS, donor-financed; financing access via
+# the World Bank Trust Fund + EU + AfDB equivalents.
+median_monthly_income_usd  = 360
+gni_per_capita_usd         = 3290
+sovereign_bond_rate        = 0.085
+multilateral_loan_rate     = 0.030
+capex_grace_years          = 7
+loan_tenor_years           = 30
+farebox_recovery_target    = 0.45
+currency                   = "ILS"
+
+# ---- Sub-Saharan Africa ----------------------------------------------
+
+[countries.KE]
+median_monthly_income_usd  = 230
+gni_per_capita_usd         = 2110
+sovereign_bond_rate        = 0.115
+multilateral_loan_rate     = 0.045
+capex_grace_years          = 7
+loan_tenor_years           = 30
+farebox_recovery_target    = 0.50
+currency                   = "KES"
+
+[countries.NG]
+median_monthly_income_usd  = 175
+gni_per_capita_usd         = 2160
+sovereign_bond_rate        = 0.135
+multilateral_loan_rate     = 0.045
+capex_grace_years          = 7
+loan_tenor_years           = 30
+farebox_recovery_target    = 0.45
+currency                   = "NGN"
+
+[countries.NE]
+median_monthly_income_usd  = 95
+gni_per_capita_usd         = 600
+sovereign_bond_rate        = 0.090   # WAEMU regional
+multilateral_loan_rate     = 0.030   # IDA-eligible
+capex_grace_years          = 10
+loan_tenor_years           = 35
+farebox_recovery_target    = 0.30
+currency                   = "XOF"
+
+[countries.ML]
+# Mali — same WAEMU regional bond market as NE; political-risk
+# premium since 2021. IDA-eligible.
+median_monthly_income_usd  = 110
+gni_per_capita_usd         = 870
+sovereign_bond_rate        = 0.095
+multilateral_loan_rate     = 0.030
+capex_grace_years          = 10
+loan_tenor_years           = 35
+farebox_recovery_target    = 0.30
+currency                   = "XOF"
+
+[countries.TZ]
+median_monthly_income_usd  = 165
+gni_per_capita_usd         = 1240
+sovereign_bond_rate        = 0.095
+multilateral_loan_rate     = 0.038
+capex_grace_years          = 7
+loan_tenor_years           = 30
+farebox_recovery_target    = 0.45
+currency                   = "TZS"
+
+[countries.UG]
+median_monthly_income_usd  = 145
+gni_per_capita_usd         = 950
+sovereign_bond_rate        = 0.140
+multilateral_loan_rate     = 0.038
+capex_grace_years          = 7
+loan_tenor_years           = 30
+farebox_recovery_target    = 0.40
+currency                   = "UGX"
+
+[countries.MG]
+median_monthly_income_usd  = 90
+gni_per_capita_usd         = 510
+sovereign_bond_rate        = 0.110
+multilateral_loan_rate     = 0.030   # IDA-eligible
+capex_grace_years          = 10
+loan_tenor_years           = 35
+farebox_recovery_target    = 0.30
+currency                   = "MGA"
+
+[countries.SN]
+median_monthly_income_usd  = 175
+gni_per_capita_usd         = 1640
+sovereign_bond_rate        = 0.085   # WAEMU regional
+multilateral_loan_rate     = 0.038
+capex_grace_years          = 7
+loan_tenor_years           = 30
+farebox_recovery_target    = 0.40
+currency                   = "XOF"
+
+[countries.BF]
+median_monthly_income_usd  = 110
+gni_per_capita_usd         = 850
+sovereign_bond_rate        = 0.095   # WAEMU regional
+multilateral_loan_rate     = 0.030   # IDA-eligible
+capex_grace_years          = 10
+loan_tenor_years           = 35
+farebox_recovery_target    = 0.30
+currency                   = "XOF"
+
+[countries.GN]
+median_monthly_income_usd  = 130
+gni_per_capita_usd         = 1190
+sovereign_bond_rate        = 0.100
+multilateral_loan_rate     = 0.030   # IDA-eligible
+capex_grace_years          = 10
+loan_tenor_years           = 35
+farebox_recovery_target    = 0.35
+currency                   = "GNF"
+
+[countries.SO]
+# Somalia — debt-relief HIPC completion 2023; new IDA access.
+median_monthly_income_usd  = 95
+gni_per_capita_usd         = 470
+sovereign_bond_rate        = 0.150   # no liquid market
+multilateral_loan_rate     = 0.030   # IDA-eligible post-HIPC
+capex_grace_years          = 10
+loan_tenor_years           = 40
+farebox_recovery_target    = 0.25
+currency                   = "SOS"
+
+[countries.RW]
+median_monthly_income_usd  = 130
+gni_per_capita_usd         = 950
+sovereign_bond_rate        = 0.085
+multilateral_loan_rate     = 0.030   # IDA-eligible
+capex_grace_years          = 7
+loan_tenor_years           = 30
+farebox_recovery_target    = 0.45
+currency                   = "RWF"
+
+[countries.ZM]
+median_monthly_income_usd  = 175
+gni_per_capita_usd         = 1370
+sovereign_bond_rate        = 0.165   # post-2020 default; restructured 2024
+multilateral_loan_rate     = 0.038
+capex_grace_years          = 7
+loan_tenor_years           = 30
+farebox_recovery_target    = 0.40
+currency                   = "ZMW"
+
+[countries.CM]
+median_monthly_income_usd  = 180
+gni_per_capita_usd         = 1640
+sovereign_bond_rate        = 0.085   # CEMAC regional
+multilateral_loan_rate     = 0.038
+capex_grace_years          = 7
+loan_tenor_years           = 30
+farebox_recovery_target    = 0.40
+currency                   = "XAF"
+
+[countries.CD]
+median_monthly_income_usd  = 110
+gni_per_capita_usd         = 660
+sovereign_bond_rate        = 0.130   # post-HIPC; thin market
+multilateral_loan_rate     = 0.030   # IDA-eligible
+capex_grace_years          = 10
+loan_tenor_years           = 40
+farebox_recovery_target    = 0.30
+currency                   = "CDF"
+
+[countries.AO]
+median_monthly_income_usd  = 240
+gni_per_capita_usd         = 2110
+sovereign_bond_rate        = 0.115
+multilateral_loan_rate     = 0.045
+capex_grace_years          = 5
+loan_tenor_years           = 25
+farebox_recovery_target    = 0.45
+currency                   = "AOA"
+
+[countries.MZ]
+median_monthly_income_usd  = 130
+gni_per_capita_usd         = 600
+sovereign_bond_rate        = 0.135
+multilateral_loan_rate     = 0.030   # IDA-eligible
+capex_grace_years          = 10
+loan_tenor_years           = 35
+farebox_recovery_target    = 0.30
+currency                   = "MZN"
+
+[countries.ZA]
+median_monthly_income_usd  = 480
+gni_per_capita_usd         = 6750
+sovereign_bond_rate        = 0.105
+multilateral_loan_rate     = 0.045
+capex_grace_years          = 5
+loan_tenor_years           = 25
+farebox_recovery_target    = 0.55
+currency                   = "ZAR"
+
+# ---- South & Southeast Asia ------------------------------------------
+
+[countries.IN]
+median_monthly_income_usd  = 230
+gni_per_capita_usd         = 2390
+sovereign_bond_rate        = 0.072
+multilateral_loan_rate     = 0.040
+capex_grace_years          = 5
+loan_tenor_years           = 25
+farebox_recovery_target    = 0.55
+currency                   = "INR"
+
+[countries.PK]
+median_monthly_income_usd  = 165
+gni_per_capita_usd         = 1500
+sovereign_bond_rate        = 0.165   # 2024 distressed
+multilateral_loan_rate     = 0.040
+capex_grace_years          = 7
+loan_tenor_years           = 30
+farebox_recovery_target    = 0.45
+currency                   = "PKR"
+
+[countries.AF]
+# Afghanistan — sanctions limit IBRD; ARTF + ADB humanitarian
+# carve-outs only. Planning grade.
+median_monthly_income_usd  = 75
+gni_per_capita_usd         = 380
+sovereign_bond_rate        = 0.180
+multilateral_loan_rate     = 0.045
+capex_grace_years          = 10
+loan_tenor_years           = 35
+farebox_recovery_target    = 0.30
+currency                   = "AFN"
+
+[countries.NP]
+median_monthly_income_usd  = 140
+gni_per_capita_usd         = 1340
+sovereign_bond_rate        = 0.075
+multilateral_loan_rate     = 0.030   # IDA-eligible
+capex_grace_years          = 7
+loan_tenor_years           = 30
+farebox_recovery_target    = 0.45
+currency                   = "NPR"
+
+[countries.LK]
+# Sri Lanka — 2022 default; restructured 2024.
+median_monthly_income_usd  = 240
+gni_per_capita_usd         = 3610
+sovereign_bond_rate        = 0.135
+multilateral_loan_rate     = 0.040
+capex_grace_years          = 7
+loan_tenor_years           = 30
+farebox_recovery_target    = 0.45
+currency                   = "LKR"
+
+[countries.BD]
+median_monthly_income_usd  = 195
+gni_per_capita_usd         = 2820
+sovereign_bond_rate        = 0.085
+multilateral_loan_rate     = 0.038
+capex_grace_years          = 7
+loan_tenor_years           = 30
+farebox_recovery_target    = 0.50
+currency                   = "BDT"
+
+[countries.ID]
+median_monthly_income_usd  = 320
+gni_per_capita_usd         = 4580
+sovereign_bond_rate        = 0.067
+multilateral_loan_rate     = 0.040
+capex_grace_years          = 5
+loan_tenor_years           = 25
+farebox_recovery_target    = 0.60
+currency                   = "IDR"
+
+[countries.PH]
+median_monthly_income_usd  = 360
+gni_per_capita_usd         = 3950
+sovereign_bond_rate        = 0.062
+multilateral_loan_rate     = 0.040
+capex_grace_years          = 5
+loan_tenor_years           = 25
+farebox_recovery_target    = 0.55
+currency                   = "PHP"
+
+[countries.MM]
+# Myanmar — post-2021 sanctions limit IBRD access; ADB partly
+# active via humanitarian carve-outs. Conservative figures.
+median_monthly_income_usd  = 130
+gni_per_capita_usd         = 1210
+sovereign_bond_rate        = 0.130
+multilateral_loan_rate     = 0.045
+capex_grace_years          = 10
+loan_tenor_years           = 30
+farebox_recovery_target    = 0.40
+currency                   = "MMK"
+
+[countries.KH]
+median_monthly_income_usd  = 215
+gni_per_capita_usd         = 1700
+sovereign_bond_rate        = 0.080
+multilateral_loan_rate     = 0.040
+capex_grace_years          = 7
+loan_tenor_years           = 30
+farebox_recovery_target    = 0.45
+currency                   = "KHR"
+
+[countries.LA]
+median_monthly_income_usd  = 195
+gni_per_capita_usd         = 2060
+sovereign_bond_rate        = 0.105
+multilateral_loan_rate     = 0.030   # IDA-eligible
+capex_grace_years          = 7
+loan_tenor_years           = 30
+farebox_recovery_target    = 0.40
+currency                   = "LAK"
+
+# ---- Latin America ---------------------------------------------------
+
+[countries.MX]
+median_monthly_income_usd  = 575
+gni_per_capita_usd         = 10410
+sovereign_bond_rate        = 0.090
+multilateral_loan_rate     = 0.045
+capex_grace_years          = 5
+loan_tenor_years           = 25
+farebox_recovery_target    = 0.65
+currency                   = "MXN"
+
+[countries.BR]
+median_monthly_income_usd  = 525
+gni_per_capita_usd         = 9070
+sovereign_bond_rate        = 0.110
+multilateral_loan_rate     = 0.045
+capex_grace_years          = 5
+loan_tenor_years           = 25
+farebox_recovery_target    = 0.60
+currency                   = "BRL"
+
+[countries.CO]
+median_monthly_income_usd  = 360
+gni_per_capita_usd         = 6630
+sovereign_bond_rate        = 0.105
+multilateral_loan_rate     = 0.045
+capex_grace_years          = 5
+loan_tenor_years           = 25
+farebox_recovery_target    = 0.60
+currency                   = "COP"
+
+[countries.EC]
+median_monthly_income_usd  = 410
+gni_per_capita_usd         = 6310
+sovereign_bond_rate        = 0.095
+multilateral_loan_rate     = 0.045
+capex_grace_years          = 5
+loan_tenor_years           = 25
+farebox_recovery_target    = 0.55
+currency                   = "USD"
+
+[countries.BO]
+median_monthly_income_usd  = 290
+gni_per_capita_usd         = 3450
+sovereign_bond_rate        = 0.105
+multilateral_loan_rate     = 0.045
+capex_grace_years          = 5
+loan_tenor_years           = 25
+farebox_recovery_target    = 0.50
+currency                   = "BOB"
+
+[countries.SV]
+median_monthly_income_usd  = 305
+gni_per_capita_usd         = 4720
+sovereign_bond_rate        = 0.115
+multilateral_loan_rate     = 0.045
+capex_grace_years          = 5
+loan_tenor_years           = 25
+farebox_recovery_target    = 0.55
+currency                   = "USD"
+
+# ---- Europe / Anglosphere --------------------------------------------
+
+[countries.FR]
+median_monthly_income_usd  = 2750
+gni_per_capita_usd         = 45860
+sovereign_bond_rate        = 0.030
+multilateral_loan_rate     = 0.030
+capex_grace_years          = 3
+loan_tenor_years           = 30
+farebox_recovery_target    = 0.65
+currency                   = "EUR"
+
+[countries.DE]
+median_monthly_income_usd  = 3250
+gni_per_capita_usd         = 53390
+sovereign_bond_rate        = 0.025
+multilateral_loan_rate     = 0.030
+capex_grace_years          = 3
+loan_tenor_years           = 30
+farebox_recovery_target    = 0.70
+currency                   = "EUR"
+
+[countries.US]
+median_monthly_income_usd  = 4750
+gni_per_capita_usd         = 76770
+sovereign_bond_rate        = 0.045
+multilateral_loan_rate     = 0.045
+capex_grace_years          = 3
+loan_tenor_years           = 30
+farebox_recovery_target    = 0.45
+currency                   = "USD"

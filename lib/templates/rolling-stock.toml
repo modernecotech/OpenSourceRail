@@ -1,0 +1,130 @@
+# Rolling stock profiles — the "consist" Lego block.
+#
+# A city's design.toml references one of these by id, e.g.
+#     [[lines]]
+#     rolling_stock = "light-metro-3car"
+#
+# All profiles share the same architecture (RFC 0003 §4.3, ARCHITECTURE D5):
+#   - Self-contained driverless cars with onboard LFP traction battery
+#     under the longitudinal seats
+#   - 800 V-class DC architecture (650–700 V nominal)
+#   - One independent heavy-vehicle-class controller per PMSM
+#   - One powered bogie + one trailer bogie per car
+#   - TSN Ethernet trainbus
+#   - Reference T-ECU
+# The variation is in scale: cars per consist, battery kWh, platform length.
+# Packs are sized for roughly one route length, not a full operating day;
+# station charging at 1.2–3 km stop spacing supplies the normal service energy.
+# Capacity fields are intentionally split:
+#   - seat_count = longitudinal seats / wheelchair-companion places
+#   - passenger_capacity = AW2 nominal planning load (seated + standing)
+#   - crush_capacity = AW3 short-duration crush load for structure/egress
+#
+# Unified system principle: every fleet in the OSR catalog uses one of these
+# five profiles. Cities do not invent custom consists — they pick the one
+# closest to their ridership band. This is what keeps maintenance, training,
+# spares, and CAD reuse viable across deployments.
+
+# ---- Tram: small city / feeder lines, < 4k pphpd --------------------------
+
+[profiles.urban-shuttle-1car]
+cars                   = 1
+length_m               = 21
+tare_mass_t            = 34
+passenger_capacity     = 100
+seat_count             = 20
+crush_capacity         = 130
+onboard_battery_kwh    = 180
+onboard_battery_nameplate_kwh = 225       # one 225/180 kWh gross/usable car module
+battery_chemistry       = "lfp"
+battery_nominal_voltage_v = 675
+battery_normal_max_voltage_v = 740
+traction_controller_count = 2
+central_aux_ac_bus      = false
+traction_peak_kw       = 600
+hvac_design_ambient_c  = 50
+max_speed_mps          = 19              # 70 km/h
+cad_module             = "osr_cad.rolling_stock.urban_shuttle_1car"
+
+[profiles.tram-2car]
+cars                   = 2
+length_m               = 39
+tare_mass_t            = 68
+passenger_capacity     = 240
+seat_count             = 40
+crush_capacity         = 320
+onboard_battery_kwh    = 360
+onboard_battery_nameplate_kwh = 450       # two 225/180 kWh gross/usable car modules
+battery_chemistry       = "lfp"
+battery_nominal_voltage_v = 675
+battery_normal_max_voltage_v = 740
+traction_controller_count = 4
+central_aux_ac_bus      = false
+traction_peak_kw       = 1200
+hvac_design_ambient_c  = 50
+max_speed_mps          = 19              # 70 km/h
+cad_module             = "osr_cad.rolling_stock.tram_2car"
+
+# ---- Light metro 3-car: mid-size city, 5-10k pphpd (Samawah selects this family) ---
+
+[profiles.light-metro-3car]
+cars                   = 3
+length_m               = 49.5
+tare_mass_t            = 78.75
+passenger_capacity     = 360
+seat_count             = 60
+crush_capacity         = 480
+onboard_battery_kwh    = 540
+onboard_battery_nameplate_kwh = 675       # 540 kWh usable + 20% reserve
+battery_chemistry       = "lfp"
+battery_nominal_voltage_v = 675
+battery_normal_max_voltage_v = 740       # preserves margin below 750 V candidate limit
+traction_controller_count = 6
+traction_hardware_peak_kw = 2100
+central_aux_ac_bus      = false
+traction_peak_kw       = 1800
+hvac_design_ambient_c  = 50
+max_speed_mps          = 25              # 90 km/h
+cad_module             = "osr_cad.rolling_stock.articulated_3car"
+
+# ---- Metro 4-car: larger city, 10-20k pphpd ------------------------------
+
+[profiles.metro-4car]
+cars                   = 4
+length_m               = 75
+tare_mass_t            = 136
+passenger_capacity     = 480
+seat_count             = 80
+crush_capacity         = 640
+onboard_battery_kwh    = 720
+onboard_battery_nameplate_kwh = 900       # four 225/180 kWh gross/usable car modules
+battery_chemistry       = "lfp"
+battery_nominal_voltage_v = 675
+battery_normal_max_voltage_v = 740
+traction_controller_count = 8
+central_aux_ac_bus      = false
+traction_peak_kw       = 2400
+hvac_design_ambient_c  = 50
+max_speed_mps          = 25
+cad_module             = "osr_cad.rolling_stock.metro_4car"
+
+# ---- Metro 6-car: major city trunk, 20-35k pphpd -------------------------
+
+[profiles.metro-6car]
+cars                   = 6
+length_m               = 111
+tare_mass_t            = 204
+passenger_capacity     = 720
+seat_count             = 120
+crush_capacity         = 960
+onboard_battery_kwh    = 1080
+onboard_battery_nameplate_kwh = 1350      # six 225/180 kWh gross/usable car modules
+battery_chemistry       = "lfp"
+battery_nominal_voltage_v = 675
+battery_normal_max_voltage_v = 740
+traction_controller_count = 12
+central_aux_ac_bus      = false
+traction_peak_kw       = 3600
+hvac_design_ambient_c  = 50
+max_speed_mps          = 28              # 100 km/h
+cad_module             = "osr_cad.rolling_stock.metro_6car"

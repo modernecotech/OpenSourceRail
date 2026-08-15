@@ -1,0 +1,19 @@
+[package]
+name          = "osr-routing"
+version.workspace      = true
+edition.workspace      = true
+rust-version.workspace = true
+license.workspace      = true
+repository.workspace   = true
+description   = "Least-cost-path route solver for OpenSourceRail design generation."
+
+[lints]
+workspace = true
+
+[dependencies]
+serde       = { version = "1", features = ["derive"] }
+serde_json  = "1"
+thiserror   = "1"
+
+[dev-dependencies]
+# No extra test deps yet; tests are pure Rust over synthetic rasters.

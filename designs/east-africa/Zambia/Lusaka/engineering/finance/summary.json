@@ -1,0 +1,91 @@
+{
+  "annual_opex_usd": {
+    "components": {
+      "civil_station_depot_maintenance": 40638233.4,
+      "labour": 5297880.0,
+      "residual_grid_energy": 0.0,
+      "rolling_stock_maintenance_including_battery_renewal_reserve": 38304000.0,
+      "signalling_maintenance": 698800.4,
+      "solar_plant_maintenance": 7711154.808509998
+    },
+    "total": 92650068.60851
+  },
+  "capex_eur": {
+    "reconciled_project_total": 3697439338.97528
+  },
+  "capex_usd": {
+    "authoritative_design_base": 3504878816.0,
+    "reconciled_project_total": 4018955803.2339997,
+    "risk_envelope_15_percent": 4621799173.719099,
+    "risk_envelope_25_percent": 5023694754.0425,
+    "timetable_sized_dedicated_solar": 514076987.2339999
+  },
+  "cases": {
+    "high_capacity_use": {
+      "annual_operating_cash_usd": 192529613.87149,
+      "annual_paid_trips": 586569600.0,
+      "annual_public_support_usd": 0.0,
+      "annual_revenue_usd": 285179682.48,
+      "capacity_utilisation": 0.8,
+      "project_irr": 0.024450528474539178,
+      "project_npv_usd_at_8_percent": -1695706525.5041134,
+      "steady_state_dscr": 1.0193583923577592
+    },
+    "low_capacity_use": {
+      "annual_operating_cash_usd": 89879933.87148999,
+      "annual_paid_trips": 366606000.0,
+      "annual_public_support_usd": 98993395.9749168,
+      "annual_revenue_usd": 182530002.48,
+      "capacity_utilisation": 0.5,
+      "project_irr": -0.014613346211677137,
+      "project_npv_usd_at_8_percent": -2385332047.796051,
+      "steady_state_dscr": 0.475874142445527
+    }
+  },
+  "city": "lusaka",
+  "funding": {
+    "annual_debt_service_usd": 188873329.8464068,
+    "construction_grace_years": 7,
+    "debt_principal_usd": 3215164642.5872,
+    "debt_rate": 0.045,
+    "government_equity_share": 0.2,
+    "lender_commitment_status": "unconfirmed-placeholder",
+    "repayment_years": 33
+  },
+  "limitations": [
+    "No calibrated origin-destination or stated-preference ridership survey.",
+    "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
+    "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
+  ],
+  "operations_basis": {
+    "annual_train_km_including_non_revenue": 44462791.37835,
+    "energy_kwh_per_car_km_hot_climate_planning": 4.0,
+    "non_revenue_train_km_factor": 1.08,
+    "scheduled_train_km_per_day": 112792.46925
+  },
+  "passed": true,
+  "renewal_policy": {
+    "field_asset_renewals": "included in fixed-asset maintenance allowance pending condition-based asset plan",
+    "train_battery_cycle_years": 12,
+    "treatment": "included in rolling-stock maintenance reserve; do not double-count as separate CAPEX"
+  },
+  "revenue_basis": {
+    "demand_status": "capacity-led-not-calibrated-od-forecast",
+    "nonfare_revenue_usd_per_year": 11447202.479999999,
+    "operating_neutral_capacity_utilisation": 0.23732036805719217,
+    "operating_neutral_paid_trips_per_year": 174006141.70395,
+    "practical_capacity_passenger_trips_per_day": 2008800.0,
+    "single_trip_fare_usd": 0.4666666666666667
+  },
+  "schema_version": 1,
+  "sources": {
+    "design": "designs/east-africa/Zambia/Lusaka/design.toml",
+    "design_sha256": "585f64199fffc9144a7f5a6c07dbe33c34dfc8deee9507a0609b099fae2366e7",
+    "generator": "scripts/generate-city-finance.py",
+    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "scenario": "designs/east-africa/Zambia/Lusaka/lusaka.toml",
+    "scenario_sha256": "3d8774d7a2e8a0852be4c32714a5ad896ea21069e0ef794a1b63f41bc93ff1b6"
+  },
+  "status": "planning-screen"
+}

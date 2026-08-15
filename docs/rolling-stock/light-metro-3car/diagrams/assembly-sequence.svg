@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="740" viewBox="0 0 1500 740" role="img" aria-labelledby="title desc">
+  <title id="title">Light metro assembly sequence</title>
+  <desc id="desc">Manufacturing sequence from steel frame to COTS module installation to full train integration.</desc>
+  <defs>
+    <style>
+      .title{font-family:Arial,Helvetica,sans-serif;font-size:30px;font-weight:700;fill:#142033}
+      .label{font-family:Arial,Helvetica,sans-serif;font-size:21px;font-weight:700;fill:#142033}
+      .small{font-family:Arial,Helvetica,sans-serif;font-size:16px;fill:#142033}
+      .box{fill:#f8fafc;stroke:#25364a;stroke-width:2}
+      .make{fill:#eaf2fb;stroke:#315d94;stroke-width:3}
+      .cots{fill:#e8f5ed;stroke:#0d6b34;stroke-width:3}
+      .verify{fill:#fff6df;stroke:#bd8500;stroke-width:3}
+      .arrow{stroke:#283747;stroke-width:3;marker-end:url(#arrow)}
+    </style>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#283747"/>
+    </marker>
+  </defs>
+
+  <text x="45" y="46" class="title">How fabricated parts and COTS modules become one train</text>
+  <text x="45" y="78" class="small">One 16.5 m car is built three times, then married to bogies, cowls, couplers, articulation, trainlines, and commissioning tests.</text>
+
+  <g transform="translate(65 130)">
+    <rect x="0" y="0" width="250" height="145" rx="12" class="make"/>
+    <text x="22" y="38" class="label">1. Steel datums</text>
+    <text x="22" y="72" class="small">Underframe ladder</text>
+    <text x="22" y="96" class="small">Bolsters + coupler pockets</text>
+    <text x="22" y="120" class="small">Door and window portals</text>
+  </g>
+  <path class="arrow" d="M330 202 L405 202"/>
+  <g transform="translate(420 130)">
+    <rect x="0" y="0" width="250" height="145" rx="12" class="make"/>
+    <text x="22" y="38" class="label">2. Body shell</text>
+    <text x="22" y="72" class="small">Composite side skins</text>
+    <text x="22" y="96" class="small">Roof fairings + skirts</text>
+    <text x="22" y="120" class="small">Large glass cowl mounts</text>
+  </g>
+  <path class="arrow" d="M685 202 L760 202"/>
+  <g transform="translate(775 130)">
+    <rect x="0" y="0" width="250" height="145" rx="12" class="cots"/>
+    <text x="22" y="38" class="label">3. Exterior COTS</text>
+    <text x="22" y="72" class="small">Door cassette</text>
+    <text x="22" y="96" class="small">Window cassette</text>
+    <text x="22" y="120" class="small">Solar + HVAC modules</text>
+  </g>
+  <path class="arrow" d="M1040 202 L1115 202"/>
+  <g transform="translate(1130 130)">
+    <rect x="0" y="0" width="250" height="145" rx="12" class="cots"/>
+    <text x="22" y="38" class="label">4. Interior COTS</text>
+    <text x="22" y="72" class="small">Seats over batteries</text>
+    <text x="22" y="96" class="small">Lighting, PIS, CCTV</text>
+    <text x="22" y="120" class="small">Grab rails + intercom</text>
+  </g>
+
+  <g transform="translate(65 380)">
+    <rect x="0" y="0" width="250" height="145" rx="12" class="verify"/>
+    <text x="22" y="38" class="label">5. Power + safety</text>
+    <text x="22" y="72" class="small">Battery packs + HV bus</text>
+    <text x="22" y="96" class="small">T-ECU/S + T-ECU/A</text>
+    <text x="22" y="120" class="small">T-OBS nose modules</text>
+  </g>
+  <path class="arrow" d="M330 452 L405 452"/>
+  <g transform="translate(420 380)">
+    <rect x="0" y="0" width="250" height="145" rx="12" class="cots"/>
+    <text x="22" y="38" class="label">6. Bogie marriage</text>
+    <text x="22" y="72" class="small">3 powered bogies</text>
+    <text x="22" y="96" class="small">3 trailer bogies</text>
+    <text x="22" y="120" class="small">Brake and WSP harness</text>
+  </g>
+  <path class="arrow" d="M685 452 L760 452"/>
+  <g transform="translate(775 380)">
+    <rect x="0" y="0" width="250" height="145" rx="12" class="make"/>
+    <text x="22" y="38" class="label">7. Train assembly</text>
+    <text x="22" y="72" class="small">Inter-car articulation</text>
+    <text x="22" y="96" class="small">Couplers + trainlines</text>
+    <text x="22" y="120" class="small">49.5 m over couplers</text>
+  </g>
+  <path class="arrow" d="M1040 452 L1115 452"/>
+  <g transform="translate(1130 380)">
+    <rect x="0" y="0" width="250" height="145" rx="12" class="verify"/>
+    <text x="22" y="38" class="label">8. Commissioning</text>
+    <text x="22" y="72" class="small">Water + door tests</text>
+    <text x="22" y="96" class="small">HV isolation + brake tests</text>
+    <text x="22" y="120" class="small">Low-speed yard run</text>
+  </g>
+
+  <g transform="translate(65 615)">
+    <rect x="0" y="0" width="1315" height="70" rx="12" class="box"/>
+    <text x="24" y="30" class="label">Control rule</text>
+    <text x="190" y="31" class="small">A supplier can change internals only if the module fits the envelope, preserves mass/power limits, keeps the frame datums unchanged, and ships certification evidence.</text>
+  </g>
+</svg>

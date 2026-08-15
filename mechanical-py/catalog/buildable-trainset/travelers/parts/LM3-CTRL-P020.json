@@ -1,0 +1,226 @@
+{
+  "bom_line_ids": [
+    "E3",
+    "E4",
+    "E5",
+    "E6",
+    "E7",
+    "E8",
+    "E21"
+  ],
+  "document_revision": "A-DRAFT",
+  "estimated_labor_hours": 3.05,
+  "id": "LM3-CTRL-P020",
+  "material_spec": {
+    "evidence_required": [
+      "certificate of conformity",
+      "incoming inspection record",
+      "continuity test",
+      "EMC/IP evidence"
+    ],
+    "finish_or_protection": "halogen/fire-rated cable where required, IP sealing, bonding, and label protection",
+    "form_factor": "cabinet, harness, connector, sensor, bracket, antenna, and label kit",
+    "governing_standard": "supplier rail electronics specification plus project EMC, IP, and fire evidence",
+    "grade_or_part_class": "LV/data harness, cabinet, sensor, antenna, and trainline kit",
+    "material_family": "rail-rated electrical / control equipment",
+    "nominal_section": "connector, bend-radius, service-loop, and mounting envelope frozen by RFQ drawing",
+    "traceability": "serialised equipment CoC, firmware/config record, harness batch, and continuity record"
+  },
+  "operations": [
+    {
+      "labor_hours": 0.35,
+      "qa_gate": "traveler rev and parent assembly match released manifest",
+      "sequence": 10,
+      "signoff_role": "cell lead",
+      "title": "release traveler, revision, material/certificate pack, and parent interface",
+      "tooling_ids": [
+        "TRV-LM3-CTRL-P020",
+        "DOC-LM3-SYS-SA900"
+      ],
+      "work_center": "production control"
+    },
+    {
+      "labor_hours": 0.45,
+      "qa_gate": "supplier certificate/datasheet/revision accepted",
+      "sequence": 20,
+      "signoff_role": "quality inspector",
+      "title": "receive supplier component and quarantine until evidence pack passes",
+      "tooling_ids": [
+        "RFQ-LM3-CTRL-P020",
+        "CERT-LM3-CTRL-P020"
+      ],
+      "work_center": "receiving inspection"
+    },
+    {
+      "labor_hours": 0.75,
+      "qa_gate": "component fits without parent datum rework",
+      "sequence": 30,
+      "signoff_role": "operator",
+      "title": "perform envelope, mounting, service-removal, and connector checks",
+      "tooling_ids": [
+        "GAUGE-LM3-CTRL-P020-ENVELOPE",
+        "FIX-LM3-SYS-SA900"
+      ],
+      "work_center": "incoming fit-check cell"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "SKU/firmware record",
+      "sequence": 40,
+      "signoff_role": "quality inspector",
+      "title": "verify acceptance gate: SKU/firmware record",
+      "tooling_ids": [
+        "QA-LM3-CTRL-P020"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "antenna VSWR",
+      "sequence": 50,
+      "signoff_role": "quality inspector",
+      "title": "verify acceptance gate: antenna VSWR",
+      "tooling_ids": [
+        "QA-LM3-CTRL-P020"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "GNSS/IMU test",
+      "sequence": 60,
+      "signoff_role": "quality inspector",
+      "title": "verify acceptance gate: GNSS/IMU test",
+      "tooling_ids": [
+        "QA-LM3-CTRL-P020"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "balise read",
+      "sequence": 70,
+      "signoff_role": "quality inspector",
+      "title": "verify acceptance gate: balise read",
+      "tooling_ids": [
+        "QA-LM3-CTRL-P020"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "radio link test",
+      "sequence": 80,
+      "signoff_role": "quality inspector",
+      "title": "verify acceptance gate: radio link test",
+      "tooling_ids": [
+        "QA-LM3-CTRL-P020"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "item is released, tagged, and staged for parent assembly",
+      "sequence": 90,
+      "signoff_role": "cell lead",
+      "title": "final item release to parent assembly",
+      "tooling_ids": [
+        "REL-LM3-CTRL-P020",
+        "KIT-LM3-SYS-SA900"
+      ],
+      "work_center": "production control"
+    }
+  ],
+  "parent": "LM3-SYS-SA900",
+  "process_spec": {
+    "inspection_methods": [
+      "incoming visual inspection",
+      "envelope fit check",
+      "SKU/firmware record",
+      "antenna VSWR",
+      "GNSS/IMU test",
+      "balise read",
+      "radio link test"
+    ],
+    "joining_methods": [
+      "bolted/torqued installation",
+      "sealed, gasketed, bonded, or clipped interface as supplier envelope requires"
+    ],
+    "primary_processes": [
+      "receive",
+      "quarantine",
+      "evidence review",
+      "incoming fit check",
+      "release to parent kit"
+    ],
+    "release_level": "SOURCE supplier-controlled process; OSR controls envelope and acceptance evidence",
+    "special_process_controls": [
+      "RFQ envelope freeze",
+      "supplier certificate/revision check",
+      "incoming quarantine until evidence accepted"
+    ],
+    "tooling_basis": "RFQ-LM3-CTRL-P020, CERT-LM3-CTRL-P020, GAUGE-LM3-CTRL-P020-ENVELOPE"
+  },
+  "quantity_per_trainset": 1,
+  "release_status": "unsigned-template",
+  "revision_approvals": [
+    {
+      "approval_id": "APP-LM3-CTRL-P020-MFG",
+      "date": "",
+      "name": "",
+      "role": "manufacturing engineering",
+      "signature": "",
+      "status": "pending"
+    },
+    {
+      "approval_id": "APP-LM3-CTRL-P020-QA",
+      "date": "",
+      "name": "",
+      "role": "quality",
+      "signature": "",
+      "status": "pending"
+    },
+    {
+      "approval_id": "APP-LM3-CTRL-P020-DA",
+      "date": "",
+      "name": "",
+      "role": "design authority",
+      "signature": "",
+      "status": "pending"
+    }
+  ],
+  "route": "SOURCE",
+  "signoff_blocks": [
+    {
+      "date": "",
+      "name": "",
+      "role": "operator",
+      "signature": "",
+      "status": "blank"
+    },
+    {
+      "date": "",
+      "name": "",
+      "role": "cell lead",
+      "signature": "",
+      "status": "blank"
+    },
+    {
+      "date": "",
+      "name": "",
+      "role": "quality inspector",
+      "signature": "",
+      "status": "blank"
+    },
+    {
+      "date": "",
+      "name": "",
+      "role": "manufacturing engineer",
+      "signature": "",
+      "status": "blank"
+    }
+  ],
+  "title": "navigation, balise, 5G, LoRa, GNSS, IMU, and roof-antenna kit",
+  "traveler_type": "product-item",
+  "unit": "trainset kit"
+}

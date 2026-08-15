@@ -1,0 +1,349 @@
+// OpenSourceRail — Track State Log schema
+// RFC 0001 §5 is the normative reference for this file.
+//
+// SCHEMA EVOLUTION RULES (normative, enforced in code review):
+//   1. Never reuse a field number. Deprecated fields become `reserved`.
+//   2. Never change a field's wire type. Introduce a new field with a new number.
+//   3. Adding a new Entry variant requires an RFC and bumps the log format version.
+//   4. The first entry in any region's log MUST be a FormatVersion with the
+//      current compatible range; nodes below the range must refuse to participate.
+
+syntax = "proto3";
+
+package osr.track_state.v1;
+
+option optimize_for = SPEED;
+
+// ============================================================================
+//  Identifiers
+// ============================================================================
+
+// Stable, region-unique train identifier. Assigned at TrainRegistration and
+// never reused within a region's operational lifetime.
+message TrainId { fixed64 value = 1; }
+
+message SwitchId { fixed64 value = 1; }
+message RouteId { fixed64 value = 1; }
+message SectionId { fixed64 value = 1; }
+message EntityId { fixed64 value = 1; }  // dispatcher, maintenance crew, automated agent
+message RegionId { fixed32 value = 1; }
+
+// Monotonic within a region. Assigned by the Raft leader at commit time.
+message EntryId { fixed64 value = 1; }
+
+// ============================================================================
+//  Geometry
+// ============================================================================
+
+// Direction of travel along a track reference. "Forward" is the +offset direction
+// as defined in the region's track topology artifact (versioned separately).
+enum Direction {
+  DIRECTION_UNSPECIFIED = 0;
+  DIRECTION_FORWARD = 1;
+  DIRECTION_REVERSE = 2;
+}
+
+// Pointer into the static track topology: a section plus a linear offset in mm.
+message TrackRef {
+  SectionId section = 1;
+  int64 offset_mm = 2;
+  Direction direction = 3;
+}
+
+// Fused position estimate. Uncertainty is a half-width on a 95% confidence
+// interval along the track centerline.
+message Position {
+  TrackRef track_ref = 1;
+  uint32 uncertainty_mm = 2;
+}
+
+enum PositionSource {
+  POSITION_SOURCE_UNSPECIFIED = 0;
+  POSITION_SOURCE_GNSS = 1;
+  POSITION_SOURCE_IMU = 2;
+  POSITION_SOURCE_ODOMETRY = 3;
+  POSITION_SOURCE_BEACON = 4;
+  POSITION_SOURCE_LEGACY_TRACK_CIRCUIT = 5;  // migration use only; see ARCHITECTURE §10
+  POSITION_SOURCE_LEGACY_AXLE_COUNTER = 6;
+}
+
+// ============================================================================
+//  Rolling-stock descriptor
+// ============================================================================
+
+enum TrainClass {
+  TRAIN_CLASS_UNSPECIFIED = 0;
+  TRAIN_CLASS_LIGHT_METRO = 1;   // LRT / light rail transit
+  TRAIN_CLASS_METRO = 2;          // heavy urban rail
+  TRAIN_CLASS_ENGINEERING = 5;    // track machines, work trains — depot/yard use only
+  TRAIN_CLASS_YARD = 6;           // yard movements at yard speeds
+
+  // Values 3 (INTERCITY_PASSENGER) and 4 (FREIGHT) are deliberately
+  // unassigned. OpenSourceRail v1 is scoped to urban transit only;
+  // intercity and freight are out of scope. Do not reassign these
+  // numbers if a future variant of the project adds those service classes.
+  reserved 3, 4;
+}
+
+// Braking curve as a piecewise-linear deceleration profile keyed by speed.
+// Used by the MA computer to compute stopping distances.
+message BrakingCurve {
+  message Point {
+    float speed_mps = 1;
+    float deceleration_mps2 = 2;  // service brake capability at this speed
+  }
+  repeated Point service = 1;      // service brake (nominal)
+  repeated Point emergency = 2;    // emergency brake (guaranteed)
+  float reaction_time_ms = 3;      // brake application delay
+}
+
+message ConsistDescriptor {
+  TrainClass train_class = 1;
+  uint32 length_mm = 2;
+  uint32 mass_kg = 3;
+  float max_speed_mps = 4;
+  BrakingCurve braking = 5;
+  uint32 car_count = 6;
+  // True only for deployments selecting the pantograph-down opportunity
+  // charger alternate. The OSR default is side-pin charging and no
+  // continuous catenary.
+  bool has_pantograph = 7;
+  uint32 battery_capacity_wh = 8;
+}
+
+// Hardware identity + firmware attestation, used at TrainRegistration to bind
+// a TrainId to specific attested hardware.
+message CertChain {
+  repeated bytes cert_der = 1;            // x.509 chain
+  bytes attestation_quote = 2;             // TPM/OpenTitan quote of the T-ECU boot measurement
+  bytes attestation_nonce = 3;
+}
+
+// ============================================================================
+//  Entry payloads — §5.1 of RFC 0001
+// ============================================================================
+
+// Primary sensor-fusion output published by a train, 5 Hz nominal.
+message TrainPositionReport {
+  TrainId train_id = 1;
+  Position head_position = 2;
+  Position tail_position = 3;          // derived from head + consist length
+  float speed_mps = 4;
+  float speed_uncertainty_mps = 5;
+  Direction heading = 6;
+  repeated PositionSource contributing_sources = 7;
+  fixed64 onboard_time_ns = 8;          // TAI; for latency measurement
+  float pack_state_of_charge = 9;       // 0.0..1.0; energy telemetry rides on this entry (I10)
+}
+
+enum SwitchPosition {
+  SWITCH_POSITION_UNSPECIFIED = 0;
+  SWITCH_POSITION_NORMAL = 1;
+  SWITCH_POSITION_REVERSE = 2;
+  SWITCH_POSITION_TRANSITIONING = 3;
+  SWITCH_POSITION_UNKNOWN = 4;     // fail-restrictive: treat as unsafe
+}
+
+message SwitchCommand {
+  SwitchId switch_id = 1;
+  SwitchPosition requested_position = 2;
+  EntityId requested_by = 3;
+  // If set, the switch is logically locked until this entry has been committed
+  // (used to coordinate switch movements with route grants).
+  EntryId lock_until = 4;
+}
+
+enum Confidence {
+  CONFIDENCE_UNSPECIFIED = 0;
+  CONFIDENCE_LOCKED = 1;         // mechanically locked in position
+  CONFIDENCE_OBSERVED = 2;       // observed but not mechanically locked
+  CONFIDENCE_TRANSITIONING = 3;
+  CONFIDENCE_UNKNOWN = 4;
+}
+
+message SwitchObservation {
+  SwitchId switch_id = 1;
+  SwitchPosition observed_position = 2;
+  Confidence confidence = 3;
+  fixed64 observed_at_ns = 4;
+}
+
+message RouteRequest {
+  RouteId route_id = 1;
+  EntityId requested_by = 2;
+  TrackRef entry_point = 3;
+  TrackRef exit_point = 4;
+  TrainId train_id = 5;          // set when dispatcher is reserving for a specific train
+}
+
+message RouteGrant {
+  RouteId route_id = 1;
+  TrainId train_id = 2;
+  repeated SwitchId locked_switches = 3;
+  repeated SectionId locked_sections = 4;
+  fixed64 expires_at_ns = 5;     // hard expiry; MA derived from this cannot outlive it
+}
+
+message RouteRelease {
+  RouteId route_id = 1;
+  // Reason for audit; not load-bearing for safety.
+  string reason = 2;
+}
+
+enum RestrictionReason {
+  RESTRICTION_REASON_UNSPECIFIED = 0;
+  RESTRICTION_REASON_PERMANENT = 1;         // line geometry, bridges, etc.
+  RESTRICTION_REASON_TEMPORARY = 2;         // planned works
+  RESTRICTION_REASON_EMERGENCY = 3;         // dispatcher-issued
+  RESTRICTION_REASON_WEATHER = 4;
+  RESTRICTION_REASON_INFRASTRUCTURE_FAULT = 5;
+}
+
+message SpeedRestriction {
+  SectionId section = 1;
+  int64 from_offset_mm = 2;
+  int64 to_offset_mm = 3;
+  float max_speed_mps = 4;
+  RestrictionReason reason = 5;
+  fixed64 effective_from_ns = 6;
+  fixed64 effective_until_ns = 7;  // 0 => indefinite
+  EntityId issued_by = 8;
+}
+
+message TrainRegistration {
+  TrainId train_id = 1;
+  ConsistDescriptor consist = 2;
+  CertChain cert_chain = 3;
+  Position initial_position = 4;
+}
+
+message TrainDeparture {
+  TrainId train_id = 1;
+  RegionId handed_off_to = 2;     // empty => leaving the federated network entirely
+  fixed64 handoff_time_ns = 3;
+}
+
+enum HealthStatus {
+  HEALTH_STATUS_UNSPECIFIED = 0;
+  HEALTH_STATUS_OK = 1;
+  HEALTH_STATUS_DEGRADED = 2;
+  HEALTH_STATUS_FAILING = 3;
+}
+
+// Periodic liveness from W-Nodes, train agents, and other entities. Absence of
+// heartbeat for > T_safe drives fail-restrictive behavior in consumers.
+message Heartbeat {
+  EntityId from_entity = 1;
+  HealthStatus health = 2;
+  fixed64 monotonic_seq = 3;       // strictly increasing per entity
+  map<string, float> metrics = 4;  // freeform; not safety-critical
+}
+
+// Dispatcher override for abnormal operations (rescue, failed train pushback).
+// Two signatures are required to prevent single-operator mistakes (§13.4 of RFC 0001).
+message MaintenanceOverride {
+  SectionId section = 1;
+  int64 from_offset_mm = 2;
+  int64 to_offset_mm = 3;
+  EntityId granted_to = 4;
+  fixed64 granted_until_ns = 5;
+  bytes primary_signature = 6;     // dispatcher
+  bytes secondary_signature = 7;   // supervisor or second dispatcher
+  string rationale = 8;            // free text for the audit log
+}
+
+// First entry of every region's log; subsequent FormatVersion entries indicate
+// a schema bump. Nodes reject entries outside [min_compatible, current].
+message FormatVersion {
+  uint32 current = 1;
+  uint32 min_compatible = 2;
+  string schema_sha256_hex = 3;   // hash of the .proto file at this version
+}
+
+// ============================================================================
+//  Entry envelope — the unit of replication
+// ============================================================================
+
+message Entry {
+  EntryId entry_id = 1;
+  uint64 term = 2;                 // Raft term at which this entry was committed
+  fixed64 timestamp_ns = 3;        // leader's PTP-synced TAI clock at commit
+  bytes leader_signature = 4;      // ed25519 over (entry_id, term, timestamp, payload)
+
+  oneof payload {
+    TrainPositionReport train_position_report = 10;
+    SwitchCommand switch_command = 11;
+    SwitchObservation switch_observation = 12;
+    RouteRequest route_request = 13;
+    RouteGrant route_grant = 14;
+    RouteRelease route_release = 15;
+    SpeedRestriction speed_restriction = 16;
+    TrainRegistration train_registration = 17;
+    TrainDeparture train_departure = 18;
+    Heartbeat heartbeat = 19;
+    MaintenanceOverride maintenance_override = 20;
+    FormatVersion format_version = 21;
+  }
+
+  // Reserved for future entry variants. DO NOT reuse these numbers.
+  reserved 22 to 30;
+}
+
+// ============================================================================
+//  Movement Authority — §7.2 of RFC 0001
+// ============================================================================
+
+// Derived artifact, not a log entry. Produced by train agents and by W-Node
+// witnesses; delivered to the ATP Enforcer, which enforces via brake.
+
+message MovementAuthority {
+  TrainId train_id = 1;
+  // End of authority: the train's head position shall not pass this point
+  // before (a) a new MA is accepted or (b) valid_until is reached.
+  TrackRef end = 2;
+  repeated SpeedRestriction applicable_restrictions = 3;
+  fixed64 valid_until_ns = 4;
+  EntryId derived_from_entry = 5;  // latest log entry considered in derivation
+  uint64 derived_at_term = 6;
+}
+
+message MovementAuthorityWitness {
+  MovementAuthority authority = 1;
+  EntityId witness = 2;             // which W-Node computed this witness
+  bytes signature = 3;              // ed25519 over serialized MovementAuthority
+}
+
+// ============================================================================
+//  Consensus envelope — thin wrapper on Raft RPCs (SMRaft variant)
+// ============================================================================
+//
+// These messages are the wire format between W-Nodes. They do NOT appear in the
+// log; the log is a sequence of Entry messages only.
+
+message AppendEntriesRequest {
+  uint64 term = 1;
+  EntityId leader_id = 2;
+  EntryId prev_log_entry = 3;
+  uint64 prev_log_term = 4;
+  repeated Entry entries = 5;
+  EntryId leader_commit = 6;
+}
+
+message AppendEntriesResponse {
+  uint64 term = 1;
+  bool success = 2;
+  // On failure, the first entry_id at which follower's log diverges.
+  EntryId conflict_entry = 3;
+}
+
+message RequestVoteRequest {
+  uint64 term = 1;
+  EntityId candidate_id = 2;
+  EntryId last_log_entry = 3;
+  uint64 last_log_term = 4;
+}
+
+message RequestVoteResponse {
+  uint64 term = 1;
+  bool vote_granted = 2;
+}

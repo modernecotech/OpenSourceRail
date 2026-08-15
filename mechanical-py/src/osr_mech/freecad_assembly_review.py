@@ -1,0 +1,503 @@
+"""Create FreeCAD assembled/exploded review states and shape checks.
+
+The review documents are generated directly from parametric source
+geometry, then saved as compact FreeCAD documents. Assembled and
+disassembled states are placement views for design review.
+"""
+
+from __future__ import annotations
+
+import argparse
+import sys
+import tempfile
+from collections import Counter
+from dataclasses import dataclass
+from pathlib import Path
+
+from osr_mech.freecad_occ_bridge import SourceGeometry, freecad_shape_from_source, safe_name
+
+
+try:
+    import FreeCAD as App  # type: ignore[import-not-found]
+    import Part  # type: ignore[import-not-found]
+except Exception as exc:  # pragma: no cover - exercised only outside FreeCAD.
+    App = None  # type: ignore[assignment]
+    Part = None  # type: ignore[assignment]
+    _FREECAD_IMPORT_ERROR = exc
+else:
+    _FREECAD_IMPORT_ERROR = None
+
+
+from osr_mech.rolling_stock.baseline import PROMOTED_LIGHT_METRO_CAR_LENGTH_MM
+
+CAR_LENGTH_MM = PROMOTED_LIGHT_METRO_CAR_LENGTH_MM
+BOGIE_X_MM = CAR_LENGTH_MM / 2.0 - 2_100.0
+# The bogie source envelope tops out at 1,072.5 mm and the chassis
+# interface datum is 740 mm.  This seats the bogie below the chassis
+# instead of leaving it at the source origin above the floor structure.
+BOGIE_SEAT_Z_MM = 740.0 - 1_072.5
+
+COLOURS = {
+    "structure": (0.52, 0.54, 0.56, 0.0),
+    "body": (0.88, 0.91, 0.92, 0.0),
+    "systems": (0.18, 0.39, 0.68, 0.0),
+    "interface": (0.95, 0.68, 0.18, 0.0),
+    "bogie": (0.12, 0.12, 0.12, 0.0),
+}
+
+
+@dataclass(frozen=True)
+class ReviewItem:
+    source: SourceGeometry
+    name: str
+    x_mm: float = 0.0
+    y_mm: float = 0.0
+    z_mm: float = 0.0
+    yaw_deg: float = 0.0
+    colour: tuple[float, float, float, float] | None = None
+
+
+@dataclass(frozen=True)
+class ShapeCheck:
+    name: str
+    source_key: str
+    valid: bool
+    check_ok: bool
+    solids_valid: bool
+    solids: int
+    volume_mm3: float
+    bbox_mm: tuple[float, float, float]
+    issue: str | None = None
+
+
+def _source(key: str) -> SourceGeometry:
+    return SourceGeometry(key=key)
+
+
+def _interface_source(key: str) -> SourceGeometry:
+    return _source(key)
+
+
+def _summarise_occ_issue(exc: Exception) -> str:
+    text = str(exc)
+    lines = [line.strip() for line in text.splitlines() if line.strip()]
+    counter: Counter[str] = Counter()
+    for line in lines:
+        if "BOPAlgo" in line:
+            counter[line] += 1
+    if counter:
+        common = ", ".join(f"{count}x {label}" for label, count in counter.most_common(4))
+        return f"OCC compound check reported overlaps/self-intersections: {common}"
+    return lines[0] if lines else repr(exc)
+
+
+def _require_freecad() -> None:
+    if App is None or Part is None:
+        raise SystemExit(
+            "FreeCAD Python modules are not importable. Run this with FreeCADCmd "
+            "or mechanical-py/scripts/freecad_assembly_review.sh.\n"
+            f"Import error was: {_FREECAD_IMPORT_ERROR!r}"
+        )
+
+
+def _artifact_root() -> Path:
+    return Path(__file__).resolve().parents[2] / "catalog" / "freecad"
+
+
+def _add_shape(
+    doc,
+    item: ReviewItem,
+    group,
+    shape_cache: dict[str, object],
+    temp_dir: Path,
+):
+    shape = freecad_shape_from_source(
+        item.source,
+        part_module=Part,
+        cache=shape_cache,
+        temp_dir=temp_dir,
+    )
+    obj = doc.addObject("Part::Feature", safe_name(item.name))
+    obj.Label = item.name
+    obj.Shape = shape
+    obj.Placement = App.Placement(
+        App.Vector(item.x_mm, item.y_mm, item.z_mm),
+        App.Rotation(App.Vector(0, 0, 1), item.yaw_deg),
+    )
+    view_object = getattr(obj, "ViewObject", None)
+    if item.colour is not None and view_object is not None:
+        view_object.ShapeColor = item.colour
+    group.addObject(obj)
+    return obj
+
+
+def _state_group(doc, parent, item: ReviewItem, groups: dict[str, object]):
+    """Keep floor architecture and running gear separate in the tree."""
+    key = item.source.key
+    if key in {"motor-bogie", "trailer-bogie"} or "bogie" in item.name.lower():
+        label = "Running Gear / Bogies"
+    elif key in {"low-floor-chassis", "bogie-to-chassis-connector"} or "chassis" in item.name.lower():
+        label = "Floor Architecture / Chassis"
+    elif key in {"window-installations", "composite-body-roof-attachments"}:
+        label = "Glazing and Exterior"
+    elif key in {"door-design", "door-mounts", "door-installations", "door-to-body-installations"}:
+        label = "Doors and Access"
+    elif key in {"cabin-flooring", "bench-on-battery-installations"}:
+        label = "Passenger Interior"
+    elif key in {"hvac-roof-ducting-installation", "internal-lighting-installation"}:
+        label = "HVAC and Lighting"
+    elif key in {"screen-speaker-mountings", "external-lighting-lidar-system"}:
+        label = "Controls and Fixtures"
+    else:
+        label = "Body and Systems"
+    group = groups.get(label)
+    if group is None:
+        group = doc.addObject("App::DocumentObjectGroup", safe_name(label))
+        group.Label = label
+        parent.addObject(group)
+        groups[label] = group
+    return group
+
+
+def _check_shape(
+    item: ReviewItem,
+    shape_cache: dict[str, object],
+    temp_dir: Path,
+) -> ShapeCheck:
+    try:
+        shape = freecad_shape_from_source(
+            item.source,
+            part_module=Part,
+            cache=shape_cache,
+            temp_dir=temp_dir,
+        )
+        # Review assemblies intentionally contain separate contacting parts.
+        # Checking the compound as one BOP body falsely reports those contacts
+        # as self-intersections. Validate each manufacturable solid instead.
+        check_ok = True
+        issue = None
+        for solid in shape.Solids:
+            try:
+                solid.check(True)
+            except Exception as exc:  # FreeCAD returns detailed OCC text here.
+                check_ok = False
+                issue = _summarise_occ_issue(exc)
+                break
+        bbox = shape.BoundBox
+        size = (bbox.XLength, bbox.YLength, bbox.ZLength)
+        valid = bool(shape.isValid())
+        solids_valid = all(solid.isValid() for solid in shape.Solids)
+        if bbox.XLength <= 0.0 or bbox.YLength <= 0.0 or bbox.ZLength <= 0.0:
+            valid = False
+            issue = issue or "zero-size bounding box axis"
+        return ShapeCheck(
+            name=item.name,
+            source_key=item.source.key,
+            valid=valid,
+            check_ok=check_ok,
+            solids_valid=solids_valid,
+            solids=len(shape.Solids),
+            volume_mm3=float(shape.Volume),
+            bbox_mm=size,
+            issue=issue,
+        )
+    except Exception as exc:
+        return ShapeCheck(
+            name=item.name,
+            source_key=item.source.key,
+            valid=False,
+            check_ok=False,
+            solids_valid=False,
+            solids=0,
+            volume_mm3=0.0,
+            bbox_mm=(0.0, 0.0, 0.0),
+            issue=str(exc),
+        )
+
+
+def _chassis_bogie_items(*, exploded: bool) -> list[ReviewItem]:
+    if not exploded:
+        return [
+            ReviewItem(_interface_source("low-floor-chassis"), "Low-floor centre chassis", colour=COLOURS["structure"]),
+            ReviewItem(
+                _interface_source("bogie-to-chassis-connector"),
+                "Bogie-to-chassis connector package",
+                colour=COLOURS["interface"],
+            ),
+            ReviewItem(
+                _source("motor-bogie"),
+                "A-end motor bogie",
+                x_mm=-BOGIE_X_MM,
+                z_mm=BOGIE_SEAT_Z_MM,
+                colour=COLOURS["bogie"],
+            ),
+            ReviewItem(
+                _source("trailer-bogie"),
+                "B-end trailer bogie",
+                x_mm=BOGIE_X_MM,
+                z_mm=BOGIE_SEAT_Z_MM,
+                colour=COLOURS["bogie"],
+            ),
+            ReviewItem(
+                _interface_source("bogie-to-motor-connector"),
+                "A-end bogie-to-motor connector",
+                x_mm=-BOGIE_X_MM,
+                colour=COLOURS["interface"],
+            ),
+        ]
+    return [
+        ReviewItem(
+            _interface_source("low-floor-chassis"),
+            "Exploded low-floor centre chassis",
+            z_mm=1_650.0,
+            colour=COLOURS["structure"],
+        ),
+        ReviewItem(
+            _interface_source("bogie-to-chassis-connector"),
+            "Exploded bogie-to-chassis connector package",
+            z_mm=850.0,
+            colour=COLOURS["interface"],
+        ),
+        ReviewItem(
+            _source("motor-bogie"),
+            "Exploded A-end motor bogie",
+            x_mm=-BOGIE_X_MM,
+            y_mm=-2_100.0,
+            z_mm=BOGIE_SEAT_Z_MM - 650.0,
+            colour=COLOURS["bogie"],
+        ),
+        ReviewItem(
+            _source("trailer-bogie"),
+            "Exploded B-end trailer bogie",
+            x_mm=BOGIE_X_MM,
+            y_mm=2_100.0,
+            z_mm=BOGIE_SEAT_Z_MM - 650.0,
+            colour=COLOURS["bogie"],
+        ),
+        ReviewItem(
+            _interface_source("bogie-to-motor-connector"),
+            "Exploded A-end bogie-to-motor connector",
+            x_mm=-BOGIE_X_MM,
+            y_mm=-3_250.0,
+            z_mm=180.0,
+            colour=COLOURS["interface"],
+        ),
+    ]
+
+
+def _full_body_items(*, exploded: bool) -> list[ReviewItem]:
+    detail_sources = (
+        ("window-installations", "Window cassettes and glazing installation"),
+        ("door-design", "Door leaf design package"),
+        ("door-mounts", "Door portal and mount package"),
+        ("door-installations", "Door installation package"),
+        ("door-to-body-installations", "Door-to-body seal and interlock package"),
+        ("cabin-flooring", "Low-floor centre cabin flooring"),
+        ("bench-on-battery-installations", "Passenger bench and battery-strake mounts"),
+        ("hvac-roof-ducting-installation", "HVAC roof ducting and supply plenums"),
+        ("internal-lighting-installation", "Interior lighting and emergency luminaires"),
+        ("screen-speaker-mountings", "Passenger information screens and speakers"),
+        ("external-lighting-lidar-system", "External lighting, lidar, radar, and cameras"),
+        ("battery-installations", "Battery installation and contactor interfaces"),
+        ("side-body-frame-attachments", "Side body frame and fixture attachments"),
+        ("composite-body-roof-attachments", "Composite body and roof fixture attachments"),
+    )
+    if not exploded:
+        items = [
+            ReviewItem(_source("car-body-structure"), "Body primary structure", colour=COLOURS["structure"]),
+            ReviewItem(_source("car-body-exterior"), "Body exterior layer", colour=COLOURS["body"]),
+            ReviewItem(_source("car-body-interior"), "Body interior layer", colour=COLOURS["systems"]),
+            ReviewItem(_source("car-body-services"), "Body service layers", colour=COLOURS["systems"]),
+            ReviewItem(_source("car-systems"), "Car systems package", colour=COLOURS["systems"]),
+            ReviewItem(
+                _interface_source("mechanical-interface-package"),
+                "Mechanical interface package",
+                colour=COLOURS["interface"],
+            ),
+        ]
+        items.extend(ReviewItem(_interface_source(key), label, colour=COLOURS["systems"]) for key, label in detail_sources)
+        return items
+    items = [
+        ReviewItem(
+            _source("car-body-structure"),
+            "Exploded body primary structure",
+            colour=COLOURS["structure"],
+        ),
+        ReviewItem(
+            _source("car-body-exterior"),
+            "Exploded body exterior layer",
+            y_mm=-4_200.0,
+            colour=COLOURS["body"],
+        ),
+        ReviewItem(
+            _source("car-body-interior"),
+            "Exploded body interior layer",
+            y_mm=4_200.0,
+            colour=COLOURS["systems"],
+        ),
+        ReviewItem(
+            _source("car-body-services"),
+            "Exploded body service layers",
+            z_mm=3_350.0,
+            colour=COLOURS["systems"],
+        ),
+        ReviewItem(
+            _source("car-systems"),
+            "Exploded car systems package",
+            z_mm=-1_650.0,
+            colour=COLOURS["systems"],
+        ),
+        ReviewItem(
+            _interface_source("mechanical-interface-package"),
+            "Exploded mechanical interface package",
+            y_mm=0.0,
+            z_mm=1_900.0,
+            colour=COLOURS["interface"],
+        ),
+    ]
+    items.extend(
+        ReviewItem(
+            _interface_source(key),
+            f"Exploded {label.lower()}",
+            y_mm=-5_000.0,
+            z_mm=2_000.0,
+            colour=COLOURS["systems"],
+        )
+        for key, label in detail_sources
+    )
+    return items
+
+
+def _write_review_doc(
+    *,
+    output: Path,
+    title: str,
+    assembled_items: list[ReviewItem],
+    exploded_items: list[ReviewItem],
+) -> list[ShapeCheck]:
+    _require_freecad()
+    doc = App.newDocument(safe_name(title))
+    doc.Label = title
+    assembled_group = doc.addObject("App::DocumentObjectGroup", "Assembled_State")
+    assembled_group.Label = "Assembled State"
+    exploded_group = doc.addObject("App::DocumentObjectGroup", "Disassembled_State")
+    exploded_group.Label = "Disassembled / Exploded State"
+
+    checks: list[ShapeCheck] = []
+    shape_cache: dict[str, object] = {}
+    output.parent.mkdir(parents=True, exist_ok=True)
+    assembled_subgroups: dict[str, object] = {}
+    exploded_subgroups: dict[str, object] = {}
+    with tempfile.TemporaryDirectory(prefix="osr-freecad-brep-", dir=output.parent) as tmp:
+        temp_dir = Path(tmp)
+        for item in assembled_items:
+            group = _state_group(doc, assembled_group, item, assembled_subgroups)
+            _add_shape(doc, item, group, shape_cache, temp_dir)
+            checks.append(_check_shape(item, shape_cache, temp_dir))
+        for item in exploded_items:
+            group = _state_group(doc, exploded_group, item, exploded_subgroups)
+            _add_shape(doc, item, group, shape_cache, temp_dir)
+
+    notes = doc.addObject("App::DocumentObjectGroup", "SourceNotes")
+    notes.Label = "Generated directly from parametric source geometry; assembled and exploded states are placement views"
+    doc.recompute()
+    if output.exists():
+        output.unlink()
+    doc.saveAs(str(output))
+    print(f"wrote {output}")
+    App.closeDocument(doc.Name)
+    return checks
+
+
+def _write_report(path: Path, checks_by_doc: dict[str, list[ShapeCheck]]) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    lines = [
+        "# FreeCAD Assembly Geometry Review",
+        "",
+        "Generated directly from parametric source geometry. The checks below use FreeCAD/OCC",
+        "`Shape.isValid()`, `Shape.check(True)`, solid counts, volume, and bounding-box",
+        "sanity checks on each assembled-state input.",
+        "",
+    ]
+    issues = []
+    for doc_name, checks in checks_by_doc.items():
+        lines.extend(
+            [
+                f"## {doc_name}",
+                "",
+                "| Item | Source | Valid | OCC check | Solids | Volume mm^3 | Bounding box mm | Issue |",
+                "|---|---|---:|---:|---:|---:|---|---|",
+            ]
+        )
+        for check in checks:
+            bbox = " x ".join(f"{v:.0f}" for v in check.bbox_mm)
+            issue = check.issue or ""
+            if issue or not check.valid or not check.check_ok:
+                issues.append(f"{doc_name}: {check.name}: {issue or 'invalid shape'}")
+            lines.append(
+                f"| {check.name} | `{check.source_key}` | {check.valid and check.solids_valid} | {check.check_ok} | "
+                f"{check.solids} | {check.volume_mm3:.0f} | {bbox} | {issue} |"
+            )
+        lines.append("")
+    lines.extend(["## Geometry Issues", ""])
+    if issues:
+        lines.extend(f"- {issue}" for issue in issues)
+        lines.append("")
+        lines.append(
+            "Note: review compounds are kept as separate part solids. A contact or overlap "
+            "between independent interface envelopes is not automatically a self-intersection; "
+            "the report validates each solid independently before FEM/contact setup."
+        )
+    else:
+        lines.append("- No invalid source shapes or zero-size bounding boxes detected.")
+    lines.append("")
+    path.write_text("\n".join(lines), encoding="utf-8")
+    print(f"wrote {path}")
+
+
+def build_review_documents(*, out_dir: Path) -> None:
+    chassis_out = out_dir / "chassis-bogie-assembly-states.FCStd"
+    body_out = out_dir / "full-body-assembly-states.FCStd"
+    checks_by_doc = {
+        "Chassis + Bogie Assembly": _write_review_doc(
+            output=chassis_out,
+            title="OSR chassis and bogie assembly states",
+            assembled_items=_chassis_bogie_items(exploded=False),
+            exploded_items=_chassis_bogie_items(exploded=True),
+        ),
+        "Full Body Assembly": _write_review_doc(
+            output=body_out,
+            title="OSR full body assembly states",
+            assembled_items=_full_body_items(exploded=False),
+            exploded_items=_full_body_items(exploded=True),
+        ),
+    }
+    _write_report(out_dir / "assembly-geometry-review.md", checks_by_doc)
+
+
+def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description="Build FreeCAD assembled/exploded review documents.")
+    parser.add_argument("--out-dir", type=Path, default=_artifact_root())
+    return parser.parse_args(argv)
+
+
+def _normalise_freecad_argv(argv: list[str]) -> list[str]:
+    args = list(argv)
+    if args and Path(args[0]).name == "freecad_assembly_review.py":
+        args = args[1:]
+    if args and args[0] == "--pass":
+        args = args[1:]
+    return args
+
+
+def main(argv: list[str] | None = None) -> None:
+    args = parse_args(_normalise_freecad_argv(argv or []))
+    build_review_documents(out_dir=args.out_dir)
+
+
+def _running_as_freecad_script() -> bool:
+    return bool(sys.argv[1:2]) and Path(sys.argv[1]).name == "freecad_assembly_review.py"
+
+
+if __name__ == "__main__" or _running_as_freecad_script():
+    main(sys.argv[1:])

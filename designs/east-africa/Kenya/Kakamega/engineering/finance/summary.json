@@ -1,0 +1,91 @@
+{
+  "annual_opex_usd": {
+    "components": {
+      "civil_station_depot_maintenance": 5674147.8,
+      "labour": 1325352.0,
+      "residual_grid_energy": 0.0,
+      "rolling_stock_maintenance_including_battery_renewal_reserve": 2800000.0,
+      "signalling_maintenance": 105407.25,
+      "solar_plant_maintenance": 314506.79274
+    },
+    "total": 10219413.84274
+  },
+  "capex_eur": {
+    "reconciled_project_total": 387150712.19472003
+  },
+  "capex_usd": {
+    "authoritative_design_base": 399848872.0,
+    "reconciled_project_total": 420815991.51600003,
+    "risk_envelope_15_percent": 483938390.2434,
+    "risk_envelope_25_percent": 526019989.39500004,
+    "timetable_sized_dedicated_solar": 20967119.516000003
+  },
+  "cases": {
+    "high_capacity_use": {
+      "annual_operating_cash_usd": 39951188.30126001,
+      "annual_paid_trips": 78209280.0,
+      "annual_public_support_usd": 0.0,
+      "annual_revenue_usd": 50170602.14400001,
+      "capacity_utilisation": 0.8,
+      "project_irr": 0.06847920035184865,
+      "project_npv_usd_at_8_percent": -44587309.12461242,
+      "steady_state_dscr": 2.0201334481014337
+    },
+    "low_capacity_use": {
+      "annual_operating_cash_usd": 21963053.901260003,
+      "annual_paid_trips": 48880800.0,
+      "annual_public_support_usd": 0.0,
+      "annual_revenue_usd": 32182467.744000003,
+      "capacity_utilisation": 0.5,
+      "project_irr": 0.029414633715887192,
+      "project_npv_usd_at_8_percent": -165435972.07862812,
+      "steady_state_dscr": 1.1105627065163088
+    }
+  },
+  "city": "kakamega",
+  "funding": {
+    "annual_debt_service_usd": 19776509.48693861,
+    "construction_grace_years": 7,
+    "debt_principal_usd": 336652793.2128,
+    "debt_rate": 0.045,
+    "government_equity_share": 0.2,
+    "lender_commitment_status": "unconfirmed-placeholder",
+    "repayment_years": 33
+  },
+  "limitations": [
+    "No calibrated origin-destination or stated-preference ridership survey.",
+    "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
+    "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
+  ],
+  "operations_basis": {
+    "annual_train_km_including_non_revenue": 7728586.058700001,
+    "energy_kwh_per_car_km_hot_climate_planning": 4.0,
+    "non_revenue_train_km_factor": 1.08,
+    "scheduled_train_km_per_day": 19605.7485
+  },
+  "passed": true,
+  "renewal_policy": {
+    "field_asset_renewals": "included in fixed-asset maintenance allowance pending condition-based asset plan",
+    "train_battery_cycle_years": 12,
+    "treatment": "included in rolling-stock maintenance reserve; do not double-count as separate CAPEX"
+  },
+  "revenue_basis": {
+    "demand_status": "capacity-led-not-calibrated-od-forecast",
+    "nonfare_revenue_usd_per_year": 2202243.744,
+    "operating_neutral_capacity_utilisation": 0.13370764172309052,
+    "operating_neutral_paid_trips_per_year": 13071472.987076085,
+    "practical_capacity_passenger_trips_per_day": 267840.0,
+    "single_trip_fare_usd": 0.6133333333333334
+  },
+  "schema_version": 1,
+  "sources": {
+    "design": "designs/east-africa/Kenya/Kakamega/design.toml",
+    "design_sha256": "75ec01f65b3e781c27f1ac178ba4802e12a80c57867f6c14e5067ff9237d08b6",
+    "generator": "scripts/generate-city-finance.py",
+    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "scenario": "designs/east-africa/Kenya/Kakamega/kakamega.toml",
+    "scenario_sha256": "386f4f5cbe422c85c5663ac1479ebcba88cb4152b63b13bf641c90cf57d2d33b"
+  },
+  "status": "planning-screen"
+}

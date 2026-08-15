@@ -1,0 +1,209 @@
+{
+  "bom_line_ids": [
+    "B7"
+  ],
+  "document_revision": "A-DRAFT",
+  "estimated_labor_hours": 4.2,
+  "id": "LM3-BDY-P140",
+  "material_spec": {
+    "evidence_required": [
+      "certificate of conformity",
+      "incoming inspection record",
+      "clip proof-load lot",
+      "seal certificate",
+      "water-ingress record"
+    ],
+    "finish_or_protection": "passivated stainless hardware, isolated mixed-metal interfaces, UV/ozone-resistant EPDM",
+    "form_factor": "laser-cut/folded clip rails, captive hardware, potted backing plates, and extruded dry seals",
+    "governing_standard": "released LM3-BDY-160 joint calculation plus project corrosion, fatigue, fire, and ingress requirements",
+    "grade_or_part_class": "keyed hook, captive over-centre clip, independent anti-lift retainer, backing plate, and railway-grade EPDM seal",
+    "material_family": "stainless retention hardware and elastomer seal kit",
+    "nominal_section": "common 1,000 mm pitch with asymmetric key and visible closed witness mark",
+    "traceability": "hardware heat/batch, seal batch, proof-lot record, and car module map"
+  },
+  "operations": [
+    {
+      "labor_hours": 0.35,
+      "qa_gate": "traveler rev and parent assembly match released manifest",
+      "sequence": 10,
+      "signoff_role": "cell lead",
+      "title": "release traveler, revision, material/certificate pack, and parent interface",
+      "tooling_ids": [
+        "TRV-LM3-BDY-P140",
+        "DOC-LM3-SHELL-A200"
+      ],
+      "work_center": "production control"
+    },
+    {
+      "labor_hours": 1.8,
+      "qa_gate": "fabricated geometry matches datum/gauge requirements",
+      "sequence": 20,
+      "signoff_role": "operator",
+      "title": "cut, form, machine, or fabricate local hardware",
+      "tooling_ids": [
+        "FIX-LM3-BDY-FAB",
+        "GAUGE-LM3-BDY-P140-DATUM"
+      ],
+      "work_center": "fabrication cell"
+    },
+    {
+      "labor_hours": 0.8,
+      "qa_gate": "fit-up evidence recorded before release to assembly",
+      "sequence": 30,
+      "signoff_role": "operator",
+      "title": "trial-fit to parent interface and record shim/adjustment pack",
+      "tooling_ids": [
+        "FIX-LM3-SHELL-A200",
+        "TORQUE-LM3-BDY-P140"
+      ],
+      "work_center": "fit-up cell"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "clip proof load",
+      "sequence": 40,
+      "signoff_role": "quality inspector",
+      "title": "verify acceptance gate: clip proof load",
+      "tooling_ids": [
+        "QA-LM3-BDY-P140"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "anti-reversal gauge",
+      "sequence": 50,
+      "signoff_role": "quality inspector",
+      "title": "verify acceptance gate: anti-reversal gauge",
+      "tooling_ids": [
+        "GAUGE-LM3-BDY-P140"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "retainer witness-mark check",
+      "sequence": 60,
+      "signoff_role": "quality inspector",
+      "title": "verify acceptance gate: retainer witness-mark check",
+      "tooling_ids": [
+        "QA-LM3-BDY-P140"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "water ingress test",
+      "sequence": 70,
+      "signoff_role": "quality inspector",
+      "title": "verify acceptance gate: water ingress test",
+      "tooling_ids": [
+        "LEAK-TEST-LM3-BDY-P140"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "item is released, tagged, and staged for parent assembly",
+      "sequence": 80,
+      "signoff_role": "cell lead",
+      "title": "final item release to parent assembly",
+      "tooling_ids": [
+        "REL-LM3-BDY-P140",
+        "KIT-LM3-SHELL-A200"
+      ],
+      "work_center": "production control"
+    }
+  ],
+  "parent": "LM3-SHELL-A200",
+  "process_spec": {
+    "inspection_methods": [
+      "dimensional inspection",
+      "visual inspection",
+      "clip proof load",
+      "anti-reversal gauge",
+      "retainer witness-mark check",
+      "water ingress test"
+    ],
+    "joining_methods": [
+      "fixture tack and weld where structural",
+      "bolted/torqued installation to parent datum"
+    ],
+    "primary_processes": [
+      "cut",
+      "form",
+      "drill/machine",
+      "de-burr",
+      "trial fit"
+    ],
+    "release_level": "v2A drawing-controlled MAKE process; generated traveler is unsigned until build",
+    "special_process_controls": [
+      "released drawing/revision check",
+      "material certificate check",
+      "datum gauge before parent release"
+    ],
+    "tooling_basis": "FIX-LM3-BDY-FAB plus GAUGE-LM3-BDY-P140-DATUM"
+  },
+  "quantity_per_trainset": 3,
+  "release_status": "unsigned-template",
+  "revision_approvals": [
+    {
+      "approval_id": "APP-LM3-BDY-P140-MFG",
+      "date": "",
+      "name": "",
+      "role": "manufacturing engineering",
+      "signature": "",
+      "status": "pending"
+    },
+    {
+      "approval_id": "APP-LM3-BDY-P140-QA",
+      "date": "",
+      "name": "",
+      "role": "quality",
+      "signature": "",
+      "status": "pending"
+    },
+    {
+      "approval_id": "APP-LM3-BDY-P140-DA",
+      "date": "",
+      "name": "",
+      "role": "design authority",
+      "signature": "",
+      "status": "pending"
+    }
+  ],
+  "route": "MAKE",
+  "signoff_blocks": [
+    {
+      "date": "",
+      "name": "",
+      "role": "operator",
+      "signature": "",
+      "status": "blank"
+    },
+    {
+      "date": "",
+      "name": "",
+      "role": "cell lead",
+      "signature": "",
+      "status": "blank"
+    },
+    {
+      "date": "",
+      "name": "",
+      "role": "quality inspector",
+      "signature": "",
+      "status": "blank"
+    },
+    {
+      "date": "",
+      "name": "",
+      "role": "manufacturing engineer",
+      "signature": "",
+      "status": "blank"
+    }
+  ],
+  "title": "keyed clip rail, captive retainer, anti-lift, and dry-seal car kit",
+  "traveler_type": "product-item",
+  "unit": "car kit"
+}

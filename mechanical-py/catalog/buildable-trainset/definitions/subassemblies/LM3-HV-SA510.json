@@ -1,0 +1,287 @@
+{
+  "bom_line_ids": [],
+  "build_cell": "final assembly and commissioning cell",
+  "children": [
+    "LM3-BDY-P050",
+    "LM3-HV-P010",
+    "LM3-HV-P020",
+    "LM3-HV-P030",
+    "LM3-TRC-P030",
+    "LM3-TRC-P040",
+    "LM3-TRC-P060",
+    "LM3-TRC-P070",
+    "LM3-SAF-P010"
+  ],
+  "definition_type": "assembly-node",
+  "hold_points": [
+    "HVIL test",
+    "insulation resistance",
+    "coolant pressure test",
+    "first energisation release"
+  ],
+  "id": "LM3-HV-SA510",
+  "integration_steps": [
+    {
+      "child_id": "LM3-BDY-P050",
+      "child_title": "battery tray rails, vent plenum, and service-lid gutter kit",
+      "interface_classes": [
+        "mechanical datum",
+        "high-voltage electrical"
+      ],
+      "join_classes": [
+        "bolted-structural-datum",
+        "electrical-data"
+      ],
+      "joint_release_status": "joint-calculation-required",
+      "placement_zone": "under-seat HV bay, side-pin dock zone, and segregated cable route",
+      "sequence": 1,
+      "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
+      "verification": [
+        "battery gauge fit",
+        "vent-path inspection",
+        "gasket land check"
+      ]
+    },
+    {
+      "child_id": "LM3-HV-P010",
+      "child_title": "battery sliding trays, retention straps, service interlocks, and drain pans",
+      "interface_classes": [
+        "mechanical datum",
+        "high-voltage electrical",
+        "fluid/thermal"
+      ],
+      "join_classes": [
+        "bolted-structural-datum",
+        "electrical-data",
+        "fluid-thermal"
+      ],
+      "joint_release_status": "joint-calculation-required",
+      "placement_zone": "under-seat HV bay, side-pin dock zone, and segregated cable route",
+      "sequence": 2,
+      "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
+      "verification": [
+        "battery module gauge",
+        "retention pull test",
+        "tray slide/removal test",
+        "drain-path inspection"
+      ]
+    },
+    {
+      "child_id": "LM3-HV-P020",
+      "child_title": "segregated HV cable tray, bonding studs, grommets, and orange cover set",
+      "interface_classes": [
+        "mechanical datum",
+        "high-voltage electrical"
+      ],
+      "join_classes": [
+        "bolted-structural-datum",
+        "electrical-data"
+      ],
+      "joint_release_status": "joint-calculation-required",
+      "placement_zone": "under-seat HV bay, side-pin dock zone, and segregated cable route",
+      "sequence": 3,
+      "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
+      "verification": [
+        "bend-radius gauge",
+        "bond continuity",
+        "cover fastener torque",
+        "orange-label inspection"
+      ]
+    },
+    {
+      "child_id": "LM3-HV-P030",
+      "child_title": "coolant manifold brackets, bleed/drain points, and insulated pipe clamp kit",
+      "interface_classes": [
+        "mechanical datum",
+        "high-voltage electrical",
+        "fluid/thermal"
+      ],
+      "join_classes": [
+        "bolted-structural-datum",
+        "electrical-data",
+        "fluid-thermal"
+      ],
+      "joint_release_status": "joint-calculation-required",
+      "placement_zone": "under-seat HV bay, side-pin dock zone, and segregated cable route",
+      "sequence": 4,
+      "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
+      "verification": [
+        "pressure-test access",
+        "bleed point height check",
+        "pipe clamp pitch",
+        "thermal isolation inspection"
+      ]
+    },
+    {
+      "child_id": "LM3-TRC-P030",
+      "child_title": "two independent motor controllers, isolated LV DC/DC, MPPT, station protection, and cooling-loop kit",
+      "interface_classes": [
+        "mechanical datum",
+        "high-voltage electrical",
+        "low-voltage/data"
+      ],
+      "join_classes": [
+        "bolted-structural-datum",
+        "electrical-data"
+      ],
+      "joint_release_status": "supplier-freeze-required",
+      "placement_zone": "bogie frame, axle, brake, suspension, and underframe marriage datums",
+      "sequence": 5,
+      "torque_authority": "accepted supplier installation manual plus released OSR interface-control drawing",
+      "verification": [
+        "HVIL test",
+        "coolant pressure test",
+        "EMC/bonding check"
+      ]
+    },
+    {
+      "child_id": "LM3-TRC-P040",
+      "child_title": "battery-225kwh-lfp-800v under-seat traction battery pack",
+      "interface_classes": [
+        "mechanical datum",
+        "high-voltage electrical"
+      ],
+      "join_classes": [
+        "bolted-structural-datum",
+        "electrical-data"
+      ],
+      "joint_release_status": "supplier-freeze-required",
+      "placement_zone": "under-seat HV bay, side-pin dock zone, and segregated cable route",
+      "sequence": 6,
+      "torque_authority": "accepted supplier installation manual plus released OSR interface-control drawing",
+      "verification": [
+        "cell/module certificate",
+        "isolation test",
+        "vent/fire containment data"
+      ]
+    },
+    {
+      "child_id": "LM3-TRC-P060",
+      "child_title": "station side-pin charging connector, actuator, shutter, and alignment target",
+      "interface_classes": [
+        "mechanical datum",
+        "high-voltage electrical"
+      ],
+      "join_classes": [
+        "bolted-structural-datum",
+        "electrical-data"
+      ],
+      "joint_release_status": "supplier-freeze-required",
+      "placement_zone": "under-seat HV bay, side-pin dock zone, and segregated cable route",
+      "sequence": 7,
+      "torque_authority": "accepted supplier installation manual plus released OSR interface-control drawing",
+      "verification": [
+        "dock alignment test",
+        "HVIL test",
+        "shutter cycle test",
+        "emergency release"
+      ]
+    },
+    {
+      "child_id": "LM3-TRC-P070",
+      "child_title": "HV contactor, fuse, pre-charge, service-disconnect, and current-sensor panel",
+      "interface_classes": [
+        "mechanical datum",
+        "high-voltage electrical",
+        "low-voltage/data"
+      ],
+      "join_classes": [
+        "bolted-structural-datum",
+        "electrical-data"
+      ],
+      "joint_release_status": "supplier-freeze-required",
+      "placement_zone": "under-seat HV bay, side-pin dock zone, and segregated cable route",
+      "sequence": 8,
+      "torque_authority": "accepted supplier installation manual plus released OSR interface-control drawing",
+      "verification": [
+        "isolation test",
+        "pre-charge timing",
+        "fuse rating evidence",
+        "service-disconnect lockout"
+      ]
+    },
+    {
+      "child_id": "LM3-SAF-P010",
+      "child_title": "battery temperature/off-gas detection, electrical-enclosure smoke detection, and localized mist kit",
+      "interface_classes": [
+        "mechanical datum",
+        "high-voltage electrical",
+        "fluid/thermal"
+      ],
+      "join_classes": [
+        "bolted-structural-datum",
+        "electrical-data",
+        "fluid-thermal"
+      ],
+      "joint_release_status": "supplier-freeze-required",
+      "placement_zone": "battery/traction/HVAC safety loop spanning HV bay, roof equipment, and event-recorder input",
+      "sequence": 9,
+      "torque_authority": "accepted supplier installation manual plus released OSR interface-control drawing",
+      "verification": [
+        "detector certificate",
+        "loop continuity",
+        "mist proof-flow",
+        "reservoir/pump/pressure diagnostic",
+        "event-recorder input"
+      ]
+    }
+  ],
+  "layer": "subassembly",
+  "material_spec": {
+    "evidence_required": [
+      "child material certificates accepted",
+      "assembly traveler traceability",
+      "interface-control drawing revision"
+    ],
+    "finish_or_protection": "protect damaged coating, exposed edges, seals, bonds, and labels during assembly",
+    "form_factor": "formed sheet metal / stainless local hardware, roof electrical energy equipment, supplier high-voltage traction equipment, supplier HVAC and air-distribution kit",
+    "governing_standard": "all child material standards plus assembly-level torque, bonding, coating, and cleanliness controls",
+    "grade_or_part_class": "LM3-HV-SA510 inherits released child material specifications",
+    "material_family": "assembly material set",
+    "nominal_section": "as defined by child drawings and assembly interface control drawing",
+    "traceability": "child serial/heat/batch records plus assembly traveler traceability"
+  },
+  "maturity": "release-candidate",
+  "process_spec": {
+    "inspection_methods": [
+      "child acceptance evidence review",
+      "HVIL test",
+      "insulation resistance",
+      "coolant pressure test",
+      "first energisation release",
+      "continuity",
+      "insulation/isolation",
+      "functional static test"
+    ],
+    "joining_methods": [
+      "bolted/torqued interfaces",
+      "shimmed datum interfaces as required",
+      "bonding/earthing",
+      "segregated harness/fluid routing"
+    ],
+    "primary_processes": [
+      "release child kit",
+      "fixture or datum setup",
+      "install children",
+      "torque/fit-up record",
+      "release to parent"
+    ],
+    "release_level": "assembly traveler controlled; generated template is unsigned until build",
+    "special_process_controls": [
+      "child definition/revision check",
+      "tooling calibration check",
+      "parent interface freeze",
+      "LOTO/HV safety rule",
+      "EMC/bonding release",
+      "software/configuration record where applicable"
+    ],
+    "tooling_basis": "FIX-LM3-HV-SA510, KIT-LM3-HV-SA510, calibrated torque/gauge set"
+  },
+  "quantity_per_trainset": 3,
+  "source_refs": [
+    "systems.py",
+    "LM3-HV-310",
+    "LM3-HV-320"
+  ],
+  "title": "per-car LFP battery, two controllers, DC auxiliary/charge interface, mist, and cooling assembly"
+}
