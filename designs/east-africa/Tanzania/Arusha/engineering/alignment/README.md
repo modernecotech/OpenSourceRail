@@ -4,9 +4,9 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`arusha-line1.aln.toml`](arusha-line1.aln.toml) | `line-1` | 18,734.4 m | 14 |
-| [`arusha-line2.aln.toml`](arusha-line2.aln.toml) | `line-2` | 20,042.6 m | 13 |
-| [`arusha-line3.aln.toml`](arusha-line3.aln.toml) | `line-3` | 25,107.6 m | 12 |
+| [`arusha-line1.aln.toml`](arusha-line1.aln.toml) | `line-1` | 18,734.4 m | 7 |
+| [`arusha-line2.aln.toml`](arusha-line2.aln.toml) | `line-2` | 20,042.6 m | 7 |
+| [`arusha-line3.aln.toml`](arusha-line3.aln.toml) | `line-3` | 25,107.6 m | 7 |
 
 ## Status
 

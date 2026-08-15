@@ -4,9 +4,9 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`fallujah-line1.aln.toml`](fallujah-line1.aln.toml) | `line-1` | 21,002.8 m | 12 |
-| [`fallujah-line2.aln.toml`](fallujah-line2.aln.toml) | `line-2` | 15,752.0 m | 11 |
-| [`fallujah-line3.aln.toml`](fallujah-line3.aln.toml) | `line-3` | 19,023.4 m | 10 |
+| [`fallujah-line1.aln.toml`](fallujah-line1.aln.toml) | `line-1` | 21,002.8 m | 8 |
+| [`fallujah-line2.aln.toml`](fallujah-line2.aln.toml) | `line-2` | 15,752.0 m | 6 |
+| [`fallujah-line3.aln.toml`](fallujah-line3.aln.toml) | `line-3` | 19,023.4 m | 7 |
 
 ## Status
 

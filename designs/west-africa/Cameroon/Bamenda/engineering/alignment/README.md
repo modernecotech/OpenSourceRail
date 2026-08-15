@@ -4,9 +4,9 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`bamenda-line1.aln.toml`](bamenda-line1.aln.toml) | `line-1` | 19,929.7 m | 11 |
-| [`bamenda-line2.aln.toml`](bamenda-line2.aln.toml) | `line-2` | 17,180.7 m | 11 |
-| [`bamenda-line3.aln.toml`](bamenda-line3.aln.toml) | `line-3` | 15,402.0 m | 9 |
+| [`bamenda-line1.aln.toml`](bamenda-line1.aln.toml) | `line-1` | 19,929.7 m | 8 |
+| [`bamenda-line2.aln.toml`](bamenda-line2.aln.toml) | `line-2` | 17,180.7 m | 8 |
+| [`bamenda-line3.aln.toml`](bamenda-line3.aln.toml) | `line-3` | 15,402.0 m | 6 |
 
 ## Status
 

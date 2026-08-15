@@ -4,9 +4,9 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`tete-line1.aln.toml`](tete-line1.aln.toml) | `line-1` | 14,495.1 m | 9 |
-| [`tete-line2.aln.toml`](tete-line2.aln.toml) | `line-2` | 12,615.1 m | 8 |
-| [`tete-line3.aln.toml`](tete-line3.aln.toml) | `line-3` | 10,755.6 m | 6 |
+| [`tete-line1.aln.toml`](tete-line1.aln.toml) | `line-1` | 14,495.1 m | 5 |
+| [`tete-line2.aln.toml`](tete-line2.aln.toml) | `line-2` | 12,615.1 m | 4 |
+| [`tete-line3.aln.toml`](tete-line3.aln.toml) | `line-3` | 10,755.6 m | 4 |
 
 ## Status
 

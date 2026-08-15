@@ -4,9 +4,9 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`huye-line1.aln.toml`](huye-line1.aln.toml) | `line-1` | 15,861.3 m | 8 |
-| [`huye-line2.aln.toml`](huye-line2.aln.toml) | `line-2` | 14,019.7 m | 8 |
-| [`huye-line3.aln.toml`](huye-line3.aln.toml) | `line-3` | 14,768.8 m | 8 |
+| [`huye-line1.aln.toml`](huye-line1.aln.toml) | `line-1` | 15,861.3 m | 6 |
+| [`huye-line2.aln.toml`](huye-line2.aln.toml) | `line-2` | 14,019.7 m | 5 |
+| [`huye-line3.aln.toml`](huye-line3.aln.toml) | `line-3` | 14,768.8 m | 6 |
 
 ## Status
 

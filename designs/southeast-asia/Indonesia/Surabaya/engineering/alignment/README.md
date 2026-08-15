@@ -4,15 +4,15 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`surabaya-line1.aln.toml`](surabaya-line1.aln.toml) | `line-1` | 35,122.9 m | 21 |
-| [`surabaya-line2.aln.toml`](surabaya-line2.aln.toml) | `line-2` | 33,397.8 m | 18 |
-| [`surabaya-line3.aln.toml`](surabaya-line3.aln.toml) | `line-3` | 37,394.2 m | 20 |
-| [`surabaya-line4.aln.toml`](surabaya-line4.aln.toml) | `line-4` | 26,291.8 m | 14 |
-| [`surabaya-line5.aln.toml`](surabaya-line5.aln.toml) | `line-5` | 33,830.9 m | 19 |
-| [`surabaya-line6.aln.toml`](surabaya-line6.aln.toml) | `line-6` | 24,036.7 m | 16 |
-| [`surabaya-line7.aln.toml`](surabaya-line7.aln.toml) | `line-7` | 23,089.0 m | 14 |
-| [`surabaya-line8.aln.toml`](surabaya-line8.aln.toml) | `line-8` | 20,965.8 m | 14 |
-| [`surabaya-line9.aln.toml`](surabaya-line9.aln.toml) | `line-9` | 59,686.3 m | 42 |
+| [`surabaya-line1.aln.toml`](surabaya-line1.aln.toml) | `line-1` | 35,122.9 m | 13 |
+| [`surabaya-line2.aln.toml`](surabaya-line2.aln.toml) | `line-2` | 33,397.8 m | 11 |
+| [`surabaya-line3.aln.toml`](surabaya-line3.aln.toml) | `line-3` | 37,394.2 m | 12 |
+| [`surabaya-line4.aln.toml`](surabaya-line4.aln.toml) | `line-4` | 26,291.8 m | 8 |
+| [`surabaya-line5.aln.toml`](surabaya-line5.aln.toml) | `line-5` | 33,830.9 m | 10 |
+| [`surabaya-line6.aln.toml`](surabaya-line6.aln.toml) | `line-6` | 24,036.7 m | 10 |
+| [`surabaya-line7.aln.toml`](surabaya-line7.aln.toml) | `line-7` | 23,089.0 m | 7 |
+| [`surabaya-line8.aln.toml`](surabaya-line8.aln.toml) | `line-8` | 20,965.8 m | 7 |
+| [`surabaya-line9.aln.toml`](surabaya-line9.aln.toml) | `line-9` | 59,686.3 m | 24 |
 
 ## Status
 

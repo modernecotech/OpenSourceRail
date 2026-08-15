@@ -4,8 +4,8 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`chimoio-line1.aln.toml`](chimoio-line1.aln.toml) | `line-1` | 19,957.6 m | 11 |
-| [`chimoio-line2.aln.toml`](chimoio-line2.aln.toml) | `line-2` | 14,181.5 m | 9 |
+| [`chimoio-line1.aln.toml`](chimoio-line1.aln.toml) | `line-1` | 19,957.6 m | 7 |
+| [`chimoio-line2.aln.toml`](chimoio-line2.aln.toml) | `line-2` | 14,181.5 m | 5 |
 
 ## Status
 

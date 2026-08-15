@@ -273,6 +273,7 @@ def check_city_artifacts() -> list[Finding]:
                 findings.append(Finding(design_path, "missing RFC 0021 800 V cost basis"))
             else:
                 expected_cabinets = {
+                    "light-metro-3car": 2,
                     "metro-4car": 3,
                     "metro-6car": 4,
                 }.get(_family(design), 1)

@@ -4,9 +4,9 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`nador-line1.aln.toml`](nador-line1.aln.toml) | `line-1` | 9,996.0 m | 6 |
-| [`nador-line2.aln.toml`](nador-line2.aln.toml) | `line-2` | 15,367.9 m | 8 |
-| [`nador-line3.aln.toml`](nador-line3.aln.toml) | `line-3` | 8,982.9 m | 7 |
+| [`nador-line1.aln.toml`](nador-line1.aln.toml) | `line-1` | 9,996.0 m | 5 |
+| [`nador-line2.aln.toml`](nador-line2.aln.toml) | `line-2` | 15,367.9 m | 7 |
+| [`nador-line3.aln.toml`](nador-line3.aln.toml) | `line-3` | 8,982.9 m | 4 |
 
 ## Status
 

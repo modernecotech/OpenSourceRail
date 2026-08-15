@@ -4,9 +4,9 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`sayun-line1.aln.toml`](sayun-line1.aln.toml) | `line-1` | 14,173.9 m | 9 |
-| [`sayun-line2.aln.toml`](sayun-line2.aln.toml) | `line-2` | 5,366.4 m | 5 |
-| [`sayun-line3.aln.toml`](sayun-line3.aln.toml) | `line-3` | 4,860.7 m | 4 |
+| [`sayun-line1.aln.toml`](sayun-line1.aln.toml) | `line-1` | 14,173.9 m | 5 |
+| [`sayun-line2.aln.toml`](sayun-line2.aln.toml) | `line-2` | 5,366.4 m | 3 |
+| [`sayun-line3.aln.toml`](sayun-line3.aln.toml) | `line-3` | 4,860.7 m | 3 |
 
 ## Status
 

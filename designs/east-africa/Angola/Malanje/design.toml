@@ -59,7 +59,7 @@ length_m        = 5791.9
 rolling_stock   = "light-metro-3car"
 geometry        = "standard-urban"
 
-charging_dwell_seconds = 120
+charging_dwell_seconds = 180
 
 [[civil_segments]]
 line            = "line-1"
@@ -94,14 +94,8 @@ class           = "elevated"
 [[civil_segments]]
 line            = "line-2"
 from_station_m  = 4436.5
-to_station_m    = 5218.7
-class           = "at-grade"
-
-[[civil_segments]]
-line            = "line-2"
-from_station_m  = 5218.7
 to_station_m    = 5791.9
-class           = "elevated"
+class           = "at-grade"
 
 [[stations]]
 id              = "line-1-0464-0332-s000000"
@@ -114,23 +108,11 @@ archetype       = "terminal"
 platform_length_m = 59.5
 
 [[stations]]
-id              = "line-1-0473-0396-s001582"
+id              = "line-1-0473-0460-s003011"
 line            = "line-1"
 lat             = -9.526313979771803
-lon             = 16.312735119834066
-s_m             = 1581.7
-anchor_kind     = "aeroway:aerodrome"
-anchor_name     = "Aeroporto de Malanje"
-archetype       = "interchange-elevated"
-platform_length_m = 59.5
-junction_group  = 0
-
-[[stations]]
-id              = "line-1-0495-0475-s003587"
-line            = "line-1"
-lat             = -9.53027323543174
-lon             = 16.327127489233536
-s_m             = 3586.8
+lon             = 16.32439476086655
+s_m             = 3010.8
 archetype       = "standard"
 platform_length_m = 59.5
 
@@ -142,16 +124,14 @@ lon             = 16.340973312959612
 s_m             = 5982.4
 archetype       = "interchange-elevated"
 platform_length_m = 59.5
-junction_group  = 1
+junction_group  = 0
 
 [[stations]]
-id              = "line-1-0584-0632-s008041"
+id              = "line-1-0586-0613-s007627"
 line            = "line-1"
-lat             = -9.546290224237843
-lon             = 16.35573004614135
-s_m             = 8040.6
-anchor_kind     = "amenity:hospital"
-anchor_name     = "Hospital Provincial de Malanje"
+lat             = -9.546650156570566
+lon             = 16.35226859020983
+s_m             = 7627.5
 archetype       = "major"
 platform_length_m = 59.5
 
@@ -185,25 +165,7 @@ lon             = 16.340973312959612
 s_m             = 1809.9
 archetype       = "interchange-elevated"
 platform_length_m = 59.5
-junction_group  = 1
-
-[[stations]]
-id              = "line-2-0542-0487-s003231"
-line            = "line-2"
-lat             = -9.538731645250694
-lon             = 16.329313671927128
-s_m             = 3230.8
-archetype       = "standard"
-platform_length_m = 59.5
-
-[[stations]]
-id              = "line-2-0521-0432-s004505"
-line            = "line-2"
-lat             = -9.534952355757119
-lon             = 16.319293667914838
-s_m             = 4504.8
-archetype       = "standard"
-platform_length_m = 59.5
+junction_group  = 0
 
 [[stations]]
 id              = "line-2-0471-0405-s005792"
@@ -215,19 +177,10 @@ anchor_kind     = "aeroway:aerodrome"
 anchor_name     = "Aeroporto de Malanje"
 archetype       = "terminal"
 platform_length_m = 59.5
-junction_group  = 0
 
 [[interchanges]]
 id              = "interchange-000"
 junction_group  = 0
-lat             = -9.526134013605443
-lon             = 16.31355493834416
-lines           = ["line-1", "line-2"]
-platforms       = ["line-1-0473-0396-s001582", "line-2-0471-0405-s005792"]
-
-[[interchanges]]
-id              = "interchange-001"
-junction_group  = 1
 lat             = -9.54035134074794
 lon             = 16.340973312959612
 lines           = ["line-1", "line-2"]
@@ -237,7 +190,7 @@ platforms       = ["line-1-0551-0551-s005982", "line-2-0551-0551-s001810"]
 [[depots]]
 station      = "line-1-0582-0682-s009255"
 archetype    = "main-heavy"
-fleet_stalls = 7
+fleet_stalls = 6
 
 # switches — turnbacks at terminals + depot fans per RFC 0012 §9.
 switches = [
@@ -249,7 +202,6 @@ switches = [
   { id = "sw-line-1-0582-0682-s009255-yd-04", kit = "no-9-mainline", station = "line-1-0582-0682-s009255", side = "yard-throat" },
   { id = "sw-line-1-0582-0682-s009255-yd-05", kit = "no-9-mainline", station = "line-1-0582-0682-s009255", side = "yard-throat" },
   { id = "sw-line-1-0582-0682-s009255-yd-06", kit = "no-9-mainline", station = "line-1-0582-0682-s009255", side = "yard-throat" },
-  { id = "sw-line-1-0582-0682-s009255-yd-07", kit = "no-9-mainline", station = "line-1-0582-0682-s009255", side = "yard-throat" },
   { id = "sw-line-2-0612-0583-s000000-tb", kit = "no-9-mainline", station = "line-2-0612-0583-s000000", side = "turnback" },
   { id = "sw-line-2-0471-0405-s005792-tb", kit = "no-9-mainline", station = "line-2-0471-0405-s005792", side = "turnback" },
 ]
@@ -260,14 +212,6 @@ switches = [
 [[junctions]]
 group_id        = 0
 elevated_line   = "line-2"
-lat             = -9.526313979771803
-lon             = 16.312735119834066
-premium_usd     = 4500000
-premium_eur     = 4140000
-
-[[junctions]]
-group_id        = 1
-elevated_line   = "line-2"
 lat             = -9.54035134074794
 lon             = 16.340973312959612
 premium_usd     = 4500000
@@ -276,19 +220,19 @@ premium_eur     = 4140000
 # [[fleets]] — per-line fleet sizing per RFC 0014 §4.
 [[fleets]]
 line               = "line-1"
-peak_count         = 23
-service_rotation_count = 0
-spare_count        = 2
-cold_reserve_count = 1
-trainset_count     = 26
-
-[[fleets]]
-line               = "line-2"
-peak_count         = 15
+peak_count         = 18
 service_rotation_count = 0
 spare_count        = 1
 cold_reserve_count = 1
-trainset_count     = 17
+trainset_count     = 20
+
+[[fleets]]
+line               = "line-2"
+peak_count         = 12
+service_rotation_count = 0
+spare_count        = 1
+cold_reserve_count = 1
+trainset_count     = 14
 
 # [costs] — RFC 0011 §9 planning-grade CAPEX (USD
 # direct-procurement planning basis). country-costs.toml applies
@@ -300,38 +244,38 @@ version = 2
 currency_basis      = "USD local-owner trainset-family planning basis with direct material, local assembly/labour, nominal per-train QA/acceptance, and modest handover logistics included; 1 m clip-on fiberglass body modules reduce shell labour, mould tooling, cure space, and production setup; distributed overnight stabling reduces depot parking scope; fixtures/tooling live in the railway production plant line per vehicle/car module; warranty, spares, and routine commissioning support are treated as OPEX; raw marketplace BOM retained only as audit lower bound; *_eur mirrors retained for schema compatibility"
 usd_to_eur          = 0.92
 # Civil works (USD/km x civil mix; EUR mirror at usd_to_eur).
-at_grade_usd         = 39630706
-at_grade_eur         = 36460249
-elevated_usd         = 22041749
-elevated_eur         = 20278409
+at_grade_usd         = 41350117
+at_grade_eur         = 38042108
+elevated_usd         = 15164104
+elevated_eur         = 13950976
 bridge_usd           = 0
 bridge_eur           = 0
-junction_premium_usd = 9000000  # $4.5 M per elevated interchange.
-junction_premium_eur = 8280000  # EUR 4.1 M per elevated interchange.
-civil_subtotal_usd   = 70672455
-civil_subtotal_eur   = 65018658
+junction_premium_usd = 4500000  # $4.5 M per elevated interchange.
+junction_premium_eur = 4140000  # EUR 4.1 M per elevated interchange.
+civil_subtotal_usd   = 61014221
+civil_subtotal_eur   = 56133083
 # Stations (RFC 0010 archetype catalogue).
-stations_usd         = 66500000
-stations_eur         = 61180000
+stations_usd         = 49500000
+stations_eur         = 45540000
 # Depots (RFC 0014 archetype catalogue).
 depots_usd           = 8000000
 depots_eur           = 7360000
 # Rolling stock (RFC 0008 family × fleet count; local-owner production unit).
-rolling_stock_usd    = 38700000
-rolling_stock_eur    = 35604000
+rolling_stock_usd    = 30600000
+rolling_stock_eur    = 28152000
 # Railway production plant (tooling + plant setup per vehicle/car module, not per trainset).
-production_plant_usd = 7740000
-production_plant_eur = 7120800
+production_plant_usd = 6120000
+production_plant_eur = 5630400
 # Systems: residual train-control wayside + station/depot charging microgrids.
 signalling_usd       = 752352
 signalling_eur       = 692164
-charging_microgrid_usd = 1325000
-charging_microgrid_eur = 1219000
+charging_microgrid_usd = 1000000
+charging_microgrid_eur = 920000
 # EPC integration + project management (7 % of subtotal).
-epc_overhead_usd     = 13558286
-epc_overhead_eur     = 12473624
-total_usd            = 207248093  # base CAPEX before timetable-sized dedicated solar
-total_eur            = 190668246  # base CAPEX before timetable-sized dedicated solar
+epc_overhead_usd     = 10989060
+epc_overhead_eur     = 10109935
+total_usd            = 167975633  # base CAPEX before timetable-sized dedicated solar
+total_eur            = 154537583  # base CAPEX before timetable-sized dedicated solar
 
 [costs.technology_basis]
 cost_treatment = "included in planning units; do not add again"
@@ -346,7 +290,7 @@ lv_dc_dc_usd_per_car = 2500
 roof_pv_mppt_usd_per_car = 1000
 core_electrical_usd_per_car = 51000
 core_electrical_usd_per_trainset = 153000
-fleet_core_electrical_usd = 6579000
+fleet_core_electrical_usd = 5202000
 station_architecture = "500-1500 V DC/DC configured to 500 kW; 650-700 V train bus"
 stationary_lfp_500kwh_usd = 37500
 station_dcdc_500kw_usd = 15000

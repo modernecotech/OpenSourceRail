@@ -4,9 +4,9 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`hillah-line1.aln.toml`](hillah-line1.aln.toml) | `line-1` | 19,473.9 m | 13 |
-| [`hillah-line2.aln.toml`](hillah-line2.aln.toml) | `line-2` | 18,881.3 m | 11 |
-| [`hillah-line3.aln.toml`](hillah-line3.aln.toml) | `line-3` | 19,508.4 m | 11 |
+| [`hillah-line1.aln.toml`](hillah-line1.aln.toml) | `line-1` | 19,473.9 m | 8 |
+| [`hillah-line2.aln.toml`](hillah-line2.aln.toml) | `line-2` | 18,881.3 m | 8 |
+| [`hillah-line3.aln.toml`](hillah-line3.aln.toml) | `line-3` | 19,508.4 m | 8 |
 
 ## Status
 

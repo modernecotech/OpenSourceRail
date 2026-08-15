@@ -4,9 +4,9 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`galle-line1.aln.toml`](galle-line1.aln.toml) | `line-1` | 22,406.7 m | 11 |
-| [`galle-line2.aln.toml`](galle-line2.aln.toml) | `line-2` | 22,687.6 m | 13 |
-| [`galle-line3.aln.toml`](galle-line3.aln.toml) | `line-3` | 18,589.8 m | 12 |
+| [`galle-line1.aln.toml`](galle-line1.aln.toml) | `line-1` | 22,406.7 m | 9 |
+| [`galle-line2.aln.toml`](galle-line2.aln.toml) | `line-2` | 22,687.6 m | 6 |
+| [`galle-line3.aln.toml`](galle-line3.aln.toml) | `line-3` | 18,589.8 m | 8 |
 
 ## Status
 

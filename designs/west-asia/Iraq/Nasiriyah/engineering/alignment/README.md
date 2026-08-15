@@ -4,9 +4,9 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`nasiriyah-line1.aln.toml`](nasiriyah-line1.aln.toml) | `line-1` | 29,155.5 m | 15 |
-| [`nasiriyah-line2.aln.toml`](nasiriyah-line2.aln.toml) | `line-2` | 14,031.1 m | 9 |
-| [`nasiriyah-line3.aln.toml`](nasiriyah-line3.aln.toml) | `line-3` | 7,931.8 m | 5 |
+| [`nasiriyah-line1.aln.toml`](nasiriyah-line1.aln.toml) | `line-1` | 29,155.5 m | 9 |
+| [`nasiriyah-line2.aln.toml`](nasiriyah-line2.aln.toml) | `line-2` | 14,031.1 m | 7 |
+| [`nasiriyah-line3.aln.toml`](nasiriyah-line3.aln.toml) | `line-3` | 7,931.8 m | 4 |
 
 ## Status
 

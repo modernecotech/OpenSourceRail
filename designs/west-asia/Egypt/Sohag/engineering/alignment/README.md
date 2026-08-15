@@ -4,9 +4,9 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`sohag-line1.aln.toml`](sohag-line1.aln.toml) | `line-1` | 9,024.3 m | 6 |
-| [`sohag-line2.aln.toml`](sohag-line2.aln.toml) | `line-2` | 16,706.5 m | 10 |
-| [`sohag-line3.aln.toml`](sohag-line3.aln.toml) | `line-3` | 18,676.1 m | 8 |
+| [`sohag-line1.aln.toml`](sohag-line1.aln.toml) | `line-1` | 9,024.3 m | 4 |
+| [`sohag-line2.aln.toml`](sohag-line2.aln.toml) | `line-2` | 16,706.5 m | 6 |
+| [`sohag-line3.aln.toml`](sohag-line3.aln.toml) | `line-3` | 18,676.1 m | 7 |
 
 ## Status
 

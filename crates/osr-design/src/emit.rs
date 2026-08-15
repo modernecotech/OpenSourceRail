@@ -968,7 +968,8 @@ fn peak_revenue_trainsets(
         // reserve. The larger factors are calibrated to the mandatory EOL,
         // maximum-climate and ten-hour grid-outage screens; shortening dwell
         // must not silently remove that resilience capacity.
-        "metro-4car" => 1.25,
+        "light-metro-3car" => 1.62,
+        "metro-4car" => 1.30,
         "metro-6car" => 1.45,
         _ => 1.10,
     };
@@ -1077,6 +1078,7 @@ fn line_station_count(line_name: &str, stations: &[Station]) -> u32 {
 
 fn charging_cabinet_count(family: &str) -> u32 {
     match family {
+        "light-metro-3car" => 2,
         "metro-4car" => 3,
         "metro-6car" => 4,
         _ => 1,
@@ -2252,7 +2254,7 @@ mod tests {
         );
         assert_eq!(
             peak_revenue_trainsets(63_000.0, "metro-4car", true, 20, 20, 180),
-            25
+            26
         );
     }
 

@@ -14,8 +14,8 @@ crs            = "EPSG:32638"
 units          = "metric"
 is_ring        = false
 source_status  = "planning-only; replace with signed survey/CAD export"
-source_design_sha256 = "c5e95bf94ea93777192fde1e3374a837ca107c6eb3ea892bc1e3a118657fa38f"
-source_geojson_sha256 = "a18a8f3352d6bd6dc92bd9b80706b6f97540f10bda045c596c31673aefe0f1ee"
+source_design_sha256 = "d1f697830ffcf40a9fb89cdbf6ab7aec4d09533711895477f4bd3287fd9b76aa"
+source_geojson_sha256 = "3a08b1449b9a75e0bcbd150d1e9239c9ccc2e790fdf9735c33a7986d68025e03"
 horizontal_status = "GIS control polyline simplified to ≤10 m; curves and transitions not fitted"
 vertical_status   = "zero-datum placeholder; surveyed top-of-rail profile required"
 cant_status       = "not designed; absent means zero only for planning validation"
@@ -1023,16 +1023,26 @@ vc_radius_m = 0.000
 
 [[civil]]
 from_station_m = 0.000
-to_station_m   = 6549.500
+to_station_m   = 5681.800
 class          = "at-grade"
 
 [[civil]]
-from_station_m = 6549.500
-to_station_m   = 7677.200
+from_station_m = 5681.800
+to_station_m   = 6834.400
 class          = "elevated"
 
 [[civil]]
-from_station_m = 7677.200
+from_station_m = 6834.400
+to_station_m   = 7930.300
+class          = "at-grade"
+
+[[civil]]
+from_station_m = 7930.300
+to_station_m   = 9099.500
+class          = "elevated"
+
+[[civil]]
+from_station_m = 9099.500
 to_station_m   = 9597.400
 class          = "at-grade"
 
@@ -1069,18 +1079,13 @@ station_m         = 0.000
 platform_length_m = 49.000
 
 [[station]]
-id                = "line-3-0607-0465-s002730"
-station_m         = 2729.600
+id                = "line-3-0591-0446-s003242"
+station_m         = 3242.200
 platform_length_m = 49.000
 
 [[station]]
-id                = "line-3-0530-0448-s004756"
-station_m         = 4755.500
-platform_length_m = 49.000
-
-[[station]]
-id                = "line-3-0439-0425-s006766"
-station_m         = 6766.100
+id                = "line-3-0462-0431-s006256"
+station_m         = 6256.400
 platform_length_m = 49.000
 
 [[station]]

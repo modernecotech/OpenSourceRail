@@ -4,12 +4,12 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`kathmandu-line1.aln.toml`](kathmandu-line1.aln.toml) | `line-1` | 37,445.6 m | 20 |
-| [`kathmandu-line2.aln.toml`](kathmandu-line2.aln.toml) | `line-2` | 28,918.1 m | 20 |
-| [`kathmandu-line3.aln.toml`](kathmandu-line3.aln.toml) | `line-3` | 20,217.7 m | 15 |
-| [`kathmandu-line4.aln.toml`](kathmandu-line4.aln.toml) | `line-4` | 23,329.2 m | 16 |
-| [`kathmandu-line5.aln.toml`](kathmandu-line5.aln.toml) | `line-5` | 31,422.1 m | 19 |
-| [`kathmandu-line6.aln.toml`](kathmandu-line6.aln.toml) | `line-6` | 55,932.9 m | 40 |
+| [`kathmandu-line1.aln.toml`](kathmandu-line1.aln.toml) | `line-1` | 37,445.6 m | 11 |
+| [`kathmandu-line2.aln.toml`](kathmandu-line2.aln.toml) | `line-2` | 28,918.1 m | 11 |
+| [`kathmandu-line3.aln.toml`](kathmandu-line3.aln.toml) | `line-3` | 20,217.7 m | 8 |
+| [`kathmandu-line4.aln.toml`](kathmandu-line4.aln.toml) | `line-4` | 23,329.2 m | 9 |
+| [`kathmandu-line5.aln.toml`](kathmandu-line5.aln.toml) | `line-5` | 31,422.1 m | 10 |
+| [`kathmandu-line6.aln.toml`](kathmandu-line6.aln.toml) | `line-6` | 55,932.9 m | 19 |
 
 ## Status
 

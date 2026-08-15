@@ -4,12 +4,12 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`bamako-line1.aln.toml`](bamako-line1.aln.toml) | `line-1` | 43,507.6 m | 23 |
-| [`bamako-line2.aln.toml`](bamako-line2.aln.toml) | `line-2` | 27,794.3 m | 18 |
-| [`bamako-line3.aln.toml`](bamako-line3.aln.toml) | `line-3` | 20,024.9 m | 11 |
-| [`bamako-line4.aln.toml`](bamako-line4.aln.toml) | `line-4` | 30,716.9 m | 15 |
-| [`bamako-line5.aln.toml`](bamako-line5.aln.toml) | `line-5` | 23,121.2 m | 14 |
-| [`bamako-line6.aln.toml`](bamako-line6.aln.toml) | `line-6` | 67,342.5 m | 42 |
+| [`bamako-line1.aln.toml`](bamako-line1.aln.toml) | `line-1` | 43,507.6 m | 16 |
+| [`bamako-line2.aln.toml`](bamako-line2.aln.toml) | `line-2` | 27,794.3 m | 9 |
+| [`bamako-line3.aln.toml`](bamako-line3.aln.toml) | `line-3` | 20,024.9 m | 7 |
+| [`bamako-line4.aln.toml`](bamako-line4.aln.toml) | `line-4` | 30,716.9 m | 11 |
+| [`bamako-line5.aln.toml`](bamako-line5.aln.toml) | `line-5` | 23,121.2 m | 8 |
+| [`bamako-line6.aln.toml`](bamako-line6.aln.toml) | `line-6` | 67,342.5 m | 18 |
 
 ## Status
 

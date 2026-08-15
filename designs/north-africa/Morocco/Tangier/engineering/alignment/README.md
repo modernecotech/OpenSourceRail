@@ -4,11 +4,11 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`tangier-line1.aln.toml`](tangier-line1.aln.toml) | `line-1` | 22,291.5 m | 13 |
-| [`tangier-line2.aln.toml`](tangier-line2.aln.toml) | `line-2` | 24,183.0 m | 14 |
-| [`tangier-line3.aln.toml`](tangier-line3.aln.toml) | `line-3` | 20,546.4 m | 11 |
-| [`tangier-line4.aln.toml`](tangier-line4.aln.toml) | `line-4` | 29,858.5 m | 17 |
-| [`tangier-line5.aln.toml`](tangier-line5.aln.toml) | `line-5` | 59,694.0 m | 38 |
+| [`tangier-line1.aln.toml`](tangier-line1.aln.toml) | `line-1` | 22,291.5 m | 9 |
+| [`tangier-line2.aln.toml`](tangier-line2.aln.toml) | `line-2` | 24,183.0 m | 9 |
+| [`tangier-line3.aln.toml`](tangier-line3.aln.toml) | `line-3` | 20,546.4 m | 7 |
+| [`tangier-line4.aln.toml`](tangier-line4.aln.toml) | `line-4` | 29,858.5 m | 9 |
+| [`tangier-line5.aln.toml`](tangier-line5.aln.toml) | `line-5` | 59,694.0 m | 18 |
 
 ## Status
 

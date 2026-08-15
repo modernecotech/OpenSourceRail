@@ -4,9 +4,9 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`hama-line1.aln.toml`](hama-line1.aln.toml) | `line-1` | 20,922.8 m | 11 |
-| [`hama-line2.aln.toml`](hama-line2.aln.toml) | `line-2` | 11,524.4 m | 8 |
-| [`hama-line3.aln.toml`](hama-line3.aln.toml) | `line-3` | 18,997.8 m | 11 |
+| [`hama-line1.aln.toml`](hama-line1.aln.toml) | `line-1` | 20,922.8 m | 8 |
+| [`hama-line2.aln.toml`](hama-line2.aln.toml) | `line-2` | 11,524.4 m | 6 |
+| [`hama-line3.aln.toml`](hama-line3.aln.toml) | `line-3` | 18,997.8 m | 7 |
 
 ## Status
 

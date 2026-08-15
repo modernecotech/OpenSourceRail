@@ -59,7 +59,7 @@ length_m        = 33397.8
 rolling_stock   = "metro-6car"
 geometry        = "standard-metro"
 
-charging_dwell_seconds = 120
+charging_dwell_seconds = 180
 
 [[lines]]
 name            = "line-3"
@@ -68,7 +68,7 @@ length_m        = 37394.2
 rolling_stock   = "metro-6car"
 geometry        = "standard-metro"
 
-charging_dwell_seconds = 120
+charging_dwell_seconds = 150
 
 [[lines]]
 name            = "line-4"
@@ -77,7 +77,7 @@ length_m        = 26291.8
 rolling_stock   = "metro-6car"
 geometry        = "standard-metro"
 
-charging_dwell_seconds = 120
+charging_dwell_seconds = 150
 
 [[lines]]
 name            = "line-5"
@@ -86,7 +86,7 @@ length_m        = 33830.9
 rolling_stock   = "metro-6car"
 geometry        = "standard-metro"
 
-charging_dwell_seconds = 120
+charging_dwell_seconds = 180
 
 [[lines]]
 name            = "line-6"
@@ -104,7 +104,7 @@ length_m        = 23089.0
 rolling_stock   = "metro-6car"
 geometry        = "standard-metro"
 
-charging_dwell_seconds = 120
+charging_dwell_seconds = 180
 
 [[lines]]
 name            = "line-8"
@@ -113,13 +113,13 @@ length_m        = 20965.8
 rolling_stock   = "metro-6car"
 geometry        = "standard-metro"
 
-charging_dwell_seconds = 120
+charging_dwell_seconds = 150
 
 [[lines]]
 name            = "line-9"
 shape           = "ring"
 length_m        = 59686.3
-ring_wrap_length_m = 2650
+ring_wrap_length_m = 1919
 rolling_stock   = "metro-6car"
 geometry        = "standard-metro"
 
@@ -656,6 +656,18 @@ class           = "elevated"
 [[civil_segments]]
 line            = "line-2"
 from_station_m  = 19210.9
+to_station_m    = 21346.8
+class           = "at-grade"
+
+[[civil_segments]]
+line            = "line-2"
+from_station_m  = 21346.8
+to_station_m    = 22400.0
+class           = "elevated"
+
+[[civil_segments]]
+line            = "line-2"
+from_station_m  = 22400.0
 to_station_m    = 22913.1
 class           = "at-grade"
 
@@ -1496,12 +1508,12 @@ class           = "at-grade"
 [[civil_segments]]
 line            = "line-5"
 from_station_m  = 0.0
-to_station_m    = 5463.9
+to_station_m    = 4665.9
 class           = "at-grade"
 
 [[civil_segments]]
 line            = "line-5"
-from_station_m  = 5463.9
+from_station_m  = 4665.9
 to_station_m    = 5872.2
 class           = "elevated"
 
@@ -1616,30 +1628,6 @@ class           = "elevated"
 [[civil_segments]]
 line            = "line-6"
 from_station_m  = 1887.9
-to_station_m    = 6439.6
-class           = "at-grade"
-
-[[civil_segments]]
-line            = "line-6"
-from_station_m  = 6439.6
-to_station_m    = 7683.2
-class           = "elevated"
-
-[[civil_segments]]
-line            = "line-6"
-from_station_m  = 7683.2
-to_station_m    = 8272.9
-class           = "at-grade"
-
-[[civil_segments]]
-line            = "line-6"
-from_station_m  = 8272.9
-to_station_m    = 9433.8
-class           = "elevated"
-
-[[civil_segments]]
-line            = "line-6"
-from_station_m  = 9433.8
 to_station_m    = 10443.5
 class           = "at-grade"
 
@@ -1808,18 +1796,6 @@ class           = "elevated"
 [[civil_segments]]
 line            = "line-7"
 from_station_m  = 7691.3
-to_station_m    = 9150.1
-class           = "at-grade"
-
-[[civil_segments]]
-line            = "line-7"
-from_station_m  = 9150.1
-to_station_m    = 10302.6
-class           = "elevated"
-
-[[civil_segments]]
-line            = "line-7"
-from_station_m  = 10302.6
 to_station_m    = 12167.7
 class           = "at-grade"
 
@@ -2120,12 +2096,72 @@ class           = "elevated"
 [[civil_segments]]
 line            = "line-8"
 from_station_m  = 4524.2
-to_station_m    = 7325.8
+to_station_m    = 5316.7
 class           = "at-grade"
 
 [[civil_segments]]
 line            = "line-8"
-from_station_m  = 7325.8
+from_station_m  = 5316.7
+to_station_m    = 6436.1
+class           = "elevated"
+
+[[civil_segments]]
+line            = "line-8"
+from_station_m  = 6436.1
+to_station_m    = 8043.2
+class           = "at-grade"
+
+[[civil_segments]]
+line            = "line-8"
+from_station_m  = 8043.2
+to_station_m    = 8071.5
+class           = "elevated"
+
+[[civil_segments]]
+line            = "line-8"
+from_station_m  = 8071.5
+to_station_m    = 8184.7
+class           = "at-grade"
+
+[[civil_segments]]
+line            = "line-8"
+from_station_m  = 8184.7
+to_station_m    = 8337.8
+class           = "elevated"
+
+[[civil_segments]]
+line            = "line-8"
+from_station_m  = 8337.8
+to_station_m    = 8386.1
+class           = "at-grade"
+
+[[civil_segments]]
+line            = "line-8"
+from_station_m  = 8386.1
+to_station_m    = 8414.4
+class           = "elevated"
+
+[[civil_segments]]
+line            = "line-8"
+from_station_m  = 8414.4
+to_station_m    = 8454.4
+class           = "at-grade"
+
+[[civil_segments]]
+line            = "line-8"
+from_station_m  = 8454.4
+to_station_m    = 8567.5
+class           = "elevated"
+
+[[civil_segments]]
+line            = "line-8"
+from_station_m  = 8567.5
+to_station_m    = 8587.5
+class           = "at-grade"
+
+[[civil_segments]]
+line            = "line-8"
+from_station_m  = 8587.5
 to_station_m    = 8644.1
 class           = "elevated"
 
@@ -2198,12 +2234,60 @@ class           = "at-grade"
 [[civil_segments]]
 line            = "line-8"
 from_station_m  = 9600.0
-to_station_m    = 10772.6
+to_station_m    = 9648.3
 class           = "elevated"
 
 [[civil_segments]]
 line            = "line-8"
-from_station_m  = 10772.6
+from_station_m  = 9648.3
+to_station_m    = 9668.3
+class           = "at-grade"
+
+[[civil_segments]]
+line            = "line-8"
+from_station_m  = 9668.3
+to_station_m    = 9696.6
+class           = "elevated"
+
+[[civil_segments]]
+line            = "line-8"
+from_station_m  = 9696.6
+to_station_m    = 9804.9
+class           = "at-grade"
+
+[[civil_segments]]
+line            = "line-8"
+from_station_m  = 9804.9
+to_station_m    = 9973.2
+class           = "elevated"
+
+[[civil_segments]]
+line            = "line-8"
+from_station_m  = 9973.2
+to_station_m    = 10013.2
+class           = "at-grade"
+
+[[civil_segments]]
+line            = "line-8"
+from_station_m  = 10013.2
+to_station_m    = 10033.2
+class           = "elevated"
+
+[[civil_segments]]
+line            = "line-8"
+from_station_m  = 10033.2
+to_station_m    = 10181.5
+class           = "at-grade"
+
+[[civil_segments]]
+line            = "line-8"
+from_station_m  = 10181.5
+to_station_m    = 10209.7
+class           = "elevated"
+
+[[civil_segments]]
+line            = "line-8"
+from_station_m  = 10209.7
 to_station_m    = 10889.2
 class           = "at-grade"
 
@@ -2312,30 +2396,42 @@ class           = "elevated"
 [[civil_segments]]
 line            = "line-9"
 from_station_m  = 8904.4
-to_station_m    = 11174.9
+to_station_m    = 11294.9
 class           = "at-grade"
 
 [[civil_segments]]
 line            = "line-9"
-from_station_m  = 11174.9
-to_station_m    = 12468.3
+from_station_m  = 11294.9
+to_station_m    = 12604.9
 class           = "elevated"
 
 [[civil_segments]]
 line            = "line-9"
-from_station_m  = 12468.3
+from_station_m  = 12604.9
+to_station_m    = 14007.7
+class           = "at-grade"
+
+[[civil_segments]]
+line            = "line-9"
+from_station_m  = 14007.7
+to_station_m    = 15085.7
+class           = "elevated"
+
+[[civil_segments]]
+line            = "line-9"
+from_station_m  = 15085.7
 to_station_m    = 15847.1
 class           = "at-grade"
 
 [[civil_segments]]
 line            = "line-9"
 from_station_m  = 15847.1
-to_station_m    = 17011.4
+to_station_m    = 15947.1
 class           = "elevated"
 
 [[civil_segments]]
 line            = "line-9"
-from_station_m  = 17011.4
+from_station_m  = 15947.1
 to_station_m    = 17159.7
 class           = "at-grade"
 
@@ -2498,84 +2594,24 @@ class           = "at-grade"
 [[civil_segments]]
 line            = "line-9"
 from_station_m  = 19985.6
-to_station_m    = 20178.8
+to_station_m    = 21276.2
 class           = "elevated"
 
 [[civil_segments]]
 line            = "line-9"
-from_station_m  = 20178.8
-to_station_m    = 20235.3
+from_station_m  = 21276.2
+to_station_m    = 22906.7
 class           = "at-grade"
 
 [[civil_segments]]
 line            = "line-9"
-from_station_m  = 20235.3
-to_station_m    = 20255.3
+from_station_m  = 22906.7
+to_station_m    = 23976.4
 class           = "elevated"
 
 [[civil_segments]]
 line            = "line-9"
-from_station_m  = 20255.3
-to_station_m    = 20283.6
-class           = "at-grade"
-
-[[civil_segments]]
-line            = "line-9"
-from_station_m  = 20283.6
-to_station_m    = 20331.9
-class           = "elevated"
-
-[[civil_segments]]
-line            = "line-9"
-from_station_m  = 20331.9
-to_station_m    = 20408.5
-class           = "at-grade"
-
-[[civil_segments]]
-line            = "line-9"
-from_station_m  = 20408.5
-to_station_m    = 20448.5
-class           = "elevated"
-
-[[civil_segments]]
-line            = "line-9"
-from_station_m  = 20448.5
-to_station_m    = 20565.0
-class           = "at-grade"
-
-[[civil_segments]]
-line            = "line-9"
-from_station_m  = 20565.0
-to_station_m    = 20613.3
-class           = "elevated"
-
-[[civil_segments]]
-line            = "line-9"
-from_station_m  = 20613.3
-to_station_m    = 20633.3
-class           = "at-grade"
-
-[[civil_segments]]
-line            = "line-9"
-from_station_m  = 20633.3
-to_station_m    = 20661.6
-class           = "elevated"
-
-[[civil_segments]]
-line            = "line-9"
-from_station_m  = 20661.6
-to_station_m    = 20749.9
-class           = "at-grade"
-
-[[civil_segments]]
-line            = "line-9"
-from_station_m  = 20749.9
-to_station_m    = 20806.5
-class           = "elevated"
-
-[[civil_segments]]
-line            = "line-9"
-from_station_m  = 20806.5
+from_station_m  = 23976.4
 to_station_m    = 25093.8
 class           = "at-grade"
 
@@ -2594,24 +2630,12 @@ class           = "at-grade"
 [[civil_segments]]
 line            = "line-9"
 from_station_m  = 25153.8
-to_station_m    = 25182.1
+to_station_m    = 26248.4
 class           = "elevated"
 
 [[civil_segments]]
 line            = "line-9"
-from_station_m  = 25182.1
-to_station_m    = 25350.4
-class           = "at-grade"
-
-[[civil_segments]]
-line            = "line-9"
-from_station_m  = 25350.4
-to_station_m    = 25370.4
-class           = "elevated"
-
-[[civil_segments]]
-line            = "line-9"
-from_station_m  = 25370.4
+from_station_m  = 26248.4
 to_station_m    = 26444.9
 class           = "at-grade"
 
@@ -2786,12 +2810,12 @@ class           = "at-grade"
 [[civil_segments]]
 line            = "line-9"
 from_station_m  = 34942.2
-to_station_m    = 35368.5
+to_station_m    = 36234.8
 class           = "elevated"
 
 [[civil_segments]]
 line            = "line-9"
-from_station_m  = 35368.5
+from_station_m  = 36234.8
 to_station_m    = 40304.7
 class           = "at-grade"
 
@@ -2840,18 +2864,18 @@ class           = "elevated"
 [[civil_segments]]
 line            = "line-9"
 from_station_m  = 48585.1
-to_station_m    = 49878.3
+to_station_m    = 49963.1
 class           = "at-grade"
 
 [[civil_segments]]
 line            = "line-9"
-from_station_m  = 49878.3
-to_station_m    = 51204.8
+from_station_m  = 49963.1
+to_station_m    = 51264.8
 class           = "elevated"
 
 [[civil_segments]]
 line            = "line-9"
-from_station_m  = 51204.8
+from_station_m  = 51264.8
 to_station_m    = 51353.1
 class           = "at-grade"
 
@@ -3035,34 +3059,22 @@ archetype       = "terminal"
 platform_length_m = 121.0
 
 [[stations]]
-id              = "line-1-0151-0685-s003008"
+id              = "line-1-0173-0691-s003498"
 line            = "line-1"
-lat             = -7.1572648742036495
-lon             = 112.72415519528603
-s_m             = 3008.3
+lat             = -7.1612241298635855
+lon             = 112.72524189283777
+s_m             = 3498.0
 archetype       = "halt"
 platform_length_m = 117.0
 
 [[stations]]
-id              = "line-1-0284-0715-s006022"
+id              = "line-1-0333-0715-s007002"
 line            = "line-1"
-lat             = -7.1812003743296255
+lat             = -7.190018716481301
 lon             = 112.72958868304472
-s_m             = 6022.3
-archetype       = "halt"
-platform_length_m = 117.0
-
-[[stations]]
-id              = "line-1-0376-0724-s008031"
-line            = "line-1"
-lat             = -7.197757261634813
-lon             = 112.73121872937233
-s_m             = 8030.5
-anchor_kind     = "public_transport:station"
-anchor_name     = "Surabaya D1"
-archetype       = "interchange-elevated"
+s_m             = 7002.3
+archetype       = "standard"
 platform_length_m = 121.0
-junction_group  = 0
 
 [[stations]]
 id              = "line-1-0381-0733-s008275"
@@ -3075,61 +3087,40 @@ platform_length_m = 121.0
 junction_group  = 0
 
 [[stations]]
-id              = "line-1-0464-0737-s010051"
+id              = "line-1-0480-0737-s010433"
 line            = "line-1"
-lat             = -7.213594284274556
+lat             = -7.216473742936328
 lon             = 112.73357324073443
-s_m             = 10051.4
-anchor_kind     = "amenity:hospital"
-anchor_name     = "Rumah Sakit PHC Surabaya"
-archetype       = "standard"
-platform_length_m = 121.0
-
-[[stations]]
-id              = "line-1-0527-0778-s012069"
-line            = "line-1"
-lat             = -7.224932152755282
-lon             = 112.74099900733796
-s_m             = 12068.8
-anchor_kind     = "amenity:college"
-anchor_name     = "Kementrian Perhubungan Politeknik Pelayaran Surabaya"
+s_m             = 10432.8
+anchor_kind     = "public_transport:station"
+anchor_name     = "Kalimas"
 archetype       = "interchange-elevated"
 platform_length_m = 121.0
 junction_group  = 1
 
 [[stations]]
-id              = "line-1-0591-0793-s014079"
+id              = "line-1-0566-0795-s013434"
 line            = "line-1"
-lat             = -7.236449987402368
-lon             = 112.74371575121731
-s_m             = 14078.7
-anchor_kind     = "amenity:marketplace"
-anchor_name     = "Pasar Pabean"
+lat             = -7.23195083324335
+lon             = 112.74407798373456
+s_m             = 13434.5
+anchor_kind     = "amenity:college"
+anchor_name     = "Taswirul Afkar"
 archetype       = "interchange"
 platform_length_m = 121.0
 junction_group  = 2
 
 [[stations]]
-id              = "line-1-0666-0805-s016094"
+id              = "line-1-0679-0796-s016452"
 line            = "line-1"
-lat             = -7.249947449879422
-lon             = 112.74588914632078
-s_m             = 16093.5
+lat             = -7.252287010042112
+lon             = 112.74425909999317
+s_m             = 16451.5
 anchor_kind     = "amenity:hospital"
-anchor_name     = "Rumah Sakit Adi Husada Undaan Wetan"
-archetype       = "interchange"
+anchor_name     = "Rumah Sakit Mata Undaan"
+archetype       = "interchange-elevated"
 platform_length_m = 121.0
-junction_group  = 2
-
-[[stations]]
-id              = "line-1-0722-0843-s018097"
-line            = "line-1"
-lat             = -7.260025555195623
-lon             = 112.75277156414846
-s_m             = 18097.2
-archetype       = "interchange"
-platform_length_m = 121.0
-junction_group  = 2
+junction_group  = 3
 
 [[stations]]
 id              = "line-1-0758-0864-s019295"
@@ -3137,68 +3128,39 @@ line            = "line-1"
 lat             = -7.266504337184609
 lon             = 112.75657500557953
 s_m             = 19294.6
-archetype       = "interchange"
+archetype       = "interchange-elevated"
 platform_length_m = 121.0
-junction_group  = 2
+junction_group  = 4
 
 [[stations]]
-id              = "line-1-0785-0836-s020692"
+id              = "line-1-0846-0860-s022480"
 line            = "line-1"
-lat             = -7.271363423676349
-lon             = 112.7515037503381
-s_m             = 20692.0
-archetype       = "interchange"
-platform_length_m = 121.0
-junction_group  = 2
-
-[[stations]]
-id              = "line-1-0827-0860-s022100"
-line            = "line-1"
-lat             = -7.278922002663499
+lat             = -7.282341359824353
 lon             = 112.75585054054504
-s_m             = 22099.7
-archetype       = "standard"
+s_m             = 22479.7
+anchor_kind     = "shop:mall"
+anchor_name     = "Roemah Ejank"
+archetype       = "interchange-elevated"
 platform_length_m = 121.0
+junction_group  = 5
 
 [[stations]]
-id              = "line-1-0909-0872-s024112"
+id              = "line-1-0952-0895-s025487"
 line            = "line-1"
-lat             = -7.293679228305079
-lon             = 112.75802393564852
-s_m             = 24112.2
-anchor_kind     = "amenity:college"
-anchor_name     = "Institut Sains dan Teknologi Terpadu Surabaya (iSTTS)"
-archetype       = "standard"
-platform_length_m = 121.0
-
-[[stations]]
-id              = "line-1-0944-0894-s025319"
-line            = "line-1"
-lat             = -7.299978044127704
-lon             = 112.76200849333823
-s_m             = 25318.5
+lat             = -7.3014177734585894
+lon             = 112.76218960959685
+s_m             = 25486.8
 anchor_kind     = "amenity:university"
 anchor_name     = "Sekolah Tinggi Ilmu Ekonomi Perbanas"
-archetype       = "major"
-platform_length_m = 121.0
-
-[[stations]]
-id              = "line-1-1000-0945-s027332"
-line            = "line-1"
-lat             = -7.310056149443905
-lon             = 112.771245422528
-s_m             = 27332.5
-anchor_kind     = "amenity:college"
-anchor_name     = "Sekolah Tinggi Ilmu Komunikasi Almamater Wartawan Surabaya"
 archetype       = "standard"
 platform_length_m = 121.0
 
 [[stations]]
-id              = "line-1-1061-0964-s028773"
+id              = "line-1-1025-0949-s027866"
 line            = "line-1"
-lat             = -7.321034085591909
-lon             = 112.77468663144184
-s_m             = 28773.3
+lat             = -7.314555303602923
+lon             = 112.77196988756249
+s_m             = 27865.6
 archetype       = "standard"
 platform_length_m = 121.0
 
@@ -3212,31 +3174,7 @@ anchor_kind     = "amenity:marketplace"
 anchor_name     = "Pasar Penjaringan Sari"
 archetype       = "interchange-elevated"
 platform_length_m = 121.0
-junction_group  = 3
-
-[[stations]]
-id              = "line-1-1124-1000-s031347"
-line            = "line-1"
-lat             = -7.332371954072634
-lon             = 112.78120681675226
-s_m             = 31347.3
-anchor_kind     = "amenity:university"
-anchor_name     = "Universitas Muhammadiyah Sidoarjo"
-archetype       = "interchange-elevated"
-platform_length_m = 121.0
-junction_group  = 3
-
-[[stations]]
-id              = "line-1-1199-1018-s033374"
-line            = "line-1"
-lat             = -7.3458694165496885
-lon             = 112.78446690940747
-s_m             = 33373.8
-anchor_kind     = "amenity:university"
-anchor_name     = "Kampus II UIN Sunan Ampel"
-archetype       = "interchange"
-platform_length_m = 121.0
-junction_group  = 4
+junction_group  = 6
 
 [[stations]]
 id              = "line-1-1195-0998-s035123"
@@ -3244,11 +3182,9 @@ line            = "line-1"
 lat             = -7.345149551884246
 lon             = 112.78084458423501
 s_m             = 35122.9
-anchor_kind     = "amenity:hospital"
-anchor_name     = "Rumah Sakit Bersalin"
 archetype       = "terminal"
 platform_length_m = 121.0
-junction_group  = 4
+junction_group  = 7
 
 [[stations]]
 id              = "line-2-0151-1409-s000000"
@@ -3262,77 +3198,40 @@ archetype       = "terminal"
 platform_length_m = 121.0
 
 [[stations]]
-id              = "line-2-0265-1329-s003004"
+id              = "line-2-0283-1311-s003513"
 line            = "line-2"
-lat             = -7.177781017168773
-lon             = 112.84079406583922
-s_m             = 3004.2
+lat             = -7.181020408163265
+lon             = 112.837533973184
+s_m             = 3513.3
 archetype       = "halt"
 platform_length_m = 117.0
 
 [[stations]]
-id              = "line-2-0372-1222-s006031"
+id              = "line-2-0407-1187-s007021"
 line            = "line-2"
-lat             = -7.197037396969369
-lon             = 112.82141462616656
-s_m             = 6030.6
+lat             = -7.203336212791995
+lon             = 112.81507555711475
+s_m             = 7020.5
 archetype       = "halt"
 platform_length_m = 117.0
 
 [[stations]]
-id              = "line-2-0443-1151-s008039"
+id              = "line-2-0678-1082-s013322"
 line            = "line-2"
-lat             = -7.209814994780981
-lon             = 112.80855537180433
-s_m             = 8038.8
+lat             = -7.252107043875752
+lon             = 112.79605834995934
+s_m             = 13322.1
 archetype       = "standard"
 platform_length_m = 121.0
 
 [[stations]]
-id              = "line-2-0527-1111-s010050"
+id              = "line-2-0731-1009-s016345"
 line            = "line-2"
-lat             = -7.224932152755282
-lon             = 112.80131072145942
-s_m             = 10050.1
+lat             = -7.26164525069287
+lon             = 112.78283686307986
+s_m             = 16345.2
 archetype       = "standard"
 platform_length_m = 121.0
-
-[[stations]]
-id              = "line-2-0627-1111-s012050"
-line            = "line-2"
-lat             = -7.242928769391354
-lon             = 112.80131072145942
-s_m             = 12050.1
-archetype       = "standard"
-platform_length_m = 121.0
-
-[[stations]]
-id              = "line-2-0677-1054-s014053"
-line            = "line-2"
-lat             = -7.25192707770939
-lon             = 112.7909870947179
-s_m             = 14053.2
-archetype       = "standard"
-platform_length_m = 121.0
-
-[[stations]]
-id              = "line-2-0718-1007-s016069"
-line            = "line-2"
-lat             = -7.25930569053018
-lon             = 112.78247463056262
-s_m             = 16068.6
-archetype       = "standard"
-platform_length_m = 121.0
-
-[[stations]]
-id              = "line-2-0790-0979-s018076"
-line            = "line-2"
-lat             = -7.272263254508152
-lon             = 112.77740337532119
-s_m             = 18076.3
-archetype       = "interchange"
-platform_length_m = 121.0
-junction_group  = 2
 
 [[stations]]
 id              = "line-2-0833-0929-s019972"
@@ -3340,73 +3239,39 @@ line            = "line-2"
 lat             = -7.2800017996616635
 lon             = 112.76834756239003
 s_m             = 19972.3
-archetype       = "interchange"
+archetype       = "interchange-elevated"
 platform_length_m = 121.0
-junction_group  = 2
+junction_group  = 8
 
 [[stations]]
-id              = "line-2-0858-0860-s022095"
+id              = "line-2-0871-0857-s022380"
 line            = "line-2"
-lat             = -7.2845009538206815
-lon             = 112.75585054054504
-s_m             = 22095.1
-anchor_kind     = "shop:mall"
-anchor_name     = "Roemah Ejank"
-archetype       = "standard"
+lat             = -7.286840513983371
+lon             = 112.75530719176918
+s_m             = 22380.0
+archetype       = "interchange-elevated"
 platform_length_m = 121.0
+junction_group  = 5
 
 [[stations]]
-id              = "line-2-0901-0802-s024112"
+id              = "line-2-0942-0774-s025382"
 line            = "line-2"
-lat             = -7.292239498974193
-lon             = 112.74534579754491
-s_m             = 24111.9
-anchor_kind     = "amenity:university"
-anchor_name     = "Gedung B Universitas Adi Buana"
-archetype       = "standard"
-platform_length_m = 121.0
-
-[[stations]]
-id              = "line-2-0939-0775-s025314"
-line            = "line-2"
-lat             = -7.299078213295901
-lon             = 112.7404556585621
-s_m             = 25314.2
+lat             = -7.299618111794983
+lon             = 112.74027454230347
+s_m             = 25382.5
 anchor_kind     = "public_transport:station"
 anchor_name     = "Wonokromo"
 archetype       = "major"
 platform_length_m = 121.0
 
 [[stations]]
-id              = "line-2-0987-0750-s026531"
+id              = "line-2-1072-0732-s028397"
 line            = "line-2"
-lat             = -7.307716589281215
-lon             = 112.73592775209652
-s_m             = 26531.0
-anchor_kind     = "amenity:hospital"
-anchor_name     = "Rumah Sakit Islam Surabaya"
-archetype       = "major"
-platform_length_m = 121.0
-
-[[stations]]
-id              = "line-2-1079-0730-s028553"
-line            = "line-2"
-lat             = -7.324273476586401
-lon             = 112.73230542692406
-s_m             = 28553.3
-anchor_kind     = "amenity:hospital"
-anchor_name     = "Rumah Sakit Bhayangkara HS Samsoeri Mertojoso"
-archetype       = "standard"
-platform_length_m = 121.0
-
-[[stations]]
-id              = "line-2-1143-0717-s029969"
-line            = "line-2"
-lat             = -7.335791311233488
-lon             = 112.72995091556196
-s_m             = 29969.2
+lat             = -7.323013713421877
+lon             = 112.7326676594413
+s_m             = 28396.7
 anchor_kind     = "amenity:university"
-anchor_name     = "BRI Corporate University"
+anchor_name     = "Universitas Islam Negeri Sunan Ampel Surabaya"
 archetype       = "standard"
 platform_length_m = 121.0
 
@@ -3418,7 +3283,7 @@ lon             = 112.7294075667861
 s_m             = 31376.9
 archetype       = "interchange-elevated"
 platform_length_m = 121.0
-junction_group  = 5
+junction_group  = 9
 
 [[stations]]
 id              = "line-2-1198-0641-s033398"
@@ -3428,7 +3293,7 @@ lon             = 112.71618607990662
 s_m             = 33397.8
 archetype       = "terminal"
 platform_length_m = 121.0
-junction_group  = 6
+junction_group  = 10
 
 [[stations]]
 id              = "line-3-0460-0990-s000000"
@@ -3442,29 +3307,22 @@ archetype       = "terminal"
 platform_length_m = 121.0
 
 [[stations]]
-id              = "line-3-0540-0964-s002018"
+id              = "line-3-0603-0940-s003590"
 line            = "line-3"
-lat             = -7.227271712917971
-lon             = 112.77468663144184
-s_m             = 2018.2
+lat             = -7.238609581398697
+lon             = 112.77033984123489
+s_m             = 3590.2
 archetype       = "standard"
 platform_length_m = 121.0
 
 [[stations]]
-id              = "line-3-0622-0933-s004028"
+id              = "line-3-0626-0884-s005477"
 line            = "line-3"
-lat             = -7.24202893855955
-lon             = 112.76907202742453
-s_m             = 4028.2
-archetype       = "standard"
-platform_length_m = 121.0
-
-[[stations]]
-id              = "line-3-0619-0859-s006035"
-line            = "line-3"
-lat             = -7.241489040060468
-lon             = 112.75566942428642
-s_m             = 6035.3
+lat             = -7.242748803224994
+lon             = 112.76019733075199
+s_m             = 5477.3
+anchor_kind     = "amenity:hospital"
+anchor_name     = "RSUD Dr.M.Soewandhie"
 archetype       = "standard"
 platform_length_m = 121.0
 
@@ -3474,148 +3332,79 @@ line            = "line-3"
 lat             = -7.24418853255588
 lon             = 112.7475191926484
 s_m             = 7382.4
-archetype       = "interchange"
+archetype       = "interchange-elevated"
 platform_length_m = 121.0
-junction_group  = 2
+junction_group  = 3
 
 [[stations]]
-id              = "line-3-0630-0785-s008052"
+id              = "line-3-0652-0735-s009623"
 line            = "line-3"
-lat             = -7.243468667890436
-lon             = 112.74226682114832
-s_m             = 8052.1
-anchor_kind     = "public_transport:station"
-anchor_name     = "Surabaya Kota"
-archetype       = "interchange"
-platform_length_m = 121.0
-junction_group  = 2
-
-[[stations]]
-id              = "line-3-0667-0727-s010074"
-line            = "line-3"
-lat             = -7.250127416045784
-lon             = 112.7317620781482
-s_m             = 10073.8
+lat             = -7.247427923550372
+lon             = 112.73321100821718
+s_m             = 9622.6
 anchor_kind     = "public_transport:station"
 anchor_name     = "Surabaya Pasarturi"
 archetype       = "standard"
 platform_length_m = 121.0
 
 [[stations]]
-id              = "line-3-0713-0703-s012077"
+id              = "line-3-0739-0699-s012631"
 line            = "line-3"
-lat             = -7.258405859698376
-lon             = 112.72741528794124
-s_m             = 12077.4
+lat             = -7.263084980023756
+lon             = 112.72669082290675
+s_m             = 12630.6
+anchor_kind     = "amenity:college"
+anchor_name     = "Sekolah Tinggi Alkitab Surabaya"
 archetype       = "standard"
 platform_length_m = 121.0
 
 [[stations]]
-id              = "line-3-0801-0700-s014094"
+id              = "line-3-0848-0701-s015649"
 line            = "line-3"
-lat             = -7.27424288233812
-lon             = 112.72687193916538
-s_m             = 14094.3
-anchor_kind     = "amenity:marketplace"
-anchor_name     = "Pasar Kupang"
-archetype       = "interchange-elevated"
-platform_length_m = 121.0
-junction_group  = 7
-
-[[stations]]
-id              = "line-3-0853-0683-s016107"
-line            = "line-3"
-lat             = -7.283601122988878
-lon             = 112.72379296276878
-s_m             = 16107.0
+lat             = -7.282701292157074
+lon             = 112.727053055424
+s_m             = 15649.1
 archetype       = "standard"
 platform_length_m = 121.0
 
 [[stations]]
-id              = "line-3-0887-0616-s018117"
+id              = "line-3-0873-0570-s019153"
 line            = "line-3"
-lat             = -7.289719972645143
-lon             = 112.71165817344105
-s_m             = 18117.0
-archetype       = "interchange-elevated"
-platform_length_m = 121.0
-junction_group  = 8
-
-[[stations]]
-id              = "line-3-0906-0541-s020124"
-line            = "line-3"
-lat             = -7.293139329805997
-lon             = 112.69807445404433
-s_m             = 20123.5
-archetype       = "interchange-elevated"
-platform_length_m = 121.0
-junction_group  = 9
-
-[[stations]]
-id              = "line-3-0988-0515-s022132"
-line            = "line-3"
-lat             = -7.307896555447575
-lon             = 112.69336543132013
-s_m             = 22132.0
+lat             = -7.287200446316093
+lon             = 112.7033268255444
+s_m             = 19153.0
 archetype       = "standard"
 platform_length_m = 121.0
 
 [[stations]]
-id              = "line-3-1013-0445-s024134"
+id              = "line-3-0998-0497-s022650"
 line            = "line-3"
-lat             = -7.3123957096065935
-lon             = 112.68068729321652
-s_m             = 24134.3
+lat             = -7.309696217111183
+lon             = 112.69010533866492
+s_m             = 22650.0
+anchor_kind     = "amenity:hospital"
+anchor_name     = "Rumah Sakit Wiyung Sejahtera"
+archetype       = "standard"
+platform_length_m = 121.0
+
+[[stations]]
+id              = "line-3-1066-0413-s025664"
+line            = "line-3"
+lat             = -7.3219339164237125
+lon             = 112.67489157294058
+s_m             = 25664.2
 anchor_kind     = "place:neighbourhood"
-anchor_name     = "Kensington"
-archetype       = "standard"
-platform_length_m = 121.0
-
-[[stations]]
-id              = "line-3-1060-0423-s025415"
-line            = "line-3"
-lat             = -7.320854119425548
-lon             = 112.67670273552682
-s_m             = 25414.5
-anchor_kind     = "place:neighbourhood"
-anchor_name     = "Serenade"
+anchor_name     = "De Rosenburg"
 archetype       = "interchange-elevated"
 platform_length_m = 121.0
-junction_group  = 10
+junction_group  = 11
 
 [[stations]]
-id              = "line-3-1092-0347-s027291"
+id              = "line-3-1269-0271-s031531"
 line            = "line-3"
-lat             = -7.326613036749091
-lon             = 112.66293789987147
-s_m             = 27291.4
-archetype       = "halt"
-platform_length_m = 117.0
-
-[[stations]]
-id              = "line-3-1155-0279-s029173"
-line            = "line-3"
-lat             = -7.337950905229817
-lon             = 112.6506219942851
-s_m             = 29173.3
-archetype       = "halt"
-platform_length_m = 117.0
-
-[[stations]]
-id              = "line-3-1277-0271-s031691"
-line            = "line-3"
-lat             = -7.359906777525825
+lat             = -7.358467048194939
 lon             = 112.64917306421613
-s_m             = 31691.3
-archetype       = "halt"
-platform_length_m = 117.0
-
-[[stations]]
-id              = "line-3-1354-0223-s034201"
-line            = "line-3"
-lat             = -7.3737641723356
-lon             = 112.64047948380222
-s_m             = 34200.6
+s_m             = 31531.3
 archetype       = "halt"
 platform_length_m = 117.0
 
@@ -3638,80 +3427,41 @@ lon             = 112.71328821976866
 s_m             = 0.0
 archetype       = "terminal"
 platform_length_m = 121.0
-junction_group  = 11
-
-[[stations]]
-id              = "line-4-0537-0579-s002004"
-line            = "line-4"
-lat             = -7.226731814418889
-lon             = 112.704956871872
-s_m             = 2003.7
-archetype       = "standard"
-platform_length_m = 121.0
-
-[[stations]]
-id              = "line-4-0616-0578-s004012"
-line            = "line-4"
-lat             = -7.240949141561386
-lon             = 112.70477575561337
-s_m             = 4012.2
-archetype       = "standard"
-platform_length_m = 121.0
-
-[[stations]]
-id              = "line-4-0689-0603-s006028"
-line            = "line-4"
-lat             = -7.2540866717057195
-lon             = 112.70930366207895
-s_m             = 6027.6
-archetype       = "standard"
-platform_length_m = 121.0
-
-[[stations]]
-id              = "line-4-0786-0600-s008037"
-line            = "line-4"
-lat             = -7.2715433898427095
-lon             = 112.70876031330307
-s_m             = 8037.3
-anchor_kind     = "amenity:marketplace"
-anchor_name     = "Pasar Simo Hilir"
-archetype       = "interchange-elevated"
-platform_length_m = 121.0
 junction_group  = 12
 
 [[stations]]
-id              = "line-4-0876-0587-s010044"
+id              = "line-4-0595-0568-s003509"
 line            = "line-4"
-lat             = -7.287740344815175
-lon             = 112.70640580194097
-s_m             = 10044.4
+lat             = -7.237169852067811
+lon             = 112.70296459302715
+s_m             = 3509.4
 archetype       = "standard"
 platform_length_m = 121.0
 
 [[stations]]
-id              = "line-4-0950-0630-s012050"
+id              = "line-4-0738-0603-s007008"
 line            = "line-4"
-lat             = -7.301057841125869
-lon             = 112.71419380106177
-s_m             = 12049.5
+lat             = -7.262905013857394
+lon             = 112.70930366207895
+s_m             = 7007.6
 archetype       = "standard"
 platform_length_m = 121.0
 
 [[stations]]
-id              = "line-4-1025-0641-s014073"
+id              = "line-4-0898-0590-s010509"
 line            = "line-4"
-lat             = -7.314555303602923
-lon             = 112.71618607990662
-s_m             = 14072.6
+lat             = -7.291699600475111
+lon             = 112.70694915071685
+s_m             = 10509.3
 archetype       = "standard"
 platform_length_m = 121.0
 
 [[stations]]
-id              = "line-4-1118-0632-s016090"
+id              = "line-4-1023-0640-s014024"
 line            = "line-4"
-lat             = -7.33129215707447
-lon             = 112.71455603357902
-s_m             = 16090.0
+lat             = -7.314195371270201
+lon             = 112.716004963648
+s_m             = 14024.3
 archetype       = "standard"
 platform_length_m = 121.0
 
@@ -3723,37 +3473,18 @@ lon             = 112.71546161487213
 s_m             = 17965.4
 archetype       = "interchange-elevated"
 platform_length_m = 121.0
-junction_group  = 6
+junction_group  = 10
 
 [[stations]]
-id              = "line-4-1201-0641-s018099"
+id              = "line-4-1272-0714-s021035"
 line            = "line-4"
-lat             = -7.34622934888241
-lon             = 112.71618607990662
-s_m             = 18098.5
-archetype       = "interchange-elevated"
-platform_length_m = 121.0
-junction_group  = 6
-
-[[stations]]
-id              = "line-4-1247-0689-s020112"
-line            = "line-4"
-lat             = -7.354507792535003
-lon             = 112.72487966032052
-s_m             = 20111.9
-anchor_kind     = "amenity:bus_station"
-anchor_name     = "Terminal Purabaya"
+lat             = -7.359006946694022
+lon             = 112.7294075667861
+s_m             = 21034.7
+anchor_kind     = "amenity:hospital"
+anchor_name     = "Rumah Sakit Mitra Keluarga Waru"
 archetype       = "standard"
 platform_length_m = 121.0
-
-[[stations]]
-id              = "line-4-1366-0730-s023132"
-line            = "line-4"
-lat             = -7.37592376633193
-lon             = 112.73230542692406
-s_m             = 23132.1
-archetype       = "halt"
-platform_length_m = 117.0
 
 [[stations]]
 id              = "line-4-1428-0708-s026292"
@@ -3778,25 +3509,13 @@ archetype       = "terminal"
 platform_length_m = 121.0
 
 [[stations]]
-id              = "line-5-0882-1034-s002015"
+id              = "line-5-0839-1049-s003011"
 line            = "line-5"
-lat             = -7.288820141813339
-lon             = 112.78736476954545
-s_m             = 2015.4
-anchor_kind     = "amenity:university"
-anchor_name     = "Universitas WR Supratman"
+lat             = -7.281081596659828
+lon             = 112.79008151342478
+s_m             = 3011.4
 archetype       = "standard"
 platform_length_m = 121.0
-
-[[stations]]
-id              = "line-5-0835-1008-s004018"
-line            = "line-5"
-lat             = -7.280361731994385
-lon             = 112.78265574682125
-s_m             = 4017.6
-archetype       = "interchange"
-platform_length_m = 121.0
-junction_group  = 2
 
 [[stations]]
 id              = "line-5-0836-0956-s005066"
@@ -3804,30 +3523,9 @@ line            = "line-5"
 lat             = -7.280541698160746
 lon             = 112.77323770137285
 s_m             = 5065.9
-archetype       = "interchange"
+archetype       = "interchange-elevated"
 platform_length_m = 121.0
-junction_group  = 2
-
-[[stations]]
-id              = "line-5-0792-0956-s006029"
-line            = "line-5"
-lat             = -7.272623186840874
-lon             = 112.77323770137285
-s_m             = 6028.8
-archetype       = "interchange"
-platform_length_m = 121.0
-junction_group  = 2
-
-[[stations]]
-id              = "line-5-0757-0924-s007358"
-line            = "line-5"
-lat             = -7.266324371018248
-lon             = 112.76744198109692
-s_m             = 7357.9
-anchor_kind     = "amenity:hospital"
-anchor_name     = "Waron Hospital"
-archetype       = "standard"
-platform_length_m = 121.0
+junction_group  = 8
 
 [[stations]]
 id              = "line-5-0758-0864-s008672"
@@ -3835,31 +3533,9 @@ line            = "line-5"
 lat             = -7.266504337184609
 lon             = 112.75657500557953
 s_m             = 8672.4
-archetype       = "interchange"
+archetype       = "interchange-elevated"
 platform_length_m = 121.0
-junction_group  = 2
-
-[[stations]]
-id              = "line-5-0755-0828-s009703"
-line            = "line-5"
-lat             = -7.265964438685527
-lon             = 112.75005482026911
-s_m             = 9703.0
-archetype       = "interchange"
-platform_length_m = 121.0
-junction_group  = 2
-
-[[stations]]
-id              = "line-5-0757-0815-s010041"
-line            = "line-5"
-lat             = -7.266324371018248
-lon             = 112.74770030890701
-s_m             = 10041.0
-anchor_kind     = "shop:mall"
-anchor_name     = "Pintu Barat"
-archetype       = "interchange"
-platform_length_m = 121.0
-junction_group  = 2
+junction_group  = 4
 
 [[stations]]
 id              = "line-5-0714-0738-s012047"
@@ -3873,34 +3549,15 @@ archetype       = "standard"
 platform_length_m = 121.0
 
 [[stations]]
-id              = "line-5-0679-0665-s014058"
+id              = "line-5-0639-0658-s015064"
 line            = "line-5"
-lat             = -7.252287010042112
-lon             = 112.72053287011357
-s_m             = 14058.0
-archetype       = "standard"
-platform_length_m = 121.0
-
-[[stations]]
-id              = "line-5-0632-0611-s016062"
-line            = "line-5"
-lat             = -7.243828600223158
-lon             = 112.71075259214793
-s_m             = 16062.3
+lat             = -7.245088363387683
+lon             = 112.71926505630321
+s_m             = 15064.3
 anchor_kind     = "amenity:marketplace"
 anchor_name     = "Pasar Loak Dupak Baru"
 archetype       = "standard"
 platform_length_m = 121.0
-
-[[stations]]
-id              = "line-5-0609-0532-s018071"
-line            = "line-5"
-lat             = -7.239689378396862
-lon             = 112.69644440771671
-s_m             = 18070.8
-archetype       = "interchange-elevated"
-platform_length_m = 121.0
-junction_group  = 13
 
 [[stations]]
 id              = "line-5-0552-0490-s019791"
@@ -3910,41 +3567,23 @@ lon             = 112.68883752485455
 s_m             = 19791.1
 archetype       = "interchange-elevated"
 platform_length_m = 121.0
-junction_group  = 14
+junction_group  = 13
 
 [[stations]]
-id              = "line-5-0498-0478-s021076"
+id              = "line-5-0458-0454-s022075"
 line            = "line-5"
-lat             = -7.219713133930821
-lon             = 112.68666412975108
-s_m             = 21075.9
+lat             = -7.212514487276392
+lon             = 112.68231733954413
+s_m             = 22074.7
 archetype       = "halt"
 platform_length_m = 117.0
 
 [[stations]]
-id              = "line-5-0387-0383-s024083"
+id              = "line-5-0337-0226-s027944"
 line            = "line-5"
-lat             = -7.199736889464781
-lon             = 112.6694580851819
-s_m             = 24082.9
-archetype       = "halt"
-platform_length_m = 117.0
-
-[[stations]]
-id              = "line-5-0346-0264-s027110"
-line            = "line-5"
-lat             = -7.192358276643991
-lon             = 112.64790525040577
-s_m             = 27109.7
-archetype       = "halt"
-platform_length_m = 117.0
-
-[[stations]]
-id              = "line-5-0324-0116-s030467"
-line            = "line-5"
-lat             = -7.188399020984055
-lon             = 112.62110004412956
-s_m             = 30467.3
+lat             = -7.190738581146745
+lon             = 112.64102283257809
+s_m             = 27944.2
 archetype       = "halt"
 platform_length_m = 117.0
 
@@ -3971,18 +3610,6 @@ archetype       = "terminal"
 platform_length_m = 121.0
 
 [[stations]]
-id              = "line-6-0936-0381-s003012"
-line            = "line-6"
-lat             = -7.298538314796818
-lon             = 112.66909585266465
-s_m             = 3012.2
-anchor_kind     = "amenity:university"
-anchor_name     = "Universitas Negeri Surabaya"
-archetype       = "interchange-elevated"
-platform_length_m = 121.0
-junction_group  = 15
-
-[[stations]]
 id              = "line-6-0936-0391-s003212"
 line            = "line-6"
 lat             = -7.298538314796818
@@ -3990,82 +3617,50 @@ lon             = 112.67090701525088
 s_m             = 3212.2
 archetype       = "interchange-elevated"
 platform_length_m = 121.0
+junction_group  = 14
+
+[[stations]]
+id              = "line-6-0895-0538-s007006"
+line            = "line-6"
+lat             = -7.291159701976029
+lon             = 112.69753110526845
+s_m             = 7005.8
+archetype       = "standard"
+platform_length_m = 121.0
+
+[[stations]]
+id              = "line-6-0899-0669-s010007"
+line            = "line-6"
+lat             = -7.291879566641471
+lon             = 112.72125733514807
+s_m             = 10006.9
+anchor_kind     = "amenity:university"
+anchor_name     = "Universitas 45 Surabaya"
+archetype       = "standard"
+platform_length_m = 121.0
+
+[[stations]]
+id              = "line-6-0917-0737-s011651"
+line            = "line-6"
+lat             = -7.295118957635965
+lon             = 112.73357324073443
+s_m             = 11650.6
+anchor_kind     = "amenity:hospital"
+anchor_name     = "Klinik Gigi RKZ"
+archetype       = "major"
+platform_length_m = 121.0
+
+[[stations]]
+id              = "line-6-0820-0790-s014660"
+line            = "line-6"
+lat             = -7.277662239498974
+lon             = 112.74317240244145
+s_m             = 14659.9
+anchor_kind     = "amenity:marketplace"
+anchor_name     = "Pasar Keputran Selatan"
+archetype       = "interchange-elevated"
+platform_length_m = 121.0
 junction_group  = 15
-
-[[stations]]
-id              = "line-6-0931-0460-s005034"
-line            = "line-6"
-lat             = -7.297638483965015
-lon             = 112.68340403709587
-s_m             = 5034.5
-anchor_kind     = "place:neighbourhood"
-anchor_name     = "Alena Place"
-archetype       = "standard"
-platform_length_m = 121.0
-
-[[stations]]
-id              = "line-6-0894-0540-s007054"
-line            = "line-6"
-lat             = -7.2909797358096675
-lon             = 112.6978933377857
-s_m             = 7054.1
-archetype       = "interchange-elevated"
-platform_length_m = 121.0
-junction_group  = 9
-
-[[stations]]
-id              = "line-6-0890-0626-s009072"
-line            = "line-6"
-lat             = -7.290259871144225
-lon             = 112.71346933602727
-s_m             = 9072.3
-archetype       = "interchange-elevated"
-platform_length_m = 121.0
-junction_group  = 8
-
-[[stations]]
-id              = "line-6-0901-0711-s010970"
-line            = "line-6"
-lat             = -7.292239498974193
-lon             = 112.72886421801023
-s_m             = 10969.7
-anchor_kind     = "amenity:hospital"
-anchor_name     = "Mayapada Hospital"
-archetype       = "major"
-platform_length_m = 121.0
-
-[[stations]]
-id              = "line-6-0903-0753-s012183"
-line            = "line-6"
-lat             = -7.292599431306914
-lon             = 112.7364711008724
-s_m             = 12183.1
-anchor_kind     = "amenity:hospital"
-anchor_name     = "Klinik Umum Dan Spesialis Ciliwung 26"
-archetype       = "major"
-platform_length_m = 121.0
-
-[[stations]]
-id              = "line-6-0867-0771-s013384"
-line            = "line-6"
-lat             = -7.286120649317928
-lon             = 112.7397311935276
-s_m             = 13384.0
-anchor_kind     = "amenity:hospital"
-anchor_name     = "Rumah Sakit Darmo"
-archetype       = "major"
-platform_length_m = 121.0
-
-[[stations]]
-id              = "line-6-0816-0823-s015403"
-line            = "line-6"
-lat             = -7.276942374833531
-lon             = 112.749149238976
-s_m             = 15402.8
-anchor_kind     = "amenity:hospital"
-anchor_name     = "Siloam Hospitals"
-archetype       = "standard"
-platform_length_m = 121.0
 
 [[stations]]
 id              = "line-6-0830-0898-s017019"
@@ -4073,47 +3668,25 @@ line            = "line-6"
 lat             = -7.279461901162581
 lon             = 112.76273295837272
 s_m             = 17018.8
-archetype       = "interchange"
+archetype       = "interchange-elevated"
 platform_length_m = 121.0
-junction_group  = 2
+junction_group  = 16
 
 [[stations]]
-id              = "line-6-0833-0916-s017404"
+id              = "line-6-0835-1012-s019357"
 line            = "line-6"
-lat             = -7.2800017996616635
-lon             = 112.76599305102793
-s_m             = 17403.6
-archetype       = "interchange"
-platform_length_m = 121.0
-junction_group  = 2
-
-[[stations]]
-id              = "line-6-0834-1015-s019425"
-line            = "line-6"
-lat             = -7.280181765828024
-lon             = 112.7839235606316
-s_m             = 19425.0
-archetype       = "interchange"
-platform_length_m = 121.0
-junction_group  = 2
-
-[[stations]]
-id              = "line-6-0804-1093-s021442"
-line            = "line-6"
-lat             = -7.274782780837202
-lon             = 112.79805062880419
-s_m             = 21442.4
-anchor_kind     = "amenity:university"
-anchor_name     = "Politeknik Perkapalan Negeri Surabaya"
+lat             = -7.280361731994385
+lon             = 112.78338021185574
+s_m             = 19356.8
 archetype       = "standard"
 platform_length_m = 121.0
 
 [[stations]]
-id              = "line-6-0820-1146-s022736"
+id              = "line-6-0801-1104-s021704"
 line            = "line-6"
-lat             = -7.277662239498974
-lon             = 112.8076497905112
-s_m             = 22736.4
+lat             = -7.27424288233812
+lon             = 112.80004290764904
+s_m             = 21703.9
 archetype       = "standard"
 platform_length_m = 121.0
 
@@ -4140,20 +3713,11 @@ archetype       = "terminal"
 platform_length_m = 121.0
 
 [[stations]]
-id              = "line-7-0507-0270-s003013"
+id              = "line-7-0538-0297-s003868"
 line            = "line-7"
-lat             = -7.221332829428068
-lon             = 112.6489919479575
-s_m             = 3012.5
-archetype       = "halt"
-platform_length_m = 117.0
-
-[[stations]]
-id              = "line-7-0583-0384-s006032"
-line            = "line-7"
-lat             = -7.235010258071482
-lon             = 112.66963920144052
-s_m             = 6032.4
+lat             = -7.22691178058525
+lon             = 112.65388208694033
+s_m             = 3867.9
 archetype       = "halt"
 platform_length_m = 117.0
 
@@ -4165,55 +3729,16 @@ lon             = 112.68267957206137
 s_m             = 7719.6
 archetype       = "interchange-elevated"
 platform_length_m = 121.0
-junction_group  = 16
+junction_group  = 17
 
 [[stations]]
-id              = "line-7-0615-0466-s008053"
+id              = "line-7-0572-0698-s014011"
 line            = "line-7"
-lat             = -7.240769175395026
-lon             = 112.6844907346476
-s_m             = 8052.7
-archetype       = "interchange-elevated"
-platform_length_m = 121.0
-junction_group  = 16
-
-[[stations]]
-id              = "line-7-0633-0548-s010066"
-line            = "line-7"
-lat             = -7.244008566389518
-lon             = 112.69934226785469
-s_m             = 10066.1
-archetype       = "interchange-elevated"
-platform_length_m = 121.0
-junction_group  = 13
-
-[[stations]]
-id              = "line-7-0606-0630-s012071"
-line            = "line-7"
-lat             = -7.239149479897779
-lon             = 112.71419380106177
-s_m             = 12071.2
+lat             = -7.233030630241514
+lon             = 112.72650970664813
+s_m             = 14011.4
 archetype       = "standard"
 platform_length_m = 121.0
-
-[[stations]]
-id              = "line-7-0571-0701-s014080"
-line            = "line-7"
-lat             = -7.232850664075154
-lon             = 112.727053055424
-s_m             = 14079.7
-archetype       = "standard"
-platform_length_m = 121.0
-
-[[stations]]
-id              = "line-7-0629-0759-s016081"
-line            = "line-7"
-lat             = -7.243288701724076
-lon             = 112.73755779842413
-s_m             = 16081.4
-archetype       = "interchange"
-platform_length_m = 121.0
-junction_group  = 2
 
 [[stations]]
 id              = "line-7-0631-0806-s017121"
@@ -4221,37 +3746,16 @@ line            = "line-7"
 lat             = -7.243648634056798
 lon             = 112.74607026257941
 s_m             = 17120.8
-archetype       = "interchange"
+archetype       = "interchange-elevated"
 platform_length_m = 121.0
-junction_group  = 2
+junction_group  = 3
 
 [[stations]]
-id              = "line-7-0659-0824-s018095"
+id              = "line-7-0669-0914-s020028"
 line            = "line-7"
-lat             = -7.248687686714898
-lon             = 112.74933035523462
-s_m             = 18095.3
-anchor_kind     = "amenity:hospital"
-anchor_name     = "Rumah Sakit Adi Husada Undaan Wetan"
-archetype       = "interchange"
-platform_length_m = 121.0
-junction_group  = 2
-
-[[stations]]
-id              = "line-7-0670-0917-s020096"
-line            = "line-7"
-lat             = -7.250667314544866
-lon             = 112.76617416728655
-s_m             = 20096.2
-archetype       = "standard"
-platform_length_m = 121.0
-
-[[stations]]
-id              = "line-7-0649-0963-s021590"
-line            = "line-7"
-lat             = -7.24688802505129
-lon             = 112.77450551518321
-s_m             = 21590.1
+lat             = -7.250487348378504
+lon             = 112.76563081851069
+s_m             = 20027.9
 archetype       = "standard"
 platform_length_m = 121.0
 
@@ -4278,97 +3782,42 @@ archetype       = "terminal"
 platform_length_m = 121.0
 
 [[stations]]
-id              = "line-8-0729-0885-s002017"
-line            = "line-8"
-lat             = -7.261285318360148
-lon             = 112.76037844701062
-s_m             = 2016.8
-anchor_kind     = "amenity:university"
-anchor_name     = "Kampus A Universitas Airlangga"
-archetype       = "interchange"
-platform_length_m = 121.0
-junction_group  = 2
-
-[[stations]]
-id              = "line-8-0744-0866-s002738"
-line            = "line-8"
-lat             = -7.263984810855559
-lon             = 112.75693723809678
-s_m             = 2737.6
-archetype       = "interchange"
-platform_length_m = 121.0
-junction_group  = 2
-
-[[stations]]
 id              = "line-8-0758-0864-s003051"
 line            = "line-8"
 lat             = -7.266504337184609
 lon             = 112.75657500557953
 s_m             = 3050.8
-archetype       = "interchange"
+archetype       = "interchange-elevated"
 platform_length_m = 121.0
-junction_group  = 2
+junction_group  = 4
 
 [[stations]]
-id              = "line-8-0768-0832-s004045"
+id              = "line-8-0826-0779-s006015"
 line            = "line-8"
-lat             = -7.268303998848216
-lon             = 112.75077928530361
-s_m             = 4044.8
-anchor_kind     = "public_transport:station"
-anchor_name     = "Surabaya Gubeng"
-archetype       = "interchange"
-platform_length_m = 121.0
-junction_group  = 2
-
-[[stations]]
-id              = "line-8-0828-0778-s006063"
-line            = "line-8"
-lat             = -7.27910196882986
-lon             = 112.74099900733796
-s_m             = 6063.0
+lat             = -7.278742036497138
+lon             = 112.74118012359659
+s_m             = 6014.7
 anchor_kind     = "amenity:university"
 anchor_name     = "Magister Manajemen Teknologi ITS"
+archetype       = "interchange-elevated"
+platform_length_m = 121.0
+junction_group  = 15
+
+[[stations]]
+id              = "line-8-0772-0637-s009523"
+line            = "line-8"
+lat             = -7.2690238635136595
+lon             = 112.71546161487213
+s_m             = 9523.5
 archetype       = "standard"
 platform_length_m = 121.0
 
 [[stations]]
-id              = "line-8-0801-0693-s008072"
+id              = "line-8-0814-0497-s013033"
 line            = "line-8"
-lat             = -7.27424288233812
-lon             = 112.72560412535502
-s_m             = 8071.5
-anchor_kind     = "amenity:marketplace"
-anchor_name     = "Pasar Kupang"
-archetype       = "interchange-elevated"
-platform_length_m = 121.0
-junction_group  = 7
-
-[[stations]]
-id              = "line-8-0766-0612-s010073"
-line            = "line-8"
-lat             = -7.267944066515495
-lon             = 112.71093370840656
-s_m             = 10073.2
-archetype       = "interchange-elevated"
-platform_length_m = 121.0
-junction_group  = 12
-
-[[stations]]
-id              = "line-8-0787-0532-s012098"
-line            = "line-8"
-lat             = -7.27172335600907
-lon             = 112.69644440771671
-s_m             = 12097.7
-archetype       = "standard"
-platform_length_m = 121.0
-
-[[stations]]
-id              = "line-8-0849-0458-s014115"
-line            = "line-8"
-lat             = -7.282881258323435
-lon             = 112.68304180457862
-s_m             = 14114.7
+lat             = -7.27658244250081
+lon             = 112.69010533866492
+s_m             = 13033.1
 archetype       = "standard"
 platform_length_m = 121.0
 
@@ -4380,25 +3829,7 @@ lon             = 112.6734426428716
 s_m             = 15459.8
 archetype       = "interchange-elevated"
 platform_length_m = 121.0
-junction_group  = 17
-
-[[stations]]
-id              = "line-8-0858-0328-s017116"
-line            = "line-8"
-lat             = -7.2845009538206815
-lon             = 112.65949669095764
-s_m             = 17115.8
-archetype       = "halt"
-platform_length_m = 117.0
-
-[[stations]]
-id              = "line-8-0847-0239-s019053"
-line            = "line-8"
-lat             = -7.282521325990714
-lon             = 112.64337734394019
-s_m             = 19053.2
-archetype       = "halt"
-platform_length_m = 117.0
+junction_group  = 18
 
 [[stations]]
 id              = "line-8-0866-0175-s020966"
@@ -4423,15 +3854,6 @@ archetype       = "standard"
 platform_length_m = 121.0
 
 [[stations]]
-id              = "line-9-0675-0454-s002002"
-line            = "line-9"
-lat             = -7.2515671453766695
-lon             = 112.68231733954413
-s_m             = 2002.3
-archetype       = "standard"
-platform_length_m = 121.0
-
-[[stations]]
 id              = "line-9-0606-0456-s003399"
 line            = "line-9"
 lat             = -7.239149479897779
@@ -4439,7 +3861,7 @@ lon             = 112.68267957206137
 s_m             = 3398.8
 archetype       = "interchange-elevated"
 platform_length_m = 121.0
-junction_group  = 16
+junction_group  = 17
 
 [[stations]]
 id              = "line-9-0552-0490-s005030"
@@ -4449,14 +3871,14 @@ lon             = 112.68883752485455
 s_m             = 5029.9
 archetype       = "interchange-elevated"
 platform_length_m = 121.0
-junction_group  = 14
+junction_group  = 13
 
 [[stations]]
-id              = "line-9-0494-0566-s007030"
+id              = "line-9-0495-0565-s007002"
 line            = "line-9"
-lat             = -7.218993269265378
-lon             = 112.7026023605099
-s_m             = 7030.4
+lat             = -7.219173235431739
+lon             = 112.70242124425127
+s_m             = 7002.2
 archetype       = "standard"
 platform_length_m = 121.0
 
@@ -4468,16 +3890,7 @@ lon             = 112.71328821976866
 s_m             = 8351.3
 archetype       = "interchange-elevated"
 platform_length_m = 121.0
-junction_group  = 11
-
-[[stations]]
-id              = "line-9-0446-0697-s010142"
-line            = "line-9"
-lat             = -7.210354893280063
-lon             = 112.7263285903895
-s_m             = 10141.8
-archetype       = "standard"
-platform_length_m = 121.0
+junction_group  = 12
 
 [[stations]]
 id              = "line-9-0381-0733-s011944"
@@ -4490,46 +3903,25 @@ platform_length_m = 121.0
 junction_group  = 0
 
 [[stations]]
-id              = "line-9-0410-0738-s013075"
+id              = "line-9-0484-0734-s014621"
 line            = "line-9"
-lat             = -7.203876111291077
-lon             = 112.73375435699305
-s_m             = 13074.6
-archetype       = "interchange-elevated"
-platform_length_m = 121.0
-junction_group  = 0
-
-[[stations]]
-id              = "line-9-0506-0731-s015086"
-line            = "line-9"
-lat             = -7.221152863261707
-lon             = 112.73248654318269
-s_m             = 15085.7
+lat             = -7.217193607601771
+lon             = 112.73302989195855
+s_m             = 14620.9
 anchor_kind     = "public_transport:station"
 anchor_name     = "Kalimas"
-archetype       = "standard"
-platform_length_m = 121.0
-
-[[stations]]
-id              = "line-9-0538-0805-s017091"
-line            = "line-9"
-lat             = -7.22691178058525
-lon             = 112.74588914632078
-s_m             = 17091.4
-anchor_kind     = "public_transport:station"
-anchor_name     = "Parkir Bus Kawasan Wisata Religi Ampal"
 archetype       = "interchange-elevated"
 platform_length_m = 121.0
 junction_group  = 1
 
 [[stations]]
-id              = "line-9-0619-0803-s019111"
+id              = "line-9-0562-0798-s017629"
 line            = "line-9"
-lat             = -7.241489040060468
-lon             = 112.74552691380354
-s_m             = 19111.1
-anchor_kind     = "shop:mall"
-anchor_name     = "Atom Cafe"
+lat             = -7.231230968577907
+lon             = 112.74462133251042
+s_m             = 17629.4
+anchor_kind     = "amenity:college"
+anchor_name     = "Taswirul Afkar"
 archetype       = "interchange"
 platform_length_m = 121.0
 junction_group  = 2
@@ -4540,51 +3932,21 @@ line            = "line-9"
 lat             = -7.243648634056798
 lon             = 112.74607026257941
 s_m             = 19392.5
-archetype       = "interchange"
+archetype       = "interchange-elevated"
 platform_length_m = 121.0
-junction_group  = 2
+junction_group  = 3
 
 [[stations]]
-id              = "line-9-0634-0814-s019601"
+id              = "line-9-0677-0798-s020633"
 line            = "line-9"
-lat             = -7.24418853255588
-lon             = 112.7475191926484
-s_m             = 19600.8
-archetype       = "interchange"
-platform_length_m = 121.0
-junction_group  = 2
-
-[[stations]]
-id              = "line-9-0688-0812-s021120"
-line            = "line-9"
-lat             = -7.253906705539358
-lon             = 112.74715696013115
-s_m             = 21119.6
+lat             = -7.25192707770939
+lon             = 112.74462133251042
+s_m             = 20633.3
 anchor_kind     = "amenity:hospital"
 anchor_name     = "Rumah Sakit Adi Husada Undaan Wetan"
-archetype       = "interchange"
+archetype       = "interchange-elevated"
 platform_length_m = 121.0
-junction_group  = 2
-
-[[stations]]
-id              = "line-9-0733-0848-s022545"
-line            = "line-9"
-lat             = -7.262005183025591
-lon             = 112.75367714544157
-s_m             = 22545.3
-archetype       = "interchange"
-platform_length_m = 121.0
-junction_group  = 2
-
-[[stations]]
-id              = "line-9-0744-0866-s023152"
-line            = "line-9"
-lat             = -7.263984810855559
-lon             = 112.75693723809678
-s_m             = 23151.6
-archetype       = "interchange"
-platform_length_m = 121.0
-junction_group  = 2
+junction_group  = 3
 
 [[stations]]
 id              = "line-9-0758-0864-s023448"
@@ -4592,19 +3954,9 @@ line            = "line-9"
 lat             = -7.266504337184609
 lon             = 112.75657500557953
 s_m             = 23448.1
-archetype       = "interchange"
+archetype       = "interchange-elevated"
 platform_length_m = 121.0
-junction_group  = 2
-
-[[stations]]
-id              = "line-9-0804-0896-s025134"
-line            = "line-9"
-lat             = -7.274782780837202
-lon             = 112.76237072585548
-s_m             = 25133.8
-archetype       = "interchange"
-platform_length_m = 121.0
-junction_group  = 2
+junction_group  = 4
 
 [[stations]]
 id              = "line-9-0830-0898-s025704"
@@ -4612,122 +3964,56 @@ line            = "line-9"
 lat             = -7.279461901162581
 lon             = 112.76273295837272
 s_m             = 25703.5
-archetype       = "interchange"
+archetype       = "interchange-elevated"
 platform_length_m = 121.0
-junction_group  = 2
+junction_group  = 16
 
 [[stations]]
-id              = "line-9-0833-0929-s026348"
+id              = "line-9-0883-0943-s027684"
 line            = "line-9"
-lat             = -7.2800017996616635
-lon             = 112.76834756239003
-s_m             = 26348.4
-archetype       = "interchange"
-platform_length_m = 121.0
-junction_group  = 2
-
-[[stations]]
-id              = "line-9-0847-0946-s026839"
-line            = "line-9"
-lat             = -7.282521325990714
-lon             = 112.77142653878663
-s_m             = 26839.5
-archetype       = "interchange"
-platform_length_m = 121.0
-junction_group  = 2
-
-[[stations]]
-id              = "line-9-0860-0947-s027141"
-line            = "line-9"
-lat             = -7.284860886153403
-lon             = 112.77160765504524
-s_m             = 27140.9
-archetype       = "interchange"
-platform_length_m = 121.0
-junction_group  = 2
-
-[[stations]]
-id              = "line-9-0924-0978-s029153"
-line            = "line-9"
-lat             = -7.296378720800489
-lon             = 112.77722225906255
-s_m             = 29152.9
-anchor_kind     = "amenity:college"
-anchor_name     = "Sekolah Tinggi Kesenian Wilwatikta"
+lat             = -7.2890001079796995
+lon             = 112.77088319001075
+s_m             = 27683.8
 archetype       = "standard"
 platform_length_m = 121.0
 
 [[stations]]
-id              = "line-9-1003-0996-s031157"
+id              = "line-9-0934-0997-s029674"
 line            = "line-9"
-lat             = -7.310596047942987
-lon             = 112.78048235171777
-s_m             = 31157.1
-anchor_kind     = "amenity:college"
-anchor_name     = "STIKOM"
+lat             = -7.298178382464097
+lon             = 112.7806634679764
+s_m             = 29674.3
 archetype       = "standard"
 platform_length_m = 121.0
 
 [[stations]]
-id              = "line-9-1070-0999-s032522"
+id              = "line-9-1078-0999-s032682"
 line            = "line-9"
-lat             = -7.322653781089155
+lat             = -7.324093510420041
 lon             = 112.78102570049364
-s_m             = 32522.0
+s_m             = 32682.0
 anchor_kind     = "amenity:marketplace"
 anchor_name     = "Pasar Penjaringan Sari"
 archetype       = "interchange-elevated"
 platform_length_m = 121.0
-junction_group  = 3
+junction_group  = 6
 
 [[stations]]
-id              = "line-9-1101-1001-s033159"
+id              = "line-9-1195-0998-s035665"
 line            = "line-9"
-lat             = -7.328232732246337
-lon             = 112.78138793301089
-s_m             = 33158.6
-anchor_kind     = "amenity:university"
-anchor_name     = "Universitas Terbuka Surabaya"
+lat             = -7.345149551884246
+lon             = 112.78084458423501
+s_m             = 35665.1
 archetype       = "interchange-elevated"
 platform_length_m = 121.0
-junction_group  = 3
+junction_group  = 7
 
 [[stations]]
-id              = "line-9-1189-1017-s035167"
-line            = "line-9"
-lat             = -7.344069754886081
-lon             = 112.78428579314885
-s_m             = 35167.1
-anchor_kind     = "amenity:university"
-anchor_name     = "Universitas Negeri Sunan Ampel"
-archetype       = "interchange"
-platform_length_m = 121.0
-junction_group  = 4
-
-[[stations]]
-id              = "line-9-1182-0928-s037173"
-line            = "line-9"
-lat             = -7.342809991721556
-lon             = 112.7681664461314
-s_m             = 37172.8
-archetype       = "standard"
-platform_length_m = 121.0
-
-[[stations]]
-id              = "line-9-1181-0835-s039174"
-line            = "line-9"
-lat             = -7.342630025555195
-lon             = 112.75132263407947
-s_m             = 39173.6
-archetype       = "standard"
-platform_length_m = 121.0
-
-[[stations]]
-id              = "line-9-1193-0763-s040758"
+id              = "line-9-1193-0764-s040738"
 line            = "line-9"
 lat             = -7.344789619551524
-lon             = 112.73828226345861
-s_m             = 40757.9
+lon             = 112.73846337971725
+s_m             = 40737.9
 anchor_kind     = "amenity:college"
 anchor_name     = "STIE Mahardhika"
 archetype       = "standard"
@@ -4741,68 +4027,38 @@ lon             = 112.7294075667861
 s_m             = 42328.4
 archetype       = "interchange-elevated"
 platform_length_m = 121.0
-junction_group  = 5
+junction_group  = 9
 
 [[stations]]
-id              = "line-9-1196-0637-s043935"
+id              = "line-9-1198-0641-s043838"
 line            = "line-9"
-lat             = -7.345329518050606
-lon             = 112.71546161487213
-s_m             = 43934.7
-archetype       = "interchange-elevated"
-platform_length_m = 121.0
-junction_group  = 6
-
-[[stations]]
-id              = "line-9-1163-0589-s045391"
-line            = "line-9"
-lat             = -7.3393906345607025
-lon             = 112.70676803445822
-s_m             = 45391.5
-archetype       = "standard"
-platform_length_m = 121.0
-
-[[stations]]
-id              = "line-9-1072-0528-s047949"
-line            = "line-9"
-lat             = -7.323013713421877
-lon             = 112.69571994268223
-s_m             = 47949.1
-archetype       = "standard"
-platform_length_m = 121.0
-
-[[stations]]
-id              = "line-9-1074-0445-s049963"
-line            = "line-9"
-lat             = -7.323373645754598
-lon             = 112.68068729321652
-s_m             = 49963.1
-anchor_kind     = "place:neighbourhood"
-anchor_name     = "Oakwood"
+lat             = -7.345689450383328
+lon             = 112.71618607990662
+s_m             = 43838.1
 archetype       = "interchange-elevated"
 platform_length_m = 121.0
 junction_group  = 10
 
 [[stations]]
-id              = "line-9-1061-0423-s050511"
+id              = "line-9-1080-0534-s047739"
 line            = "line-9"
-lat             = -7.321034085591909
-lon             = 112.67670273552682
-s_m             = 50510.8
-anchor_kind     = "place:neighbourhood"
-anchor_name     = "Serenade"
-archetype       = "interchange-elevated"
-platform_length_m = 121.0
-junction_group  = 10
+lat             = -7.3244534427527626
+lon             = 112.69680664023396
+s_m             = 47739.4
+archetype       = "halt"
+platform_length_m = 117.0
 
 [[stations]]
-id              = "line-9-1005-0393-s051971"
+id              = "line-9-1052-0414-s050765"
 line            = "line-9"
-lat             = -7.3109559802757085
-lon             = 112.67126924776812
-s_m             = 51971.1
-archetype       = "standard"
+lat             = -7.319414390094662
+lon             = 112.67507268919921
+s_m             = 50765.4
+anchor_kind     = "place:neighbourhood"
+anchor_name     = "De Rosenburg"
+archetype       = "interchange-elevated"
 platform_length_m = 121.0
+junction_group  = 11
 
 [[stations]]
 id              = "line-9-0936-0391-s053696"
@@ -4812,19 +4068,7 @@ lon             = 112.67090701525088
 s_m             = 53696.1
 archetype       = "interchange-elevated"
 platform_length_m = 121.0
-junction_group  = 15
-
-[[stations]]
-id              = "line-9-0876-0402-s054987"
-line            = "line-9"
-lat             = -7.287740344815175
-lon             = 112.67289929409573
-s_m             = 54987.3
-anchor_kind     = "tourism:attraction"
-anchor_name     = "Timezone arcade"
-archetype       = "interchange-elevated"
-platform_length_m = 121.0
-junction_group  = 17
+junction_group  = 14
 
 [[stations]]
 id              = "line-9-0868-0405-s055172"
@@ -4834,166 +4078,176 @@ lon             = 112.6734426428716
 s_m             = 55172.1
 archetype       = "interchange-elevated"
 platform_length_m = 121.0
-junction_group  = 17
+junction_group  = 18
 
 [[stations]]
-id              = "line-9-0788-0403-s057036"
+id              = "line-9-0771-0377-s057768"
 line            = "line-9"
-lat             = -7.271903322175431
-lon             = 112.67308041035436
-s_m             = 57036.4
+lat             = -7.268843897347298
+lon             = 112.66837138763016
+s_m             = 57767.5
+anchor_kind     = "amenity:bus_station"
+anchor_name     = "Terminal Manukan"
 archetype       = "standard"
 platform_length_m = 121.0
 
 [[interchanges]]
 id              = "interchange-000"
 junction_group  = 0
-lat             = -7.199736889464781
-lon             = 112.73266765944132
+lat             = -7.1986570924666164
+lon             = 112.73284877569994
 lines           = ["line-1", "line-9"]
-platforms       = ["line-1-0376-0724-s008031", "line-1-0381-0733-s008275", "line-9-0381-0733-s011944", "line-9-0410-0738-s013075"]
+platforms       = ["line-1-0381-0733-s008275", "line-9-0381-0733-s011944"]
 
 [[interchanges]]
 id              = "interchange-001"
 junction_group  = 1
-lat             = -7.225921966670266
-lon             = 112.74344407682938
+lat             = -7.216833675269049
+lon             = 112.73330156634648
 lines           = ["line-1", "line-9"]
-platforms       = ["line-1-0527-0778-s012069", "line-9-0538-0805-s017091"]
+platforms       = ["line-1-0480-0737-s010433", "line-9-0484-0734-s014621"]
 
 [[interchanges]]
 id              = "interchange-002"
 junction_group  = 2
-lat             = -7.264033450359981
-lon             = 112.75755890741692
-lines           = ["line-1", "line-2", "line-3", "line-5", "line-6", "line-7", "line-8", "line-9"]
-platforms       = ["line-1-0591-0793-s014079", "line-1-0666-0805-s016094", "line-1-0722-0843-s018097", "line-1-0758-0864-s019295", "line-1-0785-0836-s020692", "line-2-0790-0979-s018076", "line-2-0833-0929-s019972", "line-3-0630-0785-s008052", "line-3-0634-0814-s007382", "line-5-0755-0828-s009703", "line-5-0757-0815-s010041", "line-5-0758-0864-s008672", "line-5-0792-0956-s006029", "line-5-0835-1008-s004018", "line-5-0836-0956-s005066", "line-6-0830-0898-s017019", "line-6-0833-0916-s017404", "line-6-0834-1015-s019425", "line-7-0629-0759-s016081", "line-7-0631-0806-s017121", "line-7-0659-0824-s018095", "line-8-0729-0885-s002017", "line-8-0744-0866-s002738", "line-8-0758-0864-s003051", "line-8-0768-0832-s004045", "line-9-0619-0803-s019111", "line-9-0631-0806-s019392", "line-9-0634-0814-s019601", "line-9-0688-0812-s021120", "line-9-0733-0848-s022545", "line-9-0744-0866-s023152", "line-9-0758-0864-s023448", "line-9-0804-0896-s025134", "line-9-0830-0898-s025704", "line-9-0833-0929-s026348", "line-9-0847-0946-s026839", "line-9-0860-0947-s027141"]
+lat             = -7.2315909009106285
+lon             = 112.74434965812249
+lines           = ["line-1", "line-9"]
+platforms       = ["line-1-0566-0795-s013434", "line-9-0562-0798-s017629"]
 
 [[interchanges]]
 id              = "interchange-003"
 junction_group  = 3
-lat             = -7.326478062124321
-lon             = 112.7811615376876
-lines           = ["line-1", "line-9"]
-platforms       = ["line-1-1070-0999-s030226", "line-1-1124-1000-s031347", "line-9-1070-0999-s032522", "line-9-1101-1001-s033159"]
+lat             = -7.247139977684195
+lon             = 112.74570803006216
+lines           = ["line-1", "line-3", "line-7", "line-9"]
+platforms       = ["line-1-0679-0796-s016452", "line-3-0634-0814-s007382", "line-7-0631-0806-s017121", "line-9-0631-0806-s019392", "line-9-0677-0798-s020633"]
 
 [[interchanges]]
 id              = "interchange-004"
 junction_group  = 4
-lat             = -7.345029574440005
-lon             = 112.78319909559711
-lines           = ["line-1", "line-9"]
-platforms       = ["line-1-1195-0998-s035123", "line-1-1199-1018-s033374", "line-9-1189-1017-s035167"]
+lat             = -7.266504337184609
+lon             = 112.75657500557953
+lines           = ["line-1", "line-5", "line-8", "line-9"]
+platforms       = ["line-1-0758-0864-s019295", "line-5-0758-0864-s008672", "line-8-0758-0864-s003051", "line-9-0758-0864-s023448"]
 
 [[interchanges]]
 id              = "interchange-005"
 junction_group  = 5
+lat             = -7.284590936903863
+lon             = 112.75557886615711
+lines           = ["line-1", "line-2"]
+platforms       = ["line-1-0846-0860-s022480", "line-2-0871-0857-s022380"]
+
+[[interchanges]]
+id              = "interchange-006"
+junction_group  = 6
+lat             = -7.323373645754598
+lon             = 112.78102570049364
+lines           = ["line-1", "line-9"]
+platforms       = ["line-1-1070-0999-s030226", "line-9-1078-0999-s032682"]
+
+[[interchanges]]
+id              = "interchange-007"
+junction_group  = 7
+lat             = -7.345149551884246
+lon             = 112.78084458423501
+lines           = ["line-1", "line-9"]
+platforms       = ["line-1-1195-0998-s035123", "line-9-1195-0998-s035665"]
+
+[[interchanges]]
+id              = "interchange-008"
+junction_group  = 8
+lat             = -7.280271748911204
+lon             = 112.77079263188145
+lines           = ["line-2", "line-5"]
+platforms       = ["line-2-0833-0929-s019972", "line-5-0836-0956-s005066"]
+
+[[interchanges]]
+id              = "interchange-009"
+junction_group  = 9
 lat             = -7.346769247381492
 lon             = 112.7294075667861
 lines           = ["line-2", "line-9"]
 platforms       = ["line-2-1204-0714-s031377", "line-9-1204-0714-s042328"]
 
 [[interchanges]]
-id              = "interchange-006"
-junction_group  = 6
-lat             = -7.345644458841738
-lon             = 112.71582384738937
-lines           = ["line-2", "line-4", "line-9"]
-platforms       = ["line-2-1198-0641-s033398", "line-4-1196-0637-s017965", "line-4-1201-0641-s018099", "line-9-1196-0637-s043935"]
-
-[[interchanges]]
-id              = "interchange-007"
-junction_group  = 7
-lat             = -7.27424288233812
-lon             = 112.7262380322602
-lines           = ["line-3", "line-8"]
-platforms       = ["line-3-0801-0700-s014094", "line-8-0801-0693-s008072"]
-
-[[interchanges]]
-id              = "interchange-008"
-junction_group  = 8
-lat             = -7.2899899218946835
-lon             = 112.71256375473416
-lines           = ["line-3", "line-6"]
-platforms       = ["line-3-0887-0616-s018117", "line-6-0890-0626-s009072"]
-
-[[interchanges]]
-id              = "interchange-009"
-junction_group  = 9
-lat             = -7.292059532807832
-lon             = 112.69798389591502
-lines           = ["line-3", "line-6"]
-platforms       = ["line-3-0906-0541-s020124", "line-6-0894-0540-s007054"]
-
-[[interchanges]]
 id              = "interchange-010"
 junction_group  = 10
-lat             = -7.321753950257352
-lon             = 112.67803092142339
-lines           = ["line-3", "line-9"]
-platforms       = ["line-3-1060-0423-s025415", "line-9-1061-0423-s050511", "line-9-1074-0445-s049963"]
+lat             = -7.345569472939087
+lon             = 112.71594459156178
+lines           = ["line-2", "line-4", "line-9"]
+platforms       = ["line-2-1198-0641-s033398", "line-4-1196-0637-s017965", "line-9-1198-0641-s043838"]
 
 [[interchanges]]
 id              = "interchange-011"
 junction_group  = 11
+lat             = -7.320674153259187
+lon             = 112.6749821310699
+lines           = ["line-3", "line-9"]
+platforms       = ["line-3-1066-0413-s025664", "line-9-1052-0414-s050765"]
+
+[[interchanges]]
+id              = "interchange-012"
+junction_group  = 12
 lat             = -7.215933844437246
 lon             = 112.71328821976866
 lines           = ["line-4", "line-9"]
 platforms       = ["line-4-0477-0625-s000000", "line-9-0477-0625-s008351"]
 
 [[interchanges]]
-id              = "interchange-012"
-junction_group  = 12
-lat             = -7.269743728179103
-lon             = 112.70984701085482
-lines           = ["line-4", "line-8"]
-platforms       = ["line-4-0786-0600-s008037", "line-8-0766-0612-s010073"]
-
-[[interchanges]]
 id              = "interchange-013"
 junction_group  = 13
-lat             = -7.24184897239319
-lon             = 112.6978933377857
-lines           = ["line-5", "line-7"]
-platforms       = ["line-5-0609-0532-s018071", "line-7-0633-0548-s010066"]
-
-[[interchanges]]
-id              = "interchange-014"
-junction_group  = 14
 lat             = -7.2294313069143
 lon             = 112.68883752485455
 lines           = ["line-5", "line-9"]
 platforms       = ["line-5-0552-0490-s019791", "line-9-0552-0490-s005030"]
 
 [[interchanges]]
+id              = "interchange-014"
+junction_group  = 14
+lat             = -7.298538314796818
+lon             = 112.67090701525088
+lines           = ["line-6", "line-9"]
+platforms       = ["line-6-0936-0391-s003212", "line-9-0936-0391-s053696"]
+
+[[interchanges]]
 id              = "interchange-015"
 junction_group  = 15
-lat             = -7.298538314796818
-lon             = 112.6703032943888
-lines           = ["line-6", "line-9"]
-platforms       = ["line-6-0936-0381-s003012", "line-6-0936-0391-s003212", "line-9-0936-0391-s053696"]
+lat             = -7.278202137998056
+lon             = 112.74217626301902
+lines           = ["line-6", "line-8"]
+platforms       = ["line-6-0820-0790-s014660", "line-8-0826-0779-s006015"]
 
 [[interchanges]]
 id              = "interchange-016"
 junction_group  = 16
-lat             = -7.239689378396861
-lon             = 112.68328329292346
-lines           = ["line-7", "line-9"]
-platforms       = ["line-7-0606-0456-s007720", "line-7-0615-0466-s008053", "line-9-0606-0456-s003399"]
+lat             = -7.279461901162581
+lon             = 112.76273295837272
+lines           = ["line-6", "line-9"]
+platforms       = ["line-6-0830-0898-s017019", "line-9-0830-0898-s025704"]
 
 [[interchanges]]
 id              = "interchange-017"
 junction_group  = 17
-lat             = -7.286780525261251
-lon             = 112.67326152661299
+lat             = -7.239149479897779
+lon             = 112.68267957206137
+lines           = ["line-7", "line-9"]
+platforms       = ["line-7-0606-0456-s007720", "line-9-0606-0456-s003399"]
+
+[[interchanges]]
+id              = "interchange-018"
+junction_group  = 18
+lat             = -7.286300615484289
+lon             = 112.6734426428716
 lines           = ["line-8", "line-9"]
-platforms       = ["line-8-0868-0405-s015460", "line-9-0868-0405-s055172", "line-9-0876-0402-s054987"]
+platforms       = ["line-8-0868-0405-s015460", "line-9-0868-0405-s055172"]
 
 # [[depots]] — maintenance/defect facilities per RFC 0014; healthy sets stable at powered stations.
 [[depots]]
 station      = "line-3-1433-0106-s037394"
 archetype    = "main-heavy"
-fleet_stalls = 95
+fleet_stalls = 71
 
 # switches — turnbacks at terminals + depot fans per RFC 0012 §9.
 switches = [
@@ -5074,30 +4328,6 @@ switches = [
   { id = "sw-line-3-1433-0106-s037394-yd-69", kit = "no-9-mainline", station = "line-3-1433-0106-s037394", side = "yard-throat" },
   { id = "sw-line-3-1433-0106-s037394-yd-70", kit = "no-9-mainline", station = "line-3-1433-0106-s037394", side = "yard-throat" },
   { id = "sw-line-3-1433-0106-s037394-yd-71", kit = "no-9-mainline", station = "line-3-1433-0106-s037394", side = "yard-throat" },
-  { id = "sw-line-3-1433-0106-s037394-yd-72", kit = "no-9-mainline", station = "line-3-1433-0106-s037394", side = "yard-throat" },
-  { id = "sw-line-3-1433-0106-s037394-yd-73", kit = "no-9-mainline", station = "line-3-1433-0106-s037394", side = "yard-throat" },
-  { id = "sw-line-3-1433-0106-s037394-yd-74", kit = "no-9-mainline", station = "line-3-1433-0106-s037394", side = "yard-throat" },
-  { id = "sw-line-3-1433-0106-s037394-yd-75", kit = "no-9-mainline", station = "line-3-1433-0106-s037394", side = "yard-throat" },
-  { id = "sw-line-3-1433-0106-s037394-yd-76", kit = "no-9-mainline", station = "line-3-1433-0106-s037394", side = "yard-throat" },
-  { id = "sw-line-3-1433-0106-s037394-yd-77", kit = "no-9-mainline", station = "line-3-1433-0106-s037394", side = "yard-throat" },
-  { id = "sw-line-3-1433-0106-s037394-yd-78", kit = "no-9-mainline", station = "line-3-1433-0106-s037394", side = "yard-throat" },
-  { id = "sw-line-3-1433-0106-s037394-yd-79", kit = "no-9-mainline", station = "line-3-1433-0106-s037394", side = "yard-throat" },
-  { id = "sw-line-3-1433-0106-s037394-yd-80", kit = "no-9-mainline", station = "line-3-1433-0106-s037394", side = "yard-throat" },
-  { id = "sw-line-3-1433-0106-s037394-yd-81", kit = "no-9-mainline", station = "line-3-1433-0106-s037394", side = "yard-throat" },
-  { id = "sw-line-3-1433-0106-s037394-yd-82", kit = "no-9-mainline", station = "line-3-1433-0106-s037394", side = "yard-throat" },
-  { id = "sw-line-3-1433-0106-s037394-yd-83", kit = "no-9-mainline", station = "line-3-1433-0106-s037394", side = "yard-throat" },
-  { id = "sw-line-3-1433-0106-s037394-yd-84", kit = "no-9-mainline", station = "line-3-1433-0106-s037394", side = "yard-throat" },
-  { id = "sw-line-3-1433-0106-s037394-yd-85", kit = "no-9-mainline", station = "line-3-1433-0106-s037394", side = "yard-throat" },
-  { id = "sw-line-3-1433-0106-s037394-yd-86", kit = "no-9-mainline", station = "line-3-1433-0106-s037394", side = "yard-throat" },
-  { id = "sw-line-3-1433-0106-s037394-yd-87", kit = "no-9-mainline", station = "line-3-1433-0106-s037394", side = "yard-throat" },
-  { id = "sw-line-3-1433-0106-s037394-yd-88", kit = "no-9-mainline", station = "line-3-1433-0106-s037394", side = "yard-throat" },
-  { id = "sw-line-3-1433-0106-s037394-yd-89", kit = "no-9-mainline", station = "line-3-1433-0106-s037394", side = "yard-throat" },
-  { id = "sw-line-3-1433-0106-s037394-yd-90", kit = "no-9-mainline", station = "line-3-1433-0106-s037394", side = "yard-throat" },
-  { id = "sw-line-3-1433-0106-s037394-yd-91", kit = "no-9-mainline", station = "line-3-1433-0106-s037394", side = "yard-throat" },
-  { id = "sw-line-3-1433-0106-s037394-yd-92", kit = "no-9-mainline", station = "line-3-1433-0106-s037394", side = "yard-throat" },
-  { id = "sw-line-3-1433-0106-s037394-yd-93", kit = "no-9-mainline", station = "line-3-1433-0106-s037394", side = "yard-throat" },
-  { id = "sw-line-3-1433-0106-s037394-yd-94", kit = "no-9-mainline", station = "line-3-1433-0106-s037394", side = "yard-throat" },
-  { id = "sw-line-3-1433-0106-s037394-yd-95", kit = "no-9-mainline", station = "line-3-1433-0106-s037394", side = "yard-throat" },
   { id = "sw-line-4-0477-0625-s000000-tb", kit = "no-9-mainline", station = "line-4-0477-0625-s000000", side = "turnback" },
   { id = "sw-line-4-1428-0708-s026292-tb", kit = "no-9-mainline", station = "line-4-1428-0708-s026292", side = "turnback" },
   { id = "sw-line-5-0914-1114-s000000-tb", kit = "no-9-mainline", station = "line-5-0914-1114-s000000", side = "turnback" },
@@ -5116,21 +4346,45 @@ switches = [
 [[junctions]]
 group_id        = 0
 elevated_line   = "line-9"
-lat             = -7.197757261634813
-lon             = 112.73121872937233
+lat             = -7.1986570924666164
+lon             = 112.73284877569994
 premium_usd     = 4500000
 premium_eur     = 4140000
 
 [[junctions]]
 group_id        = 1
 elevated_line   = "line-9"
-lat             = -7.224932152755282
-lon             = 112.74099900733796
+lat             = -7.216473742936328
+lon             = 112.73357324073443
 premium_usd     = 4500000
 premium_eur     = 4140000
 
 [[junctions]]
 group_id        = 3
+elevated_line   = "line-9"
+lat             = -7.252287010042112
+lon             = 112.74425909999317
+premium_usd     = 4500000
+premium_eur     = 4140000
+
+[[junctions]]
+group_id        = 4
+elevated_line   = "line-9"
+lat             = -7.266504337184609
+lon             = 112.75657500557953
+premium_usd     = 4500000
+premium_eur     = 4140000
+
+[[junctions]]
+group_id        = 5
+elevated_line   = "line-2"
+lat             = -7.282341359824353
+lon             = 112.75585054054504
+premium_usd     = 4500000
+premium_eur     = 4140000
+
+[[junctions]]
+group_id        = 6
 elevated_line   = "line-9"
 lat             = -7.322653781089155
 lon             = 112.78102570049364
@@ -5138,7 +4392,23 @@ premium_usd     = 4500000
 premium_eur     = 4140000
 
 [[junctions]]
-group_id        = 5
+group_id        = 7
+elevated_line   = "line-9"
+lat             = -7.345149551884246
+lon             = 112.78084458423501
+premium_usd     = 4500000
+premium_eur     = 4140000
+
+[[junctions]]
+group_id        = 8
+elevated_line   = "line-5"
+lat             = -7.2800017996616635
+lon             = 112.76834756239003
+premium_usd     = 4500000
+premium_eur     = 4140000
+
+[[junctions]]
+group_id        = 9
 elevated_line   = "line-9"
 lat             = -7.346769247381492
 lon             = 112.7294075667861
@@ -5146,7 +4416,7 @@ premium_usd     = 4500000
 premium_eur     = 4140000
 
 [[junctions]]
-group_id        = 6
+group_id        = 10
 elevated_line   = "line-9"
 lat             = -7.345689450383328
 lon             = 112.71618607990662
@@ -5154,39 +4424,15 @@ premium_usd     = 4500000
 premium_eur     = 4140000
 
 [[junctions]]
-group_id        = 7
-elevated_line   = "line-8"
-lat             = -7.27424288233812
-lon             = 112.72687193916538
-premium_usd     = 4500000
-premium_eur     = 4140000
-
-[[junctions]]
-group_id        = 8
-elevated_line   = "line-6"
-lat             = -7.289719972645143
-lon             = 112.71165817344105
-premium_usd     = 4500000
-premium_eur     = 4140000
-
-[[junctions]]
-group_id        = 9
-elevated_line   = "line-6"
-lat             = -7.293139329805997
-lon             = 112.69807445404433
-premium_usd     = 4500000
-premium_eur     = 4140000
-
-[[junctions]]
-group_id        = 10
-elevated_line   = "line-9"
-lat             = -7.320854119425548
-lon             = 112.67670273552682
-premium_usd     = 4500000
-premium_eur     = 4140000
-
-[[junctions]]
 group_id        = 11
+elevated_line   = "line-9"
+lat             = -7.3219339164237125
+lon             = 112.67489157294058
+premium_usd     = 4500000
+premium_eur     = 4140000
+
+[[junctions]]
+group_id        = 12
 elevated_line   = "line-9"
 lat             = -7.215933844437246
 lon             = 112.71328821976866
@@ -5194,23 +4440,7 @@ premium_usd     = 4500000
 premium_eur     = 4140000
 
 [[junctions]]
-group_id        = 12
-elevated_line   = "line-8"
-lat             = -7.2715433898427095
-lon             = 112.70876031330307
-premium_usd     = 4500000
-premium_eur     = 4140000
-
-[[junctions]]
 group_id        = 13
-elevated_line   = "line-7"
-lat             = -7.239689378396862
-lon             = 112.69644440771671
-premium_usd     = 4500000
-premium_eur     = 4140000
-
-[[junctions]]
-group_id        = 14
 elevated_line   = "line-9"
 lat             = -7.2294313069143
 lon             = 112.68883752485455
@@ -5218,15 +4448,31 @@ premium_usd     = 4500000
 premium_eur     = 4140000
 
 [[junctions]]
-group_id        = 15
+group_id        = 14
 elevated_line   = "line-9"
 lat             = -7.298538314796818
-lon             = 112.66909585266465
+lon             = 112.67090701525088
+premium_usd     = 4500000
+premium_eur     = 4140000
+
+[[junctions]]
+group_id        = 15
+elevated_line   = "line-8"
+lat             = -7.277662239498974
+lon             = 112.74317240244145
 premium_usd     = 4500000
 premium_eur     = 4140000
 
 [[junctions]]
 group_id        = 16
+elevated_line   = "line-9"
+lat             = -7.279461901162581
+lon             = 112.76273295837272
+premium_usd     = 4500000
+premium_eur     = 4140000
+
+[[junctions]]
+group_id        = 17
 elevated_line   = "line-9"
 lat             = -7.239149479897779
 lon             = 112.68267957206137
@@ -5234,7 +4480,7 @@ premium_usd     = 4500000
 premium_eur     = 4140000
 
 [[junctions]]
-group_id        = 17
+group_id        = 18
 elevated_line   = "line-9"
 lat             = -7.286300615484289
 lon             = 112.6734426428716
@@ -5244,46 +4490,14 @@ premium_eur     = 4140000
 # [[fleets]] — per-line fleet sizing per RFC 0014 §4.
 [[fleets]]
 line               = "line-1"
-peak_count         = 80
+peak_count         = 57
 service_rotation_count = 0
-spare_count        = 8
+spare_count        = 5
 cold_reserve_count = 1
-trainset_count     = 89
+trainset_count     = 63
 
 [[fleets]]
 line               = "line-2"
-peak_count         = 74
-service_rotation_count = 0
-spare_count        = 7
-cold_reserve_count = 1
-trainset_count     = 82
-
-[[fleets]]
-line               = "line-3"
-peak_count         = 81
-service_rotation_count = 0
-spare_count        = 8
-cold_reserve_count = 1
-trainset_count     = 90
-
-[[fleets]]
-line               = "line-4"
-peak_count         = 60
-service_rotation_count = 0
-spare_count        = 6
-cold_reserve_count = 1
-trainset_count     = 67
-
-[[fleets]]
-line               = "line-5"
-peak_count         = 74
-service_rotation_count = 0
-spare_count        = 7
-cold_reserve_count = 1
-trainset_count     = 82
-
-[[fleets]]
-line               = "line-6"
 peak_count         = 59
 service_rotation_count = 0
 spare_count        = 5
@@ -5291,28 +4505,60 @@ cold_reserve_count = 1
 trainset_count     = 65
 
 [[fleets]]
-line               = "line-7"
-peak_count         = 53
+line               = "line-3"
+peak_count         = 62
+service_rotation_count = 0
+spare_count        = 6
+cold_reserve_count = 1
+trainset_count     = 69
+
+[[fleets]]
+line               = "line-4"
+peak_count         = 44
+service_rotation_count = 0
+spare_count        = 4
+cold_reserve_count = 1
+trainset_count     = 49
+
+[[fleets]]
+line               = "line-5"
+peak_count         = 56
 service_rotation_count = 0
 spare_count        = 5
 cold_reserve_count = 1
-trainset_count     = 59
+trainset_count     = 62
+
+[[fleets]]
+line               = "line-6"
+peak_count         = 42
+service_rotation_count = 0
+spare_count        = 4
+cold_reserve_count = 1
+trainset_count     = 47
+
+[[fleets]]
+line               = "line-7"
+peak_count         = 40
+service_rotation_count = 0
+spare_count        = 4
+cold_reserve_count = 1
+trainset_count     = 45
 
 [[fleets]]
 line               = "line-8"
-peak_count         = 50
-service_rotation_count = 0
-spare_count        = 5
-cold_reserve_count = 1
-trainset_count     = 56
-
-[[fleets]]
-line               = "line-9"
-peak_count         = 35
+peak_count         = 37
 service_rotation_count = 0
 spare_count        = 3
 cold_reserve_count = 1
-trainset_count     = 39
+trainset_count     = 41
+
+[[fleets]]
+line               = "line-9"
+peak_count         = 26
+service_rotation_count = 0
+spare_count        = 2
+cold_reserve_count = 1
+trainset_count     = 29
 
 # [costs] — RFC 0011 §9 planning-grade CAPEX (USD
 # direct-procurement planning basis). country-costs.toml applies
@@ -5324,38 +4570,38 @@ version = 2
 currency_basis      = "USD local-owner trainset-family planning basis with direct material, local assembly/labour, nominal per-train QA/acceptance, and modest handover logistics included; 1 m clip-on fiberglass body modules reduce shell labour, mould tooling, cure space, and production setup; distributed overnight stabling reduces depot parking scope; fixtures/tooling live in the railway production plant line per vehicle/car module; warranty, spares, and routine commissioning support are treated as OPEX; raw marketplace BOM retained only as audit lower bound; *_eur mirrors retained for schema compatibility"
 usd_to_eur          = 0.92
 # Civil works (USD/km x civil mix; EUR mirror at usd_to_eur).
-at_grade_usd         = 761699835
-at_grade_eur         = 700763848
-elevated_usd         = 478984987
-elevated_eur         = 440666188
+at_grade_usd         = 757383065
+at_grade_eur         = 696792419
+elevated_usd         = 496252069
+elevated_eur         = 456551903
 bridge_usd           = 0
 bridge_eur           = 0
-junction_premium_usd = 72000000  # $4.5 M per elevated interchange.
-junction_premium_eur = 66240000  # EUR 4.1 M per elevated interchange.
-civil_subtotal_usd   = 1312684822
-civil_subtotal_eur   = 1207670036
+junction_premium_usd = 81000000  # $4.5 M per elevated interchange.
+junction_premium_eur = 74520000  # EUR 4.1 M per elevated interchange.
+civil_subtotal_usd   = 1334635134
+civil_subtotal_eur   = 1227864323
 # Stations (RFC 0010 archetype catalogue).
-stations_usd         = 1051700000
-stations_eur         = 967564000
+stations_usd         = 657800000
+stations_eur         = 605176000
 # Depots (RFC 0014 archetype catalogue).
 depots_usd           = 8000000
 depots_eur           = 7360000
 # Rolling stock (RFC 0008 family × fleet count; local-owner production unit).
-rolling_stock_usd    = 1056720000
-rolling_stock_eur    = 972182400
+rolling_stock_usd    = 789600000
+rolling_stock_eur    = 726432000
 # Railway production plant (tooling + plant setup per vehicle/car module, not per trainset).
-production_plant_usd = 226440000
-production_plant_eur = 208324800
+production_plant_usd = 169200000
+production_plant_eur = 155664000
 # Systems: residual train-control wayside + station/depot charging microgrids.
 signalling_usd       = 14690768
 signalling_eur       = 13515507
-charging_microgrid_usd = 69000000
-charging_microgrid_eur = 63480000
+charging_microgrid_usd = 42100000
+charging_microgrid_eur = 38732000
 # EPC integration + project management (7 % of subtotal).
-epc_overhead_usd     = 261746491
-epc_overhead_eur     = 240806772
-total_usd            = 4000982081  # base CAPEX before timetable-sized dedicated solar
-total_eur            = 3680903515  # base CAPEX before timetable-sized dedicated solar
+epc_overhead_usd     = 211121813
+epc_overhead_eur     = 194232068
+total_usd            = 3227147715  # base CAPEX before timetable-sized dedicated solar
+total_eur            = 2968975898  # base CAPEX before timetable-sized dedicated solar
 
 [costs.technology_basis]
 cost_treatment = "included in planning units; do not add again"
@@ -5370,7 +4616,7 @@ lv_dc_dc_usd_per_car = 2500
 roof_pv_mppt_usd_per_car = 1000
 core_electrical_usd_per_car = 51000
 core_electrical_usd_per_trainset = 306000
-fleet_core_electrical_usd = 192474000
+fleet_core_electrical_usd = 143820000
 station_architecture = "500-1500 V DC/DC configured to 500 kW; 650-700 V train bus"
 stationary_lfp_500kwh_usd = 37500
 station_dcdc_500kw_usd = 15000

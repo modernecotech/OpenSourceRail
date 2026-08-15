@@ -4,9 +4,9 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`thika-line1.aln.toml`](thika-line1.aln.toml) | `line-1` | 29,003.6 m | 15 |
-| [`thika-line2.aln.toml`](thika-line2.aln.toml) | `line-2` | 21,310.1 m | 12 |
-| [`thika-line3.aln.toml`](thika-line3.aln.toml) | `line-3` | 25,157.5 m | 14 |
+| [`thika-line1.aln.toml`](thika-line1.aln.toml) | `line-1` | 29,003.6 m | 11 |
+| [`thika-line2.aln.toml`](thika-line2.aln.toml) | `line-2` | 21,310.1 m | 8 |
+| [`thika-line3.aln.toml`](thika-line3.aln.toml) | `line-3` | 25,157.5 m | 9 |
 
 ## Status
 

@@ -4,9 +4,9 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`najran-line1.aln.toml`](najran-line1.aln.toml) | `line-1` | 21,399.5 m | 14 |
-| [`najran-line2.aln.toml`](najran-line2.aln.toml) | `line-2` | 20,030.8 m | 11 |
-| [`najran-line3.aln.toml`](najran-line3.aln.toml) | `line-3` | 15,275.6 m | 10 |
+| [`najran-line1.aln.toml`](najran-line1.aln.toml) | `line-1` | 21,399.5 m | 8 |
+| [`najran-line2.aln.toml`](najran-line2.aln.toml) | `line-2` | 20,030.8 m | 6 |
+| [`najran-line3.aln.toml`](najran-line3.aln.toml) | `line-3` | 15,275.6 m | 6 |
 
 ## Status
 

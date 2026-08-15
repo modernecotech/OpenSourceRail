@@ -4,9 +4,9 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`morogoro-line1.aln.toml`](morogoro-line1.aln.toml) | `line-1` | 22,050.6 m | 13 |
-| [`morogoro-line2.aln.toml`](morogoro-line2.aln.toml) | `line-2` | 16,169.0 m | 11 |
-| [`morogoro-line3.aln.toml`](morogoro-line3.aln.toml) | `line-3` | 16,833.1 m | 9 |
+| [`morogoro-line1.aln.toml`](morogoro-line1.aln.toml) | `line-1` | 22,050.6 m | 9 |
+| [`morogoro-line2.aln.toml`](morogoro-line2.aln.toml) | `line-2` | 16,169.0 m | 7 |
+| [`morogoro-line3.aln.toml`](morogoro-line3.aln.toml) | `line-3` | 16,833.1 m | 8 |
 
 ## Status
 

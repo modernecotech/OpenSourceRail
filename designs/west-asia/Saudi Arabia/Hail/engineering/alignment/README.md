@@ -4,9 +4,9 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`hail-line1.aln.toml`](hail-line1.aln.toml) | `line-1` | 25,289.0 m | 15 |
-| [`hail-line2.aln.toml`](hail-line2.aln.toml) | `line-2` | 21,899.5 m | 13 |
-| [`hail-line3.aln.toml`](hail-line3.aln.toml) | `line-3` | 15,926.2 m | 9 |
+| [`hail-line1.aln.toml`](hail-line1.aln.toml) | `line-1` | 25,289.0 m | 10 |
+| [`hail-line2.aln.toml`](hail-line2.aln.toml) | `line-2` | 21,899.5 m | 9 |
+| [`hail-line3.aln.toml`](hail-line3.aln.toml) | `line-3` | 15,926.2 m | 4 |
 
 ## Status
 

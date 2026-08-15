@@ -4,9 +4,9 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`latakia-line1.aln.toml`](latakia-line1.aln.toml) | `line-1` | 18,243.2 m | 10 |
-| [`latakia-line2.aln.toml`](latakia-line2.aln.toml) | `line-2` | 11,464.8 m | 7 |
-| [`latakia-line3.aln.toml`](latakia-line3.aln.toml) | `line-3` | 13,134.8 m | 8 |
+| [`latakia-line1.aln.toml`](latakia-line1.aln.toml) | `line-1` | 18,243.2 m | 6 |
+| [`latakia-line2.aln.toml`](latakia-line2.aln.toml) | `line-2` | 11,464.8 m | 5 |
+| [`latakia-line3.aln.toml`](latakia-line3.aln.toml) | `line-3` | 13,134.8 m | 6 |
 
 ## Status
 

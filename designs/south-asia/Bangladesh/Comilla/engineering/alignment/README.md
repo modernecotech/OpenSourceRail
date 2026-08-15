@@ -4,9 +4,9 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`comilla-line1.aln.toml`](comilla-line1.aln.toml) | `line-1` | 20,123.3 m | 13 |
-| [`comilla-line2.aln.toml`](comilla-line2.aln.toml) | `line-2` | 20,341.5 m | 12 |
-| [`comilla-line3.aln.toml`](comilla-line3.aln.toml) | `line-3` | 15,053.6 m | 10 |
+| [`comilla-line1.aln.toml`](comilla-line1.aln.toml) | `line-1` | 20,123.3 m | 7 |
+| [`comilla-line2.aln.toml`](comilla-line2.aln.toml) | `line-2` | 20,341.5 m | 7 |
+| [`comilla-line3.aln.toml`](comilla-line3.aln.toml) | `line-3` | 15,053.6 m | 7 |
 
 ## Status
 

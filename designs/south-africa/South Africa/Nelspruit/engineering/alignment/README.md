@@ -4,9 +4,9 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`nelspruit-line1.aln.toml`](nelspruit-line1.aln.toml) | `line-1` | 12,842.0 m | 9 |
-| [`nelspruit-line2.aln.toml`](nelspruit-line2.aln.toml) | `line-2` | 14,426.0 m | 8 |
-| [`nelspruit-line3.aln.toml`](nelspruit-line3.aln.toml) | `line-3` | 11,431.4 m | 8 |
+| [`nelspruit-line1.aln.toml`](nelspruit-line1.aln.toml) | `line-1` | 12,842.0 m | 6 |
+| [`nelspruit-line2.aln.toml`](nelspruit-line2.aln.toml) | `line-2` | 14,426.0 m | 6 |
+| [`nelspruit-line3.aln.toml`](nelspruit-line3.aln.toml) | `line-3` | 11,431.4 m | 4 |
 
 ## Status
 

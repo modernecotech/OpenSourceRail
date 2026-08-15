@@ -4,9 +4,9 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`rubavu-line1.aln.toml`](rubavu-line1.aln.toml) | `line-1` | 15,331.9 m | 12 |
-| [`rubavu-line2.aln.toml`](rubavu-line2.aln.toml) | `line-2` | 15,878.4 m | 10 |
-| [`rubavu-line3.aln.toml`](rubavu-line3.aln.toml) | `line-3` | 14,930.1 m | 9 |
+| [`rubavu-line1.aln.toml`](rubavu-line1.aln.toml) | `line-1` | 15,331.9 m | 7 |
+| [`rubavu-line2.aln.toml`](rubavu-line2.aln.toml) | `line-2` | 15,878.4 m | 6 |
+| [`rubavu-line3.aln.toml`](rubavu-line3.aln.toml) | `line-3` | 14,930.1 m | 6 |
 
 ## Status
 

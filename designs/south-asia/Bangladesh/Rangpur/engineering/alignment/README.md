@@ -4,9 +4,9 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`rangpur-line1.aln.toml`](rangpur-line1.aln.toml) | `line-1` | 13,371.4 m | 8 |
-| [`rangpur-line2.aln.toml`](rangpur-line2.aln.toml) | `line-2` | 17,696.4 m | 10 |
-| [`rangpur-line3.aln.toml`](rangpur-line3.aln.toml) | `line-3` | 14,898.7 m | 8 |
+| [`rangpur-line1.aln.toml`](rangpur-line1.aln.toml) | `line-1` | 13,371.4 m | 6 |
+| [`rangpur-line2.aln.toml`](rangpur-line2.aln.toml) | `line-2` | 17,696.4 m | 7 |
+| [`rangpur-line3.aln.toml`](rangpur-line3.aln.toml) | `line-3` | 14,898.7 m | 5 |
 
 ## Status
 

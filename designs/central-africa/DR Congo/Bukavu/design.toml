@@ -50,7 +50,7 @@ length_m        = 18280.9
 rolling_stock   = "light-metro-3car"
 geometry        = "standard-urban"
 
-charging_dwell_seconds = 150
+charging_dwell_seconds = 240
 
 [[lines]]
 name            = "line-2"
@@ -59,7 +59,7 @@ length_m        = 23646.1
 rolling_stock   = "light-metro-3car"
 geometry        = "standard-urban"
 
-charging_dwell_seconds = 180
+charging_dwell_seconds = 240
 
 [[lines]]
 name            = "line-3"
@@ -68,7 +68,7 @@ length_m        = 19448.4
 rolling_stock   = "light-metro-3car"
 geometry        = "standard-urban"
 
-charging_dwell_seconds = 150
+charging_dwell_seconds = 240
 
 [[civil_segments]]
 line            = "line-1"
@@ -499,30 +499,6 @@ class           = "elevated"
 [[civil_segments]]
 line            = "line-3"
 from_station_m  = 5718.7
-to_station_m    = 6712.7
-class           = "at-grade"
-
-[[civil_segments]]
-line            = "line-3"
-from_station_m  = 6712.7
-to_station_m    = 7906.7
-class           = "elevated"
-
-[[civil_segments]]
-line            = "line-3"
-from_station_m  = 7906.7
-to_station_m    = 10471.4
-class           = "at-grade"
-
-[[civil_segments]]
-line            = "line-3"
-from_station_m  = 10471.4
-to_station_m    = 11831.1
-class           = "elevated"
-
-[[civil_segments]]
-line            = "line-3"
-from_station_m  = 11831.1
 to_station_m    = 19448.4
 class           = "at-grade"
 
@@ -538,65 +514,35 @@ archetype       = "terminal"
 platform_length_m = 59.5
 
 [[stations]]
-id              = "line-1-0347-0870-s001334"
+id              = "line-1-0420-0849-s003025"
 line            = "line-1"
-lat             = -2.4717382428103516
-lon             = 28.918145963459978
-s_m             = 1334.0
-anchor_kind     = "place:town"
-archetype       = "major"
-platform_length_m = 59.5
-
-[[stations]]
-id              = "line-1-0399-0857-s002538"
-line            = "line-1"
-lat             = -2.481096483461109
-lon             = 28.91580811449389
-s_m             = 2538.2
+lat             = -2.4848757729546844
+lon             = 28.914369438207068
+s_m             = 3024.5
 anchor_kind     = "amenity:hospital"
 anchor_name     = "Gihundwe District Hospital"
 archetype       = "major"
 platform_length_m = 59.5
 
 [[stations]]
-id              = "line-1-0421-0826-s003745"
+id              = "line-1-0394-0764-s006028"
 line            = "line-1"
-lat             = -2.485055739121045
-lon             = 28.91023324388245
-s_m             = 3745.3
-archetype       = "major"
-platform_length_m = 59.5
-
-[[stations]]
-id              = "line-1-0384-0763-s005759"
-line            = "line-1"
-lat             = -2.4783969909656984
-lon             = 28.898903668123715
-s_m             = 5758.7
-archetype       = "interchange-elevated"
-platform_length_m = 59.5
-junction_group  = 0
-
-[[stations]]
-id              = "line-1-0444-0713-s007768"
-line            = "line-1"
-lat             = -2.4891949609473416
-lon             = 28.889911941331068
-s_m             = 7768.1
+lat             = -2.4801966526293056
+lon             = 28.89908350265957
+s_m             = 6028.4
 archetype       = "standard"
 platform_length_m = 59.5
 
 [[stations]]
-id              = "line-1-0489-0638-s009775"
+id              = "line-1-0462-0658-s009029"
 line            = "line-1"
-lat             = -2.4972934384335743
-lon             = 28.8764243511421
-s_m             = 9774.6
-anchor_kind     = "amenity:marketplace"
-anchor_name     = "Marché Nguba"
-archetype       = "interchange-elevated"
+lat             = -2.4924343519418346
+lon             = 28.880021041859155
+s_m             = 9028.9
+anchor_kind     = "place:neighbourhood"
+anchor_name     = "Kimuti"
+archetype       = "standard"
 platform_length_m = 59.5
-junction_group  = 1
 
 [[stations]]
 id              = "line-1-0544-0577-s011949"
@@ -604,40 +550,18 @@ line            = "line-1"
 lat             = -2.507191577583414
 lon             = 28.865454444455068
 s_m             = 11948.8
-archetype       = "interchange-elevated"
+archetype       = "interchange"
 platform_length_m = 59.5
-junction_group  = 1
+junction_group  = 0
 
 [[stations]]
-id              = "line-1-0579-0529-s013787"
+id              = "line-1-0606-0527-s014584"
 line            = "line-1"
-lat             = -2.5134903934060393
-lon             = 28.856822386734127
-s_m             = 13787.0
-anchor_kind     = "amenity:hospital"
-anchor_name     = "Polyclinique Salama"
-archetype       = "major"
-platform_length_m = 59.5
-
-[[stations]]
-id              = "line-1-0621-0520-s014987"
-line            = "line-1"
-lat             = -2.52104897239319
-lon             = 28.855203875911453
-s_m             = 14987.3
+lat             = -2.518349479897779
+lon             = 28.85646271766242
+s_m             = 14584.4
 anchor_kind     = "amenity:marketplace"
 anchor_name     = "Marché Central de Kadutu"
-archetype       = "major"
-platform_length_m = 59.5
-
-[[stations]]
-id              = "line-1-0656-0486-s016211"
-line            = "line-1"
-lat             = -2.527347788215815
-lon             = 28.84908950169245
-s_m             = 16211.0
-anchor_kind     = "amenity:marketplace"
-anchor_name     = "Petit Marché de Nyamiera"
 archetype       = "major"
 platform_length_m = 59.5
 
@@ -664,45 +588,24 @@ archetype       = "terminal"
 platform_length_m = 59.5
 
 [[stations]]
-id              = "line-2-0370-0427-s002011"
+id              = "line-2-0406-0459-s003020"
 line            = "line-2"
-lat             = -2.475877464636648
-lon             = 28.83847926407713
-s_m             = 2011.4
+lat             = -2.4823562466256344
+lon             = 28.844233969224423
+s_m             = 3019.9
+anchor_kind     = "amenity:marketplace"
+anchor_name     = "Nkafu Brasserie"
 archetype       = "standard"
 platform_length_m = 59.5
 
 [[stations]]
-id              = "line-2-0414-0463-s003213"
+id              = "line-2-0479-0571-s006039"
 line            = "line-2"
-lat             = -2.48379597595652
-lon             = 28.844953307367835
-s_m             = 3213.0
-anchor_kind     = "amenity:marketplace"
-anchor_name     = "Nkafu Brasserie"
-archetype       = "major"
+lat             = -2.495493776769967
+lon             = 28.86437543723995
+s_m             = 6039.2
+archetype       = "standard"
 platform_length_m = 59.5
-
-[[stations]]
-id              = "line-2-0454-0506-s004433"
-line            = "line-2"
-lat             = -2.4909946226109487
-lon             = 28.85268619240951
-s_m             = 4432.7
-anchor_kind     = "amenity:marketplace"
-anchor_name     = "Marché de Mwanzi"
-archetype       = "major"
-platform_length_m = 59.5
-
-[[stations]]
-id              = "line-2-0486-0588-s006437"
-line            = "line-2"
-lat             = -2.4967535399344922
-lon             = 28.86743262434945
-s_m             = 6437.2
-archetype       = "interchange-elevated"
-platform_length_m = 59.5
-junction_group  = 1
 
 [[stations]]
 id              = "line-2-0544-0577-s008540"
@@ -710,34 +613,25 @@ line            = "line-2"
 lat             = -2.507191577583414
 lon             = 28.865454444455068
 s_m             = 8539.7
-archetype       = "interchange-elevated"
+archetype       = "interchange"
 platform_length_m = 59.5
-junction_group  = 1
+junction_group  = 0
 
 [[stations]]
-id              = "line-2-0576-0622-s010023"
+id              = "line-2-0565-0637-s010426"
 line            = "line-2"
-lat             = -2.512950494906957
-lon             = 28.87354699856845
-s_m             = 10022.8
+lat             = -2.5109708670769892
+lon             = 28.876244516606246
+s_m             = 10425.6
 archetype       = "standard"
 platform_length_m = 59.5
 
 [[stations]]
-id              = "line-2-0616-0691-s012034"
+id              = "line-2-0626-0700-s012308"
 line            = "line-2"
-lat             = -2.520149141561386
-lon             = 28.8859555815423
-s_m             = 12033.6
-archetype       = "standard"
-platform_length_m = 59.5
-
-[[stations]]
-id              = "line-2-0665-0766-s014051"
-line            = "line-2"
-lat             = -2.528967483713062
-lon             = 28.899443171731274
-s_m             = 14050.6
+lat             = -2.5219488032249933
+lon             = 28.88757409236498
+s_m             = 12308.1
 archetype       = "standard"
 platform_length_m = 59.5
 
@@ -753,29 +647,11 @@ archetype       = "standard"
 platform_length_m = 59.5
 
 [[stations]]
-id              = "line-2-0716-0896-s017569"
+id              = "line-2-0740-0980-s019858"
 line            = "line-2"
-lat             = -2.5381457581974587
-lon             = 28.922821661392152
-s_m             = 17568.5
-archetype       = "standard"
-platform_length_m = 59.5
-
-[[stations]]
-id              = "line-2-0732-0957-s019077"
-line            = "line-2"
-lat             = -2.5410252168592304
-lon             = 28.933791568079183
-s_m             = 19077.0
-archetype       = "halt"
-platform_length_m = 55.5
-
-[[stations]]
-id              = "line-2-0826-1010-s022211"
-line            = "line-2"
-lat             = -2.5579420364971384
-lon             = 28.94332279847939
-s_m             = 22210.7
+lat             = -2.542464946190116
+lon             = 28.9379277624038
+s_m             = 19857.9
 archetype       = "halt"
 platform_length_m = 55.5
 
@@ -801,22 +677,11 @@ archetype       = "terminal"
 platform_length_m = 59.5
 
 [[stations]]
-id              = "line-3-0693-0600-s002015"
+id              = "line-3-0644-0598-s003011"
 line            = "line-3"
-lat             = -2.534006536371162
-lon             = 28.869590638779687
-s_m             = 2014.8
-archetype       = "standard"
-platform_length_m = 59.5
-
-[[stations]]
-id              = "line-3-0599-0585-s004019"
-line            = "line-3"
-lat             = -2.517089716733254
-lon             = 28.866893120741892
-s_m             = 4019.1
-anchor_kind     = "amenity:college"
-anchor_name     = "Collège George Simamu"
+lat             = -2.5251881942194867
+lon             = 28.86923096970798
+s_m             = 3011.4
 archetype       = "standard"
 platform_length_m = 59.5
 
@@ -826,68 +691,36 @@ line            = "line-3"
 lat             = -2.507191577583414
 lon             = 28.865454444455068
 s_m             = 5469.0
-archetype       = "interchange-elevated"
-platform_length_m = 59.5
-junction_group  = 1
-
-[[stations]]
-id              = "line-3-0493-0616-s007240"
-line            = "line-3"
-lat             = -2.4980133030990173
-lon             = 28.872467991353332
-s_m             = 7240.4
-archetype       = "interchange-elevated"
-platform_length_m = 59.5
-junction_group  = 1
-
-[[stations]]
-id              = "line-3-0422-0670-s009246"
-line            = "line-3"
-lat             = -2.4852357052874057
-lon             = 28.88217905628939
-s_m             = 9246.3
-archetype       = "standard"
-platform_length_m = 59.5
-
-[[stations]]
-id              = "line-3-0362-0746-s011263"
-line            = "line-3"
-lat             = -2.4744377353057625
-lon             = 28.895846481014214
-s_m             = 11263.4
-archetype       = "interchange-elevated"
+archetype       = "interchange"
 platform_length_m = 59.5
 junction_group  = 0
 
 [[stations]]
-id              = "line-3-0310-0799-s013268"
+id              = "line-3-0426-0662-s009053"
 line            = "line-3"
-lat             = -2.4650794946550048
-lon             = 28.90537771141442
-s_m             = 13268.5
-anchor_kind     = "aeroway:aerodrome"
-anchor_name     = "Kamembe Airport"
+lat             = -2.4859555699528486
+lon             = 28.880740380002567
+s_m             = 9053.2
 archetype       = "standard"
 platform_length_m = 59.5
 
 [[stations]]
-id              = "line-3-0223-0821-s015271"
+id              = "line-3-0341-0799-s012632"
+line            = "line-3"
+lat             = -2.470658445812187
+lon             = 28.90537771141442
+s_m             = 12631.9
+archetype       = "standard"
+platform_length_m = 59.5
+
+[[stations]]
+id              = "line-3-0223-0834-s015632"
 line            = "line-3"
 lat             = -2.449422438181622
-lon             = 28.909334071203183
-s_m             = 15270.7
+lon             = 28.911671920169272
+s_m             = 15632.1
 anchor_kind     = "amenity:hospital"
 anchor_name     = "Kamatita Health Centre"
-archetype       = "standard"
-platform_length_m = 59.5
-
-[[stations]]
-id              = "line-3-0137-0857-s017588"
-line            = "line-3"
-lat             = -2.4339453478745994
-lon             = 28.91580811449389
-s_m             = 17587.5
-anchor_kind     = "place:town"
 archetype       = "standard"
 platform_length_m = 59.5
 
@@ -905,24 +738,16 @@ platform_length_m = 59.5
 [[interchanges]]
 id              = "interchange-000"
 junction_group  = 0
-lat             = -2.4764173631357305
-lon             = 28.897375074568963
-lines           = ["line-1", "line-3"]
-platforms       = ["line-1-0384-0763-s005759", "line-3-0362-0746-s011263"]
-
-[[interchanges]]
-id              = "interchange-001"
-junction_group  = 1
-lat             = -2.502272502369555
-lon             = 28.868781383368354
+lat             = -2.507191577583414
+lon             = 28.865454444455068
 lines           = ["line-1", "line-2", "line-3"]
-platforms       = ["line-1-0489-0638-s009775", "line-1-0544-0577-s011949", "line-2-0486-0588-s006437", "line-2-0544-0577-s008540", "line-3-0493-0616-s007240", "line-3-0544-0577-s005469"]
+platforms       = ["line-1-0544-0577-s011949", "line-2-0544-0577-s008540", "line-3-0544-0577-s005469"]
 
 # [[depots]] — maintenance/defect facilities per RFC 0014; healthy sets stable at powered stations.
 [[depots]]
 station      = "line-2-0859-1060-s023646"
 archetype    = "main-heavy"
-fleet_stalls = 24
+fleet_stalls = 20
 
 # switches — turnbacks at terminals + depot fans per RFC 0012 §9.
 switches = [
@@ -950,57 +775,34 @@ switches = [
   { id = "sw-line-2-0859-1060-s023646-yd-18", kit = "no-9-mainline", station = "line-2-0859-1060-s023646", side = "yard-throat" },
   { id = "sw-line-2-0859-1060-s023646-yd-19", kit = "no-9-mainline", station = "line-2-0859-1060-s023646", side = "yard-throat" },
   { id = "sw-line-2-0859-1060-s023646-yd-20", kit = "no-9-mainline", station = "line-2-0859-1060-s023646", side = "yard-throat" },
-  { id = "sw-line-2-0859-1060-s023646-yd-21", kit = "no-9-mainline", station = "line-2-0859-1060-s023646", side = "yard-throat" },
-  { id = "sw-line-2-0859-1060-s023646-yd-22", kit = "no-9-mainline", station = "line-2-0859-1060-s023646", side = "yard-throat" },
-  { id = "sw-line-2-0859-1060-s023646-yd-23", kit = "no-9-mainline", station = "line-2-0859-1060-s023646", side = "yard-throat" },
-  { id = "sw-line-2-0859-1060-s023646-yd-24", kit = "no-9-mainline", station = "line-2-0859-1060-s023646", side = "yard-throat" },
   { id = "sw-line-3-0764-0574-s000000-tb", kit = "no-9-mainline", station = "line-3-0764-0574-s000000", side = "turnback" },
   { id = "sw-line-3-0104-0927-s019448-tb", kit = "no-9-mainline", station = "line-3-0104-0927-s019448", side = "turnback" },
 ]
 
-# [[junctions]] — elevated-junction upgrades for cross-at-grade
-# interchanges, per RFC 0011 §8 follow-up. Each adds the 1 km
-# Elevated section already visible in the civil mix above.
-[[junctions]]
-group_id        = 0
-elevated_line   = "line-3"
-lat             = -2.4783969909656984
-lon             = 28.898903668123715
-premium_usd     = 4500000
-premium_eur     = 4140000
-
-[[junctions]]
-group_id        = 1
-elevated_line   = "line-3"
-lat             = -2.4972934384335743
-lon             = 28.8764243511421
-premium_usd     = 4500000
-premium_eur     = 4140000
-
 # [[fleets]] — per-line fleet sizing per RFC 0014 §4.
 [[fleets]]
 line               = "line-1"
-peak_count         = 43
+peak_count         = 36
 service_rotation_count = 0
-spare_count        = 4
+spare_count        = 3
 cold_reserve_count = 1
-trainset_count     = 48
+trainset_count     = 40
 
 [[fleets]]
 line               = "line-2"
-peak_count         = 55
-service_rotation_count = 0
-spare_count        = 5
-cold_reserve_count = 1
-trainset_count     = 61
-
-[[fleets]]
-line               = "line-3"
-peak_count         = 43
+peak_count         = 44
 service_rotation_count = 0
 spare_count        = 4
 cold_reserve_count = 1
-trainset_count     = 48
+trainset_count     = 49
+
+[[fleets]]
+line               = "line-3"
+peak_count         = 37
+service_rotation_count = 0
+spare_count        = 3
+cold_reserve_count = 1
+trainset_count     = 41
 
 # [costs] — RFC 0011 §9 planning-grade CAPEX (USD
 # direct-procurement planning basis). country-costs.toml applies
@@ -1012,38 +814,38 @@ version = 2
 currency_basis      = "USD local-owner trainset-family planning basis with direct material, local assembly/labour, nominal per-train QA/acceptance, and modest handover logistics included; 1 m clip-on fiberglass body modules reduce shell labour, mould tooling, cure space, and production setup; distributed overnight stabling reduces depot parking scope; fixtures/tooling live in the railway production plant line per vehicle/car module; warranty, spares, and routine commissioning support are treated as OPEX; raw marketplace BOM retained only as audit lower bound; *_eur mirrors retained for schema compatibility"
 usd_to_eur          = 0.92
 # Civil works (USD/km x civil mix; EUR mirror at usd_to_eur).
-at_grade_usd         = 172291030
-at_grade_eur         = 158507748
-elevated_usd         = 47339948
-elevated_eur         = 43552752
+at_grade_usd         = 179951905
+at_grade_eur         = 165555752
+elevated_usd         = 16696450
+elevated_eur         = 15360734
 bridge_usd           = 0
 bridge_eur           = 0
-junction_premium_usd = 9000000  # $4.5 M per elevated interchange.
-junction_premium_eur = 8280000  # EUR 4.1 M per elevated interchange.
-civil_subtotal_usd   = 228630978
-civil_subtotal_eur   = 210340500
+junction_premium_usd = 0  # $4.5 M per elevated interchange.
+junction_premium_eur = 0  # EUR 4.1 M per elevated interchange.
+civil_subtotal_usd   = 196648355
+civil_subtotal_eur   = 180916486
 # Stations (RFC 0010 archetype catalogue).
-stations_usd         = 193200000
-stations_eur         = 177744000
+stations_usd         = 88600000
+stations_eur         = 81512000
 # Depots (RFC 0014 archetype catalogue).
 depots_usd           = 8000000
 depots_eur           = 7360000
 # Rolling stock (RFC 0008 family × fleet count; local-owner production unit).
-rolling_stock_usd    = 141300000
-rolling_stock_eur    = 129996000
+rolling_stock_usd    = 117000000
+rolling_stock_eur    = 107640000
 # Railway production plant (tooling + plant setup per vehicle/car module, not per trainset).
-production_plant_usd = 28260000
-production_plant_eur = 25999200
+production_plant_usd = 23400000
+production_plant_eur = 21528000
 # Systems: residual train-control wayside + station/depot charging microgrids.
 signalling_usd       = 3068767
 signalling_eur       = 2823266
-charging_microgrid_usd = 3850000
-charging_microgrid_eur = 3542000
+charging_microgrid_usd = 2350000
+charging_microgrid_eur = 2162000
 # EPC integration + project management (7 % of subtotal).
-epc_overhead_usd     = 42441682
-epc_overhead_eur     = 39046348
-total_usd            = 648751427  # base CAPEX before timetable-sized dedicated solar
-total_eur            = 596851313  # base CAPEX before timetable-sized dedicated solar
+epc_overhead_usd     = 30734699
+epc_overhead_eur     = 28275923
+total_usd            = 469801820  # base CAPEX before timetable-sized dedicated solar
+total_eur            = 432217675  # base CAPEX before timetable-sized dedicated solar
 
 [costs.technology_basis]
 cost_treatment = "included in planning units; do not add again"
@@ -1058,7 +860,7 @@ lv_dc_dc_usd_per_car = 2500
 roof_pv_mppt_usd_per_car = 1000
 core_electrical_usd_per_car = 51000
 core_electrical_usd_per_trainset = 153000
-fleet_core_electrical_usd = 24021000
+fleet_core_electrical_usd = 19890000
 station_architecture = "500-1500 V DC/DC configured to 500 kW; 650-700 V train bus"
 stationary_lfp_500kwh_usd = 37500
 station_dcdc_500kw_usd = 15000

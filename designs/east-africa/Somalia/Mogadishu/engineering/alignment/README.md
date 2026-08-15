@@ -4,10 +4,10 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`mogadishu-line1.aln.toml`](mogadishu-line1.aln.toml) | `line-1` | 37,111.6 m | 21 |
-| [`mogadishu-line2.aln.toml`](mogadishu-line2.aln.toml) | `line-2` | 24,886.2 m | 16 |
-| [`mogadishu-line3.aln.toml`](mogadishu-line3.aln.toml) | `line-3` | 16,683.8 m | 12 |
-| [`mogadishu-line4.aln.toml`](mogadishu-line4.aln.toml) | `line-4` | 42,027.6 m | 27 |
+| [`mogadishu-line1.aln.toml`](mogadishu-line1.aln.toml) | `line-1` | 37,111.6 m | 14 |
+| [`mogadishu-line2.aln.toml`](mogadishu-line2.aln.toml) | `line-2` | 24,886.2 m | 11 |
+| [`mogadishu-line3.aln.toml`](mogadishu-line3.aln.toml) | `line-3` | 16,683.8 m | 8 |
+| [`mogadishu-line4.aln.toml`](mogadishu-line4.aln.toml) | `line-4` | 42,027.6 m | 15 |
 
 ## Status
 

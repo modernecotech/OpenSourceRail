@@ -4,9 +4,9 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`gulu-line1.aln.toml`](gulu-line1.aln.toml) | `line-1` | 14,943.6 m | 9 |
-| [`gulu-line2.aln.toml`](gulu-line2.aln.toml) | `line-2` | 28,690.7 m | 15 |
-| [`gulu-line3.aln.toml`](gulu-line3.aln.toml) | `line-3` | 16,423.5 m | 9 |
+| [`gulu-line1.aln.toml`](gulu-line1.aln.toml) | `line-1` | 14,943.6 m | 5 |
+| [`gulu-line2.aln.toml`](gulu-line2.aln.toml) | `line-2` | 28,690.7 m | 8 |
+| [`gulu-line3.aln.toml`](gulu-line3.aln.toml) | `line-3` | 16,423.5 m | 5 |
 
 ## Status
 

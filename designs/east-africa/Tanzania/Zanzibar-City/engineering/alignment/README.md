@@ -4,9 +4,9 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`zanzibar-city-line1.aln.toml`](zanzibar-city-line1.aln.toml) | `line-1` | 19,084.4 m | 13 |
-| [`zanzibar-city-line2.aln.toml`](zanzibar-city-line2.aln.toml) | `line-2` | 21,026.6 m | 12 |
-| [`zanzibar-city-line3.aln.toml`](zanzibar-city-line3.aln.toml) | `line-3` | 21,743.1 m | 12 |
+| [`zanzibar-city-line1.aln.toml`](zanzibar-city-line1.aln.toml) | `line-1` | 19,084.4 m | 7 |
+| [`zanzibar-city-line2.aln.toml`](zanzibar-city-line2.aln.toml) | `line-2` | 21,026.6 m | 7 |
+| [`zanzibar-city-line3.aln.toml`](zanzibar-city-line3.aln.toml) | `line-3` | 21,743.1 m | 8 |
 
 ## Status
 

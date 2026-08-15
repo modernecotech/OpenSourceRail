@@ -4,9 +4,9 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`xai-xai-line1.aln.toml`](xai-xai-line1.aln.toml) | `line-1` | 9,443.5 m | 7 |
-| [`xai-xai-line2.aln.toml`](xai-xai-line2.aln.toml) | `line-2` | 8,413.2 m | 6 |
-| [`xai-xai-line3.aln.toml`](xai-xai-line3.aln.toml) | `line-3` | 4,370.4 m | 3 |
+| [`xai-xai-line1.aln.toml`](xai-xai-line1.aln.toml) | `line-1` | 9,443.5 m | 5 |
+| [`xai-xai-line2.aln.toml`](xai-xai-line2.aln.toml) | `line-2` | 8,413.2 m | 4 |
+| [`xai-xai-line3.aln.toml`](xai-xai-line3.aln.toml) | `line-3` | 4,370.4 m | 2 |
 
 ## Status
 

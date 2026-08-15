@@ -4,10 +4,10 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`quetta-line1.aln.toml`](quetta-line1.aln.toml) | `line-1` | 25,431.2 m | 15 |
-| [`quetta-line2.aln.toml`](quetta-line2.aln.toml) | `line-2` | 26,740.0 m | 17 |
-| [`quetta-line3.aln.toml`](quetta-line3.aln.toml) | `line-3` | 15,386.1 m | 10 |
-| [`quetta-line4.aln.toml`](quetta-line4.aln.toml) | `line-4` | 53,116.6 m | 38 |
+| [`quetta-line1.aln.toml`](quetta-line1.aln.toml) | `line-1` | 25,431.2 m | 10 |
+| [`quetta-line2.aln.toml`](quetta-line2.aln.toml) | `line-2` | 26,740.0 m | 10 |
+| [`quetta-line3.aln.toml`](quetta-line3.aln.toml) | `line-3` | 15,386.1 m | 5 |
+| [`quetta-line4.aln.toml`](quetta-line4.aln.toml) | `line-4` | 53,116.6 m | 16 |
 
 ## Status
 

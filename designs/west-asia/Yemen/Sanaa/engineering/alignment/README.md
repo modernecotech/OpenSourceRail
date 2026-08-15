@@ -4,13 +4,13 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`sanaa-line1.aln.toml`](sanaa-line1.aln.toml) | `line-1` | 41,473.1 m | 22 |
-| [`sanaa-line2.aln.toml`](sanaa-line2.aln.toml) | `line-2` | 20,949.9 m | 14 |
-| [`sanaa-line3.aln.toml`](sanaa-line3.aln.toml) | `line-3` | 32,034.1 m | 19 |
-| [`sanaa-line4.aln.toml`](sanaa-line4.aln.toml) | `line-4` | 24,742.8 m | 16 |
-| [`sanaa-line5.aln.toml`](sanaa-line5.aln.toml) | `line-5` | 33,848.8 m | 19 |
-| [`sanaa-line6.aln.toml`](sanaa-line6.aln.toml) | `line-6` | 20,943.9 m | 11 |
-| [`sanaa-line7.aln.toml`](sanaa-line7.aln.toml) | `line-7` | 59,092.0 m | 39 |
+| [`sanaa-line1.aln.toml`](sanaa-line1.aln.toml) | `line-1` | 41,473.1 m | 12 |
+| [`sanaa-line2.aln.toml`](sanaa-line2.aln.toml) | `line-2` | 20,949.9 m | 7 |
+| [`sanaa-line3.aln.toml`](sanaa-line3.aln.toml) | `line-3` | 32,034.1 m | 11 |
+| [`sanaa-line4.aln.toml`](sanaa-line4.aln.toml) | `line-4` | 24,742.8 m | 10 |
+| [`sanaa-line5.aln.toml`](sanaa-line5.aln.toml) | `line-5` | 33,848.8 m | 11 |
+| [`sanaa-line6.aln.toml`](sanaa-line6.aln.toml) | `line-6` | 20,943.9 m | 8 |
+| [`sanaa-line7.aln.toml`](sanaa-line7.aln.toml) | `line-7` | 59,092.0 m | 16 |
 
 ## Status
 

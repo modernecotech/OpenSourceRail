@@ -4,9 +4,9 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`idlib-line1.aln.toml`](idlib-line1.aln.toml) | `line-1` | 12,357.3 m | 7 |
-| [`idlib-line2.aln.toml`](idlib-line2.aln.toml) | `line-2` | 8,857.9 m | 5 |
-| [`idlib-line3.aln.toml`](idlib-line3.aln.toml) | `line-3` | 10,737.4 m | 6 |
+| [`idlib-line1.aln.toml`](idlib-line1.aln.toml) | `line-1` | 12,357.3 m | 5 |
+| [`idlib-line2.aln.toml`](idlib-line2.aln.toml) | `line-2` | 8,857.9 m | 3 |
+| [`idlib-line3.aln.toml`](idlib-line3.aln.toml) | `line-3` | 10,737.4 m | 5 |
 
 ## Status
 

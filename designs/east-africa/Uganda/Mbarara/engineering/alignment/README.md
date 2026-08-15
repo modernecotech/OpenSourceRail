@@ -4,9 +4,9 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`mbarara-line1.aln.toml`](mbarara-line1.aln.toml) | `line-1` | 13,231.4 m | 9 |
-| [`mbarara-line2.aln.toml`](mbarara-line2.aln.toml) | `line-2` | 15,059.4 m | 8 |
-| [`mbarara-line3.aln.toml`](mbarara-line3.aln.toml) | `line-3` | 24,662.3 m | 12 |
+| [`mbarara-line1.aln.toml`](mbarara-line1.aln.toml) | `line-1` | 13,231.4 m | 6 |
+| [`mbarara-line2.aln.toml`](mbarara-line2.aln.toml) | `line-2` | 15,059.4 m | 7 |
+| [`mbarara-line3.aln.toml`](mbarara-line3.aln.toml) | `line-3` | 24,662.3 m | 9 |
 
 ## Status
 

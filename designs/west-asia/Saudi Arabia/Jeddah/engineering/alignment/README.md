@@ -4,15 +4,15 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`jeddah-line1.aln.toml`](jeddah-line1.aln.toml) | `line-1` | 50,232.8 m | 27 |
-| [`jeddah-line2.aln.toml`](jeddah-line2.aln.toml) | `line-2` | 28,687.3 m | 16 |
-| [`jeddah-line3.aln.toml`](jeddah-line3.aln.toml) | `line-3` | 44,377.1 m | 23 |
-| [`jeddah-line4.aln.toml`](jeddah-line4.aln.toml) | `line-4` | 43,649.7 m | 23 |
-| [`jeddah-line5.aln.toml`](jeddah-line5.aln.toml) | `line-5` | 37,106.7 m | 19 |
-| [`jeddah-line6.aln.toml`](jeddah-line6.aln.toml) | `line-6` | 32,445.4 m | 17 |
-| [`jeddah-line7.aln.toml`](jeddah-line7.aln.toml) | `line-7` | 28,985.4 m | 16 |
-| [`jeddah-line8.aln.toml`](jeddah-line8.aln.toml) | `line-8` | 27,430.4 m | 16 |
-| [`jeddah-line9.aln.toml`](jeddah-line9.aln.toml) | `line-9` | 82,474.5 m | 53 |
+| [`jeddah-line1.aln.toml`](jeddah-line1.aln.toml) | `line-1` | 50,232.8 m | 17 |
+| [`jeddah-line2.aln.toml`](jeddah-line2.aln.toml) | `line-2` | 28,687.3 m | 10 |
+| [`jeddah-line3.aln.toml`](jeddah-line3.aln.toml) | `line-3` | 44,377.1 m | 14 |
+| [`jeddah-line4.aln.toml`](jeddah-line4.aln.toml) | `line-4` | 43,649.7 m | 17 |
+| [`jeddah-line5.aln.toml`](jeddah-line5.aln.toml) | `line-5` | 37,106.7 m | 12 |
+| [`jeddah-line6.aln.toml`](jeddah-line6.aln.toml) | `line-6` | 32,445.4 m | 12 |
+| [`jeddah-line7.aln.toml`](jeddah-line7.aln.toml) | `line-7` | 28,985.4 m | 9 |
+| [`jeddah-line8.aln.toml`](jeddah-line8.aln.toml) | `line-8` | 27,430.4 m | 10 |
+| [`jeddah-line9.aln.toml`](jeddah-line9.aln.toml) | `line-9` | 82,474.5 m | 26 |
 
 ## Status
 

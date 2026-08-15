@@ -4,9 +4,9 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`iringa-line1.aln.toml`](iringa-line1.aln.toml) | `line-1` | 11,332.8 m | 8 |
-| [`iringa-line2.aln.toml`](iringa-line2.aln.toml) | `line-2` | 9,718.0 m | 7 |
-| [`iringa-line3.aln.toml`](iringa-line3.aln.toml) | `line-3` | 6,025.6 m | 5 |
+| [`iringa-line1.aln.toml`](iringa-line1.aln.toml) | `line-1` | 11,332.8 m | 6 |
+| [`iringa-line2.aln.toml`](iringa-line2.aln.toml) | `line-2` | 9,718.0 m | 5 |
+| [`iringa-line3.aln.toml`](iringa-line3.aln.toml) | `line-3` | 6,025.6 m | 3 |
 
 ## Status
 

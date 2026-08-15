@@ -4,9 +4,9 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`fayoum-line1.aln.toml`](fayoum-line1.aln.toml) | `line-1` | 28,462.4 m | 15 |
-| [`fayoum-line2.aln.toml`](fayoum-line2.aln.toml) | `line-2` | 18,823.3 m | 12 |
-| [`fayoum-line3.aln.toml`](fayoum-line3.aln.toml) | `line-3` | 21,464.5 m | 12 |
+| [`fayoum-line1.aln.toml`](fayoum-line1.aln.toml) | `line-1` | 28,462.4 m | 9 |
+| [`fayoum-line2.aln.toml`](fayoum-line2.aln.toml) | `line-2` | 18,823.3 m | 8 |
+| [`fayoum-line3.aln.toml`](fayoum-line3.aln.toml) | `line-3` | 21,464.5 m | 6 |
 
 ## Status
 

@@ -4,9 +4,9 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`khamis-mushait-line1.aln.toml`](khamis-mushait-line1.aln.toml) | `line-1` | 29,101.0 m | 15 |
-| [`khamis-mushait-line2.aln.toml`](khamis-mushait-line2.aln.toml) | `line-2` | 25,542.4 m | 14 |
-| [`khamis-mushait-line3.aln.toml`](khamis-mushait-line3.aln.toml) | `line-3` | 26,523.0 m | 15 |
+| [`khamis-mushait-line1.aln.toml`](khamis-mushait-line1.aln.toml) | `line-1` | 29,101.0 m | 9 |
+| [`khamis-mushait-line2.aln.toml`](khamis-mushait-line2.aln.toml) | `line-2` | 25,542.4 m | 8 |
+| [`khamis-mushait-line3.aln.toml`](khamis-mushait-line3.aln.toml) | `line-3` | 26,523.0 m | 9 |
 
 ## Status
 

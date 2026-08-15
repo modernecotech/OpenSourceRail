@@ -4,9 +4,9 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`buraidah-line1.aln.toml`](buraidah-line1.aln.toml) | `line-1` | 29,341.4 m | 17 |
-| [`buraidah-line2.aln.toml`](buraidah-line2.aln.toml) | `line-2` | 20,886.1 m | 13 |
-| [`buraidah-line3.aln.toml`](buraidah-line3.aln.toml) | `line-3` | 19,018.6 m | 13 |
+| [`buraidah-line1.aln.toml`](buraidah-line1.aln.toml) | `line-1` | 29,341.4 m | 9 |
+| [`buraidah-line2.aln.toml`](buraidah-line2.aln.toml) | `line-2` | 20,886.1 m | 9 |
+| [`buraidah-line3.aln.toml`](buraidah-line3.aln.toml) | `line-3` | 19,018.6 m | 9 |
 
 ## Status
 

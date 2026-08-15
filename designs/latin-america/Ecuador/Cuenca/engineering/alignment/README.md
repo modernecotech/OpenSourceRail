@@ -4,9 +4,9 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`cuenca-line1.aln.toml`](cuenca-line1.aln.toml) | `line-1` | 26,116.7 m | 14 |
-| [`cuenca-line2.aln.toml`](cuenca-line2.aln.toml) | `line-2` | 24,071.0 m | 13 |
-| [`cuenca-line3.aln.toml`](cuenca-line3.aln.toml) | `line-3` | 20,711.3 m | 11 |
+| [`cuenca-line1.aln.toml`](cuenca-line1.aln.toml) | `line-1` | 26,116.7 m | 9 |
+| [`cuenca-line2.aln.toml`](cuenca-line2.aln.toml) | `line-2` | 24,071.0 m | 8 |
+| [`cuenca-line3.aln.toml`](cuenca-line3.aln.toml) | `line-3` | 20,711.3 m | 7 |
 
 ## Status
 

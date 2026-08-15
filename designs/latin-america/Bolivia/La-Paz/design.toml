@@ -50,7 +50,7 @@ length_m        = 33718.3
 rolling_stock   = "metro-4car"
 geometry        = "standard-metro"
 
-charging_dwell_seconds = 120
+charging_dwell_seconds = 150
 
 [[lines]]
 name            = "line-2"
@@ -68,7 +68,7 @@ length_m        = 30041.9
 rolling_stock   = "metro-4car"
 geometry        = "standard-metro"
 
-charging_dwell_seconds = 120
+charging_dwell_seconds = 150
 
 [[lines]]
 name            = "line-4"
@@ -77,7 +77,7 @@ length_m        = 33347.0
 rolling_stock   = "metro-4car"
 geometry        = "standard-metro"
 
-charging_dwell_seconds = 120
+charging_dwell_seconds = 150
 
 [[lines]]
 name            = "line-5"
@@ -92,7 +92,7 @@ charging_dwell_seconds = 120
 name            = "line-6"
 shape           = "ring"
 length_m        = 62023.6
-ring_wrap_length_m = 1635
+ring_wrap_length_m = 4194
 rolling_stock   = "metro-4car"
 geometry        = "standard-metro"
 
@@ -227,18 +227,18 @@ class           = "elevated"
 [[civil_segments]]
 line            = "line-5"
 from_station_m  = 0.0
-to_station_m    = 12875.7
+to_station_m    = 12992.2
 class           = "at-grade"
 
 [[civil_segments]]
 line            = "line-5"
-from_station_m  = 12875.7
-to_station_m    = 14003.4
+from_station_m  = 12992.2
+to_station_m    = 14119.9
 class           = "elevated"
 
 [[civil_segments]]
 line            = "line-5"
-from_station_m  = 14003.4
+from_station_m  = 14119.9
 to_station_m    = 14602.8
 class           = "at-grade"
 
@@ -251,30 +251,18 @@ class           = "elevated"
 [[civil_segments]]
 line            = "line-5"
 from_station_m  = 14631.1
-to_station_m    = 16166.5
-class           = "at-grade"
-
-[[civil_segments]]
-line            = "line-5"
-from_station_m  = 16166.5
-to_station_m    = 17443.3
-class           = "elevated"
-
-[[civil_segments]]
-line            = "line-5"
-from_station_m  = 17443.3
 to_station_m    = 27582.1
 class           = "at-grade"
 
 [[civil_segments]]
 line            = "line-6"
 from_station_m  = 0.0
-to_station_m    = 915.4
+to_station_m    = 1785.9
 class           = "elevated"
 
 [[civil_segments]]
 line            = "line-6"
-from_station_m  = 915.4
+from_station_m  = 1785.9
 to_station_m    = 3064.2
 class           = "at-grade"
 
@@ -311,30 +299,30 @@ class           = "elevated"
 [[civil_segments]]
 line            = "line-6"
 from_station_m  = 14754.6
-to_station_m    = 17992.0
+to_station_m    = 17692.0
 class           = "at-grade"
 
 [[civil_segments]]
 line            = "line-6"
-from_station_m  = 17992.0
-to_station_m    = 19128.0
+from_station_m  = 17692.0
+to_station_m    = 18828.0
 class           = "elevated"
 
 [[civil_segments]]
 line            = "line-6"
-from_station_m  = 19128.0
-to_station_m    = 22717.6
+from_station_m  = 18828.0
+to_station_m    = 22802.5
 class           = "at-grade"
 
 [[civil_segments]]
 line            = "line-6"
-from_station_m  = 22717.6
-to_station_m    = 24052.4
+from_station_m  = 22802.5
+to_station_m    = 24137.3
 class           = "elevated"
 
 [[civil_segments]]
 line            = "line-6"
-from_station_m  = 24052.4
+from_station_m  = 24137.3
 to_station_m    = 24471.8
 class           = "at-grade"
 
@@ -347,12 +335,12 @@ class           = "elevated"
 [[civil_segments]]
 line            = "line-6"
 from_station_m  = 25788.7
-to_station_m    = 29570.6
+to_station_m    = 29550.6
 class           = "at-grade"
 
 [[civil_segments]]
 line            = "line-6"
-from_station_m  = 29570.6
+from_station_m  = 29550.6
 to_station_m    = 30731.4
 class           = "elevated"
 
@@ -395,18 +383,30 @@ class           = "elevated"
 [[civil_segments]]
 line            = "line-6"
 from_station_m  = 46395.3
-to_station_m    = 55940.0
+to_station_m    = 47527.2
 class           = "at-grade"
 
 [[civil_segments]]
 line            = "line-6"
-from_station_m  = 55940.0
-to_station_m    = 57150.6
+from_station_m  = 47527.2
+to_station_m    = 48638.3
 class           = "elevated"
 
 [[civil_segments]]
 line            = "line-6"
-from_station_m  = 57150.6
+from_station_m  = 48638.3
+to_station_m    = 55388.9
+class           = "at-grade"
+
+[[civil_segments]]
+line            = "line-6"
+from_station_m  = 55388.9
+to_station_m    = 56582.9
+class           = "elevated"
+
+[[civil_segments]]
+line            = "line-6"
+from_station_m  = 56582.9
 to_station_m    = 60974.5
 class           = "at-grade"
 
@@ -426,52 +426,22 @@ archetype       = "terminal"
 platform_length_m = 85.0
 
 [[stations]]
-id              = "line-1-0116-1361-s002503"
+id              = "line-1-0116-1311-s003503"
 line            = "line-1"
 lat             = -16.420966058381023
-lon             = -68.04485112614678
-s_m             = 2502.8
+lon             = -68.05422126473853
+s_m             = 3502.8
 archetype       = "halt"
 platform_length_m = 81.0
 
 [[stations]]
-id              = "line-1-0156-1255-s005025"
+id              = "line-1-0226-1185-s007004"
 line            = "line-1"
-lat             = -16.428164705035453
-lon             = -68.06471581996128
-s_m             = 5024.5
+lat             = -16.440762336680702
+lon             = -68.07783401398973
+s_m             = 7004.4
 archetype       = "halt"
 platform_length_m = 81.0
-
-[[stations]]
-id              = "line-1-0249-1145-s008042"
-line            = "line-1"
-lat             = -16.444901558507
-lon             = -68.08533012486312
-s_m             = 8041.8
-archetype       = "halt"
-platform_length_m = 81.0
-
-[[stations]]
-id              = "line-1-0313-1064-s010366"
-line            = "line-1"
-lat             = -16.456419393154086
-lon             = -68.10050974938174
-s_m             = 10365.7
-archetype       = "standard"
-platform_length_m = 85.0
-
-[[stations]]
-id              = "line-1-0374-0999-s012385"
-line            = "line-1"
-lat             = -16.46739732930209
-lon             = -68.11269092955102
-s_m             = 12384.8
-anchor_kind     = "place:neighbourhood"
-anchor_name     = "Villa El Carmen"
-archetype       = "interchange-elevated"
-platform_length_m = 85.0
-junction_group  = 0
 
 [[stations]]
 id              = "line-1-0385-0981-s012836"
@@ -486,126 +456,69 @@ platform_length_m = 85.0
 junction_group  = 0
 
 [[stations]]
-id              = "line-1-0455-0963-s014402"
+id              = "line-1-0481-0958-s015013"
 line            = "line-1"
-lat             = -16.48197458877731
-lon             = -68.11943742933707
-s_m             = 14401.6
-anchor_kind     = "amenity:hospital"
-anchor_name     = "CIMFA Policlínico Villa Fátima - CNS"
+lat             = -16.486653709102686
+lon             = -68.12037444319625
+s_m             = 15012.7
+anchor_kind     = "amenity:college"
+anchor_name     = "Intituto Técnico Ayacucho"
 archetype       = "standard"
 platform_length_m = 85.0
 
 [[stations]]
-id              = "line-1-0511-0952-s015782"
+id              = "line-1-0558-0927-s017021"
 line            = "line-1"
-lat             = -16.49205269409351
-lon             = -68.12149885982726
-s_m             = 15782.4
-anchor_kind     = "amenity:university"
-anchor_name     = "Universidad Policial"
-archetype       = "major"
-platform_length_m = 85.0
-
-[[stations]]
-id              = "line-1-0557-0928-s016993"
-line            = "line-1"
-lat             = -16.5003311377461
-lon             = -68.1259965263513
-s_m             = 16993.0
+lat             = -16.500511103912462
+lon             = -68.12618392912313
+s_m             = 17021.3
 anchor_kind     = "amenity:bus_station"
 archetype       = "major"
 platform_length_m = 85.0
 
 [[stations]]
-id              = "line-1-0586-0891-s018218"
+id              = "line-1-0576-0876-s018641"
 line            = "line-1"
-lat             = -16.505550156570564
-lon             = -68.13293042890919
-s_m             = 18218.1
+lat             = -16.503750494906956
+lon             = -68.1357414704867
+s_m             = 18640.9
 anchor_kind     = "amenity:university"
-anchor_name     = "Universidad Franz Tamayo"
+anchor_name     = "Facultad de Arquitectura"
 archetype       = "major"
 platform_length_m = 85.0
 
 [[stations]]
-id              = "line-1-0575-0843-s019442"
+id              = "line-1-0634-0777-s021653"
 line            = "line-1"
-lat             = -16.503570528740596
-lon             = -68.14192576195727
-s_m             = 19441.7
-anchor_kind     = "amenity:college"
-anchor_name     = "Instituto Méndez Arcos"
+lat             = -16.514188532555877
+lon             = -68.15429434489836
+s_m             = 21652.5
+anchor_kind     = "amenity:university"
+anchor_name     = "Facultad de Ingeniería"
 archetype       = "major"
 platform_length_m = 85.0
 
 [[stations]]
-id              = "line-1-0615-0795-s021077"
+id              = "line-1-0748-0695-s024675"
 line            = "line-1"
-lat             = -16.510769175395023
-lon             = -68.15092109500533
-s_m             = 21076.6
-anchor_kind     = "amenity:hospital"
-anchor_name     = "C.S.A. Alto Tacagua"
-archetype       = "interchange-elevated"
-platform_length_m = 85.0
-junction_group  = 1
-
-[[stations]]
-id              = "line-1-0658-0759-s022293"
-line            = "line-1"
-lat             = -16.518507720548534
-lon             = -68.15766759479139
-s_m             = 22293.4
-anchor_kind     = "amenity:hospital"
-anchor_name     = "Centro de Salud Santiago I"
-archetype       = "major"
-platform_length_m = 85.0
-
-[[stations]]
-id              = "line-1-0734-0705-s024312"
-line            = "line-1"
-lat             = -16.53218514919195
-lon             = -68.16778734447048
-s_m             = 24312.4
+lat             = -16.534704675521002
+lon             = -68.16966137218883
+s_m             = 24675.3
 anchor_kind     = "place:neighbourhood"
 anchor_name     = "Río Seco"
 archetype       = "standard"
 platform_length_m = 85.0
 
 [[stations]]
-id              = "line-1-0738-0641-s026313"
+id              = "line-1-0752-0589-s027696"
 line            = "line-1"
-lat             = -16.532905013857395
-lon             = -68.1797811218679
-s_m             = 26312.9
+lat             = -16.535424540186444
+lon             = -68.18952606600332
+s_m             = 27696.0
 anchor_kind     = "place:neighbourhood"
-anchor_name     = "Santiago II"
+anchor_name     = "Bolívar Municipal"
 archetype       = "standard"
 platform_length_m = 85.0
-
-[[stations]]
-id              = "line-1-0766-0566-s028333"
-line            = "line-1"
-lat             = -16.537944066515493
-lon             = -68.19383632975553
-s_m             = 28333.4
-anchor_kind     = "amenity:university"
-anchor_name     = "Universidad Unión Bolivariana (Campus Bolivariano)"
-archetype       = "standard"
-platform_length_m = 85.0
-
-[[stations]]
-id              = "line-1-0840-0500-s030360"
-line            = "line-1"
-lat             = -16.551261562826188
-lon             = -68.20620491269663
-s_m             = 30360.2
-anchor_kind     = "place:neighbourhood"
-anchor_name     = "6 de Junio"
-archetype       = "interchange-elevated"
-platform_length_m = 85.0
-junction_group  = 2
 
 [[stations]]
 id              = "line-1-0861-0482-s030929"
@@ -615,18 +528,7 @@ lon             = -68.20957816258966
 s_m             = 30929.3
 archetype       = "interchange-elevated"
 platform_length_m = 85.0
-junction_group  = 2
-
-[[stations]]
-id              = "line-1-0914-0435-s032379"
-line            = "line-1"
-lat             = -16.564579059136882
-lon             = -68.2183860928659
-s_m             = 32378.6
-anchor_kind     = "amenity:marketplace"
-anchor_name     = "Mercado Nuevo Amanecer"
-archetype       = "standard"
-platform_length_m = 85.0
+junction_group  = 1
 
 [[stations]]
 id              = "line-1-0914-0402-s033718"
@@ -651,117 +553,50 @@ archetype       = "terminal"
 platform_length_m = 85.0
 
 [[stations]]
-id              = "line-2-0583-0298-s003021"
+id              = "line-2-0678-0398-s005855"
 line            = "line-2"
-lat             = -16.505010258071483
-lon             = -68.24406027260729
-s_m             = 3021.1
+lat             = -16.52210704387575
+lon             = -68.22531999542379
+s_m             = 5854.9
 anchor_kind     = "place:neighbourhood"
-anchor_name     = "Gran Poder (Río Seco)"
-archetype       = "halt"
-platform_length_m = 81.0
-
-[[stations]]
-id              = "line-2-0655-0367-s005033"
-line            = "line-2"
-lat             = -16.517967822049453
-lon             = -68.23112948135068
-s_m             = 5032.7
-anchor_kind     = "amenity:university"
-anchor_name     = "Universidad Catolica Boliviana San Pablo"
-archetype       = "interchange"
+anchor_name     = "Cosmos 79 UV \"D\""
+archetype       = "interchange-elevated"
 platform_length_m = 85.0
-junction_group  = 3
+junction_group  = 2
 
 [[stations]]
-id              = "line-2-0677-0388-s005647"
+id              = "line-2-0678-0511-s008867"
 line            = "line-2"
-lat             = -16.52192707770939
-lon             = -68.22719402314213
-s_m             = 5646.7
-archetype       = "interchange"
-platform_length_m = 85.0
-junction_group  = 3
-
-[[stations]]
-id              = "line-2-0640-0437-s007055"
-line            = "line-2"
-lat             = -16.515268329554043
-lon             = -68.21801128732223
-s_m             = 7055.2
-anchor_kind     = "place:neighbourhood"
-anchor_name     = "Villa Adela Yunguyo"
-archetype       = "interchange"
-platform_length_m = 85.0
-junction_group  = 3
-
-[[stations]]
-id              = "line-2-0685-0518-s009076"
-line            = "line-2"
-lat             = -16.523366807040276
-lon             = -68.2028316628036
-s_m             = 9076.3
+lat             = -16.52210704387575
+lon             = -68.20414348220645
+s_m             = 8866.6
 anchor_kind     = "place:neighbourhood"
 anchor_name     = "Jardín"
 archetype       = "standard"
 platform_length_m = 85.0
 
 [[stations]]
-id              = "line-2-0665-0603-s011091"
+id              = "line-2-0667-0636-s011884"
 line            = "line-2"
-lat             = -16.51976748371306
-lon             = -68.18690242719764
-s_m             = 11091.1
+lat             = -16.52012741604578
+lon             = -68.18071813572709
+s_m             = 11883.6
 anchor_kind     = "place:neighbourhood"
-anchor_name     = "2 de Abril"
+anchor_name     = "La Primera"
 archetype       = "standard"
 platform_length_m = 85.0
 
 [[stations]]
-id              = "line-2-0687-0688-s013106"
+id              = "line-2-0723-0757-s014897"
 line            = "line-2"
-lat             = -16.523726739372997
-lon             = -68.17097319159167
-s_m             = 13105.9
-anchor_kind     = "public_transport:station"
-anchor_name     = "Estación 6 de Marzo / Jach’a Thaki"
-archetype       = "standard"
-platform_length_m = 85.0
-
-[[stations]]
-id              = "line-2-0711-0735-s014325"
-line            = "line-2"
-lat             = -16.528045927365653
-lon             = -68.16216526131544
-s_m             = 14324.7
+lat             = -16.53020552136198
+lon             = -68.15804240033506
+s_m             = 14897.2
 anchor_kind     = "amenity:college"
 anchor_name     = "Instituto Superior Tecnológico Don Bosco"
-archetype       = "major"
-platform_length_m = 85.0
-
-[[stations]]
-id              = "line-2-0735-0784-s015537"
-line            = "line-2"
-lat             = -16.53236511535831
-lon             = -68.15298252549552
-s_m             = 15536.7
-anchor_kind     = "place:neighbourhood"
-anchor_name     = "PLAN 328"
 archetype       = "interchange-elevated"
 platform_length_m = 85.0
-junction_group  = 4
-
-[[stations]]
-id              = "line-2-0710-0824-s016760"
-line            = "line-2"
-lat             = -16.527865961199293
-lon             = -68.14548641462213
-s_m             = 16760.3
-anchor_kind     = "amenity:marketplace"
-anchor_name     = "Hipermaxi"
-archetype       = "interchange-elevated"
-platform_length_m = 85.0
-junction_group  = 4
+junction_group  = 3
 
 [[stations]]
 id              = "line-2-0689-0795-s017629"
@@ -773,60 +608,38 @@ anchor_kind     = "amenity:marketplace"
 anchor_name     = "Mercado Ciudad Satélite"
 archetype       = "interchange-elevated"
 platform_length_m = 85.0
-junction_group  = 4
+junction_group  = 3
 
 [[stations]]
-id              = "line-2-0664-0838-s019188"
+id              = "line-2-0642-0855-s020332"
 line            = "line-2"
-lat             = -16.5195875175467
-lon             = -68.14286277581644
-s_m             = 19188.3
+lat             = -16.515628261886764
+lon             = -68.13967692869524
+s_m             = 20331.9
 anchor_kind     = "place:neighbourhood"
-anchor_name     = "Ernesto Torrez"
-archetype       = "major"
-platform_length_m = 85.0
-
-[[stations]]
-id              = "line-2-0644-0893-s021208"
-line            = "line-2"
-lat             = -16.515988194219485
-lon             = -68.13255562336552
-s_m             = 21207.9
-anchor_kind     = "public_transport:station"
-anchor_name     = "Estación Sopocachi / Supu Kachi"
+anchor_name     = "Bajo Cotahuma"
 archetype       = "standard"
 platform_length_m = 85.0
 
 [[stations]]
-id              = "line-2-0677-0963-s023223"
+id              = "line-2-0673-0967-s023348"
 line            = "line-2"
-lat             = -16.52192707770939
-lon             = -68.11943742933707
-s_m             = 23222.7
+lat             = -16.521207213043947
+lon             = -68.11868781824974
+s_m             = 23347.6
 anchor_kind     = "amenity:university"
 anchor_name     = "CIDES - UMSA"
 archetype       = "standard"
 platform_length_m = 85.0
 
 [[stations]]
-id              = "line-2-0696-1008-s024436"
+id              = "line-2-0711-1049-s025414"
 line            = "line-2"
-lat             = -16.525346434870244
-lon             = -68.1110043046045
-s_m             = 24436.1
+lat             = -16.528045927365653
+lon             = -68.10332079095927
+s_m             = 25413.5
 anchor_kind     = "amenity:hospital"
-anchor_name     = "Centro de Especialidades Médicas"
-archetype       = "major"
-platform_length_m = 85.0
-
-[[stations]]
-id              = "line-2-0726-1067-s025966"
-line            = "line-2"
-lat             = -16.530745419861066
-lon             = -68.09994754106624
-s_m             = 25966.1
-anchor_kind     = "amenity:marketplace"
-anchor_name     = "Mercado 14 de Septiembre"
+anchor_name     = "Caja de Salud de Caminos"
 archetype       = "standard"
 platform_length_m = 85.0
 
@@ -838,30 +651,18 @@ lon             = -68.09320104128018
 s_m             = 27476.0
 archetype       = "interchange"
 platform_length_m = 85.0
-junction_group  = 5
+junction_group  = 4
 
 [[stations]]
-id              = "line-2-0771-1171-s028977"
+id              = "line-2-0772-1191-s029385"
 line            = "line-2"
-lat             = -16.5388438973473
-lon             = -68.08045765279542
-s_m             = 28976.8
+lat             = -16.53902386351366
+lon             = -68.07670959735871
+s_m             = 29385.1
 anchor_kind     = "shop:mall"
 anchor_name     = "Manantial - Centro de Compras"
 archetype       = "standard"
 platform_length_m = 85.0
-
-[[stations]]
-id              = "line-2-0781-1237-s030463"
-line            = "line-2"
-lat             = -16.540643559010906
-lon             = -68.06808906985431
-s_m             = 30462.5
-anchor_kind     = "amenity:university"
-anchor_name     = "Carrera Ciencias Químicas"
-archetype       = "interchange-elevated"
-platform_length_m = 85.0
-junction_group  = 6
 
 [[stations]]
 id              = "line-2-0780-1249-s030711"
@@ -873,29 +674,7 @@ anchor_kind     = "place:neighbourhood"
 anchor_name     = "Cota Cota"
 archetype       = "interchange-elevated"
 platform_length_m = 85.0
-junction_group  = 6
-
-[[stations]]
-id              = "line-2-0767-1320-s032463"
-line            = "line-2"
-lat             = -16.538124032681853
-lon             = -68.05253463979201
-s_m             = 32462.8
-anchor_kind     = "amenity:marketplace"
-anchor_name     = "Mercado 24 de enero"
-archetype       = "standard"
-platform_length_m = 85.0
-
-[[stations]]
-id              = "line-2-0764-1410-s034833"
-line            = "line-2"
-lat             = -16.537584134182772
-lon             = -68.03566839032688
-s_m             = 34832.7
-anchor_kind     = "place:suburb"
-anchor_name     = "Ovejuyo"
-archetype       = "halt"
-platform_length_m = 81.0
+junction_group  = 5
 
 [[stations]]
 id              = "line-2-0767-1497-s037195"
@@ -920,16 +699,6 @@ archetype       = "terminal"
 platform_length_m = 85.0
 
 [[stations]]
-id              = "line-3-0581-1095-s002009"
-line            = "line-3"
-lat             = -16.50465032573876
-lon             = -68.09470026345487
-s_m             = 2008.5
-archetype       = "interchange-elevated"
-platform_length_m = 85.0
-junction_group  = 7
-
-[[stations]]
 id              = "line-3-0587-1096-s002153"
 line            = "line-3"
 lat             = -16.505730122736924
@@ -937,90 +706,49 @@ lon             = -68.09451286068303
 s_m             = 2153.4
 archetype       = "interchange-elevated"
 platform_length_m = 85.0
-junction_group  = 7
+junction_group  = 6
 
 [[stations]]
-id              = "line-3-0612-1033-s004018"
+id              = "line-3-0611-1030-s004087"
 line            = "line-3"
-lat             = -16.51022927689594
-lon             = -68.10631923530863
-s_m             = 4018.5
+lat             = -16.51004931072958
+lon             = -68.10688144362413
+s_m             = 4086.8
 anchor_kind     = "place:neighbourhood"
 anchor_name     = "San Isidro Bajo"
 archetype       = "standard"
 platform_length_m = 85.0
 
 [[stations]]
-id              = "line-3-0610-0996-s005226"
+id              = "line-3-0643-0986-s006013"
 line            = "line-3"
-lat             = -16.50986934456322
-lon             = -68.11325313786652
-s_m             = 5225.6
-anchor_kind     = "place:neighbourhood"
-anchor_name     = "German Jordan"
-archetype       = "major"
-platform_length_m = 85.0
-
-[[stations]]
-id              = "line-3-0645-0969-s006448"
-line            = "line-3"
-lat             = -16.516168160385845
-lon             = -68.11831301270607
-s_m             = 6447.8
+lat             = -16.515808228053125
+lon             = -68.11512716558487
+s_m             = 6013.3
 anchor_kind     = "amenity:university"
-anchor_name     = "Posgrado Universidad Nacional Siglo XX"
+anchor_name     = "Universidad de Los Andes"
 archetype       = "major"
 platform_length_m = 85.0
 
 [[stations]]
-id              = "line-3-0720-0931-s008465"
+id              = "line-3-0727-0910-s009023"
 line            = "line-3"
-lat             = -16.5296656228629
-lon             = -68.12543431803579
-s_m             = 8464.7
+lat             = -16.530925386027427
+lon             = -68.12936977624432
+s_m             = 9022.6
 anchor_kind     = "place:neighbourhood"
 anchor_name     = "Bajo Llojeta"
 archetype       = "standard"
 platform_length_m = 85.0
 
 [[stations]]
-id              = "line-3-0741-0860-s010476"
+id              = "line-3-0796-0813-s012047"
 line            = "line-3"
-lat             = -16.533444912356476
-lon             = -68.13873991483607
-s_m             = 10476.0
-anchor_kind     = "amenity:marketplace"
-anchor_name     = "Mercado Vergel Llojeta"
-archetype       = "interchange-elevated"
-platform_length_m = 85.0
-junction_group  = 4
-
-[[stations]]
-id              = "line-3-0812-0797-s012500"
-line            = "line-3"
-lat             = -16.546222510168086
-lon             = -68.15054628946167
-s_m             = 12499.9
-archetype       = "standard"
-platform_length_m = 85.0
-
-[[stations]]
-id              = "line-3-0883-0726-s014508"
-line            = "line-3"
-lat             = -16.5590001079797
-lon             = -68.16385188626194
-s_m             = 14508.1
-archetype       = "standard"
-platform_length_m = 85.0
-
-[[stations]]
-id              = "line-3-0950-0657-s016513"
-line            = "line-3"
-lat             = -16.571057841125867
-lon             = -68.17678267751855
-s_m             = 16513.5
+lat             = -16.543343051506316
+lon             = -68.14754784511231
+s_m             = 12047.4
 anchor_kind     = "place:neighbourhood"
-anchor_name     = "Chacapata"
+anchor_name     = "Tejada Alpacoma Bajo"
 archetype       = "standard"
 platform_length_m = 85.0
 
@@ -1034,44 +762,26 @@ anchor_kind     = "place:suburb"
 anchor_name     = "Senkata"
 archetype       = "interchange-elevated"
 platform_length_m = 85.0
-junction_group  = 8
+junction_group  = 7
 
 [[stations]]
-id              = "line-3-1029-0573-s019962"
+id              = "line-3-1067-0556-s020863"
 line            = "line-3"
-lat             = -16.585275168268364
-lon             = -68.19252451035268
-s_m             = 19962.2
+lat             = -16.592113882590073
+lon             = -68.19571035747387
+s_m             = 20863.1
 anchor_kind     = "place:neighbourhood"
-anchor_name     = "Anexo 16 de Noviembre"
-archetype       = "standard"
-platform_length_m = 85.0
-
-[[stations]]
-id              = "line-3-1082-0547-s021238"
-line            = "line-3"
-lat             = -16.594813375085483
-lon             = -68.19739698242039
-s_m             = 21237.6
+anchor_name     = "San Francisco II"
 archetype       = "interchange-elevated"
 platform_length_m = 85.0
 junction_group  = 8
 
 [[stations]]
-id              = "line-3-1171-0485-s023531"
+id              = "line-3-1244-0431-s025462"
 line            = "line-3"
-lat             = -16.610830363891587
-lon             = -68.20901595427415
-s_m             = 23531.3
-archetype       = "halt"
-platform_length_m = 81.0
-
-[[stations]]
-id              = "line-3-1273-0377-s026782"
-line            = "line-3"
-lat             = -16.62918691286038
-lon             = -68.22925545363232
-s_m             = 26782.3
+lat             = -16.62396789403592
+lon             = -68.21913570395324
+s_m             = 25462.0
 archetype       = "halt"
 platform_length_m = 81.0
 
@@ -1098,51 +808,30 @@ archetype       = "terminal"
 platform_length_m = 85.0
 
 [[stations]]
-id              = "line-4-1180-1263-s004474"
+id              = "line-4-1180-1311-s003514"
 line            = "line-4"
 lat             = -16.612450059388834
-lon             = -68.0632165977866
-s_m             = 4473.9
+lon             = -68.05422126473853
+s_m             = 3513.9
 archetype       = "halt"
 platform_length_m = 81.0
 
 [[stations]]
-id              = "line-4-1067-1211-s007492"
+id              = "line-4-1088-1218-s007014"
 line            = "line-4"
-lat             = -16.592113882590073
-lon             = -68.07296154192201
-s_m             = 7491.5
+lat             = -16.595893172083645
+lon             = -68.07164972251917
+s_m             = 7013.5
 archetype       = "halt"
 platform_length_m = 81.0
 
 [[stations]]
-id              = "line-4-0985-1168-s009511"
+id              = "line-4-0964-1158-s010014"
 line            = "line-4"
-lat             = -16.577356656948492
-lon             = -68.08101986111092
-s_m             = 9511.2
+lat             = -16.573577367454916
+lon             = -68.08289388882926
+s_m             = 10014.0
 anchor_kind     = "tourism:attraction"
-anchor_name     = "Cóndores"
-archetype       = "standard"
-platform_length_m = 85.0
-
-[[stations]]
-id              = "line-4-0929-1108-s011516"
-line            = "line-4"
-lat             = -16.567278551632292
-lon             = -68.09226402742101
-s_m             = 11515.7
-anchor_kind     = "place:suburb"
-anchor_name     = "Mallasa"
-archetype       = "standard"
-platform_length_m = 85.0
-
-[[stations]]
-id              = "line-4-0914-1033-s013534"
-line            = "line-4"
-lat             = -16.564579059136882
-lon             = -68.10631923530863
-s_m             = 13533.9
 archetype       = "standard"
 platform_length_m = 85.0
 
@@ -1157,25 +846,24 @@ platform_length_m = 85.0
 junction_group  = 9
 
 [[stations]]
-id              = "line-4-0796-0890-s017559"
+id              = "line-4-0817-0905-s017015"
 line            = "line-4"
-lat             = -16.543343051506316
-lon             = -68.13311783168102
-s_m             = 17558.9
+lat             = -16.54712234099989
+lon             = -68.1303067901035
+s_m             = 17014.6
 archetype       = "standard"
 platform_length_m = 85.0
 
 [[stations]]
-id              = "line-4-0732-0837-s019562"
+id              = "line-4-0755-0847-s018986"
 line            = "line-4"
-lat             = -16.53182521685923
-lon             = -68.14305017858827
-s_m             = 19562.0
-anchor_kind     = "place:neighbourhood"
-anchor_name     = "San Martín"
-archetype       = "interchange-elevated"
+lat             = -16.535964438685525
+lon             = -68.14117615086992
+s_m             = 18986.0
+anchor_kind     = "amenity:marketplace"
+anchor_name     = "Mercado Vergel Llojeta"
+archetype       = "standard"
 platform_length_m = 85.0
-junction_group  = 4
 
 [[stations]]
 id              = "line-4-0689-0795-s020979"
@@ -1187,60 +875,27 @@ anchor_kind     = "amenity:marketplace"
 anchor_name     = "Mercado Ciudad Satélite"
 archetype       = "interchange-elevated"
 platform_length_m = 85.0
-junction_group  = 4
+junction_group  = 3
 
 [[stations]]
-id              = "line-4-0654-0729-s023187"
+id              = "line-4-0598-0725-s024649"
 line            = "line-4"
-lat             = -16.517787855883093
-lon             = -68.16328967794644
-s_m             = 23186.7
-anchor_kind     = "amenity:hospital"
-anchor_name     = "Centro de Salud Santiago I"
-archetype       = "major"
-platform_length_m = 85.0
-
-[[stations]]
-id              = "line-4-0609-0722-s024404"
-line            = "line-4"
-lat             = -16.50968937839686
-lon             = -68.16460149734928
-s_m             = 24404.1
-anchor_kind     = "amenity:university"
-anchor_name     = "Universidad Boliviana de Informática"
-archetype       = "major"
-platform_length_m = 85.0
-
-[[stations]]
-id              = "line-4-0556-0725-s025622"
-line            = "line-4"
-lat             = -16.50015117157974
+lat             = -16.507709750566892
 lon             = -68.16403928903378
-s_m             = 25621.5
-anchor_kind     = "public_transport:station"
-anchor_name     = "Estación 16 de Julio / Jach'a Qhathu"
+s_m             = 24649.0
+anchor_kind     = "amenity:college"
+anchor_name     = "EPRODENT"
 archetype       = "major"
 platform_length_m = 85.0
 
 [[stations]]
-id              = "line-4-0519-0646-s027623"
+id              = "line-4-0518-0645-s027651"
 line            = "line-4"
-lat             = -16.493492423424396
-lon             = -68.17884410800873
-s_m             = 27623.2
+lat             = -16.493312457258035
+lon             = -68.17903151078058
+s_m             = 27651.5
 anchor_kind     = "amenity:hospital"
 anchor_name     = "Clínica Santa Maria de los Angeles"
-archetype       = "standard"
-platform_length_m = 85.0
-
-[[stations]]
-id              = "line-4-0481-0577-s029635"
-line            = "line-4"
-lat             = -16.486653709102686
-lon             = -68.19177489926534
-s_m             = 29635.2
-anchor_kind     = "amenity:university"
-anchor_name     = "Carrera Medicina"
 archetype       = "standard"
 platform_length_m = 85.0
 
@@ -1250,18 +905,6 @@ line            = "line-4"
 lat             = -16.478015333117373
 lon             = -68.1947733436147
 s_m             = 30910.0
-archetype       = "interchange-elevated"
-platform_length_m = 85.0
-junction_group  = 10
-
-[[stations]]
-id              = "line-4-0415-0537-s031638"
-line            = "line-4"
-lat             = -16.47477594212288
-lon             = -68.19927101013874
-s_m             = 31637.7
-anchor_kind     = "place:neighbourhood"
-anchor_name     = "El Ingenio Unidad Vecinal 1"
 archetype       = "interchange-elevated"
 platform_length_m = 85.0
 junction_group  = 10
@@ -1289,18 +932,6 @@ archetype       = "terminal"
 platform_length_m = 85.0
 
 [[stations]]
-id              = "line-5-1104-0619-s003211"
-line            = "line-5"
-lat             = -16.59877263074542
-lon             = -68.18390398284828
-s_m             = 3211.1
-anchor_kind     = "amenity:marketplace"
-anchor_name     = "Feria Puente Vela"
-archetype       = "interchange-elevated"
-platform_length_m = 85.0
-junction_group  = 8
-
-[[stations]]
 id              = "line-5-1087-0634-s003842"
 line            = "line-5"
 lat             = -16.595713205917285
@@ -1308,33 +939,8 @@ lon             = -68.18109294127075
 s_m             = 3842.3
 anchor_kind     = "place:neighbourhood"
 anchor_name     = "Junthuma"
-archetype       = "interchange-elevated"
+archetype       = "standard"
 platform_length_m = 85.0
-junction_group  = 8
-
-[[stations]]
-id              = "line-5-1081-0640-s004024"
-line            = "line-5"
-lat             = -16.594633408919123
-lon             = -68.17996852463975
-s_m             = 4023.7
-anchor_kind     = "place:neighbourhood"
-anchor_name     = "Junthuma"
-archetype       = "interchange-elevated"
-platform_length_m = 85.0
-junction_group  = 8
-
-[[stations]]
-id              = "line-5-1017-0668-s006024"
-line            = "line-5"
-lat             = -16.583115574272036
-lon             = -68.17472124702837
-s_m             = 6024.2
-anchor_kind     = "place:neighbourhood"
-anchor_name     = "Mirador Atiripis"
-archetype       = "interchange-elevated"
-platform_length_m = 85.0
-junction_group  = 8
 
 [[stations]]
 id              = "line-5-1008-0663-s006246"
@@ -1344,52 +950,29 @@ lon             = -68.17565826088754
 s_m             = 6245.6
 anchor_kind     = "place:neighbourhood"
 anchor_name     = "Mirador Atiripis"
-archetype       = "interchange-elevated"
-platform_length_m = 85.0
-junction_group  = 8
-
-[[stations]]
-id              = "line-5-0943-0687-s008039"
-line            = "line-5"
-lat             = -16.56979807796134
-lon             = -68.1711605943635
-s_m             = 8039.0
-anchor_kind     = "place:town"
-anchor_name     = "Achocalla"
 archetype       = "standard"
 platform_length_m = 85.0
 
 [[stations]]
-id              = "line-5-0857-0687-s010043"
+id              = "line-5-0845-0690-s010307"
 line            = "line-5"
-lat             = -16.554320987654318
-lon             = -68.1711605943635
-s_m             = 10042.6
+lat             = -16.55216139365799
+lon             = -68.170598386048
+s_m             = 10307.5
 archetype       = "standard"
 platform_length_m = 85.0
 
 [[stations]]
-id              = "line-5-0784-0746-s012062"
+id              = "line-5-0739-0773-s013312"
 line            = "line-5"
-lat             = -16.541183457509987
-lon             = -68.16010383082525
-s_m             = 12061.7
-anchor_kind     = "place:neighbourhood"
-anchor_name     = "Exaltación 3ª Sección"
-archetype       = "standard"
-platform_length_m = 85.0
-
-[[stations]]
-id              = "line-5-0741-0773-s013272"
-line            = "line-5"
-lat             = -16.533444912356476
+lat             = -16.533084980023755
 lon             = -68.1550439559857
-s_m             = 13272.2
+s_m             = 13312.2
 anchor_kind     = "place:neighbourhood"
 anchor_name     = "PLAN 328"
 archetype       = "interchange-elevated"
 platform_length_m = 85.0
-junction_group  = 4
+junction_group  = 3
 
 [[stations]]
 id              = "line-5-0689-0795-s014768"
@@ -1401,62 +984,28 @@ anchor_kind     = "amenity:marketplace"
 anchor_name     = "Mercado Ciudad Satélite"
 archetype       = "interchange-elevated"
 platform_length_m = 85.0
-junction_group  = 4
+junction_group  = 3
 
 [[stations]]
-id              = "line-5-0624-0784-s016916"
+id              = "line-5-0586-0763-s017939"
 line            = "line-5"
-lat             = -16.51238887089227
-lon             = -68.15298252549552
-s_m             = 16915.6
-anchor_kind     = "public_transport:station"
-anchor_name     = "Estación Faro de Murillo / Tiquira"
-archetype       = "interchange-elevated"
-platform_length_m = 85.0
-junction_group  = 1
-
-[[stations]]
-id              = "line-5-0559-0784-s018653"
-line            = "line-5"
-lat             = -16.500691070078823
-lon             = -68.15298252549552
-s_m             = 18653.2
-anchor_kind     = "public_transport:station"
-anchor_name     = "Estación Cementerio / Ajayuni"
-archetype       = "major"
-platform_length_m = 85.0
-
-[[stations]]
-id              = "line-5-0530-0823-s019859"
-line            = "line-5"
-lat             = -16.495472051254364
-lon             = -68.14567381739396
-s_m             = 19858.9
+lat             = -16.505550156570564
+lon             = -68.15691798370405
+s_m             = 17939.3
 anchor_kind     = "place:neighbourhood"
-anchor_name     = "14 de Septiembre"
+anchor_name     = "Alto Chamoco Chico"
 archetype       = "major"
 platform_length_m = 85.0
 
 [[stations]]
-id              = "line-5-0485-0825-s021068"
+id              = "line-5-0490-0826-s020960"
 line            = "line-5"
-lat             = -16.48737357376813
-lon             = -68.14529901185028
-s_m             = 21068.0
+lat             = -16.488273404599934
+lon             = -68.14511160907846
+s_m             = 20959.7
 anchor_kind     = "amenity:university"
 anchor_name     = "Facultad de Comunicación Social"
 archetype       = "major"
-platform_length_m = 85.0
-
-[[stations]]
-id              = "line-5-0407-0782-s023076"
-line            = "line-5"
-lat             = -16.473336212791995
-lon             = -68.15335733103919
-s_m             = 23076.0
-anchor_kind     = "place:neighbourhood"
-anchor_name     = "Achachicala"
-archetype       = "standard"
 platform_length_m = 85.0
 
 [[stations]]
@@ -1470,17 +1019,6 @@ platform_length_m = 85.0
 junction_group  = 11
 
 [[stations]]
-id              = "line-5-0287-0818-s026010"
-line            = "line-5"
-lat             = -16.451740272828708
-lon             = -68.14661083125313
-s_m             = 26010.2
-anchor_kind     = "place:neighbourhood"
-anchor_name     = "Las Nieves"
-archetype       = "standard"
-platform_length_m = 85.0
-
-[[stations]]
 id              = "line-5-0222-0838-s027582"
 line            = "line-5"
 lat             = -16.44004247201526
@@ -1492,47 +1030,23 @@ archetype       = "terminal"
 platform_length_m = 85.0
 
 [[stations]]
-id              = "line-6-0652-0354-s000000"
-line            = "line-6"
-lat             = -16.517427923550372
-lon             = -68.23356571738452
-s_m             = 0.0
-anchor_kind     = "amenity:university"
-anchor_name     = "Universidad Catolica Boliviana San Pablo"
-archetype       = "interchange"
-platform_length_m = 85.0
-junction_group  = 3
-
-[[stations]]
 id              = "line-6-0677-0388-s000887"
 line            = "line-6"
 lat             = -16.52192707770939
 lon             = -68.22719402314213
 s_m             = 887.1
-archetype       = "interchange"
+archetype       = "interchange-elevated"
 platform_length_m = 85.0
-junction_group  = 3
+junction_group  = 2
 
 [[stations]]
-id              = "line-6-0646-0429-s002004"
+id              = "line-6-0613-0464-s003024"
 line            = "line-6"
-lat             = -16.516348126552206
-lon             = -68.21951050949691
-s_m             = 2003.9
+lat             = -16.510409243062302
+lon             = -68.21295141248268
+s_m             = 3024.2
 anchor_kind     = "place:neighbourhood"
-anchor_name     = "Libertad"
-archetype       = "interchange"
-platform_length_m = 85.0
-junction_group  = 3
-
-[[stations]]
-id              = "line-6-0588-0493-s004023"
-line            = "line-6"
-lat             = -16.505910088903285
-lon             = -68.20751673209948
-s_m             = 4023.0
-anchor_kind     = "place:neighbourhood"
-anchor_name     = "Pedro DomingoMurillo 3ª Sección"
+anchor_name     = "Pedro Domingo Murillo 4ª Sección"
 archetype       = "standard"
 platform_length_m = 85.0
 
@@ -1558,40 +1072,6 @@ platform_length_m = 85.0
 junction_group  = 10
 
 [[stations]]
-id              = "line-6-0429-0568-s008043"
-line            = "line-6"
-lat             = -16.47729546845193
-lon             = -68.19346152421186
-s_m             = 8042.9
-anchor_kind     = "amenity:hospital"
-anchor_name     = "Centro de Salud Huayna Potosi"
-archetype       = "interchange-elevated"
-platform_length_m = 85.0
-junction_group  = 10
-
-[[stations]]
-id              = "line-6-0375-0646-s010050"
-line            = "line-6"
-lat             = -16.467577295468452
-lon             = -68.17884410800873
-s_m             = 10050.2
-anchor_kind     = "place:neighbourhood"
-anchor_name     = "Villa Ingavi"
-archetype       = "standard"
-platform_length_m = 85.0
-
-[[stations]]
-id              = "line-6-0317-0712-s012055"
-line            = "line-6"
-lat             = -16.457139257819527
-lon             = -68.16647552506764
-s_m             = 12054.7
-anchor_kind     = "amenity:hospital"
-anchor_name     = "Centro de Salud y Bienestar Santa Rosa Lima"
-archetype       = "standard"
-platform_length_m = 85.0
-
-[[stations]]
 id              = "line-6-0348-0791-s014036"
 line            = "line-6"
 lat             = -16.46271820897671
@@ -1602,11 +1082,11 @@ platform_length_m = 85.0
 junction_group  = 11
 
 [[stations]]
-id              = "line-6-0374-0882-s016071"
+id              = "line-6-0374-0881-s016051"
 line            = "line-6"
 lat             = -16.46739732930209
-lon             = -68.1346170538557
-s_m             = 16071.2
+lon             = -68.13480445662753
+s_m             = 16051.2
 anchor_kind     = "place:neighbourhood"
 anchor_name     = "Santiago de Lacaya"
 archetype       = "standard"
@@ -1625,22 +1105,22 @@ platform_length_m = 85.0
 junction_group  = 0
 
 [[stations]]
-id              = "line-6-0458-1018-s020099"
+id              = "line-6-0459-1019-s020127"
 line            = "line-6"
-lat             = -16.48251448727639
-lon             = -68.10913027688615
-s_m             = 20099.2
+lat             = -16.48269445344275
+lon             = -68.10894287411432
+s_m             = 20127.4
 anchor_kind     = "place:neighbourhood"
 anchor_name     = "24 de Junio"
 archetype       = "standard"
 platform_length_m = 85.0
 
 [[stations]]
-id              = "line-6-0534-1056-s022118"
+id              = "line-6-0532-1056-s022078"
 line            = "line-6"
-lat             = -16.496191915919805
+lat             = -16.495831983587085
 lon             = -68.10200897155643
-s_m             = 22118.2
+s_m             = 22078.2
 anchor_kind     = "place:neighbourhood"
 anchor_name     = "Urbanización Cervecería"
 archetype       = "standard"
@@ -1654,37 +1134,16 @@ lon             = -68.09451286068303
 s_m             = 23509.6
 archetype       = "interchange-elevated"
 platform_length_m = 85.0
-junction_group  = 7
+junction_group  = 6
 
 [[stations]]
-id              = "line-6-0600-1122-s024137"
+id              = "line-6-0729-1222-s028848"
 line            = "line-6"
-lat             = -16.508069682899613
-lon             = -68.08964038861532
-s_m             = 24137.3
+lat             = -16.531285318360148
+lon             = -68.07090011143184
+s_m             = 28848.3
 anchor_kind     = "place:neighbourhood"
-anchor_name     = "Urbanización Bella"
-archetype       = "interchange-elevated"
-platform_length_m = 85.0
-junction_group  = 7
-
-[[stations]]
-id              = "line-6-0641-1205-s026149"
-line            = "line-6"
-lat             = -16.515448295720404
-lon             = -68.07408595855303
-s_m             = 26148.7
-anchor_kind     = "place:neighbourhood"
-anchor_name     = "Urbanización Ciudadela Stronguista"
-archetype       = "standard"
-platform_length_m = 85.0
-
-[[stations]]
-id              = "line-6-0706-1232-s028169"
-line            = "line-6"
-lat             = -16.52714609653385
-lon             = -68.06902608371348
-s_m             = 28168.9
+anchor_name     = "Achumani"
 archetype       = "standard"
 platform_length_m = 85.0
 
@@ -1698,16 +1157,16 @@ anchor_kind     = "place:neighbourhood"
 anchor_name     = "Cota Cota"
 archetype       = "interchange-elevated"
 platform_length_m = 85.0
-junction_group  = 6
+junction_group  = 5
 
 [[stations]]
-id              = "line-6-0818-1175-s032204"
+id              = "line-6-0817-1191-s031859"
 line            = "line-6"
-lat             = -16.54730230716625
-lon             = -68.07970804170807
-s_m             = 32203.9
-anchor_kind     = "amenity:hospital"
-anchor_name     = "Instituto Nacional de Rehabilitación"
+lat             = -16.54712234099989
+lon             = -68.07670959735871
+s_m             = 31859.1
+anchor_kind     = "place:neighbourhood"
+anchor_name     = "Auquisamaña"
 archetype       = "standard"
 platform_length_m = 85.0
 
@@ -1719,28 +1178,7 @@ lon             = -68.09320104128018
 s_m             = 33926.2
 archetype       = "interchange"
 platform_length_m = 85.0
-junction_group  = 5
-
-[[stations]]
-id              = "line-6-0808-1091-s034224"
-line            = "line-6"
-lat             = -16.545502645502644
-lon             = -68.09544987454221
-s_m             = 34224.2
-anchor_kind     = "place:neighbourhood"
-anchor_name     = "Gramadal"
-archetype       = "interchange"
-platform_length_m = 85.0
-junction_group  = 5
-
-[[stations]]
-id              = "line-6-0808-1017-s035704"
-line            = "line-6"
-lat             = -16.545502645502644
-lon             = -68.10931767965799
-s_m             = 35704.2
-archetype       = "standard"
-platform_length_m = 85.0
+junction_group  = 4
 
 [[stations]]
 id              = "line-6-0851-0961-s037180"
@@ -1753,55 +1191,15 @@ platform_length_m = 85.0
 junction_group  = 9
 
 [[stations]]
-id              = "line-6-0875-0894-s038719"
+id              = "line-6-0987-0782-s041887"
 line            = "line-6"
-lat             = -16.557560378648812
-lon             = -68.13236822059368
-s_m             = 38719.2
-archetype       = "standard"
-platform_length_m = 85.0
-
-[[stations]]
-id              = "line-6-0929-0840-s040247"
-line            = "line-6"
-lat             = -16.567278551632292
-lon             = -68.14248797027277
-s_m             = 40246.6
-archetype       = "standard"
-platform_length_m = 85.0
-
-[[stations]]
-id              = "line-6-0993-0766-s042273"
-line            = "line-6"
-lat             = -16.57879638627938
-lon             = -68.15635577538855
-s_m             = 42273.3
-archetype       = "standard"
-platform_length_m = 85.0
-
-[[stations]]
-id              = "line-6-1008-0681-s044298"
-line            = "line-6"
-lat             = -16.58149587877479
-lon             = -68.17228501099451
-s_m             = 44298.4
+lat             = -16.577716589281213
+lon             = -68.15335733103919
+s_m             = 41887.1
 anchor_kind     = "place:neighbourhood"
-anchor_name     = "Mirador Atiripis"
-archetype       = "interchange-elevated"
+anchor_name     = "Huancarami"
+archetype       = "standard"
 platform_length_m = 85.0
-junction_group  = 8
-
-[[stations]]
-id              = "line-6-1008-0663-s044658"
-line            = "line-6"
-lat             = -16.58149587877479
-lon             = -68.17565826088754
-s_m             = 44658.4
-anchor_kind     = "place:neighbourhood"
-anchor_name     = "Mirador Atiripis"
-archetype       = "interchange-elevated"
-platform_length_m = 85.0
-junction_group  = 8
 
 [[stations]]
 id              = "line-6-1038-0623-s045794"
@@ -1811,68 +1209,39 @@ lon             = -68.18315437176093
 s_m             = 45793.8
 archetype       = "interchange-elevated"
 platform_length_m = 85.0
-junction_group  = 8
+junction_group  = 7
 
 [[stations]]
-id              = "line-6-1069-0616-s046535"
-line            = "line-6"
-lat             = -16.592473814922794
-lon             = -68.18446619116378
-s_m             = 46535.3
-archetype       = "interchange-elevated"
-platform_length_m = 85.0
-junction_group  = 8
-
-[[stations]]
-id              = "line-6-1085-0600-s046988"
+id              = "line-6-1085-0562-s047909"
 line            = "line-6"
 lat             = -16.595353273584564
-lon             = -68.18746463551314
-s_m             = 46987.8
+lon             = -68.19458594084287
+s_m             = 47908.6
+anchor_kind     = "place:neighbourhood"
+anchor_name     = "San Miguel Patasirca"
 archetype       = "interchange-elevated"
 platform_length_m = 85.0
 junction_group  = 8
 
 [[stations]]
-id              = "line-6-1082-0547-s048233"
+id              = "line-6-0993-0535-s051818"
 line            = "line-6"
-lat             = -16.594813375085483
-lon             = -68.19739698242039
-s_m             = 48233.5
-archetype       = "interchange-elevated"
-platform_length_m = 85.0
-junction_group  = 8
-
-[[stations]]
-id              = "line-6-1043-0481-s050323"
-line            = "line-6"
-lat             = -16.587794694597413
-lon             = -68.2097655653615
-s_m             = 50323.4
+lat             = -16.57879638627938
+lon             = -68.19964581568242
+s_m             = 51817.7
 anchor_kind     = "place:neighbourhood"
-anchor_name     = "Urbanización Encarnación"
+anchor_name     = "Unificada Potosí"
 archetype       = "standard"
 platform_length_m = 85.0
 
 [[stations]]
-id              = "line-6-0976-0549-s052330"
+id              = "line-6-0922-0522-s053913"
 line            = "line-6"
-lat             = -16.575736961451245
-lon             = -68.19702217687671
-s_m             = 52330.2
-anchor_kind     = "amenity:college"
-anchor_name     = "Instituto Tecnológico Bolivia Mar"
-archetype       = "standard"
-platform_length_m = 85.0
-
-[[stations]]
-id              = "line-6-0907-0506-s054357"
-line            = "line-6"
-lat             = -16.563319295972356
-lon             = -68.20508049606562
-s_m             = 54357.0
+lat             = -16.566018788467765
+lon             = -68.20208205171626
+s_m             = 53912.7
 anchor_kind     = "place:neighbourhood"
-anchor_name     = "Villa Merced I"
+anchor_name     = "Villa Merced G"
 archetype       = "standard"
 platform_length_m = 85.0
 
@@ -1884,113 +1253,90 @@ lon             = -68.20957816258966
 s_m             = 55988.3
 archetype       = "interchange-elevated"
 platform_length_m = 85.0
-junction_group  = 2
+junction_group  = 1
 
 [[stations]]
-id              = "line-6-0848-0474-s056358"
+id              = "line-6-0833-0419-s057830"
 line            = "line-6"
-lat             = -16.552701292157074
-lon             = -68.21107738476434
-s_m             = 56358.0
-anchor_kind     = "amenity:hospital"
-anchor_name     = "Centro de Salud 3 de Mayo"
-archetype       = "interchange-elevated"
-platform_length_m = 85.0
-junction_group  = 2
-
-[[stations]]
-id              = "line-6-0813-0405-s058369"
-line            = "line-6"
-lat             = -16.546402476334446
-lon             = -68.22400817602094
-s_m             = 58369.4
+lat             = -16.55000179966166
+lon             = -68.22138453721526
+s_m             = 57830.0
 anchor_kind     = "place:neighbourhood"
-anchor_name     = "Loza"
-archetype       = "standard"
-platform_length_m = 85.0
-
-[[stations]]
-id              = "line-6-0722-0381-s060388"
-line            = "line-6"
-lat             = -16.53002555519562
-lon             = -68.22850584254499
-s_m             = 60388.2
-anchor_kind     = "place:neighbourhood"
-anchor_name     = "Cosmos 79 UV E"
+anchor_name     = "Cruz del Sur"
 archetype       = "standard"
 platform_length_m = 85.0
 
 [[interchanges]]
 id              = "interchange-000"
 junction_group  = 0
-lat             = -16.46871708118874
-lon             = -68.11493976281304
+lat             = -16.46937695713206
+lon             = -68.11606417944404
 lines           = ["line-1", "line-6"]
-platforms       = ["line-1-0374-0999-s012385", "line-1-0385-0981-s012836", "line-6-0385-0981-s018192"]
+platforms       = ["line-1-0385-0981-s012836", "line-6-0385-0981-s018192"]
 
 [[interchanges]]
 id              = "interchange-001"
 junction_group  = 1
-lat             = -16.511579023143646
-lon             = -68.15195181025042
-lines           = ["line-1", "line-5"]
-platforms       = ["line-1-0615-0795-s021077", "line-5-0624-0784-s016916"]
+lat             = -16.55513083540294
+lon             = -68.20957816258966
+lines           = ["line-1", "line-6"]
+platforms       = ["line-1-0861-0482-s030929", "line-6-0862-0482-s055988"]
 
 [[interchanges]]
 id              = "interchange-002"
 junction_group  = 2
-lat             = -16.553556131447287
-lon             = -68.20910965566007
-lines           = ["line-1", "line-6"]
-platforms       = ["line-1-0840-0500-s030360", "line-1-0861-0482-s030929", "line-6-0848-0474-s056358", "line-6-0862-0482-s055988"]
+lat             = -16.52201706079257
+lon             = -68.22625700928296
+lines           = ["line-2", "line-6"]
+platforms       = ["line-2-0678-0398-s005855", "line-6-0677-0388-s000887"]
 
 [[interchanges]]
 id              = "interchange-003"
 junction_group  = 3
-lat             = -16.518477726187474
-lon             = -68.22610084030643
-lines           = ["line-2", "line-6"]
-platforms       = ["line-2-0640-0437-s007055", "line-2-0655-0367-s005033", "line-2-0677-0388-s005647", "line-6-0646-0429-s002004", "line-6-0652-0354-s000000", "line-6-0677-0388-s000887"]
+lat             = -16.52711010330058
+lon             = -68.15316992826736
+lines           = ["line-2", "line-4", "line-5"]
+platforms       = ["line-2-0689-0795-s017629", "line-2-0723-0757-s014897", "line-4-0689-0795-s020979", "line-5-0689-0795-s014768", "line-5-0739-0773-s013312"]
 
 [[interchanges]]
 id              = "interchange-004"
 junction_group  = 4
-lat             = -16.528900766655866
-lon             = -68.14850828431796
-lines           = ["line-2", "line-3", "line-4", "line-5"]
-platforms       = ["line-2-0689-0795-s017629", "line-2-0710-0824-s016760", "line-2-0735-0784-s015537", "line-3-0741-0860-s010476", "line-4-0689-0795-s020979", "line-4-0732-0837-s019562", "line-5-0689-0795-s014768", "line-5-0741-0773-s013272"]
+lat             = -16.542893136090413
+lon             = -68.09320104128018
+lines           = ["line-2", "line-6"]
+platforms       = ["line-2-0786-1103-s027476", "line-6-0801-1103-s033926"]
 
 [[interchanges]]
 id              = "interchange-005"
 junction_group  = 5
-lat             = -16.543762972561158
-lon             = -68.09395065236752
+lat             = -16.540463592844542
+lon             = -68.0658402365923
 lines           = ["line-2", "line-6"]
-platforms       = ["line-2-0786-1103-s027476", "line-6-0801-1103-s033926", "line-6-0808-1091-s034224"]
+platforms       = ["line-2-0780-1249-s030711", "line-6-0780-1249-s030125"]
 
 [[interchanges]]
 id              = "interchange-006"
 junction_group  = 6
-lat             = -16.540523581566664
-lon             = -68.06658984767962
-lines           = ["line-2", "line-6"]
-platforms       = ["line-2-0780-1249-s030711", "line-2-0781-1237-s030463", "line-6-0780-1249-s030125"]
+lat             = -16.505730122736924
+lon             = -68.09451286068303
+lines           = ["line-3", "line-6"]
+platforms       = ["line-3-0587-1096-s002153", "line-6-0587-1096-s023510"]
 
 [[interchanges]]
 id              = "interchange-007"
 junction_group  = 7
-lat             = -16.506045063528056
-lon             = -68.09334159335907
+lat             = -16.584915235935643
+lon             = -68.18427878839194
 lines           = ["line-3", "line-6"]
-platforms       = ["line-3-0581-1095-s002009", "line-3-0587-1096-s002153", "line-6-0587-1096-s023510", "line-6-0600-1122-s024137"]
+platforms       = ["line-3-1016-0611-s018670", "line-6-1038-0623-s045794"]
 
 [[interchanges]]
 id              = "interchange-008"
 junction_group  = 8
-lat             = -16.589538982055988
-lon             = -68.1829669689891
-lines           = ["line-3", "line-5", "line-6"]
-platforms       = ["line-3-1016-0611-s018670", "line-3-1082-0547-s021238", "line-5-1008-0663-s006246", "line-5-1017-0668-s006024", "line-5-1081-0640-s004024", "line-5-1087-0634-s003842", "line-5-1104-0619-s003211", "line-6-1008-0663-s044658", "line-6-1008-0681-s044298", "line-6-1038-0623-s045794", "line-6-1069-0616-s046535", "line-6-1082-0547-s048233", "line-6-1085-0600-s046988"]
+lat             = -16.593733578087317
+lon             = -68.19514814915837
+lines           = ["line-3", "line-6"]
+platforms       = ["line-3-1067-0556-s020863", "line-6-1085-0562-s047909"]
 
 [[interchanges]]
 id              = "interchange-009"
@@ -2003,10 +1349,10 @@ platforms       = ["line-4-0852-0961-s015523", "line-6-0851-0961-s037180"]
 [[interchanges]]
 id              = "interchange-010"
 junction_group  = 10
-lat             = -16.47702551920239
-lon             = -68.195569805395
+lat             = -16.478015333117373
+lon             = -68.1947733436147
 lines           = ["line-4", "line-6"]
-platforms       = ["line-4-0415-0537-s031638", "line-4-0433-0561-s030910", "line-6-0429-0568-s008043", "line-6-0433-0561-s007870"]
+platforms       = ["line-4-0433-0561-s030910", "line-6-0433-0561-s007870"]
 
 [[interchanges]]
 id              = "interchange-011"
@@ -2020,7 +1366,7 @@ platforms       = ["line-5-0348-0791-s024430", "line-6-0348-0791-s014036"]
 [[depots]]
 station      = "line-2-0767-1497-s037195"
 archetype    = "main-heavy"
-fleet_stalls = 59
+fleet_stalls = 43
 
 # switches — turnbacks at terminals + depot fans per RFC 0012 §9.
 switches = [
@@ -2071,22 +1417,6 @@ switches = [
   { id = "sw-line-2-0767-1497-s037195-yd-41", kit = "no-9-mainline", station = "line-2-0767-1497-s037195", side = "yard-throat" },
   { id = "sw-line-2-0767-1497-s037195-yd-42", kit = "no-9-mainline", station = "line-2-0767-1497-s037195", side = "yard-throat" },
   { id = "sw-line-2-0767-1497-s037195-yd-43", kit = "no-9-mainline", station = "line-2-0767-1497-s037195", side = "yard-throat" },
-  { id = "sw-line-2-0767-1497-s037195-yd-44", kit = "no-9-mainline", station = "line-2-0767-1497-s037195", side = "yard-throat" },
-  { id = "sw-line-2-0767-1497-s037195-yd-45", kit = "no-9-mainline", station = "line-2-0767-1497-s037195", side = "yard-throat" },
-  { id = "sw-line-2-0767-1497-s037195-yd-46", kit = "no-9-mainline", station = "line-2-0767-1497-s037195", side = "yard-throat" },
-  { id = "sw-line-2-0767-1497-s037195-yd-47", kit = "no-9-mainline", station = "line-2-0767-1497-s037195", side = "yard-throat" },
-  { id = "sw-line-2-0767-1497-s037195-yd-48", kit = "no-9-mainline", station = "line-2-0767-1497-s037195", side = "yard-throat" },
-  { id = "sw-line-2-0767-1497-s037195-yd-49", kit = "no-9-mainline", station = "line-2-0767-1497-s037195", side = "yard-throat" },
-  { id = "sw-line-2-0767-1497-s037195-yd-50", kit = "no-9-mainline", station = "line-2-0767-1497-s037195", side = "yard-throat" },
-  { id = "sw-line-2-0767-1497-s037195-yd-51", kit = "no-9-mainline", station = "line-2-0767-1497-s037195", side = "yard-throat" },
-  { id = "sw-line-2-0767-1497-s037195-yd-52", kit = "no-9-mainline", station = "line-2-0767-1497-s037195", side = "yard-throat" },
-  { id = "sw-line-2-0767-1497-s037195-yd-53", kit = "no-9-mainline", station = "line-2-0767-1497-s037195", side = "yard-throat" },
-  { id = "sw-line-2-0767-1497-s037195-yd-54", kit = "no-9-mainline", station = "line-2-0767-1497-s037195", side = "yard-throat" },
-  { id = "sw-line-2-0767-1497-s037195-yd-55", kit = "no-9-mainline", station = "line-2-0767-1497-s037195", side = "yard-throat" },
-  { id = "sw-line-2-0767-1497-s037195-yd-56", kit = "no-9-mainline", station = "line-2-0767-1497-s037195", side = "yard-throat" },
-  { id = "sw-line-2-0767-1497-s037195-yd-57", kit = "no-9-mainline", station = "line-2-0767-1497-s037195", side = "yard-throat" },
-  { id = "sw-line-2-0767-1497-s037195-yd-58", kit = "no-9-mainline", station = "line-2-0767-1497-s037195", side = "yard-throat" },
-  { id = "sw-line-2-0767-1497-s037195-yd-59", kit = "no-9-mainline", station = "line-2-0767-1497-s037195", side = "yard-throat" },
   { id = "sw-line-3-0542-1152-s000000-tb", kit = "no-9-mainline", station = "line-3-0542-1152-s000000", side = "turnback" },
   { id = "sw-line-3-1334-0251-s030042-tb", kit = "no-9-mainline", station = "line-3-1334-0251-s030042", side = "turnback" },
   { id = "sw-line-4-1271-1449-s000000-tb", kit = "no-9-mainline", station = "line-4-1271-1449-s000000", side = "turnback" },
@@ -2101,56 +1431,64 @@ switches = [
 [[junctions]]
 group_id        = 0
 elevated_line   = "line-6"
-lat             = -16.46739732930209
-lon             = -68.11269092955102
+lat             = -16.46937695713206
+lon             = -68.11606417944404
 premium_usd     = 4500000
 premium_eur     = 4140000
 
 [[junctions]]
 group_id        = 1
-elevated_line   = "line-5"
-lat             = -16.510769175395023
-lon             = -68.15092109500533
+elevated_line   = "line-6"
+lat             = -16.555040852319763
+lon             = -68.20957816258966
 premium_usd     = 4500000
 premium_eur     = 4140000
 
 [[junctions]]
 group_id        = 2
 elevated_line   = "line-6"
-lat             = -16.551261562826188
-lon             = -68.20620491269663
+lat             = -16.52210704387575
+lon             = -68.22531999542379
 premium_usd     = 4500000
 premium_eur     = 4140000
 
 [[junctions]]
-group_id        = 4
+group_id        = 3
 elevated_line   = "line-5"
-lat             = -16.53236511535831
-lon             = -68.15298252549552
+lat             = -16.53020552136198
+lon             = -68.15804240033506
+premium_usd     = 4500000
+premium_eur     = 4140000
+
+[[junctions]]
+group_id        = 5
+elevated_line   = "line-6"
+lat             = -16.540463592844542
+lon             = -68.0658402365923
 premium_usd     = 4500000
 premium_eur     = 4140000
 
 [[junctions]]
 group_id        = 6
 elevated_line   = "line-6"
-lat             = -16.540643559010906
-lon             = -68.06808906985431
+lat             = -16.505730122736924
+lon             = -68.09451286068303
 premium_usd     = 4500000
 premium_eur     = 4140000
 
 [[junctions]]
 group_id        = 7
 elevated_line   = "line-6"
-lat             = -16.50465032573876
-lon             = -68.09470026345487
+lat             = -16.582935608105675
+lon             = -68.18540320502295
 premium_usd     = 4500000
 premium_eur     = 4140000
 
 [[junctions]]
 group_id        = 8
 elevated_line   = "line-6"
-lat             = -16.582935608105675
-lon             = -68.18540320502295
+lat             = -16.592113882590073
+lon             = -68.19571035747387
 premium_usd     = 4500000
 premium_eur     = 4140000
 
@@ -2181,51 +1519,51 @@ premium_eur     = 4140000
 # [[fleets]] — per-line fleet sizing per RFC 0014 §4.
 [[fleets]]
 line               = "line-1"
-peak_count         = 66
+peak_count         = 50
 service_rotation_count = 0
-spare_count        = 6
+spare_count        = 5
 cold_reserve_count = 1
-trainset_count     = 73
+trainset_count     = 56
 
 [[fleets]]
 line               = "line-2"
-peak_count         = 74
+peak_count         = 52
 service_rotation_count = 0
-spare_count        = 7
+spare_count        = 5
 cold_reserve_count = 1
-trainset_count     = 82
+trainset_count     = 58
 
 [[fleets]]
 line               = "line-3"
-peak_count         = 58
+peak_count         = 44
 service_rotation_count = 0
-spare_count        = 5
+spare_count        = 4
 cold_reserve_count = 1
-trainset_count     = 64
+trainset_count     = 49
 
 [[fleets]]
 line               = "line-4"
-peak_count         = 64
+peak_count         = 49
 service_rotation_count = 0
-spare_count        = 6
+spare_count        = 4
 cold_reserve_count = 1
-trainset_count     = 71
+trainset_count     = 54
 
 [[fleets]]
 line               = "line-5"
-peak_count         = 58
-service_rotation_count = 0
-spare_count        = 5
-cold_reserve_count = 1
-trainset_count     = 64
-
-[[fleets]]
-line               = "line-6"
-peak_count         = 31
+peak_count         = 39
 service_rotation_count = 0
 spare_count        = 3
 cold_reserve_count = 1
-trainset_count     = 35
+trainset_count     = 43
+
+[[fleets]]
+line               = "line-6"
+peak_count         = 22
+service_rotation_count = 0
+spare_count        = 2
+cold_reserve_count = 1
+trainset_count     = 25
 
 # [costs] — RFC 0011 §9 planning-grade CAPEX (USD
 # direct-procurement planning basis). country-costs.toml applies
@@ -2237,38 +1575,38 @@ version = 2
 currency_basis      = "USD local-owner trainset-family planning basis with direct material, local assembly/labour, nominal per-train QA/acceptance, and modest handover logistics included; 1 m clip-on fiberglass body modules reduce shell labour, mould tooling, cure space, and production setup; distributed overnight stabling reduces depot parking scope; fixtures/tooling live in the railway production plant line per vehicle/car module; warranty, spares, and routine commissioning support are treated as OPEX; raw marketplace BOM retained only as audit lower bound; *_eur mirrors retained for schema compatibility"
 usd_to_eur          = 0.92
 # Civil works (USD/km x civil mix; EUR mirror at usd_to_eur).
-at_grade_usd         = 596035519
-at_grade_eur         = 548352678
-elevated_usd         = 302756762
-elevated_eur         = 278536221
+at_grade_usd         = 593910666
+at_grade_eur         = 546397813
+elevated_usd         = 311256173
+elevated_eur         = 286355679
 bridge_usd           = 0
 bridge_eur           = 0
-junction_premium_usd = 45000000  # $4.5 M per elevated interchange.
-junction_premium_eur = 41400000  # EUR 4.1 M per elevated interchange.
-civil_subtotal_usd   = 943792281
-civil_subtotal_eur   = 868288898
+junction_premium_usd = 49500000  # $4.5 M per elevated interchange.
+junction_premium_eur = 45540000  # EUR 4.1 M per elevated interchange.
+civil_subtotal_usd   = 954666839
+civil_subtotal_eur   = 878293492
 # Stations (RFC 0010 archetype catalogue).
-stations_usd         = 859900000
-stations_eur         = 791108000
+stations_usd         = 471000000
+stations_eur         = 433320000
 # Depots (RFC 0014 archetype catalogue).
 depots_usd           = 8000000
 depots_eur           = 7360000
 # Rolling stock (RFC 0008 family × fleet count; local-owner production unit).
-rolling_stock_usd    = 435680000
-rolling_stock_eur    = 400825600
+rolling_stock_usd    = 319200000
+rolling_stock_eur    = 293664000
 # Railway production plant (tooling + plant setup per vehicle/car module, not per trainset).
-production_plant_usd = 93360000
-production_plant_eur = 85891200
+production_plant_usd = 68400000
+production_plant_eur = 62928000
 # Systems: residual train-control wayside + station/depot charging microgrids.
 signalling_usd       = 11195412
 signalling_eur       = 10299779
-charging_microgrid_usd = 42825000
-charging_microgrid_eur = 39399000
+charging_microgrid_usd = 24525000
+charging_microgrid_eur = 22563000
 # EPC integration + project management (7 % of subtotal).
-epc_overhead_usd     = 167632688
-epc_overhead_eur     = 154222073
-total_usd            = 2562385381  # base CAPEX before timetable-sized dedicated solar
-total_eur            = 2357394551  # base CAPEX before timetable-sized dedicated solar
+epc_overhead_usd     = 129989108
+epc_overhead_eur     = 119589979
+total_usd            = 1986976359  # base CAPEX before timetable-sized dedicated solar
+total_eur            = 1828018250  # base CAPEX before timetable-sized dedicated solar
 
 [costs.technology_basis]
 cost_treatment = "included in planning units; do not add again"
@@ -2283,7 +1621,7 @@ lv_dc_dc_usd_per_car = 2500
 roof_pv_mppt_usd_per_car = 1000
 core_electrical_usd_per_car = 51000
 core_electrical_usd_per_trainset = 204000
-fleet_core_electrical_usd = 79356000
+fleet_core_electrical_usd = 58140000
 station_architecture = "500-1500 V DC/DC configured to 500 kW; 650-700 V train bus"
 stationary_lfp_500kwh_usd = 37500
 station_dcdc_500kw_usd = 15000

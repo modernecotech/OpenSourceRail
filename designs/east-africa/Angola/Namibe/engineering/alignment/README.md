@@ -4,9 +4,9 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`namibe-line1.aln.toml`](namibe-line1.aln.toml) | `line-1` | 14,961.8 m | 10 |
-| [`namibe-line2.aln.toml`](namibe-line2.aln.toml) | `line-2` | 12,078.2 m | 8 |
-| [`namibe-line3.aln.toml`](namibe-line3.aln.toml) | `line-3` | 13,762.8 m | 8 |
+| [`namibe-line1.aln.toml`](namibe-line1.aln.toml) | `line-1` | 14,961.8 m | 6 |
+| [`namibe-line2.aln.toml`](namibe-line2.aln.toml) | `line-2` | 12,078.2 m | 6 |
+| [`namibe-line3.aln.toml`](namibe-line3.aln.toml) | `line-3` | 13,762.8 m | 7 |
 
 ## Status
 

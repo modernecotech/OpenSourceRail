@@ -50,7 +50,7 @@ length_m        = 12024.8
 rolling_stock   = "light-metro-3car"
 geometry        = "standard-urban"
 
-charging_dwell_seconds = 150
+charging_dwell_seconds = 180
 
 [[civil_segments]]
 line            = "line-1"
@@ -70,22 +70,11 @@ archetype       = "terminal"
 platform_length_m = 59.5
 
 [[stations]]
-id              = "line-1-0557-0320-s002008"
+id              = "line-1-0544-0356-s003018"
 line            = "line-1"
-lat             = -7.609931137746104
-lon             = 15.019393231277823
-s_m             = 2007.9
-archetype       = "standard"
-platform_length_m = 59.5
-
-[[stations]]
-id              = "line-1-0520-0394-s004010"
-line            = "line-1"
-lat             = -7.603272389590757
-lon             = 15.032806333039316
-s_m             = 4009.8
-anchor_kind     = "aeroway:aerodrome"
-anchor_name     = "Aeroporto Provincial do Uíge"
+lat             = -7.607591577583414
+lon             = 15.025918524026658
+s_m             = 3017.9
 archetype       = "standard"
 platform_length_m = 59.5
 
@@ -108,11 +97,11 @@ archetype       = "standard"
 platform_length_m = 59.5
 
 [[stations]]
-id              = "line-1-0589-0545-s009778"
+id              = "line-1-0605-0541-s010131"
 line            = "line-1"
-lat             = -7.6156900550696465
-lon             = 15.06017631095804
-s_m             = 9777.7
+lat             = -7.618569513731418
+lon             = 15.059451278430393
+s_m             = 10130.8
 archetype       = "standard"
 platform_length_m = 59.5
 
@@ -146,11 +135,11 @@ switches = [
 # [[fleets]] — per-line fleet sizing per RFC 0014 §4.
 [[fleets]]
 line               = "line-1"
-peak_count         = 28
+peak_count         = 24
 service_rotation_count = 0
 spare_count        = 2
 cold_reserve_count = 1
-trainset_count     = 31
+trainset_count     = 27
 
 # [costs] — RFC 0011 §9 planning-grade CAPEX (USD
 # direct-procurement planning basis). country-costs.toml applies
@@ -173,27 +162,27 @@ junction_premium_eur = 0  # EUR 4.1 M per elevated interchange.
 civil_subtotal_usd   = 36074381
 civil_subtotal_eur   = 33188430
 # Stations (RFC 0010 archetype catalogue).
-stations_usd         = 22000000
-stations_eur         = 20240000
+stations_usd         = 19500000
+stations_eur         = 17940000
 # Depots (RFC 0014 archetype catalogue).
 depots_usd           = 8000000
 depots_eur           = 7360000
 # Rolling stock (RFC 0008 family × fleet count; local-owner production unit).
-rolling_stock_usd    = 27900000
-rolling_stock_eur    = 25668000
+rolling_stock_usd    = 24300000
+rolling_stock_eur    = 22356000
 # Railway production plant (tooling + plant setup per vehicle/car module, not per trainset).
-production_plant_usd = 5580000
-production_plant_eur = 5133600
+production_plant_usd = 4860000
+production_plant_eur = 4471200
 # Systems: residual train-control wayside + station/depot charging microgrids.
 signalling_usd       = 601240
 signalling_eur       = 553141
-charging_microgrid_usd = 850000
-charging_microgrid_eur = 782000
+charging_microgrid_usd = 750000
+charging_microgrid_eur = 690000
 # EPC integration + project management (7 % of subtotal).
-epc_overhead_usd     = 7070393
-epc_overhead_eur     = 6504762
-total_usd            = 108076014  # base CAPEX before timetable-sized dedicated solar
-total_eur            = 99429933  # base CAPEX before timetable-sized dedicated solar
+epc_overhead_usd     = 6585993
+epc_overhead_eur     = 6059114
+total_usd            = 100671614  # base CAPEX before timetable-sized dedicated solar
+total_eur            = 92617885  # base CAPEX before timetable-sized dedicated solar
 
 [costs.technology_basis]
 cost_treatment = "included in planning units; do not add again"
@@ -208,7 +197,7 @@ lv_dc_dc_usd_per_car = 2500
 roof_pv_mppt_usd_per_car = 1000
 core_electrical_usd_per_car = 51000
 core_electrical_usd_per_trainset = 153000
-fleet_core_electrical_usd = 4743000
+fleet_core_electrical_usd = 4131000
 station_architecture = "500-1500 V DC/DC configured to 500 kW; 650-700 V train bus"
 stationary_lfp_500kwh_usd = 37500
 station_dcdc_500kw_usd = 15000

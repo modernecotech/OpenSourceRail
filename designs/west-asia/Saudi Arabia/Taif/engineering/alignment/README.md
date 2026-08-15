@@ -4,9 +4,9 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`taif-line1.aln.toml`](taif-line1.aln.toml) | `line-1` | 25,732.9 m | 13 |
-| [`taif-line2.aln.toml`](taif-line2.aln.toml) | `line-2` | 14,522.0 m | 9 |
-| [`taif-line3.aln.toml`](taif-line3.aln.toml) | `line-3` | 19,239.2 m | 12 |
+| [`taif-line1.aln.toml`](taif-line1.aln.toml) | `line-1` | 25,732.9 m | 9 |
+| [`taif-line2.aln.toml`](taif-line2.aln.toml) | `line-2` | 14,522.0 m | 5 |
+| [`taif-line3.aln.toml`](taif-line3.aln.toml) | `line-3` | 19,239.2 m | 8 |
 
 ## Status
 

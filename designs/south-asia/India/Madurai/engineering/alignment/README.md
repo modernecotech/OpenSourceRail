@@ -4,12 +4,12 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`madurai-line1.aln.toml`](madurai-line1.aln.toml) | `line-1` | 36,836.2 m | 20 |
-| [`madurai-line2.aln.toml`](madurai-line2.aln.toml) | `line-2` | 33,101.1 m | 18 |
-| [`madurai-line3.aln.toml`](madurai-line3.aln.toml) | `line-3` | 29,607.1 m | 16 |
-| [`madurai-line4.aln.toml`](madurai-line4.aln.toml) | `line-4` | 26,522.7 m | 16 |
-| [`madurai-line5.aln.toml`](madurai-line5.aln.toml) | `line-5` | 26,783.5 m | 15 |
-| [`madurai-line6.aln.toml`](madurai-line6.aln.toml) | `line-6` | 71,437.7 m | 36 |
+| [`madurai-line1.aln.toml`](madurai-line1.aln.toml) | `line-1` | 36,836.2 m | 11 |
+| [`madurai-line2.aln.toml`](madurai-line2.aln.toml) | `line-2` | 33,101.1 m | 11 |
+| [`madurai-line3.aln.toml`](madurai-line3.aln.toml) | `line-3` | 29,607.1 m | 9 |
+| [`madurai-line4.aln.toml`](madurai-line4.aln.toml) | `line-4` | 26,522.7 m | 10 |
+| [`madurai-line5.aln.toml`](madurai-line5.aln.toml) | `line-5` | 26,783.5 m | 10 |
+| [`madurai-line6.aln.toml`](madurai-line6.aln.toml) | `line-6` | 71,437.7 m | 18 |
 
 ## Status
 

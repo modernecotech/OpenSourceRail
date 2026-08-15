@@ -4,12 +4,12 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`vadodara-line1.aln.toml`](vadodara-line1.aln.toml) | `line-1` | 25,755.7 m | 17 |
-| [`vadodara-line2.aln.toml`](vadodara-line2.aln.toml) | `line-2` | 18,782.4 m | 12 |
-| [`vadodara-line3.aln.toml`](vadodara-line3.aln.toml) | `line-3` | 16,682.7 m | 12 |
-| [`vadodara-line4.aln.toml`](vadodara-line4.aln.toml) | `line-4` | 22,945.2 m | 20 |
-| [`vadodara-line5.aln.toml`](vadodara-line5.aln.toml) | `line-5` | 23,164.7 m | 15 |
-| [`vadodara-line6.aln.toml`](vadodara-line6.aln.toml) | `line-6` | 42,901.8 m | 32 |
+| [`vadodara-line1.aln.toml`](vadodara-line1.aln.toml) | `line-1` | 25,755.7 m | 9 |
+| [`vadodara-line2.aln.toml`](vadodara-line2.aln.toml) | `line-2` | 18,782.4 m | 9 |
+| [`vadodara-line3.aln.toml`](vadodara-line3.aln.toml) | `line-3` | 16,682.7 m | 8 |
+| [`vadodara-line4.aln.toml`](vadodara-line4.aln.toml) | `line-4` | 22,945.2 m | 10 |
+| [`vadodara-line5.aln.toml`](vadodara-line5.aln.toml) | `line-5` | 23,164.7 m | 9 |
+| [`vadodara-line6.aln.toml`](vadodara-line6.aln.toml) | `line-6` | 42,901.8 m | 16 |
 
 ## Status
 

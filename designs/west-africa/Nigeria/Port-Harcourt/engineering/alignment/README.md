@@ -4,11 +4,11 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`port-harcourt-line1.aln.toml`](port-harcourt-line1.aln.toml) | `line-1` | 38,661.2 m | 22 |
-| [`port-harcourt-line2.aln.toml`](port-harcourt-line2.aln.toml) | `line-2` | 28,686.6 m | 18 |
-| [`port-harcourt-line3.aln.toml`](port-harcourt-line3.aln.toml) | `line-3` | 29,896.5 m | 19 |
-| [`port-harcourt-line4.aln.toml`](port-harcourt-line4.aln.toml) | `line-4` | 30,612.5 m | 18 |
-| [`port-harcourt-line5.aln.toml`](port-harcourt-line5.aln.toml) | `line-5` | 65,959.4 m | 42 |
+| [`port-harcourt-line1.aln.toml`](port-harcourt-line1.aln.toml) | `line-1` | 38,661.2 m | 12 |
+| [`port-harcourt-line2.aln.toml`](port-harcourt-line2.aln.toml) | `line-2` | 28,686.6 m | 11 |
+| [`port-harcourt-line3.aln.toml`](port-harcourt-line3.aln.toml) | `line-3` | 29,896.5 m | 12 |
+| [`port-harcourt-line4.aln.toml`](port-harcourt-line4.aln.toml) | `line-4` | 30,612.5 m | 11 |
+| [`port-harcourt-line5.aln.toml`](port-harcourt-line5.aln.toml) | `line-5` | 65,959.4 m | 23 |
 
 ## Status
 

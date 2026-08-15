@@ -4,9 +4,9 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`abha-line1.aln.toml`](abha-line1.aln.toml) | `line-1` | 20,919.5 m | 13 |
-| [`abha-line2.aln.toml`](abha-line2.aln.toml) | `line-2` | 23,346.3 m | 14 |
-| [`abha-line3.aln.toml`](abha-line3.aln.toml) | `line-3` | 14,819.0 m | 8 |
+| [`abha-line1.aln.toml`](abha-line1.aln.toml) | `line-1` | 20,919.5 m | 8 |
+| [`abha-line2.aln.toml`](abha-line2.aln.toml) | `line-2` | 23,346.3 m | 8 |
+| [`abha-line3.aln.toml`](abha-line3.aln.toml) | `line-3` | 14,819.0 m | 5 |
 
 ## Status
 

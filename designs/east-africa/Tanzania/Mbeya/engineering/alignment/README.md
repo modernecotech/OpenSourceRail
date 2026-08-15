@@ -4,9 +4,9 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`mbeya-line1.aln.toml`](mbeya-line1.aln.toml) | `line-1` | 19,814.2 m | 12 |
-| [`mbeya-line2.aln.toml`](mbeya-line2.aln.toml) | `line-2` | 22,608.1 m | 14 |
-| [`mbeya-line3.aln.toml`](mbeya-line3.aln.toml) | `line-3` | 10,597.8 m | 8 |
+| [`mbeya-line1.aln.toml`](mbeya-line1.aln.toml) | `line-1` | 19,814.2 m | 8 |
+| [`mbeya-line2.aln.toml`](mbeya-line2.aln.toml) | `line-2` | 22,608.1 m | 8 |
+| [`mbeya-line3.aln.toml`](mbeya-line3.aln.toml) | `line-3` | 10,597.8 m | 5 |
 
 ## Status
 

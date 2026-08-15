@@ -4,9 +4,9 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`dodoma-line1.aln.toml`](dodoma-line1.aln.toml) | `line-1` | 16,469.6 m | 11 |
-| [`dodoma-line2.aln.toml`](dodoma-line2.aln.toml) | `line-2` | 17,586.4 m | 12 |
-| [`dodoma-line3.aln.toml`](dodoma-line3.aln.toml) | `line-3` | 18,121.4 m | 10 |
+| [`dodoma-line1.aln.toml`](dodoma-line1.aln.toml) | `line-1` | 16,469.6 m | 8 |
+| [`dodoma-line2.aln.toml`](dodoma-line2.aln.toml) | `line-2` | 17,586.4 m | 7 |
+| [`dodoma-line3.aln.toml`](dodoma-line3.aln.toml) | `line-3` | 18,121.4 m | 7 |
 
 ## Status
 

@@ -4,9 +4,9 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`herat-line1.aln.toml`](herat-line1.aln.toml) | `line-1` | 13,954.0 m | 9 |
-| [`herat-line2.aln.toml`](herat-line2.aln.toml) | `line-2` | 14,286.3 m | 10 |
-| [`herat-line3.aln.toml`](herat-line3.aln.toml) | `line-3` | 21,292.4 m | 11 |
+| [`herat-line1.aln.toml`](herat-line1.aln.toml) | `line-1` | 13,954.0 m | 6 |
+| [`herat-line2.aln.toml`](herat-line2.aln.toml) | `line-2` | 14,286.3 m | 6 |
+| [`herat-line3.aln.toml`](herat-line3.aln.toml) | `line-3` | 21,292.4 m | 7 |
 
 ## Status
 

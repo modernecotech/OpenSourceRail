@@ -4,9 +4,9 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`soyo-line1.aln.toml`](soyo-line1.aln.toml) | `line-1` | 9,357.0 m | 6 |
-| [`soyo-line2.aln.toml`](soyo-line2.aln.toml) | `line-2` | 8,544.1 m | 6 |
-| [`soyo-line3.aln.toml`](soyo-line3.aln.toml) | `line-3` | 11,516.9 m | 8 |
+| [`soyo-line1.aln.toml`](soyo-line1.aln.toml) | `line-1` | 9,357.0 m | 5 |
+| [`soyo-line2.aln.toml`](soyo-line2.aln.toml) | `line-2` | 8,544.1 m | 4 |
+| [`soyo-line3.aln.toml`](soyo-line3.aln.toml) | `line-3` | 11,516.9 m | 5 |
 
 ## Status
 

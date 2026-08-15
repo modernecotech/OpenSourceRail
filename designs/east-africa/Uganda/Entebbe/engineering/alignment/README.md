@@ -4,9 +4,9 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`entebbe-line1.aln.toml`](entebbe-line1.aln.toml) | `line-1` | 15,490.2 m | 11 |
-| [`entebbe-line2.aln.toml`](entebbe-line2.aln.toml) | `line-2` | 7,888.9 m | 7 |
-| [`entebbe-line3.aln.toml`](entebbe-line3.aln.toml) | `line-3` | 15,542.1 m | 9 |
+| [`entebbe-line1.aln.toml`](entebbe-line1.aln.toml) | `line-1` | 15,490.2 m | 7 |
+| [`entebbe-line2.aln.toml`](entebbe-line2.aln.toml) | `line-2` | 7,888.9 m | 4 |
+| [`entebbe-line3.aln.toml`](entebbe-line3.aln.toml) | `line-3` | 15,542.1 m | 6 |
 
 ## Status
 

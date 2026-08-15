@@ -4,9 +4,9 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`mansoura-eg-line1.aln.toml`](mansoura-eg-line1.aln.toml) | `line-1` | 13,161.4 m | 9 |
-| [`mansoura-eg-line2.aln.toml`](mansoura-eg-line2.aln.toml) | `line-2` | 13,191.1 m | 9 |
-| [`mansoura-eg-line3.aln.toml`](mansoura-eg-line3.aln.toml) | `line-3` | 25,287.1 m | 13 |
+| [`mansoura-eg-line1.aln.toml`](mansoura-eg-line1.aln.toml) | `line-1` | 13,161.4 m | 5 |
+| [`mansoura-eg-line2.aln.toml`](mansoura-eg-line2.aln.toml) | `line-2` | 13,191.1 m | 6 |
+| [`mansoura-eg-line3.aln.toml`](mansoura-eg-line3.aln.toml) | `line-3` | 25,287.1 m | 8 |
 
 ## Status
 

@@ -4,12 +4,12 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`visakhapatnam-line1.aln.toml`](visakhapatnam-line1.aln.toml) | `line-1` | 41,660.5 m | 23 |
-| [`visakhapatnam-line2.aln.toml`](visakhapatnam-line2.aln.toml) | `line-2` | 45,923.4 m | 24 |
-| [`visakhapatnam-line3.aln.toml`](visakhapatnam-line3.aln.toml) | `line-3` | 32,490.4 m | 17 |
-| [`visakhapatnam-line4.aln.toml`](visakhapatnam-line4.aln.toml) | `line-4` | 25,671.7 m | 16 |
-| [`visakhapatnam-line5.aln.toml`](visakhapatnam-line5.aln.toml) | `line-5` | 21,478.1 m | 14 |
-| [`visakhapatnam-line6.aln.toml`](visakhapatnam-line6.aln.toml) | `line-6` | 69,621.6 m | 45 |
+| [`visakhapatnam-line1.aln.toml`](visakhapatnam-line1.aln.toml) | `line-1` | 41,660.5 m | 14 |
+| [`visakhapatnam-line2.aln.toml`](visakhapatnam-line2.aln.toml) | `line-2` | 45,923.4 m | 14 |
+| [`visakhapatnam-line3.aln.toml`](visakhapatnam-line3.aln.toml) | `line-3` | 32,490.4 m | 10 |
+| [`visakhapatnam-line4.aln.toml`](visakhapatnam-line4.aln.toml) | `line-4` | 25,671.7 m | 8 |
+| [`visakhapatnam-line5.aln.toml`](visakhapatnam-line5.aln.toml) | `line-5` | 21,478.1 m | 8 |
+| [`visakhapatnam-line6.aln.toml`](visakhapatnam-line6.aln.toml) | `line-6` | 69,621.6 m | 22 |
 
 ## Status
 

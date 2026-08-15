@@ -4,9 +4,9 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`zagazig-line1.aln.toml`](zagazig-line1.aln.toml) | `line-1` | 16,961.7 m | 10 |
-| [`zagazig-line2.aln.toml`](zagazig-line2.aln.toml) | `line-2` | 10,429.4 m | 7 |
-| [`zagazig-line3.aln.toml`](zagazig-line3.aln.toml) | `line-3` | 15,498.3 m | 9 |
+| [`zagazig-line1.aln.toml`](zagazig-line1.aln.toml) | `line-1` | 16,961.7 m | 7 |
+| [`zagazig-line2.aln.toml`](zagazig-line2.aln.toml) | `line-2` | 10,429.4 m | 5 |
+| [`zagazig-line3.aln.toml`](zagazig-line3.aln.toml) | `line-3` | 15,498.3 m | 6 |
 
 ## Status
 

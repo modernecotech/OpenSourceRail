@@ -825,7 +825,10 @@ pub fn merge_interchanges(stations: &mut [Station], merge_radius_m: f64) {
         return;
     }
 
-    // Union-find by lat/lon proximity, only across distinct lines.
+    // Union-find by lat/lon proximity, only across distinct lines. The routing
+    // invariants are evaluated on the 20 m raster, while station coordinates
+    // are later converted back to geodesic lat/lon. Accept either measure so a
+    // forced raster-envelope transfer cannot be stranded by projection drift.
     let mut parent: Vec<usize> = (0..n).collect();
     fn find(parent: &mut [usize], x: usize) -> usize {
         if parent[x] == x {
@@ -842,13 +845,16 @@ pub fn merge_interchanges(stations: &mut [Station], merge_radius_m: f64) {
             if stations[i].line_name == stations[j].line_name {
                 continue;
             }
-            let d2 = haversine_sq_m(
+            let geo_d2 = haversine_sq_m(
                 stations[i].lat,
                 stations[i].lon,
                 stations[j].lat,
                 stations[j].lon,
             );
-            if d2 <= r2 {
+            let dr = stations[i].row as f64 - stations[j].row as f64;
+            let dc = stations[i].col as f64 - stations[j].col as f64;
+            let grid_d2 = (dr * dr + dc * dc) * 20.0 * 20.0;
+            if geo_d2 <= r2 || (grid_d2 > 0.0 && grid_d2 <= r2) {
                 let ri = find(&mut parent, i);
                 let rj = find(&mut parent, j);
                 if ri != rj {
@@ -885,13 +891,16 @@ pub fn merge_interchanges(stations: &mut [Station], merge_radius_m: f64) {
             {
                 continue;
             }
-            let d2 = haversine_sq_m(
+            let geo_d2 = haversine_sq_m(
                 stations[i].lat,
                 stations[i].lon,
                 stations[j].lat,
                 stations[j].lon,
             );
-            if d2 <= multichange_r2 {
+            let dr = stations[i].row as f64 - stations[j].row as f64;
+            let dc = stations[i].col as f64 - stations[j].col as f64;
+            let grid_d2 = (dr * dr + dc * dc) * 20.0 * 20.0;
+            if geo_d2 <= multichange_r2 || (grid_d2 > 0.0 && grid_d2 <= multichange_r2) {
                 parent[ri] = rj;
             }
         }
@@ -927,6 +936,155 @@ pub fn merge_interchanges(stations: &mut [Station], merge_radius_m: f64) {
             continue;
         }
         stations[i].junction_group = Some(id_map[g]);
+    }
+}
+
+/// Give every mandatory ring/radial raster-envelope approach a shared
+/// interchange group on the nearest retained platforms.
+///
+/// This is a final repair for sparse-spacing networks: the forced platform may
+/// be consolidated into a nearby same-line platform, but the retained platform
+/// still represents that walkable transfer complex.
+pub fn force_ring_radial_group_ids(
+    stations: &mut [Station],
+    lines: &[Line],
+    cell_m: f64,
+    transfer_envelope_m: f64,
+) {
+    if stations.len() < 2 {
+        return;
+    }
+    let mut next_group = stations
+        .iter()
+        .filter_map(|station| station.junction_group)
+        .max()
+        .map_or(0, |group| group + 1);
+    let transfer2 = transfer_envelope_m * transfer_envelope_m;
+    let station_index = |line_name: &str, target: (usize, usize), stations: &[Station]| {
+        stations
+            .iter()
+            .enumerate()
+            .filter(|(_, station)| station.line_name == line_name)
+            .map(|(index, station)| {
+                let dr = station.row as f64 - target.0 as f64;
+                let dc = station.col as f64 - target.1 as f64;
+                (index, (dr * dr + dc * dc) * cell_m * cell_m)
+            })
+            .min_by(|a, b| a.1.partial_cmp(&b.1).unwrap_or(std::cmp::Ordering::Equal))
+    };
+
+    for radial in lines
+        .iter()
+        .filter(|line| matches!(line.shape, LineShape::Radial) && !line.cells.is_empty())
+    {
+        for ring in lines
+            .iter()
+            .filter(|line| matches!(line.shape, LineShape::Ring) && !line.cells.is_empty())
+        {
+            let Some((radial_cell, ring_cell, closest2)) = radial
+                .cells
+                .iter()
+                .flat_map(|&radial_cell| {
+                    ring.cells.iter().map(move |&ring_cell| {
+                        let dr = radial_cell.0 as f64 - ring_cell.0 as f64;
+                        let dc = radial_cell.1 as f64 - ring_cell.1 as f64;
+                        (
+                            radial_cell,
+                            ring_cell,
+                            (dr * dr + dc * dc) * cell_m * cell_m,
+                        )
+                    })
+                })
+                .min_by(|a, b| a.2.partial_cmp(&b.2).unwrap_or(std::cmp::Ordering::Equal))
+            else {
+                continue;
+            };
+            if closest2 > transfer2 {
+                continue;
+            }
+            let Some((radial_index, _)) = station_index(&radial.name, radial_cell, stations) else {
+                continue;
+            };
+            let Some((ring_index, _)) = station_index(&ring.name, ring_cell, stations) else {
+                continue;
+            };
+            let group = stations[radial_index]
+                .junction_group
+                .or(stations[ring_index].junction_group)
+                .unwrap_or_else(|| {
+                    let group = next_group;
+                    next_group += 1;
+                    group
+                });
+            if let Some(other) = stations[radial_index].junction_group {
+                if other != group {
+                    for station in stations.iter_mut() {
+                        if station.junction_group == Some(other) {
+                            station.junction_group = Some(group);
+                        }
+                    }
+                }
+            }
+            if let Some(other) = stations[ring_index].junction_group {
+                if other != group {
+                    for station in stations.iter_mut() {
+                        if station.junction_group == Some(other) {
+                            station.junction_group = Some(group);
+                        }
+                    }
+                }
+            }
+            stations[radial_index].junction_group = Some(group);
+            stations[ring_index].junction_group = Some(group);
+
+            for endpoint in [radial.cells[0], *radial.cells.last().unwrap()] {
+                let Some((ring_endpoint_cell, endpoint_distance2)) = ring
+                    .cells
+                    .iter()
+                    .map(|&ring_cell| {
+                        let dr = endpoint.0 as f64 - ring_cell.0 as f64;
+                        let dc = endpoint.1 as f64 - ring_cell.1 as f64;
+                        (ring_cell, (dr * dr + dc * dc) * cell_m * cell_m)
+                    })
+                    .min_by(|a, b| a.1.partial_cmp(&b.1).unwrap_or(std::cmp::Ordering::Equal))
+                else {
+                    continue;
+                };
+                if endpoint_distance2 > transfer2 {
+                    continue;
+                }
+                let Some((radial_endpoint_index, _)) =
+                    station_index(&radial.name, endpoint, stations)
+                else {
+                    continue;
+                };
+                let Some((ring_endpoint_index, _)) =
+                    station_index(&ring.name, ring_endpoint_cell, stations)
+                else {
+                    continue;
+                };
+                let endpoint_group = stations[radial_endpoint_index]
+                    .junction_group
+                    .or(stations[ring_endpoint_index].junction_group)
+                    .unwrap_or_else(|| {
+                        let group = next_group;
+                        next_group += 1;
+                        group
+                    });
+                for index in [radial_endpoint_index, ring_endpoint_index] {
+                    if let Some(other) = stations[index].junction_group {
+                        if other != endpoint_group {
+                            for station in stations.iter_mut() {
+                                if station.junction_group == Some(other) {
+                                    station.junction_group = Some(endpoint_group);
+                                }
+                            }
+                        }
+                    }
+                    stations[index].junction_group = Some(endpoint_group);
+                }
+            }
+        }
     }
 }
 
@@ -1162,6 +1320,7 @@ pub fn consolidate_inline_station_clusters(
             .or_default()
             .push(station);
     }
+    let mut group_remap = std::collections::BTreeMap::<u32, u32>::new();
     for line_stations in by_line.values_mut() {
         line_stations.sort_by(|a, b| {
             a.s_m
@@ -1198,15 +1357,43 @@ pub fn consolidate_inline_station_clusters(
                     station.anchor_id.is_some(),
                 )
             };
+            let previous_group = previous.junction_group;
+            let candidate_group = candidate.junction_group;
             if score(&candidate) > score(previous) {
+                if let (Some(drop_group), Some(keep_group)) = (previous_group, candidate_group) {
+                    if drop_group != keep_group {
+                        group_remap.insert(drop_group, keep_group);
+                    }
+                }
                 *kept.last_mut().unwrap() = candidate;
-            } else if previous.junction_group.is_none() && candidate.junction_group.is_some() {
-                kept.last_mut().unwrap().junction_group = candidate.junction_group;
+            } else if previous_group.is_none() && candidate_group.is_some() {
+                kept.last_mut().unwrap().junction_group = candidate_group;
+            } else if let (Some(keep_group), Some(drop_group)) = (previous_group, candidate_group) {
+                if keep_group != drop_group {
+                    group_remap.insert(drop_group, keep_group);
+                }
             }
         }
         *line_stations = kept;
     }
     *stations = by_line.into_values().flatten().collect();
+    if !group_remap.is_empty() {
+        let resolve_group = |mut group: u32, group_remap: &std::collections::BTreeMap<u32, u32>| {
+            let mut seen = std::collections::BTreeSet::new();
+            while let Some(&next) = group_remap.get(&group) {
+                if !seen.insert(group) || next == group {
+                    break;
+                }
+                group = next;
+            }
+            group
+        };
+        for station in stations.iter_mut() {
+            if let Some(group) = station.junction_group {
+                station.junction_group = Some(resolve_group(group, &group_remap));
+            }
+        }
+    }
 }
 
 /// Consolidate the first/last station pair around a closed line's arbitrary

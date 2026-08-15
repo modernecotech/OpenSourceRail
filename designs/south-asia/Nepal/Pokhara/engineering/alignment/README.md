@@ -4,9 +4,9 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`pokhara-line1.aln.toml`](pokhara-line1.aln.toml) | `line-1` | 29,939.9 m | 16 |
-| [`pokhara-line2.aln.toml`](pokhara-line2.aln.toml) | `line-2` | 23,827.9 m | 15 |
-| [`pokhara-line3.aln.toml`](pokhara-line3.aln.toml) | `line-3` | 27,432.8 m | 15 |
+| [`pokhara-line1.aln.toml`](pokhara-line1.aln.toml) | `line-1` | 29,939.9 m | 9 |
+| [`pokhara-line2.aln.toml`](pokhara-line2.aln.toml) | `line-2` | 23,827.9 m | 8 |
+| [`pokhara-line3.aln.toml`](pokhara-line3.aln.toml) | `line-3` | 27,432.8 m | 8 |
 
 ## Status
 

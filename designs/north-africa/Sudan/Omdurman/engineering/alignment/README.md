@@ -4,12 +4,12 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`omdurman-line1.aln.toml`](omdurman-line1.aln.toml) | `line-1` | 39,463.3 m | 25 |
-| [`omdurman-line2.aln.toml`](omdurman-line2.aln.toml) | `line-2` | 35,831.3 m | 20 |
-| [`omdurman-line3.aln.toml`](omdurman-line3.aln.toml) | `line-3` | 39,298.7 m | 23 |
-| [`omdurman-line4.aln.toml`](omdurman-line4.aln.toml) | `line-4` | 32,930.9 m | 19 |
-| [`omdurman-line5.aln.toml`](omdurman-line5.aln.toml) | `line-5` | 25,057.6 m | 15 |
-| [`omdurman-line6.aln.toml`](omdurman-line6.aln.toml) | `line-6` | 83,509.4 m | 51 |
+| [`omdurman-line1.aln.toml`](omdurman-line1.aln.toml) | `line-1` | 39,463.3 m | 15 |
+| [`omdurman-line2.aln.toml`](omdurman-line2.aln.toml) | `line-2` | 35,831.3 m | 11 |
+| [`omdurman-line3.aln.toml`](omdurman-line3.aln.toml) | `line-3` | 39,298.7 m | 13 |
+| [`omdurman-line4.aln.toml`](omdurman-line4.aln.toml) | `line-4` | 32,930.9 m | 11 |
+| [`omdurman-line5.aln.toml`](omdurman-line5.aln.toml) | `line-5` | 25,057.6 m | 9 |
+| [`omdurman-line6.aln.toml`](omdurman-line6.aln.toml) | `line-6` | 83,509.4 m | 26 |
 
 ## Status
 

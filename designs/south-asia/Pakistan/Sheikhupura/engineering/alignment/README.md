@@ -4,8 +4,8 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`sheikhupura-line1.aln.toml`](sheikhupura-line1.aln.toml) | `line-1` | 8,684.2 m | 6 |
-| [`sheikhupura-line2.aln.toml`](sheikhupura-line2.aln.toml) | `line-2` | 7,869.3 m | 6 |
+| [`sheikhupura-line1.aln.toml`](sheikhupura-line1.aln.toml) | `line-1` | 8,684.2 m | 5 |
+| [`sheikhupura-line2.aln.toml`](sheikhupura-line2.aln.toml) | `line-2` | 7,869.3 m | 4 |
 
 ## Status
 

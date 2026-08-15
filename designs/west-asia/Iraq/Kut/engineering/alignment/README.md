@@ -4,9 +4,9 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`kut-line1.aln.toml`](kut-line1.aln.toml) | `line-1` | 22,368.1 m | 12 |
-| [`kut-line2.aln.toml`](kut-line2.aln.toml) | `line-2` | 9,399.4 m | 6 |
-| [`kut-line3.aln.toml`](kut-line3.aln.toml) | `line-3` | 14,647.3 m | 9 |
+| [`kut-line1.aln.toml`](kut-line1.aln.toml) | `line-1` | 22,368.1 m | 7 |
+| [`kut-line2.aln.toml`](kut-line2.aln.toml) | `line-2` | 9,399.4 m | 5 |
+| [`kut-line3.aln.toml`](kut-line3.aln.toml) | `line-3` | 14,647.3 m | 5 |
 
 ## Status
 

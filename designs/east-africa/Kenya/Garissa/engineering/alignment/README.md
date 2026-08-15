@@ -5,8 +5,8 @@ Deterministic alignment exports for every line in the current generated network.
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
 | [`garissa-line1.aln.toml`](garissa-line1.aln.toml) | `line-1` | 8,245.5 m | 5 |
-| [`garissa-line2.aln.toml`](garissa-line2.aln.toml) | `line-2` | 12,395.1 m | 8 |
-| [`garissa-line3.aln.toml`](garissa-line3.aln.toml) | `line-3` | 4,709.8 m | 4 |
+| [`garissa-line2.aln.toml`](garissa-line2.aln.toml) | `line-2` | 12,395.1 m | 5 |
+| [`garissa-line3.aln.toml`](garissa-line3.aln.toml) | `line-3` | 4,709.8 m | 3 |
 
 ## Status
 

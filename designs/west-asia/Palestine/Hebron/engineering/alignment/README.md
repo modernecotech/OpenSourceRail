@@ -4,9 +4,9 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`hebron-line1.aln.toml`](hebron-line1.aln.toml) | `line-1` | 19,498.3 m | 12 |
-| [`hebron-line2.aln.toml`](hebron-line2.aln.toml) | `line-2` | 17,472.4 m | 11 |
-| [`hebron-line3.aln.toml`](hebron-line3.aln.toml) | `line-3` | 23,341.6 m | 13 |
+| [`hebron-line1.aln.toml`](hebron-line1.aln.toml) | `line-1` | 19,498.3 m | 7 |
+| [`hebron-line2.aln.toml`](hebron-line2.aln.toml) | `line-2` | 17,472.4 m | 8 |
+| [`hebron-line3.aln.toml`](hebron-line3.aln.toml) | `line-3` | 23,341.6 m | 7 |
 
 ## Status
 

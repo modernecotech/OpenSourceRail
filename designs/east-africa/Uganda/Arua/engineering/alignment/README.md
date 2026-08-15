@@ -4,9 +4,9 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`arua-line1.aln.toml`](arua-line1.aln.toml) | `line-1` | 9,896.5 m | 7 |
-| [`arua-line2.aln.toml`](arua-line2.aln.toml) | `line-2` | 15,010.2 m | 10 |
-| [`arua-line3.aln.toml`](arua-line3.aln.toml) | `line-3` | 12,824.0 m | 7 |
+| [`arua-line1.aln.toml`](arua-line1.aln.toml) | `line-1` | 9,896.5 m | 5 |
+| [`arua-line2.aln.toml`](arua-line2.aln.toml) | `line-2` | 15,010.2 m | 5 |
+| [`arua-line3.aln.toml`](arua-line3.aln.toml) | `line-3` | 12,824.0 m | 6 |
 
 ## Status
 

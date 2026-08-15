@@ -4,9 +4,9 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`tripoli-lb-line1.aln.toml`](tripoli-lb-line1.aln.toml) | `line-1` | 12,574.7 m | 9 |
-| [`tripoli-lb-line2.aln.toml`](tripoli-lb-line2.aln.toml) | `line-2` | 18,834.3 m | 12 |
-| [`tripoli-lb-line3.aln.toml`](tripoli-lb-line3.aln.toml) | `line-3` | 14,203.3 m | 9 |
+| [`tripoli-lb-line1.aln.toml`](tripoli-lb-line1.aln.toml) | `line-1` | 12,574.7 m | 6 |
+| [`tripoli-lb-line2.aln.toml`](tripoli-lb-line2.aln.toml) | `line-2` | 18,834.3 m | 8 |
+| [`tripoli-lb-line3.aln.toml`](tripoli-lb-line3.aln.toml) | `line-3` | 14,203.3 m | 6 |
 
 ## Status
 

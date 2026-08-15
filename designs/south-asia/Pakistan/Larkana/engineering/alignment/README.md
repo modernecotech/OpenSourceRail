@@ -4,8 +4,8 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`larkana-line1.aln.toml`](larkana-line1.aln.toml) | `line-1` | 22,548.4 m | 11 |
-| [`larkana-line2.aln.toml`](larkana-line2.aln.toml) | `line-2` | 14,417.3 m | 9 |
+| [`larkana-line1.aln.toml`](larkana-line1.aln.toml) | `line-1` | 22,548.4 m | 9 |
+| [`larkana-line2.aln.toml`](larkana-line2.aln.toml) | `line-2` | 14,417.3 m | 6 |
 
 ## Status
 

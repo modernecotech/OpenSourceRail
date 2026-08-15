@@ -28,8 +28,9 @@ pub use solver::{
 pub use station::{
     connect_radial_termini_to_rings, consolidate_inline_station_clusters,
     consolidate_ring_wrap_station_clusters, ensure_endpoint_stations, fill_large_station_gaps,
-    force_hub_stations, force_ring_radial_crossings, force_ring_radial_terminal_interchanges,
-    merge_interchanges, place_stations, station_layout_issues, Station,
+    force_hub_stations, force_ring_radial_crossings, force_ring_radial_group_ids,
+    force_ring_radial_terminal_interchanges, merge_interchanges, place_stations,
+    station_layout_issues, Station,
 };
 pub use topology::{
     budget_for_population, greedy_synthesize_lines, hub_cell, synthesize_lines, GreedyBudget, Line,

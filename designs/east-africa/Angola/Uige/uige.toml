@@ -56,34 +56,28 @@ dwell_seconds = 180
 is_terminal = true
 
 [[stations]]
-id = "line-1-0557-0320-s002008"
-name = "line-1-0557-0320-s002008"
+id = "line-1-0544-0356-s003018"
+name = "line-1-0544-0356-s003018"
 charging_power_kw = 500
-dwell_seconds = 150
-
-[[stations]]
-id = "line-1-0520-0394-s004010"
-name = "Aeroporto Provincial do Uíge"
-charging_power_kw = 500
-dwell_seconds = 150
+dwell_seconds = 180
 
 [[stations]]
 id = "line-1-0484-0474-s006033"
 name = "line-1-0484-0474-s006033"
 charging_power_kw = 500
-dwell_seconds = 150
+dwell_seconds = 180
 
 [[stations]]
 id = "line-1-0551-0546-s008251"
 name = "line-1-0551-0546-s008251"
 charging_power_kw = 500
-dwell_seconds = 150
+dwell_seconds = 180
 
 [[stations]]
-id = "line-1-0589-0545-s009778"
-name = "line-1-0589-0545-s009778"
+id = "line-1-0605-0541-s010131"
+name = "line-1-0605-0541-s010131"
 charging_power_kw = 500
-dwell_seconds = 150
+dwell_seconds = 180
 
 [[stations]]
 id = "line-1-0674-0519-s012025"
@@ -102,12 +96,11 @@ id = "line-1"
 name = "line-1"
 stations = [
     { id = "line-1-0510-0252-s000000", distance_from_prev_m = 0 },
-    { id = "line-1-0557-0320-s002008", distance_from_prev_m = 2007 },
-    { id = "line-1-0520-0394-s004010", distance_from_prev_m = 2001 },
-    { id = "line-1-0484-0474-s006033", distance_from_prev_m = 2023 },
+    { id = "line-1-0544-0356-s003018", distance_from_prev_m = 3017 },
+    { id = "line-1-0484-0474-s006033", distance_from_prev_m = 3014 },
     { id = "line-1-0551-0546-s008251", distance_from_prev_m = 2217 },
-    { id = "line-1-0589-0545-s009778", distance_from_prev_m = 1527 },
-    { id = "line-1-0674-0519-s012025", distance_from_prev_m = 2247 },
+    { id = "line-1-0605-0541-s010131", distance_from_prev_m = 1880 },
+    { id = "line-1-0674-0519-s012025", distance_from_prev_m = 1894 },
 ]
 
 
@@ -115,7 +108,7 @@ stations = [
 # Fleets — copied from design.toml [[fleets]].
 [[fleets]]
 line = "line-1"
-trainset_count = 31
+trainset_count = 27
 dispatch_points = [
     { station = "line-1-0510-0252-s000000", heading = "forward" },
     { station = "line-1-0674-0519-s012025", heading = "reverse" },
@@ -152,24 +145,7 @@ charger_efficiency = 0.98
 charger_contact_count = 2
 
 [[sites]]
-station = "line-1-0557-0320-s002008"
-tier = "standard"
-pv_nameplate_kw = 300.0
-storage_capacity_kwh = 500.0
-storage_max_charge_kw = 500.0
-storage_max_discharge_kw = 500.0
-storage_initial_soc = 0.5
-grid_import_kw = 500.0
-grid_export_kw = 500.0
-storage_module_kwh = 500.0
-charger_max_kw = 500.0
-charger_max_current_a = 825.0
-charger_bus_voltage_v = 650.0
-charger_efficiency = 0.98
-charger_contact_count = 2
-
-[[sites]]
-station = "line-1-0520-0394-s004010"
+station = "line-1-0544-0356-s003018"
 tier = "standard"
 pv_nameplate_kw = 300.0
 storage_capacity_kwh = 500.0
@@ -220,7 +196,7 @@ charger_efficiency = 0.98
 charger_contact_count = 2
 
 [[sites]]
-station = "line-1-0589-0545-s009778"
+station = "line-1-0605-0541-s010131"
 tier = "standard"
 pv_nameplate_kw = 300.0
 storage_capacity_kwh = 500.0

@@ -4,9 +4,9 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`mahalla-line1.aln.toml`](mahalla-line1.aln.toml) | `line-1` | 12,268.6 m | 8 |
-| [`mahalla-line2.aln.toml`](mahalla-line2.aln.toml) | `line-2` | 18,641.7 m | 9 |
-| [`mahalla-line3.aln.toml`](mahalla-line3.aln.toml) | `line-3` | 7,372.9 m | 5 |
+| [`mahalla-line1.aln.toml`](mahalla-line1.aln.toml) | `line-1` | 12,268.6 m | 5 |
+| [`mahalla-line2.aln.toml`](mahalla-line2.aln.toml) | `line-2` | 18,641.7 m | 7 |
+| [`mahalla-line3.aln.toml`](mahalla-line3.aln.toml) | `line-3` | 7,372.9 m | 4 |
 
 ## Status
 

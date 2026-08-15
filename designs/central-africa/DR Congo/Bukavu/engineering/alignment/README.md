@@ -4,9 +4,9 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`bukavu-line1.aln.toml`](bukavu-line1.aln.toml) | `line-1` | 18,280.9 m | 12 |
-| [`bukavu-line2.aln.toml`](bukavu-line2.aln.toml) | `line-2` | 23,646.1 m | 14 |
-| [`bukavu-line3.aln.toml`](bukavu-line3.aln.toml) | `line-3` | 19,448.4 m | 11 |
+| [`bukavu-line1.aln.toml`](bukavu-line1.aln.toml) | `line-1` | 18,280.9 m | 7 |
+| [`bukavu-line2.aln.toml`](bukavu-line2.aln.toml) | `line-2` | 23,646.1 m | 9 |
+| [`bukavu-line3.aln.toml`](bukavu-line3.aln.toml) | `line-3` | 19,448.4 m | 7 |
 
 ## Status
 

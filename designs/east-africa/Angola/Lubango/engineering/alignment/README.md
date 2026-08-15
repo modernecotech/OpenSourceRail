@@ -4,9 +4,9 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`lubango-line1.aln.toml`](lubango-line1.aln.toml) | `line-1` | 15,817.7 m | 9 |
-| [`lubango-line2.aln.toml`](lubango-line2.aln.toml) | `line-2` | 24,048.4 m | 12 |
-| [`lubango-line3.aln.toml`](lubango-line3.aln.toml) | `line-3` | 13,895.9 m | 10 |
+| [`lubango-line1.aln.toml`](lubango-line1.aln.toml) | `line-1` | 15,817.7 m | 7 |
+| [`lubango-line2.aln.toml`](lubango-line2.aln.toml) | `line-2` | 24,048.4 m | 9 |
+| [`lubango-line3.aln.toml`](lubango-line3.aln.toml) | `line-3` | 13,895.9 m | 6 |
 
 ## Status
 

@@ -4,11 +4,11 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`ibadan-line1.aln.toml`](ibadan-line1.aln.toml) | `line-1` | 26,869.4 m | 16 |
-| [`ibadan-line2.aln.toml`](ibadan-line2.aln.toml) | `line-2` | 24,106.8 m | 14 |
-| [`ibadan-line3.aln.toml`](ibadan-line3.aln.toml) | `line-3` | 20,432.9 m | 14 |
-| [`ibadan-line4.aln.toml`](ibadan-line4.aln.toml) | `line-4` | 29,722.5 m | 17 |
-| [`ibadan-line5.aln.toml`](ibadan-line5.aln.toml) | `line-5` | 34,170.2 m | 24 |
+| [`ibadan-line1.aln.toml`](ibadan-line1.aln.toml) | `line-1` | 26,869.4 m | 12 |
+| [`ibadan-line2.aln.toml`](ibadan-line2.aln.toml) | `line-2` | 24,106.8 m | 12 |
+| [`ibadan-line3.aln.toml`](ibadan-line3.aln.toml) | `line-3` | 20,432.9 m | 9 |
+| [`ibadan-line4.aln.toml`](ibadan-line4.aln.toml) | `line-4` | 29,722.5 m | 10 |
+| [`ibadan-line5.aln.toml`](ibadan-line5.aln.toml) | `line-5` | 34,170.2 m | 12 |
 
 ## Status
 

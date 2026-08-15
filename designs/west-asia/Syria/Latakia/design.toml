@@ -50,7 +50,7 @@ length_m        = 18243.2
 rolling_stock   = "light-metro-3car"
 geometry        = "standard-urban"
 
-charging_dwell_seconds = 180
+charging_dwell_seconds = 270
 
 [[lines]]
 name            = "line-2"
@@ -59,7 +59,7 @@ length_m        = 11464.8
 rolling_stock   = "light-metro-3car"
 geometry        = "standard-urban"
 
-charging_dwell_seconds = 150
+charging_dwell_seconds = 210
 
 [[lines]]
 name            = "line-3"
@@ -68,7 +68,7 @@ length_m        = 13134.8
 rolling_stock   = "light-metro-3car"
 geometry        = "standard-urban"
 
-charging_dwell_seconds = 150
+charging_dwell_seconds = 180
 
 [[civil_segments]]
 line            = "line-1"
@@ -163,18 +163,6 @@ class           = "elevated"
 [[civil_segments]]
 line            = "line-3"
 from_station_m  = 4149.6
-to_station_m    = 5651.3
-class           = "at-grade"
-
-[[civil_segments]]
-line            = "line-3"
-from_station_m  = 5651.3
-to_station_m    = 6787.2
-class           = "elevated"
-
-[[civil_segments]]
-line            = "line-3"
-from_station_m  = 6787.2
 to_station_m    = 13134.8
 class           = "at-grade"
 
@@ -191,25 +179,13 @@ platform_length_m = 59.5
 junction_group  = 0
 
 [[stations]]
-id              = "line-1-0666-0473-s002025"
+id              = "line-1-0653-0514-s003005"
 line            = "line-1"
-lat             = 35.510852550120575
-lon             = 35.772835124267516
-s_m             = 2025.1
-anchor_kind     = "amenity:hospital"
-anchor_name     = "مشفى الشهيد حمزه علي نوفل الوطني"
-archetype       = "interchange"
-platform_length_m = 59.5
-junction_group  = 0
-
-[[stations]]
-id              = "line-1-0618-0545-s004048"
-line            = "line-1"
-lat             = 35.519490926105895
-lon             = 35.788730644747474
-s_m             = 4048.2
-anchor_kind     = "amenity:bus_station"
-anchor_name     = "باص 5"
+lat             = 35.51319211028327
+lon             = 35.78188674009638
+s_m             = 3004.5
+anchor_kind     = "amenity:university"
+anchor_name     = "جامعة الشام الخاصة"
 archetype       = "standard"
 platform_length_m = 59.5
 
@@ -224,51 +200,24 @@ platform_length_m = 59.5
 junction_group  = 1
 
 [[stations]]
-id              = "line-1-0581-0607-s007285"
+id              = "line-1-0537-0651-s009047"
 line            = "line-1"
-lat             = 35.52614967426124
-lon             = 35.802418454049665
-s_m             = 7285.2
-anchor_kind     = "amenity:university"
-anchor_name     = "مدخل جامعة اللاذقية - Main Gate"
-archetype       = "major"
-platform_length_m = 59.5
-
-[[stations]]
-id              = "line-1-0531-0660-s009288"
-line            = "line-1"
-lat             = 35.535147982579275
-lon             = 35.814119323291855
-s_m             = 9288.3
+lat             = 35.53406818558111
+lon             = 35.81213238323186
+s_m             = 9046.9
+anchor_kind     = "amenity:hospital"
+anchor_name     = "مشفى العثمان الجراحي"
 archetype       = "standard"
 platform_length_m = 59.5
 
 [[stations]]
-id              = "line-1-0514-0727-s011307"
+id              = "line-1-0491-0817-s013635"
 line            = "line-1"
-lat             = 35.538207407407405
-lon             = 35.82891098818293
-s_m             = 11306.6
+lat             = 35.542346629233705
+lon             = 35.84878038878288
+s_m             = 13635.3
 archetype       = "standard"
 platform_length_m = 59.5
-
-[[stations]]
-id              = "line-1-0500-0805-s013321"
-line            = "line-1"
-lat             = 35.54072693373646
-lon             = 35.84613113536955
-s_m             = 13320.8
-archetype       = "standard"
-platform_length_m = 59.5
-
-[[stations]]
-id              = "line-1-0420-0923-s016344"
-line            = "line-1"
-lat             = 35.55512422704532
-lon             = 35.872182127267266
-s_m             = 16343.5
-archetype       = "halt"
-platform_length_m = 55.5
 
 [[stations]]
 id              = "line-1-0371-0993-s018243"
@@ -292,16 +241,14 @@ archetype       = "terminal"
 platform_length_m = 59.5
 
 [[stations]]
-id              = "line-2-0492-0497-s002011"
+id              = "line-2-0522-0520-s003004"
 line            = "line-2"
-lat             = 35.54216666306734
-lon             = 35.77813363109417
-s_m             = 2011.4
-anchor_kind     = "amenity:university"
-anchor_name     = "الأزهري لسكن الطالبات"
-archetype       = "interchange-elevated"
+lat             = 35.53676767807652
+lon             = 35.783211366803044
+s_m             = 3003.9
+archetype       = "interchange"
 platform_length_m = 59.5
-junction_group  = 2
+junction_group  = 1
 
 [[stations]]
 id              = "line-2-0551-0553-s004361"
@@ -321,24 +268,6 @@ lon             = 35.801093827343
 s_m             = 6015.5
 anchor_kind     = "amenity:hospital"
 anchor_name     = "مشفى زاهي أزرق العسكري"
-archetype       = "standard"
-platform_length_m = 59.5
-
-[[stations]]
-id              = "line-2-0466-0638-s008033"
-line            = "line-2"
-lat             = 35.546845783392726
-lon             = 35.80926235870076
-s_m             = 8033.2
-archetype       = "standard"
-platform_length_m = 59.5
-
-[[stations]]
-id              = "line-2-0431-0716-s010041"
-line            = "line-2"
-lat             = 35.55314459921535
-lon             = 35.826482505887384
-s_m             = 10041.1
 archetype       = "standard"
 platform_length_m = 59.5
 
@@ -366,11 +295,11 @@ platform_length_m = 59.5
 junction_group  = 0
 
 [[stations]]
-id              = "line-3-0613-0490-s002004"
+id              = "line-3-0611-0492-s002060"
 line            = "line-3"
-lat             = 35.520390756937694
-lon             = 35.77658823326973
-s_m             = 2003.7
+lat             = 35.520750689270415
+lon             = 35.777029775505284
+s_m             = 2060.2
 anchor_kind     = "amenity:hospital"
 archetype       = "standard"
 platform_length_m = 59.5
@@ -386,41 +315,23 @@ platform_length_m = 59.5
 junction_group  = 1
 
 [[stations]]
-id              = "line-3-0498-0511-s006041"
+id              = "line-3-0499-0511-s006021"
 line            = "line-3"
-lat             = 35.54108686606918
+lat             = 35.54090689990282
 lon             = 35.78122442674305
-s_m             = 6041.0
+s_m             = 6021.0
 anchor_kind     = "amenity:hospital"
 anchor_name     = "مستشفى سويد"
-archetype       = "interchange-elevated"
+archetype       = "interchange"
 platform_length_m = 59.5
-junction_group  = 2
+junction_group  = 1
 
 [[stations]]
-id              = "line-3-0406-0508-s008055"
+id              = "line-3-0406-0435-s009581"
 line            = "line-3"
 lat             = 35.557643753374364
-lon             = 35.78056211338972
-s_m             = 8054.9
-archetype       = "standard"
-platform_length_m = 59.5
-
-[[stations]]
-id              = "line-3-0415-0415-s010056"
-line            = "line-3"
-lat             = 35.55602405787712
-lon             = 35.76003039943644
-s_m             = 10055.8
-archetype       = "standard"
-platform_length_m = 59.5
-
-[[stations]]
-id              = "line-3-0369-0374-s011593"
-line            = "line-3"
-lat             = 35.56430250152971
-lon             = 35.75097878360757
-s_m             = 11592.6
+lon             = 35.76444582179198
+s_m             = 9581.2
 archetype       = "standard"
 platform_length_m = 59.5
 
@@ -438,32 +349,24 @@ platform_length_m = 59.5
 [[interchanges]]
 id              = "interchange-000"
 junction_group  = 0
-lat             = 35.50827303506941
-lon             = 35.77408616060159
+lat             = 35.506983277543824
+lon             = 35.774711678768625
 lines           = ["line-1", "line-3"]
-platforms       = ["line-1-0666-0473-s002025", "line-1-0693-0490-s000000", "line-3-0682-0473-s000000"]
+platforms       = ["line-1-0693-0490-s000000", "line-3-0682-0473-s000000"]
 
 [[interchanges]]
 id              = "interchange-001"
 junction_group  = 1
-lat             = 35.53154865925206
-lon             = 35.79049681368969
+lat             = 35.5344641111471
+lon             = 35.78718524692303
 lines           = ["line-1", "line-2", "line-3"]
-platforms       = ["line-1-0551-0553-s005665", "line-2-0551-0553-s004361", "line-3-0551-0553-s004130"]
-
-[[interchanges]]
-id              = "interchange-002"
-junction_group  = 2
-lat             = 35.541626764568264
-lon             = 35.77967902891861
-lines           = ["line-2", "line-3"]
-platforms       = ["line-2-0492-0497-s002011", "line-3-0498-0511-s006041"]
+platforms       = ["line-1-0551-0553-s005665", "line-2-0522-0520-s003004", "line-2-0551-0553-s004361", "line-3-0499-0511-s006021", "line-3-0551-0553-s004130"]
 
 # [[depots]] — maintenance/defect facilities per RFC 0014; healthy sets stable at powered stations.
 [[depots]]
 station      = "line-1-0371-0993-s018243"
 archetype    = "main-heavy"
-fleet_stalls = 17
+fleet_stalls = 14
 
 # switches — turnbacks at terminals + depot fans per RFC 0012 §9.
 switches = [
@@ -483,50 +386,36 @@ switches = [
   { id = "sw-line-1-0371-0993-s018243-yd-12", kit = "no-9-mainline", station = "line-1-0371-0993-s018243", side = "yard-throat" },
   { id = "sw-line-1-0371-0993-s018243-yd-13", kit = "no-9-mainline", station = "line-1-0371-0993-s018243", side = "yard-throat" },
   { id = "sw-line-1-0371-0993-s018243-yd-14", kit = "no-9-mainline", station = "line-1-0371-0993-s018243", side = "yard-throat" },
-  { id = "sw-line-1-0371-0993-s018243-yd-15", kit = "no-9-mainline", station = "line-1-0371-0993-s018243", side = "yard-throat" },
-  { id = "sw-line-1-0371-0993-s018243-yd-16", kit = "no-9-mainline", station = "line-1-0371-0993-s018243", side = "yard-throat" },
-  { id = "sw-line-1-0371-0993-s018243-yd-17", kit = "no-9-mainline", station = "line-1-0371-0993-s018243", side = "yard-throat" },
   { id = "sw-line-2-0452-0423-s000000-tb", kit = "no-9-mainline", station = "line-2-0452-0423-s000000", side = "turnback" },
   { id = "sw-line-2-0400-0736-s011465-tb", kit = "no-9-mainline", station = "line-2-0400-0736-s011465", side = "turnback" },
   { id = "sw-line-3-0682-0473-s000000-tb", kit = "no-9-mainline", station = "line-3-0682-0473-s000000", side = "turnback" },
   { id = "sw-line-3-0301-0356-s013135-tb", kit = "no-9-mainline", station = "line-3-0301-0356-s013135", side = "turnback" },
 ]
 
-# [[junctions]] — elevated-junction upgrades for cross-at-grade
-# interchanges, per RFC 0011 §8 follow-up. Each adds the 1 km
-# Elevated section already visible in the civil mix above.
-[[junctions]]
-group_id        = 2
-elevated_line   = "line-3"
-lat             = 35.54216666306734
-lon             = 35.77813363109417
-premium_usd     = 4500000
-premium_eur     = 4140000
-
 # [[fleets]] — per-line fleet sizing per RFC 0014 §4.
 [[fleets]]
 line               = "line-1"
-peak_count         = 43
-service_rotation_count = 0
-spare_count        = 4
-cold_reserve_count = 1
-trainset_count     = 48
-
-[[fleets]]
-line               = "line-2"
-peak_count         = 27
-service_rotation_count = 0
-spare_count        = 2
-cold_reserve_count = 1
-trainset_count     = 30
-
-[[fleets]]
-line               = "line-3"
-peak_count         = 31
+peak_count         = 35
 service_rotation_count = 0
 spare_count        = 3
 cold_reserve_count = 1
-trainset_count     = 35
+trainset_count     = 39
+
+[[fleets]]
+line               = "line-2"
+peak_count         = 23
+service_rotation_count = 0
+spare_count        = 2
+cold_reserve_count = 1
+trainset_count     = 26
+
+[[fleets]]
+line               = "line-3"
+peak_count         = 25
+service_rotation_count = 0
+spare_count        = 2
+cold_reserve_count = 1
+trainset_count     = 28
 
 # [costs] — RFC 0011 §9 planning-grade CAPEX (USD
 # direct-procurement planning basis). country-costs.toml applies
@@ -538,38 +427,38 @@ version = 2
 currency_basis      = "USD local-owner trainset-family planning basis with direct material, local assembly/labour, nominal per-train QA/acceptance, and modest handover logistics included; 1 m clip-on fiberglass body modules reduce shell labour, mould tooling, cure space, and production setup; distributed overnight stabling reduces depot parking scope; fixtures/tooling live in the railway production plant line per vehicle/car module; warranty, spares, and routine commissioning support are treated as OPEX; raw marketplace BOM retained only as audit lower bound; *_eur mirrors retained for schema compatibility"
 usd_to_eur          = 0.92
 # Civil works (USD/km x civil mix; EUR mirror at usd_to_eur).
-at_grade_usd         = 124565926
-at_grade_eur         = 114600652
-elevated_usd         = 15849991
-elevated_eur         = 14581992
+at_grade_usd         = 127973866
+at_grade_eur         = 117735956
+elevated_usd         = 2218234
+elevated_eur         = 2040775
 bridge_usd           = 0
 bridge_eur           = 0
-junction_premium_usd = 4500000  # $4.5 M per elevated interchange.
-junction_premium_eur = 4140000  # EUR 4.1 M per elevated interchange.
-civil_subtotal_usd   = 144915918
-civil_subtotal_eur   = 133322644
+junction_premium_usd = 0  # $4.5 M per elevated interchange.
+junction_premium_eur = 0  # EUR 4.1 M per elevated interchange.
+civil_subtotal_usd   = 130192099
+civil_subtotal_eur   = 119776732
 # Stations (RFC 0010 archetype catalogue).
-stations_usd         = 116100000
-stations_eur         = 106812000
+stations_usd         = 82500000
+stations_eur         = 75900000
 # Depots (RFC 0014 archetype catalogue).
 depots_usd           = 8000000
 depots_eur           = 7360000
 # Rolling stock (RFC 0008 family × fleet count; local-owner production unit).
-rolling_stock_usd    = 101700000
-rolling_stock_eur    = 93564000
+rolling_stock_usd    = 83700000
+rolling_stock_eur    = 77004000
 # Railway production plant (tooling + plant setup per vehicle/car module, not per trainset).
-production_plant_usd = 20340000
-production_plant_eur = 18712800
+production_plant_usd = 16740000
+production_plant_eur = 15400800
 # Systems: residual train-control wayside + station/depot charging microgrids.
 signalling_usd       = 2142140
 signalling_eur       = 1970769
-charging_microgrid_usd = 2600000
-charging_microgrid_eur = 2392000
+charging_microgrid_usd = 1850000
+charging_microgrid_eur = 1702000
 # EPC integration + project management (7 % of subtotal).
-epc_overhead_usd     = 27705864
-epc_overhead_eur     = 25489395
-total_usd            = 423503922  # base CAPEX before timetable-sized dedicated solar
-total_eur            = 389623608  # base CAPEX before timetable-sized dedicated solar
+epc_overhead_usd     = 22758697
+epc_overhead_eur     = 20938001
+total_usd            = 347882937  # base CAPEX before timetable-sized dedicated solar
+total_eur            = 320052302  # base CAPEX before timetable-sized dedicated solar
 
 [costs.technology_basis]
 cost_treatment = "included in planning units; do not add again"
@@ -584,7 +473,7 @@ lv_dc_dc_usd_per_car = 2500
 roof_pv_mppt_usd_per_car = 1000
 core_electrical_usd_per_car = 51000
 core_electrical_usd_per_trainset = 153000
-fleet_core_electrical_usd = 17289000
+fleet_core_electrical_usd = 14229000
 station_architecture = "500-1500 V DC/DC configured to 500 kW; 650-700 V train bus"
 stationary_lfp_500kwh_usd = 37500
 station_dcdc_500kw_usd = 15000

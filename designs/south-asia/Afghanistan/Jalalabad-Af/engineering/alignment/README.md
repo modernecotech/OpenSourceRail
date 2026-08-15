@@ -4,9 +4,9 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`jalalabad-af-line1.aln.toml`](jalalabad-af-line1.aln.toml) | `line-1` | 11,847.7 m | 7 |
-| [`jalalabad-af-line2.aln.toml`](jalalabad-af-line2.aln.toml) | `line-2` | 20,964.8 m | 11 |
-| [`jalalabad-af-line3.aln.toml`](jalalabad-af-line3.aln.toml) | `line-3` | 14,179.1 m | 8 |
+| [`jalalabad-af-line1.aln.toml`](jalalabad-af-line1.aln.toml) | `line-1` | 11,847.7 m | 5 |
+| [`jalalabad-af-line2.aln.toml`](jalalabad-af-line2.aln.toml) | `line-2` | 20,964.8 m | 6 |
+| [`jalalabad-af-line3.aln.toml`](jalalabad-af-line3.aln.toml) | `line-3` | 14,179.1 m | 5 |
 
 ## Status
 

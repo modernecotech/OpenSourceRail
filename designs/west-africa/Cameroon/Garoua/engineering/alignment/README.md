@@ -4,9 +4,9 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`garoua-line1.aln.toml`](garoua-line1.aln.toml) | `line-1` | 14,236.8 m | 10 |
-| [`garoua-line2.aln.toml`](garoua-line2.aln.toml) | `line-2` | 10,934.8 m | 7 |
-| [`garoua-line3.aln.toml`](garoua-line3.aln.toml) | `line-3` | 7,805.5 m | 5 |
+| [`garoua-line1.aln.toml`](garoua-line1.aln.toml) | `line-1` | 14,236.8 m | 6 |
+| [`garoua-line2.aln.toml`](garoua-line2.aln.toml) | `line-2` | 10,934.8 m | 4 |
+| [`garoua-line3.aln.toml`](garoua-line3.aln.toml) | `line-3` | 7,805.5 m | 4 |
 
 ## Status
 

@@ -461,7 +461,7 @@ fn main() -> Result<()> {
     // Assign groups once before consolidation so forced transfer platforms
     // outrank nearby ordinary stops; the final merge below renumbers the
     // retained complexes after gap repair.
-    osr_routing::merge_interchanges(&mut all_stations, 600.0);
+    osr_routing::merge_interchanges(&mut all_stations, 700.0);
     osr_routing::consolidate_inline_station_clusters(&mut all_stations, &lines, 1200.0);
 
     let filled_station_gaps = osr_routing::fill_large_station_gaps(
@@ -493,7 +493,7 @@ fn main() -> Result<()> {
         &bundle.anchors,
         30,
     );
-    osr_routing::merge_interchanges(&mut all_stations, 600.0);
+    osr_routing::merge_interchanges(&mut all_stations, 700.0);
     osr_routing::consolidate_inline_station_clusters(&mut all_stations, &lines, 1200.0);
     let terminal_repair_gaps = osr_routing::fill_large_station_gaps(
         &mut all_stations,
@@ -510,7 +510,7 @@ fn main() -> Result<()> {
     // to a stable station set, including the ring's first/last interval.
     let mut final_stations_removed = 0;
     for _ in 0..4 {
-        osr_routing::merge_interchanges(&mut all_stations, 600.0);
+        osr_routing::merge_interchanges(&mut all_stations, 700.0);
         let before = all_stations.len();
         osr_routing::consolidate_inline_station_clusters(&mut all_stations, &lines, 1200.0);
         osr_routing::consolidate_ring_wrap_station_clusters(
@@ -546,11 +546,14 @@ fn main() -> Result<()> {
         30,
     );
 
-    // Collapse cross-line stops within 600 m into single interchange
-    // complexes. This must equal the ring-crossing threshold above: the old
-    // 200 m forcing / 500 m merging / 200 m archetype trio produced grouped
-    // transfers that were subsequently labelled as ordinary stations.
-    osr_routing::merge_interchanges(&mut all_stations, 600.0);
+    // Collapse forced cross-line stops into single interchange
+    // complexes. The grouping radius deliberately sits just above the
+    // ring-crossing threshold: the old 200 m forcing / 500 m merging / 200 m
+    // archetype trio produced grouped transfers that were subsequently
+    // labelled as ordinary stations.
+    // A 700 m grouping radius covers the small raster-to-geodesic mismatch at
+    // the edge of the 600 m grid transfer envelope without placing extra stops.
+    osr_routing::merge_interchanges(&mut all_stations, 700.0);
     let before_post_terminal_settling = all_stations.len();
     osr_routing::consolidate_inline_station_clusters(&mut all_stations, &lines, 1200.0);
     let post_terminal_inline_removed = before_post_terminal_settling - all_stations.len();
@@ -561,8 +564,46 @@ fn main() -> Result<()> {
         1200.0,
     );
     if post_terminal_inline_removed > 0 || post_terminal_wrap_removed > 0 {
-        osr_routing::merge_interchanges(&mut all_stations, 600.0);
+        osr_routing::merge_interchanges(&mut all_stations, 700.0);
     }
+    // The final settling pass can remove the only grouped platform for a
+    // mandatory ring/radial transfer in tight corridors. Reassert these pairs
+    // after settling, then validate the exact station set we will emit.
+    osr_routing::force_ring_radial_crossings(
+        &mut all_stations,
+        &lines,
+        &bundle.grid,
+        &bundle.anchors,
+        30,
+    );
+    osr_routing::force_ring_radial_terminal_interchanges(
+        &mut all_stations,
+        &lines,
+        &bundle.grid,
+        &bundle.anchors,
+        30,
+    );
+    osr_routing::merge_interchanges(&mut all_stations, 700.0);
+    osr_routing::force_ring_radial_group_ids(
+        &mut all_stations,
+        &lines,
+        bundle.grid.reference.cell_m,
+        600.0,
+    );
+    osr_routing::consolidate_inline_station_clusters(&mut all_stations, &lines, 1200.0);
+    osr_routing::consolidate_ring_wrap_station_clusters(
+        &mut all_stations,
+        &lines,
+        bundle.grid.reference.cell_m,
+        1200.0,
+    );
+    osr_routing::merge_interchanges(&mut all_stations, 700.0);
+    osr_routing::force_ring_radial_group_ids(
+        &mut all_stations,
+        &lines,
+        bundle.grid.reference.cell_m,
+        600.0,
+    );
     let merged_count = all_stations
         .iter()
         .filter_map(|s| s.junction_group)

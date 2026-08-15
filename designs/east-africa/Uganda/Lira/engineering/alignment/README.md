@@ -4,9 +4,9 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`lira-line1.aln.toml`](lira-line1.aln.toml) | `line-1` | 14,716.9 m | 8 |
-| [`lira-line2.aln.toml`](lira-line2.aln.toml) | `line-2` | 14,910.2 m | 9 |
-| [`lira-line3.aln.toml`](lira-line3.aln.toml) | `line-3` | 15,716.2 m | 9 |
+| [`lira-line1.aln.toml`](lira-line1.aln.toml) | `line-1` | 14,716.9 m | 6 |
+| [`lira-line2.aln.toml`](lira-line2.aln.toml) | `line-2` | 14,910.2 m | 5 |
+| [`lira-line3.aln.toml`](lira-line3.aln.toml) | `line-3` | 15,716.2 m | 5 |
 
 ## Status
 

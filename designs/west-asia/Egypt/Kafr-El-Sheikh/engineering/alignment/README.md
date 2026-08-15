@@ -4,9 +4,9 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`kafr-el-sheikh-line1.aln.toml`](kafr-el-sheikh-line1.aln.toml) | `line-1` | 15,743.5 m | 9 |
-| [`kafr-el-sheikh-line2.aln.toml`](kafr-el-sheikh-line2.aln.toml) | `line-2` | 9,573.2 m | 6 |
-| [`kafr-el-sheikh-line3.aln.toml`](kafr-el-sheikh-line3.aln.toml) | `line-3` | 6,312.1 m | 5 |
+| [`kafr-el-sheikh-line1.aln.toml`](kafr-el-sheikh-line1.aln.toml) | `line-1` | 15,743.5 m | 4 |
+| [`kafr-el-sheikh-line2.aln.toml`](kafr-el-sheikh-line2.aln.toml) | `line-2` | 9,573.2 m | 4 |
+| [`kafr-el-sheikh-line3.aln.toml`](kafr-el-sheikh-line3.aln.toml) | `line-3` | 6,312.1 m | 3 |
 
 ## Status
 

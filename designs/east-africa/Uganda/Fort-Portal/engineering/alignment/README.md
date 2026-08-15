@@ -4,9 +4,9 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`fort-portal-line1.aln.toml`](fort-portal-line1.aln.toml) | `line-1` | 12,218.3 m | 9 |
-| [`fort-portal-line2.aln.toml`](fort-portal-line2.aln.toml) | `line-2` | 9,152.0 m | 6 |
-| [`fort-portal-line3.aln.toml`](fort-portal-line3.aln.toml) | `line-3` | 14,918.3 m | 9 |
+| [`fort-portal-line1.aln.toml`](fort-portal-line1.aln.toml) | `line-1` | 12,218.3 m | 5 |
+| [`fort-portal-line2.aln.toml`](fort-portal-line2.aln.toml) | `line-2` | 9,152.0 m | 5 |
+| [`fort-portal-line3.aln.toml`](fort-portal-line3.aln.toml) | `line-3` | 14,918.3 m | 5 |
 
 ## Status
 

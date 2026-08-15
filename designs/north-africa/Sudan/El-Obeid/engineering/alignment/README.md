@@ -4,9 +4,9 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`el-obeid-line1.aln.toml`](el-obeid-line1.aln.toml) | `line-1` | 16,349.4 m | 10 |
-| [`el-obeid-line2.aln.toml`](el-obeid-line2.aln.toml) | `line-2` | 17,458.8 m | 10 |
-| [`el-obeid-line3.aln.toml`](el-obeid-line3.aln.toml) | `line-3` | 13,439.1 m | 8 |
+| [`el-obeid-line1.aln.toml`](el-obeid-line1.aln.toml) | `line-1` | 16,349.4 m | 7 |
+| [`el-obeid-line2.aln.toml`](el-obeid-line2.aln.toml) | `line-2` | 17,458.8 m | 7 |
+| [`el-obeid-line3.aln.toml`](el-obeid-line3.aln.toml) | `line-3` | 13,439.1 m | 5 |
 
 ## Status
 

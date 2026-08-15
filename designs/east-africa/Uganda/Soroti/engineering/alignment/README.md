@@ -4,8 +4,8 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`soroti-line1.aln.toml`](soroti-line1.aln.toml) | `line-1` | 5,757.9 m | 5 |
-| [`soroti-line2.aln.toml`](soroti-line2.aln.toml) | `line-2` | 2,141.9 m | 3 |
+| [`soroti-line1.aln.toml`](soroti-line1.aln.toml) | `line-1` | 5,757.9 m | 4 |
+| [`soroti-line2.aln.toml`](soroti-line2.aln.toml) | `line-2` | 2,141.9 m | 2 |
 
 ## Status
 

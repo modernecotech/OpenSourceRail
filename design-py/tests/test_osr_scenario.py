@@ -111,13 +111,18 @@ def test_generated_peak_windows_and_depot_service_policy() -> None:
 
 
 def test_archetype_defaults_applied() -> None:
-    """Every charging stop uses the shared 500 kW reference cabinet.
+    """Every charging stop uses the family charging-cabinet count.
 
     Longer inter-station distances are handled by dwell and onboard energy,
-    rather than creating a second 1 MW charger tier.
+    while high-throughput families repeat the standard 500 kW cabinet.
     """
     import tomllib
     design = tomllib.loads(SAMAWAH_DESIGN.read_text())
+    family = str(design.get("network", {}).get("rolling_stock", "light-metro-3car"))
+    expected_cabinets = {"light-metro-3car": 2, "metro-4car": 3, "metro-6car": 4}.get(
+        family, 1
+    )
+    expected_power_kw = expected_cabinets * 500
     design_by_id = {s["id"]: s for s in design["stations"]}
     scenario = _parse(generate_from_path(SAMAWAH_DESIGN))
     scen_by_id = {s["id"]: s for s in scenario["stations"]}
@@ -143,11 +148,11 @@ def test_archetype_defaults_applied() -> None:
     ]
     for ix in interchanges:
         scen = scen_by_id[ix["id"]]
-        assert scen.get("charging_power_kw") == 500
+        assert scen.get("charging_power_kw") == expected_power_kw
         assert scen["dwell_seconds"] >= radial_charging_dwell
 
-    # Terminals use the same 500 kW cabinet.  The three-minute turnback is the
-    # floor; the line energy calculation may lengthen it to restore the
+    # Terminals use the same family cabinet count. The three-minute turnback is
+    # the floor; the line energy calculation may lengthen it to restore the
     # planned energy margin.
     terminals = [
         s for s in design["stations"]
@@ -156,7 +161,7 @@ def test_archetype_defaults_applied() -> None:
     assert terminals, "design should have ≥1 terminal"
     for t in terminals:
         scen = scen_by_id[t["id"]]
-        assert scen.get("charging_power_kw") == 500
+        assert scen.get("charging_power_kw") == expected_power_kw
         if t.get("archetype") == "terminal":
             assert scen["dwell_seconds"] >= 180
         assert scen.get("is_terminal") is True

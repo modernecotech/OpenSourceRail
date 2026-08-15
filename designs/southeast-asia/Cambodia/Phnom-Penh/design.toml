@@ -50,7 +50,7 @@ length_m        = 30282.0
 rolling_stock   = "metro-4car"
 geometry        = "standard-metro"
 
-charging_dwell_seconds = 120
+charging_dwell_seconds = 150
 
 [[lines]]
 name            = "line-2"
@@ -68,7 +68,7 @@ length_m        = 41534.0
 rolling_stock   = "metro-4car"
 geometry        = "standard-metro"
 
-charging_dwell_seconds = 120
+charging_dwell_seconds = 150
 
 [[lines]]
 name            = "line-4"
@@ -92,11 +92,11 @@ charging_dwell_seconds = 120
 name            = "line-6"
 shape           = "ring"
 length_m        = 70775.8
-ring_wrap_length_m = 2579
+ring_wrap_length_m = 3087
 rolling_stock   = "metro-4car"
 geometry        = "standard-metro"
 
-charging_dwell_seconds = 120
+charging_dwell_seconds = 210
 
 [[civil_segments]]
 line            = "line-1"
@@ -167,6 +167,18 @@ class           = "elevated"
 [[civil_segments]]
 line            = "line-3"
 from_station_m  = 0.0
+to_station_m    = 18026.6
+class           = "at-grade"
+
+[[civil_segments]]
+line            = "line-3"
+from_station_m  = 18026.6
+to_station_m    = 19228.8
+class           = "elevated"
+
+[[civil_segments]]
+line            = "line-3"
+from_station_m  = 19228.8
 to_station_m    = 20534.5
 class           = "at-grade"
 
@@ -269,18 +281,18 @@ class           = "elevated"
 [[civil_segments]]
 line            = "line-5"
 from_station_m  = 4463.3
-to_station_m    = 24355.6
+to_station_m    = 22761.6
 class           = "at-grade"
 
 [[civil_segments]]
 line            = "line-5"
-from_station_m  = 24355.6
-to_station_m    = 25466.7
+from_station_m  = 22761.6
+to_station_m    = 23939.0
 class           = "elevated"
 
 [[civil_segments]]
 line            = "line-5"
-from_station_m  = 25466.7
+from_station_m  = 23939.0
 to_station_m    = 28066.9
 class           = "at-grade"
 
@@ -317,18 +329,18 @@ class           = "elevated"
 [[civil_segments]]
 line            = "line-6"
 from_station_m  = 1754.6
-to_station_m    = 6677.0
+to_station_m    = 6761.8
 class           = "at-grade"
 
 [[civil_segments]]
 line            = "line-6"
-from_station_m  = 6677.0
-to_station_m    = 8053.2
+from_station_m  = 6761.8
+to_station_m    = 8138.0
 class           = "elevated"
 
 [[civil_segments]]
 line            = "line-6"
-from_station_m  = 8053.2
+from_station_m  = 8138.0
 to_station_m    = 9908.0
 class           = "at-grade"
 
@@ -365,6 +377,18 @@ class           = "elevated"
 [[civil_segments]]
 line            = "line-6"
 from_station_m  = 18805.5
+to_station_m    = 19265.5
+class           = "at-grade"
+
+[[civil_segments]]
+line            = "line-6"
+from_station_m  = 19265.5
+to_station_m    = 20293.8
+class           = "elevated"
+
+[[civil_segments]]
+line            = "line-6"
+from_station_m  = 20293.8
 to_station_m    = 21656.7
 class           = "at-grade"
 
@@ -377,12 +401,12 @@ class           = "elevated"
 [[civil_segments]]
 line            = "line-6"
 from_station_m  = 22161.5
-to_station_m    = 24322.0
+to_station_m    = 24478.6
 class           = "at-grade"
 
 [[civil_segments]]
 line            = "line-6"
-from_station_m  = 24322.0
+from_station_m  = 24478.6
 to_station_m    = 34067.6
 class           = "elevated"
 
@@ -487,72 +511,42 @@ platform_length_m = 85.0
 junction_group  = 0
 
 [[stations]]
-id              = "line-1-1182-0907-s002017"
+id              = "line-1-1019-0846-s005782"
 line            = "line-1"
-lat             = 11.487190008278443
-lon             = 104.94641922742862
-s_m             = 2016.8
-anchor_kind     = "amenity:marketplace"
-anchor_name     = "ផ្សារថ្មី​តាខ្មៅ"
+lat             = 11.516524493395242
+lon             = 104.93523292123231
+s_m             = 5782.2
 archetype       = "standard"
 platform_length_m = 85.0
 
 [[stations]]
-id              = "line-1-1096-0872-s004027"
+id              = "line-1-0892-0807-s008798"
 line            = "line-1"
-lat             = 11.502667098585466
-lon             = 104.9400008550209
-s_m             = 4026.8
+lat             = 11.539380196523053
+lon             = 104.92808102054943
+s_m             = 8798.4
+anchor_kind     = "amenity:university"
+anchor_name     = "សាលាភូមិន្ទ​រដ្ឋបាល"
 archetype       = "standard"
 platform_length_m = 85.0
 
 [[stations]]
-id              = "line-1-1008-0842-s006035"
+id              = "line-1-0811-0768-s011110"
 line            = "line-1"
-lat             = 11.51850412122521
-lon             = 104.93449939295715
-s_m             = 6035.3
-archetype       = "standard"
+lat             = 11.553957455998273
+lon             = 104.92092911986654
+s_m             = 11109.5
+anchor_kind     = "amenity:hospital"
+anchor_name     = "មជ្ឈមណ្ឌលជាតិ​កំចាត់រោគ របេង និង ហង់សិន (CENAT)"
+archetype       = "major"
 platform_length_m = 85.0
 
 [[stations]]
-id              = "line-1-0920-0819-s008047"
+id              = "line-1-0744-0757-s013419"
 line            = "line-1"
-lat             = 11.534341143864953
-lon             = 104.93028160537493
-s_m             = 8047.2
-anchor_kind     = "shop:mall"
-anchor_name     = "Prince Zentral Plaza"
-archetype       = "standard"
-platform_length_m = 85.0
-
-[[stations]]
-id              = "line-1-0861-0775-s010052"
-line            = "line-1"
-lat             = 11.544959147680235
-lon             = 104.92221279434808
-s_m             = 10051.5
-anchor_kind     = "tourism:attraction"
-anchor_name     = "អតីតរោងភាពយន្ត បូក គោ"
-archetype       = "standard"
-platform_length_m = 85.0
-
-[[stations]]
-id              = "line-1-0776-0775-s012352"
-line            = "line-1"
-lat             = 11.560256271820897
-lon             = 104.92221279434808
-s_m             = 12352.3
-archetype       = "interchange-elevated"
-platform_length_m = 85.0
-junction_group  = 1
-
-[[stations]]
-id              = "line-1-0731-0756-s013687"
-line            = "line-1"
-lat             = 11.56835474930713
-lon             = 104.91872853504104
-s_m             = 13686.9
+lat             = 11.56601518914444
+lon             = 104.91891191710984
+s_m             = 13418.6
 anchor_kind     = "amenity:bus_station"
 anchor_name     = "G.S.T. Express"
 archetype       = "interchange-elevated"
@@ -560,61 +554,26 @@ platform_length_m = 85.0
 junction_group  = 1
 
 [[stations]]
-id              = "line-1-0711-0720-s014906"
+id              = "line-1-0648-0707-s016424"
 line            = "line-1"
-lat             = 11.571954072634345
-lon             = 104.91212678056453
-s_m             = 14906.3
-anchor_kind     = "amenity:hospital"
-anchor_name     = "មណ្ឌលវេជ្ជសាស្ត្រសហគមន៍​ ហូប​ វេីលដ៍វ៉ាយដ៍"
-archetype       = "interchange-elevated"
-platform_length_m = 85.0
-junction_group  = 1
-
-[[stations]]
-id              = "line-1-0663-0708-s016116"
-line            = "line-1"
-lat             = 11.580592448619658
-lon             = 104.90992619573903
-s_m             = 16116.0
-anchor_kind     = "shop:mall"
-anchor_name     = "View Park Mall"
-archetype       = "major"
-platform_length_m = 85.0
-
-[[stations]]
-id              = "line-1-0581-0733-s018124"
-line            = "line-1"
-lat             = 11.595349674261238
-lon             = 104.91451074745883
-s_m             = 18124.0
-anchor_kind     = "amenity:hospital"
-anchor_name     = "Leng Chhay Clinic"
+lat             = 11.58329194111507
+lon             = 104.90974281367025
+s_m             = 16424.3
+anchor_kind     = "place:neighbourhood"
+anchor_name     = "Toul Sangke B Community"
 archetype       = "standard"
 platform_length_m = 85.0
 
 [[stations]]
-id              = "line-1-0486-0719-s020140"
+id              = "line-1-0519-0724-s019439"
 line            = "line-1"
-lat             = 11.612446460065508
-lon             = 104.91194339849575
-s_m             = 20139.9
+lat             = 11.606507576575604
+lon             = 104.91286030883971
+s_m             = 19438.5
 anchor_kind     = "shop:mall"
 anchor_name     = "មជ្ឈមណ្ឌលពាណិជ្ជកម្មជ័យជំនះ"
 archetype       = "standard"
 platform_length_m = 85.0
-
-[[stations]]
-id              = "line-1-0400-0682-s022166"
-line            = "line-1"
-lat             = 11.627923550372529
-lon             = 104.90515826195045
-s_m             = 22166.5
-anchor_kind     = "place:town"
-anchor_name     = "ខណ្ឌឫស្សីកែវ"
-archetype       = "interchange-elevated"
-platform_length_m = 85.0
-junction_group  = 2
 
 [[stations]]
 id              = "line-1-0388-0677-s022448"
@@ -629,21 +588,11 @@ platform_length_m = 85.0
 junction_group  = 2
 
 [[stations]]
-id              = "line-1-0328-0639-s024178"
+id              = "line-1-0223-0636-s026365"
 line            = "line-1"
-lat             = 11.6408811143505
-lon             = 104.8972728329924
-s_m             = 24178.4
-anchor_kind     = "amenity:marketplace"
-archetype       = "standard"
-platform_length_m = 85.0
-
-[[stations]]
-id              = "line-1-0193-0608-s027197"
-line            = "line-1"
-lat             = 11.6651765468092
-lon             = 104.89158798885985
-s_m             = 27196.7
+lat             = 11.659777561818377
+lon             = 104.89672268678602
+s_m             = 26364.7
 archetype       = "halt"
 platform_length_m = 81.0
 
@@ -664,29 +613,18 @@ line            = "line-2"
 lat             = 11.581312313285101
 lon             = 104.85326113648235
 s_m             = 0.0
-anchor_kind     = "place:neighbourhood"
-anchor_name     = "SS21"
 archetype       = "terminal"
 platform_length_m = 85.0
 junction_group  = 3
 
 [[stations]]
-id              = "line-2-0733-0401-s002022"
+id              = "line-2-0740-0434-s003013"
 line            = "line-2"
-lat             = 11.567994816974409
-lon             = 104.85362790061994
-s_m             = 2022.3
-anchor_kind     = "place:neighbourhood"
-anchor_name     = "Kok Kleang 1 Community"
-archetype       = "standard"
-platform_length_m = 85.0
-
-[[stations]]
-id              = "line-2-0734-0482-s004023"
-line            = "line-2"
-lat             = 11.567814850808048
-lon             = 104.86848184819208
-s_m             = 4023.1
+lat             = 11.566735053809882
+lon             = 104.85967950889007
+s_m             = 3013.4
+anchor_kind     = "amenity:marketplace"
+anchor_name     = "ផ្សារដីហុយ"
 archetype       = "standard"
 platform_length_m = 85.0
 
@@ -702,38 +640,16 @@ archetype       = "standard"
 platform_length_m = 85.0
 
 [[stations]]
-id              = "line-2-0741-0627-s007450"
+id              = "line-2-0748-0692-s009041"
 line            = "line-2"
-lat             = 11.566555087643522
-lon             = 104.8950722481669
-s_m             = 7450.2
-anchor_kind     = "amenity:hospital"
-anchor_name     = "មន្ទីរពេទ្យ​កុមារ​ជាតិ"
-archetype       = "major"
-platform_length_m = 85.0
-
-[[stations]]
-id              = "line-2-0736-0685-s008652"
-line            = "line-2"
-lat             = 11.567454918475326
-lon             = 104.90570840815683
-s_m             = 8651.6
-anchor_kind     = "amenity:university"
-anchor_name     = "វិទ្យាស្ថានសេដ្ឋកិច្ច និងហិរញ្ញវត្ថុ"
-archetype       = "major"
-platform_length_m = 85.0
-
-[[stations]]
-id              = "line-2-0787-0698-s009871"
-line            = "line-2"
-lat             = 11.55827664399093
-lon             = 104.90809237505111
-s_m             = 9871.0
-anchor_kind     = "amenity:bus_station"
-anchor_name     = "Kampot Express Limousine"
+lat             = 11.565295324478997
+lon             = 104.90699208263837
+s_m             = 9041.3
+anchor_kind     = "amenity:marketplace"
+anchor_name     = "ផ្សារដេប៉ូ"
 archetype       = "interchange-elevated"
 platform_length_m = 85.0
-junction_group  = 1
+junction_group  = 4
 
 [[stations]]
 id              = "line-2-0782-0737-s011088"
@@ -745,27 +661,17 @@ anchor_kind     = "amenity:hospital"
 anchor_name     = "Sophear Maternity"
 archetype       = "interchange-elevated"
 platform_length_m = 85.0
-junction_group  = 1
+junction_group  = 4
 
 [[stations]]
-id              = "line-2-0776-0775-s011910"
-line            = "line-2"
-lat             = 11.560256271820897
-lon             = 104.92221279434808
-s_m             = 11909.8
-archetype       = "interchange-elevated"
-platform_length_m = 85.0
-junction_group  = 1
-
-[[stations]]
-id              = "line-2-0794-0831-s013511"
+id              = "line-2-0794-0858-s014100"
 line            = "line-2"
 lat             = 11.557016880826405
-lon             = 104.93248219020043
-s_m             = 13510.7
-anchor_kind     = "amenity:marketplace"
-anchor_name     = "ផ្សារកាប់គោ"
-archetype       = "major"
+lon             = 104.93743350605781
+s_m             = 14100.4
+anchor_kind     = "public_transport:station"
+anchor_name     = "Koh Pich - Arey Ksat Ferry"
+archetype       = "standard"
 platform_length_m = 85.0
 
 [[stations]]
@@ -775,16 +681,6 @@ lat             = 11.559716373321814
 lon             = 104.94751951984136
 s_m             = 15406.7
 archetype       = "interchange"
-platform_length_m = 85.0
-junction_group  = 4
-
-[[stations]]
-id              = "line-2-0836-0996-s017539"
-line            = "line-2"
-lat             = 11.549458301839254
-lon             = 104.9627402315511
-s_m             = 17538.9
-archetype       = "interchange-elevated"
 platform_length_m = 85.0
 junction_group  = 5
 
@@ -796,41 +692,24 @@ lon             = 104.96677463706452
 s_m             = 18036.9
 archetype       = "interchange-elevated"
 platform_length_m = 85.0
-junction_group  = 5
+junction_group  = 6
 
 [[stations]]
-id              = "line-2-0858-1087-s019541"
+id              = "line-2-0861-1164-s021106"
 line            = "line-2"
-lat             = 11.545499046179318
-lon             = 104.97942799981115
-s_m             = 19541.1
+lat             = 11.544959147680235
+lon             = 104.99354841910812
+s_m             = 21106.0
 archetype       = "standard"
 platform_length_m = 85.0
 
 [[stations]]
-id              = "line-2-0860-1161-s021038"
+id              = "line-2-0982-1313-s025088"
 line            = "line-2"
-lat             = 11.545139113846597
-lon             = 104.99299827290174
-s_m             = 21037.7
-archetype       = "standard"
-platform_length_m = 85.0
-
-[[stations]]
-id              = "line-2-0910-1216-s022552"
-line            = "line-2"
-lat             = 11.53614080552856
-lon             = 105.00308428668531
-s_m             = 22551.9
-archetype       = "halt"
-platform_length_m = 81.0
-
-[[stations]]
-id              = "line-2-0987-1335-s025570"
-line            = "line-2"
-lat             = 11.522283410718785
-lon             = 105.02490675287153
-s_m             = 25569.8
+lat             = 11.523183241550587
+lon             = 105.02087234735811
+s_m             = 25088.4
+anchor_kind     = "tourism:attraction"
 archetype       = "halt"
 platform_length_m = 81.0
 
@@ -857,15 +736,6 @@ archetype       = "terminal"
 platform_length_m = 85.0
 
 [[stations]]
-id              = "line-3-1021-0222-s002009"
-line            = "line-3"
-lat             = 11.516164561062519
-lon             = 104.8208025103062
-s_m             = 2009.1
-archetype       = "halt"
-platform_length_m = 81.0
-
-[[stations]]
 id              = "line-3-1010-0308-s004018"
 line            = "line-3"
 lat             = 11.518144188892487
@@ -873,124 +743,84 @@ lon             = 104.83657336822229
 s_m             = 4018.2
 archetype       = "interchange-elevated"
 platform_length_m = 85.0
-junction_group  = 6
+junction_group  = 7
 
 [[stations]]
-id              = "line-3-0963-0357-s006026"
+id              = "line-3-0944-0387-s007004"
 line            = "line-3"
-lat             = 11.526602598711442
-lon             = 104.8455590895931
-s_m             = 6025.9
-archetype       = "halt"
-platform_length_m = 81.0
-
-[[stations]]
-id              = "line-3-0937-0436-s008042"
-line            = "line-3"
-lat             = 11.531281719036821
-lon             = 104.86004627302765
-s_m             = 8041.9
+lat             = 11.530021955872295
+lon             = 104.85106055165684
+s_m             = 7003.9
 anchor_kind     = "amenity:marketplace"
-anchor_name     = "ផ្សារឯករាជ្យ ១"
+anchor_name     = "ផ្សារត្រពាំងថ្លឹង"
 archetype       = "standard"
 platform_length_m = 85.0
 
 [[stations]]
-id              = "line-3-0903-0504-s010054"
+id              = "line-3-0921-0506-s009678"
 line            = "line-3"
-lat             = 11.537400568693085
-lon             = 104.8725162537055
-s_m             = 10054.5
-archetype       = "standard"
-platform_length_m = 85.0
-
-[[stations]]
-id              = "line-3-0822-0515-s012074"
-line            = "line-3"
-lat             = 11.551977828168305
-lon             = 104.8745334564622
-s_m             = 12073.9
-archetype       = "standard"
-platform_length_m = 85.0
-
-[[stations]]
-id              = "line-3-0832-0599-s014096"
-line            = "line-3"
-lat             = 11.550178166504697
-lon             = 104.88993755024072
-s_m             = 14096.1
+lat             = 11.534161177698593
+lon             = 104.87288301784308
+s_m             = 9677.9
 anchor_kind     = "amenity:marketplace"
-anchor_name     = "ផ្សារ​​អូរបែកក្អម"
+anchor_name     = "ផ្សារឯករាជ្យ ៣"
 archetype       = "standard"
 platform_length_m = 85.0
 
 [[stations]]
-id              = "line-3-0832-0657-s015488"
+id              = "line-3-0820-0529-s012370"
 line            = "line-3"
-lat             = 11.550178166504697
-lon             = 104.90057371023065
-s_m             = 15488.1
+lat             = 11.552337760501025
+lon             = 104.87710080542529
+s_m             = 12370.4
+anchor_kind     = "shop:mall"
+anchor_name     = "Midtown Mall"
+archetype       = "standard"
+platform_length_m = 85.0
+
+[[stations]]
+id              = "line-3-0835-0653-s015383"
+line            = "line-3"
+lat             = 11.549638268005614
+lon             = 104.89984018195548
+s_m             = 15383.2
 anchor_kind     = "amenity:bus_station"
 anchor_name     = "PS Transport Co. Ltd"
-archetype       = "major"
-platform_length_m = 85.0
-
-[[stations]]
-id              = "line-3-0790-0700-s016708"
-line            = "line-3"
-lat             = 11.557736745491846
-lon             = 104.90845913918871
-s_m             = 16707.7
-anchor_kind     = "amenity:bus_station"
-anchor_name     = "Kampot Express Limousine"
-archetype       = "interchange-elevated"
-platform_length_m = 85.0
-junction_group  = 1
-
-[[stations]]
-id              = "line-3-0740-0717-s017927"
-line            = "line-3"
-lat             = 11.566735053809882
-lon             = 104.91157663435817
-s_m             = 17926.6
-anchor_kind     = "amenity:hospital"
-anchor_name     = "មន្ទីរពេទ្យ​រាជធានីភ្នំពេញ"
-archetype       = "interchange-elevated"
-platform_length_m = 85.0
-junction_group  = 1
-
-[[stations]]
-id              = "line-3-0711-0761-s019141"
-line            = "line-3"
-lat             = 11.571954072634345
-lon             = 104.919645445385
-s_m             = 19140.5
-anchor_kind     = "amenity:university"
-anchor_name     = "សាកលវិទ្យាល័យជាតិ​គ្រប់គ្រង"
-archetype       = "interchange-elevated"
-platform_length_m = 85.0
-junction_group  = 1
-
-[[stations]]
-id              = "line-3-0703-0810-s020361"
-line            = "line-3"
-lat             = 11.57339380196523
-lon             = 104.9286311667558
-s_m             = 20361.4
-anchor_kind     = "amenity:marketplace"
-anchor_name     = "ផ្សារ​រាត្រី"
-archetype       = "interchange-elevated"
-platform_length_m = 85.0
-junction_group  = 1
-
-[[stations]]
-id              = "line-3-0661-0865-s021958"
-line            = "line-3"
-lat             = 11.58095238095238
-lon             = 104.93871718053936
-s_m             = 21957.6
 archetype       = "standard"
 platform_length_m = 85.0
+
+[[stations]]
+id              = "line-3-0770-0717-s017260"
+line            = "line-3"
+lat             = 11.561336068819061
+lon             = 104.91157663435817
+s_m             = 17260.3
+anchor_kind     = "amenity:hospital"
+archetype       = "interchange-elevated"
+platform_length_m = 85.0
+junction_group  = 4
+
+[[stations]]
+id              = "line-3-0716-0750-s018879"
+line            = "line-3"
+lat             = 11.57105424180254
+lon             = 104.9176282426283
+s_m             = 18879.1
+anchor_kind     = "public_transport:station"
+anchor_name     = "ស្ថានីយ៍ភ្នំពេញ"
+archetype       = "interchange-elevated"
+platform_length_m = 85.0
+junction_group  = 1
+
+[[stations]]
+id              = "line-3-0664-0865-s021898"
+line            = "line-3"
+lat             = 11.580412482453298
+lon             = 104.93871718053936
+s_m             = 21897.6
+archetype       = "interchange-elevated"
+platform_length_m = 85.0
+junction_group  = 8
 
 [[stations]]
 id              = "line-3-0590-0872-s023552"
@@ -1000,59 +830,32 @@ lon             = 104.9400008550209
 s_m             = 23551.6
 archetype       = "interchange-elevated"
 platform_length_m = 85.0
-junction_group  = 7
+junction_group  = 9
 
 [[stations]]
-id              = "line-3-0579-0938-s024963"
+id              = "line-3-0509-1104-s028909"
 line            = "line-3"
-lat             = 11.59570960659396
-lon             = 104.95210407156117
-s_m             = 24962.7
-archetype       = "standard"
-platform_length_m = 85.0
-
-[[stations]]
-id              = "line-3-0579-1009-s026383"
-line            = "line-3"
-lat             = 11.59570960659396
-lon             = 104.96512419844538
-s_m             = 26382.7
-archetype       = "standard"
-platform_length_m = 85.0
-
-[[stations]]
-id              = "line-3-0527-1086-s028400"
-line            = "line-3"
-lat             = 11.605067847244717
-lon             = 104.97924461774237
-s_m             = 28400.3
-archetype       = "standard"
-platform_length_m = 85.0
-
-[[stations]]
-id              = "line-3-0399-1141-s031416"
-line            = "line-3"
-lat             = 11.62810351653889
-lon             = 104.98933063152592
-s_m             = 31416.0
+lat             = 11.60830723823921
+lon             = 104.98254549498061
+s_m             = 28909.4
 archetype       = "halt"
 platform_length_m = 81.0
 
 [[stations]]
-id              = "line-3-0330-1256-s034416"
+id              = "line-3-0374-1174-s032412"
 line            = "line-3"
-lat             = 11.64052118201778
-lon             = 105.01041956943698
-s_m             = 34416.5
+lat             = 11.632602670697908
+lon             = 104.99538223979604
+s_m             = 32411.9
 archetype       = "halt"
 platform_length_m = 81.0
 
 [[stations]]
-id              = "line-3-0221-1364-s037983"
+id              = "line-3-0285-1310-s035916"
 line            = "line-3"
-lat             = 11.6601374941511
-lon             = 105.0302248328665
-s_m             = 37983.2
+lat             = 11.648619659504012
+lon             = 105.02032220115174
+s_m             = 35916.1
 archetype       = "halt"
 platform_length_m = 81.0
 
@@ -1078,20 +881,11 @@ archetype       = "terminal"
 platform_length_m = 85.0
 
 [[stations]]
-id              = "line-4-0224-0956-s003000"
+id              = "line-4-0248-0953-s003505"
 line            = "line-4"
-lat             = 11.659597595652016
-lon             = 104.95540494879941
-s_m             = 3000.0
-archetype       = "halt"
-platform_length_m = 81.0
-
-[[stations]]
-id              = "line-4-0301-0900-s005004"
-line            = "line-4"
-lat             = 11.64574020084224
-lon             = 104.94513555294708
-s_m             = 5003.9
+lat             = 11.65527840765936
+lon             = 104.95485480259305
+s_m             = 3504.9
 archetype       = "halt"
 platform_length_m = 81.0
 
@@ -1103,81 +897,34 @@ lon             = 104.93248219020043
 s_m             = 7015.5
 archetype       = "interchange"
 platform_length_m = 85.0
-junction_group  = 8
+junction_group  = 10
 
 [[stations]]
-id              = "line-4-0432-0802-s008452"
+id              = "line-4-0531-0799-s010799"
 line            = "line-4"
-lat             = 11.622164633048985
-lon             = 104.92716411020547
-s_m             = 8452.3
-anchor_kind     = "shop:mall"
-anchor_name     = "ផ្សារបុរីរុងរឿង"
+lat             = 11.604347982579274
+lon             = 104.9266139639991
+s_m             = 10799.5
 archetype       = "standard"
 platform_length_m = 85.0
 
 [[stations]]
-id              = "line-4-0495-0808-s009873"
+id              = "line-4-0650-0770-s013823"
 line            = "line-4"
-lat             = 11.61082676456826
-lon             = 104.92826440261823
-s_m             = 9873.2
-anchor_kind     = "place:suburb"
-anchor_name     = "ទីក្រុងរណបជ្រោយចង្វារ"
-archetype       = "standard"
-platform_length_m = 85.0
-
-[[stations]]
-id              = "line-4-0577-0780-s011900"
-line            = "line-4"
-lat             = 11.596069538926681
-lon             = 104.92312970469204
-s_m             = 11900.3
-anchor_kind     = "shop:mall"
-anchor_name     = "Sakura Avenue"
-archetype       = "standard"
-platform_length_m = 85.0
-
-[[stations]]
-id              = "line-4-0624-0764-s013119"
-line            = "line-4"
-lat             = 11.587611129107726
-lon             = 104.92019559159138
-s_m             = 13119.1
-anchor_kind     = "place:neighbourhood"
-anchor_name     = "Tobee community"
-archetype       = "major"
-platform_length_m = 85.0
-
-[[stations]]
-id              = "line-4-0667-0766-s014331"
-line            = "line-4"
-lat             = 11.579872583954216
-lon             = 104.92056235572896
-s_m             = 14331.1
+lat             = 11.582932008782349
+lon             = 104.92129588400414
+s_m             = 13823.4
 anchor_kind     = "amenity:hospital"
-anchor_name     = "មជ្ឈមណ្ឌលជាតិ​គាំពារមាតា និង ទារក"
+anchor_name     = "មន្ទីរពេទ្យ​ព្រះកេតុ​មាលា:"
 archetype       = "major"
 platform_length_m = 85.0
 
 [[stations]]
-id              = "line-4-0697-0802-s015553"
+id              = "line-4-0742-0814-s016840"
 line            = "line-4"
-lat             = 11.574473598963394
-lon             = 104.92716411020547
-s_m             = 15553.3
-anchor_kind     = "public_transport:station"
-anchor_name     = "Marina Port of Phnom Penh"
-archetype       = "interchange-elevated"
-platform_length_m = 85.0
-junction_group  = 1
-
-[[stations]]
-id              = "line-4-0741-0817-s016772"
-line            = "line-4"
-lat             = 11.566555087643522
-lon             = 104.92991484123735
-s_m             = 16772.1
+lat             = 11.566375121477162
+lon             = 104.92936469503097
+s_m             = 16840.4
 anchor_kind     = "amenity:university"
 anchor_name     = "សាកលវិទ្យាល័យ​ភូមិន្ទវិចិត្រសិល្បៈ"
 archetype       = "major"
@@ -1191,70 +938,48 @@ lon             = 104.92221279434808
 s_m             = 18294.4
 archetype       = "interchange-elevated"
 platform_length_m = 85.0
-junction_group  = 1
+junction_group  = 4
 
 [[stations]]
-id              = "line-4-0801-0746-s019199"
+id              = "line-4-0829-0737-s019845"
 line            = "line-4"
-lat             = 11.555757117661878
-lon             = 104.91689471435312
-s_m             = 19198.7
+lat             = 11.550718065003778
+lon             = 104.915244275734
+s_m             = 19844.9
 anchor_kind     = "amenity:hospital"
-anchor_name     = "Sophear Maternity"
-archetype       = "interchange-elevated"
-platform_length_m = 85.0
-junction_group  = 1
-
-[[stations]]
-id              = "line-4-0837-0717-s020424"
-line            = "line-4"
-lat             = 11.549278335672893
-lon             = 104.91157663435817
-s_m             = 20424.3
-anchor_kind     = "place:town"
-anchor_name     = "ខណ្ឌបឹងកេងកង"
+anchor_name     = "Sampeo Meas Clinic"
 archetype       = "major"
 platform_length_m = 85.0
 
 [[stations]]
-id              = "line-4-0914-0706-s022443"
+id              = "line-4-0932-0708-s022852"
 line            = "line-4"
-lat             = 11.535420940863117
-lon             = 104.90955943160145
-s_m             = 22442.6
+lat             = 11.532181549868625
+lon             = 104.90992619573903
+s_m             = 22852.3
+anchor_kind     = "amenity:marketplace"
 archetype       = "standard"
 platform_length_m = 85.0
 
 [[stations]]
-id              = "line-4-0988-0686-s024451"
+id              = "line-4-0991-0673-s024781"
 line            = "line-4"
-lat             = 11.522103444552423
-lon             = 104.90589179022561
-s_m             = 24451.1
+lat             = 11.521563546053342
+lon             = 104.90350782333132
+s_m             = 24780.8
 anchor_kind     = "place:neighbourhood"
 anchor_name     = "ត្នោតជ្រុំទី៣"
 archetype       = "standard"
 platform_length_m = 85.0
 
 [[stations]]
-id              = "line-4-1031-0657-s026458"
+id              = "line-4-1041-0651-s026707"
 line            = "line-4"
-lat             = 11.514364899398913
-lon             = 104.90057371023065
-s_m             = 26457.6
+lat             = 11.512565237735306
+lon             = 104.8994734178179
+s_m             = 26707.3
 anchor_kind     = "amenity:university"
 anchor_name     = "មហាវិទ្យាល័យ​វិទ្យាសាស្ត្រកសិកម្ម (RUA)"
-archetype       = "standard"
-platform_length_m = 85.0
-
-[[stations]]
-id              = "line-4-1093-0612-s028474"
-line            = "line-4"
-lat             = 11.503206997084547
-lon             = 104.89232151713502
-s_m             = 28474.4
-anchor_kind     = "amenity:hospital"
-anchor_name     = "Chamkar Doung Health Center"
 archetype       = "standard"
 platform_length_m = 85.0
 
@@ -1266,7 +991,7 @@ lon             = 104.89525563023568
 s_m             = 30567.0
 archetype       = "interchange-elevated"
 platform_length_m = 85.0
-junction_group  = 9
+junction_group  = 11
 
 [[stations]]
 id              = "line-4-1302-0599-s033216"
@@ -1291,51 +1016,33 @@ archetype       = "terminal"
 platform_length_m = 85.0
 
 [[stations]]
-id              = "line-5-0291-0065-s002509"
+id              = "line-5-0293-0112-s003499"
 line            = "line-5"
-lat             = 11.647539862505848
-lon             = 104.79201152550587
-s_m             = 2509.4
+lat             = 11.647179930173127
+lon             = 104.80063048273908
+s_m             = 3499.1
 archetype       = "halt"
 platform_length_m = 81.0
 
 [[stations]]
-id              = "line-5-0327-0173-s005001"
+id              = "line-5-0407-0223-s007015"
 line            = "line-5"
-lat             = 11.641061080516861
-lon             = 104.81181678893539
-s_m             = 5000.7
+lat             = 11.626663787208004
+lon             = 104.82098589237498
+s_m             = 7014.9
 archetype       = "halt"
 platform_length_m = 81.0
 
 [[stations]]
-id              = "line-5-0449-0235-s008004"
+id              = "line-5-0468-0373-s011006"
 line            = "line-5"
-lat             = 11.619105208220853
-lon             = 104.82318647720048
-s_m             = 8004.1
+lat             = 11.61568585106
+lon             = 104.84849320269376
+s_m             = 11006.3
 anchor_kind     = "place:neighbourhood"
-anchor_name     = "DK 50 Community"
-archetype       = "halt"
-platform_length_m = 81.0
-
-[[stations]]
-id              = "line-5-0469-0334-s010218"
-line            = "line-5"
-lat             = 11.61550588489364
-lon             = 104.84134130201087
-s_m             = 10218.0
+anchor_name     = "Samrong Meanchey"
 archetype       = "standard"
 platform_length_m = 85.0
-
-[[stations]]
-id              = "line-5-0494-0472-s013218"
-line            = "line-5"
-lat             = 11.611006730734621
-lon             = 104.86664802750416
-s_m             = 13218.3
-archetype       = "halt"
-platform_length_m = 81.0
 
 [[stations]]
 id              = "line-5-0568-0486-s015014"
@@ -1345,85 +1052,39 @@ lon             = 104.86921537646724
 s_m             = 15014.3
 archetype       = "interchange-elevated"
 platform_length_m = 85.0
-junction_group  = 10
+junction_group  = 12
 
 [[stations]]
-id              = "line-5-0579-0487-s015243"
+id              = "line-5-0608-0592-s018001"
 line            = "line-5"
-lat             = 11.59570960659396
-lon             = 104.86939875853604
-s_m             = 15242.5
-archetype       = "interchange-elevated"
-platform_length_m = 85.0
-junction_group  = 10
-
-[[stations]]
-id              = "line-5-0610-0555-s017244"
-line            = "line-5"
-lat             = 11.590130655436777
-lon             = 104.88186873921389
-s_m             = 17244.0
-anchor_kind     = "place:neighbourhood"
-anchor_name     = "Phum Bayab"
+lat             = 11.590490587769498
+lon             = 104.88865387575918
+s_m             = 18000.5
 archetype       = "standard"
 platform_length_m = 85.0
 
 [[stations]]
-id              = "line-5-0619-0647-s019272"
+id              = "line-5-0695-0650-s021017"
 line            = "line-5"
-lat             = 11.58851095993953
-lon             = 104.89873988954274
-s_m             = 19271.7
-anchor_kind     = "amenity:marketplace"
-anchor_name     = "ផ្សារ​ទំនប់"
-archetype       = "standard"
-platform_length_m = 85.0
-
-[[stations]]
-id              = "line-5-0669-0653-s020472"
-line            = "line-5"
-lat             = 11.579512651621494
-lon             = 104.89984018195548
-s_m             = 20472.5
+lat             = 11.574833531296116
+lon             = 104.8992900357491
+s_m             = 21017.3
 anchor_kind     = "amenity:hospital"
-anchor_name     = "Khema Clinic & Maternity"
+anchor_name     = "វិទ្យាស្ថានជាតិ​សុខភាព​សាធារណៈ"
 archetype       = "major"
 platform_length_m = 85.0
 
 [[stations]]
-id              = "line-5-0710-0666-s021699"
+id              = "line-5-0752-0720-s023460"
 line            = "line-5"
-lat             = 11.572134038800705
-lon             = 104.90222414884978
-s_m             = 21698.8
+lat             = 11.564575459813554
+lon             = 104.91212678056453
+s_m             = 23459.6
 anchor_kind     = "amenity:university"
-anchor_name     = "National Tax School"
-archetype       = "major"
-platform_length_m = 85.0
-
-[[stations]]
-id              = "line-5-0727-0714-s022910"
-line            = "line-5"
-lat             = 11.569074613972573
-lon             = 104.91102648815179
-s_m             = 22909.9
-anchor_kind     = "amenity:hospital"
-anchor_name     = "មណ្ឌលវេជ្ជសាស្ត្រសហគមន៍​ ហូប​ វេីលដ៍វ៉ាយដ៍"
+anchor_name     = "សាកលវិទ្យាល័យ​ភ្នំពេញ​អន្តរជាតិ (PPIU)"
 archetype       = "interchange-elevated"
 platform_length_m = 85.0
-junction_group  = 1
-
-[[stations]]
-id              = "line-5-0765-0747-s024119"
-line            = "line-5"
-lat             = 11.562235899650865
-lon             = 104.91707809642192
-s_m             = 24119.0
-anchor_kind     = "amenity:marketplace"
-anchor_name     = "ផ្សារ​អូរឫស្សី"
-archetype       = "interchange-elevated"
-platform_length_m = 85.0
-junction_group  = 1
+junction_group  = 4
 
 [[stations]]
 id              = "line-5-0776-0775-s024880"
@@ -1433,45 +1094,38 @@ lon             = 104.92221279434808
 s_m             = 24880.4
 archetype       = "interchange-elevated"
 platform_length_m = 85.0
-junction_group  = 1
+junction_group  = 4
 
 [[stations]]
-id              = "line-5-0818-0811-s026531"
+id              = "line-5-0815-0811-s026471"
 line            = "line-5"
-lat             = 11.552697692833746
+lat             = 11.55323759133283
 lon             = 104.9288145488246
-s_m             = 26531.0
+s_m             = 26471.0
 anchor_kind     = "amenity:hospital"
 anchor_name     = "Praram 9 Hospital Cambodia Office"
 archetype       = "major"
 platform_length_m = 85.0
 
 [[stations]]
-id              = "line-5-0869-0858-s028532"
+id              = "line-5-0869-0872-s028828"
 line            = "line-5"
 lat             = 11.54351941834935
-lon             = 104.93743350605781
-s_m             = 28531.8
+lon             = 104.9400008550209
+s_m             = 28828.4
+anchor_kind     = "place:suburb"
+anchor_name     = "កោះពេជ្រ"
 archetype       = "standard"
 platform_length_m = 85.0
 
 [[stations]]
-id              = "line-5-0922-0936-s030547"
+id              = "line-5-0942-0957-s031168"
 line            = "line-5"
-lat             = 11.53398121153223
-lon             = 104.95173730742358
-s_m             = 30547.4
+lat             = 11.530381888205017
+lon             = 104.95558833086821
+s_m             = 31168.3
 anchor_kind     = "shop:mall"
-anchor_name     = "ផ្សារឌីហ្វាលក់សំភារៈសំណង់ និងសំភារៈតុបតែងអន្តរជាតិ"
-archetype       = "standard"
-platform_length_m = 85.0
-
-[[stations]]
-id              = "line-5-0974-0973-s032028"
-line            = "line-5"
-lat             = 11.524622970881474
-lon             = 104.95852244396887
-s_m             = 32027.7
+anchor_name     = "The Park Community Mall"
 archetype       = "standard"
 platform_length_m = 85.0
 
@@ -1481,11 +1135,9 @@ line            = "line-5"
 lat             = 11.526782564877802
 lon             = 104.96732478327088
 s_m             = 33516.2
-anchor_kind     = "place:town"
-anchor_name     = "ខណ្ឌច្បារអំពៅ"
 archetype       = "terminal"
 platform_length_m = 85.0
-junction_group  = 11
+junction_group  = 13
 
 [[stations]]
 id              = "line-6-0551-0444-s000000"
@@ -1506,36 +1158,7 @@ lon             = 104.86921537646724
 s_m             = 1218.0
 archetype       = "interchange-elevated"
 platform_length_m = 85.0
-junction_group  = 10
-
-[[stations]]
-id              = "line-6-0550-0549-s002627"
-line            = "line-6"
-lat             = 11.60092862541842
-lon             = 104.88076844680113
-s_m             = 2627.1
-anchor_kind     = "shop:mall"
-anchor_name     = "AEON Mall 2"
-archetype       = "standard"
-platform_length_m = 85.0
-
-[[stations]]
-id              = "line-6-0507-0595-s004014"
-line            = "line-6"
-lat             = 11.608667170571932
-lon             = 104.88920402196555
-s_m             = 4013.6
-archetype       = "standard"
-platform_length_m = 85.0
-
-[[stations]]
-id              = "line-6-0428-0625-s006015"
-line            = "line-6"
-lat             = 11.622884497714429
-lon             = 104.89470548402932
-s_m             = 6014.7
-archetype       = "standard"
-platform_length_m = 85.0
+junction_group  = 12
 
 [[stations]]
 id              = "line-6-0388-0677-s007436"
@@ -1550,28 +1173,6 @@ platform_length_m = 85.0
 junction_group  = 2
 
 [[stations]]
-id              = "line-6-0368-0698-s008033"
-line            = "line-6"
-lat             = 11.633682467696072
-lon             = 104.90809237505111
-s_m             = 8033.2
-anchor_kind     = "public_transport:station"
-archetype       = "interchange-elevated"
-platform_length_m = 85.0
-junction_group  = 2
-
-[[stations]]
-id              = "line-6-0331-0767-s010049"
-line            = "line-6"
-lat             = 11.64034121585142
-lon             = 104.92074573779776
-s_m             = 10049.4
-anchor_kind     = "amenity:university"
-anchor_name     = "សាលាជាតិ​កសិកម្ម​ព្រែកលៀប"
-archetype       = "standard"
-platform_length_m = 85.0
-
-[[stations]]
 id              = "line-6-0373-0831-s011783"
 line            = "line-6"
 lat             = 11.632782636864269
@@ -1579,34 +1180,14 @@ lon             = 104.93248219020043
 s_m             = 11782.8
 archetype       = "interchange"
 platform_length_m = 85.0
-junction_group  = 8
+junction_group  = 10
 
 [[stations]]
-id              = "line-6-0373-0845-s012063"
+id              = "line-6-0394-0892-s013819"
 line            = "line-6"
-lat             = 11.632782636864269
-lon             = 104.93504953916351
-s_m             = 12062.8
-anchor_kind     = "public_transport:station"
-archetype       = "interchange"
-platform_length_m = 85.0
-junction_group  = 8
-
-[[stations]]
-id              = "line-6-0403-0883-s014073"
-line            = "line-6"
-lat             = 11.627383651873448
-lon             = 104.94201805777762
-s_m             = 14073.3
-archetype       = "standard"
-platform_length_m = 85.0
-
-[[stations]]
-id              = "line-6-0494-0860-s016084"
-line            = "line-6"
-lat             = 11.611006730734621
-lon             = 104.9378002701954
-s_m             = 16083.9
+lat             = 11.629003347370693
+lon             = 104.94366849639674
+s_m             = 13818.8
 archetype       = "standard"
 platform_length_m = 85.0
 
@@ -1618,16 +1199,17 @@ lon             = 104.9400008550209
 s_m             = 18136.4
 archetype       = "interchange-elevated"
 platform_length_m = 85.0
-junction_group  = 7
+junction_group  = 9
 
 [[stations]]
-id              = "line-6-0681-0891-s020114"
+id              = "line-6-0676-0891-s020014"
 line            = "line-6"
-lat             = 11.577353057625166
+lat             = 11.57825288845697
 lon             = 104.94348511432794
-s_m             = 20113.8
-archetype       = "standard"
+s_m             = 20013.8
+archetype       = "interchange-elevated"
 platform_length_m = 85.0
+junction_group  = 8
 
 [[stations]]
 id              = "line-6-0754-0914-s021905"
@@ -1636,28 +1218,6 @@ lat             = 11.564215527480833
 lon             = 104.94770290191016
 s_m             = 21904.9
 archetype       = "interchange"
-platform_length_m = 85.0
-junction_group  = 4
-
-[[stations]]
-id              = "line-6-0755-0925-s022133"
-line            = "line-6"
-lat             = 11.564035561314473
-lon             = 104.94972010466687
-s_m             = 22133.2
-anchor_kind     = "public_transport:station"
-anchor_name     = "កំពុងចម្លងអរិក្សត្រ"
-archetype       = "interchange"
-platform_length_m = 85.0
-junction_group  = 4
-
-[[stations]]
-id              = "line-6-0811-1002-s024137"
-line            = "line-6"
-lat             = 11.553957455998273
-lon             = 104.96384052396384
-s_m             = 24137.1
-archetype       = "interchange-elevated"
 platform_length_m = 85.0
 junction_group  = 5
 
@@ -1669,65 +1229,26 @@ lon             = 104.96677463706452
 s_m             = 25003.4
 archetype       = "interchange-elevated"
 platform_length_m = 85.0
-junction_group  = 5
+junction_group  = 6
 
 [[stations]]
-id              = "line-6-0905-1021-s026268"
+id              = "line-6-0962-1021-s027408"
 line            = "line-6"
-lat             = 11.537040636360363
+lat             = 11.526782564877802
 lon             = 104.96732478327088
-s_m             = 26268.3
-archetype       = "standard"
-platform_length_m = 85.0
-
-[[stations]]
-id              = "line-6-0967-1022-s027517"
-line            = "line-6"
-lat             = 11.525882734045998
-lon             = 104.96750816533968
-s_m             = 27516.6
+s_m             = 27408.3
 archetype       = "interchange"
 platform_length_m = 85.0
-junction_group  = 11
+junction_group  = 13
 
 [[stations]]
-id              = "line-6-1021-1011-s028853"
+id              = "line-6-1158-0997-s031804"
 line            = "line-6"
-lat             = 11.516164561062519
-lon             = 104.96549096258298
-s_m             = 28853.4
-archetype       = "standard"
-platform_length_m = 85.0
-
-[[stations]]
-id              = "line-6-1076-0997-s030164"
-line            = "line-6"
-lat             = 11.50626642191268
+lat             = 11.4915091962711
 lon             = 104.96292361361988
-s_m             = 30163.9
-archetype       = "standard"
-platform_length_m = 85.0
-
-[[stations]]
-id              = "line-6-1226-0997-s033164"
-line            = "line-6"
-lat             = 11.479271496958571
-lon             = 104.96292361361988
-s_m             = 33163.9
-anchor_kind     = "amenity:hospital"
-anchor_name     = "Mercy Medical Center"
+s_m             = 31803.9
 archetype       = "halt"
 platform_length_m = 81.0
-
-[[stations]]
-id              = "line-6-1257-0902-s035562"
-line            = "line-6"
-lat             = 11.473692545801388
-lon             = 104.94550231708466
-s_m             = 35561.5
-archetype       = "interchange"
-platform_length_m = 85.0
-junction_group  = 0
 
 [[stations]]
 id              = "line-6-1241-0877-s036194"
@@ -1740,24 +1261,6 @@ platform_length_m = 85.0
 junction_group  = 0
 
 [[stations]]
-id              = "line-6-1180-0808-s038079"
-line            = "line-6"
-lat             = 11.487549940611164
-lon             = 104.92826440261823
-s_m             = 38079.4
-archetype       = "standard"
-platform_length_m = 85.0
-
-[[stations]]
-id              = "line-6-1186-0718-s039995"
-line            = "line-6"
-lat             = 11.486470143613
-lon             = 104.91176001642695
-s_m             = 39995.4
-archetype       = "standard"
-platform_length_m = 85.0
-
-[[stations]]
 id              = "line-6-1191-0628-s041898"
 line            = "line-6"
 lat             = 11.485570312781196
@@ -1765,49 +1268,18 @@ lon             = 104.89525563023568
 s_m             = 41898.3
 archetype       = "interchange-elevated"
 platform_length_m = 85.0
-junction_group  = 9
+junction_group  = 11
 
 [[stations]]
-id              = "line-6-1203-0523-s044114"
+id              = "line-6-1136-0431-s048829"
 line            = "line-6"
-lat             = 11.483410718784867
-lon             = 104.87600051301254
-s_m             = 44114.2
-anchor_kind     = "amenity:hospital"
-anchor_name     = "បន្ទប់ពិគ្រោះនឹងព្យាបាលជំងឺ សែនសុខសាន្ត"
-archetype       = "halt"
-platform_length_m = 81.0
-
-[[stations]]
-id              = "line-6-1135-0506-s046123"
-line            = "line-6"
-lat             = 11.495648418097398
-lon             = 104.87288301784308
-s_m             = 46123.4
-archetype       = "standard"
-platform_length_m = 85.0
-
-[[stations]]
-id              = "line-6-1124-0428-s049129"
-line            = "line-6"
-lat             = 11.497628045927366
-lon             = 104.85857921647731
-s_m             = 49129.3
+lat             = 11.495468451931036
+lon             = 104.85912936268369
+s_m             = 48829.3
 anchor_kind     = "amenity:hospital"
 anchor_name     = "មន្ទីរពេទ្យ​ ហ្លួងម៉ែ"
 archetype       = "halt"
 platform_length_m = 81.0
-
-[[stations]]
-id              = "line-6-1047-0427-s051135"
-line            = "line-6"
-lat             = 11.511485440737141
-lon             = 104.85839583440853
-s_m             = 51135.0
-anchor_kind     = "amenity:marketplace"
-anchor_name     = "Lucky Express Tuol Pongro"
-archetype       = "standard"
-platform_length_m = 85.0
 
 [[stations]]
 id              = "line-6-1010-0308-s054206"
@@ -1817,56 +1289,36 @@ lon             = 104.83657336822229
 s_m             = 54206.1
 archetype       = "interchange-elevated"
 platform_length_m = 85.0
-junction_group  = 6
+junction_group  = 7
 
 [[stations]]
-id              = "line-6-0934-0292-s056158"
+id              = "line-6-0944-0304-s055835"
 line            = "line-6"
-lat             = 11.531821617535902
-lon             = 104.83363925512162
-s_m             = 56158.1
-anchor_kind     = "place:neighbourhood"
-archetype       = "standard"
-platform_length_m = 85.0
+lat             = 11.530021955872295
+lon             = 104.83583983994713
+s_m             = 55835.2
+archetype       = "halt"
+platform_length_m = 81.0
 
 [[stations]]
-id              = "line-6-0838-0227-s059173"
+id              = "line-6-0831-0227-s059329"
 line            = "line-6"
-lat             = 11.549098369506533
+lat             = 11.550358132671057
 lon             = 104.82171942065015
-s_m             = 59172.9
+s_m             = 59329.4
 archetype       = "halt"
 platform_length_m = 81.0
 
 [[stations]]
-id              = "line-6-0755-0248-s062182"
+id              = "line-6-0742-0267-s062848"
 line            = "line-6"
-lat             = 11.564035561314473
-lon             = 104.82557044409478
-s_m             = 62182.2
-archetype       = "halt"
-platform_length_m = 81.0
-
-[[stations]]
-id              = "line-6-0744-0333-s064185"
-line            = "line-6"
-lat             = 11.56601518914444
-lon             = 104.84115791994209
-s_m             = 64185.1
-anchor_kind     = "amenity:marketplace"
-archetype       = "standard"
-platform_length_m = 85.0
-
-[[stations]]
-id              = "line-6-0676-0355-s066193"
-line            = "line-6"
-lat             = 11.57825288845697
-lon             = 104.84519232545551
-s_m             = 66192.8
+lat             = 11.566375121477162
+lon             = 104.82905470340182
+s_m             = 62848.5
 anchor_kind     = "place:neighbourhood"
-anchor_name     = "Krang Angkrang 1 DK53"
-archetype       = "standard"
-platform_length_m = 85.0
+anchor_name     = "សង្កាត់​កាកាប"
+archetype       = "halt"
+platform_length_m = 81.0
 
 [[stations]]
 id              = "line-6-0659-0399-s067689"
@@ -1878,119 +1330,123 @@ archetype       = "interchange-elevated"
 platform_length_m = 85.0
 junction_group  = 3
 
-[[stations]]
-id              = "line-6-0634-0400-s068197"
-line            = "line-6"
-lat             = 11.58581146744412
-lon             = 104.85344451855114
-s_m             = 68197.0
-anchor_kind     = "tourism:attraction"
-anchor_name     = "សួន​ចំការ​ព្រីង"
-archetype       = "interchange-elevated"
-platform_length_m = 85.0
-junction_group  = 3
-
 [[interchanges]]
 id              = "interchange-000"
 junction_group  = 0
-lat             = 11.475612184909236
-lon             = 104.94244594927146
+lat             = 11.47657200446316
+lon             = 104.94091776536486
 lines           = ["line-1", "line-6"]
-platforms       = ["line-1-1241-0877-s000000", "line-6-1241-0877-s036194", "line-6-1257-0902-s035562"]
+platforms       = ["line-1-1241-0877-s000000", "line-6-1241-0877-s036194"]
 
 [[interchanges]]
 id              = "interchange-001"
 junction_group  = 1
-lat             = 11.564384245761794
-lon             = 104.91771993366267
-lines           = ["line-1", "line-2", "line-3", "line-4", "line-5"]
-platforms       = ["line-1-0711-0720-s014906", "line-1-0731-0756-s013687", "line-1-0776-0775-s012352", "line-2-0776-0775-s011910", "line-2-0782-0737-s011088", "line-2-0787-0698-s009871", "line-3-0703-0810-s020361", "line-3-0711-0761-s019141", "line-3-0740-0717-s017927", "line-3-0790-0700-s016708", "line-4-0697-0802-s015553", "line-4-0776-0775-s018294", "line-4-0801-0746-s019199", "line-5-0727-0714-s022910", "line-5-0765-0747-s024119", "line-5-0776-0775-s024880"]
+lat             = 11.56853471547349
+lon             = 104.91827007986907
+lines           = ["line-1", "line-3"]
+platforms       = ["line-1-0744-0757-s013419", "line-3-0716-0750-s018879"]
 
 [[interchanges]]
 id              = "interchange-002"
 junction_group  = 2
-lat             = 11.630443076701578
-lon             = 104.90543333505364
+lat             = 11.630083144368857
+lon             = 104.90424135160649
 lines           = ["line-1", "line-6"]
-platforms       = ["line-1-0388-0677-s022448", "line-1-0400-0682-s022166", "line-6-0368-0698-s008033", "line-6-0388-0677-s007436"]
+platforms       = ["line-1-0388-0677-s022448", "line-6-0388-0677-s007436"]
 
 [[interchanges]]
 id              = "interchange-003"
 junction_group  = 3
-lat             = 11.582812031338108
-lon             = 104.8533222638386
+lat             = 11.581312313285101
+lon             = 104.85326113648235
 lines           = ["line-2", "line-6"]
-platforms       = ["line-2-0659-0399-s000000", "line-6-0634-0400-s068197", "line-6-0659-0399-s067689"]
+platforms       = ["line-2-0659-0399-s000000", "line-6-0659-0399-s067689"]
 
 [[interchanges]]
 id              = "interchange-004"
 junction_group  = 4
-lat             = 11.562655820705706
-lon             = 104.94831417547279
-lines           = ["line-2", "line-6"]
-platforms       = ["line-2-0779-0913-s015407", "line-6-0754-0914-s021905", "line-6-0755-0925-s022133"]
+lat             = 11.561815978596023
+lon             = 104.91506089366521
+lines           = ["line-2", "line-3", "line-4", "line-5"]
+platforms       = ["line-2-0748-0692-s009041", "line-2-0782-0737-s011088", "line-3-0770-0717-s017260", "line-4-0776-0775-s018294", "line-5-0752-0720-s023460", "line-5-0776-0775-s024880"]
 
 [[interchanges]]
 id              = "interchange-005"
 junction_group  = 5
-lat             = 11.549953208796747
-lon             = 104.965032507411
+lat             = 11.561965950401323
+lon             = 104.94761121087576
 lines           = ["line-2", "line-6"]
-platforms       = ["line-2-0836-0996-s017539", "line-2-0843-1018-s018037", "line-6-0811-1002-s024137", "line-6-0843-1018-s025003"]
+platforms       = ["line-2-0779-0913-s015407", "line-6-0754-0914-s021905"]
 
 [[interchanges]]
 id              = "interchange-006"
 junction_group  = 6
+lat             = 11.548198538674729
+lon             = 104.96677463706452
+lines           = ["line-2", "line-6"]
+platforms       = ["line-2-0843-1018-s018037", "line-6-0843-1018-s025003"]
+
+[[interchanges]]
+id              = "interchange-007"
+junction_group  = 7
 lat             = 11.518144188892487
 lon             = 104.83657336822229
 lines           = ["line-3", "line-6"]
 platforms       = ["line-3-1010-0308-s004018", "line-6-1010-0308-s054206"]
 
 [[interchanges]]
-id              = "interchange-007"
-junction_group  = 7
+id              = "interchange-008"
+junction_group  = 8
+lat             = 11.579332685455134
+lon             = 104.94110114743364
+lines           = ["line-3", "line-6"]
+platforms       = ["line-3-0664-0865-s021898", "line-6-0676-0891-s020014"]
+
+[[interchanges]]
+id              = "interchange-009"
+junction_group  = 9
 lat             = 11.593729978763992
 lon             = 104.9400008550209
 lines           = ["line-3", "line-6"]
 platforms       = ["line-3-0590-0872-s023552", "line-6-0590-0872-s018136"]
 
 [[interchanges]]
-id              = "interchange-008"
-junction_group  = 8
+id              = "interchange-010"
+junction_group  = 10
 lat             = 11.632782636864269
-lon             = 104.93333797318813
+lon             = 104.93248219020043
 lines           = ["line-4", "line-6"]
-platforms       = ["line-4-0373-0831-s007016", "line-6-0373-0831-s011783", "line-6-0373-0845-s012063"]
+platforms       = ["line-4-0373-0831-s007016", "line-6-0373-0831-s011783"]
 
 [[interchanges]]
-id              = "interchange-009"
-junction_group  = 9
+id              = "interchange-011"
+junction_group  = 11
 lat             = 11.485570312781196
 lon             = 104.89525563023568
 lines           = ["line-4", "line-6"]
 platforms       = ["line-4-1191-0628-s030567", "line-6-1191-0628-s041898"]
 
 [[interchanges]]
-id              = "interchange-010"
-junction_group  = 10
-lat             = 11.597029358480606
-lon             = 104.86927650382351
+id              = "interchange-012"
+junction_group  = 12
+lat             = 11.597689234423928
+lon             = 104.86921537646724
 lines           = ["line-5", "line-6"]
-platforms       = ["line-5-0568-0486-s015014", "line-5-0579-0487-s015243", "line-6-0568-0486-s001218"]
+platforms       = ["line-5-0568-0486-s015014", "line-6-0568-0486-s001218"]
 
 [[interchanges]]
-id              = "interchange-011"
-junction_group  = 11
-lat             = 11.5263326494619
-lon             = 104.96741647430528
+id              = "interchange-013"
+junction_group  = 13
+lat             = 11.526782564877802
+lon             = 104.96732478327088
 lines           = ["line-5", "line-6"]
-platforms       = ["line-5-0962-1021-s033516", "line-6-0967-1022-s027517"]
+platforms       = ["line-5-0962-1021-s033516", "line-6-0962-1021-s027408"]
 
 # [[depots]] — maintenance/defect facilities per RFC 0014; healthy sets stable at powered stations.
 [[depots]]
 station      = "line-3-0167-1516-s041534"
 archetype    = "main-heavy"
-fleet_stalls = 60
+fleet_stalls = 44
 
 # switches — turnbacks at terminals + depot fans per RFC 0012 §9.
 switches = [
@@ -2044,22 +1500,6 @@ switches = [
   { id = "sw-line-3-0167-1516-s041534-yd-42", kit = "no-9-mainline", station = "line-3-0167-1516-s041534", side = "yard-throat" },
   { id = "sw-line-3-0167-1516-s041534-yd-43", kit = "no-9-mainline", station = "line-3-0167-1516-s041534", side = "yard-throat" },
   { id = "sw-line-3-0167-1516-s041534-yd-44", kit = "no-9-mainline", station = "line-3-0167-1516-s041534", side = "yard-throat" },
-  { id = "sw-line-3-0167-1516-s041534-yd-45", kit = "no-9-mainline", station = "line-3-0167-1516-s041534", side = "yard-throat" },
-  { id = "sw-line-3-0167-1516-s041534-yd-46", kit = "no-9-mainline", station = "line-3-0167-1516-s041534", side = "yard-throat" },
-  { id = "sw-line-3-0167-1516-s041534-yd-47", kit = "no-9-mainline", station = "line-3-0167-1516-s041534", side = "yard-throat" },
-  { id = "sw-line-3-0167-1516-s041534-yd-48", kit = "no-9-mainline", station = "line-3-0167-1516-s041534", side = "yard-throat" },
-  { id = "sw-line-3-0167-1516-s041534-yd-49", kit = "no-9-mainline", station = "line-3-0167-1516-s041534", side = "yard-throat" },
-  { id = "sw-line-3-0167-1516-s041534-yd-50", kit = "no-9-mainline", station = "line-3-0167-1516-s041534", side = "yard-throat" },
-  { id = "sw-line-3-0167-1516-s041534-yd-51", kit = "no-9-mainline", station = "line-3-0167-1516-s041534", side = "yard-throat" },
-  { id = "sw-line-3-0167-1516-s041534-yd-52", kit = "no-9-mainline", station = "line-3-0167-1516-s041534", side = "yard-throat" },
-  { id = "sw-line-3-0167-1516-s041534-yd-53", kit = "no-9-mainline", station = "line-3-0167-1516-s041534", side = "yard-throat" },
-  { id = "sw-line-3-0167-1516-s041534-yd-54", kit = "no-9-mainline", station = "line-3-0167-1516-s041534", side = "yard-throat" },
-  { id = "sw-line-3-0167-1516-s041534-yd-55", kit = "no-9-mainline", station = "line-3-0167-1516-s041534", side = "yard-throat" },
-  { id = "sw-line-3-0167-1516-s041534-yd-56", kit = "no-9-mainline", station = "line-3-0167-1516-s041534", side = "yard-throat" },
-  { id = "sw-line-3-0167-1516-s041534-yd-57", kit = "no-9-mainline", station = "line-3-0167-1516-s041534", side = "yard-throat" },
-  { id = "sw-line-3-0167-1516-s041534-yd-58", kit = "no-9-mainline", station = "line-3-0167-1516-s041534", side = "yard-throat" },
-  { id = "sw-line-3-0167-1516-s041534-yd-59", kit = "no-9-mainline", station = "line-3-0167-1516-s041534", side = "yard-throat" },
-  { id = "sw-line-3-0167-1516-s041534-yd-60", kit = "no-9-mainline", station = "line-3-0167-1516-s041534", side = "yard-throat" },
   { id = "sw-line-4-0074-0956-s000000-tb", kit = "no-9-mainline", station = "line-4-0074-0956-s000000", side = "turnback" },
   { id = "sw-line-4-1302-0599-s033216-tb", kit = "no-9-mainline", station = "line-4-1302-0599-s033216", side = "turnback" },
   { id = "sw-line-5-0224-0025-s000000-tb", kit = "no-9-mainline", station = "line-5-0224-0025-s000000", side = "turnback" },
@@ -2071,17 +1511,17 @@ switches = [
 # Elevated section already visible in the civil mix above.
 [[junctions]]
 group_id        = 1
-elevated_line   = "line-5"
-lat             = 11.560256271820897
-lon             = 104.92221279434808
+elevated_line   = "line-3"
+lat             = 11.56601518914444
+lon             = 104.91891191710984
 premium_usd     = 4500000
 premium_eur     = 4140000
 
 [[junctions]]
 group_id        = 2
 elevated_line   = "line-6"
-lat             = 11.627923550372529
-lon             = 104.90515826195045
+lat             = 11.630083144368857
+lon             = 104.90424135160649
 premium_usd     = 4500000
 premium_eur     = 4140000
 
@@ -2094,15 +1534,23 @@ premium_usd     = 4500000
 premium_eur     = 4140000
 
 [[junctions]]
-group_id        = 5
-elevated_line   = "line-6"
-lat             = 11.549458301839254
-lon             = 104.9627402315511
+group_id        = 4
+elevated_line   = "line-5"
+lat             = 11.565295324478997
+lon             = 104.90699208263837
 premium_usd     = 4500000
 premium_eur     = 4140000
 
 [[junctions]]
 group_id        = 6
+elevated_line   = "line-6"
+lat             = 11.548198538674729
+lon             = 104.96677463706452
+premium_usd     = 4500000
+premium_eur     = 4140000
+
+[[junctions]]
+group_id        = 7
 elevated_line   = "line-6"
 lat             = 11.518144188892487
 lon             = 104.83657336822229
@@ -2110,7 +1558,15 @@ premium_usd     = 4500000
 premium_eur     = 4140000
 
 [[junctions]]
-group_id        = 7
+group_id        = 8
+elevated_line   = "line-6"
+lat             = 11.580412482453298
+lon             = 104.93871718053936
+premium_usd     = 4500000
+premium_eur     = 4140000
+
+[[junctions]]
+group_id        = 9
 elevated_line   = "line-6"
 lat             = 11.593729978763992
 lon             = 104.9400008550209
@@ -2118,7 +1574,7 @@ premium_usd     = 4500000
 premium_eur     = 4140000
 
 [[junctions]]
-group_id        = 9
+group_id        = 11
 elevated_line   = "line-6"
 lat             = 11.485570312781196
 lon             = 104.89525563023568
@@ -2126,7 +1582,7 @@ premium_usd     = 4500000
 premium_eur     = 4140000
 
 [[junctions]]
-group_id        = 10
+group_id        = 12
 elevated_line   = "line-6"
 lat             = 11.597689234423928
 lon             = 104.86921537646724
@@ -2136,51 +1592,51 @@ premium_eur     = 4140000
 # [[fleets]] — per-line fleet sizing per RFC 0014 §4.
 [[fleets]]
 line               = "line-1"
-peak_count         = 60
+peak_count         = 44
 service_rotation_count = 0
-spare_count        = 6
+spare_count        = 4
 cold_reserve_count = 1
-trainset_count     = 67
+trainset_count     = 49
 
 [[fleets]]
 line               = "line-2"
-peak_count         = 58
+peak_count         = 41
 service_rotation_count = 0
-spare_count        = 5
+spare_count        = 4
 cold_reserve_count = 1
-trainset_count     = 64
+trainset_count     = 46
 
 [[fleets]]
 line               = "line-3"
-peak_count         = 77
+peak_count         = 59
 service_rotation_count = 0
-spare_count        = 7
+spare_count        = 5
 cold_reserve_count = 1
-trainset_count     = 85
+trainset_count     = 65
 
 [[fleets]]
 line               = "line-4"
-peak_count         = 65
+peak_count         = 48
 service_rotation_count = 0
-spare_count        = 6
+spare_count        = 4
 cold_reserve_count = 1
-trainset_count     = 72
+trainset_count     = 53
 
 [[fleets]]
 line               = "line-5"
-peak_count         = 64
+peak_count         = 47
 service_rotation_count = 0
-spare_count        = 6
+spare_count        = 4
 cold_reserve_count = 1
-trainset_count     = 71
+trainset_count     = 52
 
 [[fleets]]
 line               = "line-6"
-peak_count         = 33
+peak_count         = 25
 service_rotation_count = 0
-spare_count        = 3
+spare_count        = 2
 cold_reserve_count = 1
-trainset_count     = 37
+trainset_count     = 28
 
 # [costs] — RFC 0011 §9 planning-grade CAPEX (USD
 # direct-procurement planning basis). country-costs.toml applies
@@ -2192,38 +1648,38 @@ version = 2
 currency_basis      = "USD local-owner trainset-family planning basis with direct material, local assembly/labour, nominal per-train QA/acceptance, and modest handover logistics included; 1 m clip-on fiberglass body modules reduce shell labour, mould tooling, cure space, and production setup; distributed overnight stabling reduces depot parking scope; fixtures/tooling live in the railway production plant line per vehicle/car module; warranty, spares, and routine commissioning support are treated as OPEX; raw marketplace BOM retained only as audit lower bound; *_eur mirrors retained for schema compatibility"
 usd_to_eur          = 0.92
 # Civil works (USD/km x civil mix; EUR mirror at usd_to_eur).
-at_grade_usd         = 553351303
-at_grade_eur         = 509083199
-elevated_usd         = 647406043
-elevated_eur         = 595613559
+at_grade_usd         = 546930571
+at_grade_eur         = 503176125
+elevated_usd         = 673088969
+elevated_eur         = 619241852
 bridge_usd           = 0
 bridge_eur           = 0
-junction_premium_usd = 36000000  # $4.5 M per elevated interchange.
-junction_premium_eur = 33120000  # EUR 4.1 M per elevated interchange.
-civil_subtotal_usd   = 1236757346
-civil_subtotal_eur   = 1137816758
+junction_premium_usd = 45000000  # $4.5 M per elevated interchange.
+junction_premium_eur = 41400000  # EUR 4.1 M per elevated interchange.
+civil_subtotal_usd   = 1265019540
+civil_subtotal_eur   = 1163817977
 # Stations (RFC 0010 archetype catalogue).
-stations_usd         = 732900000
-stations_eur         = 674268000
+stations_usd         = 459300000
+stations_eur         = 422556000
 # Depots (RFC 0014 archetype catalogue).
 depots_usd           = 8000000
 depots_eur           = 7360000
 # Rolling stock (RFC 0008 family × fleet count; local-owner production unit).
-rolling_stock_usd    = 443520000
-rolling_stock_eur    = 408038400
+rolling_stock_usd    = 328160000
+rolling_stock_eur    = 301907200
 # Railway production plant (tooling + plant setup per vehicle/car module, not per trainset).
-production_plant_usd = 95040000
-production_plant_eur = 87436800
+production_plant_usd = 70320000
+production_plant_eur = 64694400
 # Systems: residual train-control wayside + station/depot charging microgrids.
 signalling_usd       = 11920047
 signalling_eur       = 10966443
-charging_microgrid_usd = 38475000
-charging_microgrid_eur = 35397000
+charging_microgrid_usd = 22275000
+charging_microgrid_eur = 20493000
 # EPC integration + project management (7 % of subtotal).
-epc_overhead_usd     = 179662867
-epc_overhead_eur     = 165289838
-total_usd            = 2746275260  # base CAPEX before timetable-sized dedicated solar
-total_eur            = 2526573239  # base CAPEX before timetable-sized dedicated solar
+epc_overhead_usd     = 151549621
+epc_overhead_eur     = 139425651
+total_usd            = 2316544208  # base CAPEX before timetable-sized dedicated solar
+total_eur            = 2131220672  # base CAPEX before timetable-sized dedicated solar
 
 [costs.technology_basis]
 cost_treatment = "included in planning units; do not add again"
@@ -2238,7 +1694,7 @@ lv_dc_dc_usd_per_car = 2500
 roof_pv_mppt_usd_per_car = 1000
 core_electrical_usd_per_car = 51000
 core_electrical_usd_per_trainset = 204000
-fleet_core_electrical_usd = 80784000
+fleet_core_electrical_usd = 59772000
 station_architecture = "500-1500 V DC/DC configured to 500 kW; 650-700 V train bus"
 stationary_lfp_500kwh_usd = 37500
 station_dcdc_500kw_usd = 15000

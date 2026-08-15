@@ -4,9 +4,9 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`jizan-line1.aln.toml`](jizan-line1.aln.toml) | `line-1` | 20,895.1 m | 13 |
-| [`jizan-line2.aln.toml`](jizan-line2.aln.toml) | `line-2` | 7,884.4 m | 6 |
-| [`jizan-line3.aln.toml`](jizan-line3.aln.toml) | `line-3` | 19,081.2 m | 11 |
+| [`jizan-line1.aln.toml`](jizan-line1.aln.toml) | `line-1` | 20,895.1 m | 6 |
+| [`jizan-line2.aln.toml`](jizan-line2.aln.toml) | `line-2` | 7,884.4 m | 4 |
+| [`jizan-line3.aln.toml`](jizan-line3.aln.toml) | `line-3` | 19,081.2 m | 7 |
 
 ## Status
 

@@ -4,9 +4,9 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`kassala-line1.aln.toml`](kassala-line1.aln.toml) | `line-1` | 10,315.2 m | 7 |
-| [`kassala-line2.aln.toml`](kassala-line2.aln.toml) | `line-2` | 6,111.0 m | 5 |
-| [`kassala-line3.aln.toml`](kassala-line3.aln.toml) | `line-3` | 7,120.3 m | 6 |
+| [`kassala-line1.aln.toml`](kassala-line1.aln.toml) | `line-1` | 10,315.2 m | 4 |
+| [`kassala-line2.aln.toml`](kassala-line2.aln.toml) | `line-2` | 6,111.0 m | 4 |
+| [`kassala-line3.aln.toml`](kassala-line3.aln.toml) | `line-3` | 7,120.3 m | 3 |
 
 ## Status
 

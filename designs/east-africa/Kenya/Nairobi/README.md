@@ -17,17 +17,17 @@ Corridor polylines + stations as GeoJSON for GIS / alignment tooling: [`nairobi.
 | Metric | Value |
 |---|---|
 | Lines | 9 |
-| Unique stations | 265 |
-| Interchange-class stations | 23 |
-| Multi-line transfer reachability | 61% (line-pairs sharing ≥ 1 station) |
+| Unique stations | 151 |
+| Interchange-class stations | 20 |
+| Multi-line transfer reachability | 33% (line-pairs sharing ≥ 1 station) |
 | Anchor-weighted coverage | 54.3% |
 | Route length (double track) | 505.8 km |
-| Revenue fleet | 910 × 6-car trainsets |
-| Revenue fleet passenger capacity | 655,200 AW2 pax (873,600 AW3 crush) |
+| Revenue fleet | 714 × 6-car trainsets |
+| Revenue fleet passenger capacity | 514,080 AW2 pax (685,440 AW3 crush) |
 | Dedicated depot-service rotation fleet | 0 (off-peak service uses peak-fleet surplus) |
-| Spare + cold-reserve | 96 × 6-car trainsets |
+| Spare + cold-reserve | 76 × 6-car trainsets |
 | Peak headway | 3 min |
-| Station spacing policy | 1.2 km central / 2 km urban / 3 km suburban / up to 5 km in the lowest-demand outer fringe |
+| Station spacing policy | 1.6 km central / 3 km urban / up to 7 km on suburban approaches and the lowest-demand outer fringe |
 | City-centre consolidation | Cross-line platforms within the 600 m station-complex envelope are emitted as one interchange |
 | Service hours | 05:30 – 02:00 (20.5 h/day) |
 
@@ -35,13 +35,13 @@ Corridor polylines + stations as GeoJSON for GIS / alignment tooling: [`nairobi.
 
 During the 07:00–09:00 and 15:00–17:00 peaks, trains make the normal quick terminal turnback: no depot-service hold is inserted, allowing more battery depletion while the 20% dispatch-reserve gate remains mandatory. In the 6- and 12-minute lower-frequency windows, each line's deterministic energy controller may widen the published headway when actual charging delivery leaves a departing set below the 40% normal-service SoC target (up to 3× the published headway). This automatically matches offered off-peak service to available traction energy without buying a separate service-rotation fleet. In those lower-frequency windows, each train receives a **12-minute service slot** at its designated powered service point. This may be a staffed terminal platform or the main depot; only defects and maintenance require a depot move. Interior cleaning, exterior and running-gear walk-around, door/coupler/emergency-equipment checks, fault-log download, and a 150 kW low-C recharge run concurrently. A red defect holds the set for maintenance; a clear inspection returns it to the revenue rotation.
 
-The fleet is sized for the 3-minute peaks; when service relaxes to 6 or 12 minutes, the same peak fleet provides enough idle cover for service-point work. Therefore **0 additional trainsets** are required for depot service; only the existing 87 planned-maintenance spares and 9 cold-reserve sets are included in the rolling-stock, production-plant, maintenance, labour, and total CAPEX/OPEX figures below.
+The fleet is sized for the 3-minute peaks; when service relaxes to 6 or 12 minutes, the same peak fleet provides enough idle cover for service-point work. Therefore **0 additional trainsets** are required for depot service; only the existing 67 planned-maintenance spares and 9 cold-reserve sets are included in the rolling-stock, production-plant, maintenance, labour, and total CAPEX/OPEX figures below.
 
 ## Distributed overnight stabling
 
 At service close, telemetry-healthy trainsets remain at selected powered passenger stations near their first morning departures. Every occupied station must provide at least 150 kW low-C charging, CCTV, remote traction isolation, protected emergency access, and an OCC-assigned train/track slot. Sets with red defects, overdue heavy maintenance, failed isolation, or failed security return to the main-heavy depot. OCC verifies charge completion and remote self-test before releasing all station-stabled sets together at service start. The generated default therefore builds one maintenance-focused main depot, not a parking depot at every terminus.
 
-Circumferential lines use the same demand-based stop-spacing policy as radials (1.0× the equivalent radial spacing), while every forced radial-transfer platform is retained. Charging-platform dwell is 120 seconds, calculated from one circuit's climate-adjusted energy and the line's aggregate charging power; non-charging halts keep their ordinary dwell.
+Circumferential lines use the same demand-based stop-spacing policy as radials (1.0× the equivalent radial spacing), while every forced radial-transfer platform is retained. Charging-platform dwell is 180 seconds, calculated from one circuit's climate-adjusted energy and the line's aggregate charging power; non-charging halts keep their ordinary dwell.
 
 ## Lines
 
@@ -49,16 +49,16 @@ Circumferential lines use the same demand-based stop-spacing policy as radials (
 
 | Line | Length | Stations | Trainsets | Termini |
 |---|---|---|---|---|
-| line-1 | 57.9 km | 30 | 136 | NE Outer ↔ SW Mid |
-| line-2 | 54.5 km | 29 | 131 | E Outer ↔ W Mid |
-| line-3 | 52.2 km | 26 | 122 | N Mid ↔ SE Outer |
-| line-4 | 32.5 km | 18 | 83 | E Mid ↔ W Mid |
-| line-5 | 46.1 km | 23 | 107 | NE Mid ↔ SW Outer |
-| line-6 | 59.9 km | 29 | 136 | SE Outer ↔ NW Outer |
-| line-7 | 53.9 km | 28 | 126 | NW Outer ↔ SE Mid |
-| line-8 | 43.6 km | 21 | 103 | SW Mid ↔ N Mid |
-| line-9 | 105.1 km | 61 | 62 | W Mid ↔ W Mid |
-| **Total** | **505.8 km** | **265 unique** | **1006** | |
+| line-1 | 57.9 km | 18 | 107 | NE Outer ↔ SW Mid |
+| line-2 | 54.5 km | 19 | 102 | E Outer ↔ W Mid |
+| line-3 | 52.2 km | 15 | 96 | N Mid ↔ SE Outer |
+| line-4 | 32.5 km | 10 | 60 | E Mid ↔ W Mid |
+| line-5 | 46.1 km | 13 | 87 | NE Mid ↔ SW Outer |
+| line-6 | 59.9 km | 16 | 108 | SE Outer ↔ NW Outer |
+| line-7 | 53.9 km | 18 | 104 | NW Outer ↔ SE Mid |
+| line-8 | 43.6 km | 12 | 78 | SW Mid ↔ N Mid |
+| line-9 | 105.1 km | 30 | 48 | W Mid ↔ W Mid |
+| **Total** | **505.8 km** | **151 unique** | **790** | |
 
 ## Rolling stock
 
@@ -70,14 +70,14 @@ Circumferential lines use the same demand-based stop-spacing policy as radials (
 | Seats | 120 longitudinal seats |
 | Nominal capacity (AW2) | 720 pax (seated + standing, `metro-6car` per RFC 0008 §1) |
 | Crush capacity (AW3) | 960 pax, short-duration structural/egress reference |
-| Revenue fleet capacity | 655,200 AW2 pax (873,600 AW3 crush) |
-| Total fleet capacity | 724,320 AW2 pax (965,760 AW3 crush, incl. service rotation + spare + reserve) |
+| Revenue fleet capacity | 514,080 AW2 pax (685,440 AW3 crush) |
+| Total fleet capacity | 568,800 AW2 pax (758,400 AW3 crush, incl. service rotation + spare + reserve) |
 
 ## Ridership capacity
 
 - **Per-train planning capacity:** 720 AW2 passengers (`metro-6car`)
-- **Revenue fleet simultaneous capacity:** 910 × 720 = **655,200 AW2 passengers** (873,600 AW3 crush)
-- **Total fleet passenger capacity:** 1006 × 720 = **724,320 AW2 passengers** (965,760 AW3 crush, incl. service rotation + spare + reserve)
+- **Revenue fleet simultaneous capacity:** 714 × 720 = **514,080 AW2 passengers** (685,440 AW3 crush)
+- **Total fleet passenger capacity:** 790 × 720 = **568,800 AW2 passengers** (758,400 AW3 crush, incl. service rotation + spare + reserve)
 - **Peak frequency:** 20 trains/hour/direction (3-min headway)
 - **Peak capacity per line per direction:** 720 × 20 = **14,400 pphpd**
 - **Network peak throughput (all lines, both directions):** 9 lines × 2 directions × 14,400 = **259,200 passengers/hour**
@@ -99,15 +99,15 @@ On-site trackside + depot PV and battery storage. Per-tier sizing (from [`../../
 | Tier | Sites | PV each | Battery each |
 |---|---|---|---|
 | Depot-Main | 1 | 5000 kW | 40000 kWh |
-| Interchange | 67 | 300 kW | 2000 kWh |
-| Major | 6 | 300 kW | 2000 kWh |
-| Standard | 130 | 300 kW | 2000 kWh |
+| Interchange | 38 | 300 kW | 2000 kWh |
+| Major | 5 | 300 kW | 2000 kWh |
+| Standard | 65 | 300 kW | 2000 kWh |
 | Terminal | 15 | 300 kW | 2000 kWh |
-| **Total installed** | **219** | **70,400 kW** | **476,000 kWh** |
+| **Total installed** | **124** | **41,900 kW** | **286,000 kWh** |
 
-Aggregate station-rail charging power: **438,000 kW**. Trains opportunity-charge during station dwell per RFC 0002; onboard 1,080 kWh usable (1,350 kWh nameplate) battery covers running.
+Aggregate station-rail charging power: **248,000 kW**. Trains opportunity-charge during station dwell per RFC 0002; onboard 1,080 kWh usable (1,350 kWh nameplate) battery covers running.
 
-Dedicated utility-scale solar plant / contracted offsite PPA asset: **1,227.8 MW** sized to cover the generated timetable traction-energy gap after station/depot PV, including a 115% planning coverage margin. This is carried as infrastructure CAPEX below.
+Dedicated utility-scale solar plant / contracted offsite PPA asset: **1,260.6 MW** sized to cover the generated timetable traction-energy gap after station/depot PV, including a 115% planning coverage margin. This is carried as infrastructure CAPEX below.
 
 ### Energy Feasibility Check
 
@@ -115,30 +115,30 @@ Dedicated utility-scale solar plant / contracted offsite PPA asset: **1,227.8 MW
 |---|---:|---|
 | Trainset line-haul intensity | 24.0 kWh/km | 6 cars × 4.0 kWh/car-km planning basis |
 | Onboard battery adequacy | 4.0× worst inter-charge run | OK: 1,350 kWh nameplate, 270 kWh protected reserve, and 807 kWh usable margin across the worst powered-stop gap (line-7) |
-| Lowest traversal charging margin | 482 kWh | line-5 after climate load, 98% conversion, and the required 10% operating margin |
-| PV daily yield proxy | 338 MWh/day | 4.8 peak-sun-hour planning proxy before local derates |
+| Lowest traversal charging margin | 262 kWh | line-8 after climate load, 98% conversion, and the required 10% operating margin |
+| PV daily yield proxy | 201 MWh/day | 4.8 peak-sun-hour planning proxy before local derates |
 | Scheduled one-way train journeys | 3,952 / day | Train departures across both directions and all lines |
 | Scheduled train journey-km | 210,750 train-km/day | One-way train journeys × route length |
 | Annual service work | 83.1 M train-km/yr | Includes 108% depot/deadhead factor |
 | Scheduled traction demand | 5,463 MWh/day | 498.5 M car-km/yr × 4.0 kWh/car-km |
-| On-site PV shortfall before solar plant | 5,125 MWh/day | Gap used to size the dedicated plant / offsite solar PPA asset |
-| Dedicated solar plant | 1,227.8 MW / 5,893 MWh/day | Utility PV + interconnection with 115% planning coverage margin |
+| On-site PV shortfall before solar plant | 5,262 MWh/day | Gap used to size the dedicated plant / offsite solar PPA asset |
+| Dedicated solar plant | 1,260.6 MW / 6,051 MWh/day | Utility PV + interconnection with 115% planning coverage margin |
 | Residual grid/PPA top-up need | 0 MWh/day | Backup import after on-site PV plus the dedicated solar plant |
-| Station/depot stationary storage | 476 MWh | Distributed LFP buffer for charging peaks and grid outages |
+| Station/depot stationary storage | 286 MWh | Distributed LFP buffer for charging peaks and grid outages |
 
 Opportunity charging is checked line by line; ring trains remain in service while receiving the longer planned dwell at every powered platform.
 
 | Line | Powered stops | Climate-adjusted traversal | Delivered per traversal | Required-margin surplus | Worst powered-stop gap |
 |---|---:|---:|---:|---:|---:|
-| line-1 | 24 | 867 kWh | 1,633 kWh | 680 kWh | 16.1 km / 241 kWh |
-| line-2 | 26 | 816 kWh | 1,764 kWh | 866 kWh | 12.0 km / 180 kWh |
-| line-3 | 21 | 782 kWh | 1,437 kWh | 577 kWh | 15.3 km / 229 kWh |
-| line-4 | 18 | 487 kWh | 1,241 kWh | 705 kWh | 2.0 km / 30 kWh |
-| line-5 | 18 | 690 kWh | 1,241 kWh | 482 kWh | 14.0 km / 209 kWh |
-| line-6 | 21 | 898 kWh | 1,470 kWh | 483 kWh | 15.7 km / 235 kWh |
-| line-7 | 22 | 808 kWh | 1,503 kWh | 614 kWh | 18.2 km / 273 kWh |
-| line-8 | 18 | 653 kWh | 1,241 kWh | 523 kWh | 11.2 km / 168 kWh |
-| line-9 | 51 | 1,574 kWh | 3,332 kWh | 1,601 kWh | 8.4 km / 125 kWh |
+| line-1 | 14 | 867 kWh | 1,372 kWh | 419 kWh | 18.0 km / 270 kWh |
+| line-2 | 16 | 816 kWh | 1,339 kWh | 442 kWh | 14.0 km / 210 kWh |
+| line-3 | 13 | 782 kWh | 1,274 kWh | 413 kWh | 15.3 km / 229 kWh |
+| line-4 | 10 | 487 kWh | 849 kWh | 313 kWh | 6.3 km / 94 kWh |
+| line-5 | 10 | 690 kWh | 1,143 kWh | 384 kWh | 14.0 km / 209 kWh |
+| line-6 | 12 | 898 kWh | 1,388 kWh | 401 kWh | 15.7 km / 235 kWh |
+| line-7 | 14 | 808 kWh | 1,372 kWh | 484 kWh | 18.2 km / 273 kWh |
+| line-8 | 10 | 653 kWh | 980 kWh | 262 kWh | 13.2 km / 197 kWh |
+| line-9 | 25 | 1,574 kWh | 2,450 kWh | 719 kWh | 10.1 km / 151 kWh |
 
 ## CAPEX (planning grade)
 
@@ -148,10 +148,10 @@ Base figures come from the `[costs]` block in `design.toml` — emitted by the `
 
 | Bucket | Value |
 |---|---|
-| At-grade (474.3 km @ $3.0 M/km) | $1.42 bn |
-| Elevated (31.5 km @ $12.0 M/km) | $378 M |
-| Elevated-interchange premium (22 sites @ $4.50 M) | $99 M |
-| **Civil subtotal** | **$1.90 bn** |
+| At-grade (477.8 km @ $3.0 M/km) | $1.43 bn |
+| Elevated (28.0 km @ $12.0 M/km) | $336 M |
+| Elevated-interchange premium (19 sites @ $4.50 M) | $86 M |
+| **Civil subtotal** | **$1.85 bn** |
 
 ### Stations
 
@@ -159,14 +159,14 @@ Prefab portal-frame canopy + factory-bonded PV sandwich panel (RFC 0010 §3, ~9 
 
 | Archetype | Count | Unit | Subtotal |
 |---|---|---|---|
-| `halt` | 46 | $600 k | $28 M |
-| `standard` | 130 | $2.50 M | $325 M |
-| `major` | 6 | $4.50 M | $27 M |
+| `halt` | 27 | $600 k | $16 M |
+| `standard` | 65 | $2.50 M | $162 M |
+| `major` | 5 | $4.50 M | $22 M |
 | `terminal` | 15 | $4.50 M | $68 M |
 | `depot-terminal` | 1 | $5.0 M | $5.0 M |
 | `interchange` | 2 | $8.0 M | $16 M |
-| `interchange-elevated` | 65 | $12.0 M | $780 M |
-| **Stations subtotal** | | | **$1.25 bn** |
+| `interchange-elevated` | 36 | $12.0 M | $432 M |
+| **Stations subtotal** | | | **$722 M** |
 
 ### Depots
 
@@ -190,7 +190,7 @@ Rolling stock is costed by **local-owner trainset-family unit**, not by multiply
 
 | Item | Count | Unit | Subtotal |
 |---|---|---|---|
-| `metro-6car` (revenue + service rotation + spare + cold reserve) | 1006 | $1.68 M | $1.69 bn |
+| `metro-6car` (revenue + service rotation + spare + cold reserve) | 790 | $1.68 M | $1.33 bn |
 
 #### 800 V procurement basis
 
@@ -210,8 +210,8 @@ Each city carries a lean local railway production-plant setup allowance for tool
 
 | Item | Count | Unit | Subtotal |
 |---|---:|---:|---:|
-| Vehicle/car modules supported by city fleet | 6036 | $60 k | $362 M |
-| High sensitivity check | 6036 | $120 k | $724 M |
+| Vehicle/car modules supported by city fleet | 4740 | $60 k | $284 M |
+| High sensitivity check | 4740 | $120 k | $569 M |
 
 ### Dedicated solar power plant
 
@@ -219,34 +219,34 @@ Station/depot PV is counted in the charging microgrid and depot asset lines. Whe
 
 | Item | Basis | Value |
 |---|---|---:|
-| Utility-scale PV field | 1,227,796 kW @ $700/kW | $859 M |
-| Grid interconnection / PPA tie-in | 1,227,796 kW @ $100/kW | $123 M |
-| Annual generation proxy | 1,227.8 MW × 4.8 peak-sun-h/day × 365 d/yr | 2,151.1 GWh/yr |
-| **Dedicated solar plant subtotal** | | **$982 M** |
+| Utility-scale PV field | 1,260,571 kW @ $700/kW | $882 M |
+| Grid interconnection / PPA tie-in | 1,260,571 kW @ $100/kW | $126 M |
+| Annual generation proxy | 1,260.6 MW × 4.8 peak-sun-h/day × 365 d/yr | 2,208.5 GWh/yr |
+| **Dedicated solar plant subtotal** | | **$1.01 bn** |
 
 ### Systems
 
 | Item | Basis | Subtotal |
 |---|---|---|
 | Residual signalling / train-control wayside (onboard ATP/ATO + T-OBS carries the function; W-Nodes, balises, LoRa gateways, OCC interfaces remain) | 505.8 km × $0.050 M/km | $25 M |
-| Station/depot charging microgrids (conductive charger, switchgear, inverter interface, local PV/battery tie-in; no continuous wayside supply) | per-stop allowance by station archetype | $95 M |
-| EPC integration + project management (7%) | on subtotal | $373 M |
+| Station/depot charging microgrids (conductive charger, switchgear, inverter interface, local PV/battery tie-in; no continuous wayside supply) | per-stop allowance by station archetype | $54 M |
+| EPC integration + project management (7%) | on subtotal | $299 M |
 
 ### Total
 
 | Bucket | Value |
 |---|---|
-| Civil works | $1.90 bn |
-| Stations | $1.25 bn |
+| Civil works | $1.85 bn |
+| Stations | $722 M |
 | Depots | $8.0 M |
-| Rolling stock | $1.69 bn |
-| Railway production plant | $362 M |
-| Dedicated solar power plant | $982 M |
-| Residual train-control wayside + charging microgrids | $120 M |
-| EPC overhead (7%) | $373 M |
-| **CAPEX total** | **$6.68 bn** |
-| Per-route-km | $13 M / km |
-| Per-capita (city pop) | $1,172 / person |
+| Rolling stock | $1.33 bn |
+| Railway production plant | $284 M |
+| Dedicated solar power plant | $1.01 bn |
+| Residual train-control wayside + charging microgrids | $79 M |
+| EPC overhead (7%) | $299 M |
+| **CAPEX total** | **$5.58 bn** |
+| Per-route-km | $11 M / km |
+| Per-capita (city pop) | $979 / person |
 
 ## Construction QA system
 
@@ -280,25 +280,25 @@ Bottom line for next year's budget submission. Construction phase runs **years 1
 
 | Phase | Annual gov / municipal commitment | Per resident / yr |
 |---|---|---|
-| Construction (years 1–7) | **$432 M / yr** | $76 |
-| Steady-state, low capacity-use (year 8+) | **$197 M / yr** | $35 |
-| Steady-state, high capacity-use (year 8+) | **$44 M / yr** | $8 |
-| Steady-state, operating-neutral revenue case | **$314 M / yr** | $55 |
-| Lifecycle envelope (yr 1–40, low scenario) | **$9.51 bn cumulative** | $1,669 |
-| Lifecycle envelope (yr 1–40, high scenario) | **$4.47 bn cumulative** | $783 |
-| Lifecycle envelope (yr 1–40, operating-neutral after opening) | **$13.39 bn cumulative** | $2,348 |
+| Construction (years 1–7) | **$360 M / yr** | $63 |
+| Steady-state, low capacity-use (year 8+) | **$125 M / yr** | $22 |
+| Steady-state, high capacity-use (year 8+) | **$0 k / yr** | $0 |
+| Steady-state, operating-neutral revenue case | **$262 M / yr** | $46 |
+| Lifecycle envelope (yr 1–40, low scenario) | **$6.66 bn cumulative** | $1,168 |
+| Lifecycle envelope (yr 1–40, high scenario) | **$2.52 bn cumulative** | $443 |
+| Lifecycle envelope (yr 1–40, operating-neutral after opening) | **$11.18 bn cumulative** | $1,962 |
 
-_Population basis: 5,700,000 (city population per `lib/city-batches/world-sample.toml`). After year 40, debt service drops to zero; steady-state commitments below are net of any operating surplus applied to repayable-debt support. The operating-neutral case already covers steady-state OPEX from fares, station shops, and advertising. Low/high residual OPEX shortfall before debt is $0 k / yr → $0 k / yr; surplus applied to debt support is $117 M / yr → $270 M / yr._
+_Population basis: 5,700,000 (city population per `lib/city-batches/world-sample.toml`). After year 40, debt service drops to zero; steady-state commitments below are net of any operating surplus applied to repayable-debt support. The operating-neutral case already covers steady-state OPEX from fares, station shops, and advertising. Low/high residual OPEX shortfall before debt is $0 k / yr → $0 k / yr; surplus applied to debt support is $137 M / yr → $262 M / yr._
 
 ### CAPEX funding stack
 
 | Tranche | Share | Principal | Rate | Tenor | Annual debt service (post-grace) |
 |---|---|---|---|---|---|
-| Candidate climate/MDB concessional debt (unconfirmed) | 80% | $5.35 bn | 4.5% | 40 y, 7 y grace | $314 M / yr |
-| Government equity (no debt service) | 20% | $1.34 bn | — | — | — |
-| **Total** | **100%** | **$6.68 bn** | | | **$314 M / yr** |
+| Candidate climate/MDB concessional debt (unconfirmed) | 80% | $4.47 bn | 4.5% | 40 y, 7 y grace | $262 M / yr |
+| Government equity (no debt service) | 20% | $1.12 bn | — | — | — |
+| **Total** | **100%** | **$5.58 bn** | | | **$262 M / yr** |
 
-_During the 7-year grace period the public sponsor pays interest only on repayable debt — candidate climate/MDB debt $241 M / yr = **$241 M / yr** total. The base case assumes no climate-development grant. Government equity is drawn across construction ($191 M / yr × 7 yr). Principal repayment begins in year 8 on a 33-year amortisation schedule._
+_During the 7-year grace period the public sponsor pays interest only on repayable debt — candidate climate/MDB debt $201 M / yr = **$201 M / yr** total. The base case assumes no climate-development grant. Government equity is drawn across construction ($160 M / yr × 7 yr). Principal repayment begins in year 8 on a 33-year amortisation schedule._
 
 _Loan availability note: this is a finance placeholder, not a committed lender offer. Plausible providers would be a national government borrowing through an MDB or a climate fund accredited entity, such as the World Bank/IBRD, Islamic Development Bank, Climate Investment Funds, or Green Climate Fund channels. Official GCF policy allows grants and concessional loans, and World Bank/CIF material documents below-market climate finance, but this project still needs a lender mandate, eligibility screen, and signed term sheet before the 4.5% / 40-year assumption can be treated as real. Evidence anchors: [GCF financial instruments](https://www.greenclimate.fund/about/policies/financial-instruments), [GCF concessional-loan terms decision](https://www.greenclimate.fund/decision/b09-04), [World Bank concessional-finance explainer](https://www.worldbank.org/en/news/feature/2021/09/16/what-you-need-to-know-about-concessional-finance-for-climate-action), [CIF funding instruments](https://www.cif.org/cif-funding), and [IsDB GCF accreditation](https://www.greenclimate.fund/ae/isdb)._
 
@@ -306,18 +306,18 @@ _Loan availability note: this is a finance placeholder, not a committed lender o
 
 | Component | Basis | Annual cost |
 |---|---|---|
-| Rolling-stock maintenance | 4 % of rolling-stock CAPEX | $68 M |
-| Civil + station + depot maintenance | 2 % of fixed-asset CAPEX | $63 M |
+| Rolling-stock maintenance | 4 % of rolling-stock CAPEX | $53 M |
+| Civil + station + depot maintenance | 2 % of fixed-asset CAPEX | $52 M |
 | Residual train-control wayside maintenance | 5 % of residual signalling CAPEX | $1.3 M |
-| Traction energy (1993.9 GWh / yr) | 210,750 scheduled train-km/day × 365 d/yr × 108% depot/deadhead factor; 6 cars × 4.0 kWh/car-km; on-site PV 123.3 GWh/yr + dedicated solar plant 1227.8 MW / 2151.1 GWh/yr (100% coverage); residual grid/PPA top-up 0.0 GWh/yr @ $0.10/kWh; solar plant O&M 1.5%/yr | $15 M |
-| Labour (2,720 FTE) | driverless roster: OCC/remote 507, station/platform 944, passenger service 231, fleet maintenance 579, infrastructure/energy 426, admin/training 33; no train drivers × country median × 12 × engineer-premium 1.4 | $11 M |
-| **OPEX subtotal** | | **$157 M / yr** |
+| Traction energy (1993.9 GWh / yr) | 210,750 scheduled train-km/day × 365 d/yr × 108% depot/deadhead factor; 6 cars × 4.0 kWh/car-km; on-site PV 73.4 GWh/yr + dedicated solar plant 1260.6 MW / 2208.5 GWh/yr (100% coverage); residual grid/PPA top-up 0.0 GWh/yr @ $0.10/kWh; solar plant O&M 1.5%/yr | $15 M |
+| Labour (2,128 FTE) | driverless roster: OCC/remote 410, station/platform 554, passenger service 231, fleet maintenance 514, infrastructure/energy 386, admin/training 33; no train drivers × country median × 12 × engineer-premium 1.4 | $8.2 M |
+| **OPEX subtotal** | | **$129 M / yr** |
 
-_Annual service work: 210,750 scheduled train-km/day × 365 d/yr × 108% depot/deadhead factor = 83.1 M train-km / yr (498.5 M car-km / yr). On-site PV covers 123.3 GWh/yr and the dedicated solar plant adds 2151.1 GWh/yr against 1993.9 GWh/yr traction demand before residual grid/PPA top-up (0.0 GWh/yr). Driverless labour follows RFC 0015: train drivers are not counted, but OCC remote-assist, platform presence, passenger service, and fleet/energy maintenance scale with the larger service._
+_Annual service work: 210,750 scheduled train-km/day × 365 d/yr × 108% depot/deadhead factor = 83.1 M train-km / yr (498.5 M car-km / yr). On-site PV covers 73.4 GWh/yr and the dedicated solar plant adds 2208.5 GWh/yr against 1993.9 GWh/yr traction demand before residual grid/PPA top-up (0.0 GWh/yr). Driverless labour follows RFC 0015: train drivers are not counted, but OCC remote-assist, platform presence, passenger service, and fleet/energy maintenance scale with the larger service._
 
 ## Maintenance schedule system
 
-Baseline scheduled work covers 1006 trainsets, 265 stations, 505.8 route-km, 9 lines, and 210,750 scheduled train-km/day. Intervals are defined in [`lib/templates/maintenance-schedule.toml`](../../../../lib/templates/maintenance-schedule.toml) and governed by [RFC 0029](../../../../docs/rfcs/0029-maintenance-schedule-system.md).
+Baseline scheduled work covers 790 trainsets, 151 stations, 505.8 route-km, 9 lines, and 210,750 scheduled train-km/day. Intervals are defined in [`lib/templates/maintenance-schedule.toml`](../../../../lib/templates/maintenance-schedule.toml) and governed by [RFC 0029](../../../../docs/rfcs/0029-maintenance-schedule-system.md).
 
 | Asset group | Cadence / trigger | Scope | Evidence owner |
 |---|---|---|---|
@@ -362,21 +362,21 @@ Planning revenue is capacity-led: annual paid trips are calculated from practica
 
 | | Low scenario | High scenario | Operating-neutral target |
 |---|---|---|---|
-| Practical service capacity used | 50% | 80% | 27% |
-| Annual paid trips | 415.5 M | 664.8 M | 224.1 M |
-| Annual paid trips / city resident | 73 | 117 | 39 |
-| Farebox revenue | $255 M / yr | $408 M / yr | $137 M / yr |
-| Station shop leases | $7.7 M / yr | $7.7 M / yr | $7.7 M / yr |
-| Advertising boards | $12 M / yr | $12 M / yr | $12 M / yr |
-| **Total revenue** | **$275 M / yr** | **$428 M / yr** | **$157 M / yr** |
-| Revenue / OPEX recovery | 175% | 272% | 100% |
+| Practical service capacity used | 50% | 80% | 23% |
+| Annual paid trips | 415.5 M | 664.8 M | 191.8 M |
+| Annual paid trips / city resident | 73 | 117 | 34 |
+| Farebox revenue | $255 M / yr | $408 M / yr | $118 M / yr |
+| Station shop leases | $4.5 M / yr | $4.5 M / yr | $4.5 M / yr |
+| Advertising boards | $7.2 M / yr | $7.2 M / yr | $7.2 M / yr |
+| **Total revenue** | **$267 M / yr** | **$419 M / yr** | **$129 M / yr** |
+| Revenue / OPEX recovery | 206% | 324% | 100% |
 | Country farebox-only policy target (diagnostic) | 50% | 50% | 50% |
-| Gross repayable-debt service + residual OPEX subsidy | $314 M / yr | $314 M / yr | **$314 M / yr** |
-| Operating surplus applied to debt support | -$117 M / yr | -$270 M / yr | **$0 k / yr** |
-| **Net gov repayable-debt support + residual OPEX subsidy** | $197 M / yr | $44 M / yr | **$314 M / yr** |
-| Operating surplus after OPEX (before debt support) | $117 M / yr | $270 M / yr | $0 / yr |
+| Gross repayable-debt service + residual OPEX subsidy | $262 M / yr | $262 M / yr | **$262 M / yr** |
+| Operating surplus applied to debt support | -$137 M / yr | -$262 M / yr | **$0 k / yr** |
+| **Net gov repayable-debt support + residual OPEX subsidy** | $125 M / yr | $0 k / yr | **$262 M / yr** |
+| Operating surplus after OPEX (before debt support) | $137 M / yr | $290 M / yr | $0 / yr |
 
-_Commercial-revenue assumptions: 39,560 m² of station shop/kiosk leases at $18/m²/month and 7,380 advertising boards at $161/board/month, with occupancy derates applied._
+_Commercial-revenue assumptions: 23,392 m² of station shop/kiosk leases at $18/m²/month and 4,372 advertising boards at $161/board/month, with occupancy derates applied._
 
 **Caveats:** The grant-free funding stack, the 8 % operating-neutral fare target, the 50%–80% capacity-utilisation bracket, and the station-commercial assumptions are project-level defaults. Real deployments will negotiate the capital split with financing institutions and tune fares, retail mix, advertising inventory, and service frequency iteratively from boarding data. Treat the numbers above as a first-iteration sanity check, not as a bid-ready financial close.
 
@@ -392,27 +392,27 @@ This is a broad-benefit screen, not a bankable benefit-cost analysis. The rows q
 | Avoided road congestion | $120 M / yr | $191 M / yr | 1,496 M - 2,393 M vehicle-km/yr avoided × $0.08/vehicle-km |
 | Avoided CO2e | $22 M / yr | $34 M / yr | 269.2–430.8 ktCO2e/yr after rail residual-grid emissions × $80/t |
 | Local air / noise / safety externalities | $60 M / yr | $96 M / yr | avoided road vehicle-km × $0.04/vehicle-km |
-| Station-area commerce turnover supported | $122 M / yr | $195 M / yr | 20% of paid trips × $1.50 local spend proxy |
+| Station-area commerce turnover supported | $125 M / yr | $200 M / yr | 20% of paid trips × $1.50 local spend proxy |
 | Entertainment / community activity supported | $66 M / yr | $106 M / yr | 11% of paid trips × $1.50 local spend proxy |
-| **Annual quantified benefit / activity proxy** | **$462 M / yr** | **$740 M / yr** | sum of rows above; use as a screening envelope, not audited revenue |
+| **Annual quantified benefit / activity proxy** | **$466 M / yr** | **$745 M / yr** | sum of rows above; use as a screening envelope, not audited revenue |
 
 ### Access to education, healthcare, commerce, and entertainment
 
 | Access channel | Anchored stations / signal | Low scenario | High scenario |
 |---|---:|---:|---:|
-| Education | 29 education anchors | 71,182 trips/school day; 15.7 M access-events/yr | 113,891 trips/school day; 25.1 M access-events/yr |
-| Healthcare | 34 healthcare anchors | 91,688 trips/day; 33.5 M access-events/yr | 146,701 trips/day; 53.5 M access-events/yr |
-| Commerce | 89 major/terminal/interchange nodes | 222,273 trips/trading day; 73.4 M access-events/yr | 355,637 trips/trading day; 117.4 M access-events/yr |
+| Education | 18 education anchors | 71,877 trips/school day; 15.8 M access-events/yr | 115,003 trips/school day; 25.3 M access-events/yr |
+| Healthcare | 16 healthcare anchors | 86,512 trips/day; 31.6 M access-events/yr | 138,420 trips/day; 50.5 M access-events/yr |
+| Commerce | 59 major/terminal/interchange nodes | 228,832 trips/trading day; 75.5 M access-events/yr | 366,132 trips/trading day; 120.8 M access-events/yr |
 | Entertainment / community | 20.5 h/day service span | 120,662 trips/activity day; 36.2 M access-events/yr | 193,059 trips/activity day; 57.9 M access-events/yr |
 
 ### Local recirculation of initial CAPEX
 
 | Channel | Value | Basis |
 |---|---:|---|
-| CAPEX retained in local procurement / payroll | $3.57 bn | 53% of $6.68 bn CAPEX using bucket local-content shares |
-| Construction-phase local economic activity | $5.71 bn | retained CAPEX × 1.6 local supplier / wage multiplier |
-| Annualised during construction | $816 M / yr | spread across 7 construction / grace years |
-| Construction employment supported | 323,196 job-years | retained CAPEX ÷ (4.0 × median annual income) |
+| CAPEX retained in local procurement / payroll | $2.95 bn | 53% of $5.58 bn CAPEX using bucket local-content shares |
+| Construction-phase local economic activity | $4.72 bn | retained CAPEX × 1.6 local supplier / wage multiplier |
+| Annualised during construction | $674 M / yr | spread across 7 construction / grace years |
+| Construction employment supported | 267,238 job-years | retained CAPEX ÷ (4.0 × median annual income) |
 | Annual paid-trip capacity used in revenue model | 415.5 M - 664.8 M trips/yr | 50%-80% of practical service capacity |
 
 _Interpretation: the strongest fiscal result remains the farebox + commercial revenue table above. The broader rows here capture welfare, access, avoided external costs, and local supplier circulation that usually matter to a finance ministry, city authority, or development bank even when they do not appear as railway revenue._
@@ -423,14 +423,14 @@ The machine-readable finance check reconciles the design-base CAPEX with the sce
 
 | Check | Result |
 |---|---:|
-| Authoritative design-base CAPEX | $5.70 bn |
-| Timetable-sized dedicated solar CAPEX | $982 M |
-| **Reconciled project CAPEX** | **$6.68 bn** |
-| 15%–25% planning risk envelope | $7.69 bn–$8.35 bn |
-| Annual OPEX | $157 M / yr |
-| Low/high project NPV at 8% | $-4181952 k / $-3154739 k |
-| Low/high project IRR | -2.5% / 1.5% |
-| Low/high steady-state DSCR | 0.37 / 0.86 |
+| Authoritative design-base CAPEX | $4.57 bn |
+| Timetable-sized dedicated solar CAPEX | $1.01 bn |
+| **Reconciled project CAPEX** | **$5.58 bn** |
+| 15%–25% planning risk envelope | $6.42 bn–$6.98 bn |
+| Annual OPEX | $129 M / yr |
+| Low/high project NPV at 8% | $-3230773 k / $-2203559 k |
+| Low/high project IRR | -1.0% / 2.9% |
+| Low/high steady-state DSCR | 0.52 / 1.11 |
 
 Evidence and limitations: [`engineering/finance/summary.json`](engineering/finance/summary.json).
 
@@ -449,18 +449,18 @@ The results below are measured `osr-sim` outputs for the scenario hash recorded 
 
 | Verified run | Result |
 |---|---|
-| 2-hour screenshot trace | 11,764.60 train-km; 176,184.63 kWh consumed; 178,783.92 kWh charged; 10 depot services completed; minimum SoC 75%; 0 onboard emergencies; 0 invariant violations |
-| Full 05:30–02:00 service plus run-out | 213,578.20 train-km; 3,198,511.08 kWh consumed; 3,257,692.50 kWh charged; 1,588 depot services completed; minimum SoC 60%; 0 onboard emergencies; 0 invariant violations; 100.0% of scheduled train-km delivered |
+| 2-hour screenshot trace | 12,551.50 train-km; 187,969.00 kWh consumed; 183,887.12 kWh charged; 23 depot services completed; minimum SoC 68%; 0 onboard emergencies; 0 invariant violations |
+| Full 05:30–02:00 service plus run-out | 205,911.24 train-km; 3,083,690.03 kWh consumed; 3,117,843.35 kWh charged; 1,582 depot services completed (2 active at cutoff); minimum SoC 53%; 0 onboard emergencies; 0 invariant violations; 97.7% of scheduled train-km delivered |
 
 ### Mandatory degraded-energy cases
 
 | Case | Minimum SoC | Service delivered / required | Result |
 |---|---:|---:|---:|
-| 80% end-of-life battery capacity | 50.4% | 100.0% / 90% | pass |
-| maximum planning climate/HVAC duty | 42.3% | 100.0% / 90% | pass |
-| 50% charging-contact availability | 60.4% | 100.0% / 90% | pass |
-| ten-hour all-site grid outage | 20.0% | 83.9% / 60% | pass |
-| ten-hour single charging-pad outage | 60.4% | 100.0% / 90% | pass |
+| 80% end-of-life battery capacity | 40.6% | 97.7% / 90% | pass |
+| maximum planning climate/HVAC duty | 20.0% | 97.6% / 90% | pass |
+| 50% charging-contact availability | 52.5% | 97.7% / 90% | pass |
+| ten-hour all-site grid outage | 20.0% | 72.5% / 60% | pass |
+| ten-hour single charging-pad outage | 52.3% | 97.7% / 90% | pass |
 
 **Simulation acceptance:** passed — The full-window run includes 4.5 hours after the 02:00 service close so long ring and charging cycles can finish. Nominal and N-1/degraded screens protect 20% SoC and at least 90% of scheduled train-km. The ten-hour all-site grid outage is an emergency reduced-service case with a 60% floor. Energy-adaptive control may widen off-peak headways; calibrated timetable acceptance remains an operator gate.
 
@@ -477,7 +477,7 @@ These are executed city-specific screening runs. They establish model consistenc
 | Package | Current result |
 |---|---|
 | SUMO | 36/36 screening services arrived; 0 input findings; status `completed` |
-| QGIS/GDAL | GeoPackage generated with 9 corridors, 265 line platforms, 23 interchange complexes, 151 civil segments, and 0 input findings |
+| QGIS/GDAL | GeoPackage generated with 9 corridors, 151 line platforms, 20 interchange complexes, 145 civil segments, and 0 input findings |
 | pandapower/pvlib | Solver passed; grid-only max transformer loading 81.1%; coordinated-daylight max 33.0%; 0 open screening findings |
 
 Evidence: [`engineering/sumo/summary.json`](engineering/sumo/summary.json), [`engineering/gis/summary.json`](engineering/gis/summary.json), and [`engineering/energy/summary.json`](engineering/energy/summary.json).

@@ -4,7 +4,7 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`quelimane-line1.aln.toml`](quelimane-line1.aln.toml) | `line-1` | 10,266.2 m | 7 |
+| [`quelimane-line1.aln.toml`](quelimane-line1.aln.toml) | `line-1` | 10,266.2 m | 5 |
 
 ## Status
 

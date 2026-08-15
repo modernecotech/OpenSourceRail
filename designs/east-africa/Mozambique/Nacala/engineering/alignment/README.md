@@ -4,9 +4,9 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`nacala-line1.aln.toml`](nacala-line1.aln.toml) | `line-1` | 14,494.3 m | 9 |
-| [`nacala-line2.aln.toml`](nacala-line2.aln.toml) | `line-2` | 12,111.3 m | 8 |
-| [`nacala-line3.aln.toml`](nacala-line3.aln.toml) | `line-3` | 12,362.3 m | 8 |
+| [`nacala-line1.aln.toml`](nacala-line1.aln.toml) | `line-1` | 14,494.3 m | 6 |
+| [`nacala-line2.aln.toml`](nacala-line2.aln.toml) | `line-2` | 12,111.3 m | 6 |
+| [`nacala-line3.aln.toml`](nacala-line3.aln.toml) | `line-3` | 12,362.3 m | 5 |
 
 ## Status
 

@@ -4,12 +4,12 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`karbala-line1.aln.toml`](karbala-line1.aln.toml) | `line-1` | 25,258.7 m | 16 |
-| [`karbala-line2.aln.toml`](karbala-line2.aln.toml) | `line-2` | 20,132.2 m | 13 |
-| [`karbala-line3.aln.toml`](karbala-line3.aln.toml) | `line-3` | 18,147.1 m | 15 |
-| [`karbala-line4.aln.toml`](karbala-line4.aln.toml) | `line-4` | 20,111.5 m | 11 |
-| [`karbala-line5.aln.toml`](karbala-line5.aln.toml) | `line-5` | 22,989.9 m | 15 |
-| [`karbala-line6.aln.toml`](karbala-line6.aln.toml) | `line-6` | 61,821.4 m | 37 |
+| [`karbala-line1.aln.toml`](karbala-line1.aln.toml) | `line-1` | 25,258.7 m | 11 |
+| [`karbala-line2.aln.toml`](karbala-line2.aln.toml) | `line-2` | 20,132.2 m | 9 |
+| [`karbala-line3.aln.toml`](karbala-line3.aln.toml) | `line-3` | 18,147.1 m | 6 |
+| [`karbala-line4.aln.toml`](karbala-line4.aln.toml) | `line-4` | 20,111.5 m | 6 |
+| [`karbala-line5.aln.toml`](karbala-line5.aln.toml) | `line-5` | 22,989.9 m | 8 |
+| [`karbala-line6.aln.toml`](karbala-line6.aln.toml) | `line-6` | 61,821.4 m | 16 |
 
 ## Status
 

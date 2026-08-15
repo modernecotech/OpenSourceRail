@@ -50,7 +50,7 @@ length_m        = 8684.2
 rolling_stock   = "light-metro-3car"
 geometry        = "standard-urban"
 
-charging_dwell_seconds = 120
+charging_dwell_seconds = 150
 
 [[lines]]
 name            = "line-2"
@@ -59,7 +59,7 @@ length_m        = 7869.3
 rolling_stock   = "light-metro-3car"
 geometry        = "standard-urban"
 
-charging_dwell_seconds = 120
+charging_dwell_seconds = 180
 
 [[civil_segments]]
 line            = "line-1"
@@ -103,20 +103,11 @@ archetype       = "terminal"
 platform_length_m = 59.5
 
 [[stations]]
-id              = "line-1-0507-0464-s002019"
+id              = "line-1-0515-0511-s003026"
 line            = "line-1"
-lat             = 31.720867170571932
-lon             = 73.95990038382668
-s_m             = 2019.4
-archetype       = "standard"
-platform_length_m = 59.5
-
-[[stations]]
-id              = "line-1-0517-0522-s003262"
-line            = "line-1"
-lat             = 31.719067508908324
-lon             = 73.9721497320763
-s_m             = 3262.3
+lat             = 31.71942744124105
+lon             = 73.96982657982205
+s_m             = 3025.7
 archetype       = "standard"
 platform_length_m = 59.5
 
@@ -133,13 +124,13 @@ platform_length_m = 59.5
 junction_group  = 0
 
 [[stations]]
-id              = "line-1-0562-0640-s006441"
+id              = "line-1-0556-0617-s005931"
 line            = "line-1"
-lat             = 31.710969031422092
-lon             = 73.99707081989449
-s_m             = 6441.1
-anchor_kind     = "amenity:university"
-anchor_name     = "Lahore Polytechnique"
+lat             = 31.712048828420258
+lon             = 73.99221331972653
+s_m             = 5931.4
+anchor_kind     = "amenity:hospital"
+anchor_name     = "Shakir Hospital"
 archetype       = "major"
 platform_length_m = 59.5
 
@@ -167,15 +158,6 @@ archetype       = "terminal"
 platform_length_m = 59.5
 
 [[stations]]
-id              = "line-2-0542-0488-s001464"
-line            = "line-2"
-lat             = 31.714568354749307
-lon             = 73.96496907965411
-s_m             = 1463.7
-archetype       = "standard"
-platform_length_m = 59.5
-
-[[stations]]
 id              = "line-2-0551-0554-s002915"
 line            = "line-2"
 lat             = 31.71294865925206
@@ -188,20 +170,11 @@ platform_length_m = 59.5
 junction_group  = 0
 
 [[stations]]
-id              = "line-2-0587-0598-s004414"
-line            = "line-2"
-lat             = 31.706469877263075
-lon             = 73.98820060219649
-s_m             = 4414.2
-archetype       = "major"
-platform_length_m = 59.5
-
-[[stations]]
-id              = "line-2-0596-0652-s005625"
+id              = "line-2-0596-0640-s005385"
 line            = "line-2"
 lat             = 31.704850181765828
-lon             = 73.9996051678082
-s_m             = 5625.3
+lon             = 73.99707081989449
+s_m             = 5385.3
 anchor_kind     = "amenity:hospital"
 anchor_name     = "Ashraf General Hospital"
 archetype       = "major"
@@ -239,7 +212,7 @@ platforms       = ["line-1-0599-0736-s008684", "line-2-0601-0732-s007869"]
 [[depots]]
 station      = "line-1-0599-0736-s008684"
 archetype    = "main-heavy"
-fleet_stalls = 7
+fleet_stalls = 6
 
 # switches — turnbacks at terminals + depot fans per RFC 0012 §9.
 switches = [
@@ -251,7 +224,6 @@ switches = [
   { id = "sw-line-1-0599-0736-s008684-yd-04", kit = "no-9-mainline", station = "line-1-0599-0736-s008684", side = "yard-throat" },
   { id = "sw-line-1-0599-0736-s008684-yd-05", kit = "no-9-mainline", station = "line-1-0599-0736-s008684", side = "yard-throat" },
   { id = "sw-line-1-0599-0736-s008684-yd-06", kit = "no-9-mainline", station = "line-1-0599-0736-s008684", side = "yard-throat" },
-  { id = "sw-line-1-0599-0736-s008684-yd-07", kit = "no-9-mainline", station = "line-1-0599-0736-s008684", side = "yard-throat" },
   { id = "sw-line-2-0517-0430-s000000-tb", kit = "no-9-mainline", station = "line-2-0517-0430-s000000", side = "turnback" },
   { id = "sw-line-2-0601-0732-s007869-tb", kit = "no-9-mainline", station = "line-2-0601-0732-s007869", side = "turnback" },
 ]
@@ -278,19 +250,19 @@ premium_eur     = 4140000
 # [[fleets]] — per-line fleet sizing per RFC 0014 §4.
 [[fleets]]
 line               = "line-1"
-peak_count         = 20
-service_rotation_count = 0
-spare_count        = 2
-cold_reserve_count = 1
-trainset_count     = 23
-
-[[fleets]]
-line               = "line-2"
-peak_count         = 19
+peak_count         = 17
 service_rotation_count = 0
 spare_count        = 1
 cold_reserve_count = 1
-trainset_count     = 21
+trainset_count     = 19
+
+[[fleets]]
+line               = "line-2"
+peak_count         = 16
+service_rotation_count = 0
+spare_count        = 1
+cold_reserve_count = 1
+trainset_count     = 18
 
 # [costs] — RFC 0011 §9 planning-grade CAPEX (USD
 # direct-procurement planning basis). country-costs.toml applies
@@ -313,27 +285,27 @@ junction_premium_eur = 8280000  # EUR 4.1 M per elevated interchange.
 civil_subtotal_usd   = 73831437
 civil_subtotal_eur   = 67924922
 # Stations (RFC 0010 archetype catalogue).
-stations_usd         = 63500000
-stations_eur         = 58420000
+stations_usd         = 54000000
+stations_eur         = 49680000
 # Depots (RFC 0014 archetype catalogue).
 depots_usd           = 8000000
 depots_eur           = 7360000
 # Rolling stock (RFC 0008 family × fleet count; local-owner production unit).
-rolling_stock_usd    = 39600000
-rolling_stock_eur    = 36432000
+rolling_stock_usd    = 33300000
+rolling_stock_eur    = 30636000
 # Railway production plant (tooling + plant setup per vehicle/car module, not per trainset).
-production_plant_usd = 7920000
-production_plant_eur = 7286400
+production_plant_usd = 6660000
+production_plant_eur = 6127200
 # Systems: residual train-control wayside + station/depot charging microgrids.
 signalling_usd       = 827671
 signalling_eur       = 761457
-charging_microgrid_usd = 1400000
-charging_microgrid_eur = 1288000
+charging_microgrid_usd = 1100000
+charging_microgrid_eur = 1012000
 # EPC integration + project management (7 % of subtotal).
-epc_overhead_usd     = 13655538
-epc_overhead_eur     = 12563095
-total_usd            = 208734646  # base CAPEX before timetable-sized dedicated solar
-total_eur            = 192035874  # base CAPEX before timetable-sized dedicated solar
+epc_overhead_usd     = 12440338
+epc_overhead_eur     = 11445111
+total_usd            = 190159446  # base CAPEX before timetable-sized dedicated solar
+total_eur            = 174946690  # base CAPEX before timetable-sized dedicated solar
 
 [costs.technology_basis]
 cost_treatment = "included in planning units; do not add again"
@@ -348,7 +320,7 @@ lv_dc_dc_usd_per_car = 2500
 roof_pv_mppt_usd_per_car = 1000
 core_electrical_usd_per_car = 51000
 core_electrical_usd_per_trainset = 153000
-fleet_core_electrical_usd = 6732000
+fleet_core_electrical_usd = 5661000
 station_architecture = "500-1500 V DC/DC configured to 500 kW; 650-700 V train bus"
 stationary_lfp_500kwh_usd = 37500
 station_dcdc_500kw_usd = 15000

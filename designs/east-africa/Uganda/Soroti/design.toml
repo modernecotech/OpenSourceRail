@@ -97,24 +97,11 @@ archetype       = "terminal"
 platform_length_m = 49.0
 
 [[stations]]
-id              = "line-1-0309-0392-s002001"
+id              = "line-1-0320-0388-s002254"
 line            = "line-1"
-lat             = 1.7265004715113559
-lon             = 33.614049014275885
-s_m             = 2000.8
-anchor_kind     = "amenity:hospital"
-anchor_name     = "ISLAMIC HC II"
-archetype       = "standard"
-platform_length_m = 49.0
-
-[[stations]]
-id              = "line-1-0349-0396-s003202"
-line            = "line-1"
-lat             = 1.719301824856927
-lon             = 33.61476798512201
-s_m             = 3201.7
-anchor_kind     = "amenity:hospital"
-anchor_name     = "Doctors Mess"
+lat             = 1.724520843681388
+lon             = 33.61333004342976
+s_m             = 2254.0
 archetype       = "major"
 platform_length_m = 49.0
 
@@ -154,18 +141,6 @@ platform_length_m = 49.0
 junction_group  = 0
 
 [[stations]]
-id              = "line-2-0373-0377-s000451"
-line            = "line-2"
-lat             = 1.7149826368642695
-lon             = 33.61135287360292
-s_m             = 451.1
-anchor_kind     = "place:town"
-anchor_name     = "Soroti"
-archetype       = "interchange-elevated"
-platform_length_m = 49.0
-junction_group  = 0
-
-[[stations]]
 id              = "line-2-0313-0432-s002142"
 line            = "line-2"
 lat             = 1.725780606845913
@@ -179,16 +154,16 @@ platform_length_m = 49.0
 [[interchanges]]
 id              = "interchange-000"
 junction_group  = 0
-lat             = 1.7147426819757887
-lon             = 33.61033433157092
+lat             = 1.714622704531548
+lon             = 33.60982506055491
 lines           = ["line-1", "line-2"]
-platforms       = ["line-1-0373-0377-s004498", "line-2-0373-0377-s000451", "line-2-0377-0360-s000000"]
+platforms       = ["line-1-0373-0377-s004498", "line-2-0377-0360-s000000"]
 
 # [[depots]] — maintenance/defect facilities per RFC 0014; healthy sets stable at powered stations.
 [[depots]]
 station      = "line-1-0333-0345-s005758"
 archetype    = "main-heavy"
-fleet_stalls = 5
+fleet_stalls = 4
 
 # switches — turnbacks at terminals + depot fans per RFC 0012 §9.
 switches = [
@@ -198,7 +173,6 @@ switches = [
   { id = "sw-line-1-0333-0345-s005758-yd-02", kit = "no-9-mainline", station = "line-1-0333-0345-s005758", side = "yard-throat" },
   { id = "sw-line-1-0333-0345-s005758-yd-03", kit = "no-9-mainline", station = "line-1-0333-0345-s005758", side = "yard-throat" },
   { id = "sw-line-1-0333-0345-s005758-yd-04", kit = "no-9-mainline", station = "line-1-0333-0345-s005758", side = "yard-throat" },
-  { id = "sw-line-1-0333-0345-s005758-yd-05", kit = "no-9-mainline", station = "line-1-0333-0345-s005758", side = "yard-throat" },
   { id = "sw-line-2-0377-0360-s000000-tb", kit = "no-9-mainline", station = "line-2-0377-0360-s000000", side = "turnback" },
   { id = "sw-line-2-0313-0432-s002142-tb", kit = "no-9-mainline", station = "line-2-0313-0432-s002142", side = "turnback" },
 ]
@@ -217,19 +191,19 @@ premium_eur     = 4140000
 # [[fleets]] — per-line fleet sizing per RFC 0014 §4.
 [[fleets]]
 line               = "line-1"
-peak_count         = 18
+peak_count         = 13
 service_rotation_count = 0
 spare_count        = 1
 cold_reserve_count = 1
-trainset_count     = 20
+trainset_count     = 15
 
 [[fleets]]
 line               = "line-2"
-peak_count         = 9
+peak_count         = 6
 service_rotation_count = 0
 spare_count        = 1
 cold_reserve_count = 1
-trainset_count     = 11
+trainset_count     = 8
 
 # [costs] — RFC 0011 §9 planning-grade CAPEX (USD
 # direct-procurement planning basis). country-costs.toml applies
@@ -252,27 +226,27 @@ junction_premium_eur = 4140000  # EUR 4.1 M per elevated interchange.
 civil_subtotal_usd   = 38536147
 civil_subtotal_eur   = 35453255
 # Stations (RFC 0010 archetype catalogue).
-stations_usd         = 49500000
-stations_eur         = 45540000
+stations_usd         = 35000000
+stations_eur         = 32200000
 # Depots (RFC 0014 archetype catalogue).
 depots_usd           = 8000000
 depots_eur           = 7360000
 # Rolling stock (RFC 0008 family × fleet count; local-owner production unit).
-rolling_stock_usd    = 17360000
-rolling_stock_eur    = 15971200
+rolling_stock_usd    = 12880000
+rolling_stock_eur    = 11849600
 # Railway production plant (tooling + plant setup per vehicle/car module, not per trainset).
-production_plant_usd = 3720000
-production_plant_eur = 3422400
+production_plant_usd = 2760000
+production_plant_eur = 2539200
 # Systems: residual train-control wayside + station/depot charging microgrids.
 signalling_usd       = 394990
 signalling_eur       = 363391
-charging_microgrid_usd = 1000000
-charging_microgrid_eur = 920000
+charging_microgrid_usd = 775000
+charging_microgrid_eur = 713000
 # EPC integration + project management (7 % of subtotal).
-epc_overhead_usd     = 8295780
-epc_overhead_eur     = 7632117
-total_usd            = 126806917  # base CAPEX before timetable-sized dedicated solar
-total_eur            = 116662363  # base CAPEX before timetable-sized dedicated solar
+epc_overhead_usd     = 6884230
+epc_overhead_eur     = 6333491
+total_usd            = 105230367  # base CAPEX before timetable-sized dedicated solar
+total_eur            = 96811937  # base CAPEX before timetable-sized dedicated solar
 
 [costs.technology_basis]
 cost_treatment = "included in planning units; do not add again"
@@ -287,7 +261,7 @@ lv_dc_dc_usd_per_car = 2500
 roof_pv_mppt_usd_per_car = 1000
 core_electrical_usd_per_car = 51000
 core_electrical_usd_per_trainset = 102000
-fleet_core_electrical_usd = 3162000
+fleet_core_electrical_usd = 2346000
 station_architecture = "500-1500 V DC/DC configured to 500 kW; 650-700 V train bus"
 stationary_lfp_500kwh_usd = 37500
 station_dcdc_500kw_usd = 15000

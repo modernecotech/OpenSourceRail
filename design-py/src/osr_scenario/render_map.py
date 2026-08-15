@@ -163,6 +163,7 @@ def render_city(
         m = StaticMap(
             *wh,
             url_template="https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+            tile_request_timeout=10,
         )
         import math as _math
 

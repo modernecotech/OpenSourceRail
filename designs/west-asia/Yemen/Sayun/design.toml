@@ -50,7 +50,7 @@ length_m        = 14173.9
 rolling_stock   = "tram-2car"
 geometry        = "standard-urban"
 
-charging_dwell_seconds = 120
+charging_dwell_seconds = 180
 
 [[lines]]
 name            = "line-2"
@@ -112,20 +112,11 @@ archetype       = "terminal"
 platform_length_m = 49.0
 
 [[stations]]
-id              = "line-1-0315-0517-s002008"
+id              = "line-1-0327-0472-s003007"
 line            = "line-1"
-lat             = 15.953820674513192
-lon             = 48.81369451926814
-s_m             = 2007.9
-archetype       = "standard"
-platform_length_m = 49.0
-
-[[stations]]
-id              = "line-1-0350-0431-s004018"
-line            = "line-1"
-lat             = 15.947521858690566
-lon             = 48.79762547838493
-s_m             = 4017.9
+lat             = 15.951661080516862
+lon             = 48.805286300201345
+s_m             = 3007.4
 archetype       = "standard"
 platform_length_m = 49.0
 
@@ -140,42 +131,13 @@ platform_length_m = 49.0
 junction_group  = 0
 
 [[stations]]
-id              = "line-1-0348-0342-s006906"
+id              = "line-1-0363-0292-s008120"
 line            = "line-1"
-lat             = 15.947881791023288
-lon             = 48.78099588956394
-s_m             = 6905.8
-anchor_kind     = "amenity:hospital"
-anchor_name     = "عياده"
-archetype       = "major"
-platform_length_m = 49.0
-
-[[stations]]
-id              = "line-1-0370-0279-s008438"
-line            = "line-1"
-lat             = 15.943922535363352
-lon             = 48.769224382870426
-s_m             = 8437.8
+lat             = 15.945182298527877
+lon             = 48.77165342393417
+s_m             = 8119.8
 archetype       = "standard"
 platform_length_m = 49.0
-
-[[stations]]
-id              = "line-1-0399-0216-s009938"
-line            = "line-1"
-lat             = 15.93870351653889
-lon             = 48.75745287617691
-s_m             = 9938.0
-archetype       = "standard"
-platform_length_m = 49.0
-
-[[stations]]
-id              = "line-1-0433-0155-s011440"
-line            = "line-1"
-lat             = 15.932584666882626
-lon             = 48.74605506810859
-s_m             = 11439.7
-archetype       = "halt"
-platform_length_m = 45.0
 
 [[stations]]
 id              = "line-1-0491-0047-s014174"
@@ -200,15 +162,6 @@ archetype       = "terminal"
 platform_length_m = 49.0
 
 [[stations]]
-id              = "line-2-0422-0353-s001216"
-line            = "line-2"
-lat             = 15.934564294712594
-lon             = 48.783051232002485
-s_m             = 1216.2
-archetype       = "major"
-platform_length_m = 49.0
-
-[[stations]]
 id              = "line-2-0375-0375-s002425"
 line            = "line-2"
 lat             = 15.943022704531549
@@ -217,17 +170,6 @@ s_m             = 2425.3
 archetype       = "interchange-elevated"
 platform_length_m = 49.0
 junction_group  = 0
-
-[[stations]]
-id              = "line-2-0327-0364-s003639"
-line            = "line-2"
-lat             = 15.951661080516862
-lon             = 48.78510657444104
-s_m             = 3639.3
-anchor_kind     = "amenity:bus_station"
-anchor_name     = "تاكسي المدينة"
-archetype       = "major"
-platform_length_m = 49.0
 
 [[stations]]
 id              = "line-2-0283-0307-s005366"
@@ -262,15 +204,6 @@ platform_length_m = 49.0
 junction_group  = 0
 
 [[stations]]
-id              = "line-3-0315-0395-s003489"
-line            = "line-3"
-lat             = 15.953820674513192
-lon             = 48.7908989031315
-s_m             = 3488.8
-archetype       = "standard"
-platform_length_m = 49.0
-
-[[stations]]
 id              = "line-3-0258-0373-s004861"
 line            = "line-3"
 lat             = 15.964078745995753
@@ -293,7 +226,7 @@ platforms       = ["line-1-0375-0375-s005392", "line-2-0375-0375-s002425", "line
 [[depots]]
 station      = "line-1-0491-0047-s014174"
 archetype    = "main-heavy"
-fleet_stalls = 12
+fleet_stalls = 9
 
 # switches — turnbacks at terminals + depot fans per RFC 0012 §9.
 switches = [
@@ -308,9 +241,6 @@ switches = [
   { id = "sw-line-1-0491-0047-s014174-yd-07", kit = "no-9-mainline", station = "line-1-0491-0047-s014174", side = "yard-throat" },
   { id = "sw-line-1-0491-0047-s014174-yd-08", kit = "no-9-mainline", station = "line-1-0491-0047-s014174", side = "yard-throat" },
   { id = "sw-line-1-0491-0047-s014174-yd-09", kit = "no-9-mainline", station = "line-1-0491-0047-s014174", side = "yard-throat" },
-  { id = "sw-line-1-0491-0047-s014174-yd-10", kit = "no-9-mainline", station = "line-1-0491-0047-s014174", side = "yard-throat" },
-  { id = "sw-line-1-0491-0047-s014174-yd-11", kit = "no-9-mainline", station = "line-1-0491-0047-s014174", side = "yard-throat" },
-  { id = "sw-line-1-0491-0047-s014174-yd-12", kit = "no-9-mainline", station = "line-1-0491-0047-s014174", side = "yard-throat" },
   { id = "sw-line-2-0465-0310-s000000-tb", kit = "no-9-mainline", station = "line-2-0465-0310-s000000", side = "turnback" },
   { id = "sw-line-2-0283-0307-s005366-tb", kit = "no-9-mainline", station = "line-2-0283-0307-s005366", side = "turnback" },
   { id = "sw-line-3-0454-0403-s000000-tb", kit = "no-9-mainline", station = "line-3-0454-0403-s000000", side = "turnback" },
@@ -331,27 +261,27 @@ premium_eur     = 4140000
 # [[fleets]] — per-line fleet sizing per RFC 0014 §4.
 [[fleets]]
 line               = "line-1"
-peak_count         = 37
+peak_count         = 26
 service_rotation_count = 0
-spare_count        = 3
+spare_count        = 2
 cold_reserve_count = 1
-trainset_count     = 41
+trainset_count     = 29
 
 [[fleets]]
 line               = "line-2"
-peak_count         = 17
+peak_count         = 11
 service_rotation_count = 0
 spare_count        = 1
 cold_reserve_count = 1
-trainset_count     = 19
+trainset_count     = 13
 
 [[fleets]]
 line               = "line-3"
-peak_count         = 15
+peak_count         = 10
 service_rotation_count = 0
 spare_count        = 1
 cold_reserve_count = 1
-trainset_count     = 17
+trainset_count     = 12
 
 # [costs] — RFC 0011 §9 planning-grade CAPEX (USD
 # direct-procurement planning basis). country-costs.toml applies
@@ -374,27 +304,27 @@ junction_premium_eur = 4140000  # EUR 4.1 M per elevated interchange.
 civil_subtotal_usd   = 89119931
 civil_subtotal_eur   = 81990336
 # Stations (RFC 0010 archetype catalogue).
-stations_usd         = 90100000
-stations_eur         = 82892000
+stations_usd         = 68500000
+stations_eur         = 63020000
 # Depots (RFC 0014 archetype catalogue).
 depots_usd           = 8000000
 depots_eur           = 7360000
 # Rolling stock (RFC 0008 family × fleet count; local-owner production unit).
-rolling_stock_usd    = 43120000
-rolling_stock_eur    = 39670400
+rolling_stock_usd    = 30240000
+rolling_stock_eur    = 27820800
 # Railway production plant (tooling + plant setup per vehicle/car module, not per trainset).
-production_plant_usd = 9240000
-production_plant_eur = 8500800
+production_plant_usd = 6480000
+production_plant_eur = 5961600
 # Systems: residual train-control wayside + station/depot charging microgrids.
 signalling_usd       = 1220053
 signalling_eur       = 1122449
-charging_microgrid_usd = 1925000
-charging_microgrid_eur = 1771000
+charging_microgrid_usd = 1325000
+charging_microgrid_eur = 1219000
 # EPC integration + project management (7 % of subtotal).
-epc_overhead_usd     = 16990749
-epc_overhead_eur     = 15631489
-total_usd            = 259715732  # base CAPEX before timetable-sized dedicated solar
-total_eur            = 238938474  # base CAPEX before timetable-sized dedicated solar
+epc_overhead_usd     = 14341949
+epc_overhead_eur     = 13194593
+total_usd            = 219226932  # base CAPEX before timetable-sized dedicated solar
+total_eur            = 201688778  # base CAPEX before timetable-sized dedicated solar
 
 [costs.technology_basis]
 cost_treatment = "included in planning units; do not add again"
@@ -409,7 +339,7 @@ lv_dc_dc_usd_per_car = 2500
 roof_pv_mppt_usd_per_car = 1000
 core_electrical_usd_per_car = 51000
 core_electrical_usd_per_trainset = 102000
-fleet_core_electrical_usd = 7854000
+fleet_core_electrical_usd = 5508000
 station_architecture = "500-1500 V DC/DC configured to 500 kW; 650-700 V train bus"
 stationary_lfp_500kwh_usd = 37500
 station_dcdc_500kw_usd = 15000

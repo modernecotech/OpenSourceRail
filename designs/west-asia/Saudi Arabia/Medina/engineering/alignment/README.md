@@ -4,12 +4,12 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`medina-line1.aln.toml`](medina-line1.aln.toml) | `line-1` | 34,202.7 m | 19 |
-| [`medina-line2.aln.toml`](medina-line2.aln.toml) | `line-2` | 21,254.3 m | 13 |
-| [`medina-line3.aln.toml`](medina-line3.aln.toml) | `line-3` | 20,655.6 m | 14 |
-| [`medina-line4.aln.toml`](medina-line4.aln.toml) | `line-4` | 24,173.4 m | 13 |
-| [`medina-line5.aln.toml`](medina-line5.aln.toml) | `line-5` | 18,737.6 m | 10 |
-| [`medina-line6.aln.toml`](medina-line6.aln.toml) | `line-6` | 60,769.1 m | 36 |
+| [`medina-line1.aln.toml`](medina-line1.aln.toml) | `line-1` | 34,202.7 m | 11 |
+| [`medina-line2.aln.toml`](medina-line2.aln.toml) | `line-2` | 21,254.3 m | 9 |
+| [`medina-line3.aln.toml`](medina-line3.aln.toml) | `line-3` | 20,655.6 m | 6 |
+| [`medina-line4.aln.toml`](medina-line4.aln.toml) | `line-4` | 24,173.4 m | 8 |
+| [`medina-line5.aln.toml`](medina-line5.aln.toml) | `line-5` | 18,737.6 m | 6 |
+| [`medina-line6.aln.toml`](medina-line6.aln.toml) | `line-6` | 60,769.1 m | 17 |
 
 ## Status
 

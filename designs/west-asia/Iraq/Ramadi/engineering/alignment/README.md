@@ -4,9 +4,9 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`ramadi-line1.aln.toml`](ramadi-line1.aln.toml) | `line-1` | 16,406.1 m | 11 |
-| [`ramadi-line2.aln.toml`](ramadi-line2.aln.toml) | `line-2` | 14,321.4 m | 10 |
-| [`ramadi-line3.aln.toml`](ramadi-line3.aln.toml) | `line-3` | 17,279.8 m | 11 |
+| [`ramadi-line1.aln.toml`](ramadi-line1.aln.toml) | `line-1` | 16,406.1 m | 7 |
+| [`ramadi-line2.aln.toml`](ramadi-line2.aln.toml) | `line-2` | 14,321.4 m | 7 |
+| [`ramadi-line3.aln.toml`](ramadi-line3.aln.toml) | `line-3` | 17,279.8 m | 8 |
 
 ## Status
 

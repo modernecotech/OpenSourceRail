@@ -4,9 +4,9 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`irbid-line1.aln.toml`](irbid-line1.aln.toml) | `line-1` | 15,841.6 m | 10 |
-| [`irbid-line2.aln.toml`](irbid-line2.aln.toml) | `line-2` | 13,969.6 m | 9 |
-| [`irbid-line3.aln.toml`](irbid-line3.aln.toml) | `line-3` | 18,869.8 m | 10 |
+| [`irbid-line1.aln.toml`](irbid-line1.aln.toml) | `line-1` | 15,841.6 m | 7 |
+| [`irbid-line2.aln.toml`](irbid-line2.aln.toml) | `line-2` | 13,969.6 m | 7 |
+| [`irbid-line3.aln.toml`](irbid-line3.aln.toml) | `line-3` | 18,869.8 m | 7 |
 
 ## Status
 

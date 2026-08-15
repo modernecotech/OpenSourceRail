@@ -4,12 +4,12 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`dakar-line1.aln.toml`](dakar-line1.aln.toml) | `line-1` | 40,331.3 m | 24 |
-| [`dakar-line2.aln.toml`](dakar-line2.aln.toml) | `line-2` | 30,260.0 m | 21 |
-| [`dakar-line3.aln.toml`](dakar-line3.aln.toml) | `line-3` | 31,310.3 m | 20 |
-| [`dakar-line4.aln.toml`](dakar-line4.aln.toml) | `line-4` | 26,397.4 m | 18 |
-| [`dakar-line5.aln.toml`](dakar-line5.aln.toml) | `line-5` | 28,275.7 m | 14 |
-| [`dakar-line6.aln.toml`](dakar-line6.aln.toml) | `line-6` | 65,610.4 m | 46 |
+| [`dakar-line1.aln.toml`](dakar-line1.aln.toml) | `line-1` | 40,331.3 m | 15 |
+| [`dakar-line2.aln.toml`](dakar-line2.aln.toml) | `line-2` | 30,260.0 m | 11 |
+| [`dakar-line3.aln.toml`](dakar-line3.aln.toml) | `line-3` | 31,310.3 m | 12 |
+| [`dakar-line4.aln.toml`](dakar-line4.aln.toml) | `line-4` | 26,397.4 m | 11 |
+| [`dakar-line5.aln.toml`](dakar-line5.aln.toml) | `line-5` | 28,275.7 m | 9 |
+| [`dakar-line6.aln.toml`](dakar-line6.aln.toml) | `line-6` | 65,610.4 m | 24 |
 
 ## Status
 

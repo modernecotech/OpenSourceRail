@@ -4,7 +4,7 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`edea-line1.aln.toml`](edea-line1.aln.toml) | `line-1` | 9,610.0 m | 6 |
+| [`edea-line1.aln.toml`](edea-line1.aln.toml) | `line-1` | 9,610.0 m | 5 |
 
 ## Status
 

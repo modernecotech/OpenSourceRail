@@ -4,9 +4,9 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`barisal-line1.aln.toml`](barisal-line1.aln.toml) | `line-1` | 15,329.1 m | 9 |
-| [`barisal-line2.aln.toml`](barisal-line2.aln.toml) | `line-2` | 20,324.9 m | 11 |
-| [`barisal-line3.aln.toml`](barisal-line3.aln.toml) | `line-3` | 25,578.5 m | 13 |
+| [`barisal-line1.aln.toml`](barisal-line1.aln.toml) | `line-1` | 15,329.1 m | 8 |
+| [`barisal-line2.aln.toml`](barisal-line2.aln.toml) | `line-2` | 20,324.9 m | 7 |
+| [`barisal-line3.aln.toml`](barisal-line3.aln.toml) | `line-3` | 25,578.5 m | 8 |
 
 ## Status
 

@@ -4,9 +4,9 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`port-sudan-line1.aln.toml`](port-sudan-line1.aln.toml) | `line-1` | 13,478.3 m | 9 |
-| [`port-sudan-line2.aln.toml`](port-sudan-line2.aln.toml) | `line-2` | 11,295.3 m | 7 |
-| [`port-sudan-line3.aln.toml`](port-sudan-line3.aln.toml) | `line-3` | 9,112.7 m | 6 |
+| [`port-sudan-line1.aln.toml`](port-sudan-line1.aln.toml) | `line-1` | 13,478.3 m | 6 |
+| [`port-sudan-line2.aln.toml`](port-sudan-line2.aln.toml) | `line-2` | 11,295.3 m | 5 |
+| [`port-sudan-line3.aln.toml`](port-sudan-line3.aln.toml) | `line-3` | 9,112.7 m | 4 |
 
 ## Status
 

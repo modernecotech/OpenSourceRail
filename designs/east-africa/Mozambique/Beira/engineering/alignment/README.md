@@ -4,9 +4,9 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`beira-line1.aln.toml`](beira-line1.aln.toml) | `line-1` | 17,512.0 m | 10 |
-| [`beira-line2.aln.toml`](beira-line2.aln.toml) | `line-2` | 12,174.8 m | 10 |
-| [`beira-line3.aln.toml`](beira-line3.aln.toml) | `line-3` | 15,135.8 m | 8 |
+| [`beira-line1.aln.toml`](beira-line1.aln.toml) | `line-1` | 17,512.0 m | 7 |
+| [`beira-line2.aln.toml`](beira-line2.aln.toml) | `line-2` | 12,174.8 m | 6 |
+| [`beira-line3.aln.toml`](beira-line3.aln.toml) | `line-3` | 15,135.8 m | 5 |
 
 ## Status
 

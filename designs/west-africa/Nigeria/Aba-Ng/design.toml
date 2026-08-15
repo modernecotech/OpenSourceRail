@@ -50,7 +50,7 @@ length_m        = 12356.5
 rolling_stock   = "light-metro-3car"
 geometry        = "standard-urban"
 
-charging_dwell_seconds = 150
+charging_dwell_seconds = 210
 
 [[lines]]
 name            = "line-2"
@@ -59,7 +59,7 @@ length_m        = 8063.5
 rolling_stock   = "light-metro-3car"
 geometry        = "standard-urban"
 
-charging_dwell_seconds = 150
+charging_dwell_seconds = 180
 
 [[lines]]
 name            = "line-3"
@@ -68,7 +68,7 @@ length_m        = 11521.1
 rolling_stock   = "light-metro-3car"
 geometry        = "standard-urban"
 
-charging_dwell_seconds = 150
+charging_dwell_seconds = 240
 
 [[civil_segments]]
 line            = "line-1"
@@ -109,12 +109,24 @@ class           = "at-grade"
 [[civil_segments]]
 line            = "line-3"
 from_station_m  = 0.0
-to_station_m    = 9425.1
+to_station_m    = 8676.0
 class           = "at-grade"
 
 [[civil_segments]]
 line            = "line-3"
-from_station_m  = 9425.1
+from_station_m  = 8676.0
+to_station_m    = 9845.1
+class           = "elevated"
+
+[[civil_segments]]
+line            = "line-3"
+from_station_m  = 9845.1
+to_station_m    = 10478.3
+class           = "at-grade"
+
+[[civil_segments]]
+line            = "line-3"
+from_station_m  = 10478.3
 to_station_m    = 10658.3
 class           = "elevated"
 
@@ -136,12 +148,14 @@ archetype       = "terminal"
 platform_length_m = 59.5
 
 [[stations]]
-id              = "line-1-0593-0625-s002001"
+id              = "line-1-0580-0580-s003009"
 line            = "line-1"
-lat             = 5.11389008026491
-lon             = 7.386629200574982
-s_m             = 2000.8
-archetype       = "standard"
+lat             = 5.1162296404275995
+lon             = 7.378511991900523
+s_m             = 3008.5
+anchor_kind     = "amenity:marketplace"
+anchor_name     = "waterside market"
+archetype       = "major"
 platform_length_m = 59.5
 
 [[stations]]
@@ -150,34 +164,15 @@ line            = "line-1"
 lat             = 5.1201888960875355
 lon             = 7.372559372205919
 s_m             = 4363.9
-archetype       = "interchange-elevated"
-platform_length_m = 59.5
-junction_group  = 0
-
-[[stations]]
-id              = "line-1-0624-0481-s006442"
-line            = "line-1"
-lat             = 5.108311129107728
-lon             = 7.3606541328167125
-s_m             = 6441.6
-archetype       = "major"
-platform_length_m = 59.5
-
-[[stations]]
-id              = "line-1-0697-0417-s008443"
-line            = "line-1"
-lat             = 5.095173598963394
-lon             = 7.349109658257482
-s_m             = 8443.5
 archetype       = "standard"
 platform_length_m = 59.5
 
 [[stations]]
-id              = "line-1-0735-0335-s010450"
+id              = "line-1-0608-0494-s006014"
 line            = "line-1"
-lat             = 5.088334884641688
-lon             = 7.3343183002284675
-s_m             = 10450.0
+lat             = 5.111190587769499
+lon             = 7.362999104211556
+s_m             = 6013.9
 archetype       = "standard"
 platform_length_m = 59.5
 
@@ -204,29 +199,20 @@ archetype       = "terminal"
 platform_length_m = 59.5
 
 [[stations]]
-id              = "line-2-0578-0402-s002022"
+id              = "line-2-0569-0455-s003334"
 line            = "line-2"
-lat             = 5.116589572760321
-lon             = 7.346403922032662
-s_m             = 2021.7
+lat             = 5.1182092682575675
+lon             = 7.355964190027025
+s_m             = 3333.6
 archetype       = "standard"
 platform_length_m = 59.5
 
 [[stations]]
-id              = "line-2-0554-0482-s004038"
+id              = "line-2-0588-0545-s006336"
 line            = "line-2"
-lat             = 5.120908760752978
-lon             = 7.3608345152317005
-s_m             = 4037.9
-archetype       = "standard"
-platform_length_m = 59.5
-
-[[stations]]
-id              = "line-2-0558-0547-s005719"
-line            = "line-2"
-lat             = 5.1201888960875355
-lon             = 7.372559372205919
-s_m             = 5719.0
+lat             = 5.114789911096714
+lon             = 7.372198607375943
+s_m             = 6335.5
 archetype       = "interchange-elevated"
 platform_length_m = 59.5
 junction_group  = 0
@@ -254,58 +240,20 @@ archetype       = "terminal"
 platform_length_m = 59.5
 
 [[stations]]
-id              = "line-3-0818-0315-s001519"
+id              = "line-3-0715-0482-s006214"
 line            = "line-3"
-lat             = 5.073397692833747
-lon             = 7.330710651928707
-s_m             = 1518.8
+lat             = 5.091934207968902
+lon             = 7.3608345152317005
+s_m             = 6213.5
 archetype       = "standard"
 platform_length_m = 59.5
 
 [[stations]]
-id              = "line-3-0783-0363-s003028"
+id              = "line-3-0592-0549-s009229"
 line            = "line-3"
-lat             = 5.079696508656372
-lon             = 7.339369007848131
-s_m             = 3028.2
-archetype       = "halt"
-platform_length_m = 55.5
-
-[[stations]]
-id              = "line-3-0747-0448-s005038"
-line            = "line-3"
-lat             = 5.086175290645358
-lon             = 7.354701513122109
-s_m             = 5038.1
-archetype       = "standard"
-platform_length_m = 59.5
-
-[[stations]]
-id              = "line-3-0682-0502-s007039"
-line            = "line-3"
-lat             = 5.097873091458806
-lon             = 7.36444216353146
-s_m             = 7039.2
-archetype       = "standard"
-platform_length_m = 59.5
-
-[[stations]]
-id              = "line-3-0629-0519-s008240"
-line            = "line-3"
-lat             = 5.107411298275924
-lon             = 7.367508664586256
-s_m             = 8240.0
-anchor_kind     = "amenity:marketplace"
-anchor_name     = "Market"
-archetype       = "major"
-platform_length_m = 59.5
-
-[[stations]]
-id              = "line-3-0558-0547-s009925"
-line            = "line-3"
-lat             = 5.1201888960875355
-lon             = 7.372559372205919
-s_m             = 9925.1
+lat             = 5.114070046431271
+lon             = 7.372920137035895
+s_m             = 9228.6
 archetype       = "interchange-elevated"
 platform_length_m = 59.5
 junction_group  = 0
@@ -324,16 +272,16 @@ platform_length_m = 59.5
 [[interchanges]]
 id              = "interchange-000"
 junction_group  = 0
-lat             = 5.1201888960875355
+lat             = 5.114429978763992
 lon             = 7.372559372205919
-lines           = ["line-1", "line-2", "line-3"]
-platforms       = ["line-1-0558-0547-s004364", "line-2-0558-0547-s005719", "line-3-0558-0547-s009925"]
+lines           = ["line-2", "line-3"]
+platforms       = ["line-2-0588-0545-s006336", "line-3-0592-0549-s009229"]
 
 # [[depots]] — maintenance/defect facilities per RFC 0014; healthy sets stable at powered stations.
 [[depots]]
 station      = "line-1-0723-0266-s012357"
 archetype    = "main-heavy"
-fleet_stalls = 13
+fleet_stalls = 11
 
 # switches — turnbacks at terminals + depot fans per RFC 0012 §9.
 switches = [
@@ -350,8 +298,6 @@ switches = [
   { id = "sw-line-1-0723-0266-s012357-yd-09", kit = "no-9-mainline", station = "line-1-0723-0266-s012357", side = "yard-throat" },
   { id = "sw-line-1-0723-0266-s012357-yd-10", kit = "no-9-mainline", station = "line-1-0723-0266-s012357", side = "yard-throat" },
   { id = "sw-line-1-0723-0266-s012357-yd-11", kit = "no-9-mainline", station = "line-1-0723-0266-s012357", side = "yard-throat" },
-  { id = "sw-line-1-0723-0266-s012357-yd-12", kit = "no-9-mainline", station = "line-1-0723-0266-s012357", side = "yard-throat" },
-  { id = "sw-line-1-0723-0266-s012357-yd-13", kit = "no-9-mainline", station = "line-1-0723-0266-s012357", side = "yard-throat" },
   { id = "sw-line-2-0575-0330-s000000-tb", kit = "no-9-mainline", station = "line-2-0575-0330-s000000", side = "turnback" },
   { id = "sw-line-2-0657-0561-s008063-tb", kit = "no-9-mainline", station = "line-2-0657-0561-s008063", side = "turnback" },
   { id = "sw-line-3-0879-0306-s000000-tb", kit = "no-9-mainline", station = "line-3-0879-0306-s000000", side = "turnback" },
@@ -364,35 +310,35 @@ switches = [
 [[junctions]]
 group_id        = 0
 elevated_line   = "line-3"
-lat             = 5.1201888960875355
-lon             = 7.372559372205919
+lat             = 5.114789911096714
+lon             = 7.372198607375943
 premium_usd     = 4500000
 premium_eur     = 4140000
 
 # [[fleets]] — per-line fleet sizing per RFC 0014 §4.
 [[fleets]]
 line               = "line-1"
-peak_count         = 29
+peak_count         = 24
 service_rotation_count = 0
 spare_count        = 2
 cold_reserve_count = 1
-trainset_count     = 32
+trainset_count     = 27
 
 [[fleets]]
 line               = "line-2"
-peak_count         = 20
+peak_count         = 16
 service_rotation_count = 0
-spare_count        = 2
+spare_count        = 1
 cold_reserve_count = 1
-trainset_count     = 23
+trainset_count     = 18
 
 [[fleets]]
 line               = "line-3"
-peak_count         = 27
+peak_count         = 22
 service_rotation_count = 0
 spare_count        = 2
 cold_reserve_count = 1
-trainset_count     = 30
+trainset_count     = 25
 
 # [costs] — RFC 0011 §9 planning-grade CAPEX (USD
 # direct-procurement planning basis). country-costs.toml applies
@@ -404,38 +350,38 @@ version = 2
 currency_basis      = "USD local-owner trainset-family planning basis with direct material, local assembly/labour, nominal per-train QA/acceptance, and modest handover logistics included; 1 m clip-on fiberglass body modules reduce shell labour, mould tooling, cure space, and production setup; distributed overnight stabling reduces depot parking scope; fixtures/tooling live in the railway production plant line per vehicle/car module; warranty, spares, and routine commissioning support are treated as OPEX; raw marketplace BOM retained only as audit lower bound; *_eur mirrors retained for schema compatibility"
 usd_to_eur          = 0.92
 # Civil works (USD/km x civil mix; EUR mirror at usd_to_eur).
-at_grade_usd         = 91954186
-at_grade_eur         = 84597851
-elevated_usd         = 15476468
-elevated_eur         = 14238350
+at_grade_usd         = 91606247
+at_grade_eur         = 84277747
+elevated_usd         = 16868225
+elevated_eur         = 15518767
 bridge_usd           = 0
 bridge_eur           = 0
 junction_premium_usd = 4500000  # $4.5 M per elevated interchange.
 junction_premium_eur = 4140000  # EUR 4.1 M per elevated interchange.
-civil_subtotal_usd   = 111930654
-civil_subtotal_eur   = 102976201
+civil_subtotal_usd   = 112974472
+civil_subtotal_eur   = 103936514
 # Stations (RFC 0010 archetype catalogue).
-stations_usd         = 93100000
-stations_eur         = 85652000
+stations_usd         = 66000000
+stations_eur         = 60720000
 # Depots (RFC 0014 archetype catalogue).
 depots_usd           = 8000000
 depots_eur           = 7360000
 # Rolling stock (RFC 0008 family × fleet count; local-owner production unit).
-rolling_stock_usd    = 76500000
-rolling_stock_eur    = 70380000
+rolling_stock_usd    = 63000000
+rolling_stock_eur    = 57960000
 # Railway production plant (tooling + plant setup per vehicle/car module, not per trainset).
-production_plant_usd = 15300000
-production_plant_eur = 14076000
+production_plant_usd = 12600000
+production_plant_eur = 11592000
 # Systems: residual train-control wayside + station/depot charging microgrids.
 signalling_usd       = 1597055
 signalling_eur       = 1469291
-charging_microgrid_usd = 2125000
-charging_microgrid_eur = 1955000
+charging_microgrid_usd = 1500000
+charging_microgrid_eur = 1380000
 # EPC integration + project management (7 % of subtotal).
-epc_overhead_usd     = 21598690
-epc_overhead_eur     = 19870794
-total_usd            = 330151398  # base CAPEX before timetable-sized dedicated solar
-total_eur            = 303739286  # base CAPEX before timetable-sized dedicated solar
+epc_overhead_usd     = 18597007
+epc_overhead_eur     = 17109246
+total_usd            = 284268534  # base CAPEX before timetable-sized dedicated solar
+total_eur            = 261527051  # base CAPEX before timetable-sized dedicated solar
 
 [costs.technology_basis]
 cost_treatment = "included in planning units; do not add again"
@@ -450,7 +396,7 @@ lv_dc_dc_usd_per_car = 2500
 roof_pv_mppt_usd_per_car = 1000
 core_electrical_usd_per_car = 51000
 core_electrical_usd_per_trainset = 153000
-fleet_core_electrical_usd = 13005000
+fleet_core_electrical_usd = 10710000
 station_architecture = "500-1500 V DC/DC configured to 500 kW; 650-700 V train bus"
 stationary_lfp_500kwh_usd = 37500
 station_dcdc_500kw_usd = 15000

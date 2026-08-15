@@ -4,9 +4,9 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`amarah-line1.aln.toml`](amarah-line1.aln.toml) | `line-1` | 21,568.8 m | 14 |
-| [`amarah-line2.aln.toml`](amarah-line2.aln.toml) | `line-2` | 13,016.0 m | 9 |
-| [`amarah-line3.aln.toml`](amarah-line3.aln.toml) | `line-3` | 12,012.0 m | 9 |
+| [`amarah-line1.aln.toml`](amarah-line1.aln.toml) | `line-1` | 21,568.8 m | 8 |
+| [`amarah-line2.aln.toml`](amarah-line2.aln.toml) | `line-2` | 13,016.0 m | 6 |
+| [`amarah-line3.aln.toml`](amarah-line3.aln.toml) | `line-3` | 12,012.0 m | 4 |
 
 ## Status
 

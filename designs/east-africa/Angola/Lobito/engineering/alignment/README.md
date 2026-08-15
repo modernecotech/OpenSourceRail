@@ -4,9 +4,9 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`lobito-line1.aln.toml`](lobito-line1.aln.toml) | `line-1` | 18,290.2 m | 11 |
-| [`lobito-line2.aln.toml`](lobito-line2.aln.toml) | `line-2` | 11,645.7 m | 9 |
-| [`lobito-line3.aln.toml`](lobito-line3.aln.toml) | `line-3` | 8,120.4 m | 6 |
+| [`lobito-line1.aln.toml`](lobito-line1.aln.toml) | `line-1` | 18,290.2 m | 7 |
+| [`lobito-line2.aln.toml`](lobito-line2.aln.toml) | `line-2` | 11,645.7 m | 4 |
+| [`lobito-line3.aln.toml`](lobito-line3.aln.toml) | `line-3` | 8,120.4 m | 4 |
 
 ## Status
 

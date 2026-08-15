@@ -4,9 +4,9 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`nampula-line1.aln.toml`](nampula-line1.aln.toml) | `line-1` | 16,981.6 m | 10 |
-| [`nampula-line2.aln.toml`](nampula-line2.aln.toml) | `line-2` | 22,385.7 m | 13 |
-| [`nampula-line3.aln.toml`](nampula-line3.aln.toml) | `line-3` | 12,311.6 m | 7 |
+| [`nampula-line1.aln.toml`](nampula-line1.aln.toml) | `line-1` | 16,981.6 m | 6 |
+| [`nampula-line2.aln.toml`](nampula-line2.aln.toml) | `line-2` | 22,385.7 m | 7 |
+| [`nampula-line3.aln.toml`](nampula-line3.aln.toml) | `line-3` | 12,311.6 m | 4 |
 
 ## Status
 

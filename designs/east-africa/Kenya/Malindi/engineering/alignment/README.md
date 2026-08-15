@@ -4,9 +4,9 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`malindi-line1.aln.toml`](malindi-line1.aln.toml) | `line-1` | 10,059.5 m | 7 |
-| [`malindi-line2.aln.toml`](malindi-line2.aln.toml) | `line-2` | 10,363.2 m | 7 |
-| [`malindi-line3.aln.toml`](malindi-line3.aln.toml) | `line-3` | 9,017.9 m | 6 |
+| [`malindi-line1.aln.toml`](malindi-line1.aln.toml) | `line-1` | 10,059.5 m | 5 |
+| [`malindi-line2.aln.toml`](malindi-line2.aln.toml) | `line-2` | 10,363.2 m | 5 |
+| [`malindi-line3.aln.toml`](malindi-line3.aln.toml) | `line-3` | 9,017.9 m | 4 |
 
 ## Status
 

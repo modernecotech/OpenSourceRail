@@ -4,9 +4,9 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`sialkot-line1.aln.toml`](sialkot-line1.aln.toml) | `line-1` | 18,668.8 m | 12 |
-| [`sialkot-line2.aln.toml`](sialkot-line2.aln.toml) | `line-2` | 22,601.8 m | 13 |
-| [`sialkot-line3.aln.toml`](sialkot-line3.aln.toml) | `line-3` | 14,131.2 m | 9 |
+| [`sialkot-line1.aln.toml`](sialkot-line1.aln.toml) | `line-1` | 18,668.8 m | 7 |
+| [`sialkot-line2.aln.toml`](sialkot-line2.aln.toml) | `line-2` | 22,601.8 m | 8 |
+| [`sialkot-line3.aln.toml`](sialkot-line3.aln.toml) | `line-3` | 14,131.2 m | 6 |
 
 ## Status
 
