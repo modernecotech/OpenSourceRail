@@ -16,6 +16,7 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 BINARY_SUFFIXES = {".gz", ".gpkg", ".png"}
+LOCAL_REPRODUCIBLE_SUFFIXES = {".gz", ".gpkg"}
 LOCAL_PATH = re.compile(
     r"(?:/home/[^/]+/|/Users/[^/]+/|/tmp/|[A-Za-z]:[\\/](?:Users|Temp)[\\/])"
 )
@@ -55,7 +56,6 @@ def main() -> int:
         city_dir / "engineering/energy/summary.json",
         city_dir / "engineering/finance/summary.json",
         city_dir / "engineering/gis/summary.json",
-        city_dir / "engineering/gis" / f"{slug}.gpkg",
         city_dir / "engineering/ring-interchange-summary.json",
         city_dir / "engineering/screenshots/manifest.json",
         city_dir / "engineering/screenshots" / f"{slug}-network-visualizer.png",
@@ -65,9 +65,12 @@ def main() -> int:
         city_dir / "engineering/station-product-map.json",
         city_dir / "engineering/sumo/summary.json",
         city_dir / "operations/acceptance-evidence-report.md",
+        city_dir / "operations" / f"{slug}-operations-manifest.json",
+    ]
+    local_reproducible = [
+        city_dir / "engineering/gis" / f"{slug}.gpkg",
         city_dir / "operations" / f"{slug}-acceptance-evidence-matrix.csv",
         city_dir / "operations" / f"{slug}-operations.json.gz",
-        city_dir / "operations" / f"{slug}-operations-manifest.json",
     ]
     for line in design.get("lines", []):
         line_id = str(line.get("id") or line.get("name")).replace("-", "")
@@ -101,7 +104,7 @@ def main() -> int:
 
     operations_manifest = city_dir / "operations" / f"{slug}-operations-manifest.json"
     operations_bundle = city_dir / "operations" / f"{slug}-operations.json.gz"
-    operations_hash_current = False
+    operations_hash_current = True
     if operations_manifest.is_file() and operations_bundle.is_file():
         operations_hash_current = (
             json.loads(operations_manifest.read_text(encoding="utf-8")).get("compressed_sha256")
@@ -130,6 +133,15 @@ def main() -> int:
                 "sha256": sha256(path),
             }
             for path in sorted(required)
+            if path.is_file()
+        },
+        "local_reproducible_artifacts": {
+            str(path.relative_to(city_dir)): {
+                "bytes": path.stat().st_size,
+                "sha256": sha256(path),
+                "required_in_git_checkout": False,
+            }
+            for path in sorted(local_reproducible)
             if path.is_file()
         },
         "missing_artifacts": missing,

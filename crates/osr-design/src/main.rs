@@ -374,17 +374,17 @@ fn main() -> Result<()> {
     // Per-line station placement + civil classification.
     let mut all_stations: Vec<osr_routing::station::Station> = Vec::new();
     let mut civil_per_line: Vec<Vec<osr_routing::civil::CivilSegment>> = Vec::new();
-    // One explicit network-wide policy: 1.2 km in the high-demand centre,
-    // 2 km across the ordinary urban area, 3 km on suburban approaches, and
-    // up to 5 km through the lowest-demand outer fringe.
+    // One explicit network-wide policy: 1.6 km in the high-demand centre,
+    // 3 km across the ordinary urban area, and up to 7 km on suburban
+    // approaches / the lowest-demand outer fringe.
     // Forced shared interchanges are the only intentional close-stop
     // exception. A wider metadata snap labels nearby hospitals, universities,
     // and other anchors without moving platforms off the routed corridor.
     let spacing = SpacingConfig {
-        urban_core_m: 1200.0,
-        urban_m: 2000.0,
-        peri_urban_m: 3000.0,
-        outer_m: 5000.0,
+        urban_core_m: 1600.0,
+        urban_m: 3000.0,
+        peri_urban_m: 7000.0,
+        outer_m: 7000.0,
         snap_radius_cells: 25,
         ..SpacingConfig::default()
     };

@@ -77,10 +77,6 @@
       "bytes": 3735,
       "sha256": "fa46304a2f0da8ce06d6ac1ab307510c40214a236935d9954f07c45d37bebf0a"
     },
-    "engineering/gis/durban.gpkg": {
-      "bytes": 483328,
-      "sha256": "7bdb146c9e5a945cb9f86db2148c9023fd681b4c6b2cfd2e96bb53106f859762"
-    },
     "engineering/gis/summary.json": {
       "bytes": 1231,
       "sha256": "c895adcae0917907044e0ab7a099703b7ddcea5d69c70047293bff7192ac7fa6"
@@ -121,17 +117,9 @@
       "bytes": 5690,
       "sha256": "7bcc2cde10f5743a7689ab2992d6c53e59271cbfb78cb19fd8b7142a7bd06681"
     },
-    "operations/durban-acceptance-evidence-matrix.csv": {
-      "bytes": 5335424,
-      "sha256": "dd8bfede3e5bb05de15bc74762c9345fae881be00708f4cac0f297242c0894e5"
-    },
     "operations/durban-operations-manifest.json": {
       "bytes": 773,
       "sha256": "44c02f45f97d4dbf50b71fa08ac88bb76ef88a0a41eab121ac20009536af941d"
-    },
-    "operations/durban-operations.json.gz": {
-      "bytes": 3447979,
-      "sha256": "b8839e24c34f818a1e95bc53f6ec8106d0ab6cba1d9efed0cd99ce004d15ceab"
     }
   },
   "city": "durban",
@@ -144,11 +132,28 @@
   ],
   "failed_summaries": [],
   "generator": "scripts/generate-city-package-manifest.py",
-  "generator_sha256": "51507fac12b6e0648580bc91f685a609e4c0af998a8731715e7f9dc34f712ecf",
+  "generator_sha256": "59cb4f6c517402444094e1f8c43a815668813f6c966df9bfafac770ec56a0bb9",
+  "local_reproducible_artifacts": {
+    "engineering/gis/durban.gpkg": {
+      "bytes": 483328,
+      "required_in_git_checkout": false,
+      "sha256": "7bdb146c9e5a945cb9f86db2148c9023fd681b4c6b2cfd2e96bb53106f859762"
+    },
+    "operations/durban-acceptance-evidence-matrix.csv": {
+      "bytes": 5335424,
+      "required_in_git_checkout": false,
+      "sha256": "dd8bfede3e5bb05de15bc74762c9345fae881be00708f4cac0f297242c0894e5"
+    },
+    "operations/durban-operations.json.gz": {
+      "bytes": 3447979,
+      "required_in_git_checkout": false,
+      "sha256": "b8839e24c34f818a1e95bc53f6ec8106d0ab6cba1d9efed0cd99ce004d15ceab"
+    }
+  },
   "missing_artifacts": [],
   "operations_bundle_hash_current": true,
   "package_status": "screening-passed",
   "passed": true,
   "schema_version": "1.0",
-  "source_revision": "dcf55f1764411749a33b380c366b17931b4a7226"
+  "source_revision": "22623ac8721f564fcb5dc41594780565c4d047eb"
 }

@@ -58,23 +58,22 @@ pub struct SpacingConfig {
 impl Default for SpacingConfig {
     fn default() -> Self {
         // Operator-supplied spacing rule for OSR auto-planned networks:
-        // **1.2 km between stations in central areas, 2 km in the wider
-        // urban area, 3 km on suburban approaches, and up to 5 km through
-        // the lowest-demand outer fringe.** Stops in close proximity stretch
+        // **1.6 km between stations in central areas, 3 km in the wider
+        // urban area, and up to 7 km on suburban approaches / the
+        // lowest-demand outer fringe.** Stops in close proximity stretch
         // dwell-budget and add infrastructure cost without pulling new catchment.
         // Demand thresholds bin each cell:
         //   demand ≥ core_thr   → urban_core_m  (CBD / interchanges)
-        //   demand ≥ urban_thr  → urban_m       (transitional ring)
-        //   demand ≥ outer_thr  → peri_urban_m  (ordinary suburb)
-        //   demand <  outer_thr → outer_m       (low-density fringe)
+        //   demand ≥ urban_thr  → urban_m       (ordinary city fabric)
+        //   demand <  urban_thr → peri/outer_m  (suburban approaches / fringe)
         Self {
-            urban_core_m: 1200.0,
-            urban_m: 2000.0,
-            peri_urban_m: 3000.0,
-            outer_m: 5000.0,
-            core_thr: 0.6,
-            urban_thr: 0.25,
-            outer_thr: 0.15,
+            urban_core_m: 1600.0,
+            urban_m: 3000.0,
+            peri_urban_m: 7000.0,
+            outer_m: 7000.0,
+            core_thr: 0.9,
+            urban_thr: 0.35,
+            outer_thr: 0.35,
             snap_radius_cells: 6,
         }
     }
@@ -138,7 +137,7 @@ pub fn place_stations(
     // can drop a station ~80 % of the way along the final segment;
     // forcing another one at the very end then produces a 200–300 m
     // pair (one of the "stops in close proximity" failure modes).
-    // Threshold: the gap to the previous stop must be ≥ 60 % of the
+    // Threshold: the gap to the previous stop must be ≥ 75 % of the
     // local target spacing, else we just re-snap the last placed
     // station to the endpoint cell instead of adding a new one.
     let last_cell = *cells.last().unwrap();
@@ -156,7 +155,7 @@ pub fn place_stations(
     if last_station_cell != last_cell {
         let last_demand = grid.demand_at(last_cell.0, last_cell.1);
         let target = spacing_for_demand(last_demand, cfg);
-        if since_last >= 0.6 * target {
+        if since_last >= 0.75 * target {
             stations.push(make_station(grid, anchors, line_name, last_cell, s_m, cfg));
         } else if let Some(last) = stations.last_mut() {
             // Re-snap the existing tail station to the actual endpoint
@@ -425,14 +424,34 @@ pub fn force_ring_radial_crossings(
                 let cell = rad.cells[cidx];
                 let s_m_rad = cumulative_m(&rad.cells, cidx, grid.reference.cell_m);
                 replace_station_near(
-                    stations, &rad.name, cell, s_m_rad, grid, anchors, true, 6, 120.0,
+                    stations,
+                    &rad.name,
+                    grid,
+                    anchors,
+                    ReplacementSite {
+                        cell,
+                        chainage_m: s_m_rad,
+                        preserve_route_endpoints: true,
+                        radius_cells: 6,
+                        chainage_window_m: 120.0,
+                    },
                 );
 
                 let k = nearest[cidx];
                 let ring_cell = ring.cells[k];
                 let s_m_ring = cumulative_m(&ring.cells, k, grid.reference.cell_m);
                 replace_station_near(
-                    stations, &ring.name, ring_cell, s_m_ring, grid, anchors, false, 6, 120.0,
+                    stations,
+                    &ring.name,
+                    grid,
+                    anchors,
+                    ReplacementSite {
+                        cell: ring_cell,
+                        chainage_m: s_m_ring,
+                        preserve_route_endpoints: false,
+                        radius_cells: 6,
+                        chainage_window_m: 120.0,
+                    },
                 );
             }
         }
@@ -519,22 +538,23 @@ pub fn force_ring_radial_terminal_interchanges(
         .iter()
         .filter(|line| matches!(line.shape, LineShape::Radial) && !line.cells.is_empty())
     {
+        let radial_length_m = radial
+            .cells
+            .windows(2)
+            .map(|pair| {
+                let dr = pair[1].0 as f64 - pair[0].0 as f64;
+                let dc = pair[1].1 as f64 - pair[0].1 as f64;
+                (dr * dr + dc * dc).sqrt() * grid.reference.cell_m
+            })
+            .sum::<f64>();
         for ring in lines
             .iter()
             .filter(|line| matches!(line.shape, LineShape::Ring) && !line.cells.is_empty())
         {
-            for endpoint in [radial.cells[0], *radial.cells.last().unwrap()] {
-                let existing_ring_platform = stations
-                    .iter()
-                    .filter(|station| station.line_name == ring.name)
-                    .any(|station| {
-                        let dr = endpoint.0 as i64 - station.row as i64;
-                        let dc = endpoint.1 as i64 - station.col as i64;
-                        dr * dr + dc * dc <= threshold2
-                    });
-                if existing_ring_platform {
-                    continue;
-                }
+            for (endpoint, endpoint_chainage) in [
+                (radial.cells[0], 0.0),
+                (*radial.cells.last().unwrap(), radial_length_m),
+            ] {
                 let Some((distance2, ring_index)) = ring
                     .cells
                     .iter()
@@ -551,18 +571,33 @@ pub fn force_ring_radial_terminal_interchanges(
                 if distance2 > threshold2 {
                     continue;
                 }
+                replace_station_near(
+                    stations,
+                    &radial.name,
+                    grid,
+                    anchors,
+                    ReplacementSite {
+                        cell: endpoint,
+                        chainage_m: endpoint_chainage,
+                        preserve_route_endpoints: false,
+                        radius_cells: 60,
+                        chainage_window_m: 1200.0,
+                    },
+                );
                 let ring_cell = ring.cells[ring_index];
                 let ring_chainage = cumulative_m(&ring.cells, ring_index, grid.reference.cell_m);
                 replace_station_near(
                     stations,
                     &ring.name,
-                    ring_cell,
-                    ring_chainage,
                     grid,
                     anchors,
-                    false,
-                    60,
-                    1200.0,
+                    ReplacementSite {
+                        cell: ring_cell,
+                        chainage_m: ring_chainage,
+                        preserve_route_endpoints: false,
+                        radius_cells: 60,
+                        chainage_window_m: 1200.0,
+                    },
                 );
             }
         }
@@ -674,19 +709,24 @@ fn cumulative_m(cells: &[(usize, usize)], up_to: usize, cell_m: f64) -> f64 {
     s
 }
 
-/// Drop stations on `line_name` within ~6 cells of `cell`, then insert
-/// a fresh station at `cell` (anchor-snapped within 8 cells).
+struct ReplacementSite {
+    cell: (usize, usize),
+    chainage_m: f64,
+    preserve_route_endpoints: bool,
+    radius_cells: usize,
+    chainage_window_m: f64,
+}
+
+/// Drop stations on `line_name` near the replacement site, then insert
+/// a fresh station there (anchor-snapped within 8 cells).
 fn replace_station_near(
     stations: &mut Vec<Station>,
     line_name: &str,
-    cell: (usize, usize),
-    s_m: f64,
     grid: &Grid,
     anchors: &[Anchor],
-    preserve_route_endpoints: bool,
-    replacement_radius_cells: usize,
-    replacement_chainage_m: f64,
+    site: ReplacementSite,
 ) {
+    let cell = site.cell;
     let (cr, cc) = (cell.0 as isize, cell.1 as isize);
     let line_end_chainage = stations
         .iter()
@@ -696,7 +736,7 @@ fn replace_station_near(
     // A crossing close to a terminal uses that terminal as the transfer
     // platform. Never replace it with a nearby in-line point: doing so can
     // leave the operational route 20–120 m short of its declared endpoint.
-    if preserve_route_endpoints
+    if site.preserve_route_endpoints
         && stations.iter().any(|station| {
             if station.line_name != line_name
                 || (station.s_m > 1.0 && (line_end_chainage - station.s_m).abs() > 1.0)
@@ -710,14 +750,15 @@ fn replace_station_near(
     {
         return;
     }
-    let replacement_radius2 = (replacement_radius_cells * replacement_radius_cells) as isize;
+    let replacement_radius2 = (site.radius_cells * site.radius_cells) as isize;
     stations.retain(|s| {
         if s.line_name != line_name {
             return true;
         }
         let dr = s.row as isize - cr;
         let dc = s.col as isize - cc;
-        dr * dr + dc * dc > replacement_radius2 && (s.s_m - s_m).abs() >= replacement_chainage_m
+        dr * dr + dc * dc > replacement_radius2
+            && (s.s_m - site.chainage_m).abs() >= site.chainage_window_m
     });
 
     // Anchor metadata only — keep the geometric position on the
@@ -752,7 +793,7 @@ fn replace_station_near(
         anchor_kind,
         anchor_name,
         line_name: line_name.to_string(),
-        s_m,
+        s_m: site.chainage_m,
         demand,
         junction_group: None,
     });
@@ -907,23 +948,20 @@ pub fn station_layout_issues(
     minimum_inline_chainage_m: f64,
 ) -> Vec<String> {
     let mut issues = Vec::new();
+    let mut by_line = std::collections::BTreeMap::<&str, Vec<&Station>>::new();
     let mut interchange_lines =
         std::collections::BTreeMap::<u32, std::collections::BTreeSet<&str>>::new();
     for station in stations {
+        by_line
+            .entry(station.line_name.as_str())
+            .or_default()
+            .push(station);
         if let Some(group) = station.junction_group {
             interchange_lines
                 .entry(group)
                 .or_default()
                 .insert(station.line_name.as_str());
         }
-    }
-
-    let mut by_line = std::collections::BTreeMap::<&str, Vec<&Station>>::new();
-    for station in stations {
-        by_line
-            .entry(station.line_name.as_str())
-            .or_default()
-            .push(station);
     }
     for (line_name, line_stations) in &mut by_line {
         line_stations.sort_by(|a, b| {
@@ -933,13 +971,7 @@ pub fn station_layout_issues(
         });
         for pair in line_stations.windows(2) {
             let gap = pair[1].s_m - pair[0].s_m;
-            let shared_multiline_complex = pair[0].junction_group.is_some()
-                && pair[0].junction_group == pair[1].junction_group
-                && interchange_lines
-                    .get(&pair[0].junction_group.unwrap())
-                    .is_some_and(|line_names| line_names.len() >= 2);
-            if gap < minimum_inline_chainage_m - 1e-6 && (!shared_multiline_complex || gap <= 60.0)
-            {
+            if gap < minimum_inline_chainage_m - 1e-6 {
                 issues.push(format!(
                     "{line_name}: stations at {:.1} m ({:?}) and {:.1} m ({:?}) are only {:.1} m apart",
                     pair[0].s_m,
@@ -972,16 +1004,7 @@ pub fn station_layout_issues(
             .sum::<f64>();
         let wrap_gap_m =
             route_length_m - line_stations.last().unwrap().s_m + line_stations.first().unwrap().s_m;
-        let first = line_stations.first().unwrap();
-        let last = line_stations.last().unwrap();
-        let shared_multiline_complex = first.junction_group.is_some()
-            && first.junction_group == last.junction_group
-            && interchange_lines
-                .get(&first.junction_group.unwrap())
-                .is_some_and(|line_names| line_names.len() >= 2);
-        if wrap_gap_m < minimum_inline_chainage_m - 1e-6
-            && (!shared_multiline_complex || wrap_gap_m <= 60.0)
-        {
+        if wrap_gap_m < minimum_inline_chainage_m - 1e-6 {
             issues.push(format!(
                 "{}: stations around the ring origin are only {:.1} m apart",
                 line.name, wrap_gap_m
@@ -1066,7 +1089,9 @@ pub fn station_layout_issues(
                     .find(|station| (station.s_m - endpoint_chainage).abs() <= 1.0)
                     .and_then(|station| station.junction_group);
                 if endpoint_distance <= transfer_envelope_m + 1e-6
-                    && terminal_group.is_none_or(|group| !ring_groups.contains(&group))
+                    && !terminal_group
+                        .map(|group| ring_groups.contains(&group))
+                        .unwrap_or(false)
                 {
                     issues.push(format!(
                         "{} terminal within {:.0} m of {} has no endpoint interchange",
@@ -1121,16 +1146,6 @@ pub fn consolidate_inline_station_clusters(
         .filter(|line| matches!(line.shape, LineShape::Radial))
         .map(|line| line.name.clone())
         .collect();
-    let mut interchange_lines =
-        std::collections::BTreeMap::<u32, std::collections::BTreeSet<String>>::new();
-    for station in stations.iter() {
-        if let Some(group) = station.junction_group {
-            interchange_lines
-                .entry(group)
-                .or_default()
-                .insert(station.line_name.clone());
-        }
-    }
     let line_ends: std::collections::BTreeMap<String, f64> =
         stations
             .iter()
@@ -1171,16 +1186,6 @@ pub fn consolidate_inline_station_clusters(
                 kept.push(candidate);
                 continue;
             }
-            let gap = candidate.s_m - previous.s_m;
-            let shared_multiline_complex = candidate.junction_group.is_some()
-                && candidate.junction_group == previous.junction_group
-                && interchange_lines
-                    .get(&candidate.junction_group.unwrap())
-                    .is_some_and(|line_names| line_names.len() >= 2);
-            if shared_multiline_complex && gap > 60.0 {
-                kept.push(candidate);
-                continue;
-            }
             let endpoint = |station: &Station| {
                 is_radial && (station.s_m.abs() <= 1.0 || (line_end - station.s_m).abs() <= 1.0)
             };
@@ -1195,6 +1200,8 @@ pub fn consolidate_inline_station_clusters(
             };
             if score(&candidate) > score(previous) {
                 *kept.last_mut().unwrap() = candidate;
+            } else if previous.junction_group.is_none() && candidate.junction_group.is_some() {
+                kept.last_mut().unwrap().junction_group = candidate.junction_group;
             }
         }
         *line_stations = kept;
@@ -1214,16 +1221,6 @@ pub fn consolidate_ring_wrap_station_clusters(
         return 0;
     }
 
-    let mut interchange_lines =
-        std::collections::BTreeMap::<u32, std::collections::BTreeSet<String>>::new();
-    for station in stations.iter() {
-        if let Some(group) = station.junction_group {
-            interchange_lines
-                .entry(group)
-                .or_default()
-                .insert(station.line_name.clone());
-        }
-    }
     let mut removed = 0;
     for line in lines
         .iter()
@@ -1262,14 +1259,6 @@ pub fn consolidate_ring_wrap_station_clusters(
             if wrap_gap_m >= minimum_spacing_m {
                 break;
             }
-            let shared_multiline_complex = stations[first].junction_group.is_some()
-                && stations[first].junction_group == stations[last].junction_group
-                && interchange_lines
-                    .get(&stations[first].junction_group.unwrap())
-                    .is_some_and(|line_names| line_names.len() >= 2);
-            if shared_multiline_complex && wrap_gap_m > 60.0 {
-                break;
-            }
             let score = |station: &Station| {
                 (
                     station.junction_group.is_some(),
@@ -1279,8 +1268,18 @@ pub fn consolidate_ring_wrap_station_clusters(
                 )
             };
             let remove = if score(&stations[first]) >= score(&stations[last]) {
+                if stations[first].junction_group.is_none()
+                    && stations[last].junction_group.is_some()
+                {
+                    stations[first].junction_group = stations[last].junction_group;
+                }
                 last
             } else {
+                if stations[last].junction_group.is_none()
+                    && stations[first].junction_group.is_some()
+                {
+                    stations[last].junction_group = stations[first].junction_group;
+                }
                 first
             };
             stations.remove(remove);
@@ -1297,8 +1296,8 @@ pub fn consolidate_ring_wrap_station_clusters(
 /// but replacing a nearby stop with a forced hub/crossing can join two gaps.
 /// This deterministic repair inserts evenly spaced platforms on the routed
 /// cells using the demand band at each interval's midpoint. A 25% tolerance
-/// keeps a just-over-target suburban interval from being split into two dense
-/// stops; the 5 km outer-fringe cap is kept strict.
+/// keeps a just-over-target urban interval from being split into two dense
+/// stops; the 7 km suburban/fringe cap is kept strict.
 pub fn fill_large_station_gaps(
     stations: &mut Vec<Station>,
     lines: &[Line],
@@ -1597,6 +1596,57 @@ mod tests {
     }
 
     #[test]
+    fn inline_cluster_collapses_same_line_platforms_inside_interchange_group() {
+        let lines = vec![
+            line(
+                "L1",
+                LineShape::Radial,
+                vec![(0, 0), (0, 1), (0, 2), (0, 3)],
+            ),
+            line(
+                "L2",
+                LineShape::Radial,
+                vec![(1, 0), (1, 1), (1, 2), (1, 3)],
+            ),
+        ];
+        let mut stations = vec![
+            Station {
+                s_m: 1000.0,
+                demand: 0.2,
+                junction_group: Some(7),
+                ..st("L1", 0.0, 0.010)
+            },
+            Station {
+                s_m: 1120.0,
+                demand: 0.8,
+                junction_group: Some(7),
+                ..st("L1", 0.0, 0.011)
+            },
+            Station {
+                s_m: 1100.0,
+                demand: 0.7,
+                junction_group: Some(7),
+                ..st("L2", 0.001, 0.011)
+            },
+        ];
+        consolidate_inline_station_clusters(&mut stations, &lines, 1200.0);
+        let l1: Vec<_> = stations
+            .iter()
+            .filter(|station| station.line_name == "L1")
+            .collect();
+        assert_eq!(l1.len(), 1);
+        assert_eq!(l1[0].s_m, 1120.0);
+        assert_eq!(l1[0].junction_group, Some(7));
+        assert_eq!(
+            stations
+                .iter()
+                .filter(|station| station.line_name == "L2")
+                .count(),
+            1
+        );
+    }
+
+    #[test]
     fn ring_wrap_cluster_is_consolidated() {
         let lines = vec![line(
             "R1",
@@ -1730,13 +1780,15 @@ mod tests {
         replace_station_near(
             &mut stations,
             "L1",
-            (10, 9),
-            180.0,
             &grid,
             &anchors,
-            true,
-            6,
-            120.0,
+            ReplacementSite {
+                cell: (10, 9),
+                chainage_m: 180.0,
+                preserve_route_endpoints: true,
+                radius_cells: 6,
+                chainage_window_m: 120.0,
+            },
         );
         assert_eq!(stations.len(), 2);
         assert!(stations.iter().any(|station| station.s_m == 200.0));

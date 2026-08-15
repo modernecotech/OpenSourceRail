@@ -45,10 +45,6 @@
       "bytes": 3755,
       "sha256": "021acb30a4f4ebc66c7549d25c15b550dc5045dcc2e30fd5a874752a5c1c7fc5"
     },
-    "engineering/gis/marrakech.gpkg": {
-      "bytes": 376832,
-      "sha256": "cd2eb1f3d5f526fe363b617e66f5cee316e54d862cea620f134d34bb04d73ea0"
-    },
     "engineering/gis/summary.json": {
       "bytes": 1235,
       "sha256": "095c8eaae763ea052caf521551f3ccd8e098d3c2d0bcba8ec49ae1eed576cbe0"
@@ -109,17 +105,9 @@
       "bytes": 5727,
       "sha256": "b2daed6e87113bb7d7ebf36a87318fa8637d4d0dc40261c3819d58df2dd7c6d8"
     },
-    "operations/marrakech-acceptance-evidence-matrix.csv": {
-      "bytes": 2211660,
-      "sha256": "4aec66fcf43f5ce15ccddb4ae8b287353a4f71255acb4d1ce792a79c02c208f5"
-    },
     "operations/marrakech-operations-manifest.json": {
       "bytes": 772,
       "sha256": "fe2e19314ce03acc5ba6cd269c83a75ebc6b4e81e2e3a6bf1c4d8e78b08b0be9"
-    },
-    "operations/marrakech-operations.json.gz": {
-      "bytes": 1413345,
-      "sha256": "54aec4a885e1fd75c5d80c9fdaa98da6c2d21ccd1cb3ec4f14a5238c60285b7e"
     }
   },
   "city": "marrakech",
@@ -132,11 +120,28 @@
   ],
   "failed_summaries": [],
   "generator": "scripts/generate-city-package-manifest.py",
-  "generator_sha256": "51507fac12b6e0648580bc91f685a609e4c0af998a8731715e7f9dc34f712ecf",
+  "generator_sha256": "59cb4f6c517402444094e1f8c43a815668813f6c966df9bfafac770ec56a0bb9",
+  "local_reproducible_artifacts": {
+    "engineering/gis/marrakech.gpkg": {
+      "bytes": 376832,
+      "required_in_git_checkout": false,
+      "sha256": "cd2eb1f3d5f526fe363b617e66f5cee316e54d862cea620f134d34bb04d73ea0"
+    },
+    "operations/marrakech-acceptance-evidence-matrix.csv": {
+      "bytes": 2211660,
+      "required_in_git_checkout": false,
+      "sha256": "4aec66fcf43f5ce15ccddb4ae8b287353a4f71255acb4d1ce792a79c02c208f5"
+    },
+    "operations/marrakech-operations.json.gz": {
+      "bytes": 1413345,
+      "required_in_git_checkout": false,
+      "sha256": "54aec4a885e1fd75c5d80c9fdaa98da6c2d21ccd1cb3ec4f14a5238c60285b7e"
+    }
+  },
   "missing_artifacts": [],
   "operations_bundle_hash_current": true,
   "package_status": "screening-passed",
   "passed": true,
   "schema_version": "1.0",
-  "source_revision": "dcf55f1764411749a33b380c366b17931b4a7226"
+  "source_revision": "22623ac8721f564fcb5dc41594780565c4d047eb"
 }

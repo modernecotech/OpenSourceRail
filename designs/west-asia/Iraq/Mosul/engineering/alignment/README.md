@@ -4,12 +4,12 @@ Deterministic alignment exports for every line in the current generated network.
 
 | File | Design line | Length | Stations |
 |---|---:|---:|---:|
-| [`mosul-line1.aln.toml`](mosul-line1.aln.toml) | `line-1` | 34,548.4 m | 19 |
-| [`mosul-line2.aln.toml`](mosul-line2.aln.toml) | `line-2` | 31,090.4 m | 17 |
-| [`mosul-line3.aln.toml`](mosul-line3.aln.toml) | `line-3` | 29,350.0 m | 14 |
-| [`mosul-line4.aln.toml`](mosul-line4.aln.toml) | `line-4` | 25,429.9 m | 15 |
-| [`mosul-line5.aln.toml`](mosul-line5.aln.toml) | `line-5` | 23,877.9 m | 15 |
-| [`mosul-line6.aln.toml`](mosul-line6.aln.toml) | `line-6` | 63,045.9 m | 41 |
+| [`mosul-line1.aln.toml`](mosul-line1.aln.toml) | `line-1` | 34,548.4 m | 11 |
+| [`mosul-line2.aln.toml`](mosul-line2.aln.toml) | `line-2` | 31,090.4 m | 11 |
+| [`mosul-line3.aln.toml`](mosul-line3.aln.toml) | `line-3` | 29,350.0 m | 10 |
+| [`mosul-line4.aln.toml`](mosul-line4.aln.toml) | `line-4` | 25,429.9 m | 10 |
+| [`mosul-line5.aln.toml`](mosul-line5.aln.toml) | `line-5` | 23,877.9 m | 10 |
+| [`mosul-line6.aln.toml`](mosul-line6.aln.toml) | `line-6` | 63,045.9 m | 17 |
 
 ## Status
 

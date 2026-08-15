@@ -109,6 +109,40 @@ avoids.
   tracks × 3.5 m wide plus 1 m each side clearance plus fencing
   allowance); 7 m for single-track.
 
+### 4.1.1 Narrow old-town single-track option
+
+Some historic cores and market streets cannot fit a 10.5 m dedicated
+double-track reservation without demolition, but also do not justify
+viaduct intrusion. OpenSourceRail therefore permits a constrained
+single-track at-grade segment as an **at-grade variant**, not a fourth
+civil class.
+
+Rules:
+
+- Use only for short constrained sections where double track would
+  require demolition or permanent removal of the street's essential
+  pedestrian/service function.
+- Fit the running way inside the 7 m single-track envelope, with
+  protected pedestrian edges and no mixed running with road traffic.
+- Provide double-track passing loops only at stations, portals, or
+  immediately outside the constrained street.
+- Interlocking treats the whole single-track section as one opposing-move
+  exclusion zone unless a deployment-specific signalling design divides
+  it into shorter protected blocks.
+- Timetables must prove the desired headway through the single-track
+  section before the option is accepted. At 3-minute peak headway, a
+  single-track section longer than roughly 800-1,000 m will usually force
+  either lower frequency, directional tidal operation, or a bypass.
+- Emergency walkways, evacuation gates, drainage, charging isolation, and
+  intrusion detection remain mandatory; the narrow option saves width, not
+  safety systems.
+
+The auto-generation pipeline should prefer this option before elevated
+only when a tagged old-town / constrained-street corridor is short,
+station-loop spacing is feasible, and the resulting timetable still meets
+the line's published service class. Otherwise it should stay double-track
+or go elevated/deviate.
+
 ### 4.2 When at-grade is inappropriate
 
 Even with the default bias to at-grade, certain conditions push

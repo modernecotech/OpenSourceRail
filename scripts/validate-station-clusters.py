@@ -15,7 +15,6 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 TRANSFER_ENVELOPE_M = 600.0
 MINIMUM_INLINE_CHAINAGE_M = 1_180.0
 PREFERRED_INLINE_CHAINAGE_M = 1_200.0
-MINIMUM_OPERATIONAL_SEGMENT_M = 60.0
 CITY_CENTRE_RADIUS_M = 3_000.0
 CITY_CENTRE_CLUSTER_ENVELOPE_M = 600.0
 
@@ -57,14 +56,6 @@ def validate(path: Path) -> dict:
     centre = city_centre(design)
     findings: list[dict] = []
     review_findings: list[dict] = []
-    group_lines: dict[int, set[str]] = {}
-    for station in stations:
-        group = station.get("junction_group")
-        if group is not None:
-            group_lines.setdefault(int(group), set()).add(str(station["line"]))
-    multiline_groups = {
-        group for group, lines in group_lines.items() if len(lines) >= 2
-    }
     station_ids: dict[str, int] = {}
     for station in stations:
         station_id = str(station["id"])
@@ -123,12 +114,6 @@ def validate(path: Path) -> dict:
             # Same-line stops are not interchange candidates, but duplicate
             # or very short consecutive placements are equally undesirable.
             chainage_gap = abs(float(first.get("s_m", 0.0)) - float(second.get("s_m", 0.0)))
-            shared_group = first.get("junction_group")
-            shared_multiline_complex = (
-                shared_group is not None
-                and shared_group == second.get("junction_group")
-                and int(shared_group) in multiline_groups
-            )
             finding = {
                 "code": "same-line-stations-too-close",
                 "chainage_gap_m": round(chainage_gap, 1),
@@ -137,10 +122,7 @@ def validate(path: Path) -> dict:
                 "line": first["line"],
                 "second_station": second["id"],
             }
-            if chainage_gap <= MINIMUM_OPERATIONAL_SEGMENT_M or (
-                chainage_gap < MINIMUM_INLINE_CHAINAGE_M
-                and not shared_multiline_complex
-            ):
+            if chainage_gap < MINIMUM_INLINE_CHAINAGE_M:
                 findings.append({**finding, "severity": "fail"})
             elif chainage_gap < PREFERRED_INLINE_CHAINAGE_M:
                 review_findings.append({**finding, "severity": "review"})

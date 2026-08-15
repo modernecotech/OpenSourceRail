@@ -53,10 +53,6 @@
       "bytes": 3736,
       "sha256": "42aa3f340835a2b0504dd7b451f7a389879a79bc490cc4259e4a2b331421a581"
     },
-    "engineering/gis/damietta.gpkg": {
-      "bytes": 286720,
-      "sha256": "af3ade201073b0467cbae1de41fb3a0b727681a3f64109fec48d91b07abd1747"
-    },
     "engineering/gis/summary.json": {
       "bytes": 1205,
       "sha256": "42c89d0610cb5caa2b76baa7215268421932cc8dff47f3aba6bb03358b349053"
@@ -97,17 +93,9 @@
       "bytes": 5710,
       "sha256": "7998a791bb52a7d09f4c37895a30b1aa64769cbcf2a1900d8fbb8d64d9006c90"
     },
-    "operations/damietta-acceptance-evidence-matrix.csv": {
-      "bytes": 1135156,
-      "sha256": "882fd76696fc308bba6ea8452c027f5bda6bfd529d773ade1ba45a61ade3c1d3"
-    },
     "operations/damietta-operations-manifest.json": {
       "bytes": 768,
       "sha256": "9021b3088f0cf0c1485a6a6f6c58b39d26f12de5e6f3e68faac760c761d6bd98"
-    },
-    "operations/damietta-operations.json.gz": {
-      "bytes": 699584,
-      "sha256": "b526a195619d5f7e8dd8dae3b7c5888458e2a1829341a69715308ab4fbe080c3"
     }
   },
   "city": "damietta",
@@ -120,11 +108,28 @@
   ],
   "failed_summaries": [],
   "generator": "scripts/generate-city-package-manifest.py",
-  "generator_sha256": "51507fac12b6e0648580bc91f685a609e4c0af998a8731715e7f9dc34f712ecf",
+  "generator_sha256": "59cb4f6c517402444094e1f8c43a815668813f6c966df9bfafac770ec56a0bb9",
+  "local_reproducible_artifacts": {
+    "engineering/gis/damietta.gpkg": {
+      "bytes": 286720,
+      "required_in_git_checkout": false,
+      "sha256": "af3ade201073b0467cbae1de41fb3a0b727681a3f64109fec48d91b07abd1747"
+    },
+    "operations/damietta-acceptance-evidence-matrix.csv": {
+      "bytes": 1135156,
+      "required_in_git_checkout": false,
+      "sha256": "882fd76696fc308bba6ea8452c027f5bda6bfd529d773ade1ba45a61ade3c1d3"
+    },
+    "operations/damietta-operations.json.gz": {
+      "bytes": 699584,
+      "required_in_git_checkout": false,
+      "sha256": "b526a195619d5f7e8dd8dae3b7c5888458e2a1829341a69715308ab4fbe080c3"
+    }
+  },
   "missing_artifacts": [],
   "operations_bundle_hash_current": true,
   "package_status": "screening-passed",
   "passed": true,
   "schema_version": "1.0",
-  "source_revision": "dcf55f1764411749a33b380c366b17931b4a7226"
+  "source_revision": "22623ac8721f564fcb5dc41594780565c4d047eb"
 }

@@ -116,9 +116,8 @@ def plan_city(
     5. For each direction, build the corridor polyline as the
        shortest arterial path between the two farthest-in-direction
        nodes, spliced through the hub.
-    6. Walk each polyline; drop a station at each POI cluster within
-       500 m, respecting the 1.2 km central OSR light-metro minimum
-       inter-station spacing.
+    6. Walk each polyline; drop stations against the demand-sensitive
+       1.6 km / 3 km / 7 km OSR light-metro spacing policy.
     """
     cache_dir = cache_dir or Path(".cache/osm")
     anchors = fetch_anchors(inputs.bbox, cache_dir)

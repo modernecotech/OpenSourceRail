@@ -45,10 +45,6 @@
       "bytes": 3779,
       "sha256": "fdd6b97ed99dc4057c55c21d495d9ea83ef105e335c70b430b8173bc22d1f2fe"
     },
-    "engineering/gis/kathmandu.gpkg": {
-      "bytes": 430080,
-      "sha256": "30fc5e12bf1126ede8ff0d6525e250a3c38c136566d08568c539f8448f6da58a"
-    },
     "engineering/gis/summary.json": {
       "bytes": 1222,
       "sha256": "e573184466f11ed1d0f5f6416ba8949f1503a30e4d6444232f60c4a0c163f128"
@@ -109,17 +105,9 @@
       "bytes": 5731,
       "sha256": "121c38162e2be85edaf6a0a4a5ab16767d230898aff0411a5358912519b8da21"
     },
-    "operations/kathmandu-acceptance-evidence-matrix.csv": {
-      "bytes": 2475531,
-      "sha256": "1d83af2a2d8eb6a112d10cf4ea48e72be1b35e537deca40351472741856d461d"
-    },
     "operations/kathmandu-operations-manifest.json": {
       "bytes": 776,
       "sha256": "68df479479d194b7ebbed66c942e9d5a10153886b39389b54a78be208911c491"
-    },
-    "operations/kathmandu-operations.json.gz": {
-      "bytes": 1611636,
-      "sha256": "293030abe4d6ff3b610690ddbdbb565cf451d9211ed457d0f657165287d0b71b"
     }
   },
   "city": "kathmandu",
@@ -132,11 +120,28 @@
   ],
   "failed_summaries": [],
   "generator": "scripts/generate-city-package-manifest.py",
-  "generator_sha256": "51507fac12b6e0648580bc91f685a609e4c0af998a8731715e7f9dc34f712ecf",
+  "generator_sha256": "59cb4f6c517402444094e1f8c43a815668813f6c966df9bfafac770ec56a0bb9",
+  "local_reproducible_artifacts": {
+    "engineering/gis/kathmandu.gpkg": {
+      "bytes": 430080,
+      "required_in_git_checkout": false,
+      "sha256": "30fc5e12bf1126ede8ff0d6525e250a3c38c136566d08568c539f8448f6da58a"
+    },
+    "operations/kathmandu-acceptance-evidence-matrix.csv": {
+      "bytes": 2475531,
+      "required_in_git_checkout": false,
+      "sha256": "1d83af2a2d8eb6a112d10cf4ea48e72be1b35e537deca40351472741856d461d"
+    },
+    "operations/kathmandu-operations.json.gz": {
+      "bytes": 1611636,
+      "required_in_git_checkout": false,
+      "sha256": "293030abe4d6ff3b610690ddbdbb565cf451d9211ed457d0f657165287d0b71b"
+    }
+  },
   "missing_artifacts": [],
   "operations_bundle_hash_current": true,
   "package_status": "screening-passed",
   "passed": true,
   "schema_version": "1.0",
-  "source_revision": "dcf55f1764411749a33b380c366b17931b4a7226"
+  "source_revision": "22623ac8721f564fcb5dc41594780565c4d047eb"
 }

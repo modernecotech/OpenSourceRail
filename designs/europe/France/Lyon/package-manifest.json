@@ -45,10 +45,6 @@
       "bytes": 3693,
       "sha256": "045b90684e51225ae4d632d7f19898ed676a4cb591510089a86fe011f6d99cea"
     },
-    "engineering/gis/lyon.gpkg": {
-      "bytes": 397312,
-      "sha256": "7e171c16180862030c92cb707cde9eb6c634ed0051dccb5c51415e1734f667d4"
-    },
     "engineering/gis/summary.json": {
       "bytes": 1164,
       "sha256": "8d27e91f163b013bbbbe9e9342e62245bd9d20ae628326d732267892e0da1c6f"
@@ -109,17 +105,9 @@
       "bytes": 5656,
       "sha256": "f2a6eb57377142e4c4dafee79dacde4ff3c8d9e59488aa7d0bf48e82b3b1982f"
     },
-    "operations/lyon-acceptance-evidence-matrix.csv": {
-      "bytes": 2955337,
-      "sha256": "b2d1eceb97e0c90d56291c4a149608f76ab0f9b740b1377fa5e67bf4a66bdfda"
-    },
     "operations/lyon-operations-manifest.json": {
       "bytes": 766,
       "sha256": "1b6dcbceba772675f9841c787df468b4b2d7ab02ce9f0635194c57347153e8ad"
-    },
-    "operations/lyon-operations.json.gz": {
-      "bytes": 1965730,
-      "sha256": "5ecd44e375204fc7ef2a0687eee5b3f23a67ba22e10a57a2da6836480cde922b"
     }
   },
   "city": "lyon",
@@ -132,11 +120,28 @@
   ],
   "failed_summaries": [],
   "generator": "scripts/generate-city-package-manifest.py",
-  "generator_sha256": "51507fac12b6e0648580bc91f685a609e4c0af998a8731715e7f9dc34f712ecf",
+  "generator_sha256": "59cb4f6c517402444094e1f8c43a815668813f6c966df9bfafac770ec56a0bb9",
+  "local_reproducible_artifacts": {
+    "engineering/gis/lyon.gpkg": {
+      "bytes": 397312,
+      "required_in_git_checkout": false,
+      "sha256": "7e171c16180862030c92cb707cde9eb6c634ed0051dccb5c51415e1734f667d4"
+    },
+    "operations/lyon-acceptance-evidence-matrix.csv": {
+      "bytes": 2955337,
+      "required_in_git_checkout": false,
+      "sha256": "b2d1eceb97e0c90d56291c4a149608f76ab0f9b740b1377fa5e67bf4a66bdfda"
+    },
+    "operations/lyon-operations.json.gz": {
+      "bytes": 1965730,
+      "required_in_git_checkout": false,
+      "sha256": "5ecd44e375204fc7ef2a0687eee5b3f23a67ba22e10a57a2da6836480cde922b"
+    }
+  },
   "missing_artifacts": [],
   "operations_bundle_hash_current": true,
   "package_status": "screening-passed",
   "passed": true,
   "schema_version": "1.0",
-  "source_revision": "dcf55f1764411749a33b380c366b17931b4a7226"
+  "source_revision": "22623ac8721f564fcb5dc41594780565c4d047eb"
 }

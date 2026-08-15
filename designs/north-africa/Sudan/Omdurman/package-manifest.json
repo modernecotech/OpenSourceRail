@@ -45,10 +45,6 @@
       "bytes": 3742,
       "sha256": "3c3adf8ca05e56277cb983103fba37896a7ab4056db07a9b1ff582ff267aa070"
     },
-    "engineering/gis/omdurman.gpkg": {
-      "bytes": 393216,
-      "sha256": "f2b04712f7f5c5ed0527ff9c309e4ec6b547788051a07b517a1cefbdf5ee5623"
-    },
     "engineering/gis/summary.json": {
       "bytes": 1220,
       "sha256": "c10f831c39dc22aeef47a4dea302ce23035605d22616dd3e07bd94d23c024776"
@@ -109,17 +105,9 @@
       "bytes": 5716,
       "sha256": "442ebed3b9036bf70c1092f0ac83b16d26a205df35b90058dc6c18e14b9747b1"
     },
-    "operations/omdurman-acceptance-evidence-matrix.csv": {
-      "bytes": 2963839,
-      "sha256": "c5b23ac2443f7adadd0200469eb78b3d931bd0b01fa948be3ef73ee1946fd7d1"
-    },
     "operations/omdurman-operations-manifest.json": {
       "bytes": 774,
       "sha256": "e429aa2a6646f8fcd3c541f1bfdb782ee64561b5746e9446abb854ab79f682ae"
-    },
-    "operations/omdurman-operations.json.gz": {
-      "bytes": 1935604,
-      "sha256": "21199caedad3084c74454e22f261f919484cf8306fbbc5bb659e76b9837d8d86"
     }
   },
   "city": "omdurman",
@@ -132,11 +120,28 @@
   ],
   "failed_summaries": [],
   "generator": "scripts/generate-city-package-manifest.py",
-  "generator_sha256": "51507fac12b6e0648580bc91f685a609e4c0af998a8731715e7f9dc34f712ecf",
+  "generator_sha256": "59cb4f6c517402444094e1f8c43a815668813f6c966df9bfafac770ec56a0bb9",
+  "local_reproducible_artifacts": {
+    "engineering/gis/omdurman.gpkg": {
+      "bytes": 393216,
+      "required_in_git_checkout": false,
+      "sha256": "f2b04712f7f5c5ed0527ff9c309e4ec6b547788051a07b517a1cefbdf5ee5623"
+    },
+    "operations/omdurman-acceptance-evidence-matrix.csv": {
+      "bytes": 2963839,
+      "required_in_git_checkout": false,
+      "sha256": "c5b23ac2443f7adadd0200469eb78b3d931bd0b01fa948be3ef73ee1946fd7d1"
+    },
+    "operations/omdurman-operations.json.gz": {
+      "bytes": 1935604,
+      "required_in_git_checkout": false,
+      "sha256": "21199caedad3084c74454e22f261f919484cf8306fbbc5bb659e76b9837d8d86"
+    }
+  },
   "missing_artifacts": [],
   "operations_bundle_hash_current": true,
   "package_status": "screening-passed",
   "passed": true,
   "schema_version": "1.0",
-  "source_revision": "dcf55f1764411749a33b380c366b17931b4a7226"
+  "source_revision": "22623ac8721f564fcb5dc41594780565c4d047eb"
 }

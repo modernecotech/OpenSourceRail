@@ -328,7 +328,6 @@ def check_city_artifacts() -> list[Finding]:
                 city_dir / "engineering/energy/summary.json",
                 city_dir / "engineering/finance/summary.json",
                 city_dir / "engineering/gis/summary.json",
-                city_dir / "engineering/gis" / f"{slug}.gpkg",
                 city_dir / "engineering/ring-interchange-summary.json",
                 city_dir / "engineering/station-cluster-summary.json",
                 city_dir / "engineering/station-product-map.json",
@@ -338,8 +337,6 @@ def check_city_artifacts() -> list[Finding]:
                 city_dir / "engineering/simulation/validation-summary.json",
                 city_dir / "engineering/sumo/summary.json",
                 city_dir / "operations/acceptance-evidence-report.md",
-                city_dir / "operations" / f"{slug}-acceptance-evidence-matrix.csv",
-                city_dir / "operations" / f"{slug}-operations.json.gz",
                 city_dir / "operations" / f"{slug}-operations-manifest.json",
                 city_dir / "package-manifest.json",
             ]

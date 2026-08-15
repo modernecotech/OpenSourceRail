@@ -50,7 +50,7 @@ length_m        = 45163.5
 rolling_stock   = "metro-6car"
 geometry        = "standard-metro"
 
-charging_dwell_seconds = 120
+charging_dwell_seconds = 180
 
 [[lines]]
 name            = "line-2"
@@ -68,7 +68,7 @@ length_m        = 46101.2
 rolling_stock   = "metro-6car"
 geometry        = "standard-metro"
 
-charging_dwell_seconds = 120
+charging_dwell_seconds = 210
 
 [[lines]]
 name            = "line-4"
@@ -77,16 +77,16 @@ length_m        = 37339.5
 rolling_stock   = "metro-6car"
 geometry        = "standard-metro"
 
-charging_dwell_seconds = 120
+charging_dwell_seconds = 180
 
 [[lines]]
 name            = "line-5"
 shape           = "radial"
-length_m        = 39878.0
+length_m        = 39866.3
 rolling_stock   = "metro-6car"
 geometry        = "standard-metro"
 
-charging_dwell_seconds = 120
+charging_dwell_seconds = 180
 
 [[lines]]
 name            = "line-6"
@@ -95,17 +95,17 @@ length_m        = 29835.8
 rolling_stock   = "metro-6car"
 geometry        = "standard-metro"
 
-charging_dwell_seconds = 120
+charging_dwell_seconds = 150
 
 [[lines]]
 name            = "line-7"
 shape           = "ring"
 length_m        = 86851.6
-ring_wrap_length_m = 1826
+ring_wrap_length_m = 1506
 rolling_stock   = "metro-6car"
 geometry        = "standard-metro"
 
-charging_dwell_seconds = 120
+charging_dwell_seconds = 180
 
 [[civil_segments]]
 line            = "line-1"
@@ -272,18 +272,6 @@ class           = "elevated"
 [[civil_segments]]
 line            = "line-4"
 from_station_m  = 236.6
-to_station_m    = 11794.5
-class           = "at-grade"
-
-[[civil_segments]]
-line            = "line-4"
-from_station_m  = 11794.5
-to_station_m    = 13063.0
-class           = "elevated"
-
-[[civil_segments]]
-line            = "line-4"
-from_station_m  = 13063.0
 to_station_m    = 15669.8
 class           = "at-grade"
 
@@ -308,42 +296,54 @@ class           = "elevated"
 [[civil_segments]]
 line            = "line-5"
 from_station_m  = 0.0
-to_station_m    = 3914.9
-class           = "elevated"
-
-[[civil_segments]]
-line            = "line-5"
-from_station_m  = 3914.9
-to_station_m    = 19524.6
+to_station_m    = 19917.4
 class           = "at-grade"
 
 [[civil_segments]]
 line            = "line-5"
-from_station_m  = 19524.6
-to_station_m    = 19988.9
+from_station_m  = 19917.4
+to_station_m    = 20373.4
 class           = "elevated"
 
 [[civil_segments]]
 line            = "line-5"
-from_station_m  = 19988.9
-to_station_m    = 39878.0
+from_station_m  = 20373.4
+to_station_m    = 32729.2
 class           = "at-grade"
+
+[[civil_segments]]
+line            = "line-5"
+from_station_m  = 32729.2
+to_station_m    = 34130.3
+class           = "elevated"
+
+[[civil_segments]]
+line            = "line-5"
+from_station_m  = 34130.3
+to_station_m    = 35979.6
+class           = "at-grade"
+
+[[civil_segments]]
+line            = "line-5"
+from_station_m  = 35979.6
+to_station_m    = 39866.3
+class           = "elevated"
 
 [[civil_segments]]
 line            = "line-6"
 from_station_m  = 0.0
-to_station_m    = 5710.1
+to_station_m    = 6395.8
 class           = "at-grade"
 
 [[civil_segments]]
 line            = "line-6"
-from_station_m  = 5710.1
-to_station_m    = 7044.9
+from_station_m  = 6395.8
+to_station_m    = 6508.9
 class           = "elevated"
 
 [[civil_segments]]
 line            = "line-6"
-from_station_m  = 7044.9
+from_station_m  = 6508.9
 to_station_m    = 11934.7
 class           = "at-grade"
 
@@ -380,18 +380,18 @@ class           = "elevated"
 [[civil_segments]]
 line            = "line-7"
 from_station_m  = 5549.6
-to_station_m    = 9160.0
+to_station_m    = 8938.6
 class           = "at-grade"
 
 [[civil_segments]]
 line            = "line-7"
-from_station_m  = 9160.0
-to_station_m    = 10329.2
+from_station_m  = 8938.6
+to_station_m    = 10124.3
 class           = "elevated"
 
 [[civil_segments]]
 line            = "line-7"
-from_station_m  = 10329.2
+from_station_m  = 10124.3
 to_station_m    = 14543.9
 class           = "at-grade"
 
@@ -416,18 +416,18 @@ class           = "elevated"
 [[civil_segments]]
 line            = "line-7"
 from_station_m  = 15991.0
-to_station_m    = 16413.8
+to_station_m    = 17304.9
 class           = "at-grade"
 
 [[civil_segments]]
 line            = "line-7"
-from_station_m  = 16413.8
-to_station_m    = 17582.9
+from_station_m  = 17304.9
+to_station_m    = 18639.7
 class           = "elevated"
 
 [[civil_segments]]
 line            = "line-7"
-from_station_m  = 17582.9
+from_station_m  = 18639.7
 to_station_m    = 18696.3
 class           = "at-grade"
 
@@ -512,18 +512,18 @@ class           = "elevated"
 [[civil_segments]]
 line            = "line-7"
 from_station_m  = 51387.5
-to_station_m    = 57013.6
+to_station_m    = 57173.6
 class           = "at-grade"
 
 [[civil_segments]]
 line            = "line-7"
-from_station_m  = 57013.6
-to_station_m    = 58307.0
+from_station_m  = 57173.6
+to_station_m    = 58533.3
 class           = "elevated"
 
 [[civil_segments]]
 line            = "line-7"
-from_station_m  = 58307.0
+from_station_m  = 58533.3
 to_station_m    = 63807.1
 class           = "at-grade"
 
@@ -598,144 +598,84 @@ platform_length_m = 121.0
 junction_group  = 0
 
 [[stations]]
-id              = "line-1-1746-1192-s002018"
+id              = "line-1-1743-1217-s003501"
 line            = "line-1"
-lat             = 30.435689090450996
-lon             = 47.79871757516997
-s_m             = 2017.6
-anchor_kind     = "place:neighbourhood"
-anchor_name     = "مجمع الخالدون السكني"
-archetype       = "standard"
-platform_length_m = 121.0
-
-[[stations]]
-id              = "line-1-1727-1204-s004037"
-line            = "line-1"
-lat             = 30.43910844761185
-lon             = 47.801220393536454
-s_m             = 4037.3
+lat             = 30.436228988950077
+lon             = 47.80393178010015
+s_m             = 3501.3
 anchor_kind     = "tourism:attraction"
 anchor_name     = "حي الورود"
 archetype       = "standard"
 platform_length_m = 121.0
 
 [[stations]]
-id              = "line-1-1675-1146-s006065"
+id              = "line-1-1649-1110-s007001"
 line            = "line-1"
-lat             = 30.448466688262606
-lon             = 47.78912343809842
-s_m             = 6065.2
-archetype       = "standard"
-platform_length_m = 121.0
-
-[[stations]]
-id              = "line-1-1608-1110-s008081"
-line            = "line-1"
-lat             = 30.460524421408774
+lat             = 30.453145808587987
 lon             = 47.781614982998946
-s_m             = 8080.9
+s_m             = 7000.6
+archetype       = "standard"
+platform_length_m = 121.0
+
+[[stations]]
+id              = "line-1-1533-1162-s010012"
+line            = "line-1"
+lat             = 30.47402188388583
+lon             = 47.79246052925374
+s_m             = 10011.7
+archetype       = "standard"
+platform_length_m = 121.0
+
+[[stations]]
+id              = "line-1-1412-1120-s013028"
+line            = "line-1"
+lat             = 30.495797790015477
+lon             = 47.78370066497102
+s_m             = 13028.1
 anchor_kind     = "amenity:hospital"
-anchor_name     = "مجمع سبع سنابل الطبب"
+anchor_name     = "المركزحي الحسين الصحي"
 archetype       = "standard"
 platform_length_m = 121.0
 
 [[stations]]
-id              = "line-1-1530-1165-s010097"
+id              = "line-1-1290-1051-s016051"
 line            = "line-1"
-lat             = 30.47456178238491
-lon             = 47.793086233845365
-s_m             = 10096.5
+lat             = 30.517753662311485
+lon             = 47.769309459363704
+s_m             = 16051.5
+archetype       = "standard"
+platform_length_m = 121.0
+
+[[stations]]
+id              = "line-1-1179-1006-s019070"
+line            = "line-1"
+lat             = 30.537729906777525
+lon             = 47.75992389048937
+s_m             = 19070.2
 anchor_kind     = "amenity:hospital"
-anchor_name     = "مركز أمراض الدم الوراثية"
+anchor_name     = "مجمع الامل الطبي"
 archetype       = "standard"
 platform_length_m = 121.0
 
 [[stations]]
-id              = "line-1-1449-1142-s012106"
+id              = "line-1-1075-1051-s022074"
 line            = "line-1"
-lat             = 30.48913904186013
-lon             = 47.788289165309585
-s_m             = 12105.9
-anchor_kind     = "tourism:attraction"
-anchor_name     = "مركز للانترنت"
-archetype       = "standard"
-platform_length_m = 121.0
-
-[[stations]]
-id              = "line-1-1368-1096-s014107"
-line            = "line-1"
-lat             = 30.50371630133535
-lon             = 47.77869502823804
-s_m             = 14106.9
-archetype       = "standard"
-platform_length_m = 121.0
-
-[[stations]]
-id              = "line-1-1288-1049-s016108"
-line            = "line-1"
-lat             = 30.518113594644205
-lon             = 47.768892322969286
-s_m             = 16108.0
-archetype       = "standard"
-platform_length_m = 121.0
-
-[[stations]]
-id              = "line-1-1213-1029-s018133"
-line            = "line-1"
-lat             = 30.53161105712126
-lon             = 47.76472095902514
-s_m             = 18133.4
-anchor_kind     = "amenity:hospital"
-anchor_name     = "مجمع ملاك الرحمة الطبي"
-archetype       = "standard"
-platform_length_m = 121.0
-
-[[stations]]
-id              = "line-1-1142-0985-s020140"
-line            = "line-1"
-lat             = 30.544388654932874
-lon             = 47.75554395834801
-s_m             = 20140.1
-archetype       = "standard"
-platform_length_m = 121.0
-
-[[stations]]
-id              = "line-1-1074-1054-s022142"
-line            = "line-1"
-lat             = 30.556626354245402
-lon             = 47.769935163955324
-s_m             = 22142.0
+lat             = 30.556446388079042
+lon             = 47.769309459363704
+s_m             = 22073.8
 anchor_kind     = "amenity:marketplace"
 anchor_name     = "السوق الاصفر"
 archetype       = "standard"
 platform_length_m = 121.0
 
 [[stations]]
-id              = "line-1-0994-1036-s024151"
+id              = "line-1-0907-1014-s026073"
 line            = "line-1"
-lat             = 30.57102364755426
-lon             = 47.76618093640559
-s_m             = 24150.6
-archetype       = "standard"
-platform_length_m = 121.0
-
-[[stations]]
-id              = "line-1-0903-1014-s026153"
-line            = "line-1"
-lat             = 30.587400568693084
+lat             = 30.586680704027643
 lon             = 47.761592436067026
-s_m             = 26152.8
+s_m             = 26072.8
 anchor_kind     = "place:town"
 anchor_name     = "البدران"
-archetype       = "standard"
-platform_length_m = 121.0
-
-[[stations]]
-id              = "line-1-0819-0984-s028156"
-line            = "line-1"
-lat             = 30.602517726667386
-lon             = 47.7553353901508
-s_m             = 28156.5
 archetype       = "standard"
 platform_length_m = 121.0
 
@@ -750,49 +690,20 @@ platform_length_m = 121.0
 junction_group  = 1
 
 [[stations]]
-id              = "line-1-0661-0948-s031615"
+id              = "line-1-0466-0880-s036078"
 line            = "line-1"
-lat             = 30.63095238095238
-lon             = 47.74782693505133
-s_m             = 31614.7
-anchor_kind     = "tourism:attraction"
-anchor_name     = "حسينيه الامام باب الحوائج"
-archetype       = "standard"
-platform_length_m = 121.0
-
-[[stations]]
-id              = "line-1-0592-0927-s033169"
-line            = "line-1"
-lat             = 30.643370046431272
-lon             = 47.743447002909974
-s_m             = 33168.7
+lat             = 30.666045783392722
+lon             = 47.73364429764122
+s_m             = 36078.1
 archetype       = "halt"
 platform_length_m = 117.0
 
 [[stations]]
-id              = "line-1-0461-0879-s036186"
+id              = "line-1-0264-0820-s040615"
 line            = "line-1"
-lat             = 30.666945614224527
-lon             = 47.73343572944401
-s_m             = 36186.3
-archetype       = "halt"
-platform_length_m = 117.0
-
-[[stations]]
-id              = "line-1-0331-0830-s039192"
-line            = "line-1"
-lat             = 30.69034121585142
-lon             = 47.723215887780846
-s_m             = 39192.3
-archetype       = "halt"
-platform_length_m = 117.0
-
-[[stations]]
-id              = "line-1-0188-0814-s042185"
-line            = "line-1"
-lat             = 30.716076377641002
-lon             = 47.71987879662552
-s_m             = 42184.8
+lat             = 30.702398948997587
+lon             = 47.72113020580877
+s_m             = 40615.1
 archetype       = "halt"
 platform_length_m = 117.0
 
@@ -818,20 +729,13 @@ archetype       = "terminal"
 platform_length_m = 121.0
 
 [[stations]]
-id              = "line-2-1559-1348-s002009"
+id              = "line-2-1526-1311-s003022"
 line            = "line-2"
-lat             = 30.46934276356045
-lon             = 47.831254213934336
-s_m             = 2008.8
-archetype       = "standard"
-platform_length_m = 121.0
-
-[[stations]]
-id              = "line-2-1494-1285-s004026"
-line            = "line-2"
-lat             = 30.4810405643739
-lon             = 47.818114417510266
-s_m             = 4025.8
+lat             = 30.475281647050355
+lon             = 47.82353719063766
+s_m             = 3022.2
+anchor_kind     = "amenity:college"
+anchor_name     = "معهد المهن الصحيه العالي"
 archetype       = "standard"
 platform_length_m = 121.0
 
@@ -847,60 +751,34 @@ archetype       = "standard"
 platform_length_m = 121.0
 
 [[stations]]
-id              = "line-2-1373-1344-s007261"
+id              = "line-2-1358-1332-s007661"
 line            = "line-2"
-lat             = 30.502816470503546
-lon             = 47.83041994114551
-s_m             = 7261.1
+lat             = 30.505515962998956
+lon             = 47.82791712277902
+s_m             = 7660.5
 anchor_kind     = "amenity:hospital"
-anchor_name     = "مركز الدكتورة سها المالكي"
+anchor_name     = "مستشفى الموسوي الاهلي"
 archetype       = "interchange-elevated"
 platform_length_m = 121.0
 junction_group  = 2
 
 [[stations]]
-id              = "line-2-1329-1307-s008488"
+id              = "line-2-1247-1274-s010668"
 line            = "line-2"
-lat             = 30.51073498182342
-lon             = 47.82270291784883
-s_m             = 8487.6
-anchor_kind     = "amenity:hospital"
-archetype       = "interchange-elevated"
-platform_length_m = 121.0
-junction_group  = 2
-
-[[stations]]
-id              = "line-2-1253-1279-s010507"
-line            = "line-2"
-lat             = 30.524412410466834
-lon             = 47.81686300832702
-s_m             = 10506.7
-anchor_kind     = "shop:mall"
-anchor_name     = "مول الفيحاء التجاري"
+lat             = 30.525492207464996
+lon             = 47.81582016734098
+s_m             = 10668.1
 archetype       = "standard"
 platform_length_m = 121.0
 
 [[stations]]
-id              = "line-2-1184-1232-s012512"
+id              = "line-2-1136-1208-s013671"
 line            = "line-2"
-lat             = 30.536830075945723
-lon             = 47.807060303058265
-s_m             = 12512.0
-anchor_kind     = "amenity:hospital"
-anchor_name     = "مستشفى الشفاء العام"
-archetype       = "interchange-elevated"
+lat             = 30.545468451931036
+lon             = 47.80205466632528
+s_m             = 13670.9
+archetype       = "standard"
 platform_length_m = 121.0
-junction_group  = 3
-
-[[stations]]
-id              = "line-2-1100-1193-s014515"
-line            = "line-2"
-lat             = 30.55194723392002
-lon             = 47.79892614336717
-s_m             = 14515.1
-archetype       = "interchange-elevated"
-platform_length_m = 121.0
-junction_group  = 4
 
 [[stations]]
 id              = "line-2-1076-1184-s015070"
@@ -911,25 +789,7 @@ s_m             = 15069.7
 anchor_kind     = "amenity:college"
 archetype       = "interchange-elevated"
 platform_length_m = 121.0
-junction_group  = 4
-
-[[stations]]
-id              = "line-2-1021-1166-s016538"
-line            = "line-2"
-lat             = 30.56616456106252
-lon             = 47.79329480204257
-s_m             = 16538.2
-archetype       = "standard"
-platform_length_m = 121.0
-
-[[stations]]
-id              = "line-2-0922-1170-s018551"
-line            = "line-2"
-lat             = 30.583981211532233
-lon             = 47.794129074831396
-s_m             = 18551.4
-archetype       = "standard"
-platform_length_m = 121.0
+junction_group  = 3
 
 [[stations]]
 id              = "line-2-0839-1170-s020211"
@@ -954,53 +814,33 @@ archetype       = "terminal"
 platform_length_m = 121.0
 
 [[stations]]
-id              = "line-3-1673-2151-s003004"
+id              = "line-3-1681-2132-s003512"
 line            = "line-3"
-lat             = 30.448826620595327
-lon             = 47.99873447629198
-s_m             = 3003.9
+lat             = 30.447386891264443
+lon             = 47.994771680545036
+s_m             = 3511.6
 archetype       = "halt"
 platform_length_m = 117.0
 
 [[stations]]
-id              = "line-3-1630-2028-s006014"
+id              = "line-3-1613-1986-s007012"
 line            = "line-3"
-lat             = 30.456565165748838
-lon             = 47.97308058803545
-s_m             = 6014.1
-anchor_kind     = "tourism:attraction"
-anchor_name     = "مدرسه ابن الجوزي + الابرار"
+lat             = 30.459624590576972
+lon             = 47.964320723752735
+s_m             = 7011.5
 archetype       = "halt"
 platform_length_m = 117.0
 
 [[stations]]
-id              = "line-3-1588-1898-s009028"
+id              = "line-3-1573-1805-s011079"
 line            = "line-3"
-lat             = 30.46412374473599
-lon             = 47.945966722398474
-s_m             = 9028.3
-archetype       = "halt"
-platform_length_m = 117.0
-
-[[stations]]
-id              = "line-3-1572-1786-s011467"
-line            = "line-3"
-lat             = 30.467003203397763
-lon             = 47.92260708431123
-s_m             = 11467.1
+lat             = 30.466823237231402
+lon             = 47.926569880058175
+s_m             = 11078.9
 anchor_kind     = "tourism:attraction"
 anchor_name     = "شجرة المخيم على شط العرب"
-archetype       = "standard"
-platform_length_m = 121.0
-
-[[stations]]
-id              = "line-3-1571-1687-s013472"
-line            = "line-3"
-lat             = 30.467183169564123
-lon             = 47.901958832787685
-s_m             = 13472.0
-archetype       = "standard"
-platform_length_m = 121.0
+archetype       = "halt"
+platform_length_m = 117.0
 
 [[stations]]
 id              = "line-3-1546-1613-s015159"
@@ -1010,37 +850,7 @@ lon             = 47.88652478619433
 s_m             = 15159.1
 archetype       = "interchange-elevated"
 platform_length_m = 121.0
-junction_group  = 5
-
-[[stations]]
-id              = "line-3-1541-1599-s015481"
-line            = "line-3"
-lat             = 30.472582154554942
-lon             = 47.88360483143342
-s_m             = 15480.5
-archetype       = "interchange-elevated"
-platform_length_m = 121.0
-junction_group  = 5
-
-[[stations]]
-id              = "line-3-1499-1515-s017508"
-line            = "line-3"
-lat             = 30.480140733542093
-lon             = 47.86608510286799
-s_m             = 17508.5
-anchor_kind     = "amenity:marketplace"
-anchor_name     = "سنتر شمس"
-archetype       = "standard"
-platform_length_m = 121.0
-
-[[stations]]
-id              = "line-3-1471-1464-s018772"
-line            = "line-3"
-lat             = 30.485179786200195
-lon             = 47.85544812481041
-s_m             = 18772.1
-archetype       = "standard"
-platform_length_m = 121.0
+junction_group  = 4
 
 [[stations]]
 id              = "line-3-1428-1443-s020026"
@@ -1050,18 +860,7 @@ lon             = 47.851068192669054
 s_m             = 20025.5
 archetype       = "interchange-elevated"
 platform_length_m = 121.0
-junction_group  = 6
-
-[[stations]]
-id              = "line-3-1375-1397-s021549"
-line            = "line-3"
-lat             = 30.502456538170822
-lon             = 47.84147405559751
-s_m             = 21548.6
-anchor_kind     = "amenity:hospital"
-anchor_name     = "مستشفى البصرة الجامعي"
-archetype       = "standard"
-platform_length_m = 121.0
+junction_group  = 5
 
 [[stations]]
 id              = "line-3-1341-1372-s022761"
@@ -1071,91 +870,48 @@ lon             = 47.83625985066732
 s_m             = 22760.6
 anchor_kind     = "amenity:hospital"
 anchor_name     = "مركز الجهاز الهضمي"
-archetype       = "interchange-elevated"
+archetype       = "major"
 platform_length_m = 121.0
-junction_group  = 2
 
 [[stations]]
-id              = "line-3-1342-1326-s023971"
+id              = "line-3-1380-1257-s025762"
 line            = "line-3"
-lat             = 30.508395421660726
-lon             = 47.82666571359577
-s_m             = 23970.5
+lat             = 30.50155670733902
+lon             = 47.812274507988455
+s_m             = 25761.9
+archetype       = "standard"
+platform_length_m = 121.0
+
+[[stations]]
+id              = "line-3-1312-1166-s028769"
+line            = "line-3"
+lat             = 30.51379440665155
+lon             = 47.79329480204257
+s_m             = 28768.7
+anchor_kind     = "amenity:marketplace"
+anchor_name     = "سوق الاصمعي"
+archetype       = "standard"
+platform_length_m = 121.0
+
+[[stations]]
+id              = "line-3-1327-1053-s031779"
+line            = "line-3"
+lat             = 30.51109491415614
+lon             = 47.76972659575812
+s_m             = 31778.8
 anchor_kind     = "amenity:hospital"
-anchor_name     = "مركز اطياف للأنابيب الأطفال"
-archetype       = "interchange-elevated"
-platform_length_m = 121.0
-junction_group  = 2
-
-[[stations]]
-id              = "line-3-1384-1247-s025995"
-line            = "line-3"
-lat             = 30.50083684267358
-lon             = 47.81018882601638
-s_m             = 25995.0
+anchor_name     = "مركز صحي"
 archetype       = "standard"
 platform_length_m = 121.0
 
 [[stations]]
-id              = "line-3-1340-1183-s028016"
+id              = "line-3-1254-0968-s034799"
 line            = "line-3"
-lat             = 30.50875535399345
-lon             = 47.7968404613951
-s_m             = 28016.1
-anchor_kind     = "place:neighbourhood"
-anchor_name     = "شقق الفاو"
+lat             = 30.52423244430047
+lon             = 47.75199829899548
+s_m             = 34798.7
 archetype       = "standard"
 platform_length_m = 121.0
-
-[[stations]]
-id              = "line-3-1319-1115-s030031"
-line            = "line-3"
-lat             = 30.512534643487026
-lon             = 47.782657823984984
-s_m             = 30030.9
-anchor_kind     = "place:neighbourhood"
-anchor_name     = "حي الحرية 3"
-archetype       = "standard"
-platform_length_m = 121.0
-
-[[stations]]
-id              = "line-3-1332-1042-s032040"
-line            = "line-3"
-lat             = 30.510195083324334
-lon             = 47.76743234558884
-s_m             = 32040.3
-anchor_kind     = "place:neighbourhood"
-anchor_name     = "الشعلة"
-archetype       = "standard"
-platform_length_m = 121.0
-
-[[stations]]
-id              = "line-3-1284-0985-s034058"
-line            = "line-3"
-lat             = 30.51883345930965
-lon             = 47.75554395834801
-s_m             = 34057.9
-archetype       = "standard"
-platform_length_m = 121.0
-
-[[stations]]
-id              = "line-3-1204-0956-s036080"
-line            = "line-3"
-lat             = 30.533230752618508
-lon             = 47.74949548062899
-s_m             = 36080.4
-archetype       = "standard"
-platform_length_m = 121.0
-
-[[stations]]
-id              = "line-3-1226-0886-s038104"
-line            = "line-3"
-lat             = 30.52927149695857
-lon             = 47.73489570682446
-s_m             = 38104.3
-archetype       = "interchange-elevated"
-platform_length_m = 121.0
-junction_group  = 7
 
 [[stations]]
 id              = "line-3-1251-0809-s039851"
@@ -1165,35 +921,7 @@ lon             = 47.718835955639484
 s_m             = 39851.4
 archetype       = "interchange-elevated"
 platform_length_m = 121.0
-junction_group  = 8
-
-[[stations]]
-id              = "line-3-1258-0798-s040129"
-line            = "line-3"
-lat             = 30.523512579635028
-lon             = 47.7165417054702
-s_m             = 40129.4
-archetype       = "interchange-elevated"
-platform_length_m = 121.0
-junction_group  = 8
-
-[[stations]]
-id              = "line-3-1220-0721-s042156"
-line            = "line-3"
-lat             = 30.530351293956738
-lon             = 47.70048195428522
-s_m             = 42155.9
-archetype       = "standard"
-platform_length_m = 121.0
-
-[[stations]]
-id              = "line-3-1146-0655-s044183"
-line            = "line-3"
-lat             = 30.54366879026743
-lon             = 47.686716453269526
-s_m             = 44182.7
-archetype       = "standard"
-platform_length_m = 121.0
+junction_group  = 6
 
 [[stations]]
 id              = "line-3-1128-0589-s046101"
@@ -1218,15 +946,6 @@ archetype       = "terminal"
 platform_length_m = 121.0
 
 [[stations]]
-id              = "line-4-1080-0858-s002002"
-line            = "line-4"
-lat             = 30.555546557247236
-lon             = 47.72905579730265
-s_m             = 2002.3
-archetype       = "standard"
-platform_length_m = 121.0
-
-[[stations]]
 id              = "line-4-1053-0889-s003316"
 line            = "line-4"
 lat             = 30.560405643738978
@@ -1236,16 +955,7 @@ anchor_kind     = "amenity:hospital"
 anchor_name     = "مركز ابو صخير الصحي"
 archetype       = "interchange-elevated"
 platform_length_m = 121.0
-junction_group  = 9
-
-[[stations]]
-id              = "line-4-1099-0932-s004663"
-line            = "line-4"
-lat             = 30.552127200086385
-lon             = 47.74448984389601
-s_m             = 4662.7
-archetype       = "standard"
-platform_length_m = 121.0
+junction_group  = 7
 
 [[stations]]
 id              = "line-4-1099-0982-s006020"
@@ -1259,22 +969,11 @@ archetype       = "standard"
 platform_length_m = 121.0
 
 [[stations]]
-id              = "line-4-1143-1050-s008025"
+id              = "line-4-1161-1092-s009026"
 line            = "line-4"
-lat             = 30.544208688766513
-lon             = 47.769100891166495
-s_m             = 8024.9
-anchor_kind     = "place:neighbourhood"
-anchor_name     = "البيضان"
-archetype       = "standard"
-platform_length_m = 121.0
-
-[[stations]]
-id              = "line-4-1169-1139-s010032"
-line            = "line-4"
-lat             = 30.539529568441132
-lon             = 47.787663460717965
-s_m             = 10032.0
+lat             = 30.54096929777202
+lon             = 47.77786075544921
+s_m             = 9025.7
 archetype       = "standard"
 platform_length_m = 121.0
 
@@ -1286,16 +985,6 @@ lon             = 47.80351464370574
 s_m             = 12034.5
 anchor_kind     = "amenity:hospital"
 anchor_name     = "مستوصف الجنينة"
-archetype       = "interchange-elevated"
-platform_length_m = 121.0
-junction_group  = 3
-
-[[stations]]
-id              = "line-4-1193-1291-s014042"
-line            = "line-4"
-lat             = 30.535210380448476
-lon             = 47.819365826693506
-s_m             = 14041.8
 archetype       = "standard"
 platform_length_m = 121.0
 
@@ -1307,89 +996,50 @@ lon             = 47.83041994114551
 s_m             = 15541.5
 archetype       = "interchange-elevated"
 platform_length_m = 121.0
-junction_group  = 10
+junction_group  = 8
 
 [[stations]]
-id              = "line-4-1251-1365-s016061"
-line            = "line-4"
-lat             = 30.524772342799555
-lon             = 47.83479987328687
-s_m             = 16060.9
-anchor_kind     = "amenity:marketplace"
-anchor_name     = "سوق الخضارة"
-archetype       = "interchange-elevated"
-platform_length_m = 121.0
-junction_group  = 10
-
-[[stations]]
-id              = "line-4-1266-1455-s018068"
+id              = "line-4-1266-1454-s018048"
 line            = "line-4"
 lat             = 30.52207285030414
-lon             = 47.85357101103554
-s_m             = 18068.0
+lon             = 47.85336244283833
+s_m             = 18048.0
 archetype       = "standard"
 platform_length_m = 121.0
 
 [[stations]]
-id              = "line-4-1266-1555-s020068"
+id              = "line-4-1307-1612-s021548"
 line            = "line-4"
-lat             = 30.52207285030414
-lon             = 47.8744278307563
-s_m             = 20068.0
+lat             = 30.514694237483354
+lon             = 47.88631621799712
+s_m             = 21547.7
 archetype       = "standard"
 platform_length_m = 121.0
 
 [[stations]]
-id              = "line-4-1312-1636-s022069"
+id              = "line-4-1341-1773-s025049"
 line            = "line-4"
-lat             = 30.51379440665155
-lon             = 47.8913218547301
-s_m             = 22069.1
+lat             = 30.50857538782709
+lon             = 47.919895697747535
+s_m             = 25049.3
 archetype       = "standard"
 platform_length_m = 121.0
 
 [[stations]]
-id              = "line-4-1331-1729-s024087"
+id              = "line-4-1374-1934-s028543"
 line            = "line-4"
-lat             = 30.510375049490694
-lon             = 47.9107186970704
-s_m             = 24086.5
-archetype       = "standard"
-platform_length_m = 121.0
-
-[[stations]]
-id              = "line-4-1346-1798-s025591"
-line            = "line-4"
-lat             = 30.507675556995284
-lon             = 47.92510990267772
-s_m             = 25590.8
-archetype       = "standard"
-platform_length_m = 121.0
-
-[[stations]]
-id              = "line-4-1360-1867-s027087"
-line            = "line-4"
-lat             = 30.505156030666235
-lon             = 47.93950110828504
-s_m             = 27086.7
+lat             = 30.502636504337186
+lon             = 47.95347517749794
+s_m             = 28542.7
 archetype       = "halt"
 platform_length_m = 117.0
 
 [[stations]]
-id              = "line-4-1390-2005-s030095"
+id              = "line-4-1402-2098-s032055"
 line            = "line-4"
-lat             = 30.499757045675413
-lon             = 47.96828351949968
-s_m             = 30095.3
-archetype       = "halt"
-platform_length_m = 117.0
-
-[[stations]]
-id              = "line-4-1403-2150-s033103"
-line            = "line-4"
-lat             = 30.497417485512724
-lon             = 47.99852590809477
-s_m             = 33103.0
+lat             = 30.497597451679084
+lon             = 47.98768036183998
+s_m             = 32054.7
 archetype       = "halt"
 platform_length_m = 117.0
 
@@ -1405,68 +1055,101 @@ archetype       = "terminal"
 platform_length_m = 121.0
 
 [[stations]]
-id              = "line-5-1179-1578-s000000"
+id              = "line-5-2152-0348-s000000"
 line            = "line-5"
-lat             = 30.537729906777525
-lon             = 47.87922489929207
+lat             = 30.36262282690854
+lon             = 47.62268601672682
 s_m             = 0.0
-anchor_kind     = "amenity:marketplace"
+anchor_kind     = "amenity:hospital"
+anchor_name     = "طبابة البرجسية"
 archetype       = "terminal"
 platform_length_m = 121.0
 
 [[stations]]
-id              = "line-5-1249-1506-s002020"
+id              = "line-5-2113-0492-s003501"
 line            = "line-5"
-lat             = 30.525132275132275
-lon             = 47.864207989093124
-s_m             = 2019.9
-anchor_kind     = "place:town"
-anchor_name     = "التنومة"
+lat             = 30.369641507396608
+lon             = 47.6527198371247
+s_m             = 3501.3
+archetype       = "halt"
+platform_length_m = 117.0
+
+[[stations]]
+id              = "line-5-1989-0592-s007009"
+line            = "line-5"
+lat             = 30.39195731202534
+lon             = 47.673576656845455
+s_m             = 7008.9
+archetype       = "halt"
+platform_length_m = 117.0
+
+[[stations]]
+id              = "line-5-1883-0610-s010512"
+line            = "line-5"
+lat             = 30.411033725659575
+lon             = 47.67733088439519
+s_m             = 10511.7
+archetype       = "halt"
+platform_length_m = 117.0
+
+[[stations]]
+id              = "line-5-1865-0778-s014021"
+line            = "line-5"
+lat             = 30.41427311665407
+lon             = 47.712370341526054
+s_m             = 14020.8
+archetype       = "interchange-elevated"
+platform_length_m = 121.0
+junction_group  = 9
+
+[[stations]]
+id              = "line-5-1673-1022-s020595"
+line            = "line-5"
+lat             = 30.448826620595327
+lon             = 47.763260981644684
+s_m             = 20594.8
+anchor_kind     = "amenity:university"
+anchor_name     = "رئاسة الجامعة التقنية الجنوبية في البصرة"
 archetype       = "standard"
 platform_length_m = 121.0
 
 [[stations]]
-id              = "line-5-1316-1433-s004035"
+id              = "line-5-1595-1071-s024565"
 line            = "line-5"
-lat             = 30.513074541986107
-lon             = 47.84898251069698
-s_m             = 4034.9
-anchor_kind     = "amenity:hospital"
-anchor_name     = "مستشفى السيد كاظم البطاط"
-archetype       = "interchange-elevated"
+lat             = 30.462863981571466
+lon             = 47.77348082330786
+s_m             = 24565.2
+archetype       = "standard"
 platform_length_m = 121.0
-junction_group  = 2
 
 [[stations]]
-id              = "line-5-1317-1409-s004679"
+id              = "line-5-1502-1121-s027566"
 line            = "line-5"
-lat             = 30.512894575819747
-lon             = 47.843976873963996
-s_m             = 4679.2
-anchor_kind     = "amenity:hospital"
-anchor_name     = "مستشفى السيد كاظم البطاط"
-archetype       = "interchange-elevated"
+lat             = 30.479600835043012
+lon             = 47.78390923316823
+s_m             = 27566.0
+anchor_kind     = "place:neighbourhood"
+anchor_name     = "الرابعة"
+archetype       = "standard"
 platform_length_m = 121.0
-junction_group  = 2
 
 [[stations]]
-id              = "line-5-1334-1388-s005252"
+id              = "line-5-1461-1240-s030591"
 line            = "line-5"
-lat             = 30.509835150991613
-lon             = 47.83959694182264
-s_m             = 5251.8
-anchor_kind     = "amenity:hospital"
-anchor_name     = "د.صلاح زهير الأسدي $&(عيون)$"
-archetype       = "interchange-elevated"
+lat             = 30.486979447863803
+lon             = 47.80872884863592
+s_m             = 30590.7
+anchor_kind     = "amenity:college"
+anchor_name     = "الحوزة المهدوية العلمية"
+archetype       = "standard"
 platform_length_m = 121.0
-junction_group  = 2
 
 [[stations]]
-id              = "line-5-1373-1344-s006455"
+id              = "line-5-1368-1349-s033553"
 line            = "line-5"
-lat             = 30.502816470503546
-lon             = 47.83041994114551
-s_m             = 6454.8
+lat             = 30.50371630133535
+lon             = 47.831462782131545
+s_m             = 33552.9
 anchor_kind     = "amenity:hospital"
 anchor_name     = "مركز الدكتورة سها المالكي"
 archetype       = "interchange-elevated"
@@ -1474,147 +1157,35 @@ platform_length_m = 121.0
 junction_group  = 2
 
 [[stations]]
-id              = "line-5-1437-1271-s008457"
+id              = "line-5-1317-1409-s035187"
 line            = "line-5"
-lat             = 30.49129863585646
-lon             = 47.81519446274936
-s_m             = 8456.8
-anchor_kind     = "amenity:college"
-anchor_name     = "الحوزة المهدوية العلمية"
-archetype       = "standard"
-platform_length_m = 121.0
-
-[[stations]]
-id              = "line-5-1460-1195-s010472"
-line            = "line-5"
-lat             = 30.487159414030163
-lon             = 47.79934327976159
-s_m             = 10472.4
+lat             = 30.512894575819747
+lon             = 47.843976873963996
+s_m             = 35187.1
 anchor_kind     = "amenity:hospital"
-anchor_name     = "مركز الامراض الصدرية والتنفسية"
-archetype       = "standard"
-platform_length_m = 121.0
-
-[[stations]]
-id              = "line-5-1506-1114-s012473"
-line            = "line-5"
-lat             = 30.47888097037757
-lon             = 47.782449255787775
-s_m             = 12473.5
-archetype       = "standard"
-platform_length_m = 121.0
-
-[[stations]]
-id              = "line-5-1582-1095-s014482"
-line            = "line-5"
-lat             = 30.465203541734155
-lon             = 47.77848646004084
-s_m             = 14482.2
-anchor_kind     = "place:neighbourhood"
-anchor_name     = "دور الضباط"
-archetype       = "standard"
-platform_length_m = 121.0
-
-[[stations]]
-id              = "line-5-1571-1038-s016490"
-line            = "line-5"
-lat             = 30.467183169564123
-lon             = 47.76659807280001
-s_m             = 16489.6
-archetype       = "standard"
-platform_length_m = 121.0
-
-[[stations]]
-id              = "line-5-1640-1008-s018496"
-line            = "line-5"
-lat             = 30.45476550408523
-lon             = 47.76034102688378
-s_m             = 18495.5
-archetype       = "standard"
-platform_length_m = 121.0
-
-[[stations]]
-id              = "line-5-1714-0982-s020510"
-line            = "line-5"
-lat             = 30.44144800777454
-lon             = 47.75491825375639
-s_m             = 20509.7
-archetype       = "standard"
-platform_length_m = 121.0
-
-[[stations]]
-id              = "line-5-1778-0909-s022516"
-line            = "line-5"
-lat             = 30.429930173127453
-lon             = 47.73969277536024
-s_m             = 22516.5
-archetype       = "standard"
-platform_length_m = 121.0
-
-[[stations]]
-id              = "line-5-1863-0794-s025521"
-line            = "line-5"
-lat             = 30.41463304898679
-lon             = 47.71570743268137
-s_m             = 25520.7
+anchor_name     = "مستشفى السيد كاظم البطاط"
 archetype       = "interchange-elevated"
 platform_length_m = 121.0
-junction_group  = 11
+junction_group  = 10
 
 [[stations]]
-id              = "line-5-1867-0766-s026114"
+id              = "line-5-1260-1495-s037535"
 line            = "line-5"
-lat             = 30.41391318432135
-lon             = 47.70986752315956
-s_m             = 26113.8
-archetype       = "interchange-elevated"
+lat             = 30.523152647302307
+lon             = 47.861913738923846
+s_m             = 37535.3
+anchor_kind     = "place:town"
+anchor_name     = "التنومة"
+archetype       = "standard"
 platform_length_m = 121.0
-junction_group  = 11
 
 [[stations]]
-id              = "line-5-1878-0650-s028525"
+id              = "line-5-1179-1578-s039866"
 line            = "line-5"
-lat             = 30.41193355649138
-lon             = 47.68567361228349
-s_m             = 28524.9
-archetype       = "halt"
-platform_length_m = 117.0
-
-[[stations]]
-id              = "line-5-1951-0613-s031539"
-line            = "line-5"
-lat             = 30.398796026347046
-lon             = 47.67795658898681
-s_m             = 31539.1
-archetype       = "halt"
-platform_length_m = 117.0
-
-[[stations]]
-id              = "line-5-2051-0557-s034563"
-line            = "line-5"
-lat             = 30.380799409710974
-lon             = 47.66627676994319
-s_m             = 34563.1
-archetype       = "halt"
-platform_length_m = 117.0
-
-[[stations]]
-id              = "line-5-2129-0457-s037209"
-line            = "line-5"
-lat             = 30.366762048734838
-lon             = 47.64541995022244
-s_m             = 37209.2
-archetype       = "halt"
-platform_length_m = 117.0
-
-[[stations]]
-id              = "line-5-2152-0348-s039878"
-line            = "line-5"
-lat             = 30.36262282690854
-lon             = 47.62268601672682
-s_m             = 39878.0
-anchor_kind     = "amenity:hospital"
-anchor_name     = "طبابة البرجسية"
+lat             = 30.537729906777525
+lon             = 47.87922489929207
+s_m             = 39866.3
+anchor_kind     = "amenity:marketplace"
 archetype       = "terminal"
 platform_length_m = 121.0
 
@@ -1630,77 +1201,38 @@ archetype       = "terminal"
 platform_length_m = 121.0
 
 [[stations]]
-id              = "line-6-1058-0959-s002000"
+id              = "line-6-1118-0924-s003490"
 line            = "line-6"
-lat             = 30.559505812907172
-lon             = 47.750121185220614
-s_m             = 2000.2
-anchor_kind     = "amenity:college"
-anchor_name     = "كلية الزراعة"
+lat             = 30.54870784292553
+lon             = 47.74282129831835
+s_m             = 3490.2
 archetype       = "standard"
 platform_length_m = 121.0
 
 [[stations]]
-id              = "line-6-1137-0931-s004011"
+id              = "line-6-1235-0922-s007005"
 line            = "line-6"
-lat             = 30.545288485764676
-lon             = 47.7442812756988
-s_m             = 4011.0
+lat             = 30.527651801461325
+lon             = 47.742404161923936
+s_m             = 7004.9
 archetype       = "standard"
 platform_length_m = 121.0
 
 [[stations]]
-id              = "line-6-1204-0888-s006016"
+id              = "line-6-1368-0956-s010508"
 line            = "line-6"
-lat             = 30.533230752618508
-lon             = 47.73531284321888
-s_m             = 6016.4
-archetype       = "interchange-elevated"
-platform_length_m = 121.0
-junction_group  = 7
-
-[[stations]]
-id              = "line-6-1279-0939-s008026"
-line            = "line-6"
-lat             = 30.519733290141453
-lon             = 47.74594982127646
-s_m             = 8025.7
+lat             = 30.50371630133535
+lon             = 47.74949548062899
+s_m             = 10508.2
 archetype       = "standard"
 platform_length_m = 121.0
 
 [[stations]]
-id              = "line-6-1348-0959-s010050"
+id              = "line-6-1500-0853-s014018"
 line            = "line-6"
-lat             = 30.507315624662564
-lon             = 47.750121185220614
-s_m             = 10050.2
-archetype       = "standard"
-platform_length_m = 121.0
-
-[[stations]]
-id              = "line-6-1429-0916-s012076"
-line            = "line-6"
-lat             = 30.492738365187346
-lon             = 47.74115275274069
-s_m             = 12076.2
-archetype       = "standard"
-platform_length_m = 121.0
-
-[[stations]]
-id              = "line-6-1503-0851-s014095"
-line            = "line-6"
-lat             = 30.47942086887665
-lon             = 47.7275958199222
-s_m             = 14094.6
-archetype       = "standard"
-platform_length_m = 121.0
-
-[[stations]]
-id              = "line-6-1577-0788-s016108"
-line            = "line-6"
-lat             = 30.466103372565957
-lon             = 47.71445602349813
-s_m             = 16108.3
+lat             = 30.479960767375733
+lon             = 47.72801295631662
+s_m             = 14018.1
 archetype       = "standard"
 platform_length_m = 121.0
 
@@ -1712,16 +1244,7 @@ lon             = 47.70986752315956
 s_m             = 17510.5
 archetype       = "interchange-elevated"
 platform_length_m = 121.0
-junction_group  = 12
-
-[[stations]]
-id              = "line-6-1752-0766-s019791"
-line            = "line-6"
-lat             = 30.43460929345283
-lon             = 47.70986752315956
-s_m             = 19790.5
-archetype       = "halt"
-platform_length_m = 117.0
+junction_group  = 11
 
 [[stations]]
 id              = "line-6-1867-0766-s022091"
@@ -1731,40 +1254,18 @@ lon             = 47.70986752315956
 s_m             = 22090.5
 archetype       = "interchange-elevated"
 platform_length_m = 121.0
-junction_group  = 11
+junction_group  = 9
 
 [[stations]]
-id              = "line-6-1933-0782-s023602"
+id              = "line-6-2004-0723-s025954"
 line            = "line-6"
-lat             = 30.40203541734154
-lon             = 47.71320461431488
-s_m             = 23601.6
+lat             = 30.389257819529927
+lon             = 47.70089909067964
+s_m             = 25954.4
 anchor_kind     = "amenity:hospital"
-anchor_name     = "قطاع الزبير للرعاية الصحية الأولية"
+anchor_name     = "عبد المحسن حميد الاسدي"
 archetype       = "standard"
 platform_length_m = 121.0
-
-[[stations]]
-id              = "line-6-1978-0752-s025124"
-line            = "line-6"
-lat             = 30.39393693985531
-lon             = 47.706947568398654
-s_m             = 25123.9
-anchor_kind     = "amenity:marketplace"
-anchor_name     = "سوق البنات"
-archetype       = "standard"
-platform_length_m = 121.0
-
-[[stations]]
-id              = "line-6-2043-0694-s027493"
-line            = "line-6"
-lat             = 30.38223913904186
-lon             = 47.69485061296062
-s_m             = 27492.7
-anchor_kind     = "public_transport:station"
-anchor_name     = "محطة قطار الزبير"
-archetype       = "halt"
-platform_length_m = 117.0
 
 [[stations]]
 id              = "line-6-2118-0683-s029836"
@@ -1790,50 +1291,20 @@ platform_length_m = 121.0
 junction_group  = 1
 
 [[stations]]
-id              = "line-7-0731-0965-s000220"
+id              = "line-7-0856-1018-s003511"
 line            = "line-7"
-lat             = 30.61835474930713
-lon             = 47.75137259440386
-s_m             = 220.0
-archetype       = "interchange-elevated"
-platform_length_m = 121.0
-junction_group  = 1
-
-[[stations]]
-id              = "line-7-0786-1006-s002011"
-line            = "line-7"
-lat             = 30.60845661015729
-lon             = 47.75992389048937
-s_m             = 2011.1
+lat             = 30.59585897851204
+lon             = 47.762426708855855
+s_m             = 3510.5
 archetype       = "standard"
 platform_length_m = 121.0
 
 [[stations]]
-id              = "line-7-0874-1036-s004020"
+id              = "line-7-0995-1097-s007028"
 line            = "line-7"
-lat             = 30.592619587517547
-lon             = 47.76618093640559
-s_m             = 4019.7
-archetype       = "standard"
-platform_length_m = 121.0
-
-[[stations]]
-id              = "line-7-0959-1074-s006034"
-line            = "line-7"
-lat             = 30.577322463376884
-lon             = 47.77410652789948
-s_m             = 6034.5
-archetype       = "standard"
-platform_length_m = 121.0
-
-[[stations]]
-id              = "line-7-1033-1127-s008036"
-line            = "line-7"
-lat             = 30.564004967066193
-lon             = 47.78516064235148
-s_m             = 8036.4
-anchor_kind     = "public_transport:station"
-anchor_name     = "محطة قطار المعقل"
+lat             = 30.5708436813879
+lon             = 47.77890359643525
+s_m             = 7027.8
 archetype       = "standard"
 platform_length_m = 121.0
 
@@ -1846,34 +1317,14 @@ s_m             = 9579.5
 anchor_kind     = "amenity:college"
 archetype       = "interchange-elevated"
 platform_length_m = 121.0
-junction_group  = 4
+junction_group  = 3
 
 [[stations]]
-id              = "line-7-1079-1206-s010044"
+id              = "line-7-1169-1301-s013056"
 line            = "line-7"
-lat             = 30.555726523413597
-lon             = 47.80163752993087
-s_m             = 10044.3
-anchor_kind     = "amenity:college"
-archetype       = "interchange-elevated"
-platform_length_m = 121.0
-junction_group  = 4
-
-[[stations]]
-id              = "line-7-1137-1273-s012067"
-line            = "line-7"
-lat             = 30.545288485764676
-lon             = 47.81561159914377
-s_m             = 12066.8
-archetype       = "standard"
-platform_length_m = 121.0
-
-[[stations]]
-id              = "line-7-1180-1324-s013607"
-line            = "line-7"
-lat             = 30.537549940611164
-lon             = 47.826248577201355
-s_m             = 13607.0
+lat             = 30.539529568441132
+lon             = 47.82145150866558
+s_m             = 13055.9
 archetype       = "standard"
 platform_length_m = 121.0
 
@@ -1885,19 +1336,7 @@ lon             = 47.83041994114551
 s_m             = 15151.6
 archetype       = "interchange-elevated"
 platform_length_m = 121.0
-junction_group  = 10
-
-[[stations]]
-id              = "line-7-1266-1343-s015750"
-line            = "line-7"
-lat             = 30.52207285030414
-lon             = 47.8302113729483
-s_m             = 15749.5
-anchor_kind     = "amenity:marketplace"
-anchor_name     = "سوق السمك"
-archetype       = "interchange-elevated"
-platform_length_m = 121.0
-junction_group  = 10
+junction_group  = 8
 
 [[stations]]
 id              = "line-7-1317-1409-s017962"
@@ -1909,16 +1348,7 @@ anchor_kind     = "amenity:hospital"
 anchor_name     = "مستشفى السيد كاظم البطاط"
 archetype       = "interchange-elevated"
 platform_length_m = 121.0
-junction_group  = 2
-
-[[stations]]
-id              = "line-7-1373-1453-s019459"
-line            = "line-7"
-lat             = 30.502816470503546
-lon             = 47.85315387464113
-s_m             = 19458.6
-archetype       = "standard"
-platform_length_m = 121.0
+junction_group  = 10
 
 [[stations]]
 id              = "line-7-1430-1469-s020975"
@@ -1928,135 +1358,71 @@ lon             = 47.856490965796446
 s_m             = 20974.8
 archetype       = "interchange-elevated"
 platform_length_m = 121.0
-junction_group  = 6
-
-[[stations]]
-id              = "line-7-1452-1551-s023010"
-line            = "line-7"
-lat             = 30.48859914336105
-lon             = 47.87359355796747
-s_m             = 23009.6
-archetype       = "standard"
-platform_length_m = 121.0
-
-[[stations]]
-id              = "line-7-1524-1614-s025018"
-line            = "line-7"
-lat             = 30.475641579383076
-lon             = 47.88673335439154
-s_m             = 25018.4
-archetype       = "interchange-elevated"
-platform_length_m = 121.0
 junction_group  = 5
 
 [[stations]]
-id              = "line-7-1546-1613-s025467"
+id              = "line-7-1570-1597-s026091"
 line            = "line-7"
-lat             = 30.47168232372314
-lon             = 47.88652478619433
-s_m             = 25466.6
+lat             = 30.467363135730483
+lon             = 47.88318769503901
+s_m             = 26090.9
 archetype       = "interchange-elevated"
 platform_length_m = 121.0
-junction_group  = 5
+junction_group  = 4
 
 [[stations]]
-id              = "line-7-1592-1628-s027037"
+id              = "line-7-1670-1708-s029595"
 line            = "line-7"
-lat             = 30.463403880070548
-lon             = 47.88965330915244
-s_m             = 27036.6
-archetype       = "standard"
-platform_length_m = 121.0
-
-[[stations]]
-id              = "line-7-1652-1695-s029041"
-line            = "line-7"
-lat             = 30.452605910088902
-lon             = 47.90362737836535
-s_m             = 29040.5
-archetype       = "standard"
-platform_length_m = 121.0
-
-[[stations]]
-id              = "line-7-1751-1742-s032052"
-line            = "line-7"
-lat             = 30.43478925961919
-lon             = 47.913430083634104
-s_m             = 32051.9
+lat             = 30.44936651909441
+lon             = 47.906338764929046
+s_m             = 29595.1
 archetype       = "halt"
 platform_length_m = 117.0
 
 [[stations]]
-id              = "line-7-1753-1801-s033549"
+id              = "line-7-1758-1787-s033093"
 line            = "line-7"
-lat             = 30.43442932728647
-lon             = 47.925735607269345
-s_m             = 33548.7
+lat             = 30.433529496454668
+lon             = 47.92281565250844
+s_m             = 33092.7
 anchor_kind     = "amenity:university"
 anchor_name     = "جامعة البصرة كلية الاداب ابي الخصيب"
 archetype       = "standard"
 platform_length_m = 121.0
 
 [[stations]]
-id              = "line-7-1760-1741-s035057"
+id              = "line-7-1742-1672-s036598"
 line            = "line-7"
-lat             = 30.433169564121947
-lon             = 47.913221515436895
-s_m             = 35057.2
+lat             = 30.436408955116438
+lon             = 47.89883030982958
+s_m             = 36598.1
 archetype       = "halt"
 platform_length_m = 117.0
 
 [[stations]]
-id              = "line-7-1731-1617-s037789"
-line            = "line-7"
-lat             = 30.438388582946406
-lon             = 47.88735905898316
-s_m             = 37789.2
-archetype       = "standard"
-platform_length_m = 121.0
-
-[[stations]]
-id              = "line-7-1726-1531-s039789"
+id              = "line-7-1726-1516-s040106"
 line            = "line-7"
 lat             = 30.43928841377821
-lon             = 47.869422194023315
-s_m             = 39789.4
+lon             = 47.8662936710652
+s_m             = 40106.0
 archetype       = "standard"
 platform_length_m = 121.0
 
 [[stations]]
-id              = "line-7-1737-1436-s041797"
+id              = "line-7-1749-1350-s043617"
 line            = "line-7"
-lat             = 30.437308785948243
-lon             = 47.8496082152886
-s_m             = 41797.1
+lat             = 30.435149191951915
+lon             = 47.831671350328754
+s_m             = 43616.5
 archetype       = "standard"
 platform_length_m = 121.0
 
 [[stations]]
-id              = "line-7-1750-1341-s043805"
+id              = "line-7-1825-1217-s047113"
 line            = "line-7"
-lat             = 30.43496922578555
-lon             = 47.82979423655389
-s_m             = 43804.8
-archetype       = "standard"
-platform_length_m = 121.0
-
-[[stations]]
-id              = "line-7-1804-1269-s045833"
-line            = "line-7"
-lat             = 30.425251052802075
-lon             = 47.81477732635494
-s_m             = 45832.8
-archetype       = "standard"
-platform_length_m = 121.0
-
-[[stations]]
-id              = "line-7-1821-1211-s047266"
-line            = "line-7"
-lat             = 30.42219162797394
-lon             = 47.80268037091691
-s_m             = 47266.1
+lat             = 30.4214717633085
+lon             = 47.80393178010015
+s_m             = 47113.0
 archetype       = "standard"
 platform_length_m = 121.0
 
@@ -2071,51 +1437,13 @@ platform_length_m = 121.0
 junction_group  = 0
 
 [[stations]]
-id              = "line-7-1794-1087-s050275"
+id              = "line-7-1846-0931-s054129"
 line            = "line-7"
-lat             = 30.42705071446568
-lon             = 47.77681791446317
-s_m             = 50274.9
-archetype       = "standard"
-platform_length_m = 121.0
-
-[[stations]]
-id              = "line-7-1802-1019-s051887"
-line            = "line-7"
-lat             = 30.425610985134796
-lon             = 47.762635277053064
-s_m             = 51887.5
-archetype       = "standard"
-platform_length_m = 121.0
-
-[[stations]]
-id              = "line-7-1821-0954-s053403"
-line            = "line-7"
-lat             = 30.42219162797394
-lon             = 47.749078344234576
-s_m             = 53403.4
-archetype       = "standard"
-platform_length_m = 121.0
-
-[[stations]]
-id              = "line-7-1853-0895-s054907"
-line            = "line-7"
-lat             = 30.416432710650398
-lon             = 47.736772820599334
-s_m             = 54907.1
+lat             = 30.417692473814924
+lon             = 47.7442812756988
+s_m             = 54129.1
 archetype       = "halt"
 platform_length_m = 117.0
-
-[[stations]]
-id              = "line-7-1881-0829-s056459"
-line            = "line-7"
-lat             = 30.4113936579923
-lon             = 47.72300731958364
-s_m             = 56459.1
-anchor_kind     = "amenity:university"
-anchor_name     = "كلية طب الأسنان - جامعة البصرة"
-archetype       = "standard"
-platform_length_m = 121.0
 
 [[stations]]
 id              = "line-7-1867-0766-s057984"
@@ -2125,23 +1453,15 @@ lon             = 47.70986752315956
 s_m             = 57984.2
 archetype       = "interchange-elevated"
 platform_length_m = 121.0
-junction_group  = 11
+junction_group  = 9
 
 [[stations]]
-id              = "line-7-1800-0697-s059919"
+id              = "line-7-1759-0653-s061139"
 line            = "line-7"
-lat             = 30.425970917467517
-lon             = 47.69547631755224
-s_m             = 59919.2
-archetype       = "halt"
-platform_length_m = 117.0
-
-[[stations]]
-id              = "line-7-1696-0689-s062923"
-line            = "line-7"
-lat             = 30.44468739876903
-lon             = 47.69380777197458
-s_m             = 62923.4
+lat             = 30.433349530288307
+lon             = 47.686299316875115
+s_m             = 61138.9
+anchor_kind     = "amenity:hospital"
 archetype       = "halt"
 platform_length_m = 117.0
 
@@ -2153,41 +1473,14 @@ lon             = 47.70361047724334
 s_m             = 64472.7
 archetype       = "interchange-elevated"
 platform_length_m = 121.0
-junction_group  = 12
+junction_group  = 11
 
 [[stations]]
-id              = "line-7-1541-0703-s066944"
+id              = "line-7-1481-0703-s068144"
 line            = "line-7"
-lat             = 30.472582154554942
+lat             = 30.483380124536588
 lon             = 47.69672772673549
-s_m             = 66943.9
-archetype       = "standard"
-platform_length_m = 121.0
-
-[[stations]]
-id              = "line-7-1441-0703-s068944"
-line            = "line-7"
-lat             = 30.490578771191018
-lon             = 47.69672772673549
-s_m             = 68943.9
-archetype       = "standard"
-platform_length_m = 121.0
-
-[[stations]]
-id              = "line-7-1353-0727-s070950"
-line            = "line-7"
-lat             = 30.506415793830758
-lon             = 47.70173336346847
-s_m             = 70949.6
-archetype       = "standard"
-platform_length_m = 121.0
-
-[[stations]]
-id              = "line-7-1306-0786-s072519"
-line            = "line-7"
-lat             = 30.514874203649715
-lon             = 47.71403888710371
-s_m             = 72518.9
+s_m             = 68143.9
 archetype       = "standard"
 platform_length_m = 121.0
 
@@ -2199,25 +1492,7 @@ lon             = 47.718835955639484
 s_m             = 74062.0
 archetype       = "interchange-elevated"
 platform_length_m = 121.0
-junction_group  = 8
-
-[[stations]]
-id              = "line-7-1195-0829-s075513"
-line            = "line-7"
-lat             = 30.534850448115755
-lon             = 47.72300731958364
-s_m             = 75513.4
-archetype       = "standard"
-platform_length_m = 121.0
-
-[[stations]]
-id              = "line-7-1137-0864-s076980"
-line            = "line-7"
-lat             = 30.545288485764676
-lon             = 47.7303072064859
-s_m             = 76979.9
-archetype       = "standard"
-platform_length_m = 121.0
+junction_group  = 6
 
 [[stations]]
 id              = "line-7-1053-0889-s078884"
@@ -2229,32 +1504,14 @@ anchor_kind     = "amenity:hospital"
 anchor_name     = "مركز ابو صخير الصحي"
 archetype       = "interchange-elevated"
 platform_length_m = 121.0
-junction_group  = 9
+junction_group  = 7
 
 [[stations]]
-id              = "line-7-0956-0898-s080993"
+id              = "line-7-0803-0946-s085345"
 line            = "line-7"
-lat             = 30.57786236187597
-lon             = 47.737398525190955
-s_m             = 80992.7
-archetype       = "standard"
-platform_length_m = 121.0
-
-[[stations]]
-id              = "line-7-0895-0886-s083008"
-line            = "line-7"
-lat             = 30.58884029802397
-lon             = 47.73489570682446
-s_m             = 83008.3
-archetype       = "standard"
-platform_length_m = 121.0
-
-[[stations]]
-id              = "line-7-0819-0946-s085025"
-line            = "line-7"
-lat             = 30.602517726667386
+lat             = 30.605397185329156
 lon             = 47.74740979865692
-s_m             = 85025.4
+s_m             = 85345.4
 archetype       = "standard"
 platform_length_m = 121.0
 
@@ -2270,93 +1527,85 @@ platforms       = ["line-1-1783-1156-s000000", "line-7-1783-1156-s048681"]
 id              = "interchange-001"
 junction_group  = 1
 lat             = 30.61835474930713
-lon             = 47.75060784434743
+lon             = 47.75022546931922
 lines           = ["line-1", "line-7"]
-platforms       = ["line-1-0731-0965-s030074", "line-7-0731-0954-s000000", "line-7-0731-0965-s000220"]
+platforms       = ["line-1-0731-0965-s030074", "line-7-0731-0954-s000000"]
 
 [[interchanges]]
 id              = "interchange-002"
 junction_group  = 2
-lat             = 30.50911528632617
-lon             = 47.835889062761176
-lines           = ["line-2", "line-3", "line-5", "line-7"]
-platforms       = ["line-2-1329-1307-s008488", "line-2-1373-1344-s007261", "line-3-1341-1372-s022761", "line-3-1342-1326-s023971", "line-5-1316-1433-s004035", "line-5-1317-1409-s004679", "line-5-1334-1388-s005252", "line-5-1373-1344-s006455", "line-7-1317-1409-s017962"]
+lat             = 30.50461613216715
+lon             = 47.82968995245528
+lines           = ["line-2", "line-5"]
+platforms       = ["line-2-1358-1332-s007661", "line-5-1368-1349-s033553"]
 
 [[interchanges]]
 id              = "interchange-003"
 junction_group  = 3
-lat             = 30.5369200590289
-lon             = 47.805287473382
-lines           = ["line-2", "line-4"]
-platforms       = ["line-2-1184-1232-s012512", "line-4-1183-1215-s012034"]
+lat             = 30.55626642191268
+lon             = 47.7970490295923
+lines           = ["line-2", "line-7"]
+platforms       = ["line-2-1076-1184-s015070", "line-7-1076-1184-s009579"]
 
 [[interchanges]]
 id              = "interchange-004"
 junction_group  = 4
-lat             = 30.555051650289744
-lon             = 47.79866543312066
-lines           = ["line-2", "line-7"]
-platforms       = ["line-2-1076-1184-s015070", "line-2-1100-1193-s014515", "line-7-1076-1184-s009579", "line-7-1079-1206-s010044"]
+lat             = 30.469522729726812
+lon             = 47.88485624061667
+lines           = ["line-3", "line-7"]
+platforms       = ["line-3-1546-1613-s015159", "line-7-1570-1597-s026091"]
 
 [[interchanges]]
 id              = "interchange-005"
 junction_group  = 5
-lat             = 30.472897095346077
-lon             = 47.8858469395534
-lines           = ["line-3", "line-7"]
-platforms       = ["line-3-1541-1599-s015481", "line-3-1546-1613-s015159", "line-7-1524-1614-s025018", "line-7-1546-1613-s025467"]
-
-[[interchanges]]
-id              = "interchange-006"
-junction_group  = 6
 lat             = 30.492738365187343
 lon             = 47.85377957923275
 lines           = ["line-3", "line-7"]
 platforms       = ["line-3-1428-1443-s020026", "line-7-1430-1469-s020975"]
 
 [[interchanges]]
+id              = "interchange-006"
+junction_group  = 6
+lat             = 30.524772342799555
+lon             = 47.718835955639484
+lines           = ["line-3", "line-7"]
+platforms       = ["line-3-1251-0809-s039851", "line-7-1251-0809-s074062"]
+
+[[interchanges]]
 id              = "interchange-007"
 junction_group  = 7
-lat             = 30.53125112478854
-lon             = 47.73510427502167
-lines           = ["line-3", "line-6"]
-platforms       = ["line-3-1226-0886-s038104", "line-6-1204-0888-s006016"]
-
-[[interchanges]]
-id              = "interchange-008"
-junction_group  = 8
-lat             = 30.524352421744712
-lon             = 47.71807120558305
-lines           = ["line-3", "line-7"]
-platforms       = ["line-3-1251-0809-s039851", "line-3-1258-0798-s040129", "line-7-1251-0809-s074062"]
-
-[[interchanges]]
-id              = "interchange-009"
-junction_group  = 9
 lat             = 30.560405643738978
 lon             = 47.73552141141609
 lines           = ["line-4", "line-7"]
 platforms       = ["line-4-1053-0889-s003316", "line-7-1053-0889-s078884"]
 
 [[interchanges]]
+id              = "interchange-008"
+junction_group  = 8
+lat             = 30.526931936795883
+lon             = 47.83041994114551
+lines           = ["line-4", "line-7"]
+platforms       = ["line-4-1239-1344-s015542", "line-7-1239-1344-s015152"]
+
+[[interchanges]]
+id              = "interchange-009"
+junction_group  = 9
+lat             = 30.414033161765587
+lon             = 47.71070179594839
+lines           = ["line-5", "line-6", "line-7"]
+platforms       = ["line-5-1865-0778-s014021", "line-6-1867-0766-s022091", "line-7-1867-0766-s057984"]
+
+[[interchanges]]
 id              = "interchange-010"
 junction_group  = 10
-lat             = 30.525177266673865
-lon             = 47.831462782131545
-lines           = ["line-4", "line-7"]
-platforms       = ["line-4-1239-1344-s015542", "line-4-1251-1365-s016061", "line-7-1239-1344-s015152", "line-7-1266-1343-s015750"]
+lat             = 30.512894575819747
+lon             = 47.843976873963996
+lines           = ["line-5", "line-7"]
+platforms       = ["line-5-1317-1409-s035187", "line-7-1317-1409-s017962"]
 
 [[interchanges]]
 id              = "interchange-011"
 junction_group  = 11
-lat             = 30.41409315048771
-lon             = 47.71132750054001
-lines           = ["line-5", "line-6", "line-7"]
-platforms       = ["line-5-1863-0794-s025521", "line-5-1867-0766-s026114", "line-6-1867-0766-s022091", "line-7-1867-0766-s057984"]
-
-[[interchanges]]
-id              = "interchange-012"
-junction_group  = 12
 lat             = 30.455125436417955
 lon             = 47.70673900020145
 lines           = ["line-6", "line-7"]
@@ -2366,7 +1615,7 @@ platforms       = ["line-6-1638-0766-s017511", "line-7-1638-0736-s064473"]
 [[depots]]
 station      = "line-3-1128-0589-s046101"
 archetype    = "main-heavy"
-fleet_stalls = 88
+fleet_stalls = 68
 
 # switches — turnbacks at terminals + depot fans per RFC 0012 §9.
 switches = [
@@ -2444,30 +1693,10 @@ switches = [
   { id = "sw-line-3-1128-0589-s046101-yd-66", kit = "no-9-mainline", station = "line-3-1128-0589-s046101", side = "yard-throat" },
   { id = "sw-line-3-1128-0589-s046101-yd-67", kit = "no-9-mainline", station = "line-3-1128-0589-s046101", side = "yard-throat" },
   { id = "sw-line-3-1128-0589-s046101-yd-68", kit = "no-9-mainline", station = "line-3-1128-0589-s046101", side = "yard-throat" },
-  { id = "sw-line-3-1128-0589-s046101-yd-69", kit = "no-9-mainline", station = "line-3-1128-0589-s046101", side = "yard-throat" },
-  { id = "sw-line-3-1128-0589-s046101-yd-70", kit = "no-9-mainline", station = "line-3-1128-0589-s046101", side = "yard-throat" },
-  { id = "sw-line-3-1128-0589-s046101-yd-71", kit = "no-9-mainline", station = "line-3-1128-0589-s046101", side = "yard-throat" },
-  { id = "sw-line-3-1128-0589-s046101-yd-72", kit = "no-9-mainline", station = "line-3-1128-0589-s046101", side = "yard-throat" },
-  { id = "sw-line-3-1128-0589-s046101-yd-73", kit = "no-9-mainline", station = "line-3-1128-0589-s046101", side = "yard-throat" },
-  { id = "sw-line-3-1128-0589-s046101-yd-74", kit = "no-9-mainline", station = "line-3-1128-0589-s046101", side = "yard-throat" },
-  { id = "sw-line-3-1128-0589-s046101-yd-75", kit = "no-9-mainline", station = "line-3-1128-0589-s046101", side = "yard-throat" },
-  { id = "sw-line-3-1128-0589-s046101-yd-76", kit = "no-9-mainline", station = "line-3-1128-0589-s046101", side = "yard-throat" },
-  { id = "sw-line-3-1128-0589-s046101-yd-77", kit = "no-9-mainline", station = "line-3-1128-0589-s046101", side = "yard-throat" },
-  { id = "sw-line-3-1128-0589-s046101-yd-78", kit = "no-9-mainline", station = "line-3-1128-0589-s046101", side = "yard-throat" },
-  { id = "sw-line-3-1128-0589-s046101-yd-79", kit = "no-9-mainline", station = "line-3-1128-0589-s046101", side = "yard-throat" },
-  { id = "sw-line-3-1128-0589-s046101-yd-80", kit = "no-9-mainline", station = "line-3-1128-0589-s046101", side = "yard-throat" },
-  { id = "sw-line-3-1128-0589-s046101-yd-81", kit = "no-9-mainline", station = "line-3-1128-0589-s046101", side = "yard-throat" },
-  { id = "sw-line-3-1128-0589-s046101-yd-82", kit = "no-9-mainline", station = "line-3-1128-0589-s046101", side = "yard-throat" },
-  { id = "sw-line-3-1128-0589-s046101-yd-83", kit = "no-9-mainline", station = "line-3-1128-0589-s046101", side = "yard-throat" },
-  { id = "sw-line-3-1128-0589-s046101-yd-84", kit = "no-9-mainline", station = "line-3-1128-0589-s046101", side = "yard-throat" },
-  { id = "sw-line-3-1128-0589-s046101-yd-85", kit = "no-9-mainline", station = "line-3-1128-0589-s046101", side = "yard-throat" },
-  { id = "sw-line-3-1128-0589-s046101-yd-86", kit = "no-9-mainline", station = "line-3-1128-0589-s046101", side = "yard-throat" },
-  { id = "sw-line-3-1128-0589-s046101-yd-87", kit = "no-9-mainline", station = "line-3-1128-0589-s046101", side = "yard-throat" },
-  { id = "sw-line-3-1128-0589-s046101-yd-88", kit = "no-9-mainline", station = "line-3-1128-0589-s046101", side = "yard-throat" },
   { id = "sw-line-4-1070-0777-s000000-tb", kit = "no-9-mainline", station = "line-4-1070-0777-s000000", side = "turnback" },
   { id = "sw-line-4-1405-2361-s037340-tb", kit = "no-9-mainline", station = "line-4-1405-2361-s037340", side = "turnback" },
-  { id = "sw-line-5-1179-1578-s000000-tb", kit = "no-9-mainline", station = "line-5-1179-1578-s000000", side = "turnback" },
-  { id = "sw-line-5-2152-0348-s039878-tb", kit = "no-9-mainline", station = "line-5-2152-0348-s039878", side = "turnback" },
+  { id = "sw-line-5-2152-0348-s000000-tb", kit = "no-9-mainline", station = "line-5-2152-0348-s000000", side = "turnback" },
+  { id = "sw-line-5-1179-1578-s039866-tb", kit = "no-9-mainline", station = "line-5-1179-1578-s039866", side = "turnback" },
   { id = "sw-line-6-1003-0997-s000000-tb", kit = "no-9-mainline", station = "line-6-1003-0997-s000000", side = "turnback" },
   { id = "sw-line-6-2118-0683-s029836-tb", kit = "no-9-mainline", station = "line-6-2118-0683-s029836", side = "turnback" },
 ]
@@ -2493,30 +1722,22 @@ premium_eur     = 4140000
 
 [[junctions]]
 group_id        = 2
-elevated_line   = "line-7"
-lat             = 30.502816470503546
-lon             = 47.83041994114551
+elevated_line   = "line-5"
+lat             = 30.505515962998956
+lon             = 47.82791712277902
 premium_usd     = 4500000
 premium_eur     = 4140000
 
 [[junctions]]
 group_id        = 3
-elevated_line   = "line-4"
-lat             = 30.536830075945723
-lon             = 47.807060303058265
+elevated_line   = "line-7"
+lat             = 30.55626642191268
+lon             = 47.7970490295923
 premium_usd     = 4500000
 premium_eur     = 4140000
 
 [[junctions]]
 group_id        = 4
-elevated_line   = "line-7"
-lat             = 30.55194723392002
-lon             = 47.79892614336717
-premium_usd     = 4500000
-premium_eur     = 4140000
-
-[[junctions]]
-group_id        = 5
 elevated_line   = "line-7"
 lat             = 30.47168232372314
 lon             = 47.88652478619433
@@ -2524,7 +1745,7 @@ premium_usd     = 4500000
 premium_eur     = 4140000
 
 [[junctions]]
-group_id        = 6
+group_id        = 5
 elevated_line   = "line-7"
 lat             = 30.492918331353707
 lon             = 47.851068192669054
@@ -2532,15 +1753,7 @@ premium_usd     = 4500000
 premium_eur     = 4140000
 
 [[junctions]]
-group_id        = 7
-elevated_line   = "line-6"
-lat             = 30.52927149695857
-lon             = 47.73489570682446
-premium_usd     = 4500000
-premium_eur     = 4140000
-
-[[junctions]]
-group_id        = 8
+group_id        = 6
 elevated_line   = "line-7"
 lat             = 30.524772342799555
 lon             = 47.718835955639484
@@ -2548,7 +1761,7 @@ premium_usd     = 4500000
 premium_eur     = 4140000
 
 [[junctions]]
-group_id        = 9
+group_id        = 7
 elevated_line   = "line-7"
 lat             = 30.560405643738978
 lon             = 47.73552141141609
@@ -2556,7 +1769,7 @@ premium_usd     = 4500000
 premium_eur     = 4140000
 
 [[junctions]]
-group_id        = 10
+group_id        = 8
 elevated_line   = "line-7"
 lat             = 30.526931936795883
 lon             = 47.83041994114551
@@ -2564,15 +1777,23 @@ premium_usd     = 4500000
 premium_eur     = 4140000
 
 [[junctions]]
-group_id        = 11
+group_id        = 9
 elevated_line   = "line-7"
-lat             = 30.41463304898679
-lon             = 47.71570743268137
+lat             = 30.41427311665407
+lon             = 47.712370341526054
 premium_usd     = 4500000
 premium_eur     = 4140000
 
 [[junctions]]
-group_id        = 12
+group_id        = 10
+elevated_line   = "line-7"
+lat             = 30.512894575819747
+lon             = 47.843976873963996
+premium_usd     = 4500000
+premium_eur     = 4140000
+
+[[junctions]]
+group_id        = 11
 elevated_line   = "line-7"
 lat             = 30.455125436417955
 lon             = 47.70986752315956
@@ -2582,14 +1803,46 @@ premium_eur     = 4140000
 # [[fleets]] — per-line fleet sizing per RFC 0014 §4.
 [[fleets]]
 line               = "line-1"
-peak_count         = 96
+peak_count         = 75
 service_rotation_count = 0
-spare_count        = 9
+spare_count        = 7
 cold_reserve_count = 1
-trainset_count     = 106
+trainset_count     = 83
 
 [[fleets]]
 line               = "line-2"
+peak_count         = 35
+service_rotation_count = 0
+spare_count        = 3
+cold_reserve_count = 1
+trainset_count     = 39
+
+[[fleets]]
+line               = "line-3"
+peak_count         = 79
+service_rotation_count = 0
+spare_count        = 7
+cold_reserve_count = 1
+trainset_count     = 87
+
+[[fleets]]
+line               = "line-4"
+peak_count         = 65
+service_rotation_count = 0
+spare_count        = 6
+cold_reserve_count = 1
+trainset_count     = 72
+
+[[fleets]]
+line               = "line-5"
+peak_count         = 69
+service_rotation_count = 0
+spare_count        = 6
+cold_reserve_count = 1
+trainset_count     = 76
+
+[[fleets]]
+line               = "line-6"
 peak_count         = 49
 service_rotation_count = 0
 spare_count        = 4
@@ -2597,44 +1850,12 @@ cold_reserve_count = 1
 trainset_count     = 54
 
 [[fleets]]
-line               = "line-3"
-peak_count         = 102
-service_rotation_count = 0
-spare_count        = 10
-cold_reserve_count = 1
-trainset_count     = 113
-
-[[fleets]]
-line               = "line-4"
-peak_count         = 82
-service_rotation_count = 0
-spare_count        = 8
-cold_reserve_count = 1
-trainset_count     = 91
-
-[[fleets]]
-line               = "line-5"
-peak_count         = 86
-service_rotation_count = 0
-spare_count        = 8
-cold_reserve_count = 1
-trainset_count     = 95
-
-[[fleets]]
-line               = "line-6"
-peak_count         = 66
-service_rotation_count = 0
-spare_count        = 6
-cold_reserve_count = 1
-trainset_count     = 73
-
-[[fleets]]
 line               = "line-7"
-peak_count         = 47
+peak_count         = 35
 service_rotation_count = 0
-spare_count        = 4
+spare_count        = 3
 cold_reserve_count = 1
-trainset_count     = 52
+trainset_count     = 39
 
 # [costs] — RFC 0011 §9 planning-grade CAPEX (USD
 # direct-procurement planning basis). country-costs.toml applies
@@ -2646,38 +1867,38 @@ version = 2
 currency_basis      = "USD local-owner trainset-family planning basis with direct material, local assembly/labour, nominal per-train QA/acceptance, and modest handover logistics included; 1 m clip-on fiberglass body modules reduce shell labour, mould tooling, cure space, and production setup; distributed overnight stabling reduces depot parking scope; fixtures/tooling live in the railway production plant line per vehicle/car module; warranty, spares, and routine commissioning support are treated as OPEX; raw marketplace BOM retained only as audit lower bound; *_eur mirrors retained for schema compatibility"
 usd_to_eur          = 0.92
 # Civil works (USD/km x civil mix; EUR mirror at usd_to_eur).
-at_grade_usd         = 759324480
-at_grade_eur         = 698578522
-elevated_usd         = 627274303
-elevated_eur         = 577092358
+at_grade_usd         = 761920805
+at_grade_eur         = 700967140
+elevated_usd         = 616748415
+elevated_eur         = 567408542
 bridge_usd           = 0
 bridge_eur           = 0
-junction_premium_usd = 58500000  # $4.5 M per elevated interchange.
-junction_premium_eur = 53820000  # EUR 4.1 M per elevated interchange.
-civil_subtotal_usd   = 1445098783
-civil_subtotal_eur   = 1329490880
+junction_premium_usd = 54000000  # $4.5 M per elevated interchange.
+junction_premium_eur = 49680000  # EUR 4.1 M per elevated interchange.
+civil_subtotal_usd   = 1432669220
+civil_subtotal_eur   = 1318055682
 # Stations (RFC 0010 archetype catalogue).
-stations_usd         = 803600000
-stations_eur         = 739312000
+stations_usd         = 457900000
+stations_eur         = 421268000
 # Depots (RFC 0014 archetype catalogue).
 depots_usd           = 8000000
 depots_eur           = 7360000
 # Rolling stock (RFC 0008 family × fleet count; local-owner production unit).
-rolling_stock_usd    = 981120000
-rolling_stock_eur    = 902630400
+rolling_stock_usd    = 756000000
+rolling_stock_eur    = 695520000
 # Railway production plant (tooling + plant setup per vehicle/car module, not per trainset).
-production_plant_usd = 210240000
-production_plant_eur = 193420800
+production_plant_usd = 162000000
+production_plant_eur = 149040000
 # Systems: residual train-control wayside + station/depot charging microgrids.
-signalling_usd       = 15269051
-signalling_eur       = 14047527
-charging_microgrid_usd = 63600000
-charging_microgrid_eur = 58512000
+signalling_usd       = 15268465
+signalling_eur       = 14046988
+charging_microgrid_usd = 34200000
+charging_microgrid_eur = 31464000
 # EPC integration + project management (7 % of subtotal).
-epc_overhead_usd     = 246884948
-epc_overhead_eur     = 227134152
-total_usd            = 3773812782  # base CAPEX before timetable-sized dedicated solar
-total_eur            = 3471907759  # base CAPEX before timetable-sized dedicated solar
+epc_overhead_usd     = 200622638
+epc_overhead_eur     = 184572827
+total_usd            = 3066660323  # base CAPEX before timetable-sized dedicated solar
+total_eur            = 2821327497  # base CAPEX before timetable-sized dedicated solar
 
 [costs.technology_basis]
 cost_treatment = "included in planning units; do not add again"
@@ -2692,7 +1913,7 @@ lv_dc_dc_usd_per_car = 2500
 roof_pv_mppt_usd_per_car = 1000
 core_electrical_usd_per_car = 51000
 core_electrical_usd_per_trainset = 306000
-fleet_core_electrical_usd = 178704000
+fleet_core_electrical_usd = 137700000
 station_architecture = "500-1500 V DC/DC configured to 500 kW; 650-700 V train bus"
 stationary_lfp_500kwh_usd = 37500
 station_dcdc_500kw_usd = 15000

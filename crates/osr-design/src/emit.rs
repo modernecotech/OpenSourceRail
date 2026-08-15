@@ -595,6 +595,7 @@ fn write_design_toml(
     let mut fleet_total_trainsets: u32 = 0;
     for line in lines {
         let len_m = line_cells_length_m(line);
+        let station_count = line_station_count(line.name.as_str(), stations);
         let charging_station_count =
             line_charging_station_count(line.name.as_str(), stations, &archetypes);
         let charging_dwell_seconds = planned_charging_dwell_seconds(
@@ -608,6 +609,7 @@ fn write_design_toml(
             len_m,
             family,
             matches!(line.shape, osr_routing::topology::LineShape::Ring),
+            station_count,
             charging_station_count,
             charging_dwell_seconds,
         );
@@ -874,6 +876,7 @@ fn compute_depots(
         std::collections::BTreeMap::new();
     for line in lines {
         let len_m = line_cells_length_m(line);
+        let station_count = line_station_count(line.name.as_str(), stations);
         let charging_station_count =
             line_charging_station_count(line.name.as_str(), stations, archetypes);
         let charging_dwell_seconds =
@@ -884,6 +887,7 @@ fn compute_depots(
                 len_m,
                 family,
                 matches!(line.shape, osr_routing::topology::LineShape::Ring),
+                station_count,
                 charging_station_count,
                 charging_dwell_seconds,
             )),
@@ -904,7 +908,11 @@ fn compute_depots(
             fleet_stalls: workshop_bays,
         });
     }
-    if out.is_empty() && lines.iter().all(|line| matches!(line.shape, osr_routing::topology::LineShape::Ring)) {
+    if out.is_empty()
+        && lines
+            .iter()
+            .all(|line| matches!(line.shape, osr_routing::topology::LineShape::Ring))
+    {
         let Some(station) = stations.iter().min_by(|a, b| {
             a.s_m
                 .partial_cmp(&b.s_m)
@@ -928,17 +936,13 @@ fn compute_depots(
 ///
 /// ```text
 ///   peak = ceil(round_trip_min / headway_min)
-///   round_trip_min = 2 × line_length / commercial_speed + 2 × turnback
+///   round_trip_min = 2 × (line_length / cruise_speed + stop penalties) + 2 × turnback
 /// ```
 ///
-/// Commercial speed is keyed off the rolling-stock family:
-/// - `tram-2car` (70 km/h max, ~800 m spacing): 22 km/h — Strasbourg
-///   Tram A 18 km/h, Bordeaux Tram A 21 km/h, Manchester Metrolink
-///   24 km/h.
-/// - `light-metro-3car` (90 km/h max, ~1.0 km spacing): 30 km/h —
-///   Vancouver SkyTrain 32 km/h, Copenhagen Metro 30 km/h.
-/// - `metro-4car` / `metro-6car` (100 km/h max, 1.0–1.7 km spacing):
-///   35 km/h — Tehran Line 1 33, Cairo Line 3 32, Tokyo Chuo Rapid 38.
+/// Run time is keyed off the rolling-stock family and the actual number of
+/// station stops. Wider 1.6 / 3 / 7 km station spacing removes stop-start
+/// cycles, so end-to-end time improves instead of being stuck at a fixed
+/// commercial-speed proxy.
 ///
 /// Turnback at each end is 3 min (single-tail, switch + driver-panel
 /// changeover for the driverless GoA 4 control logic per RFC 0015).
@@ -953,6 +957,7 @@ fn peak_revenue_trainsets(
     line_length_m: f64,
     family: &str,
     is_ring: bool,
+    station_count: u32,
     charging_station_count: u32,
     charging_dwell_seconds: u32,
 ) -> u32 {
@@ -967,13 +972,25 @@ fn peak_revenue_trainsets(
         "metro-6car" => 1.45,
         _ => 1.10,
     };
-    let commercial_kmh = match family {
-        "tram-2car" => 22.0,
-        "light-metro-3car" => 30.0,
-        "metro-4car" | "metro-6car" => 35.0,
-        _ => 30.0,
+    let cruise_kmh = match family {
+        "tram-2car" => 48.0,
+        "light-metro-3car" => 62.0,
+        "metro-4car" | "metro-6car" => 72.0,
+        _ => 62.0,
     };
-    let one_way_min = (line_length_m / 1_000.0) / commercial_kmh * 60.0;
+    let stop_penalty_min = match family {
+        "tram-2car" => 1.45,
+        "light-metro-3car" => 1.35,
+        "metro-4car" | "metro-6car" => 1.30,
+        _ => 1.35,
+    };
+    let stop_count = if is_ring {
+        station_count
+    } else {
+        station_count.saturating_sub(2)
+    };
+    let one_way_min =
+        (line_length_m / 1_000.0) / cruise_kmh * 60.0 + f64::from(stop_count) * stop_penalty_min;
     let charging_dwell_min = f64::from(charging_dwell_seconds) / 60.0;
     let extra_dwell_per_visit_min = (charging_dwell_min - REFERENCE_DWELL_MIN).max(0.0);
     let added_cycle_dwell_min = f64::from(charging_station_count) * extra_dwell_per_visit_min;
@@ -1051,6 +1068,13 @@ fn line_charging_station_count(line_name: &str, stations: &[Station], archetypes
         .count() as u32
 }
 
+fn line_station_count(line_name: &str, stations: &[Station]) -> u32 {
+    stations
+        .iter()
+        .filter(|station| station.line_name == line_name)
+        .count() as u32
+}
+
 fn charging_cabinet_count(family: &str) -> u32 {
     match family {
         "metro-4car" => 3,
@@ -1078,10 +1102,6 @@ fn fleet_service_rotation() -> u32 {
 
 fn fleet_total(peak: u32) -> u32 {
     peak + fleet_service_rotation() + fleet_spare(peak) + fleet_cold_reserve()
-}
-
-fn depot_stalls(fleet: u32) -> u32 {
-    ((f64::from(fleet) * 1.25).ceil()) as u32
 }
 
 fn line_cells_length_m(line: &Line) -> f64 {
@@ -2215,25 +2235,24 @@ mod tests {
 
     #[test]
     fn fleet_sizing_formula_matches_rfc_0014_samawah_example() {
-        // RFC 0014 §4 Samawah example, v0.2 calibration. 12 km line,
-        // 3-min peak headway, 3-min turnback per end. Commercial speed
-        // is keyed off the rolling-stock family (RFC 0008 §5):
-        // Three charging stops at 180 seconds, above the 60-second commercial
-        // speed reference, plus 10% recovery produce 31 tram or 22 metro peak
-        // sets under the baseline factor; the six-car degraded-energy reserve
-        // factor raises its result to 29. Samawah gets `tram-2car`: 31 peak +
-        // 3 spare + 1 reserve = 35;
-        // stalls = ceil(35 × 1.25) = 44.
-        let peak = peak_revenue_trainsets(12_000.0, "tram-2car", false, 3, 180);
-        assert_eq!(peak, 31);
-        let peak_metro = peak_revenue_trainsets(12_000.0, "metro-6car", false, 3, 180);
-        assert_eq!(peak_metro, 29);
+        // RFC 0014 §4 Samawah example, v0.3 calibration. Runtime is cruise
+        // time plus stop-start penalties, so wider station spacing reduces
+        // the round-trip cycle instead of being hidden inside a fixed
+        // commercial-speed proxy. Three charging stops at 180 seconds add
+        // their increment above the 60-second reference dwell.
+        let peak = peak_revenue_trainsets(12_000.0, "tram-2car", false, 8, 3, 180);
+        assert_eq!(peak, 24);
+        let peak_metro = peak_revenue_trainsets(12_000.0, "metro-6car", false, 8, 3, 180);
+        assert_eq!(peak_metro, 26);
         let fleet = fleet_total(peak);
-        assert_eq!(fleet, 35);
-        assert_eq!(depot_stalls(fleet), 44);
+        assert_eq!(fleet, 27);
+        assert!(
+            peak_revenue_trainsets(12_000.0, "tram-2car", false, 6, 3, 180)
+                < peak_revenue_trainsets(12_000.0, "tram-2car", false, 10, 3, 180)
+        );
         assert_eq!(
-            peak_revenue_trainsets(63_000.0, "metro-4car", true, 20, 180),
-            31
+            peak_revenue_trainsets(63_000.0, "metro-4car", true, 20, 20, 180),
+            25
         );
     }
 

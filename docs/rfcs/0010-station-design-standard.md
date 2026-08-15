@@ -16,12 +16,11 @@ platform geometry, passenger-flow throughput, accessibility, fire
 egress, and canopy-PV integration spelled out.
 
 Station placement follows a light-metro spacing rule: ordinary
-same-line stations must be at least **1.2 km** apart in central areas, with
-ordinary spacing widening to **2 km** in the wider urban area and **3 km** on
-suburban approaches. The lowest-demand outer fringe may widen to **5 km**;
-this is an exception selected from the demand raster rather than a blanket
-suburban spacing. Unless a
-deployment explicitly selects a tram-like stop pattern. In city centres,
+same-line stations target **1.6 km** spacing in the highest-demand centre,
+with ordinary spacing widening to **3 km** in the wider urban area and up to
+**7 km** on suburban approaches / the lowest-demand outer fringe. This is
+selected from the demand raster rather than applied as a blanket suburban
+spacing, unless a deployment explicitly selects a tram-like stop pattern. In city centres,
 nearby cross-line platforms should be consolidated into one interchange
 complex rather than emitted as separate station assets. The validation
 gate uses a 600 m walkable transfer envelope for ordinary cross-line

@@ -33,10 +33,6 @@
       "bytes": 3735,
       "sha256": "29c10ff38a6844bd17a0a72ae2fe22d3e6769e644bdc7c4df85e5cbf3352965b"
     },
-    "engineering/gis/nador.gpkg": {
-      "bytes": 266240,
-      "sha256": "de9a2e7f15dba8e56f0223973dd689962a461a315fc298fdd5cd8474e1726273"
-    },
     "engineering/gis/summary.json": {
       "bytes": 1197,
       "sha256": "7da0ed20e2e099864cedf9e87cfe85dab16728c3f730de6b953401bca947f3d7"
@@ -97,17 +93,9 @@
       "bytes": 5643,
       "sha256": "1a03b8bf4b0cc7c79b123337d475ce55dbf84c81a22086f1a23fe0b53329928b"
     },
-    "operations/nador-acceptance-evidence-matrix.csv": {
-      "bytes": 581381,
-      "sha256": "b4d92e88671690289b8248336b2e0aa30abca392caa5c90893193bcff1ad3f70"
-    },
     "operations/nador-operations-manifest.json": {
       "bytes": 759,
       "sha256": "fedd898b4bd4c5cd5d2a925e81e3a9f11ae903ec661ab764bf8fc1824718e8ae"
-    },
-    "operations/nador-operations.json.gz": {
-      "bytes": 363082,
-      "sha256": "4270317126a8fe283120dfe7732a25e17a412f07a302416ac47d0fdb42c987a4"
     }
   },
   "city": "nador",
@@ -120,11 +108,28 @@
   ],
   "failed_summaries": [],
   "generator": "scripts/generate-city-package-manifest.py",
-  "generator_sha256": "51507fac12b6e0648580bc91f685a609e4c0af998a8731715e7f9dc34f712ecf",
+  "generator_sha256": "59cb4f6c517402444094e1f8c43a815668813f6c966df9bfafac770ec56a0bb9",
+  "local_reproducible_artifacts": {
+    "engineering/gis/nador.gpkg": {
+      "bytes": 266240,
+      "required_in_git_checkout": false,
+      "sha256": "de9a2e7f15dba8e56f0223973dd689962a461a315fc298fdd5cd8474e1726273"
+    },
+    "operations/nador-acceptance-evidence-matrix.csv": {
+      "bytes": 581381,
+      "required_in_git_checkout": false,
+      "sha256": "b4d92e88671690289b8248336b2e0aa30abca392caa5c90893193bcff1ad3f70"
+    },
+    "operations/nador-operations.json.gz": {
+      "bytes": 363082,
+      "required_in_git_checkout": false,
+      "sha256": "4270317126a8fe283120dfe7732a25e17a412f07a302416ac47d0fdb42c987a4"
+    }
+  },
   "missing_artifacts": [],
   "operations_bundle_hash_current": true,
   "package_status": "screening-passed",
   "passed": true,
   "schema_version": "1.0",
-  "source_revision": "dcf55f1764411749a33b380c366b17931b4a7226"
+  "source_revision": "22623ac8721f564fcb5dc41594780565c4d047eb"
 }

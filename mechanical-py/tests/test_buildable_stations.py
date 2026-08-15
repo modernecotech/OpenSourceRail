@@ -93,10 +93,10 @@ def test_variant_specific_station_components_are_not_hidden_in_prose() -> None:
     depot_variant = variants[StationArchetype.DEPOT_TERMINAL]
     depot_items = {item.id: item for item in depot_variant.product_items}
     assert depot_variant.parameters["depot_archetype"] == "main-heavy"
-    assert depot_variant.parameters["depot_reference_stalls"] == 10
-    assert depot_variant.parameters["depot_throat_turnouts"] == 5
-    assert depot_items["STN-DEP-P020"].quantity == 1000
-    assert depot_items["STN-DEP-P040"].quantity == 10
+    assert depot_variant.parameters["depot_reference_stalls"] == 4
+    assert depot_variant.parameters["depot_throat_turnouts"] == 2
+    assert depot_items["STN-DEP-P020"].quantity == 400
+    assert depot_items["STN-DEP-P040"].quantity == 4
     assert "STN-PAX-P050" not in {
         item.id for item in variants[StationArchetype.HALT].product_items
     }

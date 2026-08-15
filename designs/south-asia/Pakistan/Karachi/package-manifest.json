@@ -57,10 +57,6 @@
       "bytes": 3780,
       "sha256": "73521d75d17228b9413c943bbab3b6e8865cc11630030de8b5bef40c55bdb4be"
     },
-    "engineering/gis/karachi.gpkg": {
-      "bytes": 483328,
-      "sha256": "af6bc982a7ffa9d451a3218f128e75f8f01f2d5e9c073dcfdc28c24d7e604968"
-    },
     "engineering/gis/summary.json": {
       "bytes": 1216,
       "sha256": "15c83dfd523cd0c01d14d6ab38e46c95ed9b92aec1a156a22a14d29a45f6e784"
@@ -121,17 +117,9 @@
       "bytes": 5709,
       "sha256": "030d3964af64e3b39b2bd490c6dcd4fb33bb34862ea53df4701c6689f5c74c4e"
     },
-    "operations/karachi-acceptance-evidence-matrix.csv": {
-      "bytes": 5804398,
-      "sha256": "ae2ea9da55afaaf3aed805fba70dd9dd7d94efc575c94626f4b80abccfebea4f"
-    },
     "operations/karachi-operations-manifest.json": {
       "bytes": 776,
       "sha256": "1ba971f23f50e6a2743e7d19816e6c7f76b560452d30023d8d80bbb45e1d194b"
-    },
-    "operations/karachi-operations.json.gz": {
-      "bytes": 3735433,
-      "sha256": "c323ad4f6b34e92263f39ab055283b4a93bbbbe923f6d7cdc45ffaef21eb3176"
     }
   },
   "city": "karachi",
@@ -144,11 +132,28 @@
   ],
   "failed_summaries": [],
   "generator": "scripts/generate-city-package-manifest.py",
-  "generator_sha256": "51507fac12b6e0648580bc91f685a609e4c0af998a8731715e7f9dc34f712ecf",
+  "generator_sha256": "59cb4f6c517402444094e1f8c43a815668813f6c966df9bfafac770ec56a0bb9",
+  "local_reproducible_artifacts": {
+    "engineering/gis/karachi.gpkg": {
+      "bytes": 483328,
+      "required_in_git_checkout": false,
+      "sha256": "af6bc982a7ffa9d451a3218f128e75f8f01f2d5e9c073dcfdc28c24d7e604968"
+    },
+    "operations/karachi-acceptance-evidence-matrix.csv": {
+      "bytes": 5804398,
+      "required_in_git_checkout": false,
+      "sha256": "ae2ea9da55afaaf3aed805fba70dd9dd7d94efc575c94626f4b80abccfebea4f"
+    },
+    "operations/karachi-operations.json.gz": {
+      "bytes": 3735433,
+      "required_in_git_checkout": false,
+      "sha256": "c323ad4f6b34e92263f39ab055283b4a93bbbbe923f6d7cdc45ffaef21eb3176"
+    }
+  },
   "missing_artifacts": [],
   "operations_bundle_hash_current": true,
   "package_status": "screening-passed",
   "passed": true,
   "schema_version": "1.0",
-  "source_revision": "dcf55f1764411749a33b380c366b17931b4a7226"
+  "source_revision": "22623ac8721f564fcb5dc41594780565c4d047eb"
 }

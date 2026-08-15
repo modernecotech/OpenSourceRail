@@ -2137,8 +2137,8 @@ def render_readme(
     )
     out.append(f"| Peak headway | {stats.peak_headway_min:.0f} min |")
     out.append(
-        "| Station spacing policy | 1.2 km central / 2 km urban / "
-        "3 km suburban / up to 5 km in the lowest-demand outer fringe |"
+        "| Station spacing policy | 1.6 km central / 3 km urban / "
+        "up to 7 km on suburban approaches and the lowest-demand outer fringe |"
     )
     out.append(
         "| City-centre consolidation | Cross-line platforms within the "
