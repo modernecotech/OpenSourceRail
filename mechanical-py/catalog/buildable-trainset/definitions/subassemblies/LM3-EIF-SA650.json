@@ -1,0 +1,137 @@
+{
+  "bom_line_ids": [],
+  "build_cell": "end-interface fixture / final assembly cell",
+  "children": [
+    "LM3-END-P060",
+    "LM3-END-P061",
+    "LM3-END-P062"
+  ],
+  "definition_type": "assembly-node",
+  "hold_points": [
+    "common bolt-grid survey",
+    "selected end-option fit gauge",
+    "seal and drain continuity",
+    "panoramic-or-open-mid configuration record"
+  ],
+  "id": "LM3-EIF-SA650",
+  "integration_steps": [
+    {
+      "child_id": "LM3-END-P060",
+      "child_title": "common reversible end-interface carrier ring, option bolt grid, and sealing datum kit",
+      "interface_classes": [
+        "mechanical datum"
+      ],
+      "join_classes": [
+        "bolted-structural-datum"
+      ],
+      "joint_release_status": "joint-calculation-required",
+      "placement_zone": "common configurable train-end interface, option bolt grid, seal/drain datums, and selected-end record",
+      "sequence": 1,
+      "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
+      "verification": [
+        "option bolt-grid survey",
+        "seal datum continuity",
+        "A/B interchange check",
+        "end-option fit gauge"
+      ]
+    },
+    {
+      "child_id": "LM3-END-P061",
+      "child_title": "panoramic-end option shim, cowl/glass carrier, and sensor datum closeout kit",
+      "interface_classes": [
+        "mechanical datum",
+        "low-voltage/data"
+      ],
+      "join_classes": [
+        "gasketed-removable-panel",
+        "bolted-structural-datum",
+        "electrical-data"
+      ],
+      "joint_release_status": "joint-calculation-required",
+      "placement_zone": "side/end glazing aperture and bonded carrier datum",
+      "sequence": 2,
+      "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
+      "verification": [
+        "panoramic option fit gauge",
+        "glass/cowl datum transfer",
+        "sensor datum check",
+        "water-ingress pre-test"
+      ]
+    },
+    {
+      "child_id": "LM3-END-P062",
+      "child_title": "mid open-connection option portal trim, bellows clamp, threshold bridge, and drain kit",
+      "interface_classes": [
+        "mechanical datum",
+        "fluid/thermal",
+        "safety interlock"
+      ],
+      "join_classes": [
+        "gasketed-removable-panel",
+        "bolted-structural-datum",
+        "fluid-thermal"
+      ],
+      "joint_release_status": "joint-calculation-required",
+      "placement_zone": "configurable end-interface, open gangway, train-to-train articulation, and service-jumper envelope",
+      "sequence": 3,
+      "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
+      "verification": [
+        "open-portal gauge",
+        "bellows clamp fit",
+        "threshold/turntable level check",
+        "drain-path water test"
+      ]
+    }
+  ],
+  "layer": "subassembly",
+  "material_spec": {
+    "evidence_required": [
+      "child material certificates accepted",
+      "assembly traveler traceability",
+      "interface-control drawing revision"
+    ],
+    "finish_or_protection": "protect damaged coating, exposed edges, seals, bonds, and labels during assembly",
+    "form_factor": "common structural end-interface steel and seal datum kit, panoramic end-option interface closeout kit, open mid-connection end-option interface kit",
+    "governing_standard": "all child material standards plus assembly-level torque, bonding, coating, and cleanliness controls",
+    "grade_or_part_class": "LM3-EIF-SA650 inherits released child material specifications",
+    "material_family": "assembly material set",
+    "nominal_section": "as defined by child drawings and assembly interface control drawing",
+    "traceability": "child serial/heat/batch records plus assembly traveler traceability"
+  },
+  "maturity": "release-candidate",
+  "process_spec": {
+    "inspection_methods": [
+      "child acceptance evidence review",
+      "common bolt-grid survey",
+      "selected end-option fit gauge",
+      "seal and drain continuity",
+      "panoramic-or-open-mid configuration record"
+    ],
+    "joining_methods": [
+      "bolted/torqued interfaces",
+      "shimmed datum interfaces as required"
+    ],
+    "primary_processes": [
+      "release child kit",
+      "fixture or datum setup",
+      "install children",
+      "torque/fit-up record",
+      "release to parent"
+    ],
+    "release_level": "assembly traveler controlled; generated template is unsigned until build",
+    "special_process_controls": [
+      "child definition/revision check",
+      "tooling calibration check",
+      "parent interface freeze"
+    ],
+    "tooling_basis": "FIX-LM3-EIF-SA650, KIT-LM3-EIF-SA650, calibrated torque/gauge set"
+  },
+  "quantity_per_trainset": 2,
+  "source_refs": [
+    "articulation.md",
+    "end-cowl.md",
+    "interfaces.md",
+    "LM3-END-650"
+  ],
+  "title": "common configurable train-end interface set"
+}

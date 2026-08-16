@@ -280,6 +280,31 @@
       "title": "front/back fiberglass cowl cast kit"
     },
     {
+      "build_cell": "end-interface fixture / final assembly cell",
+      "children": [
+        "LM3-END-P060",
+        "LM3-END-P061",
+        "LM3-END-P062"
+      ],
+      "hold_points": [
+        "common bolt-grid survey",
+        "selected end-option fit gauge",
+        "seal and drain continuity",
+        "panoramic-or-open-mid configuration record"
+      ],
+      "id": "LM3-EIF-SA650",
+      "layer": "subassembly",
+      "maturity": "release-candidate",
+      "quantity_per_trainset": 2,
+      "source_refs": [
+        "articulation.md",
+        "end-cowl.md",
+        "interfaces.md",
+        "LM3-END-650"
+      ],
+      "title": "common configurable train-end interface set"
+    },
+    {
       "build_cell": "composite / final assembly and commissioning cells",
       "children": [
         "LM3-BDY-P040",
@@ -309,6 +334,30 @@
         "LM3-OBS-330"
       ],
       "title": "train-end cowl, coupler, crash, and sensor assembly"
+    },
+    {
+      "build_cell": "final assembly and commissioning cell",
+      "children": [
+        "LM3-EIF-SA650",
+        "LM3-ART-P040",
+        "LM3-ART-P041"
+      ],
+      "hold_points": [
+        "open-end option configuration record",
+        "train-to-train motion-envelope proof",
+        "walk-through gangway continuity",
+        "water ingress/drain test"
+      ],
+      "id": "LM3-TTART-SA850",
+      "layer": "assembly",
+      "maturity": "buildable-after-supplier-freeze",
+      "quantity_per_trainset": 0,
+      "source_refs": [
+        "articulation.md",
+        "systems.py",
+        "LM3-SYS-175"
+      ],
+      "title": "optional train-to-train open mid-connection articulation"
     },
     {
       "build_cell": "final assembly and commissioning cell",
@@ -392,6 +441,7 @@
       "build_cell": "final assembly and commissioning cell",
       "children": [
         "LM3-CAR-A900",
+        "LM3-EIF-SA650",
         "LM3-END-SA700",
         "LM3-ART-SA800",
         "LM3-SYS-SA900"
@@ -413,6 +463,33 @@
         "drawing-register.md"
       ],
       "title": "complete light-metro trainset"
+    },
+    {
+      "build_cell": "long final assembly track / depot commissioning road",
+      "children": [
+        "LM3-TRAINSET-A000",
+        "LM3-TTART-SA850",
+        "LM3-SYS-SA900"
+      ],
+      "hold_points": [
+        "three-train alignment and end-option configuration record",
+        "two train-to-train open gangway joint motion sweeps",
+        "full-set trainline continuity and safety-loop proof",
+        "long-consist FEM screening accepted",
+        "static and dynamic release for full-set operation"
+      ],
+      "id": "LM3-FULLSET-A300",
+      "layer": "trainset",
+      "maturity": "buildable-after-supplier-freeze",
+      "quantity_per_trainset": 1,
+      "source_refs": [
+        "train-end-interface.md",
+        "full-set-3train-assembly.md",
+        "freecad_trainset.py",
+        "freecad_fea.py",
+        "LM3-SYS-175"
+      ],
+      "title": "three LM3 train modules joined as one walk-through full set"
     }
   ],
   "bom_crosswalk": {
@@ -474,6 +551,9 @@
       "LM3-BDY-P050",
       "LM3-BDY-P100",
       "LM3-BDY-P110",
+      "LM3-END-P060",
+      "LM3-END-P061",
+      "LM3-END-P062",
       "LM3-ART-P010"
     ],
     "B20": [
@@ -493,7 +573,8 @@
       "LM3-END-P010"
     ],
     "B24": [
-      "LM3-ART-P030"
+      "LM3-ART-P030",
+      "LM3-ART-P041"
     ],
     "B25": [
       "LM3-EXT-P010",
@@ -511,7 +592,8 @@
       "LM3-SHELL-A200"
     ],
     "B29": [
-      "LM3-ART-P010"
+      "LM3-ART-P010",
+      "LM3-ART-P040"
     ],
     "B3": [
       "LM3-BDY-SA110",
@@ -550,7 +632,8 @@
       "LM3-CWL-P016"
     ],
     "B9": [
-      "LM3-ART-P020"
+      "LM3-ART-P020",
+      "LM3-ART-P040"
     ],
     "E1": [
       "LM3-CTRL-P010"
@@ -1040,6 +1123,76 @@
       ],
       "title": "end ring frame and anti-climber beam set",
       "unit": "set"
+    },
+    {
+      "acceptance": [
+        "option bolt-grid survey",
+        "seal datum continuity",
+        "A/B interchange check",
+        "end-option fit gauge"
+      ],
+      "id": "LM3-END-P060",
+      "layer": "fabricated-part",
+      "make_or_buy_basis": "Common structural and sealing datum that lets the same train end accept either the panoramic closed nose or the open mid-train connection.",
+      "maturity": "release-candidate",
+      "notes": "",
+      "parent": "LM3-EIF-SA650",
+      "quantity_per_trainset": 2,
+      "route": "MAKE",
+      "source_refs": [
+        "articulation.md",
+        "end-cowl.md",
+        "interfaces.md",
+        "LM3-END-650"
+      ],
+      "title": "common reversible end-interface carrier ring, option bolt grid, and sealing datum kit",
+      "unit": "end position"
+    },
+    {
+      "acceptance": [
+        "panoramic option fit gauge",
+        "glass/cowl datum transfer",
+        "sensor datum check",
+        "water-ingress pre-test"
+      ],
+      "id": "LM3-END-P061",
+      "layer": "fabricated-part",
+      "make_or_buy_basis": "Default end-option kit that closes the common interface with the panoramic glass cowl, T-OBS sensor datum, coupler access, and weather seals.",
+      "maturity": "release-candidate",
+      "notes": "",
+      "parent": "LM3-EIF-SA650",
+      "quantity_per_trainset": 2,
+      "route": "MAKE",
+      "source_refs": [
+        "sensor_cowl.py",
+        "end-cowl.md",
+        "LM3-END-650"
+      ],
+      "title": "panoramic-end option shim, cowl/glass carrier, and sensor datum closeout kit",
+      "unit": "option kit"
+    },
+    {
+      "acceptance": [
+        "open-portal gauge",
+        "bellows clamp fit",
+        "threshold/turntable level check",
+        "drain-path water test"
+      ],
+      "id": "LM3-END-P062",
+      "layer": "fabricated-part",
+      "make_or_buy_basis": "Optional end treatment for marrying two train modules into a walk-through consist; it replaces the panoramic cowl/glass with an open passenger portal and gangway clamp datum.",
+      "maturity": "release-candidate",
+      "notes": "Quantity is zero in the reference three-car trainset. Select two kits for a train module whose ends are configured as mid open connections.",
+      "parent": "LM3-EIF-SA650",
+      "quantity_per_trainset": 0,
+      "route": "MAKE",
+      "source_refs": [
+        "articulation.md",
+        "assembly-plan.md",
+        "LM3-END-650-MID"
+      ],
+      "title": "mid open-connection option portal trim, bellows clamp, threshold bridge, and drain kit",
+      "unit": "option kit"
     },
     {
       "acceptance": [
@@ -2462,6 +2615,53 @@
       ],
       "title": "inter-car HV/LV jumper, coolant hose loop, energy chain, and drain sleeve kit",
       "unit": "articulation kit"
+    },
+    {
+      "acceptance": [
+        "train-to-train motion-envelope proof",
+        "walk-through gangway fire evidence",
+        "trainline continuity",
+        "water ingress/drain test"
+      ],
+      "id": "LM3-ART-P040",
+      "layer": "external-component",
+      "make_or_buy_basis": "Supplier open-end gangway/articulation cassette for joining two otherwise complete train modules through their common end-interface frames.",
+      "maturity": "buildable-after-supplier-freeze",
+      "notes": "Optional for modular consists. The reference LM3-3car uses closed panoramic ends and therefore carries zero of this kit.",
+      "parent": "LM3-TTART-SA850",
+      "quantity_per_trainset": 0,
+      "route": "BID",
+      "source_refs": [
+        "systems.py",
+        "articulation.md",
+        "interfaces.md",
+        "LM3-SYS-175"
+      ],
+      "title": "train-to-train open-end articulation, gangway, drawbar, turntable, and service-jumper cassette",
+      "unit": "joint kit"
+    },
+    {
+      "acceptance": [
+        "pinout test",
+        "blanking cover ingress check",
+        "isolation label inspection",
+        "bend-radius sweep"
+      ],
+      "id": "LM3-ART-P041",
+      "layer": "external-component",
+      "make_or_buy_basis": "Pre-terminated service transition and blanking hardware for open-end train-to-train gangway joints and protected unused end connectors.",
+      "maturity": "buildable-after-supplier-freeze",
+      "notes": "Optional for open mid-connection end configuration.",
+      "parent": "LM3-TTART-SA850",
+      "quantity_per_trainset": 0,
+      "route": "SOURCE",
+      "source_refs": [
+        "articulation.md",
+        "interfaces.md",
+        "LM3-SYS-175"
+      ],
+      "title": "train-to-train jumper blanking, transition harness, isolation label, and dust-cover kit",
+      "unit": "joint kit"
     }
   ],
   "review_findings": [

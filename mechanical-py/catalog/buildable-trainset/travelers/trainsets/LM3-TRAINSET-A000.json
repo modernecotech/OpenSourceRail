@@ -3,12 +3,13 @@
   "build_cell": "final assembly and commissioning cell",
   "children": [
     "LM3-CAR-A900",
+    "LM3-EIF-SA650",
     "LM3-END-SA700",
     "LM3-ART-SA800",
     "LM3-SYS-SA900"
   ],
   "document_revision": "A-DRAFT",
-  "estimated_labor_hours": 8.0,
+  "estimated_labor_hours": 9.13,
   "id": "LM3-TRAINSET-A000",
   "layer": "trainset",
   "material_spec": {
@@ -18,7 +19,7 @@
       "interface-control drawing revision"
     ],
     "finish_or_protection": "protect damaged coating, exposed edges, seals, bonds, and labels during assembly",
-    "form_factor": "LM3-CAR-A900 child assembly material set, LM3-END-SA700 child assembly material set, LM3-ART-SA800 child assembly material set, LM3-SYS-SA900 child assembly material set",
+    "form_factor": "LM3-CAR-A900 child assembly material set, LM3-EIF-SA650 child assembly material set, LM3-END-SA700 child assembly material set, LM3-ART-SA800 child assembly material set, LM3-SYS-SA900 child assembly material set",
     "governing_standard": "all child material standards plus assembly-level torque, bonding, coating, and cleanliness controls",
     "grade_or_part_class": "LM3-TRAINSET-A000 inherits released child material specifications",
     "material_family": "assembly material set",
@@ -27,7 +28,7 @@
   },
   "operations": [
     {
-      "labor_hours": 0.77,
+      "labor_hours": 0.85,
       "qa_gate": "all child definitions/revisions match the traveler index",
       "sequence": 10,
       "signoff_role": "cell lead",
@@ -53,9 +54,22 @@
       "work_center": "final assembly and commissioning cell"
     },
     {
+      "labor_hours": 1.05,
+      "qa_gate": "placement zone and joint controls accepted: common configurable train-end interface, option bolt grid, seal/drain datums, and selected-end record",
+      "sequence": 30,
+      "signoff_role": "operator",
+      "title": "install and integrate LM3-EIF-SA650: common configurable train-end interface set",
+      "tooling_ids": [
+        "FIX-LM3-TRAINSET-A000",
+        "GAUGE-LM3-EIF-SA650",
+        "TORQUE-LM3-EIF-SA650"
+      ],
+      "work_center": "final assembly and commissioning cell"
+    },
+    {
       "labor_hours": 1.65,
       "qa_gate": "placement zone and joint controls accepted: train-end cowl, crash, coupler, and sensor datum stack",
-      "sequence": 30,
+      "sequence": 40,
       "signoff_role": "operator",
       "title": "install and integrate LM3-END-SA700: train-end cowl, coupler, crash, and sensor assembly",
       "tooling_ids": [
@@ -68,7 +82,7 @@
     {
       "labor_hours": 1.48,
       "qa_gate": "placement zone and joint controls accepted: inter-car articulation, gangway, trainline, and flexible-service envelope",
-      "sequence": 40,
+      "sequence": 50,
       "signoff_role": "operator",
       "title": "install and integrate LM3-ART-SA800: inter-car articulation and trainline assembly",
       "tooling_ids": [
@@ -81,7 +95,7 @@
     {
       "labor_hours": 1.35,
       "qa_gate": "placement zone and joint controls accepted: LV cabinet, trainline, network, and diagnostic harness zone",
-      "sequence": 50,
+      "sequence": 60,
       "signoff_role": "operator",
       "title": "install and integrate LM3-SYS-SA900: train control, communication, and safety electronics assembly",
       "tooling_ids": [
@@ -94,7 +108,7 @@
     {
       "labor_hours": 0.35,
       "qa_gate": "trainset weigh",
-      "sequence": 60,
+      "sequence": 70,
       "signoff_role": "quality inspector",
       "title": "hold point: trainset weigh",
       "tooling_ids": [
@@ -105,7 +119,7 @@
     {
       "labor_hours": 0.35,
       "qa_gate": "static brake/door/HVAC/HV tests",
-      "sequence": 70,
+      "sequence": 80,
       "signoff_role": "quality inspector",
       "title": "hold point: static brake/door/HVAC/HV tests",
       "tooling_ids": [
@@ -116,7 +130,7 @@
     {
       "labor_hours": 0.35,
       "qa_gate": "FEM screening accepted",
-      "sequence": 80,
+      "sequence": 90,
       "signoff_role": "quality inspector",
       "title": "hold point: FEM screening accepted",
       "tooling_ids": [
@@ -127,7 +141,7 @@
     {
       "labor_hours": 0.35,
       "qa_gate": "dynamic-test release",
-      "sequence": 90,
+      "sequence": 100,
       "signoff_role": "quality inspector",
       "title": "hold point: dynamic-test release",
       "tooling_ids": [
@@ -138,7 +152,7 @@
     {
       "labor_hours": 0.3,
       "qa_gate": "all operation and QA signoffs are complete",
-      "sequence": 100,
+      "sequence": 110,
       "signoff_role": "manufacturing engineer",
       "title": "close traveler, attach nonconformance/deviation log, and release to next parent",
       "tooling_ids": [

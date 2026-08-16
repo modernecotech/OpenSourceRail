@@ -10,7 +10,7 @@ Regenerate from the repository root with:
 python3 scripts/generate-doc-index.py
 ```
 
-Indexed Markdown files: **1183**.
+Indexed Markdown files: **1201**.
 
 ## Sections
 
@@ -26,7 +26,7 @@ Indexed Markdown files: **1183**.
 | [formal](#formal) | 2 |
 | [hardware](#hardware) | 36 |
 | [lib](#lib) | 3 |
-| [mechanical-py](#mechanical-py) | 201 |
+| [mechanical-py](#mechanical-py) | 219 |
 | [scripts](#scripts) | 1 |
 | [tools](#tools) | 3 |
 
@@ -1082,10 +1082,13 @@ Indexed Markdown files: **1183**.
 | [`mechanical-py/catalog/buildable-trainset/definitions/assemblies/LM3-END-SA700.md`](../mechanical-py/catalog/buildable-trainset/definitions/assemblies/LM3-END-SA700.md) | LM3-END-SA700 — train-end cowl, coupler, crash, and sensor assembly |
 | [`mechanical-py/catalog/buildable-trainset/definitions/assemblies/LM3-SHELL-A200.md`](../mechanical-py/catalog/buildable-trainset/definitions/assemblies/LM3-SHELL-A200.md) | LM3-SHELL-A200 — painted carbody frame with one-metre clip-on fiberglass exterior |
 | [`mechanical-py/catalog/buildable-trainset/definitions/assemblies/LM3-SYS-SA900.md`](../mechanical-py/catalog/buildable-trainset/definitions/assemblies/LM3-SYS-SA900.md) | LM3-SYS-SA900 — train control, communication, and safety electronics assembly |
+| [`mechanical-py/catalog/buildable-trainset/definitions/assemblies/LM3-TTART-SA850.md`](../mechanical-py/catalog/buildable-trainset/definitions/assemblies/LM3-TTART-SA850.md) | LM3-TTART-SA850 — optional train-to-train open mid-connection articulation |
 | [`mechanical-py/catalog/buildable-trainset/definitions/index.md`](../mechanical-py/catalog/buildable-trainset/definitions/index.md) | Buildable trainset definition pack |
 | [`mechanical-py/catalog/buildable-trainset/definitions/parts/LM3-ART-P010.md`](../mechanical-py/catalog/buildable-trainset/definitions/parts/LM3-ART-P010.md) | LM3-ART-P010 — articulation adapter frame, anti-lift keeper, and shim kit |
 | [`mechanical-py/catalog/buildable-trainset/definitions/parts/LM3-ART-P020.md`](../mechanical-py/catalog/buildable-trainset/definitions/parts/LM3-ART-P020.md) | LM3-ART-P020 — gangway, lower spherical pivot, upper links, bellows, turntable, and trainline kit |
 | [`mechanical-py/catalog/buildable-trainset/definitions/parts/LM3-ART-P030.md`](../mechanical-py/catalog/buildable-trainset/definitions/parts/LM3-ART-P030.md) | LM3-ART-P030 — inter-car HV/LV jumper, coolant hose loop, energy chain, and drain sleeve kit |
+| [`mechanical-py/catalog/buildable-trainset/definitions/parts/LM3-ART-P040.md`](../mechanical-py/catalog/buildable-trainset/definitions/parts/LM3-ART-P040.md) | LM3-ART-P040 — train-to-train open-end articulation, gangway, drawbar, turntable, and service-jumper cassette |
+| [`mechanical-py/catalog/buildable-trainset/definitions/parts/LM3-ART-P041.md`](../mechanical-py/catalog/buildable-trainset/definitions/parts/LM3-ART-P041.md) | LM3-ART-P041 — train-to-train jumper blanking, transition harness, isolation label, and dust-cover kit |
 | [`mechanical-py/catalog/buildable-trainset/definitions/parts/LM3-AUX-P010.md`](../mechanical-py/catalog/buildable-trainset/definitions/parts/LM3-AUX-P010.md) | LM3-AUX-P010 — secondary-suspension compressor, dryer, reservoir, and isolation-manifold kit |
 | [`mechanical-py/catalog/buildable-trainset/definitions/parts/LM3-BDY-P010.md`](../mechanical-py/catalog/buildable-trainset/definitions/parts/LM3-BDY-P010.md) | LM3-BDY-P010 — laser-cut side sill beam, LH/RH |
 | [`mechanical-py/catalog/buildable-trainset/definitions/parts/LM3-BDY-P020.md`](../mechanical-py/catalog/buildable-trainset/definitions/parts/LM3-BDY-P020.md) | LM3-BDY-P020 — underframe centre spine and cross-bearer kit |
@@ -1127,6 +1130,9 @@ Indexed Markdown files: **1183**.
 | [`mechanical-py/catalog/buildable-trainset/definitions/parts/LM3-END-P030.md`](../mechanical-py/catalog/buildable-trainset/definitions/parts/LM3-END-P030.md) | LM3-END-P030 — cowl service hatch, sensor backing bracket, washer-tube, and heater-cable clip kit |
 | [`mechanical-py/catalog/buildable-trainset/definitions/parts/LM3-END-P040.md`](../mechanical-py/catalog/buildable-trainset/definitions/parts/LM3-END-P040.md) | LM3-END-P040 — e-coupler LV jumper, recovery trainline, and end harness breakaway kit |
 | [`mechanical-py/catalog/buildable-trainset/definitions/parts/LM3-END-P050.md`](../mechanical-py/catalog/buildable-trainset/definitions/parts/LM3-END-P050.md) | LM3-END-P050 — sealed headlight, tail/marker light, threshold-warning, and end-lamp harness kit |
+| [`mechanical-py/catalog/buildable-trainset/definitions/parts/LM3-END-P060.md`](../mechanical-py/catalog/buildable-trainset/definitions/parts/LM3-END-P060.md) | LM3-END-P060 — common reversible end-interface carrier ring, option bolt grid, and sealing datum kit |
+| [`mechanical-py/catalog/buildable-trainset/definitions/parts/LM3-END-P061.md`](../mechanical-py/catalog/buildable-trainset/definitions/parts/LM3-END-P061.md) | LM3-END-P061 — panoramic-end option shim, cowl/glass carrier, and sensor datum closeout kit |
+| [`mechanical-py/catalog/buildable-trainset/definitions/parts/LM3-END-P062.md`](../mechanical-py/catalog/buildable-trainset/definitions/parts/LM3-END-P062.md) | LM3-END-P062 — mid open-connection option portal trim, bellows clamp, threshold bridge, and drain kit |
 | [`mechanical-py/catalog/buildable-trainset/definitions/parts/LM3-EXT-P010.md`](../mechanical-py/catalog/buildable-trainset/definitions/parts/LM3-EXT-P010.md) | LM3-EXT-P010 — electric plug/sliding door cassette |
 | [`mechanical-py/catalog/buildable-trainset/definitions/parts/LM3-EXT-P020.md`](../mechanical-py/catalog/buildable-trainset/definitions/parts/LM3-EXT-P020.md) | LM3-EXT-P020 — side laminated glazing cassette |
 | [`mechanical-py/catalog/buildable-trainset/definitions/parts/LM3-EXT-P030.md`](../mechanical-py/catalog/buildable-trainset/definitions/parts/LM3-EXT-P030.md) | LM3-EXT-P030 — single panoramic heated end-glass assembly |
@@ -1160,23 +1166,30 @@ Indexed Markdown files: **1183**.
 | [`mechanical-py/catalog/buildable-trainset/definitions/subassemblies/LM3-BOG-SA620.md`](../mechanical-py/catalog/buildable-trainset/definitions/subassemblies/LM3-BOG-SA620.md) | LM3-BOG-SA620 — trailer bogie assembly |
 | [`mechanical-py/catalog/buildable-trainset/definitions/subassemblies/LM3-CWL-SA710.md`](../mechanical-py/catalog/buildable-trainset/definitions/subassemblies/LM3-CWL-SA710.md) | LM3-CWL-SA710 — front/back fiberglass cowl cast kit |
 | [`mechanical-py/catalog/buildable-trainset/definitions/subassemblies/LM3-DOOR-SA310.md`](../mechanical-py/catalog/buildable-trainset/definitions/subassemblies/LM3-DOOR-SA310.md) | LM3-DOOR-SA310 — door cassette and threshold assembly |
+| [`mechanical-py/catalog/buildable-trainset/definitions/subassemblies/LM3-EIF-SA650.md`](../mechanical-py/catalog/buildable-trainset/definitions/subassemblies/LM3-EIF-SA650.md) | LM3-EIF-SA650 — common configurable train-end interface set |
 | [`mechanical-py/catalog/buildable-trainset/definitions/subassemblies/LM3-HV-SA510.md`](../mechanical-py/catalog/buildable-trainset/definitions/subassemblies/LM3-HV-SA510.md) | LM3-HV-SA510 — per-car LFP battery, two controllers, DC auxiliary/charge interface, mist, and cooling assembly |
 | [`mechanical-py/catalog/buildable-trainset/definitions/subassemblies/LM3-INT-SA330.md`](../mechanical-py/catalog/buildable-trainset/definitions/subassemblies/LM3-INT-SA330.md) | LM3-INT-SA330 — interior and passenger systems fit-out |
 | [`mechanical-py/catalog/buildable-trainset/definitions/subassemblies/LM3-ROOF-SA410.md`](../mechanical-py/catalog/buildable-trainset/definitions/subassemblies/LM3-ROOF-SA410.md) | LM3-ROOF-SA410 — roof HVAC, PV, antenna, and service-equipment assembly |
 | [`mechanical-py/catalog/buildable-trainset/definitions/subassemblies/LM3-WIN-SA320.md`](../mechanical-py/catalog/buildable-trainset/definitions/subassemblies/LM3-WIN-SA320.md) | LM3-WIN-SA320 — side glazing cassette installation |
+| [`mechanical-py/catalog/buildable-trainset/definitions/trainsets/LM3-FULLSET-A300.md`](../mechanical-py/catalog/buildable-trainset/definitions/trainsets/LM3-FULLSET-A300.md) | LM3-FULLSET-A300 — three LM3 train modules joined as one walk-through full set |
 | [`mechanical-py/catalog/buildable-trainset/definitions/trainsets/LM3-TRAINSET-A000.md`](../mechanical-py/catalog/buildable-trainset/definitions/trainsets/LM3-TRAINSET-A000.md) | LM3-TRAINSET-A000 — complete light-metro trainset |
+| [`mechanical-py/catalog/buildable-trainset/full-set-3train-assembly.md`](../mechanical-py/catalog/buildable-trainset/full-set-3train-assembly.md) | LM3 Full-Set 3-Train Assembly Example |
 | [`mechanical-py/catalog/buildable-trainset/joint-control-schedule.md`](../mechanical-py/catalog/buildable-trainset/joint-control-schedule.md) | LM3 joint and fastener control schedule |
 | [`mechanical-py/catalog/buildable-trainset/mass-budget.md`](../mechanical-py/catalog/buildable-trainset/mass-budget.md) | LM3 controlled mass budget |
 | [`mechanical-py/catalog/buildable-trainset/open-release-gaps.md`](../mechanical-py/catalog/buildable-trainset/open-release-gaps.md) | Trainset open release gap register |
+| [`mechanical-py/catalog/buildable-trainset/train-end-interface.md`](../mechanical-py/catalog/buildable-trainset/train-end-interface.md) | LM3 configurable train-end interface |
 | [`mechanical-py/catalog/buildable-trainset/travelers/assemblies/LM3-ART-SA800.md`](../mechanical-py/catalog/buildable-trainset/travelers/assemblies/LM3-ART-SA800.md) | Shop traveler — LM3-ART-SA800 — inter-car articulation and trainline assembly |
 | [`mechanical-py/catalog/buildable-trainset/travelers/assemblies/LM3-CAR-A900.md`](../mechanical-py/catalog/buildable-trainset/travelers/assemblies/LM3-CAR-A900.md) | Shop traveler — LM3-CAR-A900 — complete repeated car module |
 | [`mechanical-py/catalog/buildable-trainset/travelers/assemblies/LM3-END-SA700.md`](../mechanical-py/catalog/buildable-trainset/travelers/assemblies/LM3-END-SA700.md) | Shop traveler — LM3-END-SA700 — train-end cowl, coupler, crash, and sensor assembly |
 | [`mechanical-py/catalog/buildable-trainset/travelers/assemblies/LM3-SHELL-A200.md`](../mechanical-py/catalog/buildable-trainset/travelers/assemblies/LM3-SHELL-A200.md) | Shop traveler — LM3-SHELL-A200 — painted carbody frame with one-metre clip-on fiberglass exterior |
 | [`mechanical-py/catalog/buildable-trainset/travelers/assemblies/LM3-SYS-SA900.md`](../mechanical-py/catalog/buildable-trainset/travelers/assemblies/LM3-SYS-SA900.md) | Shop traveler — LM3-SYS-SA900 — train control, communication, and safety electronics assembly |
+| [`mechanical-py/catalog/buildable-trainset/travelers/assemblies/LM3-TTART-SA850.md`](../mechanical-py/catalog/buildable-trainset/travelers/assemblies/LM3-TTART-SA850.md) | Shop traveler — LM3-TTART-SA850 — optional train-to-train open mid-connection articulation |
 | [`mechanical-py/catalog/buildable-trainset/travelers/index.md`](../mechanical-py/catalog/buildable-trainset/travelers/index.md) | Buildable trainset shop traveler pack |
 | [`mechanical-py/catalog/buildable-trainset/travelers/parts/LM3-ART-P010.md`](../mechanical-py/catalog/buildable-trainset/travelers/parts/LM3-ART-P010.md) | Shop traveler — LM3-ART-P010 — articulation adapter frame, anti-lift keeper, and shim kit |
 | [`mechanical-py/catalog/buildable-trainset/travelers/parts/LM3-ART-P020.md`](../mechanical-py/catalog/buildable-trainset/travelers/parts/LM3-ART-P020.md) | Shop traveler — LM3-ART-P020 — gangway, lower spherical pivot, upper links, bellows, turntable, and trainline kit |
 | [`mechanical-py/catalog/buildable-trainset/travelers/parts/LM3-ART-P030.md`](../mechanical-py/catalog/buildable-trainset/travelers/parts/LM3-ART-P030.md) | Shop traveler — LM3-ART-P030 — inter-car HV/LV jumper, coolant hose loop, energy chain, and drain sleeve kit |
+| [`mechanical-py/catalog/buildable-trainset/travelers/parts/LM3-ART-P040.md`](../mechanical-py/catalog/buildable-trainset/travelers/parts/LM3-ART-P040.md) | Shop traveler — LM3-ART-P040 — train-to-train open-end articulation, gangway, drawbar, turntable, and service-jumper cassette |
+| [`mechanical-py/catalog/buildable-trainset/travelers/parts/LM3-ART-P041.md`](../mechanical-py/catalog/buildable-trainset/travelers/parts/LM3-ART-P041.md) | Shop traveler — LM3-ART-P041 — train-to-train jumper blanking, transition harness, isolation label, and dust-cover kit |
 | [`mechanical-py/catalog/buildable-trainset/travelers/parts/LM3-AUX-P010.md`](../mechanical-py/catalog/buildable-trainset/travelers/parts/LM3-AUX-P010.md) | Shop traveler — LM3-AUX-P010 — secondary-suspension compressor, dryer, reservoir, and isolation-manifold kit |
 | [`mechanical-py/catalog/buildable-trainset/travelers/parts/LM3-BDY-P010.md`](../mechanical-py/catalog/buildable-trainset/travelers/parts/LM3-BDY-P010.md) | Shop traveler — LM3-BDY-P010 — laser-cut side sill beam, LH/RH |
 | [`mechanical-py/catalog/buildable-trainset/travelers/parts/LM3-BDY-P020.md`](../mechanical-py/catalog/buildable-trainset/travelers/parts/LM3-BDY-P020.md) | Shop traveler — LM3-BDY-P020 — underframe centre spine and cross-bearer kit |
@@ -1218,6 +1231,9 @@ Indexed Markdown files: **1183**.
 | [`mechanical-py/catalog/buildable-trainset/travelers/parts/LM3-END-P030.md`](../mechanical-py/catalog/buildable-trainset/travelers/parts/LM3-END-P030.md) | Shop traveler — LM3-END-P030 — cowl service hatch, sensor backing bracket, washer-tube, and heater-cable clip kit |
 | [`mechanical-py/catalog/buildable-trainset/travelers/parts/LM3-END-P040.md`](../mechanical-py/catalog/buildable-trainset/travelers/parts/LM3-END-P040.md) | Shop traveler — LM3-END-P040 — e-coupler LV jumper, recovery trainline, and end harness breakaway kit |
 | [`mechanical-py/catalog/buildable-trainset/travelers/parts/LM3-END-P050.md`](../mechanical-py/catalog/buildable-trainset/travelers/parts/LM3-END-P050.md) | Shop traveler — LM3-END-P050 — sealed headlight, tail/marker light, threshold-warning, and end-lamp harness kit |
+| [`mechanical-py/catalog/buildable-trainset/travelers/parts/LM3-END-P060.md`](../mechanical-py/catalog/buildable-trainset/travelers/parts/LM3-END-P060.md) | Shop traveler — LM3-END-P060 — common reversible end-interface carrier ring, option bolt grid, and sealing datum kit |
+| [`mechanical-py/catalog/buildable-trainset/travelers/parts/LM3-END-P061.md`](../mechanical-py/catalog/buildable-trainset/travelers/parts/LM3-END-P061.md) | Shop traveler — LM3-END-P061 — panoramic-end option shim, cowl/glass carrier, and sensor datum closeout kit |
+| [`mechanical-py/catalog/buildable-trainset/travelers/parts/LM3-END-P062.md`](../mechanical-py/catalog/buildable-trainset/travelers/parts/LM3-END-P062.md) | Shop traveler — LM3-END-P062 — mid open-connection option portal trim, bellows clamp, threshold bridge, and drain kit |
 | [`mechanical-py/catalog/buildable-trainset/travelers/parts/LM3-EXT-P010.md`](../mechanical-py/catalog/buildable-trainset/travelers/parts/LM3-EXT-P010.md) | Shop traveler — LM3-EXT-P010 — electric plug/sliding door cassette |
 | [`mechanical-py/catalog/buildable-trainset/travelers/parts/LM3-EXT-P020.md`](../mechanical-py/catalog/buildable-trainset/travelers/parts/LM3-EXT-P020.md) | Shop traveler — LM3-EXT-P020 — side laminated glazing cassette |
 | [`mechanical-py/catalog/buildable-trainset/travelers/parts/LM3-EXT-P030.md`](../mechanical-py/catalog/buildable-trainset/travelers/parts/LM3-EXT-P030.md) | Shop traveler — LM3-EXT-P030 — single panoramic heated end-glass assembly |
@@ -1251,10 +1267,12 @@ Indexed Markdown files: **1183**.
 | [`mechanical-py/catalog/buildable-trainset/travelers/subassemblies/LM3-BOG-SA620.md`](../mechanical-py/catalog/buildable-trainset/travelers/subassemblies/LM3-BOG-SA620.md) | Shop traveler — LM3-BOG-SA620 — trailer bogie assembly |
 | [`mechanical-py/catalog/buildable-trainset/travelers/subassemblies/LM3-CWL-SA710.md`](../mechanical-py/catalog/buildable-trainset/travelers/subassemblies/LM3-CWL-SA710.md) | Shop traveler — LM3-CWL-SA710 — front/back fiberglass cowl cast kit |
 | [`mechanical-py/catalog/buildable-trainset/travelers/subassemblies/LM3-DOOR-SA310.md`](../mechanical-py/catalog/buildable-trainset/travelers/subassemblies/LM3-DOOR-SA310.md) | Shop traveler — LM3-DOOR-SA310 — door cassette and threshold assembly |
+| [`mechanical-py/catalog/buildable-trainset/travelers/subassemblies/LM3-EIF-SA650.md`](../mechanical-py/catalog/buildable-trainset/travelers/subassemblies/LM3-EIF-SA650.md) | Shop traveler — LM3-EIF-SA650 — common configurable train-end interface set |
 | [`mechanical-py/catalog/buildable-trainset/travelers/subassemblies/LM3-HV-SA510.md`](../mechanical-py/catalog/buildable-trainset/travelers/subassemblies/LM3-HV-SA510.md) | Shop traveler — LM3-HV-SA510 — per-car LFP battery, two controllers, DC auxiliary/charge interface, mist, and cooling assembly |
 | [`mechanical-py/catalog/buildable-trainset/travelers/subassemblies/LM3-INT-SA330.md`](../mechanical-py/catalog/buildable-trainset/travelers/subassemblies/LM3-INT-SA330.md) | Shop traveler — LM3-INT-SA330 — interior and passenger systems fit-out |
 | [`mechanical-py/catalog/buildable-trainset/travelers/subassemblies/LM3-ROOF-SA410.md`](../mechanical-py/catalog/buildable-trainset/travelers/subassemblies/LM3-ROOF-SA410.md) | Shop traveler — LM3-ROOF-SA410 — roof HVAC, PV, antenna, and service-equipment assembly |
 | [`mechanical-py/catalog/buildable-trainset/travelers/subassemblies/LM3-WIN-SA320.md`](../mechanical-py/catalog/buildable-trainset/travelers/subassemblies/LM3-WIN-SA320.md) | Shop traveler — LM3-WIN-SA320 — side glazing cassette installation |
+| [`mechanical-py/catalog/buildable-trainset/travelers/trainsets/LM3-FULLSET-A300.md`](../mechanical-py/catalog/buildable-trainset/travelers/trainsets/LM3-FULLSET-A300.md) | Shop traveler — LM3-FULLSET-A300 — three LM3 train modules joined as one walk-through full set |
 | [`mechanical-py/catalog/buildable-trainset/travelers/trainsets/LM3-TRAINSET-A000.md`](../mechanical-py/catalog/buildable-trainset/travelers/trainsets/LM3-TRAINSET-A000.md) | Shop traveler — LM3-TRAINSET-A000 — complete light-metro trainset |
 | [`mechanical-py/catalog/design-system/README.md`](../mechanical-py/catalog/design-system/README.md) | Generated design-system artifacts |
 | [`mechanical-py/catalog/design-system/design-iteration-summary.md`](../mechanical-py/catalog/design-system/design-iteration-summary.md) | Rolling-stock design iteration summary |

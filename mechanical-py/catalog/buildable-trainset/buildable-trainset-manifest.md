@@ -8,9 +8,9 @@ subassemblies → assemblies → final trainset.
 - Candidate: `light-metro-3car__16p5m__reference-body__reference-bogie__motor-350kw-hm47-class__battery-225kwh-lfp-800v__hvac-24kw-direct-hv-dc__pv12`
 - Candidate score: `92.628`
 - Candidate feasible: `true`
-- Product item rows: `71`
-- Assembly nodes: `16`
-- Open supplier/component rows: `41` ([register](open-release-gaps.md))
+- Product item rows: `76`
+- Assembly nodes: `19`
+- Open supplier/component rows: `43` ([register](open-release-gaps.md))
 
 ## Candidate metrics
 
@@ -44,7 +44,7 @@ subassemblies → assemblies → final trainset.
 
 | Route | Quantity sum |
 |---|---:|
-| `MAKE` | 301 |
+| `MAKE` | 305 |
 | `BID` | 65 |
 | `SOURCE` | 81 |
 
@@ -63,11 +63,14 @@ subassemblies → assemblies → final trainset.
 | `LM3-BOG-SA610` | subassembly | 3 | bogie weld and assembly cell | `LM3-BOG-P010`<br>`LM3-BOG-P030`<br>`LM3-BOG-P040`<br>`LM3-BOG-P050`<br>`LM3-BOG-P060`<br>`LM3-TRC-P010`<br>`LM3-TRC-P020` | frame NDT<br>wheelset/bearing certificate<br>motor/gearbox alignment<br>static brake test |
 | `LM3-BOG-SA620` | subassembly | 3 | bogie weld and assembly cell | `LM3-BOG-P020`<br>`LM3-BOG-P031`<br>`LM3-BOG-P041`<br>`LM3-BOG-P061` | frame NDT<br>wheelset/bearing certificate<br>ride-height setup<br>static brake test |
 | `LM3-CWL-SA710` | subassembly | 2 | composite moulding and trim cell | `LM3-CWL-P010`<br>`LM3-CWL-P011`<br>`LM3-CWL-P012`<br>`LM3-CWL-P013`<br>`LM3-CWL-P014`<br>`LM3-CWL-P015`<br>`LM3-CWL-P016` | laminate coupon release<br>insert pull-out<br>trim/drill survey<br>A/B-end dry-build water test |
+| `LM3-EIF-SA650` | subassembly | 2 | end-interface fixture / final assembly cell | `LM3-END-P060`<br>`LM3-END-P061`<br>`LM3-END-P062` | common bolt-grid survey<br>selected end-option fit gauge<br>seal and drain continuity<br>panoramic-or-open-mid configuration record |
 | `LM3-END-SA700` | assembly | 2 | composite / final assembly and commissioning cells | `LM3-BDY-P040`<br>`LM3-BDY-P090`<br>`LM3-CWL-SA710`<br>`LM3-EXT-P030`<br>`LM3-END-P010`<br>`LM3-END-P020`<br>`LM3-END-P030`<br>`LM3-END-P040`<br>`LM3-END-P050` | A/B end interchange<br>coupler datum survey<br>sensor calibration<br>recovery interface check |
+| `LM3-TTART-SA850` | assembly | 0 | final assembly and commissioning cell | `LM3-EIF-SA650`<br>`LM3-ART-P040`<br>`LM3-ART-P041` | open-end option configuration record<br>train-to-train motion-envelope proof<br>walk-through gangway continuity<br>water ingress/drain test |
 | `LM3-ART-SA800` | assembly | 2 | final assembly and commissioning cell | `LM3-ART-P010`<br>`LM3-ART-P020`<br>`LM3-ART-P030` | motion-envelope proof<br>trainline continuity<br>water ingress/drain test |
 | `LM3-SYS-SA900` | assembly | 1 | final assembly and commissioning cell | `LM3-CTRL-P010`<br>`LM3-CTRL-P020`<br>`LM3-CTRL-P030`<br>`LM3-CTRL-P040`<br>`LM3-CTRL-P050` | network enumeration<br>firmware record<br>self-test<br>event-recorder write/read test |
 | `LM3-CAR-A900` | assembly | 3 | final assembly and commissioning cell | `LM3-SHELL-A200`<br>`LM3-DOOR-SA310`<br>`LM3-INT-SA330`<br>`LM3-ROOF-SA410`<br>`LM3-HV-SA510`<br>`LM3-BOG-SA610`<br>`LM3-BOG-SA620`<br>`LM3-AUX-P010` | car weigh<br>door/HVAC/static systems test<br>bogie marriage report<br>low-speed yard movement |
-| `LM3-TRAINSET-A000` | trainset | 1 | final assembly and commissioning cell | `LM3-CAR-A900`<br>`LM3-END-SA700`<br>`LM3-ART-SA800`<br>`LM3-SYS-SA900` | trainset weigh<br>static brake/door/HVAC/HV tests<br>FEM screening accepted<br>dynamic-test release |
+| `LM3-TRAINSET-A000` | trainset | 1 | final assembly and commissioning cell | `LM3-CAR-A900`<br>`LM3-EIF-SA650`<br>`LM3-END-SA700`<br>`LM3-ART-SA800`<br>`LM3-SYS-SA900` | trainset weigh<br>static brake/door/HVAC/HV tests<br>FEM screening accepted<br>dynamic-test release |
+| `LM3-FULLSET-A300` | trainset | 1 | long final assembly track / depot commissioning road | `LM3-TRAINSET-A000`<br>`LM3-TTART-SA850`<br>`LM3-SYS-SA900` | three-train alignment and end-option configuration record<br>two train-to-train open gangway joint motion sweeps<br>full-set trainline continuity and safety-loop proof<br>long-consist FEM screening accepted<br>static and dynamic release for full-set operation |
 
 ## Product items
 
@@ -82,6 +85,9 @@ subassemblies → assemblies → final trainset.
 | `LM3-BDY-P070` | `B1` | fabricated-part | `MAKE` | 6 side | `LM3-BDY-SA120` | side-wall post, door portal, waist rail, and cant rail kit | door cassette gauge<br>window cassette gauge<br>side-frame survey |
 | `LM3-BDY-P080` | `B1` | fabricated-part | `MAKE` | 3 kit | `LM3-ROOF-SA410` | roof bow, HVAC rail, PV rail, and cable-tray bracket kit | roof rail pitch<br>HVAC curb gauge<br>PV clamp pull test |
 | `LM3-BDY-P090` | `B1` | fabricated-part | `MAKE` | 2 set | `LM3-END-SA700` | end ring frame and anti-climber beam set | A/B interchange check<br>glass carrier land survey<br>anti-climber datum |
+| `LM3-END-P060` | `B2` | fabricated-part | `MAKE` | 2 end position | `LM3-EIF-SA650` | common reversible end-interface carrier ring, option bolt grid, and sealing datum kit | option bolt-grid survey<br>seal datum continuity<br>A/B interchange check<br>end-option fit gauge |
+| `LM3-END-P061` | `B2` | fabricated-part | `MAKE` | 2 option kit | `LM3-EIF-SA650` | panoramic-end option shim, cowl/glass carrier, and sensor datum closeout kit | panoramic option fit gauge<br>glass/cowl datum transfer<br>sensor datum check<br>water-ingress pre-test |
+| `LM3-END-P062` | `B2` | fabricated-part | `MAKE` | 0 option kit | `LM3-EIF-SA650` | mid open-connection option portal trim, bellows clamp, threshold bridge, and drain kit | open-portal gauge<br>bellows clamp fit<br>threshold/turntable level check<br>drain-path water test |
 | `LM3-BDY-P100` | `B2`<br>`B25` | fabricated-part | `MAKE` | 12 opening kit | `LM3-DOOR-SA310` | door portal reinforcement, threshold beam, and cassette shim kit | door aperture gauge<br>threshold height survey<br>cassette shim record<br>water-drain path check |
 | `LM3-BDY-P110` | `B2` | fabricated-part | `MAKE` | 18 opening kit | `LM3-WIN-SA320` | window carrier ring, bonded-gasket land, and replacement jack-point inserts | aperture gauge<br>bond-land surface check<br>water-ingress witness<br>replacement tool clearance |
 | `LM3-BDY-P120` | `B26` | fabricated-part | `MAKE` | 3 car kit | `LM3-BDY-SA110` | jacking pad, lifting eye, towing lug, and recovery-label kit | material traceability<br>weld/NDT record<br>proof load<br>datum and label inspection |
@@ -144,3 +150,5 @@ subassemblies → assemblies → final trainset.
 | `LM3-END-P040` | `B22`<br>`E17` | external-component | `BID` | 2 end kit | `LM3-END-SA700` | e-coupler LV jumper, recovery trainline, and end harness breakaway kit | pinout test<br>breakaway force check<br>ingress protection<br>rescue compatibility |
 | `LM3-END-P050` | `B17` | external-component | `SOURCE` | 2 end kit | `LM3-END-SA700` | sealed headlight, tail/marker light, threshold-warning, and end-lamp harness kit | photometric certificate<br>function/polarity test<br>ingress protection<br>A/B-end interchange check |
 | `LM3-ART-P030` | `B24` | external-component | `BID` | 2 articulation kit | `LM3-ART-SA800` | inter-car HV/LV jumper, coolant hose loop, energy chain, and drain sleeve kit | bend-radius sweep<br>trainline continuity<br>coolant pressure test<br>water-drain test |
+| `LM3-ART-P040` | `B9`<br>`B29` | external-component | `BID` | 0 joint kit | `LM3-TTART-SA850` | train-to-train open-end articulation, gangway, drawbar, turntable, and service-jumper cassette | train-to-train motion-envelope proof<br>walk-through gangway fire evidence<br>trainline continuity<br>water ingress/drain test |
+| `LM3-ART-P041` | `B24` | external-component | `SOURCE` | 0 joint kit | `LM3-TTART-SA850` | train-to-train jumper blanking, transition harness, isolation label, and dust-cover kit | pinout test<br>blanking cover ingress check<br>isolation label inspection<br>bend-radius sweep |

@@ -1,0 +1,145 @@
+{
+  "bom_line_ids": [],
+  "build_cell": "final assembly and commissioning cell",
+  "children": [
+    "LM3-EIF-SA650",
+    "LM3-ART-P040",
+    "LM3-ART-P041"
+  ],
+  "definition_type": "assembly-node",
+  "hold_points": [
+    "open-end option configuration record",
+    "train-to-train motion-envelope proof",
+    "walk-through gangway continuity",
+    "water ingress/drain test"
+  ],
+  "id": "LM3-TTART-SA850",
+  "integration_steps": [
+    {
+      "child_id": "LM3-EIF-SA650",
+      "child_title": "common configurable train-end interface set",
+      "interface_classes": [
+        "mechanical datum"
+      ],
+      "join_classes": [
+        "bolted-structural-datum"
+      ],
+      "joint_release_status": "joint-calculation-required",
+      "placement_zone": "common configurable train-end interface, option bolt grid, seal/drain datums, and selected-end record",
+      "sequence": 1,
+      "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
+      "verification": [
+        "common bolt-grid survey",
+        "selected end-option fit gauge",
+        "seal and drain continuity",
+        "panoramic-or-open-mid configuration record"
+      ]
+    },
+    {
+      "child_id": "LM3-ART-P040",
+      "child_title": "train-to-train open-end articulation, gangway, drawbar, turntable, and service-jumper cassette",
+      "interface_classes": [
+        "mechanical datum",
+        "safety interlock"
+      ],
+      "join_classes": [
+        "bolted-structural-datum"
+      ],
+      "joint_release_status": "supplier-freeze-required",
+      "placement_zone": "configurable end-interface, open gangway, train-to-train articulation, and service-jumper envelope",
+      "sequence": 2,
+      "torque_authority": "accepted supplier installation manual plus released OSR interface-control drawing",
+      "verification": [
+        "train-to-train motion-envelope proof",
+        "walk-through gangway fire evidence",
+        "trainline continuity",
+        "water ingress/drain test"
+      ]
+    },
+    {
+      "child_id": "LM3-ART-P041",
+      "child_title": "train-to-train jumper blanking, transition harness, isolation label, and dust-cover kit",
+      "interface_classes": [
+        "mechanical datum",
+        "low-voltage/data"
+      ],
+      "join_classes": [
+        "bolted-structural-datum",
+        "electrical-data"
+      ],
+      "joint_release_status": "supplier-freeze-required",
+      "placement_zone": "configurable end-interface, open gangway, train-to-train articulation, and service-jumper envelope",
+      "sequence": 3,
+      "torque_authority": "accepted supplier installation manual plus released OSR interface-control drawing",
+      "verification": [
+        "pinout test",
+        "blanking cover ingress check",
+        "isolation label inspection",
+        "bend-radius sweep"
+      ]
+    }
+  ],
+  "layer": "assembly",
+  "material_spec": {
+    "evidence_required": [
+      "child material certificates accepted",
+      "assembly traveler traceability",
+      "interface-control drawing revision"
+    ],
+    "finish_or_protection": "protect damaged coating, exposed edges, seals, bonds, and labels during assembly",
+    "form_factor": "LM3-EIF-SA650 child assembly material set, supplier-certified rail door system, rail-rated electrical / control equipment",
+    "governing_standard": "all child material standards plus assembly-level torque, bonding, coating, and cleanliness controls",
+    "grade_or_part_class": "LM3-TTART-SA850 inherits released child material specifications",
+    "material_family": "assembly material set",
+    "nominal_section": "as defined by child drawings and assembly interface control drawing",
+    "traceability": "child serial/heat/batch records plus assembly traveler traceability"
+  },
+  "maturity": "buildable-after-supplier-freeze",
+  "process_spec": {
+    "inspection_methods": [
+      "child acceptance evidence review",
+      "open-end option configuration record",
+      "train-to-train motion-envelope proof",
+      "walk-through gangway continuity",
+      "water ingress/drain test",
+      "water/leak test",
+      "bond/gasket witness check",
+      "continuity",
+      "insulation/isolation",
+      "functional static test"
+    ],
+    "joining_methods": [
+      "bolted/torqued interfaces",
+      "shimmed datum interfaces as required",
+      "adhesive/bonded/gasketed sealing interfaces",
+      "bonding/earthing",
+      "segregated harness/fluid routing"
+    ],
+    "primary_processes": [
+      "release child kit",
+      "fixture or datum setup",
+      "install children",
+      "torque/fit-up record",
+      "release to parent"
+    ],
+    "release_level": "assembly traveler controlled; generated template is unsigned until build",
+    "special_process_controls": [
+      "child definition/revision check",
+      "tooling calibration check",
+      "parent interface freeze",
+      "surface preparation record",
+      "adhesive/sealant batch and cure record",
+      "LOTO/HV safety rule",
+      "EMC/bonding release",
+      "software/configuration record where applicable"
+    ],
+    "tooling_basis": "FIX-LM3-TTART-SA850, KIT-LM3-TTART-SA850, calibrated torque/gauge set"
+  },
+  "quantity_per_trainset": 0,
+  "source_refs": [
+    "articulation.md",
+    "systems.py",
+    "LM3-SYS-175"
+  ],
+  "title": "optional train-to-train open mid-connection articulation"
+}

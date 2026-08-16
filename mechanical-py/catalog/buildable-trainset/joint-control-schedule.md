@@ -6,7 +6,7 @@ torques are intentionally prohibited until the named supplier instruction or
 joint calculation is accepted; nominal bolt diameter alone is not a safe
 preload specification.
 
-Controlled integration joints: **86**.
+Controlled integration joints: **96**.
 
 | Joint ID | Parent → child | Join classes | Torque authority | Release status |
 |---|---|---|---|---|
@@ -67,6 +67,9 @@ Controlled integration joints: **86**.
 | `J-LM3-CWL-SA710-05` | `LM3-CWL-SA710` → `LM3-CWL-P014` | `adhesive-bonded-panel`<br>`bolted-structural-datum` | released joint calculation plus interface-control drawing and calibrated-tool procedure | `joint-calculation-required` |
 | `J-LM3-CWL-SA710-06` | `LM3-CWL-SA710` → `LM3-CWL-P015` | `adhesive-bonded-panel`<br>`gasketed-removable-panel`<br>`bolted-structural-datum`<br>`fluid-thermal` | released joint calculation plus interface-control drawing and calibrated-tool procedure | `joint-calculation-required` |
 | `J-LM3-CWL-SA710-07` | `LM3-CWL-SA710` → `LM3-CWL-P016` | `adhesive-bonded-panel`<br>`bolted-structural-datum` | released joint calculation plus interface-control drawing and calibrated-tool procedure | `joint-calculation-required` |
+| `J-LM3-EIF-SA650-01` | `LM3-EIF-SA650` → `LM3-END-P060` | `bolted-structural-datum` | released joint calculation plus interface-control drawing and calibrated-tool procedure | `joint-calculation-required` |
+| `J-LM3-EIF-SA650-02` | `LM3-EIF-SA650` → `LM3-END-P061` | `gasketed-removable-panel`<br>`bolted-structural-datum`<br>`electrical-data` | released joint calculation plus interface-control drawing and calibrated-tool procedure | `joint-calculation-required` |
+| `J-LM3-EIF-SA650-03` | `LM3-EIF-SA650` → `LM3-END-P062` | `gasketed-removable-panel`<br>`bolted-structural-datum`<br>`fluid-thermal` | released joint calculation plus interface-control drawing and calibrated-tool procedure | `joint-calculation-required` |
 | `J-LM3-END-SA700-01` | `LM3-END-SA700` → `LM3-BDY-P040` | `bolted-structural-datum` | released joint calculation plus interface-control drawing and calibrated-tool procedure | `joint-calculation-required` |
 | `J-LM3-END-SA700-02` | `LM3-END-SA700` → `LM3-BDY-P090` | `structural-weld`<br>`bolted-structural-datum` | released joint calculation plus interface-control drawing and calibrated-tool procedure | `joint-calculation-required` |
 | `J-LM3-END-SA700-03` | `LM3-END-SA700` → `LM3-CWL-SA710` | `adhesive-bonded-panel`<br>`gasketed-removable-panel`<br>`bolted-structural-datum` | released joint calculation plus interface-control drawing and calibrated-tool procedure | `joint-calculation-required` |
@@ -76,8 +79,11 @@ Controlled integration joints: **86**.
 | `J-LM3-END-SA700-07` | `LM3-END-SA700` → `LM3-END-P030` | `gasketed-removable-panel`<br>`bolted-structural-datum`<br>`electrical-data`<br>`fluid-thermal` | released joint calculation plus interface-control drawing and calibrated-tool procedure | `joint-calculation-required` |
 | `J-LM3-END-SA700-08` | `LM3-END-SA700` → `LM3-END-P040` | `bolted-structural-datum`<br>`electrical-data` | accepted supplier installation manual plus released OSR interface-control drawing | `supplier-freeze-required` |
 | `J-LM3-END-SA700-09` | `LM3-END-SA700` → `LM3-END-P050` | `bolted-structural-datum`<br>`electrical-data` | accepted supplier installation manual plus released OSR interface-control drawing | `supplier-freeze-required` |
+| `J-LM3-TTART-SA850-01` | `LM3-TTART-SA850` → `LM3-EIF-SA650` | `bolted-structural-datum` | released joint calculation plus interface-control drawing and calibrated-tool procedure | `joint-calculation-required` |
+| `J-LM3-TTART-SA850-02` | `LM3-TTART-SA850` → `LM3-ART-P040` | `bolted-structural-datum` | accepted supplier installation manual plus released OSR interface-control drawing | `supplier-freeze-required` |
+| `J-LM3-TTART-SA850-03` | `LM3-TTART-SA850` → `LM3-ART-P041` | `bolted-structural-datum`<br>`electrical-data` | accepted supplier installation manual plus released OSR interface-control drawing | `supplier-freeze-required` |
 | `J-LM3-ART-SA800-01` | `LM3-ART-SA800` → `LM3-ART-P010` | `bolted-structural-datum` | released joint calculation plus interface-control drawing and calibrated-tool procedure | `joint-calculation-required` |
-| `J-LM3-ART-SA800-02` | `LM3-ART-SA800` → `LM3-ART-P020` | `bolted-structural-datum`<br>`electrical-data` | accepted supplier installation manual plus released OSR interface-control drawing | `supplier-freeze-required` |
+| `J-LM3-ART-SA800-02` | `LM3-ART-SA800` → `LM3-ART-P020` | `gasketed-removable-panel`<br>`bolted-structural-datum`<br>`electrical-data` | accepted supplier installation manual plus released OSR interface-control drawing | `supplier-freeze-required` |
 | `J-LM3-ART-SA800-03` | `LM3-ART-SA800` → `LM3-ART-P030` | `bolted-structural-datum`<br>`electrical-data`<br>`fluid-thermal` | accepted supplier installation manual plus released OSR interface-control drawing | `supplier-freeze-required` |
 | `J-LM3-SYS-SA900-01` | `LM3-SYS-SA900` → `LM3-CTRL-P010` | `bolted-structural-datum`<br>`electrical-data` | accepted supplier installation manual plus released OSR interface-control drawing | `supplier-freeze-required` |
 | `J-LM3-SYS-SA900-02` | `LM3-SYS-SA900` → `LM3-CTRL-P020` | `bolted-structural-datum`<br>`electrical-data` | accepted supplier installation manual plus released OSR interface-control drawing | `supplier-freeze-required` |
@@ -93,9 +99,13 @@ Controlled integration joints: **86**.
 | `J-LM3-CAR-A900-07` | `LM3-CAR-A900` → `LM3-BOG-SA620` | `bolted-structural-datum` | released joint calculation plus interface-control drawing and calibrated-tool procedure | `joint-calculation-required` |
 | `J-LM3-CAR-A900-08` | `LM3-CAR-A900` → `LM3-AUX-P010` | `bolted-structural-datum` | accepted supplier installation manual plus released OSR interface-control drawing | `supplier-freeze-required` |
 | `J-LM3-TRAINSET-A000-01` | `LM3-TRAINSET-A000` → `LM3-CAR-A900` | `bolted-structural-datum` | released joint calculation plus interface-control drawing and calibrated-tool procedure | `joint-calculation-required` |
-| `J-LM3-TRAINSET-A000-02` | `LM3-TRAINSET-A000` → `LM3-END-SA700` | `gasketed-removable-panel`<br>`bolted-structural-datum`<br>`electrical-data` | released joint calculation plus interface-control drawing and calibrated-tool procedure | `joint-calculation-required` |
-| `J-LM3-TRAINSET-A000-03` | `LM3-TRAINSET-A000` → `LM3-ART-SA800` | `bolted-structural-datum`<br>`electrical-data` | released joint calculation plus interface-control drawing and calibrated-tool procedure | `joint-calculation-required` |
-| `J-LM3-TRAINSET-A000-04` | `LM3-TRAINSET-A000` → `LM3-SYS-SA900` | `bolted-structural-datum`<br>`electrical-data` | released joint calculation plus interface-control drawing and calibrated-tool procedure | `joint-calculation-required` |
+| `J-LM3-TRAINSET-A000-02` | `LM3-TRAINSET-A000` → `LM3-EIF-SA650` | `bolted-structural-datum` | released joint calculation plus interface-control drawing and calibrated-tool procedure | `joint-calculation-required` |
+| `J-LM3-TRAINSET-A000-03` | `LM3-TRAINSET-A000` → `LM3-END-SA700` | `gasketed-removable-panel`<br>`bolted-structural-datum`<br>`electrical-data` | released joint calculation plus interface-control drawing and calibrated-tool procedure | `joint-calculation-required` |
+| `J-LM3-TRAINSET-A000-04` | `LM3-TRAINSET-A000` → `LM3-ART-SA800` | `bolted-structural-datum`<br>`electrical-data` | released joint calculation plus interface-control drawing and calibrated-tool procedure | `joint-calculation-required` |
+| `J-LM3-TRAINSET-A000-05` | `LM3-TRAINSET-A000` → `LM3-SYS-SA900` | `bolted-structural-datum`<br>`electrical-data` | released joint calculation plus interface-control drawing and calibrated-tool procedure | `joint-calculation-required` |
+| `J-LM3-FULLSET-A300-01` | `LM3-FULLSET-A300` → `LM3-TRAINSET-A000` | `bolted-structural-datum` | released joint calculation plus interface-control drawing and calibrated-tool procedure | `joint-calculation-required` |
+| `J-LM3-FULLSET-A300-02` | `LM3-FULLSET-A300` → `LM3-TTART-SA850` | `bolted-structural-datum` | released joint calculation plus interface-control drawing and calibrated-tool procedure | `joint-calculation-required` |
+| `J-LM3-FULLSET-A300-03` | `LM3-FULLSET-A300` → `LM3-SYS-SA900` | `bolted-structural-datum`<br>`electrical-data` | released joint calculation plus interface-control drawing and calibrated-tool procedure | `joint-calculation-required` |
 
 ## Release use
 

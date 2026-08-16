@@ -139,6 +139,7 @@ cd "$MECH_ROOT"
 
 if [ "$run_models" = true ]; then
     scripts/freecad_trainset.sh --family light-metro-3car
+    scripts/freecad_trainset.sh --family light-metro-3car-fullset-3train
 fi
 
 if [ "$run_single_car" = true ]; then

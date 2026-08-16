@@ -43,6 +43,7 @@ BOGIE_INSET_MM = WHEELBASE_MM
 # body-to-bogie interface.
 BOGIE_SEAT_Z_MM = 740.0 - 1_072.5
 COUPLING_GAP_MM = 0.0
+FULL_SET_3TRAIN_FAMILY = "light-metro-3car-fullset-3train"
 
 FAMILY_CAR_COUNT = {
     "urban-shuttle-1car": 1,
@@ -50,6 +51,7 @@ FAMILY_CAR_COUNT = {
     "light-metro-3car": 3,
     "metro-4car": 4,
     "metro-6car": 6,
+    FULL_SET_3TRAIN_FAMILY: 9,
 }
 
 COLOURS = {
@@ -152,6 +154,9 @@ def _add_shape(
 
 
 def _trainset_items(family: str) -> list[GeometryItem]:
+    if family == FULL_SET_3TRAIN_FAMILY:
+        return _full_set_3train_items()
+
     car_count = FAMILY_CAR_COUNT[family]
 
     total_length = car_count * CAR_LENGTH_MM + (car_count - 1) * COUPLING_GAP_MM
@@ -303,6 +308,154 @@ def _trainset_items(family: str) -> list[GeometryItem]:
             GeometryItem(
                 _source("kinematic-envelope"),
                 "Kinematic envelope reference",
+                "Clearance References",
+                colour=(0.75, 0.75, 0.75, 0.0),
+            ),
+        ]
+    )
+    return items
+
+
+def _full_set_3train_items() -> list[GeometryItem]:
+    """Three LM3 three-car modules joined by open train-to-train joints."""
+
+    module_count = 3
+    cars_per_module = 3
+    car_count = module_count * cars_per_module
+    total_length = car_count * CAR_LENGTH_MM
+    start_x = -total_length / 2.0
+    items: list[GeometryItem] = [
+        GeometryItem(
+            _source("sensor-cowl"),
+            "Full-set A outer panoramic end cowl",
+            "Outer Panoramic End Modules",
+            x_mm=start_x + COWL_LENGTH_MM,
+            yaw_deg=180.0,
+            colour=COLOURS["nose"],
+        ),
+        GeometryItem(
+            _source("sensor-cowl"),
+            "Full-set B outer panoramic end cowl",
+            "Outer Panoramic End Modules",
+            x_mm=start_x + total_length - COWL_LENGTH_MM,
+            colour=COLOURS["nose"],
+        ),
+    ]
+
+    for car_index in range(car_count):
+        module_index = car_index // cars_per_module + 1
+        car_in_module = car_index % cars_per_module + 1
+        car_centre_x = start_x + car_index * CAR_LENGTH_MM + CAR_LENGTH_MM / 2.0
+        car_label = f"Train {module_index} Car {car_in_module}"
+        items.extend(
+            [
+                GeometryItem(_source("car-body-17m"), f"{car_label} body", "Car Bodies", x_mm=car_centre_x, colour=COLOURS["body"]),
+                GeometryItem(
+                    _source("door-system-pair"),
+                    f"{car_label} door system",
+                    "Doors and Platform Interface",
+                    x_mm=car_centre_x,
+                    colour=COLOURS["door"],
+                ),
+                GeometryItem(
+                    _source("battery-pack-set"),
+                    f"{car_label} battery pack set",
+                    "Onboard Systems",
+                    x_mm=car_centre_x,
+                    colour=COLOURS["systems"],
+                ),
+                GeometryItem(_source("car-systems"), f"{car_label} systems", "Onboard Systems", x_mm=car_centre_x, colour=COLOURS["systems"]),
+            ]
+        )
+        for key, label in CAR_INTERFACE_SOURCES:
+            items.append(
+                GeometryItem(
+                    _interface_source(key),
+                    f"{car_label} {label}",
+                    "Mechanical Interfaces",
+                    x_mm=car_centre_x,
+                    colour=COLOURS["mechanical"],
+                )
+            )
+        for end_name, sign, source, kind in (
+            ("A", -1.0, _source("motor-bogie"), "motor"),
+            ("B", 1.0, _source("trailer-bogie"), "trailer"),
+        ):
+            bogie_x = car_centre_x + sign * (CAR_LENGTH_MM / 2.0 - BOGIE_INSET_MM)
+            items.append(
+                GeometryItem(
+                    source,
+                    f"{car_label} {end_name}-end {kind} bogie",
+                    "Bogies",
+                    x_mm=bogie_x,
+                    z_mm=BOGIE_SEAT_Z_MM,
+                    colour=COLOURS["bogie"],
+                )
+            )
+            if kind == "motor":
+                items.append(
+                    GeometryItem(
+                        _interface_source("bogie-to-motor-connector"),
+                        f"{car_label} {end_name}-end bogie-to-motor connector",
+                        "Mechanical Interfaces",
+                        x_mm=bogie_x,
+                        z_mm=BOGIE_SEAT_Z_MM,
+                        colour=COLOURS["mechanical"],
+                    )
+                )
+
+        if car_index + 1 < car_count:
+            joint_x = car_centre_x + CAR_LENGTH_MM / 2.0
+            module_boundary = (car_index + 1) % cars_per_module == 0
+            if module_boundary:
+                joint_label = f"Open train-to-train joint {module_index}-{module_index + 1}"
+                items.append(
+                    GeometryItem(
+                        _source("train-to-train-articulation"),
+                        joint_label,
+                        "Train-to-Train Open Connections",
+                        x_mm=joint_x,
+                        colour=COLOURS["interface"],
+                    )
+                )
+            else:
+                items.append(
+                    GeometryItem(
+                        _source("inter-car-articulation"),
+                        f"Train {module_index} articulation {car_in_module}-{car_in_module + 1}",
+                        "Internal Inter-Car Articulations",
+                        x_mm=joint_x,
+                        colour=COLOURS["interface"],
+                    )
+                )
+
+    items.extend(
+        [
+            GeometryItem(
+                _source("end-coupler"),
+                "Full-set A outer recovery coupler",
+                "Couplers and Articulation",
+                x_mm=start_x,
+                yaw_deg=180.0,
+                colour=COLOURS["interface"],
+            ),
+            GeometryItem(
+                _source("end-coupler"),
+                "Full-set B outer recovery coupler",
+                "Couplers and Articulation",
+                x_mm=start_x + total_length,
+                colour=COLOURS["interface"],
+            ),
+            GeometryItem(
+                _source("platform-safety-interface"),
+                "Full-set platform safety interface reference",
+                "Doors and Platform Interface",
+                y_mm=2_200.0,
+                colour=COLOURS["interface"],
+            ),
+            GeometryItem(
+                _source("kinematic-envelope"),
+                "Full-set kinematic envelope reference",
                 "Clearance References",
                 colour=(0.75, 0.75, 0.75, 0.0),
             ),

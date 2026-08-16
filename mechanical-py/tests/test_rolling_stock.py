@@ -16,6 +16,8 @@ from __future__ import annotations
 import pytest
 
 from osr_mech.common import ConsistFamily, STANDARD_GAUGE_MM
+from osr_mech.freecad_sources import SOURCE_BUILDERS
+from osr_mech.freecad_trainset import FULL_SET_3TRAIN_FAMILY, _trainset_items
 from osr_mech.rolling_stock.bogie import (
     BOGIE_FRAME_HEIGHT_MM,
     BOGIE_FRAME_LENGTH_MM,
@@ -68,6 +70,7 @@ from osr_mech.rolling_stock.systems import (
     car_systems,
     inter_car_articulation,
     roof_solar_system,
+    train_to_train_articulation,
 )
 from osr_mech.rolling_stock.trainset import (
     expected_platform_length_m,
@@ -101,6 +104,18 @@ def test_trainset_fits_within_published_platform(family: ConsistFamily) -> None:
         f"{family.value}: only {margin:.1f} m stopping margin on a "
         f"{platform_m:.0f} m platform — too tight"
     )
+
+
+def test_freecad_full_set_3train_review_model_uses_open_train_joints() -> None:
+    assert "train-to-train-articulation" in SOURCE_BUILDERS
+    items = _trainset_items(FULL_SET_3TRAIN_FAMILY)
+    names = [item.name for item in items]
+    body_items = [item for item in items if item.source.key == "car-body-17m"]
+    assert sum("Train 1 Car" in item.name for item in body_items) == 3
+    assert sum("Train 2 Car" in item.name for item in body_items) == 3
+    assert sum("Train 3 Car" in item.name for item in body_items) == 3
+    assert sum("Open train-to-train joint" in name for name in names) == 2
+    assert sum("Full-set" in name and "outer panoramic" in name for name in names) == 2
 
 
 def test_car_body_has_door_and_window_cutouts() -> None:
@@ -350,6 +365,24 @@ def test_inter_car_articulation_has_detailed_load_path_and_services() -> None:
     assert labels.count("Upper roll-yaw-pitch articulation link") == 2
     assert labels.count("Segmented anti-slip gangway turntable") == 5
     assert labels.count("Double-wall corrugated gangway bellows pleat") == 8
+
+
+def test_train_to_train_articulation_has_configurable_open_end_interfaces() -> None:
+    labels = _labels_recursive(train_to_train_articulation())
+    expected = {
+        "Train-to-train open mid-connection articulation cassette",
+        "Common configurable train-end interface carrier ring",
+        "Open mid-connection passenger portal and bellows clamp datum",
+        "Train-to-train threshold bridge and turntable transition",
+        "Train-to-train HV/LV service-jumper transition and blanking panel",
+        "Train-to-train coolant/HVAC service-jumper transition and blanking panel",
+        "End-option bolt-grid datum shared by panoramic and open-mid ends",
+        "Train-to-train articulation motion envelope across two configurable ends",
+    }
+    missing = expected.difference(labels)
+    assert not missing, f"missing train-to-train articulation details: {sorted(missing)}"
+    assert labels.count("Common configurable train-end interface carrier ring") == 2
+    assert labels.count("Open mid-connection passenger portal and bellows clamp datum") == 2
 
 
 def test_car_systems_have_expected_repeated_modules() -> None:

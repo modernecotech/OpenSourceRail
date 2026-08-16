@@ -5,7 +5,7 @@
 | Traveler type | `assembly-node` |
 | Document revision | `A-DRAFT` |
 | Release status | `unsigned-template` |
-| Estimated labor | 6.35 h |
+| Estimated labor | 6.47 h |
 | Build cell | final assembly and commissioning cell |
 | Procurement BOM lines | None directly assigned |
 
@@ -51,7 +51,7 @@ Evidence required:
 |---:|---|---|---:|---|---|---|
 | 10 | release traveler, fixture, child kit, and latest definition package | final assembly and commissioning cell | 0.69 | `TRV-LM3-ART-SA800`<br>`FIX-LM3-ART-SA800`<br>`KIT-LM3-ART-SA800` | all child definitions/revisions match the traveler index | cell lead |
 | 20 | install and integrate LM3-ART-P010: articulation adapter frame, anti-lift keeper, and shim kit | final assembly and commissioning cell | 1.18 | `FIX-LM3-ART-SA800`<br>`GAUGE-LM3-ART-P010`<br>`TORQUE-LM3-ART-P010` | placement zone and joint controls accepted: inter-car articulation, gangway, trainline, and flexible-service envelope | operator |
-| 30 | install and integrate LM3-ART-P020: gangway, lower spherical pivot, upper links, bellows, turntable, and trainline kit | final assembly and commissioning cell | 1.48 | `FIX-LM3-ART-SA800`<br>`GAUGE-LM3-ART-P020`<br>`TORQUE-LM3-ART-P020` | placement zone and joint controls accepted: inter-car articulation, gangway, trainline, and flexible-service envelope | operator |
+| 30 | install and integrate LM3-ART-P020: gangway, lower spherical pivot, upper links, bellows, turntable, and trainline kit | final assembly and commissioning cell | 1.6 | `FIX-LM3-ART-SA800`<br>`GAUGE-LM3-ART-P020`<br>`TORQUE-LM3-ART-P020` | placement zone and joint controls accepted: inter-car articulation, gangway, trainline, and flexible-service envelope | operator |
 | 40 | install and integrate LM3-ART-P030: inter-car HV/LV jumper, coolant hose loop, energy chain, and drain sleeve kit | final assembly and commissioning cell | 1.65 | `FIX-LM3-ART-SA800`<br>`GAUGE-LM3-ART-P030`<br>`TORQUE-LM3-ART-P030` | placement zone and joint controls accepted: under-seat HV bay, side-pin dock zone, and segregated cable route | operator |
 | 50 | hold point: motion-envelope proof | quality inspection | 0.35 | `QA-LM3-ART-SA800` | motion-envelope proof | quality inspector |
 | 60 | hold point: trainline continuity | quality inspection | 0.35 | `ELEC-TEST-LM3-ART-SA800` | trainline continuity | quality inspector |

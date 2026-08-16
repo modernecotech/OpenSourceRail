@@ -7,14 +7,18 @@ from osr_mech.buildable_trainset import (
     Route,
     buildable_trainset_design,
     critical_path_payload,
+    full_set_3train_payload,
     joint_control_rows,
     mass_budget_payload,
     render_critical_path,
+    render_full_set_3train_assembly,
     render_joint_control_schedule,
     render_mass_budget,
     render_manifest,
     render_open_release_gaps,
     render_review,
+    render_train_end_interface,
+    train_end_interface_payload,
     write_definition_pack,
     write_shop_traveler_pack,
     write_outputs,
@@ -30,7 +34,7 @@ from osr_mech.rolling_stock.bom_trace import (
 def test_buildable_trainset_has_full_product_tree() -> None:
     design = buildable_trainset_design(ConsistFamily.LIGHT_METRO_3CAR)
     assert len(design.product_items) >= 69
-    assert len(design.assemblies) >= 16
+    assert len(design.assemblies) >= 19
     assert any(item.route is Route.MAKE for item in design.product_items)
     assert any(item.route is Route.BID for item in design.product_items)
     assert any(item.route is Route.SOURCE for item in design.product_items)
@@ -102,6 +106,11 @@ def test_fabricated_parts_have_make_routes_and_final_trainset_assembles() -> Non
         "LM3-END-SA700",
         "LM3-SYS-SA900",
     } <= set(trainset.children)
+    assert {
+        "LM3-TRAINSET-A000",
+        "LM3-TTART-SA850",
+        "LM3-SYS-SA900",
+    } <= set(assemblies["LM3-FULLSET-A300"].children)
     assert assemblies["LM3-CAR-A900"].quantity_per_trainset == 3
 
 
@@ -151,6 +160,11 @@ def test_added_component_gaps_are_integrated_into_expected_subassemblies() -> No
         "LM3-CTRL-P040",
         "LM3-CTRL-P050",
         "LM3-END-P050",
+        "LM3-END-P060",
+        "LM3-END-P061",
+        "LM3-END-P062",
+        "LM3-ART-P040",
+        "LM3-ART-P041",
     }
     assert expected_items <= items.keys()
     assert {"LM3-BDY-P100", "LM3-EXT-P010"} <= set(assemblies["LM3-DOOR-SA310"].children)
@@ -183,6 +197,14 @@ def test_added_component_gaps_are_integrated_into_expected_subassemblies() -> No
         assemblies["LM3-SYS-SA900"].children
     )
     assert "LM3-END-P050" in assemblies["LM3-END-SA700"].children
+    assert {"LM3-END-P060", "LM3-END-P061", "LM3-END-P062"} <= set(assemblies["LM3-EIF-SA650"].children)
+    assert {"LM3-EIF-SA650", "LM3-ART-P040", "LM3-ART-P041"} <= set(
+        assemblies["LM3-TTART-SA850"].children
+    )
+    assert "LM3-EIF-SA650" in assemblies["LM3-TRAINSET-A000"].children
+    assert items["LM3-END-P061"].quantity_per_trainset == 2
+    assert items["LM3-END-P062"].quantity_per_trainset == 0
+    assert items["LM3-ART-P040"].quantity_per_trainset == 0
 
 
 def test_buildable_trainset_links_optimizer_target_to_current_review() -> None:
@@ -227,6 +249,40 @@ def test_write_outputs_emits_mass_and_joint_control_records(tmp_path) -> None:
     assert (tmp_path / "joint-control-schedule.md").exists()
     assert (tmp_path / "critical-path.json").exists()
     assert (tmp_path / "critical-path.md").exists()
+    assert (tmp_path / "train-end-interface.json").exists()
+    assert (tmp_path / "train-end-interface.md").exists()
+    assert (tmp_path / "full-set-3train-assembly.json").exists()
+    assert (tmp_path / "full-set-3train-assembly.md").exists()
+
+
+def test_train_end_interface_models_panorama_or_open_mid_option() -> None:
+    design = buildable_trainset_design(ConsistFamily.LIGHT_METRO_3CAR)
+    payload = train_end_interface_payload(design)
+    options = {option["id"]: option for option in payload["options"]}  # type: ignore[index]
+    assert payload["common_interface"]["assembly_id"] == "LM3-EIF-SA650"  # type: ignore[index]
+    assert options["panoramic-glass-front-end"]["reference_quantity"] == 2
+    assert options["mid-open-train-to-train-connection"]["reference_quantity"] == 0
+    assert "LM3-TTART-SA850" == options["mid-open-train-to-train-connection"]["assembly_id"]
+    rendered = render_train_end_interface(design)
+    assert "panoramic glass front/end" in rendered
+    assert "mid-train open connection" in rendered
+    assert "Each end position must select one option only" in rendered
+
+
+def test_full_set_3train_assembly_pack_models_three_joined_modules() -> None:
+    design = buildable_trainset_design(ConsistFamily.LIGHT_METRO_3CAR)
+    payload = full_set_3train_payload(design)
+    cfg = payload["configuration"]
+    assert cfg["train_modules"] == 3
+    assert cfg["cars_total"] == 9
+    assert cfg["train_to_train_open_joints"] == 2
+    assert cfg["outer_panoramic_ends"] == 2
+    assert cfg["full_set_length_m"] == 148.5
+    rendered = render_full_set_3train_assembly(design)
+    assert "LM3-FULLSET-A300" in rendered
+    assert "Train-to-train open joint lateral/racking screen" not in rendered
+    assert "train-to-train-joint-lateral-sway-screen" in rendered
+    assert "scripts/freecad_trainset.sh --family light-metro-3car-fullset-3train" in rendered
 
 
 def test_critical_path_models_parallel_train_fabrication() -> None:

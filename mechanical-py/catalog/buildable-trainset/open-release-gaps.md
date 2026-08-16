@@ -5,7 +5,7 @@ and shop-traveler packs. Product ownership and procurement-BOM links are
 already resolved; the rows below still require supplier, component, or
 interface evidence before their maturity can become `release-candidate`.
 
-Open product rows: **41 of 71**.
+Open product rows: **43 of 76**.
 
 | Engineering ID | BOM lines | Route | Maturity / blocker | Component | Parent assembly | Closure evidence |
 |---|---|---|---|---|---|---|
@@ -50,6 +50,8 @@ Open product rows: **41 of 71**.
 | `LM3-END-P040` | `B22`, `E17` | `BID` | `buildable-after-supplier-freeze` | e-coupler LV jumper, recovery trainline, and end harness breakaway kit | `LM3-END-SA700` | pinout test; breakaway force check; ingress protection; rescue compatibility |
 | `LM3-END-P050` | `B17` | `SOURCE` | `buildable-after-supplier-freeze` | sealed headlight, tail/marker light, threshold-warning, and end-lamp harness kit | `LM3-END-SA700` | photometric certificate; function/polarity test; ingress protection; A/B-end interchange check |
 | `LM3-ART-P030` | `B24` | `BID` | `buildable-after-supplier-freeze` | inter-car HV/LV jumper, coolant hose loop, energy chain, and drain sleeve kit | `LM3-ART-SA800` | bend-radius sweep; trainline continuity; coolant pressure test; water-drain test |
+| `LM3-ART-P040` | `B9`, `B29` | `BID` | `buildable-after-supplier-freeze` | train-to-train open-end articulation, gangway, drawbar, turntable, and service-jumper cassette | `LM3-TTART-SA850` | train-to-train motion-envelope proof; walk-through gangway fire evidence; trainline continuity; water ingress/drain test |
+| `LM3-ART-P041` | `B24` | `SOURCE` | `buildable-after-supplier-freeze` | train-to-train jumper blanking, transition harness, isolation label, and dust-cover kit | `LM3-TTART-SA850` | pinout test; blanking cover ingress check; isolation label inspection; bend-radius sweep |
 
 ## Non-product release gates
 

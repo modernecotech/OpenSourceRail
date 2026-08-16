@@ -382,6 +382,8 @@ Key links:
 - [Generated mechanical review catalogue](mechanical-py/catalog/)
 - [Generated review catalogue README](mechanical-py/catalog/README.md)
 - [Buildable trainset handoff](mechanical-py/catalog/buildable-trainset/)
+- [Configurable train-end interface](mechanical-py/catalog/buildable-trainset/train-end-interface.md)
+- [3-train full-set assembly example](mechanical-py/catalog/buildable-trainset/full-set-3train-assembly.md)
 - [First-article fabrication critical path](mechanical-py/catalog/buildable-trainset/critical-path.md)
 - [Product-tree definitions](mechanical-py/catalog/buildable-trainset/definitions/index.md)
 - [Shop traveler templates](mechanical-py/catalog/buildable-trainset/travelers/index.md)
@@ -392,6 +394,8 @@ Buildable handoff quick path:
 |---|---|
 | See selected baseline and metrics | [design iteration summary](mechanical-py/catalog/design-system/design-iteration-summary.md) |
 | See parts → subassemblies → assemblies → trainset | [buildable manifest](mechanical-py/catalog/buildable-trainset/buildable-trainset-manifest.md) |
+| Select panoramic or open mid-train ends | [train-end interface](mechanical-py/catalog/buildable-trainset/train-end-interface.md) with the common end carrier, panoramic glass option, and train-to-train open connection |
+| Review a 3-train full-set example | [full-set assembly pack](mechanical-py/catalog/buildable-trainset/full-set-3train-assembly.md) with 9-car layout, parts, assembly steps, FreeCAD targets, and long-consist FEM matrix |
 | Start drawing/RFQ work | [definition pack](mechanical-py/catalog/buildable-trainset/definitions/index.md) with structured material/process specs |
 | Start shop routing / QA planning | [shop traveler pack](mechanical-py/catalog/buildable-trainset/travelers/index.md) with material/process controls |
 | Plan first-article fabrication and final assembly | [critical-path plan](mechanical-py/catalog/buildable-trainset/critical-path.md) with parts, subassemblies, furnishings, space, labour, float, and final commissioning |

@@ -42,6 +42,7 @@ from osr_mech.rolling_stock.systems import (
     end_coupler,
     inter_car_articulation,
     platform_safety_interface,
+    train_to_train_articulation,
 )
 from osr_mech.station.canopy import station_canopy
 from osr_mech.station.auxiliary_canopy import auxiliary_canopy_row
@@ -102,6 +103,7 @@ SOURCE_BUILDERS: dict[str, Callable[[], object]] = {
     "platform-safety-interface": platform_safety_interface,
     "sensor-cowl": sensor_cowl,
     "trailer-bogie": trailer_bogie,
+    "train-to-train-articulation": train_to_train_articulation,
     **INTERFACE_BUILDERS,
 }
 

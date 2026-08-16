@@ -1,0 +1,224 @@
+{
+  "bom_line_ids": [],
+  "build_cell": "end-interface fixture / final assembly cell",
+  "children": [
+    "LM3-END-P060",
+    "LM3-END-P061",
+    "LM3-END-P062"
+  ],
+  "document_revision": "A-DRAFT",
+  "estimated_labor_hours": 6.56,
+  "id": "LM3-EIF-SA650",
+  "layer": "subassembly",
+  "material_spec": {
+    "evidence_required": [
+      "child material certificates accepted",
+      "assembly traveler traceability",
+      "interface-control drawing revision"
+    ],
+    "finish_or_protection": "protect damaged coating, exposed edges, seals, bonds, and labels during assembly",
+    "form_factor": "common structural end-interface steel and seal datum kit, panoramic end-option interface closeout kit, open mid-connection end-option interface kit",
+    "governing_standard": "all child material standards plus assembly-level torque, bonding, coating, and cleanliness controls",
+    "grade_or_part_class": "LM3-EIF-SA650 inherits released child material specifications",
+    "material_family": "assembly material set",
+    "nominal_section": "as defined by child drawings and assembly interface control drawing",
+    "traceability": "child serial/heat/batch records plus assembly traveler traceability"
+  },
+  "operations": [
+    {
+      "labor_hours": 0.69,
+      "qa_gate": "all child definitions/revisions match the traveler index",
+      "sequence": 10,
+      "signoff_role": "cell lead",
+      "title": "release traveler, fixture, child kit, and latest definition package",
+      "tooling_ids": [
+        "TRV-LM3-EIF-SA650",
+        "FIX-LM3-EIF-SA650",
+        "KIT-LM3-EIF-SA650"
+      ],
+      "work_center": "end-interface fixture / final assembly cell"
+    },
+    {
+      "labor_hours": 1.05,
+      "qa_gate": "placement zone and joint controls accepted: common configurable train-end interface, option bolt grid, seal/drain datums, and selected-end record",
+      "sequence": 20,
+      "signoff_role": "operator",
+      "title": "install and integrate LM3-END-P060: common reversible end-interface carrier ring, option bolt grid, and sealing datum kit",
+      "tooling_ids": [
+        "FIX-LM3-EIF-SA650",
+        "GAUGE-LM3-END-P060",
+        "TORQUE-LM3-END-P060"
+      ],
+      "work_center": "end-interface fixture / final assembly cell"
+    },
+    {
+      "labor_hours": 1.47,
+      "qa_gate": "placement zone and joint controls accepted: side/end glazing aperture and bonded carrier datum",
+      "sequence": 30,
+      "signoff_role": "operator",
+      "title": "install and integrate LM3-END-P061: panoramic-end option shim, cowl/glass carrier, and sensor datum closeout kit",
+      "tooling_ids": [
+        "FIX-LM3-EIF-SA650",
+        "GAUGE-LM3-END-P061",
+        "TORQUE-LM3-END-P061"
+      ],
+      "work_center": "end-interface fixture / final assembly cell"
+    },
+    {
+      "labor_hours": 1.65,
+      "qa_gate": "placement zone and joint controls accepted: configurable end-interface, open gangway, train-to-train articulation, and service-jumper envelope",
+      "sequence": 40,
+      "signoff_role": "operator",
+      "title": "install and integrate LM3-END-P062: mid open-connection option portal trim, bellows clamp, threshold bridge, and drain kit",
+      "tooling_ids": [
+        "FIX-LM3-EIF-SA650",
+        "GAUGE-LM3-END-P062",
+        "TORQUE-LM3-END-P062"
+      ],
+      "work_center": "end-interface fixture / final assembly cell"
+    },
+    {
+      "labor_hours": 0.35,
+      "qa_gate": "common bolt-grid survey",
+      "sequence": 50,
+      "signoff_role": "quality inspector",
+      "title": "hold point: common bolt-grid survey",
+      "tooling_ids": [
+        "GAUGE-LM3-EIF-SA650"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.35,
+      "qa_gate": "selected end-option fit gauge",
+      "sequence": 60,
+      "signoff_role": "quality inspector",
+      "title": "hold point: selected end-option fit gauge",
+      "tooling_ids": [
+        "GAUGE-LM3-EIF-SA650"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.35,
+      "qa_gate": "seal and drain continuity",
+      "sequence": 70,
+      "signoff_role": "quality inspector",
+      "title": "hold point: seal and drain continuity",
+      "tooling_ids": [
+        "ELEC-TEST-LM3-EIF-SA650"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.35,
+      "qa_gate": "panoramic-or-open-mid configuration record",
+      "sequence": 80,
+      "signoff_role": "quality inspector",
+      "title": "hold point: panoramic-or-open-mid configuration record",
+      "tooling_ids": [
+        "QA-LM3-EIF-SA650"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.3,
+      "qa_gate": "all operation and QA signoffs are complete",
+      "sequence": 90,
+      "signoff_role": "manufacturing engineer",
+      "title": "close traveler, attach nonconformance/deviation log, and release to next parent",
+      "tooling_ids": [
+        "REL-LM3-EIF-SA650",
+        "NCR-LM3-EIF-SA650"
+      ],
+      "work_center": "production control"
+    }
+  ],
+  "process_spec": {
+    "inspection_methods": [
+      "child acceptance evidence review",
+      "common bolt-grid survey",
+      "selected end-option fit gauge",
+      "seal and drain continuity",
+      "panoramic-or-open-mid configuration record"
+    ],
+    "joining_methods": [
+      "bolted/torqued interfaces",
+      "shimmed datum interfaces as required"
+    ],
+    "primary_processes": [
+      "release child kit",
+      "fixture or datum setup",
+      "install children",
+      "torque/fit-up record",
+      "release to parent"
+    ],
+    "release_level": "assembly traveler controlled; generated template is unsigned until build",
+    "special_process_controls": [
+      "child definition/revision check",
+      "tooling calibration check",
+      "parent interface freeze"
+    ],
+    "tooling_basis": "FIX-LM3-EIF-SA650, KIT-LM3-EIF-SA650, calibrated torque/gauge set"
+  },
+  "quantity_per_trainset": 2,
+  "release_status": "unsigned-template",
+  "revision_approvals": [
+    {
+      "approval_id": "APP-LM3-EIF-SA650-MFG",
+      "date": "",
+      "name": "",
+      "role": "manufacturing engineering",
+      "signature": "",
+      "status": "pending"
+    },
+    {
+      "approval_id": "APP-LM3-EIF-SA650-QA",
+      "date": "",
+      "name": "",
+      "role": "quality",
+      "signature": "",
+      "status": "pending"
+    },
+    {
+      "approval_id": "APP-LM3-EIF-SA650-DA",
+      "date": "",
+      "name": "",
+      "role": "design authority",
+      "signature": "",
+      "status": "pending"
+    }
+  ],
+  "signoff_blocks": [
+    {
+      "date": "",
+      "name": "",
+      "role": "operator",
+      "signature": "",
+      "status": "blank"
+    },
+    {
+      "date": "",
+      "name": "",
+      "role": "cell lead",
+      "signature": "",
+      "status": "blank"
+    },
+    {
+      "date": "",
+      "name": "",
+      "role": "quality inspector",
+      "signature": "",
+      "status": "blank"
+    },
+    {
+      "date": "",
+      "name": "",
+      "role": "manufacturing engineer",
+      "signature": "",
+      "status": "blank"
+    }
+  ],
+  "title": "common configurable train-end interface set",
+  "traveler_type": "assembly-node"
+}

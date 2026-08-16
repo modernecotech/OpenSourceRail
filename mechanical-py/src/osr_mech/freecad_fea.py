@@ -532,6 +532,193 @@ def full_body_lateral_sway_study() -> Study:
     )
 
 
+def _full_set_spine_model() -> tuple[ModelBuilder, dict[str, BeamSection], list[float], list[float]]:
+    b = ModelBuilder()
+    sections = {
+        "LONGITUDINAL_SILL": BeamSection("LONGITUDINAL_SILL", 260.0, 430.0),
+        "CENTRE_SPINE": BeamSection("CENTRE_SPINE", 220.0, 360.0),
+        "CROSS_TIE": BeamSection("CROSS_TIE", 150.0, 240.0),
+        "TRAIN_TO_TRAIN_LINK": BeamSection("TRAIN_TO_TRAIN_LINK", 240.0, 300.0),
+        "UPPER_GANGWAY_LINK": BeamSection("UPPER_GANGWAY_LINK", 120.0, 160.0),
+    }
+    total_length = 9 * PROMOTED_LIGHT_METRO_CAR_LENGTH_MM
+    start_x = -total_length / 2.0
+    car_ends = [start_x + i * PROMOTED_LIGHT_METRO_CAR_LENGTH_MM for i in range(10)]
+    xs = sorted(
+        set(
+            car_ends
+            + [start_x + i * PROMOTED_LIGHT_METRO_CAR_LENGTH_MM + offset for i in range(9) for offset in (2_100.0, 8_250.0, 14_400.0)]
+        )
+    )
+    ys = [-1_150.0, 0.0, 1_150.0]
+    z = 720.0
+    roof_z = 2_850.0
+    for y in (-1_150.0, 1_150.0):
+        for a, c in zip(xs, xs[1:]):
+            section = "TRAIN_TO_TRAIN_LINK" if any(a < boundary < c for boundary in (car_ends[3], car_ends[6])) else "LONGITUDINAL_SILL"
+            b.beam((a, y, z), (c, y, z), section)
+    for a, c in zip(xs, xs[1:]):
+        b.beam((a, 0.0, z - 70.0), (c, 0.0, z - 70.0), "CENTRE_SPINE")
+    for x in xs:
+        b.beam((x, -1_150.0, z), (x, 1_150.0, z), "CROSS_TIE")
+    for boundary in (car_ends[3], car_ends[6]):
+        for y in (-760.0, 760.0):
+            b.beam((boundary - 620.0, y, roof_z), (boundary + 620.0, y, roof_z), "UPPER_GANGWAY_LINK")
+            b.beam((boundary - 620.0, y, z), (boundary + 620.0, y, z), "TRAIN_TO_TRAIN_LINK")
+        b.beam((boundary, -1_150.0, z), (boundary, 1_150.0, z), "TRAIN_TO_TRAIN_LINK")
+    return b, sections, xs, car_ends
+
+
+def full_set_longitudinal_buff_study() -> Study:
+    b, sections, _xs, car_ends = _full_set_spine_model()
+    z = 720.0
+    fixed_nodes = [
+        b.node_id((car_ends[0], -1_150.0, z)),
+        b.node_id((car_ends[0], 0.0, z - 70.0)),
+        b.node_id((car_ends[0], 1_150.0, z)),
+    ]
+    load_nodes = [
+        b.node_id((car_ends[-1], -1_150.0, z)),
+        b.node_id((car_ends[-1], 0.0, z - 70.0)),
+        b.node_id((car_ends[-1], 1_150.0, z)),
+    ]
+    boundaries = [Boundary(fixed_nodes[0], 1, 6), Boundary(fixed_nodes[1], 1, 3), Boundary(fixed_nodes[2], 1, 3)]
+    loads = [Load(node, 1, -180_000.0 / len(load_nodes), "full-set longitudinal buff/draft load") for node in load_nodes]
+    return Study(
+        slug="full-set-longitudinal-buff-screen",
+        title="Three-train full-set longitudinal buff/draft screen",
+        load_case="180 kN longitudinal buff/draft load through the 148.5 m full-set spine and two open train-to-train joints",
+        nodes=b.nodes,
+        elements=b.elements,
+        sections=sections,
+        boundaries=boundaries,
+        loads=loads,
+        deflection_limit_mm=35.0,
+        plot_view="xz",
+        notes=[
+            "Models three LM3 modules as one 148.5 m spine with two train-to-train open joints.",
+            "The load is a gross service/recovery screen, not an EN 15227 crash case.",
+        ],
+    )
+
+
+def full_set_vertical_service_study() -> Study:
+    b, sections, xs, car_ends = _full_set_spine_model()
+    z = 720.0
+    support_xs = [
+        car_ends[i] + PROMOTED_LIGHT_METRO_CAR_LENGTH_MM / 2.0 + sign * BOGIE_CENTRE_X_MM
+        for i in range(9)
+        for sign in (-1.0, 1.0)
+    ]
+    supports = [
+        b.node_id((support_x, y, z))
+        for support_x in support_xs
+        for y in (-1_150.0, 1_150.0)
+    ]
+    boundaries = [Boundary(supports[0], 1, 6)]
+    boundaries.extend(Boundary(node, 3, 3) for node in supports[1:])
+    load_nodes = [b.node_id((x, y, z)) for x in xs[1:-1] for y in (-1_150.0, 0.0, 1_150.0)]
+    total_load_n = -1_080_000.0
+    loads = [Load(node, 3, total_load_n / len(load_nodes), "nine-car distributed service gravity") for node in load_nodes]
+    for boundary in (car_ends[3], car_ends[6]):
+        loads.append(Load(b.node_id((boundary, 0.0, z)), 3, -35_000.0, "train-to-train joint vertical allowance"))
+    return Study(
+        slug="full-set-vertical-service-screen",
+        title="Three-train full-set vertical service screen",
+        load_case="1,080 kN distributed nine-car service gravity plus 70 kN across two open train-to-train joints",
+        nodes=b.nodes,
+        elements=b.elements,
+        sections=sections,
+        boundaries=boundaries,
+        loads=loads,
+        deflection_limit_mm=45.0,
+        plot_view="xz",
+        notes=[
+            "Supports represent all 18 bogies in the full-set example.",
+            "The two open train-to-train joints receive explicit vertical allowances for gangway, threshold, and passenger transfer loads.",
+        ],
+    )
+
+
+def _train_to_train_joint_model() -> tuple[ModelBuilder, dict[str, BeamSection], list[int], list[int]]:
+    b = ModelBuilder()
+    oblique_orientation = (1.0, 1.0, 1.0)
+    sections = {
+        "END_RING": BeamSection("END_RING", 240.0, 360.0, oblique_orientation),
+        "LOWER_DRAWBAR": BeamSection("LOWER_DRAWBAR", 320.0, 420.0, oblique_orientation),
+        "THRESHOLD_BRIDGE": BeamSection("THRESHOLD_BRIDGE", 240.0, 240.0, oblique_orientation),
+        "UPPER_LINK": BeamSection("UPPER_LINK", 160.0, 220.0, oblique_orientation),
+        "PORTAL_TIE": BeamSection("PORTAL_TIE", 160.0, 260.0, oblique_orientation),
+    }
+    left_x = -720.0
+    right_x = 720.0
+    ys = [-1_080.0, -760.0, 0.0, 760.0, 1_080.0]
+    levels = [720.0, 760.0, 1_500.0, 2_850.0]
+    for x in (left_x, right_x):
+        for y in (-1_080.0, 1_080.0):
+            for a, c in zip(levels, levels[1:]):
+                b.beam((x, y, a), (x, y, c), "END_RING")
+        for z in levels:
+            for a, c in zip(ys, ys[1:]):
+                b.beam((x, a, z), (x, c, z), "PORTAL_TIE")
+    for y in (-760.0, 0.0, 760.0):
+        b.beam((left_x, y, 760.0), (right_x, y, 760.0), "THRESHOLD_BRIDGE")
+    for y in (-520.0, 520.0):
+        b.beam((left_x, y, 720.0), (right_x, y, 720.0), "LOWER_DRAWBAR")
+        b.beam((left_x, y, 2_850.0), (right_x, y, 2_850.0), "UPPER_LINK")
+    left_supports = [b.node_id((left_x, y, z)) for y in ys for z in levels]
+    right_load_nodes = [b.node_id((right_x, y, z)) for y in (-760.0, 0.0, 760.0) for z in (760.0, 1_500.0, 2_850.0)]
+    return b, sections, left_supports, right_load_nodes
+
+
+def train_to_train_joint_vertical_study() -> Study:
+    b, sections, supports, load_nodes = _train_to_train_joint_model()
+    boundaries = [Boundary(supports[0], 1, 6)]
+    boundaries.extend(Boundary(node, 3, 3) for node in supports[1:])
+    loads = [Load(node, 3, -90_000.0 / len(load_nodes), "open-joint vertical passenger/gangway load") for node in load_nodes]
+    return Study(
+        slug="train-to-train-joint-vertical-screen",
+        title="Train-to-train open joint vertical load screen",
+        load_case="90 kN vertical load through open portal, threshold bridge, lower drawbar, and upper links",
+        nodes=b.nodes,
+        elements=b.elements,
+        sections=sections,
+        boundaries=boundaries,
+        loads=loads,
+        deflection_limit_mm=12.0,
+        plot_view="xz",
+        notes=[
+            "Screens the local common end-interface carrier rings and open gangway cassette.",
+            "The fixed-side ring is supported along its full moulded end-frame interface, matching the chassis/body pick-up concept.",
+            "Passenger threshold bridge and gangway loads are included as vertical distributed loads.",
+        ],
+    )
+
+
+def train_to_train_joint_lateral_sway_study() -> Study:
+    b, sections, supports, load_nodes = _train_to_train_joint_model()
+    boundaries = [Boundary(supports[0], 1, 6)]
+    boundaries.extend(Boundary(node, 2, 2) for node in supports[1:])
+    loads = [Load(node, 2, 55_000.0 / len(load_nodes), "open-joint lateral/racking load") for node in load_nodes]
+    return Study(
+        slug="train-to-train-joint-lateral-sway-screen",
+        title="Train-to-train open joint lateral/racking screen",
+        load_case="55 kN lateral load through open portal clamp frames, upper links, and threshold bridge",
+        nodes=b.nodes,
+        elements=b.elements,
+        sections=sections,
+        boundaries=boundaries,
+        loads=loads,
+        deflection_limit_mm=16.0,
+        plot_view="xy",
+        notes=[
+            "Complements the full-set vertical and longitudinal screens with a local racking case.",
+            "The fixed-side ring is supported laterally along its full moulded end-frame interface.",
+            "Supplier bellows fabric, rubber fatigue, clamps, and fastener details still require supplier proof evidence.",
+        ],
+    )
+
+
 def all_studies() -> list[Study]:
     return [
         chassis_bogie_study(),
@@ -541,6 +728,10 @@ def all_studies() -> list[Study]:
         bogie_brake_traction_study(),
         full_body_frame_study(),
         full_body_lateral_sway_study(),
+        full_set_longitudinal_buff_study(),
+        full_set_vertical_service_study(),
+        train_to_train_joint_vertical_study(),
+        train_to_train_joint_lateral_sway_study(),
     ]
 
 
@@ -845,6 +1036,12 @@ def _write_result_png(
     plt.close(fig)
 
 
+def _ccx_deck_stem(study: Study) -> str:
+    """Return the deck stem passed to ccx from inside the study folder."""
+
+    return study.slug
+
+
 def _run_ccx(study: Study, out_dir: Path, png_out_dir: Path | None = None) -> StudyResult:
     out_dir.mkdir(parents=True, exist_ok=True)
     inp = out_dir / f"{study.slug}.inp"
@@ -865,9 +1062,8 @@ def _run_ccx(study: Study, out_dir: Path, png_out_dir: Path | None = None) -> St
             solver_ok=False,
             issue="CalculiX ccx executable not found in FreeCAD runtime",
         )
-    base = out_dir / study.slug
     proc = subprocess.run(
-        [ccx, str(base)],
+        [ccx, _ccx_deck_stem(study)],
         cwd=out_dir,
         text=True,
         stdout=subprocess.PIPE,

@@ -1,0 +1,74 @@
+{
+  "acceptance": [
+    "pinout test",
+    "blanking cover ingress check",
+    "isolation label inspection",
+    "bend-radius sweep"
+  ],
+  "bom_line_ids": [
+    "B24"
+  ],
+  "definition_type": "product-item",
+  "id": "LM3-ART-P041",
+  "layer": "external-component",
+  "make_or_buy_basis": "Pre-terminated service transition and blanking hardware for open-end train-to-train gangway joints and protected unused end connectors.",
+  "material_spec": {
+    "evidence_required": [
+      "certificate of conformity",
+      "incoming inspection record",
+      "continuity test",
+      "EMC/IP evidence"
+    ],
+    "finish_or_protection": "halogen/fire-rated cable where required, IP sealing, bonding, and label protection",
+    "form_factor": "cabinet, harness, connector, sensor, bracket, antenna, and label kit",
+    "governing_standard": "supplier rail electronics specification plus project EMC, IP, and fire evidence",
+    "grade_or_part_class": "LV/data harness, cabinet, sensor, antenna, and trainline kit",
+    "material_family": "rail-rated electrical / control equipment",
+    "nominal_section": "connector, bend-radius, service-loop, and mounting envelope frozen by RFQ drawing",
+    "traceability": "serialised equipment CoC, firmware/config record, harness batch, and continuity record"
+  },
+  "maturity": "buildable-after-supplier-freeze",
+  "notes": "Optional for open mid-connection end configuration.",
+  "parent": "LM3-TTART-SA850",
+  "process_spec": {
+    "inspection_methods": [
+      "incoming visual inspection",
+      "envelope fit check",
+      "pinout test",
+      "blanking cover ingress check",
+      "isolation label inspection",
+      "bend-radius sweep",
+      "functional static test",
+      "emergency/recovery function check where applicable"
+    ],
+    "joining_methods": [
+      "bolted/torqued installation",
+      "sealed, gasketed, bonded, or clipped interface as supplier envelope requires"
+    ],
+    "primary_processes": [
+      "receive",
+      "quarantine",
+      "evidence review",
+      "incoming fit check",
+      "release to parent kit"
+    ],
+    "release_level": "SOURCE supplier-controlled process; OSR controls envelope and acceptance evidence",
+    "special_process_controls": [
+      "RFQ envelope freeze",
+      "supplier certificate/revision check",
+      "incoming quarantine until evidence accepted",
+      "safety interlock interface freeze",
+      "supplier lifecycle evidence review"
+    ],
+    "tooling_basis": "RFQ-LM3-ART-P041, CERT-LM3-ART-P041, GAUGE-LM3-ART-P041-ENVELOPE"
+  },
+  "quantity_per_trainset": 0,
+  "route": "SOURCE",
+  "source_refs": [
+    "articulation.md",
+    "interfaces.md",
+    "LM3-SYS-175"
+  ],
+  "title": "train-to-train jumper blanking, transition harness, isolation label, and dust-cover kit",
+  "unit": "joint kit"
+}

@@ -655,6 +655,119 @@ def inter_car_articulation() -> Compound:
     return c
 
 
+def train_to_train_articulation() -> Compound:
+    """Open-end articulation for marrying two train modules.
+
+    This uses the same lower pivot / upper-link / bellows architecture as
+    the inter-car joint, but its parent interface is the configurable train
+    end.  A given end position selects either this open mid connection or the
+    panoramic cowl/glass end, never both.
+    """
+
+    parts: list[Part | Compound] = []
+    half_len = ARTICULATION_MODULE_LENGTH_MM / 2.0
+    floor_z = ARTICULATION_FLOOR_HEIGHT_MM
+    passage_mid_z = floor_z + 1075.0
+
+    base = inter_car_articulation()
+    base.label = "Train-to-train open mid-connection articulation cassette"
+    parts.append(base)
+
+    for x_sign in (-1.0, 1.0):
+        x = x_sign * (half_len + 120.0)
+        parts.extend(
+            [
+                _box(
+                    92.0,
+                    2520.0,
+                    3020.0,
+                    (x, 0.0, passage_mid_z),
+                    "Common configurable train-end interface carrier ring",
+                    COLOR_METAL,
+                ),
+                _box(
+                    72.0,
+                    1980.0,
+                    2350.0,
+                    (x - x_sign * 76.0, 0.0, passage_mid_z),
+                    "Open mid-connection passenger portal and bellows clamp datum",
+                    COLOR_COUPLER,
+                ),
+                _box(
+                    420.0,
+                    ARTICULATION_PASSAGE_WIDTH_MM + 180.0,
+                    82.0,
+                    (x - x_sign * 245.0, 0.0, floor_z + 34.0),
+                    "Train-to-train threshold bridge and turntable transition",
+                    COLOR_ACCESS,
+                ),
+                _box(
+                    620.0,
+                    92.0,
+                    70.0,
+                    (x - x_sign * 270.0, -920.0, floor_z - 50.0),
+                    "Open connection drain tray and water trap",
+                    COLOR_METAL,
+                ),
+                _box(
+                    620.0,
+                    92.0,
+                    70.0,
+                    (x - x_sign * 270.0, 920.0, floor_z - 50.0),
+                    "Open connection drain tray and water trap",
+                    COLOR_METAL,
+                ),
+                _box(
+                    54.0,
+                    760.0,
+                    220.0,
+                    (x - x_sign * 310.0, 1060.0, floor_z + 900.0),
+                    "Train-to-train HV/LV service-jumper transition and blanking panel",
+                    COLOR_HV,
+                ),
+                _box(
+                    54.0,
+                    760.0,
+                    220.0,
+                    (x - x_sign * 310.0, -1060.0, floor_z + 900.0),
+                    "Train-to-train coolant/HVAC service-jumper transition and blanking panel",
+                    COLOR_HVAC,
+                ),
+            ]
+        )
+        for y in (-1050.0, -525.0, 525.0, 1050.0):
+            parts.append(
+                _cyl(
+                    22.0,
+                    24.0,
+                    (x - x_sign * 62.0, y, passage_mid_z + 1190.0),
+                    "End-option bolt-grid datum shared by panoramic and open-mid ends",
+                    COLOR_METAL,
+                )
+            )
+            parts.append(
+                _cyl(
+                    22.0,
+                    24.0,
+                    (x - x_sign * 62.0, y, passage_mid_z - 1190.0),
+                    "End-option bolt-grid datum shared by panoramic and open-mid ends",
+                    COLOR_METAL,
+                )
+            )
+
+    parts.append(
+        _box(
+            ARTICULATION_MODULE_LENGTH_MM + 380.0,
+            2620.0,
+            3060.0,
+            (0.0, 0.0, passage_mid_z),
+            "Train-to-train articulation motion envelope across two configurable ends",
+            COLOR_ENVELOPE,
+        )
+    )
+    return Compound(label="Train-to-train configurable open-end articulation", children=parts)
+
+
 def door_system_pair(x_offset: float = 0.0) -> Compound:
     """Door cassette pair, sill gap filler, lock, and external release."""
 
@@ -1500,5 +1613,6 @@ __all__ = [
     "system_layout",
     "tobs_sensor_pack",
     "traction_power_rack",
+    "train_to_train_articulation",
     "trainset_systems",
 ]

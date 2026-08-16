@@ -304,6 +304,43 @@ def _product_items(candidate: DesignCandidate) -> tuple[ProductItem, ...]:
             ("A/B interchange check", "glass carrier land survey", "anti-climber datum"),
         ),
         ProductItem(
+            "LM3-END-P060",
+            "common reversible end-interface carrier ring, option bolt grid, and sealing datum kit",
+            Layer.FABRICATED_PART,
+            Route.MAKE,
+            2,
+            "end position",
+            "LM3-EIF-SA650",
+            ("articulation.md", "end-cowl.md", "interfaces.md", "LM3-END-650"),
+            "Common structural and sealing datum that lets the same train end accept either the panoramic closed nose or the open mid-train connection.",
+            ("option bolt-grid survey", "seal datum continuity", "A/B interchange check", "end-option fit gauge"),
+        ),
+        ProductItem(
+            "LM3-END-P061",
+            "panoramic-end option shim, cowl/glass carrier, and sensor datum closeout kit",
+            Layer.FABRICATED_PART,
+            Route.MAKE,
+            2,
+            "option kit",
+            "LM3-EIF-SA650",
+            ("sensor_cowl.py", "end-cowl.md", "LM3-END-650"),
+            "Default end-option kit that closes the common interface with the panoramic glass cowl, T-OBS sensor datum, coupler access, and weather seals.",
+            ("panoramic option fit gauge", "glass/cowl datum transfer", "sensor datum check", "water-ingress pre-test"),
+        ),
+        ProductItem(
+            "LM3-END-P062",
+            "mid open-connection option portal trim, bellows clamp, threshold bridge, and drain kit",
+            Layer.FABRICATED_PART,
+            Route.MAKE,
+            0,
+            "option kit",
+            "LM3-EIF-SA650",
+            ("articulation.md", "assembly-plan.md", "LM3-END-650-MID"),
+            "Optional end treatment for marrying two train modules into a walk-through consist; it replaces the panoramic cowl/glass with an open passenger portal and gangway clamp datum.",
+            ("open-portal gauge", "bellows clamp fit", "threshold/turntable level check", "drain-path water test"),
+            notes="Quantity is zero in the reference three-car trainset. Select two kits for a train module whose ends are configured as mid open connections.",
+        ),
+        ProductItem(
             "LM3-BDY-P100",
             "door portal reinforcement, threshold beam, and cassette shim kit",
             Layer.FABRICATED_PART,
@@ -1092,6 +1129,34 @@ def _product_items(candidate: DesignCandidate) -> tuple[ProductItem, ...]:
             ("bend-radius sweep", "trainline continuity", "coolant pressure test", "water-drain test"),
             Maturity.BUILDABLE_AFTER_SUPPLIER_FREEZE,
         ),
+        ProductItem(
+            "LM3-ART-P040",
+            "train-to-train open-end articulation, gangway, drawbar, turntable, and service-jumper cassette",
+            Layer.EXTERNAL_COMPONENT,
+            Route.BID,
+            0,
+            "joint kit",
+            "LM3-TTART-SA850",
+            ("systems.py", "articulation.md", "interfaces.md", "LM3-SYS-175"),
+            "Supplier open-end gangway/articulation cassette for joining two otherwise complete train modules through their common end-interface frames.",
+            ("train-to-train motion-envelope proof", "walk-through gangway fire evidence", "trainline continuity", "water ingress/drain test"),
+            Maturity.BUILDABLE_AFTER_SUPPLIER_FREEZE,
+            notes="Optional for modular consists. The reference LM3-3car uses closed panoramic ends and therefore carries zero of this kit.",
+        ),
+        ProductItem(
+            "LM3-ART-P041",
+            "train-to-train jumper blanking, transition harness, isolation label, and dust-cover kit",
+            Layer.EXTERNAL_COMPONENT,
+            Route.SOURCE,
+            0,
+            "joint kit",
+            "LM3-TTART-SA850",
+            ("articulation.md", "interfaces.md", "LM3-SYS-175"),
+            "Pre-terminated service transition and blanking hardware for open-end train-to-train gangway joints and protected unused end connectors.",
+            ("pinout test", "blanking cover ingress check", "isolation label inspection", "bend-radius sweep"),
+            Maturity.BUILDABLE_AFTER_SUPPLIER_FREEZE,
+            notes="Optional for open mid-connection end configuration.",
+        ),
     )
 
 
@@ -1255,6 +1320,21 @@ def _assemblies(family: ConsistFamily) -> tuple[AssemblyNode, ...]:
             ("end-cowl.md", "sensor_cowl.py", "LM3-BDY-155"),
         ),
         AssemblyNode(
+            "LM3-EIF-SA650",
+            "common configurable train-end interface set",
+            Layer.SUBASSEMBLY,
+            2,
+            ("LM3-END-P060", "LM3-END-P061", "LM3-END-P062"),
+            "end-interface fixture / final assembly cell",
+            (
+                "common bolt-grid survey",
+                "selected end-option fit gauge",
+                "seal and drain continuity",
+                "panoramic-or-open-mid configuration record",
+            ),
+            ("articulation.md", "end-cowl.md", "interfaces.md", "LM3-END-650"),
+        ),
+        AssemblyNode(
             "LM3-END-SA700",
             "train-end cowl, coupler, crash, and sensor assembly",
             Layer.ASSEMBLY,
@@ -1273,6 +1353,22 @@ def _assemblies(family: ConsistFamily) -> tuple[AssemblyNode, ...]:
             "composite / final assembly and commissioning cells",
             ("A/B end interchange", "coupler datum survey", "sensor calibration", "recovery interface check"),
             ("sensor_cowl.py", "systems.py", "LM3-SYS-160", "LM3-OBS-330"),
+        ),
+        AssemblyNode(
+            "LM3-TTART-SA850",
+            "optional train-to-train open mid-connection articulation",
+            Layer.ASSEMBLY,
+            0,
+            ("LM3-EIF-SA650", "LM3-ART-P040", "LM3-ART-P041"),
+            "final assembly and commissioning cell",
+            (
+                "open-end option configuration record",
+                "train-to-train motion-envelope proof",
+                "walk-through gangway continuity",
+                "water ingress/drain test",
+            ),
+            ("articulation.md", "systems.py", "LM3-SYS-175"),
+            Maturity.BUILDABLE_AFTER_SUPPLIER_FREEZE,
         ),
         AssemblyNode(
             "LM3-ART-SA800",
@@ -1324,10 +1420,33 @@ def _assemblies(family: ConsistFamily) -> tuple[AssemblyNode, ...]:
             "complete light-metro trainset",
             Layer.TRAINSET,
             1,
-            ("LM3-CAR-A900", "LM3-END-SA700", "LM3-ART-SA800", "LM3-SYS-SA900"),
+            ("LM3-CAR-A900", "LM3-EIF-SA650", "LM3-END-SA700", "LM3-ART-SA800", "LM3-SYS-SA900"),
             "final assembly and commissioning cell",
             ("trainset weigh", "static brake/door/HVAC/HV tests", "FEM screening accepted", "dynamic-test release"),
             ("trainset.py", "freecad_assembly_review.py", "freecad_fea.py", "drawing-register.md"),
+        ),
+        AssemblyNode(
+            "LM3-FULLSET-A300",
+            "three LM3 train modules joined as one walk-through full set",
+            Layer.TRAINSET,
+            1,
+            ("LM3-TRAINSET-A000", "LM3-TTART-SA850", "LM3-SYS-SA900"),
+            "long final assembly track / depot commissioning road",
+            (
+                "three-train alignment and end-option configuration record",
+                "two train-to-train open gangway joint motion sweeps",
+                "full-set trainline continuity and safety-loop proof",
+                "long-consist FEM screening accepted",
+                "static and dynamic release for full-set operation",
+            ),
+            (
+                "train-end-interface.md",
+                "full-set-3train-assembly.md",
+                "freecad_trainset.py",
+                "freecad_fea.py",
+                "LM3-SYS-175",
+            ),
+            Maturity.BUILDABLE_AFTER_SUPPLIER_FREEZE,
         ),
     )
 
@@ -1492,6 +1611,39 @@ def _item_material_spec(item: ProductItem) -> MaterialSpec:
             "passivated stainless hardware, isolated mixed-metal interfaces, UV/ozone-resistant EPDM",
             "hardware heat/batch, seal batch, proof-lot record, and car module map",
             evidence + ("clip proof-load lot", "seal certificate", "water-ingress record"),
+        )
+    if item.id == "LM3-END-P060":
+        return MaterialSpec(
+            "common structural end-interface steel and seal datum kit",
+            "S355 machined carrier ring, stainless option bolt-grid inserts, drain lands, and EPDM sealing datums",
+            "released LM3-END-650 interface-control drawing plus EN 15085 weld, corrosion, and ingress evidence",
+            "jig-welded/machined end carrier ring with common panoramic/open-mid bolt pattern and replaceable seal lands",
+            "one common end position envelope accepting either LM3-END-SA700 or LM3-TTART-SA850 without primary-frame rework",
+            "blast/prime/topcoat on steel, passivated stainless inserts, sealed drain edges, and isolated mixed-metal joints",
+            "steel heat, weld consumable, insert batch, machining survey, seal batch, and configuration record",
+            evidence + ("option bolt-grid survey", "seal datum continuity", "configuration fit gauge"),
+        )
+    if item.id == "LM3-END-P061":
+        return MaterialSpec(
+            "panoramic end-option interface closeout kit",
+            "machined shim/closeout plates, cowl/glass carrier transfer brackets, sensor datum plates, and EPDM seal stock",
+            "released LM3-END-650 panoramic option drawing plus glazing, sensor, corrosion, and water-ingress evidence",
+            "kitted interface hardware between common carrier ring, fiberglass cowl, panoramic glass, lamps, and T-OBS sensors",
+            "selected for the two outer ends of the reference three-car trainset",
+            "painted/passivated hardware, isolated stainless inserts, replaceable EPDM seals, and protected glass/sensor datums",
+            "hardware heat/batch, seal batch, shim map, datum survey, and selected-option record",
+            evidence + ("panoramic option fit gauge", "glass/cowl datum transfer", "sensor datum check"),
+        )
+    if item.id == "LM3-END-P062":
+        return MaterialSpec(
+            "open mid-connection end-option interface kit",
+            "machined bellows clamp frame, threshold bridge, turntable edge trim, drain tray, and fire-rated passenger portal closeout",
+            "released LM3-END-650-MID option drawing plus gangway, fire/smoke, slip, corrosion, and ingress evidence",
+            "kitted open portal hardware replacing the panoramic cowl/glass at a train-to-train walk-through joint",
+            "selected only for train modules configured as mid open connections",
+            "painted/passivated hardware, replaceable rubber seals, anti-slip threshold finish, and cleanable passenger trim",
+            "hardware heat/batch, trim/seal batch, threshold survey, drain test, and selected-option record",
+            evidence + ("open-portal gauge", "bellows clamp fit", "threshold/turntable level check"),
         )
     if item.id == "LM3-EXT-P080":
         return MaterialSpec(
@@ -1803,7 +1955,7 @@ def _item_process_spec(item: ProductItem) -> ProcessSpec:
     if any(word in text for word in ("coolant", "hvac", "drain", "washer", "suppression", "thermal")):
         controls.extend(["fluid compatibility check", "hose/pipe routing release"])
         inspections.extend(["pressure/leak test", "drain-flow test where applicable"])
-    if any(word in text for word in ("door", "brake", "coupler", "articulation", "gangway")):
+    if any(word in text for word in ("door", "brake", "coupler", "articulation", "gangway", "bellows", "train-to-train")):
         controls.extend(["safety interlock interface freeze", "supplier lifecycle evidence review"])
         inspections.extend(["functional static test", "emergency/recovery function check where applicable"])
     return ProcessSpec(
@@ -1909,6 +2061,10 @@ def _placement_zone(child_id: str, title: str) -> str:
         return "battery/traction/HVAC safety loop spanning HV bay, roof equipment, and event-recorder input"
     if child_id in {"LM3-BDY-P130", "LM3-BDY-P140"}:
         return "one-metre body-module clip rail, dry seal, and anti-lift datum grid"
+    if "end-interface" in text or "end interface" in text:
+        return "common configurable train-end interface, option bolt grid, seal/drain datums, and selected-end record"
+    if "open-connection" in text or "open mid" in text or "train-to-train" in text:
+        return "configurable end-interface, open gangway, train-to-train articulation, and service-jumper envelope"
     if "door" in text or "threshold" in text:
         return "side door aperture and low-floor threshold datum"
     if "window" in text or "glazing" in text or "glass" in text:
@@ -1939,7 +2095,7 @@ def _interface_classes(child_id: str, title: str) -> list[str]:
         classes.append("low-voltage/data")
     if any(word in text for word in ("hvac", "coolant", "condensate", "drain", "washer", "thermal", "suppression", "mist")):
         classes.append("fluid/thermal")
-    if any(word in text for word in ("door", "coupler", "brake", "articulation", "gangway")):
+    if any(word in text for word in ("door", "coupler", "brake", "articulation", "gangway", "bellows", "open-connection")):
         classes.append("safety interlock")
     return classes
 
@@ -1974,7 +2130,17 @@ def _join_classes(child_id: str, title: str, interface_classes: list[str]) -> li
         classes.append("adhesive-bonded-panel")
     if any(
         word in text
-        for word in ("hatch", "skirt", "service lid", "service cover", "cowl", "door cassette", "hvac")
+        for word in (
+            "hatch",
+            "skirt",
+            "service lid",
+            "service cover",
+            "cowl",
+            "door cassette",
+            "hvac",
+            "bellows",
+            "open-connection",
+        )
     ):
         classes.append("gasketed-removable-panel")
     if dry_clip_body:
@@ -3357,6 +3523,399 @@ def render_critical_path(design: BuildableTrainsetDesign) -> str:
     return "\n".join(lines)
 
 
+def train_end_interface_payload(design: BuildableTrainsetDesign) -> dict[str, object]:
+    """Return the configurable end-interface design basis.
+
+    The reference LM3 trainset still selects panoramic glass at both outer
+    ends.  This payload records the alternate open mid-connection so the
+    same train module can be configured for a longer walk-through consist
+    without inventing a second carbody design.
+    """
+
+    return {
+        "document_revision": "A-DRAFT",
+        "release_status": "interface-design-basis",
+        "candidate": design.candidate.id,
+        "principle": (
+            "One train/car end structure is carried as a common configurable "
+            "interface. Each end position is dressed with exactly one option: "
+            "the closed panoramic glass end or the open mid-train connection."
+        ),
+        "common_interface": {
+            "assembly_id": "LM3-EIF-SA650",
+            "owned_item_ids": ["LM3-END-P060", "LM3-END-P061", "LM3-END-P062"],
+            "interfaces": [
+                "common S355 end carrier ring and option bolt grid",
+                "replaceable EPDM sealing datum and drain lands",
+                "shared underframe/coupler/articulation load-path datums",
+                "protected HV/LV/trainline/coolant/HVAC service routes",
+                "configuration record that locks each end as panoramic or open-mid",
+            ],
+            "manufacturing_route": [
+                "jig-weld and machine the common end carrier ring",
+                "survey the common bolt grid and seal lands",
+                "fit either panoramic closeout hardware or open-portal clamp/threshold hardware",
+                "record selected end option before final trainset integration",
+            ],
+        },
+        "options": [
+            {
+                "id": "panoramic-glass-front-end",
+                "assembly_id": "LM3-END-SA700",
+                "reference_quantity": 2,
+                "use_case": "outer A and C ends of the reference three-car trainset",
+                "uses": [
+                    "LM3-END-P061 panoramic option shim/closeout kit",
+                    "LM3-CWL-SA710 multi-part fiberglass cowl",
+                    "LM3-EXT-P030 heated panoramic glass",
+                    "LM3-END-P010 automatic coupler/crash absorber",
+                    "LM3-END-P020 T-OBS sensor pack",
+                ],
+                "omits": [
+                    "open passenger portal",
+                    "train-to-train bellows and turntable",
+                    "through-passenger threshold bridge",
+                ],
+                "acceptance": [
+                    "panoramic option fit gauge",
+                    "glass/cowl datum transfer",
+                    "sensor calibration",
+                    "coupler datum survey",
+                    "water-ingress pre-test",
+                ],
+            },
+            {
+                "id": "mid-open-train-to-train-connection",
+                "assembly_id": "LM3-TTART-SA850",
+                "reference_quantity": 0,
+                "use_case": (
+                    "optional end treatment when two complete train modules are "
+                    "semi-permanently married into one walk-through consist"
+                ),
+                "uses": [
+                    "LM3-END-P062 open-portal clamp/threshold/drain kit",
+                    "LM3-ART-P040 train-to-train articulation and gangway cassette",
+                    "LM3-ART-P041 service-jumper blanking and transition kit",
+                ],
+                "omits": [
+                    "panoramic glass",
+                    "fiberglass nose cowl",
+                    "nose-mounted T-OBS sensor pack at the joined end",
+                ],
+                "acceptance": [
+                    "open-portal gauge",
+                    "bellows clamp fit",
+                    "threshold/turntable level check",
+                    "train-to-train motion-envelope proof",
+                    "trainline continuity",
+                    "water ingress/drain test",
+                ],
+            },
+        ],
+        "selection_rule": (
+            "Each end position must select one option only. A panoramic end may "
+            "not carry the open-portal threshold hardware, and an open-mid end "
+            "may not carry the panoramic cowl/glass/sensor stack."
+        ),
+        "assembly_rule": (
+            "Keep the common end-interface survey before option fit-out. Install "
+            "panoramic hardware during outer-end assembly, or install the open "
+            "gangway cassette only after both train modules are on the final "
+            "assembly track and aligned at the train-to-train joint."
+        ),
+    }
+
+
+def render_train_end_interface(design: BuildableTrainsetDesign) -> str:
+    payload = train_end_interface_payload(design)
+    common = dict(payload["common_interface"])  # type: ignore[arg-type]
+    options = list(payload["options"])  # type: ignore[index]
+    lines = [
+        "# LM3 configurable train-end interface",
+        "",
+        "Generated by `scripts/buildable-trainset.sh`. This design note records",
+        "the single train end structure that can be dressed as either the normal",
+        "panoramic glass front/end or a mid-train open connection for joining two",
+        "train modules into a longer walk-through consist.",
+        "",
+        f"- Candidate: `{payload['candidate']}`",
+        f"- Document revision: `{payload['document_revision']}`",
+        f"- Release status: `{payload['release_status']}`",
+        f"- Principle: {payload['principle']}",
+        "",
+        "## Common Interface",
+        "",
+        f"- Assembly: `{common['assembly_id']}`",
+        f"- Owned items: {', '.join(f'`{item_id}`' for item_id in common['owned_item_ids'])}",
+        "",
+        "Interfaces:",
+        "",
+    ]
+    lines.extend(f"- {item}" for item in common["interfaces"])  # type: ignore[index]
+    lines.extend(["", "Manufacturing route:", ""])
+    lines.extend(f"- {item}" for item in common["manufacturing_route"])  # type: ignore[index]
+    lines.extend(
+        [
+            "",
+            "## Selectable End Options",
+            "",
+            "| Option | Assembly | Ref qty | Use case | Uses | Omits | Acceptance |",
+            "|---|---|---:|---|---|---|---|",
+        ]
+    )
+    for option in options:
+        opt = dict(option)
+        uses = "<br>".join(opt["uses"])  # type: ignore[index]
+        omits = "<br>".join(opt["omits"])  # type: ignore[index]
+        acceptance = "<br>".join(opt["acceptance"])  # type: ignore[index]
+        lines.append(
+            f"| `{opt['id']}` | `{opt['assembly_id']}` | {opt['reference_quantity']} | "
+            f"{opt['use_case']} | {uses} | {omits} | {acceptance} |"
+        )
+    lines.extend(
+        [
+            "",
+            "## Selection And Assembly Rules",
+            "",
+            f"- {payload['selection_rule']}",
+            f"- {payload['assembly_rule']}",
+            "",
+        ]
+    )
+    return "\n".join(lines)
+
+
+def full_set_3train_payload(design: BuildableTrainsetDesign) -> dict[str, object]:
+    """Return the worked example for three LM3 train modules as one set."""
+
+    module_length_m = 3 * PROMOTED_LIGHT_METRO_CAR_LENGTH_M
+    full_set_length_m = 3 * module_length_m
+    planning_tare_t = 3 * PROMOTED_LIGHT_METRO_TRAINSET_MASS_KG / 1000.0
+    modeled_subtotal_t = 3 * PROMOTED_OPTIMIZER_MASS_SUBTOTAL_KG / 1000.0
+    reserve_t = 3 * PROMOTED_ENGINEERING_MASS_RESERVE_KG / 1000.0
+    return {
+        "document_revision": "A-DRAFT",
+        "release_status": "worked-example-not-release-baseline",
+        "candidate": design.candidate.id,
+        "assembly_id": "LM3-FULLSET-A300",
+        "title": "three LM3 train modules joined as one walk-through full set",
+        "configuration": {
+            "train_modules": 3,
+            "cars_total": 9,
+            "outer_panoramic_ends": 2,
+            "train_to_train_open_joints": 2,
+            "inter_car_joints_inside_modules": 6,
+            "module_length_m": round(module_length_m, 1),
+            "full_set_length_m": round(full_set_length_m, 1),
+            "controlled_planning_tare_t": round(planning_tare_t, 3),
+            "modeled_subtotal_t": round(modeled_subtotal_t, 3),
+            "engineering_reserve_t": round(reserve_t, 3),
+        },
+        "freecad_designs": [
+            {
+                "artifact": "mechanical-py/catalog/freecad/trainset-light-metro-3car-fullset-3train.FCStd",
+                "source": "mechanical-py/src/osr_mech/freecad_trainset.py",
+                "command": "scripts/freecad_trainset.sh --family light-metro-3car-fullset-3train",
+                "purpose": "Full 9-car / 3-train review assembly with two open train-to-train joints.",
+            },
+            {
+                "artifact": "mechanical-py/catalog/freecad/fea-screening-models.FCStd",
+                "source": "mechanical-py/src/osr_mech/freecad_fea.py",
+                "command": "scripts/freecad_fea.sh",
+                "purpose": "Beam-model FEM visual document including long-consist and train-to-train joint screening cases.",
+            },
+        ],
+        "principal_parts_and_subassemblies": [
+            ("LM3-TRAINSET-A000", 3, "three complete LM3 train modules"),
+            ("LM3-EIF-SA650", 6, "common configurable end interfaces, two per module"),
+            ("LM3-END-SA700", 2, "panoramic glass outer-end assemblies at the full-set ends only"),
+            ("LM3-TTART-SA850", 2, "open train-to-train articulation/gangway assemblies between modules"),
+            ("LM3-ART-SA800", 6, "normal inter-car articulation/gangway assemblies inside the three modules"),
+            ("LM3-CAR-A900", 9, "complete repeated car modules"),
+            ("LM3-BOG-SA610", 9, "powered bogie assemblies"),
+            ("LM3-BOG-SA620", 9, "trailer bogie assemblies"),
+            ("LM3-SYS-SA900", 3, "per-module control/electronics packs enumerated into one consist"),
+        ],
+        "assembly_instructions": [
+            {
+                "step": 1,
+                "title": "release the three module build packs",
+                "work_center": "production control",
+                "instructions": [
+                    "Release three signed LM3-TRAINSET-A000 build packs with matching software/configuration baselines.",
+                    "Freeze which two end positions become outer panoramic ends and which four become open mid-connection ends.",
+                    "Issue serialised LM3-EIF-SA650 option records for all six module ends before any cowl or open-portal hardware is fitted.",
+                ],
+                "qa": ["configuration baseline", "module serial list", "selected end-option record"],
+            },
+            {
+                "step": 2,
+                "title": "complete the three individual train modules",
+                "work_center": "standard LM3 final assembly track",
+                "instructions": [
+                    "Build each three-car module through the normal LM3 carbody, bogie, interior, HV, roof, door, and static-test sequence.",
+                    "Fit panoramic LM3-END-SA700 only at the two full-set outer ends.",
+                    "Leave the four future mid-connection ends as surveyed LM3-EIF-SA650 open-option interfaces with protected service connectors and temporary weather covers.",
+                ],
+                "qa": ["module static release", "outer-end water test", "open-interface preservation record"],
+            },
+            {
+                "step": 3,
+                "title": "align modules on the long commissioning road",
+                "work_center": "long final assembly track / depot commissioning road",
+                "instructions": [
+                    "Place the three modules on a level road with train centrelines and end-interface carrier rings aligned.",
+                    "Set temporary supports or ride-height correction only at the released bogie/air-spring datum points.",
+                    "Survey both train-to-train joint gaps, yaw angle, floor height, and lateral offset before opening the protected service covers.",
+                ],
+                "qa": ["joint gap survey", "floor/threshold level report", "centreline alignment record"],
+            },
+            {
+                "step": 4,
+                "title": "install two LM3-TTART-SA850 open connections",
+                "work_center": "train-to-train articulation cell",
+                "instructions": [
+                    "Install the open portal clamp frames, lower drawbar/spherical pivot, anti-lift keepers, upper links, bellows, and turntable threshold bridges.",
+                    "Route HV, LV/data, safety-loop, coolant, HVAC sleeve, drain, and diagnostic jumpers through the released train-to-train service cassette.",
+                    "Fit blanking/dust covers to unused outer-end transition connectors and record connector serials.",
+                ],
+                "qa": ["motion sweep", "bend-radius sweep", "trainline continuity", "water ingress/drain test"],
+            },
+            {
+                "step": 5,
+                "title": "close passenger and interior continuity",
+                "work_center": "interior fit-out cell",
+                "instructions": [
+                    "Install the walk-through floor transition trims, bellows interior side walls, ceiling panels, lighting continuation, signage, CCTV coverage, and emergency communication labels.",
+                    "Check PRM threshold transitions and trip hazards through both train-to-train joints.",
+                    "Run passenger information, lighting, CCTV/intercom, and emergency egress checks across all nine cars.",
+                ],
+                "qa": ["PRM/egress gauge", "lighting/PIS/CCTV enumeration", "rattle and edge-radius inspection"],
+            },
+            {
+                "step": 6,
+                "title": "commission the 9-car full set",
+                "work_center": "static test cell and dynamic test track",
+                "instructions": [
+                    "Enumerate all three LM3-SYS-SA900 control packs as one full-set consist with clear leading/trailing-end roles.",
+                    "Run insulation, HVIL, brake, door, HVAC, charging, emergency loop, event-recorder, and rescue-mode tests end to end.",
+                    "Release dynamic running only after the long-consist FEM screening cases, trainline tests, and both open-joint motion sweeps are signed.",
+                ],
+                "qa": ["full-set static test record", "FEM screening accepted", "dynamic-test release"],
+            },
+        ],
+        "fem_screening_matrix": [
+            {
+                "slug": "full-set-longitudinal-buff-screen",
+                "scope": "148.5 m full set under longitudinal buff/draft load through the three train modules and two open joints",
+            },
+            {
+                "slug": "full-set-vertical-service-screen",
+                "scope": "nine-car supported vertical service gravity screen with all module bogie supports active",
+            },
+            {
+                "slug": "train-to-train-joint-vertical-screen",
+                "scope": "local open-end carrier rings, threshold bridge, lower joint, and upper-link load path under vertical passenger/joint load",
+            },
+            {
+                "slug": "train-to-train-joint-lateral-sway-screen",
+                "scope": "local open-end carrier rings and gangway cassette under lateral/racking load",
+            },
+        ],
+        "release_caveats": [
+            "This is a worked example and does not change the reference three-car trainset baseline.",
+            "The 148.5 m full set needs route/platform, evacuation, traction-power, braking-distance, depot-road, and regulation checks before use.",
+            "The FEM cases are gross beam-model screens; detailed shell/solid meshes, weld fatigue, supplier gangway certification, crash, derailment, modal, and thermal cases remain release work.",
+        ],
+    }
+
+
+def render_full_set_3train_assembly(design: BuildableTrainsetDesign) -> str:
+    payload = full_set_3train_payload(design)
+    cfg = dict(payload["configuration"])  # type: ignore[arg-type]
+    lines = [
+        "# LM3 Full-Set 3-Train Assembly Example",
+        "",
+        "Generated by `scripts/buildable-trainset.sh`. This is a worked",
+        "example for assembling three complete LM3 three-car train modules",
+        "into one nine-car walk-through full set using the configurable",
+        "open train-to-train articulation ends.",
+        "",
+        f"- Assembly ID: `{payload['assembly_id']}`",
+        f"- Candidate: `{payload['candidate']}`",
+        f"- Document revision: `{payload['document_revision']}`",
+        f"- Release status: `{payload['release_status']}`",
+        "",
+        "## Configuration",
+        "",
+        "| Parameter | Value |",
+        "|---|---:|",
+    ]
+    for key, value in cfg.items():
+        lines.append(f"| `{key}` | {value} |")
+    lines.extend(
+        [
+            "",
+            "## FreeCAD Design Artifacts",
+            "",
+            "| Artifact | Source | Command | Purpose |",
+            "|---|---|---|---|",
+        ]
+    )
+    for item in payload["freecad_designs"]:  # type: ignore[index]
+        row = dict(item)
+        lines.append(
+            f"| `{row['artifact']}` | `{row['source']}` | `{row['command']}` | {row['purpose']} |"
+        )
+    lines.extend(
+        [
+            "",
+            "## Principal Parts And Subassemblies",
+            "",
+            "| ID | Qty for full set | Role |",
+            "|---|---:|---|",
+        ]
+    )
+    for item_id, qty, role in payload["principal_parts_and_subassemblies"]:  # type: ignore[index]
+        lines.append(f"| `{item_id}` | {qty} | {role} |")
+    lines.extend(
+        [
+            "",
+            "## Assembly Instructions",
+            "",
+        ]
+    )
+    for step in payload["assembly_instructions"]:  # type: ignore[index]
+        row = dict(step)
+        lines.extend(
+            [
+                f"### {row['step']}. {row['title']}",
+                "",
+                f"- Work center: {row['work_center']}",
+                "- Instructions:",
+            ]
+        )
+        lines.extend(f"  - {instruction}" for instruction in row["instructions"])  # type: ignore[index]
+        lines.append("- QA / hold points:")
+        lines.extend(f"  - {gate}" for gate in row["qa"])  # type: ignore[index]
+        lines.append("")
+    lines.extend(
+        [
+            "## FEM Screening Matrix",
+            "",
+            "| Slug | Scope |",
+            "|---|---|",
+        ]
+    )
+    for study in payload["fem_screening_matrix"]:  # type: ignore[index]
+        row = dict(study)
+        lines.append(f"| `{row['slug']}` | {row['scope']} |")
+    lines.extend(["", "## Release Caveats", ""])
+    lines.extend(f"- {caveat}" for caveat in payload["release_caveats"])  # type: ignore[index]
+    lines.append("")
+    return "\n".join(lines)
+
+
 def write_outputs(
     design: BuildableTrainsetDesign,
     out_dir: Path,
@@ -3372,6 +3931,10 @@ def write_outputs(
     joints_md = out_dir / "joint-control-schedule.md"
     critical_json = out_dir / "critical-path.json"
     critical_md = out_dir / "critical-path.md"
+    end_interface_json = out_dir / "train-end-interface.json"
+    end_interface_md = out_dir / "train-end-interface.md"
+    full_set_json = out_dir / "full-set-3train-assembly.json"
+    full_set_md = out_dir / "full-set-3train-assembly.md"
     manifest_json.write_text(
         json.dumps(asdict(design), default=_serialise, indent=2, sort_keys=True) + "\n",
         encoding="utf-8",
@@ -3398,6 +3961,16 @@ def write_outputs(
     joints_md.write_text(render_joint_control_schedule(design), encoding="utf-8")
     critical_json.write_text(json.dumps(critical_path_payload(design), indent=2, sort_keys=True) + "\n", encoding="utf-8")
     critical_md.write_text(render_critical_path(design), encoding="utf-8")
+    end_interface_json.write_text(
+        json.dumps(train_end_interface_payload(design), indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
+    end_interface_md.write_text(render_train_end_interface(design), encoding="utf-8")
+    full_set_json.write_text(
+        json.dumps(full_set_3train_payload(design), indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
+    full_set_md.write_text(render_full_set_3train_assembly(design), encoding="utf-8")
     definition_pack = write_definition_pack(design, out_dir / "definitions")
     traveler_pack = write_shop_traveler_pack(design, out_dir / "travelers")
     return manifest_json, manifest_md, review_md, definition_pack, traveler_pack

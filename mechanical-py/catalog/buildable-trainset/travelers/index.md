@@ -8,7 +8,7 @@ unsigned until a real build cell uses and approves them.
 
 - Family: `light-metro-3car`
 - Candidate: `light-metro-3car__16p5m__reference-body__reference-bogie__motor-350kw-hm47-class__battery-225kwh-lfp-800v__hvac-24kw-direct-hv-dc__pv12`
-- Traveler templates: `87`
+- Traveler templates: `95`
 
 | ID | Type | Route/layer | Traveler |
 |---|---|---|---|
@@ -21,6 +21,9 @@ unsigned until a real build cell uses and approves them.
 | `LM3-BDY-P070` | product item | `MAKE` | [md](parts/LM3-BDY-P070.md) |
 | `LM3-BDY-P080` | product item | `MAKE` | [md](parts/LM3-BDY-P080.md) |
 | `LM3-BDY-P090` | product item | `MAKE` | [md](parts/LM3-BDY-P090.md) |
+| `LM3-END-P060` | product item | `MAKE` | [md](parts/LM3-END-P060.md) |
+| `LM3-END-P061` | product item | `MAKE` | [md](parts/LM3-END-P061.md) |
+| `LM3-END-P062` | product item | `MAKE` | [md](parts/LM3-END-P062.md) |
 | `LM3-BDY-P100` | product item | `MAKE` | [md](parts/LM3-BDY-P100.md) |
 | `LM3-BDY-P110` | product item | `MAKE` | [md](parts/LM3-BDY-P110.md) |
 | `LM3-BDY-P120` | product item | `MAKE` | [md](parts/LM3-BDY-P120.md) |
@@ -83,6 +86,8 @@ unsigned until a real build cell uses and approves them.
 | `LM3-END-P040` | product item | `BID` | [md](parts/LM3-END-P040.md) |
 | `LM3-END-P050` | product item | `SOURCE` | [md](parts/LM3-END-P050.md) |
 | `LM3-ART-P030` | product item | `BID` | [md](parts/LM3-ART-P030.md) |
+| `LM3-ART-P040` | product item | `BID` | [md](parts/LM3-ART-P040.md) |
+| `LM3-ART-P041` | product item | `SOURCE` | [md](parts/LM3-ART-P041.md) |
 | `LM3-BDY-SA110` | assembly node | `subassembly` | [md](subassemblies/LM3-BDY-SA110.md) |
 | `LM3-BDY-SA120` | assembly node | `subassembly` | [md](subassemblies/LM3-BDY-SA120.md) |
 | `LM3-SHELL-A200` | assembly node | `assembly` | [md](assemblies/LM3-SHELL-A200.md) |
@@ -94,8 +99,11 @@ unsigned until a real build cell uses and approves them.
 | `LM3-BOG-SA610` | assembly node | `subassembly` | [md](subassemblies/LM3-BOG-SA610.md) |
 | `LM3-BOG-SA620` | assembly node | `subassembly` | [md](subassemblies/LM3-BOG-SA620.md) |
 | `LM3-CWL-SA710` | assembly node | `subassembly` | [md](subassemblies/LM3-CWL-SA710.md) |
+| `LM3-EIF-SA650` | assembly node | `subassembly` | [md](subassemblies/LM3-EIF-SA650.md) |
 | `LM3-END-SA700` | assembly node | `assembly` | [md](assemblies/LM3-END-SA700.md) |
+| `LM3-TTART-SA850` | assembly node | `assembly` | [md](assemblies/LM3-TTART-SA850.md) |
 | `LM3-ART-SA800` | assembly node | `assembly` | [md](assemblies/LM3-ART-SA800.md) |
 | `LM3-SYS-SA900` | assembly node | `assembly` | [md](assemblies/LM3-SYS-SA900.md) |
 | `LM3-CAR-A900` | assembly node | `assembly` | [md](assemblies/LM3-CAR-A900.md) |
 | `LM3-TRAINSET-A000` | assembly node | `trainset` | [md](trainsets/LM3-TRAINSET-A000.md) |
+| `LM3-FULLSET-A300` | assembly node | `trainset` | [md](trainsets/LM3-FULLSET-A300.md) |

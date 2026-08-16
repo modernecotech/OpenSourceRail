@@ -1,0 +1,80 @@
+{
+  "assembly_rule": "Keep the common end-interface survey before option fit-out. Install panoramic hardware during outer-end assembly, or install the open gangway cassette only after both train modules are on the final assembly track and aligned at the train-to-train joint.",
+  "candidate": "light-metro-3car__16p5m__reference-body__reference-bogie__motor-350kw-hm47-class__battery-225kwh-lfp-800v__hvac-24kw-direct-hv-dc__pv12",
+  "common_interface": {
+    "assembly_id": "LM3-EIF-SA650",
+    "interfaces": [
+      "common S355 end carrier ring and option bolt grid",
+      "replaceable EPDM sealing datum and drain lands",
+      "shared underframe/coupler/articulation load-path datums",
+      "protected HV/LV/trainline/coolant/HVAC service routes",
+      "configuration record that locks each end as panoramic or open-mid"
+    ],
+    "manufacturing_route": [
+      "jig-weld and machine the common end carrier ring",
+      "survey the common bolt grid and seal lands",
+      "fit either panoramic closeout hardware or open-portal clamp/threshold hardware",
+      "record selected end option before final trainset integration"
+    ],
+    "owned_item_ids": [
+      "LM3-END-P060",
+      "LM3-END-P061",
+      "LM3-END-P062"
+    ]
+  },
+  "document_revision": "A-DRAFT",
+  "options": [
+    {
+      "acceptance": [
+        "panoramic option fit gauge",
+        "glass/cowl datum transfer",
+        "sensor calibration",
+        "coupler datum survey",
+        "water-ingress pre-test"
+      ],
+      "assembly_id": "LM3-END-SA700",
+      "id": "panoramic-glass-front-end",
+      "omits": [
+        "open passenger portal",
+        "train-to-train bellows and turntable",
+        "through-passenger threshold bridge"
+      ],
+      "reference_quantity": 2,
+      "use_case": "outer A and C ends of the reference three-car trainset",
+      "uses": [
+        "LM3-END-P061 panoramic option shim/closeout kit",
+        "LM3-CWL-SA710 multi-part fiberglass cowl",
+        "LM3-EXT-P030 heated panoramic glass",
+        "LM3-END-P010 automatic coupler/crash absorber",
+        "LM3-END-P020 T-OBS sensor pack"
+      ]
+    },
+    {
+      "acceptance": [
+        "open-portal gauge",
+        "bellows clamp fit",
+        "threshold/turntable level check",
+        "train-to-train motion-envelope proof",
+        "trainline continuity",
+        "water ingress/drain test"
+      ],
+      "assembly_id": "LM3-TTART-SA850",
+      "id": "mid-open-train-to-train-connection",
+      "omits": [
+        "panoramic glass",
+        "fiberglass nose cowl",
+        "nose-mounted T-OBS sensor pack at the joined end"
+      ],
+      "reference_quantity": 0,
+      "use_case": "optional end treatment when two complete train modules are semi-permanently married into one walk-through consist",
+      "uses": [
+        "LM3-END-P062 open-portal clamp/threshold/drain kit",
+        "LM3-ART-P040 train-to-train articulation and gangway cassette",
+        "LM3-ART-P041 service-jumper blanking and transition kit"
+      ]
+    }
+  ],
+  "principle": "One train/car end structure is carried as a common configurable interface. Each end position is dressed with exactly one option: the closed panoramic glass end or the open mid-train connection.",
+  "release_status": "interface-design-basis",
+  "selection_rule": "Each end position must select one option only. A panoramic end may not carry the open-portal threshold hardware, and an open-mid end may not carry the panoramic cowl/glass/sensor stack."
+}

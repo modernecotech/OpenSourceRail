@@ -3,6 +3,7 @@
   "build_cell": "final assembly and commissioning cell",
   "children": [
     "LM3-CAR-A900",
+    "LM3-EIF-SA650",
     "LM3-END-SA700",
     "LM3-ART-SA800",
     "LM3-SYS-SA900"
@@ -37,6 +38,26 @@
       ]
     },
     {
+      "child_id": "LM3-EIF-SA650",
+      "child_title": "common configurable train-end interface set",
+      "interface_classes": [
+        "mechanical datum"
+      ],
+      "join_classes": [
+        "bolted-structural-datum"
+      ],
+      "joint_release_status": "joint-calculation-required",
+      "placement_zone": "common configurable train-end interface, option bolt grid, seal/drain datums, and selected-end record",
+      "sequence": 2,
+      "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
+      "verification": [
+        "common bolt-grid survey",
+        "selected end-option fit gauge",
+        "seal and drain continuity",
+        "panoramic-or-open-mid configuration record"
+      ]
+    },
+    {
       "child_id": "LM3-END-SA700",
       "child_title": "train-end cowl, coupler, crash, and sensor assembly",
       "interface_classes": [
@@ -51,7 +72,7 @@
       ],
       "joint_release_status": "joint-calculation-required",
       "placement_zone": "train-end cowl, crash, coupler, and sensor datum stack",
-      "sequence": 2,
+      "sequence": 3,
       "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
       "verification": [
         "A/B end interchange",
@@ -74,7 +95,7 @@
       ],
       "joint_release_status": "joint-calculation-required",
       "placement_zone": "inter-car articulation, gangway, trainline, and flexible-service envelope",
-      "sequence": 3,
+      "sequence": 4,
       "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
       "verification": [
         "motion-envelope proof",
@@ -95,7 +116,7 @@
       ],
       "joint_release_status": "joint-calculation-required",
       "placement_zone": "LV cabinet, trainline, network, and diagnostic harness zone",
-      "sequence": 4,
+      "sequence": 5,
       "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
       "verification": [
         "network enumeration",
@@ -113,7 +134,7 @@
       "interface-control drawing revision"
     ],
     "finish_or_protection": "protect damaged coating, exposed edges, seals, bonds, and labels during assembly",
-    "form_factor": "LM3-CAR-A900 child assembly material set, LM3-END-SA700 child assembly material set, LM3-ART-SA800 child assembly material set, LM3-SYS-SA900 child assembly material set",
+    "form_factor": "LM3-CAR-A900 child assembly material set, LM3-EIF-SA650 child assembly material set, LM3-END-SA700 child assembly material set, LM3-ART-SA800 child assembly material set, LM3-SYS-SA900 child assembly material set",
     "governing_standard": "all child material standards plus assembly-level torque, bonding, coating, and cleanliness controls",
     "grade_or_part_class": "LM3-TRAINSET-A000 inherits released child material specifications",
     "material_family": "assembly material set",

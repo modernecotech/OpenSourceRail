@@ -12,6 +12,7 @@
 ## Children
 
 - `LM3-CAR-A900`
+- `LM3-EIF-SA650`
 - `LM3-END-SA700`
 - `LM3-ART-SA800`
 - `LM3-SYS-SA900`
@@ -23,7 +24,7 @@
 | Material family | assembly material set |
 | Grade / part class | LM3-TRAINSET-A000 inherits released child material specifications |
 | Governing standard | all child material standards plus assembly-level torque, bonding, coating, and cleanliness controls |
-| Form factor | LM3-CAR-A900 child assembly material set, LM3-END-SA700 child assembly material set, LM3-ART-SA800 child assembly material set, LM3-SYS-SA900 child assembly material set |
+| Form factor | LM3-CAR-A900 child assembly material set, LM3-EIF-SA650 child assembly material set, LM3-END-SA700 child assembly material set, LM3-ART-SA800 child assembly material set, LM3-SYS-SA900 child assembly material set |
 | Nominal section | as defined by child drawings and assembly interface control drawing |
 | Finish / protection | protect damaged coating, exposed edges, seals, bonds, and labels during assembly |
 | Traceability | child serial/heat/batch records plus assembly traveler traceability |
@@ -59,7 +60,20 @@ Evidence required:
   - bogie marriage report
   - low-speed yard movement
 
-### 2. `LM3-END-SA700` — train-end cowl, coupler, crash, and sensor assembly
+### 2. `LM3-EIF-SA650` — common configurable train-end interface set
+
+- Placement zone: common configurable train-end interface, option bolt grid, seal/drain datums, and selected-end record
+- Interfaces: `mechanical datum`
+- Join classes: `bolted-structural-datum`
+- Torque authority: released joint calculation plus interface-control drawing and calibrated-tool procedure
+- Joint release status: `joint-calculation-required`
+- Verification:
+  - common bolt-grid survey
+  - selected end-option fit gauge
+  - seal and drain continuity
+  - panoramic-or-open-mid configuration record
+
+### 3. `LM3-END-SA700` — train-end cowl, coupler, crash, and sensor assembly
 
 - Placement zone: train-end cowl, crash, coupler, and sensor datum stack
 - Interfaces: `mechanical datum`, `low-voltage/data`, `safety interlock`
@@ -72,7 +86,7 @@ Evidence required:
   - sensor calibration
   - recovery interface check
 
-### 3. `LM3-ART-SA800` — inter-car articulation and trainline assembly
+### 4. `LM3-ART-SA800` — inter-car articulation and trainline assembly
 
 - Placement zone: inter-car articulation, gangway, trainline, and flexible-service envelope
 - Interfaces: `mechanical datum`, `low-voltage/data`, `safety interlock`
@@ -84,7 +98,7 @@ Evidence required:
   - trainline continuity
   - water ingress/drain test
 
-### 4. `LM3-SYS-SA900` — train control, communication, and safety electronics assembly
+### 5. `LM3-SYS-SA900` — train control, communication, and safety electronics assembly
 
 - Placement zone: LV cabinet, trainline, network, and diagnostic harness zone
 - Interfaces: `mechanical datum`, `low-voltage/data`

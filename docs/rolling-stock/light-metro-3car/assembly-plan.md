@@ -116,28 +116,42 @@ frame or panel into position.
 
 1. Place Car A, Car B, and Car C on level track with coupler/articulation
    centres on the train centreline.
-2. Install `LM3-ART-SA800` between A-B and B-C:
+2. Confirm the end-interface configuration record for each end position:
+   the reference three-car trainset selects panoramic glass at the two
+   outer ends and open mid connections only at internal or train-to-train
+   joints.
+3. Install `LM3-ART-SA800` between A-B and B-C:
    - pin/bolt lower drawbar and spherical bearing;
    - install anti-lift keeper;
    - install upper roll/yaw/pitch links;
    - fit bellows clamp frames and turntable floor;
    - route HV, LV/data, coolant, HVAC sleeve, and drains through the
      released drag-chain path.
-3. Perform articulation yaw/pitch/roll sweep before connecting final
+4. Perform articulation yaw/pitch/roll sweep before connecting final
    trim covers.
-4. Complete trainline continuity, safety-loop, Ethernet ring, coolant
+5. Complete trainline continuity, safety-loop, Ethernet ring, coolant
    pressure, and water/drain tests across both joints.
 
-### 4. Install outer-end assemblies
+### 4. Select and install end assemblies
 
-1. Install `LM3-END-SA700` at the outer A and C ends only.
-2. Bolt coupler/crash absorber into the steel pocket and torque stripe.
-3. Fit fiberglass cowl kit to the backing ring with gasketed retained
+1. Survey `LM3-EIF-SA650`, the common configurable end-interface set,
+   before fitting any end dress-out.
+2. For a panoramic outer end, install `LM3-END-SA700`.
+3. Bolt coupler/crash absorber into the steel pocket and torque stripe.
+4. Fit fiberglass cowl kit to the backing ring with gasketed retained
    fasteners; seal only at released non-serviceable seams.
-4. Install panoramic glass, lamps, T-OBS sensors, washer/heater lines,
+5. Install panoramic glass, lamps, T-OBS sensors, washer/heater lines,
    rescue cabinet, and electrical jumper.
-5. Survey coupler face and sensor datum. Do not use cowl shimming to
+6. Survey coupler face and sensor datum. Do not use cowl shimming to
    compensate for coupler-pocket error.
+7. For a train-to-train open mid connection, do not install the panoramic
+   cowl/glass/sensor stack. Install `LM3-TTART-SA850` only after the two
+   train modules are aligned on the final assembly track, then fit the
+   open portal clamp frame, bellows, threshold bridge, turntable,
+   service-jumper cassette, drain trays, and blanking/transition covers.
+8. Complete the train-to-train motion sweep, threshold level check,
+   trainline continuity, service segregation, and water/drain test before
+   closing passenger trim.
 
 ### 5. Configure train control and perform static tests
 
@@ -148,7 +162,34 @@ frame or panel into position.
   event-recorder, passenger information, CCTV/intercom, and emergency
   release tests.
 
-### 6. FEM/static proof gates before running
+### 6. Optional three-train full-set assembly example
+
+The worked example `LM3-FULLSET-A300` joins three complete
+`LM3-TRAINSET-A000` modules into one 148.5 m, nine-car walk-through
+full set. It is not the default reference trainset; it is a configuration
+example for routes, depots, and platforms that can accept a longer set.
+
+1. Build and statically release three normal LM3 three-car modules.
+2. Fit `LM3-END-SA700` panoramic ends only at the two outer ends of the
+   final full set.
+3. Keep the four future mid-set module ends as surveyed
+   `LM3-EIF-SA650` open-option interfaces with temporary weather and
+   connector covers.
+4. Align the three modules on a long commissioning road and survey the
+   two train-to-train joint gaps, yaw, lateral offset, and threshold
+   level.
+5. Install two `LM3-TTART-SA850` open train-to-train articulation
+   assemblies, including lower drawbar/pivot, anti-lift keepers, upper
+   links, bellows, turntable threshold bridge, service jumpers, drains,
+   and interior continuity trim.
+6. Run both open-joint motion sweeps, full-set trainline continuity,
+   safety-loop, HVIL, brake, door, HVAC, PIS/CCTV/intercom, water/drain,
+   and dynamic-release checks.
+
+The generated full instruction pack is
+[`full-set-3train-assembly.md`](../../../mechanical-py/catalog/buildable-trainset/full-set-3train-assembly.md).
+
+### 7. FEM/static proof gates before running
 
 Before dynamic running, release the FEM/static screens for:
 
@@ -158,13 +199,17 @@ Before dynamic running, release the FEM/static screens for:
 - battery tray/service-lid rails;
 - door portal and threshold;
 - roof equipment rails/PV mounts;
-- articulation anchor brackets.
+- articulation anchor brackets;
+- full-set longitudinal buff/draft and vertical service load if the
+  optional three-train full set is selected;
+- train-to-train open joint vertical and lateral/racking loads if
+  `LM3-TTART-SA850` is selected.
 
 Any screen above the service-stress threshold or with local joint
 stress concentration requires a detailed local model and drawing
 revision before the trainset leaves the commissioning cell.
 
-### 7. Dynamic running release
+### 8. Dynamic running release
 
 Run in this order:
 

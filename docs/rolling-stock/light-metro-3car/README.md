@@ -30,7 +30,7 @@ eight-hour shift after the frames pass paint and dimensional release.
 | [`modular-fiberglass-body.md`](modular-fiberglass-body.md) | 1 m clip-on fiberglass side/roof modules, keyed retainers, dry seals, one-shift trainset body route, and cost basis |
 | [`end-cowl.md`](end-cowl.md) | Identical A/B-end fiberglass cowl kit, cast split, laminate/tooling rules, glazing/sensor interfaces |
 | [`cabin-fiberglass.md`](cabin-fiberglass.md) | Cabin FRP/phenolic ceiling liners, sidewall/window reveals, battery strake covers, vestibule/PRM trims, tooling, lay-up, trim, inspection, and repair instructions |
-| [`articulation.md`](articulation.md) | Inter-car articulation/gangway module: lower spherical pivot, upper links, bellows, turntable, trainline routing |
+| [`articulation.md`](articulation.md) | Inter-car and train-to-train articulation/gangway modules: lower spherical pivot, upper links, bellows, turntable, trainline routing, and configurable open-end option |
 | [`cots-integration.md`](cots-integration.md) | COTS/fabricated interface diagrams, part delineation, and assembly sequence |
 | [`traction.md`](traction.md) | 800 V-class LFP packs, six PMSM/controller sets, direct-DC auxiliaries, station charging, and verification gates |
 | [`localization-plan.md`](localization-plan.md) | Staged make/buy policy for bogies, doors, articulation, windows, seats, battery, traction, and body |
@@ -104,9 +104,11 @@ Use it as the bridge from concept CAD to build planning:
 | Artifact | Use it for |
 |---|---|
 | [`buildable-trainset-manifest.md`](../../../mechanical-py/catalog/buildable-trainset/buildable-trainset-manifest.md) | Parts → subassemblies → assemblies → trainset tree, quantities, parentage, acceptance gates |
+| [`train-end-interface.md`](../../../mechanical-py/catalog/buildable-trainset/train-end-interface.md) | Single configurable train-end interface that can select either the panoramic glass front/end or the optional mid open train-to-train connection |
+| [`full-set-3train-assembly.md`](../../../mechanical-py/catalog/buildable-trainset/full-set-3train-assembly.md) | Worked 3-train / 9-car full-set example with parts, assembly instructions, FreeCAD model targets, and long-consist FEM screening matrix |
 | [`critical-path.md`](../../../mechanical-py/catalog/buildable-trainset/critical-path.md) | Rough first-train critical path, parallel fabrication plan, labour estimate, and minimum space model |
 | [`mass-budget.md`](../../../mechanical-py/catalog/buildable-trainset/mass-budget.md) | Reconciled 75.308 t modeled subtotal, 3.442 t engineering reserve, and 78.75 t controlled planning tare |
-| [`joint-control-schedule.md`](../../../mechanical-py/catalog/buildable-trainset/joint-control-schedule.md) | Machine-readable joining classes, torque authority, and release state for all 84 integration joints |
+| [`joint-control-schedule.md`](../../../mechanical-py/catalog/buildable-trainset/joint-control-schedule.md) | Machine-readable joining classes, torque authority, and release state for all 96 integration joints |
 | [`definitions/index.md`](../../../mechanical-py/catalog/buildable-trainset/definitions/index.md) | Drawing/RFQ definitions for every fabricated part, external component, subassembly, assembly, and trainset node, including structured material and process specs |
 | [`travelers/index.md`](../../../mechanical-py/catalog/buildable-trainset/travelers/index.md) | Unsigned shop travelers with material/process controls, operation routers, labor estimates, tooling IDs, QA gates, revision approvals, signoff blocks, and NCR/deviation logs |
 | [`current-design-buildability-review.md`](../../../mechanical-py/catalog/buildable-trainset/current-design-buildability-review.md) | Current green/yellow/red closure status before first steel cut |
@@ -157,7 +159,7 @@ and render to these design-review PNGs:
 | [`trainset-door-system.png`](../../../docs/screenshots/trainset-door-system.png) | Door cassette pair with sill gap fillers, locks, and external emergency releases |
 | [`trainset-electronics-cabinet.png`](../../../docs/screenshots/trainset-electronics-cabinet.png) | Per-end T-ECU/S, T-ECU/A, and crashworthy event recorder, two sets per trainset |
 | [`trainset-end-coupler.png`](../../../docs/screenshots/trainset-end-coupler.png) | Scharfenberg Type 10 coupler, electric-head carrier, and EN 15227 crash absorber envelope |
-| [`trainset-inter-car-articulation.png`](../../../docs/screenshots/trainset-inter-car-articulation.png) | Detailed inter-car articulation: lower spherical joint, anti-lift keeper, upper links, double-wall bellows, turntable floor, trainline routing, and kinematic envelopes |
+| [`trainset-inter-car-articulation.png`](../../../docs/screenshots/trainset-inter-car-articulation.png) | Detailed inter-car articulation: lower spherical joint, anti-lift keeper, upper links, double-wall bellows, turntable floor, trainline routing, and kinematic envelopes; the same architecture now has a generated train-to-train open-end option in the buildable handoff |
 | [`trainset-tobs-sensor-pack.png`](../../../docs/screenshots/trainset-tobs-sensor-pack.png) | T-OBS LIDAR, mmWave radar, stereo camera, and ultrasonic sensor envelopes |
 | [`bogie-motor.png`](../../../docs/screenshots/bogie-motor.png) | Powered bogie assembly with frame, wheelsets, motors, gearboxes, suspension, and brakes |
 | [`bogie-trailer.png`](../../../docs/screenshots/bogie-trailer.png) | Trailer bogie assembly using the common frame and suspension envelope |
@@ -172,6 +174,15 @@ separate hand-positioned drawings.
 | Trainset FreeCAD review |
 |---|
 | ![FreeCAD trainset light metro 3-car](../../../docs/screenshots/freecad/freecad-trainset-light-metro-3car.png) |
+
+The FreeCAD trainset generator also defines the optional
+`light-metro-3car-fullset-3train` review assembly: three LM3 three-car
+modules joined into a 148.5 m nine-car walk-through full set with two
+open train-to-train articulation joints. Generate it with:
+
+```bash
+scripts/freecad_trainset.sh --family light-metro-3car-fullset-3train
+```
 
 | Chassis + bogie assembled | Chassis + bogie exploded |
 |---|---|
@@ -197,20 +208,33 @@ stress colour scale.
 |---|---|---|---|
 | ![Bogie vertical FEA result](../../../docs/screenshots/freecad/freecad-fea-bogie-frame-screen-result.png) | ![Bogie brake traction FEA result](../../../docs/screenshots/freecad/freecad-fea-bogie-brake-traction-screen-result.png) | ![Full body vertical FEA result](../../../docs/screenshots/freecad/freecad-fea-full-body-frame-screen-result.png) | ![Full body lateral sway FEA result](../../../docs/screenshots/freecad/freecad-fea-full-body-lateral-sway-screen-result.png) |
 
+| Full-set longitudinal buff/draft | Full-set vertical service |
+|---|---|
+| ![Full-set longitudinal buff draft FEA result](../../../docs/screenshots/freecad/freecad-fea-full-set-longitudinal-buff-screen-result.png) | ![Full-set vertical service FEA result](../../../docs/screenshots/freecad/freecad-fea-full-set-vertical-service-screen-result.png) |
+
+| Train-to-train joint vertical | Train-to-train joint lateral sway |
+|---|---|
+| ![Train-to-train joint vertical FEA result](../../../docs/screenshots/freecad/freecad-fea-train-to-train-joint-vertical-screen-result.png) | ![Train-to-train joint lateral sway FEA result](../../../docs/screenshots/freecad/freecad-fea-train-to-train-joint-lateral-sway-screen-result.png) |
+
 The latest screening summary is
 [`mechanical-py/catalog/fea/screening-summary.md`](../../../mechanical-py/catalog/fea/screening-summary.md).
+The current FEA catalog includes solver-backed long-consist
+worked-example cases for the 3-train full set: full-set longitudinal
+buff/draft, full-set vertical service, train-to-train joint vertical
+load, and train-to-train joint lateral/racking.
 The source FreeCAD review documents are catalogued in
 [`mechanical-py/catalog/freecad/README.md`](../../../mechanical-py/catalog/freecad/README.md),
 and raw CalculiX output folders are catalogued in
 [`mechanical-py/catalog/fea/README.md`](../../../mechanical-py/catalog/fea/README.md).
 After the low-floor chassis rework, the chassis screen is inside the
 25 mm deflection target: 9.8 mm maximum displacement under the 360 kN
-service-load screen. The broadened lateral body sway screen currently
-flags review: 20.6 mm displacement against the 20 mm screening target,
-with stress still low at 37.2 MPa. That review flag is now an explicit
-v2 action: add side-frame diaphragm/knee-brace detail around the
-door-post, waist-rail, and roof-cant load path, then rerun the
-lateral sway model before first steel cut.
+service-load screen. The broadened lateral body sway screen is now
+inside the 20 mm screening target at 18.1 mm maximum displacement, with
+stress still low at 40.2 MPa. The local train-to-train joint screens are
+also inside target after the deeper end-ring, portal, threshold,
+drawbar, and upper-link section update: 4.4 mm vertical displacement
+against a 12 mm target and 2.3 mm lateral displacement against a 16 mm
+target.
 
 ## Mechanical Interface Component Gallery
 

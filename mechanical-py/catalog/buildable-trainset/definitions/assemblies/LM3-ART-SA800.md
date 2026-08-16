@@ -61,7 +61,7 @@ Evidence required:
 
 - Placement zone: inter-car articulation, gangway, trainline, and flexible-service envelope
 - Interfaces: `mechanical datum`, `low-voltage/data`, `safety interlock`
-- Join classes: `bolted-structural-datum`, `electrical-data`
+- Join classes: `gasketed-removable-panel`, `bolted-structural-datum`, `electrical-data`
 - Torque authority: accepted supplier installation manual plus released OSR interface-control drawing
 - Joint release status: `supplier-freeze-required`
 - Verification:
