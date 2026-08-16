@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+from pathlib import Path
 
 from osr_mech.buildable_trainset import (
     Layer,
@@ -269,6 +270,28 @@ def test_train_end_interface_models_panorama_or_open_mid_option() -> None:
     assert "Each end position must select one option only" in rendered
 
 
+def test_train_end_options_are_exclusive_and_cover_full_set_end_count() -> None:
+    design = buildable_trainset_design(ConsistFamily.LIGHT_METRO_3CAR)
+    end_payload = train_end_interface_payload(design)
+    full_set_payload = full_set_3train_payload(design)
+    options = {option["id"]: option for option in end_payload["options"]}  # type: ignore[index]
+    common = end_payload["common_interface"]  # type: ignore[index]
+    cfg = full_set_payload["configuration"]
+
+    assert common["owned_item_ids"] == ["LM3-END-P060", "LM3-END-P061", "LM3-END-P062"]
+    assert options["panoramic-glass-front-end"]["assembly_id"] == "LM3-END-SA700"
+    assert options["mid-open-train-to-train-connection"]["assembly_id"] == "LM3-TTART-SA850"
+    assert not set(options["panoramic-glass-front-end"]["uses"]) & set(
+        options["mid-open-train-to-train-connection"]["uses"]
+    )
+    assert "panoramic glass" in options["mid-open-train-to-train-connection"]["omits"]
+    assert "open passenger portal" in options["panoramic-glass-front-end"]["omits"]
+
+    module_end_positions = cfg["train_modules"] * 2
+    open_mid_end_positions = cfg["train_to_train_open_joints"] * 2
+    assert cfg["outer_panoramic_ends"] + open_mid_end_positions == module_end_positions
+
+
 def test_full_set_3train_assembly_pack_models_three_joined_modules() -> None:
     design = buildable_trainset_design(ConsistFamily.LIGHT_METRO_3CAR)
     payload = full_set_3train_payload(design)
@@ -283,6 +306,47 @@ def test_full_set_3train_assembly_pack_models_three_joined_modules() -> None:
     assert "Train-to-train open joint lateral/racking screen" not in rendered
     assert "train-to-train-joint-lateral-sway-screen" in rendered
     assert "scripts/freecad_trainset.sh --family light-metro-3car-fullset-3train" in rendered
+
+
+def test_full_set_assembly_has_machine_readable_worked_example_quantities(tmp_path) -> None:
+    design = buildable_trainset_design(ConsistFamily.LIGHT_METRO_3CAR)
+    assemblies = {node.id: node for node in design.assemblies}
+    full_set = assemblies["LM3-FULLSET-A300"]
+    assert dict((child_id, quantity) for child_id, quantity, _ in full_set.example_child_quantities) == {
+        "LM3-TRAINSET-A000": 3,
+        "LM3-TTART-SA850": 2,
+        "LM3-SYS-SA900": 3,
+    }
+
+    pack = write_definition_pack(design, tmp_path / "definitions")
+    assert pack.index_json.exists()
+    definition = json.loads((tmp_path / "definitions/trainsets/LM3-FULLSET-A300.json").read_text())
+    quantities = {row["child_id"]: row["quantity"] for row in definition["example_child_quantities"]}
+    assert quantities == {
+        "LM3-TRAINSET-A000": 3,
+        "LM3-TTART-SA850": 2,
+        "LM3-SYS-SA900": 3,
+    }
+    rendered = (tmp_path / "definitions/trainsets/LM3-FULLSET-A300.md").read_text()
+    assert "Worked-example child quantities" in rendered
+    assert "| `LM3-TTART-SA850` | 2 |" in rendered
+
+
+def test_full_set_design_artifacts_and_fem_matrix_are_present() -> None:
+    repo_root = Path(__file__).resolve().parents[2]
+    design = buildable_trainset_design(ConsistFamily.LIGHT_METRO_3CAR)
+    payload = full_set_3train_payload(design)
+    for artifact in payload["freecad_designs"]:
+        assert (repo_root / artifact["artifact"]).exists(), artifact["artifact"]
+
+    summary = json.loads((repo_root / "mechanical-py/catalog/fea/screening-summary.json").read_text())
+    result_by_slug = {result["slug"]: result for result in summary["results"]}
+    for case in payload["fem_screening_matrix"]:
+        result = result_by_slug[case["slug"]]
+        assert result["solver_ok"] is True
+        assert result["issue"] is None
+        assert result["max_displacement_mm"] <= result["deflection_limit_mm"]
+        assert result["safety_factor_to_yield"] > 2.0
 
 
 def test_critical_path_models_parallel_train_fabrication() -> None:

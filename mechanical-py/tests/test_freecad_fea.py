@@ -65,19 +65,16 @@ def test_generated_fea_screening_artifacts_are_solver_backed() -> None:
         assert missing_generated_slugs <= pending_long_consist_slugs
         assert shutil.which("FreeCADCmd") is None and shutil.which("freecadcmd") is None
 
-    accepted_screening_issues = {
-        "full-body-lateral-sway-screen": "screening deflection exceeds 20.0 mm target",
-    }
     for slug in expected_slugs & results.keys():
         result = results[slug]
         assert result["solver_ok"] is True, f"{slug} did not solve"
         assert result["nodes"] > 0
         assert result["elements"] > 0
+        assert result["issue"] is None, f"{slug} has unresolved screening issue: {result['issue']}"
+        assert result["max_displacement_mm"] <= result["deflection_limit_mm"]
         assert result["safety_factor_to_yield"] > 2.0
         assert (repo_root / result["result_png"]).exists(), f"{slug} missing catalog result PNG"
         assert (repo_root / result["docs_result_png"]).exists(), f"{slug} missing docs result PNG"
-        if result["issue"]:
-            assert accepted_screening_issues.get(slug) == result["issue"]
 
 
 def test_freecad_screenshot_cleanup_preserves_solver_result_pngs(tmp_path) -> None:

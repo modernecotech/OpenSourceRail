@@ -107,6 +107,7 @@ class AssemblyNode:
     hold_points: tuple[str, ...]
     source_refs: tuple[str, ...]
     maturity: Maturity = Maturity.RELEASE_CANDIDATE
+    example_child_quantities: tuple[tuple[str, float, str], ...] = ()
 
 
 @dataclass(frozen=True)
@@ -1447,6 +1448,11 @@ def _assemblies(family: ConsistFamily) -> tuple[AssemblyNode, ...]:
                 "LM3-SYS-175",
             ),
             Maturity.BUILDABLE_AFTER_SUPPLIER_FREEZE,
+            (
+                ("LM3-TRAINSET-A000", 3, "three complete LM3 train modules"),
+                ("LM3-TTART-SA850", 2, "open train-to-train articulation/gangway assemblies"),
+                ("LM3-SYS-SA900", 3, "per-module control/electronics packs enumerated as one consist"),
+            ),
         ),
     )
 
@@ -2243,6 +2249,10 @@ def _assembly_payload(
         "material_spec": _spec_payload(material_spec),
         "process_spec": _spec_payload(process_spec),
         "maturity": node.maturity.value,
+        "example_child_quantities": [
+            {"child_id": child_id, "quantity": quantity, "basis": basis}
+            for child_id, quantity, basis in node.example_child_quantities
+        ],
     }
 
 
@@ -2335,6 +2345,20 @@ def render_assembly_definition(
         "",
     ]
     lines.extend(f"- `{child}`" for child in node.children)
+    if node.example_child_quantities:
+        lines.extend(
+            [
+                "",
+                "## Worked-example child quantities",
+                "",
+                "| Child | Quantity | Basis |",
+                "|---|---:|---|",
+            ]
+        )
+        lines.extend(
+            f"| `{child_id}` | {quantity:g} | {basis} |"
+            for child_id, quantity, basis in node.example_child_quantities
+        )
     lines.extend(
         [
             "",

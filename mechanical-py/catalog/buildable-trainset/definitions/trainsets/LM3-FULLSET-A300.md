@@ -15,6 +15,14 @@
 - `LM3-TTART-SA850`
 - `LM3-SYS-SA900`
 
+## Worked-example child quantities
+
+| Child | Quantity | Basis |
+|---|---:|---|
+| `LM3-TRAINSET-A000` | 3 | three complete LM3 train modules |
+| `LM3-TTART-SA850` | 2 | open train-to-train articulation/gangway assemblies |
+| `LM3-SYS-SA900` | 3 | per-module control/electronics packs enumerated as one consist |
+
 ## Material specification
 
 | Field | Value |
