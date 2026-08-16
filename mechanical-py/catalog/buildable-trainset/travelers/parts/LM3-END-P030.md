@@ -13,29 +13,28 @@
 
 | Field | Value |
 |---|---|
-| Material family | fire-retardant fiberglass composite |
-| Grade / part class | E-glass FRP cast kit with bonded/moulded inserts |
-| Governing standard | supplier laminate schedule plus project fire/smoke and structural coupon evidence |
-| Form factor | multi-part moulded shell, bonded inserts, service hatch lands, and trim edges |
-| Nominal section | laminate schedule, insert pattern, split line, and trim datum frozen by supplier drawing |
-| Finish / protection | UV-stable exterior gelcoat/paint with sealed cut edges and insert corrosion isolation |
-| Traceability | laminate batch, resin batch, cure record, insert pull-out record, and coupon traceability |
+| Material family | formed sheet metal / stainless local hardware |
+| Grade / part class | S355 or 304/316 stainless local bracket/tray candidate, selected by exposure zone |
+| Governing standard | EN 10025 / EN 10088 certificate as applicable plus project bonding/corrosion evidence |
+| Form factor | laser-cut, folded, drilled sheet/plate with inserts, studs, clips, and labels |
+| Nominal section | thickness, stainless grade, and galvanic isolation frozen by v2A controlled drawing |
+| Finish / protection | zinc/paint/stainless passivation, orange HV marking, edge protection, and sealing as applicable |
+| Traceability | heat number, coating batch, bonding test, and installation batch traceability |
 
 Evidence required:
 
-- laminate coupon
-- cure record
-- insert pull-out evidence
-- fire-smoke certificate
+- mill certificate
+- coating/passivation record
+- bonding continuity record
 
 ## Process specification
 
-- Primary processes: inspect mould/trim fixture, apply release system, cut dry reinforcement or panel blank, lay up / infuse / press laminate, controlled cure, demould and post-cure where required, trim/drill to controlled datum, fit inserts/clips/gaskets, dry-fit to parent fixture
-- Joining methods: potted/captive inserts, retained fasteners or clip grid, adhesive/sealant only where removal and repair rules allow
-- Special process controls: released laminate schedule, resin/adhesive batch and shelf-life check, mould release record, cure temperature/time record, fire-material certificate check, edge sealing and dust-control rule, A/B-end interchange rule, glass carrier and sensor datum protection
-- Inspection methods: laminate coupon, void/delamination visual tap check, trim-line gauge, insert pull-out where classed, fit-up survey, hatch water test, sensor datum check, heater-cable separation, washer tube leak test, split-line gap check, water-ingress test, repair coupon demonstration
-- Tooling basis: MOULD/FIX-LM3-END-P030 plus TRIM-GAUGE-LM3-END-P030
-- Release level: v2A composite-process controlled MAKE item; generated traveler is unsigned until build
+- Primary processes: cut, form, drill/machine, de-burr, trial fit
+- Joining methods: fixture tack and weld where structural, bolted/torqued installation to parent datum, bonding/earthing hardware, segregated clipped service routing
+- Special process controls: released drawing/revision check, material certificate check, datum gauge before parent release, HV/LV segregation check, bend-radius check, label/revision check
+- Inspection methods: dimensional inspection, visual inspection, bond continuity, insulation/isolation check where applicable, hatch water test, sensor datum check, heater-cable separation, washer tube leak test
+- Tooling basis: FIX-LM3-END-FAB plus GAUGE-LM3-END-P030-DATUM
+- Release level: v2A drawing-controlled MAKE process; generated traveler is unsigned until build
 
 
 ## Revision approval block

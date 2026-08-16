@@ -32,6 +32,27 @@ clip hardware, anti-lift retention, and joint gaskets. The machine-readable
 module and assembly manifest is generated under
 [`mechanical-py/catalog/modular-fiberglass-body`](../../../mechanical-py/catalog/modular-fiberglass-body/).
 
+## Mould fabrication route
+
+Each side, window-edge, door-edge, and roof variant is made from the same
+short glass-fibre body tooling philosophy: reusable 1,000 mm mould pitch,
+variant-specific CNC trim, and a master-frame dry-fit before kitting.
+
+| Seq | Operation | Required evidence |
+|---:|---|---|
+| 10 | Release mould, trim fixture, laminate schedule, core map, insert map, and module serial range | Traveler revision, material certificates, mould release |
+| 20 | Clean mould, inspect A-surface, apply release system, and apply UV-stable gelcoat or paint-primer layer | Mould surface record, release-system lot |
+| 30 | Cut glass reinforcement and local core; lay up solid clip lands, pot insert bosses, and bag or close mould | Ply/core/insert checklist |
+| 40 | Infuse or wet-lay laminate, control cure, demould, post-cure where specified, and retain witness coupons | Cure time/temperature, coupon ID, demould inspection |
+| 50 | CNC trim door/window/roof variant, drill clip grid from datum, seal all cut edges, and mark serial/revision | Trim gauge, hole-position gauge, edge-seal record |
+| 60 | Fit captive inserts, keyed hooks, clips, anti-lift features, drain details, and EPDM seals; dry-fit to master frame | Insert pull-out lot, gasket compression witness, master-frame fit |
+
+Supplier BOM rows fund qualified fibre, resin, core, gelcoat/paint-primer,
+release systems, seal stock, and coupon material. They do not introduce a
+bonded full-side or full-roof panel. The body module becomes a released part
+only after mould/cure records, CNC trim evidence, sealed-edge inspection,
+insert proof, and dry-fit evidence are closed.
+
 ## Retention and sealing
 
 Every module hangs on an asymmetric keyed upper hook and closes onto captive

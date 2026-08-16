@@ -20,9 +20,9 @@ Document IDs use `LM3` for the `light-metro-3car` family. Revision
 | LM3-BDY-120 | Side/roof spaceframe assembly | Fabricator | `body.md` | RHS cut list, door/window aperture datums |
 | LM3-BDY-130 | Coupler pocket and crash-can interface | Fabricator + coupler supplier | `body.md`, `interfaces.md` | Machined inserts, bolted energy absorber interface |
 | LM3-BDY-140 | Battery tray and under-seat enclosure | Fabricator + battery supplier | `body.md`, `traction.md` | Service hatches, vent path, HV isolation clearances |
-| LM3-BDY-150 | Composite side/roof material and aperture envelopes | Composite supplier | `body.md` | Laminate schedule, edge radii, fire evidence, repair zones |
+| LM3-BDY-150 | Exterior glass-fibre material, mould, and trim-envelope control | Composite supplier + fabricator | `body.md`, `modular-fiberglass-body.md` | Laminate schedule, reusable mould drawings, core/insert maps, CNC trim envelopes, edge radii, fire evidence, repair zones |
 | LM3-BDY-155 | Identical A/B-end fiberglass cowl cast kit | Composite supplier + OSR/mechanical | `end-cowl.md`, `sensor_cowl.py` | Surface-modelled exterior A-surface and derived B-surface/flange/trim/mould neutral CAD, CWL-FRP-01 through CWL-FRP-06 mould/trim drawings, laminate schedule, insert map, steel backing-ring datum, glass/lamp/sensor hatch service access |
-| LM3-BDY-160 | One-metre clip-on fiberglass body module system | Composite supplier + fabricator | `modular-fiberglass-body.md`, `modular_fiberglass_body.py` | Common 1,000 mm mould, solid/window/door/roof trim variants, clip rail and insert map, anti-lift retainer, EPDM joint/drain, module numbering, timed one-shift installation route |
+| LM3-BDY-160 | One-metre clip-on glass-fibre body module system | Composite supplier + fabricator | `modular-fiberglass-body.md`, `modular_fiberglass_body.py` | Common 1,000 mm side/roof moulds, mould release and cure records, solid/window/door/roof trim variants, clip rail and insert map, anti-lift retainer, EPDM joint/drain, module numbering, master-frame dry fit, timed one-shift installation route |
 | LM3-SYS-160 | End coupler and crash-energy assembly | Coupler supplier + integrator | `interfaces.md`, BOM | Scharfenberg head, electric-head carrier, crash absorber envelope, recovery/tow interface |
 | LM3-SYS-170 | Inter-car articulation and trainline assembly | Integrator + articulation supplier | `articulation.md`, `body.md`, `interfaces.md` | Lower spherical pivot, anti-lift keeper, upper roll-yaw-pitch links, bellows, turntable floor, drag-chain, TCN-E/CAN-FD/HV/coolant/HVAC interfaces |
 | LM3-DOOR-200 | Door cassette installation | Door supplier | COTS catalogue | Mounting datums, threshold, drainage, lock-loop wiring |
@@ -50,9 +50,9 @@ Document IDs use `LM3` for the `light-metro-3car` family. Revision
 | LM3-EV-WLD-020 | Weld inspection and NDT report | G1 frame complete | VT + MT/UT per weld class |
 | LM3-EV-DIM-030 | Frame dimensional survey | G1 frame complete | Bogie centres, door/window apertures, coupler height |
 | LM3-EV-COR-040 | Blast, primer, topcoat, cavity-wax report | G2 corrosion complete | Includes DFT readings |
-| LM3-EV-CMP-050 | Composite material certificate pack | G3 shell complete | EN 45545 evidence and repair method |
+| LM3-EV-CMP-050 | Composite material and mould-process certificate pack | G3 shell complete | EN 45545 evidence, resin/fibre/core/gelcoat batch trace, mould release record, cure record, coupon trace, and repair method |
 | LM3-EV-CMP-055 | Fiberglass cowl cast first-article report | G3 shell complete | Laminate coupons, insert pull-out, split-line fit, glass-carrier land survey, and A/B-end interchange check |
-| LM3-EV-CMP-057 | One-metre body module first-article report | G3 shell complete | Master-frame dry fit, clip/anti-lift proof, insert pull-out, water/vibration test, and timed removal/refit |
+| LM3-EV-CMP-057 | One-metre body module first-article report | G3 shell complete | Mould inspection, cure and demould record, laminate coupons, CNC trim report, edge-seal record, master-frame dry fit, clip/anti-lift proof, insert pull-out, water/vibration test, and timed removal/refit |
 | LM3-EV-BND-060 | Adhesive batch, surface-prep, cure records | G3 shell complete | Includes witness coupons |
 | LM3-EV-WTR-070 | Water ingress test | G4 COTS systems fitted | Doors, windows, roof equipment |
 | LM3-EV-ELC-080 | Bonding/earthing and insulation resistance | G5 electrical safe | Includes HV and LV separation checks |
@@ -70,7 +70,7 @@ Document IDs use `LM3` for the `light-metro-3car` family. Revision
 | Doors | Installation manual, maintenance manual, lifecycle test, EN 14752 evidence | Fits LM3-DOOR-200 without primary steel change |
 | Windows | Glazing certificate, adhesive/gasket procedure, replacement manual | Fits LM3-WIN-210 and passes water test |
 | HVAC | Datasheet, +50 C derating curve, wiring manual, refrigerant record | Fits LM3-HVAC-220 and aux-power budget |
-| Composite panels | Laminate schedule, fire test, repair manual, insert pull-out data | Panels remain non-structural |
+| One-metre GFRP body modules | Mould split/datum drawings, laminate schedule, fire test, cure record, CNC trim report, repair manual, insert pull-out data, seal/gasket procedure | Modules remain non-structural, clipped and gasketed to LM3-BDY-160 without side/roof production adhesive |
 | Fiberglass end cowls | Mould split/trim drawings, laminate coupons, fire test, insert pull-out data, gasket/seal procedure, repair manual | Same cast kit fits both A-end and B-end without steel-frame change |
 | Seats/rails | Fire certificate, pull-load certificate, cleaning/repair manual | Fits LM3-INT-230 insert grid |
 | Lighting/PIS/CCTV/intercom | EMC/vibration evidence, firmware version, wiring manual | Enumerates on car network and passes static test |

@@ -16,7 +16,7 @@
 | Material family | assembly material set |
 | Grade / part class | LM3-END-SA700 inherits released child material specifications |
 | Governing standard | all child material standards plus assembly-level torque, bonding, coating, and cleanliness controls |
-| Form factor | rail structural steel, fire-retardant fiberglass composite, LM3-CWL-SA710 child assembly material set, supplier crash/coupler system |
+| Form factor | rail structural steel, LM3-CWL-SA710 child assembly material set, fire-retardant fiberglass composite, supplier crash/coupler system, formed sheet metal / stainless local hardware |
 | Nominal section | as defined by child drawings and assembly interface control drawing |
 | Finish / protection | protect damaged coating, exposed edges, seals, bonds, and labels during assembly |
 | Traceability | child serial/heat/batch records plus assembly traveler traceability |

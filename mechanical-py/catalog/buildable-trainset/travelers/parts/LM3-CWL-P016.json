@@ -3,7 +3,7 @@
     "B8"
   ],
   "document_revision": "A-DRAFT",
-  "estimated_labor_hours": 4.2,
+  "estimated_labor_hours": 6.35,
   "id": "LM3-CWL-P016",
   "material_spec": {
     "evidence_required": [
@@ -34,33 +34,70 @@
       "work_center": "production control"
     },
     {
-      "labor_hours": 1.8,
-      "qa_gate": "fabricated geometry matches datum/gauge requirements",
+      "labor_hours": 0.65,
+      "qa_gate": "mould release record and material shelf-life accepted",
       "sequence": 20,
       "signoff_role": "operator",
-      "title": "cut, form, machine, or fabricate local hardware",
+      "title": "inspect mould and trim fixture, release material batch, and apply release system",
       "tooling_ids": [
-        "FIX-LM3-CWL-FAB",
+        "MOULD-LM3-CWL-P016",
+        "TRIM-GAUGE-LM3-CWL-P016"
+      ],
+      "work_center": "composite moulding cell"
+    },
+    {
+      "labor_hours": 1.35,
+      "qa_gate": "ply/core/insert checklist matches released laminate schedule",
+      "sequence": 30,
+      "signoff_role": "operator",
+      "title": "lay up glass-fibre reinforcement, core, solid lands, and insert bosses in mould",
+      "tooling_ids": [
+        "MOULD-LM3-CWL-P016",
+        "PLYBOOK-LM3-CWL-P016"
+      ],
+      "work_center": "composite moulding cell"
+    },
+    {
+      "labor_hours": 1.1,
+      "qa_gate": "cure record, demould inspection, and coupon trace are complete",
+      "sequence": 40,
+      "signoff_role": "operator",
+      "title": "infuse or wet-lay laminate, control cure, demould, and retain witness coupons",
+      "tooling_ids": [
+        "CURE-LM3-CWL-P016",
+        "COUPON-LM3-CWL-P016"
+      ],
+      "work_center": "controlled cure area"
+    },
+    {
+      "labor_hours": 0.85,
+      "qa_gate": "trim, drill, and sealed-edge records match the released variant",
+      "sequence": 50,
+      "signoff_role": "operator",
+      "title": "CNC trim and drill to datum, seal cut edges, and mark serial/revision",
+      "tooling_ids": [
+        "TRIM-GAUGE-LM3-CWL-P016",
         "GAUGE-LM3-CWL-P016-DATUM"
       ],
-      "work_center": "fabrication cell"
+      "work_center": "trim and drill cell"
     },
     {
       "labor_hours": 0.8,
       "qa_gate": "fit-up evidence recorded before release to assembly",
-      "sequence": 30,
+      "sequence": 60,
       "signoff_role": "operator",
-      "title": "trial-fit to parent interface and record shim/adjustment pack",
+      "title": "fit inserts, clips, retainers, gaskets, or captive fasteners and dry-fit to parent fixture",
       "tooling_ids": [
         "FIX-LM3-CWL-SA710",
-        "TORQUE-LM3-CWL-P016"
+        "TORQUE-LM3-CWL-P016",
+        "GAUGE-LM3-CWL-P016"
       ],
-      "work_center": "fit-up cell"
+      "work_center": "module fit-up cell"
     },
     {
       "labor_hours": 0.25,
       "qa_gate": "mould release record",
-      "sequence": 40,
+      "sequence": 70,
       "signoff_role": "quality inspector",
       "title": "verify acceptance gate: mould release record",
       "tooling_ids": [
@@ -71,7 +108,7 @@
     {
       "labor_hours": 0.25,
       "qa_gate": "glass-carrier land survey",
-      "sequence": 50,
+      "sequence": 80,
       "signoff_role": "quality inspector",
       "title": "verify acceptance gate: glass-carrier land survey",
       "tooling_ids": [
@@ -82,7 +119,7 @@
     {
       "labor_hours": 0.25,
       "qa_gate": "bond-line witness",
-      "sequence": 60,
+      "sequence": 90,
       "signoff_role": "quality inspector",
       "title": "verify acceptance gate: bond-line witness",
       "tooling_ids": [
@@ -93,7 +130,7 @@
     {
       "labor_hours": 0.25,
       "qa_gate": "A/B interchange check",
-      "sequence": 70,
+      "sequence": 100,
       "signoff_role": "quality inspector",
       "title": "verify acceptance gate: A/B interchange check",
       "tooling_ids": [
@@ -104,7 +141,7 @@
     {
       "labor_hours": 0.25,
       "qa_gate": "item is released, tagged, and staged for parent assembly",
-      "sequence": 80,
+      "sequence": 110,
       "signoff_role": "cell lead",
       "title": "final item release to parent assembly",
       "tooling_ids": [

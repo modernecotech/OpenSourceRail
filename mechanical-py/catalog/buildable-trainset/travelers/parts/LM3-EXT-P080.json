@@ -9,18 +9,18 @@
     "evidence_required": [
       "certificate of conformity",
       "incoming inspection record",
+      "EN 45545 evidence",
       "laminate coupon",
-      "cure record",
-      "insert pull-out evidence",
-      "fire-smoke certificate"
+      "resin/fibre batch trace",
+      "mould release record"
     ],
-    "finish_or_protection": "UV-stable exterior gelcoat/paint, sealed cut edges, gasketed seams, and mixed-metal isolation",
-    "form_factor": "moulded cowl cast, solid flanges, local core in broad skins, potted inserts, and trim/repair coupons",
-    "governing_standard": "supplier laminate schedule plus project fire/smoke, coupon, and insert pull-out evidence",
-    "grade_or_part_class": "E-glass or basalt-fibre/vinyl-ester end-cowl laminate and insert kit",
-    "material_family": "fire-retardant fiberglass composite",
-    "nominal_section": "laminate thickness, ply drop, core map, insert pattern, split line, and trim datum per LM3-BDY-155",
-    "traceability": "laminate batch, resin batch, cure record, insert pull-out record, adhesive batch, and coupon traceability"
+    "finish_or_protection": "UV-stable exterior finish system with sealed cut-edge compatibility and mixed-metal insert isolation",
+    "form_factor": "kitted dry reinforcement, resin system, local core, gelcoat/paint-primer, release consumables, insert-potting consumables, and witness-coupon stock",
+    "governing_standard": "supplier laminate certificate plus project EN 45545 fire/smoke and LM3-BDY-160 mould-process evidence",
+    "grade_or_part_class": "UV-stable E-glass/vinyl-ester or equivalent fire-rated side-module laminate, core, gelcoat, release, and coupon consumables",
+    "material_family": "supplier-qualified exterior GFRP side-module material pack",
+    "nominal_section": "supports 1,000 mm side-module mould pitch, 994 mm finished module width, solid/window/door trim variants, and solid clip lands",
+    "traceability": "fibre/resin/core/gelcoat batch, shelf-life record, cure/coupon trace, and fire certificate"
   },
   "operations": [
     {
@@ -72,10 +72,10 @@
     },
     {
       "labor_hours": 0.25,
-      "qa_gate": "panel dimensional report",
+      "qa_gate": "laminate coupon",
       "sequence": 50,
       "signoff_role": "quality inspector",
-      "title": "verify acceptance gate: panel dimensional report",
+      "title": "verify acceptance gate: laminate coupon",
       "tooling_ids": [
         "QA-LM3-EXT-P080"
       ],
@@ -83,10 +83,10 @@
     },
     {
       "labor_hours": 0.25,
-      "qa_gate": "insert pull-out",
+      "qa_gate": "resin/fibre batch trace",
       "sequence": 60,
       "signoff_role": "quality inspector",
-      "title": "verify acceptance gate: insert pull-out",
+      "title": "verify acceptance gate: resin/fibre batch trace",
       "tooling_ids": [
         "QA-LM3-EXT-P080"
       ],
@@ -94,12 +94,12 @@
     },
     {
       "labor_hours": 0.25,
-      "qa_gate": "bond coupon and water test",
+      "qa_gate": "mould release record",
       "sequence": 70,
       "signoff_role": "quality inspector",
-      "title": "verify acceptance gate: bond coupon and water test",
+      "title": "verify acceptance gate: mould release record",
       "tooling_ids": [
-        "LEAK-TEST-LM3-EXT-P080"
+        "QA-LM3-EXT-P080"
       ],
       "work_center": "quality inspection"
     },
@@ -122,9 +122,9 @@
       "incoming visual inspection",
       "envelope fit check",
       "EN 45545 evidence",
-      "panel dimensional report",
-      "insert pull-out",
-      "bond coupon and water test"
+      "laminate coupon",
+      "resin/fibre batch trace",
+      "mould release record"
     ],
     "joining_methods": [
       "bolted/torqued installation",
@@ -204,7 +204,7 @@
       "status": "blank"
     }
   ],
-  "title": "fire-rated composite exterior side sandwich-panel kit",
+  "title": "fire-rated GFRP side-module laminate, core, gelcoat, and consumable kit",
   "traveler_type": "product-item",
   "unit": "side kit"
 }

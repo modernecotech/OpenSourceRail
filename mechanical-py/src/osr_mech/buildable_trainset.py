@@ -655,28 +655,28 @@ def _product_items(candidate: DesignCandidate) -> tuple[ProductItem, ...]:
         ),
         ProductItem(
             "LM3-EXT-P080",
-            "fire-rated composite exterior side sandwich-panel kit",
+            "fire-rated GFRP side-module laminate, core, gelcoat, and consumable kit",
             Layer.EXTERNAL_COMPONENT,
             Route.BID,
             cars * 2,
             "side kit",
             "LM3-SHELL-A200",
-            ("bom-skeleton.md B6", "car_body.py", "LM3-BDY-150"),
-            "Supplier panels are trimmed and bonded to the released side-frame apertures and attachment lands.",
-            ("EN 45545 evidence", "panel dimensional report", "insert pull-out", "bond coupon and water test"),
+            ("bom-skeleton.md B6", "modular_fiberglass_body.py", "LM3-BDY-160"),
+            "Supplier-qualified glass-fibre, resin, core, gelcoat/paint, release film, and coupons feed local 1 m side-module moulding; no full-side bonded panel is used.",
+            ("EN 45545 evidence", "laminate coupon", "resin/fibre batch trace", "mould release record"),
             Maturity.BUILDABLE_AFTER_SUPPLIER_FREEZE,
         ),
         ProductItem(
             "LM3-EXT-P090",
-            "fire-rated composite roof fairing and exterior skirt-panel kit",
+            "fire-rated GFRP roof-module, dry-seal, and removable skirt material kit",
             Layer.EXTERNAL_COMPONENT,
             Route.BID,
             cars,
             "car kit",
             "LM3-SHELL-A200",
-            ("bom-skeleton.md B7", "car_body.py", "LM3-BDY-150"),
-            "Removable supplier composite panels close roof-equipment and underframe service zones without becoming primary structure.",
-            ("EN 45545 evidence", "service-removal trial", "fastener/insert proof", "water and debris-ingress check"),
+            ("bom-skeleton.md B7", "modular_fiberglass_body.py", "LM3-BDY-160"),
+            "Supplier-qualified roof-module laminate consumables, EPDM seal stock, trim materials, and removable skirt blanks feed the local mould/trim/clip process.",
+            ("EN 45545 evidence", "roof laminate coupon", "seal certificate", "service-removal trial", "water and debris-ingress check"),
             Maturity.BUILDABLE_AFTER_SUPPLIER_FREEZE,
         ),
         ProductItem(
@@ -1480,6 +1480,28 @@ def _item_material_spec(item: ProductItem) -> MaterialSpec:
             "hardware heat/batch, seal batch, proof-lot record, and car module map",
             evidence + ("clip proof-load lot", "seal certificate", "water-ingress record"),
         )
+    if item.id == "LM3-EXT-P080":
+        return MaterialSpec(
+            "supplier-qualified exterior GFRP side-module material pack",
+            "UV-stable E-glass/vinyl-ester or equivalent fire-rated side-module laminate, core, gelcoat, release, and coupon consumables",
+            "supplier laminate certificate plus project EN 45545 fire/smoke and LM3-BDY-160 mould-process evidence",
+            "kitted dry reinforcement, resin system, local core, gelcoat/paint-primer, release consumables, insert-potting consumables, and witness-coupon stock",
+            "supports 1,000 mm side-module mould pitch, 994 mm finished module width, solid/window/door trim variants, and solid clip lands",
+            "UV-stable exterior finish system with sealed cut-edge compatibility and mixed-metal insert isolation",
+            "fibre/resin/core/gelcoat batch, shelf-life record, cure/coupon trace, and fire certificate",
+            evidence + ("EN 45545 evidence", "laminate coupon", "resin/fibre batch trace", "mould release record"),
+        )
+    if item.id == "LM3-EXT-P090":
+        return MaterialSpec(
+            "supplier-qualified exterior GFRP roof-module and seal material pack",
+            "fire-rated roof-module laminate consumables, EPDM dry-seal stock, removable skirt blanks, and retained-fastener consumables",
+            "supplier laminate and seal certificates plus project EN 45545, ozone/UV, ingress, and LM3-BDY-160 mould-process evidence",
+            "kitted roof-module reinforcement/core/resin/finish consumables, extruded EPDM seals, skirt blanks, trim stock, and coupon material",
+            "supports 1,000 mm roof-module mould pitch, dry joints, drain paths, removable skirts, and anti-lift/clip hardware interfaces",
+            "UV-stable roof finish, sealed cut edges, ozone-resistant EPDM, and galvanic isolation at retained hardware",
+            "laminate batch, seal batch, cure/coupon trace, service-removal record, and water-test record",
+            evidence + ("EN 45545 evidence", "roof laminate coupon", "seal certificate", "water and debris-ingress check"),
+        )
 
     if item.route in (Route.BID, Route.SOURCE) or item.layer is Layer.EXTERNAL_COMPONENT:
         if any(word in text for word in ("cowl", "fiberglass", "fibreglass", "frp", "phenolic", "composite", "laminate", "liner", "trim")):
@@ -1638,7 +1660,7 @@ def _item_material_spec(item: ProductItem) -> MaterialSpec:
             "laminate/panel batch, resin/cure or board batch, insert batch, adhesive batch, and fire certificate",
             ("fire-material certificate", "laminate/panel batch record", "insert pull-out evidence", "trim/cure record"),
         )
-    if "cowl" in text or "fiberglass" in text or "fibreglass" in text or "frp" in text:
+    if _is_composite_make_item(item):
         return MaterialSpec(
             "fire-retardant fiberglass composite",
             "E-glass FRP cast kit with bonded/moulded inserts",
@@ -1686,7 +1708,7 @@ def _item_material_spec(item: ProductItem) -> MaterialSpec:
 def _item_process_spec(item: ProductItem) -> ProcessSpec:
     text = f"{item.id} {item.title} {item.make_or_buy_basis} {' '.join(item.acceptance)}".lower()
     if item.route is Route.MAKE:
-        if any(word in text for word in ("cowl", "fiberglass", "fibreglass", "frp", "phenolic", "composite", "laminate", "liner", "trim")):
+        if _is_composite_make_item(item):
             is_cabin = any(word in text for word in ("ceiling", "sidewall", "battery strake", "vestibule", "prm", "cabin", "interior"))
             primary = [
                 "inspect mould/trim fixture",
@@ -2320,6 +2342,16 @@ def _qa_tool_for_text(text: str) -> str:
     return "QA"
 
 
+def _is_composite_make_item(item: ProductItem) -> bool:
+    if item.route is not Route.MAKE:
+        return False
+    if item.id == "LM3-BDY-P130":
+        return True
+    if item.id.startswith("LM3-CWL-P"):
+        return True
+    return item.id in {"LM3-INT-P020", "LM3-INT-P030", "LM3-INT-P040", "LM3-INT-P050"}
+
+
 def _signoff_blocks() -> list[dict[str, str]]:
     return [
         {"role": "operator", "name": "", "date": "", "signature": "", "status": "blank"},
@@ -2392,26 +2424,72 @@ def _item_operations(item: ProductItem) -> list[dict[str, object]]:
         )
     ]
     if item.route is Route.MAKE:
-        operations.extend(
-            [
-                _operation(
-                    20,
-                    "cut, form, machine, or fabricate local hardware",
-                    "fabrication cell",
-                    1.8 if item.layer is Layer.FABRICATED_PART else 1.1,
-                    [f"FIX-{prefix}-FAB", f"GAUGE-{item.id}-DATUM"],
-                    "fabricated geometry matches datum/gauge requirements",
-                ),
-                _operation(
-                    30,
-                    "trial-fit to parent interface and record shim/adjustment pack",
-                    "fit-up cell",
-                    0.8,
-                    [f"FIX-{item.parent}", f"TORQUE-{item.id}"],
-                    "fit-up evidence recorded before release to assembly",
-                ),
-            ]
-        )
+        if _is_composite_make_item(item):
+            operations.extend(
+                [
+                    _operation(
+                        20,
+                        "inspect mould and trim fixture, release material batch, and apply release system",
+                        "composite moulding cell",
+                        0.65,
+                        [f"MOULD-{item.id}", f"TRIM-GAUGE-{item.id}"],
+                        "mould release record and material shelf-life accepted",
+                    ),
+                    _operation(
+                        30,
+                        "lay up glass-fibre reinforcement, core, solid lands, and insert bosses in mould",
+                        "composite moulding cell",
+                        1.35,
+                        [f"MOULD-{item.id}", f"PLYBOOK-{item.id}"],
+                        "ply/core/insert checklist matches released laminate schedule",
+                    ),
+                    _operation(
+                        40,
+                        "infuse or wet-lay laminate, control cure, demould, and retain witness coupons",
+                        "controlled cure area",
+                        1.1,
+                        [f"CURE-{item.id}", f"COUPON-{item.id}"],
+                        "cure record, demould inspection, and coupon trace are complete",
+                    ),
+                    _operation(
+                        50,
+                        "CNC trim and drill to datum, seal cut edges, and mark serial/revision",
+                        "trim and drill cell",
+                        0.85,
+                        [f"TRIM-GAUGE-{item.id}", f"GAUGE-{item.id}-DATUM"],
+                        "trim, drill, and sealed-edge records match the released variant",
+                    ),
+                    _operation(
+                        60,
+                        "fit inserts, clips, retainers, gaskets, or captive fasteners and dry-fit to parent fixture",
+                        "module fit-up cell",
+                        0.8,
+                        [f"FIX-{item.parent}", f"TORQUE-{item.id}", f"GAUGE-{item.id}"],
+                        "fit-up evidence recorded before release to assembly",
+                    ),
+                ]
+            )
+        else:
+            operations.extend(
+                [
+                    _operation(
+                        20,
+                        "cut, form, machine, or fabricate local hardware",
+                        "fabrication cell",
+                        1.8 if item.layer is Layer.FABRICATED_PART else 1.1,
+                        [f"FIX-{prefix}-FAB", f"GAUGE-{item.id}-DATUM"],
+                        "fabricated geometry matches datum/gauge requirements",
+                    ),
+                    _operation(
+                        30,
+                        "trial-fit to parent interface and record shim/adjustment pack",
+                        "fit-up cell",
+                        0.8,
+                        [f"FIX-{item.parent}", f"TORQUE-{item.id}"],
+                        "fit-up evidence recorded before release to assembly",
+                    ),
+                ]
+            )
     else:
         operations.extend(
             [
@@ -2434,7 +2512,7 @@ def _item_operations(item: ProductItem) -> list[dict[str, object]]:
                 ),
             ]
         )
-    sequence = 40
+    sequence = 70 if _is_composite_make_item(item) else 40
     for gate in item.acceptance:
         operations.append(
             _operation(

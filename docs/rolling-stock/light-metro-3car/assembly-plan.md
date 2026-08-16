@@ -30,8 +30,8 @@ serviceability:
 |---|---|---|---|
 | Structural weld | Primary steel underframe, side frames, bolsters, coupler pockets, end rings, bogie frames | Fixture tack, WPS-controlled MIG/MAG weld, controlled cool/stress relief where required, post-weld machining of critical datums | Material heat trace, WPS/WPQR, welder ID, weld map, VT plus MT/UT where classed, post-weld datum survey |
 | Bolted structural datum | Bogie marriage, coupler/crash absorber, articulation bearings, door cassette frames, HVAC curbs, battery trays | Classed fasteners into machined pads/weld nuts/captive inserts; shim only at released shim packs; torque stripe after final torque | Bolt grade certificate, torque record, locking method, shim map, witness marks, re-torque rule |
-| Adhesive/bonded panel | Composite side/roof panels, glazing lands, selected cowl seals, PV bonded pads | Abrade/clean/prime, controlled adhesive batch and pot life, clamped cure, witness coupon where required | Surface-prep record, adhesive batch/shelf-life, cure time/temperature, coupon/pull evidence, water/leak test |
-| Gasketed removable panel | Cowl hatches, skirts, service covers, battery access lids, roof fairings | Captive fasteners or quarter-turn retainers with continuous gasket and drain path | Insert pull-out, fastener retention, gasket compression witness, water test, service-removal check |
+| Qualified adhesive/bonded interface | Glazing lands, selected non-service cowl seams, PV bonded pads, and supplier-required local seams; not LM3-BDY-160 side/roof modules | Abrade/clean/prime, controlled adhesive batch and pot life, clamped cure, witness coupon where required | Surface-prep record, adhesive batch/shelf-life, cure time/temperature, coupon/pull evidence, water/leak test |
+| Gasketed removable panel | One-metre GFRP side/roof modules, cowl hatches, skirts, service covers, battery access lids, and roof fairings | Keyed hooks, captive clips, retained fasteners, or quarter-turn retainers with continuous gasket and drain path | Insert pull-out, fastener retention, gasket compression witness, clip/anti-lift witness marks, water test, service-removal check |
 | Electrical / data | HV battery, inverter, charge rack, roof PV, TCN-E, CAN-FD, safety loop, door and HVAC looms | Keyed connectors, HVIL where HV, segregated clipped routing, bonding jumpers, strain relief and service loops | Continuity, insulation resistance, HVIL, bond continuity, network enumeration, bend-radius and clamp-pitch inspection |
 | Fluid / thermal | Battery/inverter coolant, HVAC drains, washer tubes, fire suppression interfaces | Quick-disconnects or compression fittings on supported pipe/hose; no unsupported hose spans across moving joints | Pressure/leak test, drain-flow test, rub/chafe inspection, service isolation procedure |
 
@@ -59,7 +59,7 @@ is a nonconformance.
 |---|---|---|---|
 | `LM3-BDY-SA110` underframe datum weldment | WPS-controlled welds between side sills, centre spine, cross bearers, bolsters, coupler pockets, and tray rails; post-weld machined bogie/coupler datums | Fixture centreline, bogie centres, coupler pocket centre plane | Material release, fixture tack survey, weld/NDT release, post-weld datum survey |
 | `LM3-BDY-SA120` carbody spaceframe | Welded/bolted side frames and roof bows onto underframe datum pads; door/window portal reinforcement tack-welded before closure | Door aperture planes, window carrier rings, roof-rail pitch | Door/window aperture survey, roof rail survey, carbody dimensional report |
-| `LM3-SHELL-A200` painted frame and body skin | Corrosion-protected steel frame plus 1 m clip-on fiberglass side/roof modules, glazing lands, and removable skirt/cowl interfaces | Painted steel clip rails, window apertures, end-ring cowl datum | Corrosion report, clip/anti-lift witness map, eight-hour route record, water-ingress pre-test; cure record only for glazing/cowl seams |
+| `LM3-SHELL-A200` painted frame and body skin | Corrosion-protected steel frame plus moulded 1 m clip-on GFRP side/roof modules, glazing lands, and removable skirt/cowl interfaces | Painted steel clip rails, window apertures, end-ring cowl datum | Corrosion report, mould/cure/coupon records, sealed-edge record, clip/anti-lift witness map, eight-hour route record, water-ingress pre-test; cure record only for glazing/cowl seams |
 | `LM3-WIN-SA320` side glazing cassette | Bonded or gasketed laminated-glass cassette into `LM3-BDY-P110` carrier ring; mechanical anti-drop retention where supplier requires | Window carrier ring and primer/bond land | Aperture gauge, bond/gasket procedure, water-ingress test |
 | `LM3-DOOR-SA310` door cassette | Bolted COTS door cassette into `LM3-BDY-P100` portal frame with shim pack, threshold beam, drains, closed/locked loop, and emergency release | Door portal plane, sill height, lock-loop bracket | Door gauge fit, obstruction test, closed-and-locked test |
 | `LM3-INT-SA330` interior fit-out | FRP/phenolic liners and battery strake covers on potted inserts, clip grids, retained fasteners, and limited non-service adhesive/sealant; lighting/PIS/CCTV plugs into LV looms | Saloon floor datum, ceiling rail, window reveal datum, PRM aisle gauge | Egress check, fire-material pack, liner/trim fit survey, lighting/PIS/CCTV static test |
@@ -101,13 +101,16 @@ is a nonconformance.
 7. Weigh the car and complete low-speed yard movement before it enters
    trainset assembly.
 
-Each one-metre side/roof body module follows the LM3-BDY-160 dry cycle: clean
-and inspect the datum rail, fit the EPDM seal, engage the asymmetric hook,
-close captive clips, engage the independent anti-lift retainer, and record the
-visible witness marks. Six two-person crews install the 144 modules across
-three released frames in one eight-hour shift. Glazing and end-cowl
-non-service seams retain their separate qualified adhesive cycles. No clip or
-fastener may pull an out-of-tolerance frame or panel into position.
+Each one-metre side/roof body module is already moulded, cured, demoulded,
+CNC-trimmed, edge-sealed, fitted with inserts/clips/gaskets, labelled, and
+dry-fitted to a master frame before the car reaches final assembly. Installation
+then follows the LM3-BDY-160 dry cycle: clean and inspect the datum rail, fit
+the EPDM seal, engage the asymmetric hook, close captive clips, engage the
+independent anti-lift retainer, and record the visible witness marks. Six
+two-person crews install the 144 modules across three released frames in one
+eight-hour shift. Glazing and end-cowl non-service seams retain their separate
+qualified adhesive cycles. No clip or fastener may pull an out-of-tolerance
+frame or panel into position.
 
 ### 3. Join the three-car consist
 

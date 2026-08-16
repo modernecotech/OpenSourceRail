@@ -1,6 +1,6 @@
 {
   "design_id": "LM3-BDY-160",
-  "description": "one-metre clip-on non-structural fiberglass body modules",
+  "description": "one-metre clip-on non-structural glass-fibre/GFRP body modules",
   "module_width_mm": 1000.0,
   "car_body_length_mm": 16500.0,
   "steel_end_transition_mm_each": 250.0,
@@ -13,8 +13,54 @@
   "retention": "keyed hook plus captive over-centre clip and independent anti-lift retainer",
   "seal": "replaceable dry EPDM compression gasket; no production adhesive cure",
   "structural_role": "non-structural weather skin; steel frame remains the certified load path",
+  "moulding_basis": "reusable 1,000 mm side and roof moulds with CNC-trimmed solid, window-edge, door-edge, and roof variants",
+  "fabrication_route": "mould, cure, demould, CNC trim/drill, edge seal, fit inserts/clips/gaskets, master-frame dry fit",
+  "module_variants": [
+    "solid side",
+    "window-edge side",
+    "door-edge side",
+    "roof"
+  ],
   "assembly_elapsed_hours": 8.0,
   "assembly_crews": 6,
+  "fabrication_plan": [
+    {
+      "sequence": 10,
+      "activity": "Release mould, trim fixture, laminate schedule, core map, insert map, and module serial range",
+      "work_center": "production control",
+      "release_check": "traveler revision, material certificates, and mould release are accepted"
+    },
+    {
+      "sequence": 20,
+      "activity": "Clean mould, inspect A-surface, apply release system, and apply UV-stable gelcoat or paint-primer layer",
+      "work_center": "composite moulding cell",
+      "release_check": "mould surface record and release-system lot recorded"
+    },
+    {
+      "sequence": 30,
+      "activity": "Cut glass reinforcement and local core, lay up solid clip lands, pot insert bosses, and bag or close mould",
+      "work_center": "composite moulding cell",
+      "release_check": "ply/core/insert checklist matches the released module variant"
+    },
+    {
+      "sequence": 40,
+      "activity": "Infuse or wet-lay laminate, control cure, demould, post-cure where specified, and keep witness coupons with the batch",
+      "work_center": "controlled cure area",
+      "release_check": "cure time/temperature record, coupon ID, and demould inspection complete"
+    },
+    {
+      "sequence": 50,
+      "activity": "CNC trim door/window/roof variant, drill clip grid from datum, seal all cut edges, and mark serial/revision",
+      "work_center": "trim and drill cell",
+      "release_check": "trim gauge, hole-position gauge, and edge-seal record accepted"
+    },
+    {
+      "sequence": 60,
+      "activity": "Fit captive inserts, clips, anti-lift features, drain details, and EPDM seals; dry-fit to master frame",
+      "work_center": "module fit-up cell",
+      "release_check": "insert pull-out lot, gasket compression witness, and master-frame fit accepted"
+    }
+  ],
   "assembly_plan": [
     {
       "sequence": 10,

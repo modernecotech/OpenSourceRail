@@ -25,7 +25,7 @@
 | Material family | assembly material set |
 | Grade / part class | LM3-SHELL-A200 inherits released child material specifications |
 | Governing standard | all child material standards plus assembly-level torque, bonding, coating, and cleanliness controls |
-| Form factor | LM3-BDY-SA120 child assembly material set, fire-retardant exterior fiberglass sandwich, stainless retention hardware and elastomer seal kit, LM3-WIN-SA320 child assembly material set, fire-retardant fiberglass composite |
+| Form factor | LM3-BDY-SA120 child assembly material set, fire-retardant exterior fiberglass sandwich, stainless retention hardware and elastomer seal kit, LM3-WIN-SA320 child assembly material set, supplier-qualified exterior GFRP side-module material pack, supplier-qualified exterior GFRP roof-module and seal material pack |
 | Nominal section | as defined by child drawings and assembly interface control drawing |
 | Finish / protection | protect damaged coating, exposed edges, seals, bonds, and labels during assembly |
 | Traceability | child serial/heat/batch records plus assembly traveler traceability |
@@ -98,30 +98,31 @@ Evidence required:
   - bond/gasket procedure
   - water ingress test
 
-### 5. `LM3-EXT-P080` — fire-rated composite exterior side sandwich-panel kit
+### 5. `LM3-EXT-P080` — fire-rated GFRP side-module laminate, core, gelcoat, and consumable kit
 
 - Placement zone: primary structure datum and final assembly interface
 - Interfaces: `mechanical datum`
-- Join classes: `adhesive-bonded-panel`, `bolted-structural-datum`
+- Join classes: `bolted-structural-datum`
 - Torque authority: accepted supplier installation manual plus released OSR interface-control drawing
 - Joint release status: `supplier-freeze-required`
 - Verification:
   - EN 45545 evidence
-  - panel dimensional report
-  - insert pull-out
-  - bond coupon and water test
+  - laminate coupon
+  - resin/fibre batch trace
+  - mould release record
 
-### 6. `LM3-EXT-P090` — fire-rated composite roof fairing and exterior skirt-panel kit
+### 6. `LM3-EXT-P090` — fire-rated GFRP roof-module, dry-seal, and removable skirt material kit
 
 - Placement zone: roof equipment rail, curb, and service-access zone
 - Interfaces: `mechanical datum`
-- Join classes: `adhesive-bonded-panel`, `gasketed-removable-panel`, `bolted-structural-datum`
+- Join classes: `gasketed-removable-panel`, `bolted-structural-datum`
 - Torque authority: accepted supplier installation manual plus released OSR interface-control drawing
 - Joint release status: `supplier-freeze-required`
 - Verification:
   - EN 45545 evidence
+  - roof laminate coupon
+  - seal certificate
   - service-removal trial
-  - fastener/insert proof
   - water and debris-ingress check
 
 

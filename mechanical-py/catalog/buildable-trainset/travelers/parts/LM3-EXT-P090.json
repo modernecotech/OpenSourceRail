@@ -3,24 +3,24 @@
     "B7"
   ],
   "document_revision": "A-DRAFT",
-  "estimated_labor_hours": 2.8,
+  "estimated_labor_hours": 3.05,
   "id": "LM3-EXT-P090",
   "material_spec": {
     "evidence_required": [
       "certificate of conformity",
       "incoming inspection record",
-      "laminate coupon",
-      "cure record",
-      "insert pull-out evidence",
-      "fire-smoke certificate"
+      "EN 45545 evidence",
+      "roof laminate coupon",
+      "seal certificate",
+      "water and debris-ingress check"
     ],
-    "finish_or_protection": "UV-stable exterior gelcoat/paint, sealed cut edges, gasketed seams, and mixed-metal isolation",
-    "form_factor": "moulded cowl cast, solid flanges, local core in broad skins, potted inserts, and trim/repair coupons",
-    "governing_standard": "supplier laminate schedule plus project fire/smoke, coupon, and insert pull-out evidence",
-    "grade_or_part_class": "E-glass or basalt-fibre/vinyl-ester end-cowl laminate and insert kit",
-    "material_family": "fire-retardant fiberglass composite",
-    "nominal_section": "laminate thickness, ply drop, core map, insert pattern, split line, and trim datum per LM3-BDY-155",
-    "traceability": "laminate batch, resin batch, cure record, insert pull-out record, adhesive batch, and coupon traceability"
+    "finish_or_protection": "UV-stable roof finish, sealed cut edges, ozone-resistant EPDM, and galvanic isolation at retained hardware",
+    "form_factor": "kitted roof-module reinforcement/core/resin/finish consumables, extruded EPDM seals, skirt blanks, trim stock, and coupon material",
+    "governing_standard": "supplier laminate and seal certificates plus project EN 45545, ozone/UV, ingress, and LM3-BDY-160 mould-process evidence",
+    "grade_or_part_class": "fire-rated roof-module laminate consumables, EPDM dry-seal stock, removable skirt blanks, and retained-fastener consumables",
+    "material_family": "supplier-qualified exterior GFRP roof-module and seal material pack",
+    "nominal_section": "supports 1,000 mm roof-module mould pitch, dry joints, drain paths, removable skirts, and anti-lift/clip hardware interfaces",
+    "traceability": "laminate batch, seal batch, cure/coupon trace, service-removal record, and water-test record"
   },
   "operations": [
     {
@@ -72,8 +72,30 @@
     },
     {
       "labor_hours": 0.25,
-      "qa_gate": "service-removal trial",
+      "qa_gate": "roof laminate coupon",
       "sequence": 50,
+      "signoff_role": "quality inspector",
+      "title": "verify acceptance gate: roof laminate coupon",
+      "tooling_ids": [
+        "QA-LM3-EXT-P090"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "seal certificate",
+      "sequence": 60,
+      "signoff_role": "quality inspector",
+      "title": "verify acceptance gate: seal certificate",
+      "tooling_ids": [
+        "QA-LM3-EXT-P090"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "service-removal trial",
+      "sequence": 70,
       "signoff_role": "quality inspector",
       "title": "verify acceptance gate: service-removal trial",
       "tooling_ids": [
@@ -83,19 +105,8 @@
     },
     {
       "labor_hours": 0.25,
-      "qa_gate": "fastener/insert proof",
-      "sequence": 60,
-      "signoff_role": "quality inspector",
-      "title": "verify acceptance gate: fastener/insert proof",
-      "tooling_ids": [
-        "TORQUE-LM3-EXT-P090"
-      ],
-      "work_center": "quality inspection"
-    },
-    {
-      "labor_hours": 0.25,
       "qa_gate": "water and debris-ingress check",
-      "sequence": 70,
+      "sequence": 80,
       "signoff_role": "quality inspector",
       "title": "verify acceptance gate: water and debris-ingress check",
       "tooling_ids": [
@@ -106,7 +117,7 @@
     {
       "labor_hours": 0.25,
       "qa_gate": "item is released, tagged, and staged for parent assembly",
-      "sequence": 80,
+      "sequence": 90,
       "signoff_role": "cell lead",
       "title": "final item release to parent assembly",
       "tooling_ids": [
@@ -122,8 +133,9 @@
       "incoming visual inspection",
       "envelope fit check",
       "EN 45545 evidence",
+      "roof laminate coupon",
+      "seal certificate",
       "service-removal trial",
-      "fastener/insert proof",
       "water and debris-ingress check"
     ],
     "joining_methods": [
@@ -204,7 +216,7 @@
       "status": "blank"
     }
   ],
-  "title": "fire-rated composite roof fairing and exterior skirt-panel kit",
+  "title": "fire-rated GFRP roof-module, dry-seal, and removable skirt material kit",
   "traveler_type": "product-item",
   "unit": "car kit"
 }

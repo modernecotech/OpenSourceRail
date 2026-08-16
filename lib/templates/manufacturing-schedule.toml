@@ -88,6 +88,26 @@ priority = "safety"
 predecessors = "rs-10-material-kit"
 
 [[manufacturing_package]]
+id = "rs-23-moulded-body-modules"
+asset_types = ["rolling-stock"]
+phase = "rolling-stock"
+sequence = 23
+duration_days = 5
+work_center = "rolling stock composite moulding cell"
+work_order_title = "Fabricate moulded one-metre glass-fibre body modules"
+work_order_detail = "Use released 1 m side and roof moulds to fabricate 96 side and 48 roof GFRP modules for the three-car trainset: inspect moulds, apply release and gelcoat/paint-primer, lay up glass-fibre/core/solid clip lands, cure, demould, CNC trim door/window/roof variants, seal edges, fit inserts/clips/gaskets, and dry-fit to the master frame."
+staff_roles = ["composite cell lead", "laminator", "trim technician", "quality technician"]
+staff_tasks = "Release material batches; prepare moulds; lay up and cure modules; demould and inspect; CNC trim/drill; seal cut edges; fit inserts, retainers, and EPDM seals; complete master-frame dry fit."
+materials_or_inputs = "GFRP fibre/resin/core/gelcoat kit, 1 m module moulds, trim/drill gauges, insert/clip kits, EPDM seals, witness coupons"
+bom_refs = ["rolling_stock_bom:B6", "rolling_stock_bom:B7"]
+deliverables = "numbered moulded side and roof module kits released for three-car body installation"
+evidence_required = "mould release record, laminate/cure record, witness coupons, CNC trim report, edge-seal record, insert pull-out lot, master-frame dry-fit report"
+release_authority = "rolling-stock QA lead"
+qa_gate_hint = "qa-10-carbody-structure"
+priority = "safety"
+predecessors = "rs-20-carbody-bogie"
+
+[[manufacturing_package]]
 id = "rs-25-clip-on-body"
 asset_types = ["rolling-stock"]
 phase = "rolling-stock"
@@ -105,7 +125,7 @@ evidence_required = "frame survey, module/clip witness map, clip proof status, w
 release_authority = "rolling-stock QA lead"
 qa_gate_hint = "qa-10-carbody-structure"
 priority = "safety"
-predecessors = "rs-20-carbody-bogie"
+predecessors = "rs-23-moulded-body-modules"
 
 [[manufacturing_package]]
 id = "rs-30-traction-battery-control"

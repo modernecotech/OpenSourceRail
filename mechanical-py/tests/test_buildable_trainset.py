@@ -290,6 +290,11 @@ def test_definition_pack_generates_every_part_subassembly_assembly_and_trainset(
     assert "cabin" in cabin_definition["material_spec"]["material_family"]
     assert "fire-material certificate" in cabin_definition["material_spec"]["evidence_required"]
 
+    side_material_definition = json.loads((tmp_path / "definitions/parts/LM3-EXT-P080.json").read_text())
+    assert "material pack" in side_material_definition["material_spec"]["material_family"]
+    assert "1,000 mm side-module mould pitch" in side_material_definition["material_spec"]["nominal_section"]
+    assert "bonded to the released side-frame" not in side_material_definition["make_or_buy_basis"]
+
     hv_definition = json.loads((tmp_path / "definitions/subassemblies/LM3-HV-SA510.json").read_text())
     hv_children = {step["child_id"]: step for step in hv_definition["integration_steps"]}
     assert "high-voltage electrical" in hv_children["LM3-TRC-P070"]["interface_classes"]
@@ -330,6 +335,15 @@ def test_shop_travelers_generate_labor_tooling_revision_and_signoff_blocks(tmp_p
     assert make_part["material_spec"]["governing_standard"]
     assert make_part["process_spec"]["tooling_basis"]
     assert any("cut, form, machine" in operation["title"] for operation in make_part["operations"])
+
+    body_module = json.loads((tmp_path / "travelers/parts/LM3-BDY-P130.json").read_text())
+    body_module_operations = " ".join(operation["title"] for operation in body_module["operations"]).lower()
+    assert "inspect mould" in body_module_operations
+    assert "lay up glass-fibre" in body_module_operations
+    assert "demould" in body_module_operations
+    assert "cnc trim" in body_module_operations
+    assert not any("cut, form, machine" in operation["title"] for operation in body_module["operations"])
+
     assert (tmp_path / "travelers/trainsets/LM3-TRAINSET-A000.md").exists()
 
 

@@ -5,7 +5,7 @@
 | Traveler type | `assembly-node` |
 | Document revision | `A-DRAFT` |
 | Release status | `unsigned-template` |
-| Estimated labor | 9.55 h |
+| Estimated labor | 9.36 h |
 | Build cell | paint / clip-on body / glazing cells |
 | Procurement BOM lines | `B5`, `B6`, `B7`, `B20`, `B28` |
 
@@ -16,7 +16,7 @@
 | Material family | assembly material set |
 | Grade / part class | LM3-SHELL-A200 inherits released child material specifications |
 | Governing standard | all child material standards plus assembly-level torque, bonding, coating, and cleanliness controls |
-| Form factor | LM3-BDY-SA120 child assembly material set, fire-retardant exterior fiberglass sandwich, stainless retention hardware and elastomer seal kit, LM3-WIN-SA320 child assembly material set, fire-retardant fiberglass composite |
+| Form factor | LM3-BDY-SA120 child assembly material set, fire-retardant exterior fiberglass sandwich, stainless retention hardware and elastomer seal kit, LM3-WIN-SA320 child assembly material set, supplier-qualified exterior GFRP side-module material pack, supplier-qualified exterior GFRP roof-module and seal material pack |
 | Nominal section | as defined by child drawings and assembly interface control drawing |
 | Finish / protection | protect damaged coating, exposed edges, seals, bonds, and labels during assembly |
 | Traceability | child serial/heat/batch records plus assembly traveler traceability |
@@ -54,8 +54,8 @@ Evidence required:
 | 30 | install and integrate LM3-BDY-P130: one-metre clip-on fiberglass side and roof body module | paint / clip-on body / glazing cells | 1.17 | `FIX-LM3-SHELL-A200`<br>`GAUGE-LM3-BDY-P130`<br>`TORQUE-LM3-BDY-P130` | placement zone and joint controls accepted: side/end glazing aperture and bonded carrier datum | operator |
 | 40 | install and integrate LM3-BDY-P140: keyed clip rail, captive retainer, anti-lift, and dry-seal car kit | paint / clip-on body / glazing cells | 1.05 | `FIX-LM3-SHELL-A200`<br>`GAUGE-LM3-BDY-P140`<br>`TORQUE-LM3-BDY-P140` | placement zone and joint controls accepted: primary structure datum and final assembly interface | operator |
 | 50 | install and integrate LM3-WIN-SA320: side glazing cassette installation | paint / clip-on body / glazing cells | 1.12 | `FIX-LM3-SHELL-A200`<br>`GAUGE-LM3-WIN-SA320`<br>`TORQUE-LM3-WIN-SA320` | placement zone and joint controls accepted: side/end glazing aperture and bonded carrier datum | operator |
-| 60 | install and integrate LM3-EXT-P080: fire-rated composite exterior side sandwich-panel kit | paint / clip-on body / glazing cells | 1.17 | `FIX-LM3-SHELL-A200`<br>`GAUGE-LM3-EXT-P080`<br>`TORQUE-LM3-EXT-P080` | placement zone and joint controls accepted: primary structure datum and final assembly interface | operator |
-| 70 | install and integrate LM3-EXT-P090: fire-rated composite roof fairing and exterior skirt-panel kit | paint / clip-on body / glazing cells | 1.29 | `FIX-LM3-SHELL-A200`<br>`GAUGE-LM3-EXT-P090`<br>`TORQUE-LM3-EXT-P090` | placement zone and joint controls accepted: roof equipment rail, curb, and service-access zone | operator |
+| 60 | install and integrate LM3-EXT-P080: fire-rated GFRP side-module laminate, core, gelcoat, and consumable kit | paint / clip-on body / glazing cells | 1.05 | `FIX-LM3-SHELL-A200`<br>`GAUGE-LM3-EXT-P080`<br>`TORQUE-LM3-EXT-P080` | placement zone and joint controls accepted: primary structure datum and final assembly interface | operator |
+| 70 | install and integrate LM3-EXT-P090: fire-rated GFRP roof-module, dry-seal, and removable skirt material kit | paint / clip-on body / glazing cells | 1.22 | `FIX-LM3-SHELL-A200`<br>`GAUGE-LM3-EXT-P090`<br>`TORQUE-LM3-EXT-P090` | placement zone and joint controls accepted: roof equipment rail, curb, and service-access zone | operator |
 | 80 | hold point: corrosion report | quality inspection | 0.35 | `QA-LM3-SHELL-A200` | corrosion report | quality inspector |
 | 90 | hold point: clip and anti-lift witness map | quality inspection | 0.35 | `QA-LM3-SHELL-A200` | clip and anti-lift witness map | quality inspector |
 | 100 | hold point: eight-hour trainset body route | quality inspection | 0.35 | `QA-LM3-SHELL-A200` | eight-hour trainset body route | quality inspector |

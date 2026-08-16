@@ -361,9 +361,10 @@ independent heavy-vehicle-class PMSM controllers, direct-HV DC HVAC, isolated
 LV DC/DC domains, and a standard 500 kW station DC/DC cabinet backed by
 repeatable 500 kWh stationary-LFP modules. The welded S355 datum skeleton is
 the safety load path. Sixteen 1 m bays per 16.5 m car carry clipped fiberglass
-side and roof modules on keyed hooks, captive retainers, anti-lift locks, and
-dry replaceable EPDM seals; no full-length mould or production adhesive cure
-is required.
+side and roof modules fabricated in reusable short moulds, CNC-trimmed into
+solid/window/door/roof variants, and installed on keyed hooks, captive
+retainers, anti-lift locks, and dry replaceable EPDM seals; no full-length
+mould or production adhesive cure is required.
 
 Key links:
 

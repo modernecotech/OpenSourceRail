@@ -8,6 +8,7 @@ from osr_mech.rolling_stock.modular_fiberglass_body import (
     cladding_bays,
     design_manifest,
     fiberglass_cladding_system,
+    moulded_module_fabrication_plan,
     one_day_trainset_assembly_plan,
     write_design_pack,
 )
@@ -57,6 +58,17 @@ def test_three_car_exterior_body_is_installable_in_one_shift() -> None:
     assert manifest["modules_per_three_car_trainset"] == 144
     assert "no production adhesive cure" in manifest["seal"]
     assert manifest["structural_role"].startswith("non-structural")
+    assert "mould" in manifest["fabrication_route"]
+
+
+def test_modules_have_controlled_mould_fabrication_route() -> None:
+    plan = moulded_module_fabrication_plan()
+    activities = " ".join(phase.activity for phase in plan).lower()
+    assert "mould" in activities
+    assert "demould" in activities
+    assert "cnc trim" in activities
+    assert "master frame" in activities
+    assert len(plan) == 6
 
 
 def test_design_pack_writes_machine_and_human_readable_artifacts(tmp_path) -> None:
@@ -64,4 +76,5 @@ def test_design_pack_writes_machine_and_human_readable_artifacts(tmp_path) -> No
     assert json_path.exists()
     assert markdown_path.exists()
     assert '"design_id": "LM3-BDY-160"' in json_path.read_text()
+    assert "Moulded module fabrication route" in markdown_path.read_text()
     assert "One-shift route" in markdown_path.read_text()

@@ -60,7 +60,11 @@ plant:
    - Topcoat booth for exposed steel and brackets.
 
 4. **Composite and glazing cell**
+   - Reusable one-metre side-module and roof-module moulds with released
+     A-surfaces, local-core maps, solid clip lands, and insert boss features.
    - One-metre module trim/drill gauge and master-frame trial-fit stand.
+   - Resin, fibre, core, gelcoat/paint-primer, release-system, cure-record,
+     and witness-coupon control for each moulded batch.
    - End-cowl cast trim/drill jigs or incoming-inspection fixtures for
      supplier-made fiberglass casts.
    - Clip/anti-lift proof fixture and dry-seal inspection tools.
@@ -88,7 +92,7 @@ rather than legacy carbody megajigs.
 | LM3-TL-COUPLER-03 | Coupler pocket fixture | Keeps crash-can plate, shear plate, and pocket inserts square to train centreline | ±0.75 mm on coupler face datum |
 | LM3-TL-SIDE-04 | Side-wall post/rail fixture | Locates door portals, window posts, waist rail, and cant rail | ±1.0 mm at door cassette opening |
 | LM3-TL-ROOF-05 | Roof bow fixture | Holds roll-formed roof bows and HVAC rail inserts | ±1.5 mm on HVAC rail pitch |
-| LM3-TL-PANEL-06 | Composite/sandwich panel drill jig | Drills quarter-turn retainers and bond-line witness holes | ±0.5 mm on retainer pitch |
+| LM3-TL-PANEL-06 | One-metre side/roof module mould and trim/drill fixture | Moulds GFRP side/roof modules, locates solid clip lands and potted inserts, then CNC trims solid/window/door/roof variants from the common datum | ±0.5 mm on clip grid; ±1.0 mm on trim edge |
 | LM3-TL-DOOR-07 | Door cassette fit-up gauge | Confirms COTS door cassette envelope, threshold, and lock-loop bracket clearances | Supplier installation tolerance |
 | LM3-TL-HV-08 | Battery tray/service-lid gauge | Checks tray drainage, lid gasket land, HV cable gland reach, and seat-base clearance | ±1.0 mm on service-lid gasket land |
 | LM3-TL-COWL-09 | Fiberglass end-cowl cast fit-up fixture | Holds CWL-FRP-01 through CWL-FRP-06 to the steel backing-ring datum and checks split-line gaps, insert pitch, glass carrier land, and lamp/sensor hatch access | ±1.0 mm on glass-carrier land; ±2.0 mm on cast split gaps |
@@ -104,7 +108,8 @@ are tracked as parametric source and FreeCAD review artifacts:
 |---|---|
 | `main_frame()` | Underframe ladder, formed sills, cross-bearers, bolsters, battery trays, coupler pockets |
 | `body_sheet_metal_kit()` | Whole body/chassis sheet-metal kit: underframe, side posts, door portals, waist/cant rails, roof bows, end rings |
-| `sandwich_panel()` | Side/roof panel aperture, folded flanges, retainers, and bond land |
+| `fiberglass_cladding_system()` / `modular_fiberglass_body.py` | One-metre GFRP side/roof module grid, clip hardware, EPDM joints, module numbering, and one-shift installation route |
+| `sandwich_panel()` | Legacy sandwich-panel aperture and retainer template retained only as a detail reference for non-structural local panels |
 | Surface-modelled LM3-BDY-155 cowl CAD | Final fiberglass cowl A-surface, B-surface, flanges, trim curves, and mould surfaces |
 | `sensor_cowl()` | Identical A/B-end fiberglass cowl envelope, single panoramic glass, lamp/service hatches, and T-OBS visual interface |
 | `door_leaf()` | COTS-style door leaf shell, bonded glazing, EPDM seals, hanger rollers |
@@ -175,6 +180,15 @@ Hold point: dry-film thickness report and sealed-drain checklist.
 
 ### 5. One-metre composite exterior
 
+- Before final assembly, fabricate each 1 m side and roof module in the
+  released mould: clean and inspect the mould, apply release system and
+  UV-stable gelcoat/paint-primer, cut glass-fibre plies and local core, lay
+  up solid clip lands and insert bosses, infuse or wet-lay the laminate, cure,
+  demould, retain witness coupons, CNC trim/drill the selected solid/window/
+  door/roof variant, and seal all cut edges.
+- Fit potted/captive inserts, keyed hooks, anti-lift features, drain details,
+  and EPDM seals to each module, then dry-fit against the master frame before
+  kitting by car side, roof bay, and serial number.
 - Stage 96 numbered side modules and 48 roof modules for the three-car
   trainset. Verify all CNC-trim variants against the common 1,000 mm gauge.
 - Put all three painted, dimensionally released frames in the body cell and
@@ -196,7 +210,7 @@ Hold point: dry-film thickness report and sealed-drain checklist.
   drain paths.
 
 Hold point: signed module/clip map, laminate coupons, insert and clip proof,
-eight-hour route record, water/rattle test, split-line cowl water test,
+edge-seal record, mould release and cure records, eight-hour route record, water/rattle test, split-line cowl water test,
 applicable cowl/glazing adhesive cure records, and removable-panel access check.
 
 ### 6. COTS doors and windows

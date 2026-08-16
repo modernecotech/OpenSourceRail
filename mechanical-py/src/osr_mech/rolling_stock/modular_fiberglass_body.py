@@ -46,6 +46,14 @@ class AssemblyPhase:
     release_check: str
 
 
+@dataclass(frozen=True)
+class FabricationPhase:
+    sequence: int
+    activity: str
+    work_center: str
+    release_check: str
+
+
 def cladding_bays(body_length_mm: float) -> tuple[CladdingBay, ...]:
     """Return the repeated 1 m bays centred between steel end transitions."""
 
@@ -239,11 +247,55 @@ def one_day_trainset_assembly_plan() -> tuple[AssemblyPhase, ...]:
     )
 
 
+def moulded_module_fabrication_plan() -> tuple[FabricationPhase, ...]:
+    """Controlled fabrication route for the repeated GFRP body modules."""
+
+    return (
+        FabricationPhase(
+            10,
+            "Release mould, trim fixture, laminate schedule, core map, insert map, and module serial range",
+            "production control",
+            "traveler revision, material certificates, and mould release are accepted",
+        ),
+        FabricationPhase(
+            20,
+            "Clean mould, inspect A-surface, apply release system, and apply UV-stable gelcoat or paint-primer layer",
+            "composite moulding cell",
+            "mould surface record and release-system lot recorded",
+        ),
+        FabricationPhase(
+            30,
+            "Cut glass reinforcement and local core, lay up solid clip lands, pot insert bosses, and bag or close mould",
+            "composite moulding cell",
+            "ply/core/insert checklist matches the released module variant",
+        ),
+        FabricationPhase(
+            40,
+            "Infuse or wet-lay laminate, control cure, demould, post-cure where specified, and keep witness coupons with the batch",
+            "controlled cure area",
+            "cure time/temperature record, coupon ID, and demould inspection complete",
+        ),
+        FabricationPhase(
+            50,
+            "CNC trim door/window/roof variant, drill clip grid from datum, seal all cut edges, and mark serial/revision",
+            "trim and drill cell",
+            "trim gauge, hole-position gauge, and edge-seal record accepted",
+        ),
+        FabricationPhase(
+            60,
+            "Fit captive inserts, clips, anti-lift features, drain details, and EPDM seals; dry-fit to master frame",
+            "module fit-up cell",
+            "insert pull-out lot, gasket compression witness, and master-frame fit accepted",
+        ),
+    )
+
+
 def design_manifest() -> dict[str, object]:
     plan = one_day_trainset_assembly_plan()
+    fabrication_plan = moulded_module_fabrication_plan()
     return {
         "design_id": "LM3-BDY-160",
-        "description": "one-metre clip-on non-structural fiberglass body modules",
+        "description": "one-metre clip-on non-structural glass-fibre/GFRP body modules",
         "module_width_mm": MODULE_WIDTH_MM,
         "car_body_length_mm": 16_500.0,
         "steel_end_transition_mm_each": END_RING_TRANSITION_MM,
@@ -256,8 +308,12 @@ def design_manifest() -> dict[str, object]:
         "retention": "keyed hook plus captive over-centre clip and independent anti-lift retainer",
         "seal": "replaceable dry EPDM compression gasket; no production adhesive cure",
         "structural_role": "non-structural weather skin; steel frame remains the certified load path",
+        "moulding_basis": "reusable 1,000 mm side and roof moulds with CNC-trimmed solid, window-edge, door-edge, and roof variants",
+        "fabrication_route": "mould, cure, demould, CNC trim/drill, edge seal, fit inserts/clips/gaskets, master-frame dry fit",
+        "module_variants": ("solid side", "window-edge side", "door-edge side", "roof"),
         "assembly_elapsed_hours": sum(phase.elapsed_hours for phase in plan),
         "assembly_crews": 6,
+        "fabrication_plan": [asdict(phase) for phase in fabrication_plan],
         "assembly_plan": [asdict(phase) for phase in plan],
     }
 
@@ -270,10 +326,10 @@ def write_design_pack(out_dir: Path) -> tuple[Path, Path]:
     md_path = out_dir / "README.md"
     json_path.write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
     lines = [
-        "# One-metre clip-on fiberglass body design",
+        "# One-metre clip-on glass-fibre body design",
         "",
         "Generated from `osr_mech.rolling_stock.modular_fiberglass_body`.",
-        "The panels are a non-structural weather skin over the welded steel frame.",
+        "The moulded GFRP panels are a non-structural weather skin over the welded steel frame.",
         "",
         "| Parameter | Value |",
         "|---|---:|",
@@ -283,11 +339,32 @@ def write_design_pack(out_dir: Path) -> tuple[Path, Path]:
         f"| Modules per 3-car trainset | {MODULES_PER_CAR * 3} |",
         f"| Exterior-body assembly elapsed time | {manifest['assembly_elapsed_hours']:.1f} h |",
         "",
+        "## Moulded module fabrication route",
+        "",
+        "| Seq | Activity | Work center | Release check |",
+        "|---:|---|---|---|",
+    ]
+    for phase in moulded_module_fabrication_plan():
+        lines.append(
+            f"| {phase.sequence} | {phase.activity} | {phase.work_center} | {phase.release_check} |"
+        )
+    lines.extend(
+        [
+            "",
+            "Side, window-edge, door-edge, and roof variants share the same 1,000 mm mould pitch, clip datum, trim datum, edge-seal rule, and master-frame dry-fit check. The moulded module batch is complete before the eight-hour trainset installation shift starts.",
+            "",
+            "Required fabrication evidence includes the mould release record, laminate schedule, resin and fibre batch trace, cure time/temperature record, witness coupon, CNC trim report, insert pull-out lot, sealed-edge record, and master-frame dry-fit record.",
+            "",
+        ]
+    )
+    lines.extend(
+        [
         "## One-shift route",
         "",
         "| Seq | Activity | Elapsed | Parallel crews | Release check |",
         "|---:|---|---:|---:|---|",
-    ]
+        ]
+    )
     for phase in plan:
         lines.append(
             f"| {phase.sequence} | {phase.activity} | {phase.elapsed_hours:.1f} h | "
