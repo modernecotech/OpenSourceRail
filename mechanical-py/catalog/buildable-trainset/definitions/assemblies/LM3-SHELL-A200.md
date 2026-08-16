@@ -62,9 +62,9 @@ Evidence required:
 
 ### 2. `LM3-BDY-P130` — one-metre clip-on fiberglass side and roof body module
 
-- Placement zone: side/end glazing aperture and bonded carrier datum
+- Placement zone: one-metre body-module clip rail, dry seal, and anti-lift datum grid
 - Interfaces: `mechanical datum`
-- Join classes: `adhesive-bonded-panel`, `bolted-structural-datum`
+- Join classes: `gasketed-removable-panel`, `bolted-structural-datum`
 - Torque authority: released joint calculation plus interface-control drawing and calibrated-tool procedure
 - Joint release status: `joint-calculation-required`
 - Verification:
@@ -75,9 +75,9 @@ Evidence required:
 
 ### 3. `LM3-BDY-P140` — keyed clip rail, captive retainer, anti-lift, and dry-seal car kit
 
-- Placement zone: primary structure datum and final assembly interface
+- Placement zone: one-metre body-module clip rail, dry seal, and anti-lift datum grid
 - Interfaces: `mechanical datum`
-- Join classes: `bolted-structural-datum`
+- Join classes: `gasketed-removable-panel`, `bolted-structural-datum`
 - Torque authority: released joint calculation plus interface-control drawing and calibrated-tool procedure
 - Joint release status: `joint-calculation-required`
 - Verification:

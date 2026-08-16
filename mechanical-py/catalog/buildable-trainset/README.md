@@ -19,6 +19,7 @@ current basic design and what must be closed before first steel cut.
 |---|---|---|
 | Design authority | [`current-design-buildability-review.md`](current-design-buildability-review.md) | Close yellow/red findings before release |
 | Manufacturing engineer | [`buildable-trainset-manifest.md`](buildable-trainset-manifest.md) | Turn `MAKE` definitions into controlled drawings, fixtures, and NC/cut data |
+| Production planner | [`critical-path.md`](critical-path.md) | Plan parallel part fabrication, subassembly release, final train assembly, space use, and rough labour |
 | Mass-properties engineer | [`mass-budget.md`](mass-budget.md) | Replace estimates by weighed, CAD-derived, or supplier-frozen category values |
 | Assembly engineer | [`joint-control-schedule.md`](joint-control-schedule.md) | Close each joint with its named torque authority and interface drawing |
 | Buyer / supplier manager | [`definitions/index.md`](definitions/index.md) | Turn `BID`/`SOURCE` definitions into RFQs and evidence requirements |
@@ -30,11 +31,14 @@ The intended sequence is:
 1. Read the buildability review for release blockers.
 2. Use the manifest to understand the parent/child assembly tree.
 3. Use definitions as the drawing/RFQ/material/process source of truth.
-4. Close the mass budget and joint-control rows as supplier and drawing
+4. Use the critical path to reserve the long final assembly track only
+   for accepted subassemblies and keep steel, GFRP, bogie, HV, and
+   interior kit work off-line where possible.
+5. Close the mass budget and joint-control rows as supplier and drawing
    evidence becomes available.
-5. Use travelers as the shop-routing, material/process-control, and QA
+6. Use travelers as the shop-routing, material/process-control, and QA
    template.
-6. Attach real inspection evidence and signatures only during an
+7. Attach real inspection evidence and signatures only during an
    authorised build.
 
 `definitions/` is the generated definition pack. It contains JSON and

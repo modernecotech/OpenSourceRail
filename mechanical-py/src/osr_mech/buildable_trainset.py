@@ -144,6 +144,19 @@ class ShopTravelerPackPaths:
     traveler_files: tuple[Path, ...]
 
 
+@dataclass(frozen=True)
+class CriticalPathTask:
+    id: str
+    title: str
+    level: str
+    duration_days: float
+    labor_hours: float
+    work_center: str
+    space_requirement: str
+    predecessors: tuple[str, ...]
+    parallelisation_notes: str
+
+
 CURRENT_CAD_BASELINE: dict[str, str | float] = {
     "family": ConsistFamily.LIGHT_METRO_3CAR.value,
     "car_length_m": PROMOTED_LIGHT_METRO_CAR_LENGTH_M,
@@ -1894,6 +1907,8 @@ def _placement_zone(child_id: str, title: str) -> str:
     text = f"{child_id} {title}".lower()
     if child_id.startswith("LM3-SAF"):
         return "battery/traction/HVAC safety loop spanning HV bay, roof equipment, and event-recorder input"
+    if child_id in {"LM3-BDY-P130", "LM3-BDY-P140"}:
+        return "one-metre body-module clip rail, dry seal, and anti-lift datum grid"
     if "door" in text or "threshold" in text:
         return "side door aperture and low-floor threshold datum"
     if "window" in text or "glazing" in text or "glass" in text:
@@ -1954,12 +1969,15 @@ def _join_classes(child_id: str, title: str, interface_classes: list[str]) -> li
         )
     ):
         classes.append("structural-weld")
-    if any(word in text for word in ("composite", "fiberglass", "glazing", "window", "pv bonded")):
+    dry_clip_body = child_id in {"LM3-BDY-P130", "LM3-BDY-P140"}
+    if any(word in text for word in ("composite", "fiberglass", "glazing", "window", "pv bonded")) and not dry_clip_body:
         classes.append("adhesive-bonded-panel")
     if any(
         word in text
         for word in ("hatch", "skirt", "service lid", "service cover", "cowl", "door cassette", "hvac")
     ):
+        classes.append("gasketed-removable-panel")
+    if dry_clip_body:
         classes.append("gasketed-removable-panel")
 
     # Every child has a positively located mechanical interface.  Electrical
@@ -2982,6 +3000,363 @@ def render_joint_control_schedule(design: BuildableTrainsetDesign) -> str:
     return "\n".join(lines)
 
 
+def critical_path_tasks() -> tuple[CriticalPathTask, ...]:
+    """Rough first-train build network with parallel fabrication assumptions.
+
+    The durations are planning values for one three-car LM3 trainset after
+    design release and material availability. They intentionally model a lean
+    pilot plant: most parts are fabricated off the final assembly track, and
+    only complete, released subassemblies enter the long final bay.
+    """
+
+    return (
+        CriticalPathTask(
+            "CP-010",
+            "release traveler pack, work orders, QA gates, and material lots",
+            "program release",
+            2.0,
+            72.0,
+            "project controls / production planning",
+            "planning desk plus controlled document store",
+            (),
+            "Freeze the build sequence once so steel, composite, bogie, HV, and interior cells can start together.",
+        ),
+        CriticalPathTask(
+            "CP-020",
+            "cut, form, drill, and kit structural steel chassis/body parts",
+            "parts fabrication",
+            3.0,
+            288.0,
+            "steel prep cell",
+            "one saw/laser/plasma area, one press brake, pallet lanes for three car kits",
+            ("CP-010",),
+            "Batch all three car kits; do not occupy car-length fixtures until parts are deburred, marked, and inspected.",
+        ),
+        CriticalPathTask(
+            "CP-030",
+            "weld three underframe datum weldments",
+            "subassembly",
+            4.0,
+            384.0,
+            "weld and fixture cell",
+            "two 18 m rotating underframe fixtures plus local bolster/coupler subfixtures",
+            ("CP-020",),
+            "Two fixtures keep the third underframe from extending the train-level path while avoiding three full weld bays.",
+        ),
+        CriticalPathTask(
+            "CP-040",
+            "add side/roof spaceframes, floors, portals, roof rails, and chassis interfaces",
+            "subassembly",
+            4.0,
+            420.0,
+            "weld and fixture cell",
+            "two side/roof frame fixtures and one transfer stand",
+            ("CP-030",),
+            "Run side-frame and floor close-up as a rolling wave from released underframes.",
+        ),
+        CriticalPathTask(
+            "CP-050",
+            "assemble powered/trailer bogies, wheelsets, suspension, brake, and bogie harness kits",
+            "subassembly",
+            8.0,
+            520.0,
+            "bogie assembly cell",
+            "three bogie stands, one wheelset lane, and one brake/sensor bench",
+            ("CP-020",),
+            "Bogie work is fully parallel to carbody welding; final track waits only for released bogies.",
+        ),
+        CriticalPathTask(
+            "CP-060",
+            "mould, cure, demould, trim, drill, and kit 144 GFRP exterior modules",
+            "parts fabrication",
+            5.0,
+            420.0,
+            "composite moulding and trim cell",
+            "four short module moulds, one trim table, one master-frame dry-fit stand",
+            ("CP-010",),
+            "Short moulds and CNC trim keep the composite work off the final train bay.",
+        ),
+        CriticalPathTask(
+            "CP-065",
+            "prebuild internal furnishings and cabin trim kits",
+            "parts fabrication",
+            5.0,
+            360.0,
+            "interior bench / supplier receiving",
+            "trim bench, seat/grab-rail rack, electrical label bench, quarantine shelves",
+            ("CP-010",),
+            "Pre-kit seats, grab rails, floor finish, ceiling/sidewall liners, PIS, CCTV, lighting, and labels by car/door zone.",
+        ),
+        CriticalPathTask(
+            "CP-070",
+            "blast, prime, topcoat, cavity-wax, and release painted carbody frames",
+            "subassembly",
+            2.0,
+            192.0,
+            "paint and corrosion cell",
+            "one car-length paint bay plus flash-off/inspection lane",
+            ("CP-040",),
+            "Paint only dimensionally accepted steel frames; clip rails and drain lands are masked and gauged before release.",
+        ),
+        CriticalPathTask(
+            "CP-080",
+            "install clip-on GFRP side/roof modules and complete water/rattle pre-test",
+            "assembly",
+            1.0,
+            96.0,
+            "clip-on body cell",
+            "three parallel car positions for one shift",
+            ("CP-060", "CP-070"),
+            "Use the one-shift six-crew route; no production adhesive cure blocks the path.",
+        ),
+        CriticalPathTask(
+            "CP-090",
+            "install doors, windows, roof HVAC/PV hardware, and exterior service details",
+            "assembly",
+            3.0,
+            360.0,
+            "final assembly track with glazing/roof access",
+            "one 55 m final track, two mobile roof platforms, glazing stands",
+            ("CP-080",),
+            "Door/window/HVAC crews work car-by-car while electrical rough-in starts in released zones.",
+        ),
+        CriticalPathTask(
+            "CP-100",
+            "install HV battery, traction, LV/control, safety loops, coolant, and fire interfaces",
+            "assembly",
+            4.0,
+            480.0,
+            "final assembly electrical/HV cell",
+            "same 55 m final track with lockout boundary and two under-seat service carts",
+            ("CP-080",),
+            "HV/LV/coolant crews work in parallel with roof and door installation but release independently.",
+        ),
+        CriticalPathTask(
+            "CP-110",
+            "install internal furnishings, flooring, liners, seats, grab rails, PIS, CCTV, lighting, and signage",
+            "assembly",
+            3.0,
+            420.0,
+            "final assembly interior fit-out cell",
+            "same 55 m final track, three car interiors worked as zones",
+            ("CP-065", "CP-090"),
+            "Use pre-kitted interiors; keep floor/seat/liner installation behind tested doors/windows to avoid rework from leaks.",
+        ),
+        CriticalPathTask(
+            "CP-120",
+            "marry bogies to carbodies and close brake/ride-height static checks",
+            "assembly",
+            2.0,
+            240.0,
+            "final assembly bogie marriage station",
+            "same 55 m final track with jacks or shallow pit and bogie drop/lift equipment",
+            ("CP-050", "CP-080"),
+            "Released bogies enter late; this keeps wheelset/brake work out of the carbody assembly bay.",
+        ),
+        CriticalPathTask(
+            "CP-130",
+            "install articulation, gangways, end cowls, couplers, sensor packs, and trainlines",
+            "final trainset assembly",
+            3.0,
+            360.0,
+            "final assembly track",
+            "same 55 m final track plus end-cowl access stands",
+            ("CP-110", "CP-120"),
+            "Close car-to-car mechanical interfaces after interiors and bogie marriage are stable.",
+        ),
+        CriticalPathTask(
+            "CP-140",
+            "static commissioning, insulation, door/HVAC/brake tests, snag closeout, and QA release",
+            "commissioning",
+            4.0,
+            480.0,
+            "final assembly / static test cell",
+            "same 55 m final track with shore power and station-charge simulator",
+            ("CP-100", "CP-130"),
+            "Static testing is the first convergence of HV, brakes, doors, HVAC, onboard controls, and passenger systems.",
+        ),
+        CriticalPathTask(
+            "CP-150",
+            "dynamic commissioning and trial-running release",
+            "commissioning",
+            6.0,
+            432.0,
+            "test track / depot",
+            "short test track, charging interface, fault desk",
+            ("CP-140",),
+            "Do not move unresolved static defects onto the test track; protect dynamic-test access as the last bottleneck.",
+        ),
+    )
+
+
+def _scheduled_critical_path_tasks() -> list[dict[str, object]]:
+    tasks = critical_path_tasks()
+    by_id = {task.id: task for task in tasks}
+    early_start: dict[str, float] = {}
+    early_finish: dict[str, float] = {}
+    for task in tasks:
+        missing = set(task.predecessors) - set(by_id)
+        if missing:
+            raise ValueError(f"{task.id} references missing predecessors: {sorted(missing)}")
+        early_start[task.id] = max((early_finish[pred] for pred in task.predecessors), default=0.0)
+        early_finish[task.id] = early_start[task.id] + task.duration_days
+
+    project_duration = max(early_finish.values())
+    successors: dict[str, list[str]] = {task.id: [] for task in tasks}
+    for task in tasks:
+        for predecessor in task.predecessors:
+            successors[predecessor].append(task.id)
+
+    late_finish: dict[str, float] = {}
+    late_start: dict[str, float] = {}
+    for task in reversed(tasks):
+        late_finish[task.id] = min((late_start[succ] for succ in successors[task.id]), default=project_duration)
+        late_start[task.id] = late_finish[task.id] - task.duration_days
+
+    scheduled: list[dict[str, object]] = []
+    for task in tasks:
+        float_days = round(late_start[task.id] - early_start[task.id], 2)
+        crew_equivalent = task.labor_hours / (task.duration_days * 8.0)
+        scheduled.append(
+            {
+                "id": task.id,
+                "title": task.title,
+                "level": task.level,
+                "duration_days": task.duration_days,
+                "labor_hours": task.labor_hours,
+                "crew_equivalent": round(crew_equivalent, 1),
+                "work_center": task.work_center,
+                "space_requirement": task.space_requirement,
+                "predecessors": list(task.predecessors),
+                "early_start_day": round(early_start[task.id], 2),
+                "early_finish_day": round(early_finish[task.id], 2),
+                "late_start_day": round(late_start[task.id], 2),
+                "late_finish_day": round(late_finish[task.id], 2),
+                "total_float_days": float_days,
+                "critical": abs(float_days) < 1e-9,
+                "parallelisation_notes": task.parallelisation_notes,
+            }
+        )
+    return scheduled
+
+
+def critical_path_payload(design: BuildableTrainsetDesign) -> dict[str, object]:
+    tasks = _scheduled_critical_path_tasks()
+    labor_by_work_center: dict[str, float] = {}
+    for task in tasks:
+        work_center = str(task["work_center"])
+        labor_by_work_center[work_center] = labor_by_work_center.get(work_center, 0.0) + float(task["labor_hours"])
+    critical_ids = [str(task["id"]) for task in tasks if task["critical"]]
+    return {
+        "document_revision": "A-DRAFT",
+        "release_status": "rough-order planning; not a shop-approved baseline",
+        "family": design.family.value,
+        "candidate": design.candidate.id,
+        "planning_basis": (
+            "one first-article three-car LM3 trainset after design release/material availability; "
+            "one long final assembly track; off-line steel, composite, bogie, and interior benches run in parallel"
+        ),
+        "project_duration_days": max(float(task["early_finish_day"]) for task in tasks),
+        "total_labor_hours": round(sum(float(task["labor_hours"]) for task in tasks), 1),
+        "critical_path": critical_ids,
+        "labor_by_work_center": {key: round(value, 1) for key, value in sorted(labor_by_work_center.items())},
+        "minimum_space_model": {
+            "long_train_bays": 1,
+            "carbody_weld_fixtures": 2,
+            "underframe_rotating_fixtures": 2,
+            "paint_bays": 1,
+            "bogie_stands": 3,
+            "short_gfrp_moulds": 4,
+            "interior_trim_benches": 1,
+            "principle": "keep parts and kits off the 55 m final track until they are accepted subassemblies",
+        },
+        "tasks": tasks,
+    }
+
+
+def render_critical_path(design: BuildableTrainsetDesign) -> str:
+    payload = critical_path_payload(design)
+    tasks = list(payload["tasks"])  # type: ignore[index]
+    critical = " -> ".join(f"`{task_id}`" for task_id in payload["critical_path"])  # type: ignore[index]
+    lines = [
+        "# LM3 fabrication and final-assembly critical path",
+        "",
+        "Generated by `scripts/buildable-trainset.sh`. This is a rough-order",
+        "first-train manufacturing plan for parts, subassemblies, final train",
+        "assembly, internal furnishings, and commissioning. It is intended for",
+        "layout and takt planning; it is not a released shop baseline.",
+        "",
+        f"- Family: `{payload['family']}`",
+        f"- Candidate: `{payload['candidate']}`",
+        f"- Planning basis: {payload['planning_basis']}",
+        f"- Rough elapsed duration: **{payload['project_duration_days']:.1f} working days**",
+        f"- Rough direct labour: **{payload['total_labor_hours']:,.0f} h**",
+        f"- Critical path: {critical}",
+        "",
+        "## Critical-path table",
+        "",
+        "| ID | Task | Level | Work center | Pred | Duration d | Labour h | Crew eq | ES | EF | Float | Critical |",
+        "|---|---|---|---|---|---:|---:|---:|---:|---:|---:|---|",
+    ]
+    for task in tasks:
+        predecessors = ", ".join(f"`{pred}`" for pred in task["predecessors"]) or "-"
+        critical_flag = "yes" if task["critical"] else ""
+        lines.append(
+            f"| `{task['id']}` | {task['title']} | {task['level']} | {task['work_center']} | "
+            f"{predecessors} | {task['duration_days']:.1f} | {task['labor_hours']:.0f} | "
+            f"{task['crew_equivalent']:.1f} | {task['early_start_day']:.1f} | "
+            f"{task['early_finish_day']:.1f} | {task['total_float_days']:.1f} | {critical_flag} |"
+        )
+    lines.extend(
+        [
+            "",
+            "## Space and parallelism",
+            "",
+            "| Area | Minimum planning allowance | Why it is enough |",
+            "|---|---|---|",
+        ]
+    )
+    space = dict(payload["minimum_space_model"])  # type: ignore[arg-type]
+    lines.extend(
+        [
+            f"| Long final assembly track | {space['long_train_bays']} x 55 m bay | Doors, roof systems, HV, interior, bogie marriage, articulation, and static test share one controlled train-length space. |",
+            f"| Underframe fixtures | {space['underframe_rotating_fixtures']} fixtures | Two fixtures let three underframes move through without a third full-length weld bay. |",
+            f"| Side/roof frame fixtures | {space['carbody_weld_fixtures']} fixtures | Keeps side/roof spaceframe work ahead of paint without holding the final track. |",
+            f"| Paint bay | {space['paint_bays']} car-length bay | Frames enter only after dimensional acceptance, then leave for clip-on body installation. |",
+            f"| Bogie stands | {space['bogie_stands']} stands | Bogies are assembled off-line while carbody welding is on the critical path. |",
+            f"| Short GFRP moulds | {space['short_gfrp_moulds']} moulds | Repeated 1 m modules are produced without a full-car mould or final-bay cure hold. |",
+            f"| Interior trim benches | {space['interior_trim_benches']} bench set | Furnishings are pre-kitted by car/door zone, then installed after leak-sensitive work closes. |",
+            "",
+            "Key minimisation rule: keep the 55 m final assembly track for accepted",
+            "subassemblies only. Steel parts, GFRP modules, bogies, HVAC/PV kits,",
+            "doors/windows, cabin liners, seats, grab rails, lighting, PIS, CCTV,",
+            "flooring, signage, and labels are all prepared off-line and enter the",
+            "train only as released kits.",
+            "",
+            "## Labour by work center",
+            "",
+            "| Work center | Labour h |",
+            "|---|---:|",
+        ]
+    )
+    for work_center, labor in dict(payload["labor_by_work_center"]).items():  # type: ignore[arg-type]
+        lines.append(f"| {work_center} | {float(labor):,.0f} |")
+    lines.extend(
+        [
+            "",
+            "## Float use",
+            "",
+            "Composite module fabrication, bogie assembly, HV install, and interior",
+            "pre-kitting have float in this rough network. Use that float to absorb",
+            "first-article rework without expanding the final assembly track. Do not",
+            "spend the float by letting incomplete kits enter the long bay; that trades",
+            "cheap bench work for expensive train-length blockage.",
+            "",
+        ]
+    )
+    return "\n".join(lines)
+
+
 def write_outputs(
     design: BuildableTrainsetDesign,
     out_dir: Path,
@@ -2995,6 +3370,8 @@ def write_outputs(
     mass_md = out_dir / "mass-budget.md"
     joints_json = out_dir / "joint-control-schedule.json"
     joints_md = out_dir / "joint-control-schedule.md"
+    critical_json = out_dir / "critical-path.json"
+    critical_md = out_dir / "critical-path.md"
     manifest_json.write_text(
         json.dumps(asdict(design), default=_serialise, indent=2, sort_keys=True) + "\n",
         encoding="utf-8",
@@ -3019,6 +3396,8 @@ def write_outputs(
         encoding="utf-8",
     )
     joints_md.write_text(render_joint_control_schedule(design), encoding="utf-8")
+    critical_json.write_text(json.dumps(critical_path_payload(design), indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    critical_md.write_text(render_critical_path(design), encoding="utf-8")
     definition_pack = write_definition_pack(design, out_dir / "definitions")
     traveler_pack = write_shop_traveler_pack(design, out_dir / "travelers")
     return manifest_json, manifest_md, review_md, definition_pack, traveler_pack

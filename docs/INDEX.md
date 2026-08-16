@@ -10,7 +10,7 @@ Regenerate from the repository root with:
 python3 scripts/generate-doc-index.py
 ```
 
-Indexed Markdown files: **1182**.
+Indexed Markdown files: **1183**.
 
 ## Sections
 
@@ -26,7 +26,7 @@ Indexed Markdown files: **1182**.
 | [formal](#formal) | 2 |
 | [hardware](#hardware) | 36 |
 | [lib](#lib) | 3 |
-| [mechanical-py](#mechanical-py) | 200 |
+| [mechanical-py](#mechanical-py) | 201 |
 | [scripts](#scripts) | 1 |
 | [tools](#tools) | 3 |
 
@@ -1075,6 +1075,7 @@ Indexed Markdown files: **1182**.
 | [`mechanical-py/catalog/buildable-stations/travelers/terminal.md`](../mechanical-py/catalog/buildable-stations/travelers/terminal.md) | Station assembly traveler — `terminal` |
 | [`mechanical-py/catalog/buildable-trainset/README.md`](../mechanical-py/catalog/buildable-trainset/README.md) | Generated buildable trainset artifacts |
 | [`mechanical-py/catalog/buildable-trainset/buildable-trainset-manifest.md`](../mechanical-py/catalog/buildable-trainset/buildable-trainset-manifest.md) | Buildable trainset manifest |
+| [`mechanical-py/catalog/buildable-trainset/critical-path.md`](../mechanical-py/catalog/buildable-trainset/critical-path.md) | LM3 fabrication and final-assembly critical path |
 | [`mechanical-py/catalog/buildable-trainset/current-design-buildability-review.md`](../mechanical-py/catalog/buildable-trainset/current-design-buildability-review.md) | Current basic design buildability review |
 | [`mechanical-py/catalog/buildable-trainset/definitions/assemblies/LM3-ART-SA800.md`](../mechanical-py/catalog/buildable-trainset/definitions/assemblies/LM3-ART-SA800.md) | LM3-ART-SA800 — inter-car articulation and trainline assembly |
 | [`mechanical-py/catalog/buildable-trainset/definitions/assemblies/LM3-CAR-A900.md`](../mechanical-py/catalog/buildable-trainset/definitions/assemblies/LM3-CAR-A900.md) | LM3-CAR-A900 — complete repeated car module |

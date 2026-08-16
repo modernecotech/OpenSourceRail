@@ -104,6 +104,7 @@ Use it as the bridge from concept CAD to build planning:
 | Artifact | Use it for |
 |---|---|
 | [`buildable-trainset-manifest.md`](../../../mechanical-py/catalog/buildable-trainset/buildable-trainset-manifest.md) | Parts → subassemblies → assemblies → trainset tree, quantities, parentage, acceptance gates |
+| [`critical-path.md`](../../../mechanical-py/catalog/buildable-trainset/critical-path.md) | Rough first-train critical path, parallel fabrication plan, labour estimate, and minimum space model |
 | [`mass-budget.md`](../../../mechanical-py/catalog/buildable-trainset/mass-budget.md) | Reconciled 75.308 t modeled subtotal, 3.442 t engineering reserve, and 78.75 t controlled planning tare |
 | [`joint-control-schedule.md`](../../../mechanical-py/catalog/buildable-trainset/joint-control-schedule.md) | Machine-readable joining classes, torque authority, and release state for all 84 integration joints |
 | [`definitions/index.md`](../../../mechanical-py/catalog/buildable-trainset/definitions/index.md) | Drawing/RFQ definitions for every fabricated part, external component, subassembly, assembly, and trainset node, including structured material and process specs |

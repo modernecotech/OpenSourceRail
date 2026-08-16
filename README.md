@@ -382,6 +382,7 @@ Key links:
 - [Generated mechanical review catalogue](mechanical-py/catalog/)
 - [Generated review catalogue README](mechanical-py/catalog/README.md)
 - [Buildable trainset handoff](mechanical-py/catalog/buildable-trainset/)
+- [First-article fabrication critical path](mechanical-py/catalog/buildable-trainset/critical-path.md)
 - [Product-tree definitions](mechanical-py/catalog/buildable-trainset/definitions/index.md)
 - [Shop traveler templates](mechanical-py/catalog/buildable-trainset/travelers/index.md)
 
@@ -393,8 +394,31 @@ Buildable handoff quick path:
 | See parts → subassemblies → assemblies → trainset | [buildable manifest](mechanical-py/catalog/buildable-trainset/buildable-trainset-manifest.md) |
 | Start drawing/RFQ work | [definition pack](mechanical-py/catalog/buildable-trainset/definitions/index.md) with structured material/process specs |
 | Start shop routing / QA planning | [shop traveler pack](mechanical-py/catalog/buildable-trainset/travelers/index.md) with material/process controls |
+| Plan first-article fabrication and final assembly | [critical-path plan](mechanical-py/catalog/buildable-trainset/critical-path.md) with parts, subassemblies, furnishings, space, labour, float, and final commissioning |
 | Review current buildability gaps | [buildability review](mechanical-py/catalog/buildable-trainset/current-design-buildability-review.md) |
 | Review geometry and FEM evidence | [FreeCAD catalogue](mechanical-py/catalog/freecad/) and [FEA summary](mechanical-py/catalog/fea/screening-summary.md) |
+
+First-article fabrication and final assembly rough order:
+
+- The generated plan covers parts fabrication, chassis/body
+  subassemblies, moulded glass-fibre exterior modules, bogies,
+  electrical/HV equipment, final train assembly, internal furnishings, and
+  static/dynamic commissioning.
+- Rough elapsed time is **35 working days** with **5,524 h** of direct
+  labour after design release and material availability.
+- The current critical path is traveler/material release, structural steel
+  prep, underframe welding, side/roof spaceframe build, paint,
+  clip-on GFRP body installation, doors/windows/roof equipment, internal
+  furnishings, articulation/gangways/couplers/trainlines, static
+  commissioning, and dynamic trial release.
+- Space is minimised by keeping one **55 m final assembly track** for
+  accepted kits only. The rough minimum support areas are two underframe
+  fixtures, two side/roof frame fixtures, one paint bay, three bogie
+  stands, four short GFRP moulds, and one interior trim bench set.
+- Work deliberately runs in parallel: GFRP module moulding, bogie
+  assembly, HV/electrical kit installation, and internal furnishing
+  prebuild all have float. Furnishings are pre-kitted off-line by car and
+  door zone, then installed after exterior leak-sensitive work closes.
 
 Selected generated design views:
 

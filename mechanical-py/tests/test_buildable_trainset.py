@@ -6,8 +6,10 @@ from osr_mech.buildable_trainset import (
     Layer,
     Route,
     buildable_trainset_design,
+    critical_path_payload,
     joint_control_rows,
     mass_budget_payload,
+    render_critical_path,
     render_joint_control_schedule,
     render_mass_budget,
     render_manifest,
@@ -223,6 +225,26 @@ def test_write_outputs_emits_mass_and_joint_control_records(tmp_path) -> None:
     assert (tmp_path / "mass-budget.md").exists()
     assert (tmp_path / "joint-control-schedule.json").exists()
     assert (tmp_path / "joint-control-schedule.md").exists()
+    assert (tmp_path / "critical-path.json").exists()
+    assert (tmp_path / "critical-path.md").exists()
+
+
+def test_critical_path_models_parallel_train_fabrication() -> None:
+    design = buildable_trainset_design(ConsistFamily.LIGHT_METRO_3CAR)
+    payload = critical_path_payload(design)
+    tasks = {task["id"]: task for task in payload["tasks"]}
+    assert payload["project_duration_days"] == 35.0
+    assert payload["total_labor_hours"] > 5_000
+    assert payload["minimum_space_model"]["long_train_bays"] == 1
+    assert tasks["CP-060"]["early_start_day"] == tasks["CP-020"]["early_start_day"]
+    assert tasks["CP-060"]["total_float_days"] > 0
+    assert tasks["CP-110"]["critical"]
+    assert tasks["CP-150"]["critical"]
+    assert "internal furnishings" in tasks["CP-110"]["title"]
+    rendered = render_critical_path(design)
+    assert "Critical-path table" in rendered
+    assert "Space and parallelism" in rendered
+    assert "55 m final assembly track" in rendered
 
 
 def test_buildable_manifest_and_review_render_key_sections() -> None:

@@ -5,7 +5,7 @@
 | Traveler type | `assembly-node` |
 | Document revision | `A-DRAFT` |
 | Release status | `unsigned-template` |
-| Estimated labor | 9.36 h |
+| Estimated labor | 9.48 h |
 | Build cell | paint / clip-on body / glazing cells |
 | Procurement BOM lines | `B5`, `B6`, `B7`, `B20`, `B28` |
 
@@ -51,8 +51,8 @@ Evidence required:
 |---:|---|---|---:|---|---|---|
 | 10 | release traveler, fixture, child kit, and latest definition package | paint / clip-on body / glazing cells | 0.93 | `TRV-LM3-SHELL-A200`<br>`FIX-LM3-SHELL-A200`<br>`KIT-LM3-SHELL-A200` | all child definitions/revisions match the traveler index | cell lead |
 | 20 | install and integrate LM3-BDY-SA120: carbody spaceframe and floor assembly | paint / clip-on body / glazing cells | 1.12 | `FIX-LM3-SHELL-A200`<br>`GAUGE-LM3-BDY-SA120`<br>`TORQUE-LM3-BDY-SA120` | placement zone and joint controls accepted: primary structure datum and final assembly interface | operator |
-| 30 | install and integrate LM3-BDY-P130: one-metre clip-on fiberglass side and roof body module | paint / clip-on body / glazing cells | 1.17 | `FIX-LM3-SHELL-A200`<br>`GAUGE-LM3-BDY-P130`<br>`TORQUE-LM3-BDY-P130` | placement zone and joint controls accepted: side/end glazing aperture and bonded carrier datum | operator |
-| 40 | install and integrate LM3-BDY-P140: keyed clip rail, captive retainer, anti-lift, and dry-seal car kit | paint / clip-on body / glazing cells | 1.05 | `FIX-LM3-SHELL-A200`<br>`GAUGE-LM3-BDY-P140`<br>`TORQUE-LM3-BDY-P140` | placement zone and joint controls accepted: primary structure datum and final assembly interface | operator |
+| 30 | install and integrate LM3-BDY-P130: one-metre clip-on fiberglass side and roof body module | paint / clip-on body / glazing cells | 1.17 | `FIX-LM3-SHELL-A200`<br>`GAUGE-LM3-BDY-P130`<br>`TORQUE-LM3-BDY-P130` | placement zone and joint controls accepted: one-metre body-module clip rail, dry seal, and anti-lift datum grid | operator |
+| 40 | install and integrate LM3-BDY-P140: keyed clip rail, captive retainer, anti-lift, and dry-seal car kit | paint / clip-on body / glazing cells | 1.17 | `FIX-LM3-SHELL-A200`<br>`GAUGE-LM3-BDY-P140`<br>`TORQUE-LM3-BDY-P140` | placement zone and joint controls accepted: one-metre body-module clip rail, dry seal, and anti-lift datum grid | operator |
 | 50 | install and integrate LM3-WIN-SA320: side glazing cassette installation | paint / clip-on body / glazing cells | 1.12 | `FIX-LM3-SHELL-A200`<br>`GAUGE-LM3-WIN-SA320`<br>`TORQUE-LM3-WIN-SA320` | placement zone and joint controls accepted: side/end glazing aperture and bonded carrier datum | operator |
 | 60 | install and integrate LM3-EXT-P080: fire-rated GFRP side-module laminate, core, gelcoat, and consumable kit | paint / clip-on body / glazing cells | 1.05 | `FIX-LM3-SHELL-A200`<br>`GAUGE-LM3-EXT-P080`<br>`TORQUE-LM3-EXT-P080` | placement zone and joint controls accepted: primary structure datum and final assembly interface | operator |
 | 70 | install and integrate LM3-EXT-P090: fire-rated GFRP roof-module, dry-seal, and removable skirt material kit | paint / clip-on body / glazing cells | 1.22 | `FIX-LM3-SHELL-A200`<br>`GAUGE-LM3-EXT-P090`<br>`TORQUE-LM3-EXT-P090` | placement zone and joint controls accepted: roof equipment rail, curb, and service-access zone | operator |
