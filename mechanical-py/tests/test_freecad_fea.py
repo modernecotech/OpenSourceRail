@@ -21,8 +21,6 @@ def test_freecad_fea_studies_cover_broadened_load_cases() -> None:
         "bogie-brake-traction-screen",
         "full-body-frame-screen",
         "full-body-lateral-sway-screen",
-        "full-set-longitudinal-buff-screen",
-        "full-set-vertical-service-screen",
         "train-to-train-joint-vertical-screen",
         "train-to-train-joint-lateral-sway-screen",
     } <= slugs
@@ -40,9 +38,9 @@ def test_fea_summary_result_links_are_local_to_catalog() -> None:
 
 
 def test_calculix_deck_stem_is_short_local_name() -> None:
-    study = next(study for study in all_studies() if study.slug == "full-set-longitudinal-buff-screen")
+    study = next(study for study in all_studies() if study.slug == "train-to-train-joint-vertical-screen")
 
-    assert _ccx_deck_stem(study) == "full-set-longitudinal-buff-screen"
+    assert _ccx_deck_stem(study) == "train-to-train-joint-vertical-screen"
     assert "/" not in _ccx_deck_stem(study)
 
 
@@ -55,14 +53,12 @@ def test_generated_fea_screening_artifacts_are_solver_backed() -> None:
     expected_slugs = {study.slug for study in all_studies()}
     results = {result["slug"]: result for result in summary["results"]}
     missing_generated_slugs = expected_slugs - results.keys()
-    pending_long_consist_slugs = {
-        "full-set-longitudinal-buff-screen",
-        "full-set-vertical-service-screen",
+    pending_joint_slugs = {
         "train-to-train-joint-vertical-screen",
         "train-to-train-joint-lateral-sway-screen",
     }
     if missing_generated_slugs:
-        assert missing_generated_slugs <= pending_long_consist_slugs
+        assert missing_generated_slugs <= pending_joint_slugs
         assert shutil.which("FreeCADCmd") is None and shutil.which("freecadcmd") is None
 
     for slug in expected_slugs & results.keys():

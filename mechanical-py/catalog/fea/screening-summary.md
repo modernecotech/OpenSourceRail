@@ -22,8 +22,6 @@ shell-buckling, or supplier-final mesh.
 | Bogie frame brake/traction longitudinal load screen | 160 kN vertical bogie load plus 60 kN longitudinal brake/traction reaction | 29 | 24 | 220.0 | 160.0 | 2.723 | 6.0 | 18.6 | 19.05 | [PNG](bogie-brake-traction-screen/bogie-brake-traction-screen-result.png) | OK |
 | Full car body side/roof frame screening model | 420 kN body/payload plus 60 kN installed systems and 30 kN roof equipment allowance | 72 | 168 | 510.0 | 510.0 | 0.240 | 15.0 | 5.8 | 61.29 | [PNG](full-body-frame-screen/full-body-frame-screen-result.png) | OK |
 | Full car body lateral sway screen | 165 kN lateral body/interior/installed-systems equivalent load through side posts, waist rails, and cant rails | 72 | 168 | 165.0 | 0.0 | 18.055 | 20.0 | 40.2 | 8.83 | [PNG](full-body-lateral-sway-screen/full-body-lateral-sway-screen-result.png) | OK |
-| Three-train full-set longitudinal buff/draft screen | 180 kN longitudinal buff/draft load through the 148.5 m full-set spine and two open train-to-train joints | 127 | 155 | 180.0 | 0.0 | 0.536 | 35.0 | 0.8 | 468.60 | [PNG](full-set-longitudinal-buff-screen/full-set-longitudinal-buff-screen-result.png) | OK |
-| Three-train full-set vertical service screen | 1,080 kN distributed nine-car service gravity plus 70 kN across two open train-to-train joints | 162 | 155 | 1150.0 | 1150.0 | 0.811 | 45.0 | 1.3 | 277.98 | [PNG](full-set-vertical-service-screen/full-set-vertical-service-screen-result.png) | OK |
 | Train-to-train open joint vertical load screen | 90 kN vertical load through open portal, threshold bridge, lower drawbar, and upper links | 48 | 51 | 90.0 | 90.0 | 4.420 | 12.0 | 40.8 | 8.70 | [PNG](train-to-train-joint-vertical-screen/train-to-train-joint-vertical-screen-result.png) | OK |
 | Train-to-train open joint lateral/racking screen | 55 kN lateral load through open portal clamp frames, upper links, and threshold bridge | 48 | 51 | 55.0 | 0.0 | 2.306 | 16.0 | 21.5 | 16.48 | [PNG](train-to-train-joint-lateral-sway-screen/train-to-train-joint-lateral-sway-screen-result.png) | OK |
 
@@ -66,16 +64,6 @@ shell-buckling, or supplier-final mesh.
 - The current candidate includes diagonal side-frame racking members and enlarged side/roof bearers.
 - This complements the vertical body frame case; it is not a modal, ride, or fatigue analysis.
 
-### Three-train full-set longitudinal buff/draft screen
-
-- Models three LM3 modules as one 148.5 m spine with two train-to-train open joints.
-- The load is a gross service/recovery screen, not an EN 15227 crash case.
-
-### Three-train full-set vertical service screen
-
-- Supports represent all 18 bogies in the full-set example.
-- The two open train-to-train joints receive explicit vertical allowances for gangway, threshold, and passenger transfer loads.
-
 ### Train-to-train open joint vertical load screen
 
 - Screens the local common end-interface carrier rings and open gangway cassette.
@@ -84,7 +72,7 @@ shell-buckling, or supplier-final mesh.
 
 ### Train-to-train open joint lateral/racking screen
 
-- Complements the full-set vertical and longitudinal screens with a local racking case.
+- Complements the open-end vertical screen with a local racking case.
 - The fixed-side ring is supported laterally along its full moulded end-frame interface.
 - Supplier bellows fabric, rubber fatigue, clamps, and fastener details still require supplier proof evidence.
 

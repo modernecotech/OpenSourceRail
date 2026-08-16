@@ -532,114 +532,6 @@ def full_body_lateral_sway_study() -> Study:
     )
 
 
-def _full_set_spine_model() -> tuple[ModelBuilder, dict[str, BeamSection], list[float], list[float]]:
-    b = ModelBuilder()
-    sections = {
-        "LONGITUDINAL_SILL": BeamSection("LONGITUDINAL_SILL", 260.0, 430.0),
-        "CENTRE_SPINE": BeamSection("CENTRE_SPINE", 220.0, 360.0),
-        "CROSS_TIE": BeamSection("CROSS_TIE", 150.0, 240.0),
-        "TRAIN_TO_TRAIN_LINK": BeamSection("TRAIN_TO_TRAIN_LINK", 240.0, 300.0),
-        "UPPER_GANGWAY_LINK": BeamSection("UPPER_GANGWAY_LINK", 120.0, 160.0),
-    }
-    total_length = 9 * PROMOTED_LIGHT_METRO_CAR_LENGTH_MM
-    start_x = -total_length / 2.0
-    car_ends = [start_x + i * PROMOTED_LIGHT_METRO_CAR_LENGTH_MM for i in range(10)]
-    xs = sorted(
-        set(
-            car_ends
-            + [start_x + i * PROMOTED_LIGHT_METRO_CAR_LENGTH_MM + offset for i in range(9) for offset in (2_100.0, 8_250.0, 14_400.0)]
-        )
-    )
-    ys = [-1_150.0, 0.0, 1_150.0]
-    z = 720.0
-    roof_z = 2_850.0
-    for y in (-1_150.0, 1_150.0):
-        for a, c in zip(xs, xs[1:]):
-            section = "TRAIN_TO_TRAIN_LINK" if any(a < boundary < c for boundary in (car_ends[3], car_ends[6])) else "LONGITUDINAL_SILL"
-            b.beam((a, y, z), (c, y, z), section)
-    for a, c in zip(xs, xs[1:]):
-        b.beam((a, 0.0, z - 70.0), (c, 0.0, z - 70.0), "CENTRE_SPINE")
-    for x in xs:
-        b.beam((x, -1_150.0, z), (x, 1_150.0, z), "CROSS_TIE")
-    for boundary in (car_ends[3], car_ends[6]):
-        for y in (-760.0, 760.0):
-            b.beam((boundary - 620.0, y, roof_z), (boundary + 620.0, y, roof_z), "UPPER_GANGWAY_LINK")
-            b.beam((boundary - 620.0, y, z), (boundary + 620.0, y, z), "TRAIN_TO_TRAIN_LINK")
-        b.beam((boundary, -1_150.0, z), (boundary, 1_150.0, z), "TRAIN_TO_TRAIN_LINK")
-    return b, sections, xs, car_ends
-
-
-def full_set_longitudinal_buff_study() -> Study:
-    b, sections, _xs, car_ends = _full_set_spine_model()
-    z = 720.0
-    fixed_nodes = [
-        b.node_id((car_ends[0], -1_150.0, z)),
-        b.node_id((car_ends[0], 0.0, z - 70.0)),
-        b.node_id((car_ends[0], 1_150.0, z)),
-    ]
-    load_nodes = [
-        b.node_id((car_ends[-1], -1_150.0, z)),
-        b.node_id((car_ends[-1], 0.0, z - 70.0)),
-        b.node_id((car_ends[-1], 1_150.0, z)),
-    ]
-    boundaries = [Boundary(fixed_nodes[0], 1, 6), Boundary(fixed_nodes[1], 1, 3), Boundary(fixed_nodes[2], 1, 3)]
-    loads = [Load(node, 1, -180_000.0 / len(load_nodes), "full-set longitudinal buff/draft load") for node in load_nodes]
-    return Study(
-        slug="full-set-longitudinal-buff-screen",
-        title="Three-train full-set longitudinal buff/draft screen",
-        load_case="180 kN longitudinal buff/draft load through the 148.5 m full-set spine and two open train-to-train joints",
-        nodes=b.nodes,
-        elements=b.elements,
-        sections=sections,
-        boundaries=boundaries,
-        loads=loads,
-        deflection_limit_mm=35.0,
-        plot_view="xz",
-        notes=[
-            "Models three LM3 modules as one 148.5 m spine with two train-to-train open joints.",
-            "The load is a gross service/recovery screen, not an EN 15227 crash case.",
-        ],
-    )
-
-
-def full_set_vertical_service_study() -> Study:
-    b, sections, xs, car_ends = _full_set_spine_model()
-    z = 720.0
-    support_xs = [
-        car_ends[i] + PROMOTED_LIGHT_METRO_CAR_LENGTH_MM / 2.0 + sign * BOGIE_CENTRE_X_MM
-        for i in range(9)
-        for sign in (-1.0, 1.0)
-    ]
-    supports = [
-        b.node_id((support_x, y, z))
-        for support_x in support_xs
-        for y in (-1_150.0, 1_150.0)
-    ]
-    boundaries = [Boundary(supports[0], 1, 6)]
-    boundaries.extend(Boundary(node, 3, 3) for node in supports[1:])
-    load_nodes = [b.node_id((x, y, z)) for x in xs[1:-1] for y in (-1_150.0, 0.0, 1_150.0)]
-    total_load_n = -1_080_000.0
-    loads = [Load(node, 3, total_load_n / len(load_nodes), "nine-car distributed service gravity") for node in load_nodes]
-    for boundary in (car_ends[3], car_ends[6]):
-        loads.append(Load(b.node_id((boundary, 0.0, z)), 3, -35_000.0, "train-to-train joint vertical allowance"))
-    return Study(
-        slug="full-set-vertical-service-screen",
-        title="Three-train full-set vertical service screen",
-        load_case="1,080 kN distributed nine-car service gravity plus 70 kN across two open train-to-train joints",
-        nodes=b.nodes,
-        elements=b.elements,
-        sections=sections,
-        boundaries=boundaries,
-        loads=loads,
-        deflection_limit_mm=45.0,
-        plot_view="xz",
-        notes=[
-            "Supports represent all 18 bogies in the full-set example.",
-            "The two open train-to-train joints receive explicit vertical allowances for gangway, threshold, and passenger transfer loads.",
-        ],
-    )
-
-
 def _train_to_train_joint_model() -> tuple[ModelBuilder, dict[str, BeamSection], list[int], list[int]]:
     b = ModelBuilder()
     oblique_orientation = (1.0, 1.0, 1.0)
@@ -712,7 +604,7 @@ def train_to_train_joint_lateral_sway_study() -> Study:
         deflection_limit_mm=16.0,
         plot_view="xy",
         notes=[
-            "Complements the full-set vertical and longitudinal screens with a local racking case.",
+            "Complements the open-end vertical screen with a local racking case.",
             "The fixed-side ring is supported laterally along its full moulded end-frame interface.",
             "Supplier bellows fabric, rubber fatigue, clamps, and fastener details still require supplier proof evidence.",
         ],
@@ -728,8 +620,6 @@ def all_studies() -> list[Study]:
         bogie_brake_traction_study(),
         full_body_frame_study(),
         full_body_lateral_sway_study(),
-        full_set_longitudinal_buff_study(),
-        full_set_vertical_service_study(),
         train_to_train_joint_vertical_study(),
         train_to_train_joint_lateral_sway_study(),
     ]

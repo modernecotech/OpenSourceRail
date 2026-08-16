@@ -9,7 +9,7 @@ subassemblies → assemblies → final trainset.
 - Candidate score: `92.628`
 - Candidate feasible: `true`
 - Product item rows: `76`
-- Assembly nodes: `19`
+- Assembly nodes: `18`
 - Open supplier/component rows: `43` ([register](open-release-gaps.md))
 
 ## Candidate metrics
@@ -70,7 +70,6 @@ subassemblies → assemblies → final trainset.
 | `LM3-SYS-SA900` | assembly | 1 | final assembly and commissioning cell | `LM3-CTRL-P010`<br>`LM3-CTRL-P020`<br>`LM3-CTRL-P030`<br>`LM3-CTRL-P040`<br>`LM3-CTRL-P050` | network enumeration<br>firmware record<br>self-test<br>event-recorder write/read test |
 | `LM3-CAR-A900` | assembly | 3 | final assembly and commissioning cell | `LM3-SHELL-A200`<br>`LM3-DOOR-SA310`<br>`LM3-INT-SA330`<br>`LM3-ROOF-SA410`<br>`LM3-HV-SA510`<br>`LM3-BOG-SA610`<br>`LM3-BOG-SA620`<br>`LM3-AUX-P010` | car weigh<br>door/HVAC/static systems test<br>bogie marriage report<br>low-speed yard movement |
 | `LM3-TRAINSET-A000` | trainset | 1 | final assembly and commissioning cell | `LM3-CAR-A900`<br>`LM3-EIF-SA650`<br>`LM3-END-SA700`<br>`LM3-ART-SA800`<br>`LM3-SYS-SA900` | trainset weigh<br>static brake/door/HVAC/HV tests<br>FEM screening accepted<br>dynamic-test release |
-| `LM3-FULLSET-A300` | trainset | 1 | long final assembly track / depot commissioning road | `LM3-TRAINSET-A000`<br>`LM3-TTART-SA850`<br>`LM3-SYS-SA900` | three-train alignment and end-option configuration record<br>two train-to-train open gangway joint motion sweeps<br>full-set trainline continuity and safety-loop proof<br>long-consist FEM screening accepted<br>static and dynamic release for full-set operation |
 
 ## Product items
 

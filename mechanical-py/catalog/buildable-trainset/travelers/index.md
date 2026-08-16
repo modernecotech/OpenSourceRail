@@ -8,7 +8,7 @@ unsigned until a real build cell uses and approves them.
 
 - Family: `light-metro-3car`
 - Candidate: `light-metro-3car__16p5m__reference-body__reference-bogie__motor-350kw-hm47-class__battery-225kwh-lfp-800v__hvac-24kw-direct-hv-dc__pv12`
-- Traveler templates: `95`
+- Traveler templates: `94`
 
 | ID | Type | Route/layer | Traveler |
 |---|---|---|---|
@@ -106,4 +106,3 @@ unsigned until a real build cell uses and approves them.
 | `LM3-SYS-SA900` | assembly node | `assembly` | [md](assemblies/LM3-SYS-SA900.md) |
 | `LM3-CAR-A900` | assembly node | `assembly` | [md](assemblies/LM3-CAR-A900.md) |
 | `LM3-TRAINSET-A000` | assembly node | `trainset` | [md](trainsets/LM3-TRAINSET-A000.md) |
-| `LM3-FULLSET-A300` | assembly node | `trainset` | [md](trainsets/LM3-FULLSET-A300.md) |

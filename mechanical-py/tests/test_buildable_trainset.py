@@ -1,25 +1,24 @@
 from __future__ import annotations
 
 import json
-from pathlib import Path
 
 from osr_mech.buildable_trainset import (
     Layer,
     Route,
     buildable_trainset_design,
     critical_path_payload,
-    full_set_3train_payload,
     joint_control_rows,
     mass_budget_payload,
     render_critical_path,
-    render_full_set_3train_assembly,
     render_joint_control_schedule,
     render_mass_budget,
     render_manifest,
     render_open_release_gaps,
+    render_trainset_build_cost,
     render_review,
     render_train_end_interface,
     train_end_interface_payload,
+    trainset_build_cost_payload,
     write_definition_pack,
     write_shop_traveler_pack,
     write_outputs,
@@ -35,7 +34,7 @@ from osr_mech.rolling_stock.bom_trace import (
 def test_buildable_trainset_has_full_product_tree() -> None:
     design = buildable_trainset_design(ConsistFamily.LIGHT_METRO_3CAR)
     assert len(design.product_items) >= 69
-    assert len(design.assemblies) >= 19
+    assert len(design.assemblies) >= 18
     assert any(item.route is Route.MAKE for item in design.product_items)
     assert any(item.route is Route.BID for item in design.product_items)
     assert any(item.route is Route.SOURCE for item in design.product_items)
@@ -107,11 +106,6 @@ def test_fabricated_parts_have_make_routes_and_final_trainset_assembles() -> Non
         "LM3-END-SA700",
         "LM3-SYS-SA900",
     } <= set(trainset.children)
-    assert {
-        "LM3-TRAINSET-A000",
-        "LM3-TTART-SA850",
-        "LM3-SYS-SA900",
-    } <= set(assemblies["LM3-FULLSET-A300"].children)
     assert assemblies["LM3-CAR-A900"].quantity_per_trainset == 3
 
 
@@ -229,6 +223,31 @@ def test_mass_budget_reconciles_optimizer_subtotal_and_controlled_tare() -> None
     assert "Controlled planning tare" in render_mass_budget(design)
 
 
+def test_trainset_build_cost_uses_explicit_labor_and_unexpected_premium() -> None:
+    design = buildable_trainset_design(ConsistFamily.LIGHT_METRO_3CAR)
+    payload = trainset_build_cost_payload(design)
+    assert payload["direct_material_and_supplier_cost_usd"] == 682_431.18
+    assert payload["labor_hours"] == 5_524.0
+    assert payload["labor_rate_usd_per_hour"] == 10.0
+    assert payload["labor_cost_usd"] == 55_240.0
+    assert payload["unexpected_cost_premium_fraction"] == 0.20
+    assert payload["unexpected_cost_premium_usd"] == 147_534.24
+    assert payload["total_build_cost_usd"] == 885_205.42
+    assert payload["rounded_local_owner_unit_usd"] == 900_000
+    assert payload["included_fitout_doors_glazing_total_base_usd"] == 146_750.0
+    included_scopes = {
+        row["scope"] for row in payload["included_fitout_doors_glazing_scope"]  # type: ignore[index]
+    }
+    assert "seats, floors, grab rails, and interior lighting" in included_scopes
+    assert "roof HVAC" in included_scopes
+    rendered = render_trainset_build_cost(design)
+    assert "$885,205" in rendered
+    assert "5,524 h at $10/h" in rendered
+    assert "20%" in rendered
+    assert "$17,500" in rendered
+    assert "$112,000" in rendered
+
+
 def test_every_integration_joint_has_machine_readable_join_and_torque_control() -> None:
     design = buildable_trainset_design(ConsistFamily.LIGHT_METRO_3CAR)
     rows = joint_control_rows(design)
@@ -246,14 +265,14 @@ def test_write_outputs_emits_mass_and_joint_control_records(tmp_path) -> None:
     write_outputs(design, tmp_path)
     assert (tmp_path / "mass-budget.json").exists()
     assert (tmp_path / "mass-budget.md").exists()
+    assert (tmp_path / "trainset-build-cost.json").exists()
+    assert (tmp_path / "trainset-build-cost.md").exists()
     assert (tmp_path / "joint-control-schedule.json").exists()
     assert (tmp_path / "joint-control-schedule.md").exists()
     assert (tmp_path / "critical-path.json").exists()
     assert (tmp_path / "critical-path.md").exists()
     assert (tmp_path / "train-end-interface.json").exists()
     assert (tmp_path / "train-end-interface.md").exists()
-    assert (tmp_path / "full-set-3train-assembly.json").exists()
-    assert (tmp_path / "full-set-3train-assembly.md").exists()
 
 
 def test_train_end_interface_models_panorama_or_open_mid_option() -> None:
@@ -270,83 +289,28 @@ def test_train_end_interface_models_panorama_or_open_mid_option() -> None:
     assert "Each end position must select one option only" in rendered
 
 
-def test_train_end_options_are_exclusive_and_cover_full_set_end_count() -> None:
+def test_train_end_options_are_exclusive_and_default_to_three_car_panorama() -> None:
     design = buildable_trainset_design(ConsistFamily.LIGHT_METRO_3CAR)
     end_payload = train_end_interface_payload(design)
-    full_set_payload = full_set_3train_payload(design)
     options = {option["id"]: option for option in end_payload["options"]}  # type: ignore[index]
     common = end_payload["common_interface"]  # type: ignore[index]
-    cfg = full_set_payload["configuration"]
 
     assert common["owned_item_ids"] == ["LM3-END-P060", "LM3-END-P061", "LM3-END-P062"]
     assert options["panoramic-glass-front-end"]["assembly_id"] == "LM3-END-SA700"
     assert options["mid-open-train-to-train-connection"]["assembly_id"] == "LM3-TTART-SA850"
+    assert options["panoramic-glass-front-end"]["reference_quantity"] == 2
+    assert options["mid-open-train-to-train-connection"]["reference_quantity"] == 0
     assert not set(options["panoramic-glass-front-end"]["uses"]) & set(
         options["mid-open-train-to-train-connection"]["uses"]
     )
     assert "panoramic glass" in options["mid-open-train-to-train-connection"]["omits"]
     assert "open passenger portal" in options["panoramic-glass-front-end"]["omits"]
 
-    module_end_positions = cfg["train_modules"] * 2
-    open_mid_end_positions = cfg["train_to_train_open_joints"] * 2
-    assert cfg["outer_panoramic_ends"] + open_mid_end_positions == module_end_positions
-
-
-def test_full_set_3train_assembly_pack_models_three_joined_modules() -> None:
-    design = buildable_trainset_design(ConsistFamily.LIGHT_METRO_3CAR)
-    payload = full_set_3train_payload(design)
-    cfg = payload["configuration"]
-    assert cfg["train_modules"] == 3
-    assert cfg["cars_total"] == 9
-    assert cfg["train_to_train_open_joints"] == 2
-    assert cfg["outer_panoramic_ends"] == 2
-    assert cfg["full_set_length_m"] == 148.5
-    rendered = render_full_set_3train_assembly(design)
-    assert "LM3-FULLSET-A300" in rendered
-    assert "Train-to-train open joint lateral/racking screen" not in rendered
-    assert "train-to-train-joint-lateral-sway-screen" in rendered
-    assert "scripts/freecad_trainset.sh --family light-metro-3car-fullset-3train" in rendered
-
-
-def test_full_set_assembly_has_machine_readable_worked_example_quantities(tmp_path) -> None:
-    design = buildable_trainset_design(ConsistFamily.LIGHT_METRO_3CAR)
     assemblies = {node.id: node for node in design.assemblies}
-    full_set = assemblies["LM3-FULLSET-A300"]
-    assert dict((child_id, quantity) for child_id, quantity, _ in full_set.example_child_quantities) == {
-        "LM3-TRAINSET-A000": 3,
-        "LM3-TTART-SA850": 2,
-        "LM3-SYS-SA900": 3,
-    }
-
-    pack = write_definition_pack(design, tmp_path / "definitions")
-    assert pack.index_json.exists()
-    definition = json.loads((tmp_path / "definitions/trainsets/LM3-FULLSET-A300.json").read_text())
-    quantities = {row["child_id"]: row["quantity"] for row in definition["example_child_quantities"]}
-    assert quantities == {
-        "LM3-TRAINSET-A000": 3,
-        "LM3-TTART-SA850": 2,
-        "LM3-SYS-SA900": 3,
-    }
-    rendered = (tmp_path / "definitions/trainsets/LM3-FULLSET-A300.md").read_text()
-    assert "Worked-example child quantities" in rendered
-    assert "| `LM3-TTART-SA850` | 2 |" in rendered
-
-
-def test_full_set_design_artifacts_and_fem_matrix_are_present() -> None:
-    repo_root = Path(__file__).resolve().parents[2]
-    design = buildable_trainset_design(ConsistFamily.LIGHT_METRO_3CAR)
-    payload = full_set_3train_payload(design)
-    for artifact in payload["freecad_designs"]:
-        assert (repo_root / artifact["artifact"]).exists(), artifact["artifact"]
-
-    summary = json.loads((repo_root / "mechanical-py/catalog/fea/screening-summary.json").read_text())
-    result_by_slug = {result["slug"]: result for result in summary["results"]}
-    for case in payload["fem_screening_matrix"]:
-        result = result_by_slug[case["slug"]]
-        assert result["solver_ok"] is True
-        assert result["issue"] is None
-        assert result["max_displacement_mm"] <= result["deflection_limit_mm"]
-        assert result["safety_factor_to_yield"] > 2.0
+    trainset = assemblies["LM3-TRAINSET-A000"]
+    assert "LM3-END-SA700" in trainset.children
+    assert "LM3-TTART-SA850" in assemblies
+    assert "LM3-TTART-SA850" not in trainset.children
 
 
 def test_critical_path_models_parallel_train_fabrication() -> None:

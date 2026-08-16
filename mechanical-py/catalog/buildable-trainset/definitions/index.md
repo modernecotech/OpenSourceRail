@@ -8,7 +8,7 @@ Markdown definitions with structured material and process specs.
 - Family: `light-metro-3car`
 - Candidate: `light-metro-3car__16p5m__reference-body__reference-bogie__motor-350kw-hm47-class__battery-225kwh-lfp-800v__hvac-24kw-direct-hv-dc__pv12`
 - Product item definitions: `76`
-- Assembly definitions: `19`
+- Assembly definitions: `18`
 
 ## Product items
 
@@ -113,4 +113,3 @@ Markdown definitions with structured material and process specs.
 | `LM3-SYS-SA900` | assembly | 1 | `LM3-CTRL-P010`<br>`LM3-CTRL-P020`<br>`LM3-CTRL-P030`<br>`LM3-CTRL-P040`<br>`LM3-CTRL-P050` | [md](assemblies/LM3-SYS-SA900.md) |
 | `LM3-CAR-A900` | assembly | 3 | `LM3-SHELL-A200`<br>`LM3-DOOR-SA310`<br>`LM3-INT-SA330`<br>`LM3-ROOF-SA410`<br>`LM3-HV-SA510`<br>`LM3-BOG-SA610`<br>`LM3-BOG-SA620`<br>`LM3-AUX-P010` | [md](assemblies/LM3-CAR-A900.md) |
 | `LM3-TRAINSET-A000` | trainset | 1 | `LM3-CAR-A900`<br>`LM3-EIF-SA650`<br>`LM3-END-SA700`<br>`LM3-ART-SA800`<br>`LM3-SYS-SA900` | [md](trainsets/LM3-TRAINSET-A000.md) |
-| `LM3-FULLSET-A300` | trainset | 1 | `LM3-TRAINSET-A000`<br>`LM3-TTART-SA850`<br>`LM3-SYS-SA900` | [md](trainsets/LM3-FULLSET-A300.md) |

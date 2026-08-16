@@ -6,7 +6,7 @@ torques are intentionally prohibited until the named supplier instruction or
 joint calculation is accepted; nominal bolt diameter alone is not a safe
 preload specification.
 
-Controlled integration joints: **96**.
+Controlled integration joints: **93**.
 
 | Joint ID | Parent → child | Join classes | Torque authority | Release status |
 |---|---|---|---|---|
@@ -103,9 +103,6 @@ Controlled integration joints: **96**.
 | `J-LM3-TRAINSET-A000-03` | `LM3-TRAINSET-A000` → `LM3-END-SA700` | `gasketed-removable-panel`<br>`bolted-structural-datum`<br>`electrical-data` | released joint calculation plus interface-control drawing and calibrated-tool procedure | `joint-calculation-required` |
 | `J-LM3-TRAINSET-A000-04` | `LM3-TRAINSET-A000` → `LM3-ART-SA800` | `bolted-structural-datum`<br>`electrical-data` | released joint calculation plus interface-control drawing and calibrated-tool procedure | `joint-calculation-required` |
 | `J-LM3-TRAINSET-A000-05` | `LM3-TRAINSET-A000` → `LM3-SYS-SA900` | `bolted-structural-datum`<br>`electrical-data` | released joint calculation plus interface-control drawing and calibrated-tool procedure | `joint-calculation-required` |
-| `J-LM3-FULLSET-A300-01` | `LM3-FULLSET-A300` → `LM3-TRAINSET-A000` | `bolted-structural-datum` | released joint calculation plus interface-control drawing and calibrated-tool procedure | `joint-calculation-required` |
-| `J-LM3-FULLSET-A300-02` | `LM3-FULLSET-A300` → `LM3-TTART-SA850` | `bolted-structural-datum` | released joint calculation plus interface-control drawing and calibrated-tool procedure | `joint-calculation-required` |
-| `J-LM3-FULLSET-A300-03` | `LM3-FULLSET-A300` → `LM3-SYS-SA900` | `bolted-structural-datum`<br>`electrical-data` | released joint calculation plus interface-control drawing and calibrated-tool procedure | `joint-calculation-required` |
 
 ## Release use
 

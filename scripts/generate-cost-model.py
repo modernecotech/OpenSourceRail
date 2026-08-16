@@ -15,6 +15,7 @@ COUNTRY_FINANCE_PATH = REPO_ROOT / "lib/templates/country-finance.toml"
 ECONOMIC_BENEFITS_PATH = REPO_ROOT / "lib/templates/economic-benefits.toml"
 BOM_SOURCE = REPO_ROOT / "docs/rolling-stock/light-metro-3car/bom-skeleton.md"
 BOM_EXPORTER = REPO_ROOT / "scripts/export-light-metro-bom.py"
+TRAINSET_BUILD_COST_PATH = REPO_ROOT / "mechanical-py/catalog/buildable-trainset/trainset-build-cost.json"
 DEFAULT_OUT = REPO_ROOT / "docs/cost-model.md"
 
 TRAINSET_ORDER = [
@@ -38,6 +39,12 @@ DEPOT_ORDER = ["main-heavy", "secondary-medium", "layup-minimal"]
 
 def _load_toml(path: Path) -> dict:
     return tomllib.loads(path.read_text())
+
+
+def _load_json(path: Path) -> dict:
+    import json
+
+    return json.loads(path.read_text())
 
 
 def _money_short(value: float) -> str:
@@ -90,6 +97,7 @@ def _bom_totals(assembly_fraction: float) -> dict[str, int]:
 
 def render_cost_model() -> str:
     capex = _load_toml(CAPEX_PATH)
+    trainset_build_cost = _load_json(TRAINSET_BUILD_COST_PATH)
     country_finance = _load_toml(COUNTRY_FINANCE_PATH)
     benefits = _load_toml(ECONOMIC_BENEFITS_PATH)
     assembly_fraction = float(capex["trainset_cost_basis"]["local_assembly_fraction"])
@@ -100,9 +108,23 @@ def render_cost_model() -> str:
     plant_base = float(capex["production_plant"]["per_vehicle_usd"])
     plant_high = float(capex["production_plant"]["high_sensitivity_per_vehicle_usd"])
     light_unit = trainset_units["light-metro-3car"]
-    qa_handover = light_unit - bom["with_assembly"]
+    recalculated_trainset = float(trainset_build_cost["total_build_cost_usd"])
+    fitout_glazing_total = float(trainset_build_cost["included_fitout_doors_glazing_total_base_usd"])
+    fitout_rows = {
+        str(row["scope"]): row for row in trainset_build_cost["included_fitout_doors_glazing_scope"]
+    }
+    basic_fitout = float(
+        fitout_rows["seats, floors, grab rails, and interior lighting"]["included_base_usd"]
+    )
+    hvac_fitout = float(fitout_rows["roof HVAC"]["included_base_usd"])
+    doors_glazing = float(
+        fitout_rows[
+            "side windows, side doors, door sill/emergency kits, and panoramic end glass"
+        ]["included_base_usd"]
+    )
+    qa_handover = light_unit - recalculated_trainset
     if qa_handover < 0:
-        raise ValueError("light-metro-3car trainset unit is below BOM + assembly floor")
+        raise ValueError("light-metro-3car trainset unit is below recalculated build-cost floor")
 
     default_finance = country_finance["countries"]["XX"]
     pass_share = float(default_finance["revenue_case_monthly_pass_income_share"])
@@ -126,6 +148,7 @@ def render_cost_model() -> str:
         "| CAPEX unit rates, USD/EUR reporting views, EPC, solar, charging | `lib/templates/capex-costs.toml` |",
         "| Light-metro 3-car BOM line items | `docs/rolling-stock/light-metro-3car/bom-skeleton.md` |",
         "| Generated rolling-stock BOM CSV | `build/bom/rolling_stock_bom.csv` via `scripts/export-light-metro-bom.py` |",
+        "| Recalculated LM3 build cost | `mechanical-py/catalog/buildable-trainset/trainset-build-cost.json` |",
         "| Country finance and fare assumptions | `lib/templates/country-finance.toml` |",
         "| Broad-benefit assumptions | `lib/templates/economic-benefits.toml` |",
         "",
@@ -142,22 +165,42 @@ def render_cost_model() -> str:
         "trainset** with `*_eur` reporting views generated at "
         f"{usd_to_eur:.2f} USD->EUR.",
         "",
-        "The current [`light-metro-3car` BOM](rolling-stock/light-metro-3car/bom-skeleton.md) "
-        f"provides the raw procurement lower bound: {_usd_int(bom['direct'])} direct "
-        f"material plus the BOM's {_pct(assembly_fraction)} local assembly/labour allowance = "
-        f"{_usd_int(bom['with_assembly'])} per 3-car consist. City CAPEX rounds "
-        f"this to a {_usd_int(light_unit)} trainset unit so there is room for "
-        "nominal QA/acceptance evidence and local handover, while fixtures/tooling "
-        "sit in the railway production plant and warranty, spares, and routine "
-        "commissioning support sit in OPEX.",
+        "The current [`light-metro-3car` build-cost estimate]"
+        "(../mechanical-py/catalog/buildable-trainset/trainset-build-cost.md) "
+        f"uses the promoted design candidate cost of {_usd_int(trainset_build_cost['direct_material_and_supplier_cost_usd'])}, "
+        f"adds {float(trainset_build_cost['labor_hours']):,.0f} h of direct labour at "
+        f"${float(trainset_build_cost['labor_rate_usd_per_hour']):.0f}/h, then applies a "
+        f"{_pct(float(trainset_build_cost['unexpected_cost_premium_fraction']))} unexpected-cost premium. "
+        f"That gives {_usd_int(recalculated_trainset)} per 3-car consist. City CAPEX "
+        f"keeps the rounded {_usd_int(light_unit)} trainset unit so there is still a small "
+        "nominal QA/acceptance and local handover margin, while fixtures/tooling sit "
+        "in the railway production plant and warranty, spares, and routine commissioning "
+        "support sit in OPEX.",
+        "",
+        "The direct material/supplier-module bucket already includes the requested "
+        f"passenger fit-out, HVAC, windows, and doors: {_money_short(basic_fitout)} for "
+        "seats/floor systems/grab rails/interior lighting, "
+        f"{_money_short(hvac_fitout)} for three roof HVAC units, and "
+        f"{_money_short(doors_glazing)} for side windows, powered side doors, door sill/emergency kits, "
+        f"and panoramic end glass. The included requested-scope subtotal is "
+        f"{_money_short(fitout_glazing_total)} before labour and premium, so no extra "
+        "$20k interior allowance is added unless a deployment chooses to carry a "
+        "separate contingency.",
         "",
         "| 3-car trainset cost bucket | Basis | Cost |",
         "|---|---|---:|",
-        "| Direct material BOM floor | Welded frame, panels, glazing, doors, articulation/gangways, end couplers, bogies, suspension air supply, traction, batteries, HVAC, electronics, interiors | "
-        f"{_money_short(bom['direct'])} |",
-        f"| Local assembly/labour allowance | {_pct(assembly_fraction)} BOM allowance after one-shift clip-on body installation; includes fit-out, harnessing, paint, shop supervision, utilities, and rework reserve | "
-        f"{_money_short(bom['assembly'])} |",
-        "| Nominal QA + handover allowance | Acceptance evidence, test dossier, local movement, manuals/training handover; warranty/spares stay in OPEX | "
+        "| Direct material and supplier modules | Promoted design candidate cost metric: frame, panels, glazing, doors, articulation/gangways, end couplers, bogies, suspension air supply, traction, batteries, HVAC, electronics, interiors | "
+        f"{_money_short(trainset_build_cost['direct_material_and_supplier_cost_usd'])} |",
+        "| Direct labour | "
+        f"{float(trainset_build_cost['labor_hours']):,.0f} h explicit first-article/final-assembly plan at "
+        f"${float(trainset_build_cost['labor_rate_usd_per_hour']):.0f}/h | "
+        f"{_money_short(trainset_build_cost['labor_cost_usd'])} |",
+        "| Unexpected-cost premium | "
+        f"{_pct(float(trainset_build_cost['unexpected_cost_premium_fraction']))} for rework, logistics, consumables, local fabrication variation, and shop learning | "
+        f"{_money_short(trainset_build_cost['unexpected_cost_premium_usd'])} |",
+        "| Recalculated build estimate | Direct modules + labour + unexpected-cost premium | "
+        f"{_money_short(recalculated_trainset)} |",
+        "| Nominal QA + handover rounding margin | Acceptance evidence, test dossier, local movement, manuals/training handover; warranty/spares stay in OPEX | "
         f"{_money_short(qa_handover)} |",
         "| **Total per 3-car trainset** | Local-owner production planning unit | "
         f"**{_money_short(light_unit)}** |",
@@ -188,9 +231,9 @@ def render_cost_model() -> str:
         f"{bom['low_direct']:,.0f}-{bom['high_direct']:,.0f} USD before labour; "
         f"adding the BOM's {_pct(assembly_fraction)} assembly allowance gives a "
         f"{bom['low_with_assembly']:,.0f}-{bom['high_with_assembly']:,.0f} USD "
-        "marketplace-floor consist band, with the base case landing at "
-        f"{bom['with_assembly']:,.0f} USD. This remains an audit lower bound, "
-        "not the city CAPEX unit.",
+        "older marketplace-floor consist band, with the base case landing at "
+        f"{bom['with_assembly']:,.0f} USD. This remains an audit lower bound; "
+        "the current build estimate above supersedes it for trainset planning.",
         "",
         "## Railway Production Plant",
         "",

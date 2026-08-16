@@ -10,7 +10,7 @@ Regenerate from the repository root with:
 python3 scripts/generate-doc-index.py
 ```
 
-Indexed Markdown files: **1201**.
+Indexed Markdown files: **1199**.
 
 ## Sections
 
@@ -26,7 +26,7 @@ Indexed Markdown files: **1201**.
 | [formal](#formal) | 2 |
 | [hardware](#hardware) | 36 |
 | [lib](#lib) | 3 |
-| [mechanical-py](#mechanical-py) | 219 |
+| [mechanical-py](#mechanical-py) | 217 |
 | [scripts](#scripts) | 1 |
 | [tools](#tools) | 3 |
 
@@ -1171,13 +1171,12 @@ Indexed Markdown files: **1201**.
 | [`mechanical-py/catalog/buildable-trainset/definitions/subassemblies/LM3-INT-SA330.md`](../mechanical-py/catalog/buildable-trainset/definitions/subassemblies/LM3-INT-SA330.md) | LM3-INT-SA330 — interior and passenger systems fit-out |
 | [`mechanical-py/catalog/buildable-trainset/definitions/subassemblies/LM3-ROOF-SA410.md`](../mechanical-py/catalog/buildable-trainset/definitions/subassemblies/LM3-ROOF-SA410.md) | LM3-ROOF-SA410 — roof HVAC, PV, antenna, and service-equipment assembly |
 | [`mechanical-py/catalog/buildable-trainset/definitions/subassemblies/LM3-WIN-SA320.md`](../mechanical-py/catalog/buildable-trainset/definitions/subassemblies/LM3-WIN-SA320.md) | LM3-WIN-SA320 — side glazing cassette installation |
-| [`mechanical-py/catalog/buildable-trainset/definitions/trainsets/LM3-FULLSET-A300.md`](../mechanical-py/catalog/buildable-trainset/definitions/trainsets/LM3-FULLSET-A300.md) | LM3-FULLSET-A300 — three LM3 train modules joined as one walk-through full set |
 | [`mechanical-py/catalog/buildable-trainset/definitions/trainsets/LM3-TRAINSET-A000.md`](../mechanical-py/catalog/buildable-trainset/definitions/trainsets/LM3-TRAINSET-A000.md) | LM3-TRAINSET-A000 — complete light-metro trainset |
-| [`mechanical-py/catalog/buildable-trainset/full-set-3train-assembly.md`](../mechanical-py/catalog/buildable-trainset/full-set-3train-assembly.md) | LM3 Full-Set 3-Train Assembly Example |
 | [`mechanical-py/catalog/buildable-trainset/joint-control-schedule.md`](../mechanical-py/catalog/buildable-trainset/joint-control-schedule.md) | LM3 joint and fastener control schedule |
 | [`mechanical-py/catalog/buildable-trainset/mass-budget.md`](../mechanical-py/catalog/buildable-trainset/mass-budget.md) | LM3 controlled mass budget |
 | [`mechanical-py/catalog/buildable-trainset/open-release-gaps.md`](../mechanical-py/catalog/buildable-trainset/open-release-gaps.md) | Trainset open release gap register |
 | [`mechanical-py/catalog/buildable-trainset/train-end-interface.md`](../mechanical-py/catalog/buildable-trainset/train-end-interface.md) | LM3 configurable train-end interface |
+| [`mechanical-py/catalog/buildable-trainset/trainset-build-cost.md`](../mechanical-py/catalog/buildable-trainset/trainset-build-cost.md) | LM3 trainset build cost estimate |
 | [`mechanical-py/catalog/buildable-trainset/travelers/assemblies/LM3-ART-SA800.md`](../mechanical-py/catalog/buildable-trainset/travelers/assemblies/LM3-ART-SA800.md) | Shop traveler — LM3-ART-SA800 — inter-car articulation and trainline assembly |
 | [`mechanical-py/catalog/buildable-trainset/travelers/assemblies/LM3-CAR-A900.md`](../mechanical-py/catalog/buildable-trainset/travelers/assemblies/LM3-CAR-A900.md) | Shop traveler — LM3-CAR-A900 — complete repeated car module |
 | [`mechanical-py/catalog/buildable-trainset/travelers/assemblies/LM3-END-SA700.md`](../mechanical-py/catalog/buildable-trainset/travelers/assemblies/LM3-END-SA700.md) | Shop traveler — LM3-END-SA700 — train-end cowl, coupler, crash, and sensor assembly |
@@ -1272,7 +1271,6 @@ Indexed Markdown files: **1201**.
 | [`mechanical-py/catalog/buildable-trainset/travelers/subassemblies/LM3-INT-SA330.md`](../mechanical-py/catalog/buildable-trainset/travelers/subassemblies/LM3-INT-SA330.md) | Shop traveler — LM3-INT-SA330 — interior and passenger systems fit-out |
 | [`mechanical-py/catalog/buildable-trainset/travelers/subassemblies/LM3-ROOF-SA410.md`](../mechanical-py/catalog/buildable-trainset/travelers/subassemblies/LM3-ROOF-SA410.md) | Shop traveler — LM3-ROOF-SA410 — roof HVAC, PV, antenna, and service-equipment assembly |
 | [`mechanical-py/catalog/buildable-trainset/travelers/subassemblies/LM3-WIN-SA320.md`](../mechanical-py/catalog/buildable-trainset/travelers/subassemblies/LM3-WIN-SA320.md) | Shop traveler — LM3-WIN-SA320 — side glazing cassette installation |
-| [`mechanical-py/catalog/buildable-trainset/travelers/trainsets/LM3-FULLSET-A300.md`](../mechanical-py/catalog/buildable-trainset/travelers/trainsets/LM3-FULLSET-A300.md) | Shop traveler — LM3-FULLSET-A300 — three LM3 train modules joined as one walk-through full set |
 | [`mechanical-py/catalog/buildable-trainset/travelers/trainsets/LM3-TRAINSET-A000.md`](../mechanical-py/catalog/buildable-trainset/travelers/trainsets/LM3-TRAINSET-A000.md) | Shop traveler — LM3-TRAINSET-A000 — complete light-metro trainset |
 | [`mechanical-py/catalog/design-system/README.md`](../mechanical-py/catalog/design-system/README.md) | Generated design-system artifacts |
 | [`mechanical-py/catalog/design-system/design-iteration-summary.md`](../mechanical-py/catalog/design-system/design-iteration-summary.md) | Rolling-stock design iteration summary |

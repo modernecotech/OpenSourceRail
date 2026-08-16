@@ -10,6 +10,7 @@ Do not hand-edit the numbers here; change the source data and regenerate.
 | CAPEX unit rates, USD/EUR reporting views, EPC, solar, charging | `lib/templates/capex-costs.toml` |
 | Light-metro 3-car BOM line items | `docs/rolling-stock/light-metro-3car/bom-skeleton.md` |
 | Generated rolling-stock BOM CSV | `build/bom/rolling_stock_bom.csv` via `scripts/export-light-metro-bom.py` |
+| Recalculated LM3 build cost | `mechanical-py/catalog/buildable-trainset/trainset-build-cost.json` |
 | Country finance and fare assumptions | `lib/templates/country-finance.toml` |
 | Broad-benefit assumptions | `lib/templates/economic-benefits.toml` |
 
@@ -20,13 +21,17 @@ The detailed civil marketplace anchors live in [`docs/civil/marketplace-cost-anc
 
 Rolling stock is budgeted by **local-owner trainset-family planning unit**, not by multiplying an inflated per-car price. A 3-car `light-metro-3car` trainset is **$900 k per trainset** with `*_eur` reporting views generated at 0.92 USD->EUR.
 
-The current [`light-metro-3car` BOM](rolling-stock/light-metro-3car/bom-skeleton.md) provides the raw procurement lower bound: 662,590 USD direct material plus the BOM's 28% local assembly/labour allowance = 848,115 USD per 3-car consist. City CAPEX rounds this to a 900,000 USD trainset unit so there is room for nominal QA/acceptance evidence and local handover, while fixtures/tooling sit in the railway production plant and warranty, spares, and routine commissioning support sit in OPEX.
+The current [`light-metro-3car` build-cost estimate](../mechanical-py/catalog/buildable-trainset/trainset-build-cost.md) uses the promoted design candidate cost of 682,431 USD, adds 5,524 h of direct labour at $10/h, then applies a 20% unexpected-cost premium. That gives 885,205 USD per 3-car consist. City CAPEX keeps the rounded 900,000 USD trainset unit so there is still a small nominal QA/acceptance and local handover margin, while fixtures/tooling sit in the railway production plant and warranty, spares, and routine commissioning support sit in OPEX.
+
+The direct material/supplier-module bucket already includes the requested passenger fit-out, HVAC, windows, and doors: $18 k for seats/floor systems/grab rails/interior lighting, $17 k for three roof HVAC units, and $112 k for side windows, powered side doors, door sill/emergency kits, and panoramic end glass. The included requested-scope subtotal is $147 k before labour and premium, so no extra $20k interior allowance is added unless a deployment chooses to carry a separate contingency.
 
 | 3-car trainset cost bucket | Basis | Cost |
 |---|---|---:|
-| Direct material BOM floor | Welded frame, panels, glazing, doors, articulation/gangways, end couplers, bogies, suspension air supply, traction, batteries, HVAC, electronics, interiors | $663 k |
-| Local assembly/labour allowance | 28% BOM allowance after one-shift clip-on body installation; includes fit-out, harnessing, paint, shop supervision, utilities, and rework reserve | $186 k |
-| Nominal QA + handover allowance | Acceptance evidence, test dossier, local movement, manuals/training handover; warranty/spares stay in OPEX | $52 k |
+| Direct material and supplier modules | Promoted design candidate cost metric: frame, panels, glazing, doors, articulation/gangways, end couplers, bogies, suspension air supply, traction, batteries, HVAC, electronics, interiors | $682 k |
+| Direct labour | 5,524 h explicit first-article/final-assembly plan at $10/h | $55 k |
+| Unexpected-cost premium | 20% for rework, logistics, consumables, local fabrication variation, and shop learning | $148 k |
+| Recalculated build estimate | Direct modules + labour + unexpected-cost premium | $885 k |
+| Nominal QA + handover rounding margin | Acceptance evidence, test dossier, local movement, manuals/training handover; warranty/spares stay in OPEX | $15 k |
 | **Total per 3-car trainset** | Local-owner production planning unit | **$900 k** |
 
 | Family | USD / trainset | EUR mirror |
@@ -39,7 +44,7 @@ The current [`light-metro-3car` BOM](rolling-stock/light-metro-3car/bom-skeleton
 
 The base value assumes direct procurement, local final assembly, common bogie modules, one-metre clip-on fiberglass non-structural cladding, COTS doors/windows/HVAC/interior modules, open control electronics, and no proprietary CBTC onboard bundle. It includes labour, shop overhead, nominal per-unit QA/acceptance evidence, and local handover logistics. It does **not** repeat fixtures, tooling, production-readiness, warranty, initial spares, or routine commissioning support inside every trainset. Fixtures and tooling are carried in the production-plant line; spares, warranty response, and routine commissioning support are OPEX.
 
-The rolling-stock BOM carries line-level low/base/high bands in generated path `build/bom/rolling_stock_bom.csv`. For the `light-metro-3car`, the direct-material band is 516,027-1,031,521 USD before labour; adding the BOM's 28% assembly allowance gives a 660,515-1,320,347 USD marketplace-floor consist band, with the base case landing at 848,115 USD. This remains an audit lower bound, not the city CAPEX unit.
+The rolling-stock BOM carries line-level low/base/high bands in generated path `build/bom/rolling_stock_bom.csv`. For the `light-metro-3car`, the direct-material band is 516,027-1,031,521 USD before labour; adding the BOM's 28% assembly allowance gives a 660,515-1,320,347 USD older marketplace-floor consist band, with the base case landing at 848,115 USD. This remains an audit lower bound; the current build estimate above supersedes it for trainset planning.
 
 ## Railway Production Plant
 

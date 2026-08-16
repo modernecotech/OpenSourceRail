@@ -162,34 +162,7 @@ frame or panel into position.
   event-recorder, passenger information, CCTV/intercom, and emergency
   release tests.
 
-### 6. Optional three-train full-set assembly example
-
-The worked example `LM3-FULLSET-A300` joins three complete
-`LM3-TRAINSET-A000` modules into one 148.5 m, nine-car walk-through
-full set. It is not the default reference trainset; it is a configuration
-example for routes, depots, and platforms that can accept a longer set.
-
-1. Build and statically release three normal LM3 three-car modules.
-2. Fit `LM3-END-SA700` panoramic ends only at the two outer ends of the
-   final full set.
-3. Keep the four future mid-set module ends as surveyed
-   `LM3-EIF-SA650` open-option interfaces with temporary weather and
-   connector covers.
-4. Align the three modules on a long commissioning road and survey the
-   two train-to-train joint gaps, yaw, lateral offset, and threshold
-   level.
-5. Install two `LM3-TTART-SA850` open train-to-train articulation
-   assemblies, including lower drawbar/pivot, anti-lift keepers, upper
-   links, bellows, turntable threshold bridge, service jumpers, drains,
-   and interior continuity trim.
-6. Run both open-joint motion sweeps, full-set trainline continuity,
-   safety-loop, HVIL, brake, door, HVAC, PIS/CCTV/intercom, water/drain,
-   and dynamic-release checks.
-
-The generated full instruction pack is
-[`full-set-3train-assembly.md`](../../../mechanical-py/catalog/buildable-trainset/full-set-3train-assembly.md).
-
-### 7. FEM/static proof gates before running
+### 6. FEM/static proof gates before running
 
 Before dynamic running, release the FEM/static screens for:
 
@@ -200,8 +173,6 @@ Before dynamic running, release the FEM/static screens for:
 - door portal and threshold;
 - roof equipment rails/PV mounts;
 - articulation anchor brackets;
-- full-set longitudinal buff/draft and vertical service load if the
-  optional three-train full set is selected;
 - train-to-train open joint vertical and lateral/racking loads if
   `LM3-TTART-SA850` is selected.
 
@@ -209,7 +180,7 @@ Any screen above the service-stress threshold or with local joint
 stress concentration requires a detailed local model and drawing
 revision before the trainset leaves the commissioning cell.
 
-### 8. Dynamic running release
+### 7. Dynamic running release
 
 Run in this order:
 

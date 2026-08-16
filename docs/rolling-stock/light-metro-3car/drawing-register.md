@@ -27,7 +27,6 @@ Document IDs use `LM3` for the `light-metro-3car` family. Revision
 | LM3-SYS-160 | End coupler and crash-energy assembly | Coupler supplier + integrator | `interfaces.md`, BOM | Scharfenberg head, electric-head carrier, crash absorber envelope, recovery/tow interface |
 | LM3-SYS-170 | Inter-car articulation and trainline assembly | Integrator + articulation supplier | `articulation.md`, `body.md`, `interfaces.md` | Lower spherical pivot, anti-lift keeper, upper roll-yaw-pitch links, bellows, turntable floor, drag-chain, TCN-E/CAN-FD/HV/coolant/HVAC interfaces |
 | LM3-SYS-175 | Train-to-train open-end articulation | Integrator + articulation supplier | `articulation.md`, generated `train-end-interface.md` | Open-end gangway cassette, semi-permanent drawbar, lower/upper articulation, turntable threshold bridge, service-jumper transition, blanking covers, motion sweep |
-| LM3-FULLSET-300 | Three-train full-set assembly example | Integrator + OSR/mechanical | generated `full-set-3train-assembly.md`, `freecad_trainset.py`, `freecad_fea.py` | 148.5 m nine-car worked example, two open train-to-train joints, FreeCAD review model, assembly sequence, full-set trainline/static/dynamic proof matrix |
 | LM3-DOOR-200 | Door cassette installation | Door supplier | COTS catalogue | Mounting datums, threshold, drainage, lock-loop wiring |
 | LM3-WIN-210 | Window cassette installation | Glazing supplier | COTS catalogue | Bond/gasket land, drain path, replacement method |
 | LM3-HVAC-220 | Roof HVAC installation | HVAC supplier | COTS catalogue | Roof rails, ducting, condensate, service clearance |
@@ -65,7 +64,7 @@ Document IDs use `LM3` for the `light-metro-3car` family. Revision
 | LM3-EV-BRK-120 | Static brake and park-brake test | G6 static complete | Links to bogie/brake supplier records |
 | LM3-EV-MASS-130 | Weighing and axle-load report | G7 dynamic ready | Empty and simulated AW2/AW3 cases |
 | LM3-EV-RIDE-140 | Bogie alignment and ride-height report | G7 dynamic ready | Before dynamic testing |
-| LM3-EV-FEM-175 | Long-consist and train-to-train joint FEM screening pack | Optional full-set release | Full-set longitudinal buff/draft, full-set vertical service, train-to-train joint vertical, and train-to-train joint lateral/racking beam-model screens |
+| LM3-EV-FEM-175 | Train-to-train joint FEM screening pack | Optional open-end release | Train-to-train joint vertical and train-to-train joint lateral/racking beam-model screens |
 
 ## Supplier document index
 
@@ -84,7 +83,6 @@ Document IDs use `LM3` for the `light-metro-3car` family. Revision
 | Rooftop solar and air cleaner | PV module datasheets, adhesive/bond process, rail/clamp vibration evidence, fire-isolation switch data, blower/nozzle IP and vibration evidence, filter-service access, soiling-recovery test | Fits LM3-HV-325 without roof-spaceframe redesign |
 | Bogie parts | Wheelset, bearing, spring, damper, brake supplier certificates | Fits LM3-BOG-400/410 |
 | Articulation/gangway | Bearing rating, motion-envelope proof, bellows/turntable fire evidence, maintenance manual | Fits LM3-SYS-170 and optional LM3-SYS-175 without carbody adapter redesign |
-| Full-set integration | Long-consist assembly method, evacuation/route/platform constraints, brake/traction configuration, and commissioning procedure | Required only if LM3-FULLSET-300 is selected for a route or depot trial |
 
 ## Release gates
 

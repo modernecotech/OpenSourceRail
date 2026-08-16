@@ -17,7 +17,6 @@ import pytest
 
 from osr_mech.common import ConsistFamily, STANDARD_GAUGE_MM
 from osr_mech.freecad_sources import SOURCE_BUILDERS
-from osr_mech.freecad_trainset import FULL_SET_3TRAIN_FAMILY, _trainset_items
 from osr_mech.rolling_stock.bogie import (
     BOGIE_FRAME_HEIGHT_MM,
     BOGIE_FRAME_LENGTH_MM,
@@ -106,16 +105,12 @@ def test_trainset_fits_within_published_platform(family: ConsistFamily) -> None:
     )
 
 
-def test_freecad_full_set_3train_review_model_uses_open_train_joints() -> None:
+def test_train_to_train_articulation_source_is_available() -> None:
     assert "train-to-train-articulation" in SOURCE_BUILDERS
-    items = _trainset_items(FULL_SET_3TRAIN_FAMILY)
-    names = [item.name for item in items]
-    body_items = [item for item in items if item.source.key == "car-body-17m"]
-    assert sum("Train 1 Car" in item.name for item in body_items) == 3
-    assert sum("Train 2 Car" in item.name for item in body_items) == 3
-    assert sum("Train 3 Car" in item.name for item in body_items) == 3
-    assert sum("Open train-to-train joint" in name for name in names) == 2
-    assert sum("Full-set" in name and "outer panoramic" in name for name in names) == 2
+    articulation = train_to_train_articulation()
+    labels = _labels_recursive(articulation)
+    assert "Train-to-train open mid-connection articulation cassette" in labels
+    assert "Open mid-connection passenger portal and bellows clamp datum" in labels
 
 
 def test_car_body_has_door_and_window_cutouts() -> None:

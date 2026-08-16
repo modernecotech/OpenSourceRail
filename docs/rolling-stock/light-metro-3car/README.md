@@ -105,8 +105,8 @@ Use it as the bridge from concept CAD to build planning:
 |---|---|
 | [`buildable-trainset-manifest.md`](../../../mechanical-py/catalog/buildable-trainset/buildable-trainset-manifest.md) | Parts → subassemblies → assemblies → trainset tree, quantities, parentage, acceptance gates |
 | [`train-end-interface.md`](../../../mechanical-py/catalog/buildable-trainset/train-end-interface.md) | Single configurable train-end interface that can select either the panoramic glass front/end or the optional mid open train-to-train connection |
-| [`full-set-3train-assembly.md`](../../../mechanical-py/catalog/buildable-trainset/full-set-3train-assembly.md) | Worked 3-train / 9-car full-set example with parts, assembly instructions, FreeCAD model targets, and long-consist FEM screening matrix |
 | [`critical-path.md`](../../../mechanical-py/catalog/buildable-trainset/critical-path.md) | Rough first-train critical path, parallel fabrication plan, labour estimate, and minimum space model |
+| [`trainset-build-cost.md`](../../../mechanical-py/catalog/buildable-trainset/trainset-build-cost.md) | Recalculated 3-car trainset budget, including the explicit seats/floors/lighting/HVAC/windows/doors scope already inside the direct-module bucket |
 | [`mass-budget.md`](../../../mechanical-py/catalog/buildable-trainset/mass-budget.md) | Reconciled 75.308 t modeled subtotal, 3.442 t engineering reserve, and 78.75 t controlled planning tare |
 | [`joint-control-schedule.md`](../../../mechanical-py/catalog/buildable-trainset/joint-control-schedule.md) | Machine-readable joining classes, torque authority, and release state for all 96 integration joints |
 | [`definitions/index.md`](../../../mechanical-py/catalog/buildable-trainset/definitions/index.md) | Drawing/RFQ definitions for every fabricated part, external component, subassembly, assembly, and trainset node, including structured material and process specs |
@@ -175,15 +175,6 @@ separate hand-positioned drawings.
 |---|
 | ![FreeCAD trainset light metro 3-car](../../../docs/screenshots/freecad/freecad-trainset-light-metro-3car.png) |
 
-The FreeCAD trainset generator also defines the optional
-`light-metro-3car-fullset-3train` review assembly: three LM3 three-car
-modules joined into a 148.5 m nine-car walk-through full set with two
-open train-to-train articulation joints. Generate it with:
-
-```bash
-scripts/freecad_trainset.sh --family light-metro-3car-fullset-3train
-```
-
 | Chassis + bogie assembled | Chassis + bogie exploded |
 |---|---|
 | ![Chassis bogie assembled](../../../docs/screenshots/freecad/freecad-chassis-bogie-assembled.png) | ![Chassis bogie exploded](../../../docs/screenshots/freecad/freecad-chassis-bogie-exploded.png) |
@@ -208,20 +199,14 @@ stress colour scale.
 |---|---|---|---|
 | ![Bogie vertical FEA result](../../../docs/screenshots/freecad/freecad-fea-bogie-frame-screen-result.png) | ![Bogie brake traction FEA result](../../../docs/screenshots/freecad/freecad-fea-bogie-brake-traction-screen-result.png) | ![Full body vertical FEA result](../../../docs/screenshots/freecad/freecad-fea-full-body-frame-screen-result.png) | ![Full body lateral sway FEA result](../../../docs/screenshots/freecad/freecad-fea-full-body-lateral-sway-screen-result.png) |
 
-| Full-set longitudinal buff/draft | Full-set vertical service |
-|---|---|
-| ![Full-set longitudinal buff draft FEA result](../../../docs/screenshots/freecad/freecad-fea-full-set-longitudinal-buff-screen-result.png) | ![Full-set vertical service FEA result](../../../docs/screenshots/freecad/freecad-fea-full-set-vertical-service-screen-result.png) |
-
 | Train-to-train joint vertical | Train-to-train joint lateral sway |
 |---|---|
 | ![Train-to-train joint vertical FEA result](../../../docs/screenshots/freecad/freecad-fea-train-to-train-joint-vertical-screen-result.png) | ![Train-to-train joint lateral sway FEA result](../../../docs/screenshots/freecad/freecad-fea-train-to-train-joint-lateral-sway-screen-result.png) |
 
 The latest screening summary is
 [`mechanical-py/catalog/fea/screening-summary.md`](../../../mechanical-py/catalog/fea/screening-summary.md).
-The current FEA catalog includes solver-backed long-consist
-worked-example cases for the 3-train full set: full-set longitudinal
-buff/draft, full-set vertical service, train-to-train joint vertical
-load, and train-to-train joint lateral/racking.
+The current FEA catalog includes solver-backed train-to-train local
+joint cases: vertical passenger/gangway loading and lateral/racking.
 The source FreeCAD review documents are catalogued in
 [`mechanical-py/catalog/freecad/README.md`](../../../mechanical-py/catalog/freecad/README.md),
 and raw CalculiX output folders are catalogued in

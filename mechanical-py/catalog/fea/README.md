@@ -24,8 +24,6 @@ stress colour scale parsed from the `.dat` output.
 | [`bogie-brake-traction-screen/`](bogie-brake-traction-screen/) | Bogie vertical plus longitudinal brake/traction reaction screen |
 | [`full-body-frame-screen/`](full-body-frame-screen/) | Full car body side/roof frame screening model raw CalculiX inputs and outputs |
 | [`full-body-lateral-sway-screen/`](full-body-lateral-sway-screen/) | Full body side-frame lateral sway/racking screen |
-| [`full-set-longitudinal-buff-screen/`](full-set-longitudinal-buff-screen/) | 148.5 m / nine-car full-set longitudinal buff/draft screen through two open train-to-train joints |
-| [`full-set-vertical-service-screen/`](full-set-vertical-service-screen/) | 1,080 kN nine-car service gravity plus open-joint vertical allowance |
 | [`train-to-train-joint-vertical-screen/`](train-to-train-joint-vertical-screen/) | Local open train-to-train joint vertical passenger/gangway load screen |
 | [`train-to-train-joint-lateral-sway-screen/`](train-to-train-joint-lateral-sway-screen/) | Local open train-to-train joint lateral/racking load screen |
 
@@ -45,8 +43,6 @@ Every study folder contains the same generated file set:
 | Bogie brake/traction | [`bogie-brake-traction-screen-result.png`](bogie-brake-traction-screen/bogie-brake-traction-screen-result.png) |
 | Full body vertical | [`full-body-frame-screen-result.png`](full-body-frame-screen/full-body-frame-screen-result.png) |
 | Full body lateral sway | [`full-body-lateral-sway-screen-result.png`](full-body-lateral-sway-screen/full-body-lateral-sway-screen-result.png) |
-| Full-set longitudinal buff/draft | [`full-set-longitudinal-buff-screen-result.png`](full-set-longitudinal-buff-screen/full-set-longitudinal-buff-screen-result.png) |
-| Full-set vertical service | [`full-set-vertical-service-screen-result.png`](full-set-vertical-service-screen/full-set-vertical-service-screen-result.png) |
 | Train-to-train joint vertical | [`train-to-train-joint-vertical-screen-result.png`](train-to-train-joint-vertical-screen/train-to-train-joint-vertical-screen-result.png) |
 | Train-to-train joint lateral sway | [`train-to-train-joint-lateral-sway-screen-result.png`](train-to-train-joint-lateral-sway-screen/train-to-train-joint-lateral-sway-screen-result.png) |
 

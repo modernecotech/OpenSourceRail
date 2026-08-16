@@ -107,7 +107,6 @@ class AssemblyNode:
     hold_points: tuple[str, ...]
     source_refs: tuple[str, ...]
     maturity: Maturity = Maturity.RELEASE_CANDIDATE
-    example_child_quantities: tuple[tuple[str, float, str], ...] = ()
 
 
 @dataclass(frozen=True)
@@ -156,6 +155,10 @@ class CriticalPathTask:
     space_requirement: str
     predecessors: tuple[str, ...]
     parallelisation_notes: str
+
+
+BUILD_COST_LABOR_RATE_USD_PER_HOUR = 10.0
+BUILD_COST_UNEXPECTED_PREMIUM_FRACTION = 0.20
 
 
 CURRENT_CAD_BASELINE: dict[str, str | float] = {
@@ -1426,34 +1429,6 @@ def _assemblies(family: ConsistFamily) -> tuple[AssemblyNode, ...]:
             ("trainset weigh", "static brake/door/HVAC/HV tests", "FEM screening accepted", "dynamic-test release"),
             ("trainset.py", "freecad_assembly_review.py", "freecad_fea.py", "drawing-register.md"),
         ),
-        AssemblyNode(
-            "LM3-FULLSET-A300",
-            "three LM3 train modules joined as one walk-through full set",
-            Layer.TRAINSET,
-            1,
-            ("LM3-TRAINSET-A000", "LM3-TTART-SA850", "LM3-SYS-SA900"),
-            "long final assembly track / depot commissioning road",
-            (
-                "three-train alignment and end-option configuration record",
-                "two train-to-train open gangway joint motion sweeps",
-                "full-set trainline continuity and safety-loop proof",
-                "long-consist FEM screening accepted",
-                "static and dynamic release for full-set operation",
-            ),
-            (
-                "train-end-interface.md",
-                "full-set-3train-assembly.md",
-                "freecad_trainset.py",
-                "freecad_fea.py",
-                "LM3-SYS-175",
-            ),
-            Maturity.BUILDABLE_AFTER_SUPPLIER_FREEZE,
-            (
-                ("LM3-TRAINSET-A000", 3, "three complete LM3 train modules"),
-                ("LM3-TTART-SA850", 2, "open train-to-train articulation/gangway assemblies"),
-                ("LM3-SYS-SA900", 3, "per-module control/electronics packs enumerated as one consist"),
-            ),
-        ),
     )
 
 
@@ -2249,10 +2224,6 @@ def _assembly_payload(
         "material_spec": _spec_payload(material_spec),
         "process_spec": _spec_payload(process_spec),
         "maturity": node.maturity.value,
-        "example_child_quantities": [
-            {"child_id": child_id, "quantity": quantity, "basis": basis}
-            for child_id, quantity, basis in node.example_child_quantities
-        ],
     }
 
 
@@ -2345,20 +2316,6 @@ def render_assembly_definition(
         "",
     ]
     lines.extend(f"- `{child}`" for child in node.children)
-    if node.example_child_quantities:
-        lines.extend(
-            [
-                "",
-                "## Worked-example child quantities",
-                "",
-                "| Child | Quantity | Basis |",
-                "|---|---:|---|",
-            ]
-        )
-        lines.extend(
-            f"| `{child_id}` | {quantity:g} | {basis} |"
-            for child_id, quantity, basis in node.example_child_quantities
-        )
     lines.extend(
         [
             "",
@@ -3129,6 +3086,144 @@ def render_mass_budget(design: BuildableTrainsetDesign) -> str:
     return "\n".join(lines)
 
 
+def trainset_build_cost_payload(design: BuildableTrainsetDesign) -> dict[str, object]:
+    """Return the explicit build-cost rollup for one three-car LM3 trainset."""
+
+    direct_material_and_supplier_cost_usd = float(design.candidate.metrics["cost_usd"])
+    included_fitout_scope = [
+        {
+            "scope": "seats, floors, grab rails, and interior lighting",
+            "bom_lines": ["B12", "B13", "B14", "B15", "B16"],
+            "basis": "floor boards/hatches, floor covering, 60 longitudinal seats, grab rails, and three-car LED lighting kit",
+            "included_base_usd": 17_500.0,
+        },
+        {
+            "scope": "roof HVAC",
+            "bom_lines": ["T14"],
+            "basis": "three direct-HV DC 24 kW roof HVAC units, one per car",
+            "included_base_usd": 17_250.0,
+        },
+        {
+            "scope": "side windows, side doors, door sill/emergency kits, and panoramic end glass",
+            "bom_lines": ["B10", "B11", "B25", "B27"],
+            "basis": "18 laminated side-window cassettes, 12 powered door cassettes, sill/emergency kits, and two panoramic end-glass assemblies",
+            "included_base_usd": 112_000.0,
+        },
+    ]
+    critical = critical_path_payload(design)
+    labor_hours = float(critical["total_labor_hours"])
+    labor_cost_usd = labor_hours * BUILD_COST_LABOR_RATE_USD_PER_HOUR
+    subtotal_before_premium_usd = direct_material_and_supplier_cost_usd + labor_cost_usd
+    unexpected_cost_premium_usd = subtotal_before_premium_usd * BUILD_COST_UNEXPECTED_PREMIUM_FRACTION
+    total_build_cost_usd = subtotal_before_premium_usd + unexpected_cost_premium_usd
+    return {
+        "document_revision": "A-DRAFT",
+        "release_status": "rough-order planning; not a supplier quote or signed production budget",
+        "candidate": design.candidate.id,
+        "family": design.family.value,
+        "cars_per_trainset": int(design.candidate.metrics["cars"]),
+        "currency": "USD",
+        "direct_material_and_supplier_cost_usd": round(direct_material_and_supplier_cost_usd, 2),
+        "labor_hours": round(labor_hours, 1),
+        "labor_rate_usd_per_hour": BUILD_COST_LABOR_RATE_USD_PER_HOUR,
+        "labor_cost_usd": round(labor_cost_usd, 2),
+        "subtotal_before_premium_usd": round(subtotal_before_premium_usd, 2),
+        "unexpected_cost_premium_fraction": BUILD_COST_UNEXPECTED_PREMIUM_FRACTION,
+        "unexpected_cost_premium_usd": round(unexpected_cost_premium_usd, 2),
+        "total_build_cost_usd": round(total_build_cost_usd, 2),
+        "rounded_local_owner_unit_usd": 900_000,
+        "included_fitout_doors_glazing_scope": included_fitout_scope,
+        "included_fitout_doors_glazing_total_base_usd": round(
+            sum(float(row["included_base_usd"]) for row in included_fitout_scope), 2
+        ),
+        "basis": (
+            "Direct material and supplier-module cost comes from the promoted design candidate; "
+            "labour hours come from the generated critical-path plan; the 20% premium covers "
+            "unexpected local fabrication, rework, logistics, consumables, and shop-learning costs."
+        ),
+        "exclusions": [
+            "route/platform compatibility changes",
+            "supplier certification and homologation campaigns",
+            "warranty and initial spares",
+            "production-plant fixtures and tooling carried in the separate plant allowance",
+        ],
+    }
+
+
+def render_trainset_build_cost(design: BuildableTrainsetDesign) -> str:
+    payload = trainset_build_cost_payload(design)
+    premium_pct = 100.0 * float(payload["unexpected_cost_premium_fraction"])
+    lines = [
+        "# LM3 trainset build cost estimate",
+        "",
+        "Generated by `scripts/buildable-trainset.sh`. This is a rough-order",
+        "build cost for one three-car LM3 trainset using the updated modular",
+        "glass-fibre body, explicit assembly labour plan, and requested",
+        "unexpected-cost premium.",
+        "",
+        f"- Candidate: `{payload['candidate']}`",
+        f"- Family: `{payload['family']}`",
+        f"- Release status: {payload['release_status']}",
+        "",
+        "| Cost bucket | Basis | Cost |",
+        "|---|---|---:|",
+        "| Direct material and supplier modules | Promoted design candidate cost metric | "
+        f"${float(payload['direct_material_and_supplier_cost_usd']):,.0f} |",
+        "| Direct labour | "
+        f"{float(payload['labor_hours']):,.0f} h at ${float(payload['labor_rate_usd_per_hour']):,.0f}/h | "
+        f"${float(payload['labor_cost_usd']):,.0f} |",
+        "| Subtotal before premium | Material/supplier modules plus direct labour | "
+        f"${float(payload['subtotal_before_premium_usd']):,.0f} |",
+        f"| Unexpected-cost premium | {premium_pct:.0f}% for rework, logistics, consumables, local fabrication variation, and shop learning | "
+        f"${float(payload['unexpected_cost_premium_usd']):,.0f} |",
+        "| **Total per 3-car trainset** | Recalculated build estimate | "
+        f"**${float(payload['total_build_cost_usd']):,.0f}** |",
+        "| Rounded local-owner planning unit | Retained city-CAPEX reporting bucket | "
+        f"${float(payload['rounded_local_owner_unit_usd']):,.0f} |",
+        "",
+        "## Basis",
+        "",
+        str(payload["basis"]),
+        "",
+        "## Included Fit-Out, Doors, And Glazing Scope",
+        "",
+        "The direct material and supplier-module bucket already includes the",
+        "interior fit-out, HVAC, windows, and doors below; do not add a",
+        "second $20k interior allowance unless a separate contingency is",
+        "intentionally being carried.",
+        "",
+        "| Included scope | BOM lines | Included base cost |",
+        "|---|---|---:|",
+    ]
+    lines.extend(
+        "| "
+        f"{row['scope']} | "
+        f"{', '.join(str(line) for line in row['bom_lines'])} | "
+        f"${float(row['included_base_usd']):,.0f} |"
+        for row in payload["included_fitout_doors_glazing_scope"]  # type: ignore[index]
+    )
+    lines.extend(
+        [
+            "| **Requested scope total** | Seats/floors/lighting + HVAC + doors/windows/end glass | "
+            f"**${float(payload['included_fitout_doors_glazing_total_base_usd']):,.0f}** |",
+            "",
+            "The seats/floors/grab-rail/lighting subset is $17,500, close to",
+            "the $20k check value. HVAC adds $17,250, and doors/glazing add",
+            "$112,000 before labour and premium.",
+            "",
+        ]
+    )
+    lines.extend(
+        [
+            "Exclusions:",
+            "",
+        ]
+    )
+    lines.extend(f"- {item}" for item in payload["exclusions"])  # type: ignore[index]
+    lines.append("")
+    return "\n".join(lines)
+
+
 def joint_control_rows(design: BuildableTrainsetDesign) -> list[dict[str, object]]:
     items = {item.id: item for item in design.product_items}
     assemblies = {node.id: node for node in design.assemblies}
@@ -3709,237 +3804,6 @@ def render_train_end_interface(design: BuildableTrainsetDesign) -> str:
     return "\n".join(lines)
 
 
-def full_set_3train_payload(design: BuildableTrainsetDesign) -> dict[str, object]:
-    """Return the worked example for three LM3 train modules as one set."""
-
-    module_length_m = 3 * PROMOTED_LIGHT_METRO_CAR_LENGTH_M
-    full_set_length_m = 3 * module_length_m
-    planning_tare_t = 3 * PROMOTED_LIGHT_METRO_TRAINSET_MASS_KG / 1000.0
-    modeled_subtotal_t = 3 * PROMOTED_OPTIMIZER_MASS_SUBTOTAL_KG / 1000.0
-    reserve_t = 3 * PROMOTED_ENGINEERING_MASS_RESERVE_KG / 1000.0
-    return {
-        "document_revision": "A-DRAFT",
-        "release_status": "worked-example-not-release-baseline",
-        "candidate": design.candidate.id,
-        "assembly_id": "LM3-FULLSET-A300",
-        "title": "three LM3 train modules joined as one walk-through full set",
-        "configuration": {
-            "train_modules": 3,
-            "cars_total": 9,
-            "outer_panoramic_ends": 2,
-            "train_to_train_open_joints": 2,
-            "inter_car_joints_inside_modules": 6,
-            "module_length_m": round(module_length_m, 1),
-            "full_set_length_m": round(full_set_length_m, 1),
-            "controlled_planning_tare_t": round(planning_tare_t, 3),
-            "modeled_subtotal_t": round(modeled_subtotal_t, 3),
-            "engineering_reserve_t": round(reserve_t, 3),
-        },
-        "freecad_designs": [
-            {
-                "artifact": "mechanical-py/catalog/freecad/trainset-light-metro-3car-fullset-3train.FCStd",
-                "source": "mechanical-py/src/osr_mech/freecad_trainset.py",
-                "command": "scripts/freecad_trainset.sh --family light-metro-3car-fullset-3train",
-                "purpose": "Full 9-car / 3-train review assembly with two open train-to-train joints.",
-            },
-            {
-                "artifact": "mechanical-py/catalog/freecad/fea-screening-models.FCStd",
-                "source": "mechanical-py/src/osr_mech/freecad_fea.py",
-                "command": "scripts/freecad_fea.sh",
-                "purpose": "Beam-model FEM visual document including long-consist and train-to-train joint screening cases.",
-            },
-        ],
-        "principal_parts_and_subassemblies": [
-            ("LM3-TRAINSET-A000", 3, "three complete LM3 train modules"),
-            ("LM3-EIF-SA650", 6, "common configurable end interfaces, two per module"),
-            ("LM3-END-SA700", 2, "panoramic glass outer-end assemblies at the full-set ends only"),
-            ("LM3-TTART-SA850", 2, "open train-to-train articulation/gangway assemblies between modules"),
-            ("LM3-ART-SA800", 6, "normal inter-car articulation/gangway assemblies inside the three modules"),
-            ("LM3-CAR-A900", 9, "complete repeated car modules"),
-            ("LM3-BOG-SA610", 9, "powered bogie assemblies"),
-            ("LM3-BOG-SA620", 9, "trailer bogie assemblies"),
-            ("LM3-SYS-SA900", 3, "per-module control/electronics packs enumerated into one consist"),
-        ],
-        "assembly_instructions": [
-            {
-                "step": 1,
-                "title": "release the three module build packs",
-                "work_center": "production control",
-                "instructions": [
-                    "Release three signed LM3-TRAINSET-A000 build packs with matching software/configuration baselines.",
-                    "Freeze which two end positions become outer panoramic ends and which four become open mid-connection ends.",
-                    "Issue serialised LM3-EIF-SA650 option records for all six module ends before any cowl or open-portal hardware is fitted.",
-                ],
-                "qa": ["configuration baseline", "module serial list", "selected end-option record"],
-            },
-            {
-                "step": 2,
-                "title": "complete the three individual train modules",
-                "work_center": "standard LM3 final assembly track",
-                "instructions": [
-                    "Build each three-car module through the normal LM3 carbody, bogie, interior, HV, roof, door, and static-test sequence.",
-                    "Fit panoramic LM3-END-SA700 only at the two full-set outer ends.",
-                    "Leave the four future mid-connection ends as surveyed LM3-EIF-SA650 open-option interfaces with protected service connectors and temporary weather covers.",
-                ],
-                "qa": ["module static release", "outer-end water test", "open-interface preservation record"],
-            },
-            {
-                "step": 3,
-                "title": "align modules on the long commissioning road",
-                "work_center": "long final assembly track / depot commissioning road",
-                "instructions": [
-                    "Place the three modules on a level road with train centrelines and end-interface carrier rings aligned.",
-                    "Set temporary supports or ride-height correction only at the released bogie/air-spring datum points.",
-                    "Survey both train-to-train joint gaps, yaw angle, floor height, and lateral offset before opening the protected service covers.",
-                ],
-                "qa": ["joint gap survey", "floor/threshold level report", "centreline alignment record"],
-            },
-            {
-                "step": 4,
-                "title": "install two LM3-TTART-SA850 open connections",
-                "work_center": "train-to-train articulation cell",
-                "instructions": [
-                    "Install the open portal clamp frames, lower drawbar/spherical pivot, anti-lift keepers, upper links, bellows, and turntable threshold bridges.",
-                    "Route HV, LV/data, safety-loop, coolant, HVAC sleeve, drain, and diagnostic jumpers through the released train-to-train service cassette.",
-                    "Fit blanking/dust covers to unused outer-end transition connectors and record connector serials.",
-                ],
-                "qa": ["motion sweep", "bend-radius sweep", "trainline continuity", "water ingress/drain test"],
-            },
-            {
-                "step": 5,
-                "title": "close passenger and interior continuity",
-                "work_center": "interior fit-out cell",
-                "instructions": [
-                    "Install the walk-through floor transition trims, bellows interior side walls, ceiling panels, lighting continuation, signage, CCTV coverage, and emergency communication labels.",
-                    "Check PRM threshold transitions and trip hazards through both train-to-train joints.",
-                    "Run passenger information, lighting, CCTV/intercom, and emergency egress checks across all nine cars.",
-                ],
-                "qa": ["PRM/egress gauge", "lighting/PIS/CCTV enumeration", "rattle and edge-radius inspection"],
-            },
-            {
-                "step": 6,
-                "title": "commission the 9-car full set",
-                "work_center": "static test cell and dynamic test track",
-                "instructions": [
-                    "Enumerate all three LM3-SYS-SA900 control packs as one full-set consist with clear leading/trailing-end roles.",
-                    "Run insulation, HVIL, brake, door, HVAC, charging, emergency loop, event-recorder, and rescue-mode tests end to end.",
-                    "Release dynamic running only after the long-consist FEM screening cases, trainline tests, and both open-joint motion sweeps are signed.",
-                ],
-                "qa": ["full-set static test record", "FEM screening accepted", "dynamic-test release"],
-            },
-        ],
-        "fem_screening_matrix": [
-            {
-                "slug": "full-set-longitudinal-buff-screen",
-                "scope": "148.5 m full set under longitudinal buff/draft load through the three train modules and two open joints",
-            },
-            {
-                "slug": "full-set-vertical-service-screen",
-                "scope": "nine-car supported vertical service gravity screen with all module bogie supports active",
-            },
-            {
-                "slug": "train-to-train-joint-vertical-screen",
-                "scope": "local open-end carrier rings, threshold bridge, lower joint, and upper-link load path under vertical passenger/joint load",
-            },
-            {
-                "slug": "train-to-train-joint-lateral-sway-screen",
-                "scope": "local open-end carrier rings and gangway cassette under lateral/racking load",
-            },
-        ],
-        "release_caveats": [
-            "This is a worked example and does not change the reference three-car trainset baseline.",
-            "The 148.5 m full set needs route/platform, evacuation, traction-power, braking-distance, depot-road, and regulation checks before use.",
-            "The FEM cases are gross beam-model screens; detailed shell/solid meshes, weld fatigue, supplier gangway certification, crash, derailment, modal, and thermal cases remain release work.",
-        ],
-    }
-
-
-def render_full_set_3train_assembly(design: BuildableTrainsetDesign) -> str:
-    payload = full_set_3train_payload(design)
-    cfg = dict(payload["configuration"])  # type: ignore[arg-type]
-    lines = [
-        "# LM3 Full-Set 3-Train Assembly Example",
-        "",
-        "Generated by `scripts/buildable-trainset.sh`. This is a worked",
-        "example for assembling three complete LM3 three-car train modules",
-        "into one nine-car walk-through full set using the configurable",
-        "open train-to-train articulation ends.",
-        "",
-        f"- Assembly ID: `{payload['assembly_id']}`",
-        f"- Candidate: `{payload['candidate']}`",
-        f"- Document revision: `{payload['document_revision']}`",
-        f"- Release status: `{payload['release_status']}`",
-        "",
-        "## Configuration",
-        "",
-        "| Parameter | Value |",
-        "|---|---:|",
-    ]
-    for key, value in cfg.items():
-        lines.append(f"| `{key}` | {value} |")
-    lines.extend(
-        [
-            "",
-            "## FreeCAD Design Artifacts",
-            "",
-            "| Artifact | Source | Command | Purpose |",
-            "|---|---|---|---|",
-        ]
-    )
-    for item in payload["freecad_designs"]:  # type: ignore[index]
-        row = dict(item)
-        lines.append(
-            f"| `{row['artifact']}` | `{row['source']}` | `{row['command']}` | {row['purpose']} |"
-        )
-    lines.extend(
-        [
-            "",
-            "## Principal Parts And Subassemblies",
-            "",
-            "| ID | Qty for full set | Role |",
-            "|---|---:|---|",
-        ]
-    )
-    for item_id, qty, role in payload["principal_parts_and_subassemblies"]:  # type: ignore[index]
-        lines.append(f"| `{item_id}` | {qty} | {role} |")
-    lines.extend(
-        [
-            "",
-            "## Assembly Instructions",
-            "",
-        ]
-    )
-    for step in payload["assembly_instructions"]:  # type: ignore[index]
-        row = dict(step)
-        lines.extend(
-            [
-                f"### {row['step']}. {row['title']}",
-                "",
-                f"- Work center: {row['work_center']}",
-                "- Instructions:",
-            ]
-        )
-        lines.extend(f"  - {instruction}" for instruction in row["instructions"])  # type: ignore[index]
-        lines.append("- QA / hold points:")
-        lines.extend(f"  - {gate}" for gate in row["qa"])  # type: ignore[index]
-        lines.append("")
-    lines.extend(
-        [
-            "## FEM Screening Matrix",
-            "",
-            "| Slug | Scope |",
-            "|---|---|",
-        ]
-    )
-    for study in payload["fem_screening_matrix"]:  # type: ignore[index]
-        row = dict(study)
-        lines.append(f"| `{row['slug']}` | {row['scope']} |")
-    lines.extend(["", "## Release Caveats", ""])
-    lines.extend(f"- {caveat}" for caveat in payload["release_caveats"])  # type: ignore[index]
-    lines.append("")
-    return "\n".join(lines)
-
-
 def write_outputs(
     design: BuildableTrainsetDesign,
     out_dir: Path,
@@ -3951,14 +3815,14 @@ def write_outputs(
     gaps_md = out_dir / "open-release-gaps.md"
     mass_json = out_dir / "mass-budget.json"
     mass_md = out_dir / "mass-budget.md"
+    build_cost_json = out_dir / "trainset-build-cost.json"
+    build_cost_md = out_dir / "trainset-build-cost.md"
     joints_json = out_dir / "joint-control-schedule.json"
     joints_md = out_dir / "joint-control-schedule.md"
     critical_json = out_dir / "critical-path.json"
     critical_md = out_dir / "critical-path.md"
     end_interface_json = out_dir / "train-end-interface.json"
     end_interface_md = out_dir / "train-end-interface.md"
-    full_set_json = out_dir / "full-set-3train-assembly.json"
-    full_set_md = out_dir / "full-set-3train-assembly.md"
     manifest_json.write_text(
         json.dumps(asdict(design), default=_serialise, indent=2, sort_keys=True) + "\n",
         encoding="utf-8",
@@ -3968,6 +3832,11 @@ def write_outputs(
     gaps_md.write_text(render_open_release_gaps(design), encoding="utf-8")
     mass_json.write_text(json.dumps(mass_budget_payload(design), indent=2, sort_keys=True) + "\n", encoding="utf-8")
     mass_md.write_text(render_mass_budget(design), encoding="utf-8")
+    build_cost_json.write_text(
+        json.dumps(trainset_build_cost_payload(design), indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
+    build_cost_md.write_text(render_trainset_build_cost(design), encoding="utf-8")
     joints_json.write_text(
         json.dumps(
             {
@@ -3990,11 +3859,6 @@ def write_outputs(
         encoding="utf-8",
     )
     end_interface_md.write_text(render_train_end_interface(design), encoding="utf-8")
-    full_set_json.write_text(
-        json.dumps(full_set_3train_payload(design), indent=2, sort_keys=True) + "\n",
-        encoding="utf-8",
-    )
-    full_set_md.write_text(render_full_set_3train_assembly(design), encoding="utf-8")
     definition_pack = write_definition_pack(design, out_dir / "definitions")
     traveler_pack = write_shop_traveler_pack(design, out_dir / "travelers")
     return manifest_json, manifest_md, review_md, definition_pack, traveler_pack

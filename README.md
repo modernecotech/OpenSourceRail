@@ -22,7 +22,15 @@ the three painted frames pass their dimensional checks; doors, glazing,
 equipment, bogies, commissioning, and certification remain separate work.
 
 Current city CAPEX uses trainset-family rolling-stock units, for example
-about **$0.9M per 3-car light-metro trainset**, plus a separate lean
+about **$0.9M per 3-car light-metro trainset**. The current explicit
+build estimate is **$885k** per 3-car LM3 trainset: design-candidate
+material/supplier modules plus **5,524 h** at **$10/h**, then a **20%**
+unexpected-cost premium. That estimate already includes the named
+passenger fit-out and openings: seats, floors, grab rails, interior
+lighting, three roof HVAC units, 18 side windows, 12 powered side doors,
+door sill/emergency kits, and two panoramic end-glass assemblies. City
+CAPEX keeps the rounded $0.9M planning
+unit, plus a separate lean
 **$60k per vehicle/car module** railway production-plant setup
 allowance; **$120k per vehicle/car module** is retained only as the high
 sensitivity check. Distributed overnight stabling at powered stations
@@ -383,7 +391,6 @@ Key links:
 - [Generated review catalogue README](mechanical-py/catalog/README.md)
 - [Buildable trainset handoff](mechanical-py/catalog/buildable-trainset/)
 - [Configurable train-end interface](mechanical-py/catalog/buildable-trainset/train-end-interface.md)
-- [3-train full-set assembly example](mechanical-py/catalog/buildable-trainset/full-set-3train-assembly.md)
 - [First-article fabrication critical path](mechanical-py/catalog/buildable-trainset/critical-path.md)
 - [Product-tree definitions](mechanical-py/catalog/buildable-trainset/definitions/index.md)
 - [Shop traveler templates](mechanical-py/catalog/buildable-trainset/travelers/index.md)
@@ -395,10 +402,10 @@ Buildable handoff quick path:
 | See selected baseline and metrics | [design iteration summary](mechanical-py/catalog/design-system/design-iteration-summary.md) |
 | See parts → subassemblies → assemblies → trainset | [buildable manifest](mechanical-py/catalog/buildable-trainset/buildable-trainset-manifest.md) |
 | Select panoramic or open mid-train ends | [train-end interface](mechanical-py/catalog/buildable-trainset/train-end-interface.md) with the common end carrier, panoramic glass option, and train-to-train open connection |
-| Review a 3-train full-set example | [full-set assembly pack](mechanical-py/catalog/buildable-trainset/full-set-3train-assembly.md) with 9-car layout, parts, assembly steps, FreeCAD targets, and long-consist FEM matrix |
 | Start drawing/RFQ work | [definition pack](mechanical-py/catalog/buildable-trainset/definitions/index.md) with structured material/process specs |
 | Start shop routing / QA planning | [shop traveler pack](mechanical-py/catalog/buildable-trainset/travelers/index.md) with material/process controls |
 | Plan first-article fabrication and final assembly | [critical-path plan](mechanical-py/catalog/buildable-trainset/critical-path.md) with parts, subassemblies, furnishings, space, labour, float, and final commissioning |
+| Review trainset build cost | [build-cost estimate](mechanical-py/catalog/buildable-trainset/trainset-build-cost.md) with USD 10/h labour, 20% unexpected-cost premium, and explicit included seats/floors/lighting/HVAC/windows/doors scope |
 | Review current buildability gaps | [buildability review](mechanical-py/catalog/buildable-trainset/current-design-buildability-review.md) |
 | Review geometry and FEM evidence | [FreeCAD catalogue](mechanical-py/catalog/freecad/) and [FEA summary](mechanical-py/catalog/fea/screening-summary.md) |
 
