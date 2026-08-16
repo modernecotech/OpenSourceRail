@@ -3642,6 +3642,371 @@ def render_critical_path(design: BuildableTrainsetDesign) -> str:
     return "\n".join(lines)
 
 
+def factory_plan_payload(design: BuildableTrainsetDesign) -> dict[str, object]:
+    """Return a first-pass factory sizing and machinery plan for one LM3 line."""
+
+    tasks = {str(task["id"]): task for task in _scheduled_critical_path_tasks()}
+
+    def rollup(task_ids: tuple[str, ...], label: str) -> dict[str, object]:
+        rows = [tasks[task_id] for task_id in task_ids]
+        start = min(float(row["early_start_day"]) for row in rows)
+        finish = max(float(row["early_finish_day"]) for row in rows)
+        labor = sum(float(row["labor_hours"]) for row in rows)
+        event_days = sorted(
+            {float(row["early_start_day"]) for row in rows}
+            | {float(row["early_finish_day"]) for row in rows}
+        )
+        sample_days = [(a + b) / 2.0 for a, b in zip(event_days, event_days[1:])]
+        peak_crew = max(
+            (
+                sum(
+                    float(row["crew_equivalent"])
+                    for row in rows
+                    if float(row["early_start_day"]) <= sample_day < float(row["early_finish_day"])
+                )
+                for sample_day in sample_days
+            ),
+            default=0.0,
+        )
+        return {
+            "id": label,
+            "task_ids": list(task_ids),
+            "early_start_day": round(start, 1),
+            "early_finish_day": round(finish, 1),
+            "elapsed_window_days": round(finish - start, 1),
+            "touch_labor_hours": round(labor, 1),
+            "peak_parallel_crew_equivalent": round(peak_crew, 1),
+        }
+
+    process_cells = [
+        {
+            "id": "FP-CELL-010",
+            "name": "steel prep and chassis parts cell",
+            "qty": 1,
+            "nominal_dimensions_m": "18 x 10",
+            "net_area_m2": 180,
+            "supports": ["CP-020"],
+            "included_work": "saw/plasma cutting, press-brake forming, drilling, deburr, and three-car chassis/body kitting",
+        },
+        {
+            "id": "FP-CELL-020",
+            "name": "chassis weld and body-frame fixture cell",
+            "qty": 1,
+            "nominal_dimensions_m": "32 x 20",
+            "net_area_m2": 640,
+            "supports": ["CP-030", "CP-040"],
+            "included_work": "two underframe rotating fixtures, two side/roof frame fixtures, local bolster/coupler subfixtures, weld extraction, and fixture survey access",
+        },
+        {
+            "id": "FP-CELL-030",
+            "name": "composite moulding, cure, trim, and dry-fit cell",
+            "qty": 1,
+            "nominal_dimensions_m": "22 x 12",
+            "net_area_m2": 264,
+            "supports": ["CP-060", "CP-080"],
+            "included_work": "four short GFRP moulds, lay-up tables, cure racks, CNC trim/drill table, master-frame dry-fit stand, and module staging",
+        },
+        {
+            "id": "FP-CELL-040",
+            "name": "paint and corrosion protection cell",
+            "qty": 1,
+            "nominal_dimensions_m": "28 x 12",
+            "net_area_m2": 336,
+            "supports": ["CP-070"],
+            "included_work": "one car-length paint booth, prep/mask lane, flash-off/inspection space, seam-seal and cavity-wax station",
+        },
+        {
+            "id": "FP-CELL-050",
+            "name": "bogie assembly and test cell",
+            "qty": 1,
+            "nominal_dimensions_m": "20 x 12",
+            "net_area_m2": 240,
+            "supports": ["CP-050", "CP-120"],
+            "included_work": "three bogie stands, wheelset lane, brake/sensor bench, ride-height setup, and bogie-to-car marriage support tools",
+        },
+        {
+            "id": "FP-CELL-060",
+            "name": "interior, HVAC duct, harness, and supplier kit bench",
+            "qty": 1,
+            "nominal_dimensions_m": "16 x 10",
+            "net_area_m2": 160,
+            "supports": ["CP-065", "CP-110"],
+            "included_work": "seat/grab-rail racks, floor and liner trim bench, lighting/PIS/CCTV label bench, quarantine shelves, and car-zone kitting",
+        },
+        {
+            "id": "FP-CELL-070",
+            "name": "final assembly, bogie marriage, and static-test track",
+            "qty": 1,
+            "nominal_dimensions_m": "60 x 10",
+            "net_area_m2": 600,
+            "supports": ["CP-090", "CP-100", "CP-110", "CP-120", "CP-130", "CP-140"],
+            "included_work": "one 55 m controlled train bay with side access, roof platforms, HV lockout, shore power, charge simulator, jacks/mobile columns, and end-cowl stands",
+        },
+        {
+            "id": "FP-CELL-080",
+            "name": "stores, incoming inspection, QA, toolroom, and offices",
+            "qty": 1,
+            "nominal_dimensions_m": "28 x 14",
+            "net_area_m2": 392,
+            "supports": ["CP-010"],
+            "included_work": "controlled document desk, stores, receiving inspection, calibrated-tool cage, NCR quarantine, compressor/electrical room, and welfare/office space",
+        },
+    ]
+    net_process_area_m2 = sum(int(cell["net_area_m2"]) for cell in process_cells)
+    circulation_and_services_m2 = round(net_process_area_m2 * 0.25)
+    enclosed_area_m2 = net_process_area_m2 + circulation_and_services_m2
+    outside_area_m2 = 2_200
+
+    machinery = [
+        ("M-010", "4x8 or 5x10 CNC plasma table with extraction", 1, 20_000, "steel prep", "CNC plasma listings show 4x8 tables roughly in the $7k-$17k range; allowance includes extraction and industrialization."),
+        ("M-020", "RHS/tube saw and general fabrication saws", 2, 6_000, "steel prep", "Shop-floor allowance for repeatable chassis tube cutting and backup saw capacity."),
+        ("M-030", "100-160 t CNC press brake", 1, 45_000, "steel prep", "Market check shows low FOB offers around $18k and local/dealer reality nearer $45k for 100 t class machines."),
+        ("M-040", "drill/mill/magnetic-drill and deburr package", 1, 18_000, "steel prep", "Datum holes, inserts, fixtures, bracket slots, and local machining support."),
+        ("M-050", "500 A MIG/MAG welding sets", 8, 2_000, "weld cell", "Industrial 500 A MIG/MAG machines are commonly listed from sub-$1k FOB to around $1.5k-$2.5k retail; allowance includes torches/leads."),
+        ("M-060", "weld fume extraction and screens", 1, 25_000, "weld cell", "Shared extraction, curtains, and local arms for two long fixtures plus bracket benches."),
+        ("M-070", "underframe rotating weld fixtures", 2, 40_000, "weld cell", "Custom datum tooling for 16.5 m chassis underframes."),
+        ("M-080", "side/roof frame fixtures", 2, 30_000, "weld cell", "Custom fixtures for door/window portals, roof bows, HVAC rails, and clip-grid datums."),
+        ("M-090", "bogie frame fixture, three stands, and brake/sensor bench", 1, 45_000, "bogie cell", "Local assembly tooling for powered/trailer bogie frames and supplier wheelset/brake installation."),
+        ("M-100", "10 t bridge/gantry crane coverage and hoists", 2, 37_500, "lifting", "Crane price guides show 10 t single-girder equipment in the high single-digit to low tens of thousands FOB; allowance includes runway/installation margin."),
+        ("M-110", "3 t electric forklift", 1, 25_000, "material handling", "2026 3 t electric forklift guide ranges around $18k-$30k for higher-spec lithium machines."),
+        ("M-120", "mobile columns/jacks or shallow-pit bogie marriage kit", 1, 75_000, "final assembly", "Heavy-vehicle mobile-column sets range from lower-cost import sets to about $60k+ for branded 72,000 lb sets; allowance covers trainset adaptation."),
+        ("M-130", "bus/truck-length paint booth and prep ventilation", 1, 70_000, "paint cell", "Truck/bus booth market checks show roughly $13k-$50k FOB and $80k-$90k for larger custom booths; allowance sits between."),
+        ("M-140", "blast/strip prep, seam-seal, and cavity-wax package", 1, 35_000, "paint cell", "Lean in-house prep package; full blast hall can be outsourced or added later."),
+        ("M-150", "four short GFRP moulds with trim/drill jigs", 1, 40_000, "composite cell", "Reusable one-metre side/roof mould set plus master trim gauges; no full-car mould."),
+        ("M-160", "vacuum infusion/wet-layup pumps, reusable membranes, tables, and cure racks", 1, 20_000, "composite cell", "Vacuum infusion equipment is low-cost at tool level; allowance covers shop-ready pumps, membranes, gauges, and racks."),
+        ("M-170", "CNC router/trim table and composite dust extraction", 1, 45_000, "composite cell", "Trim/drill accuracy for side/window/door/roof variants and cabin liners."),
+        ("M-180", "metrology, laser level/track, torque tools, and calibrated gauges", 1, 35_000, "QA", "Factory datum surveys, torque control, clip gauges, door/window gauges, and calibration control."),
+        ("M-190", "HV insulation, continuity, shore-power, and charge-simulator tools", 1, 70_000, "final assembly", "Static commissioning of HV battery, traction, charging, door/HVAC, and train-control interfaces."),
+        ("M-200", "interior trim benches, carts, racks, and hand tools", 1, 25_000, "interior cell", "Pre-kitting seats, floors, lighting, liners, PIS/CCTV, and labels by car zone."),
+        ("M-210", "factory IT, traveler terminals, printers, labels, and document control", 1, 15_000, "production control", "Shop traveler, QR label, NCR, and QA evidence capture support."),
+    ]
+    machinery_rows = [
+        {
+            "id": item_id,
+            "item": item,
+            "quantity": qty,
+            "unit_cost_usd": unit_cost,
+            "extended_cost_usd": qty * unit_cost,
+            "cell": cell,
+            "basis": basis,
+        }
+        for item_id, item, qty, unit_cost, cell, basis in machinery
+    ]
+    machinery_subtotal_usd = sum(int(row["extended_cost_usd"]) for row in machinery_rows)
+    setup_contingency_usd = round(machinery_subtotal_usd * 0.20)
+    machinery_total_usd = machinery_subtotal_usd + setup_contingency_usd
+
+    return {
+        "document_revision": "A-DRAFT",
+        "release_status": "rough-order planning; not a lease plan or equipment RFQ",
+        "family": design.family.value,
+        "candidate": design.candidate.id,
+        "planning_basis": (
+            "minimum pilot factory for one first-article LM3 three-car trainset at a time; "
+            "one 55 m final assembly bay; chassis, bogies, moulded GFRP modules, and interiors run off-line in parallel"
+        ),
+        "factory_size": {
+            "net_process_area_m2": net_process_area_m2,
+            "circulation_services_and_safety_allowance_fraction": 0.25,
+            "circulation_services_and_safety_area_m2": circulation_and_services_m2,
+            "recommended_enclosed_factory_area_m2": enclosed_area_m2,
+            "recommended_enclosed_factory_area_ft2": round(enclosed_area_m2 * 10.7639),
+            "outside_yard_and_test_apron_m2": outside_area_m2,
+            "outside_yard_and_test_apron_ft2": round(outside_area_m2 * 10.7639),
+            "minimum_clear_height_m": "6 m general, 8 m preferred over final bay and weld/fixture cell",
+            "dynamic_test_track": "separate short depot/test track, nominal 150-300 m plus charging interface; not counted in enclosed factory area",
+        },
+        "process_cells": process_cells,
+        "assembly_time_rollups": [
+            rollup(("CP-020", "CP-030", "CP-040", "CP-070"), "chassis and painted carbody frame fabrication"),
+            rollup(("CP-050", "CP-120"), "bogie build and bogie-to-carbody integration"),
+            rollup(("CP-060", "CP-080"), "GFRP moulding and clip-on body installation"),
+            rollup(("CP-065", "CP-110"), "interior furnishing pre-kit and installation"),
+            rollup(("CP-090", "CP-100", "CP-110", "CP-120", "CP-130", "CP-140"), "final assembly and static commissioning"),
+            rollup(("CP-150",), "dynamic commissioning and trial-running release"),
+        ],
+        "production_takt_scenarios": [
+            {
+                "scenario": "first article / learning build",
+                "trainsets_per_year": 4,
+                "basis": "35 working-day elapsed build with protected rework float and one final bay",
+                "final_bays_required": 1,
+            },
+            {
+                "scenario": "low-rate repeat build",
+                "trainsets_per_year": 8,
+                "basis": "25 working-day repeat takt after fixtures, supplier kits, and QA gates are stable",
+                "final_bays_required": 1,
+            },
+            {
+                "scenario": "steady modular local production",
+                "trainsets_per_year": 12,
+                "basis": "20 working-day repeat takt; add second final bay only if static commissioning or supplier rework blocks the first bay",
+                "final_bays_required": 1,
+            },
+        ],
+        "machinery": machinery_rows,
+        "machinery_cost": {
+            "machinery_subtotal_usd": machinery_subtotal_usd,
+            "setup_contingency_fraction": 0.20,
+            "setup_contingency_usd": setup_contingency_usd,
+            "rough_order_machinery_total_usd": machinery_total_usd,
+            "exclusions": [
+                "land, building shell, leasehold works, taxes, freight, duty, and utility connection upgrades",
+                "full homologation test laboratory and destructive crash/fire testing rigs",
+                "working capital, warranty spares, and production payroll",
+            ],
+        },
+        "market_anchor_sources": [
+            {
+                "scope": "press brake",
+                "source": "Alibaba/ADHMT 2026 press-brake market notes",
+                "url": "https://pressbrake.adhmt.com/the-alibaba-press-brake-illusion-why-a-15000-cnc-machine-can-cost-50000/",
+            },
+            {
+                "scope": "CNC plasma table",
+                "source": "StyleCNC 2026 4x8 CNC plasma table listings",
+                "url": "https://www.stylecnc.com/plasma-cutter/cnc-plasma-cutting-table.html",
+            },
+            {
+                "scope": "truck/bus paint booth",
+                "source": "Made-in-China 2026 bus spray booth listings",
+                "url": "https://wldspraybooth.en.made-in-china.com/product-group/jbKGuNtwSgWs/Bus-Spray-Booth-1.html",
+            },
+            {
+                "scope": "vacuum infusion equipment",
+                "source": "Easy Composites vacuum bagging/infusion equipment listings",
+                "url": "https://www.easycomposites.eu/vacuum-bagging-for-resin-infusion",
+            },
+            {
+                "scope": "cranes",
+                "source": "Voitto Crane 2026 overhead crane price guide",
+                "url": "https://www.voittocrane.com/blog/overhead-crane-for-sale",
+            },
+            {
+                "scope": "mobile column lifts",
+                "source": "BendPak mobile column lift listings",
+                "url": "https://www.bendpak.com/car-lifts/mobile-column-lifts/",
+            },
+            {
+                "scope": "forklift",
+                "source": "Hongli 2026 3-ton electric forklift guide",
+                "url": "https://hongli-mach.com/7-best-3-ton-electric-forklift-china-2026/",
+            },
+        ],
+    }
+
+
+def render_factory_plan(design: BuildableTrainsetDesign) -> str:
+    payload = factory_plan_payload(design)
+    size = dict(payload["factory_size"])  # type: ignore[arg-type]
+    machinery_cost = dict(payload["machinery_cost"])  # type: ignore[arg-type]
+    lines = [
+        "# LM3 pilot factory sizing and machinery plan",
+        "",
+        "Generated by `scripts/buildable-trainset.sh`. This is a rough-order",
+        "factory layout and machinery plan for the basic three-car LM3 trainset.",
+        "It sizes a lean pilot plant, not a turnkey rolling-stock works.",
+        "",
+        f"- Family: `{payload['family']}`",
+        f"- Candidate: `{payload['candidate']}`",
+        f"- Planning basis: {payload['planning_basis']}",
+        f"- Recommended enclosed factory: **{size['recommended_enclosed_factory_area_m2']:,.0f} m2** ({size['recommended_enclosed_factory_area_ft2']:,.0f} ft2)",
+        f"- Outside yard/test apron: **{size['outside_yard_and_test_apron_m2']:,.0f} m2** ({size['outside_yard_and_test_apron_ft2']:,.0f} ft2)",
+        f"- Dynamic test track: {size['dynamic_test_track']}",
+        f"- Rough-order machinery/setup: **${float(machinery_cost['rough_order_machinery_total_usd']):,.0f}** including {float(machinery_cost['setup_contingency_fraction']) * 100:.0f}% setup contingency",
+        "",
+        "## Factory Area By Cell",
+        "",
+        "| Cell | Area | Supports | Included work |",
+        "|---|---:|---|---|",
+    ]
+    for cell in payload["process_cells"]:  # type: ignore[index]
+        row = dict(cell)
+        lines.append(
+            f"| {row['name']} | {int(row['net_area_m2']):,} m2 ({row['nominal_dimensions_m']} m) | "
+            f"{', '.join(f'`{task}`' for task in row['supports'])} | {row['included_work']} |"
+        )
+    lines.extend(
+        [
+            f"| Circulation, services, safety aisles | {int(size['circulation_services_and_safety_area_m2']):,} m2 | all cells | 25% allowance over net process cells for forklifts, carts, fire egress, utilities, compressors, and WIP buffering |",
+            f"| **Total enclosed factory** | **{int(size['recommended_enclosed_factory_area_m2']):,} m2** | all cells | Minimum recommended lease/building area before offices are expanded or production rate is increased |",
+            "",
+            "## Assembly-Time Rollup",
+            "",
+            "| Scope | Tasks | Start d | Finish d | Elapsed d | Touch labour h | Peak crew eq |",
+            "|---|---|---:|---:|---:|---:|---:|",
+        ]
+    )
+    for rollup_row in payload["assembly_time_rollups"]:  # type: ignore[index]
+        row = dict(rollup_row)
+        lines.append(
+            f"| {row['id']} | {', '.join(f'`{task}`' for task in row['task_ids'])} | "
+            f"{float(row['early_start_day']):.1f} | {float(row['early_finish_day']):.1f} | "
+            f"{float(row['elapsed_window_days']):.1f} | {float(row['touch_labor_hours']):,.0f} | "
+            f"{float(row['peak_parallel_crew_equivalent']):.1f} |"
+        )
+    lines.extend(
+        [
+            "",
+            "## Machinery And Setup Estimate",
+            "",
+            "| ID | Item | Qty | Unit | Extended | Cell | Basis |",
+            "|---|---|---:|---:|---:|---|---|",
+        ]
+    )
+    for item in payload["machinery"]:  # type: ignore[index]
+        row = dict(item)
+        lines.append(
+            f"| `{row['id']}` | {row['item']} | {int(row['quantity'])} | "
+            f"${float(row['unit_cost_usd']):,.0f} | ${float(row['extended_cost_usd']):,.0f} | "
+            f"{row['cell']} | {row['basis']} |"
+        )
+    lines.extend(
+        [
+            f"| **Subtotal** |  |  |  | **${float(machinery_cost['machinery_subtotal_usd']):,.0f}** |  |  |",
+            f"| Setup contingency | 20% install/adaptation/commissioning allowance |  |  | **${float(machinery_cost['setup_contingency_usd']):,.0f}** |  |  |",
+            f"| **Rough-order machinery total** | Excludes building/land/taxes/freight/duty |  |  | **${float(machinery_cost['rough_order_machinery_total_usd']):,.0f}** |  |  |",
+            "",
+            "## Production Takt Scenarios",
+            "",
+            "| Scenario | Trainsets/year | Final bays | Basis |",
+            "|---|---:|---:|---|",
+        ]
+    )
+    for scenario in payload["production_takt_scenarios"]:  # type: ignore[index]
+        row = dict(scenario)
+        lines.append(
+            f"| {row['scenario']} | {int(row['trainsets_per_year'])} | "
+            f"{int(row['final_bays_required'])} | {row['basis']} |"
+        )
+    lines.extend(
+        [
+            "",
+            "## Exclusions",
+            "",
+        ]
+    )
+    lines.extend(f"- {item}" for item in machinery_cost["exclusions"])  # type: ignore[index]
+    lines.extend(
+        [
+            "",
+            "## Market Anchor Sources",
+            "",
+            "The equipment costs are rough 2026 planning anchors, not supplier",
+            "quotes. Final procurement must replace them with landed, installed,",
+            "warranted offers.",
+            "",
+        ]
+    )
+    lines.extend(
+        f"- {row['scope']}: [{row['source']}]({row['url']})"
+        for row in payload["market_anchor_sources"]  # type: ignore[index]
+    )
+    lines.append("")
+    return "\n".join(lines)
+
+
 def train_end_interface_payload(design: BuildableTrainsetDesign) -> dict[str, object]:
     """Return the configurable end-interface design basis.
 
@@ -3821,6 +4186,8 @@ def write_outputs(
     joints_md = out_dir / "joint-control-schedule.md"
     critical_json = out_dir / "critical-path.json"
     critical_md = out_dir / "critical-path.md"
+    factory_json = out_dir / "factory-plan.json"
+    factory_md = out_dir / "factory-plan.md"
     end_interface_json = out_dir / "train-end-interface.json"
     end_interface_md = out_dir / "train-end-interface.md"
     manifest_json.write_text(
@@ -3854,6 +4221,8 @@ def write_outputs(
     joints_md.write_text(render_joint_control_schedule(design), encoding="utf-8")
     critical_json.write_text(json.dumps(critical_path_payload(design), indent=2, sort_keys=True) + "\n", encoding="utf-8")
     critical_md.write_text(render_critical_path(design), encoding="utf-8")
+    factory_json.write_text(json.dumps(factory_plan_payload(design), indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    factory_md.write_text(render_factory_plan(design), encoding="utf-8")
     end_interface_json.write_text(
         json.dumps(train_end_interface_payload(design), indent=2, sort_keys=True) + "\n",
         encoding="utf-8",

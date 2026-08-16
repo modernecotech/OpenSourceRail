@@ -7,9 +7,11 @@ from osr_mech.buildable_trainset import (
     Route,
     buildable_trainset_design,
     critical_path_payload,
+    factory_plan_payload,
     joint_control_rows,
     mass_budget_payload,
     render_critical_path,
+    render_factory_plan,
     render_joint_control_schedule,
     render_mass_budget,
     render_manifest,
@@ -271,6 +273,8 @@ def test_write_outputs_emits_mass_and_joint_control_records(tmp_path) -> None:
     assert (tmp_path / "joint-control-schedule.md").exists()
     assert (tmp_path / "critical-path.json").exists()
     assert (tmp_path / "critical-path.md").exists()
+    assert (tmp_path / "factory-plan.json").exists()
+    assert (tmp_path / "factory-plan.md").exists()
     assert (tmp_path / "train-end-interface.json").exists()
     assert (tmp_path / "train-end-interface.md").exists()
 
@@ -329,6 +333,27 @@ def test_critical_path_models_parallel_train_fabrication() -> None:
     assert "Critical-path table" in rendered
     assert "Space and parallelism" in rendered
     assert "55 m final assembly track" in rendered
+
+
+def test_factory_plan_sizes_cells_machinery_and_parallel_assembly_times() -> None:
+    design = buildable_trainset_design(ConsistFamily.LIGHT_METRO_3CAR)
+    payload = factory_plan_payload(design)
+    size = payload["factory_size"]  # type: ignore[index]
+    machinery_cost = payload["machinery_cost"]  # type: ignore[index]
+    rollups = {row["id"]: row for row in payload["assembly_time_rollups"]}  # type: ignore[index]
+    cells = {row["name"]: row for row in payload["process_cells"]}  # type: ignore[index]
+
+    assert size["recommended_enclosed_factory_area_m2"] == 3515
+    assert size["outside_yard_and_test_apron_m2"] == 2200
+    assert cells["final assembly, bogie marriage, and static-test track"]["net_area_m2"] == 600
+    assert rollups["chassis and painted carbody frame fabrication"]["elapsed_window_days"] == 13.0
+    assert rollups["bogie build and bogie-to-carbody integration"]["touch_labor_hours"] == 760.0
+    assert rollups["GFRP moulding and clip-on body installation"]["early_start_day"] == 2.0
+    assert machinery_cost["rough_order_machinery_total_usd"] == 1021200
+    rendered = render_factory_plan(design)
+    assert "LM3 pilot factory sizing" in rendered
+    assert "CNC press brake" in rendered
+    assert "$1,021,200" in rendered
 
 
 def test_buildable_manifest_and_review_render_key_sections() -> None:

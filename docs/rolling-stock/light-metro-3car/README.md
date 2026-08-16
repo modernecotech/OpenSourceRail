@@ -106,6 +106,7 @@ Use it as the bridge from concept CAD to build planning:
 | [`buildable-trainset-manifest.md`](../../../mechanical-py/catalog/buildable-trainset/buildable-trainset-manifest.md) | Parts → subassemblies → assemblies → trainset tree, quantities, parentage, acceptance gates |
 | [`train-end-interface.md`](../../../mechanical-py/catalog/buildable-trainset/train-end-interface.md) | Single configurable train-end interface that can select either the panoramic glass front/end or the optional mid open train-to-train connection |
 | [`critical-path.md`](../../../mechanical-py/catalog/buildable-trainset/critical-path.md) | Rough first-train critical path, parallel fabrication plan, labour estimate, and minimum space model |
+| [`factory-plan.md`](../../../mechanical-py/catalog/buildable-trainset/factory-plan.md) | Pilot factory sizing: chassis fabrication, bogie integration, moulding shop, final assembly, enclosed area, yard, machinery, and rough equipment prices |
 | [`trainset-build-cost.md`](../../../mechanical-py/catalog/buildable-trainset/trainset-build-cost.md) | Recalculated 3-car trainset budget, including the explicit seats/floors/lighting/HVAC/windows/doors scope already inside the direct-module bucket |
 | [`mass-budget.md`](../../../mechanical-py/catalog/buildable-trainset/mass-budget.md) | Reconciled 75.308 t modeled subtotal, 3.442 t engineering reserve, and 78.75 t controlled planning tare |
 | [`joint-control-schedule.md`](../../../mechanical-py/catalog/buildable-trainset/joint-control-schedule.md) | Machine-readable joining classes, torque authority, and release state for all 96 integration joints |
@@ -139,7 +140,7 @@ interior, HVAC ducting, LV/data harnesses, high-voltage traction/PV
 routing, thermal-management pipes, and battery fire vent paths. The
 models are supplier-neutral CAD geometry in
 [`mechanical-py/src/osr_mech/rolling_stock`](../../../mechanical-py/src/osr_mech/rolling_stock)
-and render to these design-review PNGs:
+and render to these design-review and manufacturing-method PNGs:
 
 | Output | Scope |
 |---|---|
@@ -154,6 +155,10 @@ and render to these design-review PNGs:
 | [`trainset-car-body-services.png`](../../../docs/screenshots/trainset-car-body-services.png) | Service layers: HVAC ducts, LV/data trays, lighting, CCTV/intercoms, HV/PV routing, coolant, and battery fire vents |
 | [`trainset-interior-fit-out.png`](../../../docs/screenshots/trainset-interior-fit-out.png) | COTS passenger fit-out envelopes inside the car body |
 | [`trainset-body-sheet-metal-kit.png`](../../../docs/screenshots/trainset-body-sheet-metal-kit.png) | Sheet-metal/chassis manufacturing kit: underframe, bolsters, coupler pockets, side posts, rails, roof bows, end rings |
+| [`trainset-factory-layout.png`](../../../docs/screenshots/trainset-factory-layout.png) | Pilot factory layout with one 55 m final bay, chassis/body-frame fixtures, GFRP moulding/trim, bogie assembly, interior/HVAC kits, paint, stores, QA, yard staging, and short test access |
+| [`trainset-assembly-method-flow.png`](../../../docs/screenshots/trainset-assembly-method-flow.png) | Parallel first-article method plan tying critical-path tasks to chassis/body frame, GFRP modules, bogies, interior kits, doors/windows/roof, HV/electrical work, articulation/static testing, and dynamic release |
+| [`trainset-gfrp-moulding-method.png`](../../../docs/screenshots/trainset-gfrp-moulding-method.png) | One-metre glass-fibre module method: mould/cure, demould/trim, insert/seal, master-frame dry fit, and clip-on installation to the painted carbody |
+| [`trainset-bogie-marriage-method.png`](../../../docs/screenshots/trainset-bogie-marriage-method.png) | Bogie-to-carbody marriage method with mobile lifting columns, accepted motor/trailer bogies, centre-pivot/air-spring datum checks, and static release hold points |
 | [`trainset-car-systems.png`](../../../docs/screenshots/trainset-car-systems.png) | One self-contained car systems package: four door cassettes, platform interlocks, batteries, rooftop PV package, traction/charge power rack, charging connector, and accessibility/safety reservations |
 | [`trainset-battery-pack.png`](../../../docs/screenshots/trainset-battery-pack.png) | Eight LFP module envelopes plus HV contactor, fuse, BMS cabinet, outward vent, off-gas detection, and localized mist interfaces per car |
 | [`trainset-door-system.png`](../../../docs/screenshots/trainset-door-system.png) | Door cassette pair with sill gap fillers, locks, and external emergency releases |

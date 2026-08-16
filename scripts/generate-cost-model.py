@@ -16,6 +16,7 @@ ECONOMIC_BENEFITS_PATH = REPO_ROOT / "lib/templates/economic-benefits.toml"
 BOM_SOURCE = REPO_ROOT / "docs/rolling-stock/light-metro-3car/bom-skeleton.md"
 BOM_EXPORTER = REPO_ROOT / "scripts/export-light-metro-bom.py"
 TRAINSET_BUILD_COST_PATH = REPO_ROOT / "mechanical-py/catalog/buildable-trainset/trainset-build-cost.json"
+FACTORY_PLAN_PATH = REPO_ROOT / "mechanical-py/catalog/buildable-trainset/factory-plan.json"
 DEFAULT_OUT = REPO_ROOT / "docs/cost-model.md"
 
 TRAINSET_ORDER = [
@@ -98,6 +99,7 @@ def _bom_totals(assembly_fraction: float) -> dict[str, int]:
 def render_cost_model() -> str:
     capex = _load_toml(CAPEX_PATH)
     trainset_build_cost = _load_json(TRAINSET_BUILD_COST_PATH)
+    factory_plan = _load_json(FACTORY_PLAN_PATH)
     country_finance = _load_toml(COUNTRY_FINANCE_PATH)
     benefits = _load_toml(ECONOMIC_BENEFITS_PATH)
     assembly_fraction = float(capex["trainset_cost_basis"]["local_assembly_fraction"])
@@ -107,6 +109,8 @@ def render_cost_model() -> str:
     trainset_units = {str(k): float(v) for k, v in capex["trainset_unit_usd"].items()}
     plant_base = float(capex["production_plant"]["per_vehicle_usd"])
     plant_high = float(capex["production_plant"]["high_sensitivity_per_vehicle_usd"])
+    factory_size = factory_plan["factory_size"]
+    factory_machinery = factory_plan["machinery_cost"]
     light_unit = trainset_units["light-metro-3car"]
     recalculated_trainset = float(trainset_build_cost["total_build_cost_usd"])
     fitout_glazing_total = float(trainset_build_cost["included_fitout_doors_glazing_total_base_usd"])
@@ -251,6 +255,15 @@ def render_cost_model() -> str:
         "deliberately separate from the trainset unit above, so procurement costs "
         "and city plant setup remain auditable instead of being hidden in one "
         "large rolling-stock number.",
+        "",
+        "The generated LM3 pilot factory plan sizes the minimum enclosed building "
+        f"at about {float(factory_size['recommended_enclosed_factory_area_m2']):,.0f} m2 "
+        f"({float(factory_size['recommended_enclosed_factory_area_ft2']):,.0f} ft2), plus "
+        f"{float(factory_size['outside_yard_and_test_apron_m2']):,.0f} m2 of outside yard/test apron "
+        "and a separate short depot/test track. Its rough machinery and setup "
+        f"list totals {_money_short(float(factory_machinery['rough_order_machinery_total_usd']))}, "
+        f"including {_pct(float(factory_machinery['setup_contingency_fraction']))} equipment setup contingency. "
+        "This one-time factory setup remains separate from the per-trainset build estimate.",
         "",
         "| Example | Base plant allowance | High sensitivity |",
         "|---|---:|---:|",

@@ -10,7 +10,7 @@ Regenerate from the repository root with:
 python3 scripts/generate-doc-index.py
 ```
 
-Indexed Markdown files: **1199**.
+Indexed Markdown files: **1200**.
 
 ## Sections
 
@@ -26,7 +26,7 @@ Indexed Markdown files: **1199**.
 | [formal](#formal) | 2 |
 | [hardware](#hardware) | 36 |
 | [lib](#lib) | 3 |
-| [mechanical-py](#mechanical-py) | 217 |
+| [mechanical-py](#mechanical-py) | 218 |
 | [scripts](#scripts) | 1 |
 | [tools](#tools) | 3 |
 
@@ -1172,6 +1172,7 @@ Indexed Markdown files: **1199**.
 | [`mechanical-py/catalog/buildable-trainset/definitions/subassemblies/LM3-ROOF-SA410.md`](../mechanical-py/catalog/buildable-trainset/definitions/subassemblies/LM3-ROOF-SA410.md) | LM3-ROOF-SA410 — roof HVAC, PV, antenna, and service-equipment assembly |
 | [`mechanical-py/catalog/buildable-trainset/definitions/subassemblies/LM3-WIN-SA320.md`](../mechanical-py/catalog/buildable-trainset/definitions/subassemblies/LM3-WIN-SA320.md) | LM3-WIN-SA320 — side glazing cassette installation |
 | [`mechanical-py/catalog/buildable-trainset/definitions/trainsets/LM3-TRAINSET-A000.md`](../mechanical-py/catalog/buildable-trainset/definitions/trainsets/LM3-TRAINSET-A000.md) | LM3-TRAINSET-A000 — complete light-metro trainset |
+| [`mechanical-py/catalog/buildable-trainset/factory-plan.md`](../mechanical-py/catalog/buildable-trainset/factory-plan.md) | LM3 pilot factory sizing and machinery plan |
 | [`mechanical-py/catalog/buildable-trainset/joint-control-schedule.md`](../mechanical-py/catalog/buildable-trainset/joint-control-schedule.md) | LM3 joint and fastener control schedule |
 | [`mechanical-py/catalog/buildable-trainset/mass-budget.md`](../mechanical-py/catalog/buildable-trainset/mass-budget.md) | LM3 controlled mass budget |
 | [`mechanical-py/catalog/buildable-trainset/open-release-gaps.md`](../mechanical-py/catalog/buildable-trainset/open-release-gaps.md) | Trainset open release gap register |

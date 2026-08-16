@@ -21,12 +21,22 @@ current basic design and what must be closed before first steel cut.
 | Manufacturing engineer | [`buildable-trainset-manifest.md`](buildable-trainset-manifest.md) | Turn `MAKE` definitions into controlled drawings, fixtures, and NC/cut data |
 | Train configuration engineer | [`train-end-interface.md`](train-end-interface.md) | Select panoramic glass outer ends or the optional mid open train-to-train connection on the common end interface |
 | Production planner | [`critical-path.md`](critical-path.md) | Plan parallel part fabrication, subassembly release, final train assembly, space use, and rough labour |
+| Factory planner | [`factory-plan.md`](factory-plan.md) | Size the pilot factory cells, enclosed area, yard, assembly-time rollups, machinery list, and rough equipment prices |
 | Cost planner | [`trainset-build-cost.md`](trainset-build-cost.md) | Review the recalculated 3-car trainset build cost with USD 10/h labour, 20% unexpected-cost premium, and included seats/floors/lighting/HVAC/windows/doors scope |
 | Mass-properties engineer | [`mass-budget.md`](mass-budget.md) | Replace estimates by weighed, CAD-derived, or supplier-frozen category values |
 | Assembly engineer | [`joint-control-schedule.md`](joint-control-schedule.md) | Close each joint with its named torque authority and interface drawing |
 | Buyer / supplier manager | [`definitions/index.md`](definitions/index.md) | Turn `BID`/`SOURCE` definitions into RFQs and evidence requirements |
 | Shop lead | [`travelers/index.md`](travelers/index.md) | Assign work centers, fill approvals/signatures during a real build |
 | QA / inspector | [`travelers/index.md`](travelers/index.md) | Use QA gates, hold points, signoff blocks, and NCR/deviation logs |
+
+## Generated manufacturing visuals
+
+| View | Use |
+|---|---|
+| [`trainset-factory-layout.png`](../../../docs/screenshots/trainset-factory-layout.png) | Pilot factory cell arrangement: 55 m final bay, chassis fixtures, moulding/trim, bogies, interiors/HVAC kits, paint, stores/QA, yard, and test access |
+| [`trainset-assembly-method-flow.png`](../../../docs/screenshots/trainset-assembly-method-flow.png) | Parallel first-article critical-path work streams and labour/day envelopes |
+| [`trainset-gfrp-moulding-method.png`](../../../docs/screenshots/trainset-gfrp-moulding-method.png) | Reusable one-metre glass-fibre mould route, CNC trim, insert/seal fit, master-frame dry fit, and clip-on carbody installation |
+| [`trainset-bogie-marriage-method.png`](../../../docs/screenshots/trainset-bogie-marriage-method.png) | Final-bay bogie-to-carbody marriage with lifting columns, surveyed chassis datums, accepted bogies, and static-release hold points |
 
 The intended sequence is:
 
@@ -39,16 +49,19 @@ The intended sequence is:
 5. Use the critical path to reserve the long final assembly track only
    for accepted subassemblies and keep steel, GFRP, bogie, HV, and
    interior kit work off-line where possible.
-6. Use `trainset-build-cost.md` for the current rough-order build cost:
+6. Use `factory-plan.md` to reserve about 3,515 m2 of enclosed pilot
+   factory, 2,200 m2 of yard/test apron, and the rough machinery package
+   before lease/building work or RFQs start.
+7. Use `trainset-build-cost.md` for the current rough-order build cost:
    direct material/supplier modules plus explicit labour at USD 10/h,
    with a 20% unexpected-cost premium. Its direct-module bucket already
    includes seats, floors, grab rails, interior lighting, roof HVAC,
    windows, side doors, sill/emergency kits, and panoramic end glass.
-7. Close the mass budget and joint-control rows as supplier and drawing
+8. Close the mass budget and joint-control rows as supplier and drawing
    evidence becomes available.
-8. Use travelers as the shop-routing, material/process-control, and QA
+9. Use travelers as the shop-routing, material/process-control, and QA
    template.
-9. Attach real inspection evidence and signatures only during an
+10. Attach real inspection evidence and signatures only during an
    authorised build.
 
 `definitions/` is the generated definition pack. It contains JSON and

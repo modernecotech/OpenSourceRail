@@ -392,6 +392,7 @@ Key links:
 - [Buildable trainset handoff](mechanical-py/catalog/buildable-trainset/)
 - [Configurable train-end interface](mechanical-py/catalog/buildable-trainset/train-end-interface.md)
 - [First-article fabrication critical path](mechanical-py/catalog/buildable-trainset/critical-path.md)
+- [Pilot factory sizing and machinery plan](mechanical-py/catalog/buildable-trainset/factory-plan.md)
 - [Product-tree definitions](mechanical-py/catalog/buildable-trainset/definitions/index.md)
 - [Shop traveler templates](mechanical-py/catalog/buildable-trainset/travelers/index.md)
 
@@ -405,6 +406,7 @@ Buildable handoff quick path:
 | Start drawing/RFQ work | [definition pack](mechanical-py/catalog/buildable-trainset/definitions/index.md) with structured material/process specs |
 | Start shop routing / QA planning | [shop traveler pack](mechanical-py/catalog/buildable-trainset/travelers/index.md) with material/process controls |
 | Plan first-article fabrication and final assembly | [critical-path plan](mechanical-py/catalog/buildable-trainset/critical-path.md) with parts, subassemblies, furnishings, space, labour, float, and final commissioning |
+| Size the pilot factory and machinery | [factory plan](mechanical-py/catalog/buildable-trainset/factory-plan.md) with enclosed-area, yard, cell, assembly-time, and machinery price estimates |
 | Review trainset build cost | [build-cost estimate](mechanical-py/catalog/buildable-trainset/trainset-build-cost.md) with USD 10/h labour, 20% unexpected-cost premium, and explicit included seats/floors/lighting/HVAC/windows/doors scope |
 | Review current buildability gaps | [buildability review](mechanical-py/catalog/buildable-trainset/current-design-buildability-review.md) |
 | Review geometry and FEM evidence | [FreeCAD catalogue](mechanical-py/catalog/freecad/) and [FEA summary](mechanical-py/catalog/fea/screening-summary.md) |
@@ -423,9 +425,14 @@ First-article fabrication and final assembly rough order:
   furnishings, articulation/gangways/couplers/trainlines, static
   commissioning, and dynamic trial release.
 - Space is minimised by keeping one **55 m final assembly track** for
-  accepted kits only. The rough minimum support areas are two underframe
-  fixtures, two side/roof frame fixtures, one paint bay, three bogie
-  stands, four short GFRP moulds, and one interior trim bench set.
+  accepted kits only. The generated pilot factory plan sizes a minimum
+  **3,515 m2 enclosed factory**, about **2,200 m2** of outside yard/test
+  apron, two underframe fixtures, two side/roof frame fixtures, one paint
+  bay, three bogie stands, four short GFRP moulds, and one interior trim
+  bench set.
+- Rough-order pilot machinery/setup is **about $1.02M**, including a
+  20% installation/adaptation contingency and excluding land, building
+  shell, taxes, freight, duty, and full homologation lab equipment.
 - Work deliberately runs in parallel: GFRP module moulding, bogie
   assembly, HV/electrical kit installation, and internal furnishing
   prebuild all have float. Furnishings are pre-kitted off-line by car and
@@ -463,6 +470,18 @@ Manufacturing-oriented sheet-metal kit for underframe, bolsters, coupler pockets
 
 Production concept board showing the repeated 16.5 m car module, welded datum frame, COTS module installation, and bogie marriage sequence.
 
+![LM3 pilot factory layout](docs/screenshots/trainset-factory-layout.png)
+
+Pilot factory layout with one controlled 55 m final bay and off-line cells for chassis weld fixtures, GFRP moulding/trim, bogie assembly, interiors/HVAC kits, paint, stores, QA, yard staging, and short test access.
+
+![LM3 parallel first-article assembly method](docs/screenshots/trainset-assembly-method-flow.png)
+
+First-article work-stream plan showing the 35-working-day build network: chassis/body frame, GFRP modules, bogies, interior kits, door/window/roof work, HV/electrical installation, articulation/static testing, and dynamic release.
+
+![GFRP module moulding and clip-on body method](docs/screenshots/trainset-gfrp-moulding-method.png)
+
+One-metre glass-fibre side/roof modules are moulded, cured, CNC-trimmed, sealed, dry-fit on a master frame, and clipped to the painted carbody without a full-length mould or production adhesive cure hold.
+
 ![Per-car systems assembly](docs/screenshots/trainset-car-systems.png)
 
 One self-contained car equipment package: four door cassettes, platform safety interfaces, batteries, rooftop PV package, charging interface, traction/charge power rack, and accessibility/safety reservations.
@@ -474,6 +493,10 @@ Per-car rooftop PV package with bonded flexible laminates, raised rigid panels, 
 ![Inter-car articulation detail](docs/screenshots/trainset-inter-car-articulation.png)
 
 Semi-permanent articulated gangway module with lower spherical joint, anti-lift keeper, upper links, bellows, turntable floor, trainline routing, and kinematic clearance frame.
+
+![Bogie-to-carbody marriage method](docs/screenshots/trainset-bogie-marriage-method.png)
+
+Final-bay marriage method showing accepted bogies rolled under a surveyed chassis datum, mobile lifting columns, centre-pivot/air-spring checks, shim records, and brake/static hold points.
 
 ![Motor bogie](docs/screenshots/bogie-motor.png)
 

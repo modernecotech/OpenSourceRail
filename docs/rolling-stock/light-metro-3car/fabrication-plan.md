@@ -39,6 +39,31 @@ the same 16.5 m car body to form the trainset.
 The first factory needs five cells, not a full legacy rolling-stock
 plant:
 
+The generated numeric sizing is controlled in
+[`factory-plan.md`](../../../mechanical-py/catalog/buildable-trainset/factory-plan.md):
+3,515 m2 enclosed pilot factory, 2,200 m2 outside yard/test apron,
+13 working days for chassis/painted frame fabrication, 13 working days
+for bogie build and bogie-to-carbody integration, 14 working days for
+GFRP moulding plus clip-on body installation, and 13 working days for
+final assembly plus static commissioning inside the first-article
+35-working-day network. It also lists the rough machinery package at
+about $1.02M including setup contingency, excluding building/land and
+homologation laboratory equipment.
+
+![LM3 pilot factory layout](../../../docs/screenshots/trainset-factory-layout.png)
+
+The generated layout keeps the long final track for accepted kits only:
+steel cutting, chassis/body-frame fixtures, moulding, bogie assembly,
+interior/HVAC kit work, paint, stores, QA, and yard staging run beside
+it instead of blocking it.
+
+![LM3 parallel first-article assembly method](../../../docs/screenshots/trainset-assembly-method-flow.png)
+
+The first-article method plan splits the 35-working-day build into
+parallel streams so the constrained final bay receives released chassis,
+GFRP, bogie, interior, door/window, roof, HV, articulation, and static
+test work at the latest practical point.
+
 1. **Steel prep cell**
    - CNC saw or tube laser for RHS.
    - Plasma/laser/waterjet table for plate.
@@ -180,6 +205,8 @@ Hold point: dry-film thickness report and sealed-drain checklist.
 
 ### 5. One-metre composite exterior
 
+![GFRP module moulding and clip-on body method](../../../docs/screenshots/trainset-gfrp-moulding-method.png)
+
 - Before final assembly, fabricate each 1 m side and roof module in the
   released mould: clean and inspect the mould, apply release system and
   UV-stable gelcoat/paint-primer, cut glass-fibre plies and local core, lay
@@ -270,6 +297,8 @@ complete.
 Hold point: HV safety sign-off before first energisation.
 
 ### 10. Bogie marriage and commissioning
+
+![Bogie-to-carbody marriage method](../../../docs/screenshots/trainset-bogie-marriage-method.png)
 
 - Assemble powered and trailer bogies separately.
 - Build one powered bogie and one trailer bogie through full weld,

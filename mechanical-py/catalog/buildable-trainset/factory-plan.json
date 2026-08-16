@@ -1,0 +1,455 @@
+{
+  "assembly_time_rollups": [
+    {
+      "early_finish_day": 15.0,
+      "early_start_day": 2.0,
+      "elapsed_window_days": 13.0,
+      "id": "chassis and painted carbody frame fabrication",
+      "peak_parallel_crew_equivalent": 13.1,
+      "task_ids": [
+        "CP-020",
+        "CP-030",
+        "CP-040",
+        "CP-070"
+      ],
+      "touch_labor_hours": 1284.0
+    },
+    {
+      "early_finish_day": 18.0,
+      "early_start_day": 5.0,
+      "elapsed_window_days": 13.0,
+      "id": "bogie build and bogie-to-carbody integration",
+      "peak_parallel_crew_equivalent": 15.0,
+      "task_ids": [
+        "CP-050",
+        "CP-120"
+      ],
+      "touch_labor_hours": 760.0
+    },
+    {
+      "early_finish_day": 16.0,
+      "early_start_day": 2.0,
+      "elapsed_window_days": 14.0,
+      "id": "GFRP moulding and clip-on body installation",
+      "peak_parallel_crew_equivalent": 12.0,
+      "task_ids": [
+        "CP-060",
+        "CP-080"
+      ],
+      "touch_labor_hours": 516.0
+    },
+    {
+      "early_finish_day": 22.0,
+      "early_start_day": 2.0,
+      "elapsed_window_days": 20.0,
+      "id": "interior furnishing pre-kit and installation",
+      "peak_parallel_crew_equivalent": 17.5,
+      "task_ids": [
+        "CP-065",
+        "CP-110"
+      ],
+      "touch_labor_hours": 780.0
+    },
+    {
+      "early_finish_day": 29.0,
+      "early_start_day": 16.0,
+      "elapsed_window_days": 13.0,
+      "id": "final assembly and static commissioning",
+      "peak_parallel_crew_equivalent": 45.0,
+      "task_ids": [
+        "CP-090",
+        "CP-100",
+        "CP-110",
+        "CP-120",
+        "CP-130",
+        "CP-140"
+      ],
+      "touch_labor_hours": 2340.0
+    },
+    {
+      "early_finish_day": 35.0,
+      "early_start_day": 29.0,
+      "elapsed_window_days": 6.0,
+      "id": "dynamic commissioning and trial-running release",
+      "peak_parallel_crew_equivalent": 9.0,
+      "task_ids": [
+        "CP-150"
+      ],
+      "touch_labor_hours": 432.0
+    }
+  ],
+  "candidate": "light-metro-3car__16p5m__reference-body__reference-bogie__motor-350kw-hm47-class__battery-225kwh-lfp-800v__hvac-24kw-direct-hv-dc__pv12",
+  "document_revision": "A-DRAFT",
+  "factory_size": {
+    "circulation_services_and_safety_allowance_fraction": 0.25,
+    "circulation_services_and_safety_area_m2": 703,
+    "dynamic_test_track": "separate short depot/test track, nominal 150-300 m plus charging interface; not counted in enclosed factory area",
+    "minimum_clear_height_m": "6 m general, 8 m preferred over final bay and weld/fixture cell",
+    "net_process_area_m2": 2812,
+    "outside_yard_and_test_apron_ft2": 23681,
+    "outside_yard_and_test_apron_m2": 2200,
+    "recommended_enclosed_factory_area_ft2": 37835,
+    "recommended_enclosed_factory_area_m2": 3515
+  },
+  "family": "light-metro-3car",
+  "machinery": [
+    {
+      "basis": "CNC plasma listings show 4x8 tables roughly in the $7k-$17k range; allowance includes extraction and industrialization.",
+      "cell": "steel prep",
+      "extended_cost_usd": 20000,
+      "id": "M-010",
+      "item": "4x8 or 5x10 CNC plasma table with extraction",
+      "quantity": 1,
+      "unit_cost_usd": 20000
+    },
+    {
+      "basis": "Shop-floor allowance for repeatable chassis tube cutting and backup saw capacity.",
+      "cell": "steel prep",
+      "extended_cost_usd": 12000,
+      "id": "M-020",
+      "item": "RHS/tube saw and general fabrication saws",
+      "quantity": 2,
+      "unit_cost_usd": 6000
+    },
+    {
+      "basis": "Market check shows low FOB offers around $18k and local/dealer reality nearer $45k for 100 t class machines.",
+      "cell": "steel prep",
+      "extended_cost_usd": 45000,
+      "id": "M-030",
+      "item": "100-160 t CNC press brake",
+      "quantity": 1,
+      "unit_cost_usd": 45000
+    },
+    {
+      "basis": "Datum holes, inserts, fixtures, bracket slots, and local machining support.",
+      "cell": "steel prep",
+      "extended_cost_usd": 18000,
+      "id": "M-040",
+      "item": "drill/mill/magnetic-drill and deburr package",
+      "quantity": 1,
+      "unit_cost_usd": 18000
+    },
+    {
+      "basis": "Industrial 500 A MIG/MAG machines are commonly listed from sub-$1k FOB to around $1.5k-$2.5k retail; allowance includes torches/leads.",
+      "cell": "weld cell",
+      "extended_cost_usd": 16000,
+      "id": "M-050",
+      "item": "500 A MIG/MAG welding sets",
+      "quantity": 8,
+      "unit_cost_usd": 2000
+    },
+    {
+      "basis": "Shared extraction, curtains, and local arms for two long fixtures plus bracket benches.",
+      "cell": "weld cell",
+      "extended_cost_usd": 25000,
+      "id": "M-060",
+      "item": "weld fume extraction and screens",
+      "quantity": 1,
+      "unit_cost_usd": 25000
+    },
+    {
+      "basis": "Custom datum tooling for 16.5 m chassis underframes.",
+      "cell": "weld cell",
+      "extended_cost_usd": 80000,
+      "id": "M-070",
+      "item": "underframe rotating weld fixtures",
+      "quantity": 2,
+      "unit_cost_usd": 40000
+    },
+    {
+      "basis": "Custom fixtures for door/window portals, roof bows, HVAC rails, and clip-grid datums.",
+      "cell": "weld cell",
+      "extended_cost_usd": 60000,
+      "id": "M-080",
+      "item": "side/roof frame fixtures",
+      "quantity": 2,
+      "unit_cost_usd": 30000
+    },
+    {
+      "basis": "Local assembly tooling for powered/trailer bogie frames and supplier wheelset/brake installation.",
+      "cell": "bogie cell",
+      "extended_cost_usd": 45000,
+      "id": "M-090",
+      "item": "bogie frame fixture, three stands, and brake/sensor bench",
+      "quantity": 1,
+      "unit_cost_usd": 45000
+    },
+    {
+      "basis": "Crane price guides show 10 t single-girder equipment in the high single-digit to low tens of thousands FOB; allowance includes runway/installation margin.",
+      "cell": "lifting",
+      "extended_cost_usd": 75000,
+      "id": "M-100",
+      "item": "10 t bridge/gantry crane coverage and hoists",
+      "quantity": 2,
+      "unit_cost_usd": 37500
+    },
+    {
+      "basis": "2026 3 t electric forklift guide ranges around $18k-$30k for higher-spec lithium machines.",
+      "cell": "material handling",
+      "extended_cost_usd": 25000,
+      "id": "M-110",
+      "item": "3 t electric forklift",
+      "quantity": 1,
+      "unit_cost_usd": 25000
+    },
+    {
+      "basis": "Heavy-vehicle mobile-column sets range from lower-cost import sets to about $60k+ for branded 72,000 lb sets; allowance covers trainset adaptation.",
+      "cell": "final assembly",
+      "extended_cost_usd": 75000,
+      "id": "M-120",
+      "item": "mobile columns/jacks or shallow-pit bogie marriage kit",
+      "quantity": 1,
+      "unit_cost_usd": 75000
+    },
+    {
+      "basis": "Truck/bus booth market checks show roughly $13k-$50k FOB and $80k-$90k for larger custom booths; allowance sits between.",
+      "cell": "paint cell",
+      "extended_cost_usd": 70000,
+      "id": "M-130",
+      "item": "bus/truck-length paint booth and prep ventilation",
+      "quantity": 1,
+      "unit_cost_usd": 70000
+    },
+    {
+      "basis": "Lean in-house prep package; full blast hall can be outsourced or added later.",
+      "cell": "paint cell",
+      "extended_cost_usd": 35000,
+      "id": "M-140",
+      "item": "blast/strip prep, seam-seal, and cavity-wax package",
+      "quantity": 1,
+      "unit_cost_usd": 35000
+    },
+    {
+      "basis": "Reusable one-metre side/roof mould set plus master trim gauges; no full-car mould.",
+      "cell": "composite cell",
+      "extended_cost_usd": 40000,
+      "id": "M-150",
+      "item": "four short GFRP moulds with trim/drill jigs",
+      "quantity": 1,
+      "unit_cost_usd": 40000
+    },
+    {
+      "basis": "Vacuum infusion equipment is low-cost at tool level; allowance covers shop-ready pumps, membranes, gauges, and racks.",
+      "cell": "composite cell",
+      "extended_cost_usd": 20000,
+      "id": "M-160",
+      "item": "vacuum infusion/wet-layup pumps, reusable membranes, tables, and cure racks",
+      "quantity": 1,
+      "unit_cost_usd": 20000
+    },
+    {
+      "basis": "Trim/drill accuracy for side/window/door/roof variants and cabin liners.",
+      "cell": "composite cell",
+      "extended_cost_usd": 45000,
+      "id": "M-170",
+      "item": "CNC router/trim table and composite dust extraction",
+      "quantity": 1,
+      "unit_cost_usd": 45000
+    },
+    {
+      "basis": "Factory datum surveys, torque control, clip gauges, door/window gauges, and calibration control.",
+      "cell": "QA",
+      "extended_cost_usd": 35000,
+      "id": "M-180",
+      "item": "metrology, laser level/track, torque tools, and calibrated gauges",
+      "quantity": 1,
+      "unit_cost_usd": 35000
+    },
+    {
+      "basis": "Static commissioning of HV battery, traction, charging, door/HVAC, and train-control interfaces.",
+      "cell": "final assembly",
+      "extended_cost_usd": 70000,
+      "id": "M-190",
+      "item": "HV insulation, continuity, shore-power, and charge-simulator tools",
+      "quantity": 1,
+      "unit_cost_usd": 70000
+    },
+    {
+      "basis": "Pre-kitting seats, floors, lighting, liners, PIS/CCTV, and labels by car zone.",
+      "cell": "interior cell",
+      "extended_cost_usd": 25000,
+      "id": "M-200",
+      "item": "interior trim benches, carts, racks, and hand tools",
+      "quantity": 1,
+      "unit_cost_usd": 25000
+    },
+    {
+      "basis": "Shop traveler, QR label, NCR, and QA evidence capture support.",
+      "cell": "production control",
+      "extended_cost_usd": 15000,
+      "id": "M-210",
+      "item": "factory IT, traveler terminals, printers, labels, and document control",
+      "quantity": 1,
+      "unit_cost_usd": 15000
+    }
+  ],
+  "machinery_cost": {
+    "exclusions": [
+      "land, building shell, leasehold works, taxes, freight, duty, and utility connection upgrades",
+      "full homologation test laboratory and destructive crash/fire testing rigs",
+      "working capital, warranty spares, and production payroll"
+    ],
+    "machinery_subtotal_usd": 851000,
+    "rough_order_machinery_total_usd": 1021200,
+    "setup_contingency_fraction": 0.2,
+    "setup_contingency_usd": 170200
+  },
+  "market_anchor_sources": [
+    {
+      "scope": "press brake",
+      "source": "Alibaba/ADHMT 2026 press-brake market notes",
+      "url": "https://pressbrake.adhmt.com/the-alibaba-press-brake-illusion-why-a-15000-cnc-machine-can-cost-50000/"
+    },
+    {
+      "scope": "CNC plasma table",
+      "source": "StyleCNC 2026 4x8 CNC plasma table listings",
+      "url": "https://www.stylecnc.com/plasma-cutter/cnc-plasma-cutting-table.html"
+    },
+    {
+      "scope": "truck/bus paint booth",
+      "source": "Made-in-China 2026 bus spray booth listings",
+      "url": "https://wldspraybooth.en.made-in-china.com/product-group/jbKGuNtwSgWs/Bus-Spray-Booth-1.html"
+    },
+    {
+      "scope": "vacuum infusion equipment",
+      "source": "Easy Composites vacuum bagging/infusion equipment listings",
+      "url": "https://www.easycomposites.eu/vacuum-bagging-for-resin-infusion"
+    },
+    {
+      "scope": "cranes",
+      "source": "Voitto Crane 2026 overhead crane price guide",
+      "url": "https://www.voittocrane.com/blog/overhead-crane-for-sale"
+    },
+    {
+      "scope": "mobile column lifts",
+      "source": "BendPak mobile column lift listings",
+      "url": "https://www.bendpak.com/car-lifts/mobile-column-lifts/"
+    },
+    {
+      "scope": "forklift",
+      "source": "Hongli 2026 3-ton electric forklift guide",
+      "url": "https://hongli-mach.com/7-best-3-ton-electric-forklift-china-2026/"
+    }
+  ],
+  "planning_basis": "minimum pilot factory for one first-article LM3 three-car trainset at a time; one 55 m final assembly bay; chassis, bogies, moulded GFRP modules, and interiors run off-line in parallel",
+  "process_cells": [
+    {
+      "id": "FP-CELL-010",
+      "included_work": "saw/plasma cutting, press-brake forming, drilling, deburr, and three-car chassis/body kitting",
+      "name": "steel prep and chassis parts cell",
+      "net_area_m2": 180,
+      "nominal_dimensions_m": "18 x 10",
+      "qty": 1,
+      "supports": [
+        "CP-020"
+      ]
+    },
+    {
+      "id": "FP-CELL-020",
+      "included_work": "two underframe rotating fixtures, two side/roof frame fixtures, local bolster/coupler subfixtures, weld extraction, and fixture survey access",
+      "name": "chassis weld and body-frame fixture cell",
+      "net_area_m2": 640,
+      "nominal_dimensions_m": "32 x 20",
+      "qty": 1,
+      "supports": [
+        "CP-030",
+        "CP-040"
+      ]
+    },
+    {
+      "id": "FP-CELL-030",
+      "included_work": "four short GFRP moulds, lay-up tables, cure racks, CNC trim/drill table, master-frame dry-fit stand, and module staging",
+      "name": "composite moulding, cure, trim, and dry-fit cell",
+      "net_area_m2": 264,
+      "nominal_dimensions_m": "22 x 12",
+      "qty": 1,
+      "supports": [
+        "CP-060",
+        "CP-080"
+      ]
+    },
+    {
+      "id": "FP-CELL-040",
+      "included_work": "one car-length paint booth, prep/mask lane, flash-off/inspection space, seam-seal and cavity-wax station",
+      "name": "paint and corrosion protection cell",
+      "net_area_m2": 336,
+      "nominal_dimensions_m": "28 x 12",
+      "qty": 1,
+      "supports": [
+        "CP-070"
+      ]
+    },
+    {
+      "id": "FP-CELL-050",
+      "included_work": "three bogie stands, wheelset lane, brake/sensor bench, ride-height setup, and bogie-to-car marriage support tools",
+      "name": "bogie assembly and test cell",
+      "net_area_m2": 240,
+      "nominal_dimensions_m": "20 x 12",
+      "qty": 1,
+      "supports": [
+        "CP-050",
+        "CP-120"
+      ]
+    },
+    {
+      "id": "FP-CELL-060",
+      "included_work": "seat/grab-rail racks, floor and liner trim bench, lighting/PIS/CCTV label bench, quarantine shelves, and car-zone kitting",
+      "name": "interior, HVAC duct, harness, and supplier kit bench",
+      "net_area_m2": 160,
+      "nominal_dimensions_m": "16 x 10",
+      "qty": 1,
+      "supports": [
+        "CP-065",
+        "CP-110"
+      ]
+    },
+    {
+      "id": "FP-CELL-070",
+      "included_work": "one 55 m controlled train bay with side access, roof platforms, HV lockout, shore power, charge simulator, jacks/mobile columns, and end-cowl stands",
+      "name": "final assembly, bogie marriage, and static-test track",
+      "net_area_m2": 600,
+      "nominal_dimensions_m": "60 x 10",
+      "qty": 1,
+      "supports": [
+        "CP-090",
+        "CP-100",
+        "CP-110",
+        "CP-120",
+        "CP-130",
+        "CP-140"
+      ]
+    },
+    {
+      "id": "FP-CELL-080",
+      "included_work": "controlled document desk, stores, receiving inspection, calibrated-tool cage, NCR quarantine, compressor/electrical room, and welfare/office space",
+      "name": "stores, incoming inspection, QA, toolroom, and offices",
+      "net_area_m2": 392,
+      "nominal_dimensions_m": "28 x 14",
+      "qty": 1,
+      "supports": [
+        "CP-010"
+      ]
+    }
+  ],
+  "production_takt_scenarios": [
+    {
+      "basis": "35 working-day elapsed build with protected rework float and one final bay",
+      "final_bays_required": 1,
+      "scenario": "first article / learning build",
+      "trainsets_per_year": 4
+    },
+    {
+      "basis": "25 working-day repeat takt after fixtures, supplier kits, and QA gates are stable",
+      "final_bays_required": 1,
+      "scenario": "low-rate repeat build",
+      "trainsets_per_year": 8
+    },
+    {
+      "basis": "20 working-day repeat takt; add second final bay only if static commissioning or supplier rework blocks the first bay",
+      "final_bays_required": 1,
+      "scenario": "steady modular local production",
+      "trainsets_per_year": 12
+    }
+  ],
+  "release_status": "rough-order planning; not a lease plan or equipment RFQ"
+}

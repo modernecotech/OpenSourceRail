@@ -22,6 +22,7 @@ or directly::
 from __future__ import annotations
 
 from collections.abc import Iterable
+import json
 from pathlib import Path
 
 import matplotlib
@@ -59,6 +60,20 @@ ROOT_SCREENSHOT_PATTERNS = (
     "trainset-*.png",
     "bogie-*.png",
 )
+
+FACTORY_COLORS = {
+    "steel": "#8b949e",
+    "weld": "#6b7280",
+    "composite": "#58a55c",
+    "paint": "#d8a03d",
+    "bogie": "#2f3437",
+    "interior": "#4f83cc",
+    "final": "#3f6ea8",
+    "support": "#c5ccd3",
+    "yard": "#d8e6d2",
+    "track": "#333842",
+    "machine": "#f0c05a",
+}
 
 
 def _remove_generated(paths: Iterable[Path]) -> None:
@@ -455,6 +470,227 @@ def _autocrop(path: Path, *, background: str, pad_px: int) -> None:
     img.crop((l, t, r, b)).save(path)
 
 
+def _save_2d(fig, out_path: Path, *, background: str = "#f4f4f6") -> None:
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    fig.savefig(out_path, dpi=180, bbox_inches="tight", pad_inches=0.08, facecolor=background)
+    plt.close(fig)
+    _autocrop(out_path, background=background, pad_px=14)
+    print(f"wrote {out_path}  ({out_path.stat().st_size // 1024} KB)")
+
+
+def _box2d(ax, x, y, w, h, *, color, label="", edge="#20242a", alpha=1.0, lw=1.2, hatch=None):
+    patch = plt.Rectangle((x, y), w, h, facecolor=color, edgecolor=edge, linewidth=lw, alpha=alpha, hatch=hatch)
+    ax.add_patch(patch)
+    if label:
+        ax.text(
+            x + w / 2,
+            y + h / 2,
+            label,
+            ha="center",
+            va="center",
+            fontsize=7.5,
+            color="#111827",
+            wrap=True,
+        )
+    return patch
+
+
+def _factory_plan_path(out_root: Path) -> Path:
+    return out_root.parents[1] / "mechanical-py" / "catalog" / "buildable-trainset" / "factory-plan.json"
+
+
+def _critical_path_path(out_root: Path) -> Path:
+    return out_root.parents[1] / "mechanical-py" / "catalog" / "buildable-trainset" / "critical-path.json"
+
+
+def _load_json(path: Path) -> dict:
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
+def _render_factory_layout(factory: dict, out_path: Path) -> None:
+    size = factory["factory_size"]
+    fig, ax = plt.subplots(figsize=(14, 8), facecolor="#f4f4f6")
+    ax.set_facecolor("#f4f4f6")
+    ax.set_aspect("equal")
+    ax.axis("off")
+
+    # Scaled 72 x 52 m envelope ~= 3,744 m2, leaving visual edge space
+    # around the 3,515 m2 recommended minimum.
+    _box2d(ax, 0, 0, 72, 52, color="#edf0f3", edge="#1f2937", lw=1.8)
+    ax.text(0, 57, "LM3 pilot factory - enclosed 3,515 m2 / 37,835 ft2", fontsize=13, weight="bold", color="#111827")
+    ax.text(0, 54.6, "One 55 m final bay; chassis, bogies, GFRP modules, and interiors run off-line in parallel", fontsize=9, color="#374151")
+
+    # Main process cells, arranged like a plausible leased industrial bay.
+    _box2d(ax, 2, 30, 18, 10, color="#d6d9de", label="Steel prep\n18 x 10 m")
+    _box2d(ax, 22, 22, 32, 20, color="#c7cbd1", label="Chassis weld + body-frame fixtures\n32 x 20 m")
+    _box2d(ax, 2, 14, 22, 12, color="#cde8cc", label="")
+    ax.text(13, 15.1, "Composite mould / cure / trim\n22 x 12 m", ha="center", va="bottom", fontsize=7.5, color="#111827")
+    _box2d(ax, 26, 6, 28, 12, color="#efd7a3", label="")
+    ax.text(47, 13.2, "Paint + corrosion bay\n28 x 12 m", ha="center", va="center", fontsize=7.5, color="#111827")
+    _box2d(ax, 56, 28, 14, 14, color="#c3c7cc", label="Stores / QA /\ntoolroom / offices")
+    _box2d(ax, 2, 2, 20, 10, color="#c6cbd0", label="")
+    ax.text(12, 9.6, "Bogie assembly + test\n20 x 12 m", ha="center", va="center", fontsize=7.5, color="#111827")
+    _box2d(ax, 24, 2, 16, 10, color="#bdd3f1", label="Interior + HVAC duct\nkit bench")
+    _box2d(ax, 8, -13, 55, 10, color="#d8e6d2", edge="#6a7c65", label="Outside yard / apron 2,200 m2\nstaging + short test access", alpha=0.95)
+
+    # Final bay drawn as the dominant train-length process lane.
+    _box2d(ax, 6, 42.0, 60, 7.2, color="#b7cce7", label="")
+    ax.plot([8, 64], [44.6, 44.6], color=FACTORY_COLORS["track"], linewidth=3)
+    ax.plot([8, 64], [46.4, 46.4], color=FACTORY_COLORS["track"], linewidth=3)
+    for x in np.linspace(11, 61, 9):
+        ax.plot([x, x], [44.1, 46.9], color="#6b7280", linewidth=1.1)
+    _box2d(ax, 10, 43.3, 49.5, 2.4, color="#f8fafc", edge="#2563eb", label="3-car LM3 on final assembly / static-test track", lw=1.4)
+    _box2d(ax, 13, 47.2, 11, 1.0, color="#f0c05a", label="roof access", lw=0.8)
+    _box2d(ax, 44, 47.2, 11, 1.0, color="#f0c05a", label="HV lockout", lw=0.8)
+
+    # Realistic fixture/machine hints.
+    for x in (25, 39):
+        _box2d(ax, x, 34, 16.5, 2.4, color="#9ca3af", label="underframe rotator", lw=0.8)
+    for x in (25, 39):
+        _box2d(ax, x, 25, 13, 2.0, color="#aeb4bc", label="side/roof fixture", lw=0.8)
+    ax.text(13, 23.2, "1 m modular moulds", ha="center", va="center", fontsize=7.2, color="#111827")
+    for i, x in enumerate((5, 10, 15, 20)):
+        _box2d(ax, x, 20, 3.2, 2.5, color="#9fd39c", label=f"M{i+1}", lw=0.7)
+    _box2d(ax, 17.5, 15.2, 4.8, 2.2, color="#f0c05a", label="CNC trim", lw=0.7)
+    for x in (6, 12, 18):
+        _box2d(ax, x, 4.0, 4, 1.6, color="#1f2937", label="", edge="#111827", lw=0.7)
+        ax.text(x + 2, 4.8, "bogie", ha="center", va="center", fontsize=7.0, color="#f9fafb")
+    _box2d(ax, 58, 22, 8, 4, color="#f4d182", label="forklift / carts", lw=0.7)
+
+    ax.text(2, -16.5, f"Dynamic test track: {size['dynamic_test_track']}", fontsize=8.5, color="#374151")
+    ax.set_xlim(-1, 73)
+    ax.set_ylim(-18, 58)
+    _save_2d(fig, out_path)
+
+
+def _render_assembly_timeline(factory: dict, critical: dict, out_path: Path) -> None:
+    tasks = {task["id"]: task for task in critical["tasks"]}
+    fig, ax = plt.subplots(figsize=(15, 7), facecolor="#f4f4f6")
+    ax.set_facecolor("#f4f4f6")
+    ax.axis("off")
+    ax.set_xlim(-4, 36)
+    ax.set_ylim(-0.6, 8.5)
+    ax.text(0, 8.1, "LM3 first-article assembly method - parallel work streams", fontsize=13, weight="bold", color="#111827")
+    ax.text(0, 7.75, "35 working days total; off-line cells feed one controlled 55 m final bay", fontsize=9, color="#374151")
+
+    streams = [
+        ("Chassis/body frame", ("CP-020", "CP-030", "CP-040", "CP-070"), FACTORY_COLORS["weld"]),
+        ("GFRP moulding + body clip", ("CP-060", "CP-080"), FACTORY_COLORS["composite"]),
+        ("Bogies + marriage", ("CP-050", "CP-120"), FACTORY_COLORS["bogie"]),
+        ("Interior kits + install", ("CP-065", "CP-110"), FACTORY_COLORS["interior"]),
+        ("Doors/windows/roof", ("CP-090",), FACTORY_COLORS["final"]),
+        ("HV/electrical install", ("CP-100",), "#3f6ea8"),
+        ("Articulation + static", ("CP-130", "CP-140"), "#5479a6"),
+        ("Dynamic release", ("CP-150",), "#7c3aed"),
+    ]
+    for row_idx, (label, task_ids, color) in enumerate(streams):
+        y = 7.0 - row_idx
+        ax.text(-3.8, y + 0.18, label, ha="left", va="center", fontsize=8.5, color="#111827")
+        for task_id in task_ids:
+            task = tasks[task_id]
+            x = float(task["early_start_day"])
+            w = float(task["early_finish_day"]) - x
+            _box2d(
+                ax,
+                x,
+                y - 0.2,
+                w,
+                0.42,
+                color=color,
+                label=task_id,
+                edge="#111827",
+                lw=0.8,
+                alpha=0.92,
+            )
+            ax.text(x + w / 2, y - 0.47, f"{w:.0f}d / {float(task['labor_hours']):.0f}h", ha="center", fontsize=6.5, color="#374151")
+    for day in range(0, 36, 5):
+        ax.plot([day, day], [-0.1, 7.4], color="#d1d5db", linewidth=0.8, zorder=0)
+        ax.text(day, -0.35, f"d{day}", ha="center", fontsize=8, color="#4b5563")
+    ax.plot([0, 35], [-0.05, -0.05], color="#6b7280", linewidth=1.2)
+    _save_2d(fig, out_path)
+
+
+def _render_bogie_marriage_method(out_path: Path) -> None:
+    fig, ax = plt.subplots(figsize=(14, 6), facecolor="#f4f4f6")
+    ax.set_facecolor("#f4f4f6")
+    ax.set_aspect("equal")
+    ax.axis("off")
+    ax.text(0, 9.2, "Bogie-to-carbody marriage method", fontsize=13, weight="bold", color="#111827")
+    ax.text(0, 8.55, "Released bogies enter late; chassis is lifted on mobile columns, then lowered to centre-pivot and air-spring datums", fontsize=9, color="#374151")
+
+    ax.plot([0.5, 22.5], [1.0, 1.0], color=FACTORY_COLORS["track"], linewidth=4)
+    ax.plot([0.5, 22.5], [2.0, 2.0], color=FACTORY_COLORS["track"], linewidth=4)
+    for x in np.linspace(1.5, 21.5, 11):
+        ax.plot([x, x], [0.5, 2.5], color="#6b7280", linewidth=1)
+
+    # Carbody/chassis above bogies, with jack columns.
+    _box2d(ax, 2.2, 5.3, 18.5, 1.1, color="#d8dde3", edge="#374151", label="painted carbody / chassis datum", lw=1.5)
+    _box2d(ax, 3.0, 6.45, 3.2, 0.55, color="#b7cce7", label="roof/HVAC", lw=0.7)
+    _box2d(ax, 16.6, 6.45, 3.2, 0.55, color="#b7cce7", label="roof/HVAC", lw=0.7)
+    for x in (4.2, 9.0, 14.0, 18.8):
+        _box2d(ax, x, 2.4, 0.45, 3.0, color="#f0c05a", label="", lw=0.8)
+        _box2d(ax, x - 0.55, 2.15, 1.55, 0.35, color="#f0c05a", label="", lw=0.8)
+    for x, label in ((5.0, "motor bogie"), (18.0, "trailer bogie")):
+        _box2d(ax, x - 2.0, 1.25, 4.0, 1.05, color="#252a30", edge="#111827", label="", lw=1.1)
+        ax.text(x, 1.77, label, ha="center", va="center", fontsize=7.5, color="#f9fafb")
+        for wx in (x - 1.25, x + 1.25):
+            circle = plt.Circle((wx, 1.05), 0.45, color="#111827")
+            ax.add_patch(circle)
+            ax.add_patch(plt.Circle((wx, 1.05), 0.24, color="#6b7280"))
+        _box2d(ax, x - 0.25, 2.55, 0.5, 2.15, color="#ef4444", label="", lw=0.7)
+        ax.annotate("", xy=(x, 2.55), xytext=(x, 4.75), arrowprops=dict(arrowstyle="<->", color="#ef4444", lw=1.4))
+    ax.text(0.5, 7.55, "Hold points: bogie certificates -> centre-pivot socket survey -> air-spring shim record -> brake/static checks", fontsize=8, color="#374151")
+    ax.set_xlim(-0.5, 23.5)
+    ax.set_ylim(0, 10)
+    _save_2d(fig, out_path)
+
+
+def _render_gfrp_moulding_method(out_path: Path) -> None:
+    fig, ax = plt.subplots(figsize=(14, 6), facecolor="#f4f4f6")
+    ax.set_facecolor("#f4f4f6")
+    ax.set_aspect("equal")
+    ax.axis("off")
+    ax.text(0, 9.2, "One-metre GFRP module moulding and clip-on body method", fontsize=13, weight="bold", color="#111827")
+    ax.text(0, 8.55, "Four short moulds feed CNC trim, edge sealing, insert/clip fit, master-frame dry fit, then one-shift body installation", fontsize=9, color="#374151")
+
+    stages = [
+        ("1. mould / cure", 0.5, FACTORY_COLORS["composite"]),
+        ("2. demould / trim", 5.2, "#a7d7a4"),
+        ("3. inserts / seals", 9.9, "#bdd7b9"),
+        ("4. master-frame dry fit", 14.6, "#d1e9cf"),
+        ("5. clip to carbody", 19.3, "#b7cce7"),
+    ]
+    for label, x, color in stages:
+        _box2d(ax, x, 6.7, 3.6, 1.1, color=color, label=label, lw=1.0)
+    for x in (4.3, 9.0, 13.7, 18.4):
+        ax.annotate("", xy=(x + 0.6, 7.25), xytext=(x, 7.25), arrowprops=dict(arrowstyle="->", color="#374151", lw=1.3))
+
+    for i, x in enumerate((0.6, 1.6, 2.6, 3.6), start=1):
+        _box2d(ax, x, 4.0, 0.8, 1.9, color="#8dcf86", label=f"M{i}", lw=0.7)
+    _box2d(ax, 5.25, 4.25, 3.4, 1.3, color="#f0c05a", label="CNC trim / drill", lw=0.8)
+    for x in (10.1, 11.2, 12.3):
+        _box2d(ax, x, 4.25, 0.85, 1.3, color="#e5e7eb", label="clip\nseal", lw=0.7)
+    _box2d(ax, 14.8, 3.8, 3.4, 2.0, color="#e5e7eb", label="master frame\nfit gauge", lw=0.9)
+    _box2d(ax, 19.2, 3.25, 4.8, 2.7, color="#d8dde3", label="painted carbody\nclip rails", lw=1.0)
+    for x in np.linspace(19.6, 23.2, 6):
+        _box2d(ax, x, 5.0, 0.45, 0.55, color="#8dcf86", label="", lw=0.5)
+        _box2d(ax, x, 3.65, 0.45, 0.55, color="#8dcf86", label="", lw=0.5)
+    ax.text(0.5, 1.6, "Evidence: mould release record, resin/fibre batch, cure log, witness coupon, CNC trim report, insert pull-out, edge seal, dry-fit map", fontsize=8, color="#374151")
+    ax.text(0.5, 0.85, "Assembly rule: dry EPDM seals + keyed hooks + captive clips + anti-lift retainers; no full-length body mould and no production adhesive cure hold", fontsize=8, color="#374151")
+    ax.set_xlim(-0.2, 24.5)
+    ax.set_ylim(0, 10)
+    _save_2d(fig, out_path)
+
+
+def _render_factory_method_screenshots(out_root: Path) -> None:
+    factory = _load_json(_factory_plan_path(out_root))
+    critical = _load_json(_critical_path_path(out_root))
+    _render_factory_layout(factory, out_root / "trainset-factory-layout.png")
+    _render_assembly_timeline(factory, critical, out_root / "trainset-assembly-method-flow.png")
+    _render_bogie_marriage_method(out_root / "trainset-bogie-marriage-method.png")
+    _render_gfrp_moulding_method(out_root / "trainset-gfrp-moulding-method.png")
+
+
 def render_all(out_root: Path) -> None:
     _refresh_latest_outputs(out_root)
 
@@ -741,6 +977,10 @@ def render_all(out_root: Path) -> None:
             figsize=figsize,
             dpi=dpi,
         )
+
+    # 9. More realistic manufacturing/assembly-method screenshots
+    # generated from the current factory and critical-path artifacts.
+    _render_factory_method_screenshots(out_root)
 
 
 def main() -> None:

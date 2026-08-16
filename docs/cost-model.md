@@ -52,6 +52,8 @@ Each city also carries a separate local railway production-plant setup allowance
 
 This line covers lean local production/assembly setup: reusable one-metre panel moulds, clip/drill gauges, basic steel fixtures, plant services, commissioning bay setup, material handling, homologation/production-readiness work, and first-article support. It is deliberately separate from the trainset unit above, so procurement costs and city plant setup remain auditable instead of being hidden in one large rolling-stock number.
 
+The generated LM3 pilot factory plan sizes the minimum enclosed building at about 3,515 m2 (37,835 ft2), plus 2,200 m2 of outside yard/test apron and a separate short depot/test track. Its rough machinery and setup list totals $1.0 M, including 20% equipment setup contingency. This one-time factory setup remains separate from the per-trainset build estimate.
+
 | Example | Base plant allowance | High sensitivity |
 |---|---:|---:|
 | 1-car vehicle module | $60 k | $120 k |
