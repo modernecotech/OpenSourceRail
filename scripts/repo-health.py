@@ -265,9 +265,38 @@ def check_city_artifacts() -> list[Finding]:
                 findings.append(Finding(readme, "missing shared national railway production plant section"))
             if "External capital for imported components / machinery" not in text:
                 findings.append(Finding(readme, "missing imported/external capital requirement"))
+            if "Foreign-company turnkey comparison" not in text:
+                findings.append(Finding(readme, "missing foreign-turnkey capital comparison"))
             for stale in ("Traction power", "€0.8 M/km", "Residual train-control wayside + power"):
                 if stale in text:
                     findings.append(Finding(readme, f"stale generated README wording: {stale!r}"))
+
+        finance_path = city_dir / "engineering/finance/summary.json"
+        if not finance_path.is_file():
+            findings.append(Finding(finance_path, "missing city finance summary"))
+        else:
+            finance = json.loads(finance_path.read_text())
+            sources = finance.get("sources", {})
+            expected_sources = {
+                "design_sha256": design_path,
+                "scenario_sha256": scenario_path,
+                "generator_sha256": REPO_ROOT / "scripts/generate-city-finance.py",
+                "capital_model_sha256": REPO_ROOT
+                / "design-py/src/osr_scenario/capital.py",
+                "network_finance_model_sha256": REPO_ROOT
+                / "design-py/src/osr_scenario/network_readme.py",
+                "capex_costs_sha256": REPO_ROOT / "lib/templates/capex-costs.toml",
+                "country_finance_sha256": REPO_ROOT
+                / "lib/templates/country-finance.toml",
+            }
+            if finance.get("schema_version") != 3 or not finance.get("passed"):
+                findings.append(Finding(finance_path, "city finance summary is not a passing schema-v3 result"))
+            for key, source_path in expected_sources.items():
+                expected_hash = hashlib.sha256(source_path.read_bytes()).hexdigest()
+                if sources.get(key) != expected_hash:
+                    findings.append(Finding(finance_path, f"stale finance source hash: {key}"))
+            if "foreign_turnkey_comparator" not in finance:
+                findings.append(Finding(finance_path, "missing foreign-turnkey comparator"))
 
         if slug in REVIEWED_CITY_SLUGS and slug not in FULL_ACCEPTANCE_CITY_SLUGS:
             technology = design.get("costs", {}).get("technology_basis", {})
@@ -559,12 +588,31 @@ def check_procurement_origin() -> list[Finding]:
     benefits = _load_toml(REPO_ROOT / "lib/templates/economic-benefits.toml")
     local = benefits["local_recirculation"]["capex_local_share"]
     for bucket, imported_share in imported.items():
+        if not 0.0 <= imported_share <= 1.0:
+            findings.append(Finding(
+                REPO_ROOT / "lib/templates/capex-costs.toml",
+                f"{bucket} imported share is outside 0..1",
+            ))
         local_share = float(local.get(bucket, -1.0))
         if not _almost_equal(imported_share + local_share, 1.0, 1e-9):
             findings.append(Finding(
                 REPO_ROOT / "lib/templates/economic-benefits.toml",
                 f"{bucket} local share is not one minus the canonical imported share",
             ))
+    comparator = CAPEX_COSTS.get("foreign_turnkey_comparator", {})
+    external_share = float(comparator.get("external_capital_share", -1.0))
+    multipliers = comparator.get("cost_multiplier", {})
+    ordered = [float(multipliers.get(case, -1.0)) for case in ("low", "default", "high")]
+    if not 0.0 <= external_share <= 1.0:
+        findings.append(Finding(
+            REPO_ROOT / "lib/templates/capex-costs.toml",
+            "foreign-turnkey external-capital share is outside 0..1",
+        ))
+    if ordered[0] < 1.0 or not ordered[0] <= ordered[1] <= ordered[2]:
+        findings.append(Finding(
+            REPO_ROOT / "lib/templates/capex-costs.toml",
+            "foreign-turnkey multipliers must satisfy 1 <= low <= default <= high",
+        ))
     return findings
 
 

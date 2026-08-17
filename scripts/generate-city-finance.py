@@ -14,6 +14,10 @@ from pathlib import Path
 
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
+CAPEX_COSTS_PATH = REPO_ROOT / "lib/templates/capex-costs.toml"
+COUNTRY_FINANCE_PATH = REPO_ROOT / "lib/templates/country-finance.toml"
+CAPITAL_MODEL_PATH = REPO_ROOT / "design-py/src/osr_scenario/capital.py"
+NETWORK_FINANCE_MODEL_PATH = REPO_ROOT / "design-py/src/osr_scenario/network_readme.py"
 sys.path.insert(0, str(REPO_ROOT / "design-py/src"))
 
 from osr_scenario.network_readme import (  # noqa: E402
@@ -31,8 +35,11 @@ from osr_scenario.network_readme import (  # noqa: E402
     compute_stats,
 )
 from osr_scenario.capital import (  # noqa: E402
+    FOREIGN_TURNKEY_BASIS,
+    FOREIGN_TURNKEY_EXTERNAL_SHARE,
     bucket_rows,
     city_capital_breakdown,
+    foreign_turnkey_cases,
     funding_plan,
 )
 
@@ -92,6 +99,23 @@ def build_model(design_path: Path, scenario_path: Path) -> dict[str, object]:
     total_capex = capital.total_usd
     total_capex_eur = total_capex * _USD_TO_EUR
     capital_plan = funding_plan(capital, fin)
+    turnkey_cases = foreign_turnkey_cases(
+        capital, capital_plan.construction_years
+    )
+    turnkey_default = turnkey_cases["default"]
+
+    def turnkey_case_payload(comparison) -> dict[str, float]:
+        return {
+            "cost_multiplier": comparison.cost_multiplier,
+            "foreign_company_total_capex_usd": comparison.foreign_total_usd,
+            "foreign_company_external_capital_usd": comparison.foreign_external_usd,
+            "osr_total_capex_saving_usd": comparison.total_capex_avoided_usd,
+            "osr_total_capex_reduction": comparison.total_capex_reduction,
+            "osr_external_capital_saving_usd": comparison.external_capital_avoided_usd,
+            "osr_external_capital_reduction": comparison.external_capital_reduction,
+            "annual_foreign_company_external_draw_usd": comparison.annual_foreign_external_draw_usd,
+            "annual_osr_external_capital_saving_usd": comparison.annual_external_capital_avoided_usd,
+        }
 
     rs_maint = 0.04 * float(costs["rolling_stock_usd"])
     fixed_maint = 0.02 * (
@@ -177,7 +201,7 @@ def build_model(design_path: Path, scenario_path: Path) -> dict[str, object]:
     required_farebox = max(0.0, annual_opex - nonfare)
     neutral_trips = required_farebox / trip_fare if trip_fare else math.inf
     return {
-        "schema_version": 2,
+        "schema_version": 3,
         "city": slug,
         "status": "planning-screen",
         "passed": True,
@@ -188,6 +212,16 @@ def build_model(design_path: Path, scenario_path: Path) -> dict[str, object]:
             "scenario_sha256": sha256(scenario_path),
             "generator": str(Path(__file__).relative_to(REPO_ROOT)),
             "generator_sha256": sha256(Path(__file__)),
+            "capital_model": str(CAPITAL_MODEL_PATH.relative_to(REPO_ROOT)),
+            "capital_model_sha256": sha256(CAPITAL_MODEL_PATH),
+            "network_finance_model": str(
+                NETWORK_FINANCE_MODEL_PATH.relative_to(REPO_ROOT)
+            ),
+            "network_finance_model_sha256": sha256(NETWORK_FINANCE_MODEL_PATH),
+            "capex_costs": str(CAPEX_COSTS_PATH.relative_to(REPO_ROOT)),
+            "capex_costs_sha256": sha256(CAPEX_COSTS_PATH),
+            "country_finance": str(COUNTRY_FINANCE_PATH.relative_to(REPO_ROOT)),
+            "country_finance_sha256": sha256(COUNTRY_FINANCE_PATH),
         },
         "capex_usd": {
             "authoritative_design_base": base_capex,
@@ -203,6 +237,17 @@ def build_model(design_path: Path, scenario_path: Path) -> dict[str, object]:
             "national_trainset_factory_treatment": "excluded from city CAPEX; costed once in the country NATIONAL-BRIEF.md",
         },
         "capex_eur": {"reconciled_project_total": total_capex_eur},
+        "foreign_turnkey_comparator": {
+            "status": "illustrative-variable-benchmark-not-vendor-quote",
+            "basis": FOREIGN_TURNKEY_BASIS,
+            "external_capital_share": FOREIGN_TURNKEY_EXTERNAL_SHARE,
+            "selected_case": "default",
+            "default_comparison": turnkey_case_payload(turnkey_default),
+            "sensitivity_cases": {
+                name: turnkey_case_payload(comparison)
+                for name, comparison in turnkey_cases.items()
+            },
+        },
         "annual_opex_usd": {"components": opex_components, "total": annual_opex},
         "operations_basis": {
             "scheduled_train_km_per_day": energy.scheduled_daily_train_km,
@@ -253,6 +298,7 @@ def build_model(design_path: Path, scenario_path: Path) -> dict[str, object]:
             "Imported shares are planning assumptions pending country supplier-capability, customs, tax, and procurement-origin surveys.",
             "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
             "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis.",
+            "The foreign-turnkey comparison is a configurable like-for-like multiplier sensitivity, not a received bid or vendor quotation.",
         ],
     }
 

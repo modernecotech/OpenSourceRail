@@ -15,74 +15,74 @@
   },
   "capex_usd": {
     "authoritative_design_base": 245871795.0,
-    "imported_external_capital": 108181818.72199999,
-    "imported_percentage_of_total": 0.4159992879703925,
-    "local_capital": 151871075.238,
-    "local_percentage_of_total": 0.5840007120296075,
+    "imported_external_capital": 54177558.082,
+    "imported_percentage_of_total": 0.20833284051179723,
+    "local_capital": 205875335.878,
+    "local_percentage_of_total": 0.7916671594882027,
     "national_trainset_factory_treatment": "excluded from city CAPEX; costed once in the country NATIONAL-BRIEF.md",
     "procurement_origin_buckets": [
       {
         "bucket": "civil",
-        "imported_share": 0.35,
-        "imported_usd": 47408559.099999994,
-        "local_share": 0.65,
-        "local_usd": 88044466.9,
+        "imported_share": 0.15,
+        "imported_usd": 20317953.9,
+        "local_share": 0.85,
+        "local_usd": 115135072.1,
         "total_usd": 135453026.0
       },
       {
         "bucket": "stations",
-        "imported_share": 0.4,
-        "imported_usd": 19800000.0,
-        "local_share": 0.6,
-        "local_usd": 29700000.0,
+        "imported_share": 0.2,
+        "imported_usd": 9900000.0,
+        "local_share": 0.8,
+        "local_usd": 39600000.0,
         "total_usd": 49500000.0
       },
       {
         "bucket": "depots",
-        "imported_share": 0.4,
-        "imported_usd": 3200000.0,
-        "local_share": 0.6,
-        "local_usd": 4800000.0,
+        "imported_share": 0.25,
+        "imported_usd": 2000000.0,
+        "local_share": 0.75,
+        "local_usd": 6000000.0,
         "total_usd": 8000000.0
       },
       {
         "bucket": "rolling_stock",
-        "imported_share": 0.55,
-        "imported_usd": 18788000.0,
-        "local_share": 0.44999999999999996,
-        "local_usd": 15372000.0,
+        "imported_share": 0.35,
+        "imported_usd": 11956000.0,
+        "local_share": 0.65,
+        "local_usd": 22204000.0,
         "total_usd": 34160000.0
       },
       {
         "bucket": "solar_plant",
-        "imported_share": 0.7,
-        "imported_usd": 9926769.272,
-        "local_share": 0.30000000000000004,
-        "local_usd": 4254329.688000001,
+        "imported_share": 0.45,
+        "imported_usd": 6381494.532000001,
+        "local_share": 0.55,
+        "local_usd": 7799604.428,
         "total_usd": 14181098.96
       },
       {
         "bucket": "signalling",
-        "imported_share": 0.8,
-        "imported_usd": 1118958.4000000001,
-        "local_share": 0.19999999999999996,
-        "local_usd": 279739.59999999986,
+        "imported_share": 0.5,
+        "imported_usd": 699349.0,
+        "local_share": 0.5,
+        "local_usd": 699349.0,
         "total_usd": 1398698.0
       },
       {
         "bucket": "charging_microgrid",
-        "imported_share": 0.55,
-        "imported_usd": 701250.0,
-        "local_share": 0.44999999999999996,
-        "local_usd": 573750.0,
+        "imported_share": 0.4,
+        "imported_usd": 510000.0,
+        "local_share": 0.6,
+        "local_usd": 765000.0,
         "total_usd": 1275000.0
       },
       {
         "bucket": "epc_overhead",
-        "imported_share": 0.45,
-        "imported_usd": 7238281.95,
-        "local_share": 0.55,
-        "local_usd": 8846789.05,
+        "imported_share": 0.15,
+        "imported_usd": 2412760.65,
+        "local_share": 0.85,
+        "local_usd": 13672310.35,
         "total_usd": 16085071.0
       }
     ],
@@ -100,7 +100,7 @@
       "capacity_utilisation": 0.8,
       "project_irr": 0.11270234539642837,
       "project_npv_usd_at_8_percent": 92498846.17212662,
-      "steady_state_dscr": 2.0536904649376524
+      "steady_state_dscr": 1.8781686747604533
     },
     "low_capacity_use": {
       "annual_operating_cash_usd": 24570259.9036,
@@ -110,31 +110,83 @@
       "capacity_utilisation": 0.5,
       "project_irr": 0.06812955887872243,
       "project_npv_usd_at_8_percent": -28349816.781889074,
-      "steady_state_dscr": 1.185658183555926
+      "steady_state_dscr": 1.0843240972030928
     }
   },
   "city": "meru-ke",
+  "foreign_turnkey_comparator": {
+    "basis": "Illustrative variable benchmark for an equivalent foreign-company turnkey delivery. It excludes tunnels, land, tax/duty, utility relocation, financing fees, and escalation on both sides; it does not represent a received bid or named vendor price.",
+    "default_comparison": {
+      "annual_foreign_company_external_draw_usd": 66870744.16114286,
+      "annual_osr_external_capital_saving_usd": 59131093.00657143,
+      "cost_multiplier": 2.0,
+      "foreign_company_external_capital_usd": 468095209.128,
+      "foreign_company_total_capex_usd": 520105787.92,
+      "osr_external_capital_reduction": 0.8842595330490015,
+      "osr_external_capital_saving_usd": 413917651.046,
+      "osr_total_capex_reduction": 0.5,
+      "osr_total_capex_saving_usd": 260052893.96
+    },
+    "external_capital_share": 0.9,
+    "selected_case": "default",
+    "sensitivity_cases": {
+      "default": {
+        "annual_foreign_company_external_draw_usd": 66870744.16114286,
+        "annual_osr_external_capital_saving_usd": 59131093.00657143,
+        "cost_multiplier": 2.0,
+        "foreign_company_external_capital_usd": 468095209.128,
+        "foreign_company_total_capex_usd": 520105787.92,
+        "osr_external_capital_reduction": 0.8842595330490015,
+        "osr_external_capital_saving_usd": 413917651.046,
+        "osr_total_capex_reduction": 0.5,
+        "osr_total_capex_saving_usd": 260052893.96
+      },
+      "high": {
+        "annual_foreign_company_external_draw_usd": 100306116.24171428,
+        "annual_osr_external_capital_saving_usd": 92566465.08714285,
+        "cost_multiplier": 3.0,
+        "foreign_company_external_capital_usd": 702142813.692,
+        "foreign_company_total_capex_usd": 780158681.88,
+        "osr_external_capital_reduction": 0.9228396886993344,
+        "osr_external_capital_saving_usd": 647965255.61,
+        "osr_total_capex_reduction": 0.6666666666666666,
+        "osr_total_capex_saving_usd": 520105787.91999996
+      },
+      "low": {
+        "annual_foreign_company_external_draw_usd": 50153058.12085714,
+        "annual_osr_external_capital_saving_usd": 42413406.96628571,
+        "cost_multiplier": 1.5,
+        "foreign_company_external_capital_usd": 351071406.846,
+        "foreign_company_total_capex_usd": 390079340.94,
+        "osr_external_capital_reduction": 0.8456793773986687,
+        "osr_external_capital_saving_usd": 296893848.764,
+        "osr_total_capex_reduction": 0.33333333333333326,
+        "osr_total_capex_saving_usd": 130026446.97999999
+      }
+    },
+    "status": "illustrative-variable-benchmark-not-vendor-quote"
+  },
   "funding": {
-    "annual_debt_service_usd": 20722886.44768676,
-    "annual_external_capital_draw_usd": 15454545.531714285,
-    "annual_external_debt_service_usd": 6355089.894999156,
-    "annual_grace_interest_usd": 18840320.764386002,
-    "annual_local_bond_issuance_usd": 17356694.312914286,
-    "annual_local_bond_service_usd": 14367796.552687604,
-    "annual_local_capital_draw_usd": 21695867.891142856,
-    "annual_local_public_equity_draw_usd": 4339173.578228571,
-    "annual_public_construction_commitment_usd": 23179494.342614572,
+    "annual_debt_service_usd": 22659516.62143871,
+    "annual_external_capital_draw_usd": 7739651.154571429,
+    "annual_external_debt_service_usd": 3182635.0857293373,
+    "annual_grace_interest_usd": 21378521.014466003,
+    "annual_local_bond_issuance_usd": 23528609.81462857,
+    "annual_local_bond_service_usd": 19476881.53570937,
+    "annual_local_capital_draw_usd": 29410762.268285714,
+    "annual_local_public_equity_draw_usd": 5882152.453657142,
+    "annual_public_construction_commitment_usd": 27260673.468123145,
     "construction_grace_years": 7,
-    "debt_principal_usd": 229678678.9124,
-    "external_capital_required_usd": 108181818.72199999,
+    "debt_principal_usd": 218877826.7844,
+    "external_capital_required_usd": 54177558.082,
     "external_debt_rate": 0.045,
-    "external_debt_usd": 108181818.72199999,
+    "external_debt_usd": 54177558.082,
     "external_grant_usd": 0.0,
     "lender_commitment_status": "unconfirmed-placeholder",
-    "local_bond_principal_usd": 121496860.1904,
+    "local_bond_principal_usd": 164700268.7024,
     "local_bond_rate": 0.115,
-    "local_capital_required_usd": 151871075.238,
-    "local_public_equity_usd": 30374215.0476,
+    "local_capital_required_usd": 205875335.878,
+    "local_public_equity_usd": 41175067.17559999,
     "repayment_years": 33
   },
   "limitations": [
@@ -142,7 +194,8 @@
     "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
     "Imported shares are planning assumptions pending country supplier-capability, customs, tax, and procurement-origin surveys.",
     "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
-    "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
+    "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis.",
+    "The foreign-turnkey comparison is a configurable like-for-like multiplier sensitivity, not a received bid or vendor quotation."
   ],
   "operations_basis": {
     "annual_train_km_including_non_revenue": 5127718.122,
@@ -164,12 +217,20 @@
     "practical_capacity_passenger_trips_per_day": 267840.0,
     "single_trip_fare_usd": 0.6133333333333334
   },
-  "schema_version": 2,
+  "schema_version": 3,
   "sources": {
+    "capex_costs": "lib/templates/capex-costs.toml",
+    "capex_costs_sha256": "1e7bc1c016008078b39afefa18b141c6c0f7b26f60d03431d291d1b6e5f32c1b",
+    "capital_model": "design-py/src/osr_scenario/capital.py",
+    "capital_model_sha256": "4a3f9307f92bb11962b6e9955808501df9e5b7d29d9d84be4f90fed019d36f43",
+    "country_finance": "lib/templates/country-finance.toml",
+    "country_finance_sha256": "25941629ea1344cc81b7d6047b5f7d22f7b6409b7fd2c36e5ca23bc32a8d0ea3",
     "design": "designs/east-africa/Kenya/Meru-Ke/design.toml",
     "design_sha256": "bbdc0ce8233b6991bce77228d9ee636f11a034bad7685b4247319d9c5a4add0d",
     "generator": "scripts/generate-city-finance.py",
-    "generator_sha256": "9da48240e9ea50383e605d0c00585d52cdf48747820a2ac28647432461d3e1fa",
+    "generator_sha256": "7457e443e772ef49cc2c24b376f7e61086559f679c7dc12dee9ba1e40e03a3e7",
+    "network_finance_model": "design-py/src/osr_scenario/network_readme.py",
+    "network_finance_model_sha256": "c5aeb6c74a76c56448c9295467f17aad0aa9f7b1230546f00b6d8260fd750d23",
     "scenario": "designs/east-africa/Kenya/Meru-Ke/meru-ke.toml",
     "scenario_sha256": "7fecc94dda7f072d21bd4297b2fc7ef43bd1313e478a96bf7efb39c96d697b90"
   },

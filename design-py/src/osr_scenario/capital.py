@@ -30,6 +30,16 @@ EPC_FRACTION = float(_CAPEX["overhead"]["epc_fraction"])
 NATIONAL_FACTORY_PER_VEHICLE_USD = float(
     _CAPEX["production_plant"]["per_vehicle_usd"]
 )
+FOREIGN_TURNKEY_BASIS = str(_CAPEX["foreign_turnkey_comparator"]["basis"])
+FOREIGN_TURNKEY_EXTERNAL_SHARE = float(
+    _CAPEX["foreign_turnkey_comparator"]["external_capital_share"]
+)
+FOREIGN_TURNKEY_COST_MULTIPLIERS: dict[str, float] = {
+    str(key): float(value)
+    for key, value in _CAPEX["foreign_turnkey_comparator"][
+        "cost_multiplier"
+    ].items()
+}
 
 
 @dataclass(frozen=True)
@@ -126,6 +136,53 @@ class CapitalFundingPlan:
     @property
     def annual_public_construction_commitment_usd(self) -> float:
         return self.annual_local_equity_draw_usd + self.annual_grace_interest_usd
+
+
+@dataclass(frozen=True)
+class ForeignTurnkeyComparison:
+    """Like-for-like foreign-company sensitivity against the OSR capital plan."""
+
+    osr_total_usd: float
+    osr_external_usd: float
+    construction_years: int
+    cost_multiplier: float
+    external_capital_share: float
+
+    @property
+    def foreign_total_usd(self) -> float:
+        return self.osr_total_usd * self.cost_multiplier
+
+    @property
+    def foreign_external_usd(self) -> float:
+        return self.foreign_total_usd * self.external_capital_share
+
+    @property
+    def total_capex_avoided_usd(self) -> float:
+        return self.foreign_total_usd - self.osr_total_usd
+
+    @property
+    def external_capital_avoided_usd(self) -> float:
+        return self.foreign_external_usd - self.osr_external_usd
+
+    @property
+    def total_capex_reduction(self) -> float:
+        if self.foreign_total_usd <= 0.0:
+            return 0.0
+        return 1.0 - (self.osr_total_usd / self.foreign_total_usd)
+
+    @property
+    def external_capital_reduction(self) -> float:
+        if self.foreign_external_usd <= 0.0:
+            return 0.0
+        return 1.0 - (self.osr_external_usd / self.foreign_external_usd)
+
+    @property
+    def annual_foreign_external_draw_usd(self) -> float:
+        return self.foreign_external_usd / self.construction_years
+
+    @property
+    def annual_external_capital_avoided_usd(self) -> float:
+        return self.external_capital_avoided_usd / self.construction_years
 
 
 def annuity(principal: float, rate: float, years: int) -> float:
@@ -241,6 +298,54 @@ def funding_plan(
         local_bond_usd=local_bond,
         local_equity_usd=local_equity,
     )
+
+
+def foreign_turnkey_comparison(
+    breakdown: CapitalBreakdown,
+    construction_years: int,
+    *,
+    cost_multiplier: float | None = None,
+    external_capital_share: float | None = None,
+) -> ForeignTurnkeyComparison:
+    """Compare OSR with a variable foreign-company turnkey sensitivity."""
+
+    multiplier = (
+        FOREIGN_TURNKEY_COST_MULTIPLIERS["default"]
+        if cost_multiplier is None
+        else float(cost_multiplier)
+    )
+    external_share = (
+        FOREIGN_TURNKEY_EXTERNAL_SHARE
+        if external_capital_share is None
+        else float(external_capital_share)
+    )
+    if multiplier <= 0.0:
+        raise ValueError("foreign-turnkey cost multiplier must be positive")
+    if not 0.0 <= external_share <= 1.0:
+        raise ValueError("foreign-turnkey external-capital share must be between 0 and 1")
+    return ForeignTurnkeyComparison(
+        osr_total_usd=breakdown.total_usd,
+        osr_external_usd=breakdown.imported_usd,
+        construction_years=max(int(construction_years), 1),
+        cost_multiplier=multiplier,
+        external_capital_share=external_share,
+    )
+
+
+def foreign_turnkey_cases(
+    breakdown: CapitalBreakdown,
+    construction_years: int,
+) -> dict[str, ForeignTurnkeyComparison]:
+    """Return every controlled foreign-turnkey cost-multiplier case."""
+
+    return {
+        case: foreign_turnkey_comparison(
+            breakdown,
+            construction_years,
+            cost_multiplier=multiplier,
+        )
+        for case, multiplier in FOREIGN_TURNKEY_COST_MULTIPLIERS.items()
+    }
 
 
 def bucket_rows(breakdown: CapitalBreakdown) -> list[dict[str, float | str]]:

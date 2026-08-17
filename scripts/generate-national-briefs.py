@@ -16,10 +16,13 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO_ROOT / "design-py/src"))
 
 from osr_scenario.capital import (  # noqa: E402
+    FOREIGN_TURNKEY_BASIS,
+    FOREIGN_TURNKEY_EXTERNAL_SHARE,
     IMPORTED_SHARE,
     NATIONAL_FACTORY_PER_VEHICLE_USD,
     aggregate_breakdowns,
     city_capital_breakdown,
+    foreign_turnkey_cases,
     funding_plan,
 )
 from osr_scenario.network_readme import (  # noqa: E402
@@ -99,7 +102,10 @@ def render_brief(
         [city.breakdown for city in cities],
         national_factory_usd=national_factory_usd,
     )
-    plan = funding_plan(national, _load_country_finance(country_code))
+    country_finance = _load_country_finance(country_code)
+    plan = funding_plan(national, country_finance)
+    turnkey_cases = foreign_turnkey_cases(national, plan.construction_years)
+    turnkey_default = turnkey_cases["default"]
     population = sum(city.population for city in cities)
     fleet = sum(city.fleet_trainsets for city in cities)
     modules = sum(city.vehicle_modules for city in cities)
@@ -158,11 +164,44 @@ def render_brief(
         "cash flow. During construction, interest plus the local public-equity draw is "
         f"**{money(plan.annual_public_construction_commitment_usd)} per year**.",
         "",
-        "## Procurement-origin composition",
+        "## Foreign-company turnkey comparison",
         "",
-        "| CAPEX bucket | Total | Imported share | External capital | Local value |",
-        "|---|---:|---:|---:|---:|",
+        "This controlled comparison is an editable sensitivity, not a supplier "
+        "quotation. It uses the same national network, fleet, service, and energy "
+        f"scope, with {FOREIGN_TURNKEY_EXTERNAL_SHARE:.0%} of a foreign contractor's "
+        "price assumed to require foreign currency or international capital. "
+        f"{FOREIGN_TURNKEY_BASIS}",
+        "",
+        "| Case | Cost multiplier vs OSR | Foreign-company total CAPEX | Foreign-company external capital | OSR external capital saved | Annual external capital saved |",
+        "|---|---:|---:|---:|---:|---:|",
     ]
+    for case, comparison in turnkey_cases.items():
+        label = f"**{case.title()}**" if case == "default" else case.title()
+        out.append(
+            f"| {label} | {comparison.cost_multiplier:.2f}× | "
+            f"{money(comparison.foreign_total_usd)} | "
+            f"{money(comparison.foreign_external_usd)} | "
+            f"{money(comparison.external_capital_avoided_usd)} "
+            f"({comparison.external_capital_reduction:.1%}) | "
+            f"{money(comparison.annual_external_capital_avoided_usd)} / yr |"
+        )
+    out.extend(
+        [
+            "",
+            f"At the default {turnkey_default.cost_multiplier:.2f}× case, the OSR "
+            f"programme reduces external capital from {money(turnkey_default.foreign_external_usd)} "
+            f"to {money(national.imported_usd)}, a saving of "
+            f"**{money(turnkey_default.external_capital_avoided_usd)} "
+            f"({turnkey_default.external_capital_reduction:.1%})**. Total programme "
+            f"CAPEX is {turnkey_default.total_capex_reduction:.1%} below the comparator. "
+            "Replace both variables with scope-normalized bids before investment approval.",
+            "",
+            "## Procurement-origin composition",
+            "",
+            "| CAPEX bucket | Total | Imported share | External capital | Local value |",
+            "|---|---:|---:|---:|---:|",
+        ]
+    )
     labels = {
         "civil": "Civil works",
         "stations": "Stations",
@@ -190,16 +229,22 @@ def render_brief(
             "varies with the local mix of civil structures, rolling stock, stations, "
             "charging, signalling, and solar infrastructure.",
             "",
-            "| City | Population | Fleet | City CAPEX | Imported % | External capital | Local capital |",
-            "|---|---:|---:|---:|---:|---:|---:|",
+            "| City | Population | Fleet | City CAPEX | Imported % | OSR external capital | Foreign-turnkey external capital (default) | External capital saved | Local capital |",
+            "|---|---:|---:|---:|---:|---:|---:|---:|---:|",
         ]
     )
     for city in cities:
+        city_turnkey = foreign_turnkey_cases(
+            city.breakdown, plan.construction_years
+        )["default"]
         out.append(
             f"| [{city.name}]({city.name.replace(' ', '-')}/README.md) | "
             f"{city.population:,} | {city.fleet_trainsets:,} | "
             f"{money(city.breakdown.total_usd)} | {city.breakdown.imported_share:.1%} | "
-            f"{money(city.breakdown.imported_usd)} | {money(city.breakdown.local_usd)} |"
+            f"{money(city.breakdown.imported_usd)} | "
+            f"{money(city_turnkey.foreign_external_usd)} | "
+            f"{money(city_turnkey.external_capital_avoided_usd)} | "
+            f"{money(city.breakdown.local_usd)} |"
         )
     out.extend(
         [
@@ -224,6 +269,8 @@ def render_brief(
             "This is a planning strategy, not a financing commitment or supplier-origin "
             "audit. Imported shares come from `lib/templates/capex-costs.toml`; city geometry, "
             "fleet, and cost data come from each generated `design.toml` and scenario. "
+            "The foreign-turnkey multiplier and external share are illustrative variables, "
+            "not received bids or named-vendor prices. "
             "The model excludes tax/duty, FX paths, land acquisition, utility relocation, "
             "and country-specific supplier qualification until controlled evidence exists.",
             "",

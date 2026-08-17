@@ -11,7 +11,11 @@ from pathlib import Path
 import pytest
 
 from osr_scenario import GeneratorError, generate_from_path, generate_scenario
-from osr_scenario.capital import city_capital_breakdown, funding_plan
+from osr_scenario.capital import (
+    city_capital_breakdown,
+    foreign_turnkey_cases,
+    funding_plan,
+)
 from osr_scenario.network_readme import (
     _load_country_finance,
     render_readme,
@@ -347,6 +351,26 @@ def test_imported_and_local_capital_reconcile_city_capex() -> None:
     assert plan.annual_external_capital_draw_usd * plan.construction_years == pytest.approx(
         capital.imported_usd
     )
+    assert capital.imported_share < 0.40
+
+
+def test_foreign_turnkey_comparator_reconciles_savings_and_annual_draw() -> None:
+    design = _parse(SAMAWAH_DESIGN.read_text())
+    capital = city_capital_breakdown(design["costs"])
+    plan = funding_plan(capital, _load_country_finance("IQ"))
+    cases = foreign_turnkey_cases(capital, plan.construction_years)
+    comparison = cases["default"]
+
+    assert list(cases) == ["low", "default", "high"]
+    assert comparison.cost_multiplier == pytest.approx(2.0)
+    assert comparison.foreign_total_usd == pytest.approx(2.0 * capital.total_usd)
+    assert comparison.external_capital_avoided_usd == pytest.approx(
+        comparison.foreign_external_usd - capital.imported_usd
+    )
+    assert comparison.annual_external_capital_avoided_usd * plan.construction_years == pytest.approx(
+        comparison.external_capital_avoided_usd
+    )
+    assert comparison.external_capital_reduction > comparison.total_capex_reduction
 
 
 def test_readme_nets_operating_surplus_against_gov_debt_support() -> None:
@@ -376,9 +400,13 @@ def test_readme_nets_operating_surplus_against_gov_debt_support() -> None:
     assert "### Imported value and construction capital requirement" in text
     assert "External capital for imported components / machinery" in text
     assert "Local capital for domestic procurement / payroll" in text
+    assert "### Foreign-company turnkey comparison" in text
+    assert "not a vendor quotation" in text
+    assert "OSR external capital saved" in text
     assert re.search(
         r"\| External climate/MDB debt for imported content \(unconfirmed\) \| "
-        r"\d+% \| \$\d+ M \| 4\.5% \| 40 y, 5 y grace \| \$\d+ M / yr \|",
+        r"\d+% \| \$\d+ M \| 4\.5% \| 40 y, 5 y grace \| "
+        r"\$\d+(?:\.\d+)? M / yr \|",
         text,
     )
     assert re.search(

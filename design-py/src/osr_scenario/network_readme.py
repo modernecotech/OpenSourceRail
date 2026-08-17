@@ -38,7 +38,14 @@ from dataclasses import dataclass
 from functools import lru_cache
 from pathlib import Path
 
-from .capital import IMPORTED_SHARE, city_capital_breakdown, funding_plan
+from .capital import (
+    FOREIGN_TURNKEY_BASIS,
+    FOREIGN_TURNKEY_EXTERNAL_SHARE,
+    IMPORTED_SHARE,
+    city_capital_breakdown,
+    foreign_turnkey_cases,
+    funding_plan,
+)
 
 
 # --------------------------------------------------------------------------
@@ -1082,6 +1089,8 @@ def _funding_and_affordability_section(
     if capital.total_usd <= 0.0:
         return []
     plan = funding_plan(capital, fin)
+    turnkey_cases = foreign_turnkey_cases(capital, plan.construction_years)
+    turnkey_default = turnkey_cases["default"]
     total_eur = capital.total_usd * _USD_TO_EUR
     imported_eur = capital.imported_usd * _USD_TO_EUR
     local_eur = capital.local_usd * _USD_TO_EUR
@@ -1273,7 +1282,7 @@ def _funding_and_affordability_section(
 
     out.append("### Imported value and construction capital requirement\n")
     out.append(
-        "The import percentage is calculated bucket by bucket from the controlled "
+        "The localization-first import percentage is calculated bucket by bucket from the controlled "
         f"procurement-origin assumptions in [`lib/templates/capex-costs.toml`]({rel('lib/templates/capex-costs.toml')}). "
         "It is not a tariff estimate: it identifies the value that must be paid in "
         "foreign currency or backed by an international financing source. The "
@@ -1299,6 +1308,38 @@ def _funding_and_affordability_section(
     out.append(
         f"| **Total city programme** | **100.0%** | **{_usd(total_eur)}** | "
         f"**{_usd(total_eur / construction_years)} / yr** |\n"
+    )
+
+    out.append("### Foreign-company turnkey comparison\n")
+    out.append(
+        "This is an editable like-for-like sensitivity, not a vendor quotation. "
+        "It multiplies OSR CAPEX for an equivalent network, fleet, service, and "
+        f"energy scope, then assumes {FOREIGN_TURNKEY_EXTERNAL_SHARE:.0%} of the "
+        "foreign contractor price requires foreign currency or international "
+        f"capital. {FOREIGN_TURNKEY_BASIS}\n"
+    )
+    out.append(
+        "| Foreign-turnkey case | Cost multiplier vs OSR | Foreign-company total CAPEX | "
+        "Foreign-company external capital | OSR external capital saved | Annual external capital saved |"
+    )
+    out.append("|---|---:|---:|---:|---:|---:|")
+    for case, comparison in turnkey_cases.items():
+        label = f"**{case.title()}**" if case == "default" else case.title()
+        out.append(
+            f"| {label} | {comparison.cost_multiplier:.2f}× | "
+            f"{_fmt_usd(comparison.foreign_total_usd)} | "
+            f"{_fmt_usd(comparison.foreign_external_usd)} | "
+            f"{_fmt_usd(comparison.external_capital_avoided_usd)} "
+            f"({comparison.external_capital_reduction:.1%}) | "
+            f"{_fmt_usd(comparison.annual_external_capital_avoided_usd)} / yr |"
+        )
+    out.append(
+        f"\nAt the default {turnkey_default.cost_multiplier:.2f}× case, OSR's "
+        f"{_fmt_usd(capital.imported_usd)} external requirement is "
+        f"{turnkey_default.external_capital_reduction:.1%} below the illustrative "
+        f"foreign-company requirement of {_fmt_usd(turnkey_default.foreign_external_usd)}; "
+        f"total project CAPEX is {turnkey_default.total_capex_reduction:.1%} lower. "
+        "Replace both variables with normalized bids before an investment decision.\n"
     )
 
     # ============================================================
@@ -2495,9 +2536,31 @@ def _finalise_readme(
         sources = finance.get("sources", {})
         design_hash = hashlib.sha256(design_path.read_bytes()).hexdigest()
         scenario_hash = hashlib.sha256(scenario_path.read_bytes()).hexdigest()
-        if not finance.get("passed") or sources.get("design_sha256") != design_hash or sources.get("scenario_sha256") != scenario_hash:
+        source_paths = {
+            "generator_sha256": _repo_root() / "scripts/generate-city-finance.py",
+            "capital_model_sha256": _repo_root()
+            / "design-py/src/osr_scenario/capital.py",
+            "network_finance_model_sha256": Path(__file__),
+            "capex_costs_sha256": _repo_root() / "lib/templates/capex-costs.toml",
+            "country_finance_sha256": _repo_root()
+            / "lib/templates/country-finance.toml",
+        }
+        sources_current = all(
+            sources.get(key) == hashlib.sha256(path.read_bytes()).hexdigest()
+            for key, path in source_paths.items()
+        )
+        if (
+            finance.get("schema_version") != 3
+            or not finance.get("passed")
+            or sources.get("design_sha256") != design_hash
+            or sources.get("scenario_sha256") != scenario_hash
+            or not sources_current
+        ):
             raise ValueError(f"{finance_path} contains failed or stale financial evidence")
         capex = finance["capex_usd"]
+        turnkey = finance.get("foreign_turnkey_comparator", {}).get(
+            "default_comparison"
+        )
         opex = finance["annual_opex_usd"]
         low = finance["cases"]["low_capacity_use"]
         high = finance["cases"]["high_capacity_use"]
@@ -2529,6 +2592,13 @@ def _finalise_readme(
             f"{_fmt_usd(capex['local_capital'])} "
             f"({float(capex['local_percentage_of_total']):.1%}) |"
         )
+        if turnkey:
+            out.append(
+                f"| Default foreign-turnkey external-capital comparison | "
+                f"{_fmt_usd(turnkey['foreign_company_external_capital_usd'])}; "
+                f"OSR saves {_fmt_usd(turnkey['osr_external_capital_saving_usd'])} "
+                f"({float(turnkey['osr_external_capital_reduction']):.1%}) |"
+            )
         out.append(f"| 15%–25% planning risk envelope | {_fmt_usd(capex['risk_envelope_15_percent'])}–{_fmt_usd(capex['risk_envelope_25_percent'])} |")
         out.append(f"| Annual OPEX | {_fmt_usd(opex['total'])} / yr |")
         out.append(f"| Low/high project NPV at 8% | {_fmt_usd(low['project_npv_usd_at_8_percent'])} / {_fmt_usd(high['project_npv_usd_at_8_percent'])} |")

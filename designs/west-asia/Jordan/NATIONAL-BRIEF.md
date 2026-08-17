@@ -23,39 +23,51 @@ Imported content is the minimum foreign-currency or international-capital requir
 
 | Capital boundary | Share | Total | Annual draw during construction |
 |---|---:|---:|---:|
-| **External capital for imports** | **45.0%** | **$2.58 B** | **$515.6 M / yr** |
-| **Local capital for domestic value** | **55.0%** | **$3.15 B** | **$630.4 M / yr** |
-| planned local-currency bond issuance | 44.0% of total | $2.52 B | $504.3 M / yr |
-| local public equity / other domestic funding | 11.0% of total | $630.4 M | $126.1 M / yr |
+| **External capital for imports** | **24.4%** | **$1.40 B** | **$279.5 M / yr** |
+| **Local capital for domestic value** | **75.6%** | **$4.33 B** | **$866.5 M / yr** |
+| planned local-currency bond issuance | 60.5% of total | $3.47 B | $693.2 M / yr |
+| local public equity / other domestic funding | 15.1% of total | $866.5 M | $173.3 M / yr |
 | **Total capital programme** | **100.0%** | **$5.73 B** | **$1.15 B / yr** |
 
-The annual construction draw is spread evenly over 5 planning years. Post-grace annual debt service is $147.6 M for external import finance plus $205.5 M for local bonds, or **$353.1 M per year** before railway operating cash flow. During construction, interest plus the local public-equity draw is **$431.2 M per year**.
+The annual construction draw is spread evenly over 5 planning years. Post-grace annual debt service is $80.0 M for external import finance plus $282.4 M for local bonds, or **$362.5 M per year** before railway operating cash flow. During construction, interest plus the local public-equity draw is **$496.1 M per year**.
+
+## Foreign-company turnkey comparison
+
+This controlled comparison is an editable sensitivity, not a supplier quotation. It uses the same national network, fleet, service, and energy scope, with 90% of a foreign contractor's price assumed to require foreign currency or international capital. Illustrative variable benchmark for an equivalent foreign-company turnkey delivery. It excludes tunnels, land, tax/duty, utility relocation, financing fees, and escalation on both sides; it does not represent a received bid or named vendor price.
+
+| Case | Cost multiplier vs OSR | Foreign-company total CAPEX | Foreign-company external capital | OSR external capital saved | Annual external capital saved |
+|---|---:|---:|---:|---:|---:|
+| Low | 1.50× | $8.60 B | $7.74 B | $6.34 B (81.9%) | $1.27 B / yr |
+| **Default** | 2.00× | $11.46 B | $10.31 B | $8.92 B (86.4%) | $1.78 B / yr |
+| High | 3.00× | $17.19 B | $15.47 B | $14.07 B (91.0%) | $2.81 B / yr |
+
+At the default 2.00× case, the OSR programme reduces external capital from $10.31 B to $1.40 B, a saving of **$8.92 B (86.4%)**. Total programme CAPEX is 50.0% below the comparator. Replace both variables with scope-normalized bids before investment approval.
 
 ## Procurement-origin composition
 
 | CAPEX bucket | Total | Imported share | External capital | Local value |
 |---|---:|---:|---:|---:|
-| Civil works | $2.16 B | 35% | $756.8 M | $1.41 B |
-| Stations | $990.2 M | 40% | $396.1 M | $594.1 M |
-| Depots | $32.0 M | 40% | $12.8 M | $19.2 M |
-| Rolling stock | $1.27 B | 55% | $700.0 M | $572.7 M |
-| Dedicated solar plants | $659.9 M | 70% | $461.9 M | $198.0 M |
-| Residual signalling / train control | $25.7 M | 80% | $20.6 M | $5.1 M |
-| Charging microgrids | $55.8 M | 55% | $30.7 M | $25.1 M |
-| EPC / project services | $331.7 M | 45% | $149.3 M | $182.4 M |
-| Shared national trainset factory | $199.8 M | 25% | $50.0 M | $149.8 M |
-| **Total** | **$5.73 B** | **45.0%** | **$2.58 B** | **$3.15 B** |
+| Civil works | $2.16 B | 15% | $324.3 M | $1.84 B |
+| Stations | $990.2 M | 20% | $198.0 M | $792.2 M |
+| Depots | $32.0 M | 25% | $8.0 M | $24.0 M |
+| Rolling stock | $1.27 B | 35% | $445.5 M | $827.3 M |
+| Dedicated solar plants | $659.9 M | 45% | $297.0 M | $363.0 M |
+| Residual signalling / train control | $25.7 M | 50% | $12.9 M | $12.9 M |
+| Charging microgrids | $55.8 M | 40% | $22.3 M | $33.5 M |
+| EPC / project services | $331.7 M | 15% | $49.8 M | $281.9 M |
+| Shared national trainset factory | $199.8 M | 20% | $40.0 M | $159.8 M |
+| **Total** | **$5.73 B** | **24.4%** | **$1.40 B** | **$4.33 B** |
 
 ## City programme
 
 Each city CAPEX below excludes the national factory. Its imported share varies with the local mix of civil structures, rolling stock, stations, charging, signalling, and solar infrastructure.
 
-| City | Population | Fleet | City CAPEX | Imported % | External capital | Local capital |
-|---|---:|---:|---:|---:|---:|---:|
-| [Amman](Amman/README.md) | 4,007,000 | 555 | $4.01 B | 46.4% | $1.86 B | $2.15 B |
-| [Zarqa](Zarqa/README.md) | 700,000 | 227 | $783.8 M | 44.3% | $347.2 M | $436.6 M |
-| [Irbid](Irbid/README.md) | 600,000 | 107 | $402.6 M | 45.3% | $182.3 M | $220.3 M |
-| [Aqaba](Aqaba/README.md) | 250,000 | 71 | $321.4 M | 41.5% | $133.5 M | $187.9 M |
+| City | Population | Fleet | City CAPEX | Imported % | OSR external capital | Foreign-turnkey external capital (default) | External capital saved | Local capital |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| [Amman](Amman/README.md) | 4,007,000 | 555 | $4.01 B | 25.1% | $1.01 B | $7.22 B | $6.21 B | $3.00 B |
+| [Zarqa](Zarqa/README.md) | 700,000 | 227 | $783.8 M | 23.3% | $183.0 M | $1.41 B | $1.23 B | $600.8 M |
+| [Irbid](Irbid/README.md) | 600,000 | 107 | $402.6 M | 24.3% | $97.7 M | $724.6 M | $626.9 M | $304.9 M |
+| [Aqaba](Aqaba/README.md) | 250,000 | 71 | $321.4 M | 20.8% | $66.9 M | $578.6 M | $511.7 M | $254.5 M |
 
 ## National implementation sequence
 
@@ -68,6 +80,6 @@ Each city CAPEX below excludes the national factory. Its imported share varies w
 
 ## Basis and limitations
 
-This is a planning strategy, not a financing commitment or supplier-origin audit. Imported shares come from `lib/templates/capex-costs.toml`; city geometry, fleet, and cost data come from each generated `design.toml` and scenario. The model excludes tax/duty, FX paths, land acquisition, utility relocation, and country-specific supplier qualification until controlled evidence exists.
+This is a planning strategy, not a financing commitment or supplier-origin audit. Imported shares come from `lib/templates/capex-costs.toml`; city geometry, fleet, and cost data come from each generated `design.toml` and scenario. The foreign-turnkey multiplier and external share are illustrative variables, not received bids or named-vendor prices. The model excludes tax/duty, FX paths, land acquisition, utility relocation, and country-specific supplier qualification until controlled evidence exists.
 
 Generated by `scripts/generate-national-briefs.py` for `JO`. Controlled imported-share keys: charging_microgrid, civil, depots, epc_overhead, production_plant, rolling_stock, signalling, solar_plant, stations.

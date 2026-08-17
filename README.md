@@ -41,6 +41,63 @@ The machine-readable source is
 [lib/templates/capex-costs.toml](lib/templates/capex-costs.toml), with
 the audit trail in [docs/cost-model.md](docs/cost-model.md).
 
+## National Capital And Local Content
+
+The generated catalogue now separates the foreign-currency requirement from
+the value that can be financed domestically. Imported content is treated as
+the minimum **external/international capital** requirement; domestic labour,
+materials, fabrication, installation, and services form the **local capital**
+envelope that can be funded through local-currency infrastructure bonds,
+public equity, pension or insurance capital, land-value capture, and other
+domestic sources.
+
+| 266-city / 44-country catalogue | Planning value | Annual construction draw across country programmes |
+|---|---:|---:|
+| External capital for imported components and machinery | **$69.38B (24.0%)** | **$11.18B/year** |
+| Local capital for domestic value | **$219.87B (76.0%)** | **$35.42B/year** |
+| of which planned local-currency bond issuance | $175.90B | $28.34B/year |
+| local public equity / other domestic funding | $43.97B | $7.08B/year |
+| **Total national programmes, including 44 shared factories** | **$289.25B** | **$46.60B/year** |
+
+Annual figures sum each country's planning construction schedule; they do not
+assume that all 44 programmes start in the same calendar year. Individual city
+import shares currently range from **18.5% to 26.9%**, reflecting each city's
+mix of civil works, stations, fleet, solar, signalling, and charging assets.
+The localization-first planning shares are 15% imported for civil works, 20%
+for stations, 25% for depots, 35% for rolling stock, 45% for dedicated solar,
+50% for signalling, 40% for charging microgrids, 15% for EPC/project services,
+and 20% for the shared national trainset factory. They assume domestic supply
+of bulk structures, fabrication, installation, wiring/cabinets, software
+integration, vehicle bodies/interiors, and project services; each country must
+replace them with a supplier-capability and rules-of-origin audit.
+
+The model also exposes an editable foreign-company turnkey comparison. At the
+default **2.0× OSR cost** and **90% foreign-capital share**, an equivalent
+foreign-led programme would cost **$578.51B**, require **$520.66B of external
+capital**, and draw **$83.89B/year** across the country construction schedules.
+Against that sensitivity, OSR avoids **$451.28B (86.7%) of external capital**,
+or **$72.71B/year**, while reducing total programme CAPEX by **$289.25B (50%)**.
+Low/default/high cost multipliers of 1.5×/2.0×/3.0× are reported in every city
+and national brief. These are transparent comparison variables—not a received
+bid or a price attributed to any named supplier—and must be replaced with
+scope-normalized market offers before investment approval.
+
+Every city README and `engineering/finance/summary.json` now reports its
+import percentage, external and local capital totals, annual construction
+draws, local bond issuance, foreign-turnkey sensitivity, external-capital
+savings, and post-grace debt service. Every country has a
+`NATIONAL-BRIEF.md` that aggregates its cities and adds one centralized
+trainset factory, sized to the largest single-city vehicle-module programme
+and reused through a phased national rollout. Rails, viaducts, stations,
+depots, and local civil packages remain city or regional delivery scopes. See
+the [Iraq national strategy](designs/west-asia/Iraq/NATIONAL-BRIEF.md) and the
+[Nairobi city capital example](designs/east-africa/Kenya/Nairobi/README.md#funding--affordability).
+
+These figures are planning screens, not financing commitments or audited
+supplier-origin declarations. Supplier quotations, domestic capability,
+customs and tax treatment, foreign-exchange paths, land, utilities, and signed
+lender terms must be established before procurement.
+
 **Current milestone:** [v0.2 development baseline](CHANGELOG.md),
 with remaining validation and hardening tracked in
 [docs/ROADMAP.md](docs/ROADMAP.md).
@@ -107,6 +164,8 @@ artifact index.
 | Review the first adoptable product | [docs/first-adoptable-product.md](docs/first-adoptable-product.md) |
 | Find any Markdown document | [docs/INDEX.md](docs/INDEX.md) |
 | See generated city designs | [designs/README.md](designs/README.md) |
+| Review national implementation and capital strategy | [Iraq national brief](designs/west-asia/Iraq/NATIONAL-BRIEF.md) and the other country-level `NATIONAL-BRIEF.md` files under [designs/](designs/) |
+| Review imported versus local capital for a city | [Nairobi funding and affordability](designs/east-africa/Kenya/Nairobi/README.md#funding--affordability) |
 | Run the simulator | [Quick Start](#quick-start) |
 | Run the operations portal | [Operations Portal](#operations-portal) |
 | Contribute or review governance | [CONTRIBUTING.md](CONTRIBUTING.md) and [GOVERNANCE.md](GOVERNANCE.md) |
@@ -129,7 +188,7 @@ artifact index.
 | Path | Purpose |
 |---|---|
 | [crates/](crates/) | Rust workspace: simulator, interlocking, ATP, brake, obstacle detection, TCMS, GUIs, design synthesis, safety-case compiler |
-| [designs/](designs/) | Complete 266-city catalogue with maps and compact engineering/operations review packages; Mosul and Samawah retain full acceptance payloads |
+| [designs/](designs/) | Complete 266-city / 44-country catalogue with city capital splits, engineering/operations evidence, package manifests, and one national strategy brief per country |
 | [design-py/](design-py/) | Python GIS/design sidecar for OSM, WorldPop, raster generation, maps, and batch tooling |
 | [mechanical-py/](mechanical-py/) | Python parametric mechanical catalogue: rolling stock, track, civil, stations, depots, fixtures, generated FreeCAD review artifacts |
 | [hardware/](hardware/) | Hardware reference designs and DIY assembly for T-ECU/S, T-ECU/A, T-OBS, W-SBC, S-SBC |
@@ -298,10 +357,14 @@ Generated city models live under:
 designs/<region>/<country>/<City>/
 ```
 
-Each city folder contains the retained machine-readable core: `design.toml`,
-a simulator scenario TOML, corridor GeoJSON, station JSON, and design-quality
-YAML. Basra, Mosul, and Samawah additionally retain a reviewed network map and
-README. The catalogue table is included in [designs/README.md](designs/README.md).
+Each city folder contains `README.md`, `design.toml`, a simulator scenario
+TOML, corridor GeoJSON, station JSON, design-quality YAML, a reconciled finance
+summary, engineering and operations evidence, and a hashed
+`package-manifest.json`. Each country directory also contains one generated
+`NATIONAL-BRIEF.md` covering centralized trainset production, city delivery
+sequencing, imported/external capital, local funding, bond issuance, and
+annual requirements. The catalogue table is included in
+[designs/README.md](designs/README.md).
 
 Regenerate one city:
 
@@ -331,12 +394,13 @@ then run `scripts/regenerate-city.sh <slug>`.
 
 ## Engineering Screening For All Cities
 
-The engineering toolchain generates GIS, SUMO, energy, finance,
+The engineering toolchain generates GIS, SUMO, energy, procurement-origin finance,
 station-product, nominal/degraded simulation, operations, and acceptance
 evidence from the city source catalogue. Each full run ends with a hashed
 `package-manifest.json` and fails unless the complete screening package is
-present and passing. Full packages are local build products; the repository
-retains every compact routed design plus three richer reference fixtures.
+present and passing. The retained city finance summaries reconcile total CAPEX
+to imported/external and local funding, while the country briefs add the shared
+national factory exactly once.
 
 After installing the pinned tools in
 [engineering/toolchain/README.md](engineering/toolchain/README.md), generate a
@@ -580,8 +644,10 @@ Important entry points:
 ## Development Commands
 
 ```bash
-# Rust workspace checks
-cargo test --workspace
+# Rust workspace checks (including current stable Clippy)
+cargo fmt --all -- --check
+cargo clippy --workspace --all-targets -- -D warnings
+cargo test --workspace --all-targets
 
 # Mechanical package tests
 PYTHONPATH=mechanical-py/src pytest mechanical-py/tests -q
@@ -591,6 +657,7 @@ pytest design-py/tests -q
 
 # Repository drift checks
 python3 scripts/repo-health.py --quiet
+PYTHONPATH=design-py/src python3 scripts/generate-national-briefs.py --check
 ```
 
 See [CHANGELOG.md](CHANGELOG.md) for the current verification snapshot.

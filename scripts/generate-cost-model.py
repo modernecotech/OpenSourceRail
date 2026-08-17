@@ -287,6 +287,35 @@ def render_cost_model() -> str:
             for bucket, imported in capex["procurement_origin"]["imported_share"].items()
         ],
         "",
+        "These are localization-first targets: standard structures, fabrication, "
+        "installation, wiring/cabinets, software integration, and project services "
+        "are assigned locally, while specialist cells, power electronics, control "
+        "hardware, PV equipment, and initial machinery remain imported. They are "
+        "planning assumptions until replaced by a country rules-of-origin and "
+        "supplier-capability audit.",
+        "",
+        "## Foreign-Turnkey Comparator",
+        "",
+        "The city finance summaries and national briefs include a controlled, "
+        "editable foreign-company turnkey sensitivity. It is not a vendor quotation "
+        "or a claim about any named supplier. The comparator applies a cost multiplier "
+        "to the same OSR network, fleet, service, and energy scope, then estimates the "
+        "share of that price requiring foreign currency or international capital.",
+        "",
+        "| Variable | Controlled value |",
+        "|---|---:|",
+        *[
+            f"| `{case}` cost multiplier | {float(multiplier):.2f}× OSR CAPEX |"
+            for case, multiplier in capex["foreign_turnkey_comparator"]["cost_multiplier"].items()
+        ],
+        f"| Foreign-turnkey external-capital share | {float(capex['foreign_turnkey_comparator']['external_capital_share']):.0%} |",
+        "",
+        str(capex["foreign_turnkey_comparator"]["basis"]),
+        "The reported savings are calculated as foreign-turnkey external capital "
+        "minus OSR imported content; annual savings use the same country construction "
+        "period. Replace the multiplier and foreign-capital share with normalized bids "
+        "before procurement or investment approval.",
+        "",
         "## Civil Works",
         "",
         "Civil work is costed as a direct-procurement floor for standard-gauge, "

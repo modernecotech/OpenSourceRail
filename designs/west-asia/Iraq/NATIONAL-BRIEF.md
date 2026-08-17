@@ -23,53 +23,65 @@ Imported content is the minimum foreign-currency or international-capital requir
 
 | Capital boundary | Share | Total | Annual draw during construction |
 |---|---:|---:|---:|
-| **External capital for imports** | **44.8%** | **$9.98 B** | **$2.00 B / yr** |
-| **Local capital for domestic value** | **55.2%** | **$12.27 B** | **$2.45 B / yr** |
-| planned local-currency bond issuance | 44.1% of total | $9.82 B | $1.96 B / yr |
-| local public equity / other domestic funding | 11.0% of total | $2.45 B | $491.0 M / yr |
+| **External capital for imports** | **23.9%** | **$5.32 B** | **$1.06 B / yr** |
+| **Local capital for domestic value** | **76.1%** | **$16.94 B** | **$3.39 B / yr** |
+| planned local-currency bond issuance | 60.9% of total | $13.55 B | $2.71 B / yr |
+| local public equity / other domestic funding | 15.2% of total | $3.39 B | $677.4 M / yr |
 | **Total capital programme** | **100.0%** | **$22.25 B** | **$4.45 B / yr** |
 
-The annual construction draw is spread evenly over 5 planning years. Post-grace annual debt service is $571.5 M for external import finance plus $885.6 M for local bonds, or **$1.46 B per year** before railway operating cash flow. During construction, interest plus the local public-equity draw is **$1.77 B per year**.
+The annual construction draw is spread evenly over 5 planning years. Post-grace annual debt service is $304.6 M for external import finance plus $1.22 B for local bonds, or **$1.53 B per year** before railway operating cash flow. During construction, interest plus the local public-equity draw is **$2.07 B per year**.
+
+## Foreign-company turnkey comparison
+
+This controlled comparison is an editable sensitivity, not a supplier quotation. It uses the same national network, fleet, service, and energy scope, with 90% of a foreign contractor's price assumed to require foreign currency or international capital. Illustrative variable benchmark for an equivalent foreign-company turnkey delivery. It excludes tunnels, land, tax/duty, utility relocation, financing fees, and escalation on both sides; it does not represent a received bid or named vendor price.
+
+| Case | Cost multiplier vs OSR | Foreign-company total CAPEX | Foreign-company external capital | OSR external capital saved | Annual external capital saved |
+|---|---:|---:|---:|---:|---:|
+| Low | 1.50× | $33.38 B | $30.04 B | $24.72 B (82.3%) | $4.94 B / yr |
+| **Default** | 2.00× | $44.51 B | $40.06 B | $34.74 B (86.7%) | $6.95 B / yr |
+| High | 3.00× | $66.76 B | $60.09 B | $54.77 B (91.1%) | $10.95 B / yr |
+
+At the default 2.00× case, the OSR programme reduces external capital from $40.06 B to $5.32 B, a saving of **$34.74 B (86.7%)**. Total programme CAPEX is 50.0% below the comparator. Replace both variables with scope-normalized bids before investment approval.
 
 ## Procurement-origin composition
 
 | CAPEX bucket | Total | Imported share | External capital | Local value |
 |---|---:|---:|---:|---:|
-| Civil works | $9.38 B | 35% | $3.28 B | $6.10 B |
-| Stations | $3.77 B | 40% | $1.51 B | $2.26 B |
-| Depots | $144.0 M | 40% | $57.6 M | $86.4 M |
-| Rolling stock | $4.47 B | 55% | $2.46 B | $2.01 B |
-| Dedicated solar plants | $2.59 B | 70% | $1.82 B | $778.2 M |
-| Residual signalling / train control | $113.7 M | 80% | $90.9 M | $22.7 M |
-| Charging microgrids | $206.3 M | 55% | $113.5 M | $92.9 M |
-| EPC / project services | $1.29 B | 45% | $578.8 M | $707.4 M |
-| Shared national trainset factory | $282.2 M | 25% | $70.6 M | $211.7 M |
-| **Total** | **$22.25 B** | **44.8%** | **$9.98 B** | **$12.27 B** |
+| Civil works | $9.38 B | 15% | $1.41 B | $7.98 B |
+| Stations | $3.77 B | 20% | $754.8 M | $3.02 B |
+| Depots | $144.0 M | 25% | $36.0 M | $108.0 M |
+| Rolling stock | $4.47 B | 35% | $1.56 B | $2.91 B |
+| Dedicated solar plants | $2.59 B | 45% | $1.17 B | $1.43 B |
+| Residual signalling / train control | $113.7 M | 50% | $56.8 M | $56.8 M |
+| Charging microgrids | $206.3 M | 40% | $82.5 M | $123.8 M |
+| EPC / project services | $1.29 B | 15% | $192.9 M | $1.09 B |
+| Shared national trainset factory | $282.2 M | 20% | $56.4 M | $225.8 M |
+| **Total** | **$22.25 B** | **23.9%** | **$5.32 B** | **$16.94 B** |
 
 ## City programme
 
 Each city CAPEX below excludes the national factory. Its imported share varies with the local mix of civil structures, rolling stock, stations, charging, signalling, and solar infrastructure.
 
-| City | Population | Fleet | City CAPEX | Imported % | External capital | Local capital |
-|---|---:|---:|---:|---:|---:|---:|
-| [Baghdad](Baghdad/README.md) | 9,780,429 | 784 | $5.00 B | 47.5% | $2.37 B | $2.62 B |
-| [Basra](Basra/README.md) | 3,955,000 | 450 | $3.35 B | 46.0% | $1.54 B | $1.81 B |
-| [Sulaymaniyah](Sulaymaniyah/README.md) | 2,150,000 | 129 | $1.10 B | 44.3% | $489.1 M | $615.3 M |
-| [Erbil](Erbil/README.md) | 1,952,000 | 212 | $1.08 B | 46.3% | $502.1 M | $582.6 M |
-| [Mosul](Mosul/README.md) | 1,940,000 | 256 | $2.12 B | 42.8% | $907.9 M | $1.22 B |
-| [Kirkuk](Kirkuk/README.md) | 1,780,000 | 179 | $1.25 B | 43.9% | $549.3 M | $701.5 M |
-| [Najaf](Najaf/README.md) | 1,540,000 | 229 | $1.64 B | 43.8% | $717.6 M | $922.3 M |
-| [Karbala](Karbala/README.md) | 1,390,000 | 198 | $1.47 B | 43.8% | $645.1 M | $828.7 M |
-| [Nasiriyah](Nasiriyah/README.md) | 705,000 | 147 | $584.8 M | 43.6% | $254.8 M | $330.0 M |
-| [Hillah](Hillah/README.md) | 700,000 | 125 | $491.6 M | 44.7% | $219.5 M | $272.1 M |
-| [Amarah](Amarah/README.md) | 660,000 | 101 | $472.8 M | 43.2% | $204.3 M | $268.5 M |
-| [Ramadi](Ramadi/README.md) | 525,000 | 104 | $456.5 M | 44.0% | $200.8 M | $255.7 M |
-| [Baqubah](Baqubah/README.md) | 470,000 | 130 | $511.2 M | 44.7% | $228.6 M | $282.6 M |
-| [Diwaniyah](Diwaniyah/README.md) | 440,000 | 106 | $470.8 M | 43.7% | $205.5 M | $265.3 M |
-| [Kut](Kut/README.md) | 410,000 | 101 | $467.7 M | 43.2% | $201.9 M | $265.7 M |
-| [Samawah](Samawah/README.md) | 373,770 | 108 | $440.4 M | 44.5% | $196.0 M | $244.3 M |
-| [Duhok](Duhok/README.md) | 360,000 | 122 | $549.4 M | 45.2% | $248.4 M | $301.0 M |
-| [Fallujah](Fallujah/README.md) | 360,000 | 122 | $481.3 M | 44.6% | $214.8 M | $266.5 M |
+| City | Population | Fleet | City CAPEX | Imported % | OSR external capital | Foreign-turnkey external capital (default) | External capital saved | Local capital |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| [Baghdad](Baghdad/README.md) | 9,780,429 | 784 | $5.00 B | 26.2% | $1.31 B | $9.00 B | $7.69 B | $3.69 B |
+| [Basra](Basra/README.md) | 3,955,000 | 450 | $3.35 B | 24.7% | $829.0 M | $6.03 B | $5.20 B | $2.52 B |
+| [Sulaymaniyah](Sulaymaniyah/README.md) | 2,150,000 | 129 | $1.10 B | 23.1% | $255.2 M | $1.99 B | $1.73 B | $849.1 M |
+| [Erbil](Erbil/README.md) | 1,952,000 | 212 | $1.08 B | 25.0% | $271.7 M | $1.95 B | $1.68 B | $813.1 M |
+| [Mosul](Mosul/README.md) | 1,940,000 | 256 | $2.12 B | 21.7% | $461.1 M | $3.82 B | $3.36 B | $1.66 B |
+| [Kirkuk](Kirkuk/README.md) | 1,780,000 | 179 | $1.25 B | 22.9% | $286.0 M | $2.25 B | $1.97 B | $964.8 M |
+| [Najaf](Najaf/README.md) | 1,540,000 | 229 | $1.64 B | 22.7% | $372.2 M | $2.95 B | $2.58 B | $1.27 B |
+| [Karbala](Karbala/README.md) | 1,390,000 | 198 | $1.47 B | 22.7% | $334.5 M | $2.65 B | $2.32 B | $1.14 B |
+| [Nasiriyah](Nasiriyah/README.md) | 705,000 | 147 | $584.8 M | 22.7% | $132.6 M | $1.05 B | $920.1 M | $452.2 M |
+| [Hillah](Hillah/README.md) | 700,000 | 125 | $491.6 M | 23.7% | $116.3 M | $884.9 M | $768.6 M | $375.3 M |
+| [Amarah](Amarah/README.md) | 660,000 | 101 | $472.8 M | 22.3% | $105.4 M | $851.0 M | $745.6 M | $367.4 M |
+| [Ramadi](Ramadi/README.md) | 525,000 | 104 | $456.5 M | 23.1% | $105.3 M | $821.7 M | $716.4 M | $351.2 M |
+| [Baqubah](Baqubah/README.md) | 470,000 | 130 | $511.2 M | 23.7% | $121.2 M | $920.2 M | $799.0 M | $390.0 M |
+| [Diwaniyah](Diwaniyah/README.md) | 440,000 | 106 | $470.8 M | 22.7% | $106.9 M | $847.4 M | $740.5 M | $363.9 M |
+| [Kut](Kut/README.md) | 410,000 | 101 | $467.7 M | 22.3% | $104.1 M | $841.8 M | $737.7 M | $363.6 M |
+| [Samawah](Samawah/README.md) | 373,770 | 108 | $440.4 M | 23.6% | $103.7 M | $792.7 M | $689.0 M | $336.6 M |
+| [Duhok](Duhok/README.md) | 360,000 | 122 | $549.4 M | 24.1% | $132.3 M | $988.9 M | $856.6 M | $417.1 M |
+| [Fallujah](Fallujah/README.md) | 360,000 | 122 | $481.3 M | 23.6% | $113.8 M | $866.4 M | $752.6 M | $367.5 M |
 
 ## National implementation sequence
 
@@ -82,6 +94,6 @@ Each city CAPEX below excludes the national factory. Its imported share varies w
 
 ## Basis and limitations
 
-This is a planning strategy, not a financing commitment or supplier-origin audit. Imported shares come from `lib/templates/capex-costs.toml`; city geometry, fleet, and cost data come from each generated `design.toml` and scenario. The model excludes tax/duty, FX paths, land acquisition, utility relocation, and country-specific supplier qualification until controlled evidence exists.
+This is a planning strategy, not a financing commitment or supplier-origin audit. Imported shares come from `lib/templates/capex-costs.toml`; city geometry, fleet, and cost data come from each generated `design.toml` and scenario. The foreign-turnkey multiplier and external share are illustrative variables, not received bids or named-vendor prices. The model excludes tax/duty, FX paths, land acquisition, utility relocation, and country-specific supplier qualification until controlled evidence exists.
 
 Generated by `scripts/generate-national-briefs.py` for `IQ`. Controlled imported-share keys: charging_microgrid, civil, depots, epc_overhead, production_plant, rolling_stock, signalling, solar_plant, stations.

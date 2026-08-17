@@ -23,36 +23,48 @@ Imported content is the minimum foreign-currency or international-capital requir
 
 | Capital boundary | Share | Total | Annual draw during construction |
 |---|---:|---:|---:|
-| **External capital for imports** | **43.0%** | **$1.12 B** | **$160.1 M / yr** |
-| **Local capital for domestic value** | **57.0%** | **$1.49 B** | **$212.3 M / yr** |
-| planned local-currency bond issuance | 45.6% of total | $1.19 B | $169.8 M / yr |
-| local public equity / other domestic funding | 11.4% of total | $297.2 M | $42.5 M / yr |
+| **External capital for imports** | **22.3%** | **$580.6 M** | **$82.9 M / yr** |
+| **Local capital for domestic value** | **77.7%** | **$2.03 B** | **$289.4 M / yr** |
+| planned local-currency bond issuance | 62.2% of total | $1.62 B | $231.5 M / yr |
+| local public equity / other domestic funding | 15.5% of total | $405.2 M | $57.9 M / yr |
 | **Total capital programme** | **100.0%** | **$2.61 B** | **$372.3 M / yr** |
 
-The annual construction draw is spread evenly over 7 planning years. Post-grace annual debt service is $65.8 M for external import finance plus $103.2 M for local bonds, or **$169.1 M per year** before railway operating cash flow. During construction, interest plus the local public-equity draw is **$188.0 M per year**.
+The annual construction draw is spread evenly over 7 planning years. Post-grace annual debt service is $34.1 M for external import finance plus $140.8 M for local bonds, or **$174.9 M per year** before railway operating cash flow. During construction, interest plus the local public-equity draw is **$213.7 M per year**.
+
+## Foreign-company turnkey comparison
+
+This controlled comparison is an editable sensitivity, not a supplier quotation. It uses the same national network, fleet, service, and energy scope, with 90% of a foreign contractor's price assumed to require foreign currency or international capital. Illustrative variable benchmark for an equivalent foreign-company turnkey delivery. It excludes tunnels, land, tax/duty, utility relocation, financing fees, and escalation on both sides; it does not represent a received bid or named vendor price.
+
+| Case | Cost multiplier vs OSR | Foreign-company total CAPEX | Foreign-company external capital | OSR external capital saved | Annual external capital saved |
+|---|---:|---:|---:|---:|---:|
+| Low | 1.50× | $3.91 B | $3.52 B | $2.94 B (83.5%) | $419.7 M / yr |
+| **Default** | 2.00× | $5.21 B | $4.69 B | $4.11 B (87.6%) | $587.3 M / yr |
+| High | 3.00× | $7.82 B | $7.04 B | $6.46 B (91.8%) | $922.4 M / yr |
+
+At the default 2.00× case, the OSR programme reduces external capital from $4.69 B to $580.6 M, a saving of **$4.11 B (87.6%)**. Total programme CAPEX is 50.0% below the comparator. Replace both variables with scope-normalized bids before investment approval.
 
 ## Procurement-origin composition
 
 | CAPEX bucket | Total | Imported share | External capital | Local value |
 |---|---:|---:|---:|---:|
-| Civil works | $1.27 B | 35% | $442.8 M | $822.3 M |
-| Stations | $459.3 M | 40% | $183.7 M | $275.6 M |
-| Depots | $8.0 M | 40% | $3.2 M | $4.8 M |
-| Rolling stock | $328.2 M | 55% | $180.5 M | $147.7 M |
-| Dedicated solar plants | $289.8 M | 70% | $202.9 M | $87.0 M |
-| Residual signalling / train control | $11.9 M | 80% | $9.5 M | $2.4 M |
-| Charging microgrids | $22.3 M | 55% | $12.3 M | $10.0 M |
-| EPC / project services | $151.5 M | 45% | $68.2 M | $83.4 M |
-| Shared national trainset factory | $70.3 M | 25% | $17.6 M | $52.7 M |
-| **Total** | **$2.61 B** | **43.0%** | **$1.12 B** | **$1.49 B** |
+| Civil works | $1.27 B | 15% | $189.8 M | $1.08 B |
+| Stations | $459.3 M | 20% | $91.9 M | $367.4 M |
+| Depots | $8.0 M | 25% | $2.0 M | $6.0 M |
+| Rolling stock | $328.2 M | 35% | $114.9 M | $213.3 M |
+| Dedicated solar plants | $289.8 M | 45% | $130.4 M | $159.4 M |
+| Residual signalling / train control | $11.9 M | 50% | $6.0 M | $6.0 M |
+| Charging microgrids | $22.3 M | 40% | $8.9 M | $13.4 M |
+| EPC / project services | $151.5 M | 15% | $22.7 M | $128.8 M |
+| Shared national trainset factory | $70.3 M | 20% | $14.1 M | $56.3 M |
+| **Total** | **$2.61 B** | **22.3%** | **$580.6 M** | **$2.03 B** |
 
 ## City programme
 
 Each city CAPEX below excludes the national factory. Its imported share varies with the local mix of civil structures, rolling stock, stations, charging, signalling, and solar infrastructure.
 
-| City | Population | Fleet | City CAPEX | Imported % | External capital | Local capital |
-|---|---:|---:|---:|---:|---:|---:|
-| [Phnom Penh](Phnom-Penh/README.md) | 2,281,000 | 293 | $2.53 B | 43.5% | $1.10 B | $1.43 B |
+| City | Population | Fleet | City CAPEX | Imported % | OSR external capital | Foreign-turnkey external capital (default) | External capital saved | Local capital |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| [Phnom Penh](Phnom-Penh/README.md) | 2,281,000 | 293 | $2.53 B | 22.4% | $565.8 M | $4.56 B | $3.99 B | $1.97 B |
 
 ## National implementation sequence
 
@@ -65,6 +77,6 @@ Each city CAPEX below excludes the national factory. Its imported share varies w
 
 ## Basis and limitations
 
-This is a planning strategy, not a financing commitment or supplier-origin audit. Imported shares come from `lib/templates/capex-costs.toml`; city geometry, fleet, and cost data come from each generated `design.toml` and scenario. The model excludes tax/duty, FX paths, land acquisition, utility relocation, and country-specific supplier qualification until controlled evidence exists.
+This is a planning strategy, not a financing commitment or supplier-origin audit. Imported shares come from `lib/templates/capex-costs.toml`; city geometry, fleet, and cost data come from each generated `design.toml` and scenario. The foreign-turnkey multiplier and external share are illustrative variables, not received bids or named-vendor prices. The model excludes tax/duty, FX paths, land acquisition, utility relocation, and country-specific supplier qualification until controlled evidence exists.
 
 Generated by `scripts/generate-national-briefs.py` for `KH`. Controlled imported-share keys: charging_microgrid, civil, depots, epc_overhead, production_plant, rolling_stock, signalling, solar_plant, stations.

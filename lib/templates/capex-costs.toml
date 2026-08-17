@@ -6,27 +6,45 @@
 # rather than carrying parallel constants.
 
 [schema]
-version = 2
+version = 3
 currency_basis = "USD local-owner trainset-family planning basis with direct material, local assembly/labour, nominal per-train QA/acceptance, and modest handover logistics included; 1 m clip-on fiberglass body modules reduce shell labour, mould tooling, cure space, and production setup; distributed overnight stabling reduces depot parking scope; fixtures/tooling live in one shared national railway production plant sized per supported vehicle/car module and excluded from city CAPEX; warranty, spares, and routine commissioning support are treated as OPEX; raw marketplace BOM retained only as audit lower bound; *_eur mirrors retained for schema compatibility"
 usd_to_eur = 0.92
 
-# Planning-grade procurement-origin assumptions. The imported share is the
-# portion that needs foreign currency or an international financing source;
-# the balance can be procured and financed locally. These are common reference
-# shares until a country supplier survey provides a controlled override.
+# Planning-grade localization-first procurement assumptions. The imported
+# share is the portion that needs foreign currency or an international
+# financing source; the balance can be procured and financed locally. These
+# assume that standard structures, fabrication, installation, cabling,
+# software integration, and project services are deliberately localized.
+# They remain common reference shares until a country supplier survey provides
+# a controlled override.
 [procurement_origin]
-basis = "Imported share by CAPEX bucket; local share is 1 - imported_share. Imports include finished equipment, specialist machinery, batteries, traction electronics, PV/charging hardware, and foreign engineering services. Local scope includes labour, civil materials, fabrication, installation, and domestic project services."
+basis = "Localization-first imported share by CAPEX bucket; local share is 1 - imported_share. Imports are limited to specialist machinery and components not qualified domestically, including battery cells, traction/power electronics, selected control hardware, PV modules/inverters, and initial production tooling. Local scope includes bulk civil materials, structures, fabrication, vehicle bodies/interiors, wiring and cabinets, installation, software integration, testing support, labour, and domestic project services. Replace with a country supplier-capability and rules-of-origin audit before procurement."
 
 [procurement_origin.imported_share]
-civil = 0.35
-stations = 0.40
-depots = 0.40
-rolling_stock = 0.55
-production_plant = 0.25
-solar_plant = 0.70
-signalling = 0.80
-charging_microgrid = 0.55
-epc_overhead = 0.45
+civil = 0.15
+stations = 0.20
+depots = 0.25
+rolling_stock = 0.35
+production_plant = 0.20
+solar_plant = 0.45
+signalling = 0.50
+charging_microgrid = 0.40
+epc_overhead = 0.15
+
+# Illustrative like-for-like foreign-turnkey sensitivity, not a supplier quote.
+# The multiplier applies to OSR total CAPEX for an equivalent surface/elevated
+# network, fleet, service plan, and energy scope. The external share is the
+# portion of the foreign contractor's price assumed to require hard currency or
+# international finance. Low/default/high are intentionally editable variables;
+# replace them with comparable bids using a documented common scope.
+[foreign_turnkey_comparator]
+basis = "Illustrative variable benchmark for an equivalent foreign-company turnkey delivery. It excludes tunnels, land, tax/duty, utility relocation, financing fees, and escalation on both sides; it does not represent a received bid or named vendor price."
+external_capital_share = 0.90
+
+[foreign_turnkey_comparator.cost_multiplier]
+low = 1.50
+default = 2.00
+high = 3.00
 
 [civil_usd_per_km]
 at_grade = 3000000

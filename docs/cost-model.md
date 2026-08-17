@@ -65,15 +65,31 @@ Each generated city and national brief separates imported value from local value
 
 | CAPEX bucket | Imported share | Local share |
 |---|---:|---:|
-| `civil` | 35% | 65% |
-| `stations` | 40% | 60% |
-| `depots` | 40% | 60% |
-| `rolling_stock` | 55% | 45% |
-| `production_plant` | 25% | 75% |
-| `solar_plant` | 70% | 30% |
-| `signalling` | 80% | 20% |
-| `charging_microgrid` | 55% | 45% |
-| `epc_overhead` | 45% | 55% |
+| `civil` | 15% | 85% |
+| `stations` | 20% | 80% |
+| `depots` | 25% | 75% |
+| `rolling_stock` | 35% | 65% |
+| `production_plant` | 20% | 80% |
+| `solar_plant` | 45% | 55% |
+| `signalling` | 50% | 50% |
+| `charging_microgrid` | 40% | 60% |
+| `epc_overhead` | 15% | 85% |
+
+These are localization-first targets: standard structures, fabrication, installation, wiring/cabinets, software integration, and project services are assigned locally, while specialist cells, power electronics, control hardware, PV equipment, and initial machinery remain imported. They are planning assumptions until replaced by a country rules-of-origin and supplier-capability audit.
+
+## Foreign-Turnkey Comparator
+
+The city finance summaries and national briefs include a controlled, editable foreign-company turnkey sensitivity. It is not a vendor quotation or a claim about any named supplier. The comparator applies a cost multiplier to the same OSR network, fleet, service, and energy scope, then estimates the share of that price requiring foreign currency or international capital.
+
+| Variable | Controlled value |
+|---|---:|
+| `low` cost multiplier | 1.50× OSR CAPEX |
+| `default` cost multiplier | 2.00× OSR CAPEX |
+| `high` cost multiplier | 3.00× OSR CAPEX |
+| Foreign-turnkey external-capital share | 90% |
+
+Illustrative variable benchmark for an equivalent foreign-company turnkey delivery. It excludes tunnels, land, tax/duty, utility relocation, financing fees, and escalation on both sides; it does not represent a received bid or named vendor price.
+The reported savings are calculated as foreign-turnkey external capital minus OSR imported content; annual savings use the same country construction period. Replace the multiplier and foreign-capital share with normalized bids before procurement or investment approval.
 
 ## Civil Works
 
