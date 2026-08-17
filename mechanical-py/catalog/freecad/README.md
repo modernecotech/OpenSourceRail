@@ -32,12 +32,33 @@ The scripts below replace their stable output filenames on each run, so
 the README screenshots and `.FCStd` links always point at the latest
 generated review set.
 
+## Add-on and Render Toolchain
+
+The local FreeCAD runtime checked for this package is the
+`org.freecad.FreeCAD` Flatpak at FreeCAD 1.1.3. The useful additional
+modules installed into its user profile are:
+
+| Capability | Installed tool | Current use |
+|---|---|---|
+| Assembly review | FreeCAD 1.1 built-in Assembly, Assembly4, A2plus | Existing generated review states remain source-driven; Assembly4/A2plus are available for GUI datum, constraint, and kinematic inspection experiments |
+| Structural testing | FreeCAD FEM plus CalculiX | Already used for chassis, bogie, body, and train-to-train joint screening cases in [`../fea/`](../fea/) |
+| Mould/manufacturing checks | DFM workbench with `OCP`, `vtk`, and `gmsh` in FreeCAD's Flatpak Python | Available for draft, undercut, wall/thickness, bridge-span, and process checks on moulded GFRP/end-cowl candidates; not yet a release gate |
+| High-quality images | Render workbench plus Blender 5.2 Flatpak/Cycles | `--high-quality-renders` exports local STL render meshes and writes large clay-render PNGs under `docs/screenshots/freecad/` |
+
+The MBDyn-style multibody dynamics add-ons were reviewed as candidates
+for rail dynamic testing, but are not installed as a default repo
+dependency because the available public workbench path is not yet a
+clean, maintained, headless pipeline for these models. Dynamic release
+therefore remains represented here by CalculiX quasi-static structural
+screens plus operational/dynamic commissioning plans, not by validated
+multibody ride simulation.
+
 ## Regenerate
 
 From the repository root, the canonical orchestrator is:
 
 ```bash
-scripts/freecad-generate.sh --models --assemblies --fem --screenshots --station-scenes
+scripts/freecad-generate.sh --models --assemblies --fem --screenshots --station-scenes --high-quality-renders
 ```
 
 The lower-level package launchers are still available when iterating on
@@ -50,9 +71,16 @@ scripts/freecad_fea.sh
 scripts/freecad_screenshots.sh
 scripts/freecad_station_scenes.sh
 scripts/freecad_catalog.sh
+scripts/freecad_mesh_exports.sh
+scripts/blender_freecad_renders.sh
 ```
 
 The repository contains no Build123d implementation or dependency. The
 portable `osr_mech.cad` layer remains as the tested parametric source so
 geometry can be checked without FreeCAD; the documents above are the
 native FreeCAD replacement and review handoff.
+
+The high-quality render path writes transient STL files to
+`mechanical-py/catalog/render-meshes/`. That directory is intentionally
+ignored because it is large and fully reproducible from the tracked
+FreeCAD documents and render scripts.

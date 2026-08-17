@@ -194,6 +194,15 @@ Check the FreeCAD bridge for CAD assemblies, FEM models, and screenshots:
 scripts/freecad-generate.sh --check
 ```
 
+The local FreeCAD Flatpak toolchain also has add-ons installed for
+assembly review, mould/manufacturing checks, and high-quality renders:
+Render, DFM, Assembly4, A2plus, and Blender/Cycles. The repeatable
+README render path is:
+
+```bash
+scripts/freecad-generate.sh --high-quality-renders
+```
+
 Run the top-down / bottom-up rolling-stock design iterator:
 
 ```bash
@@ -508,6 +517,13 @@ Selected CalculiX FEA screening result plots:
 |---|---|---|
 | ![Chassis service gravity FEA result](docs/screenshots/freecad/freecad-fea-chassis-bogie-screen-result.png) | ![Bogie brake traction FEA result](docs/screenshots/freecad/freecad-fea-bogie-brake-traction-screen-result.png) | ![Full body lateral sway FEA result](docs/screenshots/freecad/freecad-fea-full-body-lateral-sway-screen-result.png) |
 
+Selected Blender/Cycles engineering-clay renders generated from the
+FreeCAD review documents:
+
+| Trainset render | Full-body assembly render | Chassis/bogie render |
+|---|---|---|
+| ![Blender Cycles trainset render](docs/screenshots/freecad/blender-trainset-light-metro-3car.png) | ![Blender Cycles full body render](docs/screenshots/freecad/blender-full-body-assembly.png) | ![Blender Cycles chassis bogie render](docs/screenshots/freecad/blender-chassis-bogie-assembly.png) |
+
 The full screening summary and raw solver outputs are in
 [mechanical-py/catalog/fea](mechanical-py/catalog/fea/).
 
@@ -531,6 +547,7 @@ scripts/buildable-trainset.sh
 scripts/freecad-generate.sh --check
 scripts/freecad-generate.sh --models --assemblies --fem
 scripts/freecad-generate.sh --screenshots --station-scenes
+scripts/freecad-generate.sh --high-quality-renders
 PYTHONPATH=mechanical-py/src python3 mechanical-py/scripts/render_screenshots.py
 ```
 

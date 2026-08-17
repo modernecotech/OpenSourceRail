@@ -216,6 +216,15 @@ The source FreeCAD review documents are catalogued in
 [`mechanical-py/catalog/freecad/README.md`](../../../mechanical-py/catalog/freecad/README.md),
 and raw CalculiX output folders are catalogued in
 [`mechanical-py/catalog/fea/README.md`](../../../mechanical-py/catalog/fea/README.md).
+
+The same `.FCStd` documents can also be exported to local STL render
+meshes and rendered with Blender/Cycles for README-grade engineering-clay
+views:
+
+| Trainset clay render | Full-body clay render | Chassis/bogie clay render |
+|---|---|---|
+| ![Blender Cycles trainset render](../../../docs/screenshots/freecad/blender-trainset-light-metro-3car.png) | ![Blender Cycles full body render](../../../docs/screenshots/freecad/blender-full-body-assembly.png) | ![Blender Cycles chassis bogie render](../../../docs/screenshots/freecad/blender-chassis-bogie-assembly.png) |
+
 After the low-floor chassis rework, the chassis screen is inside the
 25 mm deflection target: 9.8 mm maximum displacement under the 360 kN
 service-load screen. The broadened lateral body sway screen is now

@@ -6,7 +6,7 @@ MECH_ROOT="$REPO_ROOT/mechanical-py"
 
 usage() {
     cat <<'EOF'
-Usage: scripts/freecad-generate.sh [--all] [--models] [--single-car] [--platform-l-unit] [--catalogue] [--assemblies] [--fem] [--screenshots] [--station-scenes] [--check]
+Usage: scripts/freecad-generate.sh [--all] [--models] [--single-car] [--platform-l-unit] [--catalogue] [--assemblies] [--fem] [--screenshots] [--station-scenes] [--mesh-exports] [--high-quality-renders] [--check]
 
 Repository-level FreeCAD generator for OpenSourceRail mechanical artifacts.
 
@@ -20,6 +20,9 @@ Modes:
   --fem             Run FreeCAD/CalculiX screening FEM models and result summaries.
   --screenshots     Capture FreeCAD GUI screenshots from generated review documents.
   --station-scenes  Build and capture station/track/train FreeCAD scene documents.
+  --mesh-exports    Export generated FreeCAD review documents to STL render meshes.
+  --high-quality-renders
+                    Export STL meshes and render README-grade PNGs with Blender/Cycles.
   --all             Run models, assemblies, FEM, screenshots, and station scenes.
 
 Examples:
@@ -75,6 +78,8 @@ run_assemblies=false
 run_fem=false
 run_screenshots=false
 run_station_scenes=false
+run_mesh_exports=false
+run_high_quality_renders=false
 run_check=false
 
 if [ "$#" -eq 0 ]; then
@@ -90,6 +95,7 @@ while [ "$#" -gt 0 ]; do
             run_fem=true
             run_screenshots=true
             run_station_scenes=true
+            run_high_quality_renders=true
             ;;
         --models)
             run_models=true
@@ -114,6 +120,12 @@ while [ "$#" -gt 0 ]; do
             ;;
         --station-scenes)
             run_station_scenes=true
+            ;;
+        --mesh-exports)
+            run_mesh_exports=true
+            ;;
+        --high-quality-renders)
+            run_high_quality_renders=true
             ;;
         --check)
             run_check=true
@@ -167,4 +179,12 @@ fi
 
 if [ "$run_station_scenes" = true ]; then
     scripts/freecad_station_scenes.sh
+fi
+
+if [ "$run_mesh_exports" = true ] || [ "$run_high_quality_renders" = true ]; then
+    scripts/freecad_mesh_exports.sh
+fi
+
+if [ "$run_high_quality_renders" = true ]; then
+    scripts/blender_freecad_renders.sh
 fi

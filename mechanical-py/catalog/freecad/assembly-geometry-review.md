@@ -19,7 +19,7 @@ sanity checks on each assembled-state input.
 | Item | Source | Valid | OCC check | Solids | Volume mm^3 | Bounding box mm | Issue |
 |---|---|---:|---:|---:|---:|---|---|
 | Body primary structure | `car-body-structure` | True | True | 61 | 150759318286 | 16500 x 3110 x 3630 |  |
-| Body exterior layer | `car-body-exterior` | True | True | 258 | 4961298084 | 16320 x 2970 x 4396 |  |
+| Body exterior layer | `car-body-exterior` | True | True | 528 | 8412698884 | 16320 x 2970 x 4396 |  |
 | Body interior layer | `car-body-interior` | True | True | 44 | 5842345400 | 15880 x 2770 x 2725 |  |
 | Body service layers | `car-body-services` | True | True | 38 | 3585089000 | 14630 x 2800 x 4005 |  |
 | Car systems package | `car-systems` | True | True | 365 | 6919568742 | 15595 x 3212 x 4325 |  |
