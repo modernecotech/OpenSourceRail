@@ -171,13 +171,13 @@ def _double_track(doc, group, *, length: float, z: float, y_offset: float = 0.0,
 
 def _elevated_track(doc, group, *, length: float, z: float) -> None:
     for x in (-28, -14, 0, 14, 28):
-        for y in (-2.1, 2.1):
-            _add_box(doc, group, Box("standard precast pier", (x, y, z / 2.0), (0.9, 0.9, z), "concrete"))
-    for y in (-1.75, 1.75):
-        _add_box(doc, group, Box("single-track U-girder", (0, y, z + 0.15), (length, 2.75, 1.00), "concrete"))
-        _add_box(doc, group, Box("elevated deck slab", (0, y, z + 0.80), (length, 2.20, 0.28), "slab"))
+        _add_box(doc, group, Box("standard shared single-column pier", (x, 0, z / 2.0), (1.5, 2.0, z), "concrete"))
+        _add_box(doc, group, Box("hollow/precast-shell pier-cap envelope", (x, 0, z), (2.5, 11.0, 1.0), "concrete"))
+    for y in (-2.65, 2.65):
+        _add_box(doc, group, Box("single-track U-trough envelope", (0, y, z + 0.93), (length, 4.90, 1.85), "concrete"))
+        _add_box(doc, group, Box("thin elevated alignment layer", (0, y, z + 0.29), (length, 4.10, 0.04), "slab"))
         for rail_offset in (-0.72, 0.72):
-            _add_box(doc, group, Box("elevated running rail", (0, y + rail_offset, z + 1.04), (length, 0.08, 0.14), "rail"))
+            _add_box(doc, group, Box("elevated running rail", (0, y + rail_offset, z + 0.51), (length, 0.08, 0.14), "rail"))
 
 
 def _platform_pair(
@@ -288,12 +288,12 @@ def _build_elevated_scene(doc):
     _ground(doc, group, 86, 38)
     _add_box(doc, group, Box("road under viaduct", (0, 0, 0.01), (86, 9.0, 0.03), "road"))
     _elevated_track(doc, group, length=72, z=7.4)
-    _platform_pair(doc, group, length=56, z=7.85, y_centers=(-5.0, 5.0), width=3.0, height=0.9)
-    _canopies(doc, group, length=48, z=8.75, y_centers=(-5.0, 5.0), width=3.2)
+    _platform_pair(doc, group, length=56, z=7.85, y_centers=(-6.7, 6.7), width=3.0, height=0.9)
+    _canopies(doc, group, length=48, z=8.75, y_centers=(-6.7, 6.7), width=3.2)
     _access_bridge(doc, group, x=-11.0, span_y=26.0, z=12.35)
     for y in (-14.2, 14.2):
         _add_box(doc, group, Box("street-to-platform lift and stair core", (-11.0, y, 5.90), (3.4, 2.2, 11.8), "core", 8))
-    _train_x(doc, group, x_center=8.0, y_center=-1.75, bottom_z=8.50)
+    _train_x(doc, group, x_center=8.0, y_center=-2.65, bottom_z=8.50)
     return group
 
 
@@ -303,25 +303,24 @@ def _build_interchange_scene(doc):
     _add_box(doc, group, Box("east-west arterial road", (0, 0, 0.01), (86, 8.5, 0.03), "road"))
     _add_box(doc, group, Box("north-south arterial road", (0, 0, 0.02), (8.5, 86, 0.04), "road"))
     _elevated_track(doc, group, length=74, z=7.6)
-    _platform_pair(doc, group, length=50, z=8.05, y_centers=(-5.0, 5.0), width=2.9, height=0.9)
-    _canopies(doc, group, length=43, z=8.95, y_centers=(-5.0, 5.0), width=3.0)
-    _train_x(doc, group, x_center=-8.0, y_center=-1.75, bottom_z=8.70)
+    _platform_pair(doc, group, length=50, z=8.05, y_centers=(-6.7, 6.7), width=2.9, height=0.9)
+    _canopies(doc, group, length=43, z=8.95, y_centers=(-6.7, 6.7), width=3.0)
+    _train_x(doc, group, x_center=-8.0, y_center=-2.65, bottom_z=8.70)
 
     for y in (-30, -15, 0, 15, 30):
-        for x in (-2.1, 2.1):
-            _add_box(doc, group, Box("upper-line tall pier", (x, y, 7.80), (0.9, 0.9, 15.6), "concrete"))
-    for x in (-1.75, 1.75):
-        _add_box(doc, group, Box("upper-level single-track U-girder", (x, 0, 15.65), (2.75, 74, 1.0), "concrete"))
-        _add_box(doc, group, Box("upper-level deck slab", (x, 0, 16.30), (2.20, 74, 0.28), "slab"))
+        _add_box(doc, group, Box("upper-line shared tall pier", (0, y, 7.80), (1.5, 2.0, 15.6), "concrete"))
+    for x in (-2.65, 2.65):
+        _add_box(doc, group, Box("upper-level single-track U-trough envelope", (x, 0, 16.33), (4.90, 74, 1.85), "concrete"))
+        _add_box(doc, group, Box("upper-level thin alignment layer", (x, 0, 15.69), (4.10, 74, 0.04), "slab"))
         for rail_offset in (-0.72, 0.72):
-            _add_box(doc, group, Box("upper-level running rail", (x + rail_offset, 0, 16.54), (0.08, 72, 0.14), "rail"))
-    for x in (-5.0, 5.0):
+            _add_box(doc, group, Box("upper-level running rail", (x + rail_offset, 0, 15.91), (0.08, 72, 0.14), "rail"))
+    for x in (-6.7, 6.7):
         _add_box(doc, group, Box("upper side platform slab", (x, 0, 16.95), (3.0, 52, 0.9), "platform"))
         edge_x = x - (1 if x > 0 else -1) * 1.5
         _add_box(doc, group, Box("upper tactile platform edge strip", (edge_x, 0, 17.44), (0.12, 52, 0.08), "platform_edge"))
         _add_box(doc, group, Box("upper platform canopy roof", (x, 0, 20.30), (3.2, 44, 0.20), "roof"))
         _add_box(doc, group, Box("upper platform PV strip", (x, 0, 20.46), (2.4, 39, 0.06), "pv"))
-    _train_y(doc, group, x_center=1.75, y_center=9.0, bottom_z=16.70)
+    _train_y(doc, group, x_center=2.65, y_center=9.0, bottom_z=16.10)
 
     _add_box(doc, group, Box("shared transfer concourse", (0, 0, 12.50), (11.0, 11.0, 0.70), "access", 12))
     _add_box(doc, group, Box("central lift/stair transfer core", (0, 0, 6.20), (5.2, 5.2, 12.4), "core", 8))

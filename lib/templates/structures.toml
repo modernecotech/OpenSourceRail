@@ -38,12 +38,17 @@ cost_usd_per_km             = 3000000
 # Includes ballastless direct-fixation trackform on top of the deck
 rail_kg_per_km              = 240000
 direct_fixation_seats_per_km = 6156
-# Viaduct superstructure
-pier_count_per_km           = 33         # 30 m span
-pier_concrete_m3_per_km     = 1650       # 50 m3/pier
-foundation_concrete_m3_per_km = 2640     # 80 m3/pier
-deck_concrete_m3_per_km     = 3500
-deck_rebar_kg_per_km        = 480000
+# OSR-U25 twin single-track viaduct planning quantities. These seed a target,
+# not a project estimate; foundations and supplier-optimised girder sections
+# are replaced from surveyed/geotechnical design.
+structural_bays_per_km      = 40         # 25 m primary span
+single_track_girders_per_km = 80
+pier_count_per_km           = 40
+interior_bearings_per_pier  = 8
+pier_concrete_m3_per_km     = 2000       # column + hollow/shell cap allowance
+foundation_concrete_m3_per_km = 3200     # pile-group fallback planning seed
+deck_concrete_m3_per_km     = 4300       # 3730 bare envelopes + 571 plinth/alignment
+deck_rebar_kg_per_km        = 600000
 cost_usd_per_km             = 12000000
 
 # ---- River / highway bridge - engineered span -------------------------

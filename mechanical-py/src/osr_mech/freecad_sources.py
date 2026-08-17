@@ -11,7 +11,9 @@ from osr_mech.clearance import reference_envelope, swept_envelope_part
 from osr_mech.civil.platform_l_unit import platform_l_unit
 from osr_mech.civil.guideway_channel_edge import guideway_channel_edge_module
 from osr_mech.civil.slab import at_grade_slab_panel, elevated_deck_slab_panel
-from osr_mech.civil.ugirder import u_girder
+from osr_mech.civil.segmental import segmental_u_envelope
+from osr_mech.civil.special_span import special_span_envelope
+from osr_mech.civil.ugirder import u_girder_structural_placeholder
 from osr_mech.civil.substructure import viaduct_abutment, viaduct_pier
 from osr_mech.common import GeometryPreset, RailProfile
 from osr_mech.depot.layout import DepotArchetype, depot_layout
@@ -77,7 +79,9 @@ SOURCE_BUILDERS: dict[str, Callable[[], object]] = {
     "station-guideway-channel-edge": guideway_channel_edge_module,
     "civil-at-grade-slab-panel": at_grade_slab_panel,
     "civil-elevated-deck-slab-panel": elevated_deck_slab_panel,
-    "civil-u-girder-25m": lambda: u_girder(25.0),
+    "civil-u-girder-25m": lambda: u_girder_structural_placeholder(25.0),
+    "civil-segmental-u-25m": lambda: segmental_u_envelope(25.0, 2.5),
+    "civil-special-span-40m": lambda: special_span_envelope(40.0),
     "civil-viaduct-pier-8m": lambda: viaduct_pier(8.0),
     "civil-viaduct-abutment": viaduct_abutment,
     "track-fastener-assembly": fastener_assembly,

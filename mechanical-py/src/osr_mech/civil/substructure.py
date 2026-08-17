@@ -1,6 +1,6 @@
 """Parametric viaduct pier and abutment planning kits.
 
-The standard elevated bay uses two single-track U-girders on one shared
+The standard elevated bay uses two single-track U-troughs on one shared
 double-track substructure.  Geometry is a repeatable interface envelope;
 deployment geotechnics, reinforcement, seismic, collision, scour, utilities,
 and stamped calculations remain mandatory release gates.
@@ -9,8 +9,9 @@ and stamped calculations remain mandatory release gates.
 from __future__ import annotations
 
 from dataclasses import dataclass
+from typing import Literal
 
-from osr_mech.cad import Box, Color, Compound, Location, Part
+from osr_mech.cad import Box, Color, Compound, Cylinder, Location, Part
 
 
 PIER_COLUMN_X_MM = 1_500.0
@@ -18,15 +19,19 @@ PIER_COLUMN_Y_MM = 2_000.0
 PIER_MIN_HEIGHT_M = 5.0
 PIER_MAX_HEIGHT_M = 12.0
 PIER_CAP_X_MM = 2_500.0
-PIER_CAP_Y_MM = 9_000.0
+PIER_CAP_Y_MM = 11_000.0
 PIER_CAP_HEIGHT_MM = 1_500.0
 PILE_CAP_X_MM = 6_000.0
 PILE_CAP_Y_MM = 6_000.0
 PILE_CAP_HEIGHT_MM = 1_500.0
-GIRDER_CENTRE_SPACING_MM = 4_200.0
+GIRDER_CENTRE_SPACING_MM = 5_300.0
 BEARING_X_MM = 600.0
 BEARING_Y_MM = 500.0
 BEARING_HEIGHT_MM = 100.0
+BEARING_ROW_SPACING_MM = 900.0
+WEB_BEARING_OFFSET_MM = 2_050.0
+MONOPILE_DIAMETER_MM = 2_500.0
+MONOPILE_INTERFACE_DEPTH_MM = 6_000.0
 
 
 @dataclass(frozen=True)
@@ -45,37 +50,81 @@ def _part(size: tuple[float, float, float], loc: tuple[float, float, float], lab
     return item
 
 
-def _bearing_parts(z_mm: float) -> list[Part]:
+def _bearing_parts(z_mm: float, *, interior_support: bool) -> list[Part]:
     bearing = Color(0.18, 0.18, 0.20)
     parts: list[Part] = []
+    row_x_positions = (
+        (-BEARING_ROW_SPACING_MM / 2.0, BEARING_ROW_SPACING_MM / 2.0)
+        if interior_support
+        else (0.0,)
+    )
     for girder_y in (-GIRDER_CENTRE_SPACING_MM / 2.0, GIRDER_CENTRE_SPACING_MM / 2.0):
-        for offset_y in (-1_200.0, 1_200.0):
-            parts.append(
-                _part(
-                    (BEARING_X_MM, BEARING_Y_MM, BEARING_HEIGHT_MM),
-                    (0.0, girder_y + offset_y, z_mm + BEARING_HEIGHT_MM / 2.0),
-                    "Elastomeric/PTFE girder bearing",
-                    bearing,
+        for offset_y in (-WEB_BEARING_OFFSET_MM, WEB_BEARING_OFFSET_MM):
+            for row_x in row_x_positions:
+                parts.append(
+                    _part(
+                        (BEARING_X_MM, BEARING_Y_MM, BEARING_HEIGHT_MM),
+                        (row_x, girder_y + offset_y, z_mm + BEARING_HEIGHT_MM / 2.0),
+                        "Elastomeric/PTFE girder bearing",
+                        bearing,
+                    )
                 )
-            )
     return parts
 
 
-def viaduct_pier(height_m: float = 8.0) -> Compound:
-    """Shared double-track pier with planning pile-cap and four bearings."""
+def _pier_cap_shell(loc_z_mm: float) -> Part:
+    """Hollow/precast-shell planning cap, not an 84-tonne solid block."""
+
+    outer = Box(PIER_CAP_X_MM, PIER_CAP_Y_MM, PIER_CAP_HEIGHT_MM).locate(
+        Location((0.0, 0.0, loc_z_mm))
+    )
+    void = Box(2_000.0, 10_500.0, 1_000.0).locate(Location((0.0, 0.0, loc_z_mm)))
+    shell = outer - void
+    shell.label = "Hollow/precast-shell shared pier cap envelope"
+    shell.color = Color(0.66, 0.66, 0.64)
+    return shell
+
+
+def _foundation_part(variant: Literal["pile-cap", "monopile"]) -> Part:
+    concrete = Color(0.70, 0.70, 0.68)
+    if variant == "monopile":
+        part = Cylinder(MONOPILE_DIAMETER_MM / 2.0, MONOPILE_INTERFACE_DEPTH_MM).locate(
+            Location((0.0, 0.0, -MONOPILE_INTERFACE_DEPTH_MM / 2.0))
+        )
+        part.label = "Large-diameter bored-shaft/monopile foundation interface"
+        part.color = concrete
+        return part
+    if variant != "pile-cap":
+        raise ValueError("foundation variant must be 'pile-cap' or 'monopile'")
+    return _part(
+        (PILE_CAP_X_MM, PILE_CAP_Y_MM, PILE_CAP_HEIGHT_MM),
+        (0, 0, -PILE_CAP_HEIGHT_MM / 2),
+        "Pile-group cap foundation interface envelope",
+        concrete,
+    )
+
+
+def viaduct_pier(
+    height_m: float = 8.0,
+    foundation: Literal["pile-cap", "monopile"] = "pile-cap",
+) -> Compound:
+    """Shared double-track interior pier with two bearing rows.
+
+    A monopile is preferred only where project geotechnics, seismic demand,
+    and overturning checks release it; the pile-cap variant remains fallback.
+    """
 
     if not PIER_MIN_HEIGHT_M <= height_m <= PIER_MAX_HEIGHT_M:
         raise ValueError(f"pier height {height_m:g} m outside {PIER_MIN_HEIGHT_M:g}..{PIER_MAX_HEIGHT_M:g} m catalogue")
     height_mm = height_m * 1000.0
     concrete = Color(0.70, 0.70, 0.68)
-    cap = Color(0.66, 0.66, 0.64)
     parts = [
-        _part((PILE_CAP_X_MM, PILE_CAP_Y_MM, PILE_CAP_HEIGHT_MM), (0, 0, -PILE_CAP_HEIGHT_MM / 2), "Pier pile-cap interface envelope", concrete),
+        _foundation_part(foundation),
         _part((PIER_COLUMN_X_MM, PIER_COLUMN_Y_MM, height_mm), (0, 0, height_mm / 2), "Single reinforced-concrete pier column", concrete),
-        _part((PIER_CAP_X_MM, PIER_CAP_Y_MM, PIER_CAP_HEIGHT_MM), (0, 0, height_mm + PIER_CAP_HEIGHT_MM / 2), "Shared double-track precast pier cap", cap),
+        _pier_cap_shell(height_mm + PIER_CAP_HEIGHT_MM / 2),
     ]
-    parts.extend(_bearing_parts(height_mm + PIER_CAP_HEIGHT_MM))
-    return Compound(label=f"Standard double-track viaduct pier ({height_m:g} m)", children=parts)
+    parts.extend(_bearing_parts(height_mm + PIER_CAP_HEIGHT_MM, interior_support=True))
+    return Compound(label=f"Standard double-track viaduct pier ({height_m:g} m, {foundation})", children=parts)
 
 
 def viaduct_abutment() -> Compound:
@@ -92,7 +141,7 @@ def viaduct_abutment() -> Compound:
         _part((6_000.0, 9_000.0, 350.0), (4_000, 0, 175), "Reinforced approach slab", concrete),
         _part((500.0, 9_000.0, 180.0), (1_250, 0, shelf_z + 90), "Replaceable expansion-joint interface", dark),
     ]
-    parts.extend(_bearing_parts(shelf_z))
+    parts.extend(_bearing_parts(shelf_z, interior_support=False))
     return Compound(label="Standard double-track viaduct abutment", children=parts)
 
 
@@ -100,10 +149,11 @@ def pier_bom(height_m: float = 8.0) -> tuple[CivilKitItem, ...]:
     if not PIER_MIN_HEIGHT_M <= height_m <= PIER_MAX_HEIGHT_M:
         raise ValueError("pier height outside catalogue")
     return (
-        CivilKitItem("CIV-PIER-P010", "pile-cap/pile-head foundation interface", 1, "foundation set", "site geotechnical and foundation release"),
+        CivilKitItem("CIV-PIER-P010", "monopile where suitable; pile-group/spread foundation fallback", 1, "foundation set", "site geotechnical and foundation release"),
         CivilKitItem("CIV-PIER-P020", "1.5 m × 2.0 m reinforced-concrete pier column", height_m, "vertical m", "reinforcement/seismic/collision calculation"),
-        CivilKitItem("CIV-PIER-P030", "9 m shared double-track precast pier cap", 1, "ea", "lifting, reinforcement, and cap calculation"),
-        CivilKitItem("CIV-PIER-P040", "elastomeric/PTFE girder bearing", 4, "ea", "supplier freeze and bearing schedule"),
+        CivilKitItem("CIV-PIER-P030", "11 m hollow/precast-shell shared pier cap", 1, "ea", "lifting, reinforcement, connection, and cap calculation"),
+        CivilKitItem("CIV-PIER-P040", "elastomeric/PTFE girder bearing in two longitudinal rows", 8, "ea", "supplier freeze and bearing/movement schedule"),
+        CivilKitItem("CIV-PIER-P045", "permanent bearing-replacement jacking shelf interface", 4, "ea", "jacking and maintenance-load calculation"),
         CivilKitItem("CIV-PIER-P050", "drainage, earthing, access, and identification kit", 1, "pier kit", "site services and inspection release"),
     )
 
@@ -123,8 +173,8 @@ PIER_ASSEMBLY_INSTRUCTIONS = (
     "release survey, utilities, geotechnical model, pile/foundation design, and temporary works",
     "construct piles or approved shallow foundation and survey pile-cap datum",
     "cast/erect the standard column and precast cap; complete reinforcement, concrete, and dimensional records",
-    "install four scheduled bearings and survey level, spacing, orientation, and movement axes",
-    "erect the two single-track U-girders only after substructure and lifting hold points close",
+    "install eight scheduled bearings in two longitudinal rows and survey level, spacing, orientation, and movement axes",
+    "erect the two single-track U-troughs only after substructure and lifting hold points close",
 )
 
 ABUTMENT_ASSEMBLY_INSTRUCTIONS = (

@@ -26,7 +26,7 @@ Base unit: **3,000,000 USD per route-km**.
 
 | Civil class | Unit | Marketplace anchors | Included scope |
 |---|---:|---|---|
-| Elevated viaduct | **12.0 M USD/km** | Prefab bridge steel/trestle listings around **820-1,280 USD/t** and **990-1,200 USD/t**: <https://www.alibaba.com/showroom/prefab-bridges.html>, <https://www.alibaba.com/showroom/prefabricated-steel-trestle.html>; precast/box-girder formwork and bridge products: <https://www.alibaba.com/showroom/precast-concrete-beams-bridge.html> | Repeatable precast U-girders, piers, pile caps, bearings, parapets, deck slab/trackform, local launching/erection crew, plus transport, QA, foundation, and commissioning allowance |
+| Elevated viaduct | **12.0 M USD/km target floor** | Broad marketplace listings are retained only as early procurement anchors; the structural quantity seed is now [`viaduct-quantity-cost-model.toml`](viaduct-quantity-cost-model.toml) | 40 OSR-U25 bays, 80 single-track troughs, about 40 supports/km, eight interior bearings/support, local-plinth trackform, foundations, yard/mould amortisation, permit-load transport, erection plant, utilities, traffic management, independent checking, testing, and contingency |
 | Bridge / water crossing | **18.0 M USD/km** | Same bridge/trestle anchors plus pile/foundation equipment examples: <https://www.alibaba.com/showroom/reinforced-concrete-pile.html> | Longer spans, harder foundations, flood/scour detailing, bridge-specific protection, water-working contingency, and inspection access |
 | Elevated interchange premium | **4.5 M USD/site** | Uses the elevated guideway component stack above | Added stacked platform/approach complexity where an at-grade crossing is forced to grade-separate |
 

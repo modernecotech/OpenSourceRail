@@ -13,6 +13,8 @@
 # 1435 mm standard gauge, street-integrated light metro — OSR default.
 gauge_mm                = 1435
 min_curve_radius_m      = 90
+elevated_preferred_curve_radius_m = 300  # full-span U25; penalise tighter elevated geometry
+elevated_min_curve_response = "realign-or-segmental-special-structure"
 max_cant_mm             = 150
 max_gradient_per_mille  = 50             # 5%
 rail_profile            = "UIC60"
@@ -23,6 +25,8 @@ compatible_consists     = ["tram-2car", "light-metro-3car"]
 # 1435 mm full-metro: dedicated ROW, elevated/tunnel dominant.
 gauge_mm                = 1435
 min_curve_radius_m      = 200
+elevated_preferred_curve_radius_m = 300
+elevated_min_curve_response = "realign-or-segmental-special-structure"
 max_cant_mm             = 160
 max_gradient_per_mille  = 35             # 3.5%
 rail_profile            = "UIC60"
@@ -33,6 +37,8 @@ compatible_consists     = ["light-metro-3car", "metro-4car", "metro-6car"]
 # Shared corridor with freight/intercity — heavier constraints.
 gauge_mm                = 1435
 min_curve_radius_m      = 400
+elevated_preferred_curve_radius_m = 400
+elevated_min_curve_response = "special-structure-check"
 max_cant_mm             = 180
 max_gradient_per_mille  = 25             # 2.5%
 rail_profile            = "UIC60E1"      # heavier wear spec

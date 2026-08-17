@@ -39,26 +39,27 @@ concrete.
 
 | Item | Reference value |
 |---|---:|
-| Trackform | Single-track U-girder topping slab with continuous rail plinths |
+| Trackform | Local direct-fixation plinths over thin non-structural alignment layer |
 | Panel length | 6.0 m |
-| Overall panel width | 3.2 m |
-| U-girder internal width compatibility | Fits 3.5 m internal trough |
-| Base slab thickness | 220 mm |
+| Overall alignment-layer width | 4.1 m |
+| U-trough internal width compatibility | Fits 4.5 m clear trough |
+| Alignment layer thickness | 40 mm; may be omitted by project design |
 | Rail plinth width | 380 mm |
 | Rail plinth height above base slab | 160 mm |
 | Direct-fixation pitch | 650 mm |
 | Rail seats per 6 m panel | 20 |
-| Nominal concrete per 6 m panel | 5.0 m3 |
+| Nominal concrete per 6 m panel | 1.7 m3 |
 
 Use one elevated deck slab per single-track U-girder. A double-track
 elevated section therefore uses two parallel girder/slab assemblies unless
 a deployment partner replaces the reference U-girder with a certified
 double-track viaduct section.
 
-The elevated slab is narrower and thinner than the at-grade panel because
-the U-girder carries the main structural depth. The slab provides direct
-fixation, local tolerance recovery, drainage/cable troughs, and a
-maintainable track support surface.
+The U-trough structural floor is the deck. The alignment layer provides local
+tolerance recovery only and may be omitted where surveyed casting plus
+adjustable baseplates can recover rail geometry. A full-width reinforced or
+floating slab is reserved for locations where a vibration/noise and structural
+study justifies its dead weight.
 
 ## FreeCAD Scene Renders
 
@@ -97,9 +98,12 @@ These slab designs support the current civil planning floors:
 | Civil class | Planning floor |
 |---|---:|
 | At-grade ballastless slab | 3.0 M USD/route-km |
-| Elevated guideway with deck slab | 12.0 M USD/route-km |
+| Elevated guideway with local-plinth trackform | 12.0 M USD/route-km target floor |
 | Bridge/water-crossing guideway | 18.0 M USD/route-km |
 
-The elevated number is a repetitive-package floor. Short elevated stubs,
-many elevated stations, soft-ground foundations, deep utilities, tight
-curves, or repeated special spans should carry a local premium.
+The elevated number is a direct-procurement target, not a tender or turnkey
+EPC estimate. Build the project estimate from
+[`viaduct-quantity-cost-model.toml`](viaduct-quantity-cost-model.toml) plus
+site rates, utilities, access, risk, programme, independent checking, and
+contingency. Short elevated stubs, stations, soft ground, deep utilities,
+tight curves, or repeated special spans carry project-specific premiums.

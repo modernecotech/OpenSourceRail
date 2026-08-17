@@ -41,7 +41,7 @@ def test_slab_concrete_volumes_are_planning_envelopes() -> None:
     at_grade = at_grade_concrete_volume_m3()
     elevated = elevated_concrete_volume_m3()
     assert 12.0 <= at_grade <= 13.0
-    assert 4.8 <= elevated <= 5.1
+    assert 1.6 <= elevated <= 1.9
 
 
 def test_cad_parts_build_with_expected_children() -> None:

@@ -16,10 +16,18 @@ from osr_mech.civil.substructure import (
 def test_pier_catalogue_envelope_and_bom(height_m: float) -> None:
     pier = viaduct_pier(height_m)
     assert pier.volume > 0
-    assert sum(child.label == "Elastomeric/PTFE girder bearing" for child in pier.children) == 4
+    assert sum(child.label == "Elastomeric/PTFE girder bearing" for child in pier.children) == 8
     bom = {item.id: item for item in pier_bom(height_m)}
     assert bom["CIV-PIER-P020"].quantity == height_m
-    assert bom["CIV-PIER-P040"].quantity == 4
+    assert bom["CIV-PIER-P040"].quantity == 8
+
+
+def test_pier_supports_geotechnically_released_monopile_interface() -> None:
+    pier = viaduct_pier(8.0, foundation="monopile")
+    assert "monopile" in pier.label
+    assert any("bored-shaft/monopile" in child.label for child in pier.children)
+    with pytest.raises(ValueError):
+        viaduct_pier(8.0, foundation="unknown")  # type: ignore[arg-type]
 
 
 def test_pier_rejects_non_catalogue_height() -> None:

@@ -17,6 +17,13 @@ release gates are tracked in
 | [`rapid-implementation-materials-review.md`](rapid-implementation-materials-review.md) | Internet review of rapid ballastless track, modular stations, and recycled or lower-carbon materials |
 | [`slab-trackforms.md`](slab-trackforms.md) | Reference ballastless slab designs for at-grade and elevated guideway sections |
 | [`viaduct-substructure-kit.md`](viaduct-substructure-kit.md) | Controlled pier/abutment EBOMs, interfaces, assembly sequences, and deployment release gates |
+| [`viaduct-design-basis.md`](viaduct-design-basis.md) | Rapid Viaduct Kit catalogue boundary, structural actions, geometry rules, and release evidence |
+| [`viaduct-load-model.toml`](viaduct-load-model.toml) | Machine-readable 12-axle load/action seed |
+| [`viaduct-kinematic-egress-envelope.md`](viaduct-kinematic-egress-envelope.md) | Train, walkway, parapet, and straight-span curve compatibility gates |
+| [`viaduct-bearing-and-movement-schedule.md`](viaduct-bearing-and-movement-schedule.md) | Interior/end bearing counts and project movement-schedule requirements |
+| [`viaduct-transport-and-erection-envelope.md`](viaduct-transport-and-erection-envelope.md) | Permit-load transport, lifting, launcher, and temporary-stage release gates |
+| [`viaduct-first-article-test-plan.md`](viaduct-first-article-test-plan.md) | First mould, girder, cap, lift, erected bay, and track/egress hold points |
+| [`viaduct-quantity-cost-model.toml`](viaduct-quantity-cost-model.toml) | Per-kilometre quantity seed and cost-estimate classification |
 | [`osr-aln-format.md`](osr-aln-format.md) | OSR-ALN alignment interchange format and validation gates |
 | [`Samawah/engineering/alignment/`](../../designs/west-asia/Iraq/Samawah/engineering/alignment/) | Current three-line Samawah planning OSR-ALN package, provenance, and survey replacement gates |
 | [`deployment-release-checklist.md`](deployment-release-checklist.md) | Survey, geotechnical, structure, station, energy-site, and permit release gates |

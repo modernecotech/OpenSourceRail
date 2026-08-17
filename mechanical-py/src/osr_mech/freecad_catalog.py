@@ -14,7 +14,9 @@ CATALOGUE = {
     "Civil infrastructure": [
         ("civil-at-grade-slab-panel", "At-grade ballastless slab panel"),
         ("civil-elevated-deck-slab-panel", "Elevated deck slab panel"),
-        ("civil-u-girder-25m", "Precast U-girder, 25 m"),
+        ("civil-u-girder-25m", "Precast U-trough feature envelope, 25 m"),
+        ("civil-segmental-u-25m", "Segmental U/box coordination envelope, 25 m"),
+        ("civil-special-span-40m", "Special crossing interface envelope, 40 m"),
         ("civil-viaduct-pier-8m", "Shared double-track viaduct pier, 8 m"),
         ("civil-viaduct-abutment", "Shared double-track viaduct abutment"),
         ("platform-l-unit", "Precast platform L-unit"),
@@ -111,14 +113,14 @@ def build(output_dir: Path) -> None:
             ("track-panel-standard-urban", "Track panel", (0, 0, 280)),
         ],
     )
-    # Elevated platform: U-girder support, topping slab, and track.
+    # Elevated platform: U-trough, thin alignment/local-plinth layer, and track.
     _assembly(
         output_dir / "platform-elevated-assembly.FCStd",
         "OSR elevated platform and track assembly",
         [
-            ("civil-u-girder-25m", "25 m U-girder", (0, 0, 0)),
-            ("civil-elevated-deck-slab-panel", "Elevated deck slab panel", (0, 0, 1450)),
-            ("track-panel-standard-urban", "Elevated track panel", (0, 0, 1900)),
+            ("civil-u-girder-25m", "25 m U-trough feature envelope", (0, 0, 0)),
+            ("civil-elevated-deck-slab-panel", "Elevated alignment/plinth panel", (0, 0, 1850)),
+            ("track-panel-standard-urban", "Elevated track panel", (0, 0, 2100)),
         ],
     )
     # Architectural station assembly shares the same platform datum.

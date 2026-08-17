@@ -4,9 +4,9 @@ The CAD parts here are planning/reference geometry for civil packages:
 
 - `at_grade_slab_panel` is one 6 m double-track urban slab panel with
   continuous rail plinths and direct-fixation seats.
-- `elevated_deck_slab_panel` is one 6 m single-track topping slab for a
-  U-girder trough. Two panels, one per track girder, make a double-track
-  elevated span.
+- `elevated_deck_slab_panel` is one 6 m single-track local-plinth package
+  over a thin alignment layer. It deliberately omits the former 220 mm
+  full-width topping slab.
 
 Both panels use direct-fixation seats at the standard-urban 650 mm pitch.
 The real deployment structural design still checks concrete grade,
@@ -33,8 +33,10 @@ AT_GRADE_PLINTH_HEIGHT_MM = 220.0
 AT_GRADE_EDGE_TROUGH_WIDTH_MM = 320.0
 AT_GRADE_EDGE_TROUGH_HEIGHT_MM = 240.0
 
-ELEVATED_PANEL_WIDTH_MM = 3200.0
-ELEVATED_BASE_THICKNESS_MM = 220.0
+ELEVATED_PANEL_WIDTH_MM = 4100.0
+# Thin tolerance/alignment layer over the waterproofed structural floor.
+# This is not a second structural deck slab.
+ELEVATED_BASE_THICKNESS_MM = 40.0
 ELEVATED_PLINTH_WIDTH_MM = 380.0
 ELEVATED_PLINTH_HEIGHT_MM = 160.0
 ELEVATED_CABLE_TROUGH_WIDTH_MM = 260.0
@@ -106,7 +108,7 @@ def at_grade_concrete_volume_m3(length_mm: float = PANEL_LENGTH_MM) -> float:
 
 
 def elevated_concrete_volume_m3(length_mm: float = PANEL_LENGTH_MM) -> float:
-    """Nominal concrete volume for one single-track elevated deck slab."""
+    """Nominal alignment-layer plus local-plinth concrete volume."""
 
     length_m = length_mm / 1000.0
     base = length_m * (ELEVATED_PANEL_WIDTH_MM / 1000.0) * (ELEVATED_BASE_THICKNESS_MM / 1000.0)
@@ -203,7 +205,12 @@ def at_grade_slab_panel(length_mm: float = PANEL_LENGTH_MM) -> Compound:
 
 
 def elevated_deck_slab_panel(length_mm: float = PANEL_LENGTH_MM) -> Compound:
-    """Reference 6 m single-track elevated deck slab for one U-girder."""
+    """Reference direct-fixation package for one U-trough.
+
+    The girder structural floor remains the deck. A project may omit even the
+    thin alignment layer where surveyed casting and adjustable baseplates can
+    recover the required rail geometry.
+    """
 
     parts: list[Part] = []
     concrete = Color(0.70, 0.70, 0.68)
@@ -214,7 +221,7 @@ def elevated_deck_slab_panel(length_mm: float = PANEL_LENGTH_MM) -> Compound:
             length_mm,
             ELEVATED_PANEL_WIDTH_MM,
             ELEVATED_BASE_THICKNESS_MM,
-            label="Elevated U-girder topping slab",
+            label="Thin non-structural alignment layer over waterproofing",
             color=concrete,
             loc=(length_mm / 2.0, 0.0, ELEVATED_BASE_THICKNESS_MM / 2.0),
         )

@@ -28,6 +28,72 @@ pub enum CivilClass {
     Bridge,
 }
 
+/// Planning product selected after a route cell has been classified Elevated.
+#[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq, Eq)]
+pub enum ElevatedViaductProduct {
+    /// Normal 25 m full-span U-trough on tangent/broad curvature.
+    FullSpanU25,
+    /// 20 m closure product after a project chord/clearance check.
+    ClosureU20,
+    /// Match-cast 2.5--3.0 m segmental U/box for access or curvature.
+    SegmentalUs,
+    /// Separately engineered crossing, turnout, or span over 30 m.
+    SpecialSpan,
+    /// The system geometry may be possible, but the economical elevated
+    /// response is to relax or move the alignment before selecting structure.
+    RealignOrSpecial,
+}
+
+pub const ELEVATED_PREFERRED_RADIUS_M: f64 = 300.0;
+pub const MAX_FULL_SPAN_U_M: f64 = 30.0;
+
+/// Large constructability multiplier for elevated curves below 300 m.
+///
+/// The general rolling-stock minimum remains available at grade. This factor
+/// makes a 90 m elevated curve about 11 times the tangent/broad-curve seed so
+/// route synthesis can strongly prefer realignment when it has alternatives.
+#[must_use]
+pub fn elevated_curve_cost_multiplier(radius_m: f64) -> f64 {
+    if !radius_m.is_finite() || radius_m <= 0.0 {
+        return f64::INFINITY;
+    }
+    if radius_m >= ELEVATED_PREFERRED_RADIUS_M {
+        1.0
+    } else {
+        (ELEVATED_PREFERRED_RADIUS_M / radius_m).powi(2)
+    }
+}
+
+/// Select the planning structural family for known elevated geometry.
+#[must_use]
+pub fn elevated_product_for_geometry(
+    radius_m: f64,
+    crossing_span_m: f64,
+    full_span_transport_access: bool,
+) -> ElevatedViaductProduct {
+    if !radius_m.is_finite()
+        || radius_m <= 0.0
+        || !crossing_span_m.is_finite()
+        || crossing_span_m <= 0.0
+    {
+        return ElevatedViaductProduct::RealignOrSpecial;
+    }
+    if crossing_span_m > MAX_FULL_SPAN_U_M {
+        return ElevatedViaductProduct::SpecialSpan;
+    }
+    if radius_m < 120.0 {
+        return ElevatedViaductProduct::RealignOrSpecial;
+    }
+    if !full_span_transport_access || radius_m < ELEVATED_PREFERRED_RADIUS_M {
+        return ElevatedViaductProduct::SegmentalUs;
+    }
+    if crossing_span_m <= 20.0 {
+        ElevatedViaductProduct::ClosureU20
+    } else {
+        ElevatedViaductProduct::FullSpanU25
+    }
+}
+
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct CivilSegment {
     pub class: CivilClass,
@@ -148,5 +214,31 @@ mod tests {
         assert_eq!(segments[0].length_m, 20.0);
         assert_eq!(segments[1].length_m, 40.0);
         assert_eq!(segments[2].length_m, 0.0);
+    }
+
+    #[test]
+    fn elevated_geometry_selects_constructible_product_family() {
+        assert_eq!(
+            elevated_product_for_geometry(400.0, 25.0, true),
+            ElevatedViaductProduct::FullSpanU25
+        );
+        assert_eq!(
+            elevated_product_for_geometry(400.0, 20.0, true),
+            ElevatedViaductProduct::ClosureU20
+        );
+        assert_eq!(
+            elevated_product_for_geometry(200.0, 25.0, true),
+            ElevatedViaductProduct::SegmentalUs
+        );
+        assert_eq!(
+            elevated_product_for_geometry(90.0, 20.0, true),
+            ElevatedViaductProduct::RealignOrSpecial
+        );
+        assert_eq!(
+            elevated_product_for_geometry(500.0, 40.0, true),
+            ElevatedViaductProduct::SpecialSpan
+        );
+        assert!(elevated_curve_cost_multiplier(90.0) > 10.0);
+        assert_eq!(elevated_curve_cost_multiplier(300.0), 1.0);
     }
 }

@@ -2,6 +2,7 @@
 
 **Status:** Draft — planning only, no structural drawings ship with this RFC
 **Date:** 2026-04-22
+**Updated:** 2026-08-17 — OSR Rapid Viaduct Kit correction
 **Depends on:** [RFC 0008 Rolling-Stock Reference Design](0008-rolling-stock-reference-design.md), [RFC 0009 Track Design Standard](0009-track-design-standard.md), [RFC 0010 Station Design Standard](0010-station-design-standard.md)
 
 ## 1. Summary
@@ -16,7 +17,7 @@ will sit on one of:
 |---|---|---|
 | **at-grade** | ≥ 70 % | Track sits on prepared subgrade at natural ground level (possibly with minor cut/fill ≤ 3 m). The cheapest and fastest class by 1–2 orders of magnitude. |
 | **elevated** | ≤ 25 % | Track sits on a viaduct structure 5–12 m above ground (precast concrete U-girder, standardised span). |
-| **bridge** | ≤ 5 % | Over a water crossing or a deep gap. Same viaduct standard, longer spans, water-bearing piers. |
+| **bridge** | ≤ 5 % | Over a water crossing or deep gap. Separately engineered special span with site-specific substructure. |
 
 The fourth class the first-pass auto-gen inference used —
 **tunnel** (cut-and-cover and bored) — is **removed from the
@@ -38,10 +39,10 @@ tunnel-specific signalling / ventilation / evacuation engineering.
   foundation depth, seismic detailing — owned by the deploying
   operator's civil team. This RFC fixes the *functional* envelope
   (span range, clearance, load class) not the *method*.
-- **Not a bridge design manual.** Water-bearing bridges default
-  to the reference viaduct stretched to longer span; anything
-  more specialised (cable-stayed, arch) is outside the upstream
-  catalogue.
+- **Not a bridge design manual.** Spans above 30 m, water crossings,
+  turnouts, and exceptional crossings use a separately engineered
+  segmental, I-girder, or steel-composite product. They are not a stretched
+  version of the standard full-span trough.
 - **Not a land-acquisition policy.** How a deployment acquires
   right-of-way (ROW) — expropriation, purchase, existing-rail
   corridor reuse, new-build — is municipal work.
@@ -168,26 +169,28 @@ conditions to `Elevated` where it previously would have emitted
 
 ### 5.1 Envelope
 
-- **Structure:** paired single-track precast concrete U-girders on
-  20/25/30 m simply-supported spans. One 3.9 m external-width girder
-  cross-section is repeated twice on a shared double-track pier cap;
-  operators do not customise the mould family.
+- **Structure:** paired single-track precast concrete U-troughs. OSR-U25 is
+  the primary simply supported product and OSR-U20 is the closure product.
+  The planning clear width is 4.5 m (4.9 m external) so the 2.93 m dynamic
+  train envelope can coexist with a 1.0 m escape walkway. OSR-U30 is not
+  released until project transport, lifting, and structural checks close.
 - **Piers:** single-column reinforced concrete, 1.5 m × 2.0 m
   rectangular, heights 5–12 m, pile-cap foundation (piles sized
   per deployment-local geotech).
 - **Deck clearance:** 5.0 m vertical under the girder soffit over
   any road; 5.5 m over a truck route; 7.5 m over a rail corridor
   (UIC 777-2 minimum).
-- **Pier spacing:** 30 m nominal; reducible to 25 m at road
-  junctions where a longer span would intrude on horizontal
-  clearance. 40 m spans are reserved for river crossings.
-- **Bearings:** elastomeric + PTFE slider; replaced every 30
-  years. No bespoke bearing designs.
-- **Expansion joints:** every 60 m along the deck; standard metro
-  finger plate.
+- **Pier spacing:** 25 m nominal, using 20 m closure bays where constrained.
+  Spans above 30 m use OSR-SP or another separately engineered structure.
+- **Bearings:** scheduled fixed/guided/free bearings. An interior pier has
+  eight bearings in two longitudinal rows; an end support has four.
+  Permanent checked jacking interfaces permit replacement.
+- **Movement:** a gap occurs at every simply supported span end. The project
+  issues a bearing/movement schedule and continuous-welded-rail interaction
+  analysis; rail expansion devices are used only where that analysis requires.
 - **Parapets:** 1.4 m solid concrete panel, continuous, with a
   handrail on the inspection walkway.
-- **Walkway:** one-side inspection walkway, 1.0 m wide, escape
+- **Walkway:** integrated one-side inspection/escape ledge, 1.0 m clear, escape
   ramps every 250 m down to at-grade.
 - **Acoustic screens:** where residential buildings are within 25
   m horizontally, precast concrete acoustic panel on the near
@@ -207,7 +210,7 @@ conditions to `Elevated` where it previously would have emitted
   matches the "one spares pool, one CAD reuse" principle from
   RFC 0008 / 0009 / 0010.
 - **Double-track substructure, repeated single-track girders.** One shared
-  9 m pier cap carries two identical U-girders at 4.2 m centres. A
+  hollow/precast-shell cap carries two identical U-troughs at 5.3 m centres. A
   single-track initial line still builds the shared substructure and may
   defer the second girder until capacity demands it.
 - **Simply-supported, not continuous.** Continuous spans give a
@@ -217,22 +220,17 @@ conditions to `Elevated` where it previously would have emitted
 
 ## 6. Bridge — the 5 % case
 
-- **Reference class:** same precast U-girder as the elevated
-  viaduct, extended to a 40 m span.
+- **Reference class:** separately engineered OSR-SP segmental, I-girder, or
+  steel-composite span. The standard full-span U catalogue ends at 30 m.
 - **Pier:** when a pier has to sit in the water, foundation is a
   reinforced-concrete caisson or a pile group with a protection
   cutwater. Scour assessment per EN 1991-2 §13 with a 100-year
   design flood.
-- **Navigation clearance:** per the navigable waterway's
-  published class; bridge spans lengthen to clear. Very wide /
-  navigable rivers (Tigris, Euphrates, Mekong-class) are handled
-  by adding piers in the water with the standard girder; a
-  custom long-span cable-stayed bridge is explicitly **out of
-  scope** for the upstream catalogue — the operator commissions
-  a bespoke design and the OSR catalogue ends at the approach.
-- **Thermal:** expansion joint at every abutment; in countries
-  with > 40 °C seasonal thermal amplitude, additional joints
-  mid-span.
+- **Navigation clearance:** per the navigable waterway's published class.
+  The operator commissions the bridge design and the standard OSR-U catalogue
+  ends at the approach where the site demands a non-catalogue structure.
+- **Thermal:** project-specific bearing, joint, and rail/bridge interaction
+  design for the complete temperature, creep, shrinkage, and seismic range.
 
 ## 7. Stations-as-structures
 
@@ -418,13 +416,13 @@ also emitted for compatibility with earlier generated schemas.
   rebar mills in the 12–40 mm range we use.
 - **Post-tensioning tendons.** Commodity; local supply exists
   in every target region.
-- **Lifting.** The 25 m reference girder masses ~60 t. Mobile
-  crawler cranes rated 200 t are locally available across
-  target regions.
-- **Launching.** Where crane access is constrained, launching
-  girder or shuttering falsework is used. The upstream catalogue
-  assumes crawler-crane erection; launching-girder erection is
-  per-deployment.
+- **Lifting and transport.** The widened constant-thickness 25 m CAD envelope
+  is about 117 t and is a permit-load component. The project must release the
+  route, transporter, lifting points, temporary bracing, crane/launcher,
+  tandem-lift controls, wind limits, and contingency landing method.
+- **Launching.** Where full-span access is constrained, OSR-US uses match-cast
+  2.5–3.0 m segments, post-tensioning, and an overhead launcher with specialist
+  geometry, epoxy-joint, tendon-grouting, and staged-load QA.
 
 No restricted-export equipment. No bespoke machinery. The
 construction envelope matches what a mid-size regional
@@ -447,10 +445,8 @@ civil contractor can mobilise.
   girder geometry (ornamental, signature architecture) are free
   to substitute; the upstream catalogue fixes one shape for
   CAPEX / spares reasons, not for aesthetic ones.
-- **Bridges are viaducts with wet piers.** No custom bridge
-  designs upstream. If a site demands a genuinely custom bridge,
-  that's a local engineering tender — OSR hands off cleanly at
-  the approach abutments.
+- **Special crossings are separate products.** OSR-U25 is not stretched to
+  40 m. OSR hands off to OSR-SP or a local engineering tender at the approach.
 - **Noise mitigation is structural, not operational.** Acoustic
   screens on viaducts > operational speed restrictions. A 2 m
   concrete panel costs almost nothing and avoids a permanent
@@ -471,7 +467,7 @@ civil contractor can mobilise.
 | **v2.1** ✅ | Extend `[costs]` to the full CAPEX stack — stations (RFC 0010 archetypes), depots (RFC 0014 archetypes), rolling stock (RFC 0008 families), GoA 4 onboard autonomy/residual wayside train control, station/depot charging microgrids, and EPC overhead. USD is the procurement basis and EUR values are explicit converted views. | v2 |
 | **v2.2** ✅ | Move the source cost basis to USD direct-procurement planning rates, add `*_usd` fields, keep `*_eur` mirrors, and drop EPC overhead to 7 % (done 2026-06-04). | v2.1 |
 | **v2.3** ✅ | Add the city railway production-plant setup bucket, now 60 000 USD per vehicle/car module with 120 000 USD retained as a high sensitivity check after 1 m clip-on fiberglass body and distributed-stabling scope reductions (updated 2026-08-15). | v2.2 |
-| **v3** ✅ | Parametric U-girders at [`mechanical-py/src/osr_mech/civil/ugirder.py`](../../mechanical-py/src/osr_mech/civil/ugirder.py) use the 20/25/30 m one-mould family. Shared double-track 5–12 m pier and abutment kits, four-bearing schedules, EBOM rows, and assembly sequences are controlled in [`substructure.py`](../../mechanical-py/src/osr_mech/civil/substructure.py). The previous precast L-unit platform edge is retained only for elevated stations; the default at-grade station uses a ground-level slab plus lowered guideway channel per RFC 0010. | v0 |
+| **v3** ✅ | Parametric OSR-U25/U20 clearance geometry, structural-feature placeholders, OSR-US segmental and OSR-SP special-span families are controlled under [`mechanical-py/src/osr_mech/civil/`](../../mechanical-py/src/osr_mech/civil/). Shared 5–12 m piers use widened hollow/precast-shell caps, eight-bearing interior schedules, four-bearing end supports, jacking interfaces, and pile-cap/monopile foundation envelopes. The controlled design-basis, load, egress, movement, erection, first-article, and quantity packages live under [`docs/civil/`](../civil/). | v0 |
 | **v4** | Surveyed civil design package for the first pilot line, generated from the current city model | v3, RFC 0003 |
 | **v5** | First-article viaduct erected for a deployment instance | v3 |
 

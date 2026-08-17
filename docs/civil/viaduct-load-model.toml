@@ -1,0 +1,37 @@
+schema_version = 1
+status = "planning-seed-not-for-construction"
+units = "SI"
+design_axle_allowance_t = 16.0
+dynamic_amplification = "derive from adopted bridge standard, speed, track irregularity, and span response"
+combination_basis = "deployment-country adopted standards; independently checked"
+
+[reference_train]
+id = "light-metro-3car"
+cars = 3
+axles = 12
+tare_mass_t = 78.75
+aw2_mass_t = 100.35
+aw3_mass_t = 107.55
+rolling_stock_axle_limit_t = 14.0
+car_length_m = 16.5
+bogie_wheelbase_m = 2.1
+# Positions from the leading consist datum. Four axles repeat per car.
+axle_positions_m = [1.05, 3.15, 13.35, 15.45, 17.55, 19.65, 29.85, 31.95, 34.05, 36.15, 46.35, 48.45]
+
+[actions.vertical]
+include = ["self-weight", "superimposed-dead-load", "12-axle-reference-train", "16-t-infrastructure-axle", "maintenance-vehicle", "rescue-vehicle", "dynamic-amplification"]
+
+[actions.longitudinal]
+include = ["traction", "service-braking", "emergency-braking", "bearing-friction", "rail-bridge-interaction"]
+
+[actions.transverse]
+include = ["centrifugal", "nosing", "wind-on-empty-train", "wind-on-loaded-train", "derailment-containment", "collision"]
+
+[actions.environmental]
+include = ["uniform-temperature", "temperature-gradient", "creep", "shrinkage", "differential-settlement", "seismic", "scour-where-applicable", "fatigue", "durability"]
+
+[actions.temporary]
+include = ["demoulding", "lifting", "transport", "temporary-bracing", "tandem-crane-erection", "launcher-erection", "bearing-installation", "jacking-for-bearing-replacement"]
+
+[analysis]
+required = ["3d-open-section-global-model", "asymmetric-train-position", "torsion-and-distortion", "end-zone-and-anchorage", "prestress-loss-and-camber", "construction-stages", "foundation-interaction", "track-bridge-interaction"]

@@ -9,8 +9,10 @@ from osr_mech.civil.ugirder import (
     EXTERNAL_WIDTH_MM,
     INTERNAL_HEIGHT_MM,
     INTERNAL_WIDTH_MM,
+    MIN_REQUIRED_INTERNAL_WIDTH_MM,
     approx_mass_kg,
     u_girder,
+    u_girder_structural_placeholder,
 )
 
 CONCRETE_DENSITY_KG_PER_M3 = 2500.0
@@ -36,19 +38,17 @@ def test_u_girder_rejects_out_of_envelope_spans() -> None:
 
 
 def test_u_girder_cross_section_has_track_clearance() -> None:
-    # Internal width must fit standard gauge (1435 mm) plus car body
-    # half-width (1.5 m typical for a light-metro car) plus 500 mm of
-    # walkway either side. That's ~3000 mm absolute minimum; 3500 mm
-    # published.
-    assert INTERNAL_WIDTH_MM >= 3000.0
+    assert INTERNAL_WIDTH_MM >= MIN_REQUIRED_INTERNAL_WIDTH_MM
 
 
-def test_u_girder_outer_fits_on_lorry() -> None:
-    # Lorry deck typical envelope: 2.55 m wide × 4.1 m high (legal
-    # without permit in most deployment markets). The girder ships on
-    # its side, so its external height (EXTERNAL_WIDTH_MM on the road)
-    # must fit the deck width.
-    assert EXTERNAL_HEIGHT_MM <= 2550.0 or EXTERNAL_WIDTH_MM <= 4100.0, (
-        "U-girder won't fit on a standard lorry in any orientation; "
-        "specify permit-load shipping in the deployment docs"
-    )
+def test_u_girder_requires_permit_load_transport_envelope() -> None:
+    assert EXTERNAL_WIDTH_MM > 4100.0
+    assert EXTERNAL_HEIGHT_MM < 2100.0
+
+
+def test_structural_placeholder_exposes_mandatory_design_zones() -> None:
+    model = u_girder_structural_placeholder()
+    labels = [child.label for child in model.children]
+    assert any("escape-ledge" in label for label in labels)
+    assert labels.count("End diaphragm, bearing, jacking, and anchorage zone") == 2
+    assert any("Drainage" in label for label in labels)

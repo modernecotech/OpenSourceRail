@@ -20,7 +20,10 @@ pub mod solver;
 pub mod station;
 pub mod topology;
 
-pub use civil::{classify_segments, CivilClass, CivilSegment};
+pub use civil::{
+    classify_segments, elevated_curve_cost_multiplier, elevated_product_for_geometry, CivilClass,
+    CivilSegment, ElevatedViaductProduct, ELEVATED_PREFERRED_RADIUS_M, MAX_FULL_SPAN_U_M,
+};
 pub use raster::{Anchor, Grid, GridRef, RasterBundle};
 pub use solver::{
     solve_path, solve_path_in_bbox, solve_path_with_penalty, DemandWeight, SolverError,
