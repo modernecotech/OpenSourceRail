@@ -11,13 +11,84 @@
     "total": 12572756.287696
   },
   "capex_eur": {
-    "reconciled_project_total": 452832317.578688
+    "reconciled_project_total": 434935926.49868804
   },
   "capex_usd": {
-    "authoritative_design_base": 458167361.0,
-    "reconciled_project_total": 492209040.8464,
-    "risk_envelope_15_percent": 566040396.97336,
-    "risk_envelope_25_percent": 615261301.0580001,
+    "authoritative_design_base": 438714762.0,
+    "imported_external_capital": 204252866.74247998,
+    "imported_percentage_of_total": 0.43204671298554687,
+    "local_capital": 268503575.10392,
+    "local_percentage_of_total": 0.567953287014453,
+    "national_trainset_factory_treatment": "excluded from city CAPEX; costed once in the country NATIONAL-BRIEF.md",
+    "procurement_origin_buckets": [
+      {
+        "bucket": "civil",
+        "imported_share": 0.35,
+        "imported_usd": 79391884.94999999,
+        "local_share": 0.65,
+        "local_usd": 147442072.05,
+        "total_usd": 226833957.0
+      },
+      {
+        "bucket": "stations",
+        "imported_share": 0.4,
+        "imported_usd": 32040000.0,
+        "local_share": 0.6,
+        "local_usd": 48060000.0,
+        "total_usd": 80100000.0
+      },
+      {
+        "bucket": "depots",
+        "imported_share": 0.4,
+        "imported_usd": 3200000.0,
+        "local_share": 0.6,
+        "local_usd": 4800000.0,
+        "total_usd": 8000000.0
+      },
+      {
+        "bucket": "rolling_stock",
+        "imported_share": 0.55,
+        "imported_usd": 49995000.00000001,
+        "local_share": 0.44999999999999996,
+        "local_usd": 40904999.99999999,
+        "total_usd": 90900000.0
+      },
+      {
+        "bucket": "solar_plant",
+        "imported_share": 0.7,
+        "imported_usd": 23829175.892479997,
+        "local_share": 0.30000000000000004,
+        "local_usd": 10212503.953920003,
+        "total_usd": 34041679.8464
+      },
+      {
+        "bucket": "signalling",
+        "imported_share": 0.8,
+        "imported_usd": 1863871.2000000002,
+        "local_share": 0.19999999999999996,
+        "local_usd": 465967.7999999998,
+        "total_usd": 2329839.0
+      },
+      {
+        "bucket": "charging_microgrid",
+        "imported_share": 0.55,
+        "imported_usd": 1017500.0000000001,
+        "local_share": 0.44999999999999996,
+        "local_usd": 832499.9999999999,
+        "total_usd": 1850000.0
+      },
+      {
+        "bucket": "epc_overhead",
+        "imported_share": 0.45,
+        "imported_usd": 12915434.700000001,
+        "local_share": 0.55,
+        "local_usd": 15785531.299999999,
+        "total_usd": 28700966.0
+      }
+    ],
+    "reconciled_project_total": 472756441.8464,
+    "risk_envelope_15_percent": 543669908.12336,
+    "risk_envelope_25_percent": 590945552.3080001,
     "timetable_sized_dedicated_solar": 34041679.8464
   },
   "cases": {
@@ -27,9 +98,9 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 121549871.61600001,
       "capacity_utilisation": 0.8,
-      "project_irr": 0.16006084043212465,
-      "project_npv_usd_at_8_percent": 471346344.7883687,
-      "steady_state_dscr": 4.832425363247001
+      "project_irr": 0.16511862029643448,
+      "project_npv_usd_at_8_percent": 486880062.2432797,
+      "steady_state_dscr": 3.5074044064762253
     },
     "low_capacity_use": {
       "annual_operating_cash_usd": 64397825.728304,
@@ -37,24 +108,39 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 76970582.016,
       "capacity_utilisation": 0.5,
-      "project_irr": 0.10306214471945163,
-      "project_npv_usd_at_8_percent": 117747730.64700094,
-      "steady_state_dscr": 2.8556241872424653
+      "project_irr": 0.10689386263887621,
+      "project_npv_usd_at_8_percent": 133281448.10191193,
+      "steady_state_dscr": 2.072629808987775
     }
   },
   "city": "amarah",
   "funding": {
-    "annual_debt_service_usd": 22551225.7586282,
+    "annual_debt_service_usd": 31070587.44839457,
+    "annual_external_capital_draw_usd": 40850573.348496,
+    "annual_external_debt_service_usd": 11697653.150163475,
+    "annual_grace_interest_usd": 27449622.11047816,
+    "annual_local_bond_issuance_usd": 42960572.0166272,
+    "annual_local_bond_service_usd": 19372934.298231095,
+    "annual_local_capital_draw_usd": 53700715.020784,
+    "annual_local_public_equity_draw_usd": 10740143.004156798,
+    "annual_public_construction_commitment_usd": 38189765.11463496,
     "construction_grace_years": 5,
-    "debt_principal_usd": 393767232.67712003,
-    "debt_rate": 0.045,
-    "government_equity_share": 0.2,
+    "debt_principal_usd": 419055726.825616,
+    "external_capital_required_usd": 204252866.74247998,
+    "external_debt_rate": 0.045,
+    "external_debt_usd": 204252866.74247998,
+    "external_grant_usd": 0.0,
     "lender_commitment_status": "unconfirmed-placeholder",
+    "local_bond_principal_usd": 214802860.083136,
+    "local_bond_rate": 0.085,
+    "local_capital_required_usd": 268503575.10392,
+    "local_public_equity_usd": 53700715.02078399,
     "repayment_years": 35
   },
   "limitations": [
     "No calibrated origin-destination or stated-preference ridership survey.",
     "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "Imported shares are planning assumptions pending country supplier-capability, customs, tax, and procurement-origin surveys.",
     "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
     "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
   ],
@@ -78,12 +164,12 @@
     "practical_capacity_passenger_trips_per_day": 401760.0,
     "single_trip_fare_usd": 1.0133333333333334
   },
-  "schema_version": 1,
+  "schema_version": 2,
   "sources": {
     "design": "designs/west-asia/Iraq/Amarah/design.toml",
-    "design_sha256": "d2a2169b63e53f029767a08fb649fe36917dfd708d188445ee5dba41027d4415",
+    "design_sha256": "06d53d0de677eeaa681a798ecfeaa141fb35af6f688f48629b0e2762e19fc468",
     "generator": "scripts/generate-city-finance.py",
-    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "generator_sha256": "9da48240e9ea50383e605d0c00585d52cdf48747820a2ac28647432461d3e1fa",
     "scenario": "designs/west-asia/Iraq/Amarah/amarah.toml",
     "scenario_sha256": "00a57396a5bd0f98fc354b506e6d03f9095130553e1473073c4d50d14b3093e2"
   },

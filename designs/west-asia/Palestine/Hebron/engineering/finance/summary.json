@@ -11,13 +11,84 @@
     "total": 13815873.428570181
   },
   "capex_eur": {
-    "reconciled_project_total": 489286723.0056378
+    "reconciled_project_total": 466783339.92563784
   },
   "capex_usd": {
-    "authoritative_design_base": 481155438.0,
-    "reconciled_project_total": 531833394.57134545,
-    "risk_envelope_15_percent": 611608403.7570472,
-    "risk_envelope_25_percent": 664791743.2141818,
+    "authoritative_design_base": 456695239.0,
+    "imported_external_capital": 228492656.34994182,
+    "imported_percentage_of_total": 0.4503443586384961,
+    "local_capital": 278880539.22140366,
+    "local_percentage_of_total": 0.5496556413615039,
+    "national_trainset_factory_treatment": "excluded from city CAPEX; costed once in the country NATIONAL-BRIEF.md",
+    "procurement_origin_buckets": [
+      {
+        "bucket": "civil",
+        "imported_share": 0.35,
+        "imported_usd": 68977077.39999999,
+        "local_share": 0.65,
+        "local_usd": 128100286.60000001,
+        "total_usd": 197077364.0
+      },
+      {
+        "bucket": "stations",
+        "imported_share": 0.4,
+        "imported_usd": 40840000.0,
+        "local_share": 0.6,
+        "local_usd": 61260000.0,
+        "total_usd": 102100000.0
+      },
+      {
+        "bucket": "depots",
+        "imported_share": 0.4,
+        "imported_usd": 3200000.0,
+        "local_share": 0.6,
+        "local_usd": 4800000.0,
+        "total_usd": 8000000.0
+      },
+      {
+        "bucket": "rolling_stock",
+        "imported_share": 0.55,
+        "imported_usd": 62865000.00000001,
+        "local_share": 0.44999999999999996,
+        "local_usd": 51434999.99999999,
+        "total_usd": 114300000.0
+      },
+      {
+        "bucket": "solar_plant",
+        "imported_share": 0.7,
+        "imported_usd": 35474569.59994182,
+        "local_share": 0.30000000000000004,
+        "local_usd": 15203386.971403636,
+        "total_usd": 50677956.571345456
+      },
+      {
+        "bucket": "signalling",
+        "imported_share": 0.8,
+        "imported_usd": 2412492.8000000003,
+        "local_share": 0.19999999999999996,
+        "local_usd": 603123.1999999997,
+        "total_usd": 3015616.0
+      },
+      {
+        "bucket": "charging_microgrid",
+        "imported_share": 0.55,
+        "imported_usd": 1278750.0,
+        "local_share": 0.44999999999999996,
+        "local_usd": 1046250.0,
+        "total_usd": 2325000.0
+      },
+      {
+        "bucket": "epc_overhead",
+        "imported_share": 0.45,
+        "imported_usd": 13444766.55,
+        "local_share": 0.55,
+        "local_usd": 16432492.45,
+        "total_usd": 29877259.0
+      }
+    ],
+    "reconciled_project_total": 507373195.57134545,
+    "risk_envelope_15_percent": 583479174.9070473,
+    "risk_envelope_25_percent": 634216494.4641818,
     "timetable_sized_dedicated_solar": 50677956.571345456
   },
   "cases": {
@@ -27,9 +98,9 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 115510088.448,
       "capacity_utilisation": 0.8,
-      "project_irr": 0.12724857374933424,
-      "project_npv_usd_at_8_percent": 287646267.25627124,
-      "steady_state_dscr": 4.068770909307991
+      "project_irr": 0.13183414259146953,
+      "project_npv_usd_at_8_percent": 305838959.7871632,
+      "steady_state_dscr": 3.0118737092564323
     },
     "low_capacity_use": {
       "annual_operating_cash_usd": 59461203.819429815,
@@ -37,24 +108,39 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 73277077.248,
       "capacity_utilisation": 0.5,
-      "project_irr": 0.0807622575575419,
-      "project_npv_usd_at_8_percent": 3914623.799017055,
-      "steady_state_dscr": 2.37903420845232
+      "project_irr": 0.08444829431478404,
+      "project_npv_usd_at_8_percent": 22107316.32990904,
+      "steady_state_dscr": 1.761060218324727
     }
   },
   "city": "hebron",
   "funding": {
-    "annual_debt_service_usd": 24993841.453886565,
+    "annual_debt_service_usd": 33764435.31044865,
+    "annual_external_capital_draw_usd": 32641808.04999169,
+    "annual_external_debt_service_usd": 13422693.282524105,
+    "annual_grace_interest_usd": 29246046.20280283,
+    "annual_local_bond_issuance_usd": 31872061.625303276,
+    "annual_local_bond_service_usd": 20341742.027924545,
+    "annual_local_capital_draw_usd": 39840077.03162909,
+    "annual_local_public_equity_draw_usd": 7968015.406325817,
+    "annual_public_construction_commitment_usd": 37214061.60912865,
     "construction_grace_years": 7,
-    "debt_principal_usd": 425466715.65707636,
-    "debt_rate": 0.045,
-    "government_equity_share": 0.2,
+    "debt_principal_usd": 451597087.7270647,
+    "external_capital_required_usd": 228492656.34994182,
+    "external_debt_rate": 0.045,
+    "external_debt_usd": 228492656.34994182,
+    "external_grant_usd": 0.0,
     "lender_commitment_status": "unconfirmed-placeholder",
+    "local_bond_principal_usd": 223104431.37712294,
+    "local_bond_rate": 0.085,
+    "local_capital_required_usd": 278880539.22140366,
+    "local_public_equity_usd": 55776107.84428072,
     "repayment_years": 33
   },
   "limitations": [
     "No calibrated origin-destination or stated-preference ridership survey.",
     "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "Imported shares are planning assumptions pending country supplier-capability, customs, tax, and procurement-origin surveys.",
     "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
     "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
   ],
@@ -78,12 +164,12 @@
     "practical_capacity_passenger_trips_per_day": 401760.0,
     "single_trip_fare_usd": 0.9600000000000001
   },
-  "schema_version": 1,
+  "schema_version": 2,
   "sources": {
     "design": "designs/west-asia/Palestine/Hebron/design.toml",
-    "design_sha256": "7c453e6123ab4dbfba3614a32f31f6d75ee6cc6ded8cf44dddc009163e966e64",
+    "design_sha256": "2f39569128c71fb06d9436a00f71e104a28f54604bd887c154b3f05108e76b3a",
     "generator": "scripts/generate-city-finance.py",
-    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "generator_sha256": "9da48240e9ea50383e605d0c00585d52cdf48747820a2ac28647432461d3e1fa",
     "scenario": "designs/west-asia/Palestine/Hebron/hebron.toml",
     "scenario_sha256": "b0f05b78b38beb039c3cc3301a98ed0c039cc612724d9dc2d67d2bca564b6c48"
   },

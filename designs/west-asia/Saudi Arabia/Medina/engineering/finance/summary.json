@@ -11,13 +11,84 @@
     "total": 57548930.533824004
   },
   "capex_eur": {
-    "reconciled_project_total": 1540038015.727872
+    "reconciled_project_total": 1489951743.727872
   },
   "capex_usd": {
-    "authoritative_design_base": 1508549962.0,
-    "reconciled_project_total": 1673954364.9215999,
-    "risk_envelope_15_percent": 1925047519.6598396,
-    "risk_envelope_25_percent": 2092442956.152,
+    "authoritative_design_base": 1454108362.0,
+    "imported_external_capital": 706362201.09512,
+    "imported_percentage_of_total": 0.43615722975132876,
+    "local_capital": 913150563.82648,
+    "local_percentage_of_total": 0.5638427702486712,
+    "national_trainset_factory_treatment": "excluded from city CAPEX; costed once in the country NATIONAL-BRIEF.md",
+    "procurement_origin_buckets": [
+      {
+        "bucket": "civil",
+        "imported_share": 0.35,
+        "imported_usd": 263576301.45,
+        "local_share": 0.65,
+        "local_usd": 489498845.55,
+        "total_usd": 753075147.0
+      },
+      {
+        "bucket": "stations",
+        "imported_share": 0.4,
+        "imported_usd": 133600000.0,
+        "local_share": 0.6,
+        "local_usd": 200400000.0,
+        "total_usd": 334000000.0
+      },
+      {
+        "bucket": "depots",
+        "imported_share": 0.4,
+        "imported_usd": 3200000.0,
+        "local_share": 0.6,
+        "local_usd": 4800000.0,
+        "total_usd": 8000000.0
+      },
+      {
+        "bucket": "rolling_stock",
+        "imported_share": 0.55,
+        "imported_usd": 130592000.00000001,
+        "local_share": 0.44999999999999996,
+        "local_usd": 106847999.99999999,
+        "total_usd": 237440000.0
+      },
+      {
+        "bucket": "solar_plant",
+        "imported_share": 0.7,
+        "imported_usd": 115783082.04511999,
+        "local_share": 0.30000000000000004,
+        "local_usd": 49621320.87648,
+        "total_usd": 165404402.92159998
+      },
+      {
+        "bucket": "signalling",
+        "imported_share": 0.8,
+        "imported_usd": 7191704.800000001,
+        "local_share": 0.19999999999999996,
+        "local_usd": 1797926.1999999993,
+        "total_usd": 8989631.0
+      },
+      {
+        "bucket": "charging_microgrid",
+        "imported_share": 0.55,
+        "imported_usd": 9611250.0,
+        "local_share": 0.44999999999999996,
+        "local_usd": 7863750.0,
+        "total_usd": 17475000.0
+      },
+      {
+        "bucket": "epc_overhead",
+        "imported_share": 0.45,
+        "imported_usd": 42807862.800000004,
+        "local_share": 0.55,
+        "local_usd": 52320721.199999996,
+        "total_usd": 95128584.0
+      }
+    ],
+    "reconciled_project_total": 1619512764.9215999,
+    "risk_envelope_15_percent": 1862439679.6598396,
+    "risk_envelope_25_percent": 2024390956.152,
     "timetable_sized_dedicated_solar": 165404402.92159998
   },
   "cases": {
@@ -27,9 +98,9 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 1334493264.0,
       "capacity_utilisation": 0.8,
-      "project_irr": 0.3693134315710812,
-      "project_npv_usd_at_8_percent": 8791876089.395548,
-      "steady_state_dscr": 16.649752609743103
+      "project_irr": 0.37653140160180554,
+      "project_npv_usd_at_8_percent": 8835349993.946466,
+      "steady_state_dscr": 15.517440349979234
     },
     "low_capacity_use": {
       "annual_operating_cash_usd": 789439821.466176,
@@ -37,24 +108,39 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 846988752.0,
       "capacity_utilisation": 0.5,
-      "project_irr": 0.2741004935479896,
-      "project_npv_usd_at_8_percent": 4925037443.522112,
-      "steady_state_dscr": 10.293305184270002
+      "project_irr": 0.280064928923457,
+      "project_npv_usd_at_8_percent": 4968511348.0730295,
+      "steady_state_dscr": 9.593280629741818
     }
   },
   "city": "medina",
   "funding": {
-    "annual_debt_service_usd": 76694492.90909787,
+    "annual_debt_service_usd": 82290912.97701588,
+    "annual_external_capital_draw_usd": 141272440.219024,
+    "annual_external_debt_service_usd": 40453679.59126062,
+    "annual_grace_interest_usd": 64659719.34703368,
+    "annual_local_bond_issuance_usd": 146104090.21223682,
+    "annual_local_bond_service_usd": 41837233.385755256,
+    "annual_local_capital_draw_usd": 182630112.765296,
+    "annual_local_public_equity_draw_usd": 36526022.5530592,
+    "annual_public_construction_commitment_usd": 101185741.90009287,
     "construction_grace_years": 5,
-    "debt_principal_usd": 1339163491.93728,
-    "debt_rate": 0.045,
-    "government_equity_share": 0.2,
+    "debt_principal_usd": 1436882652.156304,
+    "external_capital_required_usd": 706362201.09512,
+    "external_debt_rate": 0.045,
+    "external_debt_usd": 706362201.09512,
+    "external_grant_usd": 0.0,
     "lender_commitment_status": "unconfirmed-placeholder",
+    "local_bond_principal_usd": 730520451.061184,
+    "local_bond_rate": 0.045,
+    "local_capital_required_usd": 913150563.82648,
+    "local_public_equity_usd": 182630112.76529598,
     "repayment_years": 35
   },
   "limitations": [
     "No calibrated origin-destination or stated-preference ridership survey.",
     "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "Imported shares are planning assumptions pending country supplier-capability, customs, tax, and procurement-origin surveys.",
     "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
     "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
   ],
@@ -78,12 +164,12 @@
     "practical_capacity_passenger_trips_per_day": 982080.0,
     "single_trip_fare_usd": 4.533333333333333
   },
-  "schema_version": 1,
+  "schema_version": 2,
   "sources": {
     "design": "designs/west-asia/Saudi Arabia/Medina/design.toml",
-    "design_sha256": "7e56afed987ae6195bac50c9b807a91022dba21711780e2b238d7f877f844702",
+    "design_sha256": "64d2b52c0a164bef27868c39833d0db06ab174baace096a8a0d983c18f07ff85",
     "generator": "scripts/generate-city-finance.py",
-    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "generator_sha256": "9da48240e9ea50383e605d0c00585d52cdf48747820a2ac28647432461d3e1fa",
     "scenario": "designs/west-asia/Saudi Arabia/Medina/medina.toml",
     "scenario_sha256": "9dbfa94c6ee7709d6c18aa88dbee739f0dbe45e233f420f8f39b19ec749c8679"
   },

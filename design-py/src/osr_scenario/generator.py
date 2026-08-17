@@ -115,7 +115,7 @@ _MINIMUM_TRAVERSAL_ENERGY_MARGIN = 1.10
 
 def _charging_cabinet_count(family: str) -> int:
     """Repeat the standard 500 kW module for high-throughput consists."""
-    return {"light-metro-3car": 2, "metro-4car": 3, "metro-6car": 4}.get(family, 1)
+    return {"metro-4car": 3, "metro-6car": 4}.get(family, 1)
 
 
 # ---------------------------------------------------------------------------

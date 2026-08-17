@@ -11,13 +11,84 @@
     "total": 16059583.661394285
   },
   "capex_eur": {
-    "reconciled_project_total": 555960094.392183
+    "reconciled_project_total": 531330406.3921829
   },
   "capex_usd": {
-    "authoritative_design_base": 525893867.0,
-    "reconciled_project_total": 604304450.4262857,
-    "risk_envelope_15_percent": 694950117.9902285,
-    "risk_envelope_25_percent": 755380563.0328572,
+    "authoritative_design_base": 499122467.0,
+    "imported_external_capital": 264523934.1984,
+    "imported_percentage_of_total": 0.458023889720512,
+    "local_capital": 313009116.2278857,
+    "local_percentage_of_total": 0.541976110279488,
+    "national_trainset_factory_treatment": "excluded from city CAPEX; costed once in the country NATIONAL-BRIEF.md",
+    "procurement_origin_buckets": [
+      {
+        "bucket": "civil",
+        "imported_share": 0.35,
+        "imported_usd": 84890899.8,
+        "local_share": 0.65,
+        "local_usd": 157654528.2,
+        "total_usd": 242545428.0
+      },
+      {
+        "bucket": "stations",
+        "imported_share": 0.4,
+        "imported_usd": 34000000.0,
+        "local_share": 0.6,
+        "local_usd": 51000000.0,
+        "total_usd": 85000000.0
+      },
+      {
+        "bucket": "depots",
+        "imported_share": 0.4,
+        "imported_usd": 3200000.0,
+        "local_share": 0.6,
+        "local_usd": 4800000.0,
+        "total_usd": 8000000.0
+      },
+      {
+        "bucket": "rolling_stock",
+        "imported_share": 0.55,
+        "imported_usd": 68805000.0,
+        "local_share": 0.44999999999999996,
+        "local_usd": 56295000.0,
+        "total_usd": 125100000.0
+      },
+      {
+        "bucket": "solar_plant",
+        "imported_share": 0.7,
+        "imported_usd": 54887408.39839999,
+        "local_share": 0.30000000000000004,
+        "local_usd": 23523175.027885713,
+        "total_usd": 78410583.4262857
+      },
+      {
+        "bucket": "signalling",
+        "imported_share": 0.8,
+        "imported_usd": 2699333.6,
+        "local_share": 0.19999999999999996,
+        "local_usd": 674833.3999999999,
+        "total_usd": 3374167.0
+      },
+      {
+        "bucket": "charging_microgrid",
+        "imported_share": 0.55,
+        "imported_usd": 1347500.0,
+        "local_share": 0.44999999999999996,
+        "local_usd": 1102500.0,
+        "total_usd": 2450000.0
+      },
+      {
+        "bucket": "epc_overhead",
+        "imported_share": 0.45,
+        "imported_usd": 14693792.4,
+        "local_share": 0.55,
+        "local_usd": 17959079.6,
+        "total_usd": 32652872.0
+      }
+    ],
+    "reconciled_project_total": 577533050.4262857,
+    "risk_envelope_15_percent": 664163007.9902285,
+    "risk_envelope_25_percent": 721916313.0328572,
     "timetable_sized_dedicated_solar": 78410583.4262857
   },
   "cases": {
@@ -27,9 +98,9 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 153538877.952,
       "capacity_utilisation": 0.8,
-      "project_irr": 0.16345590337663454,
-      "project_npv_usd_at_8_percent": 607909978.6736796,
-      "steady_state_dscr": 4.965476551364173
+      "project_irr": 0.16922824642364498,
+      "project_npv_usd_at_8_percent": 629288066.1710061,
+      "steady_state_dscr": 3.252758469515561
     },
     "low_capacity_use": {
       "annual_operating_cash_usd": 81168612.69060571,
@@ -37,24 +108,39 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 97228196.352,
       "capacity_utilisation": 0.5,
-      "project_irr": 0.10554971511247907,
-      "project_npv_usd_at_8_percent": 161259097.65300477,
-      "steady_state_dscr": 2.9316475990195996
+      "project_irr": 0.10992061331225153,
+      "project_npv_usd_at_8_percent": 182637185.1503312,
+      "steady_state_dscr": 1.9204484118903224
     }
   },
   "city": "east-london-za",
   "funding": {
-    "annual_debt_service_usd": 27687029.204243407,
+    "annual_debt_service_usd": 42265448.10475299,
+    "annual_external_capital_draw_usd": 52904786.83968,
+    "annual_external_debt_service_usd": 15149404.174928052,
+    "annual_grace_interest_usd": 38196342.8020704,
+    "annual_local_bond_issuance_usd": 50081458.59646172,
+    "annual_local_bond_service_usd": 27116043.929824937,
+    "annual_local_capital_draw_usd": 62601823.24557714,
+    "annual_local_public_equity_draw_usd": 12520364.649115425,
+    "annual_public_construction_commitment_usd": 50716707.45118582,
     "construction_grace_years": 5,
-    "debt_principal_usd": 483443560.34102863,
-    "debt_rate": 0.045,
-    "government_equity_share": 0.2,
+    "debt_principal_usd": 514931227.1807086,
+    "external_capital_required_usd": 264523934.1984,
+    "external_debt_rate": 0.045,
+    "external_debt_usd": 264523934.1984,
+    "external_grant_usd": 0.0,
     "lender_commitment_status": "unconfirmed-placeholder",
+    "local_bond_principal_usd": 250407292.9823086,
+    "local_bond_rate": 0.105,
+    "local_capital_required_usd": 313009116.2278857,
+    "local_public_equity_usd": 62601823.24557713,
     "repayment_years": 35
   },
   "limitations": [
     "No calibrated origin-destination or stated-preference ridership survey.",
     "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "Imported shares are planning assumptions pending country supplier-capability, customs, tax, and procurement-origin surveys.",
     "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
     "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
   ],
@@ -78,12 +164,12 @@
     "practical_capacity_passenger_trips_per_day": 401760.0,
     "single_trip_fare_usd": 1.28
   },
-  "schema_version": 1,
+  "schema_version": 2,
   "sources": {
     "design": "designs/south-africa/South Africa/East-London-Za/design.toml",
-    "design_sha256": "b054441a7ea0aa4c3d64fb98e58bce19847ed7289522f9441d83f24598ed0986",
+    "design_sha256": "56058c0a3c2947e4878e064abc408f5594cc8bf639795bbb01dc01621442ffcf",
     "generator": "scripts/generate-city-finance.py",
-    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "generator_sha256": "9da48240e9ea50383e605d0c00585d52cdf48747820a2ac28647432461d3e1fa",
     "scenario": "designs/south-africa/South Africa/East-London-Za/east-london-za.toml",
     "scenario_sha256": "15c3da36cb60a329555105df9ec1f71f20c2d1f3c717704c143858745d0fd7f8"
   },

@@ -11,13 +11,84 @@
     "total": 15645680.602144001
   },
   "capex_eur": {
-    "reconciled_project_total": 552557523.504832
+    "reconciled_project_total": 518891042.584832
   },
   "capex_usd": {
-    "authoritative_design_base": 546921519.0,
-    "reconciled_project_total": 600606003.8096,
-    "risk_envelope_15_percent": 690696904.38104,
-    "risk_envelope_25_percent": 750757504.762,
+    "authoritative_design_base": 510327518.0,
+    "imported_external_capital": 260349240.01672,
+    "imported_percentage_of_total": 0.46160230406410174,
+    "local_capital": 303662762.79288,
+    "local_percentage_of_total": 0.5383976959358983,
+    "national_trainset_factory_treatment": "excluded from city CAPEX; costed once in the country NATIONAL-BRIEF.md",
+    "procurement_origin_buckets": [
+      {
+        "bucket": "civil",
+        "imported_share": 0.35,
+        "imported_usd": 72643934.64999999,
+        "local_share": 0.65,
+        "local_usd": 134910164.35000002,
+        "total_usd": 207554099.0
+      },
+      {
+        "bucket": "stations",
+        "imported_share": 0.4,
+        "imported_usd": 33920000.0,
+        "local_share": 0.6,
+        "local_usd": 50880000.0,
+        "total_usd": 84800000.0
+      },
+      {
+        "bucket": "depots",
+        "imported_share": 0.4,
+        "imported_usd": 3200000.0,
+        "local_share": 0.6,
+        "local_usd": 4800000.0,
+        "total_usd": 8000000.0
+      },
+      {
+        "bucket": "rolling_stock",
+        "imported_share": 0.55,
+        "imported_usd": 94050000.00000001,
+        "local_share": 0.44999999999999996,
+        "local_usd": 76949999.99999999,
+        "total_usd": 171000000.0
+      },
+      {
+        "bucket": "solar_plant",
+        "imported_share": 0.7,
+        "imported_usd": 37579139.36672,
+        "local_share": 0.30000000000000004,
+        "local_usd": 16105345.442880005,
+        "total_usd": 53684484.8096
+      },
+      {
+        "bucket": "signalling",
+        "imported_share": 0.8,
+        "imported_usd": 2750005.6,
+        "local_share": 0.19999999999999996,
+        "local_usd": 687501.3999999999,
+        "total_usd": 3437507.0
+      },
+      {
+        "bucket": "charging_microgrid",
+        "imported_share": 0.55,
+        "imported_usd": 1182500.0,
+        "local_share": 0.44999999999999996,
+        "local_usd": 967500.0,
+        "total_usd": 2150000.0
+      },
+      {
+        "bucket": "epc_overhead",
+        "imported_share": 0.45,
+        "imported_usd": 15023660.4,
+        "local_share": 0.55,
+        "local_usd": 18362251.6,
+        "total_usd": 33385912.0
+      }
+    ],
+    "reconciled_project_total": 564012002.8096,
+    "risk_envelope_15_percent": 648613803.23104,
+    "risk_envelope_25_percent": 705015003.512,
     "timetable_sized_dedicated_solar": 53684484.8096
   },
   "cases": {
@@ -27,34 +98,49 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 83190132.48,
       "capacity_utilisation": 0.8,
-      "project_irr": 0.0893719302833596,
-      "project_npv_usd_at_8_percent": 56146936.573624894,
-      "steady_state_dscr": 2.4545927457451997
+      "project_irr": 0.0949305258182539,
+      "project_npv_usd_at_8_percent": 85368783.591534,
+      "steady_state_dscr": 1.6387647842883764
     },
     "low_capacity_use": {
       "annual_operating_cash_usd": 37042832.677856,
       "annual_paid_trips": 73321200.0,
-      "annual_public_support_usd": 0.0,
+      "annual_public_support_usd": 4173852.306735471,
       "annual_revenue_usd": 52688513.28,
       "capacity_utilisation": 0.5,
-      "project_irr": 0.04395202410571296,
-      "project_npv_usd_at_8_percent": -185788957.3125741,
-      "steady_state_dscr": 1.34615154679681
+      "project_irr": 0.04814634027137567,
+      "project_npv_usd_at_8_percent": -156567110.29466498,
+      "steady_state_dscr": 0.8987339154447809
     }
   },
   "city": "fayoum",
   "funding": {
-    "annual_debt_service_usd": 27517579.849014796,
+    "annual_debt_service_usd": 41216684.98459147,
+    "annual_external_capital_draw_usd": 52069848.003344,
+    "annual_external_debt_service_usd": 14910317.569564186,
+    "annual_grace_interest_usd": 37223387.87535432,
+    "annual_local_bond_issuance_usd": 48586042.0468608,
+    "annual_local_bond_service_usd": 26306367.415027287,
+    "annual_local_capital_draw_usd": 60732552.558576,
+    "annual_local_public_equity_draw_usd": 12146510.511715198,
+    "annual_public_construction_commitment_usd": 49369898.387069516,
     "construction_grace_years": 5,
-    "debt_principal_usd": 480484803.04768,
-    "debt_rate": 0.045,
-    "government_equity_share": 0.2,
+    "debt_principal_usd": 503279450.251024,
+    "external_capital_required_usd": 260349240.01672,
+    "external_debt_rate": 0.045,
+    "external_debt_usd": 260349240.01672,
+    "external_grant_usd": 0.0,
     "lender_commitment_status": "unconfirmed-placeholder",
+    "local_bond_principal_usd": 242930210.234304,
+    "local_bond_rate": 0.105,
+    "local_capital_required_usd": 303662762.79288,
+    "local_public_equity_usd": 60732552.55857599,
     "repayment_years": 35
   },
   "limitations": [
     "No calibrated origin-destination or stated-preference ridership survey.",
     "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "Imported shares are planning assumptions pending country supplier-capability, customs, tax, and procurement-origin surveys.",
     "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
     "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
   ],
@@ -78,12 +164,12 @@
     "practical_capacity_passenger_trips_per_day": 401760.0,
     "single_trip_fare_usd": 0.6933333333333334
   },
-  "schema_version": 1,
+  "schema_version": 2,
   "sources": {
     "design": "designs/west-asia/Egypt/Fayoum/design.toml",
-    "design_sha256": "3d5e28a498d8f3465ae87e199153f2b219380681a38a926fb055da162e75e842",
+    "design_sha256": "1f2a3e23107c195879595b46521afa6bb58b790ea682d0962484d07c92077a25",
     "generator": "scripts/generate-city-finance.py",
-    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "generator_sha256": "9da48240e9ea50383e605d0c00585d52cdf48747820a2ac28647432461d3e1fa",
     "scenario": "designs/west-asia/Egypt/Fayoum/fayoum.toml",
     "scenario_sha256": "4fbd744a5dcc7ca4d06b5b6a6fb7303e118334ae1ebcf80db3a2f692bead1800"
   },

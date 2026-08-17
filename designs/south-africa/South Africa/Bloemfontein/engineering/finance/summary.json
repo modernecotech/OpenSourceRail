@@ -11,13 +11,84 @@
     "total": 18036412.68897143
   },
   "capex_eur": {
-    "reconciled_project_total": 627530791.0569143
+    "reconciled_project_total": 600774799.0569143
   },
   "capex_usd": {
-    "authoritative_design_base": 598423062.0,
-    "reconciled_project_total": 682098685.9314286,
-    "risk_envelope_15_percent": 784413488.8211428,
-    "risk_envelope_25_percent": 852623357.4142857,
+    "authoritative_design_base": 569340462.0,
+    "imported_external_capital": 298093983.602,
+    "imported_percentage_of_total": 0.45648796411625003,
+    "local_capital": 354922102.3294286,
+    "local_percentage_of_total": 0.5435120358837501,
+    "national_trainset_factory_treatment": "excluded from city CAPEX; costed once in the country NATIONAL-BRIEF.md",
+    "procurement_origin_buckets": [
+      {
+        "bucket": "civil",
+        "imported_share": 0.35,
+        "imported_usd": 86349878.64999999,
+        "local_share": 0.65,
+        "local_usd": 160364060.35000002,
+        "total_usd": 246713939.0
+      },
+      {
+        "bucket": "stations",
+        "imported_share": 0.4,
+        "imported_usd": 54000000.0,
+        "local_share": 0.6,
+        "local_usd": 81000000.0,
+        "total_usd": 135000000.0
+      },
+      {
+        "bucket": "depots",
+        "imported_share": 0.4,
+        "imported_usd": 3200000.0,
+        "local_share": 0.6,
+        "local_usd": 4800000.0,
+        "total_usd": 8000000.0
+      },
+      {
+        "bucket": "rolling_stock",
+        "imported_share": 0.55,
+        "imported_usd": 74745000.0,
+        "local_share": 0.44999999999999996,
+        "local_usd": 61155000.0,
+        "total_usd": 135900000.0
+      },
+      {
+        "bucket": "solar_plant",
+        "imported_share": 0.7,
+        "imported_usd": 58572936.752000004,
+        "local_share": 0.30000000000000004,
+        "local_usd": 25102687.179428577,
+        "total_usd": 83675623.93142858
+      },
+      {
+        "bucket": "signalling",
+        "imported_share": 0.8,
+        "imported_usd": 2883960.8000000003,
+        "local_share": 0.19999999999999996,
+        "local_usd": 720990.1999999997,
+        "total_usd": 3604951.0
+      },
+      {
+        "bucket": "charging_microgrid",
+        "imported_share": 0.55,
+        "imported_usd": 1581250.0000000002,
+        "local_share": 0.44999999999999996,
+        "local_usd": 1293749.9999999998,
+        "total_usd": 2875000.0
+      },
+      {
+        "bucket": "epc_overhead",
+        "imported_share": 0.45,
+        "imported_usd": 16760957.4,
+        "local_share": 0.55,
+        "local_usd": 20485614.6,
+        "total_usd": 37246572.0
+      }
+    ],
+    "reconciled_project_total": 653016085.9314286,
+    "risk_envelope_15_percent": 750968498.8211428,
+    "risk_envelope_25_percent": 816270107.4142857,
     "timetable_sized_dedicated_solar": 83675623.93142858
   },
   "cases": {
@@ -27,9 +98,9 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 155119150.07999998,
       "capacity_utilisation": 0.8,
-      "project_irr": 0.1483448561041768,
-      "project_npv_usd_at_8_percent": 542642562.7089672,
-      "steady_state_dscr": 4.386468239875695
+      "project_irr": 0.153543343493593,
+      "project_npv_usd_at_8_percent": 565866240.4938326,
+      "steady_state_dscr": 2.8667031815394406
     },
     "low_capacity_use": {
       "annual_operating_cash_usd": 80772055.79102857,
@@ -37,24 +108,39 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 98808468.48,
       "capacity_utilisation": 0.5,
-      "project_irr": 0.09392233642761533,
-      "project_npv_usd_at_8_percent": 95991681.68829232,
-      "steady_state_dscr": 2.584600104578902
+      "project_irr": 0.09785838270308198,
+      "project_npv_usd_at_8_percent": 119215359.47315776,
+      "steady_state_dscr": 1.6891223046934625
     }
   },
   "city": "bloemfontein",
   "funding": {
-    "annual_debt_service_usd": 31251277.769405037,
+    "annual_debt_service_usd": 47818950.449350014,
+    "annual_external_capital_draw_usd": 59618796.7204,
+    "annual_external_debt_service_usd": 17071975.938154593,
+    "annual_grace_interest_usd": 43227685.857762,
+    "annual_local_bond_issuance_usd": 56787536.37270858,
+    "annual_local_bond_service_usd": 30746974.511195417,
+    "annual_local_capital_draw_usd": 70984420.46588573,
+    "annual_local_public_equity_draw_usd": 14196884.09317714,
+    "annual_public_construction_commitment_usd": 57424569.95093914,
     "construction_grace_years": 5,
-    "debt_principal_usd": 545678948.7451428,
-    "debt_rate": 0.045,
-    "government_equity_share": 0.2,
+    "debt_principal_usd": 582031665.4655429,
+    "external_capital_required_usd": 298093983.602,
+    "external_debt_rate": 0.045,
+    "external_debt_usd": 298093983.602,
+    "external_grant_usd": 0.0,
     "lender_commitment_status": "unconfirmed-placeholder",
+    "local_bond_principal_usd": 283937681.8635429,
+    "local_bond_rate": 0.105,
+    "local_capital_required_usd": 354922102.3294286,
+    "local_public_equity_usd": 70984420.4658857,
     "repayment_years": 35
   },
   "limitations": [
     "No calibrated origin-destination or stated-preference ridership survey.",
     "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "Imported shares are planning assumptions pending country supplier-capability, customs, tax, and procurement-origin surveys.",
     "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
     "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
   ],
@@ -78,12 +164,12 @@
     "practical_capacity_passenger_trips_per_day": 401760.0,
     "single_trip_fare_usd": 1.28
   },
-  "schema_version": 1,
+  "schema_version": 2,
   "sources": {
     "design": "designs/south-africa/South Africa/Bloemfontein/design.toml",
-    "design_sha256": "183e6f778ec687821dfe422699890440fb2feb994b3ed0e5b90a2af0d7c5c431",
+    "design_sha256": "005b4ac92daf0fe6c79e19d6e98b5bac14b959c1b33f75370769e578d062a9a8",
     "generator": "scripts/generate-city-finance.py",
-    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "generator_sha256": "9da48240e9ea50383e605d0c00585d52cdf48747820a2ac28647432461d3e1fa",
     "scenario": "designs/south-africa/South Africa/Bloemfontein/bloemfontein.toml",
     "scenario_sha256": "9997c123428c0f67bb52192e77b103bc946d79f6530aa0759bc1f6d2bc359bf3"
   },

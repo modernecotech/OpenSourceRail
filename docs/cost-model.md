@@ -48,16 +48,32 @@ The rolling-stock BOM carries line-level low/base/high bands in generated path `
 
 ## Railway Production Plant
 
-Each city also carries a separate local railway production-plant setup allowance. The base case is **$60 k USD per vehicle/car module**, not per trainset; the earlier **$120 k USD per vehicle/car module** value is kept as a high sensitivity check rather than the default.
+Each country carries one shared railway production-plant setup allowance; cities do not duplicate the factory in city CAPEX. The national plant is sized to the largest single-city fleet programme and reused through a phased rollout. The base case is **$60 k USD per vehicle/car module**, not per trainset; the earlier **$120 k USD per vehicle/car module** value is kept as a high sensitivity check rather than the default.
 
-This line covers lean local production/assembly setup: reusable one-metre panel moulds, clip/drill gauges, basic steel fixtures, plant services, commissioning bay setup, material handling, homologation/production-readiness work, and first-article support. It is deliberately separate from the trainset unit above, so procurement costs and city plant setup remain auditable instead of being hidden in one large rolling-stock number.
+This line covers lean local production/assembly setup: reusable one-metre panel moulds, clip/drill gauges, basic steel fixtures, plant services, commissioning bay setup, material handling, homologation/production-readiness work, and first-article support. It is deliberately separate from the trainset unit above, so procurement costs and national plant setup remain auditable instead of being hidden in one large rolling-stock number.
 
-The generated LM3 pilot factory plan sizes the minimum enclosed building at about 3,515 m2 (37,835 ft2), plus 2,200 m2 of outside yard/test apron and a separate short depot/test track. Its rough machinery and setup list totals $1.0 M, including 20% equipment setup contingency. This one-time factory setup remains separate from the per-trainset build estimate.
+The generated LM3 pilot factory plan sizes the minimum enclosed building at about 3,515 m2 (37,835 ft2), plus 2,200 m2 of outside yard/test apron and a separate short depot/test track. Its rough machinery and setup list totals $1.0 M, including 20% equipment setup contingency. This one-time national factory setup remains separate from the per-trainset build estimate.
 
 | Example | Base plant allowance | High sensitivity |
 |---|---:|---:|
 | 1-car vehicle module | $60 k | $120 k |
 | 3-car `light-metro-3car` trainset | $180 k | $360 k |
+
+## Procurement Origin and Capital Boundary
+
+Each generated city and national brief separates imported value from local value. Imported value is the minimum foreign-currency / international capital requirement; local value can be funded with domestic-currency bonds, public equity, or other local sources. Until a country supplier audit is available, the controlled planning shares are:
+
+| CAPEX bucket | Imported share | Local share |
+|---|---:|---:|
+| `civil` | 35% | 65% |
+| `stations` | 40% | 60% |
+| `depots` | 40% | 60% |
+| `rolling_stock` | 55% | 45% |
+| `production_plant` | 25% | 75% |
+| `solar_plant` | 70% | 30% |
+| `signalling` | 80% | 20% |
+| `charging_microgrid` | 55% | 45% |
+| `epc_overhead` | 45% | 55% |
 
 ## Civil Works
 
@@ -141,7 +157,7 @@ The default farebox-recovery reference in `country-finance.toml` is 50%. OPEX us
 
 The maintenance percentages are planning-cost envelopes. The actual work content and inspection intervals are controlled by [RFC 0029](rfcs/0029-maintenance-schedule-system.md) and [`lib/templates/maintenance-schedule.toml`](../lib/templates/maintenance-schedule.toml), covering rolling stock, stations, track/civil, structures, energy, signalling/comms, depot equipment, and railway production-plant tools.
 
-Construction-period equity and interest-only grace payments on the repayable tranche remain public capital commitments. The base finance stack assumes **no climate/development grant**: 20% government equity during construction and 80% candidate climate/MDB concessional debt. That tranche is a placeholder for a lender term sheet, not evidence of an available loan. Plausible channels include MDB lending blended with climate funds such as GCF or CIF, or an equivalent national development bank / IsDB route where eligible. The operating-neutral case applies only to steady-state operations after opening. Where the capacity-use scenario produces revenue above OPEX, that operating surplus is netted against repayable-debt support in the government commitment summary; the gross post-grace debt-service figure remains visible in the CAPEX funding stack.
+Construction-period local equity and interest-only grace payments on the repayable tranches remain public capital commitments. The base finance boundary assumes **no climate/development grant**: imported value is the minimum external climate/MDB or foreign-currency requirement, while 80% of local value is assigned to domestic-currency bonds and the balance to local public equity or another domestic source. The external tranche is a placeholder for a lender term sheet, not evidence of an available loan. Plausible channels include MDB lending blended with climate funds such as GCF or CIF, or an equivalent national development bank / IsDB route where eligible. The operating-neutral case applies only to steady-state operations after opening. Where the capacity-use scenario produces revenue above OPEX, that operating surplus is netted against repayable-debt support in the government commitment summary; the gross post-grace external and local-bond debt-service figures remain visible.
 
 ## Broad Economic Benefits
 
@@ -159,16 +175,16 @@ The annual benefit/activity proxy quantifies:
 
 The access table reports education, healthcare, commerce, and entertainment/community access-events per year. It uses station anchors (`anchor_kind` / `anchor_name`) where available, with conservative base shares so sparse-OSM cities do not report zero service-access benefit.
 
-The CAPEX recirculation table estimates how much of the initial capital programme is retained locally through civil works, station fabrication, depot works, railway production-plant setup, rolling-stock assembly, charging microgrids, EPC labour, and solar-plant delivery. The retained CAPEX is then multiplied by the 1.6 construction local-supplier / wage multiplier and converted to approximate construction job-years using the country median-income table and the 4.0x job-output multiple. These rows are economic-activity indicators, not fiscal income.
+The CAPEX recirculation table estimates how much of the initial capital programme is retained locally through civil works, station fabrication, depot works, shared national railway production-plant setup, rolling-stock assembly, charging microgrids, EPC labour, and solar-plant delivery. The retained CAPEX is then multiplied by the 1.6 construction local-supplier / wage multiplier and converted to approximate construction job-years using the country median-income table and the 4.0x job-output multiple. These rows are economic-activity indicators, not fiscal income.
 
 ## EPC
 
 EPC integration and project management is **7% of subtotal**:
 
 ```text
-civil + stations + depots + rolling_stock
-+ railway_production_plant
+city: civil + stations + depots + rolling_stock
 + residual_train_control_wayside + charging_microgrids
+national: one shared railway_production_plant
 ```
 
 Dedicated solar plant CAPEX is then added as a separate infrastructure bucket when the generated energy plan requires it.

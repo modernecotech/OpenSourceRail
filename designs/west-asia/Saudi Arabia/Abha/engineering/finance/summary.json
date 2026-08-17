@@ -11,13 +11,84 @@
     "total": 20231600.41328
   },
   "capex_eur": {
-    "reconciled_project_total": 438331765.82784003
+    "reconciled_project_total": 416005573.82784003
   },
   "capex_usd": {
-    "authoritative_design_base": 433455580.0,
-    "reconciled_project_total": 476447571.552,
-    "risk_envelope_15_percent": 547914707.2847999,
-    "risk_envelope_25_percent": 595559464.4399999,
+    "authoritative_design_base": 409187980.0,
+    "imported_external_capital": 204281523.9864,
+    "imported_percentage_of_total": 0.45177039417569154,
+    "local_capital": 247898447.5656,
+    "local_percentage_of_total": 0.5482296058243086,
+    "national_trainset_factory_treatment": "excluded from city CAPEX; costed once in the country NATIONAL-BRIEF.md",
+    "procurement_origin_buckets": [
+      {
+        "bucket": "civil",
+        "imported_share": 0.35,
+        "imported_usd": 65385052.949999996,
+        "local_share": 0.65,
+        "local_usd": 121429384.05000001,
+        "total_usd": 186814437.0
+      },
+      {
+        "bucket": "stations",
+        "imported_share": 0.4,
+        "imported_usd": 27640000.0,
+        "local_share": 0.6,
+        "local_usd": 41460000.0,
+        "total_usd": 69100000.0
+      },
+      {
+        "bucket": "depots",
+        "imported_share": 0.4,
+        "imported_usd": 3200000.0,
+        "local_share": 0.6,
+        "local_usd": 4800000.0,
+        "total_usd": 8000000.0
+      },
+      {
+        "bucket": "rolling_stock",
+        "imported_share": 0.55,
+        "imported_usd": 62370000.00000001,
+        "local_share": 0.44999999999999996,
+        "local_usd": 51029999.99999999,
+        "total_usd": 113400000.0
+      },
+      {
+        "bucket": "solar_plant",
+        "imported_share": 0.7,
+        "imported_usd": 30094394.0864,
+        "local_share": 0.30000000000000004,
+        "local_usd": 12897597.465600003,
+        "total_usd": 42991991.552
+      },
+      {
+        "bucket": "signalling",
+        "imported_share": 0.8,
+        "imported_usd": 2363388.8000000003,
+        "local_share": 0.19999999999999996,
+        "local_usd": 590847.1999999997,
+        "total_usd": 2954236.0
+      },
+      {
+        "bucket": "charging_microgrid",
+        "imported_share": 0.55,
+        "imported_usd": 1182500.0,
+        "local_share": 0.44999999999999996,
+        "local_usd": 967500.0,
+        "total_usd": 2150000.0
+      },
+      {
+        "bucket": "epc_overhead",
+        "imported_share": 0.45,
+        "imported_usd": 12046188.15,
+        "local_share": 0.55,
+        "local_usd": 14723118.85,
+        "total_usd": 26769307.0
+      }
+    ],
+    "reconciled_project_total": 452179971.552,
+    "risk_envelope_15_percent": 520006967.28479993,
+    "risk_envelope_25_percent": 565224964.4399999,
     "timetable_sized_dedicated_solar": 42991991.552
   },
   "cases": {
@@ -27,9 +98,9 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 540443304.0,
       "capacity_utilisation": 0.8,
-      "project_irr": 0.4522340127953066,
-      "project_npv_usd_at_8_percent": 3745805526.42947,
-      "steady_state_dscr": 23.831118970212014
+      "project_irr": 0.4651758969386173,
+      "project_npv_usd_at_8_percent": 3765184224.4486294,
+      "steady_state_dscr": 22.561889332462627
     },
     "low_capacity_use": {
       "annual_operating_cash_usd": 320778039.58672,
@@ -37,24 +108,39 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 341009640.0,
       "capacity_utilisation": 0.5,
-      "project_irr": 0.34283154107390135,
-      "project_npv_usd_at_8_percent": 2163916989.4812465,
-      "steady_state_dscr": 14.694978163151138
+      "project_irr": 0.35376610344454085,
+      "project_npv_usd_at_8_percent": 2183295687.5004053,
+      "steady_state_dscr": 13.912333343406631
     }
   },
   "city": "abha",
   "funding": {
-    "annual_debt_service_usd": 21829092.63459113,
+    "annual_debt_service_usd": 23057098.45133519,
+    "annual_external_capital_draw_usd": 40856304.79728,
+    "annual_external_debt_service_usd": 11699294.363356527,
+    "annual_grace_interest_usd": 18117012.691749603,
+    "annual_local_bond_issuance_usd": 39663751.610496,
+    "annual_local_bond_service_usd": 11357804.087978667,
+    "annual_local_capital_draw_usd": 49579689.51312,
+    "annual_local_public_equity_draw_usd": 9915937.902624,
+    "annual_public_construction_commitment_usd": 28032950.594373602,
     "construction_grace_years": 5,
-    "debt_principal_usd": 381158057.24160004,
-    "debt_rate": 0.045,
-    "government_equity_share": 0.2,
+    "debt_principal_usd": 402600282.03888,
+    "external_capital_required_usd": 204281523.9864,
+    "external_debt_rate": 0.045,
+    "external_debt_usd": 204281523.9864,
+    "external_grant_usd": 0.0,
     "lender_commitment_status": "unconfirmed-placeholder",
+    "local_bond_principal_usd": 198318758.05248,
+    "local_bond_rate": 0.045,
+    "local_capital_required_usd": 247898447.5656,
+    "local_public_equity_usd": 49579689.513119996,
     "repayment_years": 35
   },
   "limitations": [
     "No calibrated origin-destination or stated-preference ridership survey.",
     "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "Imported shares are planning assumptions pending country supplier-capability, customs, tax, and procurement-origin surveys.",
     "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
     "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
   ],
@@ -78,12 +164,12 @@
     "practical_capacity_passenger_trips_per_day": 401760.0,
     "single_trip_fare_usd": 4.533333333333333
   },
-  "schema_version": 1,
+  "schema_version": 2,
   "sources": {
     "design": "designs/west-asia/Saudi Arabia/Abha/design.toml",
-    "design_sha256": "a6f5f6e034bc65f6110f0700ba535cae85409c417e3eb278f49e22768526eaa0",
+    "design_sha256": "1bfe469a61f26974f2ff0b89e3d156a09a944a45a4ec160e1d684340d28a5dcc",
     "generator": "scripts/generate-city-finance.py",
-    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "generator_sha256": "9da48240e9ea50383e605d0c00585d52cdf48747820a2ac28647432461d3e1fa",
     "scenario": "designs/west-asia/Saudi Arabia/Abha/abha.toml",
     "scenario_sha256": "f5fb304ec2283928a2f2d06e2e1e86440f277653e6ef7686ea5ce4d89cb63418"
   },

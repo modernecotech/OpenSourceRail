@@ -11,13 +11,84 @@
     "total": 10274667.265998546
   },
   "capex_eur": {
-    "reconciled_project_total": 349897820.31457746
+    "reconciled_project_total": 334127732.31457746
   },
   "capex_usd": {
-    "authoritative_design_base": 349664692.0,
-    "reconciled_project_total": 380323717.7332364,
-    "risk_envelope_15_percent": 437372275.3932218,
-    "risk_envelope_25_percent": 475404647.16654545,
+    "authoritative_design_base": 332523292.0,
+    "imported_external_capital": 161985414.81326544,
+    "imported_percentage_of_total": 0.4460167990123531,
+    "local_capital": 201196902.9199709,
+    "local_percentage_of_total": 0.5539832009876469,
+    "national_trainset_factory_treatment": "excluded from city CAPEX; costed once in the country NATIONAL-BRIEF.md",
+    "procurement_origin_buckets": [
+      {
+        "bucket": "civil",
+        "imported_share": 0.35,
+        "imported_usd": 46646783.4,
+        "local_share": 0.65,
+        "local_usd": 86629740.6,
+        "total_usd": 133276524.0
+      },
+      {
+        "bucket": "stations",
+        "imported_share": 0.4,
+        "imported_usd": 34200000.0,
+        "local_share": 0.6,
+        "local_usd": 51300000.0,
+        "total_usd": 85500000.0
+      },
+      {
+        "bucket": "depots",
+        "imported_share": 0.4,
+        "imported_usd": 3200000.0,
+        "local_share": 0.6,
+        "local_usd": 4800000.0,
+        "total_usd": 8000000.0
+      },
+      {
+        "bucket": "rolling_stock",
+        "imported_share": 0.55,
+        "imported_usd": 44055000.0,
+        "local_share": 0.44999999999999996,
+        "local_usd": 36045000.0,
+        "total_usd": 80100000.0
+      },
+      {
+        "bucket": "solar_plant",
+        "imported_share": 0.7,
+        "imported_usd": 21461318.013265442,
+        "local_share": 0.30000000000000004,
+        "local_usd": 9197707.719970908,
+        "total_usd": 30659025.73323635
+      },
+      {
+        "bucket": "signalling",
+        "imported_share": 0.8,
+        "imported_usd": 1574326.4000000001,
+        "local_share": 0.19999999999999996,
+        "local_usd": 393581.59999999986,
+        "total_usd": 1967908.0
+      },
+      {
+        "bucket": "charging_microgrid",
+        "imported_share": 0.55,
+        "imported_usd": 1058750.0,
+        "local_share": 0.44999999999999996,
+        "local_usd": 866250.0,
+        "total_usd": 1925000.0
+      },
+      {
+        "bucket": "epc_overhead",
+        "imported_share": 0.45,
+        "imported_usd": 9789237.0,
+        "local_share": 0.55,
+        "local_usd": 11964623.0,
+        "total_usd": 21753860.0
+      }
+    ],
+    "reconciled_project_total": 363182317.7332364,
+    "risk_envelope_15_percent": 417659665.3932218,
+    "risk_envelope_25_percent": 453977897.16654545,
     "timetable_sized_dedicated_solar": 30659025.73323635
   },
   "cases": {
@@ -27,9 +98,9 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 130942918.84799999,
       "capacity_utilisation": 0.8,
-      "project_irr": 0.2091203585346011,
-      "project_npv_usd_at_8_percent": 653424437.4999995,
-      "steady_state_dscr": 6.924988303696927
+      "project_irr": 0.2160737467485796,
+      "project_npv_usd_at_8_percent": 667112565.4659135,
+      "steady_state_dscr": 6.5243409753322705
     },
     "low_capacity_use": {
       "annual_operating_cash_usd": 72569544.38200146,
@@ -37,24 +108,39 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 82844211.648,
       "capacity_utilisation": 0.5,
-      "project_irr": 0.14230858165762572,
-      "project_npv_usd_at_8_percent": 271910143.2948397,
-      "steady_state_dscr": 4.16466833207131
+      "project_irr": 0.14766539597962025,
+      "project_npv_usd_at_8_percent": 285598271.26075375,
+      "steady_state_dscr": 3.923720164710725
     }
   },
   "city": "meknes",
   "funding": {
-    "annual_debt_service_usd": 17425047.709839787,
+    "annual_debt_service_usd": 18495086.63606535,
+    "annual_external_capital_draw_usd": 32397082.96265309,
+    "annual_external_debt_service_usd": 9276977.249283552,
+    "annual_grace_interest_usd": 14532432.171715897,
+    "annual_local_bond_issuance_usd": 32191504.467195343,
+    "annual_local_bond_service_usd": 9218109.386781797,
+    "annual_local_capital_draw_usd": 40239380.58399418,
+    "annual_local_public_equity_draw_usd": 8047876.116798836,
+    "annual_public_construction_commitment_usd": 22580308.288514733,
     "construction_grace_years": 5,
-    "debt_principal_usd": 304258974.1865891,
-    "debt_rate": 0.045,
-    "government_equity_share": 0.2,
+    "debt_principal_usd": 322942937.14924216,
+    "external_capital_required_usd": 161985414.81326544,
+    "external_debt_rate": 0.045,
+    "external_debt_usd": 161985414.81326544,
+    "external_grant_usd": 0.0,
     "lender_commitment_status": "unconfirmed-placeholder",
+    "local_bond_principal_usd": 160957522.33597672,
+    "local_bond_rate": 0.045,
+    "local_capital_required_usd": 201196902.9199709,
+    "local_public_equity_usd": 40239380.58399418,
     "repayment_years": 35
   },
   "limitations": [
     "No calibrated origin-destination or stated-preference ridership survey.",
     "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "Imported shares are planning assumptions pending country supplier-capability, customs, tax, and procurement-origin surveys.",
     "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
     "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
   ],
@@ -78,12 +164,12 @@
     "practical_capacity_passenger_trips_per_day": 401760.0,
     "single_trip_fare_usd": 1.0933333333333333
   },
-  "schema_version": 1,
+  "schema_version": 2,
   "sources": {
     "design": "designs/north-africa/Morocco/Meknes/design.toml",
-    "design_sha256": "999603f5fdb512953cfc63908a49651ae0386b6e4ed89c0549b155bb6685f65a",
+    "design_sha256": "79fff6eae96add430394ed04098224aa0fd62c687c1d2f35bfb09969e0463671",
     "generator": "scripts/generate-city-finance.py",
-    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "generator_sha256": "9da48240e9ea50383e605d0c00585d52cdf48747820a2ac28647432461d3e1fa",
     "scenario": "designs/north-africa/Morocco/Meknes/meknes.toml",
     "scenario_sha256": "217ed9e1cb45fce620ff53d3996887df32662e62d11e093fc9675c74cb28dee4"
   },

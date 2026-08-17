@@ -54,6 +54,7 @@ jobs:
       - name: Check generated indexes and buildable product tree
         run: |
           python scripts/generate-doc-index.py
+          python scripts/generate-national-briefs.py
           scripts/design-iterate.sh
           scripts/buildable-trainset.sh
           git diff --exit-code

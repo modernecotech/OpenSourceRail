@@ -11,13 +11,84 @@
     "total": 3670982.5645390768
   },
   "capex_eur": {
-    "reconciled_project_total": 137607622.4250634
+    "reconciled_project_total": 132882502.4250634
   },
   "capex_usd": {
-    "authoritative_design_base": 147749225.0,
-    "reconciled_project_total": 149573502.63593847,
-    "risk_envelope_15_percent": 172009528.0313292,
-    "risk_envelope_25_percent": 186966878.29492307,
+    "authoritative_design_base": 142613225.0,
+    "imported_external_capital": 60212086.39515693,
+    "imported_percentage_of_total": 0.41687294017346954,
+    "local_capital": 84225416.24078153,
+    "local_percentage_of_total": 0.5831270598265303,
+    "national_trainset_factory_treatment": "excluded from city CAPEX; costed once in the country NATIONAL-BRIEF.md",
+    "procurement_origin_buckets": [
+      {
+        "bucket": "civil",
+        "imported_share": 0.35,
+        "imported_usd": 16957535.0,
+        "local_share": 0.65,
+        "local_usd": 31492565.0,
+        "total_usd": 48450100.0
+      },
+      {
+        "bucket": "stations",
+        "imported_share": 0.4,
+        "imported_usd": 21000000.0,
+        "local_share": 0.6,
+        "local_usd": 31500000.0,
+        "total_usd": 52500000.0
+      },
+      {
+        "bucket": "depots",
+        "imported_share": 0.4,
+        "imported_usd": 3200000.0,
+        "local_share": 0.6,
+        "local_usd": 4800000.0,
+        "total_usd": 8000000.0
+      },
+      {
+        "bucket": "rolling_stock",
+        "imported_share": 0.55,
+        "imported_usd": 12320000.000000002,
+        "local_share": 0.44999999999999996,
+        "local_usd": 10079999.999999998,
+        "total_usd": 22400000.0
+      },
+      {
+        "bucket": "solar_plant",
+        "imported_share": 0.7,
+        "imported_usd": 1276994.3451569225,
+        "local_share": 0.30000000000000004,
+        "local_usd": 547283.2907815385,
+        "total_usd": 1824277.635938461
+      },
+      {
+        "bucket": "signalling",
+        "imported_share": 0.8,
+        "imported_usd": 626630.4,
+        "local_share": 0.19999999999999996,
+        "local_usd": 156657.59999999998,
+        "total_usd": 783288.0
+      },
+      {
+        "bucket": "charging_microgrid",
+        "imported_share": 0.55,
+        "imported_usd": 632500.0,
+        "local_share": 0.44999999999999996,
+        "local_usd": 517500.0,
+        "total_usd": 1150000.0
+      },
+      {
+        "bucket": "epc_overhead",
+        "imported_share": 0.45,
+        "imported_usd": 4198426.65,
+        "local_share": 0.55,
+        "local_usd": 5131410.35,
+        "total_usd": 9329837.0
+      }
+    ],
+    "reconciled_project_total": 144437502.63593847,
+    "risk_envelope_15_percent": 166103128.0313292,
+    "risk_envelope_25_percent": 180546878.29492307,
     "timetable_sized_dedicated_solar": 1824277.635938461
   },
   "cases": {
@@ -27,9 +98,9 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 35197431.984000005,
       "capacity_utilisation": 0.8,
-      "project_irr": 0.13683244332565656,
-      "project_npv_usd_at_8_percent": 100554498.81375253,
-      "steady_state_dscr": 4.485005620577569
+      "project_irr": 0.14036385159604828,
+      "project_npv_usd_at_8_percent": 104374486.90291981,
+      "steady_state_dscr": 3.0681298310441996
     },
     "low_capacity_use": {
       "annual_operating_cash_usd": 18621918.219460927,
@@ -37,24 +108,39 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 22292900.784,
       "capacity_utilisation": 0.5,
-      "project_irr": 0.08928570332540398,
-      "project_npv_usd_at_8_percent": 13858718.868480409,
-      "steady_state_dscr": 2.6491853481179675
+      "project_irr": 0.09213484472788872,
+      "project_npv_usd_at_8_percent": 17678706.957647685,
+      "steady_state_dscr": 1.812270771129878
     }
   },
   "city": "sumbawanga",
   "funding": {
-    "annual_debt_service_usd": 7029299.86861444,
+    "annual_debt_service_usd": 10275461.325158883,
+    "annual_external_capital_draw_usd": 8601726.627879562,
+    "annual_external_debt_service_usd": 3537130.604080527,
+    "annual_grace_interest_usd": 9110675.522081457,
+    "annual_local_bond_issuance_usd": 9625761.856089318,
+    "annual_local_bond_service_usd": 6738330.721078357,
+    "annual_local_capital_draw_usd": 12032202.320111647,
+    "annual_local_public_equity_draw_usd": 2406440.46402233,
+    "annual_public_construction_commitment_usd": 11517115.986103788,
     "construction_grace_years": 7,
-    "debt_principal_usd": 119658802.10875078,
-    "debt_rate": 0.045,
-    "government_equity_share": 0.2,
+    "debt_principal_usd": 127592419.38778216,
+    "external_capital_required_usd": 60212086.39515693,
+    "external_debt_rate": 0.045,
+    "external_debt_usd": 60212086.39515693,
+    "external_grant_usd": 0.0,
     "lender_commitment_status": "unconfirmed-placeholder",
+    "local_bond_principal_usd": 67380332.99262522,
+    "local_bond_rate": 0.095,
+    "local_capital_required_usd": 84225416.24078153,
+    "local_public_equity_usd": 16845083.24815631,
     "repayment_years": 33
   },
   "limitations": [
     "No calibrated origin-destination or stated-preference ridership survey.",
     "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "Imported shares are planning assumptions pending country supplier-capability, customs, tax, and procurement-origin surveys.",
     "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
     "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
   ],
@@ -78,12 +164,12 @@
     "practical_capacity_passenger_trips_per_day": 267840.0,
     "single_trip_fare_usd": 0.44000000000000006
   },
-  "schema_version": 1,
+  "schema_version": 2,
   "sources": {
     "design": "designs/east-africa/Tanzania/Sumbawanga/design.toml",
-    "design_sha256": "7cbe121167829f01e976f03e79a66b40fc5c71a2640c6f5bc88bdfc0f4dbb890",
+    "design_sha256": "21dae52b4af9a7a961a950fa34645d6316675042c13d180e0b8fea5051ba3c27",
     "generator": "scripts/generate-city-finance.py",
-    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "generator_sha256": "9da48240e9ea50383e605d0c00585d52cdf48747820a2ac28647432461d3e1fa",
     "scenario": "designs/east-africa/Tanzania/Sumbawanga/sumbawanga.toml",
     "scenario_sha256": "46cf2bdff2ff20599d2dbd5b60ea5b0bb2f51adebbd8b0042a9196a06e6febbe"
   },

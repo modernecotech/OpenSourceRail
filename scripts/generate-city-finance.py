@@ -25,23 +25,20 @@ from osr_scenario.network_readme import (  # noqa: E402
     _USD_TO_EUR,
     _driverless_workforce_breakdown,
     _energy_plan,
-    _funding_stack,
     _load_country_finance,
     _scheduled_daily_train_journeys,
     _station_commercial_revenue_eur,
     compute_stats,
 )
+from osr_scenario.capital import (  # noqa: E402
+    bucket_rows,
+    city_capital_breakdown,
+    funding_plan,
+)
 
 
 def sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
-
-
-def annuity(principal: float, rate: float, years: int) -> float:
-    if rate <= 0:
-        return principal / max(years, 1)
-    factor = 1.0 - (1.0 + rate) ** -years
-    return principal * rate / factor
 
 
 def npv(rate: float, cashflows: list[float]) -> float:
@@ -87,12 +84,14 @@ def build_model(design_path: Path, scenario_path: Path) -> dict[str, object]:
     energy = _energy_plan(design, scenario, stats)
     costs = design["costs"]
     fin = _load_country_finance(stats.country_iso)
-    stack = _funding_stack(fin)
 
-    base_capex = float(costs["total_usd"])
     solar_capex = energy.solar_plant_capex_usd
-    total_capex = base_capex + solar_capex
+    base_capital = city_capital_breakdown(costs)
+    capital = city_capital_breakdown(costs, solar_capex)
+    base_capex = base_capital.total_usd
+    total_capex = capital.total_usd
     total_capex_eur = total_capex * _USD_TO_EUR
+    capital_plan = funding_plan(capital, fin)
 
     rs_maint = 0.04 * float(costs["rolling_stock_usd"])
     fixed_maint = 0.02 * (
@@ -144,11 +143,9 @@ def build_model(design_path: Path, scenario_path: Path) -> dict[str, object]:
         * float(fin["median_monthly_income_usd"])
         / 30.0
     )
-    repayment_years = max(stack.tenor - stack.grace, 1)
-    debt_principal = total_capex * (stack.multi_frac + stack.bond_frac)
-    debt_service = annuity(
-        total_capex * stack.multi_frac, stack.multi_rate, repayment_years
-    ) + annuity(total_capex * stack.bond_frac, stack.bond_rate, repayment_years)
+    repayment_years = capital_plan.repayment_years
+    debt_principal = capital_plan.external_debt_usd + capital_plan.local_bond_usd
+    debt_service = capital_plan.annual_debt_service_usd
 
     discount_rate = 0.08
     cases: dict[str, object] = {}
@@ -160,7 +157,10 @@ def build_model(design_path: Path, scenario_path: Path) -> dict[str, object]:
         revenue = annual_trips * trip_fare + nonfare
         operating_cash = revenue - annual_opex
         cashflows = [0.0]
-        cashflows.extend([-total_capex / stack.grace] * stack.grace)
+        cashflows.extend(
+            [-total_capex / capital_plan.construction_years]
+            * capital_plan.construction_years
+        )
         cashflows.extend([operating_cash] * repayment_years)
         project_irr = irr(cashflows)
         cases[name] = {
@@ -177,7 +177,7 @@ def build_model(design_path: Path, scenario_path: Path) -> dict[str, object]:
     required_farebox = max(0.0, annual_opex - nonfare)
     neutral_trips = required_farebox / trip_fare if trip_fare else math.inf
     return {
-        "schema_version": 1,
+        "schema_version": 2,
         "city": slug,
         "status": "planning-screen",
         "passed": True,
@@ -195,6 +195,12 @@ def build_model(design_path: Path, scenario_path: Path) -> dict[str, object]:
             "reconciled_project_total": total_capex,
             "risk_envelope_15_percent": total_capex * 1.15,
             "risk_envelope_25_percent": total_capex * 1.25,
+            "imported_external_capital": capital.imported_usd,
+            "local_capital": capital.local_usd,
+            "imported_percentage_of_total": capital.imported_share,
+            "local_percentage_of_total": capital.local_share,
+            "procurement_origin_buckets": bucket_rows(capital),
+            "national_trainset_factory_treatment": "excluded from city CAPEX; costed once in the country NATIONAL-BRIEF.md",
         },
         "capex_eur": {"reconciled_project_total": total_capex_eur},
         "annual_opex_usd": {"components": opex_components, "total": annual_opex},
@@ -208,9 +214,23 @@ def build_model(design_path: Path, scenario_path: Path) -> dict[str, object]:
             "debt_principal_usd": debt_principal,
             "annual_debt_service_usd": debt_service,
             "repayment_years": repayment_years,
-            "construction_grace_years": stack.grace,
-            "debt_rate": stack.multi_rate,
-            "government_equity_share": stack.equity_frac,
+            "construction_grace_years": capital_plan.construction_years,
+            "external_capital_required_usd": capital.imported_usd,
+            "annual_external_capital_draw_usd": capital_plan.annual_external_capital_draw_usd,
+            "external_grant_usd": capital_plan.external_grant_usd,
+            "external_debt_usd": capital_plan.external_debt_usd,
+            "external_debt_rate": capital_plan.external_rate,
+            "annual_external_debt_service_usd": capital_plan.annual_external_debt_service_usd,
+            "local_capital_required_usd": capital.local_usd,
+            "annual_local_capital_draw_usd": capital_plan.annual_local_capital_draw_usd,
+            "local_bond_principal_usd": capital_plan.local_bond_usd,
+            "annual_local_bond_issuance_usd": capital_plan.annual_local_bond_issuance_usd,
+            "local_bond_rate": capital_plan.local_bond_rate,
+            "annual_local_bond_service_usd": capital_plan.annual_local_bond_service_usd,
+            "local_public_equity_usd": capital_plan.local_equity_usd,
+            "annual_local_public_equity_draw_usd": capital_plan.annual_local_equity_draw_usd,
+            "annual_grace_interest_usd": capital_plan.annual_grace_interest_usd,
+            "annual_public_construction_commitment_usd": capital_plan.annual_public_construction_commitment_usd,
             "lender_commitment_status": "unconfirmed-placeholder",
         },
         "revenue_basis": {
@@ -230,6 +250,7 @@ def build_model(design_path: Path, scenario_path: Path) -> dict[str, object]:
         "limitations": [
             "No calibrated origin-destination or stated-preference ridership survey.",
             "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+            "Imported shares are planning assumptions pending country supplier-capability, customs, tax, and procurement-origin surveys.",
             "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
             "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis.",
         ],

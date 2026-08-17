@@ -11,13 +11,84 @@
     "total": 10996212.065682461
   },
   "capex_eur": {
-    "reconciled_project_total": 405082309.70852435
+    "reconciled_project_total": 385591190.62852436
   },
   "capex_usd": {
-    "authoritative_design_base": 406288692.0,
-    "reconciled_project_total": 440306858.3788308,
-    "risk_envelope_15_percent": 506352887.13565534,
-    "risk_envelope_25_percent": 550383572.9735385,
+    "authoritative_design_base": 385102693.0,
+    "imported_external_capital": 186663198.26518154,
+    "imported_percentage_of_total": 0.44536842795615256,
+    "local_capital": 232457661.11364922,
+    "local_percentage_of_total": 0.5546315720438474,
+    "national_trainset_factory_treatment": "excluded from city CAPEX; costed once in the country NATIONAL-BRIEF.md",
+    "procurement_origin_buckets": [
+      {
+        "bucket": "civil",
+        "imported_share": 0.35,
+        "imported_usd": 60160256.099999994,
+        "local_share": 0.65,
+        "local_usd": 111726189.9,
+        "total_usd": 171886446.0
+      },
+      {
+        "bucket": "stations",
+        "imported_share": 0.4,
+        "imported_usd": 30640000.0,
+        "local_share": 0.6,
+        "local_usd": 45960000.0,
+        "total_usd": 76600000.0
+      },
+      {
+        "bucket": "depots",
+        "imported_share": 0.4,
+        "imported_usd": 3200000.0,
+        "local_share": 0.6,
+        "local_usd": 4800000.0,
+        "total_usd": 8000000.0
+      },
+      {
+        "bucket": "rolling_stock",
+        "imported_share": 0.55,
+        "imported_usd": 54450000.00000001,
+        "local_share": 0.44999999999999996,
+        "local_usd": 44549999.99999999,
+        "total_usd": 99000000.0
+      },
+      {
+        "bucket": "solar_plant",
+        "imported_share": 0.7,
+        "imported_usd": 23812716.465181537,
+        "local_share": 0.30000000000000004,
+        "local_usd": 10205449.913649231,
+        "total_usd": 34018166.37883077
+      },
+      {
+        "bucket": "signalling",
+        "imported_share": 0.8,
+        "imported_usd": 2018090.4000000001,
+        "local_share": 0.19999999999999996,
+        "local_usd": 504522.59999999986,
+        "total_usd": 2522613.0
+      },
+      {
+        "bucket": "charging_microgrid",
+        "imported_share": 0.55,
+        "imported_usd": 1045000.0000000001,
+        "local_share": 0.44999999999999996,
+        "local_usd": 854999.9999999999,
+        "total_usd": 1900000.0
+      },
+      {
+        "bucket": "epc_overhead",
+        "imported_share": 0.45,
+        "imported_usd": 11337135.3,
+        "local_share": 0.55,
+        "local_usd": 13856498.7,
+        "total_usd": 25193634.0
+      }
+    ],
+    "reconciled_project_total": 419120859.3788308,
+    "risk_envelope_15_percent": 481988988.2856554,
+    "risk_envelope_25_percent": 523901074.2235385,
     "timetable_sized_dedicated_solar": 34018166.37883077
   },
   "cases": {
@@ -27,9 +98,9 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 76512478.464,
       "capacity_utilisation": 0.8,
-      "project_irr": 0.11557469854293229,
-      "project_npv_usd_at_8_percent": 168065166.86151353,
-      "steady_state_dscr": 3.247679199228276
+      "project_irr": 0.12059948745582907,
+      "project_npv_usd_at_8_percent": 184983077.03207877,
+      "steady_state_dscr": 2.0121191186944096
     },
     "low_capacity_use": {
       "annual_operating_cash_usd": 37360925.598317534,
@@ -37,24 +108,39 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 48357137.664,
       "capacity_utilisation": 0.5,
-      "project_irr": 0.06648639005101581,
-      "project_npv_usd_at_8_percent": -55260273.648824014,
-      "steady_state_dscr": 1.8520026796381517
+      "project_irr": 0.0702708784051628,
+      "project_npv_usd_at_8_percent": -38342363.478258766,
+      "steady_state_dscr": 1.1474193634822967
     }
   },
   "city": "benguela",
   "funding": {
-    "annual_debt_service_usd": 20173256.771754343,
+    "annual_debt_service_usd": 32560828.92390021,
+    "annual_external_capital_draw_usd": 37332639.65303631,
+    "annual_external_debt_service_usd": 10690284.959178824,
+    "annual_grace_interest_usd": 29785948.7443889,
+    "annual_local_bond_issuance_usd": 37193225.77818388,
+    "annual_local_bond_service_usd": 21870543.964721385,
+    "annual_local_capital_draw_usd": 46491532.22272985,
+    "annual_local_public_equity_draw_usd": 9298306.444545966,
+    "annual_public_construction_commitment_usd": 39084255.18893486,
     "construction_grace_years": 5,
-    "debt_principal_usd": 352245486.7030647,
-    "debt_rate": 0.045,
-    "government_equity_share": 0.2,
+    "debt_principal_usd": 372629327.1561009,
+    "external_capital_required_usd": 186663198.26518154,
+    "external_debt_rate": 0.045,
+    "external_debt_usd": 186663198.26518154,
+    "external_grant_usd": 0.0,
     "lender_commitment_status": "unconfirmed-placeholder",
+    "local_bond_principal_usd": 185966128.8909194,
+    "local_bond_rate": 0.115,
+    "local_capital_required_usd": 232457661.11364922,
+    "local_public_equity_usd": 46491532.22272983,
     "repayment_years": 35
   },
   "limitations": [
     "No calibrated origin-destination or stated-preference ridership survey.",
     "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "Imported shares are planning assumptions pending country supplier-capability, customs, tax, and procurement-origin surveys.",
     "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
     "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
   ],
@@ -78,12 +164,12 @@
     "practical_capacity_passenger_trips_per_day": 401760.0,
     "single_trip_fare_usd": 0.64
   },
-  "schema_version": 1,
+  "schema_version": 2,
   "sources": {
     "design": "designs/east-africa/Angola/Benguela/design.toml",
-    "design_sha256": "3e5105b1b9b2d195fc6cbebd81bdba0d78abd184d446b4a85cdab86eada71336",
+    "design_sha256": "0661bb07475a03a618a954739b57bf0eded0e1f0b980cd11976ee016ea54ef92",
     "generator": "scripts/generate-city-finance.py",
-    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "generator_sha256": "9da48240e9ea50383e605d0c00585d52cdf48747820a2ac28647432461d3e1fa",
     "scenario": "designs/east-africa/Angola/Benguela/benguela.toml",
     "scenario_sha256": "cab89c3fe76fec7dfcd4d3e594c1858bd0867282e9c47aaa3ac63409430a7f29"
   },

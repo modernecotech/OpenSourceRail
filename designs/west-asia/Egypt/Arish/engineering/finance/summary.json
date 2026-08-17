@@ -11,13 +11,84 @@
     "total": 4466923.710992
   },
   "capex_eur": {
-    "reconciled_project_total": 167763817.674176
+    "reconciled_project_total": 163274952.75417602
   },
   "capex_usd": {
-    "authoritative_design_base": 178251017.0,
-    "reconciled_project_total": 182351975.7328,
-    "risk_envelope_15_percent": 209704772.09272,
-    "risk_envelope_25_percent": 227939969.666,
+    "authoritative_design_base": 173371816.0,
+    "imported_external_capital": 72784374.26296,
+    "imported_percentage_of_total": 0.4101157170306427,
+    "local_capital": 104688400.46984,
+    "local_percentage_of_total": 0.5898842829693574,
+    "national_trainset_factory_treatment": "excluded from city CAPEX; costed once in the country NATIONAL-BRIEF.md",
+    "procurement_origin_buckets": [
+      {
+        "bucket": "civil",
+        "imported_share": 0.35,
+        "imported_usd": 25851599.9,
+        "local_share": 0.65,
+        "local_usd": 48010114.1,
+        "total_usd": 73861714.0
+      },
+      {
+        "bucket": "stations",
+        "imported_share": 0.4,
+        "imported_usd": 22800000.0,
+        "local_share": 0.6,
+        "local_usd": 34200000.0,
+        "total_usd": 57000000.0
+      },
+      {
+        "bucket": "depots",
+        "imported_share": 0.4,
+        "imported_usd": 3200000.0,
+        "local_share": 0.6,
+        "local_usd": 4800000.0,
+        "total_usd": 8000000.0
+      },
+      {
+        "bucket": "rolling_stock",
+        "imported_share": 0.55,
+        "imported_usd": 11704000.000000002,
+        "local_share": 0.44999999999999996,
+        "local_usd": 9575999.999999998,
+        "total_usd": 21280000.0
+      },
+      {
+        "bucket": "solar_plant",
+        "imported_share": 0.7,
+        "imported_usd": 2870671.1129599996,
+        "local_share": 0.30000000000000004,
+        "local_usd": 1230287.6198399998,
+        "total_usd": 4100958.7327999994
+      },
+      {
+        "bucket": "signalling",
+        "imported_share": 0.8,
+        "imported_usd": 690416.8,
+        "local_share": 0.19999999999999996,
+        "local_usd": 172604.19999999995,
+        "total_usd": 863021.0
+      },
+      {
+        "bucket": "charging_microgrid",
+        "imported_share": 0.55,
+        "imported_usd": 563750.0,
+        "local_share": 0.44999999999999996,
+        "local_usd": 461250.0,
+        "total_usd": 1025000.0
+      },
+      {
+        "bucket": "epc_overhead",
+        "imported_share": 0.45,
+        "imported_usd": 5103936.45,
+        "local_share": 0.55,
+        "local_usd": 6238144.55,
+        "total_usd": 11342081.0
+      }
+    ],
+    "reconciled_project_total": 177472774.7328,
+    "risk_envelope_15_percent": 204093690.94272,
+    "risk_envelope_25_percent": 221840968.416,
     "timetable_sized_dedicated_solar": 4100958.7327999994
   },
   "cases": {
@@ -27,9 +98,9 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 37232669.760000005,
       "capacity_utilisation": 0.8,
-      "project_irr": 0.13552386516032128,
-      "project_npv_usd_at_8_percent": 114279016.34604661,
-      "steady_state_dscr": 3.9218323235894297
+      "project_irr": 0.1385599994602489,
+      "project_npv_usd_at_8_percent": 118175263.30717088,
+      "steady_state_dscr": 2.475208274856457
     },
     "low_capacity_use": {
       "annual_operating_cash_usd": 19209470.849007998,
@@ -37,24 +108,39 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 23676394.56,
       "capacity_utilisation": 0.5,
-      "project_irr": 0.08377465660466435,
-      "project_npv_usd_at_8_percent": 6751952.396624811,
-      "steady_state_dscr": 2.2992402975353365
+      "project_irr": 0.08607427151337099,
+      "project_npv_usd_at_8_percent": 10648199.357749082,
+      "steady_state_dscr": 1.4511325678335347
     }
   },
   "city": "arish",
   "funding": {
-    "annual_debt_service_usd": 8354703.451222357,
+    "annual_debt_service_usd": 13237571.311411427,
+    "annual_external_capital_draw_usd": 14556874.852592,
+    "annual_external_debt_service_usd": 4168393.7095151586,
+    "annual_grace_interest_usd": 12069122.481299762,
+    "annual_local_bond_issuance_usd": 16750144.075174402,
+    "annual_local_bond_service_usd": 9069177.60189627,
+    "annual_local_capital_draw_usd": 20937680.093968,
+    "annual_local_public_equity_draw_usd": 4187536.018793598,
+    "annual_public_construction_commitment_usd": 16256658.50009336,
     "construction_grace_years": 5,
-    "debt_principal_usd": 145881580.58624002,
-    "debt_rate": 0.045,
-    "government_equity_share": 0.2,
+    "debt_principal_usd": 156535094.63883203,
+    "external_capital_required_usd": 72784374.26296,
+    "external_debt_rate": 0.045,
+    "external_debt_usd": 72784374.26296,
+    "external_grant_usd": 0.0,
     "lender_commitment_status": "unconfirmed-placeholder",
+    "local_bond_principal_usd": 83750720.37587202,
+    "local_bond_rate": 0.105,
+    "local_capital_required_usd": 104688400.46984,
+    "local_public_equity_usd": 20937680.09396799,
     "repayment_years": 35
   },
   "limitations": [
     "No calibrated origin-destination or stated-preference ridership survey.",
     "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "Imported shares are planning assumptions pending country supplier-capability, customs, tax, and procurement-origin surveys.",
     "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
     "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
   ],
@@ -78,12 +164,12 @@
     "practical_capacity_passenger_trips_per_day": 178560.0,
     "single_trip_fare_usd": 0.6933333333333334
   },
-  "schema_version": 1,
+  "schema_version": 2,
   "sources": {
     "design": "designs/west-asia/Egypt/Arish/design.toml",
-    "design_sha256": "c72a2e2016d70ceb667033f19af4a4a156573088f4f5c6d55aa69682a51f7e9d",
+    "design_sha256": "5dc95fec52517b28bfa774b2cd3659eb74da83559ffa1949ef35b4c85e6b47cb",
     "generator": "scripts/generate-city-finance.py",
-    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "generator_sha256": "9da48240e9ea50383e605d0c00585d52cdf48747820a2ac28647432461d3e1fa",
     "scenario": "designs/west-asia/Egypt/Arish/arish.toml",
     "scenario_sha256": "56fcc8cbafb7c50e226554c4c48b4504fc384ea6a49a4078e99cfca24c191703"
   },

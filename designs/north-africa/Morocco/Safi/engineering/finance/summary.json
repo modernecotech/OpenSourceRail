@@ -11,13 +11,84 @@
     "total": 10343743.167175272
   },
   "capex_eur": {
-    "reconciled_project_total": 352700574.0134167
+    "reconciled_project_total": 337462062.0134167
   },
   "capex_usd": {
-    "authoritative_design_base": 352814892.0,
-    "reconciled_project_total": 383370189.14501816,
-    "risk_envelope_15_percent": 440875717.51677084,
-    "risk_envelope_25_percent": 479212736.4312727,
+    "authoritative_design_base": 336251292.0,
+    "imported_external_capital": 163059677.45151272,
+    "imported_percentage_of_total": 0.44453857230750715,
+    "local_capital": 203746911.69350547,
+    "local_percentage_of_total": 0.555461427692493,
+    "national_trainset_factory_treatment": "excluded from city CAPEX; costed once in the country NATIONAL-BRIEF.md",
+    "procurement_origin_buckets": [
+      {
+        "bucket": "civil",
+        "imported_share": 0.35,
+        "imported_usd": 46293024.05,
+        "local_share": 0.65,
+        "local_usd": 85972758.95,
+        "total_usd": 132265783.0
+      },
+      {
+        "bucket": "stations",
+        "imported_share": 0.4,
+        "imported_usd": 37080000.0,
+        "local_share": 0.6,
+        "local_usd": 55620000.0,
+        "total_usd": 92700000.0
+      },
+      {
+        "bucket": "depots",
+        "imported_share": 0.4,
+        "imported_usd": 3200000.0,
+        "local_share": 0.6,
+        "local_usd": 4800000.0,
+        "total_usd": 8000000.0
+      },
+      {
+        "bucket": "rolling_stock",
+        "imported_share": 0.55,
+        "imported_usd": 42570000.0,
+        "local_share": 0.44999999999999996,
+        "local_usd": 34830000.0,
+        "total_usd": 77400000.0
+      },
+      {
+        "bucket": "solar_plant",
+        "imported_share": 0.7,
+        "imported_usd": 21388708.00151273,
+        "local_share": 0.30000000000000004,
+        "local_usd": 9166589.143505458,
+        "total_usd": 30555297.145018186
+      },
+      {
+        "bucket": "signalling",
+        "imported_share": 0.8,
+        "imported_usd": 1570208.8,
+        "local_share": 0.19999999999999996,
+        "local_usd": 392552.19999999995,
+        "total_usd": 1962761.0
+      },
+      {
+        "bucket": "charging_microgrid",
+        "imported_share": 0.55,
+        "imported_usd": 1058750.0,
+        "local_share": 0.44999999999999996,
+        "local_usd": 866250.0,
+        "total_usd": 1925000.0
+      },
+      {
+        "bucket": "epc_overhead",
+        "imported_share": 0.45,
+        "imported_usd": 9898986.6,
+        "local_share": 0.55,
+        "local_usd": 12098761.4,
+        "total_usd": 21997748.0
+      }
+    ],
+    "reconciled_project_total": 366806589.14501816,
+    "risk_envelope_15_percent": 421827577.51677084,
+    "risk_envelope_25_percent": 458508236.4312727,
     "timetable_sized_dedicated_solar": 30555297.145018186
   },
   "cases": {
@@ -27,9 +98,9 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 131280529.24799998,
       "capacity_utilisation": 0.8,
-      "project_irr": 0.20826354139671818,
-      "project_npv_usd_at_8_percent": 653121691.7797863,
-      "steady_state_dscr": 6.8852468891131835
+      "project_irr": 0.21490086580084605,
+      "project_npv_usd_at_8_percent": 666348422.1738156,
+      "steady_state_dscr": 6.476405605124208
     },
     "low_capacity_use": {
       "annual_operating_cash_usd": 72838078.88082471,
@@ -37,24 +108,39 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 83181822.048,
       "capacity_utilisation": 0.5,
-      "project_irr": 0.14181750072513744,
-      "project_npv_usd_at_8_percent": 271607397.5746265,
-      "steady_state_dscr": 4.146861945611901
+      "project_irr": 0.14693335899166413,
+      "project_npv_usd_at_8_percent": 284834127.9686558,
+      "steady_state_dscr": 3.9006240997258317
     }
   },
   "city": "safi",
   "funding": {
-    "annual_debt_service_usd": 17564625.93549805,
+    "annual_debt_service_usd": 18673442.25400863,
+    "annual_external_capital_draw_usd": 32611935.490302544,
+    "annual_external_debt_service_usd": 9338500.75166964,
+    "annual_grace_interest_usd": 14672574.30628427,
+    "annual_local_bond_issuance_usd": 32599505.87096088,
+    "annual_local_bond_service_usd": 9334941.502338989,
+    "annual_local_capital_draw_usd": 40749382.33870109,
+    "annual_local_public_equity_draw_usd": 8149876.4677402135,
+    "annual_public_construction_commitment_usd": 22822450.774024483,
     "construction_grace_years": 5,
-    "debt_principal_usd": 306696151.3160145,
-    "debt_rate": 0.045,
-    "government_equity_share": 0.2,
+    "debt_principal_usd": 326057206.8063171,
+    "external_capital_required_usd": 163059677.45151272,
+    "external_debt_rate": 0.045,
+    "external_debt_usd": 163059677.45151272,
+    "external_grant_usd": 0.0,
     "lender_commitment_status": "unconfirmed-placeholder",
+    "local_bond_principal_usd": 162997529.3548044,
+    "local_bond_rate": 0.045,
+    "local_capital_required_usd": 203746911.69350547,
+    "local_public_equity_usd": 40749382.33870107,
     "repayment_years": 35
   },
   "limitations": [
     "No calibrated origin-destination or stated-preference ridership survey.",
     "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "Imported shares are planning assumptions pending country supplier-capability, customs, tax, and procurement-origin surveys.",
     "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
     "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
   ],
@@ -78,12 +164,12 @@
     "practical_capacity_passenger_trips_per_day": 401760.0,
     "single_trip_fare_usd": 1.0933333333333333
   },
-  "schema_version": 1,
+  "schema_version": 2,
   "sources": {
     "design": "designs/north-africa/Morocco/Safi/design.toml",
-    "design_sha256": "f7a663b4978343c6d03a7d0a84f5c6d1baed9a18a5c943f3c7499eaf77df2183",
+    "design_sha256": "eece294989d60ea576eed91ce5c60590688d0864b9c452b70aeab206a2e444f4",
     "generator": "scripts/generate-city-finance.py",
-    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "generator_sha256": "9da48240e9ea50383e605d0c00585d52cdf48747820a2ac28647432461d3e1fa",
     "scenario": "designs/north-africa/Morocco/Safi/safi.toml",
     "scenario_sha256": "fb14ec3198d094ef3966e4c862d526fe73881d2229e873062b6cd23c511c3742"
   },

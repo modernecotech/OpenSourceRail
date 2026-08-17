@@ -11,13 +11,84 @@
     "total": 14077603.223195637
   },
   "capex_eur": {
-    "reconciled_project_total": 504419448.16933244
+    "reconciled_project_total": 484042367.2493324
   },
   "capex_usd": {
-    "authoritative_design_base": 503360444.0,
-    "reconciled_project_total": 548282008.8797091,
-    "risk_envelope_15_percent": 630524310.2116654,
-    "risk_envelope_25_percent": 685352511.0996364,
+    "authoritative_design_base": 481211443.0,
+    "imported_external_capital": 230483432.6157964,
+    "imported_percentage_of_total": 0.4380706573507593,
+    "local_capital": 295649575.26391274,
+    "local_percentage_of_total": 0.5619293426492408,
+    "national_trainset_factory_treatment": "excluded from city CAPEX; costed once in the country NATIONAL-BRIEF.md",
+    "procurement_origin_buckets": [
+      {
+        "bucket": "civil",
+        "imported_share": 0.35,
+        "imported_usd": 83615913.5,
+        "local_share": 0.65,
+        "local_usd": 155286696.5,
+        "total_usd": 238902610.0
+      },
+      {
+        "bucket": "stations",
+        "imported_share": 0.4,
+        "imported_usd": 37800000.0,
+        "local_share": 0.6,
+        "local_usd": 56700000.0,
+        "total_usd": 94500000.0
+      },
+      {
+        "bucket": "depots",
+        "imported_share": 0.4,
+        "imported_usd": 3200000.0,
+        "local_share": 0.6,
+        "local_usd": 4800000.0,
+        "total_usd": 8000000.0
+      },
+      {
+        "bucket": "rolling_stock",
+        "imported_share": 0.55,
+        "imported_usd": 56925000.00000001,
+        "local_share": 0.44999999999999996,
+        "local_usd": 46574999.99999999,
+        "total_usd": 103500000.0
+      },
+      {
+        "bucket": "solar_plant",
+        "imported_share": 0.7,
+        "imported_usd": 31445095.415796366,
+        "local_share": 0.30000000000000004,
+        "local_usd": 13476469.46391273,
+        "total_usd": 44921564.879709095
+      },
+      {
+        "bucket": "signalling",
+        "imported_share": 0.8,
+        "imported_usd": 2162168.8000000003,
+        "local_share": 0.19999999999999996,
+        "local_usd": 540542.1999999997,
+        "total_usd": 2702711.0
+      },
+      {
+        "bucket": "charging_microgrid",
+        "imported_share": 0.55,
+        "imported_usd": 1168750.0,
+        "local_share": 0.44999999999999996,
+        "local_usd": 956250.0,
+        "total_usd": 2125000.0
+      },
+      {
+        "bucket": "epc_overhead",
+        "imported_share": 0.45,
+        "imported_usd": 14166504.9,
+        "local_share": 0.55,
+        "local_usd": 17314617.1,
+        "total_usd": 31481122.0
+      }
+    ],
+    "reconciled_project_total": 526133007.8797091,
+    "risk_envelope_15_percent": 605052959.0616654,
+    "risk_envelope_25_percent": 657666259.8496364,
     "timetable_sized_dedicated_solar": 44921564.879709095
   },
   "cases": {
@@ -27,9 +98,9 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 131292238.84799999,
       "capacity_utilisation": 0.8,
-      "project_irr": 0.15575450175235345,
-      "project_npv_usd_at_8_percent": 491908938.72948086,
-      "steady_state_dscr": 4.666134793148334
+      "project_irr": 0.16083386086067547,
+      "project_npv_usd_at_8_percent": 509595846.4502713,
+      "steady_state_dscr": 4.3825966849243345
     },
     "low_capacity_use": {
       "annual_operating_cash_usd": 69115928.42480436,
@@ -37,24 +108,39 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 83193531.648,
       "capacity_utilisation": 0.5,
-      "project_irr": 0.09959934249524391,
-      "project_npv_usd_at_8_percent": 110394644.52432106,
-      "steady_state_dscr": 2.751399060916271
+      "project_irr": 0.1034438317441117,
+      "project_npv_usd_at_8_percent": 128081552.24511151,
+      "steady_state_dscr": 2.584210044892342
     }
   },
   "city": "tetouan",
   "funding": {
-    "annual_debt_service_usd": 25120284.951244906,
+    "annual_debt_service_usd": 26745476.26707477,
+    "annual_external_capital_draw_usd": 46096686.52315928,
+    "annual_external_debt_service_usd": 13199889.404724477,
+    "annual_grace_interest_usd": 21015139.177211694,
+    "annual_local_bond_issuance_usd": 47303932.04222604,
+    "annual_local_bond_service_usd": 13545586.862350294,
+    "annual_local_capital_draw_usd": 59129915.05278255,
+    "annual_local_public_equity_draw_usd": 11825983.010556508,
+    "annual_public_construction_commitment_usd": 32841122.187768202,
     "construction_grace_years": 5,
-    "debt_principal_usd": 438625607.10376734,
-    "debt_rate": 0.045,
-    "government_equity_share": 0.2,
+    "debt_principal_usd": 467003092.8269266,
+    "external_capital_required_usd": 230483432.6157964,
+    "external_debt_rate": 0.045,
+    "external_debt_usd": 230483432.6157964,
+    "external_grant_usd": 0.0,
     "lender_commitment_status": "unconfirmed-placeholder",
+    "local_bond_principal_usd": 236519660.2111302,
+    "local_bond_rate": 0.045,
+    "local_capital_required_usd": 295649575.26391274,
+    "local_public_equity_usd": 59129915.052782536,
     "repayment_years": 35
   },
   "limitations": [
     "No calibrated origin-destination or stated-preference ridership survey.",
     "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "Imported shares are planning assumptions pending country supplier-capability, customs, tax, and procurement-origin surveys.",
     "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
     "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
   ],
@@ -78,12 +164,12 @@
     "practical_capacity_passenger_trips_per_day": 401760.0,
     "single_trip_fare_usd": 1.0933333333333333
   },
-  "schema_version": 1,
+  "schema_version": 2,
   "sources": {
     "design": "designs/north-africa/Morocco/Tetouan/design.toml",
-    "design_sha256": "291c0b0bfe5adb8b364d6b10ae49fd5aaa8c06c9e44008e4ee72eba4e39df40c",
+    "design_sha256": "1a75976e869beca906e8055a75cc5406824ca6088d2fa028c225d3c87e1760eb",
     "generator": "scripts/generate-city-finance.py",
-    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "generator_sha256": "9da48240e9ea50383e605d0c00585d52cdf48747820a2ac28647432461d3e1fa",
     "scenario": "designs/north-africa/Morocco/Tetouan/tetouan.toml",
     "scenario_sha256": "bb7bce6e8f23fb4b6fdffd37fd692ca64381631daa20ad8a9a6dea327f3440a7"
   },

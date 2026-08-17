@@ -11,13 +11,84 @@
     "total": 9156167.654
   },
   "capex_eur": {
-    "reconciled_project_total": 330811799.19200003
+    "reconciled_project_total": 315396095.19200003
   },
   "capex_usd": {
-    "authoritative_design_base": 331678325.0,
-    "reconciled_project_total": 359578042.6,
-    "risk_envelope_15_percent": 413514748.99,
-    "risk_envelope_25_percent": 449472553.25,
+    "authoritative_design_base": 314922125.0,
+    "imported_external_capital": 152916659.72,
+    "imported_percentage_of_total": 0.44605284937582323,
+    "local_capital": 189905182.88000003,
+    "local_percentage_of_total": 0.5539471506241768,
+    "national_trainset_factory_treatment": "excluded from city CAPEX; costed once in the country NATIONAL-BRIEF.md",
+    "procurement_origin_buckets": [
+      {
+        "bucket": "civil",
+        "imported_share": 0.35,
+        "imported_usd": 45035284.699999996,
+        "local_share": 0.65,
+        "local_usd": 83636957.30000001,
+        "total_usd": 128672242.0
+      },
+      {
+        "bucket": "stations",
+        "imported_share": 0.4,
+        "imported_usd": 30200000.0,
+        "local_share": 0.6,
+        "local_usd": 45300000.0,
+        "total_usd": 75500000.0
+      },
+      {
+        "bucket": "depots",
+        "imported_share": 0.4,
+        "imported_usd": 3200000.0,
+        "local_share": 0.6,
+        "local_usd": 4800000.0,
+        "total_usd": 8000000.0
+      },
+      {
+        "bucket": "rolling_stock",
+        "imported_share": 0.55,
+        "imported_usd": 43065000.0,
+        "local_share": 0.44999999999999996,
+        "local_usd": 35235000.0,
+        "total_usd": 78300000.0
+      },
+      {
+        "bucket": "solar_plant",
+        "imported_share": 0.7,
+        "imported_usd": 19529802.319999997,
+        "local_share": 0.30000000000000004,
+        "local_usd": 8369915.280000001,
+        "total_usd": 27899717.599999998
+      },
+      {
+        "bucket": "signalling",
+        "imported_share": 0.8,
+        "imported_usd": 1598000.8,
+        "local_share": 0.19999999999999996,
+        "local_usd": 399500.19999999995,
+        "total_usd": 1997501.0
+      },
+      {
+        "bucket": "charging_microgrid",
+        "imported_share": 0.55,
+        "imported_usd": 1017500.0000000001,
+        "local_share": 0.44999999999999996,
+        "local_usd": 832499.9999999999,
+        "total_usd": 1850000.0
+      },
+      {
+        "bucket": "epc_overhead",
+        "imported_share": 0.45,
+        "imported_usd": 9271071.9,
+        "local_share": 0.55,
+        "local_usd": 11331310.1,
+        "total_usd": 20602382.0
+      }
+    ],
+    "reconciled_project_total": 342821842.6,
+    "risk_envelope_15_percent": 394245118.99,
+    "risk_envelope_25_percent": 428527303.25,
     "timetable_sized_dedicated_solar": 27899717.599999998
   },
   "cases": {
@@ -27,9 +98,9 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 83026032.96000001,
       "capacity_utilisation": 0.8,
-      "project_irr": 0.1509502794170293,
-      "project_npv_usd_at_8_percent": 298790456.18471724,
-      "steady_state_dscr": 4.483875826367594
+      "project_irr": 0.1567163042654101,
+      "project_npv_usd_at_8_percent": 312170985.7693748,
+      "steady_state_dscr": 2.930282154789107
     },
     "low_capacity_use": {
       "annual_operating_cash_usd": 43368246.106,
@@ -37,24 +108,39 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 52524413.76,
       "capacity_utilisation": 0.5,
-      "project_irr": 0.09556831275831873,
-      "project_npv_usd_at_8_percent": 56854562.29851822,
-      "steady_state_dscr": 2.6324378627350673
+      "project_irr": 0.09992443748572435,
+      "project_npv_usd_at_8_percent": 70235091.88317579,
+      "steady_state_dscr": 1.720338829947642
     }
   },
   "city": "beni-suef",
   "funding": {
-    "annual_debt_service_usd": 16474556.425404465,
+    "annual_debt_service_usd": 25209130.5218751,
+    "annual_external_capital_draw_usd": 30583331.944,
+    "annual_external_debt_service_usd": 8757605.583775688,
+    "annual_grace_interest_usd": 22833285.04932,
+    "annual_local_bond_issuance_usd": 30384829.260800004,
+    "annual_local_bond_service_usd": 16451524.938099409,
+    "annual_local_capital_draw_usd": 37981036.576000005,
+    "annual_local_public_equity_draw_usd": 7596207.315200001,
+    "annual_public_construction_commitment_usd": 30429492.364520002,
     "construction_grace_years": 5,
-    "debt_principal_usd": 287662434.08000004,
-    "debt_rate": 0.045,
-    "government_equity_share": 0.2,
+    "debt_principal_usd": 304840806.02400005,
+    "external_capital_required_usd": 152916659.72,
+    "external_debt_rate": 0.045,
+    "external_debt_usd": 152916659.72,
+    "external_grant_usd": 0.0,
     "lender_commitment_status": "unconfirmed-placeholder",
+    "local_bond_principal_usd": 151924146.30400002,
+    "local_bond_rate": 0.105,
+    "local_capital_required_usd": 189905182.88000003,
+    "local_public_equity_usd": 37981036.576000005,
     "repayment_years": 35
   },
   "limitations": [
     "No calibrated origin-destination or stated-preference ridership survey.",
     "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "Imported shares are planning assumptions pending country supplier-capability, customs, tax, and procurement-origin surveys.",
     "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
     "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
   ],
@@ -78,12 +164,12 @@
     "practical_capacity_passenger_trips_per_day": 401760.0,
     "single_trip_fare_usd": 0.6933333333333334
   },
-  "schema_version": 1,
+  "schema_version": 2,
   "sources": {
     "design": "designs/west-asia/Egypt/Beni-Suef/design.toml",
-    "design_sha256": "879b166e679926812b12c7d6cb4e7f1d760c0e2203d836b55a174468b7eb1260",
+    "design_sha256": "4f9862ee72a37ab4ed7d35ee4682fcecbca3e15a0075f3e0f389616b4d1adf25",
     "generator": "scripts/generate-city-finance.py",
-    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "generator_sha256": "9da48240e9ea50383e605d0c00585d52cdf48747820a2ac28647432461d3e1fa",
     "scenario": "designs/west-asia/Egypt/Beni-Suef/beni-suef.toml",
     "scenario_sha256": "32ed3081c48e8ab64f9330495479628a45e4464ff1365ebb4dbf2ca5d6b15573"
   },

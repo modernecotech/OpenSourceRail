@@ -235,7 +235,7 @@ def check_city_artifacts() -> list[Finding]:
                 expected_charge = 500 * int(
                     technology.get(
                         "station_charging_cabinet_count",
-                        2 if family == "metro-6car" else 1,
+                        {"metro-4car": 3, "metro-6car": 4}.get(family, 1),
                     )
                 )
                 consist = scenario.get("consist", {})
@@ -261,8 +261,10 @@ def check_city_artifacts() -> list[Finding]:
             text = readme.read_text()
             if "Station/depot charging microgrids" not in text:
                 findings.append(Finding(readme, "missing station/depot charging microgrid cost row"))
-            if "Railway production plant" not in text:
-                findings.append(Finding(readme, "missing railway production plant cost section"))
+            if "Shared national railway production plant" not in text:
+                findings.append(Finding(readme, "missing shared national railway production plant section"))
+            if "External capital for imported components / machinery" not in text:
+                findings.append(Finding(readme, "missing imported/external capital requirement"))
             for stale in ("Traction power", "€0.8 M/km", "Residual train-control wayside + power"):
                 if stale in text:
                     findings.append(Finding(readme, f"stale generated README wording: {stale!r}"))
@@ -273,7 +275,6 @@ def check_city_artifacts() -> list[Finding]:
                 findings.append(Finding(design_path, "missing RFC 0021 800 V cost basis"))
             else:
                 expected_cabinets = {
-                    "light-metro-3car": 2,
                     "metro-4car": 3,
                     "metro-6car": 4,
                 }.get(_family(design), 1)
@@ -488,14 +489,11 @@ def check_city_costs() -> list[Finding]:
             )
             if not _almost_equal(expected_rolling, float(costs.get("rolling_stock_eur", 0))):
                 findings.append(Finding(design_path, "rolling_stock_eur does not match local-owner trainset family cost"))
-            expected_production_plant = (
-                _fleet_total(design)
-                * FAMILY_CAR_COUNT.get(family, 3)
-                * PRODUCTION_PLANT_PER_VEHICLE_USD
-                * USD_TO_EUR
-            )
-            if not _almost_equal(expected_production_plant, float(costs.get("production_plant_eur", 0))):
-                findings.append(Finding(design_path, "production_plant_eur does not match per-vehicle city plant allowance"))
+            if not _almost_equal(0.0, float(costs.get("production_plant_eur", 0))):
+                findings.append(Finding(
+                    design_path,
+                    "production_plant_eur must be zero; the factory is a shared national asset",
+                ))
 
         # osr-design computes signalling from emitted civil segment length.
         # The line headline length can differ slightly after station/segment
@@ -550,6 +548,39 @@ def check_city_costs() -> list[Finding]:
         ):
             _check_usd_mirror(findings, design_path, costs, stem)
     return findings
+
+
+def check_procurement_origin() -> list[Finding]:
+    findings: list[Finding] = []
+    imported = {
+        str(key): float(value)
+        for key, value in CAPEX_COSTS["procurement_origin"]["imported_share"].items()
+    }
+    benefits = _load_toml(REPO_ROOT / "lib/templates/economic-benefits.toml")
+    local = benefits["local_recirculation"]["capex_local_share"]
+    for bucket, imported_share in imported.items():
+        local_share = float(local.get(bucket, -1.0))
+        if not _almost_equal(imported_share + local_share, 1.0, 1e-9):
+            findings.append(Finding(
+                REPO_ROOT / "lib/templates/economic-benefits.toml",
+                f"{bucket} local share is not one minus the canonical imported share",
+            ))
+    return findings
+
+
+def check_national_briefs() -> list[Finding]:
+    generator = REPO_ROOT / "scripts/generate-national-briefs.py"
+    completed = subprocess.run(
+        [sys.executable, str(generator), "--check"],
+        cwd=REPO_ROOT,
+        text=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+        check=False,
+    )
+    if completed.returncode:
+        return [Finding(generator, completed.stdout.strip() or "national briefs are stale")]
+    return []
 
 
 def check_station_clusters() -> list[Finding]:
@@ -798,7 +829,7 @@ def check_cost_reference_tables() -> list[Finding]:
         findings,
         readme,
         readme_text,
-        f"**{_compact_money(plant_base)} per vehicle/car module**",
+        f"**{_compact_money(plant_base)} per supported vehicle/car module**",
         "README production-plant headline is out of sync with capex-costs.toml",
     )
 
@@ -904,6 +935,8 @@ def run_checks() -> list[Finding]:
     findings: list[Finding] = []
     findings.extend(check_city_artifacts())
     findings.extend(check_city_costs())
+    findings.extend(check_procurement_origin())
+    findings.extend(check_national_briefs())
     findings.extend(check_station_clusters())
     findings.extend(check_stale_terms())
     findings.extend(check_rolling_stock_bom())

@@ -11,13 +11,84 @@
     "total": 28737761.707167998
   },
   "capex_eur": {
-    "reconciled_project_total": 1173853720.2663043
+    "reconciled_project_total": 1135580248.2663043
   },
   "capex_usd": {
-    "authoritative_design_base": 1159668597.0,
-    "reconciled_project_total": 1275927956.8112001,
-    "risk_envelope_15_percent": 1467317150.33288,
-    "risk_envelope_25_percent": 1594909946.0140002,
+    "authoritative_design_base": 1118066997.0,
+    "imported_external_capital": 535679379.36784,
+    "imported_percentage_of_total": 0.4339852069202605,
+    "local_capital": 698646977.4433601,
+    "local_percentage_of_total": 0.5660147930797395,
+    "national_trainset_factory_treatment": "excluded from city CAPEX; costed once in the country NATIONAL-BRIEF.md",
+    "procurement_origin_buckets": [
+      {
+        "bucket": "civil",
+        "imported_share": 0.35,
+        "imported_usd": 198664993.79999998,
+        "local_share": 0.65,
+        "local_usd": 368949274.20000005,
+        "total_usd": 567614268.0
+      },
+      {
+        "bucket": "stations",
+        "imported_share": 0.4,
+        "imported_usd": 107400000.0,
+        "local_share": 0.6,
+        "local_usd": 161100000.0,
+        "total_usd": 268500000.0
+      },
+      {
+        "bucket": "depots",
+        "imported_share": 0.4,
+        "imported_usd": 3200000.0,
+        "local_share": 0.6,
+        "local_usd": 4800000.0,
+        "total_usd": 8000000.0
+      },
+      {
+        "bucket": "rolling_stock",
+        "imported_share": 0.55,
+        "imported_usd": 99792000.00000001,
+        "local_share": 0.44999999999999996,
+        "local_usd": 81647999.99999999,
+        "total_usd": 181440000.0
+      },
+      {
+        "bucket": "solar_plant",
+        "imported_share": 0.7,
+        "imported_usd": 81381551.86784,
+        "local_share": 0.30000000000000004,
+        "local_usd": 34877807.943360016,
+        "total_usd": 116259359.81120002
+      },
+      {
+        "bucket": "signalling",
+        "imported_share": 0.8,
+        "imported_usd": 5354527.2,
+        "local_share": 0.19999999999999996,
+        "local_usd": 1338631.7999999998,
+        "total_usd": 6693159.0
+      },
+      {
+        "bucket": "charging_microgrid",
+        "imported_share": 0.55,
+        "imported_usd": 6971250.000000001,
+        "local_share": 0.44999999999999996,
+        "local_usd": 5703749.999999999,
+        "total_usd": 12675000.0
+      },
+      {
+        "bucket": "epc_overhead",
+        "imported_share": 0.45,
+        "imported_usd": 32915056.5,
+        "local_share": 0.55,
+        "local_usd": 40229513.5,
+        "total_usd": 73144570.0
+      }
+    ],
+    "reconciled_project_total": 1234326356.8112001,
+    "risk_envelope_15_percent": 1419475310.33288,
+    "risk_envelope_25_percent": 1542907946.0140002,
     "timetable_sized_dedicated_solar": 116259359.81120002
   },
   "cases": {
@@ -27,34 +98,49 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 148269948.96,
       "capacity_utilisation": 0.8,
-      "project_irr": 0.07417520676656746,
-      "project_npv_usd_at_8_percent": -70764321.82102002,
-      "steady_state_dscr": 2.0447402545857596
+      "project_irr": 0.07683220339750954,
+      "project_npv_usd_at_8_percent": -37543696.64531846,
+      "steady_state_dscr": 1.598217333622692
     },
     "low_capacity_use": {
       "annual_operating_cash_usd": 65567784.05283202,
       "annual_paid_trips": 146642400.0,
-      "annual_public_support_usd": 0.0,
+      "annual_public_support_usd": 9223162.546331346,
       "annual_revenue_usd": 94305545.76000002,
       "capacity_utilisation": 0.5,
-      "project_irr": 0.032374812172500864,
-      "project_npv_usd_at_8_percent": -498804749.4658335,
-      "steady_state_dscr": 1.1216149435401168
+      "project_irr": 0.034415431020322476,
+      "project_npv_usd_at_8_percent": -465584124.2901319,
+      "steady_state_dscr": 0.8766807619675919
     }
   },
   "city": "rajkot",
   "funding": {
-    "annual_debt_service_usd": 58458372.39461392,
+    "annual_debt_service_usd": 74790946.59916337,
+    "annual_external_capital_draw_usd": 107135875.873568,
+    "annual_external_debt_service_usd": 30678597.952998046,
+    "annual_grace_interest_usd": 64347637.97229034,
+    "annual_local_bond_issuance_usd": 111783516.39093761,
+    "annual_local_bond_service_usd": 44112348.64616532,
+    "annual_local_capital_draw_usd": 139729395.48867202,
+    "annual_local_public_equity_draw_usd": 27945879.097734403,
+    "annual_public_construction_commitment_usd": 92293517.07002474,
     "construction_grace_years": 5,
-    "debt_principal_usd": 1020742365.4489602,
-    "debt_rate": 0.045,
-    "government_equity_share": 0.2,
+    "debt_principal_usd": 1094596961.3225281,
+    "external_capital_required_usd": 535679379.36784,
+    "external_debt_rate": 0.045,
+    "external_debt_usd": 535679379.36784,
+    "external_grant_usd": 0.0,
     "lender_commitment_status": "unconfirmed-placeholder",
+    "local_bond_principal_usd": 558917581.9546881,
+    "local_bond_rate": 0.072,
+    "local_capital_required_usd": 698646977.4433601,
+    "local_public_equity_usd": 139729395.48867202,
     "repayment_years": 35
   },
   "limitations": [
     "No calibrated origin-destination or stated-preference ridership survey.",
     "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "Imported shares are planning assumptions pending country supplier-capability, customs, tax, and procurement-origin surveys.",
     "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
     "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
   ],
@@ -78,12 +164,12 @@
     "practical_capacity_passenger_trips_per_day": 803520.0,
     "single_trip_fare_usd": 0.6133333333333334
   },
-  "schema_version": 1,
+  "schema_version": 2,
   "sources": {
     "design": "designs/south-asia/India/Rajkot/design.toml",
-    "design_sha256": "dd93aa178344dda18b860f691867bf45c67a212e6d88b0e56b235833d9c5f736",
+    "design_sha256": "80c9c14fa2d4fe3119741e9bad99a4ec0ae639db356926aae392c275a6c8e7ea",
     "generator": "scripts/generate-city-finance.py",
-    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "generator_sha256": "9da48240e9ea50383e605d0c00585d52cdf48747820a2ac28647432461d3e1fa",
     "scenario": "designs/south-asia/India/Rajkot/rajkot.toml",
     "scenario_sha256": "e7ad6f51b92be02a6ae8325e56acef48777eb9e231097162ece933dfcb830375"
   },

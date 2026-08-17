@@ -11,13 +11,84 @@
     "total": 7133408.413824
   },
   "capex_eur": {
-    "reconciled_project_total": 272335998.727872
+    "reconciled_project_total": 264657679.647872
   },
   "capex_usd": {
-    "authoritative_design_base": 283893037.0,
-    "reconciled_project_total": 296017389.9216,
-    "risk_envelope_15_percent": 340419998.4098399,
-    "risk_envelope_25_percent": 370021737.40199995,
+    "authoritative_design_base": 275547038.0,
+    "imported_external_capital": 119292802.54512,
+    "imported_percentage_of_total": 0.4146842762603086,
+    "local_capital": 168378588.37648,
+    "local_percentage_of_total": 0.5853157237396915,
+    "national_trainset_factory_treatment": "excluded from city CAPEX; costed once in the country NATIONAL-BRIEF.md",
+    "procurement_origin_buckets": [
+      {
+        "bucket": "civil",
+        "imported_share": 0.35,
+        "imported_usd": 46266204.599999994,
+        "local_share": 0.65,
+        "local_usd": 85922951.4,
+        "total_usd": 132189156.0
+      },
+      {
+        "bucket": "stations",
+        "imported_share": 0.4,
+        "imported_usd": 31200000.0,
+        "local_share": 0.6,
+        "local_usd": 46800000.0,
+        "total_usd": 78000000.0
+      },
+      {
+        "bucket": "depots",
+        "imported_share": 0.4,
+        "imported_usd": 3200000.0,
+        "local_share": 0.6,
+        "local_usd": 4800000.0,
+        "total_usd": 8000000.0
+      },
+      {
+        "bucket": "rolling_stock",
+        "imported_share": 0.55,
+        "imported_usd": 20020000.0,
+        "local_share": 0.44999999999999996,
+        "local_usd": 16380000.0,
+        "total_usd": 36400000.0
+      },
+      {
+        "bucket": "solar_plant",
+        "imported_share": 0.7,
+        "imported_usd": 8487047.045119999,
+        "local_share": 0.30000000000000004,
+        "local_usd": 3637305.87648,
+        "total_usd": 12124352.9216
+      },
+      {
+        "bucket": "signalling",
+        "imported_share": 0.8,
+        "imported_usd": 1265152.0,
+        "local_share": 0.19999999999999996,
+        "local_usd": 316288.0,
+        "total_usd": 1581440.0
+      },
+      {
+        "bucket": "charging_microgrid",
+        "imported_share": 0.55,
+        "imported_usd": 742500.0000000001,
+        "local_share": 0.44999999999999996,
+        "local_usd": 607499.9999999999,
+        "total_usd": 1350000.0
+      },
+      {
+        "bucket": "epc_overhead",
+        "imported_share": 0.45,
+        "imported_usd": 8111898.9,
+        "local_share": 0.55,
+        "local_usd": 9914543.1,
+        "total_usd": 18026442.0
+      }
+    ],
+    "reconciled_project_total": 287671390.9216,
+    "risk_envelope_15_percent": 330822099.55983996,
+    "risk_envelope_25_percent": 359589238.65199995,
     "timetable_sized_dedicated_solar": 12124352.9216
   },
   "cases": {
@@ -27,9 +98,9 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 55743714.624000005,
       "capacity_utilisation": 0.8,
-      "project_irr": 0.12575333809541,
-      "project_npv_usd_at_8_percent": 149189927.30262128,
-      "steady_state_dscr": 3.5841862190954226
+      "project_irr": 0.12880674507422546,
+      "project_npv_usd_at_8_percent": 155854558.09797004,
+      "steady_state_dscr": 2.2695345187410876
     },
     "low_capacity_use": {
       "annual_operating_cash_usd": 28275893.410176,
@@ -37,24 +108,39 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 35409301.824,
       "capacity_utilisation": 0.5,
-      "project_irr": 0.0757278123825153,
-      "project_npv_usd_at_8_percent": -12100668.621511396,
-      "steady_state_dscr": 2.0848679095987315
+      "project_irr": 0.07803936230000538,
+      "project_npv_usd_at_8_percent": -5436037.826162647,
+      "steady_state_dscr": 1.3201545340030008
     }
   },
   "city": "kafr-el-sheikh",
   "funding": {
-    "annual_debt_service_usd": 13562438.79048346,
+    "annual_debt_service_usd": 21418623.867038682,
+    "annual_external_capital_draw_usd": 23858560.509024,
+    "annual_external_debt_service_usd": 6831952.225390878,
+    "annual_grace_interest_usd": 19511977.53815472,
+    "annual_local_bond_issuance_usd": 26940574.140236802,
+    "annual_local_bond_service_usd": 14586671.641647803,
+    "annual_local_capital_draw_usd": 33675717.675296,
+    "annual_local_public_equity_draw_usd": 6735143.5350592015,
+    "annual_public_construction_commitment_usd": 26247121.073213924,
     "construction_grace_years": 5,
-    "debt_principal_usd": 236813911.93728,
-    "debt_rate": 0.045,
-    "government_equity_share": 0.2,
+    "debt_principal_usd": 253995673.246304,
+    "external_capital_required_usd": 119292802.54512,
+    "external_debt_rate": 0.045,
+    "external_debt_usd": 119292802.54512,
+    "external_grant_usd": 0.0,
     "lender_commitment_status": "unconfirmed-placeholder",
+    "local_bond_principal_usd": 134702870.701184,
+    "local_bond_rate": 0.105,
+    "local_capital_required_usd": 168378588.37648,
+    "local_public_equity_usd": 33675717.67529601,
     "repayment_years": 35
   },
   "limitations": [
     "No calibrated origin-destination or stated-preference ridership survey.",
     "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "Imported shares are planning assumptions pending country supplier-capability, customs, tax, and procurement-origin surveys.",
     "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
     "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
   ],
@@ -78,12 +164,12 @@
     "practical_capacity_passenger_trips_per_day": 267840.0,
     "single_trip_fare_usd": 0.6933333333333334
   },
-  "schema_version": 1,
+  "schema_version": 2,
   "sources": {
     "design": "designs/west-asia/Egypt/Kafr-El-Sheikh/design.toml",
-    "design_sha256": "d4d0a0fa5406d759beb7329beffa09b42301bbb3bf257739037d01333e5ddad3",
+    "design_sha256": "05ff597cef77f540ac738b9921c35b6c6f6238d249be1cb37494c013b1dbdab5",
     "generator": "scripts/generate-city-finance.py",
-    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "generator_sha256": "9da48240e9ea50383e605d0c00585d52cdf48747820a2ac28647432461d3e1fa",
     "scenario": "designs/west-asia/Egypt/Kafr-El-Sheikh/kafr-el-sheikh.toml",
     "scenario_sha256": "f57b1064b021ce723560936137600b3fddae4adaa5529f93a2f2040c6bf8e854"
   },

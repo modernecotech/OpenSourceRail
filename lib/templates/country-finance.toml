@@ -21,16 +21,15 @@
 #                              — optional non-repayable grant override share
 #                                of CAPEX. Default is zero; generated
 #                                finance reports do not assume grants.
-#   multilateral_loan_share    — repayable candidate climate/MDB
-#                                concessional-debt share of CAPEX.
-#   sovereign_bond_share       — sovereign/project bond share of CAPEX.
-#                                Default is zero because bond coupons are the
-#                                expensive fallback, not the target structure.
-#   government_equity_share    — direct public equity share of CAPEX. This is
-#                                budgeted during construction but carries no
-#                                interest repayment.
-#   sovereign_bond_rate        — 10-year sovereign yield, decimal. Used only
-#                                when sovereign_bond_share > 0.
+#   local_bond_share_of_local_capex
+#                              — share of locally supplied CAPEX financed by
+#                                domestic-currency sovereign/project bonds.
+#                                The balance is local public equity or another
+#                                non-debt domestic funding source. Imported
+#                                CAPEX is financed separately in foreign
+#                                currency through the international tranche.
+#   sovereign_bond_rate        — local-currency infrastructure-bond planning
+#                                coupon, decimal, applied only to local content.
 #   multilateral_loan_rate     — IBRD / AfDB / ADB blended rate, decimal.
 #                                Kept as the country comparator.
 #   green_concessional_loan_rate
@@ -71,9 +70,7 @@ median_monthly_income_usd  = 600
 revenue_case_monthly_pass_income_share = 0.08
 gni_per_capita_usd         = 7500
 climate_development_grant_share = 0.00
-multilateral_loan_share    = 0.80
-sovereign_bond_share       = 0.00
-government_equity_share    = 0.20
+local_bond_share_of_local_capex = 0.80
 sovereign_bond_rate        = 0.07
 multilateral_loan_rate     = 0.045
 green_concessional_loan_rate = 0.045

@@ -11,13 +11,84 @@
     "total": 5801077.453869538
   },
   "capex_eur": {
-    "reconciled_project_total": 218669478.0373317
+    "reconciled_project_total": 211936182.0373317
   },
   "capex_usd": {
-    "authoritative_design_base": 231180839.0,
-    "reconciled_project_total": 237684215.25796923,
-    "risk_envelope_15_percent": 273336847.5466646,
-    "risk_envelope_25_percent": 297105269.07246155,
+    "authoritative_design_base": 223862039.0,
+    "imported_external_capital": 95702979.48057845,
+    "imported_percentage_of_total": 0.41543987570099333,
+    "local_capital": 134662435.77739078,
+    "local_percentage_of_total": 0.5845601242990066,
+    "national_trainset_factory_treatment": "excluded from city CAPEX; costed once in the country NATIONAL-BRIEF.md",
+    "procurement_origin_buckets": [
+      {
+        "bucket": "civil",
+        "imported_share": 0.35,
+        "imported_usd": 32551518.299999997,
+        "local_share": 0.65,
+        "local_usd": 60452819.7,
+        "total_usd": 93004338.0
+      },
+      {
+        "bucket": "stations",
+        "imported_share": 0.4,
+        "imported_usd": 29400000.0,
+        "local_share": 0.6,
+        "local_usd": 44100000.0,
+        "total_usd": 73500000.0
+      },
+      {
+        "bucket": "depots",
+        "imported_share": 0.4,
+        "imported_usd": 3200000.0,
+        "local_share": 0.6,
+        "local_usd": 4800000.0,
+        "total_usd": 8000000.0
+      },
+      {
+        "bucket": "rolling_stock",
+        "imported_share": 0.55,
+        "imported_usd": 17556000.0,
+        "local_share": 0.44999999999999996,
+        "local_usd": 14364000.0,
+        "total_usd": 31920000.0
+      },
+      {
+        "bucket": "solar_plant",
+        "imported_share": 0.7,
+        "imported_usd": 4552363.380578462,
+        "local_share": 0.30000000000000004,
+        "local_usd": 1951012.8773907702,
+        "total_usd": 6503376.257969232
+      },
+      {
+        "bucket": "signalling",
+        "imported_share": 0.8,
+        "imported_usd": 1014016.8,
+        "local_share": 0.19999999999999996,
+        "local_usd": 253504.19999999995,
+        "total_usd": 1267521.0
+      },
+      {
+        "bucket": "charging_microgrid",
+        "imported_share": 0.55,
+        "imported_usd": 838750.0000000001,
+        "local_share": 0.44999999999999996,
+        "local_usd": 686249.9999999999,
+        "total_usd": 1525000.0
+      },
+      {
+        "bucket": "epc_overhead",
+        "imported_share": 0.45,
+        "imported_usd": 6590331.0,
+        "local_share": 0.55,
+        "local_usd": 8054849.0,
+        "total_usd": 14645180.0
+      }
+    ],
+    "reconciled_project_total": 230365415.25796923,
+    "risk_envelope_15_percent": 264920227.5466646,
+    "risk_envelope_25_percent": 287956769.07246155,
     "timetable_sized_dedicated_solar": 6503376.257969232
   },
   "cases": {
@@ -27,9 +98,9 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 49252829.28000001,
       "capacity_utilisation": 0.8,
-      "project_irr": 0.12295389873466767,
-      "project_npv_usd_at_8_percent": 115137727.77655995,
-      "steady_state_dscr": 3.8899994747896445
+      "project_irr": 0.1259349842219853,
+      "project_npv_usd_at_8_percent": 120581210.80362333,
+      "steady_state_dscr": 2.3664216894506733
     },
     "low_capacity_use": {
       "annual_operating_cash_usd": 25463617.426130466,
@@ -37,24 +108,39 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 31264694.880000003,
       "capacity_utilisation": 0.5,
-      "project_irr": 0.0774795636483213,
-      "project_npv_usd_at_8_percent": -5710935.177455756,
-      "steady_state_dscr": 2.2796194457302508
+      "project_irr": 0.07987935429127896,
+      "project_npv_usd_at_8_percent": -267452.150392371,
+      "steady_state_dscr": 1.3867716268422638
     }
   },
   "city": "garissa",
   "funding": {
-    "annual_debt_service_usd": 11170117.658815408,
+    "annual_debt_service_usd": 18361795.7948218,
+    "annual_external_capital_draw_usd": 13671854.211511208,
+    "annual_external_debt_service_usd": 5622026.371929085,
+    "annual_grace_interest_usd": 16695578.168145984,
+    "annual_local_bond_issuance_usd": 15389992.660273233,
+    "annual_local_bond_service_usd": 12739769.422892714,
+    "annual_local_capital_draw_usd": 19237490.82534154,
+    "annual_local_public_equity_draw_usd": 3847498.165068307,
+    "annual_public_construction_commitment_usd": 20543076.33321429,
     "construction_grace_years": 7,
-    "debt_principal_usd": 190147372.2063754,
-    "debt_rate": 0.045,
-    "government_equity_share": 0.2,
+    "debt_principal_usd": 203432928.10249108,
+    "external_capital_required_usd": 95702979.48057845,
+    "external_debt_rate": 0.045,
+    "external_debt_usd": 95702979.48057845,
+    "external_grant_usd": 0.0,
     "lender_commitment_status": "unconfirmed-placeholder",
+    "local_bond_principal_usd": 107729948.62191263,
+    "local_bond_rate": 0.115,
+    "local_capital_required_usd": 134662435.77739078,
+    "local_public_equity_usd": 26932487.15547815,
     "repayment_years": 33
   },
   "limitations": [
     "No calibrated origin-destination or stated-preference ridership survey.",
     "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "Imported shares are planning assumptions pending country supplier-capability, customs, tax, and procurement-origin surveys.",
     "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
     "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
   ],
@@ -78,12 +164,12 @@
     "practical_capacity_passenger_trips_per_day": 267840.0,
     "single_trip_fare_usd": 0.6133333333333334
   },
-  "schema_version": 1,
+  "schema_version": 2,
   "sources": {
     "design": "designs/east-africa/Kenya/Garissa/design.toml",
-    "design_sha256": "0ea41c6a7900653dd817771821c4e2fc2dccbe98fc0928e338d8e976dd080c9f",
+    "design_sha256": "94546aa368558c7b526cdedda1722cb8a01a8bcbe93bf4c55323c27e82a967a3",
     "generator": "scripts/generate-city-finance.py",
-    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "generator_sha256": "9da48240e9ea50383e605d0c00585d52cdf48747820a2ac28647432461d3e1fa",
     "scenario": "designs/east-africa/Kenya/Garissa/garissa.toml",
     "scenario_sha256": "92dc55419056c9c0c63e761d5ec51df9aaf1b90478057ea03e2dbf33c7f84027"
   },

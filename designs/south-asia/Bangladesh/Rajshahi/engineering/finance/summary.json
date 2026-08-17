@@ -11,13 +11,84 @@
     "total": 10737723.58574
   },
   "capex_eur": {
-    "reconciled_project_total": 418680821.73872006
+    "reconciled_project_total": 402201965.73872006
   },
   "capex_usd": {
-    "authoritative_design_base": 415154024.0,
-    "reconciled_project_total": 455087849.716,
-    "risk_envelope_15_percent": 523351027.1734,
-    "risk_envelope_25_percent": 568859812.145,
+    "authoritative_design_base": 397242224.0,
+    "imported_external_capital": 193330755.8012,
+    "imported_percentage_of_total": 0.4422263203274568,
+    "local_capital": 243845293.9148,
+    "local_percentage_of_total": 0.5577736796725431,
+    "national_trainset_factory_treatment": "excluded from city CAPEX; costed once in the country NATIONAL-BRIEF.md",
+    "procurement_origin_buckets": [
+      {
+        "bucket": "civil",
+        "imported_share": 0.35,
+        "imported_usd": 59626169.74999999,
+        "local_share": 0.65,
+        "local_usd": 110734315.25,
+        "total_usd": 170360485.0
+      },
+      {
+        "bucket": "stations",
+        "imported_share": 0.4,
+        "imported_usd": 42040000.0,
+        "local_share": 0.6,
+        "local_usd": 63060000.0,
+        "total_usd": 105100000.0
+      },
+      {
+        "bucket": "depots",
+        "imported_share": 0.4,
+        "imported_usd": 3200000.0,
+        "local_share": 0.6,
+        "local_usd": 4800000.0,
+        "total_usd": 8000000.0
+      },
+      {
+        "bucket": "rolling_stock",
+        "imported_share": 0.55,
+        "imported_usd": 46035000.0,
+        "local_share": 0.44999999999999996,
+        "local_usd": 37665000.0,
+        "total_usd": 83700000.0
+      },
+      {
+        "bucket": "solar_plant",
+        "imported_share": 0.7,
+        "imported_usd": 27953678.001199998,
+        "local_share": 0.30000000000000004,
+        "local_usd": 11980147.7148,
+        "total_usd": 39933825.716
+      },
+      {
+        "bucket": "signalling",
+        "imported_share": 0.8,
+        "imported_usd": 1695144.0,
+        "local_share": 0.19999999999999996,
+        "local_usd": 423786.0,
+        "total_usd": 2118930.0
+      },
+      {
+        "bucket": "charging_microgrid",
+        "imported_share": 0.55,
+        "imported_usd": 1086250.0,
+        "local_share": 0.44999999999999996,
+        "local_usd": 888750.0,
+        "total_usd": 1975000.0
+      },
+      {
+        "bucket": "epc_overhead",
+        "imported_share": 0.45,
+        "imported_usd": 11694514.05,
+        "local_share": 0.55,
+        "local_usd": 14293294.95,
+        "total_usd": 25987809.0
+      }
+    ],
+    "reconciled_project_total": 437176049.716,
+    "risk_envelope_15_percent": 502752457.1734,
+    "risk_envelope_25_percent": 546470062.145,
     "timetable_sized_dedicated_solar": 39933825.716
   },
   "cases": {
@@ -27,34 +98,49 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 62521072.848,
       "capacity_utilisation": 0.8,
-      "project_irr": 0.08213080524220454,
-      "project_npv_usd_at_8_percent": 9413744.330923924,
-      "steady_state_dscr": 2.421238043763347
+      "project_irr": 0.08529214070106256,
+      "project_npv_usd_at_8_percent": 22735952.791894816,
+      "steady_state_dscr": 1.7768483197415859
     },
     "low_capacity_use": {
       "annual_operating_cash_usd": 28907134.86226,
       "annual_paid_trips": 73321200.0,
-      "annual_public_support_usd": 0.0,
+      "annual_public_support_usd": 236235.83906753734,
       "annual_revenue_usd": 39644858.448,
       "capacity_utilisation": 0.5,
-      "project_irr": 0.04133807497946231,
-      "project_npv_usd_at_8_percent": -144274229.20842206,
-      "steady_state_dscr": 1.3516131278073111
+      "project_irr": 0.0438756302925412,
+      "project_npv_usd_at_8_percent": -130952020.74745117,
+      "steady_state_dscr": 0.9918940111118727
     }
   },
   "city": "rajshahi",
   "funding": {
-    "annual_debt_service_usd": 21387136.79790558,
+    "annual_debt_service_usd": 29143370.701327536,
+    "annual_external_capital_draw_usd": 27618679.40017143,
+    "annual_external_debt_service_usd": 11357124.02600696,
+    "annual_grace_interest_usd": 25281363.9972604,
+    "annual_local_bond_issuance_usd": 27868033.590262856,
+    "annual_local_bond_service_usd": 17786246.675320577,
+    "annual_local_capital_draw_usd": 34835041.98782857,
+    "annual_local_public_equity_draw_usd": 6967008.397565714,
+    "annual_public_construction_commitment_usd": 32248372.394826114,
     "construction_grace_years": 7,
-    "debt_principal_usd": 364070279.7728,
-    "debt_rate": 0.045,
-    "government_equity_share": 0.2,
+    "debt_principal_usd": 388406990.93304,
+    "external_capital_required_usd": 193330755.8012,
+    "external_debt_rate": 0.045,
+    "external_debt_usd": 193330755.8012,
+    "external_grant_usd": 0.0,
     "lender_commitment_status": "unconfirmed-placeholder",
+    "local_bond_principal_usd": 195076235.13184,
+    "local_bond_rate": 0.085,
+    "local_capital_required_usd": 243845293.9148,
+    "local_public_equity_usd": 48769058.78296,
     "repayment_years": 33
   },
   "limitations": [
     "No calibrated origin-destination or stated-preference ridership survey.",
     "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "Imported shares are planning assumptions pending country supplier-capability, customs, tax, and procurement-origin surveys.",
     "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
     "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
   ],
@@ -78,12 +164,12 @@
     "practical_capacity_passenger_trips_per_day": 401760.0,
     "single_trip_fare_usd": 0.52
   },
-  "schema_version": 1,
+  "schema_version": 2,
   "sources": {
     "design": "designs/south-asia/Bangladesh/Rajshahi/design.toml",
-    "design_sha256": "58390f00fbee735a58194114f4aa4fa8d299b40aa0c7ede06061ad90756e9469",
+    "design_sha256": "6ab0253c5b43b20a8a1495c7c11712745bfbeac784f82e79548995d5368836aa",
     "generator": "scripts/generate-city-finance.py",
-    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "generator_sha256": "9da48240e9ea50383e605d0c00585d52cdf48747820a2ac28647432461d3e1fa",
     "scenario": "designs/south-asia/Bangladesh/Rajshahi/rajshahi.toml",
     "scenario_sha256": "153dac7327255bf2d4a68de8c12bb2838e02887f0aba432205c3ed7a8f8554e2"
   },

@@ -21,8 +21,8 @@ drawings still break many lines into child parts during v2.
 City CAPEX uses this BOM as an audit lower bound, not as the final
 rolling-stock price. The deployable trainset cost is carried in
 [`lib/templates/capex-costs.toml`](../../../lib/templates/capex-costs.toml)
-as a local-owner production planning unit, and the separate city railway
-production-plant setup allowance is 60 k USD per vehicle/car module
+as a local-owner production planning unit, and the shared national railway
+production-plant setup allowance is 60 k USD per supported vehicle/car module
 base, with 120 k USD per vehicle/car module retained as a high
 sensitivity check.
 

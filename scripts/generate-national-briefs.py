@@ -1,0 +1,283 @@
+#!/usr/bin/env python3
+"""Generate one nationwide OSR implementation and capital brief per country."""
+
+from __future__ import annotations
+
+import argparse
+import tempfile
+import tomllib
+from collections import defaultdict
+from dataclasses import dataclass
+from pathlib import Path
+import sys
+
+
+REPO_ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(REPO_ROOT / "design-py/src"))
+
+from osr_scenario.capital import (  # noqa: E402
+    IMPORTED_SHARE,
+    NATIONAL_FACTORY_PER_VEHICLE_USD,
+    aggregate_breakdowns,
+    city_capital_breakdown,
+    funding_plan,
+)
+from osr_scenario.network_readme import (  # noqa: E402
+    _energy_plan,
+    _load_country_finance,
+    compute_stats,
+)
+
+
+FAMILY_CARS = {
+    "urban-shuttle-1car": 1,
+    "tram-2car": 2,
+    "light-metro-3car": 3,
+    "metro-4car": 4,
+    "metro-6car": 6,
+}
+
+
+@dataclass(frozen=True)
+class CityCapital:
+    name: str
+    slug: str
+    population: int
+    fleet_trainsets: int
+    vehicle_modules: int
+    breakdown: object
+
+
+def money(value: float) -> str:
+    if abs(value) >= 1_000_000_000:
+        return f"${value / 1_000_000_000:,.2f} B"
+    if abs(value) >= 1_000_000:
+        return f"${value / 1_000_000:,.1f} M"
+    if abs(value) >= 1_000:
+        return f"${value / 1_000:,.0f} k"
+    return f"${value:,.0f}"
+
+
+def load_city(design_path: Path) -> tuple[str, CityCapital]:
+    design = tomllib.loads(design_path.read_text())
+    city = design["city"]
+    slug = str(city["slug"])
+    scenario_path = design_path.parent / f"{slug}.toml"
+    scenario = tomllib.loads(scenario_path.read_text())
+    stats = compute_stats(design, scenario, int(city["population"]))
+    energy = _energy_plan(design, scenario, stats)
+    families = {
+        str(line.get("rolling_stock"))
+        for line in design.get("lines", [])
+        if line.get("rolling_stock")
+    }
+    family = next(iter(families)) if len(families) == 1 else "light-metro-3car"
+    fleet = sum(int(row.get("trainset_count", 0)) for row in design.get("fleets", []))
+    return str(city["country"]), CityCapital(
+        name=design_path.parent.name.replace("-", " "),
+        slug=slug,
+        population=int(city["population"]),
+        fleet_trainsets=fleet,
+        vehicle_modules=fleet * FAMILY_CARS.get(family, 3),
+        breakdown=city_capital_breakdown(
+            design["costs"], energy.solar_plant_capex_usd
+        ),
+    )
+
+
+def render_brief(
+    country_code: str,
+    country_name: str,
+    cities: list[CityCapital],
+) -> str:
+    cities = sorted(cities, key=lambda city: (-city.population, city.name))
+    anchor = max(cities, key=lambda city: city.vehicle_modules)
+    national_factory_usd = (
+        anchor.vehicle_modules * NATIONAL_FACTORY_PER_VEHICLE_USD
+    )
+    national = aggregate_breakdowns(
+        [city.breakdown for city in cities],
+        national_factory_usd=national_factory_usd,
+    )
+    plan = funding_plan(national, _load_country_finance(country_code))
+    population = sum(city.population for city in cities)
+    fleet = sum(city.fleet_trainsets for city in cities)
+    modules = sum(city.vehicle_modules for city in cities)
+
+    out = [
+        f"# {country_name} national OpenSourceRail strategy",
+        "",
+        f"{country_name} should implement OpenSourceRail as one national industrial and "
+        f"financing programme covering the {len(cities)} catalogue cities below, rather "
+        "than as disconnected city projects. One centrally governed trainset factory "
+        "builds the shared modular fleet in phases; city and regional contractors "
+        "fabricate and install rails, viaducts, stations, depots, and local civil works. "
+        "This concentrates scarce imported machinery, specialist tooling, engineering "
+        "support, and foreign currency in one reusable national asset while maximizing "
+        "domestic labour, materials, fabrication, and local-currency financing.",
+        "",
+        "## National programme at a glance",
+        "",
+        "| Measure | National planning value |",
+        "|---|---:|",
+        f"| Cities in catalogue | {len(cities)} |",
+        f"| Served population represented | {population:,} |",
+        f"| Trainsets across city plans | {fleet:,} |",
+        f"| Vehicle/car modules to manufacture | {modules:,} |",
+        f"| City infrastructure + fleet CAPEX | {money(sum(city.breakdown.total_usd for city in cities))} |",
+        f"| One shared national trainset factory | {money(national_factory_usd)} |",
+        f"| National factory sizing basis | {anchor.vehicle_modules:,} modules: largest single-city programme ({anchor.name}) |",
+        f"| **Total national programme CAPEX** | **{money(national.total_usd)}** |",
+        "",
+        "The factory is sized to the largest single-city fleet programme and reused "
+        "through a phased national rollout. This avoids duplicating factory buildings, "
+        "moulds, welding fixtures, metrology, commissioning equipment, and imported "
+        "machinery in every city. Final factory siting requires a national freight, "
+        "power, workforce, land, and test-track study; this brief does not preselect a city.",
+        "",
+        "## External versus local capital",
+        "",
+        "Imported content is the minimum foreign-currency or international-capital "
+        "requirement. Local content is the domestic funding envelope and can be raised "
+        "through local-currency infrastructure bonds, public equity, pension/insurance "
+        "capital, land-value capture, or other domestic sources.",
+        "",
+        "| Capital boundary | Share | Total | Annual draw during construction |",
+        "|---|---:|---:|---:|",
+        f"| **External capital for imports** | **{national.imported_share:.1%}** | **{money(national.imported_usd)}** | **{money(plan.annual_external_capital_draw_usd)} / yr** |",
+        f"| **Local capital for domestic value** | **{national.local_share:.1%}** | **{money(national.local_usd)}** | **{money(plan.annual_local_capital_draw_usd)} / yr** |",
+        f"| planned local-currency bond issuance | {plan.local_bond_usd / national.total_usd:.1%} of total | {money(plan.local_bond_usd)} | {money(plan.annual_local_bond_issuance_usd)} / yr |",
+        f"| local public equity / other domestic funding | {plan.local_equity_usd / national.total_usd:.1%} of total | {money(plan.local_equity_usd)} | {money(plan.annual_local_equity_draw_usd)} / yr |",
+        f"| **Total capital programme** | **100.0%** | **{money(national.total_usd)}** | **{money(national.total_usd / plan.construction_years)} / yr** |",
+        "",
+        f"The annual construction draw is spread evenly over {plan.construction_years} "
+        "planning years. Post-grace annual debt service is "
+        f"{money(plan.annual_external_debt_service_usd)} for external import finance "
+        f"plus {money(plan.annual_local_bond_service_usd)} for local bonds, or "
+        f"**{money(plan.annual_debt_service_usd)} per year** before railway operating "
+        "cash flow. During construction, interest plus the local public-equity draw is "
+        f"**{money(plan.annual_public_construction_commitment_usd)} per year**.",
+        "",
+        "## Procurement-origin composition",
+        "",
+        "| CAPEX bucket | Total | Imported share | External capital | Local value |",
+        "|---|---:|---:|---:|---:|",
+    ]
+    labels = {
+        "civil": "Civil works",
+        "stations": "Stations",
+        "depots": "Depots",
+        "rolling_stock": "Rolling stock",
+        "production_plant": "Shared national trainset factory",
+        "solar_plant": "Dedicated solar plants",
+        "signalling": "Residual signalling / train control",
+        "charging_microgrid": "Charging microgrids",
+        "epc_overhead": "EPC / project services",
+    }
+    for bucket in national.buckets:
+        out.append(
+            f"| {labels.get(bucket.name, bucket.name)} | {money(bucket.total_usd)} | "
+            f"{bucket.imported_share:.0%} | {money(bucket.imported_usd)} | "
+            f"{money(bucket.local_usd)} |"
+        )
+    out.extend(
+        [
+            f"| **Total** | **{money(national.total_usd)}** | **{national.imported_share:.1%}** | **{money(national.imported_usd)}** | **{money(national.local_usd)}** |",
+            "",
+            "## City programme",
+            "",
+            "Each city CAPEX below excludes the national factory. Its imported share "
+            "varies with the local mix of civil structures, rolling stock, stations, "
+            "charging, signalling, and solar infrastructure.",
+            "",
+            "| City | Population | Fleet | City CAPEX | Imported % | External capital | Local capital |",
+            "|---|---:|---:|---:|---:|---:|---:|",
+        ]
+    )
+    for city in cities:
+        out.append(
+            f"| [{city.name}]({city.name.replace(' ', '-')}/README.md) | "
+            f"{city.population:,} | {city.fleet_trainsets:,} | "
+            f"{money(city.breakdown.total_usd)} | {city.breakdown.imported_share:.1%} | "
+            f"{money(city.breakdown.imported_usd)} | {money(city.breakdown.local_usd)} |"
+        )
+    out.extend(
+        [
+            "",
+            "## National implementation sequence",
+            "",
+            "1. Establish one national programme authority, common technical baseline, "
+            "procurement-origin register, and local-content verification method.",
+            "2. Procure the shared trainset-factory machinery and first-article imported "
+            "kits once; qualify domestic steel, composites, wiring, interiors, and assembly.",
+            "3. Launch city civil packages in parallel where local contractor capacity "
+            "allows, using standardized rail, viaduct, station, depot, and charging interfaces.",
+            "4. Sequence trainset production through the national factory by opening date, "
+            "reusing fixtures and commissioning capability between cities.",
+            "5. Issue local-currency bonds against the domestic-value programme and reserve "
+            "international borrowing or foreign exchange for the imported-value schedule.",
+            "6. Update these planning shares with supplier quotations, customs/tax treatment, "
+            "country capability audits, and a signed financing plan before procurement.",
+            "",
+            "## Basis and limitations",
+            "",
+            "This is a planning strategy, not a financing commitment or supplier-origin "
+            "audit. Imported shares come from `lib/templates/capex-costs.toml`; city geometry, "
+            "fleet, and cost data come from each generated `design.toml` and scenario. "
+            "The model excludes tax/duty, FX paths, land acquisition, utility relocation, "
+            "and country-specific supplier qualification until controlled evidence exists.",
+            "",
+            f"Generated by `scripts/generate-national-briefs.py` for `{country_code}`. "
+            f"Controlled imported-share keys: {', '.join(sorted(IMPORTED_SHARE))}.",
+            "",
+        ]
+    )
+    return "\n".join(out)
+
+
+def atomic_write(path: Path, text: str) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with tempfile.NamedTemporaryFile(
+        "w", dir=path.parent, delete=False, encoding="utf-8"
+    ) as handle:
+        handle.write(text)
+        temporary = Path(handle.name)
+    temporary.replace(path)
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--check",
+        action="store_true",
+        help="fail if generated briefs differ instead of writing them",
+    )
+    args = parser.parse_args()
+    country_names = tomllib.loads(
+        (REPO_ROOT / "lib/templates/country-costs.toml").read_text()
+    )["countries"]
+    grouped: dict[tuple[str, Path], list[CityCapital]] = defaultdict(list)
+    for design_path in sorted((REPO_ROOT / "designs").glob("*/*/*/design.toml")):
+        code, city = load_city(design_path)
+        grouped[(code, design_path.parent.parent)].append(city)
+
+    drift: list[Path] = []
+    for (code, country_dir), cities in sorted(grouped.items()):
+        name = str(country_names.get(code, {}).get("name", country_dir.name))
+        output = country_dir / "NATIONAL-BRIEF.md"
+        text = render_brief(code, name, cities)
+        if args.check:
+            if not output.is_file() or output.read_text() != text:
+                drift.append(output)
+        else:
+            atomic_write(output, text)
+            print(f"wrote {output.relative_to(REPO_ROOT)}")
+    if drift:
+        for path in drift:
+            print(f"stale: {path.relative_to(REPO_ROOT)}", file=sys.stderr)
+        return 1
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

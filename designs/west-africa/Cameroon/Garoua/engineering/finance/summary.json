@@ -11,13 +11,84 @@
     "total": 8559215.221088
   },
   "capex_eur": {
-    "reconciled_project_total": 333560067.48006403
+    "reconciled_project_total": 320625051.48006403
   },
   "capex_usd": {
-    "authoritative_design_base": 342624900.0,
-    "reconciled_project_total": 362565290.7392,
-    "risk_envelope_15_percent": 416950084.35007995,
-    "risk_envelope_25_percent": 453206613.424,
+    "authoritative_design_base": 328565100.0,
+    "imported_external_capital": 148822534.11744,
+    "imported_percentage_of_total": 0.4270306726065604,
+    "local_capital": 199682956.62176,
+    "local_percentage_of_total": 0.5729693273934396,
+    "national_trainset_factory_treatment": "excluded from city CAPEX; costed once in the country NATIONAL-BRIEF.md",
+    "procurement_origin_buckets": [
+      {
+        "bucket": "civil",
+        "imported_share": 0.35,
+        "imported_usd": 58684966.55,
+        "local_share": 0.65,
+        "local_usd": 108986366.45,
+        "total_usd": 167671333.0
+      },
+      {
+        "bucket": "stations",
+        "imported_share": 0.4,
+        "imported_usd": 25000000.0,
+        "local_share": 0.6,
+        "local_usd": 37500000.0,
+        "total_usd": 62500000.0
+      },
+      {
+        "bucket": "depots",
+        "imported_share": 0.4,
+        "imported_usd": 3200000.0,
+        "local_share": 0.6,
+        "local_usd": 4800000.0,
+        "total_usd": 8000000.0
+      },
+      {
+        "bucket": "rolling_stock",
+        "imported_share": 0.55,
+        "imported_usd": 36135000.0,
+        "local_share": 0.44999999999999996,
+        "local_usd": 29565000.0,
+        "total_usd": 65700000.0
+      },
+      {
+        "bucket": "solar_plant",
+        "imported_share": 0.7,
+        "imported_usd": 13958273.517439999,
+        "local_share": 0.30000000000000004,
+        "local_usd": 5982117.221760001,
+        "total_usd": 19940390.7392
+      },
+      {
+        "bucket": "signalling",
+        "imported_share": 0.8,
+        "imported_usd": 1319083.2000000002,
+        "local_share": 0.19999999999999996,
+        "local_usd": 329770.7999999998,
+        "total_usd": 1648854.0
+      },
+      {
+        "bucket": "charging_microgrid",
+        "imported_share": 0.55,
+        "imported_usd": 852500.0000000001,
+        "local_share": 0.44999999999999996,
+        "local_usd": 697499.9999999999,
+        "total_usd": 1550000.0
+      },
+      {
+        "bucket": "epc_overhead",
+        "imported_share": 0.45,
+        "imported_usd": 9672710.85,
+        "local_share": 0.55,
+        "local_usd": 11822202.15,
+        "total_usd": 21494913.0
+      }
+    ],
+    "reconciled_project_total": 348505490.7392,
+    "risk_envelope_15_percent": 400781314.35007995,
+    "risk_envelope_25_percent": 435631863.424,
     "timetable_sized_dedicated_solar": 19940390.7392
   },
   "cases": {
@@ -27,9 +98,9 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 57293472.96,
       "capacity_utilisation": 0.8,
-      "project_irr": 0.09558704152434068,
-      "project_npv_usd_at_8_percent": 57744445.83357702,
-      "steady_state_dscr": 2.8601625994685445
+      "project_irr": 0.09891692244364998,
+      "project_npv_usd_at_8_percent": 68201663.22767243,
+      "steady_state_dscr": 2.090923812639338
     },
     "low_capacity_use": {
       "annual_operating_cash_usd": 27617752.138912,
@@ -37,24 +108,39 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 36176967.36,
       "capacity_utilisation": 0.5,
-      "project_irr": 0.05311199390657287,
-      "project_npv_usd_at_8_percent": -84121375.89505006,
-      "steady_state_dscr": 1.6208569785200138
+      "project_irr": 0.05577953755996071,
+      "project_npv_usd_at_8_percent": -73664158.50095466,
+      "steady_state_dscr": 1.1849285959825786
     }
   },
   "city": "garoua",
   "funding": {
-    "annual_debt_service_usd": 17038981.54180726,
+    "annual_debt_service_usd": 23307524.379568648,
+    "annual_external_capital_draw_usd": 21260362.01677714,
+    "annual_external_debt_service_usd": 8742509.544494973,
+    "annual_grace_interest_usd": 20275455.085564483,
+    "annual_local_bond_issuance_usd": 22820909.328201145,
+    "annual_local_bond_service_usd": 14565014.835073674,
+    "annual_local_capital_draw_usd": 28526136.66025143,
+    "annual_local_public_equity_draw_usd": 5705227.332050285,
+    "annual_public_construction_commitment_usd": 25980682.41761477,
     "construction_grace_years": 7,
-    "debt_principal_usd": 290052232.59136003,
-    "debt_rate": 0.045,
-    "government_equity_share": 0.2,
+    "debt_principal_usd": 308568899.41484797,
+    "external_capital_required_usd": 148822534.11744,
+    "external_debt_rate": 0.045,
+    "external_debt_usd": 148822534.11744,
+    "external_grant_usd": 0.0,
     "lender_commitment_status": "unconfirmed-placeholder",
+    "local_bond_principal_usd": 159746365.297408,
+    "local_bond_rate": 0.085,
+    "local_capital_required_usd": 199682956.62176,
+    "local_public_equity_usd": 39936591.324351996,
     "repayment_years": 33
   },
   "limitations": [
     "No calibrated origin-destination or stated-preference ridership survey.",
     "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "Imported shares are planning assumptions pending country supplier-capability, customs, tax, and procurement-origin surveys.",
     "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
     "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
   ],
@@ -78,12 +164,12 @@
     "practical_capacity_passenger_trips_per_day": 401760.0,
     "single_trip_fare_usd": 0.48000000000000004
   },
-  "schema_version": 1,
+  "schema_version": 2,
   "sources": {
     "design": "designs/west-africa/Cameroon/Garoua/design.toml",
-    "design_sha256": "7d0b35f3d95177a3f4938868a9b1d19f012840cd1b75c747c6d193b76be701db",
+    "design_sha256": "de3821fcf9d83c5d72e2bc8962f6b0121c240553b57a7a6be03894c67008b2de",
     "generator": "scripts/generate-city-finance.py",
-    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "generator_sha256": "9da48240e9ea50383e605d0c00585d52cdf48747820a2ac28647432461d3e1fa",
     "scenario": "designs/west-africa/Cameroon/Garoua/garoua.toml",
     "scenario_sha256": "8f5075db3ac979e01b9c928a313b084e92395359c87e054513a39c7c70a8240d"
   },

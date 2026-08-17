@@ -59,6 +59,9 @@ construction_multiplier = 1.60
 job_year_output_multiple_of_median_income = 4.0
 
 [local_recirculation.capex_local_share]
+# Compatibility mirror only. The financing source of truth is now
+# capex-costs.toml [procurement_origin.imported_share], where local share is
+# one minus imported share. repo-health verifies that these mirrors agree.
 civil = 0.65
 stations = 0.60
 depots = 0.60

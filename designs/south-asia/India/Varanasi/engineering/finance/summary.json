@@ -11,13 +11,84 @@
     "total": 43231578.672832
   },
   "capex_eur": {
-    "reconciled_project_total": 1791114394.413696
+    "reconciled_project_total": 1733704187.3336961
   },
   "capex_usd": {
-    "authoritative_design_base": 1758550714.0,
-    "reconciled_project_total": 1946863472.1888,
-    "risk_envelope_15_percent": 2238892993.01712,
-    "risk_envelope_25_percent": 2433579340.236,
+    "authoritative_design_base": 1696148315.0,
+    "imported_external_capital": 814780285.58216,
+    "imported_percentage_of_total": 0.4323677985045483,
+    "local_capital": 1069680787.60664,
+    "local_percentage_of_total": 0.5676322014954516,
+    "national_trainset_factory_treatment": "excluded from city CAPEX; costed once in the country NATIONAL-BRIEF.md",
+    "procurement_origin_buckets": [
+      {
+        "bucket": "civil",
+        "imported_share": 0.35,
+        "imported_usd": 340657143.75,
+        "local_share": 0.65,
+        "local_usd": 632648981.25,
+        "total_usd": 973306125.0
+      },
+      {
+        "bucket": "stations",
+        "imported_share": 0.4,
+        "imported_usd": 121280000.0,
+        "local_share": 0.6,
+        "local_usd": 181920000.0,
+        "total_usd": 303200000.0
+      },
+      {
+        "bucket": "depots",
+        "imported_share": 0.4,
+        "imported_usd": 3200000.0,
+        "local_share": 0.6,
+        "local_usd": 4800000.0,
+        "total_usd": 8000000.0
+      },
+      {
+        "bucket": "rolling_stock",
+        "imported_share": 0.55,
+        "imported_usd": 149688000.0,
+        "local_share": 0.44999999999999996,
+        "local_usd": 122472000.0,
+        "total_usd": 272160000.0
+      },
+      {
+        "bucket": "solar_plant",
+        "imported_share": 0.7,
+        "imported_usd": 131818930.73216,
+        "local_share": 0.30000000000000004,
+        "local_usd": 56493827.456640005,
+        "total_usd": 188312758.1888
+      },
+      {
+        "bucket": "signalling",
+        "imported_share": 0.8,
+        "imported_usd": 8055372.800000001,
+        "local_share": 0.19999999999999996,
+        "local_usd": 2013843.1999999993,
+        "total_usd": 10069216.0
+      },
+      {
+        "bucket": "charging_microgrid",
+        "imported_share": 0.55,
+        "imported_usd": 10147500.0,
+        "local_share": 0.44999999999999996,
+        "local_usd": 8302500.0,
+        "total_usd": 18450000.0
+      },
+      {
+        "bucket": "epc_overhead",
+        "imported_share": 0.45,
+        "imported_usd": 49933338.300000004,
+        "local_share": 0.55,
+        "local_usd": 61029635.699999996,
+        "total_usd": 110962974.0
+      }
+    ],
+    "reconciled_project_total": 1884461073.1888,
+    "risk_envelope_15_percent": 2167130234.16712,
+    "risk_envelope_25_percent": 2355576341.486,
     "timetable_sized_dedicated_solar": 188312758.1888
   },
   "cases": {
@@ -27,34 +98,49 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 180970868.352,
       "capacity_utilisation": 0.8,
-      "project_irr": 0.053258115674261086,
-      "project_npv_usd_at_8_percent": -462117539.35884976,
-      "steady_state_dscr": 1.544193699148999
+      "project_irr": 0.05554980665249441,
+      "project_npv_usd_at_8_percent": -412286602.39383954,
+      "steady_state_dscr": 1.2061008011195498
     },
     "low_capacity_use": {
       "annual_operating_cash_usd": 71782796.87916802,
       "annual_paid_trips": 179229600.0,
-      "annual_public_support_usd": 17415397.463339493,
+      "annual_public_support_usd": 42419340.745906934,
       "annual_revenue_usd": 115014375.55200002,
       "capacity_utilisation": 0.5,
-      "project_irr": 0.013272010086594663,
-      "project_npv_usd_at_8_percent": -985278062.0358438,
-      "steady_state_dscr": 0.8047561658426962
+      "project_irr": 0.015048327077963053,
+      "project_npv_usd_at_8_percent": -935447125.0708337,
+      "steady_state_dscr": 0.6285591353362455
     }
   },
   "city": "varanasi",
   "funding": {
-    "annual_debt_service_usd": 89198194.34250751,
+    "annual_debt_service_usd": 114202137.62507495,
+    "annual_external_capital_draw_usd": 162956057.116432,
+    "annual_external_debt_service_usd": 46662831.843373165,
+    "annual_grace_interest_usd": 98278726.21733966,
+    "annual_local_bond_issuance_usd": 171148926.0170624,
+    "annual_local_bond_service_usd": 67539305.78170179,
+    "annual_local_capital_draw_usd": 213936157.521328,
+    "annual_local_public_equity_draw_usd": 42787231.50426559,
+    "annual_public_construction_commitment_usd": 141065957.72160524,
     "construction_grace_years": 5,
-    "debt_principal_usd": 1557490777.7510402,
-    "debt_rate": 0.045,
-    "government_equity_share": 0.2,
+    "debt_principal_usd": 1670524915.667472,
+    "external_capital_required_usd": 814780285.58216,
+    "external_debt_rate": 0.045,
+    "external_debt_usd": 814780285.58216,
+    "external_grant_usd": 0.0,
     "lender_commitment_status": "unconfirmed-placeholder",
+    "local_bond_principal_usd": 855744630.085312,
+    "local_bond_rate": 0.072,
+    "local_capital_required_usd": 1069680787.60664,
+    "local_public_equity_usd": 213936157.52132797,
     "repayment_years": 35
   },
   "limitations": [
     "No calibrated origin-destination or stated-preference ridership survey.",
     "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "Imported shares are planning assumptions pending country supplier-capability, customs, tax, and procurement-origin surveys.",
     "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
     "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
   ],
@@ -78,12 +164,12 @@
     "practical_capacity_passenger_trips_per_day": 982080.0,
     "single_trip_fare_usd": 0.6133333333333334
   },
-  "schema_version": 1,
+  "schema_version": 2,
   "sources": {
     "design": "designs/south-asia/India/Varanasi/design.toml",
-    "design_sha256": "a05f4b83e0cb0b60e132ee9e45f35758fd59fc7462ea4104fb07accbd9a33850",
+    "design_sha256": "5468fbb6aeb35269ccaabc85bf5bd09ef012f5db6e06a6eadefa6c55821e9057",
     "generator": "scripts/generate-city-finance.py",
-    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "generator_sha256": "9da48240e9ea50383e605d0c00585d52cdf48747820a2ac28647432461d3e1fa",
     "scenario": "designs/south-asia/India/Varanasi/varanasi.toml",
     "scenario_sha256": "ef15319e7ce5d70c93a0f584fabf7daad53ae359d086c912505ab7d0cb1a0240"
   },

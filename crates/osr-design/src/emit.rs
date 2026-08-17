@@ -713,7 +713,7 @@ fn write_design_toml(
         "rolling_stock_eur    = {:.0}\n",
         costs.rolling_stock_eur
     ));
-    out.push_str("# Railway production plant (tooling + plant setup per vehicle/car module, not per trainset).\n");
+    out.push_str("# Shared national railway production plant is excluded from city CAPEX.\n");
     out.push_str(&format!(
         "production_plant_usd = {:.0}\n",
         costs.production_plant_usd
@@ -1031,9 +1031,8 @@ fn planned_charging_dwell_seconds(
     const MAX_DWELL_SECONDS: u32 = 600;
     const DWELL_INTERVAL_SECONDS: f64 = 30.0;
 
-    // The three-car reference uses one cabinet. Four- and six-car
-    // high-throughput families repeat the same 500 kW cabinet so an
-    // energy-derived dwell does not exceed a three-minute peak headway and
+    // Four- and six-car high-throughput families repeat the same 500 kW
+    // cabinet so an energy-derived dwell does not exceed a three-minute peak headway and
     // occupy both shared contacts continuously.
     let cabinet_count = charging_cabinet_count(family);
     let total_charging_power_kw: u32 = stations
@@ -1078,7 +1077,6 @@ fn line_station_count(line_name: &str, stations: &[Station]) -> u32 {
 
 fn charging_cabinet_count(family: &str) -> u32 {
     match family {
-        "light-metro-3car" => 2,
         "metro-4car" => 3,
         "metro-6car" => 4,
         _ => 1,
@@ -1216,7 +1214,7 @@ struct CostSummary {
     // Rolling stock (RFC 0008 local-owner production cost × fleet count).
     rolling_stock_usd: f64,
     rolling_stock_eur: f64,
-    // City railway production plant (tooling + plant setup per vehicle).
+    // Shared national railway production plant; zero in every city cost block.
     production_plant_usd: f64,
     production_plant_eur: f64,
     // Systems — onboard-first train control + station/depot charging.
@@ -1244,7 +1242,6 @@ struct CapexCostConfig {
     trainset_unit_usd: BTreeMap<String, f64>,
     trainset_800v_core_electrical_usd: Trainset800vCoreElectrical,
     station_800v_module_usd: Station800vModule,
-    production_plant: ProductionPlantCostRates,
     systems: SystemCostRates,
     charging_microgrid_unit_usd: BTreeMap<String, f64>,
     overhead: OverheadCostRates,
@@ -1294,11 +1291,6 @@ struct JunctionCostRates {
 #[derive(Debug, Deserialize)]
 struct SystemCostRates {
     signalling_usd_per_km: f64,
-}
-
-#[derive(Debug, Deserialize)]
-struct ProductionPlantCostRates {
-    per_vehicle_usd: f64,
 }
 
 #[derive(Debug, Deserialize)]
@@ -1396,10 +1388,12 @@ fn compute_costs(
     let depots_eur = eur_from_usd(depots_usd);
     let rolling_stock_usd = f64::from(fleet_total_trainsets) * trainset_cost_usd(family);
     let rolling_stock_eur = eur_from_usd(rolling_stock_usd);
-    let production_vehicle_count =
-        f64::from(fleet_total_trainsets) * f64::from(family_car_count(family));
-    let production_plant_usd = production_vehicle_count * rates.production_plant.per_vehicle_usd;
-    let production_plant_eur = eur_from_usd(production_plant_usd);
+    // Trainset production is a national shared asset, not one factory per
+    // city. City CAPEX therefore carries no production-plant setup charge;
+    // `scripts/generate-national-briefs.py` sizes one plant to the largest
+    // city fleet programme and adds it once to the national capital plan.
+    let production_plant_usd = 0.0;
+    let production_plant_eur = 0.0;
 
     let route_km = (at_grade_m + elevated_m + bridge_m) / 1_000.0;
     let signalling_usd = route_km * rates.systems.signalling_usd_per_km;
@@ -2374,22 +2368,22 @@ mod tests {
         // Rolling stock: 12 x $1.68 M mirrored to EUR.
         assert!((c.rolling_stock_usd - 20_160_000.0).abs() < 1.0);
         assert!((c.rolling_stock_eur - 18_547_200.0).abs() < 1.0);
-        // Production plant: 12 x 6-car trainsets x $60k/car module.
-        assert!((c.production_plant_usd - 4_320_000.0).abs() < 1.0);
-        assert!((c.production_plant_eur - 3_974_400.0).abs() < 1.0);
+        // Production plant is costed once in the national brief, not per city.
+        assert_eq!(c.production_plant_usd, 0.0);
+        assert_eq!(c.production_plant_eur, 0.0);
         // Systems: residual signalling at 11.5 km × $0.05 M/km,
         // plus per-stop charging microgrid allowances.
         assert!((c.signalling_usd - 575_000.0).abs() < 1.0);
         assert!((c.signalling_eur - 529_000.0).abs() < 1.0);
         assert!((c.charging_microgrid_usd - 1_800_000.0).abs() < 1.0);
         assert!((c.charging_microgrid_eur - 1_656_000.0).abs() < 1.0);
-        // Subtotal before EPC = $98.255 M.
-        // EPC overhead = 7 % x $98.255 M = $6.87785 M.
-        assert!((c.epc_overhead_usd - 6_877_850.0).abs() < 1.0);
-        assert!((c.epc_overhead_eur - 6_327_622.0).abs() < 1.0);
-        // Total = $105.13285 M = EUR 96.722222 M.
-        assert!((c.total_usd - 105_132_850.0).abs() < 1.0);
-        assert!((c.total_eur - 96_722_222.0).abs() < 1.0);
+        // Subtotal before EPC = $93.935 M.
+        // EPC overhead = 7 % x $93.935 M = $6.57545 M.
+        assert!((c.epc_overhead_usd - 6_575_450.0).abs() < 1.0);
+        assert!((c.epc_overhead_eur - 6_049_414.0).abs() < 1.0);
+        // Total = $100.51045 M = EUR 92.469614 M.
+        assert!((c.total_usd - 100_510_450.0).abs() < 1.0);
+        assert!((c.total_eur - 92_469_614.0).abs() < 1.0);
     }
 
     #[test]

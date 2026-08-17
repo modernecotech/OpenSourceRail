@@ -11,13 +11,84 @@
     "total": 15852064.423192
   },
   "capex_eur": {
-    "reconciled_project_total": 589868522.2357761
+    "reconciled_project_total": 562226571.155776
   },
   "capex_usd": {
-    "authoritative_design_base": 583919513.0,
-    "reconciled_project_total": 641161437.2128,
-    "risk_envelope_15_percent": 737335652.7947199,
-    "risk_envelope_25_percent": 801451796.516,
+    "authoritative_design_base": 553873914.0,
+    "imported_external_capital": 273722352.84896,
+    "imported_percentage_of_total": 0.4479058399950119,
+    "local_capital": 337393485.36384,
+    "local_percentage_of_total": 0.552094160004988,
+    "national_trainset_factory_treatment": "excluded from city CAPEX; costed once in the country NATIONAL-BRIEF.md",
+    "procurement_origin_buckets": [
+      {
+        "bucket": "civil",
+        "imported_share": 0.35,
+        "imported_usd": 88345028.8,
+        "local_share": 0.65,
+        "local_usd": 164069339.2,
+        "total_usd": 252414368.0
+      },
+      {
+        "bucket": "stations",
+        "imported_share": 0.4,
+        "imported_usd": 44240000.0,
+        "local_share": 0.6,
+        "local_usd": 66360000.0,
+        "total_usd": 110600000.0
+      },
+      {
+        "bucket": "depots",
+        "imported_share": 0.4,
+        "imported_usd": 3200000.0,
+        "local_share": 0.6,
+        "local_usd": 4800000.0,
+        "total_usd": 8000000.0
+      },
+      {
+        "bucket": "rolling_stock",
+        "imported_share": 0.55,
+        "imported_usd": 77220000.0,
+        "local_share": 0.44999999999999996,
+        "local_usd": 63180000.0,
+        "total_usd": 140400000.0
+      },
+      {
+        "bucket": "solar_plant",
+        "imported_share": 0.7,
+        "imported_usd": 40069346.94895999,
+        "local_share": 0.30000000000000004,
+        "local_usd": 17172577.263839997,
+        "total_usd": 57241924.21279999
+      },
+      {
+        "bucket": "signalling",
+        "imported_share": 0.8,
+        "imported_usd": 2939843.2,
+        "local_share": 0.19999999999999996,
+        "local_usd": 734960.7999999998,
+        "total_usd": 3674804.0
+      },
+      {
+        "bucket": "charging_microgrid",
+        "imported_share": 0.55,
+        "imported_usd": 1402500.0,
+        "local_share": 0.44999999999999996,
+        "local_usd": 1147500.0,
+        "total_usd": 2550000.0
+      },
+      {
+        "bucket": "epc_overhead",
+        "imported_share": 0.45,
+        "imported_usd": 16305633.9,
+        "local_share": 0.55,
+        "local_usd": 19929108.1,
+        "total_usd": 36234742.0
+      }
+    ],
+    "reconciled_project_total": 611115838.2128,
+    "risk_envelope_15_percent": 702783213.94472,
+    "risk_envelope_25_percent": 763894797.766,
     "timetable_sized_dedicated_solar": 57241924.21279999
   },
   "cases": {
@@ -27,34 +98,49 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 83476895.42400001,
       "capacity_utilisation": 0.8,
-      "project_irr": 0.08387821542395608,
-      "project_npv_usd_at_8_percent": 24399278.802549593,
-      "steady_state_dscr": 2.302068450181447
+      "project_irr": 0.08797153457770487,
+      "project_npv_usd_at_8_percent": 48391951.74201425,
+      "steady_state_dscr": 1.5059643723165899
     },
     "low_capacity_use": {
       "annual_operating_cash_usd": 37123211.800808,
       "annual_paid_trips": 73321200.0,
-      "annual_public_support_usd": 0.0,
+      "annual_public_support_usd": 7781456.758370675,
       "annual_revenue_usd": 52975276.224,
       "capacity_utilisation": 0.5,
-      "project_irr": 0.03984671355443192,
-      "project_npv_usd_at_8_percent": -217536615.08364952,
-      "steady_state_dscr": 1.2637395671276805
+      "project_irr": 0.04295575183468596,
+      "project_npv_usd_at_8_percent": -193543942.14418486,
+      "steady_state_dscr": 0.8267116313726779
     }
   },
   "city": "damietta",
   "funding": {
-    "annual_debt_service_usd": 29375682.1155678,
+    "annual_debt_service_usd": 44904668.55917867,
+    "annual_external_capital_draw_usd": 54744470.569791995,
+    "annual_external_debt_service_usd": 15676201.730430206,
+    "annual_grace_interest_usd": 40658558.64876576,
+    "annual_local_bond_issuance_usd": 53982957.658214405,
+    "annual_local_bond_service_usd": 29228466.828748465,
+    "annual_local_capital_draw_usd": 67478697.072768,
+    "annual_local_public_equity_draw_usd": 13495739.414553594,
+    "annual_public_construction_commitment_usd": 54154298.063319355,
     "construction_grace_years": 5,
-    "debt_principal_usd": 512929149.77024007,
-    "debt_rate": 0.045,
-    "government_equity_share": 0.2,
+    "debt_principal_usd": 543637141.140032,
+    "external_capital_required_usd": 273722352.84896,
+    "external_debt_rate": 0.045,
+    "external_debt_usd": 273722352.84896,
+    "external_grant_usd": 0.0,
     "lender_commitment_status": "unconfirmed-placeholder",
+    "local_bond_principal_usd": 269914788.291072,
+    "local_bond_rate": 0.105,
+    "local_capital_required_usd": 337393485.36384,
+    "local_public_equity_usd": 67478697.07276797,
     "repayment_years": 35
   },
   "limitations": [
     "No calibrated origin-destination or stated-preference ridership survey.",
     "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "Imported shares are planning assumptions pending country supplier-capability, customs, tax, and procurement-origin surveys.",
     "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
     "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
   ],
@@ -78,12 +164,12 @@
     "practical_capacity_passenger_trips_per_day": 401760.0,
     "single_trip_fare_usd": 0.6933333333333334
   },
-  "schema_version": 1,
+  "schema_version": 2,
   "sources": {
     "design": "designs/west-asia/Egypt/Damietta/design.toml",
-    "design_sha256": "87cce1965a215f2fd4aaac4f98b6eebc748ca2862d2eff113d0732fe569542f8",
+    "design_sha256": "f3a4d884697b705230bfc2c9d7a4ce2da112422e1522b532cc1fc5ac8eb2b121",
     "generator": "scripts/generate-city-finance.py",
-    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "generator_sha256": "9da48240e9ea50383e605d0c00585d52cdf48747820a2ac28647432461d3e1fa",
     "scenario": "designs/west-asia/Egypt/Damietta/damietta.toml",
     "scenario_sha256": "90db3dd2abda5a1a14ec5049ed95702a9e978c26d31cca2aa99231926d13338a"
   },

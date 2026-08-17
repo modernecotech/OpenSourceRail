@@ -241,8 +241,10 @@ def render_cost_model() -> str:
         "",
         "## Railway Production Plant",
         "",
-        "Each city also carries a separate local railway production-plant setup "
-        "allowance. The base case is "
+        "Each country carries one shared railway production-plant setup allowance; "
+        "cities do not duplicate the factory in city CAPEX. The national plant is "
+        "sized to the largest single-city fleet programme and reused through a "
+        "phased rollout. The base case is "
         f"**{_money_short(plant_base)} USD per vehicle/car module**, not per "
         "trainset; the earlier "
         f"**{_money_short(plant_high)} USD per vehicle/car module** value is "
@@ -253,7 +255,7 @@ def render_cost_model() -> str:
         "commissioning bay setup, material handling, "
         "homologation/production-readiness work, and first-article support. It is "
         "deliberately separate from the trainset unit above, so procurement costs "
-        "and city plant setup remain auditable instead of being hidden in one "
+        "and national plant setup remain auditable instead of being hidden in one "
         "large rolling-stock number.",
         "",
         "The generated LM3 pilot factory plan sizes the minimum enclosed building "
@@ -263,12 +265,27 @@ def render_cost_model() -> str:
         "and a separate short depot/test track. Its rough machinery and setup "
         f"list totals {_money_short(float(factory_machinery['rough_order_machinery_total_usd']))}, "
         f"including {_pct(float(factory_machinery['setup_contingency_fraction']))} equipment setup contingency. "
-        "This one-time factory setup remains separate from the per-trainset build estimate.",
+        "This one-time national factory setup remains separate from the per-trainset build estimate.",
         "",
         "| Example | Base plant allowance | High sensitivity |",
         "|---|---:|---:|",
         f"| 1-car vehicle module | {_money_short(plant_base)} | {_money_short(plant_high)} |",
         f"| 3-car `light-metro-3car` trainset | {_money_short(plant_base * 3)} | {_money_short(plant_high * 3)} |",
+        "",
+        "## Procurement Origin and Capital Boundary",
+        "",
+        "Each generated city and national brief separates imported value from "
+        "local value. Imported value is the minimum foreign-currency / international "
+        "capital requirement; local value can be funded with domestic-currency bonds, "
+        "public equity, or other local sources. Until a country supplier audit is "
+        "available, the controlled planning shares are:",
+        "",
+        "| CAPEX bucket | Imported share | Local share |",
+        "|---|---:|---:|",
+        *[
+            f"| `{bucket}` | {float(imported):.0%} | {1.0 - float(imported):.0%} |"
+            for bucket, imported in capex["procurement_origin"]["imported_share"].items()
+        ],
         "",
         "## Civil Works",
         "",
@@ -413,12 +430,13 @@ def render_cost_model() -> str:
         "covering rolling stock, stations, track/civil, structures, energy, "
         "signalling/comms, depot equipment, and railway production-plant tools.",
         "",
-        "Construction-period equity and interest-only grace payments on the "
-        "repayable tranche remain public capital commitments. The base finance "
-        "stack assumes **no climate/development grant**: "
-        f"{_pct(float(default_finance['government_equity_share']))} government equity "
-        f"during construction and {_pct(float(default_finance['multilateral_loan_share']))} "
-        "candidate climate/MDB concessional debt. That tranche is a placeholder "
+        "Construction-period local equity and interest-only grace payments on the "
+        "repayable tranches remain public capital commitments. The base finance "
+        "boundary assumes **no climate/development grant**: imported value is the "
+        "minimum external climate/MDB or foreign-currency requirement, while "
+        f"{_pct(float(default_finance['local_bond_share_of_local_capex']))} of local "
+        "value is assigned to domestic-currency bonds and the balance to local "
+        "public equity or another domestic source. The external tranche is a placeholder "
         "for a lender term sheet, not evidence of an available loan. Plausible "
         "channels include MDB lending blended with climate funds such as GCF or "
         "CIF, or an equivalent national development bank / IsDB route where "
@@ -426,7 +444,7 @@ def render_cost_model() -> str:
         "operations after opening. Where the capacity-use scenario produces "
         "revenue above OPEX, that operating surplus is netted against "
         "repayable-debt support in the government commitment summary; the gross "
-        "post-grace debt-service figure remains visible in the CAPEX funding stack.",
+        "post-grace external and local-bond debt-service figures remain visible.",
         "",
         "## Broad Economic Benefits",
         "",
@@ -453,7 +471,7 @@ def render_cost_model() -> str:
         "",
         "The CAPEX recirculation table estimates how much of the initial capital "
         "programme is retained locally through civil works, station fabrication, "
-        "depot works, railway production-plant setup, rolling-stock assembly, "
+        "depot works, shared national railway production-plant setup, rolling-stock assembly, "
         "charging microgrids, EPC labour, and solar-plant delivery. The retained "
         f"CAPEX is then multiplied by the {local_multiplier:.1f} construction "
         "local-supplier / wage multiplier and converted to approximate "
@@ -467,9 +485,9 @@ def render_cost_model() -> str:
         f"**{_pct(float(overhead['epc_fraction']))} of subtotal**:",
         "",
         "```text",
-        "civil + stations + depots + rolling_stock",
-        "+ railway_production_plant",
+        "city: civil + stations + depots + rolling_stock",
         "+ residual_train_control_wayside + charging_microgrids",
+        "national: one shared railway_production_plant",
         "```",
         "",
         "Dedicated solar plant CAPEX is then added as a separate infrastructure "

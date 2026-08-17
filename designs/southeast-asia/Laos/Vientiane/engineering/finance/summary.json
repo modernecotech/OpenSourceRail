@@ -11,13 +11,84 @@
     "total": 15540842.90705
   },
   "capex_eur": {
-    "reconciled_project_total": 599602683.6724
+    "reconciled_project_total": 572137923.6724
   },
   "capex_usd": {
-    "authoritative_design_base": 577306161.0,
-    "reconciled_project_total": 651742047.47,
-    "risk_envelope_15_percent": 749503354.5905,
-    "risk_envelope_25_percent": 814677559.3375001,
+    "authoritative_design_base": 547453161.0,
+    "imported_external_capital": 283464184.92899996,
+    "imported_percentage_of_total": 0.45581150863197073,
+    "local_capital": 338424862.541,
+    "local_percentage_of_total": 0.5441884913680292,
+    "national_trainset_factory_treatment": "excluded from city CAPEX; costed once in the country NATIONAL-BRIEF.md",
+    "procurement_origin_buckets": [
+      {
+        "bucket": "civil",
+        "imported_share": 0.35,
+        "imported_usd": 85747722.55,
+        "local_share": 0.65,
+        "local_usd": 159245770.45,
+        "total_usd": 244993493.0
+      },
+      {
+        "bucket": "stations",
+        "imported_share": 0.4,
+        "imported_usd": 45040000.0,
+        "local_share": 0.6,
+        "local_usd": 67560000.0,
+        "total_usd": 112600000.0
+      },
+      {
+        "bucket": "depots",
+        "imported_share": 0.4,
+        "imported_usd": 3200000.0,
+        "local_share": 0.6,
+        "local_usd": 4800000.0,
+        "total_usd": 8000000.0
+      },
+      {
+        "bucket": "rolling_stock",
+        "imported_share": 0.55,
+        "imported_usd": 76725000.0,
+        "local_share": 0.44999999999999996,
+        "local_usd": 62775000.0,
+        "total_usd": 139500000.0
+      },
+      {
+        "bucket": "solar_plant",
+        "imported_share": 0.7,
+        "imported_usd": 52105120.528999984,
+        "local_share": 0.30000000000000004,
+        "local_usd": 22330765.941,
+        "total_usd": 74435886.46999998
+      },
+      {
+        "bucket": "signalling",
+        "imported_share": 0.8,
+        "imported_usd": 2975980.0,
+        "local_share": 0.19999999999999996,
+        "local_usd": 743995.0,
+        "total_usd": 3719975.0
+      },
+      {
+        "bucket": "charging_microgrid",
+        "imported_share": 0.55,
+        "imported_usd": 1553750.0000000002,
+        "local_share": 0.44999999999999996,
+        "local_usd": 1271249.9999999998,
+        "total_usd": 2825000.0
+      },
+      {
+        "bucket": "epc_overhead",
+        "imported_share": 0.45,
+        "imported_usd": 16116611.85,
+        "local_share": 0.55,
+        "local_usd": 19698081.15,
+        "total_usd": 35814693.0
+      }
+    ],
+    "reconciled_project_total": 621889047.47,
+    "risk_envelope_15_percent": 715172404.5905,
+    "risk_envelope_25_percent": 777361309.3375001,
     "timetable_sized_dedicated_solar": 74435886.46999998
   },
   "cases": {
@@ -27,34 +98,49 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 62689721.328,
       "capacity_utilisation": 0.8,
-      "project_irr": 0.04968974523059154,
-      "project_npv_usd_at_8_percent": -167986690.68782386,
-      "steady_state_dscr": 1.5393529871370613
+      "project_irr": 0.05279718562472448,
+      "project_npv_usd_at_8_percent": -145783009.91953906,
+      "steady_state_dscr": 1.0211109429008516
     },
     "low_capacity_use": {
       "annual_operating_cash_usd": 24272664.020950004,
       "annual_paid_trips": 73321200.0,
-      "annual_public_support_usd": 6356359.221236326,
+      "annual_public_support_usd": 21901435.61900273,
       "annual_revenue_usd": 39813506.928,
       "capacity_utilisation": 0.5,
-      "project_irr": 0.01060730441326536,
-      "project_npv_usd_at_8_percent": -321674664.2271699,
-      "steady_state_dscr": 0.7924726762921545
+      "project_irr": 0.013106779941483581,
+      "project_npv_usd_at_8_percent": -299470983.4588851,
+      "steady_state_dscr": 0.5256770399470393
     }
   },
   "city": "vientiane",
   "funding": {
-    "annual_debt_service_usd": 30629023.24218633,
+    "annual_debt_service_usd": 46174099.639952734,
+    "annual_external_capital_draw_usd": 40494883.56128571,
+    "annual_external_debt_service_usd": 16651969.790466432,
+    "annual_grace_interest_usd": 41183576.775249,
+    "annual_local_bond_issuance_usd": 38677127.14754286,
+    "annual_local_bond_service_usd": 29522129.849486306,
+    "annual_local_capital_draw_usd": 48346408.93442857,
+    "annual_local_public_equity_draw_usd": 9669281.786885712,
+    "annual_public_construction_commitment_usd": 50852858.56213471,
     "construction_grace_years": 7,
-    "debt_principal_usd": 521393637.9760001,
-    "debt_rate": 0.045,
-    "government_equity_share": 0.2,
+    "debt_principal_usd": 554204074.9618,
+    "external_capital_required_usd": 283464184.92899996,
+    "external_debt_rate": 0.045,
+    "external_debt_usd": 283464184.92899996,
+    "external_grant_usd": 0.0,
     "lender_commitment_status": "unconfirmed-placeholder",
+    "local_bond_principal_usd": 270739890.0328,
+    "local_bond_rate": 0.105,
+    "local_capital_required_usd": 338424862.541,
+    "local_public_equity_usd": 67684972.50819999,
     "repayment_years": 33
   },
   "limitations": [
     "No calibrated origin-destination or stated-preference ridership survey.",
     "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "Imported shares are planning assumptions pending country supplier-capability, customs, tax, and procurement-origin surveys.",
     "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
     "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
   ],
@@ -78,12 +164,12 @@
     "practical_capacity_passenger_trips_per_day": 401760.0,
     "single_trip_fare_usd": 0.52
   },
-  "schema_version": 1,
+  "schema_version": 2,
   "sources": {
     "design": "designs/southeast-asia/Laos/Vientiane/design.toml",
-    "design_sha256": "506277cf5499715582210ad02518281bc8796ea33fda3a67bce89294159212e0",
+    "design_sha256": "afe3aefa92894d71cf1e1334734c258d3e680c7709c36b791d6d0ddc4172a1d9",
     "generator": "scripts/generate-city-finance.py",
-    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "generator_sha256": "9da48240e9ea50383e605d0c00585d52cdf48747820a2ac28647432461d3e1fa",
     "scenario": "designs/southeast-asia/Laos/Vientiane/vientiane.toml",
     "scenario_sha256": "f0be11d78c5415c98a06d4a8bf607ee155d22967b3eeec5e2bf8edfd5ce2f45a"
   },

@@ -11,13 +11,84 @@
     "total": 45953497.74106473
   },
   "capex_eur": {
-    "reconciled_project_total": 1818219925.5853033
+    "reconciled_project_total": 1757974646.5053034
   },
   "capex_usd": {
-    "authoritative_design_base": 1754019078.0,
-    "reconciled_project_total": 1976326006.0709817,
-    "risk_envelope_15_percent": 2272774906.981629,
-    "risk_envelope_25_percent": 2470407507.588727,
+    "authoritative_design_base": 1688535079.0,
+    "imported_external_capital": 844932475.6996872,
+    "imported_percentage_of_total": 0.44217809351744103,
+    "local_capital": 1065909531.3712946,
+    "local_percentage_of_total": 0.557821906482559,
+    "national_trainset_factory_treatment": "excluded from city CAPEX; costed once in the country NATIONAL-BRIEF.md",
+    "procurement_origin_buckets": [
+      {
+        "bucket": "civil",
+        "imported_share": 0.35,
+        "imported_usd": 296027252.84999996,
+        "local_share": 0.65,
+        "local_usd": 549764898.1500001,
+        "total_usd": 845792151.0
+      },
+      {
+        "bucket": "stations",
+        "imported_share": 0.4,
+        "imported_usd": 161960000.0,
+        "local_share": 0.6,
+        "local_usd": 242940000.0,
+        "total_usd": 404900000.0
+      },
+      {
+        "bucket": "depots",
+        "imported_share": 0.4,
+        "imported_usd": 3200000.0,
+        "local_share": 0.6,
+        "local_usd": 4800000.0,
+        "total_usd": 8000000.0
+      },
+      {
+        "bucket": "rolling_stock",
+        "imported_share": 0.55,
+        "imported_usd": 157080000.0,
+        "local_share": 0.44999999999999996,
+        "local_usd": 128520000.0,
+        "total_usd": 285600000.0
+      },
+      {
+        "bucket": "solar_plant",
+        "imported_share": 0.7,
+        "imported_usd": 155614849.64968726,
+        "local_share": 0.30000000000000004,
+        "local_usd": 66692078.42129454,
+        "total_usd": 222306928.0709818
+      },
+      {
+        "bucket": "signalling",
+        "imported_share": 0.8,
+        "imported_usd": 8842412.8,
+        "local_share": 0.19999999999999996,
+        "local_usd": 2210603.1999999993,
+        "total_usd": 11053016.0
+      },
+      {
+        "bucket": "charging_microgrid",
+        "imported_share": 0.55,
+        "imported_usd": 12498750.000000002,
+        "local_share": 0.44999999999999996,
+        "local_usd": 10226249.999999998,
+        "total_usd": 22725000.0
+      },
+      {
+        "bucket": "epc_overhead",
+        "imported_share": 0.45,
+        "imported_usd": 49709210.4,
+        "local_share": 0.55,
+        "local_usd": 60755701.6,
+        "total_usd": 110464912.0
+      }
+    ],
+    "reconciled_project_total": 1910842007.0709817,
+    "risk_envelope_15_percent": 2197468308.131629,
+    "risk_envelope_25_percent": 2388552508.838727,
     "timetable_sized_dedicated_solar": 222306928.0709818
   },
   "cases": {
@@ -27,34 +98,49 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 229046724.48,
       "capacity_utilisation": 0.8,
-      "project_irr": 0.07329052659252505,
-      "project_npv_usd_at_8_percent": -125901567.42742625,
-      "steady_state_dscr": 2.022055757246254
+      "project_irr": 0.07597720370853261,
+      "project_npv_usd_at_8_percent": -73609843.41236418,
+      "steady_state_dscr": 1.4183569826319953
     },
     "low_capacity_use": {
       "annual_operating_cash_usd": 100973482.73893526,
       "annual_paid_trips": 146642400.0,
-      "annual_public_support_usd": 0.0,
+      "annual_public_support_usd": 28114771.47417234,
       "annual_revenue_usd": 146926980.48,
       "capacity_utilisation": 0.5,
-      "project_irr": 0.03202093496127753,
-      "project_npv_usd_at_8_percent": -777267435.5825773,
-      "steady_state_dscr": 1.1151368935814991
+      "project_irr": 0.03409076759892962,
+      "project_npv_usd_at_8_percent": -724975711.5675153,
+      "steady_state_dscr": 0.7822050375880165
     }
   },
   "city": "tunis",
   "funding": {
-    "annual_debt_service_usd": 90548060.35036422,
+    "annual_debt_service_usd": 129088254.2131076,
+    "annual_external_capital_draw_usd": 168986495.13993746,
+    "annual_external_debt_service_usd": 48389661.2746453,
+    "annual_grace_interest_usd": 114767447.66521913,
+    "annual_local_bond_issuance_usd": 170545525.01940715,
+    "annual_local_bond_service_usd": 80698592.9384623,
+    "annual_local_capital_draw_usd": 213181906.2742589,
+    "annual_local_public_equity_draw_usd": 42636381.25485177,
+    "annual_public_construction_commitment_usd": 157403828.9200709,
     "construction_grace_years": 5,
-    "debt_principal_usd": 1581060804.8567855,
-    "debt_rate": 0.045,
-    "government_equity_share": 0.2,
+    "debt_principal_usd": 1697660100.796723,
+    "external_capital_required_usd": 844932475.6996872,
+    "external_debt_rate": 0.045,
+    "external_debt_usd": 844932475.6996872,
+    "external_grant_usd": 0.0,
     "lender_commitment_status": "unconfirmed-placeholder",
+    "local_bond_principal_usd": 852727625.0970358,
+    "local_bond_rate": 0.09,
+    "local_capital_required_usd": 1065909531.3712946,
+    "local_public_equity_usd": 213181906.27425885,
     "repayment_years": 35
   },
   "limitations": [
     "No calibrated origin-destination or stated-preference ridership survey.",
     "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "Imported shares are planning assumptions pending country supplier-capability, customs, tax, and procurement-origin surveys.",
     "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
     "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
   ],
@@ -78,12 +164,12 @@
     "practical_capacity_passenger_trips_per_day": 803520.0,
     "single_trip_fare_usd": 0.9333333333333333
   },
-  "schema_version": 1,
+  "schema_version": 2,
   "sources": {
     "design": "designs/north-africa/Tunisia/Tunis/design.toml",
-    "design_sha256": "d24e316c7b78666d3ea9c1180d51ecab2e280ac61eb4fa8739d55822244847e3",
+    "design_sha256": "74baaad60ba52eebc493317eed2f4fc65070a9bbdca201b992647f6f416039f1",
     "generator": "scripts/generate-city-finance.py",
-    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "generator_sha256": "9da48240e9ea50383e605d0c00585d52cdf48747820a2ac28647432461d3e1fa",
     "scenario": "designs/north-africa/Tunisia/Tunis/tunis.toml",
     "scenario_sha256": "f51dbda4b33a6345e47129a6ee565576e71b39b9b70de944876502beb38795b2"
   },

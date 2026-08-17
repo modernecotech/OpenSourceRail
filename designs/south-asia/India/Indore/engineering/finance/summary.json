@@ -11,13 +11,84 @@
     "total": 91814800.617744
   },
   "capex_eur": {
-    "reconciled_project_total": 3587115589.141632
+    "reconciled_project_total": 3384762325.141632
   },
   "capex_usd": {
-    "authoritative_design_base": 3332023996.0,
-    "reconciled_project_total": 3899038683.8496,
-    "risk_envelope_15_percent": 4483894486.427039,
-    "risk_envelope_25_percent": 4873798354.812,
+    "authoritative_design_base": 3112074796.0,
+    "imported_external_capital": 1740848236.99472,
+    "imported_percentage_of_total": 0.47317366012342565,
+    "local_capital": 1938241246.8548799,
+    "local_percentage_of_total": 0.5268263398765743,
+    "national_trainset_factory_treatment": "excluded from city CAPEX; costed once in the country NATIONAL-BRIEF.md",
+    "procurement_origin_buckets": [
+      {
+        "bucket": "civil",
+        "imported_share": 0.35,
+        "imported_usd": 477725961.99999994,
+        "local_share": 0.65,
+        "local_usd": 887205358.0,
+        "total_usd": 1364931320.0
+      },
+      {
+        "bucket": "stations",
+        "imported_share": 0.4,
+        "imported_usd": 207400000.0,
+        "local_share": 0.6,
+        "local_usd": 311100000.0,
+        "total_usd": 518500000.0
+      },
+      {
+        "bucket": "depots",
+        "imported_share": 0.4,
+        "imported_usd": 3200000.0,
+        "local_share": 0.6,
+        "local_usd": 4800000.0,
+        "total_usd": 8000000.0
+      },
+      {
+        "bucket": "rolling_stock",
+        "imported_share": 0.55,
+        "imported_usd": 527604000.00000006,
+        "local_share": 0.44999999999999996,
+        "local_usd": 431675999.99999994,
+        "total_usd": 959280000.0
+      },
+      {
+        "bucket": "solar_plant",
+        "imported_share": 0.7,
+        "imported_usd": 396910281.49472004,
+        "local_share": 0.30000000000000004,
+        "local_usd": 170104406.35488003,
+        "total_usd": 567014687.8496001
+      },
+      {
+        "bucket": "signalling",
+        "imported_share": 0.8,
+        "imported_usd": 14775838.4,
+        "local_share": 0.19999999999999996,
+        "local_usd": 3693959.5999999996,
+        "total_usd": 18469798.0
+      },
+      {
+        "bucket": "charging_microgrid",
+        "imported_share": 0.55,
+        "imported_usd": 21615000.0,
+        "local_share": 0.44999999999999996,
+        "local_usd": 17685000.0,
+        "total_usd": 39300000.0
+      },
+      {
+        "bucket": "epc_overhead",
+        "imported_share": 0.45,
+        "imported_usd": 91617155.10000001,
+        "local_share": 0.55,
+        "local_usd": 111976522.89999999,
+        "total_usd": 203593678.0
+      }
+    ],
+    "reconciled_project_total": 3679089483.8496,
+    "risk_envelope_15_percent": 4230952906.4270396,
+    "risk_envelope_25_percent": 4598861854.812,
     "timetable_sized_dedicated_solar": 567014687.8496001
   },
   "cases": {
@@ -27,34 +98,49 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 368397615.16800004,
       "capacity_utilisation": 0.8,
-      "project_irr": 0.05344240132141062,
-      "project_npv_usd_at_8_percent": -919718039.0594513,
-      "steady_state_dscr": 1.548271364733411
+      "project_irr": 0.05755514308598174,
+      "project_npv_usd_at_8_percent": -744079363.3619924,
+      "steady_state_dscr": 1.2454248040494347
     },
     "low_capacity_use": {
       "annual_operating_cash_usd": 141671806.55025604,
       "annual_paid_trips": 366606000.0,
-      "annual_public_support_usd": 36967946.693439335,
+      "annual_public_support_usd": 80407289.39432546,
       "annual_revenue_usd": 233486607.16800004,
       "capacity_utilisation": 0.5,
-      "project_irr": 0.012479984951733001,
-      "project_npv_usd_at_8_percent": -1989819108.171485,
-      "steady_state_dscr": 0.793058678025553
+      "project_irr": 0.015644037217373015,
+      "project_npv_usd_at_8_percent": -1814180432.474026,
+      "steady_state_dscr": 0.6379340025123723
     }
   },
   "city": "indore",
   "funding": {
-    "annual_debt_service_usd": 178639753.24369538,
+    "annual_debt_service_usd": 222079095.9445815,
+    "annual_external_capital_draw_usd": 348169647.398944,
+    "annual_external_debt_service_usd": 99699158.14749542,
+    "annual_grace_interest_usd": 189980866.48360348,
+    "annual_local_bond_issuance_usd": 310118599.49678075,
+    "annual_local_bond_service_usd": 122379937.7970861,
+    "annual_local_capital_draw_usd": 387648249.370976,
+    "annual_local_public_equity_draw_usd": 77529649.87419519,
+    "annual_public_construction_commitment_usd": 267510516.35779867,
     "construction_grace_years": 5,
-    "debt_principal_usd": 3119230947.07968,
-    "debt_rate": 0.045,
-    "government_equity_share": 0.2,
+    "debt_principal_usd": 3291441234.478624,
+    "external_capital_required_usd": 1740848236.99472,
+    "external_debt_rate": 0.045,
+    "external_debt_usd": 1740848236.99472,
+    "external_grant_usd": 0.0,
     "lender_commitment_status": "unconfirmed-placeholder",
+    "local_bond_principal_usd": 1550592997.483904,
+    "local_bond_rate": 0.072,
+    "local_capital_required_usd": 1938241246.8548799,
+    "local_public_equity_usd": 387648249.370976,
     "repayment_years": 35
   },
   "limitations": [
     "No calibrated origin-destination or stated-preference ridership survey.",
     "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "Imported shares are planning assumptions pending country supplier-capability, customs, tax, and procurement-origin surveys.",
     "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
     "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
   ],
@@ -78,12 +164,12 @@
     "practical_capacity_passenger_trips_per_day": 2008800.0,
     "single_trip_fare_usd": 0.6133333333333334
   },
-  "schema_version": 1,
+  "schema_version": 2,
   "sources": {
     "design": "designs/south-asia/India/Indore/design.toml",
-    "design_sha256": "639c8fc4bd8f3d179686933d0c77451ae58b68cb59da9a54048fe5b06cdb23d6",
+    "design_sha256": "90b605f9bb583ba7ed33f399da821e7245191bb0e45dd128183843c349c28d41",
     "generator": "scripts/generate-city-finance.py",
-    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "generator_sha256": "9da48240e9ea50383e605d0c00585d52cdf48747820a2ac28647432461d3e1fa",
     "scenario": "designs/south-asia/India/Indore/indore.toml",
     "scenario_sha256": "883db1524404a94e7c87180ce25b92b56f0a8336f6efd2275f0b2de38002708d"
   },

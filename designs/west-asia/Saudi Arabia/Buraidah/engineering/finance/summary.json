@@ -11,13 +11,84 @@
     "total": 24777221.303192
   },
   "capex_eur": {
-    "reconciled_project_total": 555396147.995776
+    "reconciled_project_total": 529526116.9157761
   },
   "capex_usd": {
-    "authoritative_design_base": 551480745.0,
-    "reconciled_project_total": 603691465.2128,
-    "risk_envelope_15_percent": 694245184.99472,
-    "risk_envelope_25_percent": 754614331.516,
+    "authoritative_design_base": 523361146.0,
+    "imported_external_capital": 257895800.94895998,
+    "imported_percentage_of_total": 0.4480688096273471,
+    "local_capital": 317676065.26384,
+    "local_percentage_of_total": 0.5519311903726529,
+    "national_trainset_factory_treatment": "excluded from city CAPEX; costed once in the country NATIONAL-BRIEF.md",
+    "procurement_origin_buckets": [
+      {
+        "bucket": "civil",
+        "imported_share": 0.35,
+        "imported_usd": 78692341.0,
+        "local_share": 0.65,
+        "local_usd": 146142919.0,
+        "total_usd": 224835260.0
+      },
+      {
+        "bucket": "stations",
+        "imported_share": 0.4,
+        "imported_usd": 47400000.0,
+        "local_share": 0.6,
+        "local_usd": 71100000.0,
+        "total_usd": 118500000.0
+      },
+      {
+        "bucket": "depots",
+        "imported_share": 0.4,
+        "imported_usd": 3200000.0,
+        "local_share": 0.6,
+        "local_usd": 4800000.0,
+        "total_usd": 8000000.0
+      },
+      {
+        "bucket": "rolling_stock",
+        "imported_share": 0.55,
+        "imported_usd": 72270000.0,
+        "local_share": 0.44999999999999996,
+        "local_usd": 59130000.0,
+        "total_usd": 131400000.0
+      },
+      {
+        "bucket": "solar_plant",
+        "imported_share": 0.7,
+        "imported_usd": 36547504.14895999,
+        "local_share": 0.30000000000000004,
+        "local_usd": 15663216.063840002,
+        "total_usd": 52210720.21279999
+      },
+      {
+        "bucket": "signalling",
+        "imported_share": 0.8,
+        "imported_usd": 2769844.8000000003,
+        "local_share": 0.19999999999999996,
+        "local_usd": 692461.1999999997,
+        "total_usd": 3462306.0
+      },
+      {
+        "bucket": "charging_microgrid",
+        "imported_share": 0.55,
+        "imported_usd": 1608750.0000000002,
+        "local_share": 0.44999999999999996,
+        "local_usd": 1316249.9999999998,
+        "total_usd": 2925000.0
+      },
+      {
+        "bucket": "epc_overhead",
+        "imported_share": 0.45,
+        "imported_usd": 15407361.0,
+        "local_share": 0.55,
+        "local_usd": 18831219.0,
+        "total_usd": 34238580.0
+      }
+    ],
+    "reconciled_project_total": 575571866.2128,
+    "risk_envelope_15_percent": 661907646.14472,
+    "risk_envelope_25_percent": 719464832.766,
     "timetable_sized_dedicated_solar": 52210720.21279999
   },
   "cases": {
@@ -27,9 +98,9 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 545591875.2,
       "capacity_utilisation": 0.8,
-      "project_irr": 0.39661565193240667,
-      "project_npv_usd_at_8_percent": 3648978475.70651,
-      "steady_state_dscr": 18.829881767950717
+      "project_irr": 0.4075225650348693,
+      "project_npv_usd_at_8_percent": 3671433156.739692,
+      "steady_state_dscr": 17.760351871880825
     },
     "low_capacity_use": {
       "annual_operating_cash_usd": 321380989.89680797,
@@ -37,24 +108,39 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 346158211.2,
       "capacity_utilisation": 0.5,
-      "project_irr": 0.2963782276005441,
-      "project_npv_usd_at_8_percent": 2067089938.7582855,
-      "steady_state_dscr": 11.619423526095503
+      "project_irr": 0.30546231440042904,
+      "project_npv_usd_at_8_percent": 2089544619.791468,
+      "steady_state_dscr": 10.959444828969065
     }
   },
   "city": "buraidah",
   "funding": {
-    "annual_debt_service_usd": 27658944.454088785,
+    "annual_debt_service_usd": 29324568.435008917,
+    "annual_external_capital_draw_usd": 51579160.18979199,
+    "annual_external_debt_service_usd": 14769808.015414812,
+    "annual_grace_interest_usd": 23041649.39220144,
+    "annual_local_bond_issuance_usd": 50828170.44221441,
+    "annual_local_bond_service_usd": 14554760.419594105,
+    "annual_local_capital_draw_usd": 63535213.05276801,
+    "annual_local_public_equity_draw_usd": 12707042.610553598,
+    "annual_public_construction_commitment_usd": 35748692.00275504,
     "construction_grace_years": 5,
-    "debt_principal_usd": 482953172.17024004,
-    "debt_rate": 0.045,
-    "government_equity_share": 0.2,
+    "debt_principal_usd": 512036653.16003203,
+    "external_capital_required_usd": 257895800.94895998,
+    "external_debt_rate": 0.045,
+    "external_debt_usd": 257895800.94895998,
+    "external_grant_usd": 0.0,
     "lender_commitment_status": "unconfirmed-placeholder",
+    "local_bond_principal_usd": 254140852.21107203,
+    "local_bond_rate": 0.045,
+    "local_capital_required_usd": 317676065.26384,
+    "local_public_equity_usd": 63535213.05276799,
     "repayment_years": 35
   },
   "limitations": [
     "No calibrated origin-destination or stated-preference ridership survey.",
     "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "Imported shares are planning assumptions pending country supplier-capability, customs, tax, and procurement-origin surveys.",
     "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
     "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
   ],
@@ -78,12 +164,12 @@
     "practical_capacity_passenger_trips_per_day": 401760.0,
     "single_trip_fare_usd": 4.533333333333333
   },
-  "schema_version": 1,
+  "schema_version": 2,
   "sources": {
     "design": "designs/west-asia/Saudi Arabia/Buraidah/design.toml",
-    "design_sha256": "7d0d3124d591880c7af04a31d3e2e35c0b1e0ce0d9505ac700b01fe5bc0afaf7",
+    "design_sha256": "46e4c746183a62badc5e87f45864c302d0c5c8514c9f8df15fb30c7a3df82598",
     "generator": "scripts/generate-city-finance.py",
-    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "generator_sha256": "9da48240e9ea50383e605d0c00585d52cdf48747820a2ac28647432461d3e1fa",
     "scenario": "designs/west-asia/Saudi Arabia/Buraidah/buraidah.toml",
     "scenario_sha256": "e80519d006964f323040a6860398b11095432e1d1d15bded82d7b89da8b6dbb5"
   },

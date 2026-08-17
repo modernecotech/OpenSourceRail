@@ -38,6 +38,8 @@ from dataclasses import dataclass
 from functools import lru_cache
 from pathlib import Path
 
+from .capital import IMPORTED_SHARE, city_capital_breakdown, funding_plan
+
 
 # --------------------------------------------------------------------------
 # Cost + capacity assumptions
@@ -149,9 +151,10 @@ _BENEFIT_ACCESS = _ECONOMIC_BENEFITS["access"]
 _BENEFIT_ENVIRONMENT = _ECONOMIC_BENEFITS["environment"]
 _BENEFIT_STATION_AREA = _ECONOMIC_BENEFITS["station_area"]
 _BENEFIT_LOCAL_RECIRC = _ECONOMIC_BENEFITS["local_recirculation"]
-_BENEFIT_LOCAL_CAPEX_SHARE = _float_map(
-    _BENEFIT_LOCAL_RECIRC["capex_local_share"]
-)
+_BENEFIT_LOCAL_CAPEX_SHARE = {
+    bucket: 1.0 - imported_share
+    for bucket, imported_share in IMPORTED_SHARE.items()
+}
 _CIVIL_USD_PER_KM = _float_map(_CAPEX_COSTS["civil_usd_per_km"])
 _AT_GRADE_USD_PER_KM = _CIVIL_USD_PER_KM["at_grade"]
 _ELEVATED_USD_PER_KM = _CIVIL_USD_PER_KM["elevated"]
@@ -424,75 +427,6 @@ def _load_country_finance(country: str) -> dict:
                 break
             break
     return {}
-
-
-@dataclass(frozen=True)
-class FundingStack:
-    grant_frac: float
-    multi_frac: float
-    bond_frac: float
-    equity_frac: float
-    multi_rate: float
-    bond_rate: float
-    tenor: int
-    grace: int
-
-
-def _funding_stack(fin: dict) -> FundingStack:
-    """Grant-free default finance stack for generated city reports.
-
-    The default assumes the public sponsor contributes 20% equity during
-    construction and finances the remaining 80% with long-tenor candidate
-    climate/MDB concessional debt. Climate/development grants and sovereign
-    bonds are available as explicit country overrides only, not as the
-    base case.
-    """
-
-    def _frac(key: str, default: float) -> float:
-        return max(0.0, float(fin.get(key, default)))
-
-    grant = _frac("climate_development_grant_share", 0.00)
-    multi = _frac("multilateral_loan_share", 0.80)
-    bond = _frac("sovereign_bond_share", 0.00)
-    equity = _frac(
-        "government_equity_share",
-        max(0.0, 1.0 - grant - multi - bond),
-    )
-    total = grant + multi + bond + equity
-    if total <= 0.0:
-        grant, multi, bond, equity = 0.00, 0.80, 0.00, 0.20
-        total = 1.0
-    grant, multi, bond, equity = (
-        grant / total,
-        multi / total,
-        bond / total,
-        equity / total,
-    )
-
-    base_multi_rate = float(fin.get("multilateral_loan_rate", 0.045))
-    multi_rate = float(fin.get("green_concessional_loan_rate", base_multi_rate))
-    bond_rate = float(fin.get("sovereign_bond_rate", 0.07))
-
-    tenor = int(
-        fin.get(
-            "concessional_loan_tenor_years",
-            max(int(fin.get("loan_tenor_years", 25)), 40),
-        )
-    )
-    grace = int(fin.get("capex_grace_years", 5))
-    tenor = max(tenor, 1)
-    grace = min(max(grace, 0), tenor - 1)
-
-    return FundingStack(
-        grant_frac=grant,
-        multi_frac=multi,
-        bond_frac=bond,
-        equity_frac=equity,
-        multi_rate=multi_rate,
-        bond_rate=bond_rate,
-        tenor=tenor,
-        grace=grace,
-    )
 
 
 def _station_commercial_revenue_eur(
@@ -976,8 +910,7 @@ def _broad_economic_benefits_section(
         _BENEFIT_LOCAL_RECIRC["construction_multiplier"]
     )
     local_activity = local_capex * construction_multiplier
-    stack = _funding_stack(fin)
-    construction_years = max(stack.grace, 1)
+    construction_years = max(int(fin.get("capex_grace_years", 5)), 1)
     annual_local_activity = local_activity / construction_years
     job_output_multiple = float(
         _BENEFIT_LOCAL_RECIRC["job_year_output_multiple_of_median_income"]
@@ -1142,30 +1075,29 @@ def _funding_and_affordability_section(
     if not fin:
         return []
 
-    base_total_eur = float(costs.get("total_eur", 0.0))
-    if base_total_eur <= 0:
+    capital = city_capital_breakdown(
+        costs,
+        energy_plan.solar_plant_capex_usd,
+    )
+    if capital.total_usd <= 0.0:
         return []
-    solar_plant_eur = energy_plan.solar_plant_capex_usd * _USD_TO_EUR
-    total_eur = base_total_eur + solar_plant_eur
+    plan = funding_plan(capital, fin)
+    total_eur = capital.total_usd * _USD_TO_EUR
+    imported_eur = capital.imported_usd * _USD_TO_EUR
+    local_eur = capital.local_usd * _USD_TO_EUR
+    grant_eur = plan.external_grant_usd * _USD_TO_EUR
+    multi_eur = plan.external_debt_usd * _USD_TO_EUR
+    bond_eur = plan.local_bond_usd * _USD_TO_EUR
+    equity_eur = plan.local_equity_usd * _USD_TO_EUR
+    grant_frac = plan.external_grant_usd / capital.total_usd
+    multi_frac = plan.external_debt_usd / capital.total_usd
+    bond_frac = plan.local_bond_usd / capital.total_usd
+    equity_frac = plan.local_equity_usd / capital.total_usd
 
-    # Funding stack — grant-free and concessional-debt-heavy. Public equity
-    # covers 20% during construction; the balance is a long-tenor candidate
-    # climate/MDB concessional-debt placeholder unless a country override
-    # explicitly changes it.
-    stack = _funding_stack(fin)
-    grant_frac = stack.grant_frac
-    multi_frac = stack.multi_frac
-    bond_frac = stack.bond_frac
-    equity_frac = stack.equity_frac
-    grant_eur = total_eur * grant_frac
-    multi_eur = total_eur * multi_frac
-    bond_eur = total_eur * bond_frac
-    equity_eur = total_eur * equity_frac
-
-    multi_rate = stack.multi_rate
-    bond_rate = stack.bond_rate
-    tenor = stack.tenor
-    grace = stack.grace
+    multi_rate = plan.external_rate
+    bond_rate = plan.local_bond_rate
+    tenor = plan.tenor_years
+    grace = plan.construction_years
 
     # Level annual debt service after grace, simple amortisation.
     def _annuity(principal: float, rate: float, years: int) -> float:
@@ -1174,7 +1106,7 @@ def _funding_and_affordability_section(
         a = (1 - (1 + rate) ** -years)
         return principal * rate / a if a > 0 else principal / max(years, 1)
 
-    repayment_years = max(tenor - grace, 1)
+    repayment_years = plan.repayment_years
     multi_annuity = _annuity(multi_eur, multi_rate, repayment_years)
     bond_annuity = _annuity(bond_eur, bond_rate, repayment_years)
     annual_debt_service_eur = multi_annuity + bond_annuity
@@ -1184,12 +1116,15 @@ def _funding_and_affordability_section(
     #   • the equity tranche, drawn down evenly across construction;
     #   • interest-only service on repayable debt;
     # Principal repayment doesn't start until year `grace + 1`.
-    construction_years = max(grace, 1)
+    construction_years = plan.construction_years
     annual_equity_eur = equity_eur / construction_years
     annual_grace_interest_eur = (multi_eur * multi_rate) + (bond_eur * bond_rate)
     annual_construction_commitment_eur = (
         annual_equity_eur + annual_grace_interest_eur
     )
+    annual_external_capital_eur = imported_eur / construction_years
+    annual_local_capital_eur = local_eur / construction_years
+    annual_local_bond_eur = bond_eur / construction_years
 
     # OPEX model. Components, all in EUR / year internally because the
     # generated schema still carries `*_eur` compatibility fields. The
@@ -1325,12 +1260,45 @@ def _funding_and_affordability_section(
     out.append("## Funding & affordability\n")
     finance_link = rel("lib/templates/country-finance.toml")
     out.append(
-        "Planning-grade financing model anchored to country financial "
+        "Planning-grade procurement-origin and financing model anchored to country financial "
         "parameters from "
         f"[`lib/templates/country-finance.toml`]({finance_link}). "
-        "Pure function of the [costs] block above + the country code — "
+        "Imported content defines the minimum foreign-currency / international "
+        "capital requirement; locally supplied content can be financed with "
+        "domestic-currency bonds, public equity, or other local sources. It is a "
+        "pure function of the [costs] block above + the country code — "
         "regenerate by re-running `scripts/regenerate-city.sh "
         f"{stats.city_name.split()[0].lower()}`.\n"
+    )
+
+    out.append("### Imported value and construction capital requirement\n")
+    out.append(
+        "The import percentage is calculated bucket by bucket from the controlled "
+        f"procurement-origin assumptions in [`lib/templates/capex-costs.toml`]({rel('lib/templates/capex-costs.toml')}). "
+        "It is not a tariff estimate: it identifies the value that must be paid in "
+        "foreign currency or backed by an international financing source. The "
+        "shared national trainset factory is outside this city CAPEX and appears "
+        "once in the country `NATIONAL-BRIEF.md`.\n"
+    )
+    out.append("| Capital boundary | Share of city CAPEX | Total requirement | Annual draw during construction |")
+    out.append("|---|---:|---:|---:|")
+    out.append(
+        f"| **External capital for imported components / machinery** | "
+        f"**{capital.imported_share:.1%}** | **{_usd(imported_eur)}** | "
+        f"**{_usd(annual_external_capital_eur)} / yr** |"
+    )
+    out.append(
+        f"| **Local capital for domestic procurement / payroll** | "
+        f"**{capital.local_share:.1%}** | **{_usd(local_eur)}** | "
+        f"**{_usd(annual_local_capital_eur)} / yr** |"
+    )
+    out.append(
+        f"| of which planned local bond issuance | {bond_frac:.1%} of total CAPEX | "
+        f"{_usd(bond_eur)} | {_usd(annual_local_bond_eur)} / yr |"
+    )
+    out.append(
+        f"| **Total city programme** | **100.0%** | **{_usd(total_eur)}** | "
+        f"**{_usd(total_eur / construction_years)} / yr** |\n"
     )
 
     # ============================================================
@@ -1416,8 +1384,9 @@ def _funding_and_affordability_section(
     out.append(
         "Bottom line for next year's budget submission. "
         f"Construction phase runs **years 1–{construction_years}** "
-        f"(public equity drawdown + interest-only grace on repayable "
-        f"debt; no climate-development grant assumed); steady-state "
+        f"(local public-equity drawdown + interest-only grace on external "
+        f"import finance and local bonds; capital-raising draws are shown above; "
+        f"no climate-development grant assumed); steady-state "
         f"operation begins **year {construction_years + 1}** "
         f"and runs for **{repayment_years} years** until the loans amortise.\n"
     )
@@ -1472,7 +1441,7 @@ def _funding_and_affordability_section(
         f"{_usd(surplus_credit_high)} / yr._\n"
     )
 
-    out.append("### CAPEX funding stack\n")
+    out.append("### CAPEX funding sources\n")
     out.append("| Tranche | Share | Principal | Rate | Tenor | Annual debt service (post-grace) |")
     out.append("|---|---|---|---|---|---|")
     if grant_frac > 0.0:
@@ -1481,18 +1450,18 @@ def _funding_and_affordability_section(
             f"{grant_frac:.0%} | {_usd(grant_eur)} | — | — | — |"
         )
     out.append(
-        f"| Candidate climate/MDB concessional debt (unconfirmed) | "
+        f"| External climate/MDB debt for imported content (unconfirmed) | "
         f"{multi_frac:.0%} | {_usd(multi_eur)} | {multi_rate:.1%} | "
         f"{tenor} y, {grace} y grace | {_usd(multi_annuity)} / yr |"
     )
     if bond_frac > 0.0:
         out.append(
-            f"| Sovereign / project bonds (fallback only) | "
+            f"| Local-currency sovereign / project bonds for local content | "
             f"{bond_frac:.0%} | {_usd(bond_eur)} | {bond_rate:.1%} | "
             f"{tenor} y, {grace} y grace | {_usd(bond_annuity)} / yr |"
         )
     out.append(
-        f"| Government equity (no debt service) | "
+        f"| Local government equity / other domestic funding (no debt service) | "
         f"{equity_frac:.0%} | {_usd(equity_eur)} | — | — | — |"
     )
     out.append(
@@ -1501,11 +1470,11 @@ def _funding_and_affordability_section(
     )
     out.append(
         f"_During the {grace}-year grace period the public sponsor pays "
-        f"interest only on repayable debt — candidate climate/MDB debt "
+        f"interest only on repayable debt — external import-finance debt "
         f"{_usd(multi_eur * multi_rate)} / yr"
-        f"{' + fallback bonds ' + _usd(bond_eur * bond_rate) + ' / yr' if bond_eur > 0.0 else ''} = "
+        f"{' + local bonds ' + _usd(bond_eur * bond_rate) + ' / yr' if bond_eur > 0.0 else ''} = "
         f"**{_usd(annual_grace_interest_eur)} / yr** total. The "
-        "base case assumes no climate-development grant. Government equity "
+        "base case assumes no climate-development grant. Local public equity "
         "is drawn across construction "
         f"({_usd(annual_equity_eur)} / yr × {grace} yr). Principal "
         f"repayment begins in year {grace + 1} on a {repayment_years}-year "
@@ -1520,7 +1489,7 @@ def _funding_and_affordability_section(
         "GCF policy allows grants and concessional loans, and World Bank/CIF "
         "material documents below-market climate finance, but this project "
         "still needs a lender mandate, eligibility screen, and signed term "
-        f"sheet before the {stack.multi_rate * 100:.1f}% / {stack.tenor}-year "
+        f"sheet before the {plan.external_rate * 100:.1f}% / {plan.tenor_years}-year "
         "assumption can be treated as real. "
         "Evidence anchors: "
         "[GCF financial instruments](https://www.greenclimate.fund/about/policies/financial-instruments), "
@@ -1636,7 +1605,7 @@ def _funding_and_affordability_section(
         "The operating-neutral column solves the capacity utilisation needed so "
         "**farebox + station-shop leases + advertising = steady-state OPEX**. "
         "Gross post-grace repayable-debt service remains visible in the "
-        "CAPEX funding stack, while any operating surplus is netted from "
+        "external/local CAPEX funding sources, while any operating surplus is netted from "
         "the budgetable government support line.\n"
     )
     out.append("| | Low scenario | High scenario | Operating-neutral target |")
@@ -1717,7 +1686,7 @@ def _funding_and_affordability_section(
     )
 
     out.append(
-        "**Caveats:** The grant-free funding stack, the "
+        "**Caveats:** The grant-free procurement-origin funding boundary, the "
         f"{target_pass_pct} operating-neutral fare target, the "
         f"{capacity_utilization_low:.0%}–{capacity_utilization_high:.0%} "
         "capacity-utilisation bracket, and the station-commercial assumptions are "
@@ -2550,6 +2519,16 @@ def _finalise_readme(
         out.append(f"| Authoritative design-base CAPEX | {_fmt_usd(capex['authoritative_design_base'])} |")
         out.append(f"| Timetable-sized dedicated solar CAPEX | {_fmt_usd(capex['timetable_sized_dedicated_solar'])} |")
         out.append(f"| **Reconciled project CAPEX** | **{_fmt_usd(capex['reconciled_project_total'])}** |")
+        out.append(
+            f"| Imported / external-capital requirement | "
+            f"{_fmt_usd(capex['imported_external_capital'])} "
+            f"({float(capex['imported_percentage_of_total']):.1%}) |"
+        )
+        out.append(
+            f"| Local-content / local-funding requirement | "
+            f"{_fmt_usd(capex['local_capital'])} "
+            f"({float(capex['local_percentage_of_total']):.1%}) |"
+        )
         out.append(f"| 15%–25% planning risk envelope | {_fmt_usd(capex['risk_envelope_15_percent'])}–{_fmt_usd(capex['risk_envelope_25_percent'])} |")
         out.append(f"| Annual OPEX | {_fmt_usd(opex['total'])} / yr |")
         out.append(f"| Low/high project NPV at 8% | {_fmt_usd(low['project_npv_usd_at_8_percent'])} / {_fmt_usd(high['project_npv_usd_at_8_percent'])} |")
@@ -3179,12 +3158,13 @@ def _rich_capex_section(
         "and self-EPC overhead. The rolling-stock line includes direct "
         "material, local assembly/labour, nominal per-train QA/acceptance, "
         "and modest local handover logistics. "
-        "Fixtures, tooling, and production-readiness live in the separate "
-        "railway production-plant setup line at "
+        "Fixtures, tooling, and production-readiness live in one shared "
+        "national railway production plant at "
         f"{_money_unit_usd(_PRODUCTION_PLANT_PER_VEHICLE_USD)} per "
-        "vehicle/car module, with "
+        "supported vehicle/car module, with "
         f"{_money_unit_usd(_PRODUCTION_PLANT_HIGH_PER_VEHICLE_USD)} "
-        "retained as the high sensitivity check; "
+        "retained as the high sensitivity check. That national asset is excluded "
+        "from city CAPEX and costed once in the country brief; "
         "warranty, spares, and routine commissioning support are OPEX "
         "rather than repeated train CAPEX. "
         "`country-costs.toml` applies the per-country labour/material "
@@ -3341,29 +3321,30 @@ def _rich_capex_section(
         )
         out.append("")
 
-    out.append("### Railway production plant\n")
+    out.append("### Shared national railway production plant\n")
     out.append(
-        "Each city carries a lean local railway production-plant setup "
-        "allowance for tooling, fixtures, plant services, production-readiness, "
-        "and commissioning bay setup. Standard 1 m fiberglass body moulds, "
+        "This city does **not** carry a separate trainset factory. One national "
+        "plant supplies every city through a phased production programme, while "
+        "rails, viaducts, stations, and depots remain city/regional delivery scope. "
+        "The national plant includes tooling, fixtures, plant services, "
+        "production-readiness, and commissioning-bay setup. Standard 1 m fiberglass body moulds, "
         "dry clips, and compact gauges replace a full-length body mould and "
         "adhesive cure hall. It is costed per vehicle/car module, "
-        "not per trainset, and stays separate from the rolling-stock "
-        "procurement line. Distributed overnight stabling reduces this "
-        "allowance because fewer depot-centred commissioning and stabling "
-        "bays are required.\n"
+        "not per trainset, and the factory is sized to the largest single-city "
+        "fleet programme rather than duplicated for every network. See "
+        "[`../NATIONAL-BRIEF.md`](../NATIONAL-BRIEF.md).\n"
     )
-    out.append("| Item | Count | Unit | Subtotal |")
+    out.append("| City treatment | Indicative modules | National sizing unit | City CAPEX |")
     out.append("|---|---:|---:|---:|")
     out.append(
-        f"| Vehicle/car modules supported by city fleet | {vehicle_count} | "
+        f"| Fleet demand passed to national production plan | {vehicle_count} | "
         f"{_money_unit_usd(_PRODUCTION_PLANT_PER_VEHICLE_USD)} | "
-        f"{_money('production_plant')} |"
+        f"**{_money('production_plant')}** |"
     )
     out.append(
-        f"| High sensitivity check | {vehicle_count} | "
+        f"| National high sensitivity (shown for scale, not added here) | {vehicle_count} | "
         f"{_money_unit_usd(_PRODUCTION_PLANT_HIGH_PER_VEHICLE_USD)} | "
-        f"{_money_value_usd(vehicle_count * _PRODUCTION_PLANT_HIGH_PER_VEHICLE_USD)} |"
+        f"$0 |"
     )
     out.append("")
 
@@ -3438,7 +3419,7 @@ def _rich_capex_section(
     out.append(f"| Stations | {_money('stations')} |")
     out.append(f"| Depots | {_money('depots')} |")
     out.append(f"| Rolling stock | {_money('rolling_stock')} |")
-    out.append(f"| Railway production plant | {_money('production_plant')} |")
+    out.append(f"| Shared national railway production plant (outside city CAPEX) | {_money('production_plant')} |")
     out.append(
         f"| Dedicated solar power plant | "
         f"{_money_value_usd(energy_plan.solar_plant_capex_usd)} |"
@@ -3462,6 +3443,31 @@ def _rich_capex_section(
             f"| Per-capita (city pop) | "
             f"${per_capita:,.0f} / person |\n"
         )
+    capital = city_capital_breakdown(costs, energy_plan.solar_plant_capex_usd)
+    out.append("\n### Procurement origin and foreign-capital exposure\n")
+    out.append("| Bucket | Total | Imported share | Imported / external capital | Local content / local funding |")
+    out.append("|---|---:|---:|---:|---:|")
+    labels = {
+        "civil": "Civil works",
+        "stations": "Stations",
+        "depots": "Depots",
+        "rolling_stock": "Rolling stock",
+        "solar_plant": "Dedicated solar plant",
+        "signalling": "Residual signalling / train control",
+        "charging_microgrid": "Charging microgrids",
+        "epc_overhead": "EPC / project services",
+    }
+    for bucket in capital.buckets:
+        out.append(
+            f"| {labels.get(bucket.name, bucket.name)} | {_fmt_usd(bucket.total_usd)} | "
+            f"{bucket.imported_share:.0%} | {_fmt_usd(bucket.imported_usd)} | "
+            f"{_fmt_usd(bucket.local_usd)} |"
+        )
+    out.append(
+        f"| **Total city CAPEX** | **{_fmt_usd(capital.total_usd)}** | "
+        f"**{capital.imported_share:.1%}** | **{_fmt_usd(capital.imported_usd)}** | "
+        f"**{_fmt_usd(capital.local_usd)}** |\n"
+    )
     return out
 
 

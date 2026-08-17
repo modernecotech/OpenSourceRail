@@ -11,8 +11,8 @@ from pathlib import Path
 import pytest
 
 from osr_scenario import GeneratorError, generate_from_path, generate_scenario
+from osr_scenario.capital import city_capital_breakdown, funding_plan
 from osr_scenario.network_readme import (
-    _funding_stack,
     _load_country_finance,
     render_readme,
 )
@@ -119,7 +119,7 @@ def test_archetype_defaults_applied() -> None:
     import tomllib
     design = tomllib.loads(SAMAWAH_DESIGN.read_text())
     family = str(design.get("network", {}).get("rolling_stock", "light-metro-3car"))
-    expected_cabinets = {"light-metro-3car": 2, "metro-4car": 3, "metro-6car": 4}.get(
+    expected_cabinets = {"metro-4car": 3, "metro-6car": 4}.get(
         family, 1
     )
     expected_power_kw = expected_cabinets * 500
@@ -332,23 +332,21 @@ def test_generated_file_in_repo_matches_regenerated() -> None:
     )
 
 
-def test_finance_stack_defaults_are_grant_free() -> None:
-    stack = _funding_stack({})
-    assert stack.grant_frac == pytest.approx(0.00)
-    assert stack.multi_frac == pytest.approx(0.80)
-    assert stack.bond_frac == pytest.approx(0.0)
-    assert stack.equity_frac == pytest.approx(0.20)
-    assert stack.multi_rate == pytest.approx(0.045)
-    assert stack.tenor == 40
-
-
-def test_country_finance_inherits_grant_free_defaults() -> None:
-    stack = _funding_stack(_load_country_finance("IQ"))
-    assert stack.grant_frac == pytest.approx(0.00)
-    assert stack.multi_frac == pytest.approx(0.80)
-    assert stack.bond_frac == pytest.approx(0.0)
-    assert stack.equity_frac == pytest.approx(0.20)
-    assert stack.multi_rate == pytest.approx(0.045)
+def test_imported_and_local_capital_reconcile_city_capex() -> None:
+    design = _parse(SAMAWAH_DESIGN.read_text())
+    capital = city_capital_breakdown(design["costs"])
+    plan = funding_plan(capital, _load_country_finance("IQ"))
+    assert capital.imported_usd + capital.local_usd == pytest.approx(
+        capital.total_usd
+    )
+    assert 0.0 < capital.imported_share < 1.0
+    assert plan.external_debt_usd == pytest.approx(capital.imported_usd)
+    assert plan.local_bond_usd + plan.local_equity_usd == pytest.approx(
+        capital.local_usd
+    )
+    assert plan.annual_external_capital_draw_usd * plan.construction_years == pytest.approx(
+        capital.imported_usd
+    )
 
 
 def test_readme_nets_operating_surplus_against_gov_debt_support() -> None:
@@ -375,15 +373,22 @@ def test_readme_nets_operating_surplus_against_gov_debt_support() -> None:
         r"\$0 k / yr \| \$0 k / yr \| \*\*\$\d+ M / yr\*\* \|",
         text,
     )
+    assert "### Imported value and construction capital requirement" in text
+    assert "External capital for imported components / machinery" in text
+    assert "Local capital for domestic procurement / payroll" in text
     assert re.search(
-        r"\| Candidate climate/MDB concessional debt \(unconfirmed\) \| "
-        r"80% \| \$\d+ M \| 4\.5% \| 40 y, 5 y grace \| \$\d+ M / yr \|",
+        r"\| External climate/MDB debt for imported content \(unconfirmed\) \| "
+        r"\d+% \| \$\d+ M \| 4\.5% \| 40 y, 5 y grace \| \$\d+ M / yr \|",
         text,
     )
     assert re.search(
-        r"\| Government equity \(no debt service\) \| 20% \| \$\d+ M \|",
+        r"\| Local-currency sovereign / project bonds for local content \| "
+        r"\d+% \| \$\d+ M \| 8\.5% \|",
         text,
     )
+    assert "Local government equity / other domestic funding" in text
+    assert "### Procurement origin and foreign-capital exposure" in text
+    assert "Shared national railway production plant" in text
     assert "Loan availability note: this is a finance placeholder" in text
     assert "| Climate / development grant" not in text
     assert re.search(

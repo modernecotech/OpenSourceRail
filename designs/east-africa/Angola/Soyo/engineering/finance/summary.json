@@ -11,13 +11,84 @@
     "total": 7561632.1707999995
   },
   "capex_eur": {
-    "reconciled_project_total": 296816697.1424
+    "reconciled_project_total": 289374633.1424
   },
   "capex_usd": {
-    "authoritative_design_base": 308161808.0,
-    "reconciled_project_total": 322626844.72,
-    "risk_envelope_15_percent": 371020871.42800003,
-    "risk_envelope_25_percent": 403283555.90000004,
+    "authoritative_design_base": 300072608.0,
+    "imported_external_capital": 130796932.604,
+    "imported_percentage_of_total": 0.4158387232804354,
+    "local_capital": 183740712.116,
+    "local_percentage_of_total": 0.5841612767195645,
+    "national_trainset_factory_treatment": "excluded from city CAPEX; costed once in the country NATIONAL-BRIEF.md",
+    "procurement_origin_buckets": [
+      {
+        "bucket": "civil",
+        "imported_share": 0.35,
+        "imported_usd": 45321778.599999994,
+        "local_share": 0.65,
+        "local_usd": 84169017.4,
+        "total_usd": 129490796.0
+      },
+      {
+        "bucket": "stations",
+        "imported_share": 0.4,
+        "imported_usd": 41800000.0,
+        "local_share": 0.6,
+        "local_usd": 62700000.0,
+        "total_usd": 104500000.0
+      },
+      {
+        "bucket": "depots",
+        "imported_share": 0.4,
+        "imported_usd": 3200000.0,
+        "local_share": 0.6,
+        "local_usd": 4800000.0,
+        "total_usd": 8000000.0
+      },
+      {
+        "bucket": "rolling_stock",
+        "imported_share": 0.55,
+        "imported_usd": 19404000.0,
+        "local_share": 0.44999999999999996,
+        "local_usd": 15876000.0,
+        "total_usd": 35280000.0
+      },
+      {
+        "bucket": "solar_plant",
+        "imported_share": 0.7,
+        "imported_usd": 10125525.704000002,
+        "local_share": 0.30000000000000004,
+        "local_usd": 4339511.016000003,
+        "total_usd": 14465036.720000004
+      },
+      {
+        "bucket": "signalling",
+        "imported_share": 0.8,
+        "imported_usd": 1176715.2,
+        "local_share": 0.19999999999999996,
+        "local_usd": 294178.80000000005,
+        "total_usd": 1470894.0
+      },
+      {
+        "bucket": "charging_microgrid",
+        "imported_share": 0.55,
+        "imported_usd": 935000.0000000001,
+        "local_share": 0.44999999999999996,
+        "local_usd": 764999.9999999999,
+        "total_usd": 1700000.0
+      },
+      {
+        "bucket": "epc_overhead",
+        "imported_share": 0.45,
+        "imported_usd": 8833913.1,
+        "local_share": 0.55,
+        "local_usd": 10797004.9,
+        "total_usd": 19630918.0
+      }
+    ],
+    "reconciled_project_total": 314537644.72,
+    "risk_envelope_15_percent": 361718291.42800003,
+    "risk_envelope_25_percent": 393172055.90000004,
     "timetable_sized_dedicated_solar": 14465036.720000004
   },
   "cases": {
@@ -27,9 +98,9 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 51872806.656,
       "capacity_utilisation": 0.8,
-      "project_irr": 0.1076869161962167,
-      "project_npv_usd_at_8_percent": 93840862.74952367,
-      "steady_state_dscr": 2.99772779274879
+      "project_irr": 0.11015210419413046,
+      "project_npv_usd_at_8_percent": 100300428.75591008,
+      "steady_state_dscr": 1.7883375754888764
     },
     "low_capacity_use": {
       "annual_operating_cash_usd": 25540947.2852,
@@ -37,24 +108,39 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 33102579.456,
       "capacity_utilisation": 0.5,
-      "project_irr": 0.06130835064975593,
-      "project_npv_usd_at_8_percent": -55042764.25736802,
-      "steady_state_dscr": 1.7278893737187797
+      "project_irr": 0.0631845732692454,
+      "project_npv_usd_at_8_percent": -48583198.25098161,
+      "steady_state_dscr": 1.0307972260802873
     }
   },
   "city": "soyo",
   "funding": {
-    "annual_debt_service_usd": 14781587.104868025,
+    "annual_debt_service_usd": 24777857.990869924,
+    "annual_external_capital_draw_usd": 26159386.520800002,
+    "annual_external_debt_service_usd": 7490798.905828485,
+    "annual_grace_interest_usd": 22790007.481852002,
+    "annual_local_bond_issuance_usd": 29398513.93856,
+    "annual_local_bond_service_usd": 17287059.085041437,
+    "annual_local_capital_draw_usd": 36748142.4232,
+    "annual_local_public_equity_draw_usd": 7349628.484639997,
+    "annual_public_construction_commitment_usd": 30139635.966491997,
     "construction_grace_years": 5,
-    "debt_principal_usd": 258101475.77600002,
-    "debt_rate": 0.045,
-    "government_equity_share": 0.2,
+    "debt_principal_usd": 277789502.2968,
+    "external_capital_required_usd": 130796932.604,
+    "external_debt_rate": 0.045,
+    "external_debt_usd": 130796932.604,
+    "external_grant_usd": 0.0,
     "lender_commitment_status": "unconfirmed-placeholder",
+    "local_bond_principal_usd": 146992569.69280002,
+    "local_bond_rate": 0.115,
+    "local_capital_required_usd": 183740712.116,
+    "local_public_equity_usd": 36748142.42319998,
     "repayment_years": 35
   },
   "limitations": [
     "No calibrated origin-destination or stated-preference ridership survey.",
     "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "Imported shares are planning assumptions pending country supplier-capability, customs, tax, and procurement-origin surveys.",
     "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
     "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
   ],
@@ -78,12 +164,12 @@
     "practical_capacity_passenger_trips_per_day": 267840.0,
     "single_trip_fare_usd": 0.64
   },
-  "schema_version": 1,
+  "schema_version": 2,
   "sources": {
     "design": "designs/east-africa/Angola/Soyo/design.toml",
-    "design_sha256": "a526fdd129e957356a58ce7c1855c1b7908594bcf7d2addde02b6db4558bab8c",
+    "design_sha256": "f810bdadc9bf0fb241d6035654338228bd73ec73ce13a1f6391c813cf20090e5",
     "generator": "scripts/generate-city-finance.py",
-    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "generator_sha256": "9da48240e9ea50383e605d0c00585d52cdf48747820a2ac28647432461d3e1fa",
     "scenario": "designs/east-africa/Angola/Soyo/soyo.toml",
     "scenario_sha256": "d939d3e64d560c69191fa8aafeb15ef1239a5f5466eec7be6f3971a94a4fd42f"
   },

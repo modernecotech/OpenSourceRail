@@ -11,13 +11,84 @@
     "total": 34966499.348336
   },
   "capex_eur": {
-    "reconciled_project_total": 1414308957.604608
+    "reconciled_project_total": 1365403965.604608
   },
   "capex_usd": {
-    "authoritative_design_base": 1399233172.0,
-    "reconciled_project_total": 1537292345.2224,
-    "risk_envelope_15_percent": 1767886197.0057597,
-    "risk_envelope_25_percent": 1921615431.5279999,
+    "authoritative_design_base": 1346075572.0,
+    "imported_external_capital": 652442203.70568,
+    "imported_percentage_of_total": 0.4396111645562954,
+    "local_capital": 831692541.5167199,
+    "local_percentage_of_total": 0.5603888354437045,
+    "national_trainset_factory_treatment": "excluded from city CAPEX; costed once in the country NATIONAL-BRIEF.md",
+    "procurement_origin_buckets": [
+      {
+        "bucket": "civil",
+        "imported_share": 0.35,
+        "imported_usd": 194875775.5,
+        "local_share": 0.65,
+        "local_usd": 361912154.5,
+        "total_usd": 556787930.0
+      },
+      {
+        "bucket": "stations",
+        "imported_share": 0.4,
+        "imported_usd": 173480000.0,
+        "local_share": 0.6,
+        "local_usd": 260220000.0,
+        "total_usd": 433700000.0
+      },
+      {
+        "bucket": "depots",
+        "imported_share": 0.4,
+        "imported_usd": 3200000.0,
+        "local_share": 0.6,
+        "local_usd": 4800000.0,
+        "total_usd": 8000000.0
+      },
+      {
+        "bucket": "rolling_stock",
+        "imported_share": 0.55,
+        "imported_usd": 127512000.00000001,
+        "local_share": 0.44999999999999996,
+        "local_usd": 104327999.99999999,
+        "total_usd": 231840000.0
+      },
+      {
+        "bucket": "solar_plant",
+        "imported_share": 0.7,
+        "imported_usd": 96641421.25568,
+        "local_share": 0.30000000000000004,
+        "local_usd": 41417751.966720015,
+        "total_usd": 138059173.2224
+      },
+      {
+        "bucket": "signalling",
+        "imported_share": 0.8,
+        "imported_usd": 6009298.4,
+        "local_share": 0.19999999999999996,
+        "local_usd": 1502324.5999999996,
+        "total_usd": 7511623.0
+      },
+      {
+        "bucket": "charging_microgrid",
+        "imported_share": 0.55,
+        "imported_usd": 11096250.0,
+        "local_share": 0.44999999999999996,
+        "local_usd": 9078750.0,
+        "total_usd": 20175000.0
+      },
+      {
+        "bucket": "epc_overhead",
+        "imported_share": 0.45,
+        "imported_usd": 39627458.550000004,
+        "local_share": 0.55,
+        "local_usd": 48433560.449999996,
+        "total_usd": 88061019.0
+      }
+    ],
+    "reconciled_project_total": 1484134745.2224,
+    "risk_envelope_15_percent": 1706754957.0057597,
+    "risk_envelope_25_percent": 1855168431.5279999,
     "timetable_sized_dedicated_solar": 138059173.2224
   },
   "cases": {
@@ -27,34 +98,49 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 182865431.712,
       "capacity_utilisation": 0.8,
-      "project_irr": 0.07630349036924367,
-      "project_npv_usd_at_8_percent": -54472486.14949881,
-      "steady_state_dscr": 2.0998487213874295
+      "project_irr": 0.07916233893391217,
+      "project_npv_usd_at_8_percent": -12023909.536102407,
+      "steady_state_dscr": 1.645543675556084
     },
     "low_capacity_use": {
       "annual_operating_cash_usd": 81942439.56366402,
       "annual_paid_trips": 179229600.0,
-      "annual_public_support_usd": 0.0,
+      "annual_public_support_usd": 7936021.008756846,
       "annual_revenue_usd": 116908938.91200002,
       "capacity_utilisation": 0.5,
-      "project_irr": 0.03462843054628076,
-      "project_npv_usd_at_8_percent": -577633008.826493,
-      "steady_state_dscr": 1.163407498588544
+      "project_irr": 0.03682717987251288,
+      "project_npv_usd_at_8_percent": -535184432.2130966,
+      "steady_state_dscr": 0.911702748820867
     }
   },
   "city": "vadodara",
   "funding": {
-    "annual_debt_service_usd": 70433136.8528029,
+    "annual_debt_service_usd": 89878460.57242087,
+    "annual_external_capital_draw_usd": 130488440.741136,
+    "annual_external_debt_service_usd": 37365657.19344225,
+    "annual_grace_interest_usd": 77265389.55811867,
+    "annual_local_bond_issuance_usd": 133070806.6426752,
+    "annual_local_bond_service_usd": 52512803.37897861,
+    "annual_local_capital_draw_usd": 166338508.30334398,
+    "annual_local_public_equity_draw_usd": 33267701.66066878,
+    "annual_public_construction_commitment_usd": 110533091.21878745,
     "construction_grace_years": 5,
-    "debt_principal_usd": 1229833876.17792,
-    "debt_rate": 0.045,
-    "government_equity_share": 0.2,
+    "debt_principal_usd": 1317796236.919056,
+    "external_capital_required_usd": 652442203.70568,
+    "external_debt_rate": 0.045,
+    "external_debt_usd": 652442203.70568,
+    "external_grant_usd": 0.0,
     "lender_commitment_status": "unconfirmed-placeholder",
+    "local_bond_principal_usd": 665354033.213376,
+    "local_bond_rate": 0.072,
+    "local_capital_required_usd": 831692541.5167199,
+    "local_public_equity_usd": 166338508.3033439,
     "repayment_years": 35
   },
   "limitations": [
     "No calibrated origin-destination or stated-preference ridership survey.",
     "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "Imported shares are planning assumptions pending country supplier-capability, customs, tax, and procurement-origin surveys.",
     "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
     "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
   ],
@@ -78,12 +164,12 @@
     "practical_capacity_passenger_trips_per_day": 982080.0,
     "single_trip_fare_usd": 0.6133333333333334
   },
-  "schema_version": 1,
+  "schema_version": 2,
   "sources": {
     "design": "designs/south-asia/India/Vadodara/design.toml",
-    "design_sha256": "0c1fe1a3695c6363513cdc3580aad016804fcbc3683ff6136104f8b9d4c3a7d7",
+    "design_sha256": "03afc5c6036d99bdcb13cb980ba04aea3dcc3ad30c3b3f2a3006e66ac61ca3de",
     "generator": "scripts/generate-city-finance.py",
-    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "generator_sha256": "9da48240e9ea50383e605d0c00585d52cdf48747820a2ac28647432461d3e1fa",
     "scenario": "designs/south-asia/India/Vadodara/vadodara.toml",
     "scenario_sha256": "d89cd138b8d66db3b754340bda6fec14bc98a7e4581fad29d252705bdc43349e"
   },

@@ -11,13 +11,84 @@
     "total": 89326254.69255
   },
   "capex_eur": {
-    "reconciled_project_total": 3502152306.0364003
+    "reconciled_project_total": 3335591826.0364003
   },
   "capex_usd": {
-    "authoritative_design_base": 3227147715.0,
-    "reconciled_project_total": 3806687289.17,
-    "risk_envelope_15_percent": 4377690382.5455,
-    "risk_envelope_25_percent": 4758359111.4625,
+    "authoritative_design_base": 3046103715.0,
+    "imported_external_capital": 1697982629.069,
+    "imported_percentage_of_total": 0.46832589243982425,
+    "local_capital": 1927660660.1009998,
+    "local_percentage_of_total": 0.5316741075601757,
+    "national_trainset_factory_treatment": "excluded from city CAPEX; costed once in the country NATIONAL-BRIEF.md",
+    "procurement_origin_buckets": [
+      {
+        "bucket": "civil",
+        "imported_share": 0.35,
+        "imported_usd": 467122296.9,
+        "local_share": 0.65,
+        "local_usd": 867512837.1,
+        "total_usd": 1334635134.0
+      },
+      {
+        "bucket": "stations",
+        "imported_share": 0.4,
+        "imported_usd": 263120000.0,
+        "local_share": 0.6,
+        "local_usd": 394680000.0,
+        "total_usd": 657800000.0
+      },
+      {
+        "bucket": "depots",
+        "imported_share": 0.4,
+        "imported_usd": 3200000.0,
+        "local_share": 0.6,
+        "local_usd": 4800000.0,
+        "total_usd": 8000000.0
+      },
+      {
+        "bucket": "rolling_stock",
+        "imported_share": 0.55,
+        "imported_usd": 434280000.00000006,
+        "local_share": 0.44999999999999996,
+        "local_usd": 355319999.99999994,
+        "total_usd": 789600000.0
+      },
+      {
+        "bucket": "solar_plant",
+        "imported_share": 0.7,
+        "imported_usd": 405677701.91899985,
+        "local_share": 0.30000000000000004,
+        "local_usd": 173861872.251,
+        "total_usd": 579539574.1699998
+      },
+      {
+        "bucket": "signalling",
+        "imported_share": 0.8,
+        "imported_usd": 11752614.4,
+        "local_share": 0.19999999999999996,
+        "local_usd": 2938153.5999999996,
+        "total_usd": 14690768.0
+      },
+      {
+        "bucket": "charging_microgrid",
+        "imported_share": 0.55,
+        "imported_usd": 23155000.000000004,
+        "local_share": 0.44999999999999996,
+        "local_usd": 18944999.999999996,
+        "total_usd": 42100000.0
+      },
+      {
+        "bucket": "epc_overhead",
+        "imported_share": 0.45,
+        "imported_usd": 89675015.85000001,
+        "local_share": 0.55,
+        "local_usd": 109602797.14999999,
+        "total_usd": 199277813.0
+      }
+    ],
+    "reconciled_project_total": 3625643289.17,
+    "risk_envelope_15_percent": 4169489782.5455,
+    "risk_envelope_25_percent": 4532054111.4625,
     "timetable_sized_dedicated_solar": 579539574.1699998
   },
   "cases": {
@@ -27,9 +98,9 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 582036605.952,
       "capacity_utilisation": 0.8,
-      "project_irr": 0.10205227739745618,
-      "project_npv_usd_at_8_percent": 868331149.9600679,
-      "steady_state_dscr": 2.8250355561666227
+      "project_irr": 0.10666689410041835,
+      "project_npv_usd_at_8_percent": 1012902389.1506208,
+      "steady_state_dscr": 2.3189200959580085
     },
     "low_capacity_use": {
       "annual_operating_cash_usd": 279981109.65945,
@@ -37,24 +108,39 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 369307364.352,
       "capacity_utilisation": 0.5,
-      "project_irr": 0.055992701681168405,
-      "project_npv_usd_at_8_percent": -819016622.7847046,
-      "steady_state_dscr": 1.605317582269411
+      "project_irr": 0.059493127042824154,
+      "project_npv_usd_at_8_percent": -674445383.5941516,
+      "steady_state_dscr": 1.3177190615507064
     }
   },
   "city": "surabaya",
   "funding": {
-    "annual_debt_service_usd": 174408548.65841892,
+    "annual_debt_service_usd": 212474052.9517461,
+    "annual_external_capital_draw_usd": 339596525.8138,
+    "annual_external_debt_service_usd": 97244225.58481973,
+    "annual_grace_interest_usd": 179731829.6895186,
+    "annual_local_bond_issuance_usd": 308425705.61616004,
+    "annual_local_bond_service_usd": 115229827.36692636,
+    "annual_local_capital_draw_usd": 385532132.02019995,
+    "annual_local_public_equity_draw_usd": 77106426.40403995,
+    "annual_public_construction_commitment_usd": 256838256.09355855,
     "construction_grace_years": 5,
-    "debt_principal_usd": 3045349831.3360004,
-    "debt_rate": 0.045,
-    "government_equity_share": 0.2,
+    "debt_principal_usd": 3240111157.1498003,
+    "external_capital_required_usd": 1697982629.069,
+    "external_debt_rate": 0.045,
+    "external_debt_usd": 1697982629.069,
+    "external_grant_usd": 0.0,
     "lender_commitment_status": "unconfirmed-placeholder",
+    "local_bond_principal_usd": 1542128528.0808,
+    "local_bond_rate": 0.067,
+    "local_capital_required_usd": 1927660660.1009998,
+    "local_public_equity_usd": 385532132.0201998,
     "repayment_years": 35
   },
   "limitations": [
     "No calibrated origin-destination or stated-preference ridership survey.",
     "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "Imported shares are planning assumptions pending country supplier-capability, customs, tax, and procurement-origin surveys.",
     "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
     "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
   ],
@@ -78,12 +164,12 @@
     "practical_capacity_passenger_trips_per_day": 2276640.0,
     "single_trip_fare_usd": 0.8533333333333334
   },
-  "schema_version": 1,
+  "schema_version": 2,
   "sources": {
     "design": "designs/southeast-asia/Indonesia/Surabaya/design.toml",
-    "design_sha256": "721eb36974565f2d6664d6582157f7e0d0f0d0e03cb77d81720df32a75b8e0de",
+    "design_sha256": "d716e6316d88825502a9aac2523278bdcafc309a63a3fa1dc16ee6f230793f87",
     "generator": "scripts/generate-city-finance.py",
-    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "generator_sha256": "9da48240e9ea50383e605d0c00585d52cdf48747820a2ac28647432461d3e1fa",
     "scenario": "designs/southeast-asia/Indonesia/Surabaya/surabaya.toml",
     "scenario_sha256": "e0d6a9e72e5b713df6a5db1deb5a19b16980b4118945cea5643ae6e51d1eff04"
   },

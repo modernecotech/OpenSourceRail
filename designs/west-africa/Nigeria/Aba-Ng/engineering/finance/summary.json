@@ -11,13 +11,84 @@
     "total": 7506130.4944899995
   },
   "capex_eur": {
-    "reconciled_project_total": 288190387.28872
+    "reconciled_project_total": 275786947.28872
   },
   "capex_usd": {
-    "authoritative_design_base": 284268534.0,
-    "reconciled_project_total": 313250420.966,
-    "risk_envelope_15_percent": 360237984.1109,
-    "risk_envelope_25_percent": 391563026.20750004,
+    "authoritative_design_base": 270786534.0,
+    "imported_external_capital": 134152783.2262,
+    "imported_percentage_of_total": 0.4475213993318386,
+    "local_capital": 165615637.7398,
+    "local_percentage_of_total": 0.5524786006681613,
+    "national_trainset_factory_treatment": "excluded from city CAPEX; costed once in the country NATIONAL-BRIEF.md",
+    "procurement_origin_buckets": [
+      {
+        "bucket": "civil",
+        "imported_share": 0.35,
+        "imported_usd": 39541065.199999996,
+        "local_share": 0.65,
+        "local_usd": 73433406.80000001,
+        "total_usd": 112974472.0
+      },
+      {
+        "bucket": "stations",
+        "imported_share": 0.4,
+        "imported_usd": 26400000.0,
+        "local_share": 0.6,
+        "local_usd": 39600000.0,
+        "total_usd": 66000000.0
+      },
+      {
+        "bucket": "depots",
+        "imported_share": 0.4,
+        "imported_usd": 3200000.0,
+        "local_share": 0.6,
+        "local_usd": 4800000.0,
+        "total_usd": 8000000.0
+      },
+      {
+        "bucket": "rolling_stock",
+        "imported_share": 0.55,
+        "imported_usd": 34650000.0,
+        "local_share": 0.44999999999999996,
+        "local_usd": 28350000.0,
+        "total_usd": 63000000.0
+      },
+      {
+        "bucket": "solar_plant",
+        "imported_share": 0.7,
+        "imported_usd": 20287320.876199998,
+        "local_share": 0.30000000000000004,
+        "local_usd": 8694566.0898,
+        "total_usd": 28981886.966
+      },
+      {
+        "bucket": "signalling",
+        "imported_share": 0.8,
+        "imported_usd": 1277644.0,
+        "local_share": 0.19999999999999996,
+        "local_usd": 319411.0,
+        "total_usd": 1597055.0
+      },
+      {
+        "bucket": "charging_microgrid",
+        "imported_share": 0.55,
+        "imported_usd": 825000.0000000001,
+        "local_share": 0.44999999999999996,
+        "local_usd": 674999.9999999999,
+        "total_usd": 1500000.0
+      },
+      {
+        "bucket": "epc_overhead",
+        "imported_share": 0.45,
+        "imported_usd": 7971753.15,
+        "local_share": 0.55,
+        "local_usd": 9743253.85,
+        "total_usd": 17715007.0
+      }
+    ],
+    "reconciled_project_total": 299768420.966,
+    "risk_envelope_15_percent": 344733684.1109,
+    "risk_envelope_25_percent": 374710526.20750004,
     "timetable_sized_dedicated_solar": 28981886.966
   },
   "cases": {
@@ -27,9 +98,9 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 55661622.24,
       "capacity_utilisation": 0.8,
-      "project_irr": 0.10711203418642976,
-      "project_npv_usd_at_8_percent": 90534935.29969366,
-      "steady_state_dscr": 3.271122076013587
+      "project_irr": 0.11102822237661711,
+      "project_npv_usd_at_8_percent": 100562404.03375778,
+      "steady_state_dscr": 1.8489032935161684
     },
     "low_capacity_use": {
       "annual_operating_cash_usd": 27625555.745510004,
@@ -37,24 +108,39 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 35131686.24,
       "capacity_utilisation": 0.5,
-      "project_irr": 0.06319147788487493,
-      "project_npv_usd_at_8_percent": -47390169.15869378,
-      "steady_state_dscr": 1.8765578335041608
+      "project_irr": 0.06632877725847716,
+      "project_npv_usd_at_8_percent": -37362700.42462967,
+      "steady_state_dscr": 1.0606678314701325
     }
   },
   "city": "aba-ng",
   "funding": {
-    "annual_debt_service_usd": 14721398.537408173,
+    "annual_debt_service_usd": 26045435.64521964,
+    "annual_external_capital_draw_usd": 19164683.318028573,
+    "annual_external_debt_service_usd": 7880741.950342711,
+    "annual_grace_interest_usd": 23923364.121077403,
+    "annual_local_bond_issuance_usd": 18927501.455977146,
+    "annual_local_bond_service_usd": 18164693.694876928,
+    "annual_local_capital_draw_usd": 23659376.81997143,
+    "annual_local_public_equity_draw_usd": 4731875.363994285,
+    "annual_public_construction_commitment_usd": 28655239.48507169,
     "construction_grace_years": 7,
-    "debt_principal_usd": 250600336.77280003,
-    "debt_rate": 0.045,
-    "government_equity_share": 0.2,
+    "debt_principal_usd": 266645293.41804,
+    "external_capital_required_usd": 134152783.2262,
+    "external_debt_rate": 0.045,
+    "external_debt_usd": 134152783.2262,
+    "external_grant_usd": 0.0,
     "lender_commitment_status": "unconfirmed-placeholder",
+    "local_bond_principal_usd": 132492510.19184001,
+    "local_bond_rate": 0.135,
+    "local_capital_required_usd": 165615637.7398,
+    "local_public_equity_usd": 33123127.54796,
     "repayment_years": 33
   },
   "limitations": [
     "No calibrated origin-destination or stated-preference ridership survey.",
     "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "Imported shares are planning assumptions pending country supplier-capability, customs, tax, and procurement-origin surveys.",
     "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
     "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
   ],
@@ -78,12 +164,12 @@
     "practical_capacity_passenger_trips_per_day": 401760.0,
     "single_trip_fare_usd": 0.4666666666666667
   },
-  "schema_version": 1,
+  "schema_version": 2,
   "sources": {
     "design": "designs/west-africa/Nigeria/Aba-Ng/design.toml",
-    "design_sha256": "387308a8c565cd631183cb9f1036280e995ea97f885bb394cafd4c946f7d34b6",
+    "design_sha256": "d44c7a0dabec490bf4bdeefeeb010cbe16d841d8f3abd608883a99f2e5433a6f",
     "generator": "scripts/generate-city-finance.py",
-    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "generator_sha256": "9da48240e9ea50383e605d0c00585d52cdf48747820a2ac28647432461d3e1fa",
     "scenario": "designs/west-africa/Nigeria/Aba-Ng/aba-ng.toml",
     "scenario_sha256": "46c853cb368b72607e92f7341228d48f6b832c5e3ac1bb968de92cea22f1b627"
   },

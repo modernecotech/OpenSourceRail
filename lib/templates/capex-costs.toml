@@ -6,9 +6,27 @@
 # rather than carrying parallel constants.
 
 [schema]
-version = 1
-currency_basis = "USD local-owner trainset-family planning basis with direct material, local assembly/labour, nominal per-train QA/acceptance, and modest handover logistics included; 1 m clip-on fiberglass body modules reduce shell labour, mould tooling, cure space, and production setup; distributed overnight stabling reduces depot parking scope; fixtures/tooling live in the railway production plant line per vehicle/car module; warranty, spares, and routine commissioning support are treated as OPEX; raw marketplace BOM retained only as audit lower bound; *_eur mirrors retained for schema compatibility"
+version = 2
+currency_basis = "USD local-owner trainset-family planning basis with direct material, local assembly/labour, nominal per-train QA/acceptance, and modest handover logistics included; 1 m clip-on fiberglass body modules reduce shell labour, mould tooling, cure space, and production setup; distributed overnight stabling reduces depot parking scope; fixtures/tooling live in one shared national railway production plant sized per supported vehicle/car module and excluded from city CAPEX; warranty, spares, and routine commissioning support are treated as OPEX; raw marketplace BOM retained only as audit lower bound; *_eur mirrors retained for schema compatibility"
 usd_to_eur = 0.92
+
+# Planning-grade procurement-origin assumptions. The imported share is the
+# portion that needs foreign currency or an international financing source;
+# the balance can be procured and financed locally. These are common reference
+# shares until a country supplier survey provides a controlled override.
+[procurement_origin]
+basis = "Imported share by CAPEX bucket; local share is 1 - imported_share. Imports include finished equipment, specialist machinery, batteries, traction electronics, PV/charging hardware, and foreign engineering services. Local scope includes labour, civil materials, fabrication, installation, and domestic project services."
+
+[procurement_origin.imported_share]
+civil = 0.35
+stations = 0.40
+depots = 0.40
+rolling_stock = 0.55
+production_plant = 0.25
+solar_plant = 0.70
+signalling = 0.80
+charging_microgrid = 0.55
+epc_overhead = 0.45
 
 [civil_usd_per_km]
 at_grade = 3000000
@@ -76,7 +94,7 @@ normal_integrated_site = 100000
 [production_plant]
 per_vehicle_usd = 60000
 high_sensitivity_per_vehicle_usd = 120000
-scope = "City railway production plant, lightweight 1 m panel moulds, clip/drill gauges, basic steel fixtures, plant services, and setup allowance per vehicle/car module, not per trainset; no full-length body mould or production adhesive cure hall; distributed overnight stabling removes fleet parking roads from the production/depot complex"
+scope = "One shared national railway production plant, sized to the largest single-city fleet programme and reused for phased national rollout. Includes lightweight 1 m panel moulds, clip/drill gauges, basic steel fixtures, plant services, and setup allowance per supported vehicle/car module; no full-length body mould or production adhesive cure hall. City CAPEX excludes this national asset."
 
 [systems]
 signalling_usd_per_km = 50000

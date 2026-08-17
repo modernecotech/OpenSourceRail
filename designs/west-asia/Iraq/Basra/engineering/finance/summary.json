@@ -11,13 +11,84 @@
     "total": 84332814.66864
   },
   "capex_eur": {
-    "reconciled_project_total": 3242912652.96992
+    "reconciled_project_total": 3083439852.96992
   },
   "capex_usd": {
-    "authoritative_design_base": 3066660323.0,
-    "reconciled_project_total": 3524905057.576,
-    "risk_envelope_15_percent": 4053640816.2124,
-    "risk_envelope_25_percent": 4406131321.97,
+    "authoritative_design_base": 2893320323.0,
+    "imported_external_capital": 1540567500.3032,
+    "imported_percentage_of_total": 0.45965615282354283,
+    "local_capital": 1810997557.2728,
+    "local_percentage_of_total": 0.5403438471764571,
+    "national_trainset_factory_treatment": "excluded from city CAPEX; costed once in the country NATIONAL-BRIEF.md",
+    "procurement_origin_buckets": [
+      {
+        "bucket": "civil",
+        "imported_share": 0.35,
+        "imported_usd": 501434226.99999994,
+        "local_share": 0.65,
+        "local_usd": 931234993.0,
+        "total_usd": 1432669220.0
+      },
+      {
+        "bucket": "stations",
+        "imported_share": 0.4,
+        "imported_usd": 183160000.0,
+        "local_share": 0.6,
+        "local_usd": 274740000.0,
+        "total_usd": 457900000.0
+      },
+      {
+        "bucket": "depots",
+        "imported_share": 0.4,
+        "imported_usd": 3200000.0,
+        "local_share": 0.6,
+        "local_usd": 4800000.0,
+        "total_usd": 8000000.0
+      },
+      {
+        "bucket": "rolling_stock",
+        "imported_share": 0.55,
+        "imported_usd": 415800000.00000006,
+        "local_share": 0.44999999999999996,
+        "local_usd": 340199999.99999994,
+        "total_usd": 756000000.0
+      },
+      {
+        "bucket": "solar_plant",
+        "imported_share": 0.7,
+        "imported_usd": 320771314.2032,
+        "local_share": 0.30000000000000004,
+        "local_usd": 137473420.3728,
+        "total_usd": 458244734.576
+      },
+      {
+        "bucket": "signalling",
+        "imported_share": 0.8,
+        "imported_usd": 12214772.0,
+        "local_share": 0.19999999999999996,
+        "local_usd": 3053693.0,
+        "total_usd": 15268465.0
+      },
+      {
+        "bucket": "charging_microgrid",
+        "imported_share": 0.55,
+        "imported_usd": 18810000.0,
+        "local_share": 0.44999999999999996,
+        "local_usd": 15390000.0,
+        "total_usd": 34200000.0
+      },
+      {
+        "bucket": "epc_overhead",
+        "imported_share": 0.45,
+        "imported_usd": 85177187.10000001,
+        "local_share": 0.55,
+        "local_usd": 104105450.89999999,
+        "total_usd": 189282638.0
+      }
+    ],
+    "reconciled_project_total": 3351565057.576,
+    "risk_envelope_15_percent": 3854299816.2124,
+    "risk_envelope_25_percent": 4189456321.9700003,
     "timetable_sized_dedicated_solar": 458244734.576
   },
   "cases": {
@@ -27,9 +98,9 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 527328089.088,
       "capacity_utilisation": 0.8,
-      "project_irr": 0.09931867399873104,
-      "project_npv_usd_at_8_percent": 699010916.9491684,
-      "steady_state_dscr": 2.743033448708794
+      "project_irr": 0.10402382873454878,
+      "project_npv_usd_at_8_percent": 837430188.5145915,
+      "steady_state_dscr": 2.0237781923014015
     },
     "low_capacity_use": {
       "annual_operating_cash_usd": 249818352.81935996,
@@ -37,24 +108,39 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 334151167.488,
       "capacity_utilisation": 0.5,
-      "project_irr": 0.05337950655952392,
-      "project_npv_usd_at_8_percent": -833249744.3300917,
-      "steady_state_dscr": 1.5468790243485535
+      "project_irr": 0.056943659336058605,
+      "project_npv_usd_at_8_percent": -694830472.7646687,
+      "steady_state_dscr": 1.1412693626024448
     }
   },
   "city": "basra",
   "funding": {
-    "annual_debt_service_usd": 161498312.98188782,
+    "annual_debt_service_usd": 218895171.469159,
+    "annual_external_capital_draw_usd": 308113500.06064,
+    "annual_external_debt_service_usd": 88228990.66421393,
+    "annual_grace_interest_usd": 192473371.40819442,
+    "annual_local_bond_issuance_usd": 289759609.163648,
+    "annual_local_bond_service_usd": 130666180.8049451,
+    "annual_local_capital_draw_usd": 362199511.45456,
+    "annual_local_public_equity_draw_usd": 72439902.29091196,
+    "annual_public_construction_commitment_usd": 264913273.6991064,
     "construction_grace_years": 5,
-    "debt_principal_usd": 2819924046.0608006,
-    "debt_rate": 0.045,
-    "government_equity_share": 0.2,
+    "debt_principal_usd": 2989365546.12144,
+    "external_capital_required_usd": 1540567500.3032,
+    "external_debt_rate": 0.045,
+    "external_debt_usd": 1540567500.3032,
+    "external_grant_usd": 0.0,
     "lender_commitment_status": "unconfirmed-placeholder",
+    "local_bond_principal_usd": 1448798045.8182402,
+    "local_bond_rate": 0.085,
+    "local_capital_required_usd": 1810997557.2728,
+    "local_public_equity_usd": 362199511.4545598,
     "repayment_years": 35
   },
   "limitations": [
     "No calibrated origin-destination or stated-preference ridership survey.",
     "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "Imported shares are planning assumptions pending country supplier-capability, customs, tax, and procurement-origin surveys.",
     "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
     "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
   ],
@@ -78,12 +164,12 @@
     "practical_capacity_passenger_trips_per_day": 1740960.0,
     "single_trip_fare_usd": 1.0133333333333334
   },
-  "schema_version": 1,
+  "schema_version": 2,
   "sources": {
     "design": "designs/west-asia/Iraq/Basra/design.toml",
-    "design_sha256": "ecc6b8640a5840b37dee24e78d1ee69586836ca9eb8a90d4f21a6c9bd76f8777",
+    "design_sha256": "7715c6f32602760ea251bf3f7507e1fd9bf222c6dfa23c5ef923320e10ca4f93",
     "generator": "scripts/generate-city-finance.py",
-    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "generator_sha256": "9da48240e9ea50383e605d0c00585d52cdf48747820a2ac28647432461d3e1fa",
     "scenario": "designs/west-asia/Iraq/Basra/basra.toml",
     "scenario_sha256": "15a2ae11c07f897271586bba8c882a51b2909cac9f7f8842b41a02f0de940849"
   },

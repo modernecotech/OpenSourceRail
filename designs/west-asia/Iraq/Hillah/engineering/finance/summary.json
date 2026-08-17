@@ -11,13 +11,84 @@
     "total": 13586380.827792
   },
   "capex_eur": {
-    "reconciled_project_total": 474445915.30457604
+    "reconciled_project_total": 452296915.30457604
   },
   "capex_usd": {
-    "authoritative_design_base": 472353338.0,
-    "reconciled_project_total": 515702081.8528,
-    "risk_envelope_15_percent": 593057394.13072,
-    "risk_envelope_25_percent": 644627602.316,
+    "authoritative_design_base": 448278338.0,
+    "imported_external_capital": 219526130.64696,
+    "imported_percentage_of_total": 0.4465297758203832,
+    "local_capital": 272100951.20584,
+    "local_percentage_of_total": 0.5534702241796167,
+    "national_trainset_factory_treatment": "excluded from city CAPEX; costed once in the country NATIONAL-BRIEF.md",
+    "procurement_origin_buckets": [
+      {
+        "bucket": "civil",
+        "imported_share": 0.35,
+        "imported_usd": 69810489.35,
+        "local_share": 0.65,
+        "local_usd": 129648051.65,
+        "total_usd": 199458541.0
+      },
+      {
+        "bucket": "stations",
+        "imported_share": 0.4,
+        "imported_usd": 37520000.0,
+        "local_share": 0.6,
+        "local_usd": 56280000.0,
+        "total_usd": 93800000.0
+      },
+      {
+        "bucket": "depots",
+        "imported_share": 0.4,
+        "imported_usd": 3200000.0,
+        "local_share": 0.6,
+        "local_usd": 4800000.0,
+        "total_usd": 8000000.0
+      },
+      {
+        "bucket": "rolling_stock",
+        "imported_share": 0.55,
+        "imported_usd": 61875000.00000001,
+        "local_share": 0.44999999999999996,
+        "local_usd": 50624999.99999999,
+        "total_usd": 112500000.0
+      },
+      {
+        "bucket": "solar_plant",
+        "imported_share": 0.7,
+        "imported_usd": 30344120.696960002,
+        "local_share": 0.30000000000000004,
+        "local_usd": 13004623.155840002,
+        "total_usd": 43348743.852800004
+      },
+      {
+        "bucket": "signalling",
+        "imported_share": 0.8,
+        "imported_usd": 2314541.6,
+        "local_share": 0.19999999999999996,
+        "local_usd": 578635.3999999999,
+        "total_usd": 2893177.0
+      },
+      {
+        "bucket": "charging_microgrid",
+        "imported_share": 0.55,
+        "imported_usd": 1265000.0,
+        "local_share": 0.44999999999999996,
+        "local_usd": 1035000.0,
+        "total_usd": 2300000.0
+      },
+      {
+        "bucket": "epc_overhead",
+        "imported_share": 0.45,
+        "imported_usd": 13196979.0,
+        "local_share": 0.55,
+        "local_usd": 16129641.0,
+        "total_usd": 29326620.0
+      }
+    ],
+    "reconciled_project_total": 491627081.8528,
+    "risk_envelope_15_percent": 565371144.13072,
+    "risk_envelope_25_percent": 614533852.316,
     "timetable_sized_dedicated_solar": 43348743.852800004
   },
   "cases": {
@@ -27,9 +98,9 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 121723764.48,
       "capacity_utilisation": 0.8,
-      "project_irr": 0.15340946597385025,
-      "project_npv_usd_at_8_percent": 445925494.212878,
-      "steady_state_dscr": 4.576741745954024
+      "project_irr": 0.1592490125499716,
+      "project_npv_usd_at_8_percent": 465150393.041409,
+      "steady_state_dscr": 3.3577980665648908
     },
     "low_capacity_use": {
       "annual_operating_cash_usd": 63558094.05220799,
@@ -37,24 +108,39 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 77144474.88,
       "capacity_utilisation": 0.5,
-      "project_irr": 0.09752946045434097,
-      "project_npv_usd_at_8_percent": 92326880.0715102,
-      "steady_state_dscr": 2.6899946393891967
+      "project_irr": 0.10194262593952766,
+      "project_npv_usd_at_8_percent": 111551778.9000412,
+      "steady_state_dscr": 1.973556582517667
     }
   },
   "city": "hillah",
   "funding": {
-    "annual_debt_service_usd": 23627591.342204235,
+    "annual_debt_service_usd": 32204850.175173037,
+    "annual_external_capital_draw_usd": 43905226.129392,
+    "annual_external_debt_service_usd": 12572359.813893063,
+    "annual_grace_interest_usd": 28381540.561110318,
+    "annual_local_bond_issuance_usd": 43536152.1929344,
+    "annual_local_bond_service_usd": 19632490.361279976,
+    "annual_local_capital_draw_usd": 54420190.241168,
+    "annual_local_public_equity_draw_usd": 10884038.048233598,
+    "annual_public_construction_commitment_usd": 39265578.609343916,
     "construction_grace_years": 5,
-    "debt_principal_usd": 412561665.48224,
-    "debt_rate": 0.045,
-    "government_equity_share": 0.2,
+    "debt_principal_usd": 437206891.611632,
+    "external_capital_required_usd": 219526130.64696,
+    "external_debt_rate": 0.045,
+    "external_debt_usd": 219526130.64696,
+    "external_grant_usd": 0.0,
     "lender_commitment_status": "unconfirmed-placeholder",
+    "local_bond_principal_usd": 217680760.964672,
+    "local_bond_rate": 0.085,
+    "local_capital_required_usd": 272100951.20584,
+    "local_public_equity_usd": 54420190.24116799,
     "repayment_years": 35
   },
   "limitations": [
     "No calibrated origin-destination or stated-preference ridership survey.",
     "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "Imported shares are planning assumptions pending country supplier-capability, customs, tax, and procurement-origin surveys.",
     "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
     "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
   ],
@@ -78,12 +164,12 @@
     "practical_capacity_passenger_trips_per_day": 401760.0,
     "single_trip_fare_usd": 1.0133333333333334
   },
-  "schema_version": 1,
+  "schema_version": 2,
   "sources": {
     "design": "designs/west-asia/Iraq/Hillah/design.toml",
-    "design_sha256": "613854de05109cfc5f07057d7b2173cfd9802b35b8bf1c7c90e8affedfacf687",
+    "design_sha256": "3616bf75c8c504f51354bb3b5f49127ea5af605cfd62826b4c90abed5b856e65",
     "generator": "scripts/generate-city-finance.py",
-    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "generator_sha256": "9da48240e9ea50383e605d0c00585d52cdf48747820a2ac28647432461d3e1fa",
     "scenario": "designs/west-asia/Iraq/Hillah/hillah.toml",
     "scenario_sha256": "0b40ba7f4dfb1b64dd01aa0800e1ac50918bf6687f3e0e10fb4d5e777d6a849c"
   },

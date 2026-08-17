@@ -29,11 +29,12 @@ unexpected-cost premium. That estimate already includes the named
 passenger fit-out and openings: seats, floors, grab rails, interior
 lighting, three roof HVAC units, 18 side windows, 12 powered side doors,
 door sill/emergency kits, and two panoramic end-glass assemblies. City
-CAPEX keeps the rounded $0.9M planning
-unit, plus a separate lean
-**$60k per vehicle/car module** railway production-plant setup
-allowance; **$120k per vehicle/car module** is retained only as the high
-sensitivity check. Distributed overnight stabling at powered stations
+CAPEX keeps the rounded $0.9M planning unit. Each country adds one shared,
+lean **$60k per supported vehicle/car module** national railway
+production-plant setup sized to its largest city fleet programme;
+**$120k per supported vehicle/car module** is retained only as the high
+sensitivity check. Individual cities do not duplicate the factory.
+Distributed overnight stabling at powered stations
 also removes fleet-wide parking roads from depot scope; depot CAPEX retains
 inspection, defect repair, wheel, wash, and heavy-maintenance functions.
 The machine-readable source is

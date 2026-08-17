@@ -11,13 +11,84 @@
     "total": 142076256.304952
   },
   "capex_eur": {
-    "reconciled_project_total": 3868103282.797056
+    "reconciled_project_total": 3658307954.797056
   },
   "capex_usd": {
-    "authoritative_design_base": 3622427023.0,
-    "reconciled_project_total": 4204460089.9968,
-    "risk_envelope_15_percent": 4835129103.49632,
-    "risk_envelope_25_percent": 5255575112.496,
+    "authoritative_design_base": 3394388623.0,
+    "imported_external_capital": 1869663705.34776,
+    "imported_percentage_of_total": 0.4701874828947693,
+    "local_capital": 2106757984.64904,
+    "local_percentage_of_total": 0.5298125171052307,
+    "national_trainset_factory_treatment": "excluded from city CAPEX; costed once in the country NATIONAL-BRIEF.md",
+    "procurement_origin_buckets": [
+      {
+        "bucket": "civil",
+        "imported_share": 0.35,
+        "imported_usd": 495248722.49999994,
+        "local_share": 0.65,
+        "local_usd": 919747627.5,
+        "total_usd": 1414996350.0
+      },
+      {
+        "bucket": "stations",
+        "imported_share": 0.4,
+        "imported_usd": 274560000.0,
+        "local_share": 0.6,
+        "local_usd": 411840000.0,
+        "total_usd": 686400000.0
+      },
+      {
+        "bucket": "depots",
+        "imported_share": 0.4,
+        "imported_usd": 3200000.0,
+        "local_share": 0.6,
+        "local_usd": 4800000.0,
+        "total_usd": 8000000.0
+      },
+      {
+        "bucket": "rolling_stock",
+        "imported_share": 0.55,
+        "imported_usd": 547008000.0,
+        "local_share": 0.44999999999999996,
+        "local_usd": 447552000.0,
+        "total_usd": 994560000.0
+      },
+      {
+        "bucket": "solar_plant",
+        "imported_share": 0.7,
+        "imported_usd": 407423146.89776003,
+        "local_share": 0.30000000000000004,
+        "local_usd": 174609920.09904003,
+        "total_usd": 582033066.9968001
+      },
+      {
+        "bucket": "signalling",
+        "imported_share": 0.8,
+        "imported_usd": 15015572.8,
+        "local_share": 0.19999999999999996,
+        "local_usd": 3753893.1999999993,
+        "total_usd": 18769466.0
+      },
+      {
+        "bucket": "charging_microgrid",
+        "imported_share": 0.55,
+        "imported_usd": 27280000.000000004,
+        "local_share": 0.44999999999999996,
+        "local_usd": 22319999.999999996,
+        "total_usd": 49600000.0
+      },
+      {
+        "bucket": "epc_overhead",
+        "imported_share": 0.45,
+        "imported_usd": 99928263.15,
+        "local_share": 0.55,
+        "local_usd": 122134543.85,
+        "total_usd": 222062807.0
+      }
+    ],
+    "reconciled_project_total": 3976421689.9968,
+    "risk_envelope_15_percent": 4572884943.49632,
+    "risk_envelope_25_percent": 4970527112.496,
     "timetable_sized_dedicated_solar": 582033066.9968001
   },
   "cases": {
@@ -27,9 +98,9 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 3084172128.0,
       "capacity_utilisation": 0.8,
-      "project_irr": 0.35088112212444905,
-      "project_npv_usd_at_8_percent": 19978981943.44705,
-      "steady_state_dscr": 15.273058670802644
+      "project_irr": 0.3627231048826659,
+      "project_npv_usd_at_8_percent": 20161080185.150894,
+      "steady_state_dscr": 14.450340263906403
     },
     "low_capacity_use": {
       "annual_operating_cash_usd": 1811971775.695048,
@@ -37,24 +108,39 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 1954048032.0,
       "capacity_utilisation": 0.5,
-      "project_irr": 0.25827578719193756,
-      "project_npv_usd_at_8_percent": 11014946900.740448,
-      "steady_state_dscr": 9.406339034113365
+      "project_irr": 0.26799459852255936,
+      "project_npv_usd_at_8_percent": 11197045142.444294,
+      "steady_state_dscr": 8.899644963745798
     }
   },
   "city": "jeddah",
   "funding": {
-    "annual_debt_service_usd": 192633049.81073788,
+    "annual_debt_service_usd": 203600456.31892285,
+    "annual_external_capital_draw_usd": 373932741.069552,
+    "annual_external_debt_service_usd": 107076477.70830007,
+    "annual_grace_interest_usd": 159978154.18801463,
+    "annual_local_bond_issuance_usd": 337081277.5438464,
+    "annual_local_bond_service_usd": 96523978.61062278,
+    "annual_local_capital_draw_usd": 421351596.929808,
+    "annual_local_public_equity_draw_usd": 84270319.38596158,
+    "annual_public_construction_commitment_usd": 244248473.57397622,
     "construction_grace_years": 5,
-    "debt_principal_usd": 3363568071.9974403,
-    "debt_rate": 0.045,
-    "government_equity_share": 0.2,
+    "debt_principal_usd": 3555070093.066992,
+    "external_capital_required_usd": 1869663705.34776,
+    "external_debt_rate": 0.045,
+    "external_debt_usd": 1869663705.34776,
+    "external_grant_usd": 0.0,
     "lender_commitment_status": "unconfirmed-placeholder",
+    "local_bond_principal_usd": 1685406387.719232,
+    "local_bond_rate": 0.045,
+    "local_capital_required_usd": 2106757984.64904,
+    "local_public_equity_usd": 421351596.9298079,
     "repayment_years": 35
   },
   "limitations": [
     "No calibrated origin-destination or stated-preference ridership survey.",
     "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "Imported shares are planning assumptions pending country supplier-capability, customs, tax, and procurement-origin surveys.",
     "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
     "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
   ],
@@ -78,12 +164,12 @@
     "practical_capacity_passenger_trips_per_day": 2276640.0,
     "single_trip_fare_usd": 4.533333333333333
   },
-  "schema_version": 1,
+  "schema_version": 2,
   "sources": {
     "design": "designs/west-asia/Saudi Arabia/Jeddah/design.toml",
-    "design_sha256": "2b588d70e3951ff08a8248290cc976aa7b5562544bc2f7da39814010aa16ea36",
+    "design_sha256": "8d941cc3e922918ab54b260331f1a13b9ba35e1a2758000aef580ee5d143b8fb",
     "generator": "scripts/generate-city-finance.py",
-    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "generator_sha256": "9da48240e9ea50383e605d0c00585d52cdf48747820a2ac28647432461d3e1fa",
     "scenario": "designs/west-asia/Saudi Arabia/Jeddah/jeddah.toml",
     "scenario_sha256": "d72f7ff4554d888588bbac8435bf6419b6ff89be55af8757313992e85f7114bb"
   },

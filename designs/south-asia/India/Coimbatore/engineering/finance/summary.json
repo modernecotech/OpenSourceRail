@@ -11,13 +11,84 @@
     "total": 96227386.42585
   },
   "capex_eur": {
-    "reconciled_project_total": 3860333976.0788
+    "reconciled_project_total": 3668966615.1588
   },
   "capex_usd": {
-    "authoritative_design_base": 3524753339.0,
-    "reconciled_project_total": 4196015191.39,
-    "risk_envelope_15_percent": 4825417470.098499,
-    "risk_envelope_25_percent": 5245018989.2375,
+    "authoritative_design_base": 3316745338.0,
+    "imported_external_capital": 1882026579.173,
+    "imported_percentage_of_total": 0.4719215611516866,
+    "local_capital": 2105980611.217,
+    "local_percentage_of_total": 0.5280784388483135,
+    "national_trainset_factory_treatment": "excluded from city CAPEX; costed once in the country NATIONAL-BRIEF.md",
+    "procurement_origin_buckets": [
+      {
+        "bucket": "civil",
+        "imported_share": 0.35,
+        "imported_usd": 522887414.7,
+        "local_share": 0.65,
+        "local_usd": 971076627.3,
+        "total_usd": 1493964042.0
+      },
+      {
+        "bucket": "stations",
+        "imported_share": 0.4,
+        "imported_usd": 252400000.0,
+        "local_share": 0.6,
+        "local_usd": 378600000.0,
+        "total_usd": 631000000.0
+      },
+      {
+        "bucket": "depots",
+        "imported_share": 0.4,
+        "imported_usd": 3200000.0,
+        "local_share": 0.6,
+        "local_usd": 4800000.0,
+        "total_usd": 8000000.0
+      },
+      {
+        "bucket": "rolling_stock",
+        "imported_share": 0.55,
+        "imported_usd": 498960000.00000006,
+        "local_share": 0.44999999999999996,
+        "local_usd": 408239999.99999994,
+        "total_usd": 907200000.0
+      },
+      {
+        "bucket": "solar_plant",
+        "imported_share": 0.7,
+        "imported_usd": 469883296.673,
+        "local_share": 0.30000000000000004,
+        "local_usd": 201378555.717,
+        "total_usd": 671261852.39
+      },
+      {
+        "bucket": "signalling",
+        "imported_share": 0.8,
+        "imported_usd": 13678364.8,
+        "local_share": 0.19999999999999996,
+        "local_usd": 3419591.1999999993,
+        "total_usd": 17097956.0
+      },
+      {
+        "bucket": "charging_microgrid",
+        "imported_share": 0.55,
+        "imported_usd": 23375000.000000004,
+        "local_share": 0.44999999999999996,
+        "local_usd": 19124999.999999996,
+        "total_usd": 42500000.0
+      },
+      {
+        "bucket": "epc_overhead",
+        "imported_share": 0.45,
+        "imported_usd": 97642503.0,
+        "local_share": 0.55,
+        "local_usd": 119340837.0,
+        "total_usd": 216983340.0
+      }
+    ],
+    "reconciled_project_total": 3988007190.39,
+    "risk_envelope_15_percent": 4586208268.9485,
+    "risk_envelope_25_percent": 4985008987.9875,
     "timetable_sized_dedicated_solar": 671261852.39
   },
   "cases": {
@@ -27,34 +98,49 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 417976124.448,
       "capacity_utilisation": 0.8,
-      "project_irr": 0.058981555209032255,
-      "project_npv_usd_at_8_percent": -798614518.2622603,
-      "steady_state_dscr": 1.6736291603588336
+      "project_irr": 0.06270552825949857,
+      "project_npv_usd_at_8_percent": -632511391.5852103,
+      "steady_state_dscr": 1.336413085839223
     },
     "low_capacity_use": {
       "annual_operating_cash_usd": 168849595.62215003,
       "annual_paid_trips": 415486800.0,
-      "annual_public_support_usd": 23396539.68847379,
+      "annual_public_support_usd": 71905857.48694798,
       "annual_revenue_usd": 265076982.04800004,
       "capacity_utilisation": 0.5,
-      "project_irr": 0.018085369188394172,
-      "project_npv_usd_at_8_percent": -2011395729.9225655,
-      "steady_state_dscr": 0.8782990375818449
+      "project_irr": 0.020952090198754207,
+      "project_npv_usd_at_8_percent": -1845292603.2455153,
+      "steady_state_dscr": 0.7013323828874442
     }
   },
   "city": "coimbatore",
   "funding": {
-    "annual_debt_service_usd": 192246135.31062382,
+    "annual_debt_service_usd": 240755453.10909802,
+    "annual_external_capital_draw_usd": 376405315.83460003,
+    "annual_external_debt_service_usd": 107784505.02881363,
+    "annual_grace_interest_usd": 205995679.26888418,
+    "annual_local_bond_issuance_usd": 336956897.79472005,
+    "annual_local_bond_service_usd": 132970948.08028437,
+    "annual_local_capital_draw_usd": 421196122.2434,
+    "annual_local_public_equity_draw_usd": 84239224.44867997,
+    "annual_public_construction_commitment_usd": 290234903.71756417,
     "construction_grace_years": 5,
-    "debt_principal_usd": 3356812153.112,
-    "debt_rate": 0.045,
-    "government_equity_share": 0.2,
+    "debt_principal_usd": 3566811068.1466002,
+    "external_capital_required_usd": 1882026579.173,
+    "external_debt_rate": 0.045,
+    "external_debt_usd": 1882026579.173,
+    "external_grant_usd": 0.0,
     "lender_commitment_status": "unconfirmed-placeholder",
+    "local_bond_principal_usd": 1684784488.9736001,
+    "local_bond_rate": 0.072,
+    "local_capital_required_usd": 2105980611.217,
+    "local_public_equity_usd": 421196122.24339986,
     "repayment_years": 35
   },
   "limitations": [
     "No calibrated origin-destination or stated-preference ridership survey.",
     "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "Imported shares are planning assumptions pending country supplier-capability, customs, tax, and procurement-origin surveys.",
     "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
     "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
   ],
@@ -78,12 +164,12 @@
     "practical_capacity_passenger_trips_per_day": 2276640.0,
     "single_trip_fare_usd": 0.6133333333333334
   },
-  "schema_version": 1,
+  "schema_version": 2,
   "sources": {
     "design": "designs/south-asia/India/Coimbatore/design.toml",
-    "design_sha256": "9249b150d6deefdef24336ca04730741800a6599186070aaa188403f1787e2b1",
+    "design_sha256": "548f5f4e399932286e807ec2fbbc30f2172345ecbd68ebb8ab87d407247e48d7",
     "generator": "scripts/generate-city-finance.py",
-    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "generator_sha256": "9da48240e9ea50383e605d0c00585d52cdf48747820a2ac28647432461d3e1fa",
     "scenario": "designs/south-asia/India/Coimbatore/coimbatore.toml",
     "scenario_sha256": "11bb52ff89f558ecf7c338b251a06bff558fe54ae88681bac504bac27f5e7d6f"
   },

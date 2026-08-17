@@ -19,6 +19,8 @@ not beside its source.
   These reports are allowed to record inherited planning failures, but their
   source and validator hashes must remain current; reviewed references must
   pass both validators.
+- One generated `NATIONAL-BRIEF.md` per country, aggregating city CAPEX,
+  imported/external capital, local funding, and the single shared trainset factory.
 - Two complete end-to-end acceptance references, Samawah
   (`light-metro-3car`) and Mosul (`metro-4car`), including map, README,
   alignment, simulation, energy, finance, QA, maintenance, manufacturing,

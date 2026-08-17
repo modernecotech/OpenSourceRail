@@ -11,13 +11,84 @@
     "total": 7743744.147566546
   },
   "capex_eur": {
-    "reconciled_project_total": 287508470.90408146
+    "reconciled_project_total": 278176359.8240815
   },
   "capex_usd": {
-    "authoritative_design_base": 295322379.0,
-    "reconciled_project_total": 312509207.5044364,
-    "risk_envelope_15_percent": 359385588.6301018,
-    "risk_envelope_25_percent": 390636509.3805455,
+    "authoritative_design_base": 285178780.0,
+    "imported_external_capital": 128191567.15310545,
+    "imported_percentage_of_total": 0.4239621291163628,
+    "local_capital": 174174041.3513309,
+    "local_percentage_of_total": 0.5760378708836372,
+    "national_trainset_factory_treatment": "excluded from city CAPEX; costed once in the country NATIONAL-BRIEF.md",
+    "procurement_origin_buckets": [
+      {
+        "bucket": "civil",
+        "imported_share": 0.35,
+        "imported_usd": 45349260.599999994,
+        "local_share": 0.65,
+        "local_usd": 84220055.4,
+        "total_usd": 129569316.0
+      },
+      {
+        "bucket": "stations",
+        "imported_share": 0.4,
+        "imported_usd": 32480000.0,
+        "local_share": 0.6,
+        "local_usd": 48720000.0,
+        "total_usd": 81200000.0
+      },
+      {
+        "bucket": "depots",
+        "imported_share": 0.4,
+        "imported_usd": 3200000.0,
+        "local_share": 0.6,
+        "local_usd": 4800000.0,
+        "total_usd": 8000000.0
+      },
+      {
+        "bucket": "rolling_stock",
+        "imported_share": 0.55,
+        "imported_usd": 24332000.000000004,
+        "local_share": 0.44999999999999996,
+        "local_usd": 19907999.999999996,
+        "total_usd": 44240000.0
+      },
+      {
+        "bucket": "solar_plant",
+        "imported_share": 0.7,
+        "imported_usd": 12030779.953105455,
+        "local_share": 0.30000000000000004,
+        "local_usd": 5156048.551330911,
+        "total_usd": 17186828.504436366
+      },
+      {
+        "bucket": "signalling",
+        "imported_share": 0.8,
+        "imported_usd": 1510326.4000000001,
+        "local_share": 0.19999999999999996,
+        "local_usd": 377581.59999999986,
+        "total_usd": 1887908.0
+      },
+      {
+        "bucket": "charging_microgrid",
+        "imported_share": 0.55,
+        "imported_usd": 893750.0000000001,
+        "local_share": 0.44999999999999996,
+        "local_usd": 731249.9999999999,
+        "total_usd": 1625000.0
+      },
+      {
+        "bucket": "epc_overhead",
+        "imported_share": 0.45,
+        "imported_usd": 8395450.200000001,
+        "local_share": 0.55,
+        "local_usd": 10261105.799999999,
+        "total_usd": 18656556.0
+      }
+    ],
+    "reconciled_project_total": 302365608.5044364,
+    "risk_envelope_15_percent": 347720449.7801018,
+    "risk_envelope_25_percent": 377957010.6305455,
     "timetable_sized_dedicated_solar": 17186828.504436366
   },
   "cases": {
@@ -27,34 +98,49 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 60169286.016,
       "capacity_utilisation": 0.8,
-      "project_irr": 0.10933739103018975,
-      "project_npv_usd_at_8_percent": 99398957.28144085,
-      "steady_state_dscr": 3.52056307345796
+      "project_irr": 0.11217331348161673,
+      "project_npv_usd_at_8_percent": 106685407.41180748,
+      "steady_state_dscr": 1.2336022860940181
     },
     "low_capacity_use": {
       "annual_operating_cash_usd": 30526943.46843345,
       "annual_paid_trips": 48880800.0,
-      "annual_public_support_usd": 0.0,
+      "annual_public_support_usd": 11970985.126064863,
       "annual_revenue_usd": 38270687.616,
       "capacity_utilisation": 0.5,
-      "project_irr": 0.06734568848125941,
-      "project_npv_usd_at_8_percent": -35890022.81111439,
-      "steady_state_dscr": 2.0499936880045233
+      "project_irr": 0.06968374492391827,
+      "project_npv_usd_at_8_percent": -28603572.680747777,
+      "steady_state_dscr": 0.7183160327580154
     }
   },
   "city": "sidon",
   "funding": {
-    "annual_debt_service_usd": 14891237.786272682,
+    "annual_debt_service_usd": 42497928.594498314,
+    "annual_external_capital_draw_usd": 16023945.894138182,
+    "annual_external_debt_service_usd": 7635499.462222792,
+    "annual_grace_interest_usd": 40603428.79215593,
+    "annual_local_bond_issuance_usd": 17417404.13513309,
+    "annual_local_bond_service_usd": 34862429.13227552,
+    "annual_local_capital_draw_usd": 21771755.168916363,
+    "annual_local_public_equity_draw_usd": 4354351.033783272,
+    "annual_public_construction_commitment_usd": 44957779.8259392,
     "construction_grace_years": 8,
-    "debt_principal_usd": 250007366.0035491,
-    "debt_rate": 0.045,
-    "government_equity_share": 0.2,
+    "debt_principal_usd": 267530800.2341702,
+    "external_capital_required_usd": 128191567.15310545,
+    "external_debt_rate": 0.045,
+    "external_debt_usd": 128191567.15310545,
+    "external_grant_usd": 0.0,
     "lender_commitment_status": "unconfirmed-placeholder",
+    "local_bond_principal_usd": 139339233.08106473,
+    "local_bond_rate": 0.25,
+    "local_capital_required_usd": 174174041.3513309,
+    "local_public_equity_usd": 34834808.270266175,
     "repayment_years": 32
   },
   "limitations": [
     "No calibrated origin-destination or stated-preference ridership survey.",
     "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "Imported shares are planning assumptions pending country supplier-capability, customs, tax, and procurement-origin surveys.",
     "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
     "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
   ],
@@ -78,12 +164,12 @@
     "practical_capacity_passenger_trips_per_day": 267840.0,
     "single_trip_fare_usd": 0.7466666666666667
   },
-  "schema_version": 1,
+  "schema_version": 2,
   "sources": {
     "design": "designs/west-asia/Lebanon/Sidon/design.toml",
-    "design_sha256": "4d1b5fc1726d9cad01f942489081d0c65b8b07a86ce193f13de7074d2bb83e4b",
+    "design_sha256": "b2792df8db9912d3aae5378e9c184a282d7f1eed6921a2803f895a951e36373c",
     "generator": "scripts/generate-city-finance.py",
-    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "generator_sha256": "9da48240e9ea50383e605d0c00585d52cdf48747820a2ac28647432461d3e1fa",
     "scenario": "designs/west-asia/Lebanon/Sidon/sidon.toml",
     "scenario_sha256": "d500c2b9a25c8e3bd899f5b744b9456a68d224ab1974a6ee5305878e5280a85f"
   },

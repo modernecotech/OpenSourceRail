@@ -11,13 +11,84 @@
     "total": 8300006.6511
   },
   "capex_eur": {
-    "reconciled_project_total": 321343413.2408
+    "reconciled_project_total": 307876821.2408
   },
   "capex_usd": {
-    "authoritative_design_base": 318168782.0,
-    "reconciled_project_total": 349286318.74,
-    "risk_envelope_15_percent": 401679266.551,
-    "risk_envelope_25_percent": 436607898.425,
+    "authoritative_design_base": 303531182.0,
+    "imported_external_capital": 148974560.818,
+    "imported_percentage_of_total": 0.4451669839911845,
+    "local_capital": 185674157.922,
+    "local_percentage_of_total": 0.5548330160088154,
+    "national_trainset_factory_treatment": "excluded from city CAPEX; costed once in the country NATIONAL-BRIEF.md",
+    "procurement_origin_buckets": [
+      {
+        "bucket": "civil",
+        "imported_share": 0.35,
+        "imported_usd": 44781642.5,
+        "local_share": 0.65,
+        "local_usd": 83165907.5,
+        "total_usd": 127947550.0
+      },
+      {
+        "bucket": "stations",
+        "imported_share": 0.4,
+        "imported_usd": 30400000.0,
+        "local_share": 0.6,
+        "local_usd": 45600000.0,
+        "total_usd": 76000000.0
+      },
+      {
+        "bucket": "depots",
+        "imported_share": 0.4,
+        "imported_usd": 3200000.0,
+        "local_share": 0.6,
+        "local_usd": 4800000.0,
+        "total_usd": 8000000.0
+      },
+      {
+        "bucket": "rolling_stock",
+        "imported_share": 0.55,
+        "imported_usd": 37620000.0,
+        "local_share": 0.44999999999999996,
+        "local_usd": 30780000.0,
+        "total_usd": 68400000.0
+      },
+      {
+        "bucket": "solar_plant",
+        "imported_share": 0.7,
+        "imported_usd": 21782275.718,
+        "local_share": 0.30000000000000004,
+        "local_usd": 9335261.022,
+        "total_usd": 31117536.74
+      },
+      {
+        "bucket": "signalling",
+        "imported_share": 0.8,
+        "imported_usd": 1361161.6,
+        "local_share": 0.19999999999999996,
+        "local_usd": 340290.3999999999,
+        "total_usd": 1701452.0
+      },
+      {
+        "bucket": "charging_microgrid",
+        "imported_share": 0.55,
+        "imported_usd": 893750.0000000001,
+        "local_share": 0.44999999999999996,
+        "local_usd": 731249.9999999999,
+        "total_usd": 1625000.0
+      },
+      {
+        "bucket": "epc_overhead",
+        "imported_share": 0.45,
+        "imported_usd": 8935731.0,
+        "local_share": 0.55,
+        "local_usd": 10921449.0,
+        "total_usd": 19857180.0
+      }
+    ],
+    "reconciled_project_total": 334648718.74,
+    "risk_envelope_15_percent": 384846026.551,
+    "risk_envelope_25_percent": 418310898.425,
     "timetable_sized_dedicated_solar": 31117536.74
   },
   "cases": {
@@ -27,34 +98,49 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 55754447.28,
       "capacity_utilisation": 0.8,
-      "project_irr": 0.09648266693544422,
-      "project_npv_usd_at_8_percent": 59022786.31789079,
-      "steady_state_dscr": 2.890932002168975
+      "project_irr": 0.10010515842301167,
+      "project_npv_usd_at_8_percent": 69909752.37201756,
+      "steady_state_dscr": 1.629832323897479
     },
     "low_capacity_use": {
       "annual_operating_cash_usd": 26924504.6289,
       "annual_paid_trips": 73321200.0,
-      "annual_public_support_usd": 0.0,
+      "annual_public_support_usd": 2191644.273718659,
       "annual_revenue_usd": 35224511.28,
       "capacity_utilisation": 0.5,
-      "project_irr": 0.05390989967751687,
-      "project_npv_usd_at_8_percent": -78902318.14049664,
-      "steady_state_dscr": 1.6402450654287268
+      "project_irr": 0.05681175793073175,
+      "project_npv_usd_at_8_percent": -68015352.08636987,
+      "steady_state_dscr": 0.9247275358754075
     }
   },
   "city": "uyo",
   "funding": {
-    "annual_debt_service_usd": 16414927.986302143,
+    "annual_debt_service_usd": 29116148.902618658,
+    "annual_external_capital_draw_usd": 21282080.11685714,
+    "annual_external_debt_service_usd": 8751440.281285245,
+    "annual_grace_interest_usd": 26756664.292386,
+    "annual_local_bond_issuance_usd": 21219903.762514286,
+    "annual_local_bond_service_usd": 20364708.621333413,
+    "annual_local_capital_draw_usd": 26524879.703142855,
+    "annual_local_public_equity_draw_usd": 5304975.940628571,
+    "annual_public_construction_commitment_usd": 32061640.23301457,
     "construction_grace_years": 7,
-    "debt_principal_usd": 279429054.99200004,
-    "debt_rate": 0.045,
-    "government_equity_share": 0.2,
+    "debt_principal_usd": 297513887.15559995,
+    "external_capital_required_usd": 148974560.818,
+    "external_debt_rate": 0.045,
+    "external_debt_usd": 148974560.818,
+    "external_grant_usd": 0.0,
     "lender_commitment_status": "unconfirmed-placeholder",
+    "local_bond_principal_usd": 148539326.3376,
+    "local_bond_rate": 0.135,
+    "local_capital_required_usd": 185674157.922,
+    "local_public_equity_usd": 37134831.5844,
     "repayment_years": 33
   },
   "limitations": [
     "No calibrated origin-destination or stated-preference ridership survey.",
     "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "Imported shares are planning assumptions pending country supplier-capability, customs, tax, and procurement-origin surveys.",
     "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
     "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
   ],
@@ -78,12 +164,12 @@
     "practical_capacity_passenger_trips_per_day": 401760.0,
     "single_trip_fare_usd": 0.4666666666666667
   },
-  "schema_version": 1,
+  "schema_version": 2,
   "sources": {
     "design": "designs/west-africa/Nigeria/Uyo/design.toml",
-    "design_sha256": "76c15b0d561bf0424a120106dc97c82068bd9bceb46f333817cde5942aa4acaa",
+    "design_sha256": "3aacc1d6136af7ac07659624d4101344d23ce647fe650fda57ecf2c5ee3695de",
     "generator": "scripts/generate-city-finance.py",
-    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "generator_sha256": "9da48240e9ea50383e605d0c00585d52cdf48747820a2ac28647432461d3e1fa",
     "scenario": "designs/west-africa/Nigeria/Uyo/uyo.toml",
     "scenario_sha256": "8f79a2c9baf962ecbd9ddb56687e0ed171e0dddca0d88a4305c3b9852768c4a4"
   },

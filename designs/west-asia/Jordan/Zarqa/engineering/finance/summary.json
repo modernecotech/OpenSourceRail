@@ -11,13 +11,84 @@
     "total": 22954573.531632
   },
   "capex_eur": {
-    "reconciled_project_total": 761298139.8600961
+    "reconciled_project_total": 721075555.8600961
   },
   "capex_usd": {
-    "authoritative_design_base": 770315602.0,
-    "reconciled_project_total": 827497978.1088,
-    "risk_envelope_15_percent": 951622674.82512,
-    "risk_envelope_25_percent": 1034372472.636,
+    "authoritative_design_base": 726595402.0,
+    "imported_external_capital": 347196533.32616,
+    "imported_percentage_of_total": 0.4429782816296738,
+    "local_capital": 436581244.78264,
+    "local_percentage_of_total": 0.5570217183703261,
+    "national_trainset_factory_treatment": "excluded from city CAPEX; costed once in the country NATIONAL-BRIEF.md",
+    "procurement_origin_buckets": [
+      {
+        "bucket": "civil",
+        "imported_share": 0.35,
+        "imported_usd": 127928269.69999999,
+        "local_share": 0.65,
+        "local_usd": 237581072.3,
+        "total_usd": 365509342.0
+      },
+      {
+        "bucket": "stations",
+        "imported_share": 0.4,
+        "imported_usd": 38160000.0,
+        "local_share": 0.6,
+        "local_usd": 57240000.0,
+        "total_usd": 95400000.0
+      },
+      {
+        "bucket": "depots",
+        "imported_share": 0.4,
+        "imported_usd": 3200000.0,
+        "local_share": 0.6,
+        "local_usd": 4800000.0,
+        "total_usd": 8000000.0
+      },
+      {
+        "bucket": "rolling_stock",
+        "imported_share": 0.55,
+        "imported_usd": 112365000.00000001,
+        "local_share": 0.44999999999999996,
+        "local_usd": 91934999.99999999,
+        "total_usd": 204300000.0
+      },
+      {
+        "bucket": "solar_plant",
+        "imported_share": 0.7,
+        "imported_usd": 40027663.27616,
+        "local_share": 0.30000000000000004,
+        "local_usd": 17154712.83264,
+        "total_usd": 57182376.1088
+      },
+      {
+        "bucket": "signalling",
+        "imported_share": 0.8,
+        "imported_usd": 2901424.8000000003,
+        "local_share": 0.19999999999999996,
+        "local_usd": 725356.1999999997,
+        "total_usd": 3626781.0
+      },
+      {
+        "bucket": "charging_microgrid",
+        "imported_share": 0.55,
+        "imported_usd": 1223750.0,
+        "local_share": 0.44999999999999996,
+        "local_usd": 1001250.0,
+        "total_usd": 2225000.0
+      },
+      {
+        "bucket": "epc_overhead",
+        "imported_share": 0.45,
+        "imported_usd": 21390425.55,
+        "local_share": 0.55,
+        "local_usd": 26143853.45,
+        "total_usd": 47534279.0
+      }
+    ],
+    "reconciled_project_total": 783777778.1088,
+    "risk_envelope_15_percent": 901344444.82512,
+    "risk_envelope_25_percent": 979722222.636,
     "timetable_sized_dedicated_solar": 57182376.1088
   },
   "cases": {
@@ -27,9 +98,9 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 185622877.056,
       "capacity_utilisation": 0.8,
-      "project_irr": 0.14575315542789663,
-      "project_npv_usd_at_8_percent": 629477356.4169972,
-      "steady_state_dscr": 4.290574328541042
+      "project_irr": 0.1521722475602405,
+      "project_npv_usd_at_8_percent": 664389772.6896094,
+      "steady_state_dscr": 3.364862066469931
     },
     "low_capacity_use": {
       "annual_operating_cash_usd": 94626229.924368,
@@ -37,24 +108,39 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 117580803.456,
       "capacity_utilisation": 0.5,
-      "project_irr": 0.09082970100368577,
-      "project_npv_usd_at_8_percent": 89774208.51701488,
-      "steady_state_dscr": 2.4958818904710336
+      "project_irr": 0.09565967088001562,
+      "project_npv_usd_at_8_percent": 124686624.78962715,
+      "steady_state_dscr": 1.9573832434901506
     }
   },
   "city": "zarqa",
   "funding": {
-    "annual_debt_service_usd": 37912943.83185325,
+    "annual_debt_service_usd": 48343230.8103562,
+    "annual_external_capital_draw_usd": 69439306.665232,
+    "annual_external_debt_service_usd": 19884100.950755067,
+    "annual_grace_interest_usd": 41818718.6866356,
+    "annual_local_bond_issuance_usd": 69852999.1652224,
+    "annual_local_bond_service_usd": 28459129.85960113,
+    "annual_local_capital_draw_usd": 87316248.956528,
+    "annual_local_public_equity_draw_usd": 17463249.79130559,
+    "annual_public_construction_commitment_usd": 59281968.477941185,
     "construction_grace_years": 5,
-    "debt_principal_usd": 661998382.48704,
-    "debt_rate": 0.045,
-    "government_equity_share": 0.2,
+    "debt_principal_usd": 696461529.152272,
+    "external_capital_required_usd": 347196533.32616,
+    "external_debt_rate": 0.045,
+    "external_debt_usd": 347196533.32616,
+    "external_grant_usd": 0.0,
     "lender_commitment_status": "unconfirmed-placeholder",
+    "local_bond_principal_usd": 349264995.82611203,
+    "local_bond_rate": 0.075,
+    "local_capital_required_usd": 436581244.78264,
+    "local_public_equity_usd": 87316248.95652795,
     "repayment_years": 35
   },
   "limitations": [
     "No calibrated origin-destination or stated-preference ridership survey.",
     "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "Imported shares are planning assumptions pending country supplier-capability, customs, tax, and procurement-origin surveys.",
     "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
     "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
   ],
@@ -78,12 +164,12 @@
     "practical_capacity_passenger_trips_per_day": 401760.0,
     "single_trip_fare_usd": 1.5466666666666666
   },
-  "schema_version": 1,
+  "schema_version": 2,
   "sources": {
     "design": "designs/west-asia/Jordan/Zarqa/design.toml",
-    "design_sha256": "42aac765205f76a5b2f1438514387fabcf0be86654a0b002a4dd78a67a556e3d",
+    "design_sha256": "2b039ff44eac448ad0c3ac7c726039f1cb26f6f7b31c944568a4e282401bab00",
     "generator": "scripts/generate-city-finance.py",
-    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "generator_sha256": "9da48240e9ea50383e605d0c00585d52cdf48747820a2ac28647432461d3e1fa",
     "scenario": "designs/west-asia/Jordan/Zarqa/zarqa.toml",
     "scenario_sha256": "afc22b6a0b7c2f6af8870400fcd6334add78ba9df33e64c344e29d2eb7b51c14"
   },

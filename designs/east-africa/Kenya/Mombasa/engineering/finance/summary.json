@@ -11,13 +11,84 @@
     "total": 35533794.32092
   },
   "capex_eur": {
-    "reconciled_project_total": 1472437678.70976
+    "reconciled_project_total": 1427549038.70976
   },
   "capex_usd": {
-    "authoritative_design_base": 1423734001.0,
-    "reconciled_project_total": 1600475737.728,
-    "risk_envelope_15_percent": 1840547098.3871999,
-    "risk_envelope_25_percent": 2000594672.1599998,
+    "authoritative_design_base": 1374942001.0,
+    "imported_external_capital": 682899970.6096001,
+    "imported_percentage_of_total": 0.44010255054262093,
+    "local_capital": 868783767.1184,
+    "local_percentage_of_total": 0.5598974494573792,
+    "national_trainset_factory_treatment": "excluded from city CAPEX; costed once in the country NATIONAL-BRIEF.md",
+    "procurement_origin_buckets": [
+      {
+        "bucket": "civil",
+        "imported_share": 0.35,
+        "imported_usd": 232594855.85,
+        "local_share": 0.65,
+        "local_usd": 431961875.15,
+        "total_usd": 664556731.0
+      },
+      {
+        "bucket": "stations",
+        "imported_share": 0.4,
+        "imported_usd": 149040000.0,
+        "local_share": 0.6,
+        "local_usd": 223560000.0,
+        "total_usd": 372600000.0
+      },
+      {
+        "bucket": "depots",
+        "imported_share": 0.4,
+        "imported_usd": 3200000.0,
+        "local_share": 0.6,
+        "local_usd": 4800000.0,
+        "total_usd": 8000000.0
+      },
+      {
+        "bucket": "rolling_stock",
+        "imported_share": 0.55,
+        "imported_usd": 117040000.00000001,
+        "local_share": 0.44999999999999996,
+        "local_usd": 95759999.99999999,
+        "total_usd": 212800000.0
+      },
+      {
+        "bucket": "solar_plant",
+        "imported_share": 0.7,
+        "imported_usd": 123719215.7096,
+        "local_share": 0.30000000000000004,
+        "local_usd": 53022521.01840001,
+        "total_usd": 176741736.72800002
+      },
+      {
+        "bucket": "signalling",
+        "imported_share": 0.8,
+        "imported_usd": 6268634.4,
+        "local_share": 0.19999999999999996,
+        "local_usd": 1567158.5999999996,
+        "total_usd": 7835793.0
+      },
+      {
+        "bucket": "charging_microgrid",
+        "imported_share": 0.55,
+        "imported_usd": 10560000.0,
+        "local_share": 0.44999999999999996,
+        "local_usd": 8640000.0,
+        "total_usd": 19200000.0
+      },
+      {
+        "bucket": "epc_overhead",
+        "imported_share": 0.45,
+        "imported_usd": 40477264.65,
+        "local_share": 0.55,
+        "local_usd": 49472212.35,
+        "total_usd": 89949477.0
+      }
+    ],
+    "reconciled_project_total": 1551683737.728,
+    "risk_envelope_15_percent": 1784436298.3871999,
+    "risk_envelope_25_percent": 1939604672.1599998,
     "timetable_sized_dedicated_solar": 176741736.72800002
   },
   "cases": {
@@ -27,34 +98,49 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 181848676.416,
       "capacity_utilisation": 0.8,
-      "project_irr": 0.06575245728311979,
-      "project_npv_usd_at_8_percent": -207402307.60502127,
-      "steady_state_dscr": 1.9452794549693058
+      "project_irr": 0.06798537257687365,
+      "project_npv_usd_at_8_percent": -171112420.75793198,
+      "steady_state_dscr": 1.1962810519373046
     },
     "low_capacity_use": {
       "annual_operating_cash_usd": 80358389.29508,
       "annual_paid_trips": 179229600.0,
-      "annual_public_support_usd": 0.0,
+      "annual_public_support_usd": 41949727.0611324,
       "annual_revenue_usd": 115892183.61600001,
       "capacity_utilisation": 0.5,
-      "project_irr": 0.02715435673195253,
-      "project_npv_usd_at_8_percent": -650514071.7697455,
-      "steady_state_dscr": 1.0683774711895895
+      "project_irr": 0.02895911571557855,
+      "project_npv_usd_at_8_percent": -614224184.9226562,
+      "steady_state_dscr": 0.657015999339265
     }
   },
   "city": "mombasa",
   "funding": {
-    "annual_debt_service_usd": 75215353.6199192,
+    "annual_debt_service_usd": 122308116.3562124,
+    "annual_external_capital_draw_usd": 97557138.65851429,
+    "annual_external_debt_service_usd": 40116636.54563541,
+    "annual_grace_interest_usd": 110658605.2523248,
+    "annual_local_bond_issuance_usd": 99289573.38496001,
+    "annual_local_bond_service_usd": 82191479.81057699,
+    "annual_local_capital_draw_usd": 124111966.7312,
+    "annual_local_public_equity_draw_usd": 24822393.34623999,
+    "annual_public_construction_commitment_usd": 135480998.5985648,
     "construction_grace_years": 7,
-    "debt_principal_usd": 1280380590.1824,
-    "debt_rate": 0.045,
-    "government_equity_share": 0.2,
+    "debt_principal_usd": 1377926984.30432,
+    "external_capital_required_usd": 682899970.6096001,
+    "external_debt_rate": 0.045,
+    "external_debt_usd": 682899970.6096001,
+    "external_grant_usd": 0.0,
     "lender_commitment_status": "unconfirmed-placeholder",
+    "local_bond_principal_usd": 695027013.69472,
+    "local_bond_rate": 0.115,
+    "local_capital_required_usd": 868783767.1184,
+    "local_public_equity_usd": 173756753.42367995,
     "repayment_years": 33
   },
   "limitations": [
     "No calibrated origin-destination or stated-preference ridership survey.",
     "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "Imported shares are planning assumptions pending country supplier-capability, customs, tax, and procurement-origin surveys.",
     "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
     "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
   ],
@@ -78,12 +164,12 @@
     "practical_capacity_passenger_trips_per_day": 982080.0,
     "single_trip_fare_usd": 0.6133333333333334
   },
-  "schema_version": 1,
+  "schema_version": 2,
   "sources": {
     "design": "designs/east-africa/Kenya/Mombasa/design.toml",
-    "design_sha256": "01a544c1e44421566524e4fde3dda1be15683172891d1ba3d1dac9708c1590d9",
+    "design_sha256": "ad430f8d803081495ac560e6e1465ce8ddd5f380e23214b8d356105e4067d17e",
     "generator": "scripts/generate-city-finance.py",
-    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "generator_sha256": "9da48240e9ea50383e605d0c00585d52cdf48747820a2ac28647432461d3e1fa",
     "scenario": "designs/east-africa/Kenya/Mombasa/mombasa.toml",
     "scenario_sha256": "6d84ec8ee07759ad96f6faf94f4a27016e14f475863180b457455ff8103fb5cf"
   },

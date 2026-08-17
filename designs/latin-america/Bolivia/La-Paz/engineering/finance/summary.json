@@ -11,13 +11,84 @@
     "total": 50964913.9453376
   },
   "capex_eur": {
-    "reconciled_project_total": 2067627378.287373
+    "reconciled_project_total": 2000294418.287373
   },
   "capex_usd": {
-    "authoritative_design_base": 1986976359.0,
-    "reconciled_project_total": 2247421063.35584,
-    "risk_envelope_15_percent": 2584534222.859216,
-    "risk_envelope_25_percent": 2809276329.1948004,
+    "authoritative_design_base": 1913788359.0,
+    "imported_external_capital": 962390264.899088,
+    "imported_percentage_of_total": 0.44263436202818013,
+    "local_capital": 1211842798.456752,
+    "local_percentage_of_total": 0.5573656379718198,
+    "national_trainset_factory_treatment": "excluded from city CAPEX; costed once in the country NATIONAL-BRIEF.md",
+    "procurement_origin_buckets": [
+      {
+        "bucket": "civil",
+        "imported_share": 0.35,
+        "imported_usd": 334133393.65,
+        "local_share": 0.65,
+        "local_usd": 620533445.35,
+        "total_usd": 954666839.0
+      },
+      {
+        "bucket": "stations",
+        "imported_share": 0.4,
+        "imported_usd": 188400000.0,
+        "local_share": 0.6,
+        "local_usd": 282600000.0,
+        "total_usd": 471000000.0
+      },
+      {
+        "bucket": "depots",
+        "imported_share": 0.4,
+        "imported_usd": 3200000.0,
+        "local_share": 0.6,
+        "local_usd": 4800000.0,
+        "total_usd": 8000000.0
+      },
+      {
+        "bucket": "rolling_stock",
+        "imported_share": 0.55,
+        "imported_usd": 175560000.0,
+        "local_share": 0.44999999999999996,
+        "local_usd": 143640000.0,
+        "total_usd": 319200000.0
+      },
+      {
+        "bucket": "solar_plant",
+        "imported_share": 0.7,
+        "imported_usd": 182311293.049088,
+        "local_share": 0.30000000000000004,
+        "local_usd": 78133411.30675203,
+        "total_usd": 260444704.35584003
+      },
+      {
+        "bucket": "signalling",
+        "imported_share": 0.8,
+        "imported_usd": 8956329.6,
+        "local_share": 0.19999999999999996,
+        "local_usd": 2239082.4000000004,
+        "total_usd": 11195412.0
+      },
+      {
+        "bucket": "charging_microgrid",
+        "imported_share": 0.55,
+        "imported_usd": 13488750.000000002,
+        "local_share": 0.44999999999999996,
+        "local_usd": 11036249.999999998,
+        "total_usd": 24525000.0
+      },
+      {
+        "bucket": "epc_overhead",
+        "imported_share": 0.45,
+        "imported_usd": 56340498.6,
+        "local_share": 0.55,
+        "local_usd": 68860609.4,
+        "total_usd": 125201108.0
+      }
+    ],
+    "reconciled_project_total": 2174233063.35584,
+    "risk_envelope_15_percent": 2500368022.859216,
+    "risk_envelope_25_percent": 2717791329.1948004,
     "timetable_sized_dedicated_solar": 260444704.35584003
   },
   "cases": {
@@ -27,34 +98,49 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 231523383.84,
       "capacity_utilisation": 0.8,
-      "project_irr": 0.062394017374769475,
-      "project_npv_usd_at_8_percent": -362487804.84146905,
-      "steady_state_dscr": 1.7535285964686183
+      "project_irr": 0.06486135949735337,
+      "project_npv_usd_at_8_percent": -304044112.4027348,
+      "steady_state_dscr": 1.127794646644892
     },
     "low_capacity_use": {
       "annual_operating_cash_usd": 97395935.4946624,
       "annual_paid_trips": 179229600.0,
-      "annual_public_support_usd": 5572713.125202715,
+      "annual_public_support_usd": 62702776.12079957,
       "annual_revenue_usd": 148360849.44,
       "capacity_utilisation": 0.5,
-      "project_irr": 0.022282393181269185,
-      "project_npv_usd_at_8_percent": -1022124985.6081141,
-      "steady_state_dscr": 0.945879515756531
+      "project_irr": 0.024193334988547074,
+      "project_npv_usd_at_8_percent": -963681293.16938,
+      "steady_state_dscr": 0.6083492772171448
     }
   },
   "city": "la-paz",
   "funding": {
-    "annual_debt_service_usd": 102968648.61986512,
+    "annual_debt_service_usd": 160098711.61546198,
+    "annual_external_capital_draw_usd": 192478052.9798176,
+    "annual_external_debt_service_usd": 55116521.46394149,
+    "annual_grace_interest_usd": 145102356.99082613,
+    "annual_local_bond_issuance_usd": 193894847.75308034,
+    "annual_local_bond_service_usd": 104982190.15152048,
+    "annual_local_capital_draw_usd": 242368559.6913504,
+    "annual_local_public_equity_draw_usd": 48473711.93827007,
+    "annual_public_construction_commitment_usd": 193576068.9290962,
     "construction_grace_years": 5,
-    "debt_principal_usd": 1797936850.6846724,
-    "debt_rate": 0.045,
-    "government_equity_share": 0.2,
+    "debt_principal_usd": 1931864503.6644897,
+    "external_capital_required_usd": 962390264.899088,
+    "external_debt_rate": 0.045,
+    "external_debt_usd": 962390264.899088,
+    "external_grant_usd": 0.0,
     "lender_commitment_status": "unconfirmed-placeholder",
+    "local_bond_principal_usd": 969474238.7654017,
+    "local_bond_rate": 0.105,
+    "local_capital_required_usd": 1211842798.456752,
+    "local_public_equity_usd": 242368559.69135034,
     "repayment_years": 35
   },
   "limitations": [
     "No calibrated origin-destination or stated-preference ridership survey.",
     "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "Imported shares are planning assumptions pending country supplier-capability, customs, tax, and procurement-origin surveys.",
     "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
     "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
   ],
@@ -78,12 +164,12 @@
     "practical_capacity_passenger_trips_per_day": 982080.0,
     "single_trip_fare_usd": 0.7733333333333333
   },
-  "schema_version": 1,
+  "schema_version": 2,
   "sources": {
     "design": "designs/latin-america/Bolivia/La-Paz/design.toml",
-    "design_sha256": "8a4de1253651f0428cc474d25eb3d7a3628c04ea22b12c28ae5b4d16fd98fe2d",
+    "design_sha256": "1b0b997fd422e1acd64693b74d159e0328ba2f083362af06e3298eadb8c1f370",
     "generator": "scripts/generate-city-finance.py",
-    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "generator_sha256": "9da48240e9ea50383e605d0c00585d52cdf48747820a2ac28647432461d3e1fa",
     "scenario": "designs/latin-america/Bolivia/La-Paz/la-paz.toml",
     "scenario_sha256": "b78213eb058e6f6accf94d11c5dd834acb61dae552cf8dbea415b7197b79c088"
   },

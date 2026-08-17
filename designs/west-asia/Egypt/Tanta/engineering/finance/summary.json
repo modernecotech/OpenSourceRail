@@ -11,13 +11,84 @@
     "total": 15692887.856688
   },
   "capex_eur": {
-    "reconciled_project_total": 567285705.036864
+    "reconciled_project_total": 536099913.0368641
   },
   "capex_usd": {
-    "authoritative_design_base": 557228851.0,
-    "reconciled_project_total": 616614896.7792001,
-    "risk_envelope_15_percent": 709107131.29608,
-    "risk_envelope_25_percent": 770768620.9740001,
+    "authoritative_design_base": 523331251.0,
+    "imported_external_capital": 267185541.74544,
+    "imported_percentage_of_total": 0.4585165795184563,
+    "local_capital": 315531755.03376,
+    "local_percentage_of_total": 0.5414834204815435,
+    "national_trainset_factory_treatment": "excluded from city CAPEX; costed once in the country NATIONAL-BRIEF.md",
+    "procurement_origin_buckets": [
+      {
+        "bucket": "civil",
+        "imported_share": 0.35,
+        "imported_usd": 79327012.1,
+        "local_share": 0.65,
+        "local_usd": 147321593.9,
+        "total_usd": 226648606.0
+      },
+      {
+        "bucket": "stations",
+        "imported_share": 0.4,
+        "imported_usd": 35200000.0,
+        "local_share": 0.6,
+        "local_usd": 52800000.0,
+        "total_usd": 88000000.0
+      },
+      {
+        "bucket": "depots",
+        "imported_share": 0.4,
+        "imported_usd": 3200000.0,
+        "local_share": 0.6,
+        "local_usd": 4800000.0,
+        "total_usd": 8000000.0
+      },
+      {
+        "bucket": "rolling_stock",
+        "imported_share": 0.55,
+        "imported_usd": 87120000.0,
+        "local_share": 0.44999999999999996,
+        "local_usd": 71280000.0,
+        "total_usd": 158400000.0
+      },
+      {
+        "bucket": "solar_plant",
+        "imported_share": 0.7,
+        "imported_usd": 41570232.04544001,
+        "local_share": 0.30000000000000004,
+        "local_usd": 17815813.733760007,
+        "total_usd": 59386045.77920002
+      },
+      {
+        "bucket": "signalling",
+        "imported_share": 0.8,
+        "imported_usd": 2996816.8000000003,
+        "local_share": 0.19999999999999996,
+        "local_usd": 749204.1999999997,
+        "total_usd": 3746021.0
+      },
+      {
+        "bucket": "charging_microgrid",
+        "imported_share": 0.55,
+        "imported_usd": 2365000.0,
+        "local_share": 0.44999999999999996,
+        "local_usd": 1935000.0,
+        "total_usd": 4300000.0
+      },
+      {
+        "bucket": "epc_overhead",
+        "imported_share": 0.45,
+        "imported_usd": 15406480.8,
+        "local_share": 0.55,
+        "local_usd": 18830143.2,
+        "total_usd": 34236624.0
+      }
+    ],
+    "reconciled_project_total": 582717296.7792001,
+    "risk_envelope_15_percent": 670124891.29608,
+    "risk_envelope_25_percent": 728396620.9740001,
     "timetable_sized_dedicated_solar": 59386045.77920002
   },
   "cases": {
@@ -27,34 +98,49 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 83273740.992,
       "capacity_utilisation": 0.8,
-      "project_irr": 0.0871441465294219,
-      "project_npv_usd_at_8_percent": 43651894.299196765,
-      "steady_state_dscr": 2.3921537595290303
+      "project_irr": 0.09207104765793694,
+      "project_npv_usd_at_8_percent": 70720551.84976839,
+      "steady_state_dscr": 1.5850500355055483
     },
     "low_capacity_use": {
       "annual_operating_cash_usd": 37079233.935312,
       "annual_paid_trips": 73321200.0,
-      "annual_public_support_usd": 0.0,
+      "annual_public_support_usd": 5557182.342712447,
       "annual_revenue_usd": 52772121.792,
       "capacity_utilisation": 0.5,
-      "project_irr": 0.042293522918323515,
-      "project_npv_usd_at_8_percent": -198283999.5870021,
-      "steady_state_dscr": 1.3124905168216403
+      "project_irr": 0.04602103154127911,
+      "project_npv_usd_at_8_percent": -171215342.03643048,
+      "steady_state_dscr": 0.8696611294327588
     }
   },
   "city": "tanta",
   "funding": {
-    "annual_debt_service_usd": 28251049.02479905,
+    "annual_debt_service_usd": 42636416.27802445,
+    "annual_external_capital_draw_usd": 53437108.349088,
+    "annual_external_debt_service_usd": 15301835.631111167,
+    "annual_grace_interest_usd": 38528016.80138064,
+    "annual_local_bond_issuance_usd": 50485080.80540161,
+    "annual_local_bond_service_usd": 27334580.646913286,
+    "annual_local_capital_draw_usd": 63106351.006752,
+    "annual_local_public_equity_draw_usd": 12621270.201350396,
+    "annual_public_construction_commitment_usd": 51149287.00273104,
     "construction_grace_years": 5,
-    "debt_principal_usd": 493291917.4233601,
-    "debt_rate": 0.045,
-    "government_equity_share": 0.2,
+    "debt_principal_usd": 519610945.77244806,
+    "external_capital_required_usd": 267185541.74544,
+    "external_debt_rate": 0.045,
+    "external_debt_usd": 267185541.74544,
+    "external_grant_usd": 0.0,
     "lender_commitment_status": "unconfirmed-placeholder",
+    "local_bond_principal_usd": 252425404.02700803,
+    "local_bond_rate": 0.105,
+    "local_capital_required_usd": 315531755.03376,
+    "local_public_equity_usd": 63106351.006751984,
     "repayment_years": 35
   },
   "limitations": [
     "No calibrated origin-destination or stated-preference ridership survey.",
     "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "Imported shares are planning assumptions pending country supplier-capability, customs, tax, and procurement-origin surveys.",
     "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
     "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
   ],
@@ -78,12 +164,12 @@
     "practical_capacity_passenger_trips_per_day": 401760.0,
     "single_trip_fare_usd": 0.6933333333333334
   },
-  "schema_version": 1,
+  "schema_version": 2,
   "sources": {
     "design": "designs/west-asia/Egypt/Tanta/design.toml",
-    "design_sha256": "cef1bc6b1982116029818974f87cd3221190b6749e56c98a997bea519d75432e",
+    "design_sha256": "9114aacb6ea64fa5d063aea3de38b0e9473f37d028d41de49273b82584863147",
     "generator": "scripts/generate-city-finance.py",
-    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "generator_sha256": "9da48240e9ea50383e605d0c00585d52cdf48747820a2ac28647432461d3e1fa",
     "scenario": "designs/west-asia/Egypt/Tanta/tanta.toml",
     "scenario_sha256": "fec14d126b6e08c1da36b8491da9e74e7d316722ddebf8d557578ffcbf032736"
   },

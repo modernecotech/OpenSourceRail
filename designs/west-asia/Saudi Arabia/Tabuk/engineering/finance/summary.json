@@ -11,13 +11,84 @@
     "total": 23502910.258784
   },
   "capex_eur": {
-    "reconciled_project_total": 545482266.978752
+    "reconciled_project_total": 521738538.05875206
   },
   "capex_usd": {
-    "authoritative_design_base": 545890109.0,
-    "reconciled_project_total": 592915507.5856,
-    "risk_envelope_15_percent": 681852833.7234399,
-    "risk_envelope_25_percent": 741144384.482,
+    "authoritative_design_base": 520081708.0,
+    "imported_external_capital": 250137118.40991998,
+    "imported_percentage_of_total": 0.4410756195878563,
+    "local_capital": 316969988.17568004,
+    "local_percentage_of_total": 0.5589243804121438,
+    "national_trainset_factory_treatment": "excluded from city CAPEX; costed once in the country NATIONAL-BRIEF.md",
+    "procurement_origin_buckets": [
+      {
+        "bucket": "civil",
+        "imported_share": 0.35,
+        "imported_usd": 85918283.14999999,
+        "local_share": 0.65,
+        "local_usd": 159562525.85000002,
+        "total_usd": 245480809.0
+      },
+      {
+        "bucket": "stations",
+        "imported_share": 0.4,
+        "imported_usd": 42440000.0,
+        "local_share": 0.6,
+        "local_usd": 63660000.0,
+        "total_usd": 106100000.0
+      },
+      {
+        "bucket": "depots",
+        "imported_share": 0.4,
+        "imported_usd": 3200000.0,
+        "local_share": 0.6,
+        "local_usd": 4800000.0,
+        "total_usd": 8000000.0
+      },
+      {
+        "bucket": "rolling_stock",
+        "imported_share": 0.55,
+        "imported_usd": 66330000.00000001,
+        "local_share": 0.44999999999999996,
+        "local_usd": 54269999.99999999,
+        "total_usd": 120600000.0
+      },
+      {
+        "bucket": "solar_plant",
+        "imported_share": 0.7,
+        "imported_usd": 32917779.009919986,
+        "local_share": 0.30000000000000004,
+        "local_usd": 14107619.575679995,
+        "total_usd": 47025398.58559998
+      },
+      {
+        "bucket": "signalling",
+        "imported_share": 0.8,
+        "imported_usd": 2521489.6,
+        "local_share": 0.19999999999999996,
+        "local_usd": 630372.3999999999,
+        "total_usd": 3151862.0
+      },
+      {
+        "bucket": "charging_microgrid",
+        "imported_share": 0.55,
+        "imported_usd": 1498750.0000000002,
+        "local_share": 0.44999999999999996,
+        "local_usd": 1226249.9999999998,
+        "total_usd": 2725000.0
+      },
+      {
+        "bucket": "epc_overhead",
+        "imported_share": 0.45,
+        "imported_usd": 15310816.65,
+        "local_share": 0.55,
+        "local_usd": 18713220.35,
+        "total_usd": 34024037.0
+      }
+    ],
+    "reconciled_project_total": 567107106.5856,
+    "risk_envelope_15_percent": 652173172.57344,
+    "risk_envelope_25_percent": 708883883.232,
     "timetable_sized_dedicated_solar": 47025398.58559998
   },
   "cases": {
@@ -27,9 +98,9 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 543665112.0,
       "capacity_utilisation": 0.8,
-      "project_irr": 0.40042690319486596,
-      "project_npv_usd_at_8_percent": 3652408343.138101,
-      "steady_state_dscr": 19.148088007568823
+      "project_irr": 0.4106567503281984,
+      "project_npv_usd_at_8_percent": 3673017435.4808283,
+      "steady_state_dscr": 18.03121359133483
     },
     "low_capacity_use": {
       "annual_operating_cash_usd": 320728537.741216,
@@ -37,24 +108,39 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 344231448.0,
       "capacity_utilisation": 0.5,
-      "project_irr": 0.299401476918938,
-      "project_npv_usd_at_8_percent": 2070519806.1898773,
-      "steady_state_dscr": 11.806583113209403
+      "project_irr": 0.30792729680405506,
+      "project_npv_usd_at_8_percent": 2091128898.5326045,
+      "steady_state_dscr": 11.117925811390466
     }
   },
   "city": "tabuk",
   "funding": {
-    "annual_debt_service_usd": 27165229.31875011,
+    "annual_debt_service_usd": 28847875.330542795,
+    "annual_external_capital_draw_usd": 50027423.68198399,
+    "annual_external_debt_service_usd": 14325464.791785317,
+    "annual_grace_interest_usd": 22667089.90277088,
+    "annual_local_bond_issuance_usd": 50715198.1081088,
+    "annual_local_bond_service_usd": 14522410.53875748,
+    "annual_local_capital_draw_usd": 63393997.63513601,
+    "annual_local_public_equity_draw_usd": 12678799.5270272,
+    "annual_public_construction_commitment_usd": 35345889.42979808,
     "construction_grace_years": 5,
-    "debt_principal_usd": 474332406.06848,
-    "debt_rate": 0.045,
-    "government_equity_share": 0.2,
+    "debt_principal_usd": 503713108.950464,
+    "external_capital_required_usd": 250137118.40991998,
+    "external_debt_rate": 0.045,
+    "external_debt_usd": 250137118.40991998,
+    "external_grant_usd": 0.0,
     "lender_commitment_status": "unconfirmed-placeholder",
+    "local_bond_principal_usd": 253575990.54054403,
+    "local_bond_rate": 0.045,
+    "local_capital_required_usd": 316969988.17568004,
+    "local_public_equity_usd": 63393997.63513601,
     "repayment_years": 35
   },
   "limitations": [
     "No calibrated origin-destination or stated-preference ridership survey.",
     "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "Imported shares are planning assumptions pending country supplier-capability, customs, tax, and procurement-origin surveys.",
     "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
     "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
   ],
@@ -78,12 +164,12 @@
     "practical_capacity_passenger_trips_per_day": 401760.0,
     "single_trip_fare_usd": 4.533333333333333
   },
-  "schema_version": 1,
+  "schema_version": 2,
   "sources": {
     "design": "designs/west-asia/Saudi Arabia/Tabuk/design.toml",
-    "design_sha256": "16f48602d23bfc83987a50d4995754612957584288a8b94bdda0806102efa0a8",
+    "design_sha256": "7e8a3ad4fc138c57e2e8b3aeda5281ac81e461504cb52c42fa3c3a58089ad30d",
     "generator": "scripts/generate-city-finance.py",
-    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "generator_sha256": "9da48240e9ea50383e605d0c00585d52cdf48747820a2ac28647432461d3e1fa",
     "scenario": "designs/west-asia/Saudi Arabia/Tabuk/tabuk.toml",
     "scenario_sha256": "7d5b0e3f0a9439917ed41745a144db5ef6f96381392741e4c84b159056d1944c"
   },

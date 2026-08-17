@@ -11,13 +11,84 @@
     "total": 4699663.718520001
   },
   "capex_eur": {
-    "reconciled_project_total": 182755860.60256
+    "reconciled_project_total": 176199756.60256
   },
   "capex_usd": {
-    "authoritative_design_base": 190159446.0,
-    "reconciled_project_total": 198647674.56800002,
-    "risk_envelope_15_percent": 228444825.7532,
-    "risk_envelope_25_percent": 248309593.21000004,
+    "authoritative_design_base": 183033246.0,
+    "imported_external_capital": 81553261.8476,
+    "imported_percentage_of_total": 0.4258178464402141,
+    "local_capital": 109968212.72039999,
+    "local_percentage_of_total": 0.5741821535597857,
+    "national_trainset_factory_treatment": "excluded from city CAPEX; costed once in the country NATIONAL-BRIEF.md",
+    "procurement_origin_buckets": [
+      {
+        "bucket": "civil",
+        "imported_share": 0.35,
+        "imported_usd": 25841002.95,
+        "local_share": 0.65,
+        "local_usd": 47990434.05,
+        "total_usd": 73831437.0
+      },
+      {
+        "bucket": "stations",
+        "imported_share": 0.4,
+        "imported_usd": 21600000.0,
+        "local_share": 0.6,
+        "local_usd": 32400000.0,
+        "total_usd": 54000000.0
+      },
+      {
+        "bucket": "depots",
+        "imported_share": 0.4,
+        "imported_usd": 3200000.0,
+        "local_share": 0.6,
+        "local_usd": 4800000.0,
+        "total_usd": 8000000.0
+      },
+      {
+        "bucket": "rolling_stock",
+        "imported_share": 0.55,
+        "imported_usd": 18315000.0,
+        "local_share": 0.44999999999999996,
+        "local_usd": 14985000.0,
+        "total_usd": 33300000.0
+      },
+      {
+        "bucket": "solar_plant",
+        "imported_share": 0.7,
+        "imported_usd": 5941759.997600002,
+        "local_share": 0.30000000000000004,
+        "local_usd": 2546468.5704000015,
+        "total_usd": 8488228.568000004
+      },
+      {
+        "bucket": "signalling",
+        "imported_share": 0.8,
+        "imported_usd": 662136.8,
+        "local_share": 0.19999999999999996,
+        "local_usd": 165534.19999999995,
+        "total_usd": 827671.0
+      },
+      {
+        "bucket": "charging_microgrid",
+        "imported_share": 0.55,
+        "imported_usd": 605000.0,
+        "local_share": 0.44999999999999996,
+        "local_usd": 495000.0,
+        "total_usd": 1100000.0
+      },
+      {
+        "bucket": "epc_overhead",
+        "imported_share": 0.45,
+        "imported_usd": 5388362.100000001,
+        "local_share": 0.55,
+        "local_usd": 6585775.899999999,
+        "total_usd": 11974138.0
+      }
+    ],
+    "reconciled_project_total": 191521474.56800002,
+    "risk_envelope_15_percent": 220249695.7532,
+    "risk_envelope_25_percent": 239401843.21000004,
     "timetable_sized_dedicated_solar": 8488228.568000004
   },
   "cases": {
@@ -27,34 +98,49 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 35110774.512,
       "capacity_utilisation": 0.8,
-      "project_irr": 0.10674561682813866,
-      "project_npv_usd_at_8_percent": 56561625.52976003,
-      "steady_state_dscr": 3.2575522564274277
+      "project_irr": 0.109987235407043,
+      "project_npv_usd_at_8_percent": 61861859.003479645,
+      "steady_state_dscr": 1.5674848304599824
     },
     "low_capacity_use": {
       "annual_operating_cash_usd": 17506579.593480002,
       "annual_paid_trips": 48880800.0,
-      "annual_public_support_usd": 0.0,
+      "annual_public_support_usd": 1894635.781954147,
       "annual_revenue_usd": 22206243.312000003,
       "capacity_utilisation": 0.5,
-      "project_irr": 0.06314238267063041,
-      "project_npv_usd_at_8_percent": -30134154.415512063,
-      "steady_state_dscr": 1.8752553382329529
+      "project_irr": 0.06574328204955232,
+      "project_npv_usd_at_8_percent": -24833920.941792455,
+      "steady_state_dscr": 0.9023444796992905
     }
   },
   "city": "sheikhupura",
   "funding": {
-    "annual_debt_service_usd": 9335571.128130421,
+    "annual_debt_service_usd": 19401215.37543415,
+    "annual_external_capital_draw_usd": 11650465.97822857,
+    "annual_external_debt_service_usd": 4790807.886154582,
+    "annual_grace_interest_usd": 18185700.8622348,
+    "annual_local_bond_issuance_usd": 12567795.739474285,
+    "annual_local_bond_service_usd": 14610407.489279566,
+    "annual_local_capital_draw_usd": 15709744.674342856,
+    "annual_local_public_equity_draw_usd": 3141948.93486857,
+    "annual_public_construction_commitment_usd": 21327649.79710337,
     "construction_grace_years": 7,
-    "debt_principal_usd": 158918139.65440002,
-    "debt_rate": 0.045,
-    "government_equity_share": 0.2,
+    "debt_principal_usd": 169527832.02392,
+    "external_capital_required_usd": 81553261.8476,
+    "external_debt_rate": 0.045,
+    "external_debt_usd": 81553261.8476,
+    "external_grant_usd": 0.0,
     "lender_commitment_status": "unconfirmed-placeholder",
+    "local_bond_principal_usd": 87974570.17632,
+    "local_bond_rate": 0.165,
+    "local_capital_required_usd": 109968212.72039999,
+    "local_public_equity_usd": 21993642.54407999,
     "repayment_years": 33
   },
   "limitations": [
     "No calibrated origin-destination or stated-preference ridership survey.",
     "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "Imported shares are planning assumptions pending country supplier-capability, customs, tax, and procurement-origin surveys.",
     "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
     "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
   ],
@@ -78,12 +164,12 @@
     "practical_capacity_passenger_trips_per_day": 267840.0,
     "single_trip_fare_usd": 0.44000000000000006
   },
-  "schema_version": 1,
+  "schema_version": 2,
   "sources": {
     "design": "designs/south-asia/Pakistan/Sheikhupura/design.toml",
-    "design_sha256": "4b4999c999230bab05bfb928c73aa6e56ad4b9b661bad579e45ccbab9c96204c",
+    "design_sha256": "0f0f0d3e60599614fce939861a302c192de027e64722127a895e90de551a8df4",
     "generator": "scripts/generate-city-finance.py",
-    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "generator_sha256": "9da48240e9ea50383e605d0c00585d52cdf48747820a2ac28647432461d3e1fa",
     "scenario": "designs/south-asia/Pakistan/Sheikhupura/sheikhupura.toml",
     "scenario_sha256": "4c13b1912367d452ba70cf0f4bd0242a1428281fcfe2831948c09a82531f4f72"
   },

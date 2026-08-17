@@ -11,13 +11,84 @@
     "total": 12440581.583256
   },
   "capex_eur": {
-    "reconciled_project_total": 438388540.86636806
+    "reconciled_project_total": 419960573.786368
   },
   "capex_usd": {
-    "authoritative_design_base": 442544234.0,
-    "reconciled_project_total": 476509283.5504,
-    "risk_envelope_15_percent": 547985676.08296,
-    "risk_envelope_25_percent": 595636604.438,
+    "authoritative_design_base": 422513835.0,
+    "imported_external_capital": 200784650.83528,
+    "imported_percentage_of_total": 0.43985528713565564,
+    "local_capital": 255694233.71512002,
+    "local_percentage_of_total": 0.5601447128643443,
+    "national_trainset_factory_treatment": "excluded from city CAPEX; costed once in the country NATIONAL-BRIEF.md",
+    "procurement_origin_buckets": [
+      {
+        "bucket": "civil",
+        "imported_share": 0.35,
+        "imported_usd": 61222831.949999996,
+        "local_share": 0.65,
+        "local_usd": 113699545.05000001,
+        "total_usd": 174922377.0
+      },
+      {
+        "bucket": "stations",
+        "imported_share": 0.4,
+        "imported_usd": 45400000.0,
+        "local_share": 0.6,
+        "local_usd": 68100000.0,
+        "total_usd": 113500000.0
+      },
+      {
+        "bucket": "depots",
+        "imported_share": 0.4,
+        "imported_usd": 3200000.0,
+        "local_share": 0.6,
+        "local_usd": 4800000.0,
+        "total_usd": 8000000.0
+      },
+      {
+        "bucket": "rolling_stock",
+        "imported_share": 0.55,
+        "imported_usd": 51480000.00000001,
+        "local_share": 0.44999999999999996,
+        "local_usd": 42119999.99999999,
+        "total_usd": 93600000.0
+      },
+      {
+        "bucket": "solar_plant",
+        "imported_share": 0.7,
+        "imported_usd": 23775534.685279995,
+        "local_share": 0.30000000000000004,
+        "local_usd": 10189514.865120001,
+        "total_usd": 33965049.5504
+      },
+      {
+        "bucket": "signalling",
+        "imported_share": 0.8,
+        "imported_usd": 1920292.8,
+        "local_share": 0.19999999999999996,
+        "local_usd": 480073.19999999995,
+        "total_usd": 2400366.0
+      },
+      {
+        "bucket": "charging_microgrid",
+        "imported_share": 0.55,
+        "imported_usd": 1347500.0,
+        "local_share": 0.44999999999999996,
+        "local_usd": 1102500.0,
+        "total_usd": 2450000.0
+      },
+      {
+        "bucket": "epc_overhead",
+        "imported_share": 0.45,
+        "imported_usd": 12438491.4,
+        "local_share": 0.55,
+        "local_usd": 15202600.6,
+        "total_usd": 27641092.0
+      }
+    ],
+    "reconciled_project_total": 456478884.5504,
+    "risk_envelope_15_percent": 524950717.23296,
+    "risk_envelope_25_percent": 570598605.688,
     "timetable_sized_dedicated_solar": 33965049.5504
   },
   "cases": {
@@ -27,9 +98,9 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 122210812.60800001,
       "capacity_utilisation": 0.8,
-      "project_irr": 0.16503555613107435,
-      "project_npv_usd_at_8_percent": 490174177.5026863,
-      "steady_state_dscr": 5.027969631399698
+      "project_irr": 0.17053863769490807,
+      "project_npv_usd_at_8_percent": 506169292.52948207,
+      "steady_state_dscr": 3.6653918308475375
     },
     "low_capacity_use": {
       "annual_operating_cash_usd": 65190941.424744,
@@ -37,24 +108,39 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 77631523.008,
       "capacity_utilisation": 0.5,
-      "project_irr": 0.10731048996744899,
-      "project_npv_usd_at_8_percent": 136575563.3613186,
-      "steady_state_dscr": 2.986037932744105
+      "project_irr": 0.11149039395754692,
+      "project_npv_usd_at_8_percent": 152570678.38811433,
+      "steady_state_dscr": 2.1768228226617623
     }
   },
   "city": "ramadi",
   "funding": {
-    "annual_debt_service_usd": 21831920.053619318,
+    "annual_debt_service_usd": 29947748.041813627,
+    "annual_external_capital_draw_usd": 40156930.167056,
+    "annual_external_debt_service_usd": 11499026.871965604,
+    "annual_grace_interest_usd": 26422517.18021576,
+    "annual_local_bond_issuance_usd": 40911077.39441921,
+    "annual_local_bond_service_usd": 18448721.16984802,
+    "annual_local_capital_draw_usd": 51138846.74302401,
+    "annual_local_public_equity_draw_usd": 10227769.348604798,
+    "annual_public_construction_commitment_usd": 36650286.52882056,
     "construction_grace_years": 5,
-    "debt_principal_usd": 381207426.84032005,
-    "debt_rate": 0.045,
-    "government_equity_share": 0.2,
+    "debt_principal_usd": 405340037.807376,
+    "external_capital_required_usd": 200784650.83528,
+    "external_debt_rate": 0.045,
+    "external_debt_usd": 200784650.83528,
+    "external_grant_usd": 0.0,
     "lender_commitment_status": "unconfirmed-placeholder",
+    "local_bond_principal_usd": 204555386.97209603,
+    "local_bond_rate": 0.085,
+    "local_capital_required_usd": 255694233.71512002,
+    "local_public_equity_usd": 51138846.74302399,
     "repayment_years": 35
   },
   "limitations": [
     "No calibrated origin-destination or stated-preference ridership survey.",
     "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "Imported shares are planning assumptions pending country supplier-capability, customs, tax, and procurement-origin surveys.",
     "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
     "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
   ],
@@ -78,12 +164,12 @@
     "practical_capacity_passenger_trips_per_day": 401760.0,
     "single_trip_fare_usd": 1.0133333333333334
   },
-  "schema_version": 1,
+  "schema_version": 2,
   "sources": {
     "design": "designs/west-asia/Iraq/Ramadi/design.toml",
-    "design_sha256": "450716afc02901d03779813bd84e6e55d3ef64ac03e4e2ece2a8b7b5c51577d4",
+    "design_sha256": "041272b373fdb32914d5a634af9fcbb4940a1179e85f6082a4e9a8586fbdabfc",
     "generator": "scripts/generate-city-finance.py",
-    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "generator_sha256": "9da48240e9ea50383e605d0c00585d52cdf48747820a2ac28647432461d3e1fa",
     "scenario": "designs/west-asia/Iraq/Ramadi/ramadi.toml",
     "scenario_sha256": "c519a82eae7428ee2a7035070e6d3e89b23071619e02aa970cc26f4a36150f44"
   },

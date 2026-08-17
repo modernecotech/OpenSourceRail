@@ -11,13 +11,84 @@
     "total": 15758283.079248
   },
   "capex_eur": {
-    "reconciled_project_total": 564081216.700544
+    "reconciled_project_total": 538033992.700544
   },
   "capex_usd": {
-    "authoritative_design_base": 575187902.0,
-    "reconciled_project_total": 613131757.2832,
-    "risk_envelope_15_percent": 705101520.87568,
-    "risk_envelope_25_percent": 766414696.6040001,
+    "authoritative_design_base": 546875702.0,
+    "imported_external_capital": 254800048.54824,
+    "imported_percentage_of_total": 0.4356900267356356,
+    "local_capital": 330019508.73496,
+    "local_percentage_of_total": 0.5643099732643644,
+    "national_trainset_factory_treatment": "excluded from city CAPEX; costed once in the country NATIONAL-BRIEF.md",
+    "procurement_origin_buckets": [
+      {
+        "bucket": "civil",
+        "imported_share": 0.35,
+        "imported_usd": 94322504.5,
+        "local_share": 0.65,
+        "local_usd": 175170365.5,
+        "total_usd": 269492870.0
+      },
+      {
+        "bucket": "stations",
+        "imported_share": 0.4,
+        "imported_usd": 38680000.0,
+        "local_share": 0.6,
+        "local_usd": 58020000.0,
+        "total_usd": 96700000.0
+      },
+      {
+        "bucket": "depots",
+        "imported_share": 0.4,
+        "imported_usd": 3200000.0,
+        "local_share": 0.6,
+        "local_usd": 4800000.0,
+        "total_usd": 8000000.0
+      },
+      {
+        "bucket": "rolling_stock",
+        "imported_share": 0.55,
+        "imported_usd": 72765000.0,
+        "local_share": 0.44999999999999996,
+        "local_usd": 59535000.0,
+        "total_usd": 132300000.0
+      },
+      {
+        "bucket": "solar_plant",
+        "imported_share": 0.7,
+        "imported_usd": 26560698.69824,
+        "local_share": 0.30000000000000004,
+        "local_usd": 11383156.584960002,
+        "total_usd": 37943855.2832
+      },
+      {
+        "bucket": "signalling",
+        "imported_share": 0.8,
+        "imported_usd": 2044733.6,
+        "local_share": 0.19999999999999996,
+        "local_usd": 511183.3999999999,
+        "total_usd": 2555917.0
+      },
+      {
+        "bucket": "charging_microgrid",
+        "imported_share": 0.55,
+        "imported_usd": 1127500.0,
+        "local_share": 0.44999999999999996,
+        "local_usd": 922500.0,
+        "total_usd": 2050000.0
+      },
+      {
+        "bucket": "epc_overhead",
+        "imported_share": 0.45,
+        "imported_usd": 16099611.75,
+        "local_share": 0.55,
+        "local_usd": 19677303.25,
+        "total_usd": 35776915.0
+      }
+    ],
+    "reconciled_project_total": 584819557.2832,
+    "risk_envelope_15_percent": 672542490.87568,
+    "risk_envelope_25_percent": 731024446.6040001,
     "timetable_sized_dedicated_solar": 37943855.2832
   },
   "cases": {
@@ -27,9 +98,9 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 121590134.59200001,
       "capacity_utilisation": 0.8,
-      "project_irr": 0.13110621889861246,
-      "project_npv_usd_at_8_percent": 349836547.63530886,
-      "steady_state_dscr": 3.7674024586865755
+      "project_irr": 0.13631482663660788,
+      "project_npv_usd_at_8_percent": 372445028.65766126,
+      "steady_state_dscr": 2.755756931364268
     },
     "low_capacity_use": {
       "annual_operating_cash_usd": 61252561.912752,
@@ -37,24 +108,39 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 77010844.992,
       "capacity_utilisation": 0.5,
-      "project_irr": 0.07936599209659559,
-      "project_npv_usd_at_8_percent": -3762066.5060589197,
-      "steady_state_dscr": 2.180468819664827
+      "project_irr": 0.08329005933377623,
+      "project_npv_usd_at_8_percent": 18846414.516293492,
+      "steady_state_dscr": 1.5949562408869544
     }
   },
   "city": "nasiriyah",
   "funding": {
-    "annual_debt_service_usd": 28091464.25774963,
+    "annual_debt_service_usd": 38403913.75169609,
+    "annual_external_capital_draw_usd": 50960009.709648,
+    "annual_external_debt_service_usd": 14592512.889035681,
+    "annual_grace_interest_usd": 33907328.778648086,
+    "annual_local_bond_issuance_usd": 52803121.3975936,
+    "annual_local_bond_service_usd": 23811400.862660408,
+    "annual_local_capital_draw_usd": 66003901.74699201,
+    "annual_local_public_equity_draw_usd": 13200780.349398399,
+    "annual_public_construction_commitment_usd": 47108109.12804648,
     "construction_grace_years": 5,
-    "debt_principal_usd": 490505405.82656,
-    "debt_rate": 0.045,
-    "government_equity_share": 0.2,
+    "debt_principal_usd": 518815655.53620803,
+    "external_capital_required_usd": 254800048.54824,
+    "external_debt_rate": 0.045,
+    "external_debt_usd": 254800048.54824,
+    "external_grant_usd": 0.0,
     "lender_commitment_status": "unconfirmed-placeholder",
+    "local_bond_principal_usd": 264015606.98796803,
+    "local_bond_rate": 0.085,
+    "local_capital_required_usd": 330019508.73496,
+    "local_public_equity_usd": 66003901.74699199,
     "repayment_years": 35
   },
   "limitations": [
     "No calibrated origin-destination or stated-preference ridership survey.",
     "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "Imported shares are planning assumptions pending country supplier-capability, customs, tax, and procurement-origin surveys.",
     "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
     "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
   ],
@@ -78,12 +164,12 @@
     "practical_capacity_passenger_trips_per_day": 401760.0,
     "single_trip_fare_usd": 1.0133333333333334
   },
-  "schema_version": 1,
+  "schema_version": 2,
   "sources": {
     "design": "designs/west-asia/Iraq/Nasiriyah/design.toml",
-    "design_sha256": "822d89d4fa2ec16c0dde07983ba2ec640b7b7198924ad5ea8ebcaffcbbcfca4a",
+    "design_sha256": "cb2dd0d4f09dc4ac973daf6df70654f2fc07c19f6969d2914d21ddc38b2a1613",
     "generator": "scripts/generate-city-finance.py",
-    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "generator_sha256": "9da48240e9ea50383e605d0c00585d52cdf48747820a2ac28647432461d3e1fa",
     "scenario": "designs/west-asia/Iraq/Nasiriyah/nasiriyah.toml",
     "scenario_sha256": "34965111d803a80c3fb392c54d26c5cca4bfd6d26c18ff088bb1e10bf34180cf"
   },

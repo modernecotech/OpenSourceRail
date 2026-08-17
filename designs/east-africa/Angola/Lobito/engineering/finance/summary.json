@@ -11,13 +11,84 @@
     "total": 8488626.890187077
   },
   "capex_eur": {
-    "reconciled_project_total": 306192926.78480744
+    "reconciled_project_total": 291485989.8648074
   },
   "capex_usd": {
-    "authoritative_design_base": 308821616.0,
-    "reconciled_project_total": 332818398.6791385,
-    "risk_envelope_15_percent": 382741158.48100924,
-    "risk_envelope_25_percent": 416022998.3489231,
+    "authoritative_design_base": 292835815.0,
+    "imported_external_capital": 141257299.07539693,
+    "imported_percentage_of_total": 0.44584206331714166,
+    "local_capital": 175575298.60374153,
+    "local_percentage_of_total": 0.5541579366828583,
+    "national_trainset_factory_treatment": "excluded from city CAPEX; costed once in the country NATIONAL-BRIEF.md",
+    "procurement_origin_buckets": [
+      {
+        "bucket": "civil",
+        "imported_share": 0.35,
+        "imported_usd": 40923930.25,
+        "local_share": 0.65,
+        "local_usd": 76001584.75,
+        "total_usd": 116925515.0
+      },
+      {
+        "bucket": "stations",
+        "imported_share": 0.4,
+        "imported_usd": 28200000.0,
+        "local_share": 0.6,
+        "local_usd": 42300000.0,
+        "total_usd": 70500000.0
+      },
+      {
+        "bucket": "depots",
+        "imported_share": 0.4,
+        "imported_usd": 3200000.0,
+        "local_share": 0.6,
+        "local_usd": 4800000.0,
+        "total_usd": 8000000.0
+      },
+      {
+        "bucket": "rolling_stock",
+        "imported_share": 0.55,
+        "imported_usd": 41085000.0,
+        "local_share": 0.44999999999999996,
+        "local_usd": 33615000.0,
+        "total_usd": 74700000.0
+      },
+      {
+        "bucket": "solar_plant",
+        "imported_share": 0.7,
+        "imported_usd": 16797747.87539693,
+        "local_share": 0.30000000000000004,
+        "local_usd": 7199034.803741541,
+        "total_usd": 23996782.67913847
+      },
+      {
+        "bucket": "signalling",
+        "imported_share": 0.8,
+        "imported_usd": 1522253.6,
+        "local_share": 0.19999999999999996,
+        "local_usd": 380563.3999999999,
+        "total_usd": 1902817.0
+      },
+      {
+        "bucket": "charging_microgrid",
+        "imported_share": 0.55,
+        "imported_usd": 907500.0000000001,
+        "local_share": 0.44999999999999996,
+        "local_usd": 742499.9999999999,
+        "total_usd": 1650000.0
+      },
+      {
+        "bucket": "epc_overhead",
+        "imported_share": 0.45,
+        "imported_usd": 8620867.35,
+        "local_share": 0.55,
+        "local_usd": 10536615.65,
+        "total_usd": 19157483.0
+      }
+    ],
+    "reconciled_project_total": 316832597.6791385,
+    "risk_envelope_15_percent": 364357487.3310092,
+    "risk_envelope_25_percent": 396040747.0989231,
     "timetable_sized_dedicated_solar": 23996782.67913847
   },
   "cases": {
@@ -27,9 +98,9 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 76555383.552,
       "capacity_utilisation": 0.8,
-      "project_irr": 0.15041616694741594,
-      "project_npv_usd_at_8_percent": 274129459.37325776,
-      "steady_state_dscr": 4.4638250432871445
+      "project_irr": 0.15635213516046853,
+      "project_npv_usd_at_8_percent": 286894792.99394435,
+      "steady_state_dscr": 2.765963886620917
     },
     "low_capacity_use": {
       "annual_operating_cash_usd": 39911415.86181292,
@@ -37,24 +108,39 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 48400042.752,
       "capacity_utilisation": 0.5,
-      "project_irr": 0.09505230895340894,
-      "project_npv_usd_at_8_percent": 50804018.86292018,
-      "steady_state_dscr": 2.617394839630414
+      "project_irr": 0.09953417569795414,
+      "project_npv_usd_at_8_percent": 63569352.48360677,
+      "steady_state_dscr": 1.6218421495557636
     }
   },
   "city": "lobito",
   "funding": {
-    "annual_debt_service_usd": 15248526.992377108,
+    "annual_debt_service_usd": 24608693.190484043,
+    "annual_external_capital_draw_usd": 28251459.815079384,
+    "annual_external_debt_service_usd": 8089868.7781758495,
+    "annual_grace_interest_usd": 22509505.929937083,
+    "annual_local_bond_issuance_usd": 28092047.776598644,
+    "annual_local_bond_service_usd": 16518824.412308194,
+    "annual_local_capital_draw_usd": 35115059.720748305,
+    "annual_local_public_equity_draw_usd": 7023011.944149661,
+    "annual_public_construction_commitment_usd": 29532517.874086745,
     "construction_grace_years": 5,
-    "debt_principal_usd": 266254718.9433108,
-    "debt_rate": 0.045,
-    "government_equity_share": 0.2,
+    "debt_principal_usd": 281717537.9583901,
+    "external_capital_required_usd": 141257299.07539693,
+    "external_debt_rate": 0.045,
+    "external_debt_usd": 141257299.07539693,
+    "external_grant_usd": 0.0,
     "lender_commitment_status": "unconfirmed-placeholder",
+    "local_bond_principal_usd": 140460238.88299322,
+    "local_bond_rate": 0.115,
+    "local_capital_required_usd": 175575298.60374153,
+    "local_public_equity_usd": 35115059.720748305,
     "repayment_years": 35
   },
   "limitations": [
     "No calibrated origin-destination or stated-preference ridership survey.",
     "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "Imported shares are planning assumptions pending country supplier-capability, customs, tax, and procurement-origin surveys.",
     "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
     "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
   ],
@@ -78,12 +164,12 @@
     "practical_capacity_passenger_trips_per_day": 401760.0,
     "single_trip_fare_usd": 0.64
   },
-  "schema_version": 1,
+  "schema_version": 2,
   "sources": {
     "design": "designs/east-africa/Angola/Lobito/design.toml",
-    "design_sha256": "7e7148a7607e5254a456f8049088819781e0753768b00213aaa034ea99e0384c",
+    "design_sha256": "f2d02f01be9b19c4be744f63c89d6aa1d75c29482dc0bc26a1f0292565fb26e5",
     "generator": "scripts/generate-city-finance.py",
-    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "generator_sha256": "9da48240e9ea50383e605d0c00585d52cdf48747820a2ac28647432461d3e1fa",
     "scenario": "designs/east-africa/Angola/Lobito/lobito.toml",
     "scenario_sha256": "c101731cb7a35488679996a0d03999ddbac561b44e3e6789db8fd036a590610f"
   },

@@ -11,13 +11,84 @@
     "total": 3721884.61364
   },
   "capex_eur": {
-    "reconciled_project_total": 151834933.84992
+    "reconciled_project_total": 147818582.76992002
   },
   "capex_usd": {
-    "authoritative_design_base": 160066036.0,
-    "reconciled_project_total": 165037971.576,
-    "risk_envelope_15_percent": 189793667.31239998,
-    "risk_envelope_25_percent": 206297464.47,
+    "authoritative_design_base": 155700437.0,
+    "imported_external_capital": 66488244.4532,
+    "imported_percentage_of_total": 0.4138125515122411,
+    "local_capital": 94184128.12280001,
+    "local_percentage_of_total": 0.5861874484877589,
+    "national_trainset_factory_treatment": "excluded from city CAPEX; costed once in the country NATIONAL-BRIEF.md",
+    "procurement_origin_buckets": [
+      {
+        "bucket": "civil",
+        "imported_share": 0.35,
+        "imported_usd": 21604610.65,
+        "local_share": 0.65,
+        "local_usd": 40122848.35,
+        "total_usd": 61727459.0
+      },
+      {
+        "bucket": "stations",
+        "imported_share": 0.4,
+        "imported_usd": 22000000.0,
+        "local_share": 0.6,
+        "local_usd": 33000000.0,
+        "total_usd": 55000000.0
+      },
+      {
+        "bucket": "depots",
+        "imported_share": 0.4,
+        "imported_usd": 3200000.0,
+        "local_share": 0.6,
+        "local_usd": 4800000.0,
+        "total_usd": 8000000.0
+      },
+      {
+        "bucket": "rolling_stock",
+        "imported_share": 0.55,
+        "imported_usd": 10472000.0,
+        "local_share": 0.44999999999999996,
+        "local_usd": 8568000.0,
+        "total_usd": 19040000.0
+      },
+      {
+        "bucket": "solar_plant",
+        "imported_share": 0.7,
+        "imported_usd": 3480354.9032,
+        "local_share": 0.30000000000000004,
+        "local_usd": 1491580.6728000003,
+        "total_usd": 4971935.576
+      },
+      {
+        "bucket": "signalling",
+        "imported_share": 0.8,
+        "imported_usd": 597574.4,
+        "local_share": 0.19999999999999996,
+        "local_usd": 149393.59999999998,
+        "total_usd": 746968.0
+      },
+      {
+        "bucket": "charging_microgrid",
+        "imported_share": 0.55,
+        "imported_usd": 550000.0,
+        "local_share": 0.44999999999999996,
+        "local_usd": 450000.0,
+        "total_usd": 1000000.0
+      },
+      {
+        "bucket": "epc_overhead",
+        "imported_share": 0.45,
+        "imported_usd": 4583704.5,
+        "local_share": 0.55,
+        "local_usd": 5602305.5,
+        "total_usd": 10186010.0
+      }
+    ],
+    "reconciled_project_total": 160672372.576,
+    "risk_envelope_15_percent": 184773228.4624,
+    "risk_envelope_25_percent": 200840465.72,
     "timetable_sized_dedicated_solar": 4971935.576
   },
   "cases": {
@@ -27,34 +98,49 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 18636259.200000003,
       "capacity_utilisation": 0.8,
-      "project_irr": 0.05626839160415323,
-      "project_npv_usd_at_8_percent": -32970339.75089796,
-      "steady_state_dscr": 1.8400203830752875
+      "project_irr": 0.05798856719467943,
+      "project_npv_usd_at_8_percent": -30040987.28638422,
+      "steady_state_dscr": 1.0295215368575512
     },
     "low_capacity_use": {
       "annual_operating_cash_usd": 8136236.9863599995,
       "annual_paid_trips": 32587200.0,
-      "annual_public_support_usd": 0.0,
+      "annual_public_support_usd": 6350467.810398049,
       "annual_revenue_usd": 11858121.6,
       "capacity_utilisation": 0.5,
-      "project_irr": 0.020454885811350274,
-      "project_npv_usd_at_8_percent": -68315154.72459963,
-      "steady_state_dscr": 1.0037860997621106
+      "project_irr": 0.021925761900611122,
+      "project_npv_usd_at_8_percent": -65385802.260085896,
+      "steady_state_dscr": 0.561634761010716
     }
   },
   "city": "lichinga",
   "funding": {
-    "annual_debt_service_usd": 8105548.570844151,
+    "annual_debt_service_usd": 14486704.796758048,
+    "annual_external_capital_draw_usd": 6648824.44532,
+    "annual_external_debt_service_usd": 4081815.912265661,
+    "annual_grace_interest_usd": 13163856.837656401,
+    "annual_local_bond_issuance_usd": 7534730.2498240005,
+    "annual_local_bond_service_usd": 10404888.884492388,
+    "annual_local_capital_draw_usd": 9418412.812280001,
+    "annual_local_public_equity_draw_usd": 1883682.562456,
+    "annual_public_construction_commitment_usd": 15047539.400112402,
     "construction_grace_years": 10,
-    "debt_principal_usd": 132030377.2608,
-    "debt_rate": 0.045,
-    "government_equity_share": 0.2,
+    "debt_principal_usd": 141835546.95144,
+    "external_capital_required_usd": 66488244.4532,
+    "external_debt_rate": 0.045,
+    "external_debt_usd": 66488244.4532,
+    "external_grant_usd": 0.0,
     "lender_commitment_status": "unconfirmed-placeholder",
+    "local_bond_principal_usd": 75347302.49824001,
+    "local_bond_rate": 0.135,
+    "local_capital_required_usd": 94184128.12280001,
+    "local_public_equity_usd": 18836825.62456,
     "repayment_years": 30
   },
   "limitations": [
     "No calibrated origin-destination or stated-preference ridership survey.",
     "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "Imported shares are planning assumptions pending country supplier-capability, customs, tax, and procurement-origin surveys.",
     "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
     "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
   ],
@@ -78,12 +164,12 @@
     "practical_capacity_passenger_trips_per_day": 178560.0,
     "single_trip_fare_usd": 0.3466666666666667
   },
-  "schema_version": 1,
+  "schema_version": 2,
   "sources": {
     "design": "designs/east-africa/Mozambique/Lichinga/design.toml",
-    "design_sha256": "e5b655d6071f707aeedb3506c564f8eed4acf822d0600e744b8558fd6222194e",
+    "design_sha256": "c6b8534d40fd0d35ee64028c503339541ac95d87daae1020dad5925111c5c568",
     "generator": "scripts/generate-city-finance.py",
-    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "generator_sha256": "9da48240e9ea50383e605d0c00585d52cdf48747820a2ac28647432461d3e1fa",
     "scenario": "designs/east-africa/Mozambique/Lichinga/lichinga.toml",
     "scenario_sha256": "04993f3a797cba009a3d6204efca4e76e98a173616d61d6246a9928b40f741d0"
   },

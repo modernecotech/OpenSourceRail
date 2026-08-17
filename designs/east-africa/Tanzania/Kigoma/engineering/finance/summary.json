@@ -11,13 +11,84 @@
     "total": 6604641.74608
   },
   "capex_eur": {
-    "reconciled_project_total": 258699743.22624004
+    "reconciled_project_total": 249722015.22624004
   },
   "capex_usd": {
-    "authoritative_design_base": 262546300.0,
-    "reconciled_project_total": 281195373.072,
-    "risk_envelope_15_percent": 323374679.0328,
-    "risk_envelope_25_percent": 351494216.34000003,
+    "authoritative_design_base": 252787900.0,
+    "imported_external_capital": 116949221.3004,
+    "imported_percentage_of_total": 0.430852215808414,
+    "local_capital": 154487751.7716,
+    "local_percentage_of_total": 0.569147784191586,
+    "national_trainset_factory_treatment": "excluded from city CAPEX; costed once in the country NATIONAL-BRIEF.md",
+    "procurement_origin_buckets": [
+      {
+        "bucket": "civil",
+        "imported_share": 0.35,
+        "imported_usd": 37990412.25,
+        "local_share": 0.65,
+        "local_usd": 70553622.75,
+        "total_usd": 108544035.0
+      },
+      {
+        "bucket": "stations",
+        "imported_share": 0.4,
+        "imported_usd": 29400000.0,
+        "local_share": 0.6,
+        "local_usd": 44100000.0,
+        "total_usd": 73500000.0
+      },
+      {
+        "bucket": "depots",
+        "imported_share": 0.4,
+        "imported_usd": 3200000.0,
+        "local_share": 0.6,
+        "local_usd": 4800000.0,
+        "total_usd": 8000000.0
+      },
+      {
+        "bucket": "rolling_stock",
+        "imported_share": 0.55,
+        "imported_usd": 23408000.000000004,
+        "local_share": 0.44999999999999996,
+        "local_usd": 19151999.999999996,
+        "total_usd": 42560000.0
+      },
+      {
+        "bucket": "solar_plant",
+        "imported_share": 0.7,
+        "imported_usd": 13054351.1504,
+        "local_share": 0.30000000000000004,
+        "local_usd": 5594721.921600001,
+        "total_usd": 18649073.072
+      },
+      {
+        "bucket": "signalling",
+        "imported_share": 0.8,
+        "imported_usd": 1437071.2000000002,
+        "local_share": 0.19999999999999996,
+        "local_usd": 359267.7999999998,
+        "total_usd": 1796339.0
+      },
+      {
+        "bucket": "charging_microgrid",
+        "imported_share": 0.55,
+        "imported_usd": 1017500.0000000001,
+        "local_share": 0.44999999999999996,
+        "local_usd": 832499.9999999999,
+        "total_usd": 1850000.0
+      },
+      {
+        "bucket": "epc_overhead",
+        "imported_share": 0.45,
+        "imported_usd": 7441886.7,
+        "local_share": 0.55,
+        "local_usd": 9095639.3,
+        "total_usd": 16537526.0
+      }
+    ],
+    "reconciled_project_total": 271436973.072,
+    "risk_envelope_15_percent": 312152519.0328,
+    "risk_envelope_25_percent": 339296216.34000003,
     "timetable_sized_dedicated_solar": 18649073.072
   },
   "cases": {
@@ -27,34 +98,49 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 35442152.064,
       "capacity_utilisation": 0.8,
-      "project_irr": 0.07417715164115174,
-      "project_npv_usd_at_8_percent": -15406471.846102737,
-      "steady_state_dscr": 2.1821881135858416
+      "project_irr": 0.07684306313937209,
+      "project_npv_usd_at_8_percent": -8148494.476684898,
+      "steady_state_dscr": 1.4996345010172332
     },
     "low_capacity_use": {
       "annual_operating_cash_usd": 15932979.117920004,
       "annual_paid_trips": 48880800.0,
-      "annual_public_support_usd": 0.0,
+      "annual_public_support_usd": 3296713.3827252686,
       "annual_revenue_usd": 22537620.864000004,
       "capacity_utilisation": 0.5,
-      "project_irr": 0.03430700782808793,
-      "project_npv_usd_at_8_percent": -102102251.79137485,
-      "steady_state_dscr": 1.205678203902738
+      "project_irr": 0.03645134728363239,
+      "project_npv_usd_at_8_percent": -94844274.421957,
+      "steady_state_dscr": 0.8285613052515195
     }
   },
   "city": "kigoma",
   "funding": {
-    "annual_debt_service_usd": 13214951.606776593,
+    "annual_debt_service_usd": 19229692.500645272,
+    "annual_external_capital_draw_usd": 16707031.614342857,
+    "annual_external_debt_service_usd": 6870126.822549429,
+    "annual_grace_interest_usd": 17003784.0931596,
+    "annual_local_bond_issuance_usd": 17655743.059611432,
+    "annual_local_bond_service_usd": 12359565.678095846,
+    "annual_local_capital_draw_usd": 22069678.82451429,
+    "annual_local_public_equity_draw_usd": 4413935.764902855,
+    "annual_public_construction_commitment_usd": 21417719.858062457,
     "construction_grace_years": 7,
-    "debt_principal_usd": 224956298.45760003,
-    "debt_rate": 0.045,
-    "government_equity_share": 0.2,
+    "debt_principal_usd": 240539422.71768004,
+    "external_capital_required_usd": 116949221.3004,
+    "external_debt_rate": 0.045,
+    "external_debt_usd": 116949221.3004,
+    "external_grant_usd": 0.0,
     "lender_commitment_status": "unconfirmed-placeholder",
+    "local_bond_principal_usd": 123590201.41728002,
+    "local_bond_rate": 0.095,
+    "local_capital_required_usd": 154487751.7716,
+    "local_public_equity_usd": 30897550.35431999,
     "repayment_years": 33
   },
   "limitations": [
     "No calibrated origin-destination or stated-preference ridership survey.",
     "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "Imported shares are planning assumptions pending country supplier-capability, customs, tax, and procurement-origin surveys.",
     "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
     "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
   ],
@@ -78,12 +164,12 @@
     "practical_capacity_passenger_trips_per_day": 267840.0,
     "single_trip_fare_usd": 0.44000000000000006
   },
-  "schema_version": 1,
+  "schema_version": 2,
   "sources": {
     "design": "designs/east-africa/Tanzania/Kigoma/design.toml",
-    "design_sha256": "dd93f8d897265e18df23258ca37d240f74f56ef78dfcf7f70f86337fdf724958",
+    "design_sha256": "4b915243d1853a3d4a9a181ad62da1914c731ab2e0d94bb7c364e16f02590acf",
     "generator": "scripts/generate-city-finance.py",
-    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "generator_sha256": "9da48240e9ea50383e605d0c00585d52cdf48747820a2ac28647432461d3e1fa",
     "scenario": "designs/east-africa/Tanzania/Kigoma/kigoma.toml",
     "scenario_sha256": "6b2b636c6408738da6da881a458208b511970c6683513e3a33cbd2f227f6fe07"
   },

@@ -11,13 +11,84 @@
     "total": 6716374.36436
   },
   "capex_eur": {
-    "reconciled_project_total": 259215588.65408003
+    "reconciled_project_total": 252009781.57408002
   },
   "capex_usd": {
-    "authoritative_design_base": 267273635.0,
-    "reconciled_project_total": 281756074.624,
-    "risk_envelope_15_percent": 324019485.8176,
-    "risk_envelope_25_percent": 352195093.28000003,
+    "authoritative_design_base": 259441236.0,
+    "imported_external_capital": 115003832.4868,
+    "imported_percentage_of_total": 0.4198389650869735,
+    "local_capital": 158919843.1372,
+    "local_percentage_of_total": 0.5801610349130264,
+    "national_trainset_factory_treatment": "excluded from city CAPEX; costed once in the country NATIONAL-BRIEF.md",
+    "procurement_origin_buckets": [
+      {
+        "bucket": "civil",
+        "imported_share": 0.35,
+        "imported_usd": 39982745.599999994,
+        "local_share": 0.65,
+        "local_usd": 74253670.4,
+        "total_usd": 114236416.0
+      },
+      {
+        "bucket": "stations",
+        "imported_share": 0.4,
+        "imported_usd": 33200000.0,
+        "local_share": 0.6,
+        "local_usd": 49800000.0,
+        "total_usd": 83000000.0
+      },
+      {
+        "bucket": "depots",
+        "imported_share": 0.4,
+        "imported_usd": 3200000.0,
+        "local_share": 0.6,
+        "local_usd": 4800000.0,
+        "total_usd": 8000000.0
+      },
+      {
+        "bucket": "rolling_stock",
+        "imported_share": 0.55,
+        "imported_usd": 18788000.0,
+        "local_share": 0.44999999999999996,
+        "local_usd": 15372000.0,
+        "total_usd": 34160000.0
+      },
+      {
+        "bucket": "solar_plant",
+        "imported_share": 0.7,
+        "imported_usd": 10137707.7368,
+        "local_share": 0.30000000000000004,
+        "local_usd": 4344731.8872,
+        "total_usd": 14482439.624
+      },
+      {
+        "bucket": "signalling",
+        "imported_share": 0.8,
+        "imported_usd": 1177623.2,
+        "local_share": 0.19999999999999996,
+        "local_usd": 294405.80000000005,
+        "total_usd": 1472029.0
+      },
+      {
+        "bucket": "charging_microgrid",
+        "imported_share": 0.55,
+        "imported_usd": 880000.0000000001,
+        "local_share": 0.44999999999999996,
+        "local_usd": 719999.9999999999,
+        "total_usd": 1600000.0
+      },
+      {
+        "bucket": "epc_overhead",
+        "imported_share": 0.45,
+        "imported_usd": 7637755.95,
+        "local_share": 0.55,
+        "local_usd": 9335035.05,
+        "total_usd": 16972791.0
+      }
+    ],
+    "reconciled_project_total": 273923675.624,
+    "risk_envelope_15_percent": 315012226.9676,
+    "risk_envelope_25_percent": 342404594.53000003,
     "timetable_sized_dedicated_solar": 14482439.624
   },
   "cases": {
@@ -27,9 +98,9 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 49504598.68800001,
       "capacity_utilisation": 0.8,
-      "project_irr": 0.10603746751952708,
-      "project_npv_usd_at_8_percent": 77900787.30154899,
-      "steady_state_dscr": 3.2314211939938273
+      "project_irr": 0.10852651060195961,
+      "project_npv_usd_at_8_percent": 83726268.39376193,
+      "steady_state_dscr": 1.9636189495549459
     },
     "low_capacity_use": {
       "annual_operating_cash_usd": 24800089.92364,
@@ -37,24 +108,39 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 31516464.288000003,
       "capacity_utilisation": 0.5,
-      "project_irr": 0.06305484568754302,
-      "project_npv_usd_at_8_percent": -42947875.65246674,
-      "steady_state_dscr": 1.8729343752628422
+      "project_irr": 0.06505780481119922,
+      "project_npv_usd_at_8_percent": -37122394.56025379,
+      "steady_state_dscr": 1.138115154215949
     }
   },
   "city": "malindi",
   "funding": {
-    "annual_debt_service_usd": 13241302.125259796,
+    "annual_debt_service_usd": 21790492.668314267,
+    "annual_external_capital_draw_usd": 16429118.926685715,
+    "annual_external_debt_service_usd": 6755845.874630408,
+    "annual_grace_interest_usd": 19795798.0305284,
+    "annual_local_bond_issuance_usd": 18162267.787108574,
+    "annual_local_bond_service_usd": 15034646.793683859,
+    "annual_local_capital_draw_usd": 22702834.733885713,
+    "annual_local_public_equity_draw_usd": 4540566.946777142,
+    "annual_public_construction_commitment_usd": 24336364.977305543,
     "construction_grace_years": 7,
-    "debt_principal_usd": 225404859.69920003,
-    "debt_rate": 0.045,
-    "government_equity_share": 0.2,
+    "debt_principal_usd": 242139706.99656,
+    "external_capital_required_usd": 115003832.4868,
+    "external_debt_rate": 0.045,
+    "external_debt_usd": 115003832.4868,
+    "external_grant_usd": 0.0,
     "lender_commitment_status": "unconfirmed-placeholder",
+    "local_bond_principal_usd": 127135874.50976,
+    "local_bond_rate": 0.115,
+    "local_capital_required_usd": 158919843.1372,
+    "local_public_equity_usd": 31783968.62743999,
     "repayment_years": 33
   },
   "limitations": [
     "No calibrated origin-destination or stated-preference ridership survey.",
     "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "Imported shares are planning assumptions pending country supplier-capability, customs, tax, and procurement-origin surveys.",
     "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
     "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
   ],
@@ -78,12 +164,12 @@
     "practical_capacity_passenger_trips_per_day": 267840.0,
     "single_trip_fare_usd": 0.6133333333333334
   },
-  "schema_version": 1,
+  "schema_version": 2,
   "sources": {
     "design": "designs/east-africa/Kenya/Malindi/design.toml",
-    "design_sha256": "60276be746e0a8316551b077c21bb2f3c83e10ef317fed4593e84df15d1af6dd",
+    "design_sha256": "06dfb2487282f675ae18202438cbb9ede4a678c01eb19ffad9eb87c4ce07f6fe",
     "generator": "scripts/generate-city-finance.py",
-    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "generator_sha256": "9da48240e9ea50383e605d0c00585d52cdf48747820a2ac28647432461d3e1fa",
     "scenario": "designs/east-africa/Kenya/Malindi/malindi.toml",
     "scenario_sha256": "c59ada40316f6fc7856d59c53bf210a361e7e79edfda9c111c64e3bb5ea90de5"
   },

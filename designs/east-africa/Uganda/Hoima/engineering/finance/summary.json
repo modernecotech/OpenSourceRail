@@ -11,13 +11,84 @@
     "total": 5223907.5496000005
   },
   "capex_eur": {
-    "reconciled_project_total": 206018907.0688
+    "reconciled_project_total": 198813099.0688
   },
   "capex_usd": {
-    "authoritative_design_base": 208873110.0,
-    "reconciled_project_total": 223933594.64,
-    "risk_envelope_15_percent": 257523633.83599997,
-    "risk_envelope_25_percent": 279916993.29999995,
+    "authoritative_design_base": 201040710.0,
+    "imported_external_capital": 92908917.34799999,
+    "imported_percentage_of_total": 0.4299324559624748,
+    "local_capital": 123192277.292,
+    "local_percentage_of_total": 0.5700675440375252,
+    "national_trainset_factory_treatment": "excluded from city CAPEX; costed once in the country NATIONAL-BRIEF.md",
+    "procurement_origin_buckets": [
+      {
+        "bucket": "civil",
+        "imported_share": 0.35,
+        "imported_usd": 32207949.9,
+        "local_share": 0.65,
+        "local_usd": 59814764.1,
+        "total_usd": 92022714.0
+      },
+      {
+        "bucket": "stations",
+        "imported_share": 0.4,
+        "imported_usd": 20400000.0,
+        "local_share": 0.6,
+        "local_usd": 30600000.0,
+        "total_usd": 51000000.0
+      },
+      {
+        "bucket": "depots",
+        "imported_share": 0.4,
+        "imported_usd": 3200000.0,
+        "local_share": 0.6,
+        "local_usd": 4800000.0,
+        "total_usd": 8000000.0
+      },
+      {
+        "bucket": "rolling_stock",
+        "imported_share": 0.55,
+        "imported_usd": 18788000.0,
+        "local_share": 0.44999999999999996,
+        "local_usd": 15372000.0,
+        "total_usd": 34160000.0
+      },
+      {
+        "bucket": "solar_plant",
+        "imported_share": 0.7,
+        "imported_usd": 10542339.247999998,
+        "local_share": 0.30000000000000004,
+        "local_usd": 4518145.392000001,
+        "total_usd": 15060484.639999999
+      },
+      {
+        "bucket": "signalling",
+        "imported_share": 0.8,
+        "imported_usd": 1164640.0,
+        "local_share": 0.19999999999999996,
+        "local_usd": 291160.0,
+        "total_usd": 1455800.0
+      },
+      {
+        "bucket": "charging_microgrid",
+        "imported_share": 0.55,
+        "imported_usd": 687500.0,
+        "local_share": 0.44999999999999996,
+        "local_usd": 562500.0,
+        "total_usd": 1250000.0
+      },
+      {
+        "bucket": "epc_overhead",
+        "imported_share": 0.45,
+        "imported_usd": 5918488.2,
+        "local_share": 0.55,
+        "local_usd": 7233707.8,
+        "total_usd": 13152196.0
+      }
+    ],
+    "reconciled_project_total": 216101194.64,
+    "risk_envelope_15_percent": 248516373.83599997,
+    "risk_envelope_25_percent": 270126493.29999995,
     "timetable_sized_dedicated_solar": 15060484.639999999
   },
   "cases": {
@@ -27,34 +98,49 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 30883690.128,
       "capacity_utilisation": 0.8,
-      "project_irr": 0.0826780461100315,
-      "project_npv_usd_at_8_percent": 5834209.96335108,
-      "steady_state_dscr": 2.4382392259427705
+      "project_irr": 0.08548631122203909,
+      "project_npv_usd_at_8_percent": 11659691.799331198,
+      "steady_state_dscr": 1.3199025178963462
     },
     "low_capacity_use": {
       "annual_operating_cash_usd": 14319436.9784,
       "annual_paid_trips": 48880800.0,
-      "annual_public_support_usd": 0.0,
+      "annual_public_support_usd": 5121227.942291588,
       "annual_revenue_usd": 19543344.528,
       "capacity_utilisation": 0.5,
-      "project_irr": 0.04175714364149821,
-      "project_npv_usd_at_8_percent": -70352990.5946153,
-      "steady_state_dscr": 1.3606589544348102
+      "project_irr": 0.044010507876714594,
+      "project_npv_usd_at_8_percent": -64527508.75863518,
+      "steady_state_dscr": 0.7365713588921112
     }
   },
   "city": "hoima",
   "funding": {
-    "annual_debt_service_usd": 10523898.682861349,
+    "annual_debt_service_usd": 19440664.920691587,
+    "annual_external_capital_draw_usd": 13272702.478285713,
+    "annual_external_debt_service_usd": 5457890.510335013,
+    "annual_grace_interest_usd": 17978436.337364,
+    "annual_local_bond_issuance_usd": 14079117.4048,
+    "annual_local_bond_service_usd": 13982774.410356576,
+    "annual_local_capital_draw_usd": 17598896.756,
+    "annual_local_public_equity_draw_usd": 3519779.3511999995,
+    "annual_public_construction_commitment_usd": 21498215.688564,
     "construction_grace_years": 7,
-    "debt_principal_usd": 179146875.712,
-    "debt_rate": 0.045,
-    "government_equity_share": 0.2,
+    "debt_principal_usd": 191462739.18159997,
+    "external_capital_required_usd": 92908917.34799999,
+    "external_debt_rate": 0.045,
+    "external_debt_usd": 92908917.34799999,
+    "external_grant_usd": 0.0,
     "lender_commitment_status": "unconfirmed-placeholder",
+    "local_bond_principal_usd": 98553821.8336,
+    "local_bond_rate": 0.14,
+    "local_capital_required_usd": 123192277.292,
+    "local_public_equity_usd": 24638455.458399996,
     "repayment_years": 33
   },
   "limitations": [
     "No calibrated origin-destination or stated-preference ridership survey.",
     "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "Imported shares are planning assumptions pending country supplier-capability, customs, tax, and procurement-origin surveys.",
     "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
     "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
   ],
@@ -78,12 +164,12 @@
     "practical_capacity_passenger_trips_per_day": 267840.0,
     "single_trip_fare_usd": 0.38666666666666666
   },
-  "schema_version": 1,
+  "schema_version": 2,
   "sources": {
     "design": "designs/east-africa/Uganda/Hoima/design.toml",
-    "design_sha256": "cd67131d87362214f49ef0073a2fee46c97e0f7e7d13fa6c763cecdfeea72038",
+    "design_sha256": "fc8c4b7d8034f657630b83fbb2f263b7374a48d102f025121b6d4d59e5e9b49c",
     "generator": "scripts/generate-city-finance.py",
-    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "generator_sha256": "9da48240e9ea50383e605d0c00585d52cdf48747820a2ac28647432461d3e1fa",
     "scenario": "designs/east-africa/Uganda/Hoima/hoima.toml",
     "scenario_sha256": "82432fa734dcb1c9883647588950d36a9aaa38d08c172616da21d8c58431ef0b"
   },

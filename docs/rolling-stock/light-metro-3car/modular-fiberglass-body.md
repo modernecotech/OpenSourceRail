@@ -98,7 +98,7 @@ own controlled operations.
 The repeated short mould removes the full-car mould, large cure fixture, long
 bonding operation, and bonded-panel rework allowance from the baseline. The
 CAPEX source therefore uses a 28% local assembly allowance, a **$900 k**
-three-car trainset planning unit, and **$60 k per car** production-plant setup
+three-car trainset planning unit, and **$60 k per supported car module** for the shared national production-plant setup
 allowance. The high plant sensitivity is $120 k per car. These remain
 planning values until supplier quotes and timed first-article builds replace
 them.

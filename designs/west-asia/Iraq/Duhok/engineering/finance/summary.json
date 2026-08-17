@@ -11,13 +11,84 @@
     "total": 14572021.930377143
   },
   "capex_eur": {
-    "reconciled_project_total": 527075452.9431315
+    "reconciled_project_total": 505458028.9431315
   },
   "capex_usd": {
-    "authoritative_design_base": 507685689.0,
-    "reconciled_project_total": 572908101.0251429,
-    "risk_envelope_15_percent": 658844316.1789143,
-    "risk_envelope_25_percent": 716135126.2814286,
+    "authoritative_design_base": 484188489.0,
+    "imported_external_capital": 248383131.9176,
+    "imported_percentage_of_total": 0.4520899229595613,
+    "local_capital": 301027769.1075429,
+    "local_percentage_of_total": 0.5479100770404387,
+    "national_trainset_factory_treatment": "excluded from city CAPEX; costed once in the country NATIONAL-BRIEF.md",
+    "procurement_origin_buckets": [
+      {
+        "bucket": "civil",
+        "imported_share": 0.35,
+        "imported_usd": 73630697.0,
+        "local_share": 0.65,
+        "local_usd": 136742723.0,
+        "total_usd": 210373420.0
+      },
+      {
+        "bucket": "stations",
+        "imported_share": 0.4,
+        "imported_usd": 47600000.0,
+        "local_share": 0.6,
+        "local_usd": 71400000.0,
+        "total_usd": 119000000.0
+      },
+      {
+        "bucket": "depots",
+        "imported_share": 0.4,
+        "imported_usd": 3200000.0,
+        "local_share": 0.6,
+        "local_usd": 4800000.0,
+        "total_usd": 8000000.0
+      },
+      {
+        "bucket": "rolling_stock",
+        "imported_share": 0.55,
+        "imported_usd": 60390000.00000001,
+        "local_share": 0.44999999999999996,
+        "local_usd": 49409999.99999999,
+        "total_usd": 109800000.0
+      },
+      {
+        "bucket": "solar_plant",
+        "imported_share": 0.7,
+        "imported_usd": 45655688.417600006,
+        "local_share": 0.30000000000000004,
+        "local_usd": 19566723.607542865,
+        "total_usd": 65222412.02514287
+      },
+      {
+        "bucket": "signalling",
+        "imported_share": 0.8,
+        "imported_usd": 2291349.6,
+        "local_share": 0.19999999999999996,
+        "local_usd": 572837.3999999999,
+        "total_usd": 2864187.0
+      },
+      {
+        "bucket": "charging_microgrid",
+        "imported_share": 0.55,
+        "imported_usd": 1361250.0,
+        "local_share": 0.44999999999999996,
+        "local_usd": 1113750.0,
+        "total_usd": 2475000.0
+      },
+      {
+        "bucket": "epc_overhead",
+        "imported_share": 0.45,
+        "imported_usd": 14254146.9,
+        "local_share": 0.55,
+        "local_usd": 17421735.1,
+        "total_usd": 31675882.0
+      }
+    ],
+    "reconciled_project_total": 549410901.0251429,
+    "risk_envelope_15_percent": 631822536.1789143,
+    "risk_envelope_25_percent": 686763626.2814286,
     "timetable_sized_dedicated_solar": 65222412.02514287
   },
   "cases": {
@@ -27,9 +98,9 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 122250495.55200002,
       "capacity_utilisation": 0.8,
-      "project_irr": 0.14058310828342652,
-      "project_npv_usd_at_8_percent": 396604054.8422668,
-      "steady_state_dscr": 4.102261689293181
+      "project_irr": 0.14540333231433117,
+      "project_npv_usd_at_8_percent": 415367556.098913,
+      "steady_state_dscr": 2.9956773356128457
     },
     "low_capacity_use": {
       "annual_operating_cash_usd": 63099184.02162287,
@@ -37,24 +108,39 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 77671205.952,
       "capacity_utilisation": 0.5,
-      "project_irr": 0.08756579277649046,
-      "project_npv_usd_at_8_percent": 43005440.70089898,
-      "steady_state_dscr": 2.4039100530636097
+      "project_irr": 0.09121039339888506,
+      "project_npv_usd_at_8_percent": 61768941.95754523,
+      "steady_state_dscr": 1.7554557481327617
     }
   },
   "city": "duhok",
   "funding": {
-    "annual_debt_service_usd": 26248562.81174394,
+    "annual_debt_service_usd": 35944616.712064676,
+    "annual_external_capital_draw_usd": 49676626.38352,
+    "annual_external_debt_service_usd": 14225013.199871557,
+    "annual_grace_interest_usd": 31647129.23560492,
+    "annual_local_bond_issuance_usd": 48164443.05720686,
+    "annual_local_bond_service_usd": 21719603.512193117,
+    "annual_local_capital_draw_usd": 60205553.82150857,
+    "annual_local_public_equity_draw_usd": 12041110.764301712,
+    "annual_public_construction_commitment_usd": 43688239.99990663,
     "construction_grace_years": 5,
-    "debt_principal_usd": 458326480.8201144,
-    "debt_rate": 0.045,
-    "government_equity_share": 0.2,
+    "debt_principal_usd": 489205347.2036343,
+    "external_capital_required_usd": 248383131.9176,
+    "external_debt_rate": 0.045,
+    "external_debt_usd": 248383131.9176,
+    "external_grant_usd": 0.0,
     "lender_commitment_status": "unconfirmed-placeholder",
+    "local_bond_principal_usd": 240822215.28603432,
+    "local_bond_rate": 0.085,
+    "local_capital_required_usd": 301027769.1075429,
+    "local_public_equity_usd": 60205553.82150856,
     "repayment_years": 35
   },
   "limitations": [
     "No calibrated origin-destination or stated-preference ridership survey.",
     "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "Imported shares are planning assumptions pending country supplier-capability, customs, tax, and procurement-origin surveys.",
     "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
     "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
   ],
@@ -78,12 +164,12 @@
     "practical_capacity_passenger_trips_per_day": 401760.0,
     "single_trip_fare_usd": 1.0133333333333334
   },
-  "schema_version": 1,
+  "schema_version": 2,
   "sources": {
     "design": "designs/west-asia/Iraq/Duhok/design.toml",
-    "design_sha256": "f29df35446b8cbf893a9f90ecae3b8695946c6effc48e32f3965d1655fc32144",
+    "design_sha256": "332e9bc856d3665a438ef4a99504ccdc8fdf88711effbc4f86b9d4398e436293",
     "generator": "scripts/generate-city-finance.py",
-    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "generator_sha256": "9da48240e9ea50383e605d0c00585d52cdf48747820a2ac28647432461d3e1fa",
     "scenario": "designs/west-asia/Iraq/Duhok/duhok.toml",
     "scenario_sha256": "2e62f3d1e5c2b483359d418d24d564ee91f41d7236d465977c9a394751bfa5f0"
   },

@@ -11,13 +11,84 @@
     "total": 10087101.553927999
   },
   "capex_eur": {
-    "reconciled_project_total": 344252618.307584
+    "reconciled_project_total": 329900066.307584
   },
   "capex_usd": {
-    "authoritative_design_base": 348827921.0,
-    "reconciled_project_total": 374187628.5952,
-    "risk_envelope_15_percent": 430315772.88447994,
-    "risk_envelope_25_percent": 467734535.744,
+    "authoritative_design_base": 333227321.0,
+    "imported_external_capital": 157690097.66663998,
+    "imported_percentage_of_total": 0.43975404878532964,
+    "local_capital": 200896930.92856002,
+    "local_percentage_of_total": 0.5602459512146704,
+    "national_trainset_factory_treatment": "excluded from city CAPEX; costed once in the country NATIONAL-BRIEF.md",
+    "procurement_origin_buckets": [
+      {
+        "bucket": "civil",
+        "imported_share": 0.35,
+        "imported_usd": 45019592.449999996,
+        "local_share": 0.65,
+        "local_usd": 83607814.55000001,
+        "total_usd": 128627407.0
+      },
+      {
+        "bucket": "stations",
+        "imported_share": 0.4,
+        "imported_usd": 39200000.0,
+        "local_share": 0.6,
+        "local_usd": 58800000.0,
+        "total_usd": 98000000.0
+      },
+      {
+        "bucket": "depots",
+        "imported_share": 0.4,
+        "imported_usd": 3200000.0,
+        "local_share": 0.6,
+        "local_usd": 4800000.0,
+        "total_usd": 8000000.0
+      },
+      {
+        "bucket": "rolling_stock",
+        "imported_share": 0.55,
+        "imported_usd": 40095000.0,
+        "local_share": 0.44999999999999996,
+        "local_usd": 32805000.0,
+        "total_usd": 72900000.0
+      },
+      {
+        "bucket": "solar_plant",
+        "imported_share": 0.7,
+        "imported_usd": 17751795.316639997,
+        "local_share": 0.30000000000000004,
+        "local_usd": 7607912.278560001,
+        "total_usd": 25359707.5952
+      },
+      {
+        "bucket": "signalling",
+        "imported_share": 0.8,
+        "imported_usd": 1499996.8,
+        "local_share": 0.19999999999999996,
+        "local_usd": 374999.19999999995,
+        "total_usd": 1874996.0
+      },
+      {
+        "bucket": "charging_microgrid",
+        "imported_share": 0.55,
+        "imported_usd": 1113750.0,
+        "local_share": 0.44999999999999996,
+        "local_usd": 911250.0,
+        "total_usd": 2025000.0
+      },
+      {
+        "bucket": "epc_overhead",
+        "imported_share": 0.45,
+        "imported_usd": 9809963.1,
+        "local_share": 0.55,
+        "local_usd": 11989954.9,
+        "total_usd": 21799918.0
+      }
+    ],
+    "reconciled_project_total": 358587028.5952,
+    "risk_envelope_15_percent": 412375082.88448,
+    "risk_envelope_25_percent": 448233785.744,
     "timetable_sized_dedicated_solar": 25359707.5952
   },
   "cases": {
@@ -27,9 +98,9 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 131529111.26399998,
       "capacity_utilisation": 0.8,
-      "project_irr": 0.21251695949310484,
-      "project_npv_usd_at_8_percent": 664461737.0848347,
-      "steady_state_dscr": 7.083680337619452
+      "project_irr": 0.21900335413098218,
+      "project_npv_usd_at_8_percent": 676919471.5257227,
+      "steady_state_dscr": 6.659703334259628
     },
     "low_capacity_use": {
       "annual_operating_cash_usd": 73343302.510072,
@@ -37,24 +108,39 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 83430404.064,
       "capacity_utilisation": 0.5,
-      "project_irr": 0.14541389581160719,
-      "project_npv_usd_at_8_percent": 282947442.8796749,
-      "steady_state_dscr": 4.278095455823006
+      "project_irr": 0.15042662499878132,
+      "project_npv_usd_at_8_percent": 295405177.32056296,
+      "steady_state_dscr": 4.022040127942885
     }
   },
   "city": "oujda",
   "funding": {
-    "annual_debt_service_usd": 17143914.45152138,
+    "annual_debt_service_usd": 18235348.2752506,
+    "annual_external_capital_draw_usd": 31538019.533327997,
+    "annual_external_debt_service_usd": 9030982.512697931,
+    "annual_grace_interest_usd": 14328343.908426959,
+    "annual_local_bond_issuance_usd": 32143508.948569603,
+    "annual_local_bond_service_usd": 9204365.76255267,
+    "annual_local_capital_draw_usd": 40179386.185712,
+    "annual_local_public_equity_draw_usd": 8035877.237142402,
+    "annual_public_construction_commitment_usd": 22364221.14556936,
     "construction_grace_years": 5,
-    "debt_principal_usd": 299350102.87616,
-    "debt_rate": 0.045,
-    "government_equity_share": 0.2,
+    "debt_principal_usd": 318407642.40948796,
+    "external_capital_required_usd": 157690097.66663998,
+    "external_debt_rate": 0.045,
+    "external_debt_usd": 157690097.66663998,
+    "external_grant_usd": 0.0,
     "lender_commitment_status": "unconfirmed-placeholder",
+    "local_bond_principal_usd": 160717544.742848,
+    "local_bond_rate": 0.045,
+    "local_capital_required_usd": 200896930.92856002,
+    "local_public_equity_usd": 40179386.18571201,
     "repayment_years": 35
   },
   "limitations": [
     "No calibrated origin-destination or stated-preference ridership survey.",
     "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "Imported shares are planning assumptions pending country supplier-capability, customs, tax, and procurement-origin surveys.",
     "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
     "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
   ],
@@ -78,12 +164,12 @@
     "practical_capacity_passenger_trips_per_day": 401760.0,
     "single_trip_fare_usd": 1.0933333333333333
   },
-  "schema_version": 1,
+  "schema_version": 2,
   "sources": {
     "design": "designs/north-africa/Morocco/Oujda/design.toml",
-    "design_sha256": "d37ec691d8cc7860815f9aa2d582a7c059c3ddfc87c8e8a1511143a5e641222b",
+    "design_sha256": "50115311785d590565f4f1c43ecd5a81121c4fa7a7a99cded471e410080d858f",
     "generator": "scripts/generate-city-finance.py",
-    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "generator_sha256": "9da48240e9ea50383e605d0c00585d52cdf48747820a2ac28647432461d3e1fa",
     "scenario": "designs/north-africa/Morocco/Oujda/oujda.toml",
     "scenario_sha256": "27183629a8e5d64a3f26099671bdc33fa08db82aa7075aa2e58d578f1eb4c8be"
   },

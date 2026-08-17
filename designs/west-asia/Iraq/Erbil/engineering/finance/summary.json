@@ -11,13 +11,84 @@
     "total": 28612075.117168
   },
   "capex_eur": {
-    "reconciled_project_total": 1048034901.1463041
+    "reconciled_project_total": 997948629.1463041
   },
   "capex_usd": {
-    "authoritative_design_base": 984150469.0,
-    "reconciled_project_total": 1139168370.8112001,
-    "risk_envelope_15_percent": 1310043626.4328802,
-    "risk_envelope_25_percent": 1423960463.5140002,
+    "authoritative_design_base": 929708869.0,
+    "imported_external_capital": 502117323.96784,
+    "imported_percentage_of_total": 0.4628975125158361,
+    "local_capital": 582609446.84336,
+    "local_percentage_of_total": 0.5371024874841637,
+    "national_trainset_factory_treatment": "excluded from city CAPEX; costed once in the country NATIONAL-BRIEF.md",
+    "procurement_origin_buckets": [
+      {
+        "bucket": "civil",
+        "imported_share": 0.35,
+        "imported_usd": 150873975.7,
+        "local_share": 0.65,
+        "local_usd": 280194526.3,
+        "total_usd": 431068502.0
+      },
+      {
+        "bucket": "stations",
+        "imported_share": 0.4,
+        "imported_usd": 69240000.0,
+        "local_share": 0.6,
+        "local_usd": 103860000.0,
+        "total_usd": 173100000.0
+      },
+      {
+        "bucket": "depots",
+        "imported_share": 0.4,
+        "imported_usd": 3200000.0,
+        "local_share": 0.6,
+        "local_usd": 4800000.0,
+        "total_usd": 8000000.0
+      },
+      {
+        "bucket": "rolling_stock",
+        "imported_share": 0.55,
+        "imported_usd": 130592000.00000001,
+        "local_share": 0.44999999999999996,
+        "local_usd": 106847999.99999999,
+        "total_usd": 237440000.0
+      },
+      {
+        "bucket": "solar_plant",
+        "imported_share": 0.7,
+        "imported_usd": 108512531.26784001,
+        "local_share": 0.30000000000000004,
+        "local_usd": 46505370.54336001,
+        "total_usd": 155017901.81120002
+      },
+      {
+        "bucket": "signalling",
+        "imported_share": 0.8,
+        "imported_usd": 5522632.800000001,
+        "local_share": 0.19999999999999996,
+        "local_usd": 1380658.1999999993,
+        "total_usd": 6903291.0
+      },
+      {
+        "bucket": "charging_microgrid",
+        "imported_share": 0.55,
+        "imported_usd": 6806250.000000001,
+        "local_share": 0.44999999999999996,
+        "local_usd": 5568749.999999999,
+        "total_usd": 12375000.0
+      },
+      {
+        "bucket": "epc_overhead",
+        "imported_share": 0.45,
+        "imported_usd": 27369934.2,
+        "local_share": 0.55,
+        "local_usd": 33452141.8,
+        "total_usd": 60822076.0
+      }
+    ],
+    "reconciled_project_total": 1084726770.8112001,
+    "risk_envelope_15_percent": 1247435786.4328802,
+    "risk_envelope_25_percent": 1355908463.5140002,
     "timetable_sized_dedicated_solar": 155017901.81120002
   },
   "cases": {
@@ -27,9 +98,9 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 269479157.184,
       "capacity_utilisation": 0.8,
-      "project_irr": 0.15441495474923156,
-      "project_npv_usd_at_8_percent": 1000860604.692808,
-      "steady_state_dscr": 4.614970902500334
+      "project_irr": 0.1604244480134775,
+      "project_npv_usd_at_8_percent": 1044334509.2437261,
+      "steady_state_dscr": 3.4024317794552084
     },
     "low_capacity_use": {
       "annual_operating_cash_usd": 141801994.066832,
@@ -37,24 +108,39 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 170414069.18400002,
       "capacity_utilisation": 0.5,
-      "project_irr": 0.09843924851217473,
-      "project_npv_usd_at_8_percent": 215085906.60087982,
-      "steady_state_dscr": 2.71690125076277
+      "project_irr": 0.1029842928325706,
+      "project_npv_usd_at_8_percent": 258559811.1517979,
+      "steady_state_dscr": 2.003061634089292
     }
   },
   "city": "erbil",
   "funding": {
-    "annual_debt_service_usd": 52192546.205726504,
+    "annual_debt_service_usd": 70792626.47417408,
+    "annual_external_capital_draw_usd": 100423464.793568,
+    "annual_external_debt_service_usd": 28756484.00993769,
+    "annual_grace_interest_usd": 62212721.96390128,
+    "annual_local_bond_issuance_usd": 93217511.4949376,
+    "annual_local_bond_service_usd": 42036142.464236386,
+    "annual_local_capital_draw_usd": 116521889.36867198,
+    "annual_local_public_equity_draw_usd": 23304377.873734392,
+    "annual_public_construction_commitment_usd": 85517099.83763567,
     "construction_grace_years": 5,
-    "debt_principal_usd": 911334696.6489601,
-    "debt_rate": 0.045,
-    "government_equity_share": 0.2,
+    "debt_principal_usd": 968204881.442528,
+    "external_capital_required_usd": 502117323.96784,
+    "external_debt_rate": 0.045,
+    "external_debt_usd": 502117323.96784,
+    "external_grant_usd": 0.0,
     "lender_commitment_status": "unconfirmed-placeholder",
+    "local_bond_principal_usd": 466087557.474688,
+    "local_bond_rate": 0.085,
+    "local_capital_required_usd": 582609446.84336,
+    "local_public_equity_usd": 116521889.36867195,
     "repayment_years": 35
   },
   "limitations": [
     "No calibrated origin-destination or stated-preference ridership survey.",
     "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "Imported shares are planning assumptions pending country supplier-capability, customs, tax, and procurement-origin surveys.",
     "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
     "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
   ],
@@ -78,12 +164,12 @@
     "practical_capacity_passenger_trips_per_day": 892800.0,
     "single_trip_fare_usd": 1.0133333333333334
   },
-  "schema_version": 1,
+  "schema_version": 2,
   "sources": {
     "design": "designs/west-asia/Iraq/Erbil/design.toml",
-    "design_sha256": "97200253c3e42103fc9954ca366552bcf55359750c4c92b89f6fc9be8fb9a577",
+    "design_sha256": "e8cb280a2472fc95fe838868215836111186d58f52378abfa0ca22829683a14c",
     "generator": "scripts/generate-city-finance.py",
-    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "generator_sha256": "9da48240e9ea50383e605d0c00585d52cdf48747820a2ac28647432461d3e1fa",
     "scenario": "designs/west-asia/Iraq/Erbil/erbil.toml",
     "scenario_sha256": "b8cc1e587a161c34b9875a1c89321a6fac0b52d2f2c3e948c1c517894a49dda7"
   },

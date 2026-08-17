@@ -11,13 +11,84 @@
     "total": 10832171.882388365
   },
   "capex_eur": {
-    "reconciled_project_total": 395447808.83981967
+    "reconciled_project_total": 377905801.7598196
   },
   "capex_usd": {
-    "authoritative_design_base": 393698988.0,
-    "reconciled_project_total": 429834574.8258909,
-    "risk_envelope_15_percent": 494309761.04977447,
-    "risk_envelope_25_percent": 537293218.5323637,
+    "authoritative_design_base": 374631589.0,
+    "imported_external_capital": 183308105.02812365,
+    "imported_percentage_of_total": 0.4462579188796264,
+    "local_capital": 227459070.79776725,
+    "local_percentage_of_total": 0.5537420811203736,
+    "national_trainset_factory_treatment": "excluded from city CAPEX; costed once in the country NATIONAL-BRIEF.md",
+    "procurement_origin_buckets": [
+      {
+        "bucket": "civil",
+        "imported_share": 0.35,
+        "imported_usd": 53731077.4,
+        "local_share": 0.65,
+        "local_usd": 99786286.6,
+        "total_usd": 153517364.0
+      },
+      {
+        "bucket": "stations",
+        "imported_share": 0.4,
+        "imported_usd": 38000000.0,
+        "local_share": 0.6,
+        "local_usd": 57000000.0,
+        "total_usd": 95000000.0
+      },
+      {
+        "bucket": "depots",
+        "imported_share": 0.4,
+        "imported_usd": 3200000.0,
+        "local_share": 0.6,
+        "local_usd": 4800000.0,
+        "total_usd": 8000000.0
+      },
+      {
+        "bucket": "rolling_stock",
+        "imported_share": 0.55,
+        "imported_usd": 49005000.00000001,
+        "local_share": 0.44999999999999996,
+        "local_usd": 40094999.99999999,
+        "total_usd": 89100000.0
+      },
+      {
+        "bucket": "solar_plant",
+        "imported_share": 0.7,
+        "imported_usd": 25294910.778123632,
+        "local_share": 0.30000000000000004,
+        "local_usd": 10840676.047767274,
+        "total_usd": 36135586.825890906
+      },
+      {
+        "bucket": "signalling",
+        "imported_share": 0.8,
+        "imported_usd": 1824492.8,
+        "local_share": 0.19999999999999996,
+        "local_usd": 456123.19999999995,
+        "total_usd": 2280616.0
+      },
+      {
+        "bucket": "charging_microgrid",
+        "imported_share": 0.55,
+        "imported_usd": 1223750.0,
+        "local_share": 0.44999999999999996,
+        "local_usd": 1001250.0,
+        "total_usd": 2225000.0
+      },
+      {
+        "bucket": "epc_overhead",
+        "imported_share": 0.45,
+        "imported_usd": 11028874.05,
+        "local_share": 0.55,
+        "local_usd": 13479734.95,
+        "total_usd": 24508609.0
+      }
+    ],
+    "reconciled_project_total": 410767175.8258909,
+    "risk_envelope_15_percent": 472382252.1997745,
+    "risk_envelope_25_percent": 513458969.78236365,
     "timetable_sized_dedicated_solar": 36135586.825890906
   },
   "cases": {
@@ -27,34 +98,49 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 89641749.12,
       "capacity_utilisation": 0.8,
-      "project_irr": 0.11705329428838915,
-      "project_npv_usd_at_8_percent": 178120536.48058903,
-      "steady_state_dscr": 3.8477750181859016
+      "project_irr": 0.12108882649423769,
+      "project_npv_usd_at_8_percent": 191817218.68670762,
+      "steady_state_dscr": 1.396186727615916
     },
     "low_capacity_use": {
       "annual_operating_cash_usd": 45961679.63761164,
       "annual_paid_trips": 73321200.0,
-      "annual_public_support_usd": 0.0,
+      "annual_public_support_usd": 10484622.048828512,
       "annual_revenue_usd": 56793851.52,
       "capacity_utilisation": 0.5,
-      "project_irr": 0.0738180422407185,
-      "project_npv_usd_at_8_percent": -24812933.65824371,
-      "steady_state_dscr": 2.2440191776471616
+      "project_irr": 0.07714356332470285,
+      "project_npv_usd_at_8_percent": -11116251.452125123,
+      "steady_state_dscr": 0.8142549337054763
     }
   },
   "city": "tripoli-lb",
   "funding": {
-    "annual_debt_service_usd": 20481856.882258084,
+    "annual_debt_service_usd": 56446301.686440155,
+    "annual_external_capital_draw_usd": 22913513.128515456,
+    "annual_external_debt_service_usd": 10918416.620117048,
+    "annual_grace_interest_usd": 53740678.88581902,
+    "annual_local_bond_issuance_usd": 22745907.079776727,
+    "annual_local_bond_service_usd": 45527885.06632311,
+    "annual_local_capital_draw_usd": 28432383.849720906,
+    "annual_local_public_equity_draw_usd": 5686476.76994418,
+    "annual_public_construction_commitment_usd": 59427155.655763194,
     "construction_grace_years": 8,
-    "debt_principal_usd": 343867659.86071277,
-    "debt_rate": 0.045,
-    "government_equity_share": 0.2,
+    "debt_principal_usd": 365275361.6663375,
+    "external_capital_required_usd": 183308105.02812365,
+    "external_debt_rate": 0.045,
+    "external_debt_usd": 183308105.02812365,
+    "external_grant_usd": 0.0,
     "lender_commitment_status": "unconfirmed-placeholder",
+    "local_bond_principal_usd": 181967256.6382138,
+    "local_bond_rate": 0.25,
+    "local_capital_required_usd": 227459070.79776725,
+    "local_public_equity_usd": 45491814.15955344,
     "repayment_years": 32
   },
   "limitations": [
     "No calibrated origin-destination or stated-preference ridership survey.",
     "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "Imported shares are planning assumptions pending country supplier-capability, customs, tax, and procurement-origin surveys.",
     "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
     "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
   ],
@@ -78,12 +164,12 @@
     "practical_capacity_passenger_trips_per_day": 401760.0,
     "single_trip_fare_usd": 0.7466666666666667
   },
-  "schema_version": 1,
+  "schema_version": 2,
   "sources": {
     "design": "designs/west-asia/Lebanon/Tripoli-Lb/design.toml",
-    "design_sha256": "32e79c1188555048b86922d871609c52aa1e1c22d05b2057346e825a6e75ab48",
+    "design_sha256": "6dd49171a841e32546c2bd8ef40beef8203e655cde039301b43f90c959303e04",
     "generator": "scripts/generate-city-finance.py",
-    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "generator_sha256": "9da48240e9ea50383e605d0c00585d52cdf48747820a2ac28647432461d3e1fa",
     "scenario": "designs/west-asia/Lebanon/Tripoli-Lb/tripoli-lb.toml",
     "scenario_sha256": "c9bb07390ec2ec5ab7791d9087c3b8528cbe7a78c4a88011a95f958ef705a1f5"
   },

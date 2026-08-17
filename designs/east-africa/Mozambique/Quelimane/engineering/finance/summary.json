@@ -11,13 +11,84 @@
     "total": 2394511.10458
   },
   "capex_eur": {
-    "reconciled_project_total": 91054149.81424001
+    "reconciled_project_total": 86978733.81424001
   },
   "capex_usd": {
-    "authoritative_design_base": 92817825.0,
-    "reconciled_project_total": 98971901.972,
-    "risk_envelope_15_percent": 113817687.26779999,
-    "risk_envelope_25_percent": 123714877.465,
+    "authoritative_design_base": 88388025.0,
+    "imported_external_capital": 41772891.9804,
+    "imported_percentage_of_total": 0.44184433293826747,
+    "local_capital": 52769209.9916,
+    "local_percentage_of_total": 0.5581556670617325,
+    "national_trainset_factory_treatment": "excluded from city CAPEX; costed once in the country NATIONAL-BRIEF.md",
+    "procurement_origin_buckets": [
+      {
+        "bucket": "civil",
+        "imported_share": 0.35,
+        "imported_usd": 11109812.0,
+        "local_share": 0.65,
+        "local_usd": 20632508.0,
+        "total_usd": 31742320.0
+      },
+      {
+        "bucket": "stations",
+        "imported_share": 0.4,
+        "imported_usd": 8400000.0,
+        "local_share": 0.6,
+        "local_usd": 12600000.0,
+        "total_usd": 21000000.0
+      },
+      {
+        "bucket": "depots",
+        "imported_share": 0.4,
+        "imported_usd": 3200000.0,
+        "local_share": 0.6,
+        "local_usd": 4800000.0,
+        "total_usd": 8000000.0
+      },
+      {
+        "bucket": "rolling_stock",
+        "imported_share": 0.55,
+        "imported_usd": 11385000.0,
+        "local_share": 0.44999999999999996,
+        "local_usd": 9315000.0,
+        "total_usd": 20700000.0
+      },
+      {
+        "bucket": "solar_plant",
+        "imported_share": 0.7,
+        "imported_usd": 4307853.8804,
+        "local_share": 0.30000000000000004,
+        "local_usd": 1846223.0916000009,
+        "total_usd": 6154076.972000001
+      },
+      {
+        "bucket": "signalling",
+        "imported_share": 0.8,
+        "imported_usd": 410648.80000000005,
+        "local_share": 0.19999999999999996,
+        "local_usd": 102662.19999999995,
+        "total_usd": 513311.0
+      },
+      {
+        "bucket": "charging_microgrid",
+        "imported_share": 0.55,
+        "imported_usd": 357500.0,
+        "local_share": 0.44999999999999996,
+        "local_usd": 292500.0,
+        "total_usd": 650000.0
+      },
+      {
+        "bucket": "epc_overhead",
+        "imported_share": 0.45,
+        "imported_usd": 2602077.3000000003,
+        "local_share": 0.55,
+        "local_usd": 3180316.6999999997,
+        "total_usd": 5782394.0
+      }
+    ],
+    "reconciled_project_total": 94542101.972,
+    "risk_envelope_15_percent": 108723417.26779999,
+    "risk_envelope_25_percent": 118177627.465,
     "timetable_sized_dedicated_solar": 6154076.972000001
   },
   "cases": {
@@ -27,34 +98,49 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 13787176.416000001,
       "capacity_utilisation": 0.8,
-      "project_irr": 0.07226416568144484,
-      "project_npv_usd_at_8_percent": -7003534.755074012,
-      "steady_state_dscr": 2.343769440904127
+      "project_irr": 0.07541359707711302,
+      "project_npv_usd_at_8_percent": -4031102.8969709342,
+      "steady_state_dscr": 1.3572192097700964
     },
     "low_capacity_use": {
       "annual_operating_cash_usd": 6309062.11142,
       "annual_paid_trips": 24440400.0,
-      "annual_public_support_usd": 0.0,
+      "annual_public_support_usd": 2085061.1292537302,
       "annual_revenue_usd": 8703573.216,
       "capacity_utilisation": 0.5,
-      "project_irr": 0.03496419981433968,
-      "project_npv_usd_at_8_percent": -33512145.98535026,
-      "steady_state_dscr": 1.2979392067885815
+      "project_irr": 0.037649479890724195,
+      "project_npv_usd_at_8_percent": -30539714.12724718,
+      "steady_state_dscr": 0.7516046560824167
     }
   },
   "city": "quelimane",
   "funding": {
-    "annual_debt_service_usd": 4860830.213327294,
+    "annual_debt_service_usd": 8394123.24067373,
+    "annual_external_capital_draw_usd": 4177289.19804,
+    "annual_external_debt_service_usd": 2564502.2904307554,
+    "annual_grace_interest_usd": 7578854.8182108,
+    "annual_local_bond_issuance_usd": 4221536.799328,
+    "annual_local_bond_service_usd": 5829620.950242975,
+    "annual_local_capital_draw_usd": 5276920.99916,
+    "annual_local_public_equity_draw_usd": 1055384.1998319998,
+    "annual_public_construction_commitment_usd": 8634239.0180428,
     "construction_grace_years": 10,
-    "debt_principal_usd": 79177521.5776,
-    "debt_rate": 0.045,
-    "government_equity_share": 0.2,
+    "debt_principal_usd": 83988259.97368,
+    "external_capital_required_usd": 41772891.9804,
+    "external_debt_rate": 0.045,
+    "external_debt_usd": 41772891.9804,
+    "external_grant_usd": 0.0,
     "lender_commitment_status": "unconfirmed-placeholder",
+    "local_bond_principal_usd": 42215367.99328,
+    "local_bond_rate": 0.135,
+    "local_capital_required_usd": 52769209.9916,
+    "local_public_equity_usd": 10553841.998319998,
     "repayment_years": 30
   },
   "limitations": [
     "No calibrated origin-destination or stated-preference ridership survey.",
     "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "Imported shares are planning assumptions pending country supplier-capability, customs, tax, and procurement-origin surveys.",
     "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
     "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
   ],
@@ -78,12 +164,12 @@
     "practical_capacity_passenger_trips_per_day": 133920.0,
     "single_trip_fare_usd": 0.3466666666666667
   },
-  "schema_version": 1,
+  "schema_version": 2,
   "sources": {
     "design": "designs/east-africa/Mozambique/Quelimane/design.toml",
-    "design_sha256": "5dd9c065925cb22fcb1ce04b4f408908ddee8d41f094eb008a5f05af763cea49",
+    "design_sha256": "1803a023d68efd1f523caa0bd62306b635c2b15cdbb11c08d09fc8303cdd1511",
     "generator": "scripts/generate-city-finance.py",
-    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "generator_sha256": "9da48240e9ea50383e605d0c00585d52cdf48747820a2ac28647432461d3e1fa",
     "scenario": "designs/east-africa/Mozambique/Quelimane/quelimane.toml",
     "scenario_sha256": "0c04e34119a20b4114a550c4a94f556e170f08c37829079c1f2a94bbe705c5c4"
   },

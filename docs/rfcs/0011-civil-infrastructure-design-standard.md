@@ -353,10 +353,11 @@ Fleet count = peak-revenue + spare + cold-reserve per RFC 0014 §4.
 
 ### 9.5 Railway production plant
 
-Every city carries a lean railway production-plant setup allowance for
-the fleet it will build or assemble locally. This is costed per
-vehicle/car module, not per trainset, and stays separate from the
-rolling-stock procurement line.
+Each country carries one lean shared railway production-plant setup allowance
+for all city fleets it will build or assemble locally. Cities do not duplicate
+this asset in city CAPEX. The national factory is sized to the largest
+single-city fleet programme, costed per supported vehicle/car module, reused
+through a phased rollout, and kept separate from rolling-stock procurement.
 
 | Item | Planning-grade basis |
 |---|---:|
@@ -372,8 +373,8 @@ after painted-frame dimensional release; doors, glazing, equipment, bogies,
 commissioning, homologation, and first-article testing remain separate work.
 Distributed overnight stabling reduces the number of depot-centred
 commissioning and parking bays needed in the production/depot complex. A
-3-car `light-metro-3car` trainset therefore carries 180 000 USD of base
-plant allowance, while the high sensitivity is 360 000 USD.
+A three-module increment of supported factory capacity therefore carries
+180 000 USD of base plant allowance, while the high sensitivity is 360 000 USD.
 
 ### 9.6 Systems
 
@@ -466,7 +467,8 @@ civil contractor can mobilise.
 | **v2** ✅ | Emit `[costs]` block (at_grade / elevated / bridge / total_eur) per city in the auto-gen output, using the §9 rate table (done 2026-04-22) | v1 |
 | **v2.1** ✅ | Extend `[costs]` to the full CAPEX stack — stations (RFC 0010 archetypes), depots (RFC 0014 archetypes), rolling stock (RFC 0008 families), GoA 4 onboard autonomy/residual wayside train control, station/depot charging microgrids, and EPC overhead. USD is the procurement basis and EUR values are explicit converted views. | v2 |
 | **v2.2** ✅ | Move the source cost basis to USD direct-procurement planning rates, add `*_usd` fields, keep `*_eur` mirrors, and drop EPC overhead to 7 % (done 2026-06-04). | v2.1 |
-| **v2.3** ✅ | Add the city railway production-plant setup bucket, now 60 000 USD per vehicle/car module with 120 000 USD retained as a high sensitivity check after 1 m clip-on fiberglass body and distributed-stabling scope reductions (updated 2026-08-15). | v2.2 |
+| **v2.3** ✅ | Add the railway production-plant setup bucket, now 60 000 USD per vehicle/car module with 120 000 USD retained as a high sensitivity check after 1 m clip-on fiberglass body and distributed-stabling scope reductions (updated 2026-08-15). | v2.2 |
+| **v2.4** ✅ | Replace duplicated city production plants with one shared national factory sized to the largest city fleet programme; city CAPEX is zero for this bucket and national briefs carry the asset once. Add imported-value and local-capital financing boundaries. | v2.3 |
 | **v3** ✅ | Parametric OSR-U25/U20 clearance geometry, structural-feature placeholders, OSR-US segmental and OSR-SP special-span families are controlled under [`mechanical-py/src/osr_mech/civil/`](../../mechanical-py/src/osr_mech/civil/). Shared 5–12 m piers use widened hollow/precast-shell caps, eight-bearing interior schedules, four-bearing end supports, jacking interfaces, and pile-cap/monopile foundation envelopes. The controlled design-basis, load, egress, movement, erection, first-article, and quantity packages live under [`docs/civil/`](../civil/). | v0 |
 | **v4** | Surveyed civil design package for the first pilot line, generated from the current city model | v3, RFC 0003 |
 | **v5** | First-article viaduct erected for a deployment instance | v3 |

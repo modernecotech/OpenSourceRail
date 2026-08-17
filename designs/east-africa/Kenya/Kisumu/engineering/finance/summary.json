@@ -11,13 +11,84 @@
     "total": 11803250.07472
   },
   "capex_eur": {
-    "reconciled_project_total": 441956563.15616
+    "reconciled_project_total": 421579483.15616
   },
   "capex_usd": {
-    "authoritative_design_base": 428205137.0,
-    "reconciled_project_total": 480387568.648,
-    "risk_envelope_15_percent": 552445703.9452,
-    "risk_envelope_25_percent": 600484460.81,
+    "authoritative_design_base": 406056137.0,
+    "imported_external_capital": 208401661.0036,
+    "imported_percentage_of_total": 0.4547885648702032,
+    "local_capital": 249836907.6444,
+    "local_percentage_of_total": 0.5452114351297969,
+    "national_trainset_factory_treatment": "excluded from city CAPEX; costed once in the country NATIONAL-BRIEF.md",
+    "procurement_origin_buckets": [
+      {
+        "bucket": "civil",
+        "imported_share": 0.35,
+        "imported_usd": 61449036.24999999,
+        "local_share": 0.65,
+        "local_usd": 114119638.75,
+        "total_usd": 175568675.0
+      },
+      {
+        "bucket": "stations",
+        "imported_share": 0.4,
+        "imported_usd": 35080000.0,
+        "local_share": 0.6,
+        "local_usd": 52620000.0,
+        "total_usd": 87700000.0
+      },
+      {
+        "bucket": "depots",
+        "imported_share": 0.4,
+        "imported_usd": 3200000.0,
+        "local_share": 0.6,
+        "local_usd": 4800000.0,
+        "total_usd": 8000000.0
+      },
+      {
+        "bucket": "rolling_stock",
+        "imported_share": 0.55,
+        "imported_usd": 56925000.00000001,
+        "local_share": 0.44999999999999996,
+        "local_usd": 46574999.99999999,
+        "total_usd": 103500000.0
+      },
+      {
+        "bucket": "solar_plant",
+        "imported_share": 0.7,
+        "imported_usd": 36527702.1536,
+        "local_share": 0.30000000000000004,
+        "local_usd": 15654729.494400002,
+        "total_usd": 52182431.648
+      },
+      {
+        "bucket": "signalling",
+        "imported_share": 0.8,
+        "imported_usd": 2138433.6,
+        "local_share": 0.19999999999999996,
+        "local_usd": 534608.3999999999,
+        "total_usd": 2673042.0
+      },
+      {
+        "bucket": "charging_microgrid",
+        "imported_share": 0.55,
+        "imported_usd": 1127500.0,
+        "local_share": 0.44999999999999996,
+        "local_usd": 922500.0,
+        "total_usd": 2050000.0
+      },
+      {
+        "bucket": "epc_overhead",
+        "imported_share": 0.45,
+        "imported_usd": 11953989.0,
+        "local_share": 0.55,
+        "local_usd": 14610431.0,
+        "total_usd": 26564420.0
+      }
+    ],
+    "reconciled_project_total": 458238568.648,
+    "risk_envelope_15_percent": 526974353.94519997,
+    "risk_envelope_25_percent": 572798210.81,
     "timetable_sized_dedicated_solar": 52182431.648
   },
   "cases": {
@@ -27,34 +98,49 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 73716027.45600002,
       "capacity_utilisation": 0.8,
-      "project_irr": 0.09210536518177825,
-      "project_npv_usd_at_8_percent": 58648606.78710419,
-      "steady_state_dscr": 2.742402016846762
+      "project_irr": 0.09601836036843445,
+      "project_npv_usd_at_8_percent": 75122305.42163812,
+      "steady_state_dscr": 1.725631384322495
     },
     "low_capacity_use": {
       "annual_operating_cash_usd": 34930575.78128,
       "annual_paid_trips": 73321200.0,
-      "annual_public_support_usd": 0.0,
+      "annual_public_support_usd": 947757.1835482642,
       "annual_revenue_usd": 46733825.856000006,
       "capacity_utilisation": 0.5,
-      "project_irr": 0.05002571480852333,
-      "project_npv_usd_at_8_percent": -122624387.64391936,
-      "steady_state_dscr": 1.5472360556896156
+      "project_irr": 0.05316010335473033,
+      "project_npv_usd_at_8_percent": -106150689.00938544,
+      "steady_state_dscr": 0.97358413545921
     }
   },
   "city": "kisumu",
   "funding": {
-    "annual_debt_service_usd": 22576112.838652253,
+    "annual_debt_service_usd": 35878332.96482827,
+    "annual_external_capital_draw_usd": 29771665.857657142,
+    "annual_external_debt_service_usd": 12242457.240882788,
+    "annual_grace_interest_usd": 32363070.2484468,
+    "annual_local_bond_issuance_usd": 28552789.445074286,
+    "annual_local_bond_service_usd": 23635875.723945476,
+    "annual_local_capital_draw_usd": 35690986.806342855,
+    "annual_local_public_equity_draw_usd": 7138197.361268572,
+    "annual_public_construction_commitment_usd": 39501267.60971537,
     "construction_grace_years": 7,
-    "debt_principal_usd": 384310054.91840005,
-    "debt_rate": 0.045,
-    "government_equity_share": 0.2,
+    "debt_principal_usd": 408271187.11912,
+    "external_capital_required_usd": 208401661.0036,
+    "external_debt_rate": 0.045,
+    "external_debt_usd": 208401661.0036,
+    "external_grant_usd": 0.0,
     "lender_commitment_status": "unconfirmed-placeholder",
+    "local_bond_principal_usd": 199869526.11552,
+    "local_bond_rate": 0.115,
+    "local_capital_required_usd": 249836907.6444,
+    "local_public_equity_usd": 49967381.52888,
     "repayment_years": 33
   },
   "limitations": [
     "No calibrated origin-destination or stated-preference ridership survey.",
     "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "Imported shares are planning assumptions pending country supplier-capability, customs, tax, and procurement-origin surveys.",
     "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
     "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
   ],
@@ -78,12 +164,12 @@
     "practical_capacity_passenger_trips_per_day": 401760.0,
     "single_trip_fare_usd": 0.6133333333333334
   },
-  "schema_version": 1,
+  "schema_version": 2,
   "sources": {
     "design": "designs/east-africa/Kenya/Kisumu/design.toml",
-    "design_sha256": "8b05e38ae15bb202ff70147c9216ef61da66299b4dba3134da9ae01be7d92967",
+    "design_sha256": "b3698d47623024692e72a0c11cc9f33f4f7917fc4e336730f84a452c7216d9d1",
     "generator": "scripts/generate-city-finance.py",
-    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "generator_sha256": "9da48240e9ea50383e605d0c00585d52cdf48747820a2ac28647432461d3e1fa",
     "scenario": "designs/east-africa/Kenya/Kisumu/kisumu.toml",
     "scenario_sha256": "d84b1bbecad3c7ff3e92bd52319e2ca327cfa39e23eb6dd57f8ae66e70c42ace"
   },

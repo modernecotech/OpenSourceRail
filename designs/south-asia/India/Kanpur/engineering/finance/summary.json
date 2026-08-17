@@ -11,13 +11,84 @@
     "total": 89024036.938528
   },
   "capex_eur": {
-    "reconciled_project_total": 3503464273.936384
+    "reconciled_project_total": 3314577601.016384
   },
   "capex_usd": {
-    "authoritative_design_base": 3276394542.0,
-    "reconciled_project_total": 3808113341.2352,
-    "risk_envelope_15_percent": 4379330342.42048,
-    "risk_envelope_25_percent": 4760141676.544,
+    "authoritative_design_base": 3071082941.0,
+    "imported_external_capital": 1692408077.96464,
+    "imported_percentage_of_total": 0.4697477685392023,
+    "local_capital": 1910393662.27056,
+    "local_percentage_of_total": 0.5302522314607977,
+    "national_trainset_factory_treatment": "excluded from city CAPEX; costed once in the country NATIONAL-BRIEF.md",
+    "procurement_origin_buckets": [
+      {
+        "bucket": "civil",
+        "imported_share": 0.35,
+        "imported_usd": 464416746.5,
+        "local_share": 0.65,
+        "local_usd": 862488243.5,
+        "total_usd": 1326904990.0
+      },
+      {
+        "bucket": "stations",
+        "imported_share": 0.4,
+        "imported_usd": 231000000.0,
+        "local_share": 0.6,
+        "local_usd": 346500000.0,
+        "total_usd": 577500000.0
+      },
+      {
+        "bucket": "depots",
+        "imported_share": 0.4,
+        "imported_usd": 3200000.0,
+        "local_share": 0.6,
+        "local_usd": 4800000.0,
+        "total_usd": 8000000.0
+      },
+      {
+        "bucket": "rolling_stock",
+        "imported_share": 0.55,
+        "imported_usd": 492492000.00000006,
+        "local_share": 0.44999999999999996,
+        "local_usd": 402947999.99999994,
+        "total_usd": 895440000.0
+      },
+      {
+        "bucket": "solar_plant",
+        "imported_share": 0.7,
+        "imported_usd": 372203159.4646399,
+        "local_share": 0.30000000000000004,
+        "local_usd": 159515639.77056003,
+        "total_usd": 531718799.2351999
+      },
+      {
+        "bucket": "signalling",
+        "imported_share": 0.8,
+        "imported_usd": 14100786.4,
+        "local_share": 0.19999999999999996,
+        "local_usd": 3525196.5999999996,
+        "total_usd": 17625983.0
+      },
+      {
+        "bucket": "charging_microgrid",
+        "imported_share": 0.55,
+        "imported_usd": 24585000.000000004,
+        "local_share": 0.44999999999999996,
+        "local_usd": 20114999.999999996,
+        "total_usd": 44700000.0
+      },
+      {
+        "bucket": "epc_overhead",
+        "imported_share": 0.45,
+        "imported_usd": 90410385.60000001,
+        "local_share": 0.55,
+        "local_usd": 110501582.39999999,
+        "total_usd": 200911968.0
+      }
+    ],
+    "reconciled_project_total": 3602801740.2352,
+    "risk_envelope_15_percent": 4143222001.2704797,
+    "risk_envelope_25_percent": 4503502175.294,
     "timetable_sized_dedicated_solar": 531718799.2351999
   },
   "cases": {
@@ -27,34 +98,49 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 369168317.5680001,
       "capacity_utilisation": 0.8,
-      "project_irr": 0.056007486781247104,
-      "project_npv_usd_at_8_percent": -818861128.9084901,
-      "steady_state_dscr": 1.6056516444011655
+      "project_irr": 0.059995248775385285,
+      "project_npv_usd_at_8_percent": -654911190.9002355,
+      "steady_state_dscr": 1.2877436676626384
     },
     "low_capacity_use": {
       "annual_operating_cash_usd": 145233272.62947202,
       "annual_paid_trips": 366606000.0,
-      "annual_public_support_usd": 29240612.541276246,
+      "annual_public_support_usd": 72313346.05276713,
       "annual_revenue_usd": 234257309.56800002,
       "capacity_utilisation": 0.5,
-      "project_irr": 0.015114374233848715,
-      "project_npv_usd_at_8_percent": -1888962198.0205245,
-      "steady_state_dscr": 0.8324069386506753
+      "project_irr": 0.018183543990095592,
+      "project_npv_usd_at_8_percent": -1725012260.01227,
+      "steady_state_dscr": 0.6675960927786606
     }
   },
   "city": "kanpur",
   "funding": {
-    "annual_debt_service_usd": 174473885.17074826,
+    "annual_debt_service_usd": 217546618.68223915,
+    "annual_external_capital_draw_usd": 338481615.592928,
+    "annual_external_debt_service_usd": 96924968.54658742,
+    "annual_grace_interest_usd": 186197038.45519304,
+    "annual_local_bond_issuance_usd": 305662985.9632896,
+    "annual_local_bond_service_usd": 120621650.13565172,
+    "annual_local_capital_draw_usd": 382078732.454112,
+    "annual_local_public_equity_draw_usd": 76415746.49082236,
+    "annual_public_construction_commitment_usd": 262612784.94601542,
     "construction_grace_years": 5,
-    "debt_principal_usd": 3046490672.98816,
-    "debt_rate": 0.045,
-    "government_equity_share": 0.2,
+    "debt_principal_usd": 3220723007.781088,
+    "external_capital_required_usd": 1692408077.96464,
+    "external_debt_rate": 0.045,
+    "external_debt_usd": 1692408077.96464,
+    "external_grant_usd": 0.0,
     "lender_commitment_status": "unconfirmed-placeholder",
+    "local_bond_principal_usd": 1528314929.8164482,
+    "local_bond_rate": 0.072,
+    "local_capital_required_usd": 1910393662.27056,
+    "local_public_equity_usd": 382078732.4541118,
     "repayment_years": 35
   },
   "limitations": [
     "No calibrated origin-destination or stated-preference ridership survey.",
     "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "Imported shares are planning assumptions pending country supplier-capability, customs, tax, and procurement-origin surveys.",
     "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
     "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
   ],
@@ -78,12 +164,12 @@
     "practical_capacity_passenger_trips_per_day": 2008800.0,
     "single_trip_fare_usd": 0.6133333333333334
   },
-  "schema_version": 1,
+  "schema_version": 2,
   "sources": {
     "design": "designs/south-asia/India/Kanpur/design.toml",
-    "design_sha256": "36437c9f122bb7c7c413793b8d0c38626c223077c78818ba5395a6ec580b54f7",
+    "design_sha256": "1e9bf566faf84ef7213518cb20fb77d68d592a1ab75e596760b0aacff338302a",
     "generator": "scripts/generate-city-finance.py",
-    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "generator_sha256": "9da48240e9ea50383e605d0c00585d52cdf48747820a2ac28647432461d3e1fa",
     "scenario": "designs/south-asia/India/Kanpur/kanpur.toml",
     "scenario_sha256": "8758def5e21c0c3194ed6e7f94c516a306f0af1dd5cb2242747bd5c64f30a99e"
   },

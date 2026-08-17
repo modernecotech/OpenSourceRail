@@ -11,13 +11,84 @@
     "total": 53507264.516040005
   },
   "capex_eur": {
-    "reconciled_project_total": 2151903118.43712
+    "reconciled_project_total": 2079136270.4371202
   },
   "capex_usd": {
-    "authoritative_design_base": 2026635241.0,
-    "reconciled_project_total": 2339025128.736,
-    "risk_envelope_15_percent": 2689878898.0464,
-    "risk_envelope_25_percent": 2923781410.92,
+    "authoritative_design_base": 1947540841.0,
+    "imported_external_capital": 1016129052.0652001,
+    "imported_percentage_of_total": 0.44962840636869006,
+    "local_capital": 1243801676.6708,
+    "local_percentage_of_total": 0.5503715936313099,
+    "national_trainset_factory_treatment": "excluded from city CAPEX; costed once in the country NATIONAL-BRIEF.md",
+    "procurement_origin_buckets": [
+      {
+        "bucket": "civil",
+        "imported_share": 0.35,
+        "imported_usd": 338376746.75,
+        "local_share": 0.65,
+        "local_usd": 628413958.25,
+        "total_usd": 966790705.0
+      },
+      {
+        "bucket": "stations",
+        "imported_share": 0.4,
+        "imported_usd": 185600000.0,
+        "local_share": 0.6,
+        "local_usd": 278400000.0,
+        "total_usd": 464000000.0
+      },
+      {
+        "bucket": "depots",
+        "imported_share": 0.4,
+        "imported_usd": 3200000.0,
+        "local_share": 0.6,
+        "local_usd": 4800000.0,
+        "total_usd": 8000000.0
+      },
+      {
+        "bucket": "rolling_stock",
+        "imported_share": 0.55,
+        "imported_usd": 189728000.00000003,
+        "local_share": 0.44999999999999996,
+        "local_usd": 155231999.99999997,
+        "total_usd": 344960000.0
+      },
+      {
+        "bucket": "solar_plant",
+        "imported_share": 0.7,
+        "imported_usd": 218672921.4152,
+        "local_share": 0.30000000000000004,
+        "local_usd": 93716966.3208,
+        "total_usd": 312389887.736
+      },
+      {
+        "bucket": "signalling",
+        "imported_share": 0.8,
+        "imported_usd": 10264737.600000001,
+        "local_share": 0.19999999999999996,
+        "local_usd": 2566184.3999999985,
+        "total_usd": 12830922.0
+      },
+      {
+        "bucket": "charging_microgrid",
+        "imported_share": 0.55,
+        "imported_usd": 12952500.000000002,
+        "local_share": 0.44999999999999996,
+        "local_usd": 10597499.999999998,
+        "total_usd": 23550000.0
+      },
+      {
+        "bucket": "epc_overhead",
+        "imported_share": 0.45,
+        "imported_usd": 57334146.300000004,
+        "local_share": 0.55,
+        "local_usd": 70075067.69999999,
+        "total_usd": 127409214.0
+      }
+    ],
+    "reconciled_project_total": 2259930728.736,
+    "risk_envelope_15_percent": 2598920338.0464,
+    "risk_envelope_25_percent": 2824913410.92,
     "timetable_sized_dedicated_solar": 312389887.736
   },
   "cases": {
@@ -27,34 +98,49 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 243586038.384,
       "capacity_utilisation": 0.8,
-      "project_irr": 0.06324180369123034,
-      "project_npv_usd_at_8_percent": -360123368.62649053,
-      "steady_state_dscr": 1.7736918403016178
+      "project_irr": 0.06581988778531572,
+      "project_npv_usd_at_8_percent": -296963167.6751567,
+      "steady_state_dscr": 1.0848255070198096
     },
     "low_capacity_use": {
       "annual_operating_cash_usd": 102614729.06796,
       "annual_paid_trips": 179229600.0,
-      "annual_public_support_usd": 4550884.230253607,
+      "annual_public_support_usd": 72601259.7136248,
       "annual_revenue_usd": 156121993.584,
       "capacity_utilisation": 0.5,
-      "project_irr": 0.02298655082971829,
-      "project_npv_usd_at_8_percent": -1053879713.9155483,
-      "steady_state_dscr": 0.9575340998834234
+      "project_irr": 0.024981484006331357,
+      "project_npv_usd_at_8_percent": -990719512.9642146,
+      "steady_state_dscr": 0.5856470621289831
     }
   },
   "city": "san-salvador",
   "funding": {
-    "annual_debt_service_usd": 107165613.2982136,
+    "annual_debt_service_usd": 175215988.7815848,
+    "annual_external_capital_draw_usd": 203225810.41304,
+    "annual_external_debt_service_usd": 58194165.87111738,
+    "annual_grace_interest_usd": 160155561.59664762,
+    "annual_local_bond_issuance_usd": 199008268.267328,
+    "annual_local_bond_service_usd": 117021822.9104674,
+    "annual_local_capital_draw_usd": 248760335.33416,
+    "annual_local_public_equity_draw_usd": 49752067.06683199,
+    "annual_public_construction_commitment_usd": 209907628.66347963,
     "construction_grace_years": 5,
-    "debt_principal_usd": 1871220102.9888,
-    "debt_rate": 0.045,
-    "government_equity_share": 0.2,
+    "debt_principal_usd": 2011170393.4018402,
+    "external_capital_required_usd": 1016129052.0652001,
+    "external_debt_rate": 0.045,
+    "external_debt_usd": 1016129052.0652001,
+    "external_grant_usd": 0.0,
     "lender_commitment_status": "unconfirmed-placeholder",
+    "local_bond_principal_usd": 995041341.33664,
+    "local_bond_rate": 0.115,
+    "local_capital_required_usd": 1243801676.6708,
+    "local_public_equity_usd": 248760335.33415997,
     "repayment_years": 35
   },
   "limitations": [
     "No calibrated origin-destination or stated-preference ridership survey.",
     "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "Imported shares are planning assumptions pending country supplier-capability, customs, tax, and procurement-origin surveys.",
     "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
     "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
   ],
@@ -78,12 +164,12 @@
     "practical_capacity_passenger_trips_per_day": 982080.0,
     "single_trip_fare_usd": 0.8133333333333334
   },
-  "schema_version": 1,
+  "schema_version": 2,
   "sources": {
     "design": "designs/latin-america/El Salvador/San-Salvador/design.toml",
-    "design_sha256": "92ab4df17bdefc9c48408e92812bb1c93d71950fbc2509f2e8e3f054ae5c4da0",
+    "design_sha256": "38dc099b40b70e5b7922b51e460167af8e97d828a87d01c5c53e500ab38934cc",
     "generator": "scripts/generate-city-finance.py",
-    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "generator_sha256": "9da48240e9ea50383e605d0c00585d52cdf48747820a2ac28647432461d3e1fa",
     "scenario": "designs/latin-america/El Salvador/San-Salvador/san-salvador.toml",
     "scenario_sha256": "21c6a6d9b0cb7229062b6494607d1392940ea64f6f163bdc023246845332fed6"
   },

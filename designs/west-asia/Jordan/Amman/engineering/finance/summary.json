@@ -11,13 +11,84 @@
     "total": 107936025.38684
   },
   "capex_eur": {
-    "reconciled_project_total": 3884535831.9395204
+    "reconciled_project_total": 3687852712.8595204
   },
   "capex_usd": {
-    "authoritative_design_base": 3671124816.0,
-    "reconciled_project_total": 4222321556.4560003,
-    "risk_envelope_15_percent": 4855669789.9244,
-    "risk_envelope_25_percent": 5277901945.570001,
+    "authoritative_design_base": 3457338817.0,
+    "imported_external_capital": 1858812550.9692001,
+    "imported_percentage_of_total": 0.463713624171738,
+    "local_capital": 2149723006.4868,
+    "local_percentage_of_total": 0.536286375828262,
+    "national_trainset_factory_treatment": "excluded from city CAPEX; costed once in the country NATIONAL-BRIEF.md",
+    "procurement_origin_buckets": [
+      {
+        "bucket": "civil",
+        "imported_share": 0.35,
+        "imported_usd": 529948887.65,
+        "local_share": 0.65,
+        "local_usd": 984190791.35,
+        "total_usd": 1514139679.0
+      },
+      {
+        "bucket": "stations",
+        "imported_share": 0.4,
+        "imported_usd": 283720000.0,
+        "local_share": 0.6,
+        "local_usd": 425580000.0,
+        "total_usd": 709300000.0
+      },
+      {
+        "bucket": "depots",
+        "imported_share": 0.4,
+        "imported_usd": 3200000.0,
+        "local_share": 0.6,
+        "local_usd": 4800000.0,
+        "total_usd": 8000000.0
+      },
+      {
+        "bucket": "rolling_stock",
+        "imported_share": 0.55,
+        "imported_usd": 512820000.00000006,
+        "local_share": 0.44999999999999996,
+        "local_usd": 419579999.99999994,
+        "total_usd": 932400000.0
+      },
+      {
+        "bucket": "solar_plant",
+        "imported_share": 0.7,
+        "imported_usd": 385837718.31920004,
+        "local_share": 0.30000000000000004,
+        "local_usd": 165359022.13680005,
+        "total_usd": 551196740.4560001
+      },
+      {
+        "bucket": "signalling",
+        "imported_share": 0.8,
+        "imported_usd": 14334475.200000001,
+        "local_share": 0.19999999999999996,
+        "local_usd": 3583618.799999999,
+        "total_usd": 17918094.0
+      },
+      {
+        "bucket": "charging_microgrid",
+        "imported_share": 0.55,
+        "imported_usd": 27170000.000000004,
+        "local_share": 0.44999999999999996,
+        "local_usd": 22229999.999999996,
+        "total_usd": 49400000.0
+      },
+      {
+        "bucket": "epc_overhead",
+        "imported_share": 0.45,
+        "imported_usd": 101781469.8,
+        "local_share": 0.55,
+        "local_usd": 124399574.2,
+        "total_usd": 226181044.0
+      }
+    ],
+    "reconciled_project_total": 4008535557.4560003,
+    "risk_envelope_15_percent": 4609815891.0744,
+    "risk_envelope_25_percent": 5010669446.820001,
     "timetable_sized_dedicated_solar": 551196740.4560001
   },
   "cases": {
@@ -27,9 +98,9 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 1057112846.016,
       "capacity_utilisation": 0.8,
-      "project_irr": 0.16195740953327573,
-      "project_npv_usd_at_8_percent": 4157077621.0228963,
-      "steady_state_dscr": 4.906538978664756
+      "project_irr": 0.16854681926981807,
+      "project_npv_usd_at_8_percent": 4327794721.82171,
+      "steady_state_dscr": 3.849248222545971
     },
     "low_capacity_use": {
       "annual_operating_cash_usd": 563605070.22916,
@@ -37,24 +108,39 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 671541095.6159999,
       "capacity_utilisation": 0.5,
-      "project_irr": 0.10495612166797678,
-      "project_npv_usd_at_8_percent": 1098759782.922996,
-      "steady_state_dscr": 2.9134194868132717
+      "project_irr": 0.10996059412023608,
+      "project_npv_usd_at_8_percent": 1269476883.7218091,
+      "steady_state_dscr": 2.2856181984716732
     }
   },
   "city": "amman",
   "funding": {
-    "annual_debt_service_usd": 193451397.15724117,
+    "annual_debt_service_usd": 246587584.3157122,
+    "annual_external_capital_draw_usd": 371762510.19384,
+    "annual_external_debt_service_usd": 106455027.23750052,
+    "annual_grace_interest_usd": 212629945.18282202,
+    "annual_local_bond_issuance_usd": 343955681.03788805,
+    "annual_local_bond_service_usd": 140132557.0782117,
+    "annual_local_capital_draw_usd": 429944601.29736006,
+    "annual_local_public_equity_draw_usd": 85988920.25947198,
+    "annual_public_construction_commitment_usd": 298618865.442294,
     "construction_grace_years": 5,
-    "debt_principal_usd": 3377857245.1648006,
-    "debt_rate": 0.045,
-    "government_equity_share": 0.2,
+    "debt_principal_usd": 3578590956.1586404,
+    "external_capital_required_usd": 1858812550.9692001,
+    "external_debt_rate": 0.045,
+    "external_debt_usd": 1858812550.9692001,
+    "external_grant_usd": 0.0,
     "lender_commitment_status": "unconfirmed-placeholder",
+    "local_bond_principal_usd": 1719778405.1894403,
+    "local_bond_rate": 0.075,
+    "local_capital_required_usd": 2149723006.4868,
+    "local_public_equity_usd": 429944601.29735994,
     "repayment_years": 35
   },
   "limitations": [
     "No calibrated origin-destination or stated-preference ridership survey.",
     "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "Imported shares are planning assumptions pending country supplier-capability, customs, tax, and procurement-origin surveys.",
     "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
     "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
   ],
@@ -78,12 +164,12 @@
     "practical_capacity_passenger_trips_per_day": 2276640.0,
     "single_trip_fare_usd": 1.5466666666666666
   },
-  "schema_version": 1,
+  "schema_version": 2,
   "sources": {
     "design": "designs/west-asia/Jordan/Amman/design.toml",
-    "design_sha256": "1da1ea83ccfe756b36efee8e8994c68e809410d756e46f92335d8bcebb23c022",
+    "design_sha256": "4e8fce3eb6317d00f879c795ec89c8b5e63d9aaa4f2b3c34484b6665b9ef797d",
     "generator": "scripts/generate-city-finance.py",
-    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "generator_sha256": "9da48240e9ea50383e605d0c00585d52cdf48747820a2ac28647432461d3e1fa",
     "scenario": "designs/west-asia/Jordan/Amman/amman.toml",
     "scenario_sha256": "d93dd2ec187ebf713d75f78c320c919c1a3e40860defa390b931fe6fe3034150"
   },

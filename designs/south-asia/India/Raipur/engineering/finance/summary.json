@@ -11,13 +11,84 @@
     "total": 32090252.21948
   },
   "capex_eur": {
-    "reconciled_project_total": 1295713833.50144
+    "reconciled_project_total": 1245627561.50144
   },
   "capex_usd": {
-    "authoritative_design_base": 1209126701.0,
-    "reconciled_project_total": 1408384601.632,
-    "risk_envelope_15_percent": 1619642291.8767998,
-    "risk_envelope_25_percent": 1760480752.04,
+    "authoritative_design_base": 1154685101.0,
+    "imported_external_capital": 617699959.9424,
+    "imported_percentage_of_total": 0.45622301618151134,
+    "local_capital": 736243041.6896001,
+    "local_percentage_of_total": 0.5437769838184887,
+    "national_trainset_factory_treatment": "excluded from city CAPEX; costed once in the country NATIONAL-BRIEF.md",
+    "procurement_origin_buckets": [
+      {
+        "bucket": "civil",
+        "imported_share": 0.35,
+        "imported_usd": 198877466.54999998,
+        "local_share": 0.65,
+        "local_usd": 369343866.45000005,
+        "total_usd": 568221333.0
+      },
+      {
+        "bucket": "stations",
+        "imported_share": 0.4,
+        "imported_usd": 97080000.0,
+        "local_share": 0.6,
+        "local_usd": 145620000.0,
+        "total_usd": 242700000.0
+      },
+      {
+        "bucket": "depots",
+        "imported_share": 0.4,
+        "imported_usd": 3200000.0,
+        "local_share": 0.6,
+        "local_usd": 4800000.0,
+        "total_usd": 8000000.0
+      },
+      {
+        "bucket": "rolling_stock",
+        "imported_share": 0.55,
+        "imported_usd": 130592000.00000001,
+        "local_share": 0.44999999999999996,
+        "local_usd": 106847999.99999999,
+        "total_usd": 237440000.0
+      },
+      {
+        "bucket": "solar_plant",
+        "imported_share": 0.7,
+        "imported_usd": 139480530.44239998,
+        "local_share": 0.30000000000000004,
+        "local_usd": 59777370.18960002,
+        "total_usd": 199257900.632
+      },
+      {
+        "bucket": "signalling",
+        "imported_share": 0.8,
+        "imported_usd": 6226896.800000001,
+        "local_share": 0.19999999999999996,
+        "local_usd": 1556724.1999999993,
+        "total_usd": 7783621.0
+      },
+      {
+        "bucket": "charging_microgrid",
+        "imported_share": 0.55,
+        "imported_usd": 8250000.000000001,
+        "local_share": 0.44999999999999996,
+        "local_usd": 6749999.999999999,
+        "total_usd": 15000000.0
+      },
+      {
+        "bucket": "epc_overhead",
+        "imported_share": 0.45,
+        "imported_usd": 33993066.15,
+        "local_share": 0.55,
+        "local_usd": 41547080.85,
+        "total_usd": 75540147.0
+      }
+    ],
+    "reconciled_project_total": 1353943001.632,
+    "risk_envelope_15_percent": 1557034451.8767998,
+    "risk_envelope_25_percent": 1692428752.04,
     "timetable_sized_dedicated_solar": 199257900.632
   },
   "cases": {
@@ -27,9 +98,9 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 180011978.11200002,
       "capacity_utilisation": 0.8,
-      "project_irr": 0.08352386743065035,
-      "project_npv_usd_at_8_percent": 48646558.25527246,
-      "steady_state_dscr": 2.2923985815986114
+      "project_irr": 0.08687178867023013,
+      "project_npv_usd_at_8_percent": 92120462.80619048,
+      "steady_state_dscr": 1.8069621455026346
     },
     "low_capacity_use": {
       "annual_operating_cash_usd": 81965233.09252003,
@@ -37,24 +108,39 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 114055485.31200002,
       "capacity_utilisation": 0.5,
-      "project_irr": 0.04017645154466318,
-      "project_npv_usd_at_8_percent": -474513964.4217217,
-      "steady_state_dscr": 1.2702460233476354
+      "project_irr": 0.042731045328163145,
+      "project_npv_usd_at_8_percent": -431040059.8708037,
+      "steady_state_dscr": 1.0012597713543372
     }
   },
   "city": "raipur",
   "funding": {
-    "annual_debt_service_usd": 64527053.488824934,
+    "annual_debt_service_usd": 81862105.55693367,
+    "annual_external_capital_draw_usd": 123539991.98848,
+    "annual_external_debt_service_usd": 35375953.3342858,
+    "annual_grace_interest_usd": 70204097.39872897,
+    "annual_local_bond_issuance_usd": 117798886.67033604,
+    "annual_local_bond_service_usd": 46486152.22264787,
+    "annual_local_capital_draw_usd": 147248608.33792,
+    "annual_local_public_equity_draw_usd": 29449721.66758399,
+    "annual_public_construction_commitment_usd": 99653819.06631295,
     "construction_grace_years": 5,
-    "debt_principal_usd": 1126707681.3056,
-    "debt_rate": 0.045,
-    "government_equity_share": 0.2,
+    "debt_principal_usd": 1206694393.2940803,
+    "external_capital_required_usd": 617699959.9424,
+    "external_debt_rate": 0.045,
+    "external_debt_usd": 617699959.9424,
+    "external_grant_usd": 0.0,
     "lender_commitment_status": "unconfirmed-placeholder",
+    "local_bond_principal_usd": 588994433.3516802,
+    "local_bond_rate": 0.072,
+    "local_capital_required_usd": 736243041.6896001,
+    "local_public_equity_usd": 147248608.33791995,
     "repayment_years": 35
   },
   "limitations": [
     "No calibrated origin-destination or stated-preference ridership survey.",
     "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "Imported shares are planning assumptions pending country supplier-capability, customs, tax, and procurement-origin surveys.",
     "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
     "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
   ],
@@ -78,12 +164,12 @@
     "practical_capacity_passenger_trips_per_day": 982080.0,
     "single_trip_fare_usd": 0.6133333333333334
   },
-  "schema_version": 1,
+  "schema_version": 2,
   "sources": {
     "design": "designs/south-asia/India/Raipur/design.toml",
-    "design_sha256": "2809e1ff4a05c7ebcb07bd1009a7e86678c926faed16e8bf56d3119099d296ad",
+    "design_sha256": "a8f24eb9226cf2bf1c6438068190b34d264b18e77b2cdbb3f2088f464cd6ba1b",
     "generator": "scripts/generate-city-finance.py",
-    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "generator_sha256": "9da48240e9ea50383e605d0c00585d52cdf48747820a2ac28647432461d3e1fa",
     "scenario": "designs/south-asia/India/Raipur/raipur.toml",
     "scenario_sha256": "054d90bdc0a4803a5217c642462691334200ba93c481c35c1e9e0256a3d31722"
   },

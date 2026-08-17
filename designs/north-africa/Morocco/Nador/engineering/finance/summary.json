@@ -11,13 +11,84 @@
     "total": 7858863.599233454
   },
   "capex_eur": {
-    "reconciled_project_total": 270315846.8063186
+    "reconciled_project_total": 261810629.88631856
   },
   "capex_usd": {
-    "authoritative_design_base": 279203324.0,
-    "reconciled_project_total": 293821572.61556363,
-    "risk_envelope_15_percent": 337894808.50789815,
-    "risk_envelope_25_percent": 367276965.76945454,
+    "authoritative_design_base": 269958523.0,
+    "imported_external_capital": 120121143.43089454,
+    "imported_percentage_of_total": 0.42210452648316243,
+    "local_capital": 164455628.1846691,
+    "local_percentage_of_total": 0.5778954735168377,
+    "national_trainset_factory_treatment": "excluded from city CAPEX; costed once in the country NATIONAL-BRIEF.md",
+    "procurement_origin_buckets": [
+      {
+        "bucket": "civil",
+        "imported_share": 0.35,
+        "imported_usd": 41802371.099999994,
+        "local_share": 0.65,
+        "local_usd": 77632974.9,
+        "total_usd": 119435346.0
+      },
+      {
+        "bucket": "stations",
+        "imported_share": 0.4,
+        "imported_usd": 32440000.0,
+        "local_share": 0.6,
+        "local_usd": 48660000.0,
+        "total_usd": 81100000.0
+      },
+      {
+        "bucket": "depots",
+        "imported_share": 0.4,
+        "imported_usd": 3200000.0,
+        "local_share": 0.6,
+        "local_usd": 4800000.0,
+        "total_usd": 8000000.0
+      },
+      {
+        "bucket": "rolling_stock",
+        "imported_share": 0.55,
+        "imported_usd": 22176000.0,
+        "local_share": 0.44999999999999996,
+        "local_usd": 18144000.0,
+        "total_usd": 40320000.0
+      },
+      {
+        "bucket": "solar_plant",
+        "imported_share": 0.7,
+        "imported_usd": 10232774.030894546,
+        "local_share": 0.30000000000000004,
+        "local_usd": 4385474.584669093,
+        "total_usd": 14618248.615563639
+      },
+      {
+        "bucket": "signalling",
+        "imported_share": 0.8,
+        "imported_usd": 1373871.2000000002,
+        "local_share": 0.19999999999999996,
+        "local_usd": 343467.7999999998,
+        "total_usd": 1717339.0
+      },
+      {
+        "bucket": "charging_microgrid",
+        "imported_share": 0.55,
+        "imported_usd": 948750.0000000001,
+        "local_share": 0.44999999999999996,
+        "local_usd": 776249.9999999999,
+        "total_usd": 1725000.0
+      },
+      {
+        "bucket": "epc_overhead",
+        "imported_share": 0.45,
+        "imported_usd": 7947377.100000001,
+        "local_share": 0.55,
+        "local_usd": 9713460.899999999,
+        "total_usd": 17660838.0
+      }
+    ],
+    "reconciled_project_total": 284576771.61556363,
+    "risk_envelope_15_percent": 327263287.3578982,
+    "risk_envelope_25_percent": 355720964.51945454,
     "timetable_sized_dedicated_solar": 14618248.615563639
   },
   "cases": {
@@ -27,9 +98,9 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 88059439.2,
       "capacity_utilisation": 0.8,
-      "project_irr": 0.18750591490923393,
-      "project_npv_usd_at_8_percent": 401514341.5839641,
-      "steady_state_dscr": 5.957626055316731
+      "project_irr": 0.19196308747988944,
+      "project_npv_usd_at_8_percent": 408896703.53266203,
+      "steady_state_dscr": 5.564017128818698
     },
     "low_capacity_use": {
       "annual_operating_cash_usd": 48134770.80076654,
@@ -37,24 +108,39 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 55993634.4,
       "capacity_utilisation": 0.5,
-      "project_irr": 0.12550076245931446,
-      "project_npv_usd_at_8_percent": 147171478.7805241,
-      "steady_state_dscr": 3.575647213766441
+      "project_irr": 0.12891273474186157,
+      "project_npv_usd_at_8_percent": 154553840.72922203,
+      "steady_state_dscr": 3.3394110605942746
     }
   },
   "city": "nador",
   "funding": {
-    "annual_debt_service_usd": 13461834.438096967,
+    "annual_debt_service_usd": 14414149.659131985,
+    "annual_external_capital_draw_usd": 24024228.686178908,
+    "annual_external_debt_service_usd": 6879391.678880195,
+    "annual_grace_interest_usd": 11325854.069038343,
+    "annual_local_bond_issuance_usd": 26312900.50954706,
+    "annual_local_bond_service_usd": 7534757.98025179,
+    "annual_local_capital_draw_usd": 32891125.636933822,
+    "annual_local_public_equity_draw_usd": 6578225.127386764,
+    "annual_public_construction_commitment_usd": 17904079.196425106,
     "construction_grace_years": 5,
-    "debt_principal_usd": 235057258.09245092,
-    "debt_rate": 0.045,
-    "government_equity_share": 0.2,
+    "debt_principal_usd": 251685645.97862983,
+    "external_capital_required_usd": 120121143.43089454,
+    "external_debt_rate": 0.045,
+    "external_debt_usd": 120121143.43089454,
+    "external_grant_usd": 0.0,
     "lender_commitment_status": "unconfirmed-placeholder",
+    "local_bond_principal_usd": 131564502.54773529,
+    "local_bond_rate": 0.045,
+    "local_capital_required_usd": 164455628.1846691,
+    "local_public_equity_usd": 32891125.63693382,
     "repayment_years": 35
   },
   "limitations": [
     "No calibrated origin-destination or stated-preference ridership survey.",
     "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "Imported shares are planning assumptions pending country supplier-capability, customs, tax, and procurement-origin surveys.",
     "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
     "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
   ],
@@ -78,12 +164,12 @@
     "practical_capacity_passenger_trips_per_day": 267840.0,
     "single_trip_fare_usd": 1.0933333333333333
   },
-  "schema_version": 1,
+  "schema_version": 2,
   "sources": {
     "design": "designs/north-africa/Morocco/Nador/design.toml",
-    "design_sha256": "7afb9e5c0d571b553a1ed8a90ec9196243017423cedf9d118eb52cb9918938d9",
+    "design_sha256": "bd72a65580a93e5a1250b3c60f3a1579ab226678d3d4c9e56ff05cc4653be5e8",
     "generator": "scripts/generate-city-finance.py",
-    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "generator_sha256": "9da48240e9ea50383e605d0c00585d52cdf48747820a2ac28647432461d3e1fa",
     "scenario": "designs/north-africa/Morocco/Nador/nador.toml",
     "scenario_sha256": "723777d11123337b77d6eee2d76a2b11ea9b28cd20bb526169128374ef64e303"
   },

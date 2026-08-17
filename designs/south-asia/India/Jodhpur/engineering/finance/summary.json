@@ -11,13 +11,84 @@
     "total": 38073068.995776005
   },
   "capex_eur": {
-    "reconciled_project_total": 1619182992.620928
+    "reconciled_project_total": 1577838192.620928
   },
   "capex_usd": {
-    "authoritative_design_base": 1623683056.0,
-    "reconciled_project_total": 1759981513.7184,
-    "risk_envelope_15_percent": 2023978740.7761598,
-    "risk_envelope_25_percent": 2199976892.148,
+    "authoritative_design_base": 1578743056.0,
+    "imported_external_capital": 717901117.5528799,
+    "imported_percentage_of_total": 0.41859110220392903,
+    "local_capital": 997140396.16552,
+    "local_percentage_of_total": 0.5814088977960709,
+    "national_trainset_factory_treatment": "excluded from city CAPEX; costed once in the country NATIONAL-BRIEF.md",
+    "procurement_origin_buckets": [
+      {
+        "bucket": "civil",
+        "imported_share": 0.35,
+        "imported_usd": 342151995.15,
+        "local_share": 0.65,
+        "local_usd": 635425133.85,
+        "total_usd": 977577129.0
+      },
+      {
+        "bucket": "stations",
+        "imported_share": 0.4,
+        "imported_usd": 108400000.0,
+        "local_share": 0.6,
+        "local_usd": 162600000.0,
+        "total_usd": 271000000.0
+      },
+      {
+        "bucket": "depots",
+        "imported_share": 0.4,
+        "imported_usd": 3200000.0,
+        "local_share": 0.6,
+        "local_usd": 4800000.0,
+        "total_usd": 8000000.0
+      },
+      {
+        "bucket": "rolling_stock",
+        "imported_share": 0.55,
+        "imported_usd": 107800000.00000001,
+        "local_share": 0.44999999999999996,
+        "local_usd": 88199999.99999999,
+        "total_usd": 196000000.0
+      },
+      {
+        "bucket": "solar_plant",
+        "imported_share": 0.7,
+        "imported_usd": 95408920.40287997,
+        "local_share": 0.30000000000000004,
+        "local_usd": 40889537.31552,
+        "total_usd": 136298457.71839997
+      },
+      {
+        "bucket": "signalling",
+        "imported_share": 0.8,
+        "imported_usd": 6006936.800000001,
+        "local_share": 0.19999999999999996,
+        "local_usd": 1501734.1999999993,
+        "total_usd": 7508671.0
+      },
+      {
+        "bucket": "charging_microgrid",
+        "imported_share": 0.55,
+        "imported_usd": 8456250.0,
+        "local_share": 0.44999999999999996,
+        "local_usd": 6918750.0,
+        "total_usd": 15375000.0
+      },
+      {
+        "bucket": "epc_overhead",
+        "imported_share": 0.45,
+        "imported_usd": 46477015.2,
+        "local_share": 0.55,
+        "local_usd": 56805240.8,
+        "total_usd": 103282256.0
+      }
+    ],
+    "reconciled_project_total": 1715041513.7184,
+    "risk_envelope_15_percent": 1972297740.7761598,
+    "risk_envelope_25_percent": 2143801892.148,
     "timetable_sized_dedicated_solar": 136298457.71839997
   },
   "cases": {
@@ -27,34 +98,49 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 148482857.56800002,
       "capacity_utilisation": 0.8,
-      "project_irr": 0.045075596887089606,
-      "project_npv_usd_at_8_percent": -529659405.0186015,
-      "steady_state_dscr": 1.3692378816618322
+      "project_irr": 0.04680022789157015,
+      "project_npv_usd_at_8_percent": -493772927.20534366,
+      "steady_state_dscr": 1.0608813257434138
     },
     "low_capacity_use": {
       "annual_operating_cash_usd": 56445385.37222401,
       "annual_paid_trips": 146642400.0,
-      "annual_public_support_usd": 24190558.207003154,
+      "annual_public_support_usd": 47628261.597529404,
       "annual_revenue_usd": 94518454.36800002,
       "capacity_utilisation": 0.5,
-      "project_irr": 0.0058813163593026165,
-      "project_npv_usd_at_8_percent": -957699832.6634151,
-      "steady_state_dscr": 0.7000027886666295
+      "project_irr": 0.007227008197386852,
+      "project_npv_usd_at_8_percent": -921813354.8501573,
+      "steady_state_dscr": 0.5423600211552935
     }
   },
   "city": "jodhpur",
   "funding": {
-    "annual_debt_service_usd": 80635943.57922716,
+    "annual_debt_service_usd": 104073646.96975341,
+    "annual_external_capital_draw_usd": 143580223.51057598,
+    "annual_external_debt_service_usd": 41114518.504340686,
+    "annual_grace_interest_usd": 89740837.10901354,
+    "annual_local_bond_issuance_usd": 159542463.3864832,
+    "annual_local_bond_service_usd": 62959128.46541273,
+    "annual_local_capital_draw_usd": 199428079.233104,
+    "annual_local_public_equity_draw_usd": 39885615.8466208,
+    "annual_public_construction_commitment_usd": 129626452.95563434,
     "construction_grace_years": 5,
-    "debt_principal_usd": 1407985210.97472,
-    "debt_rate": 0.045,
-    "government_equity_share": 0.2,
+    "debt_principal_usd": 1515613434.4852958,
+    "external_capital_required_usd": 717901117.5528799,
+    "external_debt_rate": 0.045,
+    "external_debt_usd": 717901117.5528799,
+    "external_grant_usd": 0.0,
     "lender_commitment_status": "unconfirmed-placeholder",
+    "local_bond_principal_usd": 797712316.932416,
+    "local_bond_rate": 0.072,
+    "local_capital_required_usd": 997140396.16552,
+    "local_public_equity_usd": 199428079.233104,
     "repayment_years": 35
   },
   "limitations": [
     "No calibrated origin-destination or stated-preference ridership survey.",
     "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "Imported shares are planning assumptions pending country supplier-capability, customs, tax, and procurement-origin surveys.",
     "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
     "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
   ],
@@ -78,12 +164,12 @@
     "practical_capacity_passenger_trips_per_day": 803520.0,
     "single_trip_fare_usd": 0.6133333333333334
   },
-  "schema_version": 1,
+  "schema_version": 2,
   "sources": {
     "design": "designs/south-asia/India/Jodhpur/design.toml",
-    "design_sha256": "575d1698ed7c76df19c9eb63226a7c3c6ccda02b580bd803c285205ae247478d",
+    "design_sha256": "733a74be70809e425c98aea4948ca29c94e711570e290a42664033ef3b0768ff",
     "generator": "scripts/generate-city-finance.py",
-    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "generator_sha256": "9da48240e9ea50383e605d0c00585d52cdf48747820a2ac28647432461d3e1fa",
     "scenario": "designs/south-asia/India/Jodhpur/jodhpur.toml",
     "scenario_sha256": "ab481296e5dbc215b0bf63d3d2ba629d62db529be69150267c59daa70a0c7ee9"
   },

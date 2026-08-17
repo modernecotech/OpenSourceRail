@@ -11,13 +11,84 @@
     "total": 7762344.236009846
   },
   "capex_eur": {
-    "reconciled_project_total": 290007011.10193723
+    "reconciled_project_total": 280084258.1819373
   },
   "capex_usd": {
-    "authoritative_design_base": 301590707.0,
-    "reconciled_project_total": 315225012.0673231,
-    "risk_envelope_15_percent": 362508763.8774215,
-    "risk_envelope_25_percent": 394031265.0841539,
+    "authoritative_design_base": 290805106.0,
+    "imported_external_capital": 128589326.94712615,
+    "imported_percentage_of_total": 0.4223806848670134,
+    "local_capital": 175850084.1201969,
+    "local_percentage_of_total": 0.5776193151329865,
+    "national_trainset_factory_treatment": "excluded from city CAPEX; costed once in the country NATIONAL-BRIEF.md",
+    "procurement_origin_buckets": [
+      {
+        "bucket": "civil",
+        "imported_share": 0.35,
+        "imported_usd": 44852616.55,
+        "local_share": 0.65,
+        "local_usd": 83297716.45,
+        "total_usd": 128150333.0
+      },
+      {
+        "bucket": "stations",
+        "imported_share": 0.4,
+        "imported_usd": 33800000.0,
+        "local_share": 0.6,
+        "local_usd": 50700000.0,
+        "total_usd": 84500000.0
+      },
+      {
+        "bucket": "depots",
+        "imported_share": 0.4,
+        "imported_usd": 3200000.0,
+        "local_share": 0.6,
+        "local_usd": 4800000.0,
+        "total_usd": 8000000.0
+      },
+      {
+        "bucket": "rolling_stock",
+        "imported_share": 0.55,
+        "imported_usd": 25872000.000000004,
+        "local_share": 0.44999999999999996,
+        "local_usd": 21167999.999999996,
+        "total_usd": 47040000.0
+      },
+      {
+        "bucket": "solar_plant",
+        "imported_share": 0.7,
+        "imported_usd": 9544013.54712615,
+        "local_share": 0.30000000000000004,
+        "local_usd": 4090291.520196922,
+        "total_usd": 13634305.067323072
+      },
+      {
+        "bucket": "signalling",
+        "imported_share": 0.8,
+        "imported_usd": 1632112.0,
+        "local_share": 0.19999999999999996,
+        "local_usd": 408028.0,
+        "total_usd": 2040140.0
+      },
+      {
+        "bucket": "charging_microgrid",
+        "imported_share": 0.55,
+        "imported_usd": 1127500.0,
+        "local_share": 0.44999999999999996,
+        "local_usd": 922500.0,
+        "total_usd": 2050000.0
+      },
+      {
+        "bucket": "epc_overhead",
+        "imported_share": 0.45,
+        "imported_usd": 8561084.85,
+        "local_share": 0.55,
+        "local_usd": 10463548.15,
+        "total_usd": 19024633.0
+      }
+    ],
+    "reconciled_project_total": 304439411.0673231,
+    "risk_envelope_15_percent": 350105322.7274215,
+    "risk_envelope_25_percent": 380549263.8341539,
     "timetable_sized_dedicated_solar": 13634305.067323072
   },
   "cases": {
@@ -27,9 +98,9 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 51816925.440000005,
       "capacity_utilisation": 0.8,
-      "project_irr": 0.10937283135632239,
-      "project_npv_usd_at_8_percent": 97716263.9614155,
-      "steady_state_dscr": 3.0503511752310706
+      "project_irr": 0.1127921257901198,
+      "project_npv_usd_at_8_percent": 106329019.43513939,
+      "steady_state_dscr": 1.8425905329009378
     },
     "low_capacity_use": {
       "annual_operating_cash_usd": 25284354.00399015,
@@ -37,24 +108,39 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 33046698.24,
       "capacity_utilisation": 0.5,
-      "project_irr": 0.062274478114377356,
-      "project_npv_usd_at_8_percent": -51167363.04547624,
-      "steady_state_dscr": 1.7506955427383388
+      "project_irr": 0.06486814146195677,
+      "project_npv_usd_at_8_percent": -42554607.57175235,
+      "steady_state_dscr": 1.0575225105998394
     }
   },
   "city": "namibe",
   "funding": {
-    "annual_debt_service_usd": 14442462.088206265,
+    "annual_debt_service_usd": 23909045.670950837,
+    "annual_external_capital_draw_usd": 25717865.38942523,
+    "annual_external_debt_service_usd": 7364368.341213657,
+    "annual_grace_interest_usd": 21964727.451678794,
+    "annual_local_bond_issuance_usd": 28136013.459231507,
+    "annual_local_bond_service_usd": 16544677.32973718,
+    "annual_local_capital_draw_usd": 35170016.824039385,
+    "annual_local_public_equity_draw_usd": 7034003.364807874,
+    "annual_public_construction_commitment_usd": 28998730.816486668,
     "construction_grace_years": 5,
-    "debt_principal_usd": 252180009.65385848,
-    "debt_rate": 0.045,
-    "government_equity_share": 0.2,
+    "debt_principal_usd": 269269394.2432837,
+    "external_capital_required_usd": 128589326.94712615,
+    "external_debt_rate": 0.045,
+    "external_debt_usd": 128589326.94712615,
+    "external_grant_usd": 0.0,
     "lender_commitment_status": "unconfirmed-placeholder",
+    "local_bond_principal_usd": 140680067.29615754,
+    "local_bond_rate": 0.115,
+    "local_capital_required_usd": 175850084.1201969,
+    "local_public_equity_usd": 35170016.82403937,
     "repayment_years": 35
   },
   "limitations": [
     "No calibrated origin-destination or stated-preference ridership survey.",
     "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "Imported shares are planning assumptions pending country supplier-capability, customs, tax, and procurement-origin surveys.",
     "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
     "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
   ],
@@ -78,12 +164,12 @@
     "practical_capacity_passenger_trips_per_day": 267840.0,
     "single_trip_fare_usd": 0.64
   },
-  "schema_version": 1,
+  "schema_version": 2,
   "sources": {
     "design": "designs/east-africa/Angola/Namibe/design.toml",
-    "design_sha256": "b396d0f3b51d27742124f0c1bc2c130d5369f16b808cf24799f5b1a8d1fa380f",
+    "design_sha256": "9715ba71f506bf60b41895ac056f16c1173ddc99914ff3fb2fc56a946d60a494",
     "generator": "scripts/generate-city-finance.py",
-    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "generator_sha256": "9da48240e9ea50383e605d0c00585d52cdf48747820a2ac28647432461d3e1fa",
     "scenario": "designs/east-africa/Angola/Namibe/namibe.toml",
     "scenario_sha256": "79ab7a5efce035225489a068059c9d60b4764fbd7e3602bd95e2b6eb24387912"
   },

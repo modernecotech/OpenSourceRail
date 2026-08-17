@@ -11,13 +11,84 @@
     "total": 9698137.411048727
   },
   "capex_eur": {
-    "reconciled_project_total": 340276326.9176553
+    "reconciled_project_total": 325392198.9176553
   },
   "capex_usd": {
-    "authoritative_design_base": 338905960.0,
-    "reconciled_project_total": 369865572.7365818,
-    "risk_envelope_15_percent": 425345408.64706904,
-    "risk_envelope_25_percent": 462331965.92072725,
+    "authoritative_design_base": 322727560.0,
+    "imported_external_capital": 157006462.41560727,
+    "imported_percentage_of_total": 0.44391336332839565,
+    "local_capital": 196680710.32097456,
+    "local_percentage_of_total": 0.5560866366716044,
+    "national_trainset_factory_treatment": "excluded from city CAPEX; costed once in the country NATIONAL-BRIEF.md",
+    "procurement_origin_buckets": [
+      {
+        "bucket": "civil",
+        "imported_share": 0.35,
+        "imported_usd": 50180478.599999994,
+        "local_share": 0.65,
+        "local_usd": 93192317.4,
+        "total_usd": 143372796.0
+      },
+      {
+        "bucket": "stations",
+        "imported_share": 0.4,
+        "imported_usd": 28440000.0,
+        "local_share": 0.6,
+        "local_usd": 42660000.0,
+        "total_usd": 71100000.0
+      },
+      {
+        "bucket": "depots",
+        "imported_share": 0.4,
+        "imported_usd": 3200000.0,
+        "local_share": 0.6,
+        "local_usd": 4800000.0,
+        "total_usd": 8000000.0
+      },
+      {
+        "bucket": "rolling_stock",
+        "imported_share": 0.55,
+        "imported_usd": 41580000.0,
+        "local_share": 0.44999999999999996,
+        "local_usd": 34020000.0,
+        "total_usd": 75600000.0
+      },
+      {
+        "bucket": "solar_plant",
+        "imported_share": 0.7,
+        "imported_usd": 21671728.915607277,
+        "local_share": 0.30000000000000004,
+        "local_usd": 9287883.820974547,
+        "total_usd": 30959612.736581825
+      },
+      {
+        "bucket": "signalling",
+        "imported_share": 0.8,
+        "imported_usd": 1553396.8,
+        "local_share": 0.19999999999999996,
+        "local_usd": 388349.19999999995,
+        "total_usd": 1941746.0
+      },
+      {
+        "bucket": "charging_microgrid",
+        "imported_share": 0.55,
+        "imported_usd": 880000.0000000001,
+        "local_share": 0.44999999999999996,
+        "local_usd": 719999.9999999999,
+        "total_usd": 1600000.0
+      },
+      {
+        "bucket": "epc_overhead",
+        "imported_share": 0.45,
+        "imported_usd": 9500858.1,
+        "local_share": 0.55,
+        "local_usd": 11612159.9,
+        "total_usd": 21113018.0
+      }
+    ],
+    "reconciled_project_total": 353687172.7365818,
+    "risk_envelope_15_percent": 406740248.64706904,
+    "risk_envelope_25_percent": 442108965.92072725,
     "timetable_sized_dedicated_solar": 30959612.736581825
   },
   "cases": {
@@ -27,9 +98,9 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 114669983.23200001,
       "capacity_utilisation": 0.8,
-      "project_irr": 0.1685350425873275,
-      "project_npv_usd_at_8_percent": 430132533.79612374,
-      "steady_state_dscr": 6.039090227336789
+      "project_irr": 0.17362851154695813,
+      "project_npv_usd_at_8_percent": 442165496.2770007,
+      "steady_state_dscr": 4.453753328803693
     },
     "low_capacity_use": {
       "annual_operating_cash_usd": 62738834.62095128,
@@ -37,24 +108,39 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 72436972.032,
       "capacity_utilisation": 0.5,
-      "project_irr": 0.1159709569290498,
-      "project_npv_usd_at_8_percent": 146400890.33886957,
-      "steady_state_dscr": 3.6094009786218724
+      "project_irr": 0.1201169112940351,
+      "project_npv_usd_at_8_percent": 158433852.81974652,
+      "steady_state_dscr": 2.661887969607905
     }
   },
   "city": "gaza-city",
   "funding": {
-    "annual_debt_service_usd": 17382062.838833157,
+    "annual_debt_service_usd": 23569299.436066303,
+    "annual_external_capital_draw_usd": 22429494.63080104,
+    "annual_external_debt_service_usd": 9223270.550766574,
+    "annual_grace_interest_usd": 20439579.110528596,
+    "annual_local_bond_issuance_usd": 22477795.465254236,
+    "annual_local_bond_service_usd": 14346028.88529973,
+    "annual_local_capital_draw_usd": 28097244.331567794,
+    "annual_local_public_equity_draw_usd": 5619448.86631356,
+    "annual_public_construction_commitment_usd": 26059027.976842158,
     "construction_grace_years": 7,
-    "debt_principal_usd": 295892458.18926543,
-    "debt_rate": 0.045,
-    "government_equity_share": 0.2,
+    "debt_principal_usd": 314351030.6723869,
+    "external_capital_required_usd": 157006462.41560727,
+    "external_debt_rate": 0.045,
+    "external_debt_usd": 157006462.41560727,
+    "external_grant_usd": 0.0,
     "lender_commitment_status": "unconfirmed-placeholder",
+    "local_bond_principal_usd": 157344568.25677964,
+    "local_bond_rate": 0.085,
+    "local_capital_required_usd": 196680710.32097456,
+    "local_public_equity_usd": 39336142.06419492,
     "repayment_years": 33
   },
   "limitations": [
     "No calibrated origin-destination or stated-preference ridership survey.",
     "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "Imported shares are planning assumptions pending country supplier-capability, customs, tax, and procurement-origin surveys.",
     "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
     "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
   ],
@@ -78,12 +164,12 @@
     "practical_capacity_passenger_trips_per_day": 401760.0,
     "single_trip_fare_usd": 0.9600000000000001
   },
-  "schema_version": 1,
+  "schema_version": 2,
   "sources": {
     "design": "designs/west-asia/Palestine/Gaza-City/design.toml",
-    "design_sha256": "57851ebedb0f96b18b0b1598dd518bca4acfa1216b52f559c42e30f81b28de70",
+    "design_sha256": "4ad160f9f783944e656fb4b1126c23a214facdf06880f374774153ad36ed715d",
     "generator": "scripts/generate-city-finance.py",
-    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "generator_sha256": "9da48240e9ea50383e605d0c00585d52cdf48747820a2ac28647432461d3e1fa",
     "scenario": "designs/west-asia/Palestine/Gaza-City/gaza-city.toml",
     "scenario_sha256": "1d37215720a24ea02b0b445492e6f43608ca5a5328d20487c3bc2abbbf3f5c44"
   },

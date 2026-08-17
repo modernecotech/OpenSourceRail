@@ -11,13 +11,84 @@
     "total": 83343914.17931199
   },
   "capex_eur": {
-    "reconciled_project_total": 2238864999.611136
+    "reconciled_project_total": 2162081800.531136
   },
   "capex_usd": {
-    "authoritative_design_base": 2181284986.0,
-    "reconciled_project_total": 2433548912.6208,
-    "risk_envelope_15_percent": 2798581249.51392,
-    "risk_envelope_25_percent": 3041936140.776,
+    "authoritative_design_base": 2097824987.0,
+    "imported_external_capital": 1036213181.98456,
+    "imported_percentage_of_total": 0.44092509690965626,
+    "local_capital": 1313875731.63624,
+    "local_percentage_of_total": 0.5590749030903438,
+    "national_trainset_factory_treatment": "excluded from city CAPEX; costed once in the country NATIONAL-BRIEF.md",
+    "procurement_origin_buckets": [
+      {
+        "bucket": "civil",
+        "imported_share": 0.35,
+        "imported_usd": 357162163.4,
+        "local_share": 0.65,
+        "local_usd": 663301160.6,
+        "total_usd": 1020463324.0
+      },
+      {
+        "bucket": "stations",
+        "imported_share": 0.4,
+        "imported_usd": 209520000.0,
+        "local_share": 0.6,
+        "local_usd": 314280000.0,
+        "total_usd": 523800000.0
+      },
+      {
+        "bucket": "depots",
+        "imported_share": 0.4,
+        "imported_usd": 3200000.0,
+        "local_share": 0.6,
+        "local_usd": 4800000.0,
+        "total_usd": 8000000.0
+      },
+      {
+        "bucket": "rolling_stock",
+        "imported_share": 0.55,
+        "imported_usd": 200200000.00000003,
+        "local_share": 0.44999999999999996,
+        "local_usd": 163799999.99999997,
+        "total_usd": 364000000.0
+      },
+      {
+        "bucket": "solar_plant",
+        "imported_share": 0.7,
+        "imported_usd": 176584748.63456,
+        "local_share": 0.30000000000000004,
+        "local_usd": 75679177.98624,
+        "total_usd": 252263926.6208
+      },
+      {
+        "bucket": "signalling",
+        "imported_share": 0.8,
+        "imported_usd": 10916620.8,
+        "local_share": 0.19999999999999996,
+        "local_usd": 2729155.1999999993,
+        "total_usd": 13645776.0
+      },
+      {
+        "bucket": "charging_microgrid",
+        "imported_share": 0.55,
+        "imported_usd": 16871250.0,
+        "local_share": 0.44999999999999996,
+        "local_usd": 13803750.0,
+        "total_usd": 30675000.0
+      },
+      {
+        "bucket": "epc_overhead",
+        "imported_share": 0.45,
+        "imported_usd": 61758399.15,
+        "local_share": 0.55,
+        "local_usd": 75482487.85,
+        "total_usd": 137240887.0
+      }
+    ],
+    "reconciled_project_total": 2350088913.6208,
+    "risk_envelope_15_percent": 2702602250.66392,
+    "risk_envelope_25_percent": 2937611142.026,
     "timetable_sized_dedicated_solar": 252263926.6208
   },
   "cases": {
@@ -27,9 +98,9 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 1354266945.6,
       "capacity_utilisation": 0.8,
-      "project_irr": 0.29277745134618044,
-      "project_npv_usd_at_8_percent": 8137547548.909029,
-      "steady_state_dscr": 11.398786099986898
+      "project_irr": 0.2993534697581617,
+      "project_npv_usd_at_8_percent": 8204193864.049395,
+      "steady_state_dscr": 10.631656420218121
     },
     "low_capacity_use": {
       "annual_operating_cash_usd": 783418519.420688,
@@ -37,24 +108,39 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 866762433.6,
       "capacity_utilisation": 0.5,
-      "project_irr": 0.2112955870138387,
-      "project_npv_usd_at_8_percent": 4270708903.035593,
-      "steady_state_dscr": 7.026405147180728
+      "project_irr": 0.2165801346500711,
+      "project_npv_usd_at_8_percent": 4337355218.175959,
+      "steady_state_dscr": 6.5535333972240695
     }
   },
   "city": "dammam",
   "funding": {
-    "annual_debt_service_usd": 111496348.84561512,
+    "annual_debt_service_usd": 119541394.22750583,
+    "annual_external_capital_draw_usd": 207242636.396912,
+    "annual_external_debt_service_usd": 59344392.98599896,
+    "annual_grace_interest_usd": 93929119.52820984,
+    "annual_local_bond_issuance_usd": 210220117.0617984,
+    "annual_local_bond_service_usd": 60197001.24150687,
+    "annual_local_capital_draw_usd": 262775146.327248,
+    "annual_local_public_equity_draw_usd": 52555029.2654496,
+    "annual_public_construction_commitment_usd": 146484148.79365945,
     "construction_grace_years": 5,
-    "debt_principal_usd": 1946839130.09664,
-    "debt_rate": 0.045,
-    "government_equity_share": 0.2,
+    "debt_principal_usd": 2087313767.293552,
+    "external_capital_required_usd": 1036213181.98456,
+    "external_debt_rate": 0.045,
+    "external_debt_usd": 1036213181.98456,
+    "external_grant_usd": 0.0,
     "lender_commitment_status": "unconfirmed-placeholder",
+    "local_bond_principal_usd": 1051100585.308992,
+    "local_bond_rate": 0.045,
+    "local_capital_required_usd": 1313875731.63624,
+    "local_public_equity_usd": 262775146.32724798,
     "repayment_years": 35
   },
   "limitations": [
     "No calibrated origin-destination or stated-preference ridership survey.",
     "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "Imported shares are planning assumptions pending country supplier-capability, customs, tax, and procurement-origin surveys.",
     "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
     "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
   ],
@@ -78,12 +164,12 @@
     "practical_capacity_passenger_trips_per_day": 982080.0,
     "single_trip_fare_usd": 4.533333333333333
   },
-  "schema_version": 1,
+  "schema_version": 2,
   "sources": {
     "design": "designs/west-asia/Saudi Arabia/Dammam/design.toml",
-    "design_sha256": "be55c95d960a0d8eaae21f73a6ce5f16b031226f7a8f49cdf539ea5666bd3181",
+    "design_sha256": "9e4efbc82f728795e83984cc530183c7613c32b616d3d7b845cc2942080ced59",
     "generator": "scripts/generate-city-finance.py",
-    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "generator_sha256": "9da48240e9ea50383e605d0c00585d52cdf48747820a2ac28647432461d3e1fa",
     "scenario": "designs/west-asia/Saudi Arabia/Dammam/dammam.toml",
     "scenario_sha256": "6b739f52972f2c2e5811bfaee62632cb6022f4e446766626dda0661525e8a51d"
   },

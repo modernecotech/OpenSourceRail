@@ -11,13 +11,84 @@
     "total": 14058024.41892
   },
   "capex_eur": {
-    "reconciled_project_total": 493384877.13376
+    "reconciled_project_total": 470349917.13376
   },
   "capex_usd": {
-    "authoritative_design_base": 489605874.0,
-    "reconciled_project_total": 536287909.928,
-    "risk_envelope_15_percent": 616731096.4172,
-    "risk_envelope_25_percent": 670359887.41,
+    "authoritative_design_base": 464567874.0,
+    "imported_external_capital": 228625063.4496,
+    "imported_percentage_of_total": 0.4471884669511191,
+    "local_capital": 282624846.4784,
+    "local_percentage_of_total": 0.552811533048881,
+    "national_trainset_factory_treatment": "excluded from city CAPEX; costed once in the country NATIONAL-BRIEF.md",
+    "procurement_origin_buckets": [
+      {
+        "bucket": "civil",
+        "imported_share": 0.35,
+        "imported_usd": 73397418.14999999,
+        "local_share": 0.65,
+        "local_usd": 136309490.85000002,
+        "total_usd": 209706909.0
+      },
+      {
+        "bucket": "stations",
+        "imported_share": 0.4,
+        "imported_usd": 37720000.0,
+        "local_share": 0.6,
+        "local_usd": 56580000.0,
+        "total_usd": 94300000.0
+      },
+      {
+        "bucket": "depots",
+        "imported_share": 0.4,
+        "imported_usd": 3200000.0,
+        "local_share": 0.6,
+        "local_usd": 4800000.0,
+        "total_usd": 8000000.0
+      },
+      {
+        "bucket": "rolling_stock",
+        "imported_share": 0.55,
+        "imported_usd": 64350000.00000001,
+        "local_share": 0.44999999999999996,
+        "local_usd": 52649999.99999999,
+        "total_usd": 117000000.0
+      },
+      {
+        "bucket": "solar_plant",
+        "imported_share": 0.7,
+        "imported_usd": 32677425.1496,
+        "local_share": 0.30000000000000004,
+        "local_usd": 14004610.778400004,
+        "total_usd": 46682035.928
+      },
+      {
+        "bucket": "signalling",
+        "imported_share": 0.8,
+        "imported_usd": 2434939.2,
+        "local_share": 0.19999999999999996,
+        "local_usd": 608734.7999999998,
+        "total_usd": 3043674.0
+      },
+      {
+        "bucket": "charging_microgrid",
+        "imported_share": 0.55,
+        "imported_usd": 1168750.0,
+        "local_share": 0.44999999999999996,
+        "local_usd": 956250.0,
+        "total_usd": 2125000.0
+      },
+      {
+        "bucket": "epc_overhead",
+        "imported_share": 0.45,
+        "imported_usd": 13676530.950000001,
+        "local_share": 0.55,
+        "local_usd": 16715760.049999999,
+        "total_usd": 30392291.0
+      }
+    ],
+    "reconciled_project_total": 511249909.928,
+    "risk_envelope_15_percent": 587937396.4172,
+    "risk_envelope_25_percent": 639062387.41,
     "timetable_sized_dedicated_solar": 46682035.928
   },
   "cases": {
@@ -27,9 +98,9 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 121630397.568,
       "capacity_utilisation": 0.8,
-      "project_irr": 0.14811880980762898,
-      "project_npv_usd_at_8_percent": 425005237.064982,
-      "steady_state_dscr": 4.3780647181708074
+      "project_irr": 0.1538237936230143,
+      "project_npv_usd_at_8_percent": 444999131.8466542,
+      "steady_state_dscr": 3.212528658488188
     },
     "low_capacity_use": {
       "annual_operating_cash_usd": 62993083.54908,
@@ -37,24 +108,39 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 77051107.968,
       "capacity_utilisation": 0.5,
-      "project_irr": 0.09319998911123538,
-      "project_npv_usd_at_8_percent": 71406622.9236142,
-      "steady_state_dscr": 2.5637418651423673
+      "project_irr": 0.0975058734525191,
+      "project_npv_usd_at_8_percent": 91400517.7052864,
+      "steady_state_dscr": 1.88121801410394
     }
   },
   "city": "baqubah",
   "funding": {
-    "annual_debt_service_usd": 24570759.016560324,
+    "annual_debt_service_usd": 33485264.906462636,
+    "annual_external_capital_draw_usd": 45725012.68992,
+    "annual_external_debt_service_usd": 13093459.77033148,
+    "annual_grace_interest_usd": 29506617.415763203,
+    "annual_local_bond_issuance_usd": 45219975.436544,
+    "annual_local_bond_service_usd": 20391805.136131156,
+    "annual_local_capital_draw_usd": 56524969.29568,
+    "annual_local_public_equity_draw_usd": 11304993.859135997,
+    "annual_public_construction_commitment_usd": 40811611.2748992,
     "construction_grace_years": 5,
-    "debt_principal_usd": 429030327.9424,
-    "debt_rate": 0.045,
-    "government_equity_share": 0.2,
+    "debt_principal_usd": 454724940.63232005,
+    "external_capital_required_usd": 228625063.4496,
+    "external_debt_rate": 0.045,
+    "external_debt_usd": 228625063.4496,
+    "external_grant_usd": 0.0,
     "lender_commitment_status": "unconfirmed-placeholder",
+    "local_bond_principal_usd": 226099877.18272,
+    "local_bond_rate": 0.085,
+    "local_capital_required_usd": 282624846.4784,
+    "local_public_equity_usd": 56524969.29567999,
     "repayment_years": 35
   },
   "limitations": [
     "No calibrated origin-destination or stated-preference ridership survey.",
     "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "Imported shares are planning assumptions pending country supplier-capability, customs, tax, and procurement-origin surveys.",
     "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
     "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
   ],
@@ -78,12 +164,12 @@
     "practical_capacity_passenger_trips_per_day": 401760.0,
     "single_trip_fare_usd": 1.0133333333333334
   },
-  "schema_version": 1,
+  "schema_version": 2,
   "sources": {
     "design": "designs/west-asia/Iraq/Baqubah/design.toml",
-    "design_sha256": "ef5270dadb04cdbb30585e0442a2f2d6184f916e4740dc2cc921fc55da31654f",
+    "design_sha256": "70c8e3872f9618114cc0c46d81e3ae63d6d1e08eecc9b46d8b41f92936f116f1",
     "generator": "scripts/generate-city-finance.py",
-    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "generator_sha256": "9da48240e9ea50383e605d0c00585d52cdf48747820a2ac28647432461d3e1fa",
     "scenario": "designs/west-asia/Iraq/Baqubah/baqubah.toml",
     "scenario_sha256": "f722d364f09dd91a0c1af8eca8b9bb08d14e89501f4cb47f4c5d701bfebf0443"
   },

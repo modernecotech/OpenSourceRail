@@ -11,13 +11,84 @@
     "total": 50561881.420768
   },
   "capex_eur": {
-    "reconciled_project_total": 2014280016.0471041
+    "reconciled_project_total": 1953798480.0471041
   },
   "capex_usd": {
-    "authoritative_design_base": 1993421862.0,
-    "reconciled_project_total": 2189434800.0512,
-    "risk_envelope_15_percent": 2517850020.05888,
-    "risk_envelope_25_percent": 2736793500.064,
+    "authoritative_design_base": 1927681062.0,
+    "imported_external_capital": 907937630.38584,
+    "imported_percentage_of_total": 0.4275275206145286,
+    "local_capital": 1215756369.66536,
+    "local_percentage_of_total": 0.5724724793854714,
+    "national_trainset_factory_treatment": "excluded from city CAPEX; costed once in the country NATIONAL-BRIEF.md",
+    "procurement_origin_buckets": [
+      {
+        "bucket": "civil",
+        "imported_share": 0.35,
+        "imported_usd": 396553137.75,
+        "local_share": 0.65,
+        "local_usd": 736455827.25,
+        "total_usd": 1133008965.0
+      },
+      {
+        "bucket": "stations",
+        "imported_share": 0.4,
+        "imported_usd": 137800000.0,
+        "local_share": 0.6,
+        "local_usd": 206700000.0,
+        "total_usd": 344500000.0
+      },
+      {
+        "bucket": "depots",
+        "imported_share": 0.4,
+        "imported_usd": 3200000.0,
+        "local_share": 0.6,
+        "local_usd": 4800000.0,
+        "total_usd": 8000000.0
+      },
+      {
+        "bucket": "rolling_stock",
+        "imported_share": 0.55,
+        "imported_usd": 157696000.0,
+        "local_share": 0.44999999999999996,
+        "local_usd": 129024000.0,
+        "total_usd": 286720000.0
+      },
+      {
+        "bucket": "solar_plant",
+        "imported_share": 0.7,
+        "imported_usd": 137209056.63584,
+        "local_share": 0.30000000000000004,
+        "local_usd": 58803881.41536,
+        "total_usd": 196012938.0512
+      },
+      {
+        "bucket": "signalling",
+        "imported_share": 0.8,
+        "imported_usd": 8293696.800000001,
+        "local_share": 0.19999999999999996,
+        "local_usd": 2073424.1999999993,
+        "total_usd": 10367121.0
+      },
+      {
+        "bucket": "charging_microgrid",
+        "imported_share": 0.55,
+        "imported_usd": 10436250.0,
+        "local_share": 0.44999999999999996,
+        "local_usd": 8538750.0,
+        "total_usd": 18975000.0
+      },
+      {
+        "bucket": "epc_overhead",
+        "imported_share": 0.45,
+        "imported_usd": 56749489.2,
+        "local_share": 0.55,
+        "local_usd": 69360486.8,
+        "total_usd": 126109976.0
+      }
+    ],
+    "reconciled_project_total": 2123694000.0512,
+    "risk_envelope_15_percent": 2442248100.05888,
+    "risk_envelope_25_percent": 2654617500.064,
     "timetable_sized_dedicated_solar": 196012938.0512
   },
   "cases": {
@@ -27,9 +98,9 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 300484494.144,
       "capacity_utilisation": 0.8,
-      "project_irr": 0.09067396108799919,
-      "project_npv_usd_at_8_percent": 234006335.432846,
-      "steady_state_dscr": 2.491454552837201
+      "project_irr": 0.09336778554413847,
+      "project_npv_usd_at_8_percent": 286503125.8339547,
+      "steady_state_dscr": 1.7887820902673923
     },
     "low_capacity_use": {
       "annual_operating_cash_usd": 140951015.92323205,
@@ -37,24 +108,39 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 191512897.34400004,
       "capacity_utilisation": 0.5,
-      "project_irr": 0.04680072996471034,
-      "project_npv_usd_at_8_percent": -630345832.4682747,
-      "steady_state_dscr": 1.4051271572527113
+      "project_irr": 0.0488579748106002,
+      "project_npv_usd_at_8_percent": -577849042.067166,
+      "steady_state_dscr": 1.0088348954949697
     }
   },
   "city": "mosul",
   "funding": {
-    "annual_debt_service_usd": 100311929.20562284,
+    "annual_debt_service_usd": 139716634.06238198,
+    "annual_external_capital_draw_usd": 181587526.07716802,
+    "annual_external_debt_service_usd": 51997994.69950847,
+    "annual_grace_interest_usd": 123528626.50460729,
+    "annual_local_bond_issuance_usd": 194521019.1464576,
+    "annual_local_bond_service_usd": 87718639.3628735,
+    "annual_local_capital_draw_usd": 243151273.933072,
+    "annual_local_public_equity_draw_usd": 48630254.786614396,
+    "annual_public_construction_commitment_usd": 172158881.29122168,
     "construction_grace_years": 5,
-    "debt_principal_usd": 1751547840.04096,
-    "debt_rate": 0.045,
-    "government_equity_share": 0.2,
+    "debt_principal_usd": 1880542726.118128,
+    "external_capital_required_usd": 907937630.38584,
+    "external_debt_rate": 0.045,
+    "external_debt_usd": 907937630.38584,
+    "external_grant_usd": 0.0,
     "lender_commitment_status": "unconfirmed-placeholder",
+    "local_bond_principal_usd": 972605095.732288,
+    "local_bond_rate": 0.085,
+    "local_capital_required_usd": 1215756369.66536,
+    "local_public_equity_usd": 243151273.93307197,
     "repayment_years": 35
   },
   "limitations": [
     "No calibrated origin-destination or stated-preference ridership survey.",
     "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "Imported shares are planning assumptions pending country supplier-capability, customs, tax, and procurement-origin surveys.",
     "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
     "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
   ],
@@ -78,12 +164,12 @@
     "practical_capacity_passenger_trips_per_day": 982080.0,
     "single_trip_fare_usd": 1.0133333333333334
   },
-  "schema_version": 1,
+  "schema_version": 2,
   "sources": {
     "design": "designs/west-asia/Iraq/Mosul/design.toml",
-    "design_sha256": "11eee189853023296ad26933bafc0c4048746a7e3b0ce29d4f3ba18a4f80427f",
+    "design_sha256": "4f0d174e256ba525da32fc276508e725fa2faa4285e247395c1983ed427353c9",
     "generator": "scripts/generate-city-finance.py",
-    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "generator_sha256": "9da48240e9ea50383e605d0c00585d52cdf48747820a2ac28647432461d3e1fa",
     "scenario": "designs/west-asia/Iraq/Mosul/mosul.toml",
     "scenario_sha256": "1c14fdb16af95d984e7f4be3c8e11db7f0dbf2794f8d46b25cae59274874cab8"
   },

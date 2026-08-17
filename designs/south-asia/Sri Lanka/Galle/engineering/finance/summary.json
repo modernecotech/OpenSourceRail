@@ -11,13 +11,84 @@
     "total": 15400734.92819
   },
   "capex_eur": {
-    "reconciled_project_total": 562851084.94232
+    "reconciled_project_total": 531488100.94232005
   },
   "capex_usd": {
-    "authoritative_design_base": 548079701.0,
-    "reconciled_project_total": 611794657.546,
-    "risk_envelope_15_percent": 703563856.1779,
-    "risk_envelope_25_percent": 764743321.9325,
+    "authoritative_design_base": 513989501.0,
+    "imported_external_capital": 266737235.7322,
+    "imported_percentage_of_total": 0.4617191926564993,
+    "local_capital": 310967221.81380004,
+    "local_percentage_of_total": 0.5382808073435007,
+    "national_trainset_factory_treatment": "excluded from city CAPEX; costed once in the country NATIONAL-BRIEF.md",
+    "procurement_origin_buckets": [
+      {
+        "bucket": "civil",
+        "imported_share": 0.35,
+        "imported_usd": 74499184.89999999,
+        "local_share": 0.65,
+        "local_usd": 138355629.10000002,
+        "total_usd": 212854814.0
+      },
+      {
+        "bucket": "stations",
+        "imported_share": 0.4,
+        "imported_usd": 37920000.0,
+        "local_share": 0.6,
+        "local_usd": 56880000.0,
+        "total_usd": 94800000.0
+      },
+      {
+        "bucket": "depots",
+        "imported_share": 0.4,
+        "imported_usd": 3200000.0,
+        "local_share": 0.6,
+        "local_usd": 4800000.0,
+        "total_usd": 8000000.0
+      },
+      {
+        "bucket": "rolling_stock",
+        "imported_share": 0.55,
+        "imported_usd": 87615000.0,
+        "local_share": 0.44999999999999996,
+        "local_usd": 71685000.0,
+        "total_usd": 159300000.0
+      },
+      {
+        "bucket": "solar_plant",
+        "imported_share": 0.7,
+        "imported_usd": 44600469.5822,
+        "local_share": 0.30000000000000004,
+        "local_usd": 19114486.963800006,
+        "total_usd": 63714956.546000004
+      },
+      {
+        "bucket": "signalling",
+        "imported_share": 0.8,
+        "imported_usd": 2547364.8000000003,
+        "local_share": 0.19999999999999996,
+        "local_usd": 636841.1999999997,
+        "total_usd": 3184206.0
+      },
+      {
+        "bucket": "charging_microgrid",
+        "imported_share": 0.55,
+        "imported_usd": 1223750.0,
+        "local_share": 0.44999999999999996,
+        "local_usd": 1001250.0,
+        "total_usd": 2225000.0
+      },
+      {
+        "bucket": "epc_overhead",
+        "imported_share": 0.45,
+        "imported_usd": 15131466.450000001,
+        "local_share": 0.55,
+        "local_usd": 18494014.549999997,
+        "total_usd": 33625481.0
+      }
+    ],
+    "reconciled_project_total": 577704457.546,
+    "risk_envelope_15_percent": 664360126.1779,
+    "risk_envelope_25_percent": 722130571.9325,
     "timetable_sized_dedicated_solar": 63714956.546000004
   },
   "cases": {
@@ -27,34 +98,49 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 76800989.95199999,
       "capacity_utilisation": 0.8,
-      "project_irr": 0.07256414722822223,
-      "project_npv_usd_at_8_percent": -42530919.26661785,
-      "steady_state_dscr": 2.135536939175876
+      "project_irr": 0.07687381389618389,
+      "project_npv_usd_at_8_percent": -17175748.32477002,
+      "steady_state_dscr": 1.2335267946918431
     },
     "low_capacity_use": {
       "annual_operating_cash_usd": 33244914.223810002,
       "annual_paid_trips": 73321200.0,
-      "annual_public_support_usd": 0.0,
+      "annual_public_support_usd": 16531268.416104898,
       "annual_revenue_usd": 48645649.152,
       "capacity_utilisation": 0.5,
-      "project_irr": 0.031799640338888296,
-      "project_npv_usd_at_8_percent": -231685348.23812056,
-      "steady_state_dscr": 1.1562776463574749
+      "project_irr": 0.03524478114768037,
+      "project_npv_usd_at_8_percent": -206330177.2962727,
+      "steady_state_dscr": 0.6678879829798623
     }
   },
   "city": "galle",
   "funding": {
-    "annual_debt_service_usd": 28751670.78472777,
+    "annual_debt_service_usd": 49776182.6399149,
+    "annual_external_capital_draw_usd": 38105319.39031429,
+    "annual_external_debt_service_usd": 15669353.05254751,
+    "annual_grace_interest_usd": 45587635.563839406,
+    "annual_local_bond_issuance_usd": 35539111.06443429,
+    "annual_local_bond_service_usd": 34106829.587367386,
+    "annual_local_capital_draw_usd": 44423888.83054286,
+    "annual_local_public_equity_draw_usd": 8884777.766108572,
+    "annual_public_construction_commitment_usd": 54472413.32994798,
     "construction_grace_years": 7,
-    "debt_principal_usd": 489435726.0368,
-    "debt_rate": 0.045,
-    "government_equity_share": 0.2,
+    "debt_principal_usd": 515511013.18324006,
+    "external_capital_required_usd": 266737235.7322,
+    "external_debt_rate": 0.045,
+    "external_debt_usd": 266737235.7322,
+    "external_grant_usd": 0.0,
     "lender_commitment_status": "unconfirmed-placeholder",
+    "local_bond_principal_usd": 248773777.45104003,
+    "local_bond_rate": 0.135,
+    "local_capital_required_usd": 310967221.81380004,
+    "local_public_equity_usd": 62193444.36276001,
     "repayment_years": 33
   },
   "limitations": [
     "No calibrated origin-destination or stated-preference ridership survey.",
     "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "Imported shares are planning assumptions pending country supplier-capability, customs, tax, and procurement-origin surveys.",
     "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
     "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
   ],
@@ -78,12 +164,12 @@
     "practical_capacity_passenger_trips_per_day": 401760.0,
     "single_trip_fare_usd": 0.64
   },
-  "schema_version": 1,
+  "schema_version": 2,
   "sources": {
     "design": "designs/south-asia/Sri Lanka/Galle/design.toml",
-    "design_sha256": "3de2ab2280965734de435f8ebbfcde1a21071256ff2daccaf5fb66ea85cefa25",
+    "design_sha256": "601e68cca7fb89a6ad2ecdd8fe81e0a3a4a5bfc9dd814cf023ca9b80a9ae5b60",
     "generator": "scripts/generate-city-finance.py",
-    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "generator_sha256": "9da48240e9ea50383e605d0c00585d52cdf48747820a2ac28647432461d3e1fa",
     "scenario": "designs/south-asia/Sri Lanka/Galle/galle.toml",
     "scenario_sha256": "b04e94472deea0f18147c8422fec99f2d75feb2afc6e184c3f433a508383d2f2"
   },

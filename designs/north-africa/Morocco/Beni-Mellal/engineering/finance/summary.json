@@ -11,13 +11,84 @@
     "total": 7202037.5214109095
   },
   "capex_eur": {
-    "reconciled_project_total": 245375012.17986912
+    "reconciled_project_total": 237578564.17986912
   },
   "capex_usd": {
-    "authoritative_design_base": 254318771.0,
-    "reconciled_project_total": 266711969.7607273,
-    "risk_envelope_15_percent": 306718765.22483635,
-    "risk_envelope_25_percent": 333389962.20090914,
+    "authoritative_design_base": 245844371.0,
+    "imported_external_capital": 108910921.58250909,
+    "imported_percentage_of_total": 0.42174700483520516,
+    "local_capital": 149326648.1782182,
+    "local_percentage_of_total": 0.5782529951647948,
+    "national_trainset_factory_treatment": "excluded from city CAPEX; costed once in the country NATIONAL-BRIEF.md",
+    "procurement_origin_buckets": [
+      {
+        "bucket": "civil",
+        "imported_share": 0.35,
+        "imported_usd": 36982880.199999996,
+        "local_share": 0.65,
+        "local_usd": 68682491.80000001,
+        "total_usd": 105665372.0
+      },
+      {
+        "bucket": "stations",
+        "imported_share": 0.4,
+        "imported_usd": 30440000.0,
+        "local_share": 0.6,
+        "local_usd": 45660000.0,
+        "total_usd": 76100000.0
+      },
+      {
+        "bucket": "depots",
+        "imported_share": 0.4,
+        "imported_usd": 3200000.0,
+        "local_share": 0.6,
+        "local_usd": 4800000.0,
+        "total_usd": 8000000.0
+      },
+      {
+        "bucket": "rolling_stock",
+        "imported_share": 0.55,
+        "imported_usd": 20328000.0,
+        "local_share": 0.44999999999999996,
+        "local_usd": 16632000.0,
+        "total_usd": 36960000.0
+      },
+      {
+        "bucket": "solar_plant",
+        "imported_share": 0.7,
+        "imported_usd": 8675239.132509092,
+        "local_share": 0.30000000000000004,
+        "local_usd": 3717959.6282181833,
+        "total_usd": 12393198.760727275
+      },
+      {
+        "bucket": "signalling",
+        "imported_share": 0.8,
+        "imported_usd": 1208577.6,
+        "local_share": 0.19999999999999996,
+        "local_usd": 302144.3999999999,
+        "total_usd": 1510722.0
+      },
+      {
+        "bucket": "charging_microgrid",
+        "imported_share": 0.55,
+        "imported_usd": 838750.0000000001,
+        "local_share": 0.44999999999999996,
+        "local_usd": 686249.9999999999,
+        "total_usd": 1525000.0
+      },
+      {
+        "bucket": "epc_overhead",
+        "imported_share": 0.45,
+        "imported_usd": 7237474.65,
+        "local_share": 0.55,
+        "local_usd": 8845802.35,
+        "total_usd": 16083277.0
+      }
+    ],
+    "reconciled_project_total": 258237569.7607273,
+    "risk_envelope_15_percent": 296973205.22483635,
+    "risk_envelope_25_percent": 322796962.20090914,
     "timetable_sized_dedicated_solar": 12393198.760727275
   },
   "cases": {
@@ -27,9 +98,9 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 87915885.40799999,
       "capacity_utilisation": 0.8,
-      "project_irr": 0.20215291339467506,
-      "project_npv_usd_at_8_percent": 427233724.40390944,
-      "steady_state_dscr": 6.60518489438333
+      "project_irr": 0.20689349998494427,
+      "project_npv_usd_at_8_percent": 434000888.7915523,
+      "steady_state_dscr": 6.17126450342607
     },
     "low_capacity_use": {
       "annual_operating_cash_usd": 48648043.08658909,
@@ -37,24 +108,39 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 55850080.608,
       "capacity_utilisation": 0.5,
-      "project_irr": 0.13719735154651058,
-      "project_npv_usd_at_8_percent": 172890861.6004696,
-      "steady_state_dscr": 3.981092808118218
+      "project_irr": 0.14084589419623622,
+      "project_npv_usd_at_8_percent": 179658025.98811248,
+      "steady_state_dscr": 3.719559274181153
     }
   },
   "city": "beni-mellal",
   "funding": {
-    "annual_debt_service_usd": 12219771.161171205,
+    "annual_debt_service_usd": 13078980.465312997,
+    "annual_external_capital_draw_usd": 21782184.31650182,
+    "annual_external_debt_service_usd": 6237377.253280338,
+    "annual_grace_interest_usd": 10276750.805628764,
+    "annual_local_bond_issuance_usd": 23892263.70851491,
+    "annual_local_bond_service_usd": 6841603.212032659,
+    "annual_local_capital_draw_usd": 29865329.63564364,
+    "annual_local_public_equity_draw_usd": 5973065.927128727,
+    "annual_public_construction_commitment_usd": 16249816.73275749,
     "construction_grace_years": 5,
-    "debt_principal_usd": 213369575.80858183,
-    "debt_rate": 0.045,
-    "government_equity_share": 0.2,
+    "debt_principal_usd": 228372240.12508363,
+    "external_capital_required_usd": 108910921.58250909,
+    "external_debt_rate": 0.045,
+    "external_debt_usd": 108910921.58250909,
+    "external_grant_usd": 0.0,
     "lender_commitment_status": "unconfirmed-placeholder",
+    "local_bond_principal_usd": 119461318.54257455,
+    "local_bond_rate": 0.045,
+    "local_capital_required_usd": 149326648.1782182,
+    "local_public_equity_usd": 29865329.63564363,
     "repayment_years": 35
   },
   "limitations": [
     "No calibrated origin-destination or stated-preference ridership survey.",
     "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "Imported shares are planning assumptions pending country supplier-capability, customs, tax, and procurement-origin surveys.",
     "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
     "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
   ],
@@ -78,12 +164,12 @@
     "practical_capacity_passenger_trips_per_day": 267840.0,
     "single_trip_fare_usd": 1.0933333333333333
   },
-  "schema_version": 1,
+  "schema_version": 2,
   "sources": {
     "design": "designs/north-africa/Morocco/Beni-Mellal/design.toml",
-    "design_sha256": "2546deb40524bea32c99d3fa5de03dcc6fc0da42b35fa0728a55b33119c4dab6",
+    "design_sha256": "f906ac33ba442b2c322c644d39f832ec869482d988518d24ad4ddf748b3c020f",
     "generator": "scripts/generate-city-finance.py",
-    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "generator_sha256": "9da48240e9ea50383e605d0c00585d52cdf48747820a2ac28647432461d3e1fa",
     "scenario": "designs/north-africa/Morocco/Beni-Mellal/beni-mellal.toml",
     "scenario_sha256": "8d0191f254bfab0ddd8aa133ed66bdec6d0b8712689aa52faea128649b5cc345"
   },

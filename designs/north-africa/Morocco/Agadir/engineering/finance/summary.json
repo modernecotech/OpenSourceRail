@@ -11,13 +11,84 @@
     "total": 19151879.879232
   },
   "capex_eur": {
-    "reconciled_project_total": 672013669.672896
+    "reconciled_project_total": 641536645.672896
   },
   "capex_usd": {
-    "authoritative_design_base": 667752415.0,
-    "reconciled_project_total": 730449640.9488,
-    "risk_envelope_15_percent": 840017087.0911199,
-    "risk_envelope_25_percent": 913062051.186,
+    "authoritative_design_base": 634625215.0,
+    "imported_external_capital": 311327176.06416,
+    "imported_percentage_of_total": 0.4464608591121174,
+    "local_capital": 385995264.88464004,
+    "local_percentage_of_total": 0.5535391408878827,
+    "national_trainset_factory_treatment": "excluded from city CAPEX; costed once in the country NATIONAL-BRIEF.md",
+    "procurement_origin_buckets": [
+      {
+        "bucket": "civil",
+        "imported_share": 0.35,
+        "imported_usd": 96769101.44999999,
+        "local_share": 0.65,
+        "local_usd": 179714045.55,
+        "total_usd": 276483147.0
+      },
+      {
+        "bucket": "stations",
+        "imported_share": 0.4,
+        "imported_usd": 58600000.0,
+        "local_share": 0.6,
+        "local_usd": 87900000.0,
+        "total_usd": 146500000.0
+      },
+      {
+        "bucket": "depots",
+        "imported_share": 0.4,
+        "imported_usd": 3200000.0,
+        "local_share": 0.6,
+        "local_usd": 4800000.0,
+        "total_usd": 8000000.0
+      },
+      {
+        "bucket": "rolling_stock",
+        "imported_share": 0.55,
+        "imported_usd": 85140000.0,
+        "local_share": 0.44999999999999996,
+        "local_usd": 69660000.0,
+        "total_usd": 154800000.0
+      },
+      {
+        "bucket": "solar_plant",
+        "imported_share": 0.7,
+        "imported_usd": 43888058.16416,
+        "local_share": 0.30000000000000004,
+        "local_usd": 18809167.784640007,
+        "total_usd": 62697225.948800005
+      },
+      {
+        "bucket": "signalling",
+        "imported_share": 0.8,
+        "imported_usd": 3259624.8000000003,
+        "local_share": 0.19999999999999996,
+        "local_usd": 814906.1999999997,
+        "total_usd": 4074531.0
+      },
+      {
+        "bucket": "charging_microgrid",
+        "imported_share": 0.55,
+        "imported_usd": 1787500.0000000002,
+        "local_share": 0.44999999999999996,
+        "local_usd": 1462499.9999999998,
+        "total_usd": 3250000.0
+      },
+      {
+        "bucket": "epc_overhead",
+        "imported_share": 0.45,
+        "imported_usd": 18682891.650000002,
+        "local_share": 0.55,
+        "local_usd": 22834645.349999998,
+        "total_usd": 41517537.0
+      }
+    ],
+    "reconciled_project_total": 697322440.9488,
+    "risk_envelope_15_percent": 801920807.0911199,
+    "risk_envelope_25_percent": 871653051.186,
     "timetable_sized_dedicated_solar": 62697225.948800005
   },
   "cases": {
@@ -27,9 +98,9 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 132953207.232,
       "capacity_utilisation": 0.8,
-      "project_irr": 0.12025446712138085,
-      "project_npv_usd_at_8_percent": 319366400.9953693,
-      "steady_state_dscr": 3.400450689896122
+      "project_irr": 0.12509630803377597,
+      "project_npv_usd_at_8_percent": 345819861.783428,
+      "steady_state_dscr": 3.204340340876014
     },
     "low_capacity_use": {
       "annual_operating_cash_usd": 65702620.152768,
@@ -37,24 +108,39 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 84854500.032,
       "capacity_utilisation": 0.5,
-      "project_irr": 0.07097214135214694,
-      "project_npv_usd_at_8_percent": -62147893.209790476,
-      "steady_state_dscr": 1.963232988784894
+      "project_irr": 0.07463178595847461,
+      "project_npv_usd_at_8_percent": -35694432.42173182,
+      "steady_state_dscr": 1.8500096717162506
     }
   },
   "city": "agadir",
   "funding": {
-    "annual_debt_service_usd": 33466542.447126154,
+    "annual_debt_service_usd": 35514744.1428324,
+    "annual_external_capital_draw_usd": 62265435.212832,
+    "annual_external_debt_service_usd": 17829846.79676473,
+    "annual_grace_interest_usd": 27905552.45873424,
+    "annual_local_bond_issuance_usd": 61759242.38154241,
+    "annual_local_bond_service_usd": 17684897.346067663,
+    "annual_local_capital_draw_usd": 77199052.97692801,
+    "annual_local_public_equity_draw_usd": 15439810.5953856,
+    "annual_public_construction_commitment_usd": 43345363.05411984,
     "construction_grace_years": 5,
-    "debt_principal_usd": 584359712.75904,
-    "debt_rate": 0.045,
-    "government_equity_share": 0.2,
+    "debt_principal_usd": 620123387.9718721,
+    "external_capital_required_usd": 311327176.06416,
+    "external_debt_rate": 0.045,
+    "external_debt_usd": 311327176.06416,
+    "external_grant_usd": 0.0,
     "lender_commitment_status": "unconfirmed-placeholder",
+    "local_bond_principal_usd": 308796211.90771204,
+    "local_bond_rate": 0.045,
+    "local_capital_required_usd": 385995264.88464004,
+    "local_public_equity_usd": 77199052.976928,
     "repayment_years": 35
   },
   "limitations": [
     "No calibrated origin-destination or stated-preference ridership survey.",
     "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "Imported shares are planning assumptions pending country supplier-capability, customs, tax, and procurement-origin surveys.",
     "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
     "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
   ],
@@ -78,12 +164,12 @@
     "practical_capacity_passenger_trips_per_day": 401760.0,
     "single_trip_fare_usd": 1.0933333333333333
   },
-  "schema_version": 1,
+  "schema_version": 2,
   "sources": {
     "design": "designs/north-africa/Morocco/Agadir/design.toml",
-    "design_sha256": "83ce2b8a99dfd66d3457bbc3acdd6c551e7af19c484f56dbe8cb1b842436a5cb",
+    "design_sha256": "3c21f40263a65b6c08483818b69efb227c1d30a24bc166e950842de8aa1b5fb7",
     "generator": "scripts/generate-city-finance.py",
-    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "generator_sha256": "9da48240e9ea50383e605d0c00585d52cdf48747820a2ac28647432461d3e1fa",
     "scenario": "designs/north-africa/Morocco/Agadir/agadir.toml",
     "scenario_sha256": "4c1f846017ff0290f8c361bd5c3e27c84fa7f89c263938fad9936d9c2f8e965b"
   },

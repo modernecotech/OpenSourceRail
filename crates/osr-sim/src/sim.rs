@@ -41,7 +41,7 @@ use osr_interlocking::{
 #[derive(Debug)]
 pub enum MaLogBackend {
     Consensus(Box<ConsensusBackend>),
-    Direct(DirectMaBackend),
+    Direct(Box<DirectMaBackend>),
 }
 
 /// Bounded-memory movement-authority state for runs that explicitly disable
@@ -61,10 +61,10 @@ impl MaLogBackend {
         if consensus_audit_enabled {
             Self::Consensus(Box::default())
         } else {
-            Self::Direct(DirectMaBackend {
+            Self::Direct(Box::new(DirectMaBackend {
                 next_entry_id: 1,
                 ..DirectMaBackend::default()
-            })
+            }))
         }
     }
 
@@ -1043,9 +1043,14 @@ fn step_train(
                     let effective_hw =
                         energy_adjusted_headway_s(hw, trains[idx].soc, adaptive_service, clock);
                     throttle.mark_dispatched(&key, t, hw, effective_hw);
-                    enter_first_section(
-                        idx, trains, network, climate, t, ma_log, events, violations,
-                    );
+                    let mut entry = SectionEntryContext {
+                        network,
+                        climate,
+                        t,
+                        ma_log,
+                        violations,
+                    };
+                    enter_first_section(idx, trains, events, &mut entry);
                 }
                 Some(_) => throttle.record_in_service_held(dt),
                 None => throttle.record_out_of_service_held(dt),
@@ -1201,16 +1206,14 @@ fn step_train(
                     kind: EventKind::DepartStation,
                 },
             );
-            enter_next_section(
-                idx,
-                trains,
+            let mut entry = SectionEntryContext {
                 network,
                 climate,
-                departure_heading,
                 t,
                 ma_log,
                 violations,
-            );
+            };
+            enter_next_section(idx, trains, departure_heading, &mut entry);
         }
         TrainPhase::Traveling {
             section,
@@ -1325,51 +1328,55 @@ fn step_train(
     }
 }
 
+struct SectionEntryContext<'a> {
+    network: &'a Network,
+    climate: &'a ClimateModel,
+    t: u32,
+    ma_log: &'a mut MaLogBackend,
+    violations: &'a mut Vec<InvariantViolation>,
+}
+
 fn enter_first_section(
     idx: usize,
     trains: &mut [Train],
-    network: &Network,
-    climate: &ClimateModel,
-    t: u32,
-    ma_log: &mut MaLogBackend,
     events: &mut EventLog,
-    violations: &mut Vec<InvariantViolation>,
+    context: &mut SectionEntryContext<'_>,
 ) {
     let station = match trains[idx].phase {
         TrainPhase::AwaitingDispatch { station, .. } => station,
         _ => return,
     };
-    let line_name = network.lines[trains[idx].line_index].name.clone();
+    let line_name = context.network.lines[trains[idx].line_index].name.clone();
     emit_event(
         events,
         Event {
-            sim_time_s: t,
+            sim_time_s: context.t,
             train: trains[idx].id,
             line: line_name,
             station: Some(station),
-            station_name: Some(network.station(station).name.clone()),
+            station_name: Some(context.network.station(station).name.clone()),
             kind: EventKind::Dispatched,
         },
     );
     let heading = trains[idx].heading;
-    enter_next_section(
-        idx, trains, network, climate, heading, t, ma_log, violations,
-    );
+    enter_next_section(idx, trains, heading, context);
 }
 
 fn enter_next_section(
     idx: usize,
     trains: &mut [Train],
-    network: &Network,
-    climate: &ClimateModel,
     departure_heading: Heading,
-    t: u32,
-    ma_log: &mut MaLogBackend,
-    violations: &mut Vec<InvariantViolation>,
+    context: &mut SectionEntryContext<'_>,
 ) {
-    let (to_station, section_id) =
-        entry_candidate(idx, trains, network, climate, departure_heading, ma_log)
-            .expect("entry gates were checked immediately before section entry");
+    let (to_station, section_id) = entry_candidate(
+        idx,
+        trains,
+        context.network,
+        context.climate,
+        departure_heading,
+        context.ma_log,
+    )
+    .expect("entry gates were checked immediately before section entry");
     let from_station = current_station(&trains[idx]);
     trains[idx].heading = departure_heading;
 
@@ -1378,16 +1385,22 @@ fn enter_next_section(
     // would look like if published by `osr-odometry` + consensus on
     // real hardware.
     let direction = direction_for_heading(trains[idx].heading);
-    ma_log.register_and_enter(&trains[idx], section_id, direction, network, t);
+    context.ma_log.register_and_enter(
+        &trains[idx],
+        section_id,
+        direction,
+        context.network,
+        context.t,
+    );
 
     // Safety net: the derived state must now record this train as the
     // sole occupant of `section_id`. If something else is there, the
     // gate check above was unsound — surface it as an invariant bug
     // rather than charging ahead silently.
-    if let Some(holder) = ma_log.occupant_of(section_id) {
+    if let Some(holder) = context.ma_log.occupant_of(section_id) {
         if holder != trains[idx].id {
-            violations.push(InvariantViolation {
-                sim_time_s: t,
+            context.violations.push(InvariantViolation {
+                sim_time_s: context.t,
                 description: format!(
                     "MA-derived occupancy conflict: train {} entered {} while derived state holds {}",
                     trains[idx].id, section_id, holder
@@ -1396,7 +1409,7 @@ fn enter_next_section(
         }
     }
 
-    let sec = network.section(section_id);
+    let sec = context.network.section(section_id);
     let length_m = sec.length_mm as f32 / 1_000.0;
     let consist = &trains[idx].consist;
     let v_max = sec.max_speed_mps.min(consist.max_speed_mps);

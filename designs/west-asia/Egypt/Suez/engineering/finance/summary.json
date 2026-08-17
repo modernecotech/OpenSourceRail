@@ -11,13 +11,84 @@
     "total": 12894393.010808
   },
   "capex_eur": {
-    "reconciled_project_total": 473414088.87622404
+    "reconciled_project_total": 450556320.87622404
   },
   "capex_usd": {
-    "authoritative_design_base": 468446720.0,
-    "reconciled_project_total": 514580531.3872,
-    "risk_envelope_15_percent": 591767611.0952799,
-    "risk_envelope_25_percent": 643225664.234,
+    "authoritative_design_base": 443601320.0,
+    "imported_external_capital": 220244220.37104002,
+    "imported_percentage_of_total": 0.44972109668176535,
+    "local_capital": 269490911.01616,
+    "local_percentage_of_total": 0.5502789033182347,
+    "national_trainset_factory_treatment": "excluded from city CAPEX; costed once in the country NATIONAL-BRIEF.md",
+    "procurement_origin_buckets": [
+      {
+        "bucket": "civil",
+        "imported_share": 0.35,
+        "imported_usd": 69283104.45,
+        "local_share": 0.65,
+        "local_usd": 128668622.55,
+        "total_usd": 197951727.0
+      },
+      {
+        "bucket": "stations",
+        "imported_share": 0.4,
+        "imported_usd": 34920000.0,
+        "local_share": 0.6,
+        "local_usd": 52380000.0,
+        "total_usd": 87300000.0
+      },
+      {
+        "bucket": "depots",
+        "imported_share": 0.4,
+        "imported_usd": 3200000.0,
+        "local_share": 0.6,
+        "local_usd": 4800000.0,
+        "total_usd": 8000000.0
+      },
+      {
+        "bucket": "rolling_stock",
+        "imported_share": 0.55,
+        "imported_usd": 63855000.00000001,
+        "local_share": 0.44999999999999996,
+        "local_usd": 52244999.99999999,
+        "total_usd": 116100000.0
+      },
+      {
+        "bucket": "solar_plant",
+        "imported_share": 0.7,
+        "imported_usd": 32293667.971039996,
+        "local_share": 0.30000000000000004,
+        "local_usd": 13840143.416160002,
+        "total_usd": 46133811.3872
+      },
+      {
+        "bucket": "signalling",
+        "imported_share": 0.8,
+        "imported_usd": 2423156.8000000003,
+        "local_share": 0.19999999999999996,
+        "local_usd": 605789.1999999997,
+        "total_usd": 3028946.0
+      },
+      {
+        "bucket": "charging_microgrid",
+        "imported_share": 0.55,
+        "imported_usd": 1210000.0,
+        "local_share": 0.44999999999999996,
+        "local_usd": 990000.0,
+        "total_usd": 2200000.0
+      },
+      {
+        "bucket": "epc_overhead",
+        "imported_share": 0.45,
+        "imported_usd": 13059291.15,
+        "local_share": 0.55,
+        "local_usd": 15961355.85,
+        "total_usd": 29020647.0
+      }
+    ],
+    "reconciled_project_total": 489735131.3872,
+    "risk_envelope_15_percent": 563195401.0952799,
+    "risk_envelope_25_percent": 612168914.234,
     "timetable_sized_dedicated_solar": 46133811.3872
   },
   "cases": {
@@ -27,9 +98,9 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 83108678.016,
       "capacity_utilisation": 0.8,
-      "project_irr": 0.107057196575497,
-      "project_npv_usd_at_8_percent": 146018748.19495547,
-      "steady_state_dscr": 2.9781842359233575
+      "project_irr": 0.11187555464008249,
+      "project_npv_usd_at_8_percent": 165858843.78599942,
+      "steady_state_dscr": 1.952591408787712
     },
     "low_capacity_use": {
       "annual_operating_cash_usd": 39712665.805192,
@@ -37,24 +108,39 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 52607058.816,
       "capacity_utilisation": 0.5,
-      "project_irr": 0.05944831922762655,
-      "project_npv_usd_at_8_percent": -95917145.69124347,
-      "steady_state_dscr": 1.684438362631903
+      "project_irr": 0.0630825104610016,
+      "project_npv_usd_at_8_percent": -76077050.1001995,
+      "steady_state_dscr": 1.1043708565221673
     }
   },
   "city": "suez",
   "funding": {
-    "annual_debt_service_usd": 23576205.984255616,
+    "annual_debt_service_usd": 35959538.0217233,
+    "annual_external_capital_draw_usd": 44048844.074208006,
+    "annual_external_debt_service_usd": 12613485.133977678,
+    "annual_grace_interest_usd": 32548226.442054242,
+    "annual_local_bond_issuance_usd": 43118545.7625856,
+    "annual_local_bond_service_usd": 23346052.887745623,
+    "annual_local_capital_draw_usd": 53898182.203232005,
+    "annual_local_public_equity_draw_usd": 10779636.440646399,
+    "annual_public_construction_commitment_usd": 43327862.88270064,
     "construction_grace_years": 5,
-    "debt_principal_usd": 411664425.10976005,
-    "debt_rate": 0.045,
-    "government_equity_share": 0.2,
+    "debt_principal_usd": 435836949.18396807,
+    "external_capital_required_usd": 220244220.37104002,
+    "external_debt_rate": 0.045,
+    "external_debt_usd": 220244220.37104002,
+    "external_grant_usd": 0.0,
     "lender_commitment_status": "unconfirmed-placeholder",
+    "local_bond_principal_usd": 215592728.81292802,
+    "local_bond_rate": 0.105,
+    "local_capital_required_usd": 269490911.01616,
+    "local_public_equity_usd": 53898182.20323199,
     "repayment_years": 35
   },
   "limitations": [
     "No calibrated origin-destination or stated-preference ridership survey.",
     "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "Imported shares are planning assumptions pending country supplier-capability, customs, tax, and procurement-origin surveys.",
     "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
     "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
   ],
@@ -78,12 +164,12 @@
     "practical_capacity_passenger_trips_per_day": 401760.0,
     "single_trip_fare_usd": 0.6933333333333334
   },
-  "schema_version": 1,
+  "schema_version": 2,
   "sources": {
     "design": "designs/west-asia/Egypt/Suez/design.toml",
-    "design_sha256": "bc013e1ffca61eb3861c78cb39248d8edb4e3ad77ac95655f57958750d531b24",
+    "design_sha256": "0bd96b79894cfb080f19eac5f1ac082c7a8e298dd2c11d9349f2430511b1b996",
     "generator": "scripts/generate-city-finance.py",
-    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "generator_sha256": "9da48240e9ea50383e605d0c00585d52cdf48747820a2ac28647432461d3e1fa",
     "scenario": "designs/west-asia/Egypt/Suez/suez.toml",
     "scenario_sha256": "d8992fa0acfe33ce164936428151ba5fe3280cbbc74e4a96bc60876e85f9a539"
   },

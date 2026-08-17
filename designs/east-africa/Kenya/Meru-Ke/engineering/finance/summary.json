@@ -11,13 +11,84 @@
     "total": 6335007.9044
   },
   "capex_eur": {
-    "reconciled_project_total": 246454469.5232
+    "reconciled_project_total": 239248662.44320002
   },
   "capex_usd": {
-    "authoritative_design_base": 253704194.0,
-    "reconciled_project_total": 267885292.96,
-    "risk_envelope_15_percent": 308068086.904,
-    "risk_envelope_25_percent": 334856616.2,
+    "authoritative_design_base": 245871795.0,
+    "imported_external_capital": 108181818.72199999,
+    "imported_percentage_of_total": 0.4159992879703925,
+    "local_capital": 151871075.238,
+    "local_percentage_of_total": 0.5840007120296075,
+    "national_trainset_factory_treatment": "excluded from city CAPEX; costed once in the country NATIONAL-BRIEF.md",
+    "procurement_origin_buckets": [
+      {
+        "bucket": "civil",
+        "imported_share": 0.35,
+        "imported_usd": 47408559.099999994,
+        "local_share": 0.65,
+        "local_usd": 88044466.9,
+        "total_usd": 135453026.0
+      },
+      {
+        "bucket": "stations",
+        "imported_share": 0.4,
+        "imported_usd": 19800000.0,
+        "local_share": 0.6,
+        "local_usd": 29700000.0,
+        "total_usd": 49500000.0
+      },
+      {
+        "bucket": "depots",
+        "imported_share": 0.4,
+        "imported_usd": 3200000.0,
+        "local_share": 0.6,
+        "local_usd": 4800000.0,
+        "total_usd": 8000000.0
+      },
+      {
+        "bucket": "rolling_stock",
+        "imported_share": 0.55,
+        "imported_usd": 18788000.0,
+        "local_share": 0.44999999999999996,
+        "local_usd": 15372000.0,
+        "total_usd": 34160000.0
+      },
+      {
+        "bucket": "solar_plant",
+        "imported_share": 0.7,
+        "imported_usd": 9926769.272,
+        "local_share": 0.30000000000000004,
+        "local_usd": 4254329.688000001,
+        "total_usd": 14181098.96
+      },
+      {
+        "bucket": "signalling",
+        "imported_share": 0.8,
+        "imported_usd": 1118958.4000000001,
+        "local_share": 0.19999999999999996,
+        "local_usd": 279739.59999999986,
+        "total_usd": 1398698.0
+      },
+      {
+        "bucket": "charging_microgrid",
+        "imported_share": 0.55,
+        "imported_usd": 701250.0,
+        "local_share": 0.44999999999999996,
+        "local_usd": 573750.0,
+        "total_usd": 1275000.0
+      },
+      {
+        "bucket": "epc_overhead",
+        "imported_share": 0.45,
+        "imported_usd": 7238281.95,
+        "local_share": 0.55,
+        "local_usd": 8846789.05,
+        "total_usd": 16085071.0
+      }
+    ],
+    "reconciled_project_total": 260052893.96,
+    "risk_envelope_15_percent": 299060828.05399996,
+    "risk_envelope_25_percent": 325066117.45,
     "timetable_sized_dedicated_solar": 14181098.96
   },
   "cases": {
@@ -27,9 +98,9 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 48893402.208000004,
       "capacity_utilisation": 0.8,
-      "project_irr": 0.11003284622341193,
-      "project_npv_usd_at_8_percent": 86673365.07991368,
-      "steady_state_dscr": 3.3804845542547124
+      "project_irr": 0.11270234539642837,
+      "project_npv_usd_at_8_percent": 92498846.17212662,
+      "steady_state_dscr": 2.0536904649376524
     },
     "low_capacity_use": {
       "annual_operating_cash_usd": 24570259.9036,
@@ -37,24 +108,39 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 30905267.808000002,
       "capacity_utilisation": 0.5,
-      "project_irr": 0.0659872648409554,
-      "project_npv_usd_at_8_percent": -34175297.87410202,
-      "steady_state_dscr": 1.9516569047605656
+      "project_irr": 0.06812955887872243,
+      "project_npv_usd_at_8_percent": -28349816.781889074,
+      "steady_state_dscr": 1.185658183555926
     }
   },
   "city": "meru-ke",
   "funding": {
-    "annual_debt_service_usd": 12589436.106145073,
+    "annual_debt_service_usd": 20722886.44768676,
+    "annual_external_capital_draw_usd": 15454545.531714285,
+    "annual_external_debt_service_usd": 6355089.894999156,
+    "annual_grace_interest_usd": 18840320.764386002,
+    "annual_local_bond_issuance_usd": 17356694.312914286,
+    "annual_local_bond_service_usd": 14367796.552687604,
+    "annual_local_capital_draw_usd": 21695867.891142856,
+    "annual_local_public_equity_draw_usd": 4339173.578228571,
+    "annual_public_construction_commitment_usd": 23179494.342614572,
     "construction_grace_years": 7,
-    "debt_principal_usd": 214308234.36800003,
-    "debt_rate": 0.045,
-    "government_equity_share": 0.2,
+    "debt_principal_usd": 229678678.9124,
+    "external_capital_required_usd": 108181818.72199999,
+    "external_debt_rate": 0.045,
+    "external_debt_usd": 108181818.72199999,
+    "external_grant_usd": 0.0,
     "lender_commitment_status": "unconfirmed-placeholder",
+    "local_bond_principal_usd": 121496860.1904,
+    "local_bond_rate": 0.115,
+    "local_capital_required_usd": 151871075.238,
+    "local_public_equity_usd": 30374215.0476,
     "repayment_years": 33
   },
   "limitations": [
     "No calibrated origin-destination or stated-preference ridership survey.",
     "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "Imported shares are planning assumptions pending country supplier-capability, customs, tax, and procurement-origin surveys.",
     "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
     "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
   ],
@@ -78,12 +164,12 @@
     "practical_capacity_passenger_trips_per_day": 267840.0,
     "single_trip_fare_usd": 0.6133333333333334
   },
-  "schema_version": 1,
+  "schema_version": 2,
   "sources": {
     "design": "designs/east-africa/Kenya/Meru-Ke/design.toml",
-    "design_sha256": "801a8163d9f5304da4b7e998a270a383dbeaabd0fa7854aa1abe127c6d311a36",
+    "design_sha256": "bbdc0ce8233b6991bce77228d9ee636f11a034bad7685b4247319d9c5a4add0d",
     "generator": "scripts/generate-city-finance.py",
-    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "generator_sha256": "9da48240e9ea50383e605d0c00585d52cdf48747820a2ac28647432461d3e1fa",
     "scenario": "designs/east-africa/Kenya/Meru-Ke/meru-ke.toml",
     "scenario_sha256": "7fecc94dda7f072d21bd4297b2fc7ef43bd1313e478a96bf7efb39c96d697b90"
   },

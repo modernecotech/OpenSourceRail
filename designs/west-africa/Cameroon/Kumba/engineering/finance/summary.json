@@ -11,13 +11,84 @@
     "total": 9045757.70003
   },
   "capex_eur": {
-    "reconciled_project_total": 343658203.00184
+    "reconciled_project_total": 327710923.92184
   },
   "capex_usd": {
-    "authoritative_design_base": 332591309.0,
-    "reconciled_project_total": 373541525.002,
-    "risk_envelope_15_percent": 429572753.75229996,
-    "risk_envelope_25_percent": 466926906.25249994,
+    "authoritative_design_base": 315257310.0,
+    "imported_external_capital": 162464827.6014,
+    "imported_percentage_of_total": 0.4560959995002683,
+    "local_capital": 193742698.4006,
+    "local_percentage_of_total": 0.5439040004997318,
+    "national_trainset_factory_treatment": "excluded from city CAPEX; costed once in the country NATIONAL-BRIEF.md",
+    "procurement_origin_buckets": [
+      {
+        "bucket": "civil",
+        "imported_share": 0.35,
+        "imported_usd": 45974571.3,
+        "local_share": 0.65,
+        "local_usd": 85381346.7,
+        "total_usd": 131355918.0
+      },
+      {
+        "bucket": "stations",
+        "imported_share": 0.4,
+        "imported_usd": 28240000.0,
+        "local_share": 0.6,
+        "local_usd": 42360000.0,
+        "total_usd": 70600000.0
+      },
+      {
+        "bucket": "depots",
+        "imported_share": 0.4,
+        "imported_usd": 3200000.0,
+        "local_share": 0.6,
+        "local_usd": 4800000.0,
+        "total_usd": 8000000.0
+      },
+      {
+        "bucket": "rolling_stock",
+        "imported_share": 0.55,
+        "imported_usd": 44550000.0,
+        "local_share": 0.44999999999999996,
+        "local_usd": 36450000.0,
+        "total_usd": 81000000.0
+      },
+      {
+        "bucket": "solar_plant",
+        "imported_share": 0.7,
+        "imported_usd": 28665151.201399986,
+        "local_share": 0.30000000000000004,
+        "local_usd": 12285064.800599996,
+        "total_usd": 40950216.00199998
+      },
+      {
+        "bucket": "signalling",
+        "imported_share": 0.8,
+        "imported_usd": 1701665.6,
+        "local_share": 0.19999999999999996,
+        "local_usd": 425416.3999999999,
+        "total_usd": 2127082.0
+      },
+      {
+        "bucket": "charging_microgrid",
+        "imported_share": 0.55,
+        "imported_usd": 852500.0000000001,
+        "local_share": 0.44999999999999996,
+        "local_usd": 697499.9999999999,
+        "total_usd": 1550000.0
+      },
+      {
+        "bucket": "epc_overhead",
+        "imported_share": 0.45,
+        "imported_usd": 9280939.5,
+        "local_share": 0.55,
+        "local_usd": 11343370.5,
+        "total_usd": 20624310.0
+      }
+    ],
+    "reconciled_project_total": 356207526.002,
+    "risk_envelope_15_percent": 409638654.90229994,
+    "risk_envelope_25_percent": 445259407.50249994,
     "timetable_sized_dedicated_solar": 40950216.00199998
   },
   "cases": {
@@ -27,9 +98,9 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 57436551.36,
       "capacity_utilisation": 0.8,
-      "project_irr": 0.09252841106726004,
-      "project_npv_usd_at_8_percent": 47273208.10534712,
-      "steady_state_dscr": 2.7565536586062382
+      "project_irr": 0.09647578539407273,
+      "project_npv_usd_at_8_percent": 60165667.16251952,
+      "steady_state_dscr": 2.0439057852539153
     },
     "low_capacity_use": {
       "annual_operating_cash_usd": 27274288.05997,
@@ -37,24 +108,39 @@
       "annual_public_support_usd": 0.0,
       "annual_revenue_usd": 36320045.76,
       "capacity_utilisation": 0.5,
-      "project_irr": 0.05029886417423761,
-      "project_npv_usd_at_8_percent": -94592613.62327996,
-      "steady_state_dscr": 1.5536640929240209
+      "project_irr": 0.0534589443499794,
+      "project_npv_usd_at_8_percent": -81700154.56610757,
+      "steady_state_dscr": 1.1519975379236016
     }
   },
   "city": "kumba",
   "funding": {
-    "annual_debt_service_usd": 17554816.503893934,
+    "annual_debt_service_usd": 23675647.874326255,
+    "annual_external_capital_draw_usd": 23209261.085914284,
+    "annual_external_debt_service_usd": 9543919.638064569,
+    "annual_grace_interest_usd": 20485420.7333038,
+    "annual_local_bond_issuance_usd": 22142022.674354285,
+    "annual_local_bond_service_usd": 14131728.236261686,
+    "annual_local_capital_draw_usd": 27677528.342942856,
+    "annual_local_public_equity_draw_usd": 5535505.66858857,
+    "annual_public_construction_commitment_usd": 26020926.40189237,
     "construction_grace_years": 7,
-    "debt_principal_usd": 298833220.00159997,
-    "debt_rate": 0.045,
-    "government_equity_share": 0.2,
+    "debt_principal_usd": 317458986.32188,
+    "external_capital_required_usd": 162464827.6014,
+    "external_debt_rate": 0.045,
+    "external_debt_usd": 162464827.6014,
+    "external_grant_usd": 0.0,
     "lender_commitment_status": "unconfirmed-placeholder",
+    "local_bond_principal_usd": 154994158.72048,
+    "local_bond_rate": 0.085,
+    "local_capital_required_usd": 193742698.4006,
+    "local_public_equity_usd": 38748539.68011999,
     "repayment_years": 33
   },
   "limitations": [
     "No calibrated origin-destination or stated-preference ridership survey.",
     "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "Imported shares are planning assumptions pending country supplier-capability, customs, tax, and procurement-origin surveys.",
     "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
     "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis."
   ],
@@ -78,12 +164,12 @@
     "practical_capacity_passenger_trips_per_day": 401760.0,
     "single_trip_fare_usd": 0.48000000000000004
   },
-  "schema_version": 1,
+  "schema_version": 2,
   "sources": {
     "design": "designs/west-africa/Cameroon/Kumba/design.toml",
-    "design_sha256": "b42e0cd59f0438760f9f47aa7f4258a0897d1a380040d1a33dacf183f195a104",
+    "design_sha256": "77228540e37d02eb44cba2161690cbc734d9144a59c8b16c4ab551c0702da92a",
     "generator": "scripts/generate-city-finance.py",
-    "generator_sha256": "6dfed1520f87abe49a311ab1fa9151b081aa84b1a17c88c728902c74c1f42253",
+    "generator_sha256": "9da48240e9ea50383e605d0c00585d52cdf48747820a2ac28647432461d3e1fa",
     "scenario": "designs/west-africa/Cameroon/Kumba/kumba.toml",
     "scenario_sha256": "c7a5ff82468ae5c0587aae2052219d0a4b8a87ccb600ae5b7dd8f280eb8d326a"
   },
