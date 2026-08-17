@@ -1,5 +1,8 @@
 # Sri Lanka national OpenSourceRail strategy
 
+> [!IMPORTANT]
+> **Foreign-capital advantage:** against the default equivalent foreign-turnkey case, this national OSR programme avoids **$8.93 B (86.0%) of external capital** and **$11.19 B of external interest**. Capital plus saved interest totals **$20.12 B over the 40-year financing life**. Both cases use the same 4.5% external rate and financing schedule; the comparator external requirement is assumed debt-financed, and the comparator is an editable sensitivity, not a vendor quote.
+
 Sri Lanka should implement OpenSourceRail as one national industrial and financing programme covering the 4 catalogue cities below, rather than as disconnected city projects. One centrally governed trainset factory builds the shared modular fleet in phases; city and regional contractors fabricate and install rails, viaducts, stations, depots, and local civil works. This concentrates scarce imported machinery, specialist tooling, engineering support, and foreign currency in one reusable national asset while maximizing domestic labour, materials, fabrication, and local-currency financing.
 
 ## National programme at a glance
@@ -33,15 +36,15 @@ The annual construction draw is spread evenly over 7 planning years. Post-grace 
 
 ## Foreign-company turnkey comparison
 
-This controlled comparison is an editable sensitivity, not a supplier quotation. It uses the same national network, fleet, service, and energy scope, with 90% of a foreign contractor's price assumed to require foreign currency or international capital. Illustrative variable benchmark for an equivalent foreign-company turnkey delivery. It excludes tunnels, land, tax/duty, utility relocation, financing fees, and escalation on both sides; it does not represent a received bid or named vendor price.
+This controlled comparison is an editable sensitivity, not a supplier quotation. It uses the same national network, fleet, service, and energy scope, with 90% of a foreign contractor's price assumed to require foreign currency or international capital. Illustrative variable benchmark for an equivalent foreign-company turnkey delivery. It excludes tunnels, land, tax/duty, utility relocation, financing fees, and escalation on both sides; it does not represent a received bid or named vendor price. Lifetime interest uses the same 4.5% rate, 7-year construction interest period, and 33-year amortization for both cases; the comparator external requirement is assumed debt-financed.
 
-| Case | Cost multiplier vs OSR | Foreign-company total CAPEX | Foreign-company external capital | OSR external capital saved | Annual external capital saved |
+| Case | Cost multiplier vs OSR | Foreign-company external capital | OSR external capital saved | External interest saved over financing life | Capital + interest saved |
 |---|---:|---:|---:|---:|---:|
-| Low | 1.50× | $8.64 B | $7.78 B | $6.33 B (81.4%) | $904.7 M / yr |
-| **Default** | 2.00× | $11.53 B | $10.37 B | $8.93 B (86.0%) | $1.28 B / yr |
-| High | 3.00× | $17.29 B | $15.56 B | $14.11 B (90.7%) | $2.02 B / yr |
+| Low | 1.50× | $7.78 B | $6.33 B (81.4%) | $7.94 B | **$14.27 B** |
+| **Default** | 2.00× | $10.37 B | $8.93 B (86.0%) | $11.19 B | **$20.12 B** |
+| High | 3.00× | $15.56 B | $14.11 B (90.7%) | $17.69 B | **$31.80 B** |
 
-At the default 2.00× case, the OSR programme reduces external capital from $10.37 B to $1.45 B, a saving of **$8.93 B (86.0%)**. Total programme CAPEX is 50.0% below the comparator. Replace both variables with scope-normalized bids before investment approval.
+At the default 2.00× case, the OSR programme reduces external capital from $10.37 B to $1.45 B, a saving of **$8.93 B (86.0%)**, plus **$11.19 B** of external interest over the financing life. Total programme CAPEX is 50.0% below the comparator. Replace both variables with scope-normalized bids before investment approval.
 
 ## Procurement-origin composition
 
@@ -62,12 +65,12 @@ At the default 2.00× case, the OSR programme reduces external capital from $10.
 
 Each city CAPEX below excludes the national factory. Its imported share varies with the local mix of civil structures, rolling stock, stations, charging, signalling, and solar infrastructure.
 
-| City | Population | Fleet | City CAPEX | Imported % | OSR external capital | Foreign-turnkey external capital (default) | External capital saved | Local capital |
-|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| [Colombo](Colombo/README.md) | 5,648,000 | 497 | $3.81 B | 25.7% | $978.0 M | $6.85 B | $5.87 B | $2.83 B |
-| [Kandy](Kandy/README.md) | 650,000 | 178 | $703.9 M | 23.9% | $168.3 M | $1.27 B | $1.10 B | $535.6 M |
-| [Jaffna](Jaffna/README.md) | 600,000 | 131 | $483.1 M | 24.6% | $118.7 M | $869.5 M | $750.8 M | $364.3 M |
-| [Galle](Galle/README.md) | 500,000 | 177 | $577.7 M | 25.1% | $144.8 M | $1.04 B | $895.0 M | $432.9 M |
+| City | Population | Fleet | City CAPEX | Imported % | OSR external capital | Foreign-turnkey external capital (default) | External capital saved | Capital + lifetime external interest saved | Local capital |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| [Colombo](Colombo/README.md) | 5,648,000 | 497 | $3.81 B | 25.7% | $978.0 M | $6.85 B | $5.87 B | $13.24 B | $2.83 B |
+| [Kandy](Kandy/README.md) | 650,000 | 178 | $703.9 M | 23.9% | $168.3 M | $1.27 B | $1.10 B | $2.48 B | $535.6 M |
+| [Jaffna](Jaffna/README.md) | 600,000 | 131 | $483.1 M | 24.6% | $118.7 M | $869.5 M | $750.8 M | $1.69 B | $364.3 M |
+| [Galle](Galle/README.md) | 500,000 | 177 | $577.7 M | 25.1% | $144.8 M | $1.04 B | $895.0 M | $2.02 B | $432.9 M |
 
 ## National implementation sequence
 

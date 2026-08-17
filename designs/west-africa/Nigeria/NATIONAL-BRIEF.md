@@ -1,5 +1,8 @@
 # Nigeria national OpenSourceRail strategy
 
+> [!IMPORTANT]
+> **Foreign-capital advantage:** against the default equivalent foreign-turnkey case, this national OSR programme avoids **$22.76 B (86.7%) of external capital** and **$28.54 B of external interest**. Capital plus saved interest totals **$51.30 B over the 40-year financing life**. Both cases use the same 4.5% external rate and financing schedule; the comparator external requirement is assumed debt-financed, and the comparator is an editable sensitivity, not a vendor quote.
+
 Nigeria should implement OpenSourceRail as one national industrial and financing programme covering the 10 catalogue cities below, rather than as disconnected city projects. One centrally governed trainset factory builds the shared modular fleet in phases; city and regional contractors fabricate and install rails, viaducts, stations, depots, and local civil works. This concentrates scarce imported machinery, specialist tooling, engineering support, and foreign currency in one reusable national asset while maximizing domestic labour, materials, fabrication, and local-currency financing.
 
 ## National programme at a glance
@@ -33,15 +36,15 @@ The annual construction draw is spread evenly over 7 planning years. Post-grace 
 
 ## Foreign-company turnkey comparison
 
-This controlled comparison is an editable sensitivity, not a supplier quotation. It uses the same national network, fleet, service, and energy scope, with 90% of a foreign contractor's price assumed to require foreign currency or international capital. Illustrative variable benchmark for an equivalent foreign-company turnkey delivery. It excludes tunnels, land, tax/duty, utility relocation, financing fees, and escalation on both sides; it does not represent a received bid or named vendor price.
+This controlled comparison is an editable sensitivity, not a supplier quotation. It uses the same national network, fleet, service, and energy scope, with 90% of a foreign contractor's price assumed to require foreign currency or international capital. Illustrative variable benchmark for an equivalent foreign-company turnkey delivery. It excludes tunnels, land, tax/duty, utility relocation, financing fees, and escalation on both sides; it does not represent a received bid or named vendor price. Lifetime interest uses the same 4.5% rate, 7-year construction interest period, and 33-year amortization for both cases; the comparator external requirement is assumed debt-financed.
 
-| Case | Cost multiplier vs OSR | Foreign-company total CAPEX | Foreign-company external capital | OSR external capital saved | Annual external capital saved |
+| Case | Cost multiplier vs OSR | Foreign-company external capital | OSR external capital saved | External interest saved over financing life | Capital + interest saved |
 |---|---:|---:|---:|---:|---:|
-| Low | 1.50× | $21.87 B | $19.68 B | $16.20 B (82.3%) | $2.31 B / yr |
-| **Default** | 2.00× | $29.16 B | $26.24 B | $22.76 B (86.7%) | $3.25 B / yr |
-| High | 3.00× | $43.74 B | $39.37 B | $35.89 B (91.2%) | $5.13 B / yr |
+| Low | 1.50× | $19.68 B | $16.20 B (82.3%) | $20.31 B | **$36.52 B** |
+| **Default** | 2.00× | $26.24 B | $22.76 B (86.7%) | $28.54 B | **$51.30 B** |
+| High | 3.00× | $39.37 B | $35.89 B (91.2%) | $44.99 B | **$80.87 B** |
 
-At the default 2.00× case, the OSR programme reduces external capital from $26.24 B to $3.48 B, a saving of **$22.76 B (86.7%)**. Total programme CAPEX is 50.0% below the comparator. Replace both variables with scope-normalized bids before investment approval.
+At the default 2.00× case, the OSR programme reduces external capital from $26.24 B to $3.48 B, a saving of **$22.76 B (86.7%)**, plus **$28.54 B** of external interest over the financing life. Total programme CAPEX is 50.0% below the comparator. Replace both variables with scope-normalized bids before investment approval.
 
 ## Procurement-origin composition
 
@@ -62,18 +65,18 @@ At the default 2.00× case, the OSR programme reduces external capital from $26.
 
 Each city CAPEX below excludes the national factory. Its imported share varies with the local mix of civil structures, rolling stock, stations, charging, signalling, and solar infrastructure.
 
-| City | Population | Fleet | City CAPEX | Imported % | OSR external capital | Foreign-turnkey external capital (default) | External capital saved | Local capital |
-|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| [Kano](Kano/README.md) | 4,200,000 | 686 | $4.71 B | 25.1% | $1.18 B | $8.48 B | $7.30 B | $3.53 B |
-| [Ibadan](Ibadan/README.md) | 3,900,000 | 222 | $1.67 B | 25.6% | $427.4 M | $3.01 B | $2.58 B | $1.24 B |
-| [Port Harcourt](Port-Harcourt/README.md) | 3,000,000 | 232 | $1.83 B | 23.1% | $423.0 M | $3.29 B | $2.87 B | $1.40 B |
-| [Benin City](Benin-City/README.md) | 1,800,000 | 171 | $1.27 B | 23.3% | $294.7 M | $2.28 B | $1.99 B | $972.2 M |
-| [Onitsha](Onitsha/README.md) | 1,500,000 | 198 | $1.62 B | 23.1% | $372.5 M | $2.91 B | $2.53 B | $1.24 B |
-| [Maiduguri](Maiduguri/README.md) | 1,200,000 | 197 | $1.63 B | 21.7% | $354.3 M | $2.94 B | $2.59 B | $1.28 B |
-| [Ilorin](Ilorin/README.md) | 1,000,000 | 124 | $535.4 M | 23.7% | $126.9 M | $963.7 M | $836.8 M | $408.5 M |
-| [Aba Ng](Aba-Ng/README.md) | 900,000 | 70 | $299.8 M | 23.8% | $71.3 M | $539.6 M | $468.3 M | $228.5 M |
-| [Jos](Jos/README.md) | 900,000 | 102 | $417.8 M | 23.0% | $96.1 M | $752.0 M | $655.9 M | $321.6 M |
-| [Uyo](Uyo/README.md) | 800,000 | 76 | $334.6 M | 23.6% | $78.8 M | $602.4 M | $523.6 M | $255.8 M |
+| City | Population | Fleet | City CAPEX | Imported % | OSR external capital | Foreign-turnkey external capital (default) | External capital saved | Capital + lifetime external interest saved | Local capital |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| [Kano](Kano/README.md) | 4,200,000 | 686 | $4.71 B | 25.1% | $1.18 B | $8.48 B | $7.30 B | $16.45 B | $3.53 B |
+| [Ibadan](Ibadan/README.md) | 3,900,000 | 222 | $1.67 B | 25.6% | $427.4 M | $3.01 B | $2.58 B | $5.82 B | $1.24 B |
+| [Port Harcourt](Port-Harcourt/README.md) | 3,000,000 | 232 | $1.83 B | 23.1% | $423.0 M | $3.29 B | $2.87 B | $6.46 B | $1.40 B |
+| [Benin City](Benin-City/README.md) | 1,800,000 | 171 | $1.27 B | 23.3% | $294.7 M | $2.28 B | $1.99 B | $4.48 B | $972.2 M |
+| [Onitsha](Onitsha/README.md) | 1,500,000 | 198 | $1.62 B | 23.1% | $372.5 M | $2.91 B | $2.53 B | $5.71 B | $1.24 B |
+| [Maiduguri](Maiduguri/README.md) | 1,200,000 | 197 | $1.63 B | 21.7% | $354.3 M | $2.94 B | $2.59 B | $5.83 B | $1.28 B |
+| [Ilorin](Ilorin/README.md) | 1,000,000 | 124 | $535.4 M | 23.7% | $126.9 M | $963.7 M | $836.8 M | $1.89 B | $408.5 M |
+| [Aba Ng](Aba-Ng/README.md) | 900,000 | 70 | $299.8 M | 23.8% | $71.3 M | $539.6 M | $468.3 M | $1.06 B | $228.5 M |
+| [Jos](Jos/README.md) | 900,000 | 102 | $417.8 M | 23.0% | $96.1 M | $752.0 M | $655.9 M | $1.48 B | $321.6 M |
+| [Uyo](Uyo/README.md) | 800,000 | 76 | $334.6 M | 23.6% | $78.8 M | $602.4 M | $523.6 M | $1.18 B | $255.8 M |
 
 ## National implementation sequence
 

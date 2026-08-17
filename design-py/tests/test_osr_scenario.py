@@ -358,7 +358,7 @@ def test_foreign_turnkey_comparator_reconciles_savings_and_annual_draw() -> None
     design = _parse(SAMAWAH_DESIGN.read_text())
     capital = city_capital_breakdown(design["costs"])
     plan = funding_plan(capital, _load_country_finance("IQ"))
-    cases = foreign_turnkey_cases(capital, plan.construction_years)
+    cases = foreign_turnkey_cases(capital, plan)
     comparison = cases["default"]
 
     assert list(cases) == ["low", "default", "high"]
@@ -371,6 +371,14 @@ def test_foreign_turnkey_comparator_reconciles_savings_and_annual_draw() -> None
         comparison.external_capital_avoided_usd
     )
     assert comparison.external_capital_reduction > comparison.total_capex_reduction
+    assert comparison.external_interest_avoided_usd > 0.0
+    assert comparison.osr_lifetime_external_interest_usd == pytest.approx(
+        plan.lifetime_external_interest_usd
+    )
+    assert comparison.lifetime_external_financing_avoided_usd == pytest.approx(
+        comparison.external_capital_avoided_usd
+        + comparison.external_interest_avoided_usd
+    )
 
 
 def test_readme_nets_operating_surplus_against_gov_debt_support() -> None:
@@ -403,6 +411,8 @@ def test_readme_nets_operating_surplus_against_gov_debt_support() -> None:
     assert "### Foreign-company turnkey comparison" in text
     assert "not a vendor quotation" in text
     assert "OSR external capital saved" in text
+    assert "> **Foreign-capital advantage:**" in text
+    assert "Capital plus saved interest totals" in text
     assert re.search(
         r"\| External climate/MDB debt for imported content \(unconfirmed\) \| "
         r"\d+% \| \$\d+ M \| 4\.5% \| 40 y, 5 y grace \| "

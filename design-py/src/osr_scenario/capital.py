@@ -137,6 +137,18 @@ class CapitalFundingPlan:
     def annual_public_construction_commitment_usd(self) -> float:
         return self.annual_local_equity_draw_usd + self.annual_grace_interest_usd
 
+    @property
+    def lifetime_external_interest_usd(self) -> float:
+        grace_interest = (
+            self.external_debt_usd * self.external_rate * self.construction_years
+        )
+        repayment_interest = max(
+            0.0,
+            self.annual_external_debt_service_usd * self.repayment_years
+            - self.external_debt_usd,
+        )
+        return grace_interest + repayment_interest
+
 
 @dataclass(frozen=True)
 class ForeignTurnkeyComparison:
@@ -144,7 +156,10 @@ class ForeignTurnkeyComparison:
 
     osr_total_usd: float
     osr_external_usd: float
+    osr_external_debt_usd: float
     construction_years: int
+    repayment_years: int
+    external_rate: float
     cost_multiplier: float
     external_capital_share: float
 
@@ -183,6 +198,45 @@ class ForeignTurnkeyComparison:
     @property
     def annual_external_capital_avoided_usd(self) -> float:
         return self.external_capital_avoided_usd / self.construction_years
+
+    def _lifetime_interest(self, principal_usd: float) -> float:
+        grace_interest = principal_usd * self.external_rate * self.construction_years
+        repayment_interest = max(
+            0.0,
+            annuity(principal_usd, self.external_rate, self.repayment_years)
+            * self.repayment_years
+            - principal_usd,
+        )
+        return grace_interest + repayment_interest
+
+    @property
+    def osr_lifetime_external_interest_usd(self) -> float:
+        return self._lifetime_interest(self.osr_external_debt_usd)
+
+    @property
+    def foreign_lifetime_external_interest_usd(self) -> float:
+        return self._lifetime_interest(self.foreign_external_usd)
+
+    @property
+    def external_interest_avoided_usd(self) -> float:
+        return (
+            self.foreign_lifetime_external_interest_usd
+            - self.osr_lifetime_external_interest_usd
+        )
+
+    @property
+    def lifetime_external_financing_avoided_usd(self) -> float:
+        return self.external_capital_avoided_usd + self.external_interest_avoided_usd
+
+    @property
+    def lifetime_external_financing_reduction(self) -> float:
+        foreign_lifetime = (
+            self.foreign_external_usd + self.foreign_lifetime_external_interest_usd
+        )
+        if foreign_lifetime <= 0.0:
+            return 0.0
+        osr_lifetime = self.osr_external_usd + self.osr_lifetime_external_interest_usd
+        return 1.0 - (osr_lifetime / foreign_lifetime)
 
 
 def annuity(principal: float, rate: float, years: int) -> float:
@@ -302,7 +356,7 @@ def funding_plan(
 
 def foreign_turnkey_comparison(
     breakdown: CapitalBreakdown,
-    construction_years: int,
+    plan: CapitalFundingPlan,
     *,
     cost_multiplier: float | None = None,
     external_capital_share: float | None = None,
@@ -326,7 +380,10 @@ def foreign_turnkey_comparison(
     return ForeignTurnkeyComparison(
         osr_total_usd=breakdown.total_usd,
         osr_external_usd=breakdown.imported_usd,
-        construction_years=max(int(construction_years), 1),
+        osr_external_debt_usd=plan.external_debt_usd,
+        construction_years=plan.construction_years,
+        repayment_years=plan.repayment_years,
+        external_rate=plan.external_rate,
         cost_multiplier=multiplier,
         external_capital_share=external_share,
     )
@@ -334,14 +391,14 @@ def foreign_turnkey_comparison(
 
 def foreign_turnkey_cases(
     breakdown: CapitalBreakdown,
-    construction_years: int,
+    plan: CapitalFundingPlan,
 ) -> dict[str, ForeignTurnkeyComparison]:
     """Return every controlled foreign-turnkey cost-multiplier case."""
 
     return {
         case: foreign_turnkey_comparison(
             breakdown,
-            construction_years,
+            plan,
             cost_multiplier=multiplier,
         )
         for case, multiplier in FOREIGN_TURNKEY_COST_MULTIPLIERS.items()

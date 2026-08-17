@@ -1,5 +1,8 @@
 # Angola national OpenSourceRail strategy
 
+> [!IMPORTANT]
+> **Foreign-capital advantage:** against the default equivalent foreign-turnkey case, this national OSR programme avoids **$10.92 B (86.1%) of external capital** and **$13.43 B of external interest**. Capital plus saved interest totals **$24.34 B over the 40-year financing life**. Both cases use the same 4.5% external rate and financing schedule; the comparator external requirement is assumed debt-financed, and the comparator is an editable sensitivity, not a vendor quote.
+
 Angola should implement OpenSourceRail as one national industrial and financing programme covering the 9 catalogue cities below, rather than as disconnected city projects. One centrally governed trainset factory builds the shared modular fleet in phases; city and regional contractors fabricate and install rails, viaducts, stations, depots, and local civil works. This concentrates scarce imported machinery, specialist tooling, engineering support, and foreign currency in one reusable national asset while maximizing domestic labour, materials, fabrication, and local-currency financing.
 
 ## National programme at a glance
@@ -33,15 +36,15 @@ The annual construction draw is spread evenly over 5 planning years. Post-grace 
 
 ## Foreign-company turnkey comparison
 
-This controlled comparison is an editable sensitivity, not a supplier quotation. It uses the same national network, fleet, service, and energy scope, with 90% of a foreign contractor's price assumed to require foreign currency or international capital. Illustrative variable benchmark for an equivalent foreign-company turnkey delivery. It excludes tunnels, land, tax/duty, utility relocation, financing fees, and escalation on both sides; it does not represent a received bid or named vendor price.
+This controlled comparison is an editable sensitivity, not a supplier quotation. It uses the same national network, fleet, service, and energy scope, with 90% of a foreign contractor's price assumed to require foreign currency or international capital. Illustrative variable benchmark for an equivalent foreign-company turnkey delivery. It excludes tunnels, land, tax/duty, utility relocation, financing fees, and escalation on both sides; it does not represent a received bid or named vendor price. Lifetime interest uses the same 4.5% rate, 5-year construction interest period, and 35-year amortization for both cases; the comparator external requirement is assumed debt-financed.
 
-| Case | Cost multiplier vs OSR | Foreign-company total CAPEX | Foreign-company external capital | OSR external capital saved | Annual external capital saved |
+| Case | Cost multiplier vs OSR | Foreign-company external capital | OSR external capital saved | External interest saved over financing life | Capital + interest saved |
 |---|---:|---:|---:|---:|---:|
-| Low | 1.50× | $10.57 B | $9.52 B | $7.75 B (81.4%) | $1.55 B / yr |
-| **Default** | 2.00× | $14.10 B | $12.69 B | $10.92 B (86.1%) | $2.18 B / yr |
-| High | 3.00× | $21.15 B | $19.03 B | $17.26 B (90.7%) | $3.45 B / yr |
+| Low | 1.50× | $9.52 B | $7.75 B (81.4%) | $9.53 B | **$17.27 B** |
+| **Default** | 2.00× | $12.69 B | $10.92 B (86.1%) | $13.43 B | **$24.34 B** |
+| High | 3.00× | $19.03 B | $17.26 B (90.7%) | $21.22 B | **$38.49 B** |
 
-At the default 2.00× case, the OSR programme reduces external capital from $12.69 B to $1.77 B, a saving of **$10.92 B (86.1%)**. Total programme CAPEX is 50.0% below the comparator. Replace both variables with scope-normalized bids before investment approval.
+At the default 2.00× case, the OSR programme reduces external capital from $12.69 B to $1.77 B, a saving of **$10.92 B (86.1%)**, plus **$13.43 B** of external interest over the financing life. Total programme CAPEX is 50.0% below the comparator. Replace both variables with scope-normalized bids before investment approval.
 
 ## Procurement-origin composition
 
@@ -62,17 +65,17 @@ At the default 2.00× case, the OSR programme reduces external capital from $12.
 
 Each city CAPEX below excludes the national factory. Its imported share varies with the local mix of civil structures, rolling stock, stations, charging, signalling, and solar infrastructure.
 
-| City | Population | Fleet | City CAPEX | Imported % | OSR external capital | Foreign-turnkey external capital (default) | External capital saved | Local capital |
-|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| [Luanda](Luanda/README.md) | 9,085,000 | 622 | $4.27 B | 26.7% | $1.14 B | $7.69 B | $6.55 B | $3.13 B |
-| [Huambo](Huambo/README.md) | 800,000 | 112 | $436.9 M | 23.5% | $102.7 M | $786.4 M | $683.7 M | $334.2 M |
-| [Lubango](Lubango/README.md) | 700,000 | 119 | $469.7 M | 23.4% | $110.1 M | $845.4 M | $735.4 M | $359.6 M |
-| [Benguela](Benguela/README.md) | 600,000 | 110 | $419.1 M | 23.6% | $98.9 M | $754.4 M | $655.6 M | $320.3 M |
-| [Lobito](Lobito/README.md) | 500,000 | 83 | $316.8 M | 23.7% | $75.1 M | $570.3 M | $495.2 M | $241.8 M |
-| [Malanje](Malanje/README.md) | 500,000 | 34 | $172.3 M | 22.6% | $39.0 M | $310.1 M | $271.1 M | $133.3 M |
-| [Uige](Uige/README.md) | 400,000 | 27 | $103.4 M | 24.1% | $24.9 M | $186.1 M | $161.2 M | $78.5 M |
-| [Namibe](Namibe/README.md) | 300,000 | 84 | $304.4 M | 21.5% | $65.4 M | $548.0 M | $482.6 M | $239.0 M |
-| [Soyo](Soyo/README.md) | 250,000 | 63 | $314.5 M | 20.8% | $65.5 M | $566.2 M | $500.6 M | $249.0 M |
+| City | Population | Fleet | City CAPEX | Imported % | OSR external capital | Foreign-turnkey external capital (default) | External capital saved | Capital + lifetime external interest saved | Local capital |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| [Luanda](Luanda/README.md) | 9,085,000 | 622 | $4.27 B | 26.7% | $1.14 B | $7.69 B | $6.55 B | $14.60 B | $3.13 B |
+| [Huambo](Huambo/README.md) | 800,000 | 112 | $436.9 M | 23.5% | $102.7 M | $786.4 M | $683.7 M | $1.52 B | $334.2 M |
+| [Lubango](Lubango/README.md) | 700,000 | 119 | $469.7 M | 23.4% | $110.1 M | $845.4 M | $735.4 M | $1.64 B | $359.6 M |
+| [Benguela](Benguela/README.md) | 600,000 | 110 | $419.1 M | 23.6% | $98.9 M | $754.4 M | $655.6 M | $1.46 B | $320.3 M |
+| [Lobito](Lobito/README.md) | 500,000 | 83 | $316.8 M | 23.7% | $75.1 M | $570.3 M | $495.2 M | $1.10 B | $241.8 M |
+| [Malanje](Malanje/README.md) | 500,000 | 34 | $172.3 M | 22.6% | $39.0 M | $310.1 M | $271.1 M | $604.4 M | $133.3 M |
+| [Uige](Uige/README.md) | 400,000 | 27 | $103.4 M | 24.1% | $24.9 M | $186.1 M | $161.2 M | $359.3 M | $78.5 M |
+| [Namibe](Namibe/README.md) | 300,000 | 84 | $304.4 M | 21.5% | $65.4 M | $548.0 M | $482.6 M | $1.08 B | $239.0 M |
+| [Soyo](Soyo/README.md) | 250,000 | 63 | $314.5 M | 20.8% | $65.5 M | $566.2 M | $500.6 M | $1.12 B | $249.0 M |
 
 ## National implementation sequence
 

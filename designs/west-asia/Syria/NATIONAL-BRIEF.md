@@ -1,5 +1,8 @@
 # Syria national OpenSourceRail strategy
 
+> [!IMPORTANT]
+> **Foreign-capital advantage:** against the default equivalent foreign-turnkey case, this national OSR programme avoids **$9.63 B (87.2%) of external capital** and **$12.44 B of external interest**. Capital plus saved interest totals **$22.07 B over the 40-year financing life**. Both cases use the same 4.5% external rate and financing schedule; the comparator external requirement is assumed debt-financed, and the comparator is an editable sensitivity, not a vendor quote.
+
 Syria should implement OpenSourceRail as one national industrial and financing programme covering the 9 catalogue cities below, rather than as disconnected city projects. One centrally governed trainset factory builds the shared modular fleet in phases; city and regional contractors fabricate and install rails, viaducts, stations, depots, and local civil works. This concentrates scarce imported machinery, specialist tooling, engineering support, and foreign currency in one reusable national asset while maximizing domestic labour, materials, fabrication, and local-currency financing.
 
 ## National programme at a glance
@@ -33,15 +36,15 @@ The annual construction draw is spread evenly over 10 planning years. Post-grace
 
 ## Foreign-company turnkey comparison
 
-This controlled comparison is an editable sensitivity, not a supplier quotation. It uses the same national network, fleet, service, and energy scope, with 90% of a foreign contractor's price assumed to require foreign currency or international capital. Illustrative variable benchmark for an equivalent foreign-company turnkey delivery. It excludes tunnels, land, tax/duty, utility relocation, financing fees, and escalation on both sides; it does not represent a received bid or named vendor price.
+This controlled comparison is an editable sensitivity, not a supplier quotation. It uses the same national network, fleet, service, and energy scope, with 90% of a foreign contractor's price assumed to require foreign currency or international capital. Illustrative variable benchmark for an equivalent foreign-company turnkey delivery. It excludes tunnels, land, tax/duty, utility relocation, financing fees, and escalation on both sides; it does not represent a received bid or named vendor price. Lifetime interest uses the same 4.5% rate, 10-year construction interest period, and 30-year amortization for both cases; the comparator external requirement is assumed debt-financed.
 
-| Case | Cost multiplier vs OSR | Foreign-company total CAPEX | Foreign-company external capital | OSR external capital saved | Annual external capital saved |
+| Case | Cost multiplier vs OSR | Foreign-company external capital | OSR external capital saved | External interest saved over financing life | Capital + interest saved |
 |---|---:|---:|---:|---:|---:|
-| Low | 1.50× | $9.20 B | $8.28 B | $6.87 B (83.0%) | $687.0 M / yr |
-| **Default** | 2.00× | $12.26 B | $11.04 B | $9.63 B (87.2%) | $962.9 M / yr |
-| High | 3.00× | $18.40 B | $16.56 B | $15.15 B (91.5%) | $1.51 B / yr |
+| Low | 1.50× | $8.28 B | $6.87 B (83.0%) | $8.87 B | **$15.74 B** |
+| **Default** | 2.00× | $11.04 B | $9.63 B (87.2%) | $12.44 B | **$22.07 B** |
+| High | 3.00× | $16.56 B | $15.15 B (91.5%) | $19.57 B | **$34.72 B** |
 
-At the default 2.00× case, the OSR programme reduces external capital from $11.04 B to $1.41 B, a saving of **$9.63 B (87.2%)**. Total programme CAPEX is 50.0% below the comparator. Replace both variables with scope-normalized bids before investment approval.
+At the default 2.00× case, the OSR programme reduces external capital from $11.04 B to $1.41 B, a saving of **$9.63 B (87.2%)**, plus **$12.44 B** of external interest over the financing life. Total programme CAPEX is 50.0% below the comparator. Replace both variables with scope-normalized bids before investment approval.
 
 ## Procurement-origin composition
 
@@ -62,17 +65,17 @@ At the default 2.00× case, the OSR programme reduces external capital from $11.
 
 Each city CAPEX below excludes the national factory. Its imported share varies with the local mix of civil structures, rolling stock, stations, charging, signalling, and solar infrastructure.
 
-| City | Population | Fleet | City CAPEX | Imported % | OSR external capital | Foreign-turnkey external capital (default) | External capital saved | Local capital |
-|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| [Damascus](Damascus/README.md) | 2,503,000 | 236 | $1.76 B | 22.8% | $400.5 M | $3.17 B | $2.77 B | $1.36 B |
-| [Aleppo](Aleppo/README.md) | 1,639,000 | 219 | $1.68 B | 23.0% | $385.5 M | $3.02 B | $2.64 B | $1.29 B |
-| [Homs](Homs/README.md) | 775,000 | 87 | $380.1 M | 23.3% | $88.5 M | $684.1 M | $595.7 M | $291.6 M |
-| [Latakia](Latakia/README.md) | 700,000 | 93 | $364.1 M | 24.1% | $87.8 M | $655.5 M | $567.7 M | $276.4 M |
-| [Hama](Hama/README.md) | 600,000 | 114 | $433.2 M | 23.8% | $103.2 M | $779.8 M | $676.6 M | $330.0 M |
-| [Deir Ez Zor](Deir-Ez-Zor/README.md) | 500,000 | 143 | $524.8 M | 23.3% | $122.4 M | $944.7 M | $822.2 M | $402.4 M |
-| [Raqqa](Raqqa/README.md) | 350,000 | 105 | $424.4 M | 23.5% | $99.7 M | $763.9 M | $664.2 M | $324.7 M |
-| [Idlib](Idlib/README.md) | 300,000 | 67 | $259.7 M | 21.5% | $55.9 M | $467.5 M | $411.6 M | $203.8 M |
-| [Tartus](Tartus/README.md) | 250,000 | 60 | $247.9 M | 21.2% | $52.6 M | $446.2 M | $393.6 M | $195.3 M |
+| City | Population | Fleet | City CAPEX | Imported % | OSR external capital | Foreign-turnkey external capital (default) | External capital saved | Capital + lifetime external interest saved | Local capital |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| [Damascus](Damascus/README.md) | 2,503,000 | 236 | $1.76 B | 22.8% | $400.5 M | $3.17 B | $2.77 B | $6.34 B | $1.36 B |
+| [Aleppo](Aleppo/README.md) | 1,639,000 | 219 | $1.68 B | 23.0% | $385.5 M | $3.02 B | $2.64 B | $6.04 B | $1.29 B |
+| [Homs](Homs/README.md) | 775,000 | 87 | $380.1 M | 23.3% | $88.5 M | $684.1 M | $595.7 M | $1.37 B | $291.6 M |
+| [Latakia](Latakia/README.md) | 700,000 | 93 | $364.1 M | 24.1% | $87.8 M | $655.5 M | $567.7 M | $1.30 B | $276.4 M |
+| [Hama](Hama/README.md) | 600,000 | 114 | $433.2 M | 23.8% | $103.2 M | $779.8 M | $676.6 M | $1.55 B | $330.0 M |
+| [Deir Ez Zor](Deir-Ez-Zor/README.md) | 500,000 | 143 | $524.8 M | 23.3% | $122.4 M | $944.7 M | $822.2 M | $1.88 B | $402.4 M |
+| [Raqqa](Raqqa/README.md) | 350,000 | 105 | $424.4 M | 23.5% | $99.7 M | $763.9 M | $664.2 M | $1.52 B | $324.7 M |
+| [Idlib](Idlib/README.md) | 300,000 | 67 | $259.7 M | 21.5% | $55.9 M | $467.5 M | $411.6 M | $943.3 M | $203.8 M |
+| [Tartus](Tartus/README.md) | 250,000 | 60 | $247.9 M | 21.2% | $52.6 M | $446.2 M | $393.6 M | $902.1 M | $195.3 M |
 
 ## National implementation sequence
 

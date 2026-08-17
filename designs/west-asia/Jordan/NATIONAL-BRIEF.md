@@ -1,5 +1,8 @@
 # Jordan national OpenSourceRail strategy
 
+> [!IMPORTANT]
+> **Foreign-capital advantage:** against the default equivalent foreign-turnkey case, this national OSR programme avoids **$8.92 B (86.4%) of external capital** and **$10.96 B of external interest**. Capital plus saved interest totals **$19.88 B over the 40-year financing life**. Both cases use the same 4.5% external rate and financing schedule; the comparator external requirement is assumed debt-financed, and the comparator is an editable sensitivity, not a vendor quote.
+
 Jordan should implement OpenSourceRail as one national industrial and financing programme covering the 4 catalogue cities below, rather than as disconnected city projects. One centrally governed trainset factory builds the shared modular fleet in phases; city and regional contractors fabricate and install rails, viaducts, stations, depots, and local civil works. This concentrates scarce imported machinery, specialist tooling, engineering support, and foreign currency in one reusable national asset while maximizing domestic labour, materials, fabrication, and local-currency financing.
 
 ## National programme at a glance
@@ -33,15 +36,15 @@ The annual construction draw is spread evenly over 5 planning years. Post-grace 
 
 ## Foreign-company turnkey comparison
 
-This controlled comparison is an editable sensitivity, not a supplier quotation. It uses the same national network, fleet, service, and energy scope, with 90% of a foreign contractor's price assumed to require foreign currency or international capital. Illustrative variable benchmark for an equivalent foreign-company turnkey delivery. It excludes tunnels, land, tax/duty, utility relocation, financing fees, and escalation on both sides; it does not represent a received bid or named vendor price.
+This controlled comparison is an editable sensitivity, not a supplier quotation. It uses the same national network, fleet, service, and energy scope, with 90% of a foreign contractor's price assumed to require foreign currency or international capital. Illustrative variable benchmark for an equivalent foreign-company turnkey delivery. It excludes tunnels, land, tax/duty, utility relocation, financing fees, and escalation on both sides; it does not represent a received bid or named vendor price. Lifetime interest uses the same 4.5% rate, 5-year construction interest period, and 35-year amortization for both cases; the comparator external requirement is assumed debt-financed.
 
-| Case | Cost multiplier vs OSR | Foreign-company total CAPEX | Foreign-company external capital | OSR external capital saved | Annual external capital saved |
+| Case | Cost multiplier vs OSR | Foreign-company external capital | OSR external capital saved | External interest saved over financing life | Capital + interest saved |
 |---|---:|---:|---:|---:|---:|
-| Low | 1.50× | $8.60 B | $7.74 B | $6.34 B (81.9%) | $1.27 B / yr |
-| **Default** | 2.00× | $11.46 B | $10.31 B | $8.92 B (86.4%) | $1.78 B / yr |
-| High | 3.00× | $17.19 B | $15.47 B | $14.07 B (91.0%) | $2.81 B / yr |
+| Low | 1.50× | $7.74 B | $6.34 B (81.9%) | $7.79 B | **$14.13 B** |
+| **Default** | 2.00× | $10.31 B | $8.92 B (86.4%) | $10.96 B | **$19.88 B** |
+| High | 3.00× | $15.47 B | $14.07 B (91.0%) | $17.30 B | **$31.38 B** |
 
-At the default 2.00× case, the OSR programme reduces external capital from $10.31 B to $1.40 B, a saving of **$8.92 B (86.4%)**. Total programme CAPEX is 50.0% below the comparator. Replace both variables with scope-normalized bids before investment approval.
+At the default 2.00× case, the OSR programme reduces external capital from $10.31 B to $1.40 B, a saving of **$8.92 B (86.4%)**, plus **$10.96 B** of external interest over the financing life. Total programme CAPEX is 50.0% below the comparator. Replace both variables with scope-normalized bids before investment approval.
 
 ## Procurement-origin composition
 
@@ -62,12 +65,12 @@ At the default 2.00× case, the OSR programme reduces external capital from $10.
 
 Each city CAPEX below excludes the national factory. Its imported share varies with the local mix of civil structures, rolling stock, stations, charging, signalling, and solar infrastructure.
 
-| City | Population | Fleet | City CAPEX | Imported % | OSR external capital | Foreign-turnkey external capital (default) | External capital saved | Local capital |
-|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| [Amman](Amman/README.md) | 4,007,000 | 555 | $4.01 B | 25.1% | $1.01 B | $7.22 B | $6.21 B | $3.00 B |
-| [Zarqa](Zarqa/README.md) | 700,000 | 227 | $783.8 M | 23.3% | $183.0 M | $1.41 B | $1.23 B | $600.8 M |
-| [Irbid](Irbid/README.md) | 600,000 | 107 | $402.6 M | 24.3% | $97.7 M | $724.6 M | $626.9 M | $304.9 M |
-| [Aqaba](Aqaba/README.md) | 250,000 | 71 | $321.4 M | 20.8% | $66.9 M | $578.6 M | $511.7 M | $254.5 M |
+| City | Population | Fleet | City CAPEX | Imported % | OSR external capital | Foreign-turnkey external capital (default) | External capital saved | Capital + lifetime external interest saved | Local capital |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| [Amman](Amman/README.md) | 4,007,000 | 555 | $4.01 B | 25.1% | $1.01 B | $7.22 B | $6.21 B | $13.84 B | $3.00 B |
+| [Zarqa](Zarqa/README.md) | 700,000 | 227 | $783.8 M | 23.3% | $183.0 M | $1.41 B | $1.23 B | $2.74 B | $600.8 M |
+| [Irbid](Irbid/README.md) | 600,000 | 107 | $402.6 M | 24.3% | $97.7 M | $724.6 M | $626.9 M | $1.40 B | $304.9 M |
+| [Aqaba](Aqaba/README.md) | 250,000 | 71 | $321.4 M | 20.8% | $66.9 M | $578.6 M | $511.7 M | $1.14 B | $254.5 M |
 
 ## National implementation sequence
 

@@ -1,5 +1,16 @@
 # OpenSourceRail
 
+> [!IMPORTANT]
+> **The foreign-capital advantage is a cornerstone of OpenSourceRail.** Across
+> the 266-city / 44-country catalogue, the default equivalent foreign-turnkey
+> comparison shows **$451.28B (86.7%) less external capital**, **$564.13B less
+> external interest**, and **$1.02T less external capital plus interest over the
+> financing life**. Both cases use the same country rate, grace period, and
+> repayment tenor, so the interest saving comes from borrowing far less foreign
+> capital; the comparator's external requirement is assumed debt-financed. The
+> 2.0× turnkey cost and 90% foreign-capital shares are editable planning
+> sensitivities—not a vendor quote.
+
 ![Solar metro trainset: current OpenSourceRail reference vehicle](docs/assets/solar-metro-trainset.png)
 
 OpenSourceRail is an open-source stack for designing, building, and
@@ -41,7 +52,7 @@ The machine-readable source is
 [lib/templates/capex-costs.toml](lib/templates/capex-costs.toml), with
 the audit trail in [docs/cost-model.md](docs/cost-model.md).
 
-## National Capital And Local Content
+## Foreign-Capital Advantage And Local Content
 
 The generated catalogue now separates the foreign-currency requirement from
 the value that can be financed domestically. Imported content is treated as
@@ -77,6 +88,11 @@ foreign-led programme would cost **$578.51B**, require **$520.66B of external
 capital**, and draw **$83.89B/year** across the country construction schedules.
 Against that sensitivity, OSR avoids **$451.28B (86.7%) of external capital**,
 or **$72.71B/year**, while reducing total programme CAPEX by **$289.25B (50%)**.
+Using each country's existing external rate, grace period, and repayment tenor,
+the smaller OSR external principal also avoids **$564.13B of lifetime external
+interest**. The combined external-capital and interest saving is therefore
+**$1.02T over the financing life**. This comparison excludes local-bond interest
+and OPEX so the foreign-currency funding advantage remains explicit.
 Low/default/high cost multipliers of 1.5×/2.0×/3.0× are reported in every city
 and national brief. These are transparent comparison variables—not a received
 bid or a price attributed to any named supplier—and must be replaced with
@@ -85,7 +101,8 @@ scope-normalized market offers before investment approval.
 Every city README and `engineering/finance/summary.json` now reports its
 import percentage, external and local capital totals, annual construction
 draws, local bond issuance, foreign-turnkey sensitivity, external-capital
-savings, and post-grace debt service. Every country has a
+savings, lifetime external-interest savings, combined financing-life savings,
+and post-grace debt service. Every country has a
 `NATIONAL-BRIEF.md` that aggregates its cities and adds one centralized
 trainset factory, sized to the largest single-city vehicle-module programme
 and reused through a phased national rollout. Rails, viaducts, stations,

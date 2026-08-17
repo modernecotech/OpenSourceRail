@@ -1089,7 +1089,7 @@ def _funding_and_affordability_section(
     if capital.total_usd <= 0.0:
         return []
     plan = funding_plan(capital, fin)
-    turnkey_cases = foreign_turnkey_cases(capital, plan.construction_years)
+    turnkey_cases = foreign_turnkey_cases(capital, plan)
     turnkey_default = turnkey_cases["default"]
     total_eur = capital.total_usd * _USD_TO_EUR
     imported_eur = capital.imported_usd * _USD_TO_EUR
@@ -1316,29 +1316,34 @@ def _funding_and_affordability_section(
         "It multiplies OSR CAPEX for an equivalent network, fleet, service, and "
         f"energy scope, then assumes {FOREIGN_TURNKEY_EXTERNAL_SHARE:.0%} of the "
         "foreign contractor price requires foreign currency or international "
-        f"capital. {FOREIGN_TURNKEY_BASIS}\n"
+        f"capital. {FOREIGN_TURNKEY_BASIS} Lifetime interest uses the same "
+        f"{plan.external_rate:.1%} rate, {plan.construction_years}-year construction "
+        f"interest period, and {plan.repayment_years}-year amortization for both cases; "
+        "the comparator external requirement is assumed debt-financed.\n"
     )
     out.append(
-        "| Foreign-turnkey case | Cost multiplier vs OSR | Foreign-company total CAPEX | "
-        "Foreign-company external capital | OSR external capital saved | Annual external capital saved |"
+        "| Foreign-turnkey case | Cost multiplier vs OSR | Foreign-company external capital | "
+        "OSR external capital saved | External interest saved over financing life | Capital + interest saved |"
     )
     out.append("|---|---:|---:|---:|---:|---:|")
     for case, comparison in turnkey_cases.items():
         label = f"**{case.title()}**" if case == "default" else case.title()
         out.append(
             f"| {label} | {comparison.cost_multiplier:.2f}× | "
-            f"{_fmt_usd(comparison.foreign_total_usd)} | "
             f"{_fmt_usd(comparison.foreign_external_usd)} | "
             f"{_fmt_usd(comparison.external_capital_avoided_usd)} "
             f"({comparison.external_capital_reduction:.1%}) | "
-            f"{_fmt_usd(comparison.annual_external_capital_avoided_usd)} / yr |"
+            f"{_fmt_usd(comparison.external_interest_avoided_usd)} | "
+            f"**{_fmt_usd(comparison.lifetime_external_financing_avoided_usd)}** |"
         )
     out.append(
         f"\nAt the default {turnkey_default.cost_multiplier:.2f}× case, OSR's "
         f"{_fmt_usd(capital.imported_usd)} external requirement is "
         f"{turnkey_default.external_capital_reduction:.1%} below the illustrative "
         f"foreign-company requirement of {_fmt_usd(turnkey_default.foreign_external_usd)}; "
-        f"total project CAPEX is {turnkey_default.total_capex_reduction:.1%} lower. "
+        f"the associated lifetime external-interest saving is "
+        f"{_fmt_usd(turnkey_default.external_interest_avoided_usd)}, and total project "
+        f"CAPEX is {turnkey_default.total_capex_reduction:.1%} lower. "
         "Replace both variables with normalized bids before an investment decision.\n"
     )
 
@@ -1949,6 +1954,15 @@ def render_readme(
     stats = compute_stats(design, scenario, int(design["city"]["population"]))
     energy_plan = _energy_plan(design, scenario, stats)
     charging_audit = _opportunity_charging_audit(design, scenario)
+    headline_capital = city_capital_breakdown(
+        design["costs"], energy_plan.solar_plant_capex_usd
+    )
+    headline_plan = funding_plan(
+        headline_capital, _load_country_finance(stats.country_iso)
+    )
+    headline_turnkey = foreign_turnkey_cases(
+        headline_capital, headline_plan
+    )["default"]
 
     screenshot_slug = screenshot_slug or str(design["city"]["slug"])
 
@@ -2077,6 +2091,18 @@ def render_readme(
     out.append(
         f"**Country:** {stats.country_iso} · "
         f"**Population:** {stats.population:,}\n"
+    )
+    out.append(
+        "> [!IMPORTANT]\n"
+        "> **Foreign-capital advantage:** against the default equivalent foreign-turnkey "
+        f"case, this OSR plan avoids **{_fmt_usd(headline_turnkey.external_capital_avoided_usd)} "
+        f"({headline_turnkey.external_capital_reduction:.1%}) of external capital** and "
+        f"**{_fmt_usd(headline_turnkey.external_interest_avoided_usd)} of external interest**. "
+        f"Capital plus saved interest totals **{_fmt_usd(headline_turnkey.lifetime_external_financing_avoided_usd)} "
+        f"over the {headline_plan.tenor_years}-year financing life**. Both cases use the "
+        f"same {headline_plan.external_rate:.1%} external rate and financing schedule; the "
+        "turnkey external requirement is assumed debt-financed, and the benchmark "
+        "remains an editable sensitivity, not a vendor quote.\n"
     )
     out.append(
         "Auto-planned by the OpenSourceRail design pipeline: "
@@ -2550,7 +2576,7 @@ def _finalise_readme(
             for key, path in source_paths.items()
         )
         if (
-            finance.get("schema_version") != 3
+            finance.get("schema_version") != 4
             or not finance.get("passed")
             or sources.get("design_sha256") != design_hash
             or sources.get("scenario_sha256") != scenario_hash
@@ -2598,6 +2624,12 @@ def _finalise_readme(
                 f"{_fmt_usd(turnkey['foreign_company_external_capital_usd'])}; "
                 f"OSR saves {_fmt_usd(turnkey['osr_external_capital_saving_usd'])} "
                 f"({float(turnkey['osr_external_capital_reduction']):.1%}) |"
+            )
+            out.append(
+                f"| Lifetime external interest and combined financing saving | "
+                f"{_fmt_usd(turnkey['osr_external_interest_saving_usd'])} interest; "
+                f"{_fmt_usd(turnkey['osr_lifetime_external_financing_saving_usd'])} "
+                f"capital + interest |"
             )
         out.append(f"| 15%–25% planning risk envelope | {_fmt_usd(capex['risk_envelope_15_percent'])}–{_fmt_usd(capex['risk_envelope_25_percent'])} |")
         out.append(f"| Annual OPEX | {_fmt_usd(opex['total'])} / yr |")

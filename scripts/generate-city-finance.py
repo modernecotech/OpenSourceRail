@@ -99,9 +99,7 @@ def build_model(design_path: Path, scenario_path: Path) -> dict[str, object]:
     total_capex = capital.total_usd
     total_capex_eur = total_capex * _USD_TO_EUR
     capital_plan = funding_plan(capital, fin)
-    turnkey_cases = foreign_turnkey_cases(
-        capital, capital_plan.construction_years
-    )
+    turnkey_cases = foreign_turnkey_cases(capital, capital_plan)
     turnkey_default = turnkey_cases["default"]
 
     def turnkey_case_payload(comparison) -> dict[str, float]:
@@ -115,6 +113,14 @@ def build_model(design_path: Path, scenario_path: Path) -> dict[str, object]:
             "osr_external_capital_reduction": comparison.external_capital_reduction,
             "annual_foreign_company_external_draw_usd": comparison.annual_foreign_external_draw_usd,
             "annual_osr_external_capital_saving_usd": comparison.annual_external_capital_avoided_usd,
+            "external_interest_rate": comparison.external_rate,
+            "construction_interest_years": comparison.construction_years,
+            "repayment_years": comparison.repayment_years,
+            "osr_lifetime_external_interest_usd": comparison.osr_lifetime_external_interest_usd,
+            "foreign_company_lifetime_external_interest_usd": comparison.foreign_lifetime_external_interest_usd,
+            "osr_external_interest_saving_usd": comparison.external_interest_avoided_usd,
+            "osr_lifetime_external_financing_saving_usd": comparison.lifetime_external_financing_avoided_usd,
+            "osr_lifetime_external_financing_reduction": comparison.lifetime_external_financing_reduction,
         }
 
     rs_maint = 0.04 * float(costs["rolling_stock_usd"])
@@ -201,7 +207,7 @@ def build_model(design_path: Path, scenario_path: Path) -> dict[str, object]:
     required_farebox = max(0.0, annual_opex - nonfare)
     neutral_trips = required_farebox / trip_fare if trip_fare else math.inf
     return {
-        "schema_version": 3,
+        "schema_version": 4,
         "city": slug,
         "status": "planning-screen",
         "passed": True,
@@ -240,6 +246,7 @@ def build_model(design_path: Path, scenario_path: Path) -> dict[str, object]:
         "foreign_turnkey_comparator": {
             "status": "illustrative-variable-benchmark-not-vendor-quote",
             "basis": FOREIGN_TURNKEY_BASIS,
+            "financing_basis": "OSR and foreign-turnkey external debt use the same country rate, construction interest period, and repayment tenor; foreign-turnkey external capital is assumed debt-financed. Lifetime saving equals avoided external capital plus avoided external interest.",
             "external_capital_share": FOREIGN_TURNKEY_EXTERNAL_SHARE,
             "selected_case": "default",
             "default_comparison": turnkey_case_payload(turnkey_default),
@@ -299,6 +306,7 @@ def build_model(design_path: Path, scenario_path: Path) -> dict[str, object]:
             "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
             "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis.",
             "The foreign-turnkey comparison is a configurable like-for-like multiplier sensitivity, not a received bid or vendor quotation.",
+            "Lifetime external-interest savings use identical country financing terms for both cases and assume the foreign-turnkey external requirement is debt-financed.",
         ],
     }
 

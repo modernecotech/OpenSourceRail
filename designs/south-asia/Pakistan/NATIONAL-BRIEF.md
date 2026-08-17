@@ -1,5 +1,8 @@
 # Pakistan national OpenSourceRail strategy
 
+> [!IMPORTANT]
+> **Foreign-capital advantage:** against the default equivalent foreign-turnkey case, this national OSR programme avoids **$26.55 B (87.0%) of external capital** and **$33.28 B of external interest**. Capital plus saved interest totals **$59.82 B over the 40-year financing life**. Both cases use the same 4.5% external rate and financing schedule; the comparator external requirement is assumed debt-financed, and the comparator is an editable sensitivity, not a vendor quote.
+
 Pakistan should implement OpenSourceRail as one national industrial and financing programme covering the 13 catalogue cities below, rather than as disconnected city projects. One centrally governed trainset factory builds the shared modular fleet in phases; city and regional contractors fabricate and install rails, viaducts, stations, depots, and local civil works. This concentrates scarce imported machinery, specialist tooling, engineering support, and foreign currency in one reusable national asset while maximizing domestic labour, materials, fabrication, and local-currency financing.
 
 ## National programme at a glance
@@ -33,15 +36,15 @@ The annual construction draw is spread evenly over 7 planning years. Post-grace 
 
 ## Foreign-company turnkey comparison
 
-This controlled comparison is an editable sensitivity, not a supplier quotation. It uses the same national network, fleet, service, and energy scope, with 90% of a foreign contractor's price assumed to require foreign currency or international capital. Illustrative variable benchmark for an equivalent foreign-company turnkey delivery. It excludes tunnels, land, tax/duty, utility relocation, financing fees, and escalation on both sides; it does not represent a received bid or named vendor price.
+This controlled comparison is an editable sensitivity, not a supplier quotation. It uses the same national network, fleet, service, and energy scope, with 90% of a foreign contractor's price assumed to require foreign currency or international capital. Illustrative variable benchmark for an equivalent foreign-company turnkey delivery. It excludes tunnels, land, tax/duty, utility relocation, financing fees, and escalation on both sides; it does not represent a received bid or named vendor price. Lifetime interest uses the same 4.5% rate, 7-year construction interest period, and 33-year amortization for both cases; the comparator external requirement is assumed debt-financed.
 
-| Case | Cost multiplier vs OSR | Foreign-company total CAPEX | Foreign-company external capital | OSR external capital saved | Annual external capital saved |
+| Case | Cost multiplier vs OSR | Foreign-company external capital | OSR external capital saved | External interest saved over financing life | Capital + interest saved |
 |---|---:|---:|---:|---:|---:|
-| Low | 1.50× | $25.42 B | $22.88 B | $18.92 B (82.7%) | $2.70 B / yr |
-| **Default** | 2.00× | $33.90 B | $30.51 B | $26.55 B (87.0%) | $3.79 B / yr |
-| High | 3.00× | $50.85 B | $45.76 B | $41.80 B (91.3%) | $5.97 B / yr |
+| Low | 1.50× | $22.88 B | $18.92 B (82.7%) | $23.72 B | **$42.64 B** |
+| **Default** | 2.00× | $30.51 B | $26.55 B (87.0%) | $33.28 B | **$59.82 B** |
+| High | 3.00× | $45.76 B | $41.80 B (91.3%) | $52.40 B | **$94.20 B** |
 
-At the default 2.00× case, the OSR programme reduces external capital from $30.51 B to $3.96 B, a saving of **$26.55 B (87.0%)**. Total programme CAPEX is 50.0% below the comparator. Replace both variables with scope-normalized bids before investment approval.
+At the default 2.00× case, the OSR programme reduces external capital from $30.51 B to $3.96 B, a saving of **$26.55 B (87.0%)**, plus **$33.28 B** of external interest over the financing life. Total programme CAPEX is 50.0% below the comparator. Replace both variables with scope-normalized bids before investment approval.
 
 ## Procurement-origin composition
 
@@ -62,21 +65,21 @@ At the default 2.00× case, the OSR programme reduces external capital from $30.
 
 Each city CAPEX below excludes the national factory. Its imported share varies with the local mix of civil structures, rolling stock, stations, charging, signalling, and solar infrastructure.
 
-| City | Population | Fleet | City CAPEX | Imported % | OSR external capital | Foreign-turnkey external capital (default) | External capital saved | Local capital |
-|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| [Karachi](Karachi/README.md) | 20,300,000 | 707 | $4.67 B | 25.5% | $1.19 B | $8.41 B | $7.22 B | $3.48 B |
-| [Faisalabad](Faisalabad/README.md) | 3,556,000 | 252 | $1.88 B | 24.7% | $464.9 M | $3.39 B | $2.93 B | $1.42 B |
-| [Gujranwala](Gujranwala/README.md) | 2,300,000 | 218 | $1.53 B | 23.1% | $353.9 M | $2.76 B | $2.40 B | $1.18 B |
-| [Peshawar](Peshawar/README.md) | 2,300,000 | 221 | $1.69 B | 22.4% | $379.1 M | $3.05 B | $2.67 B | $1.31 B |
-| [Multan](Multan/README.md) | 2,197,000 | 149 | $1.25 B | 21.9% | $274.4 M | $2.26 B | $1.98 B | $979.5 M |
-| [Hyderabad Pk](Hyderabad-Pk/README.md) | 1,900,000 | 216 | $1.73 B | 22.3% | $384.7 M | $3.11 B | $2.72 B | $1.34 B |
-| [Quetta](Quetta/README.md) | 1,200,000 | 127 | $1.08 B | 22.1% | $237.5 M | $1.94 B | $1.70 B | $838.5 M |
-| [Bahawalpur](Bahawalpur/README.md) | 900,000 | 100 | $427.0 M | 23.2% | $99.1 M | $768.6 M | $669.5 M | $327.9 M |
-| [Sialkot](Sialkot/README.md) | 750,000 | 134 | $786.5 M | 20.6% | $162.4 M | $1.42 B | $1.25 B | $624.2 M |
-| [Sheikhupura](Sheikhupura/README.md) | 600,000 | 37 | $191.5 M | 21.9% | $42.0 M | $344.7 M | $302.7 M | $149.5 M |
-| [Sukkur](Sukkur/README.md) | 600,000 | 92 | $601.0 M | 20.2% | $121.7 M | $1.08 B | $960.2 M | $479.3 M |
-| [Larkana](Larkana/README.md) | 500,000 | 79 | $364.8 M | 22.3% | $81.4 M | $656.6 M | $575.2 M | $283.4 M |
-| [Rahim Yar Khan](Rahim-Yar-Khan/README.md) | 500,000 | 129 | $468.5 M | 24.0% | $112.5 M | $843.3 M | $730.7 M | $356.0 M |
+| City | Population | Fleet | City CAPEX | Imported % | OSR external capital | Foreign-turnkey external capital (default) | External capital saved | Capital + lifetime external interest saved | Local capital |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| [Karachi](Karachi/README.md) | 20,300,000 | 707 | $4.67 B | 25.5% | $1.19 B | $8.41 B | $7.22 B | $16.26 B | $3.48 B |
+| [Faisalabad](Faisalabad/README.md) | 3,556,000 | 252 | $1.88 B | 24.7% | $464.9 M | $3.39 B | $2.93 B | $6.59 B | $1.42 B |
+| [Gujranwala](Gujranwala/README.md) | 2,300,000 | 218 | $1.53 B | 23.1% | $353.9 M | $2.76 B | $2.40 B | $5.41 B | $1.18 B |
+| [Peshawar](Peshawar/README.md) | 2,300,000 | 221 | $1.69 B | 22.4% | $379.1 M | $3.05 B | $2.67 B | $6.02 B | $1.31 B |
+| [Multan](Multan/README.md) | 2,197,000 | 149 | $1.25 B | 21.9% | $274.4 M | $2.26 B | $1.98 B | $4.47 B | $979.5 M |
+| [Hyderabad Pk](Hyderabad-Pk/README.md) | 1,900,000 | 216 | $1.73 B | 22.3% | $384.7 M | $3.11 B | $2.72 B | $6.14 B | $1.34 B |
+| [Quetta](Quetta/README.md) | 1,200,000 | 127 | $1.08 B | 22.1% | $237.5 M | $1.94 B | $1.70 B | $3.83 B | $838.5 M |
+| [Bahawalpur](Bahawalpur/README.md) | 900,000 | 100 | $427.0 M | 23.2% | $99.1 M | $768.6 M | $669.5 M | $1.51 B | $327.9 M |
+| [Sialkot](Sialkot/README.md) | 750,000 | 134 | $786.5 M | 20.6% | $162.4 M | $1.42 B | $1.25 B | $2.82 B | $624.2 M |
+| [Sheikhupura](Sheikhupura/README.md) | 600,000 | 37 | $191.5 M | 21.9% | $42.0 M | $344.7 M | $302.7 M | $682.2 M | $149.5 M |
+| [Sukkur](Sukkur/README.md) | 600,000 | 92 | $601.0 M | 20.2% | $121.7 M | $1.08 B | $960.2 M | $2.16 B | $479.3 M |
+| [Larkana](Larkana/README.md) | 500,000 | 79 | $364.8 M | 22.3% | $81.4 M | $656.6 M | $575.2 M | $1.30 B | $283.4 M |
+| [Rahim Yar Khan](Rahim-Yar-Khan/README.md) | 500,000 | 129 | $468.5 M | 24.0% | $112.5 M | $843.3 M | $730.7 M | $1.65 B | $356.0 M |
 
 ## National implementation sequence
 

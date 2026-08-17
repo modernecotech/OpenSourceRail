@@ -119,49 +119,82 @@
     "default_comparison": {
       "annual_foreign_company_external_draw_usd": 144925923.64110547,
       "annual_osr_external_capital_saving_usd": 125381699.8708291,
+      "construction_interest_years": 5,
       "cost_multiplier": 2.0,
+      "external_interest_rate": 0.045,
       "foreign_company_external_capital_usd": 724629618.2055273,
+      "foreign_company_lifetime_external_interest_usd": 890907242.1401484,
       "foreign_company_total_capex_usd": 805144020.2283636,
       "osr_external_capital_reduction": 0.8651433554518813,
       "osr_external_capital_saving_usd": 626908499.3541455,
+      "osr_external_interest_saving_usd": 770762480.8615097,
+      "osr_lifetime_external_financing_reduction": 0.8651433554518813,
+      "osr_lifetime_external_financing_saving_usd": 1397670980.2156553,
+      "osr_lifetime_external_interest_usd": 120144761.27863875,
       "osr_total_capex_reduction": 0.5,
-      "osr_total_capex_saving_usd": 402572010.1141818
+      "osr_total_capex_saving_usd": 402572010.1141818,
+      "repayment_years": 35
     },
     "external_capital_share": 0.9,
+    "financing_basis": "OSR and foreign-turnkey external debt use the same country rate, construction interest period, and repayment tenor; foreign-turnkey external capital is assumed debt-financed. Lifetime saving equals avoided external capital plus avoided external interest.",
     "selected_case": "default",
     "sensitivity_cases": {
       "default": {
         "annual_foreign_company_external_draw_usd": 144925923.64110547,
         "annual_osr_external_capital_saving_usd": 125381699.8708291,
+        "construction_interest_years": 5,
         "cost_multiplier": 2.0,
+        "external_interest_rate": 0.045,
         "foreign_company_external_capital_usd": 724629618.2055273,
+        "foreign_company_lifetime_external_interest_usd": 890907242.1401484,
         "foreign_company_total_capex_usd": 805144020.2283636,
         "osr_external_capital_reduction": 0.8651433554518813,
         "osr_external_capital_saving_usd": 626908499.3541455,
+        "osr_external_interest_saving_usd": 770762480.8615097,
+        "osr_lifetime_external_financing_reduction": 0.8651433554518813,
+        "osr_lifetime_external_financing_saving_usd": 1397670980.2156553,
+        "osr_lifetime_external_interest_usd": 120144761.27863875,
         "osr_total_capex_reduction": 0.5,
-        "osr_total_capex_saving_usd": 402572010.1141818
+        "osr_total_capex_saving_usd": 402572010.1141818,
+        "repayment_years": 35
       },
       "high": {
         "annual_foreign_company_external_draw_usd": 217388885.46165818,
         "annual_osr_external_capital_saving_usd": 197844661.69138184,
+        "construction_interest_years": 5,
         "cost_multiplier": 3.0,
+        "external_interest_rate": 0.045,
         "foreign_company_external_capital_usd": 1086944427.308291,
+        "foreign_company_lifetime_external_interest_usd": 1336360863.2102222,
         "foreign_company_total_capex_usd": 1207716030.3425455,
         "osr_external_capital_reduction": 0.9100955703012541,
         "osr_external_capital_saving_usd": 989223308.4569092,
+        "osr_external_interest_saving_usd": 1216216101.9315834,
+        "osr_lifetime_external_financing_reduction": 0.9100955703012541,
+        "osr_lifetime_external_financing_saving_usd": 2205439410.3884926,
+        "osr_lifetime_external_interest_usd": 120144761.27863875,
         "osr_total_capex_reduction": 0.6666666666666667,
-        "osr_total_capex_saving_usd": 805144020.2283638
+        "osr_total_capex_saving_usd": 805144020.2283638,
+        "repayment_years": 35
       },
       "low": {
         "annual_foreign_company_external_draw_usd": 108694442.73082909,
         "annual_osr_external_capital_saving_usd": 89150218.96055274,
+        "construction_interest_years": 5,
         "cost_multiplier": 1.5,
+        "external_interest_rate": 0.045,
         "foreign_company_external_capital_usd": 543472213.6541455,
+        "foreign_company_lifetime_external_interest_usd": 668180431.6051111,
         "foreign_company_total_capex_usd": 603858015.1712728,
         "osr_external_capital_reduction": 0.8201911406025083,
         "osr_external_capital_saving_usd": 445751094.8027637,
+        "osr_external_interest_saving_usd": 548035670.3264724,
+        "osr_lifetime_external_financing_reduction": 0.8201911406025083,
+        "osr_lifetime_external_financing_saving_usd": 993786765.1292361,
+        "osr_lifetime_external_interest_usd": 120144761.27863875,
         "osr_total_capex_reduction": 0.33333333333333337,
-        "osr_total_capex_saving_usd": 201286005.05709094
+        "osr_total_capex_saving_usd": 201286005.05709094,
+        "repayment_years": 35
       }
     },
     "status": "illustrative-variable-benchmark-not-vendor-quote"
@@ -195,7 +228,8 @@
     "Imported shares are planning assumptions pending country supplier-capability, customs, tax, and procurement-origin surveys.",
     "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
     "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis.",
-    "The foreign-turnkey comparison is a configurable like-for-like multiplier sensitivity, not a received bid or vendor quotation."
+    "The foreign-turnkey comparison is a configurable like-for-like multiplier sensitivity, not a received bid or vendor quotation.",
+    "Lifetime external-interest savings use identical country financing terms for both cases and assume the foreign-turnkey external requirement is debt-financed."
   ],
   "operations_basis": {
     "annual_train_km_including_non_revenue": 8923373.342999998,
@@ -217,20 +251,20 @@
     "practical_capacity_passenger_trips_per_day": 401760.0,
     "single_trip_fare_usd": 1.5466666666666666
   },
-  "schema_version": 3,
+  "schema_version": 4,
   "sources": {
     "capex_costs": "lib/templates/capex-costs.toml",
     "capex_costs_sha256": "1e7bc1c016008078b39afefa18b141c6c0f7b26f60d03431d291d1b6e5f32c1b",
     "capital_model": "design-py/src/osr_scenario/capital.py",
-    "capital_model_sha256": "4a3f9307f92bb11962b6e9955808501df9e5b7d29d9d84be4f90fed019d36f43",
+    "capital_model_sha256": "4e57bba28ff737fbd8c963f909239a06d15b888fc1fe1b91c22286f95052f8a5",
     "country_finance": "lib/templates/country-finance.toml",
     "country_finance_sha256": "25941629ea1344cc81b7d6047b5f7d22f7b6409b7fd2c36e5ca23bc32a8d0ea3",
     "design": "designs/west-asia/Jordan/Irbid/design.toml",
     "design_sha256": "3dea5b87abcbae962274afd5a2337c0d1b68edcad07ad368f52d622d0eb33b3f",
     "generator": "scripts/generate-city-finance.py",
-    "generator_sha256": "7457e443e772ef49cc2c24b376f7e61086559f679c7dc12dee9ba1e40e03a3e7",
+    "generator_sha256": "c657f8b2ed31dce898db4f5a3fe123d97191fc285c12fa479976cca926a7d9f8",
     "network_finance_model": "design-py/src/osr_scenario/network_readme.py",
-    "network_finance_model_sha256": "c5aeb6c74a76c56448c9295467f17aad0aa9f7b1230546f00b6d8260fd750d23",
+    "network_finance_model_sha256": "853e559199cbaa418deaa6cc9bf2d2154d4c6557902246952002eecd2aaa2f67",
     "scenario": "designs/west-asia/Jordan/Irbid/irbid.toml",
     "scenario_sha256": "442740ccff2b4121f8d60f8b4d7758e85d34325e1d130c2801b562223f1a9700"
   },

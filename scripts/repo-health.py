@@ -267,6 +267,10 @@ def check_city_artifacts() -> list[Finding]:
                 findings.append(Finding(readme, "missing imported/external capital requirement"))
             if "Foreign-company turnkey comparison" not in text:
                 findings.append(Finding(readme, "missing foreign-turnkey capital comparison"))
+            if "> **Foreign-capital advantage:**" not in text:
+                findings.append(Finding(readme, "missing headline foreign-capital advantage"))
+            if "Capital plus saved interest totals" not in text:
+                findings.append(Finding(readme, "missing lifetime capital-and-interest saving"))
             for stale in ("Traction power", "€0.8 M/km", "Residual train-control wayside + power"):
                 if stale in text:
                     findings.append(Finding(readme, f"stale generated README wording: {stale!r}"))
@@ -289,8 +293,8 @@ def check_city_artifacts() -> list[Finding]:
                 "country_finance_sha256": REPO_ROOT
                 / "lib/templates/country-finance.toml",
             }
-            if finance.get("schema_version") != 3 or not finance.get("passed"):
-                findings.append(Finding(finance_path, "city finance summary is not a passing schema-v3 result"))
+            if finance.get("schema_version") != 4 or not finance.get("passed"):
+                findings.append(Finding(finance_path, "city finance summary is not a passing schema-v4 result"))
             for key, source_path in expected_sources.items():
                 expected_hash = hashlib.sha256(source_path.read_bytes()).hexdigest()
                 if sources.get(key) != expected_hash:

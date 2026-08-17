@@ -1,5 +1,8 @@
 # Cameroon national OpenSourceRail strategy
 
+> [!IMPORTANT]
+> **Foreign-capital advantage:** against the default equivalent foreign-turnkey case, this national OSR programme avoids **$12.08 B (86.2%) of external capital** and **$15.14 B of external interest**. Capital plus saved interest totals **$27.22 B over the 40-year financing life**. Both cases use the same 4.5% external rate and financing schedule; the comparator external requirement is assumed debt-financed, and the comparator is an editable sensitivity, not a vendor quote.
+
 Cameroon should implement OpenSourceRail as one national industrial and financing programme covering the 10 catalogue cities below, rather than as disconnected city projects. One centrally governed trainset factory builds the shared modular fleet in phases; city and regional contractors fabricate and install rails, viaducts, stations, depots, and local civil works. This concentrates scarce imported machinery, specialist tooling, engineering support, and foreign currency in one reusable national asset while maximizing domestic labour, materials, fabrication, and local-currency financing.
 
 ## National programme at a glance
@@ -33,15 +36,15 @@ The annual construction draw is spread evenly over 7 planning years. Post-grace 
 
 ## Foreign-company turnkey comparison
 
-This controlled comparison is an editable sensitivity, not a supplier quotation. It uses the same national network, fleet, service, and energy scope, with 90% of a foreign contractor's price assumed to require foreign currency or international capital. Illustrative variable benchmark for an equivalent foreign-company turnkey delivery. It excludes tunnels, land, tax/duty, utility relocation, financing fees, and escalation on both sides; it does not represent a received bid or named vendor price.
+This controlled comparison is an editable sensitivity, not a supplier quotation. It uses the same national network, fleet, service, and energy scope, with 90% of a foreign contractor's price assumed to require foreign currency or international capital. Illustrative variable benchmark for an equivalent foreign-company turnkey delivery. It excludes tunnels, land, tax/duty, utility relocation, financing fees, and escalation on both sides; it does not represent a received bid or named vendor price. Lifetime interest uses the same 4.5% rate, 7-year construction interest period, and 33-year amortization for both cases; the comparator external requirement is assumed debt-financed.
 
-| Case | Cost multiplier vs OSR | Foreign-company total CAPEX | Foreign-company external capital | OSR external capital saved | Annual external capital saved |
+| Case | Cost multiplier vs OSR | Foreign-company external capital | OSR external capital saved | External interest saved over financing life | Capital + interest saved |
 |---|---:|---:|---:|---:|---:|
-| Low | 1.50× | $11.68 B | $10.51 B | $8.58 B (81.6%) | $1.23 B / yr |
-| **Default** | 2.00× | $15.57 B | $14.02 B | $12.08 B (86.2%) | $1.73 B / yr |
-| High | 3.00× | $23.36 B | $21.03 B | $19.09 B (90.8%) | $2.73 B / yr |
+| Low | 1.50× | $10.51 B | $8.58 B (81.6%) | $10.75 B | **$19.33 B** |
+| **Default** | 2.00× | $14.02 B | $12.08 B (86.2%) | $15.14 B | **$27.22 B** |
+| High | 3.00× | $21.03 B | $19.09 B (90.8%) | $23.93 B | **$43.02 B** |
 
-At the default 2.00× case, the OSR programme reduces external capital from $14.02 B to $1.94 B, a saving of **$12.08 B (86.2%)**. Total programme CAPEX is 50.0% below the comparator. Replace both variables with scope-normalized bids before investment approval.
+At the default 2.00× case, the OSR programme reduces external capital from $14.02 B to $1.94 B, a saving of **$12.08 B (86.2%)**, plus **$15.14 B** of external interest over the financing life. Total programme CAPEX is 50.0% below the comparator. Replace both variables with scope-normalized bids before investment approval.
 
 ## Procurement-origin composition
 
@@ -62,18 +65,18 @@ At the default 2.00× case, the OSR programme reduces external capital from $14.
 
 Each city CAPEX below excludes the national factory. Its imported share varies with the local mix of civil structures, rolling stock, stations, charging, signalling, and solar infrastructure.
 
-| City | Population | Fleet | City CAPEX | Imported % | OSR external capital | Foreign-turnkey external capital (default) | External capital saved | Local capital |
-|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| [Yaounde](Yaounde/README.md) | 4,100,000 | 312 | $2.26 B | 26.3% | $593.4 M | $4.07 B | $3.47 B | $1.67 B |
-| [Douala](Douala/README.md) | 3,900,000 | 322 | $2.54 B | 25.3% | $641.7 M | $4.57 B | $3.93 B | $1.90 B |
-| [Bafoussam](Bafoussam/README.md) | 600,000 | 158 | $580.5 M | 25.0% | $145.0 M | $1.04 B | $899.9 M | $435.5 M |
-| [Bamenda](Bamenda/README.md) | 600,000 | 111 | $428.9 M | 24.7% | $105.9 M | $772.0 M | $666.2 M | $323.0 M |
-| [Garoua](Garoua/README.md) | 600,000 | 73 | $348.5 M | 21.9% | $76.3 M | $627.3 M | $551.0 M | $272.2 M |
-| [Maroua](Maroua/README.md) | 500,000 | 113 | $488.4 M | 22.7% | $111.1 M | $879.0 M | $767.9 M | $377.3 M |
-| [Kumba](Kumba/README.md) | 400,000 | 90 | $356.2 M | 24.5% | $87.4 M | $641.2 M | $553.8 M | $268.8 M |
-| [Bertoua](Bertoua/README.md) | 350,000 | 63 | $285.8 M | 23.6% | $67.3 M | $514.4 M | $447.1 M | $218.5 M |
-| [Ngaoundere](Ngaoundere/README.md) | 350,000 | 64 | $300.4 M | 22.4% | $67.3 M | $540.6 M | $473.3 M | $233.0 M |
-| [Edea](Edea/README.md) | 250,000 | 20 | $77.5 M | 21.4% | $16.6 M | $139.5 M | $123.0 M | $60.9 M |
+| City | Population | Fleet | City CAPEX | Imported % | OSR external capital | Foreign-turnkey external capital (default) | External capital saved | Capital + lifetime external interest saved | Local capital |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| [Yaounde](Yaounde/README.md) | 4,100,000 | 312 | $2.26 B | 26.3% | $593.4 M | $4.07 B | $3.47 B | $7.83 B | $1.67 B |
+| [Douala](Douala/README.md) | 3,900,000 | 322 | $2.54 B | 25.3% | $641.7 M | $4.57 B | $3.93 B | $8.85 B | $1.90 B |
+| [Bafoussam](Bafoussam/README.md) | 600,000 | 158 | $580.5 M | 25.0% | $145.0 M | $1.04 B | $899.9 M | $2.03 B | $435.5 M |
+| [Bamenda](Bamenda/README.md) | 600,000 | 111 | $428.9 M | 24.7% | $105.9 M | $772.0 M | $666.2 M | $1.50 B | $323.0 M |
+| [Garoua](Garoua/README.md) | 600,000 | 73 | $348.5 M | 21.9% | $76.3 M | $627.3 M | $551.0 M | $1.24 B | $272.2 M |
+| [Maroua](Maroua/README.md) | 500,000 | 113 | $488.4 M | 22.7% | $111.1 M | $879.0 M | $767.9 M | $1.73 B | $377.3 M |
+| [Kumba](Kumba/README.md) | 400,000 | 90 | $356.2 M | 24.5% | $87.4 M | $641.2 M | $553.8 M | $1.25 B | $268.8 M |
+| [Bertoua](Bertoua/README.md) | 350,000 | 63 | $285.8 M | 23.6% | $67.3 M | $514.4 M | $447.1 M | $1.01 B | $218.5 M |
+| [Ngaoundere](Ngaoundere/README.md) | 350,000 | 64 | $300.4 M | 22.4% | $67.3 M | $540.6 M | $473.3 M | $1.07 B | $233.0 M |
+| [Edea](Edea/README.md) | 250,000 | 20 | $77.5 M | 21.4% | $16.6 M | $139.5 M | $123.0 M | $277.1 M | $60.9 M |
 
 ## National implementation sequence
 

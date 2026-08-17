@@ -1,5 +1,8 @@
 # Rwanda national OpenSourceRail strategy
 
+> [!IMPORTANT]
+> **Foreign-capital advantage:** against the default equivalent foreign-turnkey case, this national OSR programme avoids **$4.03 B (87.3%) of external capital** and **$5.05 B of external interest**. Capital plus saved interest totals **$9.08 B over the 40-year financing life**. Both cases use the same 4.5% external rate and financing schedule; the comparator external requirement is assumed debt-financed, and the comparator is an editable sensitivity, not a vendor quote.
+
 Rwanda should implement OpenSourceRail as one national industrial and financing programme covering the 3 catalogue cities below, rather than as disconnected city projects. One centrally governed trainset factory builds the shared modular fleet in phases; city and regional contractors fabricate and install rails, viaducts, stations, depots, and local civil works. This concentrates scarce imported machinery, specialist tooling, engineering support, and foreign currency in one reusable national asset while maximizing domestic labour, materials, fabrication, and local-currency financing.
 
 ## National programme at a glance
@@ -33,15 +36,15 @@ The annual construction draw is spread evenly over 7 planning years. Post-grace 
 
 ## Foreign-company turnkey comparison
 
-This controlled comparison is an editable sensitivity, not a supplier quotation. It uses the same national network, fleet, service, and energy scope, with 90% of a foreign contractor's price assumed to require foreign currency or international capital. Illustrative variable benchmark for an equivalent foreign-company turnkey delivery. It excludes tunnels, land, tax/duty, utility relocation, financing fees, and escalation on both sides; it does not represent a received bid or named vendor price.
+This controlled comparison is an editable sensitivity, not a supplier quotation. It uses the same national network, fleet, service, and energy scope, with 90% of a foreign contractor's price assumed to require foreign currency or international capital. Illustrative variable benchmark for an equivalent foreign-company turnkey delivery. It excludes tunnels, land, tax/duty, utility relocation, financing fees, and escalation on both sides; it does not represent a received bid or named vendor price. Lifetime interest uses the same 4.5% rate, 7-year construction interest period, and 33-year amortization for both cases; the comparator external requirement is assumed debt-financed.
 
-| Case | Cost multiplier vs OSR | Foreign-company total CAPEX | Foreign-company external capital | OSR external capital saved | Annual external capital saved |
+| Case | Cost multiplier vs OSR | Foreign-company external capital | OSR external capital saved | External interest saved over financing life | Capital + interest saved |
 |---|---:|---:|---:|---:|---:|
-| Low | 1.50× | $3.84 B | $3.46 B | $2.88 B (83.1%) | $410.8 M / yr |
-| **Default** | 2.00× | $5.12 B | $4.61 B | $4.03 B (87.3%) | $575.5 M / yr |
-| High | 3.00× | $7.69 B | $6.92 B | $6.33 B (91.6%) | $904.9 M / yr |
+| Low | 1.50× | $3.46 B | $2.88 B (83.1%) | $3.60 B | **$6.48 B** |
+| **Default** | 2.00× | $4.61 B | $4.03 B (87.3%) | $5.05 B | **$9.08 B** |
+| High | 3.00× | $6.92 B | $6.33 B (91.6%) | $7.94 B | **$14.28 B** |
 
-At the default 2.00× case, the OSR programme reduces external capital from $4.61 B to $583.9 M, a saving of **$4.03 B (87.3%)**. Total programme CAPEX is 50.0% below the comparator. Replace both variables with scope-normalized bids before investment approval.
+At the default 2.00× case, the OSR programme reduces external capital from $4.61 B to $583.9 M, a saving of **$4.03 B (87.3%)**, plus **$5.05 B** of external interest over the financing life. Total programme CAPEX is 50.0% below the comparator. Replace both variables with scope-normalized bids before investment approval.
 
 ## Procurement-origin composition
 
@@ -62,11 +65,11 @@ At the default 2.00× case, the OSR programme reduces external capital from $4.6
 
 Each city CAPEX below excludes the national factory. Its imported share varies with the local mix of civil structures, rolling stock, stations, charging, signalling, and solar infrastructure.
 
-| City | Population | Fleet | City CAPEX | Imported % | OSR external capital | Foreign-turnkey external capital (default) | External capital saved | Local capital |
-|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| [Kigali](Kigali/README.md) | 1,208,000 | 227 | $1.85 B | 23.0% | $426.8 M | $3.33 B | $2.91 B | $1.43 B |
-| [Huye](Huye/README.md) | 250,000 | 92 | $315.3 M | 22.5% | $70.8 M | $567.5 M | $496.7 M | $244.5 M |
-| [Rubavu](Rubavu/README.md) | 250,000 | 91 | $336.7 M | 22.2% | $74.8 M | $606.1 M | $531.3 M | $261.9 M |
+| City | Population | Fleet | City CAPEX | Imported % | OSR external capital | Foreign-turnkey external capital (default) | External capital saved | Capital + lifetime external interest saved | Local capital |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| [Kigali](Kigali/README.md) | 1,208,000 | 227 | $1.85 B | 23.0% | $426.8 M | $3.33 B | $2.91 B | $6.55 B | $1.43 B |
+| [Huye](Huye/README.md) | 250,000 | 92 | $315.3 M | 22.5% | $70.8 M | $567.5 M | $496.7 M | $1.12 B | $244.5 M |
+| [Rubavu](Rubavu/README.md) | 250,000 | 91 | $336.7 M | 22.2% | $74.8 M | $606.1 M | $531.3 M | $1.20 B | $261.9 M |
 
 ## National implementation sequence
 

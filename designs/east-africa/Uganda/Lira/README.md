@@ -2,6 +2,9 @@
 
 **Country:** UG · **Population:** 250,000
 
+> [!IMPORTANT]
+> **Foreign-capital advantage:** against the default equivalent foreign-turnkey case, this OSR plan avoids **$543 M (87.7%) of external capital** and **$681 M of external interest**. Capital plus saved interest totals **$1.22 bn over the 40-year financing life**. Both cases use the same 4.5% external rate and financing schedule; the turnkey external requirement is assumed debt-financed, and the benchmark remains an editable sensitivity, not a vendor quote.
+
 Auto-planned by the OpenSourceRail design pipeline: [`osr_geo`](../../../../design-py/src/osr_geo/) rasterises Overpass-verified OpenStreetMap features (arterial road graph, buildings, water, protected land, demand-anchor POIs) onto a 20 m cost / demand / buildability grid; [`osr-design`](../../../../crates/osr-design/) (rust) runs a demand-rewarded Dijkstra on that grid to synthesise corridors, places stations against the demand surface, and classifies every segment (at-grade / elevated / bridge — no tunnels per [RFC 0011](../../../../docs/rfcs/0011-civil-infrastructure-design-standard.md)). Population, country, and bbox are read from the canonical city catalog at [`lib/city-batches/world-sample.toml`](../../../../lib/city-batches/world-sample.toml).
 
 ## Network map
@@ -287,15 +290,15 @@ The localization-first import percentage is calculated bucket by bucket from the
 
 ### Foreign-company turnkey comparison
 
-This is an editable like-for-like sensitivity, not a vendor quotation. It multiplies OSR CAPEX for an equivalent network, fleet, service, and energy scope, then assumes 90% of the foreign contractor price requires foreign currency or international capital. Illustrative variable benchmark for an equivalent foreign-company turnkey delivery. It excludes tunnels, land, tax/duty, utility relocation, financing fees, and escalation on both sides; it does not represent a received bid or named vendor price.
+This is an editable like-for-like sensitivity, not a vendor quotation. It multiplies OSR CAPEX for an equivalent network, fleet, service, and energy scope, then assumes 90% of the foreign contractor price requires foreign currency or international capital. Illustrative variable benchmark for an equivalent foreign-company turnkey delivery. It excludes tunnels, land, tax/duty, utility relocation, financing fees, and escalation on both sides; it does not represent a received bid or named vendor price. Lifetime interest uses the same 4.5% rate, 7-year construction interest period, and 33-year amortization for both cases; the comparator external requirement is assumed debt-financed.
 
-| Foreign-turnkey case | Cost multiplier vs OSR | Foreign-company total CAPEX | Foreign-company external capital | OSR external capital saved | Annual external capital saved |
+| Foreign-turnkey case | Cost multiplier vs OSR | Foreign-company external capital | OSR external capital saved | External interest saved over financing life | Capital + interest saved |
 |---|---:|---:|---:|---:|---:|
-| Low | 1.50× | $516 M | $464 M | $388 M (83.6%) | $55 M / yr |
-| **Default** | 2.00× | $688 M | $619 M | $543 M (87.7%) | $78 M / yr |
-| High | 3.00× | $1.03 bn | $928 M | $852 M (91.8%) | $122 M / yr |
+| Low | 1.50× | $464 M | $388 M (83.6%) | $487 M | **$875 M** |
+| **Default** | 2.00× | $619 M | $543 M (87.7%) | $681 M | **$1.22 bn** |
+| High | 3.00× | $928 M | $852 M (91.8%) | $1.07 bn | **$1.92 bn** |
 
-At the default 2.00× case, OSR's $76 M external requirement is 87.7% below the illustrative foreign-company requirement of $619 M; total project CAPEX is 50.0% lower. Replace both variables with normalized bids before an investment decision.
+At the default 2.00× case, OSR's $76 M external requirement is 87.7% below the illustrative foreign-company requirement of $619 M; the associated lifetime external-interest saving is $681 M, and total project CAPEX is 50.0% lower. Replace both variables with normalized bids before an investment decision.
 
 ### Government commitment summary (budgetable)
 
@@ -453,6 +456,7 @@ The machine-readable finance check reconciles the design-base CAPEX with the sce
 | Imported / external-capital requirement | $76 M (22.1%) |
 | Local-content / local-funding requirement | $268 M (77.9%) |
 | Default foreign-turnkey external-capital comparison | $619 M; OSR saves $543 M (87.7%) |
+| Lifetime external interest and combined financing saving | $681 M interest; $1.22 bn capital + interest |
 | 15%–25% planning risk envelope | $395 M–$430 M |
 | Annual OPEX | $8.1 M / yr |
 | Low/high project NPV at 8% | $-177004 k / $-100817 k |

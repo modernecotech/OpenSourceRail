@@ -90,6 +90,7 @@ The city finance summaries and national briefs include a controlled, editable fo
 
 Illustrative variable benchmark for an equivalent foreign-company turnkey delivery. It excludes tunnels, land, tax/duty, utility relocation, financing fees, and escalation on both sides; it does not represent a received bid or named vendor price.
 The reported savings are calculated as foreign-turnkey external capital minus OSR imported content; annual savings use the same country construction period. Replace the multiplier and foreign-capital share with normalized bids before procurement or investment approval.
+Lifetime external-interest savings hold financing terms constant: both OSR and the foreign-turnkey case use the same country external rate, construction interest period, and repayment tenor. The comparator treats its external capital requirement as debt-financed. Interest comprises interest-only payments during construction plus total level debt service after grace less principal. The headline lifetime saving is avoided external capital plus avoided external interest; it does not include local-bond interest or OPEX.
 
 ## Civil Works
 

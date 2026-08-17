@@ -1,5 +1,8 @@
 # Uganda national OpenSourceRail strategy
 
+> [!IMPORTANT]
+> **Foreign-capital advantage:** against the default equivalent foreign-turnkey case, this national OSR programme avoids **$8.55 B (87.2%) of external capital** and **$10.72 B of external interest**. Capital plus saved interest totals **$19.27 B over the 40-year financing life**. Both cases use the same 4.5% external rate and financing schedule; the comparator external requirement is assumed debt-financed, and the comparator is an editable sensitivity, not a vendor quote.
+
 Uganda should implement OpenSourceRail as one national industrial and financing programme covering the 12 catalogue cities below, rather than as disconnected city projects. One centrally governed trainset factory builds the shared modular fleet in phases; city and regional contractors fabricate and install rails, viaducts, stations, depots, and local civil works. This concentrates scarce imported machinery, specialist tooling, engineering support, and foreign currency in one reusable national asset while maximizing domestic labour, materials, fabrication, and local-currency financing.
 
 ## National programme at a glance
@@ -33,15 +36,15 @@ The annual construction draw is spread evenly over 7 planning years. Post-grace 
 
 ## Foreign-company turnkey comparison
 
-This controlled comparison is an editable sensitivity, not a supplier quotation. It uses the same national network, fleet, service, and energy scope, with 90% of a foreign contractor's price assumed to require foreign currency or international capital. Illustrative variable benchmark for an equivalent foreign-company turnkey delivery. It excludes tunnels, land, tax/duty, utility relocation, financing fees, and escalation on both sides; it does not represent a received bid or named vendor price.
+This controlled comparison is an editable sensitivity, not a supplier quotation. It uses the same national network, fleet, service, and energy scope, with 90% of a foreign contractor's price assumed to require foreign currency or international capital. Illustrative variable benchmark for an equivalent foreign-company turnkey delivery. It excludes tunnels, land, tax/duty, utility relocation, financing fees, and escalation on both sides; it does not represent a received bid or named vendor price. Lifetime interest uses the same 4.5% rate, 7-year construction interest period, and 33-year amortization for both cases; the comparator external requirement is assumed debt-financed.
 
-| Case | Cost multiplier vs OSR | Foreign-company total CAPEX | Foreign-company external capital | OSR external capital saved | Annual external capital saved |
+| Case | Cost multiplier vs OSR | Foreign-company external capital | OSR external capital saved | External interest saved over financing life | Capital + interest saved |
 |---|---:|---:|---:|---:|---:|
-| Low | 1.50× | $8.17 B | $7.35 B | $6.10 B (83.0%) | $871.7 M / yr |
-| **Default** | 2.00× | $10.89 B | $9.80 B | $8.55 B (87.2%) | $1.22 B / yr |
-| High | 3.00× | $16.34 B | $14.71 B | $13.45 B (91.5%) | $1.92 B / yr |
+| Low | 1.50× | $7.35 B | $6.10 B (83.0%) | $7.65 B | **$13.75 B** |
+| **Default** | 2.00× | $9.80 B | $8.55 B (87.2%) | $10.72 B | **$19.27 B** |
+| High | 3.00× | $14.71 B | $13.45 B (91.5%) | $16.87 B | **$30.32 B** |
 
-At the default 2.00× case, the OSR programme reduces external capital from $9.80 B to $1.25 B, a saving of **$8.55 B (87.2%)**. Total programme CAPEX is 50.0% below the comparator. Replace both variables with scope-normalized bids before investment approval.
+At the default 2.00× case, the OSR programme reduces external capital from $9.80 B to $1.25 B, a saving of **$8.55 B (87.2%)**, plus **$10.72 B** of external interest over the financing life. Total programme CAPEX is 50.0% below the comparator. Replace both variables with scope-normalized bids before investment approval.
 
 ## Procurement-origin composition
 
@@ -62,20 +65,20 @@ At the default 2.00× case, the OSR programme reduces external capital from $9.8
 
 Each city CAPEX below excludes the national factory. Its imported share varies with the local mix of civil structures, rolling stock, stations, charging, signalling, and solar infrastructure.
 
-| City | Population | Fleet | City CAPEX | Imported % | OSR external capital | Foreign-turnkey external capital (default) | External capital saved | Local capital |
-|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| [Kampala](Kampala/README.md) | 1,875,000 | 274 | $1.95 B | 23.8% | $463.5 M | $3.51 B | $3.05 B | $1.49 B |
-| [Mbarara](Mbarara/README.md) | 500,000 | 113 | $483.5 M | 23.9% | $115.7 M | $870.3 M | $754.6 M | $367.8 M |
-| [Gulu](Gulu/README.md) | 350,000 | 139 | $470.5 M | 25.4% | $119.6 M | $846.9 M | $727.3 M | $350.9 M |
-| [Jinja](Jinja/README.md) | 300,000 | 87 | $333.9 M | 21.9% | $73.2 M | $601.1 M | $527.9 M | $260.7 M |
-| [Mbale](Mbale/README.md) | 300,000 | 71 | $274.0 M | 21.5% | $58.8 M | $493.3 M | $434.5 M | $215.3 M |
-| [Arua](Arua/README.md) | 250,000 | 77 | $308.2 M | 21.8% | $67.1 M | $554.7 M | $487.6 M | $241.1 M |
-| [Entebbe](Entebbe/README.md) | 250,000 | 78 | $317.2 M | 21.8% | $69.0 M | $571.0 M | $501.9 M | $248.2 M |
-| [Lira](Lira/README.md) | 250,000 | 92 | $343.8 M | 22.1% | $75.9 M | $618.8 M | $542.9 M | $267.9 M |
-| [Masaka](Masaka/README.md) | 250,000 | 69 | $276.9 M | 21.7% | $60.0 M | $498.4 M | $438.4 M | $216.9 M |
-| [Fort Portal](Fort-Portal/README.md) | 200,000 | 76 | $299.5 M | 21.8% | $65.3 M | $539.2 M | $473.9 M | $234.3 M |
-| [Hoima](Hoima/README.md) | 200,000 | 61 | $216.1 M | 22.2% | $47.9 M | $389.0 M | $341.0 M | $168.2 M |
-| [Soroti](Soroti/README.md) | 200,000 | 23 | $102.4 M | 20.4% | $20.8 M | $184.3 M | $163.4 M | $81.5 M |
+| City | Population | Fleet | City CAPEX | Imported % | OSR external capital | Foreign-turnkey external capital (default) | External capital saved | Capital + lifetime external interest saved | Local capital |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| [Kampala](Kampala/README.md) | 1,875,000 | 274 | $1.95 B | 23.8% | $463.5 M | $3.51 B | $3.05 B | $6.87 B | $1.49 B |
+| [Mbarara](Mbarara/README.md) | 500,000 | 113 | $483.5 M | 23.9% | $115.7 M | $870.3 M | $754.6 M | $1.70 B | $367.8 M |
+| [Gulu](Gulu/README.md) | 350,000 | 139 | $470.5 M | 25.4% | $119.6 M | $846.9 M | $727.3 M | $1.64 B | $350.9 M |
+| [Jinja](Jinja/README.md) | 300,000 | 87 | $333.9 M | 21.9% | $73.2 M | $601.1 M | $527.9 M | $1.19 B | $260.7 M |
+| [Mbale](Mbale/README.md) | 300,000 | 71 | $274.0 M | 21.5% | $58.8 M | $493.3 M | $434.5 M | $979.2 M | $215.3 M |
+| [Arua](Arua/README.md) | 250,000 | 77 | $308.2 M | 21.8% | $67.1 M | $554.7 M | $487.6 M | $1.10 B | $241.1 M |
+| [Entebbe](Entebbe/README.md) | 250,000 | 78 | $317.2 M | 21.8% | $69.0 M | $571.0 M | $501.9 M | $1.13 B | $248.2 M |
+| [Lira](Lira/README.md) | 250,000 | 92 | $343.8 M | 22.1% | $75.9 M | $618.8 M | $542.9 M | $1.22 B | $267.9 M |
+| [Masaka](Masaka/README.md) | 250,000 | 69 | $276.9 M | 21.7% | $60.0 M | $498.4 M | $438.4 M | $988.0 M | $216.9 M |
+| [Fort Portal](Fort-Portal/README.md) | 200,000 | 76 | $299.5 M | 21.8% | $65.3 M | $539.2 M | $473.9 M | $1.07 B | $234.3 M |
+| [Hoima](Hoima/README.md) | 200,000 | 61 | $216.1 M | 22.2% | $47.9 M | $389.0 M | $341.0 M | $768.6 M | $168.2 M |
+| [Soroti](Soroti/README.md) | 200,000 | 23 | $102.4 M | 20.4% | $20.8 M | $184.3 M | $163.4 M | $368.3 M | $81.5 M |
 
 ## National implementation sequence
 

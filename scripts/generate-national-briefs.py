@@ -104,7 +104,7 @@ def render_brief(
     )
     country_finance = _load_country_finance(country_code)
     plan = funding_plan(national, country_finance)
-    turnkey_cases = foreign_turnkey_cases(national, plan.construction_years)
+    turnkey_cases = foreign_turnkey_cases(national, plan)
     turnkey_default = turnkey_cases["default"]
     population = sum(city.population for city in cities)
     fleet = sum(city.fleet_trainsets for city in cities)
@@ -112,6 +112,17 @@ def render_brief(
 
     out = [
         f"# {country_name} national OpenSourceRail strategy",
+        "",
+        "> [!IMPORTANT]",
+        f"> **Foreign-capital advantage:** against the default equivalent foreign-turnkey "
+        f"case, this national OSR programme avoids **{money(turnkey_default.external_capital_avoided_usd)} "
+        f"({turnkey_default.external_capital_reduction:.1%}) of external capital** and "
+        f"**{money(turnkey_default.external_interest_avoided_usd)} of external interest**. "
+        f"Capital plus saved interest totals **{money(turnkey_default.lifetime_external_financing_avoided_usd)} "
+        f"over the {plan.tenor_years}-year financing life**. Both cases use the same "
+        f"{plan.external_rate:.1%} external rate and financing schedule; the comparator "
+        "external requirement is assumed debt-financed, and the comparator is an "
+        "editable sensitivity, not a vendor quote.",
         "",
         f"{country_name} should implement OpenSourceRail as one national industrial and "
         f"financing programme covering the {len(cities)} catalogue cities below, rather "
@@ -170,20 +181,23 @@ def render_brief(
         "quotation. It uses the same national network, fleet, service, and energy "
         f"scope, with {FOREIGN_TURNKEY_EXTERNAL_SHARE:.0%} of a foreign contractor's "
         "price assumed to require foreign currency or international capital. "
-        f"{FOREIGN_TURNKEY_BASIS}",
+        f"{FOREIGN_TURNKEY_BASIS} Lifetime interest uses the same "
+        f"{plan.external_rate:.1%} rate, {plan.construction_years}-year construction "
+        f"interest period, and {plan.repayment_years}-year amortization for both cases; "
+        "the comparator external requirement is assumed debt-financed.",
         "",
-        "| Case | Cost multiplier vs OSR | Foreign-company total CAPEX | Foreign-company external capital | OSR external capital saved | Annual external capital saved |",
+        "| Case | Cost multiplier vs OSR | Foreign-company external capital | OSR external capital saved | External interest saved over financing life | Capital + interest saved |",
         "|---|---:|---:|---:|---:|---:|",
     ]
     for case, comparison in turnkey_cases.items():
         label = f"**{case.title()}**" if case == "default" else case.title()
         out.append(
             f"| {label} | {comparison.cost_multiplier:.2f}× | "
-            f"{money(comparison.foreign_total_usd)} | "
             f"{money(comparison.foreign_external_usd)} | "
             f"{money(comparison.external_capital_avoided_usd)} "
             f"({comparison.external_capital_reduction:.1%}) | "
-            f"{money(comparison.annual_external_capital_avoided_usd)} / yr |"
+            f"{money(comparison.external_interest_avoided_usd)} | "
+            f"**{money(comparison.lifetime_external_financing_avoided_usd)}** |"
         )
     out.extend(
         [
@@ -192,7 +206,9 @@ def render_brief(
             f"programme reduces external capital from {money(turnkey_default.foreign_external_usd)} "
             f"to {money(national.imported_usd)}, a saving of "
             f"**{money(turnkey_default.external_capital_avoided_usd)} "
-            f"({turnkey_default.external_capital_reduction:.1%})**. Total programme "
+            f"({turnkey_default.external_capital_reduction:.1%})**, plus "
+            f"**{money(turnkey_default.external_interest_avoided_usd)}** of external "
+            f"interest over the financing life. Total programme "
             f"CAPEX is {turnkey_default.total_capex_reduction:.1%} below the comparator. "
             "Replace both variables with scope-normalized bids before investment approval.",
             "",
@@ -229,14 +245,13 @@ def render_brief(
             "varies with the local mix of civil structures, rolling stock, stations, "
             "charging, signalling, and solar infrastructure.",
             "",
-            "| City | Population | Fleet | City CAPEX | Imported % | OSR external capital | Foreign-turnkey external capital (default) | External capital saved | Local capital |",
-            "|---|---:|---:|---:|---:|---:|---:|---:|---:|",
+            "| City | Population | Fleet | City CAPEX | Imported % | OSR external capital | Foreign-turnkey external capital (default) | External capital saved | Capital + lifetime external interest saved | Local capital |",
+            "|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|",
         ]
     )
     for city in cities:
-        city_turnkey = foreign_turnkey_cases(
-            city.breakdown, plan.construction_years
-        )["default"]
+        city_plan = funding_plan(city.breakdown, country_finance)
+        city_turnkey = foreign_turnkey_cases(city.breakdown, city_plan)["default"]
         out.append(
             f"| [{city.name}]({city.name.replace(' ', '-')}/README.md) | "
             f"{city.population:,} | {city.fleet_trainsets:,} | "
@@ -244,6 +259,7 @@ def render_brief(
             f"{money(city.breakdown.imported_usd)} | "
             f"{money(city_turnkey.foreign_external_usd)} | "
             f"{money(city_turnkey.external_capital_avoided_usd)} | "
+            f"{money(city_turnkey.lifetime_external_financing_avoided_usd)} | "
             f"{money(city.breakdown.local_usd)} |"
         )
     out.extend(

@@ -1,5 +1,8 @@
 # Yemen national OpenSourceRail strategy
 
+> [!IMPORTANT]
+> **Foreign-capital advantage:** against the default equivalent foreign-turnkey case, this national OSR programme avoids **$8.05 B (86.5%) of external capital** and **$10.40 B of external interest**. Capital plus saved interest totals **$18.45 B over the 40-year financing life**. Both cases use the same 4.5% external rate and financing schedule; the comparator external requirement is assumed debt-financed, and the comparator is an editable sensitivity, not a vendor quote.
+
 Yemen should implement OpenSourceRail as one national industrial and financing programme covering the 9 catalogue cities below, rather than as disconnected city projects. One centrally governed trainset factory builds the shared modular fleet in phases; city and regional contractors fabricate and install rails, viaducts, stations, depots, and local civil works. This concentrates scarce imported machinery, specialist tooling, engineering support, and foreign currency in one reusable national asset while maximizing domestic labour, materials, fabrication, and local-currency financing.
 
 ## National programme at a glance
@@ -33,15 +36,15 @@ The annual construction draw is spread evenly over 10 planning years. Post-grace
 
 ## Foreign-company turnkey comparison
 
-This controlled comparison is an editable sensitivity, not a supplier quotation. It uses the same national network, fleet, service, and energy scope, with 90% of a foreign contractor's price assumed to require foreign currency or international capital. Illustrative variable benchmark for an equivalent foreign-company turnkey delivery. It excludes tunnels, land, tax/duty, utility relocation, financing fees, and escalation on both sides; it does not represent a received bid or named vendor price.
+This controlled comparison is an editable sensitivity, not a supplier quotation. It uses the same national network, fleet, service, and energy scope, with 90% of a foreign contractor's price assumed to require foreign currency or international capital. Illustrative variable benchmark for an equivalent foreign-company turnkey delivery. It excludes tunnels, land, tax/duty, utility relocation, financing fees, and escalation on both sides; it does not represent a received bid or named vendor price. Lifetime interest uses the same 4.5% rate, 10-year construction interest period, and 30-year amortization for both cases; the comparator external requirement is assumed debt-financed.
 
-| Case | Cost multiplier vs OSR | Foreign-company total CAPEX | Foreign-company external capital | OSR external capital saved | Annual external capital saved |
+| Case | Cost multiplier vs OSR | Foreign-company external capital | OSR external capital saved | External interest saved over financing life | Capital + interest saved |
 |---|---:|---:|---:|---:|---:|
-| Low | 1.50× | $7.75 B | $6.98 B | $5.72 B (82.0%) | $572.4 M / yr |
-| **Default** | 2.00× | $10.34 B | $9.30 B | $8.05 B (86.5%) | $805.0 M / yr |
-| High | 3.00× | $15.51 B | $13.96 B | $12.70 B (91.0%) | $1.27 B / yr |
+| Low | 1.50× | $6.98 B | $5.72 B (82.0%) | $7.39 B | **$13.12 B** |
+| **Default** | 2.00× | $9.30 B | $8.05 B (86.5%) | $10.40 B | **$18.45 B** |
+| High | 3.00× | $13.96 B | $12.70 B (91.0%) | $16.41 B | **$29.11 B** |
 
-At the default 2.00× case, the OSR programme reduces external capital from $9.30 B to $1.25 B, a saving of **$8.05 B (86.5%)**. Total programme CAPEX is 50.0% below the comparator. Replace both variables with scope-normalized bids before investment approval.
+At the default 2.00× case, the OSR programme reduces external capital from $9.30 B to $1.25 B, a saving of **$8.05 B (86.5%)**, plus **$10.40 B** of external interest over the financing life. Total programme CAPEX is 50.0% below the comparator. Replace both variables with scope-normalized bids before investment approval.
 
 ## Procurement-origin composition
 
@@ -62,17 +65,17 @@ At the default 2.00× case, the OSR programme reduces external capital from $9.3
 
 Each city CAPEX below excludes the national factory. Its imported share varies with the local mix of civil structures, rolling stock, stations, charging, signalling, and solar infrastructure.
 
-| City | Population | Fleet | City CAPEX | Imported % | OSR external capital | Foreign-turnkey external capital (default) | External capital saved | Local capital |
-|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| [Sanaa](Sanaa/README.md) | 3,937,500 | 358 | $2.27 B | 26.1% | $592.6 M | $4.09 B | $3.49 B | $1.68 B |
-| [Aden](Aden/README.md) | 985,000 | 97 | $400.2 M | 23.5% | $94.0 M | $720.4 M | $626.4 M | $306.3 M |
-| [Hodeidah](Hodeidah/README.md) | 750,000 | 71 | $307.2 M | 23.1% | $70.9 M | $553.0 M | $482.1 M | $236.3 M |
-| [Ibb](Ibb/README.md) | 750,000 | 106 | $435.0 M | 23.4% | $101.9 M | $783.0 M | $681.1 M | $333.1 M |
-| [Taiz](Taiz/README.md) | 615,000 | 94 | $380.4 M | 23.4% | $89.2 M | $684.7 M | $595.5 M | $291.2 M |
-| [Mukalla](Mukalla/README.md) | 550,000 | 152 | $490.8 M | 24.7% | $121.4 M | $883.4 M | $762.0 M | $369.4 M |
-| [Dhamar](Dhamar/README.md) | 300,000 | 63 | $218.3 M | 21.7% | $47.4 M | $392.9 M | $345.6 M | $170.9 M |
-| [Lahij](Lahij/README.md) | 250,000 | 59 | $308.2 M | 20.3% | $62.7 M | $554.7 M | $492.1 M | $245.5 M |
-| [Sayun](Sayun/README.md) | 200,000 | 54 | $220.0 M | 21.1% | $46.3 M | $395.9 M | $349.6 M | $173.6 M |
+| City | Population | Fleet | City CAPEX | Imported % | OSR external capital | Foreign-turnkey external capital (default) | External capital saved | Capital + lifetime external interest saved | Local capital |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| [Sanaa](Sanaa/README.md) | 3,937,500 | 358 | $2.27 B | 26.1% | $592.6 M | $4.09 B | $3.49 B | $8.01 B | $1.68 B |
+| [Aden](Aden/README.md) | 985,000 | 97 | $400.2 M | 23.5% | $94.0 M | $720.4 M | $626.4 M | $1.44 B | $306.3 M |
+| [Hodeidah](Hodeidah/README.md) | 750,000 | 71 | $307.2 M | 23.1% | $70.9 M | $553.0 M | $482.1 M | $1.10 B | $236.3 M |
+| [Ibb](Ibb/README.md) | 750,000 | 106 | $435.0 M | 23.4% | $101.9 M | $783.0 M | $681.1 M | $1.56 B | $333.1 M |
+| [Taiz](Taiz/README.md) | 615,000 | 94 | $380.4 M | 23.4% | $89.2 M | $684.7 M | $595.5 M | $1.36 B | $291.2 M |
+| [Mukalla](Mukalla/README.md) | 550,000 | 152 | $490.8 M | 24.7% | $121.4 M | $883.4 M | $762.0 M | $1.75 B | $369.4 M |
+| [Dhamar](Dhamar/README.md) | 300,000 | 63 | $218.3 M | 21.7% | $47.4 M | $392.9 M | $345.6 M | $791.9 M | $170.9 M |
+| [Lahij](Lahij/README.md) | 250,000 | 59 | $308.2 M | 20.3% | $62.7 M | $554.7 M | $492.1 M | $1.13 B | $245.5 M |
+| [Sayun](Sayun/README.md) | 200,000 | 54 | $220.0 M | 21.1% | $46.3 M | $395.9 M | $349.6 M | $801.2 M | $173.6 M |
 
 ## National implementation sequence
 

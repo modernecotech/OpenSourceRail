@@ -1,5 +1,8 @@
 # India national OpenSourceRail strategy
 
+> [!IMPORTANT]
+> **Foreign-capital advantage:** against the default equivalent foreign-turnkey case, this national OSR programme avoids **$58.62 B (86.7%) of external capital** and **$72.07 B of external interest**. Capital plus saved interest totals **$130.70 B over the 40-year financing life**. Both cases use the same 4.5% external rate and financing schedule; the comparator external requirement is assumed debt-financed, and the comparator is an editable sensitivity, not a vendor quote.
+
 India should implement OpenSourceRail as one national industrial and financing programme covering the 17 catalogue cities below, rather than as disconnected city projects. One centrally governed trainset factory builds the shared modular fleet in phases; city and regional contractors fabricate and install rails, viaducts, stations, depots, and local civil works. This concentrates scarce imported machinery, specialist tooling, engineering support, and foreign currency in one reusable national asset while maximizing domestic labour, materials, fabrication, and local-currency financing.
 
 ## National programme at a glance
@@ -33,15 +36,15 @@ The annual construction draw is spread evenly over 5 planning years. Post-grace 
 
 ## Foreign-company turnkey comparison
 
-This controlled comparison is an editable sensitivity, not a supplier quotation. It uses the same national network, fleet, service, and energy scope, with 90% of a foreign contractor's price assumed to require foreign currency or international capital. Illustrative variable benchmark for an equivalent foreign-company turnkey delivery. It excludes tunnels, land, tax/duty, utility relocation, financing fees, and escalation on both sides; it does not represent a received bid or named vendor price.
+This controlled comparison is an editable sensitivity, not a supplier quotation. It uses the same national network, fleet, service, and energy scope, with 90% of a foreign contractor's price assumed to require foreign currency or international capital. Illustrative variable benchmark for an equivalent foreign-company turnkey delivery. It excludes tunnels, land, tax/duty, utility relocation, financing fees, and escalation on both sides; it does not represent a received bid or named vendor price. Lifetime interest uses the same 4.5% rate, 5-year construction interest period, and 35-year amortization for both cases; the comparator external requirement is assumed debt-financed.
 
-| Case | Cost multiplier vs OSR | Foreign-company total CAPEX | Foreign-company external capital | OSR external capital saved | Annual external capital saved |
+| Case | Cost multiplier vs OSR | Foreign-company external capital | OSR external capital saved | External interest saved over financing life | Capital + interest saved |
 |---|---:|---:|---:|---:|---:|
-| Low | 1.50× | $56.36 B | $50.72 B | $41.71 B (82.2%) | $8.34 B / yr |
-| **Default** | 2.00× | $75.15 B | $67.63 B | $58.62 B (86.7%) | $11.72 B / yr |
-| High | 3.00× | $112.72 B | $101.45 B | $92.44 B (91.1%) | $18.49 B / yr |
+| Low | 1.50× | $50.72 B | $41.71 B (82.2%) | $51.29 B | **$93.00 B** |
+| **Default** | 2.00× | $67.63 B | $58.62 B (86.7%) | $72.07 B | **$130.70 B** |
+| High | 3.00× | $101.45 B | $92.44 B (91.1%) | $113.65 B | **$206.09 B** |
 
-At the default 2.00× case, the OSR programme reduces external capital from $67.63 B to $9.01 B, a saving of **$58.62 B (86.7%)**. Total programme CAPEX is 50.0% below the comparator. Replace both variables with scope-normalized bids before investment approval.
+At the default 2.00× case, the OSR programme reduces external capital from $67.63 B to $9.01 B, a saving of **$58.62 B (86.7%)**, plus **$72.07 B** of external interest over the financing life. Total programme CAPEX is 50.0% below the comparator. Replace both variables with scope-normalized bids before investment approval.
 
 ## Procurement-origin composition
 
@@ -62,25 +65,25 @@ At the default 2.00× case, the OSR programme reduces external capital from $67.
 
 Each city CAPEX below excludes the national factory. Its imported share varies with the local mix of civil structures, rolling stock, stations, charging, signalling, and solar infrastructure.
 
-| City | Population | Fleet | City CAPEX | Imported % | OSR external capital | Foreign-turnkey external capital (default) | External capital saved | Local capital |
-|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| [Lucknow](Lucknow/README.md) | 3,500,000 | 556 | $3.81 B | 25.5% | $973.8 M | $6.86 B | $5.89 B | $2.84 B |
-| [Indore](Indore/README.md) | 3,200,000 | 571 | $3.68 B | 26.0% | $956.8 M | $6.62 B | $5.67 B | $2.72 B |
-| [Kanpur](Kanpur/README.md) | 3,200,000 | 533 | $3.60 B | 25.7% | $926.0 M | $6.49 B | $5.56 B | $2.68 B |
-| [Coimbatore](Coimbatore/README.md) | 3,084,000 | 540 | $3.99 B | 25.8% | $1.03 B | $7.18 B | $6.15 B | $2.96 B |
-| [Patna](Patna/README.md) | 2,520,000 | 215 | $1.92 B | 22.1% | $423.4 M | $3.45 B | $3.03 B | $1.49 B |
-| [Bhopal](Bhopal/README.md) | 2,400,000 | 245 | $1.91 B | 22.5% | $429.5 M | $3.44 B | $3.01 B | $1.48 B |
-| [Visakhapatnam](Visakhapatnam/README.md) | 2,300,000 | 286 | $2.21 B | 23.3% | $512.8 M | $3.97 B | $3.46 B | $1.69 B |
-| [Vadodara](Vadodara/README.md) | 2,200,000 | 207 | $1.48 B | 22.9% | $340.6 M | $2.67 B | $2.33 B | $1.14 B |
-| [Rajkot](Rajkot/README.md) | 1,800,000 | 162 | $1.23 B | 22.4% | $276.1 M | $2.22 B | $1.95 B | $958.3 M |
-| [Agra](Agra/README.md) | 1,700,000 | 187 | $1.53 B | 22.2% | $339.2 M | $2.75 B | $2.41 B | $1.19 B |
-| [Madurai](Madurai/README.md) | 1,600,000 | 268 | $1.83 B | 24.1% | $440.9 M | $3.29 B | $2.85 B | $1.39 B |
-| [Meerut](Meerut/README.md) | 1,600,000 | 158 | $1.27 B | 22.4% | $284.0 M | $2.28 B | $2.00 B | $982.4 M |
-| [Raipur](Raipur/README.md) | 1,500,000 | 212 | $1.35 B | 24.4% | $329.8 M | $2.44 B | $2.11 B | $1.02 B |
-| [Varanasi](Varanasi/README.md) | 1,500,000 | 243 | $1.88 B | 22.2% | $417.7 M | $3.39 B | $2.97 B | $1.47 B |
-| [Vijayawada](Vijayawada/README.md) | 1,500,000 | 266 | $1.95 B | 23.6% | $460.8 M | $3.51 B | $3.05 B | $1.49 B |
-| [Ranchi](Ranchi/README.md) | 1,400,000 | 260 | $2.00 B | 23.4% | $466.8 M | $3.59 B | $3.12 B | $1.53 B |
-| [Jodhpur](Jodhpur/README.md) | 1,300,000 | 175 | $1.72 B | 20.9% | $358.2 M | $3.09 B | $2.73 B | $1.36 B |
+| City | Population | Fleet | City CAPEX | Imported % | OSR external capital | Foreign-turnkey external capital (default) | External capital saved | Capital + lifetime external interest saved | Local capital |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| [Lucknow](Lucknow/README.md) | 3,500,000 | 556 | $3.81 B | 25.5% | $973.8 M | $6.86 B | $5.89 B | $13.13 B | $2.84 B |
+| [Indore](Indore/README.md) | 3,200,000 | 571 | $3.68 B | 26.0% | $956.8 M | $6.62 B | $5.67 B | $12.63 B | $2.72 B |
+| [Kanpur](Kanpur/README.md) | 3,200,000 | 533 | $3.60 B | 25.7% | $926.0 M | $6.49 B | $5.56 B | $12.39 B | $2.68 B |
+| [Coimbatore](Coimbatore/README.md) | 3,084,000 | 540 | $3.99 B | 25.8% | $1.03 B | $7.18 B | $6.15 B | $13.71 B | $2.96 B |
+| [Patna](Patna/README.md) | 2,520,000 | 215 | $1.92 B | 22.1% | $423.4 M | $3.45 B | $3.03 B | $6.75 B | $1.49 B |
+| [Bhopal](Bhopal/README.md) | 2,400,000 | 245 | $1.91 B | 22.5% | $429.5 M | $3.44 B | $3.01 B | $6.70 B | $1.48 B |
+| [Visakhapatnam](Visakhapatnam/README.md) | 2,300,000 | 286 | $2.21 B | 23.3% | $512.8 M | $3.97 B | $3.46 B | $7.71 B | $1.69 B |
+| [Vadodara](Vadodara/README.md) | 2,200,000 | 207 | $1.48 B | 22.9% | $340.6 M | $2.67 B | $2.33 B | $5.20 B | $1.14 B |
+| [Rajkot](Rajkot/README.md) | 1,800,000 | 162 | $1.23 B | 22.4% | $276.1 M | $2.22 B | $1.95 B | $4.34 B | $958.3 M |
+| [Agra](Agra/README.md) | 1,700,000 | 187 | $1.53 B | 22.2% | $339.2 M | $2.75 B | $2.41 B | $5.37 B | $1.19 B |
+| [Madurai](Madurai/README.md) | 1,600,000 | 268 | $1.83 B | 24.1% | $440.9 M | $3.29 B | $2.85 B | $6.36 B | $1.39 B |
+| [Meerut](Meerut/README.md) | 1,600,000 | 158 | $1.27 B | 22.4% | $284.0 M | $2.28 B | $2.00 B | $4.45 B | $982.4 M |
+| [Raipur](Raipur/README.md) | 1,500,000 | 212 | $1.35 B | 24.4% | $329.8 M | $2.44 B | $2.11 B | $4.70 B | $1.02 B |
+| [Varanasi](Varanasi/README.md) | 1,500,000 | 243 | $1.88 B | 22.2% | $417.7 M | $3.39 B | $2.97 B | $6.63 B | $1.47 B |
+| [Vijayawada](Vijayawada/README.md) | 1,500,000 | 266 | $1.95 B | 23.6% | $460.8 M | $3.51 B | $3.05 B | $6.80 B | $1.49 B |
+| [Ranchi](Ranchi/README.md) | 1,400,000 | 260 | $2.00 B | 23.4% | $466.8 M | $3.59 B | $3.12 B | $6.97 B | $1.53 B |
+| [Jodhpur](Jodhpur/README.md) | 1,300,000 | 175 | $1.72 B | 20.9% | $358.2 M | $3.09 B | $2.73 B | $6.08 B | $1.36 B |
 
 ## National implementation sequence
 

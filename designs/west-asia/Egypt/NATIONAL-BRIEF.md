@@ -1,5 +1,8 @@
 # Egypt national OpenSourceRail strategy
 
+> [!IMPORTANT]
+> **Foreign-capital advantage:** against the default equivalent foreign-turnkey case, this national OSR programme avoids **$12.77 B (87.0%) of external capital** and **$15.70 B of external interest**. Capital plus saved interest totals **$28.47 B over the 40-year financing life**. Both cases use the same 4.5% external rate and financing schedule; the comparator external requirement is assumed debt-financed, and the comparator is an editable sensitivity, not a vendor quote.
+
 Egypt should implement OpenSourceRail as one national industrial and financing programme covering the 19 catalogue cities below, rather than as disconnected city projects. One centrally governed trainset factory builds the shared modular fleet in phases; city and regional contractors fabricate and install rails, viaducts, stations, depots, and local civil works. This concentrates scarce imported machinery, specialist tooling, engineering support, and foreign currency in one reusable national asset while maximizing domestic labour, materials, fabrication, and local-currency financing.
 
 ## National programme at a glance
@@ -33,15 +36,15 @@ The annual construction draw is spread evenly over 5 planning years. Post-grace 
 
 ## Foreign-company turnkey comparison
 
-This controlled comparison is an editable sensitivity, not a supplier quotation. It uses the same national network, fleet, service, and energy scope, with 90% of a foreign contractor's price assumed to require foreign currency or international capital. Illustrative variable benchmark for an equivalent foreign-company turnkey delivery. It excludes tunnels, land, tax/duty, utility relocation, financing fees, and escalation on both sides; it does not represent a received bid or named vendor price.
+This controlled comparison is an editable sensitivity, not a supplier quotation. It uses the same national network, fleet, service, and energy scope, with 90% of a foreign contractor's price assumed to require foreign currency or international capital. Illustrative variable benchmark for an equivalent foreign-company turnkey delivery. It excludes tunnels, land, tax/duty, utility relocation, financing fees, and escalation on both sides; it does not represent a received bid or named vendor price. Lifetime interest uses the same 4.5% rate, 5-year construction interest period, and 35-year amortization for both cases; the comparator external requirement is assumed debt-financed.
 
-| Case | Cost multiplier vs OSR | Foreign-company total CAPEX | Foreign-company external capital | OSR external capital saved | Annual external capital saved |
+| Case | Cost multiplier vs OSR | Foreign-company external capital | OSR external capital saved | External interest saved over financing life | Capital + interest saved |
 |---|---:|---:|---:|---:|---:|
-| Low | 1.50× | $12.23 B | $11.01 B | $9.10 B (82.7%) | $1.82 B / yr |
-| **Default** | 2.00× | $16.31 B | $14.68 B | $12.77 B (87.0%) | $2.55 B / yr |
-| High | 3.00× | $24.47 B | $22.02 B | $20.11 B (91.3%) | $4.02 B / yr |
+| Low | 1.50× | $11.01 B | $9.10 B (82.7%) | $11.19 B | **$20.29 B** |
+| **Default** | 2.00× | $14.68 B | $12.77 B (87.0%) | $15.70 B | **$28.47 B** |
+| High | 3.00× | $22.02 B | $20.11 B (91.3%) | $24.73 B | **$44.84 B** |
 
-At the default 2.00× case, the OSR programme reduces external capital from $14.68 B to $1.91 B, a saving of **$12.77 B (87.0%)**. Total programme CAPEX is 50.0% below the comparator. Replace both variables with scope-normalized bids before investment approval.
+At the default 2.00× case, the OSR programme reduces external capital from $14.68 B to $1.91 B, a saving of **$12.77 B (87.0%)**, plus **$15.70 B** of external interest over the financing life. Total programme CAPEX is 50.0% below the comparator. Replace both variables with scope-normalized bids before investment approval.
 
 ## Procurement-origin composition
 
@@ -62,27 +65,27 @@ At the default 2.00× case, the OSR programme reduces external capital from $14.
 
 Each city CAPEX below excludes the national factory. Its imported share varies with the local mix of civil structures, rolling stock, stations, charging, signalling, and solar infrastructure.
 
-| City | Population | Fleet | City CAPEX | Imported % | OSR external capital | Foreign-turnkey external capital (default) | External capital saved | Local capital |
-|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| [Mansoura Eg](Mansoura-Eg/README.md) | 1,000,000 | 109 | $448.0 M | 23.5% | $105.3 M | $806.5 M | $701.2 M | $342.7 M |
-| [Port Said](Port-Said/README.md) | 800,000 | 64 | $336.1 M | 22.2% | $74.5 M | $605.0 M | $530.5 M | $261.6 M |
-| [Suez](Suez/README.md) | 800,000 | 129 | $489.7 M | 24.0% | $117.3 M | $881.5 M | $764.2 M | $372.4 M |
-| [Tanta](Tanta/README.md) | 750,000 | 176 | $582.7 M | 24.8% | $144.5 M | $1.05 B | $904.4 M | $438.2 M |
-| [Ismailia](Ismailia/README.md) | 700,000 | 119 | $446.0 M | 23.8% | $106.0 M | $802.7 M | $696.7 M | $339.9 M |
-| [Zagazig](Zagazig/README.md) | 700,000 | 92 | $414.5 M | 22.9% | $95.1 M | $746.1 M | $651.0 M | $319.4 M |
-| [Asyut](Asyut/README.md) | 600,000 | 162 | $505.4 M | 24.4% | $123.4 M | $909.8 M | $786.4 M | $382.0 M |
-| [Mahalla](Mahalla/README.md) | 600,000 | 84 | $355.8 M | 23.2% | $82.4 M | $640.4 M | $558.0 M | $273.4 M |
-| [Minya](Minya/README.md) | 600,000 | 114 | $470.5 M | 23.3% | $109.5 M | $847.0 M | $737.4 M | $361.0 M |
-| [Sohag](Sohag/README.md) | 550,000 | 98 | $422.7 M | 23.0% | $97.3 M | $760.9 M | $663.6 M | $325.5 M |
-| [Damanhur](Damanhur/README.md) | 500,000 | 103 | $406.1 M | 23.7% | $96.2 M | $730.9 M | $634.7 M | $309.9 M |
-| [Fayoum](Fayoum/README.md) | 500,000 | 190 | $564.0 M | 25.1% | $141.7 M | $1.02 B | $873.5 M | $422.3 M |
-| [Luxor](Luxor/README.md) | 500,000 | 111 | $441.0 M | 23.7% | $104.4 M | $793.7 M | $689.3 M | $336.5 M |
-| [Damietta](Damietta/README.md) | 400,000 | 156 | $611.1 M | 23.8% | $145.2 M | $1.10 B | $954.8 M | $465.9 M |
-| [Beni Suef](Beni-Suef/README.md) | 350,000 | 87 | $342.8 M | 23.7% | $81.2 M | $617.1 M | $535.9 M | $261.6 M |
-| [Qena](Qena/README.md) | 350,000 | 117 | $445.8 M | 23.6% | $105.2 M | $802.4 M | $697.2 M | $340.6 M |
-| [Arish](Arish/README.md) | 300,000 | 38 | $177.5 M | 20.5% | $36.3 M | $319.5 M | $283.1 M | $141.2 M |
-| [Hurghada](Hurghada/README.md) | 300,000 | 80 | $371.7 M | 20.7% | $77.0 M | $669.1 M | $592.1 M | $294.7 M |
-| [Kafr El Sheikh](Kafr-El-Sheikh/README.md) | 300,000 | 65 | $287.7 M | 20.7% | $59.7 M | $517.8 M | $458.1 M | $228.0 M |
+| City | Population | Fleet | City CAPEX | Imported % | OSR external capital | Foreign-turnkey external capital (default) | External capital saved | Capital + lifetime external interest saved | Local capital |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| [Mansoura Eg](Mansoura-Eg/README.md) | 1,000,000 | 109 | $448.0 M | 23.5% | $105.3 M | $806.5 M | $701.2 M | $1.56 B | $342.7 M |
+| [Port Said](Port-Said/README.md) | 800,000 | 64 | $336.1 M | 22.2% | $74.5 M | $605.0 M | $530.5 M | $1.18 B | $261.6 M |
+| [Suez](Suez/README.md) | 800,000 | 129 | $489.7 M | 24.0% | $117.3 M | $881.5 M | $764.2 M | $1.70 B | $372.4 M |
+| [Tanta](Tanta/README.md) | 750,000 | 176 | $582.7 M | 24.8% | $144.5 M | $1.05 B | $904.4 M | $2.02 B | $438.2 M |
+| [Ismailia](Ismailia/README.md) | 700,000 | 119 | $446.0 M | 23.8% | $106.0 M | $802.7 M | $696.7 M | $1.55 B | $339.9 M |
+| [Zagazig](Zagazig/README.md) | 700,000 | 92 | $414.5 M | 22.9% | $95.1 M | $746.1 M | $651.0 M | $1.45 B | $319.4 M |
+| [Asyut](Asyut/README.md) | 600,000 | 162 | $505.4 M | 24.4% | $123.4 M | $909.8 M | $786.4 M | $1.75 B | $382.0 M |
+| [Mahalla](Mahalla/README.md) | 600,000 | 84 | $355.8 M | 23.2% | $82.4 M | $640.4 M | $558.0 M | $1.24 B | $273.4 M |
+| [Minya](Minya/README.md) | 600,000 | 114 | $470.5 M | 23.3% | $109.5 M | $847.0 M | $737.4 M | $1.64 B | $361.0 M |
+| [Sohag](Sohag/README.md) | 550,000 | 98 | $422.7 M | 23.0% | $97.3 M | $760.9 M | $663.6 M | $1.48 B | $325.5 M |
+| [Damanhur](Damanhur/README.md) | 500,000 | 103 | $406.1 M | 23.7% | $96.2 M | $730.9 M | $634.7 M | $1.42 B | $309.9 M |
+| [Fayoum](Fayoum/README.md) | 500,000 | 190 | $564.0 M | 25.1% | $141.7 M | $1.02 B | $873.5 M | $1.95 B | $422.3 M |
+| [Luxor](Luxor/README.md) | 500,000 | 111 | $441.0 M | 23.7% | $104.4 M | $793.7 M | $689.3 M | $1.54 B | $336.5 M |
+| [Damietta](Damietta/README.md) | 400,000 | 156 | $611.1 M | 23.8% | $145.2 M | $1.10 B | $954.8 M | $2.13 B | $465.9 M |
+| [Beni Suef](Beni-Suef/README.md) | 350,000 | 87 | $342.8 M | 23.7% | $81.2 M | $617.1 M | $535.9 M | $1.19 B | $261.6 M |
+| [Qena](Qena/README.md) | 350,000 | 117 | $445.8 M | 23.6% | $105.2 M | $802.4 M | $697.2 M | $1.55 B | $340.6 M |
+| [Arish](Arish/README.md) | 300,000 | 38 | $177.5 M | 20.5% | $36.3 M | $319.5 M | $283.1 M | $631.2 M | $141.2 M |
+| [Hurghada](Hurghada/README.md) | 300,000 | 80 | $371.7 M | 20.7% | $77.0 M | $669.1 M | $592.1 M | $1.32 B | $294.7 M |
+| [Kafr El Sheikh](Kafr-El-Sheikh/README.md) | 300,000 | 65 | $287.7 M | 20.7% | $59.7 M | $517.8 M | $458.1 M | $1.02 B | $228.0 M |
 
 ## National implementation sequence
 

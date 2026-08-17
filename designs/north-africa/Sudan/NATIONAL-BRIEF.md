@@ -1,5 +1,8 @@
 # Sudan national OpenSourceRail strategy
 
+> [!IMPORTANT]
+> **Foreign-capital advantage:** against the default equivalent foreign-turnkey case, this national OSR programme avoids **$13.38 B (86.6%) of external capital** and **$17.28 B of external interest**. Capital plus saved interest totals **$30.66 B over the 40-year financing life**. Both cases use the same 4.5% external rate and financing schedule; the comparator external requirement is assumed debt-financed, and the comparator is an editable sensitivity, not a vendor quote.
+
 Sudan should implement OpenSourceRail as one national industrial and financing programme covering the 7 catalogue cities below, rather than as disconnected city projects. One centrally governed trainset factory builds the shared modular fleet in phases; city and regional contractors fabricate and install rails, viaducts, stations, depots, and local civil works. This concentrates scarce imported machinery, specialist tooling, engineering support, and foreign currency in one reusable national asset while maximizing domestic labour, materials, fabrication, and local-currency financing.
 
 ## National programme at a glance
@@ -33,15 +36,15 @@ The annual construction draw is spread evenly over 10 planning years. Post-grace
 
 ## Foreign-company turnkey comparison
 
-This controlled comparison is an editable sensitivity, not a supplier quotation. It uses the same national network, fleet, service, and energy scope, with 90% of a foreign contractor's price assumed to require foreign currency or international capital. Illustrative variable benchmark for an equivalent foreign-company turnkey delivery. It excludes tunnels, land, tax/duty, utility relocation, financing fees, and escalation on both sides; it does not represent a received bid or named vendor price.
+This controlled comparison is an editable sensitivity, not a supplier quotation. It uses the same national network, fleet, service, and energy scope, with 90% of a foreign contractor's price assumed to require foreign currency or international capital. Illustrative variable benchmark for an equivalent foreign-company turnkey delivery. It excludes tunnels, land, tax/duty, utility relocation, financing fees, and escalation on both sides; it does not represent a received bid or named vendor price. Lifetime interest uses the same 4.5% rate, 10-year construction interest period, and 30-year amortization for both cases; the comparator external requirement is assumed debt-financed.
 
-| Case | Cost multiplier vs OSR | Foreign-company total CAPEX | Foreign-company external capital | OSR external capital saved | Annual external capital saved |
+| Case | Cost multiplier vs OSR | Foreign-company external capital | OSR external capital saved | External interest saved over financing life | Capital + interest saved |
 |---|---:|---:|---:|---:|---:|
-| Low | 1.50× | $12.87 B | $11.58 B | $9.52 B (82.2%) | $951.9 M / yr |
-| **Default** | 2.00× | $17.16 B | $15.44 B | $13.38 B (86.6%) | $1.34 B / yr |
-| High | 3.00× | $25.74 B | $23.17 B | $21.10 B (91.1%) | $2.11 B / yr |
+| Low | 1.50× | $11.58 B | $9.52 B (82.2%) | $12.30 B | **$21.81 B** |
+| **Default** | 2.00× | $15.44 B | $13.38 B (86.6%) | $17.28 B | **$30.66 B** |
+| High | 3.00× | $23.17 B | $21.10 B (91.1%) | $27.26 B | **$48.36 B** |
 
-At the default 2.00× case, the OSR programme reduces external capital from $15.44 B to $2.06 B, a saving of **$13.38 B (86.6%)**. Total programme CAPEX is 50.0% below the comparator. Replace both variables with scope-normalized bids before investment approval.
+At the default 2.00× case, the OSR programme reduces external capital from $15.44 B to $2.06 B, a saving of **$13.38 B (86.6%)**, plus **$17.28 B** of external interest over the financing life. Total programme CAPEX is 50.0% below the comparator. Replace both variables with scope-normalized bids before investment approval.
 
 ## Procurement-origin composition
 
@@ -62,15 +65,15 @@ At the default 2.00× case, the OSR programme reduces external capital from $15.
 
 Each city CAPEX below excludes the national factory. Its imported share varies with the local mix of civil structures, rolling stock, stations, charging, signalling, and solar infrastructure.
 
-| City | Population | Fleet | City CAPEX | Imported % | OSR external capital | Foreign-turnkey external capital (default) | External capital saved | Local capital |
-|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| [Khartoum](Khartoum/README.md) | 5,829,000 | 637 | $4.35 B | 25.7% | $1.12 B | $7.83 B | $6.72 B | $3.24 B |
-| [Omdurman](Omdurman/README.md) | 2,800,000 | 312 | $2.30 B | 22.8% | $523.5 M | $4.13 B | $3.61 B | $1.77 B |
-| [Nyala](Nyala/README.md) | 600,000 | 99 | $466.0 M | 22.3% | $103.8 M | $838.8 M | $735.0 M | $362.2 M |
-| [El Obeid](El-Obeid/README.md) | 500,000 | 102 | $409.8 M | 23.5% | $96.2 M | $737.6 M | $641.4 M | $313.6 M |
-| [Kassala](Kassala/README.md) | 500,000 | 52 | $304.6 M | 20.9% | $63.6 M | $548.4 M | $484.8 M | $241.1 M |
-| [Port Sudan](Port-Sudan/README.md) | 500,000 | 76 | $339.3 M | 22.9% | $77.8 M | $610.7 M | $532.9 M | $261.5 M |
-| [Waw](Waw/README.md) | 300,000 | 41 | $166.3 M | 20.7% | $34.5 M | $299.4 M | $264.9 M | $131.8 M |
+| City | Population | Fleet | City CAPEX | Imported % | OSR external capital | Foreign-turnkey external capital (default) | External capital saved | Capital + lifetime external interest saved | Local capital |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| [Khartoum](Khartoum/README.md) | 5,829,000 | 637 | $4.35 B | 25.7% | $1.12 B | $7.83 B | $6.72 B | $15.39 B | $3.24 B |
+| [Omdurman](Omdurman/README.md) | 2,800,000 | 312 | $2.30 B | 22.8% | $523.5 M | $4.13 B | $3.61 B | $8.27 B | $1.77 B |
+| [Nyala](Nyala/README.md) | 600,000 | 99 | $466.0 M | 22.3% | $103.8 M | $838.8 M | $735.0 M | $1.68 B | $362.2 M |
+| [El Obeid](El-Obeid/README.md) | 500,000 | 102 | $409.8 M | 23.5% | $96.2 M | $737.6 M | $641.4 M | $1.47 B | $313.6 M |
+| [Kassala](Kassala/README.md) | 500,000 | 52 | $304.6 M | 20.9% | $63.6 M | $548.4 M | $484.8 M | $1.11 B | $241.1 M |
+| [Port Sudan](Port-Sudan/README.md) | 500,000 | 76 | $339.3 M | 22.9% | $77.8 M | $610.7 M | $532.9 M | $1.22 B | $261.5 M |
+| [Waw](Waw/README.md) | 300,000 | 41 | $166.3 M | 20.7% | $34.5 M | $299.4 M | $264.9 M | $607.1 M | $131.8 M |
 
 ## National implementation sequence
 
