@@ -42,7 +42,7 @@ concrete.
 | Trackform | Local direct-fixation plinths over thin non-structural alignment layer |
 | Panel length | 6.0 m |
 | Overall alignment-layer width | 4.1 m |
-| U-trough internal width compatibility | Fits 4.5 m clear trough |
+| U-trough internal width compatibility | Fits 4.72 m clear trough |
 | Alignment layer thickness | 40 mm; may be omitted by project design |
 | Rail plinth width | 380 mm |
 | Rail plinth height above base slab | 160 mm |
@@ -60,6 +60,10 @@ tolerance recovery only and may be omitted where surveyed casting plus
 adjustable baseplates can recover rail geometry. A full-width reinforced or
 floating slab is reserved for locations where a vibration/noise and structural
 study justifies its dead weight.
+
+The cable/drainage trough is installed on the non-egress side only. The
+opposite edge is the controlled 1.0 m escape ledge and must remain clear of
+service covers, cabinets, screen posts, and other permanent obstructions.
 
 ## FreeCAD Scene Renders
 

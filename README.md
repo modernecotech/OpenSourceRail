@@ -13,6 +13,22 @@
 
 ![Solar metro trainset: current OpenSourceRail reference vehicle](docs/assets/solar-metro-trainset.png)
 
+![Blender-rendered Samawah Line 1 digital twin showing real-time LM3 operation through the S5 elevated station](designs/west-asia/Iraq/Samawah/engineering/digital-twin/samawah-line1-digital-twin.gif)
+
+*Samawah Line 1 Blender digital twin: a refined 49.5 m driverless LM3 approaches
+S5 at 36 km/h, brakes at 1.0 m/s², stops and opens its doors, then starts,
+accelerates, and departs in real time. The source package includes the full-line
+FreeCAD/JSON twin, Blender scene, and MP4. Regenerate it with
+`scripts/freecad-generate.sh --samawah-line-twin`.*
+
+![Source-linked fabrication and assembly digital twin for track, stations, viaducts, and LM3 trainsets](engineering/fabrication-assembly-digital-twin/fabrication-assembly-digital-twin.gif)
+
+*The fabrication and assembly twin runs four synchronized production routes
+from material release through assembly and QA handover. Its JSON register
+contains 23 controlled work stages, predecessors, hold points, evidence,
+source hashes, and the interfaces between rail, station, viaduct, and train.
+Regenerate it with `scripts/freecad-generate.sh --fabrication-twin`.*
+
 OpenSourceRail is an open-source stack for designing, building, and
 operating affordable urban rail systems. It combines:
 
@@ -630,6 +646,7 @@ scripts/freecad-generate.sh --check
 scripts/freecad-generate.sh --models --assemblies --fem
 scripts/freecad-generate.sh --screenshots --station-scenes
 scripts/freecad-generate.sh --high-quality-renders
+scripts/freecad-generate.sh --fabrication-twin
 PYTHONPATH=mechanical-py/src python3 mechanical-py/scripts/render_screenshots.py
 ```
 

@@ -22,12 +22,14 @@ from osr_mech.cad import (
     Polygon,
     extrude,
 )
+from osr_mech.clearance import reference_dynamic_width_mm
 
 WALL_THICKNESS_MM = 200.0
 FLOOR_THICKNESS_MM = 250.0
 
-# Width is governed by the train-plus-egress envelope, not standard gauge.
-DYNAMIC_TRAIN_WIDTH_MM = 2_930.0
+# Civil CAD convention: +X traffic/chainage, +Y transverse, +Z vertical.
+# Width is governed by the controlled train-plus-egress envelope, not gauge.
+DYNAMIC_TRAIN_WIDTH_MM = reference_dynamic_width_mm()
 CLEAR_WALKWAY_WIDTH_MM = 1_000.0
 OPPOSITE_SIDE_CLEARANCE_MM = 250.0
 KINEMATIC_AND_CONSTRUCTION_ALLOWANCE_MM = 220.0
@@ -37,7 +39,9 @@ MIN_REQUIRED_INTERNAL_WIDTH_MM = (
     + OPPOSITE_SIDE_CLEARANCE_MM
     + KINEMATIC_AND_CONSTRUCTION_ALLOWANCE_MM
 )
-INTERNAL_WIDTH_MM = 4_500.0
+# 4.72 m preserves the 220 mm sway/tolerance reserve while also providing
+# the 261 mm chord allowance of a straight U25 on the preferred 300 m curve.
+INTERNAL_WIDTH_MM = 4_720.0
 
 # Local rail plinths do not consume a 220 mm full-width topping. This wall
 # datum retains 1.4 m above the 180 mm integrated escape ledge.
@@ -75,7 +79,14 @@ def u_girder_envelope(span_m: float = PRIMARY_SPAN_M) -> Part:
     """
 
     _check_span(span_m)
-    length_mm = span_m * 1000.0
+    return _u_trough_extrusion(span_m * 1000.0, f"U-trough clearance envelope {span_m:g} m")
+
+
+def _u_trough_extrusion(length_mm: float, label: str) -> Part:
+    """Extrude the common cross-section along +X for full or match-cast units."""
+
+    if length_mm <= 0.0:
+        raise ValueError("U-trough length must be positive")
     half_ext = EXTERNAL_WIDTH_MM / 2.0
     half_int = INTERNAL_WIDTH_MM / 2.0
 
@@ -93,14 +104,25 @@ def u_girder_envelope(span_m: float = PRIMARY_SPAN_M) -> Part:
     ]
 
     with BuildPart() as girder:
-        with BuildSketch(Plane.XY):
+        # The polygon coordinates are (Y transverse, Z vertical); the YZ
+        # plane normal is +X, matching every track/slab catalogue component.
+        with BuildSketch(Plane.YZ):
             Polygon(*pts, align=(Align.CENTER, Align.MIN))
         extrude(amount=length_mm)
 
     result = girder.part
     result.color = Color(0.72, 0.72, 0.70)
-    result.label = f"U-trough clearance envelope {span_m:g} m"
+    result.label = label
     return result
+
+
+def u_girder_segment_envelope(length_m: float) -> Part:
+    """One unreleased match-cast segment using the controlled cross-section."""
+
+    return _u_trough_extrusion(
+        length_m * 1000.0,
+        f"Match-cast U-trough segment envelope {length_m:g} m",
+    )
 
 
 def u_girder_structural_placeholder(span_m: float = PRIMARY_SPAN_M) -> Compound:
@@ -118,12 +140,12 @@ def u_girder_structural_placeholder(span_m: float = PRIMARY_SPAN_M) -> Compound:
     half_int = INTERNAL_WIDTH_MM / 2.0
     parts: list[Part] = [u_girder_envelope(span_m)]
 
-    ledge = Box(ESCAPE_LEDGE_WIDTH_MM, ESCAPE_LEDGE_HEIGHT_MM, length_mm).locate(
+    ledge = Box(length_mm, ESCAPE_LEDGE_WIDTH_MM, ESCAPE_LEDGE_HEIGHT_MM).locate(
         Location(
             (
+                length_mm / 2.0,
                 -half_int + ESCAPE_LEDGE_WIDTH_MM / 2.0,
                 FLOOR_THICKNESS_MM + ESCAPE_LEDGE_HEIGHT_MM / 2.0,
-                length_mm / 2.0,
             )
         )
     )
@@ -132,12 +154,12 @@ def u_girder_structural_placeholder(span_m: float = PRIMARY_SPAN_M) -> Compound:
     parts.append(ledge)
 
     for side in (-1.0, 1.0):
-        flange = Box(UPPER_FLANGE_ZONE_WIDTH_MM, 250.0, length_mm).locate(
+        flange = Box(length_mm, UPPER_FLANGE_ZONE_WIDTH_MM, 250.0).locate(
             Location(
                 (
+                    length_mm / 2.0,
                     side * (EXTERNAL_WIDTH_MM / 2.0 - UPPER_FLANGE_ZONE_WIDTH_MM / 2.0),
                     EXTERNAL_HEIGHT_MM - 125.0,
-                    length_mm / 2.0,
                 )
             )
         )
@@ -145,25 +167,25 @@ def u_girder_structural_placeholder(span_m: float = PRIMARY_SPAN_M) -> Compound:
         flange.color = concrete
         parts.append(flange)
 
-    for z_mm in (
+    for x_mm in (
         END_DIAPHRAGM_ZONE_LENGTH_MM / 2.0,
         length_mm - END_DIAPHRAGM_ZONE_LENGTH_MM / 2.0,
     ):
         diaphragm = Box(
+            END_DIAPHRAGM_ZONE_LENGTH_MM,
             EXTERNAL_WIDTH_MM,
             EXTERNAL_HEIGHT_MM,
-            END_DIAPHRAGM_ZONE_LENGTH_MM,
-        ).locate(Location((0.0, EXTERNAL_HEIGHT_MM / 2.0, z_mm)))
+        ).locate(Location((x_mm, 0.0, EXTERNAL_HEIGHT_MM / 2.0)))
         diaphragm.label = "End diaphragm, bearing, jacking, and anchorage zone"
         diaphragm.color = interface
         parts.append(diaphragm)
 
-    for x_mm, label in (
+    for y_mm, label in (
         (0.0, "Drainage and replaceable-scuppers corridor"),
         (half_int - 350.0, "Cable, earthing, and communications corridor"),
     ):
-        corridor = Box(300.0, 120.0, length_mm).locate(
-            Location((x_mm, FLOOR_THICKNESS_MM + 60.0, length_mm / 2.0))
+        corridor = Box(length_mm, 300.0, 120.0).locate(
+            Location((length_mm / 2.0, y_mm, FLOOR_THICKNESS_MM + 60.0))
         )
         corridor.label = label
         corridor.color = interface
@@ -187,6 +209,14 @@ def approx_mass_kg(span_m: float, concrete_density_kg_per_m3: float = 2500.0) ->
     return (a_outer - a_cavity) * span_m * concrete_density_kg_per_m3
 
 
+def section_area_m2() -> float:
+    """Constant-thickness planning section area used by the quantity model."""
+
+    a_outer = (EXTERNAL_WIDTH_MM / 1000.0) * (EXTERNAL_HEIGHT_MM / 1000.0)
+    a_cavity = (INTERNAL_WIDTH_MM / 1000.0) * (INTERNAL_HEIGHT_MM / 1000.0)
+    return a_outer - a_cavity
+
+
 __all__ = [
     "CATALOGUE_SPANS_M",
     "CLEAR_WALKWAY_WIDTH_MM",
@@ -208,5 +238,7 @@ __all__ = [
     "approx_mass_kg",
     "u_girder",
     "u_girder_envelope",
+    "u_girder_segment_envelope",
     "u_girder_structural_placeholder",
+    "section_area_m2",
 ]

@@ -23,6 +23,7 @@ from .envelope import (
     KinematicEnvelope,
     check_feature,
     envelope_swept_on_curve,
+    reference_dynamic_width_mm,
     reference_envelope,
     swept_envelope_part,
 )
@@ -34,6 +35,7 @@ __all__ = [
     "KinematicEnvelope",
     "check_feature",
     "envelope_swept_on_curve",
+    "reference_dynamic_width_mm",
     "reference_envelope",
     "swept_envelope_part",
 ]

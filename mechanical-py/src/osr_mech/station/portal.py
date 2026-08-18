@@ -16,7 +16,9 @@ The truss rafter gives the 3.5 m cantilever over the platform that
 keeps columns out of the passenger circulation zone — columns sit at
 the platform rear edge and the roof extends forward over the platform.
 
-Bay spacing: 6.0 m. Clear height under rafter: 3.0 m.
+Bay spacing: 6.0 m. Clear height under rafter: 3.8 m. The raised datum
+keeps the track-side roof eave above the controlled 3.9 m overall vehicle
+envelope while retaining the same reusable portal kit.
 Overall height to ridge: 4.2 m (with 1:15 mono-pitch roof).
 """
 
@@ -39,7 +41,7 @@ from osr_mech.cad import (
 # Standard bay.
 BAY_SPACING_MM = 6000.0
 PLATFORM_DEPTH_MM = 3500.0  # platform edge → rear column
-CLEAR_HEIGHT_MM = 3000.0
+CLEAR_HEIGHT_MM = 3800.0
 ROOF_PITCH = 1.0 / 15.0  # mono-pitch, 1:15 fall
 
 # Column / rafter nominals.
@@ -67,7 +69,10 @@ def _rafter(length_mm: float) -> Part:
             Rectangle(RAFTER_SIZE_MM, RAFTER_SIZE_MM, align=(Align.CENTER, Align.CENTER))
         extrude(amount=length_mm)
     p = r.part
-    p = p.rotate(Axis.X, 90)
+    # Extrusion starts at the platform edge and must run in +Y toward the
+    # rear column.  The former +90 degree rotation sent it into -Y over the
+    # vehicle envelope and left it disconnected from that column.
+    p = p.rotate(Axis.X, -90)
     p.color = Color(0.85, 0.85, 0.88)
     p.label = "Rafter (HEA 180)"
     return p

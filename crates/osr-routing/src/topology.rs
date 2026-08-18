@@ -667,13 +667,14 @@ pub fn greedy_synthesize_lines(
             break;
         }
         eprintln!(
-            "  greedy line-{}: anchors {}->{}  {:.0} m, +{} cells covered ({:.1}/km)",
+            "  greedy line-{}: anchors {}->{}  {:.0} m, +{} cells covered ({:.1}/km, elevated constructability x{:.2})",
             lines.len() + 1,
             cand.a,
             cand.b,
             cand.length_m,
             cand.new_coverage,
             cand.coverage_per_km,
+            cand.constructability_multiplier,
         );
 
         update_covered(&mut covered, grid, &cand.cells, h, w, radius_cells);
@@ -871,6 +872,8 @@ struct Candidate {
     length_m: f64,
     new_coverage: u32,
     coverage_per_km: f32,
+    constructability_multiplier: f64,
+    effective_coverage_score: f64,
 }
 
 struct GreedyContext<'a> {
@@ -1133,6 +1136,10 @@ fn find_best_candidate(
         } else {
             0.0
         };
+        let constructability_multiplier =
+            crate::civil::route_elevated_constructability_multiplier(grid, &cells);
+        let effective_coverage_score =
+            f64::from(new_coverage) / constructability_multiplier.max(1.0);
         let cand = Candidate {
             a,
             b,
@@ -1140,13 +1147,17 @@ fn find_best_candidate(
             length_m,
             new_coverage,
             coverage_per_km,
+            constructability_multiplier,
+            effective_coverage_score,
         };
         // Score by absolute new-coverage so longer lines that fan out to
         // suburbs can win over short, dense centre-only corridors.
         // `coverage_per_km` is still tracked as the stop-condition floor.
         match &best {
             None => best = Some(cand),
-            Some(prev) if cand.new_coverage > prev.new_coverage => best = Some(cand),
+            Some(prev) if cand.effective_coverage_score > prev.effective_coverage_score => {
+                best = Some(cand)
+            }
             _ => {}
         }
     }

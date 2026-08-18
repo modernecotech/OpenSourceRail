@@ -16,7 +16,9 @@ use std::path::Path;
 use std::sync::OnceLock;
 
 use anyhow::Result;
-use osr_routing::civil::{CivilClass, CivilSegment};
+use osr_routing::civil::{
+    civil_segments_from_classes, CivilClass, CivilSegment, ElevatedViaductProduct,
+};
 use osr_routing::raster::RasterBundle;
 use osr_routing::station::Station;
 use osr_routing::topology::{hub_cell, Line};
@@ -237,40 +239,7 @@ fn reclass_window(
     {
         *class = target;
     }
-    // Re-collapse runs.
-    let mut out: Vec<CivilSegment> = Vec::new();
-    let mut run_start = 0;
-    for i in 1..=n {
-        if i == n || classes[i] != classes[run_start] {
-            // Assign the edge into the next run to the preceding span.
-            // This matches the emitted half-open chainage boundaries and
-            // ensures every route edge contributes to civil quantities.
-            let length_end = if i < n { i + 1 } else { i };
-            let length_m = segment_length_m(bundle, &line.cells[run_start..length_end]);
-            out.push(CivilSegment {
-                class: classes[run_start],
-                from_idx: run_start,
-                to_idx: i - 1,
-                length_m,
-            });
-            run_start = i;
-        }
-    }
-    out
-}
-
-fn segment_length_m(bundle: &RasterBundle, cells: &[(usize, usize)]) -> f64 {
-    if cells.len() < 2 {
-        return 0.0;
-    }
-    let cell_m = bundle.grid.reference.cell_m;
-    let mut total = 0.0;
-    for pair in cells.windows(2) {
-        let dr = pair[1].0 as f64 - pair[0].0 as f64;
-        let dc = pair[1].1 as f64 - pair[0].1 as f64;
-        total += (dr * dr + dc * dc).sqrt() * cell_m;
-    }
-    total
+    civil_segments_from_classes(&bundle.grid, &line.cells, &classes)
 }
 
 // ---- design.toml -----------------------------------------------------
@@ -442,7 +411,21 @@ fn write_design_toml(
             out.push_str(&format!("line            = \"{}\"\n", line.name));
             out.push_str(&format!("from_station_m  = {from_station_m:.1}\n"));
             out.push_str(&format!("to_station_m    = {to_station_m:.1}\n"));
-            out.push_str(&format!("class           = \"{class}\"\n\n"));
+            out.push_str(&format!("class           = \"{class}\"\n"));
+            if let Some(radius_m) = segment.minimum_curve_radius_m {
+                out.push_str(&format!("minimum_curve_radius_m = {radius_m:.1}\n"));
+            }
+            if let Some(product) = segment.viaduct_product {
+                out.push_str(&format!(
+                    "viaduct_product = \"{}\"\n",
+                    product.catalogue_code()
+                ));
+                out.push_str(&format!(
+                    "elevated_cost_multiplier = {:.3}\n",
+                    segment.elevated_cost_multiplier
+                ));
+            }
+            out.push('\n');
         }
     }
 
@@ -1360,19 +1343,23 @@ fn compute_costs(
 ) -> CostSummary {
     let mut at_grade_m = 0.0_f64;
     let mut elevated_m = 0.0_f64;
+    let mut elevated_cost_equivalent_m = 0.0_f64;
     let mut bridge_m = 0.0_f64;
     for segs in civil_per_line {
         for s in segs {
             match s.class {
                 CivilClass::AtGrade => at_grade_m += s.length_m,
-                CivilClass::Elevated => elevated_m += s.length_m,
+                CivilClass::Elevated => {
+                    elevated_m += s.length_m;
+                    elevated_cost_equivalent_m += s.length_m * s.elevated_cost_multiplier;
+                }
                 CivilClass::Bridge => bridge_m += s.length_m,
             }
         }
     }
     let rates = cost_config();
     let at_grade_usd = at_grade_m / 1_000.0 * rates.civil_usd_per_km.at_grade;
-    let elevated_usd = elevated_m / 1_000.0 * rates.civil_usd_per_km.elevated;
+    let elevated_usd = elevated_cost_equivalent_m / 1_000.0 * rates.civil_usd_per_km.elevated;
     let bridge_usd = bridge_m / 1_000.0 * rates.civil_usd_per_km.bridge;
     let junction_premium_usd = (elevated_junctions_count as f64) * junction_premium_usd();
     let at_grade_eur = eur_from_usd(at_grade_usd);
@@ -1896,12 +1883,28 @@ fn write_quality_yaml(
     let mut at_grade = 0.0_f64;
     let mut elevated = 0.0_f64;
     let mut bridge = 0.0_f64;
+    let mut u25_m = 0.0_f64;
+    let mut segmental_m = 0.0_f64;
+    let mut special_m = 0.0_f64;
+    let mut realign_m = 0.0_f64;
+    let mut max_elevated_cost_multiplier = 1.0_f64;
     for segs in civil_per_line {
         for s in segs {
             match s.class {
                 CivilClass::AtGrade => at_grade += s.length_m,
                 CivilClass::Elevated => elevated += s.length_m,
                 CivilClass::Bridge => bridge += s.length_m,
+            }
+            max_elevated_cost_multiplier =
+                max_elevated_cost_multiplier.max(s.elevated_cost_multiplier);
+            match s.viaduct_product {
+                Some(ElevatedViaductProduct::FullSpanU25) => u25_m += s.length_m,
+                Some(ElevatedViaductProduct::ClosureU20) => u25_m += s.length_m,
+                Some(ElevatedViaductProduct::ProjectSpecificU30) => special_m += s.length_m,
+                Some(ElevatedViaductProduct::SegmentalUs) => segmental_m += s.length_m,
+                Some(ElevatedViaductProduct::SpecialSpan) => special_m += s.length_m,
+                Some(ElevatedViaductProduct::RealignOrSpecial) => realign_m += s.length_m,
+                None => {}
             }
         }
     }
@@ -1928,7 +1931,9 @@ fn write_quality_yaml(
     // RFC 0011 §8: > 30 % elevated share is a warning; the
     // at-grade-dominant design is the mission-aligned one.
     let soft_elevated_ok = elevated_fraction <= 0.30;
-    let soft_all = soft_coverage && soft_anchor_hit && soft_elevated_ok;
+    let soft_elevated_geometry_ok = realign_m == 0.0;
+    let soft_all =
+        soft_coverage && soft_anchor_hit && soft_elevated_ok && soft_elevated_geometry_ok;
 
     // A design "passes" if the hard gates pass. Soft gates surface in the
     // report for triage but do not block scale-up.
@@ -1948,6 +1953,14 @@ fn write_quality_yaml(
     yaml.push_str(&format!("    elevated: {elevated:.1}\n"));
     yaml.push_str(&format!("    bridge:   {bridge:.1}\n"));
     yaml.push_str(&format!("  elevated_fraction: {elevated_fraction:.3}\n"));
+    yaml.push_str("  viaduct_products_m:\n");
+    yaml.push_str(&format!("    osr_u20_u25: {u25_m:.1}\n"));
+    yaml.push_str(&format!("    osr_us:      {segmental_m:.1}\n"));
+    yaml.push_str(&format!("    special:     {special_m:.1}\n"));
+    yaml.push_str(&format!("    realign:     {realign_m:.1}\n"));
+    yaml.push_str(&format!(
+        "  max_elevated_cost_multiplier: {max_elevated_cost_multiplier:.3}\n"
+    ));
     yaml.push_str("gates:\n");
     yaml.push_str("  hard:\n");
     yaml.push_str(&format!("    has_stations:      {hard_has_stations}\n"));
@@ -1958,6 +1971,9 @@ fn write_quality_yaml(
     yaml.push_str(&format!("    coverage_ge_0.30:   {soft_coverage}\n"));
     yaml.push_str(&format!("    anchor_hit_ge_0.20: {soft_anchor_hit}\n"));
     yaml.push_str(&format!("    elevated_le_0.30:   {soft_elevated_ok}\n"));
+    yaml.push_str(&format!(
+        "    elevated_geometry_constructible: {soft_elevated_geometry_ok}\n"
+    ));
     yaml.push_str(&format!("    soft_pass_all:      {soft_all}\n"));
 
     let path = out_dir.join(format!("{slug}.design-quality.yaml"));
@@ -2321,18 +2337,27 @@ mod tests {
                 from_idx: 0,
                 to_idx: 10,
                 length_m: 10_000.0, // 10 km x $3.0 M = $30.0 M
+                minimum_curve_radius_m: None,
+                viaduct_product: None,
+                elevated_cost_multiplier: 1.0,
             },
             CivilSegment {
                 class: CivilClass::Elevated,
                 from_idx: 10,
                 to_idx: 11,
                 length_m: 1_000.0, // 1 km x $12.0 M = $12.0 M
+                minimum_curve_radius_m: None,
+                viaduct_product: Some(ElevatedViaductProduct::FullSpanU25),
+                elevated_cost_multiplier: 1.0,
             },
             CivilSegment {
                 class: CivilClass::Bridge,
                 from_idx: 11,
                 to_idx: 12,
                 length_m: 500.0, // 0.5 km x $18 M = $9.0 M
+                minimum_curve_radius_m: None,
+                viaduct_product: Some(ElevatedViaductProduct::SpecialSpan),
+                elevated_cost_multiplier: 1.0,
             },
         ]];
         let archetypes: Vec<&str> = vec!["terminal", "standard", "depot-terminal"];
@@ -2384,6 +2409,21 @@ mod tests {
         // Total = $100.51045 M = EUR 92.469614 M.
         assert!((c.total_usd - 100_510_450.0).abs() < 1.0);
         assert!((c.total_eur - 92_469_614.0).abs() < 1.0);
+    }
+
+    #[test]
+    fn elevated_curvature_multiplier_flows_into_production_cost() {
+        let civil_per_line = vec![vec![CivilSegment {
+            class: CivilClass::Elevated,
+            from_idx: 0,
+            to_idx: 1,
+            length_m: 1_000.0,
+            minimum_curve_radius_m: Some(212.1),
+            viaduct_product: Some(ElevatedViaductProduct::SegmentalUs),
+            elevated_cost_multiplier: 2.0,
+        }]];
+        let costs = compute_costs(&civil_per_line, &[], &[], 0, 0, "light-metro-3car");
+        assert!((costs.elevated_usd - 24_000_000.0).abs() < 1.0);
     }
 
     #[test]

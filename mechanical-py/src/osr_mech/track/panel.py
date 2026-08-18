@@ -57,7 +57,7 @@ def track_panel(
         s = s.rotate(Axis.Z, 90)
         # After rotation, sleeper length lies along Y. We want its centre
         # on y = 0 and its +X placement to match the sleeper index.
-        s = s.translate((x, -SLEEPER_LENGTH_MM / 2.0 + SLEEPER_LENGTH_MM / 2.0, 0.0))
+        s = s.translate((x, -SLEEPER_LENGTH_MM / 2.0, 0.0))
         parts.append(s)
 
         # Fastener kits at each rail seat, rail foot resting on pad.

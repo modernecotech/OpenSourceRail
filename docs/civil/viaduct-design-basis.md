@@ -8,8 +8,8 @@
 ## Catalogue boundary
 
 Two identical single-track troughs share a single-column pier. The reference
-clear trough width is 4.5 m, external envelope is 4.9 m, track centres are
-5.3 m, and the normal span is 25 m. A 20 m unit uses the same principal mould
+clear trough width is 4.72 m, external envelope is 5.12 m, track centres are
+5.52 m, and the normal span is 25 m. A 20 m unit uses the same principal mould
 with adjustable stop ends. A 30 m full-span unit is only a planning option and
 requires a released transport route, lifting analysis, erection plant, and
 supplier structural design. Anything over 30 m is not the same product.
@@ -20,6 +20,10 @@ supplier structural design. Anything over 30 m is not the same product.
 | `OSR-U20` | Closure bays, junctions, constrained geometry |
 | `OSR-US` | 2.5–3.0 m match-cast segments where access or curvature prevents full-span erection |
 | `OSR-SP` | Separately engineered I-girder, steel-composite, or segmental crossing over 30 m; turnouts and exceptional crossings |
+
+The OSR-US review model places each 2.5–3.0 m chord on a surveyed circular
+arc, with rotated match-cast joint planes and chord-following tendon corridors;
+it is no longer represented by a straight full-span extrusion with markers.
 
 The Python geometry in `osr_mech.civil.ugirder` is a clearance and quantity
 envelope. Flanges, haunches, diaphragms, bearing/anchorage zones, tendon

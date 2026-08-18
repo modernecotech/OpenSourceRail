@@ -44,7 +44,9 @@ from osr_mech.cad import (
     fillet,
 )
 from osr_mech.rolling_stock.baseline import (
+    PROMOTED_LIGHT_METRO_CAR_HEIGHT_MM,
     PROMOTED_LIGHT_METRO_CAR_LENGTH_MM,
+    PROMOTED_LIGHT_METRO_CAR_WIDTH_MM,
     PROMOTED_ROOF_SOLAR_MODULES_PER_CAR,
 )
 from osr_mech.rolling_stock.modular_fiberglass_body import fiberglass_cladding_system
@@ -166,8 +168,8 @@ class CarDimensions:
     """Parametric footprint of a single passenger car."""
 
     body_length_mm: float = PROMOTED_LIGHT_METRO_CAR_LENGTH_MM
-    body_width_mm: float = 2850.0
-    body_height_mm: float = 3450.0
+    body_width_mm: float = PROMOTED_LIGHT_METRO_CAR_WIDTH_MM
+    body_height_mm: float = PROMOTED_LIGHT_METRO_CAR_HEIGHT_MM
     doors_per_side: int = 2
 
 

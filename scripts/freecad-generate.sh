@@ -6,7 +6,7 @@ MECH_ROOT="$REPO_ROOT/mechanical-py"
 
 usage() {
     cat <<'EOF'
-Usage: scripts/freecad-generate.sh [--all] [--models] [--single-car] [--platform-l-unit] [--catalogue] [--assemblies] [--fem] [--screenshots] [--station-scenes] [--mesh-exports] [--high-quality-renders] [--check]
+Usage: scripts/freecad-generate.sh [--all] [--models] [--single-car] [--platform-l-unit] [--catalogue] [--assemblies] [--civil-systems] [--fem] [--screenshots] [--station-scenes] [--digital-twin-animation] [--samawah-line-twin] [--fabrication-twin] [--mesh-exports] [--high-quality-renders] [--check]
 
 Repository-level FreeCAD generator for OpenSourceRail mechanical artifacts.
 
@@ -17,13 +17,20 @@ Modes:
   --platform-l-unit Build the standalone precast platform L-unit design.
   --catalogue       Build native FreeCAD parts catalogue and platform/station assemblies.
   --assemblies      Build assembled/exploded chassis-bogie and body review documents.
+  --civil-systems   Build and validate the viaduct/station/junction integration test site.
   --fem             Run FreeCAD/CalculiX screening FEM models and result summaries.
   --screenshots     Capture FreeCAD GUI screenshots from generated review documents.
   --station-scenes  Build and capture station/track/train FreeCAD scene documents.
+  --digital-twin-animation
+                    Animate the civil/rolling-stock twin and encode the README GIF.
+  --samawah-line-twin
+                    Build and animate the complete source-linked Samawah Line 1 twin.
+  --fabrication-twin
+                    Build and animate the track/station/viaduct/train production twin.
   --mesh-exports    Export generated FreeCAD review documents to STL render meshes.
   --high-quality-renders
                     Export STL meshes and render README-grade PNGs with Blender/Cycles.
-  --all             Run models, assemblies, FEM, screenshots, and station scenes.
+  --all             Run models, assemblies, civil systems, FEM, screenshots, station scenes, and the twin animation.
 
 Examples:
   scripts/freecad-generate.sh --check
@@ -75,9 +82,13 @@ run_single_car=false
 run_platform_l_unit=false
 run_catalogue=false
 run_assemblies=false
+run_civil_systems=false
 run_fem=false
 run_screenshots=false
 run_station_scenes=false
+run_digital_twin_animation=false
+run_samawah_line_twin=false
+run_fabrication_twin=false
 run_mesh_exports=false
 run_high_quality_renders=false
 run_check=false
@@ -92,9 +103,11 @@ while [ "$#" -gt 0 ]; do
         --all)
             run_models=true
             run_assemblies=true
+            run_civil_systems=true
             run_fem=true
             run_screenshots=true
             run_station_scenes=true
+            run_digital_twin_animation=true
             run_high_quality_renders=true
             ;;
         --models)
@@ -112,6 +125,9 @@ while [ "$#" -gt 0 ]; do
         --assemblies)
             run_assemblies=true
             ;;
+        --civil-systems)
+            run_civil_systems=true
+            ;;
         --fem)
             run_fem=true
             ;;
@@ -120,6 +136,15 @@ while [ "$#" -gt 0 ]; do
             ;;
         --station-scenes)
             run_station_scenes=true
+            ;;
+        --digital-twin-animation)
+            run_digital_twin_animation=true
+            ;;
+        --samawah-line-twin)
+            run_samawah_line_twin=true
+            ;;
+        --fabrication-twin)
+            run_fabrication_twin=true
             ;;
         --mesh-exports)
             run_mesh_exports=true
@@ -169,6 +194,10 @@ if [ "$run_assemblies" = true ]; then
     scripts/freecad_assembly_review.sh
 fi
 
+if [ "$run_civil_systems" = true ]; then
+    scripts/freecad_civil_systems_example.sh
+fi
+
 if [ "$run_fem" = true ]; then
     scripts/freecad_fea.sh
 fi
@@ -179,6 +208,19 @@ fi
 
 if [ "$run_station_scenes" = true ]; then
     scripts/freecad_station_scenes.sh
+fi
+
+if [ "$run_digital_twin_animation" = true ]; then
+    scripts/freecad_digital_twin_animation.sh
+fi
+
+if [ "$run_samawah_line_twin" = true ]; then
+    scripts/freecad_samawah_line_twin.sh
+    scripts/blender_samawah_line_twin.sh
+fi
+
+if [ "$run_fabrication_twin" = true ]; then
+    scripts/blender_fabrication_assembly_twin.sh
 fi
 
 if [ "$run_mesh_exports" = true ] || [ "$run_high_quality_renders" = true ]; then

@@ -41,6 +41,16 @@ def test_u_girder_cross_section_has_track_clearance() -> None:
     assert INTERNAL_WIDTH_MM >= MIN_REQUIRED_INTERNAL_WIDTH_MM
 
 
+def test_u_girder_uses_shared_civil_axes() -> None:
+    box = u_girder().bounding_box()
+    assert box.min.X == pytest.approx(0.0)
+    assert box.max.X == pytest.approx(25_000.0)
+    assert box.min.Y == pytest.approx(-EXTERNAL_WIDTH_MM / 2.0)
+    assert box.max.Y == pytest.approx(EXTERNAL_WIDTH_MM / 2.0)
+    assert box.min.Z == pytest.approx(0.0)
+    assert box.max.Z == pytest.approx(EXTERNAL_HEIGHT_MM)
+
+
 def test_u_girder_requires_permit_load_transport_envelope() -> None:
     assert EXTERNAL_WIDTH_MM > 4100.0
     assert EXTERNAL_HEIGHT_MM < 2100.0

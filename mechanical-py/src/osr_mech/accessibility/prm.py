@@ -32,6 +32,10 @@ from osr_mech.cad import (
     Rectangle,
     extrude,
 )
+from osr_mech.rolling_stock.baseline import (
+    PROMOTED_LIGHT_METRO_CAR_LENGTH_MM,
+    PROMOTED_LIGHT_METRO_CAR_WIDTH_MM,
+)
 
 # EN 16585-1 wheelchair bay minimums, in mm.
 WHEELCHAIR_BAY_WIDTH_MM = 750.0
@@ -56,13 +60,12 @@ class AccessibilitySpec:
     tactile_strip_count: int
 
 
-# EN 16585-1 minimum for a 22 m metro car is 2 bays; we ship 2 per
-# car as the default.
+# The controlled 16.5 m car ships two bays and two door pairs per side.
 ACCESSIBILITY_SPEC = AccessibilitySpec(
     wheelchair_bays_per_car=2,
     priority_seats_per_car=4,
     help_buttons_per_car=4,
-    tactile_strip_count=3,  # one per door
+    tactile_strip_count=2,  # one per controlled door pair
 )
 
 
@@ -120,9 +123,9 @@ def _tactile_strip(x_mm: float, body_width_mm: float) -> Part:
 
 
 def add_prm_zones_to_car(
-    body_length_mm: float = 22_000.0,
-    body_width_mm: float = 2_650.0,
-    doors_per_side: int = 3,
+    body_length_mm: float = PROMOTED_LIGHT_METRO_CAR_LENGTH_MM,
+    body_width_mm: float = PROMOTED_LIGHT_METRO_CAR_WIDTH_MM,
+    doors_per_side: int = 2,
 ) -> Compound:
     """Return a Compound of PRM features placed at a standard car
     layout. Designed to be appended to

@@ -87,6 +87,12 @@ def elevated_rail_y_positions() -> tuple[float, float]:
     return (-half_gauge, half_gauge)
 
 
+def elevated_service_trough_y_positions() -> tuple[float]:
+    """Service-trough centre on the non-egress (+Y) side only."""
+
+    return (ELEVATED_PANEL_WIDTH_MM / 2.0 - ELEVATED_CABLE_TROUGH_WIDTH_MM / 2.0,)
+
+
 def direct_fixation_seat_count(length_mm: float = PANEL_LENGTH_MM, rail_count: int = 4) -> int:
     """Number of direct-fixation rail seats in one panel."""
 
@@ -243,8 +249,9 @@ def elevated_deck_slab_panel(length_mm: float = PANEL_LENGTH_MM) -> Compound:
             )
         )
 
-    trough_y = ELEVATED_PANEL_WIDTH_MM / 2.0 - ELEVATED_CABLE_TROUGH_WIDTH_MM / 2.0
-    for y in (-trough_y, trough_y):
+    # The -Y edge is the controlled 1.0 m escape ledge. Cable and drainage
+    # hardware stays on +Y so its covers cannot reduce the clear egress width.
+    for y in elevated_service_trough_y_positions():
         parts.append(
             _box(
                 length_mm,
@@ -289,4 +296,5 @@ __all__ = [
     "elevated_concrete_volume_m3",
     "elevated_deck_slab_panel",
     "elevated_rail_y_positions",
+    "elevated_service_trough_y_positions",
 ]

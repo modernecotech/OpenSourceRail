@@ -21,7 +21,8 @@ pub mod station;
 pub mod topology;
 
 pub use civil::{
-    classify_segments, elevated_curve_cost_multiplier, elevated_product_for_geometry, CivilClass,
+    civil_segments_from_classes, classify_segments, elevated_curve_cost_multiplier,
+    elevated_product_for_geometry, route_elevated_constructability_multiplier, CivilClass,
     CivilSegment, ElevatedViaductProduct, ELEVATED_PREFERRED_RADIUS_M, MAX_FULL_SPAN_U_M,
 };
 pub use raster::{Anchor, Grid, GridRef, RasterBundle};

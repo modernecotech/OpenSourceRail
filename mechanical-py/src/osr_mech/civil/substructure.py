@@ -12,6 +12,7 @@ from dataclasses import dataclass
 from typing import Literal
 
 from osr_mech.cad import Box, Color, Compound, Cylinder, Location, Part
+from .ugirder import EXTERNAL_WIDTH_MM, INTERNAL_WIDTH_MM, WALL_THICKNESS_MM
 
 
 PIER_COLUMN_X_MM = 1_500.0
@@ -24,12 +25,16 @@ PIER_CAP_HEIGHT_MM = 1_500.0
 PILE_CAP_X_MM = 6_000.0
 PILE_CAP_Y_MM = 6_000.0
 PILE_CAP_HEIGHT_MM = 1_500.0
-GIRDER_CENTRE_SPACING_MM = 5_300.0
+MIN_GIRDER_GAP_MM = 400.0
+GIRDER_CENTRE_SPACING_MM = EXTERNAL_WIDTH_MM + MIN_GIRDER_GAP_MM
 BEARING_X_MM = 600.0
 BEARING_Y_MM = 500.0
 BEARING_HEIGHT_MM = 100.0
 BEARING_ROW_SPACING_MM = 900.0
-WEB_BEARING_OFFSET_MM = 2_050.0
+# Bearings sit under the web centrelines, not at a legacy fixed offset.
+WEB_BEARING_OFFSET_MM = INTERNAL_WIDTH_MM / 2.0 + WALL_THICKNESS_MM / 2.0
+ABUTMENT_WIDTH_MM = 11_000.0
+ABUTMENT_FOUNDATION_WIDTH_MM = 12_000.0
 MONOPILE_DIAMETER_MM = 2_500.0
 MONOPILE_INTERFACE_DEPTH_MM = 6_000.0
 
@@ -69,6 +74,24 @@ def _bearing_parts(z_mm: float, *, interior_support: bool) -> list[Part]:
                         bearing,
                     )
                 )
+    return parts
+
+
+def _jacking_shelf_parts(z_mm: float) -> list[Part]:
+    """Four permanent web-line interfaces for bearing replacement."""
+
+    steel = Color(0.32, 0.36, 0.38)
+    parts: list[Part] = []
+    for girder_y in (-GIRDER_CENTRE_SPACING_MM / 2.0, GIRDER_CENTRE_SPACING_MM / 2.0):
+        for offset_y in (-WEB_BEARING_OFFSET_MM, WEB_BEARING_OFFSET_MM):
+            parts.append(
+                _part(
+                    (250.0, 500.0, 80.0),
+                    (0.0, girder_y + offset_y, z_mm + 40.0),
+                    "Permanent bearing-replacement jacking shelf interface",
+                    steel,
+                )
+            )
     return parts
 
 
@@ -123,6 +146,7 @@ def viaduct_pier(
         _part((PIER_COLUMN_X_MM, PIER_COLUMN_Y_MM, height_mm), (0, 0, height_mm / 2), "Single reinforced-concrete pier column", concrete),
         _pier_cap_shell(height_mm + PIER_CAP_HEIGHT_MM / 2),
     ]
+    parts.extend(_jacking_shelf_parts(height_mm + PIER_CAP_HEIGHT_MM))
     parts.extend(_bearing_parts(height_mm + PIER_CAP_HEIGHT_MM, interior_support=True))
     return Compound(label=f"Standard double-track viaduct pier ({height_m:g} m, {foundation})", children=parts)
 
@@ -134,12 +158,12 @@ def viaduct_abutment() -> Compound:
     dark = Color(0.58, 0.58, 0.57)
     shelf_z = 2_000.0
     parts = [
-        _part((5_000.0, 11_000.0, 1_500.0), (0, 0, -750), "Abutment foundation interface envelope", concrete),
-        _part((2_000.0, 10_000.0, 3_500.0), (0, 0, 1_750), "Abutment bearing shelf and backwall", concrete),
-        _part((5_000.0, 500.0, 2_500.0), (1_500, -5_250, 1_250), "Abutment wing wall LH", concrete),
-        _part((5_000.0, 500.0, 2_500.0), (1_500, 5_250, 1_250), "Abutment wing wall RH", concrete),
-        _part((6_000.0, 9_000.0, 350.0), (4_000, 0, 175), "Reinforced approach slab", concrete),
-        _part((500.0, 9_000.0, 180.0), (1_250, 0, shelf_z + 90), "Replaceable expansion-joint interface", dark),
+        _part((5_000.0, ABUTMENT_FOUNDATION_WIDTH_MM, 1_500.0), (0, 0, -750), "Abutment foundation interface envelope", concrete),
+        _part((2_000.0, ABUTMENT_WIDTH_MM, 3_500.0), (0, 0, 1_750), "Abutment bearing shelf and backwall", concrete),
+        _part((5_000.0, 500.0, 2_500.0), (1_500, -ABUTMENT_WIDTH_MM / 2.0 - 250.0, 1_250), "Abutment wing wall LH", concrete),
+        _part((5_000.0, 500.0, 2_500.0), (1_500, ABUTMENT_WIDTH_MM / 2.0 + 250.0, 1_250), "Abutment wing wall RH", concrete),
+        _part((6_000.0, ABUTMENT_WIDTH_MM, 350.0), (4_000, 0, 175), "Reinforced approach slab", concrete),
+        _part((500.0, ABUTMENT_WIDTH_MM, 180.0), (1_250, 0, shelf_z + 90), "Replaceable expansion-joint interface", dark),
     ]
     parts.extend(_bearing_parts(shelf_z, interior_support=False))
     return Compound(label="Standard double-track viaduct abutment", children=parts)
@@ -186,12 +210,14 @@ ABUTMENT_ASSEMBLY_INSTRUCTIONS = (
 
 
 __all__ = [
+    "ABUTMENT_WIDTH_MM",
     "ABUTMENT_ASSEMBLY_INSTRUCTIONS",
     "CivilKitItem",
     "GIRDER_CENTRE_SPACING_MM",
     "PIER_ASSEMBLY_INSTRUCTIONS",
     "PIER_MAX_HEIGHT_M",
     "PIER_MIN_HEIGHT_M",
+    "WEB_BEARING_OFFSET_MM",
     "abutment_bom",
     "pier_bom",
     "viaduct_abutment",

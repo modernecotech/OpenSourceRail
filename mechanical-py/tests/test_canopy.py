@@ -19,6 +19,7 @@ from osr_mech.station.canopy import (
     canopy_steel_mass_kg,
     station_canopy,
 )
+from osr_mech.station.portal import CLEAR_HEIGHT_MM
 from osr_mech.station.auxiliary_canopy import (
     AUX_MODULE_AREA_M2,
     auxiliary_canopy_kwp,
@@ -117,6 +118,19 @@ def test_canopy_step_volume_nonzero() -> None:
                 if hasattr(sub, "volume"):
                     total += sub.volume
     assert total > 0.0
+
+
+def test_canopy_stays_on_platform_side_except_for_controlled_roof_eave() -> None:
+    canopy = station_canopy(StationArchetype.STANDARD, ConsistFamily.LIGHT_METRO_3CAR)
+    box = canopy.bounding_box()
+    assert box.min.Y == pytest.approx(-700.0)
+    assert box.max.Y == pytest.approx(3500.0)
+
+    first_portal = canopy.children[0]
+    portal_box = first_portal.bounding_box()
+    assert portal_box.min.Y == pytest.approx(0.0)
+    assert portal_box.max.Y == pytest.approx(3500.0)
+    assert CLEAR_HEIGHT_MM == 3800.0
 
 
 def test_auxiliary_canopy_quantises_area_without_underbuild() -> None:

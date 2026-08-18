@@ -15,6 +15,7 @@ from .ugirder import (
     DYNAMIC_TRAIN_WIDTH_MM,
     ESCAPE_LEDGE_HEIGHT_MM,
     EXTERNAL_HEIGHT_MM,
+    EXTERNAL_WIDTH_MM,
     FLOOR_THICKNESS_MM,
     INTERNAL_WIDTH_MM,
     OPPOSITE_SIDE_CLEARANCE_MM,
@@ -26,7 +27,7 @@ REFERENCE_PARAPET_HEIGHT_ABOVE_WALKWAY_MM = (
     EXTERNAL_HEIGHT_MM - FLOOR_THICKNESS_MM - ESCAPE_LEDGE_HEIGHT_MM
 )
 DEFAULT_APPROVED_TRANSPORT_MASS_KG = 130_000.0
-DEFAULT_APPROVED_TRANSPORT_WIDTH_MM = 5_000.0
+DEFAULT_APPROVED_TRANSPORT_WIDTH_MM = 5_200.0
 DEFAULT_APPROVED_TRANSPORT_HEIGHT_MM = 2_100.0
 
 
@@ -84,7 +85,7 @@ class ViaductEnvelopeCheck:
     tracks: int = 2
     interior_bearing_count: int = 8
     transport_mass_kg: float | None = None
-    transport_width_mm: float = 4_900.0
+    transport_width_mm: float = EXTERNAL_WIDTH_MM
     transport_height_mm: float = 1_850.0
     approved_transport_mass_kg: float = DEFAULT_APPROVED_TRANSPORT_MASS_KG
     approved_transport_width_mm: float = DEFAULT_APPROVED_TRANSPORT_WIDTH_MM
@@ -107,13 +108,13 @@ def viaduct_envelope_issues(check: ViaductEnvelopeCheck) -> tuple[str, ...]:
             f"train-plus-egress requirement {required_width:g} mm"
         )
 
-    # Chord offset consumes the residual lateral space after the train,
-    # walkway, and opposite-side clearance. The tolerance/sway reserve remains
-    # unavailable to deliberate geometric offset.
+    # Chord offset may consume only width outside the protected sway,
+    # handrail, and construction-tolerance reserve.
     residual_mm = check.internal_width_mm - (
         check.dynamic_train_width_mm
         + check.clear_walkway_width_mm
         + check.opposite_side_clearance_mm
+        + check.tolerance_and_sway_mm
     )
     try:
         chord_offset_mm = straight_span_chord_offset_m(check.span_m, check.curve_radius_m) * 1000.0

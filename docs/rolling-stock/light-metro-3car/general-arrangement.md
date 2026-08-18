@@ -44,6 +44,7 @@
 | Car C length | 16 500 mm | modular car envelope |
 | Body width (outer) | 2 850 mm | concept envelope, fits UIC 505-1 gauge |
 | Height over rail (roof) | 3 450 mm | concept envelope, before roof equipment |
+| Overall running height | 3 900 mm controlled envelope; current CAD reaches 3 868 mm | includes PV, HVAC, mounts, and production tolerance |
 | Floor height (above top-of-rail) | 350 mm, 10 m low-floor centre door/PRM zone; 760 mm, ~3 m high-floor end decks over bogies | low-floor access with standard bogies |
 | Bogie wheelbase | 2 100 mm | RFC 0022 single-SKU bogie |
 | Wheel diameter (new / worn) | 760 / 680 mm | RFC 0022 |
@@ -82,9 +83,9 @@ seals/thresholds at 2 000 mm height.
 
 UIC 505-1 static envelope:
 - Width at floor level: 2 850 mm ≤ 3 150 mm limit ✓
-- Height over ToR: 3 450 mm ≤ 4 320 mm limit ✓
-- Dynamic outline (+ 80 mm lateral, + 50 mm vertical at max
-  cant + sway): 2 930 × 3 500 mm — still inside the 3 150 ×
+- Overall height over ToR: 3 900 mm ≤ 4 320 mm limit ✓
+- Dynamic outline (controlled lateral sway and +30 mm vertical excursion):
+  2 970 × 3 930 mm — still inside the 3 150 ×
   4 320 mm boundary ✓
 
 No interference with UIC 505-1 at any of the RFC 0009 track

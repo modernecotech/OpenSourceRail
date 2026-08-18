@@ -76,6 +76,16 @@ The source geometry uses the local `osr_mech.cad` facade. Under
 ordinary Python it keeps lightweight volume and bounding-box metadata so
 the unit tests can run without a local FreeCAD install.
 
+For an end-to-end civil review, run
+`scripts/freecad_civil_systems_example.sh`. It creates
+[`catalog/freecad/civil-systems-integration-test.FCStd`](catalog/freecad/civil-systems-integration-test.FCStd)
+with canonical viaduct, elevated-station, ground-station, turnout, and two
+complete three-car trainset assemblies plus executable bearing, track-support,
+platform-height, and clearance checks. Its paired
+[`catalog/freecad/civil-systems-integration-test.json`](catalog/freecad/civil-systems-integration-test.json)
+provides stable asset IDs, transforms, relationships, design-reference
+operational state, validation results, and a hash of the native model.
+
 Key rolling-stock source entry points:
 
 | Source | Scope |
@@ -125,6 +135,12 @@ pip install -e .[test]
 # From this mechanical-py directory, regenerate every tracked FreeCAD
 # review document, FEM screening model, and screenshot set.
 ../scripts/freecad-generate.sh --all
+
+# Render the two-scene civil/rolling-stock twin and encode the front-page GIF.
+../scripts/freecad-generate.sh --digital-twin-animation
+
+# Render the source-linked track/station/viaduct/train production twin.
+../scripts/freecad-generate.sh --fabrication-twin
 
 # From this mechanical-py directory, iterate the rolling-stock design
 # space and then generate the buildable product tree, definitions, and
@@ -229,6 +245,8 @@ deployment partners can regenerate the same artifacts from one command:
   `catalog/freecad/fea-screening-models.FCStd`
 - `--screenshots` and `--station-scenes` → stable documentation images
   under `docs/screenshots/freecad/` and `docs/screenshots/stations/`
+- `--samawah-line-twin` → the full-line FreeCAD/JSON asset twin plus the
+  Blender 5.2 perspective S5 operations scene, MP4, and README GIF
 
 `osr_mech.freecad_trainset` builds a structured FreeCAD document
 directly from the parametric source geometry. The resulting `.FCStd`

@@ -7,6 +7,13 @@ from pathlib import Path
 
 import FreeCAD as App  # type: ignore[import-not-found]
 
+from osr_mech.civil.slab import (
+    BASEPLATE_PAD_HEIGHT_MM,
+    ELEVATED_BASE_THICKNESS_MM,
+    ELEVATED_PLINTH_HEIGHT_MM,
+)
+from osr_mech.civil.ugirder import FLOOR_THICKNESS_MM
+from osr_mech.common import STANDARD_GAUGE_MM
 from osr_mech.freecad_sources import source_shape
 
 
@@ -15,7 +22,7 @@ CATALOGUE = {
         ("civil-at-grade-slab-panel", "At-grade ballastless slab panel"),
         ("civil-elevated-deck-slab-panel", "Elevated deck slab panel"),
         ("civil-u-girder-25m", "Precast U-trough feature envelope, 25 m"),
-        ("civil-segmental-u-25m", "Segmental U/box coordination envelope, 25 m"),
+        ("civil-segmental-u-25m", "Curved segmental U/box coordination envelope, 25 m R200"),
         ("civil-special-span-40m", "Special crossing interface envelope, 40 m"),
         ("civil-viaduct-pier-8m", "Shared double-track viaduct pier, 8 m"),
         ("civil-viaduct-abutment", "Shared double-track viaduct abutment"),
@@ -114,13 +121,20 @@ def build(output_dir: Path) -> None:
         ],
     )
     # Elevated platform: U-trough, thin alignment/local-plinth layer, and track.
+    elevated_rail_base_z = (
+        FLOOR_THICKNESS_MM
+        + ELEVATED_BASE_THICKNESS_MM
+        + ELEVATED_PLINTH_HEIGHT_MM
+        + BASEPLATE_PAD_HEIGHT_MM
+    )
     _assembly(
         output_dir / "platform-elevated-assembly.FCStd",
         "OSR elevated platform and track assembly",
         [
             ("civil-u-girder-25m", "25 m U-trough feature envelope", (0, 0, 0)),
-            ("civil-elevated-deck-slab-panel", "Elevated alignment/plinth panel", (0, 0, 1850)),
-            ("track-panel-standard-urban", "Elevated track panel", (0, 0, 2100)),
+            ("civil-elevated-deck-slab-panel", "Elevated alignment/plinth panel", (0, 0, FLOOR_THICKNESS_MM)),
+            ("track-rail-60e1-6m", "Elevated rail -Y", (0, -STANDARD_GAUGE_MM / 2.0, elevated_rail_base_z)),
+            ("track-rail-60e1-6m", "Elevated rail +Y", (0, STANDARD_GAUGE_MM / 2.0, elevated_rail_base_z)),
         ],
     )
     # Architectural station assembly shares the same platform datum.

@@ -8,8 +8,9 @@ bogie hunting + end-throw on curves).
 
 Real computation uses EN 15273 — "Railway applications. Gauges." The
 reference envelope below is approximated from the EN 15273
-infrastructure-gauge G2 family appropriate for an urban-metro
-2 650 mm × 3 600 mm light-metro body, and serves as the published
+infrastructure-gauge G2 family appropriate for the controlled
+2 850 mm × 3 900 mm overall, 16.5 m light-metro vehicle, including rooftop
+equipment, and serves as the published
 baseline for deployments that don't commission a full EN 15273
 analysis.
 
@@ -37,14 +38,20 @@ from osr_mech.cad import (
     Rectangle,
     extrude,
 )
+from osr_mech.rolling_stock.baseline import (
+    PROMOTED_LIGHT_METRO_BOGIE_CENTRE_SPACING_MM,
+    PROMOTED_LIGHT_METRO_CAR_OVERALL_HEIGHT_MM,
+    PROMOTED_LIGHT_METRO_CAR_LENGTH_MM,
+    PROMOTED_LIGHT_METRO_CAR_WIDTH_MM,
+)
 
-# Reference body dimensions — matches [osr_mech.rolling_stock.car_body]
-# defaults (light-metro-3car, RFC 0008).
-_REF_BODY_HALF_WIDTH_MM = 1325.0
-_REF_BODY_HEIGHT_MM = 3600.0
-_REF_BODY_LENGTH_MM = 22000.0
+# Reference body dimensions are imported from the promoted rolling-stock
+# baseline so civil clearance cannot silently retain a retired vehicle.
+_REF_BODY_HALF_WIDTH_MM = PROMOTED_LIGHT_METRO_CAR_WIDTH_MM / 2.0
+_REF_BODY_HEIGHT_MM = PROMOTED_LIGHT_METRO_CAR_OVERALL_HEIGHT_MM
+_REF_BODY_LENGTH_MM = PROMOTED_LIGHT_METRO_CAR_LENGTH_MM
 _REF_FLOOR_HEIGHT_MM = 0.0  # kinematic floor; rolling-stock floor is at 1100
-_REF_BOGIE_SPACING_MM = 15000.0  # approx between bogie-pivot centres
+_REF_BOGIE_SPACING_MM = PROMOTED_LIGHT_METRO_BOGIE_CENTRE_SPACING_MM
 
 
 @dataclass(frozen=True)
@@ -67,7 +74,7 @@ class KinematicEnvelope:
 
 
 # EN 15273-inferred baseline: 60 mm lateral + 30 mm vertical sway is a
-# conservative envelope for a 2 650 mm wide light-metro body at
+# conservative envelope for the controlled 2 850 mm wide light-metro body at
 # speeds ≤ 80 km/h on curves ≥ 200 m. End-throw is computed per
 # geometry at check time.
 EN_15273_INFERRED = KinematicEnvelope(
@@ -76,6 +83,12 @@ EN_15273_INFERRED = KinematicEnvelope(
     mid_throw_mm=0.0,
     vertical_mm=30.0,
 )
+
+
+def reference_dynamic_width_mm() -> float:
+    """Tangent dynamic width of the controlled car including sway."""
+
+    return PROMOTED_LIGHT_METRO_CAR_WIDTH_MM + 2.0 * EN_15273_INFERRED.lateral_sway_mm
 
 
 def reference_envelope() -> KinematicEnvelope:
@@ -242,5 +255,6 @@ __all__ = [
     "check_feature",
     "envelope_swept_on_curve",
     "reference_envelope",
+    "reference_dynamic_width_mm",
     "swept_envelope_part",
 ]

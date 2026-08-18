@@ -89,7 +89,10 @@ def station_canopy(
         parts.append(frame)
 
         roof = solar_roof_panel(length_mm=BAY_SPACING_MM, depth_mm=PLATFORM_DEPTH_MM)
-        roof = roof.translate((i * BAY_SPACING_MM, 0.0, CLEAR_HEIGHT_MM + 200.0))
+        # The panel spans from the 700 mm track-side eave at -Y to the
+        # rear-column line at +Y=PLATFORM_DEPTH_MM.
+        roof_y = (PLATFORM_DEPTH_MM - EAVE_OVERHANG_MM) / 2.0
+        roof = roof.translate((i * BAY_SPACING_MM, roof_y, CLEAR_HEIGHT_MM + 200.0))
         parts.append(roof)
 
     # Trailing column at the end of the last bay.

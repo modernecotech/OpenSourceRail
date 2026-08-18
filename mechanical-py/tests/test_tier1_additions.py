@@ -19,8 +19,13 @@ from osr_mech.clearance import (
     InfrastructureFeature,
     check_feature,
     envelope_swept_on_curve,
+    reference_dynamic_width_mm,
     reference_envelope,
     swept_envelope_part,
+)
+from osr_mech.rolling_stock.baseline import (
+    PROMOTED_LIGHT_METRO_CAR_LENGTH_MM,
+    PROMOTED_LIGHT_METRO_CAR_WIDTH_MM,
 )
 from osr_mech.depot import DEFAULT_STALLS, DepotArchetype, depot_footprint, depot_layout, throat_turnout_count
 from osr_mech.track.turnout import CATALOGUE, TurnoutTangent, turnout, turnout_footprint_mm
@@ -127,6 +132,9 @@ def test_reference_envelope_has_nonzero_sway() -> None:
     e = reference_envelope()
     assert e.lateral_sway_mm > 0
     assert e.vertical_mm > 0
+    assert reference_dynamic_width_mm() == (
+        PROMOTED_LIGHT_METRO_CAR_WIDTH_MM + 2.0 * e.lateral_sway_mm
+    )
 
 
 def test_tight_curve_increases_end_throw() -> None:
@@ -144,8 +152,7 @@ def test_tangent_radius_keeps_base_envelope() -> None:
 
 
 def test_tunnel_wall_pass() -> None:
-    """A tunnel wall at 2 000 mm lateral offset passes for the
-    reference envelope (body half-width 1 325 + sway 60 = 1 385)."""
+    """A tunnel wall at 2 000 mm clears the controlled dynamic body."""
     wall = InfrastructureFeature(
         name="tunnel wall",
         lateral_offset_mm=2_000.0,
@@ -174,7 +181,7 @@ def test_tight_curve_platform_edge_fails() -> None:
     assert not report.passes, f"expected fail, got {report}"
 
 
-_REF_BODY_HALF_LENGTH = 11_000.0
+_REF_BODY_HALF_LENGTH = PROMOTED_LIGHT_METRO_CAR_LENGTH_MM / 2.0
 
 
 def test_swept_envelope_part_has_volume() -> None:
@@ -194,7 +201,7 @@ def test_prm_zones_have_expected_counts() -> None:
     labels = [getattr(c, "label", "") or "" for c in children]
     assert sum("Wheelchair bay" in l for l in labels) == 2
     assert sum("Priority seat" in l for l in labels) == 4
-    assert sum("Tactile" in l for l in labels) == 3
+    assert sum("Tactile" in l for l in labels) == ACCESSIBILITY_SPEC.tactile_strip_count
 
 
 def test_prm_catalogue_constants_match_car() -> None:

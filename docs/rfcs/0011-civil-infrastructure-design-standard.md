@@ -171,7 +171,7 @@ conditions to `Elevated` where it previously would have emitted
 
 - **Structure:** paired single-track precast concrete U-troughs. OSR-U25 is
   the primary simply supported product and OSR-U20 is the closure product.
-  The planning clear width is 4.5 m (4.9 m external) so the 2.93 m dynamic
+  The planning clear width is 4.72 m (5.12 m external) so the 2.97 m dynamic
   train envelope can coexist with a 1.0 m escape walkway. OSR-U30 is not
   released until project transport, lifting, and structural checks close.
 - **Piers:** single-column reinforced concrete, 1.5 m × 2.0 m
@@ -210,7 +210,7 @@ conditions to `Elevated` where it previously would have emitted
   matches the "one spares pool, one CAD reuse" principle from
   RFC 0008 / 0009 / 0010.
 - **Double-track substructure, repeated single-track girders.** One shared
-  hollow/precast-shell cap carries two identical U-troughs at 5.3 m centres. A
+  hollow/precast-shell cap carries two identical U-troughs at 5.52 m centres. A
   single-track initial line still builds the shared substructure and may
   defer the second girder until capacity demands it.
 - **Simply-supported, not continuous.** Continuous spans give a

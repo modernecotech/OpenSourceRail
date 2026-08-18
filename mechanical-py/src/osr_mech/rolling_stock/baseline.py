@@ -16,6 +16,17 @@ PROMOTED_CANDIDATE_ID = (
 
 PROMOTED_LIGHT_METRO_CAR_LENGTH_M = 16.5
 PROMOTED_LIGHT_METRO_CAR_LENGTH_MM = PROMOTED_LIGHT_METRO_CAR_LENGTH_M * 1_000.0
+PROMOTED_LIGHT_METRO_CAR_WIDTH_MM = 2_850.0
+# Structural body roof before mounted PV/HVAC equipment.
+PROMOTED_LIGHT_METRO_CAR_HEIGHT_MM = 3_450.0
+# Controlled overall running height containing the current 3,868 mm CAD
+# assembly plus production tolerance. Civil clearance uses this value, while
+# CarDimensions continues to use the structural body-roof height above.
+PROMOTED_LIGHT_METRO_CAR_OVERALL_HEIGHT_MM = 3_900.0
+# The promoted body places bogie pivots 2.1 m inboard from each car end.
+PROMOTED_LIGHT_METRO_BOGIE_CENTRE_SPACING_MM = (
+    PROMOTED_LIGHT_METRO_CAR_LENGTH_MM - 2.0 * 2_100.0
+)
 PROMOTED_LIGHT_METRO_TRAINSET_LENGTH_M = 49.5
 PROMOTED_LIGHT_METRO_TRAINSET_LENGTH_MM = PROMOTED_LIGHT_METRO_TRAINSET_LENGTH_M * 1_000.0
 

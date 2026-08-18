@@ -501,6 +501,23 @@ Full evidence and provenance: [`engineering/simulation/validation-summary.json`]
 |---|---|
 | ![Samawah energy and battery simulation dashboard](engineering/screenshots/samawah-simulation-dashboard.png) | ![Samawah simulator network visualizer](engineering/screenshots/samawah-network-visualizer.png) |
 
+## Line 1 operational digital twin
+
+The source-linked package combines a complete FreeCAD/JSON Line 1 asset twin
+with a Blender-rendered perspective operations demonstrator. The register
+covers the alignment, civil classes, stations, energy sites, depot, signalling
+blocks, and all 53 trainsets; the animation shows a refined LM3 operating
+through the S5 elevated station at one animation second per real second. It is
+a planning twin rather than live telemetry or construction CAD.
+
+![Samawah Line 1 animated operational digital twin](engineering/digital-twin/samawah-line1-digital-twin.gif)
+
+Open the [digital-twin package](engineering/digital-twin/README.md),
+[native FreeCAD model](engineering/digital-twin/samawah-line1-digital-twin.FCStd),
+[Blender source scene](engineering/digital-twin/samawah-line1-digital-twin.blend),
+[high-quality MP4](engineering/digital-twin/samawah-line1-digital-twin.mp4),
+or [asset/state manifest](engineering/digital-twin/samawah-line1-digital-twin.json).
+
 ## SUMO, QGIS, and energy screening
 
 These are executed city-specific screening runs. They establish model consistency and expose planning findings; they are not a calibrated operational or construction acceptance.

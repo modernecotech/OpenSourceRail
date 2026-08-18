@@ -9,7 +9,7 @@
 //!
 //! Plus the permanent-way materials that ship with the alignment:
 //!
-//! - **Rail tonnage** (two rails at the profile's linear mass per metre).
+//! - **Rail tonnage** (two rails per track at the profile mass per metre).
 //! - **Sleeper count** (at the geometry preset's spacing).
 //! - **Ballast volume** (from the track panel's ballast profile).
 //! - **Concrete volume** (viaduct U-girder segments per elevated length).
@@ -69,7 +69,7 @@ pub struct EarthworksQuantities {
     /// Elevated length: where CivilSection::Elevated or Bridge.
     pub elevated_length_m: f64,
     pub at_grade_length_m: f64,
-    /// Approximate rail tonnage (two running rails × linear mass × length).
+    /// Approximate rail tonnage (two running rails per track × mass × length).
     pub rail_tonnes: f64,
     /// Approximate sleeper count (spacing × length).
     pub sleeper_count: u64,
@@ -83,28 +83,57 @@ pub struct EarthworksQuantities {
 /// for take-off.
 #[derive(Clone, Copy, Debug, PartialEq, Serialize, Deserialize)]
 pub struct PermanentWayParams {
+    /// Number of tracks represented by one route alignment (normally two).
+    pub track_count: u32,
     /// Linear mass of one rail, kg/m (UIC 54E1 ≈ 54.77, 60E1 ≈ 60.21).
     pub rail_linear_mass_kg_per_m: f64,
     /// Sleeper spacing, metres (0.6 m standard metro, 0.65 urban tram).
     pub sleeper_spacing_m: f64,
-    /// Ballast cross-section area per metre of track, m² (typ. 1.7 m²).
-    pub ballast_cross_section_m2: f64,
-    /// U-girder concrete cross-section area per metre, m² (typ. 2.1 m²).
-    pub ugirder_cross_section_m2: f64,
+    /// Ballast cross-section area per metre of one track, m².
+    pub ballast_cross_section_m2_per_track: f64,
+    /// Twin-track girder plus local-plinth concrete per route metre, m².
+    pub elevated_concrete_cross_section_m2: f64,
     /// Typical formation width per at-grade track, metres.
     pub formation_width_m: f64,
 }
 
 impl Default for PermanentWayParams {
     fn default() -> Self {
+        let model: ViaductQuantityModel = toml::from_str(include_str!(
+            "../../../docs/civil/viaduct-quantity-cost-model.toml"
+        ))
+        .expect("canonical viaduct quantity model must parse");
+        let running_rail_count = f64::from(model.tracks * 2);
         Self {
-            rail_linear_mass_kg_per_m: 60.21, // UIC 60E1
+            track_count: model.tracks,
+            rail_linear_mass_kg_per_m: model.quantities.rail_kg_per_km
+                / running_rail_count
+                / 1_000.0,
             sleeper_spacing_m: 0.6,
-            ballast_cross_section_m2: 1.7,
-            ugirder_cross_section_m2: 2.1,
+            ballast_cross_section_m2_per_track: 1.7,
+            elevated_concrete_cross_section_m2: (model
+                .quantities
+                .bare_precast_girder_concrete_m3_per_km
+                + model
+                    .quantities
+                    .thin_alignment_layer_and_plinth_concrete_m3_per_km)
+                / 1_000.0,
             formation_width_m: 6.0,
         }
     }
+}
+
+#[derive(Deserialize)]
+struct ViaductQuantityModel {
+    tracks: u32,
+    quantities: ViaductQuantities,
+}
+
+#[derive(Deserialize)]
+struct ViaductQuantities {
+    bare_precast_girder_concrete_m3_per_km: f64,
+    thin_alignment_layer_and_plinth_concrete_m3_per_km: f64,
+    rail_kg_per_km: f64,
 }
 
 /// Callback: for a given (x_m, y_m), return the terrain elevation in
@@ -166,10 +195,12 @@ pub fn compute_quantities(
     }
 
     let total_len = elevated_len + at_grade_len;
-    let rail_tonnes = 2.0 * params.rail_linear_mass_kg_per_m * total_len / 1000.0;
-    let sleeper_count = (total_len / params.sleeper_spacing_m).round() as u64;
-    let ballast_m3 = params.ballast_cross_section_m2 * at_grade_len;
-    let concrete_m3 = params.ugirder_cross_section_m2 * elevated_len;
+    let rail_count = f64::from(params.track_count * 2);
+    let track_count = f64::from(params.track_count);
+    let rail_tonnes = rail_count * params.rail_linear_mass_kg_per_m * total_len / 1000.0;
+    let sleeper_count = (track_count * total_len / params.sleeper_spacing_m).round() as u64;
+    let ballast_m3 = track_count * params.ballast_cross_section_m2_per_track * at_grade_len;
+    let concrete_m3 = params.elevated_concrete_cross_section_m2 * elevated_len;
 
     EarthworksQuantities {
         alignment_length_m: alignment.total_length_m(),
@@ -307,7 +338,23 @@ mod tests {
             &|_s| CivilSection::AtGrade,
             PermanentWayParams::default(),
         );
-        // 1 km × 2 rails × 60.21 kg/m = ~120 tonnes.
-        assert!((q.rail_tonnes - 120.42).abs() < 5.0, "{}", q.rail_tonnes);
+        // 1 route-km × 2 tracks × 2 rails × ~60 kg/m = ~240 tonnes.
+        assert!((q.rail_tonnes - 240.0).abs() < 5.0, "{}", q.rail_tonnes);
+        assert_eq!(q.sleeper_count, 3_333);
+    }
+
+    #[test]
+    fn elevated_quantities_match_canonical_twin_track_cost_model() {
+        let a = flat_alignment();
+        let params = PermanentWayParams::default();
+        let q = compute_quantities(
+            &a,
+            50.0,
+            &|_x, _y| 0.0,
+            &|_s| CivilSection::Elevated,
+            params,
+        );
+        assert_eq!(params.track_count, 2);
+        assert!((q.concrete_m3 - 4_411.2).abs() < 1.0, "{}", q.concrete_m3);
     }
 }

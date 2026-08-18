@@ -1,6 +1,6 @@
 # Viaduct Transport And Erection Envelope
 
-OSR-U25 is a permit-load component approximately 25 m long, 4.9 m wide, 1.85 m
+OSR-U25 is a permit-load component approximately 25 m long, 5.12 m wide, 1.85 m
 deep, and about 117 t using the deliberately simple CAD section. Supplier
 optimisation will change mass, but no project may assume standard-road
 transport or a generic crane from these planning dimensions.
@@ -12,7 +12,7 @@ launcher reactions, tandem-lift synchronisation, wind limits, lifting points,
 temporary open-section bracing, bearing survey, contingency landing position,
 and rescue/recovery method.
 
-The automated seed limits OSR-U25 to a 130 t, 5.0 m wide, 2.1 m high approved
+The automated seed limits OSR-U25 to a 130 t, 5.2 m wide, 2.1 m high approved
 transport/erection envelope. These are test defaults, not public-road limits.
 OSR-U30 exceeds the default mass screen and remains unreleased until a larger
 project envelope is explicitly approved.
