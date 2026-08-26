@@ -10,9 +10,10 @@ use axum::{Json, Router};
 use serde::Serialize;
 use tokio::sync::Mutex;
 
+use crate::jobs::JobManager;
 use crate::model::{
-    ControlPointCreate, ControlPointEdit, LineCreate, LineEdit, LineServicePlan, ProjectView,
-    StationCreate, StationEdit,
+    ControlPointCreate, ControlPointEdit, JobRequest, LineCreate, LineEdit, LineServicePlan,
+    ProjectView, StationCreate, StationEdit,
 };
 use crate::CityProject;
 
@@ -21,6 +22,7 @@ struct AppState {
     project_root: PathBuf,
     repository_root: PathBuf,
     write_lock: Arc<Mutex<()>>,
+    jobs: JobManager,
 }
 
 #[derive(Debug)]
@@ -60,10 +62,18 @@ pub async fn serve(project_root: impl AsRef<Path>, host: &str, port: u16) -> Res
         .repository_root
         .map(PathBuf::from)
         .unwrap_or_else(|| project_root.clone());
+    let write_lock = Arc::new(Mutex::new(()));
+    let jobs = JobManager::new(
+        project_root.clone(),
+        repository_root.clone(),
+        project.config().project.slug.clone(),
+        write_lock.clone(),
+    )?;
     let state = AppState {
         project_root,
         repository_root,
-        write_lock: Arc::new(Mutex::new(())),
+        write_lock,
+        jobs,
     };
     let app = Router::new()
         .route("/", get(index))
@@ -78,6 +88,8 @@ pub async fn serve(project_root: impl AsRef<Path>, host: &str, port: u16) -> Res
         .route("/api/control-points/:id", put(put_control_point))
         .route("/api/services/:line/:day_type", put(put_service))
         .route("/api/compile", post(compile_project))
+        .route("/api/jobs", get(get_jobs))
+        .route("/api/jobs/:id", get(get_job).post(start_job))
         .route(
             "/api/revisions",
             get(get_revisions).post(materialize_revision),
@@ -265,6 +277,30 @@ async fn compile_project(
         "path": output.display().to_string(),
         "snapshot": project.compile()?,
     })))
+}
+
+async fn get_jobs(State(state): State<AppState>) -> Json<serde_json::Value> {
+    Json(serde_json::json!({
+        "adapters": JobManager::catalog(),
+        "jobs": state.jobs.list().await,
+    }))
+}
+
+async fn get_job(
+    State(state): State<AppState>,
+    AxumPath(id): AxumPath<String>,
+) -> Result<Json<crate::model::JobRecord>, ApiError> {
+    Ok(Json(state.jobs.get(&id).await?))
+}
+
+async fn start_job(
+    State(state): State<AppState>,
+    AxumPath(adapter): AxumPath<String>,
+    Json(request): Json<JobRequest>,
+) -> Result<(StatusCode, Json<crate::model::JobRecord>), ApiError> {
+    let _guard = state.write_lock.lock().await;
+    let record = state.jobs.start(&adapter, request).await?;
+    Ok((StatusCode::ACCEPTED, Json(record)))
 }
 
 async fn materialize_revision(

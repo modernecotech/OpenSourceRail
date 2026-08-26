@@ -45,6 +45,11 @@ const api = {
   compareRevision: (id) => api.request(
     `/api/revisions/${encodeURIComponent(id)}/compare`
   ),
+  jobs: () => api.request("/api/jobs"),
+  job: (id) => api.request(`/api/jobs/${encodeURIComponent(id)}`),
+  startJob: (adapter, body) => api.request(`/api/jobs/${encodeURIComponent(adapter)}`, {
+    method: "POST", body: JSON.stringify(body),
+  }),
 };
 
 let view = null;
@@ -57,13 +62,15 @@ let mapMode = "select";
 let pendingLineStart = null;
 let revisions = null;
 let comparison = null;
+let jobView = { adapters: [], jobs: [] };
+let jobPollTimer = null;
 const lineColours = ["#56d39b", "#5eb9e8", "#e88859", "#a98aef", "#e96d95"];
 
 const $ = (selector) => document.querySelector(selector);
 
 async function load() {
   try {
-    [view, revisions] = await Promise.all([api.project(), api.revisions()]);
+    [view, revisions, jobView] = await Promise.all([api.project(), api.revisions(), api.jobs()]);
     selectedStation = selectedStation
       ? view.snapshot.stations.find((item) => item.id === selectedStation.id) || null
       : null;
@@ -88,6 +95,7 @@ function render() {
   renderServiceEditor();
   renderFindings();
     renderArtifacts();
+    renderJobs();
     renderRevisionSelector();
     renderRevisionComparison();
 }
@@ -676,6 +684,53 @@ function renderArtifacts() {
   $("#artifacts").innerHTML = view.artifacts.map((artifact) =>
     `<div class="artifact ${artifact.exists ? "" : "missing"}"><strong>${escapeHtml(artifact.category)} · ${escapeHtml(artifact.label)}</strong><small>${escapeHtml(artifact.path)} · ${artifact.exists ? "available" : "not generated"}</small></div>`
   ).join("");
+}
+
+function renderJobs() {
+  $("#job-adapters").innerHTML = jobView.adapters.map((adapter) =>
+    `<div class="job-adapter"><div><strong>${escapeHtml(adapter.category)} · ${escapeHtml(adapter.label)}</strong><small>${escapeHtml(adapter.description)}</small></div><button type="button" data-job-adapter="${escapeHtml(adapter.id)}">Run</button></div>`
+  ).join("");
+  document.querySelectorAll("[data-job-adapter]").forEach((button) => {
+    button.addEventListener("click", () => startEngineeringJob(button.dataset.jobAdapter));
+  });
+  $("#jobs").innerHTML = jobView.jobs.slice(0, 6).map((job) => {
+    const artifacts = job.artifacts.length
+      ? `<div class="job-artifacts">${job.artifacts.map((artifact) => `<small>${escapeHtml(artifact.kind)} · ${escapeHtml(artifact.path)} · ${escapeHtml(artifact.sha256.slice(0, 12))}</small>`).join("")}</div>`
+      : "";
+    const log = job.log_tail
+      ? `<details class="job-log"><summary>Captured log</summary><pre>${escapeHtml(job.log_tail)}</pre></details>`
+      : "";
+    return `<div class="job-card ${escapeHtml(job.status)}"><div class="job-title"><strong>${escapeHtml(job.label)}</strong><span class="job-status">${escapeHtml(job.status)}</span></div><small>${escapeHtml(job.phase)} · ${job.progress_percent}% · ${escapeHtml(job.revision_id)}</small><div class="job-progress"><i style="width:${job.progress_percent}%"></i></div><small class="job-command">${escapeHtml(job.command.join(" "))}</small>${job.error ? `<small class="error">${escapeHtml(job.error)}</small>` : ""}${artifacts}${log}</div>`;
+  }).join("") || '<div class="artifact missing"><strong>No engineering jobs yet</strong><small>Run an allowlisted adapter above; arbitrary shell commands are never accepted.</small></div>';
+  scheduleJobPoll();
+}
+
+async function startEngineeringJob(adapter) {
+  const body = {};
+  if (adapter === "simulation") body.day_type = $("#service-day").value;
+  if (adapter === "alignment-exchange") body.line = $("#service-line").value;
+  try {
+    const job = await api.startJob(adapter, body);
+    jobView.jobs.unshift(job);
+    renderJobs();
+    toast(`${job.label} queued with captured logs and artifact hashing.`);
+  } catch (error) {
+    toast(error.message, true);
+  }
+}
+
+function scheduleJobPoll() {
+  window.clearTimeout(jobPollTimer);
+  if (!jobView.jobs.some((job) => ["queued", "running"].includes(job.status))) return;
+  jobPollTimer = window.setTimeout(async () => {
+    try {
+      jobView = await api.jobs();
+      renderJobs();
+      renderArtifacts();
+    } catch (error) {
+      toast(error.message, true);
+    }
+  }, 800);
 }
 
 function renderRevisionSelector() {

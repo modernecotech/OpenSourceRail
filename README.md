@@ -135,6 +135,20 @@ lender terms must be established before procurement.
 with remaining validation and hardening tracked in
 [docs/ROADMAP.md](docs/ROADMAP.md).
 
+## City Studio
+
+City Studio centralizes deterministic network authoring, source-locked
+demand/buildability routing, station placement, line/day/time service planning,
+simulation, alignment exchange, artifact hashing, and Git revision review.
+
+![City Studio network authoring and demand-aware routing interface](docs/screenshots/city-studio/network-and-service.png)
+
+![City Studio service planning and controlled engineering job history](docs/screenshots/city-studio/engineering-jobs.png)
+
+Run it locally with `cargo run -p osr-city-studio -- serve`, then open
+<http://127.0.0.1:8090/>. See the
+[City Studio guide](docs/city-studio/README.md) for the project and Git workflow.
+
 ## Adoption And Assurance Path
 
 OpenSourceRail is not asking a city to accept an uncertified full-stack

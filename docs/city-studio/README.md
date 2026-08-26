@@ -10,6 +10,12 @@ review.
 The controlling design decision is
 [RFC 0031](../rfcs/0031-city-studio-git-revisions.md).
 
+## Interface
+
+![City Studio network authoring, routing strategy, validation, and revision controls](../screenshots/city-studio/network-and-service.png)
+
+![City Studio line/day/time service planning and controlled engineering jobs](../screenshots/city-studio/engineering-jobs.png)
+
 ## Run
 
 From the repository root:
@@ -93,12 +99,14 @@ Implemented:
 - deterministic candidate and revision hashes;
 - in-GUI semantic comparison of station, line, service, and summary changes;
 - day-type-specific simulator scenarios and a hash-addressed artifact manifest;
+- allowlisted GIS compilation, one-hour simulator, and LandXML/railML alignment
+  jobs with persistent progress, command display, captured logs, exit state,
+  and SHA-256 artifact records;
 - visibility of existing GIS, engineering, simulation, operations, and release
   artifacts.
 
 Next:
 
-- simulator and engineering job adapters with progress/log capture;
 - CAD/IFC and richer GIS viewers;
 - demand/OD matrices and platform/interchange capacity;
 - project approval records and object-aware Git merge assistance.
@@ -128,3 +136,24 @@ The revision comparison panel compares any committed revision JSON with the
 current working candidate. It reports object additions, removals, movements,
 line length/station-count changes, and service/fleet/capacity deltas before a
 new revision is materialized.
+
+## Controlled engineering jobs
+
+The engineering hub exposes three fixed adapters:
+
+- **Compile GIS package** publishes the candidate snapshot, GeoJSON, day-type
+  scenarios, and manifest;
+- **Run network simulation** executes a fixed one-hour compact `osr-sim` run
+  for the selected day type and rejects invariant violations;
+- **Export LandXML and railML** converts the selected candidate line to local
+  engineering coordinates and runs `osr-alignment-export`, producing review
+  JSON, stakeout CSV, LandXML, and railML.
+
+Jobs serialize through one engineering slot. Their records and full logs live
+under `build/city-studio/<slug>/jobs/<job-id>/`; the browser displays status,
+progress, the effective command, a bounded log tail, and every output hash.
+Project edits serialize against the running job, and a queued job fails if its
+recorded revision has become stale. Interrupted records are marked failed when
+the server restarts. Adapter ids, arguments, durations, and binaries are
+allowlisted in Rust—the API never accepts an executable name or arbitrary shell
+text.

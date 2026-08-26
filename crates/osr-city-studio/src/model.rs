@@ -439,6 +439,68 @@ pub struct StudioArtifact {
     pub exists: bool,
 }
 
+#[derive(Clone, Debug, Deserialize, Serialize)]
+pub struct JobRequest {
+    #[serde(default)]
+    pub day_type: Option<String>,
+    #[serde(default)]
+    pub line: Option<String>,
+}
+
+#[derive(Clone, Debug, Serialize)]
+pub struct JobAdapterInfo {
+    pub id: String,
+    pub category: String,
+    pub label: String,
+    pub description: String,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize, PartialEq, Eq)]
+#[serde(rename_all = "kebab-case")]
+pub enum JobStatus {
+    Queued,
+    Running,
+    Succeeded,
+    Failed,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+pub struct JobArtifact {
+    pub kind: String,
+    pub path: String,
+    pub sha256: String,
+    pub size_bytes: u64,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+pub struct JobRecord {
+    pub schema_version: u32,
+    pub id: String,
+    pub adapter: String,
+    pub label: String,
+    pub revision_id: String,
+    pub status: JobStatus,
+    pub progress_percent: u8,
+    pub phase: String,
+    pub command: Vec<String>,
+    pub requested_day_type: Option<String>,
+    pub requested_line: Option<String>,
+    pub created_unix_ms: u128,
+    #[serde(default)]
+    pub started_unix_ms: Option<u128>,
+    #[serde(default)]
+    pub completed_unix_ms: Option<u128>,
+    #[serde(default)]
+    pub exit_code: Option<i32>,
+    #[serde(default)]
+    pub error: Option<String>,
+    pub log_path: String,
+    #[serde(default)]
+    pub log_tail: String,
+    #[serde(default)]
+    pub artifacts: Vec<JobArtifact>,
+}
+
 #[derive(Clone, Debug, Deserialize)]
 pub struct StationEdit {
     pub state: IntentState,

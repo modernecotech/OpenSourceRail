@@ -14,6 +14,7 @@
 }
 
 * { box-sizing: border-box; }
+[hidden] { display: none !important; }
 body {
   margin: 0;
   background: radial-gradient(circle at 15% 0%, #143329 0, var(--bg) 38rem);
@@ -180,6 +181,24 @@ textarea[readonly] { color: var(--muted); resize: vertical; }
 .finding.info { border-left: 3px solid var(--accent-2); }
 .finding small, .artifact small { display: block; color: var(--muted); overflow-wrap: anywhere; }
 .artifact.missing { opacity: .52; }
+.job-adapters, .jobs { padding: 1rem; display: grid; gap: .65rem; }
+.job-adapters { border-bottom: 1px solid var(--line); }
+.job-adapter, .job-card { padding: .75rem; border: 1px solid var(--line); border-radius: 8px; background: var(--panel-raised); }
+.job-adapter { display: grid; grid-template-columns: 1fr auto; gap: .65rem; align-items: center; }
+.job-adapter small, .job-card small { display: block; color: var(--muted); }
+.job-adapter button { padding: .45rem .65rem; }
+.job-card { display: grid; gap: .45rem; }
+.job-title { display: flex; justify-content: space-between; gap: .5rem; }
+.job-status { color: var(--warning); text-transform: uppercase; font-size: .68rem; font-weight: 800; letter-spacing: .08em; }
+.job-card.succeeded .job-status { color: var(--accent); }
+.job-card.failed .job-status { color: var(--danger); }
+.job-progress { height: 6px; overflow: hidden; border-radius: 4px; background: #07110f; }
+.job-progress i { display: block; height: 100%; background: var(--accent-2); }
+.job-command { font-family: ui-monospace, monospace; overflow-wrap: anywhere; }
+.job-artifacts { display: grid; gap: .2rem; }
+.job-log summary { cursor: pointer; color: var(--accent-2); }
+.job-log pre { max-height: 220px; overflow: auto; white-space: pre-wrap; color: var(--muted); background: #07110f; padding: .6rem; border-radius: 6px; font-size: .68rem; }
+.artifact-heading { padding: .2rem 1rem .7rem; color: var(--muted); font-size: .78rem; text-transform: uppercase; letter-spacing: .08em; }
 
 #service-form { padding: 1rem; }
 .service-span { max-width: 420px; margin-bottom: .8rem; }

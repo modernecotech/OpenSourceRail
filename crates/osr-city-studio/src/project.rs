@@ -2821,6 +2821,7 @@ fn compiler_source_hash() -> String {
     const SOURCES: &[(&str, &[u8])] = &[
         ("Cargo.toml", include_bytes!("../Cargo.toml")),
         ("src/lib.rs", include_bytes!("lib.rs")),
+        ("src/jobs.rs", include_bytes!("jobs.rs")),
         ("src/main.rs", include_bytes!("main.rs")),
         ("src/model.rs", include_bytes!("model.rs")),
         ("src/project.rs", include_bytes!("project.rs")),

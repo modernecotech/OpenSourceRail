@@ -184,9 +184,15 @@ The longer-term tool adapter boundary is:
                        ▼
     artifact + logs + findings + content hashes
 
-Adapters will wrap osr-design, osr-scenario, osr-sim, GDAL/QGIS,
-FreeCAD/IFC, SUMO, pandapower/pvlib, finance, and operations generation. The
-browser must never expose an unrestricted shell.
+The first implemented adapters compile the candidate GIS package, run a fixed
+one-hour `osr-sim` day-type scenario, and export a selected line through
+`osr-alignment-export` to LandXML, railML, review JSON, and stakeout CSV. They
+serialize through one job slot, persist records and full logs, expose progress
+and bounded log tails, and hash every output. Adapter names, binaries, and
+arguments are selected by Rust code; the browser cannot supply an executable
+or unrestricted shell text. Future adapters may wrap osr-design,
+osr-scenario, GDAL/QGIS, FreeCAD/IFC, SUMO, pandapower/pvlib, finance, and
+operations generation under the same boundary.
 
 ## 8. GitHub review policy
 
@@ -245,8 +251,10 @@ The Samawah project is the first committed acceptance fixture. It:
   tolerances for serialized floating-point values;
 - emits separate weekday, Friday, and weekend simulator scenarios plus a
   SHA-256 artifact manifest;
+- runs allowlisted GIS, simulator, and LandXML/railML alignment jobs with
+  persistent status, captured logs, and SHA-256 output records;
 - compiles without validation errors;
 - produces an identical content hash across repeated compilations.
 
-The next acceptance increment is controlled GIS/CAD/simulation job adapters
-with captured progress, logs, exit state, and artifact hashes.
+The next acceptance increment is CAD/IFC and richer GIS visualization, demand
+and interchange-capacity inputs, and project approval records.
