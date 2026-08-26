@@ -77,6 +77,9 @@ Implemented:
 - drag-to-move stations;
 - click-to-create manual stations with stable content-derived ids;
 - manual station naming, archetypes, movement, and retirement;
+- two-click manual line creation with stable endpoint-derived ids;
+- automatic terminal platforms and day-type service plans for new lines;
+- coordinated manual-line naming, alignment editing, and retirement;
 - locked-anchor-aware local corridor regeneration after station movement;
 - click-to-create and drag-to-edit alignment control points;
 - weekly day-type calendars;
@@ -91,7 +94,7 @@ Implemented:
 
 Next:
 
-- manual line creation and source-locked demand-aware route search;
+- source-locked demand-aware route search for manual-line alternatives;
 - simulator and engineering job adapters with progress/log capture;
 - CAD/IFC and richer GIS viewers;
 - demand/OD matrices and platform/interchange capacity;
@@ -99,12 +102,20 @@ Next:
 
 ## Map authoring
 
-The map has three explicit tools. **Select** inspects and drags existing
+The map has four explicit tools. **Select** inspects and drags existing
 objects. **Add station** inserts a manual station where a line is clicked,
-assigns a stable id, and opens its name/archetype inspector. **Edit alignment**
-adds a local corridor control point. Manual station additions and retirements
-rebuild both the candidate GeoJSON and the station definitions and ordered
-line references in every generated simulator scenario.
+assigns a stable id, and opens its name/archetype inspector. **Add line** takes
+two endpoints, creates a deterministically sampled radial corridor and two
+terminal platforms, and copies the existing day-type policy into editable
+service plans. **Edit alignment** adds a local corridor control point to either
+generated or manual lines. Manual station/line additions and retirements
+rebuild both the candidate GeoJSON and the station, line, fleet, dispatch, and
+ordered topology records in every generated simulator scenario.
+
+The initial manual-line corridor is the direct endpoint chord. Designers can
+shape it with alignment control points immediately. It is an explicit manual
+planning candidate, not a claim that the chord is buildable; source-locked
+cost/demand/buildability raster routing remains the next solver increment.
 
 The revision comparison panel compares any committed revision JSON with the
 current working candidate. It reports object additions, removals, movements,

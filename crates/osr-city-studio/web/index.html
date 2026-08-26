@@ -34,6 +34,7 @@
             <div class="map-tools" role="group" aria-label="Map authoring tool">
               <button type="button" class="map-tool active" data-mode="select">Select</button>
               <button type="button" class="map-tool" data-mode="station">Add station</button>
+              <button type="button" class="map-tool" data-mode="line">Add line</button>
               <button type="button" class="map-tool" data-mode="control">Edit alignment</button>
             </div>
             <p id="map-hint" class="hint">Select or drag an object to edit its intent.</p>
@@ -111,6 +112,18 @@
           <label>Design reason<textarea id="control-reason" rows="3"></textarea></label>
           <p id="control-change" class="change-note"></p>
           <button type="submit" class="primary">Save line geometry intent</button>
+        </form>
+        <form id="line-form" class="stack" hidden>
+          <label>Stable line ID<input id="line-id" readonly></label>
+          <label>Line name<input id="line-name" maxlength="120"></label>
+          <label>Shape<input id="line-shape" readonly></label>
+          <label>Route length<div class="input-suffix"><input id="line-length" readonly><span>km</span></div></label>
+          <label>Intent state<input id="line-state" readonly></label>
+          <label>Design reason<textarea id="line-reason" rows="3"></textarea></label>
+          <div class="form-actions split-actions">
+            <button type="button" id="delete-line" class="danger" hidden>Retire manual line</button>
+            <button type="submit" id="save-line" class="primary">Save line intent</button>
+          </div>
         </form>
         <div id="findings"></div>
       </aside>

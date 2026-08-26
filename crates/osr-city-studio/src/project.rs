@@ -9,12 +9,13 @@ use sha2::{Digest, Sha256};
 
 use crate::model::{
     BaseDesign, BuildArtifact, BuildManifest, CompiledControlPoint, CompiledLine, CompiledSnapshot,
-    CompiledStation, ControlPointCreate, ControlPointEdit, FindingSeverity, GitState, IntentState,
-    LineControlPoint, LineServicePlan, ManualStation, OverrideFile, ProjectFile, ResolvedSource,
-    RevisionComparison, RevisionControlDiff, RevisionLineDiff, RevisionListItem,
-    RevisionMaterialized, RevisionServiceDiff, RevisionStationDiff, RevisionSummaryDiff,
-    ServiceMetric, ServicePlan, SnapshotSummary, SourceLock, StationChange, StationCreate,
-    StationEdit, StationOverride, StudioArtifact, ValidationFinding,
+    CompiledStation, ControlPointCreate, ControlPointEdit, FindingSeverity, GeoPoint, GitState,
+    IntentState, LineControlPoint, LineCreate, LineEdit, LineServicePlan, ManualLine,
+    ManualStation, OverrideFile, ProjectFile, ResolvedSource, RevisionComparison,
+    RevisionControlDiff, RevisionLineDiff, RevisionListItem, RevisionMaterialized,
+    RevisionServiceDiff, RevisionStationDiff, RevisionSummaryDiff, ServiceMetric, ServicePlan,
+    SnapshotSummary, SourceLock, StationChange, StationCreate, StationEdit, StationOverride,
+    StudioArtifact, ValidationFinding,
 };
 
 const SNAPSHOT_SCHEMA_VERSION: u32 = 1;
@@ -101,6 +102,15 @@ impl CityProject {
 
     pub fn service_plan(&self) -> &ServicePlan {
         &self.service_plan
+    }
+
+    fn is_active_line(&self, id: &str) -> bool {
+        self.base.lines.iter().any(|line| line.name == id)
+            || self
+                .overrides
+                .manual_lines
+                .iter()
+                .any(|line| line.id == id && line.state != IntentState::Retired)
     }
 
     pub fn corridor(&self) -> &serde_json::Value {
@@ -269,6 +279,13 @@ impl CityProject {
         );
         changed_lines.extend(
             self.overrides
+                .manual_lines
+                .iter()
+                .filter(|line| line.state != IntentState::Retired)
+                .map(|line| line.id.clone()),
+        );
+        changed_lines.extend(
+            self.overrides
                 .stations
                 .iter()
                 .filter(|station| station.state == IntentState::Retired)
@@ -312,12 +329,36 @@ impl CityProject {
                     });
                 CompiledLine {
                     id: line.name.clone(),
+                    name: line.name.clone(),
                     shape: line.shape.clone(),
                     length_m,
                     station_count: station_counts.get(&line.name).copied().unwrap_or(0),
+                    state: IntentState::Generated,
+                    reason: String::new(),
                 }
             })
             .collect();
+        lines.extend(
+            self.overrides
+                .manual_lines
+                .iter()
+                .filter(|line| line.state != IntentState::Retired)
+                .map(|line| {
+                    let geometry = geometries
+                        .get(&line.id)
+                        .ok_or_else(|| anyhow!("no geometry for manual line {}", line.id))?;
+                    Ok(CompiledLine {
+                        id: line.id.clone(),
+                        name: line.name.clone(),
+                        shape: line.shape.clone(),
+                        length_m: polyline_length_m(&geometry.effective),
+                        station_count: station_counts.get(&line.id).copied().unwrap_or(0),
+                        state: IntentState::Manual,
+                        reason: line.reason.clone(),
+                    })
+                })
+                .collect::<Result<Vec<_>>>()?,
+        );
         lines.sort_by(|a, b| a.id.cmp(&b.id));
 
         let mut service_metrics = self.compute_service_metrics(&lines)?;
@@ -344,6 +385,10 @@ impl CityProject {
             manual_station_count: stations
                 .iter()
                 .filter(|station| station.state == IntentState::Manual)
+                .count(),
+            manual_line_count: lines
+                .iter()
+                .filter(|line| line.state == IntentState::Manual)
                 .count(),
             moved_station_count: changes.len(),
             edited_line_count: changed_lines.len(),
@@ -467,24 +512,16 @@ impl CityProject {
     }
 
     pub fn create_station(&mut self, line: &str, create: StationCreate) -> Result<String> {
-        if !self.base.lines.iter().any(|item| item.name == line) {
+        if !self.is_active_line(line) {
             bail!("unknown line {line:?}");
         }
         validate_station_name(&create.name)?;
         validate_manual_archetype(&create.archetype)?;
         validate_coordinates(Some(create.lat), Some(create.lon))?;
-        let feature = self
-            .corridor
-            .get("features")
-            .and_then(serde_json::Value::as_array)
-            .into_iter()
-            .flatten()
-            .find(|feature| {
-                feature["properties"]["name"].as_str() == Some(line)
-                    && feature["geometry"]["type"].as_str() == Some("LineString")
-            })
+        let source = self
+            .source_line_geometries()?
+            .remove(line)
             .ok_or_else(|| anyhow!("corridor has no geometry for line {line}"))?;
-        let source = geojson_coordinates(feature)?;
         let source_index = nearest_coordinate_index(&source, create.lon, create.lat);
         let [source_lon, source_lat] = source[source_index];
         let offset_m = haversine_m(create.lat, create.lon, source_lat, source_lon);
@@ -551,12 +588,166 @@ impl CityProject {
         write_toml_atomic(&path, &self.overrides)
     }
 
+    pub fn create_line(&mut self, create: LineCreate) -> Result<String> {
+        validate_station_name(&create.name)?;
+        validate_coordinates(Some(create.start_lat), Some(create.start_lon))?;
+        validate_coordinates(Some(create.end_lat), Some(create.end_lon))?;
+        let length_m = haversine_m(
+            create.start_lat,
+            create.start_lon,
+            create.end_lat,
+            create.end_lon,
+        );
+        if !(500.0..=100_000.0).contains(&length_m) {
+            bail!("manual line endpoints must be between 500 m and 100 km apart");
+        }
+        let seed = format!(
+            "{:.7}:{:.7}:{:.7}:{:.7}",
+            create.start_lat, create.start_lon, create.end_lat, create.end_lon
+        );
+        let id = format!("manual-line-{}", &sha256_bytes(seed.as_bytes())[..12]);
+        if self.base.lines.iter().any(|line| line.name == id)
+            || self.overrides.manual_lines.iter().any(|line| line.id == id)
+        {
+            bail!("a line already exists for these endpoints");
+        }
+        let points = interpolate_line_points(
+            create.start_lat,
+            create.start_lon,
+            create.end_lat,
+            create.end_lon,
+            50.0,
+        );
+        let route_length_m = polyline_length_m(
+            &points
+                .iter()
+                .map(|point| [point.lon, point.lat])
+                .collect::<Vec<_>>(),
+        );
+        self.overrides.manual_lines.push(ManualLine {
+            id: id.clone(),
+            name: create.name.trim().to_string(),
+            state: IntentState::Manual,
+            shape: "radial".to_string(),
+            points,
+            reason: create.reason.clone(),
+        });
+        for (suffix, name_suffix, lat, lon, chainage) in [
+            ("terminal-a", "A", create.start_lat, create.start_lon, 0.0),
+            (
+                "terminal-b",
+                "B",
+                create.end_lat,
+                create.end_lon,
+                route_length_m,
+            ),
+        ] {
+            self.overrides.manual_stations.push(ManualStation {
+                id: format!("{id}-{suffix}"),
+                name: format!("{} {name_suffix}", create.name.trim()),
+                line: id.clone(),
+                state: IntentState::Manual,
+                source_lat: lat,
+                source_lon: lon,
+                source_s_m: chainage,
+                lat,
+                lon,
+                archetype: "terminal".to_string(),
+                reason: "Terminal created with manual line".to_string(),
+            });
+        }
+        let day_types = self
+            .service_plan
+            .day_types
+            .iter()
+            .map(|day| day.id.clone())
+            .collect::<Vec<_>>();
+        for day_type in day_types {
+            let mut template = self
+                .service_plan
+                .line_plans
+                .iter()
+                .find(|plan| plan.day_type == day_type)
+                .cloned()
+                .ok_or_else(|| anyhow!("no service template for day type {day_type}"))?;
+            template.line = id.clone();
+            self.service_plan.line_plans.push(template);
+        }
+        self.overrides
+            .manual_lines
+            .sort_by(|left, right| left.id.cmp(&right.id));
+        self.overrides
+            .manual_stations
+            .sort_by(|left, right| left.id.cmp(&right.id));
+        self.service_plan.line_plans.sort_by(|left, right| {
+            left.line
+                .cmp(&right.line)
+                .then_with(|| left.day_type.cmp(&right.day_type))
+        });
+        let overrides_path = self.root.join(&self.config.inputs.network_overrides);
+        let service_path = self.root.join(&self.config.inputs.service_plan);
+        write_toml_atomic(&overrides_path, &self.overrides)?;
+        write_toml_atomic(&service_path, &self.service_plan)?;
+        Ok(id)
+    }
+
+    pub fn update_manual_line(&mut self, id: &str, edit: LineEdit) -> Result<()> {
+        validate_station_name(&edit.name)?;
+        if edit.state != IntentState::Manual {
+            bail!("manual lines remain manual; use the retire action to remove one");
+        }
+        let line = self
+            .overrides
+            .manual_lines
+            .iter_mut()
+            .find(|line| line.id == id && line.state != IntentState::Retired)
+            .ok_or_else(|| anyhow!("unknown active manual line {id:?}"))?;
+        line.name = edit.name.trim().to_string();
+        line.reason = edit.reason;
+        let path = self.root.join(&self.config.inputs.network_overrides);
+        write_toml_atomic(&path, &self.overrides)
+    }
+
+    pub fn retire_manual_line(&mut self, id: &str) -> Result<()> {
+        let line = self
+            .overrides
+            .manual_lines
+            .iter_mut()
+            .find(|line| line.id == id && line.state != IntentState::Retired)
+            .ok_or_else(|| anyhow!("only active manual lines can be retired"))?;
+        line.state = IntentState::Retired;
+        if line.reason.trim().is_empty() {
+            line.reason = "Retired through City Studio".to_string();
+        }
+        for station in self
+            .overrides
+            .manual_stations
+            .iter_mut()
+            .filter(|station| station.line == id)
+        {
+            station.state = IntentState::Retired;
+        }
+        for control in self
+            .overrides
+            .line_control_points
+            .iter_mut()
+            .filter(|control| control.line == id)
+        {
+            control.state = IntentState::Retired;
+        }
+        self.service_plan.line_plans.retain(|plan| plan.line != id);
+        let overrides_path = self.root.join(&self.config.inputs.network_overrides);
+        let service_path = self.root.join(&self.config.inputs.service_plan);
+        write_toml_atomic(&overrides_path, &self.overrides)?;
+        write_toml_atomic(&service_path, &self.service_plan)
+    }
+
     pub fn create_control_point(
         &mut self,
         line: &str,
         create: ControlPointCreate,
     ) -> Result<String> {
-        if !self.base.lines.iter().any(|item| item.name == line) {
+        if !self.is_active_line(line) {
             bail!("unknown line {line:?}");
         }
         validate_coordinates(Some(create.source_lat), Some(create.source_lon))?;
@@ -1007,12 +1198,53 @@ impl CityProject {
             }
         }
 
-        let line_ids: BTreeSet<&str> = self
+        let mut line_ids: BTreeSet<&str> = self
             .base
             .lines
             .iter()
             .map(|line| line.name.as_str())
             .collect();
+        let mut active_line_ids = line_ids.clone();
+        for line in &self.overrides.manual_lines {
+            if !line_ids.insert(line.id.as_str()) {
+                findings.push(ValidationFinding {
+                    severity: FindingSeverity::Error,
+                    code: "DUPLICATE_LINE_ID".to_string(),
+                    message: "manual line id duplicates another line".to_string(),
+                    object_id: Some(line.id.clone()),
+                });
+            }
+            if line.state != IntentState::Manual && line.state != IntentState::Retired {
+                findings.push(ValidationFinding {
+                    severity: FindingSeverity::Error,
+                    code: "INVALID_MANUAL_LINE_STATE".to_string(),
+                    message: "designer-created line must be manual or retired".to_string(),
+                    object_id: Some(line.id.clone()),
+                });
+            }
+            if line.state != IntentState::Retired {
+                active_line_ids.insert(line.id.as_str());
+            }
+            if line.shape != "radial" || line.points.len() < 2 {
+                findings.push(ValidationFinding {
+                    severity: FindingSeverity::Error,
+                    code: "INVALID_MANUAL_LINE_GEOMETRY".to_string(),
+                    message: "manual line must be a radial with at least two points".to_string(),
+                    object_id: Some(line.id.clone()),
+                });
+            }
+            for point in &line.points {
+                if let Err(error) = validate_coordinates(Some(point.lat), Some(point.lon)) {
+                    findings.push(ValidationFinding {
+                        severity: FindingSeverity::Error,
+                        code: "INVALID_MANUAL_LINE_COORDINATE".to_string(),
+                        message: error.to_string(),
+                        object_id: Some(line.id.clone()),
+                    });
+                    break;
+                }
+            }
+        }
         for station in &self.overrides.manual_stations {
             if !line_ids.contains(station.line.as_str()) {
                 findings.push(ValidationFinding {
@@ -1102,17 +1334,17 @@ impl CityProject {
                 ));
             }
         }
-        for line in &self.base.lines {
+        for line in active_line_ids {
             for day_type in &self.service_plan.day_types {
-                if !seen_plans.contains(&(line.name.as_str(), day_type.id.as_str())) {
+                if !seen_plans.contains(&(line, day_type.id.as_str())) {
                     findings.push(ValidationFinding {
                         severity: FindingSeverity::Error,
                         code: "MISSING_SERVICE_PLAN".to_string(),
                         message: format!(
                             "line {} has no service plan for day type {}",
-                            line.name, day_type.id
+                            line, day_type.id
                         ),
-                        object_id: Some(line.name.clone()),
+                        object_id: Some(line.to_string()),
                     });
                 }
             }
@@ -1134,17 +1366,30 @@ impl CityProject {
         let mut findings = Vec::new();
         let active_ids: BTreeSet<&str> =
             stations.iter().map(|station| station.id.as_str()).collect();
-        for line in &self.base.lines {
+        let mut active_lines: BTreeSet<&str> = self
+            .base
+            .lines
+            .iter()
+            .map(|line| line.name.as_str())
+            .collect();
+        active_lines.extend(
+            self.overrides
+                .manual_lines
+                .iter()
+                .filter(|line| line.state != IntentState::Retired)
+                .map(|line| line.id.as_str()),
+        );
+        for line in active_lines {
             let count = stations
                 .iter()
-                .filter(|station| station.line == line.name)
+                .filter(|station| station.line == line)
                 .count();
             if count < 2 {
                 findings.push(ValidationFinding {
                     severity: FindingSeverity::Error,
                     code: "LINE_HAS_TOO_FEW_STATIONS".to_string(),
-                    message: format!("line {} requires at least two active stations", line.name),
-                    object_id: Some(line.name.clone()),
+                    message: format!("line {line} requires at least two active stations"),
+                    object_id: Some(line.to_string()),
                 });
             }
         }
@@ -1267,6 +1512,31 @@ impl CityProject {
                 serde_json::Value::String(snapshot.revision_id.clone());
             features.push(candidate);
         }
+        for line in snapshot
+            .lines
+            .iter()
+            .filter(|line| line.state == IntentState::Manual)
+        {
+            let geometry = geometries
+                .get(&line.id)
+                .ok_or_else(|| anyhow!("no regenerated geometry for line {}", line.id))?;
+            features.push(serde_json::json!({
+                "type": "Feature",
+                "geometry": {
+                    "type": "LineString",
+                    "coordinates": geometry.effective,
+                },
+                "properties": {
+                    "kind": "manual-line",
+                    "name": line.id,
+                    "label": line.name,
+                    "shape": line.shape,
+                    "intent_state": line.state,
+                    "reason": line.reason,
+                    "revision_id": snapshot.revision_id,
+                },
+            }));
+        }
         features.extend(snapshot.stations.iter().map(|station| {
             serde_json::json!({
                 "type": "Feature",
@@ -1315,6 +1585,38 @@ impl CityProject {
         }))
     }
 
+    fn source_line_geometries(&self) -> Result<BTreeMap<String, Vec<[f64; 2]>>> {
+        let mut geometries = BTreeMap::new();
+        for feature in self
+            .corridor
+            .get("features")
+            .and_then(serde_json::Value::as_array)
+            .into_iter()
+            .flatten()
+            .filter(|feature| feature["geometry"]["type"].as_str() == Some("LineString"))
+        {
+            let line = feature["properties"]["name"]
+                .as_str()
+                .ok_or_else(|| anyhow!("corridor line feature has no name"))?;
+            geometries.insert(line.to_string(), geojson_coordinates(feature)?);
+        }
+        for line in self
+            .overrides
+            .manual_lines
+            .iter()
+            .filter(|line| line.state != IntentState::Retired)
+        {
+            geometries.insert(
+                line.id.clone(),
+                line.points
+                    .iter()
+                    .map(|point| [point.lon, point.lat])
+                    .collect(),
+            );
+        }
+        Ok(geometries)
+    }
+
     fn regenerated_line_geometries(
         &self,
         effective_stations: &[CompiledStation],
@@ -1324,26 +1626,8 @@ impl CityProject {
             .map(|station| (station.id.as_str(), station))
             .collect();
         let mut output = BTreeMap::new();
-        for feature in self
-            .corridor
-            .get("features")
-            .and_then(serde_json::Value::as_array)
-            .into_iter()
-            .flatten()
-            .filter(|feature| {
-                feature
-                    .get("geometry")
-                    .and_then(|geometry| geometry.get("type"))
-                    .and_then(serde_json::Value::as_str)
-                    == Some("LineString")
-            })
-        {
-            let line = feature
-                .get("properties")
-                .and_then(|properties| properties.get("name"))
-                .and_then(serde_json::Value::as_str)
-                .ok_or_else(|| anyhow!("corridor line feature has no name"))?;
-            let source = geojson_coordinates(feature)?;
+        for (line, source) in self.source_line_geometries()? {
+            let line = line.as_str();
             let moved_on_line = self.base.stations.iter().any(|station| {
                 station.line == line
                     && effective_by_id
@@ -1486,7 +1770,12 @@ impl CityProject {
             .get_mut("fleets")
             .and_then(toml::Value::as_array_mut)
             .ok_or_else(|| anyhow!("simulator scenario has no [[fleets]] array"))?;
-        for fleet in fleets {
+        let existing_fleet_lines: BTreeSet<String> = fleets
+            .iter()
+            .filter_map(|fleet| fleet.get("line").and_then(toml::Value::as_str))
+            .map(str::to_string)
+            .collect();
+        for fleet in fleets.iter_mut() {
             let line = fleet
                 .get("line")
                 .and_then(toml::Value::as_str)
@@ -1535,6 +1824,86 @@ impl CityProject {
                 .collect();
             fleet_table.insert("schedule".to_string(), toml::Value::Array(windows));
         }
+        for line in snapshot.lines.iter().filter(|line| {
+            line.state == IntentState::Manual && !existing_fleet_lines.contains(&line.id)
+        }) {
+            let plan = self
+                .service_plan
+                .line_plans
+                .iter()
+                .find(|plan| plan.line == line.id && plan.day_type == day_type)
+                .ok_or_else(|| anyhow!("no {day_type} service plan for {}", line.id))?;
+            let fleet_count = snapshot
+                .service_metrics
+                .iter()
+                .find(|metric| metric.line == line.id && metric.day_type == day_type)
+                .map(|metric| metric.peak_fleet)
+                .ok_or_else(|| anyhow!("no compiled fleet metric for {}:{day_type}", line.id))?;
+            let mut stations = snapshot
+                .stations
+                .iter()
+                .filter(|station| station.line == line.id)
+                .collect::<Vec<_>>();
+            stations.sort_by(|left, right| left.s_m.total_cmp(&right.s_m));
+            let first = stations
+                .first()
+                .ok_or_else(|| anyhow!("manual line {} has no first station", line.id))?;
+            let last = stations
+                .last()
+                .ok_or_else(|| anyhow!("manual line {} has no last station", line.id))?;
+            let dispatch_points = [
+                (first.id.as_str(), "forward"),
+                (last.id.as_str(), "reverse"),
+            ]
+            .into_iter()
+            .map(|(station, heading)| {
+                let mut point = toml::map::Map::new();
+                point.insert(
+                    "station".to_string(),
+                    toml::Value::String(station.to_string()),
+                );
+                point.insert(
+                    "heading".to_string(),
+                    toml::Value::String(heading.to_string()),
+                );
+                toml::Value::Table(point)
+            })
+            .collect();
+            let windows = plan
+                .windows
+                .iter()
+                .map(|window| {
+                    let mut table = toml::map::Map::new();
+                    table.insert("from".to_string(), toml::Value::String(window.from.clone()));
+                    table.insert("to".to_string(), toml::Value::String(window.to.clone()));
+                    table.insert(
+                        "headway_min".to_string(),
+                        toml::Value::Integer(i64::from(window.headway_min)),
+                    );
+                    toml::Value::Table(table)
+                })
+                .collect();
+            let mut fleet = toml::map::Map::new();
+            fleet.insert("line".to_string(), toml::Value::String(line.id.clone()));
+            fleet.insert(
+                "trainset_count".to_string(),
+                toml::Value::Integer(i64::from(fleet_count)),
+            );
+            fleet.insert(
+                "dispatch_points".to_string(),
+                toml::Value::Array(dispatch_points),
+            );
+            fleet.insert(
+                "service_start".to_string(),
+                toml::Value::String(plan.service_start.clone()),
+            );
+            fleet.insert(
+                "service_end".to_string(),
+                toml::Value::String(plan.service_end.clone()),
+            );
+            fleet.insert("schedule".to_string(), toml::Value::Array(windows));
+            fleets.push(toml::Value::Table(fleet));
+        }
         let body = toml::to_string_pretty(&scenario).context("serializing scenario")?;
         let mut output = format!(
             "# Generated by OSR City Studio for project {} and day type {}.\n# Source service plan: {}\n\n{}",
@@ -1561,6 +1930,13 @@ impl CityProject {
                 .iter()
                 .filter(|control| control.distance_m > 0.01)
                 .map(|control| control.line.as_str()),
+        );
+        changed_lines.extend(
+            snapshot
+                .lines
+                .iter()
+                .filter(|line| line.state == IntentState::Manual)
+                .map(|line| line.id.as_str()),
         );
         for line in &self.base.lines {
             let source_ids: BTreeSet<&str> = self
@@ -1613,6 +1989,9 @@ impl CityProject {
                         (self.config.planning.station_dwell_min * 60.0).round() as i64
                     ),
                 );
+                if station.archetype == "terminal" {
+                    definition.insert("is_terminal".to_string(), toml::Value::Boolean(true));
+                }
                 station_definitions.push(toml::Value::Table(definition));
             }
         }
@@ -1621,7 +2000,12 @@ impl CityProject {
             .get_mut("lines")
             .and_then(toml::Value::as_array_mut)
             .ok_or_else(|| anyhow!("simulator scenario has no [[lines]] array"))?;
-        for line in lines {
+        let existing_line_ids: BTreeSet<String> = lines
+            .iter()
+            .filter_map(|line| line.get("id").and_then(toml::Value::as_str))
+            .map(str::to_string)
+            .collect();
+        for line in lines.iter_mut() {
             let line_id = line
                 .get("id")
                 .and_then(toml::Value::as_str)
@@ -1686,8 +2070,71 @@ impl CityProject {
                 line_table.insert("ring_wrap_length_m".to_string(), toml::Value::Integer(wrap));
             }
         }
+        for compiled in snapshot.lines.iter().filter(|line| {
+            line.state == IntentState::Manual && !existing_line_ids.contains(&line.id)
+        }) {
+            let geometry = geometries.get(&compiled.id).ok_or_else(|| {
+                anyhow!("no effective geometry for simulator line {}", compiled.id)
+            })?;
+            let station_refs = scenario_station_refs(&compiled.id, geometry, snapshot)?;
+            let mut line = toml::map::Map::new();
+            line.insert("id".to_string(), toml::Value::String(compiled.id.clone()));
+            line.insert(
+                "name".to_string(),
+                toml::Value::String(compiled.name.clone()),
+            );
+            line.insert("is_ring".to_string(), toml::Value::Boolean(false));
+            line.insert("stations".to_string(), toml::Value::Array(station_refs));
+            lines.push(toml::Value::Table(line));
+        }
         Ok(())
     }
+}
+
+fn scenario_station_refs(
+    line_id: &str,
+    geometry: &LineGeometry,
+    snapshot: &CompiledSnapshot,
+) -> Result<Vec<toml::Value>> {
+    let cumulative = cumulative_polyline_m(&geometry.effective);
+    let mut ordered_stations = snapshot
+        .stations
+        .iter()
+        .filter(|station| station.line == line_id)
+        .map(|station| {
+            let index = nearest_coordinate_index(&geometry.effective, station.lon, station.lat);
+            (cumulative[index], station)
+        })
+        .collect::<Vec<_>>();
+    ordered_stations.sort_by(|left, right| {
+        left.0
+            .total_cmp(&right.0)
+            .then_with(|| left.1.id.cmp(&right.1.id))
+    });
+    let mut refs = Vec::with_capacity(ordered_stations.len());
+    let mut previous_chainage = 0.0;
+    for (position, (chainage, station)) in ordered_stations.iter().enumerate() {
+        if position > 0 && *chainage <= previous_chainage {
+            bail!(
+                "effective geometry places station {} at the same or an earlier chainage on {line_id}",
+                station.id
+            );
+        }
+        let distance = if position == 0 {
+            0
+        } else {
+            (*chainage - previous_chainage).round().max(1.0) as i64
+        };
+        let mut station_ref = toml::map::Map::new();
+        station_ref.insert("id".to_string(), toml::Value::String(station.id.clone()));
+        station_ref.insert(
+            "distance_from_prev_m".to_string(),
+            toml::Value::Integer(distance),
+        );
+        refs.push(toml::Value::Table(station_ref));
+        previous_chainage = *chainage;
+    }
+    Ok(refs)
 }
 
 fn compare_snapshots(base: &CompiledSnapshot, candidate: &CompiledSnapshot) -> RevisionComparison {
@@ -1801,6 +2248,8 @@ fn compare_snapshots(base: &CompiledSnapshot, candidate: &CompiledSnapshot) -> R
         }
         lines.push(RevisionLineDiff {
             id: id.to_string(),
+            before: before.cloned(),
+            after: after.cloned(),
             before_length_m: before.map(|line| line.length_m),
             after_length_m: after.map(|line| line.length_m),
             length_delta_m: after.map_or(0.0, |line| line.length_m)
@@ -1890,6 +2339,8 @@ fn compare_snapshots(base: &CompiledSnapshot, candidate: &CompiledSnapshot) -> R
                 - base.summary.station_count as i64,
             manual_station_count: candidate.summary.manual_station_count as i64
                 - base.summary.manual_station_count as i64,
+            manual_line_count: candidate.summary.manual_line_count as i64
+                - base.summary.manual_line_count as i64,
             peak_fleet: i64::from(candidate.summary.peak_fleet)
                 - i64::from(base.summary.peak_fleet),
             weekly_service_km: candidate.summary.weekly_service_km - base.summary.weekly_service_km,
@@ -1928,10 +2379,23 @@ fn controls_semantically_equal(left: &CompiledControlPoint, right: &CompiledCont
 }
 
 fn lines_semantically_equal(left: &CompiledLine, right: &CompiledLine) -> bool {
+    let left_name = if left.name.is_empty() {
+        &left.id
+    } else {
+        &left.name
+    };
+    let right_name = if right.name.is_empty() {
+        &right.id
+    } else {
+        &right.name
+    };
     left.id == right.id
+        && left_name == right_name
         && left.shape == right.shape
         && (left.length_m - right.length_m).abs() <= 0.001
         && left.station_count == right.station_count
+        && left.state == right.state
+        && left.reason == right.reason
 }
 
 fn services_semantically_equal(left: &ServiceMetric, right: &ServiceMetric) -> bool {
@@ -1995,6 +2459,26 @@ fn polyline_length_m(coordinates: &[[f64; 2]]) -> f64 {
         .last()
         .copied()
         .unwrap_or(0.0)
+}
+
+fn interpolate_line_points(
+    start_lat: f64,
+    start_lon: f64,
+    end_lat: f64,
+    end_lon: f64,
+    spacing_m: f64,
+) -> Vec<GeoPoint> {
+    let length_m = haversine_m(start_lat, start_lon, end_lat, end_lon);
+    let segments = (length_m / spacing_m).ceil().clamp(1.0, 5_000.0) as usize;
+    (0..=segments)
+        .map(|index| {
+            let fraction = index as f64 / segments as f64;
+            GeoPoint {
+                lat: start_lat + (end_lat - start_lat) * fraction,
+                lon: start_lon + (end_lon - start_lon) * fraction,
+            }
+        })
+        .collect()
 }
 
 fn nearest_coordinate_index(coordinates: &[[f64; 2]], lon: f64, lat: f64) -> usize {
@@ -2101,8 +2585,8 @@ fn validate_station_name(name: &str) -> Result<()> {
 }
 
 fn validate_manual_archetype(archetype: &str) -> Result<()> {
-    if !matches!(archetype, "standard" | "major" | "halt") {
-        bail!("manual station archetype must be standard, major, or halt");
+    if !matches!(archetype, "standard" | "major" | "halt" | "terminal") {
+        bail!("manual station archetype must be standard, major, halt, or terminal");
     }
     Ok(())
 }
@@ -2222,7 +2706,7 @@ mod tests {
 
     use super::{normalized_interval, parse_minutes, validate_line_plan, CityProject};
     use crate::model::{
-        IntentState, LineControlPoint, LineServicePlan, ManualStation, ServiceWindow,
+        IntentState, LineControlPoint, LineCreate, LineServicePlan, ManualStation, ServiceWindow,
         StationCreate, StationOverride,
     };
 
@@ -2560,5 +3044,97 @@ mod tests {
         assert!(comparison.services[0].after.is_some());
         assert_eq!(comparison.controls.len(), 1);
         assert_eq!(comparison.controls[0].kind, "added");
+    }
+
+    #[test]
+    fn manual_line_creation_populates_network_services_and_simulator() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../../projects/samawah");
+        let mut project = CityProject::load(&root).expect("load Samawah project");
+        let base = project.compile().expect("compile baseline");
+        let temporary = tempfile::tempdir().expect("temporary project root");
+        std::fs::copy(
+            root.join("network/overrides.toml"),
+            temporary.path().join("overrides.toml"),
+        )
+        .expect("copy overrides");
+        std::fs::copy(
+            root.join("services/service-plan.toml"),
+            temporary.path().join("service-plan.toml"),
+        )
+        .expect("copy service plan");
+        project.root = temporary.path().to_path_buf();
+        project.config.inputs.network_overrides = "overrides.toml".to_string();
+        project.config.inputs.service_plan = "service-plan.toml".to_string();
+        let id = project
+            .create_line(LineCreate {
+                name: "Test orbital connector".to_string(),
+                start_lat: 31.275,
+                start_lon: 45.225,
+                end_lat: 31.345,
+                end_lon: 45.325,
+                reason: "manual line acceptance".to_string(),
+            })
+            .expect("create line");
+        assert!(id.starts_with("manual-line-"));
+        let saved_overrides: crate::model::OverrideFile =
+            super::read_toml(&temporary.path().join("overrides.toml")).expect("saved overrides");
+        let saved_services: crate::model::ServicePlan =
+            super::read_toml(&temporary.path().join("service-plan.toml")).expect("saved services");
+        assert_eq!(saved_overrides.manual_lines.len(), 1);
+        assert_eq!(
+            saved_overrides
+                .manual_stations
+                .iter()
+                .filter(|station| station.line == id)
+                .count(),
+            2
+        );
+        assert_eq!(
+            saved_services
+                .line_plans
+                .iter()
+                .filter(|plan| plan.line == id)
+                .count(),
+            3
+        );
+
+        project.root = root;
+        project.config.inputs.network_overrides = "network/overrides.toml".to_string();
+        project.config.inputs.service_plan = "services/service-plan.toml".to_string();
+        let snapshot = project.compile().expect("compile manual line");
+        assert_eq!(snapshot.lines.len(), 4);
+        assert_eq!(snapshot.summary.manual_line_count, 1);
+        assert_eq!(snapshot.summary.station_count, 23);
+        assert_eq!(snapshot.summary.manual_station_count, 2);
+        assert_eq!(snapshot.service_metrics.len(), 12);
+        assert_eq!(snapshot.summary.validation_errors, 0);
+        let candidate_line = snapshot
+            .lines
+            .iter()
+            .find(|line| line.id == id)
+            .expect("compiled manual line");
+        assert_eq!(candidate_line.state, IntentState::Manual);
+        assert_eq!(candidate_line.station_count, 2);
+
+        let scenario = project
+            .scenario_for_day_type("weekday", &snapshot)
+            .expect("manual-line scenario");
+        let parsed: toml::Value = toml::from_str(&scenario).expect("parse scenario");
+        assert!(parsed["lines"]
+            .as_array()
+            .expect("scenario lines")
+            .iter()
+            .any(|line| line["id"].as_str() == Some(id.as_str())));
+        assert!(parsed["fleets"]
+            .as_array()
+            .expect("scenario fleets")
+            .iter()
+            .any(|fleet| fleet["line"].as_str() == Some(id.as_str())));
+
+        let comparison = super::compare_snapshots(&base, &snapshot);
+        assert_eq!(comparison.lines.len(), 1);
+        assert_eq!(comparison.stations.len(), 2);
+        assert_eq!(comparison.services.len(), 3);
+        assert_eq!(comparison.summary.manual_line_count, 1);
     }
 }

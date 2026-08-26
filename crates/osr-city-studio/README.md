@@ -11,9 +11,10 @@ Run the Samawah vertical slice from the repository root:
 
     cargo run -p osr-city-studio -- serve
 
-The interface can create/move/retire manual stations, edit local alignment
-controls, plan service by line/day/time, regenerate GIS and simulator inputs,
-and compare the working candidate with immutable Git revision records.
+The interface can create/move/retire manual stations, create complete manual
+lines from two endpoints, edit local alignment controls, plan service by
+line/day/time, regenerate GIS and simulator inputs, and compare the working
+candidate with immutable Git revision records.
 
 See the [City Studio guide](../../docs/city-studio/README.md) and
 [RFC 0031](../../docs/rfcs/0031-city-studio-git-revisions.md).

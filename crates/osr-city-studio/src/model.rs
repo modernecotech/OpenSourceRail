@@ -87,11 +87,30 @@ pub struct BaseStation {
 pub struct OverrideFile {
     pub schema_version: u32,
     #[serde(default)]
+    pub manual_lines: Vec<ManualLine>,
+    #[serde(default)]
     pub stations: Vec<StationOverride>,
     #[serde(default)]
     pub manual_stations: Vec<ManualStation>,
     #[serde(default)]
     pub line_control_points: Vec<LineControlPoint>,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+pub struct ManualLine {
+    pub id: String,
+    pub name: String,
+    pub state: IntentState,
+    pub shape: String,
+    pub points: Vec<GeoPoint>,
+    #[serde(default)]
+    pub reason: String,
+}
+
+#[derive(Clone, Copy, Debug, Deserialize, Serialize)]
+pub struct GeoPoint {
+    pub lat: f64,
+    pub lon: f64,
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
@@ -254,9 +273,19 @@ pub struct ResolvedSource {
 #[derive(Clone, Debug, Deserialize, Serialize, PartialEq)]
 pub struct CompiledLine {
     pub id: String,
+    #[serde(default)]
+    pub name: String,
     pub shape: String,
     pub length_m: f64,
     pub station_count: usize,
+    #[serde(default = "generated_intent_state")]
+    pub state: IntentState,
+    #[serde(default)]
+    pub reason: String,
+}
+
+fn generated_intent_state() -> IntentState {
+    IntentState::Generated
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize, PartialEq)]
@@ -303,6 +332,8 @@ pub struct SnapshotSummary {
     pub locked_station_count: usize,
     #[serde(default)]
     pub manual_station_count: usize,
+    #[serde(default)]
+    pub manual_line_count: usize,
     pub moved_station_count: usize,
     pub edited_line_count: usize,
     pub peak_fleet: u32,
@@ -389,6 +420,25 @@ pub struct StationCreate {
     pub reason: String,
 }
 
+#[derive(Clone, Debug, Deserialize)]
+pub struct LineCreate {
+    pub name: String,
+    pub start_lat: f64,
+    pub start_lon: f64,
+    pub end_lat: f64,
+    pub end_lon: f64,
+    #[serde(default)]
+    pub reason: String,
+}
+
+#[derive(Clone, Debug, Deserialize)]
+pub struct LineEdit {
+    pub name: String,
+    pub state: IntentState,
+    #[serde(default)]
+    pub reason: String,
+}
+
 fn default_station_archetype() -> String {
     "standard".to_string()
 }
@@ -457,6 +507,7 @@ pub struct RevisionSummaryDiff {
     pub route_km: f64,
     pub station_count: i64,
     pub manual_station_count: i64,
+    pub manual_line_count: i64,
     pub peak_fleet: i64,
     pub weekly_service_km: f64,
 }
@@ -473,6 +524,8 @@ pub struct RevisionStationDiff {
 #[derive(Clone, Debug, Serialize)]
 pub struct RevisionLineDiff {
     pub id: String,
+    pub before: Option<CompiledLine>,
+    pub after: Option<CompiledLine>,
     pub before_length_m: Option<f64>,
     pub after_length_m: Option<f64>,
     pub length_delta_m: f64,

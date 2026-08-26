@@ -84,8 +84,11 @@ designer can drag a point, choose its regeneration influence radius, and mark
 it preferred or locked; the same deterministic corridor and simulator
 regeneration then applies. Manual station insertion or retirement rebuilds the
 effective simulator station catalogue and ordered per-line topology as well as
-the GIS network. Manual line creation and demand-aware route search are
-subsequent increments of this RFC.
+the GIS network. A two-endpoint manual-line workflow creates a stable line id,
+deterministically sampled initial corridor, two terminal platforms, a service
+plan for every day type, and simulator line/fleet/dispatch records. Local
+alignment controls can then shape the corridor. Source-locked demand-aware
+route alternatives are a subsequent increment of this RFC.
 
 services/service-plan.toml contains a seven-day calendar mapped to named day
 types and a plan for every line/day-type pair. Each plan has a service span and
@@ -159,6 +162,7 @@ The initial implementation is crates/osr-city-studio:
 - deterministic source hashing and revision ids;
 - semantic station movement detection;
 - manual station authoring and simulator-topology regeneration;
+- manual line authoring with terminal, service, GIS, and simulator synthesis;
 - semantic comparison between materialized revisions and the working candidate;
 - weekly service metrics;
 - a local HTTP API;
@@ -231,6 +235,8 @@ The Samawah project is the first committed acceptance fixture. It:
   editable influence radii;
 - creates, moves, renames, classifies, and retires manual stations while
   regenerating GIS and simulator topology;
+- creates and retires complete manual lines, including terminal platforms,
+  weekly services, fleet sizing, dispatch points, and candidate geometry;
 - compares old revision records with the working candidate using engineering
   tolerances for serialized floating-point values;
 - emits separate weekday, Friday, and weekend simulator scenarios plus a
@@ -238,5 +244,5 @@ The Samawah project is the first committed acceptance fixture. It:
 - compiles without validation errors;
 - produces an identical content hash across repeated compilations.
 
-The next acceptance increment is manual line creation, demand-aware rerouting,
-and source-locked GIS/CAD job adapters.
+The next acceptance increment is source-locked demand-aware rerouting and
+GIS/CAD job adapters with captured logs and artifact hashes.

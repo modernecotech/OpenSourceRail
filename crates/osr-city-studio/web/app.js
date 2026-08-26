@@ -19,6 +19,15 @@ const api = {
   deleteStation: (id) => api.request(`/api/stations/${encodeURIComponent(id)}`, {
     method: "DELETE",
   }),
+  createLine: (body) => api.request("/api/lines", {
+    method: "POST", body: JSON.stringify(body),
+  }),
+  line: (id, body) => api.request(`/api/lines/${encodeURIComponent(id)}`, {
+    method: "PUT", body: JSON.stringify(body),
+  }),
+  deleteLine: (id) => api.request(`/api/lines/${encodeURIComponent(id)}`, {
+    method: "DELETE",
+  }),
   createControl: (line, body) => api.request(
     `/api/lines/${encodeURIComponent(line)}/control-points`,
     { method: "POST", body: JSON.stringify(body) },
@@ -41,9 +50,11 @@ const api = {
 let view = null;
 let selectedStation = null;
 let selectedControl = null;
+let selectedLine = null;
 let projection = null;
 let drag = null;
 let mapMode = "select";
+let pendingLineStart = null;
 let revisions = null;
 let comparison = null;
 const lineColours = ["#56d39b", "#5eb9e8", "#e88859", "#a98aef", "#e96d95"];
@@ -58,6 +69,9 @@ async function load() {
       : null;
     selectedControl = selectedControl
       ? view.snapshot.line_control_points.find((item) => item.id === selectedControl.id) || null
+      : null;
+    selectedLine = selectedLine
+      ? view.snapshot.lines.find((item) => item.id === selectedLine.id) || null
       : null;
     render();
   } catch (error) {
@@ -93,6 +107,7 @@ function renderSummary() {
     [s.station_count, "station platforms"],
     [s.locked_station_count, "locked stations"],
     [s.manual_station_count, "manual stations"],
+    [s.manual_line_count, "manual lines"],
     [s.moved_station_count, "moved stations"],
     [s.edited_line_count, "edited lines"],
     [s.peak_fleet, "maximum line fleet"],
@@ -145,10 +160,15 @@ function renderMap() {
     const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
     const points = feature.geometry.coordinates.map(([lon, lat]) => projection.point(lon, lat));
     path.setAttribute("d", points.map(([x, y], i) => `${i ? "L" : "M"} ${x.toFixed(2)} ${y.toFixed(2)}`).join(" "));
-    path.setAttribute("class", "network-line");
+    const lineId = feature.properties?.name || `line-${index + 1}`;
+    const line = view.snapshot.lines.find((item) => item.id === lineId);
+    path.setAttribute(
+      "class",
+      `network-line ${line?.state === "manual" ? "manual" : ""} ${selectedLine?.id === lineId ? "selected" : ""}`
+    );
     path.setAttribute("stroke", lineColours[index % lineColours.length]);
-    path.dataset.line = feature.properties?.name || `line-${index + 1}`;
-    path.addEventListener("click", createObjectFromMap);
+    path.dataset.line = lineId;
+    path.addEventListener("click", handleLineClick);
     svg.appendChild(path);
   });
 
@@ -168,7 +188,11 @@ function renderMap() {
     title.textContent = `${station.name} · ${station.line} · ${station.state}`;
     circle.appendChild(title);
     circle.addEventListener("pointerdown", startStationDrag);
-    circle.addEventListener("click", () => selectStation(station.id));
+    circle.addEventListener("click", (event) => {
+      if (mapMode === "line") return;
+      event.stopPropagation();
+      selectStation(station.id);
+    });
     svg.appendChild(circle);
   });
   view.snapshot.line_control_points.forEach((control) => {
@@ -186,14 +210,25 @@ function renderMap() {
     circle.dataset.id = control.id;
     circle.addEventListener("pointerdown", startControlDrag);
     circle.addEventListener("click", (event) => {
+      if (mapMode === "line") return;
       event.stopPropagation();
       selectControl(control.id);
     });
     svg.appendChild(circle);
   });
+  if (pendingLineStart) {
+    const [x, y] = projection.point(pendingLineStart.lon, pendingLineStart.lat);
+    const marker = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+    marker.setAttribute("cx", x);
+    marker.setAttribute("cy", y);
+    marker.setAttribute("r", 9);
+    marker.setAttribute("class", "pending-line-point");
+    svg.appendChild(marker);
+  }
 }
 
 function startStationDrag(event) {
+  if (mapMode === "line") return;
   const id = event.currentTarget.dataset.id;
   selectStation(id);
   drag = { id, node: event.currentTarget, kind: "station" };
@@ -201,6 +236,7 @@ function startStationDrag(event) {
 }
 
 function startControlDrag(event) {
+  if (mapMode === "line") return;
   event.stopPropagation();
   const id = event.currentTarget.dataset.id;
   selectControl(id);
@@ -235,9 +271,11 @@ async function createObjectFromMap(event) {
     if (mapMode === "station") {
       selectedStation = view.snapshot.stations.find((item) => item.id === result.id);
       selectedControl = null;
+      selectedLine = null;
     } else {
       selectedStation = null;
       selectedControl = view.snapshot.line_control_points.find((item) => item.id === result.id);
+      selectedLine = null;
     }
     render();
     toast(mapMode === "station"
@@ -248,18 +286,65 @@ async function createObjectFromMap(event) {
   }
 }
 
+function handleLineClick(event) {
+  if (mapMode === "select") {
+    event.stopPropagation();
+    selectLine(event.currentTarget.dataset.line);
+    return;
+  }
+  if (mapMode !== "line") createObjectFromMap(event);
+}
+
 document.querySelectorAll(".map-tool").forEach((button) => {
   button.addEventListener("click", () => {
     mapMode = button.dataset.mode;
+    if (mapMode !== "line") pendingLineStart = null;
     document.querySelectorAll(".map-tool").forEach((item) => {
       item.classList.toggle("active", item.dataset.mode === mapMode);
     });
     $("#map-hint").textContent = mapMode === "station"
       ? "Click a line to insert a manual station into the route and simulator topology."
+      : mapMode === "line"
+        ? "Click two endpoints to create a line, terminal platforms, and weekly service plans."
       : mapMode === "control"
         ? "Click a line to add an alignment control point, then drag it."
         : "Select or drag an object to edit its intent.";
   });
+});
+
+$("#network-map").addEventListener("click", async (event) => {
+  if (mapMode !== "line" || drag) return;
+  const rect = event.currentTarget.getBoundingClientRect();
+  const x = ((event.clientX - rect.left) / rect.width) * 1000;
+  const y = ((event.clientY - rect.top) / rect.height) * 620;
+  const [lon, lat] = projection.inverse(x, y);
+  if (!pendingLineStart) {
+    pendingLineStart = { lat, lon };
+    renderMap();
+    toast("First line endpoint set. Click the second endpoint to generate the line.");
+    return;
+  }
+  try {
+    const result = await api.createLine({
+      name: `New line ${view.snapshot.lines.length + 1}`,
+      start_lat: pendingLineStart.lat,
+      start_lon: pendingLineStart.lon,
+      end_lat: lat,
+      end_lon: lon,
+      reason: "Designer-created in City Studio",
+    });
+    pendingLineStart = null;
+    view = result.project;
+    revisions = await api.revisions();
+    comparison = null;
+    selectedLine = view.snapshot.lines.find((item) => item.id === result.id);
+    selectedStation = null;
+    selectedControl = null;
+    render();
+    toast("Manual line created with two terminals and service plans for every day type.");
+  } catch (error) {
+    toast(error.message, true);
+  }
 });
 
 $("#network-map").addEventListener("pointermove", (event) => {
@@ -297,6 +382,7 @@ $("#network-map").addEventListener("pointercancel", () => { drag = null; });
 function selectStation(id) {
   selectedStation = view.snapshot.stations.find((item) => item.id === id) || null;
   selectedControl = null;
+  selectedLine = null;
   renderMap();
   renderStationInspector();
 }
@@ -304,6 +390,15 @@ function selectStation(id) {
 function selectControl(id) {
   selectedControl = view.snapshot.line_control_points.find((item) => item.id === id) || null;
   selectedStation = null;
+  selectedLine = null;
+  renderMap();
+  renderStationInspector();
+}
+
+function selectLine(id) {
+  selectedLine = view.snapshot.lines.find((item) => item.id === id) || null;
+  selectedStation = null;
+  selectedControl = null;
   renderMap();
   renderStationInspector();
 }
@@ -311,6 +406,26 @@ function selectControl(id) {
 function renderStationInspector() {
   const form = $("#station-form");
   const controlForm = $("#control-form");
+  const lineForm = $("#line-form");
+  if (selectedLine) {
+    form.hidden = true;
+    controlForm.hidden = true;
+    lineForm.hidden = false;
+    const isManual = selectedLine.state === "manual";
+    $("#station-title").textContent = selectedLine.name || selectedLine.id;
+    $("#line-id").value = selectedLine.id;
+    $("#line-name").value = selectedLine.name || selectedLine.id;
+    $("#line-name").readOnly = !isManual;
+    $("#line-shape").value = selectedLine.shape;
+    $("#line-length").value = (selectedLine.length_m / 1000).toFixed(3);
+    $("#line-state").value = selectedLine.state;
+    $("#line-reason").value = selectedLine.reason || "";
+    $("#line-reason").readOnly = !isManual;
+    $("#delete-line").hidden = !isManual;
+    $("#save-line").hidden = !isManual;
+    return;
+  }
+  lineForm.hidden = true;
   if (selectedControl) {
     form.hidden = true;
     controlForm.hidden = false;
@@ -413,6 +528,40 @@ $("#control-form").addEventListener("submit", async (event) => {
     comparison = null;
     render();
     toast("Line geometry regenerated; GIS, route length and simulator distances are updated.");
+  } catch (error) {
+    toast(error.message, true);
+  }
+});
+
+$("#line-form").addEventListener("submit", async (event) => {
+  event.preventDefault();
+  if (!selectedLine || selectedLine.state !== "manual") return;
+  try {
+    view = await api.line(selectedLine.id, {
+      name: $("#line-name").value.trim(),
+      state: "manual",
+      reason: $("#line-reason").value.trim(),
+    });
+    selectedLine = view.snapshot.lines.find((item) => item.id === selectedLine.id);
+    revisions = await api.revisions();
+    comparison = null;
+    render();
+    toast("Manual line intent saved for Git review.");
+  } catch (error) {
+    toast(error.message, true);
+  }
+});
+
+$("#delete-line").addEventListener("click", async () => {
+  if (!selectedLine || selectedLine.state !== "manual") return;
+  if (!window.confirm(`Retire ${selectedLine.name} and its manual terminals?`)) return;
+  try {
+    view = await api.deleteLine(selectedLine.id);
+    selectedLine = null;
+    revisions = await api.revisions();
+    comparison = null;
+    render();
+    toast("Manual line, terminals, controls, and service plans retired together.");
   } catch (error) {
     toast(error.message, true);
   }
@@ -555,6 +704,7 @@ function renderRevisionComparison() {
     [signed(diff.summary.route_km, 3), "route km"],
     [signed(diff.summary.station_count), "stations"],
     [signed(diff.summary.manual_station_count), "manual stations"],
+    [signed(diff.summary.manual_line_count), "manual lines"],
     [signed(diff.summary.peak_fleet), "peak fleet"],
     [signed(diff.summary.weekly_service_km, 1), "weekly service km"],
   ];
@@ -568,9 +718,11 @@ function renderRevisionComparison() {
     const movement = item.movement_m ? ` · ${item.movement_m.toFixed(1)} m` : "";
     return `<div class="revision-item"><strong>${escapeHtml(item.kind)} control · ${escapeHtml(control.line)}</strong><small>${escapeHtml(item.id)}${movement}</small></div>`;
   }).join("");
-  const lineItems = controlItems + diff.lines.map((item) =>
-    `<div class="revision-item"><strong>${escapeHtml(item.id)} · ${signed(item.length_delta_m, 1)} m</strong><small>${signed(item.station_delta)} stations</small></div>`
-  ).join("") || '<p class="empty-diff">No line or alignment changes</p>';
+  const lineItems = controlItems + diff.lines.map((item) => {
+    const line = item.after || item.before;
+    const kind = item.before && item.after ? "modified" : item.after ? "added" : "removed";
+    return `<div class="revision-item"><strong>${kind} · ${escapeHtml(line.name || item.id)}</strong><small>${escapeHtml(item.id)} · ${signed(item.length_delta_m, 1)} m · ${signed(item.station_delta)} stations</small></div>`;
+  }).join("") || '<p class="empty-diff">No line or alignment changes</p>';
   const serviceItems = diff.services.map((item) => {
     const plan = item.after || item.before;
     const span = plan ? ` · ${plan.service_start}–${plan.service_end} · ${plan.windows.length} windows` : "";

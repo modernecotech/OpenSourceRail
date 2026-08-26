@@ -11,7 +11,8 @@ use serde::Serialize;
 use tokio::sync::Mutex;
 
 use crate::model::{
-    ControlPointCreate, ControlPointEdit, LineServicePlan, ProjectView, StationCreate, StationEdit,
+    ControlPointCreate, ControlPointEdit, LineCreate, LineEdit, LineServicePlan, ProjectView,
+    StationCreate, StationEdit,
 };
 use crate::CityProject;
 
@@ -70,6 +71,8 @@ pub async fn serve(project_root: impl AsRef<Path>, host: &str, port: u16) -> Res
         .route("/app.css", get(stylesheet))
         .route("/api/project", get(get_project))
         .route("/api/stations/:id", put(put_station).delete(delete_station))
+        .route("/api/lines", post(post_line))
+        .route("/api/lines/:id", put(put_line).delete(delete_line))
         .route("/api/lines/:line/stations", post(post_station))
         .route("/api/lines/:line/control-points", post(post_control_point))
         .route("/api/control-points/:id", put(put_control_point))
@@ -154,6 +157,44 @@ async fn post_station(
     drop(guard);
     let project = get_project(State(state)).await?.0;
     Ok(Json(serde_json::json!({ "id": id, "project": project })))
+}
+
+async fn post_line(
+    State(state): State<AppState>,
+    Json(create): Json<LineCreate>,
+) -> Result<Json<serde_json::Value>, ApiError> {
+    let guard = state.write_lock.lock().await;
+    let mut project = CityProject::load(&state.project_root)?;
+    let id = project.create_line(create)?;
+    drop(project);
+    drop(guard);
+    let project = get_project(State(state)).await?.0;
+    Ok(Json(serde_json::json!({ "id": id, "project": project })))
+}
+
+async fn put_line(
+    State(state): State<AppState>,
+    AxumPath(id): AxumPath<String>,
+    Json(edit): Json<LineEdit>,
+) -> Result<Json<ProjectView>, ApiError> {
+    let guard = state.write_lock.lock().await;
+    let mut project = CityProject::load(&state.project_root)?;
+    project.update_manual_line(&id, edit)?;
+    drop(project);
+    drop(guard);
+    get_project(State(state)).await
+}
+
+async fn delete_line(
+    State(state): State<AppState>,
+    AxumPath(id): AxumPath<String>,
+) -> Result<Json<ProjectView>, ApiError> {
+    let guard = state.write_lock.lock().await;
+    let mut project = CityProject::load(&state.project_root)?;
+    project.retire_manual_line(&id)?;
+    drop(project);
+    drop(guard);
+    get_project(State(state)).await
 }
 
 async fn delete_station(

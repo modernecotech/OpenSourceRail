@@ -16,6 +16,7 @@ fn committed_project_compiles_without_validation_errors() {
     assert_eq!(snapshot.summary.station_count, 21);
     assert_eq!(snapshot.summary.locked_station_count, 3);
     assert_eq!(snapshot.summary.manual_station_count, 0);
+    assert_eq!(snapshot.summary.manual_line_count, 0);
     assert_eq!(snapshot.lines.len(), 3);
     assert_eq!(snapshot.service_metrics.len(), 9);
     assert!(snapshot.sources.iter().all(|source| source.matches_lock));
