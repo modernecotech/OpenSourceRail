@@ -331,6 +331,7 @@ $("#network-map").addEventListener("click", async (event) => {
       start_lon: pendingLineStart.lon,
       end_lat: lat,
       end_lon: lon,
+      routing: $("#line-routing").value,
       reason: "Designer-created in City Studio",
     });
     pendingLineStart = null;
@@ -341,7 +342,7 @@ $("#network-map").addEventListener("click", async (event) => {
     selectedStation = null;
     selectedControl = null;
     render();
-    toast("Manual line created with two terminals and service plans for every day type.");
+    toast(`${selectedLine.routing_method} line created with two terminals and service plans for every day type.`);
   } catch (error) {
     toast(error.message, true);
   }
@@ -418,6 +419,9 @@ function renderStationInspector() {
     $("#line-name").readOnly = !isManual;
     $("#line-shape").value = selectedLine.shape;
     $("#line-length").value = (selectedLine.length_m / 1000).toFixed(3);
+    $("#line-routing-method").value = selectedLine.routing_method || "generated-source";
+    $("#line-routing-sources").value = (selectedLine.routing_source_ids || []).join("\n") || "None";
+    $("#line-demand-weight").value = selectedLine.demand_weight ?? "Not applicable";
     $("#line-state").value = selectedLine.state;
     $("#line-reason").value = selectedLine.reason || "";
     $("#line-reason").readOnly = !isManual;
@@ -721,7 +725,9 @@ function renderRevisionComparison() {
   const lineItems = controlItems + diff.lines.map((item) => {
     const line = item.after || item.before;
     const kind = item.before && item.after ? "modified" : item.after ? "added" : "removed";
-    return `<div class="revision-item"><strong>${kind} · ${escapeHtml(line.name || item.id)}</strong><small>${escapeHtml(item.id)} · ${signed(item.length_delta_m, 1)} m · ${signed(item.station_delta)} stations</small></div>`;
+    const routing = line.routing_method || (line.state === "manual" ? "direct" : "generated-source");
+    const sources = line.routing_source_ids?.length ? ` · ${line.routing_source_ids.length} locked sources` : "";
+    return `<div class="revision-item"><strong>${kind} · ${escapeHtml(line.name || item.id)}</strong><small>${escapeHtml(item.id)} · ${escapeHtml(routing)}${sources} · ${signed(item.length_delta_m, 1)} m · ${signed(item.station_delta)} stations</small></div>`;
   }).join("") || '<p class="empty-diff">No line or alignment changes</p>';
   const serviceItems = diff.services.map((item) => {
     const plan = item.after || item.before;

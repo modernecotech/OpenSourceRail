@@ -12,7 +12,8 @@ Run the Samawah vertical slice from the repository root:
     cargo run -p osr-city-studio -- serve
 
 The interface can create/move/retire manual stations, create complete manual
-lines from two endpoints, edit local alignment controls, plan service by
+lines from two endpoints using locked demand/buildability surfaces or an
+explicit direct chord, edit local alignment controls, plan service by
 line/day/time, regenerate GIS and simulator inputs, and compare the working
 candidate with immutable Git revision records.
 

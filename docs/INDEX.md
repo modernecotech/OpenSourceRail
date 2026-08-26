@@ -10,7 +10,7 @@ Regenerate from the repository root with:
 python3 scripts/generate-doc-index.py
 ```
 
-Indexed Markdown files: **1257**.
+Indexed Markdown files: **1258**.
 
 ## Sections
 
@@ -28,7 +28,7 @@ Indexed Markdown files: **1257**.
 | [hardware](#hardware) | 36 |
 | [lib](#lib) | 3 |
 | [mechanical-py](#mechanical-py) | 218 |
-| [projects](#projects) | 2 |
+| [projects](#projects) | 3 |
 | [scripts](#scripts) | 1 |
 | [tools](#tools) | 3 |
 
@@ -1349,6 +1349,7 @@ Indexed Markdown files: **1257**.
 |---|---|
 | [`projects/README.md`](../projects/README.md) | OSR City Projects |
 | [`projects/samawah/revisions/README.md`](../projects/samawah/revisions/README.md) | Samawah Design Revisions |
+| [`projects/samawah/routing/README.md`](../projects/samawah/routing/README.md) | Samawah City Studio routing bundle |
 
 ## scripts
 

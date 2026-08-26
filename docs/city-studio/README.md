@@ -80,6 +80,10 @@ Implemented:
 - two-click manual line creation with stable endpoint-derived ids;
 - automatic terminal platforms and day-type service plans for new lines;
 - coordinated manual-line naming, alignment editing, and retirement;
+- selectable source-locked demand/buildability routing or explicit direct
+  planning chords for new manual lines;
+- line-level routing provenance, demand weight, and raster source ids in the
+  candidate, GIS export, and immutable revision;
 - locked-anchor-aware local corridor regeneration after station movement;
 - click-to-create and drag-to-edit alignment control points;
 - weekly day-type calendars;
@@ -94,7 +98,6 @@ Implemented:
 
 Next:
 
-- source-locked demand-aware route search for manual-line alternatives;
 - simulator and engineering job adapters with progress/log capture;
 - CAD/IFC and richer GIS viewers;
 - demand/OD matrices and platform/interchange capacity;
@@ -105,17 +108,21 @@ Next:
 The map has four explicit tools. **Select** inspects and drags existing
 objects. **Add station** inserts a manual station where a line is clicked,
 assigns a stable id, and opens its name/archetype inspector. **Add line** takes
-two endpoints, creates a deterministically sampled radial corridor and two
-terminal platforms, and copies the existing day-type policy into editable
-service plans. **Edit alignment** adds a local corridor control point to either
-generated or manual lines. Manual station/line additions and retirements
+two endpoints and uses the selected routing strategy. **Demand + buildability**
+snaps each endpoint to the nearest feasible cell and runs deterministic
+least-cost search over the project's locked planning bundle. **Direct planning
+chord** remains an explicit fallback. Both strategies create two terminal
+platforms and copy the existing day-type policy into editable service plans.
+**Edit alignment** adds a local corridor control point to either generated or
+manual lines. Manual station/line additions and retirements
 rebuild both the candidate GeoJSON and the station, line, fleet, dispatch, and
 ordered topology records in every generated simulator scenario.
 
-The initial manual-line corridor is the direct endpoint chord. Designers can
-shape it with alignment control points immediately. It is an explicit manual
-planning candidate, not a claim that the chord is buildable; source-locked
-cost/demand/buildability raster routing remains the next solver increment.
+The Samawah routing bundle is a committed 100 m planning surface derived from
+the pipeline's 20 m cost, demand, and buildability rasters. Every component and
+its derivation record is SHA-256 locked. This is appropriate for comparing
+planning alternatives, not survey or detailed civil design. Designers can
+shape either route strategy further with alignment control points.
 
 The revision comparison panel compares any committed revision JSON with the
 current working candidate. It reports object additions, removals, movements,

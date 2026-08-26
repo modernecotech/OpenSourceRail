@@ -7,6 +7,8 @@ pub struct ProjectFile {
     pub project: ProjectIdentity,
     pub inputs: ProjectInputs,
     pub planning: PlanningAssumptions,
+    #[serde(default)]
+    pub routing: Option<RoutingSettings>,
     pub revision: RevisionPolicy,
 }
 
@@ -37,6 +39,31 @@ pub struct PlanningAssumptions {
     pub station_dwell_min: f64,
     pub terminal_turnaround_min: f64,
     pub geometry_regeneration_radius_m: f64,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+pub struct RoutingSettings {
+    pub sidecar: String,
+    pub slug: String,
+    pub source_ids: Vec<String>,
+    #[serde(default = "default_demand_weight")]
+    pub demand_weight: f32,
+    #[serde(default = "default_route_margin_m")]
+    pub search_margin_m: f64,
+    #[serde(default = "default_endpoint_snap_m")]
+    pub endpoint_snap_m: f64,
+}
+
+fn default_demand_weight() -> f32 {
+    5.0
+}
+
+fn default_route_margin_m() -> f64 {
+    2_500.0
+}
+
+fn default_endpoint_snap_m() -> f64 {
+    500.0
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
@@ -103,8 +130,18 @@ pub struct ManualLine {
     pub state: IntentState,
     pub shape: String,
     pub points: Vec<GeoPoint>,
+    #[serde(default = "direct_routing_method")]
+    pub routing_method: String,
+    #[serde(default)]
+    pub routing_source_ids: Vec<String>,
+    #[serde(default)]
+    pub demand_weight: Option<f32>,
     #[serde(default)]
     pub reason: String,
+}
+
+fn direct_routing_method() -> String {
+    "direct".to_string()
 }
 
 #[derive(Clone, Copy, Debug, Deserialize, Serialize)]
@@ -278,6 +315,12 @@ pub struct CompiledLine {
     pub shape: String,
     pub length_m: f64,
     pub station_count: usize,
+    #[serde(default)]
+    pub routing_method: String,
+    #[serde(default)]
+    pub routing_source_ids: Vec<String>,
+    #[serde(default)]
+    pub demand_weight: Option<f32>,
     #[serde(default = "generated_intent_state")]
     pub state: IntentState,
     #[serde(default)]
@@ -428,7 +471,18 @@ pub struct LineCreate {
     pub end_lat: f64,
     pub end_lon: f64,
     #[serde(default)]
+    pub routing: LineRoutingPreference,
+    #[serde(default)]
     pub reason: String,
+}
+
+#[derive(Clone, Copy, Debug, Default, Deserialize, Serialize, PartialEq, Eq)]
+#[serde(rename_all = "kebab-case")]
+pub enum LineRoutingPreference {
+    #[default]
+    Auto,
+    DemandAware,
+    Direct,
 }
 
 #[derive(Clone, Debug, Deserialize)]

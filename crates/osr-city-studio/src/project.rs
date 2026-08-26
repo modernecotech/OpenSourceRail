@@ -4,18 +4,19 @@ use std::path::{Path, PathBuf};
 use std::process::Command;
 
 use anyhow::{anyhow, bail, Context, Result};
+use osr_routing::{solve_path_in_bbox, DemandWeight, Grid, GridRef};
 use serde::Serialize;
 use sha2::{Digest, Sha256};
 
 use crate::model::{
     BaseDesign, BuildArtifact, BuildManifest, CompiledControlPoint, CompiledLine, CompiledSnapshot,
     CompiledStation, ControlPointCreate, ControlPointEdit, FindingSeverity, GeoPoint, GitState,
-    IntentState, LineControlPoint, LineCreate, LineEdit, LineServicePlan, ManualLine,
-    ManualStation, OverrideFile, ProjectFile, ResolvedSource, RevisionComparison,
+    IntentState, LineControlPoint, LineCreate, LineEdit, LineRoutingPreference, LineServicePlan,
+    ManualLine, ManualStation, OverrideFile, ProjectFile, ResolvedSource, RevisionComparison,
     RevisionControlDiff, RevisionLineDiff, RevisionListItem, RevisionMaterialized,
-    RevisionServiceDiff, RevisionStationDiff, RevisionSummaryDiff, ServiceMetric, ServicePlan,
-    SnapshotSummary, SourceLock, StationChange, StationCreate, StationEdit, StationOverride,
-    StudioArtifact, ValidationFinding,
+    RevisionServiceDiff, RevisionStationDiff, RevisionSummaryDiff, RoutingSettings, ServiceMetric,
+    ServicePlan, SnapshotSummary, SourceLock, StationChange, StationCreate, StationEdit,
+    StationOverride, StudioArtifact, ValidationFinding,
 };
 
 const SNAPSHOT_SCHEMA_VERSION: u32 = 1;
@@ -53,6 +54,14 @@ struct SnapshotContent<'a> {
 struct LineGeometry {
     source: Vec<[f64; 2]>,
     effective: Vec<[f64; 2]>,
+}
+
+#[derive(Debug)]
+struct RoutedLine {
+    points: Vec<GeoPoint>,
+    method: String,
+    source_ids: Vec<String>,
+    demand_weight: Option<f32>,
 }
 
 #[derive(Debug)]
@@ -333,6 +342,9 @@ impl CityProject {
                     shape: line.shape.clone(),
                     length_m,
                     station_count: station_counts.get(&line.name).copied().unwrap_or(0),
+                    routing_method: "generated-source".to_string(),
+                    routing_source_ids: Vec::new(),
+                    demand_weight: None,
                     state: IntentState::Generated,
                     reason: String::new(),
                 }
@@ -353,6 +365,9 @@ impl CityProject {
                         shape: line.shape.clone(),
                         length_m: polyline_length_m(&geometry.effective),
                         station_count: station_counts.get(&line.id).copied().unwrap_or(0),
+                        routing_method: line.routing_method.clone(),
+                        routing_source_ids: line.routing_source_ids.clone(),
+                        demand_weight: line.demand_weight,
                         state: IntentState::Manual,
                         reason: line.reason.clone(),
                     })
@@ -601,8 +616,14 @@ impl CityProject {
         if !(500.0..=100_000.0).contains(&length_m) {
             bail!("manual line endpoints must be between 500 m and 100 km apart");
         }
+        let RoutedLine {
+            points,
+            method: routing_method,
+            source_ids: routing_source_ids,
+            demand_weight,
+        } = self.route_manual_line(&create)?;
         let seed = format!(
-            "{:.7}:{:.7}:{:.7}:{:.7}",
+            "{:.7}:{:.7}:{:.7}:{:.7}:{routing_method}",
             create.start_lat, create.start_lon, create.end_lat, create.end_lon
         );
         let id = format!("manual-line-{}", &sha256_bytes(seed.as_bytes())[..12]);
@@ -611,34 +632,32 @@ impl CityProject {
         {
             bail!("a line already exists for these endpoints");
         }
-        let points = interpolate_line_points(
-            create.start_lat,
-            create.start_lon,
-            create.end_lat,
-            create.end_lon,
-            50.0,
-        );
         let route_length_m = polyline_length_m(
             &points
                 .iter()
                 .map(|point| [point.lon, point.lat])
                 .collect::<Vec<_>>(),
         );
+        let route_start = *points.first().expect("manual route has a start point");
+        let route_end = *points.last().expect("manual route has an end point");
         self.overrides.manual_lines.push(ManualLine {
             id: id.clone(),
             name: create.name.trim().to_string(),
             state: IntentState::Manual,
             shape: "radial".to_string(),
             points,
+            routing_method,
+            routing_source_ids,
+            demand_weight,
             reason: create.reason.clone(),
         });
         for (suffix, name_suffix, lat, lon, chainage) in [
-            ("terminal-a", "A", create.start_lat, create.start_lon, 0.0),
+            ("terminal-a", "A", route_start.lat, route_start.lon, 0.0),
             (
                 "terminal-b",
                 "B",
-                create.end_lat,
-                create.end_lon,
+                route_end.lat,
+                route_end.lon,
                 route_length_m,
             ),
         ] {
@@ -689,6 +708,89 @@ impl CityProject {
         write_toml_atomic(&overrides_path, &self.overrides)?;
         write_toml_atomic(&service_path, &self.service_plan)?;
         Ok(id)
+    }
+
+    fn route_manual_line(&self, create: &LineCreate) -> Result<RoutedLine> {
+        let demand_aware = match create.routing {
+            LineRoutingPreference::Auto => self.config.routing.is_some(),
+            LineRoutingPreference::DemandAware => true,
+            LineRoutingPreference::Direct => false,
+        };
+        if !demand_aware {
+            return Ok(RoutedLine {
+                points: interpolate_line_points(
+                    create.start_lat,
+                    create.start_lon,
+                    create.end_lat,
+                    create.end_lon,
+                    50.0,
+                ),
+                method: "direct".to_string(),
+                source_ids: Vec::new(),
+                demand_weight: None,
+            });
+        }
+
+        let settings = self.config.routing.as_ref().ok_or_else(|| {
+            anyhow!("this project has no source-locked routing bundle; select direct routing")
+        })?;
+        validate_routing_settings(settings)?;
+        let sources = self.resolve_sources()?;
+        for source_id in &settings.source_ids {
+            let source = sources
+                .iter()
+                .find(|source| &source.id == source_id)
+                .ok_or_else(|| anyhow!("routing source {source_id:?} is not source-locked"))?;
+            if !source.matches_lock {
+                bail!(
+                    "routing source {} does not match its SHA-256 lock",
+                    source.path
+                );
+            }
+        }
+        let sidecar = self.root.join(&settings.sidecar);
+        let bundle = osr_routing::raster::load_bundle(&sidecar, &settings.slug)
+            .with_context(|| format!("loading routing bundle {}", sidecar.display()))?;
+        let start = snapped_route_cell(
+            &bundle.grid,
+            create.start_lat,
+            create.start_lon,
+            settings.endpoint_snap_m,
+        )?;
+        let goal = snapped_route_cell(
+            &bundle.grid,
+            create.end_lat,
+            create.end_lon,
+            settings.endpoint_snap_m,
+        )?;
+        if start == goal {
+            bail!("manual line endpoints snap to the same routing cell");
+        }
+        let margin_cells =
+            (settings.search_margin_m / bundle.grid.reference.cell_m).ceil() as usize;
+        let bbox = route_bbox(&bundle.grid, start, goal, margin_cells);
+        let cells = solve_path_in_bbox(
+            &bundle.grid,
+            start,
+            goal,
+            DemandWeight(settings.demand_weight),
+            None,
+            Some(bbox),
+        )
+        .context("demand-aware route search found no buildable path")?;
+        let points = cells
+            .into_iter()
+            .map(|(row, col)| {
+                let (lat, lon) = bundle.grid.reference.rc_to_latlon(row, col);
+                GeoPoint { lat, lon }
+            })
+            .collect::<Vec<_>>();
+        Ok(RoutedLine {
+            points,
+            method: "demand-aware".to_string(),
+            source_ids: settings.source_ids.clone(),
+            demand_weight: Some(settings.demand_weight),
+        })
     }
 
     pub fn update_manual_line(&mut self, id: &str, edit: LineEdit) -> Result<()> {
@@ -1120,6 +1222,33 @@ impl CityProject {
                 });
             }
         }
+        if let Some(settings) = &self.config.routing {
+            if let Err(error) = validate_routing_settings(settings) {
+                findings.push(ValidationFinding {
+                    severity: FindingSeverity::Error,
+                    code: "INVALID_ROUTING_SETTINGS".to_string(),
+                    message: error.to_string(),
+                    object_id: Some("routing".to_string()),
+                });
+            }
+            let locked_ids = self
+                .source_lock
+                .sources
+                .iter()
+                .map(|source| source.id.as_str())
+                .collect::<BTreeSet<_>>();
+            for source_id in &settings.source_ids {
+                if !locked_ids.contains(source_id.as_str()) {
+                    findings.push(ValidationFinding {
+                        severity: FindingSeverity::Error,
+                        code: "UNLOCKED_ROUTING_SOURCE".to_string(),
+                        message: "routing bundle refers to a source without a SHA-256 lock"
+                            .to_string(),
+                        object_id: Some(source_id.clone()),
+                    });
+                }
+            }
+        }
 
         let station_ids: BTreeSet<&str> = self
             .base
@@ -1232,6 +1361,36 @@ impl CityProject {
                     message: "manual line must be a radial with at least two points".to_string(),
                     object_id: Some(line.id.clone()),
                 });
+            }
+            match line.routing_method.as_str() {
+                "direct" => {
+                    if !line.routing_source_ids.is_empty() || line.demand_weight.is_some() {
+                        findings.push(ValidationFinding {
+                            severity: FindingSeverity::Error,
+                            code: "INVALID_DIRECT_ROUTE_PROVENANCE".to_string(),
+                            message: "direct routes must not claim raster sources or demand weight"
+                                .to_string(),
+                            object_id: Some(line.id.clone()),
+                        });
+                    }
+                }
+                "demand-aware" => {
+                    if line.routing_source_ids.is_empty() || line.demand_weight.is_none() {
+                        findings.push(ValidationFinding {
+                            severity: FindingSeverity::Error,
+                            code: "MISSING_ROUTE_PROVENANCE".to_string(),
+                            message: "demand-aware route must record source ids and demand weight"
+                                .to_string(),
+                            object_id: Some(line.id.clone()),
+                        });
+                    }
+                }
+                _ => findings.push(ValidationFinding {
+                    severity: FindingSeverity::Error,
+                    code: "UNKNOWN_ROUTING_METHOD".to_string(),
+                    message: "manual line has an unknown routing method".to_string(),
+                    object_id: Some(line.id.clone()),
+                }),
             }
             for point in &line.points {
                 if let Err(error) = validate_coordinates(Some(point.lat), Some(point.lon)) {
@@ -1531,6 +1690,9 @@ impl CityProject {
                     "name": line.id,
                     "label": line.name,
                     "shape": line.shape,
+                    "routing_method": line.routing_method,
+                    "routing_source_ids": line.routing_source_ids,
+                    "demand_weight": line.demand_weight,
                     "intent_state": line.state,
                     "reason": line.reason,
                     "revision_id": snapshot.revision_id,
@@ -2394,8 +2556,31 @@ fn lines_semantically_equal(left: &CompiledLine, right: &CompiledLine) -> bool {
         && left.shape == right.shape
         && (left.length_m - right.length_m).abs() <= 0.001
         && left.station_count == right.station_count
+        && normalized_routing_method(left) == normalized_routing_method(right)
+        && left.routing_source_ids == right.routing_source_ids
+        && optional_f32_equal(left.demand_weight, right.demand_weight)
         && left.state == right.state
         && left.reason == right.reason
+}
+
+fn normalized_routing_method(line: &CompiledLine) -> &str {
+    if line.routing_method.is_empty() {
+        if line.state == IntentState::Generated {
+            "generated-source"
+        } else {
+            "direct"
+        }
+    } else {
+        line.routing_method.as_str()
+    }
+}
+
+fn optional_f32_equal(left: Option<f32>, right: Option<f32>) -> bool {
+    match (left, right) {
+        (Some(left), Some(right)) => (left - right).abs() <= 0.000_001,
+        (None, None) => true,
+        _ => false,
+    }
 }
 
 fn services_semantically_equal(left: &ServiceMetric, right: &ServiceMetric) -> bool {
@@ -2459,6 +2644,106 @@ fn polyline_length_m(coordinates: &[[f64; 2]]) -> f64 {
         .last()
         .copied()
         .unwrap_or(0.0)
+}
+
+fn validate_routing_settings(settings: &RoutingSettings) -> Result<()> {
+    if settings.sidecar.trim().is_empty() || settings.slug.trim().is_empty() {
+        bail!("routing sidecar and slug must not be empty");
+    }
+    if settings.source_ids.is_empty() {
+        bail!("routing bundle must identify its locked sources");
+    }
+    if !settings.demand_weight.is_finite() || !(0.0..=100.0).contains(&settings.demand_weight) {
+        bail!("routing demand weight must be finite and between 0 and 100");
+    }
+    if !settings.search_margin_m.is_finite()
+        || !(100.0..=50_000.0).contains(&settings.search_margin_m)
+    {
+        bail!("routing search margin must be between 100 m and 50 km");
+    }
+    if !settings.endpoint_snap_m.is_finite() || !(0.0..=5_000.0).contains(&settings.endpoint_snap_m)
+    {
+        bail!("routing endpoint snap must be between 0 and 5 km");
+    }
+    Ok(())
+}
+
+fn latlon_to_cell(reference: &GridRef, lat: f64, lon: f64) -> Result<(usize, usize)> {
+    if lat < reference.bbox_south
+        || lat > reference.bbox_north
+        || lon < reference.bbox_west
+        || lon > reference.bbox_east
+    {
+        bail!("line endpoint lies outside the source-locked routing grid");
+    }
+    let row = (((reference.bbox_north - lat) * reference.m_per_deg_lat) / reference.cell_m)
+        .floor()
+        .max(0.0) as usize;
+    let col = (((lon - reference.bbox_west) * reference.m_per_deg_lon) / reference.cell_m)
+        .floor()
+        .max(0.0) as usize;
+    Ok((
+        row.min(reference.height.saturating_sub(1)),
+        col.min(reference.width.saturating_sub(1)),
+    ))
+}
+
+fn snapped_route_cell(grid: &Grid, lat: f64, lon: f64, max_snap_m: f64) -> Result<(usize, usize)> {
+    let origin = latlon_to_cell(&grid.reference, lat, lon)?;
+    let radius = (max_snap_m / grid.reference.cell_m).ceil() as isize;
+    let mut candidates = Vec::new();
+    for dr in -radius..=radius {
+        for dc in -radius..=radius {
+            let row = origin.0 as isize + dr;
+            let col = origin.1 as isize + dc;
+            if !grid.in_bounds(row, col) {
+                continue;
+            }
+            let row = row as usize;
+            let col = col as usize;
+            if !grid.is_buildable(row, col) || !grid.cost_at(row, col).is_finite() {
+                continue;
+            }
+            let (candidate_lat, candidate_lon) = grid.reference.rc_to_latlon(row, col);
+            let distance_m = haversine_m(lat, lon, candidate_lat, candidate_lon);
+            if distance_m <= max_snap_m + 0.001 {
+                candidates.push((distance_m, row, col));
+            }
+        }
+    }
+    candidates.sort_by(|left, right| {
+        left.0
+            .total_cmp(&right.0)
+            .then_with(|| left.1.cmp(&right.1))
+            .then_with(|| left.2.cmp(&right.2))
+    });
+    candidates
+        .first()
+        .map(|(_, row, col)| (*row, *col))
+        .ok_or_else(|| {
+            anyhow!("no buildable routing cell lies within {max_snap_m:.0} m of endpoint")
+        })
+}
+
+fn route_bbox(
+    grid: &Grid,
+    start: (usize, usize),
+    goal: (usize, usize),
+    margin: usize,
+) -> ((usize, usize), (usize, usize)) {
+    let row_min = start.0.min(goal.0).saturating_sub(margin);
+    let col_min = start.1.min(goal.1).saturating_sub(margin);
+    let row_max = start
+        .0
+        .max(goal.0)
+        .saturating_add(margin)
+        .min(grid.reference.height.saturating_sub(1));
+    let col_max = start
+        .1
+        .max(goal.1)
+        .saturating_add(margin)
+        .min(grid.reference.width.saturating_sub(1));
+    ((row_min, col_min), (row_max, col_max))
 }
 
 fn interpolate_line_points(
@@ -2704,10 +2989,10 @@ fn git_output(cwd: &Path, args: &[&str]) -> Option<String> {
 mod tests {
     use std::path::Path;
 
-    use super::{normalized_interval, parse_minutes, validate_line_plan, CityProject};
+    use super::{haversine_m, normalized_interval, parse_minutes, validate_line_plan, CityProject};
     use crate::model::{
-        IntentState, LineControlPoint, LineCreate, LineServicePlan, ManualStation, ServiceWindow,
-        StationCreate, StationOverride,
+        IntentState, LineControlPoint, LineCreate, LineRoutingPreference, LineServicePlan,
+        ManualStation, ServiceWindow, StationCreate, StationOverride,
     };
 
     #[test]
@@ -3072,6 +3357,7 @@ mod tests {
                 start_lon: 45.225,
                 end_lat: 31.345,
                 end_lon: 45.325,
+                routing: LineRoutingPreference::Direct,
                 reason: "manual line acceptance".to_string(),
             })
             .expect("create line");
@@ -3136,5 +3422,95 @@ mod tests {
         assert_eq!(comparison.stations.len(), 2);
         assert_eq!(comparison.services.len(), 3);
         assert_eq!(comparison.summary.manual_line_count, 1);
+    }
+
+    #[test]
+    fn demand_aware_line_uses_locked_rasters_deterministically() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../../projects/samawah");
+        let mut project = CityProject::load(&root).expect("load Samawah project");
+        let temporary = tempfile::tempdir().expect("temporary project root");
+        std::fs::copy(
+            root.join("network/overrides.toml"),
+            temporary.path().join("overrides.toml"),
+        )
+        .expect("copy overrides");
+        std::fs::copy(
+            root.join("services/service-plan.toml"),
+            temporary.path().join("service-plan.toml"),
+        )
+        .expect("copy service plan");
+        let routing_sidecar = root
+            .join("routing/samawah.grid.json")
+            .canonicalize()
+            .expect("canonical routing sidecar");
+        project
+            .config
+            .routing
+            .as_mut()
+            .expect("routing settings")
+            .sidecar = routing_sidecar.display().to_string();
+        for source in &mut project.source_lock.sources {
+            source.path = root
+                .join(&source.path)
+                .canonicalize()
+                .expect("canonical locked source")
+                .display()
+                .to_string();
+        }
+        project.root = temporary.path().to_path_buf();
+        project.config.inputs.network_overrides = "overrides.toml".to_string();
+        project.config.inputs.service_plan = "service-plan.toml".to_string();
+        let create = LineCreate {
+            name: "Demand-aware connector".to_string(),
+            start_lat: 31.275,
+            start_lon: 45.225,
+            end_lat: 31.345,
+            end_lon: 45.325,
+            routing: LineRoutingPreference::DemandAware,
+            reason: "routing acceptance".to_string(),
+        };
+        let first = project
+            .route_manual_line(&create)
+            .expect("first demand-aware route");
+        let second = project
+            .route_manual_line(&create)
+            .expect("second demand-aware route");
+        assert_eq!(
+            serde_json::to_vec(&first.points).expect("serialize first route"),
+            serde_json::to_vec(&second.points).expect("serialize second route")
+        );
+        assert_eq!(first.method, "demand-aware");
+        assert_eq!(first.source_ids.len(), 6);
+        assert_eq!(first.demand_weight, Some(5.0));
+        assert!(first.points.len() > 20);
+
+        let id = project
+            .create_line(create)
+            .expect("create demand-aware line");
+        let line = project
+            .overrides
+            .manual_lines
+            .iter()
+            .find(|line| line.id == id)
+            .expect("saved demand-aware line");
+        assert_eq!(line.routing_method, "demand-aware");
+        assert_eq!(line.routing_source_ids.len(), 6);
+        assert_eq!(line.demand_weight, Some(5.0));
+        assert!(
+            haversine_m(
+                line.points.first().expect("route start").lat,
+                line.points.first().expect("route start").lon,
+                31.275,
+                45.225
+            ) <= 500.0
+        );
+        assert!(
+            haversine_m(
+                line.points.last().expect("route end").lat,
+                line.points.last().expect("route end").lon,
+                31.345,
+                45.325
+            ) <= 500.0
+        );
     }
 }

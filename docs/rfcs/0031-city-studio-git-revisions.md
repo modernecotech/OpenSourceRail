@@ -237,6 +237,10 @@ The Samawah project is the first committed acceptance fixture. It:
   regenerating GIS and simulator topology;
 - creates and retires complete manual lines, including terminal platforms,
   weekly services, fleet sizing, dispatch points, and candidate geometry;
+- creates manual lines through either source-locked demand/buildability
+  least-cost search or an explicitly identified direct planning chord;
+- records routing method, demand weight, and every raster/provenance source id
+  on the line and in candidate GIS output;
 - compares old revision records with the working candidate using engineering
   tolerances for serialized floating-point values;
 - emits separate weekday, Friday, and weekend simulator scenarios plus a
@@ -244,5 +248,5 @@ The Samawah project is the first committed acceptance fixture. It:
 - compiles without validation errors;
 - produces an identical content hash across repeated compilations.
 
-The next acceptance increment is source-locked demand-aware rerouting and
-GIS/CAD job adapters with captured logs and artifact hashes.
+The next acceptance increment is controlled GIS/CAD/simulation job adapters
+with captured progress, logs, exit state, and artifact hashes.

@@ -37,6 +37,12 @@
               <button type="button" class="map-tool" data-mode="line">Add line</button>
               <button type="button" class="map-tool" data-mode="control">Edit alignment</button>
             </div>
+            <label class="route-tool-setting">New-line routing
+              <select id="line-routing">
+                <option value="demand-aware">Demand + buildability</option>
+                <option value="direct">Direct planning chord</option>
+              </select>
+            </label>
             <p id="map-hint" class="hint">Select or drag an object to edit its intent.</p>
           </div>
         </div>
@@ -118,6 +124,9 @@
           <label>Line name<input id="line-name" maxlength="120"></label>
           <label>Shape<input id="line-shape" readonly></label>
           <label>Route length<div class="input-suffix"><input id="line-length" readonly><span>km</span></div></label>
+          <label>Routing method<input id="line-routing-method" readonly></label>
+          <label>Locked routing sources<textarea id="line-routing-sources" rows="3" readonly></textarea></label>
+          <label>Demand weight<input id="line-demand-weight" readonly></label>
           <label>Intent state<input id="line-state" readonly></label>
           <label>Design reason<textarea id="line-reason" rows="3"></textarea></label>
           <div class="form-actions split-actions">

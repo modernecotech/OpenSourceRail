@@ -21,6 +21,21 @@ station_dwell_min = 2.0
 terminal_turnaround_min = 5.0
 geometry_regeneration_radius_m = 2000.0
 
+[routing]
+sidecar = "routing/samawah.grid.json"
+slug = "samawah"
+source_ids = [
+  "routing-grid",
+  "routing-cost",
+  "routing-demand",
+  "routing-buildability",
+  "routing-anchors",
+  "routing-provenance",
+]
+demand_weight = 5.0
+search_margin_m = 2500.0
+endpoint_snap_m = 500.0
+
 [revision]
 policy = "pull-request"
 tag_prefix = "city/samawah/design/"

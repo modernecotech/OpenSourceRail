@@ -105,6 +105,8 @@ main { padding: 1.25rem; max-width: 1800px; margin: auto; }
 .hint { color: var(--muted); font-size: .78rem; max-width: 28rem; text-align: right; }
 .map-tools { display: flex; justify-content: flex-end; gap: .35rem; margin-bottom: .35rem; }
 .map-tool { padding: .38rem .58rem; font-size: .72rem; }
+.route-tool-setting { grid-template-columns: auto minmax(160px, 220px); align-items: center; justify-content: end; margin-bottom: .35rem; }
+.route-tool-setting select { padding: .35rem .45rem; font-size: .72rem; }
 
 #map-wrap {
   position: relative;
@@ -161,6 +163,7 @@ input, select, textarea {
 }
 input:focus, select:focus, textarea:focus { outline: 1px solid var(--accent); border-color: var(--accent); }
 input[readonly] { color: var(--muted); }
+textarea[readonly] { color: var(--muted); resize: vertical; }
 .input-suffix { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: .5rem; }
 .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: .65rem; }
 .change-note { color: var(--warning); font-size: .78rem; }
