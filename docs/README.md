@@ -17,7 +17,7 @@ the generated [Markdown documentation index](INDEX.md).
 | New contributor | [../CONTRIBUTING.md](../CONTRIBUTING.md), [../GOVERNANCE.md](../GOVERNANCE.md), then [GLOSSARY.md](GLOSSARY.md) |
 | Deployment reviewer | [Unified deployment model](deployment-model.md), [deployment roles](deployment-roles.md), then [designs/README.md](../designs/README.md) |
 | First-product reviewer | [First adoptable product](first-adoptable-product.md), then [operations portal](operations-portal/README.md) |
-| City/network planner | [designs/README.md](../designs/README.md), [cost model](cost-model.md), [civil OSR-ALN format](civil/osr-aln-format.md) |
+| City/network planner | [City Studio](city-studio/README.md), [designs/README.md](../designs/README.md), [cost model](cost-model.md), [civil OSR-ALN format](civil/osr-aln-format.md) |
 | Rolling-stock engineer | [rolling-stock/light-metro-3car/README.md](rolling-stock/light-metro-3car/README.md) |
 | Mechanical/CAD reviewer | [mechanical-py/README.md](../mechanical-py/README.md) and [mechanical-py/catalog/](../mechanical-py/catalog/) |
 | Hardware reviewer | [hardware/README.md](../hardware/README.md) and [hardware/rolling-stock-integration.md](../hardware/rolling-stock-integration.md) |
@@ -41,6 +41,7 @@ the generated [Markdown documentation index](INDEX.md).
 | [stations/](stations/README.md) | Station design material |
 | [operations/](operations/) | Rulebook and operating procedures |
 | [operations-portal/](operations-portal/README.md) | Browser portal for asset registers, manufacturing schedule, QA gates, maintenance schedule, Ops Core work orders, defects/NCR, audit, SQLite storage, and reconciliation |
+| [city-studio/](city-studio/README.md) | Git-backed city/GIS design, station intent, weekly service planning, deterministic candidates, and revision review |
 | [certification/](certification/) | EN 62267 pre-submission pack: system description, hazards, safety requirements, evidence, compliance matrix |
 | [safety-case/](safety-case/) | GSN safety-case source and generated views |
 | [hardware/](hardware/) | Hardware bring-up docs |
@@ -69,6 +70,7 @@ the generated [Markdown documentation index](INDEX.md).
 | OpenTrack vs SUMO/native operations-simulation decision | [opentrack-evaluation.md](opentrack-evaluation.md) |
 | Operations validation gates | [operations/validation-checklist.md](operations/validation-checklist.md) |
 | Operations portal | [operations-portal/README.md](operations-portal/README.md) |
+| City design and service-planning studio | [city-studio/README.md](city-studio/README.md) |
 | Ops Core operating model | [operations-portal/ops-core.md](operations-portal/ops-core.md) |
 | Acceptance/accreditation evidence status | [certification/evidence-status.md](certification/evidence-status.md) |
 | Construction QA system | [rfcs/0028-construction-quality-assurance.md](rfcs/0028-construction-quality-assurance.md) |

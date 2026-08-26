@@ -1,0 +1,133 @@
+schema_version = 1
+
+[calendar]
+monday = "weekday"
+tuesday = "weekday"
+wednesday = "weekday"
+thursday = "weekday"
+friday = "friday"
+saturday = "weekend"
+sunday = "weekend"
+
+[[day_types]]
+id = "weekday"
+name = "Monday to Thursday"
+
+[[day_types]]
+id = "friday"
+name = "Friday reduced midday"
+
+[[day_types]]
+id = "weekend"
+name = "Saturday and Sunday"
+
+[[line_plans]]
+line = "line-1"
+day_type = "weekday"
+service_start = "05:30"
+service_end = "23:30"
+windows = [
+  { from = "05:30", to = "07:00", headway_min = 12 },
+  { from = "07:00", to = "09:00", headway_min = 6 },
+  { from = "09:00", to = "15:00", headway_min = 12 },
+  { from = "15:00", to = "17:00", headway_min = 6 },
+  { from = "17:00", to = "22:00", headway_min = 12 },
+  { from = "22:00", to = "23:30", headway_min = 24 },
+]
+
+[[line_plans]]
+line = "line-2"
+day_type = "weekday"
+service_start = "05:30"
+service_end = "23:30"
+windows = [
+  { from = "05:30", to = "07:00", headway_min = 12 },
+  { from = "07:00", to = "09:00", headway_min = 6 },
+  { from = "09:00", to = "15:00", headway_min = 12 },
+  { from = "15:00", to = "17:00", headway_min = 6 },
+  { from = "17:00", to = "22:00", headway_min = 12 },
+  { from = "22:00", to = "23:30", headway_min = 24 },
+]
+
+[[line_plans]]
+line = "line-3"
+day_type = "weekday"
+service_start = "05:30"
+service_end = "23:30"
+windows = [
+  { from = "05:30", to = "07:00", headway_min = 12 },
+  { from = "07:00", to = "09:00", headway_min = 6 },
+  { from = "09:00", to = "15:00", headway_min = 12 },
+  { from = "15:00", to = "17:00", headway_min = 6 },
+  { from = "17:00", to = "22:00", headway_min = 12 },
+  { from = "22:00", to = "23:30", headway_min = 24 },
+]
+
+[[line_plans]]
+line = "line-1"
+day_type = "friday"
+service_start = "05:30"
+service_end = "23:30"
+windows = [
+  { from = "05:30", to = "11:30", headway_min = 12 },
+  { from = "11:30", to = "14:00", headway_min = 24 },
+  { from = "14:00", to = "22:00", headway_min = 12 },
+  { from = "22:00", to = "23:30", headway_min = 24 },
+]
+
+[[line_plans]]
+line = "line-2"
+day_type = "friday"
+service_start = "05:30"
+service_end = "23:30"
+windows = [
+  { from = "05:30", to = "11:30", headway_min = 12 },
+  { from = "11:30", to = "14:00", headway_min = 24 },
+  { from = "14:00", to = "22:00", headway_min = 12 },
+  { from = "22:00", to = "23:30", headway_min = 24 },
+]
+
+[[line_plans]]
+line = "line-3"
+day_type = "friday"
+service_start = "05:30"
+service_end = "23:30"
+windows = [
+  { from = "05:30", to = "11:30", headway_min = 12 },
+  { from = "11:30", to = "14:00", headway_min = 24 },
+  { from = "14:00", to = "22:00", headway_min = 12 },
+  { from = "22:00", to = "23:30", headway_min = 24 },
+]
+
+[[line_plans]]
+line = "line-1"
+day_type = "weekend"
+service_start = "06:00"
+service_end = "23:30"
+windows = [
+  { from = "06:00", to = "10:00", headway_min = 15 },
+  { from = "10:00", to = "22:00", headway_min = 12 },
+  { from = "22:00", to = "23:30", headway_min = 24 },
+]
+
+[[line_plans]]
+line = "line-2"
+day_type = "weekend"
+service_start = "06:00"
+service_end = "23:30"
+windows = [
+  { from = "06:00", to = "10:00", headway_min = 15 },
+  { from = "10:00", to = "22:00", headway_min = 12 },
+  { from = "22:00", to = "23:30", headway_min = 24 },
+]
+
+[[line_plans]]
+line = "line-3"
+day_type = "weekend"
+service_start = "06:00"
+service_end = "23:30"
+windows = [
+  { from = "06:00", to = "10:00", headway_min = 15 },
+  { from = "10:00", to = "22:00", headway_min = 12 },
+  { from = "22:00", to = "23:30", headway_min = 24 },
+]

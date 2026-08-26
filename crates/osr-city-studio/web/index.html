@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>OSR City Studio</title>
+  <link rel="stylesheet" href="/app.css">
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <p class="eyebrow">OpenSourceRail</p>
+      <h1>City Studio</h1>
+    </div>
+    <div id="git-status" class="git-status">Loading Git status…</div>
+    <div class="actions">
+      <button id="reload" class="secondary">Reload</button>
+      <button id="compile">Compile candidate</button>
+      <button id="revision" class="primary">Materialize revision</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="summary-strip" id="summary"></section>
+
+    <section class="workspace">
+      <article class="panel map-panel">
+        <div class="panel-heading">
+          <div>
+            <p class="eyebrow">Design and GIS</p>
+            <h2>Network intent</h2>
+          </div>
+          <div>
+            <div class="map-tools" role="group" aria-label="Map authoring tool">
+              <button type="button" class="map-tool active" data-mode="select">Select</button>
+              <button type="button" class="map-tool" data-mode="station">Add station</button>
+              <button type="button" class="map-tool" data-mode="control">Edit alignment</button>
+            </div>
+            <p id="map-hint" class="hint">Select or drag an object to edit its intent.</p>
+          </div>
+        </div>
+        <div id="map-wrap">
+          <svg id="network-map" viewBox="0 0 1000 620" role="img" aria-label="Editable city rail network"></svg>
+          <div class="legend">
+            <span><i class="generated"></i>Generated</span>
+            <span><i class="preferred"></i>Preferred</span>
+            <span><i class="locked"></i>Locked</span>
+            <span><i class="moved"></i>Moved</span>
+          </div>
+        </div>
+      </article>
+
+      <aside class="panel inspector-panel">
+        <div class="panel-heading">
+          <div>
+            <p class="eyebrow">Object inspector</p>
+            <h2 id="station-title">Select a station</h2>
+          </div>
+        </div>
+        <form id="station-form" class="stack" hidden>
+          <label>Stable station ID<input id="station-id" readonly></label>
+          <label>Line<input id="station-line" readonly></label>
+          <label>Station name<input id="station-name" maxlength="120"></label>
+          <label>Archetype
+            <select id="station-archetype">
+              <option value="standard">Standard</option>
+              <option value="major">Major</option>
+              <option value="halt">Halt</option>
+              <option value="terminal">Terminal</option>
+              <option value="interchange-elevated">Interchange elevated</option>
+              <option value="depot-terminal">Depot terminal</option>
+            </select>
+          </label>
+          <div class="two-col">
+            <label>Latitude<input id="station-lat" type="number" step="0.0000001"></label>
+            <label>Longitude<input id="station-lon" type="number" step="0.0000001"></label>
+          </div>
+          <label>Intent state
+            <select id="station-state">
+              <option value="generated">Generated</option>
+              <option value="preferred">Preferred</option>
+              <option value="locked">Locked</option>
+              <option value="manual">Manual</option>
+              <option value="retired">Retired</option>
+            </select>
+          </label>
+          <label>Design reason<textarea id="station-reason" rows="3"></textarea></label>
+          <p id="station-change" class="change-note"></p>
+          <div class="form-actions split-actions">
+            <button type="button" id="delete-station" class="danger" hidden>Retire manual station</button>
+            <button type="submit" class="primary">Save station intent</button>
+          </div>
+        </form>
+        <form id="control-form" class="stack" hidden>
+          <label>Stable control-point ID<input id="control-id" readonly></label>
+          <label>Line<input id="control-line" readonly></label>
+          <div class="two-col">
+            <label>Latitude<input id="control-lat" type="number" step="0.0000001"></label>
+            <label>Longitude<input id="control-lon" type="number" step="0.0000001"></label>
+          </div>
+          <label>Intent state
+            <select id="control-state">
+              <option value="preferred">Preferred</option>
+              <option value="locked">Locked</option>
+              <option value="retired">Retired</option>
+            </select>
+          </label>
+          <label>Regeneration influence radius
+            <div class="input-suffix"><input id="control-influence" type="number" min="100" max="20000" step="100"><span>m</span></div>
+          </label>
+          <label>Design reason<textarea id="control-reason" rows="3"></textarea></label>
+          <p id="control-change" class="change-note"></p>
+          <button type="submit" class="primary">Save line geometry intent</button>
+        </form>
+        <div id="findings"></div>
+      </aside>
+    </section>
+
+    <section class="workspace lower">
+      <article class="panel service-panel">
+        <div class="panel-heading">
+          <div>
+            <p class="eyebrow">Operations planning</p>
+            <h2>Line, day and time service</h2>
+          </div>
+          <div class="selectors">
+            <select id="service-line"></select>
+            <select id="service-day"></select>
+          </div>
+        </div>
+        <form id="service-form">
+          <div class="service-span two-col">
+            <label>Service starts<input id="service-start" type="time"></label>
+            <label>Service ends<input id="service-end" type="time"></label>
+          </div>
+          <table>
+            <thead><tr><th>From</th><th>To</th><th>Headway</th><th>Capacity</th><th></th></tr></thead>
+            <tbody id="service-windows"></tbody>
+          </table>
+          <div class="form-actions">
+            <button type="button" id="add-window" class="secondary">Add window</button>
+            <button type="submit" class="primary">Save service plan</button>
+          </div>
+        </form>
+        <div id="service-metric" class="metric-callout"></div>
+      </article>
+
+      <aside class="panel artifacts-panel">
+        <div class="panel-heading">
+          <div>
+            <p class="eyebrow">Engineering hub</p>
+            <h2>Generated tools and artifacts</h2>
+          </div>
+        </div>
+        <div id="artifacts"></div>
+        <div id="operation-result" class="operation-result"></div>
+      </aside>
+    </section>
+
+    <section class="panel revision-panel">
+      <div class="panel-heading">
+        <div>
+          <p class="eyebrow">Git review</p>
+          <h2>Revision comparison</h2>
+        </div>
+        <div class="selectors">
+          <select id="revision-base" aria-label="Base revision"></select>
+          <button id="compare-revision" type="button" class="secondary">Compare with candidate</button>
+        </div>
+      </div>
+      <div id="revision-comparison" class="revision-comparison">
+        Materialize a revision to establish a review baseline.
+      </div>
+    </section>
+  </main>
+  <div id="toast" role="status"></div>
+  <script src="/app.js"></script>
+</body>
+</html>

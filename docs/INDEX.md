@@ -10,25 +10,33 @@ Regenerate from the repository root with:
 python3 scripts/generate-doc-index.py
 ```
 
-Indexed Markdown files: **1200**.
+Indexed Markdown files: **1257**.
 
 ## Sections
 
 | Section | Files |
 |---|---:|
+| [.github](#.github) | 1 |
 | [LICENSES](#licenses) | 1 |
 | [Repository Root](#repository-root) | 5 |
-| [crates](#crates) | 3 |
+| [crates](#crates) | 4 |
 | [deployment](#deployment) | 1 |
-| [designs](#designs) | 799 |
-| [docs](#docs) | 127 |
-| [engineering](#engineering) | 1 |
+| [designs](#designs) | 844 |
+| [docs](#docs) | 134 |
+| [engineering](#engineering) | 2 |
 | [formal](#formal) | 2 |
 | [hardware](#hardware) | 36 |
 | [lib](#lib) | 3 |
 | [mechanical-py](#mechanical-py) | 218 |
+| [projects](#projects) | 2 |
 | [scripts](#scripts) | 1 |
 | [tools](#tools) | 3 |
+
+## .github
+
+| File | Title |
+|---|---|
+| [`.github/PULL_REQUEST_TEMPLATE/city-design.md`](../.github/PULL_REQUEST_TEMPLATE/city-design.md) | City Design |
 
 ## LICENSES
 
@@ -51,6 +59,7 @@ Indexed Markdown files: **1200**.
 | File | Title |
 |---|---|
 | [`crates/README.md`](../crates/README.md) | Rust Workspace |
+| [`crates/osr-city-studio/README.md`](../crates/osr-city-studio/README.md) | osr-city-studio |
 | [`crates/osr-occ-gui/README.md`](../crates/osr-occ-gui/README.md) | osr-occ-gui — operations-control dispatcher console (RFC 0018) |
 | [`crates/osr-sim-gui/README.md`](../crates/osr-sim-gui/README.md) | osr-sim-gui — simulator GUI (RFC 0018) |
 
@@ -86,6 +95,7 @@ Indexed Markdown files: **1200**.
 | [`designs/central-africa/DR Congo/Mbuji-Mayi/README.md`](../designs/central-africa/DR Congo/Mbuji-Mayi/README.md) | Mbuji-Mayi — Urban Rail Network |
 | [`designs/central-africa/DR Congo/Mbuji-Mayi/engineering/alignment/README.md`](../designs/central-africa/DR Congo/Mbuji-Mayi/engineering/alignment/README.md) | Mbuji-Mayi Planning OSR-ALN Package |
 | [`designs/central-africa/DR Congo/Mbuji-Mayi/operations/acceptance-evidence-report.md`](../designs/central-africa/DR Congo/Mbuji-Mayi/operations/acceptance-evidence-report.md) | Mbuji Mayi Acceptance And Accreditation Evidence Basis |
+| [`designs/central-africa/DR Congo/NATIONAL-BRIEF.md`](../designs/central-africa/DR Congo/NATIONAL-BRIEF.md) | DR Congo national OpenSourceRail strategy |
 | [`designs/east-africa/Angola/Benguela/README.md`](../designs/east-africa/Angola/Benguela/README.md) | Benguela — Urban Rail Network |
 | [`designs/east-africa/Angola/Benguela/engineering/alignment/README.md`](../designs/east-africa/Angola/Benguela/engineering/alignment/README.md) | Benguela Planning OSR-ALN Package |
 | [`designs/east-africa/Angola/Benguela/operations/acceptance-evidence-report.md`](../designs/east-africa/Angola/Benguela/operations/acceptance-evidence-report.md) | Benguela Acceptance And Accreditation Evidence Basis |
@@ -104,6 +114,7 @@ Indexed Markdown files: **1200**.
 | [`designs/east-africa/Angola/Malanje/README.md`](../designs/east-africa/Angola/Malanje/README.md) | Malanje — Urban Rail Network |
 | [`designs/east-africa/Angola/Malanje/engineering/alignment/README.md`](../designs/east-africa/Angola/Malanje/engineering/alignment/README.md) | Malanje Planning OSR-ALN Package |
 | [`designs/east-africa/Angola/Malanje/operations/acceptance-evidence-report.md`](../designs/east-africa/Angola/Malanje/operations/acceptance-evidence-report.md) | Malanje Acceptance And Accreditation Evidence Basis |
+| [`designs/east-africa/Angola/NATIONAL-BRIEF.md`](../designs/east-africa/Angola/NATIONAL-BRIEF.md) | Angola national OpenSourceRail strategy |
 | [`designs/east-africa/Angola/Namibe/README.md`](../designs/east-africa/Angola/Namibe/README.md) | Namibe — Urban Rail Network |
 | [`designs/east-africa/Angola/Namibe/engineering/alignment/README.md`](../designs/east-africa/Angola/Namibe/engineering/alignment/README.md) | Namibe Planning OSR-ALN Package |
 | [`designs/east-africa/Angola/Namibe/operations/acceptance-evidence-report.md`](../designs/east-africa/Angola/Namibe/operations/acceptance-evidence-report.md) | Namibe Acceptance And Accreditation Evidence Basis |
@@ -143,6 +154,7 @@ Indexed Markdown files: **1200**.
 | [`designs/east-africa/Kenya/Mombasa/README.md`](../designs/east-africa/Kenya/Mombasa/README.md) | Mombasa — Urban Rail Network |
 | [`designs/east-africa/Kenya/Mombasa/engineering/alignment/README.md`](../designs/east-africa/Kenya/Mombasa/engineering/alignment/README.md) | Mombasa Planning OSR-ALN Package |
 | [`designs/east-africa/Kenya/Mombasa/operations/acceptance-evidence-report.md`](../designs/east-africa/Kenya/Mombasa/operations/acceptance-evidence-report.md) | Mombasa Acceptance And Accreditation Evidence Basis |
+| [`designs/east-africa/Kenya/NATIONAL-BRIEF.md`](../designs/east-africa/Kenya/NATIONAL-BRIEF.md) | Kenya national OpenSourceRail strategy |
 | [`designs/east-africa/Kenya/Nairobi/README.md`](../designs/east-africa/Kenya/Nairobi/README.md) | Nairobi — Urban Rail Network |
 | [`designs/east-africa/Kenya/Nairobi/engineering/alignment/README.md`](../designs/east-africa/Kenya/Nairobi/engineering/alignment/README.md) | Nairobi Planning OSR-ALN Package |
 | [`designs/east-africa/Kenya/Nairobi/operations/acceptance-evidence-report.md`](../designs/east-africa/Kenya/Nairobi/operations/acceptance-evidence-report.md) | Nairobi Acceptance And Accreditation Evidence Basis |
@@ -161,6 +173,7 @@ Indexed Markdown files: **1200**.
 | [`designs/east-africa/Madagascar/Antananarivo/README.md`](../designs/east-africa/Madagascar/Antananarivo/README.md) | Antananarivo — Urban Rail Network |
 | [`designs/east-africa/Madagascar/Antananarivo/engineering/alignment/README.md`](../designs/east-africa/Madagascar/Antananarivo/engineering/alignment/README.md) | Antananarivo Planning OSR-ALN Package |
 | [`designs/east-africa/Madagascar/Antananarivo/operations/acceptance-evidence-report.md`](../designs/east-africa/Madagascar/Antananarivo/operations/acceptance-evidence-report.md) | Antananarivo Acceptance And Accreditation Evidence Basis |
+| [`designs/east-africa/Madagascar/NATIONAL-BRIEF.md`](../designs/east-africa/Madagascar/NATIONAL-BRIEF.md) | Madagascar national OpenSourceRail strategy |
 | [`designs/east-africa/Mozambique/Beira/README.md`](../designs/east-africa/Mozambique/Beira/README.md) | Beira — Urban Rail Network |
 | [`designs/east-africa/Mozambique/Beira/engineering/alignment/README.md`](../designs/east-africa/Mozambique/Beira/engineering/alignment/README.md) | Beira Planning OSR-ALN Package |
 | [`designs/east-africa/Mozambique/Beira/operations/acceptance-evidence-report.md`](../designs/east-africa/Mozambique/Beira/operations/acceptance-evidence-report.md) | Beira Acceptance And Accreditation Evidence Basis |
@@ -173,6 +186,7 @@ Indexed Markdown files: **1200**.
 | [`designs/east-africa/Mozambique/Maputo/README.md`](../designs/east-africa/Mozambique/Maputo/README.md) | Maputo — Urban Rail Network |
 | [`designs/east-africa/Mozambique/Maputo/engineering/alignment/README.md`](../designs/east-africa/Mozambique/Maputo/engineering/alignment/README.md) | Maputo Planning OSR-ALN Package |
 | [`designs/east-africa/Mozambique/Maputo/operations/acceptance-evidence-report.md`](../designs/east-africa/Mozambique/Maputo/operations/acceptance-evidence-report.md) | Maputo Acceptance And Accreditation Evidence Basis |
+| [`designs/east-africa/Mozambique/NATIONAL-BRIEF.md`](../designs/east-africa/Mozambique/NATIONAL-BRIEF.md) | Mozambique national OpenSourceRail strategy |
 | [`designs/east-africa/Mozambique/Nacala/README.md`](../designs/east-africa/Mozambique/Nacala/README.md) | Nacala — Urban Rail Network |
 | [`designs/east-africa/Mozambique/Nacala/engineering/alignment/README.md`](../designs/east-africa/Mozambique/Nacala/engineering/alignment/README.md) | Nacala Planning OSR-ALN Package |
 | [`designs/east-africa/Mozambique/Nacala/operations/acceptance-evidence-report.md`](../designs/east-africa/Mozambique/Nacala/operations/acceptance-evidence-report.md) | Nacala Acceptance And Accreditation Evidence Basis |
@@ -197,12 +211,14 @@ Indexed Markdown files: **1200**.
 | [`designs/east-africa/Rwanda/Kigali/README.md`](../designs/east-africa/Rwanda/Kigali/README.md) | Kigali — Urban Rail Network |
 | [`designs/east-africa/Rwanda/Kigali/engineering/alignment/README.md`](../designs/east-africa/Rwanda/Kigali/engineering/alignment/README.md) | Kigali Planning OSR-ALN Package |
 | [`designs/east-africa/Rwanda/Kigali/operations/acceptance-evidence-report.md`](../designs/east-africa/Rwanda/Kigali/operations/acceptance-evidence-report.md) | Kigali Acceptance And Accreditation Evidence Basis |
+| [`designs/east-africa/Rwanda/NATIONAL-BRIEF.md`](../designs/east-africa/Rwanda/NATIONAL-BRIEF.md) | Rwanda national OpenSourceRail strategy |
 | [`designs/east-africa/Rwanda/Rubavu/README.md`](../designs/east-africa/Rwanda/Rubavu/README.md) | Rubavu — Urban Rail Network |
 | [`designs/east-africa/Rwanda/Rubavu/engineering/alignment/README.md`](../designs/east-africa/Rwanda/Rubavu/engineering/alignment/README.md) | Rubavu Planning OSR-ALN Package |
 | [`designs/east-africa/Rwanda/Rubavu/operations/acceptance-evidence-report.md`](../designs/east-africa/Rwanda/Rubavu/operations/acceptance-evidence-report.md) | Rubavu Acceptance And Accreditation Evidence Basis |
 | [`designs/east-africa/Somalia/Mogadishu/README.md`](../designs/east-africa/Somalia/Mogadishu/README.md) | Mogadishu — Urban Rail Network |
 | [`designs/east-africa/Somalia/Mogadishu/engineering/alignment/README.md`](../designs/east-africa/Somalia/Mogadishu/engineering/alignment/README.md) | Mogadishu Planning OSR-ALN Package |
 | [`designs/east-africa/Somalia/Mogadishu/operations/acceptance-evidence-report.md`](../designs/east-africa/Somalia/Mogadishu/operations/acceptance-evidence-report.md) | Mogadishu Acceptance And Accreditation Evidence Basis |
+| [`designs/east-africa/Somalia/NATIONAL-BRIEF.md`](../designs/east-africa/Somalia/NATIONAL-BRIEF.md) | Somalia national OpenSourceRail strategy |
 | [`designs/east-africa/Tanzania/Arusha/README.md`](../designs/east-africa/Tanzania/Arusha/README.md) | Arusha — Urban Rail Network |
 | [`designs/east-africa/Tanzania/Arusha/engineering/alignment/README.md`](../designs/east-africa/Tanzania/Arusha/engineering/alignment/README.md) | Arusha Planning OSR-ALN Package |
 | [`designs/east-africa/Tanzania/Arusha/operations/acceptance-evidence-report.md`](../designs/east-africa/Tanzania/Arusha/operations/acceptance-evidence-report.md) | Arusha Acceptance And Accreditation Evidence Basis |
@@ -230,6 +246,7 @@ Indexed Markdown files: **1200**.
 | [`designs/east-africa/Tanzania/Mwanza/README.md`](../designs/east-africa/Tanzania/Mwanza/README.md) | Mwanza — Urban Rail Network |
 | [`designs/east-africa/Tanzania/Mwanza/engineering/alignment/README.md`](../designs/east-africa/Tanzania/Mwanza/engineering/alignment/README.md) | Mwanza Planning OSR-ALN Package |
 | [`designs/east-africa/Tanzania/Mwanza/operations/acceptance-evidence-report.md`](../designs/east-africa/Tanzania/Mwanza/operations/acceptance-evidence-report.md) | Mwanza Acceptance And Accreditation Evidence Basis |
+| [`designs/east-africa/Tanzania/NATIONAL-BRIEF.md`](../designs/east-africa/Tanzania/NATIONAL-BRIEF.md) | Tanzania national OpenSourceRail strategy |
 | [`designs/east-africa/Tanzania/Shinyanga/README.md`](../designs/east-africa/Tanzania/Shinyanga/README.md) | Shinyanga — Urban Rail Network |
 | [`designs/east-africa/Tanzania/Shinyanga/engineering/alignment/README.md`](../designs/east-africa/Tanzania/Shinyanga/engineering/alignment/README.md) | Shinyanga Planning OSR-ALN Package |
 | [`designs/east-africa/Tanzania/Shinyanga/operations/acceptance-evidence-report.md`](../designs/east-africa/Tanzania/Shinyanga/operations/acceptance-evidence-report.md) | Shinyanga Acceptance And Accreditation Evidence Basis |
@@ -281,21 +298,27 @@ Indexed Markdown files: **1200**.
 | [`designs/east-africa/Uganda/Mbarara/README.md`](../designs/east-africa/Uganda/Mbarara/README.md) | Mbarara — Urban Rail Network |
 | [`designs/east-africa/Uganda/Mbarara/engineering/alignment/README.md`](../designs/east-africa/Uganda/Mbarara/engineering/alignment/README.md) | Mbarara Planning OSR-ALN Package |
 | [`designs/east-africa/Uganda/Mbarara/operations/acceptance-evidence-report.md`](../designs/east-africa/Uganda/Mbarara/operations/acceptance-evidence-report.md) | Mbarara Acceptance And Accreditation Evidence Basis |
+| [`designs/east-africa/Uganda/NATIONAL-BRIEF.md`](../designs/east-africa/Uganda/NATIONAL-BRIEF.md) | Uganda national OpenSourceRail strategy |
 | [`designs/east-africa/Uganda/Soroti/README.md`](../designs/east-africa/Uganda/Soroti/README.md) | Soroti — Urban Rail Network |
 | [`designs/east-africa/Uganda/Soroti/engineering/alignment/README.md`](../designs/east-africa/Uganda/Soroti/engineering/alignment/README.md) | Soroti Planning OSR-ALN Package |
 | [`designs/east-africa/Uganda/Soroti/operations/acceptance-evidence-report.md`](../designs/east-africa/Uganda/Soroti/operations/acceptance-evidence-report.md) | Soroti Acceptance And Accreditation Evidence Basis |
 | [`designs/east-africa/Zambia/Lusaka/README.md`](../designs/east-africa/Zambia/Lusaka/README.md) | Lusaka — Urban Rail Network |
 | [`designs/east-africa/Zambia/Lusaka/engineering/alignment/README.md`](../designs/east-africa/Zambia/Lusaka/engineering/alignment/README.md) | Lusaka Planning OSR-ALN Package |
 | [`designs/east-africa/Zambia/Lusaka/operations/acceptance-evidence-report.md`](../designs/east-africa/Zambia/Lusaka/operations/acceptance-evidence-report.md) | Lusaka Acceptance And Accreditation Evidence Basis |
+| [`designs/east-africa/Zambia/NATIONAL-BRIEF.md`](../designs/east-africa/Zambia/NATIONAL-BRIEF.md) | Zambia national OpenSourceRail strategy |
 | [`designs/europe/France/Lyon/README.md`](../designs/europe/France/Lyon/README.md) | Lyon — Urban Rail Network |
 | [`designs/europe/France/Lyon/engineering/alignment/README.md`](../designs/europe/France/Lyon/engineering/alignment/README.md) | Lyon Planning OSR-ALN Package |
 | [`designs/europe/France/Lyon/operations/acceptance-evidence-report.md`](../designs/europe/France/Lyon/operations/acceptance-evidence-report.md) | Lyon Acceptance And Accreditation Evidence Basis |
+| [`designs/europe/France/NATIONAL-BRIEF.md`](../designs/europe/France/NATIONAL-BRIEF.md) | France national OpenSourceRail strategy |
 | [`designs/latin-america/Bolivia/La-Paz/README.md`](../designs/latin-america/Bolivia/La-Paz/README.md) | La-Paz — Urban Rail Network |
 | [`designs/latin-america/Bolivia/La-Paz/engineering/alignment/README.md`](../designs/latin-america/Bolivia/La-Paz/engineering/alignment/README.md) | La-Paz Planning OSR-ALN Package |
 | [`designs/latin-america/Bolivia/La-Paz/operations/acceptance-evidence-report.md`](../designs/latin-america/Bolivia/La-Paz/operations/acceptance-evidence-report.md) | La Paz Acceptance And Accreditation Evidence Basis |
+| [`designs/latin-america/Bolivia/NATIONAL-BRIEF.md`](../designs/latin-america/Bolivia/NATIONAL-BRIEF.md) | Bolivia national OpenSourceRail strategy |
 | [`designs/latin-america/Ecuador/Cuenca/README.md`](../designs/latin-america/Ecuador/Cuenca/README.md) | Cuenca — Urban Rail Network |
 | [`designs/latin-america/Ecuador/Cuenca/engineering/alignment/README.md`](../designs/latin-america/Ecuador/Cuenca/engineering/alignment/README.md) | Cuenca Planning OSR-ALN Package |
 | [`designs/latin-america/Ecuador/Cuenca/operations/acceptance-evidence-report.md`](../designs/latin-america/Ecuador/Cuenca/operations/acceptance-evidence-report.md) | Cuenca Acceptance And Accreditation Evidence Basis |
+| [`designs/latin-america/Ecuador/NATIONAL-BRIEF.md`](../designs/latin-america/Ecuador/NATIONAL-BRIEF.md) | Ecuador national OpenSourceRail strategy |
+| [`designs/latin-america/El Salvador/NATIONAL-BRIEF.md`](../designs/latin-america/El Salvador/NATIONAL-BRIEF.md) | El Salvador national OpenSourceRail strategy |
 | [`designs/latin-america/El Salvador/San-Salvador/README.md`](../designs/latin-america/El Salvador/San-Salvador/README.md) | San-Salvador — Urban Rail Network |
 | [`designs/latin-america/El Salvador/San-Salvador/engineering/alignment/README.md`](../designs/latin-america/El Salvador/San-Salvador/engineering/alignment/README.md) | San-Salvador Planning OSR-ALN Package |
 | [`designs/latin-america/El Salvador/San-Salvador/operations/acceptance-evidence-report.md`](../designs/latin-america/El Salvador/San-Salvador/operations/acceptance-evidence-report.md) | San Salvador Acceptance And Accreditation Evidence Basis |
@@ -320,6 +343,7 @@ Indexed Markdown files: **1200**.
 | [`designs/north-africa/Morocco/Meknes/README.md`](../designs/north-africa/Morocco/Meknes/README.md) | Meknes — Urban Rail Network |
 | [`designs/north-africa/Morocco/Meknes/engineering/alignment/README.md`](../designs/north-africa/Morocco/Meknes/engineering/alignment/README.md) | Meknes Planning OSR-ALN Package |
 | [`designs/north-africa/Morocco/Meknes/operations/acceptance-evidence-report.md`](../designs/north-africa/Morocco/Meknes/operations/acceptance-evidence-report.md) | Meknes Acceptance And Accreditation Evidence Basis |
+| [`designs/north-africa/Morocco/NATIONAL-BRIEF.md`](../designs/north-africa/Morocco/NATIONAL-BRIEF.md) | Morocco national OpenSourceRail strategy |
 | [`designs/north-africa/Morocco/Nador/README.md`](../designs/north-africa/Morocco/Nador/README.md) | Nador — Urban Rail Network |
 | [`designs/north-africa/Morocco/Nador/engineering/alignment/README.md`](../designs/north-africa/Morocco/Nador/engineering/alignment/README.md) | Nador Planning OSR-ALN Package |
 | [`designs/north-africa/Morocco/Nador/operations/acceptance-evidence-report.md`](../designs/north-africa/Morocco/Nador/operations/acceptance-evidence-report.md) | Nador Acceptance And Accreditation Evidence Basis |
@@ -344,6 +368,7 @@ Indexed Markdown files: **1200**.
 | [`designs/north-africa/Sudan/Khartoum/README.md`](../designs/north-africa/Sudan/Khartoum/README.md) | Khartoum — Urban Rail Network |
 | [`designs/north-africa/Sudan/Khartoum/engineering/alignment/README.md`](../designs/north-africa/Sudan/Khartoum/engineering/alignment/README.md) | Khartoum Planning OSR-ALN Package |
 | [`designs/north-africa/Sudan/Khartoum/operations/acceptance-evidence-report.md`](../designs/north-africa/Sudan/Khartoum/operations/acceptance-evidence-report.md) | Khartoum Acceptance And Accreditation Evidence Basis |
+| [`designs/north-africa/Sudan/NATIONAL-BRIEF.md`](../designs/north-africa/Sudan/NATIONAL-BRIEF.md) | Sudan national OpenSourceRail strategy |
 | [`designs/north-africa/Sudan/Nyala/README.md`](../designs/north-africa/Sudan/Nyala/README.md) | Nyala — Urban Rail Network |
 | [`designs/north-africa/Sudan/Nyala/engineering/alignment/README.md`](../designs/north-africa/Sudan/Nyala/engineering/alignment/README.md) | Nyala Planning OSR-ALN Package |
 | [`designs/north-africa/Sudan/Nyala/operations/acceptance-evidence-report.md`](../designs/north-africa/Sudan/Nyala/operations/acceptance-evidence-report.md) | Nyala Acceptance And Accreditation Evidence Basis |
@@ -356,6 +381,7 @@ Indexed Markdown files: **1200**.
 | [`designs/north-africa/Sudan/Waw/README.md`](../designs/north-africa/Sudan/Waw/README.md) | Waw — Urban Rail Network |
 | [`designs/north-africa/Sudan/Waw/engineering/alignment/README.md`](../designs/north-africa/Sudan/Waw/engineering/alignment/README.md) | Waw Planning OSR-ALN Package |
 | [`designs/north-africa/Sudan/Waw/operations/acceptance-evidence-report.md`](../designs/north-africa/Sudan/Waw/operations/acceptance-evidence-report.md) | Waw Acceptance And Accreditation Evidence Basis |
+| [`designs/north-africa/Tunisia/NATIONAL-BRIEF.md`](../designs/north-africa/Tunisia/NATIONAL-BRIEF.md) | Tunisia national OpenSourceRail strategy |
 | [`designs/north-africa/Tunisia/Tunis/README.md`](../designs/north-africa/Tunisia/Tunis/README.md) | Tunis — Urban Rail Network |
 | [`designs/north-africa/Tunisia/Tunis/engineering/alignment/README.md`](../designs/north-africa/Tunisia/Tunis/engineering/alignment/README.md) | Tunis Planning OSR-ALN Package |
 | [`designs/north-africa/Tunisia/Tunis/operations/acceptance-evidence-report.md`](../designs/north-africa/Tunisia/Tunis/operations/acceptance-evidence-report.md) | Tunis Acceptance And Accreditation Evidence Basis |
@@ -368,6 +394,7 @@ Indexed Markdown files: **1200**.
 | [`designs/south-africa/South Africa/East-London-Za/README.md`](../designs/south-africa/South Africa/East-London-Za/README.md) | East-London-Za — Urban Rail Network |
 | [`designs/south-africa/South Africa/East-London-Za/engineering/alignment/README.md`](../designs/south-africa/South Africa/East-London-Za/engineering/alignment/README.md) | East-London-Za Planning OSR-ALN Package |
 | [`designs/south-africa/South Africa/East-London-Za/operations/acceptance-evidence-report.md`](../designs/south-africa/South Africa/East-London-Za/operations/acceptance-evidence-report.md) | East London Za Acceptance And Accreditation Evidence Basis |
+| [`designs/south-africa/South Africa/NATIONAL-BRIEF.md`](../designs/south-africa/South Africa/NATIONAL-BRIEF.md) | South Africa national OpenSourceRail strategy |
 | [`designs/south-africa/South Africa/Nelspruit/README.md`](../designs/south-africa/South Africa/Nelspruit/README.md) | Nelspruit — Urban Rail Network |
 | [`designs/south-africa/South Africa/Nelspruit/engineering/alignment/README.md`](../designs/south-africa/South Africa/Nelspruit/engineering/alignment/README.md) | Nelspruit Planning OSR-ALN Package |
 | [`designs/south-africa/South Africa/Nelspruit/operations/acceptance-evidence-report.md`](../designs/south-africa/South Africa/Nelspruit/operations/acceptance-evidence-report.md) | Nelspruit Acceptance And Accreditation Evidence Basis |
@@ -389,6 +416,7 @@ Indexed Markdown files: **1200**.
 | [`designs/south-asia/Afghanistan/Mazar-E-Sharif/README.md`](../designs/south-asia/Afghanistan/Mazar-E-Sharif/README.md) | Mazar-E-Sharif — Urban Rail Network |
 | [`designs/south-asia/Afghanistan/Mazar-E-Sharif/engineering/alignment/README.md`](../designs/south-asia/Afghanistan/Mazar-E-Sharif/engineering/alignment/README.md) | Mazar-E-Sharif Planning OSR-ALN Package |
 | [`designs/south-asia/Afghanistan/Mazar-E-Sharif/operations/acceptance-evidence-report.md`](../designs/south-asia/Afghanistan/Mazar-E-Sharif/operations/acceptance-evidence-report.md) | Mazar E Sharif Acceptance And Accreditation Evidence Basis |
+| [`designs/south-asia/Afghanistan/NATIONAL-BRIEF.md`](../designs/south-asia/Afghanistan/NATIONAL-BRIEF.md) | Afghanistan national OpenSourceRail strategy |
 | [`designs/south-asia/Bangladesh/Barisal/README.md`](../designs/south-asia/Bangladesh/Barisal/README.md) | Barisal — Urban Rail Network |
 | [`designs/south-asia/Bangladesh/Barisal/engineering/alignment/README.md`](../designs/south-asia/Bangladesh/Barisal/engineering/alignment/README.md) | Barisal Planning OSR-ALN Package |
 | [`designs/south-asia/Bangladesh/Barisal/operations/acceptance-evidence-report.md`](../designs/south-asia/Bangladesh/Barisal/operations/acceptance-evidence-report.md) | Barisal Acceptance And Accreditation Evidence Basis |
@@ -407,6 +435,7 @@ Indexed Markdown files: **1200**.
 | [`designs/south-asia/Bangladesh/Mymensingh/README.md`](../designs/south-asia/Bangladesh/Mymensingh/README.md) | Mymensingh — Urban Rail Network |
 | [`designs/south-asia/Bangladesh/Mymensingh/engineering/alignment/README.md`](../designs/south-asia/Bangladesh/Mymensingh/engineering/alignment/README.md) | Mymensingh Planning OSR-ALN Package |
 | [`designs/south-asia/Bangladesh/Mymensingh/operations/acceptance-evidence-report.md`](../designs/south-asia/Bangladesh/Mymensingh/operations/acceptance-evidence-report.md) | Mymensingh Acceptance And Accreditation Evidence Basis |
+| [`designs/south-asia/Bangladesh/NATIONAL-BRIEF.md`](../designs/south-asia/Bangladesh/NATIONAL-BRIEF.md) | Bangladesh national OpenSourceRail strategy |
 | [`designs/south-asia/Bangladesh/Narayanganj/README.md`](../designs/south-asia/Bangladesh/Narayanganj/README.md) | Narayanganj — Urban Rail Network |
 | [`designs/south-asia/Bangladesh/Narayanganj/engineering/alignment/README.md`](../designs/south-asia/Bangladesh/Narayanganj/engineering/alignment/README.md) | Narayanganj Planning OSR-ALN Package |
 | [`designs/south-asia/Bangladesh/Narayanganj/operations/acceptance-evidence-report.md`](../designs/south-asia/Bangladesh/Narayanganj/operations/acceptance-evidence-report.md) | Narayanganj Acceptance And Accreditation Evidence Basis |
@@ -446,6 +475,7 @@ Indexed Markdown files: **1200**.
 | [`designs/south-asia/India/Meerut/README.md`](../designs/south-asia/India/Meerut/README.md) | Meerut — Urban Rail Network |
 | [`designs/south-asia/India/Meerut/engineering/alignment/README.md`](../designs/south-asia/India/Meerut/engineering/alignment/README.md) | Meerut Planning OSR-ALN Package |
 | [`designs/south-asia/India/Meerut/operations/acceptance-evidence-report.md`](../designs/south-asia/India/Meerut/operations/acceptance-evidence-report.md) | Meerut Acceptance And Accreditation Evidence Basis |
+| [`designs/south-asia/India/NATIONAL-BRIEF.md`](../designs/south-asia/India/NATIONAL-BRIEF.md) | India national OpenSourceRail strategy |
 | [`designs/south-asia/India/Patna/README.md`](../designs/south-asia/India/Patna/README.md) | Patna — Urban Rail Network |
 | [`designs/south-asia/India/Patna/engineering/alignment/README.md`](../designs/south-asia/India/Patna/engineering/alignment/README.md) | Patna Planning OSR-ALN Package |
 | [`designs/south-asia/India/Patna/operations/acceptance-evidence-report.md`](../designs/south-asia/India/Patna/operations/acceptance-evidence-report.md) | Patna Acceptance And Accreditation Evidence Basis |
@@ -476,6 +506,7 @@ Indexed Markdown files: **1200**.
 | [`designs/south-asia/Nepal/Kathmandu/README.md`](../designs/south-asia/Nepal/Kathmandu/README.md) | Kathmandu — Urban Rail Network |
 | [`designs/south-asia/Nepal/Kathmandu/engineering/alignment/README.md`](../designs/south-asia/Nepal/Kathmandu/engineering/alignment/README.md) | Kathmandu Planning OSR-ALN Package |
 | [`designs/south-asia/Nepal/Kathmandu/operations/acceptance-evidence-report.md`](../designs/south-asia/Nepal/Kathmandu/operations/acceptance-evidence-report.md) | Kathmandu Acceptance And Accreditation Evidence Basis |
+| [`designs/south-asia/Nepal/NATIONAL-BRIEF.md`](../designs/south-asia/Nepal/NATIONAL-BRIEF.md) | Nepal national OpenSourceRail strategy |
 | [`designs/south-asia/Nepal/Pokhara/README.md`](../designs/south-asia/Nepal/Pokhara/README.md) | Pokhara — Urban Rail Network |
 | [`designs/south-asia/Nepal/Pokhara/engineering/alignment/README.md`](../designs/south-asia/Nepal/Pokhara/engineering/alignment/README.md) | Pokhara Planning OSR-ALN Package |
 | [`designs/south-asia/Nepal/Pokhara/operations/acceptance-evidence-report.md`](../designs/south-asia/Nepal/Pokhara/operations/acceptance-evidence-report.md) | Pokhara Acceptance And Accreditation Evidence Basis |
@@ -500,6 +531,7 @@ Indexed Markdown files: **1200**.
 | [`designs/south-asia/Pakistan/Multan/README.md`](../designs/south-asia/Pakistan/Multan/README.md) | Multan — Urban Rail Network |
 | [`designs/south-asia/Pakistan/Multan/engineering/alignment/README.md`](../designs/south-asia/Pakistan/Multan/engineering/alignment/README.md) | Multan Planning OSR-ALN Package |
 | [`designs/south-asia/Pakistan/Multan/operations/acceptance-evidence-report.md`](../designs/south-asia/Pakistan/Multan/operations/acceptance-evidence-report.md) | Multan Acceptance And Accreditation Evidence Basis |
+| [`designs/south-asia/Pakistan/NATIONAL-BRIEF.md`](../designs/south-asia/Pakistan/NATIONAL-BRIEF.md) | Pakistan national OpenSourceRail strategy |
 | [`designs/south-asia/Pakistan/Peshawar/README.md`](../designs/south-asia/Pakistan/Peshawar/README.md) | Peshawar — Urban Rail Network |
 | [`designs/south-asia/Pakistan/Peshawar/engineering/alignment/README.md`](../designs/south-asia/Pakistan/Peshawar/engineering/alignment/README.md) | Peshawar Planning OSR-ALN Package |
 | [`designs/south-asia/Pakistan/Peshawar/operations/acceptance-evidence-report.md`](../designs/south-asia/Pakistan/Peshawar/operations/acceptance-evidence-report.md) | Peshawar Acceptance And Accreditation Evidence Basis |
@@ -530,27 +562,34 @@ Indexed Markdown files: **1200**.
 | [`designs/south-asia/Sri Lanka/Kandy/README.md`](../designs/south-asia/Sri Lanka/Kandy/README.md) | Kandy — Urban Rail Network |
 | [`designs/south-asia/Sri Lanka/Kandy/engineering/alignment/README.md`](../designs/south-asia/Sri Lanka/Kandy/engineering/alignment/README.md) | Kandy Planning OSR-ALN Package |
 | [`designs/south-asia/Sri Lanka/Kandy/operations/acceptance-evidence-report.md`](../designs/south-asia/Sri Lanka/Kandy/operations/acceptance-evidence-report.md) | Kandy Acceptance And Accreditation Evidence Basis |
+| [`designs/south-asia/Sri Lanka/NATIONAL-BRIEF.md`](../designs/south-asia/Sri Lanka/NATIONAL-BRIEF.md) | Sri Lanka national OpenSourceRail strategy |
+| [`designs/southeast-asia/Cambodia/NATIONAL-BRIEF.md`](../designs/southeast-asia/Cambodia/NATIONAL-BRIEF.md) | Cambodia national OpenSourceRail strategy |
 | [`designs/southeast-asia/Cambodia/Phnom-Penh/README.md`](../designs/southeast-asia/Cambodia/Phnom-Penh/README.md) | Phnom-Penh — Urban Rail Network |
 | [`designs/southeast-asia/Cambodia/Phnom-Penh/engineering/alignment/README.md`](../designs/southeast-asia/Cambodia/Phnom-Penh/engineering/alignment/README.md) | Phnom-Penh Planning OSR-ALN Package |
 | [`designs/southeast-asia/Cambodia/Phnom-Penh/operations/acceptance-evidence-report.md`](../designs/southeast-asia/Cambodia/Phnom-Penh/operations/acceptance-evidence-report.md) | Phnom Penh Acceptance And Accreditation Evidence Basis |
 | [`designs/southeast-asia/Indonesia/Bandung/README.md`](../designs/southeast-asia/Indonesia/Bandung/README.md) | Bandung — Urban Rail Network |
 | [`designs/southeast-asia/Indonesia/Bandung/engineering/alignment/README.md`](../designs/southeast-asia/Indonesia/Bandung/engineering/alignment/README.md) | Bandung Planning OSR-ALN Package |
 | [`designs/southeast-asia/Indonesia/Bandung/operations/acceptance-evidence-report.md`](../designs/southeast-asia/Indonesia/Bandung/operations/acceptance-evidence-report.md) | Bandung Acceptance And Accreditation Evidence Basis |
+| [`designs/southeast-asia/Indonesia/NATIONAL-BRIEF.md`](../designs/southeast-asia/Indonesia/NATIONAL-BRIEF.md) | Indonesia national OpenSourceRail strategy |
 | [`designs/southeast-asia/Indonesia/Surabaya/README.md`](../designs/southeast-asia/Indonesia/Surabaya/README.md) | Surabaya — Urban Rail Network |
 | [`designs/southeast-asia/Indonesia/Surabaya/engineering/alignment/README.md`](../designs/southeast-asia/Indonesia/Surabaya/engineering/alignment/README.md) | Surabaya Planning OSR-ALN Package |
 | [`designs/southeast-asia/Indonesia/Surabaya/operations/acceptance-evidence-report.md`](../designs/southeast-asia/Indonesia/Surabaya/operations/acceptance-evidence-report.md) | Surabaya Acceptance And Accreditation Evidence Basis |
+| [`designs/southeast-asia/Laos/NATIONAL-BRIEF.md`](../designs/southeast-asia/Laos/NATIONAL-BRIEF.md) | Laos national OpenSourceRail strategy |
 | [`designs/southeast-asia/Laos/Vientiane/README.md`](../designs/southeast-asia/Laos/Vientiane/README.md) | Vientiane — Urban Rail Network |
 | [`designs/southeast-asia/Laos/Vientiane/engineering/alignment/README.md`](../designs/southeast-asia/Laos/Vientiane/engineering/alignment/README.md) | Vientiane Planning OSR-ALN Package |
 | [`designs/southeast-asia/Laos/Vientiane/operations/acceptance-evidence-report.md`](../designs/southeast-asia/Laos/Vientiane/operations/acceptance-evidence-report.md) | Vientiane Acceptance And Accreditation Evidence Basis |
 | [`designs/southeast-asia/Myanmar/Mandalay/README.md`](../designs/southeast-asia/Myanmar/Mandalay/README.md) | Mandalay — Urban Rail Network |
 | [`designs/southeast-asia/Myanmar/Mandalay/engineering/alignment/README.md`](../designs/southeast-asia/Myanmar/Mandalay/engineering/alignment/README.md) | Mandalay Planning OSR-ALN Package |
 | [`designs/southeast-asia/Myanmar/Mandalay/operations/acceptance-evidence-report.md`](../designs/southeast-asia/Myanmar/Mandalay/operations/acceptance-evidence-report.md) | Mandalay Acceptance And Accreditation Evidence Basis |
+| [`designs/southeast-asia/Myanmar/NATIONAL-BRIEF.md`](../designs/southeast-asia/Myanmar/NATIONAL-BRIEF.md) | Myanmar national OpenSourceRail strategy |
 | [`designs/southeast-asia/Myanmar/Yangon/README.md`](../designs/southeast-asia/Myanmar/Yangon/README.md) | Yangon — Urban Rail Network |
 | [`designs/southeast-asia/Myanmar/Yangon/engineering/alignment/README.md`](../designs/southeast-asia/Myanmar/Yangon/engineering/alignment/README.md) | Yangon Planning OSR-ALN Package |
 | [`designs/southeast-asia/Myanmar/Yangon/operations/acceptance-evidence-report.md`](../designs/southeast-asia/Myanmar/Yangon/operations/acceptance-evidence-report.md) | Yangon Acceptance And Accreditation Evidence Basis |
 | [`designs/southeast-asia/Philippines/Davao/README.md`](../designs/southeast-asia/Philippines/Davao/README.md) | Davao — Urban Rail Network |
 | [`designs/southeast-asia/Philippines/Davao/engineering/alignment/README.md`](../designs/southeast-asia/Philippines/Davao/engineering/alignment/README.md) | Davao Planning OSR-ALN Package |
 | [`designs/southeast-asia/Philippines/Davao/operations/acceptance-evidence-report.md`](../designs/southeast-asia/Philippines/Davao/operations/acceptance-evidence-report.md) | Davao Acceptance And Accreditation Evidence Basis |
+| [`designs/southeast-asia/Philippines/NATIONAL-BRIEF.md`](../designs/southeast-asia/Philippines/NATIONAL-BRIEF.md) | Philippines national OpenSourceRail strategy |
+| [`designs/west-africa/Burkina Faso/NATIONAL-BRIEF.md`](../designs/west-africa/Burkina Faso/NATIONAL-BRIEF.md) | Burkina Faso national OpenSourceRail strategy |
 | [`designs/west-africa/Burkina Faso/Ouagadougou/README.md`](../designs/west-africa/Burkina Faso/Ouagadougou/README.md) | Ouagadougou — Urban Rail Network |
 | [`designs/west-africa/Burkina Faso/Ouagadougou/engineering/alignment/README.md`](../designs/west-africa/Burkina Faso/Ouagadougou/engineering/alignment/README.md) | Ouagadougou Planning OSR-ALN Package |
 | [`designs/west-africa/Burkina Faso/Ouagadougou/operations/acceptance-evidence-report.md`](../designs/west-africa/Burkina Faso/Ouagadougou/operations/acceptance-evidence-report.md) | Ouagadougou Acceptance And Accreditation Evidence Basis |
@@ -578,6 +617,7 @@ Indexed Markdown files: **1200**.
 | [`designs/west-africa/Cameroon/Maroua/README.md`](../designs/west-africa/Cameroon/Maroua/README.md) | Maroua — Urban Rail Network |
 | [`designs/west-africa/Cameroon/Maroua/engineering/alignment/README.md`](../designs/west-africa/Cameroon/Maroua/engineering/alignment/README.md) | Maroua Planning OSR-ALN Package |
 | [`designs/west-africa/Cameroon/Maroua/operations/acceptance-evidence-report.md`](../designs/west-africa/Cameroon/Maroua/operations/acceptance-evidence-report.md) | Maroua Acceptance And Accreditation Evidence Basis |
+| [`designs/west-africa/Cameroon/NATIONAL-BRIEF.md`](../designs/west-africa/Cameroon/NATIONAL-BRIEF.md) | Cameroon national OpenSourceRail strategy |
 | [`designs/west-africa/Cameroon/Ngaoundere/README.md`](../designs/west-africa/Cameroon/Ngaoundere/README.md) | Ngaoundere — Urban Rail Network |
 | [`designs/west-africa/Cameroon/Ngaoundere/engineering/alignment/README.md`](../designs/west-africa/Cameroon/Ngaoundere/engineering/alignment/README.md) | Ngaoundere Planning OSR-ALN Package |
 | [`designs/west-africa/Cameroon/Ngaoundere/operations/acceptance-evidence-report.md`](../designs/west-africa/Cameroon/Ngaoundere/operations/acceptance-evidence-report.md) | Ngaoundere Acceptance And Accreditation Evidence Basis |
@@ -587,9 +627,12 @@ Indexed Markdown files: **1200**.
 | [`designs/west-africa/Guinea/Conakry/README.md`](../designs/west-africa/Guinea/Conakry/README.md) | Conakry — Urban Rail Network |
 | [`designs/west-africa/Guinea/Conakry/engineering/alignment/README.md`](../designs/west-africa/Guinea/Conakry/engineering/alignment/README.md) | Conakry Planning OSR-ALN Package |
 | [`designs/west-africa/Guinea/Conakry/operations/acceptance-evidence-report.md`](../designs/west-africa/Guinea/Conakry/operations/acceptance-evidence-report.md) | Conakry Acceptance And Accreditation Evidence Basis |
+| [`designs/west-africa/Guinea/NATIONAL-BRIEF.md`](../designs/west-africa/Guinea/NATIONAL-BRIEF.md) | Guinea national OpenSourceRail strategy |
 | [`designs/west-africa/Mali/Bamako/README.md`](../designs/west-africa/Mali/Bamako/README.md) | Bamako — Urban Rail Network |
 | [`designs/west-africa/Mali/Bamako/engineering/alignment/README.md`](../designs/west-africa/Mali/Bamako/engineering/alignment/README.md) | Bamako Planning OSR-ALN Package |
 | [`designs/west-africa/Mali/Bamako/operations/acceptance-evidence-report.md`](../designs/west-africa/Mali/Bamako/operations/acceptance-evidence-report.md) | Bamako Acceptance And Accreditation Evidence Basis |
+| [`designs/west-africa/Mali/NATIONAL-BRIEF.md`](../designs/west-africa/Mali/NATIONAL-BRIEF.md) | Mali national OpenSourceRail strategy |
+| [`designs/west-africa/Niger/NATIONAL-BRIEF.md`](../designs/west-africa/Niger/NATIONAL-BRIEF.md) | Niger national OpenSourceRail strategy |
 | [`designs/west-africa/Niger/Niamey/README.md`](../designs/west-africa/Niger/Niamey/README.md) | Niamey — Urban Rail Network |
 | [`designs/west-africa/Niger/Niamey/engineering/alignment/README.md`](../designs/west-africa/Niger/Niamey/engineering/alignment/README.md) | Niamey Planning OSR-ALN Package |
 | [`designs/west-africa/Niger/Niamey/operations/acceptance-evidence-report.md`](../designs/west-africa/Niger/Niamey/operations/acceptance-evidence-report.md) | Niamey Acceptance And Accreditation Evidence Basis |
@@ -614,6 +657,7 @@ Indexed Markdown files: **1200**.
 | [`designs/west-africa/Nigeria/Maiduguri/README.md`](../designs/west-africa/Nigeria/Maiduguri/README.md) | Maiduguri — Urban Rail Network |
 | [`designs/west-africa/Nigeria/Maiduguri/engineering/alignment/README.md`](../designs/west-africa/Nigeria/Maiduguri/engineering/alignment/README.md) | Maiduguri Planning OSR-ALN Package |
 | [`designs/west-africa/Nigeria/Maiduguri/operations/acceptance-evidence-report.md`](../designs/west-africa/Nigeria/Maiduguri/operations/acceptance-evidence-report.md) | Maiduguri Acceptance And Accreditation Evidence Basis |
+| [`designs/west-africa/Nigeria/NATIONAL-BRIEF.md`](../designs/west-africa/Nigeria/NATIONAL-BRIEF.md) | Nigeria national OpenSourceRail strategy |
 | [`designs/west-africa/Nigeria/Onitsha/README.md`](../designs/west-africa/Nigeria/Onitsha/README.md) | Onitsha — Urban Rail Network |
 | [`designs/west-africa/Nigeria/Onitsha/engineering/alignment/README.md`](../designs/west-africa/Nigeria/Onitsha/engineering/alignment/README.md) | Onitsha Planning OSR-ALN Package |
 | [`designs/west-africa/Nigeria/Onitsha/operations/acceptance-evidence-report.md`](../designs/west-africa/Nigeria/Onitsha/operations/acceptance-evidence-report.md) | Onitsha Acceptance And Accreditation Evidence Basis |
@@ -626,6 +670,7 @@ Indexed Markdown files: **1200**.
 | [`designs/west-africa/Senegal/Dakar/README.md`](../designs/west-africa/Senegal/Dakar/README.md) | Dakar — Urban Rail Network |
 | [`designs/west-africa/Senegal/Dakar/engineering/alignment/README.md`](../designs/west-africa/Senegal/Dakar/engineering/alignment/README.md) | Dakar Planning OSR-ALN Package |
 | [`designs/west-africa/Senegal/Dakar/operations/acceptance-evidence-report.md`](../designs/west-africa/Senegal/Dakar/operations/acceptance-evidence-report.md) | Dakar Acceptance And Accreditation Evidence Basis |
+| [`designs/west-africa/Senegal/NATIONAL-BRIEF.md`](../designs/west-africa/Senegal/NATIONAL-BRIEF.md) | Senegal national OpenSourceRail strategy |
 | [`designs/west-asia/Egypt/Arish/README.md`](../designs/west-asia/Egypt/Arish/README.md) | Arish — Urban Rail Network |
 | [`designs/west-asia/Egypt/Arish/engineering/alignment/README.md`](../designs/west-asia/Egypt/Arish/engineering/alignment/README.md) | Arish Planning OSR-ALN Package |
 | [`designs/west-asia/Egypt/Arish/operations/acceptance-evidence-report.md`](../designs/west-asia/Egypt/Arish/operations/acceptance-evidence-report.md) | Arish Acceptance And Accreditation Evidence Basis |
@@ -665,6 +710,7 @@ Indexed Markdown files: **1200**.
 | [`designs/west-asia/Egypt/Minya/README.md`](../designs/west-asia/Egypt/Minya/README.md) | Minya — Urban Rail Network |
 | [`designs/west-asia/Egypt/Minya/engineering/alignment/README.md`](../designs/west-asia/Egypt/Minya/engineering/alignment/README.md) | Minya Planning OSR-ALN Package |
 | [`designs/west-asia/Egypt/Minya/operations/acceptance-evidence-report.md`](../designs/west-asia/Egypt/Minya/operations/acceptance-evidence-report.md) | Minya Acceptance And Accreditation Evidence Basis |
+| [`designs/west-asia/Egypt/NATIONAL-BRIEF.md`](../designs/west-asia/Egypt/NATIONAL-BRIEF.md) | Egypt national OpenSourceRail strategy |
 | [`designs/west-asia/Egypt/Port-Said/README.md`](../designs/west-asia/Egypt/Port-Said/README.md) | Port-Said — Urban Rail Network |
 | [`designs/west-asia/Egypt/Port-Said/engineering/alignment/README.md`](../designs/west-asia/Egypt/Port-Said/engineering/alignment/README.md) | Port-Said Planning OSR-ALN Package |
 | [`designs/west-asia/Egypt/Port-Said/operations/acceptance-evidence-report.md`](../designs/west-asia/Egypt/Port-Said/operations/acceptance-evidence-report.md) | Port Said Acceptance And Accreditation Evidence Basis |
@@ -722,6 +768,7 @@ Indexed Markdown files: **1200**.
 | [`designs/west-asia/Iraq/Mosul/README.md`](../designs/west-asia/Iraq/Mosul/README.md) | Mosul — Urban Rail Network |
 | [`designs/west-asia/Iraq/Mosul/engineering/alignment/README.md`](../designs/west-asia/Iraq/Mosul/engineering/alignment/README.md) | Mosul Planning OSR-ALN Package |
 | [`designs/west-asia/Iraq/Mosul/operations/acceptance-evidence-report.md`](../designs/west-asia/Iraq/Mosul/operations/acceptance-evidence-report.md) | Mosul Acceptance And Accreditation Evidence Basis |
+| [`designs/west-asia/Iraq/NATIONAL-BRIEF.md`](../designs/west-asia/Iraq/NATIONAL-BRIEF.md) | Iraq national OpenSourceRail strategy |
 | [`designs/west-asia/Iraq/Najaf/README.md`](../designs/west-asia/Iraq/Najaf/README.md) | Najaf — Urban Rail Network |
 | [`designs/west-asia/Iraq/Najaf/engineering/alignment/README.md`](../designs/west-asia/Iraq/Najaf/engineering/alignment/README.md) | Najaf Planning OSR-ALN Package |
 | [`designs/west-asia/Iraq/Najaf/operations/acceptance-evidence-report.md`](../designs/west-asia/Iraq/Najaf/operations/acceptance-evidence-report.md) | Najaf Acceptance And Accreditation Evidence Basis |
@@ -733,6 +780,7 @@ Indexed Markdown files: **1200**.
 | [`designs/west-asia/Iraq/Ramadi/operations/acceptance-evidence-report.md`](../designs/west-asia/Iraq/Ramadi/operations/acceptance-evidence-report.md) | Ramadi Acceptance And Accreditation Evidence Basis |
 | [`designs/west-asia/Iraq/Samawah/README.md`](../designs/west-asia/Iraq/Samawah/README.md) | Samawah — Urban Rail Network |
 | [`designs/west-asia/Iraq/Samawah/engineering/alignment/README.md`](../designs/west-asia/Iraq/Samawah/engineering/alignment/README.md) | Samawah Planning OSR-ALN Package |
+| [`designs/west-asia/Iraq/Samawah/engineering/digital-twin/README.md`](../designs/west-asia/Iraq/Samawah/engineering/digital-twin/README.md) | Samawah Line 1 Digital Twin |
 | [`designs/west-asia/Iraq/Samawah/operations/acceptance-evidence-report.md`](../designs/west-asia/Iraq/Samawah/operations/acceptance-evidence-report.md) | Samawah Acceptance And Accreditation Evidence Basis |
 | [`designs/west-asia/Iraq/Sulaymaniyah/README.md`](../designs/west-asia/Iraq/Sulaymaniyah/README.md) | Sulaymaniyah — Urban Rail Network |
 | [`designs/west-asia/Iraq/Sulaymaniyah/engineering/alignment/README.md`](../designs/west-asia/Iraq/Sulaymaniyah/engineering/alignment/README.md) | Sulaymaniyah Planning OSR-ALN Package |
@@ -746,12 +794,14 @@ Indexed Markdown files: **1200**.
 | [`designs/west-asia/Jordan/Irbid/README.md`](../designs/west-asia/Jordan/Irbid/README.md) | Irbid — Urban Rail Network |
 | [`designs/west-asia/Jordan/Irbid/engineering/alignment/README.md`](../designs/west-asia/Jordan/Irbid/engineering/alignment/README.md) | Irbid Planning OSR-ALN Package |
 | [`designs/west-asia/Jordan/Irbid/operations/acceptance-evidence-report.md`](../designs/west-asia/Jordan/Irbid/operations/acceptance-evidence-report.md) | Irbid Acceptance And Accreditation Evidence Basis |
+| [`designs/west-asia/Jordan/NATIONAL-BRIEF.md`](../designs/west-asia/Jordan/NATIONAL-BRIEF.md) | Jordan national OpenSourceRail strategy |
 | [`designs/west-asia/Jordan/Zarqa/README.md`](../designs/west-asia/Jordan/Zarqa/README.md) | Zarqa — Urban Rail Network |
 | [`designs/west-asia/Jordan/Zarqa/engineering/alignment/README.md`](../designs/west-asia/Jordan/Zarqa/engineering/alignment/README.md) | Zarqa Planning OSR-ALN Package |
 | [`designs/west-asia/Jordan/Zarqa/operations/acceptance-evidence-report.md`](../designs/west-asia/Jordan/Zarqa/operations/acceptance-evidence-report.md) | Zarqa Acceptance And Accreditation Evidence Basis |
 | [`designs/west-asia/Lebanon/Beirut/README.md`](../designs/west-asia/Lebanon/Beirut/README.md) | Beirut — Urban Rail Network |
 | [`designs/west-asia/Lebanon/Beirut/engineering/alignment/README.md`](../designs/west-asia/Lebanon/Beirut/engineering/alignment/README.md) | Beirut Planning OSR-ALN Package |
 | [`designs/west-asia/Lebanon/Beirut/operations/acceptance-evidence-report.md`](../designs/west-asia/Lebanon/Beirut/operations/acceptance-evidence-report.md) | Beirut Acceptance And Accreditation Evidence Basis |
+| [`designs/west-asia/Lebanon/NATIONAL-BRIEF.md`](../designs/west-asia/Lebanon/NATIONAL-BRIEF.md) | Lebanon national OpenSourceRail strategy |
 | [`designs/west-asia/Lebanon/Sidon/README.md`](../designs/west-asia/Lebanon/Sidon/README.md) | Sidon — Urban Rail Network |
 | [`designs/west-asia/Lebanon/Sidon/engineering/alignment/README.md`](../designs/west-asia/Lebanon/Sidon/engineering/alignment/README.md) | Sidon Planning OSR-ALN Package |
 | [`designs/west-asia/Lebanon/Sidon/operations/acceptance-evidence-report.md`](../designs/west-asia/Lebanon/Sidon/operations/acceptance-evidence-report.md) | Sidon Acceptance And Accreditation Evidence Basis |
@@ -764,6 +814,7 @@ Indexed Markdown files: **1200**.
 | [`designs/west-asia/Palestine/Hebron/README.md`](../designs/west-asia/Palestine/Hebron/README.md) | Hebron — Urban Rail Network |
 | [`designs/west-asia/Palestine/Hebron/engineering/alignment/README.md`](../designs/west-asia/Palestine/Hebron/engineering/alignment/README.md) | Hebron Planning OSR-ALN Package |
 | [`designs/west-asia/Palestine/Hebron/operations/acceptance-evidence-report.md`](../designs/west-asia/Palestine/Hebron/operations/acceptance-evidence-report.md) | Hebron Acceptance And Accreditation Evidence Basis |
+| [`designs/west-asia/Palestine/NATIONAL-BRIEF.md`](../designs/west-asia/Palestine/NATIONAL-BRIEF.md) | Palestine national OpenSourceRail strategy |
 | [`designs/west-asia/Palestine/Nablus/README.md`](../designs/west-asia/Palestine/Nablus/README.md) | Nablus — Urban Rail Network |
 | [`designs/west-asia/Palestine/Nablus/engineering/alignment/README.md`](../designs/west-asia/Palestine/Nablus/engineering/alignment/README.md) | Nablus Planning OSR-ALN Package |
 | [`designs/west-asia/Palestine/Nablus/operations/acceptance-evidence-report.md`](../designs/west-asia/Palestine/Nablus/operations/acceptance-evidence-report.md) | Nablus Acceptance And Accreditation Evidence Basis |
@@ -800,6 +851,7 @@ Indexed Markdown files: **1200**.
 | [`designs/west-asia/Saudi Arabia/Medina/README.md`](../designs/west-asia/Saudi Arabia/Medina/README.md) | Medina — Urban Rail Network |
 | [`designs/west-asia/Saudi Arabia/Medina/engineering/alignment/README.md`](../designs/west-asia/Saudi Arabia/Medina/engineering/alignment/README.md) | Medina Planning OSR-ALN Package |
 | [`designs/west-asia/Saudi Arabia/Medina/operations/acceptance-evidence-report.md`](../designs/west-asia/Saudi Arabia/Medina/operations/acceptance-evidence-report.md) | Medina Acceptance And Accreditation Evidence Basis |
+| [`designs/west-asia/Saudi Arabia/NATIONAL-BRIEF.md`](../designs/west-asia/Saudi Arabia/NATIONAL-BRIEF.md) | Saudi Arabia national OpenSourceRail strategy |
 | [`designs/west-asia/Saudi Arabia/Najran/README.md`](../designs/west-asia/Saudi Arabia/Najran/README.md) | Najran — Urban Rail Network |
 | [`designs/west-asia/Saudi Arabia/Najran/engineering/alignment/README.md`](../designs/west-asia/Saudi Arabia/Najran/engineering/alignment/README.md) | Najran Planning OSR-ALN Package |
 | [`designs/west-asia/Saudi Arabia/Najran/operations/acceptance-evidence-report.md`](../designs/west-asia/Saudi Arabia/Najran/operations/acceptance-evidence-report.md) | Najran Acceptance And Accreditation Evidence Basis |
@@ -830,6 +882,7 @@ Indexed Markdown files: **1200**.
 | [`designs/west-asia/Syria/Latakia/README.md`](../designs/west-asia/Syria/Latakia/README.md) | Latakia — Urban Rail Network |
 | [`designs/west-asia/Syria/Latakia/engineering/alignment/README.md`](../designs/west-asia/Syria/Latakia/engineering/alignment/README.md) | Latakia Planning OSR-ALN Package |
 | [`designs/west-asia/Syria/Latakia/operations/acceptance-evidence-report.md`](../designs/west-asia/Syria/Latakia/operations/acceptance-evidence-report.md) | Latakia Acceptance And Accreditation Evidence Basis |
+| [`designs/west-asia/Syria/NATIONAL-BRIEF.md`](../designs/west-asia/Syria/NATIONAL-BRIEF.md) | Syria national OpenSourceRail strategy |
 | [`designs/west-asia/Syria/Raqqa/README.md`](../designs/west-asia/Syria/Raqqa/README.md) | Raqqa — Urban Rail Network |
 | [`designs/west-asia/Syria/Raqqa/engineering/alignment/README.md`](../designs/west-asia/Syria/Raqqa/engineering/alignment/README.md) | Raqqa Planning OSR-ALN Package |
 | [`designs/west-asia/Syria/Raqqa/operations/acceptance-evidence-report.md`](../designs/west-asia/Syria/Raqqa/operations/acceptance-evidence-report.md) | Raqqa Acceptance And Accreditation Evidence Basis |
@@ -854,6 +907,7 @@ Indexed Markdown files: **1200**.
 | [`designs/west-asia/Yemen/Mukalla/README.md`](../designs/west-asia/Yemen/Mukalla/README.md) | Mukalla — Urban Rail Network |
 | [`designs/west-asia/Yemen/Mukalla/engineering/alignment/README.md`](../designs/west-asia/Yemen/Mukalla/engineering/alignment/README.md) | Mukalla Planning OSR-ALN Package |
 | [`designs/west-asia/Yemen/Mukalla/operations/acceptance-evidence-report.md`](../designs/west-asia/Yemen/Mukalla/operations/acceptance-evidence-report.md) | Mukalla Acceptance And Accreditation Evidence Basis |
+| [`designs/west-asia/Yemen/NATIONAL-BRIEF.md`](../designs/west-asia/Yemen/NATIONAL-BRIEF.md) | Yemen national OpenSourceRail strategy |
 | [`designs/west-asia/Yemen/Sanaa/README.md`](../designs/west-asia/Yemen/Sanaa/README.md) | Sanaa — Urban Rail Network |
 | [`designs/west-asia/Yemen/Sanaa/engineering/alignment/README.md`](../designs/west-asia/Yemen/Sanaa/engineering/alignment/README.md) | Sanaa Planning OSR-ALN Package |
 | [`designs/west-asia/Yemen/Sanaa/operations/acceptance-evidence-report.md`](../designs/west-asia/Yemen/Sanaa/operations/acceptance-evidence-report.md) | Sanaa Acceptance And Accreditation Evidence Basis |
@@ -883,13 +937,19 @@ Indexed Markdown files: **1200**.
 | [`docs/certification/release-gap-register.md`](../docs/certification/release-gap-register.md) | Certification Release Gap Register |
 | [`docs/certification/safety-requirements.md`](../docs/certification/safety-requirements.md) | Safety requirements specification |
 | [`docs/certification/system-description.md`](../docs/certification/system-description.md) | System description |
+| [`docs/city-studio/README.md`](../docs/city-studio/README.md) | OSR City Studio |
 | [`docs/civil/README.md`](../docs/civil/README.md) | Civil And Alignment |
 | [`docs/civil/deployment-release-checklist.md`](../docs/civil/deployment-release-checklist.md) | Civil And Station Deployment Release Checklist |
 | [`docs/civil/marketplace-cost-anchors.md`](../docs/civil/marketplace-cost-anchors.md) | Civil Marketplace Cost Anchors |
 | [`docs/civil/osr-aln-format.md`](../docs/civil/osr-aln-format.md) | OSR-ALN — alignment interchange format (v1.0) |
 | [`docs/civil/rapid-implementation-materials-review.md`](../docs/civil/rapid-implementation-materials-review.md) | Rapid Implementation And Recycled Materials Review |
 | [`docs/civil/slab-trackforms.md`](../docs/civil/slab-trackforms.md) | Ballastless Slab Trackform Designs |
+| [`docs/civil/viaduct-bearing-and-movement-schedule.md`](../docs/civil/viaduct-bearing-and-movement-schedule.md) | Viaduct Bearing And Movement Schedule |
+| [`docs/civil/viaduct-design-basis.md`](../docs/civil/viaduct-design-basis.md) | OSR Rapid Viaduct Kit — Design Basis |
+| [`docs/civil/viaduct-first-article-test-plan.md`](../docs/civil/viaduct-first-article-test-plan.md) | Viaduct First-Article Test Plan |
+| [`docs/civil/viaduct-kinematic-egress-envelope.md`](../docs/civil/viaduct-kinematic-egress-envelope.md) | Viaduct Kinematic And Egress Envelope |
 | [`docs/civil/viaduct-substructure-kit.md`](../docs/civil/viaduct-substructure-kit.md) | Viaduct pier and abutment kit |
+| [`docs/civil/viaduct-transport-and-erection-envelope.md`](../docs/civil/viaduct-transport-and-erection-envelope.md) | Viaduct Transport And Erection Envelope |
 | [`docs/cost-model.md`](../docs/cost-model.md) | OpenSourceRail Cost Model |
 | [`docs/deployment-model.md`](../docs/deployment-model.md) | Unified Deployment Model |
 | [`docs/deployment-roles.md`](../docs/deployment-roles.md) | Deployment Roles |
@@ -963,6 +1023,7 @@ Indexed Markdown files: **1200**.
 | [`docs/rfcs/0028-construction-quality-assurance.md`](../docs/rfcs/0028-construction-quality-assurance.md) | RFC 0028 — Construction Quality Assurance System |
 | [`docs/rfcs/0029-maintenance-schedule-system.md`](../docs/rfcs/0029-maintenance-schedule-system.md) | RFC 0029 — Maintenance Schedule System |
 | [`docs/rfcs/0030-manufacturing-schedule-system.md`](../docs/rfcs/0030-manufacturing-schedule-system.md) | RFC 0030 - Manufacturing Schedule System |
+| [`docs/rfcs/0031-city-studio-git-revisions.md`](../docs/rfcs/0031-city-studio-git-revisions.md) | RFC 0031 — OSR City Studio and Git-Based Design Revisions |
 | [`docs/rfcs/README.md`](../docs/rfcs/README.md) | RFC Index |
 | [`docs/rolling-stock/README.md`](../docs/rolling-stock/README.md) | Rolling Stock |
 | [`docs/rolling-stock/design-system.md`](../docs/rolling-stock/design-system.md) | Rolling-stock top-down / bottom-up design system |
@@ -1000,6 +1061,7 @@ Indexed Markdown files: **1200**.
 
 | File | Title |
 |---|---|
+| [`engineering/fabrication-assembly-digital-twin/README.md`](../engineering/fabrication-assembly-digital-twin/README.md) | Fabrication and assembly digital twin |
 | [`engineering/toolchain/README.md`](../engineering/toolchain/README.md) | Engineering Toolchain |
 
 ## formal
@@ -1280,6 +1342,13 @@ Indexed Markdown files: **1200**.
 | [`mechanical-py/catalog/freecad/README.md`](../mechanical-py/catalog/freecad/README.md) | FreeCAD Review Assemblies |
 | [`mechanical-py/catalog/freecad/assembly-geometry-review.md`](../mechanical-py/catalog/freecad/assembly-geometry-review.md) | FreeCAD Assembly Geometry Review |
 | [`mechanical-py/catalog/modular-fiberglass-body/README.md`](../mechanical-py/catalog/modular-fiberglass-body/README.md) | One-metre clip-on glass-fibre body design |
+
+## projects
+
+| File | Title |
+|---|---|
+| [`projects/README.md`](../projects/README.md) | OSR City Projects |
+| [`projects/samawah/revisions/README.md`](../projects/samawah/revisions/README.md) | Samawah Design Revisions |
 
 ## scripts
 

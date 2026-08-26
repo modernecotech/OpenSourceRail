@@ -17,6 +17,7 @@ the [engineering design and simulation plan](engineering-design-simulation-plan.
 | Custom-board release artifacts | KiCad capture, gerbers, board BOMs, DFM review, and assembly drawings only for deployments that choose OSR-specific carrier, power, safety-I/O, or sensor-interface boards |
 | DIY deployment path | Prebuilt SD-card images, checksums, role-specific self-test evidence, and first external build feedback |
 | Software integration | RFC 0017 signed-message verification on the live consensus receive path, TSN transport maturation, CBM backend, and GUI live-data paths |
+| City Studio | Git-backed city projects, source locks, manual station and alignment authoring, semantic revision comparison, weekly line service planning, deterministic manifests, demand-aware line creation, and CAD/GIS/simulation tool adapters |
 | Certification evidence | Residual-risk narrative, independent-assessor review notes, first-article field-evidence plan, and traceability updates |
 | Civil/station package | Survey-grade Samawah alignment replacement, per-span checks, station archetype variants, and deployment-specific assumptions |
 

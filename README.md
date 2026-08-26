@@ -204,6 +204,7 @@ artifact index.
 | Contribute or review governance | [CONTRIBUTING.md](CONTRIBUTING.md) and [GOVERNANCE.md](GOVERNANCE.md) |
 | Prepare the next release | [docs/releases/next.md](docs/releases/next.md) |
 | Generate a city network | [Designing Cities](#designing-cities) |
+| Edit a city, station locations, and line/day/time service plans | [OSR City Studio](docs/city-studio/README.md) |
 | Generate engineering screening packages | [Engineering Screening For All Cities](#engineering-screening-for-all-cities) |
 | Review rolling-stock design | [docs/rolling-stock/light-metro-3car/README.md](docs/rolling-stock/light-metro-3car/README.md) |
 | Use the buildable trainset handoff | [mechanical-py/catalog/buildable-trainset/README.md](mechanical-py/catalog/buildable-trainset/README.md) |
@@ -227,6 +228,8 @@ artifact index.
 | [hardware/](hardware/) | Hardware reference designs and DIY assembly for T-ECU/S, T-ECU/A, T-OBS, W-SBC, S-SBC |
 | [docs/](docs/) | Architecture, RFCs, certification pack, safety case, operations, civil, stations, rolling-stock docs |
 | [docs/operations-portal/](docs/operations-portal/) | Browser operations portal for asset registers, manufacturing schedules, QA gates, maintenance work orders, defects/NCR, audit, SQLite storage, and reconciliation |
+| [projects/](projects/) | Git-backed City Studio project intent, source locks, weekly service plans, and immutable candidate revisions |
+| [crates/osr-city-studio/](crates/osr-city-studio/) | Deterministic project compiler, validator, revision materializer, HTTP API, and browser design/service GUI |
 | [lib/](lib/) | Machine-readable templates, recipes, examples, city batches, cost/finance inputs |
 | [formal/](formal/) | TLA+ consensus specification and model-checking harnesses |
 | [tools/](tools/) | Companion tools including LandXML to OSR-ALN and the Python MA reference interpreter |

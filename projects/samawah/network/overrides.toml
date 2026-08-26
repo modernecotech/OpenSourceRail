@@ -1,0 +1,23 @@
+schema_version = 1
+# City Studio appends [[manual_stations]] records with stable ids, source
+# chainage, current coordinates, archetype, and review reason.
+manual_stations = []
+line_control_points = []
+
+# The shared CBD interchange is accepted and locked. Coordinates are omitted,
+# so the lock inherits the exact coordinates from the source design. A Studio
+# move adds explicit lat/lon while preserving this stable station id.
+[[stations]]
+id = "line-1-0493-0475-s009151"
+state = "locked"
+reason = "Accepted platform in the shared CBD interchange complex"
+
+[[stations]]
+id = "line-2-0493-0475-s005930"
+state = "locked"
+reason = "Accepted platform in the shared CBD interchange complex"
+
+[[stations]]
+id = "line-3-0493-0475-s006126"
+state = "locked"
+reason = "Accepted platform in the shared CBD interchange complex"

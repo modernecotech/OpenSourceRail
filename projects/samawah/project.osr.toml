@@ -1,0 +1,28 @@
+[project]
+schema_version = 1
+id = "osr-city-iq-samawah"
+slug = "samawah"
+name = "Samawah"
+country = "IQ"
+default_branch = "main"
+
+[inputs]
+base_design = "../../designs/west-asia/Iraq/Samawah/design.toml"
+corridor_geojson = "../../designs/west-asia/Iraq/Samawah/samawah.corridor.geojson"
+simulator_scenario = "../../designs/west-asia/Iraq/Samawah/samawah.toml"
+network_overrides = "network/overrides.toml"
+service_plan = "services/service-plan.toml"
+source_lock = "sources.lock.json"
+
+[planning]
+passenger_capacity_per_train = 360
+average_speed_kmh = 35.0
+station_dwell_min = 2.0
+terminal_turnaround_min = 5.0
+geometry_regeneration_radius_m = 2000.0
+
+[revision]
+policy = "pull-request"
+tag_prefix = "city/samawah/design/"
+require_clean_source_locks = true
+require_passing_validation = true
