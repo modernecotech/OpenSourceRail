@@ -150,13 +150,18 @@ with remaining validation and hardening tracked in
 City Studio centralizes deterministic network authoring, source-locked
 demand/buildability routing, station placement, line/day/time service planning,
 simulation, alignment exchange, IFC4.3/Bonsai civil federation, verified
-GIS/engineering object inspection, artifact hashing, and Git revision review.
+GIS/engineering object inspection, IDS delivery audit, BCF 3.0 issue review,
+Git-reviewable coordination decisions, artifact hashing, and revision review.
 
 ![City Studio network authoring and demand-aware routing interface](docs/screenshots/city-studio/network-and-service.png)
 
 ![City Studio service planning and controlled engineering job history](docs/screenshots/city-studio/engineering-jobs.png)
 
 ![City Studio verified alignment and GIS evidence viewer](docs/screenshots/city-studio/artifact-evidence-viewer.png)
+
+![City Studio verified IFC object inspector with IDS and BCF job artifacts](docs/screenshots/city-studio/civil-bim-ids-bcf-evidence-viewer.png)
+
+![City Studio BCF coordination decision form backed by Git-reviewable project intent](docs/screenshots/city-studio/bcf-git-review-workflow.png)
 
 Run it locally with `cargo run -p osr-city-studio -- serve`, then open
 <http://127.0.0.1:8090/>. See the

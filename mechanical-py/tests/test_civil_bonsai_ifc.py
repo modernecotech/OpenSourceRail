@@ -6,6 +6,7 @@ import json
 from pathlib import Path
 
 import ifcopenshell
+from bcf.v3.bcfxml import BcfXml
 
 from engineering.interchange.civil_bonsai_ifc import write_outputs
 
@@ -14,9 +15,19 @@ def test_civil_ifc_has_rail_semantics_geometry_schedule_and_stable_ids(tmp_path:
     paths = write_outputs(tmp_path / "first", alignment_path=None, revision_id="test-revision")
     index = json.loads(paths["index"].read_text(encoding="utf-8"))
     validation = json.loads(paths["validation"].read_text(encoding="utf-8"))
+    ids_report = json.loads(paths["ids_report"].read_text(encoding="utf-8"))
+    bcf_index = json.loads(paths["bcf_index"].read_text(encoding="utf-8"))
     model = ifcopenshell.open(str(paths["ifc"]))
+    coordination = BcfXml.load(paths["bcf"])
 
     assert validation["passed"]
+    assert ids_report["status"]
+    assert ids_report["total_specifications_pass"] == 3
+    assert ids_report["total_checks"] == ids_report["total_checks_pass"] == 828
+    assert bcf_index["topic_count"] == 3
+    assert coordination is not None
+    assert coordination.version.version_id == "3.0"
+    assert len(coordination.topics) == 3
     assert index["summary"] == {
         "assets": 82,
         "construction_tasks": 16,
@@ -49,4 +60,41 @@ def test_civil_ifc_has_rail_semantics_geometry_schedule_and_stable_ids(tmp_path:
 def test_civil_ifc_is_byte_deterministic(tmp_path: Path) -> None:
     first = write_outputs(tmp_path / "first", alignment_path=None, revision_id="same")
     second = write_outputs(tmp_path / "second", alignment_path=None, revision_id="same")
-    assert first["ifc"].read_bytes() == second["ifc"].read_bytes()
+    assert first.keys() == second.keys()
+    for kind in first:
+        assert first[kind].read_bytes() == second[kind].read_bytes(), kind
+
+
+def test_coordination_decision_is_carried_into_bcf_without_mutating_topic_identity(tmp_path: Path) -> None:
+    alignment = tmp_path / "alignment.json"
+    alignment.write_text(
+        json.dumps(
+            {
+                "line_slug": "review-line",
+                "points": [[0.0, 0.0, 0.0], [320.0, 0.0, 0.0]],
+                "coordination_issues": [
+                    {
+                        "id": "station-deck-release",
+                        "status": "resolved",
+                        "assignee": "Structures",
+                        "resolution": "Engineer-released deck calculation and drawing package accepted.",
+                        "reviewed_by": "Civil design authority",
+                    }
+                ],
+            },
+            sort_keys=True,
+        ),
+        encoding="utf-8",
+    )
+    paths = write_outputs(tmp_path / "reviewed", alignment_path=alignment, revision_id="reviewed")
+    bcf_index = json.loads(paths["bcf_index"].read_text(encoding="utf-8"))
+    station_topic = next(
+        topic for topic in bcf_index["topics"] if topic["issue_id"] == "station-deck-release"
+    )
+
+    assert bcf_index["open_topic_count"] == 2
+    assert station_topic["intent_status"] == "resolved"
+    assert station_topic["status"] == "Resolved"
+    assert station_topic["assignee"] == "Structures"
+    assert station_topic["reviewed_by"] == "Civil design authority"
+    assert "Engineer-released" in station_topic["description"]

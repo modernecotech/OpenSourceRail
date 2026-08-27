@@ -1,7 +1,7 @@
 # Bonsai / IFC4.3 Civil Workflow
 
 Status: implemented design-reference workflow  
-Baseline: Bonsai 0.8.5, Blender 5.2, IfcOpenShell 0.8.5, IFC4.3
+Baseline: Bonsai 0.8.5, Blender 5.2, IfcOpenShell/IfcTester/BCF 0.8.5, IFC4.3
 
 ## Decision
 
@@ -62,7 +62,11 @@ Outputs are written beneath `build/engineering/bonsai-civil/`:
 - `civil-coordination.ifc` — native IFC4.3 model;
 - `civil-coordination.index.json` — object-aware browser index and authority boundary;
 - `civil-construction-sequence.json` — tasks, dates, QA holds and product assignments;
-- `civil-coordination.validation.json` — reopen checks and exact IFC hash;
+- `civil-information-requirements.ids` — buildingSMART IDS 1.0 delivery requirements;
+- `civil-information-requirements.report.json` — complete deterministic IDS audit evidence;
+- `civil-coordination-issues.bcf` — BCF 3.0 package with object-linked release issues;
+- `civil-coordination-issues.index.json` — browser-safe issue and IFC selection index;
+- `civil-coordination.validation.json` — reopen, IDS, BCF-link, and exact artifact-hash checks;
 - `civil-coordination.blend` — Bonsai scene retaining IFC links and the animation timeline;
 - `civil-coordination.png` and optional MP4 — reproducible visual review artifacts.
 
@@ -85,6 +89,37 @@ Sixteen track, station, and viaduct tasks are embedded in an
 for Bonsai 4D visualization; predecessors, planning durations, QA holds, and
 required evidence remain in the companion sequence index.
 
+## IDS delivery gate and BCF review loop
+
+The exporter writes an IDS 1.0 contract and immediately reopens it with
+IfcTester against the written IFC. Three specifications require all 82 civil
+assets to carry stable identity, source, revision, lifecycle and coordination
+dimensions; require the alignment to state its upstream authority; and require
+the project to state its source hash and release status. The current reference
+exchange passes all 828 entity-level checks. The audit is deterministic: entity
+evidence is sorted before hashing, so a repeat build produces byte-identical
+IFC, IDS, audit, BCF, indexes, sequence, and validation files.
+
+Passing IDS means that the information delivery is complete for this declared
+coordination purpose. It does not mean the design is structurally or legally
+released. The generated BCF 3.0 package therefore carries three open issues
+with viewpoints and selected IFC GUIDs:
+
+1. replace the planning axis with accepted survey and alignment geometry;
+2. release the elevated station deck structural design;
+3. complete the viaduct span, bearing, pier, foundation, and reinforcement work.
+
+City Studio exposes the requirement report and issue index alongside the IFC.
+Bonsai can open the native BCF package for discipline coordination and issue
+closure against the same stable objects.
+
+City Studio stores a review decision in the project's committed
+`coordination/issues.toml`. It never rewrites a prior BCF artifact. Closing or
+resolving a topic requires both resolution evidence and a reviewer; the next
+civil job reads the new content-addressed revision and emits a fresh BCF with
+the same deterministic topic/viewpoint identities and updated status,
+assignee, resolution, and reviewer.
+
 ## Engineering release boundary
 
 The generated model is deliberately labelled **design-reference / not for
@@ -101,4 +136,6 @@ after review.
 - [Bonsai introduction and native IFC workflow](https://docs.bonsaibim.org/quickstart/introduction_to_bim.html)
 - [Bonsai road and rail alignment guide](https://docs.bonsaibim.org/guides/alignment.html)
 - [IfcOpenShell alignment API and current design limitations](https://docs.ifcopenshell.org/autoapi/ifcopenshell/api/alignment/index.html)
+- [IfcTester IDS API](https://docs.ifcopenshell.org/autoapi/ifctester/ids/index.html)
+- [IfcOpenShell BCF 3 topic API](https://docs.ifcopenshell.org/autoapi/bcf/v3/topic/index.html)
 - [buildingSMART IFC4.3 rail domain](https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/ifcraildomain/content.html)

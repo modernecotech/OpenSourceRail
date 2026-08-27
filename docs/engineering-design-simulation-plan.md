@@ -147,9 +147,11 @@ drift tests remain open.
 The civil federation now also generates a byte-deterministic IFC4.3 model with
 82 stable assets, four `IfcRailwayPart` disciplines, an `IfcAlignment`
 reference, 16 construction tasks, task-product links, quantities, provenance,
-and nine passing interface checks. Bonsai 0.8.5 imports it headlessly and saves
-the review/animation scene. Survey-grade alignment drift, IDS rules, BCF issue
-generation, and engineer-released structural detail remain open.
+and nine passing interface checks. Its IDS 1.0 delivery contract passes 828 of
+828 checks across three specifications, and its deterministic BCF 3.0 package
+links three open release topics to 23 IFC selections. Bonsai 0.8.5 imports the
+model headlessly and saves the review/animation scene. Survey-grade alignment,
+BCF issue closure, and engineer-released structural detail remain open.
 
 The city package now also converts canonical catalogue inputs into QGIS/GDAL
 GeoPackages, shapes SUMO edges from the corridor GeoJSON, and runs per-city

@@ -39,6 +39,9 @@ const api = {
     `/api/services/${encodeURIComponent(line)}/${encodeURIComponent(day)}`,
     { method: "PUT", body: JSON.stringify(body) },
   ),
+  coordination: (id, body) => api.request(`/api/coordination/${encodeURIComponent(id)}`, {
+    method: "PUT", body: JSON.stringify(body),
+  }),
   compile: () => api.request("/api/compile", { method: "POST" }),
   revision: () => api.request("/api/revisions", { method: "POST" }),
   revisions: () => api.request("/api/revisions"),
@@ -725,7 +728,8 @@ function renderJobs() {
 
 async function selectDefaultArtifact() {
   const preferredKinds = [
-    "civil-bim-index", "civil-bim-validation", "civil-4d-sequence",
+    "civil-bim-index", "civil-ids-report", "civil-bcf3-index",
+    "civil-bim-validation", "civil-4d-sequence",
     "gis-network", "alignment-input", "alignment-review", "simulation-result",
     "landxml", "railml", "stakeout", "manifest", "snapshot", "job-log",
   ];
@@ -763,6 +767,8 @@ function renderArtifactViewer() {
     $("#artifact-verification").classList.remove("verified");
     $("#artifact-viewer-empty").hidden = false;
     $("#artifact-metrics").replaceChildren();
+    $("#artifact-objects").replaceChildren();
+    $("#artifact-objects").hidden = true;
     $("#artifact-provenance").textContent = "";
     $("#artifact-source").hidden = true;
     return;
@@ -777,6 +783,7 @@ function renderArtifactViewer() {
   $("#artifact-metrics").innerHTML = metrics.map(([value, label]) =>
     `<div class="artifact-metric"><strong>${escapeHtml(value)}</strong><span>${escapeHtml(label)}</span></div>`
   ).join("");
+  renderArtifactObjects(preview);
   $("#artifact-provenance").textContent = `${preview.artifact.path}\n${preview.artifact.size_bytes.toLocaleString()} bytes\nsha256:${preview.artifact.sha256}\njob:${preview.job_id}`;
   const source = typeof preview.content === "string"
     ? preview.content
@@ -808,10 +815,17 @@ function artifactGraphic(preview) {
     return points.length ? [points] : [];
   }
   if (preview.format === "json" && content.schema === "org.opensourcerail.bonsai-civil-ifc.v1") {
+    const iso = ([x, y, z]) => [Number(x) - Number(y) * .7, Number(x) * .24 + Number(y) * .38 - Number(z) * 2.4];
     return (content.objects || []).map((item) => {
       const box = item.bbox_m;
       if (!Array.isArray(box) || box.length !== 6) return [];
-      return [[box[0], box[1]], [box[3], box[1]], [box[3], box[4]], [box[0], box[4]], [box[0], box[1]]];
+      const corners = [
+        [box[0], box[1], box[2]], [box[3], box[1], box[2]],
+        [box[3], box[4], box[2]], [box[0], box[4], box[2]],
+        [box[0], box[1], box[5]], [box[3], box[1], box[5]],
+        [box[3], box[4], box[5]], [box[0], box[4], box[5]],
+      ].map(iso);
+      return [0, 1, 2, 3, 0, 4, 5, 1, 5, 6, 2, 6, 7, 3, 7, 4].map((index) => corners[index]);
     }).filter((points) => points.length);
   }
   if (preview.format === "landxml") {
@@ -847,10 +861,16 @@ function drawArtifactGraphic(svg, groups) {
   const spanY = Math.max(maxY - minY, 1e-9);
   const scale = Math.min(820 / spanX, 340 / spanY);
   const project = ([x, y]) => [40 + (x - minX) * scale, 380 - (y - minY) * scale];
-  groups.forEach((group) => {
+  const civilObjects = selectedArtifactPreview?.content?.schema === "org.opensourcerail.bonsai-civil-ifc.v1";
+  groups.forEach((group, groupIndex) => {
     if (group.length < 2) return;
     const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
     path.setAttribute("class", "artifact-preview-line");
+    if (civilObjects) {
+      path.classList.add("inspectable");
+      path.dataset.objectIndex = groupIndex;
+      path.addEventListener("click", () => selectArtifactObject(groupIndex));
+    }
     path.setAttribute("d", group.map((point, index) => {
       const [x, y] = project(point);
       return `${index ? "L" : "M"} ${x.toFixed(2)} ${y.toFixed(2)}`;
@@ -866,6 +886,114 @@ function drawArtifactGraphic(svg, groups) {
       svg.append(circle);
     });
   });
+}
+
+function artifactInspectorItems(preview) {
+  const content = preview.content;
+  if (preview.format === "json" && content.schema === "org.opensourcerail.bonsai-civil-ifc.v1") {
+    return (content.objects || []).map((item) => ({
+      label: item.name,
+      meta: `${item.ifc_class} · ${item.asset_class}`,
+      detail: [
+        `asset ${item.asset_id}`,
+        `IFC GUID ${item.ifc_guid}`,
+        `discipline ${item.discipline} · ${item.detail_mode}`,
+        `bbox m ${item.bbox_m.join(", ")}`,
+        `source ${item.source_geometry}`,
+      ].join("\n"),
+    }));
+  }
+  if (preview.format === "json" && content.schema === "org.opensourcerail.bonsai-civil-bcf-index.v1") {
+    return (content.topics || []).map((topic) => ({
+      label: topic.title,
+      meta: `${topic.status} · ${topic.ifc_guids.length} IFC selection${topic.ifc_guids.length === 1 ? "" : "s"}`,
+      detail: `${topic.description}\n\ntopic ${topic.topic_guid}\nassets ${topic.asset_ids.join(", ") || "alignment reference"}`,
+      coordination: topic.issue_id ? topic : null,
+    }));
+  }
+  if (preview.format === "json" && content.schema === "org.opensourcerail.bonsai-civil-ids-report.v1") {
+    return (content.specifications || []).map((specification) => ({
+      label: specification.name,
+      meta: `${specification.status ? "PASS" : "FAIL"} · ${specification.total_checks_pass}/${specification.total_checks} checks`,
+      detail: `${specification.description || "Information delivery requirement"}\n\n${specification.applicability.join("\n")}`,
+    }));
+  }
+  return [];
+}
+
+function renderArtifactObjects(preview) {
+  const host = $("#artifact-objects");
+  const items = artifactInspectorItems(preview);
+  host.replaceChildren();
+  host.hidden = !items.length;
+  if (!items.length) return;
+  host.innerHTML = `<h3>${preview.content.schema?.includes("bcf") ? "Coordination topics" : preview.content.schema?.includes("ids") ? "IDS specifications" : "IFC object inspector"}</h3>
+    <div class="artifact-object-list">${items.map((item, index) => `<button type="button" class="artifact-object-button" data-object-index="${index}"><strong>${escapeHtml(item.label)}</strong><small>${escapeHtml(item.meta)}</small></button>`).join("")}</div>
+    <pre class="artifact-object-detail"></pre>
+    <form id="coordination-review-form" class="coordination-review-form" hidden>
+      <p>Working-draft decision</p>
+      <label>Status<select name="status"><option value="open">Open</option><option value="in-progress">In progress</option><option value="resolved">Resolved</option><option value="closed">Closed</option></select></label>
+      <label>Assignee<input name="assignee" maxlength="120" placeholder="Discipline or responsible person"></label>
+      <label>Resolution<textarea name="resolution" maxlength="2000" placeholder="Required before resolving or closing"></textarea></label>
+      <label>Reviewed by<input name="reviewed_by" maxlength="120" placeholder="Required before resolving or closing"></label>
+      <button type="submit">Save Git-reviewable decision</button>
+      <small>The selected job artifact remains immutable. Rerun the civil BIM job to issue a BCF reflecting this decision.</small>
+    </form>`;
+  host.querySelectorAll(".artifact-object-button").forEach((button) => {
+    button.addEventListener("click", () => selectArtifactObject(Number(button.dataset.objectIndex)));
+  });
+  host.querySelector("#coordination-review-form")?.addEventListener("submit", saveCoordinationDecision);
+  selectArtifactObject(0);
+}
+
+function selectArtifactObject(index) {
+  const items = artifactInspectorItems(selectedArtifactPreview);
+  if (!items[index]) return;
+  document.querySelectorAll(".artifact-object-button").forEach((button) => {
+    button.classList.toggle("selected", Number(button.dataset.objectIndex) === index);
+  });
+  document.querySelectorAll("#artifact-canvas .artifact-preview-line[data-object-index]").forEach((path) => {
+    path.classList.toggle("selected", Number(path.dataset.objectIndex) === index);
+  });
+  const detail = $("#artifact-objects .artifact-object-detail");
+  if (detail) detail.textContent = items[index].detail;
+  const form = $("#coordination-review-form");
+  if (!form) return;
+  const topic = items[index].coordination;
+  form.hidden = !topic;
+  form.dataset.objectIndex = index;
+  if (!topic) return;
+  const draft = view.snapshot.coordination?.issues?.find((issue) => issue.id === topic.issue_id) || topic;
+  form.elements.status.value = draft.status || topic.intent_status || "open";
+  form.elements.assignee.value = draft.assignee || "";
+  form.elements.resolution.value = draft.resolution || "";
+  form.elements.reviewed_by.value = draft.reviewed_by || "";
+}
+
+async function saveCoordinationDecision(event) {
+  event.preventDefault();
+  const form = event.currentTarget;
+  const index = Number(form.dataset.objectIndex);
+  const item = artifactInspectorItems(selectedArtifactPreview)[index];
+  const topic = item?.coordination;
+  if (!topic) return;
+  const body = {
+    status: form.elements.status.value,
+    assignee: form.elements.assignee.value.trim(),
+    resolution: form.elements.resolution.value.trim(),
+    reviewed_by: form.elements.reviewed_by.value.trim(),
+  };
+  try {
+    view = await api.coordination(topic.issue_id, body);
+    renderGit();
+    renderSummary();
+    renderFindings();
+    renderRevisionSelector();
+    selectArtifactObject(index);
+    toast(`${topic.issue_id} saved to project intent. Rerun civil BIM before BCF issue.`);
+  } catch (error) {
+    toast(error.message, true);
+  }
 }
 
 function artifactMetrics(preview, graphic) {
@@ -886,6 +1014,12 @@ function artifactMetrics(preview, graphic) {
   if (preview.format === "json" && content.schema === "org.opensourcerail.bonsai-civil-ifc.v1") {
     return [[content.summary?.assets || 0, "IFC assets"], [content.summary?.construction_tasks || 0, "4D tasks"], [content.summary?.interface_checks || 0, "interface checks"], [content.ifc_schema || "IFC4X3", "coordination schema"]];
   }
+  if (preview.format === "json" && content.schema === "org.opensourcerail.bonsai-civil-ids-report.v1") {
+    return [[content.total_specifications_pass, `of ${content.total_specifications} IDS specifications`], [content.total_checks_pass, `of ${content.total_checks} checks`], [content.status ? "PASS" : "FAIL", "information delivery"], ["IDS 1.0", "requirements standard"]];
+  }
+  if (preview.format === "json" && content.schema === "org.opensourcerail.bonsai-civil-bcf-index.v1") {
+    return [[content.open_topic_count ?? content.topic_count, "open / active topics"], [content.topics.reduce((sum, topic) => sum + topic.ifc_guids.length, 0), "IFC selections"], [content.bcf_version, "BCF version"], [content.topic_count, "retained topic records"]];
+  }
   if (preview.format === "ifc") {
     const classes = [...content.matchAll(/=IFC[A-Z0-9]+\(/g)].length;
     return [[classes, "STEP entities"], [(content.match(/IFCTASK\(/g) || []).length, "4D tasks"], [(content.match(/IFCRAILWAYPART\(/g) || []).length, "railway parts"], ["IFC4.3", "coordination schema"]];
@@ -897,6 +1031,13 @@ function artifactMetrics(preview, graphic) {
   }
   if (preview.format === "csv") {
     return [[content.trim().split(/\r?\n/).length - 1, "stakeout rows"], [graphic.flat().length, "plotted points"], ["CSV", "exchange format"], ["local XYZ", "coordinate frame"]];
+  }
+  if (preview.format === "ids") {
+    const xml = new DOMParser().parseFromString(content, "application/xml");
+    return [[xml.getElementsByTagNameNS("*", "specification").length, "IDS specifications"], [xml.getElementsByTagNameNS("*", "property").length, "property requirements"], ["IDS 1.0", "requirements standard"], ["XML", "exchange format"]];
+  }
+  if (preview.format === "bcf") {
+    return [[content.container, "coordination container"], [content.size_bytes.toLocaleString(), "bytes"], ["3", "indexed topics"], ["verified", "content state"]];
   }
   if (preview.format === "json") {
     return [[Object.keys(content).length, "top-level fields"], ["JSON", "structured format"], [preview.artifact.size_bytes.toLocaleString(), "bytes"], ["verified", "content state"]];
@@ -989,6 +1130,11 @@ function renderRevisionComparison() {
     return `<div class="revision-item"><strong>${escapeHtml(item.kind)} · ${escapeHtml(item.line)} · ${escapeHtml(item.day_type)}</strong><small>${signed(item.peak_fleet_delta)} fleet · ${signed(item.capacity_delta_pphpd)} pphpd · ${signed(item.daily_service_km_delta, 1)} km/day${span}</small></div>`;
   }
   ).join("") || '<p class="empty-diff">No service changes</p>';
+  const coordinationItems = (diff.coordination || []).map((item) => {
+    const issue = item.after || item.before;
+    const transition = item.before && item.after ? `${item.before.status} → ${item.after.status}` : issue.status;
+    return `<div class="revision-item"><strong>${escapeHtml(item.kind)} · ${escapeHtml(item.id)}</strong><small>${escapeHtml(transition)}${issue.reviewed_by ? ` · ${escapeHtml(issue.reviewed_by)}` : ""}</small></div>`;
+  }).join("") || '<p class="empty-diff">No coordination changes</p>';
   node.innerHTML = `
     <p>Comparing <strong>${escapeHtml(diff.base_revision_id)}</strong> with candidate <strong>${escapeHtml(diff.candidate_revision_id)}</strong></p>
     <div class="revision-summary">${summary.map(([value, label]) =>
@@ -998,6 +1144,7 @@ function renderRevisionComparison() {
       <div class="revision-group"><h3>Stations</h3>${stationItems}</div>
       <div class="revision-group"><h3>Lines</h3>${lineItems}</div>
       <div class="revision-group"><h3>Services</h3>${serviceItems}</div>
+      <div class="revision-group"><h3>Coordination</h3>${coordinationItems}</div>
     </div>`;
 }
 

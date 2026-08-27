@@ -247,6 +247,8 @@ td.capacity { color: var(--accent); font-variant-numeric: tabular-nums; }
 }
 .artifact-preview-line { fill: none; stroke: var(--accent-2); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
 .artifact-preview-line:nth-child(2n) { stroke: var(--accent); }
+.artifact-preview-line.inspectable { cursor: pointer; stroke-width: 2; opacity: .72; transition: opacity .15s, stroke-width .15s; }
+.artifact-preview-line.inspectable:hover, .artifact-preview-line.selected { opacity: 1; stroke-width: 5; stroke: var(--locked); }
 .artifact-preview-point { fill: var(--locked); stroke: #07110f; stroke-width: 2; }
 .artifact-inspector { padding: 1rem; display: grid; align-content: start; gap: .85rem; min-width: 0; }
 .artifact-metrics { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .5rem; }
@@ -254,6 +256,23 @@ td.capacity { color: var(--accent); font-variant-numeric: tabular-nums; }
 .artifact-metric strong, .artifact-metric span { display: block; }
 .artifact-metric strong { font-size: 1.05rem; color: var(--text); overflow-wrap: anywhere; }
 .artifact-metric span { color: var(--muted); font-size: .68rem; }
+.artifact-objects { min-width: 0; }
+.artifact-objects h3 { margin: 0 0 .45rem; color: var(--text); font-size: .78rem; text-transform: uppercase; letter-spacing: .08em; }
+.artifact-object-list { display: grid; gap: .35rem; max-height: 205px; overflow: auto; padding-right: .25rem; }
+.artifact-object-button { width: 100%; padding: .5rem .6rem; border: 1px solid var(--line); border-radius: 7px; background: #071310; color: var(--text); text-align: left; cursor: pointer; }
+.artifact-object-button:hover, .artifact-object-button.selected { border-color: var(--accent); background: var(--panel-raised); }
+.artifact-object-button strong, .artifact-object-button small { display: block; overflow-wrap: anywhere; }
+.artifact-object-button strong { font-size: .72rem; }
+.artifact-object-button small { color: var(--muted); font-size: .62rem; margin-top: .15rem; }
+.artifact-object-detail { min-height: 72px; margin: .45rem 0 0; padding: .6rem; border-left: 2px solid var(--accent); background: #06100e; color: var(--muted); font: .65rem/1.45 ui-monospace, monospace; white-space: pre-wrap; overflow-wrap: anywhere; }
+.coordination-review-form { display: grid; gap: .45rem; padding: .65rem; border: 1px solid var(--line); border-radius: 8px; background: var(--panel-raised); }
+.coordination-review-form[hidden] { display: none; }
+.coordination-review-form p { margin: 0; color: var(--accent-2); font-size: .72rem; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; }
+.coordination-review-form label { display: grid; gap: .2rem; color: var(--muted); font-size: .65rem; }
+.coordination-review-form input, .coordination-review-form select, .coordination-review-form textarea { width: 100%; box-sizing: border-box; }
+.coordination-review-form textarea { min-height: 68px; resize: vertical; }
+.coordination-review-form button { justify-self: start; }
+.coordination-review-form small { color: var(--muted); line-height: 1.4; }
 .artifact-provenance { color: var(--muted); font: .7rem/1.5 ui-monospace, monospace; overflow-wrap: anywhere; white-space: pre-wrap; }
 .verification-badge { padding: .35rem .55rem; border: 1px solid var(--line); border-radius: 999px; color: var(--muted); font-size: .7rem; }
 .verification-badge.verified { color: var(--accent); border-color: var(--accent); }
@@ -270,7 +289,7 @@ td.capacity { color: var(--accent); font-variant-numeric: tabular-nums; }
   background: var(--panel-raised);
 }
 .revision-delta strong { display: block; color: var(--text); font-size: 1.05rem; }
-.revision-groups { display: grid; grid-template-columns: repeat(3, 1fr); gap: .75rem; margin-top: .75rem; }
+.revision-groups { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .75rem; margin-top: .75rem; }
 .revision-group { padding: .75rem; border: 1px solid var(--line); border-radius: 8px; }
 .revision-group h3 { margin: 0 0 .45rem; color: var(--text); font-size: .85rem; }
 .revision-item { padding: .4rem 0; border-top: 1px solid var(--line); }

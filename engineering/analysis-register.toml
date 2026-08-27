@@ -60,12 +60,12 @@ limitations = "Product-structure coordination skeleton only; geometry placement,
 id = "OSR-AN-IFC-CIV-001"
 title = "Deterministic IFC4.3 civil federation and 4D construction handoff"
 status = "screening"
-tool = "IfcOpenShell 0.8.5 / Bonsai 0.8.5 / Blender 5.2"
+tool = "IfcOpenShell 0.8.5 / IfcTester 0.8.5 / BCF 0.8.5 / Bonsai 0.8.5 / Blender 5.2"
 input_paths = ["mechanical-py/src/osr_mech/civil_systems_integration.py", "mechanical-py/src/osr_mech/fabrication_assembly_twin.py", "engineering/interchange/civil_bonsai_ifc.py"]
 result_path = "build/engineering/bonsai-civil/civil-coordination.validation.json"
-acceptance_criterion = "IFC4.3 reopens with 82 stable assets, four rail discipline parts, one alignment reference, 16 construction tasks, byte-deterministic output and all nine civil interface checks passing"
+acceptance_criterion = "IFC4.3 reopens with 82 stable assets, four rail discipline parts, one alignment reference, 16 construction tasks, all nine civil interface checks, 3/3 IDS specifications and 828/828 IDS checks passing, plus three BCF 3.0 topics whose 23 selected IFC GUIDs resolve; every emitted artifact is byte-deterministic"
 converged = true
-limitations = "Design-reference coordination geometry only; survey-grade alignment, geotechnics, structural capacity/reinforcement, bearing release, IDS rules and BCF issue closure remain open."
+limitations = "Design-reference coordination geometry only; survey-grade alignment, geotechnics, structural capacity/reinforcement and bearing release remain open. IDS validates information delivery, not engineering adequacy; the three BCF release issues deliberately remain open."
 
 [[analysis]]
 id = "OSR-AN-CIV-THERM-001"

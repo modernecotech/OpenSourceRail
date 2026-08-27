@@ -99,7 +99,7 @@ impl JobManager {
                 category: "Civil BIM / 4D".to_string(),
                 label: "Generate Bonsai civil IFC4.3".to_string(),
                 description:
-                    "Federate the selected line with deterministic civil detail, quantities, provenance, and a construction sequence."
+                    "Federate the selected line with deterministic civil detail, quantities, provenance, IDS audit, BCF issues, and a construction sequence."
                         .to_string(),
             },
             JobAdapterInfo {
@@ -478,6 +478,7 @@ impl JobManager {
                 "line_slug": safe_line,
                 "design_speed_kmh": 80.0,
                 "points": local_points,
+                "coordination_issues": &project.coordination().issues,
             }))?,
         )?;
         let output_dir = self.job_dir(id).join("alignment");
@@ -574,8 +575,12 @@ impl JobManager {
         if !output.status.success() {
             bail!("civil IFC exporter exited unsuccessfully\n{log}");
         }
-        self.progress(id, 90, "Validating IFC objects, schedule, and stable IDs")
-            .await?;
+        self.progress(
+            id,
+            90,
+            "Auditing IFC with IDS and linking BCF review issues",
+        )
+        .await?;
         let artifacts = vec![
             self.artifact("civil-bim-input", &input_path)?,
             self.artifact(
@@ -590,6 +595,22 @@ impl JobManager {
             self.artifact(
                 "civil-bim-validation",
                 &output_dir.join("civil-coordination.validation.json"),
+            )?,
+            self.artifact(
+                "civil-ids-requirements",
+                &output_dir.join("civil-information-requirements.ids"),
+            )?,
+            self.artifact(
+                "civil-ids-report",
+                &output_dir.join("civil-information-requirements.report.json"),
+            )?,
+            self.artifact(
+                "civil-bcf3-issues",
+                &output_dir.join("civil-coordination-issues.bcf"),
+            )?,
+            self.artifact(
+                "civil-bcf3-index",
+                &output_dir.join("civil-coordination-issues.index.json"),
             )?,
         ];
         Ok((output.status.code().unwrap_or(0), log, artifacts))
@@ -862,6 +883,25 @@ fn preview_content<'a>(
             "model/ifc",
             serde_json::Value::String(String::from_utf8(bytes.to_vec())?),
         )),
+        "ids" => Ok((
+            "ids",
+            "application/xml",
+            serde_json::Value::String(String::from_utf8(bytes.to_vec())?),
+        )),
+        "bcf" => {
+            if !bytes.starts_with(b"PK") {
+                bail!("BCF artifact is not a ZIP container");
+            }
+            Ok((
+                "bcf",
+                "application/vnd.bcf+zip",
+                serde_json::json!({
+                    "container": "BCF 3.0 ZIP",
+                    "size_bytes": bytes.len(),
+                    "inspection": "Open the companion civil-bcf3-index artifact for topic and IFC selection details.",
+                }),
+            ))
+        }
         "log" => Ok((
             "text",
             "text/plain",
@@ -927,6 +967,11 @@ mod tests {
         let ifc = preview_content(Path::new("civil.ifc"), b"ISO-10303-21;").unwrap();
         assert_eq!(ifc.0, "ifc");
         assert_eq!(ifc.1, "model/ifc");
+        let ids = preview_content(Path::new("requirements.ids"), b"<ids/>").unwrap();
+        assert_eq!(ids.0, "ids");
+        let bcf = preview_content(Path::new("issues.bcf"), b"PK\x03\x04").unwrap();
+        assert_eq!(bcf.0, "bcf");
+        assert!(preview_content(Path::new("issues.bcf"), b"not a zip").is_err());
         assert!(preview_content(Path::new("board.kicad_pcb"), b"board").is_err());
     }
 

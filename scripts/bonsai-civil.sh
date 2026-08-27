@@ -39,7 +39,7 @@ if ! $DO_GENERATE && ! $DO_CHECK; then
 fi
 
 if $DO_CHECK; then
-    "$ROOT/.venv/bin/python" -c 'import ifcopenshell; print("IfcOpenShell", ifcopenshell.version)'
+    "$ROOT/.venv/bin/python" -c 'import ifcopenshell, importlib.metadata; print("IfcOpenShell", ifcopenshell.version); print("IfcTester", importlib.metadata.version("ifctester")); print("BCF", importlib.metadata.version("bcf-client"))'
     flatpak run org.blender.Blender --version | head -n 1
     flatpak run org.blender.Blender -b --python-expr \
         'import importlib.metadata; print("Bonsai", importlib.metadata.version("bonsai"))' 2>&1 | grep '^Bonsai '

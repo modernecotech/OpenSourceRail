@@ -12,8 +12,8 @@ use tokio::sync::Mutex;
 
 use crate::jobs::JobManager;
 use crate::model::{
-    ControlPointCreate, ControlPointEdit, JobRequest, LineCreate, LineEdit, LineServicePlan,
-    ProjectView, StationCreate, StationEdit,
+    ControlPointCreate, ControlPointEdit, CoordinationEdit, JobRequest, LineCreate, LineEdit,
+    LineServicePlan, ProjectView, StationCreate, StationEdit,
 };
 use crate::CityProject;
 
@@ -87,6 +87,7 @@ pub async fn serve(project_root: impl AsRef<Path>, host: &str, port: u16) -> Res
         .route("/api/lines/:line/control-points", post(post_control_point))
         .route("/api/control-points/:id", put(put_control_point))
         .route("/api/services/:line/:day_type", put(put_service))
+        .route("/api/coordination/:id", put(put_coordination_issue))
         .route("/api/compile", post(compile_project))
         .route("/api/jobs", get(get_jobs))
         .route("/api/jobs/:id", get(get_job).post(start_job))
@@ -262,6 +263,19 @@ async fn put_service(
     let _guard = state.write_lock.lock().await;
     let mut project = CityProject::load(&state.project_root)?;
     project.update_service_plan(plan)?;
+    drop(project);
+    drop(_guard);
+    get_project(State(state)).await
+}
+
+async fn put_coordination_issue(
+    State(state): State<AppState>,
+    AxumPath(id): AxumPath<String>,
+    Json(edit): Json<CoordinationEdit>,
+) -> Result<Json<ProjectView>, ApiError> {
+    let _guard = state.write_lock.lock().await;
+    let mut project = CityProject::load(&state.project_root)?;
+    project.update_coordination_issue(&id, edit)?;
     drop(project);
     drop(_guard);
     get_project(State(state)).await

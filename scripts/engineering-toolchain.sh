@@ -136,6 +136,8 @@ from importlib.metadata import version
 
 for package in (
     "ifcopenshell",
+    "ifctester",
+    "bcf-client",
     "jupedsim",
     "numba",
     "openseespy",

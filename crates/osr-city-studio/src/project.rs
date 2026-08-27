@@ -10,16 +10,22 @@ use sha2::{Digest, Sha256};
 
 use crate::model::{
     BaseDesign, BuildArtifact, BuildManifest, CompiledControlPoint, CompiledLine, CompiledSnapshot,
-    CompiledStation, ControlPointCreate, ControlPointEdit, FindingSeverity, GeoPoint, GitState,
-    IntentState, LineControlPoint, LineCreate, LineEdit, LineRoutingPreference, LineServicePlan,
-    ManualLine, ManualStation, OverrideFile, ProjectFile, ResolvedSource, RevisionComparison,
-    RevisionControlDiff, RevisionLineDiff, RevisionListItem, RevisionMaterialized,
-    RevisionServiceDiff, RevisionStationDiff, RevisionSummaryDiff, RoutingSettings, ServiceMetric,
-    ServicePlan, SnapshotSummary, SourceLock, StationChange, StationCreate, StationEdit,
-    StationOverride, StudioArtifact, ValidationFinding,
+    CompiledStation, ControlPointCreate, ControlPointEdit, CoordinationEdit, CoordinationFile,
+    CoordinationIssue, CoordinationStatus, FindingSeverity, GeoPoint, GitState, IntentState,
+    LineControlPoint, LineCreate, LineEdit, LineRoutingPreference, LineServicePlan, ManualLine,
+    ManualStation, OverrideFile, ProjectFile, ResolvedSource, RevisionComparison,
+    RevisionControlDiff, RevisionCoordinationDiff, RevisionLineDiff, RevisionListItem,
+    RevisionMaterialized, RevisionServiceDiff, RevisionStationDiff, RevisionSummaryDiff,
+    RoutingSettings, ServiceMetric, ServicePlan, SnapshotSummary, SourceLock, StationChange,
+    StationCreate, StationEdit, StationOverride, StudioArtifact, ValidationFinding,
 };
 
 const SNAPSHOT_SCHEMA_VERSION: u32 = 1;
+const CIVIL_COORDINATION_ISSUE_IDS: [&str; 3] = [
+    "alignment-survey-authority",
+    "station-deck-release",
+    "viaduct-design-release",
+];
 
 #[derive(Debug)]
 pub struct CityProject {
@@ -30,6 +36,7 @@ pub struct CityProject {
     service_plan: ServicePlan,
     source_lock: SourceLock,
     corridor: serde_json::Value,
+    coordination: CoordinationFile,
 }
 
 #[derive(Serialize)]
@@ -48,6 +55,7 @@ struct SnapshotContent<'a> {
     summary: &'a SnapshotSummary,
     changes: &'a [StationChange],
     findings: &'a [ValidationFinding],
+    coordination: &'a CoordinationFile,
 }
 
 #[derive(Debug)]
@@ -90,6 +98,14 @@ impl CityProject {
         let service_plan: ServicePlan = read_toml(&root.join(&config.inputs.service_plan))?;
         let source_lock: SourceLock = read_json(&root.join(&config.inputs.source_lock))?;
         let corridor: serde_json::Value = read_json(&root.join(&config.inputs.corridor_geojson))?;
+        let coordination = if let Some(path) = &config.inputs.coordination {
+            read_toml(&root.join(path))?
+        } else {
+            CoordinationFile {
+                schema_version: 1,
+                issues: Vec::new(),
+            }
+        };
         Ok(Self {
             root,
             config,
@@ -98,6 +114,7 @@ impl CityProject {
             service_plan,
             source_lock,
             corridor,
+            coordination,
         })
     }
 
@@ -111,6 +128,10 @@ impl CityProject {
 
     pub fn service_plan(&self) -> &ServicePlan {
         &self.service_plan
+    }
+
+    pub fn coordination(&self) -> &CoordinationFile {
+        &self.coordination
     }
 
     fn is_active_line(&self, id: &str) -> bool {
@@ -440,6 +461,7 @@ impl CityProject {
             summary: &summary,
             changes: &changes,
             findings: &findings,
+            coordination: &self.coordination,
         };
         let content_sha256 = sha256_bytes(&serde_json::to_vec(&content)?);
         let revision_id = format!("osr-{}", &content_sha256[..16]);
@@ -462,7 +484,32 @@ impl CityProject {
             summary,
             changes,
             findings,
+            coordination: self.coordination.clone(),
         })
+    }
+
+    pub fn update_coordination_issue(&mut self, id: &str, edit: CoordinationEdit) -> Result<()> {
+        validate_coordination_decision(edit.status, &edit.resolution, &edit.reviewed_by)?;
+        let issue = self
+            .coordination
+            .issues
+            .iter_mut()
+            .find(|issue| issue.id == id)
+            .ok_or_else(|| anyhow!("unknown coordination issue {id:?}"))?;
+        issue.status = edit.status;
+        issue.assignee = edit.assignee.trim().to_string();
+        issue.resolution = edit.resolution.trim().to_string();
+        issue.reviewed_by = edit.reviewed_by.trim().to_string();
+        self.coordination
+            .issues
+            .sort_by(|left, right| left.id.cmp(&right.id));
+        let path = self
+            .config
+            .inputs
+            .coordination
+            .as_ref()
+            .ok_or_else(|| anyhow!("project does not declare a coordination intent file"))?;
+        write_toml_atomic(&self.root.join(path), &self.coordination)
     }
 
     pub fn update_station(&mut self, id: &str, edit: StationEdit) -> Result<()> {
@@ -1189,12 +1236,15 @@ impl CityProject {
     }
 
     fn project_input_hash(&self) -> Result<String> {
-        let paths = [
+        let mut paths = vec![
             PathBuf::from("project.osr.toml"),
             PathBuf::from(&self.config.inputs.network_overrides),
             PathBuf::from(&self.config.inputs.service_plan),
             PathBuf::from(&self.config.inputs.source_lock),
         ];
+        if let Some(path) = &self.config.inputs.coordination {
+            paths.push(PathBuf::from(path));
+        }
         let mut hasher = Sha256::new();
         for relative in paths {
             let bytes = fs::read(self.root.join(&relative))
@@ -1209,6 +1259,60 @@ impl CityProject {
 
     fn validate(&self, sources: &[ResolvedSource]) -> Vec<ValidationFinding> {
         let mut findings = Vec::new();
+        if self.config.inputs.coordination.is_some() {
+            if self.coordination.schema_version != 1 {
+                findings.push(ValidationFinding {
+                    severity: FindingSeverity::Error,
+                    code: "COORDINATION_SCHEMA".to_string(),
+                    message: "coordination intent schema_version must be 1".to_string(),
+                    object_id: Some("coordination".to_string()),
+                });
+            }
+            let mut seen = BTreeSet::new();
+            for issue in &self.coordination.issues {
+                if !seen.insert(issue.id.as_str()) {
+                    findings.push(ValidationFinding {
+                        severity: FindingSeverity::Error,
+                        code: "DUPLICATE_COORDINATION_ISSUE".to_string(),
+                        message: format!("coordination issue {} is duplicated", issue.id),
+                        object_id: Some(issue.id.clone()),
+                    });
+                }
+                if !CIVIL_COORDINATION_ISSUE_IDS.contains(&issue.id.as_str()) {
+                    findings.push(ValidationFinding {
+                        severity: FindingSeverity::Error,
+                        code: "UNKNOWN_COORDINATION_ISSUE".to_string(),
+                        message: format!(
+                            "coordination issue {} is not emitted by the civil adapter",
+                            issue.id
+                        ),
+                        object_id: Some(issue.id.clone()),
+                    });
+                }
+                if let Err(error) = validate_coordination_decision(
+                    issue.status,
+                    &issue.resolution,
+                    &issue.reviewed_by,
+                ) {
+                    findings.push(ValidationFinding {
+                        severity: FindingSeverity::Error,
+                        code: "INVALID_COORDINATION_DECISION".to_string(),
+                        message: error.to_string(),
+                        object_id: Some(issue.id.clone()),
+                    });
+                }
+            }
+            for expected in CIVIL_COORDINATION_ISSUE_IDS {
+                if !seen.contains(expected) {
+                    findings.push(ValidationFinding {
+                        severity: FindingSeverity::Error,
+                        code: "MISSING_COORDINATION_ISSUE".to_string(),
+                        message: format!("coordination issue {expected} is missing"),
+                        object_id: Some(expected.to_string()),
+                    });
+                }
+            }
+        }
         for source in sources {
             if !source.matches_lock {
                 findings.push(ValidationFinding {
@@ -2492,6 +2596,43 @@ fn compare_snapshots(base: &CompiledSnapshot, candidate: &CompiledSnapshot) -> R
         });
     }
 
+    let base_coordination: BTreeMap<&str, &CoordinationIssue> = base
+        .coordination
+        .issues
+        .iter()
+        .map(|issue| (issue.id.as_str(), issue))
+        .collect();
+    let candidate_coordination: BTreeMap<&str, &CoordinationIssue> = candidate
+        .coordination
+        .issues
+        .iter()
+        .map(|issue| (issue.id.as_str(), issue))
+        .collect();
+    let coordination_ids: BTreeSet<&str> = base_coordination
+        .keys()
+        .chain(candidate_coordination.keys())
+        .copied()
+        .collect();
+    let mut coordination = Vec::new();
+    for id in coordination_ids {
+        let before = base_coordination.get(id).copied();
+        let after = candidate_coordination.get(id).copied();
+        if before == after {
+            continue;
+        }
+        coordination.push(RevisionCoordinationDiff {
+            id: id.to_string(),
+            kind: match (before, after) {
+                (None, Some(_)) => "added",
+                (Some(_), None) => "removed",
+                _ => "modified",
+            }
+            .to_string(),
+            before: before.cloned(),
+            after: after.cloned(),
+        });
+    }
+
     RevisionComparison {
         base_revision_id: base.revision_id.clone(),
         candidate_revision_id: candidate.revision_id.clone(),
@@ -2511,6 +2652,7 @@ fn compare_snapshots(base: &CompiledSnapshot, candidate: &CompiledSnapshot) -> R
         controls,
         lines,
         services,
+        coordination,
     }
 }
 
@@ -2600,6 +2742,25 @@ fn validate_revision_id(revision_id: &str) -> Result<()> {
             .all(|byte| byte.is_ascii_hexdigit())
     {
         bail!("invalid revision id {revision_id:?}");
+    }
+    Ok(())
+}
+
+fn validate_coordination_decision(
+    status: CoordinationStatus,
+    resolution: &str,
+    reviewed_by: &str,
+) -> Result<()> {
+    if matches!(
+        status,
+        CoordinationStatus::Resolved | CoordinationStatus::Closed
+    ) {
+        if resolution.trim().len() < 12 {
+            bail!("resolved or closed coordination issues require a substantive resolution");
+        }
+        if reviewed_by.trim().is_empty() {
+            bail!("resolved or closed coordination issues require a reviewer");
+        }
     }
     Ok(())
 }
@@ -2990,16 +3151,33 @@ fn git_output(cwd: &Path, args: &[&str]) -> Option<String> {
 mod tests {
     use std::path::Path;
 
-    use super::{haversine_m, normalized_interval, parse_minutes, validate_line_plan, CityProject};
+    use super::{
+        haversine_m, normalized_interval, parse_minutes, validate_coordination_decision,
+        validate_line_plan, CityProject,
+    };
     use crate::model::{
-        IntentState, LineControlPoint, LineCreate, LineRoutingPreference, LineServicePlan,
-        ManualStation, ServiceWindow, StationCreate, StationOverride,
+        CoordinationStatus, IntentState, LineControlPoint, LineCreate, LineRoutingPreference,
+        LineServicePlan, ManualStation, ServiceWindow, StationCreate, StationOverride,
     };
 
     #[test]
     fn parses_end_of_day() {
         assert_eq!(parse_minutes("24:00").unwrap(), 1_440);
         assert!(parse_minutes("24:01").is_err());
+    }
+
+    #[test]
+    fn coordination_closure_requires_resolution_and_reviewer() {
+        assert!(validate_coordination_decision(CoordinationStatus::Open, "", "").is_ok());
+        assert!(validate_coordination_decision(
+            CoordinationStatus::Resolved,
+            "Engineer-released package accepted",
+            "Civil authority",
+        )
+        .is_ok());
+        assert!(
+            validate_coordination_decision(CoordinationStatus::Closed, "too short", "").is_err()
+        );
     }
 
     #[test]

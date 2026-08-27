@@ -14,14 +14,18 @@ import hashlib
 import json
 import sys
 import uuid
+import zipfile
 from collections import Counter
 from dataclasses import asdict
 from datetime import datetime, timedelta, timezone
 from importlib.metadata import version
 from pathlib import Path
+from tempfile import TemporaryDirectory
 from typing import Any, Iterable
 
 import numpy as np
+from bcf.v3.bcfxml import BcfXml
+from xsdata.models.datatype import XmlDateTime
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 MECHANICAL_SRC = REPO_ROOT / "mechanical-py/src"
@@ -29,6 +33,9 @@ if str(MECHANICAL_SRC) not in sys.path:
     sys.path.insert(0, str(MECHANICAL_SRC))
 
 import ifcopenshell
+from ifctester import ids as ids_module
+from ifctester import open as open_ids
+from ifctester import reporter as ids_reporter
 from ifcopenshell.api.aggregate import assign_object
 from ifcopenshell.api.context import add_context
 from ifcopenshell.api.geometry import (
@@ -65,6 +72,8 @@ from osr_mech.fabrication_assembly_twin import fabrication_streams
 SCHEMA = "org.opensourcerail.bonsai-civil-ifc.v1"
 NAMESPACE = uuid.UUID("5b6994b4-1642-48df-a10b-796985904590")
 FIXED_HEADER_TIMESTAMP = "2026-01-01T00:00:00"
+FIXED_REVIEW_TIMESTAMP = "2026-01-01T00:00:00Z"
+FIXED_ZIP_TIMESTAMP = (2026, 1, 1, 0, 0, 0)
 DEFAULT_START = datetime(2026, 1, 5, 8, 0, tzinfo=timezone.utc)
 MAX_DETAIL_PARTS = 450
 
@@ -94,6 +103,10 @@ COLOURS = {
 
 def stable_guid(value: str) -> str:
     return ifcopenshell.guid.compress(uuid.uuid5(NAMESPACE, value).hex)
+
+
+def stable_uuid(value: str) -> str:
+    return str(uuid.uuid5(NAMESPACE, value))
 
 
 def canonical_json(value: Any) -> bytes:
@@ -532,6 +545,8 @@ def build_model(
         work_schedule.CreationDate = DEFAULT_START.isoformat()
     deterministic_roots(model)
     stabilize_unordered_collections(model)
+    for row in index_rows:
+        row["ifc_guid"] = products[row["asset_id"]].GlobalId
     index_rows.sort(key=lambda row: row["asset_id"])
     index = {
         "schema": SCHEMA,
@@ -575,8 +590,333 @@ def build_model(
     return model, index, sequence
 
 
-def validate_written(ifc_path: Path, index: dict[str, Any], sequence: dict[str, Any]) -> dict[str, Any]:
+def build_civil_ids(index: dict[str, Any]) -> ids_module.Ids:
+    """Build the information requirements for the generated IFC exchange."""
+
+    document = ids_module.Ids(
+        title="OSR IFC4.3 civil information requirements",
+        version="1.0",
+        description=(
+            "Machine-checkable requirements for the OpenSourceRail design-reference "
+            "civil coordination exchange. Passing does not constitute construction release."
+        ),
+        author="OpenSourceRail",
+        date="2026-01-01",
+        purpose="Civil BIM federation, coordination, and review",
+        milestone="Design reference",
+    )
+    concrete_elements = sorted({row["ifc_class"].upper() for row in index["objects"]})
+    asset_specification = ids_module.Specification(
+        name="Civil elements carry stable OSR identity and coordination quantities",
+        description="Every exported physical or virtual asset remains traceable to its deterministic source.",
+        instructions="Do not accept untagged or revision-ambiguous objects into the civil federation.",
+        minOccurs=1,
+        maxOccurs="unbounded",
+        ifcVersion=["IFC4X3_ADD2"],
+        identifier="OSR-IDS-CIV-001",
+    )
+    asset_specification.applicability.append(
+        ids_module.Entity(name=ids_module.Restriction({"enumeration": concrete_elements}))
+    )
+    asset_specification.requirements.extend(
+        [
+            ids_module.Attribute(name="Name"),
+            ids_module.Attribute(name="Tag"),
+            ids_module.Property(propertySet="Pset_OSR_Asset", baseName="AssetId"),
+            ids_module.Property(propertySet="Pset_OSR_Asset", baseName="AssetClass"),
+            ids_module.Property(propertySet="Pset_OSR_Asset", baseName="SourceSha256"),
+            ids_module.Property(propertySet="Pset_OSR_Asset", baseName="RevisionId"),
+            ids_module.Property(propertySet="Pset_OSR_Asset", baseName="LifecycleState"),
+            ids_module.Property(propertySet="Qto_OSR_CoordinationEnvelope", baseName="OverallLength"),
+            ids_module.Property(propertySet="Qto_OSR_CoordinationEnvelope", baseName="OverallWidth"),
+            ids_module.Property(propertySet="Qto_OSR_CoordinationEnvelope", baseName="OverallHeight"),
+        ]
+    )
+    document.specifications.append(asset_specification)
+
+    alignment_specification = ids_module.Specification(
+        name="Alignment exposes authority and revision",
+        description="The IFC axis declares that detailed alignment engineering remains upstream in OSR.",
+        minOccurs=1,
+        maxOccurs=1,
+        ifcVersion=["IFC4X3_ADD2"],
+        identifier="OSR-IDS-ALN-001",
+    )
+    alignment_specification.applicability.append(ids_module.Entity(name="IFCALIGNMENT"))
+    alignment_specification.requirements.extend(
+        [
+            ids_module.Attribute(name="Name"),
+            ids_module.Property(propertySet="Pset_OSR_AlignmentAuthority", baseName="Authority"),
+            ids_module.Property(propertySet="Pset_OSR_AlignmentAuthority", baseName="RevisionId"),
+            ids_module.Property(propertySet="Pset_OSR_AlignmentAuthority", baseName="GeometryRole"),
+        ]
+    )
+    document.specifications.append(alignment_specification)
+
+    provenance_specification = ids_module.Specification(
+        name="Project declares deterministic provenance and release status",
+        description="The exchange identifies its source revision, canonical content hash, and maturity boundary.",
+        minOccurs=1,
+        maxOccurs=1,
+        ifcVersion=["IFC4X3_ADD2"],
+        identifier="OSR-IDS-PROV-001",
+    )
+    provenance_specification.applicability.append(ids_module.Entity(name="IFCPROJECT"))
+    provenance_specification.requirements.extend(
+        [
+            ids_module.Property(propertySet="Pset_OSR_Provenance", baseName="CanonicalSourceSha256"),
+            ids_module.Property(propertySet="Pset_OSR_Provenance", baseName="RevisionId"),
+            ids_module.Property(propertySet="Pset_OSR_Provenance", baseName="GeometryAuthority"),
+            ids_module.Property(propertySet="Pset_OSR_Provenance", baseName="ReleaseStatus"),
+        ]
+    )
+    document.specifications.append(provenance_specification)
+    return document
+
+
+def write_and_validate_ids(
+    ifc_path: Path,
+    ids_path: Path,
+    report_path: Path,
+    index: dict[str, Any],
+) -> dict[str, Any]:
+    requirements = build_civil_ids(index)
+    requirements.to_xml(ids_path)
+    reopened_requirements = open_ids(ids_path)
+    if reopened_requirements is None:
+        raise ValueError("written civil IDS could not be reopened")
+    reopened_requirements.validate(
+        ifcopenshell.open(str(ifc_path)),
+        should_filter_version=True,
+        filepath=ifc_path.name,
+    )
+    report = ids_reporter.Json(reopened_requirements)
+    report.report()
+    result = json.loads(report.to_string())
+    result.update(
+        {
+            "schema": "org.opensourcerail.bonsai-civil-ids-report.v1",
+            "date": FIXED_REVIEW_TIMESTAMP,
+            "filepath": ifc_path.name,
+            "filename": ifc_path.name,
+            "ids_filename": ids_path.name,
+        }
+    )
+    # IfcTester records passing entities in sets. Preserve its full evidence but
+    # canonicalise those arrays before hashing or presenting the report.
+    for specification in result["specifications"]:
+        specification["applicable_entities"].sort(
+            key=lambda item: (item.get("global_id") or "", item.get("id") or 0)
+        )
+        for requirement in specification["requirements"]:
+            for key in ("passed_entities", "failed_entities"):
+                requirement[key].sort(
+                    key=lambda item: (item.get("global_id") or "", item.get("id") or 0)
+                )
+    report_path.write_text(json.dumps(result, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    if not result["status"]:
+        raise ValueError("written civil IFC failed its IDS information requirements")
+    return result
+
+
+def canonicalize_zip(source: Path, destination: Path) -> None:
+    """Rewrite a ZIP with stable ordering and metadata for byte reproducibility."""
+
+    with zipfile.ZipFile(source, "r") as incoming, zipfile.ZipFile(
+        destination, "w", compression=zipfile.ZIP_DEFLATED, compresslevel=9
+    ) as outgoing:
+        for name in sorted(incoming.namelist()):
+            info = zipfile.ZipInfo(name, date_time=FIXED_ZIP_TIMESTAMP)
+            info.compress_type = zipfile.ZIP_DEFLATED
+            info.create_system = 0
+            info.external_attr = 0
+            outgoing.writestr(info, incoming.read(name), compress_type=zipfile.ZIP_DEFLATED, compresslevel=9)
+
+
+def _bbox_target(rows: list[dict[str, Any]]) -> np.ndarray:
+    if not rows:
+        return np.array([160.0, 0.0, 0.0], dtype=np.float64)
+    union = bbox_union(tuple(row["bbox_m"]) for row in rows)
+    return np.array(
+        [(union[0] + union[3]) / 2.0, (union[1] + union[4]) / 2.0, (union[2] + union[5]) / 2.0],
+        dtype=np.float64,
+    )
+
+
+def write_coordination_bcf(
+    ifc_path: Path,
+    bcf_path: Path,
+    bcf_index_path: Path,
+    index: dict[str, Any],
+    alignment_input: dict[str, Any] | None,
+) -> dict[str, Any]:
+    """Write deterministic BCF 3.0 release issues linked to IFC GUIDs."""
+
+    model = ifcopenshell.open(str(ifc_path))
+    alignment = model.by_type("IfcAlignment")[0]
+    decisions = {
+        issue["id"]: issue
+        for issue in (alignment_input or {}).get("coordination_issues", [])
+        if isinstance(issue, dict) and isinstance(issue.get("id"), str)
+    }
+    bcf_statuses = {
+        "open": "Open",
+        "in-progress": "In Progress",
+        "resolved": "Resolved",
+        "closed": "Closed",
+    }
+    topic_definitions = [
+        {
+            "key": "alignment-survey-authority",
+            "title": "Replace planning alignment with accepted survey geometry",
+            "description": (
+                "The current IfcAlignment is a deterministic coordination axis. Before design release, "
+                "accept the project CRS, surveyed control, horizontal and vertical geometry, transitions, "
+                "cant, tolerances, and design-speed checks in the authoritative OSR alignment model."
+            ),
+            "rows": [],
+            "ifc_guids": [alignment.GlobalId],
+            "target": np.array([160.0, 0.0, 0.0], dtype=np.float64),
+        },
+        {
+            "key": "station-deck-release",
+            "title": "Release elevated station deck structural design",
+            "description": (
+                "The elevated station deck is a coordination interface only. Resolve governing loads, "
+                "member and reinforcement design, bearings, movements, drainage, seismic detailing, "
+                "constructability, and engineer acceptance before construction use."
+            ),
+            "rows": [row for row in index["objects"] if row["asset_class"] == "civil.station-deck-interface"],
+        },
+        {
+            "key": "viaduct-design-release",
+            "title": "Complete viaduct span, bearing, pier, and foundation schedule",
+            "description": (
+                "U-girders and piers currently define deterministic coordination envelopes. Confirm span "
+                "arrangement, bearing schedule, ground model, foundation selection, load combinations, "
+                "dynamic response, durability, drainage, and engineer-released reinforcement details."
+            ),
+            "rows": [
+                row
+                for row in index["objects"]
+                if row["asset_class"] in {"civil.u-girder", "civil.pier"}
+            ],
+        },
+    ]
+
+    bcf = BcfXml.create_new(project_name="OpenSourceRail civil coordination")
+    if bcf.project is None:
+        raise ValueError("BCF project metadata was not created")
+    bcf.project.project_id = stable_uuid("bcf-project|civil-coordination")
+    topic_rows = []
+    for definition in topic_definitions:
+        rows = definition["rows"]
+        decision = decisions.get(definition["key"], {})
+        intent_status = decision.get("status", "open")
+        if intent_status not in bcf_statuses:
+            raise ValueError(f"unsupported coordination status {intent_status!r}")
+        bcf_status = bcf_statuses[intent_status]
+        resolution = str(decision.get("resolution", "")).strip()
+        reviewed_by = str(decision.get("reviewed_by", "")).strip()
+        assignee = str(decision.get("assignee", "")).strip()
+        description = definition["description"]
+        if resolution:
+            description += f"\n\nRecorded resolution: {resolution}"
+        if reviewed_by:
+            description += f"\nReviewed by: {reviewed_by}"
+        selected_guids = definition.get("ifc_guids") or [row["ifc_guid"] for row in rows]
+        target = definition.get("target") if "target" in definition else _bbox_target(rows)
+        handler = bcf.add_topic(
+            definition["title"],
+            description,
+            "engineering@opensourcerail.org",
+            topic_type="Engineering",
+            topic_status=bcf_status,
+        )
+        generated_topic_guid = handler.guid
+        topic_guid = stable_uuid(f"bcf-topic|{definition['key']}")
+        bcf.topics.pop(generated_topic_guid)
+        handler.topic.guid = topic_guid
+        handler.topic.creation_date = XmlDateTime.from_string(FIXED_REVIEW_TIMESTAMP)
+        if assignee:
+            handler.topic.assigned_to = assignee
+        handler._topic_dir = Path(topic_guid)
+        bcf.topics[topic_guid] = handler
+
+        viewpoint = handler.add_viewpoint_from_point_and_guids(target, *selected_guids)
+        generated_viewpoint_name = viewpoint.guid + ".bcfv"
+        viewpoint_guid = stable_uuid(f"bcf-viewpoint|{definition['key']}")
+        viewpoint.visualization_info.guid = viewpoint_guid
+        handler.viewpoints.pop(generated_viewpoint_name)
+        handler.viewpoints[viewpoint_guid + ".bcfv"] = viewpoint
+        markup_viewpoint = handler.topic.viewpoints.view_point[-1]
+        markup_viewpoint.guid = viewpoint_guid
+        markup_viewpoint.viewpoint = viewpoint_guid + ".bcfv"
+        topic_rows.append(
+            {
+                "topic_guid": topic_guid,
+                "viewpoint_guid": viewpoint_guid,
+                "title": definition["title"],
+                "description": description,
+                "type": "Engineering",
+                "status": bcf_status,
+                "intent_status": intent_status,
+                "issue_id": definition["key"],
+                "assignee": assignee,
+                "resolution": resolution,
+                "reviewed_by": reviewed_by,
+                "asset_ids": [row["asset_id"] for row in rows],
+                "ifc_guids": selected_guids,
+            }
+        )
+
+    with TemporaryDirectory(prefix="osr-bcf-") as temporary:
+        generated = Path(temporary) / "generated.bcf"
+        bcf.save(generated)
+        canonicalize_zip(generated, bcf_path)
+    result = {
+        "schema": "org.opensourcerail.bonsai-civil-bcf-index.v1",
+        "bcf_version": "3.0",
+        "project_id": bcf.project.project_id,
+        "ifc_filename": ifc_path.name,
+        "topic_count": len(topic_rows),
+        "open_topic_count": sum(
+            row["intent_status"] in {"open", "in-progress"} for row in topic_rows
+        ),
+        "topics": topic_rows,
+    }
+    bcf_index_path.write_text(json.dumps(result, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    return result
+
+
+def validate_coordination_bcf(bcf_path: Path, ifc_path: Path) -> dict[str, Any]:
+    coordination = BcfXml.load(bcf_path)
+    if coordination is None:
+        raise ValueError("written civil BCF could not be reopened")
+    model = ifcopenshell.open(str(ifc_path))
+    model_guids = {root.GlobalId for root in model.by_type("IfcRoot")}
+    selected_guids: list[str] = []
+    for topic in coordination.topics.values():
+        for viewpoint in topic.viewpoints.values():
+            selected_guids.extend(viewpoint.get_selected_guids() or [])
+    return {
+        "version": coordination.version.version_id,
+        "topic_count": len(coordination.topics),
+        "selected_ifc_guids": len(selected_guids),
+        "all_selected_guids_resolve": bool(selected_guids) and set(selected_guids).issubset(model_guids),
+    }
+
+
+def validate_written(
+    paths: dict[str, Path],
+    index: dict[str, Any],
+    sequence: dict[str, Any],
+    ids_report: dict[str, Any],
+    bcf_index: dict[str, Any],
+) -> dict[str, Any]:
+    ifc_path = paths["ifc"]
     reopened = ifcopenshell.open(str(ifc_path))
+    bcf_validation = validate_coordination_bcf(paths["bcf"], ifc_path)
     tagged = {product.Tag for product in reopened.by_type("IfcProduct") if getattr(product, "Tag", None)}
     expected = {row["asset_id"] for row in index["objects"]}
     checks = [
@@ -588,6 +928,9 @@ def validate_written(ifc_path: Path, index: dict[str, Any], sequence: dict[str, 
         {"id": "construction-schedule", "passed": len(reopened.by_type("IfcWorkSchedule")) == 1, "observed": len(reopened.by_type("IfcTask"))},
         {"id": "task-index-match", "passed": len(reopened.by_type("IfcTask")) == len(sequence["tasks"]), "observed": len(sequence["tasks"])},
         {"id": "all-interface-checks", "passed": all(item["passed"] for item in index["validation"]), "observed": len(index["validation"])},
+        {"id": "ids-information-requirements", "passed": ids_report["status"], "observed": f"{ids_report['total_specifications_pass']}/{ids_report['total_specifications']} specifications"},
+        {"id": "bcf3-coordination-topics", "passed": bcf_validation["version"] == "3.0" and bcf_validation["topic_count"] == bcf_index["topic_count"], "observed": bcf_validation["topic_count"]},
+        {"id": "bcf-viewpoint-ifc-links", "passed": bcf_validation["all_selected_guids_resolve"], "observed": bcf_validation["selected_ifc_guids"]},
     ]
     return {
         "schema": "org.opensourcerail.bonsai-ifc-validation.v1",
@@ -595,6 +938,16 @@ def validate_written(ifc_path: Path, index: dict[str, Any], sequence: dict[str, 
         "checks": checks,
         "ifc_sha256": sha256_bytes(ifc_path.read_bytes()),
         "ifc_size_bytes": ifc_path.stat().st_size,
+        "artifact_sha256": {
+            kind: sha256_bytes(paths[kind].read_bytes())
+            for kind in ("ifc", "ids", "ids_report", "bcf", "bcf_index")
+        },
+        "ids": {
+            "specifications": ids_report["total_specifications"],
+            "requirements": ids_report["total_requirements"],
+            "checks": ids_report["total_checks"],
+        },
+        "bcf": bcf_validation,
         "entity_count": sum(1 for _ in reopened),
     }
 
@@ -607,10 +960,18 @@ def write_outputs(out_dir: Path, *, alignment_path: Path | None, revision_id: st
         "ifc": out_dir / "civil-coordination.ifc",
         "index": out_dir / "civil-coordination.index.json",
         "sequence": out_dir / "civil-construction-sequence.json",
+        "ids": out_dir / "civil-information-requirements.ids",
+        "ids_report": out_dir / "civil-information-requirements.report.json",
+        "bcf": out_dir / "civil-coordination-issues.bcf",
+        "bcf_index": out_dir / "civil-coordination-issues.index.json",
         "validation": out_dir / "civil-coordination.validation.json",
     }
     model.write(str(paths["ifc"]))
-    validation = validate_written(paths["ifc"], index, sequence)
+    ids_report = write_and_validate_ids(paths["ifc"], paths["ids"], paths["ids_report"], index)
+    bcf_index = write_coordination_bcf(
+        paths["ifc"], paths["bcf"], paths["bcf_index"], index, alignment_input
+    )
+    validation = validate_written(paths, index, sequence, ids_report, bcf_index)
     if not validation["passed"]:
         raise ValueError("written civil IFC failed validation")
     index["ifc_sha256"] = validation["ifc_sha256"]

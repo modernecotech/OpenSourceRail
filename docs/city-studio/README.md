@@ -18,6 +18,10 @@ The controlling design decision is
 
 ![City Studio SHA-256-verified alignment and GIS evidence viewer](../screenshots/city-studio/artifact-evidence-viewer.png)
 
+![City Studio SHA-256-verified IFC object inspector with IDS and BCF evidence](../screenshots/city-studio/civil-bim-ids-bcf-evidence-viewer.png)
+
+![City Studio BCF coordination decision form backed by Git-reviewable project intent](../screenshots/city-studio/bcf-git-review-workflow.png)
+
 ## Run
 
 From the repository root:
@@ -112,8 +116,9 @@ Implemented:
 
 Next:
 
-- interactive 3D IFC picking and BCF/IDS issue authoring (object-aware civil
-  IFC inspection is implemented through the verified index and raw model);
+- native 3D IFC geometry streaming, new BCF topic authoring, and IDS editing
+  (projected IFC object picking, IDS inspection, and controlled BCF status,
+  assignment, resolution, and reviewer decisions are implemented);
 - demand/OD matrices and platform/interchange capacity;
 - project approval records and object-aware Git merge assistance.
 
@@ -156,9 +161,10 @@ The engineering hub exposes four fixed adapters:
   JSON, stakeout CSV, LandXML, and railML;
 - **Generate Bonsai civil IFC4.3** combines the selected immutable line
   reference with the checked civil kit and produces native IFC4.3 objects,
-  quantities, provenance, an object index, validation report, and linked 4D
-  construction tasks. OSR remains the alignment/geometry authority; Bonsai is
-  the downstream federation and detail-review environment.
+  quantities, provenance, an object index, linked 4D construction tasks, a
+  three-specification IDS 1.0 audit, and a BCF 3.0 package of open release
+  issues with IFC GUID selections. OSR remains the alignment/geometry
+  authority; Bonsai is the downstream federation and detail-review environment.
 
 Jobs serialize through one engineering slot. Their records, immutable evidence
 copies, and full logs live
@@ -173,9 +179,18 @@ text.
 Artifact buttons open the evidence viewer. Before returning content, the server
 canonicalizes the path beneath the City Studio build root, enforces a 4 MB
 preview limit, rejects unknown formats, and recalculates SHA-256. GeoJSON and
-alignment/stakeout geometry and IFC object envelopes are plotted directly;
-IFC STEP, XML, and JSON formats also receive format-specific metrics and a
-bounded structured-source preview.
+alignment/stakeout geometry and isometric IFC object envelopes are plotted
+directly. Individual civil objects expose their stable ID, IFC GUID, class,
+discipline, bounds, detail mode, and source. IDS specifications and BCF topics
+have selectable audit/issue cards; IFC STEP, IDS XML, BCF containers, and JSON
+also receive format-specific metrics and a bounded structured-source preview.
+
+BCF review decisions are written to
+`projects/<slug>/coordination/issues.toml`, not into the selected job artifact.
+Open and in-progress issues may be assigned without closure evidence. Resolved
+or closed issues require a substantive resolution and reviewer. The project
+compiler includes those decisions in its content hash and revision comparison;
+rerunning **Generate Bonsai civil IFC4.3** creates the new immutable BCF state.
 
 See the [Bonsai/IFC4.3 civil workflow](../civil/bonsai-ifc-workflow.md) for the
 engineering authority boundary, standalone generator, Blender review scene,

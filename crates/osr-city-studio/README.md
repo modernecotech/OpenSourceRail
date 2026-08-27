@@ -19,9 +19,15 @@ candidate with immutable Git revision records. Its engineering hub runs only
 allowlisted GIS, simulator, and alignment-exchange adapters and persists their
 progress, logs, exit state, and immutable artifact copies. The civil BIM
 adapter emits an IFC4.3 rail federation, object index, quantities, provenance,
-and linked construction sequence for Bonsai. The integrated evidence viewer
+linked construction sequence, IDS audit, and BCF 3.0 release issues for Bonsai.
+The integrated evidence viewer
 re-verifies each hash before plotting GeoJSON, alignment JSON, civil IFC object
-envelopes, LandXML, railML, stakeout CSV, or simulation results.
+envelopes with object picking, IDS specifications, BCF topics, LandXML, railML,
+stakeout CSV, or simulation results.
+
+BCF decisions are saved to project intent and included in Git revision hashes;
+immutable job evidence is never edited in place. Resolution and closure require
+recorded evidence and a reviewer before a regenerated BCF can carry that state.
 
 See the [City Studio guide](../../docs/city-studio/README.md) and
 [RFC 0031](../../docs/rfcs/0031-city-studio-git-revisions.md).

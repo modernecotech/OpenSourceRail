@@ -36,6 +36,11 @@ fn committed_revision_is_backward_compatible_and_semantically_comparable() {
     assert!(comparison.controls.is_empty());
     assert!(comparison.lines.is_empty());
     assert!(comparison.services.is_empty());
+    assert_eq!(comparison.coordination.len(), 3);
+    assert!(comparison
+        .coordination
+        .iter()
+        .all(|issue| issue.kind == "added"));
     assert_eq!(comparison.summary.station_count, 0);
     assert_eq!(comparison.summary.manual_station_count, 0);
 }

@@ -53,6 +53,8 @@ Each city has a committed package under projects/<slug>/:
     │   └── overrides.toml
     ├── services/
     │   └── service-plan.toml
+    ├── coordination/
+    │   └── issues.toml
     └── revisions/
         ├── README.md
         └── osr-<content-hash>.json
@@ -96,6 +98,15 @@ contiguous headway windows. The compiler calculates cycle time, indicative
 peak fleet, capacity per hour per direction, daily service kilometres, and
 weekly service kilometres.
 
+coordination/issues.toml stores review decisions for deterministic civil BCF
+topics. Status, assignee, resolution, and reviewer are project intent rather
+than edits to a generated job artifact. Resolving or closing an issue requires
+a substantive resolution and reviewer. The compiler validates the issue set,
+includes it in the project hash and immutable revision snapshot, and reports
+semantic issue-state changes in revision comparison. A new civil BIM job then
+emits a new BCF reflecting that revision; earlier BCF files remain immutable
+evidence.
+
 ## 5. Revision lifecycle
 
     working draft
@@ -122,6 +133,7 @@ content-addressed JSON record only when validation has no errors. It includes:
 - source locks and their observed hashes;
 - effective lines and stations;
 - complete weekly service plans and fleet/capacity metrics;
+- civil coordination issue status, assignment, resolution, and reviewer;
 - semantic station movements;
 - validation findings;
 - exact project-input SHA-256, compiler version, and embedded compiler/UI
@@ -258,6 +270,9 @@ The Samawah project is the first committed acceptance fixture. It:
   on the line and in candidate GIS output;
 - compares old revision records with the working candidate using engineering
   tolerances for serialized floating-point values;
+- persists civil coordination decisions as Git-reviewable intent, rejects
+  unsupported or unevidenced closures, and carries accepted state into a newly
+  generated BCF without mutating prior job evidence;
 - emits separate weekday, Friday, and weekend simulator scenarios plus a
   SHA-256 artifact manifest;
 - runs allowlisted GIS, simulator, and LandXML/railML alignment jobs with

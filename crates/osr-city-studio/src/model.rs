@@ -30,6 +30,8 @@ pub struct ProjectInputs {
     pub network_overrides: String,
     pub service_plan: String,
     pub source_lock: String,
+    #[serde(default)]
+    pub coordination: Option<String>,
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
@@ -267,6 +269,45 @@ pub struct SourceLock {
     pub sources: Vec<LockedSource>,
 }
 
+#[derive(Clone, Debug, Default, Deserialize, Serialize, PartialEq)]
+pub struct CoordinationFile {
+    pub schema_version: u32,
+    #[serde(default)]
+    pub issues: Vec<CoordinationIssue>,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize, PartialEq)]
+pub struct CoordinationIssue {
+    pub id: String,
+    pub status: CoordinationStatus,
+    #[serde(default)]
+    pub assignee: String,
+    #[serde(default)]
+    pub resolution: String,
+    #[serde(default)]
+    pub reviewed_by: String,
+}
+
+#[derive(Clone, Copy, Debug, Deserialize, Serialize, PartialEq, Eq)]
+#[serde(rename_all = "kebab-case")]
+pub enum CoordinationStatus {
+    Open,
+    InProgress,
+    Resolved,
+    Closed,
+}
+
+#[derive(Clone, Debug, Deserialize)]
+pub struct CoordinationEdit {
+    pub status: CoordinationStatus,
+    #[serde(default)]
+    pub assignee: String,
+    #[serde(default)]
+    pub resolution: String,
+    #[serde(default)]
+    pub reviewed_by: String,
+}
+
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct LockedSource {
     pub id: String,
@@ -295,6 +336,8 @@ pub struct CompiledSnapshot {
     pub summary: SnapshotSummary,
     pub changes: Vec<StationChange>,
     pub findings: Vec<ValidationFinding>,
+    #[serde(default)]
+    pub coordination: CoordinationFile,
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
@@ -619,6 +662,15 @@ pub struct RevisionComparison {
     pub controls: Vec<RevisionControlDiff>,
     pub lines: Vec<RevisionLineDiff>,
     pub services: Vec<RevisionServiceDiff>,
+    pub coordination: Vec<RevisionCoordinationDiff>,
+}
+
+#[derive(Clone, Debug, Serialize)]
+pub struct RevisionCoordinationDiff {
+    pub id: String,
+    pub kind: String,
+    pub before: Option<CoordinationIssue>,
+    pub after: Option<CoordinationIssue>,
 }
 
 #[derive(Clone, Debug, Serialize)]
