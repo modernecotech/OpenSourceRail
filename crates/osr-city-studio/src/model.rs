@@ -472,6 +472,18 @@ pub struct JobArtifact {
     pub size_bytes: u64,
 }
 
+#[derive(Clone, Debug, Serialize)]
+pub struct JobArtifactPreview {
+    pub schema_version: u32,
+    pub job_id: String,
+    pub artifact_index: usize,
+    pub artifact: JobArtifact,
+    pub format: String,
+    pub media_type: String,
+    pub sha256_verified: bool,
+    pub content: serde_json::Value,
+}
+
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct JobRecord {
     pub schema_version: u32,

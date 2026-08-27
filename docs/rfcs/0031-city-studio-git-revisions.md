@@ -194,6 +194,15 @@ or unrestricted shell text. Future adapters may wrap osr-design,
 osr-scenario, GDAL/QGIS, FreeCAD/IFC, SUMO, pandapower/pvlib, finance, and
 operations generation under the same boundary.
 
+Successful jobs copy their review evidence into the job-specific directory so
+later candidate compilations cannot overwrite the recorded files. The browser
+artifact endpoint canonicalizes the selected record path beneath the City
+Studio build root, limits preview size, accepts only known JSON/XML/CSV/text
+formats, and verifies the recorded SHA-256 before returning content. The GUI
+plots GeoJSON, local alignment points, LandXML geometry, and stakeout data and
+summarizes railML and simulator evidence without making those previews an
+authoritative CAD or safety-assurance tool.
+
 ## 8. GitHub review policy
 
 An approved city revision should use:
@@ -253,8 +262,10 @@ The Samawah project is the first committed acceptance fixture. It:
   SHA-256 artifact manifest;
 - runs allowlisted GIS, simulator, and LandXML/railML alignment jobs with
   persistent status, captured logs, and SHA-256 output records;
+- retains immutable per-job artifact copies and rejects altered evidence before
+  browser preview;
 - compiles without validation errors;
 - produces an identical content hash across repeated compilations.
 
-The next acceptance increment is CAD/IFC and richer GIS visualization, demand
-and interchange-capacity inputs, and project approval records.
+The next acceptance increment is IFC object inspection, demand and
+interchange-capacity inputs, and project approval records.

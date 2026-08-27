@@ -10,16 +10,20 @@ use sha2::{Digest, Sha256};
 use tokio::process::Command;
 use tokio::sync::Mutex;
 
-use crate::model::{JobAdapterInfo, JobArtifact, JobRecord, JobRequest, JobStatus};
+use crate::model::{
+    JobAdapterInfo, JobArtifact, JobArtifactPreview, JobRecord, JobRequest, JobStatus,
+};
 use crate::CityProject;
 
 const LOG_TAIL_CHARS: usize = 12_000;
+const MAX_PREVIEW_BYTES: u64 = 4_000_000;
 
 #[derive(Clone, Copy, Debug)]
 enum Adapter {
     GisExport,
     Simulation,
     AlignmentExchange,
+    CivilBim,
 }
 
 impl Adapter {
@@ -28,6 +32,7 @@ impl Adapter {
             "gis-export" => Ok(Self::GisExport),
             "simulation" => Ok(Self::Simulation),
             "alignment-exchange" => Ok(Self::AlignmentExchange),
+            "civil-bim" => Ok(Self::CivilBim),
             _ => bail!("unknown job adapter {id:?}"),
         }
     }
@@ -37,6 +42,7 @@ impl Adapter {
             Self::GisExport => "gis-export",
             Self::Simulation => "simulation",
             Self::AlignmentExchange => "alignment-exchange",
+            Self::CivilBim => "civil-bim",
         }
     }
 
@@ -45,6 +51,7 @@ impl Adapter {
             Self::GisExport => "Compile GIS package",
             Self::Simulation => "Run network simulation",
             Self::AlignmentExchange => "Export LandXML and railML",
+            Self::CivilBim => "Generate Bonsai civil IFC4.3",
         }
     }
 }
@@ -85,6 +92,14 @@ impl JobManager {
                 label: "Compile GIS package".to_string(),
                 description:
                     "Compile the candidate network, day-type scenarios, and hash manifest."
+                        .to_string(),
+            },
+            JobAdapterInfo {
+                id: "civil-bim".to_string(),
+                category: "Civil BIM / 4D".to_string(),
+                label: "Generate Bonsai civil IFC4.3".to_string(),
+                description:
+                    "Federate the selected line with deterministic civil detail, quantities, provenance, and a construction sequence."
                         .to_string(),
             },
             JobAdapterInfo {
@@ -132,6 +147,56 @@ impl JobManager {
             .ok_or_else(|| anyhow!("unknown job {id:?}"))
     }
 
+    pub async fn preview(&self, id: &str, artifact_index: usize) -> Result<JobArtifactPreview> {
+        let record = self.get(id).await?;
+        let artifact = record
+            .artifacts
+            .get(artifact_index)
+            .cloned()
+            .ok_or_else(|| anyhow!("job {id:?} has no artifact at index {artifact_index}"))?;
+        let relative_path = Path::new(&artifact.path);
+        if relative_path.is_absolute() {
+            bail!("job artifact path must be repository-relative");
+        }
+        let path = self.repository_root.join(relative_path);
+        let canonical_path = path
+            .canonicalize()
+            .with_context(|| format!("opening job artifact {}", path.display()))?;
+        let allowed_root = self
+            .repository_root
+            .join("build/city-studio")
+            .join(&self.slug)
+            .canonicalize()
+            .context("opening City Studio build root")?;
+        if !canonical_path.starts_with(&allowed_root) {
+            bail!("job artifact is outside the City Studio build root");
+        }
+        let metadata = fs::metadata(&canonical_path)?;
+        if !metadata.is_file() {
+            bail!("job artifact is not a regular file");
+        }
+        if metadata.len() > MAX_PREVIEW_BYTES {
+            bail!(
+                "job artifact is {} bytes; browser previews are limited to {} bytes",
+                metadata.len(),
+                MAX_PREVIEW_BYTES
+            );
+        }
+        let bytes = fs::read(&canonical_path)?;
+        verify_sha256(&bytes, &artifact.sha256)?;
+        let (format, media_type, content) = preview_content(&canonical_path, &bytes)?;
+        Ok(JobArtifactPreview {
+            schema_version: 1,
+            job_id: id.to_string(),
+            artifact_index,
+            artifact,
+            format: format.to_string(),
+            media_type: media_type.to_string(),
+            sha256_verified: true,
+            content,
+        })
+    }
+
     pub async fn start(&self, adapter_id: &str, request: JobRequest) -> Result<JobRecord> {
         let adapter = Adapter::parse(adapter_id)?;
         let project = CityProject::load(&self.project_root)?;
@@ -152,7 +217,7 @@ impl JobManager {
             _ => None,
         };
         let requested_line = match adapter {
-            Adapter::AlignmentExchange => {
+            Adapter::AlignmentExchange | Adapter::CivilBim => {
                 let line = request
                     .line
                     .or_else(|| snapshot.lines.first().map(|line| line.id.clone()))
@@ -282,6 +347,7 @@ impl JobManager {
             Adapter::GisExport => self.run_gis(id).await,
             Adapter::Simulation => self.run_simulation(id).await,
             Adapter::AlignmentExchange => self.run_alignment(id).await,
+            Adapter::CivilBim => self.run_civil_bim(id).await,
         }
     }
 
@@ -293,11 +359,38 @@ impl JobManager {
         let output_dir = snapshot_path
             .parent()
             .ok_or_else(|| anyhow!("compiled snapshot has no output directory"))?;
-        let paths = [
-            ("snapshot", output_dir.join("snapshot.json")),
-            ("gis-network", output_dir.join("candidate-network.geojson")),
-            ("manifest", output_dir.join("manifest.json")),
+        let published_paths = [
+            (
+                "snapshot",
+                output_dir.join("snapshot.json"),
+                "snapshot.json",
+            ),
+            (
+                "gis-network",
+                output_dir.join("candidate-network.geojson"),
+                "candidate-network.geojson",
+            ),
+            (
+                "manifest",
+                output_dir.join("manifest.json"),
+                "manifest.json",
+            ),
         ];
+        let job_dir = self.job_dir(id);
+        let paths = published_paths
+            .iter()
+            .map(|(kind, published, filename)| {
+                let evidence = job_dir.join(filename);
+                fs::copy(published, &evidence).with_context(|| {
+                    format!(
+                        "copying published artifact {} to {}",
+                        published.display(),
+                        evidence.display()
+                    )
+                })?;
+                Ok((*kind, evidence))
+            })
+            .collect::<Result<Vec<_>>>()?;
         let artifacts = paths
             .iter()
             .map(|(kind, path)| self.artifact(kind, path))
@@ -426,6 +519,82 @@ impl JobManager {
         Ok((output.status.code().unwrap_or(0), log, artifacts))
     }
 
+    async fn run_civil_bim(&self, id: &str) -> Result<(i32, String, Vec<JobArtifact>)> {
+        let record = self.get(id).await?;
+        let line_id = record
+            .requested_line
+            .as_deref()
+            .ok_or_else(|| anyhow!("civil BIM job has no selected line"))?;
+        self.progress(id, 20, "Compiling selected line reference axis")
+            .await?;
+        let project = CityProject::load(&self.project_root)?;
+        project.write_build_snapshot(&self.repository_root)?;
+        let candidate = project.candidate_network()?;
+        let points = line_coordinates(&candidate, line_id)?;
+        let local_points = geographic_to_local_xyz(&points)?;
+        let safe_line = safe_component(line_id)?;
+        let input_path = self
+            .job_dir(id)
+            .join(format!("{safe_line}.civil-input.json"));
+        fs::write(
+            &input_path,
+            serde_json::to_vec_pretty(&serde_json::json!({
+                "line_slug": safe_line,
+                "design_speed_kmh": 80.0,
+                "points": local_points,
+            }))?,
+        )?;
+        let output_dir = self.job_dir(id).join("civil-bim");
+        fs::create_dir_all(&output_dir)?;
+        self.progress(id, 48, "Writing deterministic IFC4.3 rail federation")
+            .await?;
+        let python = self.repository_root.join(".venv/bin/python");
+        let exporter = self
+            .repository_root
+            .join("engineering/interchange/civil_bonsai_ifc.py");
+        let output = Command::new(&python)
+            .arg(&exporter)
+            .arg("--out-dir")
+            .arg(&output_dir)
+            .arg("--alignment-input")
+            .arg(&input_path)
+            .arg("--revision-id")
+            .arg(&record.revision_id)
+            .current_dir(&self.repository_root)
+            .kill_on_drop(true)
+            .output()
+            .await
+            .with_context(|| {
+                format!(
+                    "running allowlisted civil IFC exporter {}",
+                    exporter.display()
+                )
+            })?;
+        let log = command_log(&output);
+        if !output.status.success() {
+            bail!("civil IFC exporter exited unsuccessfully\n{log}");
+        }
+        self.progress(id, 90, "Validating IFC objects, schedule, and stable IDs")
+            .await?;
+        let artifacts = vec![
+            self.artifact("civil-bim-input", &input_path)?,
+            self.artifact(
+                "civil-bim-index",
+                &output_dir.join("civil-coordination.index.json"),
+            )?,
+            self.artifact("civil-ifc4x3", &output_dir.join("civil-coordination.ifc"))?,
+            self.artifact(
+                "civil-4d-sequence",
+                &output_dir.join("civil-construction-sequence.json"),
+            )?,
+            self.artifact(
+                "civil-bim-validation",
+                &output_dir.join("civil-coordination.validation.json"),
+            )?,
+        ];
+        Ok((output.status.code().unwrap_or(0), log, artifacts))
+    }
+
     async fn progress(&self, id: &str, percent: u8, phase: &str) -> Result<()> {
         self.update(id, |record| {
             record.progress_percent = percent;
@@ -514,6 +683,13 @@ fn display_command(adapter: Adapter, day_type: Option<&str>, line: Option<&str>)
             "osr-alignment-export".to_string(),
             "--line".to_string(),
             line.unwrap_or("line-1").to_string(),
+        ],
+        Adapter::CivilBim => vec![
+            "civil_bonsai_ifc.py".to_string(),
+            "--line".to_string(),
+            line.unwrap_or("line-1").to_string(),
+            "--schema".to_string(),
+            "IFC4X3".to_string(),
         ],
     }
 }
@@ -638,6 +814,63 @@ fn command_log(output: &std::process::Output) -> String {
     log
 }
 
+fn verify_sha256(bytes: &[u8], expected: &str) -> Result<()> {
+    let actual = hex::encode(Sha256::digest(bytes));
+    if actual != expected {
+        bail!("job artifact hash mismatch: recorded {expected}, actual {actual}");
+    }
+    Ok(())
+}
+
+fn preview_content<'a>(
+    path: &Path,
+    bytes: &'a [u8],
+) -> Result<(&'a str, &'a str, serde_json::Value)> {
+    let extension = path
+        .extension()
+        .and_then(|value| value.to_str())
+        .unwrap_or_default()
+        .to_ascii_lowercase();
+    match extension.as_str() {
+        "geojson" => Ok((
+            "geojson",
+            "application/geo+json",
+            serde_json::from_slice(bytes).context("parsing GeoJSON artifact")?,
+        )),
+        "json" => Ok((
+            "json",
+            "application/json",
+            serde_json::from_slice(bytes).context("parsing JSON artifact")?,
+        )),
+        "landxml" => Ok((
+            "landxml",
+            "application/xml",
+            serde_json::Value::String(String::from_utf8(bytes.to_vec())?),
+        )),
+        "railml" => Ok((
+            "railml",
+            "application/xml",
+            serde_json::Value::String(String::from_utf8(bytes.to_vec())?),
+        )),
+        "csv" => Ok((
+            "csv",
+            "text/csv",
+            serde_json::Value::String(String::from_utf8(bytes.to_vec())?),
+        )),
+        "ifc" => Ok((
+            "ifc",
+            "model/ifc",
+            serde_json::Value::String(String::from_utf8(bytes.to_vec())?),
+        )),
+        "log" => Ok((
+            "text",
+            "text/plain",
+            serde_json::Value::String(String::from_utf8(bytes.to_vec())?),
+        )),
+        _ => bail!("artifact type {extension:?} does not have a safe browser preview"),
+    }
+}
+
 fn tail_chars(value: &str, maximum: usize) -> String {
     let count = value.chars().count();
     value.chars().skip(count.saturating_sub(maximum)).collect()
@@ -659,11 +892,16 @@ fn unix_ms() -> u128 {
 
 #[cfg(test)]
 mod tests {
-    use super::{safe_component, tail_chars, Adapter};
+    use std::path::Path;
+
+    use sha2::Digest;
+
+    use super::{preview_content, safe_component, tail_chars, verify_sha256, Adapter};
 
     #[test]
     fn adapter_allowlist_rejects_shell_input() {
         assert!(Adapter::parse("simulation").is_ok());
+        assert!(Adapter::parse("civil-bim").is_ok());
         assert!(Adapter::parse("simulation; rm -rf").is_err());
     }
 
@@ -676,5 +914,26 @@ mod tests {
     #[test]
     fn log_tail_is_unicode_safe() {
         assert_eq!(tail_chars("abcdé", 3), "cdé");
+    }
+
+    #[test]
+    fn preview_formats_are_explicitly_allowlisted() {
+        let json = preview_content(
+            Path::new("network.geojson"),
+            br#"{"type":"FeatureCollection"}"#,
+        )
+        .unwrap();
+        assert_eq!(json.0, "geojson");
+        let ifc = preview_content(Path::new("civil.ifc"), b"ISO-10303-21;").unwrap();
+        assert_eq!(ifc.0, "ifc");
+        assert_eq!(ifc.1, "model/ifc");
+        assert!(preview_content(Path::new("board.kicad_pcb"), b"board").is_err());
+    }
+
+    #[test]
+    fn preview_rejects_changed_artifact_bytes() {
+        assert!(
+            verify_sha256(b"changed", &hex::encode(sha2::Sha256::digest(b"original"))).is_err()
+        );
     }
 }

@@ -16,6 +16,8 @@ The controlling design decision is
 
 ![City Studio line/day/time service planning and controlled engineering jobs](../screenshots/city-studio/engineering-jobs.png)
 
+![City Studio SHA-256-verified alignment and GIS evidence viewer](../screenshots/city-studio/artifact-evidence-viewer.png)
+
 ## Run
 
 From the repository root:
@@ -100,14 +102,18 @@ Implemented:
 - in-GUI semantic comparison of station, line, service, and summary changes;
 - day-type-specific simulator scenarios and a hash-addressed artifact manifest;
 - allowlisted GIS compilation, one-hour simulator, and LandXML/railML alignment
-  jobs with persistent progress, command display, captured logs, exit state,
-  and SHA-256 artifact records;
+  jobs plus IFC4.3 civil federation with persistent progress, command display,
+  captured logs, exit state, and SHA-256 artifact records;
+- an integrated evidence viewer for GeoJSON, alignment JSON, LandXML, railML,
+  stakeout CSV, civil IFC object indices/raw STEP, simulator JSON, manifests,
+  snapshots, and captured logs;
 - visibility of existing GIS, engineering, simulation, operations, and release
   artifacts.
 
 Next:
 
-- CAD/IFC and richer GIS viewers;
+- interactive 3D IFC picking and BCF/IDS issue authoring (object-aware civil
+  IFC inspection is implemented through the verified index and raw model);
 - demand/OD matrices and platform/interchange capacity;
 - project approval records and object-aware Git merge assistance.
 
@@ -139,7 +145,7 @@ new revision is materialized.
 
 ## Controlled engineering jobs
 
-The engineering hub exposes three fixed adapters:
+The engineering hub exposes four fixed adapters:
 
 - **Compile GIS package** publishes the candidate snapshot, GeoJSON, day-type
   scenarios, and manifest;
@@ -147,9 +153,15 @@ The engineering hub exposes three fixed adapters:
   for the selected day type and rejects invariant violations;
 - **Export LandXML and railML** converts the selected candidate line to local
   engineering coordinates and runs `osr-alignment-export`, producing review
-  JSON, stakeout CSV, LandXML, and railML.
+  JSON, stakeout CSV, LandXML, and railML;
+- **Generate Bonsai civil IFC4.3** combines the selected immutable line
+  reference with the checked civil kit and produces native IFC4.3 objects,
+  quantities, provenance, an object index, validation report, and linked 4D
+  construction tasks. OSR remains the alignment/geometry authority; Bonsai is
+  the downstream federation and detail-review environment.
 
-Jobs serialize through one engineering slot. Their records and full logs live
+Jobs serialize through one engineering slot. Their records, immutable evidence
+copies, and full logs live
 under `build/city-studio/<slug>/jobs/<job-id>/`; the browser displays status,
 progress, the effective command, a bounded log tail, and every output hash.
 Project edits serialize against the running job, and a queued job fails if its
@@ -157,3 +169,14 @@ recorded revision has become stale. Interrupted records are marked failed when
 the server restarts. Adapter ids, arguments, durations, and binaries are
 allowlisted in Rust—the API never accepts an executable name or arbitrary shell
 text.
+
+Artifact buttons open the evidence viewer. Before returning content, the server
+canonicalizes the path beneath the City Studio build root, enforces a 4 MB
+preview limit, rejects unknown formats, and recalculates SHA-256. GeoJSON and
+alignment/stakeout geometry and IFC object envelopes are plotted directly;
+IFC STEP, XML, and JSON formats also receive format-specific metrics and a
+bounded structured-source preview.
+
+See the [Bonsai/IFC4.3 civil workflow](../civil/bonsai-ifc-workflow.md) for the
+engineering authority boundary, standalone generator, Blender review scene,
+and construction animation.

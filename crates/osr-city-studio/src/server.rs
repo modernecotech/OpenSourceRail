@@ -90,6 +90,7 @@ pub async fn serve(project_root: impl AsRef<Path>, host: &str, port: u16) -> Res
         .route("/api/compile", post(compile_project))
         .route("/api/jobs", get(get_jobs))
         .route("/api/jobs/:id", get(get_job).post(start_job))
+        .route("/api/jobs/:id/artifacts/:index", get(get_job_artifact))
         .route(
             "/api/revisions",
             get(get_revisions).post(materialize_revision),
@@ -291,6 +292,13 @@ async fn get_job(
     AxumPath(id): AxumPath<String>,
 ) -> Result<Json<crate::model::JobRecord>, ApiError> {
     Ok(Json(state.jobs.get(&id).await?))
+}
+
+async fn get_job_artifact(
+    State(state): State<AppState>,
+    AxumPath((id, index)): AxumPath<(String, usize)>,
+) -> Result<Json<crate::model::JobArtifactPreview>, ApiError> {
+    Ok(Json(state.jobs.preview(&id, index).await?))
 }
 
 async fn start_job(

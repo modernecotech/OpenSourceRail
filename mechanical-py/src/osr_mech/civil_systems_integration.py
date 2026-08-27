@@ -175,7 +175,7 @@ def asset_class_for_component(component: IntegrationComponent) -> str:
         return "station.solar-canopy"
     if "platform" in source or "guideway_channel_edge" in source:
         return "station.platform-interface"
-    if "kinematic" in source:
+    if "kinematic" in source or "kinematic envelope" in component.label.lower():
         return "clearance.reference-envelope"
     if "station_deck" in source:
         return "civil.station-deck-interface"

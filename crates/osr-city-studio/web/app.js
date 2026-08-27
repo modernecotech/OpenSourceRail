@@ -47,6 +47,9 @@ const api = {
   ),
   jobs: () => api.request("/api/jobs"),
   job: (id) => api.request(`/api/jobs/${encodeURIComponent(id)}`),
+  jobArtifact: (id, index) => api.request(
+    `/api/jobs/${encodeURIComponent(id)}/artifacts/${encodeURIComponent(index)}`
+  ),
   startJob: (adapter, body) => api.request(`/api/jobs/${encodeURIComponent(adapter)}`, {
     method: "POST", body: JSON.stringify(body),
   }),
@@ -64,6 +67,7 @@ let revisions = null;
 let comparison = null;
 let jobView = { adapters: [], jobs: [] };
 let jobPollTimer = null;
+let selectedArtifactPreview = null;
 const lineColours = ["#56d39b", "#5eb9e8", "#e88859", "#a98aef", "#e96d95"];
 
 const $ = (selector) => document.querySelector(selector);
@@ -81,6 +85,7 @@ async function load() {
       ? view.snapshot.lines.find((item) => item.id === selectedLine.id) || null
       : null;
     render();
+    if (!selectedArtifactPreview) selectDefaultArtifact();
   } catch (error) {
     toast(error.message, true);
   }
@@ -94,10 +99,11 @@ function render() {
   renderServiceSelectors();
   renderServiceEditor();
   renderFindings();
-    renderArtifacts();
-    renderJobs();
-    renderRevisionSelector();
-    renderRevisionComparison();
+  renderArtifacts();
+  renderJobs();
+  renderArtifactViewer();
+  renderRevisionSelector();
+  renderRevisionComparison();
 }
 
 function renderGit() {
@@ -693,22 +699,215 @@ function renderJobs() {
   document.querySelectorAll("[data-job-adapter]").forEach((button) => {
     button.addEventListener("click", () => startEngineeringJob(button.dataset.jobAdapter));
   });
-  $("#jobs").innerHTML = jobView.jobs.slice(0, 6).map((job) => {
+  $("#jobs").innerHTML = jobView.jobs.slice(0, 4).map((job) => {
     const artifacts = job.artifacts.length
-      ? `<div class="job-artifacts">${job.artifacts.map((artifact) => `<small>${escapeHtml(artifact.kind)} · ${escapeHtml(artifact.path)} · ${escapeHtml(artifact.sha256.slice(0, 12))}</small>`).join("")}</div>`
+      ? `<div class="job-artifacts">${job.artifacts.map((artifact, index) => {
+        const key = `${job.id}:${index}`;
+        const active = selectedArtifactPreview
+          && `${selectedArtifactPreview.job_id}:${selectedArtifactPreview.artifact_index}` === key;
+        return `<button type="button" class="job-artifact-button ${active ? "active" : ""}" data-job-id="${escapeHtml(job.id)}" data-artifact-index="${index}" title="${escapeHtml(artifact.path)}">${escapeHtml(artifact.kind)} · ${escapeHtml(artifact.sha256.slice(0, 12))}</button>`;
+      }).join("")}</div>`
       : "";
     const log = job.log_tail
       ? `<details class="job-log"><summary>Captured log</summary><pre>${escapeHtml(job.log_tail)}</pre></details>`
       : "";
     return `<div class="job-card ${escapeHtml(job.status)}"><div class="job-title"><strong>${escapeHtml(job.label)}</strong><span class="job-status">${escapeHtml(job.status)}</span></div><small>${escapeHtml(job.phase)} · ${job.progress_percent}% · ${escapeHtml(job.revision_id)}</small><div class="job-progress"><i style="width:${job.progress_percent}%"></i></div><small class="job-command">${escapeHtml(job.command.join(" "))}</small>${job.error ? `<small class="error">${escapeHtml(job.error)}</small>` : ""}${artifacts}${log}</div>`;
   }).join("") || '<div class="artifact missing"><strong>No engineering jobs yet</strong><small>Run an allowlisted adapter above; arbitrary shell commands are never accepted.</small></div>';
+  document.querySelectorAll("[data-artifact-index]").forEach((button) => {
+    button.addEventListener("click", () => openJobArtifact(
+      button.dataset.jobId,
+      Number(button.dataset.artifactIndex),
+      true,
+    ));
+  });
   scheduleJobPoll();
+}
+
+async function selectDefaultArtifact() {
+  const preferredKinds = [
+    "civil-bim-index", "civil-bim-validation", "civil-4d-sequence",
+    "gis-network", "alignment-input", "alignment-review", "simulation-result",
+    "landxml", "railml", "stakeout", "manifest", "snapshot", "job-log",
+  ];
+  for (const job of jobView.jobs) {
+    for (const kind of preferredKinds) {
+      const index = job.artifacts.findIndex((artifact) => artifact.kind === kind);
+      if (index >= 0) {
+        await openJobArtifact(job.id, index, false);
+        return;
+      }
+    }
+  }
+}
+
+async function openJobArtifact(jobId, index, shouldScroll) {
+  try {
+    selectedArtifactPreview = await api.jobArtifact(jobId, index);
+    renderJobs();
+    renderArtifactViewer();
+    if (shouldScroll) {
+      $("#artifact-viewer").scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  } catch (error) {
+    toast(error.message, true);
+  }
+}
+
+function renderArtifactViewer() {
+  const preview = selectedArtifactPreview;
+  const canvas = $("#artifact-canvas");
+  canvas.replaceChildren();
+  if (!preview) {
+    $("#artifact-viewer-title").textContent = "Select a generated artifact";
+    $("#artifact-verification").textContent = "Awaiting verified artifact";
+    $("#artifact-verification").classList.remove("verified");
+    $("#artifact-viewer-empty").hidden = false;
+    $("#artifact-metrics").replaceChildren();
+    $("#artifact-provenance").textContent = "";
+    $("#artifact-source").hidden = true;
+    return;
+  }
+  $("#artifact-viewer-title").textContent = `${preview.artifact.kind} · ${preview.format}`;
+  $("#artifact-verification").textContent = preview.sha256_verified ? "SHA-256 verified" : "Unverified";
+  $("#artifact-verification").classList.toggle("verified", preview.sha256_verified);
+  const graphic = artifactGraphic(preview);
+  $("#artifact-viewer-empty").hidden = graphic.length > 0;
+  if (graphic.length) drawArtifactGraphic(canvas, graphic);
+  const metrics = artifactMetrics(preview, graphic);
+  $("#artifact-metrics").innerHTML = metrics.map(([value, label]) =>
+    `<div class="artifact-metric"><strong>${escapeHtml(value)}</strong><span>${escapeHtml(label)}</span></div>`
+  ).join("");
+  $("#artifact-provenance").textContent = `${preview.artifact.path}\n${preview.artifact.size_bytes.toLocaleString()} bytes\nsha256:${preview.artifact.sha256}\njob:${preview.job_id}`;
+  const source = typeof preview.content === "string"
+    ? preview.content
+    : JSON.stringify(preview.content, null, 2);
+  const maximum = 60_000;
+  $("#artifact-source-text").textContent = source.length > maximum
+    ? `${source.slice(0, maximum)}\n\n… browser source preview limited to ${maximum.toLocaleString()} characters`
+    : source;
+  $("#artifact-source").hidden = false;
+}
+
+function artifactGraphic(preview) {
+  const content = preview.content;
+  if (preview.format === "geojson" && Array.isArray(content.features)) {
+    return content.features
+      .filter((feature) => feature.geometry?.type === "LineString")
+      .map((feature) => feature.geometry.coordinates.map(([x, y]) => [Number(x), Number(y)]));
+  }
+  if (preview.format === "json" && Array.isArray(content.points)) {
+    return [content.points.map((point) => [Number(point[0]), Number(point[1])])];
+  }
+  if (preview.format === "json" && Array.isArray(content.alignment?.horizontal)) {
+    const points = content.alignment.horizontal.map((element) => {
+      const geometry = Object.values(element)[0];
+      return geometry?.start_xy
+        ? [Number(geometry.start_xy[0]), Number(geometry.start_xy[1])]
+        : null;
+    }).filter(Boolean);
+    return points.length ? [points] : [];
+  }
+  if (preview.format === "json" && content.schema === "org.opensourcerail.bonsai-civil-ifc.v1") {
+    return (content.objects || []).map((item) => {
+      const box = item.bbox_m;
+      if (!Array.isArray(box) || box.length !== 6) return [];
+      return [[box[0], box[1]], [box[3], box[1]], [box[3], box[4]], [box[0], box[4]], [box[0], box[1]]];
+    }).filter((points) => points.length);
+  }
+  if (preview.format === "landxml") {
+    const xml = new DOMParser().parseFromString(content, "application/xml");
+    const points = Array.from(xml.getElementsByTagNameNS("*", "Start")).map((node) =>
+      node.textContent.trim().split(/\s+/).slice(0, 2).map(Number)
+    ).filter((point) => point.every(Number.isFinite));
+    const ends = Array.from(xml.getElementsByTagNameNS("*", "End"));
+    if (ends.length) {
+      const last = ends.at(-1).textContent.trim().split(/\s+/).slice(0, 2).map(Number);
+      if (last.every(Number.isFinite)) points.push(last);
+    }
+    return points.length ? [points] : [];
+  }
+  if (preview.format === "csv") {
+    const rows = content.trim().split(/\r?\n/).slice(1).map((row) => row.split(","));
+    const points = rows.map((row) => [Number(row[1]), Number(row[2])])
+      .filter((point) => point.every(Number.isFinite));
+    return points.length ? [points] : [];
+  }
+  return [];
+}
+
+function drawArtifactGraphic(svg, groups) {
+  const points = groups.flat();
+  const xs = points.map((point) => point[0]);
+  const ys = points.map((point) => point[1]);
+  const minX = Math.min(...xs);
+  const maxX = Math.max(...xs);
+  const minY = Math.min(...ys);
+  const maxY = Math.max(...ys);
+  const spanX = Math.max(maxX - minX, 1e-9);
+  const spanY = Math.max(maxY - minY, 1e-9);
+  const scale = Math.min(820 / spanX, 340 / spanY);
+  const project = ([x, y]) => [40 + (x - minX) * scale, 380 - (y - minY) * scale];
+  groups.forEach((group) => {
+    if (group.length < 2) return;
+    const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    path.setAttribute("class", "artifact-preview-line");
+    path.setAttribute("d", group.map((point, index) => {
+      const [x, y] = project(point);
+      return `${index ? "L" : "M"} ${x.toFixed(2)} ${y.toFixed(2)}`;
+    }).join(" "));
+    svg.append(path);
+    [group[0], group.at(-1)].forEach((point) => {
+      const [x, y] = project(point);
+      const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+      circle.setAttribute("class", "artifact-preview-point");
+      circle.setAttribute("cx", x.toFixed(2));
+      circle.setAttribute("cy", y.toFixed(2));
+      circle.setAttribute("r", "5");
+      svg.append(circle);
+    });
+  });
+}
+
+function artifactMetrics(preview, graphic) {
+  const content = preview.content;
+  if (preview.format === "geojson") {
+    const features = content.features || [];
+    return [[features.length, "features"], [graphic.length, "line strings"], [features.filter((item) => item.geometry?.type === "Point").length, "points"], ["GeoJSON", "exchange format"]];
+  }
+  if (preview.format === "json" && Array.isArray(content.points)) {
+    return [[content.line_slug || "alignment", "line"], [content.points.length, "survey points"], [`${content.design_speed_kmh || "—"} km/h`, "design speed"], ["local XYZ", "coordinate frame"]];
+  }
+  if (preview.format === "json" && content.alignment) {
+    return [[content.alignment.line_slug || "alignment", "line"], [content.alignment.horizontal?.length || 0, "horizontal elements"], [content.alignment.vertical?.length || 0, "vertical elements"], [`${content.alignment.design_speed_kmh || "—"} km/h`, "design speed"]];
+  }
+  if (preview.format === "json" && content.sim_duration_s !== undefined) {
+    return [[content.scenario_name || "scenario", "scenario"], [`${content.sim_duration_s}s`, "duration"], [Number(content.total_train_km || 0).toFixed(1), "train km"], [content.invariant_violations?.length || 0, "invariant violations"]];
+  }
+  if (preview.format === "json" && content.schema === "org.opensourcerail.bonsai-civil-ifc.v1") {
+    return [[content.summary?.assets || 0, "IFC assets"], [content.summary?.construction_tasks || 0, "4D tasks"], [content.summary?.interface_checks || 0, "interface checks"], [content.ifc_schema || "IFC4X3", "coordination schema"]];
+  }
+  if (preview.format === "ifc") {
+    const classes = [...content.matchAll(/=IFC[A-Z0-9]+\(/g)].length;
+    return [[classes, "STEP entities"], [(content.match(/IFCTASK\(/g) || []).length, "4D tasks"], [(content.match(/IFCRAILWAYPART\(/g) || []).length, "railway parts"], ["IFC4.3", "coordination schema"]];
+  }
+  if (["landxml", "railml"].includes(preview.format)) {
+    const xml = new DOMParser().parseFromString(content, "application/xml");
+    const count = (name) => xml.getElementsByTagNameNS("*", name).length;
+    return [[preview.format === "landxml" ? "LandXML 1.2" : "railML 3.2", "exchange format"], [count("Alignment") || count("track"), "alignments / tracks"], [count("Line") || count("radiusChange"), "geometry elements"], [count("speedChange"), "speed changes"]];
+  }
+  if (preview.format === "csv") {
+    return [[content.trim().split(/\r?\n/).length - 1, "stakeout rows"], [graphic.flat().length, "plotted points"], ["CSV", "exchange format"], ["local XYZ", "coordinate frame"]];
+  }
+  if (preview.format === "json") {
+    return [[Object.keys(content).length, "top-level fields"], ["JSON", "structured format"], [preview.artifact.size_bytes.toLocaleString(), "bytes"], ["verified", "content state"]];
+  }
+  return [[content.split(/\r?\n/).length, "lines"], [preview.format, "format"], [preview.artifact.size_bytes.toLocaleString(), "bytes"], ["verified", "content state"]];
 }
 
 async function startEngineeringJob(adapter) {
   const body = {};
   if (adapter === "simulation") body.day_type = $("#service-day").value;
-  if (adapter === "alignment-exchange") body.line = $("#service-line").value;
+  if (["alignment-exchange", "civil-bim"].includes(adapter)) body.line = $("#service-line").value;
   try {
     const job = await api.startJob(adapter, body);
     jobView.jobs.unshift(job);

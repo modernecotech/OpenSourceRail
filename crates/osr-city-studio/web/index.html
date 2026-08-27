@@ -182,6 +182,30 @@
       </aside>
     </section>
 
+    <section class="panel artifact-viewer-panel" id="artifact-viewer">
+      <div class="panel-heading">
+        <div>
+          <p class="eyebrow">Evidence viewer</p>
+          <h2 id="artifact-viewer-title">Select a generated artifact</h2>
+        </div>
+        <span id="artifact-verification" class="verification-badge">Awaiting verified artifact</span>
+      </div>
+      <div class="artifact-viewer-grid">
+        <div class="artifact-canvas-wrap">
+          <svg id="artifact-canvas" viewBox="0 0 900 420" role="img" aria-label="Engineering artifact preview"></svg>
+          <p id="artifact-viewer-empty">Run or select a job artifact to inspect its verified GIS or engineering content.</p>
+        </div>
+        <aside class="artifact-inspector">
+          <div id="artifact-metrics" class="artifact-metrics"></div>
+          <p id="artifact-provenance" class="artifact-provenance"></p>
+          <details id="artifact-source" hidden>
+            <summary>Structured source preview</summary>
+            <pre id="artifact-source-text"></pre>
+          </details>
+        </aside>
+      </div>
+    </section>
+
     <section class="panel revision-panel">
       <div class="panel-heading">
         <div>

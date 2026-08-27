@@ -1,7 +1,7 @@
 # Engineering Design And Simulation Plan
 
 Status: implementation plan  
-Reviewed: 2026-08-11  
+Reviewed: 2026-08-26
 Scope: remaining repository audit items COMP-014 and COMP-016 through
 COMP-019
 
@@ -22,7 +22,7 @@ following authority boundaries:
 | Surveyed route, levels, control, parcels, utilities, and terrain | Deployment GeoPackage in QGIS; approved OSR-ALN for railway alignment | LandXML, GeoJSON, GeoTIFF, LAS/LAZ/E57 |
 | Product structure, quantities, and assembly sequence | Generated repository BOMs, travelers, and assembly documents | IFC property sets and drawing schedules reference stable OSR part IDs |
 | Operational behavior and measured duty cycle | OSR Rust simulator and logged field evidence | CSV/Parquet or versioned JSON input decks for specialist tools |
-| Federated station/civil coordination model | IFC export checked with IfcOpenShell | BCF issues and IDS validation reports |
+| Federated station/civil coordination model | IFC4.3 export checked with IfcOpenShell and reviewed in Bonsai | BCF/IDS findings, quantities, drawings, and 4D task-product links |
 | Analysis evidence | Versioned input deck, assumptions, solver/version, convergence log, and reviewed summary | Results are evidence, never a replacement for canonical geometry or requirements |
 
 FreeCAD therefore remains the primary CAD and first-pass FEA environment.
@@ -30,6 +30,11 @@ QGIS remains the primary geospatial and alignment-review environment. The
 FreeCAD Road/Trails family may be evaluated for visual coordination, but it
 must not become the surveyed alignment authority until an OSR-ALN round-trip
 benchmark passes without station, curve, level, cant, or CRS loss.
+Bonsai is the civil federation, detail-review, quantity, and 4D construction
+environment, not the route-design authority. The implemented
+[Bonsai/IFC4.3 workflow](civil/bonsai-ifc-workflow.md) carries stable OSR IDs,
+checked review geometry, an `IfcAlignment` reference, and construction tasks
+without duplicating alignment or structural design rules inside Blender.
 
 ## Selected Open-Source Toolchain
 
@@ -45,7 +50,7 @@ interchange trial before project data is committed to them.
 | Survey/GIS/alignment review | [QGIS](https://docs.qgis.org/latest/en/docs/user_manual/) and GDAL | Baseline | Control, terrain, parcels, utilities, flood layers, station siting, CRS control, and LandXML/OSR-ALN review |
 | GNSS processing | [RTKLIB](https://github.com/tomojitakasu/RTKLIB) | Baseline when field data arrives | Static/kinematic GNSS processing and reproducible control reports; a licensed surveyor owns control acceptance |
 | Photogrammetry and point clouds | [OpenDroneMap](https://opendronemap.org/docs/) and [CloudCompare](https://www.cloudcompare.org/doc/) | Baseline when field data arrives | Orthophoto/DEM generation, registration, cleaning, cross-sections, and clearance comparison; raw captures stay outside Git |
-| IFC federation and checking | [IfcOpenShell/Bonsai](https://docs.ifcopenshell.org/) | Baseline | IFC generation/inspection, stable OSR IDs, BCF coordination issues, and IDS checks; IFC is a coordination artifact rather than a second geometry authority |
+| IFC federation and checking | [IfcOpenShell/Bonsai](https://docs.ifcopenshell.org/) | Baseline | IFC4.3 rail hierarchy, deterministic civil geometry, stable OSR IDs, quantities, BCF/IDS coordination and 4D sequencing; IFC is a coordination artifact rather than a second geometry or alignment authority |
 | Drainage and station runoff | [EPA SWMM](https://www.epa.gov/water-research/storm-water-management-model-swmm) | Baseline | Design-storm runoff, inlet/channel/pipe/storage routing, surcharge, and station/depot drainage scenarios |
 | Global structures and soil-structure response | [OpenSees](https://opensees.github.io/OpenSeesDocumentation/) | Baseline for COMP-017 structures | Per-span frame response, bearings, pier families, nonlinear/seismic cases, and soil springs using local design inputs |
 | Detailed nonlinear structural cross-check | [Code_Aster](https://code-aster.org/doc/default/en/index.php) | Conditional | Concrete, contact, fatigue, or thermomechanical cases that exceed the verified CalculiX template; use on a benchmark before project models |
@@ -138,6 +143,13 @@ for every solver and second-machine reproduction. ENG-TOOL-004 now passes statio
 property-set and assembly-hierarchy round trips for standard and
 interchange-elevated IFC coordination skeletons; geometry/mesh and alignment
 drift tests remain open.
+
+The civil federation now also generates a byte-deterministic IFC4.3 model with
+82 stable assets, four `IfcRailwayPart` disciplines, an `IfcAlignment`
+reference, 16 construction tasks, task-product links, quantities, provenance,
+and nine passing interface checks. Bonsai 0.8.5 imports it headlessly and saves
+the review/animation scene. Survey-grade alignment drift, IDS rules, BCF issue
+generation, and engineer-released structural detail remain open.
 
 The city package now also converts canonical catalogue inputs into QGIS/GDAL
 GeoPackages, shapes SUMO edges from the corridor GeoJSON, and runs per-city

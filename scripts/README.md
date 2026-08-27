@@ -26,6 +26,7 @@ stay thin: domain logic belongs in Rust crates, `design-py`, or
 | [`design-iterate.sh`](design-iterate.sh) | Iterate the rolling-stock design hierarchy across external components, fabricated parts, subassemblies, and final assemblies |
 | [`buildable-trainset.sh`](buildable-trainset.sh) | Generate the buildable rolling-stock product tree and current-design buildability review |
 | [`freecad-generate.sh`](freecad-generate.sh) | Repository-level FreeCAD/Blender generator for mechanical review models, assemblies, FEM screens, screenshots, and animated digital twins |
+| [`bonsai-civil.sh`](bonsai-civil.sh) | Generate deterministic IFC4.3 civil federations, import them through Bonsai, and render the linked 4D construction review scene |
 | [`engineering-toolchain.sh`](engineering-toolchain.sh) | Install/check the engineering environment; run smoke tests, JuPedSim/SUMO benchmarks, analysis-register validation, and station IFC interchange checks |
 | [`generate-city-engineering.py`](generate-city-engineering.py) | Generate city-local QGIS packages, geometry-shaped SUMO runs, pandapower/pvlib energy screens and station-to-product mappings |
 | [`generate-city-finance.py`](generate-city-finance.py) | Reconcile CAPEX; split localization-first external/local capital; compare variable foreign-turnkey cases; emit OPEX, revenue, NPV/IRR/DSCR, renewal, and risk screens |
@@ -61,6 +62,7 @@ python3 scripts/validate-host-manifests.py
 scripts/design-iterate.sh
 scripts/buildable-trainset.sh
 scripts/freecad-generate.sh --check
+scripts/bonsai-civil.sh --check
 ```
 
 The Samawah worked example is regenerated separately because it consumes the
@@ -69,4 +71,5 @@ city-local alignment, station, energy, simulation, and fleet package:
 ```bash
 scripts/freecad-generate.sh --samawah-line-twin
 scripts/freecad-generate.sh --fabrication-twin
+scripts/bonsai-civil.sh --render
 ```

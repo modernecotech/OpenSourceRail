@@ -29,6 +29,16 @@ contains 23 controlled work stages, predecessors, hold points, evidence,
 source hashes, and the interfaces between rail, station, viaduct, and train.
 Regenerate it with `scripts/freecad-generate.sh --fabrication-twin`.*
 
+![Bonsai-native IFC4.3 civil federation showing the detailed viaduct and elevated station interface](docs/screenshots/civil/bonsai-ifc4x3-civil-coordination.png)
+
+*The civil coordination model is generated deterministically from the checked
+OSR geometry into IFC4.3, then imported and rendered through Bonsai 0.8.5. It
+contains 82 stable rail/civil assets, quantities and provenance, nine interface
+checks, and 16 linked construction tasks. OSR remains authoritative for route
+and engineering rules; Bonsai provides federation, detail review, drawings,
+quantities, and 4D sequencing. See the
+[Bonsai civil workflow](docs/civil/bonsai-ifc-workflow.md).*
+
 OpenSourceRail is an open-source stack for designing, building, and
 operating affordable urban rail systems. It combines:
 
@@ -139,11 +149,14 @@ with remaining validation and hardening tracked in
 
 City Studio centralizes deterministic network authoring, source-locked
 demand/buildability routing, station placement, line/day/time service planning,
-simulation, alignment exchange, artifact hashing, and Git revision review.
+simulation, alignment exchange, IFC4.3/Bonsai civil federation, verified
+GIS/engineering object inspection, artifact hashing, and Git revision review.
 
 ![City Studio network authoring and demand-aware routing interface](docs/screenshots/city-studio/network-and-service.png)
 
 ![City Studio service planning and controlled engineering job history](docs/screenshots/city-studio/engineering-jobs.png)
+
+![City Studio verified alignment and GIS evidence viewer](docs/screenshots/city-studio/artifact-evidence-viewer.png)
 
 Run it locally with `cargo run -p osr-city-studio -- serve`, then open
 <http://127.0.0.1:8090/>. See the
@@ -311,6 +324,13 @@ README render path is:
 
 ```bash
 scripts/freecad-generate.sh --high-quality-renders
+```
+
+Generate the IFC4.3 civil federation and Bonsai review/animation scene:
+
+```bash
+scripts/bonsai-civil.sh --check
+scripts/bonsai-civil.sh --render
 ```
 
 Run the top-down / bottom-up rolling-stock design iterator:

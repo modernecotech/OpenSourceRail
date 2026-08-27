@@ -10,7 +10,7 @@ Regenerate from the repository root with:
 python3 scripts/generate-doc-index.py
 ```
 
-Indexed Markdown files: **1258**.
+Indexed Markdown files: **1259**.
 
 ## Sections
 
@@ -22,7 +22,7 @@ Indexed Markdown files: **1258**.
 | [crates](#crates) | 4 |
 | [deployment](#deployment) | 1 |
 | [designs](#designs) | 844 |
-| [docs](#docs) | 134 |
+| [docs](#docs) | 135 |
 | [engineering](#engineering) | 2 |
 | [formal](#formal) | 2 |
 | [hardware](#hardware) | 36 |
@@ -939,6 +939,7 @@ Indexed Markdown files: **1258**.
 | [`docs/certification/system-description.md`](../docs/certification/system-description.md) | System description |
 | [`docs/city-studio/README.md`](../docs/city-studio/README.md) | OSR City Studio |
 | [`docs/civil/README.md`](../docs/civil/README.md) | Civil And Alignment |
+| [`docs/civil/bonsai-ifc-workflow.md`](../docs/civil/bonsai-ifc-workflow.md) | Bonsai / IFC4.3 Civil Workflow |
 | [`docs/civil/deployment-release-checklist.md`](../docs/civil/deployment-release-checklist.md) | Civil And Station Deployment Release Checklist |
 | [`docs/civil/marketplace-cost-anchors.md`](../docs/civil/marketplace-cost-anchors.md) | Civil Marketplace Cost Anchors |
 | [`docs/civil/osr-aln-format.md`](../docs/civil/osr-aln-format.md) | OSR-ALN — alignment interchange format (v1.0) |

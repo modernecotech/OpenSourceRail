@@ -25,6 +25,7 @@ release gates are tracked in
 | [`viaduct-first-article-test-plan.md`](viaduct-first-article-test-plan.md) | First mould, girder, cap, lift, erected bay, and track/egress hold points |
 | [`viaduct-quantity-cost-model.toml`](viaduct-quantity-cost-model.toml) | Per-kilometre quantity seed and cost-estimate classification |
 | [`osr-aln-format.md`](osr-aln-format.md) | OSR-ALN alignment interchange format and validation gates |
+| [`bonsai-ifc-workflow.md`](bonsai-ifc-workflow.md) | IFC4.3/Bonsai civil federation, quantity, 4D sequencing, and engineering-authority boundary |
 | [`Samawah/engineering/alignment/`](../../designs/west-asia/Iraq/Samawah/engineering/alignment/) | Current three-line Samawah planning OSR-ALN package, provenance, and survey replacement gates |
 | [`deployment-release-checklist.md`](deployment-release-checklist.md) | Survey, geotechnical, structure, station, energy-site, and permit release gates |
 
@@ -35,3 +36,4 @@ release gates are tracked in
 | [`crates/osr-alignment`](../../crates/osr-alignment/) | Alignment geometry, quantities, exports, and stake-out data |
 | [`tools/osr-aln-convert`](../../tools/osr-aln-convert/) | Companion converter for external alignment formats |
 | [`mechanical-py/src/osr_mech/civil/`](../../mechanical-py/src/osr_mech/civil/) | Parametric girders, piers, abutments, slab/guideway edges, elevated platform units, and civil CAD source |
+| [`scripts/bonsai-civil.sh`](../../scripts/bonsai-civil.sh) | Deterministic IFC generation, Bonsai import, saved review scene, screenshot, and MP4 animation |

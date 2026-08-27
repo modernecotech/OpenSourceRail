@@ -75,6 +75,26 @@ check_tools() {
         fi
     done
 
+    if flatpak info --user org.blender.Blender >/dev/null 2>&1 \
+        || flatpak info --system org.blender.Blender >/dev/null 2>&1; then
+        local bonsai_version
+        bonsai_version="$(flatpak run org.blender.Blender -b --python-expr \
+            'import importlib.metadata; print("Bonsai", importlib.metadata.version("bonsai"))' \
+            2>&1 | sed -n 's/^Bonsai //p' | tail -n 1)"
+        printf 'org.blender.Blender\tversion=%s\tcommit=%s\n' \
+            "$(flatpak_field org.blender.Blender version)" \
+            "$(flatpak_field org.blender.Blender commit)" >> "$report"
+        if [[ -n "$bonsai_version" ]]; then
+            printf 'blender:bonsai\tversion=%s\n' "$bonsai_version" >> "$report"
+        else
+            printf 'blender:bonsai\tMISSING\n' >> "$report"
+            failed=1
+        fi
+    else
+        printf 'org.blender.Blender\tMISSING\nblender:bonsai\tMISSING\n' >> "$report"
+        failed=1
+    fi
+
     if flatpak info --system org.freecad.FreeCAD >/dev/null 2>&1 \
         || flatpak info --user org.freecad.FreeCAD >/dev/null 2>&1; then
         flatpak run --command=sh org.freecad.FreeCAD -c \
