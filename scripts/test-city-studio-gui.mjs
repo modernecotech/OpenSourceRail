@@ -310,17 +310,31 @@ async function main() {
   assert(baseline.services >= baseline.lines * 3, "line/day service plans rendered", `${baseline.services} plans`);
   assert(baseline.demandPeriods >= 4, "source-controlled demand periods rendered", `${baseline.demandPeriods} periods`);
   assert(baseline.findings === 0, "baseline validation has no errors");
+  const georeferencedLine = await cdp.evaluate("view.snapshot.lines[0].id");
 
   await cdp.evaluate(`(() => {
     document.querySelector('#civil-unit-spans').value = '5';
     document.querySelector('#civil-mould-cycle').value = '48';
     document.querySelector('#civil-compare-roads').checked = false;
+    document.querySelector('#civil-georef-line').value = ${JSON.stringify(georeferencedLine)};
+    document.querySelector('#civil-georef-line').dispatchEvent(new Event('change', { bubbles: true }));
+    document.querySelector('#civil-georef-enabled').checked = true;
+    document.querySelector('#civil-georef-enabled').dispatchEvent(new Event('change', { bubbles: true }));
+    document.querySelector('#civil-georef-crs').value = 'EPSG:32638';
+    document.querySelector('#civil-georef-source').value = 'GUI acceptance fixture survey control S-04';
+    document.querySelector('#civil-georef-eastings').value = '412345.6';
+    document.querySelector('#civil-georef-northings').value = '3467890.1';
+    document.querySelector('#civil-georef-height').value = '18.25';
+    document.querySelector('#civil-georef-abscissa').value = '0.999847695';
+    document.querySelector('#civil-georef-ordinate').value = '-0.017452406';
+    document.querySelector('#civil-georef-scale').value = '0.99995';
     document.querySelector('#civil-settings-form').requestSubmit();
     return true;
   })()`);
   await cdp.wait("view.snapshot.civil.expansion_unit_spans === 5 && view.snapshot.civil.mould_cycle_target_h === 48 && view.snapshot.civil.compare_road_grade_separation === false", "civil construction settings save");
+  await cdp.wait(`view.snapshot.civil.ifc_georeferencing?.find(item => item.line === ${JSON.stringify(georeferencedLine)})?.crs_name === 'EPSG:32638'`, "per-line IFC survey control save");
   await cdp.wait("document.querySelector('#civil-derived').textContent.includes('125 m thermal unit')", "civil construction derived quantities");
-  record("civil construction methods and derived interfaces saved", "5-span unit · 48 h validated planning cycle");
+  record("civil construction and per-line IFC survey control saved", "5-span unit · EPSG:32638 test transform");
 
   const movedStation = await cdp.evaluate("view.snapshot.stations.find(item => item.state === 'generated').id");
   await click(`circle.station[data-id="${movedStation}"]`);
@@ -505,11 +519,14 @@ async function main() {
   jobIds.gis = await runAdapter("gis-export");
   jobIds.simulation = await runAdapter("simulation");
   jobIds.alignment = await runAdapter("alignment-exchange");
+  await cdp.evaluate(`document.querySelector('#service-line').value = ${JSON.stringify(georeferencedLine)}`);
   jobIds.civil = await runAdapter("civil-bim", 240_000);
   await openArtifact(jobIds.gis, "gis-network");
   await openArtifact(jobIds.simulation, "simulation-result");
   await openArtifact(jobIds.alignment, "landxml");
   await openArtifact(jobIds.civil, "civil-bim-index");
+  const civilGeoreferencing = await cdp.evaluate("selectedArtifactPreview.content.georeferencing");
+  assert(civilGeoreferencing.native_ifc_georeferencing && civilGeoreferencing.crs_name === "EPSG:32638", "civil IFC carries selected line map conversion");
 
   const ifcObjectCount = await cdp.evaluate("selectedArtifactPreview.content.objects.length");
   assert(ifcObjectCount > 20, "IFC object inspector populated", `${ifcObjectCount} objects`);
@@ -650,6 +667,7 @@ async function main() {
     civilUnitSpans: view.snapshot.civil.expansion_unit_spans,
     civilMouldCycle: view.snapshot.civil.mould_cycle_target_h,
     civilCompareRoads: view.snapshot.civil.compare_road_grade_separation,
+    civilGeoreferencing: view.snapshot.civil.ifc_georeferencing?.find(item => item.line === ${JSON.stringify(georeferencedLine)}),
     jobs: jobView.jobs.filter(item => item.status === 'succeeded').length,
   })`);
   assert(persisted.moved === "preferred", "moved station survived restart");
@@ -662,6 +680,7 @@ async function main() {
   assert(persisted.approval === "approved", "append-only approval survived restart");
   assert(persisted.odPassengers === 1200 && persisted.odCapacity > 0, "OD demand and capacity screen survived restart");
   assert(persisted.civilUnitSpans === 5 && persisted.civilMouldCycle === 48 && persisted.civilCompareRoads === false, "civil construction intent survived restart");
+  assert(persisted.civilGeoreferencing?.crs_name === "EPSG:32638" && persisted.civilGeoreferencing?.source.includes("S-04"), "per-line IFC survey control survived restart");
   assert(persisted.jobs >= 5, "engineering job history survived restart", `${persisted.jobs} succeeded jobs`);
 
   await cdp.evaluate("window.confirm = () => true");
@@ -703,6 +722,7 @@ async function main() {
   assert(services.includes(`headway_min = ${serviceState.headway}`), "service TOML contains edited headway");
   assert(demand.includes(odFlowId) && demand.includes("passengers_per_hour = 1200"), "demand TOML contains deterministic edited OD flow");
   assert(projectIntent.includes("expansion_unit_spans = 5") && projectIntent.includes("mould_cycle_target_h = 48") && projectIntent.includes("compare_road_grade_separation = false"), "project TOML contains civil construction intent");
+  assert(projectIntent.includes("[[civil.ifc_georeferencing]]") && projectIntent.includes('crs_name = "EPSG:32638"'), "project TOML contains per-line IFC survey control");
 
   const report = {
     schema: "org.opensourcerail.city-studio-gui-acceptance.v1",

@@ -141,7 +141,7 @@ Implemented:
 - validation findings;
 - deterministic candidate and revision hashes;
 - in-GUI semantic comparison of station, line, service, demand, coordination,
-  and summary changes;
+  per-line IFC survey control, and summary changes;
 - append-only approval/changes-requested decisions tied to existing immutable
   revisions, including reviewer role, decision date, rationale, and review or
   pull-request reference;
@@ -243,8 +243,11 @@ The engineering hub exposes four fixed adapters:
   reference with the checked civil kit and produces native IFC4.3 objects,
   quantities, provenance, an object index, linked 4D construction tasks, a
   three-specification IDS 1.0 audit, and a BCF 3.0 package of open release
-  issues with IFC GUID selections. OSR remains the alignment/geometry
-  authority; Bonsai is the downstream federation and detail-review environment.
+  issues with IFC GUID selections. If the selected line has accepted survey
+  control in `[[civil.ifc_georeferencing]]`, the job also emits its native
+  `IfcProjectedCRS` and `IfcMapConversion`; unmatched lines remain explicitly
+  on the unresolved local grid. OSR remains the alignment/geometry authority;
+  Bonsai is the downstream federation and detail-review environment.
 
 Jobs serialize through one engineering slot. Their records, immutable evidence
 copies, and full logs live

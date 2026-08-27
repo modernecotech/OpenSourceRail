@@ -533,6 +533,23 @@ impl JobManager {
         let points = line_coordinates(&candidate, line_id)?;
         let local_points = geographic_to_local_xyz(&points)?;
         let safe_line = safe_component(line_id)?;
+        let georeferencing = project
+            .civil()
+            .ifc_georeferencing
+            .iter()
+            .find(|settings| settings.line == line_id)
+            .map(|settings| {
+                serde_json::json!({
+                    "crs_name": settings.crs_name,
+                    "eastings": settings.eastings,
+                    "northings": settings.northings,
+                    "orthogonal_height": settings.orthogonal_height,
+                    "x_axis_abscissa": settings.x_axis_abscissa,
+                    "x_axis_ordinate": settings.x_axis_ordinate,
+                    "scale": settings.scale,
+                    "source": settings.source,
+                })
+            });
         let input_path = self
             .job_dir(id)
             .join(format!("{safe_line}.civil-input.json"));
@@ -543,6 +560,7 @@ impl JobManager {
                 "design_speed_kmh": 80.0,
                 "points": local_points,
                 "coordination_issues": &project.coordination().issues,
+                "georeferencing": georeferencing,
             }))?,
         )?;
         let output_dir = self.job_dir(id).join("civil-bim");

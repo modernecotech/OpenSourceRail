@@ -153,11 +153,64 @@ function renderCivilSettings() {
   const unitsPerKm = Math.ceil(spansPerKm / civil.expansion_unit_spans);
   const bearingsPerKm = (spansPerKm + unitsPerKm) * 4;
   $("#civil-derived").innerHTML = `<strong>${unitLength.toFixed(0)} m thermal unit · ${unitsPerKm} deck gaps/km · ${bearingsPerKm} bearings/km</strong><span>Planning interfaces for twin track; project rail–structure and geotechnical release required.</span>`;
+  const lineSelect = $("#civil-georef-line");
+  const priorLine = lineSelect.value;
+  lineSelect.innerHTML = view.snapshot.lines
+    .map((line) => `<option value="${escapeHtml(line.id)}">${escapeHtml(line.name || line.id)}</option>`)
+    .join("");
+  if (view.snapshot.lines.some((line) => line.id === priorLine)) lineSelect.value = priorLine;
+  else if (view.snapshot.lines.some((line) => line.id === $("#service-line").value)) lineSelect.value = $("#service-line").value;
+  renderCivilGeoreferencing();
 }
+
+function setCivilGeoreferencingEnabled(enabled) {
+  $("#civil-georef-fields").hidden = !enabled;
+  $("#civil-georef-fields").querySelectorAll("input").forEach((input) => {
+    input.disabled = !enabled;
+    input.required = enabled;
+  });
+}
+
+function renderCivilGeoreferencing() {
+  const line = $("#civil-georef-line").value;
+  const settings = (view.snapshot.civil.ifc_georeferencing || [])
+    .find((item) => item.line === line);
+  $("#civil-georef-enabled").checked = Boolean(settings);
+  $("#civil-georef-crs").value = settings?.crs_name || "";
+  $("#civil-georef-source").value = settings?.source || "";
+  $("#civil-georef-eastings").value = settings?.eastings ?? 0;
+  $("#civil-georef-northings").value = settings?.northings ?? 0;
+  $("#civil-georef-height").value = settings?.orthogonal_height ?? 0;
+  $("#civil-georef-abscissa").value = settings?.x_axis_abscissa ?? 1;
+  $("#civil-georef-ordinate").value = settings?.x_axis_ordinate ?? 0;
+  $("#civil-georef-scale").value = settings?.scale ?? 1;
+  setCivilGeoreferencingEnabled(Boolean(settings));
+}
+
+$("#civil-georef-line").addEventListener("change", renderCivilGeoreferencing);
+$("#civil-georef-enabled").addEventListener("change", (event) => {
+  setCivilGeoreferencingEnabled(event.currentTarget.checked);
+});
 
 $("#civil-settings-form").addEventListener("submit", async (event) => {
   event.preventDefault();
   try {
+    const georeferencedLine = $("#civil-georef-line").value;
+    const ifcGeoreferencing = (view.snapshot.civil.ifc_georeferencing || [])
+      .filter((item) => item.line !== georeferencedLine);
+    if ($("#civil-georef-enabled").checked) {
+      ifcGeoreferencing.push({
+        line: georeferencedLine,
+        crs_name: $("#civil-georef-crs").value,
+        eastings: Number($("#civil-georef-eastings").value),
+        northings: Number($("#civil-georef-northings").value),
+        orthogonal_height: Number($("#civil-georef-height").value),
+        x_axis_abscissa: Number($("#civil-georef-abscissa").value),
+        x_axis_ordinate: Number($("#civil-georef-ordinate").value),
+        scale: Number($("#civil-georef-scale").value),
+        source: $("#civil-georef-source").value,
+      });
+    }
     view = await api.civil({
       standard_span_m: Number($("#civil-span").value),
       expansion_unit_spans: Number($("#civil-unit-spans").value),
@@ -166,10 +219,11 @@ $("#civil-settings-form").addEventListener("submit", async (event) => {
       constrained_at_grade_method: $("#civil-constrained-method").value,
       mould_cycle_target_h: Number($("#civil-mould-cycle").value),
       compare_road_grade_separation: $("#civil-compare-roads").checked,
+      ifc_georeferencing: ifcGeoreferencing,
     });
     revisions = await api.revisions();
     render();
-    toast("Civil construction intent saved and included in the deterministic revision hash.");
+    toast("Civil construction and IFC survey intent saved in the deterministic revision hash.");
   } catch (error) {
     toast(error.message, true);
   }
@@ -1483,7 +1537,10 @@ function artifactMetrics(preview, graphic) {
     return [[content.scenario_name || "scenario", "scenario"], [`${content.sim_duration_s}s`, "duration"], [Number(content.total_train_km || 0).toFixed(1), "train km"], [content.invariant_violations?.length || 0, "invariant violations"]];
   }
   if (preview.format === "json" && content.schema === "org.opensourcerail.bonsai-civil-ifc.v1") {
-    return [[content.summary?.assets || 0, "IFC assets"], [content.summary?.construction_tasks || 0, "4D tasks"], [content.summary?.interface_checks || 0, "interface checks"], [content.ifc_schema || "IFC4X3", "coordination schema"]];
+    const coordinateReference = content.georeferencing?.native_ifc_georeferencing
+      ? content.georeferencing.crs_name
+      : "local grid";
+    return [[content.summary?.assets || 0, "IFC assets"], [content.summary?.construction_tasks || 0, "4D tasks"], [content.summary?.interface_checks || 0, "interface checks"], [coordinateReference, "coordinate reference"], [content.ifc_schema || "IFC4X3", "coordination schema"]];
   }
   if (preview.format === "json" && content.schema === "org.opensourcerail.bonsai-civil-ids-report.v1") {
     return [[content.total_specifications_pass, `of ${content.total_specifications} IDS specifications`], [content.total_checks_pass, `of ${content.total_checks} checks`], [content.status ? "PASS" : "FAIL", "information delivery"], ["IDS 1.0", "requirements standard"]];
@@ -1613,6 +1670,13 @@ function renderRevisionComparison() {
       : `${flow.passengers_per_hour.toLocaleString()} pph`;
     return `<div class="revision-item"><strong>${escapeHtml(item.kind)} · ${escapeHtml(flow.origin_station)} → ${escapeHtml(flow.destination_station)}</strong><small>${escapeHtml(flow.period)} · ${escapeHtml(transition)} · ${escapeHtml(item.id)}</small></div>`;
   }).join("") || '<p class="empty-diff">No demand changes</p>';
+  const georeferencingItems = (diff.ifc_georeferencing || []).map((item) => {
+    const settings = item.after || item.before;
+    const transition = item.before && item.after
+      ? `${item.before.crs_name} → ${item.after.crs_name}`
+      : settings.crs_name;
+    return `<div class="revision-item"><strong>${escapeHtml(item.kind)} · ${escapeHtml(item.line)}</strong><small>${escapeHtml(transition)} · ${escapeHtml(settings.source)}</small></div>`;
+  }).join("") || '<p class="empty-diff">No IFC survey-control changes</p>';
   node.innerHTML = `
     <p>Comparing <strong>${escapeHtml(diff.base_revision_id)}</strong> with candidate <strong>${escapeHtml(diff.candidate_revision_id)}</strong></p>
     <div class="revision-summary">${summary.map(([value, label]) =>
@@ -1623,6 +1687,7 @@ function renderRevisionComparison() {
       <div class="revision-group"><h3>Lines</h3>${lineItems}</div>
       <div class="revision-group"><h3>Services</h3>${serviceItems}</div>
       <div class="revision-group"><h3>Demand</h3>${demandItems}</div>
+      <div class="revision-group"><h3>IFC survey control</h3>${georeferencingItems}</div>
       <div class="revision-group"><h3>Coordination</h3>${coordinationItems}</div>
     </div>`;
 }

@@ -16,11 +16,11 @@ use crate::model::{
     DemandFlowCreate, DemandFlowEdit, DemandMetric, FindingSeverity, GeoPoint, GitState,
     IntentState, LineControlPoint, LineCreate, LineEdit, LineRoutingPreference, LineServicePlan,
     ManualLine, ManualStation, OverrideFile, ProjectFile, ResolvedSource, RevisionComparison,
-    RevisionControlDiff, RevisionCoordinationDiff, RevisionDemandDiff, RevisionLineDiff,
-    RevisionListItem, RevisionMaterialized, RevisionServiceDiff, RevisionStationDiff,
-    RevisionSummaryDiff, RoutingSettings, ServiceHeadwayBulkEdit, ServiceMetric, ServicePlan,
-    SnapshotSummary, SourceLock, StationChange, StationCreate, StationEdit, StationOverride,
-    StudioArtifact, ValidationFinding,
+    RevisionControlDiff, RevisionCoordinationDiff, RevisionDemandDiff,
+    RevisionIfcGeoreferencingDiff, RevisionLineDiff, RevisionListItem, RevisionMaterialized,
+    RevisionServiceDiff, RevisionStationDiff, RevisionSummaryDiff, RoutingSettings,
+    ServiceHeadwayBulkEdit, ServiceMetric, ServicePlan, SnapshotSummary, SourceLock, StationChange,
+    StationCreate, StationEdit, StationOverride, StudioArtifact, ValidationFinding,
 };
 
 const SNAPSHOT_SCHEMA_VERSION: u32 = 1;
@@ -157,7 +157,7 @@ impl CityProject {
         &self.config.civil
     }
 
-    pub fn update_civil(&mut self, civil: CivilConstructionSettings) -> Result<()> {
+    pub fn update_civil(&mut self, mut civil: CivilConstructionSettings) -> Result<()> {
         if !matches!(civil.standard_span_m, 20.0 | 25.0) {
             bail!("standard civil span must be 20 m or 25 m");
         }
@@ -176,6 +176,60 @@ impl CityProject {
         if !(24..=72).contains(&civil.mould_cycle_target_h) {
             bail!("mould-cycle target must be between 24 and 72 hours");
         }
+        let mut georeferenced_lines = BTreeSet::new();
+        for georeferencing in &mut civil.ifc_georeferencing {
+            georeferencing.line = georeferencing.line.trim().to_string();
+            if !self.is_active_line(&georeferencing.line) {
+                bail!(
+                    "IFC georeferencing refers to unknown line {:?}",
+                    georeferencing.line
+                );
+            }
+            if !georeferenced_lines.insert(georeferencing.line.clone()) {
+                bail!(
+                    "IFC georeferencing is duplicated for line {:?}",
+                    georeferencing.line
+                );
+            }
+            georeferencing.crs_name = georeferencing.crs_name.trim().to_ascii_uppercase();
+            let epsg_code = georeferencing
+                .crs_name
+                .strip_prefix("EPSG:")
+                .unwrap_or_default();
+            if epsg_code.is_empty() || !epsg_code.bytes().all(|byte| byte.is_ascii_digit()) {
+                bail!("IFC georeferencing CRS must be a single EPSG identifier");
+            }
+            if ![
+                georeferencing.eastings,
+                georeferencing.northings,
+                georeferencing.orthogonal_height,
+                georeferencing.x_axis_abscissa,
+                georeferencing.x_axis_ordinate,
+                georeferencing.scale,
+            ]
+            .into_iter()
+            .all(f64::is_finite)
+            {
+                bail!("IFC georeferencing values must be finite");
+            }
+            if georeferencing.scale <= 0.0 {
+                bail!("IFC georeferencing scale must be greater than zero");
+            }
+            if georeferencing
+                .x_axis_abscissa
+                .hypot(georeferencing.x_axis_ordinate)
+                < 1e-12
+            {
+                bail!("IFC georeferencing x-axis direction must be non-zero");
+            }
+            georeferencing.source = georeferencing.source.trim().to_string();
+            if !(3..=500).contains(&georeferencing.source.chars().count()) {
+                bail!("IFC georeferencing source must contain 3 to 500 characters");
+            }
+        }
+        civil
+            .ifc_georeferencing
+            .sort_by(|left, right| left.line.cmp(&right.line));
         self.config.civil = civil;
         write_toml_atomic(&self.root.join("project.osr.toml"), &self.config)
     }
@@ -1147,10 +1201,19 @@ impl CityProject {
             control.state = IntentState::Retired;
         }
         self.service_plan.line_plans.retain(|plan| plan.line != id);
+        let georeferencing_before = self.config.civil.ifc_georeferencing.len();
+        self.config
+            .civil
+            .ifc_georeferencing
+            .retain(|settings| settings.line != id);
         let overrides_path = self.root.join(&self.config.inputs.network_overrides);
         let service_path = self.root.join(&self.config.inputs.service_plan);
         write_toml_atomic(&overrides_path, &self.overrides)?;
-        write_toml_atomic(&service_path, &self.service_plan)
+        write_toml_atomic(&service_path, &self.service_plan)?;
+        if self.config.civil.ifc_georeferencing.len() != georeferencing_before {
+            write_toml_atomic(&self.root.join("project.osr.toml"), &self.config)?;
+        }
+        Ok(())
     }
 
     pub fn create_control_point(
@@ -3195,6 +3258,43 @@ fn compare_snapshots(base: &CompiledSnapshot, candidate: &CompiledSnapshot) -> R
         });
     }
 
+    let base_georeferencing = base
+        .civil
+        .ifc_georeferencing
+        .iter()
+        .map(|settings| (settings.line.as_str(), settings))
+        .collect::<BTreeMap<_, _>>();
+    let candidate_georeferencing = candidate
+        .civil
+        .ifc_georeferencing
+        .iter()
+        .map(|settings| (settings.line.as_str(), settings))
+        .collect::<BTreeMap<_, _>>();
+    let georeferenced_lines = base_georeferencing
+        .keys()
+        .chain(candidate_georeferencing.keys())
+        .copied()
+        .collect::<BTreeSet<_>>();
+    let mut ifc_georeferencing = Vec::new();
+    for line in georeferenced_lines {
+        let before = base_georeferencing.get(line).copied();
+        let after = candidate_georeferencing.get(line).copied();
+        if before == after {
+            continue;
+        }
+        ifc_georeferencing.push(RevisionIfcGeoreferencingDiff {
+            line: line.to_string(),
+            kind: match (before, after) {
+                (None, Some(_)) => "added",
+                (Some(_), None) => "removed",
+                _ => "modified",
+            }
+            .to_string(),
+            before: before.cloned(),
+            after: after.cloned(),
+        });
+    }
+
     RevisionComparison {
         base_revision_id: base.revision_id.clone(),
         candidate_revision_id: candidate.revision_id.clone(),
@@ -3216,6 +3316,7 @@ fn compare_snapshots(base: &CompiledSnapshot, candidate: &CompiledSnapshot) -> R
         services,
         coordination,
         demand,
+        ifc_georeferencing,
     }
 }
 
@@ -3832,15 +3933,62 @@ mod tests {
         validate_line_plan, CityProject,
     };
     use crate::model::{
-        ApprovalCreate, ApprovalStatus, CoordinationStatus, DemandFlow, IntentState,
-        LineControlPoint, LineCreate, LineRoutingPreference, LineServicePlan, ManualStation,
-        ServiceHeadwayBulkEdit, ServiceWindow, StationCreate, StationOverride,
+        ApprovalCreate, ApprovalStatus, CoordinationStatus, DemandFlow, IfcGeoreferencingSettings,
+        IntentState, LineControlPoint, LineCreate, LineRoutingPreference, LineServicePlan,
+        ManualStation, ServiceHeadwayBulkEdit, ServiceWindow, StationCreate, StationOverride,
     };
 
     #[test]
     fn parses_end_of_day() {
         assert_eq!(parse_minutes("24:00").unwrap(), 1_440);
         assert!(parse_minutes("24:01").is_err());
+    }
+
+    #[test]
+    fn per_line_ifc_georeferencing_is_validated_revisioned_and_persisted() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../../projects/samawah");
+        let mut project = CityProject::load(root).expect("load Samawah project");
+        let baseline = project.compile().expect("compile baseline");
+        let mut civil = project.civil().clone();
+        civil.ifc_georeferencing.push(IfcGeoreferencingSettings {
+            line: "line-1".to_string(),
+            crs_name: " epsg:9306 ".to_string(),
+            eastings: 198_765.4,
+            northings: 431_234.5,
+            orthogonal_height: 18.25,
+            x_axis_abscissa: 0.999847695,
+            x_axis_ordinate: -0.017452406,
+            scale: 0.99995,
+            source: " Accepted survey control revision S-04 ".to_string(),
+        });
+
+        let temporary = tempfile::tempdir().expect("temporary project root");
+        project.root = temporary.path().to_path_buf();
+        project
+            .update_civil(civil)
+            .expect("persist IFC survey control");
+        assert_eq!(project.civil().ifc_georeferencing[0].crs_name, "EPSG:9306");
+        assert_eq!(
+            project.civil().ifc_georeferencing[0].source,
+            "Accepted survey control revision S-04"
+        );
+        let saved = std::fs::read_to_string(temporary.path().join("project.osr.toml"))
+            .expect("read persisted project intent");
+        assert!(saved.contains("[[civil.ifc_georeferencing]]"));
+        assert!(saved.contains("crs_name = \"EPSG:9306\""));
+
+        project.root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../../projects/samawah");
+        let revised = project.compile().expect("compile georeferenced revision");
+        assert_ne!(revised.revision_id, baseline.revision_id);
+        assert_eq!(revised.civil.ifc_georeferencing.len(), 1);
+        let comparison = compare_snapshots(&baseline, &revised);
+        assert_eq!(comparison.ifc_georeferencing.len(), 1);
+        assert_eq!(comparison.ifc_georeferencing[0].line, "line-1");
+        assert_eq!(comparison.ifc_georeferencing[0].kind, "added");
+
+        let mut invalid = project.civil().clone();
+        invalid.ifc_georeferencing[0].scale = 0.0;
+        assert!(project.update_civil(invalid).is_err());
     }
 
     #[test]

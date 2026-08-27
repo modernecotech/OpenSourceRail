@@ -56,7 +56,9 @@ scripts/bonsai-civil.sh --animate
 To bind the federation to a City Studio line, use the **Generate Bonsai civil
 IFC4.3** job in the engineering hub. The adapter converts the selected line to
 the local engineering frame and supplies that immutable reference axis to the
-same exporter.
+same exporter. The civil settings panel can store an accepted map conversion
+per stable line ID; it is Git-visible, revision-hashed, shown in semantic
+revision comparison, and passed only when that line is regenerated.
 
 Outputs are written beneath `build/engineering/bonsai-civil/`:
 
@@ -93,8 +95,8 @@ runs IfcOpenShell schema and EXPRESS rules after writing and rejects any issue;
 the result is retained in `civil-coordination.validation.json`.
 
 The default model deliberately remains on the named local engineering grid.
-When accepted survey/GIS control exists, add this optional block to the civil
-alignment input:
+When accepted survey/GIS control exists, use City Studio's per-line **IFC
+survey control** form or add this optional block to the civil alignment input:
 
 ```json
 {

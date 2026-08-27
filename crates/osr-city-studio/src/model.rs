@@ -152,6 +152,8 @@ pub struct CivilConstructionSettings {
     pub mould_cycle_target_h: u32,
     #[serde(default = "default_true")]
     pub compare_road_grade_separation: bool,
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub ifc_georeferencing: Vec<IfcGeoreferencingSettings>,
 }
 
 impl Default for CivilConstructionSettings {
@@ -164,8 +166,33 @@ impl Default for CivilConstructionSettings {
             constrained_at_grade_method: default_constrained_method(),
             mould_cycle_target_h: default_mould_cycle_target_h(),
             compare_road_grade_separation: true,
+            ifc_georeferencing: Vec::new(),
         }
     }
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize, PartialEq)]
+pub struct IfcGeoreferencingSettings {
+    pub line: String,
+    pub crs_name: String,
+    pub eastings: f64,
+    pub northings: f64,
+    pub orthogonal_height: f64,
+    #[serde(default = "default_x_axis_abscissa")]
+    pub x_axis_abscissa: f64,
+    #[serde(default)]
+    pub x_axis_ordinate: f64,
+    #[serde(default = "default_map_scale")]
+    pub scale: f64,
+    pub source: String,
+}
+
+const fn default_x_axis_abscissa() -> f64 {
+    1.0
+}
+
+const fn default_map_scale() -> f64 {
+    1.0
 }
 
 const fn default_civil_span_m() -> f64 {
@@ -859,6 +886,15 @@ pub struct RevisionComparison {
     pub services: Vec<RevisionServiceDiff>,
     pub coordination: Vec<RevisionCoordinationDiff>,
     pub demand: Vec<RevisionDemandDiff>,
+    pub ifc_georeferencing: Vec<RevisionIfcGeoreferencingDiff>,
+}
+
+#[derive(Clone, Debug, Serialize)]
+pub struct RevisionIfcGeoreferencingDiff {
+    pub line: String,
+    pub kind: String,
+    pub before: Option<IfcGeoreferencingSettings>,
+    pub after: Option<IfcGeoreferencingSettings>,
 }
 
 #[derive(Clone, Debug, Serialize)]

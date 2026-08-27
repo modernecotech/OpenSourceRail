@@ -265,8 +265,26 @@
         </div>
         <label class="checkbox-label"><input id="civil-compare-roads" type="checkbox"> Compare road overbridge, underpass, closure/relocation and short rail bridge before long railway elevation</label>
         <div id="civil-derived" class="metric-callout"></div>
+        <fieldset class="survey-control">
+          <legend>IFC survey control</legend>
+          <div class="two-col">
+            <label>Route<select id="civil-georef-line"></select></label>
+            <label class="checkbox-label"><input id="civil-georef-enabled" type="checkbox"> Include an accepted map conversion for this route</label>
+          </div>
+          <div id="civil-georef-fields" class="two-col" hidden>
+            <label>Compound/project CRS<input id="civil-georef-crs" type="text" pattern="EPSG:[0-9]+" placeholder="EPSG:9306"></label>
+            <label>Survey/control source<input id="civil-georef-source" type="text" minlength="3" maxlength="500" placeholder="Accepted survey control revision S-04"></label>
+            <label>Origin easting<input id="civil-georef-eastings" type="number" step="any"></label>
+            <label>Origin northing<input id="civil-georef-northings" type="number" step="any"></label>
+            <label>Orthogonal height<input id="civil-georef-height" type="number" step="any"></label>
+            <label>Local X-axis abscissa<input id="civil-georef-abscissa" type="number" step="any"></label>
+            <label>Local X-axis ordinate<input id="civil-georef-ordinate" type="number" step="any"></label>
+            <label>Combined scale factor<input id="civil-georef-scale" type="number" min="0.000000001" step="any"></label>
+          </div>
+          <small>Each route uses its first exported point as local 0,0,0. Enter only a survey-authorized transform for that route; otherwise its IFC remains explicitly on the unresolved local engineering grid.</small>
+        </fieldset>
         <small>Project inputs are Git-visible and revision-hashed. The 24 h cycle and 15–30% combined saving remain targets until project trials and quotations release them; canonical costs are unchanged.</small>
-        <button type="submit" class="primary">Save civil construction intent</button>
+        <button type="submit" class="primary">Save civil and IFC intent</button>
       </form>
     </section>
 

@@ -62,7 +62,7 @@ operating affordable urban rail systems. It combines:
 | **Deterministic city generation** | Reproducible GIS, network, fleet, energy, engineering and finance packages for [266 cities in 44 countries](designs/README.md). |
 | **Interactive City Studio** | Create, move and retire stations and lines; edit routing control points; plan service by line, day and time; test OD capacity and atomic all-route scenarios in one [local GUI](docs/city-studio/README.md). |
 | **Git-native revision control** | Content-addressed immutable revisions, semantic comparisons, append-only approvals and restart-tested persistence keep each city decision reviewable in GitHub. |
-| **Civil BIM and 4D coordination** | Parametric Pi25/slipform/foundation geometry generates IFC4.3 for Bonsai, IDS audit evidence, BCF 3.0 coordination topics and linked construction sequencing through the [civil BIM workflow](docs/civil/bonsai-ifc-workflow.md). |
+| **Civil BIM and 4D coordination** | Parametric Pi25/slipform/foundation geometry generates schema-checked IFC4.3 with native quantities, per-line survey/map conversion, IDS evidence, BCF 3.0 topics and linked construction sequencing through the [civil BIM workflow](docs/civil/bonsai-ifc-workflow.md). |
 | **Automatic cost propagation** | Checked CAD quantities regenerate the [shared civil rate contract](lib/templates/civil-cost-model.toml), which feeds city CAPEX, finance, IFC properties, portfolio summaries and generated READMEs while retaining the original benchmark for comparison. |
 | **Operations-to-assurance stack** | Simulation, GoA 4 control components, energy planning, manufacturing QA, maintenance, Ops Core, hardware references and a machine-checkable safety case share one repository and evidence model. |
 
