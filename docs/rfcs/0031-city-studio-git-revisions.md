@@ -107,6 +107,13 @@ semantic issue-state changes in revision comparison. A new civil BIM job then
 emits a new BCF reflecting that revision; earlier BCF files remain immutable
 evidence.
 
+Designers may seed a new issue from a selected IFC asset. City Studio validates
+the title, description, and one-to-fifty stable OSR asset IDs and derives a
+deterministic `custom-<content-hash>` identifier. The civil adapter rejects
+unknown assets, then derives stable BCF topic and viewpoint UUIDs from that
+identifier. Re-entering identical content is rejected as a duplicate rather
+than silently creating parallel issues.
+
 ## 5. Revision lifecycle
 
     working draft
@@ -273,6 +280,8 @@ The Samawah project is the first committed acceptance fixture. It:
 - persists civil coordination decisions as Git-reviewable intent, rejects
   unsupported or unevidenced closures, and carries accepted state into a newly
   generated BCF without mutating prior job evidence;
+- creates deterministic custom BCF topics from selected IFC assets and rejects
+  duplicate content, invalid asset IDs, and dangling selections;
 - emits separate weekday, Friday, and weekend simulator scenarios plus a
   SHA-256 artifact manifest;
 - runs allowlisted GIS, simulator, and LandXML/railML alignment jobs with

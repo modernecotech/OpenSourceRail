@@ -79,7 +79,17 @@ def test_coordination_decision_is_carried_into_bcf_without_mutating_topic_identi
                         "assignee": "Structures",
                         "resolution": "Engineer-released deck calculation and drawing package accepted.",
                         "reviewed_by": "Civil design authority",
-                    }
+                    },
+                    {
+                        "id": "custom-0123456789abcdef",
+                        "title": "Confirm rail fastening interface",
+                        "description": "Confirm the selected rail fastening interface against the released supplier assembly.",
+                        "asset_ids": ["OSR-DT-416916837E"],
+                        "status": "open",
+                        "assignee": "Track engineering",
+                        "resolution": "",
+                        "reviewed_by": "",
+                    },
                 ],
             },
             sort_keys=True,
@@ -91,10 +101,22 @@ def test_coordination_decision_is_carried_into_bcf_without_mutating_topic_identi
     station_topic = next(
         topic for topic in bcf_index["topics"] if topic["issue_id"] == "station-deck-release"
     )
+    custom_topic = next(
+        topic for topic in bcf_index["topics"] if topic["issue_id"] == "custom-0123456789abcdef"
+    )
 
-    assert bcf_index["open_topic_count"] == 2
+    assert bcf_index["topic_count"] == 4
+    assert bcf_index["open_topic_count"] == 3
     assert station_topic["intent_status"] == "resolved"
     assert station_topic["status"] == "Resolved"
     assert station_topic["assignee"] == "Structures"
     assert station_topic["reviewed_by"] == "Civil design authority"
     assert "Engineer-released" in station_topic["description"]
+    assert custom_topic["asset_ids"] == ["OSR-DT-416916837E"]
+    assert custom_topic["assignee"] == "Track engineering"
+
+    repeated = write_outputs(
+        tmp_path / "reviewed-repeat", alignment_path=alignment, revision_id="reviewed"
+    )
+    assert paths["bcf"].read_bytes() == repeated["bcf"].read_bytes()
+    assert paths["bcf_index"].read_bytes() == repeated["bcf_index"].read_bytes()

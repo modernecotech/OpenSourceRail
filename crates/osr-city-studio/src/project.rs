@@ -10,10 +10,10 @@ use sha2::{Digest, Sha256};
 
 use crate::model::{
     BaseDesign, BuildArtifact, BuildManifest, CompiledControlPoint, CompiledLine, CompiledSnapshot,
-    CompiledStation, ControlPointCreate, ControlPointEdit, CoordinationEdit, CoordinationFile,
-    CoordinationIssue, CoordinationStatus, FindingSeverity, GeoPoint, GitState, IntentState,
-    LineControlPoint, LineCreate, LineEdit, LineRoutingPreference, LineServicePlan, ManualLine,
-    ManualStation, OverrideFile, ProjectFile, ResolvedSource, RevisionComparison,
+    CompiledStation, ControlPointCreate, ControlPointEdit, CoordinationCreate, CoordinationEdit,
+    CoordinationFile, CoordinationIssue, CoordinationStatus, FindingSeverity, GeoPoint, GitState,
+    IntentState, LineControlPoint, LineCreate, LineEdit, LineRoutingPreference, LineServicePlan,
+    ManualLine, ManualStation, OverrideFile, ProjectFile, ResolvedSource, RevisionComparison,
     RevisionControlDiff, RevisionCoordinationDiff, RevisionLineDiff, RevisionListItem,
     RevisionMaterialized, RevisionServiceDiff, RevisionStationDiff, RevisionSummaryDiff,
     RoutingSettings, ServiceMetric, ServicePlan, SnapshotSummary, SourceLock, StationChange,
@@ -510,6 +510,50 @@ impl CityProject {
             .as_ref()
             .ok_or_else(|| anyhow!("project does not declare a coordination intent file"))?;
         write_toml_atomic(&self.root.join(path), &self.coordination)
+    }
+
+    pub fn create_coordination_issue(&mut self, create: CoordinationCreate) -> Result<String> {
+        let title = create.title.trim().to_string();
+        let description = create.description.trim().to_string();
+        let assignee = create.assignee.trim().to_string();
+        let mut asset_ids = create
+            .asset_ids
+            .into_iter()
+            .map(|value| value.trim().to_string())
+            .collect::<Vec<_>>();
+        asset_ids.sort();
+        asset_ids.dedup();
+        validate_custom_coordination_issue(&title, &description, &asset_ids)?;
+        let identity = serde_json::to_vec(&serde_json::json!({
+            "title": title,
+            "description": description,
+            "asset_ids": asset_ids,
+        }))?;
+        let id = format!("custom-{}", &sha256_bytes(&identity)[..16]);
+        if self.coordination.issues.iter().any(|issue| issue.id == id) {
+            bail!("an identical coordination issue already exists as {id}");
+        }
+        self.coordination.issues.push(CoordinationIssue {
+            id: id.clone(),
+            title,
+            description,
+            asset_ids,
+            status: CoordinationStatus::Open,
+            assignee,
+            resolution: String::new(),
+            reviewed_by: String::new(),
+        });
+        self.coordination
+            .issues
+            .sort_by(|left, right| left.id.cmp(&right.id));
+        let path = self
+            .config
+            .inputs
+            .coordination
+            .as_ref()
+            .ok_or_else(|| anyhow!("project does not declare a coordination intent file"))?;
+        write_toml_atomic(&self.root.join(path), &self.coordination)?;
+        Ok(id)
     }
 
     pub fn update_station(&mut self, id: &str, edit: StationEdit) -> Result<()> {
@@ -1279,15 +1323,29 @@ impl CityProject {
                     });
                 }
                 if !CIVIL_COORDINATION_ISSUE_IDS.contains(&issue.id.as_str()) {
-                    findings.push(ValidationFinding {
-                        severity: FindingSeverity::Error,
-                        code: "UNKNOWN_COORDINATION_ISSUE".to_string(),
-                        message: format!(
-                            "coordination issue {} is not emitted by the civil adapter",
-                            issue.id
-                        ),
-                        object_id: Some(issue.id.clone()),
-                    });
+                    if !is_custom_coordination_id(&issue.id) {
+                        findings.push(ValidationFinding {
+                            severity: FindingSeverity::Error,
+                            code: "UNKNOWN_COORDINATION_ISSUE".to_string(),
+                            message: format!(
+                                "coordination issue {} has an invalid custom id",
+                                issue.id
+                            ),
+                            object_id: Some(issue.id.clone()),
+                        });
+                    }
+                    if let Err(error) = validate_custom_coordination_issue(
+                        &issue.title,
+                        &issue.description,
+                        &issue.asset_ids,
+                    ) {
+                        findings.push(ValidationFinding {
+                            severity: FindingSeverity::Error,
+                            code: "INVALID_CUSTOM_COORDINATION_ISSUE".to_string(),
+                            message: error.to_string(),
+                            object_id: Some(issue.id.clone()),
+                        });
+                    }
                 }
                 if let Err(error) = validate_coordination_decision(
                     issue.status,
@@ -2765,6 +2823,44 @@ fn validate_coordination_decision(
     Ok(())
 }
 
+fn is_custom_coordination_id(id: &str) -> bool {
+    id.len() == 23
+        && id.starts_with("custom-")
+        && id[7..]
+            .bytes()
+            .all(|byte| byte.is_ascii_digit() || (b'a'..=b'f').contains(&byte))
+}
+
+fn validate_custom_coordination_issue(
+    title: &str,
+    description: &str,
+    asset_ids: &[String],
+) -> Result<()> {
+    if !(4..=160).contains(&title.trim().len()) {
+        bail!("custom coordination issue title must contain 4 to 160 characters");
+    }
+    if !(12..=2_000).contains(&description.trim().len()) {
+        bail!("custom coordination issue description must contain 12 to 2000 characters");
+    }
+    if asset_ids.is_empty() || asset_ids.len() > 50 {
+        bail!("custom coordination issue must select 1 to 50 IFC assets");
+    }
+    let mut unique = BTreeSet::new();
+    for asset_id in asset_ids {
+        if !asset_id.starts_with("OSR-DT-")
+            || !asset_id
+                .bytes()
+                .all(|byte| byte.is_ascii_uppercase() || byte.is_ascii_digit() || byte == b'-')
+        {
+            bail!("custom coordination issue contains invalid asset id {asset_id:?}");
+        }
+        if !unique.insert(asset_id) {
+            bail!("custom coordination issue repeats asset id {asset_id:?}");
+        }
+    }
+    Ok(())
+}
+
 fn geojson_coordinates(feature: &serde_json::Value) -> Result<Vec<[f64; 2]>> {
     feature
         .get("geometry")
@@ -3152,8 +3248,9 @@ mod tests {
     use std::path::Path;
 
     use super::{
-        haversine_m, normalized_interval, parse_minutes, validate_coordination_decision,
-        validate_line_plan, CityProject,
+        haversine_m, is_custom_coordination_id, normalized_interval, parse_minutes,
+        validate_coordination_decision, validate_custom_coordination_issue, validate_line_plan,
+        CityProject,
     };
     use crate::model::{
         CoordinationStatus, IntentState, LineControlPoint, LineCreate, LineRoutingPreference,
@@ -3178,6 +3275,24 @@ mod tests {
         assert!(
             validate_coordination_decision(CoordinationStatus::Closed, "too short", "").is_err()
         );
+    }
+
+    #[test]
+    fn custom_coordination_topics_require_deterministic_ids_and_assets() {
+        assert!(is_custom_coordination_id("custom-0123456789abcdef"));
+        assert!(!is_custom_coordination_id("custom-not-a-hash"));
+        assert!(validate_custom_coordination_issue(
+            "Confirm rail fastening interface",
+            "Confirm this interface against the released supplier assembly.",
+            &["OSR-DT-416916837E".to_string()],
+        )
+        .is_ok());
+        assert!(validate_custom_coordination_issue(
+            "Bad",
+            "Too short",
+            &["not-an-asset".to_string()],
+        )
+        .is_err());
     }
 
     #[test]

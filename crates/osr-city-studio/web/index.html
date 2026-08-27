@@ -163,6 +163,21 @@
             <button type="button" id="add-window" class="secondary">Add window</button>
             <button type="submit" class="primary">Save service plan</button>
           </div>
+          <div class="service-bulk-tools" aria-label="Bulk service planning tools">
+            <label>Adjust every headway
+              <select id="headway-factor">
+                <option value="0.8">20% more frequent</option>
+                <option value="0.9">10% more frequent</option>
+                <option value="1.1" selected>10% less frequent</option>
+                <option value="1.2">20% less frequent</option>
+              </select>
+            </label>
+            <button type="button" id="apply-headway" class="secondary">Apply and save</button>
+            <label>Copy this plan to
+              <select id="copy-service-day"></select>
+            </label>
+            <button type="button" id="copy-service-plan" class="secondary">Copy and save</button>
+          </div>
         </form>
         <div id="service-metric" class="metric-callout"></div>
       </article>

@@ -803,6 +803,30 @@ def write_coordination_bcf(
             ],
         },
     ]
+    built_in_keys = {definition["key"] for definition in topic_definitions}
+    rows_by_asset_id = {row["asset_id"]: row for row in index["objects"]}
+    for issue_id in sorted(set(decisions) - built_in_keys):
+        decision = decisions[issue_id]
+        asset_ids = decision.get("asset_ids", [])
+        if not issue_id.startswith("custom-") or not isinstance(asset_ids, list) or not asset_ids:
+            raise ValueError(f"invalid custom coordination issue {issue_id!r}")
+        title = str(decision.get("title", "")).strip()
+        description = str(decision.get("description", "")).strip()
+        if not (4 <= len(title) <= 160) or not (12 <= len(description) <= 2_000):
+            raise ValueError(f"custom coordination issue {issue_id!r} has invalid title or description")
+        missing_asset_ids = sorted(set(asset_ids) - set(rows_by_asset_id))
+        if missing_asset_ids:
+            raise ValueError(
+                f"custom coordination issue {issue_id!r} selects unknown assets {missing_asset_ids!r}"
+            )
+        topic_definitions.append(
+            {
+                "key": issue_id,
+                "title": title,
+                "description": description,
+                "rows": [rows_by_asset_id[asset_id] for asset_id in sorted(set(asset_ids))],
+            }
+        )
 
     bcf = BcfXml.create_new(project_name="OpenSourceRail civil coordination")
     if bcf.project is None:

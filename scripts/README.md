@@ -38,6 +38,7 @@ stay thin: domain logic belongs in Rust crates, `design-py`, or
 | [`check-markdown-links.py`](check-markdown-links.py) | Check that local links in tracked Markdown resolve inside the repository |
 | [`validate-host-manifests.py`](validate-host-manifests.py) | Validate all five host compositions and the complete Cargo component inventory |
 | [`validate-city-projects.py`](validate-city-projects.py) | Compile and validate every Git-backed OSR City Studio project, including source locks and weekly service plans |
+| [`test-city-studio-gui.mjs`](test-city-studio-gui.mjs) | Drive the real City Studio GUI in headless Chrome, run every adapter, restart the server, and verify project/job persistence in an isolated disposable project |
 
 For a single city, nominal runs and resilience cases are assigned to distinct
 physical cores. The default all-city run resynthesises `design.toml` using

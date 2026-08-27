@@ -478,7 +478,6 @@ impl JobManager {
                 "line_slug": safe_line,
                 "design_speed_kmh": 80.0,
                 "points": local_points,
-                "coordination_issues": &project.coordination().issues,
             }))?,
         )?;
         let output_dir = self.job_dir(id).join("alignment");
@@ -543,6 +542,7 @@ impl JobManager {
                 "line_slug": safe_line,
                 "design_speed_kmh": 80.0,
                 "points": local_points,
+                "coordination_issues": &project.coordination().issues,
             }))?,
         )?;
         let output_dir = self.job_dir(id).join("civil-bim");

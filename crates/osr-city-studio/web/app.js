@@ -42,6 +42,9 @@ const api = {
   coordination: (id, body) => api.request(`/api/coordination/${encodeURIComponent(id)}`, {
     method: "PUT", body: JSON.stringify(body),
   }),
+  createCoordination: (body) => api.request("/api/coordination", {
+    method: "POST", body: JSON.stringify(body),
+  }),
   compile: () => api.request("/api/compile", { method: "POST" }),
   revision: () => api.request("/api/revisions", { method: "POST" }),
   revisions: () => api.request("/api/revisions"),
@@ -71,6 +74,8 @@ let comparison = null;
 let jobView = { adapters: [], jobs: [] };
 let jobPollTimer = null;
 let selectedArtifactPreview = null;
+let selectedCoordinationAssetIds = new Set();
+let operationBusy = false;
 const lineColours = ["#56d39b", "#5eb9e8", "#e88859", "#a98aef", "#e96d95"];
 
 const $ = (selector) => document.querySelector(selector);
@@ -601,6 +606,19 @@ function renderServiceSelectors() {
   ).join("");
   if ([...lineNode.options].some((option) => option.value === oldLine)) lineNode.value = oldLine;
   if ([...dayNode.options].some((option) => option.value === oldDay)) dayNode.value = oldDay;
+  renderCopyServiceDays();
+}
+
+function renderCopyServiceDays() {
+  const target = $("#copy-service-day");
+  if (!target) return;
+  const selected = target.value;
+  const current = $("#service-day").value;
+  target.innerHTML = view.service_plan.day_types
+    .filter((day) => day.id !== current)
+    .map((day) => `<option value="${escapeHtml(day.id)}">${escapeHtml(day.name)}</option>`)
+    .join("");
+  if ([...target.options].some((option) => option.value === selected)) target.value = selected;
 }
 
 function currentServicePlan() {
@@ -648,29 +666,59 @@ function bindWindowButtons() {
 }
 
 $("#service-line").addEventListener("change", renderServiceEditor);
-$("#service-day").addEventListener("change", renderServiceEditor);
+$("#service-day").addEventListener("change", () => {
+  renderCopyServiceDays();
+  renderServiceEditor();
+});
 $("#add-window").addEventListener("click", () => {
   $("#service-windows").insertAdjacentHTML("beforeend", windowRow());
   bindWindowButtons();
+});
+
+function servicePlanFromEditor(dayType = $("#service-day").value) {
+  return {
+    line: $("#service-line").value,
+    day_type: dayType,
+    service_start: $("#service-start").value,
+    service_end: $("#service-end").value,
+    windows: [...document.querySelectorAll("#service-windows tr")].map((row) => ({
+      from: row.querySelector(".window-from").value,
+      to: row.querySelector(".window-to").value,
+      headway_min: Number(row.querySelector(".window-headway").value),
+    })),
+  };
+}
+
+$("#apply-headway").addEventListener("click", () => {
+  const factor = Number($("#headway-factor").value);
+  document.querySelectorAll("#service-windows .window-headway").forEach((input) => {
+    input.value = Math.max(1, Math.min(120, Math.round(Number(input.value) * factor)));
+    input.dispatchEvent(new Event("input", { bubbles: true }));
+  });
+  $("#service-form").requestSubmit();
+});
+
+$("#copy-service-plan").addEventListener("click", async () => {
+  const targetDay = $("#copy-service-day").value;
+  if (!targetDay) return;
+  const plan = servicePlanFromEditor(targetDay);
+  try {
+    view = await api.service(plan.line, targetDay, plan);
+    revisions = await api.revisions();
+    comparison = null;
+    render();
+    toast(`${plan.line} service copied to ${targetDay}; fleet and capacity metrics regenerated.`);
+  } catch (error) {
+    toast(error.message, true);
+  }
 });
 
 $("#service-form").addEventListener("submit", async (event) => {
   event.preventDefault();
   const line = $("#service-line").value;
   const day = $("#service-day").value;
-  const windows = [...document.querySelectorAll("#service-windows tr")].map((row) => ({
-    from: row.querySelector(".window-from").value,
-    to: row.querySelector(".window-to").value,
-    headway_min: Number(row.querySelector(".window-headway").value),
-  }));
   try {
-    view = await api.service(line, day, {
-      line,
-      day_type: day,
-      service_start: $("#service-start").value,
-      service_end: $("#service-end").value,
-      windows,
-    });
+    view = await api.service(line, day, servicePlanFromEditor(day));
     revisions = await api.revisions();
     comparison = null;
     render();
@@ -697,7 +745,7 @@ function renderArtifacts() {
 
 function renderJobs() {
   $("#job-adapters").innerHTML = jobView.adapters.map((adapter) =>
-    `<div class="job-adapter"><div><strong>${escapeHtml(adapter.category)} · ${escapeHtml(adapter.label)}</strong><small>${escapeHtml(adapter.description)}</small></div><button type="button" data-job-adapter="${escapeHtml(adapter.id)}">Run</button></div>`
+    `<div class="job-adapter"><div><strong>${escapeHtml(adapter.category)} · ${escapeHtml(adapter.label)}</strong><small>${escapeHtml(adapter.description)}</small></div><button type="button" data-job-adapter="${escapeHtml(adapter.id)}" ${operationBusy ? "disabled" : ""}>Run</button></div>`
   ).join("");
   document.querySelectorAll("[data-job-adapter]").forEach((button) => {
     button.addEventListener("click", () => startEngineeringJob(button.dataset.jobAdapter));
@@ -746,7 +794,12 @@ async function selectDefaultArtifact() {
 
 async function openJobArtifact(jobId, index, shouldScroll) {
   try {
-    selectedArtifactPreview = await api.jobArtifact(jobId, index);
+    const nextPreview = await api.jobArtifact(jobId, index);
+    const changed = !selectedArtifactPreview
+      || selectedArtifactPreview.job_id !== nextPreview.job_id
+      || selectedArtifactPreview.artifact_index !== nextPreview.artifact_index;
+    selectedArtifactPreview = nextPreview;
+    if (changed) selectedCoordinationAssetIds.clear();
     renderJobs();
     renderArtifactViewer();
     if (shouldScroll) {
@@ -901,6 +954,7 @@ function artifactInspectorItems(preview) {
         `bbox m ${item.bbox_m.join(", ")}`,
         `source ${item.source_geometry}`,
       ].join("\n"),
+      coordinationTarget: item,
     }));
   }
   if (preview.format === "json" && content.schema === "org.opensourcerail.bonsai-civil-bcf-index.v1") {
@@ -924,11 +978,19 @@ function artifactInspectorItems(preview) {
 function renderArtifactObjects(preview) {
   const host = $("#artifact-objects");
   const items = artifactInspectorItems(preview);
+  const hasCoordinationTargets = items.some((item) => item.coordinationTarget);
   host.replaceChildren();
   host.hidden = !items.length;
   if (!items.length) return;
+  const tools = hasCoordinationTargets ? `<div class="artifact-object-tools">
+      <input id="artifact-object-filter" type="search" placeholder="Filter IFC assets" aria-label="Filter IFC assets">
+      <button id="select-visible-assets" type="button" class="secondary">Select visible</button>
+      <button id="clear-selected-assets" type="button" class="secondary">Clear</button>
+      <span id="artifact-selection-count" class="artifact-selection-count">0 assets selected</span>
+    </div>` : "";
   host.innerHTML = `<h3>${preview.content.schema?.includes("bcf") ? "Coordination topics" : preview.content.schema?.includes("ids") ? "IDS specifications" : "IFC object inspector"}</h3>
-    <div class="artifact-object-list">${items.map((item, index) => `<button type="button" class="artifact-object-button" data-object-index="${index}"><strong>${escapeHtml(item.label)}</strong><small>${escapeHtml(item.meta)}</small></button>`).join("")}</div>
+    ${tools}
+    <div class="artifact-object-list">${items.map((item, index) => `<div class="artifact-object-row" data-object-row="${index}" data-search="${escapeHtml(`${item.label} ${item.meta}`.toLowerCase())}">${item.coordinationTarget ? `<input class="artifact-object-check" type="checkbox" data-asset-index="${index}" aria-label="Include ${escapeHtml(item.label)} in coordination topic">` : ""}<button type="button" class="artifact-object-button" data-object-index="${index}"><strong>${escapeHtml(item.label)}</strong><small>${escapeHtml(item.meta)}</small></button></div>`).join("")}</div>
     <pre class="artifact-object-detail"></pre>
     <form id="coordination-review-form" class="coordination-review-form" hidden>
       <p>Working-draft decision</p>
@@ -938,12 +1000,57 @@ function renderArtifactObjects(preview) {
       <label>Reviewed by<input name="reviewed_by" maxlength="120" placeholder="Required before resolving or closing"></label>
       <button type="submit">Save Git-reviewable decision</button>
       <small>The selected job artifact remains immutable. Rerun the civil BIM job to issue a BCF reflecting this decision.</small>
+    </form>
+    <form id="coordination-create-form" class="coordination-review-form" hidden>
+      <p>New issue for selected IFC assets</p>
+      <label>Title<input name="title" minlength="4" maxlength="160" required placeholder="Describe the coordination decision needed"></label>
+      <label>Description<textarea name="description" minlength="12" maxlength="2000" required placeholder="State the conflict, required evidence, and acceptance boundary"></textarea></label>
+      <label>Assignee<input name="assignee" maxlength="120" placeholder="Discipline or responsible person"></label>
+      <button type="submit">Create Git-reviewable BCF topic</button>
+      <small>A deterministic topic ID is derived from this content and the selected stable asset IDs. Rerun the civil BIM job to generate it.</small>
     </form>`;
   host.querySelectorAll(".artifact-object-button").forEach((button) => {
     button.addEventListener("click", () => selectArtifactObject(Number(button.dataset.objectIndex)));
   });
+  host.querySelectorAll("[data-asset-index]").forEach((checkbox) => {
+    checkbox.addEventListener("change", () => {
+      const target = items[Number(checkbox.dataset.assetIndex)]?.coordinationTarget;
+      if (!target) return;
+      if (checkbox.checked) selectedCoordinationAssetIds.add(target.asset_id);
+      else selectedCoordinationAssetIds.delete(target.asset_id);
+      updateArtifactAssetSelection(items);
+    });
+  });
+  host.querySelector("#artifact-object-filter")?.addEventListener("input", (event) => {
+    const query = event.currentTarget.value.trim().toLowerCase();
+    host.querySelectorAll("[data-object-row]").forEach((row) => {
+      row.hidden = query && !row.dataset.search.includes(query);
+    });
+  });
+  host.querySelector("#select-visible-assets")?.addEventListener("click", () => {
+    host.querySelectorAll("[data-object-row]:not([hidden]) [data-asset-index]").forEach((checkbox) => {
+      const target = items[Number(checkbox.dataset.assetIndex)]?.coordinationTarget;
+      if (target) selectedCoordinationAssetIds.add(target.asset_id);
+    });
+    updateArtifactAssetSelection(items);
+  });
+  host.querySelector("#clear-selected-assets")?.addEventListener("click", () => {
+    selectedCoordinationAssetIds.clear();
+    updateArtifactAssetSelection(items);
+  });
   host.querySelector("#coordination-review-form")?.addEventListener("submit", saveCoordinationDecision);
+  host.querySelector("#coordination-create-form")?.addEventListener("submit", createCoordinationIssue);
   selectArtifactObject(0);
+}
+
+function updateArtifactAssetSelection(items = artifactInspectorItems(selectedArtifactPreview)) {
+  document.querySelectorAll("[data-asset-index]").forEach((checkbox) => {
+    const target = items[Number(checkbox.dataset.assetIndex)]?.coordinationTarget;
+    checkbox.checked = Boolean(target && selectedCoordinationAssetIds.has(target.asset_id));
+    checkbox.closest(".artifact-object-row")?.classList.toggle("included", checkbox.checked);
+  });
+  const count = $("#artifact-selection-count");
+  if (count) count.textContent = `${selectedCoordinationAssetIds.size} asset${selectedCoordinationAssetIds.size === 1 ? "" : "s"} selected`;
 }
 
 function selectArtifactObject(index) {
@@ -958,6 +1065,15 @@ function selectArtifactObject(index) {
   const detail = $("#artifact-objects .artifact-object-detail");
   if (detail) detail.textContent = items[index].detail;
   const form = $("#coordination-review-form");
+  const createForm = $("#coordination-create-form");
+  if (createForm) {
+    createForm.hidden = !items[index].coordinationTarget;
+    createForm.dataset.objectIndex = index;
+    if (items[index].coordinationTarget && selectedCoordinationAssetIds.size === 0) {
+      selectedCoordinationAssetIds.add(items[index].coordinationTarget.asset_id);
+    }
+    updateArtifactAssetSelection(items);
+  }
   if (!form) return;
   const topic = items[index].coordination;
   form.hidden = !topic;
@@ -968,6 +1084,36 @@ function selectArtifactObject(index) {
   form.elements.assignee.value = draft.assignee || "";
   form.elements.resolution.value = draft.resolution || "";
   form.elements.reviewed_by.value = draft.reviewed_by || "";
+}
+
+async function createCoordinationIssue(event) {
+  event.preventDefault();
+  const form = event.currentTarget;
+  const index = Number(form.dataset.objectIndex);
+  const items = artifactInspectorItems(selectedArtifactPreview);
+  const target = items[index]?.coordinationTarget;
+  if (!target) return;
+  const assetIds = items
+    .map((item) => item.coordinationTarget?.asset_id)
+    .filter((assetId) => assetId && selectedCoordinationAssetIds.has(assetId));
+  if (!assetIds.length) assetIds.push(target.asset_id);
+  try {
+    const result = await api.createCoordination({
+      title: form.elements.title.value.trim(),
+      description: form.elements.description.value.trim(),
+      assignee: form.elements.assignee.value.trim(),
+      asset_ids: assetIds,
+    });
+    view = result.project;
+    form.reset();
+    renderGit();
+    renderSummary();
+    renderFindings();
+    renderRevisionSelector();
+    toast(`${result.id} created for ${assetIds.length} IFC asset${assetIds.length === 1 ? "" : "s"}. Rerun civil BIM to emit the topic.`);
+  } catch (error) {
+    toast(error.message, true);
+  }
 }
 
 async function saveCoordinationDecision(event) {
@@ -1160,8 +1306,30 @@ $("#compare-revision").addEventListener("click", async () => {
   }
 });
 
-$("#reload").addEventListener("click", load);
+function setOperationBusy(busy) {
+  operationBusy = busy;
+  ["#reload", "#compile", "#revision"].forEach((selector) => {
+    const button = $(selector);
+    if (button) button.disabled = busy;
+  });
+  document.querySelectorAll("[data-job-adapter]").forEach((button) => {
+    button.disabled = busy;
+  });
+}
+
+$("#reload").addEventListener("click", async () => {
+  if (operationBusy) return;
+  setOperationBusy(true);
+  try {
+    await load();
+    toast("Project intent, revisions, and engineering jobs reloaded.");
+  } finally {
+    setOperationBusy(false);
+  }
+});
 $("#compile").addEventListener("click", async () => {
+  if (operationBusy) return;
+  setOperationBusy(true);
   try {
     const result = await api.compile();
     $("#operation-result").textContent = `Candidate compiled: ${result.path}`;
@@ -1169,9 +1337,13 @@ $("#compile").addEventListener("click", async () => {
     toast("Candidate compiled with its content hash and validation manifest.");
   } catch (error) {
     toast(error.message, true);
+  } finally {
+    setOperationBusy(false);
   }
 });
 $("#revision").addEventListener("click", async () => {
+  if (operationBusy) return;
+  setOperationBusy(true);
   try {
     const result = await api.revision();
     $("#operation-result").textContent =
@@ -1180,6 +1352,8 @@ $("#revision").addEventListener("click", async () => {
     toast("Immutable revision created. Review and commit it through GitHub.");
   } catch (error) {
     toast(error.message, true);
+  } finally {
+    setOperationBusy(false);
   }
 });
 

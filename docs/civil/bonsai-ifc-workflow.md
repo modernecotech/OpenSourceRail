@@ -120,6 +120,13 @@ civil job reads the new content-addressed revision and emits a fresh BCF with
 the same deterministic topic/viewpoint identities and updated status,
 assignee, resolution, and reviewer.
 
+The IFC object inspector can also create a new coordination topic against a
+selected stable asset. Custom issues use a deterministic content-derived ID;
+their asset IDs must resolve in the regenerated federation. The exporter then
+creates deterministic BCF topic/viewpoint UUIDs and a selected-component
+viewpoint. Unknown assets fail the civil job instead of producing a dangling
+coordination reference.
+
 ## Engineering release boundary
 
 The generated model is deliberately labelled **design-reference / not for

@@ -22,6 +22,10 @@ The controlling design decision is
 
 ![City Studio BCF coordination decision form backed by Git-reviewable project intent](../screenshots/city-studio/bcf-git-review-workflow.png)
 
+![City Studio creating a deterministic BCF topic from a selected IFC asset](../screenshots/city-studio/ifc-bcf-topic-authoring.png)
+
+![Browser-tested complete City Studio with bulk service controls and multi-asset IFC selection](../screenshots/city-studio/gui-acceptance.png)
+
 ## Run
 
 From the repository root:
@@ -65,6 +69,16 @@ Validate every committed city project:
 
     python3 scripts/validate-city-projects.py
 
+Exercise the actual browser controls, all engineering adapters, artifact hash
+checks, revision comparison, a server restart, and TOML persistence in a
+temporary project:
+
+    node scripts/test-city-studio-gui.mjs
+
+The runner uses headless Chrome through the DevTools protocol and writes its
+JSON report and screenshot to `build/gui-acceptance/`. It does not edit the
+committed Samawah project.
+
 ## Revision workflow
 
 1. Create a branch.
@@ -100,6 +114,8 @@ Implemented:
 - click-to-create and drag-to-edit alignment control points;
 - weekly day-type calendars;
 - per-line contiguous time windows and headways;
+- one-operation headway adjustment across every time window and complete
+  service-plan copying between day types;
 - indicative cycle, fleet, capacity, daily and weekly service metrics;
 - validation findings;
 - deterministic candidate and revision hashes;
@@ -111,14 +127,16 @@ Implemented:
 - an integrated evidence viewer for GeoJSON, alignment JSON, LandXML, railML,
   stakeout CSV, civil IFC object indices/raw STEP, simulator JSON, manifests,
   snapshots, and captured logs;
+- searchable IFC asset inspection and deterministic coordination topics that
+  can select several civil assets in one issue;
 - visibility of existing GIS, engineering, simulation, operations, and release
   artifacts.
 
 Next:
 
-- native 3D IFC geometry streaming, new BCF topic authoring, and IDS editing
-  (projected IFC object picking, IDS inspection, and controlled BCF status,
-  assignment, resolution, and reviewer decisions are implemented);
+- native 3D IFC geometry streaming and IDS editing (projected IFC object
+  picking, IDS inspection, multi-asset BCF topic creation, and controlled
+  BCF status, assignment, resolution, and reviewer decisions are implemented);
 - demand/OD matrices and platform/interchange capacity;
 - project approval records and object-aware Git merge assistance.
 
@@ -187,6 +205,11 @@ also receive format-specific metrics and a bounded structured-source preview.
 
 BCF review decisions are written to
 `projects/<slug>/coordination/issues.toml`, not into the selected job artifact.
+One or more filtered IFC assets in the object inspector can seed a new topic
+with a title, description, assignee, and stable asset selection. City Studio
+derives a content-addressed `custom-…` issue ID; the civil exporter derives stable BCF
+topic and viewpoint UUIDs and rejects selections that do not resolve in the
+new IFC federation.
 Open and in-progress issues may be assigned without closure evidence. Resolved
 or closed issues require a substantive resolution and reviewer. The project
 compiler includes those decisions in its content hash and revision comparison;

@@ -279,6 +279,12 @@ pub struct CoordinationFile {
 #[derive(Clone, Debug, Deserialize, Serialize, PartialEq)]
 pub struct CoordinationIssue {
     pub id: String,
+    #[serde(default)]
+    pub title: String,
+    #[serde(default)]
+    pub description: String,
+    #[serde(default)]
+    pub asset_ids: Vec<String>,
     pub status: CoordinationStatus,
     #[serde(default)]
     pub assignee: String,
@@ -286,6 +292,15 @@ pub struct CoordinationIssue {
     pub resolution: String,
     #[serde(default)]
     pub reviewed_by: String,
+}
+
+#[derive(Clone, Debug, Deserialize)]
+pub struct CoordinationCreate {
+    pub title: String,
+    pub description: String,
+    pub asset_ids: Vec<String>,
+    #[serde(default)]
+    pub assignee: String,
 }
 
 #[derive(Clone, Copy, Debug, Deserialize, Serialize, PartialEq, Eq)]
