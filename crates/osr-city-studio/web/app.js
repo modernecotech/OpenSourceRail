@@ -81,6 +81,9 @@ let jobView = { adapters: [], jobs: [] };
 let jobPollTimer = null;
 let selectedArtifactPreview = null;
 let selectedCoordinationAssetIds = new Set();
+let selectedCivilSequence = null;
+let civilPlaybackTimer = null;
+let civilReviewState = { angle_deg: -35, stage: 0, disciplines: new Set() };
 let operationBusy = false;
 const lineColours = ["#56d39b", "#5eb9e8", "#e88859", "#a98aef", "#e96d95"];
 
@@ -823,7 +826,22 @@ async function openJobArtifact(jobId, index, shouldScroll) {
       || selectedArtifactPreview.job_id !== nextPreview.job_id
       || selectedArtifactPreview.artifact_index !== nextPreview.artifact_index;
     selectedArtifactPreview = nextPreview;
-    if (changed) selectedCoordinationAssetIds.clear();
+    if (changed) {
+      selectedCoordinationAssetIds.clear();
+      stopCivilPlayback();
+      selectedCivilSequence = null;
+      if (nextPreview.format === "json" && nextPreview.content.schema === "org.opensourcerail.bonsai-civil-ifc.v1") {
+        const job = jobView.jobs.find((item) => item.id === jobId);
+        const sequenceIndex = job?.artifacts.findIndex((item) => item.kind === "civil-4d-sequence") ?? -1;
+        if (sequenceIndex >= 0) selectedCivilSequence = await api.jobArtifact(jobId, sequenceIndex);
+        const disciplines = Object.keys(nextPreview.content.summary?.disciplines || {});
+        civilReviewState = {
+          angle_deg: -35,
+          stage: selectedCivilSequence?.content?.tasks?.length || 0,
+          disciplines: new Set(disciplines),
+        };
+      }
+    }
     renderJobs();
     renderArtifactViewer();
     if (shouldScroll) {
@@ -846,6 +864,7 @@ function renderArtifactViewer() {
     $("#artifact-metrics").replaceChildren();
     $("#artifact-objects").replaceChildren();
     $("#artifact-objects").hidden = true;
+    $("#civil-review-controls").hidden = true;
     $("#artifact-provenance").textContent = "";
     $("#artifact-source").hidden = true;
     return;
@@ -860,6 +879,7 @@ function renderArtifactViewer() {
   $("#artifact-metrics").innerHTML = metrics.map(([value, label]) =>
     `<div class="artifact-metric"><strong>${escapeHtml(value)}</strong><span>${escapeHtml(label)}</span></div>`
   ).join("");
+  renderCivilReviewControls(preview);
   renderArtifactObjects(preview);
   $("#artifact-provenance").textContent = `${preview.artifact.path}\n${preview.artifact.size_bytes.toLocaleString()} bytes\nsha256:${preview.artifact.sha256}\njob:${preview.job_id}`;
   const source = typeof preview.content === "string"
@@ -870,6 +890,93 @@ function renderArtifactViewer() {
     ? `${source.slice(0, maximum)}\n\n… browser source preview limited to ${maximum.toLocaleString()} characters`
     : source;
   $("#artifact-source").hidden = false;
+}
+
+function isCivilObjectIndex(preview = selectedArtifactPreview) {
+  return preview?.format === "json"
+    && preview.content?.schema === "org.opensourcerail.bonsai-civil-ifc.v1";
+}
+
+function civilStageAssetIds() {
+  const tasks = selectedCivilSequence?.content?.tasks || [];
+  if (!tasks.length || civilReviewState.stage >= tasks.length) return null;
+  return new Set(tasks
+    .slice(0, civilReviewState.stage)
+    .flatMap((task) => task.assigned_asset_ids || []));
+}
+
+function renderCivilGraphic() {
+  if (!isCivilObjectIndex()) return;
+  const selectedIndex = document.querySelector(".artifact-object-button.selected")?.dataset.objectIndex;
+  const canvas = $("#artifact-canvas");
+  canvas.replaceChildren();
+  const graphic = artifactGraphic(selectedArtifactPreview);
+  $("#artifact-viewer-empty").hidden = graphic.some((group) => group.length > 0);
+  if (graphic.some((group) => group.length > 0)) drawArtifactGraphic(canvas, graphic);
+  if (selectedIndex !== undefined) {
+    canvas.querySelector(`[data-object-index="${CSS.escape(selectedIndex)}"]`)?.classList.add("selected");
+  }
+}
+
+function stopCivilPlayback() {
+  if (civilPlaybackTimer) window.clearInterval(civilPlaybackTimer);
+  civilPlaybackTimer = null;
+}
+
+function renderCivilReviewControls(preview) {
+  const host = $("#civil-review-controls");
+  host.hidden = !isCivilObjectIndex(preview);
+  if (host.hidden) return;
+  const disciplines = Object.keys(preview.content.summary?.disciplines || {});
+  const tasks = selectedCivilSequence?.content?.tasks || [];
+  const stage = Math.min(civilReviewState.stage, tasks.length);
+  const task = stage > 0 ? tasks[stage - 1] : null;
+  const visibleAssets = artifactGraphic(preview).filter((group) => group.length > 0).length;
+  host.innerHTML = `<h3>Interactive civil / 4D review</h3>
+    <label>Rotate federation · ${civilReviewState.angle_deg}°
+      <input id="civil-view-angle" type="range" min="-180" max="180" step="5" value="${civilReviewState.angle_deg}">
+    </label>
+    <div class="civil-discipline-list">${disciplines.map((discipline) => `<label><input type="checkbox" data-civil-discipline="${escapeHtml(discipline)}" ${civilReviewState.disciplines.has(discipline) ? "checked" : ""}>${escapeHtml(discipline)}</label>`).join("")}</div>
+    <label>Construction stage
+      <input id="civil-stage" type="range" min="0" max="${tasks.length}" step="1" value="${stage}" ${tasks.length ? "" : "disabled"}>
+    </label>
+    <div class="civil-stage-actions"><button id="civil-playback" type="button" class="secondary" ${tasks.length ? "" : "disabled"}>${civilPlaybackTimer ? "Pause" : "Play 4D"}</button><span class="civil-stage-label">${stage}/${tasks.length} · ${visibleAssets} assets visible</span></div>
+    <small>${task ? `${escapeHtml(task.id)} · ${escapeHtml(task.title)} · ${escapeHtml(task.qa_hold)}` : "Pre-construction state"}</small>`;
+  host.querySelector("#civil-view-angle").addEventListener("input", (event) => {
+    civilReviewState.angle_deg = Number(event.currentTarget.value);
+    renderCivilGraphic();
+    renderCivilReviewControls(preview);
+  });
+  host.querySelectorAll("[data-civil-discipline]").forEach((checkbox) => {
+    checkbox.addEventListener("change", () => {
+      if (checkbox.checked) civilReviewState.disciplines.add(checkbox.dataset.civilDiscipline);
+      else civilReviewState.disciplines.delete(checkbox.dataset.civilDiscipline);
+      renderCivilGraphic();
+      renderCivilReviewControls(preview);
+    });
+  });
+  host.querySelector("#civil-stage").addEventListener("input", (event) => {
+    stopCivilPlayback();
+    civilReviewState.stage = Number(event.currentTarget.value);
+    renderCivilGraphic();
+    renderCivilReviewControls(preview);
+  });
+  host.querySelector("#civil-playback").addEventListener("click", () => {
+    if (civilPlaybackTimer) {
+      stopCivilPlayback();
+      renderCivilReviewControls(preview);
+      return;
+    }
+    if (civilReviewState.stage >= tasks.length) civilReviewState.stage = 0;
+    civilPlaybackTimer = window.setInterval(() => {
+      civilReviewState.stage += 1;
+      renderCivilGraphic();
+      if (civilReviewState.stage >= tasks.length) stopCivilPlayback();
+      renderCivilReviewControls(preview);
+    }, 650);
+    renderCivilGraphic();
+    renderCivilReviewControls(preview);
+  });
 }
 
 function artifactGraphic(preview) {
@@ -892,8 +999,18 @@ function artifactGraphic(preview) {
     return points.length ? [points] : [];
   }
   if (preview.format === "json" && content.schema === "org.opensourcerail.bonsai-civil-ifc.v1") {
-    const iso = ([x, y, z]) => [Number(x) - Number(y) * .7, Number(x) * .24 + Number(y) * .38 - Number(z) * 2.4];
+    const angle = civilReviewState.angle_deg * Math.PI / 180;
+    const cos = Math.cos(angle);
+    const sin = Math.sin(angle);
+    const stageAssets = civilStageAssetIds();
+    const iso = ([x, y, z]) => {
+      const rotatedX = Number(x) * cos - Number(y) * sin;
+      const rotatedY = Number(x) * sin + Number(y) * cos;
+      return [rotatedX - rotatedY * .7, rotatedX * .24 + rotatedY * .38 - Number(z) * 2.4];
+    };
     return (content.objects || []).map((item) => {
+      if (!civilReviewState.disciplines.has(item.discipline)) return [];
+      if (stageAssets && !stageAssets.has(item.asset_id)) return [];
       const box = item.bbox_m;
       if (!Array.isArray(box) || box.length !== 6) return [];
       const corners = [
@@ -903,7 +1020,7 @@ function artifactGraphic(preview) {
         [box[3], box[4], box[5]], [box[0], box[4], box[5]],
       ].map(iso);
       return [0, 1, 2, 3, 0, 4, 5, 1, 5, 6, 2, 6, 7, 3, 7, 4].map((index) => corners[index]);
-    }).filter((points) => points.length);
+    });
   }
   if (preview.format === "landxml") {
     const xml = new DOMParser().parseFromString(content, "application/xml");
@@ -946,6 +1063,7 @@ function drawArtifactGraphic(svg, groups) {
     if (civilObjects) {
       path.classList.add("inspectable");
       path.dataset.objectIndex = groupIndex;
+      path.dataset.discipline = selectedArtifactPreview.content.objects[groupIndex]?.discipline || "unknown";
       path.addEventListener("click", () => selectArtifactObject(groupIndex));
     }
     path.setAttribute("d", group.map((point, index) => {

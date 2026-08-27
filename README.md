@@ -153,7 +153,7 @@ simulation, alignment exchange, IFC4.3/Bonsai civil federation, verified
 GIS/engineering object inspection, IDS delivery audit, BCF 3.0 issue review,
 searchable multi-asset BCF topic authoring, atomic all-route headway scenarios and day-plan tools,
 Git-reviewable coordination decisions, append-only revision approvals,
-artifact hashing, and revision review.
+hash-verified interactive civil/4D review, artifact hashing, and revision review.
 
 ![City Studio network authoring and demand-aware routing interface](docs/screenshots/city-studio/network-and-service.png)
 
@@ -167,7 +167,7 @@ artifact hashing, and revision review.
 
 ![City Studio creating a deterministic BCF topic from a selected IFC asset](docs/screenshots/city-studio/ifc-bcf-topic-authoring.png)
 
-![Browser-tested City Studio network, bulk service planning, engineering jobs, and multi-asset IFC inspector](docs/screenshots/city-studio/gui-acceptance.png)
+![Browser-tested City Studio network, bulk service planning, interactive civil 4D review, approvals, and multi-asset IFC inspector](docs/screenshots/city-studio/gui-acceptance.png)
 
 Run it locally with `cargo run -p osr-city-studio -- serve`, then open
 <http://127.0.0.1:8090/>. See the

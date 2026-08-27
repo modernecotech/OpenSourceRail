@@ -251,6 +251,10 @@ td.capacity { color: var(--accent); font-variant-numeric: tabular-nums; }
 .artifact-preview-line:nth-child(2n) { stroke: var(--accent); }
 .artifact-preview-line.inspectable { cursor: pointer; stroke-width: 2; opacity: .72; transition: opacity .15s, stroke-width .15s; }
 .artifact-preview-line.inspectable:hover, .artifact-preview-line.selected { opacity: 1; stroke-width: 5; stroke: var(--locked); }
+.artifact-preview-line[data-discipline="track"] { stroke: #56d39b; }
+.artifact-preview-line[data-discipline="substructure"] { stroke: #5eb9e8; }
+.artifact-preview-line[data-discipline="above-track"] { stroke: #e88859; }
+.artifact-preview-line[data-discipline="lineside"] { stroke: #a98aef; }
 .artifact-preview-point { fill: var(--locked); stroke: #07110f; stroke-width: 2; }
 .artifact-inspector { padding: 1rem; display: grid; align-content: start; gap: .85rem; min-width: 0; }
 .artifact-metrics { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .5rem; }
@@ -258,6 +262,14 @@ td.capacity { color: var(--accent); font-variant-numeric: tabular-nums; }
 .artifact-metric strong, .artifact-metric span { display: block; }
 .artifact-metric strong { font-size: 1.05rem; color: var(--text); overflow-wrap: anywhere; }
 .artifact-metric span { color: var(--muted); font-size: .68rem; }
+.civil-review-controls { display: grid; gap: .55rem; padding: .65rem; border: 1px solid var(--line); border-radius: 8px; background: var(--panel-raised); }
+.civil-review-controls[hidden] { display: none; }
+.civil-review-controls h3 { margin: 0; color: var(--text); font-size: .78rem; text-transform: uppercase; letter-spacing: .08em; }
+.civil-review-controls label { display: grid; gap: .2rem; color: var(--muted); font-size: .65rem; }
+.civil-discipline-list { display: flex; flex-wrap: wrap; gap: .35rem .65rem; }
+.civil-discipline-list label { display: flex; align-items: center; gap: .25rem; }
+.civil-stage-actions { display: flex; align-items: center; justify-content: space-between; gap: .5rem; }
+.civil-stage-label { color: var(--accent); font-size: .68rem; }
 .artifact-objects { min-width: 0; }
 .artifact-objects h3 { margin: 0 0 .45rem; color: var(--text); font-size: .78rem; text-transform: uppercase; letter-spacing: .08em; }
 .artifact-object-list { display: grid; gap: .35rem; max-height: 205px; overflow: auto; padding-right: .25rem; }

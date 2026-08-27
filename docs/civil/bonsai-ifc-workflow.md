@@ -113,6 +113,13 @@ City Studio exposes the requirement report and issue index alongside the IFC.
 Bonsai can open the native BCF package for discipline coordination and issue
 closure against the same stable objects.
 
+City Studio also pairs the object index with the hash-verified construction
+sequence. Its interactive review controls rotate the projected federation,
+toggle civil disciplines, and scrub or play the 16-task 4D sequence while
+showing the current QA hold and visible-asset count. These projected envelopes
+support rapid coordination and BCF selection; native tessellated geometry and
+authoritative IFC editing remain in Bonsai.
+
 City Studio stores a review decision in the project's committed
 `coordination/issues.toml`. It never rewrites a prior BCF artifact. Closing or
 resolving a topic requires both resolution evidence and a reviewer; the next

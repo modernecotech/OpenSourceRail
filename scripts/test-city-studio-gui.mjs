@@ -467,6 +467,50 @@ async function main() {
 
   const ifcObjectCount = await cdp.evaluate("selectedArtifactPreview.content.objects.length");
   assert(ifcObjectCount > 20, "IFC object inspector populated", `${ifcObjectCount} objects`);
+  const civilReview = await cdp.evaluate(`({
+    controls: !document.querySelector('#civil-review-controls').hidden,
+    tasks: selectedCivilSequence?.content?.tasks?.length || 0,
+    sequenceVerified: selectedCivilSequence?.sha256_verified || false,
+    paths: document.querySelectorAll('#artifact-canvas [data-object-index]').length,
+    firstPath: document.querySelector('#artifact-canvas [data-object-index]')?.getAttribute('d'),
+  })`);
+  assert(civilReview.controls && civilReview.tasks > 10 && civilReview.sequenceVerified, "verified 4D construction controls loaded", `${civilReview.tasks} tasks`);
+  assert(civilReview.paths === ifcObjectCount, "full civil federation visible at final stage", `${civilReview.paths} assets`);
+  await cdp.evaluate(`(() => {
+    const angle = document.querySelector('#civil-view-angle');
+    angle.value = '45';
+    angle.dispatchEvent(new Event('input', { bubbles: true }));
+    return true;
+  })()`);
+  const rotatedPath = await cdp.evaluate("document.querySelector('#artifact-canvas [data-object-index]')?.getAttribute('d')");
+  assert(rotatedPath && rotatedPath !== civilReview.firstPath, "civil federation rotation changes projected geometry");
+  const disciplineVisibility = await cdp.evaluate(`(() => {
+    const checkbox = document.querySelector('[data-civil-discipline="track"]');
+    checkbox.checked = false;
+    checkbox.dispatchEvent(new Event('change', { bubbles: true }));
+    return document.querySelectorAll('#artifact-canvas [data-object-index]').length;
+  })()`);
+  assert(disciplineVisibility > 0 && disciplineVisibility < ifcObjectCount, "civil discipline visibility filters geometry", `${disciplineVisibility} non-track assets`);
+  await cdp.evaluate(`(() => {
+    const checkbox = document.querySelector('[data-civil-discipline="track"]');
+    checkbox.checked = true;
+    checkbox.dispatchEvent(new Event('change', { bubbles: true }));
+    const stage = document.querySelector('#civil-stage');
+    stage.value = '0';
+    stage.dispatchEvent(new Event('input', { bubbles: true }));
+    document.querySelector('#civil-playback').click();
+    return true;
+  })()`);
+  await cdp.wait("civilReviewState.stage > 0", "4D playback advances construction stage", 10_000);
+  await click("#civil-playback");
+  await cdp.evaluate(`(() => {
+    const stage = document.querySelector('#civil-stage');
+    stage.value = stage.max;
+    stage.dispatchEvent(new Event('input', { bubbles: true }));
+    return true;
+  })()`);
+  await cdp.wait(`document.querySelectorAll('#artifact-canvas [data-object-index]').length === ${ifcObjectCount}`, "4D final stage restoration");
+  record("interactive 4D construction playback and final-stage restoration");
   const filterResult = await cdp.evaluate(`(() => {
     const filter = document.querySelector('#artifact-object-filter');
     filter.value = document.querySelector('.artifact-object-button strong').textContent;

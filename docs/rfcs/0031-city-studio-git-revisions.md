@@ -231,8 +231,11 @@ artifact endpoint canonicalizes the selected record path beneath the City
 Studio build root, limits preview size, accepts only known JSON/XML/CSV/text
 formats, and verifies the recorded SHA-256 before returning content. The GUI
 plots GeoJSON, local alignment points, LandXML geometry, and stakeout data and
-summarizes railML and simulator evidence without making those previews an
-authoritative CAD or safety-assurance tool.
+summarizes railML and simulator evidence. For civil review it joins the
+verified object index and 4D sequence to provide deterministic envelope
+rotation, discipline visibility, construction-stage playback, task/QA context,
+and stable BCF object picking. These previews are not an authoritative CAD or
+safety-assurance tool; native IFC detail remains in Bonsai.
 
 ## 8. GitHub review policy
 
@@ -294,6 +297,8 @@ The Samawah project is the first committed acceptance fixture. It:
   generated BCF without mutating prior job evidence;
 - creates deterministic custom BCF topics from selected IFC assets and rejects
   duplicate content, invalid asset IDs, and dangling selections;
+- loads the hash-verified civil 4D sequence with discipline filters, rotation,
+  task-stage playback, and stable object selection;
 - appends deterministic approval decisions only for existing immutable
   revisions and proves that approval does not alter the design hash;
 - emits separate weekday, Friday, and weekend simulator scenarios plus a

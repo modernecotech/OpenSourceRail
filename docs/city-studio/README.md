@@ -24,7 +24,7 @@ The controlling design decision is
 
 ![City Studio creating a deterministic BCF topic from a selected IFC asset](../screenshots/city-studio/ifc-bcf-topic-authoring.png)
 
-![Browser-tested complete City Studio with bulk service controls and multi-asset IFC selection](../screenshots/city-studio/gui-acceptance.png)
+![Browser-tested complete City Studio with bulk service controls, interactive civil 4D review, approval history, and multi-asset IFC selection](../screenshots/city-studio/gui-acceptance.png)
 
 ## Run
 
@@ -134,6 +134,9 @@ Implemented:
   snapshots, and captured logs;
 - searchable IFC asset inspection and deterministic coordination topics that
   can select several civil assets in one issue;
+- hash-verified 4D sequence loading alongside the IFC object index, with
+  federation rotation, per-discipline visibility, stage scrubbing/playback,
+  and task/QA-hold context;
 - visibility of existing GIS, engineering, simulation, operations, and release
   artifacts.
 
@@ -222,6 +225,14 @@ directly. Individual civil objects expose their stable ID, IFC GUID, class,
 discipline, bounds, detail mode, and source. IDS specifications and BCF topics
 have selectable audit/issue cards; IFC STEP, IDS XML, BCF containers, and JSON
 also receive format-specific metrics and a bounded structured-source preview.
+
+When the civil object index is selected, City Studio also loads the companion
+`civil-4d-sequence` through the same SHA-256-verifying artifact endpoint. The
+reviewer can rotate the projected federation, isolate track, substructure,
+above-track, or lineside disciplines, scrub the construction task sequence, or
+play it automatically. The current task title and QA hold are shown beside the
+visible-asset count. This is an interactive coordination view of deterministic
+object envelopes; Bonsai remains the native IFC geometry/detail environment.
 
 BCF review decisions are written to
 `projects/<slug>/coordination/issues.toml`, not into the selected job artifact.

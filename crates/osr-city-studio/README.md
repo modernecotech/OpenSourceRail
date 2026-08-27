@@ -26,6 +26,9 @@ The integrated evidence viewer
 re-verifies each hash before plotting GeoJSON, alignment JSON, civil IFC object
 envelopes with object picking, IDS specifications, BCF topics, LandXML, railML,
 stakeout CSV, or simulation results.
+The civil viewer joins the verified IFC object index with its verified 4D task
+sequence, supporting view rotation, discipline visibility, construction-stage
+scrubbing/playback, task/QA-hold context, and stable object picking for BCF.
 
 BCF decisions are saved to project intent and included in Git revision hashes;
 immutable job evidence is never edited in place. Resolution and closure require
