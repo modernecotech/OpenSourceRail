@@ -13,7 +13,8 @@ use tokio::sync::Mutex;
 use crate::jobs::JobManager;
 use crate::model::{
     ControlPointCreate, ControlPointEdit, CoordinationCreate, CoordinationEdit, JobRequest,
-    LineCreate, LineEdit, LineServicePlan, ProjectView, StationCreate, StationEdit,
+    LineCreate, LineEdit, LineServicePlan, ProjectView, ServiceHeadwayBulkEdit, StationCreate,
+    StationEdit,
 };
 use crate::CityProject;
 
@@ -86,6 +87,7 @@ pub async fn serve(project_root: impl AsRef<Path>, host: &str, port: u16) -> Res
         .route("/api/lines/:line/stations", post(post_station))
         .route("/api/lines/:line/control-points", post(post_control_point))
         .route("/api/control-points/:id", put(put_control_point))
+        .route("/api/services/bulk", put(put_bulk_service))
         .route("/api/services/:line/:day_type", put(put_service))
         .route("/api/coordination", post(post_coordination_issue))
         .route("/api/coordination/:id", put(put_coordination_issue))
@@ -267,6 +269,22 @@ async fn put_service(
     drop(project);
     drop(_guard);
     get_project(State(state)).await
+}
+
+async fn put_bulk_service(
+    State(state): State<AppState>,
+    Json(edit): Json<ServiceHeadwayBulkEdit>,
+) -> Result<Json<serde_json::Value>, ApiError> {
+    let guard = state.write_lock.lock().await;
+    let mut project = CityProject::load(&state.project_root)?;
+    let updated_line_plans = project.scale_service_headways(edit)?;
+    drop(project);
+    drop(guard);
+    let project = get_project(State(state)).await?.0;
+    Ok(Json(serde_json::json!({
+        "updated_line_plans": updated_line_plans,
+        "project": project,
+    })))
 }
 
 async fn put_coordination_issue(

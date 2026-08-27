@@ -16,8 +16,9 @@ use crate::model::{
     ManualLine, ManualStation, OverrideFile, ProjectFile, ResolvedSource, RevisionComparison,
     RevisionControlDiff, RevisionCoordinationDiff, RevisionLineDiff, RevisionListItem,
     RevisionMaterialized, RevisionServiceDiff, RevisionStationDiff, RevisionSummaryDiff,
-    RoutingSettings, ServiceMetric, ServicePlan, SnapshotSummary, SourceLock, StationChange,
-    StationCreate, StationEdit, StationOverride, StudioArtifact, ValidationFinding,
+    RoutingSettings, ServiceHeadwayBulkEdit, ServiceMetric, ServicePlan, SnapshotSummary,
+    SourceLock, StationChange, StationCreate, StationEdit, StationOverride, StudioArtifact,
+    ValidationFinding,
 };
 
 const SNAPSHOT_SCHEMA_VERSION: u32 = 1;
@@ -997,12 +998,7 @@ impl CityProject {
     }
 
     pub fn update_service_plan(&mut self, replacement: LineServicePlan) -> Result<()> {
-        if !self
-            .base
-            .lines
-            .iter()
-            .any(|line| line.name == replacement.line)
-        {
+        if !self.is_active_line(&replacement.line) {
             bail!("unknown line {:?}", replacement.line);
         }
         if !self
@@ -1031,6 +1027,65 @@ impl CityProject {
         });
         let path = self.root.join(&self.config.inputs.service_plan);
         write_toml_atomic(&path, &self.service_plan)
+    }
+
+    pub fn scale_service_headways(&mut self, edit: ServiceHeadwayBulkEdit) -> Result<usize> {
+        if !(25..=400).contains(&edit.percent) {
+            bail!("headway percentage must be between 25 and 400");
+        }
+        if !self
+            .service_plan
+            .day_types
+            .iter()
+            .any(|day| day.id == edit.day_type)
+        {
+            bail!("unknown day type {:?}", edit.day_type);
+        }
+
+        let targets: BTreeSet<String> = if edit.line_ids.is_empty() {
+            self.service_plan
+                .line_plans
+                .iter()
+                .filter(|plan| plan.day_type == edit.day_type)
+                .map(|plan| plan.line.clone())
+                .collect()
+        } else {
+            edit.line_ids.into_iter().collect()
+        };
+        if targets.is_empty() {
+            bail!("bulk service edit has no target lines");
+        }
+        for line in &targets {
+            if !self.is_active_line(line) {
+                bail!("unknown line {line:?}");
+            }
+        }
+
+        let mut candidate = self.service_plan.clone();
+        let mut updated = BTreeSet::new();
+        for plan in &mut candidate.line_plans {
+            if plan.day_type != edit.day_type || !targets.contains(&plan.line) {
+                continue;
+            }
+            for window in &mut plan.windows {
+                window.headway_min = ((window.headway_min * edit.percent + 50) / 100).clamp(1, 120);
+            }
+            validate_line_plan(plan)?;
+            updated.insert(plan.line.clone());
+        }
+        if updated != targets {
+            let missing = targets.difference(&updated).cloned().collect::<Vec<_>>();
+            bail!(
+                "no {:?} service plan exists for line(s): {}",
+                edit.day_type,
+                missing.join(", ")
+            );
+        }
+
+        self.service_plan = candidate;
+        let path = self.root.join(&self.config.inputs.service_plan);
+        write_toml_atomic(&path, &self.service_plan)?;
+        Ok(updated.len())
     }
 
     pub fn write_build_snapshot(&self, repo_root: &Path) -> Result<PathBuf> {
@@ -3254,7 +3309,8 @@ mod tests {
     };
     use crate::model::{
         CoordinationStatus, IntentState, LineControlPoint, LineCreate, LineRoutingPreference,
-        LineServicePlan, ManualStation, ServiceWindow, StationCreate, StationOverride,
+        LineServicePlan, ManualStation, ServiceHeadwayBulkEdit, ServiceWindow, StationCreate,
+        StationOverride,
     };
 
     #[test]
@@ -3324,6 +3380,64 @@ mod tests {
             ],
         };
         assert!(validate_line_plan(&plan).is_err());
+    }
+
+    #[test]
+    fn bulk_service_headways_update_all_lines_atomically() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../../projects/samawah");
+        let mut project = CityProject::load(&root).expect("load Samawah project");
+        let temporary = tempfile::tempdir().expect("temporary project root");
+        let service_path = temporary.path().join("service-plan.toml");
+        std::fs::copy(root.join("services/service-plan.toml"), &service_path)
+            .expect("copy service plan");
+        project.root = temporary.path().to_path_buf();
+        project.config.inputs.service_plan = "service-plan.toml".to_string();
+
+        let friday_before = project
+            .service_plan
+            .line_plans
+            .iter()
+            .find(|plan| plan.line == "line-1" && plan.day_type == "friday")
+            .expect("Friday plan")
+            .clone();
+        let updated = project
+            .scale_service_headways(ServiceHeadwayBulkEdit {
+                day_type: "weekday".to_string(),
+                line_ids: Vec::new(),
+                percent: 125,
+            })
+            .expect("scale weekday service");
+        assert_eq!(updated, 3);
+        for plan in project
+            .service_plan
+            .line_plans
+            .iter()
+            .filter(|plan| plan.day_type == "weekday")
+        {
+            assert_eq!(plan.windows[0].headway_min, 15);
+        }
+        assert_eq!(
+            project
+                .service_plan
+                .line_plans
+                .iter()
+                .find(|plan| plan.line == "line-1" && plan.day_type == "friday")
+                .expect("unchanged Friday plan"),
+            &friday_before
+        );
+
+        let saved_before_invalid = std::fs::read(&service_path).expect("saved bulk service plan");
+        assert!(project
+            .scale_service_headways(ServiceHeadwayBulkEdit {
+                day_type: "weekday".to_string(),
+                line_ids: vec!["unknown-line".to_string()],
+                percent: 110,
+            })
+            .is_err());
+        assert_eq!(
+            std::fs::read(&service_path).expect("service plan after rejected edit"),
+            saved_before_invalid
+        );
     }
 
     #[test]
@@ -3676,6 +3790,28 @@ mod tests {
                 .filter(|plan| plan.line == id)
                 .count(),
             3
+        );
+        let mut manual_weekday = project
+            .service_plan
+            .line_plans
+            .iter()
+            .find(|plan| plan.line == id && plan.day_type == "weekday")
+            .expect("manual weekday plan")
+            .clone();
+        manual_weekday.windows[0].headway_min = 13;
+        project
+            .update_service_plan(manual_weekday)
+            .expect("edit manual-line service plan");
+        assert_eq!(
+            project
+                .service_plan
+                .line_plans
+                .iter()
+                .find(|plan| plan.line == id && plan.day_type == "weekday")
+                .expect("updated manual weekday plan")
+                .windows[0]
+                .headway_min,
+            13
         );
 
         project.root = root;

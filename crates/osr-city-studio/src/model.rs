@@ -263,6 +263,14 @@ pub struct ServiceWindow {
     pub headway_min: u32,
 }
 
+#[derive(Clone, Debug, Deserialize, Serialize, PartialEq)]
+pub struct ServiceHeadwayBulkEdit {
+    pub day_type: String,
+    #[serde(default)]
+    pub line_ids: Vec<String>,
+    pub percent: u32,
+}
+
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct SourceLock {
     pub schema_version: u32,

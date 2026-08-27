@@ -114,7 +114,8 @@ Implemented:
 - click-to-create and drag-to-edit alignment control points;
 - weekly day-type calendars;
 - per-line contiguous time windows and headways;
-- one-operation headway adjustment across every time window and complete
+- one-operation headway adjustment across every time window for the current
+  line or every active route, using one validated atomic write, plus complete
   service-plan copying between day types;
 - indicative cycle, fleet, capacity, daily and weekly service metrics;
 - validation findings;

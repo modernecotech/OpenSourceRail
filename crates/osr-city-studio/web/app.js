@@ -39,6 +39,9 @@ const api = {
     `/api/services/${encodeURIComponent(line)}/${encodeURIComponent(day)}`,
     { method: "PUT", body: JSON.stringify(body) },
   ),
+  bulkService: (body) => api.request("/api/services/bulk", {
+    method: "PUT", body: JSON.stringify(body),
+  }),
   coordination: (id, body) => api.request(`/api/coordination/${encodeURIComponent(id)}`, {
     method: "PUT", body: JSON.stringify(body),
   }),
@@ -689,8 +692,25 @@ function servicePlanFromEditor(dayType = $("#service-day").value) {
   };
 }
 
-$("#apply-headway").addEventListener("click", () => {
+$("#apply-headway").addEventListener("click", async () => {
   const factor = Number($("#headway-factor").value);
+  if ($("#headway-scope").value === "all") {
+    try {
+      const result = await api.bulkService({
+        day_type: $("#service-day").value,
+        line_ids: [],
+        percent: Math.round(factor * 100),
+      });
+      view = result.project;
+      revisions = await api.revisions();
+      comparison = null;
+      render();
+      toast(`${result.updated_line_plans} route plans adjusted atomically for ${$("#service-day").value}.`);
+    } catch (error) {
+      toast(error.message, true);
+    }
+    return;
+  }
   document.querySelectorAll("#service-windows .window-headway").forEach((input) => {
     input.value = Math.max(1, Math.min(120, Math.round(Number(input.value) * factor)));
     input.dispatchEvent(new Event("input", { bubbles: true }));

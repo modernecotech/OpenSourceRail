@@ -14,8 +14,9 @@ Run the Samawah vertical slice from the repository root:
 The interface can create/move/retire manual stations, create complete manual
 lines from two endpoints using locked demand/buildability surfaces or an
 explicit direct chord, edit local alignment controls, plan service by
-line/day/time, adjust every time-window headway in bulk, copy a complete plan
-between day types, regenerate GIS and simulator inputs, and compare the working
+line/day/time, adjust every time-window headway for one line or every route in
+an atomic day-type transaction, copy a complete plan between day types,
+regenerate GIS and simulator inputs, and compare the working
 candidate with immutable Git revision records. Its engineering hub runs only
 allowlisted GIS, simulator, and alignment-exchange adapters and persists their
 progress, logs, exit state, and immutable artifact copies. The civil BIM

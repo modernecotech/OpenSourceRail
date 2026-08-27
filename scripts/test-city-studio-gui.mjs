@@ -379,6 +379,23 @@ async function main() {
   }
   record("demand-aware line created with locked routing sources", demandLine);
 
+  await cdp.evaluate(`(() => {
+    const line = document.querySelector('#service-line');
+    line.value = ${JSON.stringify(directLine)};
+    line.dispatchEvent(new Event('change', { bubbles: true }));
+    const day = document.querySelector('#service-day');
+    day.value = 'weekday';
+    day.dispatchEvent(new Event('change', { bubbles: true }));
+    const headway = document.querySelector('.window-headway');
+    headway.value = 15;
+    document.querySelector('#toast').textContent = '';
+    document.querySelector('#service-form').requestSubmit();
+    return true;
+  })()`);
+  await cdp.wait(`view.service_plan.line_plans.find(item => item.line === ${JSON.stringify(directLine)} && item.day_type === 'weekday').windows[0].headway_min === 15`, "manual route service plan edit");
+  await cdp.wait("document.querySelector('#toast').textContent.includes('Service plan saved')", "manual route service editor refresh");
+  record("new manual route service plan edited and persisted", `${directLine}: 15 min`);
+
   let serviceState = await cdp.evaluate(`(() => {
     document.querySelector('#toast').textContent = '';
     const select = document.querySelector('#service-line');
@@ -409,6 +426,29 @@ async function main() {
   await click("#copy-service-plan");
   await cdp.wait(`view.service_plan.line_plans.find(item => item.line === ${JSON.stringify(serviceState.line)} && item.day_type === 'weekend').windows[0].headway_min === ${serviceState.headway}`, "service plan copy to weekend");
   record("complete line service plan copied across day types", `${serviceState.line}: weekday → weekend`);
+
+  const networkScenario = await cdp.evaluate(`(() => {
+    const before = Object.fromEntries(view.service_plan.line_plans
+      .filter(item => item.day_type === 'weekday')
+      .map(item => [item.line, item.windows[0].headway_min]));
+    document.querySelector('#toast').textContent = '';
+    document.querySelector('#headway-factor').value = '0.9';
+    document.querySelector('#headway-scope').value = 'all';
+    document.querySelector('#apply-headway').click();
+    return {
+      before,
+      expected: Object.fromEntries(Object.entries(before).map(([line, headway]) => [line, Math.max(1, Math.min(120, Math.round(headway * .9)))])),
+    };
+  })()`);
+  await cdp.wait(`(() => {
+    const expected = ${JSON.stringify(networkScenario.expected)};
+    return view.service_plan.line_plans
+      .filter(item => item.day_type === 'weekday')
+      .every(item => item.windows[0].headway_min === expected[item.line]);
+  })()`, "atomic all-route weekday adjustment");
+  await cdp.wait("document.querySelector('#toast').textContent.includes('route plans adjusted atomically')", "all-route editor refresh");
+  serviceState = { ...serviceState, headway: networkScenario.expected[serviceState.line] };
+  record("all routes adjusted atomically for one day type", `${Object.keys(networkScenario.expected).length} routes`);
 
   await click("#compile");
   await cdp.wait("document.querySelector('#operation-result').textContent.includes('Candidate compiled')", "candidate compilation", 90_000);
@@ -497,6 +537,9 @@ async function main() {
     direct: view.snapshot.lines.find(item => item.id === ${JSON.stringify(directLine)})?.name,
     demand: view.snapshot.lines.find(item => item.id === ${JSON.stringify(demandLine)})?.routing_method,
     headway: view.service_plan.line_plans.find(item => item.line === ${JSON.stringify(serviceState.line)} && item.day_type === 'weekday')?.windows[0]?.headway_min,
+    networkHeadways: Object.fromEntries(view.service_plan.line_plans
+      .filter(item => item.day_type === 'weekday')
+      .map(item => [item.line, item.windows[0].headway_min])),
     issue: view.snapshot.coordination.issues.find(item => item.id === ${JSON.stringify(issueId)})?.status,
     jobs: jobView.jobs.filter(item => item.status === 'succeeded').length,
   })`);
@@ -505,6 +548,7 @@ async function main() {
   assert(persisted.control === 2400, "alignment control survived restart");
   assert(persisted.direct === "GUI Direct Line" && persisted.demand === "demand-aware", "both line routing modes survived restart");
   assert(persisted.headway === serviceState.headway, "service-by-day variables survived restart");
+  assert(JSON.stringify(persisted.networkHeadways) === JSON.stringify(networkScenario.expected), "atomic all-route scenario survived restart");
   assert(persisted.issue === "in-progress", "coordination decision survived restart");
   assert(persisted.jobs >= 5, "engineering job history survived restart", `${persisted.jobs} succeeded jobs`);
 
