@@ -305,6 +305,18 @@ td.capacity { color: var(--accent); font-variant-numeric: tabular-nums; }
 .revision-item strong, .revision-item small { display: block; }
 .revision-item small { color: var(--muted); }
 .empty-diff { color: var(--accent); }
+.approval-workspace { display: grid; grid-template-columns: minmax(320px, .8fr) minmax(420px, 1.2fr); gap: 1rem; padding: 0 1rem 1rem; border-top: 1px solid var(--line); }
+.approval-form { display: grid; gap: .55rem; padding-top: 1rem; }
+.approval-form h3, .approval-history h3 { margin: 0; font-size: .85rem; }
+.approval-form label { display: grid; gap: .25rem; color: var(--muted); font-size: .7rem; }
+.approval-form textarea { min-height: 82px; resize: vertical; }
+.approval-form small { color: var(--muted); }
+.approval-history { display: grid; align-content: start; gap: .5rem; padding-top: 1rem; }
+.approval-card { padding: .7rem; border: 1px solid var(--line); border-left: 3px solid var(--warning); border-radius: 8px; background: var(--panel-raised); }
+.approval-card.approved { border-left-color: var(--accent); }
+.approval-card strong, .approval-card small { display: block; }
+.approval-card small { color: var(--muted); overflow-wrap: anywhere; }
+.approval-card p { margin: .45rem 0 0; color: var(--text); font-size: .75rem; }
 
 #toast {
   position: fixed;
@@ -331,4 +343,5 @@ td.capacity { color: var(--accent); font-variant-numeric: tabular-nums; }
   .artifact-viewer-grid { grid-template-columns: 1fr; }
   .artifact-canvas-wrap { border-right: 0; border-bottom: 1px solid var(--line); }
   .service-bulk-tools { grid-template-columns: 1fr auto; }
+  .approval-workspace { grid-template-columns: 1fr; }
 }

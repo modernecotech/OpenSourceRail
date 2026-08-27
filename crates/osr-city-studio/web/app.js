@@ -48,6 +48,9 @@ const api = {
   createCoordination: (body) => api.request("/api/coordination", {
     method: "POST", body: JSON.stringify(body),
   }),
+  createApproval: (body) => api.request("/api/approvals", {
+    method: "POST", body: JSON.stringify(body),
+  }),
   compile: () => api.request("/api/compile", { method: "POST" }),
   revision: () => api.request("/api/revisions", { method: "POST" }),
   revisions: () => api.request("/api/revisions"),
@@ -115,6 +118,7 @@ function render() {
   renderArtifactViewer();
   renderRevisionSelector();
   renderRevisionComparison();
+  renderApprovals();
 }
 
 function renderGit() {
@@ -1313,6 +1317,50 @@ function renderRevisionComparison() {
       <div class="revision-group"><h3>Coordination</h3>${coordinationItems}</div>
     </div>`;
 }
+
+function renderApprovals() {
+  const selector = $("#approval-revision");
+  const previous = selector.value;
+  const available = revisions?.revisions || [];
+  selector.innerHTML = available.map((revision) =>
+    `<option value="${escapeHtml(revision.revision_id)}">${escapeHtml(revision.revision_id)}${revision.is_current ? " · current" : ""}</option>`
+  ).join("");
+  if (available.some((revision) => revision.revision_id === previous)) selector.value = previous;
+  selector.disabled = available.length === 0;
+  $("#approval-form").querySelector('button[type="submit"]').disabled = available.length === 0;
+  if (!$("#approval-date").value) $("#approval-date").value = new Date().toISOString().slice(0, 10);
+
+  const decisions = [...(view.approvals?.decisions || [])].reverse();
+  $("#approval-history").innerHTML = `<h3>Git-reviewable decision history</h3>${decisions.length
+    ? decisions.map((decision) => `<article class="approval-card ${escapeHtml(decision.status)}">
+        <strong>${escapeHtml(decision.status)} · ${escapeHtml(decision.revision_id)}</strong>
+        <small>${escapeHtml(decision.reviewer)} · ${escapeHtml(decision.role)} · ${escapeHtml(decision.decided_on)}</small>
+        <small>${escapeHtml(decision.review_reference)} · ${escapeHtml(decision.id)}</small>
+        <p>${escapeHtml(decision.comment)}</p>
+      </article>`).join("")
+    : '<p class="empty-diff">No approval decisions recorded. Materialize and review a revision first.</p>'}`;
+}
+
+$("#approval-form").addEventListener("submit", async (event) => {
+  event.preventDefault();
+  try {
+    const result = await api.createApproval({
+      revision_id: $("#approval-revision").value,
+      status: $("#approval-status").value,
+      reviewer: $("#approval-reviewer").value.trim(),
+      role: $("#approval-role").value.trim(),
+      decided_on: $("#approval-date").value,
+      review_reference: $("#approval-reference").value.trim(),
+      comment: $("#approval-comment").value.trim(),
+    });
+    view = result.project;
+    renderGit();
+    renderApprovals();
+    toast(`${result.id} appended without changing the immutable design hash.`);
+  } catch (error) {
+    toast(error.message, true);
+  }
+});
 
 $("#compare-revision").addEventListener("click", async () => {
   const revisionId = $("#revision-base").value;

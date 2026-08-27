@@ -32,6 +32,10 @@ immutable job evidence is never edited in place. Resolution and closure require
 recorded evidence and a reviewer before a regenerated BCF can carry that state.
 New topics can be authored from one or more searched/selected IFC assets; content-derived issue,
 topic, and viewpoint IDs keep repeated builds and Git review deterministic.
+Materialized revisions can also receive append-only approval or
+changes-requested records with a reviewer, role, date, rationale, and review/PR
+reference. These records live in project TOML but remain outside the design
+hash, so approving an immutable revision cannot create a circular new revision.
 
 Run the complete isolated GUI and restart-persistence acceptance suite with:
 

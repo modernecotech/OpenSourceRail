@@ -521,6 +521,19 @@ async function main() {
   await cdp.wait("document.querySelector('#toast').textContent.includes('Immutable revision created')", "revision reload completion", 90_000);
   const revisionId = await cdp.evaluate("revisions.revisions.find(item => item.is_current)?.revision_id || revisions.revisions[0].revision_id");
   record("immutable revision materialized", revisionId);
+  await form("#approval-form", {
+    "approval-revision": revisionId,
+    "approval-status": "approved",
+    "approval-date": "2026-08-27",
+    "approval-reviewer": "GUI Acceptance Reviewer",
+    "approval-role": "Independent design authority",
+    "approval-reference": "https://github.com/OpenSourceRail/OpenSourceRail/pull/99999",
+    "approval-comment": "Reviewed the immutable revision, engineering artifacts, IDS report, and coordination evidence.",
+  });
+  await cdp.wait(`view.approvals.decisions.some(item => item.revision_id === ${JSON.stringify(revisionId)} && item.status === 'approved')`, "append-only revision approval");
+  const approvalId = await cdp.evaluate(`view.approvals.decisions.find(item => item.revision_id === ${JSON.stringify(revisionId)}).id`);
+  const candidateAfterApproval = await cdp.evaluate("(async () => (await api.revisions()).candidate_revision_id)()");
+  assert(candidateAfterApproval === revisionId, "approval leaves immutable design hash unchanged", approvalId);
   await click("#compare-revision");
   await cdp.wait("comparison?.base_revision_id?.startsWith('osr-')", "semantic revision comparison");
   record("semantic revision comparison rendered");
@@ -541,6 +554,7 @@ async function main() {
       .filter(item => item.day_type === 'weekday')
       .map(item => [item.line, item.windows[0].headway_min])),
     issue: view.snapshot.coordination.issues.find(item => item.id === ${JSON.stringify(issueId)})?.status,
+    approval: view.approvals.decisions.find(item => item.id === ${JSON.stringify(approvalId)})?.status,
     jobs: jobView.jobs.filter(item => item.status === 'succeeded').length,
   })`);
   assert(persisted.moved === "preferred", "moved station survived restart");
@@ -550,6 +564,7 @@ async function main() {
   assert(persisted.headway === serviceState.headway, "service-by-day variables survived restart");
   assert(JSON.stringify(persisted.networkHeadways) === JSON.stringify(networkScenario.expected), "atomic all-route scenario survived restart");
   assert(persisted.issue === "in-progress", "coordination decision survived restart");
+  assert(persisted.approval === "approved", "append-only approval survived restart");
   assert(persisted.jobs >= 5, "engineering job history survived restart", `${persisted.jobs} succeeded jobs`);
 
   await cdp.evaluate("window.confirm = () => true");
@@ -570,9 +585,11 @@ async function main() {
 
   const overrides = await readFile(path.join(fixture, "network", "overrides.toml"), "utf8");
   const coordination = await readFile(path.join(fixture, "coordination", "issues.toml"), "utf8");
+  const approvals = await readFile(path.join(fixture, "approvals", "reviews.toml"), "utf8");
   const services = await readFile(path.join(fixture, "services", "service-plan.toml"), "utf8");
   assert(overrides.includes(manualStation) && overrides.includes('state = "retired"'), "retirement is explicit in TOML intent");
   assert(coordination.includes(issueId) && coordination.includes('status = "in-progress"'), "coordination TOML contains saved decision");
+  assert(approvals.includes(approvalId) && approvals.includes(`revision_id = "${revisionId}"`), "approval TOML references immutable revision");
   assert(services.includes(`headway_min = ${serviceState.headway}`), "service TOML contains edited headway");
 
   const report = {
@@ -583,7 +600,7 @@ async function main() {
     browser: "Google Chrome headless via DevTools Protocol",
     isolated_project: path.relative(root, fixture),
     checks,
-    persistence: { movedStation, manualStation, controlId, directLine, demandLine, issueId, revisionId },
+    persistence: { movedStation, manualStation, controlId, directLine, demandLine, issueId, revisionId, approvalId },
     artifacts: { screenshot: path.relative(root, screenshotPath) },
   };
   await writeFile(reportPath, `${JSON.stringify(report, null, 2)}\n`);

@@ -128,6 +128,9 @@ than silently creating parallel issues.
     projects/<slug>/revisions/osr-<hash>.json
         │ branch + commit + pull request
         ▼
+    projects/<slug>/approvals/reviews.toml
+        │ append reviewer decision + review reference
+        ▼
     reviewed merge
         │ protected/signed tag
         ▼
@@ -156,6 +159,15 @@ created.
 The Studio suggests a branch and tag; users or CI perform remote GitHub
 operations. This avoids embedding personal tokens or silently rewriting
 repository history.
+
+Approval decisions are append-only records referring to an existing immutable
+revision. Each records approved or changes-requested status, reviewer and role,
+decision date, rationale, and a pull-request or evidence reference. A stable
+content-derived `approval-…` id makes identical submissions idempotent.
+Approval metadata is intentionally excluded from the design content hash:
+otherwise approving a revision would create a different revision requiring a
+new approval. The TOML approval history remains Git-reviewed alongside the
+revision and can survive migration away from GitHub.
 
 ## 6. Determinism contract
 
@@ -282,6 +294,8 @@ The Samawah project is the first committed acceptance fixture. It:
   generated BCF without mutating prior job evidence;
 - creates deterministic custom BCF topics from selected IFC assets and rejects
   duplicate content, invalid asset IDs, and dangling selections;
+- appends deterministic approval decisions only for existing immutable
+  revisions and proves that approval does not alter the design hash;
 - emits separate weekday, Friday, and weekend simulator scenarios plus a
   SHA-256 artifact manifest;
 - runs allowlisted GIS, simulator, and LandXML/railML alignment jobs with
@@ -291,5 +305,5 @@ The Samawah project is the first committed acceptance fixture. It:
 - compiles without validation errors;
 - produces an identical content hash across repeated compilations.
 
-The next acceptance increment is IFC object inspection, demand and
-interchange-capacity inputs, and project approval records.
+The next acceptance increment is native IFC geometry streaming plus demand/OD
+and interchange-capacity inputs.

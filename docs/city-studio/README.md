@@ -88,7 +88,8 @@ committed Samawah project.
 5. Review the Git diff, including semantic changes in the revision JSON.
 6. Commit the project inputs and revision together.
 7. Push and open a GitHub pull request.
-8. After approval and merge, create the suggested protected or signed tag.
+8. Append the reviewer decision with its PR/evidence reference.
+9. After approval and merge, create the suggested protected or signed tag.
 
 Materializing a revision does not run git add, commit, push, or contact GitHub.
 Remote repository changes always remain an explicit user action.
@@ -121,6 +122,9 @@ Implemented:
 - validation findings;
 - deterministic candidate and revision hashes;
 - in-GUI semantic comparison of station, line, service, and summary changes;
+- append-only approval/changes-requested decisions tied to existing immutable
+  revisions, including reviewer role, decision date, rationale, and review or
+  pull-request reference;
 - day-type-specific simulator scenarios and a hash-addressed artifact manifest;
 - allowlisted GIS compilation, one-hour simulator, and LandXML/railML alignment
   jobs plus IFC4.3 civil federation with persistent progress, command display,
@@ -139,7 +143,22 @@ Next:
   picking, IDS inspection, multi-asset BCF topic creation, and controlled
   BCF status, assignment, resolution, and reviewer decisions are implemented);
 - demand/OD matrices and platform/interchange capacity;
-- project approval records and object-aware Git merge assistance.
+- object-aware Git merge assistance.
+
+## Approval records
+
+The Git review panel can append an **Approved** or **Changes requested** record
+for an existing `osr-…` revision. Records are stored in
+`projects/<slug>/approvals/reviews.toml` and receive deterministic
+`approval-…` IDs. Submitting identical content is idempotent. Decisions cannot
+refer to a missing revision and are not edited or deleted through City Studio;
+a later decision is appended as additional history.
+
+Approval metadata is deliberately excluded from the design content hash. The
+record refers to an already immutable revision, so adding the decision does
+not manufacture a different design merely because that design was reviewed.
+The approval file, review/PR reference, and revision remain ordinary GitHub
+review material.
 
 ## Map authoring
 

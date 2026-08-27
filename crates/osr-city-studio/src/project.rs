@@ -9,16 +9,16 @@ use serde::Serialize;
 use sha2::{Digest, Sha256};
 
 use crate::model::{
-    BaseDesign, BuildArtifact, BuildManifest, CompiledControlPoint, CompiledLine, CompiledSnapshot,
-    CompiledStation, ControlPointCreate, ControlPointEdit, CoordinationCreate, CoordinationEdit,
-    CoordinationFile, CoordinationIssue, CoordinationStatus, FindingSeverity, GeoPoint, GitState,
-    IntentState, LineControlPoint, LineCreate, LineEdit, LineRoutingPreference, LineServicePlan,
-    ManualLine, ManualStation, OverrideFile, ProjectFile, ResolvedSource, RevisionComparison,
-    RevisionControlDiff, RevisionCoordinationDiff, RevisionLineDiff, RevisionListItem,
-    RevisionMaterialized, RevisionServiceDiff, RevisionStationDiff, RevisionSummaryDiff,
-    RoutingSettings, ServiceHeadwayBulkEdit, ServiceMetric, ServicePlan, SnapshotSummary,
-    SourceLock, StationChange, StationCreate, StationEdit, StationOverride, StudioArtifact,
-    ValidationFinding,
+    ApprovalCreate, ApprovalDecision, ApprovalFile, BaseDesign, BuildArtifact, BuildManifest,
+    CompiledControlPoint, CompiledLine, CompiledSnapshot, CompiledStation, ControlPointCreate,
+    ControlPointEdit, CoordinationCreate, CoordinationEdit, CoordinationFile, CoordinationIssue,
+    CoordinationStatus, FindingSeverity, GeoPoint, GitState, IntentState, LineControlPoint,
+    LineCreate, LineEdit, LineRoutingPreference, LineServicePlan, ManualLine, ManualStation,
+    OverrideFile, ProjectFile, ResolvedSource, RevisionComparison, RevisionControlDiff,
+    RevisionCoordinationDiff, RevisionLineDiff, RevisionListItem, RevisionMaterialized,
+    RevisionServiceDiff, RevisionStationDiff, RevisionSummaryDiff, RoutingSettings,
+    ServiceHeadwayBulkEdit, ServiceMetric, ServicePlan, SnapshotSummary, SourceLock, StationChange,
+    StationCreate, StationEdit, StationOverride, StudioArtifact, ValidationFinding,
 };
 
 const SNAPSHOT_SCHEMA_VERSION: u32 = 1;
@@ -38,6 +38,7 @@ pub struct CityProject {
     source_lock: SourceLock,
     corridor: serde_json::Value,
     coordination: CoordinationFile,
+    approvals: ApprovalFile,
 }
 
 #[derive(Serialize)]
@@ -107,6 +108,14 @@ impl CityProject {
                 issues: Vec::new(),
             }
         };
+        let approvals = if let Some(path) = &config.inputs.approvals {
+            read_toml(&root.join(path))?
+        } else {
+            ApprovalFile {
+                schema_version: 1,
+                decisions: Vec::new(),
+            }
+        };
         Ok(Self {
             root,
             config,
@@ -116,6 +125,7 @@ impl CityProject {
             source_lock,
             corridor,
             coordination,
+            approvals,
         })
     }
 
@@ -133,6 +143,65 @@ impl CityProject {
 
     pub fn coordination(&self) -> &CoordinationFile {
         &self.coordination
+    }
+
+    pub fn approvals(&self) -> &ApprovalFile {
+        &self.approvals
+    }
+
+    pub fn create_approval(&mut self, create: ApprovalCreate) -> Result<String> {
+        validate_revision_id(&create.revision_id)?;
+        let revision_path = self
+            .root
+            .join("revisions")
+            .join(format!("{}.json", create.revision_id));
+        let revision: CompiledSnapshot = read_json(&revision_path)
+            .with_context(|| format!("loading approval revision {}", create.revision_id))?;
+        if revision.revision_id != create.revision_id {
+            bail!("approval revision file does not match its revision id");
+        }
+        let reviewer = validate_approval_text("reviewer", &create.reviewer, 2, 120)?;
+        let role = validate_approval_text("reviewer role", &create.role, 2, 120)?;
+        let review_reference =
+            validate_approval_text("review reference", &create.review_reference, 3, 500)?;
+        let comment = validate_approval_text("approval comment", &create.comment, 12, 2_000)?;
+        validate_decision_date(&create.decided_on)?;
+        let normalized = ApprovalCreate {
+            revision_id: create.revision_id,
+            status: create.status,
+            reviewer,
+            role,
+            decided_on: create.decided_on,
+            review_reference,
+            comment,
+        };
+        let digest = Sha256::digest(serde_json::to_vec(&normalized)?);
+        let id = format!("approval-{}", &hex::encode(digest)[..16]);
+        if self.approvals.decisions.iter().any(|item| item.id == id) {
+            return Ok(id);
+        }
+        self.approvals.decisions.push(ApprovalDecision {
+            id: id.clone(),
+            revision_id: normalized.revision_id,
+            status: normalized.status,
+            reviewer: normalized.reviewer,
+            role: normalized.role,
+            decided_on: normalized.decided_on,
+            review_reference: normalized.review_reference,
+            comment: normalized.comment,
+        });
+        self.approvals.decisions.sort_by(|left, right| {
+            left.revision_id
+                .cmp(&right.revision_id)
+                .then_with(|| left.decided_on.cmp(&right.decided_on))
+                .then_with(|| left.id.cmp(&right.id))
+        });
+        let path =
+            self.config.inputs.approvals.as_ref().ok_or_else(|| {
+                anyhow!("approval persistence is not configured for this project")
+            })?;
+        write_toml_atomic(&self.root.join(path), &self.approvals)?;
+        Ok(id)
     }
 
     fn is_active_line(&self, id: &str) -> bool {
@@ -2859,6 +2928,41 @@ fn validate_revision_id(revision_id: &str) -> Result<()> {
     Ok(())
 }
 
+fn validate_approval_text(
+    name: &str,
+    value: &str,
+    minimum: usize,
+    maximum: usize,
+) -> Result<String> {
+    let trimmed = value.trim();
+    let length = trimmed.chars().count();
+    if !(minimum..=maximum).contains(&length) {
+        bail!("{name} must contain between {minimum} and {maximum} characters");
+    }
+    Ok(trimmed.to_string())
+}
+
+fn validate_decision_date(value: &str) -> Result<()> {
+    let bytes = value.as_bytes();
+    if bytes.len() != 10
+        || bytes[4] != b'-'
+        || bytes[7] != b'-'
+        || bytes
+            .iter()
+            .enumerate()
+            .any(|(index, byte)| index != 4 && index != 7 && !byte.is_ascii_digit())
+    {
+        bail!("decision date must use YYYY-MM-DD");
+    }
+    let year: u32 = value[0..4].parse()?;
+    let month: u32 = value[5..7].parse()?;
+    let day: u32 = value[8..10].parse()?;
+    if year < 2000 || !(1..=12).contains(&month) || !(1..=31).contains(&day) {
+        bail!("decision date is outside the supported calendar range");
+    }
+    Ok(())
+}
+
 fn validate_coordination_decision(
     status: CoordinationStatus,
     resolution: &str,
@@ -3308,9 +3412,9 @@ mod tests {
         CityProject,
     };
     use crate::model::{
-        CoordinationStatus, IntentState, LineControlPoint, LineCreate, LineRoutingPreference,
-        LineServicePlan, ManualStation, ServiceHeadwayBulkEdit, ServiceWindow, StationCreate,
-        StationOverride,
+        ApprovalCreate, ApprovalStatus, CoordinationStatus, IntentState, LineControlPoint,
+        LineCreate, LineRoutingPreference, LineServicePlan, ManualStation, ServiceHeadwayBulkEdit,
+        ServiceWindow, StationCreate, StationOverride,
     };
 
     #[test]
@@ -3349,6 +3453,62 @@ mod tests {
             &["not-an-asset".to_string()],
         )
         .is_err());
+    }
+
+    #[test]
+    fn approval_records_are_deterministic_append_only_revision_decisions() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../../projects/samawah");
+        let mut project = CityProject::load(&root).expect("load Samawah project");
+        let revision_source = std::fs::read_dir(root.join("revisions"))
+            .expect("revision directory")
+            .map(|entry| entry.expect("revision entry").path())
+            .find(|path| path.extension().and_then(|value| value.to_str()) == Some("json"))
+            .expect("materialized revision");
+        let revision_id = revision_source
+            .file_stem()
+            .expect("revision stem")
+            .to_string_lossy()
+            .to_string();
+        let temporary = tempfile::tempdir().expect("temporary approval project");
+        std::fs::create_dir_all(temporary.path().join("revisions"))
+            .expect("temporary revision directory");
+        std::fs::copy(
+            &revision_source,
+            temporary
+                .path()
+                .join("revisions")
+                .join(format!("{revision_id}.json")),
+        )
+        .expect("copy materialized revision");
+        std::fs::write(
+            temporary.path().join("reviews.toml"),
+            "schema_version = 1\ndecisions = []\n",
+        )
+        .expect("seed approvals");
+        project.root = temporary.path().to_path_buf();
+        project.config.inputs.approvals = Some("reviews.toml".to_string());
+        project.approvals.decisions.clear();
+        let create = ApprovalCreate {
+            revision_id,
+            status: ApprovalStatus::Approved,
+            reviewer: "A. Reviewer".to_string(),
+            role: "Independent design authority".to_string(),
+            decided_on: "2026-08-27".to_string(),
+            review_reference: "https://github.example/review/42".to_string(),
+            comment: "Reviewed the immutable revision and its engineering evidence.".to_string(),
+        };
+        let first = project
+            .create_approval(create.clone())
+            .expect("create approval");
+        let second = project
+            .create_approval(create)
+            .expect("repeat identical approval");
+        assert_eq!(first, second);
+        assert!(first.starts_with("approval-"));
+        assert_eq!(project.approvals.decisions.len(), 1);
+        let saved: crate::model::ApprovalFile =
+            super::read_toml(&temporary.path().join("reviews.toml")).expect("saved approval file");
+        assert_eq!(saved.decisions, project.approvals.decisions);
     }
 
     #[test]

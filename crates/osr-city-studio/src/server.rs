@@ -12,9 +12,9 @@ use tokio::sync::Mutex;
 
 use crate::jobs::JobManager;
 use crate::model::{
-    ControlPointCreate, ControlPointEdit, CoordinationCreate, CoordinationEdit, JobRequest,
-    LineCreate, LineEdit, LineServicePlan, ProjectView, ServiceHeadwayBulkEdit, StationCreate,
-    StationEdit,
+    ApprovalCreate, ControlPointCreate, ControlPointEdit, CoordinationCreate, CoordinationEdit,
+    JobRequest, LineCreate, LineEdit, LineServicePlan, ProjectView, ServiceHeadwayBulkEdit,
+    StationCreate, StationEdit,
 };
 use crate::CityProject;
 
@@ -91,6 +91,7 @@ pub async fn serve(project_root: impl AsRef<Path>, host: &str, port: u16) -> Res
         .route("/api/services/:line/:day_type", put(put_service))
         .route("/api/coordination", post(post_coordination_issue))
         .route("/api/coordination/:id", put(put_coordination_issue))
+        .route("/api/approvals", post(post_approval))
         .route("/api/compile", post(compile_project))
         .route("/api/jobs", get(get_jobs))
         .route("/api/jobs/:id", get(get_job).post(start_job))
@@ -146,6 +147,7 @@ async fn get_project(State(state): State<AppState>) -> Result<Json<ProjectView>,
         git: project.git_state(),
         project_path: project.root().display().to_string(),
         artifacts: project.artifacts(),
+        approvals: project.approvals().clone(),
     }))
 }
 
@@ -307,6 +309,19 @@ async fn post_coordination_issue(
     let guard = state.write_lock.lock().await;
     let mut project = CityProject::load(&state.project_root)?;
     let id = project.create_coordination_issue(create)?;
+    drop(project);
+    drop(guard);
+    let project = get_project(State(state)).await?.0;
+    Ok(Json(serde_json::json!({ "id": id, "project": project })))
+}
+
+async fn post_approval(
+    State(state): State<AppState>,
+    Json(create): Json<ApprovalCreate>,
+) -> Result<Json<serde_json::Value>, ApiError> {
+    let guard = state.write_lock.lock().await;
+    let mut project = CityProject::load(&state.project_root)?;
+    let id = project.create_approval(create)?;
     drop(project);
     drop(guard);
     let project = get_project(State(state)).await?.0;

@@ -32,6 +32,8 @@ pub struct ProjectInputs {
     pub source_lock: String,
     #[serde(default)]
     pub coordination: Option<String>,
+    #[serde(default)]
+    pub approvals: Option<String>,
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
@@ -302,6 +304,43 @@ pub struct CoordinationIssue {
     pub reviewed_by: String,
 }
 
+#[derive(Clone, Debug, Default, Deserialize, Serialize, PartialEq)]
+pub struct ApprovalFile {
+    pub schema_version: u32,
+    #[serde(default)]
+    pub decisions: Vec<ApprovalDecision>,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize, PartialEq)]
+pub struct ApprovalDecision {
+    pub id: String,
+    pub revision_id: String,
+    pub status: ApprovalStatus,
+    pub reviewer: String,
+    pub role: String,
+    pub decided_on: String,
+    pub review_reference: String,
+    pub comment: String,
+}
+
+#[derive(Clone, Copy, Debug, Deserialize, Serialize, PartialEq, Eq)]
+#[serde(rename_all = "kebab-case")]
+pub enum ApprovalStatus {
+    Approved,
+    ChangesRequested,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+pub struct ApprovalCreate {
+    pub revision_id: String,
+    pub status: ApprovalStatus,
+    pub reviewer: String,
+    pub role: String,
+    pub decided_on: String,
+    pub review_reference: String,
+    pub comment: String,
+}
+
 #[derive(Clone, Debug, Deserialize)]
 pub struct CoordinationCreate {
     pub title: String,
@@ -495,6 +534,7 @@ pub struct ProjectView {
     pub git: GitState,
     pub project_path: String,
     pub artifacts: Vec<StudioArtifact>,
+    pub approvals: ApprovalFile,
 }
 
 #[derive(Clone, Debug, Serialize)]

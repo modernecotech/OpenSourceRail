@@ -152,7 +152,8 @@ demand/buildability routing, station placement, line/day/time service planning,
 simulation, alignment exchange, IFC4.3/Bonsai civil federation, verified
 GIS/engineering object inspection, IDS delivery audit, BCF 3.0 issue review,
 searchable multi-asset BCF topic authoring, atomic all-route headway scenarios and day-plan tools,
-Git-reviewable coordination decisions, artifact hashing, and revision review.
+Git-reviewable coordination decisions, append-only revision approvals,
+artifact hashing, and revision review.
 
 ![City Studio network authoring and demand-aware routing interface](docs/screenshots/city-studio/network-and-service.png)
 

@@ -242,6 +242,30 @@
       <div id="revision-comparison" class="revision-comparison">
         Materialize a revision to establish a review baseline.
       </div>
+      <div class="approval-workspace">
+        <form id="approval-form" class="approval-form">
+          <h3>Record append-only review decision</h3>
+          <label>Immutable revision<select id="approval-revision" required></select></label>
+          <div class="two-col">
+            <label>Decision
+              <select id="approval-status">
+                <option value="approved">Approved</option>
+                <option value="changes-requested">Changes requested</option>
+              </select>
+            </label>
+            <label>Decision date<input id="approval-date" type="date" required></label>
+          </div>
+          <div class="two-col">
+            <label>Reviewer<input id="approval-reviewer" minlength="2" maxlength="120" required></label>
+            <label>Reviewer role<input id="approval-role" minlength="2" maxlength="120" required></label>
+          </div>
+          <label>Review or pull-request reference<input id="approval-reference" minlength="3" maxlength="500" required placeholder="GitHub PR URL, signed review, or evidence reference"></label>
+          <label>Decision rationale<textarea id="approval-comment" minlength="12" maxlength="2000" required></textarea></label>
+          <button type="submit" class="primary">Append approval record</button>
+          <small>Approval records refer to immutable revisions and do not change their design hash.</small>
+        </form>
+        <div id="approval-history" class="approval-history"></div>
+      </div>
     </section>
   </main>
   <div id="toast" role="status"></div>
