@@ -2,6 +2,7 @@
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+python3 "$ROOT/scripts/generate-civil-cost-model.py"
 OUT_DIR="$ROOT/build/engineering/bonsai-civil"
 ALIGNMENT_INPUT=""
 REVISION_ID="working-tree"
@@ -64,6 +65,7 @@ if $DO_RENDER; then
         --index "$OUT_DIR/civil-coordination.index.json"
         --sequence "$OUT_DIR/civil-construction-sequence.json"
         --output "$OUT_DIR/civil-coordination.png"
+        --detail-output "$OUT_DIR/civil-pi25-detail.png"
         --blend "$OUT_DIR/civil-coordination.blend"
     )
     if $DO_ANIMATE; then

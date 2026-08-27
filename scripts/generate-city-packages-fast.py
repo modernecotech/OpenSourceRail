@@ -435,6 +435,14 @@ def main() -> int:
     started = time.monotonic()
     SUMMARY_PATH.unlink(missing_ok=True)
 
+    cost_model_return_code = run_logged(
+        [sys.executable, str(REPO_ROOT / "scripts/generate-civil-cost-model.py")],
+        LOG_ROOT / "package-civil-cost-model.log",
+    )
+    if cost_model_return_code:
+        print(f"FAIL civil cost model — see {LOG_ROOT / 'package-civil-cost-model.log'}")
+        return 1
+
     build_return_code = run_logged(
         ["cargo", "build", "--release", "--bin", "osr-design"],
         LOG_ROOT / "package-design-build.log",

@@ -12,9 +12,9 @@ use tokio::sync::Mutex;
 
 use crate::jobs::JobManager;
 use crate::model::{
-    ApprovalCreate, ControlPointCreate, ControlPointEdit, CoordinationCreate, CoordinationEdit,
-    JobRequest, LineCreate, LineEdit, LineServicePlan, ProjectView, ServiceHeadwayBulkEdit,
-    StationCreate, StationEdit,
+    ApprovalCreate, CivilConstructionSettings, ControlPointCreate, ControlPointEdit,
+    CoordinationCreate, CoordinationEdit, DemandFlowCreate, DemandFlowEdit, JobRequest, LineCreate,
+    LineEdit, LineServicePlan, ProjectView, ServiceHeadwayBulkEdit, StationCreate, StationEdit,
 };
 use crate::CityProject;
 
@@ -81,6 +81,7 @@ pub async fn serve(project_root: impl AsRef<Path>, host: &str, port: u16) -> Res
         .route("/app.js", get(javascript))
         .route("/app.css", get(stylesheet))
         .route("/api/project", get(get_project))
+        .route("/api/civil", put(put_civil))
         .route("/api/stations/:id", put(put_station).delete(delete_station))
         .route("/api/lines", post(post_line))
         .route("/api/lines/:id", put(put_line).delete(delete_line))
@@ -92,6 +93,11 @@ pub async fn serve(project_root: impl AsRef<Path>, host: &str, port: u16) -> Res
         .route("/api/coordination", post(post_coordination_issue))
         .route("/api/coordination/:id", put(put_coordination_issue))
         .route("/api/approvals", post(post_approval))
+        .route("/api/demand/flows", post(post_demand_flow))
+        .route(
+            "/api/demand/flows/:id",
+            put(put_demand_flow).delete(delete_demand_flow),
+        )
         .route("/api/compile", post(compile_project))
         .route("/api/jobs", get(get_jobs))
         .route("/api/jobs/:id", get(get_job).post(start_job))
@@ -149,6 +155,18 @@ async fn get_project(State(state): State<AppState>) -> Result<Json<ProjectView>,
         artifacts: project.artifacts(),
         approvals: project.approvals().clone(),
     }))
+}
+
+async fn put_civil(
+    State(state): State<AppState>,
+    Json(settings): Json<CivilConstructionSettings>,
+) -> Result<Json<ProjectView>, ApiError> {
+    let _guard = state.write_lock.lock().await;
+    let mut project = CityProject::load(&state.project_root)?;
+    project.update_civil(settings)?;
+    drop(project);
+    drop(_guard);
+    get_project(State(state)).await
 }
 
 async fn put_station(
@@ -326,6 +344,44 @@ async fn post_approval(
     drop(guard);
     let project = get_project(State(state)).await?.0;
     Ok(Json(serde_json::json!({ "id": id, "project": project })))
+}
+
+async fn post_demand_flow(
+    State(state): State<AppState>,
+    Json(create): Json<DemandFlowCreate>,
+) -> Result<Json<serde_json::Value>, ApiError> {
+    let guard = state.write_lock.lock().await;
+    let mut project = CityProject::load(&state.project_root)?;
+    let id = project.create_demand_flow(create)?;
+    drop(project);
+    drop(guard);
+    let project = get_project(State(state)).await?.0;
+    Ok(Json(serde_json::json!({ "id": id, "project": project })))
+}
+
+async fn put_demand_flow(
+    State(state): State<AppState>,
+    AxumPath(id): AxumPath<String>,
+    Json(edit): Json<DemandFlowEdit>,
+) -> Result<Json<ProjectView>, ApiError> {
+    let guard = state.write_lock.lock().await;
+    let mut project = CityProject::load(&state.project_root)?;
+    project.update_demand_flow(&id, edit)?;
+    drop(project);
+    drop(guard);
+    get_project(State(state)).await
+}
+
+async fn delete_demand_flow(
+    State(state): State<AppState>,
+    AxumPath(id): AxumPath<String>,
+) -> Result<Json<ProjectView>, ApiError> {
+    let guard = state.write_lock.lock().await;
+    let mut project = CityProject::load(&state.project_root)?;
+    project.delete_demand_flow(&id)?;
+    drop(project);
+    drop(guard);
+    get_project(State(state)).await
 }
 
 async fn compile_project(

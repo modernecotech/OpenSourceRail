@@ -10,6 +10,7 @@ from osr_mech.cad import export_brep, to_freecad_shape
 from osr_mech.clearance import reference_envelope, swept_envelope_part
 from osr_mech.civil.platform_l_unit import platform_l_unit
 from osr_mech.civil.guideway_channel_edge import guideway_channel_edge_module
+from osr_mech.civil.decked_pi import decked_pi_structural_placeholder
 from osr_mech.civil.slab import at_grade_slab_panel, elevated_deck_slab_panel
 from osr_mech.civil.segmental import segmental_u_envelope
 from osr_mech.civil.special_span import special_span_envelope
@@ -79,6 +80,7 @@ SOURCE_BUILDERS: dict[str, Callable[[], object]] = {
     "station-guideway-channel-edge": guideway_channel_edge_module,
     "civil-at-grade-slab-panel": at_grade_slab_panel,
     "civil-elevated-deck-slab-panel": elevated_deck_slab_panel,
+    "civil-decked-pi-25m": lambda: decked_pi_structural_placeholder(25.0),
     "civil-u-girder-25m": lambda: u_girder_structural_placeholder(25.0),
     "civil-segmental-u-25m": lambda: segmental_u_envelope(25.0, 2.5),
     "civil-special-span-40m": lambda: special_span_envelope(40.0),

@@ -15,6 +15,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import math
 from dataclasses import dataclass
 from functools import partial
 from pathlib import Path
@@ -27,6 +28,13 @@ from osr_mech.civil.guideway_channel_edge import (
     guideway_channel_edge_module,
 )
 from osr_mech.civil.platform_l_unit import UNIT_LENGTH_MM, platform_l_unit
+from osr_mech.civil.decked_pi import (
+    FLANGE_THICKNESS_MM,
+    OVERALL_DEPTH_MM,
+    WALKWAY_CASSETTE_WIDTH_MM,
+    decked_pi_structural_placeholder,
+    walkway_cassette,
+)
 from osr_mech.civil.slab import (
     AT_GRADE_BASE_THICKNESS_MM,
     AT_GRADE_PLINTH_HEIGHT_MM,
@@ -34,12 +42,11 @@ from osr_mech.civil.slab import (
     ELEVATED_BASE_THICKNESS_MM,
     ELEVATED_PLINTH_HEIGHT_MM,
     TRACK_CENTRE_SPACING_MM,
-    at_grade_rail_y_positions,
+    at_grade_twin_rail_y_positions,
     at_grade_slab_panel,
     elevated_deck_slab_panel,
 )
 from osr_mech.civil.substructure import GIRDER_CENTRE_SPACING_MM, viaduct_pier
-from osr_mech.civil.ugirder import FLOOR_THICKNESS_MM, u_girder_structural_placeholder
 from osr_mech.common import RAIL_GEOMETRY, ConsistFamily, RailProfile, StationArchetype, STANDARD_GAUGE_MM
 from osr_mech.station.canopy import station_canopy
 from osr_mech.track.rail import rail_bar
@@ -59,9 +66,10 @@ ELEVATED_STATION_LENGTH_MM = 60_000.0
 VIADUCT_DEPARTURE_X_MM = ELEVATED_STATION_X_MM + ELEVATED_STATION_LENGTH_MM
 VIADUCT_DEPARTURE_SPANS = 3
 
-PIER_BEARING_TOP_Z_MM = 9_600.0
-U_GIRDER_BASE_Z_MM = PIER_BEARING_TOP_Z_MM
-ELEVATED_TRACK_SUPPORT_Z_MM = U_GIRDER_BASE_Z_MM + FLOOR_THICKNESS_MM
+# 8 m column + 1.2 m cap + 0.1 m bearing.
+PIER_BEARING_TOP_Z_MM = 9_300.0
+PI_BEAM_BASE_Z_MM = PIER_BEARING_TOP_Z_MM
+ELEVATED_TRACK_SUPPORT_Z_MM = PI_BEAM_BASE_Z_MM + OVERALL_DEPTH_MM
 
 RAIL_HEIGHT_MM = RAIL_GEOMETRY[RailProfile.UIC_60E1].height_mm
 AT_GRADE_RAIL_BASE_LOCAL_Z_MM = (
@@ -100,7 +108,9 @@ ELEVATED_PLATFORM_DEPTH_MM = 2_500.0
 ELEVATED_STATION_DECK_WIDTH_MM = 2.0 * (
     ELEVATED_PLATFORM_EDGE_Y_MM + ELEVATED_PLATFORM_DEPTH_MM
 )
-ELEVATED_STATION_DECK_THICKNESS_MM = FLOOR_THICKNESS_MM
+# The station interface must reach the same structural support datum as the
+# adjoining Pi-beam, not merely copy the upper flange thickness.
+ELEVATED_STATION_DECK_THICKNESS_MM = OVERALL_DEPTH_MM
 
 DIGITAL_TWIN_SCHEMA = "org.opensourcerail.civil-rolling-stock-twin.v1"
 DIGITAL_TWIN_SNAPSHOT_ID = "OSR-DT-DESIGN-REFERENCE-001"
@@ -167,8 +177,10 @@ def asset_class_for_component(component: IntegrationComponent) -> str:
         return "track.rail"
     if "pier" in source:
         return "civil.pier"
-    if "u_girder" in source:
-        return "civil.u-girder"
+    if "decked_pi" in source:
+        return "civil.decked-pi-beam"
+    if "walkway_cassette" in source:
+        return "civil.walkway-cassette"
     if "slab_panel" in source:
         return "civil.trackform"
     if "station_canopy" in source:
@@ -221,6 +233,18 @@ def _platform_l_run() -> Compound:
         label=f"Elevated platform L-unit run ({units} match-cast units)",
         children=[platform_l_unit().translate((index * UNIT_LENGTH_MM, 0.0, 0.0)) for index in range(units)],
     )
+
+
+def _walkway_run(length_mm: float, side: float) -> Compound:
+    count = int(math.ceil(length_mm / 6_000.0))
+    children = []
+    for index in range(count):
+        segment_length_m = min(6_000.0, length_mm - index * 6_000.0) / 1_000.0
+        cassette = walkway_cassette(segment_length_m)
+        if side < 0:
+            cassette = cassette.rotate(Axis.X, 180.0)
+        children.append(cassette.translate((index * 6_000.0, 0.0, 0.0)))
+    return Compound(label="Modular outer evacuation walkway run", children=children)
 
 
 def _elevated_station_deck_interface() -> Part:
@@ -276,16 +300,17 @@ def integration_components() -> tuple[IntegrationComponent, ...]:
     items: list[IntegrationComponent] = []
 
     ground = "01 At-grade ground station"
-    items.append(
-        _component(
-            ground,
-            "60 m lowered double-track station slab and direct-fixation seats",
-            "civil.at_grade_slab_panel(length_mm=60000)",
-            partial(at_grade_slab_panel, GROUND_STATION_LENGTH_MM),
-            (GROUND_STATION_X_MM, 0.0, GROUND_SLAB_BASE_Z_MM),
+    for side, track_y in (("-Y", -GROUND_OUTER_TRACK_Y_MM), ("+Y", GROUND_OUTER_TRACK_Y_MM)):
+        items.append(
+            _component(
+                ground,
+                f"60 m {side} OSR-ST6 single-track panel run",
+                "civil.at_grade_slab_panel(length_mm=60000)",
+                partial(at_grade_slab_panel, GROUND_STATION_LENGTH_MM),
+                (GROUND_STATION_X_MM, track_y, GROUND_SLAB_BASE_Z_MM),
+            )
         )
-    )
-    for index, rail_y in enumerate(at_grade_rail_y_positions(), start=1):
+    for index, rail_y in enumerate(at_grade_twin_rail_y_positions(), start=1):
         items.append(
             _component(
                 ground,
@@ -375,10 +400,23 @@ def integration_components() -> tuple[IntegrationComponent, ...]:
                 [
                     _component(
                         viaduct,
-                        f"{prefix} 25 m U-girder",
-                        "civil.u_girder_structural_placeholder(span_m=25)",
-                        partial(u_girder_structural_placeholder, 25.0),
-                        (span_x, track_y, U_GIRDER_BASE_Z_MM),
+                        f"{prefix} OSR-Pi25 decked beam",
+                        "civil.decked_pi_structural_placeholder(span_m=25)",
+                        partial(decked_pi_structural_placeholder, 25.0),
+                        (span_x, track_y, PI_BEAM_BASE_Z_MM),
+                    ),
+                    _component(
+                        viaduct,
+                        f"{prefix} modular outer evacuation walkway",
+                        "civil.walkway_cassette(length_m=6) repeated",
+                        partial(_walkway_run, VIADUCT_SPAN_MM, side=-1.0 if side == "-Y" else 1.0),
+                        (
+                            span_x,
+                            track_y
+                            + (-1.0 if side == "-Y" else 1.0)
+                            * (1_450.0 + WALKWAY_CASSETTE_WIDTH_MM / 2.0),
+                            ELEVATED_TRACK_SUPPORT_Z_MM,
+                        ),
                     ),
                     _component(
                         viaduct,
@@ -420,8 +458,8 @@ def integration_components() -> tuple[IntegrationComponent, ...]:
             _component(
                 viaduct,
                 f"Shared double-track pier {index}",
-                "civil.viaduct_pier(height_m=8, foundation='pile-cap')",
-                partial(viaduct_pier, 8.0, "pile-cap"),
+                "civil.viaduct_pier(height_m=8, foundation='interface-only')",
+                partial(viaduct_pier, 8.0, "interface-only"),
                 (pier_x, 0.0, 0.0),
             )
         )
@@ -433,7 +471,7 @@ def integration_components() -> tuple[IntegrationComponent, ...]:
             "60 m project-specific elevated station deck interface envelope",
             "integration.elevated_station_deck_interface (not a released structural product)",
             _elevated_station_deck_interface,
-            (ELEVATED_STATION_X_MM, 0.0, U_GIRDER_BASE_Z_MM),
+            (ELEVATED_STATION_X_MM, 0.0, PI_BEAM_BASE_Z_MM),
         )
     )
     for side, track_y in (("-Y", -ELEVATED_OUTER_TRACK_Y_MM), ("+Y", ELEVATED_OUTER_TRACK_Y_MM)):
@@ -549,7 +587,7 @@ def integration_checks() -> tuple[IntegrationCheck, ...]:
     """Evaluate the controlled interface datums used by the example."""
 
     pier_top = viaduct_pier(8.0).bounding_box().max.Z
-    station_deck_top = U_GIRDER_BASE_Z_MM + ELEVATED_STATION_DECK_THICKNESS_MM
+    station_deck_top = PI_BEAM_BASE_Z_MM + ELEVATED_STATION_DECK_THICKNESS_MM
     ground_gap = GROUND_PLATFORM_EDGE_Y_MM - (
         GROUND_OUTER_TRACK_Y_MM + reference_dynamic_width_mm() / 2.0
     )
@@ -569,8 +607,8 @@ def integration_checks() -> tuple[IntegrationCheck, ...]:
     return (
         IntegrationCheck(
             "pier-bearing-to-girder-soffit",
-            abs(pier_top - U_GIRDER_BASE_Z_MM) < 1e-6,
-            f"pier/bearing top {pier_top:.1f} mm; U-girder soffit {U_GIRDER_BASE_Z_MM:.1f} mm",
+            abs(pier_top - PI_BEAM_BASE_Z_MM) < 1e-6,
+            f"pier/bearing top {pier_top:.1f} mm; pi-beam soffit {PI_BEAM_BASE_Z_MM:.1f} mm",
         ),
         IntegrationCheck(
             "viaduct-to-station-track-support-datum",

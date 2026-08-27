@@ -1,7 +1,7 @@
 # South Africa national OpenSourceRail strategy
 
 > [!IMPORTANT]
-> **Foreign-capital advantage:** against the default equivalent foreign-turnkey case, this national OSR programme avoids **$10.79 B (86.1%) of external capital** and **$13.26 B of external interest**. Capital plus saved interest totals **$24.05 B over the 40-year financing life**. Both cases use the same 4.5% external rate and financing schedule; the comparator external requirement is assumed debt-financed, and the comparator is an editable sensitivity, not a vendor quote.
+> **Foreign-capital advantage:** against the default equivalent foreign-turnkey case, this national OSR programme avoids **$10.16 B (85.8%) of external capital** and **$12.49 B of external interest**. Capital plus saved interest totals **$22.66 B over the 40-year financing life**. Both cases use the same 4.5% external rate and financing schedule; the comparator external requirement is assumed debt-financed, and the comparator is an editable sensitivity, not a vendor quote.
 
 South Africa should implement OpenSourceRail as one national industrial and financing programme covering the 5 catalogue cities below, rather than as disconnected city projects. One centrally governed trainset factory builds the shared modular fleet in phases; city and regional contractors fabricate and install rails, viaducts, stations, depots, and local civil works. This concentrates scarce imported machinery, specialist tooling, engineering support, and foreign currency in one reusable national asset while maximizing domestic labour, materials, fabrication, and local-currency financing.
 
@@ -13,10 +13,10 @@ South Africa should implement OpenSourceRail as one national industrial and fina
 | Served population represented | 6,200,000 |
 | Trainsets across city plans | 1,096 |
 | Vehicle/car modules to manufacture | 5,056 |
-| City infrastructure + fleet CAPEX | $6.72 B |
+| City infrastructure + fleet CAPEX | $6.34 B |
 | One shared national trainset factory | $221.8 M |
 | National factory sizing basis | 3,696 modules: largest single-city programme (Durban) |
-| **Total national programme CAPEX** | **$6.96 B** |
+| **Total national programme CAPEX** | **$6.58 B** |
 
 The factory is sized to the largest single-city fleet programme and reused through a phased national rollout. This avoids duplicating factory buildings, moulds, welding fixtures, metrology, commissioning equipment, and imported machinery in every city. Final factory siting requires a national freight, power, workforce, land, and test-track study; this brief does not preselect a city.
 
@@ -26,13 +26,13 @@ Imported content is the minimum foreign-currency or international-capital requir
 
 | Capital boundary | Share | Total | Annual draw during construction |
 |---|---:|---:|---:|
-| **External capital for imports** | **25.0%** | **$1.74 B** | **$347.8 M / yr** |
-| **Local capital for domestic value** | **75.0%** | **$5.22 B** | **$1.04 B / yr** |
-| planned local-currency bond issuance | 60.0% of total | $4.18 B | $835.3 M / yr |
-| local public equity / other domestic funding | 15.0% of total | $1.04 B | $208.8 M / yr |
-| **Total capital programme** | **100.0%** | **$6.96 B** | **$1.39 B / yr** |
+| **External capital for imports** | **25.6%** | **$1.68 B** | **$336.4 M / yr** |
+| **Local capital for domestic value** | **74.4%** | **$4.90 B** | **$979.6 M / yr** |
+| planned local-currency bond issuance | 59.6% of total | $3.92 B | $783.7 M / yr |
+| local public equity / other domestic funding | 14.9% of total | $979.6 M | $195.9 M / yr |
+| **Total capital programme** | **100.0%** | **$6.58 B** | **$1.32 B / yr** |
 
-The annual construction draw is spread evenly over 5 planning years. Post-grace annual debt service is $99.6 M for external import finance plus $452.2 M for local bonds, or **$551.8 M per year** before railway operating cash flow. During construction, interest plus the local public-equity draw is **$725.6 M per year**.
+The annual construction draw is spread evenly over 5 planning years. Post-grace annual debt service is $96.3 M for external import finance plus $424.3 M for local bonds, or **$520.6 M per year** before railway operating cash flow. During construction, interest plus the local public-equity draw is **$683.0 M per year**.
 
 ## Foreign-company turnkey comparison
 
@@ -40,26 +40,26 @@ This controlled comparison is an editable sensitivity, not a supplier quotation.
 
 | Case | Cost multiplier vs OSR | Foreign-company external capital | OSR external capital saved | External interest saved over financing life | Capital + interest saved |
 |---|---:|---:|---:|---:|---:|
-| Low | 1.50× | $9.39 B | $7.66 B (81.5%) | $9.41 B | **$17.07 B** |
-| **Default** | 2.00× | $12.53 B | $10.79 B (86.1%) | $13.26 B | **$24.05 B** |
-| High | 3.00× | $18.79 B | $17.05 B (90.7%) | $20.96 B | **$38.02 B** |
+| Low | 1.50× | $8.88 B | $7.20 B (81.1%) | $8.85 B | **$16.05 B** |
+| **Default** | 2.00× | $11.84 B | $10.16 B (85.8%) | $12.49 B | **$22.66 B** |
+| High | 3.00× | $17.77 B | $16.08 B (90.5%) | $19.77 B | **$35.86 B** |
 
-At the default 2.00× case, the OSR programme reduces external capital from $12.53 B to $1.74 B, a saving of **$10.79 B (86.1%)**, plus **$13.26 B** of external interest over the financing life. Total programme CAPEX is 50.0% below the comparator. Replace both variables with scope-normalized bids before investment approval.
+At the default 2.00× case, the OSR programme reduces external capital from $11.84 B to $1.68 B, a saving of **$10.16 B (85.8%)**, plus **$12.49 B** of external interest over the financing life. Total programme CAPEX is 50.0% below the comparator. Replace both variables with scope-normalized bids before investment approval.
 
 ## Procurement-origin composition
 
 | CAPEX bucket | Total | Imported share | External capital | Local value |
 |---|---:|---:|---:|---:|
-| Civil works | $2.47 B | 15% | $371.1 M | $2.10 B |
+| Civil works | $2.12 B | 15% | $317.9 M | $1.80 B |
 | Stations | $1.30 B | 20% | $259.7 M | $1.04 B |
 | Depots | $40.0 M | 25% | $10.0 M | $30.0 M |
 | Rolling stock | $1.44 B | 35% | $503.9 M | $935.8 M |
 | Dedicated solar plants | $999.1 M | 45% | $449.6 M | $549.5 M |
 | Residual signalling / train control | $31.5 M | 50% | $15.8 M | $15.8 M |
 | Charging microgrids | $64.8 M | 40% | $25.9 M | $38.9 M |
-| EPC / project services | $389.9 M | 15% | $58.5 M | $331.4 M |
+| EPC / project services | $365.1 M | 15% | $54.8 M | $310.3 M |
 | Shared national trainset factory | $221.8 M | 20% | $44.4 M | $177.4 M |
-| **Total** | **$6.96 B** | **25.0%** | **$1.74 B** | **$5.22 B** |
+| **Total** | **$6.58 B** | **25.6%** | **$1.68 B** | **$4.90 B** |
 
 ## City programme
 
@@ -67,11 +67,11 @@ Each city CAPEX below excludes the national factory. Its imported share varies w
 
 | City | Population | Fleet | City CAPEX | Imported % | OSR external capital | Foreign-turnkey external capital (default) | External capital saved | Capital + lifetime external interest saved | Local capital |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| [Durban](Durban/README.md) | 3,900,000 | 616 | $4.77 B | 25.7% | $1.22 B | $8.59 B | $7.37 B | $16.42 B | $3.55 B |
-| [East London Za](East-London-Za/README.md) | 800,000 | 139 | $577.5 M | 24.6% | $142.0 M | $1.04 B | $897.5 M | $2.00 B | $435.5 M |
-| [Bloemfontein](Bloemfontein/README.md) | 600,000 | 151 | $653.0 M | 24.5% | $159.8 M | $1.18 B | $1.02 B | $2.26 B | $493.3 M |
-| [Polokwane](Polokwane/README.md) | 600,000 | 110 | $406.6 M | 23.9% | $97.4 M | $732.0 M | $634.6 M | $1.41 B | $309.3 M |
-| [Nelspruit](Nelspruit/README.md) | 300,000 | 80 | $312.4 M | 21.8% | $68.2 M | $562.3 M | $494.1 M | $1.10 B | $244.2 M |
+| [Durban](Durban/README.md) | 3,900,000 | 616 | $4.51 B | 26.3% | $1.19 B | $8.12 B | $6.94 B | $15.46 B | $3.33 B |
+| [East London Za](East-London-Za/README.md) | 800,000 | 139 | $538.7 M | 25.3% | $136.2 M | $969.7 M | $833.5 M | $1.86 B | $402.5 M |
+| [Bloemfontein](Bloemfontein/README.md) | 600,000 | 151 | $616.2 M | 25.0% | $154.3 M | $1.11 B | $955.0 M | $2.13 B | $462.0 M |
+| [Polokwane](Polokwane/README.md) | 600,000 | 110 | $383.6 M | 24.5% | $93.9 M | $690.4 M | $596.5 M | $1.33 B | $289.6 M |
+| [Nelspruit](Nelspruit/README.md) | 300,000 | 80 | $292.5 M | 22.3% | $65.2 M | $526.6 M | $461.3 M | $1.03 B | $227.3 M |
 
 ## National implementation sequence
 

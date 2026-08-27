@@ -1,0 +1,73 @@
+schema_version = 1
+status = "deterministic-selection-rules-subject-to-project-engineering-release"
+cost_baseline_rule = "Keep canonical class costs unchanged until prototypes, site foundation schedules, production trials and supplier quotations validate savings."
+preliminary_combined_civil_saving_target_percent = [15, 30]
+
+[viaduct]
+standard_spans_m = [20, 25]
+expansion_unit_spans = 4
+permitted_expansion_unit_spans = [4, 5]
+maximum_lift_mass_t = 75
+maximum_shipping_width_m = 3.0
+continuity = "pier_diaphragm_or_link_slab"
+internal_support_bearing_lines = 1
+expansion_support_bearing_lines = 2
+full_span_u_girder = "special_only"
+integral_internal_piers = "future_option_after_project_analysis"
+release_gates = [
+  "continuous_welded_rail_interaction",
+  "braking_and_temperature",
+  "seismic_movement",
+  "foundation_flexibility",
+  "link_slab_or_diaphragm_fatigue",
+]
+
+[approaches]
+preferred_system = "reinforced_soil"
+maximum_initial_design_height_m = 4.5
+require_settlement_and_cyclic_check = true
+exclude_flood_scour = true
+exclude_severe_settlement = true
+require_sufficient_right_of_way = true
+
+[at_grade]
+long_open_run_method = "continuous_slipform"
+constrained_run_method = "single_track_precast"
+minimum_open_slipform_run_m = 200
+precast_panel_length_m = 6
+precast_use_cases = ["street_running", "utility_crossing", "short_possession", "flood_prone", "transition", "replaceable_zone"]
+
+[foundations]
+selection_basis = "geotechnical_zone"
+families = ["shallow_spread", "integral_bored_shaft", "driven_pile_bent", "pile_group", "rigid_inclusion_platform"]
+actual_installed_length_time_test_and_cost_required = true
+
+[manufacturing]
+mould_cycle_target_h = 24
+validated_planning_cycle_h = 48
+concrete_release_control = "maturity"
+concrete = "self_consolidating_after_mix_trial"
+reinforcement = "standard_welded_cages"
+component_identity = "barcode_or_equivalent_serialised_identity"
+connection_strategy = "small_closure_or_grouted_socket"
+near_route_yard = "compare_when_heavy_haul_distance_is_costly"
+
+[deck_attachments]
+walkway_policy = "one_where_operating_and_evacuation_rules_permit_otherwise_two"
+cable_containment = "replaceable_external_cassette"
+drainage = "standard_outlets_and_inspection_boxes"
+barrier = "structural_curb_with_lightweight_bolt_on_barrier"
+acoustic_panels = "only_where_modelled_requirement"
+solar = "stations_depots_and_canopies_not_standard_spans"
+elevated_stations = "widened_standard_viaduct_bays"
+
+[route_optimization]
+compare_road_grade_separation = true
+crossing_alternatives = ["railway_elevated", "road_overbridge", "road_underpass", "road_closure_or_relocation", "short_modular_rail_bridge"]
+include_crane_access_cost = true
+include_utility_relocation_cost = true
+include_foundation_risk_cost = true
+include_flood_scour_cost = true
+include_temporary_traffic_cost = true
+include_station_transfer_structure_cost = true
+penalize_nonstandard_components = true

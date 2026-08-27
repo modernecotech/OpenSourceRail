@@ -9,6 +9,8 @@ pub struct ProjectFile {
     pub planning: PlanningAssumptions,
     #[serde(default)]
     pub routing: Option<RoutingSettings>,
+    #[serde(default)]
+    pub civil: CivilConstructionSettings,
     pub revision: RevisionPolicy,
 }
 
@@ -34,6 +36,70 @@ pub struct ProjectInputs {
     pub coordination: Option<String>,
     #[serde(default)]
     pub approvals: Option<String>,
+    #[serde(default)]
+    pub demand: Option<String>,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize, PartialEq)]
+pub struct DemandFile {
+    pub schema_version: u32,
+    #[serde(default)]
+    pub periods: Vec<DemandPeriod>,
+    #[serde(default)]
+    pub flows: Vec<DemandFlow>,
+}
+
+impl Default for DemandFile {
+    fn default() -> Self {
+        Self {
+            schema_version: 1,
+            periods: Vec::new(),
+            flows: Vec::new(),
+        }
+    }
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize, PartialEq)]
+pub struct DemandPeriod {
+    pub id: String,
+    pub name: String,
+    pub day_type: String,
+    pub from: String,
+    pub to: String,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize, PartialEq)]
+pub struct DemandFlow {
+    pub id: String,
+    pub period: String,
+    pub origin_station: String,
+    pub destination_station: String,
+    pub passengers_per_hour: u32,
+}
+
+#[derive(Clone, Debug, Deserialize)]
+pub struct DemandFlowCreate {
+    pub period: String,
+    pub origin_station: String,
+    pub destination_station: String,
+    pub passengers_per_hour: u32,
+}
+
+#[derive(Clone, Debug, Deserialize)]
+pub struct DemandFlowEdit {
+    pub passengers_per_hour: u32,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize, PartialEq)]
+pub struct DemandMetric {
+    pub flow_id: String,
+    pub period: String,
+    pub origin_line: String,
+    pub destination_line: String,
+    pub transfers: u32,
+    pub capacity_pphpd: u32,
+    pub utilization_percent: Option<f64>,
+    pub status: String,
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
@@ -68,6 +134,66 @@ fn default_route_margin_m() -> f64 {
 
 fn default_endpoint_snap_m() -> f64 {
     500.0
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize, PartialEq)]
+pub struct CivilConstructionSettings {
+    #[serde(default = "default_civil_span_m")]
+    pub standard_span_m: f64,
+    #[serde(default = "default_expansion_unit_spans")]
+    pub expansion_unit_spans: u32,
+    #[serde(default = "default_approach_height_m")]
+    pub maximum_reinforced_soil_height_m: f64,
+    #[serde(default = "default_long_open_method")]
+    pub long_open_at_grade_method: String,
+    #[serde(default = "default_constrained_method")]
+    pub constrained_at_grade_method: String,
+    #[serde(default = "default_mould_cycle_target_h")]
+    pub mould_cycle_target_h: u32,
+    #[serde(default = "default_true")]
+    pub compare_road_grade_separation: bool,
+}
+
+impl Default for CivilConstructionSettings {
+    fn default() -> Self {
+        Self {
+            standard_span_m: default_civil_span_m(),
+            expansion_unit_spans: default_expansion_unit_spans(),
+            maximum_reinforced_soil_height_m: default_approach_height_m(),
+            long_open_at_grade_method: default_long_open_method(),
+            constrained_at_grade_method: default_constrained_method(),
+            mould_cycle_target_h: default_mould_cycle_target_h(),
+            compare_road_grade_separation: true,
+        }
+    }
+}
+
+const fn default_civil_span_m() -> f64 {
+    25.0
+}
+
+const fn default_expansion_unit_spans() -> u32 {
+    4
+}
+
+const fn default_approach_height_m() -> f64 {
+    4.5
+}
+
+fn default_long_open_method() -> String {
+    "continuous-slipform".to_string()
+}
+
+fn default_constrained_method() -> String {
+    "single-track-precast".to_string()
+}
+
+const fn default_mould_cycle_target_h() -> u32 {
+    24
+}
+
+const fn default_true() -> bool {
+    true
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
@@ -388,6 +514,8 @@ pub struct CompiledSnapshot {
     pub input_sha256: String,
     pub parent_git_commit: Option<String>,
     pub project: ProjectIdentity,
+    #[serde(default)]
+    pub civil: CivilConstructionSettings,
     pub sources: Vec<ResolvedSource>,
     pub lines: Vec<CompiledLine>,
     pub stations: Vec<CompiledStation>,
@@ -395,6 +523,10 @@ pub struct CompiledSnapshot {
     #[serde(default)]
     pub service_plan: Option<ServicePlan>,
     pub service_metrics: Vec<ServiceMetric>,
+    #[serde(default)]
+    pub demand: DemandFile,
+    #[serde(default)]
+    pub demand_metrics: Vec<DemandMetric>,
     pub summary: SnapshotSummary,
     pub changes: Vec<StationChange>,
     pub findings: Vec<ValidationFinding>,
@@ -726,6 +858,15 @@ pub struct RevisionComparison {
     pub lines: Vec<RevisionLineDiff>,
     pub services: Vec<RevisionServiceDiff>,
     pub coordination: Vec<RevisionCoordinationDiff>,
+    pub demand: Vec<RevisionDemandDiff>,
+}
+
+#[derive(Clone, Debug, Serialize)]
+pub struct RevisionDemandDiff {
+    pub id: String,
+    pub kind: String,
+    pub before: Option<DemandFlow>,
+    pub after: Option<DemandFlow>,
 }
 
 #[derive(Clone, Debug, Serialize)]

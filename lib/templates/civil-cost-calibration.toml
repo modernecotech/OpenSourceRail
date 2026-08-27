@@ -1,0 +1,58 @@
+# Civil cost-index calibration.
+#
+# This file contains the reviewed benchmark and the cost-share assumptions used
+# to translate parametric CAD quantities into a planning target. It is an input,
+# not a supplier quotation. `scripts/generate-civil-cost-model.py` combines it
+# with `osr_mech.civil.quantity_model` and writes civil-cost-model.toml.
+
+[schema]
+version = 1
+currency = "USD"
+basis = "Planning target indexed from the retained pre-redesign benchmark; excludes land, tax/duty, utility relocation, escalation and financing"
+
+[classes.at-grade]
+benchmark_usd_per_km = 3000000
+
+[[classes.at-grade.drivers]]
+quantity = "slab_concrete_m3_per_km"
+benchmark_quantity = 2105.6
+cost_share = 0.20
+reason = "Smaller single-track/slipform geometry reduces structural concrete exposure"
+
+[[classes.at-grade.drivers]]
+quantity = "slab_rebar_kg_per_km"
+benchmark_quantity = 315840
+cost_share = 0.10
+reason = "Reinforcement planning quantity follows slab volume"
+
+[[classes.at-grade.drivers]]
+quantity = "single_track_panels_per_km"
+benchmark_quantity = 334
+cost_share = 0.08
+reason = "Continuous slipform removes repetitive panel transport, lifts and joints on open runs"
+
+[classes.elevated]
+benchmark_usd_per_km = 12000000
+
+[[classes.elevated.drivers]]
+quantity = "bare_beam_concrete_m3_per_km"
+benchmark_quantity = 3840
+cost_share = 0.30
+reason = "Decked pi-beams replace the former full-width U25 concrete envelope"
+
+[[classes.elevated.drivers]]
+quantity = "bearings_per_km"
+benchmark_quantity = 320
+cost_share = 0.10
+reason = "Four-span semi-continuous units reduce bearing lines"
+
+[[classes.elevated.drivers]]
+quantity = "deck_gaps_per_km"
+benchmark_quantity = 40
+cost_share = 0.05
+reason = "Expansion gaps occur at unit boundaries instead of every span"
+
+[classes.bridge]
+benchmark_usd_per_km = 18000000
+# No bridge reduction is claimed until a bridge-specific model and foundation
+# schedule exist; an empty driver list therefore retains the benchmark.

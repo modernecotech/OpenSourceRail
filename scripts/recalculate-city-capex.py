@@ -7,6 +7,7 @@ import hashlib
 import json
 import re
 import subprocess
+import sys
 import tempfile
 import tomllib
 from pathlib import Path
@@ -14,6 +15,10 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 CAPEX = tomllib.loads((REPO_ROOT / "lib/templates/capex-costs.toml").read_text())
+CIVIL_COST_MODEL = tomllib.loads(
+    (REPO_ROOT / "lib/templates/civil-cost-model.toml").read_text()
+)
+CIVIL_RATES = CIVIL_COST_MODEL["civil_usd_per_km"]
 USD_TO_EUR = float(CAPEX["schema"]["usd_to_eur"])
 EPC_FRACTION = float(CAPEX["overhead"]["epc_fraction"])
 CHARGING_UNIT_USD = CAPEX["charging_microgrid_unit_usd"]
@@ -56,6 +61,23 @@ def recalculate(path: Path) -> bool:
             f"{scenario_path}: expected one repeated 500 kW charging-module power"
         )
     cabinet_count = next(iter(charging_powers)) // 500
+    civil_totals = {"at-grade": 0.0, "elevated": 0.0, "bridge": 0.0}
+    for segment in design.get("civil_segments", []):
+        civil_class = str(segment["class"])
+        length_m = float(segment["to_station_m"]) - float(segment["from_station_m"])
+        multiplier = (
+            float(segment.get("elevated_cost_multiplier", 1.0))
+            if civil_class == "elevated"
+            else 1.0
+        )
+        civil_totals[civil_class] += length_m * multiplier
+    at_grade_usd = round(civil_totals["at-grade"] / 1000.0 * CIVIL_RATES["at_grade"])
+    elevated_usd = round(civil_totals["elevated"] / 1000.0 * CIVIL_RATES["elevated"])
+    bridge_usd = round(civil_totals["bridge"] / 1000.0 * CIVIL_RATES["bridge"])
+    junction_premium_usd = float(costs["junction_premium_usd"])
+    civil_subtotal_usd = round(
+        at_grade_usd + elevated_usd + bridge_usd + junction_premium_usd
+    )
     charging_microgrid_usd = round(
         sum(
             float(CHARGING_UNIT_USD.get(station.get("archetype"), CHARGING_UNIT_USD["standard"]))
@@ -66,16 +88,23 @@ def recalculate(path: Path) -> bool:
     pre_epc_usd = sum(
         float(costs[key])
         for key in (
-            "civil_subtotal_usd",
             "stations_usd",
             "depots_usd",
             "rolling_stock_usd",
             "signalling_usd",
         )
-    ) + charging_microgrid_usd
+    ) + charging_microgrid_usd + civil_subtotal_usd
     epc_usd = round(pre_epc_usd * EPC_FRACTION)
     total_usd = round(pre_epc_usd + epc_usd)
     values = {
+        "at_grade_usd": at_grade_usd,
+        "at_grade_eur": round(at_grade_usd * USD_TO_EUR),
+        "elevated_usd": elevated_usd,
+        "elevated_eur": round(elevated_usd * USD_TO_EUR),
+        "bridge_usd": bridge_usd,
+        "bridge_eur": round(bridge_usd * USD_TO_EUR),
+        "civil_subtotal_usd": civil_subtotal_usd,
+        "civil_subtotal_eur": round(civil_subtotal_usd * USD_TO_EUR),
         "production_plant_usd": 0.0,
         "production_plant_eur": 0.0,
         "charging_microgrid_usd": charging_microgrid_usd,
@@ -177,6 +206,11 @@ def refresh_visual_source_hashes(city_dir: Path) -> bool:
 
 
 def main() -> int:
+    subprocess.run(
+        [sys.executable, str(REPO_ROOT / "scripts/generate-civil-cost-model.py"), "--check"],
+        cwd=REPO_ROOT,
+        check=True,
+    )
     changed = 0
     provenance_files = 0
     hash_updates: list[tuple[str, str]] = []
@@ -186,7 +220,14 @@ def main() -> int:
         if recalculate(path):
             changed += 1
         old_hash, new_hash = refresh_cost_only_provenance(path)
-        replacements = {(old_hash, new_hash), (previous_current_hash, new_hash)}
+        replacements = {
+            (source_hash, target_hash)
+            for source_hash, target_hash in (
+                (old_hash, new_hash),
+                (previous_current_hash, new_hash),
+            )
+            if source_hash != target_hash
+        }
         hash_updates.extend(replacements)
         for artifact in path.parent.rglob("*"):
             for source_hash, target_hash in replacements:
@@ -200,6 +241,13 @@ def main() -> int:
     ):
         for old_hash, new_hash in hash_updates:
             provenance_files += int(replace_hash(report, old_hash, new_hash))
+
+    # Git-backed City Studio projects deliberately lock generated design inputs.
+    # A guarded cost-only migration is safe to re-lock because the geometry and
+    # operating intent comparison above already rejected every non-cost change.
+    for source_lock in sorted((REPO_ROOT / "projects").glob("*/sources.lock.json")):
+        for old_hash, new_hash in hash_updates:
+            provenance_files += int(replace_hash(source_lock, old_hash, new_hash))
 
     print(
         f"recalculated {changed} city CAPEX blocks; "

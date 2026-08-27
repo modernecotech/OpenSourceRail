@@ -1,15 +1,10 @@
 # OpenSourceRail
 
 > [!IMPORTANT]
-> **The foreign-capital advantage is a cornerstone of OpenSourceRail.** Across
-> the 266-city / 44-country catalogue, the default equivalent foreign-turnkey
-> comparison shows **$451.28B (86.7%) less external capital**, **$564.13B less
-> external interest**, and **$1.02T less external capital plus interest over the
-> financing life**. Both cases use the same country rate, grace period, and
-> repayment tenor, so the interest saving comes from borrowing far less foreign
-> capital; the comparator's external requirement is assumed debt-financed. The
-> 2.0× turnkey cost and 90% foreign-capital shares are editable planning
-> sensitivities—not a vendor quote.
+> **The foreign-capital advantage is a cornerstone of OpenSourceRail.** The
+> [generated portfolio summary](docs/portfolio-summary.md) aggregates all 266
+> city models and 44 shared national factories. Its turnkey comparison is an
+> editable planning sensitivity, not a vendor quote.
 
 ![Solar metro trainset: current OpenSourceRail reference vehicle](docs/assets/solar-metro-trainset.png)
 
@@ -25,7 +20,8 @@ FreeCAD/JSON twin, Blender scene, and MP4. Regenerate it with
 
 *The fabrication and assembly twin runs four synchronized production routes
 from material release through assembly and QA handover. Its JSON register
-contains 23 controlled work stages, predecessors, hold points, evidence,
+contains 25 controlled work stages—including foundation-zone release,
+two-lift Pi25 portal erection and the semi-continuous-unit connection—plus predecessors, hold points, evidence,
 source hashes, and the interfaces between rail, station, viaduct, and train.
 Regenerate it with `scripts/freecad-generate.sh --fabrication-twin`.*
 
@@ -33,11 +29,19 @@ Regenerate it with `scripts/freecad-generate.sh --fabrication-twin`.*
 
 *The civil coordination model is generated deterministically from the checked
 OSR geometry into IFC4.3, then imported and rendered through Bonsai 0.8.5. It
-contains 82 stable rail/civil assets, quantities and provenance, nine interface
-checks, and 16 linked construction tasks. OSR remains authoritative for route
+contains 95 stable rail/civil assets, quantities and provenance, nine interface
+checks, 18 linked construction tasks, and 958/958 passing IDS checks. OSR remains authoritative for route
 and engineering rules; Bonsai provides federation, detail review, drawings,
 quantities, and 4D sequencing. See the
 [Bonsai civil workflow](docs/civil/bonsai-ifc-workflow.md).*
+
+![Bonsai support-end detail of the OSR-Pi25 twin-track deck, compact cap, bearings and outer cassettes](docs/screenshots/civil/bonsai-pi25-support-detail.png)
+
+*The support-end view exposes the 3.5 m track centres, reduced 7 m common cap,
+bearing interfaces, narrow decked beams and independent outer walkway/barrier
+cassettes. The current ordinary-pier source uses one four-bearing line inside
+a four-span unit; expansion boundaries retain two lines. It is coordination
+geometry, not released reinforcement, continuity or prestress design.*
 
 OpenSourceRail is an open-source stack for designing, building, and
 operating affordable urban rail systems. It combines:
@@ -48,6 +52,16 @@ operating affordable urban rail systems. It combines:
 - hardware reference designs,
 - operations and certification documentation,
 - a machine-checkable safety case.
+
+City Studio persists the civil construction method in the same Git-reviewed
+project as network and service intent: standard span and short thermal units,
+reinforced-soil approach threshold, slipform/ST6 selection, mould-cycle target,
+and road grade-separation comparison. It displays derived deck-gap and bearing
+counts and regenerates the planning-cost view from the same CAD quantities.
+The original $3.0M/$12.0M/$18.0M per-kilometre benchmark remains visible for
+comparison; current at-grade and elevated targets are explicitly labelled as
+unquoted planning estimates until prototype, foundation and supplier evidence
+is available.
 
 The default system is **GoA 4 driverless**, catenary-free, battery
 electric, and designed around local manufacture: welded steel primary
@@ -76,70 +90,24 @@ also removes fleet-wide parking roads from depot scope; depot CAPEX retains
 inspection, defect repair, wheel, wash, and heavy-maintenance functions.
 The machine-readable source is
 [lib/templates/capex-costs.toml](lib/templates/capex-costs.toml), with
-the audit trail in [docs/cost-model.md](docs/cost-model.md).
+the civil quantity-index contract in
+[lib/templates/civil-cost-model.toml](lib/templates/civil-cost-model.toml),
+and the audit trail in [docs/cost-model.md](docs/cost-model.md).
 
 ## Foreign-Capital Advantage And Local Content
 
-The generated catalogue now separates the foreign-currency requirement from
-the value that can be financed domestically. Imported content is treated as
-the minimum **external/international capital** requirement; domestic labour,
-materials, fabrication, installation, and services form the **local capital**
-envelope that can be funded through local-currency infrastructure bonds,
-public equity, pension or insurance capital, land-value capture, and other
-domestic sources.
+The generated catalogue separates imported/external capital from locally
+fundable labour, materials, fabrication, installation and services. Current
+totals, annual draws and the controlled foreign-turnkey sensitivity live in
+the [portfolio capital summary](docs/portfolio-summary.md), regenerated from
+all city models after cost changes. Each city README carries its own finance
+evidence; every country has a shared-factory `NATIONAL-BRIEF.md`. Start with
+the [Iraq national strategy](designs/west-asia/Iraq/NATIONAL-BRIEF.md) or the
+[Nairobi city example](designs/east-africa/Kenya/Nairobi/README.md#funding--affordability).
 
-| 266-city / 44-country catalogue | Planning value | Annual construction draw across country programmes |
-|---|---:|---:|
-| External capital for imported components and machinery | **$69.38B (24.0%)** | **$11.18B/year** |
-| Local capital for domestic value | **$219.87B (76.0%)** | **$35.42B/year** |
-| of which planned local-currency bond issuance | $175.90B | $28.34B/year |
-| local public equity / other domestic funding | $43.97B | $7.08B/year |
-| **Total national programmes, including 44 shared factories** | **$289.25B** | **$46.60B/year** |
-
-Annual figures sum each country's planning construction schedule; they do not
-assume that all 44 programmes start in the same calendar year. Individual city
-import shares currently range from **18.5% to 26.9%**, reflecting each city's
-mix of civil works, stations, fleet, solar, signalling, and charging assets.
-The localization-first planning shares are 15% imported for civil works, 20%
-for stations, 25% for depots, 35% for rolling stock, 45% for dedicated solar,
-50% for signalling, 40% for charging microgrids, 15% for EPC/project services,
-and 20% for the shared national trainset factory. They assume domestic supply
-of bulk structures, fabrication, installation, wiring/cabinets, software
-integration, vehicle bodies/interiors, and project services; each country must
-replace them with a supplier-capability and rules-of-origin audit.
-
-The model also exposes an editable foreign-company turnkey comparison. At the
-default **2.0× OSR cost** and **90% foreign-capital share**, an equivalent
-foreign-led programme would cost **$578.51B**, require **$520.66B of external
-capital**, and draw **$83.89B/year** across the country construction schedules.
-Against that sensitivity, OSR avoids **$451.28B (86.7%) of external capital**,
-or **$72.71B/year**, while reducing total programme CAPEX by **$289.25B (50%)**.
-Using each country's existing external rate, grace period, and repayment tenor,
-the smaller OSR external principal also avoids **$564.13B of lifetime external
-interest**. The combined external-capital and interest saving is therefore
-**$1.02T over the financing life**. This comparison excludes local-bond interest
-and OPEX so the foreign-currency funding advantage remains explicit.
-Low/default/high cost multipliers of 1.5×/2.0×/3.0× are reported in every city
-and national brief. These are transparent comparison variables—not a received
-bid or a price attributed to any named supplier—and must be replaced with
-scope-normalized market offers before investment approval.
-
-Every city README and `engineering/finance/summary.json` now reports its
-import percentage, external and local capital totals, annual construction
-draws, local bond issuance, foreign-turnkey sensitivity, external-capital
-savings, lifetime external-interest savings, combined financing-life savings,
-and post-grace debt service. Every country has a
-`NATIONAL-BRIEF.md` that aggregates its cities and adds one centralized
-trainset factory, sized to the largest single-city vehicle-module programme
-and reused through a phased national rollout. Rails, viaducts, stations,
-depots, and local civil packages remain city or regional delivery scopes. See
-the [Iraq national strategy](designs/west-asia/Iraq/NATIONAL-BRIEF.md) and the
-[Nairobi city capital example](designs/east-africa/Kenya/Nairobi/README.md#funding--affordability).
-
-These figures are planning screens, not financing commitments or audited
-supplier-origin declarations. Supplier quotations, domestic capability,
-customs and tax treatment, foreign-exchange paths, land, utilities, and signed
-lender terms must be established before procurement.
+All figures remain planning screens pending supplier quotations, domestic
+capability and origin audits, land/utility surveys, tax and duty treatment,
+foreign-exchange paths and signed lender terms.
 
 **Current milestone:** [v0.2 development baseline](CHANGELOG.md),
 with remaining validation and hardening tracked in
@@ -149,6 +117,7 @@ with remaining validation and hardening tracked in
 
 City Studio centralizes deterministic network authoring, source-locked
 demand/buildability routing, station placement, line/day/time service planning,
+source-controlled origin–destination demand and scheduled-capacity screening,
 simulation, alignment exchange, IFC4.3/Bonsai civil federation, verified
 GIS/engineering object inspection, IDS delivery audit, BCF 3.0 issue review,
 searchable multi-asset BCF topic authoring, atomic all-route headway scenarios and day-plan tools,
@@ -167,7 +136,7 @@ hash-verified interactive civil/4D review, artifact hashing, and revision review
 
 ![City Studio creating a deterministic BCF topic from a selected IFC asset](docs/screenshots/city-studio/ifc-bcf-topic-authoring.png)
 
-![Browser-tested City Studio network, bulk service planning, interactive civil 4D review, approvals, and multi-asset IFC inspector](docs/screenshots/city-studio/gui-acceptance.png)
+![Browser-tested City Studio network, OD capacity planning, bulk service controls, interactive civil 4D review, approvals, and multi-asset IFC inspector](docs/screenshots/city-studio/gui-acceptance.png)
 
 Run it locally with `cargo run -p osr-city-studio -- serve`, then open
 <http://127.0.0.1:8090/>. See the
@@ -398,6 +367,9 @@ The acceptance/accreditation evidence basis is generated from the same
 city operations bundle. It checks that every manufacturing row has
 material/BOM refs, a QA verification row, a linked QA action, resolved
 predecessor ids, and release blocking through Ops Core evidence.
+Civil rows also carry their duration model, geometry quantity basis and active
+resource count; the bundle exposes a separate Pi-beam/foundation/ST6
+production plan for every line.
 
 | Acceptance dashboard | Manufacturing controls |
 |---|---|
@@ -540,6 +512,8 @@ Key links:
 - [BOM skeleton](docs/rolling-stock/light-metro-3car/bom-skeleton.md)
 - [Marketplace price anchors](docs/rolling-stock/light-metro-3car/marketplace-price-anchors.md)
 - [Civil marketplace cost anchors](docs/civil/marketplace-cost-anchors.md)
+- [Foundation and resource-driven civil production system](docs/civil/foundation-and-production-system.md)
+- [Civil construction-system selection](docs/civil/construction-system-selection.md)
 - [Fabrication plan](docs/rolling-stock/light-metro-3car/fabrication-plan.md)
 - [One-metre fiberglass body design](docs/rolling-stock/light-metro-3car/modular-fiberglass-body.md)
 - [Generated body module manifest](mechanical-py/catalog/modular-fiberglass-body/)

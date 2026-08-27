@@ -47,7 +47,6 @@ deterministic operational example—not live telemetry or a construction model.
 | [`samawah-line1-digital-twin.FCStd`](samawah-line1-digital-twin.FCStd) | Native FreeCAD model with selectable civil, station, energy, depot, signalling, and rolling-stock groups |
 | [`samawah-line1-digital-twin.json`](samawah-line1-digital-twin.json) | Full asset/state/relationship register, validation results, operational evidence, and source/model hashes |
 | [`samawah-line1-digital-twin.blend`](samawah-line1-digital-twin.blend) | Blender source scene with the refined symmetric LM3 end cowls, materials, lights, station context, camera, and real-time motion |
-| [`samawah-line1-digital-twin.mp4`](samawah-line1-digital-twin.mp4) | High-quality H.264 perspective animation for detailed review |
 | [`samawah-line1-digital-twin.gif`](samawah-line1-digital-twin.gif) | README-ready Blender animation: 1:1 time, 36 km/h approach, service braking, stop, doors, dwell, start, acceleration, and departure |
 
 ## Regenerate

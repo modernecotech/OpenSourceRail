@@ -1,7 +1,7 @@
 # El Salvador national OpenSourceRail strategy
 
 > [!IMPORTANT]
-> **Foreign-capital advantage:** against the default equivalent foreign-turnkey case, this national OSR programme avoids **$3.66 B (86.9%) of external capital** and **$4.50 B of external interest**. Capital plus saved interest totals **$8.16 B over the 40-year financing life**. Both cases use the same 4.5% external rate and financing schedule; the comparator external requirement is assumed debt-financed, and the comparator is an editable sensitivity, not a vendor quote.
+> **Foreign-capital advantage:** against the default equivalent foreign-turnkey case, this national OSR programme avoids **$3.42 B (86.6%) of external capital** and **$4.21 B of external interest**. Capital plus saved interest totals **$7.63 B over the 40-year financing life**. Both cases use the same 4.5% external rate and financing schedule; the comparator external requirement is assumed debt-financed, and the comparator is an editable sensitivity, not a vendor quote.
 
 El Salvador should implement OpenSourceRail as one national industrial and financing programme covering the 1 catalogue cities below, rather than as disconnected city projects. One centrally governed trainset factory builds the shared modular fleet in phases; city and regional contractors fabricate and install rails, viaducts, stations, depots, and local civil works. This concentrates scarce imported machinery, specialist tooling, engineering support, and foreign currency in one reusable national asset while maximizing domestic labour, materials, fabrication, and local-currency financing.
 
@@ -13,10 +13,10 @@ El Salvador should implement OpenSourceRail as one national industrial and finan
 | Served population represented | 1,800,000 |
 | Trainsets across city plans | 308 |
 | Vehicle/car modules to manufacture | 1,232 |
-| City infrastructure + fleet CAPEX | $2.26 B |
+| City infrastructure + fleet CAPEX | $2.12 B |
 | One shared national trainset factory | $73.9 M |
 | National factory sizing basis | 1,232 modules: largest single-city programme (San Salvador) |
-| **Total national programme CAPEX** | **$2.34 B** |
+| **Total national programme CAPEX** | **$2.19 B** |
 
 The factory is sized to the largest single-city fleet programme and reused through a phased national rollout. This avoids duplicating factory buildings, moulds, welding fixtures, metrology, commissioning equipment, and imported machinery in every city. Final factory siting requires a national freight, power, workforce, land, and test-track study; this brief does not preselect a city.
 
@@ -26,13 +26,13 @@ Imported content is the minimum foreign-currency or international-capital requir
 
 | Capital boundary | Share | Total | Annual draw during construction |
 |---|---:|---:|---:|
-| **External capital for imports** | **23.6%** | **$551.6 M** | **$110.3 M / yr** |
-| **Local capital for domestic value** | **76.4%** | **$1.79 B** | **$357.5 M / yr** |
-| planned local-currency bond issuance | 61.1% of total | $1.43 B | $286.0 M / yr |
-| local public equity / other domestic funding | 15.3% of total | $357.5 M | $71.5 M / yr |
-| **Total capital programme** | **100.0%** | **$2.34 B** | **$467.8 M / yr** |
+| **External capital for imports** | **24.1%** | **$530.0 M** | **$106.0 M / yr** |
+| **Local capital for domestic value** | **75.9%** | **$1.66 B** | **$332.9 M / yr** |
+| planned local-currency bond issuance | 60.7% of total | $1.33 B | $266.3 M / yr |
+| local public equity / other domestic funding | 15.2% of total | $332.9 M | $66.6 M / yr |
+| **Total capital programme** | **100.0%** | **$2.19 B** | **$438.9 M / yr** |
 
-The annual construction draw is spread evenly over 5 planning years. Post-grace annual debt service is $31.6 M for external import finance plus $168.2 M for local bonds, or **$199.8 M per year** before railway operating cash flow. During construction, interest plus the local public-equity draw is **$260.8 M per year**.
+The annual construction draw is spread evenly over 5 planning years. Post-grace annual debt service is $30.4 M for external import finance plus $156.6 M for local bonds, or **$187.0 M per year** before railway operating cash flow. During construction, interest plus the local public-equity draw is **$243.6 M per year**.
 
 ## Foreign-company turnkey comparison
 
@@ -40,26 +40,26 @@ This controlled comparison is an editable sensitivity, not a supplier quotation.
 
 | Case | Cost multiplier vs OSR | Foreign-company external capital | OSR external capital saved | External interest saved over financing life | Capital + interest saved |
 |---|---:|---:|---:|---:|---:|
-| Low | 1.50× | $3.16 B | $2.61 B (82.5%) | $3.20 B | **$5.81 B** |
-| **Default** | 2.00× | $4.21 B | $3.66 B (86.9%) | $4.50 B | **$8.16 B** |
-| High | 3.00× | $6.32 B | $5.76 B (91.3%) | $7.09 B | **$12.85 B** |
+| Low | 1.50× | $2.96 B | $2.43 B (82.1%) | $2.99 B | **$5.42 B** |
+| **Default** | 2.00× | $3.95 B | $3.42 B (86.6%) | $4.21 B | **$7.63 B** |
+| High | 3.00× | $5.93 B | $5.40 B (91.1%) | $6.63 B | **$12.03 B** |
 
-At the default 2.00× case, the OSR programme reduces external capital from $4.21 B to $551.6 M, a saving of **$3.66 B (86.9%)**, plus **$4.50 B** of external interest over the financing life. Total programme CAPEX is 50.0% below the comparator. Replace both variables with scope-normalized bids before investment approval.
+At the default 2.00× case, the OSR programme reduces external capital from $3.95 B to $530.0 M, a saving of **$3.42 B (86.6%)**, plus **$4.21 B** of external interest over the financing life. Total programme CAPEX is 50.0% below the comparator. Replace both variables with scope-normalized bids before investment approval.
 
 ## Procurement-origin composition
 
 | CAPEX bucket | Total | Imported share | External capital | Local value |
 |---|---:|---:|---:|---:|
-| Civil works | $966.8 M | 15% | $145.0 M | $821.8 M |
+| Civil works | $831.8 M | 15% | $124.8 M | $707.0 M |
 | Stations | $464.0 M | 20% | $92.8 M | $371.2 M |
 | Depots | $8.0 M | 25% | $2.0 M | $6.0 M |
 | Rolling stock | $345.0 M | 35% | $120.7 M | $224.2 M |
 | Dedicated solar plants | $312.4 M | 45% | $140.6 M | $171.8 M |
 | Residual signalling / train control | $12.8 M | 50% | $6.4 M | $6.4 M |
 | Charging microgrids | $23.6 M | 40% | $9.4 M | $14.1 M |
-| EPC / project services | $132.6 M | 15% | $19.9 M | $112.7 M |
+| EPC / project services | $123.1 M | 15% | $18.5 M | $104.7 M |
 | Shared national trainset factory | $73.9 M | 20% | $14.8 M | $59.1 M |
-| **Total** | **$2.34 B** | **23.6%** | **$551.6 M** | **$1.79 B** |
+| **Total** | **$2.19 B** | **24.1%** | **$530.0 M** | **$1.66 B** |
 
 ## City programme
 
@@ -67,7 +67,7 @@ Each city CAPEX below excludes the national factory. Its imported share varies w
 
 | City | Population | Fleet | City CAPEX | Imported % | OSR external capital | Foreign-turnkey external capital (default) | External capital saved | Capital + lifetime external interest saved | Local capital |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| [San Salvador](San-Salvador/README.md) | 1,800,000 | 308 | $2.26 B | 23.7% | $536.1 M | $4.07 B | $3.53 B | $7.87 B | $1.72 B |
+| [San Salvador](San-Salvador/README.md) | 1,800,000 | 308 | $2.12 B | 24.3% | $514.4 M | $3.81 B | $3.29 B | $7.34 B | $1.60 B |
 
 ## National implementation sequence
 

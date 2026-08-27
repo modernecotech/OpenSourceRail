@@ -1,23 +1,23 @@
 # OSR Rapid Viaduct Kit — Design Basis
 
 **Status:** controlled planning basis; not a construction design  
-**Primary product:** OSR-U25 full-span prestressed single-track U-trough  
-**Closure product:** OSR-U20  
-**Exceptional products:** OSR-US segmental U/box and OSR-SP special crossing
+**Primary products:** OSR-Pi25 and OSR-Pi20 prestressed decked single-track beams
+**Special products:** OSR-U25-SPECIAL acoustic/project-specific trough, OSR-US segmental U/box, and OSR-SP special crossing
 
 ## Catalogue boundary
 
-Two identical single-track troughs share a single-column pier. The reference
-clear trough width is 4.72 m, external envelope is 5.12 m, track centres are
-5.52 m, and the normal span is 25 m. A 20 m unit uses the same principal mould
-with adjustable stop ends. A 30 m full-span unit is only a planning option and
-requires a released transport route, lifting analysis, erection plant, and
-supplier structural design. Anything over 30 m is not the same product.
+Two identical 2.9 m-wide decked pi-beams share a single-column pier at the
+same 3.5 m tangent track centres used at grade. Each beam has two stems beneath
+the rail lines and a full-depth upper flange forming the structural track deck.
+Separate 1 m outer walkway/barrier cassettes give a controlled 8.5–9.0 m
+twin-track envelope. Pi20 and Pi25 come from one long-line mould with movable
+stop ends. A 30 m beam is not in the catalogue.
 
 | Product | Controlled use |
 |---|---|
-| `OSR-U25` | Tangent and broad-curve normal span |
-| `OSR-U20` | Closure bays, junctions, constrained geometry |
+| `OSR-Pi25` | Tangent and broad-curve normal span; target bare mass 65–75 t |
+| `OSR-Pi20` | Closure bays, junctions and utility avoidance; target bare mass 50–60 t |
+| `OSR-U25-SPECIAL` | Project-specific acoustic/containment trough after transport, lift and structural release |
 | `OSR-US` | 2.5–3.0 m match-cast segments where access or curvature prevents full-span erection |
 | `OSR-SP` | Separately engineered I-girder, steel-composite, or segmental crossing over 30 m; turnouts and exceptional crossings |
 
@@ -25,11 +25,11 @@ The OSR-US review model places each 2.5–3.0 m chord on a surveyed circular
 arc, with rotated match-cast joint planes and chord-following tendon corridors;
 it is no longer represented by a straight full-span extrusion with markers.
 
-The Python geometry in `osr_mech.civil.ugirder` is a clearance and quantity
-envelope. Flanges, haunches, diaphragms, bearing/anchorage zones, tendon
-corridors, lifting zones, drainage, containment, cable routes, and the escape
-ledge are coordination placeholders until a supplier design is independently
-checked.
+The default Python geometry is `osr_mech.civil.decked_pi`; legacy troughs stay
+in `osr_mech.civil.ugirder` as special products. Flange/stem proportions,
+diaphragms, anchorages, tendons, lifting zones, reinforcement, fatigue,
+derailment, vibration and rail–structure interaction remain supplier design
+and independent-check releases.
 
 ## Actions and design situations
 
@@ -42,26 +42,31 @@ interaction, and every lifting, transport, temporary-bracing, and erection
 stage. The machine-readable seed is
 [`viaduct-load-model.toml`](viaduct-load-model.toml).
 
-Open U sections require three-dimensional analysis for torsion, asymmetric
-loading, distortion, end-zone bursting, camber, creep, shrinkage, and staged
-prestress. Final reinforcement, tendons, anchorages, bearings, foundations,
+Decked pi sections require three-dimensional analysis for torsion, transverse
+distribution, asymmetric loading, local flange/stem actions, end-zone
+bursting, camber, creep, shrinkage, fatigue and staged prestress. Final
+reinforcement, tendons, anchorages, bearings, foundations,
 rail/bridge interaction, and temporary works require independent checking by
 licensed bridge and geotechnical engineers.
 
 ## Geometry and constructability gates
 
 - A straight 25 m full-span unit is preferred at radii of about 300 m or more.
-- Below about 300 m, use OSR-US, a shorter verified product, an I-girder deck,
+- Below about 300 m, use Pi20, OSR-US, a shorter verified product, an I-girder deck,
   or realign. A 90 m system curve is exceptional elevated geometry.
-- Interior simply supported piers carry eight bearings in two longitudinal
-  rows; end supports carry four.
+- Four normal spans form one semi-continuous unit. Internal piers carry four
+  bearings in one line; expansion-unit boundaries carry eight in two lines;
+  end supports carry four. Link slabs/diaphragms, CWR interaction, temperature,
+  braking, seismic and foundation flexibility require project analysis.
 - Parapet/containment height is measured above the finished escape walkway,
   not above the structural soffit or pre-track floor.
 - The trackform is local direct-fixation plinths over the waterproofed
   structural floor. A full structural topping is a project-specific acoustic
   or vibration option, not the default.
-- Monopiles/large bored shafts are preferred only where geotechnical,
-  overturning, seismic, durability, and constructability checks release them.
+- The shared hollow/precast-shell cap is 6.5–7.5 m wide and targets 25–35 t.
+- Foundation selection uses `foundation-catalog.toml`. Deep-element geometry
+  and cost require actual site length; no six-metre placeholder is permitted.
+- Foundations and accepted beam stock are held 10–15 bays ahead of erection.
 
 Automated catalogue checks live in `osr_mech.civil.viaduct`. Passing them is
 necessary but not sufficient for design release.

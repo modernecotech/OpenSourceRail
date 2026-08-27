@@ -51,6 +51,18 @@ const api = {
   createApproval: (body) => api.request("/api/approvals", {
     method: "POST", body: JSON.stringify(body),
   }),
+  createDemandFlow: (body) => api.request("/api/demand/flows", {
+    method: "POST", body: JSON.stringify(body),
+  }),
+  demandFlow: (id, body) => api.request(`/api/demand/flows/${encodeURIComponent(id)}`, {
+    method: "PUT", body: JSON.stringify(body),
+  }),
+  deleteDemandFlow: (id) => api.request(`/api/demand/flows/${encodeURIComponent(id)}`, {
+    method: "DELETE",
+  }),
+  civil: (body) => api.request("/api/civil", {
+    method: "PUT", body: JSON.stringify(body),
+  }),
   compile: () => api.request("/api/compile", { method: "POST" }),
   revision: () => api.request("/api/revisions", { method: "POST" }),
   revisions: () => api.request("/api/revisions"),
@@ -85,6 +97,7 @@ let selectedCivilSequence = null;
 let civilPlaybackTimer = null;
 let civilReviewState = { angle_deg: -35, stage: 0, disciplines: new Set() };
 let operationBusy = false;
+let selectedDemandFlowId = null;
 const lineColours = ["#56d39b", "#5eb9e8", "#e88859", "#a98aef", "#e96d95"];
 
 const $ = (selector) => document.querySelector(selector);
@@ -115,6 +128,8 @@ function render() {
   renderStationInspector();
   renderServiceSelectors();
   renderServiceEditor();
+  renderDemandPlanner();
+  renderCivilSettings();
   renderFindings();
   renderArtifacts();
   renderJobs();
@@ -123,6 +138,42 @@ function render() {
   renderRevisionComparison();
   renderApprovals();
 }
+
+function renderCivilSettings() {
+  const civil = view.snapshot.civil;
+  $("#civil-span").value = String(civil.standard_span_m);
+  $("#civil-unit-spans").value = String(civil.expansion_unit_spans);
+  $("#civil-approach-height").value = civil.maximum_reinforced_soil_height_m;
+  $("#civil-mould-cycle").value = civil.mould_cycle_target_h;
+  $("#civil-open-method").value = civil.long_open_at_grade_method;
+  $("#civil-constrained-method").value = civil.constrained_at_grade_method;
+  $("#civil-compare-roads").checked = civil.compare_road_grade_separation;
+  const unitLength = civil.standard_span_m * civil.expansion_unit_spans;
+  const spansPerKm = Math.ceil(1000 / civil.standard_span_m);
+  const unitsPerKm = Math.ceil(spansPerKm / civil.expansion_unit_spans);
+  const bearingsPerKm = (spansPerKm + unitsPerKm) * 4;
+  $("#civil-derived").innerHTML = `<strong>${unitLength.toFixed(0)} m thermal unit · ${unitsPerKm} deck gaps/km · ${bearingsPerKm} bearings/km</strong><span>Planning interfaces for twin track; project rail–structure and geotechnical release required.</span>`;
+}
+
+$("#civil-settings-form").addEventListener("submit", async (event) => {
+  event.preventDefault();
+  try {
+    view = await api.civil({
+      standard_span_m: Number($("#civil-span").value),
+      expansion_unit_spans: Number($("#civil-unit-spans").value),
+      maximum_reinforced_soil_height_m: Number($("#civil-approach-height").value),
+      long_open_at_grade_method: $("#civil-open-method").value,
+      constrained_at_grade_method: $("#civil-constrained-method").value,
+      mould_cycle_target_h: Number($("#civil-mould-cycle").value),
+      compare_road_grade_separation: $("#civil-compare-roads").checked,
+    });
+    revisions = await api.revisions();
+    render();
+    toast("Civil construction intent saved and included in the deterministic revision hash.");
+  } catch (error) {
+    toast(error.message, true);
+  }
+});
 
 function renderGit() {
   const git = view.git;
@@ -750,6 +801,138 @@ $("#service-form").addEventListener("submit", async (event) => {
     comparison = null;
     render();
     toast("Service plan saved and deterministic fleet/capacity metrics regenerated.");
+  } catch (error) {
+    toast(error.message, true);
+  }
+});
+
+function renderDemandPlanner() {
+  const demand = view.snapshot.demand || { periods: [], flows: [] };
+  const periodNode = $("#demand-period");
+  const previousPeriod = periodNode.value;
+  const selectedFlow = demand.flows.find((flow) => flow.id === selectedDemandFlowId) || null;
+  if (!selectedFlow) selectedDemandFlowId = null;
+  periodNode.innerHTML = demand.periods.map((period) =>
+    `<option value="${escapeHtml(period.id)}">${escapeHtml(period.name)} · ${escapeHtml(period.from)}–${escapeHtml(period.to)}</option>`
+  ).join("");
+  const desiredPeriod = selectedFlow?.period || previousPeriod;
+  if (demand.periods.some((period) => period.id === desiredPeriod)) periodNode.value = desiredPeriod;
+
+  const stationOptions = view.snapshot.stations.map((station) =>
+    `<option value="${escapeHtml(station.id)}">${escapeHtml(station.name)} · ${escapeHtml(station.line)}</option>`
+  ).join("");
+  const originNode = $("#demand-origin");
+  const destinationNode = $("#demand-destination");
+  const oldOrigin = originNode.value;
+  const oldDestination = destinationNode.value;
+  originNode.innerHTML = stationOptions;
+  destinationNode.innerHTML = stationOptions;
+  if (selectedFlow) {
+    originNode.value = selectedFlow.origin_station;
+    destinationNode.value = selectedFlow.destination_station;
+    $("#demand-passengers").value = selectedFlow.passengers_per_hour;
+  } else {
+    if (view.snapshot.stations.some((station) => station.id === oldOrigin)) originNode.value = oldOrigin;
+    if (view.snapshot.stations.some((station) => station.id === oldDestination)) {
+      destinationNode.value = oldDestination;
+    } else if (destinationNode.options.length > 1) {
+      destinationNode.selectedIndex = 1;
+    }
+  }
+  originNode.disabled = Boolean(selectedFlow);
+  destinationNode.disabled = Boolean(selectedFlow);
+  $("#demand-form-title").textContent = selectedFlow ? `Edit ${selectedFlow.id}` : "Add planning flow";
+  $("#cancel-demand").hidden = !selectedFlow;
+
+  const period = periodNode.value;
+  const flows = demand.flows.filter((flow) => flow.period === period);
+  const metrics = new Map((view.snapshot.demand_metrics || []).map((metric) => [metric.flow_id, metric]));
+  const stations = new Map(view.snapshot.stations.map((station) => [station.id, station]));
+  const periodDefinition = demand.periods.find((item) => item.id === period);
+  const totalDemand = flows.reduce((total, flow) => total + flow.passengers_per_hour, 0);
+  const screened = flows.map((flow) => metrics.get(flow.id)).filter(Boolean);
+  const maxUtilization = screened.reduce(
+    (maximum, metric) => Math.max(maximum, metric.utilization_percent || 0),
+    0,
+  );
+  $("#demand-summary").innerHTML = periodDefinition
+    ? `<strong>${flows.length}</strong> OD flows · <strong>${totalDemand.toLocaleString()}</strong> entered passengers/hour · <strong>${maxUtilization.toFixed(1)}%</strong> highest indicative utilization · ${escapeHtml(periodDefinition.day_type)}`
+    : "Configure a source-controlled planning period to begin.";
+  $("#demand-flows").innerHTML = flows.length ? flows.map((flow) => {
+    const metric = metrics.get(flow.id);
+    const origin = stations.get(flow.origin_station);
+    const destination = stations.get(flow.destination_station);
+    const capacity = metric ? metric.capacity_pphpd.toLocaleString() : "—";
+    const utilization = metric?.utilization_percent == null
+      ? "unavailable"
+      : `${metric.utilization_percent.toFixed(1)}%`;
+    const status = metric?.status || "unavailable";
+    const transfer = metric?.transfers ? "1 transfer screen" : "direct line screen";
+    return `<tr data-demand-flow="${escapeHtml(flow.id)}">
+      <td><span class="demand-route"><strong>${escapeHtml(origin?.name || flow.origin_station)} → ${escapeHtml(destination?.name || flow.destination_station)}</strong><small>${escapeHtml(flow.id)} · ${escapeHtml(transfer)}</small></span></td>
+      <td>${flow.passengers_per_hour.toLocaleString()} pph</td>
+      <td>${capacity} pphpd</td>
+      <td><span class="demand-status ${escapeHtml(status)}">${escapeHtml(status.replaceAll("-", " "))} · ${escapeHtml(utilization)}</span></td>
+      <td><span class="demand-actions"><button type="button" class="secondary" data-demand-edit="${escapeHtml(flow.id)}">Edit</button><button type="button" class="danger" data-demand-delete="${escapeHtml(flow.id)}">×</button></span></td>
+    </tr>`;
+  }).join("") : '<tr><td colspan="5" class="empty-diff">No OD planning flows in this period.</td></tr>';
+}
+
+$("#demand-period").addEventListener("change", () => {
+  selectedDemandFlowId = null;
+  renderDemandPlanner();
+});
+
+$("#cancel-demand").addEventListener("click", () => {
+  selectedDemandFlowId = null;
+  renderDemandPlanner();
+});
+
+$("#demand-form").addEventListener("submit", async (event) => {
+  event.preventDefault();
+  try {
+    if (selectedDemandFlowId) {
+      view = await api.demandFlow(selectedDemandFlowId, {
+        passengers_per_hour: Number($("#demand-passengers").value),
+      });
+      toast("OD demand updated; capacity screening and revision hash regenerated.");
+    } else {
+      const result = await api.createDemandFlow({
+        period: $("#demand-period").value,
+        origin_station: $("#demand-origin").value,
+        destination_station: $("#demand-destination").value,
+        passengers_per_hour: Number($("#demand-passengers").value),
+      });
+      view = result.project;
+      selectedDemandFlowId = result.id;
+      toast("OD demand added as deterministic project intent.");
+    }
+    revisions = await api.revisions();
+    comparison = null;
+    render();
+  } catch (error) {
+    toast(error.message, true);
+  }
+});
+
+$("#demand-flows").addEventListener("click", async (event) => {
+  const editButton = event.target.closest("[data-demand-edit]");
+  if (editButton) {
+    selectedDemandFlowId = editButton.dataset.demandEdit;
+    renderDemandPlanner();
+    return;
+  }
+  const deleteButton = event.target.closest("[data-demand-delete]");
+  if (!deleteButton) return;
+  const id = deleteButton.dataset.demandDelete;
+  if (!window.confirm(`Remove ${id} from the candidate demand plan?`)) return;
+  try {
+    view = await api.deleteDemandFlow(id);
+    if (selectedDemandFlowId === id) selectedDemandFlowId = null;
+    revisions = await api.revisions();
+    comparison = null;
+    render();
+    toast("OD demand removed; the revision comparison records the change.");
   } catch (error) {
     toast(error.message, true);
   }
@@ -1423,6 +1606,13 @@ function renderRevisionComparison() {
     const transition = item.before && item.after ? `${item.before.status} → ${item.after.status}` : issue.status;
     return `<div class="revision-item"><strong>${escapeHtml(item.kind)} · ${escapeHtml(item.id)}</strong><small>${escapeHtml(transition)}${issue.reviewed_by ? ` · ${escapeHtml(issue.reviewed_by)}` : ""}</small></div>`;
   }).join("") || '<p class="empty-diff">No coordination changes</p>';
+  const demandItems = (diff.demand || []).map((item) => {
+    const flow = item.after || item.before;
+    const transition = item.before && item.after
+      ? `${item.before.passengers_per_hour.toLocaleString()} → ${item.after.passengers_per_hour.toLocaleString()} pph`
+      : `${flow.passengers_per_hour.toLocaleString()} pph`;
+    return `<div class="revision-item"><strong>${escapeHtml(item.kind)} · ${escapeHtml(flow.origin_station)} → ${escapeHtml(flow.destination_station)}</strong><small>${escapeHtml(flow.period)} · ${escapeHtml(transition)} · ${escapeHtml(item.id)}</small></div>`;
+  }).join("") || '<p class="empty-diff">No demand changes</p>';
   node.innerHTML = `
     <p>Comparing <strong>${escapeHtml(diff.base_revision_id)}</strong> with candidate <strong>${escapeHtml(diff.candidate_revision_id)}</strong></p>
     <div class="revision-summary">${summary.map(([value, label]) =>
@@ -1432,6 +1622,7 @@ function renderRevisionComparison() {
       <div class="revision-group"><h3>Stations</h3>${stationItems}</div>
       <div class="revision-group"><h3>Lines</h3>${lineItems}</div>
       <div class="revision-group"><h3>Services</h3>${serviceItems}</div>
+      <div class="revision-group"><h3>Demand</h3>${demandItems}</div>
       <div class="revision-group"><h3>Coordination</h3>${coordinationItems}</div>
     </div>`;
 }

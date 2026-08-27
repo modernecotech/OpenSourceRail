@@ -15,6 +15,7 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 CAPEX_COSTS_PATH = REPO_ROOT / "lib/templates/capex-costs.toml"
+CIVIL_COST_MODEL_PATH = REPO_ROOT / "lib/templates/civil-cost-model.toml"
 COUNTRY_FINANCE_PATH = REPO_ROOT / "lib/templates/country-finance.toml"
 CAPITAL_MODEL_PATH = REPO_ROOT / "design-py/src/osr_scenario/capital.py"
 NETWORK_FINANCE_MODEL_PATH = REPO_ROOT / "design-py/src/osr_scenario/network_readme.py"
@@ -226,6 +227,8 @@ def build_model(design_path: Path, scenario_path: Path) -> dict[str, object]:
             "network_finance_model_sha256": sha256(NETWORK_FINANCE_MODEL_PATH),
             "capex_costs": str(CAPEX_COSTS_PATH.relative_to(REPO_ROOT)),
             "capex_costs_sha256": sha256(CAPEX_COSTS_PATH),
+            "civil_cost_model": str(CIVIL_COST_MODEL_PATH.relative_to(REPO_ROOT)),
+            "civil_cost_model_sha256": sha256(CIVIL_COST_MODEL_PATH),
             "country_finance": str(COUNTRY_FINANCE_PATH.relative_to(REPO_ROOT)),
             "country_finance_sha256": sha256(COUNTRY_FINANCE_PATH),
         },

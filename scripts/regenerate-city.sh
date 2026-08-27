@@ -112,6 +112,9 @@ DESIGN_DIR="$REPO/designs/$REGION/$COUNTRY_NAME/$CITY_TITLE"
 
 echo "=== regenerating $SLUG ($COUNTRY) → $DESIGN_DIR ==="
 
+echo "0) CAD quantity cost contract"
+"$PYTHON" "$REPO/scripts/generate-civil-cost-model.py"
+
 cd "$DESIGN_PY"
 export PYTHONPATH="$DESIGN_PY/src"
 

@@ -12,7 +12,7 @@
 //! - **Rail tonnage** (two rails per track at the profile mass per metre).
 //! - **Sleeper count** (at the geometry preset's spacing).
 //! - **Ballast volume** (from the track panel's ballast profile).
-//! - **Concrete volume** (viaduct U-girder segments per elevated length).
+//! - **Concrete volume** (decked Pi-beams and trackform per elevated length).
 //!
 //! Output is a `EarthworksQuantities` document that plugs into the
 //! cost-estimation pass (RFC 0003 §6) with real numbers instead of
@@ -27,10 +27,10 @@ use crate::Alignment;
 pub enum CivilSection {
     /// Conventional ballasted track on graded formation.
     AtGrade,
-    /// Elevated precast U-girder viaduct.
+    /// Elevated precast decked Pi-beam viaduct.
     Elevated,
     /// Short bridge over water / road — treated as elevated with the
-    /// bridge class's U-girder.
+    /// bridge class's independently selected superstructure.
     Bridge,
     /// Depot / yard formation — no viaduct, no cant.
     Depot,
@@ -75,7 +75,7 @@ pub struct EarthworksQuantities {
     pub sleeper_count: u64,
     /// Ballast volume at ballasted sections (depot + at-grade).
     pub ballast_m3: f64,
-    /// Concrete volume for elevated sections (U-girder cross-section × length).
+    /// Concrete volume for elevated sections (Pi-beams and trackform × length).
     pub concrete_m3: f64,
 }
 
@@ -355,6 +355,6 @@ mod tests {
             params,
         );
         assert_eq!(params.track_count, 2);
-        assert!((q.concrete_m3 - 4_411.2).abs() < 1.0, "{}", q.concrete_m3);
+        assert!((q.concrete_m3 - 2_857.2).abs() < 1.0, "{}", q.concrete_m3);
     }
 }

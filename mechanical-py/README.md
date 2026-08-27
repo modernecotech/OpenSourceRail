@@ -1,7 +1,7 @@
 # mechanical-py — parametric mechanical + civil + station catalogue
 
 Every piece of the OpenSourceRail physical catalogue — rails, sleepers,
-U-girders, station canopies, turnout kits, depot doors, solar mounts —
+decked Pi-beams, special U-girders, station canopies, turnout kits, depot doors, solar mounts —
 is expressed as a parametric Python CAD assembly.
 
 ## Design philosophy
@@ -31,7 +31,7 @@ criteria, in order:
 | Module | Components |
 |---|---|
 | `osr_mech.track` | Rail profile (54E1 / 60E1), precast mono-block sleeper, Pandrol-style fastener, assembled track panel |
-| `osr_mech.civil` | Precast U-girder for elevated spans (RFC 0011), at-grade/elevated ballastless slab panels, precast pad footing, precast L-unit platform edge |
+| `osr_mech.civil` | OSR-Pi20/Pi25 decked beams, special U-girders, OSR-ST6/elevated direct-fixation trackforms, soil/access foundation catalogue, resource production plan, substructures and platform edges (RFC 0011) |
 | `osr_mech.station` | Steel portal-frame bay, multi-bay canopy assembly, solar-roof panel, signage + lighting mast |
 | `osr_mech.rolling_stock` | Car body, bogie components, trainset assemblies, sensor cowl, couplers, articulation, doors, batteries, traction/electronics envelopes, T-OBS sensor pack, fit-out envelopes |
 | `osr_mech.cad_templates` | Fabrication templates plus supplier-neutral COTS fixture envelopes |
@@ -57,7 +57,7 @@ operator has already made in `design.toml`:
 - **Rolling-stock family** → platform length → canopy bay count.
 - **Track-geometry preset** → rail profile + sleeper spacing.
 - **Station archetype** → bay count + facility mast count.
-- **Civil class** (at-grade / elevated / bridge) → U-girder span
+- **Civil class** (at-grade / elevated / bridge) → ST6 or Pi20/Pi25 product, foundation zone and special-span interface
   + pier spacing or ballast depth.
 
 So `design.toml` drives both the Rust planning pipeline *and* the

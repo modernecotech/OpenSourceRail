@@ -1,7 +1,7 @@
 # Burkina Faso national OpenSourceRail strategy
 
 > [!IMPORTANT]
-> **Foreign-capital advantage:** against the default equivalent foreign-turnkey case, this national OSR programme avoids **$3.01 B (87.3%) of external capital** and **$3.89 B of external interest**. Capital plus saved interest totals **$6.90 B over the 40-year financing life**. Both cases use the same 4.5% external rate and financing schedule; the comparator external requirement is assumed debt-financed, and the comparator is an editable sensitivity, not a vendor quote.
+> **Foreign-capital advantage:** against the default equivalent foreign-turnkey case, this national OSR programme avoids **$2.81 B (87.0%) of external capital** and **$3.63 B of external interest**. Capital plus saved interest totals **$6.44 B over the 40-year financing life**. Both cases use the same 4.5% external rate and financing schedule; the comparator external requirement is assumed debt-financed, and the comparator is an editable sensitivity, not a vendor quote.
 
 Burkina Faso should implement OpenSourceRail as one national industrial and financing programme covering the 1 catalogue cities below, rather than as disconnected city projects. One centrally governed trainset factory builds the shared modular fleet in phases; city and regional contractors fabricate and install rails, viaducts, stations, depots, and local civil works. This concentrates scarce imported machinery, specialist tooling, engineering support, and foreign currency in one reusable national asset while maximizing domestic labour, materials, fabrication, and local-currency financing.
 
@@ -13,10 +13,10 @@ Burkina Faso should implement OpenSourceRail as one national industrial and fina
 | Served population represented | 2,531,000 |
 | Trainsets across city plans | 271 |
 | Vehicle/car modules to manufacture | 1,084 |
-| City infrastructure + fleet CAPEX | $1.85 B |
+| City infrastructure + fleet CAPEX | $1.73 B |
 | One shared national trainset factory | $65.0 M |
 | National factory sizing basis | 1,084 modules: largest single-city programme (Ouagadougou) |
-| **Total national programme CAPEX** | **$1.92 B** |
+| **Total national programme CAPEX** | **$1.80 B** |
 
 The factory is sized to the largest single-city fleet programme and reused through a phased national rollout. This avoids duplicating factory buildings, moulds, welding fixtures, metrology, commissioning equipment, and imported machinery in every city. Final factory siting requires a national freight, power, workforce, land, and test-track study; this brief does not preselect a city.
 
@@ -26,13 +26,13 @@ Imported content is the minimum foreign-currency or international-capital requir
 
 | Capital boundary | Share | Total | Annual draw during construction |
 |---|---:|---:|---:|
-| **External capital for imports** | **22.9%** | **$438.9 M** | **$43.9 M / yr** |
-| **Local capital for domestic value** | **77.1%** | **$1.48 B** | **$147.7 M / yr** |
-| planned local-currency bond issuance | 61.7% of total | $1.18 B | $118.2 M / yr |
-| local public equity / other domestic funding | 15.4% of total | $295.4 M | $29.5 M / yr |
-| **Total capital programme** | **100.0%** | **$1.92 B** | **$191.6 M / yr** |
+| **External capital for imports** | **23.4%** | **$420.9 M** | **$42.1 M / yr** |
+| **Local capital for domestic value** | **76.6%** | **$1.37 B** | **$137.5 M / yr** |
+| planned local-currency bond issuance | 61.2% of total | $1.10 B | $110.0 M / yr |
+| local public equity / other domestic funding | 15.3% of total | $275.0 M | $27.5 M / yr |
+| **Total capital programme** | **100.0%** | **$1.80 B** | **$179.6 M / yr** |
 
-The annual construction draw is spread evenly over 10 planning years. Post-grace annual debt service is $26.9 M for external import finance plus $120.1 M for local bonds, or **$147.1 M per year** before railway operating cash flow. During construction, interest plus the local public-equity draw is **$161.5 M per year**.
+The annual construction draw is spread evenly over 10 planning years. Post-grace annual debt service is $25.8 M for external import finance plus $111.8 M for local bonds, or **$137.7 M per year** before railway operating cash flow. During construction, interest plus the local public-equity draw is **$150.9 M per year**.
 
 ## Foreign-company turnkey comparison
 
@@ -40,26 +40,26 @@ This controlled comparison is an editable sensitivity, not a supplier quotation.
 
 | Case | Cost multiplier vs OSR | Foreign-company external capital | OSR external capital saved | External interest saved over financing life | Capital + interest saved |
 |---|---:|---:|---:|---:|---:|
-| Low | 1.50× | $2.59 B | $2.15 B (83.0%) | $2.77 B | **$4.92 B** |
-| **Default** | 2.00× | $3.45 B | $3.01 B (87.3%) | $3.89 B | **$6.90 B** |
-| High | 3.00× | $5.17 B | $4.73 B (91.5%) | $6.11 B | **$10.85 B** |
+| Low | 1.50× | $2.42 B | $2.00 B (82.6%) | $2.59 B | **$4.59 B** |
+| **Default** | 2.00× | $3.23 B | $2.81 B (87.0%) | $3.63 B | **$6.44 B** |
+| High | 3.00× | $4.85 B | $4.43 B (91.3%) | $5.72 B | **$10.15 B** |
 
-At the default 2.00× case, the OSR programme reduces external capital from $3.45 B to $438.9 M, a saving of **$3.01 B (87.3%)**, plus **$3.89 B** of external interest over the financing life. Total programme CAPEX is 50.0% below the comparator. Replace both variables with scope-normalized bids before investment approval.
+At the default 2.00× case, the OSR programme reduces external capital from $3.23 B to $420.9 M, a saving of **$2.81 B (87.0%)**, plus **$3.63 B** of external interest over the financing life. Total programme CAPEX is 50.0% below the comparator. Replace both variables with scope-normalized bids before investment approval.
 
 ## Procurement-origin composition
 
 | CAPEX bucket | Total | Imported share | External capital | Local value |
 |---|---:|---:|---:|---:|
-| Civil works | $803.4 M | 15% | $120.5 M | $682.9 M |
+| Civil works | $691.2 M | 15% | $103.7 M | $587.5 M |
 | Stations | $397.8 M | 20% | $79.6 M | $318.2 M |
 | Depots | $8.0 M | 25% | $2.0 M | $6.0 M |
 | Rolling stock | $303.5 M | 35% | $106.2 M | $197.3 M |
 | Dedicated solar plants | $190.0 M | 45% | $85.5 M | $104.5 M |
 | Residual signalling / train control | $11.1 M | 50% | $5.5 M | $5.5 M |
 | Charging microgrids | $24.1 M | 40% | $9.6 M | $14.4 M |
-| EPC / project services | $112.9 M | 15% | $16.9 M | $96.0 M |
+| EPC / project services | $105.0 M | 15% | $15.8 M | $89.3 M |
 | Shared national trainset factory | $65.0 M | 20% | $13.0 M | $52.0 M |
-| **Total** | **$1.92 B** | **22.9%** | **$438.9 M** | **$1.48 B** |
+| **Total** | **$1.80 B** | **23.4%** | **$420.9 M** | **$1.37 B** |
 
 ## City programme
 
@@ -67,7 +67,7 @@ Each city CAPEX below excludes the national factory. Its imported share varies w
 
 | City | Population | Fleet | City CAPEX | Imported % | OSR external capital | Foreign-turnkey external capital (default) | External capital saved | Capital + lifetime external interest saved | Local capital |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| [Ouagadougou](Ouagadougou/README.md) | 2,531,000 | 271 | $1.85 B | 23.0% | $425.2 M | $3.32 B | $2.90 B | $6.64 B | $1.42 B |
+| [Ouagadougou](Ouagadougou/README.md) | 2,531,000 | 271 | $1.73 B | 23.6% | $407.2 M | $3.11 B | $2.70 B | $6.19 B | $1.32 B |
 
 ## National implementation sequence
 

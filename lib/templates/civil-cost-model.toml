@@ -1,0 +1,89 @@
+# GENERATED FILE — edit civil-cost-calibration.toml or the CAD quantity model.
+# Regenerate with: python3 scripts/generate-civil-cost-model.py
+
+[schema]
+version = 1
+currency = "USD"
+basis = "Planning target indexed from the retained pre-redesign benchmark; excludes land, tax/duty, utility relocation, escalation and financing"
+maturity = "planning-target-not-a-quotation"
+
+[provenance]
+generator = "scripts/generate-civil-cost-model.py"
+calibration_sha256 = "991fc84d8fed2f9a94d6fe01c2663af468766e3f1574bab2cddbc333e87a9d1c"
+civil_source_tree_sha256 = "a5864c353788485f93a1ce95ec3904cca4f1a83326dd63142ac5b98a22a3423d"
+
+[civil_usd_per_km]
+at_grade = 2584000
+elevated = 9748000
+bridge = 18000000
+
+[benchmark_civil_usd_per_km]
+at_grade = 3000000
+elevated = 12000000
+bridge = 18000000
+
+[classes."at-grade"]
+benchmark_usd_per_km = 3000000
+design_target_usd_per_km = 2584000
+design_to_benchmark_ratio = 0.861242
+unscaled_cost_share = 0.620000
+
+[[classes."at-grade".drivers]]
+quantity = "slab_concrete_m3_per_km"
+current_quantity = 1693.2
+benchmark_quantity = 2105.6
+cost_share = 0.200000
+quantity_ratio = 0.804141
+reason = "Smaller single-track/slipform geometry reduces structural concrete exposure"
+
+[[classes."at-grade".drivers]]
+quantity = "slab_rebar_kg_per_km"
+current_quantity = 253980
+benchmark_quantity = 315840
+cost_share = 0.100000
+quantity_ratio = 0.804141
+reason = "Reinforcement planning quantity follows slab volume"
+
+[[classes."at-grade".drivers]]
+quantity = "single_track_panels_per_km"
+current_quantity = 0
+benchmark_quantity = 334
+cost_share = 0.080000
+quantity_ratio = 0.000000
+reason = "Continuous slipform removes repetitive panel transport, lifts and joints on open runs"
+
+[classes."elevated"]
+benchmark_usd_per_km = 12000000
+design_target_usd_per_km = 9748000
+design_to_benchmark_ratio = 0.812344
+unscaled_cost_share = 0.550000
+
+[[classes."elevated".drivers]]
+quantity = "bare_beam_concrete_m3_per_km"
+current_quantity = 2398
+benchmark_quantity = 3840
+cost_share = 0.300000
+quantity_ratio = 0.624479
+reason = "Decked pi-beams replace the former full-width U25 concrete envelope"
+
+[[classes."elevated".drivers]]
+quantity = "bearings_per_km"
+current_quantity = 200
+benchmark_quantity = 320
+cost_share = 0.100000
+quantity_ratio = 0.625000
+reason = "Four-span semi-continuous units reduce bearing lines"
+
+[[classes."elevated".drivers]]
+quantity = "deck_gaps_per_km"
+current_quantity = 10
+benchmark_quantity = 40
+cost_share = 0.050000
+quantity_ratio = 0.250000
+reason = "Expansion gaps occur at unit boundaries instead of every span"
+
+[classes."bridge"]
+benchmark_usd_per_km = 18000000
+design_target_usd_per_km = 18000000
+design_to_benchmark_ratio = 1.000000
+unscaled_cost_share = 1.000000

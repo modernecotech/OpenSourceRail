@@ -25,7 +25,7 @@ or railway product acceptance.
 
 3. **Make elevated guideway a factory product, not a bridge project.**
    Low-cost elevated rail depends on a short span catalogue, single-column
-   pier lines, precast U-girder or segmental box/U spans, standard bearings,
+   pier lines, transportable decked Pi20/Pi25 or special segmental spans, standard bearings,
    and repeatable erection. It should be used where it avoids demolition,
    severe junction conflicts, or tunnelling, but the model should not assume
    elevated is cheap where foundations, utilities, stations, or special spans
@@ -135,9 +135,10 @@ For OSR:
 
 | Technology | Readiness | Speed effect | Recycled / low-carbon potential | OSR recommendation |
 |---|---|---|---|---|
-| Full-span precast U-girders | High | High on 20-30 m repetitive spans with crane access | Low-carbon concrete, EAF/recycled rebar, reusable moulds | Adopt as the standard elevated guideway where road access allows night or weekend lifts |
+| Rail-designed decked Pi20/Pi25 beams | Prototype design required; established bridge family | High on 20–25 m repetitive spans | Low-carbon concrete after early-strength, creep and bond trials; reusable long-line mould | Adopt as the OSR reference after structural prototype and first article; one ≤3 m, ≤75 t beam per track |
+| Full-span precast U-girders | High | High on 20–30 m repetitive spans with wide/heavy transport access | Low-carbon concrete, EAF/recycled rebar, reusable moulds | Retain as an acoustic or project-specific special product |
 | Precast segmental U/box guideway with launching gantry | High | Very high on long viaduct packages and constrained streets | Low-carbon concrete and recycled rebar; lower traffic disruption | Adopt for long continuous elevated packages or where crane access is poor; avoid for short isolated stubs |
-| Single-column median piers / monopiles | High | High; reduces excavation width and utility diversion | Low-carbon concrete and recycled rebar in substructure | Adopt where geotechnical conditions permit |
+| Single-column median piers / classified foundations | High | High; reduces excavation width and utility diversion | Low-carbon concrete and recycled rebar in substructure | Select spread, bored, driven or pile-group interface by geotechnical/access zone |
 | Precast pier caps or pier-cap shells | Medium-high | High; removes complex formwork above traffic | Low-carbon concrete, reusable forms | Adopt as a standard option for viaduct and elevated-station piers |
 | Steel modular special spans | High | High for road/rail crossings and emergency works | Recycled steel content can be high | Use only for special crossings; concrete remains the default for repetitive spans |
 | UHPC / fibre-reinforced concrete viaduct elements | Medium | Medium; may extend spans or reduce section depth | Lower material volume but higher material and QA burden | Watchlist; use only where local supply and structural review support it |
@@ -156,11 +157,10 @@ onsite time and disruption.
 
 For OSR, the elevated kit should be:
 
-- 20 m / 25 m / 30 m standard spans, with a controlled special-span
+- Pi20/Pi25 standard spans, with a controlled special-span
   variant for road, railway, river, and utility crossings.
-- U-girder or trough-shaped span where the structural sides also provide
-  containment, parapet depth, acoustic screening support, and cable route
-  interfaces.
+- One 2.9 m decked Pi-beam per track, stems below the rails, with separate
+  outer walkway/barrier cassettes and a small inner service closure.
 - Single-column piers in a road median or other clear line, with no
   bespoke pier architecture.
 - Standard elastomeric bearings, expansion joints, drainage scuppers,
@@ -178,7 +178,7 @@ and erection are overlapped as separate work fronts:
 
 1. **Early utility and geotechnical release:** fix the pier line before
    girder production. Foundation surprises erase the factory advantage.
-2. **Near-site precast yard:** cast U-girders, pier caps, platform edge
+2. **Near-site precast yard:** cast Pi-beams, pier caps, ST6 panels, platform edge
    units, parapets, cable troughs, and walkway modules close enough that
    trucking does not become the bottleneck. Surrey Langley SkyTrain is a
    current example of guideway segments being made in a dedicated precast
@@ -246,7 +246,7 @@ prestressed primary span:
   trays, and canopies where certified.
 - Use GGBS, fly ash, limestone calcined clay, or other approved low-carbon
   cement blends in piers, pile caps, pier caps, and station modules.
-- Keep prestressed U-girders conservative until the precast supplier can
+- Keep prestressed Pi-beams and special U-girders conservative until the precast supplier can
   prove early strength, durability, shrinkage, creep, and tendon bond.
 - Use recycled aggregate in non-prestressed substructure or backfill only
   where local standards allow.
@@ -374,7 +374,7 @@ not isolated experiments. OSR should build procurement around:
 
 1. **At-grade urban trackform:** ballastless direct-fixation slab at a
    $3.0M/route-km planning floor.
-2. **Elevated guideway kit:** repeatable U-girder or segmental guideway,
+2. **Elevated guideway kit:** repeatable Pi20/Pi25 or special segmental guideway,
    single-column piers, standard bearings, standard drainage, and one
    erection playbook.
 3. **Two at-grade construction methods:** precast slab panel for repeatable
@@ -421,8 +421,8 @@ not isolated experiments. OSR should build procurement around:
    - standard service trench and cabinet plinth.
 
 3. Add a civil template for `rapid-elevated-guideway` with:
-   - full-span U-girder and segmental-launch variants,
-   - 20 m / 25 m / 30 m standard spans,
+   - full-span Pi20/Pi25 and segmental-launch variants,
+   - 20 m / 25 m standard spans,
    - controlled special-span interface,
    - single-column pier and pier-cap shell catalogue,
    - elevated-station widened-bay interface.

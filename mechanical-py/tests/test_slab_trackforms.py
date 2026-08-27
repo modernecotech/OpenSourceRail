@@ -11,48 +11,53 @@ from osr_mech.civil.slab import (
     FASTENER_PITCH_MM,
     PANEL_LENGTH_MM,
     at_grade_concrete_volume_m3,
+    at_grade_panel_mass_kg,
     at_grade_rail_y_positions,
     at_grade_slab_panel,
+    at_grade_twin_rail_y_positions,
     direct_fixation_seat_count,
     elevated_concrete_volume_m3,
     elevated_deck_slab_panel,
     elevated_rail_y_positions,
     elevated_service_trough_y_positions,
 )
-from osr_mech.civil.ugirder import INTERNAL_WIDTH_MM
+from osr_mech.civil.decked_pi import DECK_WIDTH_MM
 from osr_mech.track.panel import track_panel
 
 
-def test_at_grade_panel_carries_double_track_direct_fixation() -> None:
+def test_at_grade_panel_is_a_transportable_single_track_module() -> None:
     rails = at_grade_rail_y_positions()
-    assert len(rails) == 4
+    twin_rails = at_grade_twin_rail_y_positions()
+    assert len(rails) == 2
+    assert len(twin_rails) == 4
     assert min(rails) > -AT_GRADE_PANEL_WIDTH_MM / 2.0
     assert max(rails) < AT_GRADE_PANEL_WIDTH_MM / 2.0
-    assert direct_fixation_seat_count(PANEL_LENGTH_MM, len(rails)) == 40
+    assert direct_fixation_seat_count(PANEL_LENGTH_MM, len(rails)) == 20
+    assert 12_000 <= at_grade_panel_mass_kg() <= 16_000
 
 
-def test_elevated_panel_fits_inside_u_girder_trough() -> None:
+def test_elevated_trackform_fits_on_decked_pi_flange() -> None:
     rails = elevated_rail_y_positions()
     assert len(rails) == 2
-    assert ELEVATED_PANEL_WIDTH_MM <= INTERNAL_WIDTH_MM
+    assert ELEVATED_PANEL_WIDTH_MM <= DECK_WIDTH_MM
     assert max(abs(y) for y in rails) < ELEVATED_PANEL_WIDTH_MM / 2.0
     assert direct_fixation_seat_count(PANEL_LENGTH_MM, len(rails)) == 20
-    assert elevated_service_trough_y_positions() == (1920.0,)
+    assert elevated_service_trough_y_positions() == (1220.0,)
 
 
 def test_slab_concrete_volumes_are_planning_envelopes() -> None:
     at_grade = at_grade_concrete_volume_m3()
     elevated = elevated_concrete_volume_m3()
-    assert 12.0 <= at_grade <= 13.0
-    assert 1.6 <= elevated <= 1.9
+    assert 5.0 <= at_grade <= 5.2
+    assert 1.3 <= elevated <= 1.5
 
 
 def test_cad_parts_build_with_expected_children() -> None:
     at_grade = at_grade_slab_panel()
     elevated = elevated_deck_slab_panel()
-    assert "At-grade" in at_grade.label
+    assert "OSR-ST6" in at_grade.label
     assert "Elevated" in elevated.label
-    assert len(at_grade.children) == 1 + 4 + 2 + 40
+    assert len(at_grade.children) == 1 + 2 + 2 + 20
     assert len(elevated.children) == 1 + 2 + 1 + 20
     service_parts = [
         child for child in elevated.children if child.label == "Elevated cable and drainage trough"

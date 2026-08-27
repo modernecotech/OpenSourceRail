@@ -145,11 +145,11 @@ interchange-elevated IFC coordination skeletons; geometry/mesh and alignment
 drift tests remain open.
 
 The civil federation now also generates a byte-deterministic IFC4.3 model with
-82 stable assets, four `IfcRailwayPart` disciplines, an `IfcAlignment`
-reference, 16 construction tasks, task-product links, quantities, provenance,
-and nine passing interface checks. Its IDS 1.0 delivery contract passes 828 of
-828 checks across three specifications, and its deterministic BCF 3.0 package
-links three open release topics to 23 IFC selections. Bonsai 0.8.5 imports the
+95 stable assets, four `IfcRailwayPart` disciplines, an `IfcAlignment`
+reference, 18 construction tasks, task-product links, quantities, provenance,
+and nine passing interface checks. Its IDS 1.0 delivery contract passes 958 of
+958 checks across three specifications, and its deterministic BCF 3.0 package
+links three open release topics to 35 IFC selections. Bonsai 0.8.5 imports the
 model headlessly and saves the review/animation scene. Survey-grade alignment,
 BCF issue closure, and engineer-released structural detail remain open.
 

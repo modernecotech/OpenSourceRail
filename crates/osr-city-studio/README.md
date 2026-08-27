@@ -16,6 +16,10 @@ lines from two endpoints using locked demand/buildability surfaces or an
 explicit direct chord, edit local alignment controls, plan service by
 line/day/time, adjust every time-window headway for one line or every route in
 an atomic day-type transaction, copy a complete plan between day types,
+author period-specific origin–destination flows, screen them against the
+conservative scheduled capacity bottleneck, and edit or remove those flows,
+edit project-level civil construction intent and inspect derived thermal-unit,
+deck-gap and bearing quantities,
 regenerate GIS and simulator inputs, and compare the working
 candidate with immutable Git revision records. Its engineering hub runs only
 allowlisted GIS, simulator, and alignment-exchange adapters and persists their
@@ -39,6 +43,18 @@ Materialized revisions can also receive append-only approval or
 changes-requested records with a reviewer, role, date, rationale, and review/PR
 reference. These records live in project TOML but remain outside the design
 hash, so approving an immutable revision cannot create a circular new revision.
+
+Demand periods and OD flows live in `demand/od-matrix.toml`. Flow IDs are
+derived from period/origin/destination identity, capacity screens are rebuilt
+from the corresponding line/day/time service windows, and both intent and
+metrics participate in deterministic revision hashes and semantic comparison.
+This is an indicative planning screen, not observed passenger data or a
+passenger-assignment model.
+
+Civil settings live in `[civil]` in `project.osr.toml`. The API and GUI reject
+values outside the controlled product family before atomically persisting the
+standard span, expansion-unit length, reinforced-soil height, slipform/ST6
+methods, mould-cycle target and road crossing-comparison rule.
 
 Run the complete isolated GUI and restart-persistence acceptance suite with:
 

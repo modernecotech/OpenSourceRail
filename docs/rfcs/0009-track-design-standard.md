@@ -34,10 +34,11 @@ the civil rationale for every number.
 
 ## 2. Non-goals
 
-- **Not a civil drawing standard.** Slab-track vs ballasted, fastener
-  family, concrete sleeper geometry — all are per-deployment civil
-  decisions, constrained by local material availability and by this
-  RFC's envelope but not specified here.
+- **Not a civil drawing standard.** This alignment/track-geometry RFC does not
+  itself select slab versus ballast. RFC 0011 and the default OSR civil recipe
+  select ballastless direct fixation for urban at-grade and elevated sections;
+  a deployment may override that choice with lifecycle and local-capability
+  evidence while remaining inside this RFC's geometry envelope.
 - **Not an earthworks rulebook.** Cut/fill, drainage, embankment
   stability are owned by the deploying operator's civil team;
   this RFC specifies the *alignment* envelope they must respect.
@@ -155,17 +156,17 @@ curve + grade + consist limit. This matches EN 13803-1 intent.
 
 ### 7.2 Sleepers / slab
 
-The preset envelope does **not** fix slab-track vs ballast — that
-is deployment-specific. Constraints the presets do fix:
+The geometry preset does **not** itself fix slab-track versus ballast. The
+upstream civil baseline in RFC 0011 is ballastless direct fixation for urban
+at-grade and elevated sections; deployments record any approved override.
+Constraints the presets do fix:
 
 - Sleeper spacing: 600 mm typical, 550 mm in curves below 2×
   min radius for all ballasted presets.
 - Fastener: Pandrol fastclip family or equivalent elastic-rail
   fastener; no rigid K-type fasteners (heavy maintenance).
-- Slab-track option: only where the civil-class inference
-  classifies the segment as elevated or tunnel (vibration-prone
-  environments) — the operator may still choose ballasted in
-  those segments.
+- Direct-fixation fasteners must remain adjustable whether the support is an
+  OSR-ST6 panel, a decked Pi-beam or a project-specific cast-in-place plinth.
 
 ### 7.3 Turnouts
 
@@ -240,10 +241,9 @@ city recipe.
   UIC60's global supply chain is well-stocked and second-source.
   A simpler lighter-profile would save mass but lose that
   supplier depth.
-- **Ballasted vs slab is deferred.** Slab track has lower
-  lifetime maintenance but 2–3× the initial CAPEX. The preset
-  envelope stays neutral; the deployment recipe picks based on
-  the operator's capital profile and local skills.
+- **Geometry stays neutral; the civil baseline is explicit.** RFC 0011 selects
+  ballastless OSR-ST6/direct fixation upstream. A deployment changes it only
+  through a recorded lifecycle, supply-chain and maintainability decision.
 - **No mixed-gauge track.** Dual-gauge trackwork is explicitly out
   of scope. Operators with that legacy have to choose one gauge to
   extend outside the upstream OSR envelope.

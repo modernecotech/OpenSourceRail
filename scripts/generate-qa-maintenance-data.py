@@ -10,11 +10,14 @@ from __future__ import annotations
 
 import argparse
 import csv
+from dataclasses import asdict
 import gzip
 import hashlib
 import json
+import math
 import os
 import re
+import sys
 import tempfile
 import tomllib
 from pathlib import Path
@@ -22,6 +25,9 @@ from typing import Any
 
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(REPO_ROOT / "mechanical-py/src"))
+
+from osr_mech.civil.construction import CivilProductionInputs, civil_production_plan  # noqa: E402
 DEFAULT_DESIGN = REPO_ROOT / "designs/west-asia/Iraq/Samawah/design.toml"
 DEFAULT_SCENARIO = REPO_ROOT / "designs/west-asia/Iraq/Samawah/samawah.toml"
 DEFAULT_BOM_DIR = REPO_ROOT / "build/bom"
@@ -372,6 +378,7 @@ def build_bundle(
         city_slug=slug,
     )
     _resolve_manufacturing_predecessors(manufacturing_tasks, assets)
+    _schedule_manufacturing_tasks(manufacturing_tasks)
     manufacturing_materials = _expand_manufacturing_materials(
         manufacturing_tasks=manufacturing_tasks,
         bom_catalog=bom_catalog,
@@ -384,6 +391,10 @@ def build_bundle(
         manufacturing_tasks=manufacturing_tasks,
         manufacturing_materials=manufacturing_materials,
         manufacturing_verifications=manufacturing_verifications,
+    )
+    civil_production = _civil_production_by_line(
+        design=design,
+        controls=dict(manufacturing_template.get("civil_production", {})),
     )
 
     apps = _portal_apps(design_path, scenario_path)
@@ -420,6 +431,7 @@ def build_bundle(
         "qa_gates": qa_template.get("construction_qa_gate", []),
         "maintenance_intervals": maint_template.get("maintenance_interval", []),
         "manufacturing_packages": manufacturing_template.get("manufacturing_package", []),
+        "civil_production": civil_production,
         "assets": assets,
         "manufacturing_tasks": manufacturing_tasks,
         "manufacturing_materials": manufacturing_materials,
@@ -429,6 +441,7 @@ def build_bundle(
         "policy": {
             "maintenance": maint_template.get("policy", {}),
             "manufacturing": manufacturing_template.get("policy", {}),
+            "civil_production": manufacturing_template.get("civil_production", {}),
         },
     }
 
@@ -515,11 +528,11 @@ def _expand_manufacturing_tasks(
     for package in packages:
         target_types = {str(t) for t in package.get("asset_types", [])}
         sequence = int(package.get("sequence", 0) or 0)
-        duration_days = int(package.get("duration_days", 1) or 1)
         for asset in indexed_assets:
             asset_type = str(asset.get("asset_type", ""))
             if asset_type not in target_types:
                 continue
+            duration_days, quantity_basis = _manufacturing_duration(package, asset)
             asset_order = order_by_asset.get(str(asset.get("asset_id", "")), 1)
             start_day = _manufacturing_start_day(asset_type, sequence, asset_order)
             finish_day = start_day + max(duration_days, 1) - 1
@@ -535,6 +548,9 @@ def _expand_manufacturing_tasks(
                 "sequence": sequence,
                 "work_center": package.get("work_center", ""),
                 "duration_days": duration_days,
+                "duration_model": package.get("duration_model", "fixed-days"),
+                "quantity_basis": quantity_basis,
+                "resource_count": package.get("resource_count", ""),
                 "planned_start_day": start_day,
                 "planned_finish_day": finish_day,
                 "planned_start_basis": f"project_day_{start_day}",
@@ -567,6 +583,95 @@ def _expand_manufacturing_tasks(
         str(row["asset_id"]),
         int(row["sequence"]),
     ))
+
+
+def _asset_route_length_m(asset: dict[str, Any]) -> float:
+    try:
+        return abs(float(asset.get("km_end", 0.0)) - float(asset.get("km_start", 0.0))) * 1_000.0
+    except (TypeError, ValueError):
+        return 0.0
+
+
+def _manufacturing_duration(
+    package: dict[str, Any], asset: dict[str, Any]
+) -> tuple[int, str]:
+    """Return a quantity/resource-derived duration and an auditable equation."""
+
+    model = str(package.get("duration_model", "fixed-days"))
+    if model == "fixed-days":
+        days = max(1, int(package.get("duration_days", 1) or 1))
+        return days, f"template fixed duration = {days} day(s)"
+    length_m = _asset_route_length_m(asset)
+    resources = float(package.get("resource_count", 1) or 1)
+    if length_m <= 0.0 or resources <= 0.0:
+        raise ValueError(f"{package.get('id')} has invalid length/resource inputs")
+    if model == "route-metres":
+        rate = float(package.get("route_metres_per_resource_day", 0.0) or 0.0)
+        if rate <= 0.0:
+            raise ValueError(f"{package.get('id')} requires a positive route-metre rate")
+        days = max(1, math.ceil(length_m / (rate * resources)))
+        return days, f"ceil({length_m:.1f} route m / ({rate:g} m/day x {resources:g} resources))"
+    if model == "single-track-panels":
+        panel_m = float(package.get("panel_length_m", 0.0) or 0.0)
+        tracks = int(package.get("track_count", 2) or 2)
+        rate = float(package.get("panels_per_resource_day", 0.0) or 0.0)
+        if panel_m <= 0.0 or tracks <= 0 or rate <= 0.0:
+            raise ValueError(f"{package.get('id')} has invalid panel production inputs")
+        panels = math.ceil(length_m / panel_m) * tracks
+        days = max(1, math.ceil(panels / (rate * resources)))
+        return days, f"ceil({panels} ST6 panels / ({rate:g} panels/day x {resources:g} gantries))"
+    raise ValueError(f"unsupported manufacturing duration model {model!r}")
+
+
+def _civil_production_by_line(
+    *, design: dict[str, Any], controls: dict[str, Any]
+) -> list[dict[str, Any]]:
+    """Expose line-level Pi-beam/foundation/ST6 resource schedules."""
+
+    segments = list(design.get("civil_segments", []))
+    rows: list[dict[str, Any]] = []
+    for line in sorted(design.get("lines", []), key=lambda row: str(row.get("name", ""))):
+        line_name = str(line.get("name", ""))
+        route_m = float(line.get("length_m", 0.0))
+        line_segments = [row for row in segments if str(row.get("line", "")) == line_name]
+        elevated_m = sum(
+            max(0.0, float(row.get("to_station_m", 0.0)) - float(row.get("from_station_m", 0.0)))
+            for row in line_segments
+            if row.get("class") == "elevated"
+        )
+        at_grade_m = sum(
+            max(0.0, float(row.get("to_station_m", 0.0)) - float(row.get("from_station_m", 0.0)))
+            for row in line_segments
+            if row.get("class") == "at-grade"
+        )
+        constrained_at_grade_m = sum(
+            max(0.0, float(row.get("to_station_m", 0.0)) - float(row.get("from_station_m", 0.0)))
+            for row in line_segments
+            if row.get("class") == "at-grade"
+            and str(row.get("construction_method", "")) in {"single-track-precast", "single-track-precast-st6"}
+        )
+        plan = civil_production_plan(
+            CivilProductionInputs(
+                route_m=route_m,
+                elevated_m=elevated_m,
+                at_grade_m=at_grade_m,
+                constrained_at_grade_m=constrained_at_grade_m,
+                primary_span_m=float(controls.get("primary_span_m", 25.0)),
+                beam_mould_count=int(controls.get("beam_mould_count", 2)),
+                beam_cure_cycle_days=float(controls.get("beam_cure_cycle_days", 2.0)),
+                piling_rig_count=int(controls.get("piling_rig_count", 1)),
+                foundations_per_rig_shift=float(controls.get("foundations_per_rig_shift", 1.0)),
+                gantry_count=int(controls.get("gantry_count", 1)),
+                bays_per_gantry_shift=float(controls.get("bays_per_gantry_shift", 1.0)),
+                panel_gantry_count=int(controls.get("panel_gantry_count", 1)),
+                panels_per_gantry_shift=float(controls.get("panels_per_gantry_shift", 40.0)),
+                slipform_metres_per_shift=float(controls.get("slipform_metres_per_shift", 200.0)),
+                working_days_per_week=int(controls.get("working_days_per_week", 6)),
+                foundations_ahead_bays=int(controls.get("foundations_ahead_bays", 12)),
+            )
+        )
+        rows.append({"line": line_name, **asdict(plan)})
+    return rows
 
 
 def _resolve_manufacturing_predecessors(
@@ -604,6 +709,55 @@ def _resolve_manufacturing_predecessors(
                 external.append(predecessor)
         task["predecessor_uids"] = "; ".join(resolved)
         task["external_predecessors"] = "; ".join(external)
+
+
+def _schedule_manufacturing_tasks(manufacturing_tasks: list[dict[str, Any]]) -> None:
+    """Enforce predecessor finish/start and finite resources on the baseline."""
+
+    tasks_by_uid = {
+        str(task["manufacturing_uid"]): task for task in manufacturing_tasks
+    }
+    rate_groups: dict[str, list[dict[str, Any]]] = {}
+    for task in manufacturing_tasks:
+        if task.get("duration_model") != "fixed-days":
+            rate_groups.setdefault(str(task["package_id"]), []).append(task)
+
+    for _ in range(max(1, len(manufacturing_tasks))):
+        changed = False
+        for task in manufacturing_tasks:
+            predecessors = [
+                tasks_by_uid[uid]
+                for uid in _split_refs(str(task.get("predecessor_uids", "")))
+                if uid in tasks_by_uid
+            ]
+            dependency_start = max(
+                (int(item["planned_finish_day"]) + 1 for item in predecessors),
+                default=int(task["planned_start_day"]),
+            )
+            if dependency_start > int(task["planned_start_day"]):
+                task["planned_start_day"] = dependency_start
+                task["planned_finish_day"] = dependency_start + int(task["duration_days"]) - 1
+                changed = True
+
+        for package_id in sorted(rate_groups):
+            group = sorted(rate_groups[package_id], key=lambda row: str(row["asset_id"]))
+            resources = max(1, int(group[0].get("resource_count", 1) or 1))
+            available = [0] * resources
+            for task in group:
+                slot = min(range(resources), key=lambda index: available[index])
+                start = max(int(task["planned_start_day"]), available[slot])
+                finish = start + int(task["duration_days"]) - 1
+                if start != int(task["planned_start_day"]):
+                    task["planned_start_day"] = start
+                    task["planned_finish_day"] = finish
+                    changed = True
+                available[slot] = finish + 1
+        if not changed:
+            break
+
+    for task in manufacturing_tasks:
+        task["planned_start_basis"] = f"project_day_{task['planned_start_day']}"
+        task["planned_finish_basis"] = f"project_day_{task['planned_finish_day']}"
 
 
 def _resolve_manufacturing_predecessor(

@@ -2,7 +2,7 @@
 
 The operational twins describe assets after handover.  This module describes
 how four representative assets become those assets: a 6 m track panel, a
-standard station bay, an OSR-U25 viaduct bay, and an LM3 three-car trainset.
+standard station bay, an OSR-Pi25 viaduct bay, and an LM3 three-car trainset.
 It deliberately stays dependency-light so FreeCAD, Blender, CI, and ordinary
 Python can consume the same work-package and quality-gate state model.
 """
@@ -165,29 +165,38 @@ def fabrication_streams() -> tuple[FabricationStream, ...]:
         "docs/civil/viaduct-transport-and-erection-envelope.md",
         "docs/civil/viaduct-design-basis.md",
         "mechanical-py/src/osr_mech/civil/viaduct.py",
+        "lib/templates/foundation-catalog.toml",
+        "lib/templates/civil-construction-systems.toml",
+        "mechanical-py/src/osr_mech/civil/construction.py",
     )
     viaduct = FabricationStream(
         "viaduct",
         "Viaduct fabrication and erection",
-        "OSR-U25 twin-track erected bay",
-        "two 25 m single-track U-girders plus pier cap, bearings and trackform",
+        "OSR-Pi25 twin-track erected bay",
+        "two <=75 t, 2.9 m wide decked pi-beams plus selected foundation, hollow cap, bearings, walkway cassettes and trackform",
         (
-            _stage("VIA-10", "viaduct", "Prepare casting bed, cage and tendons", "U-girder precast yard", 3, None,
-                   ("surveyed mould", "reinforcement", "prestress strand", "cast-in items"), "released pre-pour assembly", "mould, cage, tendon and insert hold point",
+            _stage("VIA-05", "viaduct", "Select, construct and test foundation zone", "foundation erection front", 13, None,
+                   ("geotechnical zone", "utility clearance", "actual pile/shaft schedule", "test plan"), "tested foundation and pier/cap interface", "actual length, cost and representative load-test release",
+                   ("foundation schedule", "actual installed lengths", "test result", "as-built survey"), viaduct_refs),
+            _stage("VIA-10", "viaduct", "Prepare Pi-beam mould, cage and tendons", "decked pi-beam precast yard", 2, "VIA-05",
+                   ("surveyed Pi25 mould", "reinforcement", "prestress strand", "cast-in items"), "released pre-pour assembly", "mould, cage, tendon and insert hold point",
                    ("bed survey", "rebar and cover record", "tendon calibration"), viaduct_refs),
-            _stage("VIA-20", "viaduct", "Cast, cure and transfer prestress", "U-girder precast yard", 5, "VIA-10",
-                   ("released pre-pour assembly", "concrete batch"), "demoulded OSR-U25 unit", "strength, maturity and transfer release",
+            _stage("VIA-20", "viaduct", "Cast, cure and transfer prestress", "decked pi-beam precast yard", 2, "VIA-10",
+                   ("released pre-pour assembly", "concrete batch"), "demoulded OSR-Pi25 unit", "strength, maturity and transfer release",
                    ("batch records", "cube strength", "prestress elongation", "transfer sequence"), viaduct_refs),
-            _stage("VIA-30", "viaduct", "Survey and first-article proof", "precast QA bay", 2, "VIA-20",
-                   ("demoulded U25", "survey and NDT equipment"), "accepted U25 production unit", "dimensions, camber, cover, NDT and drainage",
+            _stage("VIA-30", "viaduct", "Survey and first-article proof", "precast QA bay", 1, "VIA-20",
+                   ("demoulded Pi25", "survey and NDT equipment"), "accepted Pi25 production unit", "dimensions, camber, cover, NDT and drainage",
                    ("dimensional report", "camber survey", "NDT", "drain test"), viaduct_refs),
-            _stage("VIA-40", "viaduct", "Transport and trial lift", "heavy transport route", 2, "VIA-30",
-                   ("117 t U25", "SPMT", "certified lift plan"), "girder delivered inside erection envelope", "route, lift and wind-limit release",
-                   ("route clearance", "lift record", "temporary bracing inspection"), viaduct_refs),
-            _stage("VIA-50", "viaduct", "Set bearings and erect twin U-girders", "viaduct erection front", 3, "VIA-40",
-                   ("pier and cap", "eight interior bearings", "two U25 units"), "stable twin-track erected bay", "bearing identity/orientation and two-row survey",
-                   ("bearing schedule", "seat survey", "girder level and gap survey"), viaduct_refs),
-            _stage("VIA-60", "viaduct", "Install trackform, egress and containment", "viaduct finishing front", 3, "VIA-50",
+            _stage("VIA-40", "viaduct", "Transport and certify erection system", "controlled transport route", 1, "VIA-30",
+                   ("<=75 t Pi25", "modular transporter", "portal launcher or crane load chart", "certified rigging"), "beam and erection plant released inside envelope", "route, radius, rigging, wind and ground-bearing release",
+                   ("route clearance", "actual load chart", "rigging certificate", "wind-limit and ground-pressure record"), viaduct_refs),
+            _stage("VIA-50", "viaduct", "Set bearings and erect two Pi-beams", "portal/short-launcher erection front", 1, "VIA-40",
+                   ("tested pier and 7 m cap", "four internal-support bearings", "two Pi25 units", "synchronized strand jacks"), "stable twin-track erected bay after two main lifts", "bearing identity/orientation, synchronization and one-line internal-support survey",
+                   ("bearing schedule", "strand-jack log", "seat survey", "beam level and gap survey"), viaduct_refs),
+            _stage("VIA-55", "viaduct", "Connect short semi-continuous unit", "continuity connection front", 1, "VIA-50",
+                   ("surveyed adjacent Pi spans", "released link-slab or diaphragm cage", "small closure or grouted-socket materials"), "four-span unit structurally connected at internal support", "CWR/braking/temperature/seismic/foundation-flexibility analysis and connection fatigue release",
+                   ("connection traveller", "rebar and cover record", "maturity/grout record", "waterproofing and survey acceptance"), viaduct_refs),
+            _stage("VIA-60", "viaduct", "Install trackform, egress and containment", "viaduct finishing front", 2, "VIA-55",
                    ("local plinths", "track panels", "walkway and containment kits"), "released operational viaduct bay", "track, drainage, earthing and egress release",
                    ("track geometry", "drain test", "1.0 m walkway gauge", "1.4 m containment survey"), viaduct_refs),
         ),
@@ -298,7 +307,7 @@ def fabrication_assembly_manifest() -> dict[str, Any]:
         "animation_duration_s": ANIMATION_DURATION_S,
         "streams": [asdict(stream) for stream in streams],
         "integration_dependencies": [
-            {"from": "VIA-50", "to": "VIA-60", "interface": "bearing-to-girder and deck-to-trackform"},
+            {"from": "VIA-55", "to": "VIA-60", "interface": "continuity-connection and deck-to-trackform"},
             {"from": "STN-40", "to": "TRK-50", "interface": "350 mm platform/rail datum"},
             {"from": "TRK-50", "to": "RS-50-DYNAMIC-COMMISSIONING", "interface": "released test-track geometry"},
         ],
@@ -341,4 +350,3 @@ def main(argv: list[str] | None = None) -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

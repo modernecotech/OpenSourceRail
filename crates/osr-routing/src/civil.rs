@@ -28,13 +28,117 @@ pub enum CivilClass {
     Bridge,
 }
 
+/// Alternatives evaluated at a road/rail conflict before committing to a
+/// long elevated railway approach.
+#[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq, Eq, PartialOrd, Ord)]
+#[serde(rename_all = "kebab-case")]
+pub enum CrossingAlternative {
+    RailwayElevated,
+    RoadOverbridge,
+    RoadUnderpass,
+    RoadClosureOrRelocation,
+    ShortModularRailBridge,
+}
+
+/// Additive planning penalties attached to an alignment or crossing option.
+/// Values are monetary planning inputs supplied by the city project, not
+/// embedded global unit rates.
+#[derive(Debug, Clone, Copy, Default, Serialize, Deserialize, PartialEq)]
+pub struct ConstructionCostPenalties {
+    pub foundation_risk: f64,
+    pub utility_relocation: f64,
+    pub crane_access: f64,
+    pub temporary_traffic: f64,
+    pub flood_and_scour: f64,
+    pub retaining_wall_feasibility: f64,
+    pub station_transfer_structure: f64,
+    pub nonstandard_components: f64,
+}
+
+impl ConstructionCostPenalties {
+    #[must_use]
+    pub fn total(self) -> f64 {
+        self.foundation_risk
+            + self.utility_relocation
+            + self.crane_access
+            + self.temporary_traffic
+            + self.flood_and_scour
+            + self.retaining_wall_feasibility
+            + self.station_transfer_structure
+            + self.nonstandard_components
+    }
+
+    #[must_use]
+    pub fn is_valid(self) -> bool {
+        [
+            self.foundation_risk,
+            self.utility_relocation,
+            self.crane_access,
+            self.temporary_traffic,
+            self.flood_and_scour,
+            self.retaining_wall_feasibility,
+            self.station_transfer_structure,
+            self.nonstandard_components,
+        ]
+        .into_iter()
+        .all(|value| value.is_finite() && value >= 0.0)
+    }
+}
+
+#[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq)]
+pub struct CrossingAlternativeEstimate {
+    pub alternative: CrossingAlternative,
+    pub direct_cost: f64,
+    #[serde(default)]
+    pub penalties: ConstructionCostPenalties,
+    #[serde(default = "default_true")]
+    pub feasible: bool,
+}
+
+const fn default_true() -> bool {
+    true
+}
+
+impl CrossingAlternativeEstimate {
+    #[must_use]
+    pub fn whole_construction_cost(self) -> f64 {
+        self.direct_cost + self.penalties.total()
+    }
+
+    #[must_use]
+    pub fn is_valid(self) -> bool {
+        self.direct_cost.is_finite() && self.direct_cost >= 0.0 && self.penalties.is_valid()
+    }
+}
+
+/// Choose the least whole-construction-cost feasible option. Stable enum
+/// ordering breaks exact ties, making regeneration deterministic.
+#[must_use]
+pub fn select_crossing_alternative(
+    alternatives: &[CrossingAlternativeEstimate],
+) -> Option<CrossingAlternativeEstimate> {
+    alternatives
+        .iter()
+        .copied()
+        .filter(|estimate| estimate.feasible && estimate.is_valid())
+        .min_by(|left, right| {
+            left.whole_construction_cost()
+                .total_cmp(&right.whole_construction_cost())
+                .then_with(|| left.alternative.cmp(&right.alternative))
+        })
+}
+
 /// Planning product selected after a route cell has been classified Elevated.
 #[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq, Eq)]
 #[serde(rename_all = "kebab-case")]
 pub enum ElevatedViaductProduct {
-    /// Normal 25 m full-span U-trough on tangent/broad curvature.
+    /// Normal transportable 25 m decked pi-beam, one beam per track.
+    DeckedPi25,
+    /// 20 m decked pi-beam produced on the same long-line mould.
+    DeckedPi20,
+    /// Legacy/special acoustic full-span U-trough retained for compatibility.
     FullSpanU25,
-    /// 20 m closure product after a project chord/clearance check.
+    /// Legacy/special acoustic 20 m U-trough retained for compatibility.
     ClosureU20,
     /// Unreleased 25--30 m full-span product requiring project transport,
     /// lifting and structural verification. It is never labelled OSR-U25.
@@ -92,9 +196,9 @@ pub fn elevated_product_for_geometry(
         return ElevatedViaductProduct::SegmentalUs;
     }
     if crossing_span_m <= 20.0 {
-        ElevatedViaductProduct::ClosureU20
+        ElevatedViaductProduct::DeckedPi20
     } else if crossing_span_m <= 25.0 {
-        ElevatedViaductProduct::FullSpanU25
+        ElevatedViaductProduct::DeckedPi25
     } else {
         ElevatedViaductProduct::ProjectSpecificU30
     }
@@ -105,8 +209,10 @@ impl ElevatedViaductProduct {
     #[must_use]
     pub const fn catalogue_code(self) -> &'static str {
         match self {
-            Self::FullSpanU25 => "OSR-U25",
-            Self::ClosureU20 => "OSR-U20",
+            Self::DeckedPi25 => "OSR-Pi25",
+            Self::DeckedPi20 => "OSR-Pi20",
+            Self::FullSpanU25 => "OSR-U25-SPECIAL",
+            Self::ClosureU20 => "OSR-U20-SPECIAL",
             Self::ProjectSpecificU30 => "OSR-U30-PROJECT",
             Self::SegmentalUs => "OSR-US",
             Self::SpecialSpan => "OSR-SP",
@@ -378,7 +484,7 @@ mod tests {
         assert_eq!(segments[2].length_m, 0.0);
         assert_eq!(
             segments[1].viaduct_product,
-            Some(ElevatedViaductProduct::FullSpanU25)
+            Some(ElevatedViaductProduct::DeckedPi25)
         );
     }
 
@@ -386,11 +492,11 @@ mod tests {
     fn elevated_geometry_selects_constructible_product_family() {
         assert_eq!(
             elevated_product_for_geometry(400.0, 25.0, true),
-            ElevatedViaductProduct::FullSpanU25
+            ElevatedViaductProduct::DeckedPi25
         );
         assert_eq!(
             elevated_product_for_geometry(400.0, 20.0, true),
-            ElevatedViaductProduct::ClosureU20
+            ElevatedViaductProduct::DeckedPi20
         );
         assert_eq!(
             elevated_product_for_geometry(200.0, 25.0, true),
@@ -410,7 +516,7 @@ mod tests {
         );
         assert_eq!(
             elevated_product_for_geometry(f64::INFINITY, 25.0, true),
-            ElevatedViaductProduct::FullSpanU25
+            ElevatedViaductProduct::DeckedPi25
         );
         assert!(elevated_curve_cost_multiplier(90.0) > 10.0);
         assert_eq!(elevated_curve_cost_multiplier(300.0), 1.0);
@@ -432,5 +538,53 @@ mod tests {
         );
         assert!(segment.elevated_cost_multiplier > 10.0);
         assert!(route_elevated_constructability_multiplier(&grid, &cells) > 10.0);
+    }
+
+    #[test]
+    fn crossing_comparison_includes_all_construction_penalties() {
+        let railway = CrossingAlternativeEstimate {
+            alternative: CrossingAlternative::RailwayElevated,
+            direct_cost: 8_000_000.0,
+            penalties: ConstructionCostPenalties {
+                foundation_risk: 2_000_000.0,
+                crane_access: 1_000_000.0,
+                nonstandard_components: 500_000.0,
+                ..ConstructionCostPenalties::default()
+            },
+            feasible: true,
+        };
+        let road = CrossingAlternativeEstimate {
+            alternative: CrossingAlternative::RoadOverbridge,
+            direct_cost: 6_500_000.0,
+            penalties: ConstructionCostPenalties {
+                temporary_traffic: 1_000_000.0,
+                utility_relocation: 250_000.0,
+                ..ConstructionCostPenalties::default()
+            },
+            feasible: true,
+        };
+        assert_eq!(
+            select_crossing_alternative(&[railway, road])
+                .unwrap()
+                .alternative,
+            CrossingAlternative::RoadOverbridge
+        );
+    }
+
+    #[test]
+    fn crossing_comparison_rejects_infeasible_or_invalid_inputs() {
+        let invalid = CrossingAlternativeEstimate {
+            alternative: CrossingAlternative::RoadUnderpass,
+            direct_cost: -1.0,
+            penalties: ConstructionCostPenalties::default(),
+            feasible: true,
+        };
+        let infeasible = CrossingAlternativeEstimate {
+            alternative: CrossingAlternative::RoadClosureOrRelocation,
+            direct_cost: 1.0,
+            penalties: ConstructionCostPenalties::default(),
+            feasible: false,
+        };
+        assert!(select_crossing_alternative(&[invalid, infeasible]).is_none());
     }
 }

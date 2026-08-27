@@ -1,7 +1,7 @@
 # Madagascar national OpenSourceRail strategy
 
 > [!IMPORTANT]
-> **Foreign-capital advantage:** against the default equivalent foreign-turnkey case, this national OSR programme avoids **$5.91 B (85.7%) of external capital** and **$7.64 B of external interest**. Capital plus saved interest totals **$13.55 B over the 40-year financing life**. Both cases use the same 4.5% external rate and financing schedule; the comparator external requirement is assumed debt-financed, and the comparator is an editable sensitivity, not a vendor quote.
+> **Foreign-capital advantage:** against the default equivalent foreign-turnkey case, this national OSR programme avoids **$5.55 B (85.3%) of external capital** and **$7.16 B of external interest**. Capital plus saved interest totals **$12.71 B over the 40-year financing life**. Both cases use the same 4.5% external rate and financing schedule; the comparator external requirement is assumed debt-financed, and the comparator is an editable sensitivity, not a vendor quote.
 
 Madagascar should implement OpenSourceRail as one national industrial and financing programme covering the 1 catalogue cities below, rather than as disconnected city projects. One centrally governed trainset factory builds the shared modular fleet in phases; city and regional contractors fabricate and install rails, viaducts, stations, depots, and local civil works. This concentrates scarce imported machinery, specialist tooling, engineering support, and foreign currency in one reusable national asset while maximizing domestic labour, materials, fabrication, and local-currency financing.
 
@@ -13,10 +13,10 @@ Madagascar should implement OpenSourceRail as one national industrial and financ
 | Served population represented | 3,058,000 |
 | Trainsets across city plans | 504 |
 | Vehicle/car modules to manufacture | 3,024 |
-| City infrastructure + fleet CAPEX | $3.64 B |
+| City infrastructure + fleet CAPEX | $3.42 B |
 | One shared national trainset factory | $181.4 M |
 | National factory sizing basis | 3,024 modules: largest single-city programme (Antananarivo) |
-| **Total national programme CAPEX** | **$3.83 B** |
+| **Total national programme CAPEX** | **$3.61 B** |
 
 The factory is sized to the largest single-city fleet programme and reused through a phased national rollout. This avoids duplicating factory buildings, moulds, welding fixtures, metrology, commissioning equipment, and imported machinery in every city. Final factory siting requires a national freight, power, workforce, land, and test-track study; this brief does not preselect a city.
 
@@ -26,13 +26,13 @@ Imported content is the minimum foreign-currency or international-capital requir
 
 | Capital boundary | Share | Total | Annual draw during construction |
 |---|---:|---:|---:|
-| **External capital for imports** | **25.7%** | **$986.3 M** | **$98.6 M / yr** |
-| **Local capital for domestic value** | **74.3%** | **$2.85 B** | **$284.7 M / yr** |
-| planned local-currency bond issuance | 59.4% of total | $2.28 B | $227.7 M / yr |
-| local public equity / other domestic funding | 14.9% of total | $569.4 M | $56.9 M / yr |
-| **Total capital programme** | **100.0%** | **$3.83 B** | **$383.3 M / yr** |
+| **External capital for imports** | **26.4%** | **$952.9 M** | **$95.3 M / yr** |
+| **Local capital for domestic value** | **73.6%** | **$2.66 B** | **$265.8 M / yr** |
+| planned local-currency bond issuance | 58.9% of total | $2.13 B | $212.6 M / yr |
+| local public equity / other domestic funding | 14.7% of total | $531.6 M | $53.2 M / yr |
+| **Total capital programme** | **100.0%** | **$3.61 B** | **$361.1 M / yr** |
 
-The annual construction draw is spread evenly over 10 planning years. Post-grace annual debt service is $60.5 M for external import finance plus $262.0 M for local bonds, or **$322.5 M per year** before railway operating cash flow. During construction, interest plus the local public-equity draw is **$351.8 M per year**.
+The annual construction draw is spread evenly over 10 planning years. Post-grace annual debt service is $58.5 M for external import finance plus $244.6 M for local bonds, or **$303.1 M per year** before railway operating cash flow. During construction, interest plus the local public-equity draw is **$329.9 M per year**.
 
 ## Foreign-company turnkey comparison
 
@@ -40,26 +40,26 @@ This controlled comparison is an editable sensitivity, not a supplier quotation.
 
 | Case | Cost multiplier vs OSR | Foreign-company external capital | OSR external capital saved | External interest saved over financing life | Capital + interest saved |
 |---|---:|---:|---:|---:|---:|
-| Low | 1.50× | $5.17 B | $4.19 B (80.9%) | $5.41 B | **$9.60 B** |
-| **Default** | 2.00× | $6.90 B | $5.91 B (85.7%) | $7.64 B | **$13.55 B** |
-| High | 3.00× | $10.35 B | $9.36 B (90.5%) | $12.09 B | **$21.46 B** |
+| Low | 1.50× | $4.87 B | $3.92 B (80.5%) | $5.07 B | **$8.99 B** |
+| **Default** | 2.00× | $6.50 B | $5.55 B (85.3%) | $7.16 B | **$12.71 B** |
+| High | 3.00× | $9.75 B | $8.80 B (90.2%) | $11.36 B | **$20.16 B** |
 
-At the default 2.00× case, the OSR programme reduces external capital from $6.90 B to $986.3 M, a saving of **$5.91 B (85.7%)**, plus **$7.64 B** of external interest over the financing life. Total programme CAPEX is 50.0% below the comparator. Replace both variables with scope-normalized bids before investment approval.
+At the default 2.00× case, the OSR programme reduces external capital from $6.50 B to $952.9 M, a saving of **$5.55 B (85.3%)**, plus **$7.16 B** of external interest over the financing life. Total programme CAPEX is 50.0% below the comparator. Replace both variables with scope-normalized bids before investment approval.
 
 ## Procurement-origin composition
 
 | CAPEX bucket | Total | Imported share | External capital | Local value |
 |---|---:|---:|---:|---:|
-| Civil works | $1.38 B | 15% | $206.4 M | $1.17 B |
+| Civil works | $1.17 B | 15% | $175.2 M | $992.7 M |
 | Stations | $521.8 M | 20% | $104.4 M | $417.4 M |
 | Depots | $8.0 M | 25% | $2.0 M | $6.0 M |
 | Rolling stock | $846.7 M | 35% | $296.4 M | $550.4 M |
 | Dedicated solar plants | $636.4 M | 45% | $286.4 M | $350.0 M |
 | Residual signalling / train control | $16.2 M | 50% | $8.1 M | $8.1 M |
 | Charging microgrids | $37.7 M | 40% | $15.1 M | $22.6 M |
-| EPC / project services | $209.1 M | 15% | $31.4 M | $177.8 M |
+| EPC / project services | $194.6 M | 15% | $29.2 M | $165.4 M |
 | Shared national trainset factory | $181.4 M | 20% | $36.3 M | $145.2 M |
-| **Total** | **$3.83 B** | **25.7%** | **$986.3 M** | **$2.85 B** |
+| **Total** | **$3.61 B** | **26.4%** | **$952.9 M** | **$2.66 B** |
 
 ## City programme
 
@@ -67,7 +67,7 @@ Each city CAPEX below excludes the national factory. Its imported share varies w
 
 | City | Population | Fleet | City CAPEX | Imported % | OSR external capital | Foreign-turnkey external capital (default) | External capital saved | Capital + lifetime external interest saved | Local capital |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| [Antananarivo](Antananarivo/README.md) | 3,058,000 | 504 | $3.64 B | 26.1% | $948.1 M | $6.55 B | $5.60 B | $12.84 B | $2.69 B |
+| [Antananarivo](Antananarivo/README.md) | 3,058,000 | 504 | $3.42 B | 26.8% | $914.7 M | $6.15 B | $5.24 B | $12.00 B | $2.50 B |
 
 ## National implementation sequence
 

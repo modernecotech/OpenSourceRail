@@ -273,18 +273,49 @@
     {
       "id": "viaduct",
       "title": "Viaduct fabrication and erection",
-      "exemplar": "OSR-U25 twin-track erected bay",
-      "quantity_basis": "two 25 m single-track U-girders plus pier cap, bearings and trackform",
+      "exemplar": "OSR-Pi25 twin-track erected bay",
+      "quantity_basis": "two <=75 t, 2.9 m wide decked pi-beams plus selected foundation, hollow cap, bearings, walkway cassettes and trackform",
       "stages": [
+        {
+          "id": "VIA-05",
+          "stream_id": "viaduct",
+          "title": "Select, construct and test foundation zone",
+          "work_center": "foundation erection front",
+          "duration_days": 13,
+          "predecessor": null,
+          "inputs": [
+            "geotechnical zone",
+            "utility clearance",
+            "actual pile/shaft schedule",
+            "test plan"
+          ],
+          "output": "tested foundation and pier/cap interface",
+          "qa_hold": "actual length, cost and representative load-test release",
+          "evidence": [
+            "foundation schedule",
+            "actual installed lengths",
+            "test result",
+            "as-built survey"
+          ],
+          "source_refs": [
+            "docs/civil/viaduct-first-article-test-plan.md",
+            "docs/civil/viaduct-transport-and-erection-envelope.md",
+            "docs/civil/viaduct-design-basis.md",
+            "mechanical-py/src/osr_mech/civil/viaduct.py",
+            "lib/templates/foundation-catalog.toml",
+            "lib/templates/civil-construction-systems.toml",
+            "mechanical-py/src/osr_mech/civil/construction.py"
+          ]
+        },
         {
           "id": "VIA-10",
           "stream_id": "viaduct",
-          "title": "Prepare casting bed, cage and tendons",
-          "work_center": "U-girder precast yard",
-          "duration_days": 3,
-          "predecessor": null,
+          "title": "Prepare Pi-beam mould, cage and tendons",
+          "work_center": "decked pi-beam precast yard",
+          "duration_days": 2,
+          "predecessor": "VIA-05",
           "inputs": [
-            "surveyed mould",
+            "surveyed Pi25 mould",
             "reinforcement",
             "prestress strand",
             "cast-in items"
@@ -300,21 +331,24 @@
             "docs/civil/viaduct-first-article-test-plan.md",
             "docs/civil/viaduct-transport-and-erection-envelope.md",
             "docs/civil/viaduct-design-basis.md",
-            "mechanical-py/src/osr_mech/civil/viaduct.py"
+            "mechanical-py/src/osr_mech/civil/viaduct.py",
+            "lib/templates/foundation-catalog.toml",
+            "lib/templates/civil-construction-systems.toml",
+            "mechanical-py/src/osr_mech/civil/construction.py"
           ]
         },
         {
           "id": "VIA-20",
           "stream_id": "viaduct",
           "title": "Cast, cure and transfer prestress",
-          "work_center": "U-girder precast yard",
-          "duration_days": 5,
+          "work_center": "decked pi-beam precast yard",
+          "duration_days": 2,
           "predecessor": "VIA-10",
           "inputs": [
             "released pre-pour assembly",
             "concrete batch"
           ],
-          "output": "demoulded OSR-U25 unit",
+          "output": "demoulded OSR-Pi25 unit",
           "qa_hold": "strength, maturity and transfer release",
           "evidence": [
             "batch records",
@@ -326,7 +360,10 @@
             "docs/civil/viaduct-first-article-test-plan.md",
             "docs/civil/viaduct-transport-and-erection-envelope.md",
             "docs/civil/viaduct-design-basis.md",
-            "mechanical-py/src/osr_mech/civil/viaduct.py"
+            "mechanical-py/src/osr_mech/civil/viaduct.py",
+            "lib/templates/foundation-catalog.toml",
+            "lib/templates/civil-construction-systems.toml",
+            "mechanical-py/src/osr_mech/civil/construction.py"
           ]
         },
         {
@@ -334,13 +371,13 @@
           "stream_id": "viaduct",
           "title": "Survey and first-article proof",
           "work_center": "precast QA bay",
-          "duration_days": 2,
+          "duration_days": 1,
           "predecessor": "VIA-20",
           "inputs": [
-            "demoulded U25",
+            "demoulded Pi25",
             "survey and NDT equipment"
           ],
-          "output": "accepted U25 production unit",
+          "output": "accepted Pi25 production unit",
           "qa_hold": "dimensions, camber, cover, NDT and drainage",
           "evidence": [
             "dimensional report",
@@ -352,59 +389,102 @@
             "docs/civil/viaduct-first-article-test-plan.md",
             "docs/civil/viaduct-transport-and-erection-envelope.md",
             "docs/civil/viaduct-design-basis.md",
-            "mechanical-py/src/osr_mech/civil/viaduct.py"
+            "mechanical-py/src/osr_mech/civil/viaduct.py",
+            "lib/templates/foundation-catalog.toml",
+            "lib/templates/civil-construction-systems.toml",
+            "mechanical-py/src/osr_mech/civil/construction.py"
           ]
         },
         {
           "id": "VIA-40",
           "stream_id": "viaduct",
-          "title": "Transport and trial lift",
-          "work_center": "heavy transport route",
-          "duration_days": 2,
+          "title": "Transport and certify erection system",
+          "work_center": "controlled transport route",
+          "duration_days": 1,
           "predecessor": "VIA-30",
           "inputs": [
-            "117 t U25",
-            "SPMT",
-            "certified lift plan"
+            "<=75 t Pi25",
+            "modular transporter",
+            "portal launcher or crane load chart",
+            "certified rigging"
           ],
-          "output": "girder delivered inside erection envelope",
-          "qa_hold": "route, lift and wind-limit release",
+          "output": "beam and erection plant released inside envelope",
+          "qa_hold": "route, radius, rigging, wind and ground-bearing release",
           "evidence": [
             "route clearance",
-            "lift record",
-            "temporary bracing inspection"
+            "actual load chart",
+            "rigging certificate",
+            "wind-limit and ground-pressure record"
           ],
           "source_refs": [
             "docs/civil/viaduct-first-article-test-plan.md",
             "docs/civil/viaduct-transport-and-erection-envelope.md",
             "docs/civil/viaduct-design-basis.md",
-            "mechanical-py/src/osr_mech/civil/viaduct.py"
+            "mechanical-py/src/osr_mech/civil/viaduct.py",
+            "lib/templates/foundation-catalog.toml",
+            "lib/templates/civil-construction-systems.toml",
+            "mechanical-py/src/osr_mech/civil/construction.py"
           ]
         },
         {
           "id": "VIA-50",
           "stream_id": "viaduct",
-          "title": "Set bearings and erect twin U-girders",
-          "work_center": "viaduct erection front",
-          "duration_days": 3,
+          "title": "Set bearings and erect two Pi-beams",
+          "work_center": "portal/short-launcher erection front",
+          "duration_days": 1,
           "predecessor": "VIA-40",
           "inputs": [
-            "pier and cap",
-            "eight interior bearings",
-            "two U25 units"
+            "tested pier and 7 m cap",
+            "four internal-support bearings",
+            "two Pi25 units",
+            "synchronized strand jacks"
           ],
-          "output": "stable twin-track erected bay",
-          "qa_hold": "bearing identity/orientation and two-row survey",
+          "output": "stable twin-track erected bay after two main lifts",
+          "qa_hold": "bearing identity/orientation, synchronization and one-line internal-support survey",
           "evidence": [
             "bearing schedule",
+            "strand-jack log",
             "seat survey",
-            "girder level and gap survey"
+            "beam level and gap survey"
           ],
           "source_refs": [
             "docs/civil/viaduct-first-article-test-plan.md",
             "docs/civil/viaduct-transport-and-erection-envelope.md",
             "docs/civil/viaduct-design-basis.md",
-            "mechanical-py/src/osr_mech/civil/viaduct.py"
+            "mechanical-py/src/osr_mech/civil/viaduct.py",
+            "lib/templates/foundation-catalog.toml",
+            "lib/templates/civil-construction-systems.toml",
+            "mechanical-py/src/osr_mech/civil/construction.py"
+          ]
+        },
+        {
+          "id": "VIA-55",
+          "stream_id": "viaduct",
+          "title": "Connect short semi-continuous unit",
+          "work_center": "continuity connection front",
+          "duration_days": 1,
+          "predecessor": "VIA-50",
+          "inputs": [
+            "surveyed adjacent Pi spans",
+            "released link-slab or diaphragm cage",
+            "small closure or grouted-socket materials"
+          ],
+          "output": "four-span unit structurally connected at internal support",
+          "qa_hold": "CWR/braking/temperature/seismic/foundation-flexibility analysis and connection fatigue release",
+          "evidence": [
+            "connection traveller",
+            "rebar and cover record",
+            "maturity/grout record",
+            "waterproofing and survey acceptance"
+          ],
+          "source_refs": [
+            "docs/civil/viaduct-first-article-test-plan.md",
+            "docs/civil/viaduct-transport-and-erection-envelope.md",
+            "docs/civil/viaduct-design-basis.md",
+            "mechanical-py/src/osr_mech/civil/viaduct.py",
+            "lib/templates/foundation-catalog.toml",
+            "lib/templates/civil-construction-systems.toml",
+            "mechanical-py/src/osr_mech/civil/construction.py"
           ]
         },
         {
@@ -412,8 +492,8 @@
           "stream_id": "viaduct",
           "title": "Install trackform, egress and containment",
           "work_center": "viaduct finishing front",
-          "duration_days": 3,
-          "predecessor": "VIA-50",
+          "duration_days": 2,
+          "predecessor": "VIA-55",
           "inputs": [
             "local plinths",
             "track panels",
@@ -431,7 +511,10 @@
             "docs/civil/viaduct-first-article-test-plan.md",
             "docs/civil/viaduct-transport-and-erection-envelope.md",
             "docs/civil/viaduct-design-basis.md",
-            "mechanical-py/src/osr_mech/civil/viaduct.py"
+            "mechanical-py/src/osr_mech/civil/viaduct.py",
+            "lib/templates/foundation-catalog.toml",
+            "lib/templates/civil-construction-systems.toml",
+            "mechanical-py/src/osr_mech/civil/construction.py"
           ]
         }
       ]
@@ -643,9 +726,9 @@
   ],
   "integration_dependencies": [
     {
-      "from": "VIA-50",
+      "from": "VIA-55",
       "to": "VIA-60",
-      "interface": "bearing-to-girder and deck-to-trackform"
+      "interface": "continuity-connection and deck-to-trackform"
     },
     {
       "from": "STN-40",
@@ -678,8 +761,8 @@
       },
       {
         "stream_id": "viaduct",
-        "stage_id": "VIA-10",
-        "stage_title": "Prepare casting bed, cage and tendons",
+        "stage_id": "VIA-05",
+        "stage_title": "Select, construct and test foundation zone",
         "status": "active",
         "progress_percent": 0.0,
         "qa_status": "hold-point-open"
@@ -712,10 +795,10 @@
       },
       {
         "stream_id": "viaduct",
-        "stage_id": "VIA-20",
-        "stage_title": "Cast, cure and transfer prestress",
+        "stage_id": "VIA-05",
+        "stage_title": "Select, construct and test foundation zone",
         "status": "active",
-        "progress_percent": 30.0,
+        "progress_percent": 44.2,
         "qa_status": "hold-point-open"
       },
       {
@@ -746,10 +829,10 @@
       },
       {
         "stream_id": "viaduct",
-        "stage_id": "VIA-30",
-        "stage_title": "Survey and first-article proof",
+        "stage_id": "VIA-05",
+        "stage_title": "Select, construct and test foundation zone",
         "status": "active",
-        "progress_percent": 50.0,
+        "progress_percent": 88.5,
         "qa_status": "hold-point-open"
       },
       {
@@ -780,10 +863,10 @@
       },
       {
         "stream_id": "viaduct",
-        "stage_id": "VIA-50",
-        "stage_title": "Set bearings and erect twin U-girders",
+        "stage_id": "VIA-30",
+        "stage_title": "Survey and first-article proof",
         "status": "active",
-        "progress_percent": 50.0,
+        "progress_percent": 25.0,
         "qa_status": "hold-point-open"
       },
       {
@@ -832,20 +915,20 @@
   },
   "source_register": {
     "docs/civil/slab-trackforms.md": {
-      "bytes": 5171,
-      "sha256": "408db4d3542af8edf9e95b02f7671900dd417d7b6437c884160cf3a303d853b6"
+      "bytes": 5626,
+      "sha256": "ba0facbc54a412371bff86b8f60f3d31eb6d86831226c6ae75c7c27aafa657e3"
     },
     "docs/civil/viaduct-design-basis.md": {
-      "bytes": 3983,
-      "sha256": "eebb8e774ce95800b89f9d9d278717f91949680d19e8ef0ee6601d18d6c50333"
+      "bytes": 4598,
+      "sha256": "c86cb7e5596b3621dcfb226fa9c40ec61d3ee2d0639ad1f86b252fd88b4f9517"
     },
     "docs/civil/viaduct-first-article-test-plan.md": {
-      "bytes": 1581,
-      "sha256": "4cc8303c0351c6a84c846002105848a43f2a39f9ba9610e3a2c5ad927a8d1403"
+      "bytes": 2156,
+      "sha256": "379197f43d9621dbcd908f872146157f32d8801b5ec76715d33120bd20553057"
     },
     "docs/civil/viaduct-transport-and-erection-envelope.md": {
-      "bytes": 1294,
-      "sha256": "ee833b2129130113f07da0fec49c72a470a5816a7035c2d00b54afe6d38c4d78"
+      "bytes": 1712,
+      "sha256": "8a61c7d6063e6787e0dcf668fe8ea01b72e5e90f0860f65fb7fa44c1fd8513e1"
     },
     "docs/rfcs/0010-station-design-standard.md": {
       "bytes": 23891,
@@ -855,9 +938,17 @@
       "bytes": 16381,
       "sha256": "6957726c50c0d4b4717df8919e3cc685219bdb2e15bde87c25513fa92349ead6"
     },
+    "lib/templates/civil-construction-systems.toml": {
+      "bytes": 2903,
+      "sha256": "865f179f8fd8e7a42b61d02e6d38a3ab2d4aff67f16a15c3af752019eef9d17c"
+    },
+    "lib/templates/foundation-catalog.toml": {
+      "bytes": 5534,
+      "sha256": "674a98c42719573830ffb3fdecd5f65b3a427fb92961d278c42ee2f37aad3939"
+    },
     "lib/templates/manufacturing-schedule.toml": {
-      "bytes": 28364,
-      "sha256": "d8c5b02a1654768fff53c16be2cf2b813f1d372bce6c66794b2f08a300eea881"
+      "bytes": 29907,
+      "sha256": "31fa6028039f1478aa452749c47c617e29fad55cd460c21bae3b10aadffa5812"
     },
     "lib/templates/stations.toml": {
       "bytes": 4601,
@@ -871,9 +962,13 @@
       "bytes": 79627,
       "sha256": "bb0c9a5359ae0835140a69c7e97b26913ebd70afe589d7cb251a504467745344"
     },
+    "mechanical-py/src/osr_mech/civil/construction.py": {
+      "bytes": 5197,
+      "sha256": "cf04a7ce7e25bc610685735b74414ed5620e0f21c7d8c83c9bd58158d68b719f"
+    },
     "mechanical-py/src/osr_mech/civil/viaduct.py": {
-      "bytes": 6398,
-      "sha256": "798ee59d8ede558407c877a6e5ebfcca988e1efdb66f29b1691d2d8245dfc680"
+      "bytes": 6700,
+      "sha256": "e8c321ce1215ce7f03003cea48dee52fb301583193aba08ba0a9e1f796863298"
     },
     "mechanical-py/src/osr_mech/track/panel.py": {
       "bytes": 3061,
@@ -889,22 +984,22 @@
     {
       "id": "unique-stage-identifiers",
       "passed": true,
-      "observed": 23
+      "observed": 25
     },
     {
       "id": "predecessors-resolve",
       "passed": true,
-      "observed": 23
+      "observed": 25
     },
     {
       "id": "qa-evidence-on-every-stage",
       "passed": true,
-      "observed": 23
+      "observed": 25
     },
     {
       "id": "source-references-resolve",
       "passed": true,
-      "observed": 12
+      "observed": 15
     },
     {
       "id": "station-product-tree-loaded",

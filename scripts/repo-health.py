@@ -27,6 +27,9 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 CAPEX_COSTS = tomllib.loads((REPO_ROOT / "lib/templates/capex-costs.toml").read_text())
+CIVIL_COST_MODEL = tomllib.loads(
+    (REPO_ROOT / "lib/templates/civil-cost-model.toml").read_text()
+)
 USD_TO_EUR = float(CAPEX_COSTS["schema"]["usd_to_eur"])
 TRAINSET_COST_USD = {
     str(k): float(v) for k, v in CAPEX_COSTS["trainset_unit_usd"].items()
@@ -290,6 +293,8 @@ def check_city_artifacts() -> list[Finding]:
                 "network_finance_model_sha256": REPO_ROOT
                 / "design-py/src/osr_scenario/network_readme.py",
                 "capex_costs_sha256": REPO_ROOT / "lib/templates/capex-costs.toml",
+                "civil_cost_model_sha256": REPO_ROOT
+                / "lib/templates/civil-cost-model.toml",
                 "country_finance_sha256": REPO_ROOT
                 / "lib/templates/country-finance.toml",
             }
@@ -852,6 +857,17 @@ def check_current_network_osr_aln() -> list[Finding]:
 
 def check_generated_cost_model() -> list[Finding]:
     findings: list[Finding] = []
+    civil_generator = REPO_ROOT / "scripts/generate-civil-cost-model.py"
+    civil_module = runpy.run_path(str(civil_generator))
+    expected_civil = civil_module["render"](civil_module["build_model"]())
+    civil_path = REPO_ROOT / "lib/templates/civil-cost-model.toml"
+    if civil_path.read_text() != expected_civil:
+        findings.append(
+            Finding(
+                civil_path,
+                "generated civil cost contract is stale; run scripts/generate-civil-cost-model.py",
+            )
+        )
     path = REPO_ROOT / "docs/cost-model.md"
     generator = REPO_ROOT / "scripts/generate-cost-model.py"
     module = runpy.run_path(str(generator))
@@ -860,6 +876,21 @@ def check_generated_cost_model() -> list[Finding]:
     if actual != expected:
         findings.append(Finding(path, "generated cost model is stale; run scripts/generate-cost-model.py"))
     return findings
+
+
+def check_generated_portfolio_summary() -> list[Finding]:
+    path = REPO_ROOT / "docs/portfolio-summary.md"
+    generator = REPO_ROOT / "scripts/generate-portfolio-summary.py"
+    module = runpy.run_path(str(generator))
+    expected = module["build_summary"]()
+    if not path.is_file() or path.read_text() != expected:
+        return [
+            Finding(
+                path,
+                "generated portfolio summary is stale; run scripts/generate-portfolio-summary.py",
+            )
+        ]
+    return []
 
 
 def check_cost_reference_tables() -> list[Finding]:
@@ -887,7 +918,7 @@ def check_cost_reference_tables() -> list[Finding]:
 
     rfc = REPO_ROOT / "docs/rfcs/0011-civil-infrastructure-design-standard.md"
     rfc_text = rfc.read_text()
-    for key, value in CAPEX_COSTS["civil_usd_per_km"].items():
+    for key, value in CAPEX_COSTS["civil_benchmark_usd_per_km"].items():
         label = key.replace("_", "-")
         _require_text(findings, rfc, rfc_text, f"| {label} | {_space_int(float(value))} / route-km |", "RFC 0011 civil unit table is stale")
     _require_text(
@@ -919,7 +950,7 @@ def check_cost_reference_tables() -> list[Finding]:
         findings,
         civil,
         civil_text,
-        f"Base unit: **{int(CAPEX_COSTS['civil_usd_per_km']['at_grade']):,} USD per route-km**.",
+        f"Base unit: **{int(CAPEX_COSTS['civil_benchmark_usd_per_km']['at_grade']):,} USD per route-km**.",
         "civil marketplace at-grade anchor is stale",
     )
     for value in CAPEX_COSTS["station_unit_usd"].values():
@@ -983,6 +1014,20 @@ def check_repository_hygiene() -> list[Finding]:
     return findings
 
 
+def check_readme_corpus() -> list[Finding]:
+    completed = subprocess.run(
+        [sys.executable, str(REPO_ROOT / "scripts/check-readmes.py")],
+        cwd=REPO_ROOT,
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+    if completed.returncode:
+        message = (completed.stdout + completed.stderr).strip()
+        return [Finding(REPO_ROOT, message)]
+    return []
+
+
 def run_checks() -> list[Finding]:
     findings: list[Finding] = []
     findings.extend(check_city_artifacts())
@@ -995,7 +1040,9 @@ def run_checks() -> list[Finding]:
     findings.extend(check_station_build_package())
     findings.extend(check_current_network_osr_aln())
     findings.extend(check_generated_cost_model())
+    findings.extend(check_generated_portfolio_summary())
     findings.extend(check_cost_reference_tables())
+    findings.extend(check_readme_corpus())
     findings.extend(check_repository_hygiene())
     return findings
 

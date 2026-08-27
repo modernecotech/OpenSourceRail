@@ -46,7 +46,10 @@ low = 1.50
 default = 2.00
 high = 3.00
 
-[civil_usd_per_km]
+# Retained pre-redesign benchmark. Active city calculations use the generated
+# `civil-cost-model.toml`, which indexes these values from current CAD
+# quantities. Keeping the benchmark here makes claimed reductions auditable.
+[civil_benchmark_usd_per_km]
 at_grade = 3000000
 elevated = 12000000
 bridge = 18000000

@@ -16,7 +16,7 @@ will sit on one of:
 | Class | Share (target) | Description |
 |---|---|---|
 | **at-grade** | ≥ 70 % | Track sits on prepared subgrade at natural ground level (possibly with minor cut/fill ≤ 3 m). The cheapest and fastest class by 1–2 orders of magnitude. |
-| **elevated** | ≤ 25 % | Track sits on a viaduct structure 5–12 m above ground (precast concrete U-girder, standardised span). |
+| **elevated** | ≤ 25 % | Track sits on a viaduct structure 5–12 m above ground (precast OSR-Pi20/Pi25 decked beams, standardised span). |
 | **bridge** | ≤ 5 % | Over a water crossing or deep gap. Separately engineered special span with site-specific substructure. |
 
 The fourth class the first-pass auto-gen inference used —
@@ -169,54 +169,54 @@ conditions to `Elevated` where it previously would have emitted
 
 ### 5.1 Envelope
 
-- **Structure:** paired single-track precast concrete U-troughs. OSR-U25 is
-  the primary simply supported product and OSR-U20 is the closure product.
-  The planning clear width is 4.72 m (5.12 m external) so the 2.97 m dynamic
-  train envelope can coexist with a 1.0 m escape walkway. OSR-U30 is not
-  released until project transport, lifting, and structural checks close.
-- **Piers:** single-column reinforced concrete, 1.5 m × 2.0 m
-  rectangular, heights 5–12 m, pile-cap foundation (piles sized
-  per deployment-local geotech).
+- **Structure:** paired single-track prestressed decked pi-beams. OSR-Pi25 is
+  the primary product and OSR-Pi20 is the closure/utility-
+  avoidance product. Each beam is 2.9 m wide with stems beneath the rail lines;
+  independent outer walkway/barrier cassettes produce an 8.5–9.0 m controlled
+  twin-track envelope. The catalogue contains no 30 m Pi beam.
+- **Piers:** single-column reinforced concrete, 1.5 m × 2.0 m rectangular,
+  heights 5–12 m, with a 6.5–7.5 m hollow/precast-shell cap. Foundation type
+  comes from the soil/access catalogue and actual deep-element lengths.
 - **Deck clearance:** 5.0 m vertical under the girder soffit over
   any road; 5.5 m over a truck route; 7.5 m over a rail corridor
   (UIC 777-2 minimum).
 - **Pier spacing:** 25 m nominal, using 20 m closure bays where constrained.
   Spans above 30 m use OSR-SP or another separately engineered structure.
-- **Bearings:** scheduled fixed/guided/free bearings. An interior pier has
-  eight bearings in two longitudinal rows; an end support has four.
+- **Bearings:** scheduled fixed/guided/free bearings. A semi-continuous
+  internal pier has four bearings in one longitudinal line; an expansion-unit
+  boundary has eight in two independent lines; an end support has four.
   Permanent checked jacking interfaces permit replacement.
-- **Movement:** a gap occurs at every simply supported span end. The project
-  issues a bearing/movement schedule and continuous-welded-rail interaction
-  analysis; rail expansion devices are used only where that analysis requires.
+- **Movement:** four normal spans form a short semi-continuous unit using a
+  released reinforced diaphragm or link slab. Expansion gaps occur every
+  80–125 m, never as one kilometre-long continuous structure. The project
+  issues a bearing/movement schedule and continuous-welded-rail interaction,
+  braking, temperature, seismic and foundation-flexibility analyses.
 - **Parapets:** 1.4 m solid concrete panel, continuous, with a
   handrail on the inspection walkway.
-- **Walkway:** integrated one-side inspection/escape ledge, 1.0 m clear, escape
+- **Walkway:** separate outer inspection/escape cassette, 1.0 m clear, escape
   ramps every 250 m down to at-grade.
-- **Acoustic screens:** where residential buildings are within 25
-  m horizontally, precast concrete acoustic panel on the near
-  parapet, 2.0 m tall, absorption class ≥ A2. Target exterior
-  noise at residential façade ≤ 55 dB(A) day, ≤ 45 dB(A) night per
-  WHO community-noise guidelines.
-- **PV integration:** every viaduct girder accommodates a 6 kW PV
-  array per span on south/sun-exposed faces (4 m² per m of span
-  length). Feeds the nearest `osr-energy-site` (RFC 0002).
+- **Acoustic screens:** fit only where the project noise model demonstrates a
+  requirement; use replaceable secondary panels rather than widening the
+  primary member by default.
+- **PV integration:** concentrate PV at stations, depots and canopies. Normal
+  viaduct spans do not carry a default PV attachment.
 
 ### 5.2 Rationale for one reference girder
 
-- **One mould across the whole project.** The precast yard casts
-  one U-girder shape; every span of every viaduct of every
+- **One long-line mould family across the whole project.** The precast yard casts
+  one Pi-beam section with movable Pi20/Pi25 stop ends; every normal span of an
   OpenSourceRail deployment uses that shape. This is the biggest
   single CAPEX / schedule lever in elevated construction and
   matches the "one spares pool, one CAD reuse" principle from
   RFC 0008 / 0009 / 0010.
-- **Double-track substructure, repeated single-track girders.** One shared
-  hollow/precast-shell cap carries two identical U-troughs at 5.52 m centres. A
+- **Double-track substructure, repeated single-track beams.** One shared
+  hollow/precast-shell cap carries two identical Pi-beams at 3.5 m centres. A
   single-track initial line still builds the shared substructure and may
   defer the second girder until capacity demands it.
-- **Simply-supported, not continuous.** Continuous spans give a
-  small live-load saving at the cost of much more complex
-  construction sequencing and bearing design. The simplicity bet
-  wins.
+- **Short semi-continuity, not kilometre-long continuity.** Transport and erect
+  ordinary individual beams, then connect four spans with a released link slab
+  or diaphragm. This removes most deck gaps and one bearing line at ordinary
+  internal supports while retaining manageable thermal units.
 
 ## 6. Bridge — the 5 % case
 
@@ -407,9 +407,9 @@ also emitted for compatibility with earlier generated schemas.
 
 ## 10. Constructability constraints
 
-- **Concrete supply.** Precast concrete yards exist in every
-  target region; most can produce the reference U-girder from an
-  off-the-shelf mould sold by the major formwork vendors
+- **Concrete supply.** Precast concrete yards exist in every target region;
+  the Pi section needs a supplier-designed railway prototype and a reusable
+  long-line mould fabricated from established formwork systems
   (PERI, Meva, Doka). Operators without a nearby precast yard
   bootstrap one — a 5 km² yard with 20 formworks produces enough
   girders for 50 km of viaduct in 18 months.
@@ -417,10 +417,10 @@ also emitted for compatibility with earlier generated schemas.
   rebar mills in the 12–40 mm range we use.
 - **Post-tensioning tendons.** Commodity; local supply exists
   in every target region.
-- **Lifting and transport.** The widened constant-thickness 25 m CAD envelope
-  is about 117 t and is a permit-load component. The project must release the
-  route, transporter, lifting points, temporary bracing, crane/launcher,
-  tandem-lift controls, wind limits, and contingency landing method.
+- **Lifting and transport.** Pi25 is 2.9 m wide and targets 65–75 t. The
+  project must release the route, transporter, lifting points, portal/launcher
+  or actual crane load chart, synchronized lift controls, ground pressure,
+  wind limits and contingency landing method.
 - **Launching.** Where full-span access is constrained, OSR-US uses match-cast
   2.5–3.0 m segments, post-tensioning, and an overhead launcher with specialist
   geometry, epoxy-joint, tendon-grouting, and staged-load QA.
@@ -446,7 +446,7 @@ civil contractor can mobilise.
   girder geometry (ornamental, signature architecture) are free
   to substitute; the upstream catalogue fixes one shape for
   CAPEX / spares reasons, not for aesthetic ones.
-- **Special crossings are separate products.** OSR-U25 is not stretched to
+- **Special crossings are separate products.** OSR-Pi25 is not stretched to
   40 m. OSR hands off to OSR-SP or a local engineering tender at the approach.
 - **Noise mitigation is structural, not operational.** Acoustic
   screens on viaducts > operational speed restrictions. A 2 m
@@ -469,7 +469,7 @@ civil contractor can mobilise.
 | **v2.2** ✅ | Move the source cost basis to USD direct-procurement planning rates, add `*_usd` fields, keep `*_eur` mirrors, and drop EPC overhead to 7 % (done 2026-06-04). | v2.1 |
 | **v2.3** ✅ | Add the railway production-plant setup bucket, now 60 000 USD per vehicle/car module with 120 000 USD retained as a high sensitivity check after 1 m clip-on fiberglass body and distributed-stabling scope reductions (updated 2026-08-15). | v2.2 |
 | **v2.4** ✅ | Replace duplicated city production plants with one shared national factory sized to the largest city fleet programme; city CAPEX is zero for this bucket and national briefs carry the asset once. Add imported-value and local-capital financing boundaries. | v2.3 |
-| **v3** ✅ | Parametric OSR-U25/U20 clearance geometry, structural-feature placeholders, OSR-US segmental and OSR-SP special-span families are controlled under [`mechanical-py/src/osr_mech/civil/`](../../mechanical-py/src/osr_mech/civil/). Shared 5–12 m piers use widened hollow/precast-shell caps, eight-bearing interior schedules, four-bearing end supports, jacking interfaces, and pile-cap/monopile foundation envelopes. The controlled design-basis, load, egress, movement, erection, first-article, and quantity packages live under [`docs/civil/`](../civil/). | v0 |
+| **v3** ✅ | Parametric OSR-Pi20/Pi25 decked beams, transportable OSR-ST6 panels, 3.5 m elevated track centres, 6.5–7.5 m hollow caps, soil/access foundation catalogue, geometry-derived quantities and resource-driven production equations are controlled under [`mechanical-py/src/osr_mech/civil/`](../../mechanical-py/src/osr_mech/civil/). Legacy U-troughs remain special products; OSR-US and OSR-SP cover exceptional geometry. The controlled design-basis, load, egress, movement, erection, first-article, foundation, production and quantity packages live under [`docs/civil/`](../civil/). | v0 |
 | **v4** | Surveyed civil design package for the first pilot line, generated from the current city model | v3, RFC 0003 |
 | **v5** | First-article viaduct erected for a deployment instance | v3 |
 

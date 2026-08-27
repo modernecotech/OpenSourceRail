@@ -10,15 +10,17 @@ use sha2::{Digest, Sha256};
 
 use crate::model::{
     ApprovalCreate, ApprovalDecision, ApprovalFile, BaseDesign, BuildArtifact, BuildManifest,
-    CompiledControlPoint, CompiledLine, CompiledSnapshot, CompiledStation, ControlPointCreate,
-    ControlPointEdit, CoordinationCreate, CoordinationEdit, CoordinationFile, CoordinationIssue,
-    CoordinationStatus, FindingSeverity, GeoPoint, GitState, IntentState, LineControlPoint,
-    LineCreate, LineEdit, LineRoutingPreference, LineServicePlan, ManualLine, ManualStation,
-    OverrideFile, ProjectFile, ResolvedSource, RevisionComparison, RevisionControlDiff,
-    RevisionCoordinationDiff, RevisionLineDiff, RevisionListItem, RevisionMaterialized,
-    RevisionServiceDiff, RevisionStationDiff, RevisionSummaryDiff, RoutingSettings,
-    ServiceHeadwayBulkEdit, ServiceMetric, ServicePlan, SnapshotSummary, SourceLock, StationChange,
-    StationCreate, StationEdit, StationOverride, StudioArtifact, ValidationFinding,
+    CivilConstructionSettings, CompiledControlPoint, CompiledLine, CompiledSnapshot,
+    CompiledStation, ControlPointCreate, ControlPointEdit, CoordinationCreate, CoordinationEdit,
+    CoordinationFile, CoordinationIssue, CoordinationStatus, DemandFile, DemandFlow,
+    DemandFlowCreate, DemandFlowEdit, DemandMetric, FindingSeverity, GeoPoint, GitState,
+    IntentState, LineControlPoint, LineCreate, LineEdit, LineRoutingPreference, LineServicePlan,
+    ManualLine, ManualStation, OverrideFile, ProjectFile, ResolvedSource, RevisionComparison,
+    RevisionControlDiff, RevisionCoordinationDiff, RevisionDemandDiff, RevisionLineDiff,
+    RevisionListItem, RevisionMaterialized, RevisionServiceDiff, RevisionStationDiff,
+    RevisionSummaryDiff, RoutingSettings, ServiceHeadwayBulkEdit, ServiceMetric, ServicePlan,
+    SnapshotSummary, SourceLock, StationChange, StationCreate, StationEdit, StationOverride,
+    StudioArtifact, ValidationFinding,
 };
 
 const SNAPSHOT_SCHEMA_VERSION: u32 = 1;
@@ -39,6 +41,7 @@ pub struct CityProject {
     corridor: serde_json::Value,
     coordination: CoordinationFile,
     approvals: ApprovalFile,
+    demand: DemandFile,
 }
 
 #[derive(Serialize)]
@@ -48,12 +51,15 @@ struct SnapshotContent<'a> {
     compiler_source_sha256: &'a str,
     input_sha256: &'a str,
     project: &'a crate::model::ProjectIdentity,
+    civil: &'a CivilConstructionSettings,
     sources: &'a [ResolvedSource],
     lines: &'a [CompiledLine],
     stations: &'a [CompiledStation],
     line_control_points: &'a [CompiledControlPoint],
     service_plan: &'a ServicePlan,
     service_metrics: &'a [ServiceMetric],
+    demand: &'a DemandFile,
+    demand_metrics: &'a [DemandMetric],
     summary: &'a SnapshotSummary,
     changes: &'a [StationChange],
     findings: &'a [ValidationFinding],
@@ -116,6 +122,11 @@ impl CityProject {
                 decisions: Vec::new(),
             }
         };
+        let demand = if let Some(path) = &config.inputs.demand {
+            read_toml(&root.join(path))?
+        } else {
+            DemandFile::default()
+        };
         Ok(Self {
             root,
             config,
@@ -126,6 +137,7 @@ impl CityProject {
             corridor,
             coordination,
             approvals,
+            demand,
         })
     }
 
@@ -141,12 +153,43 @@ impl CityProject {
         &self.service_plan
     }
 
+    pub fn civil(&self) -> &CivilConstructionSettings {
+        &self.config.civil
+    }
+
+    pub fn update_civil(&mut self, civil: CivilConstructionSettings) -> Result<()> {
+        if !matches!(civil.standard_span_m, 20.0 | 25.0) {
+            bail!("standard civil span must be 20 m or 25 m");
+        }
+        if !matches!(civil.expansion_unit_spans, 4 | 5) {
+            bail!("expansion units must contain four or five spans");
+        }
+        if !(1.0..=4.5).contains(&civil.maximum_reinforced_soil_height_m) {
+            bail!("reinforced-soil initial design height must be between 1.0 m and 4.5 m");
+        }
+        if civil.long_open_at_grade_method != "continuous-slipform" {
+            bail!("long open at-grade method must be continuous-slipform");
+        }
+        if civil.constrained_at_grade_method != "single-track-precast" {
+            bail!("constrained at-grade method must be single-track-precast");
+        }
+        if !(24..=72).contains(&civil.mould_cycle_target_h) {
+            bail!("mould-cycle target must be between 24 and 72 hours");
+        }
+        self.config.civil = civil;
+        write_toml_atomic(&self.root.join("project.osr.toml"), &self.config)
+    }
+
     pub fn coordination(&self) -> &CoordinationFile {
         &self.coordination
     }
 
     pub fn approvals(&self) -> &ApprovalFile {
         &self.approvals
+    }
+
+    pub fn demand(&self) -> &DemandFile {
+        &self.demand
     }
 
     pub fn create_approval(&mut self, create: ApprovalCreate) -> Result<String> {
@@ -202,6 +245,82 @@ impl CityProject {
             })?;
         write_toml_atomic(&self.root.join(path), &self.approvals)?;
         Ok(id)
+    }
+
+    pub fn create_demand_flow(&mut self, create: DemandFlowCreate) -> Result<String> {
+        let period = create.period.trim().to_string();
+        let origin_station = create.origin_station.trim().to_string();
+        let destination_station = create.destination_station.trim().to_string();
+        validate_passengers_per_hour(create.passengers_per_hour)?;
+        if origin_station == destination_station {
+            bail!("demand origin and destination must be different stations");
+        }
+        if !self.demand.periods.iter().any(|item| item.id == period) {
+            bail!("unknown demand period {period:?}");
+        }
+        let snapshot = self.compile()?;
+        let station_ids = snapshot
+            .stations
+            .iter()
+            .map(|station| station.id.as_str())
+            .collect::<BTreeSet<_>>();
+        for station in [&origin_station, &destination_station] {
+            if !station_ids.contains(station.as_str()) {
+                bail!("unknown or retired demand station {station:?}");
+            }
+        }
+        if self.demand.flows.iter().any(|flow| {
+            flow.period == period
+                && flow.origin_station == origin_station
+                && flow.destination_station == destination_station
+        }) {
+            bail!("an origin-destination flow already exists for this period");
+        }
+        let identity = format!("{period}\0{origin_station}\0{destination_station}");
+        let id = format!("od-{}", &sha256_bytes(identity.as_bytes())[..16]);
+        self.demand.flows.push(DemandFlow {
+            id: id.clone(),
+            period,
+            origin_station,
+            destination_station,
+            passengers_per_hour: create.passengers_per_hour,
+        });
+        self.demand
+            .flows
+            .sort_by(|left, right| left.id.cmp(&right.id));
+        self.write_demand()?;
+        Ok(id)
+    }
+
+    pub fn update_demand_flow(&mut self, id: &str, edit: DemandFlowEdit) -> Result<()> {
+        validate_passengers_per_hour(edit.passengers_per_hour)?;
+        let flow = self
+            .demand
+            .flows
+            .iter_mut()
+            .find(|flow| flow.id == id)
+            .ok_or_else(|| anyhow!("unknown demand flow {id:?}"))?;
+        flow.passengers_per_hour = edit.passengers_per_hour;
+        self.write_demand()
+    }
+
+    pub fn delete_demand_flow(&mut self, id: &str) -> Result<()> {
+        let before = self.demand.flows.len();
+        self.demand.flows.retain(|flow| flow.id != id);
+        if self.demand.flows.len() == before {
+            bail!("unknown demand flow {id:?}");
+        }
+        self.write_demand()
+    }
+
+    fn write_demand(&self) -> Result<()> {
+        let path = self
+            .config
+            .inputs
+            .demand
+            .as_ref()
+            .ok_or_else(|| anyhow!("demand persistence is not configured for this project"))?;
+        write_toml_atomic(&self.root.join(path), &self.demand)
     }
 
     fn is_active_line(&self, id: &str) -> bool {
@@ -331,6 +450,7 @@ impl CityProject {
         });
         changes.sort_by(|a, b| a.id.cmp(&b.id));
         findings.extend(self.validate_effective_stations(&stations));
+        findings.extend(self.validate_demand(&stations));
         let mut line_control_points = self
             .overrides
             .line_control_points
@@ -473,6 +593,28 @@ impl CityProject {
                 .cmp(&b.line)
                 .then_with(|| a.day_type.cmp(&b.day_type))
         });
+        let demand_metrics = self.compute_demand_metrics(&stations);
+        for metric in &demand_metrics {
+            if metric.status == "over-capacity" {
+                findings.push(ValidationFinding {
+                    severity: FindingSeverity::Warning,
+                    code: "DEMAND_OVER_CAPACITY".to_string(),
+                    message: format!(
+                        "OD flow reaches {:.1}% of the indicative scheduled capacity",
+                        metric.utilization_percent.unwrap_or(0.0)
+                    ),
+                    object_id: Some(metric.flow_id.clone()),
+                });
+            } else if metric.status == "unavailable" {
+                findings.push(ValidationFinding {
+                    severity: FindingSeverity::Error,
+                    code: "DEMAND_WITHOUT_SERVICE".to_string(),
+                    message: "OD flow has no scheduled capacity during its planning period"
+                        .to_string(),
+                    object_id: Some(metric.flow_id.clone()),
+                });
+            }
+        }
         let day_counts = self.service_plan.calendar.day_type_counts();
         let weekly_service_km = service_metrics
             .iter()
@@ -522,12 +664,15 @@ impl CityProject {
             compiler_source_sha256: &compiler_source_sha256,
             input_sha256: &input_sha256,
             project: &self.config.project,
+            civil: &self.config.civil,
             sources: &sources,
             lines: &lines,
             stations: &stations,
             line_control_points: &line_control_points,
             service_plan: &self.service_plan,
             service_metrics: &service_metrics,
+            demand: &self.demand,
+            demand_metrics: &demand_metrics,
             summary: &summary,
             changes: &changes,
             findings: &findings,
@@ -545,12 +690,15 @@ impl CityProject {
             input_sha256,
             parent_git_commit,
             project: self.config.project.clone(),
+            civil: self.config.civil.clone(),
             sources,
             lines,
             stations,
             line_control_points,
             service_plan: Some(self.service_plan.clone()),
             service_metrics,
+            demand: self.demand.clone(),
+            demand_metrics,
             summary,
             changes,
             findings,
@@ -1413,6 +1561,9 @@ impl CityProject {
         if let Some(path) = &self.config.inputs.coordination {
             paths.push(PathBuf::from(path));
         }
+        if let Some(path) = &self.config.inputs.demand {
+            paths.push(PathBuf::from(path));
+        }
         let mut hasher = Sha256::new();
         for relative in paths {
             let bytes = fs::read(self.root.join(&relative))
@@ -1876,6 +2027,198 @@ impl CityProject {
             }),
         }
         findings
+    }
+
+    fn validate_demand(&self, stations: &[CompiledStation]) -> Vec<ValidationFinding> {
+        if self.config.inputs.demand.is_none() {
+            return Vec::new();
+        }
+        let mut findings = Vec::new();
+        if self.demand.schema_version != 1 {
+            findings.push(ValidationFinding {
+                severity: FindingSeverity::Error,
+                code: "DEMAND_SCHEMA".to_string(),
+                message: "demand schema_version must be 1".to_string(),
+                object_id: Some("demand".to_string()),
+            });
+        }
+        let day_types = self
+            .service_plan
+            .day_types
+            .iter()
+            .map(|day| day.id.as_str())
+            .collect::<BTreeSet<_>>();
+        let station_ids = stations
+            .iter()
+            .map(|station| station.id.as_str())
+            .collect::<BTreeSet<_>>();
+        let mut period_ids = BTreeSet::new();
+        for period in &self.demand.periods {
+            let validation = validate_demand_id("period", &period.id)
+                .and_then(|()| validate_demand_period(period));
+            if let Err(error) = validation {
+                findings.push(ValidationFinding {
+                    severity: FindingSeverity::Error,
+                    code: "INVALID_DEMAND_PERIOD".to_string(),
+                    message: error.to_string(),
+                    object_id: Some(period.id.clone()),
+                });
+            }
+            if !period_ids.insert(period.id.as_str()) {
+                findings.push(ValidationFinding {
+                    severity: FindingSeverity::Error,
+                    code: "DUPLICATE_DEMAND_PERIOD".to_string(),
+                    message: "demand period id is duplicated".to_string(),
+                    object_id: Some(period.id.clone()),
+                });
+            }
+            if !day_types.contains(period.day_type.as_str()) {
+                findings.push(ValidationFinding {
+                    severity: FindingSeverity::Error,
+                    code: "UNKNOWN_DEMAND_DAY_TYPE".to_string(),
+                    message: "demand period refers to an unknown service day type".to_string(),
+                    object_id: Some(period.id.clone()),
+                });
+            }
+        }
+        let mut flow_ids = BTreeSet::new();
+        let mut flow_keys = BTreeSet::new();
+        for flow in &self.demand.flows {
+            if let Err(error) = validate_demand_id("flow", &flow.id)
+                .and_then(|()| validate_passengers_per_hour(flow.passengers_per_hour))
+            {
+                findings.push(ValidationFinding {
+                    severity: FindingSeverity::Error,
+                    code: "INVALID_DEMAND_FLOW".to_string(),
+                    message: error.to_string(),
+                    object_id: Some(flow.id.clone()),
+                });
+            }
+            if !flow_ids.insert(flow.id.as_str()) {
+                findings.push(ValidationFinding {
+                    severity: FindingSeverity::Error,
+                    code: "DUPLICATE_DEMAND_FLOW_ID".to_string(),
+                    message: "demand flow id is duplicated".to_string(),
+                    object_id: Some(flow.id.clone()),
+                });
+            }
+            if !flow_keys.insert((
+                flow.period.as_str(),
+                flow.origin_station.as_str(),
+                flow.destination_station.as_str(),
+            )) {
+                findings.push(ValidationFinding {
+                    severity: FindingSeverity::Error,
+                    code: "DUPLICATE_OD_FLOW".to_string(),
+                    message: "origin, destination and period must be unique".to_string(),
+                    object_id: Some(flow.id.clone()),
+                });
+            }
+            if !period_ids.contains(flow.period.as_str()) {
+                findings.push(demand_finding(
+                    "UNKNOWN_DEMAND_PERIOD",
+                    "demand flow refers to an unknown period",
+                    flow,
+                ));
+            }
+            if flow.origin_station == flow.destination_station {
+                findings.push(demand_finding(
+                    "DEMAND_SAME_STATION",
+                    "demand origin and destination must be different",
+                    flow,
+                ));
+            }
+            for (role, station) in [
+                ("origin", flow.origin_station.as_str()),
+                ("destination", flow.destination_station.as_str()),
+            ] {
+                if !station_ids.contains(station) {
+                    findings.push(demand_finding(
+                        "UNKNOWN_DEMAND_STATION",
+                        &format!("demand {role} refers to an unknown or retired station"),
+                        flow,
+                    ));
+                }
+            }
+        }
+        findings
+    }
+
+    fn compute_demand_metrics(&self, stations: &[CompiledStation]) -> Vec<DemandMetric> {
+        let station_by_id = stations
+            .iter()
+            .map(|station| (station.id.as_str(), station))
+            .collect::<BTreeMap<_, _>>();
+        let period_by_id = self
+            .demand
+            .periods
+            .iter()
+            .map(|period| (period.id.as_str(), period))
+            .collect::<BTreeMap<_, _>>();
+        let mut metrics = Vec::new();
+        for flow in &self.demand.flows {
+            let (Some(period), Some(origin), Some(destination)) = (
+                period_by_id.get(flow.period.as_str()),
+                station_by_id.get(flow.origin_station.as_str()),
+                station_by_id.get(flow.destination_station.as_str()),
+            ) else {
+                continue;
+            };
+            let origin_capacity = self.line_capacity_for_period(&origin.line, period);
+            let destination_capacity = self.line_capacity_for_period(&destination.line, period);
+            let capacity_pphpd = origin_capacity.min(destination_capacity);
+            let utilization_percent = (capacity_pphpd > 0)
+                .then(|| f64::from(flow.passengers_per_hour) / f64::from(capacity_pphpd) * 100.0);
+            let status = match utilization_percent {
+                None => "unavailable",
+                Some(value) if value > 100.0 => "over-capacity",
+                Some(value) if value > 85.0 => "near-capacity",
+                Some(_) => "within-capacity",
+            };
+            metrics.push(DemandMetric {
+                flow_id: flow.id.clone(),
+                period: flow.period.clone(),
+                origin_line: origin.line.clone(),
+                destination_line: destination.line.clone(),
+                transfers: u32::from(origin.line != destination.line),
+                capacity_pphpd,
+                utilization_percent,
+                status: status.to_string(),
+            });
+        }
+        metrics.sort_by(|left, right| left.flow_id.cmp(&right.flow_id));
+        metrics
+    }
+
+    fn line_capacity_for_period(&self, line: &str, period: &crate::model::DemandPeriod) -> u32 {
+        let Some(plan) = self
+            .service_plan
+            .line_plans
+            .iter()
+            .find(|plan| plan.line == line && plan.day_type == period.day_type)
+        else {
+            return 0;
+        };
+        let Ok(service_start) = parse_minutes(&plan.service_start) else {
+            return 0;
+        };
+        let Ok((period_from, period_to)) =
+            normalized_interval(&period.from, &period.to, service_start)
+        else {
+            return 0;
+        };
+        plan.windows
+            .iter()
+            .filter_map(|window| {
+                let (from, to) =
+                    normalized_interval(&window.from, &window.to, service_start).ok()?;
+                (from < period_to && to > period_from).then_some(
+                    self.config.planning.passenger_capacity_per_train * 60
+                        / window.headway_min.max(1),
+                )
+            })
+            .min()
+            .unwrap_or(0)
     }
 
     fn compute_service_metrics(&self, lines: &[CompiledLine]) -> Result<Vec<ServiceMetric>> {
@@ -2815,6 +3158,43 @@ fn compare_snapshots(base: &CompiledSnapshot, candidate: &CompiledSnapshot) -> R
         });
     }
 
+    let base_demand = base
+        .demand
+        .flows
+        .iter()
+        .map(|flow| (flow.id.as_str(), flow))
+        .collect::<BTreeMap<_, _>>();
+    let candidate_demand = candidate
+        .demand
+        .flows
+        .iter()
+        .map(|flow| (flow.id.as_str(), flow))
+        .collect::<BTreeMap<_, _>>();
+    let demand_ids = base_demand
+        .keys()
+        .chain(candidate_demand.keys())
+        .copied()
+        .collect::<BTreeSet<_>>();
+    let mut demand = Vec::new();
+    for id in demand_ids {
+        let before = base_demand.get(id).copied();
+        let after = candidate_demand.get(id).copied();
+        if before == after {
+            continue;
+        }
+        demand.push(RevisionDemandDiff {
+            id: id.to_string(),
+            kind: match (before, after) {
+                (None, Some(_)) => "added",
+                (Some(_), None) => "removed",
+                _ => "modified",
+            }
+            .to_string(),
+            before: before.cloned(),
+            after: after.cloned(),
+        });
+    }
+
     RevisionComparison {
         base_revision_id: base.revision_id.clone(),
         candidate_revision_id: candidate.revision_id.clone(),
@@ -2835,6 +3215,7 @@ fn compare_snapshots(base: &CompiledSnapshot, candidate: &CompiledSnapshot) -> R
         lines,
         services,
         coordination,
+        demand,
     }
 }
 
@@ -3293,6 +3674,45 @@ fn validate_manual_archetype(archetype: &str) -> Result<()> {
     Ok(())
 }
 
+fn validate_demand_id(kind: &str, id: &str) -> Result<()> {
+    if !(3..=80).contains(&id.len())
+        || !id
+            .bytes()
+            .all(|byte| byte.is_ascii_lowercase() || byte.is_ascii_digit() || byte == b'-')
+    {
+        bail!("demand {kind} id must be 3-80 lowercase letters, digits, or hyphens");
+    }
+    Ok(())
+}
+
+fn validate_demand_period(period: &crate::model::DemandPeriod) -> Result<()> {
+    if period.name.trim().is_empty() || period.name.chars().count() > 120 {
+        bail!("demand period name must be 1-120 characters");
+    }
+    let from = parse_minutes(&period.from)?;
+    let (_, to) = normalized_interval(&period.from, &period.to, from)?;
+    if to <= from || to - from > 24 * 60 {
+        bail!("demand period must have a duration of at most 24 hours");
+    }
+    Ok(())
+}
+
+fn validate_passengers_per_hour(value: u32) -> Result<()> {
+    if !(1..=100_000).contains(&value) {
+        bail!("passengers per hour must be between 1 and 100,000");
+    }
+    Ok(())
+}
+
+fn demand_finding(code: &str, message: &str, flow: &DemandFlow) -> ValidationFinding {
+    ValidationFinding {
+        severity: FindingSeverity::Error,
+        code: code.to_string(),
+        message: message.to_string(),
+        object_id: Some(flow.id.clone()),
+    }
+}
+
 fn validate_line_plan(plan: &LineServicePlan) -> Result<()> {
     if plan.windows.is_empty() {
         bail!("service plan has no windows");
@@ -3407,14 +3827,14 @@ mod tests {
     use std::path::Path;
 
     use super::{
-        haversine_m, is_custom_coordination_id, normalized_interval, parse_minutes,
-        validate_coordination_decision, validate_custom_coordination_issue, validate_line_plan,
-        CityProject,
+        compare_snapshots, haversine_m, is_custom_coordination_id, normalized_interval,
+        parse_minutes, validate_coordination_decision, validate_custom_coordination_issue,
+        validate_line_plan, CityProject,
     };
     use crate::model::{
-        ApprovalCreate, ApprovalStatus, CoordinationStatus, IntentState, LineControlPoint,
-        LineCreate, LineRoutingPreference, LineServicePlan, ManualStation, ServiceHeadwayBulkEdit,
-        ServiceWindow, StationCreate, StationOverride,
+        ApprovalCreate, ApprovalStatus, CoordinationStatus, DemandFlow, IntentState,
+        LineControlPoint, LineCreate, LineRoutingPreference, LineServicePlan, ManualStation,
+        ServiceHeadwayBulkEdit, ServiceWindow, StationCreate, StationOverride,
     };
 
     #[test]
@@ -3453,6 +3873,51 @@ mod tests {
             &["not-an-asset".to_string()],
         )
         .is_err());
+    }
+
+    #[test]
+    fn od_demand_uses_period_bottleneck_and_revision_semantics() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../../projects/samawah");
+        let mut project = CityProject::load(root).expect("load Samawah project");
+        let baseline = project.compile().expect("compile baseline");
+        project.demand.flows.push(DemandFlow {
+            id: "od-capacity-screen-test".to_string(),
+            period: "weekday-am".to_string(),
+            origin_station: project
+                .base
+                .stations
+                .iter()
+                .find(|station| station.line == "line-1")
+                .expect("line 1 station")
+                .id
+                .clone(),
+            destination_station: project
+                .base
+                .stations
+                .iter()
+                .find(|station| station.line == "line-2")
+                .expect("line 2 station")
+                .id
+                .clone(),
+            passengers_per_hour: 4_000,
+        });
+        let candidate = project.compile().expect("compile demand candidate");
+        let metric = candidate
+            .demand_metrics
+            .iter()
+            .find(|metric| metric.flow_id == "od-capacity-screen-test")
+            .expect("demand metric");
+        assert_eq!(metric.capacity_pphpd, 3_600);
+        assert_eq!(metric.transfers, 1);
+        assert_eq!(metric.status, "over-capacity");
+        assert!((metric.utilization_percent.expect("utilization") - 111.111).abs() < 0.01);
+        assert!(candidate.findings.iter().any(|finding| {
+            finding.code == "DEMAND_OVER_CAPACITY"
+                && finding.object_id.as_deref() == Some("od-capacity-screen-test")
+        }));
+        let comparison = compare_snapshots(&baseline, &candidate);
+        assert_eq!(comparison.demand.len(), 1);
+        assert_eq!(comparison.demand[0].kind, "added");
     }
 
     #[test]
@@ -3983,7 +4448,11 @@ mod tests {
         assert_eq!(snapshot.summary.station_count, 23);
         assert_eq!(snapshot.summary.manual_station_count, 2);
         assert_eq!(snapshot.service_metrics.len(), 12);
-        assert_eq!(snapshot.summary.validation_errors, 0);
+        assert_eq!(
+            snapshot.summary.validation_errors, 0,
+            "findings: {:?}",
+            snapshot.findings
+        );
         let candidate_line = snapshot
             .lines
             .iter()

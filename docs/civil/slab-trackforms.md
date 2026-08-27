@@ -12,21 +12,29 @@ product acceptance of the direct-fixation fasteners.
 
 ## At-Grade Urban Slab
 
+Long open, machine-accessible corridors use a continuously slipformed slab by
+default. The table below defines the six-metre single-track ST6 product kept
+for constrained streets, utility crossings, short possessions, flood-prone
+and replaceable zones. Both methods retain the same controlled track support
+section and concrete quantity basis; a project method-zone schedule determines
+panel counts.
+
 | Item | Reference value |
 |---|---:|
-| Trackform | Double-track ballastless slab with continuous rail plinths |
+| Trackform | OSR-ST6 single-track transportable panel; two rows form double track |
 | Panel length | 6.0 m |
-| Overall panel width | 6.2 m |
+| Overall panel width | 2.9 m |
 | Track-centre spacing | 3.5 m |
-| Base slab thickness | 280 mm |
-| Rail plinth width | 420 mm |
-| Rail plinth height above base slab | 220 mm |
+| Base slab thickness | 250 mm |
+| Rail plinth width | 380 mm |
+| Rail plinth height above base slab | 160 mm |
 | Direct-fixation pitch | 650 mm |
-| Rail seats per 6 m panel | 40 |
-| Nominal concrete per 6 m panel | 12.6 m3 |
+| Rail seats per 6 m panel | 20 |
+| Nominal concrete per 6 m panel | 5.08 m3 |
+| Planning bare panel mass | 12.7 t |
 
-Use the at-grade slab where the corridor is in a street, median,
-segregated urban right of way, station approach, depot throat, or other
+Use ST6 where the corridor is in a constrained street, utility or transition
+zone, short possession, flood-prone location, station interface, depot throat, or other
 place where ballast dust, tamping possessions, and loose aggregate are
 unwanted.
 
@@ -41,29 +49,27 @@ concrete.
 |---|---:|
 | Trackform | Local direct-fixation plinths over thin non-structural alignment layer |
 | Panel length | 6.0 m |
-| Overall alignment-layer width | 4.1 m |
-| U-trough internal width compatibility | Fits 4.72 m clear trough |
+| Overall alignment-layer width | 2.7 m |
+| Deck compatibility | Fits the 2.9 m OSR-Pi20/Pi25 flange |
 | Alignment layer thickness | 40 mm; may be omitted by project design |
 | Rail plinth width | 380 mm |
 | Rail plinth height above base slab | 160 mm |
 | Direct-fixation pitch | 650 mm |
 | Rail seats per 6 m panel | 20 |
-| Nominal concrete per 6 m panel | 1.7 m3 |
+| Nominal concrete per 6 m panel | 1.38 m3 |
 
-Use one elevated deck slab per single-track U-girder. A double-track
-elevated section therefore uses two parallel girder/slab assemblies unless
-a deployment partner replaces the reference U-girder with a certified
-double-track viaduct section.
+Use one elevated trackform run per single-track Pi-beam. A double-track
+elevated section therefore uses two parallel Pi-beam/trackform assemblies.
 
-The U-trough structural floor is the deck. The alignment layer provides local
+The Pi-beam upper flange is the structural deck. The alignment layer provides local
 tolerance recovery only and may be omitted where surveyed casting plus
 adjustable baseplates can recover rail geometry. A full-width reinforced or
 floating slab is reserved for locations where a vibration/noise and structural
 study justifies its dead weight.
 
-The cable/drainage trough is installed on the non-egress side only. The
-opposite edge is the controlled 1.0 m escape ledge and must remain clear of
-service covers, cabinets, screen posts, and other permanent obstructions.
+The cable/drainage trough is installed on the inner/non-egress side. The
+separate outer 1.0 m walkway/barrier cassette remains clear of service covers,
+cabinets, screen posts and other permanent obstructions.
 
 ## FreeCAD Scene Renders
 
@@ -81,9 +87,10 @@ and is regenerated with
 
 ## Fabrication And Installation Rules
 
-- Keep the 6 m slab module for ordinary urban geometry; use closure pours
-  only at turnouts, station ends, curves that require local survey
-  correction, and transitions to bridge/special spans.
+- Slipform long accessible runs over the released machine-controlled
+  formation. Keep the 6 m ST6 module for constrained and replaceable zones;
+  use closure pours only at turnouts, station ends, curves that require local
+  survey correction, and transitions to bridge/special spans.
 - Cast embedded inserts, earthing/bonding points, drainage scuppers, and
   lifting anchors in the precast yard.
 - Require surveyed casting beds and a dimensional QA record for every

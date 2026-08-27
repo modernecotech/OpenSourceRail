@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import tomllib
 from pathlib import Path
 
 import ifcopenshell
@@ -23,19 +24,19 @@ def test_civil_ifc_has_rail_semantics_geometry_schedule_and_stable_ids(tmp_path:
     assert validation["passed"]
     assert ids_report["status"]
     assert ids_report["total_specifications_pass"] == 3
-    assert ids_report["total_checks"] == ids_report["total_checks_pass"] == 828
+    assert ids_report["total_checks"] == ids_report["total_checks_pass"] == 958
     assert bcf_index["topic_count"] == 3
     assert coordination is not None
     assert coordination.version.version_id == "3.0"
     assert len(coordination.topics) == 3
     assert index["summary"] == {
-        "assets": 82,
-        "construction_tasks": 16,
+        "assets": 95,
+        "construction_tasks": 18,
         "disciplines": {
             "above-track": 10,
             "lineside": 2,
-            "substructure": 22,
-            "track": 48,
+            "substructure": 34,
+            "track": 49,
         },
         "ifc_classes": {
             "IfcBeam": 12,
@@ -44,17 +45,28 @@ def test_civil_ifc_has_rail_semantics_geometry_schedule_and_stable_ids(tmp_path:
             "IfcElementAssembly": 1,
             "IfcRail": 32,
             "IfcRoof": 4,
-            "IfcSlab": 20,
+            "IfcSlab": 33,
             "IfcVirtualElement": 2,
         },
         "interface_checks": 9,
     }
+    assert index["cost_model"]["maturity"] == "planning-target-not-a-quotation"
+    with (Path(__file__).resolve().parents[2] / "lib/templates/civil-cost-model.toml").open(
+        "rb"
+    ) as handle:
+        expected_cost_model = tomllib.load(handle)
+    assert index["cost_model"]["civil_usd_per_km"] == expected_cost_model[
+        "civil_usd_per_km"
+    ]
+    assert index["cost_model"]["quantities_per_route_km"]["elevated"][
+        "bearings_per_km"
+    ] == 200
     assert model.schema == "IFC4X3"
     assert len(model.by_type("IfcRailway")) == 1
     assert len(model.by_type("IfcRailwayPart")) == 4
     assert len(model.by_type("IfcAlignment")) == 1
-    assert len(model.by_type("IfcTask")) == 16
-    assert len({item.Tag for item in model.by_type("IfcElement") if item.Tag}) == 82
+    assert len(model.by_type("IfcTask")) == 18
+    assert len({item.Tag for item in model.by_type("IfcElement") if item.Tag}) == 95
 
 
 def test_civil_ifc_is_byte_deterministic(tmp_path: Path) -> None:

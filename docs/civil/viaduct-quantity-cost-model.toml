@@ -9,14 +9,28 @@ primary_span_m = 25.0
 bays_per_route_km = 40
 single_track_girders_per_route_km = 80
 support_locations_per_route_km = 40
-interior_bearings_per_support = 8
-external_trough_width_m = 5.12
-track_centres_m = 5.52
+expansion_unit_spans = 4
+expansion_units_per_route_km = 10
+link_slabs_per_route_km = 30
+deck_gaps_per_route_km = 10
+bearings_per_route_km = 200
+internal_support_bearings = 4
+expansion_support_bearings = 8
+primary_product = "OSR-Pi25 decked single-track beam"
+primary_shipping_width_m = 2.9
+track_centres_m = 3.5
+controlled_twin_track_envelope_m = 8.5
+pier_cap_width_m = 7.0
 
 [quantities]
-# Simple constant-thickness CAD envelope; supplier section optimisation is pending.
-bare_precast_girder_concrete_m3_per_km = 3840.0
-thin_alignment_layer_and_plinth_concrete_m3_per_km = 571.2
+# Derived from the canonical Pi-beam and trackform geometry. Prestress,
+# reinforcement and supplier section optimisation remain design releases.
+bare_precast_girder_concrete_m3_per_km = 2398.0
+thin_alignment_layer_and_plinth_concrete_m3_per_km = 459.2
+outer_walkway_cassette_concrete_m3_per_km = 240.0
+pier_and_cap_concrete_m3_per_km = 1384.0
+foundation_quantity_model = "geotechnical-zone-required"
+foundation_actual_length_and_cost_required = true
 rail_kg_per_km = 240840
 direct_fixation_seats_per_km = 6156
 
@@ -29,3 +43,5 @@ classification = "direct-procurement target only"
 project_estimate_required = true
 contingency_required = true
 note = "Do not promote the floor to a tender or EPC estimate without site quantities, rates, risks, programme, and independently checked structural quantities."
+construction_system_saving_target_percent = [15, 30]
+saving_target_status = "unvalidated; current cost floor remains unchanged"

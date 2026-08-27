@@ -25,6 +25,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--index", type=Path, required=True)
     parser.add_argument("--sequence", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--detail-output", type=Path)
     parser.add_argument("--blend", type=Path, required=True)
     parser.add_argument("--animation-output", type=Path)
     return parser.parse_args(args)
@@ -213,6 +214,17 @@ def render(args: argparse.Namespace) -> None:
     scene.render.image_settings.color_depth = "8"
     bpy.ops.wm.save_as_mainfile(filepath=str(args.blend.resolve()))
     bpy.ops.render.render(write_still=True)
+
+    if args.detail_output:
+        args.detail_output.parent.mkdir(parents=True, exist_ok=True)
+        camera = scene.camera
+        # Support-end three-quarter view exposes the reduced common cap,
+        # bearing lines, twin track decks and independent outer cassettes.
+        camera.location = (94.0, -24.0, 18.0)
+        camera.data.lens = 58
+        point_at(camera, (113.0, 0.0, 7.2))
+        scene.render.filepath = str(args.detail_output.resolve())
+        bpy.ops.render.render(write_still=True)
 
     if args.animation_output:
         args.animation_output.parent.mkdir(parents=True, exist_ok=True)

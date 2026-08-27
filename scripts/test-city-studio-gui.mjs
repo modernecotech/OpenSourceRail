@@ -14,7 +14,10 @@ const fixture = path.join(root, "projects", `.city-studio-e2e-${runToken}`);
 const chromeProfile = path.join(root, "build", "gui-acceptance", `.chrome-${runToken}`);
 const reportDir = path.join(root, "build", "gui-acceptance");
 const reportPath = path.join(reportDir, "city-studio-gui-report.json");
-const screenshotPath = path.join(reportDir, "city-studio-gui.png");
+const screenshotArg = process.argv.indexOf("--screenshot");
+const screenshotPath = screenshotArg >= 0 && process.argv[screenshotArg + 1]
+  ? path.resolve(root, process.argv[screenshotArg + 1])
+  : path.join(reportDir, "city-studio-gui.png");
 const executable = path.join(root, "target", "debug", "osr-city-studio");
 
 const checks = [];
@@ -300,11 +303,24 @@ async function main() {
     stations: view.snapshot.summary.station_count,
     lines: view.snapshot.lines.length,
     services: view.service_plan.line_plans.length,
+    demandPeriods: view.snapshot.demand?.periods?.length || 0,
     findings: view.snapshot.findings.filter(item => item.severity === 'error').length,
   })`);
   assert(baseline.stations >= 20 && baseline.lines >= 3, "initial network rendered", `${baseline.stations} stations, ${baseline.lines} lines`);
   assert(baseline.services >= baseline.lines * 3, "line/day service plans rendered", `${baseline.services} plans`);
+  assert(baseline.demandPeriods >= 4, "source-controlled demand periods rendered", `${baseline.demandPeriods} periods`);
   assert(baseline.findings === 0, "baseline validation has no errors");
+
+  await cdp.evaluate(`(() => {
+    document.querySelector('#civil-unit-spans').value = '5';
+    document.querySelector('#civil-mould-cycle').value = '48';
+    document.querySelector('#civil-compare-roads').checked = false;
+    document.querySelector('#civil-settings-form').requestSubmit();
+    return true;
+  })()`);
+  await cdp.wait("view.snapshot.civil.expansion_unit_spans === 5 && view.snapshot.civil.mould_cycle_target_h === 48 && view.snapshot.civil.compare_road_grade_separation === false", "civil construction settings save");
+  await cdp.wait("document.querySelector('#civil-derived').textContent.includes('125 m thermal unit')", "civil construction derived quantities");
+  record("civil construction methods and derived interfaces saved", "5-span unit · 48 h validated planning cycle");
 
   const movedStation = await cdp.evaluate("view.snapshot.stations.find(item => item.state === 'generated').id");
   await click(`circle.station[data-id="${movedStation}"]`);
@@ -315,16 +331,16 @@ async function main() {
     "station-state": "preferred",
     "station-reason": "GUI acceptance movement for persistent regeneration",
   });
-  await delay(600);
-  const stationSaveDebug = await cdp.evaluate(`({
-    toast: document.querySelector('#toast').textContent,
-    state: view.snapshot.stations.find(item => item.id === ${JSON.stringify(movedStation)})?.state,
-    selected: selectedStation?.id,
-  })`);
-  if (stationSaveDebug.state !== "preferred") {
+  try {
+    await cdp.wait(`view.snapshot.stations.find(item => item.id === ${JSON.stringify(movedStation)})?.state === 'preferred'`, "station edit persistence in model", 60_000);
+  } catch (error) {
+    const stationSaveDebug = await cdp.evaluate(`({
+      toast: document.querySelector('#toast').textContent,
+      state: view.snapshot.stations.find(item => item.id === ${JSON.stringify(movedStation)})?.state,
+      selected: selectedStation?.id,
+    })`);
     throw new Error(`Station form save failed: ${JSON.stringify(stationSaveDebug)}`);
   }
-  await cdp.wait(`view.snapshot.stations.find(item => item.id === ${JSON.stringify(movedStation)})?.state === 'preferred'`, "station edit persistence in model");
   record("generated station moved and promoted");
 
   await createOnLine("station");
@@ -334,17 +350,17 @@ async function main() {
     "station-archetype": "major",
     "station-reason": "Interactive candidate station created by browser acceptance",
   });
-  await delay(800);
-  const manualStationDebug = await cdp.evaluate(`({
-    station: view.snapshot.stations.find(item => item.id === ${JSON.stringify(manualStation)}),
-    toast: document.querySelector('#toast').textContent,
-    valid: document.querySelector('#station-form').checkValidity(),
-    invalid: [...document.querySelector('#station-form').elements].filter(item => !item.checkValidity()).map(item => ({ id: item.id, value: item.value, message: item.validationMessage })),
-  })`);
-  if (manualStationDebug.station?.name !== "GUI Acceptance Station") {
+  try {
+    await cdp.wait(`view.snapshot.stations.find(item => item.id === ${JSON.stringify(manualStation)})?.name === 'GUI Acceptance Station'`, "manual station edit", 60_000);
+  } catch (error) {
+    const manualStationDebug = await cdp.evaluate(`({
+      station: view.snapshot.stations.find(item => item.id === ${JSON.stringify(manualStation)}),
+      toast: document.querySelector('#toast').textContent,
+      valid: document.querySelector('#station-form').checkValidity(),
+      invalid: [...document.querySelector('#station-form').elements].filter(item => !item.checkValidity()).map(item => ({ id: item.id, value: item.value, message: item.validationMessage })),
+    })`);
     throw new Error(`Manual station form save failed: ${JSON.stringify(manualStationDebug)}`);
   }
-  await cdp.wait(`view.snapshot.stations.find(item => item.id === ${JSON.stringify(manualStation)})?.name === 'GUI Acceptance Station'`, "manual station edit");
   record("manual station created and edited", manualStation);
 
   await createOnLine("control");
@@ -369,12 +385,13 @@ async function main() {
     "line-name": "GUI Demand Line",
     "line-reason": "Demand/buildability routed line created through map tools",
   });
-  await delay(800);
-  const demandState = await cdp.evaluate(`({
-    line: view.snapshot.lines.find(item => item.id === ${JSON.stringify(demandLine)}),
-    toast: document.querySelector('#toast').textContent,
-  })`);
-  if (demandState.line?.routing_method !== "demand-aware") {
+  try {
+    await cdp.wait(`(() => { const line = view.snapshot.lines.find(item => item.id === ${JSON.stringify(demandLine)}); return line?.routing_method === 'demand-aware' && line?.name === 'GUI Demand Line'; })()`, "demand-aware line edit", 60_000);
+  } catch (error) {
+    const demandState = await cdp.evaluate(`({
+      line: view.snapshot.lines.find(item => item.id === ${JSON.stringify(demandLine)}),
+      toast: document.querySelector('#toast').textContent,
+    })`);
     throw new Error(`Demand-aware line state failed: ${JSON.stringify(demandState)}`);
   }
   record("demand-aware line created with locked routing sources", demandLine);
@@ -449,6 +466,35 @@ async function main() {
   await cdp.wait("document.querySelector('#toast').textContent.includes('route plans adjusted atomically')", "all-route editor refresh");
   serviceState = { ...serviceState, headway: networkScenario.expected[serviceState.line] };
   record("all routes adjusted atomically for one day type", `${Object.keys(networkScenario.expected).length} routes`);
+
+  const odEndpoints = await cdp.evaluate(`(() => {
+    const origin = view.snapshot.stations.find(item => item.line === 'line-1');
+    const destination = view.snapshot.stations.find(item => item.line === 'line-2');
+    return { origin: origin.id, destination: destination.id };
+  })()`);
+  await form("#demand-form", {
+    "demand-period": "weekday-am",
+    "demand-origin": odEndpoints.origin,
+    "demand-destination": odEndpoints.destination,
+    "demand-passengers": 900,
+  });
+  await cdp.wait("view.snapshot.demand.flows.some(item => item.passengers_per_hour === 900)", "OD demand creation");
+  const odFlowId = await cdp.evaluate("view.snapshot.demand.flows.find(item => item.passengers_per_hour === 900).id");
+  await cdp.wait(`document.querySelector('[data-demand-edit="${odFlowId}"]')`, "OD demand table refresh");
+  const odRender = await cdp.evaluate(`({
+    selected: selectedDemandFlowId,
+    period: document.querySelector('#demand-period').value,
+    rowIds: [...document.querySelectorAll('[data-demand-flow]')].map(item => item.dataset.demandFlow),
+    formTitle: document.querySelector('#demand-form-title').textContent,
+    toast: document.querySelector('#toast').textContent,
+  })`);
+  assert(odRender.rowIds.includes(odFlowId), "OD demand row rendered", JSON.stringify(odRender));
+  await click(`[data-demand-edit="${odFlowId}"]`);
+  await form("#demand-form", { "demand-passengers": 1200 });
+  await cdp.wait(`view.snapshot.demand.flows.find(item => item.id === ${JSON.stringify(odFlowId)})?.passengers_per_hour === 1200`, "OD demand edit");
+  const odMetric = await cdp.evaluate(`view.snapshot.demand_metrics.find(item => item.flow_id === ${JSON.stringify(odFlowId)})`);
+  assert(odMetric.transfers === 1 && odMetric.capacity_pphpd > 0 && odMetric.utilization_percent > 0, "OD transfer and capacity screen regenerated", `${odMetric.capacity_pphpd} pphpd · ${odMetric.utilization_percent.toFixed(1)}%`);
+  record("OD demand intent created and edited", odFlowId);
 
   await click("#compile");
   await cdp.wait("document.querySelector('#operation-result').textContent.includes('Candidate compiled')", "candidate compilation", 90_000);
@@ -571,7 +617,7 @@ async function main() {
     "approval-date": "2026-08-27",
     "approval-reviewer": "GUI Acceptance Reviewer",
     "approval-role": "Independent design authority",
-    "approval-reference": "https://github.com/OpenSourceRail/OpenSourceRail/pull/99999",
+    "approval-reference": "https://github.com/modernecotech/OpenSourceRail/pull/99999",
     "approval-comment": "Reviewed the immutable revision, engineering artifacts, IDS report, and coordination evidence.",
   });
   await cdp.wait(`view.approvals.decisions.some(item => item.revision_id === ${JSON.stringify(revisionId)} && item.status === 'approved')`, "append-only revision approval");
@@ -599,6 +645,11 @@ async function main() {
       .map(item => [item.line, item.windows[0].headway_min])),
     issue: view.snapshot.coordination.issues.find(item => item.id === ${JSON.stringify(issueId)})?.status,
     approval: view.approvals.decisions.find(item => item.id === ${JSON.stringify(approvalId)})?.status,
+    odPassengers: view.snapshot.demand.flows.find(item => item.id === ${JSON.stringify(odFlowId)})?.passengers_per_hour,
+    odCapacity: view.snapshot.demand_metrics.find(item => item.flow_id === ${JSON.stringify(odFlowId)})?.capacity_pphpd,
+    civilUnitSpans: view.snapshot.civil.expansion_unit_spans,
+    civilMouldCycle: view.snapshot.civil.mould_cycle_target_h,
+    civilCompareRoads: view.snapshot.civil.compare_road_grade_separation,
     jobs: jobView.jobs.filter(item => item.status === 'succeeded').length,
   })`);
   assert(persisted.moved === "preferred", "moved station survived restart");
@@ -609,9 +660,21 @@ async function main() {
   assert(JSON.stringify(persisted.networkHeadways) === JSON.stringify(networkScenario.expected), "atomic all-route scenario survived restart");
   assert(persisted.issue === "in-progress", "coordination decision survived restart");
   assert(persisted.approval === "approved", "append-only approval survived restart");
+  assert(persisted.odPassengers === 1200 && persisted.odCapacity > 0, "OD demand and capacity screen survived restart");
+  assert(persisted.civilUnitSpans === 5 && persisted.civilMouldCycle === 48 && persisted.civilCompareRoads === false, "civil construction intent survived restart");
   assert(persisted.jobs >= 5, "engineering job history survived restart", `${persisted.jobs} succeeded jobs`);
 
   await cdp.evaluate("window.confirm = () => true");
+  await click(`[data-demand-delete="${odFlowId}"]`);
+  await cdp.wait(`!view.snapshot.demand.flows.some(item => item.id === ${JSON.stringify(odFlowId)})`, "OD demand deletion");
+  await form("#demand-form", {
+    "demand-period": "weekday-am",
+    "demand-origin": odEndpoints.origin,
+    "demand-destination": odEndpoints.destination,
+    "demand-passengers": 1200,
+  });
+  await cdp.wait(`view.snapshot.demand.flows.some(item => item.id === ${JSON.stringify(odFlowId)})`, "OD demand deterministic recreation");
+  record("OD flow deletion and stable-ID recreation persisted", odFlowId);
   await click(`circle.station[data-id="${manualStation}"]`);
   await click("#delete-station");
   await cdp.wait(`!view.snapshot.stations.some(item => item.id === ${JSON.stringify(manualStation)})`, "manual station retirement");
@@ -624,6 +687,7 @@ async function main() {
     format: "png",
     captureBeyondViewport: true,
   });
+  await mkdir(path.dirname(screenshotPath), { recursive: true });
   await writeFile(screenshotPath, Buffer.from(screenshot.data, "base64"));
   record("browser screenshot captured", path.relative(root, screenshotPath));
 
@@ -631,10 +695,14 @@ async function main() {
   const coordination = await readFile(path.join(fixture, "coordination", "issues.toml"), "utf8");
   const approvals = await readFile(path.join(fixture, "approvals", "reviews.toml"), "utf8");
   const services = await readFile(path.join(fixture, "services", "service-plan.toml"), "utf8");
+  const demand = await readFile(path.join(fixture, "demand", "od-matrix.toml"), "utf8");
+  const projectIntent = await readFile(path.join(fixture, "project.osr.toml"), "utf8");
   assert(overrides.includes(manualStation) && overrides.includes('state = "retired"'), "retirement is explicit in TOML intent");
   assert(coordination.includes(issueId) && coordination.includes('status = "in-progress"'), "coordination TOML contains saved decision");
   assert(approvals.includes(approvalId) && approvals.includes(`revision_id = "${revisionId}"`), "approval TOML references immutable revision");
   assert(services.includes(`headway_min = ${serviceState.headway}`), "service TOML contains edited headway");
+  assert(demand.includes(odFlowId) && demand.includes("passengers_per_hour = 1200"), "demand TOML contains deterministic edited OD flow");
+  assert(projectIntent.includes("expansion_unit_spans = 5") && projectIntent.includes("mould_cycle_target_h = 48") && projectIntent.includes("compare_road_grade_separation = false"), "project TOML contains civil construction intent");
 
   const report = {
     schema: "org.opensourcerail.city-studio-gui-acceptance.v1",
@@ -644,7 +712,7 @@ async function main() {
     browser: "Google Chrome headless via DevTools Protocol",
     isolated_project: path.relative(root, fixture),
     checks,
-    persistence: { movedStation, manualStation, controlId, directLine, demandLine, issueId, revisionId, approvalId },
+    persistence: { movedStation, manualStation, controlId, directLine, demandLine, odFlowId, issueId, revisionId, approvalId },
     artifacts: { screenshot: path.relative(root, screenshotPath) },
   };
   await writeFile(reportPath, `${JSON.stringify(report, null, 2)}\n`);

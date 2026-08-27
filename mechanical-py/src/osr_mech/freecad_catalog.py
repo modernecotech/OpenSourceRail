@@ -19,9 +19,10 @@ from osr_mech.freecad_sources import source_shape
 
 CATALOGUE = {
     "Civil infrastructure": [
-        ("civil-at-grade-slab-panel", "At-grade ballastless slab panel"),
+        ("civil-at-grade-slab-panel", "OSR-ST6 single-track ballastless panel"),
         ("civil-elevated-deck-slab-panel", "Elevated deck slab panel"),
-        ("civil-u-girder-25m", "Precast U-trough feature envelope, 25 m"),
+        ("civil-decked-pi-25m", "OSR-Pi25 decked single-track beam"),
+        ("civil-u-girder-25m", "Special-project acoustic U-trough envelope, 25 m"),
         ("civil-segmental-u-25m", "Curved segmental U/box coordination envelope, 25 m R200"),
         ("civil-special-span-40m", "Special crossing interface envelope, 40 m"),
         ("civil-viaduct-pier-8m", "Shared double-track viaduct pier, 8 m"),

@@ -1,7 +1,7 @@
 # Mozambique national OpenSourceRail strategy
 
 > [!IMPORTANT]
-> **Foreign-capital advantage:** against the default equivalent foreign-turnkey case, this national OSR programme avoids **$6.68 B (87.2%) of external capital** and **$8.62 B of external interest**. Capital plus saved interest totals **$15.30 B over the 40-year financing life**. Both cases use the same 4.5% external rate and financing schedule; the comparator external requirement is assumed debt-financed, and the comparator is an editable sensitivity, not a vendor quote.
+> **Foreign-capital advantage:** against the default equivalent foreign-turnkey case, this national OSR programme avoids **$6.23 B (86.9%) of external capital** and **$8.04 B of external interest**. Capital plus saved interest totals **$14.27 B over the 40-year financing life**. Both cases use the same 4.5% external rate and financing schedule; the comparator external requirement is assumed debt-financed, and the comparator is an editable sensitivity, not a vendor quote.
 
 Mozambique should implement OpenSourceRail as one national industrial and financing programme covering the 10 catalogue cities below, rather than as disconnected city projects. One centrally governed trainset factory builds the shared modular fleet in phases; city and regional contractors fabricate and install rails, viaducts, stations, depots, and local civil works. This concentrates scarce imported machinery, specialist tooling, engineering support, and foreign currency in one reusable national asset while maximizing domestic labour, materials, fabrication, and local-currency financing.
 
@@ -13,10 +13,10 @@ Mozambique should implement OpenSourceRail as one national industrial and financ
 | Served population represented | 5,015,000 |
 | Trainsets across city plans | 849 |
 | Vehicle/car modules to manufacture | 2,530 |
-| City infrastructure + fleet CAPEX | $4.20 B |
+| City infrastructure + fleet CAPEX | $3.93 B |
 | One shared national trainset factory | $51.4 M |
 | National factory sizing basis | 856 modules: largest single-city programme (Maputo) |
-| **Total national programme CAPEX** | **$4.25 B** |
+| **Total national programme CAPEX** | **$3.98 B** |
 
 The factory is sized to the largest single-city fleet programme and reused through a phased national rollout. This avoids duplicating factory buildings, moulds, welding fixtures, metrology, commissioning equipment, and imported machinery in every city. Final factory siting requires a national freight, power, workforce, land, and test-track study; this brief does not preselect a city.
 
@@ -26,13 +26,13 @@ Imported content is the minimum foreign-currency or international-capital requir
 
 | Capital boundary | Share | Total | Annual draw during construction |
 |---|---:|---:|---:|
-| **External capital for imports** | **23.1%** | **$980.8 M** | **$98.1 M / yr** |
-| **Local capital for domestic value** | **76.9%** | **$3.27 B** | **$327.3 M / yr** |
-| planned local-currency bond issuance | 61.6% of total | $2.62 B | $261.8 M / yr |
-| local public equity / other domestic funding | 15.4% of total | $654.6 M | $65.5 M / yr |
-| **Total capital programme** | **100.0%** | **$4.25 B** | **$425.4 M / yr** |
+| **External capital for imports** | **23.6%** | **$940.0 M** | **$94.0 M / yr** |
+| **Local capital for domestic value** | **76.4%** | **$3.04 B** | **$304.2 M / yr** |
+| planned local-currency bond issuance | 61.1% of total | $2.43 B | $243.3 M / yr |
+| local public equity / other domestic funding | 15.3% of total | $608.3 M | $60.8 M / yr |
+| **Total capital programme** | **100.0%** | **$3.98 B** | **$398.2 M / yr** |
 
-The annual construction draw is spread evenly over 10 planning years. Post-grace annual debt service is $60.2 M for external import finance plus $361.6 M for local bonds, or **$421.8 M per year** before railway operating cash flow. During construction, interest plus the local public-equity draw is **$463.1 M per year**.
+The annual construction draw is spread evenly over 10 planning years. Post-grace annual debt service is $57.7 M for external import finance plus $336.0 M for local bonds, or **$393.7 M per year** before railway operating cash flow. During construction, interest plus the local public-equity draw is **$431.6 M per year**.
 
 ## Foreign-company turnkey comparison
 
@@ -40,26 +40,26 @@ This controlled comparison is an editable sensitivity, not a supplier quotation.
 
 | Case | Cost multiplier vs OSR | Foreign-company external capital | OSR external capital saved | External interest saved over financing life | Capital + interest saved |
 |---|---:|---:|---:|---:|---:|
-| Low | 1.50× | $5.74 B | $4.76 B (82.9%) | $6.15 B | **$10.91 B** |
-| **Default** | 2.00× | $7.66 B | $6.68 B (87.2%) | $8.62 B | **$15.30 B** |
-| High | 3.00× | $11.48 B | $10.50 B (91.5%) | $13.57 B | **$24.07 B** |
+| Low | 1.50× | $5.38 B | $4.44 B (82.5%) | $5.73 B | **$10.16 B** |
+| **Default** | 2.00× | $7.17 B | $6.23 B (86.9%) | $8.04 B | **$14.27 B** |
+| High | 3.00× | $10.75 B | $9.81 B (91.3%) | $12.67 B | **$22.48 B** |
 
-At the default 2.00× case, the OSR programme reduces external capital from $7.66 B to $980.8 M, a saving of **$6.68 B (87.2%)**, plus **$8.62 B** of external interest over the financing life. Total programme CAPEX is 50.0% below the comparator. Replace both variables with scope-normalized bids before investment approval.
+At the default 2.00× case, the OSR programme reduces external capital from $7.17 B to $940.0 M, a saving of **$6.23 B (86.9%)**, plus **$8.04 B** of external interest over the financing life. Total programme CAPEX is 50.0% below the comparator. Replace both variables with scope-normalized bids before investment approval.
 
 ## Procurement-origin composition
 
 | CAPEX bucket | Total | Imported share | External capital | Local value |
 |---|---:|---:|---:|---:|
-| Civil works | $1.76 B | 15% | $263.5 M | $1.49 B |
+| Civil works | $1.50 B | 15% | $225.4 M | $1.28 B |
 | Stations | $913.0 M | 20% | $182.6 M | $730.4 M |
 | Depots | $80.0 M | 25% | $20.0 M | $60.0 M |
 | Rolling stock | $732.6 M | 35% | $256.4 M | $476.2 M |
 | Dedicated solar plants | $411.8 M | 45% | $185.3 M | $226.5 M |
 | Residual signalling / train control | $23.1 M | 50% | $11.5 M | $11.5 M |
 | Charging microgrids | $33.5 M | 40% | $13.4 M | $20.1 M |
-| EPC / project services | $251.3 M | 15% | $37.7 M | $213.6 M |
+| EPC / project services | $233.5 M | 15% | $35.0 M | $198.5 M |
 | Shared national trainset factory | $51.4 M | 20% | $10.3 M | $41.1 M |
-| **Total** | **$4.25 B** | **23.1%** | **$980.8 M** | **$3.27 B** |
+| **Total** | **$3.98 B** | **23.6%** | **$940.0 M** | **$3.04 B** |
 
 ## City programme
 
@@ -67,16 +67,16 @@ Each city CAPEX below excludes the national factory. Its imported share varies w
 
 | City | Population | Fleet | City CAPEX | Imported % | OSR external capital | Foreign-turnkey external capital (default) | External capital saved | Capital + lifetime external interest saved | Local capital |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| [Maputo](Maputo/README.md) | 1,530,000 | 214 | $1.58 B | 23.6% | $372.9 M | $2.85 B | $2.48 B | $5.68 B | $1.21 B |
-| [Nampula](Nampula/README.md) | 800,000 | 122 | $447.4 M | 24.6% | $110.2 M | $805.3 M | $695.0 M | $1.59 B | $337.1 M |
-| [Beira](Beira/README.md) | 535,000 | 96 | $396.4 M | 24.1% | $95.6 M | $713.5 M | $617.9 M | $1.42 B | $300.8 M |
-| [Chimoio](Chimoio/README.md) | 400,000 | 82 | $309.7 M | 24.3% | $75.3 M | $557.4 M | $482.1 M | $1.10 B | $234.4 M |
-| [Quelimane](Quelimane/README.md) | 350,000 | 23 | $94.5 M | 23.7% | $22.4 M | $170.2 M | $147.8 M | $338.8 M | $72.2 M |
-| [Tete](Tete/README.md) | 350,000 | 81 | $419.5 M | 21.3% | $89.4 M | $755.0 M | $665.6 M | $1.53 B | $330.1 M |
-| [Nacala](Nacala/README.md) | 300,000 | 81 | $320.5 M | 21.8% | $69.9 M | $576.9 M | $507.0 M | $1.16 B | $250.6 M |
-| [Lichinga](Lichinga/README.md) | 250,000 | 34 | $160.7 M | 20.8% | $33.5 M | $289.2 M | $255.7 M | $586.1 M | $127.2 M |
-| [Pemba Mz](Pemba-Mz/README.md) | 250,000 | 69 | $291.0 M | 21.4% | $62.2 M | $523.8 M | $461.6 M | $1.06 B | $228.8 M |
-| [Xai Xai](Xai-Xai/README.md) | 250,000 | 47 | $175.7 M | 22.0% | $38.6 M | $316.3 M | $277.7 M | $636.5 M | $137.1 M |
+| [Maputo](Maputo/README.md) | 1,530,000 | 214 | $1.48 B | 24.1% | $357.9 M | $2.67 B | $2.31 B | $5.30 B | $1.13 B |
+| [Nampula](Nampula/README.md) | 800,000 | 122 | $421.6 M | 25.2% | $106.4 M | $758.8 M | $652.4 M | $1.50 B | $315.2 M |
+| [Beira](Beira/README.md) | 535,000 | 96 | $373.7 M | 24.7% | $92.2 M | $672.6 M | $580.4 M | $1.33 B | $281.5 M |
+| [Chimoio](Chimoio/README.md) | 400,000 | 82 | $291.5 M | 24.9% | $72.6 M | $524.6 M | $452.1 M | $1.04 B | $218.9 M |
+| [Quelimane](Quelimane/README.md) | 350,000 | 23 | $89.8 M | 24.1% | $21.6 M | $161.6 M | $139.9 M | $320.7 M | $68.1 M |
+| [Tete](Tete/README.md) | 350,000 | 81 | $377.0 M | 22.0% | $83.0 M | $678.7 M | $595.6 M | $1.37 B | $294.0 M |
+| [Nacala](Nacala/README.md) | 300,000 | 81 | $300.6 M | 22.3% | $66.9 M | $541.0 M | $474.1 M | $1.09 B | $233.7 M |
+| [Lichinga](Lichinga/README.md) | 250,000 | 34 | $151.3 M | 21.2% | $32.1 M | $272.4 M | $240.3 M | $550.7 M | $119.3 M |
+| [Pemba Mz](Pemba-Mz/README.md) | 250,000 | 69 | $272.3 M | 21.8% | $59.4 M | $490.2 M | $430.8 M | $987.2 M | $212.9 M |
+| [Xai Xai](Xai-Xai/README.md) | 250,000 | 47 | $165.7 M | 22.4% | $37.1 M | $298.2 M | $261.1 M | $598.4 M | $128.6 M |
 
 ## National implementation sequence
 

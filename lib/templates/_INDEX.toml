@@ -60,8 +60,45 @@ ids  = [
 file = "lib/templates/structures.toml"
 ids  = [
     { id = "at-grade",               desc = "Default double-track at-grade per km" },
-    { id = "elevated",               desc = "Viaduct on 30 m spans (U-girder)" },
+    { id = "elevated",               desc = "Viaduct on transportable OSR-Pi20/Pi25 decked beams" },
     { id = "bridge",                 desc = "Water-crossing viaduct with wet piers" },
+]
+
+[index.foundations]
+file = "lib/templates/foundation-catalog.toml"
+ids = [
+    { id = "shallow-spread",         desc = "Strong ground; spread footing and common pier socket" },
+    { id = "bored-shaft",            desc = "Urban alluvium or vibration-restricted integral shaft" },
+    { id = "driven-pile-bent",       desc = "Cap-free driven prestressed pile bent with clear access" },
+    { id = "pile-group",             desc = "Weak/liquefiable or high lateral-load fallback" },
+    { id = "reinforced-soil-abutment", desc = "Validated viaduct-end or low-embankment transition" },
+]
+
+[index.ground_improvement]
+file = "lib/templates/foundation-catalog.toml"
+ids = [
+    { id = "rigid-inclusion-platform", desc = "Rigid inclusions below a geogrid load-transfer platform" },
+    { id = "deep-soil-mixing",         desc = "Mixed in-situ soil columns or panels" },
+    { id = "stone-columns",            desc = "Vibro-replacement on settlement-tolerant granular zones" },
+    { id = "lightweight-fill",          desc = "Reduced-load approach or formation fill" },
+    { id = "lime-cement-stabilisation", desc = "Locally stabilised weak formation" },
+]
+
+[index.civil_construction_systems]
+file = "lib/templates/civil-construction-systems.toml"
+ids = [
+    { id = "semi-continuous-viaduct", desc = "Four-span Pi-beam units with link slabs or diaphragms" },
+    { id = "reinforced-soil-approach", desc = "Low retained approach subject to cyclic and settlement release" },
+    { id = "continuous-slipform", desc = "Default long open at-grade track slab method" },
+    { id = "single-track-precast", desc = "Constrained-zone replaceable ST6 method" },
+]
+
+[index.civil_cost_model]
+file = "lib/templates/civil-cost-model.toml"
+ids = [
+    { id = "at-grade", desc = "CAD-indexed planning target with retained benchmark" },
+    { id = "elevated", desc = "Decked-pi/semi-continuous CAD-indexed planning target" },
+    { id = "bridge", desc = "Benchmark retained pending bridge-specific quantity model" },
 ]
 
 [index.depots]

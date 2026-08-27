@@ -54,7 +54,10 @@ Each generated manufacturing row contains:
 | `asset_id`, `asset_name`, `asset_type`, `line` | Links work to the generated asset register |
 | `package_id`, `phase`, `sequence` | Work package and ordering |
 | `work_center` | Plant, depot, site, bench, or crew location |
-| `duration_days` | Planning duration |
+| `duration_days` | Calculated or fixed planning duration |
+| `duration_model` | `fixed-days`, `route-metres`, or `single-track-panels` |
+| `quantity_basis` | Auditable quantity/resource equation used for the duration |
+| `resource_count` | Crews, gantries, rigs or other parallel-resource basis where rate-derived |
 | `planned_start_day`, `planned_finish_day` | Project-day schedule window |
 | `predecessors`, `predecessor_uids` | Package dependencies and resolved predecessor rows |
 | `work_order_title`, `work_order_detail` | Text used when opening an Ops Core work order |

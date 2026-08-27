@@ -22,8 +22,10 @@ pub mod topology;
 
 pub use civil::{
     civil_segments_from_classes, classify_segments, elevated_curve_cost_multiplier,
-    elevated_product_for_geometry, route_elevated_constructability_multiplier, CivilClass,
-    CivilSegment, ElevatedViaductProduct, ELEVATED_PREFERRED_RADIUS_M, MAX_FULL_SPAN_U_M,
+    elevated_product_for_geometry, route_elevated_constructability_multiplier,
+    select_crossing_alternative, CivilClass, CivilSegment, ConstructionCostPenalties,
+    CrossingAlternative, CrossingAlternativeEstimate, ElevatedViaductProduct,
+    ELEVATED_PREFERRED_RADIUS_M, MAX_FULL_SPAN_U_M,
 };
 pub use raster::{Anchor, Grid, GridRef, RasterBundle};
 pub use solver::{

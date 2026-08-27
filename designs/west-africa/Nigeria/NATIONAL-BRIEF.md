@@ -1,7 +1,7 @@
 # Nigeria national OpenSourceRail strategy
 
 > [!IMPORTANT]
-> **Foreign-capital advantage:** against the default equivalent foreign-turnkey case, this national OSR programme avoids **$22.76 B (86.7%) of external capital** and **$28.54 B of external interest**. Capital plus saved interest totals **$51.30 B over the 40-year financing life**. Both cases use the same 4.5% external rate and financing schedule; the comparator external requirement is assumed debt-financed, and the comparator is an editable sensitivity, not a vendor quote.
+> **Foreign-capital advantage:** against the default equivalent foreign-turnkey case, this national OSR programme avoids **$21.20 B (86.4%) of external capital** and **$26.58 B of external interest**. Capital plus saved interest totals **$47.78 B over the 40-year financing life**. Both cases use the same 4.5% external rate and financing schedule; the comparator external requirement is assumed debt-financed, and the comparator is an editable sensitivity, not a vendor quote.
 
 Nigeria should implement OpenSourceRail as one national industrial and financing programme covering the 10 catalogue cities below, rather than as disconnected city projects. One centrally governed trainset factory builds the shared modular fleet in phases; city and regional contractors fabricate and install rails, viaducts, stations, depots, and local civil works. This concentrates scarce imported machinery, specialist tooling, engineering support, and foreign currency in one reusable national asset while maximizing domestic labour, materials, fabrication, and local-currency financing.
 
@@ -13,10 +13,10 @@ Nigeria should implement OpenSourceRail as one national industrial and financing
 | Served population represented | 19,200,000 |
 | Trainsets across city plans | 2,078 |
 | Vehicle/car modules to manufacture | 9,756 |
-| City infrastructure + fleet CAPEX | $14.32 B |
+| City infrastructure + fleet CAPEX | $13.37 B |
 | One shared national trainset factory | $247.0 M |
 | National factory sizing basis | 4,116 modules: largest single-city programme (Kano) |
-| **Total national programme CAPEX** | **$14.58 B** |
+| **Total national programme CAPEX** | **$13.63 B** |
 
 The factory is sized to the largest single-city fleet programme and reused through a phased national rollout. This avoids duplicating factory buildings, moulds, welding fixtures, metrology, commissioning equipment, and imported machinery in every city. Final factory siting requires a national freight, power, workforce, land, and test-track study; this brief does not preselect a city.
 
@@ -26,13 +26,13 @@ Imported content is the minimum foreign-currency or international-capital requir
 
 | Capital boundary | Share | Total | Annual draw during construction |
 |---|---:|---:|---:|
-| **External capital for imports** | **23.9%** | **$3.48 B** | **$497.2 M / yr** |
-| **Local capital for domestic value** | **76.1%** | **$11.10 B** | **$1.59 B / yr** |
-| planned local-currency bond issuance | 60.9% of total | $8.88 B | $1.27 B / yr |
-| local public equity / other domestic funding | 15.2% of total | $2.22 B | $317.1 M / yr |
-| **Total capital programme** | **100.0%** | **$14.58 B** | **$2.08 B / yr** |
+| **External capital for imports** | **24.5%** | **$3.34 B** | **$476.9 M / yr** |
+| **Local capital for domestic value** | **75.5%** | **$10.29 B** | **$1.47 B / yr** |
+| planned local-currency bond issuance | 60.4% of total | $8.24 B | $1.18 B / yr |
+| local public equity / other domestic funding | 15.1% of total | $2.06 B | $294.1 M / yr |
+| **Total capital programme** | **100.0%** | **$13.63 B** | **$1.95 B / yr** |
 
-The annual construction draw is spread evenly over 7 planning years. Post-grace annual debt service is $204.4 M for external import finance plus $1.22 B for local bonds, or **$1.42 B per year** before railway operating cash flow. During construction, interest plus the local public-equity draw is **$1.67 B per year**.
+The annual construction draw is spread evenly over 7 planning years. Post-grace annual debt service is $196.1 M for external import finance plus $1.13 B for local bonds, or **$1.33 B per year** before railway operating cash flow. During construction, interest plus the local public-equity draw is **$1.56 B per year**.
 
 ## Foreign-company turnkey comparison
 
@@ -40,26 +40,26 @@ This controlled comparison is an editable sensitivity, not a supplier quotation.
 
 | Case | Cost multiplier vs OSR | Foreign-company external capital | OSR external capital saved | External interest saved over financing life | Capital + interest saved |
 |---|---:|---:|---:|---:|---:|
-| Low | 1.50× | $19.68 B | $16.20 B (82.3%) | $20.31 B | **$36.52 B** |
-| **Default** | 2.00× | $26.24 B | $22.76 B (86.7%) | $28.54 B | **$51.30 B** |
-| High | 3.00× | $39.37 B | $35.89 B (91.2%) | $44.99 B | **$80.87 B** |
+| Low | 1.50× | $18.40 B | $15.07 B (81.9%) | $18.89 B | **$33.95 B** |
+| **Default** | 2.00× | $24.54 B | $21.20 B (86.4%) | $26.58 B | **$47.78 B** |
+| High | 3.00× | $36.81 B | $33.47 B (90.9%) | $41.96 B | **$75.43 B** |
 
-At the default 2.00× case, the OSR programme reduces external capital from $26.24 B to $3.48 B, a saving of **$22.76 B (86.7%)**, plus **$28.54 B** of external interest over the financing life. Total programme CAPEX is 50.0% below the comparator. Replace both variables with scope-normalized bids before investment approval.
+At the default 2.00× case, the OSR programme reduces external capital from $24.54 B to $3.34 B, a saving of **$21.20 B (86.4%)**, plus **$26.58 B** of external interest over the financing life. Total programme CAPEX is 50.0% below the comparator. Replace both variables with scope-normalized bids before investment approval.
 
 ## Procurement-origin composition
 
 | CAPEX bucket | Total | Imported share | External capital | Local value |
 |---|---:|---:|---:|---:|
-| Civil works | $5.99 B | 15% | $897.8 M | $5.09 B |
+| Civil works | $5.10 B | 15% | $765.0 M | $4.33 B |
 | Stations | $2.70 B | 20% | $540.8 M | $2.16 B |
 | Depots | $80.0 M | 25% | $20.0 M | $60.0 M |
 | Rolling stock | $2.75 B | 35% | $963.9 M | $1.79 B |
 | Dedicated solar plants | $1.74 B | 45% | $785.2 M | $959.7 M |
 | Residual signalling / train control | $70.6 M | 50% | $35.3 M | $35.3 M |
 | Charging microgrids | $155.0 M | 40% | $62.0 M | $93.0 M |
-| EPC / project services | $839.7 M | 15% | $126.0 M | $713.8 M |
+| EPC / project services | $777.7 M | 15% | $116.7 M | $661.1 M |
 | Shared national trainset factory | $247.0 M | 20% | $49.4 M | $197.6 M |
-| **Total** | **$14.58 B** | **23.9%** | **$3.48 B** | **$11.10 B** |
+| **Total** | **$13.63 B** | **24.5%** | **$3.34 B** | **$10.29 B** |
 
 ## City programme
 
@@ -67,16 +67,16 @@ Each city CAPEX below excludes the national factory. Its imported share varies w
 
 | City | Population | Fleet | City CAPEX | Imported % | OSR external capital | Foreign-turnkey external capital (default) | External capital saved | Capital + lifetime external interest saved | Local capital |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| [Kano](Kano/README.md) | 4,200,000 | 686 | $4.71 B | 25.1% | $1.18 B | $8.48 B | $7.30 B | $16.45 B | $3.53 B |
-| [Ibadan](Ibadan/README.md) | 3,900,000 | 222 | $1.67 B | 25.6% | $427.4 M | $3.01 B | $2.58 B | $5.82 B | $1.24 B |
-| [Port Harcourt](Port-Harcourt/README.md) | 3,000,000 | 232 | $1.83 B | 23.1% | $423.0 M | $3.29 B | $2.87 B | $6.46 B | $1.40 B |
-| [Benin City](Benin-City/README.md) | 1,800,000 | 171 | $1.27 B | 23.3% | $294.7 M | $2.28 B | $1.99 B | $4.48 B | $972.2 M |
-| [Onitsha](Onitsha/README.md) | 1,500,000 | 198 | $1.62 B | 23.1% | $372.5 M | $2.91 B | $2.53 B | $5.71 B | $1.24 B |
-| [Maiduguri](Maiduguri/README.md) | 1,200,000 | 197 | $1.63 B | 21.7% | $354.3 M | $2.94 B | $2.59 B | $5.83 B | $1.28 B |
-| [Ilorin](Ilorin/README.md) | 1,000,000 | 124 | $535.4 M | 23.7% | $126.9 M | $963.7 M | $836.8 M | $1.89 B | $408.5 M |
-| [Aba Ng](Aba-Ng/README.md) | 900,000 | 70 | $299.8 M | 23.8% | $71.3 M | $539.6 M | $468.3 M | $1.06 B | $228.5 M |
-| [Jos](Jos/README.md) | 900,000 | 102 | $417.8 M | 23.0% | $96.1 M | $752.0 M | $655.9 M | $1.48 B | $321.6 M |
-| [Uyo](Uyo/README.md) | 800,000 | 76 | $334.6 M | 23.6% | $78.8 M | $602.4 M | $523.6 M | $1.18 B | $255.8 M |
+| [Kano](Kano/README.md) | 4,200,000 | 686 | $4.41 B | 25.8% | $1.14 B | $7.94 B | $6.81 B | $15.34 B | $3.28 B |
+| [Ibadan](Ibadan/README.md) | 3,900,000 | 222 | $1.58 B | 26.2% | $414.0 M | $2.85 B | $2.43 B | $5.49 B | $1.17 B |
+| [Port Harcourt](Port-Harcourt/README.md) | 3,000,000 | 232 | $1.70 B | 23.7% | $404.3 M | $3.07 B | $2.66 B | $6.00 B | $1.30 B |
+| [Benin City](Benin-City/README.md) | 1,800,000 | 171 | $1.18 B | 23.8% | $282.1 M | $2.13 B | $1.85 B | $4.16 B | $900.9 M |
+| [Onitsha](Onitsha/README.md) | 1,500,000 | 198 | $1.50 B | 23.7% | $355.1 M | $2.70 B | $2.34 B | $5.28 B | $1.14 B |
+| [Maiduguri](Maiduguri/README.md) | 1,200,000 | 197 | $1.50 B | 22.3% | $333.4 M | $2.69 B | $2.36 B | $5.31 B | $1.16 B |
+| [Ilorin](Ilorin/README.md) | 1,000,000 | 124 | $502.5 M | 24.3% | $122.0 M | $904.5 M | $782.5 M | $1.76 B | $380.5 M |
+| [Aba Ng](Aba-Ng/README.md) | 900,000 | 70 | $282.8 M | 24.3% | $68.7 M | $509.0 M | $440.3 M | $992.2 M | $214.0 M |
+| [Jos](Jos/README.md) | 900,000 | 102 | $390.1 M | 23.6% | $92.0 M | $702.2 M | $610.2 M | $1.38 B | $298.1 M |
+| [Uyo](Uyo/README.md) | 800,000 | 76 | $315.8 M | 24.1% | $76.0 M | $568.5 M | $492.5 M | $1.11 B | $239.8 M |
 
 ## National implementation sequence
 

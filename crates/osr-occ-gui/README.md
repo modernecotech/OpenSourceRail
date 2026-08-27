@@ -49,7 +49,7 @@ trunk serve web/index.html --open
 ## Security note
 
 v1 is **read-only** — every dispatcher action emits a stub log line
-instead of a signed RFC 0017 envelope. A visible "READ-ONLY v1" 
+instead of a signed RFC 0017 envelope. A visible "READ-ONLY v1"
 watermark sits in the bottom-right of the map. v3 wires the
 operator's signing key from their ATECC608B-backed login and every
 committed action reaches the consensus cluster as a `SignedBytes`

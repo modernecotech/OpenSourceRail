@@ -13,6 +13,7 @@ import argparse
 import hashlib
 import json
 import sys
+import tomllib
 import uuid
 import zipfile
 from collections import Counter
@@ -67,6 +68,7 @@ from osr_mech.civil_systems_integration import (
     integration_components,
 )
 from osr_mech.fabrication_assembly_twin import fabrication_streams
+from osr_mech.civil.quantity_model import structure_quantities_per_km
 
 
 SCHEMA = "org.opensourcerail.bonsai-civil-ifc.v1"
@@ -157,7 +159,13 @@ def box_mesh(box: tuple[float, ...], origin: tuple[float, float, float]) -> list
 def component_discipline(asset_class: str) -> str:
     if asset_class in {"track.rail", "track.turnout", "civil.trackform"}:
         return "track"
-    if asset_class in {"civil.pier", "civil.u-girder", "civil.station-deck-interface"}:
+    if asset_class in {
+        "civil.pier",
+        "civil.decked-pi-beam",
+        "civil.walkway-cassette",
+        "civil.u-girder",
+        "civil.station-deck-interface",
+    }:
         return "substructure"
     if asset_class.startswith("station.") or asset_class == "rolling-stock.trainset":
         return "above-track"
@@ -170,6 +178,8 @@ def ifc_type(asset_class: str) -> tuple[str, str | None]:
         "track.turnout": ("IfcElementAssembly", "USERDEFINED"),
         "civil.trackform": ("IfcSlab", "BASESLAB"),
         "civil.pier": ("IfcColumn", None),
+        "civil.decked-pi-beam": ("IfcBeam", "GIRDER_SEGMENT"),
+        "civil.walkway-cassette": ("IfcSlab", "USERDEFINED"),
         "civil.u-girder": ("IfcBeam", "GIRDER_SEGMENT"),
         "civil.station-deck-interface": ("IfcSlab", "BASESLAB"),
         "station.solar-canopy": ("IfcRoof", None),
@@ -264,7 +274,14 @@ def add_schedule(
     stream_classes = {
         "track": {"track.rail", "track.turnout", "civil.trackform"},
         "station": {"station.solar-canopy", "station.platform-interface", "civil.station-deck-interface"},
-        "viaduct": {"civil.pier", "civil.u-girder", "civil.trackform", "track.rail"},
+        "viaduct": {
+            "civil.pier",
+            "civil.decked-pi-beam",
+            "civil.walkway-cassette",
+            "civil.u-girder",
+            "civil.trackform",
+            "track.rail",
+        },
     }
     schedule_rows: list[dict[str, Any]] = []
     assignments: dict[str, list[str]] = {}
@@ -378,6 +395,10 @@ def build_model(
 ) -> tuple[ifcopenshell.file, dict[str, Any], dict[str, Any]]:
     assert_integration_checks()
     twin = digital_twin_manifest()
+    cost_model_path = REPO_ROOT / "lib/templates/civil-cost-model.toml"
+    cost_model = tomllib.loads(cost_model_path.read_text(encoding="utf-8"))
+    cost_model_hash = sha256_bytes(cost_model_path.read_bytes())
+    civil_quantities = structure_quantities_per_km()
     source_hash = sha256_bytes(canonical_json({"twin": twin, "alignment": alignment_input}))
 
     model = create_file("IFC4X3")
@@ -425,6 +446,19 @@ def build_model(
             "GeometryAuthority": "OpenSourceRail parametric civil and alignment models",
             "CoordinationEnvironment": "Bonsai 0.8.5 / IFC4.3",
             "ReleaseStatus": "design-reference; not for construction",
+        },
+    )
+    set_properties(
+        model,
+        project,
+        "Pset_OSR_CostModel",
+        {
+            "Maturity": cost_model["schema"]["maturity"],
+            "CostModelSha256": cost_model_hash,
+            "AtGradeUsdPerRouteKm": float(cost_model["civil_usd_per_km"]["at_grade"]),
+            "ElevatedUsdPerRouteKm": float(cost_model["civil_usd_per_km"]["elevated"]),
+            "BridgeUsdPerRouteKm": float(cost_model["civil_usd_per_km"]["bridge"]),
+            "Regeneration": "python3 scripts/generate-civil-cost-model.py",
         },
     )
 
@@ -557,6 +591,13 @@ def build_model(
         "authority_boundary": {
             "authoritative": ["OSR alignment rules", "OSR parametric civil geometry", "OSR validation gates"],
             "bonsai_ifc": ["federation", "civil detail review", "quantities", "drawings", "4D construction sequence"],
+        },
+        "cost_model": {
+            "path": "lib/templates/civil-cost-model.toml",
+            "sha256": cost_model_hash,
+            "maturity": cost_model["schema"]["maturity"],
+            "civil_usd_per_km": cost_model["civil_usd_per_km"],
+            "quantities_per_route_km": civil_quantities,
         },
         "summary": {
             "assets": len(index_rows),
@@ -792,14 +833,15 @@ def write_coordination_bcf(
             "key": "viaduct-design-release",
             "title": "Complete viaduct span, bearing, pier, and foundation schedule",
             "description": (
-                "U-girders and piers currently define deterministic coordination envelopes. Confirm span "
+                "Decked Pi-beams, walkway cassettes and piers currently define deterministic coordination envelopes. Confirm span "
                 "arrangement, bearing schedule, ground model, foundation selection, load combinations, "
                 "dynamic response, durability, drainage, and engineer-released reinforcement details."
             ),
             "rows": [
                 row
                 for row in index["objects"]
-                if row["asset_class"] in {"civil.u-girder", "civil.pier"}
+                if row["asset_class"]
+                in {"civil.decked-pi-beam", "civil.walkway-cassette", "civil.u-girder", "civil.pier"}
             ],
         },
     ]

@@ -9,17 +9,19 @@ from osr_mech.civil.viaduct import (
     ViaductEnvelopeCheck,
     assert_viaduct_envelope,
     required_end_support_bearing_count,
+    required_expansion_support_bearing_count,
     required_interior_bearing_count,
     straight_span_chord_offset_m,
     viaduct_envelope_issues,
 )
 from osr_mech.civil.slab import PANEL_LENGTH_MM, elevated_concrete_volume_m3
-from osr_mech.civil.ugirder import section_area_m2
+from osr_mech.civil.decked_pi import section_area_m2
 
 
-def test_standard_u25_broad_curve_passes_planning_gates() -> None:
+def test_standard_pi25_broad_curve_passes_planning_gates() -> None:
     assert_viaduct_envelope(ViaductEnvelopeCheck())
-    assert required_interior_bearing_count(2) == 8
+    assert required_interior_bearing_count(2) == 4
+    assert required_expansion_support_bearing_count(2) == 8
     assert required_end_support_bearing_count(2) == 4
 
 
@@ -33,8 +35,11 @@ def test_90_m_curve_rejects_25_m_straight_full_span() -> None:
 @pytest.mark.parametrize(
     ("overrides", "message"),
     [
-        ({"internal_width_mm": 3_500.0}, "internal width"),
-        ({"interior_bearing_count": 4}, "bearing count"),
+        ({"beam_width_mm": 3_100.0}, "beam width"),
+        ({"track_centres_mm": 4_000.0}, "track centres"),
+        ({"overall_guideway_width_mm": 10_000.0}, "guideway envelope"),
+        ({"cap_width_mm": 8_000.0}, "pier-cap width"),
+        ({"interior_bearing_count": 3}, "bearing count"),
         ({"parapet_height_above_walkway_mm": 1_200.0}, "parapet height"),
         ({"transport_mass_kg": 150_000.0}, "transport mass"),
         ({"transport_width_mm": 5_300.0}, "transport width"),
@@ -47,14 +52,14 @@ def test_automated_gates_reject_invalid_envelopes(
         assert_viaduct_envelope(ViaductEnvelopeCheck(**overrides))
 
 
-def test_u30_requires_larger_approved_transport_and_erection_envelope() -> None:
+def test_non_catalogue_30_m_beam_is_rejected() -> None:
     issues = viaduct_envelope_issues(ViaductEnvelopeCheck(span_m=30.0, curve_radius_m=400.0))
-    assert any("transport mass" in issue for issue in issues)
+    assert any("catalogue span" in issue for issue in issues)
 
 
 def test_curve_chord_cannot_spend_protected_sway_tolerance_reserve() -> None:
     issues = viaduct_envelope_issues(
-        ViaductEnvelopeCheck(internal_width_mm=4_500.0, curve_radius_m=300.0)
+        ViaductEnvelopeCheck(maximum_chord_adjustment_mm=200.0, curve_radius_m=300.0)
     )
     assert any("chord offset" in issue for issue in issues)
     assert_viaduct_envelope(ViaductEnvelopeCheck(curve_radius_m=300.0))

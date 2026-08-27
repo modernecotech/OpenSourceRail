@@ -122,14 +122,24 @@ def _viaduct_cell(m, centre=(-22.0, 13.0)):
     _cube("Viaduct erection zone", (x0, y0, 0.22), (34.0, 11.0, 0.44), m["floor"], bevel=0.16)
     for x in (x0 - 13.0, x0 + 13.0):
         _cube("Viaduct pier", (x, y0, 3.0), (1.8, 3.2, 5.6), m["concrete"], stage="VIA-10", offset=(0, 0, -6))
-        _cube("Viaduct cap", (x, y0, 5.95), (3.0, 9.0, 0.55), m["concrete"], stage="VIA-20", offset=(0, 0, 7))
-        for side in (-1.0, 1.0):
-            _cylinder("Elastomeric bearing", (x, y0 + side * 2.25, 6.35), 0.35, 0.25, m["rubber"], stage="VIA-50", offset=(0, side * 7, 4))
+        _cube("7 m hollow pier cap", (x, y0, 5.95), (2.5, 7.0, 0.55), m["concrete"], stage="VIA-05", offset=(0, 0, 7))
+        for track_side in (-1.0, 1.0):
+            for stem_side in (-1.0, 1.0):
+                _cylinder("Elastomeric bearing", (x, y0 + track_side * 1.75 + stem_side * 0.72, 6.35), 0.24, 0.20, m["rubber"], stage="VIA-50", offset=(0, track_side * 7, 4))
     for side in (-1.0, 1.0):
-        _cube(f"U25 deck {side:+.0f}", (x0, y0 + side * 2.25, 7.05), (27.5, 4.0, 1.2), m["light_concrete"], stage="VIA-50", offset=(0, side * 13, 10))
-        _cube("U25 outer parapet", (x0, y0 + side * 3.95, 8.35), (27.5, 0.35, 2.0), m["light_concrete"], stage="VIA-50", offset=(0, side * 13, 10))
+        track_y = y0 + side * 1.75
+        _cube(f"Pi25 deck flange {side:+.0f}", (x0, track_y, 7.50), (27.5, 2.9, 0.22), m["light_concrete"], stage="VIA-50", offset=(0, side * 13, 10))
+        for stem_side in (-1.0, 1.0):
+            _cube("Pi25 rail-line stem", (x0, track_y + stem_side * 0.72, 6.92), (27.5, 0.30, 0.94), m["light_concrete"], stage="VIA-50", offset=(0, side * 13, 10))
+        _cube("Internal support link slab", (x0 + 13.0, track_y, 7.64), (1.4, 2.7, 0.18), m["gold"], stage="VIA-55", offset=(0, side * 8, 7))
+        _cube("Outer walkway cassette", (x0, track_y + side * 1.95, 7.68), (27.5, 1.0, 0.12), m["platform"], stage="VIA-60", offset=(0, side * 13, 10))
+        _cube("Outer containment screen", (x0, track_y + side * 2.42, 8.38), (27.5, 0.08, 1.4), m["steel"], stage="VIA-60", offset=(0, side * 13, 10))
         for rail_side in (-0.7, 0.7):
-            _cube("Viaduct running rail", (x0, y0 + side * 2.25 + rail_side, 8.0), (27.0, 0.13, 0.24), m["steel"], bevel=0.025, stage="VIA-60", offset=(-15, 0, 5))
+            _cube("Viaduct running rail", (x0, track_y + rail_side, 7.94), (27.0, 0.13, 0.24), m["steel"], bevel=0.025, stage="VIA-60", offset=(-15, 0, 5))
+    for y in (y0 - 3.1, y0 + 3.1):
+        _cube("Portal launcher longitudinal truss", (x0, y, 11.0), (33.0, 0.35, 0.55), m["yellow"], stage="VIA-50", offset=(-20, 0, 8))
+    for x in (x0 - 12.5, x0 + 12.5):
+        _cube("Portal launcher frame", (x, y0, 9.2), (0.4, 6.6, 0.5), m["yellow"], stage="VIA-50", offset=(-20, 0, 8))
 
 
 def _train_cell(m, centre=(22.0, 13.0)):
@@ -232,7 +242,7 @@ def build(args: argparse.Namespace) -> None:
     for title, pos in (
         ("TRACK PANEL", (-22, -19.0, 1.0)),
         ("STATION KIT", (22, -19.0, 1.0)),
-        ("OSR-U25 VIADUCT", (-22, 6.5, 1.0)),
+        ("OSR-PI25 VIADUCT", (-22, 6.5, 1.0)),
         ("LM3 TRAINSET", (22, 6.5, 1.0)),
     ):
         _label(title, pos, m["white"], size=0.9)

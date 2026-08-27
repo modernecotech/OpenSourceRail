@@ -98,12 +98,12 @@ Civil work is costed as a direct-procurement floor for standard-gauge, double-tr
 
 | Civil class | Unit cost | Included scope |
 |---|---:|---|
-| At-grade | $3.0 M / route-km | UIC60 rail, ballastless slab/embedded trackform, direct-fixation fasteners, drainage, cable troughs, local installation |
-| Elevated | $12.0 M / route-km | Repeatable precast guideway spans, piers, foundations, bearings, parapets, deck slab/trackform, erection |
-| Bridge | $18.0 M / route-km | Longer-span/water-crossing version of the elevated stack with heavier foundation and protection allowance |
+| At-grade | $2.6 M / route-km | UIC60 rail, slipformed ballastless trackform, direct-fixation fasteners, drainage, cable troughs, local installation |
+| Elevated | $9.7 M / route-km | Decked pi-beams in semi-continuous units, piers, zone-selected foundations, fewer bearings/joints, trackform and erection |
+| Bridge | $18.0 M / route-km | Longer-span/water-crossing system; benchmark retained pending bridge-specific redesign and foundation schedule |
 | Elevated-interchange premium | $4.5 M / site | Added stacked-platform and approach complexity where an interchange must grade-separate |
 
-These values are intentionally below turnkey metro-bid benchmarks because OSR excludes tunnels, overhead catenary, proprietary signalling civil plant, bespoke station architecture, and contractor-led EPC margin.
+These are design-derived planning targets, not supplier quotations. The generated civil cost contract indexes the retained $3.0 M / $12.0 M / $18.0 M benchmark against CAD quantities; bridge remains unchanged. Values are also below turnkey metro-bid benchmarks because OSR excludes tunnels, overhead catenary, proprietary signalling civil plant, bespoke station architecture, and contractor-led EPC margin.
 
 ## Stations
 

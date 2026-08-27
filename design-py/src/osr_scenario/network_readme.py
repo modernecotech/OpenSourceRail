@@ -107,6 +107,10 @@ def _capex_costs() -> dict:
     return _template_toml("capex-costs.toml")
 
 
+def _civil_cost_model() -> dict:
+    return _template_toml("civil-cost-model.toml")
+
+
 def _demand_profiles() -> dict:
     return _template_toml("demand-profiles.toml")
 
@@ -128,6 +132,7 @@ def _float_map(table: dict) -> dict[str, float]:
 
 
 _CAPEX_COSTS = _capex_costs()
+_CIVIL_COST_MODEL = _civil_cost_model()
 _DEMAND_PROFILES = _demand_profiles()
 _ECONOMIC_BENEFITS = _economic_benefits()
 _CONSTRUCTION_QA = _construction_qa()
@@ -162,7 +167,7 @@ _BENEFIT_LOCAL_CAPEX_SHARE = {
     bucket: 1.0 - imported_share
     for bucket, imported_share in IMPORTED_SHARE.items()
 }
-_CIVIL_USD_PER_KM = _float_map(_CAPEX_COSTS["civil_usd_per_km"])
+_CIVIL_USD_PER_KM = _float_map(_CIVIL_COST_MODEL["civil_usd_per_km"])
 _AT_GRADE_USD_PER_KM = _CIVIL_USD_PER_KM["at_grade"]
 _ELEVATED_USD_PER_KM = _CIVIL_USD_PER_KM["elevated"]
 _BRIDGE_USD_PER_KM = _CIVIL_USD_PER_KM["bridge"]
@@ -2568,6 +2573,8 @@ def _finalise_readme(
             / "design-py/src/osr_scenario/capital.py",
             "network_finance_model_sha256": Path(__file__),
             "capex_costs_sha256": _repo_root() / "lib/templates/capex-costs.toml",
+            "civil_cost_model_sha256": _repo_root()
+            / "lib/templates/civil-cost-model.toml",
             "country_finance_sha256": _repo_root()
             / "lib/templates/country-finance.toml",
         }
@@ -3274,6 +3281,12 @@ def _rich_capex_section(
     )
 
     out.append("### Civil works\n")
+    out.append(
+        "Rates are **design-derived planning targets**, generated from the "
+        "parametric CAD quantity model and the reviewed benchmark calibration in "
+        "`lib/templates/civil-cost-calibration.toml`. They are not quotations; "
+        "foundation-zone schedules and normalized supplier offers remain release gates.\n"
+    )
     out.append("| Bucket | Value |")
     out.append("|---|---|")
     if at_grade_km > 0:

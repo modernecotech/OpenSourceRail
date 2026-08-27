@@ -10,31 +10,24 @@ from __future__ import annotations
 import math
 from dataclasses import dataclass
 
-from .ugirder import (
-    CLEAR_WALKWAY_WIDTH_MM,
-    DYNAMIC_TRAIN_WIDTH_MM,
-    ESCAPE_LEDGE_HEIGHT_MM,
-    EXTERNAL_HEIGHT_MM,
-    EXTERNAL_WIDTH_MM,
-    FLOOR_THICKNESS_MM,
-    INTERNAL_WIDTH_MM,
-    OPPOSITE_SIDE_CLEARANCE_MM,
+from .decked_pi import (
+    DECK_WIDTH_MM,
+    OVERALL_DEPTH_MM,
+    WALKWAY_CASSETTE_WIDTH_MM,
     approx_mass_kg,
 )
+from .substructure import GIRDER_CENTRE_SPACING_MM, PIER_CAP_Y_MM
 
 DEFAULT_PARAPET_HEIGHT_ABOVE_WALKWAY_MM = 1_400.0
-REFERENCE_PARAPET_HEIGHT_ABOVE_WALKWAY_MM = (
-    EXTERNAL_HEIGHT_MM - FLOOR_THICKNESS_MM - ESCAPE_LEDGE_HEIGHT_MM
-)
-DEFAULT_APPROVED_TRANSPORT_MASS_KG = 130_000.0
-DEFAULT_APPROVED_TRANSPORT_WIDTH_MM = 5_200.0
-DEFAULT_APPROVED_TRANSPORT_HEIGHT_MM = 2_100.0
+DEFAULT_APPROVED_TRANSPORT_MASS_KG = 75_000.0
+DEFAULT_APPROVED_TRANSPORT_WIDTH_MM = 3_000.0
+DEFAULT_APPROVED_TRANSPORT_HEIGHT_MM = 1_300.0
 
 
 def required_internal_width_mm(
-    dynamic_train_width_mm: float = DYNAMIC_TRAIN_WIDTH_MM,
-    clear_walkway_width_mm: float = CLEAR_WALKWAY_WIDTH_MM,
-    opposite_side_clearance_mm: float = OPPOSITE_SIDE_CLEARANCE_MM,
+    dynamic_train_width_mm: float = 2_970.0,
+    clear_walkway_width_mm: float = WALKWAY_CASSETTE_WIDTH_MM,
+    opposite_side_clearance_mm: float = 250.0,
     tolerance_and_sway_mm: float = 220.0,
 ) -> float:
     """Minimum clear trough width before a curve-chord allowance is added."""
@@ -56,7 +49,15 @@ def straight_span_chord_offset_m(span_m: float, radius_m: float) -> float:
 
 
 def required_interior_bearing_count(tracks: int = 2) -> int:
-    """Two web bearings times two adjoining span ends per track."""
+    """One bearing line beneath two continuous web lines per track."""
+
+    if tracks < 1:
+        raise ValueError("tracks must be at least one")
+    return tracks * 2
+
+
+def required_expansion_support_bearing_count(tracks: int = 2) -> int:
+    """Two independent unit-end bearing lines at an expansion support."""
 
     if tracks < 1:
         raise ValueError("tracks must be at least one")
@@ -75,18 +76,19 @@ def required_end_support_bearing_count(tracks: int = 2) -> int:
 class ViaductEnvelopeCheck:
     span_m: float = 25.0
     curve_radius_m: float = 300.0
-    internal_width_mm: float = INTERNAL_WIDTH_MM
-    dynamic_train_width_mm: float = DYNAMIC_TRAIN_WIDTH_MM
-    clear_walkway_width_mm: float = CLEAR_WALKWAY_WIDTH_MM
-    opposite_side_clearance_mm: float = OPPOSITE_SIDE_CLEARANCE_MM
-    tolerance_and_sway_mm: float = 220.0
-    parapet_height_above_walkway_mm: float = REFERENCE_PARAPET_HEIGHT_ABOVE_WALKWAY_MM
+    beam_width_mm: float = DECK_WIDTH_MM
+    track_centres_mm: float = GIRDER_CENTRE_SPACING_MM
+    clear_walkway_width_mm: float = WALKWAY_CASSETTE_WIDTH_MM
+    overall_guideway_width_mm: float = 8_500.0
+    cap_width_mm: float = PIER_CAP_Y_MM
+    maximum_chord_adjustment_mm: float = 300.0
+    parapet_height_above_walkway_mm: float = 1_400.0
     required_parapet_height_mm: float = DEFAULT_PARAPET_HEIGHT_ABOVE_WALKWAY_MM
     tracks: int = 2
-    interior_bearing_count: int = 8
+    interior_bearing_count: int = 4
     transport_mass_kg: float | None = None
-    transport_width_mm: float = EXTERNAL_WIDTH_MM
-    transport_height_mm: float = 1_850.0
+    transport_width_mm: float = DECK_WIDTH_MM
+    transport_height_mm: float = OVERALL_DEPTH_MM
     approved_transport_mass_kg: float = DEFAULT_APPROVED_TRANSPORT_MASS_KG
     approved_transport_width_mm: float = DEFAULT_APPROVED_TRANSPORT_WIDTH_MM
     approved_transport_height_mm: float = DEFAULT_APPROVED_TRANSPORT_HEIGHT_MM
@@ -96,42 +98,37 @@ def viaduct_envelope_issues(check: ViaductEnvelopeCheck) -> tuple[str, ...]:
     """Return all failed catalogue gates for a candidate full-span unit."""
 
     issues: list[str] = []
-    required_width = required_internal_width_mm(
-        check.dynamic_train_width_mm,
-        check.clear_walkway_width_mm,
-        check.opposite_side_clearance_mm,
-        check.tolerance_and_sway_mm,
-    )
-    if check.internal_width_mm < required_width:
-        issues.append(
-            f"internal width {check.internal_width_mm:g} mm is below the "
-            f"train-plus-egress requirement {required_width:g} mm"
-        )
+    if check.span_m not in (20.0, 25.0):
+        issues.append("decked pi catalogue span must be 20 m or 25 m")
+    if check.beam_width_mm > check.approved_transport_width_mm:
+        issues.append("primary beam width exceeds the 3.0 m DFMA shipping gate")
+    if check.track_centres_mm != 3_500.0:
+        issues.append("standard tangent track centres must be 3500 mm")
+    if check.clear_walkway_width_mm < 1_000.0:
+        issues.append("clear outer evacuation walkway is below 1000 mm")
+    if not 8_500.0 <= check.overall_guideway_width_mm <= 9_000.0:
+        # The 8.4 m bare geometry needs connection/tolerance margins to be
+        # declared as an 8.5--9.0 m controlled envelope.
+        issues.append("overall twin-track guideway envelope must be 8.5--9.0 m")
+    if not 6_500.0 <= check.cap_width_mm <= 7_500.0:
+        issues.append("pier-cap width must be 6.5--7.5 m")
 
-    # Chord offset may consume only width outside the protected sway,
-    # handrail, and construction-tolerance reserve.
-    residual_mm = check.internal_width_mm - (
-        check.dynamic_train_width_mm
-        + check.clear_walkway_width_mm
-        + check.opposite_side_clearance_mm
-        + check.tolerance_and_sway_mm
-    )
     try:
         chord_offset_mm = straight_span_chord_offset_m(check.span_m, check.curve_radius_m) * 1000.0
     except ValueError as exc:
         issues.append(str(exc))
     else:
-        if chord_offset_mm > residual_mm:
+        if chord_offset_mm > check.maximum_chord_adjustment_mm:
             issues.append(
                 f"straight-span chord offset {chord_offset_mm:.0f} mm exceeds "
-                f"available trough lateral clearance {residual_mm:.0f} mm"
+                f"the adjustable fixation/edge allowance {check.maximum_chord_adjustment_mm:.0f} mm"
             )
 
     required_bearings = required_interior_bearing_count(check.tracks)
     if check.interior_bearing_count < required_bearings:
         issues.append(
             f"interior bearing count {check.interior_bearing_count} is below "
-            f"tracks x two webs x two adjoining ends = {required_bearings}"
+            f"tracks x two continuous web lines = {required_bearings}"
         )
     if check.parapet_height_above_walkway_mm < check.required_parapet_height_mm:
         issues.append(
@@ -141,7 +138,10 @@ def viaduct_envelope_issues(check: ViaductEnvelopeCheck) -> tuple[str, ...]:
 
     transport_mass_kg = check.transport_mass_kg
     if transport_mass_kg is None:
-        transport_mass_kg = approx_mass_kg(check.span_m)
+        try:
+            transport_mass_kg = approx_mass_kg(check.span_m)
+        except ValueError:
+            transport_mass_kg = 0.0
     if transport_mass_kg > check.approved_transport_mass_kg:
         issues.append(
             f"transport mass {transport_mass_kg:.0f} kg exceeds approved "
@@ -166,6 +166,7 @@ __all__ = [
     "ViaductEnvelopeCheck",
     "assert_viaduct_envelope",
     "required_end_support_bearing_count",
+    "required_expansion_support_bearing_count",
     "required_interior_bearing_count",
     "required_internal_width_mm",
     "straight_span_chord_offset_m",

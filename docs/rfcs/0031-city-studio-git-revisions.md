@@ -55,6 +55,10 @@ Each city has a committed package under projects/<slug>/:
     │   └── service-plan.toml
     ├── coordination/
     │   └── issues.toml
+    ├── demand/
+    │   └── od-matrix.toml
+    ├── approvals/
+    │   └── reviews.toml
     └── revisions/
         ├── README.md
         └── osr-<content-hash>.json
@@ -89,14 +93,26 @@ effective simulator station catalogue and ordered per-line topology as well as
 the GIS network. A two-endpoint manual-line workflow creates a stable line id,
 deterministically sampled initial corridor, two terminal platforms, a service
 plan for every day type, and simulator line/fleet/dispatch records. Local
-alignment controls can then shape the corridor. Source-locked demand-aware
-route alternatives are a subsequent increment of this RFC.
+alignment controls can then shape the corridor. Manual lines can use either an
+explicit direct chord or a deterministic least-cost route over SHA-256-locked
+demand/buildability planning surfaces; the revision records the method,
+source IDs, and demand weight.
 
 services/service-plan.toml contains a seven-day calendar mapped to named day
 types and a plan for every line/day-type pair. Each plan has a service span and
 contiguous headway windows. The compiler calculates cycle time, indicative
 peak fleet, capacity per hour per direction, daily service kilometres, and
 weekly service kilometres.
+
+demand/od-matrix.toml contains source-controlled planning periods and optional
+origin–destination flows in passengers/hour. Periods refer to service day
+types and time intervals; flows refer only to active stable station IDs. A
+content-derived ID preserves flow identity while the passenger rate is edited.
+The compiler screens each record against the lower scheduled
+passengers/hour/direction capacity across all service windows overlapping the
+period and records direct/cross-line status and indicative utilization. This
+early screen is deliberately not a passenger assignment, ridership forecast,
+platform-flow model, or interchange/egress analysis.
 
 coordination/issues.toml stores review decisions for deterministic civil BCF
 topics. Status, assignee, resolution, and reviewer are project intent rather
@@ -143,6 +159,7 @@ content-addressed JSON record only when validation has no errors. It includes:
 - source locks and their observed hashes;
 - effective lines and stations;
 - complete weekly service plans and fleet/capacity metrics;
+- planning periods, OD flows, and conservative scheduled-capacity metrics;
 - civil coordination issue status, assignment, resolution, and reviewer;
 - semantic station movements;
 - validation findings;
@@ -196,6 +213,8 @@ The initial implementation is crates/osr-city-studio:
 - manual line authoring with terminal, service, GIS, and simulator synthesis;
 - semantic comparison between materialized revisions and the working candidate;
 - weekly service metrics;
+- deterministic OD demand intent, validation, scheduled-capacity screening,
+  and semantic flow comparison;
 - a local HTTP API;
 - an embedded browser UI with an editable SVG/GIS view;
 - artifact visibility for current design, GIS, simulation, engineering,

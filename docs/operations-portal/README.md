@@ -44,6 +44,11 @@ The Manufacturing tab is generated from
 [`../../lib/templates/manufacturing-schedule.toml`](../../lib/templates/manufacturing-schedule.toml)
 and documented in
 [`../rfcs/0030-manufacturing-schedule-system.md`](../rfcs/0030-manufacturing-schedule-system.md).
+Track-section durations are calculated from route metres or single-track ST6
+panel quantities, production rate and resource count. The JSON bundle also
+contains a line-level `civil_production` plan derived from civil-segment metres,
+Pi20/Pi25 bays, foundations, mould/cure cycles, piling rigs, launcher rate,
+panel gantries and the working calendar.
 Each schedule row includes the asset id, project-day schedule window, work
 center, crew roles, staff tasks, controlled BOM/material refs,
 dependencies, deliverables, evidence required, release authority, QA

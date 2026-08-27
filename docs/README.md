@@ -66,11 +66,13 @@ the generated [Markdown documentation index](INDEX.md).
 | Rolling-stock v2 release checklist | [rolling-stock/light-metro-3car/v2-release-checklist.md](rolling-stock/light-metro-3car/v2-release-checklist.md) |
 | Certification release gaps | [certification/release-gap-register.md](certification/release-gap-register.md) |
 | Civil deployment release gates | [civil/deployment-release-checklist.md](civil/deployment-release-checklist.md) |
+| Civil cost calibration and generated rate contract | [cost model](cost-model.md), [`civil-cost-calibration.toml`](../lib/templates/civil-cost-calibration.toml), [`civil-cost-model.toml`](../lib/templates/civil-cost-model.toml) |
 | Open-source engineering toolchain and remaining execution plan | [engineering-design-simulation-plan.md](engineering-design-simulation-plan.md) |
 | OpenTrack vs SUMO/native operations-simulation decision | [opentrack-evaluation.md](opentrack-evaluation.md) |
 | Operations validation gates | [operations/validation-checklist.md](operations/validation-checklist.md) |
 | Operations portal | [operations-portal/README.md](operations-portal/README.md) |
 | City design and service-planning studio | [city-studio/README.md](city-studio/README.md) |
+| Generated portfolio capital summary | [portfolio-summary.md](portfolio-summary.md) |
 | Ops Core operating model | [operations-portal/ops-core.md](operations-portal/ops-core.md) |
 | Acceptance/accreditation evidence status | [certification/evidence-status.md](certification/evidence-status.md) |
 | Construction QA system | [rfcs/0028-construction-quality-assurance.md](rfcs/0028-construction-quality-assurance.md) |
@@ -88,6 +90,7 @@ Use the root README for the common commands. The short version:
 
 ```bash
 scripts/regenerate-city.sh samawah
+python3 scripts/generate-civil-cost-model.py --check
 PYTHONPATH=mechanical-py/src python3 -m osr_mech.catalog --out mechanical-py/catalog
 PYTHONPATH=mechanical-py/src mechanical-py/scripts/freecad_trainset.sh --family light-metro-3car
 python3 scripts/repo-health.py --quiet

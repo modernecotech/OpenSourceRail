@@ -1,7 +1,7 @@
 # Indonesia national OpenSourceRail strategy
 
 > [!IMPORTANT]
-> **Foreign-capital advantage:** against the default equivalent foreign-turnkey case, this national OSR programme avoids **$9.69 B (86.4%) of external capital** and **$11.92 B of external interest**. Capital plus saved interest totals **$21.61 B over the 40-year financing life**. Both cases use the same 4.5% external rate and financing schedule; the comparator external requirement is assumed debt-financed, and the comparator is an editable sensitivity, not a vendor quote.
+> **Foreign-capital advantage:** against the default equivalent foreign-turnkey case, this national OSR programme avoids **$9.07 B (86.1%) of external capital** and **$11.15 B of external interest**. Capital plus saved interest totals **$20.22 B over the 40-year financing life**. Both cases use the same 4.5% external rate and financing schedule; the comparator external requirement is assumed debt-financed, and the comparator is an editable sensitivity, not a vendor quote.
 
 Indonesia should implement OpenSourceRail as one national industrial and financing programme covering the 2 catalogue cities below, rather than as disconnected city projects. One centrally governed trainset factory builds the shared modular fleet in phases; city and regional contractors fabricate and install rails, viaducts, stations, depots, and local civil works. This concentrates scarce imported machinery, specialist tooling, engineering support, and foreign currency in one reusable national asset while maximizing domestic labour, materials, fabrication, and local-currency financing.
 
@@ -13,10 +13,10 @@ Indonesia should implement OpenSourceRail as one national industrial and financi
 | Served population represented | 5,624,000 |
 | Trainsets across city plans | 782 |
 | Vehicle/car modules to manufacture | 4,068 |
-| City infrastructure + fleet CAPEX | $6.05 B |
+| City infrastructure + fleet CAPEX | $5.67 B |
 | One shared national trainset factory | $169.2 M |
 | National factory sizing basis | 2,820 modules: largest single-city programme (Surabaya) |
-| **Total national programme CAPEX** | **$6.23 B** |
+| **Total national programme CAPEX** | **$5.85 B** |
 
 The factory is sized to the largest single-city fleet programme and reused through a phased national rollout. This avoids duplicating factory buildings, moulds, welding fixtures, metrology, commissioning equipment, and imported machinery in every city. Final factory siting requires a national freight, power, workforce, land, and test-track study; this brief does not preselect a city.
 
@@ -26,13 +26,13 @@ Imported content is the minimum foreign-currency or international-capital requir
 
 | Capital boundary | Share | Total | Annual draw during construction |
 |---|---:|---:|---:|
-| **External capital for imports** | **24.4%** | **$1.52 B** | **$304.3 M / yr** |
-| **Local capital for domestic value** | **75.6%** | **$4.71 B** | **$941.8 M / yr** |
-| planned local-currency bond issuance | 60.5% of total | $3.77 B | $753.4 M / yr |
-| local public equity / other domestic funding | 15.1% of total | $941.8 M | $188.4 M / yr |
-| **Total capital programme** | **100.0%** | **$6.23 B** | **$1.25 B / yr** |
+| **External capital for imports** | **25.0%** | **$1.46 B** | **$293.0 M / yr** |
+| **Local capital for domestic value** | **75.0%** | **$4.39 B** | **$877.6 M / yr** |
+| planned local-currency bond issuance | 60.0% of total | $3.51 B | $702.1 M / yr |
+| local public equity / other domestic funding | 15.0% of total | $877.6 M | $175.5 M / yr |
+| **Total capital programme** | **100.0%** | **$5.85 B** | **$1.17 B / yr** |
 
-The annual construction draw is spread evenly over 5 planning years. Post-grace annual debt service is $87.1 M for external import finance plus $281.5 M for local bonds, or **$368.6 M per year** before railway operating cash flow. During construction, interest plus the local public-equity draw is **$509.2 M per year**.
+The annual construction draw is spread evenly over 5 planning years. Post-grace annual debt service is $83.9 M for external import finance plus $262.3 M for local bonds, or **$346.2 M per year** before railway operating cash flow. During construction, interest plus the local public-equity draw is **$476.6 M per year**.
 
 ## Foreign-company turnkey comparison
 
@@ -40,26 +40,26 @@ This controlled comparison is an editable sensitivity, not a supplier quotation.
 
 | Case | Cost multiplier vs OSR | Foreign-company external capital | OSR external capital saved | External interest saved over financing life | Capital + interest saved |
 |---|---:|---:|---:|---:|---:|
-| Low | 1.50× | $8.41 B | $6.89 B (81.9%) | $8.47 B | **$15.36 B** |
-| **Default** | 2.00× | $11.21 B | $9.69 B (86.4%) | $11.92 B | **$21.61 B** |
-| High | 3.00× | $16.82 B | $15.30 B (91.0%) | $18.81 B | **$34.11 B** |
+| Low | 1.50× | $7.90 B | $6.44 B (81.5%) | $7.91 B | **$14.35 B** |
+| **Default** | 2.00× | $10.54 B | $9.07 B (86.1%) | $11.15 B | **$20.22 B** |
+| High | 3.00× | $15.80 B | $14.34 B (90.7%) | $17.63 B | **$31.97 B** |
 
-At the default 2.00× case, the OSR programme reduces external capital from $11.21 B to $1.52 B, a saving of **$9.69 B (86.4%)**, plus **$11.92 B** of external interest over the financing life. Total programme CAPEX is 50.0% below the comparator. Replace both variables with scope-normalized bids before investment approval.
+At the default 2.00× case, the OSR programme reduces external capital from $10.54 B to $1.46 B, a saving of **$9.07 B (86.1%)**, plus **$11.15 B** of external interest over the financing life. Total programme CAPEX is 50.0% below the comparator. Replace both variables with scope-normalized bids before investment approval.
 
 ## Procurement-origin composition
 
 | CAPEX bucket | Total | Imported share | External capital | Local value |
 |---|---:|---:|---:|---:|
-| Civil works | $2.39 B | 15% | $358.8 M | $2.03 B |
+| Civil works | $2.04 B | 15% | $305.9 M | $1.73 B |
 | Stations | $1.19 B | 20% | $238.4 M | $953.5 M |
 | Depots | $16.0 M | 25% | $4.0 M | $12.0 M |
 | Rolling stock | $1.14 B | 35% | $398.7 M | $740.4 M |
 | Dedicated solar plants | $876.7 M | 45% | $394.5 M | $482.2 M |
 | Residual signalling / train control | $27.0 M | 50% | $13.5 M | $13.5 M |
 | Charging microgrids | $68.3 M | 40% | $27.3 M | $41.0 M |
-| EPC / project services | $350.3 M | 15% | $52.5 M | $297.7 M |
+| EPC / project services | $325.6 M | 15% | $48.8 M | $276.7 M |
 | Shared national trainset factory | $169.2 M | 20% | $33.8 M | $135.4 M |
-| **Total** | **$6.23 B** | **24.4%** | **$1.52 B** | **$4.71 B** |
+| **Total** | **$5.85 B** | **25.0%** | **$1.46 B** | **$4.39 B** |
 
 ## City programme
 
@@ -67,8 +67,8 @@ Each city CAPEX below excludes the national factory. Its imported share varies w
 
 | City | Population | Fleet | City CAPEX | Imported % | OSR external capital | Foreign-turnkey external capital (default) | External capital saved | Capital + lifetime external interest saved | Local capital |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| [Surabaya](Surabaya/README.md) | 3,009,000 | 470 | $3.63 B | 25.5% | $925.0 M | $6.53 B | $5.60 B | $12.49 B | $2.70 B |
-| [Bandung](Bandung/README.md) | 2,615,000 | 312 | $2.42 B | 23.1% | $561.0 M | $4.36 B | $3.80 B | $8.48 B | $1.86 B |
+| [Surabaya](Surabaya/README.md) | 3,009,000 | 470 | $3.41 B | 26.2% | $893.2 M | $6.14 B | $5.25 B | $11.71 B | $2.52 B |
+| [Bandung](Bandung/README.md) | 2,615,000 | 312 | $2.26 B | 23.7% | $536.1 M | $4.06 B | $3.53 B | $7.87 B | $1.72 B |
 
 ## National implementation sequence
 

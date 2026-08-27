@@ -14,6 +14,8 @@ release gates are tracked in
 | File | Scope |
 |---|---|
 | [`marketplace-cost-anchors.md`](marketplace-cost-anchors.md) | USD direct-procurement floor for at-grade track, elevated guideway, bridges, stations, depots, and charging interfaces |
+| [`civil-cost-calibration.toml`](../../lib/templates/civil-cost-calibration.toml) | Reviewed benchmark quantities and cost shares; the human-edited input to design-derived civil rates |
+| [`civil-cost-model.toml`](../../lib/templates/civil-cost-model.toml) | Generated rate contract consumed by city synthesis, finance reports, IFC metadata, and city READMEs |
 | [`rapid-implementation-materials-review.md`](rapid-implementation-materials-review.md) | Internet review of rapid ballastless track, modular stations, and recycled or lower-carbon materials |
 | [`slab-trackforms.md`](slab-trackforms.md) | Reference ballastless slab designs for at-grade and elevated guideway sections |
 | [`viaduct-substructure-kit.md`](viaduct-substructure-kit.md) | Controlled pier/abutment EBOMs, interfaces, assembly sequences, and deployment release gates |
@@ -37,3 +39,16 @@ release gates are tracked in
 | [`tools/osr-aln-convert`](../../tools/osr-aln-convert/) | Companion converter for external alignment formats |
 | [`mechanical-py/src/osr_mech/civil/`](../../mechanical-py/src/osr_mech/civil/) | Parametric girders, piers, abutments, slab/guideway edges, elevated platform units, and civil CAD source |
 | [`scripts/bonsai-civil.sh`](../../scripts/bonsai-civil.sh) | Deterministic IFC/IDS/BCF generation, Bonsai import, saved review scene, screenshot, and MP4 animation |
+| [`scripts/generate-civil-cost-model.py`](../../scripts/generate-civil-cost-model.py) | Recalculate planning rates from current CAD quantities and reject stale output with `--check` |
+
+The IFC is a generated coordination output, not a competing geometry source.
+Change the parametric CAD/BIM source or reviewed calibration, then regenerate:
+
+```text
+CAD geometry → per-route-km quantity model → civil cost contract
+             ↘ IFC4.3 quantities/provenance   ↘ city CAPEX and READMEs
+```
+
+Project-specific Bonsai detail edits that are intended to become authoritative
+must first be reviewed and promoted into the parametric source; otherwise the
+next deterministic regeneration intentionally replaces them.

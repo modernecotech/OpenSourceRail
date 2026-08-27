@@ -1,7 +1,7 @@
 # Laos national OpenSourceRail strategy
 
 > [!IMPORTANT]
-> **Foreign-capital advantage:** against the default equivalent foreign-turnkey case, this national OSR programme avoids **$1.02 B (86.5%) of external capital** and **$1.27 B of external interest**. Capital plus saved interest totals **$2.29 B over the 40-year financing life**. Both cases use the same 4.5% external rate and financing schedule; the comparator external requirement is assumed debt-financed, and the comparator is an editable sensitivity, not a vendor quote.
+> **Foreign-capital advantage:** against the default equivalent foreign-turnkey case, this national OSR programme avoids **$954.4 M (86.2%) of external capital** and **$1.20 B of external interest**. Capital plus saved interest totals **$2.15 B over the 40-year financing life**. Both cases use the same 4.5% external rate and financing schedule; the comparator external requirement is assumed debt-financed, and the comparator is an editable sensitivity, not a vendor quote.
 
 Laos should implement OpenSourceRail as one national industrial and financing programme covering the 1 catalogue cities below, rather than as disconnected city projects. One centrally governed trainset factory builds the shared modular fleet in phases; city and regional contractors fabricate and install rails, viaducts, stations, depots, and local civil works. This concentrates scarce imported machinery, specialist tooling, engineering support, and foreign currency in one reusable national asset while maximizing domestic labour, materials, fabrication, and local-currency financing.
 
@@ -13,10 +13,10 @@ Laos should implement OpenSourceRail as one national industrial and financing pr
 | Served population represented | 948,000 |
 | Trainsets across city plans | 155 |
 | Vehicle/car modules to manufacture | 465 |
-| City infrastructure + fleet CAPEX | $621.9 M |
+| City infrastructure + fleet CAPEX | $585.0 M |
 | One shared national trainset factory | $27.9 M |
 | National factory sizing basis | 465 modules: largest single-city programme (Vientiane) |
-| **Total national programme CAPEX** | **$651.7 M** |
+| **Total national programme CAPEX** | **$614.8 M** |
 
 The factory is sized to the largest single-city fleet programme and reused through a phased national rollout. This avoids duplicating factory buildings, moulds, welding fixtures, metrology, commissioning equipment, and imported machinery in every city. Final factory siting requires a national freight, power, workforce, land, and test-track study; this brief does not preselect a city.
 
@@ -26,13 +26,13 @@ Imported content is the minimum foreign-currency or international-capital requir
 
 | Capital boundary | Share | Total | Annual draw during construction |
 |---|---:|---:|---:|
-| **External capital for imports** | **24.2%** | **$157.8 M** | **$22.5 M / yr** |
-| **Local capital for domestic value** | **75.8%** | **$493.9 M** | **$70.6 M / yr** |
-| planned local-currency bond issuance | 60.6% of total | $395.1 M | $56.4 M / yr |
-| local public equity / other domestic funding | 15.2% of total | $98.8 M | $14.1 M / yr |
-| **Total capital programme** | **100.0%** | **$651.7 M** | **$93.1 M / yr** |
+| **External capital for imports** | **24.8%** | **$152.3 M** | **$21.8 M / yr** |
+| **Local capital for domestic value** | **75.2%** | **$462.6 M** | **$66.1 M / yr** |
+| planned local-currency bond issuance | 60.2% of total | $370.0 M | $52.9 M / yr |
+| local public equity / other domestic funding | 15.0% of total | $92.5 M | $13.2 M / yr |
+| **Total capital programme** | **100.0%** | **$614.8 M** | **$87.8 M / yr** |
 
-The annual construction draw is spread evenly over 7 planning years. Post-grace annual debt service is $9.3 M for external import finance plus $43.1 M for local bonds, or **$52.4 M per year** before railway operating cash flow. During construction, interest plus the local public-equity draw is **$62.7 M per year**.
+The annual construction draw is spread evenly over 7 planning years. Post-grace annual debt service is $8.9 M for external import finance plus $40.4 M for local bonds, or **$49.3 M per year** before railway operating cash flow. During construction, interest plus the local public-equity draw is **$58.9 M per year**.
 
 ## Foreign-company turnkey comparison
 
@@ -40,26 +40,26 @@ This controlled comparison is an editable sensitivity, not a supplier quotation.
 
 | Case | Cost multiplier vs OSR | Foreign-company external capital | OSR external capital saved | External interest saved over financing life | Capital + interest saved |
 |---|---:|---:|---:|---:|---:|
-| Low | 1.50× | $879.9 M | $722.0 M (82.1%) | $905.1 M | **$1.63 B** |
-| **Default** | 2.00× | $1.17 B | $1.02 B (86.5%) | $1.27 B | **$2.29 B** |
-| High | 3.00× | $1.76 B | $1.60 B (91.0%) | $2.01 B | **$3.61 B** |
+| Low | 1.50× | $830.0 M | $677.8 M (81.7%) | $849.6 M | **$1.53 B** |
+| **Default** | 2.00× | $1.11 B | $954.4 M (86.2%) | $1.20 B | **$2.15 B** |
+| High | 3.00× | $1.66 B | $1.51 B (90.8%) | $1.89 B | **$3.40 B** |
 
-At the default 2.00× case, the OSR programme reduces external capital from $1.17 B to $157.8 M, a saving of **$1.02 B (86.5%)**, plus **$1.27 B** of external interest over the financing life. Total programme CAPEX is 50.0% below the comparator. Replace both variables with scope-normalized bids before investment approval.
+At the default 2.00× case, the OSR programme reduces external capital from $1.11 B to $152.3 M, a saving of **$954.4 M (86.2%)**, plus **$1.20 B** of external interest over the financing life. Total programme CAPEX is 50.0% below the comparator. Replace both variables with scope-normalized bids before investment approval.
 
 ## Procurement-origin composition
 
 | CAPEX bucket | Total | Imported share | External capital | Local value |
 |---|---:|---:|---:|---:|
-| Civil works | $245.0 M | 15% | $36.7 M | $208.2 M |
+| Civil works | $210.5 M | 15% | $31.6 M | $178.9 M |
 | Stations | $112.6 M | 20% | $22.5 M | $90.1 M |
 | Depots | $8.0 M | 25% | $2.0 M | $6.0 M |
 | Rolling stock | $139.5 M | 35% | $48.8 M | $90.7 M |
 | Dedicated solar plants | $74.4 M | 45% | $33.5 M | $40.9 M |
 | Residual signalling / train control | $3.7 M | 50% | $1.9 M | $1.9 M |
 | Charging microgrids | $2.8 M | 40% | $1.1 M | $1.7 M |
-| EPC / project services | $37.8 M | 15% | $5.7 M | $32.1 M |
+| EPC / project services | $35.4 M | 15% | $5.3 M | $30.1 M |
 | Shared national trainset factory | $27.9 M | 20% | $5.6 M | $22.3 M |
-| **Total** | **$651.7 M** | **24.2%** | **$157.8 M** | **$493.9 M** |
+| **Total** | **$614.8 M** | **24.8%** | **$152.3 M** | **$462.6 M** |
 
 ## City programme
 
@@ -67,7 +67,7 @@ Each city CAPEX below excludes the national factory. Its imported share varies w
 
 | City | Population | Fleet | City CAPEX | Imported % | OSR external capital | Foreign-turnkey external capital (default) | External capital saved | Capital + lifetime external interest saved | Local capital |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| [Vientiane](Vientiane/README.md) | 948,000 | 155 | $621.9 M | 24.4% | $152.0 M | $1.12 B | $967.4 M | $2.18 B | $469.9 M |
+| [Vientiane](Vientiane/README.md) | 948,000 | 155 | $585.0 M | 25.0% | $146.4 M | $1.05 B | $906.6 M | $2.04 B | $438.6 M |
 
 ## National implementation sequence
 

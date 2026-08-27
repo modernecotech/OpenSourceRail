@@ -15,6 +15,7 @@ service_plan = "services/service-plan.toml"
 source_lock = "sources.lock.json"
 coordination = "coordination/issues.toml"
 approvals = "approvals/reviews.toml"
+demand = "demand/od-matrix.toml"
 
 [planning]
 passenger_capacity_per_train = 360
@@ -37,6 +38,15 @@ source_ids = [
 demand_weight = 5.0
 search_margin_m = 2500.0
 endpoint_snap_m = 500.0
+
+[civil]
+standard_span_m = 25.0
+expansion_unit_spans = 4
+maximum_reinforced_soil_height_m = 4.5
+long_open_at_grade_method = "continuous-slipform"
+constrained_at_grade_method = "single-track-precast"
+mould_cycle_target_h = 24
+compare_road_grade_separation = true
 
 [revision]
 policy = "pull-request"

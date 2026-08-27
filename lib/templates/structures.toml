@@ -4,19 +4,34 @@
 # line sections. A 14 km line with 3 km elevated and 1 km bridge pulls the
 # corresponding unit BOMs and sums the quantities.
 #
-# Unit costs mirror the canonical planning floors in
-# `lib/templates/capex-costs.toml`. Country cost factors (from a separate
-# catalog) can scale them downstream for local tender views.
+# Costs are intentionally absent from this quantity catalogue. The generated
+# `civil-cost-model.toml` combines these CAD-derived quantities with the
+# reviewed benchmark calibration; country factors can scale that contract
+# downstream for local tender views.
 #
 # Unified system principle: every OSR section belongs to one of THREE
-# classes (at-grade / elevated / bridge), and the per-km BOM is the same
-# everywhere. That makes BOMs comparable across cities and makes the CAD
-# block library finite.
+# classes (at-grade / elevated / bridge). Geometry-derived superstructure
+# quantities are comparable; foundation quantities are selected and measured
+# by geotechnical zone rather than hidden behind one universal allowance.
+# Run `python3 scripts/validate-structure-quantities.py` to reject CAD drift.
 #
 # NO TUNNELS. Per RFC 0011, the catalogue has no cut-and-cover or bored-
 # tunnel classes. Where an alignment cannot be at-grade, it goes
 # elevated - never underground. The two tunnel classes this template
 # used to carry were removed with RFC 0011 v1.
+
+[civil_dfma]
+max_primary_shipping_width_m = 3.0
+max_primary_lift_t = 75
+main_lifts_per_bay = 2
+standard_track_centres_m = 3.5
+span_catalogue_m = [20, 25]
+quantity_model_must_use_geotechnical_zone = true
+construction_system_catalog = "lib/templates/civil-construction-systems.toml"
+crane_load_chart_required = true
+foundation_test_required = true
+primary_erection_system = "locally fabricated portal/short-span launching frame with synchronized certified strand jacks"
+mobile_crane_gate = "actual load chart, lift radius, rigging, wind limit, and ground-bearing-pressure check required"
 
 # ---- At-grade double track - the default section ------------------------
 
@@ -24,13 +39,16 @@
 # Permanent way (per route-km, double track)
 rail_kg_per_km              = 240000     # UIC60, 4 rails x 60 kg/m x 1000 m
 direct_fixation_seats_per_km = 6156      # 4 rails at 650 mm pitch, rounded up
-slab_concrete_m3_per_km     = 3000       # double-track slab + rail plinths
-slab_rebar_kg_per_km        = 360000
+default_construction_method = "continuous-slipform"
+slipformed_route_m_per_km   = 1000
+single_track_panels_per_km  = 0          # project constrained zones add ST6 panels
+precast_panels_quantity_model = "constrained-zone-required"
+slab_concrete_m3_per_km     = 1693.2     # derived from OSR-ST6 CAD
+slab_rebar_kg_per_km        = 253980     # 150 kg/m3 planning ratio; design required
 formation_m3_per_km         = 5000       # subgrade prep
 drainage_m_per_km           = 2000       # both sides
 fencing_m_per_km            = 2000
 pole_count_per_km           = 40         # signalling / comms masts, 25 m spacing
-cost_usd_per_km             = 3000000
 
 # ---- Elevated viaduct - prefabricated spans ----------------------------
 
@@ -38,18 +56,27 @@ cost_usd_per_km             = 3000000
 # Includes ballastless direct-fixation trackform on top of the deck
 rail_kg_per_km              = 240000
 direct_fixation_seats_per_km = 6156
-# OSR-U25 twin single-track viaduct planning quantities. These seed a target,
-# not a project estimate; foundations and supplier-optimised girder sections
-# are replaced from surveyed/geotechnical design.
+# OSR-Pi25 twin single-track viaduct planning quantities, derived from the CAD
+# manufacturing envelopes. They remain prototype targets, not a structural or
+# project estimate.
 structural_bays_per_km      = 40         # 25 m primary span
 single_track_girders_per_km = 80
 pier_count_per_km           = 40
-interior_bearings_per_pier  = 8
-pier_concrete_m3_per_km     = 2000       # column + hollow/shell cap allowance
-foundation_concrete_m3_per_km = 3200     # pile-group fallback planning seed
-deck_concrete_m3_per_km     = 4411       # 3840 bare envelopes + 571.2 plinth/alignment
-deck_rebar_kg_per_km        = 600000
-cost_usd_per_km             = 12000000
+expansion_unit_spans        = 4
+expansion_units_per_km      = 10
+link_slabs_per_km           = 30
+deck_gaps_per_km            = 10
+bearings_per_km             = 200
+internal_support_bearings   = 4
+expansion_support_bearings  = 8
+bare_beam_concrete_m3_per_km = 2398.0    # two 2.9 m decked pi-beams
+trackform_concrete_m3_per_km = 459.2     # thin alignment layer + local plinths
+walkway_concrete_m3_per_km  = 240.0      # two 1 m x 120 mm cassette runs
+pier_and_cap_concrete_m3_per_km = 1384.0 # 8 m columns + 7 m hollow caps
+foundation_quantity_model   = "geotechnical-zone-required"
+foundation_catalog          = "lib/templates/foundation-catalog.toml"
+foundation_actual_length_and_cost_required = true
+deck_rebar_design_required  = true
 
 # ---- River / highway bridge - engineered span -------------------------
 
@@ -62,7 +89,6 @@ concrete_m3_per_km          = 4500
 rebar_kg_per_km             = 650000
 pile_count_per_km           = 40
 pile_length_m_avg           = 35
-cost_usd_per_km             = 18000000
 
 # Tunnel classes were removed with RFC 0011. See RFC 0011 section 3 for the
 # CAPEX / schedule / operational rationale; section 11 pitfall-decisions

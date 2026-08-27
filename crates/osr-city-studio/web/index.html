@@ -203,6 +203,73 @@
       </aside>
     </section>
 
+    <section class="panel demand-panel" id="demand-planning">
+      <div class="panel-heading">
+        <div>
+          <p class="eyebrow">Demand and capacity</p>
+          <h2>Origin–destination planning screen</h2>
+        </div>
+        <div class="selectors">
+          <label>Planning period<select id="demand-period" name="demand-period" form="demand-form"></select></label>
+        </div>
+      </div>
+      <div class="demand-grid">
+        <form id="demand-form" class="stack">
+          <h3 id="demand-form-title">Add planning flow</h3>
+          <label>Origin station<select id="demand-origin" required></select></label>
+          <label>Destination station<select id="demand-destination" required></select></label>
+          <label>Passengers per hour<input id="demand-passengers" type="number" min="1" max="100000" step="1" value="900" required></label>
+          <div class="form-actions split-actions">
+            <button type="button" id="cancel-demand" class="secondary" hidden>Cancel edit</button>
+            <button type="submit" class="primary">Save OD flow</button>
+          </div>
+          <small>Indicative screen only: capacity is the conservative scheduled bottleneck across the selected period and does not perform passenger assignment.</small>
+        </form>
+        <div class="demand-results">
+          <div id="demand-summary" class="metric-callout"></div>
+          <table>
+            <thead><tr><th>Origin → destination</th><th>Demand</th><th>Capacity</th><th>Screen</th><th></th></tr></thead>
+            <tbody id="demand-flows"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel civil-settings-panel" id="civil-construction">
+      <div class="panel-heading">
+        <div>
+          <p class="eyebrow">Civil and manufacturing</p>
+          <h2>Construction-system controls</h2>
+        </div>
+      </div>
+      <form id="civil-settings-form" class="stack">
+        <div class="two-col">
+          <label>Standard Pi-beam span
+            <select id="civil-span"><option value="25">25 m</option><option value="20">20 m</option></select>
+          </label>
+          <label>Spans per expansion unit
+            <select id="civil-unit-spans"><option value="4">4 spans</option><option value="5">5 spans</option></select>
+          </label>
+          <label>Maximum reinforced-soil approach height
+            <div class="input-suffix"><input id="civil-approach-height" type="number" min="1" max="4.5" step="0.1" required><span>m</span></div>
+          </label>
+          <label>Target reusable-mould cycle
+            <div class="input-suffix"><input id="civil-mould-cycle" type="number" min="24" max="72" step="1" required><span>h</span></div>
+          </label>
+          <label>Long open at-grade runs
+            <select id="civil-open-method"><option value="continuous-slipform">Continuous slipform</option></select>
+          </label>
+          <label>Constrained at-grade runs
+            <select id="civil-constrained-method"><option value="single-track-precast">Single-track precast ST6</option></select>
+          </label>
+        </div>
+        <label class="checkbox-label"><input id="civil-compare-roads" type="checkbox"> Compare road overbridge, underpass, closure/relocation and short rail bridge before long railway elevation</label>
+        <div id="civil-derived" class="metric-callout"></div>
+        <small>Project inputs are Git-visible and revision-hashed. The 24 h cycle and 15–30% combined saving remain targets until project trials and quotations release them; canonical costs are unchanged.</small>
+        <button type="submit" class="primary">Save civil construction intent</button>
+      </form>
+    </section>
+
     <section class="panel artifact-viewer-panel" id="artifact-viewer">
       <div class="panel-heading">
         <div>

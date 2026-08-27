@@ -4,8 +4,20 @@ OSR City Studio is the Git-backed design and service-planning interface for
 OpenSourceRail. The initial vertical slice loads Samawah, displays its
 geographic corridors and stations, records station locks or movements,
 configures service by line/day/time, calculates fleet and capacity screens,
+authors period-specific origin–destination demand and screens it against
+scheduled line capacity,
+persists civil construction-system choices and their derived bearing/joint
+interfaces,
 compiles a deterministic candidate, and materializes a revision for GitHub
 review.
+
+The civil panel controls the 20/25 m standard span, four/five-span expansion
+unit, reinforced-soil approach height, long-open slipform and constrained ST6
+methods, maturity-controlled mould-cycle target, and comparison of road
+grade-separation alternatives. Values are validated, stored in
+`project.osr.toml`, included in the candidate revision hash, and restored after
+restart. They remain planning inputs and do not automatically lower the
+canonical civil cost floors.
 
 The controlling design decision is
 [RFC 0031](../rfcs/0031-city-studio-git-revisions.md).
@@ -24,7 +36,7 @@ The controlling design decision is
 
 ![City Studio creating a deterministic BCF topic from a selected IFC asset](../screenshots/city-studio/ifc-bcf-topic-authoring.png)
 
-![Browser-tested complete City Studio with bulk service controls, interactive civil 4D review, approval history, and multi-asset IFC selection](../screenshots/city-studio/gui-acceptance.png)
+![Browser-tested complete City Studio with civil construction controls, OD capacity planning, bulk service controls, interactive civil 4D review, approval history, and multi-asset IFC selection](../screenshots/city-studio/gui-acceptance.png)
 
 ## Run
 
@@ -44,7 +56,8 @@ authentication and must not be exposed as a shared or public service.
 
 ## Command line
 
-Validate source locks, station intent, calendars, and all line/day plans:
+Validate source locks, station intent, calendars, all line/day plans, and OD
+demand references:
 
     cargo run -p osr-city-studio -- validate
 
@@ -82,7 +95,7 @@ committed Samawah project.
 ## Revision workflow
 
 1. Create a branch.
-2. Use the Studio to edit station intent and service plans.
+2. Use the Studio to edit station intent, service plans, and OD demand.
 3. Compile and resolve every validation error.
 4. Materialize a revision.
 5. Review the Git diff, including semantic changes in the revision JSON.
@@ -119,9 +132,14 @@ Implemented:
   line or every active route, using one validated atomic write, plus complete
   service-plan copying between day types;
 - indicative cycle, fleet, capacity, daily and weekly service metrics;
+- source-controlled planning periods and OD flows with deterministic stable
+  IDs, active-station/day-type validation, create/edit/delete controls, and a
+  conservative capacity/utilization screen over every overlapping service
+  window;
 - validation findings;
 - deterministic candidate and revision hashes;
-- in-GUI semantic comparison of station, line, service, and summary changes;
+- in-GUI semantic comparison of station, line, service, demand, coordination,
+  and summary changes;
 - append-only approval/changes-requested decisions tied to existing immutable
   revisions, including reviewer role, decision date, rationale, and review or
   pull-request reference;
@@ -145,7 +163,8 @@ Next:
 - native 3D IFC geometry streaming and IDS editing (projected IFC object
   picking, IDS inspection, multi-asset BCF topic creation, and controlled
   BCF status, assignment, resolution, and reviewer decisions are implemented);
-- demand/OD matrices and platform/interchange capacity;
+- passenger assignment and platform/interchange pedestrian capacity (the
+  deterministic OD intent and scheduled line-capacity screen are implemented);
 - object-aware Git merge assistance.
 
 ## Approval records
@@ -187,7 +206,25 @@ shape either route strategy further with alignment control points.
 The revision comparison panel compares any committed revision JSON with the
 current working candidate. It reports object additions, removals, movements,
 line length/station-count changes, and service/fleet/capacity deltas before a
-new revision is materialized.
+new revision is materialized. It also reports OD flow additions, removals, and
+passenger-rate changes.
+
+## Demand planning
+
+`projects/<slug>/demand/od-matrix.toml` defines named periods by service day
+type and clock interval, followed by optional station-to-station passenger
+flows. The GUI creates a stable `od-…` ID from the period, origin, and
+destination, while passengers/hour remains editable without changing object
+identity. Changes are written atomically, included in the candidate hash, and
+survive process restart.
+
+For each valid flow, the compiler finds the origin and destination lines and
+uses the lower scheduled passengers/hour/direction capacity across every
+service window overlapping the period. Cross-line records receive an
+indicative one-transfer screen. The resulting utilization and
+within/near/over-capacity status are useful for early scenario comparison, but
+they do not aggregate flows onto segments, predict ridership, or replace a
+passenger-assignment, interchange, platform-flow, or egress study.
 
 ## Controlled engineering jobs
 

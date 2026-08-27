@@ -1214,11 +1214,11 @@ struct CostSummary {
 }
 
 const CAPEX_COSTS_TOML: &str = include_str!("../../../lib/templates/capex-costs.toml");
+const CIVIL_COST_MODEL_TOML: &str = include_str!("../../../lib/templates/civil-cost-model.toml");
 
 #[derive(Debug, Deserialize)]
 struct CapexCostConfig {
     schema: CostSchema,
-    civil_usd_per_km: CivilCostRates,
     junctions: JunctionCostRates,
     station_unit_usd: BTreeMap<String, f64>,
     depot_unit_usd: BTreeMap<String, f64>,
@@ -1267,6 +1267,11 @@ struct CivilCostRates {
 }
 
 #[derive(Debug, Deserialize)]
+struct CivilCostConfig {
+    civil_usd_per_km: CivilCostRates,
+}
+
+#[derive(Debug, Deserialize)]
 struct JunctionCostRates {
     elevated_interchange_premium_usd: f64,
 }
@@ -1282,10 +1287,18 @@ struct OverheadCostRates {
 }
 
 static COST_CONFIG: OnceLock<CapexCostConfig> = OnceLock::new();
+static CIVIL_COST_CONFIG: OnceLock<CivilCostConfig> = OnceLock::new();
 
 fn cost_config() -> &'static CapexCostConfig {
     COST_CONFIG.get_or_init(|| {
         toml::from_str(CAPEX_COSTS_TOML).expect("lib/templates/capex-costs.toml must parse")
+    })
+}
+
+fn civil_cost_config() -> &'static CivilCostConfig {
+    CIVIL_COST_CONFIG.get_or_init(|| {
+        toml::from_str(CIVIL_COST_MODEL_TOML)
+            .expect("lib/templates/civil-cost-model.toml must parse")
     })
 }
 
@@ -1358,9 +1371,10 @@ fn compute_costs(
         }
     }
     let rates = cost_config();
-    let at_grade_usd = at_grade_m / 1_000.0 * rates.civil_usd_per_km.at_grade;
-    let elevated_usd = elevated_cost_equivalent_m / 1_000.0 * rates.civil_usd_per_km.elevated;
-    let bridge_usd = bridge_m / 1_000.0 * rates.civil_usd_per_km.bridge;
+    let civil_rates = &civil_cost_config().civil_usd_per_km;
+    let at_grade_usd = at_grade_m / 1_000.0 * civil_rates.at_grade;
+    let elevated_usd = elevated_cost_equivalent_m / 1_000.0 * civil_rates.elevated;
+    let bridge_usd = bridge_m / 1_000.0 * civil_rates.bridge;
     let junction_premium_usd = (elevated_junctions_count as f64) * junction_premium_usd();
     let at_grade_eur = eur_from_usd(at_grade_usd);
     let elevated_eur = eur_from_usd(elevated_usd);
@@ -1877,13 +1891,12 @@ fn write_quality_yaml(
 
     // Civil class mix. No tunnel class per RFC 0011 §1; only
     // at-grade / elevated / bridge exist in the catalogue. Viaducts
-    // and water-crossing bridges share the same reference U-girder
-    // (RFC 0011 §§5–6), so their shares are reported separately but
-    // priced from the same structural envelope downstream.
+    // use the decked pi-beam by default; water-crossing bridges remain a
+    // separately priced and engineered class (RFC 0011 §§5–6).
     let mut at_grade = 0.0_f64;
     let mut elevated = 0.0_f64;
     let mut bridge = 0.0_f64;
-    let mut u25_m = 0.0_f64;
+    let mut pi_m = 0.0_f64;
     let mut segmental_m = 0.0_f64;
     let mut special_m = 0.0_f64;
     let mut realign_m = 0.0_f64;
@@ -1898,8 +1911,10 @@ fn write_quality_yaml(
             max_elevated_cost_multiplier =
                 max_elevated_cost_multiplier.max(s.elevated_cost_multiplier);
             match s.viaduct_product {
-                Some(ElevatedViaductProduct::FullSpanU25) => u25_m += s.length_m,
-                Some(ElevatedViaductProduct::ClosureU20) => u25_m += s.length_m,
+                Some(ElevatedViaductProduct::DeckedPi25) => pi_m += s.length_m,
+                Some(ElevatedViaductProduct::DeckedPi20) => pi_m += s.length_m,
+                Some(ElevatedViaductProduct::FullSpanU25) => special_m += s.length_m,
+                Some(ElevatedViaductProduct::ClosureU20) => special_m += s.length_m,
                 Some(ElevatedViaductProduct::ProjectSpecificU30) => special_m += s.length_m,
                 Some(ElevatedViaductProduct::SegmentalUs) => segmental_m += s.length_m,
                 Some(ElevatedViaductProduct::SpecialSpan) => special_m += s.length_m,
@@ -1954,7 +1969,7 @@ fn write_quality_yaml(
     yaml.push_str(&format!("    bridge:   {bridge:.1}\n"));
     yaml.push_str(&format!("  elevated_fraction: {elevated_fraction:.3}\n"));
     yaml.push_str("  viaduct_products_m:\n");
-    yaml.push_str(&format!("    osr_u20_u25: {u25_m:.1}\n"));
+    yaml.push_str(&format!("    osr_pi20_pi25: {pi_m:.1}\n"));
     yaml.push_str(&format!("    osr_us:      {segmental_m:.1}\n"));
     yaml.push_str(&format!("    special:     {special_m:.1}\n"));
     yaml.push_str(&format!("    realign:     {realign_m:.1}\n"));
@@ -2336,7 +2351,7 @@ mod tests {
                 class: CivilClass::AtGrade,
                 from_idx: 0,
                 to_idx: 10,
-                length_m: 10_000.0, // 10 km x $3.0 M = $30.0 M
+                length_m: 10_000.0,
                 minimum_curve_radius_m: None,
                 viaduct_product: None,
                 elevated_cost_multiplier: 1.0,
@@ -2345,16 +2360,16 @@ mod tests {
                 class: CivilClass::Elevated,
                 from_idx: 10,
                 to_idx: 11,
-                length_m: 1_000.0, // 1 km x $12.0 M = $12.0 M
+                length_m: 1_000.0,
                 minimum_curve_radius_m: None,
-                viaduct_product: Some(ElevatedViaductProduct::FullSpanU25),
+                viaduct_product: Some(ElevatedViaductProduct::DeckedPi25),
                 elevated_cost_multiplier: 1.0,
             },
             CivilSegment {
                 class: CivilClass::Bridge,
                 from_idx: 11,
                 to_idx: 12,
-                length_m: 500.0, // 0.5 km x $18 M = $9.0 M
+                length_m: 500.0,
                 minimum_curve_radius_m: None,
                 viaduct_product: Some(ElevatedViaductProduct::SpecialSpan),
                 elevated_cost_multiplier: 1.0,
@@ -2374,16 +2389,21 @@ mod tests {
             },
         ];
         let c = compute_costs(&civil_per_line, &archetypes, &depots, 0, 12, "metro-6car");
-        // Civil works: USD direct-procurement floor mirrored into EUR.
-        assert!((c.at_grade_usd - 30_000_000.0).abs() < 1.0);
-        assert!((c.at_grade_eur - 27_600_000.0).abs() < 1.0);
-        assert!((c.elevated_usd - 12_000_000.0).abs() < 1.0);
-        assert!((c.elevated_eur - 11_040_000.0).abs() < 1.0);
-        assert!((c.bridge_usd - 9_000_000.0).abs() < 1.0);
-        assert!((c.bridge_eur - 8_280_000.0).abs() < 1.0);
+        // Civil works: current generated CAD-indexed rates mirrored into EUR.
+        let rates = &civil_cost_config().civil_usd_per_km;
+        let expected_at_grade = rates.at_grade * 10.0;
+        let expected_elevated = rates.elevated;
+        let expected_bridge = rates.bridge * 0.5;
+        let expected_civil = expected_at_grade + expected_elevated + expected_bridge;
+        assert!((c.at_grade_usd - expected_at_grade).abs() < 1.0);
+        assert!((c.at_grade_eur - eur_from_usd(expected_at_grade)).abs() < 1.0);
+        assert!((c.elevated_usd - expected_elevated).abs() < 1.0);
+        assert!((c.elevated_eur - eur_from_usd(expected_elevated)).abs() < 1.0);
+        assert!((c.bridge_usd - expected_bridge).abs() < 1.0);
+        assert!((c.bridge_eur - eur_from_usd(expected_bridge)).abs() < 1.0);
         assert!((c.junction_premium_eur - 0.0).abs() < 1.0);
-        assert!((c.civil_subtotal_usd - 51_000_000.0).abs() < 1.0);
-        assert!((c.civil_subtotal_eur - 46_920_000.0).abs() < 1.0);
+        assert!((c.civil_subtotal_usd - expected_civil).abs() < 1.0);
+        assert!((c.civil_subtotal_eur - eur_from_usd(expected_civil)).abs() < 1.0);
         // Stations: terminal ($4.5 M) + standard ($2.5 M) + depot-terminal ($5.0 M).
         assert!((c.stations_usd - 12_000_000.0).abs() < 1.0);
         assert!((c.stations_eur - 11_040_000.0).abs() < 1.0);
@@ -2402,13 +2422,14 @@ mod tests {
         assert!((c.signalling_eur - 529_000.0).abs() < 1.0);
         assert!((c.charging_microgrid_usd - 1_800_000.0).abs() < 1.0);
         assert!((c.charging_microgrid_eur - 1_656_000.0).abs() < 1.0);
-        // Subtotal before EPC = $93.935 M.
-        // EPC overhead = 7 % x $93.935 M = $6.57545 M.
-        assert!((c.epc_overhead_usd - 6_575_450.0).abs() < 1.0);
-        assert!((c.epc_overhead_eur - 6_049_414.0).abs() < 1.0);
-        // Total = $100.51045 M = EUR 92.469614 M.
-        assert!((c.total_usd - 100_510_450.0).abs() < 1.0);
-        assert!((c.total_eur - 92_469_614.0).abs() < 1.0);
+        let expected_pre_epc =
+            expected_civil + 12_000_000.0 + 8_400_000.0 + 20_160_000.0 + 575_000.0 + 1_800_000.0;
+        let expected_epc = expected_pre_epc * 0.07;
+        let expected_total = expected_pre_epc + expected_epc;
+        assert!((c.epc_overhead_usd - expected_epc).abs() < 1.0);
+        assert!((c.epc_overhead_eur - eur_from_usd(expected_epc)).abs() < 1.0);
+        assert!((c.total_usd - expected_total).abs() < 1.0);
+        assert!((c.total_eur - eur_from_usd(expected_total)).abs() < 1.0);
     }
 
     #[test]
@@ -2423,7 +2444,8 @@ mod tests {
             elevated_cost_multiplier: 2.0,
         }]];
         let costs = compute_costs(&civil_per_line, &[], &[], 0, 0, "light-metro-3car");
-        assert!((costs.elevated_usd - 24_000_000.0).abs() < 1.0);
+        let expected = civil_cost_config().civil_usd_per_km.elevated * 2.0;
+        assert!((costs.elevated_usd - expected).abs() < 1.0);
     }
 
     #[test]

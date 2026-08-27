@@ -35,7 +35,8 @@ def test_integration_manifest_contains_every_requested_system() -> None:
         "05 Rolling stock",
     }
     assert any("turnout" in component.source for component in components)
-    assert sum("25 m U-girder" in component.label for component in components) == 12
+    assert sum("OSR-Pi25 decked beam" in component.label for component in components) == 12
+    assert sum("modular outer evacuation walkway" in component.label for component in components) == 12
     assert sum("Shared double-track pier" in component.label for component in components) == 9
     assert sum("standard solar canopy" in component.label for component in components) == 4
     assert sum("rolling_stock.trainset" in component.source for component in components) == 2
@@ -93,13 +94,13 @@ def test_complete_trainset_roof_equipment_fits_controlled_vertical_envelope() ->
 def test_digital_twin_manifest_has_unique_assets_states_and_relationships() -> None:
     components = integration_components()
     ids = [asset_id_for_component(component) for component in components]
-    assert len(ids) == len(set(ids)) == 82
+    assert len(ids) == len(set(ids)) == 95
 
     manifest = digital_twin_manifest()
     assert manifest["schema"] == "org.opensourcerail.civil-rolling-stock-twin.v1"
     assert len(manifest["zones"]) == len(ZONE_ASSET_IDS) == 5
-    assert len(manifest["assets"]) == 82
-    assert len(manifest["relationships"]) == 86
+    assert len(manifest["assets"]) == 95
+    assert len(manifest["relationships"]) == 99
 
     assets = {asset["asset_id"]: asset for asset in manifest["assets"]}
     assert assets["OSR-LM3-TEST-001"]["state"]["mode"] == "stationary-dwell-charging"

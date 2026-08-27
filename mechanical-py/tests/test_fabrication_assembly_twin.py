@@ -17,8 +17,12 @@ from osr_mech.fabrication_assembly_twin import (
 def test_twin_covers_all_four_product_streams_and_controlled_routes() -> None:
     streams = fabrication_streams()
     assert [stream.id for stream in streams] == ["track", "station", "viaduct", "train"]
-    assert [len(stream.stages) for stream in streams] == [5, 5, 6, 7]
-    assert sum(len(stream.stages) for stream in streams) == 23
+    assert [len(stream.stages) for stream in streams] == [5, 5, 8, 7]
+    assert sum(len(stream.stages) for stream in streams) == 25
+    viaduct = next(stream for stream in streams if stream.id == "viaduct")
+    assert "Pi25" in viaduct.exemplar
+    assert any(stage.id == "VIA-05" for stage in viaduct.stages)
+    assert any(stage.id == "VIA-55" for stage in viaduct.stages)
 
 
 def test_every_stage_has_dependency_quality_evidence_and_sources() -> None:
@@ -57,4 +61,3 @@ def test_manifest_writer_round_trips_machine_readable_register(tmp_path) -> None
     written = json.loads(target.read_text())
     assert written["passed"] is True
     assert len(written["streams"]) == 4
-

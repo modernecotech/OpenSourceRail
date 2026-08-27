@@ -3,7 +3,7 @@
 **Country:** MM · **Population:** 5,200,000
 
 > [!IMPORTANT]
-> **Foreign-capital advantage:** against the default equivalent foreign-turnkey case, this OSR plan avoids **$7.15 bn (85.4%) of external capital** and **$9.24 bn of external interest**. Capital plus saved interest totals **$16.40 bn over the 40-year financing life**. Both cases use the same 4.5% external rate and financing schedule; the turnkey external requirement is assumed debt-financed, and the benchmark remains an editable sensitivity, not a vendor quote.
+> **Foreign-capital advantage:** against the default equivalent foreign-turnkey case, this OSR plan avoids **$6.73 bn (85.0%) of external capital** and **$8.69 bn of external interest**. Capital plus saved interest totals **$15.42 bn over the 40-year financing life**. Both cases use the same 4.5% external rate and financing schedule; the turnkey external requirement is assumed debt-financed, and the benchmark remains an editable sensitivity, not a vendor quote.
 
 Auto-planned by the OpenSourceRail design pipeline: [`osr_geo`](../../../../design-py/src/osr_geo/) rasterises Overpass-verified OpenStreetMap features (arterial road graph, buildings, water, protected land, demand-anchor POIs) onto a 20 m cost / demand / buildability grid; [`osr-design`](../../../../crates/osr-design/) (rust) runs a demand-rewarded Dijkstra on that grid to synthesise corridors, places stations against the demand surface, and classifies every segment (at-grade / elevated / bridge — no tunnels per [RFC 0011](../../../../docs/rfcs/0011-civil-infrastructure-design-standard.md)). Population, country, and bbox are read from the canonical city catalog at [`lib/city-batches/world-sample.toml`](../../../../lib/city-batches/world-sample.toml).
 
@@ -149,12 +149,14 @@ Base figures come from the `[costs]` block in `design.toml` — emitted by the `
 
 ### Civil works
 
+Rates are **design-derived planning targets**, generated from the parametric CAD quantity model and the reviewed benchmark calibration in `lib/templates/civil-cost-calibration.toml`. They are not quotations; foundation-zone schedules and normalized supplier offers remain release gates.
+
 | Bucket | Value |
 |---|---|
-| At-grade (381.1 km @ $3.0 M/km) | $1.14 bn |
-| Elevated (37.0 km @ $12.0 M/km) | $444 M |
+| At-grade (381.1 km @ $2.58 M/km) | $985 M |
+| Elevated (37.0 km @ $9.75 M/km) | $361 M |
 | Elevated-interchange premium (18 sites @ $4.50 M) | $81 M |
-| **Civil subtotal** | **$1.67 bn** |
+| **Civil subtotal** | **$1.43 bn** |
 
 ### Stations
 
@@ -233,38 +235,38 @@ Station/depot PV is counted in the charging microgrid and depot asset lines. Whe
 |---|---|---|
 | Residual signalling / train-control wayside (onboard ATP/ATO + T-OBS carries the function; W-Nodes, balises, LoRa gateways, OCC interfaces remain) | 418.1 km × $0.050 M/km | $21 M |
 | Station/depot charging microgrids (conductive charger, switchgear, inverter interface, local PV/battery tie-in; no continuous wayside supply) | per-stop allowance by station archetype | $54 M |
-| EPC integration + project management (7%) | on subtotal | $250 M |
+| EPC integration + project management (7%) | on subtotal | $233 M |
 
 ### Total
 
 | Bucket | Value |
 |---|---|
-| Civil works | $1.67 bn |
+| Civil works | $1.43 bn |
 | Stations | $713 M |
 | Depots | $8.0 M |
 | Rolling stock | $1.11 bn |
 | Shared national railway production plant (outside city CAPEX) | $0 k |
 | Dedicated solar power plant | $832 M |
 | Residual train-control wayside + charging microgrids | $75 M |
-| EPC overhead (7%) | $250 M |
-| **CAPEX total** | **$4.66 bn** |
+| EPC overhead (7%) | $233 M |
+| **CAPEX total** | **$4.40 bn** |
 | Per-route-km | $11 M / km |
-| Per-capita (city pop) | $895 / person |
+| Per-capita (city pop) | $846 / person |
 
 
 ### Procurement origin and foreign-capital exposure
 
 | Bucket | Total | Imported share | Imported / external capital | Local content / local funding |
 |---|---:|---:|---:|---:|
-| Civil works | $1.67 bn | 15% | $250 M | $1.42 bn |
+| Civil works | $1.43 bn | 15% | $214 M | $1.21 bn |
 | Stations | $713 M | 20% | $143 M | $570 M |
 | Depots | $8.0 M | 25% | $2.0 M | $6.0 M |
 | Rolling stock | $1.11 bn | 35% | $389 M | $722 M |
 | Dedicated solar plant | $832 M | 45% | $374 M | $457 M |
 | Residual signalling / train control | $21 M | 50% | $10 M | $10 M |
 | Charging microgrids | $54 M | 40% | $22 M | $32 M |
-| EPC / project services | $250 M | 15% | $38 M | $213 M |
-| **Total city CAPEX** | **$4.66 bn** | **26.4%** | **$1.23 bn** | **$3.43 bn** |
+| EPC / project services | $233 M | 15% | $35 M | $198 M |
+| **Total city CAPEX** | **$4.40 bn** | **27.0%** | **$1.19 bn** | **$3.21 bn** |
 
 ## Construction QA system
 
@@ -298,10 +300,10 @@ The localization-first import percentage is calculated bucket by bucket from the
 
 | Capital boundary | Share of city CAPEX | Total requirement | Annual draw during construction |
 |---|---:|---:|---:|
-| **External capital for imported components / machinery** | **26.4%** | **$1.23 bn** | **$123 M / yr** |
-| **Local capital for domestic procurement / payroll** | **73.6%** | **$3.43 bn** | **$343 M / yr** |
-| of which planned local bond issuance | 58.9% of total CAPEX | $2.74 bn | $274 M / yr |
-| **Total city programme** | **100.0%** | **$4.66 bn** | **$466 M / yr** |
+| **External capital for imported components / machinery** | **27.0%** | **$1.19 bn** | **$119 M / yr** |
+| **Local capital for domestic procurement / payroll** | **73.0%** | **$3.21 bn** | **$321 M / yr** |
+| of which planned local bond issuance | 58.4% of total CAPEX | $2.57 bn | $257 M / yr |
+| **Total city programme** | **100.0%** | **$4.40 bn** | **$440 M / yr** |
 
 ### Foreign-company turnkey comparison
 
@@ -309,11 +311,11 @@ This is an editable like-for-like sensitivity, not a vendor quotation. It multip
 
 | Foreign-turnkey case | Cost multiplier vs OSR | Foreign-company external capital | OSR external capital saved | External interest saved over financing life | Capital + interest saved |
 |---|---:|---:|---:|---:|---:|
-| Low | 1.50× | $6.29 bn | $5.06 bn (80.5%) | $6.53 bn | **$11.59 bn** |
-| **Default** | 2.00× | $8.38 bn | $7.15 bn (85.4%) | $9.24 bn | **$16.40 bn** |
-| High | 3.00× | $12.57 bn | $11.34 bn (90.2%) | $14.65 bn | **$26.00 bn** |
+| Low | 1.50× | $5.94 bn | $4.75 bn (80.0%) | $6.13 bn | **$10.88 bn** |
+| **Default** | 2.00× | $7.92 bn | $6.73 bn (85.0%) | $8.69 bn | **$15.42 bn** |
+| High | 3.00× | $11.87 bn | $10.68 bn (90.0%) | $13.80 bn | **$24.49 bn** |
 
-At the default 2.00× case, OSR's $1.23 bn external requirement is 85.4% below the illustrative foreign-company requirement of $8.38 bn; the associated lifetime external-interest saving is $9.24 bn, and total project CAPEX is 50.0% lower. Replace both variables with normalized bids before an investment decision.
+At the default 2.00× case, OSR's $1.19 bn external requirement is 85.0% below the illustrative foreign-company requirement of $7.92 bn; the associated lifetime external-interest saving is $8.69 bn, and total project CAPEX is 50.0% lower. Replace both variables with normalized bids before an investment decision.
 
 ### Government commitment summary (budgetable)
 
@@ -321,26 +323,26 @@ Bottom line for next year's budget submission. Construction phase runs **years 1
 
 | Phase | Annual gov / municipal commitment | Per resident / yr |
 |---|---|---|
-| Construction (years 1–10) | **$480 M / yr** | $92 |
-| Steady-state, low capacity-use (year 11+) | **$401 M / yr** | $77 |
-| Steady-state, high capacity-use (year 11+) | **$314 M / yr** | $60 |
-| Steady-state, operating-neutral revenue case | **$441 M / yr** | $85 |
-| Lifecycle envelope (yr 1–40, low scenario) | **$16.82 bn cumulative** | $3,235 |
-| Lifecycle envelope (yr 1–40, high scenario) | **$14.23 bn cumulative** | $2,737 |
-| Lifecycle envelope (yr 1–40, operating-neutral after opening) | **$18.04 bn cumulative** | $3,470 |
+| Construction (years 1–10) | **$451 M / yr** | $87 |
+| Steady-state, low capacity-use (year 11+) | **$370 M / yr** | $71 |
+| Steady-state, high capacity-use (year 11+) | **$283 M / yr** | $55 |
+| Steady-state, operating-neutral revenue case | **$415 M / yr** | $80 |
+| Lifecycle envelope (yr 1–40, low scenario) | **$15.61 bn cumulative** | $3,002 |
+| Lifecycle envelope (yr 1–40, high scenario) | **$13.02 bn cumulative** | $2,504 |
+| Lifecycle envelope (yr 1–40, operating-neutral after opening) | **$16.98 bn cumulative** | $3,265 |
 
-_Population basis: 5,200,000 (city population per `lib/city-batches/world-sample.toml`). After year 40, debt service drops to zero; steady-state commitments below are net of any operating surplus applied to repayable-debt support. The operating-neutral case already covers steady-state OPEX from fares, station shops, and advertising. Low/high residual OPEX shortfall before debt is $0 k / yr → $0 k / yr; surplus applied to debt support is $41 M / yr → $127 M / yr._
+_Population basis: 5,200,000 (city population per `lib/city-batches/world-sample.toml`). After year 40, debt service drops to zero; steady-state commitments below are net of any operating surplus applied to repayable-debt support. The operating-neutral case already covers steady-state OPEX from fares, station shops, and advertising. Low/high residual OPEX shortfall before debt is $0 k / yr → $0 k / yr; surplus applied to debt support is $46 M / yr → $132 M / yr._
 
 ### CAPEX funding sources
 
 | Tranche | Share | Principal | Rate | Tenor | Annual debt service (post-grace) |
 |---|---|---|---|---|---|
-| External climate/MDB debt for imported content (unconfirmed) | 26% | $1.23 bn | 4.5% | 40 y, 10 y grace | $75 M / yr |
-| Local-currency sovereign / project bonds for local content | 59% | $2.74 bn | 13.0% | 40 y, 10 y grace | $366 M / yr |
-| Local government equity / other domestic funding (no debt service) | 15% | $686 M | — | — | — |
-| **Total** | **100%** | **$4.66 bn** | | | **$441 M / yr** |
+| External climate/MDB debt for imported content (unconfirmed) | 27% | $1.19 bn | 4.5% | 40 y, 10 y grace | $73 M / yr |
+| Local-currency sovereign / project bonds for local content | 58% | $2.57 bn | 13.0% | 40 y, 10 y grace | $342 M / yr |
+| Local government equity / other domestic funding (no debt service) | 15% | $642 M | — | — | — |
+| **Total** | **100%** | **$4.40 bn** | | | **$415 M / yr** |
 
-_During the 10-year grace period the public sponsor pays interest only on repayable debt — external import-finance debt $55 M / yr + local bonds $357 M / yr = **$412 M / yr** total. The base case assumes no climate-development grant. Local public equity is drawn across construction ($69 M / yr × 10 yr). Principal repayment begins in year 11 on a 30-year amortisation schedule._
+_During the 10-year grace period the public sponsor pays interest only on repayable debt — external import-finance debt $53 M / yr + local bonds $334 M / yr = **$387 M / yr** total. The base case assumes no climate-development grant. Local public equity is drawn across construction ($64 M / yr × 10 yr). Principal repayment begins in year 11 on a 30-year amortisation schedule._
 
 _Loan availability note: this is a finance placeholder, not a committed lender offer. Plausible providers would be a national government borrowing through an MDB or a climate fund accredited entity, such as the World Bank/IBRD, Islamic Development Bank, Climate Investment Funds, or Green Climate Fund channels. Official GCF policy allows grants and concessional loans, and World Bank/CIF material documents below-market climate finance, but this project still needs a lender mandate, eligibility screen, and signed term sheet before the 4.5% / 40-year assumption can be treated as real. Evidence anchors: [GCF financial instruments](https://www.greenclimate.fund/about/policies/financial-instruments), [GCF concessional-loan terms decision](https://www.greenclimate.fund/decision/b09-04), [World Bank concessional-finance explainer](https://www.worldbank.org/en/news/feature/2021/09/16/what-you-need-to-know-about-concessional-finance-for-climate-action), [CIF funding instruments](https://www.cif.org/cif-funding), and [IsDB GCF accreditation](https://www.greenclimate.fund/ae/isdb)._
 
@@ -349,11 +351,11 @@ _Loan availability note: this is a finance placeholder, not a committed lender o
 | Component | Basis | Annual cost |
 |---|---|---|
 | Rolling-stock maintenance | 4 % of rolling-stock CAPEX | $44 M |
-| Civil + station + depot maintenance | 2 % of fixed-asset CAPEX | $48 M |
+| Civil + station + depot maintenance | 2 % of fixed-asset CAPEX | $43 M |
 | Residual train-control wayside maintenance | 5 % of residual signalling CAPEX | $1.0 M |
 | Traction energy (1657.8 GWh / yr) | 175,233 scheduled train-km/day × 365 d/yr × 108% depot/deadhead factor; 6 cars × 4.0 kWh/car-km; on-site PV 73.9 GWh/yr + dedicated solar plant 1039.7 MW / 1821.5 GWh/yr (100% coverage); residual grid/PPA top-up 0.0 GWh/yr @ $0.10/kWh; solar plant O&M 1.5%/yr | $12 M |
 | Labour (1,917 FTE) | driverless roster: OCC/remote 349, station/platform 549, passenger service 231, fleet maintenance 429, infrastructure/energy 326, admin/training 33; no train drivers × country median × 12 × engineer-premium 1.4 | $4.2 M |
-| **OPEX subtotal** | | **$110 M / yr** |
+| **OPEX subtotal** | | **$105 M / yr** |
 
 _Annual service work: 175,233 scheduled train-km/day × 365 d/yr × 108% depot/deadhead factor = 69.1 M train-km / yr (414.5 M car-km / yr). On-site PV covers 73.9 GWh/yr and the dedicated solar plant adds 1821.5 GWh/yr against 1657.8 GWh/yr traction demand before residual grid/PPA top-up (0.0 GWh/yr). Driverless labour follows RFC 0015: train drivers are not counted, but OCC remote-assist, platform presence, passenger service, and fleet/energy maintenance scale with the larger service._
 
@@ -404,19 +406,19 @@ Planning revenue is capacity-led: annual paid trips are calculated from practica
 
 | | Low scenario | High scenario | Operating-neutral target |
 |---|---|---|---|
-| Practical service capacity used | 50% | 80% | 36% |
-| Annual paid trips | 415.5 M | 664.8 M | 298.1 M |
-| Annual paid trips / city resident | 80 | 128 | 57 |
-| Farebox revenue | $144 M / yr | $230 M / yr | $103 M / yr |
+| Practical service capacity used | 50% | 80% | 34% |
+| Annual paid trips | 415.5 M | 664.8 M | 284.1 M |
+| Annual paid trips / city resident | 80 | 128 | 55 |
+| Farebox revenue | $144 M / yr | $230 M / yr | $98 M / yr |
 | Station shop leases | $2.6 M / yr | $2.6 M / yr | $2.6 M / yr |
 | Advertising boards | $4.0 M / yr | $4.0 M / yr | $4.0 M / yr |
-| **Total revenue** | **$151 M / yr** | **$237 M / yr** | **$110 M / yr** |
-| Revenue / OPEX recovery | 137% | 216% | 100% |
+| **Total revenue** | **$151 M / yr** | **$237 M / yr** | **$105 M / yr** |
+| Revenue / OPEX recovery | 143% | 226% | 100% |
 | Country farebox-only policy target (diagnostic) | 40% | 40% | 40% |
-| Gross repayable-debt service + residual OPEX subsidy | $441 M / yr | $441 M / yr | **$441 M / yr** |
-| Operating surplus applied to debt support | -$41 M / yr | -$127 M / yr | **$0 k / yr** |
-| **Net gov repayable-debt support + residual OPEX subsidy** | $401 M / yr | $314 M / yr | **$441 M / yr** |
-| Operating surplus after OPEX (before debt support) | $41 M / yr | $127 M / yr | $0 / yr |
+| Gross repayable-debt service + residual OPEX subsidy | $415 M / yr | $415 M / yr | **$415 M / yr** |
+| Operating surplus applied to debt support | -$46 M / yr | -$132 M / yr | **$0 k / yr** |
+| **Net gov repayable-debt support + residual OPEX subsidy** | $370 M / yr | $283 M / yr | **$415 M / yr** |
+| Operating surplus after OPEX (before debt support) | $46 M / yr | $132 M / yr | $0 / yr |
 
 _Commercial-revenue assumptions: 23,296 m² of station shop/kiosk leases at $10/m²/month and 4,328 advertising boards at $91/board/month, with occupancy derates applied._
 
@@ -451,10 +453,10 @@ This is a broad-benefit screen, not a bankable benefit-cost analysis. The rows q
 
 | Channel | Value | Basis |
 |---|---:|---|
-| CAPEX retained in local procurement / payroll | $3.43 bn | 74% of $4.66 bn CAPEX using bucket local-content shares |
-| Construction-phase local economic activity | $5.49 bn | retained CAPEX × 1.6 local supplier / wage multiplier |
-| Annualised during construction | $549 M / yr | spread across 10 construction / grace years |
-| Construction employment supported | 549,519 job-years | retained CAPEX ÷ (4.0 × median annual income) |
+| CAPEX retained in local procurement / payroll | $3.21 bn | 73% of $4.40 bn CAPEX using bucket local-content shares |
+| Construction-phase local economic activity | $5.13 bn | retained CAPEX × 1.6 local supplier / wage multiplier |
+| Annualised during construction | $513 M / yr | spread across 10 construction / grace years |
+| Construction employment supported | 514,265 job-years | retained CAPEX ÷ (4.0 × median annual income) |
 | Annual paid-trip capacity used in revenue model | 415.5 M - 664.8 M trips/yr | 50%-80% of practical service capacity |
 
 _Interpretation: the strongest fiscal result remains the farebox + commercial revenue table above. The broader rows here capture welfare, access, avoided external costs, and local supplier circulation that usually matter to a finance ministry, city authority, or development bank even when they do not appear as railway revenue._
@@ -465,18 +467,18 @@ The machine-readable finance check reconciles the design-base CAPEX with the sce
 
 | Check | Result |
 |---|---:|
-| Authoritative design-base CAPEX | $3.82 bn |
+| Authoritative design-base CAPEX | $3.57 bn |
 | Timetable-sized dedicated solar CAPEX | $832 M |
-| **Reconciled project CAPEX** | **$4.66 bn** |
-| Imported / external-capital requirement | $1.23 bn (26.4%) |
-| Local-content / local-funding requirement | $3.43 bn (73.6%) |
-| Default foreign-turnkey external-capital comparison | $8.38 bn; OSR saves $7.15 bn (85.4%) |
-| Lifetime external interest and combined financing saving | $9.24 bn interest; $16.40 bn capital + interest |
-| 15%–25% planning risk envelope | $5.35 bn–$5.82 bn |
-| Annual OPEX | $110 M / yr |
-| Low/high project NPV at 8% | $-2912168 k / $-2461521 k |
-| Low/high project IRR | -5.9% / -1.0% |
-| Low/high steady-state DSCR | 0.09 / 0.29 |
+| **Reconciled project CAPEX** | **$4.40 bn** |
+| Imported / external-capital requirement | $1.19 bn (27.0%) |
+| Local-content / local-funding requirement | $3.21 bn (73.0%) |
+| Default foreign-turnkey external-capital comparison | $7.92 bn; OSR saves $6.73 bn (85.0%) |
+| Lifetime external interest and combined financing saving | $8.69 bn interest; $15.42 bn capital + interest |
+| 15%–25% planning risk envelope | $5.06 bn–$5.50 bn |
+| Annual OPEX | $105 M / yr |
+| Low/high project NPV at 8% | $-2713277 k / $-2262631 k |
+| Low/high project IRR | -5.2% / -0.5% |
+| Low/high steady-state DSCR | 0.11 / 0.32 |
 
 Evidence and limitations: [`engineering/finance/summary.json`](engineering/finance/summary.json).
 

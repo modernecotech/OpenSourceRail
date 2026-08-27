@@ -1,0 +1,125 @@
+schema_version = 1
+status = "selection-and-interface-catalogue-not-foundation-design"
+standard_pier_interface = "common reinforced socket/cage and column-head datum"
+project_inputs_required = [
+  "geotechnical_zone",
+  "utilities_and_access",
+  "groundwater_and_aggressivity",
+  "seismic_and_liquefaction",
+  "design_actions",
+  "actual_pile_or_shaft_length_m",
+  "load_test_result",
+  "installed_unit_rate_usd",
+]
+
+[[foundation_types]]
+id = "shallow-spread"
+ground_classes = ["dense-gravel", "rock", "strong-cemented-soil"]
+access_rule = "excavation feasible"
+vibration_rule = "unrestricted"
+interface = "precast-column socket in cast-in-place spread footing"
+interface_width_m = 5.0
+interface_length_m = 3.0
+interface_depth_m = 1.2
+deep_element_count = 0
+project_length_required = false
+cost_basis = "actual concrete, reinforcement, excavation, treatment and installed local rates"
+
+[[foundation_types]]
+id = "bored-shaft"
+ground_classes = ["urban-alluvium", "vibration-restricted"]
+access_rule = "shaft rig access and spoil route required"
+vibration_rule = "preferred where driven piling is restricted"
+interface = "integral bored shaft continuing into common pier cage"
+interface_width_m = 2.2
+interface_length_m = 2.2
+interface_depth_m = 0.5
+deep_element_count = 1
+project_length_required = true
+cost_basis = "actual shaft diameter/length, spoil, support fluid, concrete, reinforcement, testing and installed rate"
+
+[[foundation_types]]
+id = "driven-pile-bent"
+ground_classes = ["uniform-soft-ground"]
+access_rule = "clear piling and delivery access required"
+vibration_rule = "not selected where vibration is restricted"
+interface = "two or four driven prestressed piles connected directly into the precast pier cap"
+interface_width_m = 2.5
+interface_length_m = 7.0
+interface_depth_m = 0.25
+deep_element_count = 4
+deep_element_width_m = 0.45
+project_length_required = true
+cost_basis = "actual pile count/length, driving time, shoes/splices, cap socket, testing and installed rate"
+
+[[foundation_types]]
+id = "pile-group"
+ground_classes = ["weak-liquefiable", "high-lateral-load"]
+access_rule = "project-specific rig and temporary works"
+vibration_rule = "bored or driven element selected by project constraints"
+interface = "project-specific pile group with thin precast/permanent-form cap shell"
+interface_width_m = 5.0
+interface_length_m = 4.5
+interface_depth_m = 0.9
+deep_element_count = 6
+deep_element_diameter_m = 0.60
+project_length_required = true
+cost_basis = "actual pile type/count/length, cap, reinforcement, testing, temporary works and installed rate"
+
+[[foundation_types]]
+id = "reinforced-soil-abutment"
+ground_classes = ["viaduct-end", "low-embankment"]
+access_rule = "validated reinforced fill source and staged access"
+vibration_rule = "unrestricted"
+interface = "reinforced-soil abutment with common bearing-seat transition"
+interface_width_m = 8.5
+interface_length_m = 5.0
+interface_depth_m = 0.6
+deep_element_count = 0
+project_length_required = false
+cost_basis = "actual reinforced fill, facing, bearing seat, drainage, ground treatment and installed rates"
+
+[release_gates]
+utilities_and_geotechnical_zoning_required = true
+representative_load_test_per_zone_required = true
+foundation_test_required = true
+actual_length_and_cost_per_support_required = true
+foundations_ahead_of_erection_bays_min = 10
+foundations_ahead_of_erection_bays_target = 15
+ground_improvement_trial_area_required = true
+settlement_and_cyclic_response_required = true
+
+[[ground_improvement_types]]
+id = "rigid-inclusion-platform"
+ground_classes = ["uniform-soft-ground", "compressible-alluvium"]
+interface = "rigid inclusions or controlled-modulus columns beneath a geogrid load-transfer platform"
+design_measurement = "actual treated area, column diameter, spacing, length, platform thickness, testing and installed rate"
+exclusions = ["unresolved lateral spreading", "unacceptable cyclic deformation"]
+
+[[ground_improvement_types]]
+id = "deep-soil-mixing"
+ground_classes = ["uniform-soft-ground", "compressible-alluvium", "very-soft-clay", "organic-soft-soil"]
+interface = "wet or dry mixed columns/panels using in-situ soil beneath formation or embankment"
+design_measurement = "actual treated volume, binder dosage, column geometry, strength verification and installed rate"
+exclusions = ["chemically incompatible soil", "uncontrolled obstructions"]
+
+[[ground_improvement_types]]
+id = "stone-columns"
+ground_classes = ["loose-granular", "soft-granular"]
+interface = "vibro-replacement columns beneath a drained load-transfer layer"
+design_measurement = "actual treated area, replacement ratio, depth, aggregate, verification and installed rate"
+exclusions = ["strict differential-settlement limit without demonstrated compliance", "vibration restriction"]
+
+[[ground_improvement_types]]
+id = "lightweight-fill"
+ground_classes = ["marginal-fill", "lightweight-approach-zone"]
+interface = "project-selected lightweight fill beneath formation or reinforced-soil approach"
+design_measurement = "actual fill volume, density, buoyancy/restraint, protection and installed rate"
+exclusions = ["unresolved fire, buoyancy or durability exposure"]
+
+[[ground_improvement_types]]
+id = "lime-cement-stabilisation"
+ground_classes = ["weak-formation", "moisture-sensitive-formation"]
+interface = "in-situ lime/cement stabilised formation beneath continuous track slab"
+design_measurement = "actual treated area/depth, binder spread, moisture, strength verification and installed rate"
+exclusions = ["sulphate or environmental incompatibility"]

@@ -11,6 +11,7 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 CAPEX_PATH = REPO_ROOT / "lib/templates/capex-costs.toml"
+CIVIL_COST_MODEL_PATH = REPO_ROOT / "lib/templates/civil-cost-model.toml"
 COUNTRY_FINANCE_PATH = REPO_ROOT / "lib/templates/country-finance.toml"
 ECONOMIC_BENEFITS_PATH = REPO_ROOT / "lib/templates/economic-benefits.toml"
 BOM_SOURCE = REPO_ROOT / "docs/rolling-stock/light-metro-3car/bom-skeleton.md"
@@ -98,6 +99,7 @@ def _bom_totals(assembly_fraction: float) -> dict[str, int]:
 
 def render_cost_model() -> str:
     capex = _load_toml(CAPEX_PATH)
+    civil_cost_model = _load_toml(CIVIL_COST_MODEL_PATH)
     trainset_build_cost = _load_json(TRAINSET_BUILD_COST_PATH)
     factory_plan = _load_json(FACTORY_PLAN_PATH)
     country_finance = _load_toml(COUNTRY_FINANCE_PATH)
@@ -330,12 +332,15 @@ def render_cost_model() -> str:
         "",
         "| Civil class | Unit cost | Included scope |",
         "|---|---:|---|",
-        f"| At-grade | {_money_short(capex['civil_usd_per_km']['at_grade'])} / route-km | UIC60 rail, ballastless slab/embedded trackform, direct-fixation fasteners, drainage, cable troughs, local installation |",
-        f"| Elevated | {_money_short(capex['civil_usd_per_km']['elevated'])} / route-km | Repeatable precast guideway spans, piers, foundations, bearings, parapets, deck slab/trackform, erection |",
-        f"| Bridge | {_money_short(capex['civil_usd_per_km']['bridge'])} / route-km | Longer-span/water-crossing version of the elevated stack with heavier foundation and protection allowance |",
+        f"| At-grade | {_money_short(civil_cost_model['civil_usd_per_km']['at_grade'])} / route-km | UIC60 rail, slipformed ballastless trackform, direct-fixation fasteners, drainage, cable troughs, local installation |",
+        f"| Elevated | {_money_short(civil_cost_model['civil_usd_per_km']['elevated'])} / route-km | Decked pi-beams in semi-continuous units, piers, zone-selected foundations, fewer bearings/joints, trackform and erection |",
+        f"| Bridge | {_money_short(civil_cost_model['civil_usd_per_km']['bridge'])} / route-km | Longer-span/water-crossing system; benchmark retained pending bridge-specific redesign and foundation schedule |",
         f"| Elevated-interchange premium | {_money_short(capex['junctions']['elevated_interchange_premium_usd'])} / site | Added stacked-platform and approach complexity where an interchange must grade-separate |",
         "",
-        "These values are intentionally below turnkey metro-bid benchmarks because "
+        "These are design-derived planning targets, not supplier quotations. The "
+        "generated civil cost contract indexes the retained $3.0 M / $12.0 M / "
+        "$18.0 M benchmark against CAD quantities; bridge remains unchanged. Values "
+        "are also below turnkey metro-bid benchmarks because "
         "OSR excludes tunnels, overhead catenary, proprietary signalling civil "
         "plant, bespoke station architecture, and contractor-led EPC margin.",
         "",
