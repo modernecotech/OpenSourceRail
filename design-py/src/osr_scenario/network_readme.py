@@ -1,21 +1,18 @@
-"""Generate a per-network README.md for any city design.
+"""Generate a concise, location-specific README.md for any city design.
 
 Consumes a `design.toml` + the expanded `scenario.toml` produced by
 `osr_scenario` (so the sized PV / battery / fleet numbers are already
-resolved) and writes a human-readable summary with:
+resolved) and writes a local decision summary with:
 
-- Network map reference (screenshots produced by
-  `osr_scenario.render_map`)
-- At-a-glance stats (lines, stations, coverage, transfer
-  reachability, route-km, fleet, headway)
-- Per-line table (length, stations, trainsets, termini)
-- Rolling-stock spec
-- Ridership capacity (peak pphpd, network throughput, daily
-  theoretical, practical estimate)
-- Catchment population
-- Energy infrastructure (PV + battery per tier, totals)
-- Cost estimate from the canonical CAPEX table
-- File map + reproducibility command
+- network, line, fleet, capacity and catchment results;
+- local energy, civil CAPEX and funding results;
+- passing evidence links; and
+- the local regeneration command.
+
+Shared routing, service, energy, cost, finance, QA and assurance explanations
+live once in `docs/deployment-planning-reference.md`. The optional detailed
+renderer remains available for ad-hoc analysis but is not committed into city
+folders.
 
 Usage:
     python -m osr_scenario.network_readme \\
@@ -1944,8 +1941,9 @@ def render_readme(
     scenario_path: Path,
     *,
     screenshot_slug: str | None = None,
+    detailed: bool = False,
 ) -> str:
-    """Return the README text for this network."""
+    """Return a concise local README, or the legacy detailed report on request."""
     design = _load(design_path)
     scenario = _load(scenario_path)
     # Surface anchor-weighted coverage from the `osr-design`-emitted
@@ -2073,6 +2071,211 @@ def render_readme(
             f"| {tier.title()} | {len(sites)} | "
             f"{pv_each:.0f} kW | {batt_each:.0f} kWh |"
         )
+
+    if not detailed:
+        # Reuse the detailed finaliser as a fail-closed evidence validator, but
+        # keep its explanatory output on the canonical common reference page.
+        _finalise_readme(
+            [], design_path, scenario_path, stats, screenshot_slug, rel
+        )
+
+        total_fleet = (
+            stats.revenue_fleet
+            + stats.service_rotation_fleet
+            + stats.spare_fleet
+            + stats.reserve_fleet
+        )
+        coverage = f"{stats.coverage:.1%}" if stats.coverage > 0 else "unavailable"
+        catchment_text = f"{catchment:,}" if catchment is not None else "unavailable"
+        common_reference = rel("docs/deployment-planning-reference.md")
+        national_brief = "../NATIONAL-BRIEF.md"
+        quality_file = f"{screenshot_slug}.design-quality.yaml"
+        operations_manifest = (
+            design_path.parent
+            / "operations"
+            / f"{screenshot_slug}-operations-manifest.json"
+        )
+
+        finance_path = design_path.parent / "engineering/finance/summary.json"
+        finance = json.loads(finance_path.read_text()) if finance_path.is_file() else {}
+        simulation_path = (
+            design_path.parent / "engineering/simulation/validation-summary.json"
+        )
+        simulation = (
+            json.loads(simulation_path.read_text()) if simulation_path.is_file() else {}
+        )
+        engineering = {}
+        for package in ("sumo", "gis", "energy"):
+            path = design_path.parent / "engineering" / package / "summary.json"
+            engineering[package] = json.loads(path.read_text()) if path.is_file() else {}
+        operations = (
+            json.loads(operations_manifest.read_text())
+            if operations_manifest.is_file()
+            else {}
+        )
+
+        worst_gap = max(charging_audit, key=lambda row: row["worst_gap_kwh"])
+        lowest_margin = min(charging_audit, key=lambda row: row["net_margin_kwh"])
+        capital_labels = {
+            "civil": "Civil works",
+            "stations": "Stations",
+            "depots": "Depots",
+            "rolling_stock": "Rolling stock",
+            "solar_plant": "Dedicated solar plant",
+            "signalling": "Residual train control",
+            "charging_microgrid": "Charging microgrids",
+            "epc_overhead": "EPC / project services",
+        }
+
+        out: list[str] = [
+            f"# {stats.city_name} — Urban Rail Network",
+            "",
+            f"**Country:** {stats.country_iso} · **Population:** {stats.population:,} · "
+            f"[National brief]({national_brief})",
+            "",
+            f"This page contains only {stats.city_name}-specific results. Shared routing, "
+            f"service, energy, civil, cost, finance, QA and validation methods are defined "
+            f"once in the [deployment planning reference]({common_reference}).",
+            "",
+            "> [!IMPORTANT]",
+            f"> **Foreign-capital advantage:** against the default equivalent "
+            f"foreign-turnkey sensitivity, this local "
+            f"plan avoids **{_fmt_usd(headline_turnkey.external_capital_avoided_usd)} "
+            f"({headline_turnkey.external_capital_reduction:.1%}) of external capital** "
+            f"and **{_fmt_usd(headline_turnkey.external_interest_avoided_usd)} of external "
+            f"interest**. Capital plus saved interest totals "
+            f"**{_fmt_usd(headline_turnkey.lifetime_external_financing_avoided_usd)}**. "
+            f"See the common reference for interpretation and limitations.",
+            "",
+            "Auto-planned by the OpenSourceRail design pipeline from the controlled city "
+            "catalogue, source-locked geospatial inputs and shared templates.",
+            "",
+            "## Network",
+            "",
+            f"![{stats.city_name} rail network on OpenStreetMap]"
+            f"({screenshot_slug}-network-map.png)",
+            "",
+            "| Local measure | Value |",
+            "|---|---:|",
+            f"| Lines / unique stations / interchanges | {stats.line_count} / "
+            f"{stats.unique_station_count} / {stats.interchange_count} |",
+            f"| Route length | {stats.route_km:.1f} km double track |",
+            f"| Coverage / transfer reachability | {coverage} / "
+            f"{stats.transfer_reachability:.0%} |",
+            f"| Estimated station catchment | {catchment_text} residents |",
+            f"| Service span / peak headway | {stats.service_start}–{stats.service_end} / "
+            f"{stats.peak_headway_min:.0f} min |",
+            f"| Fleet | {total_fleet} × {stats.consist_cars}-car "
+            f"`{stats.consist_family}` trainsets ({stats.revenue_fleet} peak revenue) |",
+            f"| Peak network throughput | {network_peak_per_h:,.0f} passengers/hour |",
+            f"| Practical service capacity | {practical_daily_capacity:,} passenger-trips/day |",
+            f"| Annual paid-trip planning range | {annual_paid_low / 1e6:.1f}–"
+            f"{annual_paid_high / 1e6:.1f} M |",
+            "",
+            "### Lines",
+            "",
+            "| Line | Length | Stations | Trainsets | Termini |",
+            "|---|---:|---:|---:|---|",
+            *line_rows,
+            f"| **Total** | **{stats.route_km:.1f} km** | "
+            f"**{stats.unique_station_count} unique** | **{total_fleet}** | |",
+            "",
+            "## Energy",
+            "",
+            "| Local measure | Value |",
+            "|---|---:|",
+            f"| Scheduled service | {energy_plan.scheduled_daily_train_journeys:,.0f} "
+            f"one-way journeys / {energy_plan.scheduled_daily_train_km:,.0f} train-km/day |",
+            f"| Annual traction demand | {energy_plan.annual_energy_kwh / 1e6:,.1f} GWh |",
+            f"| Station/depot PV / storage | {stats.total_pv_kw / 1000:,.1f} MW / "
+            f"{stats.total_battery_kwh / 1000:,.1f} MWh |",
+            f"| Aggregate charging power | {stats.total_charging_kw / 1000:,.1f} MW |",
+            f"| Dedicated solar plant | {energy_plan.solar_plant_kw / 1000:,.1f} MW |",
+            f"| Residual grid/PPA import | {energy_plan.residual_grid_import_kwh / 1e6:,.1f} GWh/yr |",
+            f"| Worst powered-stop gap | {worst_gap['line_id']}: "
+            f"{worst_gap['worst_gap_km']:.1f} km / {worst_gap['worst_gap_kwh']:,.0f} kWh |",
+            f"| Lowest traversal charging margin | {lowest_margin['line_id']}: "
+            f"{lowest_margin['net_margin_kwh']:,.0f} kWh |",
+            "",
+            "## Capital And Funding",
+            "",
+            "| Local CAPEX bucket | Planning value |",
+            "|---|---:|",
+        ]
+        out.extend(
+            f"| {capital_labels.get(bucket.name, bucket.name)} | "
+            f"{_fmt_usd(bucket.total_usd)} |"
+            for bucket in headline_capital.buckets
+        )
+        out.extend(
+            [
+                f"| **Total city programme** | **{_fmt_usd(headline_capital.total_usd)}** |",
+                "",
+                "| Local funding measure | Planning value |",
+                "|---|---:|",
+                f"| Imported / external capital | {_fmt_usd(headline_capital.imported_usd)} "
+                f"({headline_capital.imported_share:.1%}) |",
+                f"| Domestic / local capital | {_fmt_usd(headline_capital.local_usd)} "
+                f"({headline_capital.local_share:.1%}) |",
+                f"| Annual public construction commitment | "
+                f"{_fmt_usd(headline_plan.annual_public_construction_commitment_usd)} / yr "
+                f"for {headline_plan.construction_years} years |",
+                f"| Annual post-grace debt service | "
+                f"{_fmt_usd(headline_plan.annual_debt_service_usd)} / yr |",
+                f"| External capital saved vs default turnkey sensitivity | "
+                f"{_fmt_usd(headline_turnkey.external_capital_avoided_usd)} |",
+                f"| Capital + lifetime external interest saved | "
+                f"{_fmt_usd(headline_turnkey.lifetime_external_financing_avoided_usd)} |",
+            ]
+        )
+        if finance:
+            out.append(
+                f"| Annual OPEX | {_fmt_usd(finance['annual_opex_usd']['total'])} / yr |"
+            )
+
+        out.extend(
+            [
+                "",
+                "## Local Evidence",
+                "",
+                "| Package | Current status | Evidence |",
+                "|---|---|---|",
+                f"| Finance | {'pass' if finance.get('passed') else 'missing/fail'} | "
+                "[`summary.json`](engineering/finance/summary.json) |",
+                f"| Native simulation + degraded cases | "
+                f"{'pass' if simulation.get('passed') else 'missing/fail'} | "
+                "[`validation-summary.json`](engineering/simulation/validation-summary.json) |",
+                f"| SUMO timetable | "
+                f"{'pass' if engineering['sumo'].get('simulation_passed') else 'missing/fail'} | "
+                "[`summary.json`](engineering/sumo/summary.json) |",
+                f"| GIS package | "
+                f"{'pass' if engineering['gis'].get('generation_passed') else 'missing/fail'} | "
+                "[`summary.json`](engineering/gis/summary.json) |",
+                f"| Grid/charging/solar | "
+                f"{'pass' if engineering['energy'].get('solver_passed') else 'missing/fail'} | "
+                "[`summary.json`](engineering/energy/summary.json) |",
+                f"| Operations, QA and maintenance | "
+                f"{operations.get('totals', {}).get('assets', 0):,} assets / "
+                f"{operations.get('totals', {}).get('maintenance_tasks', 0):,} tasks | "
+                f"[`{operations_manifest.name}`](operations/{operations_manifest.name}) |",
+                "",
+                "## Local Files And Regeneration",
+                "",
+                "| File | Local role |",
+                "|---|---|",
+                "| [`design.toml`](design.toml) | Authoritative generated city design |",
+                f"| [`{scenario_path.name}`]({scenario_path.name}) | Expanded simulator scenario |",
+                f"| [`{screenshot_slug}.corridor.geojson`]"
+                f"({screenshot_slug}.corridor.geojson) | GIS corridor and stations |",
+                f"| [`{quality_file}`]({quality_file}) | Coverage, source and civil-quality gates |",
+                "",
+                "```bash",
+                f"scripts/regenerate-city.sh {design['city']['slug']}",
+                "```",
+                "",
+            ]
+        )
+        return "\n".join(out)
 
     # -- Assemble --
     coverage_str = (

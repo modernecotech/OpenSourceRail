@@ -38,10 +38,12 @@ direct_fixation_seats_per_km = 6156
 required = ["girders", "caps", "columns", "foundations", "bearings-and-joints", "trackform", "drainage-and-egress", "casting-yard-and-moulds", "transport", "erection-plant", "utilities", "traffic-management", "special-spans", "stations", "design-and-independent-check", "testing", "contingency"]
 
 [estimate]
-current_osr_floor_usd_per_km = 12000000
-classification = "direct-procurement target only"
+active_cost_contract = "lib/templates/civil-cost-model.toml"
+benchmark_usd_per_km = 12000000
+design_target_usd_per_km = 9748000
+design_to_benchmark_ratio = 0.812344
+classification = "CAD-indexed planning target only"
 project_estimate_required = true
 contingency_required = true
-note = "Do not promote the floor to a tender or EPC estimate without site quantities, rates, risks, programme, and independently checked structural quantities."
-construction_system_saving_target_percent = [15, 30]
-saving_target_status = "unvalidated; current cost floor remains unchanged"
+note = "Do not promote the design target to a tender or EPC estimate without site quantities, rates, risks, programme, and independently checked structural quantities."
+validation_status = "active target remains unquoted pending project foundation schedule, prototypes, installation trials and supplier rates"

@@ -6,22 +6,29 @@ lower-carbon materials. It is intended to guide OSR civil and station
 standards, not to replace local structural approval, geotechnical design,
 or railway product acceptance.
 
+> **Implementation status:** The core trackform and elevated-guideway
+> recommendations in this review are incorporated into the parametric civil
+> catalogue; station-material and circular-procurement extensions remain
+> identified below. Its original 3/12/18 M USD per route-km assumptions are
+> retained as calibration benchmarks; active CAD-indexed planning targets are
+> generated in
+> [`civil-cost-model.toml`](../../lib/templates/civil-cost-model.toml).
+
 ## Executive Takeaways
 
 1. **Use ballastless urban track as the default, but keep it boring.**
-   The strongest near-term pattern is direct-fixation or precast
-   ballastless slab track with adjustable rail fasteners. This fits urban
-   corridors better than ballast, avoids tamping cycles and loose
-   aggregate, and is cleaner around crossings and platforms. The speed
-   gain comes from factory-made slab panels, repeatable plinth geometry,
-   and fast rail adjustment, not from inventing a new trackform.
+   The strongest near-term pattern is continuous slipformed or precast
+   ballastless slab track with adjustable direct-fixation rail fasteners.
+   This fits urban corridors better than ballast, avoids tamping cycles and
+   loose aggregate, and is cleaner around crossings and platforms. The speed
+   gain comes from repeatable geometry, mechanised placement and fast rail
+   adjustment, not from inventing a new trackform.
 
-2. **Split the track kit into two approved modules.**
-   Use precast slab panels on simple tangent and broad-curve sections.
-   Use cast-in-place direct-fixation plinths at stations, tight curves,
-   turnouts, depots, and awkward utility zones. This gives the programme
-   a fast factory path without forcing precast panels into places where
-   alignment tolerance or buried services make them slow.
+2. **Split the track kit into two approved production methods.**
+   Use continuous slipform on long open, machine-accessible sections. Use
+   transportable ST6 single-track panels in constrained, replaceable, utility,
+   transition and short-possession zones. Local closure pours remain available
+   where survey tolerance or interfaces make either repeated method unsuitable.
 
 3. **Make elevated guideway a factory product, not a bridge project.**
    Low-cost elevated rail depends on a short span catalogue, single-column
@@ -199,8 +206,9 @@ and erection are overlapped as separate work fronts:
 
 ### Cost Rules
 
-The $12.0M/route-km elevated planning floor should be treated as a
-repetitive-package floor, not a promise for every elevated metre. It is
+The retained $12.0M/route-km elevated benchmark, and the current
+$9.748M/route-km design-derived target, describe a repetitive package rather
+than a promise for every elevated metre. The target is
 most plausible when the alignment has:
 
 - Long runs of repeated 20-30 m spans.
@@ -372,13 +380,14 @@ not isolated experiments. OSR should build procurement around:
 
 ### Adopt Now
 
-1. **At-grade urban trackform:** ballastless direct-fixation slab at a
-   $3.0M/route-km planning floor.
+1. **At-grade urban trackform:** ballastless direct-fixation slab; the current
+   CAD-indexed target is $2.584M/route-km against the retained $3.0M benchmark.
 2. **Elevated guideway kit:** repeatable Pi20/Pi25 or special segmental guideway,
    single-column piers, standard bearings, standard drainage, and one
    erection playbook.
-3. **Two at-grade construction methods:** precast slab panel for repeatable
-   sections, cast-in-place plinth/direct fixation for constrained zones.
+3. **Two at-grade construction methods:** continuous slipform for long open
+   runs and ST6 single-track precast panels for constrained or replaceable
+   zones.
 4. **Adjustable baseplates:** required for all ballastless track to speed
    survey recovery and maintenance.
 5. **Station kit-of-parts:** precast platform units, steel portal canopy,
@@ -406,43 +415,44 @@ not isolated experiments. OSR should build procurement around:
 - One proprietary slab-track system that prevents local fabrication.
 - Heavy recycled-content requirements that local suppliers cannot certify.
 
-## Design Changes Suggested
+## Design Recommendations And Status
 
-1. Add a civil template for `ballastless-urban-slab` with:
-   - precast and cast-in-place variants,
+1. **Implemented:** the civil catalogue includes the ballastless urban slab
+   system with:
+   - continuous-slipform and constrained ST6 variants,
    - direct-fixation fastener envelope,
    - slab mat option,
    - cable trough and drainage interfaces.
 
-2. Add a station template for `modular-platform-kit` with:
+2. **Recommended extension:** add a modular platform kit with:
    - precast concrete base option,
    - recycled rubber extension option,
    - GRP deck option,
    - standard service trench and cabinet plinth.
 
-3. Add a civil template for `rapid-elevated-guideway` with:
+3. **Implemented:** the rapid elevated guideway catalogue includes:
    - full-span Pi20/Pi25 and segmental-launch variants,
    - 20 m / 25 m standard spans,
    - controlled special-span interface,
    - single-column pier and pier-cap shell catalogue,
    - elevated-station widened-bay interface.
 
-4. Add a procurement checklist:
+4. **Recommended extension:** add a procurement-release checklist covering:
    - recycled content certificate,
    - product acceptance certificate,
    - fire/smoke/slip/UV/thermal test pack,
    - repair method,
    - end-of-life takeback or recycling route.
 
-5. Keep the current $3.0M/route-km at-grade planning floor until a
-   local tender proves otherwise. Recycled content can reduce embodied
-   carbon and site time, but it should not be assumed to reduce first
-   cost until supplier pricing is proven.
+5. Retain $3.0M/route-km as the at-grade calibration benchmark and treat the
+   current $2.584M CAD-indexed value as an unquoted planning target. Recycled
+   content can reduce embodied carbon and site time, but should not be assumed
+   to reduce first cost until supplier pricing is proven.
 
-6. Keep the current $12.0M/route-km elevated planning floor as a
-   repetitive-package floor only. Short elevated stubs, soft-ground
-   foundations, many elevated stations, or repeated special spans should
-   carry a local risk premium.
+6. Retain $12.0M/route-km as the elevated calibration benchmark and treat the
+   current $9.748M CAD-indexed value as a repetitive-package planning target
+   only. Short elevated stubs, soft-ground foundations, many elevated stations,
+   or repeated special spans should carry a local risk premium.
 
 ## Source Links
 

@@ -1,34 +1,38 @@
 # Civil Marketplace Cost Anchors
 
-Planning-grade OSR city costs now use **USD marketplace/direct-procurement
-floors** as the source currency. Generated `design.toml` files still keep
-`*_eur` mirrors at 0.92 USD->EUR for schema compatibility.
-The canonical machine-readable rates live in
-[`lib/templates/capex-costs.toml`](../../lib/templates/capex-costs.toml);
-this note is the civil-work audit trail.
+Planning-grade OSR city costs use USD as the source currency. Generated
+`design.toml` files keep `*_eur` mirrors at 0.92 USD->EUR for schema
+compatibility. The reviewed civil benchmarks and cost-share assumptions live
+in [`civil-cost-calibration.toml`](../../lib/templates/civil-cost-calibration.toml);
+the active CAD-indexed rates are generated in
+[`civil-cost-model.toml`](../../lib/templates/civil-cost-model.toml). General
+CAPEX units remain in
+[`capex-costs.toml`](../../lib/templates/capex-costs.toml). This note is the
+civil marketplace audit trail.
 
-These are not turnkey EPC bid prices. They are component-priced floors for
-direct procurement, local fabrication, self-performed assembly, repeatable
-QA, and the no-tunnel/no-catenary OSR civil discipline.
+These are not turnkey EPC bid prices. The benchmarks and generated targets
+assume direct procurement, local fabrication, self-performed assembly,
+repeatable QA, and the no-tunnel/no-catenary OSR civil discipline.
 
 ## At-Grade Double Track
 
-Base unit: **3,000,000 USD per route-km**.
+Active design target: **2,584,000 USD per route-km**. Retained marketplace
+benchmark: **3,000,000 USD per route-km**.
 
 | Component | Marketplace anchor | Planning basis |
 |---|---:|---|
 | UIC60/60E1 rail | Alibaba UIC60 rail listings show about **600-700 USD/t** for 60E1/UIC60 rail: <https://www.alibaba.com/showroom/railway-rail-uic60.html> | Double track uses ~241 t/km of rail, so rail steel lands near 145-170 k USD/km before freight |
 | Slab/plinth concrete and reinforcement | Local concrete, rebar, mesh, formwork, and precast suppliers rather than a rail-specific commodity | Ballastless urban track shifts spend from sleepers/ballast/tamping into slab, plinth, embedment, and drainage works |
 | Direct-fixation fasteners, baseplates, pads | Alibaba rail-fastening listings show clips around **0.5-2.5 USD** and assemblies/baseplates around **4-6 USD**: <https://www.alibaba.com/showroom/rail-fastening-system.html> | Double-track fastening hardware, pads, baseplates, weld kits, and small parts budgeted as a bundled allowance |
-| Ballastless slab/embedded trackform, drainage, cable trough, installation | Local concrete/rebar/precast and civil supplier item rather than rail-specific Alibaba commodity | Residual allowance plus local labour/equipment, freight, QA, welding, direct-fixation installation, drainage, and urban possession logistics brings the installed planning floor to **3.0 M USD/km** |
+| Ballastless slab/embedded trackform, drainage, cable trough, installation | Local concrete/rebar/precast and civil supplier item rather than rail-specific Alibaba commodity | Residual allowance plus local labour/equipment, freight, QA, welding, direct-fixation installation, drainage, and urban possession logistics formed the retained **3.0 M USD/km benchmark**; current slipform/CAD quantities index it to **2.584 M USD/km** |
 
 ## Elevated Guideway And Bridges
 
-| Civil class | Unit | Marketplace anchors | Included scope |
-|---|---:|---|---|
-| Elevated viaduct | **12.0 M USD/km target floor** | Broad marketplace listings are retained only as early procurement anchors; the structural quantity seed is now [`viaduct-quantity-cost-model.toml`](viaduct-quantity-cost-model.toml) | 40 OSR-Pi25 bays in ten four-span units, 80 single-track decked beams, 30 link slabs, ten deck gaps, 200 bearings/km, local-plinth trackform, outer walkway cassettes, geotechnical-zone foundations, yard/mould amortisation, controlled transport, portal/launcher plant, utilities, traffic management, independent checking, testing, and contingency |
-| Bridge / water crossing | **18.0 M USD/km** | Same bridge/trestle anchors plus pile/foundation equipment examples: <https://www.alibaba.com/showroom/reinforced-concrete-pile.html> | Longer spans, harder foundations, flood/scour detailing, bridge-specific protection, water-working contingency, and inspection access |
-| Elevated interchange premium | **4.5 M USD/site** | Uses the elevated guideway component stack above | Added stacked platform/approach complexity where an at-grade crossing is forced to grade-separate |
+| Civil class | Design target | Retained benchmark | Marketplace anchors and included scope |
+|---|---:|---:|---|
+| Elevated viaduct | **9.748 M USD/km** | **12.0 M USD/km** | Broad listings remain early procurement anchors; [`viaduct-quantity-cost-model.toml`](viaduct-quantity-cost-model.toml) records 40 Pi25 bays, 80 beams, 30 link slabs, ten deck gaps, 200 bearings/km, trackform, walkways, zone foundations, yard, transport, erection, utilities, traffic management, checking, testing and contingency |
+| Bridge / water crossing | **18.0 M USD/km** | **18.0 M USD/km** | Bridge/trestle anchors plus pile/foundation equipment examples: <https://www.alibaba.com/showroom/reinforced-concrete-pile.html>; bridge-specific redesign and foundation schedules remain outstanding |
+| Elevated interchange premium | **4.5 M USD/site** | — | Uses the elevated guideway stack plus stacked-platform and approach complexity where an interchange must grade-separate |
 
 ## Stations
 
@@ -74,7 +78,7 @@ Marketplace anchors:
 
 ## Depots And Charging Interfaces
 
-Depot costs were also brought onto the same direct-procurement floor because
+Depot costs were also brought onto the same direct-procurement basis because
 the station/track recalculation otherwise left the fixed-asset stack mixed.
 The current units include the distributed overnight-stabling policy: healthy
 trainsets can sleep at powered stations, so layups are station stabling kits

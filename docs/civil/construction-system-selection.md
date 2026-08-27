@@ -5,9 +5,11 @@ to project structural, geotechnical, rail-system and construction release.
 
 The machine-readable source is
 [`lib/templates/civil-construction-systems.toml`](../../lib/templates/civil-construction-systems.toml).
-It changes the method used to construct the existing civil product family; it
-does not lower the canonical 3 M USD/km at-grade, 12 M USD/km elevated or
-18 M USD/km bridge planning floors.
+It changes the method used to construct the existing civil product family.
+The retained 3/12/18 M USD per route-km benchmarks remain visible for audit;
+the active planning rates are regenerated from the corresponding CAD quantity
+drivers in
+[`civil-cost-model.toml`](../../lib/templates/civil-cost-model.toml).
 
 | Zone condition | Default selected method | Deterministic exception |
 |---|---|---|
@@ -52,8 +54,10 @@ primary members.
 
 ## Cost validation
 
-The combined method changes carry a preliminary 15–30% civil-cost reduction
-target only. OSR retains the existing cost baseline until rail-specific
-prototypes, the project foundation schedule, installation trials and supplier
-quotations support a revision in Git. Each accepted revision should include
-its changed assumptions, source evidence, quantity diff and test outputs.
+The current CAD-indexed contract gives 2.584 M USD/km at-grade and
+9.748 M USD/km elevated against the retained 3 M and 12 M benchmarks; bridge
+remains 18 M USD/km pending a bridge-specific redesign. These are planning
+targets, not quotations. Rail-specific prototypes, the project foundation
+schedule, installation trials and supplier prices are still required before a
+project budget is released. Each accepted revision must include its changed
+assumptions, source evidence, quantity diff and test outputs.

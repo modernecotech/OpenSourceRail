@@ -13,7 +13,7 @@ stay thin: domain logic belongs in Rust crates, `design-py`, or
 | [`regenerate-all.sh`](regenerate-all.sh) | Cached design synthesis plus complete city-package refresh under `designs/`; use `--from-scratch` to force source-data rebuilding |
 | [`generate-city-packages-fast.py`](generate-city-packages-fast.py) | Resynthesise designs, then refresh scenarios, maps, engineering, resilience simulation, screenshots, operations, READMEs, and completeness manifests |
 | [`generate-design-index.py`](generate-design-index.py) | Rebuild the complete city catalogue index in `designs/README.md` |
-| [`generate-cost-model.py`](generate-cost-model.py) | Rebuild `docs/cost-model.md` from the CAPEX template, finance assumptions, benefit assumptions, and rolling-stock BOM |
+| [`generate-cost-model.py`](generate-cost-model.py) | Rebuild `docs/cost-model.md` from the CAPEX template, generated civil rate contract, finance/benefit assumptions, and rolling-stock BOM |
 | [`generate-civil-cost-model.py`](generate-civil-cost-model.py) | Convert canonical CAD quantities and reviewed benchmark shares into the generated civil planning-rate contract; `--check` detects drift |
 | [`generate-acceptance-evidence-report.py`](generate-acceptance-evidence-report.py) | Build the acceptance/accreditation evidence-basis report and matrix from the operations bundle |
 | [`export-light-metro-bom.py`](export-light-metro-bom.py) | Export the rolling-stock BOM CSV from the Markdown BOM source plus the generated COTS fit-out cost/source CSV |
@@ -31,14 +31,14 @@ stay thin: domain logic belongs in Rust crates, `design-py`, or
 | [`engineering-toolchain.sh`](engineering-toolchain.sh) | Install/check the engineering environment; run smoke tests, JuPedSim/SUMO benchmarks, analysis-register validation, and station IFC interchange checks |
 | [`generate-city-engineering.py`](generate-city-engineering.py) | Generate city-local QGIS packages, geometry-shaped SUMO runs, pandapower/pvlib energy screens and station-to-product mappings |
 | [`generate-city-finance.py`](generate-city-finance.py) | Reconcile CAPEX; split localization-first external/local capital; compare variable foreign-turnkey cases; emit OPEX, revenue, NPV/IRR/DSCR, renewal, and risk screens |
-| [`generate-national-briefs.py`](generate-national-briefs.py) | Aggregate city plans by country; size one shared national trainset factory; split external/local funding; report foreign-turnkey capital savings |
+| [`generate-national-briefs.py`](generate-national-briefs.py) | Generate concise country-specific city/factory/capital aggregates linked to the common deployment planning reference |
 | [`generate-portfolio-summary.py`](generate-portfolio-summary.py) | Aggregate the current city and national-factory models into `docs/portfolio-summary.md` |
 | [`recalculate-city-capex.py`](recalculate-city-capex.py) | Recalculate generated city CAPEX after removing duplicated city-level trainset factories |
 | [`validate-city-simulation.py`](validate-city-simulation.py) | Run nominal and mandatory degraded-energy OSR simulations on distinct physical cores, using compact result traces, and write reproducible battery, charging, and depot validation evidence |
 | [`generate-city-package-manifest.py`](generate-city-package-manifest.py) | Fail closed unless a full city package contains passing design, engineering, simulation, resilience, operations, and hash-linked acceptance artifacts |
 | [`repo-health.py`](repo-health.py) | Check generated artifact drift, required files, and repository hygiene |
 | [`check-markdown-links.py`](check-markdown-links.py) | Check that local links in tracked Markdown resolve inside the repository |
-| [`check-readmes.py`](check-readmes.py) | Enforce one title, clean whitespace, final newlines and generated-city provenance across every tracked README |
+| [`check-readmes.py`](check-readmes.py) | Enforce titles, whitespace, provenance, common-method links and concise size limits across tracked READMEs and national briefs |
 | [`validate-host-manifests.py`](validate-host-manifests.py) | Validate all five host compositions and the complete Cargo component inventory |
 | [`validate-city-projects.py`](validate-city-projects.py) | Compile and validate every Git-backed OSR City Studio project, including source locks and weekly service plans |
 | [`test-city-studio-gui.mjs`](test-city-studio-gui.mjs) | Drive the real City Studio GUI in headless Chrome, run every adapter, restart the server, and verify project/job persistence in an isolated disposable project |

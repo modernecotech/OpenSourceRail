@@ -381,146 +381,30 @@ def test_foreign_turnkey_comparator_reconciles_savings_and_annual_draw() -> None
     )
 
 
-def test_readme_nets_operating_surplus_against_gov_debt_support() -> None:
+def test_readme_is_concise_local_summary_with_common_reference() -> None:
     text = render_readme(
         design_path=SAMAWAH_DESIGN,
         scenario_path=SAMAWAH_SCENARIO,
     )
 
-    assert "| Gross repayable-debt service + residual OPEX subsidy |" in text
-    assert "| Operating surplus applied to debt support |" in text
-    assert (
-        "| **Net gov repayable-debt support + residual OPEX subsidy** |"
-        in text
-    )
-    assert (
-        re.search(
-            r"\| Operating surplus applied to debt support \| "
-            r"-\$\d+ M / yr \| -\$\d+ M / yr \| \*\*\$0 k / yr\*\* \|",
-            text,
-        )
-    )
-    assert re.search(
-        r"\| \*\*Net gov repayable-debt support \+ residual OPEX subsidy\*\* \| "
-        r"\$0 k / yr \| \$0 k / yr \| \*\*\$\d+ M / yr\*\* \|",
-        text,
-    )
-    assert "### Imported value and construction capital requirement" in text
-    assert "External capital for imported components / machinery" in text
-    assert "Local capital for domestic procurement / payroll" in text
-    assert "### Foreign-company turnkey comparison" in text
-    assert "not a vendor quotation" in text
-    assert "OSR external capital saved" in text
-    assert "> **Foreign-capital advantage:**" in text
-    assert "Capital plus saved interest totals" in text
-    assert re.search(
-        r"\| External climate/MDB debt for imported content \(unconfirmed\) \| "
-        r"\d+% \| \$\d+ M \| 4\.5% \| 40 y, 5 y grace \| "
-        r"\$\d+(?:\.\d+)? M / yr \|",
-        text,
-    )
-    assert re.search(
-        r"\| Local-currency sovereign / project bonds for local content \| "
-        r"\d+% \| \$\d+ M \| 8\.5% \|",
-        text,
-    )
-    assert "Local government equity / other domestic funding" in text
-    assert "### Procurement origin and foreign-capital exposure" in text
-    assert "Shared national railway production plant" in text
-    assert "Loan availability note: this is a finance placeholder" in text
-    assert "| Climate / development grant" not in text
-    assert re.search(
-        r"Dedicated utility-scale solar plant / contracted offsite PPA asset: "
-        r"\*\*\d+\.\d MW\*\*",
-        text,
-    )
-    assert re.search(
-        r"\| Dedicated solar plant \| \d+\.\d MW / \d+ MWh/day \|",
-        text,
-    )
-    assert (
-        "| Residual grid/PPA top-up need | 0 MWh/day |"
-        in text
-    )
-    assert re.search(r"\| \*\*CAPEX total\*\* \| \*\*\$\d+ M\*\* \|", text)
-    assert re.search(r"\| Traction energy \(\d+\.\d GWh / yr\) \|", text)
-    assert re.search(
-        r"on-site PV \d+\.\d GWh/yr \+ dedicated solar plant \d+\.\d MW / "
-        r"\d+\.\d GWh/yr \(100% coverage\); residual grid/PPA top-up 0\.0 GWh/yr",
-        text,
-    )
-    assert re.search(
-        r"\| Labour \(\d+ FTE\) \| driverless roster: OCC/remote \d+, "
-        r"station/platform \d+, passenger service \d+, fleet maintenance \d+",
-        text,
-    )
-    assert re.search(r"\| Scheduled one-way train journeys \| [\d,]+ / day \|", text)
-    assert "## Construction QA system" in text
-    assert "`qa-10-carbody-structure`" in text
-    assert "`qa-13-passenger-systems`" in text
-    assert "`qa-22-trackform-rail`" in text
-    assert "`qa-30-integrated-trial-running`" in text
-    assert "## Maintenance schedule system" in text
-    assert re.search(
-        r"Baseline scheduled work covers \d+ trainsets, \d+ stations, "
-        r"\d+\.\d route-km, \d+ lines, and [\d,]+ scheduled train-km/day\.",
-        text,
-    )
-    assert "rolling-stock | daily / each depot return; calendar" in text
-    assert "stations | 12 months; calendar" in text
-    assert "track-civil | 60-90 days by preset; calendar" in text
-    assert "energy | 12 months; calendar" in text
-    assert "signalling-comms | 90 days; calendar" in text
-    assert "depots-production | 30-180 days by tool criticality" in text
-    assert re.search(
-        r"\| Onboard battery adequacy \| \d+\.\d× worst inter-charge run \| "
-        r"OK: 675 kWh nameplate, 135 kWh protected reserve, and \d+ kWh usable margin",
-        text,
-    )
+    assert "[deployment planning reference]" in text
+    assert "Auto-planned by the OpenSourceRail design pipeline" in text
+    assert "## Network" in text
+    assert "## Energy" in text
+    assert "## Capital And Funding" in text
+    assert "## Local Evidence" in text
+    assert "## Local Files And Regeneration" in text
+    assert "External capital saved vs default turnkey sensitivity" in text
+    assert "Capital + lifetime external interest saved" in text
+    assert "| Finance | pass |" in text
+    assert "| Native simulation + degraded cases | pass |" in text
+    assert "| SUMO timetable | pass |" in text
+    assert "| GIS package | pass |" in text
+    assert "| Grid/charging/solar | pass |" in text
     assert "| Lowest traversal charging margin |" in text
-    assert "| Line | Powered stops | Climate-adjusted traversal |" in text
-    assert re.search(
-        r"\| Practical service capacity used \| 50% \| 80% \| \d+% \|",
-        text,
-    )
-    assert re.search(
-        r"\| Annual paid trips \| 73\.3 M \| 117\.3 M \| \d+\.\d M \|",
-        text,
-    )
-    assert "| Daily active riders |" not in text
-    assert "| Daily paid trips |" not in text
-    assert "| Paid trips / active rider |" not in text
-    assert "## Broad economic benefits (planning proxy)" in text
-    assert re.search(
-        r"\| \*\*Annual quantified benefit / activity proxy\*\* \| "
-        r"\*\*\$\d+ M / yr\*\* \| \*\*\$\d+ M / yr\*\* \|",
-        text,
-    )
-    assert re.search(
-        r"\| Education \| \d+ education anchors \| [\d,]+ trips/school day; "
-        r"\d+\.\d M access-events/yr \| [\d,]+ trips/school day; "
-        r"\d+\.\d M access-events/yr \|",
-        text,
-    )
-    assert re.search(
-        r"\| Healthcare \| \d+ healthcare anchors \| [\d,]+ trips/day; "
-        r"\d+\.\d M access-events/yr \| [\d,]+ trips/day; "
-        r"\d+\.\d M access-events/yr \|",
-        text,
-    )
-    assert re.search(
-        r"\| CAPEX retained in local procurement / payroll \| \$\d+ M \| "
-        r"\d+% of \$\d+ M CAPEX using bucket local-content shares \|",
-        text,
-    )
-    assert re.search(
-        r"\| Construction employment supported \| [\d,]+ job-years \|",
-        text,
-    )
-    assert (
-        "| Gov repayable-debt service + residual OPEX subsidy |"
-        not in text
-    )
+    assert len(text.splitlines()) < 140
+    assert "## Construction QA system" not in text
+    assert "## Broad economic benefits (planning proxy)" not in text
 
 
 def test_consist_matches_light_metro_family() -> None:

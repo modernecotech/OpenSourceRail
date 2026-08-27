@@ -92,6 +92,8 @@ def render_brief(
     country_code: str,
     country_name: str,
     cities: list[CityCapital],
+    *,
+    detailed: bool = False,
 ) -> str:
     cities = sorted(cities, key=lambda city: (-city.population, city.name))
     anchor = max(cities, key=lambda city: city.vehicle_modules)
@@ -109,6 +111,121 @@ def render_brief(
     population = sum(city.population for city in cities)
     fleet = sum(city.fleet_trainsets for city in cities)
     modules = sum(city.vehicle_modules for city in cities)
+
+    if not detailed:
+        labels = {
+            "civil": "Civil works",
+            "stations": "Stations",
+            "depots": "Depots",
+            "rolling_stock": "Rolling stock",
+            "production_plant": "Shared national trainset factory",
+            "solar_plant": "Dedicated solar plants",
+            "signalling": "Residual train control",
+            "charging_microgrid": "Charging microgrids",
+            "epc_overhead": "EPC / project services",
+        }
+        out = [
+            f"# {country_name} National OpenSourceRail Strategy",
+            "",
+            f"This page contains only {country_name}-specific aggregation. Shared "
+            "network, service, energy, civil, cost, finance, QA and validation "
+            "methods are defined once in the "
+            "[deployment planning reference](../../../docs/deployment-planning-reference.md).",
+            "",
+            "> [!IMPORTANT]",
+            f"> **Foreign-capital advantage:** against the default equivalent "
+            f"foreign-turnkey sensitivity, this "
+            f"national programme avoids **{money(turnkey_default.external_capital_avoided_usd)} "
+            f"({turnkey_default.external_capital_reduction:.1%}) of external capital** "
+            f"and **{money(turnkey_default.external_interest_avoided_usd)} of external "
+            f"interest**. Capital plus saved interest totals "
+            f"**{money(turnkey_default.lifetime_external_financing_avoided_usd)}**.",
+            "",
+            "## National Programme",
+            "",
+            "| Local measure | Planning value |",
+            "|---|---:|",
+            f"| Catalogue cities | {len(cities)} |",
+            f"| Represented population | {population:,} |",
+            f"| Trainsets / vehicle modules | {fleet:,} / {modules:,} |",
+            f"| City infrastructure and fleet CAPEX | "
+            f"{money(sum(city.breakdown.total_usd for city in cities))} |",
+            f"| Shared national factory | {money(national_factory_usd)} |",
+            f"| Factory sizing basis | {anchor.vehicle_modules:,} modules for "
+            f"{anchor.name}, then reused nationally |",
+            f"| **Total national programme** | **{money(national.total_usd)}** |",
+            "",
+            "## Capital And Funding",
+            "",
+            "| Local funding measure | Planning value |",
+            "|---|---:|",
+            f"| Imported / external capital | {money(national.imported_usd)} "
+            f"({national.imported_share:.1%}) |",
+            f"| Domestic / local capital | {money(national.local_usd)} "
+            f"({national.local_share:.1%}) |",
+            f"| Annual external capital draw | "
+            f"{money(plan.annual_external_capital_draw_usd)} / yr |",
+            f"| Annual local capital draw | {money(plan.annual_local_capital_draw_usd)} / yr |",
+            f"| Annual public construction commitment | "
+            f"{money(plan.annual_public_construction_commitment_usd)} / yr for "
+            f"{plan.construction_years} years |",
+            f"| Annual post-grace debt service | {money(plan.annual_debt_service_usd)} / yr |",
+            f"| Default foreign-turnkey external capital | "
+            f"{money(turnkey_default.foreign_external_usd)} |",
+            f"| External capital saved | "
+            f"{money(turnkey_default.external_capital_avoided_usd)} |",
+            f"| Capital + lifetime external interest saved | "
+            f"{money(turnkey_default.lifetime_external_financing_avoided_usd)} |",
+            "",
+            "### Procurement-Origin Composition",
+            "",
+            "| CAPEX bucket | Total | Imported | Local value |",
+            "|---|---:|---:|---:|",
+        ]
+        for bucket in national.buckets:
+            out.append(
+                f"| {labels.get(bucket.name, bucket.name)} | "
+                f"{money(bucket.total_usd)} | {money(bucket.imported_usd)} | "
+                f"{money(bucket.local_usd)} |"
+            )
+        out.extend(
+            [
+                f"| **Total** | **{money(national.total_usd)}** | "
+                f"**{money(national.imported_usd)}** | "
+                f"**{money(national.local_usd)}** |",
+                "",
+                "## City Programme",
+                "",
+                "| City | Population | Fleet | City CAPEX | External capital | Local capital |",
+                "|---|---:|---:|---:|---:|---:|",
+            ]
+        )
+        for city in cities:
+            out.append(
+                f"| [{city.name}]({city.name.replace(' ', '-')}/README.md) | "
+                f"{city.population:,} | {city.fleet_trainsets:,} | "
+                f"{money(city.breakdown.total_usd)} | "
+                f"{money(city.breakdown.imported_usd)} | "
+                f"{money(city.breakdown.local_usd)} |"
+            )
+        out.extend(
+            [
+                "",
+                "## Local Basis And Regeneration",
+                "",
+                f"Country finance parameters use `{country_code}` in "
+                "`lib/templates/country-finance.toml`. The factory is counted once "
+                "nationally and excluded from city CAPEX. City values come from each "
+                "local `design.toml` and expanded scenario; common limitations and "
+                "interpretation are not repeated here.",
+                "",
+                "```bash",
+                "python3 scripts/generate-national-briefs.py",
+                "```",
+                "",
+            ]
+        )
+        return "\n".join(out)
 
     out = [
         f"# {country_name} national OpenSourceRail strategy",

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Reject drift between CAD-derived civil quantities and structures.toml."""
+"""Reject drift across CAD-derived civil quantities and cost contracts."""
 
 from __future__ import annotations
 
@@ -24,12 +24,30 @@ def main() -> int:
                 mismatches.append(
                     f"classes.{class_id}.{key}: template={actual[class_id].get(key)!r}, geometry={value!r}"
                 )
+
+    with (ROOT / "lib/templates/civil-cost-model.toml").open("rb") as handle:
+        cost_contract = tomllib.load(handle)
+    with (ROOT / "docs/civil/viaduct-quantity-cost-model.toml").open("rb") as handle:
+        viaduct_estimate = tomllib.load(handle)["estimate"]
+    elevated = cost_contract["classes"]["elevated"]
+    expected_estimate = {
+        "active_cost_contract": "lib/templates/civil-cost-model.toml",
+        "benchmark_usd_per_km": elevated["benchmark_usd_per_km"],
+        "design_target_usd_per_km": elevated["design_target_usd_per_km"],
+        "design_to_benchmark_ratio": elevated["design_to_benchmark_ratio"],
+    }
+    for key, value in expected_estimate.items():
+        if viaduct_estimate.get(key) != value:
+            mismatches.append(
+                f"viaduct estimate.{key}: narrative={viaduct_estimate.get(key)!r}, "
+                f"contract={value!r}"
+            )
     if mismatches:
         print("structure quantity drift:")
         for mismatch in mismatches:
             print(f"  - {mismatch}")
         return 1
-    print("structures.toml matches CAD-derived civil quantities")
+    print("civil structures and viaduct estimate match CAD-derived contracts")
     return 0
 
 

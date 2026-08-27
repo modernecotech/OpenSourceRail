@@ -1,85 +1,61 @@
-# Mali national OpenSourceRail strategy
+# Mali National OpenSourceRail Strategy
+
+This page contains only Mali-specific aggregation. Shared network, service, energy, civil, cost, finance, QA and validation methods are defined once in the [deployment planning reference](../../../docs/deployment-planning-reference.md).
 
 > [!IMPORTANT]
-> **Foreign-capital advantage:** against the default equivalent foreign-turnkey case, this national OSR programme avoids **$3.48 B (88.1%) of external capital** and **$4.50 B of external interest**. Capital plus saved interest totals **$7.98 B over the 40-year financing life**. Both cases use the same 4.5% external rate and financing schedule; the comparator external requirement is assumed debt-financed, and the comparator is an editable sensitivity, not a vendor quote.
+> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this national programme avoids **$3.48 B (88.1%) of external capital** and **$4.50 B of external interest**. Capital plus saved interest totals **$7.98 B**.
 
-Mali should implement OpenSourceRail as one national industrial and financing programme covering the 1 catalogue cities below, rather than as disconnected city projects. One centrally governed trainset factory builds the shared modular fleet in phases; city and regional contractors fabricate and install rails, viaducts, stations, depots, and local civil works. This concentrates scarce imported machinery, specialist tooling, engineering support, and foreign currency in one reusable national asset while maximizing domestic labour, materials, fabrication, and local-currency financing.
+## National Programme
 
-## National programme at a glance
-
-| Measure | National planning value |
+| Local measure | Planning value |
 |---|---:|
-| Cities in catalogue | 1 |
-| Served population represented | 2,929,000 |
-| Trainsets across city plans | 255 |
-| Vehicle/car modules to manufacture | 1,020 |
-| City infrastructure + fleet CAPEX | $2.13 B |
-| One shared national trainset factory | $61.2 M |
-| National factory sizing basis | 1,020 modules: largest single-city programme (Bamako) |
-| **Total national programme CAPEX** | **$2.20 B** |
+| Catalogue cities | 1 |
+| Represented population | 2,929,000 |
+| Trainsets / vehicle modules | 255 / 1,020 |
+| City infrastructure and fleet CAPEX | $2.13 B |
+| Shared national factory | $61.2 M |
+| Factory sizing basis | 1,020 modules for Bamako, then reused nationally |
+| **Total national programme** | **$2.20 B** |
 
-The factory is sized to the largest single-city fleet programme and reused through a phased national rollout. This avoids duplicating factory buildings, moulds, welding fixtures, metrology, commissioning equipment, and imported machinery in every city. Final factory siting requires a national freight, power, workforce, land, and test-track study; this brief does not preselect a city.
+## Capital And Funding
 
-## External versus local capital
+| Local funding measure | Planning value |
+|---|---:|
+| Imported / external capital | $470.7 M (21.4%) |
+| Domestic / local capital | $1.73 B (78.6%) |
+| Annual external capital draw | $47.1 M / yr |
+| Annual local capital draw | $172.5 M / yr |
+| Annual public construction commitment | $186.8 M / yr for 10 years |
+| Annual post-grace debt service | $169.2 M / yr |
+| Default foreign-turnkey external capital | $3.95 B |
+| External capital saved | $3.48 B |
+| Capital + lifetime external interest saved | $7.98 B |
 
-Imported content is the minimum foreign-currency or international-capital requirement. Local content is the domestic funding envelope and can be raised through local-currency infrastructure bonds, public equity, pension/insurance capital, land-value capture, or other domestic sources.
+### Procurement-Origin Composition
 
-| Capital boundary | Share | Total | Annual draw during construction |
+| CAPEX bucket | Total | Imported | Local value |
 |---|---:|---:|---:|
-| **External capital for imports** | **21.4%** | **$470.7 M** | **$47.1 M / yr** |
-| **Local capital for domestic value** | **78.6%** | **$1.73 B** | **$172.5 M / yr** |
-| planned local-currency bond issuance | 62.9% of total | $1.38 B | $138.0 M / yr |
-| local public equity / other domestic funding | 15.7% of total | $345.1 M | $34.5 M / yr |
-| **Total capital programme** | **100.0%** | **$2.20 B** | **$219.6 M / yr** |
+| Civil works | $1.16 B | $173.4 M | $982.6 M |
+| Stations | $341.1 M | $68.2 M | $272.9 M |
+| Depots | $8.0 M | $2.0 M | $6.0 M |
+| Rolling stock | $285.6 M | $100.0 M | $185.6 M |
+| Dedicated solar plants | $181.7 M | $81.8 M | $99.9 M |
+| Residual train control | $10.6 M | $5.3 M | $5.3 M |
+| Charging microgrids | $20.1 M | $8.0 M | $12.1 M |
+| EPC / project services | $131.8 M | $19.8 M | $112.0 M |
+| Shared national trainset factory | $61.2 M | $12.2 M | $49.0 M |
+| **Total** | **$2.20 B** | **$470.7 M** | **$1.73 B** |
 
-The annual construction draw is spread evenly over 10 planning years. Post-grace annual debt service is $28.9 M for external import finance plus $140.4 M for local bonds, or **$169.2 M per year** before railway operating cash flow. During construction, interest plus the local public-equity draw is **$186.8 M per year**.
+## City Programme
 
-## Foreign-company turnkey comparison
-
-This controlled comparison is an editable sensitivity, not a supplier quotation. It uses the same national network, fleet, service, and energy scope, with 90% of a foreign contractor's price assumed to require foreign currency or international capital. Illustrative variable benchmark for an equivalent foreign-company turnkey delivery. It excludes tunnels, land, tax/duty, utility relocation, financing fees, and escalation on both sides; it does not represent a received bid or named vendor price. Lifetime interest uses the same 4.5% rate, 10-year construction interest period, and 30-year amortization for both cases; the comparator external requirement is assumed debt-financed.
-
-| Case | Cost multiplier vs OSR | Foreign-company external capital | OSR external capital saved | External interest saved over financing life | Capital + interest saved |
+| City | Population | Fleet | City CAPEX | External capital | Local capital |
 |---|---:|---:|---:|---:|---:|
-| Low | 1.50× | $2.96 B | $2.49 B (84.1%) | $3.22 B | **$5.72 B** |
-| **Default** | 2.00× | $3.95 B | $3.48 B (88.1%) | $4.50 B | **$7.98 B** |
-| High | 3.00× | $5.93 B | $5.46 B (92.1%) | $7.05 B | **$12.51 B** |
+| [Bamako](Bamako/README.md) | 2,929,000 | 255 | $2.13 B | $457.8 M | $1.67 B |
 
-At the default 2.00× case, the OSR programme reduces external capital from $3.95 B to $470.7 M, a saving of **$3.48 B (88.1%)**, plus **$4.50 B** of external interest over the financing life. Total programme CAPEX is 50.0% below the comparator. Replace both variables with scope-normalized bids before investment approval.
+## Local Basis And Regeneration
 
-## Procurement-origin composition
+Country finance parameters use `ML` in `lib/templates/country-finance.toml`. The factory is counted once nationally and excluded from city CAPEX. City values come from each local `design.toml` and expanded scenario; common limitations and interpretation are not repeated here.
 
-| CAPEX bucket | Total | Imported share | External capital | Local value |
-|---|---:|---:|---:|---:|
-| Civil works | $1.16 B | 15% | $173.4 M | $982.6 M |
-| Stations | $341.1 M | 20% | $68.2 M | $272.9 M |
-| Depots | $8.0 M | 25% | $2.0 M | $6.0 M |
-| Rolling stock | $285.6 M | 35% | $100.0 M | $185.6 M |
-| Dedicated solar plants | $181.7 M | 45% | $81.8 M | $99.9 M |
-| Residual signalling / train control | $10.6 M | 50% | $5.3 M | $5.3 M |
-| Charging microgrids | $20.1 M | 40% | $8.0 M | $12.1 M |
-| EPC / project services | $131.8 M | 15% | $19.8 M | $112.0 M |
-| Shared national trainset factory | $61.2 M | 20% | $12.2 M | $49.0 M |
-| **Total** | **$2.20 B** | **21.4%** | **$470.7 M** | **$1.73 B** |
-
-## City programme
-
-Each city CAPEX below excludes the national factory. Its imported share varies with the local mix of civil structures, rolling stock, stations, charging, signalling, and solar infrastructure.
-
-| City | Population | Fleet | City CAPEX | Imported % | OSR external capital | Foreign-turnkey external capital (default) | External capital saved | Capital + lifetime external interest saved | Local capital |
-|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| [Bamako](Bamako/README.md) | 2,929,000 | 255 | $2.13 B | 21.5% | $457.8 M | $3.84 B | $3.38 B | $7.74 B | $1.67 B |
-
-## National implementation sequence
-
-1. Establish one national programme authority, common technical baseline, procurement-origin register, and local-content verification method.
-2. Procure the shared trainset-factory machinery and first-article imported kits once; qualify domestic steel, composites, wiring, interiors, and assembly.
-3. Launch city civil packages in parallel where local contractor capacity allows, using standardized rail, viaduct, station, depot, and charging interfaces.
-4. Sequence trainset production through the national factory by opening date, reusing fixtures and commissioning capability between cities.
-5. Issue local-currency bonds against the domestic-value programme and reserve international borrowing or foreign exchange for the imported-value schedule.
-6. Update these planning shares with supplier quotations, customs/tax treatment, country capability audits, and a signed financing plan before procurement.
-
-## Basis and limitations
-
-This is a planning strategy, not a financing commitment or supplier-origin audit. Imported shares come from `lib/templates/capex-costs.toml`; city geometry, fleet, and cost data come from each generated `design.toml` and scenario. The foreign-turnkey multiplier and external share are illustrative variables, not received bids or named-vendor prices. The model excludes tax/duty, FX paths, land acquisition, utility relocation, and country-specific supplier qualification until controlled evidence exists.
-
-Generated by `scripts/generate-national-briefs.py` for `ML`. Controlled imported-share keys: charging_microgrid, civil, depots, epc_overhead, production_plant, rolling_stock, signalling, solar_plant, stations.
+```bash
+python3 scripts/generate-national-briefs.py
+```

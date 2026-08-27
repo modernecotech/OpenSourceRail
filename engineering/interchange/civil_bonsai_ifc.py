@@ -12,6 +12,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import math
 import sys
 import tomllib
 import uuid
@@ -34,6 +35,7 @@ if str(MECHANICAL_SRC) not in sys.path:
     sys.path.insert(0, str(MECHANICAL_SRC))
 
 import ifcopenshell
+import ifcopenshell.validate as ifc_validate
 from ifctester import ids as ids_module
 from ifctester import open as open_ids
 from ifctester import reporter as ids_reporter
@@ -44,8 +46,9 @@ from ifcopenshell.api.geometry import (
     assign_representation,
     edit_object_placement,
 )
+from ifcopenshell.api.georeference import add_georeferencing, edit_georeferencing
 from ifcopenshell.api.project import create_file
-from ifcopenshell.api.pset import add_pset, edit_pset
+from ifcopenshell.api.pset import add_pset, add_qto, edit_pset, edit_qto
 from ifcopenshell.api.root import create_entity
 from ifcopenshell.api.sequence import (
     add_task,
@@ -209,6 +212,90 @@ def set_properties(model: ifcopenshell.file, product: Any, name: str, values: di
     edit_pset(model, pset=pset, properties=values)
 
 
+def set_quantities(
+    model: ifcopenshell.file,
+    product: Any,
+    name: str,
+    values: dict[str, Any],
+) -> None:
+    """Attach measured values as native IFC quantities, not generic properties."""
+
+    quantity_set = add_qto(model, product=product, name=name)
+    quantity_set.MethodOfMeasurement = "OSR deterministic geometry v1"
+    edit_qto(model, qto=quantity_set, properties=values)
+
+
+def validate_georeferencing(value: Any) -> dict[str, Any] | None:
+    """Validate an explicit survey/GIS transform without inventing project coordinates."""
+
+    if value is None:
+        return None
+    if not isinstance(value, dict):
+        raise ValueError("georeferencing must be an object")
+    allowed = {
+        "crs_name",
+        "description",
+        "geodetic_datum",
+        "vertical_datum",
+        "map_projection",
+        "map_zone",
+        "eastings",
+        "northings",
+        "orthogonal_height",
+        "x_axis_abscissa",
+        "x_axis_ordinate",
+        "scale",
+        "source",
+    }
+    unknown = sorted(set(value) - allowed)
+    if unknown:
+        raise ValueError(f"unsupported georeferencing fields: {', '.join(unknown)}")
+    required = {"crs_name", "eastings", "northings", "orthogonal_height"}
+    missing = sorted(required - set(value))
+    if missing:
+        raise ValueError(f"georeferencing requires: {', '.join(missing)}")
+    crs_name = value["crs_name"]
+    if (
+        not isinstance(crs_name, str)
+        or not crs_name.startswith("EPSG:")
+        or not crs_name[5:].isdigit()
+    ):
+        raise ValueError("georeferencing crs_name must be a single EPSG identifier such as EPSG:9306")
+    numeric_fields = {
+        "eastings": 0.0,
+        "northings": 0.0,
+        "orthogonal_height": 0.0,
+        "x_axis_abscissa": 1.0,
+        "x_axis_ordinate": 0.0,
+        "scale": 1.0,
+    }
+    result = dict(value)
+    for field, default in numeric_fields.items():
+        number = result.get(field, default)
+        if (
+            isinstance(number, bool)
+            or not isinstance(number, (int, float))
+            or not math.isfinite(number)
+        ):
+            raise ValueError(f"georeferencing {field} must be a finite number")
+        result[field] = float(number)
+    if result["scale"] <= 0.0:
+        raise ValueError("georeferencing scale must be greater than zero")
+    if math.hypot(result["x_axis_abscissa"], result["x_axis_ordinate"]) < 1e-12:
+        raise ValueError("georeferencing x-axis direction must be non-zero")
+    for field in (
+        "description",
+        "geodetic_datum",
+        "vertical_datum",
+        "map_projection",
+        "map_zone",
+        "source",
+    ):
+        if field in result and (not isinstance(result[field], str) or not result[field].strip()):
+            raise ValueError(f"georeferencing {field} must be a non-empty string")
+    return result
+
+
 def load_alignment(path: Path | None) -> dict[str, Any] | None:
     if path is None:
         return None
@@ -217,9 +304,88 @@ def load_alignment(path: Path | None) -> dict[str, Any] | None:
     if not isinstance(points, list) or len(points) < 2:
         raise ValueError("alignment input requires at least two local XYZ points")
     for point in points:
-        if not isinstance(point, list) or len(point) != 3 or not all(isinstance(item, (int, float)) for item in point):
+        if (
+            not isinstance(point, list)
+            or len(point) != 3
+            or not all(
+                not isinstance(item, bool)
+                and isinstance(item, (int, float))
+                and math.isfinite(item)
+                for item in point
+            )
+        ):
             raise ValueError("alignment points must be numeric [x, y, z] triples in metres")
+    if "georeferencing" in value:
+        value["georeferencing"] = validate_georeferencing(value["georeferencing"])
     return value
+
+
+def apply_georeferencing(
+    model: ifcopenshell.file,
+    project: Any,
+    alignment_input: dict[str, Any] | None,
+) -> dict[str, Any]:
+    """Write IFC map conversion only when an explicit, validated CRS is supplied."""
+
+    georeferencing = validate_georeferencing((alignment_input or {}).get("georeferencing"))
+    if georeferencing is None:
+        result = {
+            "mode": "local-engineering-grid",
+            "native_ifc_georeferencing": False,
+            "status": "project-crs-unresolved",
+            "source": "No accepted CRS/map conversion supplied",
+        }
+    else:
+        add_georeferencing(model, ifc_class="IfcMapConversion", name=georeferencing["crs_name"])
+        projected_crs = {
+            "Name": georeferencing["crs_name"],
+        }
+        for source_name, ifc_name in (
+            ("description", "Description"),
+            ("geodetic_datum", "GeodeticDatum"),
+            ("vertical_datum", "VerticalDatum"),
+            ("map_projection", "MapProjection"),
+            ("map_zone", "MapZone"),
+        ):
+            if source_name in georeferencing:
+                projected_crs[ifc_name] = georeferencing[source_name]
+        coordinate_operation = {
+            "Eastings": georeferencing["eastings"],
+            "Northings": georeferencing["northings"],
+            "OrthogonalHeight": georeferencing["orthogonal_height"],
+            "XAxisAbscissa": georeferencing["x_axis_abscissa"],
+            "XAxisOrdinate": georeferencing["x_axis_ordinate"],
+            "Scale": georeferencing["scale"],
+        }
+        edit_georeferencing(
+            model,
+            projected_crs=projected_crs,
+            coordinate_operation=coordinate_operation,
+        )
+        result = {
+            "mode": "ifc-map-conversion",
+            "native_ifc_georeferencing": True,
+            "status": "declared-from-project-input",
+            "crs_name": georeferencing["crs_name"],
+            "source": georeferencing.get("source", "Alignment input"),
+            "map_conversion": {
+                "eastings": georeferencing["eastings"],
+                "northings": georeferencing["northings"],
+                "orthogonal_height": georeferencing["orthogonal_height"],
+                "x_axis_abscissa": georeferencing["x_axis_abscissa"],
+                "x_axis_ordinate": georeferencing["x_axis_ordinate"],
+                "scale": georeferencing["scale"],
+            },
+        }
+    pset_values = {
+        "CoordinateReferenceStatus": result["status"],
+        "NativeIfcGeoreferencing": result["native_ifc_georeferencing"],
+        "TransformSource": result["source"],
+    }
+    if result.get("crs_name"):
+        pset_values["ProjectedCrsName"] = result["crs_name"]
+    set_properties(model, project, "Pset_OSR_Georeferencing", pset_values)
+    return result
 
 
 def add_alignment(
@@ -379,6 +545,7 @@ def stabilize_unordered_collections(model: ifcopenshell.file) -> None:
         "IfcRelAssignsToControl": ("RelatedObjects",),
         "IfcRelAssignsToProcess": ("RelatedObjects",),
         "IfcRelDefinesByProperties": ("RelatedObjects",),
+        "IfcElementQuantity": ("Quantities",),
     }
     for ifc_class, names in attributes.items():
         for entity in model.by_type(ifc_class):
@@ -433,6 +600,7 @@ def build_model(
     assign_object(model, products=[railway], relating_object=site)
     edit_object_placement(model, product=site, matrix=np.eye(4), is_si=True)
     edit_object_placement(model, product=railway, matrix=np.eye(4), is_si=True)
+    georeferencing = apply_georeferencing(model, project, alignment_input)
 
     set_properties(
         model,
@@ -470,6 +638,9 @@ def build_model(
             predefined_type=predefined_type,
             name=name,
         )
+        # These four discipline containers are a vertical organisation of the
+        # railway, as described by the IFC4.3 railway-domain guidance.
+        part.UsageType = "VERTICAL"
         assign_object(model, products=[part], relating_object=railway)
         edit_object_placement(model, product=part, matrix=np.eye(4), is_si=True)
         spatial_parts[key] = part
@@ -495,6 +666,8 @@ def build_model(
             predefined_type=predefined_type,
             name=component.label,
         )
+        if predefined_type == "USERDEFINED":
+            product.ObjectType = asset_class
         product.Tag = asset_id
         built = component.build()
         leaves = [leaf for leaf in flatten_parts(built) if leaf.bounding_box().volume > 0.0]
@@ -543,10 +716,10 @@ def build_model(
                 "LifecycleState": "design-reference",
             },
         )
-        set_properties(
+        set_quantities(
             model,
             product,
-            "Qto_OSR_CoordinationEnvelope",
+            "OSR_CoordinationEnvelopeQuantities",
             {
                 "OverallLength": round(length_m, 6),
                 "OverallWidth": round(width_m, 6),
@@ -599,6 +772,7 @@ def build_model(
             "civil_usd_per_km": cost_model["civil_usd_per_km"],
             "quantities_per_route_km": civil_quantities,
         },
+        "georeferencing": georeferencing,
         "summary": {
             "assets": len(index_rows),
             "ifc_classes": dict(sorted(Counter(row["ifc_class"] for row in index_rows).items())),
@@ -668,9 +842,15 @@ def build_civil_ids(index: dict[str, Any]) -> ids_module.Ids:
             ids_module.Property(propertySet="Pset_OSR_Asset", baseName="SourceSha256"),
             ids_module.Property(propertySet="Pset_OSR_Asset", baseName="RevisionId"),
             ids_module.Property(propertySet="Pset_OSR_Asset", baseName="LifecycleState"),
-            ids_module.Property(propertySet="Qto_OSR_CoordinationEnvelope", baseName="OverallLength"),
-            ids_module.Property(propertySet="Qto_OSR_CoordinationEnvelope", baseName="OverallWidth"),
-            ids_module.Property(propertySet="Qto_OSR_CoordinationEnvelope", baseName="OverallHeight"),
+            ids_module.Property(
+                propertySet="OSR_CoordinationEnvelopeQuantities", baseName="OverallLength"
+            ),
+            ids_module.Property(
+                propertySet="OSR_CoordinationEnvelopeQuantities", baseName="OverallWidth"
+            ),
+            ids_module.Property(
+                propertySet="OSR_CoordinationEnvelopeQuantities", baseName="OverallHeight"
+            ),
         ]
     )
     document.specifications.append(asset_specification)
@@ -709,6 +889,10 @@ def build_civil_ids(index: dict[str, Any]) -> ids_module.Ids:
             ids_module.Property(propertySet="Pset_OSR_Provenance", baseName="RevisionId"),
             ids_module.Property(propertySet="Pset_OSR_Provenance", baseName="GeometryAuthority"),
             ids_module.Property(propertySet="Pset_OSR_Provenance", baseName="ReleaseStatus"),
+            ids_module.Property(
+                propertySet="Pset_OSR_Georeferencing",
+                baseName="CoordinateReferenceStatus",
+            ),
         ]
     )
     document.specifications.append(provenance_specification)
@@ -982,15 +1166,55 @@ def validate_written(
 ) -> dict[str, Any]:
     ifc_path = paths["ifc"]
     reopened = ifcopenshell.open(str(ifc_path))
+    schema_logger = ifc_validate.json_logger()
+    ifc_validate.validate(str(ifc_path), schema_logger, express_rules=True)
+    schema_issues = []
+    for issue in schema_logger.statements:
+        instance = issue.get("instance")
+        schema_issues.append(
+            {
+                "level": issue.get("level"),
+                "type": issue.get("type"),
+                "message": (issue.get("message") or "").splitlines()[0],
+                "attribute": issue.get("attribute"),
+                "instance_id": instance.id() if instance is not None else None,
+                "instance_type": instance.is_a() if instance is not None else None,
+            }
+        )
+    schema_issues.sort(
+        key=lambda issue: (
+            issue["instance_id"] or 0,
+            issue["attribute"] or "",
+            issue["message"] or "",
+        )
+    )
     bcf_validation = validate_coordination_bcf(paths["bcf"], ifc_path)
     tagged = {product.Tag for product in reopened.by_type("IfcProduct") if getattr(product, "Tag", None)}
     expected = {row["asset_id"] for row in index["objects"]}
+    projected_crs = reopened.by_type("IfcProjectedCRS")
+    map_conversions = reopened.by_type("IfcMapConversion")
+    georeferencing = index["georeferencing"]
+    georeferencing_matches = (
+        len(projected_crs) == len(map_conversions) == 1
+        and georeferencing["native_ifc_georeferencing"]
+        and projected_crs[0].Name == georeferencing["crs_name"]
+    ) or (
+        not georeferencing["native_ifc_georeferencing"]
+        and not projected_crs
+        and not map_conversions
+    )
     checks = [
         {"id": "ifc4x3-schema", "passed": reopened.schema == "IFC4X3", "observed": reopened.schema},
+        {"id": "ifc-schema-conformance", "passed": not schema_issues, "observed": len(schema_issues)},
         {"id": "stable-assets", "passed": tagged == expected, "observed": len(tagged)},
         {"id": "railway-spatial-root", "passed": len(reopened.by_type("IfcRailway")) == 1, "observed": len(reopened.by_type("IfcRailway"))},
         {"id": "railway-parts", "passed": len(reopened.by_type("IfcRailwayPart")) == 4, "observed": len(reopened.by_type("IfcRailwayPart"))},
         {"id": "alignment-reference", "passed": len(reopened.by_type("IfcAlignment")) == 1, "observed": len(reopened.by_type("IfcAlignment"))},
+        {
+            "id": "georeferencing-contract",
+            "passed": georeferencing_matches,
+            "observed": georeferencing["mode"],
+        },
         {"id": "construction-schedule", "passed": len(reopened.by_type("IfcWorkSchedule")) == 1, "observed": len(reopened.by_type("IfcTask"))},
         {"id": "task-index-match", "passed": len(reopened.by_type("IfcTask")) == len(sequence["tasks"]), "observed": len(sequence["tasks"])},
         {"id": "all-interface-checks", "passed": all(item["passed"] for item in index["validation"]), "observed": len(index["validation"])},
@@ -1014,6 +1238,12 @@ def validate_written(
             "checks": ids_report["total_checks"],
         },
         "bcf": bcf_validation,
+        "schema_validation": {
+            "engine": f"IfcOpenShell {version('ifcopenshell')}",
+            "express_rules": True,
+            "issue_count": len(schema_issues),
+            "issues": schema_issues,
+        },
         "entity_count": sum(1 for _ in reopened),
     }
 

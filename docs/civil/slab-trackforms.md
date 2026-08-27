@@ -104,16 +104,18 @@ and is regenerated with
 
 ## Cost Model Link
 
-These slab designs support the current civil planning floors:
+These slab designs feed the generated civil planning contract:
 
-| Civil class | Planning floor |
-|---|---:|
-| At-grade ballastless slab | 3.0 M USD/route-km |
-| Elevated guideway with local-plinth trackform | 12.0 M USD/route-km target floor |
-| Bridge/water-crossing guideway | 18.0 M USD/route-km |
+| Civil class | Design-derived target | Retained benchmark |
+|---|---:|---:|
+| At-grade ballastless slab | 2.584 M USD/route-km | 3.0 M USD/route-km |
+| Elevated guideway with local-plinth trackform | 9.748 M USD/route-km | 12.0 M USD/route-km |
+| Bridge/water-crossing guideway | 18.0 M USD/route-km | 18.0 M USD/route-km |
 
-The elevated number is a direct-procurement target, not a tender or turnkey
-EPC estimate. Build the project estimate from
+The active values come from
+[`civil-cost-model.toml`](../../lib/templates/civil-cost-model.toml) and are
+planning targets, not tender or turnkey EPC estimates. Build the project
+estimate from
 [`viaduct-quantity-cost-model.toml`](viaduct-quantity-cost-model.toml) plus
 site rates, utilities, access, risk, programme, independent checking, and
 contingency. Short elevated stubs, stations, soft ground, deep utilities,

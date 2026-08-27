@@ -13,7 +13,8 @@
 *Samawah Line 1 Blender digital twin: a refined 49.5 m driverless LM3 approaches
 S5 at 36 km/h, brakes at 1.0 m/s², stops and opens its doors, then starts,
 accelerates, and departs in real time. The source package includes the full-line
-FreeCAD/JSON twin, Blender scene, and MP4. Regenerate it with
+FreeCAD/JSON twin and Blender scene; the generator also produces an MP4.
+Regenerate it with
 `scripts/freecad-generate.sh --samawah-line-twin`.*
 
 ![Source-linked fabrication and assembly digital twin for track, stations, viaducts, and LM3 trainsets](engineering/fabrication-assembly-digital-twin/fabrication-assembly-digital-twin.gif)
@@ -21,8 +22,9 @@ FreeCAD/JSON twin, Blender scene, and MP4. Regenerate it with
 *The fabrication and assembly twin runs four synchronized production routes
 from material release through assembly and QA handover. Its JSON register
 contains 25 controlled work stages—including foundation-zone release,
-two-lift Pi25 portal erection and the semi-continuous-unit connection—plus predecessors, hold points, evidence,
-source hashes, and the interfaces between rail, station, viaduct, and train.
+two-lift Pi25 portal erection and the semi-continuous-unit connection—plus
+predecessors, hold points, evidence, source hashes, and the interfaces between
+rail, station, viaduct, and train.
 Regenerate it with `scripts/freecad-generate.sh --fabrication-twin`.*
 
 ![Bonsai-native IFC4.3 civil federation showing the detailed viaduct and elevated station interface](docs/screenshots/civil/bonsai-ifc4x3-civil-coordination.png)
@@ -30,9 +32,9 @@ Regenerate it with `scripts/freecad-generate.sh --fabrication-twin`.*
 *The civil coordination model is generated deterministically from the checked
 OSR geometry into IFC4.3, then imported and rendered through Bonsai 0.8.5. It
 contains 95 stable rail/civil assets, quantities and provenance, nine interface
-checks, 18 linked construction tasks, and 958/958 passing IDS checks. OSR remains authoritative for route
-and engineering rules; Bonsai provides federation, detail review, drawings,
-quantities, and 4D sequencing. See the
+checks, 18 linked construction tasks, and 958/958 passing IDS checks. OSR
+remains authoritative for route and engineering rules; Bonsai provides
+federation, detail review, drawings, quantities, and 4D sequencing. See the
 [Bonsai civil workflow](docs/civil/bonsai-ifc-workflow.md).*
 
 ![Bonsai support-end detail of the OSR-Pi25 twin-track deck, compact cap, bearings and outer cassettes](docs/screenshots/civil/bonsai-pi25-support-detail.png)
@@ -53,15 +55,23 @@ operating affordable urban rail systems. It combines:
 - operations and certification documentation,
 - a machine-checkable safety case.
 
-City Studio persists the civil construction method in the same Git-reviewed
-project as network and service intent: standard span and short thermal units,
-reinforced-soil approach threshold, slipform/ST6 selection, mould-cycle target,
-and road grade-separation comparison. It displays derived deck-gap and bearing
-counts and regenerates the planning-cost view from the same CAD quantities.
-The original $3.0M/$12.0M/$18.0M per-kilometre benchmark remains visible for
-comparison; current at-grade and elevated targets are explicitly labelled as
-unquoted planning estimates until prototype, foundation and supplier evidence
-is available.
+## Feature Highlights
+
+| Capability | What is now available |
+|---|---|
+| **Deterministic city generation** | Reproducible GIS, network, fleet, energy, engineering and finance packages for [266 cities in 44 countries](designs/README.md). |
+| **Interactive City Studio** | Create, move and retire stations and lines; edit routing control points; plan service by line, day and time; test OD capacity and atomic all-route scenarios in one [local GUI](docs/city-studio/README.md). |
+| **Git-native revision control** | Content-addressed immutable revisions, semantic comparisons, append-only approvals and restart-tested persistence keep each city decision reviewable in GitHub. |
+| **Civil BIM and 4D coordination** | Parametric Pi25/slipform/foundation geometry generates IFC4.3 for Bonsai, IDS audit evidence, BCF 3.0 coordination topics and linked construction sequencing through the [civil BIM workflow](docs/civil/bonsai-ifc-workflow.md). |
+| **Automatic cost propagation** | Checked CAD quantities regenerate the [shared civil rate contract](lib/templates/civil-cost-model.toml), which feeds city CAPEX, finance, IFC properties, portfolio summaries and generated READMEs while retaining the original benchmark for comparison. |
+| **Operations-to-assurance stack** | Simulation, GoA 4 control components, energy planning, manufacturing QA, maintenance, Ops Core, hardware references and a machine-checkable safety case share one repository and evidence model. |
+
+City Studio persists civil construction methods in the same Git-reviewed
+project as network and service intent. It displays derived deck-gap and bearing
+counts and the current CAD-indexed planning-cost contract. The original
+$3.0M/$12.0M/$18.0M per-kilometre benchmark stays visible; current at-grade and
+elevated targets remain explicitly unquoted until prototype, foundation and
+supplier evidence is available.
 
 The default system is **GoA 4 driverless**, catenary-free, battery
 electric, and designed around local manufacture: welded steel primary
@@ -103,7 +113,7 @@ the [portfolio capital summary](docs/portfolio-summary.md), regenerated from
 all city models after cost changes. Each city README carries its own finance
 evidence; every country has a shared-factory `NATIONAL-BRIEF.md`. Start with
 the [Iraq national strategy](designs/west-asia/Iraq/NATIONAL-BRIEF.md) or the
-[Nairobi city example](designs/east-africa/Kenya/Nairobi/README.md#funding--affordability).
+[Nairobi city example](designs/east-africa/Kenya/Nairobi/README.md#capital-and-funding).
 
 All figures remain planning screens pending supplier quotations, domestic
 capability and origin audits, land/utility surveys, tax and duty treatment,
@@ -204,12 +214,13 @@ artifact index.
 | Read the short introduction brochure | [OpenSourceRail introduction HTML](docs/brochures/open-source-rail-introduction.html) |
 | Understand the whole repo | [docs/README.md](docs/README.md) |
 | Understand the unified deployment model | [docs/deployment-model.md](docs/deployment-model.md) |
+| Interpret any generated city or country plan | [docs/deployment-planning-reference.md](docs/deployment-planning-reference.md) |
 | Understand deployment responsibilities | [docs/deployment-roles.md](docs/deployment-roles.md) |
 | Review the first adoptable product | [docs/first-adoptable-product.md](docs/first-adoptable-product.md) |
 | Find any Markdown document | [docs/INDEX.md](docs/INDEX.md) |
 | See generated city designs | [designs/README.md](designs/README.md) |
 | Review national implementation and capital strategy | [Iraq national brief](designs/west-asia/Iraq/NATIONAL-BRIEF.md) and the other country-level `NATIONAL-BRIEF.md` files under [designs/](designs/) |
-| Review imported versus local capital for a city | [Nairobi funding and affordability](designs/east-africa/Kenya/Nairobi/README.md#funding--affordability) |
+| Review imported versus local capital for a city | [Nairobi capital and funding](designs/east-africa/Kenya/Nairobi/README.md#capital-and-funding) |
 | Run the simulator | [Quick Start](#quick-start) |
 | Run the operations portal | [Operations Portal](#operations-portal) |
 | Contribute or review governance | [CONTRIBUTING.md](CONTRIBUTING.md) and [GOVERNANCE.md](GOVERNANCE.md) |
@@ -418,10 +429,10 @@ Each city folder contains `README.md`, `design.toml`, a simulator scenario
 TOML, corridor GeoJSON, station JSON, design-quality YAML, a reconciled finance
 summary, engineering and operations evidence, and a hashed
 `package-manifest.json`. Each country directory also contains one generated
-`NATIONAL-BRIEF.md` covering centralized trainset production, city delivery
-sequencing, imported/external capital, local funding, bond issuance, and
-annual requirements. The catalogue table is included in
-[designs/README.md](designs/README.md).
+`NATIONAL-BRIEF.md` containing its city, shared-factory and capital aggregation.
+Shared interpretation lives in the
+[deployment planning reference](docs/deployment-planning-reference.md), and the
+catalogue table is in [designs/README.md](designs/README.md).
 
 Regenerate one city:
 

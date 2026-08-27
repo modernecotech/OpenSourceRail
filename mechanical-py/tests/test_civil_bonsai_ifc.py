@@ -7,9 +7,10 @@ import tomllib
 from pathlib import Path
 
 import ifcopenshell
+import pytest
 from bcf.v3.bcfxml import BcfXml
 
-from engineering.interchange.civil_bonsai_ifc import write_outputs
+from engineering.interchange.civil_bonsai_ifc import load_alignment, write_outputs
 
 
 def test_civil_ifc_has_rail_semantics_geometry_schedule_and_stable_ids(tmp_path: Path) -> None:
@@ -24,7 +25,7 @@ def test_civil_ifc_has_rail_semantics_geometry_schedule_and_stable_ids(tmp_path:
     assert validation["passed"]
     assert ids_report["status"]
     assert ids_report["total_specifications_pass"] == 3
-    assert ids_report["total_checks"] == ids_report["total_checks_pass"] == 958
+    assert ids_report["total_checks"] == ids_report["total_checks_pass"] == 959
     assert bcf_index["topic_count"] == 3
     assert coordination is not None
     assert coordination.version.version_id == "3.0"
@@ -64,9 +65,17 @@ def test_civil_ifc_has_rail_semantics_geometry_schedule_and_stable_ids(tmp_path:
     assert model.schema == "IFC4X3"
     assert len(model.by_type("IfcRailway")) == 1
     assert len(model.by_type("IfcRailwayPart")) == 4
+    assert {part.UsageType for part in model.by_type("IfcRailwayPart")} == {"VERTICAL"}
     assert len(model.by_type("IfcAlignment")) == 1
     assert len(model.by_type("IfcTask")) == 18
     assert len({item.Tag for item in model.by_type("IfcElement") if item.Tag}) == 95
+    assert len(model.by_type("IfcElementQuantity")) == 95
+    assert {
+        quantity_set.Name for quantity_set in model.by_type("IfcElementQuantity")
+    } == {"OSR_CoordinationEnvelopeQuantities"}
+    assert not model.by_type("IfcProjectedCRS")
+    assert index["georeferencing"]["status"] == "project-crs-unresolved"
+    assert validation["schema_validation"]["issue_count"] == 0
 
 
 def test_civil_ifc_is_byte_deterministic(tmp_path: Path) -> None:
@@ -132,3 +141,67 @@ def test_coordination_decision_is_carried_into_bcf_without_mutating_topic_identi
     )
     assert paths["bcf"].read_bytes() == repeated["bcf"].read_bytes()
     assert paths["bcf_index"].read_bytes() == repeated["bcf_index"].read_bytes()
+
+
+def test_explicit_project_georeferencing_creates_native_ifc_map_conversion(tmp_path: Path) -> None:
+    alignment = tmp_path / "georeferenced-alignment.json"
+    alignment.write_text(
+        json.dumps(
+            {
+                "line_slug": "surveyed-line",
+                "points": [[0.0, 0.0, 0.0], [320.0, 0.0, 0.0]],
+                "georeferencing": {
+                    "crs_name": "EPSG:9306",
+                    "description": "Accepted project compound CRS",
+                    "eastings": 198765.4,
+                    "northings": 431234.5,
+                    "orthogonal_height": 18.25,
+                    "x_axis_abscissa": 0.999847695,
+                    "x_axis_ordinate": -0.017452406,
+                    "scale": 0.99995,
+                    "source": "Accepted survey control revision S-04",
+                },
+            },
+            sort_keys=True,
+        ),
+        encoding="utf-8",
+    )
+
+    paths = write_outputs(tmp_path / "georeferenced", alignment_path=alignment, revision_id="survey-S-04")
+    model = ifcopenshell.open(str(paths["ifc"]))
+    index = json.loads(paths["index"].read_text(encoding="utf-8"))
+    validation = json.loads(paths["validation"].read_text(encoding="utf-8"))
+    projected_crs = model.by_type("IfcProjectedCRS")
+    map_conversions = model.by_type("IfcMapConversion")
+
+    assert len(projected_crs) == len(map_conversions) == 1
+    assert projected_crs[0].Name == "EPSG:9306"
+    assert map_conversions[0].Eastings == 198765.4
+    assert map_conversions[0].Northings == 431234.5
+    assert map_conversions[0].OrthogonalHeight == 18.25
+    assert map_conversions[0].Scale == 0.99995
+    assert index["georeferencing"]["native_ifc_georeferencing"]
+    assert index["georeferencing"]["source"] == "Accepted survey control revision S-04"
+    assert validation["schema_validation"]["issue_count"] == 0
+
+
+def test_invalid_georeferencing_is_rejected_before_ifc_generation(tmp_path: Path) -> None:
+    alignment = tmp_path / "invalid-georeferencing.json"
+    alignment.write_text(
+        json.dumps(
+            {
+                "points": [[0.0, 0.0, 0.0], [10.0, 0.0, 0.0]],
+                "georeferencing": {
+                    "crs_name": "EPSG:9306",
+                    "eastings": 0.0,
+                    "northings": 0.0,
+                    "orthogonal_height": 0.0,
+                    "scale": 0.0,
+                },
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    with pytest.raises(ValueError, match="scale must be greater than zero"):
+        load_alignment(alignment)

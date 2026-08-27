@@ -56,11 +56,11 @@ tunnel-specific signalling / ventilation / evacuation engineering.
 A planning-grade cost comparison for a 1 km segment in typical
 dense-urban conditions across the target regions:
 
-| Class | CAPEX (USD/km) | Build time | Post-build maintenance |
+| Class | OSR target / retained benchmark (USD/km) | Build time | Post-build maintenance |
 |---|---|---|---|
-| At-grade dedicated ROW | 3.0 M OSR floor / 3–6 M conventional | 6–12 months | Low — ballastless slab/embedded trackform |
-| Elevated viaduct | 12.0 M OSR floor / 12–25 M conventional | 12–18 months | Medium — bearing + expansion-joint inspection |
-| Bridge over water | 18.0 M OSR floor / 15–35 M conventional | 18–24 months | Medium — same as viaduct + scour inspection |
+| At-grade dedicated ROW | 2.584 M / 3.0 M | 6–12 months | Low — ballastless slab/embedded trackform |
+| Elevated viaduct | 9.748 M / 12.0 M | 12–18 months | Medium — bearing + expansion-joint inspection |
+| Bridge over water | 18.0 M / 18.0 M | 18–24 months | Medium — same as viaduct + scour inspection |
 | Cut-and-cover tunnel | 60–120 M conventional | 30–48 months | High — ventilation + pumping + egress drills |
 | Bored tunnel | 90–200 M conventional | 48–72 months | High — same as above, plus tunnel-boring-machine commissioning |
 
@@ -286,18 +286,22 @@ auto-gen pipeline emits a full `[costs]` block per city in
 
 The source currency is USD because the marketplace and country-finance
 templates quote in USD. Generated `*_eur` fields are converted reporting
-views at 0.92 USD->EUR. The canonical machine-readable rates live in
-[`capex-costs.toml`](../../lib/templates/capex-costs.toml); this RFC
+views at 0.92 USD->EUR. Non-civil units and retained civil benchmarks live in
+[`capex-costs.toml`](../../lib/templates/capex-costs.toml). The active civil
+rates are generated from
+[`civil-cost-calibration.toml`](../../lib/templates/civil-cost-calibration.toml)
+and CAD quantities into
+[`civil-cost-model.toml`](../../lib/templates/civil-cost-model.toml); this RFC
 keeps the narrative summary.
 
 ### 9.1 Civil works (USD/km × civil mix)
 
-| Class | USD planning-grade |
-|---|---|
-| at-grade | 3 000 000 / route-km |
-| elevated | 12 000 000 / route-km |
-| bridge | 18 000 000 / route-km |
-| elevated-interchange premium | 4 500 000 / site |
+| Class | Active USD planning target | Retained benchmark |
+|---|---:|---:|
+| at-grade | 2 584 000 / route-km | 3 000 000 / route-km |
+| elevated | 9 748 000 / route-km | 12 000 000 / route-km |
+| bridge | 18 000 000 / route-km | 18 000 000 / route-km |
+| elevated-interchange premium | 4 500 000 / site | — |
 
 ### 9.2 Stations (RFC 0010 archetype catalogue)
 
@@ -373,7 +377,7 @@ after painted-frame dimensional release; doors, glazing, equipment, bogies,
 commissioning, homologation, and first-article testing remain separate work.
 Distributed overnight stabling reduces the number of depot-centred
 commissioning and parking bays needed in the production/depot complex. A
-A three-module increment of supported factory capacity therefore carries
+three-module increment of supported factory capacity therefore carries
 180 000 USD of base plant allowance, while the high sensitivity is 360 000 USD.
 
 ### 9.6 Systems

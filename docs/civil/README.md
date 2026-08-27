@@ -13,7 +13,7 @@ release gates are tracked in
 
 | File | Scope |
 |---|---|
-| [`marketplace-cost-anchors.md`](marketplace-cost-anchors.md) | USD direct-procurement floor for at-grade track, elevated guideway, bridges, stations, depots, and charging interfaces |
+| [`marketplace-cost-anchors.md`](marketplace-cost-anchors.md) | Marketplace audit trail and retained benchmarks for at-grade track, elevated guideway, bridges, stations, depots, and charging interfaces |
 | [`civil-cost-calibration.toml`](../../lib/templates/civil-cost-calibration.toml) | Reviewed benchmark quantities and cost shares; the human-edited input to design-derived civil rates |
 | [`civil-cost-model.toml`](../../lib/templates/civil-cost-model.toml) | Generated rate contract consumed by city synthesis, finance reports, IFC metadata, and city READMEs |
 | [`rapid-implementation-materials-review.md`](rapid-implementation-materials-review.md) | Internet review of rapid ballastless track, modular stations, and recycled or lower-carbon materials |

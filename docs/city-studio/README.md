@@ -16,8 +16,10 @@ unit, reinforced-soil approach height, long-open slipform and constrained ST6
 methods, maturity-controlled mould-cycle target, and comparison of road
 grade-separation alternatives. Values are validated, stored in
 `project.osr.toml`, included in the candidate revision hash, and restored after
-restart. They remain planning inputs and do not automatically lower the
-canonical civil cost floors.
+restart. The Studio displays the shared design-derived civil cost contract.
+Authoritative CAD quantity changes can regenerate that contract and every
+downstream city price; changing project method intent alone does not claim a
+new rate unless the calibrated driver model maps that input to a quantity.
 
 The controlling design decision is
 [RFC 0031](../rfcs/0031-city-studio-git-revisions.md).

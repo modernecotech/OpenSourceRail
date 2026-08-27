@@ -18,7 +18,7 @@ must not silently override its route or engineering rules.
 | Horizontal/vertical alignment, transitions, cant and rule checks | OSR-ALN plus accepted survey/GIS inputs | Inspect the exported `IfcAlignment` reference and coordinate issues |
 | Pier, girder, trackform, platform and canopy parameters | `mechanical-py/src/osr_mech/` | Federate, classify, inspect, annotate and develop deployment detail against stable IDs |
 | Structural capacity, reinforcement, bearings, foundations and temporary works | Reviewed analysis decks and engineer-released drawings | Coordinate released results; never infer approval from visible geometry |
-| IFC object hierarchy, property sets, quantities and 4D task links | Generated IFC checked by IfcOpenShell | Native GUI authoring/review environment |
+| IFC object hierarchy, property sets, quantities and 4D task links | Generated IFC checked by IfcOpenShell schema/EXPRESS validation and IDS | Native GUI authoring/review environment |
 | Civil planning rates | Generated `lib/templates/civil-cost-model.toml` from CAD quantities and reviewed benchmark shares | Inspect the model hash, rate properties and quantity basis; do not treat them as a quote |
 | Revision identity | City Studio content hash and Git revision | Carry revision and source hashes in IFC properties and the saved Blender scene |
 
@@ -85,6 +85,39 @@ including `IfcRail`, `IfcBeam`, `IfcColumn`, `IfcSlab`, `IfcRoof`, and an
 - inspectable coordination dimensions and source net volume;
 - explicit detail mode when a complex assembly is represented by its review envelope.
 
+Dimensions, source volume, and representation count are native
+`IfcElementQuantity` values in `OSR_CoordinationEnvelopeQuantities`, with the
+calculation method declared on the quantity set. The four discipline containers
+also declare the IFC4.3-required `VERTICAL` railway-part usage. The exporter
+runs IfcOpenShell schema and EXPRESS rules after writing and rejects any issue;
+the result is retained in `civil-coordination.validation.json`.
+
+The default model deliberately remains on the named local engineering grid.
+When accepted survey/GIS control exists, add this optional block to the civil
+alignment input:
+
+```json
+{
+  "georeferencing": {
+    "crs_name": "EPSG:9306",
+    "eastings": 198765.4,
+    "northings": 431234.5,
+    "orthogonal_height": 18.25,
+    "x_axis_abscissa": 0.999847695,
+    "x_axis_ordinate": -0.017452406,
+    "scale": 0.99995,
+    "source": "Accepted survey control revision S-04"
+  }
+}
+```
+
+Use the actual project CRS and survey transform; the example values are only a
+shape example. With the block present, the IFC contains `IfcProjectedCRS` and
+`IfcMapConversion`. Without it, the index and project properties explicitly
+record `project-crs-unresolved` rather than inventing map coordinates. For a 3D
+model, use a compound CRS that identifies the vertical datum as required by
+IFC4.3.
+
 The IFC project also carries `Pset_OSR_CostModel`: the generated contract hash,
 maturity and current class rates. Its JSON index includes the full per-route-km
 quantity basis. Editing a reviewed parametric dimension and regenerating first
@@ -112,7 +145,7 @@ IfcTester against the written IFC. Three specifications require all 95 civil
 assets to carry stable identity, source, revision, lifecycle and coordination
 dimensions; require the alignment to state its upstream authority; and require
 the project to state its source hash and release status. The current reference
-exchange passes all 958 entity-level checks. The audit is deterministic: entity
+exchange passes all 959 entity-level checks. The audit is deterministic: entity
 evidence is sorted before hashing, so a repeat build produces byte-identical
 IFC, IDS, audit, BCF, indexes, sequence, and validation files.
 
@@ -131,7 +164,7 @@ closure against the same stable objects.
 
 City Studio also pairs the object index with the hash-verified construction
 sequence. Its interactive review controls rotate the projected federation,
-toggle civil disciplines, and scrub or play the 16-task 4D sequence while
+toggle civil disciplines, and scrub or play the 18-task 4D sequence while
 showing the current QA hold and visible-asset count. These projected envelopes
 support rapid coordination and BCF selection; native tessellated geometry and
 authoritative IFC editing remain in Bonsai.
@@ -161,11 +194,30 @@ drainage capacity, construction loads, or local-code compliance. Those remain
 deployment analyses and competent-engineer decisions linked back into IFC only
 after review.
 
+## Gap review and economical next steps
+
+| IFC capability | Decision |
+|---|---|
+| Native quantity take-off | Implemented now; it replaces quantity-shaped generic properties and enables later parametric IFC costing. |
+| CRS/map conversion | Implemented now as validated opt-in input; unresolved projects remain visibly local rather than receiving a guessed EPSG code. |
+| Full horizontal/vertical/cant alignment segments and linear placement | Defer until the accepted OSR-ALN design supplies segment parameters. LandXML, railML, stakeout CSV, and the current IFC reference curve already preserve a usable handoff; the upstream IfcOpenShell alignment API remains under development. |
+| Native `IfcCostSchedule` | Defer until approved element-level rates exist. The generated CAD-indexed cost contract already propagates to city CAPEX, finance, IFC metadata, and Git revisions; attaching route-km benchmark rates to reference component samples would imply false 5D precision. Native quantities now provide the correct foundation for it later. |
+| Materials, profiles, types, reinforcement, bearings, and foundations | Do not populate generic placeholders. Add native material/type data when released specifications and deployment engineering are available. |
+| External classification | Keep stable OSR asset classes for now. Add lightweight native references when a country/client nominates a classification edition; no single global classification should be guessed. |
+| Native document register and drawings | Existing hash-linked indexes, IDS report, BCF, Git history, renders, and engineering documents are a usable low-cost evidence path. Add IFC document associations/sheets only when a CDE naming and issue convention is selected. |
+
 ## Upstream references
 
 - [Bonsai introduction and native IFC workflow](https://docs.bonsaibim.org/quickstart/introduction_to_bim.html)
 - [Bonsai road and rail alignment guide](https://docs.bonsaibim.org/guides/alignment.html)
 - [IfcOpenShell alignment API and current design limitations](https://docs.ifcopenshell.org/autoapi/ifcopenshell/api/alignment/index.html)
+- [IfcOpenShell georeferencing API](https://docs.ifcopenshell.org/autoapi/ifcopenshell/api/georeference/index.html)
+- [IFC4.3 `IfcProjectedCRS`](https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/lexical/IfcProjectedCRS.htm)
+- [IFC4.3 `IfcMapConversion`](https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/lexical/IfcMapConversion.htm)
+- [IFC4.3 railway-part organisation and usage](https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/lexical/IfcRailwayPartTypeEnum.htm)
+- [IFC4.3 native quantity sets](https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/concepts/Object_Definition/Quantity_Sets/content.html)
+- [IfcOpenShell schema validation](https://docs.ifcopenshell.org/ifcopenshell-python/validation.html)
+- [IfcOpenShell parametric cost-quantity links](https://docs.ifcopenshell.org/autoapi/ifcopenshell/api/cost/assign_cost_item_quantity/index.html)
 - [IfcTester IDS API](https://docs.ifcopenshell.org/autoapi/ifctester/ids/index.html)
 - [IfcOpenShell BCF 3 topic API](https://docs.ifcopenshell.org/autoapi/bcf/v3/topic/index.html)
 - [buildingSMART IFC4.3 rail domain](https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/ifcraildomain/content.html)

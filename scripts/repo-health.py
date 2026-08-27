@@ -262,13 +262,13 @@ def check_city_artifacts() -> list[Finding]:
         readme = city_dir / "README.md"
         if readme.exists():
             text = readme.read_text()
-            if "Station/depot charging microgrids" not in text:
+            if "| Charging microgrids |" not in text:
                 findings.append(Finding(readme, "missing station/depot charging microgrid cost row"))
-            if "Shared national railway production plant" not in text:
-                findings.append(Finding(readme, "missing shared national railway production plant section"))
-            if "External capital for imported components / machinery" not in text:
+            if "[deployment planning reference]" not in text:
+                findings.append(Finding(readme, "missing canonical common-planning reference"))
+            if "Imported / external capital" not in text:
                 findings.append(Finding(readme, "missing imported/external capital requirement"))
-            if "Foreign-company turnkey comparison" not in text:
+            if "External capital saved vs default turnkey sensitivity" not in text:
                 findings.append(Finding(readme, "missing foreign-turnkey capital comparison"))
             if "> **Foreign-capital advantage:**" not in text:
                 findings.append(Finding(readme, "missing headline foreign-capital advantage"))
@@ -905,6 +905,13 @@ def check_cost_reference_tables() -> list[Finding]:
         findings,
         readme,
         readme_text,
+        "## Feature Highlights",
+        "README is missing the front-page feature highlights",
+    )
+    _require_text(
+        findings,
+        readme,
+        readme_text,
         f"about **{_compact_million_money(light_unit)} per 3-car light-metro trainset**",
         "README rolling-stock headline is out of sync with capex-costs.toml",
     )
@@ -916,16 +923,39 @@ def check_cost_reference_tables() -> list[Finding]:
         "README production-plant headline is out of sync with capex-costs.toml",
     )
 
+    common = REPO_ROOT / "docs/deployment-planning-reference.md"
+    common_text = common.read_text()
+    common_rates = CIVIL_COST_MODEL["civil_usd_per_km"]
+    _require_text(
+        findings,
+        common,
+        common_text,
+        (
+            f"{float(common_rates['at_grade']) / 1_000_000:g} M USD/route-km "
+            f"at-grade, {float(common_rates['elevated']) / 1_000_000:g} M USD/route-km "
+            f"elevated\nand {float(common_rates['bridge']) / 1_000_000:g} M USD/route-km "
+            "for bridges"
+        ),
+        "common deployment reference civil rates are stale",
+    )
+
     rfc = REPO_ROOT / "docs/rfcs/0011-civil-infrastructure-design-standard.md"
     rfc_text = rfc.read_text()
-    for key, value in CAPEX_COSTS["civil_benchmark_usd_per_km"].items():
+    for key, value in CIVIL_COST_MODEL["civil_usd_per_km"].items():
         label = key.replace("_", "-")
-        _require_text(findings, rfc, rfc_text, f"| {label} | {_space_int(float(value))} / route-km |", "RFC 0011 civil unit table is stale")
+        benchmark = CIVIL_COST_MODEL["benchmark_civil_usd_per_km"][key]
+        _require_text(
+            findings,
+            rfc,
+            rfc_text,
+            f"| {label} | {_space_int(float(value))} / route-km | {_space_int(float(benchmark))} / route-km |",
+            "RFC 0011 civil target/benchmark table is stale",
+        )
     _require_text(
         findings,
         rfc,
         rfc_text,
-        f"| elevated-interchange premium | {_space_int(float(CAPEX_COSTS['junctions']['elevated_interchange_premium_usd']))} / site |",
+        f"| elevated-interchange premium | {_space_int(float(CAPEX_COSTS['junctions']['elevated_interchange_premium_usd']))} / site | — |",
         "RFC 0011 junction premium table is stale",
     )
     for key, value in CAPEX_COSTS["station_unit_usd"].items():
@@ -950,8 +980,15 @@ def check_cost_reference_tables() -> list[Finding]:
         findings,
         civil,
         civil_text,
-        f"Base unit: **{int(CAPEX_COSTS['civil_benchmark_usd_per_km']['at_grade']):,} USD per route-km**.",
-        "civil marketplace at-grade anchor is stale",
+        f"Active design target: **{int(CIVIL_COST_MODEL['civil_usd_per_km']['at_grade']):,} USD per route-km**. Retained marketplace",
+        "civil marketplace at-grade target is stale",
+    )
+    _require_text(
+        findings,
+        civil,
+        civil_text,
+        f"benchmark: **{int(CIVIL_COST_MODEL['benchmark_civil_usd_per_km']['at_grade']):,} USD per route-km**.",
+        "civil marketplace at-grade benchmark is stale",
     )
     for value in CAPEX_COSTS["station_unit_usd"].values():
         _require_text(findings, civil, civil_text, _marketplace_cost_anchor_value(float(value)), "civil marketplace station table is stale")
@@ -980,6 +1017,7 @@ def check_repository_hygiene() -> list[Finding]:
         REPO_ROOT / "LICENSES" / "CC-BY-SA-4.0.txt",
         REPO_ROOT / ".github" / "workflows" / "ci.yml",
         REPO_ROOT / "docs" / "repository-artifact-policy.md",
+        REPO_ROOT / "docs" / "deployment-planning-reference.md",
     )
     for path in required:
         if not path.exists():

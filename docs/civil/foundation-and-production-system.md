@@ -74,8 +74,12 @@ mix, sensor and production trial releases the shorter cycle.
 
 ## Cost boundary
 
-The elevated target remains 12 million USD per route-km. It is not reduced by
-the planning redesign. The combined construction-system changes carry only an
-unvalidated 15–30% saving target. A project estimate still requires the supplier-designed
-section, actual foundation schedule, local installed rates, erection study,
-utilities/access, risk, independent checking and contingency.
+The generated civil contract currently carries a **9.748 million USD per
+route-km elevated planning target**, indexed from the retained 12 million USD
+benchmark by the checked beam, bearing and deck-gap quantities. This is an
+unquoted design target, not an installed-rate promise. A project estimate still
+requires the supplier-designed section, actual foundation schedule, local
+installed rates, erection study, utilities/access, risk, independent checking
+and contingency. Change the calibration or CAD quantity model and regenerate
+[`civil-cost-model.toml`](../../lib/templates/civil-cost-model.toml); do not
+edit a downstream city price independently.

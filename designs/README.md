@@ -4,17 +4,19 @@ This directory retains the compact machine-readable result set for all 266 citie
 defined by `lib/city-batches/world-sample.toml`. These routed designs are retained
 because reproducing them can require external OSM and population inputs.
 
+Generated city READMEs contain local values and evidence only. Shared methodology
+and limitations live in the
+[deployment planning reference](../docs/deployment-planning-reference.md).
+
 Every city retains its design, simulator scenario, map, engineering review layers,
 validation summaries, operations asset index, acceptance report, and integrity
 manifest in one city directory. Raw solver networks, GeoPackages, compressed event
 bundles, and exploded manufacturing CSVs remain reproducible local outputs so the
 Git repository stays usable. Mosul and Samawah remain the full acceptance references.
 
-## Recovery and validation status
+## Validation status
 
-The catalogue was recovered from the last complete tracked routed snapshots after
-the cleanup commit removed them. Simulator scenarios have been regenerated with the
-current generator and current rolling-stock architecture. The retained
+The retained
 [`ring-interchange-validation.json`](ring-interchange-validation.json) report checks
 all 266 cities: **266 pass and 0 require ring/topology review
 or rerouting** under the current validator. A retained failed design is a
@@ -23,9 +25,9 @@ remain the primary full-payload worked examples.
 
 The stricter
 [`station-cluster-validation.json`](station-cluster-validation.json) report records
-**266 passing cities and 0 cities with
-0 inherited station/interchange
-findings**. Its hashes bind each finding set to the retained design and validator.
+**266 passing cities, 0 cities requiring review, and
+0 station/interchange findings**.
+Its hashes bind each finding set to the retained design and validator.
 Basra, Mosul, and Samawah pass both catalogue validators.
 
 The historical

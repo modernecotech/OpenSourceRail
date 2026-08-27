@@ -151,7 +151,9 @@ def render_cost_model() -> str:
         "",
         "| Number family | Source |",
         "|---|---|",
-        "| CAPEX unit rates, USD/EUR reporting views, EPC, solar, charging | `lib/templates/capex-costs.toml` |",
+        "| Non-civil CAPEX unit rates, retained civil benchmarks, USD/EUR reporting views, EPC, solar, charging | `lib/templates/capex-costs.toml` |",
+        "| Reviewed civil benchmark quantities and cost shares | `lib/templates/civil-cost-calibration.toml` |",
+        "| Generated CAD-indexed civil rate contract | `lib/templates/civil-cost-model.toml` |",
         "| Light-metro 3-car BOM line items | `docs/rolling-stock/light-metro-3car/bom-skeleton.md` |",
         "| Generated rolling-stock BOM CSV | `build/bom/rolling_stock_bom.csv` via `scripts/export-light-metro-bom.py` |",
         "| Recalculated LM3 build cost | `mechanical-py/catalog/buildable-trainset/trainset-build-cost.json` |",
@@ -327,7 +329,7 @@ def render_cost_model() -> str:
         "",
         "## Civil Works",
         "",
-        "Civil work is costed as a direct-procurement floor for standard-gauge, "
+        "Civil work is costed as a design-derived planning target for standard-gauge, "
         "double-track OSR alignments:",
         "",
         "| Civil class | Unit cost | Included scope |",

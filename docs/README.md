@@ -17,7 +17,7 @@ the generated [Markdown documentation index](INDEX.md).
 | New contributor | [../CONTRIBUTING.md](../CONTRIBUTING.md), [../GOVERNANCE.md](../GOVERNANCE.md), then [GLOSSARY.md](GLOSSARY.md) |
 | Deployment reviewer | [Unified deployment model](deployment-model.md), [deployment roles](deployment-roles.md), then [designs/README.md](../designs/README.md) |
 | First-product reviewer | [First adoptable product](first-adoptable-product.md), then [operations portal](operations-portal/README.md) |
-| City/network planner | [City Studio](city-studio/README.md), [designs/README.md](../designs/README.md), [cost model](cost-model.md), [civil OSR-ALN format](civil/osr-aln-format.md) |
+| City/network planner | [Deployment planning reference](deployment-planning-reference.md), [City Studio](city-studio/README.md), [designs/README.md](../designs/README.md), [cost model](cost-model.md), [civil OSR-ALN format](civil/osr-aln-format.md) |
 | Rolling-stock engineer | [rolling-stock/light-metro-3car/README.md](rolling-stock/light-metro-3car/README.md) |
 | Mechanical/CAD reviewer | [mechanical-py/README.md](../mechanical-py/README.md) and [mechanical-py/catalog/](../mechanical-py/catalog/) |
 | Hardware reviewer | [hardware/README.md](../hardware/README.md) and [hardware/rolling-stock-integration.md](../hardware/rolling-stock-integration.md) |
@@ -34,6 +34,7 @@ the generated [Markdown documentation index](INDEX.md).
 | [rfcs/](rfcs/README.md) | Design decisions and standards for architecture, rolling stock, track, stations, depots, driverless operation, hardware, energy, and safety |
 | [brochures/](brochures/README.md) | Short PDF introductions and presentation-style summaries |
 | [deployment-model.md](deployment-model.md) | Unified city/deployment pipeline; Samawah is an instance, not a special fork |
+| [deployment-planning-reference.md](deployment-planning-reference.md) | Canonical shared interpretation for concise generated city READMEs and national briefs |
 | [deployment-roles.md](deployment-roles.md) | Owner/operator, prime integrator, assessor, insurer, EPC, workshop, finance, and regulator responsibilities |
 | [first-adoptable-product.md](first-adoptable-product.md) | Ops Core + simulator + asset register + QA/maintenance/evidence portal as the first low-risk deployment wedge |
 | [rolling-stock/](rolling-stock/README.md) | Light-metro trainset package: GA, body, bogie, traction, BOM, fabrication plan, drawing register, compliance |
@@ -53,6 +54,7 @@ the generated [Markdown documentation index](INDEX.md).
 | Artifact | Location |
 |---|---|
 | City design catalogue and reviewed references | [designs/README.md](../designs/README.md) |
+| Shared city/country planning methodology | [deployment planning reference](deployment-planning-reference.md) |
 | City source list | [lib/city-batches/world-sample.toml](../lib/city-batches/world-sample.toml) |
 | Mechanical FreeCAD review artifacts | [mechanical-py/catalog/](../mechanical-py/catalog/) |
 | Rolling-stock BOM | [rolling-stock/light-metro-3car/bom-skeleton.md](rolling-stock/light-metro-3car/bom-skeleton.md) |
