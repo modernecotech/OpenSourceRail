@@ -31,8 +31,8 @@ def test_civil_ifc_has_rail_semantics_geometry_schedule_and_stable_ids(tmp_path:
 
     assert validation["passed"]
     assert ids_report["status"]
-    assert ids_report["total_specifications_pass"] == 13
-    assert ids_report["total_checks"] == ids_report["total_checks_pass"] == 1602
+    assert ids_report["total_specifications_pass"] == 16
+    assert ids_report["total_checks"] == ids_report["total_checks_pass"] == 1637
     assert bcf_index["topic_count"] == 3
     assert coordination is not None
     assert coordination.version.version_id == "3.0"
@@ -40,6 +40,7 @@ def test_civil_ifc_has_rail_semantics_geometry_schedule_and_stable_ids(tmp_path:
     assert index["summary"] == {
         "alignment_stationing_referents": 2,
         "assets": 95,
+        "built_systems": 3,
         "classification_references": 11,
         "classifications": 1,
         "classified_assets": 95,
@@ -47,6 +48,7 @@ def test_civil_ifc_has_rail_semantics_geometry_schedule_and_stable_ids(tmp_path:
         "coordination_groups": 5,
         "document_associated_assets": 95,
         "documents": 15,
+        "functional_systems": 5,
         "grouped_assets": 95,
         "horizontal_alignment_segments": 1,
         "disciplines": {
@@ -73,8 +75,12 @@ def test_civil_ifc_has_rail_semantics_geometry_schedule_and_stable_ids(tmp_path:
         "profiled_assets": 32,
         "profiles": 1,
         "presentation_layers": 4,
+        "planning_rate_items": 3,
+        "planning_rate_schedules": 1,
         "property_set_templates": 13,
         "property_templates": 77,
+        "system_associated_assets": 95,
+        "system_spatial_part_references": 6,
         "template_linked_definitions": 220,
         "template_matched_definitions": 224,
         "typed_assets": 93,
@@ -89,6 +95,34 @@ def test_civil_ifc_has_rail_semantics_geometry_schedule_and_stable_ids(tmp_path:
     assert index["cost_model"]["civil_usd_per_km"] == expected_cost_model[
         "civil_usd_per_km"
     ]
+    cost_schedule = model.by_type("IfcCostSchedule")
+    cost_items = {
+        item.Identification: item for item in model.by_type("IfcCostItem")
+    }
+    assert len(cost_schedule) == 1
+    assert cost_schedule[0].Identification == "OSR-COST-RATES-001"
+    assert cost_schedule[0].PredefinedType == "SCHEDULEOFRATES"
+    assert cost_schedule[0].Status == "planning-target-not-a-quotation"
+    assert index["cost_schedule"]["source_sha256"] == index["cost_model"]["sha256"]
+    assert index["cost_schedule"]["scope_boundary"].endswith("project total")
+    assert set(cost_items) == {
+        "OSR-RATE-AT-GRADE",
+        "OSR-RATE-ELEVATED",
+        "OSR-RATE-BRIDGE",
+    }
+    assert len(model.by_type("IfcCostValue")) == 3
+    assert len(model.by_type("IfcMonetaryUnit")) == 1
+    assert model.by_type("IfcMonetaryUnit")[0].Currency == "USD"
+    for rate_row in index["cost_schedule"]["items"]:
+        item = cost_items[rate_row["rate_id"]]
+        assert not item.CostQuantities
+        assert not item.Controls
+        assert len(item.CostValues) == 1
+        value = item.CostValues[0]
+        assert value.AppliedValue.wrappedValue == rate_row["rate_usd_per_route_km"]
+        assert value.UnitBasis.ValueComponent.wrappedValue == 1_000.0
+        assert value.UnitBasis.UnitComponent.UnitType == "LENGTHUNIT"
+        assert value.Category == "PLANNING_TARGET"
     assert index["cost_model"]["quantities_per_route_km"]["elevated"][
         "bearings_per_km"
     ] == 200
@@ -216,6 +250,13 @@ def test_civil_ifc_has_rail_semantics_geometry_schedule_and_stable_ids(tmp_path:
     assert document_pset["HashAlgorithm"] == "SHA-256"
     assert document_pset["LocationPolicy"] == "repository-relative URI"
     assert document_pset["RegisterStatus"] == "native-ifc-hash-locked-repository-sources"
+    cost_document = next(
+        row
+        for row in index["documents"]
+        if row["document_id"] == "OSR-DOC-CIVIL-COST-CONTRACT"
+    )
+    assert cost_document["associated_cost_schedule"]
+    assert cost_document["associated_object_count"] == 2
     assert len(model.by_type("IfcClassification")) == 1
     assert len(model.by_type("IfcClassificationReference")) == 11
     assert len(model.by_type("IfcRelAssociatesClassification")) == 12
@@ -246,16 +287,29 @@ def test_civil_ifc_has_rail_semantics_geometry_schedule_and_stable_ids(tmp_path:
         classification_pset["ExternalMappingStatus"]
         == "country-and-client-mapping-not-nominated"
     )
-    assert len(model.by_type("IfcGroup")) == 5
-    assert len(model.by_type("IfcRelAssignsToGroup")) == 5
+    assert (
+        len(
+            [
+                group
+                for group in model.by_type("IfcGroup")
+                if group.is_a() == "IfcGroup"
+            ]
+        )
+        == 5
+    )
+    assert len(model.by_type("IfcSystem")) == 5
+    assert len(model.by_type("IfcBuiltSystem")) == 3
+    assert len(model.by_type("IfcRelAssignsToGroup")) == 10
     assert sorted(row["asset_count"] for row in index["groups"]) == [1, 2, 11, 12, 69]
     assert sum(
         len(relationship.RelatedObjects)
         for relationship in model.by_type("IfcRelAssignsToGroup")
+        if relationship.RelatingGroup.is_a() == "IfcGroup"
     ) == 95
     groups_by_id = {
         get_psets(group)["OSR_CoordinationGroup"]["GroupId"]: group
         for group in model.by_type("IfcGroup")
+        if group.is_a() == "IfcGroup"
     }
     assert set(groups_by_id) == {row["group_id"] for row in index["groups"]}
     assert all(
@@ -281,9 +335,67 @@ def test_civil_ifc_has_rail_semantics_geometry_schedule_and_stable_ids(tmp_path:
             ]
             for relationship in model.by_guid(row["ifc_guid"]).HasAssignments
             if relationship.is_a("IfcRelAssignsToGroup")
+            and relationship.RelatingGroup.is_a() == "IfcGroup"
         }
         == {row["coordination_group_id"]}
         for row in index["objects"]
+    )
+    systems_by_id = {
+        system.ObjectType: system for system in model.by_type("IfcSystem")
+    }
+    assert set(systems_by_id) == {row["system_id"] for row in index["systems"]}
+    assert sum(row["asset_count"] for row in index["systems"]) == 95
+    assert sum(
+        len(relationship.RelatedObjects)
+        for relationship in model.by_type("IfcRelAssignsToGroup")
+        if relationship.RelatingGroup.is_a("IfcSystem")
+    ) == 95
+    assert all(
+        systems_by_id[row["system_id"]].Name == row["name"]
+        and systems_by_id[row["system_id"]].Description == row["description"]
+        and systems_by_id[row["system_id"]].is_a() == row["ifc_class"]
+        and getattr(systems_by_id[row["system_id"]], "PredefinedType", None)
+        == row["ifc_predefined_type"]
+        and row["spatial_meaning"] == "none; not an IfcSpatialZone"
+        and row["operational_status"]
+        == "design-reference; not commissioned or operational"
+        for row in index["systems"]
+    )
+    assert all(
+        {
+            relationship.RelatingGroup.ObjectType
+            for relationship in model.by_guid(row["ifc_guid"]).HasAssignments
+            if relationship.is_a("IfcRelAssignsToGroup")
+            and relationship.RelatingGroup.is_a("IfcSystem")
+        }
+        == {row["functional_system_id"]}
+        for row in index["objects"]
+    )
+    assert {
+        system.ObjectType: getattr(system, "PredefinedType", None)
+        for system in model.by_type("IfcSystem")
+    } == {
+        "OSR-SYS-CLEARANCE": None,
+        "OSR-SYS-GUIDEWAY": "LOADBEARING",
+        "OSR-SYS-ROLLING-STOCK": None,
+        "OSR-SYS-STATION": "USERDEFINED",
+        "OSR-SYS-TRACK": "RAILWAYTRACK",
+    }
+    spatial_system_relationships = model.by_type(
+        "IfcRelReferencedInSpatialStructure"
+    )
+    assert len(spatial_system_relationships) == 4
+    assert sum(
+        len(relationship.RelatedElements)
+        for relationship in spatial_system_relationships
+    ) == 6
+    assert all(
+        {
+            relationship.RelatingStructure.Name
+            for relationship in systems_by_id[row["system_id"]].ReferencedInStructures
+        }
+        == set(row["spatial_part_names"])
+        for row in index["systems"]
     )
     assert len(model.by_type("IfcPresentationLayerAssignment")) == 4
     layers_by_id = {

@@ -34,12 +34,16 @@ OSR geometry into IFC4.3, then imported and rendered through Bonsai 0.8.5. It
 contains 95 stable rail/civil assets, 17 reusable IFC types, three declared
 material families, one native 60E1 section profile driving 32 rail extrusions,
 one internal classification with 11 asset references covering all 95 assets,
-five native coordination groups and four native visibility layers covering
-every asset, 15 hash-locked native source-document records, native quantities,
+five native coordination groups, five native functional engineering systems
+(including three specialized `IfcBuiltSystem` records),
+and four native visibility layers covering every asset exactly once in each
+scheme, six system-to-railway-part references, 15 hash-locked native
+source-document records, native quantities,
 provenance, nine native qualitative interface constraints, 18 linked
 construction tasks, 13 native property/quantity dictionaries with 77 typed
 fields, a native horizontal/vertical planning alignment with stationing, and
-1,602/1,602 passing IDS checks. OSR remains
+one native USD schedule containing three generated planning rates, with
+1,637/1,637 passing IDS checks. OSR remains
 authoritative for route and engineering rules; Bonsai provides
 federation, detail review, drawings, quantities, and 4D sequencing. See the
 [Bonsai civil workflow](docs/civil/bonsai-ifc-workflow.md).*
@@ -69,7 +73,7 @@ operating affordable urban rail systems. It combines:
 | **Deterministic city generation** | Reproducible GIS, network, fleet, energy, engineering and finance packages for [266 cities in 44 countries](designs/README.md). |
 | **Interactive City Studio** | Create, move and retire stations and lines; edit routing control points; plan service by line, day and time; test OD capacity, inspect IFC evidence, and isolate native review groups in one [local GUI](docs/city-studio/README.md). |
 | **Git-native revision control** | Content-addressed immutable revisions, semantic comparisons, append-only approvals and restart-tested persistence keep each city decision reviewable in GitHub. |
-| **Civil BIM and 4D coordination** | Parametric Pi25/slipform/foundation geometry generates schema-checked IFC4.3 with native planning alignment layouts and stationing, quantities, typed property dictionaries, classification, review groups, visibility layers, constraints, optional survey control, IDS/BCF evidence and linked construction sequencing through the [civil BIM workflow](docs/civil/bonsai-ifc-workflow.md). |
+| **Civil BIM and 4D coordination** | Parametric Pi25/slipform/foundation geometry generates schema-checked IFC4.3 with native planning alignment layouts, quantities, typed property dictionaries, a generated schedule of planning rates, classification, review controls, optional survey control, IDS/BCF evidence and linked construction sequencing through the [civil BIM workflow](docs/civil/bonsai-ifc-workflow.md). |
 | **Automatic cost propagation** | Checked CAD quantities regenerate the [shared civil rate contract](lib/templates/civil-cost-model.toml), which feeds city CAPEX, finance, IFC properties, portfolio summaries and generated READMEs while retaining the original benchmark for comparison. |
 | **Operations-to-assurance stack** | Simulation, GoA 4 control components, energy planning, manufacturing QA, maintenance, Ops Core, hardware references and a machine-checkable safety case share one repository and evidence model. |
 
@@ -156,7 +160,7 @@ hash-verified interactive civil/4D review, artifact hashing, and revision review
 
 ![City Studio creating a deterministic BCF topic from a selected IFC asset](docs/screenshots/city-studio/ifc-bcf-topic-authoring.png)
 
-![Browser-tested City Studio network, OD capacity planning, native IFC group filtering, civil 4D review, approvals, and multi-asset IFC inspector](docs/screenshots/city-studio/gui-acceptance.png)
+![Browser-tested City Studio network, OD capacity planning, native IFC group and functional-system filtering, civil 4D review, approvals, and multi-asset IFC inspector](docs/screenshots/city-studio/gui-acceptance.png)
 
 Run it locally with `cargo run -p osr-city-studio -- serve`, then open
 <http://127.0.0.1:8090/>. See the

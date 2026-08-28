@@ -100,6 +100,7 @@ let civilReviewState = {
   stage: 0,
   layers: new Set(),
   groups: new Set(),
+  systems: new Set(),
 };
 let operationBusy = false;
 let selectedDemandFlowId = null;
@@ -1084,6 +1085,7 @@ async function openJobArtifact(jobId, index, shouldScroll) {
           stage: selectedCivilSequence?.content?.tasks?.length || 0,
           layers: new Set(layers),
           groups: new Set((nextPreview.content.groups || []).map((group) => group.group_id)),
+          systems: new Set((nextPreview.content.systems || []).map((system) => system.system_id)),
         };
       }
     }
@@ -1185,6 +1187,7 @@ function renderCivilReviewControls(preview) {
       asset_count: preview.content.summary.disciplines[discipline],
     }));
   const groups = preview.content.groups || [];
+  const systems = preview.content.systems || [];
   const tasks = selectedCivilSequence?.content?.tasks || [];
   const stage = Math.min(civilReviewState.stage, tasks.length);
   const task = stage > 0 ? tasks[stage - 1] : null;
@@ -1197,6 +1200,8 @@ function renderCivilReviewControls(preview) {
     <div class="civil-discipline-list">${layers.map((layer) => `<label><input type="checkbox" data-civil-layer="${escapeHtml(layer.layer_id)}" ${civilReviewState.layers.has(layer.layer_id) ? "checked" : ""}>${escapeHtml(layer.name)} · ${layer.asset_count}</label>`).join("")}</div>
     <small>Native IFC coordination groups</small>
     <div class="civil-discipline-list">${groups.map((group) => `<label><input type="checkbox" data-civil-group="${escapeHtml(group.group_id)}" ${civilReviewState.groups.has(group.group_id) ? "checked" : ""}>${escapeHtml(group.name)} · ${group.asset_count}</label>`).join("")}</div>
+    <small>Native IFC functional systems</small>
+    <div class="civil-discipline-list">${systems.map((system) => `<label><input type="checkbox" data-civil-system="${escapeHtml(system.system_id)}" ${civilReviewState.systems.has(system.system_id) ? "checked" : ""}>${escapeHtml(system.name)} · ${system.asset_count}</label>`).join("")}</div>
     <label>Construction stage
       <input id="civil-stage" type="range" min="0" max="${tasks.length}" step="1" value="${stage}" ${tasks.length ? "" : "disabled"}>
     </label>
@@ -1219,6 +1224,14 @@ function renderCivilReviewControls(preview) {
     checkbox.addEventListener("change", () => {
       if (checkbox.checked) civilReviewState.groups.add(checkbox.dataset.civilGroup);
       else civilReviewState.groups.delete(checkbox.dataset.civilGroup);
+      renderCivilGraphic();
+      renderCivilReviewControls(preview);
+    });
+  });
+  host.querySelectorAll("[data-civil-system]").forEach((checkbox) => {
+    checkbox.addEventListener("change", () => {
+      if (checkbox.checked) civilReviewState.systems.add(checkbox.dataset.civilSystem);
+      else civilReviewState.systems.delete(checkbox.dataset.civilSystem);
       renderCivilGraphic();
       renderCivilReviewControls(preview);
     });
@@ -1280,6 +1293,8 @@ function artifactGraphic(preview) {
       if (!civilReviewState.layers.has(item.presentation_layer_id || item.discipline)) return [];
       if ((content.groups || []).length
         && !civilReviewState.groups.has(item.coordination_group_id)) return [];
+      if ((content.systems || []).length
+        && !civilReviewState.systems.has(item.functional_system_id)) return [];
       if (stageAssets && !stageAssets.has(item.asset_id)) return [];
       const box = item.bbox_m;
       if (!Array.isArray(box) || box.length !== 6) return [];
@@ -1360,6 +1375,7 @@ function artifactInspectorItems(preview) {
     const profiles = new Map((content.profiles || []).map((item) => [item.profile_id, item]));
     const documents = new Map((content.documents || []).map((item) => [item.document_id, item]));
     const groups = new Map((content.groups || []).map((item) => [item.group_id, item]));
+    const systems = new Map((content.systems || []).map((item) => [item.system_id, item]));
     const layers = new Map((content.layers || []).map((item) => [item.layer_id, item]));
     const classification = content.classification || {};
     const objectItems = (content.objects || []).map((item) => {
@@ -1367,6 +1383,7 @@ function artifactInspectorItems(preview) {
       const profile = profiles.get(item.profile_id);
       const sourceDocuments = (item.document_ids || []).map((id) => documents.get(id)).filter(Boolean);
       const coordinationGroup = groups.get(item.coordination_group_id);
+      const functionalSystem = systems.get(item.functional_system_id);
       const presentationLayer = layers.get(item.presentation_layer_id);
       return {
         label: item.name,
@@ -1387,6 +1404,9 @@ function artifactInspectorItems(preview) {
           coordinationGroup
             ? `coordination group ${coordinationGroup.group_id} · ${coordinationGroup.name}\nrole ${coordinationGroup.role}`
             : `coordination group ${item.coordination_group_id} · unresolved`,
+          functionalSystem
+            ? `functional system ${functionalSystem.system_id} · ${functionalSystem.name}\nIFC ${functionalSystem.ifc_class} · ${functionalSystem.ifc_predefined_type || "no predefined subtype"}\nrole ${functionalSystem.role} · ${functionalSystem.operational_status}`
+            : `functional system ${item.functional_system_id || "not indexed"}`,
           presentationLayer
             ? `presentation layer ${presentationLayer.layer_id} · ${presentationLayer.name}\nscope ${presentationLayer.assignment_scope}`
             : `presentation layer ${item.presentation_layer_id || "not indexed"}`,
@@ -1438,6 +1458,25 @@ function artifactInspectorItems(preview) {
         `representations ${layer.representation_count}`,
         `description ${layer.description}`,
         "semantics simple geometry grouping and visibility control only",
+      ].join("\n"),
+    }));
+    const systemItems = (content.systems || []).map((system) => ({
+      label: system.name,
+      meta: `${system.system_id} · ${system.asset_count} assets · ${system.role}`,
+      detail: [
+        `functional system ${system.system_id}`,
+        `IFC GUID ${system.ifc_guid}`,
+        `IFC class ${system.ifc_class}`,
+        `predefined type ${system.ifc_predefined_type || "not applicable"}`,
+        `long name ${system.long_name || "not applicable"}`,
+        `role ${system.role}`,
+        `assets ${system.asset_count}`,
+        `asset classes ${system.asset_classes.join(", ")}`,
+        `semantics ${system.semantics}`,
+        `spatial meaning ${system.spatial_meaning}`,
+        `operational status ${system.operational_status}`,
+        `membership ${system.membership_policy}`,
+        `railway-part references ${system.spatial_part_names.join(", ")}`,
       ].join("\n"),
     }));
     const constraintItems = (content.constraints || []).map((constraint) => ({
@@ -1505,7 +1544,39 @@ function artifactInspectorItems(preview) {
         `release ${content.alignment.release_status}`,
       ].join("\n"),
     }] : [];
-    return [...objectItems, ...classificationItems, ...groupItems, ...layerItems, ...constraintItems, ...propertyTemplateItems, ...documentItems, ...alignmentItems];
+    const costScheduleItems = content.cost_schedule ? [{
+      label: content.cost_schedule.name,
+      meta: `${content.cost_schedule.predefined_type} · ${content.cost_schedule.item_count} alternatives · ${content.cost_schedule.currency}`,
+      detail: [
+        `cost schedule ${content.cost_schedule.schedule_id}`,
+        `IFC class ${content.cost_schedule.ifc_class}`,
+        `predefined type ${content.cost_schedule.predefined_type}`,
+        `currency ${content.cost_schedule.currency}`,
+        `unit basis ${content.cost_schedule.unit_basis}`,
+        `maturity ${content.cost_schedule.maturity}`,
+        `basis ${content.cost_schedule.basis}`,
+        `source ${content.cost_schedule.source_path}`,
+        `sha256 ${content.cost_schedule.source_sha256}`,
+        `scope ${content.cost_schedule.scope_boundary}`,
+      ].join("\n"),
+    }, ...content.cost_schedule.items.map((rate) => ({
+      label: rate.name,
+      meta: `${rate.rate_id} · ${content.cost_schedule.currency} ${rate.rate_usd_per_route_km.toLocaleString()}/route-km`,
+      detail: [
+        `cost item ${rate.rate_id}`,
+        `IFC class ${rate.ifc_class}`,
+        `civil class ${rate.civil_class}`,
+        `design target ${content.cost_schedule.currency} ${rate.rate_usd_per_route_km.toLocaleString()} per route-km`,
+        `retained benchmark ${content.cost_schedule.currency} ${rate.benchmark_usd_per_route_km.toLocaleString()} per route-km`,
+        `design / benchmark ${rate.design_to_benchmark_ratio}`,
+        `unit basis ${rate.unit_basis_value_m.toLocaleString()} project metres`,
+        `value category ${rate.cost_value_category}`,
+        `quantity ${rate.quantity_status}`,
+        `product assignment ${rate.product_assignment_status}`,
+        `drivers\n${rate.drivers.map((driver) => `${driver.quantity} · ${driver.current_quantity} / ${driver.benchmark_quantity} · ratio ${driver.quantity_ratio}\n${driver.reason}`).join("\n") || "none published for this retained benchmark class"}`,
+      ].join("\n"),
+    }))] : [];
+    return [...objectItems, ...classificationItems, ...groupItems, ...layerItems, ...constraintItems, ...propertyTemplateItems, ...documentItems, ...alignmentItems, ...costScheduleItems, ...systemItems];
   }
   if (preview.format === "json" && content.schema === "org.opensourcerail.bonsai-civil-bcf-index.v1") {
     return (content.topics || []).map((topic) => ({
@@ -1720,7 +1791,7 @@ function artifactMetrics(preview, graphic) {
     const coordinateReference = content.georeferencing?.native_ifc_georeferencing
       ? content.georeferencing.crs_name
       : "local grid";
-    return [[content.summary?.assets || 0, "IFC assets"], [content.summary?.types || 0, "reusable IFC types"], [content.summary?.typed_assets || 0, "typed assets"], [content.summary?.materials || 0, "declared material families"], [content.summary?.material_associated_assets || 0, "material-associated assets"], [content.summary?.profiles || 0, "native section profiles"], [content.summary?.profiled_assets || 0, "profile-extruded assets"], [content.summary?.classifications || 0, "native classification systems"], [content.summary?.classification_references || 0, "asset-class references"], [content.summary?.classified_assets || 0, "classified assets"], [content.summary?.coordination_groups || 0, "native coordination groups"], [content.summary?.grouped_assets || 0, "group-associated assets"], [content.summary?.presentation_layers || 0, "native presentation layers"], [content.summary?.layer_associated_assets || 0, "layer-associated assets"], [content.summary?.interface_constraints || 0, "native interface constraints"], [content.summary?.horizontal_alignment_segments || 0, "native horizontal alignment segments"], [content.summary?.vertical_alignment_segments || 0, "native vertical alignment segments"], [content.summary?.alignment_stationing_referents || 0, "alignment stationing referents"], [content.summary?.property_set_templates || 0, "native property-set templates"], [content.summary?.property_templates || 0, "typed template fields"], [content.summary?.template_matched_definitions || 0, "template-matched definitions"], [content.summary?.documents || 0, "hash-locked source documents"], [content.summary?.document_associated_assets || 0, "source-linked assets"], [content.summary?.construction_tasks || 0, "4D tasks"], [content.summary?.interface_checks || 0, "interface checks"], [coordinateReference, "coordinate reference"], [content.ifc_schema || "IFC4X3", "coordination schema"]];
+    return [[content.summary?.assets || 0, "IFC assets"], [content.summary?.types || 0, "reusable IFC types"], [content.summary?.typed_assets || 0, "typed assets"], [content.summary?.materials || 0, "declared material families"], [content.summary?.material_associated_assets || 0, "material-associated assets"], [content.summary?.profiles || 0, "native section profiles"], [content.summary?.profiled_assets || 0, "profile-extruded assets"], [content.summary?.classifications || 0, "native classification systems"], [content.summary?.classification_references || 0, "asset-class references"], [content.summary?.classified_assets || 0, "classified assets"], [content.summary?.coordination_groups || 0, "native coordination groups"], [content.summary?.grouped_assets || 0, "group-associated assets"], [content.summary?.functional_systems || 0, "native functional systems"], [content.summary?.built_systems || 0, "specialized built systems"], [content.summary?.system_associated_assets || 0, "system-associated assets"], [content.summary?.system_spatial_part_references || 0, "system / railway-part references"], [content.summary?.presentation_layers || 0, "native presentation layers"], [content.summary?.layer_associated_assets || 0, "layer-associated assets"], [content.summary?.interface_constraints || 0, "native interface constraints"], [content.summary?.horizontal_alignment_segments || 0, "native horizontal alignment segments"], [content.summary?.vertical_alignment_segments || 0, "native vertical alignment segments"], [content.summary?.alignment_stationing_referents || 0, "alignment stationing referents"], [content.summary?.planning_rate_schedules || 0, "native planning schedules of rates"], [content.summary?.planning_rate_items || 0, "planning unit-rate alternatives"], [content.summary?.property_set_templates || 0, "native property-set templates"], [content.summary?.property_templates || 0, "typed template fields"], [content.summary?.template_matched_definitions || 0, "template-matched definitions"], [content.summary?.documents || 0, "hash-locked source documents"], [content.summary?.document_associated_assets || 0, "source-linked assets"], [content.summary?.construction_tasks || 0, "4D tasks"], [content.summary?.interface_checks || 0, "interface checks"], [coordinateReference, "coordinate reference"], [content.ifc_schema || "IFC4X3", "coordination schema"]];
   }
   if (preview.format === "json" && content.schema === "org.opensourcerail.bonsai-civil-ids-report.v1") {
     return [[content.total_specifications_pass, `of ${content.total_specifications} IDS specifications`], [content.total_checks_pass, `of ${content.total_checks} checks`], [content.status ? "PASS" : "FAIL", "information delivery"], ["IDS 1.0", "requirements standard"]];

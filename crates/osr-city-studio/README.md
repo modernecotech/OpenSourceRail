@@ -28,26 +28,27 @@ adapter emits an IFC4.3 rail federation, object index, quantities, provenance,
 17 reusable source-recipe component types, three source-backed material
 families, one native section profile driving 32 rail extrusions, linked
 construction sequence, one internal classification with 11 references covering
-all assets, five native coordination groups, four native presentation layers,
-nine native qualitative interface constraints,
+all assets, five native coordination groups, five native functional systems
+(three specialized as `IfcBuiltSystem`), six system-to-railway-part references,
+four native presentation layers, nine native qualitative interface constraints,
 13 native property/quantity dictionaries with 77 typed fields,
 native horizontal/vertical planning alignment segments and stationing,
-15 hash-locked native source
-documents, IDS audit, and BCF 3.0
-release issues for Bonsai.
+one native USD schedule of three generated planning rates, 15 hash-locked native
+source documents, IDS audit, and BCF 3.0 release issues for Bonsai.
 The integrated evidence viewer
 re-verifies each hash before plotting GeoJSON, alignment JSON, civil IFC object
-envelopes with object picking, asset-class inheritance, group membership,
-interface-constraint evidence,
+envelopes with object picking, asset-class inheritance, review-group and
+functional-system membership, interface-constraint evidence,
 property-template applicability and definition linkage,
 alignment layout, stationing, and unresolved cant/transition evidence,
+planning-rate provenance, quantity drivers, and no-estimate boundaries,
 source-document records and hashes, IDS
 specifications, BCF topics, LandXML, railML,
 stakeout CSV, or simulation results.
 The civil viewer joins the verified IFC object index with its verified 4D task
-sequence, supporting view rotation, presentation-layer and coordination-group
-visibility, construction-stage scrubbing/playback, task/QA-hold context, and
-stable object picking for BCF.
+sequence, supporting view rotation, presentation-layer, coordination-group, and
+functional-system visibility, construction-stage scrubbing/playback,
+task/QA-hold context, and stable object picking for BCF.
 
 BCF decisions are saved to project intent and included in Git revision hashes;
 immutable job evidence is never edited in place. Resolution and closure require

@@ -60,6 +60,14 @@ from ifcopenshell.api.classification import (
 )
 from ifcopenshell.api.context import add_context
 from ifcopenshell.api.constraint import add_objective, assign_constraint, edit_objective
+from ifcopenshell.api.cost import (
+    add_cost_item,
+    add_cost_schedule as add_ifc_cost_schedule,
+    add_cost_value,
+    edit_cost_item,
+    edit_cost_schedule,
+    edit_cost_value,
+)
 from ifcopenshell.api.document import (
     add_information,
     add_reference,
@@ -95,10 +103,11 @@ from ifcopenshell.api.sequence import (
     assign_sequence,
     edit_task_time,
 )
-from ifcopenshell.api.spatial import assign_container
+from ifcopenshell.api.spatial import assign_container, reference_structure
 from ifcopenshell.api.style import add_style, add_surface_style, assign_representation_styles
+from ifcopenshell.api.system import add_system, assign_system, edit_system
 from ifcopenshell.api.type import assign_type
-from ifcopenshell.api.unit import assign_unit
+from ifcopenshell.api.unit import add_monetary_unit, assign_unit
 
 from osr_mech.cad import Compound, Part
 from osr_mech.civil_systems_integration import (
@@ -218,6 +227,52 @@ ASSET_CLASSIFICATION = {
         "station.solar-canopy": "Station solar canopy",
         "track.rail": "Running rail",
         "track.turnout": "Track turnout assembly",
+    },
+}
+
+FUNCTIONAL_SYSTEMS = {
+    "OSR-SYS-CLEARANCE": {
+        "name": "Clearance assurance system",
+        "role": "clearance-assurance",
+        "ifc_class": "IfcSystem",
+        "predefined_type": None,
+        "asset_classes": {"clearance.reference-envelope"},
+    },
+    "OSR-SYS-GUIDEWAY": {
+        "name": "Guideway structural system",
+        "role": "guideway-structure",
+        "ifc_class": "IfcBuiltSystem",
+        "predefined_type": "LOADBEARING",
+        "asset_classes": {
+            "civil.decked-pi-beam",
+            "civil.pier",
+            "civil.walkway-cassette",
+        },
+    },
+    "OSR-SYS-ROLLING-STOCK": {
+        "name": "Rolling-stock reference system",
+        "role": "rolling-stock-reference",
+        "ifc_class": "IfcSystem",
+        "predefined_type": None,
+        "asset_classes": {"rolling-stock.trainset"},
+    },
+    "OSR-SYS-STATION": {
+        "name": "Station interface system",
+        "role": "station-interface",
+        "ifc_class": "IfcBuiltSystem",
+        "predefined_type": "USERDEFINED",
+        "asset_classes": {
+            "civil.station-deck-interface",
+            "station.platform-interface",
+            "station.solar-canopy",
+        },
+    },
+    "OSR-SYS-TRACK": {
+        "name": "Track and running-way system",
+        "role": "track-and-running-way",
+        "ifc_class": "IfcBuiltSystem",
+        "predefined_type": "RAILWAYTRACK",
+        "asset_classes": {"civil.trackform", "track.rail", "track.turnout"},
     },
 }
 
@@ -1023,6 +1078,116 @@ def add_schedule(
     return schedule_rows, assignments
 
 
+def add_planning_rate_schedule(
+    model: ifcopenshell.file,
+    *,
+    cost_model: dict[str, Any],
+    cost_model_hash: str,
+    length_unit: Any,
+) -> tuple[Any, dict[str, Any]]:
+    """Embed the generated planning rates without asserting a project estimate."""
+
+    schedule = add_ifc_cost_schedule(
+        model,
+        name="OSR generated civil planning schedule of rates",
+        predefined_type="SCHEDULEOFRATES",
+    )
+    edit_cost_schedule(
+        model,
+        cost_schedule=schedule,
+        attributes={
+            "Identification": "OSR-COST-RATES-001",
+            "Description": (
+                f"{cost_model['schema']['basis']}. Generated contract sha256:"
+                f"{cost_model_hash}. This is a planning schedule of rates, not a "
+                "bill, tender, quotation, or element-level estimate."
+            ),
+            "Status": cost_model["schema"]["maturity"],
+            "UpdateDate": FIXED_REVIEW_TIMESTAMP,
+        },
+    )
+    class_mapping = (
+        ("at-grade", "at_grade", "At-grade civil works"),
+        ("elevated", "elevated", "Elevated civil works"),
+        ("bridge", "bridge", "Bridge civil works"),
+    )
+    item_rows: list[dict[str, Any]] = []
+    for class_name, rate_key, label in class_mapping:
+        rate = float(cost_model["civil_usd_per_km"][rate_key])
+        class_data = cost_model["classes"][class_name]
+        item = add_cost_item(model, cost_schedule=schedule)
+        edit_cost_item(
+            model,
+            cost_item=item,
+            attributes={
+                "Identification": f"OSR-RATE-{class_name.upper()}",
+                "Name": label,
+                "Description": (
+                    "Generated design-target unit rate; planning sensitivity only. "
+                    "No IFC products or element quantities are assigned."
+                ),
+                "PredefinedType": "USERDEFINED",
+                "ObjectType": "Planning civil unit-rate alternative",
+            },
+        )
+        value = add_cost_value(model, parent=item)
+        edit_cost_value(
+            model,
+            cost_value=value,
+            attributes={
+                "Name": "Generated design target",
+                "Description": (
+                    "USD per route-kilometre from the hash-locked OSR civil cost contract"
+                ),
+                "AppliedValue": rate,
+                "UnitBasis": {
+                    "ValueComponent": 1_000.0,
+                    "UnitComponent": length_unit,
+                },
+                "Category": "PLANNING_TARGET",
+                "Condition": cost_model["schema"]["maturity"],
+            },
+        )
+        item_rows.append(
+            {
+                "rate_id": item.Identification,
+                "name": label,
+                "civil_class": class_name,
+                "ifc_class": "IfcCostItem",
+                "rate_usd_per_route_km": rate,
+                "benchmark_usd_per_route_km": float(
+                    cost_model["benchmark_civil_usd_per_km"][rate_key]
+                ),
+                "design_to_benchmark_ratio": float(
+                    class_data["design_to_benchmark_ratio"]
+                ),
+                "unit_basis_value_m": 1_000.0,
+                "cost_value_category": "PLANNING_TARGET",
+                "quantity_status": "none; schedule-of-rates entry only",
+                "product_assignment_status": "none; alternatives are not selected scope",
+                "drivers": [dict(driver) for driver in class_data.get("drivers", [])],
+            }
+        )
+    return schedule, {
+        "schedule_id": schedule.Identification,
+        "name": schedule.Name,
+        "ifc_class": "IfcCostSchedule",
+        "predefined_type": schedule.PredefinedType,
+        "currency": cost_model["schema"]["currency"],
+        "unit_basis": "1 route-kilometre (1,000 project metres)",
+        "maturity": cost_model["schema"]["maturity"],
+        "basis": cost_model["schema"]["basis"],
+        "source_path": "lib/templates/civil-cost-model.toml",
+        "source_sha256": cost_model_hash,
+        "item_count": len(item_rows),
+        "items": item_rows,
+        "scope_boundary": (
+            "mutually exclusive planning alternatives; no selected scenario, "
+            "product assignment, quantity multiplication, or project total"
+        ),
+    }
+
+
 def add_asset_classification(
     model: ifcopenshell.file,
     *,
@@ -1183,6 +1348,123 @@ def add_coordination_groups(
             }
         )
     return group_entities, rows
+
+
+def add_functional_systems(
+    model: ifcopenshell.file,
+    *,
+    products: dict[str, Any],
+    index_rows: list[dict[str, Any]],
+    spatial_parts: dict[str, Any],
+) -> tuple[dict[str, Any], list[dict[str, Any]]]:
+    """Assign every asset once to a native functional engineering system."""
+
+    declared_classes = {
+        asset_class
+        for definition in FUNCTIONAL_SYSTEMS.values()
+        for asset_class in definition["asset_classes"]
+    }
+    observed_classes = {row["asset_class"] for row in index_rows}
+    if declared_classes != observed_classes:
+        missing = sorted(observed_classes - declared_classes)
+        unused = sorted(declared_classes - observed_classes)
+        raise ValueError(
+            "functional system asset-class coverage mismatch: "
+            f"missing={missing!r}, unused={unused!r}"
+        )
+
+    system_entities: dict[str, Any] = {}
+    rows: list[dict[str, Any]] = []
+    membership_counts: Counter[str] = Counter()
+    for system_id, definition in sorted(FUNCTIONAL_SYSTEMS.items()):
+        asset_ids = sorted(
+            row["asset_id"]
+            for row in index_rows
+            if row["asset_class"] in definition["asset_classes"]
+        )
+        if not asset_ids:
+            raise ValueError(f"functional system {system_id!r} has no assets")
+        description = (
+            f"OSR {definition['role']} functional design-reference system derived "
+            "from authoritative asset classes; not a spatial zone, commissioned "
+            "operational system, or safety release."
+        )
+        system = add_system(model, ifc_class=definition["ifc_class"])
+        attributes = {
+            "Name": definition["name"],
+            "Description": description,
+            "ObjectType": system_id,
+        }
+        if definition["ifc_class"] == "IfcBuiltSystem":
+            attributes.update(
+                {
+                    "PredefinedType": definition["predefined_type"],
+                    "LongName": f"OSR {definition['role']} design-reference system",
+                }
+            )
+        edit_system(
+            model,
+            system=system,
+            attributes=attributes,
+        )
+        relationship = assign_system(
+            model,
+            products=[products[asset_id] for asset_id in asset_ids],
+            system=system,
+        )
+        if relationship is None:
+            raise ValueError(f"functional system {system_id!r} was not assigned")
+        spatial_disciplines = sorted(
+            {row["discipline"] for row in index_rows if row["asset_id"] in asset_ids}
+        )
+        for discipline in spatial_disciplines:
+            spatial_relationship = reference_structure(
+                model,
+                products=[system],
+                relating_structure=spatial_parts[discipline],
+            )
+            if spatial_relationship is None:
+                raise ValueError(
+                    f"functional system {system_id!r} was not referenced from "
+                    f"railway part {discipline!r}"
+                )
+        for row in index_rows:
+            if row["asset_id"] in asset_ids:
+                row["functional_system_id"] = system_id
+                row["functional_system_name"] = definition["name"]
+                membership_counts[row["asset_id"]] += 1
+        system_entities[system_id] = system
+        rows.append(
+            {
+                "system_id": system_id,
+                "name": definition["name"],
+                "ifc_class": definition["ifc_class"],
+                "ifc_predefined_type": definition["predefined_type"],
+                "long_name": getattr(system, "LongName", None),
+                "role": definition["role"],
+                "asset_classes": sorted(definition["asset_classes"]),
+                "asset_ids": asset_ids,
+                "asset_count": len(asset_ids),
+                "semantics": "functional-engineering-system",
+                "spatial_meaning": "none; not an IfcSpatialZone",
+                "operational_status": "design-reference; not commissioned or operational",
+                "membership_policy": (
+                    "exactly one system per asset from authoritative OSR asset class"
+                ),
+                "spatial_disciplines": spatial_disciplines,
+                "spatial_part_names": [
+                    spatial_parts[discipline].Name
+                    for discipline in spatial_disciplines
+                ],
+                "description": description,
+            }
+        )
+    expected_assets = set(products)
+    if set(membership_counts) != expected_assets or any(
+        count != 1 for count in membership_counts.values()
+    ):
+        raise ValueError("functional systems must cover every asset exactly once")
+    return system_entities, rows
 
 
 def add_presentation_layers(
@@ -1466,6 +1748,7 @@ def add_document_register(
     *,
     project: Any,
     alignment: Any,
+    cost_schedule: Any,
     products: dict[str, Any],
     type_products: dict[tuple[str, str, str], Any],
     index_rows: list[dict[str, Any]],
@@ -1490,6 +1773,7 @@ def add_document_register(
         "OSR-DOC-SOURCE-CIVIL-INTEGRATION",
     }
     alignment_documents = {"OSR-DOC-ALIGNMENT-CONTRACT"}
+    cost_documents = {"OSR-DOC-CIVIL-COST-CONTRACT"}
     types_by_id = {item.Tag: item for item in type_products.values()}
     rows: list[dict[str, Any]] = []
     for document_id, declaration in sorted(DOCUMENT_SOURCES.items()):
@@ -1533,6 +1817,8 @@ def add_document_register(
             targets.append(project)
         if document_id in alignment_documents:
             targets.append(alignment)
+        if document_id in cost_documents:
+            targets.append(cost_schedule)
         targets.extend(types_by_id[type_id] for type_id in type_ids)
         targets.extend(products[asset_id] for asset_id in asset_ids)
         if targets:
@@ -1552,6 +1838,7 @@ def add_document_register(
                 "registered_with_project": True,
                 "associated_project": document_id in project_documents,
                 "associated_alignment": document_id in alignment_documents,
+                "associated_cost_schedule": document_id in cost_documents,
                 "associated_asset_ids": asset_ids,
                 "associated_type_ids": type_ids,
                 "associated_object_count": len(targets),
@@ -1588,6 +1875,7 @@ def stabilize_unordered_collections(model: ifcopenshell.file) -> None:
         "IfcUnitAssignment": ("Units",),
         "IfcRelAggregates": ("RelatedObjects",),
         "IfcRelContainedInSpatialStructure": ("RelatedElements",),
+        "IfcRelReferencedInSpatialStructure": ("RelatedElements",),
         "IfcRelAssignsToControl": ("RelatedObjects",),
         "IfcRelAssignsToGroup": ("RelatedObjects",),
         "IfcRelAssignsToProcess": ("RelatedObjects",),
@@ -1640,6 +1928,15 @@ def build_model(
     site = create_entity(model, ifc_class="IfcSite", name="OSR local engineering grid")
     railway = create_entity(model, ifc_class="IfcRailway", name="OpenSourceRail reference railway")
     assign_unit(model, length={"is_metric": True, "raw": "METERS"})
+    monetary_unit = add_monetary_unit(
+        model, currency=cost_model["schema"]["currency"]
+    )
+    assign_unit(model, units=[monetary_unit])
+    length_unit = next(
+        unit
+        for unit in model.by_type("IfcSIUnit")
+        if unit.UnitType == "LENGTHUNIT"
+    )
     model_context = add_context(model, context_type="Model")
     body_context = add_context(
         model,
@@ -2070,6 +2367,12 @@ def build_model(
         index_rows=index_rows,
         revision_id=revision_id,
     )
+    system_entities, system_rows = add_functional_systems(
+        model,
+        products=products,
+        index_rows=index_rows,
+        spatial_parts=spatial_parts,
+    )
     classification_index = add_asset_classification(
         model,
         project=project,
@@ -2078,10 +2381,17 @@ def build_model(
         index_rows=index_rows,
         type_rows=type_rows,
     )
+    cost_schedule, cost_schedule_index = add_planning_rate_schedule(
+        model,
+        cost_model=cost_model,
+        cost_model_hash=cost_model_hash,
+        length_unit=length_unit,
+    )
     document_rows = add_document_register(
         model,
         project=project,
         alignment=alignment,
+        cost_schedule=cost_schedule,
         products=products,
         type_products=type_products,
         index_rows=index_rows,
@@ -2105,6 +2415,8 @@ def build_model(
         row["ifc_guid"] = next(item.GlobalId for item in type_products.values() if item.Tag == type_id)
     for row in group_rows:
         row["ifc_guid"] = group_entities[row["group_id"]].GlobalId
+    for row in system_rows:
+        row["ifc_guid"] = system_entities[row["system_id"]].GlobalId
     index_rows.sort(key=lambda row: row["asset_id"])
     sorted_type_rows = sorted(type_rows.values(), key=lambda row: row["type_id"])
     sorted_material_rows = sorted(
@@ -2128,6 +2440,7 @@ def build_model(
             "civil_usd_per_km": cost_model["civil_usd_per_km"],
             "quantities_per_route_km": civil_quantities,
         },
+        "cost_schedule": cost_schedule_index,
         "georeferencing": georeferencing,
         "alignment": alignment_index,
         "classification": classification_index,
@@ -2154,6 +2467,16 @@ def build_model(
             "grouped_assets": sum(
                 bool(row["coordination_group_id"]) for row in index_rows
             ),
+            "functional_systems": len(system_rows),
+            "built_systems": sum(
+                row["ifc_class"] == "IfcBuiltSystem" for row in system_rows
+            ),
+            "system_associated_assets": sum(
+                bool(row["functional_system_id"]) for row in index_rows
+            ),
+            "system_spatial_part_references": sum(
+                len(row["spatial_disciplines"]) for row in system_rows
+            ),
             "presentation_layers": len(layer_rows),
             "layer_associated_assets": sum(
                 bool(row["presentation_layer_id"]) for row in index_rows
@@ -2171,6 +2494,8 @@ def build_model(
             "alignment_stationing_referents": alignment_index[
                 "stationing_referent_count"
             ],
+            "planning_rate_schedules": 1,
+            "planning_rate_items": cost_schedule_index["item_count"],
             "property_set_templates": len(property_template_rows),
             "property_templates": sum(
                 row["property_count"] for row in property_template_rows
@@ -2187,6 +2512,7 @@ def build_model(
         "profiles": sorted_profile_rows,
         "documents": document_rows,
         "groups": group_rows,
+        "systems": system_rows,
         "layers": layer_rows,
         "constraints": constraint_rows,
         "property_set_templates": property_template_rows,
@@ -2473,7 +2799,14 @@ def build_civil_ids(index: dict[str, Any]) -> ids_module.Ids:
         ifcVersion=["IFC4X3_ADD2"],
         identifier="OSR-IDS-GROUP-001",
     )
-    group_specification.applicability.append(ids_module.Entity(name="IFCGROUP"))
+    group_specification.applicability.extend(
+        [
+            ids_module.Entity(name="IFCGROUP"),
+            ids_module.Attribute(
+                name="ObjectType", value="OSR coordination review group"
+            ),
+        ]
+    )
     group_specification.requirements.extend(
         [
             ids_module.Attribute(name="Name"),
@@ -2495,6 +2828,37 @@ def build_civil_ids(index: dict[str, Any]) -> ids_module.Ids:
         ]
     )
     document.specifications.append(group_specification)
+
+    system_specification = ids_module.Specification(
+        name="Civil assets form explicit native functional engineering systems",
+        description=(
+            "Each authoritative OSR asset class maps to one functional IfcSystem, "
+            "with complete and non-overlapping occurrence membership."
+        ),
+        instructions=(
+            "Use these systems for functional design-reference filtering only; do "
+            "not infer a surveyed spatial zone, commissioned system, or safety release."
+        ),
+        minOccurs=5,
+        maxOccurs=5,
+        ifcVersion=["IFC4X3_ADD2"],
+        identifier="OSR-IDS-SYSTEM-001",
+    )
+    system_specification.applicability.append(
+        ids_module.Entity(
+            name=ids_module.Restriction(
+                {"enumeration": ["IFCBUILTSYSTEM", "IFCSYSTEM"]}
+            )
+        )
+    )
+    system_specification.requirements.extend(
+        [
+            ids_module.Attribute(name="Name"),
+            ids_module.Attribute(name="Description"),
+            ids_module.Attribute(name="ObjectType"),
+        ]
+    )
+    document.specifications.append(system_specification)
 
     layer_specification = ids_module.Specification(
         name="Civil geometry exposes native presentation layers",
@@ -2604,6 +2968,56 @@ def build_civil_ids(index: dict[str, Any]) -> ids_module.Ids:
         ]
     )
     document.specifications.append(property_template_specification)
+
+    cost_schedule_specification = ids_module.Specification(
+        name="Civil planning rates use a native IFC schedule of rates",
+        description=(
+            "The generated cost contract is exposed as a schedule of unit rates, "
+            "not a bill, tender, quotation, or project estimate."
+        ),
+        minOccurs=1,
+        maxOccurs=1,
+        ifcVersion=["IFC4X3_ADD2"],
+        identifier="OSR-IDS-COST-SCHEDULE-001",
+    )
+    cost_schedule_specification.applicability.append(
+        ids_module.Entity(name="IFCCOSTSCHEDULE")
+    )
+    cost_schedule_specification.requirements.extend(
+        [
+            ids_module.Attribute(name="Name"),
+            ids_module.Attribute(name="Identification"),
+            ids_module.Attribute(name="PredefinedType"),
+            ids_module.Attribute(name="Status"),
+            ids_module.Attribute(name="UpdateDate"),
+        ]
+    )
+    document.specifications.append(cost_schedule_specification)
+
+    cost_item_specification = ids_module.Specification(
+        name="Civil planning alternatives carry explicit native unit rates",
+        description=(
+            "Each at-grade, elevated, or bridge alternative is a named cost item "
+            "with one generated cost value and no implied selected scope."
+        ),
+        minOccurs=3,
+        maxOccurs=3,
+        ifcVersion=["IFC4X3_ADD2"],
+        identifier="OSR-IDS-COST-ITEM-001",
+    )
+    cost_item_specification.applicability.append(
+        ids_module.Entity(name="IFCCOSTITEM")
+    )
+    cost_item_specification.requirements.extend(
+        [
+            ids_module.Attribute(name="Name"),
+            ids_module.Attribute(name="Identification"),
+            ids_module.Attribute(name="PredefinedType"),
+            ids_module.Attribute(name="ObjectType"),
+            ids_module.Attribute(name="CostValues"),
+        ]
+    )
+    document.specifications.append(cost_item_specification)
 
     alignment_specification = ids_module.Specification(
         name="Alignment exposes authority and revision",
@@ -3065,6 +3479,8 @@ def validate_written(
                     observed_targets.add("project")
                 elif target.is_a("IfcAlignment"):
                     observed_targets.add("alignment")
+                elif target.is_a("IfcCostSchedule"):
+                    observed_targets.add("cost-schedule")
                 elif getattr(target, "Tag", None):
                     observed_targets.add(target.Tag)
         expected_targets = set(row["associated_asset_ids"]) | set(
@@ -3074,6 +3490,8 @@ def validate_written(
             expected_targets.add("project")
         if row["associated_alignment"]:
             expected_targets.add("alignment")
+        if row["associated_cost_schedule"]:
+            expected_targets.add("cost-schedule")
         document_associations_match &= (
             len(relationships) == 1
             and observed_targets == expected_targets
@@ -3168,6 +3586,7 @@ def validate_written(
     exported_groups = {
         get_psets(group).get("OSR_CoordinationGroup", {}).get("GroupId"): group
         for group in reopened.by_type("IfcGroup")
+        if group.is_a() == "IfcGroup"
     }
     expected_group_ids = {row["group_id"] for row in index["groups"]}
     group_catalog_matches = set(exported_groups) == expected_group_ids
@@ -3215,6 +3634,7 @@ def validate_written(
             .get("GroupId")
             for relationship in (getattr(product, "HasAssignments", ()) or ())
             if relationship.is_a("IfcRelAssignsToGroup")
+            and relationship.RelatingGroup.is_a() == "IfcGroup"
         }
         group_memberships_match &= observed_group_ids == {
             row["coordination_group_id"]
@@ -3222,6 +3642,86 @@ def validate_written(
     group_memberships_match &= (
         set(observed_asset_memberships) == expected
         and all(count == 1 for count in observed_asset_memberships.values())
+    )
+    exported_systems = {
+        system.ObjectType: system
+        for system in reopened.by_type("IfcSystem")
+    }
+    expected_system_ids = {row["system_id"] for row in index["systems"]}
+    system_catalog_matches = set(exported_systems) == expected_system_ids
+    specialized_systems_match = True
+    system_memberships_match = True
+    system_spatial_references_match = True
+    observed_system_memberships: Counter[str] = Counter()
+    observed_system_spatial_references = 0
+    for system_row in index["systems"]:
+        system = exported_systems.get(system_row["system_id"])
+        if system is None:
+            system_catalog_matches = False
+            system_memberships_match = False
+            continue
+        system_catalog_matches &= (
+            system.GlobalId == system_row["ifc_guid"]
+            and system.Name == system_row["name"]
+            and system.Description == system_row["description"]
+            and system.ObjectType == system_row["system_id"]
+            and system_row["ifc_class"] == system.is_a()
+            and getattr(system, "PredefinedType", None)
+            == system_row["ifc_predefined_type"]
+            and getattr(system, "LongName", None) == system_row["long_name"]
+            and system_row["semantics"] == "functional-engineering-system"
+            and system_row["spatial_meaning"] == "none; not an IfcSpatialZone"
+            and system_row["operational_status"]
+            == "design-reference; not commissioned or operational"
+        )
+        specialized_systems_match &= (
+            system.is_a() == system_row["ifc_class"]
+            and getattr(system, "PredefinedType", None)
+            == system_row["ifc_predefined_type"]
+        )
+        relationships = [
+            relationship
+            for relationship in reopened.by_type("IfcRelAssignsToGroup")
+            if relationship.RelatingGroup == system
+        ]
+        observed_asset_ids = {
+            product.Tag
+            for relationship in relationships
+            for product in relationship.RelatedObjects
+            if getattr(product, "Tag", None)
+        }
+        observed_system_memberships.update(observed_asset_ids)
+        system_memberships_match &= (
+            len(relationships) == 1
+            and observed_asset_ids == set(system_row["asset_ids"])
+            and system_row["asset_count"] == len(observed_asset_ids)
+        )
+        observed_spatial_part_names = {
+            relationship.RelatingStructure.Name
+            for relationship in (getattr(system, "ReferencedInStructures", ()) or ())
+            if relationship.is_a("IfcRelReferencedInSpatialStructure")
+        }
+        observed_system_spatial_references += len(observed_spatial_part_names)
+        system_spatial_references_match &= observed_spatial_part_names == set(
+            system_row["spatial_part_names"]
+        )
+    for row in index["objects"]:
+        product = reopened.by_guid(row["ifc_guid"])
+        observed_system_ids = {
+            relationship.RelatingGroup.ObjectType
+            for relationship in (getattr(product, "HasAssignments", ()) or ())
+            if relationship.is_a("IfcRelAssignsToGroup")
+            and relationship.RelatingGroup.is_a("IfcSystem")
+        }
+        system_memberships_match &= observed_system_ids == {
+            row["functional_system_id"]
+        }
+    system_memberships_match &= (
+        set(observed_system_memberships) == expected
+        and all(count == 1 for count in observed_system_memberships.values())
+    )
+    system_spatial_references_match &= observed_system_spatial_references == sum(
+        len(row["spatial_part_names"]) for row in index["systems"]
     )
     exported_layers = {
         layer.Identifier: layer
@@ -3426,6 +3926,76 @@ def validate_written(
         }
         == set(exported_templates.values())
     )
+    exported_cost_schedules = reopened.by_type("IfcCostSchedule")
+    planning_rate_schedule_matches = False
+    planning_rate_items_match = False
+    if len(exported_cost_schedules) == 1:
+        exported_cost_schedule = exported_cost_schedules[0]
+        expected_cost_schedule = index["cost_schedule"]
+        control_relationships = [
+            relationship
+            for relationship in reopened.by_type("IfcRelAssignsToControl")
+            if relationship.RelatingControl == exported_cost_schedule
+        ]
+        observed_cost_items = {
+            item.Identification: item
+            for relationship in control_relationships
+            for item in relationship.RelatedObjects
+            if item.is_a("IfcCostItem")
+        }
+        monetary_units = reopened.by_type("IfcMonetaryUnit")
+        planning_rate_schedule_matches = (
+            exported_cost_schedule.Identification
+            == expected_cost_schedule["schedule_id"]
+            and exported_cost_schedule.Name == expected_cost_schedule["name"]
+            and exported_cost_schedule.PredefinedType == "SCHEDULEOFRATES"
+            and exported_cost_schedule.Status
+            == "planning-target-not-a-quotation"
+            and exported_cost_schedule.UpdateDate == FIXED_REVIEW_TIMESTAMP
+            and "not a bill, tender, quotation, or element-level estimate"
+            in exported_cost_schedule.Description
+            and len(monetary_units) == 1
+            and monetary_units[0].Currency == expected_cost_schedule["currency"]
+            and len(control_relationships) == 1
+            and len(observed_cost_items) == expected_cost_schedule["item_count"]
+        )
+        planning_rate_items_match = set(observed_cost_items) == {
+            row["rate_id"] for row in expected_cost_schedule["items"]
+        }
+        for rate_row in expected_cost_schedule["items"]:
+            item = observed_cost_items.get(rate_row["rate_id"])
+            values = list(item.CostValues or ()) if item is not None else []
+            value = values[0] if len(values) == 1 else None
+            planning_rate_items_match &= (
+                item is not None
+                and item.Name == rate_row["name"]
+                and item.PredefinedType == "USERDEFINED"
+                and item.ObjectType == "Planning civil unit-rate alternative"
+                and not item.CostQuantities
+                and not item.Controls
+                and value is not None
+                and value.AppliedValue.is_a("IfcMonetaryMeasure")
+                and math.isclose(
+                    value.AppliedValue.wrappedValue,
+                    rate_row["rate_usd_per_route_km"],
+                    abs_tol=1e-6,
+                )
+                and value.UnitBasis is not None
+                and math.isclose(
+                    value.UnitBasis.ValueComponent.wrappedValue,
+                    rate_row["unit_basis_value_m"],
+                    abs_tol=1e-9,
+                )
+                and value.UnitBasis.UnitComponent.is_a("IfcSIUnit")
+                and value.UnitBasis.UnitComponent.UnitType == "LENGTHUNIT"
+                and value.UnitBasis.UnitComponent.Name == "METRE"
+                and value.Category == "PLANNING_TARGET"
+                and value.Condition == "planning-target-not-a-quotation"
+                and rate_row["quantity_status"]
+                == "none; schedule-of-rates entry only"
+                and rate_row["product_assignment_status"]
+                == "none; alternatives are not selected scope"
+            )
     exported_alignments = reopened.by_type("IfcAlignment")
     native_alignment_structure_matches = False
     native_alignment_geometry_matches = False
@@ -3601,6 +4171,29 @@ def validate_written(
             "observed": sum(observed_asset_memberships.values()),
         },
         {
+            "id": "native-functional-systems",
+            "passed": system_catalog_matches,
+            "observed": len(exported_systems),
+        },
+        {
+            "id": "functional-system-membership",
+            "passed": system_memberships_match,
+            "observed": sum(observed_system_memberships.values()),
+        },
+        {
+            "id": "specialized-functional-systems",
+            "passed": specialized_systems_match,
+            "observed": sum(
+                system.is_a() == "IfcBuiltSystem"
+                for system in exported_systems.values()
+            ),
+        },
+        {
+            "id": "functional-system-spatial-references",
+            "passed": system_spatial_references_match,
+            "observed": observed_system_spatial_references,
+        },
+        {
             "id": "native-presentation-layers",
             "passed": layer_catalog_matches,
             "observed": len(exported_layers),
@@ -3639,6 +4232,16 @@ def validate_written(
             "id": "property-template-project-declaration",
             "passed": property_template_declarations_match,
             "observed": len(template_declarations),
+        },
+        {
+            "id": "native-planning-rate-schedule",
+            "passed": planning_rate_schedule_matches,
+            "observed": len(exported_cost_schedules),
+        },
+        {
+            "id": "planning-rate-items",
+            "passed": planning_rate_items_match,
+            "observed": index["cost_schedule"]["item_count"],
         },
         {"id": "railway-spatial-root", "passed": len(reopened.by_type("IfcRailway")) == 1, "observed": len(reopened.by_type("IfcRailway"))},
         {"id": "railway-parts", "passed": len(reopened.by_type("IfcRailwayPart")) == 4, "observed": len(reopened.by_type("IfcRailwayPart"))},

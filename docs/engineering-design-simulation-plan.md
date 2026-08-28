@@ -149,14 +149,17 @@ stable assets, 17 source-recipe component types, three source-backed material
 families covering 46 occurrences, one native 60E1 profile driving 32 rail
 extrusions, 15 hash-locked native source documents associated to all assets,
 one internal classification with 11 references covering all 95 assets, four `IfcRailwayPart`
-disciplines, five native coordination groups and four native presentation
-layers covering all assets exactly once,
+disciplines, five native coordination groups, five native functional systems
+(three specialized as `IfcBuiltSystem`), six system-to-railway-part references,
+and four native presentation layers covering all assets exactly once in each scheme,
 an `IfcAlignment` with native horizontal/vertical planning segments,
 gradient-curve representation and stationing, 18 construction tasks, task-product
 links, native quantities, provenance, and nine passing checks exposed as native
 qualitative interface constraints. Thirteen project-declared property/quantity
 dictionaries expose 77 typed fields without misusing the reserved `Pset_`
-prefix. Its thirteen-specification IDS 1.0 contract passes 1,602/1,602 checks;
+prefix. One native USD `SCHEDULEOFRATES` exposes the three generated planning
+alternatives without product assignments, multiplied quantities, or a project
+total. Its sixteen-specification IDS 1.0 contract passes 1,637/1,637 checks;
 deterministic BCF
 3.0 topics retain object links and Git-reviewed decisions. Bonsai 0.8.5 imports
 the model headlessly and saves the review/animation scene. Survey-grade

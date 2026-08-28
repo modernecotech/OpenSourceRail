@@ -816,6 +816,102 @@ async function main() {
       && ifcAlignmentEvidence.metrics.includes("alignment stationing referents"),
     "alignment semantics, stationing, and design-release boundary visible",
   );
+  const ifcCostEvidence = await cdp.evaluate(`(() => {
+    const content = selectedArtifactPreview.content;
+    const alignmentIndex = content.objects.length + content.classification.references.length + content.groups.length + content.layers.length + content.constraints.length + content.property_set_templates.length + content.documents.length;
+    const scheduleIndex = alignmentIndex + 1;
+    document.querySelector('.artifact-object-button[data-object-index="' + scheduleIndex + '"]').click();
+    const scheduleDetail = document.querySelector('.artifact-object-detail').textContent;
+    const elevatedIndex = content.cost_schedule.items.findIndex(item => item.civil_class === 'elevated');
+    document.querySelector('.artifact-object-button[data-object-index="' + (scheduleIndex + 1 + elevatedIndex) + '"]').click();
+    const rateDetail = document.querySelector('.artifact-object-detail').textContent;
+    const costDocument = content.documents.find(item => item.document_id === 'OSR-DOC-CIVIL-COST-CONTRACT');
+    return {
+      schedules: content.summary.planning_rate_schedules,
+      items: content.summary.planning_rate_items,
+      predefinedType: content.cost_schedule.predefined_type,
+      currency: content.cost_schedule.currency,
+      maturity: content.cost_schedule.maturity,
+      rates: Object.fromEntries(content.cost_schedule.items.map(item => [item.civil_class, item.rate_usd_per_route_km])),
+      noQuantities: content.cost_schedule.items.every(item => item.quantity_status.startsWith('none;')),
+      noAssignments: content.cost_schedule.items.every(item => item.product_assignment_status.startsWith('none;')),
+      costDocumentLinked: costDocument.associated_cost_schedule && costDocument.associated_object_count === 2,
+      scheduleDetail,
+      rateDetail,
+      metrics: document.querySelector('#artifact-metrics').textContent,
+    };
+  })()`);
+  assert(
+    ifcCostEvidence.schedules === 1
+      && ifcCostEvidence.items === 3
+      && ifcCostEvidence.predefinedType === "SCHEDULEOFRATES"
+      && ifcCostEvidence.currency === "USD"
+      && ifcCostEvidence.maturity === "planning-target-not-a-quotation"
+      && ifcCostEvidence.rates["at-grade"] === 2584000
+      && ifcCostEvidence.rates.elevated === 9748000
+      && ifcCostEvidence.rates.bridge === 18000000
+      && ifcCostEvidence.noQuantities
+      && ifcCostEvidence.noAssignments
+      && ifcCostEvidence.costDocumentLinked,
+    "native IFC planning schedule of rates indexed",
+    `USD ${ifcCostEvidence.rates.elevated.toLocaleString()}/km elevated`,
+  );
+  assert(
+    ifcCostEvidence.scheduleDetail.includes("OSR-COST-RATES-001")
+      && ifcCostEvidence.scheduleDetail.includes("no selected scenario")
+      && ifcCostEvidence.scheduleDetail.includes("or project total")
+      && ifcCostEvidence.rateDetail.includes("OSR-RATE-ELEVATED")
+      && ifcCostEvidence.rateDetail.includes("bare_beam_concrete_m3_per_km")
+      && ifcCostEvidence.rateDetail.includes("none; schedule-of-rates entry only")
+      && ifcCostEvidence.rateDetail.includes("none; alternatives are not selected scope")
+      && ifcCostEvidence.metrics.includes("native planning schedules of rates")
+      && ifcCostEvidence.metrics.includes("planning unit-rate alternatives"),
+    "rate provenance, quantity drivers, and no-estimate boundary visible",
+  );
+  const ifcSystemEvidence = await cdp.evaluate(`(() => {
+    const content = selectedArtifactPreview.content;
+    const baseIndex = content.objects.length + content.classification.references.length + content.groups.length + content.layers.length + content.constraints.length + content.property_set_templates.length + content.documents.length;
+    const systemIndex = baseIndex + (content.alignment ? 1 : 0) + (content.cost_schedule ? 1 + content.cost_schedule.items.length : 0);
+    const trackSystemOffset = content.systems.findIndex(system => system.system_id === 'OSR-SYS-TRACK');
+    document.querySelector('.artifact-object-button[data-object-index="' + (systemIndex + trackSystemOffset) + '"]').click();
+    return {
+      systems: content.summary.functional_systems,
+      builtSystems: content.summary.built_systems,
+      linkedAssets: content.summary.system_associated_assets,
+      spatialReferences: content.summary.system_spatial_part_references,
+      indexedSystems: content.systems.length,
+      uniqueMembership: content.objects.every(item => typeof item.functional_system_id === 'string' && item.functional_system_id.length > 0)
+        && new Set(content.systems.flatMap(system => system.asset_ids)).size === content.objects.length
+        && content.systems.reduce((sum, system) => sum + system.asset_count, 0) === content.objects.length,
+      systemIds: content.systems.map(system => system.system_id),
+      detail: document.querySelector('.artifact-object-detail').textContent,
+      metrics: document.querySelector('#artifact-metrics').textContent,
+      controls: document.querySelectorAll('[data-civil-system]').length,
+    };
+  })()`);
+  assert(
+    ifcSystemEvidence.systems === 5
+      && ifcSystemEvidence.linkedAssets === 95
+      && ifcSystemEvidence.builtSystems === 3
+      && ifcSystemEvidence.spatialReferences === 6
+      && ifcSystemEvidence.indexedSystems === 5
+      && ifcSystemEvidence.controls === 5
+      && ifcSystemEvidence.uniqueMembership
+      && ifcSystemEvidence.systemIds.includes("OSR-SYS-TRACK"),
+    "native IFC functional systems cover every asset exactly once",
+    `${ifcSystemEvidence.systems} systems · ${ifcSystemEvidence.builtSystems} specialized · ${ifcSystemEvidence.linkedAssets} linked assets`,
+  );
+  assert(
+    ifcSystemEvidence.detail.includes("IFC class IfcBuiltSystem")
+      && ifcSystemEvidence.detail.includes("predefined type RAILWAYTRACK")
+      && ifcSystemEvidence.detail.includes("railway-part references Track")
+      && ifcSystemEvidence.detail.includes("not an IfcSpatialZone")
+      && ifcSystemEvidence.detail.includes("not commissioned or operational")
+      && ifcSystemEvidence.metrics.includes("native functional systems")
+      && ifcSystemEvidence.metrics.includes("specialized built systems")
+      && ifcSystemEvidence.metrics.includes("system / railway-part references"),
+    "functional-system subtype, spatial service, and release boundary visible",
+  );
   const civilReview = await cdp.evaluate(`({
     controls: !document.querySelector('#civil-review-controls').hidden,
     tasks: selectedCivilSequence?.content?.tasks?.length || 0,
@@ -855,6 +951,19 @@ async function main() {
   assert(groupVisibility === 26, "native IFC coordination-group visibility filters geometry", `${groupVisibility} non-viaduct assets`);
   await cdp.evaluate(`(() => {
     const checkbox = document.querySelector('[data-civil-group="OSR-DT-ZONE-VIA-001"]');
+    checkbox.checked = true;
+    checkbox.dispatchEvent(new Event('change', { bubbles: true }));
+    return true;
+  })()`);
+  const systemVisibility = await cdp.evaluate(`(() => {
+    const checkbox = document.querySelector('[data-civil-system="OSR-SYS-GUIDEWAY"]');
+    checkbox.checked = false;
+    checkbox.dispatchEvent(new Event('change', { bubbles: true }));
+    return document.querySelectorAll('#artifact-canvas [data-object-index]').length;
+  })()`);
+  assert(systemVisibility === 62, "native IFC functional-system visibility filters geometry", `${systemVisibility} non-guideway assets`);
+  await cdp.evaluate(`(() => {
+    const checkbox = document.querySelector('[data-civil-system="OSR-SYS-GUIDEWAY"]');
     checkbox.checked = true;
     checkbox.dispatchEvent(new Event('change', { bubbles: true }));
     const stage = document.querySelector('#civil-stage');
