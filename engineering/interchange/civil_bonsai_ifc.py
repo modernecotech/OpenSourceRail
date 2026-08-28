@@ -63,6 +63,7 @@ from ifcopenshell.api.geometry import (
     edit_object_placement,
 )
 from ifcopenshell.api.georeference import add_georeferencing, edit_georeferencing
+from ifcopenshell.api.group import add_group, assign_group, edit_group
 from ifcopenshell.api.material import (
     add_material,
     add_material_set,
@@ -93,6 +94,7 @@ from osr_mech.civil_systems_integration import (
     assert_integration_checks,
     digital_twin_manifest,
     integration_components,
+    ZONE_ASSET_IDS,
 )
 from osr_mech.fabrication_assembly_twin import fabrication_streams
 from osr_mech.civil.quantity_model import structure_quantities_per_km
@@ -948,6 +950,70 @@ def add_asset_classification(
     }
 
 
+def add_coordination_groups(
+    model: ifcopenshell.file,
+    *,
+    products: dict[str, Any],
+    index_rows: list[dict[str, Any]],
+    revision_id: str,
+) -> tuple[dict[str, Any], list[dict[str, Any]]]:
+    """Preserve source review zones as non-spatial IFC groups."""
+
+    group_entities: dict[str, Any] = {}
+    rows: list[dict[str, Any]] = []
+    for source_zone, group_id in sorted(ZONE_ASSET_IDS.items()):
+        asset_ids = sorted(
+            row["asset_id"] for row in index_rows if row["coordination_group_id"] == group_id
+        )
+        if not asset_ids:
+            raise ValueError(f"coordination group {group_id!r} has no assets")
+        group = add_group(
+            model,
+            name=source_zone,
+            description=(
+                "OSR non-spatial coordination review group; the separated reference "
+                "layout is not a surveyed city zone or functional engineering system."
+            ),
+        )
+        edit_group(
+            model,
+            group=group,
+            attributes={"ObjectType": "OSR coordination review group"},
+        )
+        set_properties(
+            model,
+            group,
+            "Pset_OSR_CoordinationGroup",
+            {
+                "GroupId": group_id,
+                "SourceZone": source_zone,
+                "GroupRole": "non-spatial-review-group",
+                "RevisionId": revision_id,
+                "SpatialMeaning": "separated review layout; not a surveyed spatial zone",
+                "SystemMeaning": "inspection grouping; not a functional engineering system",
+            },
+        )
+        assign_group(
+            model,
+            products=[products[asset_id] for asset_id in asset_ids],
+            group=group,
+        )
+        group_entities[group_id] = group
+        rows.append(
+            {
+                "group_id": group_id,
+                "name": source_zone,
+                "ifc_class": "IfcGroup",
+                "role": "non-spatial-review-group",
+                "spatial_meaning": "separated review layout; not a surveyed spatial zone",
+                "system_meaning": "inspection grouping; not a functional engineering system",
+                "asset_ids": asset_ids,
+                "asset_count": len(asset_ids),
+            }
+        )
+    return group_entities, rows
+
+
 def add_document_register(
     model: ifcopenshell.file,
     *,
@@ -1076,6 +1142,7 @@ def stabilize_unordered_collections(model: ifcopenshell.file) -> None:
         "IfcRelAggregates": ("RelatedObjects",),
         "IfcRelContainedInSpatialStructure": ("RelatedElements",),
         "IfcRelAssignsToControl": ("RelatedObjects",),
+        "IfcRelAssignsToGroup": ("RelatedObjects",),
         "IfcRelAssignsToProcess": ("RelatedObjects",),
         "IfcRelDefinesByProperties": ("RelatedObjects",),
         "IfcRelDefinesByType": ("RelatedObjects",),
@@ -1211,6 +1278,7 @@ def build_model(
     for component in integration_components():
         asset_id = asset_id_for_component(component)
         asset_class = asset_class_for_component(component)
+        coordination_group_id = ZONE_ASSET_IDS[component.zone]
         discipline = component_discipline(asset_class)
         ifc_class, predefined_type = ifc_type(asset_class)
         profile_id = profile_id_for_component(asset_class, component.source)
@@ -1472,6 +1540,7 @@ def build_model(
             {
                 "AssetId": asset_id,
                 "AssetClass": asset_class,
+                "CoordinationGroupId": coordination_group_id,
                 "SourceGeometry": component.source,
                 "SourceSha256": sha256_bytes(canonical_json({"asset_id": asset_id, "source": component.source})),
                 "RevisionId": revision_id,
@@ -1520,6 +1589,8 @@ def build_model(
                 "classification_assignment": (
                     "inherited-from-type" if type_id is not None else "direct-occurrence"
                 ),
+                "coordination_group_id": coordination_group_id,
+                "coordination_group_name": component.zone,
                 "discipline": discipline,
                 "source_geometry": component.source,
                 "document_ids": list(document_ids),
@@ -1530,6 +1601,12 @@ def build_model(
             }
         )
 
+    group_entities, group_rows = add_coordination_groups(
+        model,
+        products=products,
+        index_rows=index_rows,
+        revision_id=revision_id,
+    )
     classification_index = add_asset_classification(
         model,
         project=project,
@@ -1562,6 +1639,8 @@ def build_model(
             row["ifc_type_guid"] = None
     for type_id, row in type_rows.items():
         row["ifc_guid"] = next(item.GlobalId for item in type_products.values() if item.Tag == type_id)
+    for row in group_rows:
+        row["ifc_guid"] = group_entities[row["group_id"]].GlobalId
     index_rows.sort(key=lambda row: row["asset_id"])
     sorted_type_rows = sorted(type_rows.values(), key=lambda row: row["type_id"])
     sorted_material_rows = sorted(
@@ -1606,6 +1685,10 @@ def build_model(
             "classified_assets": sum(
                 bool(row["classification_code"]) for row in index_rows
             ),
+            "coordination_groups": len(group_rows),
+            "grouped_assets": sum(
+                bool(row["coordination_group_id"]) for row in index_rows
+            ),
             "ifc_classes": dict(sorted(Counter(row["ifc_class"] for row in index_rows).items())),
             "disciplines": dict(sorted(Counter(row["discipline"] for row in index_rows).items())),
             "interface_checks": len(assert_integration_checks()),
@@ -1614,6 +1697,7 @@ def build_model(
         "materials": sorted_material_rows,
         "profiles": sorted_profile_rows,
         "documents": document_rows,
+        "groups": group_rows,
         "types": sorted_type_rows,
         "objects": index_rows,
         "validation": [asdict(check) for check in assert_integration_checks()],
@@ -1674,6 +1758,9 @@ def build_civil_ids(index: dict[str, Any]) -> ids_module.Ids:
             ids_module.Attribute(name="Tag"),
             ids_module.Property(propertySet="Pset_OSR_Asset", baseName="AssetId"),
             ids_module.Property(propertySet="Pset_OSR_Asset", baseName="AssetClass"),
+            ids_module.Property(
+                propertySet="Pset_OSR_Asset", baseName="CoordinationGroupId"
+            ),
             ids_module.Property(propertySet="Pset_OSR_Asset", baseName="SourceSha256"),
             ids_module.Property(propertySet="Pset_OSR_Asset", baseName="RevisionId"),
             ids_module.Property(propertySet="Pset_OSR_Asset", baseName="LifecycleState"),
@@ -1878,6 +1965,44 @@ def build_civil_ids(index: dict[str, Any]) -> ids_module.Ids:
         )
     )
     document.specifications.append(classification_specification)
+
+    group_specification = ids_module.Specification(
+        name="Source review zones remain explicit non-spatial coordination groups",
+        description=(
+            "Each source layout zone is represented by an IfcGroup with an explicit "
+            "semantic boundary and deterministic membership."
+        ),
+        instructions=(
+            "Use these groups for review filtering only; do not treat them as surveyed "
+            "spatial zones or functional engineering systems."
+        ),
+        minOccurs=1,
+        maxOccurs="unbounded",
+        ifcVersion=["IFC4X3_ADD2"],
+        identifier="OSR-IDS-GROUP-001",
+    )
+    group_specification.applicability.append(ids_module.Entity(name="IFCGROUP"))
+    group_specification.requirements.extend(
+        [
+            ids_module.Attribute(name="Name"),
+            ids_module.Property(
+                propertySet="Pset_OSR_CoordinationGroup", baseName="GroupId"
+            ),
+            ids_module.Property(
+                propertySet="Pset_OSR_CoordinationGroup", baseName="SourceZone"
+            ),
+            ids_module.Property(
+                propertySet="Pset_OSR_CoordinationGroup", baseName="GroupRole"
+            ),
+            ids_module.Property(
+                propertySet="Pset_OSR_CoordinationGroup", baseName="SpatialMeaning"
+            ),
+            ids_module.Property(
+                propertySet="Pset_OSR_CoordinationGroup", baseName="SystemMeaning"
+            ),
+        ]
+    )
+    document.specifications.append(group_specification)
 
     alignment_specification = ids_module.Specification(
         name="Alignment exposes authority and revision",
@@ -2439,6 +2564,64 @@ def validate_written(
         and classification_pset.get("ExternalMappingStatus")
         == "country-and-client-mapping-not-nominated"
     )
+    exported_groups = {
+        get_psets(group).get("Pset_OSR_CoordinationGroup", {}).get("GroupId"): group
+        for group in reopened.by_type("IfcGroup")
+    }
+    expected_group_ids = {row["group_id"] for row in index["groups"]}
+    group_catalog_matches = set(exported_groups) == expected_group_ids
+    group_memberships_match = True
+    observed_asset_memberships: Counter[str] = Counter()
+    for group_row in index["groups"]:
+        group = exported_groups.get(group_row["group_id"])
+        if group is None:
+            group_catalog_matches = False
+            group_memberships_match = False
+            continue
+        properties = get_psets(group).get("Pset_OSR_CoordinationGroup", {})
+        group_catalog_matches &= (
+            group.GlobalId == group_row["ifc_guid"]
+            and group.Name == group_row["name"]
+            and group.ObjectType == "OSR coordination review group"
+            and properties.get("GroupId") == group_row["group_id"]
+            and properties.get("SourceZone") == group_row["name"]
+            and properties.get("GroupRole") == group_row["role"]
+            and properties.get("SpatialMeaning") == group_row["spatial_meaning"]
+            and properties.get("SystemMeaning") == group_row["system_meaning"]
+        )
+        relationships = [
+            relationship
+            for relationship in reopened.by_type("IfcRelAssignsToGroup")
+            if relationship.RelatingGroup == group
+        ]
+        observed_asset_ids = {
+            product.Tag
+            for relationship in relationships
+            for product in relationship.RelatedObjects
+            if getattr(product, "Tag", None)
+        }
+        observed_asset_memberships.update(observed_asset_ids)
+        group_memberships_match &= (
+            len(relationships) == 1
+            and observed_asset_ids == set(group_row["asset_ids"])
+            and group_row["asset_count"] == len(observed_asset_ids)
+        )
+    for row in index["objects"]:
+        product = reopened.by_guid(row["ifc_guid"])
+        observed_group_ids = {
+            get_psets(relationship.RelatingGroup)
+            .get("Pset_OSR_CoordinationGroup", {})
+            .get("GroupId")
+            for relationship in (getattr(product, "HasAssignments", ()) or ())
+            if relationship.is_a("IfcRelAssignsToGroup")
+        }
+        group_memberships_match &= observed_group_ids == {
+            row["coordination_group_id"]
+        }
+    group_memberships_match &= (
+        set(observed_asset_memberships) == expected
+        and all(count == 1 for count in observed_asset_memberships.values())
+    )
     projected_crs = reopened.by_type("IfcProjectedCRS")
     map_conversions = reopened.by_type("IfcMapConversion")
     georeferencing = index["georeferencing"]
@@ -2511,6 +2694,16 @@ def validate_written(
             "observed": sum(
                 bool(row["classification_code"]) for row in index["objects"]
             ),
+        },
+        {
+            "id": "native-coordination-groups",
+            "passed": group_catalog_matches,
+            "observed": len(exported_groups),
+        },
+        {
+            "id": "coordination-group-membership",
+            "passed": group_memberships_match,
+            "observed": sum(observed_asset_memberships.values()),
         },
         {"id": "railway-spatial-root", "passed": len(reopened.by_type("IfcRailway")) == 1, "observed": len(reopened.by_type("IfcRailway"))},
         {"id": "railway-parts", "passed": len(reopened.by_type("IfcRailwayPart")) == 4, "observed": len(reopened.by_type("IfcRailwayPart"))},

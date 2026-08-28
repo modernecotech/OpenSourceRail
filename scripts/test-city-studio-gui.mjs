@@ -629,9 +629,38 @@ async function main() {
       && ifcClassificationEvidence.metrics.includes("asset-class references"),
     "classification identity, inheritance evidence, and external-mapping boundary visible",
   );
+  const ifcGroupEvidence = await cdp.evaluate(`(() => {
+    const content = selectedArtifactPreview.content;
+    const groupIndex = content.objects.length + content.classification.references.length;
+    document.querySelector('.artifact-object-button[data-object-index="' + groupIndex + '"]').click();
+    return {
+      groups: content.summary.coordination_groups,
+      groupedAssets: content.summary.grouped_assets,
+      indexedGroups: content.groups.length,
+      allAssetsResolve: content.objects.every(item => content.groups.some(group => group.group_id === item.coordination_group_id)),
+      detail: document.querySelector('.artifact-object-detail').textContent,
+      metrics: document.querySelector('#artifact-metrics').textContent,
+    };
+  })()`);
+  assert(
+    ifcGroupEvidence.groups === 5
+      && ifcGroupEvidence.groupedAssets === 95
+      && ifcGroupEvidence.indexedGroups === 5
+      && ifcGroupEvidence.allAssetsResolve,
+    "native IFC coordination groups indexed",
+    `${ifcGroupEvidence.groups} groups · ${ifcGroupEvidence.groupedAssets} associated assets`,
+  );
+  assert(
+    ifcGroupEvidence.detail.includes("OSR-DT-ZONE-")
+      && ifcGroupEvidence.detail.includes("non-spatial-review-group")
+      && ifcGroupEvidence.detail.includes("not a surveyed spatial zone")
+      && ifcGroupEvidence.detail.includes("not a functional engineering system")
+      && ifcGroupEvidence.metrics.includes("native coordination groups"),
+    "coordination group identity and semantic boundary visible",
+  );
   const ifcDocumentEvidence = await cdp.evaluate(`(() => {
     const content = selectedArtifactPreview.content;
-    const documentIndex = content.objects.length + content.classification.references.length;
+    const documentIndex = content.objects.length + content.classification.references.length + content.groups.length;
     document.querySelector('.artifact-object-button[data-object-index="' + documentIndex + '"]').click();
     return {
       documents: content.summary.documents,
@@ -683,6 +712,19 @@ async function main() {
   assert(disciplineVisibility > 0 && disciplineVisibility < ifcObjectCount, "civil discipline visibility filters geometry", `${disciplineVisibility} non-track assets`);
   await cdp.evaluate(`(() => {
     const checkbox = document.querySelector('[data-civil-discipline="track"]');
+    checkbox.checked = true;
+    checkbox.dispatchEvent(new Event('change', { bubbles: true }));
+    return true;
+  })()`);
+  const groupVisibility = await cdp.evaluate(`(() => {
+    const checkbox = document.querySelector('[data-civil-group="OSR-DT-ZONE-VIA-001"]');
+    checkbox.checked = false;
+    checkbox.dispatchEvent(new Event('change', { bubbles: true }));
+    return document.querySelectorAll('#artifact-canvas [data-object-index]').length;
+  })()`);
+  assert(groupVisibility === 26, "native IFC coordination-group visibility filters geometry", `${groupVisibility} non-viaduct assets`);
+  await cdp.evaluate(`(() => {
+    const checkbox = document.querySelector('[data-civil-group="OSR-DT-ZONE-VIA-001"]');
     checkbox.checked = true;
     checkbox.dispatchEvent(new Event('change', { bubbles: true }));
     const stage = document.querySelector('#civil-stage');

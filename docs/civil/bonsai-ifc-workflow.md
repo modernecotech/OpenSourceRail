@@ -120,6 +120,12 @@ automation only. Its metadata and City Studio inspector explicitly state that
 country/client mappings remain unnominated and require an approved deployment
 crosswalk.
 
+The five source layouts are also native `IfcGroup` coordination groups, with
+all 95 assets assigned exactly once. Their properties state that they are
+separated review layouts—not surveyed spatial zones or functional engineering
+systems—so Bonsai and City Studio can filter them without asserting false
+`IfcSpatialZone` or `IfcSystem` semantics.
+
 Fifteen native `IfcDocumentInformation`/`IfcDocumentReference` records expose
 the actual repository sources used by the federation. Complete SHA-256
 revisions and repository-relative locations cover the component generators,
@@ -184,10 +190,11 @@ represent released reinforcement, prestress or connection detailing.
 ## IDS delivery gate and BCF review loop
 
 The exporter writes an IDS 1.0 contract and immediately reopens it with
-IfcTester against the written IFC. Eight specifications cover all 95 assets,
+IfcTester against the written IFC. Nine specifications cover all 95 assets,
 the 17-type catalogue, the source-backed material subset, alignment authority,
 the native rail-profile assignments, OSR asset classification, native document
-register, and project provenance. The current reference exchange passes all 1,222
+register, five coordination groups, and project provenance. The current
+reference exchange passes all 1,347
 entity-level checks. The audit is deterministic: entity
 evidence is sorted before hashing, so a repeat build produces byte-identical
 IFC, IDS, audit, BCF, indexes, sequence, and validation files.
@@ -207,8 +214,9 @@ closure against the same stable objects.
 
 City Studio also pairs the object index with the hash-verified construction
 sequence. Its interactive review controls rotate the projected federation,
-toggle civil disciplines, and scrub or play the 18-task 4D sequence while
-showing the current QA hold and visible-asset count. These projected envelopes
+toggle civil disciplines or any of the five native coordination groups, and
+scrub or play the 18-task 4D sequence while showing the current QA hold and
+visible-asset count. These projected envelopes
 support rapid coordination and BCF selection; native tessellated geometry and
 authoritative IFC editing remain in Bonsai.
 
@@ -251,6 +259,8 @@ after review.
 | Mixed materials, other profiles, reinforcement, bearings, and foundations | Do not flatten mixed assemblies or populate generic placeholders. Add constituent/profile data when released specifications and deployment engineering are available. |
 | Native OSR asset classification | Implemented with one internal system, 11 lightweight references, type inheritance for 93 occurrences, and direct references for two untyped envelopes. |
 | Country/client classification mapping | Defer Uniclass, OmniClass, national, or client codes until the deployment nominates an edition and approves a crosswalk; no global mapping is guessed. |
+| Native coordination groups | Implemented with five deterministic `IfcGroup` records and exactly one group membership per asset. They preserve source review layouts without claiming surveyed space or system function. |
+| Surveyed spatial zones and functional systems | Add `IfcSpatialZone` or `IfcSystem` only when accepted spatial boundaries or an engineering system definition exists; the current separated review layout is insufficient evidence. |
 | Native source-document register | Implemented with 15 hash-locked repository sources and direct project/type/occurrence associations. |
 | Issued drawings and CDE document control | Defer sheets, issue/transmittal states, and CDE URLs until a deployment selects its naming, approval, and common-data-environment convention. |
 
@@ -272,6 +282,10 @@ after review.
 - [IfcOpenShell arbitrary profiles](https://docs.ifcopenshell.org/autoapi/ifcopenshell/api/profile/add_arbitrary_profile/index.html)
 - [IFC4.3 classification systems](https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/lexical/IfcClassification.htm)
 - [IfcOpenShell classification API](https://docs.ifcopenshell.org/autoapi/ifcopenshell/api/classification/index.html)
+- [IFC4.3 `IfcGroup`](https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/lexical/IfcGroup.htm)
+- [IFC4.3 `IfcSpatialZone`](https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/lexical/IfcSpatialZone.htm)
+- [IFC4.3 `IfcSystem`](https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/lexical/IfcSystem.htm)
+- [IfcOpenShell group API](https://docs.ifcopenshell.org/autoapi/ifcopenshell/api/group/index.html)
 - [IFC4.3 document information](https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/lexical/IfcDocumentInformation.htm)
 - [IFC4.3 document associations](https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/lexical/IfcRelAssociatesDocument.htm)
 - [IfcOpenShell document API](https://docs.ifcopenshell.org/autoapi/ifcopenshell/api/document/index.html)

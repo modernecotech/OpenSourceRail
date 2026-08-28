@@ -248,8 +248,9 @@ The engineering hub exposes four fixed adapters:
 - **Generate Bonsai civil IFC4.3** combines the selected immutable line
   reference with the checked civil kit and produces native IFC4.3 objects,
   quantities, provenance, an object index, linked 4D construction tasks, a
-  eight-specification IDS 1.0 audit, an internal 11-reference OSR asset
-  classification, 15 hash-locked native source-document records, and a BCF 3.0 package of open release
+  nine-specification IDS 1.0 audit, an internal 11-reference OSR asset
+  classification, five native source-zone coordination groups, 15 hash-locked
+  native source-document records, and a BCF 3.0 package of open release
   issues with IFC GUID selections. If the selected line has accepted survey
   control in `[[civil.ifc_georeferencing]]`, the job also emits its native
   `IfcProjectedCRS` and `IfcMapConversion`; unmatched lines remain explicitly
@@ -273,19 +274,20 @@ alignment/stakeout geometry and isometric IFC object envelopes are plotted
 directly. Individual civil objects expose their stable ID, IFC GUID, class,
 discipline, bounds, detail mode, source, internal asset class, and applicable
 hash-locked source documents. The searchable inspector also exposes the native
-classification and document registers, type/direct assignment mode, external
-mapping boundary, repository locations, revisions, scope, and association
-counts. IDS specifications and BCF topics
+classification, coordination-group, and document registers, type/direct
+assignment mode, semantic boundaries, repository locations, revisions, scope,
+and association counts. IDS specifications and BCF topics
 have selectable audit/issue cards; IFC STEP, IDS XML, BCF containers, and JSON
 also receive format-specific metrics and a bounded structured-source preview.
 
 When the civil object index is selected, City Studio also loads the companion
 `civil-4d-sequence` through the same SHA-256-verifying artifact endpoint. The
 reviewer can rotate the projected federation, isolate track, substructure,
-above-track, or lineside disciplines, scrub the construction task sequence, or
-play it automatically. The current task title and QA hold are shown beside the
-visible-asset count. This is an interactive coordination view of deterministic
-object envelopes; Bonsai remains the native IFC geometry/detail environment.
+above-track, or lineside disciplines, toggle any native review group, scrub the
+construction task sequence, or play it automatically. The current task title
+and QA hold are shown beside the visible-asset count. This is an interactive
+coordination view of deterministic object envelopes; Bonsai remains the native
+IFC geometry/detail environment.
 
 BCF review decisions are written to
 `projects/<slug>/coordination/issues.toml`, not into the selected job artifact.

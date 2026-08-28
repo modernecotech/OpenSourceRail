@@ -95,7 +95,12 @@ let selectedArtifactPreview = null;
 let selectedCoordinationAssetIds = new Set();
 let selectedCivilSequence = null;
 let civilPlaybackTimer = null;
-let civilReviewState = { angle_deg: -35, stage: 0, disciplines: new Set() };
+let civilReviewState = {
+  angle_deg: -35,
+  stage: 0,
+  disciplines: new Set(),
+  groups: new Set(),
+};
 let operationBusy = false;
 let selectedDemandFlowId = null;
 const lineColours = ["#56d39b", "#5eb9e8", "#e88859", "#a98aef", "#e96d95"];
@@ -1076,6 +1081,7 @@ async function openJobArtifact(jobId, index, shouldScroll) {
           angle_deg: -35,
           stage: selectedCivilSequence?.content?.tasks?.length || 0,
           disciplines: new Set(disciplines),
+          groups: new Set((nextPreview.content.groups || []).map((group) => group.group_id)),
         };
       }
     }
@@ -1165,6 +1171,7 @@ function renderCivilReviewControls(preview) {
   host.hidden = !isCivilObjectIndex(preview);
   if (host.hidden) return;
   const disciplines = Object.keys(preview.content.summary?.disciplines || {});
+  const groups = preview.content.groups || [];
   const tasks = selectedCivilSequence?.content?.tasks || [];
   const stage = Math.min(civilReviewState.stage, tasks.length);
   const task = stage > 0 ? tasks[stage - 1] : null;
@@ -1174,6 +1181,8 @@ function renderCivilReviewControls(preview) {
       <input id="civil-view-angle" type="range" min="-180" max="180" step="5" value="${civilReviewState.angle_deg}">
     </label>
     <div class="civil-discipline-list">${disciplines.map((discipline) => `<label><input type="checkbox" data-civil-discipline="${escapeHtml(discipline)}" ${civilReviewState.disciplines.has(discipline) ? "checked" : ""}>${escapeHtml(discipline)}</label>`).join("")}</div>
+    <small>Native IFC coordination groups</small>
+    <div class="civil-discipline-list">${groups.map((group) => `<label><input type="checkbox" data-civil-group="${escapeHtml(group.group_id)}" ${civilReviewState.groups.has(group.group_id) ? "checked" : ""}>${escapeHtml(group.name)} · ${group.asset_count}</label>`).join("")}</div>
     <label>Construction stage
       <input id="civil-stage" type="range" min="0" max="${tasks.length}" step="1" value="${stage}" ${tasks.length ? "" : "disabled"}>
     </label>
@@ -1188,6 +1197,14 @@ function renderCivilReviewControls(preview) {
     checkbox.addEventListener("change", () => {
       if (checkbox.checked) civilReviewState.disciplines.add(checkbox.dataset.civilDiscipline);
       else civilReviewState.disciplines.delete(checkbox.dataset.civilDiscipline);
+      renderCivilGraphic();
+      renderCivilReviewControls(preview);
+    });
+  });
+  host.querySelectorAll("[data-civil-group]").forEach((checkbox) => {
+    checkbox.addEventListener("change", () => {
+      if (checkbox.checked) civilReviewState.groups.add(checkbox.dataset.civilGroup);
+      else civilReviewState.groups.delete(checkbox.dataset.civilGroup);
       renderCivilGraphic();
       renderCivilReviewControls(preview);
     });
@@ -1247,6 +1264,8 @@ function artifactGraphic(preview) {
     };
     return (content.objects || []).map((item) => {
       if (!civilReviewState.disciplines.has(item.discipline)) return [];
+      if ((content.groups || []).length
+        && !civilReviewState.groups.has(item.coordination_group_id)) return [];
       if (stageAssets && !stageAssets.has(item.asset_id)) return [];
       const box = item.bbox_m;
       if (!Array.isArray(box) || box.length !== 6) return [];
@@ -1326,14 +1345,16 @@ function artifactInspectorItems(preview) {
     const materials = new Map((content.materials || []).map((item) => [item.material_id, item]));
     const profiles = new Map((content.profiles || []).map((item) => [item.profile_id, item]));
     const documents = new Map((content.documents || []).map((item) => [item.document_id, item]));
+    const groups = new Map((content.groups || []).map((item) => [item.group_id, item]));
     const classification = content.classification || {};
     const objectItems = (content.objects || []).map((item) => {
       const material = materials.get(item.material_id);
       const profile = profiles.get(item.profile_id);
       const sourceDocuments = (item.document_ids || []).map((id) => documents.get(id)).filter(Boolean);
+      const coordinationGroup = groups.get(item.coordination_group_id);
       return {
         label: item.name,
-        meta: `${item.ifc_class} · ${item.asset_class} · ${item.ifc_type_id || "untyped"} · ${item.material_id || "material unresolved"} · ${item.profile_id || "profile not applicable"} · ${sourceDocuments.length} source documents`,
+        meta: `${item.ifc_class} · ${item.asset_class} · ${coordinationGroup?.name || "group unresolved"} · ${item.ifc_type_id || "untyped"} · ${item.material_id || "material unresolved"} · ${item.profile_id || "profile not applicable"} · ${sourceDocuments.length} source documents`,
         detail: [
           `asset ${item.asset_id}`,
           `IFC GUID ${item.ifc_guid}`,
@@ -1347,6 +1368,9 @@ function artifactInspectorItems(preview) {
             ? `profile ${profile.profile_id} · ${profile.standard_designation}\nprofile ${profile.geometry_status} · cardinal point ${profile.cardinal_point} · ${profile.area_m2} m²`
             : "profile not applicable or unresolved",
           `classification ${item.classification_code} · ${item.classification_assignment}\nsystem ${classification.name} · ${classification.status}\nexternal mapping ${classification.external_mapping_status}`,
+          coordinationGroup
+            ? `coordination group ${coordinationGroup.group_id} · ${coordinationGroup.name}\nrole ${coordinationGroup.role}`
+            : `coordination group ${item.coordination_group_id} · unresolved`,
           `discipline ${item.discipline} · ${item.detail_mode}`,
           `bbox m ${item.bbox_m.join(", ")}`,
           `source ${item.source_geometry}`,
@@ -1370,6 +1394,19 @@ function artifactInspectorItems(preview) {
         `external mapping ${classification.external_mapping_status}`,
       ].join("\n"),
     }));
+    const groupItems = (content.groups || []).map((group) => ({
+      label: group.name,
+      meta: `${group.group_id} · ${group.asset_count} assets · ${group.role}`,
+      detail: [
+        `coordination group ${group.group_id}`,
+        `IFC GUID ${group.ifc_guid}`,
+        `IFC class ${group.ifc_class}`,
+        `role ${group.role}`,
+        `assets ${group.asset_count}`,
+        `spatial meaning ${group.spatial_meaning}`,
+        `system meaning ${group.system_meaning}`,
+      ].join("\n"),
+    }));
     const documentItems = (content.documents || []).map((document) => ({
       label: document.name,
       meta: `${document.document_id} · ${document.media_type} · ${document.associated_asset_ids.length} assets · ${document.associated_type_ids.length} types`,
@@ -1384,7 +1421,7 @@ function artifactInspectorItems(preview) {
         `associated assets ${document.associated_asset_ids.length} · types ${document.associated_type_ids.length}`,
       ].join("\n"),
     }));
-    return [...objectItems, ...classificationItems, ...documentItems];
+    return [...objectItems, ...classificationItems, ...groupItems, ...documentItems];
   }
   if (preview.format === "json" && content.schema === "org.opensourcerail.bonsai-civil-bcf-index.v1") {
     return (content.topics || []).map((topic) => ({
@@ -1417,7 +1454,7 @@ function renderArtifactObjects(preview) {
       <button id="clear-selected-assets" type="button" class="secondary">Clear</button>
       <span id="artifact-selection-count" class="artifact-selection-count">0 assets selected</span>
     </div>` : "";
-  host.innerHTML = `<h3>${preview.content.schema?.includes("bcf") ? "Coordination topics" : preview.content.schema?.includes("ids") ? "IDS specifications" : "IFC object, classification, and source-document inspector"}</h3>
+  host.innerHTML = `<h3>${preview.content.schema?.includes("bcf") ? "Coordination topics" : preview.content.schema?.includes("ids") ? "IDS specifications" : "IFC object, group, classification, and source-document inspector"}</h3>
     ${tools}
     <div class="artifact-object-list">${items.map((item, index) => `<div class="artifact-object-row" data-object-row="${index}" data-search="${escapeHtml(`${item.label} ${item.meta}`.toLowerCase())}">${item.coordinationTarget ? `<input class="artifact-object-check" type="checkbox" data-asset-index="${index}" aria-label="Include ${escapeHtml(item.label)} in coordination topic">` : ""}<button type="button" class="artifact-object-button" data-object-index="${index}"><strong>${escapeHtml(item.label)}</strong><small>${escapeHtml(item.meta)}</small></button></div>`).join("")}</div>
     <pre class="artifact-object-detail"></pre>
@@ -1599,7 +1636,7 @@ function artifactMetrics(preview, graphic) {
     const coordinateReference = content.georeferencing?.native_ifc_georeferencing
       ? content.georeferencing.crs_name
       : "local grid";
-    return [[content.summary?.assets || 0, "IFC assets"], [content.summary?.types || 0, "reusable IFC types"], [content.summary?.typed_assets || 0, "typed assets"], [content.summary?.materials || 0, "declared material families"], [content.summary?.material_associated_assets || 0, "material-associated assets"], [content.summary?.profiles || 0, "native section profiles"], [content.summary?.profiled_assets || 0, "profile-extruded assets"], [content.summary?.classifications || 0, "native classification systems"], [content.summary?.classification_references || 0, "asset-class references"], [content.summary?.classified_assets || 0, "classified assets"], [content.summary?.documents || 0, "hash-locked source documents"], [content.summary?.document_associated_assets || 0, "source-linked assets"], [content.summary?.construction_tasks || 0, "4D tasks"], [content.summary?.interface_checks || 0, "interface checks"], [coordinateReference, "coordinate reference"], [content.ifc_schema || "IFC4X3", "coordination schema"]];
+    return [[content.summary?.assets || 0, "IFC assets"], [content.summary?.types || 0, "reusable IFC types"], [content.summary?.typed_assets || 0, "typed assets"], [content.summary?.materials || 0, "declared material families"], [content.summary?.material_associated_assets || 0, "material-associated assets"], [content.summary?.profiles || 0, "native section profiles"], [content.summary?.profiled_assets || 0, "profile-extruded assets"], [content.summary?.classifications || 0, "native classification systems"], [content.summary?.classification_references || 0, "asset-class references"], [content.summary?.classified_assets || 0, "classified assets"], [content.summary?.coordination_groups || 0, "native coordination groups"], [content.summary?.grouped_assets || 0, "group-associated assets"], [content.summary?.documents || 0, "hash-locked source documents"], [content.summary?.document_associated_assets || 0, "source-linked assets"], [content.summary?.construction_tasks || 0, "4D tasks"], [content.summary?.interface_checks || 0, "interface checks"], [coordinateReference, "coordinate reference"], [content.ifc_schema || "IFC4X3", "coordination schema"]];
   }
   if (preview.format === "json" && content.schema === "org.opensourcerail.bonsai-civil-ids-report.v1") {
     return [[content.total_specifications_pass, `of ${content.total_specifications} IDS specifications`], [content.total_checks_pass, `of ${content.total_checks} checks`], [content.status ? "PASS" : "FAIL", "information delivery"], ["IDS 1.0", "requirements standard"]];

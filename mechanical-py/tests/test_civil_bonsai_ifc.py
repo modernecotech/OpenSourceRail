@@ -31,8 +31,8 @@ def test_civil_ifc_has_rail_semantics_geometry_schedule_and_stable_ids(tmp_path:
 
     assert validation["passed"]
     assert ids_report["status"]
-    assert ids_report["total_specifications_pass"] == 8
-    assert ids_report["total_checks"] == ids_report["total_checks_pass"] == 1222
+    assert ids_report["total_specifications_pass"] == 9
+    assert ids_report["total_checks"] == ids_report["total_checks_pass"] == 1347
     assert bcf_index["topic_count"] == 3
     assert coordination is not None
     assert coordination.version.version_id == "3.0"
@@ -43,8 +43,10 @@ def test_civil_ifc_has_rail_semantics_geometry_schedule_and_stable_ids(tmp_path:
         "classifications": 1,
         "classified_assets": 95,
         "construction_tasks": 18,
+        "coordination_groups": 5,
         "document_associated_assets": 95,
         "documents": 15,
+        "grouped_assets": 95,
         "disciplines": {
             "above-track": 10,
             "lineside": 2,
@@ -221,6 +223,45 @@ def test_civil_ifc_has_rail_semantics_geometry_schedule_and_stable_ids(tmp_path:
     assert (
         classification_pset["ExternalMappingStatus"]
         == "country-and-client-mapping-not-nominated"
+    )
+    assert len(model.by_type("IfcGroup")) == 5
+    assert len(model.by_type("IfcRelAssignsToGroup")) == 5
+    assert sorted(row["asset_count"] for row in index["groups"]) == [1, 2, 11, 12, 69]
+    assert sum(
+        len(relationship.RelatedObjects)
+        for relationship in model.by_type("IfcRelAssignsToGroup")
+    ) == 95
+    groups_by_id = {
+        get_psets(group)["Pset_OSR_CoordinationGroup"]["GroupId"]: group
+        for group in model.by_type("IfcGroup")
+    }
+    assert set(groups_by_id) == {row["group_id"] for row in index["groups"]}
+    assert all(
+        groups_by_id[row["group_id"]].Name == row["name"]
+        and get_psets(groups_by_id[row["group_id"]])["Pset_OSR_CoordinationGroup"]
+        ["SourceZone"]
+        == row["name"]
+        and get_psets(groups_by_id[row["group_id"]])["Pset_OSR_CoordinationGroup"]
+        ["GroupRole"]
+        == "non-spatial-review-group"
+        and get_psets(groups_by_id[row["group_id"]])["Pset_OSR_CoordinationGroup"]
+        ["SpatialMeaning"]
+        == "separated review layout; not a surveyed spatial zone"
+        and get_psets(groups_by_id[row["group_id"]])["Pset_OSR_CoordinationGroup"]
+        ["SystemMeaning"]
+        == "inspection grouping; not a functional engineering system"
+        for row in index["groups"]
+    )
+    assert all(
+        {
+            get_psets(relationship.RelatingGroup)["Pset_OSR_CoordinationGroup"][
+                "GroupId"
+            ]
+            for relationship in model.by_guid(row["ifc_guid"]).HasAssignments
+            if relationship.is_a("IfcRelAssignsToGroup")
+        }
+        == {row["coordination_group_id"]}
+        for row in index["objects"]
     )
     assert len(model.by_type("IfcElementQuantity")) == 95
     assert {

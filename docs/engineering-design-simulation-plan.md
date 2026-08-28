@@ -149,9 +149,10 @@ stable assets, 17 source-recipe component types, three source-backed material
 families covering 46 occurrences, one native 60E1 profile driving 32 rail
 extrusions, 15 hash-locked native source documents associated to all assets,
 one internal classification with 11 references covering all 95 assets, four `IfcRailwayPart`
-disciplines, an `IfcAlignment` reference, 18 construction tasks, task-product
+disciplines, five native coordination groups covering all assets exactly once,
+an `IfcAlignment` reference, 18 construction tasks, task-product
 links, native quantities, provenance, and nine passing interface checks. Its
-eight-specification IDS 1.0 contract passes 1,222/1,222 checks; deterministic BCF
+nine-specification IDS 1.0 contract passes 1,347/1,347 checks; deterministic BCF
 3.0 topics retain object links and Git-reviewed decisions. Bonsai 0.8.5 imports
 the model headlessly and saves the review/animation scene. Survey-grade
 alignment design and engineer-released structural detail remain open.
