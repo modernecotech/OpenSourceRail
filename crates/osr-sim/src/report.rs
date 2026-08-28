@@ -224,6 +224,28 @@ pub fn print_summary(_config: &ScenarioConfig, _runtime: &RuntimeConfig, r: &Sim
         );
     }
 
+    if r.infrastructure_systems.stations.controller_ticks > 0 {
+        let stations = &r.infrastructure_systems.stations;
+        let wayside = &r.infrastructure_systems.wayside;
+        println!("\n────────── Station + wayside application stack ──────────");
+        println!("Station ticks      : {:>10}", stations.controller_ticks);
+        println!(
+            "PSD open/obstructed: {} / {} ticks ({} panel evaluations)",
+            stations.psd_open_ticks, stations.psd_obstruction_ticks, stations.psd_panel_evaluations
+        );
+        println!(
+            "PIS entries / SCADA degraded: {} / {} ticks",
+            stations.pis_board_entries, stations.scada_degraded_ticks
+        );
+        println!(
+            "Wayside verdicts   : {} clear / {} unknown / {} present · {} transitions",
+            wayside.clear_ticks,
+            wayside.unknown_ticks,
+            wayside.present_ticks,
+            wayside.verdict_transitions
+        );
+    }
+
     if r.ma_check.checks_run > 0 {
         println!("\n────────── MA computer integration (osr-interlocking) ──────────");
         println!("Sweeps run         : {:>10}", r.ma_check.checks_run);

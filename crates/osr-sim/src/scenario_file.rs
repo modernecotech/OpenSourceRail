@@ -313,11 +313,13 @@ fn default_charger_contact_count() -> u8 {
 pub struct FaultSpec {
     pub name: String,
     /// One of: `"dust_event"`, `"grid_outage"`, `"charging_pad_outage"`,
+    /// `"platform_door_obstruction"`, `"station_scada_failure"`,
     /// `"lidar_offline"`, `"radar_offline"`, `"ultrasonic_channel_stale"`,
     /// `"obstacle_peer_disagreement"`, `"passenger_intercom_press"`,
     /// `"battery_off_gas"`, `"battery_mist_failure"`,
     /// `"battery_fire_escalation"`, `"t2g_primary_offline"`,
-    /// `"t2g_all_offline"`, `"hot_axle_overheat"`, or `"cbm_degradation"`.
+    /// `"t2g_all_offline"`, `"hot_axle_overheat"`, `"cbm_degradation"`,
+    /// or `"wayside_intrusion"`.
     pub kind: String,
     /// Start time "HH:MM" (relative to `day`).
     pub from: String,
@@ -329,9 +331,8 @@ pub struct FaultSpec {
     /// For dust_event: fraction of normal PV output (0.0–1.0). Required.
     #[serde(default)]
     pub pv_output_factor: Option<f32>,
-    /// For scoped infrastructure faults: which station this affects. If
-    /// omitted, the fault is all-sites (for dust_event and grid_outage).
-    /// Required for charging_pad_outage.
+    /// For scoped infrastructure faults: which station this affects. Omission
+    /// applies the event to all stations/sites. Required for a pad outage.
     #[serde(default)]
     pub station: Option<String>,
     /// For onboard obstacle-detect faults (RFC 0015): which train this
@@ -517,6 +518,7 @@ impl std::fmt::Display for LoadError {
                 f,
                 "unknown fault kind '{k}' (expected one of: dust_event, grid_outage, \
                  charging_pad_outage, lidar_offline, radar_offline, \
+                 platform_door_obstruction, station_scada_failure, \
                  ultrasonic_channel_stale, obstacle_peer_disagreement, \
                  passenger_intercom_press, battery_off_gas, \
                  battery_mist_failure, battery_fire_escalation, \
@@ -1080,6 +1082,8 @@ fn build_faults(
                     ));
                 }
             },
+            "platform_door_obstruction" => FaultKind::PlatformDoorObstruction { scope },
+            "station_scada_failure" => FaultKind::StationScadaFailure { scope },
             "lidar_offline" => FaultKind::LidarOffline {
                 scope: train_scope(spec)?,
             },
@@ -1277,18 +1281,20 @@ mod trainset_system_tests {
     }
 
     #[test]
-    fn embedded_fault_kinds_parse_with_train_scope() {
+    fn expanded_fault_kinds_parse_with_applicable_scope() {
         let additions = [
-            "t2g_primary_offline",
-            "t2g_all_offline",
-            "hot_axle_overheat",
-            "cbm_degradation",
+            ("t2g_primary_offline", "train = \"T1\""),
+            ("t2g_all_offline", "train = \"T1\""),
+            ("hot_axle_overheat", "train = \"T1\""),
+            ("cbm_degradation", "train = \"T1\""),
+            ("platform_door_obstruction", "station = \"samawah-station\""),
+            ("station_scada_failure", "station = \"samawah-station\""),
         ]
         .into_iter()
         .enumerate()
-        .map(|(index, kind)| {
+        .map(|(index, (kind, scope))| {
             format!(
-                "\n[[faults]]\nname = \"embedded-{index}\"\nkind = \"{kind}\"\nfrom = \"05:31\"\nto = \"05:32\"\ntrain = \"T1\"\n"
+                "\n[[faults]]\nname = \"expanded-{index}\"\nkind = \"{kind}\"\nfrom = \"05:31\"\nto = \"05:32\"\n{scope}\n"
             )
         })
         .collect::<String>();
@@ -1314,5 +1320,13 @@ mod trainset_system_tests {
             .faults
             .iter()
             .any(|fault| matches!(fault.kind, FaultKind::CbmDegradation { .. })));
+        assert!(scenario
+            .faults
+            .iter()
+            .any(|fault| matches!(fault.kind, FaultKind::PlatformDoorObstruction { .. })));
+        assert!(scenario
+            .faults
+            .iter()
+            .any(|fault| matches!(fault.kind, FaultKind::StationScadaFailure { .. })));
     }
 }

@@ -31,6 +31,8 @@ pub async fn start_web(
         controller_ticks,
         embedded_ticks,
         t2g_transmissions,
+        station_ticks,
+        wayside_ticks,
         invariant_violations,
     ) = app.run_state_summary();
     eframe::WebRunner::new()
@@ -41,6 +43,6 @@ pub async fn start_web(
         )
         .await?;
     Ok(format!(
-        "{{\"durationS\":{duration_s},\"events\":{events},\"trains\":{trains},\"controllerTicks\":{controller_ticks},\"embeddedTicks\":{embedded_ticks},\"t2gTransmissions\":{t2g_transmissions},\"invariantViolations\":{invariant_violations}}}"
+        "{{\"durationS\":{duration_s},\"events\":{events},\"trains\":{trains},\"controllerTicks\":{controller_ticks},\"embeddedTicks\":{embedded_ticks},\"t2gTransmissions\":{t2g_transmissions},\"stationTicks\":{station_ticks},\"waysideTicks\":{wayside_ticks},\"invariantViolations\":{invariant_violations}}}"
     ))
 }

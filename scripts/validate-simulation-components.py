@@ -17,6 +17,7 @@ SIM_CARGO = REPO_ROOT / "crates/osr-sim/Cargo.toml"
 CATEGORIES = (
     "tick_controller",
     "runtime_kernel",
+    "infrastructure_tick_controller",
     "scenario_model",
     "design_pipeline",
     "simulation_shell",
@@ -57,7 +58,7 @@ def build_report(result_path: Path | None = None) -> dict:
     expected_linked = {
         name
         for name, category in assignments.items()
-        if category in {"tick_controller", "runtime_kernel"}
+        if category in {"tick_controller", "runtime_kernel", "infrastructure_tick_controller"}
     }
     absent_dependencies = sorted(expected_linked - dependencies)
     if absent_dependencies:
@@ -69,6 +70,9 @@ def build_report(result_path: Path | None = None) -> dict:
         vehicle = result.get("vehicle_systems", {})
         onboard = result.get("onboard", {})
         embedded = result.get("embedded", {})
+        infrastructure = result.get("infrastructure_systems", {})
+        stations = infrastructure.get("stations", {})
+        wayside = infrastructure.get("wayside", {})
         runtime_evidence = {
             "result": str(result_path),
             "result_sha256": digest(result_path),
@@ -79,6 +83,9 @@ def build_report(result_path: Path | None = None) -> dict:
             "event_records_written": int(embedded.get("event_records_written", 0)),
             "cbm_samples": int(embedded.get("cbm_samples", 0)),
             "t2g_transmissions": int(embedded.get("t2g_transmissions", 0)),
+            "station_controller_ticks": int(stations.get("controller_ticks", 0)),
+            "psd_panel_evaluations": int(stations.get("psd_panel_evaluations", 0)),
+            "wayside_detector_ticks": int(wayside.get("detector_ticks", 0)),
         }
         required_vehicle = (
             "door_controller_evaluations",
@@ -97,6 +104,9 @@ def build_report(result_path: Path | None = None) -> dict:
             "event_records_written",
             "cbm_samples",
             "t2g_transmissions",
+            "station_controller_ticks",
+            "psd_panel_evaluations",
+            "wayside_detector_ticks",
         ):
             if runtime_evidence[field] <= 0:
                 issues.append(f"simulation result has no {field} evidence")
@@ -120,8 +130,8 @@ def build_report(result_path: Path | None = None) -> dict:
         "runtime_evidence": runtime_evidence,
         "interpretation": (
             "Complete means every deployable software component has exactly one explicit "
-            "simulation treatment. Only tick_controller entries are claimed to execute per "
-            "vehicle tick; scenario_model and external_boundary entries remain visible gaps, "
+            "simulation treatment. Tick controllers execute per vehicle, station, or wayside "
+            "section tick; scenario_model and external_boundary entries remain visible gaps, "
             "not simulated implementations."
         ),
     }

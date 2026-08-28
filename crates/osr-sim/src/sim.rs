@@ -23,12 +23,17 @@ use crate::consensus_log::ConsensusBackend;
 use crate::embedded::{self, EmbeddedShadow, EmbeddedSummary};
 use crate::energy::{pv_output_kw, EnergySiteConfig, EnergySiteSummary, EnergySystem};
 use crate::fault::{Fault, FaultEngine, FaultLogEntry};
+use crate::infrastructure_systems::{
+    self, InfrastructureSystemsSummary, StationSystemsShadow, WaysideSystemsShadow,
+};
 use crate::ma_check::{self, MaCheckSummary};
 use crate::onboard::{self, OnboardShadow, OnboardSummary};
 use crate::physics::{kinematic_profile, sample_kinematic_profile, MotionSample};
 use crate::schedule::{DispatchThrottle, LineSchedule};
 use crate::train::{Heading, Train, TrainPhase};
-use crate::vehicle_systems::{self, VehicleSystemsShadow, VehicleSystemsSummary};
+use crate::vehicle_systems::{
+    self, VehicleSystemsShadow, VehicleSystemsSummary, VehicleSystemsTickReport,
+};
 
 use osr_core::TrackRef;
 use osr_interlocking::{
@@ -574,6 +579,9 @@ pub struct SimResult {
     /// hot-axle monitor, CBM sampler, and T2G radio arbitration.
     #[serde(default)]
     pub embedded: EmbeddedSummary,
+    /// Station PSD/PIS/SCADA and wayside intrusion-detector evidence.
+    #[serde(default)]
+    pub infrastructure_systems: InfrastructureSystemsSummary,
 }
 
 fn default_ma_summary() -> MaCheckSummary {
@@ -674,6 +682,14 @@ pub fn run_with_event_recording(
         .collect();
     let mut embedded_shadows: Vec<EmbeddedShadow> =
         trains.iter().map(EmbeddedShadow::new).collect();
+    let mut vehicle_reports = vec![VehicleSystemsTickReport::default(); trains.len()];
+    let mut station_system_shadows: Vec<StationSystemsShadow> = config
+        .network
+        .stations
+        .values()
+        .map(StationSystemsShadow::new)
+        .collect();
+    let mut wayside_systems_shadow = WaysideSystemsShadow::new(&config.network);
 
     // Optional CSV trace.
     let mut csv_writer: Option<std::io::BufWriter<std::fs::File>> = None;
@@ -729,14 +745,14 @@ pub fn run_with_event_recording(
         // Update fault state for this tick.
         faults.tick(t);
 
-        // Emit wayside intrusion entries driven by any active
-        // `WaysideIntrusion` fault (RFC 0016 v3). The sim re-asserts
-        // the latest state each tick so that a fault clearing
-        // produces a matching `Clear` entry on the following tick.
-        //
-        // `issued_by` is a fixed sim-wayside identity; real
-        // deployments would use the W-SBC entity id per section.
-        for (section, state) in faults.active_wayside_intrusions() {
+        // Convert declared faults to synthetic sensor frames, run the actual
+        // SIL-4 wayside evaluator, and publish only verdict transitions.
+        for (section, state) in infrastructure_systems::wayside_systems_tick(
+            &mut wayside_systems_shadow,
+            &config.network,
+            &faults,
+            t,
+        ) {
             ma_log.emit_intrusion(section, state, wayside_identity, t);
         }
 
@@ -793,6 +809,7 @@ pub fn run_with_event_recording(
                 t,
                 dt,
             );
+            vehicle_reports[idx] = vehicle_report;
             embedded::embedded_tick(
                 &mut embedded_shadows[idx],
                 &trains[idx],
@@ -801,6 +818,16 @@ pub fn run_with_event_recording(
                 &vehicle_report,
                 &faults,
                 config.climate.ambient_c,
+                t,
+            );
+        }
+
+        for station in &mut station_system_shadows {
+            infrastructure_systems::station_systems_tick(
+                station,
+                &trains,
+                &vehicle_reports,
+                &faults,
                 t,
             );
         }
@@ -885,6 +912,8 @@ pub fn run_with_event_recording(
         config.consist.car_count,
     );
     let embedded_summary = embedded::summarise(&embedded_shadows);
+    let infrastructure_systems_summary =
+        infrastructure_systems::summarise(&station_system_shadows, &wayside_systems_shadow);
 
     // Build per-site summaries.
     let energy_sites: Vec<EnergySiteSummary> = energy
@@ -934,6 +963,7 @@ pub fn run_with_event_recording(
         onboard: onboard_summary,
         vehicle_systems: vehicle_systems_summary,
         embedded: embedded_summary,
+        infrastructure_systems: infrastructure_systems_summary,
     }
 }
 

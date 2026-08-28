@@ -14,6 +14,8 @@ emission.
 - Train panel listing every in-service trainset with phase + SoC.
 - Embedded telemetry roll-up from the attached deterministic recording:
   TCMS ticks, CBM service flags, and T2G channel/transmission counts.
+- Station/wayside roll-up for PSD states, controller ticks, and intrusion
+  verdict transitions.
 - Alert feed (info / warn / crit) with category filter checkboxes,
   pre-seeded with SoC-warning alerts harvested from the recorded
   run and dispatcher-action entries.

@@ -22,6 +22,8 @@ pub async fn start_web(
         intrusions,
         embedded_ticks,
         t2g_transmissions,
+        station_ticks,
+        wayside_ticks,
     ) = app.recorded_state_summary();
     eframe::WebRunner::new()
         .start(
@@ -31,6 +33,6 @@ pub async fn start_web(
         )
         .await?;
     Ok(format!(
-        "{{\"durationS\":{duration_s},\"recordedEvents\":{recorded_events},\"trains\":{trains},\"alerts\":{alerts},\"intrusions\":{intrusions},\"embeddedTicks\":{embedded_ticks},\"t2gTransmissions\":{t2g_transmissions}}}"
+        "{{\"durationS\":{duration_s},\"recordedEvents\":{recorded_events},\"trains\":{trains},\"alerts\":{alerts},\"intrusions\":{intrusions},\"embeddedTicks\":{embedded_ticks},\"t2gTransmissions\":{t2g_transmissions},\"stationTicks\":{station_ticks},\"waysideTicks\":{wayside_ticks}}}"
     ))
 }

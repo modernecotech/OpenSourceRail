@@ -17,6 +17,12 @@ components = [
   "osr-consensus", "osr-core", "osr-crypto", "osr-interlocking", "osr-secbus",
 ]
 
+# Executes inside osr-sim for each configured station or wayside section tick.
+[infrastructure_tick_controller]
+components = [
+  "osr-intrusion-detect", "osr-pis-station", "osr-psd", "osr-station-scada",
+]
+
 # Represented by an aggregate/scenario-native model. This is explicit technical
 # debt: the standalone crate is not claimed to have run.
 [scenario_model]
@@ -38,8 +44,8 @@ components = ["osr-gui-shared", "osr-sim", "osr-sim-gui"]
 [external_boundary]
 components = [
   "osr-afc", "osr-afc-backoffice", "osr-analytics", "osr-balise",
-  "osr-cbm-backend", "osr-historian", "osr-hot-axle-wayside", "osr-intrusion-detect",
-  "osr-level-crossing", "osr-occ", "osr-occ-gui", "osr-pis-station",
-  "osr-proto", "osr-psd", "osr-ptp", "osr-selftest", "osr-station-scada",
+  "osr-cbm-backend", "osr-historian", "osr-hot-axle-wayside",
+  "osr-level-crossing", "osr-occ", "osr-occ-gui",
+  "osr-proto", "osr-ptp", "osr-selftest",
   "osr-tvm", "osr-wayside-points",
 ]

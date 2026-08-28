@@ -20,6 +20,7 @@ then animates the run at arbitrary playback speed.
   the current playback time.
 - Embedded-software evidence for TCMS, event recording, CBM, hot-axle, and
   T2G primary/backup/offline operation.
+- Station and wayside evidence for PSD, PIS, SCADA, and intrusion detection.
 
 ## Run (native)
 

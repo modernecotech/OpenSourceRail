@@ -236,10 +236,9 @@ or to a dedicated depot site. Onboard roof PV is modeled under
 
 #### `[[faults]]` *(optional)*
 
-Inject scheduled fault events to stress-test your network: dust storms that
-cut PV output, grid outages that force sites into islanded operation,
-charging-pad failures at specific stations. Useful for verifying that your
-storage sizing survives the conditions RFC 0002 §5.4 calls out.
+Inject scheduled energy, onboard, station, or wayside faults. Every fault has
+`name`, `kind`, `from`, `to`, and optional `day`; its remaining fields select
+the affected asset and stimulus.
 
 ```toml
 [[faults]]
@@ -305,6 +304,13 @@ train = "T4"
 - `t2g_all_offline` — queues telemetry until either radio recovers.
 - `hot_axle_overheat` — injects a dual-channel bearing-temperature trip.
 - `cbm_degradation` — injects service-level bearing, motor, pad, and wheel data.
+- `platform_door_obstruction` — asserts PSD obstruction sensing. Optional
+  `station`; omission applies it to every station.
+- `station_scada_failure` — degrades reference SCADA equipment. Optional
+  `station`; omission applies it to every station.
+- `wayside_intrusion` — runs the configured section's detector with `state =
+  "present"` or `"unknown"`, then publishes verdict transitions to consensus.
+  Requires numeric `section_id`.
 - Onboard fault kinds accept an optional `train = "T4"`; omit it to affect
   the fleet. Other onboard kinds are `lidar_offline`, `radar_offline`,
   `ultrasonic_channel_stale`, `obstacle_peer_disagreement`, and
@@ -371,8 +377,7 @@ ones:
   — SoC is a 0–1 fraction, not a percentage.
 - **"duplicate site for station '…'"** — each station may have at most one
   `[[sites]]` entry.
-- **"unknown fault kind '…'"** — use `dust_event`, `grid_outage`, or
-  `charging_pad_outage`.
+- **"unknown fault kind '…'"** — use one of the fault kinds listed above.
 - **"fault '…' (dust_event) requires pv_output_factor in [0.0, 1.0]"** —
   dust events must specify how much PV is lost (as a fraction, not a
   percentage).

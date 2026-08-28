@@ -4,14 +4,15 @@
   "issues": [],
   "inventory_count": 55,
   "classified_count": 55,
-  "linked_component_count": 26,
+  "linked_component_count": 30,
   "category_counts": {
     "tick_controller": 21,
     "runtime_kernel": 5,
+    "infrastructure_tick_controller": 4,
     "scenario_model": 2,
     "design_pipeline": 5,
     "simulation_shell": 3,
-    "external_boundary": 19
+    "external_boundary": 15
   },
   "categories": {
     "tick_controller": [
@@ -44,6 +45,12 @@
       "osr-interlocking",
       "osr-secbus"
     ],
+    "infrastructure_tick_controller": [
+      "osr-intrusion-detect",
+      "osr-pis-station",
+      "osr-psd",
+      "osr-station-scada"
+    ],
     "scenario_model": [
       "osr-energy-site",
       "osr-regen"
@@ -68,23 +75,19 @@
       "osr-cbm-backend",
       "osr-historian",
       "osr-hot-axle-wayside",
-      "osr-intrusion-detect",
       "osr-level-crossing",
       "osr-occ",
       "osr-occ-gui",
-      "osr-pis-station",
       "osr-proto",
-      "osr-psd",
       "osr-ptp",
       "osr-selftest",
-      "osr-station-scada",
       "osr-tvm",
       "osr-wayside-points"
     ]
   },
   "deployment_inventory_sha256": "f6a192757c64f5059fd321ca45d9345c6b1da65d81f45a5d943e49971596492d",
-  "coverage_contract_sha256": "417dc97ca86b778aeab6937d4b574e10021213520f57442415f5c8ac01aa6124",
-  "simulator_cargo_sha256": "8086f865a16544348c620708f67c1258c01cb1f3e886845b86bf4b77817126e3",
+  "coverage_contract_sha256": "1f2c2b647f322045834f82d5e42589e4042baaffee4fa7995ecd7189fb2a602a",
+  "simulator_cargo_sha256": "d7617211370c56965232303ab98b763d9288ac23abdedaa5595944e9783a2099",
   "runtime_evidence": null,
-  "interpretation": "Complete means every deployable software component has exactly one explicit simulation treatment. Only tick_controller entries are claimed to execute per vehicle tick; scenario_model and external_boundary entries remain visible gaps, not simulated implementations."
+  "interpretation": "Complete means every deployable software component has exactly one explicit simulation treatment. Tick controllers execute per vehicle, station, or wayside section tick; scenario_model and external_boundary entries remain visible gaps, not simulated implementations."
 }

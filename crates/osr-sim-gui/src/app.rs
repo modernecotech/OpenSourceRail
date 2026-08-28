@@ -124,10 +124,10 @@ impl SimApp {
 
     /// Compact proof that the browser-visible run is populated and that the
     /// integrated vehicle controllers executed.
-    pub fn run_state_summary(&self) -> (u32, usize, usize, u64, u64, u64, usize) {
+    pub fn run_state_summary(&self) -> (u32, usize, usize, u64, u64, u64, u64, u64, usize) {
         self.result
             .as_ref()
-            .map_or((0, 0, 0, 0, 0, 0, 0), |result| {
+            .map_or((0, 0, 0, 0, 0, 0, 0, 0, 0), |result| {
                 (
                     result.sim_duration_s,
                     result.events.len(),
@@ -135,6 +135,8 @@ impl SimApp {
                     result.vehicle_systems.controller_ticks,
                     result.embedded.controller_ticks,
                     result.embedded.t2g_transmissions,
+                    result.infrastructure_systems.stations.controller_ticks,
+                    result.infrastructure_systems.wayside.detector_ticks,
                     result.invariant_violations.len(),
                 )
             })
@@ -320,6 +322,23 @@ fn left_sidebar(app: &mut SimApp, ctx: &Context) {
                 embedded_colour,
                 format!("embedded alert ticks: {embedded_trips}"),
             );
+            ui.separator();
+            ui.heading("Station + wayside");
+            ui.label(format!(
+                "station controller ticks: {}",
+                r.infrastructure_systems.stations.controller_ticks
+            ));
+            ui.label(format!(
+                "PSD open / obstructed: {} / {}",
+                r.infrastructure_systems.stations.psd_open_ticks,
+                r.infrastructure_systems.stations.psd_obstruction_ticks
+            ));
+            ui.label(format!(
+                "wayside clear / unknown / present: {} / {} / {}",
+                r.infrastructure_systems.wayside.clear_ticks,
+                r.infrastructure_systems.wayside.unknown_ticks,
+                r.infrastructure_systems.wayside.present_ticks
+            ));
             if !r.faults_fired.is_empty() {
                 ui.separator();
                 ui.heading("Faults fired");

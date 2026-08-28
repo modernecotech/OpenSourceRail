@@ -13,6 +13,10 @@
 //!   PV + battery only.
 //! - **Charging pad outage** — disables a specific station's charging pad.
 //!   Simulates an equipment failure or scheduled maintenance.
+//! - **Platform-door obstruction** — sets the affected station's PSD
+//!   obstruction sensor while the command/sensor evaluator continues to run.
+//! - **Station-SCADA failure** — degrades the affected station's monitored
+//!   lift, escalator, HVAC, lighting, and CCTV reference equipment.
 //!
 //! Onboard obstacle-detect faults (RFC 0015 §5.1.1). These exercise the
 //! five O-series safety properties through the sim's shadow stack:
@@ -43,10 +47,10 @@
 //! Wayside intrusion-detect faults (RFC 0016 v3). These exercise the
 //! full wayside→interlocking→train chain:
 //!
-//! - **Wayside intrusion** — injects a `SectionIntrusion` log entry on
-//!   the named section with state `Present` or `Unknown`, which
-//!   triggers gate (d) of `section_available_to` and withholds MA to
-//!   any train that needs to enter the section.
+//! - **Wayside intrusion** — synthesises the required sensor frame, runs the
+//!   intrusion evaluator, and emits its verdict transition into consensus.
+//!   `Present` or `Unknown` triggers gate (d) of `section_available_to` and
+//!   withholds MA from trains that need to enter the section.
 //!
 //! Faults are declared in the scenario TOML under `[[faults]]`; see
 //! `lib/examples/README.md` for the format.
@@ -87,6 +91,14 @@ pub enum FaultKind {
     },
     ChargingPadOutage {
         station: StationId,
+    },
+    /// Obstruct one or every station's platform-door close cycle.
+    PlatformDoorObstruction {
+        scope: FaultScope,
+    },
+    /// Fail the reference station SCADA equipment set.
+    StationScadaFailure {
+        scope: FaultScope,
     },
     /// RFC 0015 §5.1.1 — LIDAR offline on affected train(s).
     LidarOffline {
@@ -174,6 +186,10 @@ pub struct FaultEngine {
     global_grid_disabled: bool,
     /// Stations with charging pad currently disabled.
     pad_disabled: HashSet<StationId>,
+    psd_obstructed: HashSet<StationId>,
+    psd_obstructed_all: bool,
+    station_scada_failed: HashSet<StationId>,
+    station_scada_failed_all: bool,
     // Onboard obstacle-sensor faults (RFC 0015). Per-train sets; plus
     // a global bool for fleet-wide faults that apply to every train.
     lidar_offline_trains: HashSet<TrainId>,
@@ -226,6 +242,10 @@ impl FaultEngine {
             grid_disabled: HashSet::new(),
             global_grid_disabled: false,
             pad_disabled: HashSet::new(),
+            psd_obstructed: HashSet::new(),
+            psd_obstructed_all: false,
+            station_scada_failed: HashSet::new(),
+            station_scada_failed_all: false,
             lidar_offline_trains: HashSet::new(),
             lidar_offline_all: false,
             radar_offline_trains: HashSet::new(),
@@ -264,6 +284,10 @@ impl FaultEngine {
         self.grid_disabled.clear();
         self.global_grid_disabled = false;
         self.pad_disabled.clear();
+        self.psd_obstructed.clear();
+        self.psd_obstructed_all = false;
+        self.station_scada_failed.clear();
+        self.station_scada_failed_all = false;
         self.lidar_offline_trains.clear();
         self.lidar_offline_all = false;
         self.radar_offline_trains.clear();
@@ -325,6 +349,18 @@ impl FaultEngine {
                 FaultKind::ChargingPadOutage { station } => {
                     self.pad_disabled.insert(*station);
                 }
+                FaultKind::PlatformDoorObstruction { scope } => match scope {
+                    FaultScope::All => self.psd_obstructed_all = true,
+                    FaultScope::Station(station) => {
+                        self.psd_obstructed.insert(*station);
+                    }
+                },
+                FaultKind::StationScadaFailure { scope } => match scope {
+                    FaultScope::All => self.station_scada_failed_all = true,
+                    FaultScope::Station(station) => {
+                        self.station_scada_failed.insert(*station);
+                    }
+                },
                 FaultKind::LidarOffline { scope } => match scope {
                     TrainFaultScope::All => self.lidar_offline_all = true,
                     TrainFaultScope::Train(t) => {
@@ -416,10 +452,11 @@ impl FaultEngine {
     /// Iterator of `(section, state)` pairs for every active wayside-
     /// intrusion fault. Called once per sim tick to emit
     /// `SectionIntrusion` consensus entries.
-    pub fn active_wayside_intrusions(
-        &self,
-    ) -> impl Iterator<Item = (SectionId, IntrusionState)> + '_ {
-        self.wayside_intrusions.iter().map(|(s, st)| (*s, *st))
+    pub fn intrusion_state_for(&self, section: SectionId) -> IntrusionState {
+        self.wayside_intrusions
+            .get(&section)
+            .copied()
+            .unwrap_or(IntrusionState::Clear)
     }
 
     pub fn pv_factor_for(&self, station: StationId) -> f32 {
@@ -441,6 +478,14 @@ impl FaultEngine {
 
     pub fn pad_disabled_at(&self, station: StationId) -> bool {
         self.pad_disabled.contains(&station)
+    }
+
+    pub fn psd_obstructed_at(&self, station: StationId) -> bool {
+        self.psd_obstructed_all || self.psd_obstructed.contains(&station)
+    }
+
+    pub fn station_scada_failed_at(&self, station: StationId) -> bool {
+        self.station_scada_failed_all || self.station_scada_failed.contains(&station)
     }
 
     // Onboard (obstacle-detect) fault getters. Each one OR-combines the
@@ -537,6 +582,14 @@ fn describe_kind(kind: &FaultKind) -> String {
             FaultScope::Station(_) => "grid outage (one site)".to_string(),
         },
         FaultKind::ChargingPadOutage { .. } => "charging pad outage".to_string(),
+        FaultKind::PlatformDoorObstruction { scope } => match scope {
+            FaultScope::All => "platform-door obstruction (all stations)".to_string(),
+            FaultScope::Station(_) => "platform-door obstruction (one station)".to_string(),
+        },
+        FaultKind::StationScadaFailure { scope } => match scope {
+            FaultScope::All => "station SCADA failure (all stations)".to_string(),
+            FaultScope::Station(_) => "station SCADA failure (one station)".to_string(),
+        },
         FaultKind::LidarOffline { scope } => match scope {
             TrainFaultScope::All => "LIDAR offline (fleet)".to_string(),
             TrainFaultScope::Train(_) => "LIDAR offline (one train)".to_string(),
@@ -673,6 +726,37 @@ mod tests {
         eng.tick(500);
         assert!(eng.pad_disabled_at(s));
         assert!(!eng.pad_disabled_at(other));
+    }
+
+    #[test]
+    fn station_controller_faults_respect_scope_and_clear_after_window() {
+        let target = StationId::new(3);
+        let other = StationId::new(4);
+        let mut eng = FaultEngine::new(vec![
+            mk(
+                10,
+                20,
+                FaultKind::PlatformDoorObstruction {
+                    scope: FaultScope::Station(target),
+                },
+            ),
+            mk(
+                10,
+                20,
+                FaultKind::StationScadaFailure {
+                    scope: FaultScope::All,
+                },
+            ),
+        ]);
+        eng.tick(15);
+        assert!(eng.psd_obstructed_at(target));
+        assert!(!eng.psd_obstructed_at(other));
+        assert!(eng.station_scada_failed_at(target));
+        assert!(eng.station_scada_failed_at(other));
+
+        eng.tick(20);
+        assert!(!eng.psd_obstructed_at(target));
+        assert!(!eng.station_scada_failed_at(other));
     }
 
     #[test]

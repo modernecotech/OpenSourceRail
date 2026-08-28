@@ -13,9 +13,10 @@ OCC back-office — and fixes their boundaries, buses, SIL tiers, and
 rollout order *before* the first of them is written.
 
 The workspace now implements the crate map below. `osr-sim` connects the
-onboard safety, vehicle, TCMS, recorder, CBM, hot-axle, and T2G evaluators in
-deterministic software-in-loop runs. This is integration evidence, not a claim
-that production transports, hardware I/O, or safety certification are done.
+onboard safety, vehicle, TCMS, recorder, CBM, hot-axle, and T2G evaluators, plus
+station PSD/PIS/SCADA and wayside intrusion detection, in deterministic
+software-in-loop runs. This is integration evidence, not certification or
+production transport/hardware-I/O evidence.
 
 Without a map, those crates would grow ad hoc, buses would be redesigned
 repeatedly, SIL boundaries would be fuzzy, and the safety case would be
@@ -415,9 +416,9 @@ Phase 2c.
   immutable inputs.
 - [`osr-sim`](../../crates/osr-sim/) remains the digital twin. In
   Phase 2a, `osr-atp` runs inside the simulator against `osr-sim`'s
-  kinematics, consuming MAs derived from `osr-sim`-generated log
-  entries via `osr-interlocking`. This is the simulator-in-the-loop
-  test harness for every new onboard crate until real hardware exists.
+  kinematics, consuming MAs derived from consensus log entries via
+  `osr-interlocking`. Station and intrusion controllers also run against
+  deterministic physical/sensor shadows; hardware remains a separate gate.
 - [`osr-core`](../../crates/osr-core/) stays as it is; the protobuf
   types migrate into a new `osr-proto` crate when `osr-consensus`
   lands (Phase 2d) so that cross-language consumers (the Python

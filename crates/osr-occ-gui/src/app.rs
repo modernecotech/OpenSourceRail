@@ -134,7 +134,7 @@ impl OccApp {
     }
 
     /// Compact proof that the browser console attached a populated recording.
-    pub fn recorded_state_summary(&self) -> (u32, usize, usize, usize, usize, u64, u64) {
+    pub fn recorded_state_summary(&self) -> (u32, usize, usize, usize, usize, u64, u64, u64, u64) {
         (
             self.result
                 .as_ref()
@@ -151,6 +151,12 @@ impl OccApp {
             self.result
                 .as_ref()
                 .map_or(0, |result| result.embedded.t2g_transmissions),
+            self.result.as_ref().map_or(0, |result| {
+                result.infrastructure_systems.stations.controller_ticks
+            }),
+            self.result.as_ref().map_or(0, |result| {
+                result.infrastructure_systems.wayside.detector_ticks
+            }),
         )
     }
 
@@ -375,6 +381,22 @@ fn left_actions(app: &mut OccApp, ctx: &Context) {
             ui.label(format!(
                 "CBM service flags: {}",
                 result.embedded.cbm_service_flags
+            ));
+            ui.separator();
+            ui.heading("Station + wayside");
+            ui.label(format!(
+                "Station controller ticks: {}",
+                result.infrastructure_systems.stations.controller_ticks
+            ));
+            ui.label(format!(
+                "PSD open / obstruction: {} / {}",
+                result.infrastructure_systems.stations.psd_open_ticks,
+                result.infrastructure_systems.stations.psd_obstruction_ticks
+            ));
+            ui.label(format!(
+                "Wayside detector ticks / transitions: {} / {}",
+                result.infrastructure_systems.wayside.detector_ticks,
+                result.infrastructure_systems.wayside.verdict_transitions
             ));
         }
     });

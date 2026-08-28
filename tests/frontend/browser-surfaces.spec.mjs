@@ -21,6 +21,7 @@ for (const frontend of [
     details: { invariantViolations: 0 },
     positiveDetails: [
       "events", "trains", "controllerTicks", "embeddedTicks", "t2gTransmissions",
+      "stationTicks", "waysideTicks",
     ],
   },
   {
@@ -31,6 +32,7 @@ for (const frontend of [
     details: {},
     positiveDetails: [
       "recordedEvents", "trains", "alerts", "intrusions", "embeddedTicks", "t2gTransmissions",
+      "stationTicks", "waysideTicks",
     ],
   },
 ]) {
