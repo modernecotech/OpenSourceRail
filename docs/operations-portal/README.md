@@ -18,6 +18,10 @@ Static browser portal for city-level operations data:
 The simplified operating model is documented in
 [`ops-core.md`](ops-core.md).
 
+For the integrated City Studio → simulation → OCC replay → work-order flow,
+run the [OSR Workbench](../workbench/README.md). Workbench-created records retain
+their revision, approved baseline, run and selected-asset references.
+
 ## Generate Data
 
 ```bash

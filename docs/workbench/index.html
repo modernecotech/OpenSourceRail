@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>OSR Workbench</title>
+  <link rel="stylesheet" href="/workbench/app.css">
+</head>
+<body>
+  <header class="shell-header">
+    <div>
+      <p class="eyebrow">OpenSourceRail</p>
+      <h1>Workbench</h1>
+    </div>
+    <div class="selectors">
+      <label>Actor
+        <input id="actor" maxlength="120" value="local-user">
+      </label>
+      <label>Role
+        <select id="role">
+          <option value="designer">Designer</option>
+          <option value="dispatcher">Dispatcher</option>
+          <option value="maintainer">Maintainer</option>
+          <option value="reviewer">Reviewer</option>
+        </select>
+      </label>
+      <label>Mode
+        <select id="mode">
+          <option value="design">Design</option>
+          <option value="simulation">Simulation</option>
+          <option value="training">Training</option>
+          <option value="live">Live</option>
+        </select>
+      </label>
+    </div>
+  </header>
+
+  <section id="safetyBanner" class="safety-banner" aria-live="polite"></section>
+  <section class="context-bar" aria-label="Shared workbench context">
+    <span><b>City</b><code id="contextCity"></code></span>
+    <span><b>Revision</b><code id="contextRevision">not selected</code></span>
+    <span><b>Baseline</b><code id="contextBaseline">not approved</code></span>
+    <span><b>Run</b><code id="contextRun">not run</code></span>
+    <span><b>Asset</b><code id="contextAsset">none</code></span>
+  </section>
+
+  <nav id="moduleNav" class="module-nav" aria-label="Workbench modules">
+    <button data-module="studio">Design</button>
+    <button data-module="simulator">Simulation</button>
+    <button data-module="occ">OCC</button>
+    <button data-module="operations">Operations</button>
+    <button id="occHandoff" class="handoff" hidden>Open run in OCC training</button>
+  </nav>
+
+  <main>
+    <iframe id="moduleFrame" title="OSR Workbench module"></iframe>
+  </main>
+  <script type="module" src="/workbench/app.js"></script>
+</body>
+</html>

@@ -35,7 +35,13 @@
   <div id="loading">Loading OSR OCC Console…</div>
   <canvas id="osr_occ_canvas" role="application" aria-label="OpenSourceRail OCC console"></canvas>
   <script type="module">
-    window.__OSR_FRONTEND__ = { app: 'occ', ready: false, error: null };
+    const context = Object.fromEntries(new URLSearchParams(location.search));
+    window.__OSR_FRONTEND__ = { app: 'occ', ready: false, error: null, context };
+    window.addEventListener('message', (event) => {
+      if (event.origin === location.origin && event.data?.type === 'osr:context') {
+        Object.assign(context, event.data.context || {});
+      }
+    });
     (async () => {
       try {
         if (!window.wasmBindings) {
@@ -44,11 +50,15 @@
           );
         }
         const details = JSON.parse(
-          await window.wasmBindings.start_web(document.getElementById('osr_occ_canvas'))
+          await window.wasmBindings.start_web(
+            document.getElementById('osr_occ_canvas'),
+            context.actor || 'web dispatcher'
+          )
         );
         document.getElementById('loading').style.display = 'none';
         window.__OSR_FRONTEND__.ready = true;
         window.__OSR_FRONTEND__.details = details;
+        window.parent?.postMessage({ type: 'osr:context', context }, location.origin);
       } catch (error) {
         window.__OSR_FRONTEND__.error = String(error?.stack || error);
         throw error;

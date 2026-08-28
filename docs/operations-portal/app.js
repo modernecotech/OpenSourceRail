@@ -1,4 +1,6 @@
 const query = new URLSearchParams(window.location.search);
+const workbenchContext = Object.fromEntries(query.entries());
+const inWorkbench = window.parent !== window && location.pathname.startsWith("/operations");
 const DATA_URL = query.get("data")
   || "../../build/generated-operations/samawah/samawah-operations.json.gz";
 const CORE_STATUSES = ["open", "assigned", "in_progress", "ready_to_close", "hold", "closed"];
@@ -44,6 +46,13 @@ document.addEventListener("DOMContentLoaded", async () => {
   state.core = await loadCoreState();
   setDefaultDates();
   renderAll();
+  applyWorkbenchContext();
+});
+
+window.addEventListener("message", (event) => {
+  if (event.origin !== location.origin || event.data?.type !== "osr:context") return;
+  Object.assign(workbenchContext, event.data.context || {});
+  if (state.data) applyWorkbenchContext();
 });
 
 async function loadData() {
@@ -149,6 +158,7 @@ function bindCoreActions() {
     if (button.dataset.advanceWo) advanceWorkOrder(button.dataset.advanceWo);
     if (button.dataset.holdWo) holdWorkOrder(button.dataset.holdWo);
     if (button.dataset.resolveDefect) resolveDefect(button.dataset.resolveDefect);
+    if (button.dataset.workbenchModule) navigateWorkbench(button.dataset.workbenchModule);
   });
 }
 
@@ -533,6 +543,7 @@ function createQuickWorkOrder() {
     due_date: document.getElementById("coreDueDate").value || todayString(),
   });
   state.selectedWorkOrderId = wo.id;
+  publishWorkbenchContext({ selected_asset: wo.asset_id });
   document.getElementById("coreTitle").value = "";
   saveCoreState();
   renderCore();
@@ -650,6 +661,9 @@ function createWorkOrder(payload, options = {}) {
     owner: payload.owner || "operations control",
     priority: payload.priority || "routine",
     due_date: payload.due_date || todayString(),
+    revision_id: workbenchContext.revision || "",
+    baseline_sha256: workbenchContext.baseline_sha256 || "",
+    run_id: workbenchContext.run_id || "",
   };
   state.core.workOrders.unshift(wo);
   if (options.audit !== false) logAudit("created", wo.id, `${wo.asset_id} ${wo.title}`);
@@ -1028,8 +1042,31 @@ function renderAppCard(app) {
       <div><dt>Native</dt><dd><code>${escapeHtml(app.native_command)}</code></dd></div>
       ${web}
     </dl>
-    <a class="text-button" href="../../${escapeAttr(app.docs)}">Docs</a>
+    ${["occ", "simulator"].includes(app.id) && inWorkbench
+      ? `<button class="text-button" type="button" data-workbench-module="${escapeAttr(app.id)}">Open in Workbench</button>`
+      : ""}
+    <a class="text-button" href="/${escapeAttr(app.docs)}">Docs</a>
   </article>`;
+}
+
+function applyWorkbenchContext() {
+  const selected = workbenchContext.selected_asset;
+  if (selected && findAsset(selected)) {
+    document.getElementById("coreAssetInput").value = selected;
+  }
+}
+
+function publishWorkbenchContext(patch) {
+  Object.assign(workbenchContext, patch);
+  if (inWorkbench) {
+    window.parent.postMessage({ type: "osr:context", context: patch }, location.origin);
+  }
+}
+
+function navigateWorkbench(module) {
+  if (inWorkbench) {
+    window.parent.postMessage({ type: "osr:navigate", module, context: workbenchContext }, location.origin);
+  }
 }
 
 async function loadCoreState() {

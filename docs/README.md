@@ -17,7 +17,7 @@ the generated [Markdown documentation index](INDEX.md).
 | New contributor | [../CONTRIBUTING.md](../CONTRIBUTING.md), [../GOVERNANCE.md](../GOVERNANCE.md), then [GLOSSARY.md](GLOSSARY.md) |
 | Deployment reviewer | [Unified deployment model](deployment-model.md), [deployment roles](deployment-roles.md), then [designs/README.md](../designs/README.md) |
 | First-product reviewer | [First adoptable product](first-adoptable-product.md), then [operations portal](operations-portal/README.md) |
-| City/network planner | [Deployment planning reference](deployment-planning-reference.md), [City Studio](city-studio/README.md), [designs/README.md](../designs/README.md), [cost model](cost-model.md), [civil OSR-ALN format](civil/osr-aln-format.md) |
+| City/network planner | [Workbench](workbench/README.md), [City Studio](city-studio/README.md), [deployment planning reference](deployment-planning-reference.md), [cost model](cost-model.md) |
 | Rolling-stock engineer | [rolling-stock/light-metro-3car/README.md](rolling-stock/light-metro-3car/README.md) |
 | Mechanical/CAD reviewer | [mechanical-py/README.md](../mechanical-py/README.md) and [mechanical-py/catalog/](../mechanical-py/catalog/) |
 | Hardware reviewer | [hardware/README.md](../hardware/README.md) and [hardware/rolling-stock-integration.md](../hardware/rolling-stock-integration.md) |
@@ -42,6 +42,7 @@ the generated [Markdown documentation index](INDEX.md).
 | [stations/](stations/README.md) | Station design material |
 | [operations/](operations/) | Rulebook and operating procedures |
 | [operations-portal/](operations-portal/README.md) | Browser portal for asset registers, manufacturing schedule, QA gates, maintenance schedule, Ops Core work orders, defects/NCR, audit, SQLite storage, and reconciliation |
+| [workbench/](workbench/README.md) | Same-origin shell and shared context for design, simulation, OCC training and operations |
 | [city-studio/](city-studio/README.md) | Git-backed city/GIS design, station intent, weekly service planning, deterministic candidates, and revision review |
 | [certification/](certification/) | EN 62267 pre-submission pack: system description, hazards, safety requirements, evidence, compliance matrix |
 | [safety-case/](safety-case/) | GSN safety-case source and generated views |

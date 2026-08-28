@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://opensourcerail.org/schema/workbench-context-v1.json",
+  "title": "OSR Workbench context",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "city", "mode", "role", "actor"],
+  "properties": {
+    "schema_version": { "const": 1 },
+    "city": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]{0,63}$" },
+    "revision": { "type": "string", "pattern": "^osr-[a-f0-9]{16}$" },
+    "baseline_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "mode": { "enum": ["design", "simulation", "training", "live"] },
+    "role": { "enum": ["designer", "dispatcher", "maintainer", "reviewer"] },
+    "actor": { "type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9 ._@-]{1,119}$" },
+    "run_id": { "type": "string", "pattern": "^run-[a-f0-9]{16}$" },
+    "selected_asset": { "type": "string", "maxLength": 160 }
+  }
+}

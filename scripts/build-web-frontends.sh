@@ -22,9 +22,9 @@ mkdir -p "$ROOT/build/frontend"
 cargo build -p osr-city-studio
 (
     cd "$ROOT/crates/osr-sim-gui"
-    env -u NO_COLOR trunk build web/index.html --release --dist "$ROOT/build/frontend/sim"
+    env -u NO_COLOR trunk build web/index.html --release --public-url ./ --dist "$ROOT/build/frontend/sim"
 )
 (
     cd "$ROOT/crates/osr-occ-gui"
-    env -u NO_COLOR trunk build web/index.html --release --dist "$ROOT/build/frontend/occ"
+    env -u NO_COLOR trunk build web/index.html --release --public-url ./ --dist "$ROOT/build/frontend/occ"
 )

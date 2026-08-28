@@ -85,13 +85,12 @@ conversion and evidence source to a stable line ID. They participate in
 revision hashes and semantic comparison; the civil job passes only the record
 for its selected line to the IFC exporter.
 
-Run the complete isolated GUI and restart-persistence acceptance suite with:
+Run the complete browser and cross-GUI acceptance suite with:
 
-    node scripts/test-city-studio-gui.mjs
+    npm run test:frontend
 
-The report and full-page browser capture are written under
-`build/gui-acceptance/`; the test fixture is removed and the committed Samawah
-intent is never edited.
+Tests use disposable City Studio projects and isolated SQLite databases; the
+committed Samawah intent is never edited.
 
 See the [City Studio guide](../../docs/city-studio/README.md) and
 [RFC 0031](../../docs/rfcs/0031-city-studio-git-revisions.md).

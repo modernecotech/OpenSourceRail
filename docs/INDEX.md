@@ -10,7 +10,7 @@ Regenerate from the repository root with:
 python3 scripts/generate-doc-index.py
 ```
 
-Indexed Markdown files: **1283**.
+Indexed Markdown files: **1284**.
 
 ## Sections
 
@@ -22,7 +22,7 @@ Indexed Markdown files: **1283**.
 | [crates](#crates) | 4 |
 | [deployment](#deployment) | 1 |
 | [designs](#designs) | 844 |
-| [docs](#docs) | 140 |
+| [docs](#docs) | 141 |
 | [engineering](#engineering) | 2 |
 | [formal](#formal) | 2 |
 | [hardware](#hardware) | 36 |
@@ -1062,6 +1062,7 @@ Indexed Markdown files: **1283**.
 | [`docs/stations/standard-archetype/drawing-register.md`](../docs/stations/standard-archetype/drawing-register.md) | `standard` station — architectural drawing register (v2) |
 | [`docs/stations/standard-archetype/envelope.md`](../docs/stations/standard-archetype/envelope.md) | `standard` Archetype Envelope |
 | [`docs/stations/standard-archetype/services.md`](../docs/stations/standard-archetype/services.md) | Station Services - `standard` Archetype Worked Example |
+| [`docs/workbench/README.md`](../docs/workbench/README.md) | OSR Workbench |
 
 ## engineering
 

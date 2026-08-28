@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "frontend:build": "bash scripts/build-web-frontends.sh",
+    "workbench": "npm run frontend:build && python3 scripts/workbench-server.py --port 8090",
     "test:frontend": "npm run frontend:build && playwright test",
     "test:frontend:quick": "playwright test tests/frontend/browser-surfaces.spec.mjs"
   },

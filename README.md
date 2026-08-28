@@ -81,7 +81,7 @@ operating affordable urban rail systems. It combines:
 | Capability | What is now available |
 |---|---|
 | **Deterministic city generation** | Reproducible GIS, network, fleet, energy, engineering and finance packages for [266 cities in 44 countries](designs/README.md). |
-| **Interactive City Studio** | Create, move and retire stations and lines; edit routing control points; plan service by line, day and time; test OD capacity, inspect IFC evidence, and isolate native review groups in one [local GUI](docs/city-studio/README.md). |
+| **Integrated OSR Workbench** | Carry one city, actor, revision, approved baseline, simulation run and selected asset through [City Studio, simulation, OCC training and Ops Core](docs/workbench/README.md) without merging their authority boundaries. |
 | **Git-native revision control** | Content-addressed immutable revisions, semantic comparisons, append-only approvals and restart-tested persistence keep each city decision reviewable in GitHub. |
 | **Buildable modular trainset** | The LM3 product tree now exposes a common service rail, four captive fastener families, keyed plug-in lighting, standard fixture adapters, adjustable door carriers and dry-serviceable framed windows through the [small-component standard](mechanical-py/catalog/buildable-trainset/small-component-standard.md). |
 | **Civil BIM and 4D coordination** | Parametric Pi25/slipform/foundation geometry generates schema-checked IFC4.3 with native planning alignment layouts, quantities, typed property dictionaries, a generated schedule of planning rates, classification, review controls, optional survey control, IDS/BCF evidence and linked construction sequencing through the [civil BIM workflow](docs/civil/bonsai-ifc-workflow.md). |
@@ -146,7 +146,19 @@ foreign-exchange paths and signed lender terms.
 with remaining validation and hardening tracked in
 [docs/ROADMAP.md](docs/ROADMAP.md).
 
-## City Studio
+## Workbench and City Studio
+
+Build the browser modules, start the same-origin Workbench, and open
+<http://127.0.0.1:8090/>:
+
+```bash
+npm run workbench
+```
+
+The shell links immutable design revisions to deterministic simulation runs,
+OCC training replay and persisted Ops Core work orders. Its role selector is
+navigation context, not authentication; live commands still require the
+separate signed OCC path. See the [Workbench guide](docs/workbench/README.md).
 
 City Studio centralizes deterministic network authoring, source-locked
 demand/buildability routing, station placement, line/day/time service planning,

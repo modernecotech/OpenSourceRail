@@ -36,7 +36,13 @@
   <div id="loading">Loading OSR Sim GUI…</div>
   <canvas id="osr_sim_canvas" role="application" aria-label="OpenSourceRail simulator GUI"></canvas>
   <script type="module">
-    window.__OSR_FRONTEND__ = { app: 'simulator', ready: false, error: null };
+    const context = Object.fromEntries(new URLSearchParams(location.search));
+    window.__OSR_FRONTEND__ = { app: 'simulator', ready: false, error: null, context };
+    window.addEventListener('message', (event) => {
+      if (event.origin === location.origin && event.data?.type === 'osr:context') {
+        Object.assign(context, event.data.context || {});
+      }
+    });
     (async () => {
       try {
         if (!window.wasmBindings) {
@@ -50,6 +56,13 @@
         document.getElementById('loading').style.display = 'none';
         window.__OSR_FRONTEND__.ready = true;
         window.__OSR_FRONTEND__.details = details;
+        if (!/^run-[a-f0-9]{16}$/.test(context.run_id || '')) {
+          const input = `${context.city || ''}\0${context.revision || ''}\0${details.durationS}`;
+          const digest = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(input));
+          context.run_id = `run-${[...new Uint8Array(digest)].map((byte) => byte.toString(16).padStart(2, '0')).join('').slice(0, 16)}`;
+        }
+        context.mode = 'simulation';
+        window.parent?.postMessage({ type: 'osr:context', context }, location.origin);
       } catch (error) {
         window.__OSR_FRONTEND__.error = String(error?.stack || error);
         throw error;

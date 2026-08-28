@@ -56,6 +56,10 @@ Use another project or port with:
 The server binds only to localhost by default. The initial interface has no
 authentication and must not be exposed as a shared or public service.
 
+To carry revisions into simulation, OCC training and Ops Core, use the
+[same-origin Workbench](../workbench/README.md) instead of starting Studio
+alone.
+
 ## Command line
 
 Validate source locks, station intent, calendars, all line/day plans, and OD

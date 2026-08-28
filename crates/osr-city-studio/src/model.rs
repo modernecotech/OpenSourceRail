@@ -857,6 +857,7 @@ pub struct ControlPointEdit {
 #[derive(Clone, Debug, Serialize)]
 pub struct RevisionMaterialized {
     pub revision_id: String,
+    pub content_sha256: String,
     pub path: String,
     pub suggested_branch: String,
     pub suggested_tag: String,

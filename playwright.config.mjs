@@ -45,5 +45,11 @@ export default defineConfig({
       reuseExistingServer: false,
       timeout: 30_000,
     },
+    {
+      command: "exec python3 scripts/workbench-server.py --host 127.0.0.1 --port 4177 --city-port 4178 --db build/playwright/workbench.sqlite3 --reset-db --isolated-project projects/samawah",
+      url: "http://127.0.0.1:4177/",
+      reuseExistingServer: false,
+      timeout: 60_000,
+    },
   ],
 });

@@ -11,9 +11,10 @@ pub use app::{Alert, AlertLevel, OccApp};
 #[cfg_attr(target_arch = "wasm32", wasm_bindgen::prelude::wasm_bindgen)]
 pub async fn start_web(
     canvas: web_sys::HtmlCanvasElement,
+    operator: String,
 ) -> Result<String, wasm_bindgen::JsValue> {
-    let app = OccApp::with_auto_attach("web dispatcher".into(), true);
-    let (recorded_events, trains, alerts, intrusions) = app.recorded_state_summary();
+    let app = OccApp::with_auto_attach_duration(operator, true, 600);
+    let (duration_s, recorded_events, trains, alerts, intrusions) = app.recorded_state_summary();
     eframe::WebRunner::new()
         .start(
             canvas,
@@ -22,6 +23,6 @@ pub async fn start_web(
         )
         .await?;
     Ok(format!(
-        "{{\"recordedEvents\":{recorded_events},\"trains\":{trains},\"alerts\":{alerts},\"intrusions\":{intrusions}}}"
+        "{{\"durationS\":{duration_s},\"recordedEvents\":{recorded_events},\"trains\":{trains},\"alerts\":{alerts},\"intrusions\":{intrusions}}}"
     ))
 }

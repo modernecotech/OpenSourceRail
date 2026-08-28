@@ -105,8 +105,29 @@ let civilReviewState = {
 let operationBusy = false;
 let selectedDemandFlowId = null;
 const lineColours = ["#56d39b", "#5eb9e8", "#e88859", "#a98aef", "#e96d95"];
+const workbenchContext = Object.fromEntries(new URLSearchParams(location.search));
+const inWorkbench = window.parent !== window && location.pathname.startsWith("/studio");
 
 const $ = (selector) => document.querySelector(selector);
+
+function publishWorkbenchContext(patch) {
+  Object.assign(workbenchContext, patch);
+  if (inWorkbench) {
+    window.parent.postMessage({ type: "osr:context", context: patch }, location.origin);
+  }
+}
+
+function navigateWorkbench(module, patch = {}) {
+  if (inWorkbench) {
+    window.parent.postMessage({ type: "osr:navigate", module, context: patch }, location.origin);
+  }
+}
+
+window.addEventListener("message", (event) => {
+  if (event.origin === location.origin && event.data?.type === "osr:context") {
+    Object.assign(workbenchContext, event.data.context || {});
+  }
+});
 
 async function load() {
   try {
@@ -143,6 +164,11 @@ function render() {
   renderRevisionSelector();
   renderRevisionComparison();
   renderApprovals();
+  const selectedAsset = selectedStation?.id || selectedControl?.id || selectedLine?.id;
+  if (selectedAsset && selectedAsset !== workbenchContext.selected_asset) {
+    publishWorkbenchContext({ selected_asset: selectedAsset });
+  }
+  $("#open-simulator").hidden = !inWorkbench || !workbenchContext.revision;
 }
 
 function renderCivilSettings() {
@@ -373,18 +399,26 @@ function renderMap() {
 function startStationDrag(event) {
   if (mapMode === "line") return;
   const id = event.currentTarget.dataset.id;
-  selectStation(id);
   drag = { id, node: event.currentTarget, kind: "station" };
   event.currentTarget.setPointerCapture(event.pointerId);
+  selectedStation = view.snapshot.stations.find((item) => item.id === id) || null;
+  selectedControl = null;
+  selectedLine = null;
+  if (selectedStation) publishWorkbenchContext({ selected_asset: selectedStation.id });
+  renderStationInspector();
 }
 
 function startControlDrag(event) {
   if (mapMode === "line") return;
   event.stopPropagation();
   const id = event.currentTarget.dataset.id;
-  selectControl(id);
   drag = { id, node: event.currentTarget, kind: "control" };
   event.currentTarget.setPointerCapture(event.pointerId);
+  selectedControl = view.snapshot.line_control_points.find((item) => item.id === id) || null;
+  selectedStation = null;
+  selectedLine = null;
+  if (selectedControl) publishWorkbenchContext({ selected_asset: selectedControl.id });
+  renderStationInspector();
 }
 
 async function createObjectFromMap(event) {
@@ -527,6 +561,7 @@ function selectStation(id) {
   selectedStation = view.snapshot.stations.find((item) => item.id === id) || null;
   selectedControl = null;
   selectedLine = null;
+  if (selectedStation) publishWorkbenchContext({ selected_asset: selectedStation.id });
   renderMap();
   renderStationInspector();
 }
@@ -535,6 +570,7 @@ function selectControl(id) {
   selectedControl = view.snapshot.line_control_points.find((item) => item.id === id) || null;
   selectedStation = null;
   selectedLine = null;
+  if (selectedControl) publishWorkbenchContext({ selected_asset: selectedControl.id });
   renderMap();
   renderStationInspector();
 }
@@ -543,6 +579,7 @@ function selectLine(id) {
   selectedLine = view.snapshot.lines.find((item) => item.id === id) || null;
   selectedStation = null;
   selectedControl = null;
+  if (selectedLine) publishWorkbenchContext({ selected_asset: selectedLine.id });
   renderMap();
   renderStationInspector();
 }
@@ -2061,6 +2098,12 @@ function renderApprovals() {
   selector.disabled = available.length === 0;
   $("#approval-form").querySelector('button[type="submit"]').disabled = available.length === 0;
   if (!$("#approval-date").value) $("#approval-date").value = new Date().toISOString().slice(0, 10);
+  if (!$("#approval-reviewer").value && workbenchContext.actor) {
+    $("#approval-reviewer").value = workbenchContext.actor;
+  }
+  if (!$("#approval-role").value && workbenchContext.role) {
+    $("#approval-role").value = workbenchContext.role;
+  }
 
   const decisions = [...(view.approvals?.decisions || [])].reverse();
   $("#approval-history").innerHTML = `<h3>Git-reviewable decision history</h3>${decisions.length
@@ -2086,6 +2129,15 @@ $("#approval-form").addEventListener("submit", async (event) => {
       comment: $("#approval-comment").value.trim(),
     });
     view = result.project;
+    if ($("#approval-status").value === "approved") {
+      const approved = revisions.revisions.find(
+        (revision) => revision.revision_id === $("#approval-revision").value
+      );
+      if (approved) publishWorkbenchContext({
+        revision: approved.revision_id,
+        baseline_sha256: approved.content_sha256,
+      });
+    }
     renderGit();
     renderApprovals();
     toast(`${result.id} appended without changing the immutable design hash.`);
@@ -2146,15 +2198,24 @@ $("#revision").addEventListener("click", async () => {
   setOperationBusy(true);
   try {
     const result = await api.revision();
+    publishWorkbenchContext({ revision: result.revision.revision_id });
     $("#operation-result").textContent =
       `Revision ${result.revision.revision_id} materialized. Suggested branch: ${result.revision.suggested_branch}; tag after approval: ${result.revision.suggested_tag}`;
     await load();
+    $("#approval-revision").value = result.revision.revision_id;
     toast("Immutable revision created. Review and commit it through GitHub.");
   } catch (error) {
     toast(error.message, true);
   } finally {
     setOperationBusy(false);
   }
+});
+
+$("#open-simulator").addEventListener("click", () => {
+  navigateWorkbench("simulator", {
+    revision: workbenchContext.revision,
+    mode: "simulation",
+  });
 });
 
 function toast(message, isError = false) {

@@ -111,26 +111,34 @@ impl OccApp {
     /// seed a Present intrusion on SEC1001 so the default view is
     /// populated. Used for screenshots / demos.
     pub fn with_auto_attach(operator: String, auto_attach: bool) -> Self {
+        Self::with_auto_attach_duration(operator, auto_attach, 3600)
+    }
+
+    /// Construct a replay with an explicit deterministic duration.
+    pub fn with_auto_attach_duration(operator: String, auto_attach: bool, duration_s: u32) -> Self {
         let mut app = Self::new_internal(operator);
         if auto_attach {
-            app.load_recorded_run(3600);
+            app.load_recorded_run(duration_s);
             app.running = false;
-            app.t_s = 900.0;
+            app.t_s = duration_s as f32 * 0.25;
             app.intrusions
                 .insert(SectionId::new(1001), IntrusionState::Present);
             app.alerts.push(Alert {
                 level: AlertLevel::Crit,
                 category: "S7.1".into(),
                 text: "SEC1001 — Present; dispatch track-patrol.".into(),
-                sim_time_s: 900,
+                sim_time_s: (duration_s as f32 * 0.25) as u32,
             });
         }
         app
     }
 
     /// Compact proof that the browser console attached a populated recording.
-    pub fn recorded_state_summary(&self) -> (usize, usize, usize, usize) {
+    pub fn recorded_state_summary(&self) -> (u32, usize, usize, usize, usize) {
         (
+            self.result
+                .as_ref()
+                .map_or(0, |result| result.sim_duration_s),
             self.result.as_ref().map_or(0, |result| result.events.len()),
             self.result
                 .as_ref()

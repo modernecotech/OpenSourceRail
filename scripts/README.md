@@ -43,6 +43,7 @@ stay thin: domain logic belongs in Rust crates, `design-py`, or
 | [`validate-host-manifests.py`](validate-host-manifests.py) | Validate all five host compositions and the complete Cargo component inventory |
 | [`validate-city-projects.py`](validate-city-projects.py) | Compile and validate every Git-backed OSR City Studio project, including source locks and weekly service plans |
 | [`build-web-frontends.sh`](build-web-frontends.sh) | Build City Studio and the simulator/OCC production WASM bundles with pinned Trunk 0.21.8 |
+| [`workbench-server.py`](workbench-server.py) | Serve the same-origin Workbench, proxy City Studio, mount simulator/OCC WASM, and persist Ops Core records |
 | [`test-city-studio-gui.mjs`](test-city-studio-gui.mjs) | Drive the real City Studio GUI with Playwright Chromium, run every adapter, restart the server, and verify project/job persistence in an isolated disposable project |
 
 For a single city, nominal runs and resilience cases are assigned to distinct

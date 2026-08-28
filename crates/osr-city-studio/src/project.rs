@@ -1444,6 +1444,7 @@ impl CityProject {
         write_json_atomic(&output, &snapshot)?;
         Ok(RevisionMaterialized {
             revision_id: snapshot.revision_id.clone(),
+            content_sha256: snapshot.content_sha256.clone(),
             path: output.display().to_string(),
             suggested_branch: format!("city/{}/{}", self.config.project.slug, snapshot.revision_id),
             suggested_tag: format!(

@@ -124,9 +124,10 @@ impl SimApp {
 
     /// Compact proof that the browser-visible run is populated and that the
     /// integrated vehicle controllers executed.
-    pub fn run_state_summary(&self) -> (usize, usize, u64, usize) {
-        self.result.as_ref().map_or((0, 0, 0, 0), |result| {
+    pub fn run_state_summary(&self) -> (u32, usize, usize, u64, usize) {
+        self.result.as_ref().map_or((0, 0, 0, 0, 0), |result| {
             (
+                result.sim_duration_s,
                 result.events.len(),
                 result.per_train_final_soc.len(),
                 result.vehicle_systems.controller_ticks,
