@@ -1323,21 +1323,68 @@ function drawArtifactGraphic(svg, groups) {
 function artifactInspectorItems(preview) {
   const content = preview.content;
   if (preview.format === "json" && content.schema === "org.opensourcerail.bonsai-civil-ifc.v1") {
-    return (content.objects || []).map((item) => ({
-      label: item.name,
-      meta: `${item.ifc_class} · ${item.asset_class} · ${item.ifc_type_id || "untyped"}`,
+    const materials = new Map((content.materials || []).map((item) => [item.material_id, item]));
+    const profiles = new Map((content.profiles || []).map((item) => [item.profile_id, item]));
+    const documents = new Map((content.documents || []).map((item) => [item.document_id, item]));
+    const classification = content.classification || {};
+    const objectItems = (content.objects || []).map((item) => {
+      const material = materials.get(item.material_id);
+      const profile = profiles.get(item.profile_id);
+      const sourceDocuments = (item.document_ids || []).map((id) => documents.get(id)).filter(Boolean);
+      return {
+        label: item.name,
+        meta: `${item.ifc_class} · ${item.asset_class} · ${item.ifc_type_id || "untyped"} · ${item.material_id || "material unresolved"} · ${item.profile_id || "profile not applicable"} · ${sourceDocuments.length} source documents`,
+        detail: [
+          `asset ${item.asset_id}`,
+          `IFC GUID ${item.ifc_guid}`,
+          item.ifc_type_id
+            ? `type ${item.ifc_type_id} · ${item.ifc_type_class} · ${item.ifc_type_predefined_type}\ntype IFC GUID ${item.ifc_type_guid}`
+            : "type untyped · IFC4.3 has no IfcVirtualElementType",
+          material
+            ? `material ${material.material_id} · ${material.label} · ${material.category}\nmaterial status ${material.specification_status}`
+            : "material unresolved · no safe native material association",
+          profile
+            ? `profile ${profile.profile_id} · ${profile.standard_designation}\nprofile ${profile.geometry_status} · cardinal point ${profile.cardinal_point} · ${profile.area_m2} m²`
+            : "profile not applicable or unresolved",
+          `classification ${item.classification_code} · ${item.classification_assignment}\nsystem ${classification.name} · ${classification.status}\nexternal mapping ${classification.external_mapping_status}`,
+          `discipline ${item.discipline} · ${item.detail_mode}`,
+          `bbox m ${item.bbox_m.join(", ")}`,
+          `source ${item.source_geometry}`,
+          `source documents\n${sourceDocuments.map((document) => `${document.document_id} · ${document.location}\nsha256 ${document.sha256}`).join("\n")}`,
+        ].join("\n"),
+        coordinationTarget: item,
+      };
+    });
+    const classificationItems = (classification.references || []).map((reference) => ({
+      label: reference.name,
+      meta: `${reference.code} · ${reference.classified_asset_count} assets · ${reference.assigned_type_ids.length} types`,
       detail: [
-        `asset ${item.asset_id}`,
-        `IFC GUID ${item.ifc_guid}`,
-        item.ifc_type_id
-          ? `type ${item.ifc_type_id} · ${item.ifc_type_class} · ${item.ifc_type_predefined_type}\ntype IFC GUID ${item.ifc_type_guid}`
-          : "type untyped · IFC4.3 has no IfcVirtualElementType",
-        `discipline ${item.discipline} · ${item.detail_mode}`,
-        `bbox m ${item.bbox_m.join(", ")}`,
-        `source ${item.source_geometry}`,
+        `classification ${reference.code}`,
+        `name ${reference.name}`,
+        `system ${classification.name} · edition ${classification.edition}`,
+        `status ${classification.status}`,
+        `assignment ${reference.assignment}`,
+        `classified assets ${reference.classified_asset_count}`,
+        `assigned types ${reference.assigned_type_ids.join(", ") || "none"}`,
+        `direct assets ${reference.direct_asset_ids.join(", ") || "none"}`,
+        `external mapping ${classification.external_mapping_status}`,
       ].join("\n"),
-      coordinationTarget: item,
     }));
+    const documentItems = (content.documents || []).map((document) => ({
+      label: document.name,
+      meta: `${document.document_id} · ${document.media_type} · ${document.associated_asset_ids.length} assets · ${document.associated_type_ids.length} types`,
+      detail: [
+        `document ${document.document_id}`,
+        `location ${document.location}`,
+        `revision ${document.revision}`,
+        `status ${document.status} · registered with IFC project ${document.registered_with_project}`,
+        `purpose ${document.purpose}`,
+        `intended use ${document.intended_use}`,
+        `scope ${document.scope}`,
+        `associated assets ${document.associated_asset_ids.length} · types ${document.associated_type_ids.length}`,
+      ].join("\n"),
+    }));
+    return [...objectItems, ...classificationItems, ...documentItems];
   }
   if (preview.format === "json" && content.schema === "org.opensourcerail.bonsai-civil-bcf-index.v1") {
     return (content.topics || []).map((topic) => ({
@@ -1370,7 +1417,7 @@ function renderArtifactObjects(preview) {
       <button id="clear-selected-assets" type="button" class="secondary">Clear</button>
       <span id="artifact-selection-count" class="artifact-selection-count">0 assets selected</span>
     </div>` : "";
-  host.innerHTML = `<h3>${preview.content.schema?.includes("bcf") ? "Coordination topics" : preview.content.schema?.includes("ids") ? "IDS specifications" : "IFC object inspector"}</h3>
+  host.innerHTML = `<h3>${preview.content.schema?.includes("bcf") ? "Coordination topics" : preview.content.schema?.includes("ids") ? "IDS specifications" : "IFC object, classification, and source-document inspector"}</h3>
     ${tools}
     <div class="artifact-object-list">${items.map((item, index) => `<div class="artifact-object-row" data-object-row="${index}" data-search="${escapeHtml(`${item.label} ${item.meta}`.toLowerCase())}">${item.coordinationTarget ? `<input class="artifact-object-check" type="checkbox" data-asset-index="${index}" aria-label="Include ${escapeHtml(item.label)} in coordination topic">` : ""}<button type="button" class="artifact-object-button" data-object-index="${index}"><strong>${escapeHtml(item.label)}</strong><small>${escapeHtml(item.meta)}</small></button></div>`).join("")}</div>
     <pre class="artifact-object-detail"></pre>
@@ -1433,6 +1480,15 @@ function updateArtifactAssetSelection(items = artifactInspectorItems(selectedArt
   });
   const count = $("#artifact-selection-count");
   if (count) count.textContent = `${selectedCoordinationAssetIds.size} asset${selectedCoordinationAssetIds.size === 1 ? "" : "s"} selected`;
+  const createForm = $("#coordination-create-form");
+  if (createForm && isCivilObjectIndex()) {
+    const firstSelectedIndex = items.findIndex((item) =>
+      item.coordinationTarget
+      && selectedCoordinationAssetIds.has(item.coordinationTarget.asset_id)
+    );
+    createForm.hidden = firstSelectedIndex < 0;
+    if (firstSelectedIndex >= 0) createForm.dataset.objectIndex = firstSelectedIndex;
+  }
 }
 
 function selectArtifactObject(index) {
@@ -1474,11 +1530,11 @@ async function createCoordinationIssue(event) {
   const index = Number(form.dataset.objectIndex);
   const items = artifactInspectorItems(selectedArtifactPreview);
   const target = items[index]?.coordinationTarget;
-  if (!target) return;
   const assetIds = items
     .map((item) => item.coordinationTarget?.asset_id)
     .filter((assetId) => assetId && selectedCoordinationAssetIds.has(assetId));
-  if (!assetIds.length) assetIds.push(target.asset_id);
+  if (!assetIds.length && target) assetIds.push(target.asset_id);
+  if (!assetIds.length) return;
   try {
     const result = await api.createCoordination({
       title: form.elements.title.value.trim(),
@@ -1543,7 +1599,7 @@ function artifactMetrics(preview, graphic) {
     const coordinateReference = content.georeferencing?.native_ifc_georeferencing
       ? content.georeferencing.crs_name
       : "local grid";
-    return [[content.summary?.assets || 0, "IFC assets"], [content.summary?.types || 0, "reusable IFC types"], [content.summary?.typed_assets || 0, "typed assets"], [content.summary?.construction_tasks || 0, "4D tasks"], [content.summary?.interface_checks || 0, "interface checks"], [coordinateReference, "coordinate reference"], [content.ifc_schema || "IFC4X3", "coordination schema"]];
+    return [[content.summary?.assets || 0, "IFC assets"], [content.summary?.types || 0, "reusable IFC types"], [content.summary?.typed_assets || 0, "typed assets"], [content.summary?.materials || 0, "declared material families"], [content.summary?.material_associated_assets || 0, "material-associated assets"], [content.summary?.profiles || 0, "native section profiles"], [content.summary?.profiled_assets || 0, "profile-extruded assets"], [content.summary?.classifications || 0, "native classification systems"], [content.summary?.classification_references || 0, "asset-class references"], [content.summary?.classified_assets || 0, "classified assets"], [content.summary?.documents || 0, "hash-locked source documents"], [content.summary?.document_associated_assets || 0, "source-linked assets"], [content.summary?.construction_tasks || 0, "4D tasks"], [content.summary?.interface_checks || 0, "interface checks"], [coordinateReference, "coordinate reference"], [content.ifc_schema || "IFC4X3", "coordination schema"]];
   }
   if (preview.format === "json" && content.schema === "org.opensourcerail.bonsai-civil-ids-report.v1") {
     return [[content.total_specifications_pass, `of ${content.total_specifications} IDS specifications`], [content.total_checks_pass, `of ${content.total_checks} checks`], [content.status ? "PASS" : "FAIL", "information delivery"], ["IDS 1.0", "requirements standard"]];

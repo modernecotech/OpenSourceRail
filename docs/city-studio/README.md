@@ -156,6 +156,10 @@ Implemented:
   can select several civil assets in one issue;
 - reusable IFC type counts and stable type identity in the civil artifact
   metrics, search, and object detail;
+- native IFC material-family counts, source authority, and visibly unresolved
+  grade/design status in the civil artifact inspector;
+- native section-profile counts, profile-derived rail extrusion coverage, and
+  review-versus-mill geometry status in the artifact inspector;
 - hash-verified 4D sequence loading alongside the IFC object index, with
   federation rotation, per-discipline visibility, stage scrubbing/playback,
   and task/QA-hold context;
@@ -244,7 +248,8 @@ The engineering hub exposes four fixed adapters:
 - **Generate Bonsai civil IFC4.3** combines the selected immutable line
   reference with the checked civil kit and produces native IFC4.3 objects,
   quantities, provenance, an object index, linked 4D construction tasks, a
-  three-specification IDS 1.0 audit, and a BCF 3.0 package of open release
+  eight-specification IDS 1.0 audit, an internal 11-reference OSR asset
+  classification, 15 hash-locked native source-document records, and a BCF 3.0 package of open release
   issues with IFC GUID selections. If the selected line has accepted survey
   control in `[[civil.ifc_georeferencing]]`, the job also emits its native
   `IfcProjectedCRS` and `IfcMapConversion`; unmatched lines remain explicitly
@@ -266,7 +271,11 @@ canonicalizes the path beneath the City Studio build root, enforces a 4 MB
 preview limit, rejects unknown formats, and recalculates SHA-256. GeoJSON and
 alignment/stakeout geometry and isometric IFC object envelopes are plotted
 directly. Individual civil objects expose their stable ID, IFC GUID, class,
-discipline, bounds, detail mode, and source. IDS specifications and BCF topics
+discipline, bounds, detail mode, source, internal asset class, and applicable
+hash-locked source documents. The searchable inspector also exposes the native
+classification and document registers, type/direct assignment mode, external
+mapping boundary, repository locations, revisions, scope, and association
+counts. IDS specifications and BCF topics
 have selectable audit/issue cards; IFC STEP, IDS XML, BCF containers, and JSON
 also receive format-specific metrics and a bounded structured-source preview.
 

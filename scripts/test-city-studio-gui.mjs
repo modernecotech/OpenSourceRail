@@ -549,6 +549,114 @@ async function main() {
       && ifcTypeEvidence.metrics.includes("reusable IFC types"),
     "IFC type identity visible in object inspector",
   );
+  const ifcMaterialEvidence = await cdp.evaluate(`(() => {
+    const content = selectedArtifactPreview.content;
+    const index = content.objects.findIndex(item => item.material_id);
+    document.querySelector('.artifact-object-button[data-object-index="' + index + '"]').click();
+    return {
+      materials: content.summary.materials,
+      associatedAssets: content.summary.material_associated_assets,
+      indexedMaterials: content.materials.length,
+      detail: document.querySelector('.artifact-object-detail').textContent,
+      metrics: document.querySelector('#artifact-metrics').textContent,
+    };
+  })()`);
+  assert(
+    ifcMaterialEvidence.materials === 3
+      && ifcMaterialEvidence.associatedAssets === 46
+      && ifcMaterialEvidence.indexedMaterials === 3,
+    "native IFC material-family catalogue indexed",
+    `${ifcMaterialEvidence.materials} families · ${ifcMaterialEvidence.associatedAssets} associated assets`,
+  );
+  assert(
+    ifcMaterialEvidence.detail.includes("OSR-MAT-FAMILY-")
+      && ifcMaterialEvidence.detail.includes("grade-and-design-unresolved")
+      && ifcMaterialEvidence.metrics.includes("declared material families"),
+    "material family and unresolved specification status visible in object inspector",
+  );
+  const ifcProfileEvidence = await cdp.evaluate(`(() => {
+    const content = selectedArtifactPreview.content;
+    const index = content.objects.findIndex(item => item.profile_id);
+    document.querySelector('.artifact-object-button[data-object-index="' + index + '"]').click();
+    return {
+      profiles: content.summary.profiles,
+      profiledAssets: content.summary.profiled_assets,
+      indexedProfiles: content.profiles.length,
+      detail: document.querySelector('.artifact-object-detail').textContent,
+      metrics: document.querySelector('#artifact-metrics').textContent,
+    };
+  })()`);
+  assert(
+    ifcProfileEvidence.profiles === 1
+      && ifcProfileEvidence.profiledAssets === 32
+      && ifcProfileEvidence.indexedProfiles === 1,
+    "native IFC section-profile catalogue indexed",
+    `${ifcProfileEvidence.profiles} profile · ${ifcProfileEvidence.profiledAssets} extruded assets`,
+  );
+  assert(
+    ifcProfileEvidence.detail.includes("OSR-PROFILE-UIC-60E1-REVIEW")
+      && ifcProfileEvidence.detail.includes("simplified-straight-line-review-polygon")
+      && ifcProfileEvidence.metrics.includes("native section profiles"),
+    "native profile identity and review-geometry limitation visible in object inspector",
+  );
+  const ifcClassificationEvidence = await cdp.evaluate(`(() => {
+    const content = selectedArtifactPreview.content;
+    const classificationIndex = content.objects.length;
+    document.querySelector('.artifact-object-button[data-object-index="' + classificationIndex + '"]').click();
+    return {
+      systems: content.summary.classifications,
+      references: content.summary.classification_references,
+      classifiedAssets: content.summary.classified_assets,
+      indexedReferences: content.classification.references.length,
+      codesMatch: content.objects.every(item => item.classification_code === item.asset_class),
+      detail: document.querySelector('.artifact-object-detail').textContent,
+      metrics: document.querySelector('#artifact-metrics').textContent,
+    };
+  })()`);
+  assert(
+    ifcClassificationEvidence.systems === 1
+      && ifcClassificationEvidence.references === 11
+      && ifcClassificationEvidence.classifiedAssets === 95
+      && ifcClassificationEvidence.indexedReferences === 11
+      && ifcClassificationEvidence.codesMatch,
+    "native OSR asset classification indexed",
+    `${ifcClassificationEvidence.references} references · ${ifcClassificationEvidence.classifiedAssets} classified assets`,
+  );
+  assert(
+    ifcClassificationEvidence.detail.includes("OpenSourceRail Asset Classification")
+      && ifcClassificationEvidence.detail.includes("internal-deterministic-classification")
+      && ifcClassificationEvidence.detail.includes("country-and-client-mapping-not-nominated")
+      && ifcClassificationEvidence.metrics.includes("asset-class references"),
+    "classification identity, inheritance evidence, and external-mapping boundary visible",
+  );
+  const ifcDocumentEvidence = await cdp.evaluate(`(() => {
+    const content = selectedArtifactPreview.content;
+    const documentIndex = content.objects.length + content.classification.references.length;
+    document.querySelector('.artifact-object-button[data-object-index="' + documentIndex + '"]').click();
+    return {
+      documents: content.summary.documents,
+      linkedAssets: content.summary.document_associated_assets,
+      indexedDocuments: content.documents.length,
+      allRevisionsLocked: content.documents.every(item => item.revision === 'sha256:' + item.sha256),
+      detail: document.querySelector('.artifact-object-detail').textContent,
+      metrics: document.querySelector('#artifact-metrics').textContent,
+    };
+  })()`);
+  assert(
+    ifcDocumentEvidence.documents === 15
+      && ifcDocumentEvidence.linkedAssets === 95
+      && ifcDocumentEvidence.indexedDocuments === 15
+      && ifcDocumentEvidence.allRevisionsLocked,
+    "native IFC source-document register indexed",
+    `${ifcDocumentEvidence.documents} documents · ${ifcDocumentEvidence.linkedAssets} linked assets`,
+  );
+  assert(
+    ifcDocumentEvidence.detail.includes("OSR-DOC-ALIGNMENT-CONTRACT")
+      && ifcDocumentEvidence.detail.includes("revision sha256:")
+      && ifcDocumentEvidence.detail.includes("docs/civil/osr-aln-format.md")
+      && ifcDocumentEvidence.metrics.includes("hash-locked source documents"),
+    "hash, repository location, and association scope visible in document inspector",
+  );
   const civilReview = await cdp.evaluate(`({
     controls: !document.querySelector('#civil-review-controls').hidden,
     tasks: selectedCivilSequence?.content?.tasks?.length || 0,

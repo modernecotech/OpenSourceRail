@@ -36,17 +36,40 @@ if str(MECHANICAL_SRC) not in sys.path:
 
 import ifcopenshell
 import ifcopenshell.validate as ifc_validate
+from ifcopenshell.util.element import get_material, get_psets
+from ifcopenshell.util.classification import get_references
 from ifctester import ids as ids_module
 from ifctester import open as open_ids
 from ifctester import reporter as ids_reporter
 from ifcopenshell.api.aggregate import assign_object
+from ifcopenshell.api.classification import (
+    add_classification,
+    add_reference as add_classification_reference,
+    edit_classification,
+    edit_reference as edit_classification_reference,
+)
 from ifcopenshell.api.context import add_context
+from ifcopenshell.api.document import (
+    add_information,
+    add_reference,
+    assign_document,
+    edit_information,
+    edit_reference,
+)
 from ifcopenshell.api.geometry import (
     add_mesh_representation,
+    add_profile_representation,
     assign_representation,
     edit_object_placement,
 )
 from ifcopenshell.api.georeference import add_georeferencing, edit_georeferencing
+from ifcopenshell.api.material import (
+    add_material,
+    add_material_set,
+    add_profile,
+    assign_material,
+)
+from ifcopenshell.api.profile import add_arbitrary_profile
 from ifcopenshell.api.project import create_file
 from ifcopenshell.api.pset import add_pset, add_qto, edit_pset, edit_qto
 from ifcopenshell.api.root import create_entity
@@ -73,6 +96,8 @@ from osr_mech.civil_systems_integration import (
 )
 from osr_mech.fabrication_assembly_twin import fabrication_streams
 from osr_mech.civil.quantity_model import structure_quantities_per_km
+from osr_mech.common import RAIL_GEOMETRY, RailProfile
+from osr_mech.track.rail import rail_profile_points_mm
 
 
 SCHEMA = "org.opensourcerail.bonsai-civil-ifc.v1"
@@ -106,6 +131,193 @@ COLOURS = {
     "lineside": (0.95, 0.48, 0.13),
 }
 
+MATERIAL_FAMILIES = {
+    "OSR-MAT-FAMILY-RAIL-STEEL": {
+        "label": "Rail steel family",
+        "category": "steel",
+        "description": "Running-rail steel; grade, heat treatment, supplier, and certificate remain unresolved.",
+        "source_authority": "mechanical-py/src/osr_mech/track/rail.py",
+    },
+    "OSR-MAT-FAMILY-PRESTRESSED-CONCRETE": {
+        "label": "Prestressed concrete family",
+        "category": "concrete",
+        "description": "Prestressed concrete beam family; mix, reinforcement, prestress, durability, and release remain unresolved.",
+        "source_authority": "mechanical-py/src/osr_mech/civil/decked_pi.py",
+    },
+    "OSR-MAT-FAMILY-PRECAST-CONCRETE": {
+        "label": "Precast concrete family",
+        "category": "concrete",
+        "description": "Precast platform-unit concrete family; grade, reinforcement, finish, and release remain unresolved.",
+        "source_authority": "mechanical-py/src/osr_mech/civil/platform_l_unit.py",
+    },
+}
+
+RAIL_PROFILE_ID = "OSR-PROFILE-UIC-60E1-REVIEW"
+
+ASSET_CLASSIFICATION = {
+    "name": "OpenSourceRail Asset Classification",
+    "edition": "1.0",
+    "description": (
+        "Internal deterministic OSR asset classes for federation and automation; "
+        "not equivalent to a nominated national or client classification."
+    ),
+    "specification": (
+        "docs/civil/bonsai-ifc-workflow.md#native-osr-asset-classification"
+    ),
+    "references": {
+        "civil.decked-pi-beam": "Decked Pi structural beam",
+        "civil.pier": "Civil pier and foundation interface",
+        "civil.station-deck-interface": "Station deck structural interface",
+        "civil.trackform": "Civil trackform",
+        "civil.walkway-cassette": "Civil walkway and containment cassette",
+        "clearance.reference-envelope": "Reference clearance envelope",
+        "rolling-stock.trainset": "Rolling-stock trainset",
+        "station.platform-interface": "Station platform interface",
+        "station.solar-canopy": "Station solar canopy",
+        "track.rail": "Running rail",
+        "track.turnout": "Track turnout assembly",
+    },
+}
+
+DOCUMENT_SOURCES = {
+    "OSR-DOC-ALIGNMENT-CONTRACT": {
+        "name": "OSR alignment exchange contract",
+        "path": "docs/civil/osr-aln-format.md",
+        "purpose": "Alignment information contract",
+        "scope": "Project and IFC reference alignment",
+        "intended_use": "Design-reference alignment exchange and traceability",
+        "media_type": "text/markdown",
+    },
+    "OSR-DOC-BIM-WORKFLOW": {
+        "name": "OSR Bonsai IFC workflow and release boundary",
+        "path": "docs/civil/bonsai-ifc-workflow.md",
+        "purpose": "IFC workflow and engineering release boundary",
+        "scope": "Project",
+        "intended_use": "Coordination review; not construction release",
+        "media_type": "text/markdown",
+    },
+    "OSR-DOC-CIVIL-COST-CONTRACT": {
+        "name": "OSR generated civil planning-cost contract",
+        "path": "lib/templates/civil-cost-model.toml",
+        "purpose": "Planning cost and quantity contract",
+        "scope": "Project; no element-level tender rates",
+        "intended_use": "Planning sensitivity and deterministic regeneration",
+        "media_type": "application/toml",
+    },
+    "OSR-DOC-IFC-EXPORTER": {
+        "name": "OSR deterministic civil IFC exporter",
+        "path": "engineering/interchange/civil_bonsai_ifc.py",
+        "purpose": "IFC generation implementation",
+        "scope": "Project",
+        "intended_use": "Reproducible design-reference exchange generation",
+        "media_type": "text/x-python",
+    },
+    "OSR-DOC-SOURCE-CIVIL-INTEGRATION": {
+        "name": "OSR civil systems integration source",
+        "path": "mechanical-py/src/osr_mech/civil_systems_integration.py",
+        "purpose": "Federation placement and interface source",
+        "scope": "Project, all component occurrences, and reusable types",
+        "intended_use": "Design-reference geometry orchestration",
+        "media_type": "text/x-python",
+    },
+    "OSR-DOC-SOURCE-CLEARANCE": {
+        "name": "OSR clearance envelope source",
+        "path": "mechanical-py/src/osr_mech/clearance/envelope.py",
+        "purpose": "Clearance review geometry source",
+        "scope": "Clearance-envelope occurrences and types",
+        "intended_use": "Interface screening; not gauging release",
+        "media_type": "text/x-python",
+    },
+    "OSR-DOC-SOURCE-DECKED-PI": {
+        "name": "OSR decked Pi and walkway source",
+        "path": "mechanical-py/src/osr_mech/civil/decked_pi.py",
+        "purpose": "Viaduct beam and walkway geometry source",
+        "scope": "Decked-Pi and walkway occurrences and types",
+        "intended_use": "Design-reference civil coordination",
+        "media_type": "text/x-python",
+    },
+    "OSR-DOC-SOURCE-GUIDEWAY-EDGE": {
+        "name": "OSR guideway edge source",
+        "path": "mechanical-py/src/osr_mech/civil/guideway_channel_edge.py",
+        "purpose": "Guideway edge geometry source",
+        "scope": "Guideway-edge occurrences and types",
+        "intended_use": "Design-reference platform and drainage coordination",
+        "media_type": "text/x-python",
+    },
+    "OSR-DOC-SOURCE-PLATFORM": {
+        "name": "OSR platform unit source",
+        "path": "mechanical-py/src/osr_mech/civil/platform_l_unit.py",
+        "purpose": "Platform unit geometry source",
+        "scope": "Platform-unit occurrences and types",
+        "intended_use": "Design-reference platform coordination",
+        "media_type": "text/x-python",
+    },
+    "OSR-DOC-SOURCE-RAIL": {
+        "name": "OSR rail profile and bar source",
+        "path": "mechanical-py/src/osr_mech/track/rail.py",
+        "purpose": "Rail profile and extrusion source",
+        "scope": "Rail occurrences, types, and native profile",
+        "intended_use": "Coordination profile; full mill profile remains required",
+        "media_type": "text/x-python",
+    },
+    "OSR-DOC-SOURCE-ROLLING-STOCK": {
+        "name": "OSR trainset geometry source",
+        "path": "mechanical-py/src/osr_mech/rolling_stock/trainset.py",
+        "purpose": "Rolling-stock coordination geometry source",
+        "scope": "Trainset occurrences and types",
+        "intended_use": "Physical-envelope and interface review",
+        "media_type": "text/x-python",
+    },
+    "OSR-DOC-SOURCE-SLAB": {
+        "name": "OSR slab trackform source",
+        "path": "mechanical-py/src/osr_mech/civil/slab.py",
+        "purpose": "At-grade and elevated trackform geometry source",
+        "scope": "Trackform occurrences and types",
+        "intended_use": "Design-reference civil coordination",
+        "media_type": "text/x-python",
+    },
+    "OSR-DOC-SOURCE-STATION-CANOPY": {
+        "name": "OSR station canopy source",
+        "path": "mechanical-py/src/osr_mech/station/canopy.py",
+        "purpose": "Station canopy geometry source",
+        "scope": "Canopy occurrences and types",
+        "intended_use": "Design-reference station coordination",
+        "media_type": "text/x-python",
+    },
+    "OSR-DOC-SOURCE-SUBSTRUCTURE": {
+        "name": "OSR viaduct substructure source",
+        "path": "mechanical-py/src/osr_mech/civil/substructure.py",
+        "purpose": "Pier and foundation-interface geometry source",
+        "scope": "Pier occurrences and types",
+        "intended_use": "Interface review; foundation design remains unresolved",
+        "media_type": "text/x-python",
+    },
+    "OSR-DOC-SOURCE-TURNOUT": {
+        "name": "OSR turnout geometry source",
+        "path": "mechanical-py/src/osr_mech/track/turnout.py",
+        "purpose": "Turnout coordination geometry source",
+        "scope": "Turnout occurrences and types",
+        "intended_use": "Design-reference track coordination",
+        "media_type": "text/x-python",
+    },
+}
+
+COMPONENT_DOCUMENT_PREFIXES = (
+    ("civil.at_grade_slab_panel", "OSR-DOC-SOURCE-SLAB"),
+    ("civil.decked_pi_structural_placeholder", "OSR-DOC-SOURCE-DECKED-PI"),
+    ("civil.elevated_deck_slab_panel", "OSR-DOC-SOURCE-SLAB"),
+    ("civil.guideway_channel_edge_module", "OSR-DOC-SOURCE-GUIDEWAY-EDGE"),
+    ("civil.platform_l_unit", "OSR-DOC-SOURCE-PLATFORM"),
+    ("civil.viaduct_pier", "OSR-DOC-SOURCE-SUBSTRUCTURE"),
+    ("civil.walkway_cassette", "OSR-DOC-SOURCE-DECKED-PI"),
+    ("clearance.swept_envelope_part", "OSR-DOC-SOURCE-CLEARANCE"),
+    ("integration.elevated_station_deck_interface", "OSR-DOC-SOURCE-CIVIL-INTEGRATION"),
+    ("rolling_stock.trainset", "OSR-DOC-SOURCE-ROLLING-STOCK"),
+    ("station.station_canopy", "OSR-DOC-SOURCE-STATION-CANOPY"),
+    ("track.rail_bar", "OSR-DOC-SOURCE-RAIL"),
+    ("track.turnout", "OSR-DOC-SOURCE-TURNOUT"),
+)
+
 
 def stable_guid(value: str) -> str:
     return ifcopenshell.guid.compress(uuid.uuid5(NAMESPACE, value).hex)
@@ -121,6 +333,22 @@ def canonical_json(value: Any) -> bytes:
 
 def sha256_bytes(value: bytes) -> str:
     return hashlib.sha256(value).hexdigest()
+
+
+def component_document_ids(source_geometry: str) -> tuple[str, ...]:
+    """Resolve each component to its orchestration and direct geometry sources."""
+
+    direct = next(
+        (
+            document_id
+            for prefix, document_id in COMPONENT_DOCUMENT_PREFIXES
+            if source_geometry.startswith(prefix)
+        ),
+        None,
+    )
+    if direct is None:
+        raise ValueError(f"no repository source document mapped for {source_geometry!r}")
+    return tuple(sorted({"OSR-DOC-SOURCE-CIVIL-INTEGRATION", direct}))
 
 
 def flatten_parts(part: Part | Compound) -> list[Part]:
@@ -214,6 +442,77 @@ def component_type_identity(asset_class: str, source_geometry: str) -> tuple[str
         canonical_json({"asset_class": asset_class, "source_geometry": source_geometry})
     )
     return f"OSR-TYPE-{digest[:12].upper()}", digest
+
+
+def material_family_id(asset_class: str, source_geometry: str) -> str | None:
+    """Return only material families explicitly supported by authoritative source."""
+
+    if asset_class == "track.rail":
+        return "OSR-MAT-FAMILY-RAIL-STEEL"
+    if asset_class == "civil.decked-pi-beam":
+        return "OSR-MAT-FAMILY-PRESTRESSED-CONCRETE"
+    if asset_class == "station.platform-interface" and "platform_l_unit" in source_geometry:
+        return "OSR-MAT-FAMILY-PRECAST-CONCRETE"
+    return None
+
+
+def material_ids_from_assignment(material: Any) -> tuple[str, ...]:
+    """Resolve physical IfcMaterial names through sets and set usages."""
+
+    if material is None:
+        return ()
+    if material.is_a("IfcMaterial"):
+        return (material.Name,)
+    if material.is_a("IfcMaterialProfileSetUsage"):
+        material = material.ForProfileSet
+    elif material.is_a("IfcMaterialLayerSetUsage"):
+        material = material.ForLayerSet
+    if material.is_a("IfcMaterialProfileSet"):
+        return tuple(
+            item.Material.Name
+            for item in material.MaterialProfiles or ()
+            if item.Material is not None
+        )
+    if material.is_a("IfcMaterialLayerSet"):
+        return tuple(
+            item.Material.Name
+            for item in material.MaterialLayers or ()
+            if item.Material is not None
+        )
+    if material.is_a("IfcMaterialConstituentSet"):
+        return tuple(
+            item.Material.Name
+            for item in material.MaterialConstituents or ()
+            if item.Material is not None
+        )
+    return ()
+
+
+def profile_id_for_component(asset_class: str, source_geometry: str) -> str | None:
+    if asset_class == "track.rail" and "UIC_60E1" in source_geometry:
+        return RAIL_PROFILE_ID
+    return None
+
+
+def rail_profile_points_m() -> tuple[tuple[float, float], ...]:
+    """Return the CAD rail polygon in metres, centred at cardinal point 5."""
+
+    geometry = RAIL_GEOMETRY[RailProfile.UIC_60E1]
+    half_height_m = geometry.height_mm / 2_000.0
+    points = tuple(
+        (x_mm / 1_000.0, y_mm / 1_000.0 - half_height_m)
+        for x_mm, y_mm in rail_profile_points_mm(RailProfile.UIC_60E1)
+    )
+    return points + (points[0],)
+
+
+def polygon_area(points: tuple[tuple[float, float], ...]) -> float:
+    return abs(
+        sum(
+            x1 * y2 - x2 * y1
+            for (x1, y1), (x2, y2) in zip(points, points[1:])
+        )
+    ) / 2.0
 
 
 def make_style(model: ifcopenshell.file, name: str, colour: tuple[float, float, float], transparency: float = 0.0):
@@ -551,6 +850,216 @@ def add_schedule(
     return schedule_rows, assignments
 
 
+def add_asset_classification(
+    model: ifcopenshell.file,
+    *,
+    project: Any,
+    products: dict[str, Any],
+    type_products: dict[tuple[str, str, str], Any],
+    index_rows: list[dict[str, Any]],
+    type_rows: dict[str, dict[str, Any]],
+) -> dict[str, Any]:
+    """Classify from authoritative OSR codes, inheriting through types where possible."""
+
+    classification = add_classification(model, classification=ASSET_CLASSIFICATION["name"])
+    edit_classification(
+        model,
+        classification=classification,
+        attributes={
+            "Source": "OpenSourceRail",
+            "Edition": ASSET_CLASSIFICATION["edition"],
+            "Name": ASSET_CLASSIFICATION["name"],
+            "Description": ASSET_CLASSIFICATION["description"],
+            "Specification": ASSET_CLASSIFICATION["specification"],
+            "ReferenceTokens": ["."],
+        },
+    )
+    set_properties(
+        model,
+        project,
+        "Pset_OSR_Classification",
+        {
+            "System": ASSET_CLASSIFICATION["name"],
+            "Edition": ASSET_CLASSIFICATION["edition"],
+            "ReferenceCount": len(ASSET_CLASSIFICATION["references"]),
+            "Status": "internal-deterministic-classification",
+            "ExternalMappingStatus": "country-and-client-mapping-not-nominated",
+        },
+    )
+
+    types_by_id = {item.Tag: item for item in type_products.values()}
+    references: list[dict[str, Any]] = []
+    for code, name in sorted(ASSET_CLASSIFICATION["references"].items()):
+        type_ids = sorted(
+            row["type_id"] for row in type_rows.values() if row["asset_class"] == code
+        )
+        inherited_asset_ids = sorted(
+            row["asset_id"]
+            for row in index_rows
+            if row["asset_class"] == code and row["ifc_type_id"] is not None
+        )
+        direct_asset_ids = sorted(
+            row["asset_id"]
+            for row in index_rows
+            if row["asset_class"] == code and row["ifc_type_id"] is None
+        )
+        targets = [types_by_id[type_id] for type_id in type_ids]
+        targets.extend(products[asset_id] for asset_id in direct_asset_ids)
+        reference = add_classification_reference(
+            model,
+            products=targets,
+            classification=classification,
+            identification=code,
+            name=name,
+        )
+        if reference is None:
+            raise ValueError(f"classification reference {code!r} has no IFC targets")
+        edit_classification_reference(
+            model,
+            reference=reference,
+            attributes={
+                "Description": (
+                    "Internal OSR automation class; map to the deployment's nominated "
+                    "classification only through an approved crosswalk."
+                )
+            },
+        )
+        references.append(
+            {
+                "code": code,
+                "name": name,
+                "assignment": (
+                    "direct-occurrence" if direct_asset_ids else "inherited-from-type"
+                ),
+                "assigned_type_ids": type_ids,
+                "direct_asset_ids": direct_asset_ids,
+                "inherited_asset_ids": inherited_asset_ids,
+                "classified_asset_count": len(direct_asset_ids) + len(inherited_asset_ids),
+            }
+        )
+    return {
+        "name": ASSET_CLASSIFICATION["name"],
+        "edition": ASSET_CLASSIFICATION["edition"],
+        "description": ASSET_CLASSIFICATION["description"],
+        "specification": ASSET_CLASSIFICATION["specification"],
+        "status": "internal-deterministic-classification",
+        "external_mapping_status": "country-and-client-mapping-not-nominated",
+        "references": references,
+    }
+
+
+def add_document_register(
+    model: ifcopenshell.file,
+    *,
+    project: Any,
+    alignment: Any,
+    products: dict[str, Any],
+    type_products: dict[tuple[str, str, str], Any],
+    index_rows: list[dict[str, Any]],
+    type_rows: dict[str, dict[str, Any]],
+) -> list[dict[str, Any]]:
+    """Create hash-locked native IFC references to real repository sources."""
+
+    assets_by_document: dict[str, list[str]] = {key: [] for key in DOCUMENT_SOURCES}
+    types_by_document: dict[str, list[str]] = {key: [] for key in DOCUMENT_SOURCES}
+    for row in index_rows:
+        for document_id in row["document_ids"]:
+            assets_by_document[document_id].append(row["asset_id"])
+    for row in type_rows.values():
+        for document_id in row["document_ids"]:
+            types_by_document[document_id].append(row["type_id"])
+
+    project_documents = {
+        "OSR-DOC-ALIGNMENT-CONTRACT",
+        "OSR-DOC-BIM-WORKFLOW",
+        "OSR-DOC-CIVIL-COST-CONTRACT",
+        "OSR-DOC-IFC-EXPORTER",
+        "OSR-DOC-SOURCE-CIVIL-INTEGRATION",
+    }
+    alignment_documents = {"OSR-DOC-ALIGNMENT-CONTRACT"}
+    types_by_id = {item.Tag: item for item in type_products.values()}
+    rows: list[dict[str, Any]] = []
+    for document_id, declaration in sorted(DOCUMENT_SOURCES.items()):
+        source_path = REPO_ROOT / declaration["path"]
+        if not source_path.is_file():
+            raise ValueError(f"IFC source document does not exist: {declaration['path']}")
+        source_sha256 = sha256_bytes(source_path.read_bytes())
+        information = add_information(model)
+        edit_information(
+            model,
+            information=information,
+            attributes={
+                "Identification": document_id,
+                "Name": declaration["name"],
+                "Description": (
+                    "Git-repository source locked by the complete SHA-256 revision. "
+                    "Regenerate the IFC after any source change."
+                ),
+                "Location": declaration["path"],
+                "Purpose": declaration["purpose"],
+                "IntendedUse": declaration["intended_use"],
+                "Scope": declaration["scope"],
+                "Revision": f"sha256:{source_sha256}",
+                "ElectronicFormat": declaration["media_type"],
+                "Status": "REVISION",
+            },
+        )
+        reference = add_reference(model, information=information)
+        edit_reference(
+            model,
+            reference=reference,
+            attributes={
+                "Identification": document_id,
+                "Location": declaration["path"],
+            },
+        )
+        asset_ids = sorted(set(assets_by_document[document_id]))
+        type_ids = sorted(set(types_by_document[document_id]))
+        targets: list[Any] = []
+        if document_id in project_documents:
+            targets.append(project)
+        if document_id in alignment_documents:
+            targets.append(alignment)
+        targets.extend(types_by_id[type_id] for type_id in type_ids)
+        targets.extend(products[asset_id] for asset_id in asset_ids)
+        if targets:
+            assign_document(model, products=targets, document=reference)
+        rows.append(
+            {
+                "document_id": document_id,
+                "name": declaration["name"],
+                "location": declaration["path"],
+                "sha256": source_sha256,
+                "revision": f"sha256:{source_sha256}",
+                "purpose": declaration["purpose"],
+                "intended_use": declaration["intended_use"],
+                "scope": declaration["scope"],
+                "media_type": declaration["media_type"],
+                "status": "REVISION",
+                "registered_with_project": True,
+                "associated_project": document_id in project_documents,
+                "associated_alignment": document_id in alignment_documents,
+                "associated_asset_ids": asset_ids,
+                "associated_type_ids": type_ids,
+                "associated_object_count": len(targets),
+            }
+        )
+
+    set_properties(
+        model,
+        project,
+        "Pset_OSR_DocumentRegister",
+        {
+            "RegisterStatus": "native-ifc-hash-locked-repository-sources",
+            "DocumentCount": len(rows),
+            "HashAlgorithm": "SHA-256",
+            "LocationPolicy": "repository-relative URI",
+            "AssociationPolicy": "project plus direct source-to-type-and-occurrence links",
+        },
+    )
+    return rows
+
+
 def deterministic_roots(model: ifcopenshell.file) -> None:
     counters: Counter[tuple[str, str]] = Counter()
     for root in model.by_type("IfcRoot"):
@@ -570,8 +1079,13 @@ def stabilize_unordered_collections(model: ifcopenshell.file) -> None:
         "IfcRelAssignsToProcess": ("RelatedObjects",),
         "IfcRelDefinesByProperties": ("RelatedObjects",),
         "IfcRelDefinesByType": ("RelatedObjects",),
+        "IfcRelAssociatesClassification": ("RelatedObjects",),
+        "IfcRelAssociatesDocument": ("RelatedObjects",),
+        "IfcRelAssociatesMaterial": ("RelatedObjects",),
         "IfcElementQuantity": ("Quantities",),
         "IfcTypeObject": ("HasPropertySets",),
+        "IfcMaterialProperties": ("Properties",),
+        "IfcProfileProperties": ("Properties",),
     }
     for ifc_class, names in attributes.items():
         for entity in model.by_type(ifc_class):
@@ -675,19 +1189,32 @@ def build_model(
         key: make_style(model, f"OSR {key}", colour, 0.72 if key == "lineside" else 0.0)
         for key, colour in COLOURS.items()
     }
-    add_alignment(model, axis_context, spatial_parts["track"], alignment_input, revision_id)
+    alignment = add_alignment(
+        model,
+        axis_context,
+        spatial_parts["track"],
+        alignment_input,
+        revision_id,
+    )
 
     products: dict[str, Any] = {}
     product_classes: dict[str, str] = {}
     product_names: dict[str, str] = {}
     type_products: dict[tuple[str, str, str], Any] = {}
     type_rows: dict[str, dict[str, Any]] = {}
+    materials: dict[str, Any] = {}
+    material_rows: dict[str, dict[str, Any]] = {}
+    profile_definitions: dict[str, Any] = {}
+    profile_sets: dict[str, Any] = {}
+    profile_rows: dict[str, dict[str, Any]] = {}
     index_rows: list[dict[str, Any]] = []
     for component in integration_components():
         asset_id = asset_id_for_component(component)
         asset_class = asset_class_for_component(component)
         discipline = component_discipline(asset_class)
         ifc_class, predefined_type = ifc_type(asset_class)
+        profile_id = profile_id_for_component(asset_class, component.source)
+        document_ids = component_document_ids(component.source)
         type_class = ifc_type_class(ifc_class)
         type_product = None
         type_id = None
@@ -721,6 +1248,121 @@ def build_model(
                     },
                 )
                 type_products[type_key] = type_product
+                material_id = material_family_id(asset_class, component.source)
+                if material_id is not None:
+                    material = materials.get(material_id)
+                    if material is None:
+                        declaration = MATERIAL_FAMILIES[material_id]
+                        material = add_material(
+                            model,
+                            name=material_id,
+                            category=declaration["category"],
+                            description=declaration["description"],
+                        )
+                        set_properties(
+                            model,
+                            material,
+                            "Pset_OSR_MaterialStatus",
+                            {
+                                "MaterialId": material_id,
+                                "Label": declaration["label"],
+                                "SpecificationStatus": "family-declared; grade-and-design-unresolved",
+                                "GradeStatus": "unresolved",
+                                "SourceAuthority": declaration["source_authority"],
+                                "RevisionId": revision_id,
+                                "ReleaseStatus": "design-reference; not for procurement or construction",
+                            },
+                        )
+                        materials[material_id] = material
+                        material_rows[material_id] = {
+                            "material_id": material_id,
+                            **declaration,
+                            "specification_status": "family-declared; grade-and-design-unresolved",
+                            "assigned_type_count": 0,
+                            "inherited_occurrence_count": 0,
+                        }
+                    if profile_id is not None:
+                        profile_definition = profile_definitions.get(profile_id)
+                        if profile_definition is None:
+                            points_m = rail_profile_points_m()
+                            geometry = RAIL_GEOMETRY[RailProfile.UIC_60E1]
+                            profile_definition = add_arbitrary_profile(
+                                model,
+                                profile=points_m,
+                                name=profile_id,
+                            )
+                            set_properties(
+                                model,
+                                profile_definition,
+                                "Pset_OSR_Profile",
+                                {
+                                    "ProfileId": profile_id,
+                                    "StandardDesignation": "UIC 60E1",
+                                    "GeometryStatus": "simplified-straight-line-review-polygon",
+                                    "SourceAuthority": "mechanical-py/src/osr_mech/track/rail.py",
+                                    "FullMillProfileStatus": "required for procurement and detailed rail design",
+                                    "PublishedLinearMassKgPerM": geometry.linear_mass_kg_per_m,
+                                    "RevisionId": revision_id,
+                                },
+                            )
+                            profile_set = add_material_set(
+                                model,
+                                name=profile_id,
+                                set_type="IfcMaterialProfileSet",
+                            )
+                            profile_set.Description = (
+                                "UIC 60E1 straight-line review profile; full mill fillets and "
+                                "supplier tolerances remain procurement inputs."
+                            )
+                            add_profile(
+                                model,
+                                profile_set=profile_set,
+                                material=material,
+                                profile=profile_definition,
+                                name="Running rail section",
+                            )
+                            profile_definitions[profile_id] = profile_definition
+                            profile_sets[profile_id] = profile_set
+                            profile_rows[profile_id] = {
+                                "profile_id": profile_id,
+                                "ifc_class": profile_definition.is_a(),
+                                "material_id": material_id,
+                                "standard_designation": "UIC 60E1",
+                                "geometry_status": "simplified-straight-line-review-polygon",
+                                "source_authority": "mechanical-py/src/osr_mech/track/rail.py",
+                                "width_m": geometry.foot_width_mm / 1_000.0,
+                                "height_m": geometry.height_mm / 1_000.0,
+                                "area_m2": round(polygon_area(points_m), 9),
+                                "published_linear_mass_kg_per_m": geometry.linear_mass_kg_per_m,
+                                "cardinal_point": 5,
+                                "points_m": [
+                                    [round(x, 6), round(y, 6)] for x, y in points_m
+                                ],
+                                "assigned_type_count": 0,
+                                "usage_count": 0,
+                            }
+                        assign_material(
+                            model,
+                            products=[type_product],
+                            type="IfcMaterialProfileSet",
+                            material=profile_sets[profile_id],
+                        )
+                        set_properties(
+                            model,
+                            type_product,
+                            "Pset_OSR_ProfileAssignment",
+                            {
+                                "ProfileId": profile_id,
+                                "StandardDesignation": "UIC 60E1",
+                                "GeometryStatus": "simplified-straight-line-review-polygon",
+                                "OccurrenceUsage": "IfcMaterialProfileSetUsage; cardinal point 5",
+                                "SourceAuthority": "mechanical-py/src/osr_mech/track/rail.py",
+                            },
+                        )
+                        profile_rows[profile_id]["assigned_type_count"] += 1
+                    else:
+                        assign_material(model, products=[type_product], material=material)
+                    material_rows[material_id]["assigned_type_count"] += 1
                 type_rows[type_id] = {
                     "type_id": type_id,
                     "name": type_product.Name,
@@ -729,6 +1371,10 @@ def build_model(
                     "ifc_predefined_type": type_predefined_type,
                     "source_geometry": component.source,
                     "source_sha256": type_source_hash,
+                    "material_id": material_id,
+                    "profile_id": profile_id,
+                    "classification_code": asset_class,
+                    "document_ids": list(document_ids),
                     "occurrence_count": 0,
                 }
             else:
@@ -752,6 +1398,23 @@ def build_model(
                 product.PredefinedType = "NOTDEFINED"
                 product.ObjectType = None
             type_rows[type_id]["occurrence_count"] += 1
+            if type_rows[type_id]["material_id"] is not None:
+                material_rows[type_rows[type_id]["material_id"]][
+                    "inherited_occurrence_count"
+                ] += 1
+            if type_rows[type_id]["profile_id"] is not None:
+                assign_material(
+                    model,
+                    products=[product],
+                    type="IfcMaterialProfileSetUsage",
+                )
+                usage = get_material(
+                    product,
+                    should_skip_usage=False,
+                    should_inherit=False,
+                )
+                usage.CardinalPoint = 5
+                profile_rows[type_rows[type_id]["profile_id"]]["usage_count"] += 1
         product.Tag = asset_id
         built = component.build()
         leaves = [leaf for leaf in flatten_parts(built) if leaf.bounding_box().volume > 0.0]
@@ -761,20 +1424,39 @@ def build_model(
             detail_mode = "coordination-envelope"
         boxes = [bbox_tuple(leaf) for leaf in leaves]
         overall = bbox_union(boxes)
-        origin = (
-            (overall[0] + overall[3]) / 2000.0,
-            (overall[1] + overall[4]) / 2000.0,
-            (overall[2] + overall[5]) / 2000.0,
-        )
-        vertices = [box_mesh(box, origin) for box in boxes]
-        faces = [[face[:] for face in BOX_FACES] for _ in boxes]
-        representation = add_mesh_representation(
-            model,
-            context=body_context,
-            vertices=vertices,
-            faces=faces,
-            unit_scale=1.0,
-        )
+        length_m = (overall[3] - overall[0]) / 1000.0
+        width_m = (overall[4] - overall[1]) / 1000.0
+        height_m = (overall[5] - overall[2]) / 1000.0
+        if profile_id is not None:
+            origin = (
+                overall[0] / 1000.0,
+                (overall[1] + overall[4]) / 2000.0,
+                (overall[2] + overall[5]) / 2000.0,
+            )
+            representation = add_profile_representation(
+                model,
+                context=body_context,
+                profile=profile_definitions[profile_id],
+                depth=length_m,
+                cardinal_point=5,
+                placement_zx_axes=((1.0, 0.0, 0.0), (0.0, 1.0, 0.0)),
+            )
+            detail_mode = "native-profile-extrusion"
+        else:
+            origin = (
+                (overall[0] + overall[3]) / 2000.0,
+                (overall[1] + overall[4]) / 2000.0,
+                (overall[2] + overall[5]) / 2000.0,
+            )
+            vertices = [box_mesh(box, origin) for box in boxes]
+            faces = [[face[:] for face in BOX_FACES] for _ in boxes]
+            representation = add_mesh_representation(
+                model,
+                context=body_context,
+                vertices=vertices,
+                faces=faces,
+                unit_scale=1.0,
+            )
         assign_representation(model, product=product, representation=representation)
         matrix = np.eye(4)
         matrix[:3, 3] = origin
@@ -782,9 +1464,6 @@ def build_model(
         assign_container(model, products=[product], relating_structure=spatial_parts[discipline])
         assign_representation_styles(model, shape_representation=representation, styles=[styles[discipline]])
 
-        length_m = (overall[3] - overall[0]) / 1000.0
-        width_m = (overall[4] - overall[1]) / 1000.0
-        height_m = (overall[5] - overall[2]) / 1000.0
         source_volume_m3 = built.volume / 1_000_000_000.0
         set_properties(
             model,
@@ -831,8 +1510,19 @@ def build_model(
                     if type_product is not None
                     else None
                 ),
+                "material_id": (
+                    type_rows[type_id]["material_id"] if type_id is not None else None
+                ),
+                "profile_id": (
+                    type_rows[type_id]["profile_id"] if type_id is not None else None
+                ),
+                "classification_code": asset_class,
+                "classification_assignment": (
+                    "inherited-from-type" if type_id is not None else "direct-occurrence"
+                ),
                 "discipline": discipline,
                 "source_geometry": component.source,
+                "document_ids": list(document_ids),
                 "detail_mode": detail_mode,
                 "representation_parts": len(boxes),
                 "bbox_m": [round(value / 1000.0, 6) for value in overall],
@@ -840,6 +1530,23 @@ def build_model(
             }
         )
 
+    classification_index = add_asset_classification(
+        model,
+        project=project,
+        products=products,
+        type_products=type_products,
+        index_rows=index_rows,
+        type_rows=type_rows,
+    )
+    document_rows = add_document_register(
+        model,
+        project=project,
+        alignment=alignment,
+        products=products,
+        type_products=type_products,
+        index_rows=index_rows,
+        type_rows=type_rows,
+    )
     schedule_rows, assignments = add_schedule(model, products, product_classes, product_names)
     for work_schedule in model.by_type("IfcWorkSchedule"):
         work_schedule.CreationDate = DEFAULT_START.isoformat()
@@ -857,6 +1564,10 @@ def build_model(
         row["ifc_guid"] = next(item.GlobalId for item in type_products.values() if item.Tag == type_id)
     index_rows.sort(key=lambda row: row["asset_id"])
     sorted_type_rows = sorted(type_rows.values(), key=lambda row: row["type_id"])
+    sorted_material_rows = sorted(
+        material_rows.values(), key=lambda row: row["material_id"]
+    )
+    sorted_profile_rows = sorted(profile_rows.values(), key=lambda row: row["profile_id"])
     index = {
         "schema": SCHEMA,
         "revision_id": revision_id,
@@ -875,15 +1586,34 @@ def build_model(
             "quantities_per_route_km": civil_quantities,
         },
         "georeferencing": georeferencing,
+        "classification": classification_index,
         "summary": {
             "assets": len(index_rows),
             "types": len(sorted_type_rows),
             "typed_assets": sum(row["ifc_type_id"] is not None for row in index_rows),
+            "materials": len(sorted_material_rows),
+            "material_associated_assets": sum(
+                row["material_id"] is not None for row in index_rows
+            ),
+            "profiles": len(sorted_profile_rows),
+            "profiled_assets": sum(row["profile_id"] is not None for row in index_rows),
+            "documents": len(document_rows),
+            "document_associated_assets": sum(
+                bool(row["document_ids"]) for row in index_rows
+            ),
+            "classifications": 1,
+            "classification_references": len(classification_index["references"]),
+            "classified_assets": sum(
+                bool(row["classification_code"]) for row in index_rows
+            ),
             "ifc_classes": dict(sorted(Counter(row["ifc_class"] for row in index_rows).items())),
             "disciplines": dict(sorted(Counter(row["discipline"] for row in index_rows).items())),
             "interface_checks": len(assert_integration_checks()),
             "construction_tasks": len(schedule_rows),
         },
+        "materials": sorted_material_rows,
+        "profiles": sorted_profile_rows,
+        "documents": document_rows,
         "types": sorted_type_rows,
         "objects": index_rows,
         "validation": [asdict(check) for check in assert_integration_checks()],
@@ -993,6 +1723,161 @@ def build_civil_ids(index: dict[str, Any]) -> ids_module.Ids:
         ]
     )
     document.specifications.append(type_specification)
+
+    materialized_types = [row for row in index["types"] if row["material_id"]]
+    material_specification = ids_module.Specification(
+        name="Declared material families remain explicit and procurement-unresolved",
+        description=(
+            "Only source-supported single-material families receive native IFC material "
+            "associations; the family record explicitly withholds grade and design release."
+        ),
+        instructions=(
+            "Do not substitute this family declaration for a project material grade, "
+            "supplier certificate, structural design, or procurement release."
+        ),
+        minOccurs=1,
+        maxOccurs="unbounded",
+        ifcVersion=["IFC4X3_ADD2"],
+        identifier="OSR-IDS-MAT-001",
+    )
+    material_specification.applicability.extend(
+        [
+            ids_module.Entity(
+                name=ids_module.Restriction(
+                    {"enumeration": sorted({row["ifc_class"].upper() for row in materialized_types})}
+                )
+            ),
+            ids_module.Attribute(
+                name="Tag",
+                value=ids_module.Restriction(
+                    {"enumeration": sorted(row["type_id"] for row in materialized_types)}
+                ),
+            ),
+        ]
+    )
+    material_specification.requirements.append(
+        ids_module.Material(
+            value=ids_module.Restriction(
+                {"enumeration": sorted(row["material_id"] for row in materialized_types)}
+            )
+        )
+    )
+    document.specifications.append(material_specification)
+
+    profiled_types = [row for row in index["types"] if row["profile_id"]]
+    profile_specification = ids_module.Specification(
+        name="Profiled rail types declare their native review section and usage",
+        description=(
+            "Each straight UIC 60E1 rail type identifies the native material profile "
+            "used by its occurrence extrusion."
+        ),
+        instructions=(
+            "The straight-line polygon is coordination geometry only; use the full mill "
+            "profile, tolerances, and released grade for procurement and detailed design."
+        ),
+        minOccurs=1,
+        maxOccurs="unbounded",
+        ifcVersion=["IFC4X3_ADD2"],
+        identifier="OSR-IDS-PROFILE-001",
+    )
+    profile_specification.applicability.extend(
+        [
+            ids_module.Entity(
+                name=ids_module.Restriction(
+                    {"enumeration": sorted({row["ifc_class"].upper() for row in profiled_types})}
+                )
+            ),
+            ids_module.Attribute(
+                name="Tag",
+                value=ids_module.Restriction(
+                    {"enumeration": sorted(row["type_id"] for row in profiled_types)}
+                ),
+            ),
+        ]
+    )
+    profile_specification.requirements.extend(
+        [
+            ids_module.Property(
+                propertySet="Pset_OSR_ProfileAssignment", baseName="ProfileId"
+            ),
+            ids_module.Property(
+                propertySet="Pset_OSR_ProfileAssignment", baseName="GeometryStatus"
+            ),
+            ids_module.Property(
+                propertySet="Pset_OSR_ProfileAssignment", baseName="OccurrenceUsage"
+            ),
+        ]
+    )
+    document.specifications.append(profile_specification)
+
+    document_register_specification = ids_module.Specification(
+        name="Project declares a native hash-locked source-document register",
+        description=(
+            "The IFC carries repository-relative source locations, complete SHA-256 "
+            "revisions, and direct document associations without implying a CDE issue."
+        ),
+        instructions=(
+            "Resolve each native document reference against the accompanying Git "
+            "revision before relying on the model for coordination."
+        ),
+        minOccurs=1,
+        maxOccurs=1,
+        ifcVersion=["IFC4X3_ADD2"],
+        identifier="OSR-IDS-DOC-001",
+    )
+    document_register_specification.applicability.append(
+        ids_module.Entity(name="IFCPROJECT")
+    )
+    document_register_specification.requirements.extend(
+        [
+            ids_module.Property(
+                propertySet="Pset_OSR_DocumentRegister", baseName="RegisterStatus"
+            ),
+            ids_module.Property(
+                propertySet="Pset_OSR_DocumentRegister", baseName="DocumentCount"
+            ),
+            ids_module.Property(
+                propertySet="Pset_OSR_DocumentRegister", baseName="HashAlgorithm"
+            ),
+            ids_module.Property(
+                propertySet="Pset_OSR_DocumentRegister", baseName="AssociationPolicy"
+            ),
+        ]
+    )
+    document.specifications.append(document_register_specification)
+
+    classification_specification = ids_module.Specification(
+        name="Every civil asset carries its native OSR automation class",
+        description=(
+            "OSR asset codes are represented as lightweight IFC classification "
+            "references and inherited from reusable types where possible."
+        ),
+        instructions=(
+            "Treat this as an internal automation classification. Do not claim a "
+            "national or client mapping without an approved deployment crosswalk."
+        ),
+        minOccurs=1,
+        maxOccurs="unbounded",
+        ifcVersion=["IFC4X3_ADD2"],
+        identifier="OSR-IDS-CLASS-001",
+    )
+    classification_specification.applicability.append(
+        ids_module.Entity(name=ids_module.Restriction({"enumeration": concrete_elements}))
+    )
+    classification_specification.requirements.append(
+        ids_module.Classification(
+            value=ids_module.Restriction(
+                {
+                    "enumeration": sorted(
+                        reference["code"]
+                        for reference in index["classification"]["references"]
+                    )
+                }
+            ),
+            system=ASSET_CLASSIFICATION["name"],
+        )
+    )
+    document.specifications.append(classification_specification)
 
     alignment_specification = ids_module.Specification(
         name="Alignment exposes authority and revision",
@@ -1337,6 +2222,9 @@ def validate_written(
         if getattr(product, "Tag", None)
     }
     type_assignments_match = True
+    material_assignments_match = True
+    profile_geometry_usage_matches = True
+    profiles_by_id = {row["profile_id"]: row for row in index["profiles"]}
     for row in index["objects"]:
         product = reopened.by_guid(row["ifc_guid"])
         relationships = getattr(product, "IsTypedBy", ()) or ()
@@ -1344,7 +2232,213 @@ def validate_written(
         expected_type_ids = [row["ifc_type_id"]] if row["ifc_type_id"] is not None else []
         if observed_type_ids != expected_type_ids:
             type_assignments_match = False
-            break
+        material = get_material(product, should_inherit=True)
+        observed_material_ids = material_ids_from_assignment(material)
+        observed_material_id = (
+            observed_material_ids[0] if len(observed_material_ids) == 1 else None
+        )
+        if observed_material_id != row["material_id"]:
+            material_assignments_match = False
+        if row["profile_id"] is not None:
+            usage = get_material(
+                product,
+                should_skip_usage=False,
+                should_inherit=False,
+            )
+            solids = [
+                item
+                for representation in product.Representation.Representations
+                for item in representation.Items
+                if item.is_a("IfcExtrudedAreaSolid")
+            ]
+            profile_row = profiles_by_id[row["profile_id"]]
+            length_m = row["bbox_m"][3] - row["bbox_m"][0]
+            expected_volume_m3 = profile_row["area_m2"] * length_m
+            profile_geometry_usage_matches &= (
+                usage is not None
+                and usage.is_a("IfcMaterialProfileSetUsage")
+                and usage.CardinalPoint == 5
+                and usage.ForProfileSet.Name == row["profile_id"]
+                and len(solids) == 1
+                and solids[0].SweptArea.ProfileName == row["profile_id"]
+                and math.isclose(solids[0].Depth, length_m, abs_tol=1e-9)
+                and math.isclose(
+                    row["source_net_volume_m3"],
+                    expected_volume_m3,
+                    abs_tol=2e-6,
+                )
+            )
+    expected_materials = {row["material_id"] for row in index["materials"]}
+    exported_materials = {material.Name for material in reopened.by_type("IfcMaterial")}
+    material_catalog_matches = all(
+        get_psets(material).get("Pset_OSR_MaterialStatus", {}).get("MaterialId")
+        == material.Name
+        and get_psets(material)
+        .get("Pset_OSR_MaterialStatus", {})
+        .get("SpecificationStatus")
+        == "family-declared; grade-and-design-unresolved"
+        for material in reopened.by_type("IfcMaterial")
+    )
+    expected_profiles = {row["profile_id"] for row in index["profiles"]}
+    exported_profile_definitions = {
+        profile.ProfileName: profile
+        for profile in reopened.by_type("IfcArbitraryClosedProfileDef")
+        if profile.ProfileName in expected_profiles
+    }
+    profile_catalog_matches = set(exported_profile_definitions) == expected_profiles and all(
+        get_psets(profile).get("Pset_OSR_Profile", {}).get("ProfileId")
+        == profile.ProfileName
+        for profile in exported_profile_definitions.values()
+    )
+    document_information = {
+        item.Identification: item for item in reopened.by_type("IfcDocumentInformation")
+    }
+    document_references = {
+        item.Identification: item for item in reopened.by_type("IfcDocumentReference")
+    }
+    expected_document_ids = {row["document_id"] for row in index["documents"]}
+    document_catalog_matches = (
+        set(document_information) == expected_document_ids
+        and set(document_references) == expected_document_ids
+    )
+    document_associations_match = True
+    for row in index["documents"]:
+        information = document_information.get(row["document_id"])
+        reference = document_references.get(row["document_id"])
+        source_path = REPO_ROOT / row["location"]
+        document_catalog_matches &= (
+            information is not None
+            and reference is not None
+            and reference.ReferencedDocument == information
+            and information.Location == row["location"]
+            and information.Revision == row["revision"]
+            and information.ElectronicFormat == row["media_type"]
+            and source_path.is_file()
+            and sha256_bytes(source_path.read_bytes()) == row["sha256"]
+        )
+        relationships = [
+            relationship
+            for relationship in reopened.by_type("IfcRelAssociatesDocument")
+            if relationship.RelatingDocument == reference
+        ]
+        registration_relationships = [
+            relationship
+            for relationship in reopened.by_type("IfcRelAssociatesDocument")
+            if relationship.RelatingDocument == information
+        ]
+        document_catalog_matches &= (
+            row["registered_with_project"]
+            and len(registration_relationships) == 1
+            and len(registration_relationships[0].RelatedObjects) == 1
+            and registration_relationships[0].RelatedObjects[0].is_a("IfcProject")
+        )
+        observed_targets: set[str] = set()
+        for relationship in relationships:
+            for target in relationship.RelatedObjects:
+                if target.is_a("IfcProject"):
+                    observed_targets.add("project")
+                elif target.is_a("IfcAlignment"):
+                    observed_targets.add("alignment")
+                elif getattr(target, "Tag", None):
+                    observed_targets.add(target.Tag)
+        expected_targets = set(row["associated_asset_ids"]) | set(
+            row["associated_type_ids"]
+        )
+        if row["associated_project"]:
+            expected_targets.add("project")
+        if row["associated_alignment"]:
+            expected_targets.add("alignment")
+        document_associations_match &= (
+            len(relationships) == 1
+            and observed_targets == expected_targets
+            and row["associated_object_count"] == len(expected_targets)
+        )
+    document_register_pset = get_psets(reopened.by_type("IfcProject")[0]).get(
+        "Pset_OSR_DocumentRegister", {}
+    )
+    document_catalog_matches &= (
+        document_register_pset.get("RegisterStatus")
+        == "native-ifc-hash-locked-repository-sources"
+        and document_register_pset.get("DocumentCount") == len(index["documents"])
+        and document_register_pset.get("HashAlgorithm") == "SHA-256"
+    )
+    classifications = reopened.by_type("IfcClassification")
+    classification_catalog_matches = len(classifications) == 1
+    classification_assignments_match = True
+    if classifications:
+        classification = classifications[0]
+        classification_catalog_matches &= (
+            classification.Name == index["classification"]["name"]
+            and classification.Edition == index["classification"]["edition"]
+            and classification.Description == index["classification"]["description"]
+            and classification.Specification == index["classification"]["specification"]
+            and classification.ReferenceTokens == (".",)
+        )
+        classification_references = {
+            reference.Identification: reference
+            for reference in reopened.by_type("IfcClassificationReference")
+            if reference.ReferencedSource == classification
+        }
+        expected_codes = {
+            reference["code"] for reference in index["classification"]["references"]
+        }
+        classification_catalog_matches &= set(classification_references) == expected_codes
+        project_relationships = [
+            relationship
+            for relationship in reopened.by_type("IfcRelAssociatesClassification")
+            if relationship.RelatingClassification == classification
+        ]
+        classification_catalog_matches &= (
+            len(project_relationships) == 1
+            and len(project_relationships[0].RelatedObjects) == 1
+            and project_relationships[0].RelatedObjects[0].is_a("IfcProject")
+        )
+        for reference_row in index["classification"]["references"]:
+            reference = classification_references.get(reference_row["code"])
+            relationships = [
+                relationship
+                for relationship in reopened.by_type("IfcRelAssociatesClassification")
+                if relationship.RelatingClassification == reference
+            ]
+            observed_targets = {
+                target.Tag
+                for relationship in relationships
+                for target in relationship.RelatedObjects
+                if getattr(target, "Tag", None)
+            }
+            expected_targets = set(reference_row["assigned_type_ids"]) | set(
+                reference_row["direct_asset_ids"]
+            )
+            classification_assignments_match &= (
+                reference is not None
+                and reference.Name == reference_row["name"]
+                and len(relationships) == 1
+                and observed_targets == expected_targets
+            )
+        for row in index["objects"]:
+            product = reopened.by_guid(row["ifc_guid"])
+            observed_codes = {
+                reference.Identification
+                for reference in get_references(product, should_inherit=True)
+                if reference.is_a("IfcClassificationReference")
+                and reference.ReferencedSource == classification
+            }
+            classification_assignments_match &= observed_codes == {
+                row["classification_code"]
+            }
+    else:
+        classification_assignments_match = False
+    classification_pset = get_psets(reopened.by_type("IfcProject")[0]).get(
+        "Pset_OSR_Classification", {}
+    )
+    classification_catalog_matches &= (
+        classification_pset.get("System") == ASSET_CLASSIFICATION["name"]
+        and classification_pset.get("Edition") == ASSET_CLASSIFICATION["edition"]
+        and classification_pset.get("ReferenceCount")
+        == len(index["classification"]["references"])
+        and classification_pset.get("ExternalMappingStatus")
+        == "country-and-client-mapping-not-nominated"
+    )
     projected_crs = reopened.by_type("IfcProjectedCRS")
     map_conversions = reopened.by_type("IfcMapConversion")
     georeferencing = index["georeferencing"]
@@ -1372,6 +2466,50 @@ def validate_written(
             "observed": sum(
                 bool(getattr(product, "IsTypedBy", None))
                 for product in reopened.by_type("IfcElement")
+            ),
+        },
+        {
+            "id": "native-material-families",
+            "passed": exported_materials == expected_materials and material_catalog_matches,
+            "observed": len(exported_materials),
+        },
+        {
+            "id": "material-inheritance",
+            "passed": material_assignments_match,
+            "observed": sum(
+                row["material_id"] is not None for row in index["objects"]
+            ),
+        },
+        {
+            "id": "native-profile-catalog",
+            "passed": profile_catalog_matches,
+            "observed": len(exported_profile_definitions),
+        },
+        {
+            "id": "profile-geometry-usage",
+            "passed": profile_geometry_usage_matches,
+            "observed": sum(row["profile_id"] is not None for row in index["objects"]),
+        },
+        {
+            "id": "native-document-register",
+            "passed": document_catalog_matches,
+            "observed": len(document_information),
+        },
+        {
+            "id": "document-source-associations",
+            "passed": document_associations_match,
+            "observed": sum(bool(row["document_ids"]) for row in index["objects"]),
+        },
+        {
+            "id": "native-osr-classification",
+            "passed": classification_catalog_matches,
+            "observed": len(index["classification"]["references"]),
+        },
+        {
+            "id": "classification-inheritance",
+            "passed": classification_assignments_match,
+            "observed": sum(
+                bool(row["classification_code"]) for row in index["objects"]
             ),
         },
         {"id": "railway-spatial-root", "passed": len(reopened.by_type("IfcRailway")) == 1, "observed": len(reopened.by_type("IfcRailway"))},

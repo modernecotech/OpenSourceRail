@@ -25,11 +25,15 @@ candidate with immutable Git revision records. Its engineering hub runs only
 allowlisted GIS, simulator, and alignment-exchange adapters and persists their
 progress, logs, exit state, and immutable artifact copies. The civil BIM
 adapter emits an IFC4.3 rail federation, object index, quantities, provenance,
-17 reusable source-recipe component types, linked construction sequence, IDS
-audit, and BCF 3.0 release issues for Bonsai.
+17 reusable source-recipe component types, three source-backed material
+families, one native section profile driving 32 rail extrusions, linked
+construction sequence, one internal classification with 11 references covering
+all assets, 15 hash-locked native source documents, IDS audit, and BCF 3.0
+release issues for Bonsai.
 The integrated evidence viewer
 re-verifies each hash before plotting GeoJSON, alignment JSON, civil IFC object
-envelopes with object picking, IDS specifications, BCF topics, LandXML, railML,
+envelopes with object picking, asset-class inheritance, source-document records and hashes, IDS
+specifications, BCF topics, LandXML, railML,
 stakeout CSV, or simulation results.
 The civil viewer joins the verified IFC object index with its verified 4D task
 sequence, supporting view rotation, discipline visibility, construction-stage

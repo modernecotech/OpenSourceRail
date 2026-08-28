@@ -63,9 +63,9 @@ status = "screening"
 tool = "IfcOpenShell 0.8.5 / IfcTester 0.8.5 / BCF 0.8.5 / Bonsai 0.8.5 / Blender 5.2"
 input_paths = ["mechanical-py/src/osr_mech/civil_systems_integration.py", "mechanical-py/src/osr_mech/fabrication_assembly_twin.py", "engineering/interchange/civil_bonsai_ifc.py"]
 result_path = "build/engineering/bonsai-civil/civil-coordination.validation.json"
-acceptance_criterion = "IFC4.3 reopens with 95 stable assets, four rail discipline parts, one alignment reference, 17 construction tasks, all nine civil interface checks, 3/3 IDS specifications and 958/958 IDS checks passing, plus three BCF 3.0 topics whose 35 selected IFC GUIDs resolve; every emitted artifact is byte-deterministic"
+acceptance_criterion = "IFC4.3 reopens with 95 stable assets, 17 reusable types, three source-backed material families inherited by 46 occurrences, one native 60E1 material profile driving 32 matching rail extrusions, one internal classification with 11 references covering all assets, 15 hash-locked native source documents linked to all assets, four rail discipline parts, one alignment reference, 18 construction tasks, all nine civil interface checks, 8/8 IDS specifications and 1222/1222 IDS checks passing, plus three BCF 3.0 topics whose 35 selected IFC GUIDs resolve; every emitted artifact is byte-deterministic"
 converged = true
-limitations = "Design-reference coordination geometry only; survey-grade alignment, geotechnics, structural capacity/reinforcement and bearing release remain open. IDS validates information delivery, not engineering adequacy; the three BCF release issues deliberately remain open."
+limitations = "Design-reference coordination geometry and family-level material declarations only; survey-grade alignment, project material grades, geotechnics, structural capacity/reinforcement and bearing release remain open. IDS validates information delivery, not engineering adequacy; BCF decisions are Git-reviewed and reissued without implying engineering release."
 
 [[analysis]]
 id = "OSR-AN-CIV-THERM-001"

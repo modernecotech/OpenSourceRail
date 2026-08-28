@@ -25,6 +25,38 @@ from osr_mech.cad import (
 from ..common import RAIL_GEOMETRY, RailProfile
 
 
+def rail_profile_points_mm(
+    profile: RailProfile = RailProfile.UIC_60E1,
+) -> tuple[tuple[float, float], ...]:
+    """Return the shared straight-line review polygon in millimetres."""
+
+    g = RAIL_GEOMETRY[profile]
+    half_head_top = g.head_width_mm / 2.0
+    half_head_base = g.head_base_width_mm / 2.0
+    half_web = g.web_thickness_mm / 2.0
+    half_foot_bot = g.foot_width_mm / 2.0
+    half_foot_top = g.foot_top_width_mm / 2.0
+    y_foot_top = g.foot_height_mm
+    y_head_bottom = g.height_mm - g.head_height_mm
+    y_head_top = g.height_mm
+    return (
+        (half_head_top, y_head_top),
+        (half_head_top, y_head_top - 6.0),
+        (half_head_base, y_head_bottom),
+        (half_web, y_head_bottom),
+        (half_web, y_foot_top),
+        (half_foot_top, y_foot_top),
+        (half_foot_bot, 0.0),
+        (-half_foot_bot, 0.0),
+        (-half_foot_top, y_foot_top),
+        (-half_web, y_foot_top),
+        (-half_web, y_head_bottom),
+        (-half_head_base, y_head_bottom),
+        (-half_head_top, y_head_top - 6.0),
+        (-half_head_top, y_head_top),
+    )
+
+
 def rail_section(profile: RailProfile = RailProfile.UIC_60E1) -> Part:
     """One-unit-length rail extrusion used for cross-section display.
 
@@ -47,35 +79,9 @@ def rail_bar(
     """
 
     g = RAIL_GEOMETRY[profile]
-    half_head_top = g.head_width_mm / 2.0
-    half_head_base = g.head_base_width_mm / 2.0
-    half_web = g.web_thickness_mm / 2.0
-    half_foot_bot = g.foot_width_mm / 2.0
-    half_foot_top = g.foot_top_width_mm / 2.0
-
-    # Height bands measured from top of foot (y = 0) up to top of head.
-    y_foot_top = g.foot_height_mm
-    y_head_bottom = g.height_mm - g.head_height_mm
-    y_head_top = g.height_mm
-
     # Tapered polygon tracing the full profile clockwise starting at
     # top-right of the head.
-    pts = [
-        (half_head_top, y_head_top),
-        (half_head_top, y_head_top - 6.0),  # short vertical crown face
-        (half_head_base, y_head_bottom),
-        (half_web, y_head_bottom),
-        (half_web, y_foot_top),
-        (half_foot_top, y_foot_top),
-        (half_foot_bot, 0.0),
-        (-half_foot_bot, 0.0),
-        (-half_foot_top, y_foot_top),
-        (-half_web, y_foot_top),
-        (-half_web, y_head_bottom),
-        (-half_head_base, y_head_bottom),
-        (-half_head_top, y_head_top - 6.0),
-        (-half_head_top, y_head_top),
-    ]
+    pts = rail_profile_points_mm(profile)
 
     with BuildPart() as bar:
         with BuildSketch(Plane.XY):
@@ -100,4 +106,4 @@ def linear_mass_kg_per_m(profile: RailProfile) -> float:
     return RAIL_GEOMETRY[profile].linear_mass_kg_per_m
 
 
-__all__ = ["linear_mass_kg_per_m", "rail_bar", "rail_section"]
+__all__ = ["linear_mass_kg_per_m", "rail_bar", "rail_profile_points_mm", "rail_section"]

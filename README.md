@@ -31,9 +31,12 @@ Regenerate it with `scripts/freecad-generate.sh --fabrication-twin`.*
 
 *The civil coordination model is generated deterministically from the checked
 OSR geometry into IFC4.3, then imported and rendered through Bonsai 0.8.5. It
-contains 95 stable rail/civil assets, 17 reusable IFC types, native quantities,
-provenance, nine interface checks, 18 linked construction tasks, and 1,112/1,112
-passing IDS checks. OSR
+contains 95 stable rail/civil assets, 17 reusable IFC types, three declared
+material families, one native 60E1 section profile driving 32 rail extrusions,
+one internal classification with 11 asset references covering all 95 assets,
+15 hash-locked native source-document records, native quantities, provenance,
+nine interface checks, 18 linked construction tasks, and 1,222/1,222 passing
+IDS checks. OSR
 remains authoritative for route and engineering rules; Bonsai provides
 federation, detail review, drawings, quantities, and 4D sequencing. See the
 [Bonsai civil workflow](docs/civil/bonsai-ifc-workflow.md).*
@@ -63,7 +66,7 @@ operating affordable urban rail systems. It combines:
 | **Deterministic city generation** | Reproducible GIS, network, fleet, energy, engineering and finance packages for [266 cities in 44 countries](designs/README.md). |
 | **Interactive City Studio** | Create, move and retire stations and lines; edit routing control points; plan service by line, day and time; test OD capacity and atomic all-route scenarios in one [local GUI](docs/city-studio/README.md). |
 | **Git-native revision control** | Content-addressed immutable revisions, semantic comparisons, append-only approvals and restart-tested persistence keep each city decision reviewable in GitHub. |
-| **Civil BIM and 4D coordination** | Parametric Pi25/slipform/foundation geometry generates schema-checked IFC4.3 with native quantities, per-line survey/map conversion, IDS evidence, BCF 3.0 topics and linked construction sequencing through the [civil BIM workflow](docs/civil/bonsai-ifc-workflow.md). |
+| **Civil BIM and 4D coordination** | Parametric Pi25/slipform/foundation geometry generates schema-checked IFC4.3 with native quantities, internal asset classification, hash-locked source links, per-line survey/map conversion, IDS evidence, BCF 3.0 topics and linked construction sequencing through the [civil BIM workflow](docs/civil/bonsai-ifc-workflow.md). |
 | **Automatic cost propagation** | Checked CAD quantities regenerate the [shared civil rate contract](lib/templates/civil-cost-model.toml), which feeds city CAPEX, finance, IFC properties, portfolio summaries and generated READMEs while retaining the original benchmark for comparison. |
 | **Operations-to-assurance stack** | Simulation, GoA 4 control components, energy planning, manufacturing QA, maintenance, Ops Core, hardware references and a machine-checkable safety case share one repository and evidence model. |
 
@@ -130,7 +133,9 @@ City Studio centralizes deterministic network authoring, source-locked
 demand/buildability routing, station placement, line/day/time service planning,
 source-controlled origin–destination demand and scheduled-capacity screening,
 simulation, alignment exchange, IFC4.3/Bonsai civil federation, verified
-GIS/engineering object inspection, reusable IFC component types, IDS delivery audit, BCF 3.0 issue review,
+GIS/engineering object inspection, reusable IFC component types, traceable
+material-family declarations, native section-profile and OSR asset-class
+evidence, hash-locked source-document associations, IDS delivery audit, BCF 3.0 issue review,
 searchable multi-asset BCF topic authoring, atomic all-route headway scenarios and day-plan tools,
 Git-reviewable coordination decisions, append-only revision approvals,
 hash-verified interactive civil/4D review, artifact hashing, and revision review.

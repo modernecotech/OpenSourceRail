@@ -94,6 +94,40 @@ identity and `Pset_OSR_Type`; occurrence placement and geometry remain
 authoritative. The two clearance envelopes remain untyped because IFC4.3 has
 no `IfcVirtualElementType`.
 
+Three native `IfcMaterial` family declarations cover 46 occurrences through
+five type associations: running-rail steel, prestressed beam concrete, and
+precast platform-unit concrete. `Pset_OSR_MaterialStatus` identifies the source
+authority and explicitly records that grade, design, supplier certification,
+and release remain unresolved. Mixed or interface-only assemblies receive no
+material association until their constituent specification is authoritative.
+
+The 32 straight running-rail occurrences use one native
+`IfcMaterialProfileSet` and cardinal-point-5 `IfcMaterialProfileSetUsage`.
+Their bodies are `IfcExtrudedAreaSolid` geometry driven by the same simplified
+60E1 polygon as the CAD source, replacing coordination box meshes. The indexed
+section area and extrusion volume are checked against the source solid. This
+remains a straight-line review polygon; procurement still requires the full
+mill profile, fillets, tolerances, released steel grade, and certificates.
+
+### Native OSR asset classification
+
+One internal `IfcClassification` contains 11 lightweight references using the
+existing OSR asset codes. Ninety-three occurrences inherit their reference
+from 17 reusable types; the two untyped clearance envelopes receive the same
+class directly. All 95 assets therefore remain natively queryable without
+duplicating type-level relationships. This classification supports OSR
+automation only. Its metadata and City Studio inspector explicitly state that
+country/client mappings remain unnominated and require an approved deployment
+crosswalk.
+
+Fifteen native `IfcDocumentInformation`/`IfcDocumentReference` records expose
+the actual repository sources used by the federation. Complete SHA-256
+revisions and repository-relative locations cover the component generators,
+integration source, exporter, alignment contract, cost contract, and this
+release-boundary workflow. `IfcRelAssociatesDocument` links all 95 occurrences
+and their reusable types to the applicable source modules. These are source
+records, not issued drawings or a substitute for a deployment CDE.
+
 Dimensions, source volume, and representation count are native
 `IfcElementQuantity` values in `OSR_CoordinationEnvelopeQuantities`, with the
 calculation method declared on the quantity set. The four discipline containers
@@ -150,9 +184,11 @@ represent released reinforcement, prestress or connection detailing.
 ## IDS delivery gate and BCF review loop
 
 The exporter writes an IDS 1.0 contract and immediately reopens it with
-IfcTester against the written IFC. Four specifications cover all 95 assets,
-the 17-type catalogue, alignment authority, and project provenance. The current
-reference exchange passes all 1,112 entity-level checks. The audit is deterministic: entity
+IfcTester against the written IFC. Eight specifications cover all 95 assets,
+the 17-type catalogue, the source-backed material subset, alignment authority,
+the native rail-profile assignments, OSR asset classification, native document
+register, and project provenance. The current reference exchange passes all 1,222
+entity-level checks. The audit is deterministic: entity
 evidence is sorted before hashing, so a repeat build produces byte-identical
 IFC, IDS, audit, BCF, indexes, sequence, and validation files.
 
@@ -210,9 +246,13 @@ after review.
 | Full horizontal/vertical/cant alignment segments and linear placement | Defer until the accepted OSR-ALN design supplies segment parameters. LandXML, railML, stakeout CSV, and the current IFC reference curve already preserve a usable handoff; the upstream IfcOpenShell alignment API remains under development. |
 | Native `IfcCostSchedule` | Defer until approved element-level rates exist. The generated CAD-indexed cost contract already propagates to city CAPEX, finance, IFC metadata, and Git revisions; attaching route-km benchmark rates to reference component samples would imply false 5D precision. Native quantities now provide the correct foundation for it later. |
 | Reusable object types | Implemented for 93 safely typable occurrences using exact source recipes. Type geometry maps are deliberately omitted so occurrence geometry remains authoritative. |
-| Materials, profiles, reinforcement, bearings, and foundations | Do not populate generic placeholders. Add native data when released specifications and deployment engineering are available. |
-| External classification | Keep stable OSR asset classes for now. Add lightweight native references when a country/client nominates a classification edition; no single global classification should be guessed. |
-| Native document register and drawings | Existing hash-linked indexes, IDS report, BCF, Git history, renders, and engineering documents are a usable low-cost evidence path. Add IFC document associations/sheets only when a CDE naming and issue convention is selected. |
+| Material families | Implemented for the 46 occurrences whose source explicitly declares a safe single-material family. Every declaration is visibly grade/design unresolved. |
+| Native rail profile | Implemented for all 32 straight 60E1 rail occurrences using a shared material profile set, occurrence usages, and matching extruded solids. |
+| Mixed materials, other profiles, reinforcement, bearings, and foundations | Do not flatten mixed assemblies or populate generic placeholders. Add constituent/profile data when released specifications and deployment engineering are available. |
+| Native OSR asset classification | Implemented with one internal system, 11 lightweight references, type inheritance for 93 occurrences, and direct references for two untyped envelopes. |
+| Country/client classification mapping | Defer Uniclass, OmniClass, national, or client codes until the deployment nominates an edition and approves a crosswalk; no global mapping is guessed. |
+| Native source-document register | Implemented with 15 hash-locked repository sources and direct project/type/occurrence associations. |
+| Issued drawings and CDE document control | Defer sheets, issue/transmittal states, and CDE URLs until a deployment selects its naming, approval, and common-data-environment convention. |
 
 ## Upstream references
 
@@ -226,6 +266,15 @@ after review.
 - [IFC4.3 native quantity sets](https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/concepts/Object_Definition/Quantity_Sets/content.html)
 - [IFC4.3 object typing](https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/concepts/Object_Definition/Object_Typing/content.html)
 - [IfcOpenShell type assignment](https://docs.ifcopenshell.org/autoapi/ifcopenshell/api/type/assign_type/index.html)
+- [IFC4.3 material sets](https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/concepts/Object_Association/Material_Association/Material_Set/content.html)
+- [IfcOpenShell material assignment](https://docs.ifcopenshell.org/autoapi/ifcopenshell/api/material/assign_material/index.html)
+- [IFC4.3 material profile usage](https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/lexical/IfcMaterialProfileSetUsage.htm)
+- [IfcOpenShell arbitrary profiles](https://docs.ifcopenshell.org/autoapi/ifcopenshell/api/profile/add_arbitrary_profile/index.html)
+- [IFC4.3 classification systems](https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/lexical/IfcClassification.htm)
+- [IfcOpenShell classification API](https://docs.ifcopenshell.org/autoapi/ifcopenshell/api/classification/index.html)
+- [IFC4.3 document information](https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/lexical/IfcDocumentInformation.htm)
+- [IFC4.3 document associations](https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/lexical/IfcRelAssociatesDocument.htm)
+- [IfcOpenShell document API](https://docs.ifcopenshell.org/autoapi/ifcopenshell/api/document/index.html)
 - [IfcOpenShell schema validation](https://docs.ifcopenshell.org/ifcopenshell-python/validation.html)
 - [IfcOpenShell parametric cost-quantity links](https://docs.ifcopenshell.org/autoapi/ifcopenshell/api/cost/assign_cost_item_quantity/index.html)
 - [IfcTester IDS API](https://docs.ifcopenshell.org/autoapi/ifctester/ids/index.html)

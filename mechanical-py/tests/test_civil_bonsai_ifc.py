@@ -7,10 +7,17 @@ import tomllib
 from pathlib import Path
 
 import ifcopenshell
+import ifcopenshell.geom
 import pytest
 from bcf.v3.bcfxml import BcfXml
+from ifcopenshell.util.classification import get_references
+from ifcopenshell.util.element import get_elements_by_profile, get_material, get_psets
 
-from engineering.interchange.civil_bonsai_ifc import load_alignment, write_outputs
+from engineering.interchange.civil_bonsai_ifc import (
+    load_alignment,
+    material_ids_from_assignment,
+    write_outputs,
+)
 
 
 def test_civil_ifc_has_rail_semantics_geometry_schedule_and_stable_ids(tmp_path: Path) -> None:
@@ -24,15 +31,20 @@ def test_civil_ifc_has_rail_semantics_geometry_schedule_and_stable_ids(tmp_path:
 
     assert validation["passed"]
     assert ids_report["status"]
-    assert ids_report["total_specifications_pass"] == 4
-    assert ids_report["total_checks"] == ids_report["total_checks_pass"] == 1112
+    assert ids_report["total_specifications_pass"] == 8
+    assert ids_report["total_checks"] == ids_report["total_checks_pass"] == 1222
     assert bcf_index["topic_count"] == 3
     assert coordination is not None
     assert coordination.version.version_id == "3.0"
     assert len(coordination.topics) == 3
     assert index["summary"] == {
         "assets": 95,
+        "classification_references": 11,
+        "classifications": 1,
+        "classified_assets": 95,
         "construction_tasks": 18,
+        "document_associated_assets": 95,
+        "documents": 15,
         "disciplines": {
             "above-track": 10,
             "lineside": 2,
@@ -50,6 +62,10 @@ def test_civil_ifc_has_rail_semantics_geometry_schedule_and_stable_ids(tmp_path:
             "IfcVirtualElement": 2,
         },
         "interface_checks": 9,
+        "material_associated_assets": 46,
+        "materials": 3,
+        "profiled_assets": 32,
+        "profiles": 1,
         "typed_assets": 93,
         "types": 17,
     }
@@ -90,6 +106,121 @@ def test_civil_ifc_has_rail_semantics_geometry_schedule_and_stable_ids(tmp_path:
     assert all(
         len(model.by_guid(row["ifc_guid"]).IsTypedBy) == (1 if row["ifc_type_id"] else 0)
         for row in index["objects"]
+    )
+    assert len(model.by_type("IfcMaterial")) == 3
+    assert len(model.by_type("IfcRelAssociatesMaterial")) == 35
+    assert sum(
+        relationship.RelatingMaterial.is_a("IfcMaterialProfileSetUsage")
+        for relationship in model.by_type("IfcRelAssociatesMaterial")
+    ) == 32
+    assert sum(get_material(product) is not None for product in model.by_type("IfcTypeProduct")) == 5
+    assert all(
+        material_ids_from_assignment(get_material(model.by_guid(row["ifc_guid"])))
+        == ((row["material_id"],) if row["material_id"] else ())
+        for row in index["objects"]
+    )
+    assert all(
+        get_psets(material)["Pset_OSR_MaterialStatus"]["SpecificationStatus"]
+        == "family-declared; grade-and-design-unresolved"
+        for material in model.by_type("IfcMaterial")
+    )
+    assert len(model.by_type("IfcMaterialProfileSet")) == 1
+    assert len(model.by_type("IfcMaterialProfile")) == 1
+    assert len(model.by_type("IfcMaterialProfileSetUsage")) == 32
+    assert len(model.by_type("IfcExtrudedAreaSolid")) == 32
+    profile = next(
+        item
+        for item in model.by_type("IfcArbitraryClosedProfileDef")
+        if item.ProfileName == "OSR-PROFILE-UIC-60E1-REVIEW"
+    )
+    assert len(get_elements_by_profile(profile)) == 32
+    assert get_psets(profile)["Pset_OSR_Profile"]["GeometryStatus"] == (
+        "simplified-straight-line-review-polygon"
+    )
+    profile_row = index["profiles"][0]
+    assert profile_row["usage_count"] == 32
+    assert all(
+        row["detail_mode"] == "native-profile-extrusion"
+        and row["source_net_volume_m3"]
+        == pytest.approx(
+            profile_row["area_m2"] * (row["bbox_m"][3] - row["bbox_m"][0]),
+            abs=2e-6,
+        )
+        for row in index["objects"]
+        if row["profile_id"]
+    )
+    profiled_row = next(row for row in index["objects"] if row["profile_id"])
+    settings = ifcopenshell.geom.settings()
+    settings.set(settings.USE_WORLD_COORDS, True)
+    shape = ifcopenshell.geom.create_shape(settings, model.by_guid(profiled_row["ifc_guid"]))
+    vertices = list(zip(*(iter(shape.geometry.verts),) * 3))
+    geometry_bbox = [min(point[axis] for point in vertices) for axis in range(3)] + [
+        max(point[axis] for point in vertices) for axis in range(3)
+    ]
+    assert geometry_bbox == pytest.approx(profiled_row["bbox_m"], abs=1e-9)
+    assert len(model.by_type("IfcDocumentInformation")) == 15
+    assert len(model.by_type("IfcDocumentReference")) == 15
+    assert len(model.by_type("IfcRelAssociatesDocument")) == 30
+    document_information = {
+        item.Identification: item for item in model.by_type("IfcDocumentInformation")
+    }
+    document_references = {
+        item.Identification: item for item in model.by_type("IfcDocumentReference")
+    }
+    assert set(document_information) == set(document_references) == {
+        row["document_id"] for row in index["documents"]
+    }
+    assert all(
+        document_information[row["document_id"]].Revision == f"sha256:{row['sha256']}"
+        and document_information[row["document_id"]].Location == row["location"]
+        and document_references[row["document_id"]].ReferencedDocument
+        == document_information[row["document_id"]]
+        for row in index["documents"]
+    )
+    assert all(
+        set(row["document_ids"])
+        == {
+            relationship.RelatingDocument.Identification
+            for relationship in model.by_guid(row["ifc_guid"]).HasAssociations
+            if relationship.is_a("IfcRelAssociatesDocument")
+            and relationship.RelatingDocument.is_a("IfcDocumentReference")
+        }
+        for row in index["objects"]
+    )
+    document_pset = get_psets(model.by_type("IfcProject")[0])["Pset_OSR_DocumentRegister"]
+    assert document_pset["DocumentCount"] == 15
+    assert document_pset["HashAlgorithm"] == "SHA-256"
+    assert document_pset["LocationPolicy"] == "repository-relative URI"
+    assert document_pset["RegisterStatus"] == "native-ifc-hash-locked-repository-sources"
+    assert len(model.by_type("IfcClassification")) == 1
+    assert len(model.by_type("IfcClassificationReference")) == 11
+    assert len(model.by_type("IfcRelAssociatesClassification")) == 12
+    classification = model.by_type("IfcClassification")[0]
+    assert classification.Name == "OpenSourceRail Asset Classification"
+    assert classification.Edition == "1.0"
+    assert classification.ReferenceTokens == (".",)
+    assert {
+        reference.Identification
+        for reference in model.by_type("IfcClassificationReference")
+    } == {reference["code"] for reference in index["classification"]["references"]}
+    assert all(
+        {
+            reference.Identification
+            for reference in get_references(
+                model.by_guid(row["ifc_guid"]), should_inherit=True
+            )
+            if reference.is_a("IfcClassificationReference")
+        }
+        == {row["classification_code"]}
+        for row in index["objects"]
+    )
+    classification_pset = get_psets(model.by_type("IfcProject")[0])[
+        "Pset_OSR_Classification"
+    ]
+    assert classification_pset["ReferenceCount"] == 11
+    assert (
+        classification_pset["ExternalMappingStatus"]
+        == "country-and-client-mapping-not-nominated"
     )
     assert len(model.by_type("IfcElementQuantity")) == 95
     assert {
