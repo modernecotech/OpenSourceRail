@@ -24,8 +24,8 @@ def test_civil_ifc_has_rail_semantics_geometry_schedule_and_stable_ids(tmp_path:
 
     assert validation["passed"]
     assert ids_report["status"]
-    assert ids_report["total_specifications_pass"] == 3
-    assert ids_report["total_checks"] == ids_report["total_checks_pass"] == 959
+    assert ids_report["total_specifications_pass"] == 4
+    assert ids_report["total_checks"] == ids_report["total_checks_pass"] == 1112
     assert bcf_index["topic_count"] == 3
     assert coordination is not None
     assert coordination.version.version_id == "3.0"
@@ -50,6 +50,8 @@ def test_civil_ifc_has_rail_semantics_geometry_schedule_and_stable_ids(tmp_path:
             "IfcVirtualElement": 2,
         },
         "interface_checks": 9,
+        "typed_assets": 93,
+        "types": 17,
     }
     assert index["cost_model"]["maturity"] == "planning-target-not-a-quotation"
     with (Path(__file__).resolve().parents[2] / "lib/templates/civil-cost-model.toml").open(
@@ -69,6 +71,26 @@ def test_civil_ifc_has_rail_semantics_geometry_schedule_and_stable_ids(tmp_path:
     assert len(model.by_type("IfcAlignment")) == 1
     assert len(model.by_type("IfcTask")) == 18
     assert len({item.Tag for item in model.by_type("IfcElement") if item.Tag}) == 95
+    assert len(model.by_type("IfcTypeProduct")) == 17
+    assert len(model.by_type("IfcRelDefinesByType")) == 17
+    assert sum(
+        len(relationship.RelatedObjects)
+        for relationship in model.by_type("IfcRelDefinesByType")
+    ) == 93
+    assert {
+        product.Tag for product in model.by_type("IfcTypeProduct")
+    } == {row["type_id"] for row in index["types"]}
+    assert all(
+        product.RepresentationMaps is None
+        for product in model.by_type("IfcTypeProduct")
+    )
+    assert all(
+        not product.IsTypedBy for product in model.by_type("IfcVirtualElement")
+    )
+    assert all(
+        len(model.by_guid(row["ifc_guid"]).IsTypedBy) == (1 if row["ifc_type_id"] else 0)
+        for row in index["objects"]
+    )
     assert len(model.by_type("IfcElementQuantity")) == 95
     assert {
         quantity_set.Name for quantity_set in model.by_type("IfcElementQuantity")

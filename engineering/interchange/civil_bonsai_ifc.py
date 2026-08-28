@@ -60,6 +60,7 @@ from ifcopenshell.api.sequence import (
 )
 from ifcopenshell.api.spatial import assign_container
 from ifcopenshell.api.style import add_style, add_surface_style, assign_representation_styles
+from ifcopenshell.api.type import assign_type
 from ifcopenshell.api.unit import assign_unit
 
 from osr_mech.cad import Compound, Part
@@ -190,6 +191,29 @@ def ifc_type(asset_class: str) -> tuple[str, str | None]:
         "clearance.reference-envelope": ("IfcVirtualElement", None),
         "rolling-stock.trainset": ("IfcBuildingElementProxy", None),
     }.get(asset_class, ("IfcCivilElement", None))
+
+
+def ifc_type_class(ifc_class: str) -> str | None:
+    """Return a reusable IFC4.3 type class when the occurrence supports one."""
+
+    return {
+        "IfcRail": "IfcRailType",
+        "IfcElementAssembly": "IfcElementAssemblyType",
+        "IfcSlab": "IfcSlabType",
+        "IfcColumn": "IfcColumnType",
+        "IfcBeam": "IfcBeamType",
+        "IfcRoof": "IfcRoofType",
+        "IfcBuildingElementProxy": "IfcBuildingElementProxyType",
+    }.get(ifc_class)
+
+
+def component_type_identity(asset_class: str, source_geometry: str) -> tuple[str, str]:
+    """Create stable type identity from the exact authoritative geometry recipe."""
+
+    digest = sha256_bytes(
+        canonical_json({"asset_class": asset_class, "source_geometry": source_geometry})
+    )
+    return f"OSR-TYPE-{digest[:12].upper()}", digest
 
 
 def make_style(model: ifcopenshell.file, name: str, colour: tuple[float, float, float], transparency: float = 0.0):
@@ -545,7 +569,9 @@ def stabilize_unordered_collections(model: ifcopenshell.file) -> None:
         "IfcRelAssignsToControl": ("RelatedObjects",),
         "IfcRelAssignsToProcess": ("RelatedObjects",),
         "IfcRelDefinesByProperties": ("RelatedObjects",),
+        "IfcRelDefinesByType": ("RelatedObjects",),
         "IfcElementQuantity": ("Quantities",),
+        "IfcTypeObject": ("HasPropertySets",),
     }
     for ifc_class, names in attributes.items():
         for entity in model.by_type(ifc_class):
@@ -654,12 +680,59 @@ def build_model(
     products: dict[str, Any] = {}
     product_classes: dict[str, str] = {}
     product_names: dict[str, str] = {}
+    type_products: dict[tuple[str, str, str], Any] = {}
+    type_rows: dict[str, dict[str, Any]] = {}
     index_rows: list[dict[str, Any]] = []
     for component in integration_components():
         asset_id = asset_id_for_component(component)
         asset_class = asset_class_for_component(component)
         discipline = component_discipline(asset_class)
         ifc_class, predefined_type = ifc_type(asset_class)
+        type_class = ifc_type_class(ifc_class)
+        type_product = None
+        type_id = None
+        if type_class is not None:
+            type_key = (type_class, asset_class, component.source)
+            type_product = type_products.get(type_key)
+            if type_product is None:
+                type_id, type_source_hash = component_type_identity(asset_class, component.source)
+                type_predefined_type = predefined_type or "NOTDEFINED"
+                type_product = create_entity(
+                    model,
+                    ifc_class=type_class,
+                    predefined_type=type_predefined_type,
+                    name=f"{asset_class} · {type_id}",
+                )
+                type_product.Tag = type_id
+                if type_predefined_type == "USERDEFINED":
+                    type_product.ElementType = asset_class
+                set_properties(
+                    model,
+                    type_product,
+                    "Pset_OSR_Type",
+                    {
+                        "TypeId": type_id,
+                        "AssetClass": asset_class,
+                        "SourceGeometry": component.source,
+                        "SourceSha256": type_source_hash,
+                        "RevisionId": revision_id,
+                        "LifecycleState": "design-reference",
+                        "GeometryRole": "shared recipe metadata; occurrence geometry remains authoritative",
+                    },
+                )
+                type_products[type_key] = type_product
+                type_rows[type_id] = {
+                    "type_id": type_id,
+                    "name": type_product.Name,
+                    "asset_class": asset_class,
+                    "ifc_class": type_class,
+                    "ifc_predefined_type": type_predefined_type,
+                    "source_geometry": component.source,
+                    "source_sha256": type_source_hash,
+                    "occurrence_count": 0,
+                }
+            else:
+                type_id = type_product.Tag
         product = create_entity(
             model,
             ifc_class=ifc_class,
@@ -668,6 +741,17 @@ def build_model(
         )
         if predefined_type == "USERDEFINED":
             product.ObjectType = asset_class
+        if type_product is not None:
+            assign_type(
+                model,
+                related_objects=[product],
+                relating_type=type_product,
+                should_map_representations=False,
+            )
+            if getattr(type_product, "PredefinedType", None) != "NOTDEFINED":
+                product.PredefinedType = "NOTDEFINED"
+                product.ObjectType = None
+            type_rows[type_id]["occurrence_count"] += 1
         product.Tag = asset_id
         built = component.build()
         leaves = [leaf for leaf in flatten_parts(built) if leaf.bounding_box().volume > 0.0]
@@ -737,7 +821,16 @@ def build_model(
                 "name": component.label,
                 "asset_class": asset_class,
                 "ifc_class": product.is_a(),
-                "ifc_predefined_type": getattr(product, "PredefinedType", None),
+                "ifc_predefined_type": predefined_type,
+                "ifc_occurrence_predefined_type": getattr(product, "PredefinedType", None),
+                "ifc_type_id": type_id,
+                "ifc_type_class": type_product.is_a() if type_product is not None else None,
+                "ifc_type_name": type_product.Name if type_product is not None else None,
+                "ifc_type_predefined_type": (
+                    getattr(type_product, "PredefinedType", None)
+                    if type_product is not None
+                    else None
+                ),
                 "discipline": discipline,
                 "source_geometry": component.source,
                 "detail_mode": detail_mode,
@@ -754,7 +847,16 @@ def build_model(
     stabilize_unordered_collections(model)
     for row in index_rows:
         row["ifc_guid"] = products[row["asset_id"]].GlobalId
+        if row["ifc_type_id"] is not None:
+            row["ifc_type_guid"] = next(
+                item.GlobalId for item in type_products.values() if item.Tag == row["ifc_type_id"]
+            )
+        else:
+            row["ifc_type_guid"] = None
+    for type_id, row in type_rows.items():
+        row["ifc_guid"] = next(item.GlobalId for item in type_products.values() if item.Tag == type_id)
     index_rows.sort(key=lambda row: row["asset_id"])
+    sorted_type_rows = sorted(type_rows.values(), key=lambda row: row["type_id"])
     index = {
         "schema": SCHEMA,
         "revision_id": revision_id,
@@ -775,11 +877,14 @@ def build_model(
         "georeferencing": georeferencing,
         "summary": {
             "assets": len(index_rows),
+            "types": len(sorted_type_rows),
+            "typed_assets": sum(row["ifc_type_id"] is not None for row in index_rows),
             "ifc_classes": dict(sorted(Counter(row["ifc_class"] for row in index_rows).items())),
             "disciplines": dict(sorted(Counter(row["discipline"] for row in index_rows).items())),
             "interface_checks": len(assert_integration_checks()),
             "construction_tasks": len(schedule_rows),
         },
+        "types": sorted_type_rows,
         "objects": index_rows,
         "validation": [asdict(check) for check in assert_integration_checks()],
         "limitations": twin["limitations"] + [
@@ -854,6 +959,40 @@ def build_civil_ids(index: dict[str, Any]) -> ids_module.Ids:
         ]
     )
     document.specifications.append(asset_specification)
+
+    reusable_type_classes = sorted({row["ifc_class"].upper() for row in index["types"]})
+    type_specification = ids_module.Specification(
+        name="Reusable component types carry deterministic OSR recipe identity",
+        description=(
+            "Each safely typable component family exposes a reusable IFC type while "
+            "occurrences retain their own geometry and placement."
+        ),
+        instructions=(
+            "Use the exact source-recipe type for schedules and coordination; do not "
+            "infer materials, profiles, or construction specifications from it."
+        ),
+        minOccurs=1,
+        maxOccurs="unbounded",
+        ifcVersion=["IFC4X3_ADD2"],
+        identifier="OSR-IDS-TYPE-001",
+    )
+    type_specification.applicability.append(
+        ids_module.Entity(name=ids_module.Restriction({"enumeration": reusable_type_classes}))
+    )
+    type_specification.requirements.extend(
+        [
+            ids_module.Attribute(name="Name"),
+            ids_module.Attribute(name="Tag"),
+            ids_module.Property(propertySet="Pset_OSR_Type", baseName="TypeId"),
+            ids_module.Property(propertySet="Pset_OSR_Type", baseName="AssetClass"),
+            ids_module.Property(propertySet="Pset_OSR_Type", baseName="SourceGeometry"),
+            ids_module.Property(propertySet="Pset_OSR_Type", baseName="SourceSha256"),
+            ids_module.Property(propertySet="Pset_OSR_Type", baseName="RevisionId"),
+            ids_module.Property(propertySet="Pset_OSR_Type", baseName="LifecycleState"),
+            ids_module.Property(propertySet="Pset_OSR_Type", baseName="GeometryRole"),
+        ]
+    )
+    document.specifications.append(type_specification)
 
     alignment_specification = ids_module.Specification(
         name="Alignment exposes authority and revision",
@@ -1191,6 +1330,21 @@ def validate_written(
     bcf_validation = validate_coordination_bcf(paths["bcf"], ifc_path)
     tagged = {product.Tag for product in reopened.by_type("IfcProduct") if getattr(product, "Tag", None)}
     expected = {row["asset_id"] for row in index["objects"]}
+    expected_types = {row["type_id"] for row in index["types"]}
+    exported_types = {
+        product.Tag
+        for product in reopened.by_type("IfcTypeProduct")
+        if getattr(product, "Tag", None)
+    }
+    type_assignments_match = True
+    for row in index["objects"]:
+        product = reopened.by_guid(row["ifc_guid"])
+        relationships = getattr(product, "IsTypedBy", ()) or ()
+        observed_type_ids = [relationship.RelatingType.Tag for relationship in relationships]
+        expected_type_ids = [row["ifc_type_id"]] if row["ifc_type_id"] is not None else []
+        if observed_type_ids != expected_type_ids:
+            type_assignments_match = False
+            break
     projected_crs = reopened.by_type("IfcProjectedCRS")
     map_conversions = reopened.by_type("IfcMapConversion")
     georeferencing = index["georeferencing"]
@@ -1207,6 +1361,19 @@ def validate_written(
         {"id": "ifc4x3-schema", "passed": reopened.schema == "IFC4X3", "observed": reopened.schema},
         {"id": "ifc-schema-conformance", "passed": not schema_issues, "observed": len(schema_issues)},
         {"id": "stable-assets", "passed": tagged == expected, "observed": len(tagged)},
+        {
+            "id": "native-object-types",
+            "passed": exported_types == expected_types,
+            "observed": len(exported_types),
+        },
+        {
+            "id": "type-assignments",
+            "passed": type_assignments_match,
+            "observed": sum(
+                bool(getattr(product, "IsTypedBy", None))
+                for product in reopened.by_type("IfcElement")
+            ),
+        },
         {"id": "railway-spatial-root", "passed": len(reopened.by_type("IfcRailway")) == 1, "observed": len(reopened.by_type("IfcRailway"))},
         {"id": "railway-parts", "passed": len(reopened.by_type("IfcRailwayPart")) == 4, "observed": len(reopened.by_type("IfcRailwayPart"))},
         {"id": "alignment-reference", "passed": len(reopened.by_type("IfcAlignment")) == 1, "observed": len(reopened.by_type("IfcAlignment"))},

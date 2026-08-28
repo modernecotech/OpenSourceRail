@@ -75,7 +75,8 @@ Outputs are written beneath `build/engineering/bonsai-civil/`:
 
 ## Model content
 
-The current reference federation contains 95 stable assets organised below an
+The current reference federation contains 95 stable assets and 17 reusable
+component types organised below an
 `IfcRailway` and four `IfcRailwayPart` containers: track, substructure,
 above-track systems, and lineside/clearance. Civil objects use IFC4.3 types
 including `IfcRail`, `IfcBeam`, `IfcColumn`, `IfcSlab`, `IfcRoof`, and an
@@ -86,6 +87,12 @@ including `IfcRail`, `IfcBeam`, `IfcColumn`, `IfcSlab`, `IfcRoof`, and an
 - revision ID and lifecycle status;
 - inspectable coordination dimensions and source net volume;
 - explicit detail mode when a complex assembly is represented by its review envelope.
+
+Ninety-three occurrences are linked to an `IfcTypeProduct` derived from their
+exact asset class and source-geometry recipe. Types carry stable `OSR-TYPE-…`
+identity and `Pset_OSR_Type`; occurrence placement and geometry remain
+authoritative. The two clearance envelopes remain untyped because IFC4.3 has
+no `IfcVirtualElementType`.
 
 Dimensions, source volume, and representation count are native
 `IfcElementQuantity` values in `OSR_CoordinationEnvelopeQuantities`, with the
@@ -143,11 +150,9 @@ represent released reinforcement, prestress or connection detailing.
 ## IDS delivery gate and BCF review loop
 
 The exporter writes an IDS 1.0 contract and immediately reopens it with
-IfcTester against the written IFC. Three specifications require all 95 civil
-assets to carry stable identity, source, revision, lifecycle and coordination
-dimensions; require the alignment to state its upstream authority; and require
-the project to state its source hash and release status. The current reference
-exchange passes all 959 entity-level checks. The audit is deterministic: entity
+IfcTester against the written IFC. Four specifications cover all 95 assets,
+the 17-type catalogue, alignment authority, and project provenance. The current
+reference exchange passes all 1,112 entity-level checks. The audit is deterministic: entity
 evidence is sorted before hashing, so a repeat build produces byte-identical
 IFC, IDS, audit, BCF, indexes, sequence, and validation files.
 
@@ -204,7 +209,8 @@ after review.
 | CRS/map conversion | Implemented now as validated opt-in input; unresolved projects remain visibly local rather than receiving a guessed EPSG code. |
 | Full horizontal/vertical/cant alignment segments and linear placement | Defer until the accepted OSR-ALN design supplies segment parameters. LandXML, railML, stakeout CSV, and the current IFC reference curve already preserve a usable handoff; the upstream IfcOpenShell alignment API remains under development. |
 | Native `IfcCostSchedule` | Defer until approved element-level rates exist. The generated CAD-indexed cost contract already propagates to city CAPEX, finance, IFC metadata, and Git revisions; attaching route-km benchmark rates to reference component samples would imply false 5D precision. Native quantities now provide the correct foundation for it later. |
-| Materials, profiles, types, reinforcement, bearings, and foundations | Do not populate generic placeholders. Add native material/type data when released specifications and deployment engineering are available. |
+| Reusable object types | Implemented for 93 safely typable occurrences using exact source recipes. Type geometry maps are deliberately omitted so occurrence geometry remains authoritative. |
+| Materials, profiles, reinforcement, bearings, and foundations | Do not populate generic placeholders. Add native data when released specifications and deployment engineering are available. |
 | External classification | Keep stable OSR asset classes for now. Add lightweight native references when a country/client nominates a classification edition; no single global classification should be guessed. |
 | Native document register and drawings | Existing hash-linked indexes, IDS report, BCF, Git history, renders, and engineering documents are a usable low-cost evidence path. Add IFC document associations/sheets only when a CDE naming and issue convention is selected. |
 
@@ -218,6 +224,8 @@ after review.
 - [IFC4.3 `IfcMapConversion`](https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/lexical/IfcMapConversion.htm)
 - [IFC4.3 railway-part organisation and usage](https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/lexical/IfcRailwayPartTypeEnum.htm)
 - [IFC4.3 native quantity sets](https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/concepts/Object_Definition/Quantity_Sets/content.html)
+- [IFC4.3 object typing](https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/concepts/Object_Definition/Object_Typing/content.html)
+- [IfcOpenShell type assignment](https://docs.ifcopenshell.org/autoapi/ifcopenshell/api/type/assign_type/index.html)
 - [IfcOpenShell schema validation](https://docs.ifcopenshell.org/ifcopenshell-python/validation.html)
 - [IfcOpenShell parametric cost-quantity links](https://docs.ifcopenshell.org/autoapi/ifcopenshell/api/cost/assign_cost_item_quantity/index.html)
 - [IfcTester IDS API](https://docs.ifcopenshell.org/autoapi/ifctester/ids/index.html)

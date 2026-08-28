@@ -31,8 +31,9 @@ Regenerate it with `scripts/freecad-generate.sh --fabrication-twin`.*
 
 *The civil coordination model is generated deterministically from the checked
 OSR geometry into IFC4.3, then imported and rendered through Bonsai 0.8.5. It
-contains 95 stable rail/civil assets, quantities and provenance, nine interface
-checks, 18 linked construction tasks, and 958/958 passing IDS checks. OSR
+contains 95 stable rail/civil assets, 17 reusable IFC types, native quantities,
+provenance, nine interface checks, 18 linked construction tasks, and 1,112/1,112
+passing IDS checks. OSR
 remains authoritative for route and engineering rules; Bonsai provides
 federation, detail review, drawings, quantities, and 4D sequencing. See the
 [Bonsai civil workflow](docs/civil/bonsai-ifc-workflow.md).*
@@ -129,7 +130,7 @@ City Studio centralizes deterministic network authoring, source-locked
 demand/buildability routing, station placement, line/day/time service planning,
 source-controlled origin–destination demand and scheduled-capacity screening,
 simulation, alignment exchange, IFC4.3/Bonsai civil federation, verified
-GIS/engineering object inspection, IDS delivery audit, BCF 3.0 issue review,
+GIS/engineering object inspection, reusable IFC component types, IDS delivery audit, BCF 3.0 issue review,
 searchable multi-asset BCF topic authoring, atomic all-route headway scenarios and day-plan tools,
 Git-reviewable coordination decisions, append-only revision approvals,
 hash-verified interactive civil/4D review, artifact hashing, and revision review.

@@ -530,6 +530,25 @@ async function main() {
 
   const ifcObjectCount = await cdp.evaluate("selectedArtifactPreview.content.objects.length");
   assert(ifcObjectCount > 20, "IFC object inspector populated", `${ifcObjectCount} objects`);
+  const ifcTypeEvidence = await cdp.evaluate(`({
+    types: selectedArtifactPreview.content.summary.types,
+    typedAssets: selectedArtifactPreview.content.summary.typed_assets,
+    indexedTypes: selectedArtifactPreview.content.types.length,
+    detail: document.querySelector('.artifact-object-detail').textContent,
+    metrics: document.querySelector('#artifact-metrics').textContent,
+  })`);
+  assert(
+    ifcTypeEvidence.types === 17
+      && ifcTypeEvidence.typedAssets === 93
+      && ifcTypeEvidence.indexedTypes === 17,
+    "native IFC type catalogue indexed",
+    `${ifcTypeEvidence.types} types · ${ifcTypeEvidence.typedAssets} typed assets`,
+  );
+  assert(
+    ifcTypeEvidence.detail.includes("OSR-TYPE-")
+      && ifcTypeEvidence.metrics.includes("reusable IFC types"),
+    "IFC type identity visible in object inspector",
+  );
   const civilReview = await cdp.evaluate(`({
     controls: !document.querySelector('#civil-review-controls').hidden,
     tasks: selectedCivilSequence?.content?.tasks?.length || 0,

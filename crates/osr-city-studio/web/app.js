@@ -1325,10 +1325,13 @@ function artifactInspectorItems(preview) {
   if (preview.format === "json" && content.schema === "org.opensourcerail.bonsai-civil-ifc.v1") {
     return (content.objects || []).map((item) => ({
       label: item.name,
-      meta: `${item.ifc_class} · ${item.asset_class}`,
+      meta: `${item.ifc_class} · ${item.asset_class} · ${item.ifc_type_id || "untyped"}`,
       detail: [
         `asset ${item.asset_id}`,
         `IFC GUID ${item.ifc_guid}`,
+        item.ifc_type_id
+          ? `type ${item.ifc_type_id} · ${item.ifc_type_class} · ${item.ifc_type_predefined_type}\ntype IFC GUID ${item.ifc_type_guid}`
+          : "type untyped · IFC4.3 has no IfcVirtualElementType",
         `discipline ${item.discipline} · ${item.detail_mode}`,
         `bbox m ${item.bbox_m.join(", ")}`,
         `source ${item.source_geometry}`,
@@ -1540,7 +1543,7 @@ function artifactMetrics(preview, graphic) {
     const coordinateReference = content.georeferencing?.native_ifc_georeferencing
       ? content.georeferencing.crs_name
       : "local grid";
-    return [[content.summary?.assets || 0, "IFC assets"], [content.summary?.construction_tasks || 0, "4D tasks"], [content.summary?.interface_checks || 0, "interface checks"], [coordinateReference, "coordinate reference"], [content.ifc_schema || "IFC4X3", "coordination schema"]];
+    return [[content.summary?.assets || 0, "IFC assets"], [content.summary?.types || 0, "reusable IFC types"], [content.summary?.typed_assets || 0, "typed assets"], [content.summary?.construction_tasks || 0, "4D tasks"], [content.summary?.interface_checks || 0, "interface checks"], [coordinateReference, "coordinate reference"], [content.ifc_schema || "IFC4X3", "coordination schema"]];
   }
   if (preview.format === "json" && content.schema === "org.opensourcerail.bonsai-civil-ids-report.v1") {
     return [[content.total_specifications_pass, `of ${content.total_specifications} IDS specifications`], [content.total_checks_pass, `of ${content.total_checks} checks`], [content.status ? "PASS" : "FAIL", "information delivery"], ["IDS 1.0", "requirements standard"]];

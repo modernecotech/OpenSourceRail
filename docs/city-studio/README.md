@@ -154,6 +154,8 @@ Implemented:
   snapshots, and captured logs;
 - searchable IFC asset inspection and deterministic coordination topics that
   can select several civil assets in one issue;
+- reusable IFC type counts and stable type identity in the civil artifact
+  metrics, search, and object detail;
 - hash-verified 4D sequence loading alongside the IFC object index, with
   federation rotation, per-discipline visibility, stage scrubbing/playback,
   and task/QA-hold context;
