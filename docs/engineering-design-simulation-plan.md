@@ -144,22 +144,27 @@ property-set and assembly-hierarchy round trips for standard and
 interchange-elevated IFC coordination skeletons; geometry/mesh and alignment
 drift tests remain open.
 
-The civil federation now generates a byte-deterministic IFC4.3 model with 95
-stable assets, 17 source-recipe component types, three source-backed material
+The civil federation now generates a byte-deterministic IFC4.3 model with 185
+stable assets, 19 source-recipe component types, three source-backed material
 families covering 46 occurrences, one native 60E1 profile driving 32 rail
-extrusions, 15 hash-locked native source documents associated to all assets,
-one internal classification with 11 references covering all 95 assets, four `IfcRailwayPart`
-disciplines, five native coordination groups, five native functional systems
-(three specialized as `IfcBuiltSystem`), six system-to-railway-part references,
+extrusions, two typed `IfcVehicle/ROLLINGSTOCK` trainsets with standard base
+quantities, 36 native typed bearings, nine pier caps, nine columns, and 45
+explicitly virtual foundation/jacking interfaces, 15 hash-locked native source
+documents associated to all assets, one internal classification with 15
+references covering all 185 assets, four `IfcRailwayPart` disciplines, five
+native coordination groups, six native functional systems (three specialized
+as `IfcBuiltSystem`), seven system-to-railway-part references,
 and four native presentation layers covering all assets exactly once in each scheme,
 an `IfcAlignment` with native horizontal/vertical planning segments,
-gradient-curve representation and stationing, 18 construction tasks, task-product
-links, native quantities, provenance, and nine passing checks exposed as native
-qualitative interface constraints. Thirteen project-declared property/quantity
-dictionaries expose 77 typed fields without misusing the reserved `Pset_`
+gradient-curve representation and stationing, 18 construction tasks with five
+stage-specific output tasks, 134 physical product links and 45 separately
+identified virtual review-interface links, native quantities, provenance, and
+nine passing checks exposed as native
+qualitative interface constraints. Fifteen project-declared property/quantity
+dictionaries expose 95 typed fields without misusing the reserved `Pset_`
 prefix. One native USD `SCHEDULEOFRATES` exposes the three generated planning
 alternatives without product assignments, multiplied quantities, or a project
-total. Its sixteen-specification IDS 1.0 contract passes 1,637/1,637 checks;
+total. Its nineteen-specification IDS 1.0 contract passes 3,137/3,137 checks;
 deterministic BCF
 3.0 topics retain object links and Git-reviewed decisions. Bonsai 0.8.5 imports
 the model headlessly and saves the review/animation scene. Survey-grade

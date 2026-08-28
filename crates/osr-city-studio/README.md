@@ -25,13 +25,17 @@ candidate with immutable Git revision records. Its engineering hub runs only
 allowlisted GIS, simulator, and alignment-exchange adapters and persists their
 progress, logs, exit state, and immutable artifact copies. The civil BIM
 adapter emits an IFC4.3 rail federation, object index, quantities, provenance,
-17 reusable source-recipe component types, three source-backed material
-families, one native section profile driving 32 rail extrusions, linked
-construction sequence, one internal classification with 11 references covering
-all assets, five native coordination groups, five native functional systems
-(three specialized as `IfcBuiltSystem`), six system-to-railway-part references,
+19 reusable source-recipe component types, three source-backed material
+families, one native section profile driving 32 rail extrusions, two typed
+`IfcVehicle/ROLLINGSTOCK` trainsets with standard measured base quantities,
+a linked construction sequence that separates 134 physical outputs from 45
+virtual review interfaces, 36 native typed bridge bearings and explicit
+virtual foundation/jacking interfaces, one internal classification with 15
+references covering all assets, five native coordination groups, six native
+functional systems (three specialized as `IfcBuiltSystem`), seven
+system-to-railway-part references,
 four native presentation layers, nine native qualitative interface constraints,
-13 native property/quantity dictionaries with 77 typed fields,
+15 native property/quantity dictionaries with 95 typed fields,
 native horizontal/vertical planning alignment segments and stationing,
 one native USD schedule of three generated planning rates, 15 hash-locked native
 source documents, IDS audit, and BCF 3.0 release issues for Bonsai.

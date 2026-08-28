@@ -121,7 +121,7 @@ def _viaduct_cell(m, centre=(-22.0, 13.0)):
     x0, y0 = centre
     _cube("Viaduct erection zone", (x0, y0, 0.22), (34.0, 11.0, 0.44), m["floor"], bevel=0.16)
     for x in (x0 - 13.0, x0 + 13.0):
-        _cube("Viaduct pier", (x, y0, 3.0), (1.8, 3.2, 5.6), m["concrete"], stage="VIA-10", offset=(0, 0, -6))
+        _cube("Viaduct pier", (x, y0, 3.0), (1.8, 3.2, 5.6), m["concrete"], stage="VIA-05", offset=(0, 0, -6))
         _cube("7 m hollow pier cap", (x, y0, 5.95), (2.5, 7.0, 0.55), m["concrete"], stage="VIA-05", offset=(0, 0, 7))
         for track_side in (-1.0, 1.0):
             for stem_side in (-1.0, 1.0):

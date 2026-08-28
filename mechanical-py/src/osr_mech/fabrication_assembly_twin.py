@@ -175,9 +175,9 @@ def fabrication_streams() -> tuple[FabricationStream, ...]:
         "OSR-Pi25 twin-track erected bay",
         "two <=75 t, 2.9 m wide decked pi-beams plus selected foundation, hollow cap, bearings, walkway cassettes and trackform",
         (
-            _stage("VIA-05", "viaduct", "Select, construct and test foundation zone", "foundation erection front", 13, None,
-                   ("geotechnical zone", "utility clearance", "actual pile/shaft schedule", "test plan"), "tested foundation and pier/cap interface", "actual length, cost and representative load-test release",
-                   ("foundation schedule", "actual installed lengths", "test result", "as-built survey"), viaduct_refs),
+            _stage("VIA-05", "viaduct", "Construct and test foundation, pier column and hollow cap", "substructure erection front", 13, None,
+                   ("geotechnical zone", "utility clearance", "actual pile/shaft schedule", "test plan", "released column and cap design"), "tested foundation, completed pier column and erected hollow cap", "actual foundation length/cost, representative load-test release, column records and cap seat survey",
+                   ("foundation schedule", "actual installed lengths", "test result", "column concrete record", "cap lifting record", "bearing-seat as-built survey"), viaduct_refs),
             _stage("VIA-10", "viaduct", "Prepare Pi-beam mould, cage and tendons", "decked pi-beam precast yard", 2, "VIA-05",
                    ("surveyed Pi25 mould", "reinforcement", "prestress strand", "cast-in items"), "released pre-pour assembly", "mould, cage, tendon and insert hold point",
                    ("bed survey", "rebar and cover record", "tendon calibration"), viaduct_refs),

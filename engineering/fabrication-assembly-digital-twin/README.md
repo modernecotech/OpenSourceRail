@@ -12,8 +12,9 @@ can be reviewed together. The JSON retains actual planning durations, 25 work
 stages, predecessors, work centres, inputs, outputs, hold points, evidence,
 cross-stream interfaces, and hashes of the controlled source documents.
 
-The viaduct route now includes geotechnical-zone foundation release, a compact
-hollow cap, two sub-75 t decked-beam lifts by portal/strand-jack launcher, an
+The viaduct route now includes tested foundation construction, recorded pier
+column delivery, erection and seat survey of the compact hollow cap, two
+sub-75 t decked-beam lifts by portal/strand-jack launcher, an
 actual-load-chart fallback gate, a maturity-controlled link-slab/diaphragm
 connection stage, and separate walkway/containment cassettes.
 

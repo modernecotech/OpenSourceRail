@@ -18,7 +18,7 @@ import tomllib
 import uuid
 import zipfile
 from collections import Counter, defaultdict
-from dataclasses import asdict
+from dataclasses import asdict, dataclass
 from datetime import datetime, timedelta, timezone
 from importlib.metadata import version
 from pathlib import Path
@@ -216,8 +216,12 @@ ASSET_CLASSIFICATION = {
         "docs/civil/bonsai-ifc-workflow.md#native-osr-asset-classification"
     ),
     "references": {
+        "civil.bearing": "Elastomeric bridge bearing",
         "civil.decked-pi-beam": "Decked Pi structural beam",
-        "civil.pier": "Civil pier and foundation interface",
+        "civil.foundation-interface": "Unreleased pier foundation interface",
+        "civil.jacking-interface": "Bearing-replacement jacking interface",
+        "civil.pier-cap": "Shared pier cap",
+        "civil.pier-column": "Reinforced-concrete pier column",
         "civil.station-deck-interface": "Station deck structural interface",
         "civil.trackform": "Civil trackform",
         "civil.walkway-cassette": "Civil walkway and containment cassette",
@@ -231,6 +235,16 @@ ASSET_CLASSIFICATION = {
 }
 
 FUNCTIONAL_SYSTEMS = {
+    "OSR-SYS-CIVIL-INTERFACES": {
+        "name": "Civil design interfaces",
+        "role": "unreleased-civil-interfaces",
+        "ifc_class": "IfcSystem",
+        "predefined_type": None,
+        "asset_classes": {
+            "civil.foundation-interface",
+            "civil.jacking-interface",
+        },
+    },
     "OSR-SYS-CLEARANCE": {
         "name": "Clearance assurance system",
         "role": "clearance-assurance",
@@ -244,8 +258,10 @@ FUNCTIONAL_SYSTEMS = {
         "ifc_class": "IfcBuiltSystem",
         "predefined_type": "LOADBEARING",
         "asset_classes": {
+            "civil.bearing",
             "civil.decked-pi-beam",
-            "civil.pier",
+            "civil.pier-cap",
+            "civil.pier-column",
             "civil.walkway-cassette",
         },
     },
@@ -457,6 +473,116 @@ def flatten_parts(part: Part | Compound) -> list[Part]:
     return [part]
 
 
+@dataclass(frozen=True)
+class IfcExportComponent:
+    """One non-overlapping IFC occurrence derived from source CAD geometry."""
+
+    zone: str
+    label: str
+    source: str
+    asset_id: str
+    asset_class: str
+    source_component_id: str
+    source_part_role: str
+    geometry: Part | Compound
+
+    def build(self) -> Part | Compound:
+        return self.geometry
+
+
+PIER_PART_RULES = {
+    "Common pier-to-foundation interface; foundation depth intentionally not modelled": (
+        "civil.foundation-interface",
+        "foundation-interface",
+        "FND",
+    ),
+    "Single reinforced-concrete pier column": (
+        "civil.pier-column",
+        "column",
+        "COL",
+    ),
+    "Hollow/precast-shell shared pier cap envelope": (
+        "civil.pier-cap",
+        "pier-cap",
+        "CAP",
+    ),
+    "Permanent bearing-replacement jacking shelf interface": (
+        "civil.jacking-interface",
+        "jacking-interface",
+        "JCK",
+    ),
+    "Elastomeric/PTFE girder bearing": (
+        "civil.bearing",
+        "bearing",
+        "BRG",
+    ),
+}
+
+
+def ifc_export_components() -> tuple[IfcExportComponent, ...]:
+    """Split source pier compounds only where leaf identity is authoritative.
+
+    The original coordination model treats a complete pier kit as one source
+    component. IFC needs non-overlapping occurrences for native bearing and
+    structural-element semantics. Foundation and jacking geometry remain
+    interfaces rather than falsely released physical products.
+    """
+
+    exported: list[IfcExportComponent] = []
+    for component in integration_components():
+        source_component_id = asset_id_for_component(component)
+        asset_class = asset_class_for_component(component)
+        built = component.build()
+        if asset_class != "civil.pier":
+            exported.append(
+                IfcExportComponent(
+                    zone=component.zone,
+                    label=component.label,
+                    source=component.source,
+                    asset_id=source_component_id,
+                    asset_class=asset_class,
+                    source_component_id=source_component_id,
+                    source_part_role="whole-source-component",
+                    geometry=built,
+                )
+            )
+            continue
+
+        role_counts: Counter[str] = Counter()
+        leaves = [leaf for leaf in flatten_parts(built) if leaf.bounding_box().volume > 0.0]
+        for leaf in leaves:
+            if leaf.label not in PIER_PART_RULES:
+                raise ValueError(f"unmapped authoritative pier part {leaf.label!r}")
+            part_class, part_role, suffix = PIER_PART_RULES[leaf.label]
+            role_counts[part_role] += 1
+            ordinal = role_counts[part_role]
+            exported.append(
+                IfcExportComponent(
+                    zone=component.zone,
+                    label=f"{component.label} · {leaf.label} {ordinal}",
+                    source=f"{component.source}#{part_role}",
+                    asset_id=f"{source_component_id}-{suffix}-{ordinal:02d}",
+                    asset_class=part_class,
+                    source_component_id=source_component_id,
+                    source_part_role=part_role,
+                    geometry=leaf,
+                )
+            )
+        expected = {
+            "foundation-interface": 1,
+            "column": 1,
+            "pier-cap": 1,
+            "jacking-interface": 4,
+            "bearing": 4,
+        }
+        if dict(role_counts) != expected:
+            raise ValueError(
+                f"pier part inventory changed for {component.label!r}: "
+                f"observed={dict(role_counts)!r}, expected={expected!r}"
+            )
+    return tuple(exported)
+
+
 def bbox_tuple(part: Part) -> tuple[float, float, float, float, float, float]:
     box = part.bounding_box()
     return (box.min.X, box.min.Y, box.min.Z, box.max.X, box.max.Y, box.max.Z)
@@ -489,7 +615,12 @@ def component_discipline(asset_class: str) -> str:
     if asset_class in {"track.rail", "track.turnout", "civil.trackform"}:
         return "track"
     if asset_class in {
+        "civil.bearing",
         "civil.pier",
+        "civil.foundation-interface",
+        "civil.jacking-interface",
+        "civil.pier-cap",
+        "civil.pier-column",
         "civil.decked-pi-beam",
         "civil.walkway-cassette",
         "civil.u-girder",
@@ -506,7 +637,11 @@ def ifc_type(asset_class: str) -> tuple[str, str | None]:
         "track.rail": ("IfcRail", "RAIL"),
         "track.turnout": ("IfcElementAssembly", "USERDEFINED"),
         "civil.trackform": ("IfcSlab", "BASESLAB"),
-        "civil.pier": ("IfcColumn", None),
+        "civil.bearing": ("IfcBearing", "ELASTOMERIC"),
+        "civil.foundation-interface": ("IfcVirtualElement", None),
+        "civil.jacking-interface": ("IfcVirtualElement", None),
+        "civil.pier-cap": ("IfcBeam", "PIERCAP"),
+        "civil.pier-column": ("IfcColumn", None),
         "civil.decked-pi-beam": ("IfcBeam", "GIRDER_SEGMENT"),
         "civil.walkway-cassette": ("IfcSlab", "USERDEFINED"),
         "civil.u-girder": ("IfcBeam", "GIRDER_SEGMENT"),
@@ -514,7 +649,7 @@ def ifc_type(asset_class: str) -> tuple[str, str | None]:
         "station.solar-canopy": ("IfcRoof", None),
         "station.platform-interface": ("IfcSlab", "FLOOR"),
         "clearance.reference-envelope": ("IfcVirtualElement", None),
-        "rolling-stock.trainset": ("IfcBuildingElementProxy", None),
+        "rolling-stock.trainset": ("IfcVehicle", "ROLLINGSTOCK"),
     }.get(asset_class, ("IfcCivilElement", None))
 
 
@@ -523,12 +658,13 @@ def ifc_type_class(ifc_class: str) -> str | None:
 
     return {
         "IfcRail": "IfcRailType",
+        "IfcBearing": "IfcBearingType",
         "IfcElementAssembly": "IfcElementAssemblyType",
         "IfcSlab": "IfcSlabType",
         "IfcColumn": "IfcColumnType",
         "IfcBeam": "IfcBeamType",
         "IfcRoof": "IfcRoofType",
-        "IfcBuildingElementProxy": "IfcBuildingElementProxyType",
+        "IfcVehicle": "IfcVehicleType",
     }.get(ifc_class)
 
 
@@ -992,7 +1128,11 @@ def add_schedule(
         "track": {"track.rail", "track.turnout", "civil.trackform"},
         "station": {"station.solar-canopy", "station.platform-interface", "civil.station-deck-interface"},
         "viaduct": {
-            "civil.pier",
+            "civil.bearing",
+            "civil.foundation-interface",
+            "civil.jacking-interface",
+            "civil.pier-cap",
+            "civil.pier-column",
             "civil.decked-pi-beam",
             "civil.walkway-cassette",
             "civil.u-girder",
@@ -1000,8 +1140,24 @@ def add_schedule(
             "track.rail",
         },
     }
+    stage_output_classes = {
+        "TRK-50": {"track.rail", "track.turnout", "civil.trackform"},
+        "STN-40": {
+            "station.solar-canopy",
+            "station.platform-interface",
+            "civil.station-deck-interface",
+        },
+        "VIA-05": {"civil.pier-column", "civil.pier-cap"},
+        "VIA-50": {"civil.bearing", "civil.decked-pi-beam"},
+        "VIA-60": {"civil.walkway-cassette", "civil.trackform", "track.rail"},
+    }
+    stage_review_classes = {
+        "VIA-05": {"civil.foundation-interface"},
+        "VIA-50": {"civil.jacking-interface"},
+    }
     schedule_rows: list[dict[str, Any]] = []
     assignments: dict[str, list[str]] = {}
+    schedule_candidate_ids: set[str] = set()
     cursor_by_stream: dict[str, datetime] = {}
     tasks_by_id: dict[str, Any] = {}
     for stream in fabrication_streams():
@@ -1036,7 +1192,7 @@ def add_schedule(
                     sequence_type="FINISH_START",
                 )
             tasks_by_id[stage.id] = task
-            assigned_ids = []
+            candidate_ids = []
             for asset_id in products:
                 asset_class = product_classes[asset_id]
                 name = product_names[asset_id]
@@ -1052,13 +1208,40 @@ def add_schedule(
                     or name.startswith("Elevated-station")
                 ):
                     continue
-                assigned_ids.append(asset_id)
-            # Assign every matching product to the final installation/erection
-            # stage, while earlier tasks retain QA and schedule semantics.
-            if stage is stream.stages[-1]:
+                candidate_ids.append(asset_id)
+            schedule_candidate_ids.update(candidate_ids)
+            assigned_ids = sorted(
+                asset_id
+                for asset_id in candidate_ids
+                if product_classes[asset_id] in stage_output_classes.get(stage.id, set())
+            )
+            review_gate_asset_ids = sorted(
+                asset_id
+                for asset_id in candidate_ids
+                if product_classes[asset_id] in stage_review_classes.get(stage.id, set())
+            )
+            if assigned_ids:
                 for asset_id in assigned_ids:
-                    assign_product(model, relating_product=products[asset_id], related_object=task)
+                    relationship = assign_product(
+                        model,
+                        relating_product=products[asset_id],
+                        related_object=task,
+                    )
+                    relationship.Name = "OSR physical construction output"
+                    relationship.Description = (
+                        "Physical product completed by this task for deterministic 4D review."
+                    )
                 assignments[stage.id] = assigned_ids
+            for asset_id in review_gate_asset_ids:
+                relationship = assign_product(
+                    model,
+                    relating_product=products[asset_id],
+                    related_object=task,
+                )
+                relationship.Name = "OSR virtual review interface"
+                relationship.Description = (
+                    "Virtual coordination interface checked by this task; not a constructed output."
+                )
             schedule_rows.append(
                 {
                     "id": stage.id,
@@ -1070,11 +1253,48 @@ def add_schedule(
                     "predecessor": stage.predecessor,
                     "qa_hold": stage.qa_hold,
                     "evidence": list(stage.evidence),
-                    "assigned_asset_ids": assigned_ids if stage is stream.stages[-1] else [],
+                    "assigned_asset_ids": assigned_ids,
+                    "review_gate_asset_ids": review_gate_asset_ids,
+                    "product_semantics": (
+                        "physical outputs completed by this task"
+                        if assigned_ids
+                        else "no exported physical output at this task"
+                    ),
+                    "review_gate_semantics": (
+                        "virtual coordination interfaces checked by this task; not constructed products"
+                        if review_gate_asset_ids
+                        else "none"
+                    ),
                 }
             )
             cursor = finish
         cursor_by_stream[stream.id] = cursor
+    assigned_ids_flat = [asset_id for values in assignments.values() for asset_id in values]
+    expected_output_ids = {
+        asset_id
+        for asset_id in schedule_candidate_ids
+        if product_classes[asset_id]
+        in {asset_class for classes in stage_output_classes.values() for asset_class in classes}
+    }
+    review_ids_flat = [
+        asset_id
+        for row in schedule_rows
+        for asset_id in row["review_gate_asset_ids"]
+    ]
+    expected_review_ids = {
+        asset_id
+        for asset_id in schedule_candidate_ids
+        if product_classes[asset_id]
+        in {asset_class for classes in stage_review_classes.values() for asset_class in classes}
+    }
+    if len(assigned_ids_flat) != len(set(assigned_ids_flat)):
+        raise ValueError("construction outputs must be assigned to exactly one task")
+    if set(assigned_ids_flat) != expected_output_ids:
+        raise ValueError("construction output mapping does not cover the eligible physical assets")
+    if set(review_ids_flat) != expected_review_ids:
+        raise ValueError("construction review gates do not cover the eligible virtual interfaces")
+    if set(assigned_ids_flat) & set(review_ids_flat):
+        raise ValueError("virtual review interfaces cannot also be construction outputs")
     return schedule_rows, assignments
 
 
@@ -2022,9 +2242,9 @@ def build_model(
     profile_sets: dict[str, Any] = {}
     profile_rows: dict[str, dict[str, Any]] = {}
     index_rows: list[dict[str, Any]] = []
-    for component in integration_components():
-        asset_id = asset_id_for_component(component)
-        asset_class = asset_class_for_component(component)
+    for component in ifc_export_components():
+        asset_id = component.asset_id
+        asset_class = component.asset_class
         coordination_group_id = ZONE_ASSET_IDS[component.zone]
         discipline = component_discipline(asset_class)
         presentation_layer = PRESENTATION_LAYERS[discipline]
@@ -2289,6 +2509,8 @@ def build_model(
                 "AssetId": asset_id,
                 "AssetClass": asset_class,
                 "CoordinationGroupId": coordination_group_id,
+                "SourceComponentId": component.source_component_id,
+                "SourcePartRole": component.source_part_role,
                 "SourceGeometry": component.source,
                 "SourceSha256": sha256_bytes(canonical_json({"asset_id": asset_id, "source": component.source})),
                 "RevisionId": revision_id,
@@ -2308,6 +2530,68 @@ def build_model(
                 "RepresentationParts": len(boxes),
             },
         )
+        standard_quantity_sets: list[str] = []
+        engineering_status: dict[str, Any] | None = None
+        if asset_class == "civil.bearing":
+            engineering_status = {
+                "bearing_family": "elastomeric/PTFE",
+                "supplier_selection_status": "unresolved",
+                "load_schedule_status": "unresolved",
+                "movement_schedule_status": "unresolved",
+                "replacement_access": "separate jacking interfaces modelled",
+                "release_status": "design-reference; supplier freeze required",
+            }
+            set_properties(
+                model,
+                product,
+                "OSR_BearingStatus",
+                {
+                    "BearingFamily": "elastomeric/PTFE",
+                    "NominalLength": round(length_m, 6),
+                    "NominalWidth": round(width_m, 6),
+                    "NominalHeight": round(height_m, 6),
+                    "SupplierSelectionStatus": "unresolved",
+                    "LoadScheduleStatus": "unresolved",
+                    "MovementScheduleStatus": "unresolved",
+                    "ReplacementAccess": "separate jacking interfaces modelled",
+                    "ReleaseStatus": "design-reference; supplier freeze required",
+                },
+            )
+        elif asset_class == "civil.foundation-interface":
+            engineering_status = {
+                "interface_type": "common pier-to-foundation interface",
+                "actual_foundation_type": "unresolved",
+                "actual_foundation_depth": "intentionally-not-modelled",
+                "geotechnical_release_status": "required",
+                "ifc_semantics": "virtual interface; not an IfcFooting or IfcDeepFoundation",
+                "release_status": "design-reference; not for construction",
+            }
+            set_properties(
+                model,
+                product,
+                "OSR_FoundationInterfaceStatus",
+                {
+                    "InterfaceType": "common pier-to-foundation interface",
+                    "ModelledDepth": round(height_m, 6),
+                    "ActualFoundationType": "unresolved",
+                    "ActualFoundationDepth": "intentionally-not-modelled",
+                    "GeotechnicalReleaseStatus": "required",
+                    "IfcSemantics": "virtual interface; not an IfcFooting or IfcDeepFoundation",
+                    "ReleaseStatus": "design-reference; not for construction",
+                },
+            )
+        if asset_class == "rolling-stock.trainset":
+            set_quantities(
+                model,
+                product,
+                "Qto_VehicleBaseQuantities",
+                {
+                    "Length": round(length_m, 6),
+                    "Width": round(width_m, 6),
+                    "Height": round(height_m, 6),
+                },
+            )
+            standard_quantity_sets.append("Qto_VehicleBaseQuantities")
         products[asset_id] = product
         product_classes[asset_id] = asset_class
         product_names[asset_id] = component.label
@@ -2343,11 +2627,15 @@ def build_model(
                 "presentation_layer_name": presentation_layer["name"],
                 "discipline": discipline,
                 "source_geometry": component.source,
+                "source_component_id": component.source_component_id,
+                "source_part_role": component.source_part_role,
                 "document_ids": list(document_ids),
                 "detail_mode": detail_mode,
                 "representation_parts": len(boxes),
                 "bbox_m": [round(value / 1000.0, 6) for value in overall],
                 "source_net_volume_m3": round(source_volume_m3, 6),
+                "standard_quantity_sets": standard_quantity_sets,
+                "engineering_status": engineering_status,
             }
         )
 
@@ -2448,6 +2736,30 @@ def build_model(
             "assets": len(index_rows),
             "types": len(sorted_type_rows),
             "typed_assets": sum(row["ifc_type_id"] is not None for row in index_rows),
+            "native_rolling_stock_vehicles": sum(
+                row["ifc_class"] == "IfcVehicle" for row in index_rows
+            ),
+            "vehicle_base_quantity_sets": sum(
+                "Qto_VehicleBaseQuantities" in row["standard_quantity_sets"]
+                for row in index_rows
+            ),
+            "native_bearings": sum(
+                row["ifc_class"] == "IfcBearing" for row in index_rows
+            ),
+            "foundation_interfaces": sum(
+                row["asset_class"] == "civil.foundation-interface"
+                for row in index_rows
+            ),
+            "jacking_interfaces": sum(
+                row["asset_class"] == "civil.jacking-interface"
+                for row in index_rows
+            ),
+            "pier_caps": sum(
+                row["asset_class"] == "civil.pier-cap" for row in index_rows
+            ),
+            "pier_columns": sum(
+                row["asset_class"] == "civil.pier-column" for row in index_rows
+            ),
             "materials": len(sorted_material_rows),
             "material_associated_assets": sum(
                 row["material_id"] is not None for row in index_rows
@@ -2507,6 +2819,11 @@ def build_model(
                 row["matched_definition_count"] for row in property_template_rows
             ),
             "construction_tasks": len(schedule_rows),
+            "construction_output_tasks": len(assignments),
+            "scheduled_physical_assets": sum(len(values) for values in assignments.values()),
+            "virtual_review_gate_assets": sum(
+                len(row["review_gate_asset_ids"]) for row in schedule_rows
+            ),
         },
         "materials": sorted_material_rows,
         "profiles": sorted_profile_rows,
@@ -2531,6 +2848,11 @@ def build_model(
         "start": DEFAULT_START.isoformat(),
         "tasks": schedule_rows,
         "product_assignments": assignments,
+        "review_gate_assignments": {
+            row["id"]: row["review_gate_asset_ids"]
+            for row in schedule_rows
+            if row["review_gate_asset_ids"]
+        },
         "animation": {
             "fps": 24,
             "duration_seconds": 48,
@@ -2594,6 +2916,130 @@ def build_civil_ids(index: dict[str, Any]) -> ids_module.Ids:
         ]
     )
     document.specifications.append(asset_specification)
+
+    vehicle_specification = ids_module.Specification(
+        name="Rolling-stock references use native vehicle geometry quantities",
+        description=(
+            "Each generated trainset is an IfcVehicle with the standard measured "
+            "length, width, and height quantities derived from OSR geometry."
+        ),
+        instructions=(
+            "Treat these as design-reference geometry dimensions only; capacity, "
+            "mass, availability, serial identity, and operational release remain upstream."
+        ),
+        minOccurs=2,
+        maxOccurs=2,
+        ifcVersion=["IFC4X3_ADD2"],
+        identifier="OSR-IDS-VEHICLE-001",
+    )
+    vehicle_specification.applicability.append(ids_module.Entity(name="IFCVEHICLE"))
+    vehicle_specification.requirements.extend(
+        [
+            ids_module.Property(
+                propertySet="Qto_VehicleBaseQuantities", baseName="Length"
+            ),
+            ids_module.Property(
+                propertySet="Qto_VehicleBaseQuantities", baseName="Width"
+            ),
+            ids_module.Property(
+                propertySet="Qto_VehicleBaseQuantities", baseName="Height"
+            ),
+        ]
+    )
+    document.specifications.append(vehicle_specification)
+
+    bearing_specification = ids_module.Specification(
+        name="Native bearings preserve source dimensions and unresolved release gates",
+        description=(
+            "Each source bearing leaf is a native IfcBearing with deterministic "
+            "dimensions and explicit supplier, loading, and movement boundaries."
+        ),
+        instructions=(
+            "Do not treat the elastomeric/PTFE family label as a selected supplier "
+            "product or an accepted bearing and movement schedule."
+        ),
+        minOccurs=36,
+        maxOccurs=36,
+        ifcVersion=["IFC4X3_ADD2"],
+        identifier="OSR-IDS-BEARING-001",
+    )
+    bearing_specification.applicability.append(ids_module.Entity(name="IFCBEARING"))
+    bearing_specification.requirements.extend(
+        [
+            ids_module.Property(propertySet="OSR_BearingStatus", baseName="BearingFamily"),
+            ids_module.Property(propertySet="OSR_BearingStatus", baseName="NominalLength"),
+            ids_module.Property(propertySet="OSR_BearingStatus", baseName="NominalWidth"),
+            ids_module.Property(propertySet="OSR_BearingStatus", baseName="NominalHeight"),
+            ids_module.Property(
+                propertySet="OSR_BearingStatus", baseName="SupplierSelectionStatus"
+            ),
+            ids_module.Property(
+                propertySet="OSR_BearingStatus", baseName="LoadScheduleStatus"
+            ),
+            ids_module.Property(
+                propertySet="OSR_BearingStatus", baseName="MovementScheduleStatus"
+            ),
+            ids_module.Property(propertySet="OSR_BearingStatus", baseName="ReleaseStatus"),
+        ]
+    )
+    document.specifications.append(bearing_specification)
+
+    foundation_interface_rows = [
+        row for row in index["objects"] if row["asset_class"] == "civil.foundation-interface"
+    ]
+    foundation_specification = ids_module.Specification(
+        name="Foundation envelopes remain explicit virtual geotechnical interfaces",
+        description=(
+            "The source foundation envelope is exported for coordination without "
+            "misrepresenting it as a released shallow or deep foundation."
+        ),
+        instructions=(
+            "Select and design the actual foundation from project geotechnical evidence "
+            "before replacing this virtual interface."
+        ),
+        minOccurs=9,
+        maxOccurs=9,
+        ifcVersion=["IFC4X3_ADD2"],
+        identifier="OSR-IDS-FOUNDATION-INTERFACE-001",
+    )
+    foundation_specification.applicability.extend(
+        [
+            ids_module.Entity(name="IFCVIRTUALELEMENT"),
+            ids_module.Attribute(
+                name="Tag",
+                value=ids_module.Restriction(
+                    {"enumeration": sorted(row["asset_id"] for row in foundation_interface_rows)}
+                ),
+            ),
+        ]
+    )
+    foundation_specification.requirements.extend(
+        [
+            ids_module.Property(
+                propertySet="OSR_FoundationInterfaceStatus", baseName="InterfaceType"
+            ),
+            ids_module.Property(
+                propertySet="OSR_FoundationInterfaceStatus", baseName="ModelledDepth"
+            ),
+            ids_module.Property(
+                propertySet="OSR_FoundationInterfaceStatus", baseName="ActualFoundationType"
+            ),
+            ids_module.Property(
+                propertySet="OSR_FoundationInterfaceStatus", baseName="ActualFoundationDepth"
+            ),
+            ids_module.Property(
+                propertySet="OSR_FoundationInterfaceStatus",
+                baseName="GeotechnicalReleaseStatus",
+            ),
+            ids_module.Property(
+                propertySet="OSR_FoundationInterfaceStatus", baseName="IfcSemantics"
+            ),
+            ids_module.Property(
+                propertySet="OSR_FoundationInterfaceStatus", baseName="ReleaseStatus"
+            ),
+        ]
+    )
+    document.specifications.append(foundation_specification)
 
     reusable_type_classes = sorted({row["ifc_class"].upper() for row in index["types"]})
     type_specification = ids_module.Specification(
@@ -3362,6 +3808,7 @@ def validate_written(
         if getattr(product, "Tag", None)
     }
     type_assignments_match = True
+    native_vehicle_semantics_match = True
     material_assignments_match = True
     profile_geometry_usage_matches = True
     profiles_by_id = {row["profile_id"]: row for row in index["profiles"]}
@@ -3372,6 +3819,33 @@ def validate_written(
         expected_type_ids = [row["ifc_type_id"]] if row["ifc_type_id"] is not None else []
         if observed_type_ids != expected_type_ids:
             type_assignments_match = False
+        if row["asset_class"] == "rolling-stock.trainset":
+            vehicle_quantities = get_psets(product).get(
+                "Qto_VehicleBaseQuantities", {}
+            )
+            native_vehicle_semantics_match &= (
+                product.is_a() == "IfcVehicle"
+                and len(relationships) == 1
+                and relationships[0].RelatingType.is_a() == "IfcVehicleType"
+                and relationships[0].RelatingType.PredefinedType == "ROLLINGSTOCK"
+                and math.isclose(
+                    vehicle_quantities.get("Length", -1.0),
+                    row["bbox_m"][3] - row["bbox_m"][0],
+                    abs_tol=1e-9,
+                )
+                and math.isclose(
+                    vehicle_quantities.get("Width", -1.0),
+                    row["bbox_m"][4] - row["bbox_m"][1],
+                    abs_tol=1e-9,
+                )
+                and math.isclose(
+                    vehicle_quantities.get("Height", -1.0),
+                    row["bbox_m"][5] - row["bbox_m"][2],
+                    abs_tol=1e-9,
+                )
+                and row["standard_quantity_sets"]
+                == ["Qto_VehicleBaseQuantities"]
+            )
         material = get_material(product, should_inherit=True)
         observed_material_ids = material_ids_from_assignment(material)
         observed_material_id = (
@@ -3409,6 +3883,12 @@ def validate_written(
                 )
             )
     expected_materials = {row["material_id"] for row in index["materials"]}
+    native_vehicle_semantics_match &= (
+        len(reopened.by_type("IfcVehicle")) == 2
+        and len(reopened.by_type("IfcVehicleType")) == 1
+        and not reopened.by_type("IfcBuildingElementProxy")
+        and not reopened.by_type("IfcBuildingElementProxyType")
+    )
     exported_materials = {material.Name for material in reopened.by_type("IfcMaterial")}
     material_catalog_matches = all(
         get_psets(material).get("OSR_MaterialStatus", {}).get("MaterialId")
@@ -4115,6 +4595,11 @@ def validate_written(
                 bool(getattr(product, "IsTypedBy", None))
                 for product in reopened.by_type("IfcElement")
             ),
+        },
+        {
+            "id": "native-rolling-stock-vehicles",
+            "passed": native_vehicle_semantics_match,
+            "observed": len(reopened.by_type("IfcVehicle")),
         },
         {
             "id": "native-material-families",

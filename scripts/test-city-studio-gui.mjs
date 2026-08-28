@@ -544,9 +544,9 @@ async function main() {
     };
   })()`);
   assert(
-    ifcTypeEvidence.types === 17
-      && ifcTypeEvidence.typedAssets === 93
-      && ifcTypeEvidence.indexedTypes === 17,
+    ifcTypeEvidence.types === 19
+      && ifcTypeEvidence.typedAssets === 138
+      && ifcTypeEvidence.indexedTypes === 19,
     "native IFC type catalogue indexed",
     `${ifcTypeEvidence.types} types · ${ifcTypeEvidence.typedAssets} typed assets`,
   );
@@ -556,6 +556,90 @@ async function main() {
       && ifcTypeEvidence.metrics.includes("reusable IFC types"),
     "IFC type identity visible in object inspector",
     ifcTypeEvidence.selectedType,
+  );
+  const ifcVehicleEvidence = await cdp.evaluate(`(() => {
+    const content = selectedArtifactPreview.content;
+    const index = content.objects.findIndex(item => item.asset_class === 'rolling-stock.trainset');
+    document.querySelector('.artifact-object-button[data-object-index="' + index + '"]').click();
+    const vehicle = content.objects[index];
+    return {
+      vehicles: content.summary.native_rolling_stock_vehicles,
+      quantitySets: content.summary.vehicle_base_quantity_sets,
+      ifcClass: vehicle.ifc_class,
+      typeClass: vehicle.ifc_type_class,
+      typePredefinedType: vehicle.ifc_type_predefined_type,
+      standardQuantitySets: vehicle.standard_quantity_sets,
+      unclaimedOperationalFields: !('capacity_people' in vehicle) && !('availability' in vehicle) && !('serial_number' in vehicle),
+      detail: document.querySelector('.artifact-object-detail').textContent,
+      metrics: document.querySelector('#artifact-metrics').textContent,
+    };
+  })()`);
+  assert(
+    ifcVehicleEvidence.vehicles === 2
+      && ifcVehicleEvidence.quantitySets === 2
+      && ifcVehicleEvidence.ifcClass === "IfcVehicle"
+      && ifcVehicleEvidence.typeClass === "IfcVehicleType"
+      && ifcVehicleEvidence.typePredefinedType === "ROLLINGSTOCK"
+      && ifcVehicleEvidence.standardQuantitySets.length === 1
+      && ifcVehicleEvidence.standardQuantitySets[0] === "Qto_VehicleBaseQuantities"
+      && ifcVehicleEvidence.unclaimedOperationalFields,
+    "native IFC rolling-stock vehicles and measured base quantities indexed",
+    `${ifcVehicleEvidence.vehicles} vehicles · ${ifcVehicleEvidence.quantitySets} quantity sets`,
+  );
+  assert(
+    ifcVehicleEvidence.detail.includes("IfcVehicle")
+      && ifcVehicleEvidence.detail.includes("IfcVehicleType · ROLLINGSTOCK")
+      && ifcVehicleEvidence.detail.includes("Qto_VehicleBaseQuantities")
+      && ifcVehicleEvidence.metrics.includes("native rolling-stock vehicles")
+      && ifcVehicleEvidence.metrics.includes("vehicle base-quantity sets"),
+    "vehicle type and dimensional evidence visible without invented operations data",
+  );
+  const ifcBearingEvidence = await cdp.evaluate(`(() => {
+    const content = selectedArtifactPreview.content;
+    const bearingIndex = content.objects.findIndex(item => item.asset_class === 'civil.bearing');
+    document.querySelector('.artifact-object-button[data-object-index="' + bearingIndex + '"]').click();
+    const bearing = content.objects[bearingIndex];
+    const foundation = content.objects.find(item => item.asset_class === 'civil.foundation-interface');
+    return {
+      bearings: content.summary.native_bearings,
+      foundations: content.summary.foundation_interfaces,
+      jackingInterfaces: content.summary.jacking_interfaces,
+      pierCaps: content.summary.pier_caps,
+      pierColumns: content.summary.pier_columns,
+      ifcClass: bearing.ifc_class,
+      typeClass: bearing.ifc_type_class,
+      typePredefinedType: bearing.ifc_type_predefined_type,
+      sourcePartRole: bearing.source_part_role,
+      bearingStatus: bearing.engineering_status,
+      foundationClass: foundation.ifc_class,
+      foundationStatus: foundation.engineering_status,
+      detail: document.querySelector('.artifact-object-detail').textContent,
+      metrics: document.querySelector('#artifact-metrics').textContent,
+    };
+  })()`);
+  assert(
+    ifcBearingEvidence.bearings === 36
+      && ifcBearingEvidence.foundations === 9
+      && ifcBearingEvidence.jackingInterfaces === 36
+      && ifcBearingEvidence.pierCaps === 9
+      && ifcBearingEvidence.pierColumns === 9
+      && ifcBearingEvidence.ifcClass === "IfcBearing"
+      && ifcBearingEvidence.typeClass === "IfcBearingType"
+      && ifcBearingEvidence.typePredefinedType === "ELASTOMERIC"
+      && ifcBearingEvidence.sourcePartRole === "bearing"
+      && ifcBearingEvidence.bearingStatus.supplier_selection_status === "unresolved"
+      && ifcBearingEvidence.foundationClass === "IfcVirtualElement"
+      && ifcBearingEvidence.foundationStatus.actual_foundation_depth === "intentionally-not-modelled",
+    "pier compounds split into truthful native parts and virtual release interfaces",
+    `${ifcBearingEvidence.bearings} bearings · ${ifcBearingEvidence.foundations} foundation interfaces`,
+  );
+  assert(
+    ifcBearingEvidence.detail.includes("civil.bearing")
+      && ifcBearingEvidence.detail.includes("elastomeric/PTFE")
+      && ifcBearingEvidence.detail.includes("supplier_selection_status")
+      && ifcBearingEvidence.metrics.includes("native bridge bearings")
+      && ifcBearingEvidence.metrics.includes("virtual foundation interfaces"),
+    "bearing identity and unresolved engineering boundary visible in object inspector",
   );
   const ifcMaterialEvidence = await cdp.evaluate(`(() => {
     const content = selectedArtifactPreview.content;
@@ -623,9 +707,9 @@ async function main() {
   })()`);
   assert(
     ifcClassificationEvidence.systems === 1
-      && ifcClassificationEvidence.references === 11
-      && ifcClassificationEvidence.classifiedAssets === 95
-      && ifcClassificationEvidence.indexedReferences === 11
+      && ifcClassificationEvidence.references === 15
+      && ifcClassificationEvidence.classifiedAssets === 185
+      && ifcClassificationEvidence.indexedReferences === 15
       && ifcClassificationEvidence.codesMatch,
     "native OSR asset classification indexed",
     `${ifcClassificationEvidence.references} references · ${ifcClassificationEvidence.classifiedAssets} classified assets`,
@@ -652,7 +736,7 @@ async function main() {
   })()`);
   assert(
     ifcGroupEvidence.groups === 5
-      && ifcGroupEvidence.groupedAssets === 95
+      && ifcGroupEvidence.groupedAssets === 185
       && ifcGroupEvidence.indexedGroups === 5
       && ifcGroupEvidence.allAssetsResolve,
     "native IFC coordination groups indexed",
@@ -681,7 +765,7 @@ async function main() {
   })()`);
   assert(
     ifcLayerEvidence.layers === 4
-      && ifcLayerEvidence.associatedAssets === 95
+      && ifcLayerEvidence.associatedAssets === 185
       && ifcLayerEvidence.indexedLayers === 4
       && ifcLayerEvidence.allAssetsResolve,
     "native IFC presentation layers indexed",
@@ -737,10 +821,10 @@ async function main() {
     };
   })()`);
   assert(
-    ifcTemplateEvidence.templates === 13
-      && ifcTemplateEvidence.fields === 77
-      && ifcTemplateEvidence.matchedDefinitions === 224
-      && ifcTemplateEvidence.linkedDefinitions === 220
+    ifcTemplateEvidence.templates === 15
+      && ifcTemplateEvidence.fields === 95
+      && ifcTemplateEvidence.matchedDefinitions === 451
+      && ifcTemplateEvidence.linkedDefinitions === 447
       && ifcTemplateEvidence.noReservedNames,
     "native IFC property dictionaries indexed",
     `${ifcTemplateEvidence.templates} templates · ${ifcTemplateEvidence.fields} typed fields`,
@@ -768,7 +852,7 @@ async function main() {
   })()`);
   assert(
     ifcDocumentEvidence.documents === 15
-      && ifcDocumentEvidence.linkedAssets === 95
+      && ifcDocumentEvidence.linkedAssets === 185
       && ifcDocumentEvidence.indexedDocuments === 15
       && ifcDocumentEvidence.allRevisionsLocked,
     "native IFC source-document register indexed",
@@ -890,13 +974,14 @@ async function main() {
     };
   })()`);
   assert(
-    ifcSystemEvidence.systems === 5
-      && ifcSystemEvidence.linkedAssets === 95
+    ifcSystemEvidence.systems === 6
+      && ifcSystemEvidence.linkedAssets === 185
       && ifcSystemEvidence.builtSystems === 3
-      && ifcSystemEvidence.spatialReferences === 6
-      && ifcSystemEvidence.indexedSystems === 5
-      && ifcSystemEvidence.controls === 5
+      && ifcSystemEvidence.spatialReferences === 7
+      && ifcSystemEvidence.indexedSystems === 6
+      && ifcSystemEvidence.controls === 6
       && ifcSystemEvidence.uniqueMembership
+      && ifcSystemEvidence.systemIds.includes("OSR-SYS-CIVIL-INTERFACES")
       && ifcSystemEvidence.systemIds.includes("OSR-SYS-TRACK"),
     "native IFC functional systems cover every asset exactly once",
     `${ifcSystemEvidence.systems} systems · ${ifcSystemEvidence.builtSystems} specialized · ${ifcSystemEvidence.linkedAssets} linked assets`,
@@ -915,11 +1000,46 @@ async function main() {
   const civilReview = await cdp.evaluate(`({
     controls: !document.querySelector('#civil-review-controls').hidden,
     tasks: selectedCivilSequence?.content?.tasks?.length || 0,
+    outputTasks: selectedArtifactPreview.content.summary.construction_output_tasks,
+    scheduledPhysicalAssets: selectedArtifactPreview.content.summary.scheduled_physical_assets,
+    virtualReviewGateAssets: selectedArtifactPreview.content.summary.virtual_review_gate_assets,
+    assignmentCounts: Object.fromEntries(Object.entries(selectedCivilSequence?.content?.product_assignments || {}).map(([key, value]) => [key, value.length])),
+    reviewGateCounts: Object.fromEntries(Object.entries(selectedCivilSequence?.content?.review_gate_assignments || {}).map(([key, value]) => [key, value.length])),
     sequenceVerified: selectedCivilSequence?.sha256_verified || false,
     paths: document.querySelectorAll('#artifact-canvas [data-object-index]').length,
     firstPath: document.querySelector('#artifact-canvas [data-object-index]')?.getAttribute('d'),
   })`);
   assert(civilReview.controls && civilReview.tasks > 10 && civilReview.sequenceVerified, "verified 4D construction controls loaded", `${civilReview.tasks} tasks`);
+  assert(
+    civilReview.outputTasks === 5
+      && civilReview.scheduledPhysicalAssets === 134
+      && civilReview.virtualReviewGateAssets === 45
+      && civilReview.assignmentCounts["VIA-05"] === 18
+      && civilReview.assignmentCounts["VIA-50"] === 48
+      && civilReview.assignmentCounts["VIA-60"] === 54
+      && civilReview.reviewGateCounts["VIA-05"] === 9
+      && civilReview.reviewGateCounts["VIA-50"] === 36,
+    "4D tasks separate physical outputs from virtual review interfaces",
+    `${civilReview.scheduledPhysicalAssets} physical outputs · ${civilReview.virtualReviewGateAssets} review gates`,
+  );
+  const substructureStageEvidence = await cdp.evaluate(`(() => {
+    const tasks = selectedCivilSequence.content.tasks;
+    const index = tasks.findIndex(task => task.id === 'VIA-05');
+    const stage = document.querySelector('#civil-stage');
+    stage.value = String(index + 1);
+    stage.dispatchEvent(new Event('input', { bubbles: true }));
+    return document.querySelector('.civil-stage-label').parentElement.parentElement.textContent;
+  })()`);
+  assert(
+    substructureStageEvidence.includes("18 physical outputs")
+      && substructureStageEvidence.includes("9 virtual review interfaces"),
+    "substructure-stage output and review-gate counts visible",
+  );
+  await cdp.evaluate(`(() => {
+    const stage = document.querySelector('#civil-stage');
+    stage.value = stage.max;
+    stage.dispatchEvent(new Event('input', { bubbles: true }));
+  })()`);
   assert(civilReview.paths === ifcObjectCount, "full civil federation visible at final stage", `${civilReview.paths} assets`);
   await cdp.evaluate(`(() => {
     const angle = document.querySelector('#civil-view-angle');
@@ -935,7 +1055,7 @@ async function main() {
     checkbox.dispatchEvent(new Event('change', { bubbles: true }));
     return document.querySelectorAll('#artifact-canvas [data-object-index]').length;
   })()`);
-  assert(layerVisibility === 46, "native IFC presentation-layer visibility filters geometry", `${layerVisibility} non-track assets`);
+  assert(layerVisibility === 136, "native IFC presentation-layer visibility filters geometry", `${layerVisibility} non-track assets`);
   await cdp.evaluate(`(() => {
     const checkbox = document.querySelector('[data-civil-layer="OSR-LAYER-TRACK"]');
     checkbox.checked = true;
@@ -961,7 +1081,7 @@ async function main() {
     checkbox.dispatchEvent(new Event('change', { bubbles: true }));
     return document.querySelectorAll('#artifact-canvas [data-object-index]').length;
   })()`);
-  assert(systemVisibility === 62, "native IFC functional-system visibility filters geometry", `${systemVisibility} non-guideway assets`);
+  assert(systemVisibility === 107, "native IFC functional-system visibility filters geometry", `${systemVisibility} non-guideway assets`);
   await cdp.evaluate(`(() => {
     const checkbox = document.querySelector('[data-civil-system="OSR-SYS-GUIDEWAY"]');
     checkbox.checked = true;

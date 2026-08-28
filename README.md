@@ -21,7 +21,8 @@ Regenerate it with
 
 *The fabrication and assembly twin runs four synchronized production routes
 from material release through assembly and QA handover. Its JSON register
-contains 25 controlled work stages—including foundation-zone release,
+contains 25 controlled work stages—including tested foundation construction,
+column/cap delivery,
 two-lift Pi25 portal erection and the semi-continuous-unit connection—plus
 predecessors, hold points, evidence, source hashes, and the interfaces between
 rail, station, viaduct, and train.
@@ -31,19 +32,24 @@ Regenerate it with `scripts/freecad-generate.sh --fabrication-twin`.*
 
 *The civil coordination model is generated deterministically from the checked
 OSR geometry into IFC4.3, then imported and rendered through Bonsai 0.8.5. It
-contains 95 stable rail/civil assets, 17 reusable IFC types, three declared
+contains 185 stable rail/civil assets, 19 reusable IFC types, three declared
 material families, one native 60E1 section profile driving 32 rail extrusions,
-one internal classification with 11 asset references covering all 95 assets,
-five native coordination groups, five native functional engineering systems
+36 typed `IfcBearing/ELASTOMERIC` occurrences, nine native pier caps and nine
+columns, plus 45 deliberately virtual foundation/jacking interfaces,
+two typed `IfcVehicle/ROLLINGSTOCK` trainsets with standard measured base
+quantities, one internal classification with 15 asset references covering all
+185 assets,
+five native coordination groups, six native functional engineering systems
 (including three specialized `IfcBuiltSystem` records),
 and four native visibility layers covering every asset exactly once in each
-scheme, six system-to-railway-part references, 15 hash-locked native
+scheme, seven system-to-railway-part references, 15 hash-locked native
 source-document records, native quantities,
-provenance, nine native qualitative interface constraints, 18 linked
-construction tasks, 13 native property/quantity dictionaries with 77 typed
+provenance, nine native qualitative interface constraints, 18 construction
+tasks with 134 physical outputs and 45 separately identified virtual review
+interfaces, 15 native property/quantity dictionaries with 95 typed
 fields, a native horizontal/vertical planning alignment with stationing, and
 one native USD schedule containing three generated planning rates, with
-1,637/1,637 passing IDS checks. OSR remains
+3,137/3,137 passing IDS checks. OSR remains
 authoritative for route and engineering rules; Bonsai provides
 federation, detail review, drawings, quantities, and 4D sequencing. See the
 [Bonsai civil workflow](docs/civil/bonsai-ifc-workflow.md).*

@@ -75,11 +75,11 @@ Outputs are written beneath `build/engineering/bonsai-civil/`:
 
 ## Model content
 
-The current reference federation contains 95 stable assets and 17 reusable
+The current reference federation contains 185 stable assets and 19 reusable
 component types organised below an
 `IfcRailway` and four `IfcRailwayPart` containers: track, substructure,
 above-track systems, and lineside/clearance. Civil objects use IFC4.3 types
-including `IfcRail`, `IfcBeam`, `IfcColumn`, `IfcSlab`, `IfcRoof`, and an
+including `IfcRail`, `IfcBeam`, `IfcBearing`, `IfcColumn`, `IfcSlab`, `IfcRoof`, and an
 `IfcAlignment`. The selected line's control-point polyline is represented by
 native `IfcAlignmentHorizontal` `LINE` segments, `IfcAlignmentVertical`
 `CONSTANTGRADIENT` segments, an `IfcGradientCurve`, and stationing referents.
@@ -92,11 +92,20 @@ transitions, or cant that the planning input does not contain. Each asset carrie
 - inspectable coordination dimensions and source net volume;
 - explicit detail mode when a complex assembly is represented by its review envelope.
 
-Ninety-three occurrences are linked to an `IfcTypeProduct` derived from their
+One hundred and thirty-eight occurrences are linked to an `IfcTypeProduct` derived from their
 exact asset class and source-geometry recipe. Types carry stable `OSR-TYPE-…`
 identity and `OSR_Type`; occurrence placement and geometry remain
-authoritative. The two clearance envelopes remain untyped because IFC4.3 has
-no `IfcVirtualElementType`.
+authoritative. The 47 virtual clearance, foundation, and jacking interfaces
+remain untyped because IFC4.3 has no `IfcVirtualElementType`.
+
+Each of the nine source pier compounds is split without overlapping geometry
+into one column, one `IfcBeam/PIERCAP`, four `IfcBearing/ELASTOMERIC` products,
+four bearing-replacement jacking interfaces, and one foundation interface.
+The bearings retain their measured 0.6 × 0.5 × 0.1 m source envelopes and
+explicitly unresolved supplier/load/movement schedules. Foundation and jacking
+zones use `IfcVirtualElement`: the source intentionally withholds the actual
+foundation type and depth, so exporting `IfcFooting` or `IfcDeepFoundation`
+would assert engineering that does not exist.
 
 Three native `IfcMaterial` family declarations cover 46 occurrences through
 five type associations: running-rail steel, prestressed beam concrete, and
@@ -115,37 +124,46 @@ mill profile, fillets, tolerances, released steel grade, and certificates.
 
 ### Native OSR asset classification
 
-One internal `IfcClassification` contains 11 lightweight references using the
-existing OSR asset codes. Ninety-three occurrences inherit their reference
-from 17 reusable types; the two untyped clearance envelopes receive the same
-class directly. All 95 assets therefore remain natively queryable without
+One internal `IfcClassification` contains 15 lightweight references using the
+existing OSR asset codes. One hundred and thirty-eight occurrences inherit
+their reference from 19 reusable types; the 47 untyped virtual interfaces
+receive their class directly. All 185 assets therefore remain natively queryable without
 duplicating type-level relationships. This classification supports OSR
 automation only. Its metadata and City Studio inspector explicitly state that
 country/client mappings remain unnominated and require an approved deployment
 crosswalk.
 
 The five source layouts are also native `IfcGroup` coordination groups, with
-all 95 assets assigned exactly once. Their properties state that they are
+all 185 assets assigned exactly once. Their properties state that they are
 separated review layouts—not surveyed spatial zones or functional engineering
 systems—so Bonsai and City Studio can filter them without asserting false
 `IfcSpatialZone` semantics or confusing review geography with system function.
 
-Five native `IfcSystem`-family records provide the separate functional view:
+Six native `IfcSystem`-family records provide the separate functional view:
 track and running way, guideway structure, station interfaces, rolling-stock
-reference, and clearance assurance. IFC4.3 specializations are used where the
+reference, clearance assurance, and unreleased civil interfaces. IFC4.3 specializations are used where the
 source supports them: track is `IfcBuiltSystem/RAILWAYTRACK`, guideway is
 `IfcBuiltSystem/LOADBEARING`, and the station interface is
 `IfcBuiltSystem/USERDEFINED`; clearance and rolling-stock references remain
-generic `IfcSystem`. The 11 authoritative OSR asset classes map to these
-systems without overlap, so all 95 occurrences have exactly one membership.
+generic `IfcSystem`. Foundation and jacking interfaces use a generic system
+because virtual elements cannot be members of an `IfcBuiltSystem`. The 15
+authoritative OSR asset classes map without overlap, so all 185 occurrences
+have exactly one membership.
 
-Four `IfcRelReferencedInSpatialStructure` relationships provide six explicit
+Four `IfcRelReferencedInSpatialStructure` relationships provide seven explicit
 links from the systems to the track, substructure, above-track, or lineside
 `IfcRailwayPart` they cover. The station system legitimately spans two parts.
 These are non-hierarchical spatial-service references, not containment. The
 systems remain design-reference groupings—not surveyed zones, commissioned
 operational systems, or safety releases—and track number, usage,
 electrification, and other unavailable operational properties stay unset.
+
+The two representative LM3 trainsets use native `IfcVehicle/ROLLINGSTOCK`
+occurrences and one reusable `IfcVehicleType/ROLLINGSTOCK`, replacing the former
+generic building proxies. Each vehicle carries the standard
+`Qto_VehicleBaseQuantities` Length, Width, and Height measured directly from
+the deterministic geometry. Capacity, mass, availability, serial identity,
+manufacturer, and operational release are intentionally not inferred.
 
 Four `IfcPresentationLayerAssignment` records assign each asset's
 `IfcShapeRepresentation` to track, substructure, above-track, or lineside.
@@ -165,17 +183,17 @@ All custom properties now use the standards-compliant `OSR_` prefix; the IFC
 `Pset_` prefix is reserved for property sets defined by buildingSMART. Thirteen
 native `IfcPropertySetTemplate` dictionaries declare 77 property and quantity
 field types across occurrence, type, material, profile, and quantity data.
-Eleven templates link 220 `IfcPropertySet`/`IfcElementQuantity` definitions via
+Thirteen templates link 447 `IfcPropertySet`/`IfcElementQuantity` definitions via
 `IfcRelDefinesByTemplate`; material and profile resources cannot use that
 relationship, so their four definitions match the declared material/profile
-templates by name and template type. All 13 templates are declared in the IFC
+templates by name and template type. All 15 templates are declared in the IFC
 project context and indexed for City Studio inspection.
 
 Fifteen native `IfcDocumentInformation`/`IfcDocumentReference` records expose
 the actual repository sources used by the federation. Complete SHA-256
 revisions and repository-relative locations cover the component generators,
 integration source, exporter, alignment contract, cost contract, and this
-release-boundary workflow. `IfcRelAssociatesDocument` links all 95 occurrences
+release-boundary workflow. `IfcRelAssociatesDocument` links all 185 occurrences
 and their reusable types to the applicable source modules. These are source
 records, not issued drawings or a substitute for a deployment CDE.
 
@@ -228,11 +246,16 @@ planning rates for a selected scope, multiplied project total, bill, tender,
 or quotation. The cost-contract document is hash-locked to both the project
 and this schedule.
 
-Eighteen track, station, and viaduct tasks—including foundation-zone release
-before Pi-beam production and erection—are embedded in an
-`IfcWorkSchedule`. Final installation tasks are linked to their output products
-for Bonsai 4D visualization; predecessors, planning durations, QA holds, and
-required evidence remain in the companion sequence index.
+Eighteen track, station, and viaduct tasks are embedded in an
+`IfcWorkSchedule`. Five tasks now carry stage-specific outputs: track completion,
+station structural assembly, foundation/pier/cap completion, bearing/beam
+erection, and viaduct trackform/egress finishing. Native
+`IfcRelAssignsToProduct` relationships distinguish 134 physical construction
+outputs from 45 virtual foundation/jacking review interfaces by relationship
+name and description. Virtual interfaces therefore participate in their QA
+gate without appearing as constructed products in the 4D animation.
+Predecessors, planning durations, hold points, and evidence remain in the
+companion sequence index.
 
 ![Bonsai support-end review of twin OSR-Pi25 decks and the reduced common cap](../screenshots/civil/bonsai-pi25-support-detail.png)
 
@@ -244,12 +267,14 @@ represent released reinforcement, prestress or connection detailing.
 ## IDS delivery gate and BCF review loop
 
 The exporter writes an IDS 1.0 contract and immediately reopens it with
-IfcTester against the written IFC. Sixteen specifications cover all 95 assets,
-the 17-type catalogue, the source-backed material subset, alignment authority,
+IfcTester against the written IFC. Nineteen specifications cover all 185 assets,
+the 19-type catalogue, the source-backed material subset, alignment authority,
 the native rail-profile assignments, OSR asset classification, native document
-register, five coordination groups, five functional systems, four presentation
-layers, nine interface constraints, typed property dictionaries, the planning schedule of rates, and
-project provenance. The current reference exchange passes all 1,637
+register, five coordination groups, six functional systems, four presentation
+layers, 36 native bearings, nine virtual foundation interfaces, two native vehicles
+and their standard base quantities, nine interface
+constraints, typed property dictionaries, the planning schedule of rates, and
+project provenance. The current reference exchange passes all 3,137
 entity-level checks. The audit is deterministic: entity
 evidence is sorted before hashing, so a repeat build produces byte-identical
 IFC, IDS, audit, BCF, indexes, sequence, and validation files.
@@ -270,8 +295,8 @@ closure against the same stable objects.
 City Studio also pairs the object index with the hash-verified construction
 sequence. Its interactive review controls rotate the projected federation,
 toggle any of the four native presentation layers, five coordination groups,
-or five functional systems, and
-scrub or play the 18-task 4D sequence while showing the current QA hold and
+or six functional systems, and scrub or play the 18-task 4D sequence while
+showing the current QA hold, physical-output count, virtual-review count, and
 visible-asset count. These projected envelopes
 support rapid coordination and BCF selection; native tessellated geometry and
 authoritative IFC editing remain in Bonsai.
@@ -309,18 +334,21 @@ after review.
 | CRS/map conversion | Implemented now as validated opt-in input; unresolved projects remain visibly local rather than receiving a guessed EPSG code. |
 | Alignment layouts and linear placement | Native horizontal `LINE` and vertical `CONSTANTGRADIENT` planning segments, gradient-curve geometry, and stationing are implemented from the selected line polyline. Design radii, transition spirals, vertical curves, cant, and product linear placement remain deferred until an accepted OSR-ALN design supplies those parameters; LandXML, railML, and stakeout CSV remain the detailed handoff. |
 | Native `IfcCostSchedule` | Implemented as a USD `SCHEDULEOFRATES` with three generated route-kilometre alternatives and a 1,000 m unit basis. It has no product assignments, cost quantities, or project total; element-level estimating remains deferred until approved rates and selected scope exist. |
-| Reusable object types | Implemented for 93 safely typable occurrences using exact source recipes. Type geometry maps are deliberately omitted so occurrence geometry remains authoritative. |
+| Reusable object types | Implemented for 138 safely typable occurrences using exact source recipes. Type geometry maps are deliberately omitted so occurrence geometry remains authoritative. |
 | Material families | Implemented for the 46 occurrences whose source explicitly declares a safe single-material family. Every declaration is visibly grade/design unresolved. |
 | Native rail profile | Implemented for all 32 straight 60E1 rail occurrences using a shared material profile set, occurrence usages, and matching extruded solids. |
-| Mixed materials, other profiles, reinforcement, bearings, and foundations | Do not flatten mixed assemblies or populate generic placeholders. Add constituent/profile data when released specifications and deployment engineering are available. |
-| Native OSR asset classification | Implemented with one internal system, 11 lightweight references, type inheritance for 93 occurrences, and direct references for two untyped envelopes. |
+| Native rolling-stock vehicles | Implemented for both representative trainsets with one reusable `IfcVehicleType/ROLLINGSTOCK` and standard measured Length, Width, and Height quantities. Operational, manufacturer, capacity, mass, and availability fields remain unset until authoritative inputs exist. |
+| Bearings and foundation interfaces | The 36 source bearings are native typed `IfcBearing/ELASTOMERIC` assets with measured envelopes and explicit supplier/load/movement release gates. Nine foundation and 36 jacking envelopes remain `IfcVirtualElement`; promote them only after geotechnical and supplier design. |
+| Mixed materials, other profiles, and reinforcement | Do not flatten mixed assemblies or populate generic placeholders. Add constituent/profile and reinforcement data when released specifications and deployment engineering are available. |
+| Native OSR asset classification | Implemented with one internal system, 15 lightweight references, type inheritance for 138 occurrences, and direct references for 47 untyped virtual interfaces. |
 | Country/client classification mapping | Defer Uniclass, OmniClass, national, or client codes until the deployment nominates an edition and approves a crosswalk; no global mapping is guessed. |
 | Native coordination groups | Implemented with five deterministic `IfcGroup` records and exactly one group membership per asset. They preserve source review layouts without claiming surveyed space or system function. |
-| Native functional systems | Implemented with five deterministic `IfcSystem`-family records and exactly one membership per asset, derived from the complete 11-class OSR asset classification. Three use supported `IfcBuiltSystem` subtypes, and six non-hierarchical references connect all five systems to the railway parts they cover. They are explicitly design-reference, not commissioned or safety-released systems. |
+| Native functional systems | Implemented with six deterministic `IfcSystem`-family records and exactly one membership per asset, derived from the complete 15-class OSR asset classification. Three use supported `IfcBuiltSystem` subtypes, and seven non-hierarchical references connect all systems to the railway parts they cover. Virtual civil interfaces remain in a generic system. |
 | Surveyed spatial zones | Add `IfcSpatialZone` only when accepted boundaries and survey control exist; the current separated review layout is insufficient evidence. |
 | Native presentation layers | Implemented with four stable layers and exactly one `IfcShapeRepresentation` assignment per asset for simple visibility control. Object semantics remain elsewhere. |
 | Native interface constraints | Implemented with nine qualitative hard `IfcObjective` records associated with the project. Numeric metrics are deferred until checks expose structured benchmark paths and values. |
-| Native OSR property dictionaries | Implemented with 13 project-declared templates, 77 typed fields, 220 direct definition links, and four name/type-matched material/profile definitions. Custom sets use `OSR_`, never the reserved `Pset_` prefix. |
+| Stage-specific 4D product semantics | Implemented across five output tasks: 134 physical assets animate at their actual completion stage, while 45 virtual foundation/jacking interfaces are separately related as review gates and never treated as constructed output. |
+| Native OSR property dictionaries | Implemented with 15 project-declared templates, 95 typed fields, 447 direct definition links, and four name/type-matched material/profile definitions. Custom sets use `OSR_`, never the reserved `Pset_` prefix. |
 | Native source-document register | Implemented with 15 hash-locked repository sources and direct project, cost-schedule, type, and occurrence associations. |
 | Issued drawings and CDE document control | Defer sheets, issue/transmittal states, and CDE URLs until a deployment selects its naming, approval, and common-data-environment convention. |
 
@@ -351,6 +379,12 @@ after review.
 - [IFC4.3 `IfcGroup`](https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/lexical/IfcGroup.htm)
 - [IFC4.3 `IfcSpatialZone`](https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/lexical/IfcSpatialZone.htm)
 - [IFC4.3 `IfcSystem`](https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/lexical/IfcSystem.htm)
+- [IFC4.3 `IfcVehicle`](https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/lexical/IfcVehicle.htm)
+- [IFC4.3 vehicle types](https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/lexical/IfcVehicleTypeEnum.htm)
+- [IFC4.3 vehicle base quantities](https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/lexical/Qto_VehicleBaseQuantities.htm)
+- [IFC4.3 `IfcBearing`](https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/lexical/IfcBearing.htm)
+- [IFC4.3 bearing types](https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/lexical/IfcBearingTypeEnum.htm)
+- [IFC4.3 `IfcFooting` and shallow/deep-foundation boundary](https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/lexical/IfcFooting.htm)
 - [IFC4.3 `IfcBuiltSystem`](https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/lexical/IfcBuiltSystem.htm)
 - [IFC4.3 built-system types](https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/lexical/IfcBuiltSystemTypeEnum.htm)
 - [IFC4.3 spatial service connectivity](https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/concepts/Object_Connectivity/Spatial_Service_Connectivity/content.html)

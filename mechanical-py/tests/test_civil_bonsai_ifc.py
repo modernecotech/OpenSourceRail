@@ -23,6 +23,7 @@ from engineering.interchange.civil_bonsai_ifc import (
 def test_civil_ifc_has_rail_semantics_geometry_schedule_and_stable_ids(tmp_path: Path) -> None:
     paths = write_outputs(tmp_path / "first", alignment_path=None, revision_id="test-revision")
     index = json.loads(paths["index"].read_text(encoding="utf-8"))
+    sequence = json.loads(paths["sequence"].read_text(encoding="utf-8"))
     validation = json.loads(paths["validation"].read_text(encoding="utf-8"))
     ids_report = json.loads(paths["ids_report"].read_text(encoding="utf-8"))
     bcf_index = json.loads(paths["bcf_index"].read_text(encoding="utf-8"))
@@ -31,60 +32,71 @@ def test_civil_ifc_has_rail_semantics_geometry_schedule_and_stable_ids(tmp_path:
 
     assert validation["passed"]
     assert ids_report["status"]
-    assert ids_report["total_specifications_pass"] == 16
-    assert ids_report["total_checks"] == ids_report["total_checks_pass"] == 1637
+    assert ids_report["total_specifications_pass"] == 19
+    assert ids_report["total_checks"] == ids_report["total_checks_pass"] == 3137
     assert bcf_index["topic_count"] == 3
     assert coordination is not None
     assert coordination.version.version_id == "3.0"
     assert len(coordination.topics) == 3
     assert index["summary"] == {
         "alignment_stationing_referents": 2,
-        "assets": 95,
+        "assets": 185,
         "built_systems": 3,
-        "classification_references": 11,
+        "classification_references": 15,
         "classifications": 1,
-        "classified_assets": 95,
+        "classified_assets": 185,
         "construction_tasks": 18,
+        "construction_output_tasks": 5,
         "coordination_groups": 5,
-        "document_associated_assets": 95,
+        "document_associated_assets": 185,
         "documents": 15,
-        "functional_systems": 5,
-        "grouped_assets": 95,
+        "foundation_interfaces": 9,
+        "functional_systems": 6,
+        "grouped_assets": 185,
         "horizontal_alignment_segments": 1,
         "disciplines": {
             "above-track": 10,
             "lineside": 2,
-            "substructure": 34,
+            "substructure": 124,
             "track": 49,
         },
         "ifc_classes": {
-            "IfcBeam": 12,
-            "IfcBuildingElementProxy": 2,
+            "IfcBeam": 21,
+            "IfcBearing": 36,
             "IfcColumn": 9,
             "IfcElementAssembly": 1,
             "IfcRail": 32,
             "IfcRoof": 4,
             "IfcSlab": 33,
-            "IfcVirtualElement": 2,
+            "IfcVehicle": 2,
+            "IfcVirtualElement": 47,
         },
         "interface_checks": 9,
         "interface_constraints": 9,
-        "layer_associated_assets": 95,
+        "jacking_interfaces": 36,
+        "layer_associated_assets": 185,
         "material_associated_assets": 46,
         "materials": 3,
+        "native_bearings": 36,
+        "native_rolling_stock_vehicles": 2,
         "profiled_assets": 32,
         "profiles": 1,
         "presentation_layers": 4,
         "planning_rate_items": 3,
         "planning_rate_schedules": 1,
-        "property_set_templates": 13,
-        "property_templates": 77,
-        "system_associated_assets": 95,
-        "system_spatial_part_references": 6,
-        "template_linked_definitions": 220,
-        "template_matched_definitions": 224,
-        "typed_assets": 93,
-        "types": 17,
+        "pier_caps": 9,
+        "pier_columns": 9,
+        "property_set_templates": 15,
+        "property_templates": 95,
+        "system_associated_assets": 185,
+        "system_spatial_part_references": 7,
+        "scheduled_physical_assets": 134,
+        "template_linked_definitions": 447,
+        "template_matched_definitions": 451,
+        "typed_assets": 138,
+        "types": 19,
+        "vehicle_base_quantity_sets": 2,
+        "virtual_review_gate_assets": 45,
         "vertical_alignment_segments": 1,
     }
     assert index["cost_model"]["maturity"] == "planning-target-not-a-quotation"
@@ -144,13 +156,56 @@ def test_civil_ifc_has_rail_semantics_geometry_schedule_and_stable_ids(tmp_path:
     assert index["alignment"]["vertical_segment_type"] == "CONSTANTGRADIENT"
     assert index["alignment"]["cant_status"].startswith("not-modelled")
     assert len(model.by_type("IfcTask")) == 18
-    assert len({item.Tag for item in model.by_type("IfcElement") if item.Tag}) == 95
-    assert len(model.by_type("IfcTypeProduct")) == 17
-    assert len(model.by_type("IfcRelDefinesByType")) == 17
+    assert {task_id: len(asset_ids) for task_id, asset_ids in sequence["product_assignments"].items()} == {
+        "STN-40": 9,
+        "TRK-50": 5,
+        "VIA-05": 18,
+        "VIA-50": 48,
+        "VIA-60": 54,
+    }
+    assert {task_id: len(asset_ids) for task_id, asset_ids in sequence["review_gate_assignments"].items()} == {
+        "VIA-05": 9,
+        "VIA-50": 36,
+    }
+    assigned_asset_ids = {
+        asset_id
+        for asset_ids in sequence["product_assignments"].values()
+        for asset_id in asset_ids
+    }
+    review_gate_asset_ids = {
+        asset_id
+        for asset_ids in sequence["review_gate_assignments"].values()
+        for asset_id in asset_ids
+    }
+    assert assigned_asset_ids.isdisjoint(review_gate_asset_ids)
+    assert {
+        row["asset_class"] for row in index["objects"] if row["asset_id"] in review_gate_asset_ids
+    } == {"civil.foundation-interface", "civil.jacking-interface"}
+    task_product_relationships = model.by_type("IfcRelAssignsToProduct")
+    assert len(task_product_relationships) == 179
+    assert sum(len(relationship.RelatedObjects) for relationship in task_product_relationships) == 179
+    assert sum(
+        relationship.Name == "OSR physical construction output"
+        for relationship in task_product_relationships
+    ) == 134
+    assert sum(
+        relationship.Name == "OSR virtual review interface"
+        and relationship.RelatingProduct.is_a() == "IfcVirtualElement"
+        for relationship in task_product_relationships
+    ) == 45
+    assert len({item.Tag for item in model.by_type("IfcElement") if item.Tag}) == 185
+    assert len(model.by_type("IfcTypeProduct")) == 19
+    assert len(model.by_type("IfcVehicle")) == 2
+    assert len(model.by_type("IfcVehicleType")) == 1
+    assert not model.by_type("IfcBuildingElementProxy")
+    assert not model.by_type("IfcBuildingElementProxyType")
+    assert len(model.by_type("IfcBearing")) == 36
+    assert len(model.by_type("IfcBearingType")) == 1
+    assert len(model.by_type("IfcRelDefinesByType")) == 19
     assert sum(
         len(relationship.RelatedObjects)
         for relationship in model.by_type("IfcRelDefinesByType")
-    ) == 93
+    ) == 138
     assert {
         product.Tag for product in model.by_type("IfcTypeProduct")
     } == {row["type_id"] for row in index["types"]}
@@ -160,6 +215,35 @@ def test_civil_ifc_has_rail_semantics_geometry_schedule_and_stable_ids(tmp_path:
     )
     assert all(
         not product.IsTypedBy for product in model.by_type("IfcVirtualElement")
+    )
+    assert all(
+        vehicle.IsTypedBy[0].RelatingType.is_a() == "IfcVehicleType"
+        and vehicle.IsTypedBy[0].RelatingType.PredefinedType == "ROLLINGSTOCK"
+        and set(get_psets(vehicle)["Qto_VehicleBaseQuantities"])
+        >= {"Length", "Width", "Height"}
+        for vehicle in model.by_type("IfcVehicle")
+    )
+    assert all(
+        bearing.IsTypedBy[0].RelatingType.is_a() == "IfcBearingType"
+        and bearing.IsTypedBy[0].RelatingType.PredefinedType == "ELASTOMERIC"
+        and get_psets(bearing)["OSR_BearingStatus"]["BearingFamily"]
+        == "elastomeric/PTFE"
+        and get_psets(bearing)["OSR_BearingStatus"]["SupplierSelectionStatus"]
+        == "unresolved"
+        for bearing in model.by_type("IfcBearing")
+    )
+    foundation_rows = [
+        row for row in index["objects"] if row["asset_class"] == "civil.foundation-interface"
+    ]
+    assert len(foundation_rows) == 9
+    assert all(
+        model.by_guid(row["ifc_guid"]).is_a() == "IfcVirtualElement"
+        and get_psets(model.by_guid(row["ifc_guid"]))[
+            "OSR_FoundationInterfaceStatus"
+        ]["ActualFoundationDepth"]
+        == "intentionally-not-modelled"
+        and row["source_part_role"] == "foundation-interface"
+        for row in foundation_rows
     )
     assert all(
         len(model.by_guid(row["ifc_guid"]).IsTypedBy) == (1 if row["ifc_type_id"] else 0)
@@ -258,8 +342,8 @@ def test_civil_ifc_has_rail_semantics_geometry_schedule_and_stable_ids(tmp_path:
     assert cost_document["associated_cost_schedule"]
     assert cost_document["associated_object_count"] == 2
     assert len(model.by_type("IfcClassification")) == 1
-    assert len(model.by_type("IfcClassificationReference")) == 11
-    assert len(model.by_type("IfcRelAssociatesClassification")) == 12
+    assert len(model.by_type("IfcClassificationReference")) == 15
+    assert len(model.by_type("IfcRelAssociatesClassification")) == 16
     classification = model.by_type("IfcClassification")[0]
     assert classification.Name == "OpenSourceRail Asset Classification"
     assert classification.Edition == "1.0"
@@ -282,7 +366,7 @@ def test_civil_ifc_has_rail_semantics_geometry_schedule_and_stable_ids(tmp_path:
     classification_pset = get_psets(model.by_type("IfcProject")[0])[
         "OSR_Classification"
     ]
-    assert classification_pset["ReferenceCount"] == 11
+    assert classification_pset["ReferenceCount"] == 15
     assert (
         classification_pset["ExternalMappingStatus"]
         == "country-and-client-mapping-not-nominated"
@@ -297,15 +381,15 @@ def test_civil_ifc_has_rail_semantics_geometry_schedule_and_stable_ids(tmp_path:
         )
         == 5
     )
-    assert len(model.by_type("IfcSystem")) == 5
+    assert len(model.by_type("IfcSystem")) == 6
     assert len(model.by_type("IfcBuiltSystem")) == 3
-    assert len(model.by_type("IfcRelAssignsToGroup")) == 10
-    assert sorted(row["asset_count"] for row in index["groups"]) == [1, 2, 11, 12, 69]
+    assert len(model.by_type("IfcRelAssignsToGroup")) == 11
+    assert sorted(row["asset_count"] for row in index["groups"]) == [1, 2, 11, 12, 159]
     assert sum(
         len(relationship.RelatedObjects)
         for relationship in model.by_type("IfcRelAssignsToGroup")
         if relationship.RelatingGroup.is_a() == "IfcGroup"
-    ) == 95
+    ) == 185
     groups_by_id = {
         get_psets(group)["OSR_CoordinationGroup"]["GroupId"]: group
         for group in model.by_type("IfcGroup")
@@ -344,12 +428,12 @@ def test_civil_ifc_has_rail_semantics_geometry_schedule_and_stable_ids(tmp_path:
         system.ObjectType: system for system in model.by_type("IfcSystem")
     }
     assert set(systems_by_id) == {row["system_id"] for row in index["systems"]}
-    assert sum(row["asset_count"] for row in index["systems"]) == 95
+    assert sum(row["asset_count"] for row in index["systems"]) == 185
     assert sum(
         len(relationship.RelatedObjects)
         for relationship in model.by_type("IfcRelAssignsToGroup")
         if relationship.RelatingGroup.is_a("IfcSystem")
-    ) == 95
+    ) == 185
     assert all(
         systems_by_id[row["system_id"]].Name == row["name"]
         and systems_by_id[row["system_id"]].Description == row["description"]
@@ -375,6 +459,7 @@ def test_civil_ifc_has_rail_semantics_geometry_schedule_and_stable_ids(tmp_path:
         system.ObjectType: getattr(system, "PredefinedType", None)
         for system in model.by_type("IfcSystem")
     } == {
+        "OSR-SYS-CIVIL-INTERFACES": None,
         "OSR-SYS-CLEARANCE": None,
         "OSR-SYS-GUIDEWAY": "LOADBEARING",
         "OSR-SYS-ROLLING-STOCK": None,
@@ -388,7 +473,7 @@ def test_civil_ifc_has_rail_semantics_geometry_schedule_and_stable_ids(tmp_path:
     assert sum(
         len(relationship.RelatedElements)
         for relationship in spatial_system_relationships
-    ) == 6
+    ) == 7
     assert all(
         {
             relationship.RelatingStructure.Name
@@ -403,14 +488,14 @@ def test_civil_ifc_has_rail_semantics_geometry_schedule_and_stable_ids(tmp_path:
         for layer in model.by_type("IfcPresentationLayerAssignment")
     }
     assert set(layers_by_id) == {row["layer_id"] for row in index["layers"]}
-    assert sorted(row["asset_count"] for row in index["layers"]) == [2, 10, 34, 49]
-    assert sum(len(layer.AssignedItems) for layer in layers_by_id.values()) == 95
+    assert sorted(row["asset_count"] for row in index["layers"]) == [2, 10, 49, 124]
+    assert sum(len(layer.AssignedItems) for layer in layers_by_id.values()) == 185
     representation_layers = {
         representation.id(): layer.Identifier
         for layer in layers_by_id.values()
         for representation in layer.AssignedItems
     }
-    assert len(representation_layers) == 95
+    assert len(representation_layers) == 185
     assert all(
         {
             representation_layers[representation.id()]
@@ -451,9 +536,9 @@ def test_civil_ifc_has_rail_semantics_geometry_schedule_and_stable_ids(tmp_path:
         )
         for definition in model.by_type(ifc_class)
     )
-    assert len(model.by_type("IfcPropertySetTemplate")) == 13
-    assert len(model.by_type("IfcSimplePropertyTemplate")) == 77
-    assert len(model.by_type("IfcRelDefinesByTemplate")) == 11
+    assert len(model.by_type("IfcPropertySetTemplate")) == 15
+    assert len(model.by_type("IfcSimplePropertyTemplate")) == 95
+    assert len(model.by_type("IfcRelDefinesByTemplate")) == 13
     templates_by_name = {
         template.Name: template
         for template in model.by_type("IfcPropertySetTemplate")
@@ -475,7 +560,7 @@ def test_civil_ifc_has_rail_semantics_geometry_schedule_and_stable_ids(tmp_path:
     assert sum(
         len(relationship.RelatedPropertySets)
         for relationship in model.by_type("IfcRelDefinesByTemplate")
-    ) == 220
+    ) == 447
     declared_templates = {
         definition
         for relationship in model.by_type("IfcRelDeclares")
@@ -483,10 +568,10 @@ def test_civil_ifc_has_rail_semantics_geometry_schedule_and_stable_ids(tmp_path:
         if definition.is_a("IfcPropertySetTemplate")
     }
     assert declared_templates == set(templates_by_name.values())
-    assert len(model.by_type("IfcElementQuantity")) == 95
+    assert len(model.by_type("IfcElementQuantity")) == 187
     assert {
         quantity_set.Name for quantity_set in model.by_type("IfcElementQuantity")
-    } == {"OSR_CoordinationEnvelopeQuantities"}
+    } == {"OSR_CoordinationEnvelopeQuantities", "Qto_VehicleBaseQuantities"}
     assert not model.by_type("IfcProjectedCRS")
     assert index["georeferencing"]["status"] == "project-crs-unresolved"
     assert validation["schema_validation"]["issue_count"] == 0

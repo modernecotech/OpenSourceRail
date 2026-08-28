@@ -102,13 +102,14 @@ def tag_objects() -> dict[str, list[bpy.types.Object]]:
 
     materials = {
         "IfcRail": add_material("OSR rail steel", (0.055, 0.075, 0.09, 1.0), 0.82),
+        "IfcBearing": add_material("OSR elastomeric bearing", (0.12, 0.13, 0.14, 1.0), 0.28),
         "IfcBeam": add_material("OSR precast girder", (0.48, 0.57, 0.62, 1.0)),
         "IfcColumn": add_material("OSR pier concrete", (0.39, 0.45, 0.48, 1.0)),
         "IfcSlab": add_material("OSR trackform and platform", (0.68, 0.72, 0.71, 1.0)),
         "IfcRoof": add_material("OSR station canopy", (0.035, 0.42, 0.52, 1.0), 0.18),
         "IfcElementAssembly": add_material("OSR turnout", (0.94, 0.42, 0.08, 1.0), 0.32),
         "IfcCivilElement": add_material("OSR civil interface", (0.12, 0.62, 0.57, 1.0)),
-        "IfcBuildingElementProxy": add_material("OSR rolling stock reference", (0.88, 0.22, 0.09, 1.0), 0.12),
+        "IfcVehicle": add_material("OSR rolling stock reference", (0.88, 0.22, 0.09, 1.0), 0.12),
     }
     by_tag: dict[str, list[bpy.types.Object]] = {}
     for obj in bpy.context.scene.objects:
@@ -164,7 +165,9 @@ def animate_sequence(sequence: dict, by_tag: dict[str, list[bpy.types.Object]]) 
     # Rolling stock is a clearance/operations reference, not a civil work
     # package. Introduce it only after the constructed civil model is visible.
     for asset_id, objects in by_tag.items():
-        if asset_id in assigned or not any(obj.get("osr_ifc_class") == "IfcBuildingElementProxy" for obj in objects):
+        if asset_id in assigned or not any(
+            obj.get("osr_ifc_class") == "IfcVehicle" for obj in objects
+        ):
             continue
         for obj in objects:
             obj.hide_render = True
@@ -202,6 +205,8 @@ def render(args: argparse.Namespace) -> None:
     scene["osr_revision_id"] = index["revision_id"]
     scene["osr_ifc_sha256"] = index["ifc_sha256"]
     scene["osr_authority_boundary"] = json.dumps(index["authority_boundary"], sort_keys=True)
+    scene["osr_native_bearings"] = index["summary"]["native_bearings"]
+    scene["osr_foundation_interfaces"] = index["summary"]["foundation_interfaces"]
     scene.render.engine = "BLENDER_EEVEE"
     scene.render.resolution_x = 1600
     scene.render.resolution_y = 900
