@@ -6,8 +6,9 @@ schema_version = 1
 components = [
   "osr-ato", "osr-atp", "osr-aux-power", "osr-bms", "osr-brake",
   "osr-derailment", "osr-door-control", "osr-fire-safety", "osr-hvac",
-  "osr-lighting", "osr-obstacle-detect", "osr-odometry",
+  "osr-lighting", "osr-obstacle-detect", "osr-odometry", "osr-hot-axle",
   "osr-passenger-assist", "osr-pis-onboard", "osr-tcn", "osr-traction",
+  "osr-cbm-onboard", "osr-event-recorder", "osr-t2g", "osr-tcms",
 ]
 
 # Linked into the deterministic runtime as shared primitives or infrastructure.
@@ -37,9 +38,8 @@ components = ["osr-gui-shared", "osr-sim", "osr-sim-gui"]
 [external_boundary]
 components = [
   "osr-afc", "osr-afc-backoffice", "osr-analytics", "osr-balise",
-  "osr-cbm-backend", "osr-cbm-onboard", "osr-event-recorder", "osr-historian",
-  "osr-hot-axle", "osr-hot-axle-wayside", "osr-intrusion-detect",
+  "osr-cbm-backend", "osr-historian", "osr-hot-axle-wayside", "osr-intrusion-detect",
   "osr-level-crossing", "osr-occ", "osr-occ-gui", "osr-pis-station",
   "osr-proto", "osr-psd", "osr-ptp", "osr-selftest", "osr-station-scada",
-  "osr-t2g", "osr-tcms", "osr-tvm", "osr-wayside-points",
+  "osr-tvm", "osr-wayside-points",
 ]

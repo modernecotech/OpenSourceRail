@@ -70,6 +70,19 @@ pub struct VehicleSystemsSummary {
     pub mechanical_configuration: TrainsetSystemsConfig,
 }
 
+/// Current outputs handed to the embedded TCMS integration layer. Keeping
+/// this small prevents the simulator from reconstructing controller state.
+#[derive(Copy, Clone, Debug, Default)]
+pub struct VehicleSystemsTickReport {
+    pub doors_interlock_ok: bool,
+    pub v24_rail_enabled: bool,
+    pub v110_rail_enabled: bool,
+    pub direct_hv_enabled: bool,
+    pub aux_load_shed_active: bool,
+    pub hvac_reduced: bool,
+    pub pis_announcement: bool,
+}
+
 /// Execute all passenger-facing controllers for one train and simulation tick.
 pub fn vehicle_systems_tick(
     shadow: &mut VehicleSystemsShadow,
@@ -79,7 +92,7 @@ pub fn vehicle_systems_tick(
     ambient_c: f32,
     sim_time_s: u32,
     dt_s: f32,
-) {
+) -> VehicleSystemsTickReport {
     let now_ns = u64::from(sim_time_s).saturating_mul(1_000_000_000);
     let (station_id, distance_to_stop_mm, at_station, speed_mmps, door_action) =
         phase_inputs(train, network);
@@ -223,6 +236,16 @@ pub fn vehicle_systems_tick(
     }
     if pis_out.audio_announcement != AnnouncementKind::None {
         shadow.summary.pis_announcements += 1;
+    }
+
+    VehicleSystemsTickReport {
+        doors_interlock_ok: consist_interlock_ok(&door_outputs),
+        v24_rail_enabled: aux_out.v24_enabled,
+        v110_rail_enabled: aux_out.v110_enabled,
+        direct_hv_enabled: aux_out.direct_hv_enabled,
+        aux_load_shed_active: aux_out.load_shed_active,
+        hvac_reduced: hvac_out.mode == HvacMode::Reduced,
+        pis_announcement: pis_out.audio_announcement != AnnouncementKind::None,
     }
 }
 

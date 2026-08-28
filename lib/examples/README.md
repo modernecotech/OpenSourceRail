@@ -301,10 +301,15 @@ train = "T4"
   failure without changing the safe-stop policy.
 - `battery_fire_escalation` — declares immediate danger and continued
   movement unsafe, escalating the controlled stop to emergency braking.
+- `t2g_primary_offline` — removes 5G and verifies backup-radio failover.
+- `t2g_all_offline` — queues telemetry until either radio recovers.
+- `hot_axle_overheat` — injects a dual-channel bearing-temperature trip.
+- `cbm_degradation` — injects service-level bearing, motor, pad, and wheel data.
 - Onboard fault kinds accept an optional `train = "T4"`; omit it to affect
   the fleet. Other onboard kinds are `lidar_offline`, `radar_offline`,
   `ultrasonic_channel_stale`, `obstacle_peer_disagreement`, and
-  `passenger_intercom_press`.
+  `passenger_intercom_press`. The four embedded faults above use the same
+  optional train scope.
 
 **Fault timing:**
 - `from` and `to` are `"HH:MM"` on the specified `day` (1-based).

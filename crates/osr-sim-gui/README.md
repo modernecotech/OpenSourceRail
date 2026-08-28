@@ -18,6 +18,8 @@ then animates the run at arbitrary playback speed.
   depart, charging, turnaround, SoC warning).
 - Fault-active badges for every `[[faults]]` entry that's firing at
   the current playback time.
+- Embedded-software evidence for TCMS, event recording, CBM, hot-axle, and
+  T2G primary/backup/offline operation.
 
 ## Run (native)
 

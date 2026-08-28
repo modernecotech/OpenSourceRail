@@ -12,6 +12,8 @@ emission.
 - Network schematic with per-section intrusion overlays (Present /
   Unknown colour-coded per RFC 0016).
 - Train panel listing every in-service trainset with phase + SoC.
+- Embedded telemetry roll-up from the attached deterministic recording:
+  TCMS ticks, CBM service flags, and T2G channel/transmission counts.
 - Alert feed (info / warn / crit) with category filter checkboxes,
   pre-seeded with SoC-warning alerts harvested from the recorded
   run and dispatcher-action entries.

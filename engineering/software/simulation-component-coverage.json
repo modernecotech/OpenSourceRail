@@ -4,14 +4,14 @@
   "issues": [],
   "inventory_count": 55,
   "classified_count": 55,
-  "linked_component_count": 21,
+  "linked_component_count": 26,
   "category_counts": {
-    "tick_controller": 16,
+    "tick_controller": 21,
     "runtime_kernel": 5,
     "scenario_model": 2,
     "design_pipeline": 5,
     "simulation_shell": 3,
-    "external_boundary": 24
+    "external_boundary": 19
   },
   "categories": {
     "tick_controller": [
@@ -27,10 +27,15 @@
       "osr-lighting",
       "osr-obstacle-detect",
       "osr-odometry",
+      "osr-hot-axle",
       "osr-passenger-assist",
       "osr-pis-onboard",
       "osr-tcn",
-      "osr-traction"
+      "osr-traction",
+      "osr-cbm-onboard",
+      "osr-event-recorder",
+      "osr-t2g",
+      "osr-tcms"
     ],
     "runtime_kernel": [
       "osr-consensus",
@@ -61,10 +66,7 @@
       "osr-analytics",
       "osr-balise",
       "osr-cbm-backend",
-      "osr-cbm-onboard",
-      "osr-event-recorder",
       "osr-historian",
-      "osr-hot-axle",
       "osr-hot-axle-wayside",
       "osr-intrusion-detect",
       "osr-level-crossing",
@@ -76,15 +78,13 @@
       "osr-ptp",
       "osr-selftest",
       "osr-station-scada",
-      "osr-t2g",
-      "osr-tcms",
       "osr-tvm",
       "osr-wayside-points"
     ]
   },
   "deployment_inventory_sha256": "f6a192757c64f5059fd321ca45d9345c6b1da65d81f45a5d943e49971596492d",
-  "coverage_contract_sha256": "4fbbb9aac2f557311ae1a5e3ca0ad0d956e399804f51f673b8f1fc9f15cad3a7",
-  "simulator_cargo_sha256": "c6011d7e757e0621c26aa4d3ecd089241cd081a629a23daec52f0c3006a596d5",
+  "coverage_contract_sha256": "417dc97ca86b778aeab6937d4b574e10021213520f57442415f5c8ac01aa6124",
+  "simulator_cargo_sha256": "8086f865a16544348c620708f67c1258c01cb1f3e886845b86bf4b77817126e3",
   "runtime_evidence": null,
   "interpretation": "Complete means every deployable software component has exactly one explicit simulation treatment. Only tick_controller entries are claimed to execute per vehicle tick; scenario_model and external_boundary entries remain visible gaps, not simulated implementations."
 }

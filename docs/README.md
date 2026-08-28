@@ -25,6 +25,7 @@ the generated [Markdown documentation index](INDEX.md).
 | Safety/certification reviewer | [certification/README.md](certification/README.md), [safety-case/README.md](safety-case/README.md), [formal/tla/README.md](../formal/tla/README.md) |
 | v0.2 contributor | [ROADMAP.md](ROADMAP.md) |
 | Engineering design/simulation contributor | [Engineering design and simulation plan](engineering-design-simulation-plan.md) |
+| Embedded/software-in-loop reviewer | [Simulation software coverage](simulation-software-coverage.md), then [SBC architecture](rfcs/0005-sbc-software-architecture.md) |
 | Release reviewer | [next release checklist](releases/next.md) |
 
 ## Documentation Sets

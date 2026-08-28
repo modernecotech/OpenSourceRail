@@ -82,12 +82,13 @@ operating affordable urban rail systems. It combines:
 |---|---|
 | **Deterministic city generation** | Reproducible GIS, network, fleet, energy, engineering and finance packages for [266 cities in 44 countries](designs/README.md). |
 | **Integrated OSR Workbench** | Carry one city, actor, revision, approved baseline, simulation run and selected asset through [City Studio, simulation, OCC training and Ops Core](docs/workbench/README.md) without merging their authority boundaries. |
+| **Embedded software in the loop** | The deterministic run now connects the real TCMS, event recorder, hot-axle, CBM and dual-radio T2G evaluators to safety, propulsion, doors, auxiliaries and PIS, with failover and maintenance fault injection reported in simulator and OCC. |
 | **Git-native revision control** | Content-addressed immutable revisions, semantic comparisons, append-only approvals and restart-tested persistence keep each city decision reviewable in GitHub. |
 | **Buildable modular trainset** | The LM3 product tree now exposes a common service rail, four captive fastener families, keyed plug-in lighting, standard fixture adapters, adjustable door carriers and dry-serviceable framed windows through the [small-component standard](mechanical-py/catalog/buildable-trainset/small-component-standard.md). |
 | **Civil BIM and 4D coordination** | Parametric Pi25/slipform/foundation geometry generates schema-checked IFC4.3 with native planning alignment layouts, quantities, typed property dictionaries, a generated schedule of planning rates, classification, review controls, optional survey control, IDS/BCF evidence and linked construction sequencing through the [civil BIM workflow](docs/civil/bonsai-ifc-workflow.md). |
 | **Automatic cost propagation** | Checked CAD quantities regenerate the [shared civil rate contract](lib/templates/civil-cost-model.toml), which feeds city CAPEX, finance, IFC properties, portfolio summaries and generated READMEs while retaining the original benchmark for comparison. |
 | **Operations-to-assurance stack** | Simulation, GoA 4 control components, energy planning, manufacturing QA, maintenance, Ops Core, hardware references and a machine-checkable safety case share one repository and evidence model. |
-| **Deterministic browser acceptance** | Pinned Playwright tests build and boot both Rust/WASM consoles, exercise every operations-portal tab and SQLite persistence, and run 111 City Studio edit, adapter, restart and persistence checks in CI. |
+| **Deterministic browser acceptance** | Pinned Playwright tests build both Rust/WASM consoles, verify embedded evidence in simulation/OCC, exercise portal persistence, and run 111 City Studio edit, adapter, restart and persistence checks in CI. |
 
 City Studio persists civil construction methods in the same Git-reviewed
 project as network and service intent. It displays derived deck-gap and bearing

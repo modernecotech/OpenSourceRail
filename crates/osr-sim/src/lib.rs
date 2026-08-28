@@ -2,6 +2,7 @@
 //! used by the `osr-sim` and `osr-vis` binaries.
 
 pub mod consensus_log;
+pub mod embedded;
 pub mod energy;
 pub mod fault;
 pub mod ma_check;

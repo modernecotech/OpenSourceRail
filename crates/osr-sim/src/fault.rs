@@ -34,6 +34,11 @@
 //!   pump, pressure, and flow checks unavailable.
 //! - **Battery fire escalation** — marks continued movement unsafe and
 //!   immediate danger present, exercising the emergency-stop branch.
+//! - **T2G primary/all offline** — removes the 5G path or both 5G and backup
+//!   paths, exercising deterministic radio failover and store-and-forward.
+//! - **Hot axle overheat** — raises both axle channels above the trip limit.
+//! - **CBM degradation** — drives bearing, motor, brake-pad, and wheel
+//!   measurements into their service bands.
 //!
 //! Wayside intrusion-detect faults (RFC 0016 v3). These exercise the
 //! full wayside→interlocking→train chain:
@@ -116,6 +121,22 @@ pub enum FaultKind {
     BatteryFireEscalation {
         scope: TrainFaultScope,
     },
+    /// Disable the primary T2G channel; the backup should carry telemetry.
+    T2gPrimaryOffline {
+        scope: TrainFaultScope,
+    },
+    /// Disable both T2G channels; telemetry must remain queued.
+    T2gAllOffline {
+        scope: TrainFaultScope,
+    },
+    /// Inject a dual-channel hot-axle reading above the trip threshold.
+    HotAxleOverheat {
+        scope: TrainFaultScope,
+    },
+    /// Inject service-level degradation across the onboard CBM sensors.
+    CbmDegradation {
+        scope: TrainFaultScope,
+    },
     /// RFC 0016 v3 — inject a wayside intrusion verdict on a named
     /// section. The sim emits a `SectionIntrusion` consensus entry
     /// carrying this state for as long as the fault is active; the
@@ -171,6 +192,14 @@ pub struct FaultEngine {
     battery_mist_failure_all: bool,
     battery_fire_escalation_trains: HashSet<TrainId>,
     battery_fire_escalation_all: bool,
+    t2g_primary_offline_trains: HashSet<TrainId>,
+    t2g_primary_offline_all: bool,
+    t2g_all_offline_trains: HashSet<TrainId>,
+    t2g_all_offline_all: bool,
+    hot_axle_overheat_trains: HashSet<TrainId>,
+    hot_axle_overheat_all: bool,
+    cbm_degradation_trains: HashSet<TrainId>,
+    cbm_degradation_all: bool,
     /// Active wayside intrusion injections — `section → state`. The sim
     /// emits a `SectionIntrusion` entry per tick for each key. Rebuilt
     /// in `tick()`.
@@ -213,6 +242,14 @@ impl FaultEngine {
             battery_mist_failure_all: false,
             battery_fire_escalation_trains: HashSet::new(),
             battery_fire_escalation_all: false,
+            t2g_primary_offline_trains: HashSet::new(),
+            t2g_primary_offline_all: false,
+            t2g_all_offline_trains: HashSet::new(),
+            t2g_all_offline_all: false,
+            hot_axle_overheat_trains: HashSet::new(),
+            hot_axle_overheat_all: false,
+            cbm_degradation_trains: HashSet::new(),
+            cbm_degradation_all: false,
             wayside_intrusions: HashMap::new(),
             fault_log: Vec::new(),
             fired_names: HashSet::new(),
@@ -243,6 +280,14 @@ impl FaultEngine {
         self.battery_mist_failure_all = false;
         self.battery_fire_escalation_trains.clear();
         self.battery_fire_escalation_all = false;
+        self.t2g_primary_offline_trains.clear();
+        self.t2g_primary_offline_all = false;
+        self.t2g_all_offline_trains.clear();
+        self.t2g_all_offline_all = false;
+        self.hot_axle_overheat_trains.clear();
+        self.hot_axle_overheat_all = false;
+        self.cbm_degradation_trains.clear();
+        self.cbm_degradation_all = false;
         self.wayside_intrusions.clear();
 
         for fault in &self.faults {
@@ -331,6 +376,30 @@ impl FaultEngine {
                         self.battery_fire_escalation_trains.insert(*t);
                     }
                 },
+                FaultKind::T2gPrimaryOffline { scope } => match scope {
+                    TrainFaultScope::All => self.t2g_primary_offline_all = true,
+                    TrainFaultScope::Train(t) => {
+                        self.t2g_primary_offline_trains.insert(*t);
+                    }
+                },
+                FaultKind::T2gAllOffline { scope } => match scope {
+                    TrainFaultScope::All => self.t2g_all_offline_all = true,
+                    TrainFaultScope::Train(t) => {
+                        self.t2g_all_offline_trains.insert(*t);
+                    }
+                },
+                FaultKind::HotAxleOverheat { scope } => match scope {
+                    TrainFaultScope::All => self.hot_axle_overheat_all = true,
+                    TrainFaultScope::Train(t) => {
+                        self.hot_axle_overheat_trains.insert(*t);
+                    }
+                },
+                FaultKind::CbmDegradation { scope } => match scope {
+                    TrainFaultScope::All => self.cbm_degradation_all = true,
+                    TrainFaultScope::Train(t) => {
+                        self.cbm_degradation_trains.insert(*t);
+                    }
+                },
                 FaultKind::WaysideIntrusion { section, state } => {
                     // Most-restrictive state wins when multiple faults
                     // overlap on the same section.
@@ -416,6 +485,22 @@ impl FaultEngine {
     pub fn battery_fire_escalated_for(&self, train: TrainId) -> bool {
         self.battery_fire_escalation_all || self.battery_fire_escalation_trains.contains(&train)
     }
+
+    pub fn t2g_primary_offline_for(&self, train: TrainId) -> bool {
+        self.t2g_primary_offline_all || self.t2g_primary_offline_trains.contains(&train)
+    }
+
+    pub fn t2g_all_offline_for(&self, train: TrainId) -> bool {
+        self.t2g_all_offline_all || self.t2g_all_offline_trains.contains(&train)
+    }
+
+    pub fn hot_axle_overheat_for(&self, train: TrainId) -> bool {
+        self.hot_axle_overheat_all || self.hot_axle_overheat_trains.contains(&train)
+    }
+
+    pub fn cbm_degradation_for(&self, train: TrainId) -> bool {
+        self.cbm_degradation_all || self.cbm_degradation_trains.contains(&train)
+    }
 }
 
 fn most_restrictive(a: IntrusionState, b: IntrusionState) -> IntrusionState {
@@ -486,6 +571,22 @@ fn describe_kind(kind: &FaultKind) -> String {
         FaultKind::BatteryFireEscalation { scope } => match scope {
             TrainFaultScope::All => "battery fire escalation (fleet)".to_string(),
             TrainFaultScope::Train(_) => "battery fire escalation (one train)".to_string(),
+        },
+        FaultKind::T2gPrimaryOffline { scope } => match scope {
+            TrainFaultScope::All => "T2G primary offline (fleet)".to_string(),
+            TrainFaultScope::Train(_) => "T2G primary offline (one train)".to_string(),
+        },
+        FaultKind::T2gAllOffline { scope } => match scope {
+            TrainFaultScope::All => "T2G primary and backup offline (fleet)".to_string(),
+            TrainFaultScope::Train(_) => "T2G primary and backup offline (one train)".to_string(),
+        },
+        FaultKind::HotAxleOverheat { scope } => match scope {
+            TrainFaultScope::All => "hot axle overheat (fleet)".to_string(),
+            TrainFaultScope::Train(_) => "hot axle overheat (one train)".to_string(),
+        },
+        FaultKind::CbmDegradation { scope } => match scope {
+            TrainFaultScope::All => "CBM service-level degradation (fleet)".to_string(),
+            TrainFaultScope::Train(_) => "CBM service-level degradation (one train)".to_string(),
         },
         FaultKind::WaysideIntrusion { section, state } => {
             let s = match state {

@@ -19,7 +19,9 @@ for (const frontend of [
     canvas: "#osr_sim_canvas",
     app: "simulator",
     details: { invariantViolations: 0 },
-    positiveDetails: ["events", "trains", "controllerTicks"],
+    positiveDetails: [
+      "events", "trains", "controllerTicks", "embeddedTicks", "t2gTransmissions",
+    ],
   },
   {
     name: "OCC console",
@@ -27,7 +29,9 @@ for (const frontend of [
     canvas: "#osr_occ_canvas",
     app: "occ",
     details: {},
-    positiveDetails: ["recordedEvents", "trains", "alerts", "intrusions"],
+    positiveDetails: [
+      "recordedEvents", "trains", "alerts", "intrusions", "embeddedTicks", "t2gTransmissions",
+    ],
   },
 ]) {
   test(`${frontend.name} boots its production WASM bundle`, async ({ page }, testInfo) => {

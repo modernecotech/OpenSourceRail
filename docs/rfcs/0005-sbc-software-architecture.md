@@ -1,6 +1,6 @@
 # RFC 0005 — SBC Software Architecture
 
-**Status:** Draft — planning only, no code ships with this RFC
+**Status:** Implemented software baseline; production transport/hardware evidence remains
 **Date:** 2026-04-21
 **Depends on:** [RFC 0001 Track State Consensus](0001-track-state-consensus.md), [RFC 0004 `osr-interlocking` Plan](0004-osr-interlocking-plan.md)
 **Supersedes for repo layout:** [ARCHITECTURE.md §6.3](../ARCHITECTURE.md#63-repository-layout-proposed)
@@ -12,20 +12,18 @@ onboard train ECUs, wayside SBCs, station and depot controllers, and the
 OCC back-office — and fixes their boundaries, buses, SIL tiers, and
 rollout order *before* the first of them is written.
 
-Today the workspace has three crates: [`osr-core`](../../crates/osr-core/),
-[`osr-interlocking`](../../crates/osr-interlocking/), and
-[`osr-sim`](../../crates/osr-sim/). The interlocking crate computes
-Movement Authorities; nothing yet *consumes* them on a train, *publishes*
-them on a bus, or *commands* any physical actuator. Filling that gap is
-the goal of the next two years of implementation work, and it touches
-roughly **thirty-five crates** across seven hardware classes.
+The workspace now implements the crate map below. `osr-sim` connects the
+onboard safety, vehicle, TCMS, recorder, CBM, hot-axle, and T2G evaluators in
+deterministic software-in-loop runs. This is integration evidence, not a claim
+that production transports, hardware I/O, or safety certification are done.
 
 Without a map, those crates would grow ad hoc, buses would be redesigned
 repeatedly, SIL boundaries would be fuzzy, and the safety case would be
 rebuilt from scratch several times. This document is the map.
 
-The deliverable of this RFC is only the map. No `Cargo.toml`s change as
-part of this document; implementation begins in RFC 0006 (see §11).
+The crate map remains the architectural contract. Implemented links are
+tracked by `lib/simulation-component-coverage.toml`; hardware and production
+transport evidence remains governed by the later RFCs and release checklists.
 
 ## 2. Non-goals
 

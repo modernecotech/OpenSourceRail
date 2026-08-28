@@ -24,8 +24,15 @@ pub async fn start_web(
     canvas: web_sys::HtmlCanvasElement,
 ) -> Result<String, wasm_bindgen::JsValue> {
     let app = SimApp::with_auto_run(None, 600, true);
-    let (duration_s, events, trains, controller_ticks, invariant_violations) =
-        app.run_state_summary();
+    let (
+        duration_s,
+        events,
+        trains,
+        controller_ticks,
+        embedded_ticks,
+        t2g_transmissions,
+        invariant_violations,
+    ) = app.run_state_summary();
     eframe::WebRunner::new()
         .start(
             canvas,
@@ -34,6 +41,6 @@ pub async fn start_web(
         )
         .await?;
     Ok(format!(
-        "{{\"durationS\":{duration_s},\"events\":{events},\"trains\":{trains},\"controllerTicks\":{controller_ticks},\"invariantViolations\":{invariant_violations}}}"
+        "{{\"durationS\":{duration_s},\"events\":{events},\"trains\":{trains},\"controllerTicks\":{controller_ticks},\"embeddedTicks\":{embedded_ticks},\"t2gTransmissions\":{t2g_transmissions},\"invariantViolations\":{invariant_violations}}}"
     ))
 }

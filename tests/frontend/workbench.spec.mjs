@@ -38,6 +38,9 @@ test("Workbench carries an approved revision through simulation, OCC replay, and
     () => module.locator("body").evaluate(() => window.__OSR_FRONTEND__),
     { timeout: 120_000 },
   ).toMatchObject({ app: "simulator", ready: true, error: null });
+  const simulatorState = await module.locator("body").evaluate(() => window.__OSR_FRONTEND__);
+  expect(simulatorState.details.embeddedTicks).toBeGreaterThan(0);
+  expect(simulatorState.details.t2gTransmissions).toBeGreaterThan(0);
   await expect(page.locator("#contextRun")).toHaveText(/^run-[a-f0-9]{16}$/);
   const runId = await page.locator("#contextRun").textContent();
 
@@ -48,6 +51,9 @@ test("Workbench carries an approved revision through simulation, OCC replay, and
     () => module.locator("body").evaluate(() => window.__OSR_FRONTEND__),
     { timeout: 120_000 },
   ).toMatchObject({ app: "occ", ready: true, error: null });
+  const occState = await module.locator("body").evaluate(() => window.__OSR_FRONTEND__);
+  expect(occState.details.embeddedTicks).toBeGreaterThan(0);
+  expect(occState.details.t2gTransmissions).toBeGreaterThan(0);
   await expect.poll(
     () => module.locator("body").evaluate(() => window.__OSR_FRONTEND__.context.actor),
   ).toBe("Playwright Operator");

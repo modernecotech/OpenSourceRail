@@ -1,14 +1,20 @@
 # Simulation software coverage
 
-`osr-sim` now executes the motion/safety stack and the buildable trainset's
-door, auxiliary-power, HVAC, lighting, and onboard PIS controllers against the
-same train state on every applicable tick. The result JSON contains separate
-`onboard` and `vehicle_systems` evidence; auxiliary loads are already included
-in the calibrated energy intensity and are not charged twice.
+`osr-sim` executes three connected layers against the same train state:
 
-Coverage is deliberately narrower than “start every binary.” Back-office,
-station, wayside, design-tool, and GUI processes need service-level harnesses,
-not a fake vehicle tick. The machine-readable contract at
+- `onboard`: odometry, ATP/ATO, BMS, traction, brake, obstacle, fire,
+  derailment, and passenger assistance;
+- `vehicle_systems`: doors, auxiliary power, HVAC, lighting, and onboard PIS;
+- `embedded`: TCMS, event recording, hot-axle monitoring, CBM sampling, and
+  T2G failover/store-and-forward.
+
+Each layer emits deterministic result evidence. Auxiliary loads remain in the
+calibrated energy intensity and are not charged twice.
+
+Coverage is deliberately narrower than “start every binary.” Hardware
+commissioning remains in `osr-selftest`; back-office, station, wayside, and
+design processes need their own harnesses rather than a fake train tick. The
+machine-readable contract at
 `lib/simulation-component-coverage.toml` classifies every entry in
 `deployment/components.toml` exactly once and fails if the inventory drifts.
 `scenario_model` entries are aggregate substitutes, and `external_boundary`

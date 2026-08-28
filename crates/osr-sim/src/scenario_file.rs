@@ -316,7 +316,8 @@ pub struct FaultSpec {
     /// `"lidar_offline"`, `"radar_offline"`, `"ultrasonic_channel_stale"`,
     /// `"obstacle_peer_disagreement"`, `"passenger_intercom_press"`,
     /// `"battery_off_gas"`, `"battery_mist_failure"`,
-    /// `"battery_fire_escalation"`.
+    /// `"battery_fire_escalation"`, `"t2g_primary_offline"`,
+    /// `"t2g_all_offline"`, `"hot_axle_overheat"`, or `"cbm_degradation"`.
     pub kind: String,
     /// Start time "HH:MM" (relative to `day`).
     pub from: String,
@@ -519,6 +520,8 @@ impl std::fmt::Display for LoadError {
                  ultrasonic_channel_stale, obstacle_peer_disagreement, \
                  passenger_intercom_press, battery_off_gas, \
                  battery_mist_failure, battery_fire_escalation, \
+                 t2g_primary_offline, t2g_all_offline, \
+                 hot_axle_overheat, cbm_degradation, \
                  wayside_intrusion)"
             ),
             UltrasonicChannelOutOfRange { name, channel } => write!(
@@ -1113,6 +1116,18 @@ fn build_faults(
             "battery_fire_escalation" => FaultKind::BatteryFireEscalation {
                 scope: train_scope(spec)?,
             },
+            "t2g_primary_offline" => FaultKind::T2gPrimaryOffline {
+                scope: train_scope(spec)?,
+            },
+            "t2g_all_offline" => FaultKind::T2gAllOffline {
+                scope: train_scope(spec)?,
+            },
+            "hot_axle_overheat" => FaultKind::HotAxleOverheat {
+                scope: train_scope(spec)?,
+            },
+            "cbm_degradation" => FaultKind::CbmDegradation {
+                scope: train_scope(spec)?,
+            },
             "wayside_intrusion" => {
                 let sid = spec
                     .section_id
@@ -1259,5 +1274,45 @@ mod trainset_system_tests {
             .replace("door_cassettes_per_car = 4", "door_cassettes_per_car = 0");
         let error = load_scenario_from_str(&source).expect_err("zero door count must fail");
         assert!(error.to_string().contains("door_cassettes_per_car"));
+    }
+
+    #[test]
+    fn embedded_fault_kinds_parse_with_train_scope() {
+        let additions = [
+            "t2g_primary_offline",
+            "t2g_all_offline",
+            "hot_axle_overheat",
+            "cbm_degradation",
+        ]
+        .into_iter()
+        .enumerate()
+        .map(|(index, kind)| {
+            format!(
+                "\n[[faults]]\nname = \"embedded-{index}\"\nkind = \"{kind}\"\nfrom = \"05:31\"\nto = \"05:32\"\ntrain = \"T1\"\n"
+            )
+        })
+        .collect::<String>();
+        let source = format!(
+            "{}{}",
+            include_str!("../../../designs/west-asia/Iraq/Samawah/samawah.toml"),
+            additions
+        );
+        let scenario = load_scenario_from_str(&source).expect("embedded faults should parse");
+        assert!(scenario
+            .faults
+            .iter()
+            .any(|fault| matches!(fault.kind, FaultKind::T2gPrimaryOffline { .. })));
+        assert!(scenario
+            .faults
+            .iter()
+            .any(|fault| matches!(fault.kind, FaultKind::T2gAllOffline { .. })));
+        assert!(scenario
+            .faults
+            .iter()
+            .any(|fault| matches!(fault.kind, FaultKind::HotAxleOverheat { .. })));
+        assert!(scenario
+            .faults
+            .iter()
+            .any(|fault| matches!(fault.kind, FaultKind::CbmDegradation { .. })));
     }
 }

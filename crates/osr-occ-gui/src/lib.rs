@@ -14,7 +14,15 @@ pub async fn start_web(
     operator: String,
 ) -> Result<String, wasm_bindgen::JsValue> {
     let app = OccApp::with_auto_attach_duration(operator, true, 600);
-    let (duration_s, recorded_events, trains, alerts, intrusions) = app.recorded_state_summary();
+    let (
+        duration_s,
+        recorded_events,
+        trains,
+        alerts,
+        intrusions,
+        embedded_ticks,
+        t2g_transmissions,
+    ) = app.recorded_state_summary();
     eframe::WebRunner::new()
         .start(
             canvas,
@@ -23,6 +31,6 @@ pub async fn start_web(
         )
         .await?;
     Ok(format!(
-        "{{\"durationS\":{duration_s},\"recordedEvents\":{recorded_events},\"trains\":{trains},\"alerts\":{alerts},\"intrusions\":{intrusions}}}"
+        "{{\"durationS\":{duration_s},\"recordedEvents\":{recorded_events},\"trains\":{trains},\"alerts\":{alerts},\"intrusions\":{intrusions},\"embeddedTicks\":{embedded_ticks},\"t2gTransmissions\":{t2g_transmissions}}}"
     ))
 }

@@ -197,6 +197,33 @@ pub fn print_summary(_config: &ScenarioConfig, _runtime: &RuntimeConfig, r: &Sim
         );
     }
 
+    if r.embedded.controller_ticks > 0 {
+        println!("\n────────── Embedded application stack ──────────");
+        println!("TCMS ticks         : {:>10}", r.embedded.controller_ticks);
+        println!(
+            "Ready / trip ticks : {} / {}",
+            r.embedded.tcms_ready_to_move_ticks, r.embedded.tcms_trip_ticks
+        );
+        println!(
+            "Event records      : {} written / {} retained / {} overwritten",
+            r.embedded.event_records_written,
+            r.embedded.event_records_retained,
+            r.embedded.event_records_dropped
+        );
+        println!(
+            "CBM samples/alerts : {} / {} watch / {} service",
+            r.embedded.cbm_samples, r.embedded.cbm_watch_flags, r.embedded.cbm_service_flags
+        );
+        println!(
+            "T2G tx/channels    : {} tx · {} primary · {} backup · {} offline · queue max {}",
+            r.embedded.t2g_transmissions,
+            r.embedded.t2g_primary_ticks,
+            r.embedded.t2g_backup_ticks,
+            r.embedded.t2g_offline_ticks,
+            r.embedded.maximum_t2g_queue_depth
+        );
+    }
+
     if r.ma_check.checks_run > 0 {
         println!("\n────────── MA computer integration (osr-interlocking) ──────────");
         println!("Sweeps run         : {:>10}", r.ma_check.checks_run);

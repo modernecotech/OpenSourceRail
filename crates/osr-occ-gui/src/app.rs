@@ -134,7 +134,7 @@ impl OccApp {
     }
 
     /// Compact proof that the browser console attached a populated recording.
-    pub fn recorded_state_summary(&self) -> (u32, usize, usize, usize, usize) {
+    pub fn recorded_state_summary(&self) -> (u32, usize, usize, usize, usize, u64, u64) {
         (
             self.result
                 .as_ref()
@@ -145,6 +145,12 @@ impl OccApp {
                 .map_or(0, |result| result.per_train_final_soc.len()),
             self.alerts.len(),
             self.intrusions.len(),
+            self.result
+                .as_ref()
+                .map_or(0, |result| result.embedded.controller_ticks),
+            self.result
+                .as_ref()
+                .map_or(0, |result| result.embedded.t2g_transmissions),
         )
     }
 
@@ -355,6 +361,21 @@ fn left_actions(app: &mut OccApp, ctx: &Context) {
             }
         } else {
             ui.label("(attach recording to populate)");
+        }
+        if let Some(result) = &app.result {
+            ui.separator();
+            ui.heading("Embedded telemetry");
+            ui.label(format!("TCMS ticks: {}", result.embedded.controller_ticks));
+            ui.label(format!(
+                "T2G tx / backup / offline: {} / {} / {}",
+                result.embedded.t2g_transmissions,
+                result.embedded.t2g_backup_ticks,
+                result.embedded.t2g_offline_ticks
+            ));
+            ui.label(format!(
+                "CBM service flags: {}",
+                result.embedded.cbm_service_flags
+            ));
         }
     });
 }

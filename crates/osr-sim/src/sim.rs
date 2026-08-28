@@ -20,6 +20,7 @@ use osr_core::{
 use serde::{Deserialize, Serialize};
 
 use crate::consensus_log::ConsensusBackend;
+use crate::embedded::{self, EmbeddedShadow, EmbeddedSummary};
 use crate::energy::{pv_output_kw, EnergySiteConfig, EnergySiteSummary, EnergySystem};
 use crate::fault::{Fault, FaultEngine, FaultLogEntry};
 use crate::ma_check::{self, MaCheckSummary};
@@ -569,6 +570,10 @@ pub struct SimResult {
     /// lighting and passenger-information controllers.
     #[serde(default)]
     pub vehicle_systems: VehicleSystemsSummary,
+    /// Application-tier embedded software evidence: TCMS, event recorder,
+    /// hot-axle monitor, CBM sampler, and T2G radio arbitration.
+    #[serde(default)]
+    pub embedded: EmbeddedSummary,
 }
 
 fn default_ma_summary() -> MaCheckSummary {
@@ -667,6 +672,8 @@ pub fn run_with_event_recording(
             VehicleSystemsShadow::new(train, &config.trainset_systems, config.climate.ambient_c)
         })
         .collect();
+    let mut embedded_shadows: Vec<EmbeddedShadow> =
+        trains.iter().map(EmbeddedShadow::new).collect();
 
     // Optional CSV trace.
     let mut csv_writer: Option<std::io::BufWriter<std::fs::File>> = None;
@@ -762,21 +769,22 @@ pub fn run_with_event_recording(
             // the train just left Traveling (arrived at a station
             // or transitioned elsewhere), reset the shadow so the
             // next section entry re-seeds cleanly.
-            match trains[idx].phase {
-                TrainPhase::Traveling { .. } => {
-                    let _ = onboard::onboard_tick(
-                        &mut onboard_shadows[idx],
-                        &trains[idx],
-                        &config.network,
-                        &faults,
-                        t,
-                        dt,
-                    );
+            let onboard_report = match trains[idx].phase {
+                TrainPhase::Traveling { .. } => onboard::onboard_tick(
+                    &mut onboard_shadows[idx],
+                    &trains[idx],
+                    &config.network,
+                    &faults,
+                    t,
+                    dt,
+                ),
+                _ => {
+                    onboard_shadows[idx].on_leave_section();
+                    None
                 }
-                _ => onboard_shadows[idx].on_leave_section(),
-            }
+            };
 
-            vehicle_systems::vehicle_systems_tick(
+            let vehicle_report = vehicle_systems::vehicle_systems_tick(
                 &mut vehicle_system_shadows[idx],
                 &trains[idx],
                 &config.network,
@@ -784,6 +792,16 @@ pub fn run_with_event_recording(
                 config.climate.ambient_c,
                 t,
                 dt,
+            );
+            embedded::embedded_tick(
+                &mut embedded_shadows[idx],
+                &trains[idx],
+                &onboard_shadows[idx],
+                onboard_report.as_ref(),
+                &vehicle_report,
+                &faults,
+                config.climate.ambient_c,
+                t,
             );
         }
 
@@ -866,6 +884,7 @@ pub fn run_with_event_recording(
         &config.trainset_systems,
         config.consist.car_count,
     );
+    let embedded_summary = embedded::summarise(&embedded_shadows);
 
     // Build per-site summaries.
     let energy_sites: Vec<EnergySiteSummary> = energy
@@ -914,6 +933,7 @@ pub fn run_with_event_recording(
         ma_check: ma_summary,
         onboard: onboard_summary,
         vehicle_systems: vehicle_systems_summary,
+        embedded: embedded_summary,
     }
 }
 

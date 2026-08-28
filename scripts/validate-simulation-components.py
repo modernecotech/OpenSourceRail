@@ -68,12 +68,17 @@ def build_report(result_path: Path | None = None) -> dict:
         result = json.loads(result_path.read_text(encoding="utf-8"))
         vehicle = result.get("vehicle_systems", {})
         onboard = result.get("onboard", {})
+        embedded = result.get("embedded", {})
         runtime_evidence = {
             "result": str(result_path),
             "result_sha256": digest(result_path),
             "vehicle_controller_ticks": int(vehicle.get("controller_ticks", 0)),
             "door_interlock_violations": int(vehicle.get("door_interlock_violations", 0)),
             "onboard_ticks": int(onboard.get("ticks_evaluated", 0)),
+            "embedded_controller_ticks": int(embedded.get("controller_ticks", 0)),
+            "event_records_written": int(embedded.get("event_records_written", 0)),
+            "cbm_samples": int(embedded.get("cbm_samples", 0)),
+            "t2g_transmissions": int(embedded.get("t2g_transmissions", 0)),
         }
         required_vehicle = (
             "door_controller_evaluations",
@@ -87,6 +92,14 @@ def build_report(result_path: Path | None = None) -> dict:
                 issues.append(f"simulation result has no {field} evidence")
         if runtime_evidence["door_interlock_violations"]:
             issues.append("simulation result contains door interlock violations")
+        for field in (
+            "embedded_controller_ticks",
+            "event_records_written",
+            "cbm_samples",
+            "t2g_transmissions",
+        ):
+            if runtime_evidence[field] <= 0:
+                issues.append(f"simulation result has no {field} evidence")
 
     counts = {
         category: sum(1 for value in assignments.values() if value == category)

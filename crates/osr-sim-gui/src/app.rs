@@ -124,16 +124,20 @@ impl SimApp {
 
     /// Compact proof that the browser-visible run is populated and that the
     /// integrated vehicle controllers executed.
-    pub fn run_state_summary(&self) -> (u32, usize, usize, u64, usize) {
-        self.result.as_ref().map_or((0, 0, 0, 0, 0), |result| {
-            (
-                result.sim_duration_s,
-                result.events.len(),
-                result.per_train_final_soc.len(),
-                result.vehicle_systems.controller_ticks,
-                result.invariant_violations.len(),
-            )
-        })
+    pub fn run_state_summary(&self) -> (u32, usize, usize, u64, u64, u64, usize) {
+        self.result
+            .as_ref()
+            .map_or((0, 0, 0, 0, 0, 0, 0), |result| {
+                (
+                    result.sim_duration_s,
+                    result.events.len(),
+                    result.per_train_final_soc.len(),
+                    result.vehicle_systems.controller_ticks,
+                    result.embedded.controller_ticks,
+                    result.embedded.t2g_transmissions,
+                    result.invariant_violations.len(),
+                )
+            })
     }
 
     fn run_sim(&mut self) {
@@ -292,6 +296,30 @@ fn left_sidebar(app: &mut SimApp, ctx: &Context) {
                 "PIS announcements: {}",
                 r.vehicle_systems.pis_announcements
             ));
+            ui.separator();
+            ui.heading("Embedded software");
+            ui.label(format!("TCMS ticks: {}", r.embedded.controller_ticks));
+            ui.label(format!(
+                "event records: {}",
+                r.embedded.event_records_written
+            ));
+            ui.label(format!("CBM samples: {}", r.embedded.cbm_samples));
+            ui.label(format!(
+                "T2G tx / backup / offline: {} / {} / {}",
+                r.embedded.t2g_transmissions,
+                r.embedded.t2g_backup_ticks,
+                r.embedded.t2g_offline_ticks
+            ));
+            let embedded_trips = r.embedded.hot_axle_trip_ticks + r.embedded.tcms_trip_ticks;
+            let embedded_colour = if embedded_trips == 0 {
+                Color32::from_rgb(120, 220, 120)
+            } else {
+                Color32::from_rgb(230, 180, 60)
+            };
+            ui.colored_label(
+                embedded_colour,
+                format!("embedded alert ticks: {embedded_trips}"),
+            );
             if !r.faults_fired.is_empty() {
                 ui.separator();
                 ui.heading("Faults fired");
