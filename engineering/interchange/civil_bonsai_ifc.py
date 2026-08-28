@@ -1687,6 +1687,149 @@ def add_functional_systems(
     return system_entities, rows
 
 
+def add_bearing_connections(
+    model: ifcopenshell.file,
+    *,
+    products: dict[str, Any],
+    index_rows: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    """Connect caps to supported superstructure through source bearing geometry.
+
+    Physical connectivity is inferred only from deterministic face contact:
+    bearing top equals superstructure soffit, their plan envelopes overlap,
+    and the bearing belongs to the same source pier as the cap. No analytical
+    boundary condition, stiffness, movement capacity, or connection geometry
+    is inferred.
+    """
+
+    rows_by_id = {row["asset_id"]: row for row in index_rows}
+    bearings = [row for row in index_rows if row["asset_class"] == "civil.bearing"]
+    caps = [row for row in index_rows if row["asset_class"] == "civil.pier-cap"]
+    supported = [
+        row
+        for row in index_rows
+        if row["asset_class"]
+        in {"civil.decked-pi-beam", "civil.station-deck-interface"}
+    ]
+
+    def overlap(first: list[float], second: list[float], low: int, high: int) -> float:
+        return min(first[high], second[high]) - max(first[low], second[low])
+
+    connection_rows: list[dict[str, Any]] = []
+    bearing_connection_ids: dict[str, list[str]] = defaultdict(list)
+    element_connection_ids: dict[str, list[str]] = defaultdict(list)
+    for cap in sorted(caps, key=lambda row: row["asset_id"]):
+        cap_bearings = [
+            bearing
+            for bearing in bearings
+            if bearing["source_component_id"] == cap["source_component_id"]
+        ]
+        if len(cap_bearings) != 4:
+            raise ValueError(
+                f"pier cap {cap['asset_id']!r} must resolve exactly four source bearings"
+            )
+        for superstructure in sorted(supported, key=lambda row: row["asset_id"]):
+            realizing = [
+                bearing
+                for bearing in cap_bearings
+                if abs(bearing["bbox_m"][5] - superstructure["bbox_m"][2]) <= 1e-6
+                and overlap(bearing["bbox_m"], superstructure["bbox_m"], 0, 3) > 1e-9
+                and overlap(bearing["bbox_m"], superstructure["bbox_m"], 1, 4) > 1e-9
+            ]
+            if not realizing:
+                continue
+            expected_realizers = (
+                2 if superstructure["asset_class"] == "civil.decked-pi-beam" else 4
+            )
+            if len(realizing) != expected_realizers:
+                raise ValueError(
+                    f"bearing realization count changed for {cap['asset_id']!r} -> "
+                    f"{superstructure['asset_id']!r}: {len(realizing)}"
+                )
+            connection_id = (
+                f"OSR-CONN-{cap['asset_id'].removeprefix('OSR-DT-')}-"
+                f"{superstructure['asset_id'].removeprefix('OSR-DT-')}"
+            )
+            relationship = model.create_entity(
+                "IfcRelConnectsWithRealizingElements",
+                GlobalId=stable_guid(f"bearing-connection:{connection_id}"),
+                Name="OSR bearing-realized support connection",
+                Description=(
+                    "Geometrically derived design-reference connection; bearing family "
+                    "is known but stiffness, loads, movements, supplier and release are unresolved."
+                ),
+                ConnectionGeometry=None,
+                RelatingElement=products[cap["asset_id"]],
+                RelatedElement=products[superstructure["asset_id"]],
+                RealizingElements=[products[bearing["asset_id"]] for bearing in realizing],
+                ConnectionType="elastomeric/PTFE support",
+            )
+            realizing_ids = sorted(bearing["asset_id"] for bearing in realizing)
+            for bearing_id in realizing_ids:
+                bearing_connection_ids[bearing_id].append(connection_id)
+            element_connection_ids[cap["asset_id"]].append(connection_id)
+            element_connection_ids[superstructure["asset_id"]].append(connection_id)
+            connection_rows.append(
+                {
+                    "connection_id": connection_id,
+                    "ifc_guid": relationship.GlobalId,
+                    "ifc_class": relationship.is_a(),
+                    "name": relationship.Name,
+                    "connection_type": relationship.ConnectionType,
+                    "relating_cap_asset_id": cap["asset_id"],
+                    "related_superstructure_asset_id": superstructure["asset_id"],
+                    "related_superstructure_asset_class": superstructure["asset_class"],
+                    "realizing_bearing_asset_ids": realizing_ids,
+                    "realizing_bearing_count": len(realizing_ids),
+                    "derivation": "source bbox face contact; no connection geometry or analytical condition inferred",
+                    "release_status": "design-reference; bearing schedule and structural release unresolved",
+                }
+            )
+
+    if set(bearing_connection_ids) != {bearing["asset_id"] for bearing in bearings}:
+        raise ValueError("every native bearing must realize at least one support connection")
+    beam_ids = {
+        row["asset_id"] for row in supported if row["asset_class"] == "civil.decked-pi-beam"
+    }
+    if any(len(element_connection_ids[asset_id]) != 2 for asset_id in beam_ids):
+        raise ValueError("every decked Pi beam must resolve two bearing-supported ends")
+    station_decks = [
+        row for row in supported if row["asset_class"] == "civil.station-deck-interface"
+    ]
+    if any(len(element_connection_ids[row["asset_id"]]) != 3 for row in station_decks):
+        raise ValueError("the station deck interface must resolve its three source pier supports")
+
+    for bearing in bearings:
+        connection_ids = sorted(bearing_connection_ids[bearing["asset_id"]])
+        bearing["bearing_connection_ids"] = connection_ids
+        bearing["bearing_connection_count"] = len(connection_ids)
+        connected_cap_id = next(
+            row["relating_cap_asset_id"]
+            for row in connection_rows
+            if bearing["asset_id"] in row["realizing_bearing_asset_ids"]
+        )
+        connected_superstructure_ids = sorted(
+            row["related_superstructure_asset_id"]
+            for row in connection_rows
+            if bearing["asset_id"] in row["realizing_bearing_asset_ids"]
+        )
+        set_properties(
+            model,
+            products[bearing["asset_id"]],
+            "OSR_BearingConnectivity",
+            {
+                "RealizedConnectionCount": len(connection_ids),
+                "ConnectedCapAssetId": connected_cap_id,
+                "ConnectedSuperstructureAssetIds": ",".join(connected_superstructure_ids),
+                "ConnectivityDerivation": "source bbox face contact",
+            },
+        )
+    for asset_id, connection_ids in element_connection_ids.items():
+        rows_by_id[asset_id]["bearing_connection_ids"] = sorted(connection_ids)
+        rows_by_id[asset_id]["bearing_connection_count"] = len(connection_ids)
+    return sorted(connection_rows, key=lambda row: row["connection_id"])
+
+
 def add_presentation_layers(
     model: ifcopenshell.file,
     *,
@@ -2639,6 +2782,11 @@ def build_model(
             }
         )
 
+    bearing_connection_rows = add_bearing_connections(
+        model,
+        products=products,
+        index_rows=index_rows,
+    )
     layer_rows = add_presentation_layers(
         model,
         products=products,
@@ -2746,6 +2894,26 @@ def build_model(
             "native_bearings": sum(
                 row["ifc_class"] == "IfcBearing" for row in index_rows
             ),
+            "bearing_connection_relationships": len(bearing_connection_rows),
+            "bearing_connection_realizations": sum(
+                row["realizing_bearing_count"] for row in bearing_connection_rows
+            ),
+            "connected_bearings": sum(
+                bool(row.get("bearing_connection_ids"))
+                for row in index_rows
+                if row["asset_class"] == "civil.bearing"
+            ),
+            "connected_pier_caps": sum(
+                bool(row.get("bearing_connection_ids"))
+                for row in index_rows
+                if row["asset_class"] == "civil.pier-cap"
+            ),
+            "connected_superstructure_assets": sum(
+                bool(row.get("bearing_connection_ids"))
+                for row in index_rows
+                if row["asset_class"]
+                in {"civil.decked-pi-beam", "civil.station-deck-interface"}
+            ),
             "foundation_interfaces": sum(
                 row["asset_class"] == "civil.foundation-interface"
                 for row in index_rows
@@ -2827,6 +2995,7 @@ def build_model(
         },
         "materials": sorted_material_rows,
         "profiles": sorted_profile_rows,
+        "bearing_connections": bearing_connection_rows,
         "documents": document_rows,
         "groups": group_rows,
         "systems": system_rows,
@@ -2980,6 +3149,19 @@ def build_civil_ids(index: dict[str, Any]) -> ids_module.Ids:
                 propertySet="OSR_BearingStatus", baseName="MovementScheduleStatus"
             ),
             ids_module.Property(propertySet="OSR_BearingStatus", baseName="ReleaseStatus"),
+            ids_module.Property(
+                propertySet="OSR_BearingConnectivity", baseName="RealizedConnectionCount"
+            ),
+            ids_module.Property(
+                propertySet="OSR_BearingConnectivity", baseName="ConnectedCapAssetId"
+            ),
+            ids_module.Property(
+                propertySet="OSR_BearingConnectivity",
+                baseName="ConnectedSuperstructureAssetIds",
+            ),
+            ids_module.Property(
+                propertySet="OSR_BearingConnectivity", baseName="ConnectivityDerivation"
+            ),
         ]
     )
     document.specifications.append(bearing_specification)

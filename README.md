@@ -35,7 +35,8 @@ OSR geometry into IFC4.3, then imported and rendered through Bonsai 0.8.5. It
 contains 185 stable rail/civil assets, 19 reusable IFC types, three declared
 material families, one native 60E1 section profile driving 32 rail extrusions,
 36 typed `IfcBearing/ELASTOMERIC` occurrences, nine native pier caps and nine
-columns, plus 45 deliberately virtual foundation/jacking interfaces,
+columns, 27 native bearing-realized support connections (60 realizations),
+plus 45 deliberately virtual foundation/jacking interfaces,
 two typed `IfcVehicle/ROLLINGSTOCK` trainsets with standard measured base
 quantities, one internal classification with 15 asset references covering all
 185 assets,
@@ -46,10 +47,10 @@ scheme, seven system-to-railway-part references, 15 hash-locked native
 source-document records, native quantities,
 provenance, nine native qualitative interface constraints, 18 construction
 tasks with 134 physical outputs and 45 separately identified virtual review
-interfaces, 15 native property/quantity dictionaries with 95 typed
+interfaces, 16 native property/quantity dictionaries with 99 typed
 fields, a native horizontal/vertical planning alignment with stationing, and
 one native USD schedule containing three generated planning rates, with
-3,137/3,137 passing IDS checks. OSR remains
+3,292/3,292 passing IDS checks. OSR remains
 authoritative for route and engineering rules; Bonsai provides
 federation, detail review, drawings, quantities, and 4D sequencing. See the
 [Bonsai civil workflow](docs/civil/bonsai-ifc-workflow.md).*

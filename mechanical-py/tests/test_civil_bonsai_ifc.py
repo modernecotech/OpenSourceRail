@@ -33,7 +33,7 @@ def test_civil_ifc_has_rail_semantics_geometry_schedule_and_stable_ids(tmp_path:
     assert validation["passed"]
     assert ids_report["status"]
     assert ids_report["total_specifications_pass"] == 19
-    assert ids_report["total_checks"] == ids_report["total_checks_pass"] == 3137
+    assert ids_report["total_checks"] == ids_report["total_checks_pass"] == 3292
     assert bcf_index["topic_count"] == 3
     assert coordination is not None
     assert coordination.version.version_id == "3.0"
@@ -42,10 +42,15 @@ def test_civil_ifc_has_rail_semantics_geometry_schedule_and_stable_ids(tmp_path:
         "alignment_stationing_referents": 2,
         "assets": 185,
         "built_systems": 3,
+        "bearing_connection_realizations": 60,
+        "bearing_connection_relationships": 27,
         "classification_references": 15,
         "classifications": 1,
         "classified_assets": 185,
         "construction_tasks": 18,
+        "connected_bearings": 36,
+        "connected_pier_caps": 9,
+        "connected_superstructure_assets": 13,
         "construction_output_tasks": 5,
         "coordination_groups": 5,
         "document_associated_assets": 185,
@@ -86,13 +91,13 @@ def test_civil_ifc_has_rail_semantics_geometry_schedule_and_stable_ids(tmp_path:
         "planning_rate_schedules": 1,
         "pier_caps": 9,
         "pier_columns": 9,
-        "property_set_templates": 15,
-        "property_templates": 95,
+        "property_set_templates": 16,
+        "property_templates": 99,
         "system_associated_assets": 185,
         "system_spatial_part_references": 7,
         "scheduled_physical_assets": 134,
-        "template_linked_definitions": 447,
-        "template_matched_definitions": 451,
+        "template_linked_definitions": 483,
+        "template_matched_definitions": 487,
         "typed_assets": 138,
         "types": 19,
         "vehicle_base_quantity_sets": 2,
@@ -201,6 +206,20 @@ def test_civil_ifc_has_rail_semantics_geometry_schedule_and_stable_ids(tmp_path:
     assert not model.by_type("IfcBuildingElementProxyType")
     assert len(model.by_type("IfcBearing")) == 36
     assert len(model.by_type("IfcBearingType")) == 1
+    bearing_connections = model.by_type("IfcRelConnectsWithRealizingElements")
+    assert len(bearing_connections) == 27
+    assert sum(len(connection.RealizingElements) for connection in bearing_connections) == 60
+    assert all(
+        connection.ConnectionType == "elastomeric/PTFE support"
+        and connection.ConnectionGeometry is None
+        and connection.RelatingElement.is_a("IfcBeam")
+        and connection.RelatedElement.is_a() in {"IfcBeam", "IfcSlab"}
+        and all(bearing.is_a("IfcBearing") for bearing in connection.RealizingElements)
+        for connection in bearing_connections
+    )
+    assert sorted(
+        len(bearing.IsConnectionRealization) for bearing in model.by_type("IfcBearing")
+    ) == [1] * 12 + [2] * 24
     assert len(model.by_type("IfcRelDefinesByType")) == 19
     assert sum(
         len(relationship.RelatedObjects)
@@ -230,7 +249,20 @@ def test_civil_ifc_has_rail_semantics_geometry_schedule_and_stable_ids(tmp_path:
         == "elastomeric/PTFE"
         and get_psets(bearing)["OSR_BearingStatus"]["SupplierSelectionStatus"]
         == "unresolved"
+        and get_psets(bearing)["OSR_BearingConnectivity"]["RealizedConnectionCount"]
+        == len(bearing.IsConnectionRealization)
         for bearing in model.by_type("IfcBearing")
+    )
+    assert len(index["bearing_connections"]) == 27
+    assert sum(
+        connection["realizing_bearing_count"]
+        for connection in index["bearing_connections"]
+    ) == 60
+    assert all(
+        row["bearing_connection_count"] in {1, 2}
+        and len(row["bearing_connection_ids"]) == row["bearing_connection_count"]
+        for row in index["objects"]
+        if row["ifc_class"] == "IfcBearing"
     )
     foundation_rows = [
         row for row in index["objects"] if row["asset_class"] == "civil.foundation-interface"
@@ -536,9 +568,9 @@ def test_civil_ifc_has_rail_semantics_geometry_schedule_and_stable_ids(tmp_path:
         )
         for definition in model.by_type(ifc_class)
     )
-    assert len(model.by_type("IfcPropertySetTemplate")) == 15
-    assert len(model.by_type("IfcSimplePropertyTemplate")) == 95
-    assert len(model.by_type("IfcRelDefinesByTemplate")) == 13
+    assert len(model.by_type("IfcPropertySetTemplate")) == 16
+    assert len(model.by_type("IfcSimplePropertyTemplate")) == 99
+    assert len(model.by_type("IfcRelDefinesByTemplate")) == 14
     templates_by_name = {
         template.Name: template
         for template in model.by_type("IfcPropertySetTemplate")
@@ -560,7 +592,7 @@ def test_civil_ifc_has_rail_semantics_geometry_schedule_and_stable_ids(tmp_path:
     assert sum(
         len(relationship.RelatedPropertySets)
         for relationship in model.by_type("IfcRelDefinesByTemplate")
-    ) == 447
+    ) == 483
     declared_templates = {
         definition
         for relationship in model.by_type("IfcRelDeclares")

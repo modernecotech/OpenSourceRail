@@ -107,6 +107,14 @@ zones use `IfcVirtualElement`: the source intentionally withholds the actual
 foundation type and depth, so exporting `IfcFooting` or `IfcDeepFoundation`
 would assert engineering that does not exist.
 
+Face contact in the checked envelopes also generates 27
+`IfcRelConnectsWithRealizingElements` relationships: 24 beam-end connections
+realized by two bearings each and three station-deck connections realized by
+four bearings each. All 36 bearings participate in the resulting 60
+realizations. The relationships record physical topology only; connection
+geometry, stiffness, loads, movement capacity, supplier selection, and release
+remain deliberately unset.
+
 Three native `IfcMaterial` family declarations cover 46 occurrences through
 five type associations: running-rail steel, prestressed beam concrete, and
 precast platform-unit concrete. `OSR_MaterialStatus` identifies the source
@@ -271,10 +279,10 @@ IfcTester against the written IFC. Nineteen specifications cover all 185 assets,
 the 19-type catalogue, the source-backed material subset, alignment authority,
 the native rail-profile assignments, OSR asset classification, native document
 register, five coordination groups, six functional systems, four presentation
-layers, 36 native bearings, nine virtual foundation interfaces, two native vehicles
+layers, 36 native bearings and their connectivity records, nine virtual foundation interfaces, two native vehicles
 and their standard base quantities, nine interface
 constraints, typed property dictionaries, the planning schedule of rates, and
-project provenance. The current reference exchange passes all 3,137
+project provenance. The current reference exchange passes all 3,292
 entity-level checks. The audit is deterministic: entity
 evidence is sorted before hashing, so a repeat build produces byte-identical
 IFC, IDS, audit, BCF, indexes, sequence, and validation files.
@@ -339,6 +347,7 @@ after review.
 | Native rail profile | Implemented for all 32 straight 60E1 rail occurrences using a shared material profile set, occurrence usages, and matching extruded solids. |
 | Native rolling-stock vehicles | Implemented for both representative trainsets with one reusable `IfcVehicleType/ROLLINGSTOCK` and standard measured Length, Width, and Height quantities. Operational, manufacturer, capacity, mass, and availability fields remain unset until authoritative inputs exist. |
 | Bearings and foundation interfaces | The 36 source bearings are native typed `IfcBearing/ELASTOMERIC` assets with measured envelopes and explicit supplier/load/movement release gates. Nine foundation and 36 jacking envelopes remain `IfcVirtualElement`; promote them only after geotechnical and supplier design. |
+| Bearing connectivity | Implemented with 27 native `IfcRelConnectsWithRealizingElements` relationships and 60 bearing realizations derived from exact source-envelope face contact. No analytical condition or supplier performance is inferred. |
 | Mixed materials, other profiles, and reinforcement | Do not flatten mixed assemblies or populate generic placeholders. Add constituent/profile and reinforcement data when released specifications and deployment engineering are available. |
 | Native OSR asset classification | Implemented with one internal system, 15 lightweight references, type inheritance for 138 occurrences, and direct references for 47 untyped virtual interfaces. |
 | Country/client classification mapping | Defer Uniclass, OmniClass, national, or client codes until the deployment nominates an edition and approves a crosswalk; no global mapping is guessed. |
@@ -348,7 +357,7 @@ after review.
 | Native presentation layers | Implemented with four stable layers and exactly one `IfcShapeRepresentation` assignment per asset for simple visibility control. Object semantics remain elsewhere. |
 | Native interface constraints | Implemented with nine qualitative hard `IfcObjective` records associated with the project. Numeric metrics are deferred until checks expose structured benchmark paths and values. |
 | Stage-specific 4D product semantics | Implemented across five output tasks: 134 physical assets animate at their actual completion stage, while 45 virtual foundation/jacking interfaces are separately related as review gates and never treated as constructed output. |
-| Native OSR property dictionaries | Implemented with 15 project-declared templates, 95 typed fields, 447 direct definition links, and four name/type-matched material/profile definitions. Custom sets use `OSR_`, never the reserved `Pset_` prefix. |
+| Native OSR property dictionaries | Implemented with 16 project-declared templates, 99 typed fields, 483 direct definition links, and four name/type-matched material/profile definitions. Custom sets use `OSR_`, never the reserved `Pset_` prefix. |
 | Native source-document register | Implemented with 15 hash-locked repository sources and direct project, cost-schedule, type, and occurrence associations. |
 | Issued drawings and CDE document control | Defer sheets, issue/transmittal states, and CDE URLs until a deployment selects its naming, approval, and common-data-environment convention. |
 
@@ -384,6 +393,8 @@ after review.
 - [IFC4.3 vehicle base quantities](https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/lexical/Qto_VehicleBaseQuantities.htm)
 - [IFC4.3 `IfcBearing`](https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/lexical/IfcBearing.htm)
 - [IFC4.3 bearing types](https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/lexical/IfcBearingTypeEnum.htm)
+- [IFC4.3 element connectivity](https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/lexical/IfcRelConnectsElements.htm)
+- [IFC4.3 connections with realizing elements](https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/lexical/IfcRelConnectsWithRealizingElements.htm)
 - [IFC4.3 `IfcFooting` and shallow/deep-foundation boundary](https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/lexical/IfcFooting.htm)
 - [IFC4.3 `IfcBuiltSystem`](https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/lexical/IfcBuiltSystem.htm)
 - [IFC4.3 built-system types](https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/lexical/IfcBuiltSystemTypeEnum.htm)

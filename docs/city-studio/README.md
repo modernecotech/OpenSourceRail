@@ -261,12 +261,13 @@ The engineering hub exposes four fixed adapters:
   `IfcVehicle/ROLLINGSTOCK` trainsets, 18 linked 4D construction tasks with
   134 physical outputs and 45 separately identified virtual review interfaces, a
   nineteen-specification IDS 1.0 audit, 36 native typed bearings and explicit
-  virtual foundation/jacking interfaces, an internal 15-reference OSR asset
+  virtual foundation/jacking interfaces, 27 native support connections with 60
+  bearing realizations, an internal 15-reference OSR asset
   classification, five native source-zone coordination groups, 15 hash-locked
   native source-document records, six native functional systems (three
   specialized as `IfcBuiltSystem`), seven system-to-railway-part references,
   four native presentation layers, nine native
-  qualitative interface constraints, 15 native property/quantity dictionaries,
+  qualitative interface constraints, 16 native property/quantity dictionaries,
   native planning alignment layouts and stationing,
   one native schedule containing three generated planning rates,
   and a BCF 3.0 package of open release

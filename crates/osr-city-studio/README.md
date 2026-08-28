@@ -30,12 +30,13 @@ families, one native section profile driving 32 rail extrusions, two typed
 `IfcVehicle/ROLLINGSTOCK` trainsets with standard measured base quantities,
 a linked construction sequence that separates 134 physical outputs from 45
 virtual review interfaces, 36 native typed bridge bearings and explicit
-virtual foundation/jacking interfaces, one internal classification with 15
+virtual foundation/jacking interfaces, 27 native support connections with 60
+bearing realizations, one internal classification with 15
 references covering all assets, five native coordination groups, six native
 functional systems (three specialized as `IfcBuiltSystem`), seven
 system-to-railway-part references,
 four native presentation layers, nine native qualitative interface constraints,
-15 native property/quantity dictionaries with 95 typed fields,
+16 native property/quantity dictionaries with 99 typed fields,
 native horizontal/vertical planning alignment segments and stationing,
 one native USD schedule of three generated planning rates, 15 hash-locked native
 source documents, IDS audit, and BCF 3.0 release issues for Bonsai.

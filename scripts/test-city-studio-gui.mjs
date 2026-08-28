@@ -606,6 +606,14 @@ async function main() {
       jackingInterfaces: content.summary.jacking_interfaces,
       pierCaps: content.summary.pier_caps,
       pierColumns: content.summary.pier_columns,
+      connectionRelationships: content.summary.bearing_connection_relationships,
+      connectionRealizations: content.summary.bearing_connection_realizations,
+      connectedBearings: content.summary.connected_bearings,
+      connectedPierCaps: content.summary.connected_pier_caps,
+      connectedSuperstructure: content.summary.connected_superstructure_assets,
+      indexedConnections: content.bearing_connections.length,
+      bearingConnectionCount: bearing.bearing_connection_count,
+      bearingConnectionIds: bearing.bearing_connection_ids,
       ifcClass: bearing.ifc_class,
       typeClass: bearing.ifc_type_class,
       typePredefinedType: bearing.ifc_type_predefined_type,
@@ -623,6 +631,14 @@ async function main() {
       && ifcBearingEvidence.jackingInterfaces === 36
       && ifcBearingEvidence.pierCaps === 9
       && ifcBearingEvidence.pierColumns === 9
+      && ifcBearingEvidence.connectionRelationships === 27
+      && ifcBearingEvidence.connectionRealizations === 60
+      && ifcBearingEvidence.connectedBearings === 36
+      && ifcBearingEvidence.connectedPierCaps === 9
+      && ifcBearingEvidence.connectedSuperstructure === 13
+      && ifcBearingEvidence.indexedConnections === 27
+      && [1, 2].includes(ifcBearingEvidence.bearingConnectionCount)
+      && ifcBearingEvidence.bearingConnectionIds.length === ifcBearingEvidence.bearingConnectionCount
       && ifcBearingEvidence.ifcClass === "IfcBearing"
       && ifcBearingEvidence.typeClass === "IfcBearingType"
       && ifcBearingEvidence.typePredefinedType === "ELASTOMERIC"
@@ -637,9 +653,31 @@ async function main() {
     ifcBearingEvidence.detail.includes("civil.bearing")
       && ifcBearingEvidence.detail.includes("elastomeric/PTFE")
       && ifcBearingEvidence.detail.includes("supplier_selection_status")
+      && ifcBearingEvidence.detail.includes("bearing connections")
       && ifcBearingEvidence.metrics.includes("native bridge bearings")
+      && ifcBearingEvidence.metrics.includes("bearing-realized connections")
+      && ifcBearingEvidence.metrics.includes("bearing connection realizations")
       && ifcBearingEvidence.metrics.includes("virtual foundation interfaces"),
     "bearing identity and unresolved engineering boundary visible in object inspector",
+  );
+  const ifcBearingConnectionEvidence = await cdp.evaluate(`(() => {
+    const items = artifactInspectorItems(selectedArtifactPreview);
+    const index = items.findIndex(item => item.detail.includes('bearing connection OSR-CONN-'));
+    document.querySelector('.artifact-object-button[data-object-index="' + index + '"]').click();
+    return {
+      count: selectedArtifactPreview.content.bearing_connections.length,
+      meta: items[index].meta,
+      detail: document.querySelector('.artifact-object-detail').textContent,
+    };
+  })()`);
+  assert(
+    ifcBearingConnectionEvidence.count === 27
+      && ifcBearingConnectionEvidence.meta.includes("IfcRelConnectsWithRealizingElements")
+      && ifcBearingConnectionEvidence.detail.includes("realizing bearings")
+      && ifcBearingConnectionEvidence.detail.includes("source bbox face contact")
+      && ifcBearingConnectionEvidence.detail.includes("structural release unresolved"),
+    "bearing-realized support topology inspectable without invented analytical data",
+    `${ifcBearingConnectionEvidence.count} connections`,
   );
   const ifcMaterialEvidence = await cdp.evaluate(`(() => {
     const content = selectedArtifactPreview.content;
@@ -821,10 +859,10 @@ async function main() {
     };
   })()`);
   assert(
-    ifcTemplateEvidence.templates === 15
-      && ifcTemplateEvidence.fields === 95
-      && ifcTemplateEvidence.matchedDefinitions === 451
-      && ifcTemplateEvidence.linkedDefinitions === 447
+    ifcTemplateEvidence.templates === 16
+      && ifcTemplateEvidence.fields === 99
+      && ifcTemplateEvidence.matchedDefinitions === 487
+      && ifcTemplateEvidence.linkedDefinitions === 483
       && ifcTemplateEvidence.noReservedNames,
     "native IFC property dictionaries indexed",
     `${ifcTemplateEvidence.templates} templates · ${ifcTemplateEvidence.fields} typed fields`,

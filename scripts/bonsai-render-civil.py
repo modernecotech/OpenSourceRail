@@ -206,6 +206,8 @@ def render(args: argparse.Namespace) -> None:
     scene["osr_ifc_sha256"] = index["ifc_sha256"]
     scene["osr_authority_boundary"] = json.dumps(index["authority_boundary"], sort_keys=True)
     scene["osr_native_bearings"] = index["summary"]["native_bearings"]
+    scene["osr_bearing_connections"] = index["summary"]["bearing_connection_relationships"]
+    scene["osr_bearing_connection_realizations"] = index["summary"]["bearing_connection_realizations"]
     scene["osr_foundation_interfaces"] = index["summary"]["foundation_interfaces"]
     scene.render.engine = "BLENDER_EEVEE"
     scene.render.resolution_x = 1600
