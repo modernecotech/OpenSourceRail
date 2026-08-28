@@ -17,7 +17,7 @@ import sys
 import tomllib
 import uuid
 import zipfile
-from collections import Counter
+from collections import Counter, defaultdict
 from dataclasses import asdict
 from datetime import datetime, timedelta, timezone
 from importlib.metadata import version
@@ -42,6 +42,16 @@ from ifctester import ids as ids_module
 from ifctester import open as open_ids
 from ifctester import reporter as ids_reporter
 from ifcopenshell.api.aggregate import assign_object
+from ifcopenshell.api.alignment import (
+    add_stationing_referent,
+    create as create_alignment,
+    create_layout_segment,
+    create_representation as create_alignment_representation,
+    get_curve as get_alignment_curve,
+    get_horizontal_layout,
+    get_layout_segments,
+    get_vertical_layout,
+)
 from ifcopenshell.api.classification import (
     add_classification,
     add_reference as add_classification_reference,
@@ -49,6 +59,7 @@ from ifcopenshell.api.classification import (
     edit_reference as edit_classification_reference,
 )
 from ifcopenshell.api.context import add_context
+from ifcopenshell.api.constraint import add_objective, assign_constraint, edit_objective
 from ifcopenshell.api.document import (
     add_information,
     add_reference,
@@ -64,6 +75,7 @@ from ifcopenshell.api.geometry import (
 )
 from ifcopenshell.api.georeference import add_georeferencing, edit_georeferencing
 from ifcopenshell.api.group import add_group, assign_group, edit_group
+from ifcopenshell.api.layer import add_layer, assign_layer, edit_layer
 from ifcopenshell.api.material import (
     add_material,
     add_material_set,
@@ -71,8 +83,9 @@ from ifcopenshell.api.material import (
     assign_material,
 )
 from ifcopenshell.api.profile import add_arbitrary_profile
-from ifcopenshell.api.project import create_file
+from ifcopenshell.api.project import assign_declaration, create_file
 from ifcopenshell.api.pset import add_pset, add_qto, edit_pset, edit_qto
+from ifcopenshell.api.pset_template import add_prop_template, add_pset_template
 from ifcopenshell.api.root import create_entity
 from ifcopenshell.api.sequence import (
     add_task,
@@ -124,6 +137,33 @@ DISCIPLINES = {
     "substructure": ("Substructure", "SUBSTRUCTURE"),
     "above-track": ("Stations and above-track systems", "ABOVETRACK"),
     "lineside": ("Clearance and lineside coordination", "LINESIDE"),
+}
+
+PRESENTATION_LAYERS = {
+    "track": {
+        "layer_id": "OSR-LAYER-TRACK",
+        "name": "OSR Track",
+        "description": "Track geometry for simple CAD/BIM visibility filtering.",
+    },
+    "substructure": {
+        "layer_id": "OSR-LAYER-SUBSTRUCTURE",
+        "name": "OSR Substructure",
+        "description": "Substructure geometry for simple CAD/BIM visibility filtering.",
+    },
+    "above-track": {
+        "layer_id": "OSR-LAYER-ABOVE-TRACK",
+        "name": "OSR Stations and above-track systems",
+        "description": "Station and above-track geometry for simple CAD/BIM visibility filtering.",
+    },
+    "lineside": {
+        "layer_id": "OSR-LAYER-LINESIDE",
+        "name": "OSR Clearance and lineside coordination",
+        "description": "Clearance and lineside geometry for simple CAD/BIM visibility filtering.",
+    },
+}
+
+OPTIONAL_PROPERTY_TEMPLATE_FIELDS = {
+    "OSR_Georeferencing": {"ProjectedCrsName": "IfcLabel"},
 }
 
 COLOURS = {
@@ -640,6 +680,21 @@ def load_alignment(path: Path | None) -> dict[str, Any] | None:
             )
         ):
             raise ValueError("alignment points must be numeric [x, y, z] triples in metres")
+    for point_index, (start, finish) in enumerate(zip(points, points[1:])):
+        if math.hypot(finish[0] - start[0], finish[1] - start[1]) <= 1e-9:
+            raise ValueError(
+                f"alignment points {point_index} and {point_index + 1} "
+                "must have distinct horizontal coordinates"
+            )
+    if "start_chainage_m" in value:
+        start_chainage = value["start_chainage_m"]
+        if (
+            isinstance(start_chainage, bool)
+            or not isinstance(start_chainage, (int, float))
+            or not math.isfinite(start_chainage)
+        ):
+            raise ValueError("alignment start_chainage_m must be a finite number")
+        value["start_chainage_m"] = float(start_chainage)
     if "georeferencing" in value:
         value["georeferencing"] = validate_georeferencing(value["georeferencing"])
     return value
@@ -709,45 +764,161 @@ def apply_georeferencing(
     }
     if result.get("crs_name"):
         pset_values["ProjectedCrsName"] = result["crs_name"]
-    set_properties(model, project, "Pset_OSR_Georeferencing", pset_values)
+    set_properties(model, project, "OSR_Georeferencing", pset_values)
     return result
 
 
 def add_alignment(
     model: ifcopenshell.file,
-    axis_context: Any,
-    track_part: Any,
     alignment_input: dict[str, Any] | None,
     revision_id: str,
-) -> Any:
+) -> tuple[Any, dict[str, Any]]:
+    """Create a semantic IFC4.3 planning alignment without inventing design curves."""
+
     name = (alignment_input or {}).get("line_slug", "osr-civil-reference-axis")
-    alignment = create_entity(model, ifc_class="IfcAlignment", name=name)
-    points = (alignment_input or {}).get("points", [[0.0, 0.0, 0.0], [320.0, 0.0, 0.0]])
-    point_list = model.create_entity("IfcCartesianPointList3D", CoordList=points)
-    curve = model.create_entity("IfcIndexedPolyCurve", Points=point_list, Segments=None, SelfIntersect=False)
-    representation = model.create_entity(
-        "IfcShapeRepresentation",
-        ContextOfItems=axis_context,
-        RepresentationIdentifier="Axis",
-        RepresentationType="Curve3D",
-        Items=[curve],
+    points = [
+        tuple(float(coordinate) for coordinate in point)
+        for point in (alignment_input or {}).get(
+            "points", [[0.0, 0.0, 0.0], [320.0, 0.0, 0.0]]
+        )
+    ]
+    start_station = float((alignment_input or {}).get("start_chainage_m", 0.0))
+    alignment = create_alignment(
+        model,
+        name=name,
+        include_vertical=True,
+        include_geometry=False,
+        start_station=start_station,
     )
-    assign_representation(model, product=alignment, representation=representation)
-    edit_object_placement(model, product=alignment, matrix=np.eye(4), is_si=True)
-    assign_container(model, products=[alignment], relating_structure=track_part)
+    horizontal = get_horizontal_layout(alignment)
+    vertical = get_vertical_layout(alignment)
+    horizontal.Name = f"{name} · horizontal planning layout"
+    vertical.Name = f"{name} · vertical planning layout"
+
+    total_length = 0.0
+    final_bearing = 0.0
+    final_grade = 0.0
+    for segment_index, (start, finish) in enumerate(zip(points, points[1:]), start=1):
+        dx = finish[0] - start[0]
+        dy = finish[1] - start[1]
+        horizontal_length = math.hypot(dx, dy)
+        if horizontal_length <= 1e-9:
+            raise ValueError(
+                f"alignment segment {segment_index} has no horizontal length"
+            )
+        bearing = math.atan2(dy, dx)
+        grade = (finish[2] - start[2]) / horizontal_length
+        horizontal_parameters = model.create_entity(
+            "IfcAlignmentHorizontalSegment",
+            StartPoint=model.create_entity(
+                "IfcCartesianPoint", Coordinates=(start[0], start[1])
+            ),
+            StartDirection=bearing,
+            StartRadiusOfCurvature=0.0,
+            EndRadiusOfCurvature=0.0,
+            SegmentLength=horizontal_length,
+            PredefinedType="LINE",
+        )
+        create_layout_segment(
+            model,
+            layout=horizontal,
+            design_parameters=horizontal_parameters,
+        )
+        horizontal_segment = get_layout_segments(horizontal)[-2]
+        horizontal_segment.Name = f"{name} · H{segment_index:03d} · LINE"
+
+        vertical_parameters = model.create_entity(
+            "IfcAlignmentVerticalSegment",
+            StartDistAlong=total_length,
+            HorizontalLength=horizontal_length,
+            StartHeight=start[2],
+            StartGradient=grade,
+            EndGradient=grade,
+            PredefinedType="CONSTANTGRADIENT",
+        )
+        create_layout_segment(
+            model,
+            layout=vertical,
+            design_parameters=vertical_parameters,
+        )
+        vertical_segment = get_layout_segments(vertical)[-2]
+        vertical_segment.Name = (
+            f"{name} · V{segment_index:03d} · CONSTANTGRADIENT"
+        )
+        total_length += horizontal_length
+        final_bearing = bearing
+        final_grade = grade
+
+    horizontal_end = get_layout_segments(horizontal)[-1]
+    horizontal_end.Name = f"{name} · horizontal end"
+    horizontal_end.DesignParameters.StartPoint.Coordinates = points[-1][:2]
+    horizontal_end.DesignParameters.StartDirection = final_bearing
+    vertical_end = get_layout_segments(vertical)[-1]
+    vertical_end.Name = f"{name} · vertical end"
+    vertical_end.DesignParameters.StartDistAlong = total_length
+    vertical_end.DesignParameters.StartHeight = points[-1][2]
+    vertical_end.DesignParameters.StartGradient = final_grade
+    vertical_end.DesignParameters.EndGradient = final_grade
+
+    # IfcOpenShell's incremental geometry update evaluates the complete curve
+    # after every inserted segment. City GIS lines commonly contain hundreds
+    # of vertices, so author the semantic layouts first and map them once.
+    create_alignment_representation(model, alignment=alignment)
+    add_stationing_referent(
+        model,
+        alignment=alignment,
+        distance_along=0.0,
+        station=start_station,
+        name=f"{start_station:.3f} m · alignment start",
+        positioned_product=alignment,
+    )
+    add_stationing_referent(
+        model,
+        alignment=alignment,
+        distance_along=total_length,
+        station=start_station + total_length,
+        name=f"{start_station + total_length:.3f} m · alignment end",
+        positioned_product=alignment,
+    )
     set_properties(
         model,
         alignment,
-        "Pset_OSR_AlignmentAuthority",
+        "OSR_AlignmentAuthority",
         {
             "Authority": "OpenSourceRail deterministic alignment engine",
             "RevisionId": revision_id,
             "DesignSpeedKmh": float((alignment_input or {}).get("design_speed_kmh", 80.0)),
-            "GeometryRole": "IFC reference axis; engineering rules remain upstream",
+            "GeometryRole": (
+                "Native IFC4.3 horizontal/vertical planning polyline; detailed "
+                "engineering rules remain upstream"
+            ),
             "PointCount": len(points),
         },
     )
-    return alignment
+    curve = get_alignment_curve(alignment)
+    referents = model.by_type("IfcReferent")
+    return alignment, {
+        "name": name,
+        "ifc_class": "IfcAlignment",
+        "semantic_model": "native-ifc4.3-horizontal-and-vertical-layouts",
+        "geometry_curve": curve.is_a() if curve is not None else None,
+        "representation_identifiers": sorted(
+            representation.RepresentationIdentifier
+            for representation in alignment.Representation.Representations
+        ),
+        "start_station_m": start_station,
+        "control_point_count": len(points),
+        "control_points_m": [list(point) for point in points],
+        "horizontal_segment_count": len(points) - 1,
+        "horizontal_segment_type": "LINE",
+        "vertical_segment_count": len(points) - 1,
+        "vertical_segment_type": "CONSTANTGRADIENT",
+        "stationing_referent_count": len(referents),
+        "total_horizontal_length_m": round(total_length, 6),
+        "cant_status": "not-modelled; accepted cant design unavailable",
+        "transition_status": "not-modelled; planning polyline has no accepted radii",
+        "release_status": "design-reference; not for construction",
+    }
 
 
 def add_schedule(
@@ -879,7 +1050,7 @@ def add_asset_classification(
     set_properties(
         model,
         project,
-        "Pset_OSR_Classification",
+        "OSR_Classification",
         {
             "System": ASSET_CLASSIFICATION["name"],
             "Edition": ASSET_CLASSIFICATION["edition"],
@@ -983,7 +1154,7 @@ def add_coordination_groups(
         set_properties(
             model,
             group,
-            "Pset_OSR_CoordinationGroup",
+            "OSR_CoordinationGroup",
             {
                 "GroupId": group_id,
                 "SourceZone": source_zone,
@@ -1012,6 +1183,282 @@ def add_coordination_groups(
             }
         )
     return group_entities, rows
+
+
+def add_presentation_layers(
+    model: ifcopenshell.file,
+    *,
+    products: dict[str, Any],
+    index_rows: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    """Assign each asset shape representation to one native discipline layer."""
+
+    rows: list[dict[str, Any]] = []
+    for discipline, declaration in sorted(PRESENTATION_LAYERS.items()):
+        asset_ids = sorted(
+            row["asset_id"] for row in index_rows if row["discipline"] == discipline
+        )
+        representations = [
+            representation
+            for asset_id in asset_ids
+            for representation in products[asset_id].Representation.Representations
+        ]
+        if not representations:
+            raise ValueError(f"presentation layer {declaration['layer_id']!r} has no geometry")
+        layer = add_layer(model, name=declaration["name"])
+        edit_layer(
+            model,
+            layer=layer,
+            attributes={
+                "Description": declaration["description"],
+                "Identifier": declaration["layer_id"],
+            },
+        )
+        assign_layer(model, items=representations, layer=layer)
+        rows.append(
+            {
+                "layer_id": declaration["layer_id"],
+                "name": declaration["name"],
+                "description": declaration["description"],
+                "ifc_class": "IfcPresentationLayerAssignment",
+                "discipline": discipline,
+                "assignment_scope": "IfcShapeRepresentation",
+                "asset_ids": asset_ids,
+                "asset_count": len(asset_ids),
+                "representation_count": len(representations),
+            }
+        )
+    return rows
+
+
+def add_interface_constraints(
+    model: ifcopenshell.file,
+    *,
+    project: Any,
+    checks: Iterable[Any],
+) -> list[dict[str, Any]]:
+    """Publish evaluated source checks as qualitative project requirements."""
+
+    rows: list[dict[str, Any]] = []
+    for check in sorted(checks, key=lambda item: item.name):
+        objective = add_objective(model)
+        edit_objective(
+            model,
+            objective=objective,
+            attributes={
+                "Name": check.name,
+                "Description": (
+                    f"Current deterministic observation: {check.detail}. "
+                    f"Evaluation status: {'PASS' if check.passed else 'FAIL'}."
+                ),
+                "ConstraintGrade": "HARD",
+                "ConstraintSource": (
+                    "mechanical-py/src/osr_mech/civil_systems_integration.py"
+                ),
+                "CreationTime": FIXED_REVIEW_TIMESTAMP,
+                "ObjectiveQualifier": "DESIGNINTENT",
+            },
+        )
+        relationship = assign_constraint(
+            model,
+            products=[project],
+            constraint=objective,
+        )
+        if relationship is None:
+            raise ValueError(f"interface constraint {check.name!r} has no IFC scope")
+        rows.append(
+            {
+                "constraint_id": check.name,
+                "name": check.name,
+                "ifc_class": "IfcObjective",
+                "constraint_grade": "HARD",
+                "objective_qualifier": "DESIGNINTENT",
+                "constraint_source": (
+                    "mechanical-py/src/osr_mech/civil_systems_integration.py"
+                ),
+                "scope": "IfcProject",
+                "evaluation_status": "PASS" if check.passed else "FAIL",
+                "observation": check.detail,
+                "metric_status": "qualitative-objective; no fabricated numeric benchmark",
+            }
+        )
+    return rows
+
+
+def add_property_templates(
+    model: ifcopenshell.file,
+    *,
+    project: Any,
+) -> list[dict[str, Any]]:
+    """Embed typed templates for every OSR property and quantity set."""
+
+    definitions_by_name: dict[str, list[Any]] = defaultdict(list)
+    for ifc_class in (
+        "IfcPropertySet",
+        "IfcElementQuantity",
+        "IfcMaterialProperties",
+        "IfcProfileProperties",
+    ):
+        for definition in model.by_type(ifc_class):
+            if definition.Name and definition.Name.startswith("OSR_"):
+                definitions_by_name[definition.Name].append(definition)
+
+    quantity_template_types = {
+        "IfcQuantityLength": "Q_LENGTH",
+        "IfcQuantityArea": "Q_AREA",
+        "IfcQuantityVolume": "Q_VOLUME",
+        "IfcQuantityCount": "Q_COUNT",
+        "IfcQuantityWeight": "Q_WEIGHT",
+        "IfcQuantityTime": "Q_TIME",
+    }
+    rows: list[dict[str, Any]] = []
+    templates: list[Any] = []
+    for name, definitions in sorted(definitions_by_name.items()):
+        definition_class = definitions[0].is_a()
+        if definition_class in {"IfcPropertySet", "IfcElementQuantity"}:
+            owners = {
+                owner
+                for definition in definitions
+                for relationship in definition.DefinesOccurrence
+                for owner in relationship.RelatedObjects
+            }
+            owners.update(
+                owner for definition in definitions for owner in definition.DefinesType
+            )
+        elif definition_class == "IfcMaterialProperties":
+            owners = {definition.Material for definition in definitions}
+        else:
+            owners = {definition.ProfileDefinition for definition in definitions}
+        applicable_entities = sorted({owner.is_a() for owner in owners})
+        is_quantity = definition_class == "IfcElementQuantity"
+        is_material = definition_class == "IfcMaterialProperties"
+        is_profile = definition_class == "IfcProfileProperties"
+        is_type_only = bool(owners) and all(owner.is_a("IfcTypeObject") for owner in owners)
+        template_type = (
+            "QTO_OCCURRENCEDRIVEN"
+            if is_quantity
+            else "PSET_MATERIALDRIVEN"
+            if is_material
+            else "PSET_PROFILEDRIVEN"
+            if is_profile
+            else "PSET_TYPEDRIVENONLY"
+            if is_type_only
+            else "PSET_OCCURRENCEDRIVEN"
+        )
+        template = add_pset_template(
+            model,
+            name=name,
+            template_type=template_type,
+            applicable_entity=",".join(applicable_entities),
+        )
+        template.Description = (
+            "OpenSourceRail custom property dictionary embedded for deterministic "
+            "authoring and exchange; not a buildingSMART standard property set."
+        )
+        templates.append(template)
+        property_rows: list[dict[str, Any]] = []
+        if is_quantity:
+            members = {
+                quantity.Name: quantity
+                for definition in definitions
+                for quantity in definition.Quantities
+            }
+            for property_name, quantity in sorted(members.items()):
+                property_template_type = quantity_template_types[quantity.is_a()]
+                add_prop_template(
+                    model,
+                    pset_template=template,
+                    name=property_name,
+                    description=f"OSR-defined {property_name} quantity.",
+                    template_type=property_template_type,
+                )
+                property_rows.append(
+                    {
+                        "name": property_name,
+                        "template_type": property_template_type,
+                        "primary_measure_type": None,
+                    }
+                )
+        else:
+            members: dict[str, Any] = {}
+            for definition in definitions:
+                property_values = (
+                    definition.HasProperties
+                    if definition_class == "IfcPropertySet"
+                    else definition.Properties
+                )
+                for property_value in property_values:
+                    existing = members.get(property_value.Name)
+                    if existing is not None and (
+                        existing.NominalValue.is_a()
+                        != property_value.NominalValue.is_a()
+                    ):
+                        raise ValueError(
+                            f"property {name}.{property_value.Name} has inconsistent IFC types"
+                        )
+                    members[property_value.Name] = property_value
+            measure_types = {
+                property_name: property_value.NominalValue.is_a()
+                for property_name, property_value in members.items()
+            }
+            measure_types.update(OPTIONAL_PROPERTY_TEMPLATE_FIELDS.get(name, {}))
+            for property_name, primary_measure_type in sorted(measure_types.items()):
+                add_prop_template(
+                    model,
+                    pset_template=template,
+                    name=property_name,
+                    description=f"OSR-defined {property_name} property.",
+                    template_type="P_SINGLEVALUE",
+                    primary_measure_type=primary_measure_type,
+                )
+                property_rows.append(
+                    {
+                        "name": property_name,
+                        "template_type": "P_SINGLEVALUE",
+                        "primary_measure_type": primary_measure_type,
+                    }
+                )
+        supports_definition_relationship = definition_class in {
+            "IfcPropertySet",
+            "IfcElementQuantity",
+        }
+        if supports_definition_relationship:
+            model.create_entity(
+                "IfcRelDefinesByTemplate",
+                GlobalId=stable_guid(f"property-template|{name}"),
+                Name=f"Template assignment · {name}",
+                RelatedPropertySets=definitions,
+                RelatingTemplate=template,
+            )
+        rows.append(
+            {
+                "name": name,
+                "ifc_class": "IfcPropertySetTemplate",
+                "definition_class": definition_class,
+                "template_type": template_type,
+                "applicable_entities": applicable_entities,
+                "property_count": len(property_rows),
+                "matched_definition_count": len(definitions),
+                "linked_definition_count": (
+                    len(definitions) if supports_definition_relationship else 0
+                ),
+                "linkage": (
+                    "IfcRelDefinesByTemplate"
+                    if supports_definition_relationship
+                    else "template-name-and-type; resource-property relationship unavailable"
+                ),
+                "properties": property_rows,
+                "status": "osr-custom-template; not-buildingSMART-standard-pset",
+            }
+        )
+    declaration = assign_declaration(
+        model,
+        definitions=templates,
+        relating_context=project,
+    )
+    if declaration is None:
+        raise ValueError("OSR property templates could not be declared in the IFC project")
+    return rows
 
 
 def add_document_register(
@@ -1114,7 +1561,7 @@ def add_document_register(
     set_properties(
         model,
         project,
-        "Pset_OSR_DocumentRegister",
+        "OSR_DocumentRegister",
         {
             "RegisterStatus": "native-ifc-hash-locked-repository-sources",
             "DocumentCount": len(rows),
@@ -1145,11 +1592,16 @@ def stabilize_unordered_collections(model: ifcopenshell.file) -> None:
         "IfcRelAssignsToGroup": ("RelatedObjects",),
         "IfcRelAssignsToProcess": ("RelatedObjects",),
         "IfcRelDefinesByProperties": ("RelatedObjects",),
+        "IfcRelDefinesByTemplate": ("RelatedPropertySets",),
+        "IfcRelDeclares": ("RelatedDefinitions",),
         "IfcRelDefinesByType": ("RelatedObjects",),
         "IfcRelAssociatesClassification": ("RelatedObjects",),
+        "IfcRelAssociatesConstraint": ("RelatedObjects",),
         "IfcRelAssociatesDocument": ("RelatedObjects",),
         "IfcRelAssociatesMaterial": ("RelatedObjects",),
+        "IfcPresentationLayerAssignment": ("AssignedItems",),
         "IfcElementQuantity": ("Quantities",),
+        "IfcPropertySetTemplate": ("HasPropertyTemplates",),
         "IfcTypeObject": ("HasPropertySets",),
         "IfcMaterialProperties": ("Properties",),
         "IfcProfileProperties": ("Properties",),
@@ -1196,7 +1648,7 @@ def build_model(
         target_view="MODEL_VIEW",
         parent=model_context,
     )
-    axis_context = add_context(
+    add_context(
         model,
         context_type="Model",
         context_identifier="Axis",
@@ -1212,7 +1664,7 @@ def build_model(
     set_properties(
         model,
         project,
-        "Pset_OSR_Provenance",
+        "OSR_Provenance",
         {
             "Schema": SCHEMA,
             "RevisionId": revision_id,
@@ -1226,7 +1678,7 @@ def build_model(
     set_properties(
         model,
         project,
-        "Pset_OSR_CostModel",
+        "OSR_CostModel",
         {
             "Maturity": cost_model["schema"]["maturity"],
             "CostModelSha256": cost_model_hash,
@@ -1256,10 +1708,8 @@ def build_model(
         key: make_style(model, f"OSR {key}", colour, 0.72 if key == "lineside" else 0.0)
         for key, colour in COLOURS.items()
     }
-    alignment = add_alignment(
+    alignment, alignment_index = add_alignment(
         model,
-        axis_context,
-        spatial_parts["track"],
         alignment_input,
         revision_id,
     )
@@ -1280,6 +1730,7 @@ def build_model(
         asset_class = asset_class_for_component(component)
         coordination_group_id = ZONE_ASSET_IDS[component.zone]
         discipline = component_discipline(asset_class)
+        presentation_layer = PRESENTATION_LAYERS[discipline]
         ifc_class, predefined_type = ifc_type(asset_class)
         profile_id = profile_id_for_component(asset_class, component.source)
         document_ids = component_document_ids(component.source)
@@ -1304,7 +1755,7 @@ def build_model(
                 set_properties(
                     model,
                     type_product,
-                    "Pset_OSR_Type",
+                    "OSR_Type",
                     {
                         "TypeId": type_id,
                         "AssetClass": asset_class,
@@ -1330,7 +1781,7 @@ def build_model(
                         set_properties(
                             model,
                             material,
-                            "Pset_OSR_MaterialStatus",
+                            "OSR_MaterialStatus",
                             {
                                 "MaterialId": material_id,
                                 "Label": declaration["label"],
@@ -1362,7 +1813,7 @@ def build_model(
                             set_properties(
                                 model,
                                 profile_definition,
-                                "Pset_OSR_Profile",
+                                "OSR_Profile",
                                 {
                                     "ProfileId": profile_id,
                                     "StandardDesignation": "UIC 60E1",
@@ -1418,7 +1869,7 @@ def build_model(
                         set_properties(
                             model,
                             type_product,
-                            "Pset_OSR_ProfileAssignment",
+                            "OSR_ProfileAssignment",
                             {
                                 "ProfileId": profile_id,
                                 "StandardDesignation": "UIC 60E1",
@@ -1536,7 +1987,7 @@ def build_model(
         set_properties(
             model,
             product,
-            "Pset_OSR_Asset",
+            "OSR_Asset",
             {
                 "AssetId": asset_id,
                 "AssetClass": asset_class,
@@ -1591,6 +2042,8 @@ def build_model(
                 ),
                 "coordination_group_id": coordination_group_id,
                 "coordination_group_name": component.zone,
+                "presentation_layer_id": presentation_layer["layer_id"],
+                "presentation_layer_name": presentation_layer["name"],
                 "discipline": discipline,
                 "source_geometry": component.source,
                 "document_ids": list(document_ids),
@@ -1601,6 +2054,16 @@ def build_model(
             }
         )
 
+    layer_rows = add_presentation_layers(
+        model,
+        products=products,
+        index_rows=index_rows,
+    )
+    constraint_rows = add_interface_constraints(
+        model,
+        project=project,
+        checks=assert_integration_checks(),
+    )
     group_entities, group_rows = add_coordination_groups(
         model,
         products=products,
@@ -1625,6 +2088,7 @@ def build_model(
         type_rows=type_rows,
     )
     schedule_rows, assignments = add_schedule(model, products, product_classes, product_names)
+    property_template_rows = add_property_templates(model, project=project)
     for work_schedule in model.by_type("IfcWorkSchedule"):
         work_schedule.CreationDate = DEFAULT_START.isoformat()
     deterministic_roots(model)
@@ -1665,6 +2129,7 @@ def build_model(
             "quantities_per_route_km": civil_quantities,
         },
         "georeferencing": georeferencing,
+        "alignment": alignment_index,
         "classification": classification_index,
         "summary": {
             "assets": len(index_rows),
@@ -1689,15 +2154,42 @@ def build_model(
             "grouped_assets": sum(
                 bool(row["coordination_group_id"]) for row in index_rows
             ),
+            "presentation_layers": len(layer_rows),
+            "layer_associated_assets": sum(
+                bool(row["presentation_layer_id"]) for row in index_rows
+            ),
             "ifc_classes": dict(sorted(Counter(row["ifc_class"] for row in index_rows).items())),
             "disciplines": dict(sorted(Counter(row["discipline"] for row in index_rows).items())),
             "interface_checks": len(assert_integration_checks()),
+            "interface_constraints": len(constraint_rows),
+            "horizontal_alignment_segments": alignment_index[
+                "horizontal_segment_count"
+            ],
+            "vertical_alignment_segments": alignment_index[
+                "vertical_segment_count"
+            ],
+            "alignment_stationing_referents": alignment_index[
+                "stationing_referent_count"
+            ],
+            "property_set_templates": len(property_template_rows),
+            "property_templates": sum(
+                row["property_count"] for row in property_template_rows
+            ),
+            "template_linked_definitions": sum(
+                row["linked_definition_count"] for row in property_template_rows
+            ),
+            "template_matched_definitions": sum(
+                row["matched_definition_count"] for row in property_template_rows
+            ),
             "construction_tasks": len(schedule_rows),
         },
         "materials": sorted_material_rows,
         "profiles": sorted_profile_rows,
         "documents": document_rows,
         "groups": group_rows,
+        "layers": layer_rows,
+        "constraints": constraint_rows,
+        "property_set_templates": property_template_rows,
         "types": sorted_type_rows,
         "objects": index_rows,
         "validation": [asdict(check) for check in assert_integration_checks()],
@@ -1756,14 +2248,14 @@ def build_civil_ids(index: dict[str, Any]) -> ids_module.Ids:
         [
             ids_module.Attribute(name="Name"),
             ids_module.Attribute(name="Tag"),
-            ids_module.Property(propertySet="Pset_OSR_Asset", baseName="AssetId"),
-            ids_module.Property(propertySet="Pset_OSR_Asset", baseName="AssetClass"),
+            ids_module.Property(propertySet="OSR_Asset", baseName="AssetId"),
+            ids_module.Property(propertySet="OSR_Asset", baseName="AssetClass"),
             ids_module.Property(
-                propertySet="Pset_OSR_Asset", baseName="CoordinationGroupId"
+                propertySet="OSR_Asset", baseName="CoordinationGroupId"
             ),
-            ids_module.Property(propertySet="Pset_OSR_Asset", baseName="SourceSha256"),
-            ids_module.Property(propertySet="Pset_OSR_Asset", baseName="RevisionId"),
-            ids_module.Property(propertySet="Pset_OSR_Asset", baseName="LifecycleState"),
+            ids_module.Property(propertySet="OSR_Asset", baseName="SourceSha256"),
+            ids_module.Property(propertySet="OSR_Asset", baseName="RevisionId"),
+            ids_module.Property(propertySet="OSR_Asset", baseName="LifecycleState"),
             ids_module.Property(
                 propertySet="OSR_CoordinationEnvelopeQuantities", baseName="OverallLength"
             ),
@@ -1800,13 +2292,13 @@ def build_civil_ids(index: dict[str, Any]) -> ids_module.Ids:
         [
             ids_module.Attribute(name="Name"),
             ids_module.Attribute(name="Tag"),
-            ids_module.Property(propertySet="Pset_OSR_Type", baseName="TypeId"),
-            ids_module.Property(propertySet="Pset_OSR_Type", baseName="AssetClass"),
-            ids_module.Property(propertySet="Pset_OSR_Type", baseName="SourceGeometry"),
-            ids_module.Property(propertySet="Pset_OSR_Type", baseName="SourceSha256"),
-            ids_module.Property(propertySet="Pset_OSR_Type", baseName="RevisionId"),
-            ids_module.Property(propertySet="Pset_OSR_Type", baseName="LifecycleState"),
-            ids_module.Property(propertySet="Pset_OSR_Type", baseName="GeometryRole"),
+            ids_module.Property(propertySet="OSR_Type", baseName="TypeId"),
+            ids_module.Property(propertySet="OSR_Type", baseName="AssetClass"),
+            ids_module.Property(propertySet="OSR_Type", baseName="SourceGeometry"),
+            ids_module.Property(propertySet="OSR_Type", baseName="SourceSha256"),
+            ids_module.Property(propertySet="OSR_Type", baseName="RevisionId"),
+            ids_module.Property(propertySet="OSR_Type", baseName="LifecycleState"),
+            ids_module.Property(propertySet="OSR_Type", baseName="GeometryRole"),
         ]
     )
     document.specifications.append(type_specification)
@@ -1885,13 +2377,13 @@ def build_civil_ids(index: dict[str, Any]) -> ids_module.Ids:
     profile_specification.requirements.extend(
         [
             ids_module.Property(
-                propertySet="Pset_OSR_ProfileAssignment", baseName="ProfileId"
+                propertySet="OSR_ProfileAssignment", baseName="ProfileId"
             ),
             ids_module.Property(
-                propertySet="Pset_OSR_ProfileAssignment", baseName="GeometryStatus"
+                propertySet="OSR_ProfileAssignment", baseName="GeometryStatus"
             ),
             ids_module.Property(
-                propertySet="Pset_OSR_ProfileAssignment", baseName="OccurrenceUsage"
+                propertySet="OSR_ProfileAssignment", baseName="OccurrenceUsage"
             ),
         ]
     )
@@ -1918,16 +2410,16 @@ def build_civil_ids(index: dict[str, Any]) -> ids_module.Ids:
     document_register_specification.requirements.extend(
         [
             ids_module.Property(
-                propertySet="Pset_OSR_DocumentRegister", baseName="RegisterStatus"
+                propertySet="OSR_DocumentRegister", baseName="RegisterStatus"
             ),
             ids_module.Property(
-                propertySet="Pset_OSR_DocumentRegister", baseName="DocumentCount"
+                propertySet="OSR_DocumentRegister", baseName="DocumentCount"
             ),
             ids_module.Property(
-                propertySet="Pset_OSR_DocumentRegister", baseName="HashAlgorithm"
+                propertySet="OSR_DocumentRegister", baseName="HashAlgorithm"
             ),
             ids_module.Property(
-                propertySet="Pset_OSR_DocumentRegister", baseName="AssociationPolicy"
+                propertySet="OSR_DocumentRegister", baseName="AssociationPolicy"
             ),
         ]
     )
@@ -1986,23 +2478,132 @@ def build_civil_ids(index: dict[str, Any]) -> ids_module.Ids:
         [
             ids_module.Attribute(name="Name"),
             ids_module.Property(
-                propertySet="Pset_OSR_CoordinationGroup", baseName="GroupId"
+                propertySet="OSR_CoordinationGroup", baseName="GroupId"
             ),
             ids_module.Property(
-                propertySet="Pset_OSR_CoordinationGroup", baseName="SourceZone"
+                propertySet="OSR_CoordinationGroup", baseName="SourceZone"
             ),
             ids_module.Property(
-                propertySet="Pset_OSR_CoordinationGroup", baseName="GroupRole"
+                propertySet="OSR_CoordinationGroup", baseName="GroupRole"
             ),
             ids_module.Property(
-                propertySet="Pset_OSR_CoordinationGroup", baseName="SpatialMeaning"
+                propertySet="OSR_CoordinationGroup", baseName="SpatialMeaning"
             ),
             ids_module.Property(
-                propertySet="Pset_OSR_CoordinationGroup", baseName="SystemMeaning"
+                propertySet="OSR_CoordinationGroup", baseName="SystemMeaning"
             ),
         ]
     )
     document.specifications.append(group_specification)
+
+    layer_specification = ids_module.Specification(
+        name="Civil geometry exposes native presentation layers",
+        description=(
+            "Each discipline layer has a stable identifier and human-readable name "
+            "for simple geometry visibility control in CAD/BIM tools."
+        ),
+        instructions=(
+            "Treat layers as presentation filters only; asset meaning remains in IFC "
+            "objects, types, classification, and coordination groups."
+        ),
+        minOccurs=1,
+        maxOccurs="unbounded",
+        ifcVersion=["IFC4X3_ADD2"],
+        identifier="OSR-IDS-LAYER-001",
+    )
+    layer_specification.applicability.append(
+        ids_module.Entity(name="IFCPRESENTATIONLAYERASSIGNMENT")
+    )
+    layer_specification.requirements.extend(
+        [
+            ids_module.Attribute(name="Name"),
+            ids_module.Attribute(name="Identifier"),
+        ]
+    )
+    document.specifications.append(layer_specification)
+
+    constraint_specification = ids_module.Specification(
+        name="Civil interface requirements are native qualitative objectives",
+        description=(
+            "Each deterministic civil integration check is exposed as a project-level "
+            "IfcObjective without inventing unsupported numeric benchmarks."
+        ),
+        instructions=(
+            "Read the current evaluation from the accompanying index and validation "
+            "report; the IFC objective records requirement intent and revision evidence."
+        ),
+        minOccurs=1,
+        maxOccurs="unbounded",
+        ifcVersion=["IFC4X3_ADD2"],
+        identifier="OSR-IDS-CONSTRAINT-001",
+    )
+    constraint_specification.applicability.append(
+        ids_module.Entity(name="IFCOBJECTIVE")
+    )
+    constraint_specification.requirements.extend(
+        [
+            ids_module.Attribute(name="Name"),
+            ids_module.Attribute(name="Description"),
+            ids_module.Attribute(name="ConstraintGrade"),
+            ids_module.Attribute(name="ConstraintSource"),
+            ids_module.Attribute(name="CreationTime"),
+            ids_module.Attribute(name="ObjectiveQualifier"),
+        ]
+    )
+    document.specifications.append(constraint_specification)
+
+    pset_template_specification = ids_module.Specification(
+        name="OSR property dictionaries are native IFC templates",
+        description=(
+            "Every custom OSR property or quantity set has a named native template "
+            "with explicit applicability and template type."
+        ),
+        instructions=(
+            "Treat OSR_ names as project-defined dictionaries, not buildingSMART "
+            "standard Pset_ definitions."
+        ),
+        minOccurs=1,
+        maxOccurs="unbounded",
+        ifcVersion=["IFC4X3_ADD2"],
+        identifier="OSR-IDS-PSET-TEMPLATE-001",
+    )
+    pset_template_specification.applicability.append(
+        ids_module.Entity(name="IFCPROPERTYSETTEMPLATE")
+    )
+    pset_template_specification.requirements.extend(
+        [
+            ids_module.Attribute(name="Name"),
+            ids_module.Attribute(name="TemplateType"),
+            ids_module.Attribute(name="ApplicableEntity"),
+        ]
+    )
+    document.specifications.append(pset_template_specification)
+
+    property_template_specification = ids_module.Specification(
+        name="OSR template fields declare native property or quantity types",
+        description=(
+            "Each field in the embedded OSR dictionaries has a stable name and "
+            "IfcSimplePropertyTemplate type."
+        ),
+        instructions=(
+            "Use the declared single-value measure or quantity template type when "
+            "editing the associated property and quantity sets."
+        ),
+        minOccurs=1,
+        maxOccurs="unbounded",
+        ifcVersion=["IFC4X3_ADD2"],
+        identifier="OSR-IDS-PROP-TEMPLATE-001",
+    )
+    property_template_specification.applicability.append(
+        ids_module.Entity(name="IFCSIMPLEPROPERTYTEMPLATE")
+    )
+    property_template_specification.requirements.extend(
+        [
+            ids_module.Attribute(name="Name"),
+            ids_module.Attribute(name="TemplateType"),
+        ]
+    )
+    document.specifications.append(property_template_specification)
 
     alignment_specification = ids_module.Specification(
         name="Alignment exposes authority and revision",
@@ -2016,9 +2617,9 @@ def build_civil_ids(index: dict[str, Any]) -> ids_module.Ids:
     alignment_specification.requirements.extend(
         [
             ids_module.Attribute(name="Name"),
-            ids_module.Property(propertySet="Pset_OSR_AlignmentAuthority", baseName="Authority"),
-            ids_module.Property(propertySet="Pset_OSR_AlignmentAuthority", baseName="RevisionId"),
-            ids_module.Property(propertySet="Pset_OSR_AlignmentAuthority", baseName="GeometryRole"),
+            ids_module.Property(propertySet="OSR_AlignmentAuthority", baseName="Authority"),
+            ids_module.Property(propertySet="OSR_AlignmentAuthority", baseName="RevisionId"),
+            ids_module.Property(propertySet="OSR_AlignmentAuthority", baseName="GeometryRole"),
         ]
     )
     document.specifications.append(alignment_specification)
@@ -2034,12 +2635,12 @@ def build_civil_ids(index: dict[str, Any]) -> ids_module.Ids:
     provenance_specification.applicability.append(ids_module.Entity(name="IFCPROJECT"))
     provenance_specification.requirements.extend(
         [
-            ids_module.Property(propertySet="Pset_OSR_Provenance", baseName="CanonicalSourceSha256"),
-            ids_module.Property(propertySet="Pset_OSR_Provenance", baseName="RevisionId"),
-            ids_module.Property(propertySet="Pset_OSR_Provenance", baseName="GeometryAuthority"),
-            ids_module.Property(propertySet="Pset_OSR_Provenance", baseName="ReleaseStatus"),
+            ids_module.Property(propertySet="OSR_Provenance", baseName="CanonicalSourceSha256"),
+            ids_module.Property(propertySet="OSR_Provenance", baseName="RevisionId"),
+            ids_module.Property(propertySet="OSR_Provenance", baseName="GeometryAuthority"),
+            ids_module.Property(propertySet="OSR_Provenance", baseName="ReleaseStatus"),
             ids_module.Property(
-                propertySet="Pset_OSR_Georeferencing",
+                propertySet="OSR_Georeferencing",
                 baseName="CoordinateReferenceStatus",
             ),
         ]
@@ -2396,10 +2997,10 @@ def validate_written(
     expected_materials = {row["material_id"] for row in index["materials"]}
     exported_materials = {material.Name for material in reopened.by_type("IfcMaterial")}
     material_catalog_matches = all(
-        get_psets(material).get("Pset_OSR_MaterialStatus", {}).get("MaterialId")
+        get_psets(material).get("OSR_MaterialStatus", {}).get("MaterialId")
         == material.Name
         and get_psets(material)
-        .get("Pset_OSR_MaterialStatus", {})
+        .get("OSR_MaterialStatus", {})
         .get("SpecificationStatus")
         == "family-declared; grade-and-design-unresolved"
         for material in reopened.by_type("IfcMaterial")
@@ -2411,7 +3012,7 @@ def validate_written(
         if profile.ProfileName in expected_profiles
     }
     profile_catalog_matches = set(exported_profile_definitions) == expected_profiles and all(
-        get_psets(profile).get("Pset_OSR_Profile", {}).get("ProfileId")
+        get_psets(profile).get("OSR_Profile", {}).get("ProfileId")
         == profile.ProfileName
         for profile in exported_profile_definitions.values()
     )
@@ -2479,7 +3080,7 @@ def validate_written(
             and row["associated_object_count"] == len(expected_targets)
         )
     document_register_pset = get_psets(reopened.by_type("IfcProject")[0]).get(
-        "Pset_OSR_DocumentRegister", {}
+        "OSR_DocumentRegister", {}
     )
     document_catalog_matches &= (
         document_register_pset.get("RegisterStatus")
@@ -2554,7 +3155,7 @@ def validate_written(
     else:
         classification_assignments_match = False
     classification_pset = get_psets(reopened.by_type("IfcProject")[0]).get(
-        "Pset_OSR_Classification", {}
+        "OSR_Classification", {}
     )
     classification_catalog_matches &= (
         classification_pset.get("System") == ASSET_CLASSIFICATION["name"]
@@ -2565,7 +3166,7 @@ def validate_written(
         == "country-and-client-mapping-not-nominated"
     )
     exported_groups = {
-        get_psets(group).get("Pset_OSR_CoordinationGroup", {}).get("GroupId"): group
+        get_psets(group).get("OSR_CoordinationGroup", {}).get("GroupId"): group
         for group in reopened.by_type("IfcGroup")
     }
     expected_group_ids = {row["group_id"] for row in index["groups"]}
@@ -2578,7 +3179,7 @@ def validate_written(
             group_catalog_matches = False
             group_memberships_match = False
             continue
-        properties = get_psets(group).get("Pset_OSR_CoordinationGroup", {})
+        properties = get_psets(group).get("OSR_CoordinationGroup", {})
         group_catalog_matches &= (
             group.GlobalId == group_row["ifc_guid"]
             and group.Name == group_row["name"]
@@ -2610,7 +3211,7 @@ def validate_written(
         product = reopened.by_guid(row["ifc_guid"])
         observed_group_ids = {
             get_psets(relationship.RelatingGroup)
-            .get("Pset_OSR_CoordinationGroup", {})
+            .get("OSR_CoordinationGroup", {})
             .get("GroupId")
             for relationship in (getattr(product, "HasAssignments", ()) or ())
             if relationship.is_a("IfcRelAssignsToGroup")
@@ -2622,6 +3223,300 @@ def validate_written(
         set(observed_asset_memberships) == expected
         and all(count == 1 for count in observed_asset_memberships.values())
     )
+    exported_layers = {
+        layer.Identifier: layer
+        for layer in reopened.by_type("IfcPresentationLayerAssignment")
+    }
+    expected_layer_ids = {row["layer_id"] for row in index["layers"]}
+    layer_catalog_matches = set(exported_layers) == expected_layer_ids
+    layer_assignments_match = True
+    representation_layer_ids: dict[int, list[str]] = {}
+    for layer_row in index["layers"]:
+        layer = exported_layers.get(layer_row["layer_id"])
+        if layer is None:
+            layer_catalog_matches = False
+            layer_assignments_match = False
+            continue
+        observed_representation_ids = {item.id() for item in layer.AssignedItems}
+        expected_representations = [
+            representation
+            for asset_id in layer_row["asset_ids"]
+            for representation in reopened.by_guid(
+                next(row["ifc_guid"] for row in index["objects"] if row["asset_id"] == asset_id)
+            ).Representation.Representations
+        ]
+        expected_representation_ids = {
+            representation.id() for representation in expected_representations
+        }
+        layer_catalog_matches &= (
+            layer.Name == layer_row["name"]
+            and layer.Description == layer_row["description"]
+            and layer_row["ifc_class"] == layer.is_a()
+        )
+        layer_assignments_match &= (
+            observed_representation_ids == expected_representation_ids
+            and layer_row["asset_count"] == len(layer_row["asset_ids"])
+            and layer_row["representation_count"] == len(observed_representation_ids)
+        )
+        for representation_id in observed_representation_ids:
+            representation_layer_ids.setdefault(representation_id, []).append(
+                layer_row["layer_id"]
+            )
+    for row in index["objects"]:
+        product = reopened.by_guid(row["ifc_guid"])
+        observed_layer_ids = {
+            layer_id
+            for representation in product.Representation.Representations
+            for layer_id in representation_layer_ids.get(representation.id(), [])
+        }
+        layer_assignments_match &= observed_layer_ids == {
+            row["presentation_layer_id"]
+        }
+    layer_assignments_match &= (
+        len(representation_layer_ids) == len(index["objects"])
+        and all(len(layer_ids) == 1 for layer_ids in representation_layer_ids.values())
+    )
+    exported_constraints = {
+        objective.Name: objective for objective in reopened.by_type("IfcObjective")
+    }
+    expected_constraint_ids = {
+        row["constraint_id"] for row in index["constraints"]
+    }
+    constraint_catalog_matches = set(exported_constraints) == expected_constraint_ids
+    constraint_associations_match = True
+    for constraint_row in index["constraints"]:
+        objective = exported_constraints.get(constraint_row["constraint_id"])
+        if objective is None:
+            constraint_catalog_matches = False
+            constraint_associations_match = False
+            continue
+        constraint_catalog_matches &= (
+            objective.Description
+            == (
+                f"Current deterministic observation: {constraint_row['observation']}. "
+                f"Evaluation status: {constraint_row['evaluation_status']}."
+            )
+            and objective.ConstraintGrade == constraint_row["constraint_grade"]
+            and objective.ConstraintSource == constraint_row["constraint_source"]
+            and objective.CreationTime == FIXED_REVIEW_TIMESTAMP
+            and objective.ObjectiveQualifier
+            == constraint_row["objective_qualifier"]
+            and not objective.BenchmarkValues
+            and constraint_row["metric_status"]
+            == "qualitative-objective; no fabricated numeric benchmark"
+        )
+        relationships = [
+            relationship
+            for relationship in reopened.by_type("IfcRelAssociatesConstraint")
+            if relationship.RelatingConstraint == objective
+        ]
+        constraint_associations_match &= (
+            len(relationships) == 1
+            and len(relationships[0].RelatedObjects) == 1
+            and relationships[0].RelatedObjects[0].is_a("IfcProject")
+            and constraint_row["scope"] == "IfcProject"
+        )
+    custom_definitions = [
+        definition
+        for ifc_class in (
+            "IfcPropertySet",
+            "IfcElementQuantity",
+            "IfcMaterialProperties",
+            "IfcProfileProperties",
+        )
+        for definition in reopened.by_type(ifc_class)
+        if definition.Name and definition.Name.startswith("OSR_")
+    ]
+    invalid_custom_pset_names = [
+        definition.Name
+        for ifc_class in (
+            "IfcPropertySet",
+            "IfcMaterialProperties",
+            "IfcProfileProperties",
+        )
+        for definition in reopened.by_type(ifc_class)
+        if definition.Name and definition.Name.startswith("Pset_OSR_")
+    ]
+    exported_templates = {
+        template.Name: template
+        for template in reopened.by_type("IfcPropertySetTemplate")
+    }
+    expected_template_names = {
+        row["name"] for row in index["property_set_templates"]
+    }
+    property_template_catalog_matches = (
+        set(exported_templates) == expected_template_names
+    )
+    property_template_links_match = True
+    linked_definition_ids: Counter[int] = Counter()
+    for template_row in index["property_set_templates"]:
+        template = exported_templates.get(template_row["name"])
+        if template is None:
+            property_template_catalog_matches = False
+            property_template_links_match = False
+            continue
+        observed_properties = {
+            property_template.Name: {
+                "name": property_template.Name,
+                "template_type": property_template.TemplateType,
+                "primary_measure_type": property_template.PrimaryMeasureType,
+            }
+            for property_template in template.HasPropertyTemplates
+        }
+        expected_properties = {
+            property_row["name"]: property_row
+            for property_row in template_row["properties"]
+        }
+        property_template_catalog_matches &= (
+            template.TemplateType == template_row["template_type"]
+            and template.ApplicableEntity
+            == ",".join(template_row["applicable_entities"])
+            and observed_properties == expected_properties
+            and template_row["property_count"] == len(observed_properties)
+            and template_row["matched_definition_count"]
+            == sum(
+                definition.Name == template_row["name"]
+                and definition.is_a() == template_row["definition_class"]
+                for definition in custom_definitions
+            )
+            and template_row["status"]
+            == "osr-custom-template; not-buildingSMART-standard-pset"
+        )
+        relationships = [
+            relationship
+            for relationship in reopened.by_type("IfcRelDefinesByTemplate")
+            if relationship.RelatingTemplate == template
+        ]
+        relationship_expected = template_row["linkage"] == "IfcRelDefinesByTemplate"
+        observed_definitions = list(relationships[0].RelatedPropertySets) if relationships else []
+        linked_definition_ids.update(definition.id() for definition in observed_definitions)
+        property_template_links_match &= (
+            len(relationships) == (1 if relationship_expected else 0)
+            and len(observed_definitions) == template_row["linked_definition_count"]
+            and all(
+                definition.Name == template_row["name"]
+                and definition.is_a() == template_row["definition_class"]
+                for definition in observed_definitions
+            )
+        )
+    property_template_links_match &= (
+        set(linked_definition_ids)
+        == {
+            definition.id()
+            for definition in custom_definitions
+            if definition.is_a() in {"IfcPropertySet", "IfcElementQuantity"}
+        }
+        and all(count == 1 for count in linked_definition_ids.values())
+    )
+    template_declarations = [
+        relationship
+        for relationship in reopened.by_type("IfcRelDeclares")
+        if relationship.RelatingContext.is_a("IfcProject")
+        and any(
+            definition.is_a("IfcPropertySetTemplate")
+            for definition in relationship.RelatedDefinitions
+        )
+    ]
+    property_template_declarations_match = (
+        len(template_declarations) == 1
+        and {
+            definition
+            for definition in template_declarations[0].RelatedDefinitions
+            if definition.is_a("IfcPropertySetTemplate")
+        }
+        == set(exported_templates.values())
+    )
+    exported_alignments = reopened.by_type("IfcAlignment")
+    native_alignment_structure_matches = False
+    native_alignment_geometry_matches = False
+    if len(exported_alignments) == 1:
+        exported_alignment = exported_alignments[0]
+        horizontal_layout = get_horizontal_layout(exported_alignment)
+        vertical_layout = get_vertical_layout(exported_alignment)
+        horizontal_segments = (
+            list(get_layout_segments(horizontal_layout))
+            if horizontal_layout is not None
+            else []
+        )
+        vertical_segments = (
+            list(get_layout_segments(vertical_layout))
+            if vertical_layout is not None
+            else []
+        )
+        expected_alignment = index["alignment"]
+        expected_points = expected_alignment["control_points_m"]
+        horizontal_design_segments = horizontal_segments[:-1]
+        vertical_design_segments = vertical_segments[:-1]
+        aggregation = [
+            relationship
+            for relationship in exported_alignment.Decomposes
+            if relationship.is_a("IfcRelAggregates")
+        ]
+        native_alignment_structure_matches = (
+            horizontal_layout is not None
+            and vertical_layout is not None
+            and len(horizontal_design_segments)
+            == expected_alignment["horizontal_segment_count"]
+            and len(vertical_design_segments)
+            == expected_alignment["vertical_segment_count"]
+            and len(horizontal_segments)
+            == expected_alignment["horizontal_segment_count"] + 1
+            and len(vertical_segments)
+            == expected_alignment["vertical_segment_count"] + 1
+            and horizontal_segments[-1].DesignParameters.SegmentLength == 0.0
+            and vertical_segments[-1].DesignParameters.HorizontalLength == 0.0
+            and len(aggregation) == 1
+            and aggregation[0].RelatingObject.is_a("IfcProject")
+            and len(reopened.by_type("IfcReferent"))
+            == expected_alignment["stationing_referent_count"]
+            and all(
+                referent.PredefinedType == "STATION"
+                for referent in reopened.by_type("IfcReferent")
+            )
+        )
+        observed_length = sum(
+            segment.DesignParameters.SegmentLength
+            for segment in horizontal_design_segments
+        )
+        native_alignment_geometry_matches = (
+            exported_alignment.Representation is not None
+            and get_alignment_curve(exported_alignment) is not None
+            and get_alignment_curve(exported_alignment).is_a()
+            == expected_alignment["geometry_curve"]
+            and all(
+                segment.DesignParameters.PredefinedType == "LINE"
+                and all(
+                    math.isclose(observed, expected, abs_tol=1e-9)
+                    for observed, expected in zip(
+                        segment.DesignParameters.StartPoint.Coordinates,
+                        point[:2],
+                    )
+                )
+                for segment, point in zip(
+                    horizontal_design_segments, expected_points
+                )
+            )
+            and all(
+                segment.DesignParameters.PredefinedType == "CONSTANTGRADIENT"
+                and math.isclose(
+                    segment.DesignParameters.StartHeight,
+                    point[2],
+                    abs_tol=1e-9,
+                )
+                for segment, point in zip(
+                    vertical_design_segments, expected_points
+                )
+            )
+            and math.isclose(
+                observed_length,
+                expected_alignment["total_horizontal_length_m"],
+                abs_tol=1e-6,
+            )
+            and expected_alignment["cant_status"]
+            == "not-modelled; accepted cant design unavailable"
+            and expected_alignment["transition_status"]
+            == "not-modelled; planning polyline has no accepted radii"
+        )
     projected_crs = reopened.by_type("IfcProjectedCRS")
     map_conversions = reopened.by_type("IfcMapConversion")
     georeferencing = index["georeferencing"]
@@ -2705,9 +3600,61 @@ def validate_written(
             "passed": group_memberships_match,
             "observed": sum(observed_asset_memberships.values()),
         },
+        {
+            "id": "native-presentation-layers",
+            "passed": layer_catalog_matches,
+            "observed": len(exported_layers),
+        },
+        {
+            "id": "presentation-layer-assignments",
+            "passed": layer_assignments_match,
+            "observed": len(representation_layer_ids),
+        },
+        {
+            "id": "native-interface-constraints",
+            "passed": constraint_catalog_matches,
+            "observed": len(exported_constraints),
+        },
+        {
+            "id": "interface-constraint-associations",
+            "passed": constraint_associations_match,
+            "observed": len(reopened.by_type("IfcRelAssociatesConstraint")),
+        },
+        {
+            "id": "custom-property-set-naming",
+            "passed": not invalid_custom_pset_names,
+            "observed": len(invalid_custom_pset_names),
+        },
+        {
+            "id": "native-property-templates",
+            "passed": property_template_catalog_matches,
+            "observed": len(exported_templates),
+        },
+        {
+            "id": "property-template-links",
+            "passed": property_template_links_match,
+            "observed": len(linked_definition_ids),
+        },
+        {
+            "id": "property-template-project-declaration",
+            "passed": property_template_declarations_match,
+            "observed": len(template_declarations),
+        },
         {"id": "railway-spatial-root", "passed": len(reopened.by_type("IfcRailway")) == 1, "observed": len(reopened.by_type("IfcRailway"))},
         {"id": "railway-parts", "passed": len(reopened.by_type("IfcRailwayPart")) == 4, "observed": len(reopened.by_type("IfcRailwayPart"))},
-        {"id": "alignment-reference", "passed": len(reopened.by_type("IfcAlignment")) == 1, "observed": len(reopened.by_type("IfcAlignment"))},
+        {
+            "id": "native-alignment-layouts",
+            "passed": native_alignment_structure_matches,
+            "observed": (
+                f"{index['alignment']['horizontal_segment_count']} horizontal / "
+                f"{index['alignment']['vertical_segment_count']} vertical segments"
+            ),
+        },
+        {
+            "id": "native-alignment-geometry",
+            "passed": native_alignment_geometry_matches,
+            "observed": index["alignment"]["geometry_curve"],
+        },
         {
             "id": "georeferencing-contract",
             "passed": georeferencing_matches,

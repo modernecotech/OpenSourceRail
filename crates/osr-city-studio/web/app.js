@@ -98,7 +98,7 @@ let civilPlaybackTimer = null;
 let civilReviewState = {
   angle_deg: -35,
   stage: 0,
-  disciplines: new Set(),
+  layers: new Set(),
   groups: new Set(),
 };
 let operationBusy = false;
@@ -1067,7 +1067,6 @@ async function openJobArtifact(jobId, index, shouldScroll) {
     const changed = !selectedArtifactPreview
       || selectedArtifactPreview.job_id !== nextPreview.job_id
       || selectedArtifactPreview.artifact_index !== nextPreview.artifact_index;
-    selectedArtifactPreview = nextPreview;
     if (changed) {
       selectedCoordinationAssetIds.clear();
       stopCivilPlayback();
@@ -1077,14 +1076,21 @@ async function openJobArtifact(jobId, index, shouldScroll) {
         const sequenceIndex = job?.artifacts.findIndex((item) => item.kind === "civil-4d-sequence") ?? -1;
         if (sequenceIndex >= 0) selectedCivilSequence = await api.jobArtifact(jobId, sequenceIndex);
         const disciplines = Object.keys(nextPreview.content.summary?.disciplines || {});
+        const layers = nextPreview.content.layers?.length
+          ? nextPreview.content.layers.map((layer) => layer.layer_id)
+          : disciplines;
         civilReviewState = {
           angle_deg: -35,
           stage: selectedCivilSequence?.content?.tasks?.length || 0,
-          disciplines: new Set(disciplines),
+          layers: new Set(layers),
           groups: new Set((nextPreview.content.groups || []).map((group) => group.group_id)),
         };
       }
     }
+    // Publish the selection only after companion evidence and review state are
+    // ready, so API consumers and the GUI cannot observe a half-rendered
+    // artifact transition.
+    selectedArtifactPreview = nextPreview;
     renderJobs();
     renderArtifactViewer();
     if (shouldScroll) {
@@ -1171,6 +1177,13 @@ function renderCivilReviewControls(preview) {
   host.hidden = !isCivilObjectIndex(preview);
   if (host.hidden) return;
   const disciplines = Object.keys(preview.content.summary?.disciplines || {});
+  const layers = preview.content.layers?.length
+    ? preview.content.layers
+    : disciplines.map((discipline) => ({
+      layer_id: discipline,
+      name: discipline,
+      asset_count: preview.content.summary.disciplines[discipline],
+    }));
   const groups = preview.content.groups || [];
   const tasks = selectedCivilSequence?.content?.tasks || [];
   const stage = Math.min(civilReviewState.stage, tasks.length);
@@ -1180,7 +1193,8 @@ function renderCivilReviewControls(preview) {
     <label>Rotate federation · ${civilReviewState.angle_deg}°
       <input id="civil-view-angle" type="range" min="-180" max="180" step="5" value="${civilReviewState.angle_deg}">
     </label>
-    <div class="civil-discipline-list">${disciplines.map((discipline) => `<label><input type="checkbox" data-civil-discipline="${escapeHtml(discipline)}" ${civilReviewState.disciplines.has(discipline) ? "checked" : ""}>${escapeHtml(discipline)}</label>`).join("")}</div>
+    <small>Native IFC presentation layers</small>
+    <div class="civil-discipline-list">${layers.map((layer) => `<label><input type="checkbox" data-civil-layer="${escapeHtml(layer.layer_id)}" ${civilReviewState.layers.has(layer.layer_id) ? "checked" : ""}>${escapeHtml(layer.name)} · ${layer.asset_count}</label>`).join("")}</div>
     <small>Native IFC coordination groups</small>
     <div class="civil-discipline-list">${groups.map((group) => `<label><input type="checkbox" data-civil-group="${escapeHtml(group.group_id)}" ${civilReviewState.groups.has(group.group_id) ? "checked" : ""}>${escapeHtml(group.name)} · ${group.asset_count}</label>`).join("")}</div>
     <label>Construction stage
@@ -1193,10 +1207,10 @@ function renderCivilReviewControls(preview) {
     renderCivilGraphic();
     renderCivilReviewControls(preview);
   });
-  host.querySelectorAll("[data-civil-discipline]").forEach((checkbox) => {
+  host.querySelectorAll("[data-civil-layer]").forEach((checkbox) => {
     checkbox.addEventListener("change", () => {
-      if (checkbox.checked) civilReviewState.disciplines.add(checkbox.dataset.civilDiscipline);
-      else civilReviewState.disciplines.delete(checkbox.dataset.civilDiscipline);
+      if (checkbox.checked) civilReviewState.layers.add(checkbox.dataset.civilLayer);
+      else civilReviewState.layers.delete(checkbox.dataset.civilLayer);
       renderCivilGraphic();
       renderCivilReviewControls(preview);
     });
@@ -1263,7 +1277,7 @@ function artifactGraphic(preview) {
       return [rotatedX - rotatedY * .7, rotatedX * .24 + rotatedY * .38 - Number(z) * 2.4];
     };
     return (content.objects || []).map((item) => {
-      if (!civilReviewState.disciplines.has(item.discipline)) return [];
+      if (!civilReviewState.layers.has(item.presentation_layer_id || item.discipline)) return [];
       if ((content.groups || []).length
         && !civilReviewState.groups.has(item.coordination_group_id)) return [];
       if (stageAssets && !stageAssets.has(item.asset_id)) return [];
@@ -1346,12 +1360,14 @@ function artifactInspectorItems(preview) {
     const profiles = new Map((content.profiles || []).map((item) => [item.profile_id, item]));
     const documents = new Map((content.documents || []).map((item) => [item.document_id, item]));
     const groups = new Map((content.groups || []).map((item) => [item.group_id, item]));
+    const layers = new Map((content.layers || []).map((item) => [item.layer_id, item]));
     const classification = content.classification || {};
     const objectItems = (content.objects || []).map((item) => {
       const material = materials.get(item.material_id);
       const profile = profiles.get(item.profile_id);
       const sourceDocuments = (item.document_ids || []).map((id) => documents.get(id)).filter(Boolean);
       const coordinationGroup = groups.get(item.coordination_group_id);
+      const presentationLayer = layers.get(item.presentation_layer_id);
       return {
         label: item.name,
         meta: `${item.ifc_class} · ${item.asset_class} · ${coordinationGroup?.name || "group unresolved"} · ${item.ifc_type_id || "untyped"} · ${item.material_id || "material unresolved"} · ${item.profile_id || "profile not applicable"} · ${sourceDocuments.length} source documents`,
@@ -1371,6 +1387,9 @@ function artifactInspectorItems(preview) {
           coordinationGroup
             ? `coordination group ${coordinationGroup.group_id} · ${coordinationGroup.name}\nrole ${coordinationGroup.role}`
             : `coordination group ${item.coordination_group_id} · unresolved`,
+          presentationLayer
+            ? `presentation layer ${presentationLayer.layer_id} · ${presentationLayer.name}\nscope ${presentationLayer.assignment_scope}`
+            : `presentation layer ${item.presentation_layer_id || "not indexed"}`,
           `discipline ${item.discipline} · ${item.detail_mode}`,
           `bbox m ${item.bbox_m.join(", ")}`,
           `source ${item.source_geometry}`,
@@ -1407,6 +1426,52 @@ function artifactInspectorItems(preview) {
         `system meaning ${group.system_meaning}`,
       ].join("\n"),
     }));
+    const layerItems = (content.layers || []).map((layer) => ({
+      label: layer.name,
+      meta: `${layer.layer_id} · ${layer.asset_count} assets · ${layer.discipline}`,
+      detail: [
+        `presentation layer ${layer.layer_id}`,
+        `IFC class ${layer.ifc_class}`,
+        `name ${layer.name}`,
+        `discipline ${layer.discipline}`,
+        `assignment scope ${layer.assignment_scope}`,
+        `representations ${layer.representation_count}`,
+        `description ${layer.description}`,
+        "semantics simple geometry grouping and visibility control only",
+      ].join("\n"),
+    }));
+    const constraintItems = (content.constraints || []).map((constraint) => ({
+      label: constraint.name,
+      meta: `${constraint.evaluation_status} · ${constraint.constraint_grade} · ${constraint.objective_qualifier}`,
+      detail: [
+        `interface constraint ${constraint.constraint_id}`,
+        `IFC class ${constraint.ifc_class}`,
+        `grade ${constraint.constraint_grade}`,
+        `qualifier ${constraint.objective_qualifier}`,
+        `scope ${constraint.scope}`,
+        `evaluation ${constraint.evaluation_status}`,
+        `observation ${constraint.observation}`,
+        `source ${constraint.constraint_source}`,
+        `metric status ${constraint.metric_status}`,
+      ].join("\n"),
+    }));
+    const propertyTemplateItems = (content.property_set_templates || []).map((template) => ({
+      label: template.name,
+      meta: `${template.template_type} · ${template.property_count} fields · ${template.matched_definition_count} definitions`,
+      detail: [
+        `property dictionary ${template.name}`,
+        `IFC class ${template.ifc_class}`,
+        `definition class ${template.definition_class}`,
+        `template type ${template.template_type}`,
+        `applicable entities ${template.applicable_entities.join(", ")}`,
+        `fields ${template.property_count}`,
+        `matched definitions ${template.matched_definition_count}`,
+        `relationship-linked definitions ${template.linked_definition_count}`,
+        `linkage ${template.linkage}`,
+        `status ${template.status}`,
+        `field dictionary\n${template.properties.map((property) => `${property.name} · ${property.template_type} · ${property.primary_measure_type || "quantity measure from template type"}`).join("\n")}`,
+      ].join("\n"),
+    }));
     const documentItems = (content.documents || []).map((document) => ({
       label: document.name,
       meta: `${document.document_id} · ${document.media_type} · ${document.associated_asset_ids.length} assets · ${document.associated_type_ids.length} types`,
@@ -1421,7 +1486,26 @@ function artifactInspectorItems(preview) {
         `associated assets ${document.associated_asset_ids.length} · types ${document.associated_type_ids.length}`,
       ].join("\n"),
     }));
-    return [...objectItems, ...classificationItems, ...groupItems, ...documentItems];
+    const alignmentItems = content.alignment ? [{
+      label: content.alignment.name,
+      meta: `${content.alignment.geometry_curve} · ${content.alignment.horizontal_segment_count} horizontal · ${content.alignment.vertical_segment_count} vertical segments`,
+      detail: [
+        `native alignment ${content.alignment.name}`,
+        `IFC class ${content.alignment.ifc_class}`,
+        `semantic model ${content.alignment.semantic_model}`,
+        `geometry curve ${content.alignment.geometry_curve}`,
+        `representations ${content.alignment.representation_identifiers.join(", ")}`,
+        `control points ${content.alignment.control_point_count}`,
+        `horizontal ${content.alignment.horizontal_segment_count} × ${content.alignment.horizontal_segment_type}`,
+        `vertical ${content.alignment.vertical_segment_count} × ${content.alignment.vertical_segment_type}`,
+        `length ${content.alignment.total_horizontal_length_m} m · start station ${content.alignment.start_station_m} m`,
+        `stationing referents ${content.alignment.stationing_referent_count}`,
+        `cant ${content.alignment.cant_status}`,
+        `transitions ${content.alignment.transition_status}`,
+        `release ${content.alignment.release_status}`,
+      ].join("\n"),
+    }] : [];
+    return [...objectItems, ...classificationItems, ...groupItems, ...layerItems, ...constraintItems, ...propertyTemplateItems, ...documentItems, ...alignmentItems];
   }
   if (preview.format === "json" && content.schema === "org.opensourcerail.bonsai-civil-bcf-index.v1") {
     return (content.topics || []).map((topic) => ({
@@ -1454,7 +1538,7 @@ function renderArtifactObjects(preview) {
       <button id="clear-selected-assets" type="button" class="secondary">Clear</button>
       <span id="artifact-selection-count" class="artifact-selection-count">0 assets selected</span>
     </div>` : "";
-  host.innerHTML = `<h3>${preview.content.schema?.includes("bcf") ? "Coordination topics" : preview.content.schema?.includes("ids") ? "IDS specifications" : "IFC object, group, classification, and source-document inspector"}</h3>
+  host.innerHTML = `<h3>${preview.content.schema?.includes("bcf") ? "Coordination topics" : preview.content.schema?.includes("ids") ? "IDS specifications" : "IFC object, property-dictionary, constraint, layer, group, classification, and document inspector"}</h3>
     ${tools}
     <div class="artifact-object-list">${items.map((item, index) => `<div class="artifact-object-row" data-object-row="${index}" data-search="${escapeHtml(`${item.label} ${item.meta}`.toLowerCase())}">${item.coordinationTarget ? `<input class="artifact-object-check" type="checkbox" data-asset-index="${index}" aria-label="Include ${escapeHtml(item.label)} in coordination topic">` : ""}<button type="button" class="artifact-object-button" data-object-index="${index}"><strong>${escapeHtml(item.label)}</strong><small>${escapeHtml(item.meta)}</small></button></div>`).join("")}</div>
     <pre class="artifact-object-detail"></pre>
@@ -1626,7 +1710,7 @@ function artifactMetrics(preview, graphic) {
   if (preview.format === "json" && Array.isArray(content.points)) {
     return [[content.line_slug || "alignment", "line"], [content.points.length, "survey points"], [`${content.design_speed_kmh || "—"} km/h`, "design speed"], ["local XYZ", "coordinate frame"]];
   }
-  if (preview.format === "json" && content.alignment) {
+  if (preview.format === "json" && Array.isArray(content.alignment?.horizontal)) {
     return [[content.alignment.line_slug || "alignment", "line"], [content.alignment.horizontal?.length || 0, "horizontal elements"], [content.alignment.vertical?.length || 0, "vertical elements"], [`${content.alignment.design_speed_kmh || "—"} km/h`, "design speed"]];
   }
   if (preview.format === "json" && content.sim_duration_s !== undefined) {
@@ -1636,7 +1720,7 @@ function artifactMetrics(preview, graphic) {
     const coordinateReference = content.georeferencing?.native_ifc_georeferencing
       ? content.georeferencing.crs_name
       : "local grid";
-    return [[content.summary?.assets || 0, "IFC assets"], [content.summary?.types || 0, "reusable IFC types"], [content.summary?.typed_assets || 0, "typed assets"], [content.summary?.materials || 0, "declared material families"], [content.summary?.material_associated_assets || 0, "material-associated assets"], [content.summary?.profiles || 0, "native section profiles"], [content.summary?.profiled_assets || 0, "profile-extruded assets"], [content.summary?.classifications || 0, "native classification systems"], [content.summary?.classification_references || 0, "asset-class references"], [content.summary?.classified_assets || 0, "classified assets"], [content.summary?.coordination_groups || 0, "native coordination groups"], [content.summary?.grouped_assets || 0, "group-associated assets"], [content.summary?.documents || 0, "hash-locked source documents"], [content.summary?.document_associated_assets || 0, "source-linked assets"], [content.summary?.construction_tasks || 0, "4D tasks"], [content.summary?.interface_checks || 0, "interface checks"], [coordinateReference, "coordinate reference"], [content.ifc_schema || "IFC4X3", "coordination schema"]];
+    return [[content.summary?.assets || 0, "IFC assets"], [content.summary?.types || 0, "reusable IFC types"], [content.summary?.typed_assets || 0, "typed assets"], [content.summary?.materials || 0, "declared material families"], [content.summary?.material_associated_assets || 0, "material-associated assets"], [content.summary?.profiles || 0, "native section profiles"], [content.summary?.profiled_assets || 0, "profile-extruded assets"], [content.summary?.classifications || 0, "native classification systems"], [content.summary?.classification_references || 0, "asset-class references"], [content.summary?.classified_assets || 0, "classified assets"], [content.summary?.coordination_groups || 0, "native coordination groups"], [content.summary?.grouped_assets || 0, "group-associated assets"], [content.summary?.presentation_layers || 0, "native presentation layers"], [content.summary?.layer_associated_assets || 0, "layer-associated assets"], [content.summary?.interface_constraints || 0, "native interface constraints"], [content.summary?.horizontal_alignment_segments || 0, "native horizontal alignment segments"], [content.summary?.vertical_alignment_segments || 0, "native vertical alignment segments"], [content.summary?.alignment_stationing_referents || 0, "alignment stationing referents"], [content.summary?.property_set_templates || 0, "native property-set templates"], [content.summary?.property_templates || 0, "typed template fields"], [content.summary?.template_matched_definitions || 0, "template-matched definitions"], [content.summary?.documents || 0, "hash-locked source documents"], [content.summary?.document_associated_assets || 0, "source-linked assets"], [content.summary?.construction_tasks || 0, "4D tasks"], [content.summary?.interface_checks || 0, "interface checks"], [coordinateReference, "coordinate reference"], [content.ifc_schema || "IFC4X3", "coordination schema"]];
   }
   if (preview.format === "json" && content.schema === "org.opensourcerail.bonsai-civil-ids-report.v1") {
     return [[content.total_specifications_pass, `of ${content.total_specifications} IDS specifications`], [content.total_checks_pass, `of ${content.total_checks} checks`], [content.status ? "PASS" : "FAIL", "information delivery"], ["IDS 1.0", "requirements standard"]];

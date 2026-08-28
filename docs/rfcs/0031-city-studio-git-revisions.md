@@ -252,7 +252,7 @@ formats, and verifies the recorded SHA-256 before returning content. The GUI
 plots GeoJSON, local alignment points, LandXML geometry, and stakeout data and
 summarizes railML and simulator evidence. For civil review it joins the
 verified object index and 4D sequence to provide deterministic envelope
-rotation, discipline visibility, construction-stage playback, task/QA context,
+rotation, native IFC presentation-layer visibility, construction-stage playback, task/QA context,
 and stable BCF object picking. These previews are not an authoritative CAD or
 safety-assurance tool; native IFC detail remains in Bonsai.
 

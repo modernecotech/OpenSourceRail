@@ -80,7 +80,11 @@ component types organised below an
 `IfcRailway` and four `IfcRailwayPart` containers: track, substructure,
 above-track systems, and lineside/clearance. Civil objects use IFC4.3 types
 including `IfcRail`, `IfcBeam`, `IfcColumn`, `IfcSlab`, `IfcRoof`, and an
-`IfcAlignment` reference. Each object carries:
+`IfcAlignment`. The selected line's control-point polyline is represented by
+native `IfcAlignmentHorizontal` `LINE` segments, `IfcAlignmentVertical`
+`CONSTANTGRADIENT` segments, an `IfcGradientCurve`, and stationing referents.
+This improves civil-tool interoperability without inventing curve radii,
+transitions, or cant that the planning input does not contain. Each asset carries:
 
 - stable OSR asset ID and class;
 - canonical source and source hash;
@@ -90,13 +94,13 @@ including `IfcRail`, `IfcBeam`, `IfcColumn`, `IfcSlab`, `IfcRoof`, and an
 
 Ninety-three occurrences are linked to an `IfcTypeProduct` derived from their
 exact asset class and source-geometry recipe. Types carry stable `OSR-TYPE-…`
-identity and `Pset_OSR_Type`; occurrence placement and geometry remain
+identity and `OSR_Type`; occurrence placement and geometry remain
 authoritative. The two clearance envelopes remain untyped because IFC4.3 has
 no `IfcVirtualElementType`.
 
 Three native `IfcMaterial` family declarations cover 46 occurrences through
 five type associations: running-rail steel, prestressed beam concrete, and
-precast platform-unit concrete. `Pset_OSR_MaterialStatus` identifies the source
+precast platform-unit concrete. `OSR_MaterialStatus` identifies the source
 authority and explicitly records that grade, design, supplier certification,
 and release remain unresolved. Mixed or interface-only assemblies receive no
 material association until their constituent specification is authoritative.
@@ -125,6 +129,30 @@ all 95 assets assigned exactly once. Their properties state that they are
 separated review layouts—not surveyed spatial zones or functional engineering
 systems—so Bonsai and City Studio can filter them without asserting false
 `IfcSpatialZone` or `IfcSystem` semantics.
+
+Four `IfcPresentationLayerAssignment` records assign each asset's
+`IfcShapeRepresentation` to track, substructure, above-track, or lineside.
+They provide native visibility filters for Bonsai and layer-oriented CAD/BIM
+tools. They deliberately carry no engineering meaning beyond simple geometry
+grouping; object identity and semantics remain in IFC objects, types,
+classification, and coordination groups.
+
+The nine deterministic integration gates are also native project-level
+`IfcObjective` constraints with hard `DESIGNINTENT` semantics, source path,
+fixed evaluation time, current observation, and PASS/FAIL state. They remain
+qualitative: the exporter does not create `IfcMetric` benchmarks by parsing
+human-readable observations. The structured index and validation report remain
+the machine authority for evaluation status.
+
+All custom properties now use the standards-compliant `OSR_` prefix; the IFC
+`Pset_` prefix is reserved for property sets defined by buildingSMART. Thirteen
+native `IfcPropertySetTemplate` dictionaries declare 77 property and quantity
+field types across occurrence, type, material, profile, and quantity data.
+Eleven templates link 220 `IfcPropertySet`/`IfcElementQuantity` definitions via
+`IfcRelDefinesByTemplate`; material and profile resources cannot use that
+relationship, so their four definitions match the declared material/profile
+templates by name and template type. All 13 templates are declared in the IFC
+project context and indexed for City Studio inspection.
 
 Fifteen native `IfcDocumentInformation`/`IfcDocumentReference` records expose
 the actual repository sources used by the federation. Complete SHA-256
@@ -167,7 +195,7 @@ record `project-crs-unresolved` rather than inventing map coordinates. For a 3D
 model, use a compound CRS that identifies the vertical datum as required by
 IFC4.3.
 
-The IFC project also carries `Pset_OSR_CostModel`: the generated contract hash,
+The IFC project also carries `OSR_CostModel`: the generated contract hash,
 maturity and current class rates. Its JSON index includes the full per-route-km
 quantity basis. Editing a reviewed parametric dimension and regenerating first
 updates the quantity model and cost contract, then emits both into IFC and city
@@ -190,11 +218,12 @@ represent released reinforcement, prestress or connection detailing.
 ## IDS delivery gate and BCF review loop
 
 The exporter writes an IDS 1.0 contract and immediately reopens it with
-IfcTester against the written IFC. Nine specifications cover all 95 assets,
+IfcTester against the written IFC. Thirteen specifications cover all 95 assets,
 the 17-type catalogue, the source-backed material subset, alignment authority,
 the native rail-profile assignments, OSR asset classification, native document
-register, five coordination groups, and project provenance. The current
-reference exchange passes all 1,347
+register, five coordination groups, four presentation layers, nine interface
+constraints, typed property dictionaries, and project provenance. The current
+reference exchange passes all 1,602
 entity-level checks. The audit is deterministic: entity
 evidence is sorted before hashing, so a repeat build produces byte-identical
 IFC, IDS, audit, BCF, indexes, sequence, and validation files.
@@ -214,7 +243,7 @@ closure against the same stable objects.
 
 City Studio also pairs the object index with the hash-verified construction
 sequence. Its interactive review controls rotate the projected federation,
-toggle civil disciplines or any of the five native coordination groups, and
+toggle any of the four native presentation layers or five coordination groups, and
 scrub or play the 18-task 4D sequence while showing the current QA hold and
 visible-asset count. These projected envelopes
 support rapid coordination and BCF selection; native tessellated geometry and
@@ -251,7 +280,7 @@ after review.
 |---|---|
 | Native quantity take-off | Implemented now; it replaces quantity-shaped generic properties and enables later parametric IFC costing. |
 | CRS/map conversion | Implemented now as validated opt-in input; unresolved projects remain visibly local rather than receiving a guessed EPSG code. |
-| Full horizontal/vertical/cant alignment segments and linear placement | Defer until the accepted OSR-ALN design supplies segment parameters. LandXML, railML, stakeout CSV, and the current IFC reference curve already preserve a usable handoff; the upstream IfcOpenShell alignment API remains under development. |
+| Alignment layouts and linear placement | Native horizontal `LINE` and vertical `CONSTANTGRADIENT` planning segments, gradient-curve geometry, and stationing are implemented from the selected line polyline. Design radii, transition spirals, vertical curves, cant, and product linear placement remain deferred until an accepted OSR-ALN design supplies those parameters; LandXML, railML, and stakeout CSV remain the detailed handoff. |
 | Native `IfcCostSchedule` | Defer until approved element-level rates exist. The generated CAD-indexed cost contract already propagates to city CAPEX, finance, IFC metadata, and Git revisions; attaching route-km benchmark rates to reference component samples would imply false 5D precision. Native quantities now provide the correct foundation for it later. |
 | Reusable object types | Implemented for 93 safely typable occurrences using exact source recipes. Type geometry maps are deliberately omitted so occurrence geometry remains authoritative. |
 | Material families | Implemented for the 46 occurrences whose source explicitly declares a safe single-material family. Every declaration is visibly grade/design unresolved. |
@@ -261,6 +290,9 @@ after review.
 | Country/client classification mapping | Defer Uniclass, OmniClass, national, or client codes until the deployment nominates an edition and approves a crosswalk; no global mapping is guessed. |
 | Native coordination groups | Implemented with five deterministic `IfcGroup` records and exactly one group membership per asset. They preserve source review layouts without claiming surveyed space or system function. |
 | Surveyed spatial zones and functional systems | Add `IfcSpatialZone` or `IfcSystem` only when accepted spatial boundaries or an engineering system definition exists; the current separated review layout is insufficient evidence. |
+| Native presentation layers | Implemented with four stable layers and exactly one `IfcShapeRepresentation` assignment per asset for simple visibility control. Object semantics remain elsewhere. |
+| Native interface constraints | Implemented with nine qualitative hard `IfcObjective` records associated with the project. Numeric metrics are deferred until checks expose structured benchmark paths and values. |
+| Native OSR property dictionaries | Implemented with 13 project-declared templates, 77 typed fields, 220 direct definition links, and four name/type-matched material/profile definitions. Custom sets use `OSR_`, never the reserved `Pset_` prefix. |
 | Native source-document register | Implemented with 15 hash-locked repository sources and direct project/type/occurrence associations. |
 | Issued drawings and CDE document control | Defer sheets, issue/transmittal states, and CDE URLs until a deployment selects its naming, approval, and common-data-environment convention. |
 
@@ -269,6 +301,9 @@ after review.
 - [Bonsai introduction and native IFC workflow](https://docs.bonsaibim.org/quickstart/introduction_to_bim.html)
 - [Bonsai road and rail alignment guide](https://docs.bonsaibim.org/guides/alignment.html)
 - [IfcOpenShell alignment API and current design limitations](https://docs.ifcopenshell.org/autoapi/ifcopenshell/api/alignment/index.html)
+- [IFC4.3 `IfcAlignmentHorizontal`](https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/lexical/IfcAlignmentHorizontal.htm)
+- [IFC4.3 `IfcAlignmentVertical`](https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/lexical/IfcAlignmentVertical.htm)
+- [IFC4.3 `IfcReferent`](https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/lexical/IfcReferent.htm)
 - [IfcOpenShell georeferencing API](https://docs.ifcopenshell.org/autoapi/ifcopenshell/api/georeference/index.html)
 - [IFC4.3 `IfcProjectedCRS`](https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/lexical/IfcProjectedCRS.htm)
 - [IFC4.3 `IfcMapConversion`](https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/lexical/IfcMapConversion.htm)
@@ -286,6 +321,13 @@ after review.
 - [IFC4.3 `IfcSpatialZone`](https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/lexical/IfcSpatialZone.htm)
 - [IFC4.3 `IfcSystem`](https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/lexical/IfcSystem.htm)
 - [IfcOpenShell group API](https://docs.ifcopenshell.org/autoapi/ifcopenshell/api/group/index.html)
+- [IFC4.3 `IfcPresentationLayerAssignment`](https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/lexical/IfcPresentationLayerAssignment.htm)
+- [IfcOpenShell layer API](https://docs.ifcopenshell.org/autoapi/ifcopenshell/api/layer/index.html)
+- [IFC4.3 constraint resource](https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/ifcconstraintresource/content.html)
+- [IfcOpenShell constraint API](https://docs.ifcopenshell.org/autoapi/ifcopenshell/api/constraint/index.html)
+- [IFC4.3 custom property-set naming](https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/lexical/IfcPropertySet.htm)
+- [IFC4.3 property-set templates](https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/lexical/IfcPropertySetTemplate.htm)
+- [IfcOpenShell property-template API](https://docs.ifcopenshell.org/autoapi/ifcopenshell/api/pset_template/index.html)
 - [IFC4.3 document information](https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/lexical/IfcDocumentInformation.htm)
 - [IFC4.3 document associations](https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/lexical/IfcRelAssociatesDocument.htm)
 - [IfcOpenShell document API](https://docs.ifcopenshell.org/autoapi/ifcopenshell/api/document/index.html)

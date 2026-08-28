@@ -160,8 +160,16 @@ Implemented:
   grade/design status in the civil artifact inspector;
 - native section-profile counts, profile-derived rail extrusion coverage, and
   review-versus-mill geometry status in the artifact inspector;
+- native IFC presentation-layer and coordination-group catalogues, membership,
+  semantic boundaries, and visibility filters;
+- native qualitative interface-constraint intent, current evaluation, source,
+  scope, and explicit no-fabricated-metric boundary;
+- native OSR property/quantity dictionaries, applicability, typed fields,
+  definition linkage, and custom-versus-standard naming boundary;
+- native IFC4.3 horizontal and vertical planning segments, gradient-curve
+  representation, stationing, and explicit unresolved transition/cant status;
 - hash-verified 4D sequence loading alongside the IFC object index, with
-  federation rotation, per-discipline visibility, stage scrubbing/playback,
+  federation rotation, native layer visibility, stage scrubbing/playback,
   and task/QA-hold context;
 - visibility of existing GIS, engineering, simulation, operations, and release
   artifacts.
@@ -248,9 +256,12 @@ The engineering hub exposes four fixed adapters:
 - **Generate Bonsai civil IFC4.3** combines the selected immutable line
   reference with the checked civil kit and produces native IFC4.3 objects,
   quantities, provenance, an object index, linked 4D construction tasks, a
-  nine-specification IDS 1.0 audit, an internal 11-reference OSR asset
+  thirteen-specification IDS 1.0 audit, an internal 11-reference OSR asset
   classification, five native source-zone coordination groups, 15 hash-locked
-  native source-document records, and a BCF 3.0 package of open release
+  native source-document records, four native presentation layers, nine native
+  qualitative interface constraints, 13 native property/quantity dictionaries,
+  native planning alignment layouts and stationing,
+  and a BCF 3.0 package of open release
   issues with IFC GUID selections. If the selected line has accepted survey
   control in `[[civil.ifc_georeferencing]]`, the job also emits its native
   `IfcProjectedCRS` and `IfcMapConversion`; unmatched lines remain explicitly
@@ -274,7 +285,7 @@ alignment/stakeout geometry and isometric IFC object envelopes are plotted
 directly. Individual civil objects expose their stable ID, IFC GUID, class,
 discipline, bounds, detail mode, source, internal asset class, and applicable
 hash-locked source documents. The searchable inspector also exposes the native
-classification, coordination-group, and document registers, type/direct
+classification, property-dictionary, alignment, interface-constraint, presentation-layer, coordination-group, and document registers, type/direct
 assignment mode, semantic boundaries, repository locations, revisions, scope,
 and association counts. IDS specifications and BCF topics
 have selectable audit/issue cards; IFC STEP, IDS XML, BCF containers, and JSON
@@ -283,7 +294,7 @@ also receive format-specific metrics and a bounded structured-source preview.
 When the civil object index is selected, City Studio also loads the companion
 `civil-4d-sequence` through the same SHA-256-verifying artifact endpoint. The
 reviewer can rotate the projected federation, isolate track, substructure,
-above-track, or lineside disciplines, toggle any native review group, scrub the
+above-track, or lineside native layers, toggle any native review group, scrub the
 construction task sequence, or play it automatically. The current task title
 and QA hold are shown beside the visible-asset count. This is an interactive
 coordination view of deterministic object envelopes; Bonsai remains the native

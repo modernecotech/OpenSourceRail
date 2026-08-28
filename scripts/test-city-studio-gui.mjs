@@ -530,13 +530,19 @@ async function main() {
 
   const ifcObjectCount = await cdp.evaluate("selectedArtifactPreview.content.objects.length");
   assert(ifcObjectCount > 20, "IFC object inspector populated", `${ifcObjectCount} objects`);
-  const ifcTypeEvidence = await cdp.evaluate(`({
-    types: selectedArtifactPreview.content.summary.types,
-    typedAssets: selectedArtifactPreview.content.summary.typed_assets,
-    indexedTypes: selectedArtifactPreview.content.types.length,
-    detail: document.querySelector('.artifact-object-detail').textContent,
-    metrics: document.querySelector('#artifact-metrics').textContent,
-  })`);
+  const ifcTypeEvidence = await cdp.evaluate(`(() => {
+    const content = selectedArtifactPreview.content;
+    const index = content.objects.findIndex(item => item.ifc_type_id);
+    document.querySelector('.artifact-object-button[data-object-index="' + index + '"]').click();
+    return {
+      types: content.summary.types,
+      typedAssets: content.summary.typed_assets,
+      indexedTypes: content.types.length,
+      selectedType: content.objects[index].ifc_type_id,
+      detail: document.querySelector('.artifact-object-detail').textContent,
+      metrics: document.querySelector('#artifact-metrics').textContent,
+    };
+  })()`);
   assert(
     ifcTypeEvidence.types === 17
       && ifcTypeEvidence.typedAssets === 93
@@ -545,9 +551,11 @@ async function main() {
     `${ifcTypeEvidence.types} types · ${ifcTypeEvidence.typedAssets} typed assets`,
   );
   assert(
-    ifcTypeEvidence.detail.includes("OSR-TYPE-")
+    ifcTypeEvidence.selectedType.startsWith("OSR-TYPE-")
+      && ifcTypeEvidence.detail.includes(ifcTypeEvidence.selectedType)
       && ifcTypeEvidence.metrics.includes("reusable IFC types"),
     "IFC type identity visible in object inspector",
+    ifcTypeEvidence.selectedType,
   );
   const ifcMaterialEvidence = await cdp.evaluate(`(() => {
     const content = selectedArtifactPreview.content;
@@ -658,9 +666,96 @@ async function main() {
       && ifcGroupEvidence.metrics.includes("native coordination groups"),
     "coordination group identity and semantic boundary visible",
   );
+  const ifcLayerEvidence = await cdp.evaluate(`(() => {
+    const content = selectedArtifactPreview.content;
+    const layerIndex = content.objects.length + content.classification.references.length + content.groups.length;
+    document.querySelector('.artifact-object-button[data-object-index="' + layerIndex + '"]').click();
+    return {
+      layers: content.summary.presentation_layers,
+      associatedAssets: content.summary.layer_associated_assets,
+      indexedLayers: content.layers.length,
+      allAssetsResolve: content.objects.every(item => content.layers.some(layer => layer.layer_id === item.presentation_layer_id)),
+      detail: document.querySelector('.artifact-object-detail').textContent,
+      metrics: document.querySelector('#artifact-metrics').textContent,
+    };
+  })()`);
+  assert(
+    ifcLayerEvidence.layers === 4
+      && ifcLayerEvidence.associatedAssets === 95
+      && ifcLayerEvidence.indexedLayers === 4
+      && ifcLayerEvidence.allAssetsResolve,
+    "native IFC presentation layers indexed",
+    `${ifcLayerEvidence.layers} layers · ${ifcLayerEvidence.associatedAssets} associated assets`,
+  );
+  assert(
+    ifcLayerEvidence.detail.includes("OSR-LAYER-")
+      && ifcLayerEvidence.detail.includes("IfcShapeRepresentation")
+      && ifcLayerEvidence.detail.includes("visibility control only")
+      && ifcLayerEvidence.metrics.includes("native presentation layers"),
+    "presentation-layer identity, assignment scope, and semantic boundary visible",
+  );
+  const ifcConstraintEvidence = await cdp.evaluate(`(() => {
+    const content = selectedArtifactPreview.content;
+    const constraintIndex = content.objects.length + content.classification.references.length + content.groups.length + content.layers.length;
+    document.querySelector('.artifact-object-button[data-object-index="' + constraintIndex + '"]').click();
+    return {
+      constraints: content.summary.interface_constraints,
+      indexedConstraints: content.constraints.length,
+      allPass: content.constraints.every(item => item.evaluation_status === 'PASS'),
+      detail: document.querySelector('.artifact-object-detail').textContent,
+      metrics: document.querySelector('#artifact-metrics').textContent,
+    };
+  })()`);
+  assert(
+    ifcConstraintEvidence.constraints === 9
+      && ifcConstraintEvidence.indexedConstraints === 9
+      && ifcConstraintEvidence.allPass,
+    "native IFC interface constraints indexed",
+    `${ifcConstraintEvidence.constraints} qualitative objectives`,
+  );
+  assert(
+    ifcConstraintEvidence.detail.includes("IfcObjective")
+      && ifcConstraintEvidence.detail.includes("HARD")
+      && ifcConstraintEvidence.detail.includes("DESIGNINTENT")
+      && ifcConstraintEvidence.detail.includes("no fabricated numeric benchmark")
+      && ifcConstraintEvidence.metrics.includes("native interface constraints"),
+    "constraint intent, current evaluation, source, and metric boundary visible",
+  );
+  const ifcTemplateEvidence = await cdp.evaluate(`(() => {
+    const content = selectedArtifactPreview.content;
+    const templateOffset = content.objects.length + content.classification.references.length + content.groups.length + content.layers.length + content.constraints.length;
+    const templateIndex = content.property_set_templates.findIndex(item => item.name === 'OSR_MaterialStatus');
+    document.querySelector('.artifact-object-button[data-object-index="' + (templateOffset + templateIndex) + '"]').click();
+    return {
+      templates: content.summary.property_set_templates,
+      fields: content.summary.property_templates,
+      matchedDefinitions: content.summary.template_matched_definitions,
+      linkedDefinitions: content.summary.template_linked_definitions,
+      noReservedNames: content.property_set_templates.every(item => !item.name.startsWith('Pset_')),
+      detail: document.querySelector('.artifact-object-detail').textContent,
+      metrics: document.querySelector('#artifact-metrics').textContent,
+    };
+  })()`);
+  assert(
+    ifcTemplateEvidence.templates === 13
+      && ifcTemplateEvidence.fields === 77
+      && ifcTemplateEvidence.matchedDefinitions === 224
+      && ifcTemplateEvidence.linkedDefinitions === 220
+      && ifcTemplateEvidence.noReservedNames,
+    "native IFC property dictionaries indexed",
+    `${ifcTemplateEvidence.templates} templates · ${ifcTemplateEvidence.fields} typed fields`,
+  );
+  assert(
+    ifcTemplateEvidence.detail.includes("OSR_MaterialStatus")
+      && ifcTemplateEvidence.detail.includes("PSET_MATERIALDRIVEN")
+      && ifcTemplateEvidence.detail.includes("IfcLabel")
+      && ifcTemplateEvidence.detail.includes("not-buildingSMART-standard-pset")
+      && ifcTemplateEvidence.metrics.includes("native property-set templates"),
+    "template applicability, field types, linkage, and custom-set boundary visible",
+  );
   const ifcDocumentEvidence = await cdp.evaluate(`(() => {
     const content = selectedArtifactPreview.content;
-    const documentIndex = content.objects.length + content.classification.references.length + content.groups.length;
+    const documentIndex = content.objects.length + content.classification.references.length + content.groups.length + content.layers.length + content.constraints.length + content.property_set_templates.length;
     document.querySelector('.artifact-object-button[data-object-index="' + documentIndex + '"]').click();
     return {
       documents: content.summary.documents,
@@ -686,6 +781,41 @@ async function main() {
       && ifcDocumentEvidence.metrics.includes("hash-locked source documents"),
     "hash, repository location, and association scope visible in document inspector",
   );
+  const ifcAlignmentEvidence = await cdp.evaluate(`(() => {
+    const content = selectedArtifactPreview.content;
+    const alignmentIndex = content.objects.length + content.classification.references.length + content.groups.length + content.layers.length + content.constraints.length + content.property_set_templates.length + content.documents.length;
+    document.querySelector('.artifact-object-button[data-object-index="' + alignmentIndex + '"]').click();
+    return {
+      geometryCurve: content.alignment.geometry_curve,
+      controlPoints: content.alignment.control_point_count,
+      horizontalSegments: content.alignment.horizontal_segment_count,
+      verticalSegments: content.alignment.vertical_segment_count,
+      stationingReferents: content.alignment.stationing_referent_count,
+      totalLength: content.alignment.total_horizontal_length_m,
+      detail: document.querySelector('.artifact-object-detail').textContent,
+      metrics: document.querySelector('#artifact-metrics').textContent,
+    };
+  })()`);
+  assert(
+    ifcAlignmentEvidence.geometryCurve === "IfcGradientCurve"
+      && ifcAlignmentEvidence.controlPoints >= 2
+      && ifcAlignmentEvidence.horizontalSegments === ifcAlignmentEvidence.controlPoints - 1
+      && ifcAlignmentEvidence.verticalSegments === ifcAlignmentEvidence.controlPoints - 1
+      && ifcAlignmentEvidence.stationingReferents === 2
+      && ifcAlignmentEvidence.totalLength > 0,
+    "native IFC4.3 alignment layouts indexed",
+    `${ifcAlignmentEvidence.horizontalSegments} horizontal · ${ifcAlignmentEvidence.verticalSegments} vertical segments`,
+  );
+  assert(
+    ifcAlignmentEvidence.detail.includes("native-ifc4.3-horizontal-and-vertical-layouts")
+      && ifcAlignmentEvidence.detail.includes("LINE")
+      && ifcAlignmentEvidence.detail.includes("CONSTANTGRADIENT")
+      && ifcAlignmentEvidence.detail.includes("cant not-modelled")
+      && ifcAlignmentEvidence.detail.includes("transitions not-modelled")
+      && ifcAlignmentEvidence.metrics.includes("native horizontal alignment segments")
+      && ifcAlignmentEvidence.metrics.includes("alignment stationing referents"),
+    "alignment semantics, stationing, and design-release boundary visible",
+  );
   const civilReview = await cdp.evaluate(`({
     controls: !document.querySelector('#civil-review-controls').hidden,
     tasks: selectedCivilSequence?.content?.tasks?.length || 0,
@@ -703,15 +833,15 @@ async function main() {
   })()`);
   const rotatedPath = await cdp.evaluate("document.querySelector('#artifact-canvas [data-object-index]')?.getAttribute('d')");
   assert(rotatedPath && rotatedPath !== civilReview.firstPath, "civil federation rotation changes projected geometry");
-  const disciplineVisibility = await cdp.evaluate(`(() => {
-    const checkbox = document.querySelector('[data-civil-discipline="track"]');
+  const layerVisibility = await cdp.evaluate(`(() => {
+    const checkbox = document.querySelector('[data-civil-layer="OSR-LAYER-TRACK"]');
     checkbox.checked = false;
     checkbox.dispatchEvent(new Event('change', { bubbles: true }));
     return document.querySelectorAll('#artifact-canvas [data-object-index]').length;
   })()`);
-  assert(disciplineVisibility > 0 && disciplineVisibility < ifcObjectCount, "civil discipline visibility filters geometry", `${disciplineVisibility} non-track assets`);
+  assert(layerVisibility === 46, "native IFC presentation-layer visibility filters geometry", `${layerVisibility} non-track assets`);
   await cdp.evaluate(`(() => {
-    const checkbox = document.querySelector('[data-civil-discipline="track"]');
+    const checkbox = document.querySelector('[data-civil-layer="OSR-LAYER-TRACK"]');
     checkbox.checked = true;
     checkbox.dispatchEvent(new Event('change', { bubbles: true }));
     return true;

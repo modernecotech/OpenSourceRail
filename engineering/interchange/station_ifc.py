@@ -50,13 +50,13 @@ def export_variant(variant: dict[str, object], output: Path) -> dict[str, object
         osr_id = str(assembly["id"])
         entity = model.create_entity("IfcElementAssembly", GlobalId=gid(f"{archetype}:{osr_id}"), Name=str(assembly["title"]), Description="; ".join(assembly["instructions"]), ObjectType="OSR station assembly", Tag=osr_id, PredefinedType="USERDEFINED")
         entities[osr_id] = entity
-        property_set(model, entity, "Pset_OSR_Assembly", {"OSRId": osr_id, "Archetype": archetype, "WorkCell": assembly["work_cell"], "HoldPoints": " | ".join(assembly["hold_points"])})
+        property_set(model, entity, "OSR_Assembly", {"OSRId": osr_id, "Archetype": archetype, "WorkCell": assembly["work_cell"], "HoldPoints": " | ".join(assembly["hold_points"])})
 
     for item in variant["product_items"]:
         osr_id = str(item["id"])
         entity = model.create_entity("IfcBuildingElementProxy", GlobalId=gid(f"{archetype}:{osr_id}"), Name=str(item["title"]), Description=str(item["quantity_basis"]), ObjectType="OSR station product item", Tag=osr_id, PredefinedType="NOTDEFINED")
         entities[osr_id] = entity
-        property_set(model, entity, "Pset_OSR_ProductItem", {"OSRId": osr_id, "Archetype": archetype, "Maturity": item["maturity"], "Route": item["route"], "Quantity": item["quantity"], "Unit": item["unit"], "ParentAssembly": item["parent"], "QuantityBasis": item["quantity_basis"], "Acceptance": " | ".join(item["acceptance"]), "SourceRefs": " | ".join(item["source_refs"])})
+        property_set(model, entity, "OSR_ProductItem", {"OSRId": osr_id, "Archetype": archetype, "Maturity": item["maturity"], "Route": item["route"], "Quantity": item["quantity"], "Unit": item["unit"], "ParentAssembly": item["parent"], "QuantityBasis": item["quantity_basis"], "Acceptance": " | ".join(item["acceptance"]), "SourceRefs": " | ".join(item["source_refs"])})
 
     for assembly in variant["assemblies"]:
         osr_id = str(assembly["id"])
