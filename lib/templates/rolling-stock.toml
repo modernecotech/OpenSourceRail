@@ -25,6 +25,22 @@
 # closest to their ridership band. This is what keeps maintenance, training,
 # spares, and CAD reuse viable across deployments.
 
+# Shared buildable-car contract. The scenario generator emits this as
+# `[consist.systems]`; city validation checks it against the mechanical
+# small-component standard before accepting simulation evidence.
+[trainset_systems]
+mechanical_standard_revision = "A-DRAFT"
+door_cassettes_per_car = 4
+window_cassettes_per_car = 6
+service_rails_per_car = 8
+fastener_family_count = 4
+connector_family_count = 2
+main_light_modules_per_car = 22
+emergency_light_modules_per_car = 4
+door_threshold_light_modules_per_car = 4
+lighting_power_w_per_car = 500.0
+hvac_thermal_kw_per_car = 24.0
+
 # ---- Tram: small city / feeder lines, < 4k pphpd --------------------------
 
 [profiles.urban-shuttle-1car]

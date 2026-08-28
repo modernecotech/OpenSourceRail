@@ -32,10 +32,17 @@ def main() -> int:
     parser.add_argument("--host", default="127.0.0.1")
     parser.add_argument("--port", type=int, default=8008)
     parser.add_argument("--db", type=Path, default=DEFAULT_DB)
+    parser.add_argument(
+        "--reset-db",
+        action="store_true",
+        help="delete the selected database before startup (intended for isolated tests)",
+    )
     args = parser.parse_args()
 
     db_path = args.db.resolve()
     db_path.parent.mkdir(parents=True, exist_ok=True)
+    if args.reset_db and db_path.exists():
+        db_path.unlink()
     with connect(db_path) as con:
         init_db(con)
 

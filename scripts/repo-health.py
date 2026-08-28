@@ -431,6 +431,26 @@ def check_city_artifacts() -> list[Finding]:
                     (REPO_ROOT / "scripts/validate-city-simulation.py").read_bytes()
                 ).hexdigest():
                     findings.append(Finding(simulation_path, "simulation validator hash is stale"))
+                trainset_contract = simulation.get("trainset_contract", {})
+                for key, relative in (
+                    ("rolling_stock_template_sha256", "lib/templates/rolling-stock.toml"),
+                    (
+                        "small_component_standard_sha256",
+                        "mechanical-py/catalog/buildable-trainset/small-component-standard.json",
+                    ),
+                    (
+                        "buildable_trainset_manifest_sha256",
+                        "mechanical-py/catalog/buildable-trainset/buildable-trainset-manifest.json",
+                    ),
+                ):
+                    source = REPO_ROOT / relative
+                    if trainset_contract.get(key) != hashlib.sha256(source.read_bytes()).hexdigest():
+                        findings.append(
+                            Finding(
+                                simulation_path,
+                                f"simulation trainset contract is stale for {relative}",
+                            )
+                        )
 
             package_manifest_path = city_dir / "package-manifest.json"
             if package_manifest_path.is_file():
@@ -1066,6 +1086,22 @@ def check_readme_corpus() -> list[Finding]:
     return []
 
 
+def check_simulation_component_coverage() -> list[Finding]:
+    """Keep the complete software inventory classification reproducible."""
+    report_path = REPO_ROOT / "engineering/software/simulation-component-coverage.json"
+    validator_path = REPO_ROOT / "scripts/validate-simulation-components.py"
+    if not report_path.is_file():
+        return [Finding(report_path, "simulation component coverage report is missing")]
+    module = runpy.run_path(str(validator_path))
+    expected = module["build_report"]()
+    actual = json.loads(report_path.read_text())
+    if actual != expected:
+        return [Finding(report_path, "simulation component coverage report is stale")]
+    if not actual.get("passed"):
+        return [Finding(report_path, "simulation component coverage is not passed")]
+    return []
+
+
 def run_checks() -> list[Finding]:
     findings: list[Finding] = []
     findings.extend(check_city_artifacts())
@@ -1081,6 +1117,7 @@ def run_checks() -> list[Finding]:
     findings.extend(check_generated_portfolio_summary())
     findings.extend(check_cost_reference_tables())
     findings.extend(check_readme_corpus())
+    findings.extend(check_simulation_component_coverage())
     findings.extend(check_repository_hygiene())
     return findings
 

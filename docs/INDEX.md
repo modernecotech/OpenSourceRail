@@ -10,7 +10,7 @@ Regenerate from the repository root with:
 python3 scripts/generate-doc-index.py
 ```
 
-Indexed Markdown files: **1263**.
+Indexed Markdown files: **1283**.
 
 ## Sections
 
@@ -22,12 +22,12 @@ Indexed Markdown files: **1263**.
 | [crates](#crates) | 4 |
 | [deployment](#deployment) | 1 |
 | [designs](#designs) | 844 |
-| [docs](#docs) | 139 |
+| [docs](#docs) | 140 |
 | [engineering](#engineering) | 2 |
 | [formal](#formal) | 2 |
 | [hardware](#hardware) | 36 |
 | [lib](#lib) | 3 |
-| [mechanical-py](#mechanical-py) | 218 |
+| [mechanical-py](#mechanical-py) | 237 |
 | [projects](#projects) | 3 |
 | [scripts](#scripts) | 1 |
 | [tools](#tools) | 3 |
@@ -1052,6 +1052,7 @@ Indexed Markdown files: **1263**.
 | [`docs/rolling-stock/light-metro-3car/traction.md`](../docs/rolling-stock/light-metro-3car/traction.md) | Traction and DC Power — 800 V-Class Reference |
 | [`docs/rolling-stock/light-metro-3car/v2-release-checklist.md`](../docs/rolling-stock/light-metro-3car/v2-release-checklist.md) | Light-Metro 3-Car V2 Release Checklist |
 | [`docs/safety-case/README.md`](../docs/safety-case/README.md) | Safety-case artifacts |
+| [`docs/simulation-software-coverage.md`](../docs/simulation-software-coverage.md) | Simulation software coverage |
 | [`docs/software-architecture-diagrams.md`](../docs/software-architecture-diagrams.md) | Software Architecture Diagrams |
 | [`docs/stations/README.md`](../docs/stations/README.md) | Stations |
 | [`docs/stations/standard-archetype/README.md`](../docs/stations/standard-archetype/README.md) | Standard Station Archetype Worked Example |
@@ -1192,6 +1193,7 @@ Indexed Markdown files: **1263**.
 | [`mechanical-py/catalog/buildable-trainset/definitions/parts/LM3-CWL-P014.md`](../mechanical-py/catalog/buildable-trainset/definitions/parts/LM3-CWL-P014.md) | LM3-CWL-P014 — CWL-FRP-04 lower apron and anti-climber cover fiberglass cast |
 | [`mechanical-py/catalog/buildable-trainset/definitions/parts/LM3-CWL-P015.md`](../mechanical-py/catalog/buildable-trainset/definitions/parts/LM3-CWL-P015.md) | LM3-CWL-P015 — CWL-FRP-05 lamp, washer, and service-hatch fiberglass cast set |
 | [`mechanical-py/catalog/buildable-trainset/definitions/parts/LM3-CWL-P016.md`](../mechanical-py/catalog/buildable-trainset/definitions/parts/LM3-CWL-P016.md) | LM3-CWL-P016 — CWL-FRP-06 backing-ring flange fiberglass cast set |
+| [`mechanical-py/catalog/buildable-trainset/definitions/parts/LM3-DOOR-P010.md`](../mechanical-py/catalog/buildable-trainset/definitions/parts/LM3-DOOR-P010.md) | LM3-DOOR-P010 — door four-point adjustable carrier, datum pin, dry seal, and keyed connector bracket kit |
 | [`mechanical-py/catalog/buildable-trainset/definitions/parts/LM3-END-P010.md`](../mechanical-py/catalog/buildable-trainset/definitions/parts/LM3-END-P010.md) | LM3-END-P010 — automatic end coupler and crash-energy absorber |
 | [`mechanical-py/catalog/buildable-trainset/definitions/parts/LM3-END-P020.md`](../mechanical-py/catalog/buildable-trainset/definitions/parts/LM3-END-P020.md) | LM3-END-P020 — T-OBS nose sensor pack, heated window services, and washer kit |
 | [`mechanical-py/catalog/buildable-trainset/definitions/parts/LM3-END-P030.md`](../mechanical-py/catalog/buildable-trainset/definitions/parts/LM3-END-P030.md) | LM3-END-P030 — cowl service hatch, sensor backing bracket, washer-tube, and heater-cable clip kit |
@@ -1205,10 +1207,13 @@ Indexed Markdown files: **1263**.
 | [`mechanical-py/catalog/buildable-trainset/definitions/parts/LM3-EXT-P030.md`](../mechanical-py/catalog/buildable-trainset/definitions/parts/LM3-EXT-P030.md) | LM3-EXT-P030 — single panoramic heated end-glass assembly |
 | [`mechanical-py/catalog/buildable-trainset/definitions/parts/LM3-EXT-P040.md`](../mechanical-py/catalog/buildable-trainset/definitions/parts/LM3-EXT-P040.md) | LM3-EXT-P040 — hvac-24kw-direct-hv-dc roof HVAC |
 | [`mechanical-py/catalog/buildable-trainset/definitions/parts/LM3-EXT-P050.md`](../mechanical-py/catalog/buildable-trainset/definitions/parts/LM3-EXT-P050.md) | LM3-EXT-P050 — roof PV module and edge-clamp kit |
-| [`mechanical-py/catalog/buildable-trainset/definitions/parts/LM3-EXT-P060.md`](../mechanical-py/catalog/buildable-trainset/definitions/parts/LM3-EXT-P060.md) | LM3-EXT-P060 — seats, grab rails, flooring, lighting, PIS, CCTV, intercom, signage kit |
+| [`mechanical-py/catalog/buildable-trainset/definitions/parts/LM3-EXT-P060.md`](../mechanical-py/catalog/buildable-trainset/definitions/parts/LM3-EXT-P060.md) | LM3-EXT-P060 — seats, grab rails, flooring, PIS, CCTV, intercom, and signage kit |
 | [`mechanical-py/catalog/buildable-trainset/definitions/parts/LM3-EXT-P070.md`](../mechanical-py/catalog/buildable-trainset/definitions/parts/LM3-EXT-P070.md) | LM3-EXT-P070 — roof antennas, service walkway pads, lifting covers, and maintenance labels |
 | [`mechanical-py/catalog/buildable-trainset/definitions/parts/LM3-EXT-P080.md`](../mechanical-py/catalog/buildable-trainset/definitions/parts/LM3-EXT-P080.md) | LM3-EXT-P080 — fire-rated GFRP side-module laminate, core, gelcoat, and consumable kit |
 | [`mechanical-py/catalog/buildable-trainset/definitions/parts/LM3-EXT-P090.md`](../mechanical-py/catalog/buildable-trainset/definitions/parts/LM3-EXT-P090.md) | LM3-EXT-P090 — fire-rated GFRP roof-module, dry-seal, and removable skirt material kit |
+| [`mechanical-py/catalog/buildable-trainset/definitions/parts/LM3-FIX-P010.md`](../mechanical-py/catalog/buildable-trainset/definitions/parts/LM3-FIX-P010.md) | LM3-FIX-P010 — OSR-RAIL-42 common ceiling, waist, and seat-zone service rail kit |
+| [`mechanical-py/catalog/buildable-trainset/definitions/parts/LM3-FIX-P020.md`](../mechanical-py/catalog/buildable-trainset/definitions/parts/LM3-FIX-P020.md) | LM3-FIX-P020 — four-family captive fastener, floating nut, isolator, and access-fastener kit |
+| [`mechanical-py/catalog/buildable-trainset/definitions/parts/LM3-FIX-P030.md`](../mechanical-py/catalog/buildable-trainset/definitions/parts/LM3-FIX-P030.md) | LM3-FIX-P030 — standard passenger-fixture saddle and equipment adapter kit |
 | [`mechanical-py/catalog/buildable-trainset/definitions/parts/LM3-HV-P010.md`](../mechanical-py/catalog/buildable-trainset/definitions/parts/LM3-HV-P010.md) | LM3-HV-P010 — battery sliding trays, retention straps, service interlocks, and drain pans |
 | [`mechanical-py/catalog/buildable-trainset/definitions/parts/LM3-HV-P020.md`](../mechanical-py/catalog/buildable-trainset/definitions/parts/LM3-HV-P020.md) | LM3-HV-P020 — segregated HV cable tray, bonding studs, grommets, and orange cover set |
 | [`mechanical-py/catalog/buildable-trainset/definitions/parts/LM3-HV-P030.md`](../mechanical-py/catalog/buildable-trainset/definitions/parts/LM3-HV-P030.md) | LM3-HV-P030 — coolant manifold brackets, bleed/drain points, and insulated pipe clamp kit |
@@ -1217,6 +1222,8 @@ Indexed Markdown files: **1263**.
 | [`mechanical-py/catalog/buildable-trainset/definitions/parts/LM3-INT-P030.md`](../mechanical-py/catalog/buildable-trainset/definitions/parts/LM3-INT-P030.md) | LM3-INT-P030 — FRP/phenolic sidewall liner, window reveal, and cable-cover panel set |
 | [`mechanical-py/catalog/buildable-trainset/definitions/parts/LM3-INT-P040.md`](../mechanical-py/catalog/buildable-trainset/definitions/parts/LM3-INT-P040.md) | LM3-INT-P040 — FRP battery strake covers, seat-base fairings, and service-hatch shells |
 | [`mechanical-py/catalog/buildable-trainset/definitions/parts/LM3-INT-P050.md`](../mechanical-py/catalog/buildable-trainset/definitions/parts/LM3-INT-P050.md) | LM3-INT-P050 — FRP vestibule kick panels, PRM ramp/step covers, and door-pocket trims |
+| [`mechanical-py/catalog/buildable-trainset/definitions/parts/LM3-LGT-P010.md`](../mechanical-py/catalog/buildable-trainset/definitions/parts/LM3-LGT-P010.md) | LM3-LGT-P010 — 1.2 m plug-in main LED lighting cassette and captive mounting kit |
+| [`mechanical-py/catalog/buildable-trainset/definitions/parts/LM3-LGT-P020.md`](../mechanical-py/catalog/buildable-trainset/definitions/parts/LM3-LGT-P020.md) | LM3-LGT-P020 — emergency and doorway lighting modules with independent keyed feeder kit |
 | [`mechanical-py/catalog/buildable-trainset/definitions/parts/LM3-ROOF-P010.md`](../mechanical-py/catalog/buildable-trainset/definitions/parts/LM3-ROOF-P010.md) | LM3-ROOF-P010 — HVAC curb, drop-duct collar, condensate tray, and drain fitting kit |
 | [`mechanical-py/catalog/buildable-trainset/definitions/parts/LM3-ROOF-P020.md`](../mechanical-py/catalog/buildable-trainset/definitions/parts/LM3-ROOF-P020.md) | LM3-ROOF-P020 — PV bonded-pad lands, raised rail kit, bonding jumpers, and roof isolation labels |
 | [`mechanical-py/catalog/buildable-trainset/definitions/parts/LM3-SAF-P010.md`](../mechanical-py/catalog/buildable-trainset/definitions/parts/LM3-SAF-P010.md) | LM3-SAF-P010 — battery temperature/off-gas detection, electrical-enclosure smoke detection, and localized mist kit |
@@ -1227,6 +1234,7 @@ Indexed Markdown files: **1263**.
 | [`mechanical-py/catalog/buildable-trainset/definitions/parts/LM3-TRC-P050.md`](../mechanical-py/catalog/buildable-trainset/definitions/parts/LM3-TRC-P050.md) | LM3-TRC-P050 — roof-mounted regen dump resistor and thermal shield kit |
 | [`mechanical-py/catalog/buildable-trainset/definitions/parts/LM3-TRC-P060.md`](../mechanical-py/catalog/buildable-trainset/definitions/parts/LM3-TRC-P060.md) | LM3-TRC-P060 — station side-pin charging connector, actuator, shutter, and alignment target |
 | [`mechanical-py/catalog/buildable-trainset/definitions/parts/LM3-TRC-P070.md`](../mechanical-py/catalog/buildable-trainset/definitions/parts/LM3-TRC-P070.md) | LM3-TRC-P070 — HV contactor, fuse, pre-charge, service-disconnect, and current-sensor panel |
+| [`mechanical-py/catalog/buildable-trainset/definitions/parts/LM3-WIN-P010.md`](../mechanical-py/catalog/buildable-trainset/definitions/parts/LM3-WIN-P010.md) | LM3-WIN-P010 — replaceable window pressure frame, dry seal, drain, and captive retention kit |
 | [`mechanical-py/catalog/buildable-trainset/definitions/subassemblies/LM3-BDY-SA110.md`](../mechanical-py/catalog/buildable-trainset/definitions/subassemblies/LM3-BDY-SA110.md) | LM3-BDY-SA110 — underframe datum weldment |
 | [`mechanical-py/catalog/buildable-trainset/definitions/subassemblies/LM3-BDY-SA120.md`](../mechanical-py/catalog/buildable-trainset/definitions/subassemblies/LM3-BDY-SA120.md) | LM3-BDY-SA120 — carbody spaceframe and floor assembly |
 | [`mechanical-py/catalog/buildable-trainset/definitions/subassemblies/LM3-BOG-SA610.md`](../mechanical-py/catalog/buildable-trainset/definitions/subassemblies/LM3-BOG-SA610.md) | LM3-BOG-SA610 — powered bogie assembly |
@@ -1234,8 +1242,10 @@ Indexed Markdown files: **1263**.
 | [`mechanical-py/catalog/buildable-trainset/definitions/subassemblies/LM3-CWL-SA710.md`](../mechanical-py/catalog/buildable-trainset/definitions/subassemblies/LM3-CWL-SA710.md) | LM3-CWL-SA710 — front/back fiberglass cowl cast kit |
 | [`mechanical-py/catalog/buildable-trainset/definitions/subassemblies/LM3-DOOR-SA310.md`](../mechanical-py/catalog/buildable-trainset/definitions/subassemblies/LM3-DOOR-SA310.md) | LM3-DOOR-SA310 — door cassette and threshold assembly |
 | [`mechanical-py/catalog/buildable-trainset/definitions/subassemblies/LM3-EIF-SA650.md`](../mechanical-py/catalog/buildable-trainset/definitions/subassemblies/LM3-EIF-SA650.md) | LM3-EIF-SA650 — common configurable train-end interface set |
+| [`mechanical-py/catalog/buildable-trainset/definitions/subassemblies/LM3-FIX-SA340.md`](../mechanical-py/catalog/buildable-trainset/definitions/subassemblies/LM3-FIX-SA340.md) | LM3-FIX-SA340 — common service-rail, captive-fastener, and fixture-adapter installation |
 | [`mechanical-py/catalog/buildable-trainset/definitions/subassemblies/LM3-HV-SA510.md`](../mechanical-py/catalog/buildable-trainset/definitions/subassemblies/LM3-HV-SA510.md) | LM3-HV-SA510 — per-car LFP battery, two controllers, DC auxiliary/charge interface, mist, and cooling assembly |
 | [`mechanical-py/catalog/buildable-trainset/definitions/subassemblies/LM3-INT-SA330.md`](../mechanical-py/catalog/buildable-trainset/definitions/subassemblies/LM3-INT-SA330.md) | LM3-INT-SA330 — interior and passenger systems fit-out |
+| [`mechanical-py/catalog/buildable-trainset/definitions/subassemblies/LM3-LGT-SA350.md`](../mechanical-py/catalog/buildable-trainset/definitions/subassemblies/LM3-LGT-SA350.md) | LM3-LGT-SA350 — modular main, emergency, and doorway lighting installation |
 | [`mechanical-py/catalog/buildable-trainset/definitions/subassemblies/LM3-ROOF-SA410.md`](../mechanical-py/catalog/buildable-trainset/definitions/subassemblies/LM3-ROOF-SA410.md) | LM3-ROOF-SA410 — roof HVAC, PV, antenna, and service-equipment assembly |
 | [`mechanical-py/catalog/buildable-trainset/definitions/subassemblies/LM3-WIN-SA320.md`](../mechanical-py/catalog/buildable-trainset/definitions/subassemblies/LM3-WIN-SA320.md) | LM3-WIN-SA320 — side glazing cassette installation |
 | [`mechanical-py/catalog/buildable-trainset/definitions/trainsets/LM3-TRAINSET-A000.md`](../mechanical-py/catalog/buildable-trainset/definitions/trainsets/LM3-TRAINSET-A000.md) | LM3-TRAINSET-A000 — complete light-metro trainset |
@@ -1243,6 +1253,7 @@ Indexed Markdown files: **1263**.
 | [`mechanical-py/catalog/buildable-trainset/joint-control-schedule.md`](../mechanical-py/catalog/buildable-trainset/joint-control-schedule.md) | LM3 joint and fastener control schedule |
 | [`mechanical-py/catalog/buildable-trainset/mass-budget.md`](../mechanical-py/catalog/buildable-trainset/mass-budget.md) | LM3 controlled mass budget |
 | [`mechanical-py/catalog/buildable-trainset/open-release-gaps.md`](../mechanical-py/catalog/buildable-trainset/open-release-gaps.md) | Trainset open release gap register |
+| [`mechanical-py/catalog/buildable-trainset/small-component-standard.md`](../mechanical-py/catalog/buildable-trainset/small-component-standard.md) | LM3 small-component and fixture standard |
 | [`mechanical-py/catalog/buildable-trainset/train-end-interface.md`](../mechanical-py/catalog/buildable-trainset/train-end-interface.md) | LM3 configurable train-end interface |
 | [`mechanical-py/catalog/buildable-trainset/trainset-build-cost.md`](../mechanical-py/catalog/buildable-trainset/trainset-build-cost.md) | LM3 trainset build cost estimate |
 | [`mechanical-py/catalog/buildable-trainset/travelers/assemblies/LM3-ART-SA800.md`](../mechanical-py/catalog/buildable-trainset/travelers/assemblies/LM3-ART-SA800.md) | Shop traveler — LM3-ART-SA800 — inter-car articulation and trainline assembly |
@@ -1293,6 +1304,7 @@ Indexed Markdown files: **1263**.
 | [`mechanical-py/catalog/buildable-trainset/travelers/parts/LM3-CWL-P014.md`](../mechanical-py/catalog/buildable-trainset/travelers/parts/LM3-CWL-P014.md) | Shop traveler — LM3-CWL-P014 — CWL-FRP-04 lower apron and anti-climber cover fiberglass cast |
 | [`mechanical-py/catalog/buildable-trainset/travelers/parts/LM3-CWL-P015.md`](../mechanical-py/catalog/buildable-trainset/travelers/parts/LM3-CWL-P015.md) | Shop traveler — LM3-CWL-P015 — CWL-FRP-05 lamp, washer, and service-hatch fiberglass cast set |
 | [`mechanical-py/catalog/buildable-trainset/travelers/parts/LM3-CWL-P016.md`](../mechanical-py/catalog/buildable-trainset/travelers/parts/LM3-CWL-P016.md) | Shop traveler — LM3-CWL-P016 — CWL-FRP-06 backing-ring flange fiberglass cast set |
+| [`mechanical-py/catalog/buildable-trainset/travelers/parts/LM3-DOOR-P010.md`](../mechanical-py/catalog/buildable-trainset/travelers/parts/LM3-DOOR-P010.md) | Shop traveler — LM3-DOOR-P010 — door four-point adjustable carrier, datum pin, dry seal, and keyed connector bracket kit |
 | [`mechanical-py/catalog/buildable-trainset/travelers/parts/LM3-END-P010.md`](../mechanical-py/catalog/buildable-trainset/travelers/parts/LM3-END-P010.md) | Shop traveler — LM3-END-P010 — automatic end coupler and crash-energy absorber |
 | [`mechanical-py/catalog/buildable-trainset/travelers/parts/LM3-END-P020.md`](../mechanical-py/catalog/buildable-trainset/travelers/parts/LM3-END-P020.md) | Shop traveler — LM3-END-P020 — T-OBS nose sensor pack, heated window services, and washer kit |
 | [`mechanical-py/catalog/buildable-trainset/travelers/parts/LM3-END-P030.md`](../mechanical-py/catalog/buildable-trainset/travelers/parts/LM3-END-P030.md) | Shop traveler — LM3-END-P030 — cowl service hatch, sensor backing bracket, washer-tube, and heater-cable clip kit |
@@ -1306,10 +1318,13 @@ Indexed Markdown files: **1263**.
 | [`mechanical-py/catalog/buildable-trainset/travelers/parts/LM3-EXT-P030.md`](../mechanical-py/catalog/buildable-trainset/travelers/parts/LM3-EXT-P030.md) | Shop traveler — LM3-EXT-P030 — single panoramic heated end-glass assembly |
 | [`mechanical-py/catalog/buildable-trainset/travelers/parts/LM3-EXT-P040.md`](../mechanical-py/catalog/buildable-trainset/travelers/parts/LM3-EXT-P040.md) | Shop traveler — LM3-EXT-P040 — hvac-24kw-direct-hv-dc roof HVAC |
 | [`mechanical-py/catalog/buildable-trainset/travelers/parts/LM3-EXT-P050.md`](../mechanical-py/catalog/buildable-trainset/travelers/parts/LM3-EXT-P050.md) | Shop traveler — LM3-EXT-P050 — roof PV module and edge-clamp kit |
-| [`mechanical-py/catalog/buildable-trainset/travelers/parts/LM3-EXT-P060.md`](../mechanical-py/catalog/buildable-trainset/travelers/parts/LM3-EXT-P060.md) | Shop traveler — LM3-EXT-P060 — seats, grab rails, flooring, lighting, PIS, CCTV, intercom, signage kit |
+| [`mechanical-py/catalog/buildable-trainset/travelers/parts/LM3-EXT-P060.md`](../mechanical-py/catalog/buildable-trainset/travelers/parts/LM3-EXT-P060.md) | Shop traveler — LM3-EXT-P060 — seats, grab rails, flooring, PIS, CCTV, intercom, and signage kit |
 | [`mechanical-py/catalog/buildable-trainset/travelers/parts/LM3-EXT-P070.md`](../mechanical-py/catalog/buildable-trainset/travelers/parts/LM3-EXT-P070.md) | Shop traveler — LM3-EXT-P070 — roof antennas, service walkway pads, lifting covers, and maintenance labels |
 | [`mechanical-py/catalog/buildable-trainset/travelers/parts/LM3-EXT-P080.md`](../mechanical-py/catalog/buildable-trainset/travelers/parts/LM3-EXT-P080.md) | Shop traveler — LM3-EXT-P080 — fire-rated GFRP side-module laminate, core, gelcoat, and consumable kit |
 | [`mechanical-py/catalog/buildable-trainset/travelers/parts/LM3-EXT-P090.md`](../mechanical-py/catalog/buildable-trainset/travelers/parts/LM3-EXT-P090.md) | Shop traveler — LM3-EXT-P090 — fire-rated GFRP roof-module, dry-seal, and removable skirt material kit |
+| [`mechanical-py/catalog/buildable-trainset/travelers/parts/LM3-FIX-P010.md`](../mechanical-py/catalog/buildable-trainset/travelers/parts/LM3-FIX-P010.md) | Shop traveler — LM3-FIX-P010 — OSR-RAIL-42 common ceiling, waist, and seat-zone service rail kit |
+| [`mechanical-py/catalog/buildable-trainset/travelers/parts/LM3-FIX-P020.md`](../mechanical-py/catalog/buildable-trainset/travelers/parts/LM3-FIX-P020.md) | Shop traveler — LM3-FIX-P020 — four-family captive fastener, floating nut, isolator, and access-fastener kit |
+| [`mechanical-py/catalog/buildable-trainset/travelers/parts/LM3-FIX-P030.md`](../mechanical-py/catalog/buildable-trainset/travelers/parts/LM3-FIX-P030.md) | Shop traveler — LM3-FIX-P030 — standard passenger-fixture saddle and equipment adapter kit |
 | [`mechanical-py/catalog/buildable-trainset/travelers/parts/LM3-HV-P010.md`](../mechanical-py/catalog/buildable-trainset/travelers/parts/LM3-HV-P010.md) | Shop traveler — LM3-HV-P010 — battery sliding trays, retention straps, service interlocks, and drain pans |
 | [`mechanical-py/catalog/buildable-trainset/travelers/parts/LM3-HV-P020.md`](../mechanical-py/catalog/buildable-trainset/travelers/parts/LM3-HV-P020.md) | Shop traveler — LM3-HV-P020 — segregated HV cable tray, bonding studs, grommets, and orange cover set |
 | [`mechanical-py/catalog/buildable-trainset/travelers/parts/LM3-HV-P030.md`](../mechanical-py/catalog/buildable-trainset/travelers/parts/LM3-HV-P030.md) | Shop traveler — LM3-HV-P030 — coolant manifold brackets, bleed/drain points, and insulated pipe clamp kit |
@@ -1318,6 +1333,8 @@ Indexed Markdown files: **1263**.
 | [`mechanical-py/catalog/buildable-trainset/travelers/parts/LM3-INT-P030.md`](../mechanical-py/catalog/buildable-trainset/travelers/parts/LM3-INT-P030.md) | Shop traveler — LM3-INT-P030 — FRP/phenolic sidewall liner, window reveal, and cable-cover panel set |
 | [`mechanical-py/catalog/buildable-trainset/travelers/parts/LM3-INT-P040.md`](../mechanical-py/catalog/buildable-trainset/travelers/parts/LM3-INT-P040.md) | Shop traveler — LM3-INT-P040 — FRP battery strake covers, seat-base fairings, and service-hatch shells |
 | [`mechanical-py/catalog/buildable-trainset/travelers/parts/LM3-INT-P050.md`](../mechanical-py/catalog/buildable-trainset/travelers/parts/LM3-INT-P050.md) | Shop traveler — LM3-INT-P050 — FRP vestibule kick panels, PRM ramp/step covers, and door-pocket trims |
+| [`mechanical-py/catalog/buildable-trainset/travelers/parts/LM3-LGT-P010.md`](../mechanical-py/catalog/buildable-trainset/travelers/parts/LM3-LGT-P010.md) | Shop traveler — LM3-LGT-P010 — 1.2 m plug-in main LED lighting cassette and captive mounting kit |
+| [`mechanical-py/catalog/buildable-trainset/travelers/parts/LM3-LGT-P020.md`](../mechanical-py/catalog/buildable-trainset/travelers/parts/LM3-LGT-P020.md) | Shop traveler — LM3-LGT-P020 — emergency and doorway lighting modules with independent keyed feeder kit |
 | [`mechanical-py/catalog/buildable-trainset/travelers/parts/LM3-ROOF-P010.md`](../mechanical-py/catalog/buildable-trainset/travelers/parts/LM3-ROOF-P010.md) | Shop traveler — LM3-ROOF-P010 — HVAC curb, drop-duct collar, condensate tray, and drain fitting kit |
 | [`mechanical-py/catalog/buildable-trainset/travelers/parts/LM3-ROOF-P020.md`](../mechanical-py/catalog/buildable-trainset/travelers/parts/LM3-ROOF-P020.md) | Shop traveler — LM3-ROOF-P020 — PV bonded-pad lands, raised rail kit, bonding jumpers, and roof isolation labels |
 | [`mechanical-py/catalog/buildable-trainset/travelers/parts/LM3-SAF-P010.md`](../mechanical-py/catalog/buildable-trainset/travelers/parts/LM3-SAF-P010.md) | Shop traveler — LM3-SAF-P010 — battery temperature/off-gas detection, electrical-enclosure smoke detection, and localized mist kit |
@@ -1328,6 +1345,7 @@ Indexed Markdown files: **1263**.
 | [`mechanical-py/catalog/buildable-trainset/travelers/parts/LM3-TRC-P050.md`](../mechanical-py/catalog/buildable-trainset/travelers/parts/LM3-TRC-P050.md) | Shop traveler — LM3-TRC-P050 — roof-mounted regen dump resistor and thermal shield kit |
 | [`mechanical-py/catalog/buildable-trainset/travelers/parts/LM3-TRC-P060.md`](../mechanical-py/catalog/buildable-trainset/travelers/parts/LM3-TRC-P060.md) | Shop traveler — LM3-TRC-P060 — station side-pin charging connector, actuator, shutter, and alignment target |
 | [`mechanical-py/catalog/buildable-trainset/travelers/parts/LM3-TRC-P070.md`](../mechanical-py/catalog/buildable-trainset/travelers/parts/LM3-TRC-P070.md) | Shop traveler — LM3-TRC-P070 — HV contactor, fuse, pre-charge, service-disconnect, and current-sensor panel |
+| [`mechanical-py/catalog/buildable-trainset/travelers/parts/LM3-WIN-P010.md`](../mechanical-py/catalog/buildable-trainset/travelers/parts/LM3-WIN-P010.md) | Shop traveler — LM3-WIN-P010 — replaceable window pressure frame, dry seal, drain, and captive retention kit |
 | [`mechanical-py/catalog/buildable-trainset/travelers/subassemblies/LM3-BDY-SA110.md`](../mechanical-py/catalog/buildable-trainset/travelers/subassemblies/LM3-BDY-SA110.md) | Shop traveler — LM3-BDY-SA110 — underframe datum weldment |
 | [`mechanical-py/catalog/buildable-trainset/travelers/subassemblies/LM3-BDY-SA120.md`](../mechanical-py/catalog/buildable-trainset/travelers/subassemblies/LM3-BDY-SA120.md) | Shop traveler — LM3-BDY-SA120 — carbody spaceframe and floor assembly |
 | [`mechanical-py/catalog/buildable-trainset/travelers/subassemblies/LM3-BOG-SA610.md`](../mechanical-py/catalog/buildable-trainset/travelers/subassemblies/LM3-BOG-SA610.md) | Shop traveler — LM3-BOG-SA610 — powered bogie assembly |
@@ -1335,8 +1353,10 @@ Indexed Markdown files: **1263**.
 | [`mechanical-py/catalog/buildable-trainset/travelers/subassemblies/LM3-CWL-SA710.md`](../mechanical-py/catalog/buildable-trainset/travelers/subassemblies/LM3-CWL-SA710.md) | Shop traveler — LM3-CWL-SA710 — front/back fiberglass cowl cast kit |
 | [`mechanical-py/catalog/buildable-trainset/travelers/subassemblies/LM3-DOOR-SA310.md`](../mechanical-py/catalog/buildable-trainset/travelers/subassemblies/LM3-DOOR-SA310.md) | Shop traveler — LM3-DOOR-SA310 — door cassette and threshold assembly |
 | [`mechanical-py/catalog/buildable-trainset/travelers/subassemblies/LM3-EIF-SA650.md`](../mechanical-py/catalog/buildable-trainset/travelers/subassemblies/LM3-EIF-SA650.md) | Shop traveler — LM3-EIF-SA650 — common configurable train-end interface set |
+| [`mechanical-py/catalog/buildable-trainset/travelers/subassemblies/LM3-FIX-SA340.md`](../mechanical-py/catalog/buildable-trainset/travelers/subassemblies/LM3-FIX-SA340.md) | Shop traveler — LM3-FIX-SA340 — common service-rail, captive-fastener, and fixture-adapter installation |
 | [`mechanical-py/catalog/buildable-trainset/travelers/subassemblies/LM3-HV-SA510.md`](../mechanical-py/catalog/buildable-trainset/travelers/subassemblies/LM3-HV-SA510.md) | Shop traveler — LM3-HV-SA510 — per-car LFP battery, two controllers, DC auxiliary/charge interface, mist, and cooling assembly |
 | [`mechanical-py/catalog/buildable-trainset/travelers/subassemblies/LM3-INT-SA330.md`](../mechanical-py/catalog/buildable-trainset/travelers/subassemblies/LM3-INT-SA330.md) | Shop traveler — LM3-INT-SA330 — interior and passenger systems fit-out |
+| [`mechanical-py/catalog/buildable-trainset/travelers/subassemblies/LM3-LGT-SA350.md`](../mechanical-py/catalog/buildable-trainset/travelers/subassemblies/LM3-LGT-SA350.md) | Shop traveler — LM3-LGT-SA350 — modular main, emergency, and doorway lighting installation |
 | [`mechanical-py/catalog/buildable-trainset/travelers/subassemblies/LM3-ROOF-SA410.md`](../mechanical-py/catalog/buildable-trainset/travelers/subassemblies/LM3-ROOF-SA410.md) | Shop traveler — LM3-ROOF-SA410 — roof HVAC, PV, antenna, and service-equipment assembly |
 | [`mechanical-py/catalog/buildable-trainset/travelers/subassemblies/LM3-WIN-SA320.md`](../mechanical-py/catalog/buildable-trainset/travelers/subassemblies/LM3-WIN-SA320.md) | Shop traveler — LM3-WIN-SA320 — side glazing cassette installation |
 | [`mechanical-py/catalog/buildable-trainset/travelers/trainsets/LM3-TRAINSET-A000.md`](../mechanical-py/catalog/buildable-trainset/travelers/trainsets/LM3-TRAINSET-A000.md) | Shop traveler — LM3-TRAINSET-A000 — complete light-metro trainset |

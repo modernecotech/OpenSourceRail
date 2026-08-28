@@ -41,10 +41,13 @@ Same toolchain as `osr-sim-gui`:
 
 ```bash
 rustup target add wasm32-unknown-unknown
-cargo install trunk
+trunk --version # must report trunk 0.21.8
 cd crates/osr-occ-gui
 trunk serve web/index.html --open
 ```
+
+From the repository root, `npm run test:frontend` builds this release bundle
+and verifies it in pinned Playwright Chromium.
 
 ## Security note
 

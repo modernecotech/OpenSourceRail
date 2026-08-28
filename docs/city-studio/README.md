@@ -84,15 +84,19 @@ Validate every committed city project:
 
     python3 scripts/validate-city-projects.py
 
-Exercise the actual browser controls, all engineering adapters, artifact hash
-checks, revision comparison, a server restart, and TOML persistence in a
-temporary project:
+Install Node.js 20 or newer, Trunk 0.21.8, the Rust WASM target, and the pinned
+browser dependencies once, then run every browser front end:
 
-    node scripts/test-city-studio-gui.mjs
+    rustup target add wasm32-unknown-unknown
+    npm ci
+    npx playwright install chromium
+    npm run test:frontend
 
-The runner uses headless Chrome through the DevTools protocol and writes its
-JSON report and screenshot to `build/gui-acceptance/`. It does not edit the
-committed Samawah project.
+For the 111-check Studio-only workflow, use
+`node scripts/test-city-studio-gui.mjs`. Playwright uses one worker, a fixed
+viewport, locale and timezone, and a disposable project. Its JSON report and
+screenshot are written to `build/gui-acceptance/`; committed Samawah inputs are
+not edited.
 
 ## Revision workflow
 

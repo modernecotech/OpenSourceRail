@@ -34,12 +34,15 @@ The same code ships as a WASM app. Build + serve with
 
 ```bash
 rustup target add wasm32-unknown-unknown
-cargo install trunk
+trunk --version # must report trunk 0.21.8
 cd crates/osr-sim-gui
 trunk serve web/index.html --open
 ```
 
 The HTML file at [`web/index.html`](web/index.html) pulls the
-crate's binary target, builds it to WASM with `wasm-bindgen`,
+crate's library target, builds it to WASM with `wasm-bindgen`,
 loads it into the `<canvas id="osr_sim_canvas">`, and the same
 `SimApp` runs inside a browser tab.
+
+From the repository root, `npm run test:frontend` builds this release bundle
+and verifies it in pinned Playwright Chromium.

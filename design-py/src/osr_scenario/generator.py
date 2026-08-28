@@ -112,6 +112,20 @@ _BATTERY_USABLE_FRACTION = 0.80
 _OPPORTUNITY_CHARGING_EFFICIENCY = 0.98
 _MINIMUM_TRAVERSAL_ENERGY_MARGIN = 1.10
 
+_TRAINSET_SYSTEM_DEFAULTS: dict[str, Any] = {
+    "mechanical_standard_revision": "A-DRAFT",
+    "door_cassettes_per_car": 4,
+    "window_cassettes_per_car": 6,
+    "service_rails_per_car": 8,
+    "fastener_family_count": 4,
+    "connector_family_count": 2,
+    "main_light_modules_per_car": 22,
+    "emergency_light_modules_per_car": 4,
+    "door_threshold_light_modules_per_car": 4,
+    "lighting_power_w_per_car": 500.0,
+    "hvac_thermal_kw_per_car": 24.0,
+}
+
 
 def _charging_cabinet_count(family: str) -> int:
     """Repeat the standard 500 kW module for high-throughput consists."""
@@ -133,6 +147,7 @@ class ScenarioGenerator:
     station_archetypes: dict[str, dict[str, Any]] = field(default_factory=dict)
     site_tiers: dict[str, dict[str, float]] = field(default_factory=dict)
     climate_presets: dict[str, dict[str, Any]] = field(default_factory=dict)
+    trainset_systems: dict[str, Any] = field(default_factory=dict)
     depot_service_seconds: int = 720
 
     def __post_init__(self) -> None:
@@ -149,6 +164,11 @@ class ScenarioGenerator:
         if climate_path.exists():
             climate = tomllib.loads(climate_path.read_text())
             self.climate_presets = climate.get("presets", {})
+        rolling_stock_path = self.templates_root / "rolling-stock.toml"
+        self.trainset_systems = dict(_TRAINSET_SYSTEM_DEFAULTS)
+        if rolling_stock_path.exists():
+            rolling_stock = tomllib.loads(rolling_stock_path.read_text())
+            self.trainset_systems.update(rolling_stock.get("trainset_systems", {}))
         depot_path = self.templates_root / "depots.toml"
         if depot_path.exists():
             depot = tomllib.loads(depot_path.read_text())
@@ -479,6 +499,18 @@ class ScenarioGenerator:
             f"seat_count = {cd['seat_count']}\n"
             f"crush_capacity = {cd['crush_capacity']}\n"
             f"service_accel_mps2 = {cd['service_accel_mps2']}\n"
+            f"\n[consist.systems]\n"
+            f"mechanical_standard_revision = \"{self.trainset_systems['mechanical_standard_revision']}\"\n"
+            f"door_cassettes_per_car = {self.trainset_systems['door_cassettes_per_car']}\n"
+            f"window_cassettes_per_car = {self.trainset_systems['window_cassettes_per_car']}\n"
+            f"service_rails_per_car = {self.trainset_systems['service_rails_per_car']}\n"
+            f"fastener_family_count = {self.trainset_systems['fastener_family_count']}\n"
+            f"connector_family_count = {self.trainset_systems['connector_family_count']}\n"
+            f"main_light_modules_per_car = {self.trainset_systems['main_light_modules_per_car']}\n"
+            f"emergency_light_modules_per_car = {self.trainset_systems['emergency_light_modules_per_car']}\n"
+            f"door_threshold_light_modules_per_car = {self.trainset_systems['door_threshold_light_modules_per_car']}\n"
+            f"lighting_power_w_per_car = {self.trainset_systems['lighting_power_w_per_car']}\n"
+            f"hvac_thermal_kw_per_car = {self.trainset_systems['hvac_thermal_kw_per_car']}\n"
             f"\n[consist.roof_pv]\n"
             f"nameplate_kw = {cd['roof_pv_nameplate_kw']}\n"
             f"usable_factor = 0.65\n"

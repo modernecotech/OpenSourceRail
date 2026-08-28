@@ -35,13 +35,15 @@ stay thin: domain logic belongs in Rust crates, `design-py`, or
 | [`generate-portfolio-summary.py`](generate-portfolio-summary.py) | Aggregate the current city and national-factory models into `docs/portfolio-summary.md` |
 | [`recalculate-city-capex.py`](recalculate-city-capex.py) | Recalculate generated city CAPEX after removing duplicated city-level trainset factories |
 | [`validate-city-simulation.py`](validate-city-simulation.py) | Run nominal and mandatory degraded-energy OSR simulations on distinct physical cores, using compact result traces, and write reproducible battery, charging, and depot validation evidence |
+| [`validate-simulation-components.py`](validate-simulation-components.py) | Fail closed unless every deployed software component has one explicit simulation treatment and every tick-linked component remains an `osr-sim` dependency |
 | [`generate-city-package-manifest.py`](generate-city-package-manifest.py) | Fail closed unless a full city package contains passing design, engineering, simulation, resilience, operations, and hash-linked acceptance artifacts |
 | [`repo-health.py`](repo-health.py) | Check generated artifact drift, required files, and repository hygiene |
 | [`check-markdown-links.py`](check-markdown-links.py) | Check that local links in tracked Markdown resolve inside the repository |
 | [`check-readmes.py`](check-readmes.py) | Enforce titles, whitespace, provenance, common-method links and concise size limits across tracked READMEs and national briefs |
 | [`validate-host-manifests.py`](validate-host-manifests.py) | Validate all five host compositions and the complete Cargo component inventory |
 | [`validate-city-projects.py`](validate-city-projects.py) | Compile and validate every Git-backed OSR City Studio project, including source locks and weekly service plans |
-| [`test-city-studio-gui.mjs`](test-city-studio-gui.mjs) | Drive the real City Studio GUI in headless Chrome, run every adapter, restart the server, and verify project/job persistence in an isolated disposable project |
+| [`build-web-frontends.sh`](build-web-frontends.sh) | Build City Studio and the simulator/OCC production WASM bundles with pinned Trunk 0.21.8 |
+| [`test-city-studio-gui.mjs`](test-city-studio-gui.mjs) | Drive the real City Studio GUI with Playwright Chromium, run every adapter, restart the server, and verify project/job persistence in an isolated disposable project |
 
 For a single city, nominal runs and resilience cases are assigned to distinct
 physical cores. The default all-city run resynthesises `design.toml` using

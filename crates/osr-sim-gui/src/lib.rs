@@ -20,12 +20,19 @@ pub use app::SimApp;
 /// ```
 #[cfg(target_arch = "wasm32")]
 #[cfg_attr(target_arch = "wasm32", wasm_bindgen::prelude::wasm_bindgen)]
-pub async fn start_web(canvas_id: String) -> Result<(), wasm_bindgen::JsValue> {
+pub async fn start_web(
+    canvas: web_sys::HtmlCanvasElement,
+) -> Result<String, wasm_bindgen::JsValue> {
+    let app = SimApp::with_auto_run(None, 600, true);
+    let (events, trains, controller_ticks, invariant_violations) = app.run_state_summary();
     eframe::WebRunner::new()
         .start(
-            &canvas_id,
+            canvas,
             eframe::WebOptions::default(),
-            Box::new(|_cc| Ok(Box::new(SimApp::new(None, 3600)))),
+            Box::new(move |_cc| Ok(Box::new(app))),
         )
-        .await
+        .await?;
+    Ok(format!(
+        "{{\"events\":{events},\"trains\":{trains},\"controllerTicks\":{controller_ticks},\"invariantViolations\":{invariant_violations}}}"
+    ))
 }

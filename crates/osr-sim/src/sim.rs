@@ -27,6 +27,7 @@ use crate::onboard::{self, OnboardShadow, OnboardSummary};
 use crate::physics::{kinematic_profile, sample_kinematic_profile, MotionSample};
 use crate::schedule::{DispatchThrottle, LineSchedule};
 use crate::train::{Heading, Train, TrainPhase};
+use crate::vehicle_systems::{self, VehicleSystemsShadow, VehicleSystemsSummary};
 
 use osr_core::TrackRef;
 use osr_interlocking::{
@@ -291,6 +292,8 @@ pub struct ScenarioConfig {
     pub fleets: Vec<LineFleet>,
     /// Shared reference consist used by every trainset in every line.
     pub consist: ConsistDescriptor,
+    /// Buildable trainset systems contract exercised by the component shadow.
+    pub trainset_systems: TrainsetSystemsConfig,
     /// Nominal net traction + auxiliary energy before climate uplift.
     pub energy_kwh_per_car_km: f32,
     /// Onboard roof PV package shared by the fleet.
@@ -316,6 +319,41 @@ pub struct ScenarioConfig {
     /// Declared fault events (dust, grid outages, charging pad outages).
     /// Optional.
     pub faults: Vec<Fault>,
+}
+
+/// Per-car physical quantities that bind the simulator to the buildable
+/// rolling-stock model instead of an unversioned, aggregate train shape.
+#[derive(Clone, Debug, Serialize, Deserialize)]
+pub struct TrainsetSystemsConfig {
+    pub mechanical_standard_revision: String,
+    pub door_cassettes_per_car: u32,
+    pub window_cassettes_per_car: u32,
+    pub service_rails_per_car: u32,
+    pub fastener_family_count: u32,
+    pub connector_family_count: u32,
+    pub main_light_modules_per_car: u32,
+    pub emergency_light_modules_per_car: u32,
+    pub door_threshold_light_modules_per_car: u32,
+    pub lighting_power_w_per_car: f32,
+    pub hvac_thermal_kw_per_car: f32,
+}
+
+impl Default for TrainsetSystemsConfig {
+    fn default() -> Self {
+        Self {
+            mechanical_standard_revision: "A-DRAFT".to_string(),
+            door_cassettes_per_car: 4,
+            window_cassettes_per_car: 6,
+            service_rails_per_car: 8,
+            fastener_family_count: 4,
+            connector_family_count: 2,
+            main_light_modules_per_car: 22,
+            emergency_light_modules_per_car: 4,
+            door_threshold_light_modules_per_car: 4,
+            lighting_power_w_per_car: 500.0,
+            hvac_thermal_kw_per_car: 24.0,
+        }
+    }
 }
 
 #[derive(Clone, Debug)]
@@ -527,6 +565,10 @@ pub struct SimResult {
     /// SBC crates per RFC 0005 §11.
     #[serde(default)]
     pub onboard: OnboardSummary,
+    /// Every-tick integration evidence for door, auxiliary-power, HVAC,
+    /// lighting and passenger-information controllers.
+    #[serde(default)]
+    pub vehicle_systems: VehicleSystemsSummary,
 }
 
 fn default_ma_summary() -> MaCheckSummary {
@@ -619,6 +661,12 @@ pub fn run_with_event_recording(
     // each train's consist. The shadow runs every tick during
     // Traveling phase; see crate::onboard.
     let mut onboard_shadows: Vec<OnboardShadow> = trains.iter().map(OnboardShadow::new).collect();
+    let mut vehicle_system_shadows: Vec<VehicleSystemsShadow> = trains
+        .iter()
+        .map(|train| {
+            VehicleSystemsShadow::new(train, &config.trainset_systems, config.climate.ambient_c)
+        })
+        .collect();
 
     // Optional CSV trace.
     let mut csv_writer: Option<std::io::BufWriter<std::fs::File>> = None;
@@ -727,6 +775,16 @@ pub fn run_with_event_recording(
                 }
                 _ => onboard_shadows[idx].on_leave_section(),
             }
+
+            vehicle_systems::vehicle_systems_tick(
+                &mut vehicle_system_shadows[idx],
+                &trains[idx],
+                &config.network,
+                &config.trainset_systems,
+                config.climate.ambient_c,
+                t,
+                dt,
+            );
         }
 
         if status_every > 0 && t >= next_status {
@@ -803,6 +861,11 @@ pub fn run_with_event_recording(
 
     // Onboard shadow summary.
     let onboard_summary = onboard::summarise(&onboard_shadows, &trains);
+    let vehicle_systems_summary = vehicle_systems::summarise(
+        &vehicle_system_shadows,
+        &config.trainset_systems,
+        config.consist.car_count,
+    );
 
     // Build per-site summaries.
     let energy_sites: Vec<EnergySiteSummary> = energy
@@ -850,6 +913,7 @@ pub fn run_with_event_recording(
             .collect(),
         ma_check: ma_summary,
         onboard: onboard_summary,
+        vehicle_systems: vehicle_systems_summary,
     }
 }
 

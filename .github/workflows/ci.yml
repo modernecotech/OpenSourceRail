@@ -59,3 +59,37 @@ jobs:
           scripts/design-iterate.sh
           scripts/buildable-trainset.sh
           git diff --exit-code
+
+  frontend:
+    name: Deterministic browser acceptance
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@1.80.1
+        with:
+          targets: wasm32-unknown-unknown
+      - uses: Swatinem/rust-cache@v2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+      - name: Install pinned frontend tools
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+          curl -fsSLo /tmp/trunk.tar.gz https://github.com/trunk-rs/trunk/releases/download/v0.21.8/trunk-x86_64-unknown-linux-gnu.tar.gz
+          echo "cd9fb2822c9f0ae111737500c179226cb080241ac55002c1db7344aa51a97fec  /tmp/trunk.tar.gz" | sha256sum -c -
+          tar -xzf /tmp/trunk.tar.gz -C /tmp trunk
+          sudo install -m 0755 /tmp/trunk /usr/local/bin/trunk
+          trunk --version
+      - run: npm run test:frontend
+      - name: Upload browser diagnostics
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-diagnostics
+          path: |
+            build/playwright/
+            build/gui-acceptance/
+          if-no-files-found: ignore

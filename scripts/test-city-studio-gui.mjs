@@ -5,13 +5,13 @@ import { createServer } from "node:net";
 import { mkdir, cp, readFile, writeFile, rm } from "node:fs/promises";
 import path from "node:path";
 import process from "node:process";
+import { chromium } from "@playwright/test";
 
 const root = path.resolve(import.meta.dirname, "..");
 const sourceProject = path.join(root, "projects", "samawah");
 const runToken = `${process.pid}-${Date.now().toString(36)}`;
 const slug = `samawah-e2e-${runToken}`;
 const fixture = path.join(root, "projects", `.city-studio-e2e-${runToken}`);
-const chromeProfile = path.join(root, "build", "gui-acceptance", `.chrome-${runToken}`);
 const reportDir = path.join(root, "build", "gui-acceptance");
 const reportPath = path.join(reportDir, "city-studio-gui-report.json");
 const screenshotArg = process.argv.indexOf("--screenshot");
@@ -23,7 +23,7 @@ const executable = path.join(root, "target", "debug", "osr-city-studio");
 const checks = [];
 const startedAt = new Date();
 let cityProcess;
-let chromeProcess;
+let browser;
 let cdp;
 
 function record(name, detail = "") {
@@ -87,41 +87,13 @@ async function startCityStudio(port) {
   return child;
 }
 
-class DevTools {
-  constructor(socket) {
-    this.socket = socket;
-    this.sequence = 0;
-    this.pending = new Map();
-    socket.addEventListener("message", (event) => {
-      const message = JSON.parse(event.data);
-      if (!message.id) return;
-      const operation = this.pending.get(message.id);
-      if (!operation) return;
-      this.pending.delete(message.id);
-      if (message.error) operation.reject(new Error(message.error.message));
-      else operation.resolve(message.result);
-    });
-  }
-
-  command(method, params = {}) {
-    const id = ++this.sequence;
-    return new Promise((resolve, reject) => {
-      this.pending.set(id, { resolve, reject });
-      this.socket.send(JSON.stringify({ id, method, params }));
-    });
+class PlaywrightDriver {
+  constructor(page) {
+    this.page = page;
   }
 
   async evaluate(expression) {
-    const result = await this.command("Runtime.evaluate", {
-      expression,
-      awaitPromise: true,
-      returnByValue: true,
-      userGesture: true,
-    });
-    if (result.exceptionDetails) {
-      throw new Error(result.exceptionDetails.exception?.description || result.exceptionDetails.text);
-    }
-    return result.result.value;
+    return await this.page.evaluate((source) => (0, eval)(source), expression);
   }
 
   async wait(expression, label, timeoutMs = 60_000) {
@@ -139,31 +111,22 @@ class DevTools {
   }
 }
 
-async function startChrome(debugPort, cityUrl) {
-  const chrome = spawn("google-chrome", [
-    "--headless=new",
-    "--no-sandbox",
-    "--disable-gpu",
-    "--disable-dev-shm-usage",
-    `--remote-debugging-port=${debugPort}`,
-    `--user-data-dir=${chromeProfile}`,
-    "--window-size=1600,1200",
-    "about:blank",
-  ], { cwd: root, stdio: ["ignore", "ignore", "pipe"] });
-  await waitForHttp(`http://127.0.0.1:${debugPort}/json/version`);
-  const target = await fetch(`http://127.0.0.1:${debugPort}/json/new?${encodeURIComponent(cityUrl)}`, {
-    method: "PUT",
-  }).then((response) => response.json());
-  const socket = new WebSocket(target.webSocketDebuggerUrl);
-  await new Promise((resolve, reject) => {
-    socket.addEventListener("open", resolve, { once: true });
-    socket.addEventListener("error", reject, { once: true });
+async function startBrowser(cityUrl) {
+  const launched = await chromium.launch({
+    headless: true,
+    channel: process.env.PLAYWRIGHT_CHANNEL || undefined,
   });
-  const tools = new DevTools(socket);
-  await tools.command("Page.enable");
-  await tools.command("Runtime.enable");
+  const context = await launched.newContext({
+    viewport: { width: 1600, height: 1200 },
+    locale: "en-GB",
+    timezoneId: "Europe/London",
+    reducedMotion: "reduce",
+  });
+  const page = await context.newPage();
+  await page.goto(cityUrl, { waitUntil: "domcontentloaded" });
+  const tools = new PlaywrightDriver(page);
   await tools.wait("typeof view === 'object' && view?.snapshot?.stations?.length > 0", "initial project render");
-  return { chrome, tools };
+  return { browser: launched, tools, page };
 }
 
 async function form(selector, values) {
@@ -293,11 +256,10 @@ async function main() {
   await writeFile(projectFile, project);
 
   const cityPort = await freePort();
-  const debugPort = await freePort();
   cityProcess = await startCityStudio(cityPort);
-  const browser = await startChrome(debugPort, `http://127.0.0.1:${cityPort}/`);
-  chromeProcess = browser.chrome;
-  cdp = browser.tools;
+  const launched = await startBrowser(`http://127.0.0.1:${cityPort}/`);
+  browser = launched.browser;
+  cdp = launched.tools;
 
   const baseline = await cdp.evaluate(`({
     stations: view.snapshot.summary.station_count,
@@ -1316,7 +1278,7 @@ async function main() {
   terminate(cityProcess);
   await new Promise((resolve) => cityProcess.once("exit", resolve));
   cityProcess = await startCityStudio(cityPort);
-  await cdp.command("Page.reload", { ignoreCache: true });
+  await cdp.page.reload({ waitUntil: "domcontentloaded" });
   await cdp.wait("typeof view === 'object' && view?.snapshot?.stations?.length > 0", "render after server restart", 60_000);
   const persisted = await cdp.evaluate(`({
     moved: view.snapshot.stations.find(item => item.id === ${JSON.stringify(movedStation)})?.state,
@@ -1370,12 +1332,8 @@ async function main() {
   await cdp.wait(`!view.snapshot.lines.some(item => item.id === ${JSON.stringify(directLine)})`, "manual line retirement");
   record("manual station and line retirement persisted to intent");
 
-  const screenshot = await cdp.command("Page.captureScreenshot", {
-    format: "png",
-    captureBeyondViewport: true,
-  });
   await mkdir(path.dirname(screenshotPath), { recursive: true });
-  await writeFile(screenshotPath, Buffer.from(screenshot.data, "base64"));
+  await cdp.page.screenshot({ path: screenshotPath, fullPage: true });
   record("browser screenshot captured", path.relative(root, screenshotPath));
 
   const overrides = await readFile(path.join(fixture, "network", "overrides.toml"), "utf8");
@@ -1397,7 +1355,7 @@ async function main() {
     passed: true,
     started_at: startedAt.toISOString(),
     finished_at: new Date().toISOString(),
-    browser: "Google Chrome headless via DevTools Protocol",
+    browser: "Playwright Chromium",
     isolated_project: path.relative(root, fixture),
     checks,
     persistence: { movedStation, manualStation, controlId, directLine, demandLine, odFlowId, issueId, revisionId, approvalId },
@@ -1424,13 +1382,12 @@ try {
   process.exitCode = 1;
 } finally {
   terminate(cityProcess);
-  terminate(chromeProcess);
+  if (browser) await browser.close();
   await delay(250);
   if (process.env.KEEP_GUI_FIXTURE !== "1") {
     await rm(fixture, { recursive: true, force: true });
   } else {
     process.stderr.write(`Preserved isolated fixture: ${fixture}\n`);
   }
-  await rm(chromeProfile, { recursive: true, force: true });
   await rm(path.join(root, "build", "city-studio", slug), { recursive: true, force: true });
 }

@@ -87,6 +87,7 @@ operating affordable urban rail systems. It combines:
 | **Civil BIM and 4D coordination** | Parametric Pi25/slipform/foundation geometry generates schema-checked IFC4.3 with native planning alignment layouts, quantities, typed property dictionaries, a generated schedule of planning rates, classification, review controls, optional survey control, IDS/BCF evidence and linked construction sequencing through the [civil BIM workflow](docs/civil/bonsai-ifc-workflow.md). |
 | **Automatic cost propagation** | Checked CAD quantities regenerate the [shared civil rate contract](lib/templates/civil-cost-model.toml), which feeds city CAPEX, finance, IFC properties, portfolio summaries and generated READMEs while retaining the original benchmark for comparison. |
 | **Operations-to-assurance stack** | Simulation, GoA 4 control components, energy planning, manufacturing QA, maintenance, Ops Core, hardware references and a machine-checkable safety case share one repository and evidence model. |
+| **Deterministic browser acceptance** | Pinned Playwright tests build and boot both Rust/WASM consoles, exercise every operations-portal tab and SQLite persistence, and run 111 City Studio edit, adapter, restart and persistence checks in CI. |
 
 City Studio persists civil construction methods in the same Git-reviewed
 project as network and service intent. It displays derived deck-gap and bearing
@@ -159,6 +160,15 @@ searchable multi-asset BCF topic authoring, atomic all-route headway scenarios a
 Git-reviewable coordination decisions, append-only revision approvals,
 hash-verified interactive civil/4D review, artifact hashing, and revision review.
 
+Service simulation now runs the motion/safety stack plus the buildable
+trainset's door, auxiliary-power, HVAC, lighting, and onboard passenger-
+information controllers on the shared per-train timeline. Generated scenarios
+carry a mechanical system contract, and acceptance evidence hashes the rolling-
+stock template and buildable-trainset manifests. The concise
+[software coverage report](docs/simulation-software-coverage.md) distinguishes
+components that genuinely execute each tick from aggregate models and external
+service boundaries.
+
 ![City Studio network authoring and demand-aware routing interface](docs/screenshots/city-studio/network-and-service.png)
 
 ![City Studio service planning and controlled engineering job history](docs/screenshots/city-studio/engineering-jobs.png)
@@ -176,10 +186,11 @@ hash-verified interactive civil/4D review, artifact hashing, and revision review
 Run it locally with `cargo run -p osr-city-studio -- serve`, then open
 <http://127.0.0.1:8090/>. See the
 [City Studio guide](docs/city-studio/README.md) for the project and Git workflow.
-Run the isolated Chrome acceptance suite with
-`node scripts/test-city-studio-gui.mjs`; it edits a temporary project, runs
-every engineering adapter, restarts the server, and verifies on-disk
-persistence without modifying Samawah.
+Run the complete deterministic browser suite with `npm run test:frontend`.
+It builds both Rust/WASM consoles, tests the operations portal against an
+isolated SQLite database, and exercises City Studio in a disposable project
+without modifying Samawah. See the [City Studio guide](docs/city-studio/README.md)
+for prerequisites and the narrower Studio-only command.
 
 ## Adoption And Assurance Path
 

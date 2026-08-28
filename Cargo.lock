@@ -998,8 +998,10 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "ff2abc00be7fca6ebc474524697ae276ad847ad0a6b3faa4bcb027e9a4614ad0"
 dependencies = [
  "cfg-if",
+ "js-sys",
  "libc",
  "wasi",
+ "wasm-bindgen",
 ]
 
 [[package]]
@@ -2284,12 +2286,14 @@ dependencies = [
  "clap",
  "eframe",
  "egui",
+ "getrandom 0.2.17",
  "osr-core",
  "osr-gui-shared",
  "osr-interlocking",
  "osr-sim",
  "wasm-bindgen",
  "wasm-bindgen-futures",
+ "web-sys",
 ]
 
 [[package]]
@@ -2412,17 +2416,22 @@ dependencies = [
  "clap",
  "osr-ato",
  "osr-atp",
+ "osr-aux-power",
  "osr-bms",
  "osr-brake",
  "osr-consensus",
  "osr-core",
  "osr-crypto",
  "osr-derailment",
+ "osr-door-control",
  "osr-fire-safety",
+ "osr-hvac",
  "osr-interlocking",
+ "osr-lighting",
  "osr-obstacle-detect",
  "osr-odometry",
  "osr-passenger-assist",
+ "osr-pis-onboard",
  "osr-secbus",
  "osr-tcn",
  "osr-traction",
@@ -2439,11 +2448,13 @@ dependencies = [
  "clap",
  "eframe",
  "egui",
+ "getrandom 0.2.17",
  "osr-core",
  "osr-gui-shared",
  "osr-sim",
  "wasm-bindgen",
  "wasm-bindgen-futures",
+ "web-sys",
 ]
 
 [[package]]

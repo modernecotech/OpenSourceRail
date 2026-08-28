@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <title>OSR OCC Console</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link data-trunk rel="rust" data-bin="osr-occ-gui" data-cargo-features="" data-wasm-opt="z" />
+  <link data-trunk rel="rust" href="../Cargo.toml" data-cargo-no-default-features data-wasm-opt="z" />
   <style>
     html, body {
       margin: 0;
@@ -33,13 +33,26 @@
 </head>
 <body>
   <div id="loading">Loading OSR OCC Console…</div>
-  <canvas id="osr_occ_canvas"></canvas>
+  <canvas id="osr_occ_canvas" role="application" aria-label="OpenSourceRail OCC console"></canvas>
   <script type="module">
-    import init, { start_web } from './osr-occ-gui.js';
+    window.__OSR_FRONTEND__ = { app: 'occ', ready: false, error: null };
     (async () => {
-      await init();
-      document.getElementById('loading').style.display = 'none';
-      await start_web('osr_occ_canvas');
+      try {
+        if (!window.wasmBindings) {
+          await new Promise((resolve) =>
+            window.addEventListener('TrunkApplicationStarted', resolve, { once: true })
+          );
+        }
+        const details = JSON.parse(
+          await window.wasmBindings.start_web(document.getElementById('osr_occ_canvas'))
+        );
+        document.getElementById('loading').style.display = 'none';
+        window.__OSR_FRONTEND__.ready = true;
+        window.__OSR_FRONTEND__.details = details;
+      } catch (error) {
+        window.__OSR_FRONTEND__.error = String(error?.stack || error);
+        throw error;
+      }
     })();
   </script>
 </body>

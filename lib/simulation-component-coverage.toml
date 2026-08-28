@@ -1,0 +1,45 @@
+schema_version = 1
+
+# Executes inside osr-sim for every applicable train tick. These names must
+# also be direct Cargo dependencies of osr-sim.
+[tick_controller]
+components = [
+  "osr-ato", "osr-atp", "osr-aux-power", "osr-bms", "osr-brake",
+  "osr-derailment", "osr-door-control", "osr-fire-safety", "osr-hvac",
+  "osr-lighting", "osr-obstacle-detect", "osr-odometry",
+  "osr-passenger-assist", "osr-pis-onboard", "osr-tcn", "osr-traction",
+]
+
+# Linked into the deterministic runtime as shared primitives or infrastructure.
+[runtime_kernel]
+components = [
+  "osr-consensus", "osr-core", "osr-crypto", "osr-interlocking", "osr-secbus",
+]
+
+# Represented by an aggregate/scenario-native model. This is explicit technical
+# debt: the standalone crate is not claimed to have run.
+[scenario_model]
+components = ["osr-energy-site", "osr-regen"]
+
+# Runs before/after the service simulation rather than on every vehicle tick.
+[design_pipeline]
+components = [
+  "osr-alignment", "osr-design", "osr-routing", "osr-safety-case",
+  "osr-trainset-image",
+]
+
+# Simulation shell and operator-facing visualisation.
+[simulation_shell]
+components = ["osr-gui-shared", "osr-sim", "osr-sim-gui"]
+
+# Has a defined integration boundary but is not falsely executed as an onboard
+# tick. These services require their own service/wayside/station test harnesses.
+[external_boundary]
+components = [
+  "osr-afc", "osr-afc-backoffice", "osr-analytics", "osr-balise",
+  "osr-cbm-backend", "osr-cbm-onboard", "osr-event-recorder", "osr-historian",
+  "osr-hot-axle", "osr-hot-axle-wayside", "osr-intrusion-detect",
+  "osr-level-crossing", "osr-occ", "osr-occ-gui", "osr-pis-station",
+  "osr-proto", "osr-psd", "osr-ptp", "osr-selftest", "osr-station-scada",
+  "osr-t2g", "osr-tcms", "osr-tvm", "osr-wayside-points",
+]

@@ -128,6 +128,18 @@ impl OccApp {
         app
     }
 
+    /// Compact proof that the browser console attached a populated recording.
+    pub fn recorded_state_summary(&self) -> (usize, usize, usize, usize) {
+        (
+            self.result.as_ref().map_or(0, |result| result.events.len()),
+            self.result
+                .as_ref()
+                .map_or(0, |result| result.per_train_final_soc.len()),
+            self.alerts.len(),
+            self.intrusions.len(),
+        )
+    }
+
     fn new_internal(operator: String) -> Self {
         let (scenario, _label) = _default_scenario();
         let network = scenario.network.clone();

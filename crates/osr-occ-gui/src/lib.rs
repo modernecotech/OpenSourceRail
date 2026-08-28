@@ -9,12 +9,19 @@ pub use app::{Alert, AlertLevel, OccApp};
 /// WASM entry point. Build with `trunk serve crates/osr-occ-gui/web/index.html`.
 #[cfg(target_arch = "wasm32")]
 #[cfg_attr(target_arch = "wasm32", wasm_bindgen::prelude::wasm_bindgen)]
-pub async fn start_web(canvas_id: String) -> Result<(), wasm_bindgen::JsValue> {
+pub async fn start_web(
+    canvas: web_sys::HtmlCanvasElement,
+) -> Result<String, wasm_bindgen::JsValue> {
+    let app = OccApp::with_auto_attach("web dispatcher".into(), true);
+    let (recorded_events, trains, alerts, intrusions) = app.recorded_state_summary();
     eframe::WebRunner::new()
         .start(
-            &canvas_id,
+            canvas,
             eframe::WebOptions::default(),
-            Box::new(|_cc| Ok(Box::new(OccApp::new("web dispatcher".into())))),
+            Box::new(move |_cc| Ok(Box::new(app))),
         )
-        .await
+        .await?;
+    Ok(format!(
+        "{{\"recordedEvents\":{recorded_events},\"trains\":{trains},\"alerts\":{alerts},\"intrusions\":{intrusions}}}"
+    ))
 }

@@ -13,4 +13,5 @@ pub mod schedule;
 pub mod sim;
 pub mod timeline;
 pub mod train;
+pub mod vehicle_systems;
 pub mod vis;

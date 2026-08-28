@@ -43,6 +43,10 @@ def test_samawah_design_generates_valid_scenario() -> None:
     assert "stations" in doc
     assert "lines" in doc
     assert "fleets" in doc
+    systems = doc["consist"]["systems"]
+    assert systems["mechanical_standard_revision"] == "A-DRAFT"
+    assert systems["door_cassettes_per_car"] == 4
+    assert systems["main_light_modules_per_car"] == 22
     # Sites are optional — auto-generated designs without committed
     # trackside energy infrastructure legitimately omit them.
 

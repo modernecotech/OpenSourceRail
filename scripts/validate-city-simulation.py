@@ -27,8 +27,54 @@ from osr_scenario.network_readme import (  # noqa: E402
 )
 
 
+TRAINSET_MANIFEST = REPO_ROOT / "mechanical-py/catalog/buildable-trainset/buildable-trainset-manifest.json"
+SMALL_COMPONENT_STANDARD = REPO_ROOT / "mechanical-py/catalog/buildable-trainset/small-component-standard.json"
+ROLLING_STOCK_TEMPLATE = REPO_ROOT / "lib/templates/rolling-stock.toml"
+
+
 def sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def validate_trainset_contract(doc: dict) -> dict:
+    """Bind scenario quantities to the shared template and mechanical release."""
+    systems = doc.get("consist", {}).get("systems", {})
+    with ROLLING_STOCK_TEMPLATE.open("rb") as handle:
+        expected = tomllib.load(handle).get("trainset_systems", {})
+    standard = json.loads(SMALL_COMPONENT_STANDARD.read_text(encoding="utf-8"))
+    manifest = json.loads(TRAINSET_MANIFEST.read_text(encoding="utf-8"))
+    issues = []
+    for name, value in expected.items():
+        if systems.get(name) != value:
+            issues.append(
+                f"consist.systems.{name}={systems.get(name)!r}; expected {value!r}"
+            )
+    mechanical_expectations = {
+        "mechanical_standard_revision": standard.get("document_revision"),
+        "fastener_family_count": len(standard.get("fastener_families", [])),
+        "connector_family_count": len(standard.get("connector_families", [])),
+        "main_light_modules_per_car": standard.get("lighting", {}).get("main_modules_per_car"),
+        "emergency_light_modules_per_car": standard.get("lighting", {}).get("emergency_modules_per_car"),
+        "door_threshold_light_modules_per_car": standard.get("lighting", {}).get("door_threshold_modules_per_car"),
+    }
+    for name, value in mechanical_expectations.items():
+        if systems.get(name) != value:
+            issues.append(
+                f"consist.systems.{name} does not match small-component standard ({value!r})"
+            )
+    return {
+        "passed": not issues,
+        "issues": issues,
+        "system_configuration": systems,
+        "rolling_stock_template": "lib/templates/rolling-stock.toml",
+        "rolling_stock_template_sha256": sha256(ROLLING_STOCK_TEMPLATE),
+        "small_component_standard": "mechanical-py/catalog/buildable-trainset/small-component-standard.json",
+        "small_component_standard_sha256": sha256(SMALL_COMPONENT_STANDARD),
+        "buildable_trainset_manifest": "mechanical-py/catalog/buildable-trainset/buildable-trainset-manifest.json",
+        "buildable_trainset_manifest_sha256": sha256(TRAINSET_MANIFEST),
+        "buildable_product_items": len(manifest.get("product_items", [])),
+        "buildable_assemblies": len(manifest.get("assemblies", [])),
+    }
 
 
 def physical_cpu_groups() -> list[tuple[int, ...]]:
@@ -139,6 +185,7 @@ def summarize_result(label: str, duration: int, result: dict) -> dict:
             name = event_name(event.get("kind"))
             counts[name] = counts.get(name, 0) + 1
     socs = [float(row[3]) for row in result.get("per_train_final_soc", [])]
+    vehicle_systems = result.get("vehicle_systems", {})
     return {
         "label": label,
         "duration_s": duration,
@@ -150,6 +197,16 @@ def summarize_result(label: str, duration: int, result: dict) -> dict:
         "depot_services_active_at_cutoff": max(0, counts.get("DepotServiceStart", 0) - counts.get("DepotServiceComplete", 0)),
         "minimum_soc_percent": min(socs, default=1.0) * 100.0,
         "onboard_emergencies": int(result.get("onboard", {}).get("emergency_count", 0)),
+        "vehicle_systems": vehicle_systems,
+        "vehicle_systems_passed": (
+            int(vehicle_systems.get("controller_ticks", 0)) > 0
+            and int(vehicle_systems.get("door_controller_evaluations", 0)) > 0
+            and int(vehicle_systems.get("aux_power_controller_ticks", 0)) > 0
+            and int(vehicle_systems.get("hvac_controller_ticks", 0)) > 0
+            and int(vehicle_systems.get("lighting_controller_ticks", 0)) > 0
+            and int(vehicle_systems.get("pis_controller_ticks", 0)) > 0
+            and int(vehicle_systems.get("door_interlock_violations", 0)) == 0
+        ),
         "invariant_violations": len(result.get("invariant_violations", [])),
         "soc_warning_events": counts.get("SocWarning", 0),
         "energy_adaptive_dispatches": int(result.get("energy_adaptive_dispatches", 0)),
@@ -194,6 +251,7 @@ def main() -> int:
     resilience_basis: dict[str, object] = {}
     scheduled_train_km = _scheduled_daily_train_km(design, doc)
     fleet_count = sum(int(fleet.get("trainset_count", 0)) for fleet in doc.get("fleets", []))
+    trainset_contract = validate_trainset_contract(doc)
     subprocess.run(
         ["cargo", "build", "--release", "-p", "osr-sim", "--bin", "osr-sim"],
         cwd=REPO_ROOT,
@@ -430,14 +488,15 @@ station = "{powered_station}"
             case["minimum_soc_percent"] >= 20.0 - 1e-3
             and case["invariant_violations"] == 0
             and case["onboard_emergencies"] == 0
+            and case["vehicle_systems_passed"]
             and case["service_completion_ratio"] + service_completion_tolerance >= minimum_service
         )
         resilience_cases.append(case)
-    nominal_passed = all(run["minimum_soc_percent"] >= 20.0 - 1e-3 and run["invariant_violations"] == 0 and run["onboard_emergencies"] == 0 for run in runs) and full_run["service_completion_ratio"] + service_completion_tolerance >= minimum_service_completion_ratio
+    nominal_passed = all(run["minimum_soc_percent"] >= 20.0 - 1e-3 and run["invariant_violations"] == 0 and run["onboard_emergencies"] == 0 and run["vehicle_systems_passed"] for run in runs) and full_run["service_completion_ratio"] + service_completion_tolerance >= minimum_service_completion_ratio
     resilience_passed = bool(resilience_cases) and all(case["passed"] for case in resilience_cases)
     simulator_binary = REPO_ROOT / "target/release/osr-sim"
     model = {
-        "schema_version": "1.1",
+        "schema_version": "1.2",
         "city": city,
         "validated_on": date.today().isoformat(),
         "generator": str(Path(__file__).resolve().relative_to(REPO_ROOT)),
@@ -447,7 +506,8 @@ station = "{powered_station}"
         "design_sha256": sha256(design_path),
         "scenario": "../../../" + source_scenario.name,
         "scenario_sha256": sha256(source_scenario),
-        "passed": nominal_passed and (not args.resilience or resilience_passed),
+        "passed": trainset_contract["passed"] and nominal_passed and (not args.resilience or resilience_passed),
+        "trainset_contract": trainset_contract,
         "model": {
             "trainsets": fleet_count,
             "battery_nameplate_kwh": int(doc["consist"]["battery_capacity_kwh"]),
@@ -470,7 +530,7 @@ station = "{powered_station}"
         "resilience_passed": resilience_passed if args.resilience else None,
         "resilience_basis": resilience_basis if args.resilience else None,
         "resilience_cases": resilience_cases,
-        "interpretation": "The full-window run includes 4.5 hours after the 02:00 service close so long ring and charging cycles can finish. Nominal and N-1/degraded screens protect 20% SoC and at least 90% of scheduled train-km. The ten-hour all-site grid outage is an emergency reduced-service case with a 60% floor. Energy-adaptive control may widen off-peak headways; calibrated timetable acceptance remains an operator gate.",
+        "interpretation": "The full-window run includes 4.5 hours after the 02:00 service close so long ring and charging cycles can finish. Door, auxiliary-power, HVAC, lighting and onboard PIS controllers execute for every train tick; their loads remain included in the calibrated aggregate kWh/car-km model and are not debited twice. Nominal and N-1/degraded screens protect 20% SoC and at least 90% of scheduled train-km. The ten-hour all-site grid outage is an emergency reduced-service case with a 60% floor. Energy-adaptive control may widen off-peak headways; calibrated timetable acceptance remains an operator gate.",
     }
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(json.dumps(model, indent=2) + "\n")

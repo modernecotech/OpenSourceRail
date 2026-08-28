@@ -122,6 +122,19 @@ impl SimApp {
         app
     }
 
+    /// Compact proof that the browser-visible run is populated and that the
+    /// integrated vehicle controllers executed.
+    pub fn run_state_summary(&self) -> (usize, usize, u64, usize) {
+        self.result.as_ref().map_or((0, 0, 0, 0), |result| {
+            (
+                result.events.len(),
+                result.per_train_final_soc.len(),
+                result.vehicle_systems.controller_ticks,
+                result.invariant_violations.len(),
+            )
+        })
+    }
+
     fn run_sim(&mut self) {
         let runtime = RuntimeConfig {
             duration_s: self.duration_s,
@@ -254,6 +267,30 @@ fn left_sidebar(app: &mut SimApp, ctx: &Context) {
                 Color32::from_rgb(230, 80, 80)
             };
             ui.colored_label(colour, format!("invariant violations: {violations}"));
+            ui.separator();
+            ui.heading("Vehicle systems");
+            ui.label(format!(
+                "controller ticks: {}",
+                r.vehicle_systems.controller_ticks
+            ));
+            ui.label(format!(
+                "door evaluations: {}",
+                r.vehicle_systems.door_controller_evaluations
+            ));
+            let door_violations = r.vehicle_systems.door_interlock_violations;
+            let door_colour = if door_violations == 0 {
+                Color32::from_rgb(120, 220, 120)
+            } else {
+                Color32::from_rgb(230, 80, 80)
+            };
+            ui.colored_label(
+                door_colour,
+                format!("door interlock violations: {door_violations}"),
+            );
+            ui.label(format!(
+                "PIS announcements: {}",
+                r.vehicle_systems.pis_announcements
+            ));
             if !r.faults_fired.is_empty() {
                 ui.separator();
                 ui.heading("Faults fired");

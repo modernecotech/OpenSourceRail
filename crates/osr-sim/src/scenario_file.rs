@@ -15,7 +15,7 @@ use crate::fault::{Fault, FaultKind, FaultScope, TrainFaultScope};
 use crate::schedule::{LineSchedule, TimeWindow};
 use crate::sim::{
     ClimateModel, EnergyAdaptiveServiceConfig, LineFleet, RoofPvAirCleanerConfig, RoofPvConfig,
-    ScenarioConfig,
+    ScenarioConfig, TrainsetSystemsConfig,
 };
 use crate::train::Heading;
 
@@ -115,6 +115,25 @@ pub struct ConsistSpec {
     /// `[consist.roof_pv]`.
     #[serde(default)]
     pub roof_pv: Option<RoofPvSpec>,
+    /// Buildable trainset small-component contract (`[consist.systems]`).
+    #[serde(default)]
+    pub systems: Option<TrainsetSystemsSpec>,
+}
+
+#[derive(Debug, Default, Deserialize)]
+#[serde(default, deny_unknown_fields)]
+pub struct TrainsetSystemsSpec {
+    pub mechanical_standard_revision: Option<String>,
+    pub door_cassettes_per_car: Option<u32>,
+    pub window_cassettes_per_car: Option<u32>,
+    pub service_rails_per_car: Option<u32>,
+    pub fastener_family_count: Option<u32>,
+    pub connector_family_count: Option<u32>,
+    pub main_light_modules_per_car: Option<u32>,
+    pub emergency_light_modules_per_car: Option<u32>,
+    pub door_threshold_light_modules_per_car: Option<u32>,
+    pub lighting_power_w_per_car: Option<f32>,
+    pub hvac_thermal_kw_per_car: Option<f32>,
 }
 
 #[derive(Debug, Deserialize)]
@@ -391,6 +410,7 @@ pub enum LoadError {
         soc: f32,
     },
     InvalidEnergyIntensity(f32),
+    InvalidTrainsetSystems(String),
     InvalidAdaptiveServiceTarget(f32),
     InvalidAdaptiveHeadwayMultiplier(f32),
     InvalidFaultKind(String),
@@ -483,6 +503,7 @@ impl std::fmt::Display for LoadError {
                 f,
                 "consist energy_kwh_per_car_km={value}; must be finite and greater than zero"
             ),
+            InvalidTrainsetSystems(message) => write!(f, "invalid consist.systems: {message}"),
             InvalidAdaptiveServiceTarget(value) => write!(
                 f,
                 "scenario.normal_service_soc={value}; must be finite and in (0.20, 1.0]"
@@ -873,6 +894,11 @@ fn build_scenario(file: ScenarioFile) -> Result<ScenarioConfig, LoadError> {
 
     // --- Consist & climate --------------------------------------------------
     let consist = build_consist(file.consist.as_ref());
+    let trainset_systems = build_trainset_systems(
+        file.consist
+            .as_ref()
+            .and_then(|consist| consist.systems.as_ref()),
+    )?;
     let energy_kwh_per_car_km = file
         .consist
         .as_ref()
@@ -896,6 +922,7 @@ fn build_scenario(file: ScenarioFile) -> Result<ScenarioConfig, LoadError> {
         network,
         fleets,
         consist,
+        trainset_systems,
         energy_kwh_per_car_km,
         roof_pv,
         climate,
@@ -911,6 +938,74 @@ fn build_scenario(file: ScenarioFile) -> Result<ScenarioConfig, LoadError> {
         energy_sites,
         faults,
     })
+}
+
+fn build_trainset_systems(
+    spec: Option<&TrainsetSystemsSpec>,
+) -> Result<TrainsetSystemsConfig, LoadError> {
+    let mut config = TrainsetSystemsConfig::default();
+    let Some(spec) = spec else { return Ok(config) };
+    macro_rules! assign {
+        ($field:ident) => {
+            if let Some(value) = spec.$field {
+                config.$field = value;
+            }
+        };
+    }
+    if let Some(value) = &spec.mechanical_standard_revision {
+        config.mechanical_standard_revision = value.clone();
+    }
+    assign!(door_cassettes_per_car);
+    assign!(window_cassettes_per_car);
+    assign!(service_rails_per_car);
+    assign!(fastener_family_count);
+    assign!(connector_family_count);
+    assign!(main_light_modules_per_car);
+    assign!(emergency_light_modules_per_car);
+    assign!(door_threshold_light_modules_per_car);
+    assign!(lighting_power_w_per_car);
+    assign!(hvac_thermal_kw_per_car);
+
+    if config.mechanical_standard_revision.trim().is_empty() {
+        return Err(LoadError::InvalidTrainsetSystems(
+            "mechanical_standard_revision must not be empty".to_string(),
+        ));
+    }
+    let counts = [
+        ("door_cassettes_per_car", config.door_cassettes_per_car),
+        ("window_cassettes_per_car", config.window_cassettes_per_car),
+        ("service_rails_per_car", config.service_rails_per_car),
+        ("fastener_family_count", config.fastener_family_count),
+        ("connector_family_count", config.connector_family_count),
+        (
+            "main_light_modules_per_car",
+            config.main_light_modules_per_car,
+        ),
+        (
+            "emergency_light_modules_per_car",
+            config.emergency_light_modules_per_car,
+        ),
+        (
+            "door_threshold_light_modules_per_car",
+            config.door_threshold_light_modules_per_car,
+        ),
+    ];
+    if let Some((name, _)) = counts.into_iter().find(|(_, value)| *value == 0) {
+        return Err(LoadError::InvalidTrainsetSystems(format!(
+            "{name} must be greater than zero"
+        )));
+    }
+    for (name, value) in [
+        ("lighting_power_w_per_car", config.lighting_power_w_per_car),
+        ("hvac_thermal_kw_per_car", config.hvac_thermal_kw_per_car),
+    ] {
+        if !value.is_finite() || value <= 0.0 {
+            return Err(LoadError::InvalidTrainsetSystems(format!(
+                "{name} must be finite and greater than zero"
+            )));
+        }
+    }
+    Ok(config)
 }
 
 fn build_faults(
@@ -1140,5 +1235,29 @@ fn parse_heading(s: &str) -> Result<Heading, LoadError> {
         "forward" | "fwd" | "f" => Ok(Heading::Forward),
         "reverse" | "rev" | "r" => Ok(Heading::Reverse),
         _ => Err(LoadError::InvalidHeading(s.to_string())),
+    }
+}
+
+#[cfg(test)]
+mod trainset_system_tests {
+    use super::*;
+
+    #[test]
+    fn canonical_scenario_loads_explicit_buildable_system_contract() {
+        let scenario = canonical_samawah_scenario();
+        assert_eq!(
+            scenario.trainset_systems.mechanical_standard_revision,
+            "A-DRAFT"
+        );
+        assert_eq!(scenario.trainset_systems.door_cassettes_per_car, 4);
+        assert_eq!(scenario.trainset_systems.main_light_modules_per_car, 22);
+    }
+
+    #[test]
+    fn zero_component_count_fails_closed() {
+        let source = include_str!("../../../designs/west-asia/Iraq/Samawah/samawah.toml")
+            .replace("door_cassettes_per_car = 4", "door_cassettes_per_car = 0");
+        let error = load_scenario_from_str(&source).expect_err("zero door count must fail");
+        assert!(error.to_string().contains("door_cassettes_per_car"));
     }
 }

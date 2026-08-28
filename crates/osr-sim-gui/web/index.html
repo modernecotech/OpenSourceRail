@@ -5,7 +5,7 @@
   <title>OSR Sim GUI</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <!-- trunk picks up this link to build the WASM bundle. -->
-  <link data-trunk rel="rust" data-bin="osr-sim-gui" data-cargo-features="" data-wasm-opt="z" />
+  <link data-trunk rel="rust" href="../Cargo.toml" data-cargo-no-default-features data-wasm-opt="z" />
   <style>
     html, body {
       margin: 0;
@@ -34,13 +34,26 @@
 </head>
 <body>
   <div id="loading">Loading OSR Sim GUI…</div>
-  <canvas id="osr_sim_canvas"></canvas>
+  <canvas id="osr_sim_canvas" role="application" aria-label="OpenSourceRail simulator GUI"></canvas>
   <script type="module">
-    import init, { start_web } from './osr-sim-gui.js';
+    window.__OSR_FRONTEND__ = { app: 'simulator', ready: false, error: null };
     (async () => {
-      await init();
-      document.getElementById('loading').style.display = 'none';
-      await start_web('osr_sim_canvas');
+      try {
+        if (!window.wasmBindings) {
+          await new Promise((resolve) =>
+            window.addEventListener('TrunkApplicationStarted', resolve, { once: true })
+          );
+        }
+        const details = JSON.parse(
+          await window.wasmBindings.start_web(document.getElementById('osr_sim_canvas'))
+        );
+        document.getElementById('loading').style.display = 'none';
+        window.__OSR_FRONTEND__.ready = true;
+        window.__OSR_FRONTEND__.details = details;
+      } catch (error) {
+        window.__OSR_FRONTEND__.error = String(error?.stack || error);
+        throw error;
+      }
     })();
   </script>
 </body>
