@@ -1,0 +1,224 @@
+{
+  "bom_line_ids": [],
+  "build_cell": "interior pre-fit and final assembly cell",
+  "children": [
+    "LM3-FIX-P010",
+    "LM3-FIX-P020",
+    "LM3-FIX-P030"
+  ],
+  "document_revision": "A-DRAFT",
+  "estimated_labor_hours": 5.54,
+  "id": "LM3-FIX-SA340",
+  "layer": "subassembly",
+  "material_spec": {
+    "evidence_required": [
+      "child material certificates accepted",
+      "assembly traveler traceability",
+      "interface-control drawing revision"
+    ],
+    "finish_or_protection": "protect damaged coating, exposed edges, seals, bonds, and labels during assembly",
+    "form_factor": "rail structural steel, supplier-controlled external component, formed sheet metal / stainless local hardware",
+    "governing_standard": "all child material standards plus assembly-level torque, bonding, coating, and cleanliness controls",
+    "grade_or_part_class": "LM3-FIX-SA340 inherits released child material specifications",
+    "material_family": "assembly material set",
+    "nominal_section": "as defined by child drawings and assembly interface control drawing",
+    "traceability": "child serial/heat/batch records plus assembly traveler traceability"
+  },
+  "operations": [
+    {
+      "labor_hours": 0.69,
+      "qa_gate": "all child definitions/revisions match the traveler index",
+      "sequence": 10,
+      "signoff_role": "cell lead",
+      "title": "release traveler, fixture, child kit, and latest definition package",
+      "tooling_ids": [
+        "TRV-LM3-FIX-SA340",
+        "FIX-LM3-FIX-SA340",
+        "KIT-LM3-FIX-SA340"
+      ],
+      "work_center": "interior pre-fit and final assembly cell"
+    },
+    {
+      "labor_hours": 1.05,
+      "qa_gate": "placement zone and joint controls accepted: saloon interior, PRM aisle, ceiling, and service-panel zone",
+      "sequence": 20,
+      "signoff_role": "operator",
+      "title": "install and integrate LM3-FIX-P010: OSR-RAIL-42 common ceiling, waist, and seat-zone service rail kit",
+      "tooling_ids": [
+        "FIX-LM3-FIX-SA340",
+        "GAUGE-LM3-FIX-P010",
+        "TORQUE-LM3-FIX-P010"
+      ],
+      "work_center": "interior pre-fit and final assembly cell"
+    },
+    {
+      "labor_hours": 1.05,
+      "qa_gate": "placement zone and joint controls accepted: common OSR-RAIL-42 interior datum and keyed low-voltage service zone",
+      "sequence": 30,
+      "signoff_role": "operator",
+      "title": "install and integrate LM3-FIX-P020: four-family captive fastener, floating nut, isolator, and access-fastener kit",
+      "tooling_ids": [
+        "FIX-LM3-FIX-SA340",
+        "GAUGE-LM3-FIX-P020",
+        "TORQUE-LM3-FIX-P020"
+      ],
+      "work_center": "interior pre-fit and final assembly cell"
+    },
+    {
+      "labor_hours": 1.05,
+      "qa_gate": "placement zone and joint controls accepted: common OSR-RAIL-42 interior datum and keyed low-voltage service zone",
+      "sequence": 40,
+      "signoff_role": "operator",
+      "title": "install and integrate LM3-FIX-P030: standard passenger-fixture saddle and equipment adapter kit",
+      "tooling_ids": [
+        "FIX-LM3-FIX-SA340",
+        "GAUGE-LM3-FIX-P030",
+        "TORQUE-LM3-FIX-P030"
+      ],
+      "work_center": "interior pre-fit and final assembly cell"
+    },
+    {
+      "labor_hours": 0.35,
+      "qa_gate": "rail datum survey",
+      "sequence": 50,
+      "signoff_role": "quality inspector",
+      "title": "hold point: rail datum survey",
+      "tooling_ids": [
+        "GAUGE-LM3-FIX-SA340"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.35,
+      "qa_gate": "fastener-family audit",
+      "sequence": 60,
+      "signoff_role": "quality inspector",
+      "title": "hold point: fastener-family audit",
+      "tooling_ids": [
+        "TORQUE-LM3-FIX-SA340"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.35,
+      "qa_gate": "fixture load-evidence check",
+      "sequence": 70,
+      "signoff_role": "quality inspector",
+      "title": "hold point: fixture load-evidence check",
+      "tooling_ids": [
+        "QA-LM3-FIX-SA340"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.35,
+      "qa_gate": "service/removal demonstration",
+      "sequence": 80,
+      "signoff_role": "quality inspector",
+      "title": "hold point: service/removal demonstration",
+      "tooling_ids": [
+        "QA-LM3-FIX-SA340"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.3,
+      "qa_gate": "all operation and QA signoffs are complete",
+      "sequence": 90,
+      "signoff_role": "manufacturing engineer",
+      "title": "close traveler, attach nonconformance/deviation log, and release to next parent",
+      "tooling_ids": [
+        "REL-LM3-FIX-SA340",
+        "NCR-LM3-FIX-SA340"
+      ],
+      "work_center": "production control"
+    }
+  ],
+  "process_spec": {
+    "inspection_methods": [
+      "child acceptance evidence review",
+      "rail datum survey",
+      "fastener-family audit",
+      "fixture load-evidence check",
+      "service/removal demonstration"
+    ],
+    "joining_methods": [
+      "bolted/torqued interfaces",
+      "shimmed datum interfaces as required"
+    ],
+    "primary_processes": [
+      "release child kit",
+      "fixture or datum setup",
+      "install children",
+      "torque/fit-up record",
+      "release to parent"
+    ],
+    "release_level": "assembly traveler controlled; generated template is unsigned until build",
+    "special_process_controls": [
+      "child definition/revision check",
+      "tooling calibration check",
+      "parent interface freeze"
+    ],
+    "tooling_basis": "FIX-LM3-FIX-SA340, KIT-LM3-FIX-SA340, calibrated torque/gauge set"
+  },
+  "quantity_per_trainset": 3,
+  "release_status": "unsigned-template",
+  "revision_approvals": [
+    {
+      "approval_id": "APP-LM3-FIX-SA340-MFG",
+      "date": "",
+      "name": "",
+      "role": "manufacturing engineering",
+      "signature": "",
+      "status": "pending"
+    },
+    {
+      "approval_id": "APP-LM3-FIX-SA340-QA",
+      "date": "",
+      "name": "",
+      "role": "quality",
+      "signature": "",
+      "status": "pending"
+    },
+    {
+      "approval_id": "APP-LM3-FIX-SA340-DA",
+      "date": "",
+      "name": "",
+      "role": "design authority",
+      "signature": "",
+      "status": "pending"
+    }
+  ],
+  "signoff_blocks": [
+    {
+      "date": "",
+      "name": "",
+      "role": "operator",
+      "signature": "",
+      "status": "blank"
+    },
+    {
+      "date": "",
+      "name": "",
+      "role": "cell lead",
+      "signature": "",
+      "status": "blank"
+    },
+    {
+      "date": "",
+      "name": "",
+      "role": "quality inspector",
+      "signature": "",
+      "status": "blank"
+    },
+    {
+      "date": "",
+      "name": "",
+      "role": "manufacturing engineer",
+      "signature": "",
+      "status": "blank"
+    }
+  ],
+  "title": "common service-rail, captive-fastener, and fixture-adapter installation",
+  "traveler_type": "assembly-node"
+}

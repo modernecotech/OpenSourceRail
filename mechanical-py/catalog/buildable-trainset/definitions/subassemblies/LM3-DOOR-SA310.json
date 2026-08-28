@@ -3,6 +3,7 @@
   "build_cell": "final assembly and commissioning cell",
   "children": [
     "LM3-BDY-P100",
+    "LM3-DOOR-P010",
     "LM3-EXT-P010"
   ],
   "definition_type": "assembly-node",
@@ -36,6 +37,29 @@
       ]
     },
     {
+      "child_id": "LM3-DOOR-P010",
+      "child_title": "door four-point adjustable carrier, datum pin, dry seal, and keyed connector bracket kit",
+      "interface_classes": [
+        "mechanical datum",
+        "low-voltage/data",
+        "safety interlock"
+      ],
+      "join_classes": [
+        "cassette-floating-fastener",
+        "electrical-data"
+      ],
+      "joint_release_status": "cassette-interface-release-required",
+      "placement_zone": "side door aperture and low-floor threshold datum",
+      "sequence": 2,
+      "torque_authority": "released cassette interface drawing and calculation plus supplier installation manual",
+      "verification": [
+        "carrier datum gauge",
+        "interface load calculation",
+        "seal compression record",
+        "connector keying and cassette replacement trial"
+      ]
+    },
+    {
       "child_id": "LM3-EXT-P010",
       "child_title": "electric plug/sliding door cassette",
       "interface_classes": [
@@ -48,7 +72,7 @@
       ],
       "joint_release_status": "supplier-freeze-required",
       "placement_zone": "side door aperture and low-floor threshold datum",
-      "sequence": 2,
+      "sequence": 3,
       "torque_authority": "accepted supplier installation manual plus released OSR interface-control drawing",
       "verification": [
         "EN 14752 evidence",
@@ -65,7 +89,7 @@
       "interface-control drawing revision"
     ],
     "finish_or_protection": "protect damaged coating, exposed edges, seals, bonds, and labels during assembly",
-    "form_factor": "rail structural steel, supplier-certified rail door system",
+    "form_factor": "rail structural steel, formed sheet metal / stainless local hardware, supplier-certified rail door system",
     "governing_standard": "all child material standards plus assembly-level torque, bonding, coating, and cleanliness controls",
     "grade_or_part_class": "LM3-DOOR-SA310 inherits released child material specifications",
     "material_family": "assembly material set",

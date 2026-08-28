@@ -20,6 +20,7 @@ current basic design and what must be closed before first steel cut.
 | Design authority | [`current-design-buildability-review.md`](current-design-buildability-review.md) | Close yellow/red findings before release |
 | Manufacturing engineer | [`buildable-trainset-manifest.md`](buildable-trainset-manifest.md) | Turn `MAKE` definitions into controlled drawings, fixtures, and NC/cut data |
 | Train configuration engineer | [`train-end-interface.md`](train-end-interface.md) | Select panoramic glass outer ends or the optional mid open train-to-train connection on the common end interface |
+| Vehicle mechanical / interior engineer | [`small-component-standard.md`](small-component-standard.md) | Freeze the common rail, four fastener families, adapters, keyed connectors, lighting modules, and door/window service boundaries |
 | Production planner | [`critical-path.md`](critical-path.md) | Plan parallel part fabrication, subassembly release, final train assembly, space use, and rough labour |
 | Factory planner | [`factory-plan.md`](factory-plan.md) | Size the pilot factory cells, enclosed area, yard, assembly-time rollups, machinery list, and rough equipment prices |
 | Cost planner | [`trainset-build-cost.md`](trainset-build-cost.md) | Review the recalculated 3-car trainset build cost with USD 10/h labour, 20% unexpected-cost premium, and included seats/floors/lighting/HVAC/windows/doors scope |
@@ -37,6 +38,7 @@ current basic design and what must be closed before first steel cut.
 | [`trainset-assembly-method-flow.png`](../../../docs/screenshots/trainset-assembly-method-flow.png) | Parallel first-article critical-path work streams and labour/day envelopes |
 | [`trainset-gfrp-moulding-method.png`](../../../docs/screenshots/trainset-gfrp-moulding-method.png) | Reusable one-metre glass-fibre mould route, CNC trim, insert/seal fit, master-frame dry fit, and clip-on carbody installation |
 | [`trainset-bogie-marriage-method.png`](../../../docs/screenshots/trainset-bogie-marriage-method.png) | Final-bay bogie-to-carbody marriage with lifting columns, surveyed chassis datums, accepted bogies, and static-release hold points |
+| [`simplified-small-component-package.png`](../../../docs/screenshots/rolling-stock/interfaces/simplified-small-component-package.png) | Common service rails, plug-in lighting, fixture adapters, adjustable door carriers, and open window pressure frames |
 
 The intended sequence is:
 
@@ -57,11 +59,14 @@ The intended sequence is:
    with a 20% unexpected-cost premium. Its direct-module bucket already
    includes seats, floors, grab rails, interior lighting, roof HVAC,
    windows, side doors, sill/emergency kits, and panoramic end glass.
-8. Close the mass budget and joint-control rows as supplier and drawing
+8. Qualify the small-component rail/fastener samples and close each
+   fixture, lighting, door and glazing release gate in
+   `small-component-standard.md`.
+9. Close the mass budget and joint-control rows as supplier and drawing
    evidence becomes available.
-9. Use travelers as the shop-routing, material/process-control, and QA
+10. Use travelers as the shop-routing, material/process-control, and QA
    template.
-10. Attach real inspection evidence and signatures only during an
+11. Attach real inspection evidence and signatures only during an
    authorised build.
 
 `definitions/` is the generated definition pack. It contains JSON and

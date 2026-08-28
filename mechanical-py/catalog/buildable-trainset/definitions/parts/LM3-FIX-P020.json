@@ -1,0 +1,70 @@
+{
+  "acceptance": [
+    "supplier certificate",
+    "batch/finish trace",
+    "installed-grip gauge",
+    "locking and captive-part audit"
+  ],
+  "bom_line_ids": [
+    "B2",
+    "B21"
+  ],
+  "definition_type": "product-item",
+  "id": "LM3-FIX-P020",
+  "layer": "external-component",
+  "make_or_buy_basis": "M6 captive, M8 calculated-fixture, quarter-turn access, and M10 sealed exterior families replace ad-hoc fastener selection.",
+  "material_spec": {
+    "evidence_required": [
+      "certificate of conformity",
+      "incoming inspection record",
+      "datasheet / evidence pack"
+    ],
+    "finish_or_protection": "supplier finish/protection accepted by OSR evidence pack",
+    "form_factor": "preassembled supplier module with installation kit",
+    "governing_standard": "supplier specification plus project interface, safety, EMC/fire, and lifecycle evidence",
+    "grade_or_part_class": "COTS/BID component class matched to OSR envelope",
+    "material_family": "supplier-controlled external component",
+    "nominal_section": "mass, volume, mounting datum, service clearance, and connector envelope frozen by RFQ drawing",
+    "traceability": "serialised CoC, datasheet, revision, and incoming inspection record"
+  },
+  "maturity": "buildable-after-supplier-freeze",
+  "notes": "",
+  "parent": "LM3-FIX-SA340",
+  "process_spec": {
+    "inspection_methods": [
+      "incoming visual inspection",
+      "envelope fit check",
+      "supplier certificate",
+      "batch/finish trace",
+      "installed-grip gauge",
+      "locking and captive-part audit"
+    ],
+    "joining_methods": [
+      "bolted/torqued installation",
+      "sealed, gasketed, bonded, or clipped interface as supplier envelope requires"
+    ],
+    "primary_processes": [
+      "receive",
+      "quarantine",
+      "evidence review",
+      "incoming fit check",
+      "release to parent kit"
+    ],
+    "release_level": "SOURCE supplier-controlled process; OSR controls envelope and acceptance evidence",
+    "special_process_controls": [
+      "RFQ envelope freeze",
+      "supplier certificate/revision check",
+      "incoming quarantine until evidence accepted"
+    ],
+    "tooling_basis": "RFQ-LM3-FIX-P020, CERT-LM3-FIX-P020, GAUGE-LM3-FIX-P020-ENVELOPE"
+  },
+  "quantity_per_trainset": 3,
+  "route": "SOURCE",
+  "source_refs": [
+    "small_components.py",
+    "bom-skeleton.md B2/B21",
+    "LM3-INT-230"
+  ],
+  "title": "four-family captive fastener, floating nut, isolator, and access-fastener kit",
+  "unit": "car kit"
+}

@@ -3,10 +3,11 @@
   "build_cell": "composite / glazing cell",
   "children": [
     "LM3-BDY-P110",
+    "LM3-WIN-P010",
     "LM3-EXT-P020"
   ],
   "document_revision": "A-DRAFT",
-  "estimated_labor_hours": 4.25,
+  "estimated_labor_hours": 5.68,
   "id": "LM3-WIN-SA320",
   "layer": "subassembly",
   "material_spec": {
@@ -25,7 +26,7 @@
   },
   "operations": [
     {
-      "labor_hours": 0.61,
+      "labor_hours": 0.69,
       "qa_gate": "all child definitions/revisions match the traveler index",
       "sequence": 10,
       "signoff_role": "cell lead",
@@ -51,9 +52,22 @@
       "work_center": "composite / glazing cell"
     },
     {
-      "labor_hours": 1.12,
+      "labor_hours": 1.35,
       "qa_gate": "placement zone and joint controls accepted: side/end glazing aperture and bonded carrier datum",
       "sequence": 30,
+      "signoff_role": "operator",
+      "title": "install and integrate LM3-WIN-P010: replaceable window pressure frame, dry seal, drain, and captive retention kit",
+      "tooling_ids": [
+        "FIX-LM3-WIN-SA320",
+        "GAUGE-LM3-WIN-P010",
+        "TORQUE-LM3-WIN-P010"
+      ],
+      "work_center": "composite / glazing cell"
+    },
+    {
+      "labor_hours": 1.12,
+      "qa_gate": "placement zone and joint controls accepted: side/end glazing aperture and bonded carrier datum",
+      "sequence": 40,
       "signoff_role": "operator",
       "title": "install and integrate LM3-EXT-P020: side laminated glazing cassette",
       "tooling_ids": [
@@ -66,7 +80,7 @@
     {
       "labor_hours": 0.35,
       "qa_gate": "aperture gauge",
-      "sequence": 40,
+      "sequence": 50,
       "signoff_role": "quality inspector",
       "title": "hold point: aperture gauge",
       "tooling_ids": [
@@ -77,7 +91,7 @@
     {
       "labor_hours": 0.35,
       "qa_gate": "bond/gasket procedure",
-      "sequence": 50,
+      "sequence": 60,
       "signoff_role": "quality inspector",
       "title": "hold point: bond/gasket procedure",
       "tooling_ids": [
@@ -88,7 +102,7 @@
     {
       "labor_hours": 0.35,
       "qa_gate": "water ingress test",
-      "sequence": 60,
+      "sequence": 70,
       "signoff_role": "quality inspector",
       "title": "hold point: water ingress test",
       "tooling_ids": [
@@ -99,7 +113,7 @@
     {
       "labor_hours": 0.3,
       "qa_gate": "all operation and QA signoffs are complete",
-      "sequence": 70,
+      "sequence": 80,
       "signoff_role": "manufacturing engineer",
       "title": "close traveler, attach nonconformance/deviation log, and release to next parent",
       "tooling_ids": [

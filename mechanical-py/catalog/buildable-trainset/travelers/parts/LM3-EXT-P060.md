@@ -1,4 +1,4 @@
-# Shop traveler — LM3-EXT-P060 — seats, grab rails, flooring, lighting, PIS, CCTV, intercom, signage kit
+# Shop traveler — LM3-EXT-P060 — seats, grab rails, flooring, PIS, CCTV, intercom, and signage kit
 
 | Field | Value |
 |---|---|
@@ -7,7 +7,7 @@
 | Release status | `unsigned-template` |
 | Estimated labor | 2.8 h |
 | Route | `SOURCE` |
-| Procurement BOM lines | `B12`, `B13`, `B14`, `B15`, `B16`, `B18`, `B19`, `E14`, `E15`, `A1`, `A2`, `A3`, `A4` |
+| Procurement BOM lines | `B12`, `B13`, `B14`, `B15`, `B18`, `B19`, `E14`, `E15`, `A1`, `A2`, `A3`, `A4` |
 
 ## Material specification
 
@@ -33,7 +33,7 @@ Evidence required:
 - Primary processes: receive, quarantine, evidence review, incoming fit check, release to parent kit
 - Joining methods: bolted/torqued installation, sealed, gasketed, bonded, or clipped interface as supplier envelope requires
 - Special process controls: RFQ envelope freeze, supplier certificate/revision check, incoming quarantine until evidence accepted
-- Inspection methods: incoming visual inspection, envelope fit check, fire certificates, egress gauge, lighting lux test, network enumeration
+- Inspection methods: incoming visual inspection, envelope fit check, fire certificates, egress gauge, passenger-fixture load evidence, network enumeration
 - Tooling basis: RFQ-LM3-EXT-P060, CERT-LM3-EXT-P060, GAUGE-LM3-EXT-P060-ENVELOPE
 - Release level: SOURCE supplier-controlled process; OSR controls envelope and acceptance evidence
 
@@ -55,7 +55,7 @@ Evidence required:
 | 30 | perform envelope, mounting, service-removal, and connector checks | incoming fit-check cell | 0.75 | `GAUGE-LM3-EXT-P060-ENVELOPE`<br>`FIX-LM3-INT-SA330` | component fits without parent datum rework | operator |
 | 40 | verify acceptance gate: fire certificates | quality inspection | 0.25 | `QA-LM3-EXT-P060` | fire certificates | quality inspector |
 | 50 | verify acceptance gate: egress gauge | quality inspection | 0.25 | `GAUGE-LM3-EXT-P060` | egress gauge | quality inspector |
-| 60 | verify acceptance gate: lighting lux test | quality inspection | 0.25 | `QA-LM3-EXT-P060` | lighting lux test | quality inspector |
+| 60 | verify acceptance gate: passenger-fixture load evidence | quality inspection | 0.25 | `QA-LM3-EXT-P060` | passenger-fixture load evidence | quality inspector |
 | 70 | verify acceptance gate: network enumeration | quality inspection | 0.25 | `QA-LM3-EXT-P060` | network enumeration | quality inspector |
 | 80 | final item release to parent assembly | production control | 0.25 | `REL-LM3-EXT-P060`<br>`KIT-LM3-INT-SA330` | item is released, tagged, and staged for parent assembly | cell lead |
 

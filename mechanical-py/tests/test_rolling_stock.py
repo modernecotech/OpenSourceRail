@@ -63,6 +63,14 @@ from osr_mech.rolling_stock.sensor_cowl import (
     PANORAMIC_GLASS_WIDTH_MM,
     sensor_cowl,
 )
+from osr_mech.rolling_stock.small_components import (
+    FASTENER_FAMILIES,
+    LIGHT_MODULES_PER_CAR,
+    door_window_cassette_hardware,
+    modular_lighting_cassettes,
+    small_component_standard_payload,
+    universal_service_rail_installation,
+)
 from osr_mech.rolling_stock.systems import (
     BATTERY_MODULES_PER_CAR,
     ROOF_SOLAR_MODULES_PER_CAR,
@@ -462,7 +470,7 @@ def test_bom_quantities_are_common_per_self_contained_car() -> None:
     # Per-car fixed-count items don't scale.
     assert qty(tram, Category.HVAC_ROOF) == qty(metro, Category.HVAC_ROOF) == 1
     assert qty(tram, Category.INTERCOM) == qty(metro, Category.INTERCOM) == 2
-    assert qty(tram, Category.LIGHTING) == qty(metro, Category.LIGHTING) == 2
+    assert qty(tram, Category.LIGHTING) == qty(metro, Category.LIGHTING) == LIGHT_MODULES_PER_CAR
 
 
 def test_mass_and_power_totals_are_realistic() -> None:
@@ -555,6 +563,11 @@ def test_mechanical_interface_builders_are_registered_and_nonempty() -> None:
         "battery-installations",
         "bench-on-battery-installations",
         "internal-lighting-installation",
+        "universal-service-rail-installation",
+        "modular-lighting-cassettes",
+        "standard-fixture-adapters",
+        "door-window-cassette-hardware",
+        "simplified-small-component-package",
         "hvac-roof-ducting-installation",
         "screen-speaker-mountings",
         "external-lighting-lidar-system",
@@ -591,7 +604,11 @@ def test_mechanical_interface_package_covers_requested_subsystems() -> None:
         "Low-floor centre aisle anti-slip flooring panel",
         "Battery installation sliding tray and drain pan",
         "Bench seat pan above battery installation",
-        "Internal LED light strip aluminium mounting channel",
+        "1.2 m plug-in main lighting cassette 1",
+        "OSR-RAIL-42 ceiling lighting and service rail",
+        "Universal seat/handrail saddle adapter",
+        "Door cassette adjustable four-point carrier shoe",
+        "Replaceable window cassette pressure frame",
         "Roof air-conditioner bolted curb and gasket land",
         "HVAC centre supply duct with insulation",
         "Internal passenger screen VESA backing plate",
@@ -602,6 +619,27 @@ def test_mechanical_interface_package_covers_requested_subsystems() -> None:
     }
     missing = expected.difference(labels)
     assert not missing, f"missing mechanical interface labels: {sorted(missing)}"
+
+
+def test_small_component_system_is_modular_captive_and_serviceable() -> None:
+    payload = small_component_standard_payload()
+    assert payload["release_status"] == "design-reference-not-released"
+    assert len(FASTENER_FAMILIES) == 4
+    assert {family.id for family in FASTENER_FAMILIES} == {
+        "OSR-FST-M6-CAPTIVE",
+        "OSR-FST-M8-FLOAT",
+        "OSR-FST-QT-CAPTIVE",
+        "OSR-FST-M10-SEAL",
+    }
+    light_labels = _labels_recursive(modular_lighting_cassettes())
+    assert sum(label.startswith("1.2 m plug-in main lighting cassette") for label in light_labels) == 22
+    assert light_labels.count("Independent-feed emergency light cassette") == 4
+    assert light_labels.count("Door-threshold illumination cassette") == 4
+    rail_labels = _labels_recursive(universal_service_rail_installation())
+    assert "OSR-RAIL-42 ceiling lighting and service rail" in rail_labels
+    cassette_labels = _labels_recursive(door_window_cassette_hardware())
+    assert cassette_labels.count("Door cassette adjustable four-point carrier shoe") == 16
+    assert cassette_labels.count("Replaceable window cassette pressure frame") == 6
 
 
 def test_repeated_installation_counts_match_car_layout() -> None:

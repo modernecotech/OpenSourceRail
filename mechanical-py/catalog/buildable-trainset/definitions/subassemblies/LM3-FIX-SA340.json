@@ -1,0 +1,128 @@
+{
+  "bom_line_ids": [],
+  "build_cell": "interior pre-fit and final assembly cell",
+  "children": [
+    "LM3-FIX-P010",
+    "LM3-FIX-P020",
+    "LM3-FIX-P030"
+  ],
+  "definition_type": "assembly-node",
+  "hold_points": [
+    "rail datum survey",
+    "fastener-family audit",
+    "fixture load-evidence check",
+    "service/removal demonstration"
+  ],
+  "id": "LM3-FIX-SA340",
+  "integration_steps": [
+    {
+      "child_id": "LM3-FIX-P010",
+      "child_title": "OSR-RAIL-42 common ceiling, waist, and seat-zone service rail kit",
+      "interface_classes": [
+        "mechanical datum"
+      ],
+      "join_classes": [
+        "service-rail-captive-fastener"
+      ],
+      "joint_release_status": "standard-hardware-release-required",
+      "placement_zone": "saloon interior, PRM aisle, ceiling, and service-panel zone",
+      "sequence": 1,
+      "torque_authority": "released OSR small-component standard plus accepted hardware batch and calibrated-tool procedure",
+      "verification": [
+        "rail datum survey",
+        "end-deburr check",
+        "isolation/finish inspection",
+        "representative pull/slip test"
+      ]
+    },
+    {
+      "child_id": "LM3-FIX-P020",
+      "child_title": "four-family captive fastener, floating nut, isolator, and access-fastener kit",
+      "interface_classes": [
+        "mechanical datum"
+      ],
+      "join_classes": [
+        "service-rail-captive-fastener"
+      ],
+      "joint_release_status": "standard-hardware-release-required",
+      "placement_zone": "common OSR-RAIL-42 interior datum and keyed low-voltage service zone",
+      "sequence": 2,
+      "torque_authority": "released OSR small-component standard plus accepted hardware batch and calibrated-tool procedure",
+      "verification": [
+        "supplier certificate",
+        "batch/finish trace",
+        "installed-grip gauge",
+        "locking and captive-part audit"
+      ]
+    },
+    {
+      "child_id": "LM3-FIX-P030",
+      "child_title": "standard passenger-fixture saddle and equipment adapter kit",
+      "interface_classes": [
+        "mechanical datum"
+      ],
+      "join_classes": [
+        "service-rail-captive-fastener"
+      ],
+      "joint_release_status": "standard-hardware-release-required",
+      "placement_zone": "common OSR-RAIL-42 interior datum and keyed low-voltage service zone",
+      "sequence": 3,
+      "torque_authority": "released OSR small-component standard plus accepted hardware batch and calibrated-tool procedure",
+      "verification": [
+        "adapter gauge",
+        "fixture-specific load calculation",
+        "proof-load sample",
+        "egress and snag check"
+      ]
+    }
+  ],
+  "layer": "subassembly",
+  "material_spec": {
+    "evidence_required": [
+      "child material certificates accepted",
+      "assembly traveler traceability",
+      "interface-control drawing revision"
+    ],
+    "finish_or_protection": "protect damaged coating, exposed edges, seals, bonds, and labels during assembly",
+    "form_factor": "rail structural steel, supplier-controlled external component, formed sheet metal / stainless local hardware",
+    "governing_standard": "all child material standards plus assembly-level torque, bonding, coating, and cleanliness controls",
+    "grade_or_part_class": "LM3-FIX-SA340 inherits released child material specifications",
+    "material_family": "assembly material set",
+    "nominal_section": "as defined by child drawings and assembly interface control drawing",
+    "traceability": "child serial/heat/batch records plus assembly traveler traceability"
+  },
+  "maturity": "concept",
+  "process_spec": {
+    "inspection_methods": [
+      "child acceptance evidence review",
+      "rail datum survey",
+      "fastener-family audit",
+      "fixture load-evidence check",
+      "service/removal demonstration"
+    ],
+    "joining_methods": [
+      "bolted/torqued interfaces",
+      "shimmed datum interfaces as required"
+    ],
+    "primary_processes": [
+      "release child kit",
+      "fixture or datum setup",
+      "install children",
+      "torque/fit-up record",
+      "release to parent"
+    ],
+    "release_level": "assembly traveler controlled; generated template is unsigned until build",
+    "special_process_controls": [
+      "child definition/revision check",
+      "tooling calibration check",
+      "parent interface freeze"
+    ],
+    "tooling_basis": "FIX-LM3-FIX-SA340, KIT-LM3-FIX-SA340, calibrated torque/gauge set"
+  },
+  "quantity_per_trainset": 3,
+  "source_refs": [
+    "small_components.py",
+    "LM3-INT-230"
+  ],
+  "title": "common service-rail, captive-fastener, and fixture-adapter installation"
+}

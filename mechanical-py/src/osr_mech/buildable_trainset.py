@@ -35,6 +35,7 @@ from osr_mech.rolling_stock.bom_trace import (
     PROCUREMENT_BOM_ENGINEERING_IDS,
     bom_line_ids_for_engineering_id,
 )
+from osr_mech.rolling_stock.small_components import small_component_standard_payload
 
 
 class Route(str, Enum):
@@ -683,15 +684,105 @@ def _product_items(candidate: DesignCandidate) -> tuple[ProductItem, ...]:
         ),
         ProductItem(
             "LM3-EXT-P060",
-            "seats, grab rails, flooring, lighting, PIS, CCTV, intercom, signage kit",
+            "seats, grab rails, flooring, PIS, CCTV, intercom, and signage kit",
             Layer.EXTERNAL_COMPONENT,
             Route.SOURCE,
             cars,
             "car kit",
             "LM3-INT-SA330",
-            ("cots_equipment.py", "bom-skeleton.md B12-B19/A1-A4", "LM3-INT-230"),
+            ("cots_equipment.py", "bom-skeleton.md B12-B15/B18-B19/A1-A4", "LM3-INT-230"),
             "Late-installed passenger fit-out kit after shell paint and leak checks.",
-            ("fire certificates", "egress gauge", "lighting lux test", "network enumeration"),
+            ("fire certificates", "egress gauge", "passenger-fixture load evidence", "network enumeration"),
+            Maturity.BUILDABLE_AFTER_SUPPLIER_FREEZE,
+        ),
+        ProductItem(
+            "LM3-FIX-P010",
+            "OSR-RAIL-42 common ceiling, waist, and seat-zone service rail kit",
+            Layer.FABRICATED_PART,
+            Route.MAKE,
+            cars,
+            "car kit",
+            "LM3-FIX-SA340",
+            ("small_components.py", "bom-skeleton.md B2/B15/B21", "LM3-INT-230"),
+            "One cut/drill gauge produces all common extruded aluminium equipment rails; local adapters, not rail variants, accommodate equipment.",
+            ("rail datum survey", "end-deburr check", "isolation/finish inspection", "representative pull/slip test"),
+        ),
+        ProductItem(
+            "LM3-FIX-P020",
+            "four-family captive fastener, floating nut, isolator, and access-fastener kit",
+            Layer.EXTERNAL_COMPONENT,
+            Route.SOURCE,
+            cars,
+            "car kit",
+            "LM3-FIX-SA340",
+            ("small_components.py", "bom-skeleton.md B2/B21", "LM3-INT-230"),
+            "M6 captive, M8 calculated-fixture, quarter-turn access, and M10 sealed exterior families replace ad-hoc fastener selection.",
+            ("supplier certificate", "batch/finish trace", "installed-grip gauge", "locking and captive-part audit"),
+            Maturity.BUILDABLE_AFTER_SUPPLIER_FREEZE,
+        ),
+        ProductItem(
+            "LM3-FIX-P030",
+            "standard passenger-fixture saddle and equipment adapter kit",
+            Layer.FABRICATED_PART,
+            Route.MAKE,
+            cars,
+            "car kit",
+            "LM3-FIX-SA340",
+            ("small_components.py", "bom-skeleton.md B14/B15/E14", "LM3-INT-230"),
+            "A small adapter family attaches seats, handrails, PIS, CCTV and cable supports to the common rail without unique body brackets.",
+            ("adapter gauge", "fixture-specific load calculation", "proof-load sample", "egress and snag check"),
+            Maturity.CONCEPT,
+        ),
+        ProductItem(
+            "LM3-WIN-P010",
+            "replaceable window pressure frame, dry seal, drain, and captive retention kit",
+            Layer.FABRICATED_PART,
+            Route.MAKE,
+            cars * 6,
+            "opening kit",
+            "LM3-WIN-SA320",
+            ("small_components.py", "cots_equipment.py", "bom-skeleton.md B10", "LM3-WIN-210"),
+            "Supplier bonds glass within its aluminium cassette; the OSR pressure frame and dry seal allow routine removal without cutting adhesive at the carbody.",
+            ("pressure-frame gauge", "retention calculation", "seal compression record", "water-ingress and replacement trial"),
+            Maturity.CONCEPT,
+        ),
+        ProductItem(
+            "LM3-DOOR-P010",
+            "door four-point adjustable carrier, datum pin, dry seal, and keyed connector bracket kit",
+            Layer.FABRICATED_PART,
+            Route.MAKE,
+            cars * 4,
+            "opening kit",
+            "LM3-DOOR-SA310",
+            ("small_components.py", "systems.py", "bom-skeleton.md B11/B25", "LM3-DOOR-200"),
+            "The certified door remains a complete supplier cassette; four common adjustable shoes absorb body tolerance and make removal predictable.",
+            ("carrier datum gauge", "interface load calculation", "seal compression record", "connector keying and cassette replacement trial"),
+            Maturity.CONCEPT,
+        ),
+        ProductItem(
+            "LM3-LGT-P010",
+            "1.2 m plug-in main LED lighting cassette and captive mounting kit",
+            Layer.EXTERNAL_COMPONENT,
+            Route.SOURCE,
+            cars * 22,
+            "module",
+            "LM3-LGT-SA350",
+            ("small_components.py", "cots_equipment.py", "bom-skeleton.md B16", "LM3-INT-230"),
+            "Twenty-two identical replaceable cassettes per car eliminate field-cut strip, loose terminations, and long fragile light runs.",
+            ("rail fire certificate", "shock/vibration evidence", "photometric/lux test", "plug polarity and retention test"),
+            Maturity.BUILDABLE_AFTER_SUPPLIER_FREEZE,
+        ),
+        ProductItem(
+            "LM3-LGT-P020",
+            "emergency and doorway lighting modules with independent keyed feeder kit",
+            Layer.EXTERNAL_COMPONENT,
+            Route.BID,
+            cars,
+            "car kit",
+            "LM3-LGT-SA350",
+            ("small_components.py", "cots_equipment.py", "bom-skeleton.md B16/A4", "LM3-INT-230"),
+            "Independent-feed emergency and doorway modules share service-rail mechanics but cannot be cross-connected to the main-light feed.",
+            ("emergency duration/effectiveness evidence", "evacuation visibility test", "feed isolation test", "doorway illumination test"),
             Maturity.BUILDABLE_AFTER_SUPPLIER_FREEZE,
         ),
         ProductItem(
@@ -1214,7 +1305,7 @@ def _assemblies(family: ConsistFamily) -> tuple[AssemblyNode, ...]:
             "side glazing cassette installation",
             Layer.SUBASSEMBLY,
             cars * 6,
-            ("LM3-BDY-P110", "LM3-EXT-P020"),
+            ("LM3-BDY-P110", "LM3-WIN-P010", "LM3-EXT-P020"),
             "composite / glazing cell",
             ("aperture gauge", "bond/gasket procedure", "water ingress test"),
             ("cots_equipment.py", "LM3-WIN-210"),
@@ -1224,7 +1315,7 @@ def _assemblies(family: ConsistFamily) -> tuple[AssemblyNode, ...]:
             "door cassette and threshold assembly",
             Layer.SUBASSEMBLY,
             cars * 4,
-            ("LM3-BDY-P100", "LM3-EXT-P010"),
+            ("LM3-BDY-P100", "LM3-DOOR-P010", "LM3-EXT-P010"),
             "final assembly and commissioning cell",
             ("door gauge fit", "obstruction test", "closed-and-locked test"),
             ("systems.py", "LM3-DOOR-200"),
@@ -1238,6 +1329,28 @@ def _assemblies(family: ConsistFamily) -> tuple[AssemblyNode, ...]:
             "final assembly and commissioning cell",
             ("egress check", "fire-material pack", "liner/trim fit survey", "lighting/PIS/CCTV static test"),
             ("cots_equipment.py", "cabin-fiberglass.md", "LM3-INT-230", "LM3-INT-240"),
+        ),
+        AssemblyNode(
+            "LM3-FIX-SA340",
+            "common service-rail, captive-fastener, and fixture-adapter installation",
+            Layer.SUBASSEMBLY,
+            cars,
+            ("LM3-FIX-P010", "LM3-FIX-P020", "LM3-FIX-P030"),
+            "interior pre-fit and final assembly cell",
+            ("rail datum survey", "fastener-family audit", "fixture load-evidence check", "service/removal demonstration"),
+            ("small_components.py", "LM3-INT-230"),
+            Maturity.CONCEPT,
+        ),
+        AssemblyNode(
+            "LM3-LGT-SA350",
+            "modular main, emergency, and doorway lighting installation",
+            Layer.SUBASSEMBLY,
+            cars,
+            ("LM3-LGT-P010", "LM3-LGT-P020"),
+            "interior pre-fit and commissioning cell",
+            ("connector key audit", "lighting lux map", "emergency-feed isolation and duration test", "module replacement demonstration"),
+            ("small_components.py", "cots_equipment.py", "LM3-INT-230"),
+            Maturity.BUILDABLE_AFTER_SUPPLIER_FREEZE,
         ),
         AssemblyNode(
             "LM3-ROOF-SA410",
@@ -1409,6 +1522,8 @@ def _assemblies(family: ConsistFamily) -> tuple[AssemblyNode, ...]:
                 "LM3-SHELL-A200",
                 "LM3-DOOR-SA310",
                 "LM3-INT-SA330",
+                "LM3-FIX-SA340",
+                "LM3-LGT-SA350",
                 "LM3-ROOF-SA410",
                 "LM3-HV-SA510",
                 "LM3-BOG-SA610",
@@ -1522,14 +1637,21 @@ def _review_findings(candidate: DesignCandidate, target: dict[str, str | float])
             "BDR-008",
             "yellow",
             "joint and fastener control",
-            "Every assembly integration step now carries machine-readable join classes, torque authority, and release status; numerical torque, locking, and re-torque values remain open until supplier instructions or joint calculations are released.",
-            "Close the generated joint-control schedule by joint ID and reference the accepted values from interface drawings and shop travelers.",
+            "Every assembly integration step now carries machine-readable join classes and torque authority. Interior small parts have been rationalised into four fastener families and one common datum rail instead of treating every attachment as a bespoke structural joint; numerical values remain open until the applicable standard, supplier instruction, or load calculation is released.",
+            "Close the generated joint-control schedule by joint ID, qualify the common rail/fastener samples, and reference accepted values from interface drawings and shop travelers.",
+        ),
+        ReviewFinding(
+            "BDR-009",
+            "green",
+            "small components and serviceability",
+            "Door and glazing interfaces, passenger-fixture adapters, lighting cassettes, captive fasteners, seals, drain rails, keyed plugs, and emergency illumination are now explicit CAD/product-tree items rather than an opaque interior-kit allowance.",
+            "Keep the simplified interface families fixed while suppliers freeze detailed door, glass, luminaire, connector, and fastener parts; release safety-critical loads and tests through their stated gates.",
         ),
     ]
     if not candidate.feasible:
         findings.append(
             ReviewFinding(
-                "BDR-009",
+                "BDR-010",
                 "red",
                 "optimizer feasibility",
                 f"The selected candidate is infeasible: {', '.join(candidate.violations)}.",
@@ -2062,6 +2184,8 @@ def _placement_zone(child_id: str, title: str) -> str:
         return "inter-car articulation, gangway, trainline, and flexible-service envelope"
     if "interior" in text or "seat" in text or "saloon" in text:
         return "saloon interior, PRM aisle, ceiling, and service-panel zone"
+    if child_id.startswith(("LM3-FIX", "LM3-LGT")) or "lighting" in text or "fixture" in text:
+        return "common OSR-RAIL-42 interior datum and keyed low-voltage service zone"
     if "control" in text or "t-ecu" in text or "trainline" in text or "harness" in text:
         return "LV cabinet, trainline, network, and diagnostic harness zone"
     return "primary structure datum and final assembly interface"
@@ -2072,7 +2196,7 @@ def _interface_classes(child_id: str, title: str) -> list[str]:
     classes: list[str] = ["mechanical datum"]
     if any(word in text for word in ("hv", "battery", "inverter", "motor", "pv", "contactor", "charging", "resistor")):
         classes.append("high-voltage electrical")
-    if any(word in text for word in ("control", "t-ecu", "sensor", "wsp", "harness", "trainline", "antenna", "pis", "cctv")):
+    if any(word in text for word in ("control", "t-ecu", "sensor", "wsp", "harness", "trainline", "antenna", "pis", "cctv", "lighting", "connector")):
         classes.append("low-voltage/data")
     if any(word in text for word in ("hvac", "coolant", "condensate", "drain", "washer", "thermal", "suppression", "mist")):
         classes.append("fluid/thermal")
@@ -2091,6 +2215,8 @@ def _join_classes(child_id: str, title: str, interface_classes: list[str]) -> li
 
     text = f"{child_id} {title}".lower()
     classes: list[str] = []
+    service_rail_hardware = child_id.startswith(("LM3-FIX", "LM3-LGT"))
+    cassette_hardware = child_id in {"LM3-WIN-P010", "LM3-DOOR-P010"}
     if any(
         word in text
         for word in (
@@ -2107,7 +2233,11 @@ def _join_classes(child_id: str, title: str, interface_classes: list[str]) -> li
     ):
         classes.append("structural-weld")
     dry_clip_body = child_id in {"LM3-BDY-P130", "LM3-BDY-P140"}
-    if any(word in text for word in ("composite", "fiberglass", "glazing", "window", "pv bonded")) and not dry_clip_body:
+    if (
+        any(word in text for word in ("composite", "fiberglass", "glazing", "window", "pv bonded"))
+        and not dry_clip_body
+        and not cassette_hardware
+    ):
         classes.append("adhesive-bonded-panel")
     if any(
         word in text
@@ -2127,9 +2257,14 @@ def _join_classes(child_id: str, title: str, interface_classes: list[str]) -> li
     if dry_clip_body:
         classes.append("gasketed-removable-panel")
 
-    # Every child has a positively located mechanical interface.  Electrical
-    # connectors and hoses never substitute for physical retention.
-    classes.append("bolted-structural-datum")
+    # These classes keep small service hardware out of the bespoke structural
+    # joint bucket without relaxing passenger-fixture or cassette load gates.
+    if service_rail_hardware:
+        classes.append("service-rail-captive-fastener")
+    elif cassette_hardware:
+        classes.append("cassette-floating-fastener")
+    else:
+        classes.append("bolted-structural-datum")
     if "high-voltage electrical" in interface_classes or "low-voltage/data" in interface_classes:
         classes.append("electrical-data")
     if "fluid/thermal" in interface_classes:
@@ -2150,6 +2285,16 @@ def _torque_authority(
     """
 
     item = items.get(child_id)
+    if "service-rail-captive-fastener" in join_classes:
+        return (
+            "released OSR small-component standard plus accepted hardware batch and calibrated-tool procedure",
+            "standard-hardware-release-required",
+        )
+    if "cassette-floating-fastener" in join_classes:
+        return (
+            "released cassette interface drawing and calculation plus supplier installation manual",
+            "cassette-interface-release-required",
+        )
     if item is not None and item.route in {Route.BID, Route.SOURCE}:
         return (
             "accepted supplier installation manual plus released OSR interface-control drawing",
@@ -4169,6 +4314,94 @@ def render_train_end_interface(design: BuildableTrainsetDesign) -> str:
     return "\n".join(lines)
 
 
+def render_small_component_standard() -> str:
+    """Render the common rail, fastener, connector, light and cassette rules."""
+
+    payload = small_component_standard_payload()
+    rail = dict(payload["service_rail"])  # type: ignore[arg-type]
+    lighting = dict(payload["lighting"])  # type: ignore[arg-type]
+    door = dict(payload["door_interface"])  # type: ignore[arg-type]
+    window = dict(payload["window_interface"])  # type: ignore[arg-type]
+    lines = [
+        "# LM3 small-component and fixture standard",
+        "",
+        "Generated by `scripts/buildable-trainset.sh`. This is the controlled",
+        "supplier-neutral design reference for repeatable interior and cassette",
+        "hardware. It does not release structural loads or numeric torque values.",
+        "",
+        f"- Revision: `{payload['document_revision']}`",
+        f"- Status: `{payload['release_status']}`",
+        f"- Principle: {payload['principle']}",
+        "",
+        "## Common datum rail",
+        "",
+        f"- ID: `{rail['id']}`",
+        f"- Section: `{rail['nominal_section_mm'][0]} × {rail['nominal_section_mm'][1]} mm`",  # type: ignore[index]
+        f"- Datum pitch: `{rail['datum_pitch_mm']} mm`",
+        f"- Material/interface: {rail['material']}",
+        "- Functions: " + "; ".join(rail["functions"]),  # type: ignore[arg-type]
+        "- Release evidence: " + "; ".join(rail["release_evidence"]),  # type: ignore[arg-type]
+        "",
+        "## Four fastener families",
+        "",
+        "| ID | Nominal arrangement | Intended uses | Prohibited uses | Installation control | Release authority |",
+        "|---|---|---|---|---|---|",
+    ]
+    for raw in payload["fastener_families"]:  # type: ignore[union-attr]
+        row = dict(raw)
+        lines.append(
+            f"| `{row['id']}` | {row['nominal']} | {'; '.join(row['intended_uses'])} | "
+            f"{'; '.join(row['prohibited_uses'])} | {row['installation_control']} | {row['release_authority']} |"
+        )
+    lines.extend(
+        [
+            "",
+            "## Keyed connector families",
+            "",
+            "| ID | Service | Interface | Keying | Release evidence |",
+            "|---|---|---|---|---|",
+        ]
+    )
+    for raw in payload["connector_families"]:  # type: ignore[union-attr]
+        row = dict(raw)
+        lines.append(
+            f"| `{row['id']}` | {row['service']} | {row['interface']} | {row['keying']} | "
+            f"{'; '.join(row['release_evidence'])} |"
+        )
+    lines.extend(
+        [
+            "",
+            "## Modular illumination",
+            "",
+            f"- Main modules per car: `{lighting['main_modules_per_car']}` × `{lighting['module_length_mm']} mm`.",
+            f"- Independent emergency modules per car: `{lighting['emergency_modules_per_car']}`.",
+            f"- Door-threshold modules per car: `{lighting['door_threshold_modules_per_car']}`.",
+            f"- Replacement rule: {lighting['replacement_rule']}",
+            "",
+            "## Door cassette boundary",
+            "",
+            f"- Supplier boundary: {door['boundary']}",
+            f"- OSR interface: {door['osr_interface']}",
+            f"- Release gate: {door['release_gate']}",
+            "",
+            "## Window cassette boundary",
+            "",
+            f"- Supplier boundary: {window['boundary']}",
+            f"- OSR interface: {window['osr_interface']}",
+            f"- Replacement rule: {window['replacement_rule']}",
+            f"- Release gate: {window['release_gate']}",
+            "",
+            "## Design sources",
+            "",
+        ]
+    )
+    for raw in payload["authoritative_references"]:  # type: ignore[union-attr]
+        source = dict(raw)
+        lines.append(f"- [{source['title']}]({source['url']}): {source['use']}.")
+    lines.append("")
+    return "\n".join(lines)
+
+
 def write_outputs(
     design: BuildableTrainsetDesign,
     out_dir: Path,
@@ -4190,6 +4423,8 @@ def write_outputs(
     factory_md = out_dir / "factory-plan.md"
     end_interface_json = out_dir / "train-end-interface.json"
     end_interface_md = out_dir / "train-end-interface.md"
+    small_components_json = out_dir / "small-component-standard.json"
+    small_components_md = out_dir / "small-component-standard.md"
     manifest_json.write_text(
         json.dumps(asdict(design), default=_serialise, indent=2, sort_keys=True) + "\n",
         encoding="utf-8",
@@ -4228,6 +4463,11 @@ def write_outputs(
         encoding="utf-8",
     )
     end_interface_md.write_text(render_train_end_interface(design), encoding="utf-8")
+    small_components_json.write_text(
+        json.dumps(small_component_standard_payload(), indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
+    small_components_md.write_text(render_small_component_standard(), encoding="utf-8")
     definition_pack = write_definition_pack(design, out_dir / "definitions")
     traveler_pack = write_shop_traveler_pack(design, out_dir / "travelers")
     return manifest_json, manifest_md, review_md, definition_pack, traveler_pack

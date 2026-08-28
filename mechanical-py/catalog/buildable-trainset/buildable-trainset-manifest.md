@@ -8,9 +8,9 @@ subassemblies → assemblies → final trainset.
 - Candidate: `light-metro-3car__16p5m__reference-body__reference-bogie__motor-350kw-hm47-class__battery-225kwh-lfp-800v__hvac-24kw-direct-hv-dc__pv12`
 - Candidate score: `92.628`
 - Candidate feasible: `true`
-- Product item rows: `76`
-- Assembly nodes: `18`
-- Open supplier/component rows: `43` ([register](open-release-gaps.md))
+- Product item rows: `83`
+- Assembly nodes: `20`
+- Open supplier/component rows: `49` ([register](open-release-gaps.md))
 
 ## Candidate metrics
 
@@ -44,9 +44,9 @@ subassemblies → assemblies → final trainset.
 
 | Route | Quantity sum |
 |---|---:|
-| `MAKE` | 305 |
-| `BID` | 65 |
-| `SOURCE` | 81 |
+| `MAKE` | 341 |
+| `BID` | 68 |
+| `SOURCE` | 150 |
 
 ## Assembly tree
 
@@ -55,9 +55,11 @@ subassemblies → assemblies → final trainset.
 | `LM3-BDY-SA110` | subassembly | 3 | weld and fixture cell | `LM3-BDY-P010`<br>`LM3-BDY-P020`<br>`LM3-BDY-P030`<br>`LM3-BDY-P120` | material release<br>fixture tack survey<br>weld/NDT release<br>post-weld datum survey |
 | `LM3-BDY-SA120` | subassembly | 3 | weld and fixture cell | `LM3-BDY-SA110`<br>`LM3-BDY-P060`<br>`LM3-BDY-P070` | door/window aperture survey<br>roof rail survey<br>carbody dimensional report |
 | `LM3-SHELL-A200` | assembly | 3 | paint / clip-on body / glazing cells | `LM3-BDY-SA120`<br>`LM3-BDY-P130`<br>`LM3-BDY-P140`<br>`LM3-WIN-SA320`<br>`LM3-EXT-P080`<br>`LM3-EXT-P090` | corrosion report<br>clip and anti-lift witness map<br>eight-hour trainset body route<br>water ingress pre-test |
-| `LM3-WIN-SA320` | subassembly | 18 | composite / glazing cell | `LM3-BDY-P110`<br>`LM3-EXT-P020` | aperture gauge<br>bond/gasket procedure<br>water ingress test |
-| `LM3-DOOR-SA310` | subassembly | 12 | final assembly and commissioning cell | `LM3-BDY-P100`<br>`LM3-EXT-P010` | door gauge fit<br>obstruction test<br>closed-and-locked test |
+| `LM3-WIN-SA320` | subassembly | 18 | composite / glazing cell | `LM3-BDY-P110`<br>`LM3-WIN-P010`<br>`LM3-EXT-P020` | aperture gauge<br>bond/gasket procedure<br>water ingress test |
+| `LM3-DOOR-SA310` | subassembly | 12 | final assembly and commissioning cell | `LM3-BDY-P100`<br>`LM3-DOOR-P010`<br>`LM3-EXT-P010` | door gauge fit<br>obstruction test<br>closed-and-locked test |
 | `LM3-INT-SA330` | subassembly | 3 | final assembly and commissioning cell | `LM3-EXT-P060`<br>`LM3-INT-P010`<br>`LM3-INT-P020`<br>`LM3-INT-P030`<br>`LM3-INT-P040`<br>`LM3-INT-P050` | egress check<br>fire-material pack<br>liner/trim fit survey<br>lighting/PIS/CCTV static test |
+| `LM3-FIX-SA340` | subassembly | 3 | interior pre-fit and final assembly cell | `LM3-FIX-P010`<br>`LM3-FIX-P020`<br>`LM3-FIX-P030` | rail datum survey<br>fastener-family audit<br>fixture load-evidence check<br>service/removal demonstration |
+| `LM3-LGT-SA350` | subassembly | 3 | interior pre-fit and commissioning cell | `LM3-LGT-P010`<br>`LM3-LGT-P020` | connector key audit<br>lighting lux map<br>emergency-feed isolation and duration test<br>module replacement demonstration |
 | `LM3-ROOF-SA410` | subassembly | 3 | final assembly and commissioning cell | `LM3-BDY-P080`<br>`LM3-ROOF-P010`<br>`LM3-ROOF-P020`<br>`LM3-EXT-P040`<br>`LM3-EXT-P050`<br>`LM3-EXT-P070`<br>`LM3-TRC-P050` | roof leak test<br>HVAC drain test<br>PV isolation/bonding check |
 | `LM3-HV-SA510` | subassembly | 3 | final assembly and commissioning cell | `LM3-BDY-P050`<br>`LM3-HV-P010`<br>`LM3-HV-P020`<br>`LM3-HV-P030`<br>`LM3-TRC-P030`<br>`LM3-TRC-P040`<br>`LM3-TRC-P060`<br>`LM3-TRC-P070`<br>`LM3-SAF-P010` | HVIL test<br>insulation resistance<br>coolant pressure test<br>first energisation release |
 | `LM3-BOG-SA610` | subassembly | 3 | bogie weld and assembly cell | `LM3-BOG-P010`<br>`LM3-BOG-P030`<br>`LM3-BOG-P040`<br>`LM3-BOG-P050`<br>`LM3-BOG-P060`<br>`LM3-TRC-P010`<br>`LM3-TRC-P020` | frame NDT<br>wheelset/bearing certificate<br>motor/gearbox alignment<br>static brake test |
@@ -68,7 +70,7 @@ subassemblies → assemblies → final trainset.
 | `LM3-TTART-SA850` | assembly | 0 | final assembly and commissioning cell | `LM3-EIF-SA650`<br>`LM3-ART-P040`<br>`LM3-ART-P041` | open-end option configuration record<br>train-to-train motion-envelope proof<br>walk-through gangway continuity<br>water ingress/drain test |
 | `LM3-ART-SA800` | assembly | 2 | final assembly and commissioning cell | `LM3-ART-P010`<br>`LM3-ART-P020`<br>`LM3-ART-P030` | motion-envelope proof<br>trainline continuity<br>water ingress/drain test |
 | `LM3-SYS-SA900` | assembly | 1 | final assembly and commissioning cell | `LM3-CTRL-P010`<br>`LM3-CTRL-P020`<br>`LM3-CTRL-P030`<br>`LM3-CTRL-P040`<br>`LM3-CTRL-P050` | network enumeration<br>firmware record<br>self-test<br>event-recorder write/read test |
-| `LM3-CAR-A900` | assembly | 3 | final assembly and commissioning cell | `LM3-SHELL-A200`<br>`LM3-DOOR-SA310`<br>`LM3-INT-SA330`<br>`LM3-ROOF-SA410`<br>`LM3-HV-SA510`<br>`LM3-BOG-SA610`<br>`LM3-BOG-SA620`<br>`LM3-AUX-P010` | car weigh<br>door/HVAC/static systems test<br>bogie marriage report<br>low-speed yard movement |
+| `LM3-CAR-A900` | assembly | 3 | final assembly and commissioning cell | `LM3-SHELL-A200`<br>`LM3-DOOR-SA310`<br>`LM3-INT-SA330`<br>`LM3-FIX-SA340`<br>`LM3-LGT-SA350`<br>`LM3-ROOF-SA410`<br>`LM3-HV-SA510`<br>`LM3-BOG-SA610`<br>`LM3-BOG-SA620`<br>`LM3-AUX-P010` | car weigh<br>door/HVAC/static systems test<br>bogie marriage report<br>low-speed yard movement |
 | `LM3-TRAINSET-A000` | trainset | 1 | final assembly and commissioning cell | `LM3-CAR-A900`<br>`LM3-EIF-SA650`<br>`LM3-END-SA700`<br>`LM3-ART-SA800`<br>`LM3-SYS-SA900` | trainset weigh<br>static brake/door/HVAC/HV tests<br>FEM screening accepted<br>dynamic-test release |
 
 ## Product items
@@ -114,7 +116,14 @@ subassemblies → assemblies → final trainset.
 | `LM3-EXT-P030` | `B27` | external-component | `BID` | 2 ea | `LM3-END-SA700` | single panoramic heated end-glass assembly | glass certificate<br>heater test<br>bond/gasket procedure |
 | `LM3-EXT-P040` | `T14` | external-component | `BID` | 3 ea | `LM3-ROOF-SA410` | hvac-24kw-direct-hv-dc roof HVAC | +50 C capacity evidence<br>condensate drain test<br>EMC/vibration evidence |
 | `LM3-EXT-P050` | `T21` | external-component | `SOURCE` | 36 module | `LM3-ROOF-SA410` | roof PV module and edge-clamp kit | module datasheet<br>clamp pull test<br>isolation/bonding check |
-| `LM3-EXT-P060` | `B12`<br>`B13`<br>`B14`<br>`B15`<br>`B16`<br>`B18`<br>`B19`<br>`E14`<br>`E15`<br>`A1`<br>`A2`<br>`A3`<br>`A4` | external-component | `SOURCE` | 3 car kit | `LM3-INT-SA330` | seats, grab rails, flooring, lighting, PIS, CCTV, intercom, signage kit | fire certificates<br>egress gauge<br>lighting lux test<br>network enumeration |
+| `LM3-EXT-P060` | `B12`<br>`B13`<br>`B14`<br>`B15`<br>`B18`<br>`B19`<br>`E14`<br>`E15`<br>`A1`<br>`A2`<br>`A3`<br>`A4` | external-component | `SOURCE` | 3 car kit | `LM3-INT-SA330` | seats, grab rails, flooring, PIS, CCTV, intercom, and signage kit | fire certificates<br>egress gauge<br>passenger-fixture load evidence<br>network enumeration |
+| `LM3-FIX-P010` | `B2`<br>`B15`<br>`B21` | fabricated-part | `MAKE` | 3 car kit | `LM3-FIX-SA340` | OSR-RAIL-42 common ceiling, waist, and seat-zone service rail kit | rail datum survey<br>end-deburr check<br>isolation/finish inspection<br>representative pull/slip test |
+| `LM3-FIX-P020` | `B2`<br>`B21` | external-component | `SOURCE` | 3 car kit | `LM3-FIX-SA340` | four-family captive fastener, floating nut, isolator, and access-fastener kit | supplier certificate<br>batch/finish trace<br>installed-grip gauge<br>locking and captive-part audit |
+| `LM3-FIX-P030` | `B14`<br>`B15`<br>`E14` | fabricated-part | `MAKE` | 3 car kit | `LM3-FIX-SA340` | standard passenger-fixture saddle and equipment adapter kit | adapter gauge<br>fixture-specific load calculation<br>proof-load sample<br>egress and snag check |
+| `LM3-WIN-P010` | `B10` | fabricated-part | `MAKE` | 18 opening kit | `LM3-WIN-SA320` | replaceable window pressure frame, dry seal, drain, and captive retention kit | pressure-frame gauge<br>retention calculation<br>seal compression record<br>water-ingress and replacement trial |
+| `LM3-DOOR-P010` | `B11`<br>`B25` | fabricated-part | `MAKE` | 12 opening kit | `LM3-DOOR-SA310` | door four-point adjustable carrier, datum pin, dry seal, and keyed connector bracket kit | carrier datum gauge<br>interface load calculation<br>seal compression record<br>connector keying and cassette replacement trial |
+| `LM3-LGT-P010` | `B16` | external-component | `SOURCE` | 66 module | `LM3-LGT-SA350` | 1.2 m plug-in main LED lighting cassette and captive mounting kit | rail fire certificate<br>shock/vibration evidence<br>photometric/lux test<br>plug polarity and retention test |
+| `LM3-LGT-P020` | `B16`<br>`A4` | external-component | `BID` | 3 car kit | `LM3-LGT-SA350` | emergency and doorway lighting modules with independent keyed feeder kit | emergency duration/effectiveness evidence<br>evacuation visibility test<br>feed isolation test<br>doorway illumination test |
 | `LM3-EXT-P070` | `E21` | external-component | `SOURCE` | 3 car kit | `LM3-ROOF-SA410` | roof antennas, service walkway pads, lifting covers, and maintenance labels | antenna VSWR test<br>walkway slip certificate<br>lifting-cover fit<br>roof bonding check |
 | `LM3-EXT-P080` | `B6` | external-component | `BID` | 6 side kit | `LM3-SHELL-A200` | fire-rated GFRP side-module laminate, core, gelcoat, and consumable kit | EN 45545 evidence<br>laminate coupon<br>resin/fibre batch trace<br>mould release record |
 | `LM3-EXT-P090` | `B7` | external-component | `BID` | 3 car kit | `LM3-SHELL-A200` | fire-rated GFRP roof-module, dry-seal, and removable skirt material kit | EN 45545 evidence<br>roof laminate coupon<br>seal certificate<br>service-removal trial<br>water and debris-ingress check |

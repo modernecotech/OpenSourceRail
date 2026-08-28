@@ -130,14 +130,14 @@ CATALOGUE: dict[Category, CotsItem] = {
             "Pilkington rail laminated glazing",
             "Saint-Gobain Sekurit transport glazing",
         ),
-        fit_note="Bonded/gasketed cassette with drain channel and optional heated anti-fog pane.",
+        fit_note="Supplier bonds glass into a framed cassette; OSR retains the cassette with a dry body seal, pressure frame, drain channel, and optional heated-pane plug.",
         geometry_basis="AGC rail glazing page: laminated Lamisafe front glass and Heatlight W heated anti-fog glass family; OSR aperture sets the panel size.",
         length_mm=1400.0,
         width_mm=40.0,
         height_mm=900.0,
         mass_kg=25.0,
         power_w=0.0,
-        mount_pattern="Bonded frame, Sikaflex 252 bead 12 mm",
+        mount_pattern="Supplier-bonded aluminium cassette; captive M8 pressure frame, replaceable EPDM body seal and drain rail",
         unit_cost_low_usd=180.0,
         unit_cost_base_usd=333.333,
         unit_cost_high_usd=800.0,
@@ -173,25 +173,25 @@ CATALOGUE: dict[Category, CotsItem] = {
     ),
     Category.LIGHTING: CotsItem(
         category=Category.LIGHTING,
-        name="Continuous LED ceiling strip",
+        name="1.2 m modular LED ceiling cassette",
         sku_reference="Teknoware rolling-stock main/emergency LED lighting rail",
         supplier_reference_url="https://www.teknoware.com/rail-road/rolling-stock-lighting-and-interiors/",
         alternates=(
             "Luminator interior rail lighting",
             "SBF Spezialleuchten rail LED lighting",
         ),
-        fit_note="Two serviceable ceiling channels with emergency-input wiring and spring clips.",
+        fit_note="Twenty-two identical plug-in cassettes on two OSR-RAIL-42 ceiling rails, with separate emergency-feed modules and captive M6 retention.",
         geometry_basis="Teknoware rail lighting catalogue family: interior lighting, main/emergency functions, serviceable rail-and-road vehicle modules.",
-        length_mm=15_900.0,  # full usable saloon run; actual supply comes as short segments
+        length_mm=1_200.0,
         width_mm=100.0,
         height_mm=50.0,
-        mass_kg=35.0,
-        power_w=250.0,  # roughly 15 W/m over each usable saloon run
-        mount_pattern="M6 clips at 600 mm pitch into ceiling channel",
-        unit_cost_low_usd=120.0,
-        unit_cost_base_usd=250.0,
-        unit_cost_high_usd=500.0,
-        cost_basis="Derived from BOM B16: 6 ceiling strip runs / 1,500 USD base after Alibaba/AliExpress 24 V bus-light listed-price pass; includes emergency-mode rail wiring allowance.",
+        mass_kg=3.181818,
+        power_w=22.727273,
+        mount_pattern="2 captive M6 rail screws and one keyed four-pole plug per cassette",
+        unit_cost_low_usd=10.909091,
+        unit_cost_base_usd=22.727273,
+        unit_cost_high_usd=45.454545,
+        cost_basis="Derived from unchanged BOM B16 allowances, divided across 66 identical 1.2 m cassettes for a three-car train; emergency feeder and doorway modules remain in the car installation kit.",
         display_color=(1.0, 0.95, 0.80),
     ),
     Category.PIS_SCREEN: CotsItem(
@@ -346,8 +346,8 @@ def _hvac_count(_dims: CarDimensions) -> int:
 
 
 def _lighting_count(_dims: CarDimensions) -> int:
-    """Two continuous ceiling strips — port and starboard."""
-    return 2
+    """Eleven replaceable 1.2 m cassettes on each ceiling rail."""
+    return 22
 
 
 _COUNT_RULES = {
@@ -428,12 +428,13 @@ def locations_for(category: Category, dims: CarDimensions) -> list[Location]:
         return [Location((0.0, 0.0, dims.body_height_mm))]
 
     if category == Category.LIGHTING:
-        # Two continuous strips ~200 mm from the ceiling corner.
+        # Eleven identical 1.2 m cassettes on each service rail.
         y_inset = dims.body_width_mm / 2.0 - 200.0
         z = dims.body_height_mm - 100.0
         return [
-            Location((0.0, -y_inset, z)),
-            Location((0.0, +y_inset, z)),
+            Location((-6_000.0 + module * 1_200.0, side * y_inset, z))
+            for side in (-1.0, 1.0)
+            for module in range(11)
         ]
 
     if category == Category.PIS_SCREEN:

@@ -150,10 +150,24 @@ class IntegrationComponent:
 
 
 @dataclass(frozen=True)
+class IntegrationMetric:
+    """Structured target and observation for one numeric interface check."""
+
+    name: str
+    observed_value_m: float
+    target_value_m: float
+    measure_type: str = "IfcLengthMeasure"
+    unit: str = "m"
+    benchmark: str = "EQUALTO"
+    reference_path_status: str = "derived multi-object geometry; no single IFC attribute path"
+
+
+@dataclass(frozen=True)
 class IntegrationCheck:
     name: str
     passed: bool
     detail: str
+    metric: IntegrationMetric | None = None
 
 
 def asset_id_for_component(component: IntegrationComponent) -> str:
@@ -609,31 +623,61 @@ def integration_checks() -> tuple[IntegrationCheck, ...]:
             "pier-bearing-to-girder-soffit",
             abs(pier_top - PI_BEAM_BASE_Z_MM) < 1e-6,
             f"pier/bearing top {pier_top:.1f} mm; pi-beam soffit {PI_BEAM_BASE_Z_MM:.1f} mm",
+            IntegrationMetric(
+                "Pier bearing top equals girder soffit",
+                pier_top / 1_000.0,
+                PI_BEAM_BASE_Z_MM / 1_000.0,
+            ),
         ),
         IntegrationCheck(
             "viaduct-to-station-track-support-datum",
             abs(station_deck_top - ELEVATED_TRACK_SUPPORT_Z_MM) < 1e-6,
             f"both structural track-support surfaces are z={ELEVATED_TRACK_SUPPORT_Z_MM:.1f} mm",
+            IntegrationMetric(
+                "Station and viaduct track-support datum",
+                station_deck_top / 1_000.0,
+                ELEVATED_TRACK_SUPPORT_Z_MM / 1_000.0,
+            ),
         ),
         IntegrationCheck(
             "ground-platform-vertical-datum",
             abs((GROUND_PLATFORM_SURFACE_Z_MM - GROUND_TOR_Z_MM) - PLATFORM_TO_TOR_HEIGHT_MM) < 1e-6,
             f"platform is {GROUND_PLATFORM_SURFACE_Z_MM - GROUND_TOR_Z_MM:.1f} mm above top of rail",
+            IntegrationMetric(
+                "Ground platform height above top of rail",
+                (GROUND_PLATFORM_SURFACE_Z_MM - GROUND_TOR_Z_MM) / 1_000.0,
+                PLATFORM_TO_TOR_HEIGHT_MM / 1_000.0,
+            ),
         ),
         IntegrationCheck(
             "elevated-platform-vertical-datum",
             abs((ELEVATED_PLATFORM_SURFACE_Z_MM - ELEVATED_TOR_Z_MM) - PLATFORM_TO_TOR_HEIGHT_MM) < 1e-6,
             f"platform is {ELEVATED_PLATFORM_SURFACE_Z_MM - ELEVATED_TOR_Z_MM:.1f} mm above top of rail",
+            IntegrationMetric(
+                "Elevated platform height above top of rail",
+                (ELEVATED_PLATFORM_SURFACE_Z_MM - ELEVATED_TOR_Z_MM) / 1_000.0,
+                PLATFORM_TO_TOR_HEIGHT_MM / 1_000.0,
+            ),
         ),
         IntegrationCheck(
             "ground-platform-horizontal-envelope-gap",
             abs(ground_gap - PLATFORM_HORIZONTAL_GAP_MM) < 1e-6,
             f"dynamic-envelope-to-platform gap is {ground_gap:.1f} mm",
+            IntegrationMetric(
+                "Ground dynamic-envelope to platform gap",
+                ground_gap / 1_000.0,
+                PLATFORM_HORIZONTAL_GAP_MM / 1_000.0,
+            ),
         ),
         IntegrationCheck(
             "elevated-platform-horizontal-envelope-gap",
             abs(elevated_gap - PLATFORM_HORIZONTAL_GAP_MM) < 1e-6,
             f"dynamic-envelope-to-platform gap is {elevated_gap:.1f} mm",
+            IntegrationMetric(
+                "Elevated dynamic-envelope to platform gap",
+                elevated_gap / 1_000.0,
+                PLATFORM_HORIZONTAL_GAP_MM / 1_000.0,
+            ),
         ),
         IntegrationCheck(
             "requested-system-zones-present",
@@ -762,7 +806,24 @@ def digital_twin_manifest(
         "relationships": relationships,
         "validation": {
             "interface_checks": [
-                {"name": check.name, "passed": check.passed, "detail": check.detail}
+                {
+                    "name": check.name,
+                    "passed": check.passed,
+                    "detail": check.detail,
+                    "metric": (
+                        {
+                            "name": check.metric.name,
+                            "observed_value_m": check.metric.observed_value_m,
+                            "target_value_m": check.metric.target_value_m,
+                            "measure_type": check.metric.measure_type,
+                            "unit": check.metric.unit,
+                            "benchmark": check.metric.benchmark,
+                            "reference_path_status": check.metric.reference_path_status,
+                        }
+                        if check.metric
+                        else None
+                    ),
+                }
                 for check in checks
             ],
             "native_clearance_clash_checks": list(native_clash_checks),

@@ -1495,10 +1495,20 @@ function artifactInspectorItems(preview) {
         `grade ${constraint.constraint_grade}`,
         `qualifier ${constraint.objective_qualifier}`,
         `scope ${constraint.scope}`,
+        `association intent ${constraint.association_intent}`,
+        `related objects ${constraint.related_object_count}`,
+        `related assets ${constraint.related_asset_ids.join(", ") || "none"}`,
+        `related groups ${constraint.related_group_ids.join(", ") || "none"}`,
+        `related systems ${constraint.related_system_ids.join(", ") || "none"}`,
+        `external source documents ${(constraint.external_source_document_ids || []).join(", ") || "none"}`,
+        `source linkage ${constraint.external_reference_relationship || "not indexed"}`,
         `evaluation ${constraint.evaluation_status}`,
         `observation ${constraint.observation}`,
         `source ${constraint.constraint_source}`,
         `metric status ${constraint.metric_status}`,
+        constraint.metric
+          ? `native metric ${constraint.metric.metric_id} · ${constraint.metric.ifc_class}\nbenchmark ${constraint.metric.benchmark} · observed ${constraint.metric.observed_value} ${constraint.metric.unit} · target ${constraint.metric.target_value} ${constraint.metric.unit}\nmeasure ${constraint.metric.measure_type} · reference path ${constraint.metric.reference_path_status}\nvalue source ${constraint.metric.value_source}`
+          : "native metric none · qualitative source check",
       ].join("\n"),
     }));
     const propertyTemplateItems = (content.property_set_templates || []).map((template) => ({
@@ -1530,6 +1540,7 @@ function artifactInspectorItems(preview) {
         `intended use ${document.intended_use}`,
         `scope ${document.scope}`,
         `associated assets ${document.associated_asset_ids.length} · types ${document.associated_type_ids.length}`,
+        `associated constraints ${document.associated_constraint_count || 0} · ${(document.associated_constraint_ids || []).join(", ") || "none"}`,
       ].join("\n"),
     }));
     const alignmentItems = content.alignment ? [{
@@ -1598,7 +1609,21 @@ function artifactInspectorItems(preview) {
         `release ${connection.release_status}`,
       ].join("\n"),
     }));
-    return [...objectItems, ...classificationItems, ...groupItems, ...layerItems, ...constraintItems, ...propertyTemplateItems, ...documentItems, ...alignmentItems, ...costScheduleItems, ...systemItems, ...bearingConnectionItems];
+    const externalDecisionItems = (content.external_engineering_decisions || []).map((decision) => ({
+      label: decision.title,
+      meta: `${decision.decision_id} · ${decision.status} · ${decision.authority_required}`,
+      detail: [
+        `external engineering decision ${decision.decision_id}`,
+        `status ${decision.status}`,
+        `authority ${decision.authority_required}`,
+        `required evidence\n${decision.evidence_required.join("\n")}`,
+        `blocked capabilities\n${decision.blocked_capabilities.join("\n")}`,
+        `safe current state ${decision.safe_current_state}`,
+        `implementation closure ${content.capability_closure?.status || "not indexed"}`,
+        `implementable open tasks ${content.capability_closure?.implementable_open_task_count ?? "not indexed"}`,
+      ].join("\n"),
+    }));
+    return [...objectItems, ...classificationItems, ...groupItems, ...layerItems, ...constraintItems, ...propertyTemplateItems, ...documentItems, ...alignmentItems, ...costScheduleItems, ...systemItems, ...bearingConnectionItems, ...externalDecisionItems];
   }
   if (preview.format === "json" && content.schema === "org.opensourcerail.bonsai-civil-bcf-index.v1") {
     return (content.topics || []).map((topic) => ({
@@ -1813,7 +1838,67 @@ function artifactMetrics(preview, graphic) {
     const coordinateReference = content.georeferencing?.native_ifc_georeferencing
       ? content.georeferencing.crs_name
       : "local grid";
-    return [[content.summary?.assets || 0, "IFC assets"], [content.summary?.types || 0, "reusable IFC types"], [content.summary?.typed_assets || 0, "typed assets"], [content.summary?.native_bearings || 0, "native bridge bearings"], [content.summary?.bearing_connection_relationships || 0, "bearing-realized connections"], [content.summary?.bearing_connection_realizations || 0, "bearing connection realizations"], [content.summary?.connected_bearings || 0, "connected bearings"], [content.summary?.connected_pier_caps || 0, "connected pier caps"], [content.summary?.connected_superstructure_assets || 0, "connected superstructure assets"], [content.summary?.foundation_interfaces || 0, "virtual foundation interfaces"], [content.summary?.jacking_interfaces || 0, "bearing jacking interfaces"], [content.summary?.pier_caps || 0, "native pier caps"], [content.summary?.pier_columns || 0, "native pier columns"], [content.summary?.native_rolling_stock_vehicles || 0, "native rolling-stock vehicles"], [content.summary?.vehicle_base_quantity_sets || 0, "vehicle base-quantity sets"], [content.summary?.materials || 0, "declared material families"], [content.summary?.material_associated_assets || 0, "material-associated assets"], [content.summary?.profiles || 0, "native section profiles"], [content.summary?.profiled_assets || 0, "profile-extruded assets"], [content.summary?.classifications || 0, "native classification systems"], [content.summary?.classification_references || 0, "asset-class references"], [content.summary?.classified_assets || 0, "classified assets"], [content.summary?.coordination_groups || 0, "native coordination groups"], [content.summary?.grouped_assets || 0, "group-associated assets"], [content.summary?.functional_systems || 0, "native functional systems"], [content.summary?.built_systems || 0, "specialized built systems"], [content.summary?.system_associated_assets || 0, "system-associated assets"], [content.summary?.system_spatial_part_references || 0, "system / railway-part references"], [content.summary?.presentation_layers || 0, "native presentation layers"], [content.summary?.layer_associated_assets || 0, "layer-associated assets"], [content.summary?.interface_constraints || 0, "native interface constraints"], [content.summary?.horizontal_alignment_segments || 0, "native horizontal alignment segments"], [content.summary?.vertical_alignment_segments || 0, "native vertical alignment segments"], [content.summary?.alignment_stationing_referents || 0, "alignment stationing referents"], [content.summary?.planning_rate_schedules || 0, "native planning schedules of rates"], [content.summary?.planning_rate_items || 0, "planning unit-rate alternatives"], [content.summary?.property_set_templates || 0, "native property-set templates"], [content.summary?.property_templates || 0, "typed template fields"], [content.summary?.template_matched_definitions || 0, "template-matched definitions"], [content.summary?.documents || 0, "hash-locked source documents"], [content.summary?.document_associated_assets || 0, "source-linked assets"], [content.summary?.construction_tasks || 0, "4D tasks"], [content.summary?.construction_output_tasks || 0, "tasks with physical outputs"], [content.summary?.scheduled_physical_assets || 0, "scheduled physical assets"], [content.summary?.virtual_review_gate_assets || 0, "virtual review-gate assets"], [content.summary?.interface_checks || 0, "interface checks"], [coordinateReference, "coordinate reference"], [content.ifc_schema || "IFC4X3", "coordination schema"]];
+    return [
+      [content.summary?.assets || 0, "IFC assets"],
+      [content.summary?.types || 0, "reusable IFC types"],
+      [content.summary?.typed_assets || 0, "typed assets"],
+      [content.summary?.native_bearings || 0, "native bridge bearings"],
+      [content.summary?.bearing_connection_relationships || 0, "bearing-realized connections"],
+      [content.summary?.bearing_connection_realizations || 0, "bearing connection realizations"],
+      [content.summary?.connected_bearings || 0, "connected bearings"],
+      [content.summary?.connected_pier_caps || 0, "connected pier caps"],
+      [content.summary?.connected_superstructure_assets || 0, "connected superstructure assets"],
+      [content.summary?.foundation_interfaces || 0, "virtual foundation interfaces"],
+      [content.summary?.jacking_interfaces || 0, "bearing jacking interfaces"],
+      [content.summary?.pier_caps || 0, "native pier caps"],
+      [content.summary?.pier_columns || 0, "native pier columns"],
+      [content.summary?.native_rolling_stock_vehicles || 0, "native rolling-stock vehicles"],
+      [content.summary?.vehicle_base_quantity_sets || 0, "vehicle base-quantity sets"],
+      [content.summary?.materials || 0, "declared material families"],
+      [content.summary?.material_associated_assets || 0, "material-associated assets"],
+      [content.summary?.profiles || 0, "native section profiles"],
+      [content.summary?.profiled_assets || 0, "profile-extruded assets"],
+      [content.summary?.classifications || 0, "native classification systems"],
+      [content.summary?.classification_references || 0, "asset-class references"],
+      [content.summary?.classified_assets || 0, "classified assets"],
+      [content.summary?.coordination_groups || 0, "native coordination groups"],
+      [content.summary?.grouped_assets || 0, "group-associated assets"],
+      [content.summary?.functional_systems || 0, "native functional systems"],
+      [content.summary?.built_systems || 0, "specialized built systems"],
+      [content.summary?.system_associated_assets || 0, "system-associated assets"],
+      [content.summary?.system_spatial_part_references || 0, "system / railway-part references"],
+      [content.summary?.presentation_layers || 0, "native presentation layers"],
+      [content.summary?.layer_associated_assets || 0, "layer-associated assets"],
+      [content.summary?.interface_constraints || 0, "native interface constraints"],
+      [content.summary?.interface_metrics || 0, "native interface metrics"],
+      [content.summary?.qualitative_only_interface_constraints || 0, "qualitative-only interface constraints"],
+      [content.summary?.interface_constraint_related_objects || 0, "constraint evidence links"],
+      [content.summary?.interface_constraint_asset_links || 0, "constraint asset links"],
+      [content.summary?.interface_constraint_group_links || 0, "constraint group links"],
+      [content.summary?.interface_constraint_system_links || 0, "constraint system links"],
+      [content.summary?.constraint_source_document_relationships || 0, "constraint source-document relationships"],
+      [content.summary?.source_linked_constraint_resources || 0, "source-linked constraint resources"],
+      [content.summary?.external_engineering_decisions || 0, "external engineering decisions"],
+      [content.capability_closure?.implementable_open_task_count ?? "—", "implementable open IFC tasks"],
+      [content.capability_closure?.status || "not indexed", "IFC capability closure"],
+      [content.summary?.horizontal_alignment_segments || 0, "native horizontal alignment segments"],
+      [content.summary?.vertical_alignment_segments || 0, "native vertical alignment segments"],
+      [content.summary?.alignment_stationing_referents || 0, "alignment stationing referents"],
+      [content.summary?.planning_rate_schedules || 0, "native planning schedules of rates"],
+      [content.summary?.planning_rate_items || 0, "planning unit-rate alternatives"],
+      [content.summary?.property_set_templates || 0, "native property-set templates"],
+      [content.summary?.property_templates || 0, "typed template fields"],
+      [content.summary?.template_matched_definitions || 0, "template-matched definitions"],
+      [content.summary?.documents || 0, "hash-locked source documents"],
+      [content.summary?.document_associated_assets || 0, "source-linked assets"],
+      [content.summary?.construction_tasks || 0, "4D tasks"],
+      [content.summary?.construction_output_tasks || 0, "tasks with physical outputs"],
+      [content.summary?.scheduled_physical_assets || 0, "scheduled physical assets"],
+      [content.summary?.virtual_review_gate_assets || 0, "virtual review-gate assets"],
+      [content.summary?.interface_checks || 0, "interface checks"],
+      [coordinateReference, "coordinate reference"],
+      [content.ifc_schema || "IFC4X3", "coordination schema"],
+    ];
   }
   if (preview.format === "json" && content.schema === "org.opensourcerail.bonsai-civil-ids-report.v1") {
     return [[content.total_specifications_pass, `of ${content.total_specifications} IDS specifications`], [content.total_checks_pass, `of ${content.total_checks} checks`], [content.status ? "PASS" : "FAIL", "information delivery"], ["IDS 1.0", "requirements standard"]];

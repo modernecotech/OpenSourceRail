@@ -46,6 +46,15 @@ def test_all_integration_interface_checks_pass() -> None:
     checks = assert_integration_checks()
     assert len(checks) == 9
     assert all(check.passed for check in checks)
+    metrics = [check.metric for check in checks if check.metric is not None]
+    assert len(metrics) == 6
+    assert all(
+        metric.benchmark == "EQUALTO"
+        and metric.measure_type == "IfcLengthMeasure"
+        and metric.unit == "m"
+        and metric.observed_value_m == pytest.approx(metric.target_value_m)
+        for metric in metrics
+    )
 
 
 def test_station_boarding_datums_are_shared_and_explicit() -> None:

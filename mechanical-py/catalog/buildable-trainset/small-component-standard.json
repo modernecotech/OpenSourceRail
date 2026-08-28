@@ -1,0 +1,176 @@
+{
+  "authoritative_references": [
+    {
+      "title": "EU LOC&PAS TSI, Commission Regulation (EU) No 1302/2014",
+      "url": "https://eur-lex.europa.eu/legal-content/en/TXT/?uri=CELEX%3A32014R1302",
+      "use": "interior fixture retention, glazing, passenger doors and fire-safety release gates"
+    },
+    {
+      "title": "ERA guide for the PRM TSI",
+      "url": "https://www.era.europa.eu/system/files/2023-12/PRM_TSI_Guide.pdf",
+      "use": "emergency-lighting and evacuation-visibility intent"
+    },
+    {
+      "title": "Knorr-Bremse IFE entrance systems",
+      "url": "https://rail.knorr-bremse.com/en/us/portfolio/products-and-systems/entrance-systems/",
+      "use": "complete supplier-owned modular door system boundary"
+    },
+    {
+      "title": "AGC glass with framing system",
+      "url": "https://www.agc-automotive.com/en/products-and-solutions/glass-with-framing-system",
+      "use": "supplier-bonded framed glazing and rapid cassette replacement"
+    },
+    {
+      "title": "Bollhoff RIVNUT blind-rivet nuts",
+      "url": "https://www.boellhoff.com/us-en/products/special-fasteners/rivnut-blind-rivet-nuts-and-rivstud-blind-rivet-studs/",
+      "use": "controlled one-side thread installation in thin sections"
+    },
+    {
+      "title": "Southco DZUS quarter-turn fasteners",
+      "url": "https://southco.com/en_in_int/fasteners/emdzusemreg-quarter-turn-fasteners",
+      "use": "captive, vibration-resistant repeated-access panel retention"
+    },
+    {
+      "title": "HARTING compact railway connectors",
+      "url": "https://www.harting.com/en-GB/space-saving-industrial-connectors-for-railway-vehicles",
+      "use": "compact rail-qualified plug interfaces for lights, doors and displays"
+    }
+  ],
+  "connector_families": [
+    {
+      "id": "OSR-CON-LV4",
+      "interface": "touch-safe keyed four-pole plug with retained strain relief",
+      "keying": "main and emergency feeds use mechanically incompatible keys",
+      "release_evidence": [
+        "rail fire/smoke evidence",
+        "shock/vibration evidence",
+        "pinout and polarity test",
+        "connector retention test"
+      ],
+      "service": "24 V/48 V main and emergency lighting"
+    },
+    {
+      "id": "OSR-CON-LVDATA12",
+      "interface": "keyed twelve-position plug family with blanking cap and fixed body-side bracket",
+      "keying": "different voltage/data duties use unique shell keys and labels",
+      "release_evidence": [
+        "rail fire/smoke evidence",
+        "shock/vibration evidence",
+        "EMC-compatible termination",
+        "100% continuity test"
+      ],
+      "service": "door, PIS, CCTV and local low-voltage/data services"
+    }
+  ],
+  "document_revision": "A-DRAFT",
+  "door_interface": {
+    "boundary": "complete certified supplier cassette including leaf, operator, lock, seals and controller",
+    "osr_interface": "four adjustable carrier shoes, two datum pins, dry perimeter seal and one keyed service bracket",
+    "release_gate": "supplier freeze, structural interface calculation and all applicable door safety tests"
+  },
+  "fastener_families": [
+    {
+      "id": "OSR-FST-M6-CAPTIVE",
+      "installation_control": "positive seating, released torque table, witness mark and visual captive-part check",
+      "intended_uses": [
+        "light cassettes",
+        "trim and service panels",
+        "small PIS and cable supports"
+      ],
+      "nominal": "M6 captive flanged screw into floating service-rail nut",
+      "prohibited_uses": [
+        "seat or handhold primary load paths",
+        "door primary retention",
+        "glazing retention"
+      ],
+      "release_authority": "small-component standard plus accepted fastener batch and calibrated-tool procedure",
+      "retained_element": "captive screw and retained sliding nut"
+    },
+    {
+      "id": "OSR-FST-M8-FLOAT",
+      "installation_control": "joint-specific load/preload calculation, released torque, locking feature and witness mark",
+      "intended_uses": [
+        "calculated seat and handrail adapters",
+        "door/window secondary carriers",
+        "PIS equipment trays"
+      ],
+      "nominal": "M8 flanged bolt into floating nutplate or qualified blind-rivet nut",
+      "prohibited_uses": [
+        "uncalculated passenger-restraint joints",
+        "primary crash structure",
+        "bogie or coupler joints"
+      ],
+      "release_authority": "released interface calculation and drawing plus accepted fastener batch",
+      "retained_element": "captive/floating female thread with anti-rotation feature"
+    },
+    {
+      "id": "OSR-FST-QT-CAPTIVE",
+      "installation_control": "supplier grip-range gauge, closed-position indication and pull-check sampling",
+      "intended_uses": [
+        "frequently opened trim",
+        "lighting diffuser",
+        "inspection and access covers"
+      ],
+      "nominal": "tool-operated captive quarter-turn stud and receptacle",
+      "prohibited_uses": [
+        "structural retention",
+        "passenger handholds",
+        "door or glazing retention"
+      ],
+      "release_authority": "accepted supplier part and receptacle/grip schedule",
+      "retained_element": "stud retained in removable panel; receptacle retained on rail adapter"
+    },
+    {
+      "id": "OSR-FST-M10-SEAL",
+      "installation_control": "interface calculation, seal compression gauge, released torque and water-ingress test",
+      "intended_uses": [
+        "external cassette carriers",
+        "removable exterior equipment adapters"
+      ],
+      "nominal": "M10 isolating flanged bolt into sealed floating nutplate",
+      "prohibited_uses": [
+        "direct glass clamping",
+        "unsealed wet cavities",
+        "primary crash joints without calculation"
+      ],
+      "release_authority": "released cassette interface drawing and calculation plus supplier installation manual",
+      "retained_element": "sealed captive nutplate, isolation washer and replaceable environmental seal"
+    }
+  ],
+  "lighting": {
+    "door_threshold_modules_per_car": 4,
+    "emergency_modules_per_car": 4,
+    "main_modules_per_car": 22,
+    "module_length_mm": 1200.0,
+    "replacement_rule": "one module, two captive screws and one keyed plug; no field-cut strip or loose wire termination"
+  },
+  "principle": "Use one datum rail and the smallest qualified fastener/connector family that matches load and service frequency; preserve supplier ownership of doors, glazing and safety-critical internal mechanisms.",
+  "release_status": "design-reference-not-released",
+  "service_rail": {
+    "datum_pitch_mm": 50.0,
+    "functions": [
+      "repeatable mounting datum",
+      "floating-nut capture",
+      "cable and connector bracket attachment",
+      "trim edge alignment"
+    ],
+    "id": "OSR-RAIL-42",
+    "material": "extruded aluminium rail with electrically isolated body attachments where required",
+    "nominal_section_mm": [
+      42.0,
+      18.0
+    ],
+    "release_evidence": [
+      "fixture-specific load path calculation",
+      "rail pull-out and slip test",
+      "shock/vibration evidence",
+      "galvanic-isolation and fire-material review"
+    ]
+  },
+  "window_interface": {
+    "boundary": "glass remains bonded to its supplier aluminium frame",
+    "osr_interface": "replaceable pressure frame, dry outer seal, drain path and captive secondary retention",
+    "release_gate": "glazing certificate, retention calculation, seal compression and water-ingress test",
+    "replacement_rule": "remove internal pressure frame and withdraw cassette; do not cut adhesive at the carbody"
+  }
+}

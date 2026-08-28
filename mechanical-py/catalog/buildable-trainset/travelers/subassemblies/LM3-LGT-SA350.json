@@ -1,0 +1,218 @@
+{
+  "bom_line_ids": [],
+  "build_cell": "interior pre-fit and commissioning cell",
+  "children": [
+    "LM3-LGT-P010",
+    "LM3-LGT-P020"
+  ],
+  "document_revision": "A-DRAFT",
+  "estimated_labor_hours": 5.19,
+  "id": "LM3-LGT-SA350",
+  "layer": "subassembly",
+  "material_spec": {
+    "evidence_required": [
+      "child material certificates accepted",
+      "assembly traveler traceability",
+      "interface-control drawing revision"
+    ],
+    "finish_or_protection": "protect damaged coating, exposed edges, seals, bonds, and labels during assembly",
+    "form_factor": "supplier-certified rail door system",
+    "governing_standard": "all child material standards plus assembly-level torque, bonding, coating, and cleanliness controls",
+    "grade_or_part_class": "LM3-LGT-SA350 inherits released child material specifications",
+    "material_family": "assembly material set",
+    "nominal_section": "as defined by child drawings and assembly interface control drawing",
+    "traceability": "child serial/heat/batch records plus assembly traveler traceability"
+  },
+  "operations": [
+    {
+      "labor_hours": 0.61,
+      "qa_gate": "all child definitions/revisions match the traveler index",
+      "sequence": 10,
+      "signoff_role": "cell lead",
+      "title": "release traveler, fixture, child kit, and latest definition package",
+      "tooling_ids": [
+        "TRV-LM3-LGT-SA350",
+        "FIX-LM3-LGT-SA350",
+        "KIT-LM3-LGT-SA350"
+      ],
+      "work_center": "interior pre-fit and commissioning cell"
+    },
+    {
+      "labor_hours": 1.35,
+      "qa_gate": "placement zone and joint controls accepted: common OSR-RAIL-42 interior datum and keyed low-voltage service zone",
+      "sequence": 20,
+      "signoff_role": "operator",
+      "title": "install and integrate LM3-LGT-P010: 1.2 m plug-in main LED lighting cassette and captive mounting kit",
+      "tooling_ids": [
+        "FIX-LM3-LGT-SA350",
+        "GAUGE-LM3-LGT-P010",
+        "TORQUE-LM3-LGT-P010"
+      ],
+      "work_center": "interior pre-fit and commissioning cell"
+    },
+    {
+      "labor_hours": 1.53,
+      "qa_gate": "placement zone and joint controls accepted: side door aperture and low-floor threshold datum",
+      "sequence": 30,
+      "signoff_role": "operator",
+      "title": "install and integrate LM3-LGT-P020: emergency and doorway lighting modules with independent keyed feeder kit",
+      "tooling_ids": [
+        "FIX-LM3-LGT-SA350",
+        "GAUGE-LM3-LGT-P020",
+        "TORQUE-LM3-LGT-P020"
+      ],
+      "work_center": "interior pre-fit and commissioning cell"
+    },
+    {
+      "labor_hours": 0.35,
+      "qa_gate": "connector key audit",
+      "sequence": 40,
+      "signoff_role": "quality inspector",
+      "title": "hold point: connector key audit",
+      "tooling_ids": [
+        "QA-LM3-LGT-SA350"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.35,
+      "qa_gate": "lighting lux map",
+      "sequence": 50,
+      "signoff_role": "quality inspector",
+      "title": "hold point: lighting lux map",
+      "tooling_ids": [
+        "QA-LM3-LGT-SA350"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.35,
+      "qa_gate": "emergency-feed isolation and duration test",
+      "sequence": 60,
+      "signoff_role": "quality inspector",
+      "title": "hold point: emergency-feed isolation and duration test",
+      "tooling_ids": [
+        "ELEC-TEST-LM3-LGT-SA350"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.35,
+      "qa_gate": "module replacement demonstration",
+      "sequence": 70,
+      "signoff_role": "quality inspector",
+      "title": "hold point: module replacement demonstration",
+      "tooling_ids": [
+        "QA-LM3-LGT-SA350"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.3,
+      "qa_gate": "all operation and QA signoffs are complete",
+      "sequence": 80,
+      "signoff_role": "manufacturing engineer",
+      "title": "close traveler, attach nonconformance/deviation log, and release to next parent",
+      "tooling_ids": [
+        "REL-LM3-LGT-SA350",
+        "NCR-LM3-LGT-SA350"
+      ],
+      "work_center": "production control"
+    }
+  ],
+  "process_spec": {
+    "inspection_methods": [
+      "child acceptance evidence review",
+      "connector key audit",
+      "lighting lux map",
+      "emergency-feed isolation and duration test",
+      "module replacement demonstration",
+      "continuity",
+      "insulation/isolation",
+      "functional static test"
+    ],
+    "joining_methods": [
+      "bolted/torqued interfaces",
+      "shimmed datum interfaces as required",
+      "bonding/earthing",
+      "segregated harness/fluid routing"
+    ],
+    "primary_processes": [
+      "release child kit",
+      "fixture or datum setup",
+      "install children",
+      "torque/fit-up record",
+      "release to parent"
+    ],
+    "release_level": "assembly traveler controlled; generated template is unsigned until build",
+    "special_process_controls": [
+      "child definition/revision check",
+      "tooling calibration check",
+      "parent interface freeze",
+      "LOTO/HV safety rule",
+      "EMC/bonding release",
+      "software/configuration record where applicable"
+    ],
+    "tooling_basis": "FIX-LM3-LGT-SA350, KIT-LM3-LGT-SA350, calibrated torque/gauge set"
+  },
+  "quantity_per_trainset": 3,
+  "release_status": "unsigned-template",
+  "revision_approvals": [
+    {
+      "approval_id": "APP-LM3-LGT-SA350-MFG",
+      "date": "",
+      "name": "",
+      "role": "manufacturing engineering",
+      "signature": "",
+      "status": "pending"
+    },
+    {
+      "approval_id": "APP-LM3-LGT-SA350-QA",
+      "date": "",
+      "name": "",
+      "role": "quality",
+      "signature": "",
+      "status": "pending"
+    },
+    {
+      "approval_id": "APP-LM3-LGT-SA350-DA",
+      "date": "",
+      "name": "",
+      "role": "design authority",
+      "signature": "",
+      "status": "pending"
+    }
+  ],
+  "signoff_blocks": [
+    {
+      "date": "",
+      "name": "",
+      "role": "operator",
+      "signature": "",
+      "status": "blank"
+    },
+    {
+      "date": "",
+      "name": "",
+      "role": "cell lead",
+      "signature": "",
+      "status": "blank"
+    },
+    {
+      "date": "",
+      "name": "",
+      "role": "quality inspector",
+      "signature": "",
+      "status": "blank"
+    },
+    {
+      "date": "",
+      "name": "",
+      "role": "manufacturing engineer",
+      "signature": "",
+      "status": "blank"
+    }
+  ],
+  "title": "modular main, emergency, and doorway lighting installation",
+  "traveler_type": "assembly-node"
+}

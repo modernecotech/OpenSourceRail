@@ -12,6 +12,7 @@
 ## Children
 
 - `LM3-BDY-P100`
+- `LM3-DOOR-P010`
 - `LM3-EXT-P010`
 
 ## Material specification
@@ -21,7 +22,7 @@
 | Material family | assembly material set |
 | Grade / part class | LM3-DOOR-SA310 inherits released child material specifications |
 | Governing standard | all child material standards plus assembly-level torque, bonding, coating, and cleanliness controls |
-| Form factor | rail structural steel, supplier-certified rail door system |
+| Form factor | rail structural steel, formed sheet metal / stainless local hardware, supplier-certified rail door system |
 | Nominal section | as defined by child drawings and assembly interface control drawing |
 | Finish / protection | protect damaged coating, exposed edges, seals, bonds, and labels during assembly |
 | Traceability | child serial/heat/batch records plus assembly traveler traceability |
@@ -57,7 +58,20 @@ Evidence required:
   - cassette shim record
   - water-drain path check
 
-### 2. `LM3-EXT-P010` — electric plug/sliding door cassette
+### 2. `LM3-DOOR-P010` — door four-point adjustable carrier, datum pin, dry seal, and keyed connector bracket kit
+
+- Placement zone: side door aperture and low-floor threshold datum
+- Interfaces: `mechanical datum`, `low-voltage/data`, `safety interlock`
+- Join classes: `cassette-floating-fastener`, `electrical-data`
+- Torque authority: released cassette interface drawing and calculation plus supplier installation manual
+- Joint release status: `cassette-interface-release-required`
+- Verification:
+  - carrier datum gauge
+  - interface load calculation
+  - seal compression record
+  - connector keying and cassette replacement trial
+
+### 3. `LM3-EXT-P010` — electric plug/sliding door cassette
 
 - Placement zone: side door aperture and low-floor threshold datum
 - Interfaces: `mechanical datum`, `safety interlock`

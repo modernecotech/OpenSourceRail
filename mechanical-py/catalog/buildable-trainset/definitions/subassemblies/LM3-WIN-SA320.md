@@ -12,6 +12,7 @@
 ## Children
 
 - `LM3-BDY-P110`
+- `LM3-WIN-P010`
 - `LM3-EXT-P020`
 
 ## Material specification
@@ -57,7 +58,20 @@ Evidence required:
   - water-ingress witness
   - replacement tool clearance
 
-### 2. `LM3-EXT-P020` — side laminated glazing cassette
+### 2. `LM3-WIN-P010` — replaceable window pressure frame, dry seal, drain, and captive retention kit
+
+- Placement zone: side/end glazing aperture and bonded carrier datum
+- Interfaces: `mechanical datum`, `fluid/thermal`
+- Join classes: `cassette-floating-fastener`, `fluid-thermal`
+- Torque authority: released cassette interface drawing and calculation plus supplier installation manual
+- Joint release status: `cassette-interface-release-required`
+- Verification:
+  - pressure-frame gauge
+  - retention calculation
+  - seal compression record
+  - water-ingress and replacement trial
+
+### 3. `LM3-EXT-P020` — side laminated glazing cassette
 
 - Placement zone: side/end glazing aperture and bonded carrier datum
 - Interfaces: `mechanical datum`

@@ -3,6 +3,7 @@
   "build_cell": "composite / glazing cell",
   "children": [
     "LM3-BDY-P110",
+    "LM3-WIN-P010",
     "LM3-EXT-P020"
   ],
   "definition_type": "assembly-node",
@@ -35,6 +36,28 @@
       ]
     },
     {
+      "child_id": "LM3-WIN-P010",
+      "child_title": "replaceable window pressure frame, dry seal, drain, and captive retention kit",
+      "interface_classes": [
+        "mechanical datum",
+        "fluid/thermal"
+      ],
+      "join_classes": [
+        "cassette-floating-fastener",
+        "fluid-thermal"
+      ],
+      "joint_release_status": "cassette-interface-release-required",
+      "placement_zone": "side/end glazing aperture and bonded carrier datum",
+      "sequence": 2,
+      "torque_authority": "released cassette interface drawing and calculation plus supplier installation manual",
+      "verification": [
+        "pressure-frame gauge",
+        "retention calculation",
+        "seal compression record",
+        "water-ingress and replacement trial"
+      ]
+    },
+    {
       "child_id": "LM3-EXT-P020",
       "child_title": "side laminated glazing cassette",
       "interface_classes": [
@@ -46,7 +69,7 @@
       ],
       "joint_release_status": "supplier-freeze-required",
       "placement_zone": "side/end glazing aperture and bonded carrier datum",
-      "sequence": 2,
+      "sequence": 3,
       "torque_authority": "accepted supplier installation manual plus released OSR interface-control drawing",
       "verification": [
         "glazing certificate",

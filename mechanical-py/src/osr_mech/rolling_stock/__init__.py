@@ -83,6 +83,16 @@ from .mechanical_interfaces import (
     window_installations,
 )
 from .sensor_cowl import sensor_cowl
+from .small_components import (
+    CONNECTOR_FAMILIES,
+    FASTENER_FAMILIES,
+    door_window_cassette_hardware,
+    modular_lighting_cassettes,
+    simplified_small_component_package,
+    small_component_standard_payload,
+    standard_fixture_adapters,
+    universal_service_rail_installation,
+)
 from .systems import (
     battery_pack_set,
     car_systems,
@@ -102,6 +112,8 @@ __all__ = [
     "Category",
     "CotsItem",
     "INTERFACE_BUILDERS",
+    "CONNECTOR_FAMILIES",
+    "FASTENER_FAMILIES",
     "battery_installations",
     "bench_on_battery_installations",
     "bogie_to_chassis_connector",
@@ -145,4 +157,10 @@ __all__ = [
     "trainset_systems",
     "trailer_bogie",
     "window_installations",
+    "door_window_cassette_hardware",
+    "modular_lighting_cassettes",
+    "simplified_small_component_package",
+    "small_component_standard_payload",
+    "standard_fixture_adapters",
+    "universal_service_rail_installation",
 ]

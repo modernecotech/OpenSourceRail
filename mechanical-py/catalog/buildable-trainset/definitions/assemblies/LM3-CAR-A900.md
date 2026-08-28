@@ -14,6 +14,8 @@
 - `LM3-SHELL-A200`
 - `LM3-DOOR-SA310`
 - `LM3-INT-SA330`
+- `LM3-FIX-SA340`
+- `LM3-LGT-SA350`
 - `LM3-ROOF-SA410`
 - `LM3-HV-SA510`
 - `LM3-BOG-SA610`
@@ -27,7 +29,7 @@
 | Material family | assembly material set |
 | Grade / part class | LM3-CAR-A900 inherits released child material specifications |
 | Governing standard | all child material standards plus assembly-level torque, bonding, coating, and cleanliness controls |
-| Form factor | LM3-SHELL-A200 child assembly material set, LM3-DOOR-SA310 child assembly material set, LM3-INT-SA330 child assembly material set, LM3-ROOF-SA410 child assembly material set, LM3-HV-SA510 child assembly material set, LM3-BOG-SA610 child assembly material set, LM3-BOG-SA620 child assembly material set, supplier-certified running gear |
+| Form factor | LM3-SHELL-A200 child assembly material set, LM3-DOOR-SA310 child assembly material set, LM3-INT-SA330 child assembly material set, LM3-FIX-SA340 child assembly material set, LM3-LGT-SA350 child assembly material set, LM3-ROOF-SA410 child assembly material set, LM3-HV-SA510 child assembly material set, LM3-BOG-SA610 child assembly material set, LM3-BOG-SA620 child assembly material set, supplier-certified running gear |
 | Nominal section | as defined by child drawings and assembly interface control drawing |
 | Finish / protection | protect damaged coating, exposed edges, seals, bonds, and labels during assembly |
 | Traceability | child serial/heat/batch records plus assembly traveler traceability |
@@ -88,7 +90,33 @@ Evidence required:
   - liner/trim fit survey
   - lighting/PIS/CCTV static test
 
-### 4. `LM3-ROOF-SA410` — roof HVAC, PV, antenna, and service-equipment assembly
+### 4. `LM3-FIX-SA340` — common service-rail, captive-fastener, and fixture-adapter installation
+
+- Placement zone: common OSR-RAIL-42 interior datum and keyed low-voltage service zone
+- Interfaces: `mechanical datum`
+- Join classes: `service-rail-captive-fastener`
+- Torque authority: released OSR small-component standard plus accepted hardware batch and calibrated-tool procedure
+- Joint release status: `standard-hardware-release-required`
+- Verification:
+  - rail datum survey
+  - fastener-family audit
+  - fixture load-evidence check
+  - service/removal demonstration
+
+### 5. `LM3-LGT-SA350` — modular main, emergency, and doorway lighting installation
+
+- Placement zone: side door aperture and low-floor threshold datum
+- Interfaces: `mechanical datum`, `low-voltage/data`, `safety interlock`
+- Join classes: `service-rail-captive-fastener`, `electrical-data`
+- Torque authority: released OSR small-component standard plus accepted hardware batch and calibrated-tool procedure
+- Joint release status: `standard-hardware-release-required`
+- Verification:
+  - connector key audit
+  - lighting lux map
+  - emergency-feed isolation and duration test
+  - module replacement demonstration
+
+### 6. `LM3-ROOF-SA410` — roof HVAC, PV, antenna, and service-equipment assembly
 
 - Placement zone: roof equipment rail, curb, and service-access zone
 - Interfaces: `mechanical datum`, `high-voltage electrical`, `low-voltage/data`, `fluid/thermal`
@@ -100,7 +128,7 @@ Evidence required:
   - HVAC drain test
   - PV isolation/bonding check
 
-### 5. `LM3-HV-SA510` — per-car LFP battery, two controllers, DC auxiliary/charge interface, mist, and cooling assembly
+### 7. `LM3-HV-SA510` — per-car LFP battery, two controllers, DC auxiliary/charge interface, mist, and cooling assembly
 
 - Placement zone: under-seat HV bay, side-pin dock zone, and segregated cable route
 - Interfaces: `mechanical datum`, `high-voltage electrical`, `low-voltage/data`, `fluid/thermal`
@@ -113,7 +141,7 @@ Evidence required:
   - coolant pressure test
   - first energisation release
 
-### 6. `LM3-BOG-SA610` — powered bogie assembly
+### 8. `LM3-BOG-SA610` — powered bogie assembly
 
 - Placement zone: bogie frame, axle, brake, suspension, and underframe marriage datums
 - Interfaces: `mechanical datum`
@@ -126,7 +154,7 @@ Evidence required:
   - motor/gearbox alignment
   - static brake test
 
-### 7. `LM3-BOG-SA620` — trailer bogie assembly
+### 9. `LM3-BOG-SA620` — trailer bogie assembly
 
 - Placement zone: bogie frame, axle, brake, suspension, and underframe marriage datums
 - Interfaces: `mechanical datum`
@@ -139,7 +167,7 @@ Evidence required:
   - ride-height setup
   - static brake test
 
-### 8. `LM3-AUX-P010` — secondary-suspension compressor, dryer, reservoir, and isolation-manifold kit
+### 10. `LM3-AUX-P010` — secondary-suspension compressor, dryer, reservoir, and isolation-manifold kit
 
 - Placement zone: primary structure datum and final assembly interface
 - Interfaces: `mechanical datum`

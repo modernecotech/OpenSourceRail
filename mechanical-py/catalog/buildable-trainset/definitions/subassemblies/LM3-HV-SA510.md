@@ -129,7 +129,7 @@ Evidence required:
 ### 7. `LM3-TRC-P060` — station side-pin charging connector, actuator, shutter, and alignment target
 
 - Placement zone: under-seat HV bay, side-pin dock zone, and segregated cable route
-- Interfaces: `mechanical datum`, `high-voltage electrical`
+- Interfaces: `mechanical datum`, `high-voltage electrical`, `low-voltage/data`
 - Join classes: `bolted-structural-datum`, `electrical-data`
 - Torque authority: accepted supplier installation manual plus released OSR interface-control drawing
 - Joint release status: `supplier-freeze-required`

@@ -35,11 +35,15 @@ bearing realizations, one internal classification with 15
 references covering all assets, five native coordination groups, six native
 functional systems (three specialized as `IfcBuiltSystem`), seven
 system-to-railway-part references,
-four native presentation layers, nine native qualitative interface constraints,
+four native presentation layers, nine native interface constraints with six
+numeric `IfcMetric` benchmarks, three qualitative-only gates, and 107
+scoped project/asset/group/system evidence links,
 16 native property/quantity dictionaries with 99 typed fields,
 native horizontal/vertical planning alignment segments and stationing,
 one native USD schedule of three generated planning rates, 15 hash-locked native
-source documents, IDS audit, and BCF 3.0 release issues for Bonsai.
+source documents including a link to all nine objectives and six metrics, a
+machine-readable register of nine external engineering decisions, IDS audit,
+and BCF 3.0 release issues for Bonsai.
 The integrated evidence viewer
 re-verifies each hash before plotting GeoJSON, alignment JSON, civil IFC object
 envelopes with object picking, asset-class inheritance, review-group and

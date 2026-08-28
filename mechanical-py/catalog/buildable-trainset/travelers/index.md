@@ -8,7 +8,7 @@ unsigned until a real build cell uses and approves them.
 
 - Family: `light-metro-3car`
 - Candidate: `light-metro-3car__16p5m__reference-body__reference-bogie__motor-350kw-hm47-class__battery-225kwh-lfp-800v__hvac-24kw-direct-hv-dc__pv12`
-- Traveler templates: `94`
+- Traveler templates: `103`
 
 | ID | Type | Route/layer | Traveler |
 |---|---|---|---|
@@ -52,6 +52,13 @@ unsigned until a real build cell uses and approves them.
 | `LM3-EXT-P040` | product item | `BID` | [md](parts/LM3-EXT-P040.md) |
 | `LM3-EXT-P050` | product item | `SOURCE` | [md](parts/LM3-EXT-P050.md) |
 | `LM3-EXT-P060` | product item | `SOURCE` | [md](parts/LM3-EXT-P060.md) |
+| `LM3-FIX-P010` | product item | `MAKE` | [md](parts/LM3-FIX-P010.md) |
+| `LM3-FIX-P020` | product item | `SOURCE` | [md](parts/LM3-FIX-P020.md) |
+| `LM3-FIX-P030` | product item | `MAKE` | [md](parts/LM3-FIX-P030.md) |
+| `LM3-WIN-P010` | product item | `MAKE` | [md](parts/LM3-WIN-P010.md) |
+| `LM3-DOOR-P010` | product item | `MAKE` | [md](parts/LM3-DOOR-P010.md) |
+| `LM3-LGT-P010` | product item | `SOURCE` | [md](parts/LM3-LGT-P010.md) |
+| `LM3-LGT-P020` | product item | `BID` | [md](parts/LM3-LGT-P020.md) |
 | `LM3-EXT-P070` | product item | `SOURCE` | [md](parts/LM3-EXT-P070.md) |
 | `LM3-EXT-P080` | product item | `BID` | [md](parts/LM3-EXT-P080.md) |
 | `LM3-EXT-P090` | product item | `BID` | [md](parts/LM3-EXT-P090.md) |
@@ -94,6 +101,8 @@ unsigned until a real build cell uses and approves them.
 | `LM3-WIN-SA320` | assembly node | `subassembly` | [md](subassemblies/LM3-WIN-SA320.md) |
 | `LM3-DOOR-SA310` | assembly node | `subassembly` | [md](subassemblies/LM3-DOOR-SA310.md) |
 | `LM3-INT-SA330` | assembly node | `subassembly` | [md](subassemblies/LM3-INT-SA330.md) |
+| `LM3-FIX-SA340` | assembly node | `subassembly` | [md](subassemblies/LM3-FIX-SA340.md) |
+| `LM3-LGT-SA350` | assembly node | `subassembly` | [md](subassemblies/LM3-LGT-SA350.md) |
 | `LM3-ROOF-SA410` | assembly node | `subassembly` | [md](subassemblies/LM3-ROOF-SA410.md) |
 | `LM3-HV-SA510` | assembly node | `subassembly` | [md](subassemblies/LM3-HV-SA510.md) |
 | `LM3-BOG-SA610` | assembly node | `subassembly` | [md](subassemblies/LM3-BOG-SA610.md) |

@@ -1,0 +1,208 @@
+{
+  "bom_line_ids": [
+    "B16"
+  ],
+  "document_revision": "A-DRAFT",
+  "estimated_labor_hours": 2.8,
+  "id": "LM3-LGT-P010",
+  "material_spec": {
+    "evidence_required": [
+      "certificate of conformity",
+      "incoming inspection record",
+      "obstruction / locked-loop evidence",
+      "fire-smoke certificate pack"
+    ],
+    "finish_or_protection": "supplier corrosion/fire/smoke protection accepted by OSR evidence pack",
+    "form_factor": "preassembled door cassette with seals, drive, controller, and emergency release",
+    "governing_standard": "supplier rail door specification plus EN 14752 evidence where applicable",
+    "grade_or_part_class": "COTS/BID electric passenger door cassette",
+    "material_family": "supplier-certified rail door system",
+    "nominal_section": "supplier envelope frozen by RFQ drawing",
+    "traceability": "serialised supplier CoC, revision, and lifecycle evidence"
+  },
+  "operations": [
+    {
+      "labor_hours": 0.35,
+      "qa_gate": "traveler rev and parent assembly match released manifest",
+      "sequence": 10,
+      "signoff_role": "cell lead",
+      "title": "release traveler, revision, material/certificate pack, and parent interface",
+      "tooling_ids": [
+        "TRV-LM3-LGT-P010",
+        "DOC-LM3-LGT-SA350"
+      ],
+      "work_center": "production control"
+    },
+    {
+      "labor_hours": 0.45,
+      "qa_gate": "supplier certificate/datasheet/revision accepted",
+      "sequence": 20,
+      "signoff_role": "quality inspector",
+      "title": "receive supplier component and quarantine until evidence pack passes",
+      "tooling_ids": [
+        "RFQ-LM3-LGT-P010",
+        "CERT-LM3-LGT-P010"
+      ],
+      "work_center": "receiving inspection"
+    },
+    {
+      "labor_hours": 0.75,
+      "qa_gate": "component fits without parent datum rework",
+      "sequence": 30,
+      "signoff_role": "operator",
+      "title": "perform envelope, mounting, service-removal, and connector checks",
+      "tooling_ids": [
+        "GAUGE-LM3-LGT-P010-ENVELOPE",
+        "FIX-LM3-LGT-SA350"
+      ],
+      "work_center": "incoming fit-check cell"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "rail fire certificate",
+      "sequence": 40,
+      "signoff_role": "quality inspector",
+      "title": "verify acceptance gate: rail fire certificate",
+      "tooling_ids": [
+        "QA-LM3-LGT-P010"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "shock/vibration evidence",
+      "sequence": 50,
+      "signoff_role": "quality inspector",
+      "title": "verify acceptance gate: shock/vibration evidence",
+      "tooling_ids": [
+        "QA-LM3-LGT-P010"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "photometric/lux test",
+      "sequence": 60,
+      "signoff_role": "quality inspector",
+      "title": "verify acceptance gate: photometric/lux test",
+      "tooling_ids": [
+        "QA-LM3-LGT-P010"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "plug polarity and retention test",
+      "sequence": 70,
+      "signoff_role": "quality inspector",
+      "title": "verify acceptance gate: plug polarity and retention test",
+      "tooling_ids": [
+        "QA-LM3-LGT-P010"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "item is released, tagged, and staged for parent assembly",
+      "sequence": 80,
+      "signoff_role": "cell lead",
+      "title": "final item release to parent assembly",
+      "tooling_ids": [
+        "REL-LM3-LGT-P010",
+        "KIT-LM3-LGT-SA350"
+      ],
+      "work_center": "production control"
+    }
+  ],
+  "parent": "LM3-LGT-SA350",
+  "process_spec": {
+    "inspection_methods": [
+      "incoming visual inspection",
+      "envelope fit check",
+      "rail fire certificate",
+      "shock/vibration evidence",
+      "photometric/lux test",
+      "plug polarity and retention test"
+    ],
+    "joining_methods": [
+      "bolted/torqued installation",
+      "sealed, gasketed, bonded, or clipped interface as supplier envelope requires"
+    ],
+    "primary_processes": [
+      "receive",
+      "quarantine",
+      "evidence review",
+      "incoming fit check",
+      "release to parent kit"
+    ],
+    "release_level": "SOURCE supplier-controlled process; OSR controls envelope and acceptance evidence",
+    "special_process_controls": [
+      "RFQ envelope freeze",
+      "supplier certificate/revision check",
+      "incoming quarantine until evidence accepted"
+    ],
+    "tooling_basis": "RFQ-LM3-LGT-P010, CERT-LM3-LGT-P010, GAUGE-LM3-LGT-P010-ENVELOPE"
+  },
+  "quantity_per_trainset": 66,
+  "release_status": "unsigned-template",
+  "revision_approvals": [
+    {
+      "approval_id": "APP-LM3-LGT-P010-MFG",
+      "date": "",
+      "name": "",
+      "role": "manufacturing engineering",
+      "signature": "",
+      "status": "pending"
+    },
+    {
+      "approval_id": "APP-LM3-LGT-P010-QA",
+      "date": "",
+      "name": "",
+      "role": "quality",
+      "signature": "",
+      "status": "pending"
+    },
+    {
+      "approval_id": "APP-LM3-LGT-P010-DA",
+      "date": "",
+      "name": "",
+      "role": "design authority",
+      "signature": "",
+      "status": "pending"
+    }
+  ],
+  "route": "SOURCE",
+  "signoff_blocks": [
+    {
+      "date": "",
+      "name": "",
+      "role": "operator",
+      "signature": "",
+      "status": "blank"
+    },
+    {
+      "date": "",
+      "name": "",
+      "role": "cell lead",
+      "signature": "",
+      "status": "blank"
+    },
+    {
+      "date": "",
+      "name": "",
+      "role": "quality inspector",
+      "signature": "",
+      "status": "blank"
+    },
+    {
+      "date": "",
+      "name": "",
+      "role": "manufacturing engineer",
+      "signature": "",
+      "status": "blank"
+    }
+  ],
+  "title": "1.2 m plug-in main LED lighting cassette and captive mounting kit",
+  "traveler_type": "product-item",
+  "unit": "module"
+}

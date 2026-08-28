@@ -5,6 +5,8 @@
     "LM3-SHELL-A200",
     "LM3-DOOR-SA310",
     "LM3-INT-SA330",
+    "LM3-FIX-SA340",
+    "LM3-LGT-SA350",
     "LM3-ROOF-SA410",
     "LM3-HV-SA510",
     "LM3-BOG-SA610",
@@ -12,7 +14,7 @@
     "LM3-AUX-P010"
   ],
   "document_revision": "A-DRAFT",
-  "estimated_labor_hours": 13.24,
+  "estimated_labor_hours": 15.98,
   "id": "LM3-CAR-A900",
   "layer": "assembly",
   "material_spec": {
@@ -22,7 +24,7 @@
       "interface-control drawing revision"
     ],
     "finish_or_protection": "protect damaged coating, exposed edges, seals, bonds, and labels during assembly",
-    "form_factor": "LM3-SHELL-A200 child assembly material set, LM3-DOOR-SA310 child assembly material set, LM3-INT-SA330 child assembly material set, LM3-ROOF-SA410 child assembly material set, LM3-HV-SA510 child assembly material set, LM3-BOG-SA610 child assembly material set, LM3-BOG-SA620 child assembly material set, supplier-certified running gear",
+    "form_factor": "LM3-SHELL-A200 child assembly material set, LM3-DOOR-SA310 child assembly material set, LM3-INT-SA330 child assembly material set, LM3-FIX-SA340 child assembly material set, LM3-LGT-SA350 child assembly material set, LM3-ROOF-SA410 child assembly material set, LM3-HV-SA510 child assembly material set, LM3-BOG-SA610 child assembly material set, LM3-BOG-SA620 child assembly material set, supplier-certified running gear",
     "governing_standard": "all child material standards plus assembly-level torque, bonding, coating, and cleanliness controls",
     "grade_or_part_class": "LM3-CAR-A900 inherits released child material specifications",
     "material_family": "assembly material set",
@@ -31,7 +33,7 @@
   },
   "operations": [
     {
-      "labor_hours": 1.09,
+      "labor_hours": 1.25,
       "qa_gate": "all child definitions/revisions match the traveler index",
       "sequence": 10,
       "signoff_role": "cell lead",
@@ -83,9 +85,35 @@
       "work_center": "final assembly and commissioning cell"
     },
     {
+      "labor_hours": 1.05,
+      "qa_gate": "placement zone and joint controls accepted: common OSR-RAIL-42 interior datum and keyed low-voltage service zone",
+      "sequence": 50,
+      "signoff_role": "operator",
+      "title": "install and integrate LM3-FIX-SA340: common service-rail, captive-fastener, and fixture-adapter installation",
+      "tooling_ids": [
+        "FIX-LM3-CAR-A900",
+        "GAUGE-LM3-FIX-SA340",
+        "TORQUE-LM3-FIX-SA340"
+      ],
+      "work_center": "final assembly and commissioning cell"
+    },
+    {
+      "labor_hours": 1.53,
+      "qa_gate": "placement zone and joint controls accepted: side door aperture and low-floor threshold datum",
+      "sequence": 60,
+      "signoff_role": "operator",
+      "title": "install and integrate LM3-LGT-SA350: modular main, emergency, and doorway lighting installation",
+      "tooling_ids": [
+        "FIX-LM3-CAR-A900",
+        "GAUGE-LM3-LGT-SA350",
+        "TORQUE-LM3-LGT-SA350"
+      ],
+      "work_center": "final assembly and commissioning cell"
+    },
+    {
       "labor_hours": 1.9,
       "qa_gate": "placement zone and joint controls accepted: roof equipment rail, curb, and service-access zone",
-      "sequence": 50,
+      "sequence": 70,
       "signoff_role": "operator",
       "title": "install and integrate LM3-ROOF-SA410: roof HVAC, PV, antenna, and service-equipment assembly",
       "tooling_ids": [
@@ -98,7 +126,7 @@
     {
       "labor_hours": 1.83,
       "qa_gate": "placement zone and joint controls accepted: under-seat HV bay, side-pin dock zone, and segregated cable route",
-      "sequence": 60,
+      "sequence": 80,
       "signoff_role": "operator",
       "title": "install and integrate LM3-HV-SA510: per-car LFP battery, two controllers, DC auxiliary/charge interface, mist, and cooling assembly",
       "tooling_ids": [
@@ -111,7 +139,7 @@
     {
       "labor_hours": 1.05,
       "qa_gate": "placement zone and joint controls accepted: bogie frame, axle, brake, suspension, and underframe marriage datums",
-      "sequence": 70,
+      "sequence": 90,
       "signoff_role": "operator",
       "title": "install and integrate LM3-BOG-SA610: powered bogie assembly",
       "tooling_ids": [
@@ -124,7 +152,7 @@
     {
       "labor_hours": 1.05,
       "qa_gate": "placement zone and joint controls accepted: bogie frame, axle, brake, suspension, and underframe marriage datums",
-      "sequence": 80,
+      "sequence": 100,
       "signoff_role": "operator",
       "title": "install and integrate LM3-BOG-SA620: trailer bogie assembly",
       "tooling_ids": [
@@ -137,7 +165,7 @@
     {
       "labor_hours": 1.1,
       "qa_gate": "placement zone and joint controls accepted: primary structure datum and final assembly interface",
-      "sequence": 90,
+      "sequence": 110,
       "signoff_role": "operator",
       "title": "install and integrate LM3-AUX-P010: secondary-suspension compressor, dryer, reservoir, and isolation-manifold kit",
       "tooling_ids": [
@@ -150,7 +178,7 @@
     {
       "labor_hours": 0.35,
       "qa_gate": "car weigh",
-      "sequence": 100,
+      "sequence": 120,
       "signoff_role": "quality inspector",
       "title": "hold point: car weigh",
       "tooling_ids": [
@@ -161,7 +189,7 @@
     {
       "labor_hours": 0.35,
       "qa_gate": "door/HVAC/static systems test",
-      "sequence": 110,
+      "sequence": 130,
       "signoff_role": "quality inspector",
       "title": "hold point: door/HVAC/static systems test",
       "tooling_ids": [
@@ -172,7 +200,7 @@
     {
       "labor_hours": 0.35,
       "qa_gate": "bogie marriage report",
-      "sequence": 120,
+      "sequence": 140,
       "signoff_role": "quality inspector",
       "title": "hold point: bogie marriage report",
       "tooling_ids": [
@@ -183,7 +211,7 @@
     {
       "labor_hours": 0.35,
       "qa_gate": "low-speed yard movement",
-      "sequence": 130,
+      "sequence": 150,
       "signoff_role": "quality inspector",
       "title": "hold point: low-speed yard movement",
       "tooling_ids": [
@@ -194,7 +222,7 @@
     {
       "labor_hours": 0.3,
       "qa_gate": "all operation and QA signoffs are complete",
-      "sequence": 140,
+      "sequence": 160,
       "signoff_role": "manufacturing engineer",
       "title": "close traveler, attach nonconformance/deviation log, and release to next parent",
       "tooling_ids": [

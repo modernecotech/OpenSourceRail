@@ -138,13 +138,13 @@ def _state_group(doc, parent, item: ReviewItem, groups: dict[str, object]):
         label = "Running Gear / Bogies"
     elif key in {"low-floor-chassis", "bogie-to-chassis-connector"} or "chassis" in item.name.lower():
         label = "Floor Architecture / Chassis"
-    elif key in {"window-installations", "composite-body-roof-attachments"}:
+    elif key in {"window-installations", "door-window-cassette-hardware", "composite-body-roof-attachments"}:
         label = "Glazing and Exterior"
     elif key in {"door-design", "door-mounts", "door-installations", "door-to-body-installations"}:
         label = "Doors and Access"
-    elif key in {"cabin-flooring", "bench-on-battery-installations"}:
+    elif key in {"cabin-flooring", "bench-on-battery-installations", "universal-service-rail-installation", "standard-fixture-adapters"}:
         label = "Passenger Interior"
-    elif key in {"hvac-roof-ducting-installation", "internal-lighting-installation"}:
+    elif key in {"hvac-roof-ducting-installation", "internal-lighting-installation", "modular-lighting-cassettes"}:
         label = "HVAC and Lighting"
     elif key in {"screen-speaker-mountings", "external-lighting-lidar-system"}:
         label = "Controls and Fixtures"
@@ -296,6 +296,9 @@ def _full_body_items(*, exploded: bool) -> list[ReviewItem]:
         ("bench-on-battery-installations", "Passenger bench and battery-strake mounts"),
         ("hvac-roof-ducting-installation", "HVAC roof ducting and supply plenums"),
         ("internal-lighting-installation", "Interior lighting and emergency luminaires"),
+        ("universal-service-rail-installation", "Universal ceiling, waist, and fixture rails"),
+        ("standard-fixture-adapters", "Standard seat, handrail, and equipment adapters"),
+        ("door-window-cassette-hardware", "Simplified door and window cassette hardware"),
         ("screen-speaker-mountings", "Passenger information screens and speakers"),
         ("external-lighting-lidar-system", "External lighting, lidar, radar, and cameras"),
         ("battery-installations", "Battery installation and contactor interfaces"),

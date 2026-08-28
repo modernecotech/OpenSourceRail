@@ -679,6 +679,36 @@ async function main() {
     "bearing-realized support topology inspectable without invented analytical data",
     `${ifcBearingConnectionEvidence.count} connections`,
   );
+  const ifcExternalDecisionEvidence = await cdp.evaluate(`(() => {
+    const content = selectedArtifactPreview.content;
+    const items = artifactInspectorItems(selectedArtifactPreview);
+    const index = items.findIndex(item => item.detail.includes('external engineering decision OSR-DEC-SURVEY-ALIGNMENT'));
+    document.querySelector('.artifact-object-button[data-object-index="' + index + '"]').click();
+    return {
+      count: content.external_engineering_decisions.length,
+      closure: content.capability_closure,
+      detail: document.querySelector('.artifact-object-detail').textContent,
+      metrics: document.querySelector('#artifact-metrics').textContent,
+    };
+  })()`);
+  assert(
+    ifcExternalDecisionEvidence.count === 9
+      && ifcExternalDecisionEvidence.closure.status === "source-supported-ifc-work-complete"
+      && ifcExternalDecisionEvidence.closure.implementable_open_task_count === 0,
+    "source-supported IFC capability closure indexed",
+    `${ifcExternalDecisionEvidence.count} external decisions · 0 implementable tasks`,
+  );
+  assert(
+    ifcExternalDecisionEvidence.detail.includes("external-evidence-required")
+      && ifcExternalDecisionEvidence.detail.includes("project surveyor and alignment engineer")
+      && ifcExternalDecisionEvidence.detail.includes("required evidence")
+      && ifcExternalDecisionEvidence.detail.includes("blocked capabilities")
+      && ifcExternalDecisionEvidence.detail.includes("safe current state")
+      && ifcExternalDecisionEvidence.metrics.includes("external engineering decisions")
+      && ifcExternalDecisionEvidence.metrics.includes("implementable open IFC tasks")
+      && ifcExternalDecisionEvidence.metrics.includes("source-supported-ifc-work-complete"),
+    "external authority, evidence, blocked capability, and safe-state boundary visible",
+  );
   const ifcMaterialEvidence = await cdp.evaluate(`(() => {
     const content = selectedArtifactPreview.content;
     const index = content.objects.findIndex(item => item.material_id);
@@ -822,6 +852,14 @@ async function main() {
     document.querySelector('.artifact-object-button[data-object-index="' + constraintIndex + '"]').click();
     return {
       constraints: content.summary.interface_constraints,
+      relatedObjects: content.summary.interface_constraint_related_objects,
+      assetLinks: content.summary.interface_constraint_asset_links,
+      groupLinks: content.summary.interface_constraint_group_links,
+      systemLinks: content.summary.interface_constraint_system_links,
+      sourceRelationships: content.summary.constraint_source_document_relationships,
+      sourceLinkedConstraintResources: content.summary.source_linked_constraint_resources,
+      metricsCount: content.summary.interface_metrics,
+      qualitativeOnlyCount: content.summary.qualitative_only_interface_constraints,
       indexedConstraints: content.constraints.length,
       allPass: content.constraints.every(item => item.evaluation_status === 'PASS'),
       detail: document.querySelector('.artifact-object-detail').textContent,
@@ -831,17 +869,68 @@ async function main() {
   assert(
     ifcConstraintEvidence.constraints === 9
       && ifcConstraintEvidence.indexedConstraints === 9
+      && ifcConstraintEvidence.relatedObjects === 107
+      && ifcConstraintEvidence.assetLinks === 91
+      && ifcConstraintEvidence.groupLinks === 6
+      && ifcConstraintEvidence.systemLinks === 1
+      && ifcConstraintEvidence.sourceRelationships === 1
+      && ifcConstraintEvidence.sourceLinkedConstraintResources === 15
+      && ifcConstraintEvidence.metricsCount === 6
+      && ifcConstraintEvidence.qualitativeOnlyCount === 3
       && ifcConstraintEvidence.allPass,
     "native IFC interface constraints indexed",
-    `${ifcConstraintEvidence.constraints} qualitative objectives`,
+    `${ifcConstraintEvidence.constraints} objectives · ${ifcConstraintEvidence.metricsCount} numeric metrics`,
   );
   assert(
     ifcConstraintEvidence.detail.includes("IfcObjective")
       && ifcConstraintEvidence.detail.includes("HARD")
       && ifcConstraintEvidence.detail.includes("DESIGNINTENT")
+      && ifcConstraintEvidence.detail.includes("DESIGN VALIDATION EVIDENCE")
+      && ifcConstraintEvidence.detail.includes("OSR-LM3-TEST-001")
+      && ifcConstraintEvidence.detail.includes("OSR-DT-ZONE-RST-001")
+      && ifcConstraintEvidence.detail.includes("OSR-SYS-ROLLING-STOCK")
+      && ifcConstraintEvidence.detail.includes("OSR-DOC-SOURCE-CIVIL-INTEGRATION")
+      && ifcConstraintEvidence.detail.includes("IfcExternalReferenceRelationship")
       && ifcConstraintEvidence.detail.includes("no fabricated numeric benchmark")
-      && ifcConstraintEvidence.metrics.includes("native interface constraints"),
+      && ifcConstraintEvidence.metrics.includes("native interface constraints")
+      && ifcConstraintEvidence.metrics.includes("native interface metrics")
+      && ifcConstraintEvidence.metrics.includes("constraint evidence links")
+      && ifcConstraintEvidence.metrics.includes("source-linked constraint resources"),
     "constraint intent, current evaluation, source, and metric boundary visible",
+  );
+  const ifcMetricEvidence = await cdp.evaluate(`(() => {
+    const content = selectedArtifactPreview.content;
+    const constraintOffset = content.objects.length + content.classification.references.length + content.groups.length + content.layers.length;
+    const metricConstraintIndex = content.constraints.findIndex(item => item.constraint_id === 'pier-bearing-to-girder-soffit');
+    document.querySelector('.artifact-object-button[data-object-index="' + (constraintOffset + metricConstraintIndex) + '"]').click();
+    const metricConstraint = content.constraints[metricConstraintIndex];
+    return {
+      metricStatus: metricConstraint.metric_status,
+      metric: metricConstraint.metric,
+      detail: document.querySelector('.artifact-object-detail').textContent,
+      metrics: document.querySelector('#artifact-metrics').textContent,
+    };
+  })()`);
+  assert(
+    ifcMetricEvidence.metricStatus === "structured-native-ifc-metric"
+      && ifcMetricEvidence.metric.ifc_class === "IfcMetric"
+      && ifcMetricEvidence.metric.benchmark === "EQUALTO"
+      && ifcMetricEvidence.metric.observed_value === 9.3
+      && ifcMetricEvidence.metric.target_value === 9.3
+      && ifcMetricEvidence.metric.measure_type === "IfcLengthMeasure",
+    "native numeric interface metric indexed",
+    `${ifcMetricEvidence.metric.observed_value} m observed · ${ifcMetricEvidence.metric.target_value} m target`,
+  );
+  assert(
+    ifcMetricEvidence.detail.includes("structured-native-ifc-metric")
+      && ifcMetricEvidence.detail.includes("IfcMetric")
+      && ifcMetricEvidence.detail.includes("benchmark EQUALTO")
+      && ifcMetricEvidence.detail.includes("observed 9.3 m")
+      && ifcMetricEvidence.detail.includes("target 9.3 m")
+      && ifcMetricEvidence.detail.includes("IfcLengthMeasure")
+      && ifcMetricEvidence.detail.includes("no single IFC attribute path")
+      && ifcMetricEvidence.metrics.includes("native interface metrics"),
+    "native metric benchmark and derivation boundary visible",
   );
   const ifcTemplateEvidence = await cdp.evaluate(`(() => {
     const content = selectedArtifactPreview.content;
@@ -879,12 +968,18 @@ async function main() {
     const content = selectedArtifactPreview.content;
     const documentIndex = content.objects.length + content.classification.references.length + content.groups.length + content.layers.length + content.constraints.length + content.property_set_templates.length;
     document.querySelector('.artifact-object-button[data-object-index="' + documentIndex + '"]').click();
+    const firstDetail = document.querySelector('.artifact-object-detail').textContent;
+    const sourceIndex = content.documents.findIndex(item => item.document_id === 'OSR-DOC-SOURCE-CIVIL-INTEGRATION');
+    document.querySelector('.artifact-object-button[data-object-index="' + (documentIndex + sourceIndex) + '"]').click();
+    const sourceDocument = content.documents[sourceIndex];
     return {
       documents: content.summary.documents,
       linkedAssets: content.summary.document_associated_assets,
       indexedDocuments: content.documents.length,
       allRevisionsLocked: content.documents.every(item => item.revision === 'sha256:' + item.sha256),
-      detail: document.querySelector('.artifact-object-detail').textContent,
+      detail: firstDetail,
+      sourceConstraintCount: sourceDocument.associated_constraint_count,
+      sourceDetail: document.querySelector('.artifact-object-detail').textContent,
       metrics: document.querySelector('#artifact-metrics').textContent,
     };
   })()`);
@@ -892,6 +987,7 @@ async function main() {
     ifcDocumentEvidence.documents === 15
       && ifcDocumentEvidence.linkedAssets === 185
       && ifcDocumentEvidence.indexedDocuments === 15
+      && ifcDocumentEvidence.sourceConstraintCount === 15
       && ifcDocumentEvidence.allRevisionsLocked,
     "native IFC source-document register indexed",
     `${ifcDocumentEvidence.documents} documents · ${ifcDocumentEvidence.linkedAssets} linked assets`,
@@ -902,6 +998,12 @@ async function main() {
       && ifcDocumentEvidence.detail.includes("docs/civil/osr-aln-format.md")
       && ifcDocumentEvidence.metrics.includes("hash-locked source documents"),
     "hash, repository location, and association scope visible in document inspector",
+  );
+  assert(
+    ifcDocumentEvidence.sourceDetail.includes("OSR-DOC-SOURCE-CIVIL-INTEGRATION")
+      && ifcDocumentEvidence.sourceDetail.includes("associated constraints 15")
+      && ifcDocumentEvidence.sourceDetail.includes("pier-bearing-to-girder-soffit"),
+    "hash-locked civil source document linked to every native interface objective and metric",
   );
   const ifcAlignmentEvidence = await cdp.evaluate(`(() => {
     const content = selectedArtifactPreview.content;

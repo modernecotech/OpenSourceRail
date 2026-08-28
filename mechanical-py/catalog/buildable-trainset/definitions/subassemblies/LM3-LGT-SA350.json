@@ -1,0 +1,121 @@
+{
+  "bom_line_ids": [],
+  "build_cell": "interior pre-fit and commissioning cell",
+  "children": [
+    "LM3-LGT-P010",
+    "LM3-LGT-P020"
+  ],
+  "definition_type": "assembly-node",
+  "hold_points": [
+    "connector key audit",
+    "lighting lux map",
+    "emergency-feed isolation and duration test",
+    "module replacement demonstration"
+  ],
+  "id": "LM3-LGT-SA350",
+  "integration_steps": [
+    {
+      "child_id": "LM3-LGT-P010",
+      "child_title": "1.2 m plug-in main LED lighting cassette and captive mounting kit",
+      "interface_classes": [
+        "mechanical datum",
+        "low-voltage/data"
+      ],
+      "join_classes": [
+        "service-rail-captive-fastener",
+        "electrical-data"
+      ],
+      "joint_release_status": "standard-hardware-release-required",
+      "placement_zone": "common OSR-RAIL-42 interior datum and keyed low-voltage service zone",
+      "sequence": 1,
+      "torque_authority": "released OSR small-component standard plus accepted hardware batch and calibrated-tool procedure",
+      "verification": [
+        "rail fire certificate",
+        "shock/vibration evidence",
+        "photometric/lux test",
+        "plug polarity and retention test"
+      ]
+    },
+    {
+      "child_id": "LM3-LGT-P020",
+      "child_title": "emergency and doorway lighting modules with independent keyed feeder kit",
+      "interface_classes": [
+        "mechanical datum",
+        "low-voltage/data",
+        "safety interlock"
+      ],
+      "join_classes": [
+        "service-rail-captive-fastener",
+        "electrical-data"
+      ],
+      "joint_release_status": "standard-hardware-release-required",
+      "placement_zone": "side door aperture and low-floor threshold datum",
+      "sequence": 2,
+      "torque_authority": "released OSR small-component standard plus accepted hardware batch and calibrated-tool procedure",
+      "verification": [
+        "emergency duration/effectiveness evidence",
+        "evacuation visibility test",
+        "feed isolation test",
+        "doorway illumination test"
+      ]
+    }
+  ],
+  "layer": "subassembly",
+  "material_spec": {
+    "evidence_required": [
+      "child material certificates accepted",
+      "assembly traveler traceability",
+      "interface-control drawing revision"
+    ],
+    "finish_or_protection": "protect damaged coating, exposed edges, seals, bonds, and labels during assembly",
+    "form_factor": "supplier-certified rail door system",
+    "governing_standard": "all child material standards plus assembly-level torque, bonding, coating, and cleanliness controls",
+    "grade_or_part_class": "LM3-LGT-SA350 inherits released child material specifications",
+    "material_family": "assembly material set",
+    "nominal_section": "as defined by child drawings and assembly interface control drawing",
+    "traceability": "child serial/heat/batch records plus assembly traveler traceability"
+  },
+  "maturity": "buildable-after-supplier-freeze",
+  "process_spec": {
+    "inspection_methods": [
+      "child acceptance evidence review",
+      "connector key audit",
+      "lighting lux map",
+      "emergency-feed isolation and duration test",
+      "module replacement demonstration",
+      "continuity",
+      "insulation/isolation",
+      "functional static test"
+    ],
+    "joining_methods": [
+      "bolted/torqued interfaces",
+      "shimmed datum interfaces as required",
+      "bonding/earthing",
+      "segregated harness/fluid routing"
+    ],
+    "primary_processes": [
+      "release child kit",
+      "fixture or datum setup",
+      "install children",
+      "torque/fit-up record",
+      "release to parent"
+    ],
+    "release_level": "assembly traveler controlled; generated template is unsigned until build",
+    "special_process_controls": [
+      "child definition/revision check",
+      "tooling calibration check",
+      "parent interface freeze",
+      "LOTO/HV safety rule",
+      "EMC/bonding release",
+      "software/configuration record where applicable"
+    ],
+    "tooling_basis": "FIX-LM3-LGT-SA350, KIT-LM3-LGT-SA350, calibrated torque/gauge set"
+  },
+  "quantity_per_trainset": 3,
+  "source_refs": [
+    "small_components.py",
+    "cots_equipment.py",
+    "LM3-INT-230"
+  ],
+  "title": "modular main, emergency, and doorway lighting installation"
+}

@@ -38,6 +38,13 @@ from .systems import (
     BATTERY_MODULE_WIDTH_MM,
     COUPLER_FACE_HEIGHT_MM,
 )
+from .small_components import (
+    door_window_cassette_hardware,
+    modular_lighting_cassettes,
+    simplified_small_component_package,
+    standard_fixture_adapters,
+    universal_service_rail_installation,
+)
 
 
 COLOR_STEEL = Color(0.50, 0.52, 0.55)
@@ -1182,66 +1189,9 @@ def bench_on_battery_installations(dims: CarDimensions = CarDimensions()) -> Com
 
 
 def internal_lighting_installation(dims: CarDimensions = CarDimensions()) -> Compound:
-    """LED strip mounts, emergency lighting, and ceiling cable support."""
+    """Compatibility entry point for the modular lighting package."""
 
-    parts: list[Part] = []
-    for y_sign in (-1.0, 1.0):
-        y = y_sign * 545.0
-        parts.append(
-            _box(
-                dims.body_length_mm - 3300.0,
-                72.0,
-                44.0,
-                (0.0, y, 2920.0),
-                "Internal LED light strip aluminium mounting channel",
-                COLOR_ACCESS,
-            )
-        )
-        for x in (-6500.0, -5300.0, -4100.0, -2900.0, -1700.0, -500.0, 700.0, 1900.0, 3100.0, 4300.0, 5500.0, 6700.0):
-            parts.append(
-                _box(
-                    62.0,
-                    94.0,
-                    54.0,
-                    (x, y, 2958.0),
-                    "Lighting channel spring clip bracket",
-                    COLOR_STAINLESS,
-                )
-            )
-        parts.append(
-            _box(
-                dims.body_length_mm - 3900.0,
-                42.0,
-                54.0,
-                (0.0, y_sign * 825.0, 2865.0),
-                "Lighting low-voltage cable tray",
-                COLOR_LV,
-            )
-        )
-    for x in (-5600.0, -1850.0, 1850.0, 5600.0):
-        parts.append(
-            _box(
-                360.0,
-                135.0,
-                70.0,
-                (x, 0.0, 2940.0),
-                "Emergency lighting and exit-sign bracket",
-                COLOR_ACCESS,
-            )
-        )
-    for x in _door_centres_x(dims):
-        for y_sign in (-1.0, 1.0):
-            parts.append(
-                _box(
-                    DOOR_WIDTH_MM + 280.0,
-                    64.0,
-                    54.0,
-                    (x, y_sign * (dims.body_width_mm / 2.0 - 380.0), 2440.0),
-                    "Doorway puddle-light mounting rail",
-                    COLOR_ACCESS,
-                )
-            )
-    return Compound(label="Internal lighting installation assembly", children=parts)
+    return modular_lighting_cassettes(dims)
 
 
 def hvac_roof_ducting_installation(dims: CarDimensions = CarDimensions()) -> Compound:
@@ -1679,6 +1629,7 @@ def mechanical_interface_package(dims: CarDimensions = CarDimensions()) -> Compo
             low_floor_chassis(dims),
             side_body_frame_attachments(dims),
             composite_body_roof_attachments(dims),
+            universal_service_rail_installation(dims),
             window_installations(dims),
             door_mounts(dims),
             door_design().translate((0.0, 0.0, 0.0)),
@@ -1688,6 +1639,8 @@ def mechanical_interface_package(dims: CarDimensions = CarDimensions()) -> Compo
             battery_installations(dims),
             bench_on_battery_installations(dims),
             internal_lighting_installation(dims),
+            standard_fixture_adapters(dims),
+            door_window_cassette_hardware(dims),
             hvac_roof_ducting_installation(dims),
             screen_speaker_mountings(dims),
             external_lighting_lidar_system(dims),
@@ -1711,6 +1664,11 @@ INTERFACE_BUILDERS: dict[str, Callable[[], Compound]] = {
     "battery-installations": battery_installations,
     "bench-on-battery-installations": bench_on_battery_installations,
     "internal-lighting-installation": internal_lighting_installation,
+    "universal-service-rail-installation": universal_service_rail_installation,
+    "modular-lighting-cassettes": modular_lighting_cassettes,
+    "standard-fixture-adapters": standard_fixture_adapters,
+    "door-window-cassette-hardware": door_window_cassette_hardware,
+    "simplified-small-component-package": simplified_small_component_package,
     "hvac-roof-ducting-installation": hvac_roof_ducting_installation,
     "screen-speaker-mountings": screen_speaker_mountings,
     "external-lighting-lidar-system": external_lighting_lidar_system,
@@ -1734,6 +1692,11 @@ __all__ = [
     "external_lighting_lidar_system",
     "hvac_roof_ducting_installation",
     "internal_lighting_installation",
+    "universal_service_rail_installation",
+    "modular_lighting_cassettes",
+    "standard_fixture_adapters",
+    "door_window_cassette_hardware",
+    "simplified_small_component_package",
     "low_floor_chassis",
     "mechanical_interface_package",
     "screen_speaker_mountings",

@@ -1,0 +1,72 @@
+{
+  "acceptance": [
+    "rail datum survey",
+    "end-deburr check",
+    "isolation/finish inspection",
+    "representative pull/slip test"
+  ],
+  "bom_line_ids": [
+    "B2",
+    "B15",
+    "B21"
+  ],
+  "definition_type": "product-item",
+  "id": "LM3-FIX-P010",
+  "layer": "fabricated-part",
+  "make_or_buy_basis": "One cut/drill gauge produces all common extruded aluminium equipment rails; local adapters, not rail variants, accommodate equipment.",
+  "material_spec": {
+    "evidence_required": [
+      "mill certificate",
+      "weld consumable certificate",
+      "WPS/WPQR",
+      "NDT report"
+    ],
+    "finish_or_protection": "blast, rail primer/topcoat, cavity wax/sealant, and weld-edge protection",
+    "form_factor": "laser-cut RHS/plate, press-brake folds, drilled/machined inserts, and bracket kit",
+    "governing_standard": "EN 10025 material certificate; EN 15085 weld-quality evidence for classed rail weldments",
+    "grade_or_part_class": "EN 10025 S355 candidate primary-structure RHS/folded plate",
+    "material_family": "rail structural steel",
+    "nominal_section": "thickness/section per v2A controlled drawing and FEM release",
+    "traceability": "heat number, weld consumable batch, WPS/WPQR, welder ID, and NDT record"
+  },
+  "maturity": "release-candidate",
+  "notes": "",
+  "parent": "LM3-FIX-SA340",
+  "process_spec": {
+    "inspection_methods": [
+      "dimensional inspection",
+      "visual inspection",
+      "rail datum survey",
+      "end-deburr check",
+      "isolation/finish inspection",
+      "representative pull/slip test"
+    ],
+    "joining_methods": [
+      "fixture tack and weld where structural",
+      "bolted/torqued installation to parent datum"
+    ],
+    "primary_processes": [
+      "cut",
+      "form",
+      "drill/machine",
+      "de-burr",
+      "trial fit"
+    ],
+    "release_level": "v2A drawing-controlled MAKE process; generated traveler is unsigned until build",
+    "special_process_controls": [
+      "released drawing/revision check",
+      "material certificate check",
+      "datum gauge before parent release"
+    ],
+    "tooling_basis": "FIX-LM3-FIX-FAB plus GAUGE-LM3-FIX-P010-DATUM"
+  },
+  "quantity_per_trainset": 3,
+  "route": "MAKE",
+  "source_refs": [
+    "small_components.py",
+    "bom-skeleton.md B2/B15/B21",
+    "LM3-INT-230"
+  ],
+  "title": "OSR-RAIL-42 common ceiling, waist, and seat-zone service rail kit",
+  "unit": "car kit"
+}

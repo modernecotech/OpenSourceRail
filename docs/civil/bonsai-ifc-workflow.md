@@ -180,21 +180,22 @@ tools. They deliberately carry no engineering meaning beyond simple geometry
 grouping; object identity and semantics remain in IFC objects, types,
 classification, and coordination groups.
 
-The nine deterministic integration gates are also native project-level
+The nine deterministic integration gates are native project-level
 `IfcObjective` constraints with hard `DESIGNINTENT` semantics, source path,
-fixed evaluation time, current observation, and PASS/FAIL state. They remain
-qualitative: the exporter does not create `IfcMetric` benchmarks by parsing
-human-readable observations. The structured index and validation report remain
-the machine authority for evaluation status.
+fixed evaluation time, current observation, and PASS/FAIL state. Six checks
+also carry native nested `IfcMetric` records with `EQUALTO` length benchmarks;
+their observed and target values come from structured integration data, not
+parsed prose. The other three gates remain explicitly qualitative because their
+sources provide no defensible numeric benchmark.
 
 All custom properties now use the standards-compliant `OSR_` prefix; the IFC
-`Pset_` prefix is reserved for property sets defined by buildingSMART. Thirteen
-native `IfcPropertySetTemplate` dictionaries declare 77 property and quantity
+`Pset_` prefix is reserved for property sets defined by buildingSMART. Sixteen
+native `IfcPropertySetTemplate` dictionaries declare 99 property and quantity
 field types across occurrence, type, material, profile, and quantity data.
-Thirteen templates link 447 `IfcPropertySet`/`IfcElementQuantity` definitions via
-`IfcRelDefinesByTemplate`; material and profile resources cannot use that
+Applicable templates link 483 `IfcPropertySet`/`IfcElementQuantity` definitions
+via `IfcRelDefinesByTemplate`; material and profile resources cannot use that
 relationship, so their four definitions match the declared material/profile
-templates by name and template type. All 15 templates are declared in the IFC
+templates by name and template type. All 16 templates are declared in the IFC
 project context and indexed for City Studio inspection.
 
 Fifteen native `IfcDocumentInformation`/`IfcDocumentReference` records expose
@@ -275,14 +276,14 @@ represent released reinforcement, prestress or connection detailing.
 ## IDS delivery gate and BCF review loop
 
 The exporter writes an IDS 1.0 contract and immediately reopens it with
-IfcTester against the written IFC. Nineteen specifications cover all 185 assets,
+IfcTester against the written IFC. Twenty specifications cover all 185 assets,
 the 19-type catalogue, the source-backed material subset, alignment authority,
 the native rail-profile assignments, OSR asset classification, native document
 register, five coordination groups, six functional systems, four presentation
 layers, 36 native bearings and their connectivity records, nine virtual foundation interfaces, two native vehicles
-and their standard base quantities, nine interface
-constraints, typed property dictionaries, the planning schedule of rates, and
-project provenance. The current reference exchange passes all 3,292
+and their standard base quantities, nine interface constraints, six native
+metrics, typed property dictionaries, the planning schedule of rates, and
+project provenance. The current reference exchange passes all 3,340
 entity-level checks. The audit is deterministic: entity
 evidence is sorted before hashing, so a repeat build produces byte-identical
 IFC, IDS, audit, BCF, indexes, sequence, and validation files.
@@ -334,7 +335,26 @@ drainage capacity, construction loads, or local-code compliance. Those remain
 deployment analyses and competent-engineer decisions linked back into IFC only
 after review.
 
-## Gap review and economical next steps
+Each gate remains governed by the `IfcProject`, while its single
+`IfcRelAssociatesConstraint` also identifies the evidence it evaluates. Across
+the nine objectives this produces 91 asset, six review-group, one functional-
+system, and nine project links. City Studio exposes those IDs directly. This
+scope is traceability, not a claim that the qualitative checks replace
+structural analysis or approval.
+
+The registered, SHA-256-locked civil-integration `IfcDocumentReference` is
+also attached to all nine objectives and their six metrics by one
+`IfcExternalReferenceRelationship`. This is the IFC4.3 resource-level link
+intended for constraints, which do not inherit from `IfcRoot`; it is provenance
+only and does not represent approval, issue, or engineering release.
+
+## Capability closure and external decisions
+
+All IFC/Bonsai work supported by the current repository inputs is implemented.
+The generated index reports `source-supported-ifc-work-complete` with zero
+implementable open tasks. Nine external-decision records identify the named
+authority, evidence, blocked capability, and safe current state for work that
+cannot be completed truthfully from repository data alone.
 
 | IFC capability | Decision |
 |---|---|
@@ -355,10 +375,11 @@ after review.
 | Native functional systems | Implemented with six deterministic `IfcSystem`-family records and exactly one membership per asset, derived from the complete 15-class OSR asset classification. Three use supported `IfcBuiltSystem` subtypes, and seven non-hierarchical references connect all systems to the railway parts they cover. Virtual civil interfaces remain in a generic system. |
 | Surveyed spatial zones | Add `IfcSpatialZone` only when accepted boundaries and survey control exist; the current separated review layout is insufficient evidence. |
 | Native presentation layers | Implemented with four stable layers and exactly one `IfcShapeRepresentation` assignment per asset for simple visibility control. Object semantics remain elsewhere. |
-| Native interface constraints | Implemented with nine qualitative hard `IfcObjective` records associated with the project. Numeric metrics are deferred until checks expose structured benchmark paths and values. |
+| Native interface constraints | Implemented with nine hard `IfcObjective` records and 107 scoped project/asset/group/system evidence links. Six checks have native nested `IfcMetric/EQUALTO` length benchmarks; three remain explicitly qualitative. |
 | Stage-specific 4D product semantics | Implemented across five output tasks: 134 physical assets animate at their actual completion stage, while 45 virtual foundation/jacking interfaces are separately related as review gates and never treated as constructed output. |
 | Native OSR property dictionaries | Implemented with 16 project-declared templates, 99 typed fields, 483 direct definition links, and four name/type-matched material/profile definitions. Custom sets use `OSR_`, never the reserved `Pset_` prefix. |
-| Native source-document register | Implemented with 15 hash-locked repository sources and direct project, cost-schedule, type, and occurrence associations. |
+| Native source-document register | Implemented with 15 hash-locked repository sources, direct project/cost/type/occurrence associations, and one resource-level relationship linking the civil source to all nine objectives and six metrics. |
+| External engineering decision register | Implemented with nine indexed decisions. Survey, geotechnical, structural, bearing, material, classification, commercial, rolling-stock, and CDE promotion remains blocked until the named authority supplies the listed evidence. |
 | Issued drawings and CDE document control | Defer sheets, issue/transmittal states, and CDE URLs until a deployment selects its naming, approval, and common-data-environment convention. |
 
 ## Upstream references
@@ -404,6 +425,11 @@ after review.
 - [IFC4.3 `IfcPresentationLayerAssignment`](https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/lexical/IfcPresentationLayerAssignment.htm)
 - [IfcOpenShell layer API](https://docs.ifcopenshell.org/autoapi/ifcopenshell/api/layer/index.html)
 - [IFC4.3 constraint resource](https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/ifcconstraintresource/content.html)
+- [IFC4.3 `IfcObjective`](https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/lexical/IfcObjective.htm)
+- [IFC4.3 `IfcMetric`](https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/lexical/IfcMetric.htm)
+- [IFC4.3 `IfcRelAssociatesConstraint`](https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/lexical/IfcRelAssociatesConstraint.htm)
+- [IFC4.3 `IfcExternalReferenceRelationship`](https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/lexical/IfcExternalReferenceRelationship.htm)
+- [IFC4.3 `IfcDocumentReference`](https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/lexical/IfcDocumentReference.htm)
 - [IfcOpenShell constraint API](https://docs.ifcopenshell.org/autoapi/ifcopenshell/api/constraint/index.html)
 - [IFC4.3 custom property-set naming](https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/lexical/IfcPropertySet.htm)
 - [IFC4.3 property-set templates](https://ifc43-docs.standards.buildingsmart.org/IFC/RELEASE/IFC4x3/HTML/lexical/IfcPropertySetTemplate.htm)

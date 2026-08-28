@@ -6,7 +6,7 @@ torques are intentionally prohibited until the named supplier instruction or
 joint calculation is accepted; nominal bolt diameter alone is not a safe
 preload specification.
 
-Controlled integration joints: **93**.
+Controlled integration joints: **102**.
 
 | Joint ID | Parent → child | Join classes | Torque authority | Release status |
 |---|---|---|---|---|
@@ -24,15 +24,22 @@ Controlled integration joints: **93**.
 | `J-LM3-SHELL-A200-05` | `LM3-SHELL-A200` → `LM3-EXT-P080` | `bolted-structural-datum` | accepted supplier installation manual plus released OSR interface-control drawing | `supplier-freeze-required` |
 | `J-LM3-SHELL-A200-06` | `LM3-SHELL-A200` → `LM3-EXT-P090` | `gasketed-removable-panel`<br>`bolted-structural-datum` | accepted supplier installation manual plus released OSR interface-control drawing | `supplier-freeze-required` |
 | `J-LM3-WIN-SA320-01` | `LM3-WIN-SA320` → `LM3-BDY-P110` | `adhesive-bonded-panel`<br>`bolted-structural-datum` | released joint calculation plus interface-control drawing and calibrated-tool procedure | `joint-calculation-required` |
-| `J-LM3-WIN-SA320-02` | `LM3-WIN-SA320` → `LM3-EXT-P020` | `adhesive-bonded-panel`<br>`bolted-structural-datum` | accepted supplier installation manual plus released OSR interface-control drawing | `supplier-freeze-required` |
+| `J-LM3-WIN-SA320-02` | `LM3-WIN-SA320` → `LM3-WIN-P010` | `cassette-floating-fastener`<br>`fluid-thermal` | released cassette interface drawing and calculation plus supplier installation manual | `cassette-interface-release-required` |
+| `J-LM3-WIN-SA320-03` | `LM3-WIN-SA320` → `LM3-EXT-P020` | `adhesive-bonded-panel`<br>`bolted-structural-datum` | accepted supplier installation manual plus released OSR interface-control drawing | `supplier-freeze-required` |
 | `J-LM3-DOOR-SA310-01` | `LM3-DOOR-SA310` → `LM3-BDY-P100` | `structural-weld`<br>`bolted-structural-datum` | released joint calculation plus interface-control drawing and calibrated-tool procedure | `joint-calculation-required` |
-| `J-LM3-DOOR-SA310-02` | `LM3-DOOR-SA310` → `LM3-EXT-P010` | `gasketed-removable-panel`<br>`bolted-structural-datum` | accepted supplier installation manual plus released OSR interface-control drawing | `supplier-freeze-required` |
+| `J-LM3-DOOR-SA310-02` | `LM3-DOOR-SA310` → `LM3-DOOR-P010` | `cassette-floating-fastener`<br>`electrical-data` | released cassette interface drawing and calculation plus supplier installation manual | `cassette-interface-release-required` |
+| `J-LM3-DOOR-SA310-03` | `LM3-DOOR-SA310` → `LM3-EXT-P010` | `gasketed-removable-panel`<br>`bolted-structural-datum` | accepted supplier installation manual plus released OSR interface-control drawing | `supplier-freeze-required` |
 | `J-LM3-INT-SA330-01` | `LM3-INT-SA330` → `LM3-EXT-P060` | `bolted-structural-datum`<br>`electrical-data` | accepted supplier installation manual plus released OSR interface-control drawing | `supplier-freeze-required` |
 | `J-LM3-INT-SA330-02` | `LM3-INT-SA330` → `LM3-INT-P010` | `gasketed-removable-panel`<br>`bolted-structural-datum`<br>`electrical-data`<br>`fluid-thermal` | accepted supplier installation manual plus released OSR interface-control drawing | `supplier-freeze-required` |
 | `J-LM3-INT-SA330-03` | `LM3-INT-SA330` → `LM3-INT-P020` | `gasketed-removable-panel`<br>`bolted-structural-datum`<br>`electrical-data`<br>`fluid-thermal` | released joint calculation plus interface-control drawing and calibrated-tool procedure | `joint-calculation-required` |
 | `J-LM3-INT-SA330-04` | `LM3-INT-SA330` → `LM3-INT-P030` | `adhesive-bonded-panel`<br>`bolted-structural-datum` | released joint calculation plus interface-control drawing and calibrated-tool procedure | `joint-calculation-required` |
 | `J-LM3-INT-SA330-05` | `LM3-INT-SA330` → `LM3-INT-P040` | `gasketed-removable-panel`<br>`bolted-structural-datum`<br>`electrical-data` | released joint calculation plus interface-control drawing and calibrated-tool procedure | `joint-calculation-required` |
 | `J-LM3-INT-SA330-06` | `LM3-INT-SA330` → `LM3-INT-P050` | `bolted-structural-datum` | released joint calculation plus interface-control drawing and calibrated-tool procedure | `joint-calculation-required` |
+| `J-LM3-FIX-SA340-01` | `LM3-FIX-SA340` → `LM3-FIX-P010` | `service-rail-captive-fastener` | released OSR small-component standard plus accepted hardware batch and calibrated-tool procedure | `standard-hardware-release-required` |
+| `J-LM3-FIX-SA340-02` | `LM3-FIX-SA340` → `LM3-FIX-P020` | `service-rail-captive-fastener` | released OSR small-component standard plus accepted hardware batch and calibrated-tool procedure | `standard-hardware-release-required` |
+| `J-LM3-FIX-SA340-03` | `LM3-FIX-SA340` → `LM3-FIX-P030` | `service-rail-captive-fastener` | released OSR small-component standard plus accepted hardware batch and calibrated-tool procedure | `standard-hardware-release-required` |
+| `J-LM3-LGT-SA350-01` | `LM3-LGT-SA350` → `LM3-LGT-P010` | `service-rail-captive-fastener`<br>`electrical-data` | released OSR small-component standard plus accepted hardware batch and calibrated-tool procedure | `standard-hardware-release-required` |
+| `J-LM3-LGT-SA350-02` | `LM3-LGT-SA350` → `LM3-LGT-P020` | `service-rail-captive-fastener`<br>`electrical-data` | released OSR small-component standard plus accepted hardware batch and calibrated-tool procedure | `standard-hardware-release-required` |
 | `J-LM3-ROOF-SA410-01` | `LM3-ROOF-SA410` → `LM3-BDY-P080` | `structural-weld`<br>`gasketed-removable-panel`<br>`bolted-structural-datum`<br>`electrical-data`<br>`fluid-thermal` | released joint calculation plus interface-control drawing and calibrated-tool procedure | `joint-calculation-required` |
 | `J-LM3-ROOF-SA410-02` | `LM3-ROOF-SA410` → `LM3-ROOF-P010` | `gasketed-removable-panel`<br>`bolted-structural-datum`<br>`electrical-data`<br>`fluid-thermal` | released joint calculation plus interface-control drawing and calibrated-tool procedure | `joint-calculation-required` |
 | `J-LM3-ROOF-SA410-03` | `LM3-ROOF-SA410` → `LM3-ROOF-P020` | `adhesive-bonded-panel`<br>`bolted-structural-datum`<br>`electrical-data` | released joint calculation plus interface-control drawing and calibrated-tool procedure | `joint-calculation-required` |
@@ -93,11 +100,13 @@ Controlled integration joints: **93**.
 | `J-LM3-CAR-A900-01` | `LM3-CAR-A900` → `LM3-SHELL-A200` | `adhesive-bonded-panel`<br>`bolted-structural-datum` | released joint calculation plus interface-control drawing and calibrated-tool procedure | `joint-calculation-required` |
 | `J-LM3-CAR-A900-02` | `LM3-CAR-A900` → `LM3-DOOR-SA310` | `gasketed-removable-panel`<br>`bolted-structural-datum` | released joint calculation plus interface-control drawing and calibrated-tool procedure | `joint-calculation-required` |
 | `J-LM3-CAR-A900-03` | `LM3-CAR-A900` → `LM3-INT-SA330` | `bolted-structural-datum` | released joint calculation plus interface-control drawing and calibrated-tool procedure | `joint-calculation-required` |
-| `J-LM3-CAR-A900-04` | `LM3-CAR-A900` → `LM3-ROOF-SA410` | `gasketed-removable-panel`<br>`bolted-structural-datum`<br>`electrical-data`<br>`fluid-thermal` | released joint calculation plus interface-control drawing and calibrated-tool procedure | `joint-calculation-required` |
-| `J-LM3-CAR-A900-05` | `LM3-CAR-A900` → `LM3-HV-SA510` | `bolted-structural-datum`<br>`electrical-data`<br>`fluid-thermal` | released joint calculation plus interface-control drawing and calibrated-tool procedure | `joint-calculation-required` |
-| `J-LM3-CAR-A900-06` | `LM3-CAR-A900` → `LM3-BOG-SA610` | `bolted-structural-datum` | released joint calculation plus interface-control drawing and calibrated-tool procedure | `joint-calculation-required` |
-| `J-LM3-CAR-A900-07` | `LM3-CAR-A900` → `LM3-BOG-SA620` | `bolted-structural-datum` | released joint calculation plus interface-control drawing and calibrated-tool procedure | `joint-calculation-required` |
-| `J-LM3-CAR-A900-08` | `LM3-CAR-A900` → `LM3-AUX-P010` | `bolted-structural-datum` | accepted supplier installation manual plus released OSR interface-control drawing | `supplier-freeze-required` |
+| `J-LM3-CAR-A900-04` | `LM3-CAR-A900` → `LM3-FIX-SA340` | `service-rail-captive-fastener` | released OSR small-component standard plus accepted hardware batch and calibrated-tool procedure | `standard-hardware-release-required` |
+| `J-LM3-CAR-A900-05` | `LM3-CAR-A900` → `LM3-LGT-SA350` | `service-rail-captive-fastener`<br>`electrical-data` | released OSR small-component standard plus accepted hardware batch and calibrated-tool procedure | `standard-hardware-release-required` |
+| `J-LM3-CAR-A900-06` | `LM3-CAR-A900` → `LM3-ROOF-SA410` | `gasketed-removable-panel`<br>`bolted-structural-datum`<br>`electrical-data`<br>`fluid-thermal` | released joint calculation plus interface-control drawing and calibrated-tool procedure | `joint-calculation-required` |
+| `J-LM3-CAR-A900-07` | `LM3-CAR-A900` → `LM3-HV-SA510` | `bolted-structural-datum`<br>`electrical-data`<br>`fluid-thermal` | released joint calculation plus interface-control drawing and calibrated-tool procedure | `joint-calculation-required` |
+| `J-LM3-CAR-A900-08` | `LM3-CAR-A900` → `LM3-BOG-SA610` | `bolted-structural-datum` | released joint calculation plus interface-control drawing and calibrated-tool procedure | `joint-calculation-required` |
+| `J-LM3-CAR-A900-09` | `LM3-CAR-A900` → `LM3-BOG-SA620` | `bolted-structural-datum` | released joint calculation plus interface-control drawing and calibrated-tool procedure | `joint-calculation-required` |
+| `J-LM3-CAR-A900-10` | `LM3-CAR-A900` → `LM3-AUX-P010` | `bolted-structural-datum` | accepted supplier installation manual plus released OSR interface-control drawing | `supplier-freeze-required` |
 | `J-LM3-TRAINSET-A000-01` | `LM3-TRAINSET-A000` → `LM3-CAR-A900` | `bolted-structural-datum` | released joint calculation plus interface-control drawing and calibrated-tool procedure | `joint-calculation-required` |
 | `J-LM3-TRAINSET-A000-02` | `LM3-TRAINSET-A000` → `LM3-EIF-SA650` | `bolted-structural-datum` | released joint calculation plus interface-control drawing and calibrated-tool procedure | `joint-calculation-required` |
 | `J-LM3-TRAINSET-A000-03` | `LM3-TRAINSET-A000` → `LM3-END-SA700` | `gasketed-removable-panel`<br>`bolted-structural-datum`<br>`electrical-data` | released joint calculation plus interface-control drawing and calibrated-tool procedure | `joint-calculation-required` |

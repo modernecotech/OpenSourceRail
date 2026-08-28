@@ -151,7 +151,8 @@ extrusions, two typed `IfcVehicle/ROLLINGSTOCK` trainsets with standard base
 quantities, 36 native typed bearings, nine pier caps, nine columns, and 45
 explicitly virtual foundation/jacking interfaces, 27 native support
 connections with 60 bearing realizations, 15 hash-locked native source
-documents associated to all assets, one internal classification with 15
+documents associated to all assets and the civil source natively linked to all
+nine objectives and six numeric metrics, one internal classification with 15
 references covering all 185 assets, four `IfcRailwayPart` disciplines, five
 native coordination groups, six native functional systems (three specialized
 as `IfcBuiltSystem`), seven system-to-railway-part references,
@@ -160,16 +161,18 @@ an `IfcAlignment` with native horizontal/vertical planning segments,
 gradient-curve representation and stationing, 18 construction tasks with five
 stage-specific output tasks, 134 physical product links and 45 separately
 identified virtual review-interface links, native quantities, provenance, and
-nine passing checks exposed as native
-qualitative interface constraints. Sixteen project-declared property/quantity
+nine passing checks exposed as native interface constraints with six numeric
+`IfcMetric` benchmarks, three qualitative-only gates, and 107 scoped
+project/asset/group/system evidence links. Sixteen project-declared property/quantity
 dictionaries expose 99 typed fields without misusing the reserved `Pset_`
 prefix. One native USD `SCHEDULEOFRATES` exposes the three generated planning
 alternatives without product assignments, multiplied quantities, or a project
-total. Its nineteen-specification IDS 1.0 contract passes 3,292/3,292 checks;
+total. Its twenty-specification IDS 1.0 contract passes 3,340/3,340 checks;
 deterministic BCF
 3.0 topics retain object links and Git-reviewed decisions. Bonsai 0.8.5 imports
-the model headlessly and saves the review/animation scene. Survey-grade
-alignment design and engineer-released structural detail remain open.
+the model headlessly and saves the review/animation scene. All source-supported
+IFC implementation work is closed; nine indexed decisions identify the survey,
+supplier, engineering, client, commercial, and CDE evidence still required.
 
 The city package now also converts canonical catalogue inputs into QGIS/GDAL
 GeoPackages, shapes SUMO edges from the corridor GeoJSON, and runs per-city

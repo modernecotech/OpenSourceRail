@@ -33,7 +33,7 @@ criteria, in order:
 | `osr_mech.track` | Rail profile (54E1 / 60E1), precast mono-block sleeper, Pandrol-style fastener, assembled track panel |
 | `osr_mech.civil` | OSR-Pi20/Pi25 decked beams, special U-girders, OSR-ST6/elevated direct-fixation trackforms, soil/access foundation catalogue, resource production plan, substructures and platform edges (RFC 0011) |
 | `osr_mech.station` | Steel portal-frame bay, multi-bay canopy assembly, solar-roof panel, signage + lighting mast |
-| `osr_mech.rolling_stock` | Car body, bogie components, trainset assemblies, sensor cowl, couplers, articulation, doors, batteries, traction/electronics envelopes, T-OBS sensor pack, fit-out envelopes |
+| `osr_mech.rolling_stock` | Car body, bogies, trainsets, doors, batteries, traction/electronics, T-OBS, COTS fit-out and the common service-rail/fastener/fixture system |
 | `osr_mech.cad_templates` | Fabrication templates plus supplier-neutral COTS fixture envelopes |
 
 The current CAD is an envelope and design-review package, not a
@@ -114,6 +114,7 @@ Generated artifacts live in
 |---|---|
 | [`buildable-trainset-manifest.md`](catalog/buildable-trainset/buildable-trainset-manifest.md) | Product tree: fabricated parts, external components, subassemblies, assemblies, trainset |
 | [`current-design-buildability-review.md`](catalog/buildable-trainset/current-design-buildability-review.md) | Green/yellow/red buildability findings and next closure actions |
+| [`small-component-standard.md`](catalog/buildable-trainset/small-component-standard.md) | Four fastener families, common rail, keyed connectors, modular illumination and serviceable door/window boundaries |
 | [`definitions/index.md`](catalog/buildable-trainset/definitions/index.md) | Drawing/RFQ seed: JSON + Markdown definition for every product-tree node, including structured material and process specs |
 | [`travelers/index.md`](catalog/buildable-trainset/travelers/index.md) | Shop traveler seed: material/process controls, operation routers, labor estimates, tooling IDs, QA gates, approval/signoff blocks |
 

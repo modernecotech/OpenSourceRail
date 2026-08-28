@@ -59,7 +59,13 @@ from ifcopenshell.api.classification import (
     edit_reference as edit_classification_reference,
 )
 from ifcopenshell.api.context import add_context
-from ifcopenshell.api.constraint import add_objective, assign_constraint, edit_objective
+from ifcopenshell.api.constraint import (
+    add_metric,
+    add_objective,
+    assign_constraint,
+    edit_metric,
+    edit_objective,
+)
 from ifcopenshell.api.cost import (
     add_cost_item,
     add_cost_schedule as add_ifc_cost_schedule,
@@ -291,6 +297,218 @@ FUNCTIONAL_SYSTEMS = {
         "asset_classes": {"civil.trackform", "track.rail", "track.turnout"},
     },
 }
+
+CONSTRAINT_EVIDENCE_SCOPES = {
+    "complete-rolling-stock-present": {
+        "asset_selectors": [
+            {
+                "asset_classes": {"rolling-stock.trainset"},
+                "group_ids": {"OSR-DT-ZONE-RST-001"},
+            }
+        ],
+        "group_ids": {"OSR-DT-ZONE-RST-001"},
+        "system_ids": {"OSR-SYS-ROLLING-STOCK"},
+    },
+    "elevated-platform-horizontal-envelope-gap": {
+        "asset_selectors": [
+            {
+                "asset_classes": {
+                    "clearance.reference-envelope",
+                    "station.platform-interface",
+                },
+                "group_ids": {"OSR-DT-ZONE-STN-ELEVATED-001"},
+            }
+        ]
+    },
+    "elevated-platform-vertical-datum": {
+        "asset_selectors": [
+            {
+                "asset_classes": {"station.platform-interface", "track.rail"},
+                "group_ids": {"OSR-DT-ZONE-STN-ELEVATED-001"},
+            }
+        ]
+    },
+    "ground-platform-horizontal-envelope-gap": {
+        "asset_selectors": [
+            {
+                "asset_classes": {
+                    "clearance.reference-envelope",
+                    "station.platform-interface",
+                },
+                "group_ids": {"OSR-DT-ZONE-STN-GROUND-001"},
+            }
+        ]
+    },
+    "ground-platform-vertical-datum": {
+        "asset_selectors": [
+            {
+                "asset_classes": {"station.platform-interface", "track.rail"},
+                "group_ids": {"OSR-DT-ZONE-STN-GROUND-001"},
+            }
+        ]
+    },
+    "junction-turnout-present": {
+        "asset_selectors": [
+            {
+                "asset_classes": {"track.turnout"},
+                "group_ids": {"OSR-DT-ZONE-JCT-001"},
+            }
+        ]
+    },
+    "pier-bearing-to-girder-soffit": {
+        "asset_selectors": [
+            {
+                "asset_classes": {
+                    "civil.bearing",
+                    "civil.decked-pi-beam",
+                    "civil.pier-cap",
+                },
+                "group_ids": {"OSR-DT-ZONE-VIA-001"},
+            }
+        ]
+    },
+    "requested-system-zones-present": {
+        "asset_selectors": [],
+        "group_ids": set(ZONE_ASSET_IDS.values()),
+    },
+    "viaduct-to-station-track-support-datum": {
+        "asset_selectors": [
+            {"asset_classes": {"civil.decked-pi-beam"}},
+            {"asset_classes": {"civil.station-deck-interface"}},
+        ]
+    },
+}
+
+EXTERNAL_ENGINEERING_DECISIONS = (
+    {
+        "decision_id": "OSR-DEC-SURVEY-ALIGNMENT",
+        "title": "Accept survey-controlled horizontal and vertical alignment",
+        "authority_required": "project surveyor and alignment engineer",
+        "evidence_required": [
+            "accepted CRS and vertical datum",
+            "survey control and uncertainty",
+            "design radii, transitions, vertical curves and cant",
+        ],
+        "blocked_capabilities": [
+            "survey-grade IFC alignment",
+            "product linear placement",
+            "surveyed spatial zones",
+        ],
+        "safe_current_state": "validated local grid or explicit project map conversion",
+    },
+    {
+        "decision_id": "OSR-DEC-GEOTECH-FOUNDATION",
+        "title": "Release geotechnical model and foundation schedule",
+        "authority_required": "geotechnical and foundation engineer",
+        "evidence_required": [
+            "ground investigation",
+            "foundation type, depth and capacity schedule",
+            "settlement, scour and groundwater assessment",
+        ],
+        "blocked_capabilities": [
+            "physical IfcFooting or IfcDeepFoundation products",
+            "foundation quantities and construction release",
+        ],
+        "safe_current_state": "nine explicit virtual foundation interfaces",
+    },
+    {
+        "decision_id": "OSR-DEC-STRUCTURAL-RELEASE",
+        "title": "Release structural design and reinforcement",
+        "authority_required": "competent structural engineer",
+        "evidence_required": [
+            "load combinations and structural analysis",
+            "reinforcement, prestress and connection schedules",
+            "seismic, drainage, construction-stage and code checks",
+        ],
+        "blocked_capabilities": [
+            "reinforcement and prestress IFC detailing",
+            "structural capacity or construction-release claims",
+        ],
+        "safe_current_state": "non-overlapping design-reference envelopes",
+    },
+    {
+        "decision_id": "OSR-DEC-BEARING-SUPPLIER",
+        "title": "Select and release bridge bearings",
+        "authority_required": "structural engineer and bearing supplier",
+        "evidence_required": [
+            "bearing loads and movement schedule",
+            "stiffness, restraint and replacement requirements",
+            "supplier model and certification",
+        ],
+        "blocked_capabilities": [
+            "analytical bearing conditions",
+            "supplier performance and release properties",
+        ],
+        "safe_current_state": "typed envelopes and physical support topology only",
+    },
+    {
+        "decision_id": "OSR-DEC-MATERIAL-SPECIFICATION",
+        "title": "Nominate project material specifications",
+        "authority_required": "designer, client and procurement authority",
+        "evidence_required": [
+            "material grades, durability and finish requirements",
+            "supplier certificates and approved substitutions",
+        ],
+        "blocked_capabilities": [
+            "grade-specific IFC materials",
+            "mixed-material constituent and certification data",
+        ],
+        "safe_current_state": "three source-backed family declarations",
+    },
+    {
+        "decision_id": "OSR-DEC-CLASSIFICATION",
+        "title": "Nominate jurisdiction and client classification",
+        "authority_required": "client information manager",
+        "evidence_required": [
+            "classification system and edition",
+            "approved OSR crosswalk and client requirements",
+        ],
+        "blocked_capabilities": ["national or client classification references"],
+        "safe_current_state": "complete internal OSR asset classification",
+    },
+    {
+        "decision_id": "OSR-DEC-COMMERCIAL-SCOPE",
+        "title": "Approve commercial scope and rates",
+        "authority_required": "client commercial and cost authority",
+        "evidence_required": [
+            "selected project scope",
+            "approved unit rates and measurement rules",
+            "supplier quotations and risk allowances",
+        ],
+        "blocked_capabilities": [
+            "element-level cost assignments",
+            "bill, tender or project total",
+        ],
+        "safe_current_state": "three mutually exclusive planning rates only",
+    },
+    {
+        "decision_id": "OSR-DEC-ROLLING-STOCK-SUPPLIER",
+        "title": "Release rolling-stock supplier data",
+        "authority_required": "operator and rolling-stock supplier",
+        "evidence_required": [
+            "manufacturer and vehicle configuration",
+            "mass, capacity, availability and operational data",
+        ],
+        "blocked_capabilities": [
+            "supplier identity and operational vehicle property sets"
+        ],
+        "safe_current_state": "two dimensional design-reference trainsets",
+    },
+    {
+        "decision_id": "OSR-DEC-CDE-DOCUMENT-CONTROL",
+        "title": "Nominate drawing and common-data-environment controls",
+        "authority_required": "client information manager and project approver",
+        "evidence_required": [
+            "naming and suitability convention",
+            "CDE locations, transmittal and approval workflow",
+        ],
+        "blocked_capabilities": [
+            "issued drawing records",
+            "transmittal, suitability and approval claims",
+        ],
+        "safe_current_state": "hash-locked repository source register",
+    },
+)
 
 DOCUMENT_SOURCES = {
     "OSR-DOC-ALIGNMENT-CONTRACT": {
@@ -1881,11 +2099,43 @@ def add_interface_constraints(
     *,
     project: Any,
     checks: Iterable[Any],
+    products: dict[str, Any],
+    index_rows: list[dict[str, Any]],
+    group_entities: dict[str, Any],
+    system_entities: dict[str, Any],
+    document_references: dict[str, Any],
 ) -> list[dict[str, Any]]:
-    """Publish evaluated source checks as qualitative project requirements."""
+    """Publish source checks with project governance and precise IFC evidence."""
 
     rows: list[dict[str, Any]] = []
+    objectives: list[Any] = []
+    metrics: list[Any] = []
     for check in sorted(checks, key=lambda item: item.name):
+        scope = CONSTRAINT_EVIDENCE_SCOPES.get(check.name)
+        if scope is None:
+            raise ValueError(f"interface constraint {check.name!r} has no evidence scope")
+        asset_ids = sorted(
+            {
+                row["asset_id"]
+                for selector in scope.get("asset_selectors", [])
+                for row in index_rows
+                if row["asset_class"] in selector["asset_classes"]
+                and (
+                    not selector.get("group_ids")
+                    or row["coordination_group_id"] in selector["group_ids"]
+                )
+            }
+        )
+        group_ids = sorted(scope.get("group_ids", set()))
+        system_ids = sorted(scope.get("system_ids", set()))
+        if not asset_ids and not group_ids and not system_ids:
+            raise ValueError(f"interface constraint {check.name!r} has empty evidence")
+        related_objects = [
+            project,
+            *(products[asset_id] for asset_id in asset_ids),
+            *(group_entities[group_id] for group_id in group_ids),
+            *(system_entities[system_id] for system_id in system_ids),
+        ]
         objective = add_objective(model)
         edit_objective(
             model,
@@ -1906,11 +2156,59 @@ def add_interface_constraints(
         )
         relationship = assign_constraint(
             model,
-            products=[project],
+            products=related_objects,
             constraint=objective,
         )
         if relationship is None:
             raise ValueError(f"interface constraint {check.name!r} has no IFC scope")
+        relationship.Intent = "DESIGN VALIDATION EVIDENCE"
+        objectives.append(objective)
+        metric_row: dict[str, Any] | None = None
+        if check.metric is not None:
+            metric = add_metric(model, objective=objective)
+            metric_id = f"{check.name}-metric"
+            edit_metric(
+                model,
+                metric=metric,
+                attributes={
+                    "Name": metric_id,
+                    "Description": (
+                        f"{check.metric.name}: observed "
+                        f"{check.metric.observed_value_m:.6f} {check.metric.unit}; "
+                        f"target {check.metric.target_value_m:.6f} "
+                        f"{check.metric.unit}. {check.metric.reference_path_status}."
+                    ),
+                    "ConstraintGrade": "HARD",
+                    "ConstraintSource": (
+                        "mechanical-py/src/osr_mech/civil_systems_integration.py"
+                    ),
+                    "CreationTime": FIXED_REVIEW_TIMESTAMP,
+                    "Benchmark": check.metric.benchmark,
+                    "ValueSource": (
+                        "OpenSourceRail deterministic civil integration constants; "
+                        f"SI {check.metric.unit}"
+                    ),
+                    "DataValue": model.create_entity(
+                        check.metric.measure_type,
+                        check.metric.target_value_m,
+                    ),
+                    "ReferencePath": None,
+                },
+            )
+            metrics.append(metric)
+            metric_row = {
+                "metric_id": metric_id,
+                "name": check.metric.name,
+                "ifc_class": metric.is_a(),
+                "benchmark": check.metric.benchmark,
+                "measure_type": check.metric.measure_type,
+                "unit": check.metric.unit,
+                "observed_value": check.metric.observed_value_m,
+                "target_value": check.metric.target_value_m,
+                "value_source": metric.ValueSource,
+                "reference_path": None,
+                "reference_path_status": check.metric.reference_path_status,
+            }
         rows.append(
             {
                 "constraint_id": check.name,
@@ -1921,12 +2219,37 @@ def add_interface_constraints(
                 "constraint_source": (
                     "mechanical-py/src/osr_mech/civil_systems_integration.py"
                 ),
-                "scope": "IfcProject",
+                "scope": "IfcProject governance plus deterministic related evidence",
+                "association_intent": relationship.Intent,
+                "related_asset_ids": asset_ids,
+                "related_group_ids": group_ids,
+                "related_system_ids": system_ids,
+                "related_object_count": len(related_objects),
                 "evaluation_status": "PASS" if check.passed else "FAIL",
                 "observation": check.detail,
-                "metric_status": "qualitative-objective; no fabricated numeric benchmark",
+                "metric": metric_row,
+                "metric_status": (
+                    "structured-native-ifc-metric"
+                    if metric_row is not None
+                    else "qualitative-objective; no fabricated numeric benchmark"
+                ),
             }
         )
+    source_document_id = "OSR-DOC-SOURCE-CIVIL-INTEGRATION"
+    source_relationship = model.create_entity(
+        "IfcExternalReferenceRelationship",
+        Name="OSR constraint source-document linkage",
+        Description=(
+            "Native link from each deterministic civil objective and metric to its "
+            "registered, hash-locked repository source; not an approval or "
+            "engineering release."
+        ),
+        RelatingReference=document_references[source_document_id],
+        RelatedResourceObjects=[*objectives, *metrics],
+    )
+    for row in rows:
+        row["external_source_document_ids"] = [source_document_id]
+        row["external_reference_relationship"] = source_relationship.is_a()
     return rows
 
 
@@ -2116,7 +2439,7 @@ def add_document_register(
     type_products: dict[tuple[str, str, str], Any],
     index_rows: list[dict[str, Any]],
     type_rows: dict[str, dict[str, Any]],
-) -> list[dict[str, Any]]:
+) -> tuple[dict[str, Any], list[dict[str, Any]]]:
     """Create hash-locked native IFC references to real repository sources."""
 
     assets_by_document: dict[str, list[str]] = {key: [] for key in DOCUMENT_SOURCES}
@@ -2138,6 +2461,7 @@ def add_document_register(
     alignment_documents = {"OSR-DOC-ALIGNMENT-CONTRACT"}
     cost_documents = {"OSR-DOC-CIVIL-COST-CONTRACT"}
     types_by_id = {item.Tag: item for item in type_products.values()}
+    reference_entities: dict[str, Any] = {}
     rows: list[dict[str, Any]] = []
     for document_id, declaration in sorted(DOCUMENT_SOURCES.items()):
         source_path = REPO_ROOT / declaration["path"]
@@ -2173,6 +2497,7 @@ def add_document_register(
                 "Location": declaration["path"],
             },
         )
+        reference_entities[document_id] = reference
         asset_ids = sorted(set(assets_by_document[document_id]))
         type_ids = sorted(set(types_by_document[document_id]))
         targets: list[Any] = []
@@ -2205,6 +2530,8 @@ def add_document_register(
                 "associated_asset_ids": asset_ids,
                 "associated_type_ids": type_ids,
                 "associated_object_count": len(targets),
+                "associated_constraint_ids": [],
+                "associated_constraint_count": 0,
             }
         )
 
@@ -2220,7 +2547,7 @@ def add_document_register(
             "AssociationPolicy": "project plus direct source-to-type-and-occurrence links",
         },
     )
-    return rows
+    return reference_entities, rows
 
 
 def deterministic_roots(model: ifcopenshell.file) -> None:
@@ -2250,6 +2577,7 @@ def stabilize_unordered_collections(model: ifcopenshell.file) -> None:
         "IfcRelAssociatesConstraint": ("RelatedObjects",),
         "IfcRelAssociatesDocument": ("RelatedObjects",),
         "IfcRelAssociatesMaterial": ("RelatedObjects",),
+        "IfcExternalReferenceRelationship": ("RelatedResourceObjects",),
         "IfcPresentationLayerAssignment": ("AssignedItems",),
         "IfcElementQuantity": ("Quantities",),
         "IfcPropertySetTemplate": ("HasPropertyTemplates",),
@@ -2792,11 +3120,6 @@ def build_model(
         products=products,
         index_rows=index_rows,
     )
-    constraint_rows = add_interface_constraints(
-        model,
-        project=project,
-        checks=assert_integration_checks(),
-    )
     group_entities, group_rows = add_coordination_groups(
         model,
         products=products,
@@ -2823,7 +3146,7 @@ def build_model(
         cost_model_hash=cost_model_hash,
         length_unit=length_unit,
     )
-    document_rows = add_document_register(
+    document_references, document_rows = add_document_register(
         model,
         project=project,
         alignment=alignment,
@@ -2833,6 +3156,26 @@ def build_model(
         index_rows=index_rows,
         type_rows=type_rows,
     )
+    constraint_rows = add_interface_constraints(
+        model,
+        project=project,
+        checks=assert_integration_checks(),
+        products=products,
+        index_rows=index_rows,
+        group_entities=group_entities,
+        system_entities=system_entities,
+        document_references=document_references,
+    )
+    constraint_resource_ids = sorted(
+        [row["constraint_id"] for row in constraint_rows]
+        + [row["metric"]["metric_id"] for row in constraint_rows if row["metric"]]
+    )
+    for document_row in document_rows:
+        if document_row["document_id"] == "OSR-DOC-SOURCE-CIVIL-INTEGRATION":
+            document_row["associated_constraint_ids"] = constraint_resource_ids
+            document_row["associated_constraint_count"] = len(
+                constraint_resource_ids
+            )
     schedule_rows, assignments = add_schedule(model, products, product_classes, product_names)
     property_template_rows = add_property_templates(model, project=project)
     for work_schedule in model.by_type("IfcWorkSchedule"):
@@ -2859,6 +3202,10 @@ def build_model(
         material_rows.values(), key=lambda row: row["material_id"]
     )
     sorted_profile_rows = sorted(profile_rows.values(), key=lambda row: row["profile_id"])
+    external_decision_rows = [
+        {**decision, "status": "external-evidence-required"}
+        for decision in EXTERNAL_ENGINEERING_DECISIONS
+    ]
     index = {
         "schema": SCHEMA,
         "revision_id": revision_id,
@@ -2868,6 +3215,15 @@ def build_model(
         "authority_boundary": {
             "authoritative": ["OSR alignment rules", "OSR parametric civil geometry", "OSR validation gates"],
             "bonsai_ifc": ["federation", "civil detail review", "quantities", "drawings", "4D construction sequence"],
+        },
+        "capability_closure": {
+            "status": "source-supported-ifc-work-complete",
+            "implementable_open_task_count": 0,
+            "external_decision_count": len(external_decision_rows),
+            "boundary": (
+                "Further promotion requires named external engineering, client, "
+                "supplier, commercial, survey or information-management evidence."
+            ),
         },
         "cost_model": {
             "path": "lib/templates/civil-cost-model.toml",
@@ -2965,6 +3321,33 @@ def build_model(
             "disciplines": dict(sorted(Counter(row["discipline"] for row in index_rows).items())),
             "interface_checks": len(assert_integration_checks()),
             "interface_constraints": len(constraint_rows),
+            "interface_metrics": sum(
+                row["metric"] is not None for row in constraint_rows
+            ),
+            "qualitative_only_interface_constraints": sum(
+                row["metric"] is None for row in constraint_rows
+            ),
+            "interface_constraint_related_objects": sum(
+                row["related_object_count"] for row in constraint_rows
+            ),
+            "interface_constraint_asset_links": sum(
+                len(row["related_asset_ids"]) for row in constraint_rows
+            ),
+            "interface_constraint_group_links": sum(
+                len(row["related_group_ids"]) for row in constraint_rows
+            ),
+            "interface_constraint_system_links": sum(
+                len(row["related_system_ids"]) for row in constraint_rows
+            ),
+            "constraint_source_document_relationships": len(
+                model.by_type("IfcExternalReferenceRelationship")
+            ),
+            "source_linked_constraint_resources": sum(
+                (1 + (row["metric"] is not None))
+                * bool(row["external_source_document_ids"])
+                for row in constraint_rows
+            ),
+            "external_engineering_decisions": len(external_decision_rows),
             "horizontal_alignment_segments": alignment_index[
                 "horizontal_segment_count"
             ],
@@ -3001,6 +3384,7 @@ def build_model(
         "systems": system_rows,
         "layers": layer_rows,
         "constraints": constraint_rows,
+        "external_engineering_decisions": external_decision_rows,
         "property_set_templates": property_template_rows,
         "types": sorted_type_rows,
         "objects": index_rows,
@@ -3515,10 +3899,11 @@ def build_civil_ids(index: dict[str, Any]) -> ids_module.Ids:
     document.specifications.append(layer_specification)
 
     constraint_specification = ids_module.Specification(
-        name="Civil interface requirements are native qualitative objectives",
+        name="Civil interface requirements are native objectives",
         description=(
-            "Each deterministic civil integration check is exposed as a project-level "
-            "IfcObjective without inventing unsupported numeric benchmarks."
+            "Each deterministic civil integration check is exposed as an IfcObjective "
+            "with project governance and related asset evidence. Source-supported "
+            "numeric checks carry nested IfcMetric benchmarks."
         ),
         instructions=(
             "Read the current evaluation from the accompanying index and validation "
@@ -3543,6 +3928,37 @@ def build_civil_ids(index: dict[str, Any]) -> ids_module.Ids:
         ]
     )
     document.specifications.append(constraint_specification)
+
+    metric_specification = ids_module.Specification(
+        name="Numeric civil interface checks use native IFC metrics",
+        description=(
+            "Every source-supported numeric interface target is a nested IfcMetric "
+            "using SI length values; multi-object derived checks do not claim a false "
+            "single-attribute reference path."
+        ),
+        instructions=(
+            "Compare DataValue with the structured observed value in the civil index "
+            "and retain the source-document relationship during review."
+        ),
+        minOccurs=1,
+        maxOccurs="unbounded",
+        ifcVersion=["IFC4X3_ADD2"],
+        identifier="OSR-IDS-METRIC-001",
+    )
+    metric_specification.applicability.append(ids_module.Entity(name="IFCMETRIC"))
+    metric_specification.requirements.extend(
+        [
+            ids_module.Attribute(name="Name"),
+            ids_module.Attribute(name="Description"),
+            ids_module.Attribute(name="ConstraintGrade"),
+            ids_module.Attribute(name="ConstraintSource"),
+            ids_module.Attribute(name="CreationTime"),
+            ids_module.Attribute(name="Benchmark"),
+            ids_module.Attribute(name="ValueSource"),
+            ids_module.Attribute(name="DataValue"),
+        ]
+    )
+    document.specifications.append(metric_specification)
 
     pset_template_specification = ids_module.Specification(
         name="OSR property dictionaries are native IFC templates",
@@ -4444,7 +4860,16 @@ def validate_written(
     expected_constraint_ids = {
         row["constraint_id"] for row in index["constraints"]
     }
+    exported_metrics = {
+        metric.Name: metric for metric in reopened.by_type("IfcMetric")
+    }
+    expected_metric_ids = {
+        row["metric"]["metric_id"]
+        for row in index["constraints"]
+        if row["metric"] is not None
+    }
     constraint_catalog_matches = set(exported_constraints) == expected_constraint_ids
+    metric_catalog_matches = set(exported_metrics) == expected_metric_ids
     constraint_associations_match = True
     for constraint_row in index["constraints"]:
         objective = exported_constraints.get(constraint_row["constraint_id"])
@@ -4452,6 +4877,8 @@ def validate_written(
             constraint_catalog_matches = False
             constraint_associations_match = False
             continue
+        metric_row = constraint_row["metric"]
+        benchmark_values = list(objective.BenchmarkValues or [])
         constraint_catalog_matches &= (
             objective.Description
             == (
@@ -4463,21 +4890,128 @@ def validate_written(
             and objective.CreationTime == FIXED_REVIEW_TIMESTAMP
             and objective.ObjectiveQualifier
             == constraint_row["objective_qualifier"]
-            and not objective.BenchmarkValues
-            and constraint_row["metric_status"]
-            == "qualitative-objective; no fabricated numeric benchmark"
+            and len(benchmark_values) == (1 if metric_row is not None else 0)
         )
+        if metric_row is None:
+            metric_catalog_matches &= constraint_row["metric_status"] == (
+                "qualitative-objective; no fabricated numeric benchmark"
+            )
+        else:
+            metric = exported_metrics.get(metric_row["metric_id"])
+            metric_catalog_matches &= (
+                metric is not None
+                and benchmark_values == [metric]
+                and metric.Description
+                == (
+                    f"{metric_row['name']}: observed "
+                    f"{metric_row['observed_value']:.6f} {metric_row['unit']}; "
+                    f"target {metric_row['target_value']:.6f} {metric_row['unit']}. "
+                    f"{metric_row['reference_path_status']}."
+                )
+                and metric.ConstraintGrade == "HARD"
+                and metric.ConstraintSource == constraint_row["constraint_source"]
+                and metric.CreationTime == FIXED_REVIEW_TIMESTAMP
+                and metric.Benchmark == metric_row["benchmark"]
+                and metric.DataValue.is_a() == metric_row["measure_type"]
+                and abs(
+                    metric.DataValue.wrappedValue - metric_row["target_value"]
+                )
+                <= 1e-12
+                and metric.ReferencePath is None
+                and constraint_row["metric_status"]
+                == "structured-native-ifc-metric"
+            )
         relationships = [
             relationship
             for relationship in reopened.by_type("IfcRelAssociatesConstraint")
             if relationship.RelatingConstraint == objective
         ]
+        observed_scope_ids: set[str] = set()
+        if len(relationships) == 1:
+            for related in relationships[0].RelatedObjects:
+                if related.is_a("IfcProject"):
+                    observed_scope_ids.add("IfcProject")
+                elif related.is_a() == "IfcGroup":
+                    observed_scope_ids.add(
+                        get_psets(related)["OSR_CoordinationGroup"]["GroupId"]
+                    )
+                elif related.is_a("IfcSystem"):
+                    observed_scope_ids.add(related.ObjectType)
+                elif getattr(related, "Tag", None):
+                    observed_scope_ids.add(related.Tag)
+        expected_scope_ids = {
+            "IfcProject",
+            *constraint_row["related_asset_ids"],
+            *constraint_row["related_group_ids"],
+            *constraint_row["related_system_ids"],
+        }
         constraint_associations_match &= (
             len(relationships) == 1
-            and len(relationships[0].RelatedObjects) == 1
-            and relationships[0].RelatedObjects[0].is_a("IfcProject")
-            and constraint_row["scope"] == "IfcProject"
+            and relationships[0].Intent == constraint_row["association_intent"]
+            and len(relationships[0].RelatedObjects)
+            == constraint_row["related_object_count"]
+            and observed_scope_ids == expected_scope_ids
+            and constraint_row["scope"]
+            == "IfcProject governance plus deterministic related evidence"
         )
+    constraint_source_relationships = [
+        relationship
+        for relationship in reopened.by_type("IfcExternalReferenceRelationship")
+        if relationship.Name == "OSR constraint source-document linkage"
+    ]
+    expected_source_document_id = "OSR-DOC-SOURCE-CIVIL-INTEGRATION"
+    expected_constraint_resource_ids = expected_constraint_ids | expected_metric_ids
+    constraint_source_documents_match = (
+        len(constraint_source_relationships) == 1
+        and constraint_source_relationships[0].Name
+        == "OSR constraint source-document linkage"
+        and constraint_source_relationships[0].RelatingReference.is_a(
+            "IfcDocumentReference"
+        )
+        and constraint_source_relationships[0].RelatingReference.Identification
+        == expected_source_document_id
+        and {
+            constraint.Name
+            for constraint in constraint_source_relationships[0].RelatedResourceObjects
+        }
+        == expected_constraint_resource_ids
+        and all(
+            len(constraint.HasExternalReferences) == 1
+            for constraint in [*exported_constraints.values(), *exported_metrics.values()]
+        )
+        and all(
+            row["external_source_document_ids"] == [expected_source_document_id]
+            and row["external_reference_relationship"]
+            == "IfcExternalReferenceRelationship"
+            for row in index["constraints"]
+        )
+        and next(
+            row
+            for row in index["documents"]
+            if row["document_id"] == expected_source_document_id
+        )["associated_constraint_ids"]
+        == sorted(expected_constraint_resource_ids)
+    )
+    external_decisions = index.get("external_engineering_decisions", [])
+    external_decision_ids = [row.get("decision_id") for row in external_decisions]
+    external_decision_register_valid = (
+        len(external_decisions) == len(EXTERNAL_ENGINEERING_DECISIONS)
+        and len(external_decision_ids) == len(set(external_decision_ids))
+        and all(
+            row.get("status") == "external-evidence-required"
+            and row.get("authority_required")
+            and row.get("evidence_required")
+            and row.get("blocked_capabilities")
+            and row.get("safe_current_state")
+            for row in external_decisions
+        )
+        and index.get("capability_closure", {}).get("status")
+        == "source-supported-ifc-work-complete"
+        and index.get("capability_closure", {}).get("implementable_open_task_count")
+        == 0
+        and index.get("capability_closure", {}).get("external_decision_count")
+        == len(external_decisions)
+    )
     custom_definitions = [
         definition
         for ifc_class in (
@@ -4876,9 +5410,24 @@ def validate_written(
             "observed": len(exported_constraints),
         },
         {
+            "id": "native-interface-metrics",
+            "passed": metric_catalog_matches,
+            "observed": len(exported_metrics),
+        },
+        {
             "id": "interface-constraint-associations",
             "passed": constraint_associations_match,
             "observed": len(reopened.by_type("IfcRelAssociatesConstraint")),
+        },
+        {
+            "id": "constraint-source-document-links",
+            "passed": constraint_source_documents_match,
+            "observed": len(constraint_source_relationships),
+        },
+        {
+            "id": "external-engineering-decision-register",
+            "passed": external_decision_register_valid,
+            "observed": len(external_decisions),
         },
         {
             "id": "custom-property-set-naming",

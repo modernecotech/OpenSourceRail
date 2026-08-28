@@ -5,6 +5,8 @@
     "LM3-SHELL-A200",
     "LM3-DOOR-SA310",
     "LM3-INT-SA330",
+    "LM3-FIX-SA340",
+    "LM3-LGT-SA350",
     "LM3-ROOF-SA410",
     "LM3-HV-SA510",
     "LM3-BOG-SA610",
@@ -83,6 +85,49 @@
       ]
     },
     {
+      "child_id": "LM3-FIX-SA340",
+      "child_title": "common service-rail, captive-fastener, and fixture-adapter installation",
+      "interface_classes": [
+        "mechanical datum"
+      ],
+      "join_classes": [
+        "service-rail-captive-fastener"
+      ],
+      "joint_release_status": "standard-hardware-release-required",
+      "placement_zone": "common OSR-RAIL-42 interior datum and keyed low-voltage service zone",
+      "sequence": 4,
+      "torque_authority": "released OSR small-component standard plus accepted hardware batch and calibrated-tool procedure",
+      "verification": [
+        "rail datum survey",
+        "fastener-family audit",
+        "fixture load-evidence check",
+        "service/removal demonstration"
+      ]
+    },
+    {
+      "child_id": "LM3-LGT-SA350",
+      "child_title": "modular main, emergency, and doorway lighting installation",
+      "interface_classes": [
+        "mechanical datum",
+        "low-voltage/data",
+        "safety interlock"
+      ],
+      "join_classes": [
+        "service-rail-captive-fastener",
+        "electrical-data"
+      ],
+      "joint_release_status": "standard-hardware-release-required",
+      "placement_zone": "side door aperture and low-floor threshold datum",
+      "sequence": 5,
+      "torque_authority": "released OSR small-component standard plus accepted hardware batch and calibrated-tool procedure",
+      "verification": [
+        "connector key audit",
+        "lighting lux map",
+        "emergency-feed isolation and duration test",
+        "module replacement demonstration"
+      ]
+    },
+    {
       "child_id": "LM3-ROOF-SA410",
       "child_title": "roof HVAC, PV, antenna, and service-equipment assembly",
       "interface_classes": [
@@ -99,7 +144,7 @@
       ],
       "joint_release_status": "joint-calculation-required",
       "placement_zone": "roof equipment rail, curb, and service-access zone",
-      "sequence": 4,
+      "sequence": 6,
       "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
       "verification": [
         "roof leak test",
@@ -123,7 +168,7 @@
       ],
       "joint_release_status": "joint-calculation-required",
       "placement_zone": "under-seat HV bay, side-pin dock zone, and segregated cable route",
-      "sequence": 5,
+      "sequence": 7,
       "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
       "verification": [
         "HVIL test",
@@ -143,7 +188,7 @@
       ],
       "joint_release_status": "joint-calculation-required",
       "placement_zone": "bogie frame, axle, brake, suspension, and underframe marriage datums",
-      "sequence": 6,
+      "sequence": 8,
       "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
       "verification": [
         "frame NDT",
@@ -163,7 +208,7 @@
       ],
       "joint_release_status": "joint-calculation-required",
       "placement_zone": "bogie frame, axle, brake, suspension, and underframe marriage datums",
-      "sequence": 7,
+      "sequence": 9,
       "torque_authority": "released joint calculation plus interface-control drawing and calibrated-tool procedure",
       "verification": [
         "frame NDT",
@@ -183,7 +228,7 @@
       ],
       "joint_release_status": "supplier-freeze-required",
       "placement_zone": "primary structure datum and final assembly interface",
-      "sequence": 8,
+      "sequence": 10,
       "torque_authority": "accepted supplier installation manual plus released OSR interface-control drawing",
       "verification": [
         "pressure certificate",
@@ -202,7 +247,7 @@
       "interface-control drawing revision"
     ],
     "finish_or_protection": "protect damaged coating, exposed edges, seals, bonds, and labels during assembly",
-    "form_factor": "LM3-SHELL-A200 child assembly material set, LM3-DOOR-SA310 child assembly material set, LM3-INT-SA330 child assembly material set, LM3-ROOF-SA410 child assembly material set, LM3-HV-SA510 child assembly material set, LM3-BOG-SA610 child assembly material set, LM3-BOG-SA620 child assembly material set, supplier-certified running gear",
+    "form_factor": "LM3-SHELL-A200 child assembly material set, LM3-DOOR-SA310 child assembly material set, LM3-INT-SA330 child assembly material set, LM3-FIX-SA340 child assembly material set, LM3-LGT-SA350 child assembly material set, LM3-ROOF-SA410 child assembly material set, LM3-HV-SA510 child assembly material set, LM3-BOG-SA610 child assembly material set, LM3-BOG-SA620 child assembly material set, supplier-certified running gear",
     "governing_standard": "all child material standards plus assembly-level torque, bonding, coating, and cleanliness controls",
     "grade_or_part_class": "LM3-CAR-A900 inherits released child material specifications",
     "material_family": "assembly material set",

@@ -7,8 +7,8 @@ Markdown definitions with structured material and process specs.
 
 - Family: `light-metro-3car`
 - Candidate: `light-metro-3car__16p5m__reference-body__reference-bogie__motor-350kw-hm47-class__battery-225kwh-lfp-800v__hvac-24kw-direct-hv-dc__pv12`
-- Product item definitions: `76`
-- Assembly definitions: `18`
+- Product item definitions: `83`
+- Assembly definitions: `20`
 
 ## Product items
 
@@ -54,6 +54,13 @@ Markdown definitions with structured material and process specs.
 | `LM3-EXT-P040` | external-component | `BID` | `LM3-ROOF-SA410` | [md](parts/LM3-EXT-P040.md) |
 | `LM3-EXT-P050` | external-component | `SOURCE` | `LM3-ROOF-SA410` | [md](parts/LM3-EXT-P050.md) |
 | `LM3-EXT-P060` | external-component | `SOURCE` | `LM3-INT-SA330` | [md](parts/LM3-EXT-P060.md) |
+| `LM3-FIX-P010` | fabricated-part | `MAKE` | `LM3-FIX-SA340` | [md](parts/LM3-FIX-P010.md) |
+| `LM3-FIX-P020` | external-component | `SOURCE` | `LM3-FIX-SA340` | [md](parts/LM3-FIX-P020.md) |
+| `LM3-FIX-P030` | fabricated-part | `MAKE` | `LM3-FIX-SA340` | [md](parts/LM3-FIX-P030.md) |
+| `LM3-WIN-P010` | fabricated-part | `MAKE` | `LM3-WIN-SA320` | [md](parts/LM3-WIN-P010.md) |
+| `LM3-DOOR-P010` | fabricated-part | `MAKE` | `LM3-DOOR-SA310` | [md](parts/LM3-DOOR-P010.md) |
+| `LM3-LGT-P010` | external-component | `SOURCE` | `LM3-LGT-SA350` | [md](parts/LM3-LGT-P010.md) |
+| `LM3-LGT-P020` | external-component | `BID` | `LM3-LGT-SA350` | [md](parts/LM3-LGT-P020.md) |
 | `LM3-EXT-P070` | external-component | `SOURCE` | `LM3-ROOF-SA410` | [md](parts/LM3-EXT-P070.md) |
 | `LM3-EXT-P080` | external-component | `BID` | `LM3-SHELL-A200` | [md](parts/LM3-EXT-P080.md) |
 | `LM3-EXT-P090` | external-component | `BID` | `LM3-SHELL-A200` | [md](parts/LM3-EXT-P090.md) |
@@ -98,9 +105,11 @@ Markdown definitions with structured material and process specs.
 | `LM3-BDY-SA110` | subassembly | 3 | `LM3-BDY-P010`<br>`LM3-BDY-P020`<br>`LM3-BDY-P030`<br>`LM3-BDY-P120` | [md](subassemblies/LM3-BDY-SA110.md) |
 | `LM3-BDY-SA120` | subassembly | 3 | `LM3-BDY-SA110`<br>`LM3-BDY-P060`<br>`LM3-BDY-P070` | [md](subassemblies/LM3-BDY-SA120.md) |
 | `LM3-SHELL-A200` | assembly | 3 | `LM3-BDY-SA120`<br>`LM3-BDY-P130`<br>`LM3-BDY-P140`<br>`LM3-WIN-SA320`<br>`LM3-EXT-P080`<br>`LM3-EXT-P090` | [md](assemblies/LM3-SHELL-A200.md) |
-| `LM3-WIN-SA320` | subassembly | 18 | `LM3-BDY-P110`<br>`LM3-EXT-P020` | [md](subassemblies/LM3-WIN-SA320.md) |
-| `LM3-DOOR-SA310` | subassembly | 12 | `LM3-BDY-P100`<br>`LM3-EXT-P010` | [md](subassemblies/LM3-DOOR-SA310.md) |
+| `LM3-WIN-SA320` | subassembly | 18 | `LM3-BDY-P110`<br>`LM3-WIN-P010`<br>`LM3-EXT-P020` | [md](subassemblies/LM3-WIN-SA320.md) |
+| `LM3-DOOR-SA310` | subassembly | 12 | `LM3-BDY-P100`<br>`LM3-DOOR-P010`<br>`LM3-EXT-P010` | [md](subassemblies/LM3-DOOR-SA310.md) |
 | `LM3-INT-SA330` | subassembly | 3 | `LM3-EXT-P060`<br>`LM3-INT-P010`<br>`LM3-INT-P020`<br>`LM3-INT-P030`<br>`LM3-INT-P040`<br>`LM3-INT-P050` | [md](subassemblies/LM3-INT-SA330.md) |
+| `LM3-FIX-SA340` | subassembly | 3 | `LM3-FIX-P010`<br>`LM3-FIX-P020`<br>`LM3-FIX-P030` | [md](subassemblies/LM3-FIX-SA340.md) |
+| `LM3-LGT-SA350` | subassembly | 3 | `LM3-LGT-P010`<br>`LM3-LGT-P020` | [md](subassemblies/LM3-LGT-SA350.md) |
 | `LM3-ROOF-SA410` | subassembly | 3 | `LM3-BDY-P080`<br>`LM3-ROOF-P010`<br>`LM3-ROOF-P020`<br>`LM3-EXT-P040`<br>`LM3-EXT-P050`<br>`LM3-EXT-P070`<br>`LM3-TRC-P050` | [md](subassemblies/LM3-ROOF-SA410.md) |
 | `LM3-HV-SA510` | subassembly | 3 | `LM3-BDY-P050`<br>`LM3-HV-P010`<br>`LM3-HV-P020`<br>`LM3-HV-P030`<br>`LM3-TRC-P030`<br>`LM3-TRC-P040`<br>`LM3-TRC-P060`<br>`LM3-TRC-P070`<br>`LM3-SAF-P010` | [md](subassemblies/LM3-HV-SA510.md) |
 | `LM3-BOG-SA610` | subassembly | 3 | `LM3-BOG-P010`<br>`LM3-BOG-P030`<br>`LM3-BOG-P040`<br>`LM3-BOG-P050`<br>`LM3-BOG-P060`<br>`LM3-TRC-P010`<br>`LM3-TRC-P020` | [md](subassemblies/LM3-BOG-SA610.md) |
@@ -111,5 +120,5 @@ Markdown definitions with structured material and process specs.
 | `LM3-TTART-SA850` | assembly | 0 | `LM3-EIF-SA650`<br>`LM3-ART-P040`<br>`LM3-ART-P041` | [md](assemblies/LM3-TTART-SA850.md) |
 | `LM3-ART-SA800` | assembly | 2 | `LM3-ART-P010`<br>`LM3-ART-P020`<br>`LM3-ART-P030` | [md](assemblies/LM3-ART-SA800.md) |
 | `LM3-SYS-SA900` | assembly | 1 | `LM3-CTRL-P010`<br>`LM3-CTRL-P020`<br>`LM3-CTRL-P030`<br>`LM3-CTRL-P040`<br>`LM3-CTRL-P050` | [md](assemblies/LM3-SYS-SA900.md) |
-| `LM3-CAR-A900` | assembly | 3 | `LM3-SHELL-A200`<br>`LM3-DOOR-SA310`<br>`LM3-INT-SA330`<br>`LM3-ROOF-SA410`<br>`LM3-HV-SA510`<br>`LM3-BOG-SA610`<br>`LM3-BOG-SA620`<br>`LM3-AUX-P010` | [md](assemblies/LM3-CAR-A900.md) |
+| `LM3-CAR-A900` | assembly | 3 | `LM3-SHELL-A200`<br>`LM3-DOOR-SA310`<br>`LM3-INT-SA330`<br>`LM3-FIX-SA340`<br>`LM3-LGT-SA350`<br>`LM3-ROOF-SA410`<br>`LM3-HV-SA510`<br>`LM3-BOG-SA610`<br>`LM3-BOG-SA620`<br>`LM3-AUX-P010` | [md](assemblies/LM3-CAR-A900.md) |
 | `LM3-TRAINSET-A000` | trainset | 1 | `LM3-CAR-A900`<br>`LM3-EIF-SA650`<br>`LM3-END-SA700`<br>`LM3-ART-SA800`<br>`LM3-SYS-SA900` | [md](trainsets/LM3-TRAINSET-A000.md) |

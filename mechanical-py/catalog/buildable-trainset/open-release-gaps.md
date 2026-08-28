@@ -5,7 +5,7 @@ and shop-traveler packs. Product ownership and procurement-BOM links are
 already resolved; the rows below still require supplier, component, or
 interface evidence before their maturity can become `release-candidate`.
 
-Open product rows: **43 of 76**.
+Open product rows: **49 of 83**.
 
 | Engineering ID | BOM lines | Route | Maturity / blocker | Component | Parent assembly | Closure evidence |
 |---|---|---|---|---|---|---|
@@ -20,7 +20,13 @@ Open product rows: **43 of 76**.
 | `LM3-EXT-P020` | `B10` | `SOURCE` | `buildable-after-supplier-freeze` | side laminated glazing cassette | `LM3-WIN-SA320` | glazing certificate; water ingress test; replacement method |
 | `LM3-EXT-P030` | `B27` | `BID` | `buildable-after-supplier-freeze` | single panoramic heated end-glass assembly | `LM3-END-SA700` | glass certificate; heater test; bond/gasket procedure |
 | `LM3-EXT-P040` | `T14` | `BID` | `buildable-after-supplier-freeze` | hvac-24kw-direct-hv-dc roof HVAC | `LM3-ROOF-SA410` | +50 C capacity evidence; condensate drain test; EMC/vibration evidence |
-| `LM3-EXT-P060` | `B12`, `B13`, `B14`, `B15`, `B16`, `B18`, `B19`, `E14`, `E15`, `A1`, `A2`, `A3`, `A4` | `SOURCE` | `buildable-after-supplier-freeze` | seats, grab rails, flooring, lighting, PIS, CCTV, intercom, signage kit | `LM3-INT-SA330` | fire certificates; egress gauge; lighting lux test; network enumeration |
+| `LM3-EXT-P060` | `B12`, `B13`, `B14`, `B15`, `B18`, `B19`, `E14`, `E15`, `A1`, `A2`, `A3`, `A4` | `SOURCE` | `buildable-after-supplier-freeze` | seats, grab rails, flooring, PIS, CCTV, intercom, and signage kit | `LM3-INT-SA330` | fire certificates; egress gauge; passenger-fixture load evidence; network enumeration |
+| `LM3-FIX-P020` | `B2`, `B21` | `SOURCE` | `buildable-after-supplier-freeze` | four-family captive fastener, floating nut, isolator, and access-fastener kit | `LM3-FIX-SA340` | supplier certificate; batch/finish trace; installed-grip gauge; locking and captive-part audit |
+| `LM3-FIX-P030` | `B14`, `B15`, `E14` | `MAKE` | `concept` | standard passenger-fixture saddle and equipment adapter kit | `LM3-FIX-SA340` | adapter gauge; fixture-specific load calculation; proof-load sample; egress and snag check |
+| `LM3-WIN-P010` | `B10` | `MAKE` | `concept` | replaceable window pressure frame, dry seal, drain, and captive retention kit | `LM3-WIN-SA320` | pressure-frame gauge; retention calculation; seal compression record; water-ingress and replacement trial |
+| `LM3-DOOR-P010` | `B11`, `B25` | `MAKE` | `concept` | door four-point adjustable carrier, datum pin, dry seal, and keyed connector bracket kit | `LM3-DOOR-SA310` | carrier datum gauge; interface load calculation; seal compression record; connector keying and cassette replacement trial |
+| `LM3-LGT-P010` | `B16` | `SOURCE` | `buildable-after-supplier-freeze` | 1.2 m plug-in main LED lighting cassette and captive mounting kit | `LM3-LGT-SA350` | rail fire certificate; shock/vibration evidence; photometric/lux test; plug polarity and retention test |
+| `LM3-LGT-P020` | `B16`, `A4` | `BID` | `buildable-after-supplier-freeze` | emergency and doorway lighting modules with independent keyed feeder kit | `LM3-LGT-SA350` | emergency duration/effectiveness evidence; evacuation visibility test; feed isolation test; doorway illumination test |
 | `LM3-EXT-P070` | `E21` | `SOURCE` | `buildable-after-supplier-freeze` | roof antennas, service walkway pads, lifting covers, and maintenance labels | `LM3-ROOF-SA410` | antenna VSWR test; walkway slip certificate; lifting-cover fit; roof bonding check |
 | `LM3-EXT-P080` | `B6` | `BID` | `buildable-after-supplier-freeze` | fire-rated GFRP side-module laminate, core, gelcoat, and consumable kit | `LM3-SHELL-A200` | EN 45545 evidence; laminate coupon; resin/fibre batch trace; mould release record |
 | `LM3-EXT-P090` | `B7` | `BID` | `buildable-after-supplier-freeze` | fire-rated GFRP roof-module, dry-seal, and removable skirt material kit | `LM3-SHELL-A200` | EN 45545 evidence; roof laminate coupon; seal certificate; service-removal trial; water and debris-ingress check |

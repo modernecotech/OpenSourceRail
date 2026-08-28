@@ -32,8 +32,8 @@ def test_civil_ifc_has_rail_semantics_geometry_schedule_and_stable_ids(tmp_path:
 
     assert validation["passed"]
     assert ids_report["status"]
-    assert ids_report["total_specifications_pass"] == 19
-    assert ids_report["total_checks"] == ids_report["total_checks_pass"] == 3292
+    assert ids_report["total_specifications_pass"] == 20
+    assert ids_report["total_checks"] == ids_report["total_checks_pass"] == 3340
     assert bcf_index["topic_count"] == 3
     assert coordination is not None
     assert coordination.version.version_id == "3.0"
@@ -53,8 +53,10 @@ def test_civil_ifc_has_rail_semantics_geometry_schedule_and_stable_ids(tmp_path:
         "connected_superstructure_assets": 13,
         "construction_output_tasks": 5,
         "coordination_groups": 5,
+        "constraint_source_document_relationships": 1,
         "document_associated_assets": 185,
         "documents": 15,
+        "external_engineering_decisions": 9,
         "foundation_interfaces": 9,
         "functional_systems": 6,
         "grouped_assets": 185,
@@ -77,7 +79,12 @@ def test_civil_ifc_has_rail_semantics_geometry_schedule_and_stable_ids(tmp_path:
             "IfcVirtualElement": 47,
         },
         "interface_checks": 9,
+        "interface_constraint_asset_links": 91,
+        "interface_constraint_group_links": 6,
+        "interface_constraint_related_objects": 107,
+        "interface_constraint_system_links": 1,
         "interface_constraints": 9,
+        "interface_metrics": 6,
         "jacking_interfaces": 36,
         "layer_associated_assets": 185,
         "material_associated_assets": 46,
@@ -93,9 +100,11 @@ def test_civil_ifc_has_rail_semantics_geometry_schedule_and_stable_ids(tmp_path:
         "pier_columns": 9,
         "property_set_templates": 16,
         "property_templates": 99,
+        "qualitative_only_interface_constraints": 3,
         "system_associated_assets": 185,
         "system_spatial_part_references": 7,
         "scheduled_physical_assets": 134,
+        "source_linked_constraint_resources": 15,
         "template_linked_definitions": 483,
         "template_matched_definitions": 487,
         "typed_assets": 138,
@@ -373,6 +382,19 @@ def test_civil_ifc_has_rail_semantics_geometry_schedule_and_stable_ids(tmp_path:
     )
     assert cost_document["associated_cost_schedule"]
     assert cost_document["associated_object_count"] == 2
+    constraint_source_document = next(
+        row
+        for row in index["documents"]
+        if row["document_id"] == "OSR-DOC-SOURCE-CIVIL-INTEGRATION"
+    )
+    expected_constraint_resource_ids = sorted(
+        [row["constraint_id"] for row in index["constraints"]]
+        + [row["metric"]["metric_id"] for row in index["constraints"] if row["metric"]]
+    )
+    assert constraint_source_document["associated_constraint_count"] == 15
+    assert constraint_source_document["associated_constraint_ids"] == (
+        expected_constraint_resource_ids
+    )
     assert len(model.by_type("IfcClassification")) == 1
     assert len(model.by_type("IfcClassificationReference")) == 15
     assert len(model.by_type("IfcRelAssociatesClassification")) == 16
@@ -538,7 +560,7 @@ def test_civil_ifc_has_rail_semantics_geometry_schedule_and_stable_ids(tmp_path:
         for row in index["objects"]
     )
     assert len(model.by_type("IfcObjective")) == 9
-    assert not model.by_type("IfcMetric")
+    assert len(model.by_type("IfcMetric")) == 6
     assert len(model.by_type("IfcRelAssociatesConstraint")) == 9
     objectives_by_name = {
         objective.Name: objective for objective in model.by_type("IfcObjective")
@@ -551,13 +573,99 @@ def test_civil_ifc_has_rail_semantics_geometry_schedule_and_stable_ids(tmp_path:
         and objective.ObjectiveQualifier == "DESIGNINTENT"
         and objective.ConstraintSource
         == "mechanical-py/src/osr_mech/civil_systems_integration.py"
-        and not objective.BenchmarkValues
         for objective in objectives_by_name.values()
     )
-    assert all(
-        len(relationship.RelatedObjects) == 1
-        and relationship.RelatedObjects[0].is_a("IfcProject")
+    metrics_by_name = {metric.Name: metric for metric in model.by_type("IfcMetric")}
+    constraint_relationships = {
+        relationship.RelatingConstraint.Name: relationship
         for relationship in model.by_type("IfcRelAssociatesConstraint")
+    }
+    assert sum(
+        len(relationship.RelatedObjects)
+        for relationship in constraint_relationships.values()
+    ) == 107
+    for row in index["constraints"]:
+        relationship = constraint_relationships[row["constraint_id"]]
+        observed_scope_ids = set()
+        for related in relationship.RelatedObjects:
+            if related.is_a("IfcProject"):
+                observed_scope_ids.add("IfcProject")
+            elif related.is_a() == "IfcGroup":
+                observed_scope_ids.add(
+                    get_psets(related)["OSR_CoordinationGroup"]["GroupId"]
+                )
+            elif related.is_a("IfcSystem"):
+                observed_scope_ids.add(related.ObjectType)
+            else:
+                observed_scope_ids.add(related.Tag)
+        assert relationship.Intent == "DESIGN VALIDATION EVIDENCE"
+        assert len(relationship.RelatedObjects) == row["related_object_count"]
+        assert observed_scope_ids == {
+            "IfcProject",
+            *row["related_asset_ids"],
+            *row["related_group_ids"],
+            *row["related_system_ids"],
+        }
+        assert row["external_source_document_ids"] == [
+            "OSR-DOC-SOURCE-CIVIL-INTEGRATION"
+        ]
+        assert row["external_reference_relationship"] == (
+            "IfcExternalReferenceRelationship"
+        )
+        metric_row = row["metric"]
+        benchmark_values = list(objectives_by_name[row["constraint_id"]].BenchmarkValues or [])
+        if metric_row is None:
+            assert not benchmark_values
+            assert row["metric_status"] == (
+                "qualitative-objective; no fabricated numeric benchmark"
+            )
+        else:
+            metric = metrics_by_name[metric_row["metric_id"]]
+            assert benchmark_values == [metric]
+            assert metric.Benchmark == "EQUALTO"
+            assert metric.DataValue.is_a() == "IfcLengthMeasure"
+            assert metric.DataValue.wrappedValue == pytest.approx(
+                metric_row["target_value"]
+            )
+            assert metric_row["observed_value"] == pytest.approx(
+                metric_row["target_value"]
+            )
+            assert metric.ReferencePath is None
+            assert row["metric_status"] == "structured-native-ifc-metric"
+    constraint_source_links = model.by_type("IfcExternalReferenceRelationship")
+    assert len(constraint_source_links) == 1
+    assert constraint_source_links[0].Name == "OSR constraint source-document linkage"
+    assert constraint_source_links[0].RelatingReference == document_references[
+        "OSR-DOC-SOURCE-CIVIL-INTEGRATION"
+    ]
+    assert {
+        constraint.Name
+        for constraint in constraint_source_links[0].RelatedResourceObjects
+    } == set(expected_constraint_resource_ids)
+    assert all(
+        len(constraint.HasExternalReferences) == 1
+        for constraint in [*objectives_by_name.values(), *metrics_by_name.values()]
+    )
+    assert index["capability_closure"] == {
+        "status": "source-supported-ifc-work-complete",
+        "implementable_open_task_count": 0,
+        "external_decision_count": 9,
+        "boundary": (
+            "Further promotion requires named external engineering, client, "
+            "supplier, commercial, survey or information-management evidence."
+        ),
+    }
+    assert len(index["external_engineering_decisions"]) == 9
+    assert len(
+        {row["decision_id"] for row in index["external_engineering_decisions"]}
+    ) == 9
+    assert all(
+        row["status"] == "external-evidence-required"
+        and row["authority_required"]
+        and row["evidence_required"]
+        and row["blocked_capabilities"]
+        and row["safe_current_state"]
+        for row in index["external_engineering_decisions"]
     )
     assert not any(
         definition.Name.startswith("Pset_OSR_")

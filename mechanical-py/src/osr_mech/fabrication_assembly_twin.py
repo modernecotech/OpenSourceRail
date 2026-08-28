@@ -230,7 +230,7 @@ def fabrication_streams() -> tuple[FabricationStream, ...]:
         "train",
         "LM3 fabrication and final assembly",
         "49.5 m three-car driverless LM3",
-        "76 product items, 18 controlled assemblies, one production traveler",
+        "83 product items, 20 controlled assemblies, one production traveler",
         tuple(train_stages),
     )
     return track, station, viaduct, train
@@ -290,7 +290,7 @@ def twin_checks(streams: tuple[FabricationStream, ...] | None = None) -> tuple[d
         ("qa-evidence-on-every-stage", all(s.qa_hold and s.evidence for s in stages), len(stages)),
         ("source-references-resolve", all(path.is_file() for path in source_paths), len(source_paths)),
         ("station-product-tree-loaded", len(station_manifest["variants"]) == 7, len(station_manifest["variants"])),
-        ("train-product-tree-loaded", len(train_manifest["product_items"]) == 76 and len(train_manifest["assemblies"]) == 18,
+        ("train-product-tree-loaded", len(train_manifest["product_items"]) == 83 and len(train_manifest["assemblies"]) == 20,
          {"items": len(train_manifest["product_items"]), "assemblies": len(train_manifest["assemblies"])}),
     )
     return tuple({"id": check_id, "passed": passed, "observed": observed} for check_id, passed, observed in checks)

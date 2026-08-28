@@ -18,6 +18,7 @@ from osr_mech.buildable_trainset import (
     render_open_release_gaps,
     render_trainset_build_cost,
     render_review,
+    render_small_component_standard,
     render_train_end_interface,
     train_end_interface_payload,
     trainset_build_cost_payload,
@@ -162,10 +163,19 @@ def test_added_component_gaps_are_integrated_into_expected_subassemblies() -> No
         "LM3-END-P062",
         "LM3-ART-P040",
         "LM3-ART-P041",
+        "LM3-FIX-P010",
+        "LM3-FIX-P020",
+        "LM3-FIX-P030",
+        "LM3-WIN-P010",
+        "LM3-DOOR-P010",
+        "LM3-LGT-P010",
+        "LM3-LGT-P020",
     }
     assert expected_items <= items.keys()
     assert {"LM3-BDY-P100", "LM3-EXT-P010"} <= set(assemblies["LM3-DOOR-SA310"].children)
     assert {"LM3-BDY-P110", "LM3-EXT-P020"} <= set(assemblies["LM3-WIN-SA320"].children)
+    assert {"LM3-FIX-P010", "LM3-FIX-P020", "LM3-FIX-P030"} == set(assemblies["LM3-FIX-SA340"].children)
+    assert {"LM3-LGT-P010", "LM3-LGT-P020"} == set(assemblies["LM3-LGT-SA350"].children)
     assert {"LM3-ROOF-P010", "LM3-ROOF-P020", "LM3-TRC-P050"} <= set(assemblies["LM3-ROOF-SA410"].children)
     assert {"LM3-HV-P010", "LM3-HV-P020", "LM3-HV-P030", "LM3-TRC-P060", "LM3-TRC-P070", "LM3-SAF-P010"} <= set(assemblies["LM3-HV-SA510"].children)
     assert {"LM3-BOG-P050", "LM3-BOG-P060"} <= set(assemblies["LM3-BOG-SA610"].children)
@@ -260,6 +270,16 @@ def test_every_integration_joint_has_machine_readable_join_and_torque_control() 
     assert all(row["release_status"] for row in rows)
     schedule = render_joint_control_schedule(design)
     assert "Numeric" in schedule and "torques are intentionally prohibited" in schedule
+    small_rows = {
+        row["child_id"]: row
+        for row in rows
+        if row["child_id"] in {"LM3-FIX-P020", "LM3-LGT-P010", "LM3-WIN-P010", "LM3-DOOR-P010"}
+    }
+    assert "service-rail-captive-fastener" in small_rows["LM3-FIX-P020"]["join_classes"]
+    assert "service-rail-captive-fastener" in small_rows["LM3-LGT-P010"]["join_classes"]
+    assert "cassette-floating-fastener" in small_rows["LM3-WIN-P010"]["join_classes"]
+    assert "cassette-floating-fastener" in small_rows["LM3-DOOR-P010"]["join_classes"]
+    assert "bolted-structural-datum" not in small_rows["LM3-LGT-P010"]["join_classes"]
 
 
 def test_write_outputs_emits_mass_and_joint_control_records(tmp_path) -> None:
@@ -277,6 +297,13 @@ def test_write_outputs_emits_mass_and_joint_control_records(tmp_path) -> None:
     assert (tmp_path / "factory-plan.md").exists()
     assert (tmp_path / "train-end-interface.json").exists()
     assert (tmp_path / "train-end-interface.md").exists()
+    assert (tmp_path / "small-component-standard.json").exists()
+    assert (tmp_path / "small-component-standard.md").exists()
+    standard = render_small_component_standard()
+    assert "OSR-RAIL-42" in standard
+    assert "Four fastener families" in standard
+    assert "Twenty-two" not in standard
+    assert "Main modules per car: `22`" in standard
 
 
 def test_train_end_interface_models_panorama_or_open_mid_option() -> None:

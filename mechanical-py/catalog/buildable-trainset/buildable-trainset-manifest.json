@@ -77,6 +77,7 @@
       "build_cell": "composite / glazing cell",
       "children": [
         "LM3-BDY-P110",
+        "LM3-WIN-P010",
         "LM3-EXT-P020"
       ],
       "hold_points": [
@@ -98,6 +99,7 @@
       "build_cell": "final assembly and commissioning cell",
       "children": [
         "LM3-BDY-P100",
+        "LM3-DOOR-P010",
         "LM3-EXT-P010"
       ],
       "hold_points": [
@@ -142,6 +144,52 @@
         "LM3-INT-240"
       ],
       "title": "interior and passenger systems fit-out"
+    },
+    {
+      "build_cell": "interior pre-fit and final assembly cell",
+      "children": [
+        "LM3-FIX-P010",
+        "LM3-FIX-P020",
+        "LM3-FIX-P030"
+      ],
+      "hold_points": [
+        "rail datum survey",
+        "fastener-family audit",
+        "fixture load-evidence check",
+        "service/removal demonstration"
+      ],
+      "id": "LM3-FIX-SA340",
+      "layer": "subassembly",
+      "maturity": "concept",
+      "quantity_per_trainset": 3,
+      "source_refs": [
+        "small_components.py",
+        "LM3-INT-230"
+      ],
+      "title": "common service-rail, captive-fastener, and fixture-adapter installation"
+    },
+    {
+      "build_cell": "interior pre-fit and commissioning cell",
+      "children": [
+        "LM3-LGT-P010",
+        "LM3-LGT-P020"
+      ],
+      "hold_points": [
+        "connector key audit",
+        "lighting lux map",
+        "emergency-feed isolation and duration test",
+        "module replacement demonstration"
+      ],
+      "id": "LM3-LGT-SA350",
+      "layer": "subassembly",
+      "maturity": "buildable-after-supplier-freeze",
+      "quantity_per_trainset": 3,
+      "source_refs": [
+        "small_components.py",
+        "cots_equipment.py",
+        "LM3-INT-230"
+      ],
+      "title": "modular main, emergency, and doorway lighting installation"
     },
     {
       "build_cell": "final assembly and commissioning cell",
@@ -414,6 +462,8 @@
         "LM3-SHELL-A200",
         "LM3-DOOR-SA310",
         "LM3-INT-SA330",
+        "LM3-FIX-SA340",
+        "LM3-LGT-SA350",
         "LM3-ROOF-SA410",
         "LM3-HV-SA510",
         "LM3-BOG-SA610",
@@ -476,7 +526,8 @@
       "LM3-EXT-P060"
     ],
     "A4": [
-      "LM3-EXT-P060"
+      "LM3-EXT-P060",
+      "LM3-LGT-P020"
     ],
     "B1": [
       "LM3-BDY-P010",
@@ -487,10 +538,12 @@
       "LM3-BDY-P090"
     ],
     "B10": [
-      "LM3-EXT-P020"
+      "LM3-EXT-P020",
+      "LM3-WIN-P010"
     ],
     "B11": [
-      "LM3-EXT-P010"
+      "LM3-EXT-P010",
+      "LM3-DOOR-P010"
     ],
     "B12": [
       "LM3-BDY-P060",
@@ -500,13 +553,17 @@
       "LM3-EXT-P060"
     ],
     "B14": [
-      "LM3-EXT-P060"
+      "LM3-EXT-P060",
+      "LM3-FIX-P030"
     ],
     "B15": [
-      "LM3-EXT-P060"
+      "LM3-EXT-P060",
+      "LM3-FIX-P010",
+      "LM3-FIX-P030"
     ],
     "B16": [
-      "LM3-EXT-P060"
+      "LM3-LGT-P010",
+      "LM3-LGT-P020"
     ],
     "B17": [
       "LM3-END-SA700",
@@ -524,6 +581,8 @@
       "LM3-BDY-P050",
       "LM3-BDY-P100",
       "LM3-BDY-P110",
+      "LM3-FIX-P010",
+      "LM3-FIX-P020",
       "LM3-END-P060",
       "LM3-END-P061",
       "LM3-END-P062",
@@ -536,7 +595,9 @@
       "LM3-INT-P020",
       "LM3-INT-P030",
       "LM3-INT-P040",
-      "LM3-INT-P050"
+      "LM3-INT-P050",
+      "LM3-FIX-P010",
+      "LM3-FIX-P020"
     ],
     "B22": [
       "LM3-END-P010",
@@ -551,7 +612,8 @@
     ],
     "B25": [
       "LM3-EXT-P010",
-      "LM3-BDY-P100"
+      "LM3-BDY-P100",
+      "LM3-DOOR-P010"
     ],
     "B26": [
       "LM3-BDY-SA110",
@@ -625,7 +687,8 @@
     ],
     "E14": [
       "LM3-CTRL-P010",
-      "LM3-EXT-P060"
+      "LM3-EXT-P060",
+      "LM3-FIX-P030"
     ],
     "E15": [
       "LM3-CTRL-P010",
@@ -1782,7 +1845,7 @@
       "acceptance": [
         "fire certificates",
         "egress gauge",
-        "lighting lux test",
+        "passenger-fixture load evidence",
         "network enumeration"
       ],
       "id": "LM3-EXT-P060",
@@ -1795,10 +1858,175 @@
       "route": "SOURCE",
       "source_refs": [
         "cots_equipment.py",
-        "bom-skeleton.md B12-B19/A1-A4",
+        "bom-skeleton.md B12-B15/B18-B19/A1-A4",
         "LM3-INT-230"
       ],
-      "title": "seats, grab rails, flooring, lighting, PIS, CCTV, intercom, signage kit",
+      "title": "seats, grab rails, flooring, PIS, CCTV, intercom, and signage kit",
+      "unit": "car kit"
+    },
+    {
+      "acceptance": [
+        "rail datum survey",
+        "end-deburr check",
+        "isolation/finish inspection",
+        "representative pull/slip test"
+      ],
+      "id": "LM3-FIX-P010",
+      "layer": "fabricated-part",
+      "make_or_buy_basis": "One cut/drill gauge produces all common extruded aluminium equipment rails; local adapters, not rail variants, accommodate equipment.",
+      "maturity": "release-candidate",
+      "notes": "",
+      "parent": "LM3-FIX-SA340",
+      "quantity_per_trainset": 3,
+      "route": "MAKE",
+      "source_refs": [
+        "small_components.py",
+        "bom-skeleton.md B2/B15/B21",
+        "LM3-INT-230"
+      ],
+      "title": "OSR-RAIL-42 common ceiling, waist, and seat-zone service rail kit",
+      "unit": "car kit"
+    },
+    {
+      "acceptance": [
+        "supplier certificate",
+        "batch/finish trace",
+        "installed-grip gauge",
+        "locking and captive-part audit"
+      ],
+      "id": "LM3-FIX-P020",
+      "layer": "external-component",
+      "make_or_buy_basis": "M6 captive, M8 calculated-fixture, quarter-turn access, and M10 sealed exterior families replace ad-hoc fastener selection.",
+      "maturity": "buildable-after-supplier-freeze",
+      "notes": "",
+      "parent": "LM3-FIX-SA340",
+      "quantity_per_trainset": 3,
+      "route": "SOURCE",
+      "source_refs": [
+        "small_components.py",
+        "bom-skeleton.md B2/B21",
+        "LM3-INT-230"
+      ],
+      "title": "four-family captive fastener, floating nut, isolator, and access-fastener kit",
+      "unit": "car kit"
+    },
+    {
+      "acceptance": [
+        "adapter gauge",
+        "fixture-specific load calculation",
+        "proof-load sample",
+        "egress and snag check"
+      ],
+      "id": "LM3-FIX-P030",
+      "layer": "fabricated-part",
+      "make_or_buy_basis": "A small adapter family attaches seats, handrails, PIS, CCTV and cable supports to the common rail without unique body brackets.",
+      "maturity": "concept",
+      "notes": "",
+      "parent": "LM3-FIX-SA340",
+      "quantity_per_trainset": 3,
+      "route": "MAKE",
+      "source_refs": [
+        "small_components.py",
+        "bom-skeleton.md B14/B15/E14",
+        "LM3-INT-230"
+      ],
+      "title": "standard passenger-fixture saddle and equipment adapter kit",
+      "unit": "car kit"
+    },
+    {
+      "acceptance": [
+        "pressure-frame gauge",
+        "retention calculation",
+        "seal compression record",
+        "water-ingress and replacement trial"
+      ],
+      "id": "LM3-WIN-P010",
+      "layer": "fabricated-part",
+      "make_or_buy_basis": "Supplier bonds glass within its aluminium cassette; the OSR pressure frame and dry seal allow routine removal without cutting adhesive at the carbody.",
+      "maturity": "concept",
+      "notes": "",
+      "parent": "LM3-WIN-SA320",
+      "quantity_per_trainset": 18,
+      "route": "MAKE",
+      "source_refs": [
+        "small_components.py",
+        "cots_equipment.py",
+        "bom-skeleton.md B10",
+        "LM3-WIN-210"
+      ],
+      "title": "replaceable window pressure frame, dry seal, drain, and captive retention kit",
+      "unit": "opening kit"
+    },
+    {
+      "acceptance": [
+        "carrier datum gauge",
+        "interface load calculation",
+        "seal compression record",
+        "connector keying and cassette replacement trial"
+      ],
+      "id": "LM3-DOOR-P010",
+      "layer": "fabricated-part",
+      "make_or_buy_basis": "The certified door remains a complete supplier cassette; four common adjustable shoes absorb body tolerance and make removal predictable.",
+      "maturity": "concept",
+      "notes": "",
+      "parent": "LM3-DOOR-SA310",
+      "quantity_per_trainset": 12,
+      "route": "MAKE",
+      "source_refs": [
+        "small_components.py",
+        "systems.py",
+        "bom-skeleton.md B11/B25",
+        "LM3-DOOR-200"
+      ],
+      "title": "door four-point adjustable carrier, datum pin, dry seal, and keyed connector bracket kit",
+      "unit": "opening kit"
+    },
+    {
+      "acceptance": [
+        "rail fire certificate",
+        "shock/vibration evidence",
+        "photometric/lux test",
+        "plug polarity and retention test"
+      ],
+      "id": "LM3-LGT-P010",
+      "layer": "external-component",
+      "make_or_buy_basis": "Twenty-two identical replaceable cassettes per car eliminate field-cut strip, loose terminations, and long fragile light runs.",
+      "maturity": "buildable-after-supplier-freeze",
+      "notes": "",
+      "parent": "LM3-LGT-SA350",
+      "quantity_per_trainset": 66,
+      "route": "SOURCE",
+      "source_refs": [
+        "small_components.py",
+        "cots_equipment.py",
+        "bom-skeleton.md B16",
+        "LM3-INT-230"
+      ],
+      "title": "1.2 m plug-in main LED lighting cassette and captive mounting kit",
+      "unit": "module"
+    },
+    {
+      "acceptance": [
+        "emergency duration/effectiveness evidence",
+        "evacuation visibility test",
+        "feed isolation test",
+        "doorway illumination test"
+      ],
+      "id": "LM3-LGT-P020",
+      "layer": "external-component",
+      "make_or_buy_basis": "Independent-feed emergency and doorway modules share service-rail mechanics but cannot be cross-connected to the main-light feed.",
+      "maturity": "buildable-after-supplier-freeze",
+      "notes": "",
+      "parent": "LM3-LGT-SA350",
+      "quantity_per_trainset": 3,
+      "route": "BID",
+      "source_refs": [
+        "small_components.py",
+        "cots_equipment.py",
+        "bom-skeleton.md B16/A4",
+        "LM3-INT-230"
+      ],
+      "title": "emergency and doorway lighting modules with independent keyed feeder kit",
       "unit": "car kit"
     },
     {
@@ -2688,11 +2916,18 @@
       "status": "yellow"
     },
     {
-      "action": "Close the generated joint-control schedule by joint ID and reference the accepted values from interface drawings and shop travelers.",
-      "finding": "Every assembly integration step now carries machine-readable join classes, torque authority, and release status; numerical torque, locking, and re-torque values remain open until supplier instructions or joint calculations are released.",
+      "action": "Close the generated joint-control schedule by joint ID, qualify the common rail/fastener samples, and reference accepted values from interface drawings and shop travelers.",
+      "finding": "Every assembly integration step now carries machine-readable join classes and torque authority. Interior small parts have been rationalised into four fastener families and one common datum rail instead of treating every attachment as a bespoke structural joint; numerical values remain open until the applicable standard, supplier instruction, or load calculation is released.",
       "id": "BDR-008",
       "scope": "joint and fastener control",
       "status": "yellow"
+    },
+    {
+      "action": "Keep the simplified interface families fixed while suppliers freeze detailed door, glass, luminaire, connector, and fastener parts; release safety-critical loads and tests through their stated gates.",
+      "finding": "Door and glazing interfaces, passenger-fixture adapters, lighting cassettes, captive fasteners, seals, drain rails, keyed plugs, and emergency illumination are now explicit CAD/product-tree items rather than an opaque interior-kit allowance.",
+      "id": "BDR-009",
+      "scope": "small components and serviceability",
+      "status": "green"
     }
   ],
   "target_candidate": {

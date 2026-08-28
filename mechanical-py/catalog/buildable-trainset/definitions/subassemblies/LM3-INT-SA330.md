@@ -48,7 +48,7 @@ Evidence required:
 
 ## Integration design
 
-### 1. `LM3-EXT-P060` — seats, grab rails, flooring, lighting, PIS, CCTV, intercom, signage kit
+### 1. `LM3-EXT-P060` — seats, grab rails, flooring, PIS, CCTV, intercom, and signage kit
 
 - Placement zone: saloon interior, PRM aisle, ceiling, and service-panel zone
 - Interfaces: `mechanical datum`, `low-voltage/data`
@@ -58,7 +58,7 @@ Evidence required:
 - Verification:
   - fire certificates
   - egress gauge
-  - lighting lux test
+  - passenger-fixture load evidence
   - network enumeration
 
 ### 2. `LM3-INT-P010` — HVAC diffusers, side return ducts, saloon grilles, and access panels

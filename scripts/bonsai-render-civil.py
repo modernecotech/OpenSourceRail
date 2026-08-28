@@ -208,6 +208,17 @@ def render(args: argparse.Namespace) -> None:
     scene["osr_native_bearings"] = index["summary"]["native_bearings"]
     scene["osr_bearing_connections"] = index["summary"]["bearing_connection_relationships"]
     scene["osr_bearing_connection_realizations"] = index["summary"]["bearing_connection_realizations"]
+    scene["osr_constraint_evidence_links"] = index["summary"]["interface_constraint_related_objects"]
+    scene["osr_constraint_asset_links"] = index["summary"]["interface_constraint_asset_links"]
+    scene["osr_constraint_group_links"] = index["summary"]["interface_constraint_group_links"]
+    scene["osr_constraint_system_links"] = index["summary"]["interface_constraint_system_links"]
+    scene["osr_constraint_source_document_relationships"] = index["summary"]["constraint_source_document_relationships"]
+    scene["osr_source_linked_constraint_resources"] = index["summary"]["source_linked_constraint_resources"]
+    scene["osr_interface_metrics"] = index["summary"]["interface_metrics"]
+    scene["osr_qualitative_only_interface_constraints"] = index["summary"]["qualitative_only_interface_constraints"]
+    scene["osr_external_engineering_decisions"] = index["summary"]["external_engineering_decisions"]
+    scene["osr_ifc_capability_closure"] = index["capability_closure"]["status"]
+    scene["osr_implementable_open_ifc_tasks"] = index["capability_closure"]["implementable_open_task_count"]
     scene["osr_foundation_interfaces"] = index["summary"]["foundation_interfaces"]
     scene.render.engine = "BLENDER_EEVEE"
     scene.render.resolution_x = 1600

@@ -260,14 +260,17 @@ The engineering hub exposes four fixed adapters:
   quantities, provenance, an object index, two typed
   `IfcVehicle/ROLLINGSTOCK` trainsets, 18 linked 4D construction tasks with
   134 physical outputs and 45 separately identified virtual review interfaces, a
-  nineteen-specification IDS 1.0 audit, 36 native typed bearings and explicit
+  twenty-specification IDS 1.0 audit, 36 native typed bearings and explicit
   virtual foundation/jacking interfaces, 27 native support connections with 60
   bearing realizations, an internal 15-reference OSR asset
   classification, five native source-zone coordination groups, 15 hash-locked
-  native source-document records, six native functional systems (three
+  native source-document records including a native link to nine objectives and
+  six numeric metrics, a nine-item external engineering decision register,
+  six native functional systems (three
   specialized as `IfcBuiltSystem`), seven system-to-railway-part references,
-  four native presentation layers, nine native
-  qualitative interface constraints, 16 native property/quantity dictionaries,
+  four native presentation layers, nine native interface constraints with six
+  numeric `IfcMetric` benchmarks, three qualitative-only gates, and 107 scoped
+  project/asset/group/system evidence links, 16 native property/quantity dictionaries,
   native planning alignment layouts and stationing,
   one native schedule containing three generated planning rates,
   and a BCF 3.0 package of open release
@@ -295,7 +298,7 @@ directly. Individual civil objects expose their stable ID, IFC GUID, class,
 discipline, bounds, detail mode, source, internal asset class, and applicable
 hash-locked source documents. The searchable inspector also exposes the native
 classification, property-dictionary, alignment, planning-rate,
-interface-constraint, presentation-layer, coordination-group,
+interface-constraint and its source-document linkage, presentation-layer, coordination-group,
 functional-system, and document registers, type/direct assignment mode,
 semantic boundaries, repository locations, revisions, scope, and association
 counts. IDS specifications and BCF topics

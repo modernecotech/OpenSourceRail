@@ -44,13 +44,16 @@ five native coordination groups, six native functional engineering systems
 (including three specialized `IfcBuiltSystem` records),
 and four native visibility layers covering every asset exactly once in each
 scheme, seven system-to-railway-part references, 15 hash-locked native
-source-document records, native quantities,
-provenance, nine native qualitative interface constraints, 18 construction
+source-document records including a native link to nine objectives and six
+numeric metrics, native quantities, provenance, nine native interface
+constraints with 107 scoped project/asset/group/system evidence links, 18 construction
 tasks with 134 physical outputs and 45 separately identified virtual review
 interfaces, 16 native property/quantity dictionaries with 99 typed
 fields, a native horizontal/vertical planning alignment with stationing, and
 one native USD schedule containing three generated planning rates, with
-3,292/3,292 passing IDS checks. OSR remains
+20/20 IDS specifications and 3,340/3,340 checks passing. Nine external
+engineering decisions remain explicitly registered; no source-supported IFC
+implementation tasks remain. OSR remains
 authoritative for route and engineering rules; Bonsai provides
 federation, detail review, drawings, quantities, and 4D sequencing. See the
 [Bonsai civil workflow](docs/civil/bonsai-ifc-workflow.md).*
@@ -80,6 +83,7 @@ operating affordable urban rail systems. It combines:
 | **Deterministic city generation** | Reproducible GIS, network, fleet, energy, engineering and finance packages for [266 cities in 44 countries](designs/README.md). |
 | **Interactive City Studio** | Create, move and retire stations and lines; edit routing control points; plan service by line, day and time; test OD capacity, inspect IFC evidence, and isolate native review groups in one [local GUI](docs/city-studio/README.md). |
 | **Git-native revision control** | Content-addressed immutable revisions, semantic comparisons, append-only approvals and restart-tested persistence keep each city decision reviewable in GitHub. |
+| **Buildable modular trainset** | The LM3 product tree now exposes a common service rail, four captive fastener families, keyed plug-in lighting, standard fixture adapters, adjustable door carriers and dry-serviceable framed windows through the [small-component standard](mechanical-py/catalog/buildable-trainset/small-component-standard.md). |
 | **Civil BIM and 4D coordination** | Parametric Pi25/slipform/foundation geometry generates schema-checked IFC4.3 with native planning alignment layouts, quantities, typed property dictionaries, a generated schedule of planning rates, classification, review controls, optional survey control, IDS/BCF evidence and linked construction sequencing through the [civil BIM workflow](docs/civil/bonsai-ifc-workflow.md). |
 | **Automatic cost propagation** | Checked CAD quantities regenerate the [shared civil rate contract](lib/templates/civil-cost-model.toml), which feeds city CAPEX, finance, IFC properties, portfolio summaries and generated READMEs while retaining the original benchmark for comparison. |
 | **Operations-to-assurance stack** | Simulation, GoA 4 control components, energy planning, manufacturing QA, maintenance, Ops Core, hardware references and a machine-checkable safety case share one repository and evidence model. |
@@ -556,6 +560,7 @@ Key links:
 - [Generated review catalogue README](mechanical-py/catalog/README.md)
 - [Buildable trainset handoff](mechanical-py/catalog/buildable-trainset/)
 - [Configurable train-end interface](mechanical-py/catalog/buildable-trainset/train-end-interface.md)
+- [Small-component, fixture, lighting, door and window standard](mechanical-py/catalog/buildable-trainset/small-component-standard.md)
 - [First-article fabrication critical path](mechanical-py/catalog/buildable-trainset/critical-path.md)
 - [Pilot factory sizing and machinery plan](mechanical-py/catalog/buildable-trainset/factory-plan.md)
 - [Product-tree definitions](mechanical-py/catalog/buildable-trainset/definitions/index.md)
@@ -568,6 +573,7 @@ Buildable handoff quick path:
 | See selected baseline and metrics | [design iteration summary](mechanical-py/catalog/design-system/design-iteration-summary.md) |
 | See parts → subassemblies → assemblies → trainset | [buildable manifest](mechanical-py/catalog/buildable-trainset/buildable-trainset-manifest.md) |
 | Select panoramic or open mid-train ends | [train-end interface](mechanical-py/catalog/buildable-trainset/train-end-interface.md) with the common end carrier, panoramic glass option, and train-to-train open connection |
+| Review fasteners, fixtures, modular lights, doors and windows | [small-component standard](mechanical-py/catalog/buildable-trainset/small-component-standard.md) with explicit design boundaries and release gates |
 | Start drawing/RFQ work | [definition pack](mechanical-py/catalog/buildable-trainset/definitions/index.md) with structured material/process specs |
 | Start shop routing / QA planning | [shop traveler pack](mechanical-py/catalog/buildable-trainset/travelers/index.md) with material/process controls |
 | Plan first-article fabrication and final assembly | [critical-path plan](mechanical-py/catalog/buildable-trainset/critical-path.md) with parts, subassemblies, furnishings, space, labour, float, and final commissioning |
@@ -618,6 +624,13 @@ edge frame, demist busbars, and service hardware.
 ![Layered car body services](docs/screenshots/trainset-car-body-services.png)
 
 HVAC ducting, LV/data trays, lighting, HV/PV routing, coolant, and fire-vent paths inside one car.
+
+![Simplified trainset small-component system](docs/screenshots/rolling-stock/interfaces/simplified-small-component-package.png)
+
+One common rail grid carries identical plug-in light cassettes and standard
+fixture adapters; the perimeter members show dry-serviceable window frames and
+adjustable door carriers. Exact passenger-fixture, door and glazing loads remain
+controlled release gates.
 
 ![Layered car body structure](docs/screenshots/trainset-car-body-structure.png)
 
