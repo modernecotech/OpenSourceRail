@@ -19,9 +19,10 @@ checksum, and deliberately deferred tools.
 Install the complete environment once from the repository root:
 
 ```bash
-./install.sh --engineering
-./scripts/osr doctor --engineering
+./install.sh
 ```
+
+Answer yes when the installer offers the optional engineering applications.
 
 Run engineering workflows through the common launcher:
 

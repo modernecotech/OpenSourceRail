@@ -7,7 +7,7 @@ selected asset.
 
 ```bash
 ./install.sh
-./scripts/osr workbench
+./scripts/osr
 ```
 
 Open <http://127.0.0.1:8090/>. Planning and training modes cannot emit live OCC

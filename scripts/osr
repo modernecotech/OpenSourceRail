@@ -4,29 +4,26 @@ set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 NODE_VERSION="22.23.2"
-TOOL_ROOT="${OSR_INSTALL_TOOL_ROOT:-${XDG_DATA_HOME:-${HOME}/.local/share}/opensource-rail/toolchains}"
+TOOL_ROOT="${HOME}/.local/share/opensource-rail/toolchains"
 export PATH="$ROOT/.venv/bin:$TOOL_ROOT/bin:$TOOL_ROOT/node-v$NODE_VERSION/bin:${HOME}/.cargo/bin:$PATH"
-export PLAYWRIGHT_BROWSERS_PATH="${OSR_PLAYWRIGHT_BROWSERS_PATH:-$TOOL_ROOT/playwright}"
+export PLAYWRIGHT_BROWSERS_PATH="$TOOL_ROOT/playwright"
 cd "$ROOT"
 
 usage() {
     cat <<'EOF'
-Usage: ./scripts/osr COMMAND [arguments]
+Usage: ./scripts/osr [COMMAND] [arguments]
 
-  workbench          Build and run the integrated GUI at 127.0.0.1:8090
+  (no command)       Build and run the integrated GUI at 127.0.0.1:8090
+  workbench          Same as no command
   sim [arguments]    Run the deterministic railway simulator
   design [arguments] Run the deterministic city-design compiler
   test               Run Rust, Python, browser, and repository checks
   engineering ...    Run an engineering-toolchain command
-  doctor             Check the core installation
-  doctor --engineering
-                     Check the CAD/BIM/GIS installation too
 EOF
 }
 
-command_name="${1:-}"
-[[ -n "$command_name" ]] || { usage; exit 2; }
-shift
+command_name="${1:-workbench}"
+(( $# == 0 )) || shift
 
 case "$command_name" in
     workbench)
@@ -50,9 +47,6 @@ case "$command_name" in
         ;;
     engineering)
         exec scripts/engineering-toolchain.sh "$@"
-        ;;
-    doctor)
-        exec "$ROOT/install.sh" --check "$@"
         ;;
     -h|--help|help)
         usage

@@ -36,10 +36,9 @@ safety case for a real railway.
 
 ## Development Workflow
 
-Bootstrap a Debian- or Red Hat-family Linux development machine with
-`./install.sh`. Use `./install.sh --engineering` only when the CAD, BIM, GIS
-and external analysis applications are needed. `./scripts/osr doctor` checks
-the installed core toolchain without changing it.
+Run `./install.sh` on a supported Linux machine. It reports the current
+installation before asking whether to add missing core or optional engineering
+tools. No separate setup commands are required.
 
 1. Open or reference an issue for behavioral changes, safety claims,
    architecture decisions, generated data changes, or new public docs.

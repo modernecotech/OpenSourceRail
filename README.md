@@ -77,34 +77,24 @@ remain separate evidence or cost gates.
 
 ### One-command Linux setup
 
-On Debian, Ubuntu, Mint, Fedora, RHEL, Rocky, AlmaLinux or CentOS, install the
-Workbench, simulator, design packages and test dependencies with:
+On Debian, Ubuntu, Mint, Fedora, RHEL, Rocky, AlmaLinux, CentOS, openSUSE or
+Arch Linux, install the entire platform with one command:
 
 ```bash
 ./install.sh
 ```
 
-For a first-use install that immediately starts the GUI, run
-`./install.sh --run`. Subsequent launches use `./scripts/osr workbench`.
-
-The installer detects `apt-get`, `dnf` or `yum` and installs pinned user-local
-Rust, Node.js, Python, uv and Trunk toolchains without modifying shell startup
-files. To add the complete CAD/BIM/GIS environment—FreeCAD, Blender with
-Bonsai, QGIS, CloudCompare, SUMO and the engineering solvers—use:
-
-```bash
-./install.sh --engineering
-```
-
-Both profiles support x86_64 and aarch64 Linux. Inspect an existing setup with
-`./scripts/osr doctor` or preview installation changes with
-`./install.sh --engineering --dry-run`. Desktop engineering applications are
-optional because they are large and are not needed to operate the Workbench.
+It first reports what is already installed. Declining the installation makes
+no changes; accepting installs only missing native libraries and keeps Rust,
+Node.js, Python, uv, Trunk and browser tools under your home folder. It then
+asks whether to add the larger FreeCAD, Blender/Bonsai, QGIS, CloudCompare and
+SUMO applications, and whether to start the GUI. There are no setup options or
+environment variables to configure.
 
 Run the integrated Workbench:
 
 ```bash
-./scripts/osr workbench
+./scripts/osr
 ```
 
 Open <http://127.0.0.1:8090/>. The local development server is not an

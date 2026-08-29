@@ -9,7 +9,7 @@ stay thin: domain logic belongs in Rust crates, `design-py`, or
 
 | Script | Purpose |
 |---|---|
-| [`osr`](osr) | Launch the integrated Workbench, simulator, design compiler, verification suite, engineering tools, or installation doctor through the pinned local toolchain |
+| [`osr`](osr) | Launch the integrated Workbench by default, or an advanced simulator, design, verification, or engineering command through the pinned local toolchain |
 | [`regenerate-city.sh`](regenerate-city.sh) | Regenerate one city design from the batch catalogue |
 | [`regenerate-all.sh`](regenerate-all.sh) | Cached design synthesis plus complete city-package refresh under `designs/`; use `--from-scratch` to force source-data rebuilding |
 | [`generate-city-packages-fast.py`](generate-city-packages-fast.py) | Resynthesise designs, then refresh scenarios, maps, engineering, resilience simulation, screenshots, operations, READMEs, and completeness manifests |

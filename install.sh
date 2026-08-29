@@ -1,82 +1,30 @@
 #!/usr/bin/env bash
-# One Linux bootstrap for the OpenSourceRail platform.
+# Check, install, and run OpenSourceRail with one command.
 set -euo pipefail
 
 readonly ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-readonly RUST_VERSION="1.88.0"
+readonly TOOL_ROOT="${HOME}/.local/share/opensource-rail/toolchains"
+readonly TOOL_BIN="$TOOL_ROOT/bin"
 readonly NODE_VERSION="22.23.2"
+readonly NODE_ROOT="$TOOL_ROOT/node-v$NODE_VERSION"
+readonly RUST_VERSION="1.88.0"
 readonly UV_VERSION="0.11.20"
 readonly PYTHON_VERSION="3.11.13"
 readonly TRUNK_VERSION="0.21.8"
+readonly PLAYWRIGHT_ROOT="$TOOL_ROOT/playwright"
 readonly FLATHUB_URL="https://dl.flathub.org/repo/flathub.flatpakrepo"
 
-OSR_TOOL_ROOT="${OSR_INSTALL_TOOL_ROOT:-${XDG_DATA_HOME:-${HOME}/.local/share}/opensource-rail/toolchains}"
-OSR_TOOL_BIN="$OSR_TOOL_ROOT/bin"
-OSR_NODE_ROOT="$OSR_TOOL_ROOT/node-v$NODE_VERSION"
-
-PROFILE="core"
-ACTION="install"
-DRY_RUN=0
-BUILD=1
-RUN_AFTER=0
 INSTALL_TEMP=""
 DISTRO_FAMILY=""
 PACKAGE_MANAGER=""
 
-usage() {
-    cat <<'EOF'
-Usage: ./install.sh [options]
-
-Install and optionally run OpenSourceRail on Debian- or Red Hat-family Linux.
-
-  (no option)       Install the Workbench, simulator, design tools, and tests
-  --engineering     Also install CAD, BIM, GIS, SUMO, and analysis tools
-  --run             Start the integrated Workbench after installation
-  --check           Check an existing installation without changing it
-  --no-build        Install dependencies without compiling the applications
-  --dry-run         Print the selected package and toolchain actions only
-  -h, --help        Show this help
-
-Supported package managers: apt-get, dnf, and yum.
-Supported CPU architectures: x86_64 and aarch64.
-
-The installer uses user-local, pinned Rust, Node.js, Python, uv, and Trunk
-toolchains. System package managers supply only common native libraries and,
-for --engineering, Flatpak. It does not alter shell startup files.
-EOF
-}
-
 fail() {
-    printf 'install error: %s\n' "$*" >&2
+    printf 'Setup error: %s\n' "$*" >&2
     exit 1
 }
 
-note() {
+section() {
     printf '\n==> %s\n' "$*"
-}
-
-print_command() {
-    printf '  +'
-    printf ' %q' "$@"
-    printf '\n'
-}
-
-run() {
-    print_command "$@"
-    if (( ! DRY_RUN )); then
-        "$@"
-    fi
-}
-
-run_root() {
-    if (( EUID == 0 )); then
-        run "$@"
-    elif (( DRY_RUN )); then
-        run sudo "$@"
-    else
-        command -v sudo >/dev/null 2>&1 || fail "sudo is required to install native packages"
-        run sudo "$@"
-    fi
 }
 
 cleanup() {
@@ -92,92 +40,59 @@ temporary_directory() {
     fi
 }
 
-download_checked() {
-    local url="$1"
-    local expected_sha="$2"
-    local output="$3"
-    run curl --proto '=https' --tlsv1.2 --fail --location --retry 3 --output "$output" "$url"
-    if (( DRY_RUN )); then
-        printf '  + verify sha256 %s\n' "$expected_sha"
+confirm() {
+    local prompt="$1"
+    local interactive_default="$2"
+    local unattended_default="$3"
+    local reply=""
+    local suffix="[y/N]"
+    [[ "$interactive_default" == "yes" ]] && suffix="[Y/n]"
+
+    if [[ -t 0 ]]; then
+        read -r -p "$prompt $suffix " reply
+        [[ -n "$reply" ]] || reply="$interactive_default"
+    elif IFS= read -r reply; then
+        [[ -n "$reply" ]] || reply="$unattended_default"
     else
-        printf '%s  %s\n' "$expected_sha" "$output" | sha256sum --check --status \
-            || fail "checksum mismatch for $url"
+        reply="$unattended_default"
     fi
+    [[ "$reply" =~ ^([Yy]|[Yy][Ee][Ss])$ ]]
 }
 
-parse_arguments() {
-    while (( $# )); do
-        case "$1" in
-            --engineering)
-                PROFILE="engineering"
-                ;;
-            --run)
-                RUN_AFTER=1
-                ;;
-            --check)
-                ACTION="check"
-                ;;
-            --no-build)
-                BUILD=0
-                ;;
-            --dry-run)
-                DRY_RUN=1
-                ;;
-            -h|--help)
-                usage
-                exit 0
-                ;;
-            *)
-                fail "unknown option: $1"
-                ;;
-        esac
-        shift
-    done
-    if [[ "$ACTION" == "check" && "$DRY_RUN" == "1" ]]; then
-        fail "--check and --dry-run are separate non-mutating modes"
-    fi
-}
+detect_host() {
+    [[ "$(uname -s)" == "Linux" ]] || fail "this installer supports Linux"
+    [[ -r /etc/os-release ]] || fail "/etc/os-release is missing"
+    # shellcheck disable=SC1091
+    source /etc/os-release
+    case " ${ID:-} ${ID_LIKE:-} " in
+        *" debian "*|*" ubuntu "*)
+            DISTRO_FAMILY="debian"
+            PACKAGE_MANAGER="apt-get"
+            ;;
+        *" rhel "*|*" fedora "*|*" centos "*)
+            DISTRO_FAMILY="redhat"
+            if command -v dnf >/dev/null 2>&1; then
+                PACKAGE_MANAGER="dnf"
+            else
+                PACKAGE_MANAGER="yum"
+            fi
+            ;;
+        *" suse "*|*" opensuse "*)
+            DISTRO_FAMILY="suse"
+            PACKAGE_MANAGER="zypper"
+            ;;
+        *" arch "*)
+            DISTRO_FAMILY="arch"
+            PACKAGE_MANAGER="pacman"
+            ;;
+        *)
+            fail "supported Linux families use apt-get, dnf, yum, zypper, or pacman"
+            ;;
+    esac
+    command -v "$PACKAGE_MANAGER" >/dev/null 2>&1 \
+        || fail "$PACKAGE_MANAGER is missing"
 
-detect_distribution() {
-    local requested="${OSR_INSTALL_FAMILY:-}"
-    local distro_id=""
-    local distro_like=""
-    if [[ -n "$requested" ]]; then
-        case "$requested" in
-            debian|redhat) DISTRO_FAMILY="$requested" ;;
-            *) fail "OSR_INSTALL_FAMILY must be debian or redhat" ;;
-        esac
-    elif [[ -r /etc/os-release ]]; then
-        # shellcheck disable=SC1091
-        source /etc/os-release
-        distro_id="${ID:-}"
-        distro_like="${ID_LIKE:-}"
-        case " $distro_id $distro_like " in
-            *" debian "*|*" ubuntu "*) DISTRO_FAMILY="debian" ;;
-            *" rhel "*|*" fedora "*|*" centos "*) DISTRO_FAMILY="redhat" ;;
-        esac
-    fi
-
-    [[ -n "$DISTRO_FAMILY" ]] || fail \
-        "unsupported Linux family; this installer supports Debian and Red Hat derivatives"
-
-    if [[ "$DISTRO_FAMILY" == "debian" ]]; then
-        PACKAGE_MANAGER="apt-get"
-    elif command -v dnf >/dev/null 2>&1 || (( DRY_RUN )); then
-        PACKAGE_MANAGER="dnf"
-    else
-        PACKAGE_MANAGER="yum"
-    fi
-
-    if (( ! DRY_RUN )); then
-        command -v "$PACKAGE_MANAGER" >/dev/null 2>&1 \
-            || fail "$PACKAGE_MANAGER was not found for the detected $DISTRO_FAMILY family"
-    fi
-}
-
-detect_architecture() {
-    local machine="${OSR_INSTALL_ARCH:-$(uname -m)}"
-    case "$machine" in
+    case "$(uname -m)" in
         x86_64|amd64)
             ARCH="x86_64"
             NODE_ARCH="x64"
@@ -195,88 +110,170 @@ detect_architecture() {
             TRUNK_SHA="1d78218d20a9eff834136c406c9e7612a644c4bec47d85fda9d1c31f7bc8331f"
             ;;
         *)
-            fail "unsupported CPU architecture: $machine (expected x86_64 or aarch64)"
+            fail "supported CPU architectures are x86_64 and aarch64"
             ;;
     esac
 }
 
 activate_toolchain() {
-    export PATH="$ROOT/.venv/bin:$OSR_TOOL_BIN:$OSR_NODE_ROOT/bin:${HOME}/.cargo/bin:$PATH"
-    export PLAYWRIGHT_BROWSERS_PATH="${OSR_PLAYWRIGHT_BROWSERS_PATH:-$OSR_TOOL_ROOT/playwright}"
+    export PATH="$ROOT/.venv/bin:$TOOL_BIN:$NODE_ROOT/bin:${HOME}/.cargo/bin:$PATH"
+    export PLAYWRIGHT_BROWSERS_PATH="$PLAYWRIGHT_ROOT"
+}
+
+status_line() {
+    local label="$1"
+    local available="$2"
+    if [[ "$available" == "yes" ]]; then
+        printf '  ready    %s\n' "$label"
+    else
+        printf '  missing  %s\n' "$label"
+    fi
+}
+
+command_version_is() {
+    local command_name="$1"
+    local expected="$2"
+    command -v "$command_name" >/dev/null 2>&1 \
+        && "$command_name" --version 2>/dev/null | head -n 1 | grep -Fq "$expected"
+}
+
+native_ready() {
+    local command_name
+    for command_name in curl git tar xz sha256sum cc c++ make pkg-config; do
+        command -v "$command_name" >/dev/null 2>&1 || return 1
+    done
+}
+
+python_ready() {
+    [[ -x "$ROOT/.venv/bin/python" ]] \
+        && "$ROOT/.venv/bin/python" -c \
+            'import numpy, requests, osr_planner, osr_mech, osr_aln, reference_ma' \
+            >/dev/null 2>&1
+}
+
+rust_ready() {
+    command -v rustup >/dev/null 2>&1 \
+        && rustup toolchain list | grep -q "^$RUST_VERSION" \
+        && rustup target list --installed --toolchain "$RUST_VERSION" \
+            | grep -qx wasm32-unknown-unknown
+}
+
+node_packages_ready() {
+    local stamp="$ROOT/node_modules/.osr-package-lock.sha256"
+    [[ -f "$stamp" && -f "$ROOT/package-lock.json" ]] || return 1
+    [[ "$(<"$stamp")" == "$(sha256sum "$ROOT/package-lock.json" | cut -d' ' -f1)" ]]
+}
+
+playwright_ready() {
+    command -v npx >/dev/null 2>&1 \
+        && npx playwright install --list 2>/dev/null | grep -q chromium
+}
+
+build_ready() {
+    [[ -f "$ROOT/build/frontend/sim/index.html" \
+        && -f "$ROOT/build/frontend/occ/index.html" \
+        && -x "$ROOT/target/release/osr-sim" \
+        && -x "$ROOT/target/release/osr-design" ]]
+}
+
+show_core_status() {
+    section "Current installation"
+    native_ready && status_line "Linux build libraries" yes \
+        || status_line "Linux build libraries" no
+    command_version_is node "v$NODE_VERSION" && status_line "Node.js $NODE_VERSION" yes \
+        || status_line "Node.js $NODE_VERSION" no
+    command_version_is uv "$UV_VERSION" && status_line "uv $UV_VERSION" yes \
+        || status_line "uv $UV_VERSION" no
+    rust_ready && status_line "Rust $RUST_VERSION + WebAssembly" yes \
+        || status_line "Rust $RUST_VERSION + WebAssembly" no
+    command_version_is trunk "$TRUNK_VERSION" && status_line "Trunk $TRUNK_VERSION" yes \
+        || status_line "Trunk $TRUNK_VERSION" no
+    python_ready && status_line "Python design packages" yes \
+        || status_line "Python design packages" no
+    node_packages_ready && status_line "JavaScript packages" yes \
+        || status_line "JavaScript packages" no
+    playwright_ready && status_line "Playwright Chromium" yes \
+        || status_line "Playwright Chromium" no
+    build_ready && status_line "Workbench and simulator build" yes \
+        || status_line "Workbench and simulator build" no
+}
+
+run_root() {
+    if (( EUID == 0 )); then
+        "$@"
+    else
+        command -v sudo >/dev/null 2>&1 || fail "sudo is needed for missing Linux libraries"
+        sudo "$@"
+    fi
 }
 
 install_native_packages() {
-    note "Installing common native packages with $PACKAGE_MANAGER"
-    if [[ "$DISTRO_FAMILY" == "debian" ]]; then
-        run_root apt-get update
-        local packages=(ca-certificates curl git build-essential pkg-config libssl-dev tar xz-utils)
-        [[ "$PROFILE" == "engineering" ]] && packages+=(flatpak)
-        run_root env DEBIAN_FRONTEND=noninteractive apt-get install -y "${packages[@]}"
-    else
-        local packages=(ca-certificates curl git gcc gcc-c++ make pkgconf-pkg-config openssl-devel tar xz)
-        [[ "$PROFILE" == "engineering" ]] && packages+=(flatpak)
-        run_root "$PACKAGE_MANAGER" install -y "${packages[@]}"
-    fi
+    native_ready && return
+    section "Installing missing Linux libraries"
+    case "$DISTRO_FAMILY" in
+        debian)
+            run_root apt-get update
+            run_root env DEBIAN_FRONTEND=noninteractive apt-get install -y \
+                ca-certificates curl git build-essential pkg-config libssl-dev tar xz-utils
+            ;;
+        redhat)
+            run_root "$PACKAGE_MANAGER" install -y \
+                ca-certificates curl git gcc gcc-c++ make pkgconf-pkg-config openssl-devel tar xz
+            ;;
+        suse)
+            run_root zypper --non-interactive install \
+                ca-certificates curl git gcc gcc-c++ make pkg-config libopenssl-devel tar xz
+            ;;
+        arch)
+            run_root pacman --sync --refresh --needed --noconfirm \
+                ca-certificates curl git base-devel pkgconf openssl tar xz
+            ;;
+    esac
+}
+
+download_checked() {
+    local url="$1"
+    local expected_sha="$2"
+    local output="$3"
+    curl --proto '=https' --tlsv1.2 --fail --location --retry 3 \
+        --output "$output" "$url"
+    printf '%s  %s\n' "$expected_sha" "$output" | sha256sum --check --status \
+        || fail "checksum mismatch for $url"
 }
 
 install_uv() {
-    note "Installing uv $UV_VERSION"
-    if (( DRY_RUN )); then
-        download_checked \
-            "https://github.com/astral-sh/uv/releases/download/$UV_VERSION/uv-$UV_TARGET.tar.gz" \
-            "$UV_SHA" "/tmp/uv-$UV_TARGET.tar.gz"
-        print_command install -m 0755 uv uvx "$OSR_TOOL_BIN/"
-        return
-    fi
-    mkdir -p "$OSR_TOOL_BIN"
-    if [[ -x "$OSR_TOOL_BIN/uv" ]] \
-        && [[ "$($OSR_TOOL_BIN/uv --version | awk '{print $2}')" == "$UV_VERSION" ]]; then
-        printf '  uv %s already installed\n' "$UV_VERSION"
-        return
-    fi
+    command_version_is uv "$UV_VERSION" && return
+    section "Installing uv $UV_VERSION in your home folder"
     temporary_directory
+    mkdir -p "$TOOL_BIN"
     local archive="$INSTALL_TEMP/uv.tar.gz"
     download_checked \
         "https://github.com/astral-sh/uv/releases/download/$UV_VERSION/uv-$UV_TARGET.tar.gz" \
         "$UV_SHA" "$archive"
     tar -xzf "$archive" -C "$INSTALL_TEMP"
-    install -m 0755 "$INSTALL_TEMP/uv-$UV_TARGET/uv" "$OSR_TOOL_BIN/uv"
-    install -m 0755 "$INSTALL_TEMP/uv-$UV_TARGET/uvx" "$OSR_TOOL_BIN/uvx"
+    install -m 0755 "$INSTALL_TEMP/uv-$UV_TARGET/uv" "$TOOL_BIN/uv"
+    install -m 0755 "$INSTALL_TEMP/uv-$UV_TARGET/uvx" "$TOOL_BIN/uvx"
 }
 
 install_node() {
-    note "Installing Node.js $NODE_VERSION"
-    local archive_name="node-v$NODE_VERSION-linux-$NODE_ARCH.tar.xz"
-    if (( DRY_RUN )); then
-        download_checked "https://nodejs.org/dist/v$NODE_VERSION/$archive_name" \
-            "$NODE_SHA" "/tmp/$archive_name"
-        print_command install "$OSR_NODE_ROOT/bin/node"
-        return
-    fi
-    if [[ -x "$OSR_NODE_ROOT/bin/node" ]] \
-        && [[ "$($OSR_NODE_ROOT/bin/node --version)" == "v$NODE_VERSION" ]]; then
-        printf '  Node.js %s already installed\n' "$NODE_VERSION"
-        return
-    fi
+    command_version_is node "v$NODE_VERSION" && return
+    section "Installing Node.js $NODE_VERSION in your home folder"
     temporary_directory
+    local archive_name="node-v$NODE_VERSION-linux-$NODE_ARCH.tar.xz"
     local archive="$INSTALL_TEMP/$archive_name"
-    download_checked "https://nodejs.org/dist/v$NODE_VERSION/$archive_name" "$NODE_SHA" "$archive"
+    download_checked "https://nodejs.org/dist/v$NODE_VERSION/$archive_name" \
+        "$NODE_SHA" "$archive"
     tar -xJf "$archive" -C "$INSTALL_TEMP"
-    mkdir -p "$OSR_TOOL_ROOT"
-    [[ ! -e "$OSR_NODE_ROOT" ]] \
-        || fail "$OSR_NODE_ROOT exists but is not a valid Node.js $NODE_VERSION installation"
-    cp -a "$INSTALL_TEMP/node-v$NODE_VERSION-linux-$NODE_ARCH" "$OSR_NODE_ROOT"
+    mkdir -p "$TOOL_ROOT"
+    if [[ -e "$NODE_ROOT" ]]; then
+        fail "$NODE_ROOT exists but is not the required Node.js release"
+    fi
+    cp -a "$INSTALL_TEMP/node-v$NODE_VERSION-linux-$NODE_ARCH" "$NODE_ROOT"
 }
 
 install_rust() {
-    note "Installing Rust $RUST_VERSION and the WebAssembly target"
-    if (( DRY_RUN )); then
-        print_command curl --proto '=https' --tlsv1.2 --fail --location --output /tmp/rustup-init.sh https://sh.rustup.rs
-        print_command sh /tmp/rustup-init.sh --default-toolchain none -y
-        print_command rustup toolchain install "$RUST_VERSION" --profile minimal \
-            --component clippy --component rustfmt --target wasm32-unknown-unknown
-        return
-    fi
+    rust_ready && return
+    section "Installing Rust $RUST_VERSION in your home folder"
     if ! command -v rustup >/dev/null 2>&1; then
         temporary_directory
         curl --proto '=https' --tlsv1.2 --fail --location --retry 3 \
@@ -289,48 +286,28 @@ install_rust() {
 }
 
 install_trunk() {
-    note "Installing Trunk $TRUNK_VERSION"
-    local archive_name="trunk-$UV_TARGET.tar.gz"
-    if (( DRY_RUN )); then
-        download_checked \
-            "https://github.com/trunk-rs/trunk/releases/download/v$TRUNK_VERSION/$archive_name" \
-            "$TRUNK_SHA" "/tmp/$archive_name"
-        print_command install -m 0755 trunk "$OSR_TOOL_BIN/trunk"
-        return
-    fi
-    mkdir -p "$OSR_TOOL_BIN"
-    if [[ -x "$OSR_TOOL_BIN/trunk" ]] \
-        && [[ "$($OSR_TOOL_BIN/trunk --version | awk '{print $2}')" == "$TRUNK_VERSION" ]]; then
-        printf '  Trunk %s already installed\n' "$TRUNK_VERSION"
-        return
-    fi
+    command_version_is trunk "$TRUNK_VERSION" && return
+    section "Installing Trunk $TRUNK_VERSION in your home folder"
     temporary_directory
+    mkdir -p "$TOOL_BIN"
+    local archive_name="trunk-$UV_TARGET.tar.gz"
     local archive="$INSTALL_TEMP/$archive_name"
     download_checked \
         "https://github.com/trunk-rs/trunk/releases/download/v$TRUNK_VERSION/$archive_name" \
         "$TRUNK_SHA" "$archive"
     tar -xzf "$archive" -C "$INSTALL_TEMP"
-    install -m 0755 "$INSTALL_TEMP/trunk" "$OSR_TOOL_BIN/trunk"
+    install -m 0755 "$INSTALL_TEMP/trunk" "$TOOL_BIN/trunk"
 }
 
-install_python_environment() {
-    note "Creating the Python design environment"
-    if (( DRY_RUN )); then
-        print_command uv python install "$PYTHON_VERSION"
-        print_command uv venv --python "$PYTHON_VERSION" --seed "$ROOT/.venv"
-        print_command uv pip install --python "$ROOT/.venv/bin/python" pytest \
-            --editable "$ROOT/design-py[geotiff,batch]" \
-            --editable "$ROOT/mechanical-py[test]" \
-            --editable "$ROOT/tools/osr-aln-convert[test]" \
-            --editable "$ROOT/tools/reference-ma"
-        return
-    fi
+install_python() {
+    python_ready && return
+    section "Installing Python design packages"
     uv python install "$PYTHON_VERSION"
     if [[ ! -x "$ROOT/.venv/bin/python" ]]; then
         uv venv --python "$PYTHON_VERSION" --seed "$ROOT/.venv"
     elif ! "$ROOT/.venv/bin/python" -c \
         'import sys; raise SystemExit(0 if sys.version_info >= (3, 11) else 1)'; then
-        fail "$ROOT/.venv uses Python older than 3.11; move it aside and rerun the installer"
+        fail "$ROOT/.venv uses Python older than 3.11; move it aside and rerun setup"
     fi
     uv pip install --python "$ROOT/.venv/bin/python" pytest \
         --editable "$ROOT/design-py[geotiff,batch]" \
@@ -339,152 +316,105 @@ install_python_environment() {
         --editable "$ROOT/tools/reference-ma"
 }
 
-install_node_environment() {
-    note "Installing pinned browser-test packages"
-    if (( DRY_RUN )); then
-        print_command npm ci
-        if [[ "$DISTRO_FAMILY" == "debian" ]]; then
-            print_command npx playwright install --with-deps chromium
-        else
-            print_command npx playwright install chromium
-        fi
-    else
-        (cd "$ROOT" && npm ci)
-        if [[ "$DISTRO_FAMILY" == "debian" ]]; then
-            (cd "$ROOT" && npx playwright install --with-deps chromium)
-        else
-            # Playwright's dependency helper is apt-specific. Red Hat desktop
-            # installations normally carry Chromium's libraries already; the
-            # browser itself is still pinned by package-lock.json.
-            (cd "$ROOT" && npx playwright install chromium)
-        fi
-    fi
+install_node_packages() {
+    node_packages_ready && return
+    section "Installing JavaScript packages"
+    (cd "$ROOT" && npm ci)
+    sha256sum "$ROOT/package-lock.json" | cut -d' ' -f1 \
+        > "$ROOT/node_modules/.osr-package-lock.sha256"
 }
 
-install_engineering_environment() {
-    note "Installing the optional engineering desktop and solver environment"
-    local applications=(
-        org.freecad.FreeCAD
-        org.blender.Blender
-        org.qgis.qgis
-        org.cloudcompare.CloudCompare
-        org.eclipse.sumo
-    )
-    run flatpak remote-add --user --if-not-exists flathub "$FLATHUB_URL"
-    run flatpak install --user --noninteractive -y flathub "${applications[@]}"
-    if (( DRY_RUN )); then
-        print_command flatpak run org.blender.Blender --command extension install --sync --enable bonsai
-    elif flatpak run org.blender.Blender -b --python-expr \
-        'import importlib.metadata; print(importlib.metadata.version("bonsai"))' \
-        >/dev/null 2>&1; then
-        printf '  Blender Bonsai extension already installed\n'
+install_playwright() {
+    playwright_ready && return
+    section "Installing the browser used by deterministic GUI tests"
+    if [[ "$DISTRO_FAMILY" == "debian" ]]; then
+        (cd "$ROOT" && npx playwright install --with-deps chromium)
     else
-        run flatpak run org.blender.Blender --command extension install --sync --enable bonsai
-    fi
-    if (( DRY_RUN )); then
-        print_command uv pip install --python "$ROOT/.venv/bin/python" \
-            --requirement "$ROOT/engineering/toolchain/python-requirements.txt"
-    else
-        uv pip install --python "$ROOT/.venv/bin/python" \
-            --requirement "$ROOT/engineering/toolchain/python-requirements.txt"
-        mkdir -p "$ROOT/build/engineering/toolchain"
-        uv pip freeze --python "$ROOT/.venv/bin/python" \
-            > "$ROOT/build/engineering/toolchain/pip-freeze.txt"
+        (cd "$ROOT" && npx playwright install chromium)
     fi
 }
 
 build_platform() {
-    if (( ! BUILD )); then
-        return 0
-    fi
-    note "Building the Workbench and command-line applications"
-    if (( DRY_RUN )); then
-        print_command npm run frontend:build
-        print_command cargo build --release --bin osr-sim --bin osr-design
-    else
-        (cd "$ROOT" && npm run frontend:build)
-        (cd "$ROOT" && cargo build --release --bin osr-sim --bin osr-design)
-    fi
+    section "Building OpenSourceRail"
+    (cd "$ROOT" && npm run frontend:build)
+    (cd "$ROOT" && cargo build --release --bin osr-sim --bin osr-design)
 }
 
-check_command() {
-    local command_name="$1"
-    if command -v "$command_name" >/dev/null 2>&1; then
-        printf '  ok       %s\n' "$command_name"
-    else
-        printf '  missing  %s\n' "$command_name"
-        CHECK_FAILED=1
-    fi
-}
-
-check_installation() {
-    activate_toolchain
-    note "Checking the $PROFILE installation"
-    CHECK_FAILED=0
-    for command_name in git curl rustup cargo rustc node npm uv trunk python3; do
-        check_command "$command_name"
+engineering_ready() {
+    command -v flatpak >/dev/null 2>&1 || return 1
+    local app_id
+    for app_id in org.freecad.FreeCAD org.blender.Blender org.qgis.qgis \
+        org.cloudcompare.CloudCompare org.eclipse.sumo; do
+        flatpak info --user "$app_id" >/dev/null 2>&1 \
+            || flatpak info --system "$app_id" >/dev/null 2>&1 \
+            || return 1
     done
-    if [[ -x "$ROOT/.venv/bin/python" ]]; then
-        "$ROOT/.venv/bin/python" -c 'import numpy, requests, osr_planner, osr_mech, osr_aln, reference_ma'
-        printf '  ok       Python project packages\n'
-    else
-        printf '  missing  %s\n' "$ROOT/.venv/bin/python"
-        CHECK_FAILED=1
-    fi
-    rustup target list --installed --toolchain "$RUST_VERSION" \
-        | grep -qx wasm32-unknown-unknown \
-        || { printf '  missing  wasm32-unknown-unknown for Rust %s\n' "$RUST_VERSION"; CHECK_FAILED=1; }
-    [[ "$(node --version 2>/dev/null)" == "v$NODE_VERSION" ]] \
-        || { printf '  wrong    Node.js (expected v%s)\n' "$NODE_VERSION"; CHECK_FAILED=1; }
-    [[ "$(trunk --version 2>/dev/null | awk '{print $2}')" == "$TRUNK_VERSION" ]] \
-        || { printf '  wrong    Trunk (expected %s)\n' "$TRUNK_VERSION"; CHECK_FAILED=1; }
-    if npx playwright install --list 2>/dev/null | grep -q 'chromium'; then
-        printf '  ok       Playwright Chromium\n'
-    else
-        printf '  missing  Playwright Chromium\n'
-        CHECK_FAILED=1
-    fi
+    "$ROOT/.venv/bin/python" -c \
+        'import ifcopenshell, jupedsim, openseespy, pandapower, pvlib, pybamm, pyswmm' \
+        >/dev/null 2>&1 || return 1
+    flatpak run org.blender.Blender -b --python-expr \
+        'import importlib.metadata; print(importlib.metadata.version("bonsai"))' \
+        >/dev/null 2>&1
+}
 
-    if [[ "$PROFILE" == "engineering" ]]; then
-        for app_id in org.freecad.FreeCAD org.blender.Blender org.qgis.qgis \
-            org.cloudcompare.CloudCompare org.eclipse.sumo; do
-            if flatpak info --user "$app_id" >/dev/null 2>&1 \
-                || flatpak info --system "$app_id" >/dev/null 2>&1; then
-                printf '  ok       %s\n' "$app_id"
-            else
-                printf '  missing  %s\n' "$app_id"
-                CHECK_FAILED=1
-            fi
-        done
-        "$ROOT/.venv/bin/python" -c \
-            'import ifcopenshell, jupedsim, openseespy, pandapower, pvlib, pybamm, pyswmm' \
-            || { printf '  missing  engineering Python package(s)\n'; CHECK_FAILED=1; }
-        flatpak run org.blender.Blender -b --python-expr \
-            'import importlib.metadata; print(importlib.metadata.version("bonsai"))' \
-            >/dev/null 2>&1 \
-            || { printf '  missing  Blender Bonsai extension\n'; CHECK_FAILED=1; }
-    fi
+install_flatpak() {
+    command -v flatpak >/dev/null 2>&1 && return
+    case "$DISTRO_FAMILY" in
+        debian) run_root env DEBIAN_FRONTEND=noninteractive apt-get install -y flatpak ;;
+        redhat) run_root "$PACKAGE_MANAGER" install -y flatpak ;;
+        suse) run_root zypper --non-interactive install flatpak ;;
+        arch) run_root pacman --sync --needed --noconfirm flatpak ;;
+    esac
+}
 
-    (( CHECK_FAILED == 0 )) || fail "installation check failed"
-    printf '\nOpenSourceRail installation check passed.\n'
+install_engineering() {
+    engineering_ready && return
+    section "Installing optional engineering applications"
+    install_flatpak
+    flatpak remote-add --user --if-not-exists flathub "$FLATHUB_URL"
+    flatpak install --user --noninteractive -y flathub \
+        org.freecad.FreeCAD org.blender.Blender org.qgis.qgis \
+        org.cloudcompare.CloudCompare org.eclipse.sumo
+    if ! flatpak run org.blender.Blender -b --python-expr \
+        'import importlib.metadata; print(importlib.metadata.version("bonsai"))' \
+        >/dev/null 2>&1; then
+        flatpak run org.blender.Blender --command extension install --sync --enable bonsai
+    fi
+    uv pip install --python "$ROOT/.venv/bin/python" \
+        --requirement "$ROOT/engineering/toolchain/python-requirements.txt"
+    mkdir -p "$ROOT/build/engineering/toolchain"
+    uv pip freeze --python "$ROOT/.venv/bin/python" \
+        > "$ROOT/build/engineering/toolchain/pip-freeze.txt"
+}
+
+verify_core() {
+    activate_toolchain
+    native_ready || fail "Linux build libraries are incomplete"
+    command_version_is node "v$NODE_VERSION" || fail "Node.js installation failed"
+    command_version_is uv "$UV_VERSION" || fail "uv installation failed"
+    rust_ready || fail "Rust installation failed"
+    command_version_is trunk "$TRUNK_VERSION" || fail "Trunk installation failed"
+    python_ready || fail "Python package installation failed"
+    node_packages_ready || fail "JavaScript package installation failed"
+    playwright_ready || fail "Playwright browser installation failed"
+    build_ready || fail "application build failed"
 }
 
 main() {
-    parse_arguments "$@"
-    detect_distribution
-    detect_architecture
+    (( $# == 0 )) || fail "run ./install.sh without options"
+    detect_host
     activate_toolchain
 
-    if [[ "$ACTION" == "check" ]]; then
-        check_installation
+    printf 'OpenSourceRail setup\n'
+    printf '  Linux family: %s\n' "$DISTRO_FAMILY"
+    printf '  Architecture: %s\n' "$ARCH"
+    printf '  User tools:   %s\n' "$TOOL_ROOT"
+    show_core_status
+
+    if ! confirm "Install or refresh the core platform?" yes no; then
+        printf '\nCheck complete. No changes were made.\n'
         return
     fi
-
-    printf 'OpenSourceRail Linux installer\n'
-    printf '  profile:       %s\n' "$PROFILE"
-    printf '  distribution:  %s (%s)\n' "$DISTRO_FAMILY" "$PACKAGE_MANAGER"
-    printf '  architecture:  %s\n' "$ARCH"
-    printf '  tool root:     %s\n' "$OSR_TOOL_ROOT"
 
     install_native_packages
     install_uv
@@ -492,23 +422,26 @@ main() {
     install_rust
     install_trunk
     activate_toolchain
-    install_python_environment
-    install_node_environment
-    if [[ "$PROFILE" == "engineering" ]]; then
-        install_engineering_environment
-    fi
+    install_python
+    install_node_packages
+    install_playwright
     build_platform
+    verify_core
 
-    if (( DRY_RUN )); then
-        printf '\nDry run complete; no changes were made.\n'
-        return
+    if engineering_ready; then
+        printf '\nEngineering applications are already available.\n'
+    elif confirm "Also install the large CAD, BIM, GIS, and SUMO applications?" no no; then
+        install_engineering
+        engineering_ready || fail "engineering application installation failed"
+    else
+        printf '\nOptional engineering applications were skipped.\n'
     fi
 
-    check_installation
-    printf '\nInstalled. Start the integrated GUI with:\n  ./scripts/osr workbench\n'
-    if (( RUN_AFTER )); then
-        exec "$ROOT/scripts/osr" workbench
+    printf '\nOpenSourceRail is ready.\n'
+    if confirm "Start the Workbench now?" yes no; then
+        exec "$ROOT/scripts/osr"
     fi
+    printf 'Start it later with: ./scripts/osr\n'
 }
 
 main "$@"
