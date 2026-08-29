@@ -19,7 +19,7 @@ stay thin: domain logic belongs in Rust crates, `design-py`, or
 | [`generate-acceptance-evidence-report.py`](generate-acceptance-evidence-report.py) | Build the acceptance/accreditation evidence-basis report and matrix from the operations bundle |
 | [`export-light-metro-bom.py`](export-light-metro-bom.py) | Export the rolling-stock BOM CSV from the Markdown BOM source plus the generated COTS fit-out cost/source CSV |
 | [`generate-qa-maintenance-data.py`](generate-qa-maintenance-data.py) | Generate operations portal assets, manufacturing schedule/materials/verification, QA register, maintenance CSVs, and a deterministic gzip JSON bundle with integrity manifest |
-| [`build-doc-book.py`](build-doc-book.py) | Build the reader-edition documentation book |
+| [`build-doc-book.py`](build-doc-book.py) | Build the complete reader-edition PDF from the validated source manifest and all city models |
 | [`generate-doc-index.py`](generate-doc-index.py) | Rebuild the exhaustive Markdown inventory used for search and CI diagnostics; it is not a second documentation guide |
 | [`render-sim-screenshots.py`](render-sim-screenshots.py) | Generate city-local simulator screenshots from any scenario |
 | [`render-city-engineering.py`](render-city-engineering.py) | Render hash-linked QGIS engineering-layer and SUMO validation visuals for city READMEs |
@@ -74,6 +74,21 @@ scripts/buildable-trainset.sh
 scripts/freecad-generate.sh --check
 scripts/bonsai-civil.sh --check
 ```
+
+Build the complete documentation book with one command:
+
+```bash
+./scripts/osr book
+```
+
+The book includes canonical project and technical prose, software, deployment,
+hardware, formal, engineering and high-level manufacturing documentation, 43
+developing-country briefs, and concise briefs generated from all 266 city
+models. `./scripts/osr book --list-sources` prints the exact
+validated manifest. Generated search indexes, duplicate city pages, component
+definitions and signable travelers remain linked repository records rather
+than repeated chapters. The illustrated build fails if a referenced local image
+is missing or unreadable.
 
 The Samawah worked example is regenerated separately because it consumes the
 city-local alignment, station, energy, simulation, and fleet package:

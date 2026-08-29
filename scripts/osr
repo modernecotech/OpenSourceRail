@@ -17,6 +17,7 @@ Usage: ./scripts/osr [COMMAND] [arguments]
   workbench          Same as no command
   sim [arguments]    Run the deterministic railway simulator
   design [arguments] Run the deterministic city-design compiler
+  book [arguments]   Build the complete documentation PDF
   test               Run Rust, Python, browser, and repository checks
   engineering ...    Run an engineering-toolchain command
 EOF
@@ -34,6 +35,9 @@ case "$command_name" in
         ;;
     design)
         exec cargo run --release --bin osr-design -- "$@"
+        ;;
+    book)
+        exec python3 scripts/build-doc-book.py "$@"
         ;;
     test)
         cargo fmt --all -- --check

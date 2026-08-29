@@ -133,3 +133,59 @@ def test_private_campaign_material_is_not_in_the_public_tree() -> None:
         REPO_ROOT / ".github/workflows/ci.yml",
     ):
         assert "marketing/" not in path.read_text(encoding="utf-8")
+
+
+def test_complete_book_manifest_covers_reader_documentation() -> None:
+    builder = runpy.run_path(str(REPO_ROOT / "scripts/build-doc-book.py"))
+    sources = builder["_doc_sources"]()
+    relative = [source.path.relative_to(REPO_ROOT).as_posix() for source in sources]
+    included = set(relative)
+
+    assert len(relative) == len(included)
+    assert {
+        "README.md",
+        "CONTRIBUTING.md",
+        "GOVERNANCE.md",
+        "CHANGELOG.md",
+        "LICENSE.md",
+        "LICENSES/README.md",
+        "docs/ARCHITECTURE.md",
+        "docs/cost-model.md",
+        "crates/osr-city-studio/README.md",
+        "deployment/README.md",
+        "engineering/toolchain/README.md",
+        "formal/tla/README.md",
+        "hardware/README.md",
+        "mechanical-py/README.md",
+        "mechanical-py/catalog/buildable-trainset/current-design-buildability-review.md",
+        "mechanical-py/catalog/buildable-trainset/small-component-standard.md",
+        "projects/README.md",
+        "scripts/README.md",
+        "tools/reference-ma/README.md",
+    }.issubset(included)
+
+    for root in ("docs", "crates", "deployment", "engineering", "formal", "hardware", "lib", "projects", "tools"):
+        for path in (REPO_ROOT / root).rglob("*.md"):
+            rel = path.relative_to(REPO_ROOT).as_posix()
+            if rel not in {"docs/README.md", "docs/INDEX.md"} and ".pytest_cache" not in rel:
+                assert rel in included
+
+    country_briefs = [path for path in relative if path.endswith("/NATIONAL-BRIEF.md")]
+    assert len(country_briefs) == 43
+    assert not any(path.startswith("designs/europe/") for path in country_briefs)
+    assert "docs/README.md" not in included
+    assert "docs/INDEX.md" not in included
+    assert "designs/README.md" not in included
+    assert not any("/definitions/" in path or "/travelers/" in path for path in relative)
+
+
+def test_complete_book_manifest_covers_every_city_model() -> None:
+    builder = runpy.run_path(str(REPO_ROOT / "scripts/build-doc-book.py"))
+    models = builder["_city_models"]()
+    model_paths = {model.path.relative_to(REPO_ROOT).as_posix() for model in models}
+    expected = {
+        path.parent.relative_to(REPO_ROOT).as_posix()
+        for path in (REPO_ROOT / "designs").glob("*/*/*/design.toml")
+    }
+    assert model_paths == expected
+    assert len(models) == 266

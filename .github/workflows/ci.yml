@@ -43,10 +43,11 @@ jobs:
       - name: Install project test environments
         run: |
           python -m pip install --upgrade pip
-          python -m pip install pytest
+          python -m pip install pytest CairoSVG mistune Pillow reportlab
           python -m pip install -e ./design-py -e ./mechanical-py
           python -m pip install -e ./tools/osr-aln-convert -e ./tools/reference-ma
       - run: python -m pytest -q design-py/tests
+      - run: python scripts/build-doc-book.py --out build/releases/opensource-rail-docs-book.pdf
       - run: python -m pytest -q mechanical-py/tests
       - run: python -m pytest -q tools/osr-aln-convert/tests tools/reference-ma/tests
       - run: python scripts/check-markdown-links.py

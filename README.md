@@ -70,6 +70,7 @@ instead of browsing the folder tree or the generated file inventory.
 | Review safety, certification or open gaps | [Certification](docs/certification/README.md), [safety case](docs/safety-case/README.md) and [roadmap](docs/ROADMAP.md) |
 | Contribute or make a release | [Contributing](CONTRIBUTING.md) and [release checklist](docs/releases.md) |
 | Share a short non-technical summary | [Generated one-page overview](docs/open-source-rail-overview.html) |
+| Build the complete reader book | `./scripts/osr book` |
 
 ## Run The Platform
 

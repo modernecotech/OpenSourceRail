@@ -81,3 +81,11 @@ def test_root_readme_exposes_only_the_simple_setup_path() -> None:
     assert "./scripts/osr" in readme
     assert "./install.sh --" not in readme
     assert "scripts/osr doctor" not in readme
+
+
+def test_launcher_builds_the_book_in_the_managed_python_environment() -> None:
+    launcher = LAUNCHER.read_text(encoding="utf-8")
+    readme = (REPO_ROOT / "README.md").read_text(encoding="utf-8")
+    assert "book [arguments]" in launcher
+    assert 'exec python3 scripts/build-doc-book.py "$@"' in launcher
+    assert "./scripts/osr book" in readme

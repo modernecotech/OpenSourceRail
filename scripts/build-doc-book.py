@@ -1,12 +1,11 @@
 #!/usr/bin/env python3
-"""Build a single PDF book from the OpenSourceRail documentation.
+"""Build the complete OpenSourceRail reader-edition documentation book.
 
-The book includes:
-
-1. The repository root README.
-2. Every Markdown file under docs/.
-3. Concise generated briefs for every city model under
-   designs/<region>/<country>/<city>/.
+The explicit source manifest includes canonical project, technical, software,
+hardware, engineering, and high-level manufacturing documentation; developing-
+country planning briefs; and a concise generated brief for every city model.
+Generated indexes and detailed machine/shop records remain linked source data
+rather than duplicated book chapters.
 
 The renderer is intentionally self-contained. The repo image set is large,
 so local images are downsampled into build/doc-book-assets before being
@@ -17,13 +16,16 @@ from __future__ import annotations
 
 import argparse
 import html
+import io
 import os
 import re
 import tomllib
+from collections import Counter
 from dataclasses import dataclass
 from pathlib import Path
 
 import mistune
+from cairosvg import svg2png
 from PIL import Image as PILImage
 from reportlab.lib import colors
 from reportlab.lib.enums import TA_CENTER
@@ -49,6 +51,7 @@ from reportlab.platypus import (
 REPO_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_OUT = REPO_ROOT / "build/releases/opensource-rail-docs-book.pdf"
 ASSET_CACHE = REPO_ROOT / "build" / "doc-book-assets"
+IMAGE_ERRORS: list[str] = []
 
 
 @dataclass(frozen=True)
@@ -202,14 +205,107 @@ def _styles() -> dict[str, ParagraphStyle]:
 
 
 def _doc_sources() -> list[SourceDoc]:
-    docs: list[SourceDoc] = [
-        SourceDoc(REPO_ROOT / "README.md", "Repository README", "Front Matter"),
-    ]
-    docs.extend(
-        SourceDoc(path, path.relative_to(REPO_ROOT).as_posix(), "Docs")
-        for path in sorted((REPO_ROOT / "docs").rglob("*.md"))
+    docs: list[SourceDoc] = []
+
+    def add(part: str, paths: list[Path]) -> None:
+        for path in paths:
+            docs.append(SourceDoc(path, _markdown_title(path), part))
+
+    add(
+        "Front Matter",
+        [
+            REPO_ROOT / "README.md",
+            REPO_ROOT / "CONTRIBUTING.md",
+            REPO_ROOT / "GOVERNANCE.md",
+            REPO_ROOT / "CHANGELOG.md",
+            REPO_ROOT / "LICENSE.md",
+            REPO_ROOT / "LICENSES/README.md",
+        ],
     )
+
+    technical_docs = [
+        path
+        for path in _markdown_under("docs")
+        if path.relative_to(REPO_ROOT).as_posix()
+        not in {"docs/README.md", "docs/INDEX.md"}
+    ]
+    add("Architecture, Planning and Operations", technical_docs)
+
+    software_docs: list[Path] = []
+    for relative in ("crates", "deployment", "lib", "projects", "tools"):
+        software_docs.extend(_markdown_under(relative))
+    software_docs.append(REPO_ROOT / "scripts/README.md")
+    add("Software, Deployment and Developer Tools", sorted(software_docs))
+
+    engineering_docs: list[Path] = []
+    for relative in ("engineering", "formal", "hardware"):
+        engineering_docs.extend(_markdown_under(relative))
+    add("Engineering, Hardware and Formal Assurance", sorted(engineering_docs))
+
+    mechanical_docs = [REPO_ROOT / "mechanical-py/README.md"]
+    for relative in (
+        "mechanical-py/catalog",
+        "mechanical-py/catalog/buildable-stations",
+        "mechanical-py/catalog/buildable-trainset",
+        "mechanical-py/catalog/design-system",
+        "mechanical-py/catalog/fea",
+        "mechanical-py/catalog/freecad",
+        "mechanical-py/catalog/modular-fiberglass-body",
+    ):
+        mechanical_docs.extend(_markdown_under(relative, recursive=False))
+    add("Mechanical Design and Manufacturing", sorted(set(mechanical_docs)))
+
+    country_briefs = [
+        path
+        for path in sorted((REPO_ROOT / "designs").glob("*/*/NATIONAL-BRIEF.md"))
+        if path.relative_to(REPO_ROOT / "designs").parts[0] != "europe"
+    ]
+    add("Developing-Country Planning Briefs", country_briefs)
+
+    _validate_doc_sources(docs)
     return docs
+
+
+def _markdown_under(relative: str, *, recursive: bool = True) -> list[Path]:
+    root = REPO_ROOT / relative
+    pattern = "**/*.md" if recursive else "*.md"
+    return sorted(
+        path
+        for path in root.glob(pattern)
+        if path.is_file()
+        and not any(part.startswith(".") for part in path.relative_to(root).parts)
+    )
+
+
+def _markdown_title(path: Path) -> str:
+    for line in path.read_text(encoding="utf-8", errors="replace").splitlines():
+        match = re.match(r"^#\s+(.+?)\s*$", line)
+        if match:
+            return match.group(1)
+    return path.relative_to(REPO_ROOT).as_posix()
+
+
+def _validate_doc_sources(docs: list[SourceDoc]) -> None:
+    relative = [source.path.relative_to(REPO_ROOT).as_posix() for source in docs]
+    if len(relative) != len(set(relative)):
+        duplicates = sorted(path for path, count in Counter(relative).items() if count > 1)
+        raise ValueError(f"duplicate documentation-book sources: {duplicates}")
+    missing = [path for path in relative if not (REPO_ROOT / path).is_file()]
+    if missing:
+        raise FileNotFoundError(f"missing documentation-book sources: {missing}")
+
+    excluded = {"docs/README.md", "docs/INDEX.md", "designs/README.md"}
+    accidentally_included = excluded.intersection(relative)
+    detailed_records = [
+        path
+        for path in relative
+        if "/definitions/" in path or "/travelers/" in path
+    ]
+    if accidentally_included or detailed_records:
+        raise ValueError(
+            "reader book includes generated navigation or detailed shop records: "
+            f"{sorted(accidentally_included) + detailed_records}"
+        )
 
 
 def _plain_inline(children: list[dict] | None) -> str:
@@ -296,7 +392,8 @@ def _cached_image(path: Path, max_px: int, quality: int) -> Path | None:
         if out.exists() and out.stat().st_mtime >= stat.st_mtime:
             return out
         ASSET_CACHE.mkdir(parents=True, exist_ok=True)
-        with PILImage.open(path) as im:
+        source = io.BytesIO(svg2png(url=str(path))) if path.suffix.lower() == ".svg" else path
+        with PILImage.open(source) as im:
             im = im.convert("RGB")
             im.thumbnail((max_px, max_px), PILImage.Resampling.LANCZOS)
             im.save(out, "JPEG", quality=quality, optimize=True)
@@ -317,9 +414,11 @@ def _image_flowables(
     url = token.get("attrs", {}).get("url", "")
     path = _resolve_link(url, base_path)
     if not path:
+        IMAGE_ERRORS.append(f"{base_path.relative_to(REPO_ROOT)}: missing image {url}")
         return [Paragraph(f"[missing image: {html.escape(url)}]", styles["caption"])]
     cached = _cached_image(path, max_px=max_px, quality=quality)
     if not cached:
+        IMAGE_ERRORS.append(f"{base_path.relative_to(REPO_ROOT)}: unreadable image {path.name}")
         return [Paragraph(f"[unreadable image: {html.escape(path.name)}]", styles["caption"])]
     try:
         with PILImage.open(cached) as im:
@@ -331,6 +430,7 @@ def _image_flowables(
             flowables.append(Paragraph(html.escape(caption), styles["caption"]))
         return flowables
     except Exception:
+        IMAGE_ERRORS.append(f"{base_path.relative_to(REPO_ROOT)}: failed image {path.name}")
         return [Paragraph(f"[image failed: {html.escape(path.name)}]", styles["caption"])]
 
 
@@ -650,7 +750,35 @@ def _page_footer(canvas, doc) -> None:
     canvas.restoreState()
 
 
+def _book_contents_flowables(
+    docs: list[SourceDoc], city_models: list[CityModel], styles: dict[str, ParagraphStyle], page_width: float
+) -> list:
+    counts = Counter(source.part for source in docs)
+    rows = [["Part", "Documents"]]
+    rows.extend([[part, str(count)] for part, count in counts.items()])
+    rows.append(["Generated City Model Briefs", str(len(city_models))])
+    return [
+        Paragraph("Book Contents", styles["part"]),
+        Paragraph(
+            "Each source chapter prints its repository path. The city section is generated "
+            "directly from each canonical design.toml model.",
+            styles["body"],
+        ),
+        _simple_table(rows, styles, page_width, header=True),
+        Spacer(1, 10),
+        Paragraph("Reader-edition boundary", styles["h2"]),
+        Paragraph(
+            "This book includes canonical explanatory and review documentation. The generated "
+            "Markdown inventory, duplicate city READMEs and catalogue tables, detailed component "
+            "definitions, and signable shop travelers remain in the repository and are linked by "
+            "their higher-level chapters; reproducing them here would duplicate source records.",
+            styles["body"],
+        ),
+    ]
+
+
 def build_pdf(out_path: Path, include_images: bool, max_image_px: int, image_quality: int) -> None:
+    IMAGE_ERRORS.clear()
     _register_fonts()
     styles = _styles()
     docs = _doc_sources()
@@ -666,15 +794,18 @@ def build_pdf(out_path: Path, include_images: bool, max_image_px: int, image_qua
         Spacer(1, 5 * cm),
         Paragraph("OpenSourceRail Documentation Book", styles["title"]),
         Paragraph(
-            "Reader edition: root README, docs tree, and concise briefs for every region/country/city model.",
+            "Complete reader edition: project, technical, software, hardware, engineering, "
+            "manufacturing, country-planning, and city-model documentation.",
             styles["subtitle"],
         ),
         Paragraph(
-            f"Generated from {len(docs)} core Markdown files and {len(city_models)} city models.",
+            f"Generated from {len(docs)} source documents and {len(city_models)} city models.",
             styles["subtitle"],
         ),
         PageBreak(),
     ]
+    story.extend(_book_contents_flowables(docs, city_models, styles, content_width))
+    story.append(PageBreak())
 
     current_part: str | None = None
     for idx, source in enumerate(docs):
@@ -736,6 +867,9 @@ def build_pdf(out_path: Path, include_images: bool, max_image_px: int, image_qua
         title="OpenSourceRail Documentation Book",
         author="OpenSourceRail",
     )
+    if IMAGE_ERRORS:
+        details = "\n".join(f"- {error}" for error in IMAGE_ERRORS)
+        raise RuntimeError(f"documentation book has image errors:\n{details}")
     doc.build(story, onFirstPage=_page_footer, onLaterPages=_page_footer)
 
 
@@ -745,9 +879,21 @@ def main() -> int:
     parser.add_argument("--no-images", action="store_true", help="Skip local images.")
     parser.add_argument("--max-image-px", type=int, default=1400, help="Maximum cached image dimension.")
     parser.add_argument("--image-quality", type=int, default=72, help="JPEG quality for cached images.")
+    parser.add_argument(
+        "--list-sources",
+        action="store_true",
+        help="Print the validated reader-document and city-model manifest, then exit.",
+    )
     args = parser.parse_args()
 
     os.chdir(REPO_ROOT)
+    if args.list_sources:
+        for source in _doc_sources():
+            print(f"document\t{source.part}\t{source.path.relative_to(REPO_ROOT).as_posix()}")
+        for model in _city_models():
+            design_path = model.path / "design.toml"
+            print(f"city\tGenerated City Model Briefs\t{design_path.relative_to(REPO_ROOT).as_posix()}")
+        return 0
     build_pdf(
         out_path=args.out,
         include_images=not args.no_images,

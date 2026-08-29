@@ -142,12 +142,13 @@ native_ready() {
     for command_name in curl git tar xz sha256sum cc c++ make pkg-config; do
         command -v "$command_name" >/dev/null 2>&1 || return 1
     done
+    pkg-config --exists cairo || return 1
 }
 
 python_ready() {
     [[ -x "$ROOT/.venv/bin/python" ]] \
         && "$ROOT/.venv/bin/python" -c \
-            'import numpy, requests, osr_planner, osr_mech, osr_aln, reference_ma' \
+            'import cairosvg, mistune, numpy, PIL, reportlab, requests, osr_planner, osr_mech, osr_aln, reference_ma' \
             >/dev/null 2>&1
 }
 
@@ -214,19 +215,19 @@ install_native_packages() {
         debian)
             run_root apt-get update
             run_root env DEBIAN_FRONTEND=noninteractive apt-get install -y \
-                ca-certificates curl git build-essential pkg-config libssl-dev tar xz-utils
+                ca-certificates curl git build-essential pkg-config libcairo2-dev libssl-dev tar xz-utils
             ;;
         redhat)
             run_root "$PACKAGE_MANAGER" install -y \
-                ca-certificates curl git gcc gcc-c++ make pkgconf-pkg-config openssl-devel tar xz
+                ca-certificates cairo-devel curl git gcc gcc-c++ make pkgconf-pkg-config openssl-devel tar xz
             ;;
         suse)
             run_root zypper --non-interactive install \
-                ca-certificates curl git gcc gcc-c++ make pkg-config libopenssl-devel tar xz
+                ca-certificates cairo-devel curl git gcc gcc-c++ make pkg-config libopenssl-devel tar xz
             ;;
         arch)
             run_root pacman --sync --refresh --needed --noconfirm \
-                ca-certificates curl git base-devel pkgconf openssl tar xz
+                ca-certificates cairo curl git base-devel pkgconf openssl tar xz
             ;;
     esac
 }
@@ -309,7 +310,7 @@ install_python() {
         'import sys; raise SystemExit(0 if sys.version_info >= (3, 11) else 1)'; then
         fail "$ROOT/.venv uses Python older than 3.11; move it aside and rerun setup"
     fi
-    uv pip install --python "$ROOT/.venv/bin/python" pytest \
+    uv pip install --python "$ROOT/.venv/bin/python" pytest CairoSVG mistune Pillow reportlab \
         --editable "$ROOT/design-py[geotiff,batch]" \
         --editable "$ROOT/mechanical-py[test]" \
         --editable "$ROOT/tools/osr-aln-convert[test]" \
