@@ -51,6 +51,7 @@ jobs:
       - run: python -m pytest -q tools/osr-aln-convert/tests tools/reference-ma/tests
       - run: python scripts/check-markdown-links.py
       - run: python scripts/validate-host-manifests.py
+      - run: python scripts/generate-marketing-campaigns.py --check
       - run: python scripts/repo-health.py --quiet
       - name: Check generated indexes and buildable product tree
         run: |
