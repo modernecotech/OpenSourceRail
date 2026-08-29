@@ -48,7 +48,7 @@ remain separate evidence or cost gates.
 
 | City Studio | Civil IFC coordination | Operations and evidence |
 |---|---|---|
-| ![City Studio browser acceptance](docs/screenshots/city-studio/gui-acceptance.png) | ![Bonsai IFC4.3 coordination model](docs/screenshots/civil/bonsai-ifc4x3-civil-coordination.png) | ![Operations portal acceptance dashboard](docs/screenshots/operations-portal/acceptance-dashboard.png) |
+| ![City Studio network and service editor](docs/screenshots/city-studio/network-and-service.png) | ![Bonsai IFC4.3 coordination model](docs/screenshots/civil/bonsai-ifc4x3-civil-coordination.png) | ![Operations portal acceptance dashboard](docs/screenshots/operations-portal/acceptance-dashboard.png) |
 
 | Trainset assembly | Simulation | Fabrication and civil sequence |
 |---|---|---|

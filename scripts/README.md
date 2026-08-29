@@ -88,7 +88,8 @@ models. `./scripts/osr book --list-sources` prints the exact
 validated manifest. Generated search indexes, duplicate city pages, component
 definitions and signable travelers remain linked repository records rather
 than repeated chapters. The illustrated build fails if a referenced local image
-is missing or unreadable.
+is missing or unreadable. Chapter source bars link to GitHub and the PDF outline
+provides part, chapter, region, and country navigation.
 
 The Samawah worked example is regenerated separately because it consumes the
 city-local alignment, station, energy, simulation, and fleet package:

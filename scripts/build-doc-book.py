@@ -23,6 +23,7 @@ import tomllib
 from collections import Counter
 from dataclasses import dataclass
 from pathlib import Path
+from urllib.parse import quote
 
 import mistune
 from cairosvg import svg2png
@@ -52,6 +53,7 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_OUT = REPO_ROOT / "build/releases/opensource-rail-docs-book.pdf"
 ASSET_CACHE = REPO_ROOT / "build" / "doc-book-assets"
 IMAGE_ERRORS: list[str] = []
+REPOSITORY_BLOB_URL = "https://github.com/modernecotech/OpenSourceRail/blob/main"
 
 
 @dataclass(frozen=True)
@@ -80,6 +82,27 @@ class CityModel:
     capex_per_km: float
     map_path: Path | None
     line_rows: tuple[tuple[str, str, str, str, str], ...]
+
+
+class BookDocTemplate(SimpleDocTemplate):
+    """Add stable PDF outline entries for marked book headings."""
+
+    def afterFlowable(self, flowable) -> None:
+        bookmark = getattr(flowable, "book_bookmark", None)
+        if bookmark is None:
+            return
+        title = getattr(flowable, "book_title")
+        level = getattr(flowable, "book_level")
+        self.canv.bookmarkPage(bookmark)
+        self.canv.addOutlineEntry(title, bookmark, level=level, closed=level > 0)
+
+
+def _outline_heading(text: str, style: ParagraphStyle, key: str, level: int) -> Paragraph:
+    heading = Paragraph(html.escape(text), style)
+    heading.book_bookmark = key
+    heading.book_title = text
+    heading.book_level = level
+    return heading
 
 
 def _register_fonts() -> None:
@@ -131,6 +154,7 @@ def _styles() -> dict[str, ParagraphStyle]:
         textColor=colors.HexColor("#0f172a"),
         spaceBefore=10,
         spaceAfter=14,
+        keepWithNext=1,
     )
     for level, size in [(1, 18), (2, 15), (3, 13), (4, 11), (5, 10), (6, 10)]:
         styles[f"h{level}"] = ParagraphStyle(
@@ -142,6 +166,7 @@ def _styles() -> dict[str, ParagraphStyle]:
             textColor=colors.HexColor("#111827"),
             spaceBefore=10 if level <= 2 else 7,
             spaceAfter=5,
+            keepWithNext=1,
         )
     styles["body"] = ParagraphStyle(
         "Body",
@@ -165,6 +190,27 @@ def _styles() -> dict[str, ParagraphStyle]:
         textColor=colors.HexColor("#475569"),
         spaceBefore=2,
         spaceAfter=7,
+    )
+    styles["source"] = ParagraphStyle(
+        "Source",
+        parent=styles["small"],
+        fontSize=7,
+        leading=9,
+        textColor=colors.HexColor("#475569"),
+        backColor=colors.HexColor("#f1f5f9"),
+        borderColor=colors.HexColor("#cbd5e1"),
+        borderWidth=0.4,
+        borderPadding=4,
+        spaceBefore=1,
+        spaceAfter=8,
+        keepWithNext=1,
+        wordWrap="CJK",
+    )
+    styles["quote"] = ParagraphStyle(
+        "Quote",
+        parent=styles["body"],
+        textColor=colors.HexColor("#334155"),
+        spaceAfter=4,
     )
     styles["code"] = ParagraphStyle(
         "Code",
@@ -281,7 +327,7 @@ def _markdown_title(path: Path) -> str:
     for line in path.read_text(encoding="utf-8", errors="replace").splitlines():
         match = re.match(r"^#\s+(.+?)\s*$", line)
         if match:
-            return match.group(1)
+            return match.group(1).replace("`", "")
     return path.relative_to(REPO_ROOT).as_posix()
 
 
@@ -349,12 +395,17 @@ def _inline(children: list[dict] | None) -> str:
             parts.append(" ")
         elif t == "linebreak":
             parts.append("<br/>")
+        elif t == "inline_html":
+            raw = child.get("raw", "")
+            parts.append("<br/>" if raw.lower() == "<br>" else html.escape(raw))
         elif t == "codespan":
             parts.append(f"<font name=\"Courier\">{html.escape(child.get('raw', ''))}</font>")
         elif t == "strong":
             parts.append(f"<b>{_inline(child.get('children'))}</b>")
         elif t == "emphasis":
             parts.append(f"<i>{_inline(child.get('children'))}</i>")
+        elif t == "strikethrough":
+            parts.append(f"<strike>{_inline(child.get('children'))}</strike>")
         elif t == "link":
             label = _inline(child.get("children")) or html.escape(child.get("attrs", {}).get("url", ""))
             parts.append(f"<font color=\"#2563eb\">{label}</font>")
@@ -434,31 +485,61 @@ def _image_flowables(
         return [Paragraph(f"[image failed: {html.escape(path.name)}]", styles["caption"])]
 
 
-def _table_flowable(token: dict, styles: dict[str, ParagraphStyle], page_width: float):
-    rows: list[list[Paragraph]] = []
+def _table_flowable(
+    token: dict,
+    styles: dict[str, ParagraphStyle],
+    page_width: float,
+    page_height: float,
+    base_path: Path,
+    include_images: bool,
+    max_image_px: int,
+    image_quality: int,
+):
+    raw_rows: list[list[tuple[list[dict], bool]]] = []
     for child in token.get("children", []):
         if child.get("type") == "table_head":
-            rows.append(
+            raw_rows.append(
                 [
-                    Paragraph(_inline(cell.get("children")), styles["table_head"])
+                    (cell.get("children", []), True)
                     for cell in child.get("children", [])
                 ]
             )
         elif child.get("type") == "table_body":
             for row in child.get("children", []):
-                rows.append(
+                raw_rows.append(
                     [
-                        Paragraph(_inline(cell.get("children")), styles["table"])
+                        (cell.get("children", []), False)
                         for cell in row.get("children", [])
                     ]
                 )
-    if not rows:
+    if not raw_rows:
         return Spacer(1, 0)
-    cols = max(len(row) for row in rows)
+    cols = max(len(row) for row in raw_rows)
+    col_width = page_width / cols
+    rows: list[list] = []
+    for raw_row in raw_rows:
+        rendered_row: list = []
+        for children, is_header in raw_row:
+            if include_images and len(children) == 1 and children[0].get("type") == "image":
+                rendered_row.append(
+                    _image_flowables(
+                        children[0],
+                        base_path,
+                        styles,
+                        max_width=max(col_width - 8, 1),
+                        max_height=page_height * 0.22,
+                        max_px=max_image_px,
+                        quality=image_quality,
+                    )
+                )
+            else:
+                rendered_row.append(
+                    Paragraph(_inline(children), styles["table_head" if is_header else "table"])
+                )
+        rows.append(rendered_row)
     for row in rows:
         while len(row) < cols:
             row.append(Paragraph("", styles["table"]))
-    col_width = page_width / cols
     table = Table(rows, colWidths=[col_width] * cols, repeatRows=1)
     table.setStyle(
         TableStyle(
@@ -470,6 +551,43 @@ def _table_flowable(token: dict, styles: dict[str, ParagraphStyle], page_width: 
                 ("RIGHTPADDING", (0, 0), (-1, -1), 3),
                 ("TOPPADDING", (0, 0), (-1, -1), 2),
                 ("BOTTOMPADDING", (0, 0), (-1, -1), 2),
+            ]
+        )
+    )
+    return table
+
+
+def _block_quote_flowable(
+    token: dict, styles: dict[str, ParagraphStyle], page_width: float
+) -> Table:
+    contents: list = []
+    for child in token.get("children", []):
+        child_type = child.get("type")
+        if child_type == "paragraph":
+            children = list(child.get("children", []))
+            prefix = ""
+            if children and children[0].get("type") == "text":
+                marker = children[0].get("raw", "")
+                labels = {"[!IMPORTANT]": "Important", "[!NOTE]": "Note", "[!WARNING]": "Warning"}
+                if marker in labels:
+                    prefix = f"<b>{labels[marker]}</b><br/>"
+                    children = children[1:]
+                    if children and children[0].get("type") == "softbreak":
+                        children = children[1:]
+            contents.append(Paragraph(prefix + _inline(children), styles["quote"]))
+        elif child_type == "block_code":
+            contents.append(Preformatted(child.get("raw", "").rstrip(), styles["code"], maxLineLength=120))
+    table = Table([[contents]], colWidths=[page_width])
+    table.setStyle(
+        TableStyle(
+            [
+                ("BACKGROUND", (0, 0), (-1, -1), colors.HexColor("#f8fafc")),
+                ("LINEBEFORE", (0, 0), (0, -1), 2, colors.HexColor("#64748b")),
+                ("VALIGN", (0, 0), (-1, -1), "TOP"),
+                ("LEFTPADDING", (0, 0), (-1, -1), 8),
+                ("RIGHTPADDING", (0, 0), (-1, -1), 8),
+                ("TOPPADDING", (0, 0), (-1, -1), 6),
+                ("BOTTOMPADDING", (0, 0), (-1, -1), 3),
             ]
         )
     )
@@ -488,6 +606,10 @@ def _render_list(token: dict, styles: dict[str, ParagraphStyle]) -> ListFlowable
                 parts.append(_paragraph_from_inline(child.get("children"), styles))
             elif child.get("type") == "list":
                 parts.append(_render_list(child, styles))
+            elif child.get("type") == "block_code":
+                raw = child.get("raw", "").rstrip()
+                if raw:
+                    parts.append(Preformatted(raw, styles["code"], maxLineLength=120))
         if not parts:
             parts.append(Paragraph(_plain_inline(item.get("children")), styles["list"]))
         items.append(ListItem(parts, leftIndent=10))
@@ -507,6 +629,7 @@ def _render_markdown(
     text = _filtered_markdown_text(path)
     tokens = parser(text)
     flowables: list = []
+    skipped_document_title = False
 
     for token in tokens:
         t = token.get("type")
@@ -514,6 +637,9 @@ def _render_markdown(
             continue
         if t == "heading":
             level = min(int(token.get("attrs", {}).get("level", 2)), 6)
+            if level == 1 and not skipped_document_title:
+                skipped_document_title = True
+                continue
             flowables.append(Paragraph(_inline(token.get("children")), styles[f"h{level}"]))
         elif t == "paragraph":
             children = token.get("children", [])
@@ -538,12 +664,30 @@ def _render_markdown(
         elif t == "list":
             flowables.append(_render_list(token, styles))
         elif t == "table":
-            flowables.append(_table_flowable(token, styles, page_width))
+            flowables.append(
+                _table_flowable(
+                    token,
+                    styles,
+                    page_width,
+                    page_height,
+                    path,
+                    include_images,
+                    max_image_px,
+                    image_quality,
+                )
+            )
+            flowables.append(Spacer(1, 5))
+        elif t == "block_quote":
+            flowables.append(_block_quote_flowable(token, styles, page_width))
             flowables.append(Spacer(1, 5))
         elif t == "thematic_break":
             flowables.append(Spacer(1, 8))
-        elif "raw" in token:
-            flowables.append(Paragraph(html.escape(token.get("raw", "")), styles["body"]))
+        elif t == "block_html":
+            raw = token.get("raw", "").strip()
+            if raw and not raw.startswith("<!--"):
+                flowables.append(Paragraph(html.escape(raw), styles["body"]))
+        else:
+            raise ValueError(f"unsupported Markdown block {t!r} in {path.relative_to(REPO_ROOT)}")
     return flowables
 
 
@@ -675,7 +819,7 @@ def _city_directory_flowables(
             ]
         )
     return [
-        Paragraph("Generated City Model Directory", styles["part"]),
+        Paragraph("City Model Directory", styles["h1"]),
         Paragraph(
             "City models are grouped as designs/<region>/<country>/<City>/. "
             "These generated city models are the source of truth for city-specific "
@@ -743,6 +887,7 @@ def _city_brief_flowables(
 
 def _page_footer(canvas, doc) -> None:
     canvas.saveState()
+    canvas.showOutline()
     canvas.setFont("BookSans" if "BookSans" in pdfmetrics.getRegisteredFontNames() else "Helvetica", 7)
     canvas.setFillColor(colors.HexColor("#64748b"))
     canvas.drawRightString(A4[0] - 1.5 * cm, 1.0 * cm, f"Page {doc.page}")
@@ -758,7 +903,7 @@ def _book_contents_flowables(
     rows.extend([[part, str(count)] for part, count in counts.items()])
     rows.append(["Generated City Model Briefs", str(len(city_models))])
     return [
-        Paragraph("Book Contents", styles["part"]),
+        _outline_heading("Book Contents", styles["part"], "book-contents", 0),
         Paragraph(
             "Each source chapter prints its repository path. The city section is generated "
             "directly from each canonical design.toml model.",
@@ -813,11 +958,22 @@ def build_pdf(out_path: Path, include_images: bool, max_image_px: int, image_qua
             story.append(PageBreak())
         if source.part != current_part:
             current_part = source.part
-            story.append(Paragraph(html.escape(current_part), styles["part"]))
+            story.append(
+                _outline_heading(current_part, styles["part"], f"part-{idx}", 0)
+            )
         rel = source.path.relative_to(REPO_ROOT).as_posix()
-        story.append(Paragraph(html.escape(source.title), styles["h1"]))
-        story.append(Paragraph(html.escape(rel), styles["small"]))
-        story.append(Spacer(1, 6))
+        story.append(
+            _outline_heading(source.title, styles["h1"], f"document-{idx}", 1)
+        )
+        source_url = f"{REPOSITORY_BLOB_URL}/{quote(rel, safe='/')}"
+        story.append(
+            Paragraph(
+                "Repository source: "
+                f"<link href=\"{html.escape(source_url, quote=True)}\" color=\"#2563eb\">"
+                f"<font name=\"Courier\">{html.escape(rel)}</font></link>",
+                styles["source"],
+            )
+        )
         story.extend(
             _render_markdown(
                 source.path,
@@ -831,6 +987,11 @@ def build_pdf(out_path: Path, include_images: bool, max_image_px: int, image_qua
         )
 
     story.append(PageBreak())
+    story.append(
+        _outline_heading(
+            "Generated City Models", styles["part"], "generated-city-models", 0
+        )
+    )
     story.extend(_city_directory_flowables(city_models, styles, content_width))
     current_region: str | None = None
     current_country: str | None = None
@@ -840,10 +1001,21 @@ def build_pdf(out_path: Path, include_images: bool, max_image_px: int, image_qua
                 story.append(PageBreak())
             current_region = model.region
             current_country = None
-            story.append(Paragraph(html.escape(model.region), styles["part"]))
+            story.append(
+                _outline_heading(
+                    model.region, styles["h1"], f"region-{model.region}", 1
+                )
+            )
         if model.country_name != current_country:
             current_country = model.country_name
-            story.append(Paragraph(html.escape(model.country_name), styles["h1"]))
+            story.append(
+                _outline_heading(
+                    model.country_name,
+                    styles["h2"],
+                    f"country-{model.region}-{model.country_name}",
+                    2,
+                )
+            )
         story.extend(
             _city_brief_flowables(
                 model,
@@ -857,7 +1029,7 @@ def build_pdf(out_path: Path, include_images: bool, max_image_px: int, image_qua
         )
         story.append(Spacer(1, 12))
 
-    doc = SimpleDocTemplate(
+    doc = BookDocTemplate(
         str(out_path),
         pagesize=A4,
         rightMargin=right,

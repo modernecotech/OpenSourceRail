@@ -189,3 +189,49 @@ def test_complete_book_manifest_covers_every_city_model() -> None:
     }
     assert model_paths == expected
     assert len(models) == 266
+
+
+def test_book_renderer_preserves_titles_callouts_images_and_html() -> None:
+    builder = runpy.run_path(str(REPO_ROOT / "scripts/build-doc-book.py"))
+    builder["_register_fonts"]()
+    styles = builder["_styles"]()
+
+    def descendants(value):
+        if isinstance(value, (list, tuple)):
+            for child in value:
+                yield from descendants(child)
+            return
+        yield value
+        if hasattr(value, "_cellvalues"):
+            yield from descendants(value._cellvalues)
+
+    root_flows = builder["_render_markdown"](
+        REPO_ROOT / "README.md",
+        styles,
+        page_width=500,
+        page_height=750,
+        max_image_px=500,
+        image_quality=60,
+        include_images=True,
+    )
+    rendered = list(descendants(root_flows))
+    texts = [flow.getPlainText() for flow in rendered if hasattr(flow, "getPlainText")]
+    assert "OpenSourceRail" not in texts
+    assert any("Repository outputs are planning" in text for text in texts)
+    assert sum(type(flow).__name__ == "Image" for flow in rendered) >= 7
+
+    city_studio_flows = builder["_render_markdown"](
+        REPO_ROOT / "docs/city-studio.md",
+        styles,
+        page_width=500,
+        page_height=750,
+        max_image_px=500,
+        image_quality=60,
+        include_images=False,
+    )
+    city_studio_text = " ".join(
+        flow.getPlainText()
+        for flow in descendants(city_studio_flows)
+        if hasattr(flow, "getPlainText")
+    )
+    assert "<hash>" in city_studio_text
