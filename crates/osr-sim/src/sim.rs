@@ -38,13 +38,20 @@ use crate::infrastructure_systems::{
     self, InfrastructureSystemsSummary, StationSystemsShadow, WaysideSystemsShadow,
 };
 use crate::ma_check::{self, MaCheckSummary};
+use crate::occ_systems::{self, OccSystemsShadow, OccSystemsSummary};
 use crate::onboard::{self, OnboardShadow, OnboardSummary};
 use crate::physics::{kinematic_profile, sample_kinematic_profile, MotionSample};
+use crate::proto_systems::{self, ProtoSystemsShadow, ProtoSystemsSummary};
 use crate::schedule::{DispatchThrottle, LineSchedule};
+use crate::selftest_systems::{self, SelftestSystemsSummary};
 use crate::time_sync::{self, TimeSyncShadow, TimeSyncSummary};
 use crate::train::{Heading, Train, TrainPhase};
 use crate::vehicle_systems::{
     self, VehicleSystemsShadow, VehicleSystemsSummary, VehicleSystemsTickReport,
+};
+use crate::wayside_asset_systems::{
+    self, LevelCrossingAssetConfig, SwitchAssetConfig, WaysideAssetSystemsShadow,
+    WaysideAssetSystemsSummary,
 };
 
 use osr_core::TrackRef;
@@ -338,6 +345,10 @@ pub struct ScenarioConfig {
     pub habd_detectors: Vec<HabdDetectorConfig>,
     /// Scheduled inspection releases for latched detector stop orders.
     pub habd_resets: Vec<HabdResetAction>,
+    /// Explicit point machines; empty means not configured, never inferred.
+    pub switches: Vec<SwitchAssetConfig>,
+    /// Explicit at-grade crossings; empty is expected on grade-separated ROW.
+    pub level_crossings: Vec<LevelCrossingAssetConfig>,
     /// Declared fault events (dust, grid outages, charging pad outages).
     /// Optional.
     pub faults: Vec<Fault>,
@@ -613,6 +624,18 @@ pub struct SimResult {
     /// Station TVM/AFC controller and back-office settlement evidence.
     #[serde(default)]
     pub fare_systems: FareSystemsSummary,
+    /// Real OCC roster, incident, and automatic dispatch-hold evidence.
+    #[serde(default)]
+    pub occ_systems: OccSystemsSummary,
+    /// Runtime encode/decode and semantic parity evidence for `osr-proto`.
+    #[serde(default)]
+    pub proto_systems: ProtoSystemsSummary,
+    /// Applicability-aware point-machine and level-crossing evidence.
+    #[serde(default)]
+    pub wayside_asset_systems: WaysideAssetSystemsSummary,
+    /// Pre-service software known-answer checks for all deployment roles.
+    #[serde(default)]
+    pub selftest_systems: SelftestSystemsSummary,
 }
 
 fn default_ma_summary() -> MaCheckSummary {
@@ -679,6 +702,8 @@ pub fn run_with_event_recording(
     use std::io::Write;
 
     let mut trains = init_fleet(config);
+    let selftest_systems_summary = selftest_systems::run_all_role_checks();
+    let selftest_release_permitted = selftest_systems_summary.release_permitted();
     let mut throttle = DispatchThrottle::new();
     let mut energy = EnergySystem::new(config.energy_sites.clone(), config.climate.peak_sun_hours);
     let mut faults = FaultEngine::new(config.faults.clone());
@@ -729,6 +754,10 @@ pub fn run_with_event_recording(
     let mut habd_systems_shadow = HabdSystemsShadow::new(&config.habd_detectors);
     let mut balise_systems_shadow = BaliseSystemsShadow::new(&config.network);
     let mut fare_systems_shadow = FareSystemsShadow::new(&config.network);
+    let mut occ_systems_shadow = OccSystemsShadow::default();
+    let mut proto_systems_shadow = ProtoSystemsShadow::default();
+    let mut wayside_asset_systems_shadow =
+        WaysideAssetSystemsShadow::new(&config.switches, &config.level_crossings);
 
     // Optional CSV trace.
     let mut csv_writer: Option<std::io::BufWriter<std::fs::File>> = None;
@@ -809,10 +838,22 @@ pub fn run_with_event_recording(
         // PV generation, battery storage, grid export/curtail (time-of-day).
         energy.tick_pv(clock_tod, dt, &faults);
 
+        // Explicit switch and crossing assets advance before movement gates
+        // so their fail-restrictive state governs this cycle's section entry.
+        wayside_asset_systems::wayside_asset_systems_tick(
+            &mut wayside_asset_systems_shadow,
+            &trains,
+            &config.network,
+            t,
+        );
+
+        let mut occ_reports = Vec::with_capacity(trains.len());
         for idx in 0..trains.len() {
             let habd_stop_active = habd_systems_shadow.stop_active_for(trains[idx].id);
             let habd_speed_limit_mps = habd_systems_shadow.speed_limit_mps_for(trains[idx].id);
-            let safety_stop_active = tcms_trip_active[idx] || habd_stop_active;
+            let occ_dispatch_hold = occ_systems_shadow.line_dispatch_held(trains[idx].line_index);
+            let safety_stop_active =
+                tcms_trip_active[idx] || habd_stop_active || !selftest_release_permitted;
             let movement_effect = step_train(
                 idx,
                 &mut trains,
@@ -827,12 +868,14 @@ pub fn run_with_event_recording(
                 &mut ma_log,
                 &mut throttle,
                 &mut energy,
+                &wayside_asset_systems_shadow,
                 &faults,
                 dt,
                 t,
                 &mut events,
                 &mut violations,
                 safety_stop_active,
+                occ_dispatch_hold,
                 habd_speed_limit_mps,
             );
             match movement_effect {
@@ -905,10 +948,35 @@ pub fn run_with_event_recording(
                 t,
             );
             tcms_trip_active[idx] = embedded_report.tcms.worst_alarm == osr_tcms::AlarmLevel::Trip;
+            let occ_report = osr_occ::TrainReport {
+                train_id: trains[idx].id.0.min(u64::from(u32::MAX)) as u32,
+                now_ns: embedded_report.tcms.now_ns,
+                position_section: embedded_report.tcms.section_id,
+                speed_mmps: embedded_report.tcms.speed_mmps,
+                any_emergency: embedded_report.tcms.any_emergency,
+                worst_alarm: embedded_report.tcms.worst_alarm as u8,
+                soc_ppt: embedded_report.tcms.soc_ppt,
+            };
+            if let Some(decoded_report) =
+                proto_systems::round_trip_position(&mut proto_systems_shadow, occ_report)
+            {
+                occ_reports.push(decoded_report);
+            }
             if let Some(sample) = embedded_report.transmitted_cbm_sample {
                 backend_systems::ingest_cbm_sample(&mut backend_systems_shadow, &sample);
             }
         }
+
+        let train_line_indices = trains
+            .iter()
+            .map(|train| train.line_index)
+            .collect::<Vec<_>>();
+        occ_systems::occ_systems_tick(
+            &mut occ_systems_shadow,
+            &occ_reports,
+            &train_line_indices,
+            t,
+        );
 
         let habd_positions: Vec<HabdTrainPosition> = trains
             .iter()
@@ -1035,6 +1103,10 @@ pub fn run_with_event_recording(
     let habd_systems_summary = habd_systems::summarise(&habd_systems_shadow);
     let balise_systems_summary = balise_systems::summarise(&balise_systems_shadow);
     let fare_systems_summary = fare_systems::summarise(&fare_systems_shadow);
+    let occ_systems_summary = occ_systems::summarise(&occ_systems_shadow);
+    let proto_systems_summary = proto_systems::summarise(&proto_systems_shadow);
+    let wayside_asset_systems_summary =
+        wayside_asset_systems::summarise(&wayside_asset_systems_shadow);
 
     // Build per-site summaries.
     let energy_sites: Vec<EnergySiteSummary> = energy
@@ -1090,6 +1162,10 @@ pub fn run_with_event_recording(
         habd_systems: habd_systems_summary,
         balise_systems: balise_systems_summary,
         fare_systems: fare_systems_summary,
+        occ_systems: occ_systems_summary,
+        proto_systems: proto_systems_summary,
+        wayside_asset_systems: wayside_asset_systems_summary,
+        selftest_systems: selftest_systems_summary,
     }
 }
 
@@ -1245,12 +1321,14 @@ fn step_train(
     ma_log: &mut MaLogBackend,
     throttle: &mut DispatchThrottle,
     energy: &mut EnergySystem,
+    wayside_assets: &WaysideAssetSystemsShadow,
     faults: &FaultEngine,
     dt: f32,
     t: u32,
     events: &mut EventLog,
     violations: &mut Vec<InvariantViolation>,
     safety_stop_active: bool,
+    dispatch_hold_active: bool,
     speed_limit_mps: Option<f32>,
 ) -> MovementControlEffect {
     let phase = trains[idx].phase.clone();
@@ -1284,7 +1362,7 @@ fn step_train(
             let key = (line_idx, station, heading);
             let fleet = fleet_for_line(fleets, line_idx);
 
-            if safety_stop_active {
+            if safety_stop_active || dispatch_hold_active {
                 if fleet.schedule.headway_at(clock).is_some() {
                     throttle.record_in_service_held(dt);
                     return MovementControlEffect::DepartureInhibited;
@@ -1297,8 +1375,16 @@ fn step_train(
             match fleet.schedule.headway_at(clock) {
                 Some(hw)
                     if throttle.can_dispatch(&key, t)
-                        && entry_candidate(idx, trains, network, climate, heading, ma_log)
-                            .is_some() =>
+                        && entry_candidate(
+                            idx,
+                            trains,
+                            network,
+                            climate,
+                            heading,
+                            ma_log,
+                            wayside_assets,
+                        )
+                        .is_some() =>
                 {
                     let effective_hw =
                         energy_adjusted_headway_s(hw, trains[idx].soc, adaptive_service, clock);
@@ -1308,6 +1394,7 @@ fn step_train(
                         climate,
                         t,
                         ma_log,
+                        wayside_assets,
                         violations,
                     };
                     enter_first_section(idx, trains, events, &mut entry);
@@ -1374,7 +1461,7 @@ fn step_train(
 
             // The dwell and any depot work may complete while a trip is
             // active, but doors remain open and no timetable slot is consumed.
-            if safety_stop_active {
+            if safety_stop_active || dispatch_hold_active {
                 trains[idx].phase = TrainPhase::Dwelling {
                     station,
                     remaining_s: if s.is_depot { 0.0 } else { dt },
@@ -1400,7 +1487,17 @@ fn step_train(
             // events until both the energy-reserve gate and the movement-
             // authority gate admit the next section.  A held train keeps
             // charging and retries on the next tick.
-            if entry_candidate(idx, trains, network, climate, departure_heading, ma_log).is_none() {
+            if entry_candidate(
+                idx,
+                trains,
+                network,
+                climate,
+                departure_heading,
+                ma_log,
+                wayside_assets,
+            )
+            .is_none()
+            {
                 trains[idx].phase = TrainPhase::Dwelling {
                     station,
                     remaining_s: if s.is_depot { 0.0 } else { dt },
@@ -1483,6 +1580,7 @@ fn step_train(
                 climate,
                 t,
                 ma_log,
+                wayside_assets,
                 violations,
             };
             enter_next_section(idx, trains, departure_heading, &mut entry);
@@ -1632,6 +1730,7 @@ struct SectionEntryContext<'a> {
     climate: &'a ClimateModel,
     t: u32,
     ma_log: &'a mut MaLogBackend,
+    wayside_assets: &'a WaysideAssetSystemsShadow,
     violations: &'a mut Vec<InvariantViolation>,
 }
 
@@ -1674,6 +1773,7 @@ fn enter_next_section(
         context.climate,
         departure_heading,
         context.ma_log,
+        context.wayside_assets,
     )
     .expect("entry gates were checked immediately before section entry");
     let from_station = current_station(&trains[idx]);
@@ -1737,11 +1837,16 @@ fn entry_candidate(
     climate: &ClimateModel,
     departure_heading: Heading,
     ma_log: &MaLogBackend,
+    wayside_assets: &WaysideAssetSystemsShadow,
 ) -> Option<(StationId, SectionId)> {
     let train = &trains[idx];
     let line = &network.lines[train.line_index];
     let current = current_station(train);
     let (to_station, section_id) = next_station_for_heading(line, current, departure_heading)?;
+
+    if !wayside_assets.entry_safe(current, section_id) {
+        return None;
+    }
 
     let section = network.section(section_id);
     let section_km = section.length_mm as f32 / 1_000_000.0;

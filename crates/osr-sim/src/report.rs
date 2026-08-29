@@ -106,6 +106,17 @@ pub fn print_summary(_config: &ScenarioConfig, _runtime: &RuntimeConfig, r: &Sim
             r.total_grid_exported_kwh
         );
         println!("Curtailed          : {:>10.2} kWh", r.total_curtailed_kwh);
+        println!(
+            "Site control calls : {:>10}  ({} conservation errors)",
+            r.energy_sites
+                .iter()
+                .map(|site| site.controller_evaluations)
+                .sum::<u64>(),
+            r.energy_sites
+                .iter()
+                .map(|site| site.conservation_errors)
+                .sum::<u64>()
+        );
         let pv_used = r.total_pv_generated_kwh - r.total_grid_exported_kwh - r.total_curtailed_kwh;
         if r.total_pv_generated_kwh > 0.0 {
             let self_consumption = pv_used / r.total_pv_generated_kwh * 100.0;
@@ -195,6 +206,14 @@ pub fn print_summary(_config: &ScenarioConfig, _runtime: &RuntimeConfig, r: &Sim
             r.onboard.total_obstacle_crawl_ticks,
             r.onboard.total_obstacle_emergency_ticks,
         );
+        println!(
+            "Regen arbiter      : {} ticks / {} requests · {} pack / {} resistor / {} refused mA-ticks",
+            r.onboard.total_regen_arbiter_ticks,
+            r.onboard.total_regen_request_ticks,
+            r.onboard.total_regen_to_pack_ma,
+            r.onboard.total_regen_to_resistor_ma,
+            r.onboard.total_regen_refused_ma
+        );
     }
 
     if r.balise_systems.registry_count > 0 {
@@ -236,6 +255,68 @@ pub fn print_summary(_config: &ScenarioConfig, _runtime: &RuntimeConfig, r: &Sim
             r.fare_systems.fraud_flags_raised
         );
     }
+
+    if r.occ_systems.controller_ticks > 0 {
+        println!("\n────────── Operations-control core ──────────");
+        println!(
+            "Controller ticks / reports / roster: {} / {} / {}",
+            r.occ_systems.controller_ticks,
+            r.occ_systems.telemetry_reports_processed,
+            r.occ_systems.final_roster_count
+        );
+        println!(
+            "Incidents opened / closed / active: {} / {} / {}",
+            r.occ_systems.incidents_opened,
+            r.occ_systems.incidents_closed,
+            r.occ_systems.final_active_incidents
+        );
+        println!(
+            "Dispatch-hold ticks / active holds: {} / {}",
+            r.occ_systems.dispatch_hold_ticks, r.occ_systems.final_active_dispatch_holds
+        );
+    }
+
+    if r.proto_systems.frames_encoded > 0 {
+        println!("\n────────── Track-state wire codec ──────────");
+        println!(
+            "Frames encoded / decoded / bytes: {} / {} / {}",
+            r.proto_systems.frames_encoded,
+            r.proto_systems.frames_decoded,
+            r.proto_systems.encoded_bytes
+        );
+        println!(
+            "Decode failures / semantic drift: {} / {}",
+            r.proto_systems.decode_failures, r.proto_systems.semantic_mismatches
+        );
+    }
+
+    if r.wayside_asset_systems.switch_count > 0 || r.wayside_asset_systems.crossing_count > 0 {
+        println!("\n────────── Explicit wayside assets ──────────");
+        println!(
+            "Switches / ticks / observations / faults: {} / {} / {} / {}",
+            r.wayside_asset_systems.switch_count,
+            r.wayside_asset_systems.switch_controller_ticks,
+            r.wayside_asset_systems.switch_observations,
+            r.wayside_asset_systems.switch_fault_ticks
+        );
+        println!(
+            "Crossings / ticks / warning / closed / faults: {} / {} / {} / {} / {}",
+            r.wayside_asset_systems.crossing_count,
+            r.wayside_asset_systems.crossing_controller_ticks,
+            r.wayside_asset_systems.crossing_warning_ticks,
+            r.wayside_asset_systems.crossing_closed_ticks,
+            r.wayside_asset_systems.crossing_fault_ticks
+        );
+    }
+
+    println!("\n────────── Deployment-role preflight ──────────");
+    println!(
+        "Roles / pass / fail / skip: {} / {} / {} / {}",
+        r.selftest_systems.roles_run,
+        r.selftest_systems.checks_passed,
+        r.selftest_systems.checks_failed,
+        r.selftest_systems.checks_skipped
+    );
 
     if r.embedded.controller_ticks > 0 {
         println!("\n────────── Embedded application stack ──────────");

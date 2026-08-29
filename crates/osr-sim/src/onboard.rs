@@ -77,6 +77,7 @@ use osr_odometry::{odom_step, OdomCalibration, OdomState, SensorTick};
 use osr_passenger_assist::{
     assist_evaluate, AssistInputs, AssistOutput, AssistState, OperatorCommand,
 };
+use osr_regen::{regen_evaluate, RegenInputs, RegenParams};
 use osr_tcn::{MockTcn, TcnPayload, TrafficClass};
 use osr_traction::{
     traction_evaluate, InverterState, TractionInputs, TractionParams, TractionState,
@@ -231,6 +232,13 @@ pub struct OnboardStats {
     pub obstacle_restricted_ticks: u32,
     pub obstacle_crawl_ticks: u32,
     pub obstacle_emergency_ticks: u32,
+    /// Standalone regenerative-current arbiter calls.
+    pub regen_arbiter_ticks: u32,
+    pub regen_request_ticks: u32,
+    pub regen_requested_ma: u64,
+    pub regen_to_pack_ma: u64,
+    pub regen_to_resistor_ma: u64,
+    pub regen_refused_ma: u64,
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
@@ -272,6 +280,12 @@ pub struct OnboardSummary {
     pub total_obstacle_restricted_ticks: u64,
     pub total_obstacle_crawl_ticks: u64,
     pub total_obstacle_emergency_ticks: u64,
+    pub total_regen_arbiter_ticks: u64,
+    pub total_regen_request_ticks: u64,
+    pub total_regen_requested_ma: u64,
+    pub total_regen_to_pack_ma: u64,
+    pub total_regen_to_resistor_ma: u64,
+    pub total_regen_refused_ma: u64,
     pub per_train: Vec<PerTrainOnboard>,
     pub emergencies: Vec<EmergencyRecord>,
 }
@@ -824,9 +838,64 @@ pub fn onboard_tick(
         regen_available_ppt,
         now_ns,
     };
-    let brake_out = brake_evaluate(&brake_inputs, &shadow.brake_params);
+    let mut brake_out = brake_evaluate(&brake_inputs, &shadow.brake_params);
 
-    // 12. Stats — monitor trip counters.
+    // 13. Regenerative-current arbitration. The brake controller requests a
+    // fraction of the commissioned maximum charge current; the standalone
+    // arbiter decides how much reaches the pack, dump resistor, or must be
+    // replaced by friction braking. Its output therefore governs the final
+    // actuator blend returned by this shadow tick.
+    let requested_ma = ((u64::from(shadow.bms_params.max_charge_ma)
+        * u64::from(brake_out.regen_request_ppt))
+        / 1_000)
+        .min(u64::from(u32::MAX)) as u32;
+    let regen_out = regen_evaluate(
+        &RegenInputs {
+            now_ns,
+            requested_ma,
+            bms_charge_limit_ma: bms_out.charge_limit_ma,
+            bms_contactor_closed: matches!(bms_out.contactor, ContactorState::Closed),
+            resistor_available: true,
+            resistor_over_temp: false,
+        },
+        &RegenParams::default_with_resistor(500_000),
+    );
+    shadow.stats.regen_arbiter_ticks = shadow.stats.regen_arbiter_ticks.saturating_add(1);
+    if requested_ma > 0 {
+        shadow.stats.regen_request_ticks = shadow.stats.regen_request_ticks.saturating_add(1);
+    }
+    shadow.stats.regen_requested_ma = shadow
+        .stats
+        .regen_requested_ma
+        .saturating_add(u64::from(requested_ma));
+    shadow.stats.regen_to_pack_ma = shadow
+        .stats
+        .regen_to_pack_ma
+        .saturating_add(u64::from(regen_out.to_pack_ma));
+    shadow.stats.regen_to_resistor_ma = shadow
+        .stats
+        .regen_to_resistor_ma
+        .saturating_add(u64::from(regen_out.to_resistor_ma));
+    shadow.stats.regen_refused_ma = shadow
+        .stats
+        .regen_refused_ma
+        .saturating_add(u64::from(regen_out.refused_ma));
+    if requested_ma > 0 {
+        let accepted_ma = regen_out
+            .to_pack_ma
+            .saturating_add(regen_out.to_resistor_ma);
+        let accepted_ppt = (u64::from(brake_out.regen_request_ppt) * u64::from(accepted_ma)
+            / u64::from(requested_ma))
+        .min(1_000) as u16;
+        let refused_effort = brake_out.regen_request_ppt.saturating_sub(accepted_ppt);
+        brake_out.regen_request_ppt = accepted_ppt;
+        brake_out.friction_effort_ppt = brake_out
+            .friction_effort_ppt
+            .saturating_add(refused_effort)
+            .min(1_000);
+    }
+
+    // 14. Stats — monitor trip counters.
     if fire_out.alert_occ {
         shadow.stats.fire_trip_ticks = shadow.stats.fire_trip_ticks.saturating_add(1);
     }
@@ -849,7 +918,7 @@ pub fn onboard_tick(
     }
     let _ = ObsReason::None; // keep TriggerReason enum referenced
 
-    // 13. Stats.
+    // 15. Stats.
     record_tick(
         &mut shadow.stats,
         t_s,
@@ -1161,6 +1230,24 @@ pub fn summarise(shadows: &[OnboardShadow], trains: &[Train]) -> OnboardSummary 
         summary.total_obstacle_emergency_ticks = summary
             .total_obstacle_emergency_ticks
             .saturating_add(u64::from(sh.stats.obstacle_emergency_ticks));
+        summary.total_regen_arbiter_ticks = summary
+            .total_regen_arbiter_ticks
+            .saturating_add(u64::from(sh.stats.regen_arbiter_ticks));
+        summary.total_regen_request_ticks = summary
+            .total_regen_request_ticks
+            .saturating_add(u64::from(sh.stats.regen_request_ticks));
+        summary.total_regen_requested_ma = summary
+            .total_regen_requested_ma
+            .saturating_add(sh.stats.regen_requested_ma);
+        summary.total_regen_to_pack_ma = summary
+            .total_regen_to_pack_ma
+            .saturating_add(sh.stats.regen_to_pack_ma);
+        summary.total_regen_to_resistor_ma = summary
+            .total_regen_to_resistor_ma
+            .saturating_add(sh.stats.regen_to_resistor_ma);
+        summary.total_regen_refused_ma = summary
+            .total_regen_refused_ma
+            .saturating_add(sh.stats.regen_refused_ma);
         if let Some(e) = sh.stats.first_emergency.clone() {
             summary.emergencies.push(e);
         }

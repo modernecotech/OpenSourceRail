@@ -22,6 +22,15 @@ emission.
   inspected-reset evidence.
 - Balise registry, accepted odometry fixes, and sighting-audit findings.
 - Signed TVM sales, AFC decisions, settlement, and fraud evidence.
+- Real OCC roster ingestion, incident lifecycle, and active dispatch-hold
+  evidence from the attached recording.
+- Energy-site controller conservation and regenerative-current arbiter
+  evidence from the same deterministic run.
+- Track-state wire encode/decode counts and semantic-parity failures.
+- Explicit point-machine and applicability-aware level-crossing controller
+  evidence; no crossing is invented for a grade-separated city.
+- Five-role software preflight results; any failed known-answer check blocks
+  simulated dispatch. Physical commissioning evidence remains separate.
 - Depot roll-up for received CBM payloads, historian samples, analytics, and
   maintenance work orders.
 - Alert feed (info / warn / crit) with category filter checkboxes,

@@ -2,18 +2,18 @@
   "schema_version": 1,
   "passed": true,
   "issues": [],
-  "inventory_count": 55,
-  "classified_count": 55,
-  "linked_component_count": 39,
+  "inventory_count": 56,
+  "classified_count": 56,
+  "linked_component_count": 46,
   "category_counts": {
-    "tick_controller": 21,
-    "runtime_kernel": 6,
-    "infrastructure_tick_controller": 8,
-    "backend_stream_processor": 4,
-    "scenario_model": 2,
-    "design_pipeline": 5,
-    "simulation_shell": 3,
-    "external_boundary": 6
+    "tick_controller": 22,
+    "runtime_kernel": 8,
+    "infrastructure_tick_controller": 11,
+    "backend_stream_processor": 5,
+    "scenario_model": 0,
+    "design_pipeline": 6,
+    "simulation_shell": 4,
+    "external_boundary": 0
   },
   "categories": {
     "tick_controller": [
@@ -37,7 +37,8 @@
       "osr-cbm-onboard",
       "osr-event-recorder",
       "osr-t2g",
-      "osr-tcms"
+      "osr-tcms",
+      "osr-regen"
     ],
     "runtime_kernel": [
       "osr-consensus",
@@ -45,7 +46,9 @@
       "osr-crypto",
       "osr-interlocking",
       "osr-ptp",
-      "osr-secbus"
+      "osr-proto",
+      "osr-secbus",
+      "osr-selftest"
     ],
     "infrastructure_tick_controller": [
       "osr-afc",
@@ -55,20 +58,22 @@
       "osr-pis-station",
       "osr-psd",
       "osr-station-scada",
-      "osr-tvm"
+      "osr-energy-site",
+      "osr-level-crossing",
+      "osr-tvm",
+      "osr-wayside-points"
     ],
     "backend_stream_processor": [
       "osr-afc-backoffice",
       "osr-analytics",
       "osr-cbm-backend",
-      "osr-historian"
+      "osr-historian",
+      "osr-occ"
     ],
-    "scenario_model": [
-      "osr-energy-site",
-      "osr-regen"
-    ],
+    "scenario_model": [],
     "design_pipeline": [
       "osr-alignment",
+      "osr-city-studio",
       "osr-design",
       "osr-routing",
       "osr-safety-case",
@@ -76,21 +81,15 @@
     ],
     "simulation_shell": [
       "osr-gui-shared",
+      "osr-occ-gui",
       "osr-sim",
       "osr-sim-gui"
     ],
-    "external_boundary": [
-      "osr-level-crossing",
-      "osr-occ",
-      "osr-occ-gui",
-      "osr-proto",
-      "osr-selftest",
-      "osr-wayside-points"
-    ]
+    "external_boundary": []
   },
-  "deployment_inventory_sha256": "f6a192757c64f5059fd321ca45d9345c6b1da65d81f45a5d943e49971596492d",
-  "coverage_contract_sha256": "abb868f107cf7ed547858cec16000144de1ac088812a722b43b4f18cf63d8be9",
-  "simulator_cargo_sha256": "f6e2ea8941b534b727c21b7e8f3b46457758370cfe1fe3ce33e053b1b155c999",
+  "deployment_inventory_sha256": "0c43920344e4113867797e5ad874fb1bf2d8196ad55a58e848150c34fc8bb4a9",
+  "coverage_contract_sha256": "20435435184b6ccb94ec941c0cbc7606fa7015f5acdc7848fcfea2bb1d9ef30f",
+  "simulator_cargo_sha256": "3b4bd8483450955905172aaba8058e4ddb90cdd220b0d457a8a02c3844138c85",
   "runtime_evidence": null,
-  "interpretation": "Complete means every deployable software component has exactly one explicit simulation treatment. Controllers and stream processors execute on their declared vehicle, infrastructure, or backend cadence; scenario_model and external_boundary entries remain visible gaps, not simulated implementations."
+  "interpretation": "Complete means every deployable software component has exactly one explicit simulation treatment. Controllers and stream processors execute on their declared vehicle, infrastructure, or backend cadence; pre-service checks execute before dispatch. scenario_model and external_boundary entries remain visible gaps, not simulated implementations."
 }

@@ -25,6 +25,8 @@ for (const frontend of [
       habdRestrictionTicks: 0,
       baliseAuditFindings: 0,
       fareGateDenials: 0,
+      occActiveHolds: 0,
+      crossingCount: 0,
     },
     positiveDetails: [
       "events", "trains", "controllerTicks", "embeddedTicks", "t2gTransmissions",
@@ -32,6 +34,11 @@ for (const frontend of [
       "backendSamples", "analyticsMetrics", "ptpTicks", "habdPassages",
       "baliseFixes",
       "fareGateGrants",
+      "occReports",
+      "energySiteEvaluations", "regenArbiterTicks",
+      "protoFrames",
+      "switchTicks",
+      "selftestPasses",
     ],
   },
   {
@@ -45,6 +52,8 @@ for (const frontend of [
       habdRestrictionTicks: 0,
       baliseAuditFindings: 0,
       fareGateDenials: 0,
+      occActiveHolds: 0,
+      crossingCount: 0,
     },
     positiveDetails: [
       "recordedEvents", "trains", "alerts", "intrusions", "embeddedTicks", "t2gTransmissions",
@@ -52,6 +61,11 @@ for (const frontend of [
       "backendSamples", "analyticsMetrics", "ptpTicks", "habdPassages",
       "baliseFixes",
       "fareGateGrants",
+      "occReports",
+      "energySiteEvaluations", "regenArbiterTicks",
+      "protoFrames",
+      "switchTicks",
+      "selftestPasses",
     ],
   },
 ]) {

@@ -176,7 +176,12 @@ def scenario_variant(
 
 
 def summarize_result(
-    label: str, duration: int, result: dict, expected_habd_detectors: int
+    label: str,
+    duration: int,
+    result: dict,
+    expected_habd_detectors: int,
+    expected_switches: int,
+    expected_crossings: int,
 ) -> dict:
     counts = {
         str(name): int(count)
@@ -237,6 +242,69 @@ def summarize_result(
         and int(fare_systems.get("gate_denials", 0)) == 0
         and int(fare_systems.get("flagged_accounts", 0)) == 0
     )
+    occ_systems = result.get("occ_systems", {})
+    occ_systems_passed = (
+        int(occ_systems.get("controller_ticks", 0)) > 0
+        and int(occ_systems.get("telemetry_reports_processed", 0)) > 0
+        and int(occ_systems.get("final_roster_count", 0)) > 0
+        and int(occ_systems.get("final_active_incidents", 0)) == 0
+        and int(occ_systems.get("final_active_dispatch_holds", 0)) == 0
+    )
+    energy_sites = result.get("energy_sites", [])
+    energy_site_controller_evaluations = sum(
+        int(site.get("controller_evaluations", 0)) for site in energy_sites
+    )
+    energy_site_conservation_errors = sum(
+        int(site.get("conservation_errors", 0)) for site in energy_sites
+    )
+    energy_site_systems_passed = (
+        len(energy_sites) > 0
+        and energy_site_controller_evaluations > 0
+        and energy_site_conservation_errors == 0
+    )
+    onboard = result.get("onboard", {})
+    regen_requested_ma = int(onboard.get("total_regen_requested_ma", 0))
+    regen_routed_ma = (
+        int(onboard.get("total_regen_to_pack_ma", 0))
+        + int(onboard.get("total_regen_to_resistor_ma", 0))
+        + int(onboard.get("total_regen_refused_ma", 0))
+    )
+    regen_systems_passed = (
+        int(onboard.get("total_regen_arbiter_ticks", 0)) > 0
+        and int(onboard.get("total_regen_request_ticks", 0)) > 0
+        and regen_requested_ma > 0
+        and regen_requested_ma == regen_routed_ma
+    )
+    proto_systems = result.get("proto_systems", {})
+    proto_systems_passed = (
+        int(proto_systems.get("frames_encoded", 0)) > 0
+        and int(proto_systems.get("frames_encoded", 0))
+        == int(proto_systems.get("frames_decoded", 0))
+        and int(proto_systems.get("encoded_bytes", 0)) > 0
+        and int(proto_systems.get("decode_failures", 0)) == 0
+        and int(proto_systems.get("semantic_mismatches", 0)) == 0
+    )
+    wayside_assets = result.get("wayside_asset_systems", {})
+    wayside_asset_systems_passed = (
+        int(wayside_assets.get("switch_count", 0)) == expected_switches
+        and (
+            expected_switches == 0
+            or int(wayside_assets.get("switch_controller_ticks", 0)) > 0
+        )
+        and int(wayside_assets.get("switch_fault_ticks", 0)) == 0
+        and int(wayside_assets.get("crossing_count", 0)) == expected_crossings
+        and (
+            expected_crossings == 0
+            or int(wayside_assets.get("crossing_controller_ticks", 0)) > 0
+        )
+        and int(wayside_assets.get("crossing_fault_ticks", 0)) == 0
+    )
+    selftest_systems = result.get("selftest_systems", {})
+    selftest_systems_passed = (
+        int(selftest_systems.get("roles_run", 0)) == 5
+        and int(selftest_systems.get("checks_passed", 0)) > 0
+        and int(selftest_systems.get("checks_failed", 0)) == 0
+    )
     return {
         "label": label,
         "duration_s": duration,
@@ -264,6 +332,18 @@ def summarize_result(
         "balise_systems_passed": balise_systems_passed,
         "fare_systems": fare_systems,
         "fare_systems_passed": fare_systems_passed,
+        "occ_systems": occ_systems,
+        "occ_systems_passed": occ_systems_passed,
+        "energy_site_controller_evaluations": energy_site_controller_evaluations,
+        "energy_site_conservation_errors": energy_site_conservation_errors,
+        "energy_site_systems_passed": energy_site_systems_passed,
+        "regen_systems_passed": regen_systems_passed,
+        "proto_systems": proto_systems,
+        "proto_systems_passed": proto_systems_passed,
+        "wayside_asset_systems": wayside_assets,
+        "wayside_asset_systems_passed": wayside_asset_systems_passed,
+        "selftest_systems": selftest_systems,
+        "selftest_systems_passed": selftest_systems_passed,
         "invariant_violations": len(result.get("invariant_violations", [])),
         "soc_warning_events": counts.get("SocWarning", 0),
         "energy_adaptive_dispatches": int(result.get("energy_adaptive_dispatches", 0)),
@@ -309,6 +389,8 @@ def main() -> int:
     scheduled_train_km = _scheduled_daily_train_km(design, doc)
     fleet_count = sum(int(fleet.get("trainset_count", 0)) for fleet in doc.get("fleets", []))
     configured_habd_detector_count = len(doc.get("habd_detectors", []))
+    configured_switch_count = len(doc.get("switches", []))
+    configured_crossing_count = len(doc.get("level_crossings", []))
     trainset_contract = validate_trainset_contract(doc)
     subprocess.run(
         ["cargo", "build", "--release", "-p", "osr-sim", "--bin", "osr-sim"],
@@ -372,7 +454,12 @@ def main() -> int:
                 label, duration, path, cpu_set = spec
                 result = run_sim(scenario, duration, path, cpu_set=cpu_set)
                 return summarize_result(
-                    label, duration, result, configured_habd_detector_count
+                    label,
+                    duration,
+                    result,
+                    configured_habd_detector_count,
+                    configured_switch_count,
+                    configured_crossing_count,
                 )
 
             with concurrent.futures.ThreadPoolExecutor(
@@ -392,6 +479,8 @@ def main() -> int:
                     args.full_duration,
                     result,
                     configured_habd_detector_count,
+                    configured_switch_count,
+                    configured_crossing_count,
                 )
             )
             del result
@@ -500,6 +589,8 @@ station = "{powered_station}"
                     args.full_duration,
                     result,
                     configured_habd_detector_count,
+                    configured_switch_count,
+                    configured_crossing_count,
                 )
                 del result
                 print(f"resilience: completed {label}", flush=True)
@@ -560,6 +651,12 @@ station = "{powered_station}"
             and case["habd_systems_passed"]
             and case["balise_systems_passed"]
             and case["fare_systems_passed"]
+            and case["occ_systems_passed"]
+            and case["energy_site_systems_passed"]
+            and case["regen_systems_passed"]
+            and case["proto_systems_passed"]
+            and case["wayside_asset_systems_passed"]
+            and case["selftest_systems_passed"]
             and case["service_completion_ratio"] + service_completion_tolerance >= minimum_service
         )
         resilience_cases.append(case)
@@ -571,12 +668,18 @@ station = "{powered_station}"
         and run["habd_systems_passed"]
         and run["balise_systems_passed"]
         and run["fare_systems_passed"]
+        and run["occ_systems_passed"]
+        and run["energy_site_systems_passed"]
+        and run["regen_systems_passed"]
+        and run["proto_systems_passed"]
+        and run["wayside_asset_systems_passed"]
+        and run["selftest_systems_passed"]
         for run in runs
     ) and full_run["service_completion_ratio"] + service_completion_tolerance >= minimum_service_completion_ratio
     resilience_passed = bool(resilience_cases) and all(case["passed"] for case in resilience_cases)
     simulator_binary = REPO_ROOT / "target/release/osr-sim"
     model = {
-        "schema_version": "1.6",
+        "schema_version": "1.11",
         "city": city,
         "validated_on": date.today().isoformat(),
         "generator": str(Path(__file__).resolve().relative_to(REPO_ROOT)),
@@ -601,6 +704,8 @@ station = "{powered_station}"
             "maximum_headway_multiplier": float(doc["scenario"].get("maximum_headway_multiplier", 3.0)),
             "protected_peak_headway_min": int(doc["scenario"].get("protected_peak_headway_min", 3)),
             "configured_habd_detector_count": configured_habd_detector_count,
+            "configured_switch_count": configured_switch_count,
+            "configured_level_crossing_count": configured_crossing_count,
         },
         "service_windows": [
             {"from": row["from"], "to": row["to"], "headway_min": row["headway_min"], "treatment": "peak quick turnaround" if (str(row["from"]) in {"07:00", "15:00"} and int(row["headway_min"]) == 3) else "off-peak depot service enabled"}
@@ -611,7 +716,7 @@ station = "{powered_station}"
         "resilience_passed": resilience_passed if args.resilience else None,
         "resilience_basis": resilience_basis if args.resilience else None,
         "resilience_cases": resilience_cases,
-        "interpretation": "The full-window run includes 4.5 hours after the 02:00 service close so long ring and charging cycles can finish. Door, auxiliary-power, HVAC, lighting and onboard PIS controllers execute for every train tick; their loads remain included in the calibrated aggregate kWh/car-km model and are not debited twice. Configured physical HABD sites must execute in every run without a nominal trip or latched stop. The topology-derived wayside balise registry must feed every expected crossing into onboard odometry with no nominal sighting-audit finding. The representative fare workload must issue signed TVM tokens, grant every nominal AFC tap, and reconcile sales to back-office ledger entries; it is software evidence, not a ridership forecast. Nominal and N-1/degraded screens protect 20% SoC and at least 90% of scheduled train-km. The ten-hour all-site grid outage is an emergency reduced-service case with a 60% floor. Energy-adaptive control may widen off-peak headways; calibrated timetable acceptance remains an operator gate.",
+        "interpretation": "The full-window run includes 4.5 hours after the 02:00 service close so long ring and charging cycles can finish. All five deployment roles run their software known-answer preflight before service, and any failure blocks dispatch; physical wiring and sensor commissioning remains external evidence. Door, auxiliary-power, HVAC, lighting and onboard PIS controllers execute for every train tick; their loads remain included in the calibrated aggregate kWh/car-km model and are not debited twice. The standalone energy-site controller governs PV, storage, grid and pad flows with integer-watt conservation checks; the regen arbiter governs the pack/resistor/refusal brake blend and must conserve every requested milliamp. Every live position report crosses the track-state wire codec, whose decoded fields feed OCC with no permitted loss or semantic drift. Declared point machines and level crossings execute fail-restrictive pre-entry gates; a zero crossing count is valid only when the city scenario declares none. Configured physical HABD sites must execute in every run without a nominal trip or latched stop. The topology-derived wayside balise registry must feed every expected crossing into onboard odometry with no nominal sighting-audit finding. The representative fare workload must issue signed TVM tokens, grant every nominal AFC tap, and reconcile sales to back-office ledger entries; it is software evidence, not a ridership forecast. The OCC core must consume every train's TCMS telemetry, maintain a populated roster, and finish nominal runs without an active incident or dispatch hold; degraded tests verify automatic hold and recovery. Nominal and N-1/degraded screens protect 20% SoC and at least 90% of scheduled train-km. The ten-hour all-site grid outage is an emergency reduced-service case with a 60% floor. Energy-adaptive control may widen off-peak headways; calibrated timetable acceptance remains an operator gate.",
     }
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(json.dumps(model, indent=2) + "\n")

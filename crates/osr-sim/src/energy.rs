@@ -14,6 +14,7 @@
 //! A station not present in `[[sites]]` supplies no charging energy.
 
 use osr_core::StationId;
+use osr_energy_site::{energy_site_evaluate, EnergySiteInputs, EnergySiteParams};
 use serde::{Deserialize, Serialize};
 use std::collections::BTreeMap;
 
@@ -73,6 +74,10 @@ pub struct EnergySiteSummary {
     pub grid_exported_kwh: f64,
     pub curtailed_kwh: f64,
     pub delivered_to_trains_kwh: f64,
+    /// Calls through the standalone `osr-energy-site` controller.
+    pub controller_evaluations: u64,
+    /// Integer-watt conservation checks that failed (must remain zero).
+    pub conservation_errors: u64,
 }
 
 #[derive(Clone, Debug)]
@@ -84,6 +89,8 @@ pub struct EnergySite {
     pub grid_exported_kwh: f64,
     pub curtailed_kwh: f64,
     pub delivered_to_trains_kwh: f64,
+    pub controller_evaluations: u64,
+    pub conservation_errors: u64,
     /// Shared train-side cabinet energy remaining in the current tick.
     charger_budget_kwh: f32,
 }
@@ -99,6 +106,8 @@ impl EnergySite {
             grid_exported_kwh: 0.0,
             curtailed_kwh: 0.0,
             delivered_to_trains_kwh: 0.0,
+            controller_evaluations: 0,
+            conservation_errors: 0,
             charger_budget_kwh: f32::INFINITY,
         }
     }
@@ -107,6 +116,17 @@ impl EnergySite {
         let current_limited_kw =
             self.config.charger_max_current_a * self.config.charger_bus_voltage_v / 1000.0;
         self.config.charger_max_kw.min(current_limited_kw).max(0.0)
+    }
+
+    fn controller_params(&self, grid_import_limit_w: u32) -> EnergySiteParams {
+        EnergySiteParams {
+            pad_max_w: kw_to_w(self.config.charger_max_kw),
+            pad_max_current_a: nonnegative_rounded_u32(self.config.charger_max_current_a),
+            train_bus_voltage_v: nonnegative_rounded_u32(self.config.charger_bus_voltage_v),
+            contact_count: self.config.charger_contact_count,
+            grid_import_limit_w,
+            grid_export_limit_w: kw_to_w(self.config.grid_export_kw),
+        }
     }
 
     pub fn storage_stored_kwh(&self) -> f32 {
@@ -127,34 +147,38 @@ impl EnergySite {
     ) {
         self.charger_budget_kwh = self.charger_power_limit_kw() * dt_s / 3600.0;
         let pv_kw = pv_output_kw(self.config.pv_nameplate_kw, clock_s, peak_sun_hours) * pv_factor;
-        let pv_kwh = pv_kw * dt_s / 3600.0;
+        let pv_w = kw_to_w(pv_kw);
+        let pv_kwh = watts_to_kwh(pv_w, dt_s);
         self.pv_generated_kwh += f64::from(pv_kwh);
-
-        if pv_kwh <= 0.0 {
-            return;
-        }
-
-        // Try to store in the battery.
         let remaining_capacity = (1.0 - self.storage_soc) * self.config.storage_capacity_kwh;
-        let max_store_kwh = self.config.storage_max_charge_kw * dt_s / 3600.0;
-        let stored = pv_kwh.min(remaining_capacity).min(max_store_kwh).max(0.0);
+        let battery_charge_limit_w =
+            energy_limit_w(remaining_capacity, self.config.storage_max_charge_kw, dt_s);
+        let output = energy_site_evaluate(
+            &EnergySiteInputs {
+                now_ns: u64::from(clock_s).saturating_mul(1_000_000_000),
+                pv_w,
+                pad_request_w: 0,
+                battery_soc_ppt: soc_ppt(self.storage_soc),
+                battery_charge_limit_w,
+                battery_discharge_limit_w: 0,
+                grid_up: !grid_disabled,
+                export_allowed: self.config.grid_export_kw > 0.0,
+            },
+            &self.controller_params(0),
+        );
+        self.controller_evaluations = self.controller_evaluations.saturating_add(1);
+        if output.to_pad_w + output.battery_charge_w + output.grid_export_w + output.curtailed_w
+            != pv_w
+        {
+            self.conservation_errors = self.conservation_errors.saturating_add(1);
+        }
+        let stored = watts_to_kwh(output.battery_charge_w, dt_s);
         if self.config.storage_capacity_kwh > 0.0 {
             self.storage_soc += stored / self.config.storage_capacity_kwh;
+            self.storage_soc = self.storage_soc.min(1.0);
         }
-
-        // Handle excess: export if possible and grid is up, otherwise curtail.
-        let excess = pv_kwh - stored;
-        if excess > 0.0 {
-            let export_cap_kw = if grid_disabled {
-                0.0
-            } else {
-                self.config.grid_export_kw
-            };
-            let max_export_kwh = export_cap_kw * dt_s / 3600.0;
-            let exported = excess.min(max_export_kwh).max(0.0);
-            self.grid_exported_kwh += f64::from(exported);
-            self.curtailed_kwh += f64::from(excess - exported);
-        }
+        self.grid_exported_kwh += f64::from(watts_to_kwh(output.grid_export_w, dt_s));
+        self.curtailed_kwh += f64::from(watts_to_kwh(output.curtailed_w, dt_s));
     }
 
     /// Deliver up to `max_kwh` from this site to a charging train.
@@ -169,28 +193,44 @@ impl EnergySite {
         }
         let requested_delivered = max_kwh.min(self.charger_budget_kwh).max(0.0);
         let efficiency = self.config.charger_efficiency.clamp(0.01, 1.0);
-        let mut remaining = requested_delivered / efficiency;
-
-        // 1. Draw from storage, subject to discharge-rate and available energy.
-        let max_discharge_kwh = self.config.storage_max_discharge_kw * dt_s / 3600.0;
         let stored = self.storage_stored_kwh();
-        let from_storage = remaining.min(max_discharge_kwh).min(stored).max(0.0);
+        let discharge_source_limit_w =
+            energy_limit_w(stored, self.config.storage_max_discharge_kw, dt_s);
+        // `osr-energy-site` arbitrates at the train-side DC bus. Convert the
+        // source limits through the configured charger efficiency.
+        let discharge_bus_limit_w = scale_w(discharge_source_limit_w, efficiency);
+        let grid_source_limit_w = if grid_disabled {
+            0
+        } else {
+            kw_to_w(self.config.grid_import_kw)
+        };
+        let grid_bus_limit_w = scale_w(grid_source_limit_w, efficiency);
+        let requested_w = energy_to_w(requested_delivered, dt_s);
+        let output = energy_site_evaluate(
+            &EnergySiteInputs {
+                now_ns: 0,
+                pv_w: 0,
+                pad_request_w: requested_w,
+                battery_soc_ppt: soc_ppt(self.storage_soc),
+                battery_charge_limit_w: 0,
+                battery_discharge_limit_w: discharge_bus_limit_w,
+                grid_up: !grid_disabled,
+                export_allowed: false,
+            },
+            &self.controller_params(grid_bus_limit_w),
+        );
+        self.controller_evaluations = self.controller_evaluations.saturating_add(1);
+        if output.to_pad_w != output.battery_discharge_w + output.grid_import_w {
+            self.conservation_errors = self.conservation_errors.saturating_add(1);
+        }
+        let from_storage = watts_to_kwh(output.battery_discharge_w, dt_s) / efficiency;
         if self.config.storage_capacity_kwh > 0.0 {
             self.storage_soc -= from_storage / self.config.storage_capacity_kwh;
             self.storage_soc = self.storage_soc.max(0.0);
         }
-        remaining -= from_storage;
-
-        // 2. Cover any shortfall via grid import (if the grid is up).
-        if remaining > 0.0 && !grid_disabled {
-            let max_import_kwh = self.config.grid_import_kw * dt_s / 3600.0;
-            let imported = remaining.min(max_import_kwh).max(0.0);
-            self.grid_imported_kwh += f64::from(imported);
-            remaining -= imported;
-        }
-
-        let source_energy = requested_delivered / efficiency - remaining;
-        let delivered = source_energy * efficiency;
+        let imported = watts_to_kwh(output.grid_import_w, dt_s) / efficiency;
+        self.grid_imported_kwh += f64::from(imported);
+        let delivered = watts_to_kwh(output.to_pad_w, dt_s);
         self.charger_budget_kwh = (self.charger_budget_kwh - delivered).max(0.0);
         self.delivered_to_trains_kwh += f64::from(delivered);
         delivered
@@ -206,8 +246,42 @@ impl EnergySite {
             grid_exported_kwh: self.grid_exported_kwh,
             curtailed_kwh: self.curtailed_kwh,
             delivered_to_trains_kwh: self.delivered_to_trains_kwh,
+            controller_evaluations: self.controller_evaluations,
+            conservation_errors: self.conservation_errors,
         }
     }
+}
+
+fn nonnegative_rounded_u32(value: f32) -> u32 {
+    value.max(0.0).round().min(u32::MAX as f32) as u32
+}
+
+fn kw_to_w(value: f32) -> u32 {
+    nonnegative_rounded_u32(value * 1_000.0)
+}
+
+fn watts_to_kwh(watts: u32, dt_s: f32) -> f32 {
+    watts as f32 * dt_s / 3_600_000.0
+}
+
+fn energy_to_w(kwh: f32, dt_s: f32) -> u32 {
+    if dt_s <= 0.0 {
+        0
+    } else {
+        nonnegative_rounded_u32(kwh * 3_600_000.0 / dt_s)
+    }
+}
+
+fn energy_limit_w(available_kwh: f32, rate_kw: f32, dt_s: f32) -> u32 {
+    kw_to_w(rate_kw).min(energy_to_w(available_kwh.max(0.0), dt_s))
+}
+
+fn scale_w(watts: u32, factor: f32) -> u32 {
+    nonnegative_rounded_u32(watts as f32 * factor)
+}
+
+fn soc_ppt(soc: f32) -> u16 {
+    (soc.clamp(0.0, 1.0) * 1_000.0).round() as u16
 }
 
 // ---------------------------------------------------------------------------
@@ -276,6 +350,12 @@ impl EnergySystem {
     }
     pub fn total_delivered_to_trains_kwh(&self) -> f64 {
         self.sites.values().map(|s| s.delivered_to_trains_kwh).sum()
+    }
+    pub fn total_controller_evaluations(&self) -> u64 {
+        self.sites.values().map(|s| s.controller_evaluations).sum()
+    }
+    pub fn total_conservation_errors(&self) -> u64 {
+        self.sites.values().map(|s| s.conservation_errors).sum()
     }
 }
 
@@ -393,6 +473,8 @@ mod tests {
         approx(delivered, 20.0, 0.01);
         approx(site.storage_soc, 0.0, 0.001);
         approx(site.grid_imported_kwh as f32, 10.0, 0.01);
+        assert_eq!(site.controller_evaluations, 1);
+        assert_eq!(site.conservation_errors, 0);
     }
 
     #[test]

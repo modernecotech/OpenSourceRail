@@ -43,6 +43,14 @@ pub async fn start_web(
         balise_audit_findings,
         fare_gate_grants,
         fare_gate_denials,
+        occ_reports,
+        occ_active_holds,
+        energy_site_evaluations,
+        regen_arbiter_ticks,
+        proto_frames,
+        switch_ticks,
+        crossing_count,
+        selftest_passes,
         tcms_movement_inhibits,
         invariant_violations,
     } = app.run_state_summary();
@@ -54,6 +62,6 @@ pub async fn start_web(
         )
         .await?;
     Ok(format!(
-        "{{\"durationS\":{duration_s},\"events\":{events},\"trains\":{trains},\"controllerTicks\":{controller_ticks},\"embeddedTicks\":{embedded_ticks},\"t2gTransmissions\":{t2g_transmissions},\"stationTicks\":{station_ticks},\"waysideTicks\":{wayside_ticks},\"backendSamples\":{backend_samples},\"analyticsMetrics\":{analytics_metrics},\"ptpTicks\":{ptp_ticks},\"habdPassages\":{habd_passages},\"habdWarnings\":{habd_warnings},\"habdRestrictionTicks\":{habd_restriction_ticks},\"baliseFixes\":{balise_fixes},\"baliseAuditFindings\":{balise_audit_findings},\"fareGateGrants\":{fare_gate_grants},\"fareGateDenials\":{fare_gate_denials},\"tcmsMovementInhibits\":{tcms_movement_inhibits},\"invariantViolations\":{invariant_violations}}}"
+        "{{\"durationS\":{duration_s},\"events\":{events},\"trains\":{trains},\"controllerTicks\":{controller_ticks},\"embeddedTicks\":{embedded_ticks},\"t2gTransmissions\":{t2g_transmissions},\"stationTicks\":{station_ticks},\"waysideTicks\":{wayside_ticks},\"backendSamples\":{backend_samples},\"analyticsMetrics\":{analytics_metrics},\"ptpTicks\":{ptp_ticks},\"habdPassages\":{habd_passages},\"habdWarnings\":{habd_warnings},\"habdRestrictionTicks\":{habd_restriction_ticks},\"baliseFixes\":{balise_fixes},\"baliseAuditFindings\":{balise_audit_findings},\"fareGateGrants\":{fare_gate_grants},\"fareGateDenials\":{fare_gate_denials},\"occReports\":{occ_reports},\"occActiveHolds\":{occ_active_holds},\"energySiteEvaluations\":{energy_site_evaluations},\"regenArbiterTicks\":{regen_arbiter_ticks},\"protoFrames\":{proto_frames},\"switchTicks\":{switch_ticks},\"crossingCount\":{crossing_count},\"selftestPasses\":{selftest_passes},\"tcmsMovementInhibits\":{tcms_movement_inhibits},\"invariantViolations\":{invariant_violations}}}"
     ))
 }

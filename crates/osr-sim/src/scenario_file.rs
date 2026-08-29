@@ -19,6 +19,7 @@ use crate::sim::{
     ScenarioConfig, TrainsetSystemsConfig,
 };
 use crate::train::Heading;
+use crate::wayside_asset_systems::{LevelCrossingAssetConfig, SwitchAssetConfig};
 
 // ===========================================================================
 // Wire schema — matches the TOML file structure 1:1
@@ -43,6 +44,12 @@ pub struct ScenarioFile {
     /// Inspected, named-authority releases for latched HABD stop orders.
     #[serde(default)]
     pub habd_resets: Vec<HabdResetSpec>,
+    /// Explicit point machines generated from city switch assets.
+    #[serde(default)]
+    pub switches: Vec<SwitchAssetSpec>,
+    /// Explicit at-grade road/rail crossings; grade-separated cities omit it.
+    #[serde(default)]
+    pub level_crossings: Vec<LevelCrossingAssetSpec>,
     /// Optional fault events: dust storms, grid outages, charging pad failures.
     #[serde(default)]
     pub faults: Vec<FaultSpec>,
@@ -315,6 +322,22 @@ pub struct HabdResetSpec {
     pub inspection_reference: String,
 }
 
+#[derive(Debug, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct SwitchAssetSpec {
+    pub id: String,
+    pub station: String,
+}
+
+#[derive(Debug, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct LevelCrossingAssetSpec {
+    pub id: String,
+    pub line: String,
+    pub after_station: String,
+    pub offset_m: u32,
+}
+
 fn default_initial_soc() -> f32 {
     0.5
 }
@@ -479,6 +502,7 @@ pub enum LoadError {
     DuplicateHabdDetector(String),
     InvalidHabdDetector(String),
     InvalidHabdReset(String),
+    InvalidWaysideAsset(String),
 }
 
 impl std::fmt::Display for LoadError {
@@ -586,6 +610,7 @@ impl std::fmt::Display for LoadError {
             DuplicateHabdDetector(id) => write!(f, "duplicate HABD detector id '{id}'"),
             InvalidHabdDetector(message) => write!(f, "invalid HABD detector: {message}"),
             InvalidHabdReset(message) => write!(f, "invalid HABD reset: {message}"),
+            InvalidWaysideAsset(message) => write!(f, "invalid wayside asset: {message}"),
             InvalidFaultDay { name, day } => {
                 write!(f, "fault '{name}' has day={day}; must be >= 1")
             }
@@ -811,6 +836,9 @@ fn build_scenario(file: ScenarioFile) -> Result<ScenarioConfig, LoadError> {
 
     let habd_detectors =
         build_habd_detectors(&file.habd_detectors, &station_ids, &line_indices, &network)?;
+    let switches = build_switch_assets(&file.switches, &station_ids)?;
+    let level_crossings =
+        build_level_crossing_assets(&file.level_crossings, &station_ids, &line_indices, &network)?;
 
     // --- Fleets -------------------------------------------------------------
     let mut fleets: Vec<LineFleet> = Vec::new();
@@ -988,8 +1016,101 @@ fn build_scenario(file: ScenarioFile) -> Result<ScenarioConfig, LoadError> {
         energy_sites,
         habd_detectors,
         habd_resets,
+        switches,
+        level_crossings,
         faults,
     })
+}
+
+fn build_switch_assets(
+    specs: &[SwitchAssetSpec],
+    station_ids: &HashMap<String, StationId>,
+) -> Result<Vec<SwitchAssetConfig>, LoadError> {
+    let mut seen = std::collections::BTreeSet::new();
+    specs
+        .iter()
+        .map(|spec| {
+            if spec.id.trim().is_empty() || !seen.insert(spec.id.clone()) {
+                return Err(LoadError::InvalidWaysideAsset(format!(
+                    "switch id '{}' is empty or duplicated",
+                    spec.id
+                )));
+            }
+            let station =
+                *station_ids
+                    .get(&spec.station)
+                    .ok_or_else(|| LoadError::UnknownStation {
+                        referenced_by: format!("switch '{}'", spec.id),
+                        id: spec.station.clone(),
+                    })?;
+            Ok(SwitchAssetConfig {
+                id: spec.id.clone(),
+                station,
+            })
+        })
+        .collect()
+}
+
+fn build_level_crossing_assets(
+    specs: &[LevelCrossingAssetSpec],
+    station_ids: &HashMap<String, StationId>,
+    line_indices: &HashMap<String, usize>,
+    network: &Network,
+) -> Result<Vec<LevelCrossingAssetConfig>, LoadError> {
+    let mut seen = std::collections::BTreeSet::new();
+    let mut crossings = Vec::with_capacity(specs.len());
+    for spec in specs {
+        if spec.id.trim().is_empty() || !seen.insert(spec.id.clone()) {
+            return Err(LoadError::InvalidWaysideAsset(format!(
+                "level-crossing id '{}' is empty or duplicated",
+                spec.id
+            )));
+        }
+        let &line_index = line_indices
+            .get(&spec.line)
+            .ok_or_else(|| LoadError::UnknownLine {
+                referenced_by: format!("level crossing '{}'", spec.id),
+                id: spec.line.clone(),
+            })?;
+        let station =
+            *station_ids
+                .get(&spec.after_station)
+                .ok_or_else(|| LoadError::UnknownStation {
+                    referenced_by: format!("level crossing '{}'", spec.id),
+                    id: spec.after_station.clone(),
+                })?;
+        let line = &network.lines[line_index];
+        let section_index = line
+            .stations
+            .iter()
+            .position(|candidate| *candidate == station)
+            .ok_or_else(|| {
+                LoadError::InvalidWaysideAsset(format!(
+                    "level crossing '{}' station is not on line '{}'",
+                    spec.id, spec.line
+                ))
+            })?;
+        let Some(&forward) = line.forward_sections.get(section_index) else {
+            return Err(LoadError::InvalidWaysideAsset(format!(
+                "level crossing '{}' has no following section",
+                spec.id
+            )));
+        };
+        let reverse = line.reverse_sections[section_index];
+        let length_mm = network.section(forward).length_mm;
+        let offset_mm = u64::from(spec.offset_m).saturating_mul(1_000);
+        if offset_mm == 0 || offset_mm >= length_mm {
+            return Err(LoadError::InvalidWaysideAsset(format!(
+                "level crossing '{}' offset_m={} must be inside its section",
+                spec.id, spec.offset_m
+            )));
+        }
+        crossings.push(LevelCrossingAssetConfig {
+            id: spec.id.clone(),
+            sections: vec![forward, reverse],
+        });
+    }
+    Ok(crossings)
 }
 
 fn build_habd_detectors(

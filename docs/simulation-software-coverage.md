@@ -1,9 +1,10 @@
 # Simulation software coverage
 
-`osr-sim` executes seven connected layers against the same run state:
+`osr-sim` executes connected software layers against the same run state:
 
 - `onboard`: odometry, ATP/ATO, BMS, traction, brake, obstacle, fire,
-  derailment, and passenger assistance;
+  derailment, passenger assistance, and regenerative-current arbitration. The
+  arbiter's refusal output is converted into friction effort;
 - `vehicle_systems`: doors, auxiliary power, HVAC, lighting, and onboard PIS;
 - `embedded`: TCMS, event recording, hot-axle monitoring, CBM sampling, and
   bounded T2G failover/store-and-forward. A TCMS trip inhibits dispatch or
@@ -17,22 +18,42 @@
   sighting audit, and accepted absolute fixes delivered to onboard odometry;
 - `fare_systems`: signed single-ride issuance through the real TVM, gate
   validation, and back-office ledger/fraud reconciliation at every station;
+- `occ_systems`: real TCMS-report ingestion into the OCC fleet roster; a
+  critical train alarm opens a line incident and holds new dispatches until
+  the line has recovered, without stopping a train already in a section;
+- `proto_systems`: each live position report crosses the deterministic
+  track-state codec; the decoded section, timestamp, speed and SoC feed OCC,
+  and acceptance rejects decode loss or semantic drift;
+- `energy_sites`: the standalone site controller governs every integer-watt
+  PV/storage/grid/pad split; per-call conservation is checked in result data;
+- `wayside_asset_systems`: every declared point machine executes against
+  dual normal-position sensors and gates departures at its station; each
+  declared level crossing runs the warning/barrier state machine and blocks
+  its sections until closed. Zero crossings is an explicit not-applicable
+  result for grade-separated networks;
 - `backend_systems`: radio-delivered CBM ingestion, work-order generation,
   bounded history, and analytics over retained metrics;
 - `time_sync`: the IEEE 1588 slave state machine acquires and retains the
   shared deterministic clock used by timestamped controller traffic.
+- `selftest_systems`: all five deployment roles run their real software
+  known-answer suites before service; a failure holds every dispatch.
 
 Each layer emits deterministic result evidence. Auxiliary loads remain in the
 calibrated energy intensity and are not charged twice.
 
-Coverage is deliberately narrower than “start every binary.” Hardware
-commissioning remains in `osr-selftest`; unmodeled back-office, unconfigured
-asset controllers, and design processes need their own harnesses. The
+Coverage is deliberately narrower than “start every binary.” The simulator
+runs `osr-selftest` software checks, but physical wiring, sensor, relay and
+trust-anchor commissioning remains external evidence. The
 machine-readable contract at
 `lib/simulation-component-coverage.toml` classifies every entry in
 `deployment/components.toml` exactly once and fails if the inventory drifts.
-`scenario_model` entries are aggregate substitutes; `external_boundary`
-entries remain explicit gaps.
+`scenario_model` entries would identify aggregate substitutes (none remain in
+the current inventory); `external_boundary` entries would remain explicit
+gaps (none remain in the current inventory).
+
+Nominal OCC acceptance requires positive controller, telemetry and roster
+evidence with no incident or dispatch hold left active. A degraded integration
+test drives a TCMS emergency through the same core and verifies hold/release.
 
 The HABD scenario contract follows the ERA infrastructure-register model:
 detector existence, location, and direction are explicit route assets. A trip

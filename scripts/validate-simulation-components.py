@@ -85,6 +85,11 @@ def build_report(result_path: Path | None = None) -> dict:
         habd = result.get("habd_systems", {})
         balise = result.get("balise_systems", {})
         fare = result.get("fare_systems", {})
+        occ = result.get("occ_systems", {})
+        energy_sites = result.get("energy_sites", [])
+        proto = result.get("proto_systems", {})
+        assets = result.get("wayside_asset_systems", {})
+        selftest = result.get("selftest_systems", {})
         runtime_evidence = {
             "result": str(result_path),
             "result_sha256": digest(result_path),
@@ -143,6 +148,56 @@ def build_report(result_path: Path | None = None) -> dict:
             "fare_tvm_sales_cents": int(fare.get("tvm_sales_cents", 0)),
             "fare_settled_cents": int(fare.get("settled_fare_cents", 0)),
             "fare_flagged_accounts": int(fare.get("flagged_accounts", 0)),
+            "occ_controller_ticks": int(occ.get("controller_ticks", 0)),
+            "occ_reports_processed": int(
+                occ.get("telemetry_reports_processed", 0)
+            ),
+            "occ_roster_count": int(occ.get("final_roster_count", 0)),
+            "occ_final_active_incidents": int(
+                occ.get("final_active_incidents", 0)
+            ),
+            "occ_final_active_dispatch_holds": int(
+                occ.get("final_active_dispatch_holds", 0)
+            ),
+            "energy_site_controller_evaluations": sum(
+                int(site.get("controller_evaluations", 0))
+                for site in energy_sites
+            ),
+            "energy_site_conservation_errors": sum(
+                int(site.get("conservation_errors", 0)) for site in energy_sites
+            ),
+            "regen_arbiter_ticks": int(
+                onboard.get("total_regen_arbiter_ticks", 0)
+            ),
+            "regen_request_ticks": int(
+                onboard.get("total_regen_request_ticks", 0)
+            ),
+            "regen_requested_ma": int(
+                onboard.get("total_regen_requested_ma", 0)
+            ),
+            "regen_routed_ma": int(onboard.get("total_regen_to_pack_ma", 0))
+            + int(onboard.get("total_regen_to_resistor_ma", 0))
+            + int(onboard.get("total_regen_refused_ma", 0)),
+            "proto_frames_encoded": int(proto.get("frames_encoded", 0)),
+            "proto_frames_decoded": int(proto.get("frames_decoded", 0)),
+            "proto_encoded_bytes": int(proto.get("encoded_bytes", 0)),
+            "proto_decode_failures": int(proto.get("decode_failures", 0)),
+            "proto_semantic_mismatches": int(
+                proto.get("semantic_mismatches", 0)
+            ),
+            "switch_count": int(assets.get("switch_count", 0)),
+            "switch_controller_ticks": int(
+                assets.get("switch_controller_ticks", 0)
+            ),
+            "switch_fault_ticks": int(assets.get("switch_fault_ticks", 0)),
+            "crossing_count": int(assets.get("crossing_count", 0)),
+            "crossing_controller_ticks": int(
+                assets.get("crossing_controller_ticks", 0)
+            ),
+            "crossing_fault_ticks": int(assets.get("crossing_fault_ticks", 0)),
+            "selftest_roles_run": int(selftest.get("roles_run", 0)),
+            "selftest_checks_passed": int(selftest.get("checks_passed", 0)),
+            "selftest_checks_failed": int(selftest.get("checks_failed", 0)),
         }
         required_vehicle = (
             "door_controller_evaluations",
@@ -179,6 +234,20 @@ def build_report(result_path: Path | None = None) -> dict:
             "fare_tickets_issued",
             "fare_gate_grants",
             "fare_ledger_entries",
+            "occ_controller_ticks",
+            "occ_reports_processed",
+            "occ_roster_count",
+            "energy_site_controller_evaluations",
+            "regen_arbiter_ticks",
+            "regen_request_ticks",
+            "regen_requested_ma",
+            "proto_frames_encoded",
+            "proto_frames_decoded",
+            "proto_encoded_bytes",
+            "switch_count",
+            "switch_controller_ticks",
+            "selftest_roles_run",
+            "selftest_checks_passed",
         ):
             if runtime_evidence[field] <= 0:
                 issues.append(f"simulation result has no {field} evidence")
@@ -206,6 +275,37 @@ def build_report(result_path: Path | None = None) -> dict:
             "fare_settled_cents"
         ]:
             issues.append("nominal TVM sales do not reconcile to settled fares")
+        if runtime_evidence["occ_final_active_incidents"]:
+            issues.append("nominal simulation contains active OCC incidents")
+        if runtime_evidence["occ_final_active_dispatch_holds"]:
+            issues.append("nominal simulation contains active OCC dispatch holds")
+        if runtime_evidence["energy_site_conservation_errors"]:
+            issues.append("simulation result contains energy-site conservation errors")
+        if runtime_evidence["regen_requested_ma"] != runtime_evidence[
+            "regen_routed_ma"
+        ]:
+            issues.append("regenerative current does not reconcile across arbiter outputs")
+        if runtime_evidence["proto_decode_failures"]:
+            issues.append("track-state wire codec reported decode failures")
+        if runtime_evidence["proto_semantic_mismatches"]:
+            issues.append("track-state wire codec reported semantic drift")
+        if runtime_evidence["proto_frames_encoded"] != runtime_evidence[
+            "proto_frames_decoded"
+        ]:
+            issues.append("not every encoded track-state frame decoded")
+        if runtime_evidence["switch_fault_ticks"]:
+            issues.append("nominal simulation contains point-machine faults")
+        if runtime_evidence["crossing_fault_ticks"]:
+            issues.append("nominal simulation contains level-crossing faults")
+        if runtime_evidence["crossing_count"] == 0:
+            if runtime_evidence["crossing_controller_ticks"] != 0:
+                issues.append("level-crossing controller ran without a configured asset")
+        elif runtime_evidence["crossing_controller_ticks"] <= 0:
+            issues.append("configured level crossings have no controller evidence")
+        if runtime_evidence["selftest_roles_run"] != 5:
+            issues.append("simulation did not run all five deployment-role preflights")
+        if runtime_evidence["selftest_checks_failed"]:
+            issues.append("deployment-role software preflight contains failures")
 
     counts = {
         category: sum(1 for value in assignments.values() if value == category)
@@ -227,9 +327,9 @@ def build_report(result_path: Path | None = None) -> dict:
         "interpretation": (
             "Complete means every deployable software component has exactly one explicit "
             "simulation treatment. Controllers and stream processors execute on their declared "
-            "vehicle, infrastructure, or backend cadence; scenario_model and external_boundary "
-            "entries remain visible gaps, "
-            "not simulated implementations."
+            "vehicle, infrastructure, or backend cadence; pre-service checks execute before "
+            "dispatch. scenario_model and external_boundary entries remain visible gaps, not "
+            "simulated implementations."
         ),
     }
 

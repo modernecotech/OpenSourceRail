@@ -9,13 +9,14 @@ components = [
   "osr-lighting", "osr-obstacle-detect", "osr-odometry", "osr-hot-axle",
   "osr-passenger-assist", "osr-pis-onboard", "osr-tcn", "osr-traction",
   "osr-cbm-onboard", "osr-event-recorder", "osr-t2g", "osr-tcms",
+  "osr-regen",
 ]
 
 # Linked into the deterministic runtime as shared primitives or infrastructure.
 [runtime_kernel]
 components = [
   "osr-consensus", "osr-core", "osr-crypto", "osr-interlocking", "osr-ptp",
-  "osr-secbus",
+  "osr-proto", "osr-secbus", "osr-selftest",
 ]
 
 # Executes inside osr-sim for each configured station or wayside section tick.
@@ -23,34 +24,31 @@ components = [
 components = [
   "osr-afc", "osr-balise", "osr-hot-axle-wayside", "osr-intrusion-detect", "osr-pis-station", "osr-psd",
   "osr-station-scada",
-  "osr-tvm",
+  "osr-energy-site",
+  "osr-level-crossing", "osr-tvm", "osr-wayside-points",
 ]
 
 # Consumes radio-delivered telemetry in the deterministic ground-service path.
 [backend_stream_processor]
-components = ["osr-afc-backoffice", "osr-analytics", "osr-cbm-backend", "osr-historian"]
+components = ["osr-afc-backoffice", "osr-analytics", "osr-cbm-backend", "osr-historian", "osr-occ"]
 
 # Represented by an aggregate/scenario-native model. This is explicit technical
 # debt: the standalone crate is not claimed to have run.
 [scenario_model]
-components = ["osr-energy-site", "osr-regen"]
+components = []
 
 # Runs before/after the service simulation rather than on every vehicle tick.
 [design_pipeline]
 components = [
-  "osr-alignment", "osr-design", "osr-routing", "osr-safety-case",
-  "osr-trainset-image",
+  "osr-alignment", "osr-city-studio", "osr-design", "osr-routing",
+  "osr-safety-case", "osr-trainset-image",
 ]
 
 # Simulation shell and operator-facing visualisation.
 [simulation_shell]
-components = ["osr-gui-shared", "osr-sim", "osr-sim-gui"]
+components = ["osr-gui-shared", "osr-occ-gui", "osr-sim", "osr-sim-gui"]
 
 # Has a defined integration boundary but is not falsely executed as an onboard
 # tick. These services require their own service/wayside/station test harnesses.
 [external_boundary]
-components = [
-  "osr-level-crossing", "osr-occ", "osr-occ-gui",
-  "osr-proto", "osr-selftest",
-  "osr-wayside-points",
-]
+components = []

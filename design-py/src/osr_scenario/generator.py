@@ -215,6 +215,7 @@ class ScenarioGenerator:
         out.append(self._consist_section())
         out.append(self._stations_section())
         out.append(self._lines_section())
+        out.append(self._wayside_assets_section())
         out.append(self._habd_section())
         out.append(self._fleets_section())
         out.append(self._sites_section())
@@ -634,6 +635,56 @@ class ScenarioGenerator:
             if s["id"] in service_depot_ids:
                 out.append(f"depot_service = true\n")
             out.append("\n")
+        return "".join(out)
+
+    def _wayside_assets_section(self) -> str:
+        """Carry declared switches/crossings into the executable scenario."""
+        switches = list(self.design.get("switches", []))
+        # The Rust design emitter writes its inline switch array immediately
+        # after the final depot table, so TOML correctly scopes it to that
+        # depot. Accept both that generated shape and legacy root declarations.
+        for depot in self.design.get("depots", []):
+            switches.extend(depot.get("switches", []))
+        crossings = list(self.design.get("level_crossings", []))
+        out: list[str] = []
+        if switches:
+            out.append("\n# Point machines — explicit city-design assets.\n")
+            for switch in switches:
+                station = switch.get("station") or switch.get("station_id")
+                if not station:
+                    raise GeneratorError(
+                        f"switch {switch.get('id', '<unnamed>')!r} has no station"
+                    )
+                out.extend(
+                    [
+                        "[[switches]]\n",
+                        f'id = "{_escape(str(switch["id"]))}"\n',
+                        f'station = "{_escape(str(station))}"\n\n',
+                    ]
+                )
+        if crossings:
+            out.append("\n# At-grade crossings — omitted on grade-separated alignments.\n")
+            for crossing in crossings:
+                section = crossing.get("section", {})
+                line = crossing.get("line") or section.get("line")
+                after_station = (
+                    crossing.get("after_station")
+                    or section.get("from")
+                    or section.get("after_station")
+                )
+                if not line or not after_station:
+                    raise GeneratorError(
+                        f"level crossing {crossing.get('id', '<unnamed>')!r} needs line and section.from"
+                    )
+                out.extend(
+                    [
+                        "[[level_crossings]]\n",
+                        f'id = "{_escape(str(crossing["id"]))}"\n',
+                        f'line = "{_escape(str(line))}"\n',
+                        f'after_station = "{_escape(str(after_station))}"\n',
+                        f'offset_m = {int(crossing.get("offset_m", 1))}\n\n',
+                    ]
+                )
         return "".join(out)
 
     def _lines_section(self) -> str:

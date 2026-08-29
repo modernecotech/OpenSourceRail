@@ -63,6 +63,16 @@ def test_scenario_line_count_matches_design() -> None:
     assert len(scenario["lines"]) == len(design["lines"])
 
 
+def test_scenario_carries_explicit_switches_and_omits_absent_crossings() -> None:
+    design = tomllib.loads(SAMAWAH_DESIGN.read_text())
+    scenario = _parse(generate_from_path(SAMAWAH_DESIGN))
+    expected_switches = list(design.get("switches", []))
+    for depot in design.get("depots", []):
+        expected_switches.extend(depot.get("switches", []))
+    assert len(scenario.get("switches", [])) == len(expected_switches)
+    assert scenario.get("level_crossings", []) == []
+
+
 def test_catalog_ring_with_repeated_closing_station_becomes_wrap_segment() -> None:
     lyon_design = REPO_ROOT / "designs/europe/France/Lyon/design.toml"
     scenario = _parse(generate_from_path(lyon_design))

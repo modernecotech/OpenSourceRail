@@ -195,7 +195,7 @@ Not safety-critical; streams telemetry to the depot for offline analysis.
 
 | Crate | Class | SIL | Scope |
 |---|---|---|---|
-| **osr-occ** | O-SRV | 2 | Operations Control Centre. Dispatch UI (Rust/Leptos), incident management, timetable editor, ATS (Automatic Train Supervision). Event-sourced on the NATS JetStream log. |
+| **osr-occ** | O-SRV | 2 | Operations Control Centre. Fleet roster, incident management, dispatch holds, timetable editor and ATS (Automatic Train Supervision). Its deterministic core runs in `osr-sim`; the production event stream remains the deployment boundary. |
 | **osr-historian** | O-SRV | 0 | Time-series ingest + retention. Prometheus remote-write + a typed Parquet archive for audit. |
 | **osr-analytics** | O-SRV | 0 | KPIs (MDBF, availability, kWh/km, regen %, occupancy heatmaps). Consumes the historian; produces Grafana-compatible datasets and monthly PDF reports. |
 | **osr-cbm-backend** | O-SRV | 0 | Depot-side analysis of `osr-cbm-onboard` telemetry. Predictive-maintenance triggers, work-order generation. |

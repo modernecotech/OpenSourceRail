@@ -59,6 +59,14 @@ pub struct RunStateSummary {
     pub balise_audit_findings: u64,
     pub fare_gate_grants: u64,
     pub fare_gate_denials: u64,
+    pub occ_reports: u64,
+    pub occ_active_holds: u32,
+    pub energy_site_evaluations: u64,
+    pub regen_arbiter_ticks: u64,
+    pub proto_frames: u64,
+    pub switch_ticks: u64,
+    pub crossing_count: u32,
+    pub selftest_passes: u32,
     pub tcms_movement_inhibits: u64,
     pub invariant_violations: usize,
 }
@@ -173,6 +181,18 @@ impl SimApp {
                     + result.balise_systems.stale_findings,
                 fare_gate_grants: result.fare_systems.gate_grants,
                 fare_gate_denials: result.fare_systems.gate_denials,
+                occ_reports: result.occ_systems.telemetry_reports_processed,
+                occ_active_holds: result.occ_systems.final_active_dispatch_holds,
+                energy_site_evaluations: result
+                    .energy_sites
+                    .iter()
+                    .map(|site| site.controller_evaluations)
+                    .sum(),
+                regen_arbiter_ticks: result.onboard.total_regen_arbiter_ticks,
+                proto_frames: result.proto_systems.frames_decoded,
+                switch_ticks: result.wayside_asset_systems.switch_controller_ticks,
+                crossing_count: result.wayside_asset_systems.crossing_count,
+                selftest_passes: result.selftest_systems.checks_passed,
                 tcms_movement_inhibits: result.embedded.tcms_departure_inhibit_ticks
                     + result.embedded.tcms_travel_hold_ticks,
                 invariant_violations: result.invariant_violations.len(),
@@ -395,6 +415,51 @@ fn left_sidebar(app: &mut SimApp, ctx: &Context) {
                 r.fare_systems.gate_grants,
                 r.fare_systems.gate_denials,
                 r.fare_systems.settled_fare_cents
+            ));
+            ui.label(format!(
+                "OCC roster / reports / incidents / holds: {} / {} / {} / {}",
+                r.occ_systems.final_roster_count,
+                r.occ_systems.telemetry_reports_processed,
+                r.occ_systems.final_active_incidents,
+                r.occ_systems.final_active_dispatch_holds
+            ));
+            ui.label(format!(
+                "Energy-site calls / conservation errors: {} / {}",
+                r.energy_sites
+                    .iter()
+                    .map(|site| site.controller_evaluations)
+                    .sum::<u64>(),
+                r.energy_sites
+                    .iter()
+                    .map(|site| site.conservation_errors)
+                    .sum::<u64>()
+            ));
+            ui.label(format!(
+                "Regen arbiter ticks / requests / refused mA-ticks: {} / {} / {}",
+                r.onboard.total_regen_arbiter_ticks,
+                r.onboard.total_regen_request_ticks,
+                r.onboard.total_regen_refused_ma
+            ));
+            ui.label(format!(
+                "Wire frames / decode failures / semantic drift: {} / {} / {}",
+                r.proto_systems.frames_decoded,
+                r.proto_systems.decode_failures,
+                r.proto_systems.semantic_mismatches
+            ));
+            ui.label(format!(
+                "Switches / ticks / faults · crossings / ticks / faults: {} / {} / {} · {} / {} / {}",
+                r.wayside_asset_systems.switch_count,
+                r.wayside_asset_systems.switch_controller_ticks,
+                r.wayside_asset_systems.switch_fault_ticks,
+                r.wayside_asset_systems.crossing_count,
+                r.wayside_asset_systems.crossing_controller_ticks,
+                r.wayside_asset_systems.crossing_fault_ticks
+            ));
+            ui.label(format!(
+                "Role preflight pass / fail / skip: {} / {} / {}",
+                r.selftest_systems.checks_passed,
+                r.selftest_systems.checks_failed,
+                r.selftest_systems.checks_skipped
             ));
             ui.separator();
             ui.heading("Station + wayside");
