@@ -50,7 +50,7 @@ from reportlab.platypus import (
 
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
-DEFAULT_OUT = REPO_ROOT / "build/releases/opensource-rail-docs-book.pdf"
+DEFAULT_OUT = REPO_ROOT / "OpenSourceRail-Book.pdf"
 ASSET_CACHE = REPO_ROOT / "build" / "doc-book-assets"
 IMAGE_ERRORS: list[str] = []
 REPOSITORY_BLOB_URL = "https://github.com/modernecotech/OpenSourceRail/blob/main"
@@ -718,6 +718,10 @@ def _city_models() -> list[CityModel]:
     for design_path in sorted((REPO_ROOT / "designs").glob("*/*/*/design.toml")):
         city_dir = design_path.parent
         rel_parts = city_dir.relative_to(REPO_ROOT / "designs").parts
+        # Lyon is retained in the repository as an engineering comparison, not
+        # as evidence for the developing-world programme covered by the book.
+        if rel_parts[0] == "europe":
+            continue
         design = _load_toml(design_path)
         city = design.get("city", {})
         lines = design.get("lines", [])
@@ -1038,6 +1042,8 @@ def build_pdf(out_path: Path, include_images: bool, max_image_px: int, image_qua
         bottomMargin=bottom,
         title="OpenSourceRail Documentation Book",
         author="OpenSourceRail",
+        invariant=True,
+        pageCompression=1,
     )
     if IMAGE_ERRORS:
         details = "\n".join(f"- {error}" for error in IMAGE_ERRORS)
@@ -1049,8 +1055,8 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--out", type=Path, default=DEFAULT_OUT, help="Output PDF path.")
     parser.add_argument("--no-images", action="store_true", help="Skip local images.")
-    parser.add_argument("--max-image-px", type=int, default=1400, help="Maximum cached image dimension.")
-    parser.add_argument("--image-quality", type=int, default=72, help="JPEG quality for cached images.")
+    parser.add_argument("--max-image-px", type=int, default=900, help="Maximum cached image dimension.")
+    parser.add_argument("--image-quality", type=int, default=60, help="JPEG quality for cached images.")
     parser.add_argument(
         "--list-sources",
         action="store_true",

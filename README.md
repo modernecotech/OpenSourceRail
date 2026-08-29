@@ -18,6 +18,10 @@ integrated simulation, and review the resulting engineering and cost evidence.
 
 ![OpenSourceRail light-metro reference trainset](docs/assets/solar-metro-trainset.png)
 
+**Start here:** read or download the [complete PDF book](OpenSourceRail-Book.pdf),
+open the [one-page overview](docs/open-source-rail-overview.html), or install and
+start the Workbench with `./install.sh` followed by `./scripts/osr`.
+
 The public evidence scope covers **265 cities in 43 developing countries**.
 The engineering catalogue contains 266 models; one European comparison model
 is retained for technical inspection but excluded from portfolio totals,
@@ -70,7 +74,7 @@ instead of browsing the folder tree or the generated file inventory.
 | Review safety, certification or open gaps | [Certification](docs/certification/README.md), [safety case](docs/safety-case/README.md) and [roadmap](docs/ROADMAP.md) |
 | Contribute or make a release | [Contributing](CONTRIBUTING.md) and [release checklist](docs/releases.md) |
 | Share a short non-technical summary | [Generated one-page overview](docs/open-source-rail-overview.html) |
-| Build the complete reader book | `./scripts/osr book` |
+| Read the complete documentation | [Complete PDF book](OpenSourceRail-Book.pdf); rebuild it with `./scripts/osr book` |
 
 ## Run The Platform
 
@@ -90,6 +94,18 @@ asks whether to add the larger FreeCAD, Blender/Bonsai, QGIS, CloudCompare and
 SUMO applications, and whether to start the GUI. There are no setup options or
 environment variables to configure.
 
+After setup, one command regenerates the shared design and cost data, product
+catalogues, browser and native applications, BOMs, IFC4.3 reference packages,
+the root PDF book, and documentation checks:
+
+```bash
+./scripts/osr build
+```
+
+It uses the checked-in city models and therefore does not silently reroute all
+265 public city plans from changing internet data. Route changes are made in
+City Studio or regenerated explicitly with their source locks.
+
 Run the integrated Workbench:
 
 ```bash
@@ -105,29 +121,21 @@ Run the deterministic simulator:
 ./scripts/osr sim --duration 3600 --status-every 300
 ```
 
-Run a different generated city:
+The generated applications are under `build/frontend/`, native executables are
+under `target/release/`, engineering/BIM/BOM outputs are under `build/`, and
+the reader book is [OpenSourceRail-Book.pdf](OpenSourceRail-Book.pdf). The
+tracked FreeCAD review assemblies are in
+[`mechanical-py/catalog/freecad/`](mechanical-py/catalog/freecad/).
 
-```bash
-./scripts/osr sim \
-  --config designs/south-asia/Pakistan/Karachi/karachi.toml \
-  --duration 3600
-```
+## What The Repository Contains
 
-Regenerate one city:
-
-```bash
-scripts/regenerate-city.sh samawah
-```
-
-Generate or check the main engineering packages:
-
-```bash
-scripts/design-iterate.sh
-scripts/buildable-trainset.sh
-scripts/buildable-stations.sh
-scripts/freecad-generate.sh --check
-scripts/bonsai-civil.sh --check
-```
+| Area | Inspectable result | Status boundary |
+|---|---|---|
+| City portfolio | 265 developing-world models with routes, stations, fleets, GIS layers, energy, costs and local evidence | Deterministic planning models; local survey and demand calibration remain required |
+| City Studio | Layered GIS editing, route/station tools, service-by-line/day/hour controls, revision comparison and engineering jobs | Local planning workspace, not an approved design-authoring or live-control system |
+| Civil and stations | Parametric component catalogue, OSR-ALN, IFC4.3 federation, IDS/BCF checks, quantities and 4D review | IFC/Bonsai coordinates information; released structural calculations and drawings remain external gates |
+| Rolling stock | LM3 product tree, CAD review assemblies, BOM, mechanical fixtures, embedded roles and simulation adapters | Design-reference package, not homologated manufacturing data |
+| Operations | OCC training, Ops Core, manufacturing/QA/maintenance records and safety evidence links | Training and assurance workflow; no live railway command authority |
 
 ## Evidence And Revision Model
 
@@ -161,7 +169,9 @@ Generated files are review evidence, not parallel inputs.
 | Shared planning assumptions | [`lib/templates/`](lib/templates/) and [`lib/recipes/`](lib/recipes/) | City designs, finance, energy and engineering evidence |
 | City catalogue membership | [`lib/city-batches/world-sample.toml`](lib/city-batches/world-sample.toml) | [`designs/`](designs/README.md) catalogue and national briefs |
 | Interactive city revisions | [`projects/`](projects/README.md) | Content-addressed candidates and exported city packages |
-| Mechanical and civil geometry | [`mechanical-py/src/osr_mech/`](mechanical-py/src/osr_mech/) | FreeCAD, IFC, BOM, traveler and screenshot catalogues |
+| Mechanical, station and reusable civil-component geometry | [`mechanical-py/src/osr_mech/`](mechanical-py/src/osr_mech/) | FreeCAD review assemblies, BOMs, travelers and screenshots |
+| Survey, GIS and railway alignment | Accepted deployment GIS plus OSR-ALN project sources | QGIS layers, GeoPackages, corridor exports and IFC alignment references |
+| Federated civil BIM | Parametric component geometry plus approved alignment and engineering inputs | IFC4.3 generated by [`civil_bonsai_ifc.py`](engineering/interchange/civil_bonsai_ifc.py), checked with IfcOpenShell and reviewed in Bonsai |
 | Civil rates and city costs | [`lib/templates/civil-cost-calibration.toml`](lib/templates/civil-cost-calibration.toml), geometry and reviewed assumptions | Generated rate contract, [cost model](docs/cost-model.md) and city CAPEX |
 | Hardware integration | [`hardware/`](hardware/README.md) and governing RFCs | BOMs, wiring packs and release evidence |
 | Operations and safety requirements | [`docs/operations/`](docs/operations/README.md), [`docs/certification/`](docs/certification/README.md) and [`formal/`](formal/README.md) | Portal data, safety-case views and acceptance reports |

@@ -443,6 +443,7 @@ main() {
         exec "$ROOT/scripts/osr"
     fi
     printf 'Start it later with: ./scripts/osr\n'
+    printf 'Regenerate the complete public system with: ./scripts/osr build\n'
 }
 
 main "$@"

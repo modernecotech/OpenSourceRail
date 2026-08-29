@@ -1,11 +1,13 @@
 # Lyon — Urban Rail Network
 
-**Country:** FR · **Population:** 1,436,354 · [National brief](../NATIONAL-BRIEF.md)
+**Country:** FR · **Population:** 1,436,354
 
 This page contains only Lyon-specific results. Shared routing, service, energy, civil, cost, finance, QA and validation methods are defined once in the [deployment planning reference](../../../../docs/deployment-planning-reference.md).
 
-> [!IMPORTANT]
-> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this local plan avoids **$3.46 bn (86.0%) of external capital** and **$4.17 bn of external interest**. Capital plus saved interest totals **$7.63 bn**. See the common reference for interpretation and limitations.
+> [!NOTE]
+> **Technical comparison only.** This model is retained for regression and
+> engineering inspection. It is excluded from the developing-world programme,
+> portfolio, national briefs, reader-book city evidence, and public examples.
 
 Auto-planned by the OpenSourceRail design pipeline from the controlled city catalogue, source-locked geospatial inputs and shared templates.
 

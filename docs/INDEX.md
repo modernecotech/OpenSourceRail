@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 scripts/generate-doc-index.py
 ```
 
-Indexed Markdown files: **1279**.
+Indexed Markdown files: **1278**.
 
 ## Sections
 
@@ -24,7 +24,7 @@ Indexed Markdown files: **1279**.
 | [Repository Root](#repository-root) | 5 |
 | [crates](#crates) | 4 |
 | [deployment](#deployment) | 1 |
-| [designs](#designs) | 844 |
+| [designs](#designs) | 843 |
 | [docs](#docs) | 132 |
 | [engineering](#engineering) | 2 |
 | [formal](#formal) | 2 |
@@ -312,7 +312,6 @@ Indexed Markdown files: **1279**.
 | [`designs/europe/France/Lyon/README.md`](../designs/europe/France/Lyon/README.md) | Lyon — Urban Rail Network |
 | [`designs/europe/France/Lyon/engineering/alignment/README.md`](../designs/europe/France/Lyon/engineering/alignment/README.md) | Lyon Planning OSR-ALN Package |
 | [`designs/europe/France/Lyon/operations/acceptance-evidence-report.md`](../designs/europe/France/Lyon/operations/acceptance-evidence-report.md) | Lyon Acceptance And Accreditation Evidence Basis |
-| [`designs/europe/France/NATIONAL-BRIEF.md`](../designs/europe/France/NATIONAL-BRIEF.md) | France National OpenSourceRail Strategy |
 | [`designs/latin-america/Bolivia/La-Paz/README.md`](../designs/latin-america/Bolivia/La-Paz/README.md) | La-Paz — Urban Rail Network |
 | [`designs/latin-america/Bolivia/La-Paz/engineering/alignment/README.md`](../designs/latin-america/Bolivia/La-Paz/engineering/alignment/README.md) | La-Paz Planning OSR-ALN Package |
 | [`designs/latin-america/Bolivia/La-Paz/operations/acceptance-evidence-report.md`](../designs/latin-america/Bolivia/La-Paz/operations/acceptance-evidence-report.md) | La Paz Acceptance And Accreditation Evidence Basis |
@@ -1129,7 +1128,7 @@ Indexed Markdown files: **1279**.
 
 | File | Title |
 |---|---|
-| [`mechanical-py/README.md`](../mechanical-py/README.md) | mechanical-py — parametric mechanical + civil + station catalogue |
+| [`mechanical-py/README.md`](../mechanical-py/README.md) | mechanical-py — Parametric Component Catalogue |
 | [`mechanical-py/catalog/README.md`](../mechanical-py/catalog/README.md) | Generated Mechanical Review Artifacts |
 | [`mechanical-py/catalog/buildable-stations/README.md`](../mechanical-py/catalog/buildable-stations/README.md) | Buildable station kit catalogue |
 | [`mechanical-py/catalog/buildable-stations/open-release-gaps.md`](../mechanical-py/catalog/buildable-stations/open-release-gaps.md) | Station open release gap register |

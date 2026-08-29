@@ -91,7 +91,7 @@ def test_thin_wrapper_directories_do_not_return() -> None:
 
 def test_public_overview_is_generated_from_current_metrics() -> None:
     generator = runpy.run_path(
-        str(REPO_ROOT / "scripts/generate-introduction-brochure.py")
+        str(REPO_ROOT / "scripts/generate-public-overview.py")
     )
     output = generator["OUTPUT"]
     actual = output.read_text(encoding="utf-8")
@@ -117,6 +117,11 @@ def test_public_portfolio_and_deployment_examples_exclude_europe() -> None:
     assert "266-city / 44-country" not in portfolio
     assert "Lyon" not in portfolio
     assert "Lyon" not in deployment
+    assert not (REPO_ROOT / "designs/europe/France/NATIONAL-BRIEF.md").exists()
+    lyon = (REPO_ROOT / "designs/europe/France/Lyon/README.md").read_text()
+    assert "Technical comparison only" in lyon
+    assert "National brief" not in lyon
+    assert "Foreign-capital advantage" not in lyon
     assert not (
         REPO_ROOT / "docs/outreach/open-source-rail-outreach-contacts.md"
     ).exists()
@@ -179,16 +184,17 @@ def test_complete_book_manifest_covers_reader_documentation() -> None:
     assert not any("/definitions/" in path or "/travelers/" in path for path in relative)
 
 
-def test_complete_book_manifest_covers_every_city_model() -> None:
+def test_complete_book_manifest_covers_every_public_city_model() -> None:
     builder = runpy.run_path(str(REPO_ROOT / "scripts/build-doc-book.py"))
     models = builder["_city_models"]()
     model_paths = {model.path.relative_to(REPO_ROOT).as_posix() for model in models}
     expected = {
         path.parent.relative_to(REPO_ROOT).as_posix()
         for path in (REPO_ROOT / "designs").glob("*/*/*/design.toml")
+        if path.relative_to(REPO_ROOT / "designs").parts[0] != "europe"
     }
     assert model_paths == expected
-    assert len(models) == 266
+    assert len(models) == len(expected) == 265
 
 
 def test_book_renderer_preserves_titles_callouts_images_and_html() -> None:

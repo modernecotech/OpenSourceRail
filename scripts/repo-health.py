@@ -270,10 +270,13 @@ def check_city_artifacts() -> list[Finding]:
                 findings.append(Finding(readme, "missing imported/external capital requirement"))
             if "External capital saved vs default turnkey sensitivity" not in text:
                 findings.append(Finding(readme, "missing foreign-turnkey capital comparison"))
-            if "> **Foreign-capital advantage:**" not in text:
-                findings.append(Finding(readme, "missing headline foreign-capital advantage"))
-            if "Capital plus saved interest totals" not in text:
-                findings.append(Finding(readme, "missing lifetime capital-and-interest saving"))
+            if actual_continent != "europe":
+                if "> **Foreign-capital advantage:**" not in text:
+                    findings.append(Finding(readme, "missing headline foreign-capital advantage"))
+                if "Capital plus saved interest totals" not in text:
+                    findings.append(Finding(readme, "missing lifetime capital-and-interest saving"))
+            elif "Technical comparison only" not in text:
+                findings.append(Finding(readme, "comparison-only scope is not explicit"))
             for stale in ("Traction power", "€0.8 M/km", "Residual train-control wayside + power"):
                 if stale in text:
                     findings.append(Finding(readme, f"stale generated README wording: {stale!r}"))
@@ -913,17 +916,17 @@ def check_generated_portfolio_summary() -> list[Finding]:
     return []
 
 
-def check_generated_introduction_brochure() -> list[Finding]:
+def check_generated_public_overview() -> list[Finding]:
     path = REPO_ROOT / "docs/open-source-rail-overview.html"
-    generator = REPO_ROOT / "scripts/generate-introduction-brochure.py"
+    generator = REPO_ROOT / "scripts/generate-public-overview.py"
     module = runpy.run_path(str(generator))
     expected = module["render"]()
     if not path.is_file() or path.read_text() != expected:
         return [
             Finding(
                 path,
-                "generated introduction overview is stale; run "
-                "scripts/generate-introduction-brochure.py",
+                "generated public overview is stale; run "
+                "scripts/generate-public-overview.py",
             )
         ]
     return []
@@ -1131,7 +1134,7 @@ def run_checks() -> list[Finding]:
     findings.extend(check_current_network_osr_aln())
     findings.extend(check_generated_cost_model())
     findings.extend(check_generated_portfolio_summary())
-    findings.extend(check_generated_introduction_brochure())
+    findings.extend(check_generated_public_overview())
     findings.extend(check_cost_reference_tables())
     findings.extend(check_readme_corpus())
     findings.extend(check_simulation_component_coverage())

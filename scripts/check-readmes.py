@@ -8,6 +8,17 @@ import subprocess
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
+PUBLIC_REGIONS = {
+    "central-africa",
+    "east-africa",
+    "latin-america",
+    "north-africa",
+    "south-africa",
+    "south-asia",
+    "southeast-asia",
+    "west-africa",
+    "west-asia",
+}
 
 
 def tracked_readmes() -> list[Path]:
@@ -47,6 +58,37 @@ def main() -> int:
         for heading in ("## Find Your Way", "## Source Of Truth"):
             if heading not in root_text:
                 findings.append(f"README.md: missing front-door section {heading!r}")
+        if "[complete PDF book](OpenSourceRail-Book.pdf)" not in root_text:
+            findings.append("README.md: missing root PDF-book link")
+        if "./scripts/osr build" not in root_text:
+            findings.append("README.md: missing one-command complete build")
+        design_paths = sorted((REPO_ROOT / "designs").glob("*/*/*/design.toml"))
+        public_paths = [
+            path
+            for path in design_paths
+            if path.relative_to(REPO_ROOT / "designs").parts[0] in PUBLIC_REGIONS
+        ]
+        countries = {
+            path.relative_to(REPO_ROOT / "designs").parts[1]
+            for path in public_paths
+        }
+        expected_scope = (
+            f"**{len(public_paths)} cities in {len(countries)} developing countries**"
+        )
+        if expected_scope not in root_text:
+            findings.append(
+                f"README.md: public evidence count is stale; expected {expected_scope}"
+            )
+    if not (REPO_ROOT / "OpenSourceRail-Book.pdf").is_file():
+        findings.append("OpenSourceRail-Book.pdf: missing published reader book")
+    elif subprocess.run(
+        ["git", "ls-files", "--error-unmatch", "OpenSourceRail-Book.pdf"],
+        cwd=REPO_ROOT,
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.DEVNULL,
+        check=False,
+    ).returncode:
+        findings.append("OpenSourceRail-Book.pdf: book exists locally but is not tracked")
     if not docs_readme.is_file():
         findings.append("docs/README.md: missing documentation pointer")
     else:
@@ -119,6 +161,10 @@ def main() -> int:
                         f"{duplicated_heading!r}"
                     )
         if path.name == "NATIONAL-BRIEF.md":
+            if relative.parts[1] not in PUBLIC_REGIONS:
+                findings.append(
+                    f"{relative}: comparison-only region must not publish a national brief"
+                )
             if "[deployment planning reference]" not in text:
                 findings.append(f"{relative}: national brief lacks common-method link")
             if len(text.splitlines()) > 100:

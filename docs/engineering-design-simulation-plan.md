@@ -25,8 +25,10 @@ following authority boundaries:
 | Federated station/civil coordination model | IFC4.3 export checked with IfcOpenShell and reviewed in Bonsai | BCF/IDS findings, quantities, drawings, and 4D task-product links |
 | Analysis evidence | Versioned input deck, assumptions, solver/version, convergence log, and reviewed summary | Results are evidence, never a replacement for canonical geometry or requirements |
 
-FreeCAD therefore remains the primary CAD and first-pass FEA environment.
-QGIS remains the primary geospatial and alignment-review environment. The
+FreeCAD is the baseline component-CAD, assembly-review, drawing, and first-pass
+FEA environment for mechanical, station, and reusable civil-kit parts. It is
+not the authority for surveyed routes or the federated civil model. QGIS
+remains the primary geospatial and alignment-review environment. The
 FreeCAD Road/Trails family may be evaluated for visual coordination, but it
 must not become the surveyed alignment authority until an OSR-ALN round-trip
 benchmark passes without station, curve, level, cant, or CRS loss.
@@ -45,7 +47,7 @@ interchange trial before project data is committed to them.
 
 | Work area | Selection | Class | Intended use and boundary |
 |---|---|---:|---|
-| Parametric CAD, assemblies, drawings | [FreeCAD](https://www.freecad.org/) | Baseline | Mechanical and station geometry, Assembly/Part Design/TechDraw, IFC/STEP handoff; the installed Flatpak is currently 1.1.3 |
+| Parametric component CAD, assemblies, drawings | [FreeCAD](https://www.freecad.org/) | Baseline | Mechanical, station and reusable civil-kit geometry; Assembly/Part Design/TechDraw and IFC/STEP handoff. The generated evidence records the actual tool version used. |
 | First-pass structural and thermal FEA | [FreeCAD FEM](https://github.com/FreeCAD/FreeCAD-documentation/blob/main/wiki/FEM_Workbench.md), CalculiX, and Gmsh | Baseline | Repeatable component, frame, bracket, platform, and catalogue-structure screening; FreeCAD calls external meshers/solvers, so each evidence pack records all three versions |
 | Survey/GIS/alignment review | [QGIS](https://docs.qgis.org/latest/en/docs/user_manual/) and GDAL | Baseline | Control, terrain, parcels, utilities, flood layers, station siting, CRS control, and LandXML/OSR-ALN review |
 | GNSS processing | [RTKLIB](https://github.com/tomojitakasu/RTKLIB) | Baseline when field data arrives | Static/kinematic GNSS processing and reproducible control reports; a licensed surveyor owns control acceptance |
@@ -66,9 +68,9 @@ interchange trial before project data is committed to them.
 | Commercial railway timetable/capacity cross-check | [OpenTrack](https://www.opentrack.ch/opentrack/opentrack_e/opentrack_e.html) | Optional licensed evaluation | Do not replace SUMO or `osr-sim`; after lawful procurement, trial Samawah Line 1 for running time, block occupation, minimum headway and seeded robustness per the [OpenTrack evaluation](opentrack-evaluation.md) |
 | Vehicle multibody dynamics | [Project Chrono](https://projectchrono.org/) | Evaluation/conditional | Suspension, articulation and component motion studies; rail wheel/contact behavior requires an OSR benchmark and is not available merely by importing the CAD model |
 
-The current workstation has the adopted baseline installed through isolated
-Flatpaks, a pinned Python environment, and versioned user-local native
-releases. Exact commits, versions, licenses, source URLs and checksums are in
+The supported toolchain uses isolated Flatpaks, a pinned Python environment,
+and versioned user-local native releases. Exact adopted versions, licenses,
+source URLs and checksums are in
 [`engineering/toolchain/tool-manifest.toml`](../engineering/toolchain/tool-manifest.toml).
 OpenDroneMap remains gated on survey mobilisation; the conditional/evaluation
 solvers remain uninstalled until their adoption gate identifies a concrete

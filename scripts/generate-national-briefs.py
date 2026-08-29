@@ -40,6 +40,18 @@ FAMILY_CARS = {
     "metro-6car": 6,
 }
 
+PUBLIC_REGIONS = {
+    "central-africa",
+    "east-africa",
+    "latin-america",
+    "north-africa",
+    "south-africa",
+    "south-asia",
+    "southeast-asia",
+    "west-africa",
+    "west-asia",
+}
+
 
 @dataclass(frozen=True)
 class CityCapital:
@@ -438,6 +450,9 @@ def main() -> int:
     )["countries"]
     grouped: dict[tuple[str, Path], list[CityCapital]] = defaultdict(list)
     for design_path in sorted((REPO_ROOT / "designs").glob("*/*/*/design.toml")):
+        region = design_path.relative_to(REPO_ROOT / "designs").parts[0]
+        if region not in PUBLIC_REGIONS:
+            continue
         code, city = load_city(design_path)
         grouped[(code, design_path.parent.parent)].append(city)
 

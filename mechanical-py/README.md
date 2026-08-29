@@ -1,30 +1,28 @@
-# mechanical-py — parametric mechanical + civil + station catalogue
+# mechanical-py — Parametric Component Catalogue
 
-Every piece of the OpenSourceRail physical catalogue — rails, sleepers,
-decked Pi-beams, special U-girders, station canopies, turnout kits, depot doors, solar mounts —
-is expressed as a parametric Python CAD assembly.
+Reusable OpenSourceRail rolling-stock, track, station, and civil-kit components
+are expressed as parametric Python geometry. Deployment survey, railway
+alignment, ground conditions, structural release calculations, and the
+federated civil model have separate authorities.
 
 ## Design philosophy
 
-The whole catalogue is biased toward **prefabrication and bolt-together
-assembly**. Every design choice in this package is made against three
-criteria, in order:
+The catalogue is biased toward **prefabrication and maintainable mechanical
+connections**. Design choices use three priorities:
 
-1. **Eliminate on-site structural engineering.** The deployment partner's
-   civil engineer should never have to redesign a structural member.
-   Everything is cataloged with published load envelopes; the engineer's
-   job is to pick a kit size, not to draw a new one.
+1. **Reduce bespoke site design.** Reusable families and stated planning
+   envelopes reduce repeated work. A competent deployment engineer must still
+   select, adapt, analyse, detail, and release every site-specific application.
 
-2. **Eliminate on-site welding and wet concrete.** Hot-dip galvanised
-   bolted steel + precast concrete is the default. The only on-site
-   concrete is pad footings. The only on-site welding is the continuous-
-   welded rail (CWR), which is already standard practice.
+2. **Minimise site welding and wet work.** Bolted steel and precast elements
+   are preferred where the released structural, durability, transport, and
+   construction design supports them. Foundations, closures, reinforcement,
+   grouting, rail welding, and temporary works remain deployment-specific.
 
-3. **Ship flat, erect fast.** Every assembly is dimensioned so one
-   standard lorry (13.6 m flatbed × 2.48 m × 2.65 m height) can take
-   a meaningful erection package. A `standard` station canopy is two
-   lorry-loads of steel + roof panels; erection is 3–5 days with a
-   small crew and a 30 t crawler crane.
+3. **Design for transport and assembly.** Catalogue modules target practical
+   road transport and repeatable erection, but actual vehicle limits, lifting
+   studies, crane selection, temporary works, crew, and programme are released
+   for each deployment.
 
 ## What's in scope
 
@@ -36,10 +34,10 @@ criteria, in order:
 | `osr_mech.rolling_stock` | Car body, bogies, trainsets, doors, batteries, traction/electronics, T-OBS, COTS fit-out and the common service-rail/fastener/fixture system |
 | `osr_mech.cad_templates` | Fabrication templates plus supplier-neutral COTS fixture envelopes |
 
-The current CAD is an envelope and design-review package, not a
+The CAD is an envelope and design-review package, not a
 homologated production drawing set. It now includes COTS-inspired
 fixture geometry, rolling-stock systems, and sheet-metal/chassis
-templates. Remaining v0.2 production-detail work is supplier-exact
+templates. Remaining production-detail work includes supplier-exact
 SKUs, weld maps, tolerance stacks, FEA-ready brackets, harness clamp
 locations, and controlled 2D manufacturing drawings.
 
@@ -60,8 +58,10 @@ operator has already made in `design.toml`:
 - **Civil class** (at-grade / elevated / bridge) → ST6 or Pi20/Pi25 product, foundation zone and special-span interface
   + pier spacing or ballast depth.
 
-So `design.toml` drives both the Rust planning pipeline *and* the
-mechanical catalogue. One source of truth for the whole deployment.
+`design.toml` supplies planning selections to both the Rust pipeline and the
+component catalogue. It is not the sole source for a deployment: accepted GIS
+and survey data, OSR-ALN alignment, released analysis and drawings, supplier
+records, and operational evidence retain their own controlled authorities.
 
 ## Canonical Source
 
@@ -76,10 +76,10 @@ The source geometry uses the local `osr_mech.cad` facade. Under
 ordinary Python it keeps lightweight volume and bounding-box metadata so
 the unit tests can run without a local FreeCAD install.
 
-For an end-to-end civil review, run
+For a component-and-system integration review in FreeCAD, run
 `scripts/freecad_civil_systems_example.sh`. It creates
 [`catalog/freecad/civil-systems-integration-test.FCStd`](catalog/freecad/civil-systems-integration-test.FCStd)
-with canonical viaduct, elevated-station, ground-station, turnout, and two
+with reference viaduct, elevated-station, ground-station, turnout, and two
 complete three-car trainset assemblies plus executable bearing, track-support,
 platform-height, and clearance checks. Its paired
 [`catalog/freecad/civil-systems-integration-test.json`](catalog/freecad/civil-systems-integration-test.json)
@@ -202,28 +202,26 @@ can generate local neutral CAD exports from the same source if their
 toolchain requires them, but those exports are not committed because
 they are bulky and reproducible.
 
-The published load envelopes (in the component docstrings) are
-conservative — every kit is sized for the worst of:
+The component docstrings carry common screening cases for early comparison:
 
 - EN 1991-2 rail loading (LM71 × α = 0.83 for light metro).
-- Eurocode 8 seismic (PGA 0.3 g, which covers most of the target
-  deployment footprint from MENA through South Asia).
+- Eurocode 8 seismic screening at PGA 0.3 g.
 - Wind: 50 m/s basic wind speed (typhoon-class).
 - Thermal: ΔT = 70 K for steel, 35 K for concrete.
 
-Deployment sites with harsher envelopes need a beefed-up variant; we'd
-rather add a "heavy" SKU than weaken the standard.
+These values do not establish site suitability or structural capacity. Every
+deployment must derive its applicable actions, combinations, material data,
+ground response, fatigue and durability requirements, then release the chosen
+or adapted family through project calculations and drawings.
 
 ## FreeCAD assembly bridge
 
 ### FreeCAD MCP bridge
 
-FreeCAD 1.1.3 is available through Flatpak on the development workstation,
-and the optional MIT-licensed FreeCAD MCP addon/server is installed for
-local use. For this Flatpak, the addon is installed under FreeCAD's
-versioned user directory (`.../FreeCAD/v1-1/Mod/`). Restart FreeCAD,
-switch to the **MCP Addon** workbench, and
-start its RPC server before starting an MCP client. The optional
+The supported installer provides FreeCAD through Flatpak. An optional
+MIT-licensed FreeCAD MCP addon/server may be used for interactive local review;
+restart FreeCAD, switch to the **MCP Addon** workbench, and start its RPC server
+before starting an MCP client. The optional
 repository-local MCP client example is in
 [`../.mcp.json`](../.mcp.json); it expects `freecad-mcp` on `PATH` and
 uses localhost only with text feedback by default. Machine-specific
@@ -247,7 +245,7 @@ deployment partners can regenerate the same artifacts from one command:
 - `--screenshots` and `--station-scenes` → stable documentation images
   under `docs/screenshots/freecad/` and `docs/screenshots/stations/`
 - `--samawah-line-twin` → the full-line FreeCAD/JSON asset twin plus the
-  Blender 5.2 perspective S5 operations scene, MP4, and README GIF
+  Blender perspective S5 operations scene, MP4, and README GIF
 
 `osr_mech.freecad_trainset` builds a structured FreeCAD document
 directly from the parametric source geometry. The resulting `.FCStd`

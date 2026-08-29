@@ -17,5 +17,10 @@ Technical material remains beside the source or discipline it explains:
 The generated [Markdown inventory](INDEX.md) lists tracked files for search and
 CI diagnostics. It is not a reading path or a technical source of truth.
 
+The published reader edition is available directly from the repository as the
+[complete PDF book](../OpenSourceRail-Book.pdf). It is generated from the
+validated documentation manifest and developing-world city models; source
+Markdown remains authoritative when a discrepancy is found.
+
 Documentation ownership and generated-artifact rules are defined by the
 [repository artifact policy](repository-artifact-policy.md).

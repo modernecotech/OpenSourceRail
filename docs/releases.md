@@ -19,8 +19,8 @@ The next version remains unselected until its scope and evidence are reviewed.
 - [ ] Open gates distinguish completed work from external evidence gaps.
 - [ ] `Cargo.toml`, `Cargo.lock`, `VERSION`, changelog and notes agree.
 - [ ] Local Markdown links pass.
-- [ ] Reader PDF, public overview, evidence matrix and release assets are
-  generated from the release commit.
+- [ ] Root reader PDF, public overview, evidence matrix and release assets are
+  regenerated from the release commit with `./scripts/osr build`.
 - [ ] Attached assets have SHA-256 checksums.
 - [ ] The immutable tag is created only after the release commit is final.
 - [ ] GitHub release metadata uses `modernecotech/OpenSourceRail`.

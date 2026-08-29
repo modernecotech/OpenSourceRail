@@ -37,25 +37,25 @@ generated review set.
 
 ## Add-on and Render Toolchain
 
-The local FreeCAD runtime checked for this package is the
-`org.freecad.FreeCAD` Flatpak at FreeCAD 1.1.3. The useful additional
-modules installed into its user profile are:
+The supported launcher checks the `org.freecad.FreeCAD` Flatpak and records the
+actual runtime in generated evidence. Optional workbenches are review aids;
+they do not change the Python geometry or IFC/Bonsai authority boundaries.
 
 | Capability | Installed tool | Current use |
 |---|---|---|
 | Assembly review | FreeCAD 1.1 built-in Assembly, Assembly4, A2plus | Existing generated review states remain source-driven; Assembly4/A2plus are available for GUI datum, constraint, and kinematic inspection experiments |
 | Structural testing | FreeCAD FEM plus CalculiX | Already used for chassis, bogie, body, and train-to-train joint screening cases in [`../fea/`](../fea/) |
 | Mould/manufacturing checks | DFM workbench with `OCP`, `vtk`, and `gmsh` in FreeCAD's Flatpak Python | Available for draft, undercut, wall/thickness, bridge-span, and process checks on moulded GFRP/end-cowl candidates; not yet a release gate |
-| High-quality stills | Render workbench plus the optional Blender/Cycles export path | `--high-quality-renders` is supported, but Blender is not installed in the currently audited environment; the GIF path does not require it |
+| High-quality stills | Render workbench plus the optional Blender/Cycles export path | `--high-quality-renders` uses Blender when installed; the GIF path does not require it |
 
 For repeatable repository animation, the selected path is FreeCAD's built-in
-Coin3D view renderer plus ImageMagick GIF encoding: both are locally available,
-headless, and operate directly on the checked FCStd source. Blender's
+Coin3D view renderer plus ImageMagick GIF encoding. The runner checks both
+dependencies and operates directly on the generated FCStd review file. Blender's
 [Python animation API](https://docs.blender.org/api/dev/info_quickstart.html)
 is the stronger future route for cinematic lighting and materials, while
 Godot's [glTF/3D scene importer](https://docs.godotengine.org/en/stable/tutorials/assets_pipeline/importing_3d_scenes/index.html)
-is suitable for a user-driven interactive twin. Neither is installed or needed
-for the tracked GIF. FreeCAD's optional
+is suitable for a user-driven interactive twin. Neither Blender nor Godot is
+needed for the tracked GIF. FreeCAD's optional
 [Animation workbench](https://www.freecad.org/addons.php?lang=eng) is also not
 required because the repository script drives placements and frames directly.
 

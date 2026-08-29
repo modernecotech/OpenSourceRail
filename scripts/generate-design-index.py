@@ -26,7 +26,8 @@ def _coverage(city_dir: Path) -> float:
 
 
 def main() -> int:
-    rows: list[str] = []
+    public_rows: list[str] = []
+    comparison_rows: list[str] = []
     for design_path in sorted(DESIGNS.glob("*/*/*/design.toml")):
         design = tomllib.loads(design_path.read_text())
         city = design.get("city", {})
@@ -37,12 +38,16 @@ def main() -> int:
         relative = design_path.parent.relative_to(DESIGNS)
         slug = str(city.get("slug", design_path.parent.name.lower().replace(" ", "-")))
         target = relative.as_posix() + "/"
-        rows.append(
+        row = (
             f"| [{city.get('name', design_path.parent.name)}]({target}) "
             f"| `{family}` | {len(lines)} | {len(design.get('stations', []))} | "
             f"{route_km:.1f} | {sum(int(item.get('trainset_count', 0)) for item in fleets)} "
             f"| {_coverage(design_path.parent):.0%} |"
         )
+        if relative.parts[0] == "europe":
+            comparison_rows.append(row)
+        else:
+            public_rows.append(row)
 
     source = tomllib.loads(CATALOG.read_text())
     expected = {str(city["slug"]) for city in source.get("cities", [])}
@@ -94,8 +99,10 @@ def main() -> int:
     content = [
         "# City Design Catalogue",
         "",
-        f"This directory retains the compact machine-readable result set for all {len(rows)} cities",
-        "defined by `lib/city-batches/world-sample.toml`. These routed designs are retained",
+        f"This directory retains {len(public_rows)} developing-world city planning models and",
+        f"{len(comparison_rows)} technical comparison "
+        f"model{'s' if len(comparison_rows) != 1 else ''} defined by",
+        "`lib/city-batches/world-sample.toml`. These routed designs are retained",
         "because reproducing them can require external OSM and population inputs.",
         "",
         "Generated city READMEs contain local values and evidence only. Shared methodology",
@@ -130,7 +137,17 @@ def main() -> int:
         "",
         "| City | Train family | Lines | Stations | Route km | Fleet | High-demand coverage |",
         "|---|---|---:|---:|---:|---:|---:|",
-        *rows,
+        *public_rows,
+        "",
+        "## Technical comparison model",
+        "",
+        "The model below is retained only for engineering comparison and regression",
+        "inspection. It is excluded from the public programme, portfolio, national",
+        "briefs, reader-book city evidence, and front-page examples.",
+        "",
+        "| City | Train family | Lines | Stations | Route km | Fleet | High-demand coverage |",
+        "|---|---|---:|---:|---:|---:|---:|",
+        *comparison_rows,
         "",
         "```bash",
         "scripts/regenerate-city.sh samawah",
@@ -139,7 +156,10 @@ def main() -> int:
         "The command refreshes the full package in the canonical `designs/` tree.",
     ]
     OUT.write_text("\n".join(content) + "\n")
-    print(f"wrote {OUT.relative_to(REPO_ROOT)} ({len(rows)} city designs)")
+    print(
+        f"wrote {OUT.relative_to(REPO_ROOT)} "
+        f"({len(public_rows)} public + {len(comparison_rows)} comparison city designs)"
+    )
     return 0
 
 

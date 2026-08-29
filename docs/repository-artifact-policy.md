@@ -1,8 +1,9 @@
 # Repository Artifact Policy
 
-Git contains the smallest set needed to understand, build, test, and change
-OpenSourceRail. Reproducible output belongs in `build/` or in a tagged release,
-not beside its source.
+Git contains the smallest useful set needed to understand, inspect, build,
+test, and change OpenSourceRail. Reproducible working output belongs in
+`build/`; a small named public-review set may be tracked when GitHub users
+otherwise cannot inspect the system without installing specialist software.
 
 ## Tracked
 
@@ -31,14 +32,18 @@ not beside its source.
 - One compact high-throughput architecture reference, Basra (`metro-6car`),
   adding a map and README without duplicating the complete acceptance bundles.
 - The Samawah OSR-ALN fixture used by converter tests.
+- Compact FreeCAD and Blender review assemblies, stable documentation images,
+  and the root `OpenSourceRail-Book.pdf` reader edition. These are published
+  review aids generated from the authoritative sources, not parallel inputs.
 
 ## Not tracked
 
-- Rust/Python build products, logs, caches, screenshots, and temporary data.
+- Rust/Python build products, logs, caches, temporary data, and screenshots
+  that are not part of the stable documentation review set.
 - Complete generated city engineering and operations packages except the
   named Mosul and Samawah acceptance references.
-- Generated BOM exports, simulation traces, documentation books, brochures,
-  videos, and other release binaries.
+- Generated BOM exports, simulation traces, release-only brochures, videos,
+  repeated CAD/BIM job outputs, and other release binaries.
 - Files that only preserve an obsolete schema, chemistry, voltage, or API name.
 
 ## Output locations
@@ -48,7 +53,8 @@ not beside its source.
 | Full city package | `designs/` |
 | Simulation and engineering evidence | `build/engineering/` |
 | BOM exports | `build/bom/` |
-| Documentation book and brochure | `build/releases/` |
+| Published reader book | `OpenSourceRail-Book.pdf` |
+| Release-only media | `build/releases/` before tagged release storage |
 | Tagged deliverables | Release storage with version and checksum |
 
 Use `scripts/regenerate-city.sh <slug>` for a full city package in the
@@ -69,6 +75,8 @@ folder that produced them.
    manifest passes: survey, calibrated demand, local ground/fire/utility data,
    supplier freeze, and independent safety/construction release remain external
    project gates.
+7. The root reader PDF is generated, never hand-edited. Its Markdown and city
+   model sources remain authoritative and are printed in the book.
 
 ## Documentation ownership
 

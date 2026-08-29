@@ -1,7 +1,8 @@
 # City Design Catalogue
 
-This directory retains the compact machine-readable result set for all 266 cities
-defined by `lib/city-batches/world-sample.toml`. These routed designs are retained
+This directory retains 265 developing-world city planning models and
+1 technical comparison model defined by
+`lib/city-batches/world-sample.toml`. These routed designs are retained
 because reproducing them can require external OSM and population inputs.
 
 Generated city READMEs contain local values and evidence only. Shared methodology
@@ -110,7 +111,6 @@ is explicitly scoped to those two cities and is not catalogue-wide evidence.
 | [Mbarara](east-africa/Uganda/Mbarara/) | `light-metro-3car` | 3 | 22 | 53.0 | 113 | 78% |
 | [Soroti](east-africa/Uganda/Soroti/) | `tram-2car` | 2 | 6 | 7.9 | 23 | 69% |
 | [Lusaka](east-africa/Zambia/Lusaka/) | `metro-6car` | 8 | 95 | 279.5 | 418 | 58% |
-| [Lyon](europe/France/Lyon/) | `metro-4car` | 6 | 85 | 269.8 | 347 | 54% |
 | [La-Paz](latin-america/Bolivia/La-Paz/) | `metro-4car` | 6 | 79 | 223.9 | 285 | 61% |
 | [Cuenca](latin-america/Ecuador/Cuenca/) | `light-metro-3car` | 3 | 24 | 70.9 | 169 | 64% |
 | [San-Salvador](latin-america/El Salvador/San-Salvador/) | `metro-4car` | 6 | 81 | 256.6 | 308 | 61% |
@@ -302,6 +302,16 @@ is explicitly scoped to those two cities and is not catalogue-wide evidence.
 | [Sanaa](west-asia/Yemen/Sanaa/) | `metro-6car` | 7 | 75 | 233.1 | 358 | 73% |
 | [Sayun](west-asia/Yemen/Sayun/) | `tram-2car` | 3 | 11 | 24.4 | 54 | 79% |
 | [Taiz](west-asia/Yemen/Taiz/) | `light-metro-3car` | 3 | 18 | 42.8 | 94 | 65% |
+
+## Technical comparison model
+
+The model below is retained only for engineering comparison and regression
+inspection. It is excluded from the public programme, portfolio, national
+briefs, reader-book city evidence, and front-page examples.
+
+| City | Train family | Lines | Stations | Route km | Fleet | High-demand coverage |
+|---|---|---:|---:|---:|---:|---:|
+| [Lyon](europe/France/Lyon/) | `metro-4car` | 6 | 85 | 269.8 | 347 | 54% |
 
 ```bash
 scripts/regenerate-city.sh samawah
