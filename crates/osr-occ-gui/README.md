@@ -18,7 +18,8 @@ emission.
 - IEEE 1588 acquisition and lock evidence from the same recording.
 - Station/wayside roll-up for PSD states, controller ticks, and intrusion
   verdict transitions.
-- Physical HABD passage, trip, active-stop, and inspected-reset evidence.
+- Physical HABD passage, warning restriction, trip, active-stop, and
+  inspected-reset evidence.
 - Depot roll-up for received CBM payloads, historian samples, analytics, and
   maintenance work orders.
 - Alert feed (info / warn / crit) with category filter checkboxes,

@@ -22,7 +22,8 @@ then animates the run at arbitrary playback speed.
   hot-axle, and T2G primary/backup/offline operation.
 - IEEE 1588 acquisition and lock evidence for the shared simulation clock.
 - Station and wayside evidence for PSD, PIS, SCADA, and intrusion detection.
-- Physical HABD passage, trip, latched-stop, and inspected-reset evidence.
+- Physical HABD passage, warning restriction, trip, latched-stop, and
+  inspected-reset evidence.
 - Depot evidence for radio-delivered CBM, history, analytics, and work orders.
 
 ## Run (native)

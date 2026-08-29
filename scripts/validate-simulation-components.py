@@ -108,6 +108,13 @@ def build_report(result_path: Path | None = None) -> dict:
             "ptp_locked_ticks": int(time_sync.get("locked_ticks", 0)),
             "habd_detector_count": int(habd.get("detector_count", 0)),
             "habd_passages_evaluated": int(habd.get("passages_evaluated", 0)),
+            "habd_warning_passages": int(habd.get("warning_passages", 0)),
+            "habd_speed_restriction_ticks": int(
+                habd.get("speed_restriction_ticks", 0)
+            ),
+            "habd_active_speed_restrictions": len(
+                habd.get("active_speed_restrictions", [])
+            ),
             "habd_active_stop_orders": len(habd.get("active_stop_orders", [])),
         }
         required_vehicle = (
@@ -142,6 +149,10 @@ def build_report(result_path: Path | None = None) -> dict:
                 issues.append(f"simulation result has no {field} evidence")
         if runtime_evidence["habd_active_stop_orders"]:
             issues.append("nominal simulation result contains active HABD stop orders")
+        if runtime_evidence["habd_warning_passages"]:
+            issues.append("nominal simulation result contains HABD warning passages")
+        if runtime_evidence["habd_active_speed_restrictions"]:
+            issues.append("nominal simulation result contains active HABD speed restrictions")
 
     counts = {
         category: sum(1 for value in assignments.values() if value == category)

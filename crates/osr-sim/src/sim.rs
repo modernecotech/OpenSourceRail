@@ -796,6 +796,7 @@ pub fn run_with_event_recording(
 
         for idx in 0..trains.len() {
             let habd_stop_active = habd_systems_shadow.stop_active_for(trains[idx].id);
+            let habd_speed_limit_mps = habd_systems_shadow.speed_limit_mps_for(trains[idx].id);
             let safety_stop_active = tcms_trip_active[idx] || habd_stop_active;
             let movement_effect = step_train(
                 idx,
@@ -817,6 +818,7 @@ pub fn run_with_event_recording(
                 &mut events,
                 &mut violations,
                 safety_stop_active,
+                habd_speed_limit_mps,
             );
             match movement_effect {
                 MovementControlEffect::None => {}
@@ -836,6 +838,11 @@ pub fn run_with_event_recording(
                         habd_systems_shadow.record_stop_hold();
                     }
                 }
+                MovementControlEffect::SpeedRestricted => {
+                    let actual_speed_mps = traveling_motion_sample(&trains[idx], &config.network)
+                        .map_or(0.0, |sample| sample.speed_mps);
+                    habd_systems_shadow.record_speed_restriction_tick(actual_speed_mps);
+                }
             }
 
             // Shadow onboard stack: only during Traveling phase. If
@@ -848,7 +855,10 @@ pub fn run_with_event_recording(
                     &trains[idx],
                     &config.network,
                     &faults,
-                    movement_effect == MovementControlEffect::TravelHeld,
+                    onboard::OnboardMovementControl {
+                        inhibited: movement_effect == MovementControlEffect::TravelHeld,
+                        wayside_speed_limit_mps: habd_speed_limit_mps,
+                    },
                     t,
                     dt,
                 ),
@@ -904,6 +914,11 @@ pub fn run_with_event_recording(
             &habd_positions,
             &faults,
             config.climate.ambient_c,
+            t,
+        );
+        habd_systems::clear_completed_speed_restrictions(
+            &mut habd_systems_shadow,
+            &habd_positions,
             t,
         );
 
@@ -1192,6 +1207,7 @@ enum MovementControlEffect {
     None,
     DepartureInhibited,
     TravelHeld,
+    SpeedRestricted,
 }
 
 #[allow(clippy::too_many_arguments)]
@@ -1215,6 +1231,7 @@ fn step_train(
     events: &mut EventLog,
     violations: &mut Vec<InvariantViolation>,
     safety_stop_active: bool,
+    speed_limit_mps: Option<f32>,
 ) -> MovementControlEffect {
     let phase = trains[idx].phase.clone();
     let clock = clock_tod;
@@ -1456,6 +1473,7 @@ fn step_train(
             to_station,
             total_travel_s,
             mut remaining_s,
+            actual_speed_mps: _,
         } => {
             if safety_stop_active {
                 trains[idx].phase = TrainPhase::Traveling {
@@ -1464,19 +1482,29 @@ fn step_train(
                     to_station,
                     total_travel_s,
                     remaining_s,
+                    actual_speed_mps: 0.0,
                 };
                 return MovementControlEffect::TravelHeld;
             }
-            let previous_remaining_s = remaining_s;
-            remaining_s = (remaining_s - dt).max(0.0);
-
             let sec = network.section(section);
             let consist = trains[idx].consist.clone();
+            let previous_remaining_s = remaining_s;
             let elapsed_start = (total_travel_s - previous_remaining_s).max(0.0);
-            let elapsed_end = (total_travel_s - remaining_s).max(elapsed_start);
+            let unrestricted_end = motion_sample_for_section(&consist, sec, elapsed_start + dt);
             let start_sample = motion_sample_for_section(&consist, sec, elapsed_start);
+            let predicted_peak_speed_mps = start_sample
+                .speed_mps
+                .max(unrestricted_end.speed_mps)
+                .max(f32::EPSILON);
+            let progress_dt = speed_limit_mps.map_or(dt, |limit| {
+                dt * (limit / predicted_peak_speed_mps).clamp(0.0, 1.0)
+            });
+            let speed_restricted = progress_dt + f32::EPSILON < dt;
+            remaining_s = (remaining_s - progress_dt).max(0.0);
+            let elapsed_end = (total_travel_s - remaining_s).max(elapsed_start);
             let end_sample = motion_sample_for_section(&consist, sec, elapsed_end);
             let delta_m = (end_sample.position_m - start_sample.position_m).max(0.0);
+            let actual_speed_mps = delta_m / dt.max(f32::EPSILON);
             if delta_m > 0.0 {
                 let delta_km = f64::from(delta_m) / 1000.0;
                 let kwh_per_km = trains[idx].kwh_per_km(climate.hvac_uplift_frac);
@@ -1567,7 +1595,11 @@ fn step_train(
                     to_station,
                     total_travel_s,
                     remaining_s,
+                    actual_speed_mps,
                 };
+            }
+            if speed_restricted {
+                return MovementControlEffect::SpeedRestricted;
             }
         }
     }
@@ -1671,6 +1703,7 @@ fn enter_next_section(
         to_station,
         total_travel_s: travel_s,
         remaining_s: travel_s,
+        actual_speed_mps: 0.0,
     };
 }
 
@@ -2130,14 +2163,14 @@ fn traveling_motion_sample(train: &Train, network: &Network) -> Option<MotionSam
             section,
             total_travel_s,
             remaining_s,
+            actual_speed_mps,
             ..
         } => {
             let elapsed_s = (total_travel_s - remaining_s).max(0.0);
-            Some(motion_sample_for_section(
-                &train.consist,
-                network.section(*section),
-                elapsed_s,
-            ))
+            let mut sample =
+                motion_sample_for_section(&train.consist, network.section(*section), elapsed_s);
+            sample.speed_mps = *actual_speed_mps;
+            Some(sample)
         }
         _ => None,
     }

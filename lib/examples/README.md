@@ -325,6 +325,8 @@ train = "T4"
 - `t2g_primary_offline` — removes 5G and verifies backup-radio failover.
 - `t2g_all_offline` — queues telemetry until either radio recovers.
 - `hot_axle_overheat` — injects a dual-channel bearing-temperature trip.
+- `wayside_habd_warning` — injects a warning-band bearing temperature at a
+  physical HABD; the affected train is capped at 40 km/h until its next station.
 - `wayside_habd_overheat` — injects a hot bearing only when the affected train
   crosses a physical HABD, exercising the authoritative trackside stop path.
 - `cbm_degradation` — injects service-level bearing, motor, pad, and wheel data.

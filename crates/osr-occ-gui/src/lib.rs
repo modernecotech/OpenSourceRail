@@ -28,6 +28,8 @@ pub async fn start_web(
         analytics_metrics,
         ptp_ticks,
         habd_passages,
+        habd_warnings,
+        habd_restriction_ticks,
         tcms_movement_inhibits,
     } = app.recorded_state_summary();
     eframe::WebRunner::new()
@@ -38,6 +40,6 @@ pub async fn start_web(
         )
         .await?;
     Ok(format!(
-        "{{\"durationS\":{duration_s},\"recordedEvents\":{recorded_events},\"trains\":{trains},\"alerts\":{alerts},\"intrusions\":{intrusions},\"embeddedTicks\":{embedded_ticks},\"t2gTransmissions\":{t2g_transmissions},\"stationTicks\":{station_ticks},\"waysideTicks\":{wayside_ticks},\"backendSamples\":{backend_samples},\"analyticsMetrics\":{analytics_metrics},\"ptpTicks\":{ptp_ticks},\"habdPassages\":{habd_passages},\"tcmsMovementInhibits\":{tcms_movement_inhibits}}}"
+        "{{\"durationS\":{duration_s},\"recordedEvents\":{recorded_events},\"trains\":{trains},\"alerts\":{alerts},\"intrusions\":{intrusions},\"embeddedTicks\":{embedded_ticks},\"t2gTransmissions\":{t2g_transmissions},\"stationTicks\":{station_ticks},\"waysideTicks\":{wayside_ticks},\"backendSamples\":{backend_samples},\"analyticsMetrics\":{analytics_metrics},\"ptpTicks\":{ptp_ticks},\"habdPassages\":{habd_passages},\"habdWarnings\":{habd_warnings},\"habdRestrictionTicks\":{habd_restriction_ticks},\"tcmsMovementInhibits\":{tcms_movement_inhibits}}}"
     ))
 }

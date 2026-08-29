@@ -41,8 +41,9 @@
 //! - **T2G primary/all offline** — removes the 5G path or both 5G and backup
 //!   paths, exercising deterministic radio failover and store-and-forward.
 //! - **Hot axle overheat** — raises both axle channels above the trip limit.
-//! - **Wayside HABD overheat** — raises only the physical detector reading,
-//!   allowing the authoritative trackside path to be tested independently.
+//! - **Wayside HABD warning/overheat** — raises only the physical detector
+//!   reading into the warning or trip band, allowing both authoritative
+//!   trackside feedback paths to be tested independently.
 //! - **CBM degradation** — drives bearing, motor, brake-pad, and wheel
 //!   measurements into their service bands.
 //!
@@ -152,6 +153,11 @@ pub enum FaultKind {
     HabdOverheat {
         scope: TrainFaultScope,
     },
+    /// Inject a warm bearing in the physical HABD warning band without
+    /// altering the onboard advisory sensor channels.
+    HabdWarning {
+        scope: TrainFaultScope,
+    },
     /// Inject service-level degradation across the onboard CBM sensors.
     CbmDegradation {
         scope: TrainFaultScope,
@@ -223,6 +229,8 @@ pub struct FaultEngine {
     hot_axle_overheat_all: bool,
     habd_overheat_trains: HashSet<TrainId>,
     habd_overheat_all: bool,
+    habd_warning_trains: HashSet<TrainId>,
+    habd_warning_all: bool,
     cbm_degradation_trains: HashSet<TrainId>,
     cbm_degradation_all: bool,
     /// Active wayside intrusion injections — `section → state`. The sim
@@ -279,6 +287,8 @@ impl FaultEngine {
             hot_axle_overheat_all: false,
             habd_overheat_trains: HashSet::new(),
             habd_overheat_all: false,
+            habd_warning_trains: HashSet::new(),
+            habd_warning_all: false,
             cbm_degradation_trains: HashSet::new(),
             cbm_degradation_all: false,
             wayside_intrusions: HashMap::new(),
@@ -323,6 +333,8 @@ impl FaultEngine {
         self.hot_axle_overheat_all = false;
         self.habd_overheat_trains.clear();
         self.habd_overheat_all = false;
+        self.habd_warning_trains.clear();
+        self.habd_warning_all = false;
         self.cbm_degradation_trains.clear();
         self.cbm_degradation_all = false;
         self.wayside_intrusions.clear();
@@ -449,6 +461,12 @@ impl FaultEngine {
                         self.habd_overheat_trains.insert(*t);
                     }
                 },
+                FaultKind::HabdWarning { scope } => match scope {
+                    TrainFaultScope::All => self.habd_warning_all = true,
+                    TrainFaultScope::Train(t) => {
+                        self.habd_warning_trains.insert(*t);
+                    }
+                },
                 FaultKind::CbmDegradation { scope } => match scope {
                     TrainFaultScope::All => self.cbm_degradation_all = true,
                     TrainFaultScope::Train(t) => {
@@ -566,6 +584,10 @@ impl FaultEngine {
         self.habd_overheat_all || self.habd_overheat_trains.contains(&train)
     }
 
+    pub fn habd_warning_for(&self, train: TrainId) -> bool {
+        self.habd_warning_all || self.habd_warning_trains.contains(&train)
+    }
+
     pub fn cbm_degradation_for(&self, train: TrainId) -> bool {
         self.cbm_degradation_all || self.cbm_degradation_trains.contains(&train)
     }
@@ -663,6 +685,10 @@ fn describe_kind(kind: &FaultKind) -> String {
         FaultKind::HabdOverheat { scope } => match scope {
             TrainFaultScope::All => "wayside HABD overheat (fleet)".to_string(),
             TrainFaultScope::Train(_) => "wayside HABD overheat (one train)".to_string(),
+        },
+        FaultKind::HabdWarning { scope } => match scope {
+            TrainFaultScope::All => "wayside HABD warning (fleet)".to_string(),
+            TrainFaultScope::Train(_) => "wayside HABD warning (one train)".to_string(),
         },
         FaultKind::CbmDegradation { scope } => match scope {
             TrainFaultScope::All => "CBM service-level degradation (fleet)".to_string(),

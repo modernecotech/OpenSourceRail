@@ -349,7 +349,7 @@ pub struct FaultSpec {
     /// `"battery_off_gas"`, `"battery_mist_failure"`,
     /// `"battery_fire_escalation"`, `"t2g_primary_offline"`,
     /// `"t2g_all_offline"`, `"hot_axle_overheat"`,
-    /// `"wayside_habd_overheat"`, `"cbm_degradation"`,
+    /// `"wayside_habd_warning"`, `"wayside_habd_overheat"`, `"cbm_degradation"`,
     /// or `"wayside_intrusion"`.
     pub kind: String,
     /// Start time "HH:MM" (relative to `day`).
@@ -557,7 +557,8 @@ impl std::fmt::Display for LoadError {
                  passenger_intercom_press, battery_off_gas, \
                  battery_mist_failure, battery_fire_escalation, \
                  t2g_primary_offline, t2g_all_offline, \
-                 hot_axle_overheat, wayside_habd_overheat, cbm_degradation, \
+                 hot_axle_overheat, wayside_habd_warning, wayside_habd_overheat, \
+                 cbm_degradation, \
                  wayside_intrusion)"
             ),
             UltrasonicChannelOutOfRange { name, channel } => write!(
@@ -1281,6 +1282,9 @@ fn build_faults(
             "wayside_habd_overheat" => FaultKind::HabdOverheat {
                 scope: train_scope(spec)?,
             },
+            "wayside_habd_warning" => FaultKind::HabdWarning {
+                scope: train_scope(spec)?,
+            },
             "cbm_degradation" => FaultKind::CbmDegradation {
                 scope: train_scope(spec)?,
             },
@@ -1457,6 +1461,7 @@ mod trainset_system_tests {
             ("t2g_primary_offline", "train = \"T1\""),
             ("t2g_all_offline", "train = \"T1\""),
             ("hot_axle_overheat", "train = \"T1\""),
+            ("wayside_habd_warning", "train = \"T1\""),
             ("wayside_habd_overheat", "train = \"T1\""),
             ("cbm_degradation", "train = \"T1\""),
             (
@@ -1498,6 +1503,10 @@ mod trainset_system_tests {
             .faults
             .iter()
             .any(|fault| matches!(fault.kind, FaultKind::HabdOverheat { .. })));
+        assert!(scenario
+            .faults
+            .iter()
+            .any(|fault| matches!(fault.kind, FaultKind::HabdWarning { .. })));
         assert!(scenario
             .faults
             .iter()

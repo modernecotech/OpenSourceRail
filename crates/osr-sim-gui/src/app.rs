@@ -53,6 +53,8 @@ pub struct RunStateSummary {
     pub analytics_metrics: u32,
     pub ptp_ticks: u64,
     pub habd_passages: u64,
+    pub habd_warnings: u64,
+    pub habd_restriction_ticks: u64,
     pub tcms_movement_inhibits: u64,
     pub invariant_violations: usize,
 }
@@ -158,6 +160,8 @@ impl SimApp {
                 analytics_metrics: result.backend_systems.analytics_metrics_evaluated,
                 ptp_ticks: result.time_sync.controller_ticks,
                 habd_passages: result.habd_systems.passages_evaluated,
+                habd_warnings: result.habd_systems.warning_passages,
+                habd_restriction_ticks: result.habd_systems.speed_restriction_ticks,
                 tcms_movement_inhibits: result.embedded.tcms_departure_inhibit_ticks
                     + result.embedded.tcms_travel_hold_ticks,
                 invariant_violations: result.invariant_violations.len(),
@@ -354,10 +358,18 @@ fn left_sidebar(app: &mut SimApp, ctx: &Context) {
                 format!("embedded alert ticks: {embedded_trips}"),
             );
             ui.label(format!(
-                "HABD passages / trips / active stops: {} / {} / {}",
+                "HABD passages / warnings / trips / active stops: {} / {} / {} / {}",
                 r.habd_systems.passages_evaluated,
+                r.habd_systems.warning_passages,
                 r.habd_systems.trip_passages,
                 r.habd_systems.active_stop_orders.len()
+            ));
+            ui.label(format!(
+                "HABD restrictions issued / cleared / active / ticks: {} / {} / {} / {}",
+                r.habd_systems.speed_restrictions_issued,
+                r.habd_systems.speed_restrictions_cleared,
+                r.habd_systems.active_speed_restrictions.len(),
+                r.habd_systems.speed_restriction_ticks
             ));
             ui.separator();
             ui.heading("Station + wayside");

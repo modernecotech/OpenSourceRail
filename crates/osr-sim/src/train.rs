@@ -40,6 +40,8 @@ pub enum TrainPhase {
         to_station: StationId,
         total_travel_s: f32,
         remaining_s: f32,
+        /// Actual service-model speed after temporary restriction feedback.
+        actual_speed_mps: f32,
     },
     /// Awaiting dispatch from a dispatch point — either pre-service-start or
     /// because the dispatch throttle (schedule) is holding the train.

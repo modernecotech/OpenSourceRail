@@ -47,6 +47,8 @@ test("Workbench carries an approved revision through simulation, OCC replay, and
   expect(simulatorState.details.analyticsMetrics).toBeGreaterThan(0);
   expect(simulatorState.details.ptpTicks).toBeGreaterThan(0);
   expect(simulatorState.details.habdPassages).toBeGreaterThan(0);
+  expect(simulatorState.details.habdWarnings).toBe(0);
+  expect(simulatorState.details.habdRestrictionTicks).toBe(0);
   expect(simulatorState.details.tcmsMovementInhibits).toBe(0);
   await expect(page.locator("#contextRun")).toHaveText(/^run-[a-f0-9]{16}$/);
   const runId = await page.locator("#contextRun").textContent();
@@ -67,6 +69,8 @@ test("Workbench carries an approved revision through simulation, OCC replay, and
   expect(occState.details.analyticsMetrics).toBeGreaterThan(0);
   expect(occState.details.ptpTicks).toBeGreaterThan(0);
   expect(occState.details.habdPassages).toBeGreaterThan(0);
+  expect(occState.details.habdWarnings).toBe(0);
+  expect(occState.details.habdRestrictionTicks).toBe(0);
   expect(occState.details.tcmsMovementInhibits).toBe(0);
   await expect.poll(
     () => module.locator("body").evaluate(() => window.__OSR_FRONTEND__.context.actor),

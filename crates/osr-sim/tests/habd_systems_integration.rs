@@ -65,6 +65,42 @@ fn nominal_physical_passage_runs_real_detector() {
 }
 
 #[test]
+fn warning_restricts_speed_until_next_station_then_clears() {
+    let nominal_scenario = scenario_with_detector();
+    let nominal = run(&nominal_scenario, &runtime(300));
+
+    let mut scenario = nominal_scenario;
+    scenario.faults.push(Fault {
+        name: "wayside-bearing-warning".into(),
+        from_sim_s: 0,
+        to_sim_s: 60,
+        kind: FaultKind::HabdWarning {
+            scope: TrainFaultScope::Train(TrainId::new(1)),
+        },
+    });
+
+    let first = run(&scenario, &runtime(300));
+    let second = run(&scenario, &runtime(300));
+    let habd = &first.habd_systems;
+
+    assert_eq!(habd, &second.habd_systems);
+    assert_eq!(habd.warning_passages, 1);
+    assert_eq!(habd.speed_restrictions_issued, 1);
+    assert_eq!(habd.speed_restrictions_cleared, 1);
+    assert!(habd.speed_restriction_ticks > 0);
+    assert!(habd.maximum_restricted_speed_mmps <= 11_000);
+    assert_eq!(habd.trip_passages, 0);
+    assert_eq!(habd.stop_orders_issued, 0);
+    assert!(habd.active_speed_restrictions.is_empty());
+    assert_eq!(habd.speed_restriction_clear_records.len(), 1);
+    assert_eq!(
+        habd.speed_restriction_clear_records[0].decision,
+        "cleared-at-next-station"
+    );
+    assert!(first_arrival(&first) > first_arrival(&nominal));
+}
+
+#[test]
 fn trip_latches_until_qualified_clear_reset_then_motion_resumes() {
     let nominal_scenario = scenario_with_detector();
     let nominal = run(&nominal_scenario, &runtime(220));

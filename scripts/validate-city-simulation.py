@@ -190,15 +190,21 @@ def summarize_result(
     vehicle_systems = result.get("vehicle_systems", {})
     habd_systems = result.get("habd_systems", {})
     habd_active_stop_orders = habd_systems.get("active_stop_orders", [])
+    habd_active_speed_restrictions = habd_systems.get(
+        "active_speed_restrictions", []
+    )
     habd_systems_passed = (
         int(habd_systems.get("detector_count", 0)) == expected_habd_detectors
         and (
             expected_habd_detectors == 0
             or int(habd_systems.get("passages_evaluated", 0)) > 0
         )
+        and int(habd_systems.get("warning_passages", 0)) == 0
+        and int(habd_systems.get("speed_restrictions_issued", 0)) == 0
         and int(habd_systems.get("trip_passages", 0)) == 0
         and int(habd_systems.get("stop_orders_issued", 0)) == 0
         and len(habd_active_stop_orders) == 0
+        and len(habd_active_speed_restrictions) == 0
     )
     return {
         "label": label,
@@ -531,7 +537,7 @@ station = "{powered_station}"
     resilience_passed = bool(resilience_cases) and all(case["passed"] for case in resilience_cases)
     simulator_binary = REPO_ROOT / "target/release/osr-sim"
     model = {
-        "schema_version": "1.3",
+        "schema_version": "1.4",
         "city": city,
         "validated_on": date.today().isoformat(),
         "generator": str(Path(__file__).resolve().relative_to(REPO_ROOT)),

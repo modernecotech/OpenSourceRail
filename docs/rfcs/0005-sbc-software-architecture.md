@@ -17,8 +17,9 @@ onboard safety, vehicle, TCMS, recorder, CBM, hot-axle, and T2G evaluators, plus
 station PSD/PIS/SCADA and wayside intrusion detection, then carries CBM through
 T2G into the depot backend, historian, and analytics. A TCMS trip inhibits
 dispatch or section progress on the following one-second control cycle.
-Explicit physical HABDs run the trackside evaluator and latch stop orders until
-a named post-inspection reset is accepted. This is all timestamped by a real
+Explicit physical HABDs run the trackside evaluator, cap warning-band trains
+until the next station, and latch stop orders until a named post-inspection
+reset is accepted. This is all timestamped by a real
 `osr-ptp` state machine that acquires the simulator's deterministic shared
 clock. This is integration evidence, not certification or production
 hardware-I/O evidence.

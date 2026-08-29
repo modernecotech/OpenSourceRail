@@ -11,7 +11,8 @@
 - `infrastructure_systems`: PSD, station PIS and SCADA per station, plus
   intrusion detection per wayside section and consensus verdict transitions;
 - `habd_systems`: real trackside hot-axle evaluation at explicit bidirectional
-  route-book locations, with latched stops and inspected authority resets;
+  route-book locations, with next-station warning speed limits, latched stops,
+  and inspected authority resets;
 - `backend_systems`: radio-delivered CBM ingestion, work-order generation,
   bounded history, and analytics over retained metrics;
 - `time_sync`: the IEEE 1588 slave state machine acquires and retains the

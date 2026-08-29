@@ -277,6 +277,14 @@ pub fn print_summary(_config: &ScenarioConfig, _runtime: &RuntimeConfig, r: &Sim
             r.habd_systems.trip_passages
         );
         println!(
+            "Restrictions I/C/A : {} / {} / {} · {} ticks · max {:.1} km/h",
+            r.habd_systems.speed_restrictions_issued,
+            r.habd_systems.speed_restrictions_cleared,
+            r.habd_systems.active_speed_restrictions.len(),
+            r.habd_systems.speed_restriction_ticks,
+            r.habd_systems.maximum_restricted_speed_mmps as f32 * 0.0036
+        );
+        println!(
             "Stops/holds/active : {} / {} / {}",
             r.habd_systems.stop_orders_issued,
             r.habd_systems.stop_hold_ticks,

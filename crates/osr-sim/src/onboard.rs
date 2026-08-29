@@ -417,6 +417,13 @@ impl OnboardShadow {
     pub fn on_leave_section(&mut self) {
         self.kin = KinematicShadow::reset();
     }
+
+    /// Apply a train-specific wayside restriction for the remainder of the
+    /// current section. Section entry resets the nominal limit.
+    pub fn apply_section_speed_limit_mps(&mut self, limit_mps: f32) {
+        let limit_mmps = (limit_mps.max(0.0) * 1_000.0).round() as i32;
+        self.kin.v_max_mmps = self.kin.v_max_mmps.min(limit_mmps);
+    }
 }
 
 // ---------------------------------------------------------------------------
@@ -425,13 +432,19 @@ impl OnboardShadow {
 
 /// One tick of the shadow onboard stack. Safe to call only when the
 /// train is in [`TrainPhase::Traveling`]; otherwise returns `None`.
+#[derive(Clone, Copy, Debug, Default)]
+pub struct OnboardMovementControl {
+    pub inhibited: bool,
+    pub wayside_speed_limit_mps: Option<f32>,
+}
+
 #[must_use]
 pub fn onboard_tick(
     shadow: &mut OnboardShadow,
     train: &Train,
     network: &Network,
     faults: &crate::fault::FaultEngine,
-    movement_inhibited: bool,
+    movement: OnboardMovementControl,
     t_s: u32,
     dt_s: f32,
 ) -> Option<TickReport> {
@@ -444,11 +457,14 @@ pub fn onboard_tick(
     if shadow.kin.current_section != Some(section) {
         shadow.on_enter_section(section, network, &train.consist, train.heading, t_s);
     }
+    if let Some(limit_mps) = movement.wayside_speed_limit_mps {
+        shadow.apply_section_speed_limit_mps(limit_mps);
+    }
 
     let now_ns = (t_s as u64).saturating_mul(1_000_000_000);
 
     // 1. Kinematic integration (very simple: accel → cruise → decel).
-    if movement_inhibited {
+    if movement.inhibited {
         // The service-level model represents an emergency response as a
         // discrete safe hold. Mirror that state here so odometry, ATO, and
         // traction cannot continue advancing behind the held plant model.
@@ -1230,6 +1246,7 @@ mod tests {
                 to_station: StationId::new(2),
                 total_travel_s: 60.0,
                 remaining_s: 60.0,
+                actual_speed_mps: 0.0,
             },
             soc: 0.9,
             odometer_km: 0.0,
@@ -1250,7 +1267,7 @@ mod tests {
             &train,
             &n,
             &crate::fault::FaultEngine::default(),
-            false,
+            OnboardMovementControl::default(),
             1,
             1.0,
         )
@@ -1281,8 +1298,16 @@ mod tests {
         }]);
         faults.tick(1);
 
-        let report = onboard_tick(&mut shadow, &train, &n, &faults, false, 1, 1.0)
-            .expect("traveling train produces a tick");
+        let report = onboard_tick(
+            &mut shadow,
+            &train,
+            &n,
+            &faults,
+            OnboardMovementControl::default(),
+            1,
+            1.0,
+        )
+        .expect("traveling train produces a tick");
         assert_eq!(report.assist.service_brake_ppt, CONTROLLED_STOP_EFFORT_PPT);
         assert!(report.assist.request_media_channel);
         assert!(report.assist.event_record_requested);
@@ -1313,8 +1338,16 @@ mod tests {
         }]);
         faults.tick(1);
 
-        let report = onboard_tick(&mut shadow, &train, &n, &faults, false, 1, 1.0)
-            .expect("traveling train produces a tick");
+        let report = onboard_tick(
+            &mut shadow,
+            &train,
+            &n,
+            &faults,
+            OnboardMovementControl::default(),
+            1,
+            1.0,
+        )
+        .expect("traveling train produces a tick");
         assert!(shadow.fire_state.latched_tripped.contains(Bay::Battery));
         assert!(shadow.bms_state.faults.any());
         assert_eq!(shadow.stats.fire_trip_ticks, 1);
@@ -1352,8 +1385,16 @@ mod tests {
         ]);
         faults.tick(1);
 
-        let report = onboard_tick(&mut shadow, &train, &n, &faults, false, 1, 1.0)
-            .expect("traveling train produces a tick");
+        let report = onboard_tick(
+            &mut shadow,
+            &train,
+            &n,
+            &faults,
+            OnboardMovementControl::default(),
+            1,
+            1.0,
+        )
+        .expect("traveling train produces a tick");
         assert_eq!(report.brake.command, BrakeCommand::Emergency);
         assert_eq!(shadow.stats.ticks_emergency, 1);
     }
@@ -1369,7 +1410,7 @@ mod tests {
                 &train,
                 &n,
                 &crate::fault::FaultEngine::default(),
-                false,
+                OnboardMovementControl::default(),
                 t,
                 1.0,
             );
@@ -1386,6 +1427,30 @@ mod tests {
     }
 
     #[test]
+    fn wayside_speed_limit_caps_onboard_kinematic_shadow() {
+        let n = net();
+        let train = mock_train();
+        let mut shadow = OnboardShadow::new(&train);
+        for t in 1..=20 {
+            let _ = onboard_tick(
+                &mut shadow,
+                &train,
+                &n,
+                &crate::fault::FaultEngine::default(),
+                OnboardMovementControl {
+                    inhibited: false,
+                    wayside_speed_limit_mps: Some(11.0),
+                },
+                t,
+                1.0,
+            );
+            assert!(shadow.odom.speed_mmps <= 11_000);
+        }
+        assert_eq!(shadow.kin.v_max_mmps, 11_000);
+        assert_eq!(shadow.stats.ticks_emergency, 0);
+    }
+
+    #[test]
     fn shadow_approaches_decel_near_end_of_section() {
         let n = net();
         let train = mock_train();
@@ -1397,7 +1462,7 @@ mod tests {
                 &train,
                 &n,
                 &crate::fault::FaultEngine::default(),
-                false,
+                OnboardMovementControl::default(),
                 t,
                 1.0,
             );
@@ -1428,7 +1493,7 @@ mod tests {
             &train,
             &n,
             &crate::fault::FaultEngine::default(),
-            false,
+            OnboardMovementControl::default(),
             1,
             1.0
         )
