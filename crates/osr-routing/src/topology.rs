@@ -858,7 +858,7 @@ fn try_synthesize_ring(
     };
 
     Ok(Some(Line {
-        name: format!("line-{}", line_idx),
+        name: format!("line-{line_idx}"),
         shape: LineShape::Ring,
         anchor_ids: ring_ids,
         cells,
@@ -1163,8 +1163,7 @@ fn find_best_candidate(
     }
     if best.is_none() {
         eprintln!(
-            "  greedy: no candidate among {} tried (solver_failed={}, length_filtered={}, backtrack_filtered={})",
-            tried, solver_failed, length_filtered, backtrack_filtered
+            "  greedy: no candidate among {tried} tried (solver_failed={solver_failed}, length_filtered={length_filtered}, backtrack_filtered={backtrack_filtered})"
         );
     }
     Ok(best)

@@ -88,12 +88,9 @@ Validate every committed city project:
 
     python3 scripts/validate-city-projects.py
 
-Install Node.js 20 or newer, Trunk 0.21.8, the Rust WASM target, and the pinned
-browser dependencies once, then run every browser front end:
+Install the pinned platform toolchain once, then run every browser front end:
 
-    rustup target add wasm32-unknown-unknown
-    npm ci
-    npx playwright install chromium
+    ./install.sh
     npm run test:frontend
 
 For the 111-check Studio-only workflow, use

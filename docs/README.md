@@ -13,6 +13,7 @@ the generated [Markdown documentation index](INDEX.md).
 | Reader | Start with |
 |---|---|
 | New reader / non-technical reviewer | [Generated one-page overview](brochures/open-source-rail-overview.html) |
+| New user / developer | [Root setup and launcher](../README.md#one-command-linux-setup), then [Workbench](workbench/README.md) |
 | Project reviewer | [ARCHITECTURE.md](ARCHITECTURE.md), [software architecture diagrams](software-architecture-diagrams.md), then [RFCs](rfcs/) |
 | New contributor | [../CONTRIBUTING.md](../CONTRIBUTING.md), [../GOVERNANCE.md](../GOVERNANCE.md), then [GLOSSARY.md](GLOSSARY.md) |
 | Deployment reviewer | [Unified deployment model](deployment-model.md), [deployment roles](deployment-roles.md), then [designs/README.md](../designs/README.md) |

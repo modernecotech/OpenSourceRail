@@ -6,35 +6,38 @@ simulation tools selected in
 
 The installed environments are intentionally not stored in Git:
 
-- FreeCAD is the existing system Flatpak `org.freecad.FreeCAD`;
-- QGIS, CloudCompare, and SUMO are user Flatpaks;
-- Python solvers and APIs use
-  `/home/ha/.local/share/opensource-rail/engineering-venv` on this workstation;
-- EnergyPlus and FDS/Smokeview use versioned directories beneath
-  `/home/ha/.local/share/opensource-rail/native/`; `fds-wrapper.sh` loads the
-  runtime shipped by the official FDS installer;
+- FreeCAD, Blender/Bonsai, QGIS, CloudCompare, and SUMO are user Flatpaks;
+- Python solvers and APIs use the repository `.venv`;
+- optional native tools use versioned directories beneath
+  `${XDG_DATA_HOME:-$HOME/.local/share}/opensource-rail/native/`;
 - generated checks and analysis scratch belong under `build/engineering/`.
 
 [`tool-manifest.toml`](tool-manifest.toml) records the adopted releases,
 distribution channel, license identifier/source, Flatpak commit or binary
 checksum, and deliberately deferred tools.
 
-Install or check the user-local Python environment with:
+Install the complete environment once from the repository root:
 
 ```bash
-scripts/engineering-toolchain.sh --install-python
-scripts/engineering-toolchain.sh --check
-scripts/engineering-toolchain.sh --smoke
-scripts/engineering-toolchain.sh --benchmarks
-scripts/engineering-toolchain.sh --station-ifc
-scripts/engineering-toolchain.sh --flesh-out
-scripts/engineering-toolchain.sh --cities --city samawah,songea --jobs 2
-scripts/engineering-toolchain.sh --cities --all --generate-only --allow-input-gaps --jobs 8
-scripts/engineering-toolchain.sh --cities --all --allow-input-gaps --jobs 2 --resume
+./install.sh --engineering
+./scripts/osr doctor --engineering
 ```
 
-`python-requirements.txt` pins direct engineering packages. The installation
-command also writes a full transitive `pip-freeze.txt` manifest under
+Run engineering workflows through the common launcher:
+
+```bash
+./scripts/osr engineering --check
+./scripts/osr engineering --smoke
+./scripts/osr engineering --benchmarks
+./scripts/osr engineering --station-ifc
+./scripts/osr engineering --flesh-out
+./scripts/osr engineering --cities --city samawah,songea --jobs 2
+./scripts/osr engineering --cities --all --generate-only --allow-input-gaps --jobs 8
+./scripts/osr engineering --cities --all --allow-input-gaps --jobs 2 --resume
+```
+
+`python-requirements.txt` pins direct engineering packages. The installer also
+writes a full transitive `pip-freeze.txt` manifest under
 `build/engineering/toolchain/` so evidence captures the exact environment
 that ran it.
 

@@ -62,7 +62,7 @@ resolver = "2"
 [workspace.package]
 version = "0.2.0"
 edition = "2021"
-rust-version = "1.80"
+rust-version = "1.88"
 license = "Apache-2.0"
 repository = "https://github.com/modernecotech/OpenSourceRail"
 
@@ -79,6 +79,10 @@ unexpected_cfgs = { level = "warn", check-cfg = ["cfg(kani)"] }
 # all enabled Rust/Clippy warnings; raise individual pedantic lints to `warn`
 # here as their existing findings are retired.
 pedantic = { level = "allow", priority = -1 }
+# Rust 1.88 expands this style lint across existing generated text emitters.
+# Keep the toolchain upgrade focused on compatibility; migrate those call sites
+# separately without mixing large generated-output diffs into setup changes.
+uninlined_format_args = "allow"
 # Pedantic lints already clean enough to enforce repository-wide.
 manual_clamp = "warn"
 manual_div_ceil = "warn"

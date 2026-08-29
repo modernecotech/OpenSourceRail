@@ -6,7 +6,8 @@ links the city, immutable revision, approved baseline, simulation run and
 selected asset.
 
 ```bash
-npm run workbench
+./install.sh
+./scripts/osr workbench
 ```
 
 Open <http://127.0.0.1:8090/>. Planning and training modes cannot emit live OCC

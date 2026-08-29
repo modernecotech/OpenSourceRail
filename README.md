@@ -5,6 +5,12 @@ testing, building and operating affordable urban rail systems. It connects
 city and service planning, GIS, CAD/IFC, rolling stock, embedded software,
 simulation, operations, costs and assurance in one Git-reviewable workflow.
 
+It is intended to give public authorities, universities, engineering teams
+and operators a common model rather than a collection of disconnected maps,
+spreadsheets and vendor applications. A planner can change a station, route,
+service period or fleet assumption, regenerate the affected artifacts, run the
+integrated simulation, and review the resulting engineering and cost evidence.
+
 > [!IMPORTANT]
 > Repository outputs are planning and engineering-screening evidence. They are
 > not feasibility studies, supplier bids, construction releases, safety
@@ -69,13 +75,36 @@ remain separate evidence or cost gates.
 
 ## Run The Platform
 
-Requirements depend on the component: Rust via `rustup`; Python for GIS,
-engineering and CAD automation; Node.js 20+ for browser builds and tests.
+### One-command Linux setup
+
+On Debian, Ubuntu, Mint, Fedora, RHEL, Rocky, AlmaLinux or CentOS, install the
+Workbench, simulator, design packages and test dependencies with:
+
+```bash
+./install.sh
+```
+
+For a first-use install that immediately starts the GUI, run
+`./install.sh --run`. Subsequent launches use `./scripts/osr workbench`.
+
+The installer detects `apt-get`, `dnf` or `yum` and installs pinned user-local
+Rust, Node.js, Python, uv and Trunk toolchains without modifying shell startup
+files. To add the complete CAD/BIM/GIS environment—FreeCAD, Blender with
+Bonsai, QGIS, CloudCompare, SUMO and the engineering solvers—use:
+
+```bash
+./install.sh --engineering
+```
+
+Both profiles support x86_64 and aarch64 Linux. Inspect an existing setup with
+`./scripts/osr doctor` or preview installation changes with
+`./install.sh --engineering --dry-run`. Desktop engineering applications are
+optional because they are large and are not needed to operate the Workbench.
 
 Run the integrated Workbench:
 
 ```bash
-npm run workbench
+./scripts/osr workbench
 ```
 
 Open <http://127.0.0.1:8090/>. The local development server is not an
@@ -84,22 +113,20 @@ authenticated public deployment.
 Run the deterministic simulator:
 
 ```bash
-cargo run --release --bin osr-sim -- --duration 3600 --status-every 300
+./scripts/osr sim --duration 3600 --status-every 300
 ```
 
 Run a different generated city:
 
 ```bash
-cargo run --release --bin osr-sim -- \
+./scripts/osr sim \
   --config designs/south-asia/Pakistan/Karachi/karachi.toml \
   --duration 3600
 ```
 
-Regenerate a city after installing the design package:
+Regenerate one city:
 
 ```bash
-pip install -e 'design-py[geotiff,batch]'
-cargo build --release --bin osr-design
 scripts/regenerate-city.sh samawah
 ```
 

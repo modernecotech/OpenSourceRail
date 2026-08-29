@@ -1,0 +1,65 @@
+#!/usr/bin/env bash
+# Stable launcher for the user-local toolchain installed by ../install.sh.
+set -euo pipefail
+
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+NODE_VERSION="22.23.2"
+TOOL_ROOT="${OSR_INSTALL_TOOL_ROOT:-${XDG_DATA_HOME:-${HOME}/.local/share}/opensource-rail/toolchains}"
+export PATH="$ROOT/.venv/bin:$TOOL_ROOT/bin:$TOOL_ROOT/node-v$NODE_VERSION/bin:${HOME}/.cargo/bin:$PATH"
+export PLAYWRIGHT_BROWSERS_PATH="${OSR_PLAYWRIGHT_BROWSERS_PATH:-$TOOL_ROOT/playwright}"
+cd "$ROOT"
+
+usage() {
+    cat <<'EOF'
+Usage: ./scripts/osr COMMAND [arguments]
+
+  workbench          Build and run the integrated GUI at 127.0.0.1:8090
+  sim [arguments]    Run the deterministic railway simulator
+  design [arguments] Run the deterministic city-design compiler
+  test               Run Rust, Python, browser, and repository checks
+  engineering ...    Run an engineering-toolchain command
+  doctor             Check the core installation
+  doctor --engineering
+                     Check the CAD/BIM/GIS installation too
+EOF
+}
+
+command_name="${1:-}"
+[[ -n "$command_name" ]] || { usage; exit 2; }
+shift
+
+case "$command_name" in
+    workbench)
+        exec npm run workbench -- "$@"
+        ;;
+    sim)
+        exec cargo run --release --bin osr-sim -- "$@"
+        ;;
+    design)
+        exec cargo run --release --bin osr-design -- "$@"
+        ;;
+    test)
+        cargo fmt --all -- --check
+        cargo clippy --workspace --all-targets -- -D warnings
+        cargo test --workspace --all-targets
+        python3 -m pytest -q design-py/tests mechanical-py/tests \
+            tools/osr-aln-convert/tests tools/reference-ma/tests
+        npm run test:frontend
+        python3 scripts/repo-health.py --quiet
+        python3 scripts/check-markdown-links.py
+        ;;
+    engineering)
+        exec scripts/engineering-toolchain.sh "$@"
+        ;;
+    doctor)
+        exec "$ROOT/install.sh" --check "$@"
+        ;;
+    -h|--help|help)
+        usage
+        ;;
+    *)
+        printf 'osr: unknown command: %s\n\n' "$command_name" >&2
+        usage >&2
+        exit 2
+        ;;
+esac

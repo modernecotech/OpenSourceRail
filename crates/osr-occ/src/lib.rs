@@ -179,7 +179,7 @@ pub fn occ_evaluate(prev: &OccState, inputs: &OccInputs) -> OccOutput {
                 key,
                 DispatchHold {
                     set_ns: inputs.now_ns,
-                    reason: format!("incident {}", id),
+                    reason: format!("incident {id}"),
                     auto: true,
                 },
             );
