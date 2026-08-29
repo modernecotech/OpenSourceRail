@@ -26,7 +26,6 @@ the generated [Markdown documentation index](INDEX.md).
 | v0.2 contributor | [ROADMAP.md](ROADMAP.md) |
 | Engineering design/simulation contributor | [Engineering design and simulation plan](engineering-design-simulation-plan.md) |
 | Embedded/software-in-loop reviewer | [Simulation software coverage](simulation-software-coverage.md), then [SBC architecture](rfcs/0005-sbc-software-architecture.md) |
-| Government, university, research or funding reviewer | [Marketing and outreach guide](../marketing/README.md), then the [campaign catalogue](../marketing/campaigns/README.md) |
 | Release reviewer | [next release checklist](releases/next.md) |
 
 ## Documentation Sets
@@ -78,7 +77,6 @@ the generated [Markdown documentation index](INDEX.md).
 | Operations portal | [operations-portal/README.md](operations-portal/README.md) |
 | City design and service-planning studio | [city-studio/README.md](city-studio/README.md) |
 | Generated portfolio capital summary | [portfolio-summary.md](portfolio-summary.md) |
-| Developing-world campaign source and generated packages | [marketing/README.md](../marketing/README.md), [`international-targets.toml`](../marketing/international-targets.toml) |
 | Ops Core operating model | [operations-portal/ops-core.md](operations-portal/ops-core.md) |
 | Acceptance/accreditation evidence status | [certification/evidence-status.md](certification/evidence-status.md) |
 | Construction QA system | [rfcs/0028-construction-quality-assurance.md](rfcs/0028-construction-quality-assurance.md) |

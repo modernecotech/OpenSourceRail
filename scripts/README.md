@@ -38,7 +38,6 @@ stay thin: domain logic belongs in Rust crates, `design-py`, or
 | [`validate-city-simulation.py`](validate-city-simulation.py) | Run nominal and mandatory degraded-energy OSR simulations on distinct physical cores, using compact result traces, and write reproducible battery, charging, and depot validation evidence |
 | [`validate-simulation-components.py`](validate-simulation-components.py) | Fail closed unless every deployed software component has one explicit simulation treatment and every tick-linked component remains an `osr-sim` dependency |
 | [`generate-city-package-manifest.py`](generate-city-package-manifest.py) | Fail closed unless a full city package contains passing design, engineering, simulation, resilience, operations, and hash-linked acceptance artifacts |
-| [`generate-marketing-campaigns.py`](generate-marketing-campaigns.py) | Generate and drift-check country, municipality and international outreach briefs, email strings, image links and recipient-role research records |
 | [`repo-health.py`](repo-health.py) | Check generated artifact drift, required files, and repository hygiene |
 | [`check-markdown-links.py`](check-markdown-links.py) | Check that local links in tracked Markdown resolve inside the repository |
 | [`check-readmes.py`](check-readmes.py) | Enforce titles, whitespace, provenance, common-method links and concise size limits across tracked READMEs and national briefs |

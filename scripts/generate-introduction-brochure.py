@@ -11,10 +11,20 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 OUTPUT = REPO_ROOT / "docs/brochures/open-source-rail-overview.html"
-MARKETING_MANIFEST = REPO_ROOT / "marketing/manifest.json"
 TRAINSET_COST = (
     REPO_ROOT / "mechanical-py/catalog/buildable-trainset/trainset-build-cost.json"
 )
+DEVELOPING_WORLD_REGIONS = {
+    "central-africa",
+    "east-africa",
+    "latin-america",
+    "north-africa",
+    "south-africa",
+    "south-asia",
+    "southeast-asia",
+    "west-africa",
+    "west-asia",
+}
 REFERENCED_ASSETS = (
     REPO_ROOT / "docs/assets/solar-metro-trainset.png",
     REPO_ROOT / "docs/screenshots/city-studio/gui-acceptance.png",
@@ -33,24 +43,25 @@ def render() -> str:
     if missing:
         joined = ", ".join(str(path.relative_to(REPO_ROOT)) for path in missing)
         raise FileNotFoundError(f"missing overview asset(s): {joined}")
-    marketing = json.loads(MARKETING_MANIFEST.read_text(encoding="utf-8"))
     trainset = json.loads(TRAINSET_COST.read_text(encoding="utf-8"))
-    if marketing.get("marketing_focus") != "developing-world":
-        raise ValueError("marketing manifest must declare developing-world focus")
-    catalogue = int(marketing["catalogue_city_count"])
-    cities = int(marketing["city_campaign_count"])
-    countries = int(marketing["country_campaign_count"])
-    targets = int(marketing["international_campaign_count"])
-    excluded = int(marketing["excluded_from_marketing_count"])
-    if catalogue - cities != excluded:
-        raise ValueError("marketing catalogue exclusion counts do not reconcile")
+    design_paths = sorted((REPO_ROOT / "designs").glob("*/*/*/design.toml"))
+    public_paths = [
+        path
+        for path in design_paths
+        if path.relative_to(REPO_ROOT / "designs").parts[0] in DEVELOPING_WORLD_REGIONS
+    ]
+    catalogue = len(design_paths)
+    cities = len(public_paths)
+    countries = len(
+        {path.relative_to(REPO_ROOT / "designs").parts[1] for path in public_paths}
+    )
     estimate = compact_usd(float(trainset["total_build_cost_usd"]))
     planning_unit = compact_usd(float(trainset["rounded_local_owner_unit_usd"]))
     values = {
         "catalogue": str(catalogue),
         "cities": str(cities),
         "countries": str(countries),
-        "targets": str(targets),
+        "regions": str(len(DEVELOPING_WORLD_REGIONS)),
         "estimate": estimate,
         "planning_unit": planning_unit,
     }
@@ -100,9 +111,9 @@ def render() -> str:
   </header>
 
   <section class="metrics">
-    <div class="metric"><strong>{values['cities']}</strong><span>developing-world city campaigns</span></div>
+    <div class="metric"><strong>{values['cities']}</strong><span>developing-world city planning models</span></div>
     <div class="metric"><strong>{values['countries']}</strong><span>countries in the evidence scope</span></div>
-    <div class="metric"><strong>{values['targets']}</strong><span>international research, funding and sector targets</span></div>
+    <div class="metric"><strong>{values['regions']}</strong><span>developing-world design regions</span></div>
     <div class="metric"><strong>{values['planning_unit']}</strong><span>3-car LM3 planning unit; generated build estimate {values['estimate']}</span></div>
   </section>
 
@@ -135,13 +146,12 @@ def render() -> str:
     <div class="card">
       <h2>Buildable, inspectable system</h2>
       <p>Reference packages cover modular rolling stock, simplified fasteners and fixtures, stations, track and civil works, battery traction and renewable charging, embedded host roles, operations procedures and machine-checkable safety evidence.</p>
-      <p class="small">The engineering catalogue contains {values['catalogue']} models. European comparison designs are retained for technical inspection but excluded from public evidence totals, examples and outreach packages.</p>
+      <p class="small">The engineering catalogue contains {values['catalogue']} models. European comparison designs are retained for technical inspection but excluded from public evidence totals and examples.</p>
     </div>
     <div class="card">
       <h2>Review or collaborate</h2>
       <p><a href="https://github.com/modernecotech/OpenSourceRail">github.com/modernecotech/OpenSourceRail</a></p>
-      <p>Government, municipality, university, research, development-finance, operator and open-source collaboration packages are generated from the same evidence.</p>
-      <p><strong>Contact:</strong> hayder@modernecotech.com</p>
+      <p>Review the assumptions, reproduce the generators, open a technical issue or propose an evidence-backed contribution through the public repository.</p>
     </div>
   </section>
 </main>

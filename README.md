@@ -15,7 +15,7 @@ simulation, operations, costs and assurance in one Git-reviewable workflow.
 The public evidence scope covers **265 cities in 43 developing countries**.
 The engineering catalogue contains 266 models; one European comparison model
 is retained for technical inspection but excluded from portfolio totals,
-campaign metrics, examples, images and recipient packages.
+public evidence totals and front-page examples.
 
 ## Feature Highlights
 
@@ -30,7 +30,6 @@ campaign metrics, examples, images and recipient packages.
 | Automatic cost propagation | CAD-indexed quantities feed the civil rate contract, city CAPEX, finance, IFC properties, national briefs and the developing-world [portfolio summary](docs/portfolio-summary.md). |
 | Operations and assurance | Manufacturing, QA, maintenance, assets, work orders, acceptance evidence and a machine-checkable safety case remain linked to source artifacts. |
 | Deterministic browser testing | Pinned Playwright acceptance verifies the integrated browser applications, adapters, engineering jobs and restart persistence. |
-| Outreach generation | Reviewable packages cover governments, municipalities, universities, research groups, funders, nonprofits and specialist media without guessing addresses or sending messages. |
 
 The current city cost model uses about **$0.9M per 3-car light-metro trainset**.
 The generated LM3 build record currently estimates $885k before
@@ -67,7 +66,6 @@ remain separate evidence or cost gates.
 | Review hardware | [Hardware hosts](hardware/README.md) and [integration matrix](hardware/rolling-stock-integration.md) |
 | Review operations | [Operations](docs/operations/README.md) and [Ops Core](docs/operations-portal/ops-core.md) |
 | Review safety and release gaps | [Certification](docs/certification/README.md), [safety case](docs/safety-case/README.md) and [roadmap](docs/ROADMAP.md) |
-| Prepare outreach | [Marketing guide](marketing/README.md) and [campaign catalogue](marketing/campaigns/README.md) |
 
 ## Run The Platform
 
@@ -145,7 +143,6 @@ competent engineering review and national authorization.
 | `engineering/` | Engineering toolchain, IFC/IDS/BCF and software coverage evidence |
 | `hardware/` | Train, wayside and station/depot host references |
 | `docs/` | Architecture, engineering, operations, certification and safety evidence |
-| `marketing/` | Developing-world outreach packages and verified organisational routes |
 | `projects/` | Git-backed City Studio source projects and immutable revisions |
 
 ## Verification

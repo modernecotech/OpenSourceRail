@@ -1,9 +1,9 @@
 # Public Overview
 
 The [one-page OpenSourceRail overview](open-source-rail-overview.html) is a
-generated public introduction. Its scope counts come from
-`marketing/manifest.json`; its trainset figures come from the generated LM3
-build-cost record. It is not a second technical source of truth.
+generated public introduction. Its scope counts come from the city design
+catalogue; its trainset figures come from the generated LM3 build-cost record.
+It is not a second technical source of truth.
 
 Regenerate or check it:
 

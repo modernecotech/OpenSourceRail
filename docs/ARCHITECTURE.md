@@ -343,8 +343,7 @@ OpenSourceRail/
 ├── engineering/               # IFC, schemas and engineering evidence
 ├── hardware/                  # Host roles and bring-up/integration evidence
 ├── formal/                    # Formal models and checks
-├── docs/                      # Shared decisions, operations and assurance
-└── marketing/                 # Generated outreach; not design authority
+└── docs/                      # Shared decisions, operations and assurance
 ```
 
 ---
