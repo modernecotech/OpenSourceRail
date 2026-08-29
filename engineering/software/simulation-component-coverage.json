@@ -4,16 +4,16 @@
   "issues": [],
   "inventory_count": 55,
   "classified_count": 55,
-  "linked_component_count": 35,
+  "linked_component_count": 36,
   "category_counts": {
     "tick_controller": 21,
     "runtime_kernel": 6,
-    "infrastructure_tick_controller": 5,
+    "infrastructure_tick_controller": 6,
     "backend_stream_processor": 3,
     "scenario_model": 2,
     "design_pipeline": 5,
     "simulation_shell": 3,
-    "external_boundary": 10
+    "external_boundary": 9
   },
   "categories": {
     "tick_controller": [
@@ -48,6 +48,7 @@
       "osr-secbus"
     ],
     "infrastructure_tick_controller": [
+      "osr-balise",
       "osr-hot-axle-wayside",
       "osr-intrusion-detect",
       "osr-pis-station",
@@ -78,7 +79,6 @@
     "external_boundary": [
       "osr-afc",
       "osr-afc-backoffice",
-      "osr-balise",
       "osr-level-crossing",
       "osr-occ",
       "osr-occ-gui",
@@ -89,8 +89,8 @@
     ]
   },
   "deployment_inventory_sha256": "f6a192757c64f5059fd321ca45d9345c6b1da65d81f45a5d943e49971596492d",
-  "coverage_contract_sha256": "6ea9784518901bb2bf9541ff9b1c5286a8bb42b2901b81fe8c015e762364d378",
-  "simulator_cargo_sha256": "2b815df3a12e1b5658180c98c89e9683010afa7e652ed1b31726130c5fbdf444",
+  "coverage_contract_sha256": "0dfb40a007b75c6a3cdf729af78cbbecdad9f8274c7de80013a87165f4e466b8",
+  "simulator_cargo_sha256": "2dbbb32cb2ffd5b29589c7abf646205cc3297ea142b2222eedf15aa9778a8c90",
   "runtime_evidence": null,
   "interpretation": "Complete means every deployable software component has exactly one explicit simulation treatment. Controllers and stream processors execute on their declared vehicle, infrastructure, or backend cadence; scenario_model and external_boundary entries remain visible gaps, not simulated implementations."
 }

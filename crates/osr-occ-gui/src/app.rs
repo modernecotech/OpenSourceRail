@@ -68,6 +68,10 @@ pub struct RecordedStateSummary {
     pub habd_passages: u64,
     pub habd_warnings: u64,
     pub habd_restriction_ticks: u64,
+    pub balise_fixes: u64,
+    pub balise_audit_findings: u64,
+    pub fare_gate_grants: u64,
+    pub fare_gate_denials: u64,
     pub tcms_movement_inhibits: u64,
 }
 
@@ -188,6 +192,13 @@ impl OccApp {
             habd_passages: result.habd_systems.passages_evaluated,
             habd_warnings: result.habd_systems.warning_passages,
             habd_restriction_ticks: result.habd_systems.speed_restriction_ticks,
+            balise_fixes: result.balise_systems.fixes_applied,
+            balise_audit_findings: result.balise_systems.missed_sightings
+                + result.balise_systems.position_mismatches
+                + result.balise_systems.unknown_sightings
+                + result.balise_systems.stale_findings,
+            fare_gate_grants: result.fare_systems.gate_grants,
+            fare_gate_denials: result.fare_systems.gate_denials,
             tcms_movement_inhibits: result.embedded.tcms_departure_inhibit_ticks
                 + result.embedded.tcms_travel_hold_ticks,
         }
@@ -444,6 +455,20 @@ fn left_actions(app: &mut OccApp, ctx: &Context) {
                 result.habd_systems.speed_restrictions_cleared,
                 result.habd_systems.active_speed_restrictions.len(),
                 result.habd_systems.speed_restriction_ticks
+            ));
+            ui.label(format!(
+                "Balises registry / fixes / missed / mismatch: {} / {} / {} / {}",
+                result.balise_systems.registry_count,
+                result.balise_systems.fixes_applied,
+                result.balise_systems.missed_sightings,
+                result.balise_systems.position_mismatches
+            ));
+            ui.label(format!(
+                "Fare TVM issued / gate grants / denies / settled: {} / {} / {} / {} cents",
+                result.fare_systems.tickets_issued,
+                result.fare_systems.gate_grants,
+                result.fare_systems.gate_denials,
+                result.fare_systems.settled_fare_cents
             ));
             ui.separator();
             ui.heading("Station + wayside");

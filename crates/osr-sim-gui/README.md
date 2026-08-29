@@ -24,6 +24,7 @@ then animates the run at arbitrary playback speed.
 - Station and wayside evidence for PSD, PIS, SCADA, and intrusion detection.
 - Physical HABD passage, warning restriction, trip, latched-stop, and
   inspected-reset evidence.
+- Balise registry, accepted odometry fixes, and sighting-audit findings.
 - Depot evidence for radio-delivered CBM, history, analytics, and work orders.
 
 ## Run (native)

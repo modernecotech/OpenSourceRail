@@ -2,9 +2,11 @@
 //! used by the `osr-sim` and `osr-vis` binaries.
 
 pub mod backend_systems;
+pub mod balise_systems;
 pub mod consensus_log;
 pub mod embedded;
 pub mod energy;
+pub mod fare_systems;
 pub mod fault;
 pub mod habd_systems;
 pub mod infrastructure_systems;

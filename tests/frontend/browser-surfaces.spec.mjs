@@ -23,11 +23,15 @@ for (const frontend of [
       tcmsMovementInhibits: 0,
       habdWarnings: 0,
       habdRestrictionTicks: 0,
+      baliseAuditFindings: 0,
+      fareGateDenials: 0,
     },
     positiveDetails: [
       "events", "trains", "controllerTicks", "embeddedTicks", "t2gTransmissions",
       "stationTicks", "waysideTicks",
       "backendSamples", "analyticsMetrics", "ptpTicks", "habdPassages",
+      "baliseFixes",
+      "fareGateGrants",
     ],
   },
   {
@@ -39,11 +43,15 @@ for (const frontend of [
       tcmsMovementInhibits: 0,
       habdWarnings: 0,
       habdRestrictionTicks: 0,
+      baliseAuditFindings: 0,
+      fareGateDenials: 0,
     },
     positiveDetails: [
       "recordedEvents", "trains", "alerts", "intrusions", "embeddedTicks", "t2gTransmissions",
       "stationTicks", "waysideTicks",
       "backendSamples", "analyticsMetrics", "ptpTicks", "habdPassages",
+      "baliseFixes",
+      "fareGateGrants",
     ],
   },
 ]) {

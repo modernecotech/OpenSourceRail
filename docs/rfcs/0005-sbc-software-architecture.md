@@ -399,6 +399,9 @@ Prerequisite: RFC 0004 M1+M2 are done; M3 (Kani) can run in parallel.
 13. **`osr-consensus`** — Raft against the TLA+ spec.
 14. **`osr-wayside-points`**, **`osr-level-crossing`**,
     **`osr-balise`**, **`osr-hot-axle-wayside`**.
+    The simulator derives one stable passive-balise record per directed
+    section, audits each crossing through `osr-balise`, and passes only valid
+    fixes into the real `osr-odometry` evaluator.
 15. **`osr-energy-site`** (already scoped in RFC 0002; crate created here).
 
 ### Phase 2e — Stations and back-office

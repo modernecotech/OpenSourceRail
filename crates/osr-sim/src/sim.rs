@@ -24,9 +24,11 @@ use osr_core::{
 use serde::{Deserialize, Serialize};
 
 use crate::backend_systems::{self, BackendSystemsShadow, BackendSystemsSummary};
+use crate::balise_systems::{self, BaliseSystemsShadow, BaliseSystemsSummary};
 use crate::consensus_log::ConsensusBackend;
 use crate::embedded::{self, EmbeddedShadow, EmbeddedSummary};
 use crate::energy::{pv_output_kw, EnergySiteConfig, EnergySiteSummary, EnergySystem};
+use crate::fare_systems::{self, FareSystemsShadow, FareSystemsSummary};
 use crate::fault::{Fault, FaultEngine, FaultLogEntry};
 use crate::habd_systems::{
     self, HabdDetectorConfig, HabdResetAction, HabdSystemsShadow, HabdSystemsSummary,
@@ -605,6 +607,12 @@ pub struct SimResult {
     /// Physical HABD passage, trip, stop-order, and inspection-release evidence.
     #[serde(default)]
     pub habd_systems: HabdSystemsSummary,
+    /// Wayside registry, sighting audit, and odometry-fix evidence.
+    #[serde(default)]
+    pub balise_systems: BaliseSystemsSummary,
+    /// Station TVM/AFC controller and back-office settlement evidence.
+    #[serde(default)]
+    pub fare_systems: FareSystemsSummary,
 }
 
 fn default_ma_summary() -> MaCheckSummary {
@@ -719,6 +727,8 @@ pub fn run_with_event_recording(
     let mut backend_systems_shadow = BackendSystemsShadow::default();
     let mut time_sync_shadow = TimeSyncShadow::default();
     let mut habd_systems_shadow = HabdSystemsShadow::new(&config.habd_detectors);
+    let mut balise_systems_shadow = BaliseSystemsShadow::new(&config.network);
+    let mut fare_systems_shadow = FareSystemsShadow::new(&config.network);
 
     // Optional CSV trace.
     let mut csv_writer: Option<std::io::BufWriter<std::fs::File>> = None;
@@ -779,6 +789,11 @@ pub fn run_with_event_recording(
         // Advance the shared deterministic PTP slave before timestamped
         // controller traffic is evaluated for this cycle.
         time_sync::time_sync_tick(&mut time_sync_shadow, t);
+
+        // Exercise the signed station-token path and back-office settlement.
+        // This representative workload is deliberately separate from demand
+        // and train-loading forecasts.
+        fare_systems::fare_systems_tick(&mut fare_systems_shadow, &faults, t);
 
         // Convert declared faults to synthetic sensor frames, run the actual
         // SIL-4 wayside evaluator, and publish only verdict transitions.
@@ -858,6 +873,7 @@ pub fn run_with_event_recording(
                     onboard::OnboardMovementControl {
                         inhibited: movement_effect == MovementControlEffect::TravelHeld,
                         wayside_speed_limit_mps: habd_speed_limit_mps,
+                        balise_systems: Some(&mut balise_systems_shadow),
                     },
                     t,
                     dt,
@@ -1017,6 +1033,8 @@ pub fn run_with_event_recording(
     let backend_systems_summary = backend_systems::summarise(&backend_systems_shadow);
     let time_sync_summary = time_sync::summarise(&time_sync_shadow);
     let habd_systems_summary = habd_systems::summarise(&habd_systems_shadow);
+    let balise_systems_summary = balise_systems::summarise(&balise_systems_shadow);
+    let fare_systems_summary = fare_systems::summarise(&fare_systems_shadow);
 
     // Build per-site summaries.
     let energy_sites: Vec<EnergySiteSummary> = energy
@@ -1070,6 +1088,8 @@ pub fn run_with_event_recording(
         backend_systems: backend_systems_summary,
         time_sync: time_sync_summary,
         habd_systems: habd_systems_summary,
+        balise_systems: balise_systems_summary,
+        fare_systems: fare_systems_summary,
     }
 }
 

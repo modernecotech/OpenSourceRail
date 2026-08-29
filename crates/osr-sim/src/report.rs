@@ -197,6 +197,46 @@ pub fn print_summary(_config: &ScenarioConfig, _runtime: &RuntimeConfig, r: &Sim
         );
     }
 
+    if r.balise_systems.registry_count > 0 {
+        println!("\n────────── Wayside balise positioning ──────────");
+        println!(
+            "Registry / crossings: {} / {}",
+            r.balise_systems.registry_count, r.balise_systems.crossing_opportunities
+        );
+        println!(
+            "Fixes / missed / mismatch: {} / {} / {}",
+            r.balise_systems.fixes_applied,
+            r.balise_systems.missed_sightings,
+            r.balise_systems.position_mismatches
+        );
+        println!(
+            "Unknown / stale audit findings: {} / {}",
+            r.balise_systems.unknown_sightings, r.balise_systems.stale_findings
+        );
+    }
+
+    if r.fare_systems.station_count > 0 {
+        println!("\n────────── Station fare + settlement stack ──────────");
+        println!(
+            "Stations / gate ticks: {} / {}",
+            r.fare_systems.station_count, r.fare_systems.gate_controller_ticks
+        );
+        println!(
+            "TVM issued / denied : {} / {}",
+            r.fare_systems.tickets_issued, r.fare_systems.tickets_denied
+        );
+        println!(
+            "Gate grant / deny   : {} / {}",
+            r.fare_systems.gate_grants, r.fare_systems.gate_denials
+        );
+        println!(
+            "Sales / settled     : {} / {} cents · {} fraud flags",
+            r.fare_systems.tvm_sales_cents,
+            r.fare_systems.settled_fare_cents,
+            r.fare_systems.fraud_flags_raised
+        );
+    }
+
     if r.embedded.controller_ticks > 0 {
         println!("\n────────── Embedded application stack ──────────");
         println!("TCMS ticks         : {:>10}", r.embedded.controller_ticks);

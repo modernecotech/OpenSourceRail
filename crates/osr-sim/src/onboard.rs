@@ -73,7 +73,7 @@ use osr_obstacle_detect::{
     evaluate as obstacle_evaluate, ObstacleOutcome, ObstacleVerdict, SensorFrame as ObsFrame,
     TriggerReason as ObsReason, CRAWL_SPEED_MMPS, RESTRICTED_SPEED_MMPS,
 };
-use osr_odometry::{odom_step, BaliseId, OdomCalibration, OdomState, SensorTick};
+use osr_odometry::{odom_step, OdomCalibration, OdomState, SensorTick};
 use osr_passenger_assist::{
     assist_evaluate, AssistInputs, AssistOutput, AssistState, OperatorCommand,
 };
@@ -432,10 +432,11 @@ impl OnboardShadow {
 
 /// One tick of the shadow onboard stack. Safe to call only when the
 /// train is in [`TrainPhase::Traveling`]; otherwise returns `None`.
-#[derive(Clone, Copy, Debug, Default)]
-pub struct OnboardMovementControl {
+#[derive(Debug, Default)]
+pub struct OnboardMovementControl<'a> {
     pub inhibited: bool,
     pub wayside_speed_limit_mps: Option<f32>,
+    pub balise_systems: Option<&'a mut crate::balise_systems::BaliseSystemsShadow>,
 }
 
 #[must_use]
@@ -444,7 +445,7 @@ pub fn onboard_tick(
     train: &Train,
     network: &Network,
     faults: &crate::fault::FaultEngine,
-    movement: OnboardMovementControl,
+    movement: OnboardMovementControl<'_>,
     t_s: u32,
     dt_s: f32,
 ) -> Option<TickReport> {
@@ -501,11 +502,24 @@ pub fn onboard_tick(
 
     // 2. Build synthetic sensors.
     let wheel_pulses = (distance_mm * i64::from(shadow.odom_cal.pulses_per_meter) / 1_000) as i32;
+    let balise = movement.balise_systems.and_then(|systems| {
+        systems.crossing_fix(
+            train.id,
+            crate::balise_systems::BaliseCrossing {
+                section,
+                direction: shadow.kin.heading_direction,
+                previous_offset_mm: prev_offset,
+                current_offset_mm: new_offset,
+            },
+            now_ns,
+            faults,
+        )
+    });
     let sensors = SensorTick {
         timestamp_ns: now_ns,
         wheel_pulses,
         gnss: None,
-        balise: None,
+        balise,
     };
 
     // 3. Odometry.
@@ -520,7 +534,6 @@ pub fn onboard_tick(
     shadow.odom.speed_uncertainty_mmps = 0;
     shadow.odom.position_uncertainty_mm = 0;
     shadow.last_t_ns = now_ns;
-    let _ = BaliseId::new(0); // silence "unused import" if balises aren't exercised
 
     // 4. Cross the real typed TCN seam between odometry and ATP. Any
     // transport failure becomes unknown position, which makes ATP
@@ -1440,6 +1453,7 @@ mod tests {
                 OnboardMovementControl {
                     inhibited: false,
                     wayside_speed_limit_mps: Some(11.0),
+                    balise_systems: None,
                 },
                 t,
                 1.0,

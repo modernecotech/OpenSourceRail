@@ -55,6 +55,10 @@ pub struct RunStateSummary {
     pub habd_passages: u64,
     pub habd_warnings: u64,
     pub habd_restriction_ticks: u64,
+    pub balise_fixes: u64,
+    pub balise_audit_findings: u64,
+    pub fare_gate_grants: u64,
+    pub fare_gate_denials: u64,
     pub tcms_movement_inhibits: u64,
     pub invariant_violations: usize,
 }
@@ -162,6 +166,13 @@ impl SimApp {
                 habd_passages: result.habd_systems.passages_evaluated,
                 habd_warnings: result.habd_systems.warning_passages,
                 habd_restriction_ticks: result.habd_systems.speed_restriction_ticks,
+                balise_fixes: result.balise_systems.fixes_applied,
+                balise_audit_findings: result.balise_systems.missed_sightings
+                    + result.balise_systems.position_mismatches
+                    + result.balise_systems.unknown_sightings
+                    + result.balise_systems.stale_findings,
+                fare_gate_grants: result.fare_systems.gate_grants,
+                fare_gate_denials: result.fare_systems.gate_denials,
                 tcms_movement_inhibits: result.embedded.tcms_departure_inhibit_ticks
                     + result.embedded.tcms_travel_hold_ticks,
                 invariant_violations: result.invariant_violations.len(),
@@ -370,6 +381,20 @@ fn left_sidebar(app: &mut SimApp, ctx: &Context) {
                 r.habd_systems.speed_restrictions_cleared,
                 r.habd_systems.active_speed_restrictions.len(),
                 r.habd_systems.speed_restriction_ticks
+            ));
+            ui.label(format!(
+                "Balises registry / fixes / missed / mismatch: {} / {} / {} / {}",
+                r.balise_systems.registry_count,
+                r.balise_systems.fixes_applied,
+                r.balise_systems.missed_sightings,
+                r.balise_systems.position_mismatches
+            ));
+            ui.label(format!(
+                "Fare TVM issued / gate grants / denies / settled: {} / {} / {} / {} cents",
+                r.fare_systems.tickets_issued,
+                r.fare_systems.gate_grants,
+                r.fare_systems.gate_denials,
+                r.fare_systems.settled_fare_cents
             ));
             ui.separator();
             ui.heading("Station + wayside");

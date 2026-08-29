@@ -46,6 +46,10 @@
 //!   trackside feedback paths to be tested independently.
 //! - **CBM degradation** — drives bearing, motor, brake-pad, and wheel
 //!   measurements into their service bands.
+//! - **Balise missed/mismatch** — suppresses a passing train's absolute fix
+//!   or corrupts its claimed position so the real registry audit rejects it.
+//! - **Fare-token tamper** — flips a signature bit after TVM issuance so the
+//!   affected station's real AFC gate and back office exercise denial/fraud.
 //!
 //! Wayside intrusion-detect faults (RFC 0016 v3). These exercise the
 //! full wayside→interlocking→train chain:
@@ -162,6 +166,18 @@ pub enum FaultKind {
     CbmDegradation {
         scope: TrainFaultScope,
     },
+    /// Suppress the physical balise sighting for the affected train(s).
+    BaliseMissed {
+        scope: TrainFaultScope,
+    },
+    /// Shift the reported balise position so the registry rejects the fix.
+    BalisePositionMismatch {
+        scope: TrainFaultScope,
+    },
+    /// Corrupt the TVM-issued token before presentation at affected gate(s).
+    FareTokenTamper {
+        scope: FaultScope,
+    },
     /// RFC 0016 v3 — inject a wayside intrusion verdict on a named
     /// section. The sim emits a `SectionIntrusion` consensus entry
     /// carrying this state for as long as the fault is active; the
@@ -233,6 +249,12 @@ pub struct FaultEngine {
     habd_warning_all: bool,
     cbm_degradation_trains: HashSet<TrainId>,
     cbm_degradation_all: bool,
+    balise_missed_trains: HashSet<TrainId>,
+    balise_missed_all: bool,
+    balise_mismatch_trains: HashSet<TrainId>,
+    balise_mismatch_all: bool,
+    fare_token_tamper_stations: HashSet<StationId>,
+    fare_token_tamper_all: bool,
     /// Active wayside intrusion injections — `section → state`. The sim
     /// emits a `SectionIntrusion` entry per tick for each key. Rebuilt
     /// in `tick()`.
@@ -291,6 +313,12 @@ impl FaultEngine {
             habd_warning_all: false,
             cbm_degradation_trains: HashSet::new(),
             cbm_degradation_all: false,
+            balise_missed_trains: HashSet::new(),
+            balise_missed_all: false,
+            balise_mismatch_trains: HashSet::new(),
+            balise_mismatch_all: false,
+            fare_token_tamper_stations: HashSet::new(),
+            fare_token_tamper_all: false,
             wayside_intrusions: HashMap::new(),
             fault_log: Vec::new(),
             fired_names: HashSet::new(),
@@ -337,6 +365,12 @@ impl FaultEngine {
         self.habd_warning_all = false;
         self.cbm_degradation_trains.clear();
         self.cbm_degradation_all = false;
+        self.balise_missed_trains.clear();
+        self.balise_missed_all = false;
+        self.balise_mismatch_trains.clear();
+        self.balise_mismatch_all = false;
+        self.fare_token_tamper_stations.clear();
+        self.fare_token_tamper_all = false;
         self.wayside_intrusions.clear();
 
         for fault in &self.faults {
@@ -473,6 +507,24 @@ impl FaultEngine {
                         self.cbm_degradation_trains.insert(*t);
                     }
                 },
+                FaultKind::BaliseMissed { scope } => match scope {
+                    TrainFaultScope::All => self.balise_missed_all = true,
+                    TrainFaultScope::Train(t) => {
+                        self.balise_missed_trains.insert(*t);
+                    }
+                },
+                FaultKind::BalisePositionMismatch { scope } => match scope {
+                    TrainFaultScope::All => self.balise_mismatch_all = true,
+                    TrainFaultScope::Train(t) => {
+                        self.balise_mismatch_trains.insert(*t);
+                    }
+                },
+                FaultKind::FareTokenTamper { scope } => match scope {
+                    FaultScope::All => self.fare_token_tamper_all = true,
+                    FaultScope::Station(station) => {
+                        self.fare_token_tamper_stations.insert(*station);
+                    }
+                },
                 FaultKind::WaysideIntrusion { section, state } => {
                     // Most-restrictive state wins when multiple faults
                     // overlap on the same section.
@@ -591,6 +643,21 @@ impl FaultEngine {
     pub fn cbm_degradation_for(&self, train: TrainId) -> bool {
         self.cbm_degradation_all || self.cbm_degradation_trains.contains(&train)
     }
+
+    pub fn balise_missed_for(&self, train: TrainId) -> bool {
+        self.balise_missed_all || self.balise_missed_trains.contains(&train)
+    }
+
+    pub fn balise_mismatch_for(&self, train: TrainId) -> bool {
+        self.balise_mismatch_all || self.balise_mismatch_trains.contains(&train)
+    }
+
+    pub fn fare_token_tampered_at(&self, station_id: u32) -> bool {
+        self.fare_token_tamper_all
+            || self
+                .fare_token_tamper_stations
+                .contains(&StationId::new(u64::from(station_id)))
+    }
 }
 
 fn most_restrictive(a: IntrusionState, b: IntrusionState) -> IntrusionState {
@@ -693,6 +760,18 @@ fn describe_kind(kind: &FaultKind) -> String {
         FaultKind::CbmDegradation { scope } => match scope {
             TrainFaultScope::All => "CBM service-level degradation (fleet)".to_string(),
             TrainFaultScope::Train(_) => "CBM service-level degradation (one train)".to_string(),
+        },
+        FaultKind::BaliseMissed { scope } => match scope {
+            TrainFaultScope::All => "balise missed (fleet)".to_string(),
+            TrainFaultScope::Train(_) => "balise missed (one train)".to_string(),
+        },
+        FaultKind::BalisePositionMismatch { scope } => match scope {
+            TrainFaultScope::All => "balise position mismatch (fleet)".to_string(),
+            TrainFaultScope::Train(_) => "balise position mismatch (one train)".to_string(),
+        },
+        FaultKind::FareTokenTamper { scope } => match scope {
+            FaultScope::All => "fare token tamper (all stations)".to_string(),
+            FaultScope::Station(_) => "fare token tamper (one station)".to_string(),
         },
         FaultKind::WaysideIntrusion { section, state } => {
             let s = match state {

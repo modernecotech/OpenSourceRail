@@ -206,6 +206,23 @@ def summarize_result(
         and len(habd_active_stop_orders) == 0
         and len(habd_active_speed_restrictions) == 0
     )
+    balise_systems = result.get("balise_systems", {})
+    balise_crossings = int(balise_systems.get("crossing_opportunities", 0))
+    balise_audit_findings = sum(
+        int(balise_systems.get(field, 0))
+        for field in (
+            "missed_sightings",
+            "position_mismatches",
+            "unknown_sightings",
+            "stale_findings",
+        )
+    )
+    balise_systems_passed = (
+        int(balise_systems.get("registry_count", 0)) > 0
+        and balise_crossings > 0
+        and int(balise_systems.get("fixes_applied", 0)) == balise_crossings
+        and balise_audit_findings == 0
+    )
     return {
         "label": label,
         "duration_s": duration,
@@ -229,6 +246,8 @@ def summarize_result(
         ),
         "habd_systems": habd_systems,
         "habd_systems_passed": habd_systems_passed,
+        "balise_systems": balise_systems,
+        "balise_systems_passed": balise_systems_passed,
         "invariant_violations": len(result.get("invariant_violations", [])),
         "soc_warning_events": counts.get("SocWarning", 0),
         "energy_adaptive_dispatches": int(result.get("energy_adaptive_dispatches", 0)),
@@ -523,6 +542,7 @@ station = "{powered_station}"
             and case["onboard_emergencies"] == 0
             and case["vehicle_systems_passed"]
             and case["habd_systems_passed"]
+            and case["balise_systems_passed"]
             and case["service_completion_ratio"] + service_completion_tolerance >= minimum_service
         )
         resilience_cases.append(case)
@@ -532,12 +552,13 @@ station = "{powered_station}"
         and run["onboard_emergencies"] == 0
         and run["vehicle_systems_passed"]
         and run["habd_systems_passed"]
+        and run["balise_systems_passed"]
         for run in runs
     ) and full_run["service_completion_ratio"] + service_completion_tolerance >= minimum_service_completion_ratio
     resilience_passed = bool(resilience_cases) and all(case["passed"] for case in resilience_cases)
     simulator_binary = REPO_ROOT / "target/release/osr-sim"
     model = {
-        "schema_version": "1.4",
+        "schema_version": "1.5",
         "city": city,
         "validated_on": date.today().isoformat(),
         "generator": str(Path(__file__).resolve().relative_to(REPO_ROOT)),
@@ -572,7 +593,7 @@ station = "{powered_station}"
         "resilience_passed": resilience_passed if args.resilience else None,
         "resilience_basis": resilience_basis if args.resilience else None,
         "resilience_cases": resilience_cases,
-        "interpretation": "The full-window run includes 4.5 hours after the 02:00 service close so long ring and charging cycles can finish. Door, auxiliary-power, HVAC, lighting and onboard PIS controllers execute for every train tick; their loads remain included in the calibrated aggregate kWh/car-km model and are not debited twice. Configured physical HABD sites must execute in every run without a nominal trip or latched stop. Nominal and N-1/degraded screens protect 20% SoC and at least 90% of scheduled train-km. The ten-hour all-site grid outage is an emergency reduced-service case with a 60% floor. Energy-adaptive control may widen off-peak headways; calibrated timetable acceptance remains an operator gate.",
+        "interpretation": "The full-window run includes 4.5 hours after the 02:00 service close so long ring and charging cycles can finish. Door, auxiliary-power, HVAC, lighting and onboard PIS controllers execute for every train tick; their loads remain included in the calibrated aggregate kWh/car-km model and are not debited twice. Configured physical HABD sites must execute in every run without a nominal trip or latched stop. The topology-derived wayside balise registry must feed every expected crossing into onboard odometry with no nominal sighting-audit finding. Nominal and N-1/degraded screens protect 20% SoC and at least 90% of scheduled train-km. The ten-hour all-site grid outage is an emergency reduced-service case with a 60% floor. Energy-adaptive control may widen off-peak headways; calibrated timetable acceptance remains an operator gate.",
     }
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(json.dumps(model, indent=2) + "\n")

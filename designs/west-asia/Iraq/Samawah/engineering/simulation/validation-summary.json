@@ -1,11 +1,11 @@
 {
-  "schema_version": "1.4",
+  "schema_version": "1.5",
   "city": "Samawah",
   "validated_on": "2026-08-29",
   "generator": "scripts/validate-city-simulation.py",
-  "generator_sha256": "0c2266475acf9b98aa2a42d0340b0c6ae05b6f43ffea339f75261bac5a7d49be",
+  "generator_sha256": "556cb193c90d9bacd9aa1eac3aaef7d1e3781be2bf85cae5c9446ee861bcd125",
   "simulator_binary": "target/release/osr-sim",
-  "simulator_sha256": "68d5e68a7da2a33c15dece9e0121fb0909d4e9dc27b97b6375bf037166a30ccf",
+  "simulator_sha256": "87eac6d9e09eca98cee3235e5683ddcd06a16bf15b7a8a3faf3607e4c2787415",
   "design_sha256": "67a021cf99d61ef8f6293ce59801a3ab87904a8e847f7a7af50929b985dacb37",
   "scenario": "../../../samawah.toml",
   "scenario_sha256": "2e89a942a780c8c8d4015000f4d23322a1d038cac390ed3693c038b63389a7fe",
@@ -153,6 +153,17 @@
         "active_stop_orders": []
       },
       "habd_systems_passed": true,
+      "balise_systems": {
+        "registry_count": 36,
+        "crossing_opportunities": 722,
+        "fixes_applied": 722,
+        "seen_sightings": 722,
+        "missed_sightings": 0,
+        "position_mismatches": 0,
+        "unknown_sightings": 0,
+        "stale_findings": 0
+      },
+      "balise_systems_passed": true,
       "invariant_violations": 0,
       "soc_warning_events": 0,
       "energy_adaptive_dispatches": 0,
@@ -227,6 +238,17 @@
         "active_stop_orders": []
       },
       "habd_systems_passed": true,
+      "balise_systems": {
+        "registry_count": 36,
+        "crossing_opportunities": 8233,
+        "fixes_applied": 8233,
+        "seen_sightings": 8233,
+        "missed_sightings": 0,
+        "position_mismatches": 0,
+        "unknown_sightings": 0,
+        "stale_findings": 0
+      },
+      "balise_systems_passed": true,
       "invariant_violations": 0,
       "soc_warning_events": 52,
       "energy_adaptive_dispatches": 5,
@@ -317,6 +339,17 @@
         "active_stop_orders": []
       },
       "habd_systems_passed": true,
+      "balise_systems": {
+        "registry_count": 36,
+        "crossing_opportunities": 8203,
+        "fixes_applied": 8203,
+        "seen_sightings": 8203,
+        "missed_sightings": 0,
+        "position_mismatches": 0,
+        "unknown_sightings": 0,
+        "stale_findings": 0
+      },
+      "balise_systems_passed": true,
       "invariant_violations": 0,
       "soc_warning_events": 111,
       "energy_adaptive_dispatches": 10,
@@ -396,6 +429,17 @@
         "active_stop_orders": []
       },
       "habd_systems_passed": true,
+      "balise_systems": {
+        "registry_count": 36,
+        "crossing_opportunities": 8099,
+        "fixes_applied": 8099,
+        "seen_sightings": 8099,
+        "missed_sightings": 0,
+        "position_mismatches": 0,
+        "unknown_sightings": 0,
+        "stale_findings": 0
+      },
+      "balise_systems_passed": true,
       "invariant_violations": 0,
       "soc_warning_events": 214,
       "energy_adaptive_dispatches": 21,
@@ -475,6 +519,17 @@
         "active_stop_orders": []
       },
       "habd_systems_passed": true,
+      "balise_systems": {
+        "registry_count": 36,
+        "crossing_opportunities": 8233,
+        "fixes_applied": 8233,
+        "seen_sightings": 8233,
+        "missed_sightings": 0,
+        "position_mismatches": 0,
+        "unknown_sightings": 0,
+        "stale_findings": 0
+      },
+      "balise_systems_passed": true,
       "invariant_violations": 0,
       "soc_warning_events": 52,
       "energy_adaptive_dispatches": 5,
@@ -554,6 +609,17 @@
         "active_stop_orders": []
       },
       "habd_systems_passed": true,
+      "balise_systems": {
+        "registry_count": 36,
+        "crossing_opportunities": 7049,
+        "fixes_applied": 7049,
+        "seen_sightings": 7049,
+        "missed_sightings": 0,
+        "position_mismatches": 0,
+        "unknown_sightings": 0,
+        "stale_findings": 0
+      },
+      "balise_systems_passed": true,
       "invariant_violations": 0,
       "soc_warning_events": 1113,
       "energy_adaptive_dispatches": 210,
@@ -633,6 +699,17 @@
         "active_stop_orders": []
       },
       "habd_systems_passed": true,
+      "balise_systems": {
+        "registry_count": 36,
+        "crossing_opportunities": 8155,
+        "fixes_applied": 8155,
+        "seen_sightings": 8155,
+        "missed_sightings": 0,
+        "position_mismatches": 0,
+        "unknown_sightings": 0,
+        "stale_findings": 0
+      },
+      "balise_systems_passed": true,
       "invariant_violations": 0,
       "soc_warning_events": 136,
       "energy_adaptive_dispatches": 16,
@@ -648,5 +725,5 @@
       "passed": true
     }
   ],
-  "interpretation": "The full-window run includes 4.5 hours after the 02:00 service close so long ring and charging cycles can finish. Door, auxiliary-power, HVAC, lighting and onboard PIS controllers execute for every train tick; their loads remain included in the calibrated aggregate kWh/car-km model and are not debited twice. Configured physical HABD sites must execute in every run without a nominal trip or latched stop. Nominal and N-1/degraded screens protect 20% SoC and at least 90% of scheduled train-km. The ten-hour all-site grid outage is an emergency reduced-service case with a 60% floor. Energy-adaptive control may widen off-peak headways; calibrated timetable acceptance remains an operator gate."
+  "interpretation": "The full-window run includes 4.5 hours after the 02:00 service close so long ring and charging cycles can finish. Door, auxiliary-power, HVAC, lighting and onboard PIS controllers execute for every train tick; their loads remain included in the calibrated aggregate kWh/car-km model and are not debited twice. Configured physical HABD sites must execute in every run without a nominal trip or latched stop. The topology-derived wayside balise registry must feed every expected crossing into onboard odometry with no nominal sighting-audit finding. Nominal and N-1/degraded screens protect 20% SoC and at least 90% of scheduled train-km. The ten-hour all-site grid outage is an emergency reduced-service case with a 60% floor. Energy-adaptive control may widen off-peak headways; calibrated timetable acceptance remains an operator gate."
 }

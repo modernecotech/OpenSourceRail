@@ -20,6 +20,7 @@ emission.
   verdict transitions.
 - Physical HABD passage, warning restriction, trip, active-stop, and
   inspected-reset evidence.
+- Balise registry, accepted odometry fixes, and sighting-audit findings.
 - Depot roll-up for received CBM payloads, historian samples, analytics, and
   maintenance work orders.
 - Alert feed (info / warn / crit) with category filter checkboxes,

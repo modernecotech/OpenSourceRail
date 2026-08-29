@@ -350,6 +350,8 @@ pub struct FaultSpec {
     /// `"battery_fire_escalation"`, `"t2g_primary_offline"`,
     /// `"t2g_all_offline"`, `"hot_axle_overheat"`,
     /// `"wayside_habd_warning"`, `"wayside_habd_overheat"`, `"cbm_degradation"`,
+    /// `"balise_missed"`, `"balise_position_mismatch"`,
+    /// `"fare_token_tamper"`,
     /// or `"wayside_intrusion"`.
     pub kind: String,
     /// Start time "HH:MM" (relative to `day`).
@@ -558,7 +560,8 @@ impl std::fmt::Display for LoadError {
                  battery_mist_failure, battery_fire_escalation, \
                  t2g_primary_offline, t2g_all_offline, \
                  hot_axle_overheat, wayside_habd_warning, wayside_habd_overheat, \
-                 cbm_degradation, \
+                 cbm_degradation, balise_missed, balise_position_mismatch, \
+                 fare_token_tamper, \
                  wayside_intrusion)"
             ),
             UltrasonicChannelOutOfRange { name, channel } => write!(
@@ -1288,6 +1291,13 @@ fn build_faults(
             "cbm_degradation" => FaultKind::CbmDegradation {
                 scope: train_scope(spec)?,
             },
+            "balise_missed" => FaultKind::BaliseMissed {
+                scope: train_scope(spec)?,
+            },
+            "balise_position_mismatch" => FaultKind::BalisePositionMismatch {
+                scope: train_scope(spec)?,
+            },
+            "fare_token_tamper" => FaultKind::FareTokenTamper { scope },
             "wayside_intrusion" => {
                 let sid = spec
                     .section_id
@@ -1464,6 +1474,12 @@ mod trainset_system_tests {
             ("wayside_habd_warning", "train = \"T1\""),
             ("wayside_habd_overheat", "train = \"T1\""),
             ("cbm_degradation", "train = \"T1\""),
+            ("balise_missed", "train = \"T1\""),
+            ("balise_position_mismatch", "train = \"T1\""),
+            (
+                "fare_token_tamper",
+                "station = \"line-1-0147-0558-s000000\"",
+            ),
             (
                 "platform_door_obstruction",
                 "station = \"line-1-0147-0558-s000000\"",

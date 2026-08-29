@@ -13,6 +13,8 @@
 - `habd_systems`: real trackside hot-axle evaluation at explicit bidirectional
   route-book locations, with next-station warning speed limits, latched stops,
   and inspected authority resets;
+- `balise_systems`: a stable topology-derived passive-balise registry, real
+  sighting audit, and accepted absolute fixes delivered to onboard odometry;
 - `backend_systems`: radio-delivered CBM ingestion, work-order generation,
   bounded history, and analytics over retained metrics;
 - `time_sync`: the IEEE 1588 slave state machine acquires and retains the
@@ -36,6 +38,11 @@ remains latched until an identified inspection reset because the RSSB operating
 rule requires the train to stop and be examined before further movement. See
 the [ERA RINF application guide](https://rinf.data.era.europa.eu/era-vocabulary/rinf-appGuide/)
 and [RSSB Rule Book module TW5](https://consultations.rssb.co.uk/_entity/sharepointdocumentlocation/c6cba4e0-f8d9-ed11-a7c7-000d3aba3a5f/2ab10dab-d681-4911-b881-cc99413f07b6?file=07+GERT8000_TW5+post+consultation.pdf).
+
+Balise identifiers and positions are regenerated from directed section IDs.
+Nominal acceptance requires every crossing opportunity to produce a
+registry-validated odometry fix; missed or mismatched reports remain visible
+fault-injection outcomes and are never accepted as fixes.
 
 Run the inventory check with:
 

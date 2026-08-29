@@ -21,7 +21,7 @@ components = [
 # Executes inside osr-sim for each configured station or wayside section tick.
 [infrastructure_tick_controller]
 components = [
-  "osr-hot-axle-wayside", "osr-intrusion-detect", "osr-pis-station", "osr-psd",
+  "osr-balise", "osr-hot-axle-wayside", "osr-intrusion-detect", "osr-pis-station", "osr-psd",
   "osr-station-scada",
 ]
 
@@ -49,7 +49,7 @@ components = ["osr-gui-shared", "osr-sim", "osr-sim-gui"]
 # tick. These services require their own service/wayside/station test harnesses.
 [external_boundary]
 components = [
-  "osr-afc", "osr-afc-backoffice", "osr-balise",
+  "osr-afc", "osr-afc-backoffice",
   "osr-level-crossing", "osr-occ", "osr-occ-gui",
   "osr-proto", "osr-selftest",
   "osr-tvm", "osr-wayside-points",

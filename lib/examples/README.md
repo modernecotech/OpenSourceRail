@@ -330,6 +330,9 @@ train = "T4"
 - `wayside_habd_overheat` — injects a hot bearing only when the affected train
   crosses a physical HABD, exercising the authoritative trackside stop path.
 - `cbm_degradation` — injects service-level bearing, motor, pad, and wheel data.
+- `balise_missed` — suppresses the affected train's expected absolute fix.
+- `balise_position_mismatch` — offsets the claimed balise position; the
+  registry audit rejects it rather than passing it to odometry.
 - `platform_door_obstruction` — asserts PSD obstruction sensing. Optional
   `station`; omission applies it to every station.
 - `station_scada_failure` — degrades reference SCADA equipment. Optional

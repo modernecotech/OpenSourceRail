@@ -83,6 +83,7 @@ def build_report(result_path: Path | None = None) -> dict:
         backend = result.get("backend_systems", {})
         time_sync = result.get("time_sync", {})
         habd = result.get("habd_systems", {})
+        balise = result.get("balise_systems", {})
         runtime_evidence = {
             "result": str(result_path),
             "result_sha256": digest(result_path),
@@ -116,6 +117,20 @@ def build_report(result_path: Path | None = None) -> dict:
                 habd.get("active_speed_restrictions", [])
             ),
             "habd_active_stop_orders": len(habd.get("active_stop_orders", [])),
+            "balise_registry_count": int(balise.get("registry_count", 0)),
+            "balise_crossing_opportunities": int(
+                balise.get("crossing_opportunities", 0)
+            ),
+            "balise_fixes_applied": int(balise.get("fixes_applied", 0)),
+            "balise_audit_findings": sum(
+                int(balise.get(field, 0))
+                for field in (
+                    "missed_sightings",
+                    "position_mismatches",
+                    "unknown_sightings",
+                    "stale_findings",
+                )
+            ),
         }
         required_vehicle = (
             "door_controller_evaluations",
@@ -144,6 +159,9 @@ def build_report(result_path: Path | None = None) -> dict:
             "ptp_locked_ticks",
             "habd_detector_count",
             "habd_passages_evaluated",
+            "balise_registry_count",
+            "balise_crossing_opportunities",
+            "balise_fixes_applied",
         ):
             if runtime_evidence[field] <= 0:
                 issues.append(f"simulation result has no {field} evidence")
@@ -153,6 +171,12 @@ def build_report(result_path: Path | None = None) -> dict:
             issues.append("nominal simulation result contains HABD warning passages")
         if runtime_evidence["habd_active_speed_restrictions"]:
             issues.append("nominal simulation result contains active HABD speed restrictions")
+        if runtime_evidence["balise_audit_findings"]:
+            issues.append("nominal simulation result contains balise audit findings")
+        if runtime_evidence["balise_fixes_applied"] != runtime_evidence[
+            "balise_crossing_opportunities"
+        ]:
+            issues.append("nominal simulation did not apply every expected balise fix")
 
     counts = {
         category: sum(1 for value in assignments.values() if value == category)
