@@ -26,6 +26,8 @@ The controlling design decision is
 
 ## Interface
 
+![City Studio deterministic layered GIS workspace](screenshots/city-studio/gis-workspace.png)
+
 ![City Studio network authoring, routing strategy, validation, and revision controls](screenshots/city-studio/network-and-service.png)
 
 ![City Studio line/day/time service planning and controlled engineering jobs](screenshots/city-studio/engineering-jobs.png)
@@ -91,7 +93,7 @@ Validate every committed city project:
 Install through the root [one-command setup](../README.md#one-command-linux-setup),
 then run every browser front end with `npm run test:frontend`.
 
-For the 111-check Studio-only workflow, use
+For the 122-check Studio-only workflow, use
 `node scripts/test-city-studio-gui.mjs`. Playwright uses one worker, a fixed
 viewport, locale and timezone, and a disposable project. Its JSON report and
 screenshot are written to `build/gui-acceptance/`; committed Samawah inputs are
@@ -117,6 +119,12 @@ Remote repository changes always remain an explicit user action.
 Implemented:
 
 - source hash locks;
+- an offline layered GIS workspace with pan, zoom, fit, coordinates, scale,
+  feature inspection, visibility and opacity controls;
+- content-hashed local roads, buildings, water, protected land, existing rail,
+  demand, construction-cost, buildability, destination, civil, energy, depot,
+  interchange, issue, published-network and live-candidate layers exposed
+  through a deterministic GIS API;
 - stable station ids;
 - generated/preferred/locked/retired station intent;
 - drag-to-move stations;
@@ -205,8 +213,9 @@ review material.
 
 ## Map authoring
 
-The map has four explicit tools. **Select** inspects and drags existing
-objects. **Add station** inserts a manual station where a line is clicked,
+The map has five explicit tools. **Select** inspects and drags existing
+objects or reads GIS properties. **Pan** moves the viewport; wheel or +/−
+controls zoom and **Fit** restores the project extent. **Add station** inserts a manual station where a line is clicked,
 assigns a stable id, and opens its name/archetype inspector. **Add line** takes
 two endpoints and uses the selected routing strategy. **Demand + buildability**
 snaps each endpoint to the nearest feasible cell and runs deterministic
@@ -217,6 +226,21 @@ platforms and copy the existing day-type policy into editable service plans.
 manual lines. Manual station/line additions and retirements
 rebuild both the candidate GeoJSON and the station, line, fleet, dispatch, and
 ordered topology records in every generated simulator scenario.
+
+The layer catalogue comes from `/api/gis/manifest`; each layer is retrieved by
+stable ID from `/api/gis/layers/<id>` with a SHA-256 digest, feature count,
+provenance class and default presentation. Planning rasters are aggregated into
+500 m display cells without changing the locked 100 m routing inputs. The map
+does not call a public tile service, so a revision or test cannot drift with a
+remote basemap. Deployment teams may add survey, parcel, utility, terrain or
+licensed local basemap extracts to the same locked project workflow; the
+included place anchors and planning surfaces are not survey evidence.
+
+The tracked Samawah context is regenerated from the pipeline's processed OSM
+snapshot with `python3 scripts/export-gis-context.py
+.cache/osr-pipeline/osm/samawah.json projects/samawah/gis`. The exporter writes
+stable GeoJSON, ODbL attribution and fetch provenance, then refreshes the five
+matching entries in `sources.lock.json`.
 
 The Samawah routing bundle is a committed 100 m planning surface derived from
 the pipeline's 20 m cost, demand, and buildability rasters. Every component and

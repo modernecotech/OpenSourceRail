@@ -272,6 +272,61 @@ async function main() {
   assert(baseline.services >= baseline.lines * 3, "line/day service plans rendered", `${baseline.services} plans`);
   assert(baseline.demandPeriods >= 4, "source-controlled demand periods rendered", `${baseline.demandPeriods} periods`);
   assert(baseline.findings === 0, "baseline validation has no errors");
+  await cdp.wait("gisManifest?.layers?.length > 0 && gisLayers.get('routing-demand')?.features?.length > 0", "deterministic GIS workspace");
+  const gisState = await cdp.evaluate(`({
+    deterministic: gisManifest?.deterministic,
+    crs: gisManifest?.coordinate_reference_system,
+    layers: gisManifest?.layers?.length,
+    hashesValid: gisManifest?.layers?.every(layer => /^[a-f0-9]{64}$/.test(layer.sha256)),
+    demandFeatures: gisLayers.get('routing-demand')?.features?.length,
+    renderedDemand: document.querySelectorAll('[data-gis-group="routing-demand"] .gis-feature').length,
+    roads: document.querySelectorAll('[data-gis-group="context-roads"] .gis-feature').length,
+    buildings: document.querySelectorAll('[data-gis-group="context-buildings"] .gis-feature').length,
+    water: document.querySelectorAll('[data-gis-group="context-water"] .gis-feature').length,
+    existingRail: document.querySelectorAll('[data-gis-group="context-existing-rail"] .gis-feature').length,
+    attribution: document.querySelector('#map-attribution').textContent,
+    controls: document.querySelectorAll('[data-layer-control]').length,
+  })`);
+  assert(gisState.deterministic && gisState.crs === "EPSG:4326", "deterministic GIS manifest loaded", gisState.crs);
+  assert(gisState.attribution.includes("OpenStreetMap") && gisState.attribution.includes("ODbL"), "OpenStreetMap attribution remains visible on the map");
+  assert(gisState.layers === 16 && gisState.hashesValid, "GIS layer catalogue is content hashed", `${gisState.layers} layers`);
+  assert(gisState.demandFeatures > 0 && gisState.renderedDemand === gisState.demandFeatures, "locked demand surface rendered behind candidate", `${gisState.demandFeatures} cells`);
+  assert(gisState.roads > 1000 && gisState.buildings > 0 && gisState.water > 0 && gisState.existingRail > 0, "locked roads, buildings, water and existing rail render as local context", `${gisState.roads} road features`);
+  assert(gisState.controls === gisState.layers, "every GIS layer has visibility and opacity controls");
+  await cdp.evaluate(`(() => {
+    const control = document.querySelector('[data-layer-control="routing-cost"]');
+    const checkbox = control.querySelector('input[type="checkbox"]');
+    checkbox.checked = true;
+    checkbox.dispatchEvent(new Event('change', { bubbles: true }));
+    const opacity = control.querySelector('input[type="range"]');
+    opacity.value = '0.55';
+    opacity.dispatchEvent(new Event('input', { bubbles: true }));
+    return true;
+  })()`);
+  const costLayer = await cdp.evaluate(`({
+    features: document.querySelectorAll('[data-gis-group="routing-cost"] .gis-feature').length,
+    opacity: document.querySelector('[data-gis-group="routing-cost"]')?.getAttribute('opacity'),
+  })`);
+  assert(costLayer.features > 0, "construction-cost planning surface can be enabled", `${costLayer.features} cells`);
+  assert(costLayer.opacity === "0.55", "GIS layer opacity updates interactively");
+  await click('[data-gis-group="context-anchors"] .gis-feature');
+  const inspected = await cdp.evaluate("!document.querySelector('#gis-inspector').hidden && document.querySelector('#gis-inspector').textContent.length > 10");
+  assert(inspected, "GIS feature properties are inspectable");
+  const beforeZoom = await cdp.evaluate("document.querySelector('#network-map').getAttribute('viewBox')");
+  await click("#map-zoom-in");
+  const afterZoom = await cdp.evaluate("document.querySelector('#network-map').getAttribute('viewBox')");
+  assert(beforeZoom !== afterZoom && afterZoom.includes("720"), "GIS map zoom control updates the deterministic viewport", afterZoom);
+  await click('[data-mode="pan"]');
+  const mapBox = await cdp.page.locator("#network-map").boundingBox();
+  const beforePan = await cdp.evaluate("document.querySelector('#network-map').getAttribute('viewBox')");
+  await cdp.page.mouse.move(mapBox.x + mapBox.width * 0.45, mapBox.y + mapBox.height * 0.5);
+  await cdp.page.mouse.down();
+  await cdp.page.mouse.move(mapBox.x + mapBox.width * 0.55, mapBox.y + mapBox.height * 0.58, { steps: 4 });
+  await cdp.page.mouse.up();
+  const afterPan = await cdp.evaluate("document.querySelector('#network-map').getAttribute('viewBox')");
+  assert(beforePan !== afterPan, "GIS pan tool moves the viewport", afterPan);
+  await click("#map-fit");
+  await click('[data-mode="select"]');
   const georeferencedLine = await cdp.evaluate("view.snapshot.lines[0].id");
 
   await cdp.evaluate(`(() => {
@@ -1280,6 +1335,7 @@ async function main() {
   cityProcess = await startCityStudio(cityPort);
   await cdp.page.reload({ waitUntil: "domcontentloaded" });
   await cdp.wait("typeof view === 'object' && view?.snapshot?.stations?.length > 0", "render after server restart", 60_000);
+  await cdp.wait(`document.querySelector('[data-demand-delete="${odFlowId}"]') && gisLayers.get('routing-demand')?.features?.length > 0`, "complete GIS and demand render after restart", 60_000);
   const persisted = await cdp.evaluate(`({
     moved: view.snapshot.stations.find(item => item.id === ${JSON.stringify(movedStation)})?.state,
     station: view.snapshot.stations.find(item => item.id === ${JSON.stringify(manualStation)})?.name,

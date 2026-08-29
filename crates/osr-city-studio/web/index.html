@@ -34,6 +34,7 @@
           <div>
             <div class="map-tools" role="group" aria-label="Map authoring tool">
               <button type="button" class="map-tool active" data-mode="select">Select</button>
+              <button type="button" class="map-tool" data-mode="pan">Pan</button>
               <button type="button" class="map-tool" data-mode="station">Add station</button>
               <button type="button" class="map-tool" data-mode="line">Add line</button>
               <button type="button" class="map-tool" data-mode="control">Edit alignment</button>
@@ -48,7 +49,23 @@
           </div>
         </div>
         <div id="map-wrap">
-          <svg id="network-map" viewBox="0 0 1000 620" role="img" aria-label="Editable city rail network"></svg>
+          <svg id="network-map" viewBox="0 0 1000 620" role="img" aria-label="Layered editable city GIS and rail network"></svg>
+          <div class="map-navigation" role="group" aria-label="Map navigation">
+            <button type="button" id="map-zoom-in" title="Zoom in" aria-label="Zoom in">+</button>
+            <button type="button" id="map-zoom-out" title="Zoom out" aria-label="Zoom out">−</button>
+            <button type="button" id="map-fit" title="Fit project extent">Fit</button>
+          </div>
+          <details class="gis-layer-panel" open>
+            <summary>GIS layers <span id="gis-layer-count"></span></summary>
+            <div id="gis-layers"></div>
+            <p id="gis-provenance"></p>
+          </details>
+          <div id="gis-inspector" class="gis-inspector" hidden></div>
+          <div class="map-readout">
+            <span id="map-attribution"></span>
+            <span id="map-coordinates">Move over map for coordinates</span>
+            <span id="map-scale"></span>
+          </div>
           <div class="legend">
             <span><i class="generated"></i>Generated</span>
             <span><i class="preferred"></i>Preferred</span>

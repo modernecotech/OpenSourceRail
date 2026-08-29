@@ -216,7 +216,9 @@ The initial implementation is crates/osr-city-studio:
 - deterministic OD demand intent, validation, scheduled-capacity screening,
   and semantic flow comparison;
 - a local HTTP API;
-- an embedded browser UI with an editable SVG/GIS view;
+- an embedded browser UI with an editable, layered local SVG/GIS view whose
+  source catalogue, feature counts and SHA-256 digests are served with the
+  project;
 - artifact visibility for current design, GIS, simulation, engineering,
   operations, and release outputs.
 

@@ -697,6 +697,29 @@ pub struct ProjectView {
 }
 
 #[derive(Clone, Debug, Serialize)]
+pub struct GisManifest {
+    pub schema_version: u32,
+    pub coordinate_reference_system: String,
+    pub bounds: [f64; 4],
+    pub deterministic: bool,
+    pub attribution: Vec<String>,
+    pub layers: Vec<GisLayerDescriptor>,
+}
+
+#[derive(Clone, Debug, Serialize)]
+pub struct GisLayerDescriptor {
+    pub id: String,
+    pub label: String,
+    pub category: String,
+    pub geometry: String,
+    pub feature_count: usize,
+    pub sha256: String,
+    pub source_kind: String,
+    pub default_visible: bool,
+    pub default_opacity: f32,
+}
+
+#[derive(Clone, Debug, Serialize)]
 pub struct StudioArtifact {
     pub category: String,
     pub label: String,

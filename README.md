@@ -29,7 +29,7 @@ public evidence totals and front-page examples.
 |---|---|
 | Deterministic city generation | Reproducible network, station, fleet, energy, engineering, finance and operations packages under [designs/](designs/README.md). |
 | Integrated Workbench | [City Studio, simulation, OCC training and Ops Core](docs/workbench/README.md) share city, actor, immutable revision, approved baseline, run and selected-asset context without merging authority boundaries. |
-| Interactive network and service planning | Edit lines, stations, alignment intent, OD demand and service by line, day type and time period; compile content-addressed revisions for Git review. |
+| Interactive network and service planning | Edit lines, stations and alignment over 16 switchable local GIS layers; inspect roads, buildings, water, existing rail, demand, buildability, places and engineering assets; plan OD demand and service by line/day/time; compile content-addressed revisions for Git review. |
 | Software in the loop | One deterministic simulation connects train, station, energy, wayside, point/crossing, regenerative-braking and depot components to OCC evidence. |
 | Civil BIM and GIS | Generate OSR-ALN, GIS, IFC4.3, IDS/BCF, quantities, classifications and 4D construction review through the [Bonsai civil workflow](docs/civil/bonsai-ifc-workflow.md). |
 | Buildable modular trainset | The LM3 product tree includes simplified captive fasteners, service rails, plug-in illumination, fixture adapters, adjustable doors and dry-serviceable windows. |
@@ -48,7 +48,7 @@ remain separate evidence or cost gates.
 
 | City Studio | Civil IFC coordination | Operations and evidence |
 |---|---|---|
-| ![City Studio network and service editor](docs/screenshots/city-studio/network-and-service.png) | ![Bonsai IFC4.3 coordination model](docs/screenshots/civil/bonsai-ifc4x3-civil-coordination.png) | ![Operations portal acceptance dashboard](docs/screenshots/operations-portal/acceptance-dashboard.png) |
+| ![City Studio deterministic GIS workspace](docs/screenshots/city-studio/gis-workspace.png) | ![Bonsai IFC4.3 coordination model](docs/screenshots/civil/bonsai-ifc4x3-civil-coordination.png) | ![Operations portal acceptance dashboard](docs/screenshots/operations-portal/acceptance-dashboard.png) |
 
 | Trainset assembly | Simulation | Fabrication and civil sequence |
 |---|---|---|

@@ -29,6 +29,6 @@ test("City Studio passes its isolated edit, adapter, restart, and persistence ac
   );
   expect(report.passed).toBe(true);
   expect(report.browser).toBe("Playwright Chromium");
-  expect(report.checks).toHaveLength(111);
+  expect(report.checks).toHaveLength(122);
   expect(report.checks.every((check) => check.passed)).toBe(true);
 });

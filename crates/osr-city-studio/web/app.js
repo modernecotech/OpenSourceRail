@@ -9,6 +9,8 @@ const api = {
     return payload;
   },
   project: () => api.request("/api/project"),
+  gisManifest: () => api.request("/api/gis/manifest"),
+  gisLayer: (id) => api.request(`/api/gis/layers/${encodeURIComponent(id)}`),
   station: (id, body) => api.request(`/api/stations/${encodeURIComponent(id)}`, {
     method: "PUT", body: JSON.stringify(body),
   }),
@@ -85,6 +87,12 @@ let selectedControl = null;
 let selectedLine = null;
 let projection = null;
 let drag = null;
+let gisManifest = null;
+let gisLayers = new Map();
+let gisLayerState = new Map();
+let selectedGisFeature = null;
+let mapCamera = { x: 0, y: 0, width: 1000, height: 620 };
+let mapPan = null;
 let mapMode = "select";
 let pendingLineStart = null;
 let revisions = null;
@@ -131,7 +139,26 @@ window.addEventListener("message", (event) => {
 
 async function load() {
   try {
-    [view, revisions, jobView] = await Promise.all([api.project(), api.revisions(), api.jobs()]);
+    const [nextView, nextRevisions, nextJobView, nextGisManifest] = await Promise.all([
+      api.project(), api.revisions(), api.jobs(), api.gisManifest(),
+    ]);
+    const loadedLayers = await Promise.all(nextGisManifest.layers.map(async (layer) => [
+      layer.id,
+      layer.id === "candidate-network" ? nextView.corridor : await api.gisLayer(layer.id),
+    ]));
+    view = nextView;
+    revisions = nextRevisions;
+    jobView = nextJobView;
+    gisManifest = nextGisManifest;
+    gisLayers = new Map(loadedLayers);
+    gisManifest.layers.forEach((layer) => {
+      if (!gisLayerState.has(layer.id)) {
+        gisLayerState.set(layer.id, {
+          visible: layer.default_visible,
+          opacity: layer.default_opacity,
+        });
+      }
+    });
     selectedStation = selectedStation
       ? view.snapshot.stations.find((item) => item.id === selectedStation.id) || null
       : null;
@@ -151,6 +178,7 @@ async function load() {
 function render() {
   renderGit();
   renderSummary();
+  renderGisLayerControls();
   renderMap();
   renderStationInspector();
   renderServiceSelectors();
@@ -294,37 +322,192 @@ function corridorLines() {
 }
 
 function makeProjection() {
-  const coordinates = corridorLines().flatMap((feature) => feature.geometry.coordinates);
-  view.snapshot.stations.forEach((station) => coordinates.push([station.lon, station.lat]));
-  const xs = coordinates.map((point) => point[0]);
-  const ys = coordinates.map((point) => point[1]);
-  const minX = Math.min(...xs);
-  const maxX = Math.max(...xs);
-  const minY = Math.min(...ys);
-  const maxY = Math.max(...ys);
+  const bounds = gisManifest?.bounds || (() => {
+    const coordinates = corridorLines().flatMap((feature) => feature.geometry.coordinates);
+    const xs = coordinates.map((point) => point[0]);
+    const ys = coordinates.map((point) => point[1]);
+    return [Math.min(...xs), Math.min(...ys), Math.max(...xs), Math.max(...ys)];
+  })();
+  const [minX, minY, maxX, maxY] = bounds;
   const pad = 55;
   const width = 1000 - 2 * pad;
   const height = 620 - 2 * pad;
+  const midLat = (minY + maxY) / 2;
+  const lonScale = Math.cos(midLat * Math.PI / 180);
+  const geographicWidth = Math.max((maxX - minX) * lonScale, Number.EPSILON);
+  const geographicHeight = Math.max(maxY - minY, Number.EPSILON);
+  const scale = Math.min(width / geographicWidth, height / geographicHeight);
+  const drawnWidth = geographicWidth * scale;
+  const drawnHeight = geographicHeight * scale;
+  const left = (1000 - drawnWidth) / 2;
+  const bottom = (620 + drawnHeight) / 2;
   return {
     point(lon, lat) {
       return [
-        pad + ((lon - minX) / (maxX - minX || 1)) * width,
-        620 - pad - ((lat - minY) / (maxY - minY || 1)) * height,
+        left + (lon - minX) * lonScale * scale,
+        bottom - (lat - minY) * scale,
       ];
     },
     inverse(x, y) {
       return [
-        minX + ((x - pad) / width) * (maxX - minX),
-        minY + (((620 - pad) - y) / height) * (maxY - minY),
+        minX + (x - left) / scale / lonScale,
+        minY + (bottom - y) / scale,
       ];
     },
   };
+}
+
+function renderGisLayerControls() {
+  if (!gisManifest) return;
+  const categories = new Map();
+  gisManifest.layers.forEach((layer) => {
+    if (!categories.has(layer.category)) categories.set(layer.category, []);
+    categories.get(layer.category).push(layer);
+  });
+  $("#gis-layers").innerHTML = [...categories.entries()].map(([category, layers]) => `
+    <div class="gis-layer-category">${escapeHtml(category)}</div>
+    ${layers.map((layer) => {
+      const state = gisLayerState.get(layer.id);
+      return `<div class="gis-layer-control" data-layer-control="${escapeHtml(layer.id)}">
+        <input id="layer-${escapeHtml(layer.id)}" type="checkbox" ${state?.visible ? "checked" : ""}>
+        <label for="layer-${escapeHtml(layer.id)}">${escapeHtml(layer.label)}<small>${layer.feature_count.toLocaleString()} features · ${escapeHtml(layer.source_kind)}</small></label>
+        <input type="range" min="0" max="1" step="0.05" value="${state?.opacity ?? layer.default_opacity}" aria-label="${escapeHtml(layer.label)} opacity">
+      </div>`;
+    }).join("")}
+  `).join("");
+  $("#gis-layer-count").textContent = `(${gisManifest.layers.length})`;
+  $("#gis-provenance").textContent = `${gisManifest.coordinate_reference_system} · local deterministic sources · ${gisManifest.attribution.join(" · ")}`;
+  $("#map-attribution").textContent = gisManifest.attribution.find((item) => item.includes("OpenStreetMap")) || "";
+  document.querySelectorAll("[data-layer-control]").forEach((control) => {
+    const id = control.dataset.layerControl;
+    control.querySelector('input[type="checkbox"]').addEventListener("change", (event) => {
+      gisLayerState.get(id).visible = event.currentTarget.checked;
+      renderMap();
+    });
+    control.querySelector('input[type="range"]').addEventListener("input", (event) => {
+      gisLayerState.get(id).opacity = Number(event.currentTarget.value);
+      const group = document.querySelector(`[data-gis-group="${CSS.escape(id)}"]`);
+      if (group) group.setAttribute("opacity", event.currentTarget.value);
+    });
+  });
+}
+
+function svgPath(coordinates, close = false) {
+  const commands = coordinates.map(([lon, lat], index) => {
+    const [x, y] = projection.point(lon, lat);
+    return `${index ? "L" : "M"} ${x.toFixed(2)} ${y.toFixed(2)}`;
+  });
+  if (close) commands.push("Z");
+  return commands.join(" ");
+}
+
+function featureTitle(layer, properties) {
+  return properties.name || properties.id || properties.station || layer.label;
+}
+
+function inspectGisFeature(layer, feature, index) {
+  selectedGisFeature = { layer: layer.id, index };
+  const properties = feature.properties || {};
+  const entries = Object.entries(properties).filter(([, value]) => value !== null && value !== "");
+  const panel = $("#gis-inspector");
+  panel.hidden = false;
+  panel.innerHTML = `<strong>${escapeHtml(layer.label)} · ${escapeHtml(featureTitle(layer, properties))}</strong><dl>${entries
+    .map(([key, value]) => `<dt>${escapeHtml(key)}</dt><dd>${escapeHtml(typeof value === "object" ? JSON.stringify(value) : value)}</dd>`)
+    .join("")}</dl>`;
+  renderMap();
+}
+
+function styleGisFeature(node, layerId, properties) {
+  const value = Number(properties?.value || 0);
+  node.style.setProperty("--value", value);
+  if (layerId === "routing-demand") {
+    node.setAttribute("fill", "#ff9f43");
+    node.setAttribute("fill-opacity", String(0.12 + value * 0.68));
+  } else if (layerId === "routing-cost") {
+    node.setAttribute("fill", "#d86cff");
+    node.setAttribute("fill-opacity", String(0.10 + value * 0.58));
+  } else if (layerId === "routing-buildability") {
+    node.setAttribute("fill", "#ed7676");
+    node.setAttribute("fill-opacity", String(0.20 + value * 0.65));
+  }
+}
+
+function appendGisGeometry(group, layer, feature, index) {
+  const geometry = feature.geometry;
+  if (!geometry) return;
+  const properties = feature.properties || {};
+  const selected = selectedGisFeature?.layer === layer.id && selectedGisFeature?.index === index;
+  const addNode = (node, kind) => {
+    node.setAttribute("class", `gis-feature ${kind}${selected ? " selected" : ""}`);
+    node.dataset.layer = layer.id;
+    node.dataset.featureIndex = index;
+    styleGisFeature(node, layer.id, properties);
+    const title = document.createElementNS("http://www.w3.org/2000/svg", "title");
+    title.textContent = `${layer.label} · ${featureTitle(layer, properties)}`;
+    node.appendChild(title);
+    node.addEventListener("click", (event) => {
+      if (mapMode !== "select") return;
+      event.stopPropagation();
+      inspectGisFeature(layer, feature, index);
+    });
+    group.appendChild(node);
+  };
+  if (geometry.type === "Point") {
+    const [x, y] = projection.point(...geometry.coordinates);
+    const node = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+    node.setAttribute("cx", x);
+    node.setAttribute("cy", y);
+    node.setAttribute("r", layer.id.includes("depots") ? 8 : layer.id.includes("interchanges") ? 7 : 4.5);
+    addNode(node, "point");
+    if (layer.id === "context-anchors" && properties.name && Number(properties.weight) >= 0.9) {
+      const label = document.createElementNS("http://www.w3.org/2000/svg", "text");
+      label.setAttribute("x", x + 7);
+      label.setAttribute("y", y - 6);
+      label.setAttribute("class", "gis-label");
+      label.textContent = properties.name;
+      group.appendChild(label);
+    }
+    return;
+  }
+  const paths = [];
+  if (geometry.type === "LineString") paths.push([geometry.coordinates, false]);
+  else if (geometry.type === "MultiLineString") geometry.coordinates.forEach((line) => paths.push([line, false]));
+  else if (geometry.type === "Polygon") geometry.coordinates.forEach((ring) => paths.push([ring, true]));
+  else if (geometry.type === "MultiPolygon") geometry.coordinates.forEach((polygon) => polygon.forEach((ring) => paths.push([ring, true])));
+  paths.forEach(([coordinates, close]) => {
+    const node = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    node.setAttribute("d", svgPath(coordinates, close));
+    addNode(node, close ? "polygon" : "line");
+  });
+}
+
+function renderGisLayers(svg) {
+  if (!gisManifest) return;
+  gisManifest.layers.filter((layer) => layer.id !== "candidate-network").forEach((layer) => {
+    const state = gisLayerState.get(layer.id);
+    if (!state?.visible) return;
+    const group = document.createElementNS("http://www.w3.org/2000/svg", "g");
+    group.setAttribute("class", "gis-layer");
+    group.setAttribute("opacity", state.opacity);
+    group.dataset.gisGroup = layer.id;
+    (gisLayers.get(layer.id)?.features || []).forEach((feature, index) => {
+      appendGisGeometry(group, layer, feature, index);
+    });
+    svg.appendChild(group);
+  });
 }
 
 function renderMap() {
   projection = makeProjection();
   const svg = $("#network-map");
   svg.innerHTML = "";
+  applyMapCamera();
+  renderGisLayers(svg);
+  const candidateState = gisLayerState.get("candidate-network") || { visible: true, opacity: 1 };
+  const candidateGroup = document.createElementNS("http://www.w3.org/2000/svg", "g");
+  candidateGroup.dataset.gisGroup = "candidate-network";
+  candidateGroup.setAttribute("opacity", candidateState.opacity);
+  candidateGroup.hidden = !candidateState.visible;
   corridorLines().forEach((feature, index) => {
     const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
     const points = feature.geometry.coordinates.map(([lon, lat]) => projection.point(lon, lat));
@@ -338,7 +521,7 @@ function renderMap() {
     path.setAttribute("stroke", lineColours[index % lineColours.length]);
     path.dataset.line = lineId;
     path.addEventListener("click", handleLineClick);
-    svg.appendChild(path);
+    candidateGroup.appendChild(path);
   });
 
   const movedIds = new Set(view.snapshot.changes.map((change) => change.id));
@@ -362,7 +545,7 @@ function renderMap() {
       event.stopPropagation();
       selectStation(station.id);
     });
-    svg.appendChild(circle);
+    candidateGroup.appendChild(circle);
   });
   view.snapshot.line_control_points.forEach((control) => {
     const [x, y] = projection.point(control.lon, control.lat);
@@ -383,7 +566,7 @@ function renderMap() {
       event.stopPropagation();
       selectControl(control.id);
     });
-    svg.appendChild(circle);
+    candidateGroup.appendChild(circle);
   });
   if (pendingLineStart) {
     const [x, y] = projection.point(pendingLineStart.lon, pendingLineStart.lat);
@@ -392,12 +575,75 @@ function renderMap() {
     marker.setAttribute("cy", y);
     marker.setAttribute("r", 9);
     marker.setAttribute("class", "pending-line-point");
-    svg.appendChild(marker);
+    candidateGroup.appendChild(marker);
   }
+  svg.appendChild(candidateGroup);
+  renderMapScale();
 }
 
+function applyMapCamera() {
+  $("#network-map").setAttribute(
+    "viewBox",
+    `${mapCamera.x} ${mapCamera.y} ${mapCamera.width} ${mapCamera.height}`,
+  );
+}
+
+function eventToMap(event) {
+  const svg = $("#network-map");
+  const point = svg.createSVGPoint();
+  point.x = event.clientX;
+  point.y = event.clientY;
+  const transformed = point.matrixTransform(svg.getScreenCTM().inverse());
+  return [transformed.x, transformed.y];
+}
+
+function renderMapScale() {
+  if (!projection) return;
+  const [, lat] = projection.inverse(mapCamera.x + mapCamera.width / 2, mapCamera.y + mapCamera.height / 2);
+  const [west] = projection.inverse(mapCamera.x, mapCamera.y + mapCamera.height / 2);
+  const [east] = projection.inverse(mapCamera.x + mapCamera.width, mapCamera.y + mapCamera.height / 2);
+  const visibleKm = Math.abs(east - west) * 111.32 * Math.cos(lat * Math.PI / 180);
+  $("#map-scale").textContent = `${visibleKm.toFixed(1)} km across`;
+}
+
+function zoomMap(factor, centreX = mapCamera.x + mapCamera.width / 2, centreY = mapCamera.y + mapCamera.height / 2) {
+  const nextWidth = Math.max(160, Math.min(1000, mapCamera.width * factor));
+  const nextHeight = nextWidth * 0.62;
+  const ratioX = (centreX - mapCamera.x) / mapCamera.width;
+  const ratioY = (centreY - mapCamera.y) / mapCamera.height;
+  mapCamera = {
+    x: Math.max(0, Math.min(1000 - nextWidth, centreX - ratioX * nextWidth)),
+    y: Math.max(0, Math.min(620 - nextHeight, centreY - ratioY * nextHeight)),
+    width: nextWidth,
+    height: nextHeight,
+  };
+  applyMapCamera();
+  renderMapScale();
+}
+
+$("#map-zoom-in").addEventListener("click", () => zoomMap(0.72));
+$("#map-zoom-out").addEventListener("click", () => zoomMap(1.38));
+$("#map-fit").addEventListener("click", () => {
+  mapCamera = { x: 0, y: 0, width: 1000, height: 620 };
+  applyMapCamera();
+  renderMapScale();
+});
+
+$("#network-map").addEventListener("wheel", (event) => {
+  event.preventDefault();
+  const [x, y] = eventToMap(event);
+  zoomMap(event.deltaY < 0 ? 0.82 : 1.22, x, y);
+}, { passive: false });
+
+$("#network-map").addEventListener("pointerdown", (event) => {
+  if (mapMode !== "pan") return;
+  const [x, y] = eventToMap(event);
+  mapPan = { x, y, cameraX: mapCamera.x, cameraY: mapCamera.y };
+  event.currentTarget.setPointerCapture(event.pointerId);
+});
+
 function startStationDrag(event) {
-  if (mapMode === "line") return;
+  if (mapMode === "line" || mapMode === "pan") return;
   const id = event.currentTarget.dataset.id;
   drag = { id, node: event.currentTarget, kind: "station" };
   event.currentTarget.setPointerCapture(event.pointerId);
@@ -409,7 +655,7 @@ function startStationDrag(event) {
 }
 
 function startControlDrag(event) {
-  if (mapMode === "line") return;
+  if (mapMode === "line" || mapMode === "pan") return;
   event.stopPropagation();
   const id = event.currentTarget.dataset.id;
   drag = { id, node: event.currentTarget, kind: "control" };
@@ -423,9 +669,7 @@ function startControlDrag(event) {
 
 async function createObjectFromMap(event) {
   if (drag || mapMode === "select") return;
-  const rect = $("#network-map").getBoundingClientRect();
-  const x = ((event.clientX - rect.left) / rect.width) * 1000;
-  const y = ((event.clientY - rect.top) / rect.height) * 620;
+  const [x, y] = eventToMap(event);
   const [lon, lat] = projection.inverse(x, y);
   try {
     const line = event.currentTarget.dataset.line;
@@ -469,7 +713,7 @@ function handleLineClick(event) {
     selectLine(event.currentTarget.dataset.line);
     return;
   }
-  if (mapMode !== "line") createObjectFromMap(event);
+  if (mapMode === "station" || mapMode === "control") createObjectFromMap(event);
 }
 
 document.querySelectorAll(".map-tool").forEach((button) => {
@@ -481,6 +725,8 @@ document.querySelectorAll(".map-tool").forEach((button) => {
     });
     $("#map-hint").textContent = mapMode === "station"
       ? "Click a line to insert a manual station into the route and simulator topology."
+      : mapMode === "pan"
+        ? "Drag the map to pan; use the wheel or +/− controls to zoom."
       : mapMode === "line"
         ? "Click two endpoints to create a line, terminal platforms, and weekly service plans."
       : mapMode === "control"
@@ -491,9 +737,7 @@ document.querySelectorAll(".map-tool").forEach((button) => {
 
 $("#network-map").addEventListener("click", async (event) => {
   if (mapMode !== "line" || drag) return;
-  const rect = event.currentTarget.getBoundingClientRect();
-  const x = ((event.clientX - rect.left) / rect.width) * 1000;
-  const y = ((event.clientY - rect.top) / rect.height) * 620;
+  const [x, y] = eventToMap(event);
   const [lon, lat] = projection.inverse(x, y);
   if (!pendingLineStart) {
     pendingLineStart = { lat, lon };
@@ -526,11 +770,17 @@ $("#network-map").addEventListener("click", async (event) => {
 });
 
 $("#network-map").addEventListener("pointermove", (event) => {
-  if (!drag) return;
-  const rect = event.currentTarget.getBoundingClientRect();
-  const x = ((event.clientX - rect.left) / rect.width) * 1000;
-  const y = ((event.clientY - rect.top) / rect.height) * 620;
+  const [x, y] = eventToMap(event);
   const [lon, lat] = projection.inverse(x, y);
+  $("#map-coordinates").textContent = `${lat.toFixed(6)}, ${lon.toFixed(6)} · ${gisManifest?.coordinate_reference_system || "EPSG:4326"}`;
+  if (mapPan) {
+    mapCamera.x = Math.max(0, Math.min(1000 - mapCamera.width, mapPan.cameraX + mapPan.x - x));
+    mapCamera.y = Math.max(0, Math.min(620 - mapCamera.height, mapPan.cameraY + mapPan.y - y));
+    applyMapCamera();
+    renderMapScale();
+    return;
+  }
+  if (!drag) return;
   if (drag.kind === "station") {
     drag.node.setAttribute("cx", x);
     drag.node.setAttribute("cy", y);
@@ -554,8 +804,8 @@ $("#network-map").addEventListener("pointermove", (event) => {
   }
 });
 
-$("#network-map").addEventListener("pointerup", () => { drag = null; });
-$("#network-map").addEventListener("pointercancel", () => { drag = null; });
+$("#network-map").addEventListener("pointerup", () => { drag = null; mapPan = null; });
+$("#network-map").addEventListener("pointercancel", () => { drag = null; mapPan = null; });
 
 function selectStation(id) {
   selectedStation = view.snapshot.stations.find((item) => item.id === id) || null;
