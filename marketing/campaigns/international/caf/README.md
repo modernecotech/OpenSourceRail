@@ -7,6 +7,8 @@ Tailored partnership approach for **CAF — Development Bank of Latin America an
 |---|---|
 | Category | `regional-development-bank` |
 | Engagement route | Eligibility and project-preparation enquiry |
+| Design regions | latin-america |
+| Applicable city models | 3 cities across 3 countries |
 | Intended recipient | Urban mobility, infrastructure or country office |
 | Named public contact | None; use the official organisational route |
 | Public route | info@caf.com |
@@ -19,15 +21,15 @@ Tailored partnership approach for **CAF — Development Bank of Latin America an
 
 ## Partnership proposition
 
-OpenSourceRail offers a transparent early-stage pipeline spanning 266
-cities, 44 countries, 29,106
-route-km and 4048.6 MW of station/depot PV in the current
+OpenSourceRail offers a transparent early-stage pipeline spanning 3 cities,
+3 countries, 551
+route-km and 63.6 MW of station/depot PV in the current
 screening models. The request is for technical routing, pilot preparation and
 independent review—not endorsement or funding on the strength of screening data.
 
-| Samawah network | Mosul simulation |
+| La-Paz network | San-Salvador simulation |
 |---|---|
-| ![Samawah network](../../../../designs/west-asia/Iraq/Samawah/samawah-network-map.png) | ![Mosul simulation](../../../../designs/west-asia/Iraq/Mosul/engineering/screenshots/mosul-simulation-dashboard.png) |
+| ![La-Paz network](../../../../designs/latin-america/Bolivia/La-Paz/la-paz-network-map.png) | ![San-Salvador simulation](../../../../designs/latin-america/El%20Salvador/San-Salvador/engineering/screenshots/san-salvador-simulation-dashboard.png) |
 
 - [Send-ready plain-text email](email.txt)
 - [OpenSourceRail overview](../../../../README.md)

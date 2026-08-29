@@ -46,3 +46,5 @@ files.
 International emails are deliberately different by audience: finance targets
 receive eligibility and project-preparation enquiries, nonprofits receive
 technical or programme-fit requests, and media receive independent story pitches.
+Regional targets receive only the matching city metrics, examples and images;
+global targets retain the complete catalogue.

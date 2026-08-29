@@ -7,6 +7,8 @@ Tailored partnership approach for **EBRD Green Cities**.
 |---|---|
 | Category | `regional-development-bank` |
 | Engagement route | Eligibility and project-preparation enquiry |
+| Design regions | europe, west-asia, north-africa |
+| Applicable city models | 100 cities across 12 countries |
 | Intended recipient | Green Cities programme team |
 | Named public contact | None; use the official organisational route |
 | Public route | Official form/contact route only |
@@ -19,15 +21,15 @@ Tailored partnership approach for **EBRD Green Cities**.
 
 ## Partnership proposition
 
-OpenSourceRail offers a transparent early-stage pipeline spanning 266
-cities, 44 countries, 29,106
-route-km and 4048.6 MW of station/depot PV in the current
+OpenSourceRail offers a transparent early-stage pipeline spanning 100 cities,
+12 countries, 9,209
+route-km and 1372.4 MW of station/depot PV in the current
 screening models. The request is for technical routing, pilot preparation and
 independent review—not endorsement or funding on the strength of screening data.
 
-| Samawah network | Mosul simulation |
+| Baghdad network | Khartoum simulation |
 |---|---|
-| ![Samawah network](../../../../designs/west-asia/Iraq/Samawah/samawah-network-map.png) | ![Mosul simulation](../../../../designs/west-asia/Iraq/Mosul/engineering/screenshots/mosul-simulation-dashboard.png) |
+| ![Baghdad network](../../../../designs/west-asia/Iraq/Baghdad/baghdad-network-map.png) | ![Khartoum simulation](../../../../designs/north-africa/Sudan/Khartoum/engineering/screenshots/khartoum-simulation-dashboard.png) |
 
 - [Send-ready plain-text email](email.txt)
 - [OpenSourceRail overview](../../../../README.md)

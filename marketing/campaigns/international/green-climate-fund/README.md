@@ -7,6 +7,8 @@ Tailored partnership approach for **Green Climate Fund**.
 |---|---|
 | Category | `climate-fund` |
 | Engagement route | Eligibility and project-preparation enquiry |
+| Design regions | global |
+| Applicable city models | 266 cities across 44 countries |
 | Intended recipient | Country programming or investment team |
 | Named public contact | None; use the official organisational route |
 | Public route | Official form/contact route only |
@@ -19,15 +21,15 @@ Tailored partnership approach for **Green Climate Fund**.
 
 ## Partnership proposition
 
-OpenSourceRail offers a transparent early-stage pipeline spanning 266
-cities, 44 countries, 29,106
+OpenSourceRail offers a transparent early-stage pipeline spanning 266 cities,
+44 countries, 29,106
 route-km and 4048.6 MW of station/depot PV in the current
 screening models. The request is for technical routing, pilot preparation and
 independent review—not endorsement or funding on the strength of screening data.
 
-| Samawah network | Mosul simulation |
+| Karachi network | Kinshasa simulation |
 |---|---|
-| ![Samawah network](../../../../designs/west-asia/Iraq/Samawah/samawah-network-map.png) | ![Mosul simulation](../../../../designs/west-asia/Iraq/Mosul/engineering/screenshots/mosul-simulation-dashboard.png) |
+| ![Karachi network](../../../../designs/south-asia/Pakistan/Karachi/karachi-network-map.png) | ![Kinshasa simulation](../../../../designs/central-africa/DR%20Congo/Kinshasa/engineering/screenshots/kinshasa-simulation-dashboard.png) |
 
 - [Send-ready plain-text email](email.txt)
 - [OpenSourceRail overview](../../../../README.md)

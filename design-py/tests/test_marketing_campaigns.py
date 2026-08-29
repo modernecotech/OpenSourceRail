@@ -82,3 +82,24 @@ def test_international_emails_are_tuned_to_the_audience() -> None:
     assert "Story pitch" in media
     assert "editorial pitch, not a request for endorsement" in media
     assert "programme-fit discussion" in charity
+
+
+def test_regional_targets_receive_scoped_metrics_and_examples() -> None:
+    idb = (
+        MARKETING / "campaigns/international/inter-american-development-bank/email.txt"
+    ).read_text(encoding="utf-8")
+    european = (
+        MARKETING / "campaigns/international/european-climate-foundation/README.md"
+    ).read_text(encoding="utf-8")
+
+    assert "contains 3 cities in 3 countries" in idb
+    assert "designs/latin-america/" in idb
+    assert "designs/west-asia/" not in idb
+    assert "| Design regions | latin-america |" in (
+        MARKETING / "campaigns/international/inter-american-development-bank/README.md"
+    ).read_text(encoding="utf-8")
+    assert "| Applicable city models | 1 city across 1 country |" in european
+    assert "Lyon network" in european
+    catalogue = (MARKETING / "campaigns/README.md").read_text(encoding="utf-8")
+    assert "| Design scope | Cities | Public route |" in catalogue
+    assert "latin-america | 3 | official contact route" in catalogue

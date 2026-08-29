@@ -50,6 +50,18 @@ FINANCE_CATEGORIES = {
     "project-preparation-facility",
     "regional-development-bank",
 }
+DESIGN_REGIONS = {
+    "central-africa",
+    "east-africa",
+    "europe",
+    "latin-america",
+    "north-africa",
+    "south-africa",
+    "south-asia",
+    "southeast-asia",
+    "west-africa",
+    "west-asia",
+}
 
 
 @dataclass(frozen=True)
@@ -142,6 +154,10 @@ def percentage(part: float, total: float) -> str:
     return f"{part / total:.0%}" if total > 0 else "n/a"
 
 
+def count_label(value: int, singular: str, plural: str | None = None) -> str:
+    return f"{value} {singular if value == 1 else plural or singular + 's'}"
+
+
 def engagement_kind(target: InternationalTarget) -> str:
     if target.category in MEDIA_CATEGORIES:
         return "media"
@@ -159,6 +175,32 @@ def engagement_label(target: InternationalTarget) -> str:
         "philanthropy": "Programme-fit and catalytic-support enquiry",
         "partnership": "Technical partnership and peer-review enquiry",
     }[engagement_kind(target)]
+
+
+def target_cities(target: InternationalTarget, cities: list[City]) -> list[City]:
+    if "all" in target.regions:
+        return cities
+    selected = [city for city in cities if city.region in target.regions]
+    if not selected:
+        raise ValueError(f"{target.id}: declared regions contain no city designs")
+    return selected
+
+
+def campaign_examples(cities: list[City], limit: int = 2) -> list[City]:
+    ordered = sorted(
+        cities, key=lambda city: (-city.population, city.country, city.name)
+    )
+    selected = [ordered[0]]
+    for city in ordered[1:]:
+        if city.country != selected[0].country:
+            selected.append(city)
+            break
+    for city in ordered[1:]:
+        if city not in selected:
+            selected.append(city)
+        if len(selected) == limit:
+            break
+    return selected[:limit]
 
 
 def read_json(path: Path) -> dict:
@@ -271,6 +313,14 @@ def load_targets() -> list[InternationalTarget]:
             raise ValueError(f"{target.id}: source_url must use HTTPS")
         if target.email and "@" not in target.email:
             raise ValueError(f"{target.id}: invalid public email")
+        regions = set(target.regions)
+        if "all" in regions and len(regions) != 1:
+            raise ValueError(f"{target.id}: 'all' cannot be combined with regions")
+        unknown_regions = regions - DESIGN_REGIONS - {"all"}
+        if unknown_regions:
+            raise ValueError(
+                f"{target.id}: unknown regions: {', '.join(sorted(unknown_regions))}"
+            )
     return targets
 
 
@@ -550,12 +600,25 @@ environmental, social and engineering studies.
 
 
 def international_email(target: InternationalTarget, cities: list[City]) -> str:
-    values = aggregate(cities)
+    scoped = target_cities(target, cities)
+    values = aggregate(scoped)
+    examples = campaign_examples(scoped)
+    country_count = len({city.country for city in scoped})
+    example_links = "\n".join(
+        f"{city.name} example: {github_url(city.city_readme)}" for city in examples
+    )
+    image_paths = [examples[0].network_map, examples[0].dashboard]
+    if len(examples) > 1:
+        image_paths.append(examples[1].network_map)
+    images = "\n".join(f"- {repo_path(path)}" for path in image_paths)
     recipient = target.email or f"[official contact route: {target.contact_url}]"
     greeting = target.recipient_name or target.recipient_role
     kind = engagement_kind(target)
     if kind == "media":
-        subject = "Story pitch — open-source city and rail generation across 266 cities"
+        subject = (
+            "Story pitch — open-source city and rail generation across "
+            + count_label(len(scoped), "city", "cities")
+        )
         relevance = (
             f"The work may be relevant to your coverage of {target.fit.lower()}. "
             "The repository includes inspectable assumptions, generated maps, "
@@ -610,9 +673,9 @@ Subject: {subject}
 
 Dear {greeting},
 
-I am writing from Modern EcoTech about OpenSourceRail, an open-source programme that has generated reproducible urban-rail screening concepts for {len(cities)} cities in {len({city.country for city in cities})} countries.
+I am writing from Modern EcoTech about OpenSourceRail, an open-source programme that has generated reproducible urban-rail screening concepts for {count_label(len(cities), 'city', 'cities')} in {count_label(len({city.country for city in cities}), 'country', 'countries')}. The design scope relevant to {target.name} contains {count_label(len(scoped), 'city', 'cities')} in {count_label(country_count, 'country', 'countries')}.
 
-The catalogue links network design, GIS, service planning, locally buildable rolling stock, renewable charging, cost and finance models, deterministic simulation and Git-reviewable evidence. It currently represents {int(values['population']):,} people, {values['route_km']:,.0f} route-km and {power(values['pv_kw'])} of station/depot PV in the screening models.
+The scoped catalogue links network design, GIS, service planning, locally buildable rolling stock, renewable charging, cost and finance models, deterministic simulation and Git-reviewable evidence. It represents {int(values['population']):,} people, {values['route_km']:,.0f} route-km and {power(values['pv_kw'])} of station/depot PV in the screening models.
 
 {relevance}
 
@@ -620,13 +683,10 @@ We are not presenting these outputs as feasibility studies, funding applications
 
 Project: {GITHUB_BLOB}README.md
 City catalogue: {GITHUB_BLOB}designs/README.md
-Samawah example: {github_url(next(city for city in cities if city.slug == 'samawah').city_readme)}
-Mosul example: {github_url(next(city for city in cities if city.slug == 'mosul').city_readme)}
+{example_links}
 
 Images to attach from the repository:
-- designs/west-asia/Iraq/Samawah/samawah-network-map.png
-- designs/west-asia/Iraq/Samawah/engineering/screenshots/samawah-simulation-dashboard.png
-- designs/west-asia/Iraq/Mosul/mosul-network-map.png
+{images}
 
 Kind regards,
 Hayder
@@ -638,11 +698,14 @@ Modern EcoTech / OpenSourceRail
 def international_readme(
     target: InternationalTarget, cities: list[City], output: Path
 ) -> str:
-    values = aggregate(cities)
+    scoped = target_cities(target, cities)
+    values = aggregate(scoped)
+    examples = campaign_examples(scoped)
+    primary = examples[0]
+    secondary = examples[1] if len(examples) > 1 else examples[0]
+    region_label = "global" if "all" in target.regions else ", ".join(target.regions)
     email_path = output.parent / "email.txt"
     recipient = target.email or "Official form/contact route only"
-    samawah = next(city for city in cities if city.slug == "samawah")
-    mosul = next(city for city in cities if city.slug == "mosul")
     return f"""# OpenSourceRail × {target.name}
 <!-- Generated by scripts/generate-marketing-campaigns.py. -->
 
@@ -652,6 +715,8 @@ Tailored partnership approach for **{target.name}**.
 |---|---|
 | Category | `{target.category}` |
 | Engagement route | {engagement_label(target)} |
+| Design regions | {region_label} |
+| Applicable city models | {count_label(len(scoped), 'city', 'cities')} across {count_label(len({city.country for city in scoped}), 'country', 'countries')} |
 | Intended recipient | {target.recipient_role} |
 | Named public contact | {target.recipient_name or 'None; use the official organisational route'} |
 | Public route | {recipient} |
@@ -664,15 +729,15 @@ Tailored partnership approach for **{target.name}**.
 
 ## Partnership proposition
 
-OpenSourceRail offers a transparent early-stage pipeline spanning {len(cities)}
-cities, {len({city.country for city in cities})} countries, {values['route_km']:,.0f}
+OpenSourceRail offers a transparent early-stage pipeline spanning {count_label(len(scoped), 'city', 'cities')},
+{count_label(len({city.country for city in scoped}), 'country', 'countries')}, {values['route_km']:,.0f}
 route-km and {power(values['pv_kw'])} of station/depot PV in the current
 screening models. The request is for technical routing, pilot preparation and
 independent review—not endorsement or funding on the strength of screening data.
 
-| Samawah network | Mosul simulation |
+| {primary.name} network | {secondary.name} simulation |
 |---|---|
-| ![Samawah network]({markdown_relative(output, samawah.network_map)}) | ![Mosul simulation]({markdown_relative(output, mosul.dashboard)}) |
+| ![{primary.name} network]({markdown_relative(output, primary.network_map)}) | ![{secondary.name} simulation]({markdown_relative(output, secondary.dashboard)}) |
 
 - [Send-ready plain-text email]({markdown_relative(output, email_path)})
 - [OpenSourceRail overview]({markdown_relative(output, ROOT / 'README.md')})
@@ -695,7 +760,10 @@ def campaigns_index(
         )
     partner_rows = "\n".join(
         f"| [{target.name}]({markdown_relative(output, CAMPAIGNS / 'international' / target.id / 'README.md')}) | "
-        f"{target.category} | {target.email or 'official contact route'} |"
+        f"{target.category} | "
+        f"{'global' if 'all' in target.regions else ', '.join(target.regions)} | "
+        f"{len(target_cities(target, cities))} | "
+        f"{target.email or 'official contact route'} |"
         for target in targets
     )
     engagement_counts = Counter(engagement_kind(target) for target in targets)
@@ -727,8 +795,8 @@ been sent and no unverified public-sector email has been guessed.
 |---|---:|
 {engagement_rows}
 
-| Organisation | Category | Public route |
-|---|---|---|
+| Organisation | Category | Design scope | Cities | Public route |
+|---|---|---|---:|---|
 {partner_rows}
 
 See the [campaign use and data-handling guide]({markdown_relative(output, MARKETING / 'README.md')})

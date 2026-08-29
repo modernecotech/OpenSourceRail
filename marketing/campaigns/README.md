@@ -63,61 +63,61 @@ been sent and no unverified public-sector email has been guessed.
 | Philanthropic organisations | 5 |
 | Specialist media | 8 |
 
-| Organisation | Category | Public route |
-|---|---|---|
-| [World Bank — Transport](international/world-bank-transport/README.md) | multilateral-development-bank | escronce@worldbank.org |
-| [Green Climate Fund](international/green-climate-fund/README.md) | climate-fund | official contact route |
-| [Sustainable Energy for All](international/seforall/README.md) | renewable-energy-partnership | Partnerships@SEforALL.org |
-| [IRENA — Climate Investment Platform](international/irena-climate-investment-platform/README.md) | renewable-energy-agency | cip@irena.org |
-| [Global Covenant of Mayors for Climate & Energy](international/global-covenant-of-mayors/README.md) | city-climate-network | info@globalcovenantofmayors.org |
-| [ICLEI — Local Governments for Sustainability](international/iclei/README.md) | local-government-network | iclei.ws@iclei.org |
-| [UN-Habitat](international/un-habitat/README.md) | un-urban-development | unhabitat-info@un.org |
-| [C40 Cities](international/c40-cities/README.md) | city-climate-network | official contact route |
-| [EBRD Green Cities](international/ebrd-green-cities/README.md) | regional-development-bank | official contact route |
-| [African Development Bank Group](international/african-development-bank/README.md) | regional-development-bank | official contact route |
-| [Asian Development Bank](international/asian-development-bank/README.md) | regional-development-bank | official contact route |
-| [International Finance Corporation — Sustainable Infrastructure](international/ifc-sustainable-infrastructure/README.md) | development-finance | askupstream@ifc.org |
-| [Multilateral Investment Guarantee Agency](international/miga/README.md) | political-risk-guarantee | official contact route |
-| [European Investment Bank — EIB Global](international/eib-global/README.md) | multilateral-development-bank | infodesk@eib.org |
-| [Inter-American Development Bank](international/inter-american-development-bank/README.md) | regional-development-bank | official contact route |
-| [IDB Invest](international/idb-invest/README.md) | development-finance | official contact route |
-| [CAF — Development Bank of Latin America and the Caribbean](international/caf/README.md) | regional-development-bank | info@caf.com |
-| [Asian Infrastructure Investment Bank](international/aiib/README.md) | multilateral-development-bank | official contact route |
-| [Islamic Development Bank](international/islamic-development-bank/README.md) | multilateral-development-bank | official contact route |
-| [New Development Bank](international/new-development-bank/README.md) | multilateral-development-bank | info@ndb.int |
-| [Private Infrastructure Development Group](international/pidg/README.md) | infrastructure-development-finance | official contact route |
-| [InfraCo Africa](international/infraco-africa/README.md) | project-development-finance | official contact route |
-| [GuarantCo](international/guarantco/README.md) | local-currency-guarantee | official contact route |
-| [Global Infrastructure Facility](international/global-infrastructure-facility/README.md) | project-preparation-facility | official contact route |
-| [FMO — Dutch entrepreneurial development bank](international/fmo/README.md) | bilateral-development-finance | official contact route |
-| [British International Investment](international/british-international-investment/README.md) | bilateral-development-finance | official contact route |
-| [Proparco](international/proparco/README.md) | bilateral-development-finance | official contact route |
-| [Global Environment Facility](international/global-environment-facility/README.md) | multilateral-environment-fund | communications@thegef.org |
-| [Climate Investment Funds](international/climate-investment-funds/README.md) | multilateral-climate-fund | official contact route |
-| [Mitigation Action Facility](international/mitigation-action-facility/README.md) | climate-project-facility | contact@mitigation-action.org |
-| [Climate Technology Centre and Network](international/climate-technology-centre-network/README.md) | climate-technology-assistance | ctcn@unep.org |
-| [Cities Climate Finance Leadership Alliance](international/cities-climate-finance-leadership-alliance/README.md) | city-climate-finance-network | official contact route |
-| [SLOCAT Partnership](international/slocat/README.md) | sustainable-transport-network | official contact route |
-| [UITP — International Association of Public Transport](international/uitp/README.md) | public-transport-network | official contact route |
-| [Institute for Transportation and Development Policy](international/itdp/README.md) | sustainable-mobility-nonprofit | official contact route |
-| [WRI Ross Center for Sustainable Cities](international/wri-ross-center/README.md) | urban-sustainability-nonprofit | official contact route |
-| [United Cities and Local Governments](international/uclg/README.md) | local-government-network | info@uclg.org |
-| [FIA Foundation](international/fia-foundation/README.md) | transport-philanthropy | official contact route |
-| [ClimateWorks Foundation](international/climateworks-foundation/README.md) | climate-philanthropy | official contact route |
-| [Bloomberg Philanthropies](international/bloomberg-philanthropies/README.md) | urban-philanthropy | official contact route |
-| [The Rockefeller Foundation](international/rockefeller-foundation/README.md) | development-philanthropy | official contact route |
-| [European Climate Foundation](international/european-climate-foundation/README.md) | climate-philanthropy | official contact route |
-| [RMI](international/rmi/README.md) | clean-energy-nonprofit | official contact route |
-| [REN21](international/ren21/README.md) | renewable-energy-network | secretariat@ren21.net |
-| [Global Innovation Fund](international/global-innovation-fund/README.md) | impact-innovation-fund | official contact route |
-| [Railway Gazette International](international/railway-gazette/README.md) | rail-industry-media | official contact route |
-| [International Railway Journal](international/international-railway-journal/README.md) | rail-industry-media | official contact route |
-| [Global Railway Review](international/global-railway-review/README.md) | rail-industry-media | official contact route |
-| [RailTech](international/railtech/README.md) | rail-industry-media | official contact route |
-| [Sustainable Bus](international/sustainable-bus/README.md) | sustainable-mobility-media | official contact route |
-| [Intelligent Transport](international/intelligent-transport/README.md) | sustainable-mobility-media | official contact route |
-| [Smart Cities Dive](international/smart-cities-dive/README.md) | urban-policy-media | official contact route |
-| [Cities Today](international/cities-today/README.md) | city-leadership-media | official contact route |
+| Organisation | Category | Design scope | Cities | Public route |
+|---|---|---|---:|---|
+| [World Bank — Transport](international/world-bank-transport/README.md) | multilateral-development-bank | global | 266 | escronce@worldbank.org |
+| [Green Climate Fund](international/green-climate-fund/README.md) | climate-fund | global | 266 | official contact route |
+| [Sustainable Energy for All](international/seforall/README.md) | renewable-energy-partnership | global | 266 | Partnerships@SEforALL.org |
+| [IRENA — Climate Investment Platform](international/irena-climate-investment-platform/README.md) | renewable-energy-agency | global | 266 | cip@irena.org |
+| [Global Covenant of Mayors for Climate & Energy](international/global-covenant-of-mayors/README.md) | city-climate-network | global | 266 | info@globalcovenantofmayors.org |
+| [ICLEI — Local Governments for Sustainability](international/iclei/README.md) | local-government-network | global | 266 | iclei.ws@iclei.org |
+| [UN-Habitat](international/un-habitat/README.md) | un-urban-development | global | 266 | unhabitat-info@un.org |
+| [C40 Cities](international/c40-cities/README.md) | city-climate-network | global | 266 | official contact route |
+| [EBRD Green Cities](international/ebrd-green-cities/README.md) | regional-development-bank | europe, west-asia, north-africa | 100 | official contact route |
+| [African Development Bank Group](international/african-development-bank/README.md) | regional-development-bank | central-africa, east-africa, north-africa, south-africa, west-africa | 124 | official contact route |
+| [Asian Development Bank](international/asian-development-bank/README.md) | regional-development-bank | south-asia, southeast-asia | 59 | official contact route |
+| [International Finance Corporation — Sustainable Infrastructure](international/ifc-sustainable-infrastructure/README.md) | development-finance | global | 266 | askupstream@ifc.org |
+| [Multilateral Investment Guarantee Agency](international/miga/README.md) | political-risk-guarantee | global | 266 | official contact route |
+| [European Investment Bank — EIB Global](international/eib-global/README.md) | multilateral-development-bank | global | 266 | infodesk@eib.org |
+| [Inter-American Development Bank](international/inter-american-development-bank/README.md) | regional-development-bank | latin-america | 3 | official contact route |
+| [IDB Invest](international/idb-invest/README.md) | development-finance | latin-america | 3 | official contact route |
+| [CAF — Development Bank of Latin America and the Caribbean](international/caf/README.md) | regional-development-bank | latin-america | 3 | info@caf.com |
+| [Asian Infrastructure Investment Bank](international/aiib/README.md) | multilateral-development-bank | south-asia, southeast-asia | 59 | official contact route |
+| [Islamic Development Bank](international/islamic-development-bank/README.md) | multilateral-development-bank | central-africa, east-africa, north-africa, south-africa, west-africa, south-asia, southeast-asia, west-asia | 262 | official contact route |
+| [New Development Bank](international/new-development-bank/README.md) | multilateral-development-bank | global | 266 | info@ndb.int |
+| [Private Infrastructure Development Group](international/pidg/README.md) | infrastructure-development-finance | central-africa, east-africa, north-africa, south-africa, west-africa, south-asia, southeast-asia | 183 | official contact route |
+| [InfraCo Africa](international/infraco-africa/README.md) | project-development-finance | central-africa, east-africa, south-africa, west-africa | 104 | official contact route |
+| [GuarantCo](international/guarantco/README.md) | local-currency-guarantee | central-africa, east-africa, north-africa, south-africa, west-africa, south-asia, southeast-asia | 183 | official contact route |
+| [Global Infrastructure Facility](international/global-infrastructure-facility/README.md) | project-preparation-facility | global | 266 | official contact route |
+| [FMO — Dutch entrepreneurial development bank](international/fmo/README.md) | bilateral-development-finance | global | 266 | official contact route |
+| [British International Investment](international/british-international-investment/README.md) | bilateral-development-finance | central-africa, east-africa, north-africa, south-africa, west-africa, south-asia, southeast-asia | 183 | official contact route |
+| [Proparco](international/proparco/README.md) | bilateral-development-finance | global | 266 | official contact route |
+| [Global Environment Facility](international/global-environment-facility/README.md) | multilateral-environment-fund | global | 266 | communications@thegef.org |
+| [Climate Investment Funds](international/climate-investment-funds/README.md) | multilateral-climate-fund | global | 266 | official contact route |
+| [Mitigation Action Facility](international/mitigation-action-facility/README.md) | climate-project-facility | global | 266 | contact@mitigation-action.org |
+| [Climate Technology Centre and Network](international/climate-technology-centre-network/README.md) | climate-technology-assistance | global | 266 | ctcn@unep.org |
+| [Cities Climate Finance Leadership Alliance](international/cities-climate-finance-leadership-alliance/README.md) | city-climate-finance-network | global | 266 | official contact route |
+| [SLOCAT Partnership](international/slocat/README.md) | sustainable-transport-network | global | 266 | official contact route |
+| [UITP — International Association of Public Transport](international/uitp/README.md) | public-transport-network | global | 266 | official contact route |
+| [Institute for Transportation and Development Policy](international/itdp/README.md) | sustainable-mobility-nonprofit | global | 266 | official contact route |
+| [WRI Ross Center for Sustainable Cities](international/wri-ross-center/README.md) | urban-sustainability-nonprofit | global | 266 | official contact route |
+| [United Cities and Local Governments](international/uclg/README.md) | local-government-network | global | 266 | info@uclg.org |
+| [FIA Foundation](international/fia-foundation/README.md) | transport-philanthropy | global | 266 | official contact route |
+| [ClimateWorks Foundation](international/climateworks-foundation/README.md) | climate-philanthropy | global | 266 | official contact route |
+| [Bloomberg Philanthropies](international/bloomberg-philanthropies/README.md) | urban-philanthropy | global | 266 | official contact route |
+| [The Rockefeller Foundation](international/rockefeller-foundation/README.md) | development-philanthropy | global | 266 | official contact route |
+| [European Climate Foundation](international/european-climate-foundation/README.md) | climate-philanthropy | europe | 1 | official contact route |
+| [RMI](international/rmi/README.md) | clean-energy-nonprofit | global | 266 | official contact route |
+| [REN21](international/ren21/README.md) | renewable-energy-network | global | 266 | secretariat@ren21.net |
+| [Global Innovation Fund](international/global-innovation-fund/README.md) | impact-innovation-fund | global | 266 | official contact route |
+| [Railway Gazette International](international/railway-gazette/README.md) | rail-industry-media | global | 266 | official contact route |
+| [International Railway Journal](international/international-railway-journal/README.md) | rail-industry-media | global | 266 | official contact route |
+| [Global Railway Review](international/global-railway-review/README.md) | rail-industry-media | global | 266 | official contact route |
+| [RailTech](international/railtech/README.md) | rail-industry-media | global | 266 | official contact route |
+| [Sustainable Bus](international/sustainable-bus/README.md) | sustainable-mobility-media | global | 266 | official contact route |
+| [Intelligent Transport](international/intelligent-transport/README.md) | sustainable-mobility-media | global | 266 | official contact route |
+| [Smart Cities Dive](international/smart-cities-dive/README.md) | urban-policy-media | global | 266 | official contact route |
+| [Cities Today](international/cities-today/README.md) | city-leadership-media | global | 266 | official contact route |
 
 See the [campaign use and data-handling guide](../README.md)
 and [recipient research queue](../contact-research.csv).

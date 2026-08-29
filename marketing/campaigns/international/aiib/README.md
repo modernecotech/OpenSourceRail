@@ -7,6 +7,8 @@ Tailored partnership approach for **Asian Infrastructure Investment Bank**.
 |---|---|
 | Category | `multilateral-development-bank` |
 | Engagement route | Eligibility and project-preparation enquiry |
+| Design regions | south-asia, southeast-asia |
+| Applicable city models | 59 cities across 11 countries |
 | Intended recipient | Urban infrastructure, transport or public-sector client team |
 | Named public contact | None; use the official organisational route |
 | Public route | Official form/contact route only |
@@ -19,15 +21,15 @@ Tailored partnership approach for **Asian Infrastructure Investment Bank**.
 
 ## Partnership proposition
 
-OpenSourceRail offers a transparent early-stage pipeline spanning 266
-cities, 44 countries, 29,106
-route-km and 4048.6 MW of station/depot PV in the current
+OpenSourceRail offers a transparent early-stage pipeline spanning 59 cities,
+11 countries, 9,674
+route-km and 1162.0 MW of station/depot PV in the current
 screening models. The request is for technical routing, pilot preparation and
 independent review—not endorsement or funding on the strength of screening data.
 
-| Samawah network | Mosul simulation |
+| Karachi network | Colombo simulation |
 |---|---|
-| ![Samawah network](../../../../designs/west-asia/Iraq/Samawah/samawah-network-map.png) | ![Mosul simulation](../../../../designs/west-asia/Iraq/Mosul/engineering/screenshots/mosul-simulation-dashboard.png) |
+| ![Karachi network](../../../../designs/south-asia/Pakistan/Karachi/karachi-network-map.png) | ![Colombo simulation](../../../../designs/south-asia/Sri%20Lanka/Colombo/engineering/screenshots/colombo-simulation-dashboard.png) |
 
 - [Send-ready plain-text email](email.txt)
 - [OpenSourceRail overview](../../../../README.md)

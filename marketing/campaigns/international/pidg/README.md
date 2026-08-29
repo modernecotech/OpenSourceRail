@@ -7,6 +7,8 @@ Tailored partnership approach for **Private Infrastructure Development Group**.
 |---|---|
 | Category | `infrastructure-development-finance` |
 | Engagement route | Eligibility and project-preparation enquiry |
+| Design regions | central-africa, east-africa, north-africa, south-africa, west-africa, south-asia, southeast-asia |
+| Applicable city models | 183 cities across 32 countries |
 | Intended recipient | New-business or project-development team |
 | Named public contact | None; use the official organisational route |
 | Public route | Official form/contact route only |
@@ -19,15 +21,15 @@ Tailored partnership approach for **Private Infrastructure Development Group**.
 
 ## Partnership proposition
 
-OpenSourceRail offers a transparent early-stage pipeline spanning 266
-cities, 44 countries, 29,106
-route-km and 4048.6 MW of station/depot PV in the current
+OpenSourceRail offers a transparent early-stage pipeline spanning 183 cities,
+32 countries, 21,269
+route-km and 2902.2 MW of station/depot PV in the current
 screening models. The request is for technical routing, pilot preparation and
 independent review—not endorsement or funding on the strength of screening data.
 
-| Samawah network | Mosul simulation |
+| Karachi network | Kinshasa simulation |
 |---|---|
-| ![Samawah network](../../../../designs/west-asia/Iraq/Samawah/samawah-network-map.png) | ![Mosul simulation](../../../../designs/west-asia/Iraq/Mosul/engineering/screenshots/mosul-simulation-dashboard.png) |
+| ![Karachi network](../../../../designs/south-asia/Pakistan/Karachi/karachi-network-map.png) | ![Kinshasa simulation](../../../../designs/central-africa/DR%20Congo/Kinshasa/engineering/screenshots/kinshasa-simulation-dashboard.png) |
 
 - [Send-ready plain-text email](email.txt)
 - [OpenSourceRail overview](../../../../README.md)
