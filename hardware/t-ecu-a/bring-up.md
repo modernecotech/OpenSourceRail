@@ -78,7 +78,7 @@ and `NetworkManager`.
 **Expected:** working PDP context within 60 s of modem boot.
 
 **Carrier choice:** bring-up is carrier-agnostic. For deployment
-use, the `osr-t2g` SIM-profile spec ([RFC 0005 §3.2](../../rfcs/0005-sbc-software-architecture.md#32-buses))
+use, the `osr-t2g` SIM-profile spec ([RFC 0005 §3.2](../../docs/rfcs/0005-sbc-software-architecture.md#32-buses))
 handles the operator's choice.
 
 ### A6 — TRG-2 (LoRa) bring-up

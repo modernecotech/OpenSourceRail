@@ -4,7 +4,7 @@
 **Date:** 2026-04-22
 **Parent RFC:** [RFC 0007](../../../../docs/rfcs/0007-hardware-reference-designs.md)
 **Follows:** v1 bring-up runbook at
-[`docs/hardware/bring-up/t-ecu-s.md`](../../../../docs/hardware/bring-up/t-ecu-s.md)
+[`hardware/t-ecu-s/bring-up.md`](../../bring-up.md)
 
 ## Scope
 
@@ -46,8 +46,9 @@ The v2 spec is pinned at this commit. Any deviation during
 schematic capture is logged in `deviations-log.md` alongside this
 file (created when the first deviation lands). Schematic + layout
 go under `hardware/t-ecu-s/schematics/v2-kicad/` once produced.
-Gerbers under [`hardware/t-ecu-s/gerbers/v2-rev-A/`](../../gerbers/).
-BOM under [`hardware/t-ecu-s/bom/v2-rev-A.csv`](../../bom/).
+Future Gerbers belong under `hardware/t-ecu-s/gerbers/v2-rev-A/` and the
+future board BOM under `hardware/t-ecu-s/bom/v2-rev-A.csv`; those directories
+are created only when real release artifacts exist.
 
 ## Licensing
 

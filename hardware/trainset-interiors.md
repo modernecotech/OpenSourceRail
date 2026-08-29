@@ -7,7 +7,7 @@ lighting, seats, grab rails, PIS, CCTV, and intercom are COTS rail
 or heavy-duty bus modules installed into reserved envelopes.
 
 This file is the supplier-neutral catalogue promised by
-[RFC 0008](../../docs/rfcs/0008-rolling-stock-reference-design.md).
+[RFC 0008](../docs/rfcs/0008-rolling-stock-reference-design.md).
 The envelope is the contract; named SKU classes are examples only.
 Any replacement is acceptable if it fits the envelope, stays inside
 the mass/power budget, exposes the required interface, and arrives
@@ -15,9 +15,9 @@ with usable certification evidence.
 
 Related rolling-stock package:
 
-- [`body.md`](../../docs/rolling-stock/light-metro-3car/body.md)
-- [`fabrication-plan.md`](../../docs/rolling-stock/light-metro-3car/fabrication-plan.md)
-- [`bom-skeleton.md`](../../docs/rolling-stock/light-metro-3car/bom-skeleton.md)
+- [`body.md`](../docs/rolling-stock/light-metro-3car/body.md)
+- [`fabrication-plan.md`](../docs/rolling-stock/light-metro-3car/fabrication-plan.md)
+- [`bom-skeleton.md`](../docs/rolling-stock/light-metro-3car/bom-skeleton.md)
 
 ## Qualification classes
 
@@ -194,4 +194,4 @@ Each car receives a COTS fit-out evidence pack:
 
 This evidence pack becomes part of the trainset technical file and
 feeds the compliance matrix in
-[`docs/rolling-stock/light-metro-3car/compliance.md`](../../docs/rolling-stock/light-metro-3car/compliance.md).
+[`docs/rolling-stock/light-metro-3car/compliance.md`](../docs/rolling-stock/light-metro-3car/compliance.md).

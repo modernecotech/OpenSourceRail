@@ -333,7 +333,7 @@ No primary steel member should be redesigned when a COTS supplier is
 changed. Supplier changes should require only adapter plates, harness
 tails, software configuration, and certification paperwork updates.
 The detailed envelopes and incoming-inspection evidence are maintained
-in [`hardware/trainset-interiors/cots-catalogue.md`](../../../hardware/trainset-interiors/cots-catalogue.md).
+in the [`hardware/trainset-interiors.md`](../../../hardware/trainset-interiors.md) catalogue.
 
 ## Inspection gates
 

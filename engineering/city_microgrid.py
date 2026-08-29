@@ -17,7 +17,7 @@ import pandapower as pp
 import pvlib
 
 
-REPO_ROOT = Path(__file__).resolve().parents[2]
+REPO_ROOT = Path(__file__).resolve().parents[1]
 CLIMATE_PRESETS = REPO_ROOT / "lib/templates/climate.toml"
 POWER_FACTOR = 0.99
 GRID_RECTIFIER_EFFICIENCY = 0.97

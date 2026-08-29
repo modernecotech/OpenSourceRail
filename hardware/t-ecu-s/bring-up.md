@@ -1,6 +1,6 @@
 # T-ECU/S bring-up — two Raspberry Pi Pico 2 boards in 2oo2
 
-**Goal:** validate that the [RFC 0007 §4](../../rfcs/0007-hardware-reference-designs.md#4-class-t-ecus-train-safety-kernel)
+**Goal:** validate that the [RFC 0007 §4](../../docs/rfcs/0007-hardware-reference-designs.md#4-class-t-ecus-train-safety-kernel)
 2oo2 safety architecture works on real silicon before we draw the
 custom baseboard. After this runbook, a pair of Pico 2 boards
 runs `osr-atp` + `osr-brake` + `osr-odometry` in composite
@@ -121,7 +121,7 @@ bring-up test binary.
 **Expected:** CM5 receives the same per-tick cross-check messages
 over SPI and logs them in JSON to `/var/log/osr/ecus.log`. This
 proves the one-way safety → app data path
-([RFC 0007 §4.2](../../rfcs/0007-hardware-reference-designs.md#42-soc-picks)).
+([RFC 0007 §4.2](../../docs/rfcs/0007-hardware-reference-designs.md#42-soc-picks)).
 
 ### S8 — Performance envelope
 

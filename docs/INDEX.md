@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 scripts/generate-doc-index.py
 ```
 
-Indexed Markdown files: **1283**.
+Indexed Markdown files: **1279**.
 
 ## Sections
 
@@ -25,10 +25,10 @@ Indexed Markdown files: **1283**.
 | [crates](#crates) | 4 |
 | [deployment](#deployment) | 1 |
 | [designs](#designs) | 844 |
-| [docs](#docs) | 140 |
+| [docs](#docs) | 132 |
 | [engineering](#engineering) | 2 |
 | [formal](#formal) | 2 |
-| [hardware](#hardware) | 36 |
+| [hardware](#hardware) | 40 |
 | [lib](#lib) | 3 |
 | [mechanical-py](#mechanical-py) | 237 |
 | [projects](#projects) | 3 |
@@ -931,7 +931,6 @@ Indexed Markdown files: **1283**.
 | [`docs/README.md`](../docs/README.md) | Technical Documentation |
 | [`docs/ROADMAP.md`](../docs/ROADMAP.md) | Roadmap |
 | [`docs/assets/README.md`](../docs/assets/README.md) | Repository Media Assets |
-| [`docs/brochures/README.md`](../docs/brochures/README.md) | Public Overview |
 | [`docs/certification/README.md`](../docs/certification/README.md) | OSR type-certification pre-submission pack |
 | [`docs/certification/compliance-matrix.md`](../docs/certification/compliance-matrix.md) | EN 62267 compliance matrix |
 | [`docs/certification/evidence-register.md`](../docs/certification/evidence-register.md) | Evidence register |
@@ -940,7 +939,7 @@ Indexed Markdown files: **1283**.
 | [`docs/certification/release-gap-register.md`](../docs/certification/release-gap-register.md) | Certification Release Gap Register |
 | [`docs/certification/safety-requirements.md`](../docs/certification/safety-requirements.md) | Safety requirements specification |
 | [`docs/certification/system-description.md`](../docs/certification/system-description.md) | System description |
-| [`docs/city-studio/README.md`](../docs/city-studio/README.md) | OSR City Studio |
+| [`docs/city-studio.md`](../docs/city-studio.md) | OSR City Studio |
 | [`docs/civil/README.md`](../docs/civil/README.md) | Civil And Alignment |
 | [`docs/civil/bonsai-ifc-workflow.md`](../docs/civil/bonsai-ifc-workflow.md) | Bonsai / IFC4.3 Civil Workflow |
 | [`docs/civil/construction-system-selection.md`](../docs/civil/construction-system-selection.md) | Civil Construction-System Selection |
@@ -962,11 +961,6 @@ Indexed Markdown files: **1283**.
 | [`docs/deployment-roles.md`](../docs/deployment-roles.md) | Deployment Roles |
 | [`docs/engineering-design-simulation-plan.md`](../docs/engineering-design-simulation-plan.md) | Engineering Design And Simulation Plan |
 | [`docs/first-adoptable-product.md`](../docs/first-adoptable-product.md) | First Adoptable Product |
-| [`docs/hardware/bring-up/README.md`](../docs/hardware/bring-up/README.md) | Hardware bring-up — v1 deliverable of RFC 0007 |
-| [`docs/hardware/bring-up/s-sbc.md`](../docs/hardware/bring-up/s-sbc.md) | S-SBC bring-up — RPi CM5 on Waveshare CM5-IO |
-| [`docs/hardware/bring-up/t-ecu-a.md`](../docs/hardware/bring-up/t-ecu-a.md) | T-ECU/A bring-up — Raspberry Pi CM5 IO Board |
-| [`docs/hardware/bring-up/t-ecu-s.md`](../docs/hardware/bring-up/t-ecu-s.md) | T-ECU/S bring-up — two Raspberry Pi Pico 2 boards in 2oo2 |
-| [`docs/hardware/bring-up/w-sbc.md`](../docs/hardware/bring-up/w-sbc.md) | W-SBC bring-up — Radxa CM5 IO Board |
 | [`docs/opentrack-evaluation.md`](../docs/opentrack-evaluation.md) | OpenTrack Evaluation |
 | [`docs/operations/README.md`](../docs/operations/README.md) | OpenSourceRail — Operations Rulebook |
 | [`docs/operations/control-centre/c1-occ-watch-roles.md`](../docs/operations/control-centre/c1-occ-watch-roles.md) | C1 — OCC watch roles |
@@ -996,9 +990,7 @@ Indexed Markdown files: **1283**.
 | [`docs/operations-portal/gap-analysis.md`](../docs/operations-portal/gap-analysis.md) | OSR Operations Portal Gap Analysis |
 | [`docs/operations-portal/ops-core.md`](../docs/operations-portal/ops-core.md) | OSR Ops Core |
 | [`docs/portfolio-summary.md`](../docs/portfolio-summary.md) | Portfolio capital summary |
-| [`docs/releases/README.md`](../docs/releases/README.md) | Releases |
-| [`docs/releases/next.md`](../docs/releases/next.md) | Next Release Checklist |
-| [`docs/releases/versioning.md`](../docs/releases/versioning.md) | Versioning And Release Policy |
+| [`docs/releases.md`](../docs/releases.md) | Release Policy And Checklist |
 | [`docs/repository-artifact-policy.md`](../docs/repository-artifact-policy.md) | Repository Artifact Policy |
 | [`docs/rfcs/0001-track-state-consensus.md`](../docs/rfcs/0001-track-state-consensus.md) | RFC 0001 — Track State Consensus |
 | [`docs/rfcs/0002-energy-sizing.md`](../docs/rfcs/0002-energy-sizing.md) | RFC 0002 — Energy Sizing Method |
@@ -1092,13 +1084,16 @@ Indexed Markdown files: **1283**.
 | [`hardware/release-checklist.md`](../hardware/release-checklist.md) | Hardware Release Checklist |
 | [`hardware/rolling-stock-integration.md`](../hardware/rolling-stock-integration.md) | Rolling-stock hardware integration |
 | [`hardware/s-sbc/README.md`](../hardware/s-sbc/README.md) | S-SBC — Station / Depot |
+| [`hardware/s-sbc/bring-up.md`](../hardware/s-sbc/bring-up.md) | S-SBC bring-up — RPi CM5 on Waveshare CM5-IO |
 | [`hardware/s-sbc/diy-assembly/README.md`](../hardware/s-sbc/diy-assembly/README.md) | S-SBC DIY assembly |
 | [`hardware/s-sbc/schematics/v2-spec/README.md`](../hardware/s-sbc/schematics/v2-spec/README.md) | S-SBC v2 schematic specification |
 | [`hardware/t-ecu-a/README.md`](../hardware/t-ecu-a/README.md) | T-ECU/A — Train Application |
+| [`hardware/t-ecu-a/bring-up.md`](../hardware/t-ecu-a/bring-up.md) | T-ECU/A bring-up — Raspberry Pi CM5 IO Board |
 | [`hardware/t-ecu-a/diy-assembly/README.md`](../hardware/t-ecu-a/diy-assembly/README.md) | T-ECU/A DIY assembly |
 | [`hardware/t-ecu-a/schematics/v2-spec/README.md`](../hardware/t-ecu-a/schematics/v2-spec/README.md) | T-ECU/A v2 schematic specification |
 | [`hardware/t-ecu-a/schematics/v2-spec/block-diagram.md`](../hardware/t-ecu-a/schematics/v2-spec/block-diagram.md) | T-ECU/A v2 — block diagram |
 | [`hardware/t-ecu-s/README.md`](../hardware/t-ecu-s/README.md) | T-ECU/S — Train Safety Kernel |
+| [`hardware/t-ecu-s/bring-up.md`](../hardware/t-ecu-s/bring-up.md) | T-ECU/S bring-up — two Raspberry Pi Pico 2 boards in 2oo2 |
 | [`hardware/t-ecu-s/diy-assembly/README.md`](../hardware/t-ecu-s/diy-assembly/README.md) | T-ECU/S DIY assembly |
 | [`hardware/t-ecu-s/schematics/v2-spec/README.md`](../hardware/t-ecu-s/schematics/v2-spec/README.md) | T-ECU/S baseboard v2 — schematic specification |
 | [`hardware/t-ecu-s/schematics/v2-spec/block-diagram.md`](../hardware/t-ecu-s/schematics/v2-spec/block-diagram.md) | T-ECU/S v2 — block diagram |
@@ -1115,8 +1110,9 @@ Indexed Markdown files: **1283**.
 | [`hardware/t-obs/schematics/v2-spec/pinout-rp2350.md`](../hardware/t-obs/schematics/v2-spec/pinout-rp2350.md) | T-OBS v2 — RP2350 A + B pinouts |
 | [`hardware/t-obs/schematics/v2-spec/power-budget.md`](../hardware/t-obs/schematics/v2-spec/power-budget.md) | T-OBS v2 — power budget |
 | [`hardware/t-obs/schematics/v2-spec/safety-nets.md`](../hardware/t-obs/schematics/v2-spec/safety-nets.md) | T-OBS v2 — safety-critical nets |
-| [`hardware/trainset-interiors/cots-catalogue.md`](../hardware/trainset-interiors/cots-catalogue.md) | Trainset interiors and closures — COTS equipment catalogue |
+| [`hardware/trainset-interiors.md`](../hardware/trainset-interiors.md) | Trainset interiors and closures — COTS equipment catalogue |
 | [`hardware/w-sbc/README.md`](../hardware/w-sbc/README.md) | W-SBC — Wayside |
+| [`hardware/w-sbc/bring-up.md`](../hardware/w-sbc/bring-up.md) | W-SBC bring-up — Radxa CM5 IO Board |
 | [`hardware/w-sbc/diy-assembly/README.md`](../hardware/w-sbc/diy-assembly/README.md) | W-SBC DIY assembly |
 | [`hardware/w-sbc/schematics/v2-spec/README.md`](../hardware/w-sbc/schematics/v2-spec/README.md) | W-SBC v2 schematic specification |
 | [`hardware/w-sbc/schematics/v2-spec/block-diagram.md`](../hardware/w-sbc/schematics/v2-spec/block-diagram.md) | W-SBC v2 — block diagram |

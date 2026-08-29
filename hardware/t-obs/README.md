@@ -38,5 +38,5 @@ about `$2.4k` per T-OBS module at single-unit retail.
   SBC, Pi Pico 2, and sensor-evaluation modules. Integration evidence
   is still pending.
 - Custom-board track: `schematics/v2-spec/` is the board-level v2
-  specification. `gerbers/` and `bom/` remain empty until a KiCad
+  specification. `gerbers/` and `bom/` will be created when a KiCad
   layout and v2 board BOM are released.

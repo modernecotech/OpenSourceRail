@@ -340,7 +340,7 @@ def main() -> int:
     parser.add_argument(
         "--output",
         type=Path,
-        default=REPO_ROOT / "engineering/software/simulation-component-coverage.json",
+        default=REPO_ROOT / "engineering/simulation-component-coverage.json",
     )
     args = parser.parse_args()
     report = build_report(args.result)

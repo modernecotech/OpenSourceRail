@@ -35,4 +35,4 @@ operation routing, material/process control, and signoff templates.
 | Generated FreeCAD review artifacts | [`../../mechanical-py/catalog/freecad/`](../../mechanical-py/catalog/freecad/) |
 | Concept image | [`../assets/solar-metro-trainset.png`](../assets/solar-metro-trainset.png) |
 | Hardware integration matrix | [`../../hardware/rolling-stock-integration.md`](../../hardware/rolling-stock-integration.md) |
-| Interior COTS catalogue | [`../../hardware/trainset-interiors/cots-catalogue.md`](../../hardware/trainset-interiors/cots-catalogue.md) |
+| Interior COTS catalogue | [`../../hardware/trainset-interiors.md`](../../hardware/trainset-interiors.md) |

@@ -41,7 +41,8 @@ def test_navigation_and_setup_have_one_documented_source() -> None:
     setup_sources = [
         relative
         for relative in tracked
-        if "./install.sh" in (REPO_ROOT / relative).read_text(encoding="utf-8")
+        if (REPO_ROOT / relative).is_file()
+        and "./install.sh" in (REPO_ROOT / relative).read_text(encoding="utf-8")
     ]
     assert setup_sources == ["README.md"]
 
@@ -70,6 +71,22 @@ def test_documentation_and_tooling_have_no_host_specific_paths() -> None:
         if any(host_path in text for host_path in host_paths):
             offenders.append(relative)
     assert offenders == []
+
+
+def test_thin_wrapper_directories_do_not_return() -> None:
+    for relative in (
+        "docs/brochures",
+        "docs/city-studio",
+        "docs/hardware",
+        "docs/releases",
+        "engineering/energy",
+        "engineering/gis",
+        "engineering/software",
+        "hardware/trainset-interiors",
+    ):
+        assert not (REPO_ROOT / relative).exists()
+    assert list((REPO_ROOT / "hardware").glob("*/bom/.gitkeep")) == []
+    assert list((REPO_ROOT / "hardware").glob("*/gerbers/.gitkeep")) == []
 
 
 def test_public_overview_is_generated_from_current_metrics() -> None:

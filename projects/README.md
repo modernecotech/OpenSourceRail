@@ -16,4 +16,4 @@ buildability, anchors, and derivation provenance are independently SHA-256
 locked so demand-aware routes are reproducible in a fresh clone.
 
 Start with the [Samawah project](samawah/project.osr.toml) and the
-[City Studio guide](../docs/city-studio/README.md).
+[City Studio guide](../docs/city-studio.md).

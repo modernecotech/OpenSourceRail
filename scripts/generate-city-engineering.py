@@ -17,8 +17,8 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 RUNNER = REPO_ROOT / "engineering/benchmarks/sumo/city_timetable.py"
-GIS_RUNNER = REPO_ROOT / "engineering/gis/city_package.py"
-ENERGY_RUNNER = REPO_ROOT / "engineering/energy/city_microgrid.py"
+GIS_RUNNER = REPO_ROOT / "engineering/city_package.py"
+ENERGY_RUNNER = REPO_ROOT / "engineering/city_microgrid.py"
 VISUAL_RUNNER = REPO_ROOT / "scripts/render-city-engineering.py"
 RING_INTERCHANGE_RUNNER = REPO_ROOT / "scripts/validate-ring-interchanges.py"
 STATION_CLUSTER_RUNNER = REPO_ROOT / "scripts/validate-station-clusters.py"

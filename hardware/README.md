@@ -42,18 +42,14 @@ design in tree.
 Each class subdirectory has the same shape:
 
 ```
-
-Empty `bom/`, `gerbers/`, and `schematics/` directories are retained with
-`.gitkeep` only where this common layout is the declared custom-board release
-contract. They are not claims that a board package exists; the status table
-below is authoritative.
 <class>/
 ├── README.md         class overview, SoC rationale, peripherals list
 ├── diy-assembly/     COTS/SBC pilot assembly notes per RFC 0019
-├── schematics/       board-level specs; KiCad projects once custom boards are drawn
-├── gerbers/          fab outputs for custom-board revisions
-└── bom/              COTS integration BOMs or board BOMs, depending on release track
+└── schematics/       board-level specs; KiCad projects once custom boards are drawn
 ```
+
+`bom/` and `gerbers/` are created only when they contain real release
+artifacts; empty placeholder directories are not retained.
 
 Current status:
 
@@ -64,6 +60,11 @@ Current status:
 | `t-obs` | `diy-assembly/` present; build evidence pending | Complete `schematics/v2-spec/` package; KiCad / gerbers / board BOM pending |
 | `w-sbc` | `diy-assembly/` present; build evidence pending | `schematics/v2-spec/` overview and block diagram; KiCad / gerbers / board BOM pending |
 | `s-sbc` | `diy-assembly/` present; build evidence pending | `schematics/v2-spec/` overview; custom board usually unnecessary |
+
+Bring-up procedures are colocated with their host:
+[`T-ECU/S`](t-ecu-s/bring-up.md), [`T-ECU/A`](t-ecu-a/bring-up.md),
+[`T-OBS`](t-obs/diy-assembly/README.md), [`W-SBC`](w-sbc/bring-up.md) and
+[`S-SBC`](s-sbc/bring-up.md).
 
 The release gates for both tracks are tracked in
 [`release-checklist.md`](release-checklist.md). Until a host class

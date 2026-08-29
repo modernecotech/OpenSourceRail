@@ -914,7 +914,7 @@ def check_generated_portfolio_summary() -> list[Finding]:
 
 
 def check_generated_introduction_brochure() -> list[Finding]:
-    path = REPO_ROOT / "docs/brochures/open-source-rail-overview.html"
+    path = REPO_ROOT / "docs/open-source-rail-overview.html"
     generator = REPO_ROOT / "scripts/generate-introduction-brochure.py"
     module = runpy.run_path(str(generator))
     expected = module["render"]()
@@ -1104,7 +1104,7 @@ def check_readme_corpus() -> list[Finding]:
 
 def check_simulation_component_coverage() -> list[Finding]:
     """Keep the complete software inventory classification reproducible."""
-    report_path = REPO_ROOT / "engineering/software/simulation-component-coverage.json"
+    report_path = REPO_ROOT / "engineering/simulation-component-coverage.json"
     validator_path = REPO_ROOT / "scripts/validate-simulation-components.py"
     if not report_path.is_file():
         return [Finding(report_path, "simulation component coverage report is missing")]

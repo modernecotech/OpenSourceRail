@@ -22,23 +22,23 @@ downstream city price; changing project method intent alone does not claim a
 new rate unless the calibrated driver model maps that input to a quantity.
 
 The controlling design decision is
-[RFC 0031](../rfcs/0031-city-studio-git-revisions.md).
+[RFC 0031](rfcs/0031-city-studio-git-revisions.md).
 
 ## Interface
 
-![City Studio network authoring, routing strategy, validation, and revision controls](../screenshots/city-studio/network-and-service.png)
+![City Studio network authoring, routing strategy, validation, and revision controls](screenshots/city-studio/network-and-service.png)
 
-![City Studio line/day/time service planning and controlled engineering jobs](../screenshots/city-studio/engineering-jobs.png)
+![City Studio line/day/time service planning and controlled engineering jobs](screenshots/city-studio/engineering-jobs.png)
 
-![City Studio SHA-256-verified alignment and GIS evidence viewer](../screenshots/city-studio/artifact-evidence-viewer.png)
+![City Studio SHA-256-verified alignment and GIS evidence viewer](screenshots/city-studio/artifact-evidence-viewer.png)
 
-![City Studio SHA-256-verified IFC object inspector with IDS and BCF evidence](../screenshots/city-studio/civil-bim-ids-bcf-evidence-viewer.png)
+![City Studio SHA-256-verified IFC object inspector with IDS and BCF evidence](screenshots/city-studio/civil-bim-ids-bcf-evidence-viewer.png)
 
-![City Studio BCF coordination decision form backed by Git-reviewable project intent](../screenshots/city-studio/bcf-git-review-workflow.png)
+![City Studio BCF coordination decision form backed by Git-reviewable project intent](screenshots/city-studio/bcf-git-review-workflow.png)
 
-![City Studio creating a deterministic BCF topic from a selected IFC asset](../screenshots/city-studio/ifc-bcf-topic-authoring.png)
+![City Studio creating a deterministic BCF topic from a selected IFC asset](screenshots/city-studio/ifc-bcf-topic-authoring.png)
 
-![Browser-tested complete City Studio with civil construction controls, OD capacity planning, bulk service controls, interactive civil 4D review, approval history, and multi-asset IFC selection](../screenshots/city-studio/gui-acceptance.png)
+![Browser-tested complete City Studio with civil construction controls, OD capacity planning, bulk service controls, interactive civil 4D review, approval history, and multi-asset IFC selection](screenshots/city-studio/gui-acceptance.png)
 
 ## Run
 
@@ -57,7 +57,7 @@ The server binds only to localhost by default. The initial interface has no
 authentication and must not be exposed as a shared or public service.
 
 To carry revisions into simulation, OCC training and Ops Core, use the
-[same-origin Workbench](../workbench/README.md) instead of starting Studio
+[same-origin Workbench](workbench/README.md) instead of starting Studio
 alone.
 
 ## Command line
@@ -88,7 +88,7 @@ Validate every committed city project:
 
     python3 scripts/validate-city-projects.py
 
-Install through the root [one-command setup](../../README.md#one-command-linux-setup),
+Install through the root [one-command setup](../README.md#one-command-linux-setup),
 then run every browser front end with `npm run test:frontend`.
 
 For the 111-check Studio-only workflow, use
@@ -330,6 +330,6 @@ or closed issues require a substantive resolution and reviewer. The project
 compiler includes those decisions in its content hash and revision comparison;
 rerunning **Generate Bonsai civil IFC4.3** creates the new immutable BCF state.
 
-See the [Bonsai/IFC4.3 civil workflow](../civil/bonsai-ifc-workflow.md) for the
+See the [Bonsai/IFC4.3 civil workflow](civil/bonsai-ifc-workflow.md) for the
 engineering authority boundary, standalone generator, Blender review scene,
 and construction animation.

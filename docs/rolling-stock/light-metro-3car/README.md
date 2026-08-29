@@ -66,7 +66,7 @@ to make the consist.
 
 COTS passenger-facing modules are controlled by the supplier-neutral
 envelope catalogue at
-[`hardware/trainset-interiors/cots-catalogue.md`](../../../hardware/trainset-interiors/cots-catalogue.md).
+[`hardware/trainset-interiors.md`](../../../hardware/trainset-interiors.md).
 Locally moulded or CNC-trimmed cabin fiberglass/phenolic liners,
 battery strake covers, and vestibule trims are controlled in
 [`cabin-fiberglass.md`](cabin-fiberglass.md).

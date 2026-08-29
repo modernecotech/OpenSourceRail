@@ -92,5 +92,5 @@ Run the complete browser and cross-GUI acceptance suite with:
 Tests use disposable City Studio projects and isolated SQLite databases; the
 committed Samawah intent is never edited.
 
-See the [City Studio guide](../../docs/city-studio/README.md) and
+See the [City Studio guide](../../docs/city-studio.md) and
 [RFC 0031](../../docs/rfcs/0031-city-studio-git-revisions.md).

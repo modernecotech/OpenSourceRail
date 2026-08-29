@@ -62,14 +62,14 @@ instead of browsing the folder tree or the generated file inventory.
 | I want to… | Go here |
 |---|---|
 | Understand the whole system | [Architecture](docs/ARCHITECTURE.md) and [software diagrams](docs/software-architecture-diagrams.md) |
-| Design a city, line, station or service | [Workbench](docs/workbench/README.md) and [City Studio](docs/city-studio/README.md) |
+| Design a city, line, station or service | [Workbench](docs/workbench/README.md) and [City Studio](docs/city-studio.md) |
 | Explore a country or city | [City catalogue](designs/README.md); each local page contains only local evidence |
 | Review costs or the portfolio | [Cost model](docs/cost-model.md) and [developing-world portfolio](docs/portfolio-summary.md) |
 | Review trains, civil works or stations | [LM3 trainset](docs/rolling-stock/light-metro-3car/README.md), [civil](docs/civil/README.md) and [stations](docs/stations/README.md) |
 | Review software, hardware or operations | [Simulation coverage](docs/simulation-software-coverage.md), [hardware](hardware/README.md) and [operations](docs/operations/README.md) |
 | Review safety, certification or open gaps | [Certification](docs/certification/README.md), [safety case](docs/safety-case/README.md) and [roadmap](docs/ROADMAP.md) |
-| Contribute or make a release | [Contributing](CONTRIBUTING.md) and [release checklist](docs/releases/next.md) |
-| Share a short non-technical summary | [Generated one-page overview](docs/brochures/open-source-rail-overview.html) |
+| Contribute or make a release | [Contributing](CONTRIBUTING.md) and [release checklist](docs/releases.md) |
+| Share a short non-technical summary | [Generated one-page overview](docs/open-source-rail-overview.html) |
 
 ## Run The Platform
 
@@ -183,7 +183,7 @@ python3 scripts/check-markdown-links.py
 ```
 
 See [CONTRIBUTING.md](CONTRIBUTING.md), [GOVERNANCE.md](GOVERNANCE.md),
-[CHANGELOG.md](CHANGELOG.md) and the [next release checklist](docs/releases/next.md).
+[CHANGELOG.md](CHANGELOG.md) and the [release checklist](docs/releases.md).
 
 ## License
 

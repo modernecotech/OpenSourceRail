@@ -10,7 +10,7 @@ import tempfile
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
-OUTPUT = REPO_ROOT / "docs/brochures/open-source-rail-overview.html"
+OUTPUT = REPO_ROOT / "docs/open-source-rail-overview.html"
 TRAINSET_COST = (
     REPO_ROOT / "mechanical-py/catalog/buildable-trainset/trainset-build-cost.json"
 )
@@ -107,7 +107,7 @@ def render() -> str:
       <p><strong>One deterministic workspace for city design, GIS, service planning, CAD/IFC, simulation, operations and assurance.</strong></p>
       <p>OpenSourceRail turns reviewable source inputs into Git-versioned network, fleet, energy, civil, cost and operating evidence. It is an open planning and engineering baseline—not a feasibility study, supplier bid, safety certificate or authority approval.</p>
     </div>
-    <img class="hero" src="../assets/solar-metro-trainset.png" alt="OpenSourceRail light-metro reference trainset">
+    <img class="hero" src="assets/solar-metro-trainset.png" alt="OpenSourceRail light-metro reference trainset">
   </header>
 
   <section class="metrics">
@@ -137,8 +137,8 @@ def render() -> str:
       </ul>
     </div>
     <div class="shots">
-      <img src="../screenshots/city-studio/gui-acceptance.png" alt="City Studio deterministic browser acceptance">
-      <img src="../screenshots/civil/bonsai-ifc4x3-civil-coordination.png" alt="Bonsai IFC4.3 civil coordination model">
+      <img src="screenshots/city-studio/gui-acceptance.png" alt="City Studio deterministic browser acceptance">
+      <img src="screenshots/civil/bonsai-ifc4x3-civil-coordination.png" alt="Bonsai IFC4.3 civil coordination model">
     </div>
   </section>
 

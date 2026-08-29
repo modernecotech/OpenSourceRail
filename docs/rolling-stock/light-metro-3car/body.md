@@ -183,7 +183,7 @@ HVAC, lighting, PIS, CCTV, intercom, seats, and grab rails are
 procurement modules. OSR fixes the envelope, fastener grid, power
 budget, data interface, fire rating, and maintainability clearance.
 Supplier-neutral envelopes and evidence requirements live in
-[`hardware/trainset-interiors/cots-catalogue.md`](../../../hardware/trainset-interiors/cots-catalogue.md).
+[`hardware/trainset-interiors.md`](../../../hardware/trainset-interiors.md).
 
 The full interface map, including how the COTS modules join to the
 fabricated steel/composite body, is in
