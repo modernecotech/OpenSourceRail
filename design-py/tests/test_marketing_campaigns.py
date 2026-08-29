@@ -21,10 +21,13 @@ def test_marketing_campaigns_are_current_and_complete() -> None:
 
     manifest = json.loads((MARKETING / "manifest.json").read_text(encoding="utf-8"))
     assert manifest["sender"] == "hayder@modernecotech.com"
-    assert manifest["country_campaign_count"] == 44
-    assert manifest["city_campaign_count"] == 266
-    assert manifest["international_campaign_count"] >= 50
-    assert manifest["recipient_role_count"] >= 1_290
+    assert manifest["catalogue_city_count"] == 266
+    assert manifest["country_campaign_count"] == 43
+    assert manifest["city_campaign_count"] == 265
+    assert manifest["excluded_from_marketing_count"] == 1
+    assert manifest["marketing_focus"] == "developing-world"
+    assert manifest["international_campaign_count"] >= 70
+    assert manifest["recipient_role_count"] >= 1_300
 
 
 def test_city_email_uses_current_evidence_and_images() -> None:
@@ -51,8 +54,8 @@ def test_contact_queue_distinguishes_research_from_verified_routes() -> None:
     city_rows = [row for row in rows if row["geography_type"] == "city"]
     country_rows = [row for row in rows if row["geography_type"] == "country"]
     international = [row for row in rows if row["geography_type"] == "international"]
-    assert len(city_rows) == 266 * 4
-    assert len(country_rows) == 44 * 4
+    assert len(city_rows) == 265 * 4
+    assert len(country_rows) == 43 * 4
     assert all(row["verification_status"] == "research_required" for row in city_rows)
     assert all(not row["email"] for row in city_rows + country_rows)
     assert all(row["source_url"].startswith("https://") for row in international)
@@ -64,6 +67,10 @@ def test_contact_queue_distinguishes_research_from_verified_routes() -> None:
         "global-environment-facility",
         "fia-foundation",
         "railway-gazette",
+        "university-leeds-its",
+        "ukri-epsrc",
+        "codatu",
+        "openstreetmap-foundation",
     }
 
 
@@ -83,13 +90,28 @@ def test_international_emails_are_tuned_to_the_audience() -> None:
     assert "editorial pitch, not a request for endorsement" in media
     assert "programme-fit discussion" in charity
 
+    university = (
+        MARKETING / "campaigns/international/birmingham-bcrre/email.txt"
+    ).read_text(encoding="utf-8")
+    research_funder = (
+        MARKETING / "campaigns/international/ukri-epsrc/email.txt"
+    ).read_text(encoding="utf-8")
+    research_network = (
+        MARKETING / "campaigns/international/codatu/email.txt"
+    ).read_text(encoding="utf-8")
+    assert "research collaboration" in university
+    assert "student projects" in university
+    assert "research-funding enquiry" in research_funder
+    assert "remit enquiry, not an unsolicited proposal" in research_funder
+    assert "research partnership" in research_network
+
 
 def test_regional_targets_receive_scoped_metrics_and_examples() -> None:
     idb = (
         MARKETING / "campaigns/international/inter-american-development-bank/email.txt"
     ).read_text(encoding="utf-8")
-    european = (
-        MARKETING / "campaigns/international/european-climate-foundation/README.md"
+    iit = (
+        MARKETING / "campaigns/international/iit-madras-transportation/README.md"
     ).read_text(encoding="utf-8")
 
     assert "contains 3 cities in 3 countries" in idb
@@ -98,8 +120,16 @@ def test_regional_targets_receive_scoped_metrics_and_examples() -> None:
     assert "| Design regions | latin-america |" in (
         MARKETING / "campaigns/international/inter-american-development-bank/README.md"
     ).read_text(encoding="utf-8")
-    assert "| Applicable city models | 1 city across 1 country |" in european
-    assert "Lyon network" in european
+    assert "| Design regions | south-asia |" in iit
+    assert "designs/south-asia/" in iit
     catalogue = (MARKETING / "campaigns/README.md").read_text(encoding="utf-8")
     assert "| Design scope | Cities | Public route |" in catalogue
     assert "latin-america | 3 | official contact route" in catalogue
+    assert "Lyon" not in catalogue
+    assert "France" not in catalogue
+    assert not (MARKETING / "campaigns/europe/France/README.md").exists()
+    assert not (
+        MARKETING / "campaigns/international/european-climate-foundation/README.md"
+    ).exists()
+    for path in (MARKETING / "campaigns/international").rglob("README.md"):
+        assert "designs/europe/" not in path.read_text(encoding="utf-8")

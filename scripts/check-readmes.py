@@ -16,7 +16,14 @@ def tracked_readmes() -> list[Path]:
         cwd=REPO_ROOT,
         text=True,
     )
-    return [REPO_ROOT / relative for relative in output.splitlines() if relative]
+    # ``git ls-files`` includes paths deleted from the working tree until their
+    # removal is staged.  Content checks should still work while generators are
+    # reconciling tracked outputs in a dirty worktree.
+    return [
+        REPO_ROOT / relative
+        for relative in output.splitlines()
+        if relative and (REPO_ROOT / relative).is_file()
+    ]
 
 
 def normalized(text: str) -> str:

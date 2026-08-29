@@ -7,8 +7,8 @@ Tailored partnership approach for **EBRD Green Cities**.
 |---|---|
 | Category | `regional-development-bank` |
 | Engagement route | Eligibility and project-preparation enquiry |
-| Design regions | europe, west-asia, north-africa |
-| Applicable city models | 100 cities across 12 countries |
+| Design regions | west-asia, north-africa |
+| Applicable city models | 99 cities across 11 countries |
 | Intended recipient | Green Cities programme team |
 | Named public contact | None; use the official organisational route |
 | Public route | Official form/contact route only |
@@ -21,9 +21,9 @@ Tailored partnership approach for **EBRD Green Cities**.
 
 ## Partnership proposition
 
-OpenSourceRail offers a transparent early-stage pipeline spanning 100 cities,
-12 countries, 9,209
-route-km and 1372.4 MW of station/depot PV in the current
+OpenSourceRail offers a transparent early-stage pipeline spanning 99 cities,
+11 countries, 8,939
+route-km and 1345.8 MW of station/depot PV in the current
 screening models. The request is for technical routing, pilot preparation and
 independent review—not endorsement or funding on the strength of screening data.
 

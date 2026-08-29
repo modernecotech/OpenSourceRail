@@ -10,7 +10,7 @@ Regenerate from the repository root with:
 python3 scripts/generate-doc-index.py
 ```
 
-Indexed Markdown files: **1649**.
+Indexed Markdown files: **1668**.
 
 ## Sections
 
@@ -27,7 +27,7 @@ Indexed Markdown files: **1649**.
 | [formal](#formal) | 2 |
 | [hardware](#hardware) | 36 |
 | [lib](#lib) | 3 |
-| [marketing](#marketing) | 365 |
+| [marketing](#marketing) | 384 |
 | [mechanical-py](#mechanical-py) | 237 |
 | [projects](#projects) | 3 |
 | [scripts](#scripts) | 1 |
@@ -1218,11 +1218,11 @@ Indexed Markdown files: **1649**.
 | [`marketing/campaigns/east-africa/Uganda/Soroti/README.md`](../marketing/campaigns/east-africa/Uganda/Soroti/README.md) | Soroti OpenSourceRail Campaign |
 | [`marketing/campaigns/east-africa/Zambia/Lusaka/README.md`](../marketing/campaigns/east-africa/Zambia/Lusaka/README.md) | Lusaka OpenSourceRail Campaign |
 | [`marketing/campaigns/east-africa/Zambia/README.md`](../marketing/campaigns/east-africa/Zambia/README.md) | Zambia OpenSourceRail Campaign |
-| [`marketing/campaigns/europe/France/Lyon/README.md`](../marketing/campaigns/europe/France/Lyon/README.md) | Lyon OpenSourceRail Campaign |
-| [`marketing/campaigns/europe/France/README.md`](../marketing/campaigns/europe/France/README.md) | France OpenSourceRail Campaign |
 | [`marketing/campaigns/international/african-development-bank/README.md`](../marketing/campaigns/international/african-development-bank/README.md) | OpenSourceRail × African Development Bank Group |
 | [`marketing/campaigns/international/aiib/README.md`](../marketing/campaigns/international/aiib/README.md) | OpenSourceRail × Asian Infrastructure Investment Bank |
 | [`marketing/campaigns/international/asian-development-bank/README.md`](../marketing/campaigns/international/asian-development-bank/README.md) | OpenSourceRail × Asian Development Bank |
+| [`marketing/campaigns/international/berkeley-its/README.md`](../marketing/campaigns/international/berkeley-its/README.md) | OpenSourceRail × UC Berkeley — Institute of Transportation Studies |
+| [`marketing/campaigns/international/birmingham-bcrre/README.md`](../marketing/campaigns/international/birmingham-bcrre/README.md) | OpenSourceRail × University of Birmingham — Railway Research and Education |
 | [`marketing/campaigns/international/bloomberg-philanthropies/README.md`](../marketing/campaigns/international/bloomberg-philanthropies/README.md) | OpenSourceRail × Bloomberg Philanthropies |
 | [`marketing/campaigns/international/british-international-investment/README.md`](../marketing/campaigns/international/british-international-investment/README.md) | OpenSourceRail × British International Investment |
 | [`marketing/campaigns/international/c40-cities/README.md`](../marketing/campaigns/international/c40-cities/README.md) | OpenSourceRail × C40 Cities |
@@ -1232,9 +1232,9 @@ Indexed Markdown files: **1649**.
 | [`marketing/campaigns/international/climate-investment-funds/README.md`](../marketing/campaigns/international/climate-investment-funds/README.md) | OpenSourceRail × Climate Investment Funds |
 | [`marketing/campaigns/international/climate-technology-centre-network/README.md`](../marketing/campaigns/international/climate-technology-centre-network/README.md) | OpenSourceRail × Climate Technology Centre and Network |
 | [`marketing/campaigns/international/climateworks-foundation/README.md`](../marketing/campaigns/international/climateworks-foundation/README.md) | OpenSourceRail × ClimateWorks Foundation |
+| [`marketing/campaigns/international/codatu/README.md`](../marketing/campaigns/international/codatu/README.md) | OpenSourceRail × CODATU |
 | [`marketing/campaigns/international/ebrd-green-cities/README.md`](../marketing/campaigns/international/ebrd-green-cities/README.md) | OpenSourceRail × EBRD Green Cities |
 | [`marketing/campaigns/international/eib-global/README.md`](../marketing/campaigns/international/eib-global/README.md) | OpenSourceRail × European Investment Bank — EIB Global |
-| [`marketing/campaigns/international/european-climate-foundation/README.md`](../marketing/campaigns/international/european-climate-foundation/README.md) | OpenSourceRail × European Climate Foundation |
 | [`marketing/campaigns/international/fia-foundation/README.md`](../marketing/campaigns/international/fia-foundation/README.md) | OpenSourceRail × FIA Foundation |
 | [`marketing/campaigns/international/fmo/README.md`](../marketing/campaigns/international/fmo/README.md) | OpenSourceRail × FMO — Dutch entrepreneurial development bank |
 | [`marketing/campaigns/international/global-covenant-of-mayors/README.md`](../marketing/campaigns/international/global-covenant-of-mayors/README.md) | OpenSourceRail × Global Covenant of Mayors for Climate & Energy |
@@ -1244,19 +1244,28 @@ Indexed Markdown files: **1649**.
 | [`marketing/campaigns/international/global-railway-review/README.md`](../marketing/campaigns/international/global-railway-review/README.md) | OpenSourceRail × Global Railway Review |
 | [`marketing/campaigns/international/green-climate-fund/README.md`](../marketing/campaigns/international/green-climate-fund/README.md) | OpenSourceRail × Green Climate Fund |
 | [`marketing/campaigns/international/guarantco/README.md`](../marketing/campaigns/international/guarantco/README.md) | OpenSourceRail × GuarantCo |
+| [`marketing/campaigns/international/huddersfield-railway-research/README.md`](../marketing/campaigns/international/huddersfield-railway-research/README.md) | OpenSourceRail × University of Huddersfield — Institute of Railway Research |
 | [`marketing/campaigns/international/iclei/README.md`](../marketing/campaigns/international/iclei/README.md) | OpenSourceRail × ICLEI — Local Governments for Sustainability |
 | [`marketing/campaigns/international/idb-invest/README.md`](../marketing/campaigns/international/idb-invest/README.md) | OpenSourceRail × IDB Invest |
+| [`marketing/campaigns/international/idrc/README.md`](../marketing/campaigns/international/idrc/README.md) | OpenSourceRail × International Development Research Centre |
 | [`marketing/campaigns/international/ifc-sustainable-infrastructure/README.md`](../marketing/campaigns/international/ifc-sustainable-infrastructure/README.md) | OpenSourceRail × International Finance Corporation — Sustainable Infrastructure |
+| [`marketing/campaigns/international/iit-madras-transportation/README.md`](../marketing/campaigns/international/iit-madras-transportation/README.md) | OpenSourceRail × IIT Madras — Transportation Engineering Group |
+| [`marketing/campaigns/international/imperial-transport-strategy-centre/README.md`](../marketing/campaigns/international/imperial-transport-strategy-centre/README.md) | OpenSourceRail × Imperial College London — Transport Strategy Centre |
 | [`marketing/campaigns/international/infraco-africa/README.md`](../marketing/campaigns/international/infraco-africa/README.md) | OpenSourceRail × InfraCo Africa |
 | [`marketing/campaigns/international/intelligent-transport/README.md`](../marketing/campaigns/international/intelligent-transport/README.md) | OpenSourceRail × Intelligent Transport |
 | [`marketing/campaigns/international/inter-american-development-bank/README.md`](../marketing/campaigns/international/inter-american-development-bank/README.md) | OpenSourceRail × Inter-American Development Bank |
 | [`marketing/campaigns/international/international-railway-journal/README.md`](../marketing/campaigns/international/international-railway-journal/README.md) | OpenSourceRail × International Railway Journal |
+| [`marketing/campaigns/international/international-transport-forum/README.md`](../marketing/campaigns/international/international-transport-forum/README.md) | OpenSourceRail × International Transport Forum at the OECD |
 | [`marketing/campaigns/international/irena-climate-investment-platform/README.md`](../marketing/campaigns/international/irena-climate-investment-platform/README.md) | OpenSourceRail × IRENA — Climate Investment Platform |
 | [`marketing/campaigns/international/islamic-development-bank/README.md`](../marketing/campaigns/international/islamic-development-bank/README.md) | OpenSourceRail × Islamic Development Bank |
 | [`marketing/campaigns/international/itdp/README.md`](../marketing/campaigns/international/itdp/README.md) | OpenSourceRail × Institute for Transportation and Development Policy |
+| [`marketing/campaigns/international/kth-centre-traffic-research/README.md`](../marketing/campaigns/international/kth-centre-traffic-research/README.md) | OpenSourceRail × KTH — Centre for Traffic Research |
+| [`marketing/campaigns/international/lf-energy/README.md`](../marketing/campaigns/international/lf-energy/README.md) | OpenSourceRail × Linux Foundation Energy |
 | [`marketing/campaigns/international/miga/README.md`](../marketing/campaigns/international/miga/README.md) | OpenSourceRail × Multilateral Investment Guarantee Agency |
 | [`marketing/campaigns/international/mitigation-action-facility/README.md`](../marketing/campaigns/international/mitigation-action-facility/README.md) | OpenSourceRail × Mitigation Action Facility |
 | [`marketing/campaigns/international/new-development-bank/README.md`](../marketing/campaigns/international/new-development-bank/README.md) | OpenSourceRail × New Development Bank |
+| [`marketing/campaigns/international/openstreetmap-foundation/README.md`](../marketing/campaigns/international/openstreetmap-foundation/README.md) | OpenSourceRail × OpenStreetMap Foundation |
+| [`marketing/campaigns/international/oxford-transport-studies-unit/README.md`](../marketing/campaigns/international/oxford-transport-studies-unit/README.md) | OpenSourceRail × University of Oxford — Transport Studies Unit |
 | [`marketing/campaigns/international/pidg/README.md`](../marketing/campaigns/international/pidg/README.md) | OpenSourceRail × Private Infrastructure Development Group |
 | [`marketing/campaigns/international/proparco/README.md`](../marketing/campaigns/international/proparco/README.md) | OpenSourceRail × Proparco |
 | [`marketing/campaigns/international/railtech/README.md`](../marketing/campaigns/international/railtech/README.md) | OpenSourceRail × RailTech |
@@ -1264,13 +1273,23 @@ Indexed Markdown files: **1649**.
 | [`marketing/campaigns/international/ren21/README.md`](../marketing/campaigns/international/ren21/README.md) | OpenSourceRail × REN21 |
 | [`marketing/campaigns/international/rmi/README.md`](../marketing/campaigns/international/rmi/README.md) | OpenSourceRail × RMI |
 | [`marketing/campaigns/international/rockefeller-foundation/README.md`](../marketing/campaigns/international/rockefeller-foundation/README.md) | OpenSourceRail × The Rockefeller Foundation |
+| [`marketing/campaigns/international/royal-academy-engineering-hep-ssa/README.md`](../marketing/campaigns/international/royal-academy-engineering-hep-ssa/README.md) | OpenSourceRail × Royal Academy of Engineering — HEP SSA |
+| [`marketing/campaigns/international/science-for-africa-foundation/README.md`](../marketing/campaigns/international/science-for-africa-foundation/README.md) | OpenSourceRail × Science for Africa Foundation |
 | [`marketing/campaigns/international/seforall/README.md`](../marketing/campaigns/international/seforall/README.md) | OpenSourceRail × Sustainable Energy for All |
 | [`marketing/campaigns/international/slocat/README.md`](../marketing/campaigns/international/slocat/README.md) | OpenSourceRail × SLOCAT Partnership |
 | [`marketing/campaigns/international/smart-cities-dive/README.md`](../marketing/campaigns/international/smart-cities-dive/README.md) | OpenSourceRail × Smart Cities Dive |
+| [`marketing/campaigns/international/ssatp/README.md`](../marketing/campaigns/international/ssatp/README.md) | OpenSourceRail × Africa Transport Policy Program |
 | [`marketing/campaigns/international/sustainable-bus/README.md`](../marketing/campaigns/international/sustainable-bus/README.md) | OpenSourceRail × Sustainable Bus |
+| [`marketing/campaigns/international/transportation-research-board/README.md`](../marketing/campaigns/international/transportation-research-board/README.md) | OpenSourceRail × Transportation Research Board |
+| [`marketing/campaigns/international/tumi/README.md`](../marketing/campaigns/international/tumi/README.md) | OpenSourceRail × Transformative Urban Mobility Initiative |
 | [`marketing/campaigns/international/uclg/README.md`](../marketing/campaigns/international/uclg/README.md) | OpenSourceRail × United Cities and Local Governments |
+| [`marketing/campaigns/international/uct-centre-transport-studies/README.md`](../marketing/campaigns/international/uct-centre-transport-studies/README.md) | OpenSourceRail × University of Cape Town — Centre for Transport Studies |
 | [`marketing/campaigns/international/uitp/README.md`](../marketing/campaigns/international/uitp/README.md) | OpenSourceRail × UITP — International Association of Public Transport |
+| [`marketing/campaigns/international/ukri-epsrc/README.md`](../marketing/campaigns/international/ukri-epsrc/README.md) | OpenSourceRail × UKRI — Engineering and Physical Sciences Research Council |
 | [`marketing/campaigns/international/un-habitat/README.md`](../marketing/campaigns/international/un-habitat/README.md) | OpenSourceRail × UN-Habitat |
+| [`marketing/campaigns/international/university-leeds-its/README.md`](../marketing/campaigns/international/university-leeds-its/README.md) | OpenSourceRail × University of Leeds — Institute for Transport Studies |
+| [`marketing/campaigns/international/vref/README.md`](../marketing/campaigns/international/vref/README.md) | OpenSourceRail × Volvo Research and Educational Foundations |
+| [`marketing/campaigns/international/wctrs/README.md`](../marketing/campaigns/international/wctrs/README.md) | OpenSourceRail × World Conference on Transport Research Society |
 | [`marketing/campaigns/international/world-bank-transport/README.md`](../marketing/campaigns/international/world-bank-transport/README.md) | OpenSourceRail × World Bank — Transport |
 | [`marketing/campaigns/international/wri-ross-center/README.md`](../marketing/campaigns/international/wri-ross-center/README.md) | OpenSourceRail × WRI Ross Center for Sustainable Cities |
 | [`marketing/campaigns/latin-america/Bolivia/La-Paz/README.md`](../marketing/campaigns/latin-america/Bolivia/La-Paz/README.md) | La-Paz OpenSourceRail Campaign |

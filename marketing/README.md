@@ -3,14 +3,18 @@
 This directory turns the current design catalogue into reviewable outreach
 packages without sending messages or inventing contact details.
 
+The campaign scope is the developing world: 265 city models in 43 countries.
+The Lyon engineering design remains available for comparison but is excluded
+from campaign metrics, examples, images and recipient packages.
+
 ## What is generated
 
 - `campaigns/<region>/<country>/`: one national campaign and email string;
 - `campaigns/<region>/<country>/<city>/`: one municipality campaign and email
   string for every retained city design;
 - `campaigns/international/`: audience-specific approaches for development banks,
-  project facilities, climate and transport networks, charities, foundations and
-  specialist media;
+  project facilities, climate and transport networks, charities, foundations,
+  universities, research funders, open-data collaborators and specialist media;
 - `contact-research.csv`: role-based recipient queue. Empty addresses mean
   research is still required, not permission to guess or scrape an address;
 - `manifest.json`: hashes and coverage counts for deterministic review.

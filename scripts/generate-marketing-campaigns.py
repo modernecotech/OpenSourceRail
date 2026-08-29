@@ -62,6 +62,15 @@ DESIGN_REGIONS = {
     "west-africa",
     "west-asia",
 }
+DEVELOPING_WORLD_REGIONS = DESIGN_REGIONS - {"europe"}
+UNIVERSITY_CATEGORIES = {"university-transport-research"}
+RESEARCH_FUNDING_CATEGORIES = {"research-funder"}
+RESEARCH_PARTNERSHIP_CATEGORIES = {
+    "development-transport-programme",
+    "open-data-collaboration",
+    "open-energy-collaboration",
+    "transport-research-network",
+}
 
 
 @dataclass(frozen=True)
@@ -161,6 +170,12 @@ def count_label(value: int, singular: str, plural: str | None = None) -> str:
 def engagement_kind(target: InternationalTarget) -> str:
     if target.category in MEDIA_CATEGORIES:
         return "media"
+    if target.category in UNIVERSITY_CATEGORIES:
+        return "university"
+    if target.category in RESEARCH_FUNDING_CATEGORIES:
+        return "research-funding"
+    if target.category in RESEARCH_PARTNERSHIP_CATEGORIES:
+        return "research-network"
     if target.category in FINANCE_CATEGORIES:
         return "finance"
     if "philanthropy" in target.category:
@@ -173,14 +188,26 @@ def engagement_label(target: InternationalTarget) -> str:
         "media": "Independent editorial pitch",
         "finance": "Eligibility and project-preparation enquiry",
         "philanthropy": "Programme-fit and catalytic-support enquiry",
+        "research-funding": "Research-call and consortium-eligibility enquiry",
+        "research-network": "Research, data and peer-review collaboration",
+        "university": "University research and teaching collaboration",
         "partnership": "Technical partnership and peer-review enquiry",
     }[engagement_kind(target)]
 
 
-def target_cities(target: InternationalTarget, cities: list[City]) -> list[City]:
+def applicable_regions(target: InternationalTarget) -> tuple[str, ...]:
     if "all" in target.regions:
-        return cities
-    selected = [city for city in cities if city.region in target.regions]
+        return tuple(sorted(DEVELOPING_WORLD_REGIONS))
+    return tuple(
+        region for region in target.regions if region in DEVELOPING_WORLD_REGIONS
+    )
+
+
+def target_cities(target: InternationalTarget, cities: list[City]) -> list[City]:
+    regions = applicable_regions(target)
+    if not regions:
+        raise ValueError(f"{target.id}: no developing-world region is applicable")
+    selected = [city for city in cities if city.region in regions]
     if not selected:
         raise ValueError(f"{target.id}: declared regions contain no city designs")
     return selected
@@ -654,6 +681,46 @@ def international_email(target: InternationalTarget, cities: list[City]) -> str:
             "Would a short programme-fit discussion be appropriate, or could you "
             "direct us to a current catalytic-support or learning partnership route?"
         )
+    elif kind == "university":
+        subject = (
+            "OpenSourceRail research collaboration — deterministic urban-rail design"
+        )
+        relevance = (
+            f"The work may support research and teaching on {target.fit.lower()}. "
+            "Potential collaborations include independent model validation, student "
+            "projects, comparative city studies, open datasets and reproducible "
+            "engineering experiments led with institutions in the Global South."
+        )
+        request = (
+            "Would your research group consider a technical seminar or exploratory "
+            "discussion to define a publishable, independently governed research "
+            "question and suitable developing-world university partners?"
+        )
+    elif kind == "research-funding":
+        subject = (
+            "OpenSourceRail research-funding enquiry — Global South transport evidence"
+        )
+        relevance = (
+            f"The platform may be relevant to calls concerning {target.fit.lower()}. "
+            "It could support a university-led consortium around validation, open "
+            "methods, research capacity and locally governed transport evidence."
+        )
+        request = (
+            "Could you advise which current or forthcoming call, eligible lead "
+            "institution and international-partnership structure should be reviewed? "
+            "This message is a remit enquiry, not an unsolicited proposal."
+        )
+    elif kind == "research-network":
+        subject = "OpenSourceRail research partnership — open transport models for the Global South"
+        relevance = (
+            f"The platform may contribute to work on {target.fit.lower()}. It offers "
+            "a reproducible basis for peer review, comparative research, data-quality "
+            "improvement and locally led case studies."
+        )
+        request = (
+            "Would a technical demonstration or methods review be useful, and could "
+            "you identify an appropriate working group or regional research partner?"
+        )
     else:
         subject = (
             "OpenSourceRail technical partnership — reproducible urban-rail concepts"
@@ -673,7 +740,7 @@ Subject: {subject}
 
 Dear {greeting},
 
-I am writing from Modern EcoTech about OpenSourceRail, an open-source programme that has generated reproducible urban-rail screening concepts for {count_label(len(cities), 'city', 'cities')} in {count_label(len({city.country for city in cities}), 'country', 'countries')}. The design scope relevant to {target.name} contains {count_label(len(scoped), 'city', 'cities')} in {count_label(country_count, 'country', 'countries')}.
+I am writing from Modern EcoTech about OpenSourceRail, an open-source programme with reproducible urban-rail screening concepts focused on {count_label(len(cities), 'city', 'cities')} in {count_label(len({city.country for city in cities}), 'developing country', 'developing countries')}. The design scope relevant to {target.name} contains {count_label(len(scoped), 'city', 'cities')} in {count_label(country_count, 'country', 'countries')}.
 
 The scoped catalogue links network design, GIS, service planning, locally buildable rolling stock, renewable charging, cost and finance models, deterministic simulation and Git-reviewable evidence. It represents {int(values['population']):,} people, {values['route_km']:,.0f} route-km and {power(values['pv_kw'])} of station/depot PV in the screening models.
 
@@ -703,7 +770,7 @@ def international_readme(
     examples = campaign_examples(scoped)
     primary = examples[0]
     secondary = examples[1] if len(examples) > 1 else examples[0]
-    region_label = "global" if "all" in target.regions else ", ".join(target.regions)
+    region_label = ", ".join(applicable_regions(target))
     email_path = output.parent / "email.txt"
     recipient = target.email or "Official form/contact route only"
     return f"""# OpenSourceRail × {target.name}
@@ -761,7 +828,7 @@ def campaigns_index(
     partner_rows = "\n".join(
         f"| [{target.name}]({markdown_relative(output, CAMPAIGNS / 'international' / target.id / 'README.md')}) | "
         f"{target.category} | "
-        f"{'global' if 'all' in target.regions else ', '.join(target.regions)} | "
+        f"{', '.join(applicable_regions(target))} | "
         f"{len(target_cities(target, cities))} | "
         f"{target.email or 'official contact route'} |"
         for target in targets
@@ -773,6 +840,9 @@ def campaigns_index(
             ("finance", "Development finance, funds and guarantees"),
             ("partnership", "Technical, city and transport networks"),
             ("philanthropy", "Philanthropic organisations"),
+            ("university", "University transport and railway research groups"),
+            ("research-funding", "Research funders"),
+            ("research-network", "Transport-research and open-data collaborators"),
             ("media", "Specialist media"),
         )
     )
@@ -782,6 +852,10 @@ def campaigns_index(
 Deterministic outreach packages for **{len(cities)} cities**, **{len(countries)}
 countries** and **{len(targets)} international organisations and media outlets**. No message has
 been sent and no unverified public-sector email has been guessed.
+
+Campaign evidence is limited to the developing-world design regions. European
+designs remain in the engineering catalogue but are not used in outreach metrics,
+examples or generated recipient packages.
 
 ## Countries
 
@@ -906,7 +980,7 @@ def contact_csv(
                     CAMPAIGNS / "international" / target.id / "README.md"
                 ),
                 "geography_type": "international",
-                "region": ";".join(target.regions),
+                "region": ";".join(applicable_regions(target)),
                 "country": "",
                 "city": "",
                 "recipient_id": target.id,
@@ -925,11 +999,18 @@ def contact_csv(
 
 
 def expected_outputs() -> tuple[dict[Path, bytes], dict]:
-    cities = discover_cities()
+    catalogue_cities = discover_cities()
     targets = load_targets()
     overrides = load_contact_overrides()
-    if len(cities) != 266:
-        raise ValueError(f"expected 266 city designs, found {len(cities)}")
+    if len(catalogue_cities) != 266:
+        raise ValueError(f"expected 266 city designs, found {len(catalogue_cities)}")
+    cities = [
+        city for city in catalogue_cities if city.region in DEVELOPING_WORLD_REGIONS
+    ]
+    if len(cities) != 265:
+        raise ValueError(
+            f"expected 265 developing-world city designs, found {len(cities)}"
+        )
     valid_override_keys = {
         (city_campaign_id(city), recipient_id)
         for city in cities
@@ -987,6 +1068,9 @@ def expected_outputs() -> tuple[dict[Path, bytes], dict]:
         "sender": SENDER,
         "country_campaign_count": len(grouped),
         "city_campaign_count": len(cities),
+        "catalogue_city_count": len(catalogue_cities),
+        "excluded_from_marketing_count": len(catalogue_cities) - len(cities),
+        "marketing_focus": "developing-world",
         "international_campaign_count": len(targets),
         "recipient_role_count": len(grouped) * 4 + len(cities) * 4 + len(targets),
         "generator": repo_path(Path(__file__)),

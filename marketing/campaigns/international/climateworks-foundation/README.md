@@ -7,8 +7,8 @@ Tailored partnership approach for **ClimateWorks Foundation**.
 |---|---|
 | Category | `climate-philanthropy` |
 | Engagement route | Programme-fit and catalytic-support enquiry |
-| Design regions | global |
-| Applicable city models | 266 cities across 44 countries |
+| Design regions | central-africa, east-africa, latin-america, north-africa, south-africa, south-asia, southeast-asia, west-africa, west-asia |
+| Applicable city models | 265 cities across 43 countries |
 | Intended recipient | Transportation programme or grants team |
 | Named public contact | None; use the official organisational route |
 | Public route | Official form/contact route only |
@@ -21,9 +21,9 @@ Tailored partnership approach for **ClimateWorks Foundation**.
 
 ## Partnership proposition
 
-OpenSourceRail offers a transparent early-stage pipeline spanning 266 cities,
-44 countries, 29,106
-route-km and 4048.6 MW of station/depot PV in the current
+OpenSourceRail offers a transparent early-stage pipeline spanning 265 cities,
+43 countries, 28,836
+route-km and 4022.0 MW of station/depot PV in the current
 screening models. The request is for technical routing, pilot preparation and
 independent review—not endorsement or funding on the strength of screening data.
 
