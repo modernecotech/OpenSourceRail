@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-FDS_INSTALL_ROOT="${OSR_FDS_ROOT:-/home/ha/.local/share/opensource-rail/native/FDS-6.11.1_SMV-6.11.2}"
+FDS_INSTALL_ROOT="${OSR_FDS_ROOT:-${XDG_DATA_HOME:-${HOME}/.local/share}/opensource-rail/native/FDS-6.11.1_SMV-6.11.2}"
 
 if [[ ! -x "$FDS_INSTALL_ROOT/bin/fds" ]]; then
     printf 'FDS executable not found under %s\n' "$FDS_INSTALL_ROOT" >&2

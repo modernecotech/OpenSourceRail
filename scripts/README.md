@@ -20,7 +20,7 @@ stay thin: domain logic belongs in Rust crates, `design-py`, or
 | [`export-light-metro-bom.py`](export-light-metro-bom.py) | Export the rolling-stock BOM CSV from the Markdown BOM source plus the generated COTS fit-out cost/source CSV |
 | [`generate-qa-maintenance-data.py`](generate-qa-maintenance-data.py) | Generate operations portal assets, manufacturing schedule/materials/verification, QA register, maintenance CSVs, and a deterministic gzip JSON bundle with integrity manifest |
 | [`build-doc-book.py`](build-doc-book.py) | Build the reader-edition documentation book |
-| [`generate-doc-index.py`](generate-doc-index.py) | Rebuild the central Markdown file catalogue in `docs/INDEX.md` |
+| [`generate-doc-index.py`](generate-doc-index.py) | Rebuild the exhaustive Markdown inventory used for search and CI diagnostics; it is not a second documentation guide |
 | [`render-sim-screenshots.py`](render-sim-screenshots.py) | Generate city-local simulator screenshots from any scenario |
 | [`render-city-engineering.py`](render-city-engineering.py) | Render hash-linked QGIS engineering-layer and SUMO validation visuals for city READMEs |
 | [`validate-ring-interchanges.py`](validate-ring-interchanges.py) | Fail close ring/radial approaches without a shared transfer, flag radial corridors that double back on themselves, and report genuinely disconnected route layouts |

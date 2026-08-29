@@ -401,9 +401,12 @@ hardware and operations release checklists linked from [ROADMAP.md](ROADMAP.md).
 
 ---
 
-## 11. Reading Order for New Contributors
+## 11. Architecture Reading Order
 
-1. This document (start here).
+Start with the root [Find Your Way](../README.md#find-your-way) table. For a
+deeper architecture review, continue in this order:
+
+1. This document.
 2. [`docs/GLOSSARY.md`](GLOSSARY.md) — rail-domain terms for software engineers and vice versa.
 3. [`docs/rfcs/0001-track-state-consensus.md`](rfcs/0001-track-state-consensus.md) — the distributed track-state log design.
 4. [`docs/rfcs/0002-energy-sizing.md`](rfcs/0002-energy-sizing.md) — quantitative sizing for the catenary-free, solar-first energy architecture.

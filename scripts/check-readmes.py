@@ -36,6 +36,40 @@ def main() -> int:
     args = parser.parse_args()
     findings: list[str] = []
     paths = tracked_readmes()
+    root_readme = REPO_ROOT / "README.md"
+    docs_readme = REPO_ROOT / "docs/README.md"
+    if not root_readme.is_file():
+        findings.append("README.md: missing repository front door")
+    else:
+        root_text = root_readme.read_text(encoding="utf-8")
+        if len(root_text.splitlines()) > 220:
+            findings.append("README.md: front door exceeds 220 lines")
+        for heading in ("## Find Your Way", "## Source Of Truth"):
+            if heading not in root_text:
+                findings.append(f"README.md: missing front-door section {heading!r}")
+    if not docs_readme.is_file():
+        findings.append("docs/README.md: missing documentation pointer")
+    else:
+        docs_text = docs_readme.read_text(encoding="utf-8")
+        if len(docs_text.splitlines()) > 30:
+            findings.append("docs/README.md: duplicates navigation instead of linking to root")
+        if "only human-facing\nnavigation page" not in docs_text:
+            findings.append("docs/README.md: does not identify the root README as the front door")
+
+    tracked_markdown = subprocess.check_output(
+        ["git", "ls-files", "*.md"], cwd=REPO_ROOT, text=True
+    ).splitlines()
+    setup_sources = [
+        relative
+        for relative in tracked_markdown
+        if (REPO_ROOT / relative).is_file()
+        and "./install.sh" in (REPO_ROOT / relative).read_text(encoding="utf-8")
+    ]
+    if setup_sources != ["README.md"]:
+        findings.append(
+            "common setup command must live only in README.md; found "
+            + ", ".join(setup_sources)
+        )
     common_reference = REPO_ROOT / "docs/deployment-planning-reference.md"
     if not common_reference.is_file():
         findings.append("docs/deployment-planning-reference.md: missing common deployment page")

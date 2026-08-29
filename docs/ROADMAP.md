@@ -10,7 +10,7 @@ the [engineering design and simulation plan](engineering-design-simulation-plan.
 
 | Workstream | Target outcome |
 |---|---|
-| Documentation accessibility | Section-level READMEs, stale-reference cleanup, link checks, and clearer front-door navigation |
+| Documentation accessibility | One root front door and source registry are enforced; local READMEs retain only discipline/city evidence, with generated inventory and link/drift checks |
 | Rolling-stock detail package | Supplier-exact envelopes, weld maps, tolerance stacks, harness clamp locations, FEA-ready brackets, 2D drawings, and NC/flat-pattern outputs |
 | Mechanical CAD | Material-aware sheet-metal templates, COTS variants with selected SKUs, generated FreeCAD/PNG drift gates, and catalog manifests |
 | Hardware integration evidence | Pilot-ready COTS/DIY integration packs for T-ECU/S, T-ECU/A, T-OBS, W-SBC, and S-SBC: exact SKUs, wiring/harness maps, connector maps, enclosure/mounting notes, power/thermal margins, SD-card images, self-test logs, and bench records |

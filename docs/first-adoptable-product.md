@@ -62,18 +62,10 @@ mode.
 | Maintenance schedule RFC | [`rfcs/0029-maintenance-schedule-system.md`](rfcs/0029-maintenance-schedule-system.md) |
 | Manufacturing schedule RFC | [`rfcs/0030-manufacturing-schedule-system.md`](rfcs/0030-manufacturing-schedule-system.md) |
 
-Run it:
-
-```bash
-python3 scripts/generate-qa-maintenance-data.py
-python3 scripts/ops-core-server.py --port 8008
-```
-
-Then open:
-
-```text
-http://127.0.0.1:8008/docs/operations-portal/
-```
+Run the integrated product through the root
+[one-command setup](../README.md#one-command-linux-setup). Standalone portal
+development and data-generation commands remain with the
+[operations portal](operations-portal/README.md), where they are maintained.
 
 ## Acceptance Criteria
 

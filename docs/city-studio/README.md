@@ -88,10 +88,8 @@ Validate every committed city project:
 
     python3 scripts/validate-city-projects.py
 
-Install the pinned platform toolchain once, then run every browser front end:
-
-    ./install.sh
-    npm run test:frontend
+Install through the root [one-command setup](../../README.md#one-command-linux-setup),
+then run every browser front end with `npm run test:frontend`.
 
 For the 111-check Studio-only workflow, use
 `node scripts/test-city-studio-gui.mjs`. Playwright uses one worker, a fixed

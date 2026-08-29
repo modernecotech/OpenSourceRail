@@ -16,13 +16,8 @@ The installed environments are intentionally not stored in Git:
 distribution channel, license identifier/source, Flatpak commit or binary
 checksum, and deliberately deferred tools.
 
-Install the complete environment once from the repository root:
-
-```bash
-./install.sh
-```
-
-Answer yes when the installer offers the optional engineering applications.
+Use the root [one-command setup](../../README.md#one-command-linux-setup) and
+accept the optional engineering applications when prompted.
 
 Run engineering workflows through the common launcher:
 

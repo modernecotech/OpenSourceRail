@@ -36,9 +36,8 @@ safety case for a real railway.
 
 ## Development Workflow
 
-Run `./install.sh` on a supported Linux machine. It reports the current
-installation before asking whether to add missing core or optional engineering
-tools. No separate setup commands are required.
+Use the root [one-command setup](README.md#one-command-linux-setup). Installation
+behaviour is documented there only so it cannot drift between guides.
 
 1. Open or reference an issue for behavioral changes, safety claims,
    architecture decisions, generated data changes, or new public docs.

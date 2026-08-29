@@ -54,24 +54,22 @@ remain separate evidence or cost gates.
 |---|---|---|
 | ![LM3 full body and bogie assembly](docs/screenshots/freecad/blender-full-body-assembly.png) | ![OpenSourceRail simulator](docs/screenshots/sim-gui.png) | ![Fabrication and assembly digital twin](docs/assets/digital-twin-animation.gif) |
 
-## Start Here
+## Find Your Way
 
-| Goal | Canonical entry point |
+This README is the repository's only human-facing front door. Use this table
+instead of browsing the folder tree or the generated file inventory.
+
+| I want to… | Go here |
 |---|---|
-| Short public introduction | [Generated one-page overview](docs/brochures/open-source-rail-overview.html) |
-| Documentation map | [Documentation hub](docs/README.md) and generated [document index](docs/INDEX.md) |
-| Understand the system | [Architecture](docs/ARCHITECTURE.md) and [software diagrams](docs/software-architecture-diagrams.md) |
-| Design a city or service plan | [Workbench](docs/workbench/README.md) and [City Studio](docs/city-studio/README.md) |
-| Interpret city and country outputs | [Deployment planning reference](docs/deployment-planning-reference.md) |
-| Review the city catalogue | [Design catalogue](designs/README.md) |
-| Review developing-world capital totals | [Portfolio capital summary](docs/portfolio-summary.md) |
-| Review costs and assumptions | [Cost model](docs/cost-model.md) |
-| Review rolling stock | [LM3 reference](docs/rolling-stock/light-metro-3car/README.md) and [buildable handoff](mechanical-py/catalog/buildable-trainset/README.md) |
-| Review civil and station engineering | [Civil package](docs/civil/README.md) and [station package](docs/stations/README.md) |
-| Review software coverage | [Simulation coverage](docs/simulation-software-coverage.md) and [software diagrams](docs/software-architecture-diagrams.md) |
-| Review hardware | [Hardware hosts](hardware/README.md) and [integration matrix](hardware/rolling-stock-integration.md) |
-| Review operations | [Operations](docs/operations/README.md) and [Ops Core](docs/operations-portal/ops-core.md) |
-| Review safety and release gaps | [Certification](docs/certification/README.md), [safety case](docs/safety-case/README.md) and [roadmap](docs/ROADMAP.md) |
+| Understand the whole system | [Architecture](docs/ARCHITECTURE.md) and [software diagrams](docs/software-architecture-diagrams.md) |
+| Design a city, line, station or service | [Workbench](docs/workbench/README.md) and [City Studio](docs/city-studio/README.md) |
+| Explore a country or city | [City catalogue](designs/README.md); each local page contains only local evidence |
+| Review costs or the portfolio | [Cost model](docs/cost-model.md) and [developing-world portfolio](docs/portfolio-summary.md) |
+| Review trains, civil works or stations | [LM3 trainset](docs/rolling-stock/light-metro-3car/README.md), [civil](docs/civil/README.md) and [stations](docs/stations/README.md) |
+| Review software, hardware or operations | [Simulation coverage](docs/simulation-software-coverage.md), [hardware](hardware/README.md) and [operations](docs/operations/README.md) |
+| Review safety, certification or open gaps | [Certification](docs/certification/README.md), [safety case](docs/safety-case/README.md) and [roadmap](docs/ROADMAP.md) |
+| Contribute or make a release | [Contributing](CONTRIBUTING.md) and [release checklist](docs/releases/next.md) |
+| Share a short non-technical summary | [Generated one-page overview](docs/brochures/open-source-rail-overview.html) |
 
 ## Run The Platform
 
@@ -150,17 +148,26 @@ review evidence. Generated city packages still require survey, calibrated
 demand, utility and ground data, supplier selection, first-article testing,
 competent engineering review and national authorization.
 
-## Repository Map
+## Source Of Truth
 
-| Path | Responsibility |
-|---|---|
-| `crates/` | Rust simulation, control, operations and browser applications |
-| `design-py/`, `designs/` | GIS/design automation and generated city packages |
-| `mechanical-py/` | Parametric rolling stock, station, track and civil CAD |
-| `engineering/` | Engineering toolchain, IFC/IDS/BCF and software coverage evidence |
-| `hardware/` | Train, wayside and station/depot host references |
-| `docs/` | Architecture, engineering, operations, certification and safety evidence |
-| `projects/` | Git-backed City Studio source projects and immutable revisions |
+Change the source in the middle column and regenerate the output on the right.
+Generated files are review evidence, not parallel inputs.
+
+| Concern | Edit here | Derived or explanatory material |
+|---|---|---|
+| System boundaries and decisions | [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) and accepted [`docs/rfcs/`](docs/rfcs/README.md) | Diagrams, guides and component summaries |
+| Software and simulation behaviour | [`crates/`](crates/README.md) plus their tests | WASM applications, simulation traces and coverage reports |
+| Shared planning assumptions | [`lib/templates/`](lib/templates/) and [`lib/recipes/`](lib/recipes/) | City designs, finance, energy and engineering evidence |
+| City catalogue membership | [`lib/city-batches/world-sample.toml`](lib/city-batches/world-sample.toml) | [`designs/`](designs/README.md) catalogue and national briefs |
+| Interactive city revisions | [`projects/`](projects/README.md) | Content-addressed candidates and exported city packages |
+| Mechanical and civil geometry | [`mechanical-py/src/osr_mech/`](mechanical-py/src/osr_mech/) | FreeCAD, IFC, BOM, traveler and screenshot catalogues |
+| Civil rates and city costs | [`lib/templates/civil-cost-calibration.toml`](lib/templates/civil-cost-calibration.toml), geometry and reviewed assumptions | Generated rate contract, [cost model](docs/cost-model.md) and city CAPEX |
+| Hardware integration | [`hardware/`](hardware/README.md) and governing RFCs | BOMs, wiring packs and release evidence |
+| Operations and safety requirements | [`docs/operations/`](docs/operations/README.md), [`docs/certification/`](docs/certification/README.md) and [`formal/`](formal/README.md) | Portal data, safety-case views and acceptance reports |
+
+The [artifact policy](docs/repository-artifact-policy.md) defines what Git keeps.
+The generated [Markdown inventory](docs/INDEX.md) is for search and CI only; it
+does not define architecture, status or reading order.
 
 ## Verification
 

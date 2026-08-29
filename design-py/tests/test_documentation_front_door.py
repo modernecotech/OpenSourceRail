@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import runpy
+import subprocess
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
@@ -17,6 +18,58 @@ def test_root_readme_is_a_concise_developing_world_front_door() -> None:
     assert "open-source-rail-introduction.html" not in text
     assert "docs/outreach" not in text
     assert "marketing/" not in text
+    assert "## Find Your Way" in text
+    assert "## Source Of Truth" in text
+    assert "only human-facing front door" in text
+
+
+def test_navigation_and_setup_have_one_documented_source() -> None:
+    root = (REPO_ROOT / "README.md").read_text(encoding="utf-8")
+    hub = (REPO_ROOT / "docs/README.md").read_text(encoding="utf-8")
+    inventory = (REPO_ROOT / "docs/INDEX.md").read_text(encoding="utf-8")
+
+    assert len(hub.splitlines()) <= 30
+    assert "root README" in hub
+    assert "does not repeat" in hub
+    assert "not a reading path or a technical source of truth" in hub
+    assert inventory.startswith("# Generated Markdown Inventory\n")
+    assert "not a\nreading path or source of truth" in inventory
+
+    tracked = subprocess.check_output(
+        ["git", "ls-files", "*.md"], cwd=REPO_ROOT, text=True
+    ).splitlines()
+    setup_sources = [
+        relative
+        for relative in tracked
+        if "./install.sh" in (REPO_ROOT / relative).read_text(encoding="utf-8")
+    ]
+    assert setup_sources == ["README.md"]
+
+    for source in (
+        "docs/ARCHITECTURE.md",
+        "lib/city-batches/world-sample.toml",
+        "projects/README.md",
+        "mechanical-py/src/osr_mech/",
+        "docs/repository-artifact-policy.md",
+    ):
+        assert source in root
+
+
+def test_documentation_and_tooling_have_no_host_specific_paths() -> None:
+    tracked = subprocess.check_output(
+        ["git", "ls-files"], cwd=REPO_ROOT, text=True
+    ).splitlines()
+    text_suffixes = {".md", ".py", ".sh", ".toml", ".yml", ".yaml"}
+    host_paths = ("/home/" + "hayder/", "/home/" + "ha/")
+    offenders: list[str] = []
+    for relative in tracked:
+        path = REPO_ROOT / relative
+        if path.suffix not in text_suffixes or not path.is_file():
+            continue
+        text = path.read_text(encoding="utf-8")
+        if any(host_path in text for host_path in host_paths):
+            offenders.append(relative)
+    assert offenders == []
 
 
 def test_public_overview_is_generated_from_current_metrics() -> None:

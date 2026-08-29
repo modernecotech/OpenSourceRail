@@ -69,3 +69,16 @@ folder that produced them.
    manifest passes: survey, calibrated demand, local ground/fire/utility data,
    supplier freeze, and independent safety/construction release remain external
    project gates.
+
+## Documentation ownership
+
+- The root `README.md` is the only human-facing navigation page and owns the
+  common setup instructions and source-of-truth map.
+- A discipline or folder README contains only material local to that subject;
+  it links to common guidance instead of copying it.
+- City and country pages contain only local values and evidence. Shared planning
+  interpretation lives in `docs/deployment-planning-reference.md`.
+- `docs/INDEX.md` is a generated inventory for search and CI, not a competing
+  guide or technical authority.
+- When a claim can be derived, generate it from the authoritative source and
+  test for drift rather than maintaining a second prose value.
