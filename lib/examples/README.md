@@ -333,6 +333,9 @@ train = "T4"
 - `balise_missed` — suppresses the affected train's expected absolute fix.
 - `balise_position_mismatch` — offsets the claimed balise position; the
   registry audit rejects it rather than passing it to odometry.
+- `fare_token_tamper` — flips a TVM-issued token signature before the AFC
+  gate. Optional `station`; omission affects every station and repeated
+  denials exercise back-office fraud signalling.
 - `platform_door_obstruction` — asserts PSD obstruction sensing. Optional
   `station`; omission applies it to every station.
 - `station_scada_failure` — degrades reference SCADA equipment. Optional

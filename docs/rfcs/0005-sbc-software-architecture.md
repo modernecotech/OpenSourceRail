@@ -408,6 +408,9 @@ Prerequisite: RFC 0004 M1+M2 are done; M3 (Kani) can run in parallel.
 
 16. **`osr-psd`**, **`osr-pis-station`**, **`osr-station-scada`**.
 17. **`osr-afc`**, **`osr-tvm`**, **`osr-afc-backoffice`**.
+    The simulator executes the complete signed-token and settlement path as a
+    representative station workload, including signature-tamper denial and
+    fraud-rate evidence; it does not treat that workload as demand forecast.
 18. **`osr-occ`**, **`osr-historian`**, **`osr-analytics`**,
     **`osr-cbm-backend`**.
 

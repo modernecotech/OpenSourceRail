@@ -25,6 +25,7 @@ then animates the run at arbitrary playback speed.
 - Physical HABD passage, warning restriction, trip, latched-stop, and
   inspected-reset evidence.
 - Balise registry, accepted odometry fixes, and sighting-audit findings.
+- Signed TVM sales, AFC decisions, settlement, and fraud evidence.
 - Depot evidence for radio-delivered CBM, history, analytics, and work orders.
 
 ## Run (native)

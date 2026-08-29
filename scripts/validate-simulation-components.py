@@ -84,6 +84,7 @@ def build_report(result_path: Path | None = None) -> dict:
         time_sync = result.get("time_sync", {})
         habd = result.get("habd_systems", {})
         balise = result.get("balise_systems", {})
+        fare = result.get("fare_systems", {})
         runtime_evidence = {
             "result": str(result_path),
             "result_sha256": digest(result_path),
@@ -131,6 +132,17 @@ def build_report(result_path: Path | None = None) -> dict:
                     "stale_findings",
                 )
             ),
+            "fare_station_count": int(fare.get("station_count", 0)),
+            "fare_gate_controller_ticks": int(
+                fare.get("gate_controller_ticks", 0)
+            ),
+            "fare_tickets_issued": int(fare.get("tickets_issued", 0)),
+            "fare_gate_grants": int(fare.get("gate_grants", 0)),
+            "fare_gate_denials": int(fare.get("gate_denials", 0)),
+            "fare_ledger_entries": int(fare.get("ledger_entries", 0)),
+            "fare_tvm_sales_cents": int(fare.get("tvm_sales_cents", 0)),
+            "fare_settled_cents": int(fare.get("settled_fare_cents", 0)),
+            "fare_flagged_accounts": int(fare.get("flagged_accounts", 0)),
         }
         required_vehicle = (
             "door_controller_evaluations",
@@ -162,6 +174,11 @@ def build_report(result_path: Path | None = None) -> dict:
             "balise_registry_count",
             "balise_crossing_opportunities",
             "balise_fixes_applied",
+            "fare_station_count",
+            "fare_gate_controller_ticks",
+            "fare_tickets_issued",
+            "fare_gate_grants",
+            "fare_ledger_entries",
         ):
             if runtime_evidence[field] <= 0:
                 issues.append(f"simulation result has no {field} evidence")
@@ -177,6 +194,18 @@ def build_report(result_path: Path | None = None) -> dict:
             "balise_crossing_opportunities"
         ]:
             issues.append("nominal simulation did not apply every expected balise fix")
+        if runtime_evidence["fare_gate_denials"]:
+            issues.append("nominal simulation contains fare-gate denials")
+        if runtime_evidence["fare_flagged_accounts"]:
+            issues.append("nominal simulation contains fare fraud flags")
+        if runtime_evidence["fare_gate_grants"] != runtime_evidence[
+            "fare_ledger_entries"
+        ]:
+            issues.append("nominal fare grants do not reconcile to ledger entries")
+        if runtime_evidence["fare_tvm_sales_cents"] != runtime_evidence[
+            "fare_settled_cents"
+        ]:
+            issues.append("nominal TVM sales do not reconcile to settled fares")
 
     counts = {
         category: sum(1 for value in assignments.values() if value == category)

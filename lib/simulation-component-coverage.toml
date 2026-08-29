@@ -21,13 +21,14 @@ components = [
 # Executes inside osr-sim for each configured station or wayside section tick.
 [infrastructure_tick_controller]
 components = [
-  "osr-balise", "osr-hot-axle-wayside", "osr-intrusion-detect", "osr-pis-station", "osr-psd",
+  "osr-afc", "osr-balise", "osr-hot-axle-wayside", "osr-intrusion-detect", "osr-pis-station", "osr-psd",
   "osr-station-scada",
+  "osr-tvm",
 ]
 
 # Consumes radio-delivered telemetry in the deterministic ground-service path.
 [backend_stream_processor]
-components = ["osr-analytics", "osr-cbm-backend", "osr-historian"]
+components = ["osr-afc-backoffice", "osr-analytics", "osr-cbm-backend", "osr-historian"]
 
 # Represented by an aggregate/scenario-native model. This is explicit technical
 # debt: the standalone crate is not claimed to have run.
@@ -49,8 +50,7 @@ components = ["osr-gui-shared", "osr-sim", "osr-sim-gui"]
 # tick. These services require their own service/wayside/station test harnesses.
 [external_boundary]
 components = [
-  "osr-afc", "osr-afc-backoffice",
   "osr-level-crossing", "osr-occ", "osr-occ-gui",
   "osr-proto", "osr-selftest",
-  "osr-tvm", "osr-wayside-points",
+  "osr-wayside-points",
 ]

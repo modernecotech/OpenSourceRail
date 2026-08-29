@@ -4,16 +4,16 @@
   "issues": [],
   "inventory_count": 55,
   "classified_count": 55,
-  "linked_component_count": 36,
+  "linked_component_count": 39,
   "category_counts": {
     "tick_controller": 21,
     "runtime_kernel": 6,
-    "infrastructure_tick_controller": 6,
-    "backend_stream_processor": 3,
+    "infrastructure_tick_controller": 8,
+    "backend_stream_processor": 4,
     "scenario_model": 2,
     "design_pipeline": 5,
     "simulation_shell": 3,
-    "external_boundary": 9
+    "external_boundary": 6
   },
   "categories": {
     "tick_controller": [
@@ -48,14 +48,17 @@
       "osr-secbus"
     ],
     "infrastructure_tick_controller": [
+      "osr-afc",
       "osr-balise",
       "osr-hot-axle-wayside",
       "osr-intrusion-detect",
       "osr-pis-station",
       "osr-psd",
-      "osr-station-scada"
+      "osr-station-scada",
+      "osr-tvm"
     ],
     "backend_stream_processor": [
+      "osr-afc-backoffice",
       "osr-analytics",
       "osr-cbm-backend",
       "osr-historian"
@@ -77,20 +80,17 @@
       "osr-sim-gui"
     ],
     "external_boundary": [
-      "osr-afc",
-      "osr-afc-backoffice",
       "osr-level-crossing",
       "osr-occ",
       "osr-occ-gui",
       "osr-proto",
       "osr-selftest",
-      "osr-tvm",
       "osr-wayside-points"
     ]
   },
   "deployment_inventory_sha256": "f6a192757c64f5059fd321ca45d9345c6b1da65d81f45a5d943e49971596492d",
-  "coverage_contract_sha256": "0dfb40a007b75c6a3cdf729af78cbbecdad9f8274c7de80013a87165f4e466b8",
-  "simulator_cargo_sha256": "2dbbb32cb2ffd5b29589c7abf646205cc3297ea142b2222eedf15aa9778a8c90",
+  "coverage_contract_sha256": "abb868f107cf7ed547858cec16000144de1ac088812a722b43b4f18cf63d8be9",
+  "simulator_cargo_sha256": "f6e2ea8941b534b727c21b7e8f3b46457758370cfe1fe3ce33e053b1b155c999",
   "runtime_evidence": null,
   "interpretation": "Complete means every deployable software component has exactly one explicit simulation treatment. Controllers and stream processors execute on their declared vehicle, infrastructure, or backend cadence; scenario_model and external_boundary entries remain visible gaps, not simulated implementations."
 }

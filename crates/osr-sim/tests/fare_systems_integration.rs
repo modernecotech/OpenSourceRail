@@ -17,7 +17,10 @@ fn signed_station_fares_reconcile_deterministically() {
     let first = run(&scenario, &runtime()).fare_systems;
     let second = run(&scenario, &runtime()).fare_systems;
     assert_eq!(first, second);
-    assert_eq!(first.station_count as usize, scenario.network.stations.len());
+    assert_eq!(
+        first.station_count as usize,
+        scenario.network.stations.len()
+    );
     assert!(first.gate_controller_ticks > 0);
     assert!(first.tickets_issued > 0);
     assert_eq!(first.gate_grants, first.tickets_issued);

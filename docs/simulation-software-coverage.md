@@ -15,6 +15,8 @@
   and inspected authority resets;
 - `balise_systems`: a stable topology-derived passive-balise registry, real
   sighting audit, and accepted absolute fixes delivered to onboard odometry;
+- `fare_systems`: signed single-ride issuance through the real TVM, gate
+  validation, and back-office ledger/fraud reconciliation at every station;
 - `backend_systems`: radio-delivered CBM ingestion, work-order generation,
   bounded history, and analytics over retained metrics;
 - `time_sync`: the IEEE 1588 slave state machine acquires and retains the
@@ -43,6 +45,12 @@ Balise identifiers and positions are regenerated from directed section IDs.
 Nominal acceptance requires every crossing opportunity to produce a
 registry-validated odometry fix; missed or mismatched reports remain visible
 fault-injection outcomes and are never accepted as fixes.
+
+The fare workload uses one representative transaction per station-minute to
+exercise software deterministically. Sales, grants, and ledger entries must
+reconcile, but the workload is not used as passenger-demand or revenue
+forecast evidence. `fare_token_tamper` exercises cryptographic denial and
+repeated-probe fraud signalling.
 
 Run the inventory check with:
 
