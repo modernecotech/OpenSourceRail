@@ -215,6 +215,7 @@ class ScenarioGenerator:
         out.append(self._consist_section())
         out.append(self._stations_section())
         out.append(self._lines_section())
+        out.append(self._habd_section())
         out.append(self._fleets_section())
         out.append(self._sites_section())
         return "\n".join(out).rstrip() + "\n"
@@ -790,6 +791,58 @@ class ScenarioGenerator:
                 )
             out.append(f"]\n\n")
         return "".join(out)
+
+    def _habd_section(self) -> str:
+        """Place one bidirectional detector on each terminal approach.
+
+        The physical location remains explicit in generated scenario output.
+        The policy only synthesises sites when enabled by the city design.
+        """
+        policy = self.design.get("operations", {}).get("habd", {})
+        if not bool(policy.get("enabled", False)):
+            return ""
+        approach_distance_m = int(policy.get("approach_distance_m", 500))
+        if approach_distance_m <= 0:
+            raise GeneratorError("operations.habd.approach_distance_m must be positive")
+        stations_by_line: dict[str, list[dict[str, Any]]] = {}
+        for station in self.design.get("stations", []):
+            stations_by_line.setdefault(str(station.get("line", "")), []).append(station)
+        for stations in stations_by_line.values():
+            stations.sort(key=lambda station: float(station.get("s_m", 0.0)))
+
+        out = [
+            "\n# Bidirectional HABDs — explicit route-book locations on terminal approaches.\n"
+        ]
+        emitted = 0
+        for line in self.design.get("lines", []):
+            line_id = str(line.get("id") or line.get("name"))
+            if line.get("shape") == "ring" or line.get("is_ring"):
+                continue
+            stations = stations_by_line.get(line_id, [])
+            if len(stations) < 2:
+                continue
+            previous, terminal = stations[-2], stations[-1]
+            section_length_m = round(
+                float(terminal.get("s_m", 0.0))
+                - float(previous.get("s_m", 0.0))
+            )
+            if section_length_m <= 1:
+                raise GeneratorError(
+                    f"line {line_id!r} terminal approach has no usable section"
+                )
+            distance_to_terminal = min(approach_distance_m, section_length_m // 2)
+            offset_m = section_length_m - distance_to_terminal
+            out.extend(
+                [
+                    "[[habd_detectors]]\n",
+                    f'id = "{_escape(line_id)}-terminal-approach"\n',
+                    f'line = "{_escape(line_id)}"\n',
+                    f'after_station = "{_escape(str(previous["id"]))}"\n',
+                    f"offset_m = {offset_m}\n\n",
+                ]
+            )
+            emitted += 1
+        return "".join(out) if emitted else ""
 
     def _sites_section(self) -> str:
         # Sites can be either:

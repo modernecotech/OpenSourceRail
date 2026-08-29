@@ -3,7 +3,8 @@
 //! `forward_chain`, [`osr-atp`], [`osr-ato`], [`osr-bms`],
 //! [`osr-traction`], [`osr-brake`] — in parallel with the
 //! simulator's countdown-based train motion model, every tick, for
-//! every Traveling train.
+//! every Traveling train. A TCMS trip feeds a deterministic hold back into
+//! both models on the following control cycle.
 //!
 //! This is **integration evidence** for the Phase 2a + 2b SBC
 //! crates (RFC 0005 §11). The sim's own kinematic model is not
@@ -45,9 +46,9 @@
 //!
 //! # What the shadow does NOT do
 //!
-//! - Override or influence the sim's own motion — the sim continues
-//!   to teleport trains using its countdown model. The shadow remains an
-//!   evidence-only observer of the existing simulation.
+//! - Replace the sim's service-level kinematic and energy model. It supplies
+//!   safety evidence and follows the same TCMS trip hold, while the main model
+//!   remains authoritative for distance, arrival, and energy accounting.
 //! - Talk to the consensus log. Local MAs are built directly from
 //!   the network topology.
 //! - Simulate wheel slip. `wheel_speed_mmps = measured_speed_mmps`
@@ -430,6 +431,7 @@ pub fn onboard_tick(
     train: &Train,
     network: &Network,
     faults: &crate::fault::FaultEngine,
+    movement_inhibited: bool,
     t_s: u32,
     dt_s: f32,
 ) -> Option<TickReport> {
@@ -446,7 +448,14 @@ pub fn onboard_tick(
     let now_ns = (t_s as u64).saturating_mul(1_000_000_000);
 
     // 1. Kinematic integration (very simple: accel → cruise → decel).
-    advance_kinematic(&mut shadow.kin, dt_s);
+    if movement_inhibited {
+        // The service-level model represents an emergency response as a
+        // discrete safe hold. Mirror that state here so odometry, ATO, and
+        // traction cannot continue advancing behind the held plant model.
+        shadow.kin.speed_mmps = 0;
+    } else {
+        advance_kinematic(&mut shadow.kin, dt_s);
+    }
 
     // If the shadow has arrived at (or past) the section end,
     // we are waiting for the sim to transition Traveling→Dwelling.
@@ -1241,6 +1250,7 @@ mod tests {
             &train,
             &n,
             &crate::fault::FaultEngine::default(),
+            false,
             1,
             1.0,
         )
@@ -1271,7 +1281,7 @@ mod tests {
         }]);
         faults.tick(1);
 
-        let report = onboard_tick(&mut shadow, &train, &n, &faults, 1, 1.0)
+        let report = onboard_tick(&mut shadow, &train, &n, &faults, false, 1, 1.0)
             .expect("traveling train produces a tick");
         assert_eq!(report.assist.service_brake_ppt, CONTROLLED_STOP_EFFORT_PPT);
         assert!(report.assist.request_media_channel);
@@ -1303,7 +1313,7 @@ mod tests {
         }]);
         faults.tick(1);
 
-        let report = onboard_tick(&mut shadow, &train, &n, &faults, 1, 1.0)
+        let report = onboard_tick(&mut shadow, &train, &n, &faults, false, 1, 1.0)
             .expect("traveling train produces a tick");
         assert!(shadow.fire_state.latched_tripped.contains(Bay::Battery));
         assert!(shadow.bms_state.faults.any());
@@ -1342,7 +1352,7 @@ mod tests {
         ]);
         faults.tick(1);
 
-        let report = onboard_tick(&mut shadow, &train, &n, &faults, 1, 1.0)
+        let report = onboard_tick(&mut shadow, &train, &n, &faults, false, 1, 1.0)
             .expect("traveling train produces a tick");
         assert_eq!(report.brake.command, BrakeCommand::Emergency);
         assert_eq!(shadow.stats.ticks_emergency, 1);
@@ -1359,6 +1369,7 @@ mod tests {
                 &train,
                 &n,
                 &crate::fault::FaultEngine::default(),
+                false,
                 t,
                 1.0,
             );
@@ -1386,6 +1397,7 @@ mod tests {
                 &train,
                 &n,
                 &crate::fault::FaultEngine::default(),
+                false,
                 t,
                 1.0,
             );
@@ -1416,6 +1428,7 @@ mod tests {
             &train,
             &n,
             &crate::fault::FaultEngine::default(),
+            false,
             1,
             1.0
         )

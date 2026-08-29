@@ -50,7 +50,8 @@ at a glance.
 
 ## File format
 
-A scenario has five top-level sections. Here's the minimum viable shape:
+A scenario has the required blocks below plus optional consist, energy, fault,
+HABD, and inspection-reset arrays. Here's the minimum viable shape:
 
 ```toml
 [scenario]
@@ -234,6 +235,27 @@ now, allocate the ROW PV generation to nearby stations' `pv_nameplate_kw`
 or to a dedicated depot site. Onboard roof PV is modeled under
 `[consist.roof_pv]`.
 
+#### `[[habd_detectors]]` and `[[habd_resets]]` *(optional)*
+
+HABDs are explicit bidirectional route-book assets. `after_station` identifies
+the lower-chainage end of an interstation section; `offset_m` must lie inside
+it. A trip stays latched until a named inspection reset occurs after the
+wayside overheat clears.
+
+```toml
+[[habd_detectors]]
+id = "line-1-terminal-approach"
+line = "line-1"
+after_station = "stop-1"
+offset_m = 1000
+
+[[habd_resets]]
+at = "08:15"
+train = "T4"
+authorised_by = "rolling-stock-technician"
+inspection_reference = "inspection-2026-0042"
+```
+
 #### `[[faults]]` *(optional)*
 
 Inject scheduled energy, onboard, station, or wayside faults. Every fault has
@@ -303,6 +325,8 @@ train = "T4"
 - `t2g_primary_offline` — removes 5G and verifies backup-radio failover.
 - `t2g_all_offline` — queues telemetry until either radio recovers.
 - `hot_axle_overheat` — injects a dual-channel bearing-temperature trip.
+- `wayside_habd_overheat` — injects a hot bearing only when the affected train
+  crosses a physical HABD, exercising the authoritative trackside stop path.
 - `cbm_degradation` — injects service-level bearing, motor, pad, and wheel data.
 - `platform_door_obstruction` — asserts PSD obstruction sensing. Optional
   `station`; omission applies it to every station.

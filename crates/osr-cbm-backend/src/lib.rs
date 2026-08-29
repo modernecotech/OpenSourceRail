@@ -97,6 +97,21 @@ pub fn ingest_sample(
     sample: &CbmSample,
     params: &CbmBackendParams,
 ) -> CbmBackendOutput {
+    let mut state = prev.clone();
+    let orders = ingest_sample_in_place(&mut state, sample, params);
+    CbmBackendOutput { state, orders }
+}
+
+/// Update a long-lived backend without cloning its fleet-wide component map.
+///
+/// This is semantically equivalent to [`ingest_sample`] and is intended for
+/// stream processors that already own their state.
+#[must_use]
+pub fn ingest_sample_in_place(
+    state: &mut CbmBackendState,
+    sample: &CbmSample,
+    params: &CbmBackendParams,
+) -> Vec<WorkOrder> {
     // Rebuild per-component health for this sample, assuming a flag
     // carries the worst-seen level for that component+index.
     let mut per_index: BTreeMap<(Component, u16), ComponentHealth> = BTreeMap::new();
@@ -141,7 +156,6 @@ pub fn ingest_sample(
         }
     }
 
-    let mut state = prev.clone();
     let mut orders = Vec::new();
 
     for ((comp, idx), health) in per_index {
@@ -181,7 +195,7 @@ pub fn ingest_sample(
         }
     }
 
-    CbmBackendOutput { state, orders }
+    orders
 }
 
 /// Re-derive the flag list from a sample. This duplicates the shape
@@ -362,5 +376,19 @@ mod tests {
         assert_eq!(a.orders.len(), 1);
         assert!(b.orders.is_empty());
         assert_eq!(c.orders.len(), 1);
+    }
+
+    #[test]
+    fn in_place_ingest_matches_pure_api() {
+        let mut input = clean(9);
+        input.bearing_vib_ppt[1] = 8_000;
+        let sample = sample_from(input);
+        let params = CbmBackendParams::default_depot();
+        let pure = ingest_sample(&CbmBackendState::default(), &sample, &params);
+        let mut state = CbmBackendState::default();
+        let orders = ingest_sample_in_place(&mut state, &sample, &params);
+
+        assert_eq!(state, pure.state);
+        assert_eq!(orders, pure.orders);
     }
 }

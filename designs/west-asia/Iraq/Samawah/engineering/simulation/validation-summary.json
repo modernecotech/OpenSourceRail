@@ -1,14 +1,14 @@
 {
-  "schema_version": "1.2",
+  "schema_version": "1.3",
   "city": "Samawah",
-  "validated_on": "2026-08-28",
+  "validated_on": "2026-08-29",
   "generator": "scripts/validate-city-simulation.py",
-  "generator_sha256": "cf94ec15bcadfb344270c90d69e7773c12b7da879d7858bd68e1ee781fc792cb",
+  "generator_sha256": "08865232e77ec7878be15d1169170dcdcb08a56c52a7c30894d7c705b248cdc6",
   "simulator_binary": "target/release/osr-sim",
-  "simulator_sha256": "1bb0704affb04db3a5e85c5609062cc464df2585616d499a69f812d36edba525",
-  "design_sha256": "847d5a613304957c16d476521e26bead0a8b6f09fa98665331127955978daf87",
+  "simulator_sha256": "2f75fcdf1aa61c54dc080e85b916fedf573cff1c893852ee35eeec3e635593e8",
+  "design_sha256": "67a021cf99d61ef8f6293ce59801a3ab87904a8e847f7a7af50929b985dacb37",
   "scenario": "../../../samawah.toml",
-  "scenario_sha256": "18280191cab1eded1857a1c94179721368e774d8944e7c1fe875ac7e5b694afc",
+  "scenario_sha256": "2e89a942a780c8c8d4015000f4d23322a1d038cac390ed3693c038b63389a7fe",
   "passed": true,
   "trainset_contract": {
     "passed": true,
@@ -46,7 +46,8 @@
     "energy_adaptive_service": true,
     "normal_service_soc_percent": 40.0,
     "maximum_headway_multiplier": 3.0,
-    "protected_peak_headway_min": 3
+    "protected_peak_headway_min": 3,
+    "configured_habd_detector_count": 3
   },
   "service_windows": [
     {
@@ -131,6 +132,21 @@
         }
       },
       "vehicle_systems_passed": true,
+      "habd_systems": {
+        "detector_count": 3,
+        "track_position_count": 6,
+        "passages_evaluated": 119,
+        "nominal_passages": 119,
+        "warning_passages": 0,
+        "trip_passages": 0,
+        "stop_orders_issued": 0,
+        "stop_hold_ticks": 0,
+        "reset_actions_accepted": 0,
+        "reset_actions_rejected": 0,
+        "reset_records": [],
+        "active_stop_orders": []
+      },
+      "habd_systems_passed": true,
       "invariant_violations": 0,
       "soc_warning_events": 0,
       "energy_adaptive_dispatches": 0,
@@ -184,6 +200,21 @@
         }
       },
       "vehicle_systems_passed": true,
+      "habd_systems": {
+        "detector_count": 3,
+        "track_position_count": 6,
+        "passages_evaluated": 1387,
+        "nominal_passages": 1387,
+        "warning_passages": 0,
+        "trip_passages": 0,
+        "stop_orders_issued": 0,
+        "stop_hold_ticks": 0,
+        "reset_actions_accepted": 0,
+        "reset_actions_rejected": 0,
+        "reset_records": [],
+        "active_stop_orders": []
+      },
+      "habd_systems_passed": true,
       "invariant_violations": 0,
       "soc_warning_events": 52,
       "energy_adaptive_dispatches": 5,
@@ -253,6 +284,21 @@
         }
       },
       "vehicle_systems_passed": true,
+      "habd_systems": {
+        "detector_count": 3,
+        "track_position_count": 6,
+        "passages_evaluated": 1378,
+        "nominal_passages": 1378,
+        "warning_passages": 0,
+        "trip_passages": 0,
+        "stop_orders_issued": 0,
+        "stop_hold_ticks": 0,
+        "reset_actions_accepted": 0,
+        "reset_actions_rejected": 0,
+        "reset_records": [],
+        "active_stop_orders": []
+      },
+      "habd_systems_passed": true,
       "invariant_violations": 0,
       "soc_warning_events": 111,
       "energy_adaptive_dispatches": 10,
@@ -311,6 +357,21 @@
         }
       },
       "vehicle_systems_passed": true,
+      "habd_systems": {
+        "detector_count": 3,
+        "track_position_count": 6,
+        "passages_evaluated": 1365,
+        "nominal_passages": 1365,
+        "warning_passages": 0,
+        "trip_passages": 0,
+        "stop_orders_issued": 0,
+        "stop_hold_ticks": 0,
+        "reset_actions_accepted": 0,
+        "reset_actions_rejected": 0,
+        "reset_records": [],
+        "active_stop_orders": []
+      },
+      "habd_systems_passed": true,
       "invariant_violations": 0,
       "soc_warning_events": 214,
       "energy_adaptive_dispatches": 21,
@@ -369,6 +430,21 @@
         }
       },
       "vehicle_systems_passed": true,
+      "habd_systems": {
+        "detector_count": 3,
+        "track_position_count": 6,
+        "passages_evaluated": 1387,
+        "nominal_passages": 1387,
+        "warning_passages": 0,
+        "trip_passages": 0,
+        "stop_orders_issued": 0,
+        "stop_hold_ticks": 0,
+        "reset_actions_accepted": 0,
+        "reset_actions_rejected": 0,
+        "reset_records": [],
+        "active_stop_orders": []
+      },
+      "habd_systems_passed": true,
       "invariant_violations": 0,
       "soc_warning_events": 52,
       "energy_adaptive_dispatches": 5,
@@ -427,6 +503,21 @@
         }
       },
       "vehicle_systems_passed": true,
+      "habd_systems": {
+        "detector_count": 3,
+        "track_position_count": 6,
+        "passages_evaluated": 1168,
+        "nominal_passages": 1168,
+        "warning_passages": 0,
+        "trip_passages": 0,
+        "stop_orders_issued": 0,
+        "stop_hold_ticks": 0,
+        "reset_actions_accepted": 0,
+        "reset_actions_rejected": 0,
+        "reset_records": [],
+        "active_stop_orders": []
+      },
+      "habd_systems_passed": true,
       "invariant_violations": 0,
       "soc_warning_events": 1113,
       "energy_adaptive_dispatches": 210,
@@ -485,6 +576,21 @@
         }
       },
       "vehicle_systems_passed": true,
+      "habd_systems": {
+        "detector_count": 3,
+        "track_position_count": 6,
+        "passages_evaluated": 1374,
+        "nominal_passages": 1374,
+        "warning_passages": 0,
+        "trip_passages": 0,
+        "stop_orders_issued": 0,
+        "stop_hold_ticks": 0,
+        "reset_actions_accepted": 0,
+        "reset_actions_rejected": 0,
+        "reset_records": [],
+        "active_stop_orders": []
+      },
+      "habd_systems_passed": true,
       "invariant_violations": 0,
       "soc_warning_events": 136,
       "energy_adaptive_dispatches": 16,
@@ -500,5 +606,5 @@
       "passed": true
     }
   ],
-  "interpretation": "The full-window run includes 4.5 hours after the 02:00 service close so long ring and charging cycles can finish. Door, auxiliary-power, HVAC, lighting and onboard PIS controllers execute for every train tick; their loads remain included in the calibrated aggregate kWh/car-km model and are not debited twice. Nominal and N-1/degraded screens protect 20% SoC and at least 90% of scheduled train-km. The ten-hour all-site grid outage is an emergency reduced-service case with a 60% floor. Energy-adaptive control may widen off-peak headways; calibrated timetable acceptance remains an operator gate."
+  "interpretation": "The full-window run includes 4.5 hours after the 02:00 service close so long ring and charging cycles can finish. Door, auxiliary-power, HVAC, lighting and onboard PIS controllers execute for every train tick; their loads remain included in the calibrated aggregate kWh/car-km model and are not debited twice. Configured physical HABD sites must execute in every run without a nominal trip or latched stop. Nominal and N-1/degraded screens protect 20% SoC and at least 90% of scheduled train-km. The ten-hour all-site grid outage is an emergency reduced-service case with a 60% floor. Energy-adaptive control may widen off-peak headways; calibrated timetable acceptance remains an operator gate."
 }

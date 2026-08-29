@@ -175,7 +175,9 @@ def scenario_variant(
     return path
 
 
-def summarize_result(label: str, duration: int, result: dict) -> dict:
+def summarize_result(
+    label: str, duration: int, result: dict, expected_habd_detectors: int
+) -> dict:
     counts = {
         str(name): int(count)
         for name, count in result.get("event_counts", {}).items()
@@ -186,6 +188,18 @@ def summarize_result(label: str, duration: int, result: dict) -> dict:
             counts[name] = counts.get(name, 0) + 1
     socs = [float(row[3]) for row in result.get("per_train_final_soc", [])]
     vehicle_systems = result.get("vehicle_systems", {})
+    habd_systems = result.get("habd_systems", {})
+    habd_active_stop_orders = habd_systems.get("active_stop_orders", [])
+    habd_systems_passed = (
+        int(habd_systems.get("detector_count", 0)) == expected_habd_detectors
+        and (
+            expected_habd_detectors == 0
+            or int(habd_systems.get("passages_evaluated", 0)) > 0
+        )
+        and int(habd_systems.get("trip_passages", 0)) == 0
+        and int(habd_systems.get("stop_orders_issued", 0)) == 0
+        and len(habd_active_stop_orders) == 0
+    )
     return {
         "label": label,
         "duration_s": duration,
@@ -207,6 +221,8 @@ def summarize_result(label: str, duration: int, result: dict) -> dict:
             and int(vehicle_systems.get("pis_controller_ticks", 0)) > 0
             and int(vehicle_systems.get("door_interlock_violations", 0)) == 0
         ),
+        "habd_systems": habd_systems,
+        "habd_systems_passed": habd_systems_passed,
         "invariant_violations": len(result.get("invariant_violations", [])),
         "soc_warning_events": counts.get("SocWarning", 0),
         "energy_adaptive_dispatches": int(result.get("energy_adaptive_dispatches", 0)),
@@ -251,6 +267,7 @@ def main() -> int:
     resilience_basis: dict[str, object] = {}
     scheduled_train_km = _scheduled_daily_train_km(design, doc)
     fleet_count = sum(int(fleet.get("trainset_count", 0)) for fleet in doc.get("fleets", []))
+    configured_habd_detector_count = len(doc.get("habd_detectors", []))
     trainset_contract = validate_trainset_contract(doc)
     subprocess.run(
         ["cargo", "build", "--release", "-p", "osr-sim", "--bin", "osr-sim"],
@@ -313,7 +330,9 @@ def main() -> int:
             ) -> dict:
                 label, duration, path, cpu_set = spec
                 result = run_sim(scenario, duration, path, cpu_set=cpu_set)
-                return summarize_result(label, duration, result)
+                return summarize_result(
+                    label, duration, result, configured_habd_detector_count
+                )
 
             with concurrent.futures.ThreadPoolExecutor(
                 max_workers=min(2, internal_workers, len(core_groups))
@@ -328,7 +347,10 @@ def main() -> int:
             )
             runs.append(
                 summarize_result(
-                    "Full 05:30–02:00 service plus run-out", args.full_duration, result
+                    "Full 05:30–02:00 service plus run-out",
+                    args.full_duration,
+                    result,
+                    configured_habd_detector_count,
                 )
             )
             del result
@@ -432,7 +454,12 @@ station = "{powered_station}"
                     temporary_path / f"resilience-{index}.json",
                     cpu_set=cpu_set,
                 )
-                summary = summarize_result(label, args.full_duration, result)
+                summary = summarize_result(
+                    label,
+                    args.full_duration,
+                    result,
+                    configured_habd_detector_count,
+                )
                 del result
                 print(f"resilience: completed {label}", flush=True)
                 return label, args.full_duration, summary, minimum_service
@@ -489,14 +516,22 @@ station = "{powered_station}"
             and case["invariant_violations"] == 0
             and case["onboard_emergencies"] == 0
             and case["vehicle_systems_passed"]
+            and case["habd_systems_passed"]
             and case["service_completion_ratio"] + service_completion_tolerance >= minimum_service
         )
         resilience_cases.append(case)
-    nominal_passed = all(run["minimum_soc_percent"] >= 20.0 - 1e-3 and run["invariant_violations"] == 0 and run["onboard_emergencies"] == 0 and run["vehicle_systems_passed"] for run in runs) and full_run["service_completion_ratio"] + service_completion_tolerance >= minimum_service_completion_ratio
+    nominal_passed = all(
+        run["minimum_soc_percent"] >= 20.0 - 1e-3
+        and run["invariant_violations"] == 0
+        and run["onboard_emergencies"] == 0
+        and run["vehicle_systems_passed"]
+        and run["habd_systems_passed"]
+        for run in runs
+    ) and full_run["service_completion_ratio"] + service_completion_tolerance >= minimum_service_completion_ratio
     resilience_passed = bool(resilience_cases) and all(case["passed"] for case in resilience_cases)
     simulator_binary = REPO_ROOT / "target/release/osr-sim"
     model = {
-        "schema_version": "1.2",
+        "schema_version": "1.3",
         "city": city,
         "validated_on": date.today().isoformat(),
         "generator": str(Path(__file__).resolve().relative_to(REPO_ROOT)),
@@ -520,6 +555,7 @@ station = "{powered_station}"
             "normal_service_soc_percent": float(doc["scenario"].get("normal_service_soc", 0.40)) * 100.0,
             "maximum_headway_multiplier": float(doc["scenario"].get("maximum_headway_multiplier", 3.0)),
             "protected_peak_headway_min": int(doc["scenario"].get("protected_peak_headway_min", 3)),
+            "configured_habd_detector_count": configured_habd_detector_count,
         },
         "service_windows": [
             {"from": row["from"], "to": row["to"], "headway_min": row["headway_min"], "treatment": "peak quick turnaround" if (str(row["from"]) in {"07:00", "15:00"} and int(row["headway_min"]) == 3) else "off-peak depot service enabled"}
@@ -530,7 +566,7 @@ station = "{powered_station}"
         "resilience_passed": resilience_passed if args.resilience else None,
         "resilience_basis": resilience_basis if args.resilience else None,
         "resilience_cases": resilience_cases,
-        "interpretation": "The full-window run includes 4.5 hours after the 02:00 service close so long ring and charging cycles can finish. Door, auxiliary-power, HVAC, lighting and onboard PIS controllers execute for every train tick; their loads remain included in the calibrated aggregate kWh/car-km model and are not debited twice. Nominal and N-1/degraded screens protect 20% SoC and at least 90% of scheduled train-km. The ten-hour all-site grid outage is an emergency reduced-service case with a 60% floor. Energy-adaptive control may widen off-peak headways; calibrated timetable acceptance remains an operator gate.",
+        "interpretation": "The full-window run includes 4.5 hours after the 02:00 service close so long ring and charging cycles can finish. Door, auxiliary-power, HVAC, lighting and onboard PIS controllers execute for every train tick; their loads remain included in the calibrated aggregate kWh/car-km model and are not debited twice. Configured physical HABD sites must execute in every run without a nominal trip or latched stop. Nominal and N-1/degraded screens protect 20% SoC and at least 90% of scheduled train-km. The ten-hour all-site grid outage is an emergency reduced-service case with a 60% floor. Energy-adaptive control may widen off-peak headways; calibrated timetable acceptance remains an operator gate.",
     }
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(json.dumps(model, indent=2) + "\n")

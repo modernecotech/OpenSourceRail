@@ -13,9 +13,14 @@ emission.
   Unknown colour-coded per RFC 0016).
 - Train panel listing every in-service trainset with phase + SoC.
 - Embedded telemetry roll-up from the attached deterministic recording:
-  TCMS ticks, CBM service flags, and T2G channel/transmission counts.
+  TCMS trip movement holds, CBM service flags, and T2G channel/transmission
+  counts.
+- IEEE 1588 acquisition and lock evidence from the same recording.
 - Station/wayside roll-up for PSD states, controller ticks, and intrusion
   verdict transitions.
+- Physical HABD passage, trip, active-stop, and inspected-reset evidence.
+- Depot roll-up for received CBM payloads, historian samples, analytics, and
+  maintenance work orders.
 - Alert feed (info / warn / crit) with category filter checkboxes,
   pre-seeded with SoC-warning alerts harvested from the recorded
   run and dispatcher-action entries.
@@ -25,6 +30,9 @@ emission.
   - **S5.1 Commit MaintenanceOverride** — requires numeric
     section id, non-empty crew id, and expiry 15..=240 min (per
     RFC 0013 S5.4).
+  - **Release inspected HABD stop** — requires a train, named qualified
+    authority, inspection reference, and explicit examination/line-clear
+    confirmation.
   - **Declare degraded mode** — selector for Normal / M1 Manual-
     on-MA / M2 Restricted / M3 Evacuation per RFC 0013 §5.
 - Test-mode intrusion injection buttons so a dispatcher can

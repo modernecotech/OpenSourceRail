@@ -42,11 +42,31 @@ pub struct OccApp {
     speed: f32,
     show_route_grant_modal: bool,
     show_override_modal: bool,
+    show_habd_reset_modal: bool,
     show_degraded_mode_modal: bool,
     route_grant_buffer: RouteGrantBuffer,
     override_buffer: OverrideBuffer,
+    habd_reset_buffer: HabdResetBuffer,
     degraded_mode: DegradedMode,
     alert_filter: AlertFilter,
+}
+
+#[derive(Clone, Copy, Debug, Default)]
+pub struct RecordedStateSummary {
+    pub duration_s: u32,
+    pub recorded_events: usize,
+    pub trains: usize,
+    pub alerts: usize,
+    pub intrusions: usize,
+    pub embedded_ticks: u64,
+    pub t2g_transmissions: u64,
+    pub station_ticks: u64,
+    pub wayside_ticks: u64,
+    pub backend_samples: u64,
+    pub analytics_metrics: u32,
+    pub ptp_ticks: u64,
+    pub habd_passages: u64,
+    pub tcms_movement_inhibits: u64,
 }
 
 #[derive(Default)]
@@ -60,6 +80,14 @@ struct OverrideBuffer {
     section_id: String,
     crew_id: String,
     expires_min: u32,
+}
+
+#[derive(Default)]
+struct HabdResetBuffer {
+    train_id: String,
+    authorised_by: String,
+    inspection_reference: String,
+    inspection_complete: bool,
 }
 
 #[derive(Clone, Copy, PartialEq, Eq)]
@@ -134,30 +162,31 @@ impl OccApp {
     }
 
     /// Compact proof that the browser console attached a populated recording.
-    pub fn recorded_state_summary(&self) -> (u32, usize, usize, usize, usize, u64, u64, u64, u64) {
-        (
-            self.result
-                .as_ref()
-                .map_or(0, |result| result.sim_duration_s),
-            self.result.as_ref().map_or(0, |result| result.events.len()),
-            self.result
-                .as_ref()
-                .map_or(0, |result| result.per_train_final_soc.len()),
-            self.alerts.len(),
-            self.intrusions.len(),
-            self.result
-                .as_ref()
-                .map_or(0, |result| result.embedded.controller_ticks),
-            self.result
-                .as_ref()
-                .map_or(0, |result| result.embedded.t2g_transmissions),
-            self.result.as_ref().map_or(0, |result| {
-                result.infrastructure_systems.stations.controller_ticks
-            }),
-            self.result.as_ref().map_or(0, |result| {
-                result.infrastructure_systems.wayside.detector_ticks
-            }),
-        )
+    pub fn recorded_state_summary(&self) -> RecordedStateSummary {
+        let Some(result) = self.result.as_ref() else {
+            return RecordedStateSummary {
+                alerts: self.alerts.len(),
+                intrusions: self.intrusions.len(),
+                ..RecordedStateSummary::default()
+            };
+        };
+        RecordedStateSummary {
+            duration_s: result.sim_duration_s,
+            recorded_events: result.events.len(),
+            trains: result.per_train_final_soc.len(),
+            alerts: self.alerts.len(),
+            intrusions: self.intrusions.len(),
+            embedded_ticks: result.embedded.controller_ticks,
+            t2g_transmissions: result.embedded.t2g_transmissions,
+            station_ticks: result.infrastructure_systems.stations.controller_ticks,
+            wayside_ticks: result.infrastructure_systems.wayside.detector_ticks,
+            backend_samples: result.backend_systems.cbm_samples_received,
+            analytics_metrics: result.backend_systems.analytics_metrics_evaluated,
+            ptp_ticks: result.time_sync.controller_ticks,
+            habd_passages: result.habd_systems.passages_evaluated,
+            tcms_movement_inhibits: result.embedded.tcms_departure_inhibit_ticks
+                + result.embedded.tcms_travel_hold_ticks,
+        }
     }
 
     fn new_internal(operator: String) -> Self {
@@ -191,12 +220,14 @@ impl OccApp {
             speed: 10.0,
             show_route_grant_modal: false,
             show_override_modal: false,
+            show_habd_reset_modal: false,
             show_degraded_mode_modal: false,
             route_grant_buffer: RouteGrantBuffer::default(),
             override_buffer: OverrideBuffer {
                 expires_min: 60,
                 ..Default::default()
             },
+            habd_reset_buffer: HabdResetBuffer::default(),
             degraded_mode: DegradedMode::Normal,
             alert_filter: AlertFilter::all(),
         }
@@ -261,6 +292,7 @@ impl eframe::App for OccApp {
         // Modals
         modal_route_grant(self, ctx);
         modal_override(self, ctx);
+        modal_habd_reset(self, ctx);
         modal_degraded_mode(self, ctx);
     }
 }
@@ -339,6 +371,9 @@ fn left_actions(app: &mut OccApp, ctx: &Context) {
         if ui.button("Commit MaintenanceOverride (S5.1)…").clicked() {
             app.show_override_modal = true;
         }
+        if ui.button("Release inspected HABD stop…").clicked() {
+            app.show_habd_reset_modal = true;
+        }
         if ui.button("Declare degraded mode…").clicked() {
             app.show_degraded_mode_modal = true;
         }
@@ -373,14 +408,30 @@ fn left_actions(app: &mut OccApp, ctx: &Context) {
             ui.heading("Embedded telemetry");
             ui.label(format!("TCMS ticks: {}", result.embedded.controller_ticks));
             ui.label(format!(
-                "T2G tx / backup / offline: {} / {} / {}",
+                "TCMS departure / travel holds: {} / {}",
+                result.embedded.tcms_departure_inhibit_ticks,
+                result.embedded.tcms_travel_hold_ticks
+            ));
+            ui.label(format!(
+                "PTP: {} · {} locked ticks",
+                result.time_sync.final_lock_state, result.time_sync.locked_ticks
+            ));
+            ui.label(format!(
+                "T2G tx / backup / offline / dropped: {} / {} / {} / {}",
                 result.embedded.t2g_transmissions,
                 result.embedded.t2g_backup_ticks,
-                result.embedded.t2g_offline_ticks
+                result.embedded.t2g_offline_ticks,
+                result.embedded.t2g_payloads_dropped
             ));
             ui.label(format!(
                 "CBM service flags: {}",
                 result.embedded.cbm_service_flags
+            ));
+            ui.label(format!(
+                "HABD passages / trips / active stops: {} / {} / {}",
+                result.habd_systems.passages_evaluated,
+                result.habd_systems.trip_passages,
+                result.habd_systems.active_stop_orders.len()
             ));
             ui.separator();
             ui.heading("Station + wayside");
@@ -397,6 +448,18 @@ fn left_actions(app: &mut OccApp, ctx: &Context) {
                 "Wayside detector ticks / transitions: {} / {}",
                 result.infrastructure_systems.wayside.detector_ticks,
                 result.infrastructure_systems.wayside.verdict_transitions
+            ));
+            ui.separator();
+            ui.heading("Depot data services");
+            ui.label(format!(
+                "CBM payloads / historian samples: {} / {}",
+                result.backend_systems.cbm_samples_received,
+                result.backend_systems.historian_samples_ingested
+            ));
+            ui.label(format!(
+                "routine / urgent work orders: {} / {}",
+                result.backend_systems.routine_work_orders,
+                result.backend_systems.urgent_work_orders
             ));
         }
     });
@@ -631,6 +694,58 @@ fn modal_override(app: &mut OccApp, ctx: &Context) {
     app.show_override_modal = open && app.show_override_modal;
 }
 
+fn modal_habd_reset(app: &mut OccApp, ctx: &Context) {
+    if !app.show_habd_reset_modal {
+        return;
+    }
+    let mut open = app.show_habd_reset_modal;
+    egui::Window::new("Release inspected HABD stop")
+        .open(&mut open)
+        .show(ctx, |ui| {
+            ui.label("Train id:");
+            ui.text_edit_singleline(&mut app.habd_reset_buffer.train_id);
+            ui.label("Qualified authority:");
+            ui.text_edit_singleline(&mut app.habd_reset_buffer.authorised_by);
+            ui.label("Inspection reference:");
+            ui.text_edit_singleline(&mut app.habd_reset_buffer.inspection_reference);
+            ui.checkbox(
+                &mut app.habd_reset_buffer.inspection_complete,
+                "Affected vehicle examined and line confirmed clear",
+            );
+            let validation = validate_habd_reset(&app.habd_reset_buffer);
+            ui.separator();
+            match &validation {
+                Ok(_) => ui.colored_label(
+                    Color32::from_rgb(120, 220, 120),
+                    "✓ valid inspected-release request",
+                ),
+                Err(error) => {
+                    ui.colored_label(Color32::from_rgb(230, 80, 80), format!("✗ {error}"))
+                }
+            };
+            ui.separator();
+            if ui
+                .add_enabled(validation.is_ok(), egui::Button::new("Commit"))
+                .clicked()
+            {
+                app.emit_action(
+                    "HABD.RESET",
+                    format!(
+                        "train={} authority={} inspection={}",
+                        app.habd_reset_buffer.train_id,
+                        app.habd_reset_buffer.authorised_by,
+                        app.habd_reset_buffer.inspection_reference
+                    ),
+                );
+                app.show_habd_reset_modal = false;
+            }
+            if ui.button("Cancel").clicked() {
+                app.show_habd_reset_modal = false;
+            }
+        });
+    app.show_habd_reset_modal = open && app.show_habd_reset_modal;
+}
+
 fn modal_degraded_mode(app: &mut OccApp, ctx: &Context) {
     if !app.show_degraded_mode_modal {
         return;
@@ -695,6 +810,31 @@ fn validate_override(b: &OverrideBuffer) -> Result<(), String> {
     }
     if b.expires_min < 15 || b.expires_min > 240 {
         return Err("expires must be 15..=240 minutes".into());
+    }
+    Ok(())
+}
+
+fn validate_habd_reset(buffer: &HabdResetBuffer) -> Result<(), String> {
+    let digits = buffer
+        .train_id
+        .strip_prefix('T')
+        .ok_or_else(|| "train id must be 'T<number>'".to_string())?;
+    if digits
+        .parse::<u64>()
+        .ok()
+        .filter(|number| *number > 0)
+        .is_none()
+    {
+        return Err("train id must be 'T<number>'".into());
+    }
+    if buffer.authorised_by.trim().is_empty() {
+        return Err("qualified authority is required".into());
+    }
+    if buffer.inspection_reference.trim().is_empty() {
+        return Err("inspection reference is required".into());
+    }
+    if !buffer.inspection_complete {
+        return Err("inspection and line-clear confirmation is required".into());
     }
     Ok(())
 }
@@ -772,5 +912,18 @@ mod tests {
             expires_min: 10,
         };
         assert!(validate_override(&b).is_err());
+    }
+
+    #[test]
+    fn habd_reset_requires_inspection_and_named_authority() {
+        let mut buffer = HabdResetBuffer {
+            train_id: "T7".into(),
+            authorised_by: "rolling-stock-technician".into(),
+            inspection_reference: "inspection-42".into(),
+            inspection_complete: false,
+        };
+        assert!(validate_habd_reset(&buffer).is_err());
+        buffer.inspection_complete = true;
+        assert!(validate_habd_reset(&buffer).is_ok());
     }
 }

@@ -2,8 +2,8 @@
 
 use osr_core::TrainId;
 use osr_sim::fault::{Fault, FaultKind, TrainFaultScope};
-use osr_sim::scenario_file::canonical_samawah_scenario;
-use osr_sim::sim::{run, RuntimeConfig};
+use osr_sim::scenario_file::{canonical_samawah_scenario, load_scenario_from_str};
+use osr_sim::sim::{run, EventKind, RuntimeConfig};
 
 fn runtime(duration_s: u32) -> RuntimeConfig {
     RuntimeConfig {
@@ -40,9 +40,80 @@ fn nominal_embedded_stack_runs_every_tick_and_is_deterministic() {
     assert!(first.t2g_transmissions > 0);
     assert!(first.event_records_written >= first.controller_ticks);
     assert!(first.tcms_ready_to_move_ticks > 0);
+    assert_eq!(first.tcms_departure_inhibit_ticks, 0);
+    assert_eq!(first.tcms_travel_hold_ticks, 0);
     assert_eq!(first.cbm_service_flags, 0);
     assert_eq!(first.hot_axle_trip_ticks, 0);
     assert_eq!(first.t2g_offline_ticks, 0);
+}
+
+#[test]
+fn tcms_trip_feedback_holds_motion_and_delays_arrival_deterministically() {
+    let scenario =
+        load_scenario_from_str(include_str!("../../../lib/examples/example-simple.toml"))
+            .expect("simple scenario");
+    let nominal = run(&scenario, &runtime(180));
+
+    let mut faulted_scenario = scenario;
+    faulted_scenario.faults.push(Fault {
+        name: "bearing-overheat-movement-feedback".into(),
+        from_sim_s: 10,
+        to_sim_s: 20,
+        kind: FaultKind::HotAxleOverheat {
+            scope: TrainFaultScope::All,
+        },
+    });
+    let first = run(&faulted_scenario, &runtime(180));
+    let second = run(&faulted_scenario, &runtime(180));
+
+    let first_arrival = |result: &osr_sim::sim::SimResult| {
+        result
+            .events
+            .iter()
+            .find(|event| matches!(event.kind, EventKind::ArriveStation { .. }))
+            .map(|event| event.sim_time_s)
+            .expect("train should arrive within the test run")
+    };
+
+    assert_eq!(first.embedded, second.embedded);
+    assert_eq!(first.events.len(), second.events.len());
+    assert_eq!(first.embedded.tcms_travel_hold_ticks, 10);
+    assert_eq!(first.embedded.tcms_departure_inhibit_ticks, 0);
+    assert_eq!(first_arrival(&first), first_arrival(&nominal) + 10);
+    assert!(first.total_train_km < nominal.total_train_km);
+}
+
+#[test]
+fn tcms_trip_feedback_inhibits_scheduled_dispatch() {
+    let mut scenario =
+        load_scenario_from_str(include_str!("../../../lib/examples/example-simple.toml"))
+            .expect("simple scenario");
+    scenario.start_time_s_after_midnight = 5 * 3_600 + 59 * 60 + 50;
+    let nominal = run(&scenario, &runtime(60));
+
+    scenario.faults.push(Fault {
+        name: "pre-service-bearing-overheat".into(),
+        from_sim_s: 0,
+        to_sim_s: 20,
+        kind: FaultKind::HotAxleOverheat {
+            scope: TrainFaultScope::All,
+        },
+    });
+    let faulted = run(&scenario, &runtime(60));
+
+    let dispatch_time = |result: &osr_sim::sim::SimResult| {
+        result
+            .events
+            .iter()
+            .find(|event| matches!(event.kind, EventKind::Dispatched))
+            .map(|event| event.sim_time_s)
+            .expect("train should dispatch within the test run")
+    };
+
+    assert_eq!(dispatch_time(&nominal), 10);
+    assert_eq!(dispatch_time(&faulted), 21);
+    assert_eq!(faulted.embedded.tcms_departure_inhibit_ticks, 11);
+    assert_eq!(faulted.embedded.tcms_travel_hold_ticks, 0);
 }
 
 #[test]
@@ -111,4 +182,25 @@ fn event_recorders_remain_bounded_on_long_runs() {
         .per_train
         .iter()
         .all(|train| train.event_records_retained <= 4_096));
+}
+
+#[test]
+fn prolonged_radio_outage_keeps_payload_memory_bounded() {
+    let mut scenario =
+        load_scenario_from_str(include_str!("../../../lib/examples/example-simple.toml"))
+            .expect("simple scenario");
+    scenario.faults.push(Fault {
+        name: "prolonged-radio-blackout".into(),
+        from_sim_s: 0,
+        to_sim_s: 8_300,
+        kind: FaultKind::T2gAllOffline {
+            scope: TrainFaultScope::All,
+        },
+    });
+
+    let embedded = run(&scenario, &runtime(8_300)).embedded;
+    assert_eq!(embedded.maximum_t2g_queue_depth, 4_096);
+    assert_eq!(embedded.final_t2g_queue_depth, 4_096);
+    assert!(embedded.t2g_payloads_dropped > 0);
+    assert_eq!(embedded.t2g_transmissions, 0);
 }

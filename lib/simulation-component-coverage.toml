@@ -14,14 +14,20 @@ components = [
 # Linked into the deterministic runtime as shared primitives or infrastructure.
 [runtime_kernel]
 components = [
-  "osr-consensus", "osr-core", "osr-crypto", "osr-interlocking", "osr-secbus",
+  "osr-consensus", "osr-core", "osr-crypto", "osr-interlocking", "osr-ptp",
+  "osr-secbus",
 ]
 
 # Executes inside osr-sim for each configured station or wayside section tick.
 [infrastructure_tick_controller]
 components = [
-  "osr-intrusion-detect", "osr-pis-station", "osr-psd", "osr-station-scada",
+  "osr-hot-axle-wayside", "osr-intrusion-detect", "osr-pis-station", "osr-psd",
+  "osr-station-scada",
 ]
+
+# Consumes radio-delivered telemetry in the deterministic ground-service path.
+[backend_stream_processor]
+components = ["osr-analytics", "osr-cbm-backend", "osr-historian"]
 
 # Represented by an aggregate/scenario-native model. This is explicit technical
 # debt: the standalone crate is not claimed to have run.
@@ -43,9 +49,8 @@ components = ["osr-gui-shared", "osr-sim", "osr-sim-gui"]
 # tick. These services require their own service/wayside/station test harnesses.
 [external_boundary]
 components = [
-  "osr-afc", "osr-afc-backoffice", "osr-analytics", "osr-balise",
-  "osr-cbm-backend", "osr-historian", "osr-hot-axle-wayside",
+  "osr-afc", "osr-afc-backoffice", "osr-balise",
   "osr-level-crossing", "osr-occ", "osr-occ-gui",
-  "osr-proto", "osr-ptp", "osr-selftest",
+  "osr-proto", "osr-selftest",
   "osr-tvm", "osr-wayside-points",
 ]

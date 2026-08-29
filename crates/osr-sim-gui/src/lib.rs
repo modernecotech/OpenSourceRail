@@ -8,7 +8,7 @@
 
 pub mod app;
 
-pub use app::SimApp;
+pub use app::{RunStateSummary, SimApp};
 
 /// WASM entry point — invoked from `web/index.html` via wasm-bindgen.
 ///
@@ -24,7 +24,7 @@ pub async fn start_web(
     canvas: web_sys::HtmlCanvasElement,
 ) -> Result<String, wasm_bindgen::JsValue> {
     let app = SimApp::with_auto_run(None, 600, true);
-    let (
+    let RunStateSummary {
         duration_s,
         events,
         trains,
@@ -33,8 +33,13 @@ pub async fn start_web(
         t2g_transmissions,
         station_ticks,
         wayside_ticks,
+        backend_samples,
+        analytics_metrics,
+        ptp_ticks,
+        habd_passages,
+        tcms_movement_inhibits,
         invariant_violations,
-    ) = app.run_state_summary();
+    } = app.run_state_summary();
     eframe::WebRunner::new()
         .start(
             canvas,
@@ -43,6 +48,6 @@ pub async fn start_web(
         )
         .await?;
     Ok(format!(
-        "{{\"durationS\":{duration_s},\"events\":{events},\"trains\":{trains},\"controllerTicks\":{controller_ticks},\"embeddedTicks\":{embedded_ticks},\"t2gTransmissions\":{t2g_transmissions},\"stationTicks\":{station_ticks},\"waysideTicks\":{wayside_ticks},\"invariantViolations\":{invariant_violations}}}"
+        "{{\"durationS\":{duration_s},\"events\":{events},\"trains\":{trains},\"controllerTicks\":{controller_ticks},\"embeddedTicks\":{embedded_ticks},\"t2gTransmissions\":{t2g_transmissions},\"stationTicks\":{station_ticks},\"waysideTicks\":{wayside_ticks},\"backendSamples\":{backend_samples},\"analyticsMetrics\":{analytics_metrics},\"ptpTicks\":{ptp_ticks},\"habdPassages\":{habd_passages},\"tcmsMovementInhibits\":{tcms_movement_inhibits},\"invariantViolations\":{invariant_violations}}}"
     ))
 }

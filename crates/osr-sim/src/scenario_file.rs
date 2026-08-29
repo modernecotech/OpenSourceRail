@@ -12,6 +12,7 @@ use std::collections::HashMap;
 
 use crate::energy::EnergySiteConfig;
 use crate::fault::{Fault, FaultKind, FaultScope, TrainFaultScope};
+use crate::habd_systems::{HabdDetectorConfig, HabdResetAction, HabdTrackPosition};
 use crate::schedule::{LineSchedule, TimeWindow};
 use crate::sim::{
     ClimateModel, EnergyAdaptiveServiceConfig, LineFleet, RoofPvAirCleanerConfig, RoofPvConfig,
@@ -36,6 +37,12 @@ pub struct ScenarioFile {
     /// Trackside energy sites. A station without a site cannot charge.
     #[serde(default)]
     pub sites: Vec<SiteSpec>,
+    /// Explicit physical hot-axle detector sites.
+    #[serde(default)]
+    pub habd_detectors: Vec<HabdDetectorSpec>,
+    /// Inspected, named-authority releases for latched HABD stop orders.
+    #[serde(default)]
+    pub habd_resets: Vec<HabdResetSpec>,
     /// Optional fault events: dust storms, grid outages, charging pad failures.
     #[serde(default)]
     pub faults: Vec<FaultSpec>,
@@ -285,6 +292,29 @@ pub struct SiteSpec {
     pub charger_contact_count: u8,
 }
 
+#[derive(Debug, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct HabdDetectorSpec {
+    pub id: String,
+    pub line: String,
+    /// Lower-chainage station bounding the detector's interstation segment.
+    pub after_station: String,
+    /// Physical offset from `after_station`, valid for both directions.
+    pub offset_m: u32,
+}
+
+#[derive(Debug, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct HabdResetSpec {
+    /// Time of day at which the inspected train may be released.
+    pub at: String,
+    #[serde(default = "default_fault_day")]
+    pub day: u32,
+    pub train: String,
+    pub authorised_by: String,
+    pub inspection_reference: String,
+}
+
 fn default_initial_soc() -> f32 {
     0.5
 }
@@ -318,7 +348,8 @@ pub struct FaultSpec {
     /// `"obstacle_peer_disagreement"`, `"passenger_intercom_press"`,
     /// `"battery_off_gas"`, `"battery_mist_failure"`,
     /// `"battery_fire_escalation"`, `"t2g_primary_offline"`,
-    /// `"t2g_all_offline"`, `"hot_axle_overheat"`, `"cbm_degradation"`,
+    /// `"t2g_all_offline"`, `"hot_axle_overheat"`,
+    /// `"wayside_habd_overheat"`, `"cbm_degradation"`,
     /// or `"wayside_intrusion"`.
     pub kind: String,
     /// Start time "HH:MM" (relative to `day`).
@@ -443,6 +474,9 @@ pub enum LoadError {
         name: String,
         state: String,
     },
+    DuplicateHabdDetector(String),
+    InvalidHabdDetector(String),
+    InvalidHabdReset(String),
 }
 
 impl std::fmt::Display for LoadError {
@@ -523,7 +557,7 @@ impl std::fmt::Display for LoadError {
                  passenger_intercom_press, battery_off_gas, \
                  battery_mist_failure, battery_fire_escalation, \
                  t2g_primary_offline, t2g_all_offline, \
-                 hot_axle_overheat, cbm_degradation, \
+                 hot_axle_overheat, wayside_habd_overheat, cbm_degradation, \
                  wayside_intrusion)"
             ),
             UltrasonicChannelOutOfRange { name, channel } => write!(
@@ -545,6 +579,9 @@ impl std::fmt::Display for LoadError {
                 f,
                 "fault '{name}' has intrusion_state='{state}'; must be 'clear', 'unknown', or 'present'"
             ),
+            DuplicateHabdDetector(id) => write!(f, "duplicate HABD detector id '{id}'"),
+            InvalidHabdDetector(message) => write!(f, "invalid HABD detector: {message}"),
+            InvalidHabdReset(message) => write!(f, "invalid HABD reset: {message}"),
             InvalidFaultDay { name, day } => {
                 write!(f, "fault '{name}' has day={day}; must be >= 1")
             }
@@ -768,6 +805,9 @@ fn build_scenario(file: ScenarioFile) -> Result<ScenarioConfig, LoadError> {
         });
     }
 
+    let habd_detectors =
+        build_habd_detectors(&file.habd_detectors, &station_ids, &line_indices, &network)?;
+
     // --- Fleets -------------------------------------------------------------
     let mut fleets: Vec<LineFleet> = Vec::new();
 
@@ -896,6 +936,7 @@ fn build_scenario(file: ScenarioFile) -> Result<ScenarioConfig, LoadError> {
 
     // --- Faults -------------------------------------------------------------
     let faults = build_faults(&file.faults, &station_ids, start_time_s)?;
+    let habd_resets = build_habd_resets(&file.habd_resets, start_time_s)?;
 
     // --- Consist & climate --------------------------------------------------
     let consist = build_consist(file.consist.as_ref());
@@ -941,8 +982,116 @@ fn build_scenario(file: ScenarioFile) -> Result<ScenarioConfig, LoadError> {
         },
         depot_service_stations,
         energy_sites,
+        habd_detectors,
+        habd_resets,
         faults,
     })
+}
+
+fn build_habd_detectors(
+    specs: &[HabdDetectorSpec],
+    station_ids: &HashMap<String, StationId>,
+    line_indices: &HashMap<String, usize>,
+    network: &Network,
+) -> Result<Vec<HabdDetectorConfig>, LoadError> {
+    let mut seen = std::collections::BTreeSet::new();
+    let mut detectors = Vec::with_capacity(specs.len());
+    for spec in specs {
+        if spec.id.trim().is_empty() {
+            return Err(LoadError::InvalidHabdDetector(
+                "id must not be empty".to_string(),
+            ));
+        }
+        if !seen.insert(spec.id.clone()) {
+            return Err(LoadError::DuplicateHabdDetector(spec.id.clone()));
+        }
+        let &line_index = line_indices
+            .get(&spec.line)
+            .ok_or_else(|| LoadError::UnknownLine {
+                referenced_by: format!("HABD detector '{}'", spec.id),
+                id: spec.line.clone(),
+            })?;
+        let station =
+            *station_ids
+                .get(&spec.after_station)
+                .ok_or_else(|| LoadError::UnknownStation {
+                    referenced_by: format!("HABD detector '{}'", spec.id),
+                    id: spec.after_station.clone(),
+                })?;
+        let line = &network.lines[line_index];
+        let section_index = line
+            .stations
+            .iter()
+            .position(|candidate| *candidate == station)
+            .ok_or_else(|| {
+                LoadError::InvalidHabdDetector(format!(
+                    "'{}' is not on line '{}'",
+                    spec.after_station, spec.line
+                ))
+            })?;
+        let Some(&forward_section) = line.forward_sections.get(section_index) else {
+            return Err(LoadError::InvalidHabdDetector(format!(
+                "'{}' has no following section on line '{}'",
+                spec.after_station, spec.line
+            )));
+        };
+        let reverse_section = line.reverse_sections[section_index];
+        let section_length_mm = network.section(forward_section).length_mm;
+        let offset_mm = u64::from(spec.offset_m).saturating_mul(1_000);
+        if offset_mm == 0 || offset_mm >= section_length_mm {
+            return Err(LoadError::InvalidHabdDetector(format!(
+                "'{}' offset_m={} must be inside its {} m section",
+                spec.id,
+                spec.offset_m,
+                section_length_mm / 1_000
+            )));
+        }
+        detectors.push(HabdDetectorConfig {
+            id: spec.id.clone(),
+            track_positions: vec![
+                HabdTrackPosition {
+                    section: forward_section,
+                    offset_mm,
+                },
+                HabdTrackPosition {
+                    section: reverse_section,
+                    offset_mm: section_length_mm - offset_mm,
+                },
+            ],
+        });
+    }
+    Ok(detectors)
+}
+
+fn build_habd_resets(
+    specs: &[HabdResetSpec],
+    sim_start_s: u32,
+) -> Result<Vec<HabdResetAction>, LoadError> {
+    let mut resets = Vec::with_capacity(specs.len());
+    for spec in specs {
+        if spec.day == 0 {
+            return Err(LoadError::InvalidHabdReset(
+                "day must be at least 1".to_string(),
+            ));
+        }
+        if spec.authorised_by.trim().is_empty() || spec.inspection_reference.trim().is_empty() {
+            return Err(LoadError::InvalidHabdReset(
+                "authorised_by and inspection_reference are required".to_string(),
+            ));
+        }
+        let at_tod = parse_time("habd_reset.at", &spec.at)?;
+        let absolute = (spec.day - 1).saturating_mul(86_400).saturating_add(at_tod);
+        if absolute < sim_start_s {
+            continue;
+        }
+        resets.push(HabdResetAction {
+            at_sim_s: absolute - sim_start_s,
+            train: parse_train_id("HABD reset", &spec.train)?,
+            authorised_by: spec.authorised_by.clone(),
+            inspection_reference: spec.inspection_reference.clone(),
+        });
+    }
+    Ok(resets)
 }
 
 fn build_trainset_systems(
@@ -1129,6 +1278,9 @@ fn build_faults(
             "hot_axle_overheat" => FaultKind::HotAxleOverheat {
                 scope: train_scope(spec)?,
             },
+            "wayside_habd_overheat" => FaultKind::HabdOverheat {
+                scope: train_scope(spec)?,
+            },
             "cbm_degradation" => FaultKind::CbmDegradation {
                 scope: train_scope(spec)?,
             },
@@ -1170,18 +1322,32 @@ fn build_faults(
 fn train_scope(spec: &FaultSpec) -> Result<TrainFaultScope, LoadError> {
     match &spec.train {
         None => Ok(TrainFaultScope::All),
-        Some(s) => {
-            let digits = s.strip_prefix('T').ok_or_else(|| LoadError::UnknownTrain {
-                referenced_by: format!("fault '{}'", spec.name),
-                id: s.clone(),
-            })?;
-            let n: u64 = digits.parse().map_err(|_| LoadError::UnknownTrain {
-                referenced_by: format!("fault '{}'", spec.name),
-                id: s.clone(),
-            })?;
-            Ok(TrainFaultScope::Train(osr_core::TrainId::new(n)))
-        }
+        Some(s) => Ok(TrainFaultScope::Train(parse_train_id(
+            &format!("fault '{}'", spec.name),
+            s,
+        )?)),
     }
+}
+
+fn parse_train_id(referenced_by: &str, value: &str) -> Result<osr_core::TrainId, LoadError> {
+    let digits = value
+        .strip_prefix('T')
+        .filter(|digits| !digits.is_empty())
+        .ok_or_else(|| LoadError::UnknownTrain {
+            referenced_by: referenced_by.to_string(),
+            id: value.to_string(),
+        })?;
+    let number: u64 = digits.parse().map_err(|_| LoadError::UnknownTrain {
+        referenced_by: referenced_by.to_string(),
+        id: value.to_string(),
+    })?;
+    if number == 0 {
+        return Err(LoadError::UnknownTrain {
+            referenced_by: referenced_by.to_string(),
+            id: value.to_string(),
+        });
+    }
+    Ok(osr_core::TrainId::new(number))
 }
 
 fn build_consist(spec: Option<&ConsistSpec>) -> ConsistDescriptor {
@@ -1270,6 +1436,11 @@ mod trainset_system_tests {
         );
         assert_eq!(scenario.trainset_systems.door_cassettes_per_car, 4);
         assert_eq!(scenario.trainset_systems.main_light_modules_per_car, 22);
+        assert_eq!(scenario.habd_detectors.len(), 3);
+        assert!(scenario
+            .habd_detectors
+            .iter()
+            .all(|detector| detector.track_positions.len() == 2));
     }
 
     #[test]
@@ -1286,9 +1457,16 @@ mod trainset_system_tests {
             ("t2g_primary_offline", "train = \"T1\""),
             ("t2g_all_offline", "train = \"T1\""),
             ("hot_axle_overheat", "train = \"T1\""),
+            ("wayside_habd_overheat", "train = \"T1\""),
             ("cbm_degradation", "train = \"T1\""),
-            ("platform_door_obstruction", "station = \"samawah-station\""),
-            ("station_scada_failure", "station = \"samawah-station\""),
+            (
+                "platform_door_obstruction",
+                "station = \"line-1-0147-0558-s000000\"",
+            ),
+            (
+                "station_scada_failure",
+                "station = \"line-1-0147-0558-s000000\"",
+            ),
         ]
         .into_iter()
         .enumerate()
@@ -1319,6 +1497,10 @@ mod trainset_system_tests {
         assert!(scenario
             .faults
             .iter()
+            .any(|fault| matches!(fault.kind, FaultKind::HabdOverheat { .. })));
+        assert!(scenario
+            .faults
+            .iter()
             .any(|fault| matches!(fault.kind, FaultKind::CbmDegradation { .. })));
         assert!(scenario
             .faults
@@ -1328,5 +1510,25 @@ mod trainset_system_tests {
             .faults
             .iter()
             .any(|fault| matches!(fault.kind, FaultKind::StationScadaFailure { .. })));
+    }
+
+    #[test]
+    fn inspected_habd_reset_parses_to_relative_sim_time() {
+        let source = format!(
+            "{}\n[[habd_resets]]\nat = \"05:32\"\ntrain = \"T1\"\nauthorised_by = \"rolling-stock-technician\"\ninspection_reference = \"inspection-42\"\n",
+            include_str!("../../../designs/west-asia/Iraq/Samawah/samawah.toml")
+        );
+        let scenario = load_scenario_from_str(&source).expect("qualified reset should parse");
+        assert_eq!(scenario.habd_resets.len(), 1);
+        assert_eq!(scenario.habd_resets[0].at_sim_s, 120);
+        assert_eq!(scenario.habd_resets[0].train, osr_core::TrainId::new(1));
+    }
+
+    #[test]
+    fn habd_location_must_be_inside_declared_section() {
+        let source = include_str!("../../../designs/west-asia/Iraq/Samawah/samawah.toml")
+            .replace("offset_m = 5806", "offset_m = 999999");
+        let error = load_scenario_from_str(&source).expect_err("invalid offset must fail");
+        assert!(error.to_string().contains("must be inside"));
     }
 }

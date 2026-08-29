@@ -5,6 +5,10 @@
 //!   derived from section length and a continuous kinematic velocity profile.
 //! - Energy is debited progressively while travelling (distance × kWh/km)
 //!   and credited from station chargers and onboard roof PV.
+//! - A TCMS trip from the preceding one-second controller cycle inhibits
+//!   departure or holds section progress until the trip clears.
+//! - A physical HABD trip latches the same fail-safe movement hold until a
+//!   declared post-inspection authority reset is accepted.
 //! - The `osr-interlocking` MA computer is the authoritative source of
 //!   section occupancy (RFC 0004 M5). Every section entry is gated by
 //!   `section_available_to`; the corresponding `TrainPositionReport`
@@ -19,10 +23,15 @@ use osr_core::{
 };
 use serde::{Deserialize, Serialize};
 
+use crate::backend_systems::{self, BackendSystemsShadow, BackendSystemsSummary};
 use crate::consensus_log::ConsensusBackend;
 use crate::embedded::{self, EmbeddedShadow, EmbeddedSummary};
 use crate::energy::{pv_output_kw, EnergySiteConfig, EnergySiteSummary, EnergySystem};
 use crate::fault::{Fault, FaultEngine, FaultLogEntry};
+use crate::habd_systems::{
+    self, HabdDetectorConfig, HabdResetAction, HabdSystemsShadow, HabdSystemsSummary,
+    HabdTrainPosition,
+};
 use crate::infrastructure_systems::{
     self, InfrastructureSystemsSummary, StationSystemsShadow, WaysideSystemsShadow,
 };
@@ -30,6 +39,7 @@ use crate::ma_check::{self, MaCheckSummary};
 use crate::onboard::{self, OnboardShadow, OnboardSummary};
 use crate::physics::{kinematic_profile, sample_kinematic_profile, MotionSample};
 use crate::schedule::{DispatchThrottle, LineSchedule};
+use crate::time_sync::{self, TimeSyncShadow, TimeSyncSummary};
 use crate::train::{Heading, Train, TrainPhase};
 use crate::vehicle_systems::{
     self, VehicleSystemsShadow, VehicleSystemsSummary, VehicleSystemsTickReport,
@@ -322,6 +332,10 @@ pub struct ScenarioConfig {
     /// Trackside energy sites (PV + storage + grid tie). A station without a
     /// configured site cannot deliver charging energy.
     pub energy_sites: Vec<EnergySiteConfig>,
+    /// Explicit route-book locations of physical wayside hot-axle detectors.
+    pub habd_detectors: Vec<HabdDetectorConfig>,
+    /// Scheduled inspection releases for latched detector stop orders.
+    pub habd_resets: Vec<HabdResetAction>,
     /// Declared fault events (dust, grid outages, charging pad outages).
     /// Optional.
     pub faults: Vec<Fault>,
@@ -582,6 +596,15 @@ pub struct SimResult {
     /// Station PSD/PIS/SCADA and wayside intrusion-detector evidence.
     #[serde(default)]
     pub infrastructure_systems: InfrastructureSystemsSummary,
+    /// Depot CBM, historian, and analytics evidence from radio-delivered data.
+    #[serde(default)]
+    pub backend_systems: BackendSystemsSummary,
+    /// IEEE 1588 state-machine evidence shared by train and wayside domains.
+    #[serde(default)]
+    pub time_sync: TimeSyncSummary,
+    /// Physical HABD passage, trip, stop-order, and inspection-release evidence.
+    #[serde(default)]
+    pub habd_systems: HabdSystemsSummary,
 }
 
 fn default_ma_summary() -> MaCheckSummary {
@@ -682,6 +705,9 @@ pub fn run_with_event_recording(
         .collect();
     let mut embedded_shadows: Vec<EmbeddedShadow> =
         trains.iter().map(EmbeddedShadow::new).collect();
+    // Command feedback crosses the application/plant boundary on the next
+    // simulation tick, matching the one-second deterministic TCMS cycle.
+    let mut tcms_trip_active = vec![false; trains.len()];
     let mut vehicle_reports = vec![VehicleSystemsTickReport::default(); trains.len()];
     let mut station_system_shadows: Vec<StationSystemsShadow> = config
         .network
@@ -690,6 +716,9 @@ pub fn run_with_event_recording(
         .map(StationSystemsShadow::new)
         .collect();
     let mut wayside_systems_shadow = WaysideSystemsShadow::new(&config.network);
+    let mut backend_systems_shadow = BackendSystemsShadow::default();
+    let mut time_sync_shadow = TimeSyncShadow::default();
+    let mut habd_systems_shadow = HabdSystemsShadow::new(&config.habd_detectors);
 
     // Optional CSV trace.
     let mut csv_writer: Option<std::io::BufWriter<std::fs::File>> = None;
@@ -745,6 +774,12 @@ pub fn run_with_event_recording(
         // Update fault state for this tick.
         faults.tick(t);
 
+        habd_systems::apply_due_resets(&mut habd_systems_shadow, &config.habd_resets, &faults, t);
+
+        // Advance the shared deterministic PTP slave before timestamped
+        // controller traffic is evaluated for this cycle.
+        time_sync::time_sync_tick(&mut time_sync_shadow, t);
+
         // Convert declared faults to synthetic sensor frames, run the actual
         // SIL-4 wayside evaluator, and publish only verdict transitions.
         for (section, state) in infrastructure_systems::wayside_systems_tick(
@@ -760,7 +795,9 @@ pub fn run_with_event_recording(
         energy.tick_pv(clock_tod, dt, &faults);
 
         for idx in 0..trains.len() {
-            step_train(
+            let habd_stop_active = habd_systems_shadow.stop_active_for(trains[idx].id);
+            let safety_stop_active = tcms_trip_active[idx] || habd_stop_active;
+            let movement_effect = step_train(
                 idx,
                 &mut trains,
                 &config.network,
@@ -779,7 +816,27 @@ pub fn run_with_event_recording(
                 t,
                 &mut events,
                 &mut violations,
+                safety_stop_active,
             );
+            match movement_effect {
+                MovementControlEffect::None => {}
+                MovementControlEffect::DepartureInhibited => {
+                    if tcms_trip_active[idx] {
+                        embedded_shadows[idx].record_tcms_departure_inhibit();
+                    }
+                    if habd_stop_active {
+                        habd_systems_shadow.record_stop_hold();
+                    }
+                }
+                MovementControlEffect::TravelHeld => {
+                    if tcms_trip_active[idx] {
+                        embedded_shadows[idx].record_tcms_travel_hold();
+                    }
+                    if habd_stop_active {
+                        habd_systems_shadow.record_stop_hold();
+                    }
+                }
+            }
 
             // Shadow onboard stack: only during Traveling phase. If
             // the train just left Traveling (arrived at a station
@@ -791,6 +848,7 @@ pub fn run_with_event_recording(
                     &trains[idx],
                     &config.network,
                     &faults,
+                    movement_effect == MovementControlEffect::TravelHeld,
                     t,
                     dt,
                 ),
@@ -810,7 +868,7 @@ pub fn run_with_event_recording(
                 dt,
             );
             vehicle_reports[idx] = vehicle_report;
-            embedded::embedded_tick(
+            let embedded_report = embedded::embedded_tick(
                 &mut embedded_shadows[idx],
                 &trains[idx],
                 &onboard_shadows[idx],
@@ -820,7 +878,34 @@ pub fn run_with_event_recording(
                 config.climate.ambient_c,
                 t,
             );
+            tcms_trip_active[idx] = embedded_report.tcms.worst_alarm == osr_tcms::AlarmLevel::Trip;
+            if let Some(sample) = embedded_report.transmitted_cbm_sample {
+                backend_systems::ingest_cbm_sample(&mut backend_systems_shadow, &sample);
+            }
         }
+
+        let habd_positions: Vec<HabdTrainPosition> = trains
+            .iter()
+            .filter_map(|train| {
+                let TrainPhase::Traveling { section, .. } = train.phase else {
+                    return None;
+                };
+                let sample = traveling_motion_sample(train, &config.network)?;
+                Some(HabdTrainPosition {
+                    train: train.id,
+                    section,
+                    offset_mm: (sample.position_m.max(0.0) * 1_000.0).round() as u64,
+                    axle_count: train.consist.car_count.saturating_mul(4),
+                })
+            })
+            .collect();
+        habd_systems::habd_tick(
+            &mut habd_systems_shadow,
+            &habd_positions,
+            &faults,
+            config.climate.ambient_c,
+            t,
+        );
 
         for station in &mut station_system_shadows {
             infrastructure_systems::station_systems_tick(
@@ -914,6 +999,9 @@ pub fn run_with_event_recording(
     let embedded_summary = embedded::summarise(&embedded_shadows);
     let infrastructure_systems_summary =
         infrastructure_systems::summarise(&station_system_shadows, &wayside_systems_shadow);
+    let backend_systems_summary = backend_systems::summarise(&backend_systems_shadow);
+    let time_sync_summary = time_sync::summarise(&time_sync_shadow);
+    let habd_systems_summary = habd_systems::summarise(&habd_systems_shadow);
 
     // Build per-site summaries.
     let energy_sites: Vec<EnergySiteSummary> = energy
@@ -964,6 +1052,9 @@ pub fn run_with_event_recording(
         vehicle_systems: vehicle_systems_summary,
         embedded: embedded_summary,
         infrastructure_systems: infrastructure_systems_summary,
+        backend_systems: backend_systems_summary,
+        time_sync: time_sync_summary,
+        habd_systems: habd_systems_summary,
     }
 }
 
@@ -1096,6 +1187,13 @@ fn seconds_until_next_service(schedule: &LineSchedule, start_tod_s: u32) -> u32 
     u32::MAX
 }
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+enum MovementControlEffect {
+    None,
+    DepartureInhibited,
+    TravelHeld,
+}
+
 #[allow(clippy::too_many_arguments)]
 fn step_train(
     idx: usize,
@@ -1116,7 +1214,8 @@ fn step_train(
     t: u32,
     events: &mut EventLog,
     violations: &mut Vec<InvariantViolation>,
-) {
+    safety_stop_active: bool,
+) -> MovementControlEffect {
     let phase = trains[idx].phase.clone();
     let clock = clock_tod;
     apply_roof_pv_tick(
@@ -1147,6 +1246,16 @@ fn step_train(
             let heading = trains[idx].heading;
             let key = (line_idx, station, heading);
             let fleet = fleet_for_line(fleets, line_idx);
+
+            if safety_stop_active {
+                if fleet.schedule.headway_at(clock).is_some() {
+                    throttle.record_in_service_held(dt);
+                    return MovementControlEffect::DepartureInhibited;
+                } else {
+                    throttle.record_out_of_service_held(dt);
+                }
+                return MovementControlEffect::None;
+            }
 
             match fleet.schedule.headway_at(clock) {
                 Some(hw)
@@ -1223,7 +1332,19 @@ fn step_train(
                     depot_service_remaining_s,
                     energy_added_kwh,
                 };
-                return;
+                return MovementControlEffect::None;
+            }
+
+            // The dwell and any depot work may complete while a trip is
+            // active, but doors remain open and no timetable slot is consumed.
+            if safety_stop_active {
+                trains[idx].phase = TrainPhase::Dwelling {
+                    station,
+                    remaining_s: if s.is_depot { 0.0 } else { dt },
+                    depot_service_remaining_s,
+                    energy_added_kwh,
+                };
+                return MovementControlEffect::DepartureInhibited;
             }
 
             // Dwell expired. Check if this station + departure heading is a
@@ -1249,7 +1370,7 @@ fn step_train(
                     depot_service_remaining_s,
                     energy_added_kwh,
                 };
-                return;
+                return MovementControlEffect::None;
             }
 
             if throttle.is_throttle_point(&key) {
@@ -1274,7 +1395,7 @@ fn step_train(
                         } else {
                             throttle.record_out_of_service_held(dt);
                         }
-                        return;
+                        return MovementControlEffect::None;
                     }
                 }
             }
@@ -1336,6 +1457,16 @@ fn step_train(
             total_travel_s,
             mut remaining_s,
         } => {
+            if safety_stop_active {
+                trains[idx].phase = TrainPhase::Traveling {
+                    section,
+                    from_station,
+                    to_station,
+                    total_travel_s,
+                    remaining_s,
+                };
+                return MovementControlEffect::TravelHeld;
+            }
             let previous_remaining_s = remaining_s;
             remaining_s = (remaining_s - dt).max(0.0);
 
@@ -1440,6 +1571,8 @@ fn step_train(
             }
         }
     }
+
+    MovementControlEffect::None
 }
 
 struct SectionEntryContext<'a> {

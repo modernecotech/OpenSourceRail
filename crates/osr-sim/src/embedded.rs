@@ -5,8 +5,10 @@
 //! real TCMS roll-up, event recorder, hot-axle monitor, CBM sampler, and T2G
 //! radio arbiter for every train on every simulation tick.
 
+use std::collections::VecDeque;
+
 use osr_atp::BrakeCommand;
-use osr_cbm_onboard::{cbm_evaluate, CbmInputs, CbmParams, ComponentHealth};
+use osr_cbm_onboard::{cbm_evaluate, CbmInputs, CbmParams, CbmSample, ComponentHealth};
 use osr_event_recorder::{EventCategory, EventRecord, EventRecorder};
 use osr_hot_axle::{
     hot_axle_evaluate, AxleAlarm, AxleReading, AxleSensor, HotAxleInputs, HotAxleParams,
@@ -22,13 +24,14 @@ use crate::train::{Train, TrainPhase};
 use crate::vehicle_systems::VehicleSystemsTickReport;
 
 const EVENT_RECORDER_CAPACITY: usize = 4_096;
+const CBM_PAYLOAD_QUEUE_CAPACITY: usize = 4_096;
 
 /// Stateful application-tier controller stack for one train.
 #[derive(Clone, Debug)]
 pub struct EmbeddedShadow {
     event_recorder: EventRecorder,
     t2g_state: T2gState,
-    queued_payloads: u32,
+    cbm_payload_queue: VecDeque<CbmSample>,
     last_tcms_alarm: Option<AlarmLevel>,
     last_channel: Option<ActiveChannel>,
     cbm_params: CbmParams,
@@ -43,7 +46,7 @@ impl EmbeddedShadow {
         Self {
             event_recorder: EventRecorder::new(EVENT_RECORDER_CAPACITY),
             t2g_state: T2gState::default(),
-            queued_payloads: 0,
+            cbm_payload_queue: VecDeque::new(),
             last_tcms_alarm: None,
             last_channel: None,
             cbm_params: CbmParams::default_metro(),
@@ -55,6 +58,27 @@ impl EmbeddedShadow {
             },
         }
     }
+
+    /// Record a movement command that was inhibited by the preceding TCMS
+    /// control cycle. Keeping this evidence with the application stack makes
+    /// the command/response boundary visible in JSON reports and GUI runs.
+    pub(crate) fn record_tcms_departure_inhibit(&mut self) {
+        self.summary.tcms_departure_inhibit_ticks =
+            self.summary.tcms_departure_inhibit_ticks.saturating_add(1);
+    }
+
+    /// Record a section-progress hold commanded by the preceding TCMS cycle.
+    pub(crate) fn record_tcms_travel_hold(&mut self) {
+        self.summary.tcms_travel_hold_ticks = self.summary.tcms_travel_hold_ticks.saturating_add(1);
+    }
+}
+
+/// Data produced by one embedded tick for downstream ground services.
+#[derive(Clone, Debug)]
+pub struct EmbeddedTickReport {
+    pub tcms: ConsistStatus,
+    /// Oldest queued CBM payload when T2G transmitted this tick.
+    pub transmitted_cbm_sample: Option<CbmSample>,
 }
 
 /// Per-train evidence retained in [`EmbeddedSummary`].
@@ -64,6 +88,8 @@ pub struct PerTrainEmbedded {
     pub controller_ticks: u64,
     pub tcms_ready_to_move_ticks: u64,
     pub tcms_trip_ticks: u64,
+    pub tcms_departure_inhibit_ticks: u64,
+    pub tcms_travel_hold_ticks: u64,
     pub event_records_written: u64,
     pub event_records_retained: u64,
     pub event_records_dropped: u64,
@@ -76,6 +102,7 @@ pub struct PerTrainEmbedded {
     pub t2g_primary_ticks: u64,
     pub t2g_backup_ticks: u64,
     pub t2g_offline_ticks: u64,
+    pub t2g_payloads_dropped: u64,
     pub maximum_t2g_queue_depth: u32,
     pub final_t2g_queue_depth: u32,
     pub final_tcms_alarm: String,
@@ -91,6 +118,8 @@ pub struct EmbeddedSummary {
     pub controller_ticks: u64,
     pub tcms_ready_to_move_ticks: u64,
     pub tcms_trip_ticks: u64,
+    pub tcms_departure_inhibit_ticks: u64,
+    pub tcms_travel_hold_ticks: u64,
     pub event_records_written: u64,
     pub event_records_retained: u64,
     pub event_records_dropped: u64,
@@ -103,6 +132,7 @@ pub struct EmbeddedSummary {
     pub t2g_primary_ticks: u64,
     pub t2g_backup_ticks: u64,
     pub t2g_offline_ticks: u64,
+    pub t2g_payloads_dropped: u64,
     pub maximum_t2g_queue_depth: u32,
     pub final_t2g_queue_depth: u64,
     pub per_train: Vec<PerTrainEmbedded>,
@@ -119,7 +149,7 @@ pub fn embedded_tick(
     faults: &FaultEngine,
     ambient_c: f32,
     sim_time_s: u32,
-) -> ConsistStatus {
+) -> EmbeddedTickReport {
     let now_ns = u64::from(sim_time_s).saturating_mul(1_000_000_000);
     let (section_id, at_station, speed_mmps) = match train.phase {
         TrainPhase::Traveling { section, .. } => {
@@ -239,11 +269,18 @@ pub fn embedded_tick(
         );
     }
 
-    // TCMS aggregates at 1 Hz while the ground telemetry contract is 0.5 Hz;
-    // this leaves spare link capacity to drain a store-and-forward backlog.
+    // TCMS aggregates at 1 Hz while CBM ground telemetry is sampled at 0.5 Hz.
+    // Queue the real payload so radio outages preserve ordering and recovery
+    // drains the original samples instead of substituting the latest value.
     if sim_time_s % 2 == 0 {
-        shadow.queued_payloads = shadow.queued_payloads.saturating_add(1);
+        if shadow.cbm_payload_queue.len() >= CBM_PAYLOAD_QUEUE_CAPACITY {
+            shadow.cbm_payload_queue.pop_front();
+            shadow.summary.t2g_payloads_dropped =
+                shadow.summary.t2g_payloads_dropped.saturating_add(1);
+        }
+        shadow.cbm_payload_queue.push_back(cbm.sample.clone());
     }
+    let queued_payloads = shadow.cbm_payload_queue.len().min(u32::MAX as usize) as u32;
     let t2g = t2g_evaluate(
         &shadow.t2g_state,
         &T2gInputs {
@@ -260,13 +297,21 @@ pub fn embedded_tick(
             } else {
                 55
             },
-            queued_payloads: shadow.queued_payloads,
+            queued_payloads,
             emergency_priority: tcms.any_emergency,
         },
         &shadow.t2g_params,
     );
     shadow.t2g_state = t2g.state;
-    shadow.queued_payloads = t2g.queue_remaining;
+    let transmitted_cbm_sample = if t2g.transmit_now {
+        shadow.cbm_payload_queue.pop_front()
+    } else {
+        None
+    };
+    debug_assert_eq!(
+        shadow.cbm_payload_queue.len().min(u32::MAX as usize) as u32,
+        t2g.queue_remaining
+    );
     if t2g.transmit_now {
         shadow.summary.t2g_transmissions = shadow.summary.t2g_transmissions.saturating_add(1);
     }
@@ -284,7 +329,7 @@ pub fn embedded_tick(
     if shadow.last_channel != Some(t2g.active) {
         shadow.event_recorder.record(
             EventRecord::new(now_ns, EventCategory::Diagnostic, 0x720)
-                .with_values(channel_code(t2g.active), i64::from(shadow.queued_payloads)),
+                .with_values(channel_code(t2g.active), i64::from(t2g.queue_remaining)),
         );
         shadow.last_channel = Some(t2g.active);
     }
@@ -311,15 +356,18 @@ pub fn embedded_tick(
     shadow.summary.maximum_t2g_queue_depth = shadow
         .summary
         .maximum_t2g_queue_depth
-        .max(shadow.queued_payloads);
-    shadow.summary.final_t2g_queue_depth = shadow.queued_payloads;
+        .max(t2g.queue_remaining);
+    shadow.summary.final_t2g_queue_depth = t2g.queue_remaining;
     shadow.summary.final_tcms_alarm = format!("{:?}", tcms.worst_alarm);
     shadow.summary.final_t2g_channel = format!("{:?}", t2g.active);
     shadow.summary.event_records_written = shadow.event_recorder.total_written();
     shadow.summary.event_records_retained = shadow.event_recorder.len() as u64;
     shadow.summary.event_records_dropped = shadow.event_recorder.dropped();
 
-    tcms
+    EmbeddedTickReport {
+        tcms,
+        transmitted_cbm_sample,
+    }
 }
 
 fn record_embedded_events(
@@ -464,6 +512,12 @@ pub fn summarise(shadows: &[EmbeddedShadow]) -> EmbeddedSummary {
             .tcms_ready_to_move_ticks
             .saturating_add(item.tcms_ready_to_move_ticks);
         total.tcms_trip_ticks = total.tcms_trip_ticks.saturating_add(item.tcms_trip_ticks);
+        total.tcms_departure_inhibit_ticks = total
+            .tcms_departure_inhibit_ticks
+            .saturating_add(item.tcms_departure_inhibit_ticks);
+        total.tcms_travel_hold_ticks = total
+            .tcms_travel_hold_ticks
+            .saturating_add(item.tcms_travel_hold_ticks);
         total.event_records_written = total
             .event_records_written
             .saturating_add(item.event_records_written);
@@ -494,6 +548,9 @@ pub fn summarise(shadows: &[EmbeddedShadow]) -> EmbeddedSummary {
         total.t2g_offline_ticks = total
             .t2g_offline_ticks
             .saturating_add(item.t2g_offline_ticks);
+        total.t2g_payloads_dropped = total
+            .t2g_payloads_dropped
+            .saturating_add(item.t2g_payloads_dropped);
         total.maximum_t2g_queue_depth = total
             .maximum_t2g_queue_depth
             .max(item.maximum_t2g_queue_depth);

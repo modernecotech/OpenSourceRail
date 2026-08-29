@@ -4,15 +4,16 @@
   "issues": [],
   "inventory_count": 55,
   "classified_count": 55,
-  "linked_component_count": 30,
+  "linked_component_count": 35,
   "category_counts": {
     "tick_controller": 21,
-    "runtime_kernel": 5,
-    "infrastructure_tick_controller": 4,
+    "runtime_kernel": 6,
+    "infrastructure_tick_controller": 5,
+    "backend_stream_processor": 3,
     "scenario_model": 2,
     "design_pipeline": 5,
     "simulation_shell": 3,
-    "external_boundary": 15
+    "external_boundary": 10
   },
   "categories": {
     "tick_controller": [
@@ -43,13 +44,20 @@
       "osr-core",
       "osr-crypto",
       "osr-interlocking",
+      "osr-ptp",
       "osr-secbus"
     ],
     "infrastructure_tick_controller": [
+      "osr-hot-axle-wayside",
       "osr-intrusion-detect",
       "osr-pis-station",
       "osr-psd",
       "osr-station-scada"
+    ],
+    "backend_stream_processor": [
+      "osr-analytics",
+      "osr-cbm-backend",
+      "osr-historian"
     ],
     "scenario_model": [
       "osr-energy-site",
@@ -70,24 +78,19 @@
     "external_boundary": [
       "osr-afc",
       "osr-afc-backoffice",
-      "osr-analytics",
       "osr-balise",
-      "osr-cbm-backend",
-      "osr-historian",
-      "osr-hot-axle-wayside",
       "osr-level-crossing",
       "osr-occ",
       "osr-occ-gui",
       "osr-proto",
-      "osr-ptp",
       "osr-selftest",
       "osr-tvm",
       "osr-wayside-points"
     ]
   },
   "deployment_inventory_sha256": "f6a192757c64f5059fd321ca45d9345c6b1da65d81f45a5d943e49971596492d",
-  "coverage_contract_sha256": "1f2c2b647f322045834f82d5e42589e4042baaffee4fa7995ecd7189fb2a602a",
-  "simulator_cargo_sha256": "d7617211370c56965232303ab98b763d9288ac23abdedaa5595944e9783a2099",
+  "coverage_contract_sha256": "6ea9784518901bb2bf9541ff9b1c5286a8bb42b2901b81fe8c015e762364d378",
+  "simulator_cargo_sha256": "2b815df3a12e1b5658180c98c89e9683010afa7e652ed1b31726130c5fbdf444",
   "runtime_evidence": null,
-  "interpretation": "Complete means every deployable software component has exactly one explicit simulation treatment. Tick controllers execute per vehicle, station, or wayside section tick; scenario_model and external_boundary entries remain visible gaps, not simulated implementations."
+  "interpretation": "Complete means every deployable software component has exactly one explicit simulation treatment. Controllers and stream processors execute on their declared vehicle, infrastructure, or backend cadence; scenario_model and external_boundary entries remain visible gaps, not simulated implementations."
 }

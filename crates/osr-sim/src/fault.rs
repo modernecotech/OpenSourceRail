@@ -41,6 +41,8 @@
 //! - **T2G primary/all offline** — removes the 5G path or both 5G and backup
 //!   paths, exercising deterministic radio failover and store-and-forward.
 //! - **Hot axle overheat** — raises both axle channels above the trip limit.
+//! - **Wayside HABD overheat** — raises only the physical detector reading,
+//!   allowing the authoritative trackside path to be tested independently.
 //! - **CBM degradation** — drives bearing, motor, brake-pad, and wheel
 //!   measurements into their service bands.
 //!
@@ -145,6 +147,11 @@ pub enum FaultKind {
     HotAxleOverheat {
         scope: TrainFaultScope,
     },
+    /// Inject a hot bearing at physical HABD passage without altering the
+    /// onboard advisory sensor channels.
+    HabdOverheat {
+        scope: TrainFaultScope,
+    },
     /// Inject service-level degradation across the onboard CBM sensors.
     CbmDegradation {
         scope: TrainFaultScope,
@@ -214,6 +221,8 @@ pub struct FaultEngine {
     t2g_all_offline_all: bool,
     hot_axle_overheat_trains: HashSet<TrainId>,
     hot_axle_overheat_all: bool,
+    habd_overheat_trains: HashSet<TrainId>,
+    habd_overheat_all: bool,
     cbm_degradation_trains: HashSet<TrainId>,
     cbm_degradation_all: bool,
     /// Active wayside intrusion injections — `section → state`. The sim
@@ -268,6 +277,8 @@ impl FaultEngine {
             t2g_all_offline_all: false,
             hot_axle_overheat_trains: HashSet::new(),
             hot_axle_overheat_all: false,
+            habd_overheat_trains: HashSet::new(),
+            habd_overheat_all: false,
             cbm_degradation_trains: HashSet::new(),
             cbm_degradation_all: false,
             wayside_intrusions: HashMap::new(),
@@ -310,6 +321,8 @@ impl FaultEngine {
         self.t2g_all_offline_all = false;
         self.hot_axle_overheat_trains.clear();
         self.hot_axle_overheat_all = false;
+        self.habd_overheat_trains.clear();
+        self.habd_overheat_all = false;
         self.cbm_degradation_trains.clear();
         self.cbm_degradation_all = false;
         self.wayside_intrusions.clear();
@@ -430,6 +443,12 @@ impl FaultEngine {
                         self.hot_axle_overheat_trains.insert(*t);
                     }
                 },
+                FaultKind::HabdOverheat { scope } => match scope {
+                    TrainFaultScope::All => self.habd_overheat_all = true,
+                    TrainFaultScope::Train(t) => {
+                        self.habd_overheat_trains.insert(*t);
+                    }
+                },
                 FaultKind::CbmDegradation { scope } => match scope {
                     TrainFaultScope::All => self.cbm_degradation_all = true,
                     TrainFaultScope::Train(t) => {
@@ -543,6 +562,10 @@ impl FaultEngine {
         self.hot_axle_overheat_all || self.hot_axle_overheat_trains.contains(&train)
     }
 
+    pub fn habd_overheat_for(&self, train: TrainId) -> bool {
+        self.habd_overheat_all || self.habd_overheat_trains.contains(&train)
+    }
+
     pub fn cbm_degradation_for(&self, train: TrainId) -> bool {
         self.cbm_degradation_all || self.cbm_degradation_trains.contains(&train)
     }
@@ -636,6 +659,10 @@ fn describe_kind(kind: &FaultKind) -> String {
         FaultKind::HotAxleOverheat { scope } => match scope {
             TrainFaultScope::All => "hot axle overheat (fleet)".to_string(),
             TrainFaultScope::Train(_) => "hot axle overheat (one train)".to_string(),
+        },
+        FaultKind::HabdOverheat { scope } => match scope {
+            TrainFaultScope::All => "wayside HABD overheat (fleet)".to_string(),
+            TrainFaultScope::Train(_) => "wayside HABD overheat (one train)".to_string(),
         },
         FaultKind::CbmDegradation { scope } => match scope {
             TrainFaultScope::All => "CBM service-level degradation (fleet)".to_string(),

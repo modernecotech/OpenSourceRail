@@ -13,5 +13,5 @@ Open <http://127.0.0.1:8090/>. Planning and training modes cannot emit live OCC
 commands; live mode does not expose design or simulation modules. Actor and
 role fields provide navigation context, not authentication. The versioned
 contract is [`context-contract.schema.json`](context-contract.schema.json).
-Simulator and OCC replays expose deterministic onboard, station, and wayside
-controller evidence for the same run; this is software-in-loop, not hardware.
+Simulator and OCC replays expose deterministic onboard, infrastructure, and
+depot-data evidence for the same run; this is software-in-loop, not hardware.

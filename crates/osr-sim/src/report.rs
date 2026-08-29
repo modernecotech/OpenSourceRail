@@ -205,6 +205,10 @@ pub fn print_summary(_config: &ScenarioConfig, _runtime: &RuntimeConfig, r: &Sim
             r.embedded.tcms_ready_to_move_ticks, r.embedded.tcms_trip_ticks
         );
         println!(
+            "TCMS movement holds: {} departure / {} travel",
+            r.embedded.tcms_departure_inhibit_ticks, r.embedded.tcms_travel_hold_ticks
+        );
+        println!(
             "Event records      : {} written / {} retained / {} overwritten",
             r.embedded.event_records_written,
             r.embedded.event_records_retained,
@@ -215,12 +219,26 @@ pub fn print_summary(_config: &ScenarioConfig, _runtime: &RuntimeConfig, r: &Sim
             r.embedded.cbm_samples, r.embedded.cbm_watch_flags, r.embedded.cbm_service_flags
         );
         println!(
-            "T2G tx/channels    : {} tx · {} primary · {} backup · {} offline · queue max {}",
+            "T2G tx/channels    : {} tx · {} primary · {} backup · {} offline · queue max {} · {} dropped",
             r.embedded.t2g_transmissions,
             r.embedded.t2g_primary_ticks,
             r.embedded.t2g_backup_ticks,
             r.embedded.t2g_offline_ticks,
-            r.embedded.maximum_t2g_queue_depth
+            r.embedded.maximum_t2g_queue_depth,
+            r.embedded.t2g_payloads_dropped
+        );
+    }
+
+    if r.time_sync.controller_ticks > 0 {
+        println!("\n────────── Shared time synchronization ──────────");
+        println!("PTP ticks          : {:>10}", r.time_sync.controller_ticks);
+        println!(
+            "Lock state/ticks   : {} / {} locked · {} acquiring",
+            r.time_sync.final_lock_state, r.time_sync.locked_ticks, r.time_sync.acquiring_ticks
+        );
+        println!(
+            "Offset / path max  : {} ns / {} ns",
+            r.time_sync.maximum_absolute_offset_ns, r.time_sync.maximum_path_delay_ns
         );
     }
 
@@ -243,6 +261,51 @@ pub fn print_summary(_config: &ScenarioConfig, _runtime: &RuntimeConfig, r: &Sim
             wayside.unknown_ticks,
             wayside.present_ticks,
             wayside.verdict_transitions
+        );
+    }
+
+    if r.habd_systems.detector_count > 0 {
+        println!("\n────────── Physical hot-axle detection ──────────");
+        println!(
+            "HABD sites/tracks  : {} / {}",
+            r.habd_systems.detector_count, r.habd_systems.track_position_count
+        );
+        println!(
+            "Passages N/W/T     : {} / {} / {}",
+            r.habd_systems.nominal_passages,
+            r.habd_systems.warning_passages,
+            r.habd_systems.trip_passages
+        );
+        println!(
+            "Stops/holds/active : {} / {} / {}",
+            r.habd_systems.stop_orders_issued,
+            r.habd_systems.stop_hold_ticks,
+            r.habd_systems.active_stop_orders.len()
+        );
+        println!(
+            "Inspection resets  : {} accepted / {} rejected",
+            r.habd_systems.reset_actions_accepted, r.habd_systems.reset_actions_rejected
+        );
+    }
+
+    if r.backend_systems.cbm_samples_received > 0 {
+        let backend = &r.backend_systems;
+        println!("\n────────── Depot data services ──────────");
+        println!(
+            "CBM rx / tracked   : {} payloads / {} components",
+            backend.cbm_samples_received, backend.cbm_components_tracked
+        );
+        println!(
+            "Historian          : {} samples across {} metrics",
+            backend.historian_samples_ingested, backend.historian_metrics_retained
+        );
+        println!(
+            "Analytics          : {} metrics / {} retained samples evaluated",
+            backend.analytics_metrics_evaluated, backend.analytics_samples_evaluated
+        );
+        println!(
+            "Work orders        : {} routine / {} urgent",
+            backend.routine_work_orders, backend.urgent_work_orders
         );
     }
 

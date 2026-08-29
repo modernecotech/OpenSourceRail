@@ -145,8 +145,13 @@ def build_bundle(
         switches.extend(depot.get("switches", []))
     junctions = list(design.get("junctions", []))
     sites = list(scenario.get("sites", []))
+    habd_detectors = list(scenario.get("habd_detectors", []))
 
     station_asset_by_source: dict[str, str] = {}
+    track_asset_by_after_station: dict[tuple[str, str], str] = {}
+    station_by_source = {
+        str(station.get("id", "")): station for station in stations
+    }
     assets: list[dict[str, Any]] = []
     counters: dict[str, int] = {}
 
@@ -227,6 +232,7 @@ def build_bundle(
             a_s = float(a.get("s_m", 0.0))
             b_s = float(b.get("s_m", a_s))
             track_asset_id = f"{prefix}-TRK-{line_code}-{idx:03d}"
+            track_asset_by_after_station[(line, str(a.get("id", "")))] = track_asset_id
             assets.append({
                 "asset_id": track_asset_id,
                 "source_id": f"{a.get('id')}--{b.get('id')}",
@@ -241,6 +247,7 @@ def build_bundle(
                 "location": f"{_display_station(a)} to {_display_station(b)}",
                 "criticality": "safety",
             })
+
             mid_s = (a_s + b_s) / 2.0
             assets.append({
                 "asset_id": f"{prefix}-WPT-{line_code}-{idx:03d}",
@@ -256,6 +263,31 @@ def build_bundle(
                 "location": f"{_display_station(a)} to {_display_station(b)} midpoint W-Node",
                 "criticality": "safety",
             })
+
+    for detector in habd_detectors:
+        line = str(detector.get("line", ""))
+        after_station = str(detector.get("after_station", ""))
+        offset_m = float(detector.get("offset_m", 0.0))
+        station = station_by_source.get(after_station, {})
+        chainage_m = float(station.get("s_m", 0.0)) + offset_m
+        asset_id = next_id("HABD")
+        detector_id = str(detector.get("id") or asset_id.lower())
+        assets.append({
+            "asset_id": asset_id,
+            "source_id": detector_id,
+            "asset_type": "hot-axle-detector",
+            "subtype": "bidirectional-ir-array",
+            "name": f"wayside HABD {detector_id}",
+            "line": line,
+            "parent_asset": track_asset_by_after_station.get(
+                (line, after_station), project_asset_id
+            ),
+            "station": after_station,
+            "km_start": _km(chainage_m),
+            "km_end": _km(chainage_m),
+            "location": f"{line} km {_km(chainage_m)}; {offset_m:g} m after {after_station}",
+            "criticality": "safety",
+        })
 
     for switch in switches:
         station_id = str(switch.get("station", ""))
@@ -420,6 +452,9 @@ def build_bundle(
         "stations": sum(1 for a in assets if a["asset_type"] == "station"),
         "track_sections": sum(1 for a in assets if a["asset_type"] == "track-section"),
         "waypoints": sum(1 for a in assets if a["asset_type"] == "waypoint"),
+        "hot_axle_detectors": sum(
+            1 for a in assets if a["asset_type"] == "hot-axle-detector"
+        ),
         "switches": sum(1 for a in assets if a["asset_type"] == "switch"),
         "energy_sites": sum(1 for a in assets if a["asset_type"] == "energy"),
     }
@@ -993,7 +1028,7 @@ def _maintenance_targets(task_id: str) -> list[str]:
     if task_id.startswith("energy-"):
         return ["energy"]
     if task_id.startswith("systems-"):
-        return ["signalling-comms", "waypoint"]
+        return ["signalling-comms", "waypoint", "hot-axle-detector"]
     if task_id == "depot-tooling":
         return ["depots-production"]
     return []
@@ -1019,7 +1054,12 @@ def _qa_applies(gate: dict[str, Any], asset: dict[str, Any]) -> bool:
     if gate_id == "qa-25-power-energy":
         return asset_type in {"energy", "depot"}
     if gate_id == "qa-26-wayside-comms-safety":
-        return asset_type in {"signalling-comms", "switch", "waypoint"}
+        return asset_type in {
+            "signalling-comms",
+            "switch",
+            "waypoint",
+            "hot-axle-detector",
+        }
     return False
 
 

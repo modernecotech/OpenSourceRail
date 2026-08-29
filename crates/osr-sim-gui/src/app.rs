@@ -39,6 +39,24 @@ pub struct SimApp {
     event_filter: EventFilter,
 }
 
+#[derive(Clone, Copy, Debug, Default)]
+pub struct RunStateSummary {
+    pub duration_s: u32,
+    pub events: usize,
+    pub trains: usize,
+    pub controller_ticks: u64,
+    pub embedded_ticks: u64,
+    pub t2g_transmissions: u64,
+    pub station_ticks: u64,
+    pub wayside_ticks: u64,
+    pub backend_samples: u64,
+    pub analytics_metrics: u32,
+    pub ptp_ticks: u64,
+    pub habd_passages: u64,
+    pub tcms_movement_inhibits: u64,
+    pub invariant_violations: usize,
+}
+
 #[derive(Default)]
 struct EventFilter {
     show_dispatched: bool,
@@ -124,21 +142,25 @@ impl SimApp {
 
     /// Compact proof that the browser-visible run is populated and that the
     /// integrated vehicle controllers executed.
-    pub fn run_state_summary(&self) -> (u32, usize, usize, u64, u64, u64, u64, u64, usize) {
+    pub fn run_state_summary(&self) -> RunStateSummary {
         self.result
             .as_ref()
-            .map_or((0, 0, 0, 0, 0, 0, 0, 0, 0), |result| {
-                (
-                    result.sim_duration_s,
-                    result.events.len(),
-                    result.per_train_final_soc.len(),
-                    result.vehicle_systems.controller_ticks,
-                    result.embedded.controller_ticks,
-                    result.embedded.t2g_transmissions,
-                    result.infrastructure_systems.stations.controller_ticks,
-                    result.infrastructure_systems.wayside.detector_ticks,
-                    result.invariant_violations.len(),
-                )
+            .map_or_else(RunStateSummary::default, |result| RunStateSummary {
+                duration_s: result.sim_duration_s,
+                events: result.events.len(),
+                trains: result.per_train_final_soc.len(),
+                controller_ticks: result.vehicle_systems.controller_ticks,
+                embedded_ticks: result.embedded.controller_ticks,
+                t2g_transmissions: result.embedded.t2g_transmissions,
+                station_ticks: result.infrastructure_systems.stations.controller_ticks,
+                wayside_ticks: result.infrastructure_systems.wayside.detector_ticks,
+                backend_samples: result.backend_systems.cbm_samples_received,
+                analytics_metrics: result.backend_systems.analytics_metrics_evaluated,
+                ptp_ticks: result.time_sync.controller_ticks,
+                habd_passages: result.habd_systems.passages_evaluated,
+                tcms_movement_inhibits: result.embedded.tcms_departure_inhibit_ticks
+                    + result.embedded.tcms_travel_hold_ticks,
+                invariant_violations: result.invariant_violations.len(),
             })
     }
 
@@ -302,15 +324,24 @@ fn left_sidebar(app: &mut SimApp, ctx: &Context) {
             ui.heading("Embedded software");
             ui.label(format!("TCMS ticks: {}", r.embedded.controller_ticks));
             ui.label(format!(
+                "TCMS departure / travel holds: {} / {}",
+                r.embedded.tcms_departure_inhibit_ticks, r.embedded.tcms_travel_hold_ticks
+            ));
+            ui.label(format!(
+                "PTP: {} · {} locked ticks",
+                r.time_sync.final_lock_state, r.time_sync.locked_ticks
+            ));
+            ui.label(format!(
                 "event records: {}",
                 r.embedded.event_records_written
             ));
             ui.label(format!("CBM samples: {}", r.embedded.cbm_samples));
             ui.label(format!(
-                "T2G tx / backup / offline: {} / {} / {}",
+                "T2G tx / backup / offline / dropped: {} / {} / {} / {}",
                 r.embedded.t2g_transmissions,
                 r.embedded.t2g_backup_ticks,
-                r.embedded.t2g_offline_ticks
+                r.embedded.t2g_offline_ticks,
+                r.embedded.t2g_payloads_dropped
             ));
             let embedded_trips = r.embedded.hot_axle_trip_ticks + r.embedded.tcms_trip_ticks;
             let embedded_colour = if embedded_trips == 0 {
@@ -322,6 +353,12 @@ fn left_sidebar(app: &mut SimApp, ctx: &Context) {
                 embedded_colour,
                 format!("embedded alert ticks: {embedded_trips}"),
             );
+            ui.label(format!(
+                "HABD passages / trips / active stops: {} / {} / {}",
+                r.habd_systems.passages_evaluated,
+                r.habd_systems.trip_passages,
+                r.habd_systems.active_stop_orders.len()
+            ));
             ui.separator();
             ui.heading("Station + wayside");
             ui.label(format!(
@@ -338,6 +375,21 @@ fn left_sidebar(app: &mut SimApp, ctx: &Context) {
                 r.infrastructure_systems.wayside.clear_ticks,
                 r.infrastructure_systems.wayside.unknown_ticks,
                 r.infrastructure_systems.wayside.present_ticks
+            ));
+            ui.separator();
+            ui.heading("Depot data services");
+            ui.label(format!(
+                "CBM payloads received: {}",
+                r.backend_systems.cbm_samples_received
+            ));
+            ui.label(format!(
+                "historian samples / metrics: {} / {}",
+                r.backend_systems.historian_samples_ingested,
+                r.backend_systems.historian_metrics_retained
+            ));
+            ui.label(format!(
+                "routine / urgent work orders: {} / {}",
+                r.backend_systems.routine_work_orders, r.backend_systems.urgent_work_orders
             ));
             if !r.faults_fired.is_empty() {
                 ui.separator();

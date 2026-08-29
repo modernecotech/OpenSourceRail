@@ -80,7 +80,7 @@ Auto-planned by the OpenSourceRail design pipeline from the controlled city cata
 | SUMO timetable | pass | [`summary.json`](engineering/sumo/summary.json) |
 | GIS package | pass | [`summary.json`](engineering/gis/summary.json) |
 | Grid/charging/solar | pass | [`summary.json`](engineering/energy/summary.json) |
-| Operations, QA and maintenance | 233 assets / 1,078 tasks | [`samawah-operations-manifest.json`](operations/samawah-operations-manifest.json) |
+| Operations, QA and maintenance | 236 assets / 1,087 tasks | [`samawah-operations-manifest.json`](operations/samawah-operations-manifest.json) |
 
 ## Local Files And Regeneration
 

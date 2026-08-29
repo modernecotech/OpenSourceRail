@@ -18,10 +18,11 @@ for (const frontend of [
     url: "http://127.0.0.1:4174/",
     canvas: "#osr_sim_canvas",
     app: "simulator",
-    details: { invariantViolations: 0 },
+    details: { invariantViolations: 0, tcmsMovementInhibits: 0 },
     positiveDetails: [
       "events", "trains", "controllerTicks", "embeddedTicks", "t2gTransmissions",
       "stationTicks", "waysideTicks",
+      "backendSamples", "analyticsMetrics", "ptpTicks", "habdPassages",
     ],
   },
   {
@@ -29,10 +30,11 @@ for (const frontend of [
     url: "http://127.0.0.1:4175/",
     canvas: "#osr_occ_canvas",
     app: "occ",
-    details: {},
+    details: { tcmsMovementInhibits: 0 },
     positiveDetails: [
       "recordedEvents", "trains", "alerts", "intrusions", "embeddedTicks", "t2gTransmissions",
       "stationTicks", "waysideTicks",
+      "backendSamples", "analyticsMetrics", "ptpTicks", "habdPassages",
     ],
   },
 ]) {

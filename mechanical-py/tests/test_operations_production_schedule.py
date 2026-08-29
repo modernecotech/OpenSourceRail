@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import importlib.util
+import tomllib
 from pathlib import Path
 
 
@@ -13,6 +14,11 @@ SPEC = importlib.util.spec_from_file_location(
 assert SPEC and SPEC.loader
 GENERATOR = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(GENERATOR)
+
+
+def _load_toml(relative: str) -> dict:
+    with (ROOT / relative).open("rb") as handle:
+        return tomllib.load(handle)
 
 
 def test_track_section_duration_is_calculated_from_length_and_resources() -> None:
@@ -129,3 +135,48 @@ def test_scheduler_respects_predecessors_and_one_rate_resource() -> None:
     assert rows[1]["planned_finish_day"] == 16
     assert rows[2]["planned_start_day"] == 17
     assert rows[2]["planned_start_basis"] == "project_day_17"
+
+
+def test_configured_habd_sites_enter_operations_qa_and_maintenance() -> None:
+    design_path = ROOT / "designs/west-asia/Iraq/Samawah/design.toml"
+    scenario_path = ROOT / "designs/west-asia/Iraq/Samawah/samawah.toml"
+    bundle = GENERATOR.build_bundle(
+        design=_load_toml("designs/west-asia/Iraq/Samawah/design.toml"),
+        scenario=_load_toml("designs/west-asia/Iraq/Samawah/samawah.toml"),
+        qa_template=_load_toml("lib/templates/construction-qa.toml"),
+        maint_template=_load_toml("lib/templates/maintenance-schedule.toml"),
+        manufacturing_template=_load_toml(
+            "lib/templates/manufacturing-schedule.toml"
+        ),
+        bom_catalog={},
+        design_path=design_path,
+        scenario_path=scenario_path,
+    )
+
+    detector_assets = [
+        asset
+        for asset in bundle["assets"]
+        if asset["asset_type"] == "hot-axle-detector"
+    ]
+    assert bundle["totals"]["hot_axle_detectors"] == 3
+    assert len(detector_assets) == 3
+    assert all(asset["parent_asset"].startswith("SAM-TRK-") for asset in detector_assets)
+    assert all(asset["km_start"] == asset["km_end"] for asset in detector_assets)
+
+    detector_ids = {asset["asset_id"] for asset in detector_assets}
+    detector_maintenance = [
+        task
+        for task in bundle["maintenance_tasks"]
+        if task["asset_id"] in detector_ids
+    ]
+    detector_qa = [
+        action for action in bundle["qa_actions"] if action["asset_id"] in detector_ids
+    ]
+    assert {task["task_id"] for task in detector_maintenance} == {
+        "systems-daily",
+        "systems-monthly",
+        "systems-quarterly",
+    }
+    assert {action["gate_id"] for action in detector_qa} == {
+        "qa-26-wayside-comms-safety"
+    }

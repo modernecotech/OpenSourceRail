@@ -18,6 +18,7 @@ CATEGORIES = (
     "tick_controller",
     "runtime_kernel",
     "infrastructure_tick_controller",
+    "backend_stream_processor",
     "scenario_model",
     "design_pipeline",
     "simulation_shell",
@@ -58,7 +59,13 @@ def build_report(result_path: Path | None = None) -> dict:
     expected_linked = {
         name
         for name, category in assignments.items()
-        if category in {"tick_controller", "runtime_kernel", "infrastructure_tick_controller"}
+        if category
+        in {
+            "tick_controller",
+            "runtime_kernel",
+            "infrastructure_tick_controller",
+            "backend_stream_processor",
+        }
     }
     absent_dependencies = sorted(expected_linked - dependencies)
     if absent_dependencies:
@@ -73,6 +80,9 @@ def build_report(result_path: Path | None = None) -> dict:
         infrastructure = result.get("infrastructure_systems", {})
         stations = infrastructure.get("stations", {})
         wayside = infrastructure.get("wayside", {})
+        backend = result.get("backend_systems", {})
+        time_sync = result.get("time_sync", {})
+        habd = result.get("habd_systems", {})
         runtime_evidence = {
             "result": str(result_path),
             "result_sha256": digest(result_path),
@@ -83,9 +93,22 @@ def build_report(result_path: Path | None = None) -> dict:
             "event_records_written": int(embedded.get("event_records_written", 0)),
             "cbm_samples": int(embedded.get("cbm_samples", 0)),
             "t2g_transmissions": int(embedded.get("t2g_transmissions", 0)),
+            "t2g_payloads_dropped": int(embedded.get("t2g_payloads_dropped", 0)),
+            "tcms_departure_inhibit_ticks": int(
+                embedded.get("tcms_departure_inhibit_ticks", 0)
+            ),
+            "tcms_travel_hold_ticks": int(embedded.get("tcms_travel_hold_ticks", 0)),
             "station_controller_ticks": int(stations.get("controller_ticks", 0)),
             "psd_panel_evaluations": int(stations.get("psd_panel_evaluations", 0)),
             "wayside_detector_ticks": int(wayside.get("detector_ticks", 0)),
+            "cbm_backend_samples_received": int(backend.get("cbm_samples_received", 0)),
+            "historian_samples_ingested": int(backend.get("historian_samples_ingested", 0)),
+            "analytics_metrics_evaluated": int(backend.get("analytics_metrics_evaluated", 0)),
+            "ptp_controller_ticks": int(time_sync.get("controller_ticks", 0)),
+            "ptp_locked_ticks": int(time_sync.get("locked_ticks", 0)),
+            "habd_detector_count": int(habd.get("detector_count", 0)),
+            "habd_passages_evaluated": int(habd.get("passages_evaluated", 0)),
+            "habd_active_stop_orders": len(habd.get("active_stop_orders", [])),
         }
         required_vehicle = (
             "door_controller_evaluations",
@@ -107,9 +130,18 @@ def build_report(result_path: Path | None = None) -> dict:
             "station_controller_ticks",
             "psd_panel_evaluations",
             "wayside_detector_ticks",
+            "cbm_backend_samples_received",
+            "historian_samples_ingested",
+            "analytics_metrics_evaluated",
+            "ptp_controller_ticks",
+            "ptp_locked_ticks",
+            "habd_detector_count",
+            "habd_passages_evaluated",
         ):
             if runtime_evidence[field] <= 0:
                 issues.append(f"simulation result has no {field} evidence")
+        if runtime_evidence["habd_active_stop_orders"]:
+            issues.append("nominal simulation result contains active HABD stop orders")
 
     counts = {
         category: sum(1 for value in assignments.values() if value == category)
@@ -130,8 +162,9 @@ def build_report(result_path: Path | None = None) -> dict:
         "runtime_evidence": runtime_evidence,
         "interpretation": (
             "Complete means every deployable software component has exactly one explicit "
-            "simulation treatment. Tick controllers execute per vehicle, station, or wayside "
-            "section tick; scenario_model and external_boundary entries remain visible gaps, "
+            "simulation treatment. Controllers and stream processors execute on their declared "
+            "vehicle, infrastructure, or backend cadence; scenario_model and external_boundary "
+            "entries remain visible gaps, "
             "not simulated implementations."
         ),
     }

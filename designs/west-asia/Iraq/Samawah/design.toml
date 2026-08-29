@@ -43,6 +43,12 @@ peak_headway_min             = 6
 off_peak_headway_min         = 12
 late_headway_min             = 24
 
+# One low-complexity bidirectional HABD on each terminal approach. Generated
+# scenario locations remain explicit and auditable in the route book.
+[operations.habd]
+enabled                     = true
+approach_distance_m         = 500
+
 [[lines]]
 name            = "line-1"
 shape           = "radial"
