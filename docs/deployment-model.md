@@ -1,8 +1,12 @@
 # Unified Deployment Model
 
 OpenSourceRail has one deployment model. A city such as Samawah,
-Baghdad, Karachi, or Lyon is an **instance** of the same pipeline, not a
+Baghdad, Karachi, or Kinshasa is an **instance** of the same pipeline, not a
 fork of the architecture.
+
+Public portfolio evidence and outreach use the developing-world scope. Any
+European comparison design remains available for technical inspection but is
+not included in those totals or examples.
 
 ## Rule
 

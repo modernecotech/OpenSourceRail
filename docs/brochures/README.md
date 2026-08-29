@@ -1,15 +1,24 @@
-# Brochures
+# Public Overview
 
-Short, presentation-style PDFs for readers who want the core concepts
-before diving into the full repository.
+The [one-page OpenSourceRail overview](open-source-rail-overview.html) is a
+generated public introduction. Its scope counts come from
+`marketing/manifest.json`; its trainset figures come from the generated LM3
+build-cost record. It is not a second technical source of truth.
 
-| Brochure | Source | Scope |
-|---|---|---|
-| OpenSourceRail introduction | [HTML source](open-source-rail-introduction.html) | 20-page landscape overview of the system, trainset, production strategy, software/hardware stack, and certification path |
-
-Regenerate:
+Regenerate or check it:
 
 ```bash
-weasyprint docs/brochures/open-source-rail-introduction.html \
-  build/releases/open-source-rail-introduction.pdf
+python3 scripts/generate-introduction-brochure.py
+python3 scripts/generate-introduction-brochure.py --check
 ```
+
+Create a release PDF when WeasyPrint is available:
+
+```bash
+mkdir -p build/releases
+weasyprint docs/brochures/open-source-rail-overview.html \
+  build/releases/open-source-rail-overview.pdf
+```
+
+Release PDFs belong under `build/releases/` or in a tagged GitHub release;
+only the generated HTML review copy is tracked.

@@ -10,7 +10,7 @@ Regenerate from the repository root with:
 python3 scripts/generate-doc-index.py
 ```
 
-Indexed Markdown files: **1668**.
+Indexed Markdown files: **1667**.
 
 ## Sections
 
@@ -22,7 +22,7 @@ Indexed Markdown files: **1668**.
 | [crates](#crates) | 4 |
 | [deployment](#deployment) | 1 |
 | [designs](#designs) | 844 |
-| [docs](#docs) | 141 |
+| [docs](#docs) | 140 |
 | [engineering](#engineering) | 2 |
 | [formal](#formal) | 2 |
 | [hardware](#hardware) | 36 |
@@ -929,7 +929,7 @@ Indexed Markdown files: **1668**.
 | [`docs/README.md`](../docs/README.md) | OpenSourceRail Documentation |
 | [`docs/ROADMAP.md`](../docs/ROADMAP.md) | Roadmap |
 | [`docs/assets/README.md`](../docs/assets/README.md) | Repository Media Assets |
-| [`docs/brochures/README.md`](../docs/brochures/README.md) | Brochures |
+| [`docs/brochures/README.md`](../docs/brochures/README.md) | Public Overview |
 | [`docs/certification/README.md`](../docs/certification/README.md) | OSR type-certification pre-submission pack |
 | [`docs/certification/compliance-matrix.md`](../docs/certification/compliance-matrix.md) | EN 62267 compliance matrix |
 | [`docs/certification/evidence-register.md`](../docs/certification/evidence-register.md) | Evidence register |
@@ -993,7 +993,6 @@ Indexed Markdown files: **1668**.
 | [`docs/operations-portal/README.md`](../docs/operations-portal/README.md) | OSR Operations Portal |
 | [`docs/operations-portal/gap-analysis.md`](../docs/operations-portal/gap-analysis.md) | OSR Operations Portal Gap Analysis |
 | [`docs/operations-portal/ops-core.md`](../docs/operations-portal/ops-core.md) | OSR Ops Core |
-| [`docs/outreach/open-source-rail-outreach-contacts.md`](../docs/outreach/open-source-rail-outreach-contacts.md) | OpenSourceRail Outreach Contacts |
 | [`docs/portfolio-summary.md`](../docs/portfolio-summary.md) | Portfolio capital summary |
 | [`docs/releases/README.md`](../docs/releases/README.md) | Releases |
 | [`docs/releases/next.md`](../docs/releases/next.md) | Next Release Checklist |

@@ -1,6 +1,6 @@
 # OpenSourceRail — Scope & Architecture
 
-**Status:** Current development baseline (2026-08-14)
+**Status:** Current development baseline (2026-08-29)
 **Audience:** Engineers, operators, policymakers, and funders evaluating the project.
 **Purpose:** Define what OpenSourceRail is, what it is not, and the architectural stance that distinguishes it from existing rail vendor offerings.
 
@@ -8,11 +8,19 @@
 
 ## 1. Mission
 
-OpenSourceRail is a complete, permissively licensed technology stack for **designing, building, and operating urban rail systems** — light metro (LRT) and metro (heavy urban rail). Its primary beneficiaries are **developing-world nations** that today cannot economically procure, operate, or evolve urban rail networks without surrendering large fractions of the project capex/opex to a handful of international vendors.
+OpenSourceRail is an open reference platform for **designing, testing,
+building, and operating urban rail systems**—light metro and urban metro. Its
+primary beneficiaries are **developing-world nations** seeking transparent,
+locally adaptable alternatives to opaque turnkey planning and integration.
+Repository outputs are screening and engineering evidence, not certified or
+construction-ready systems.
 
 **Scope is urban transit only.** Intercity passenger, long-distance, and freight/cargo rail are explicitly out of scope. The rationale is focus: urban transit is where the unit of need is highest in target markets, where the duty cycle is most favorable to the catenary-free battery-electric architecture proposed in §4 D7, and where a single reference design generalizes cleanly across many deployments. Freight and intercity have meaningfully different energy, signaling, and rolling-stock profiles that would dilute focus; they may be candidates for sibling projects or a future v2.
 
-The project succeeds when a national railway authority, working with domestic engineering firms and commodity electronics suppliers, can build and run a modern rail network with imported content limited to raw steel, copper, and specialty items that genuinely cannot be manufactured locally.
+The project succeeds when a national railway authority, working with domestic
+engineering firms and qualified suppliers, can retain design authority,
+localise ordinary fabrication and integration, and limit imported content to
+specialist components that cannot yet be sourced or qualified locally.
 
 Target deployment regions — sub-Saharan Africa, MENA, South and Southeast Asia, most of Latin America — share two properties that shape the architecture: they are capital-constrained, and they are high-insolation. Design choices throughout this document treat both as load-bearing assumptions rather than edge cases.
 
@@ -27,7 +35,10 @@ Target deployment regions — sub-Saharan Africa, MENA, South and Southeast Asia
 ## 2. Design Principles
 
 1. **Commodity hardware, custom software.** Industrial PLCs, proprietary trainbuses, and vendor-specific radios are replaced with commodity SBCs, deterministic Ethernet, and standard radio layers. Value is captured in the software and system integration, which can be produced anywhere.
-2. **Rust everywhere.** Single-language stack from the signaling safety kernel up to the operations UI backend. See [`project_tech_stack`](../README.md#why-rust) for rationale.
+2. **Appropriate tools with controlled interfaces.** Rust carries the runtime,
+   simulation and control core; Python carries GIS, engineering and CAD
+   automation; browser applications use pinned web toolchains. Schemas and
+   deterministic generators control the boundaries.
 3. **Replace and remove.** Superseded reference designs leave the active repository instead of accumulating alternate paths. Every major choice records the concrete advantage of its replacement.
 4. **Simulation-first.** No subsystem is considered designed until it runs end-to-end in a shared digital twin. Hardware pilots come after simulation sign-off.
 5. **Machine-checkable safety.** Safety arguments are structured (GSN-style), version-controlled, and linked to formal proofs, test evidence, and code. Safety cases regenerate on every commit.
@@ -77,6 +88,25 @@ energy, manufacturing, QA, and maintenance software diagrams, see
 ```
 
 Each domain has a dedicated section below. Interfaces between domains are deliberately narrow and enumerated in §5.
+
+### 3.1 Design And Delivery Control Plane
+
+The [OSR Workbench](workbench/README.md) integrates City Studio, simulation,
+OCC training and Ops Core under one origin. It carries city, actor, immutable
+revision, approved baseline, simulation run and selected-asset context without
+merging authority boundaries:
+
+- City Studio owns planning intent and Git-reviewable revisions;
+- GIS, OSR-ALN, IFC4.3, IDS/BCF, CAD, cost and simulation files are generated
+  evidence tied to source and tool hashes;
+- planning and training views cannot issue live OCC actions;
+- live mode does not expose design or simulation controls;
+- revision hashes prove identity, not approval; approval history is
+  append-only and evidence-referenced.
+
+The [Bonsai civil workflow](civil/bonsai-ifc-workflow.md) is the federation,
+inspection, drawing, quantity and 4D review path. OSR project and engineering
+rules remain authoritative.
 
 ---
 
@@ -299,31 +329,23 @@ across the target deployment footprint.
 
 ### 6.3 Repository layout
 
-The canonical crate map is in [RFC 0005](rfcs/0005-sbc-software-architecture.md)
-(35 crates across 8 domains). The subset that exists today:
+The canonical runtime-component map is in
+[RFC 0005](rfcs/0005-sbc-software-architecture.md); the complete implemented
+inventory is checked by [simulation software coverage](simulation-software-coverage.md).
 
 ```
 OpenSourceRail/
-├── docs/                      # This file, RFCs, safety cases
-├── crates/
-│   ├── osr-core/              # Shared types, interfaces, protobuf schema
-│   ├── osr-interlocking/      # T1/SIL-4-target MA computer + rail state machine (D2)
-│   ├── osr-consensus/         # T1/SIL-4-target SMRaft refinement (D2)
-│   ├── osr-odometry/          # T1/SIL-4-target onboard position fusion (D5)
-│   ├── osr-atp/               # T1/SIL-4-target Automatic Train Protection (D5)
-│   ├── osr-brake/             # T1/SIL-4-target EP brake controller + WSP + park (D5)
-│   ├── osr-wayside-points/    # T1/SIL-4-target power-switch controller (D6)
-│   └── osr-sim/               # Digital twin / simulator + shadow onboard stack
-├── formal/tla/                # TLA+ specs: SMRaft, TLC harness
-├── scenarios/                 # TOML scenario files (Samawah + templates)
-├── hardware/                  # Reference designs, DIY path, and v2-spec board docs
-├── tools/reference-ma/        # Python reference interpreter (RFC 0004 M4)
-└── pilots/                    # (planned)
+├── projects/                  # City Studio inputs and immutable revisions
+├── designs/                   # Generated city/national packages
+├── crates/                    # Runtime, simulation, control and browser apps
+├── design-py/                 # GIS and city engineering sidecars
+├── mechanical-py/             # Parametric rolling-stock/civil CAD
+├── engineering/               # IFC, schemas and engineering evidence
+├── hardware/                  # Host roles and bring-up/integration evidence
+├── formal/                    # Formal models and checks
+├── docs/                      # Shared decisions, operations and assurance
+└── marketing/                 # Generated outreach; not design authority
 ```
-
-The broader RFC 0005 crate map is now in tree under
-[`../crates/`](../crates/); individual crate maturity varies from
-scaffold through tested safety logic.
 
 ---
 
@@ -351,53 +373,32 @@ OpenSourceRail targets the EN 50126/50128/50129 and IEC 61508 framework because 
 
 ## 9. Roadmap
 
-### Phase 0 — Foundation (0–6 months)
-- This document, ratified.
-- Governance, licensing (proposed: Apache 2.0 for software, CERN-OHL-S for hardware, CC-BY-SA for docs), contribution process.
-- `osr-core` protobuf schemas for I1–I8.
-- Minimum viable digital twin (`osr-sim`) capable of running a toy network.
-- CI: Rust toolchain, `cargo test`, Kani harness, GSN safety-case compiler skeleton.
-
-### Phase 1 — Dispatch & Observability (6–12 months)
-- `osr-ops` dispatcher MVP: timetable, incident log, dispatcher web UI.
-- `osr-core` telemetry pipeline end-to-end.
-- First non-safety-critical pilot: consuming GTFS-RT from an existing operator and publishing a parallel dispatcher view. Lets us shake out the platform with zero safety exposure.
-
-### Phase 2 — Signaling Core (12–24 months)
-- `osr-consensus` distributed log with Kani-verified safety properties.
-- `osr-interlocking` formal model + implementation for a simple 5-switch yard.
-- `osr-movement` MA calculator with formal proof of non-overlap.
-- Integration in simulator; shadow-mode trial against real operator data.
-
-### Phase 3 — Hardware + Rail Reference Designs (18–30 months, overlapping)
-- W-SBC v1 and T-ECU v1 schematics, fab, bring-up — per [RFC 0007](rfcs/0007-hardware-reference-designs.md) (Raspberry Pi + Radxa palette).
-- Hubris port to RP2350.
-- First hardware-in-the-loop demo: simulator driving real W-SBCs.
-- **Energy subsystem:** reference trackside storage site design (PV array + repeated 500 kWh LFP modules + grid tie + Rust site controller); shared 500 kW station charging design; reference 800 V-class onboard LFP/traction architecture.
-- **Rolling-stock / track / station reference designs** — [RFC 0008](rfcs/0008-rolling-stock-reference-design.md) (5 trainset families), [RFC 0009](rfcs/0009-track-design-standard.md) (4 geometry presets), [RFC 0010](rfcs/0010-station-design-standard.md) (6 station archetypes), each with an enforced compatibility matrix in the auto-gen emitter.
-
-### Phase 4 — Pilot Deployment (24–36 months)
-- Generated reference city model: **Samawah, Iraq** - 3 generated light-metro lines, 58.4 km, 31 unique stations, and 96 3-car trainsets in [`designs/west-asia/Iraq/Samawah/`](../designs/west-asia/Iraq/Samawah/). See [RFC 0003](rfcs/0003-samawah-reference-deployment.md) for context and pilot rationale.
-- Samawah is the main `osr-sim` reference scenario; whether it becomes the first revenue-service deployment depends on local and institutional decisions outside this project.
-- Brownfield/depot or closed-test-track pilot; full safety case; independent assessment; revenue service only after authority acceptance.
-
-### Phase 5 — Metro at Scale (36+ months)
-- Learnings from Phase 4 drive the full metro-grade safety case and performance envelope (higher headway, longer trains, underground alignments).
+Implemented software, design and evidence capabilities are summarised in the
+[root feature table](../README.md#feature-highlights). Remaining work is
+maintained once in [ROADMAP.md](ROADMAP.md) and the domain release checklists.
+Calendar predictions are deliberately excluded until an owner, funded work
+package and external evidence route exist.
 
 ---
 
 ## 10. Open Questions
 
-These are questions we do not yet have good answers to. Each will spawn a focused RFC.
+The controlling open questions are deployment evidence rather than missing
+marketing claims:
 
-1. **Which formal methods tool?** Kani vs. Creusot vs. TLA+ for different layers. Probably all three, but which for what.
-2. **Consensus details.** Raft is well understood but not obviously safety-certifiable. Is there a restricted consensus protocol we can fully formalize?
-3. **Hubris vs. seL4** for T1. Hubris is Rust-native and simpler; seL4 has a stronger formal pedigree but a C codebase.
-4. **Reference SoC.** RISC-V is philosophically aligned but the safety-certifiable ecosystem is thin; ARM64 has better ecosystem but raises IP concerns for some target nations.
-5. **Pilot partners.** Which country/operator takes the first live deployment risk?
-6. **Funding model.** This is a multi-year effort; philanthropy, multilateral development banks, or a consortium of target operators?
-7. **Battery second-life and recycling.** Traction batteries degrade to ~80% capacity over service life. Cascade them to trackside storage (less demanding duty cycle)? What recycling pathway is available in target markets?
-8. **PV-track geometry.** For between-rail and vertical-ROW PV, what soiling/shading/clearance constraints matter? How do we validate in simulation before committing to a specific module geometry?
+1. Which eligible operator, university, integrator and independent assessor
+   will govern the first bounded pilot?
+2. Which supplier modules, host hardware and secure deployment transports pass
+   the required qualification and lifecycle evidence?
+3. Which surveyed alignment, ground, utility, climate, demand and fire data
+   replace the planning assumptions for that pilot?
+4. Which national rules determine homologation, cyber approval, accessibility,
+   grid connection, battery end-of-life and operating responsibility?
+5. Which public, research or development-finance route funds each evidence
+   stage without treating screening outputs as an investment approval?
+
+Detailed gaps are tracked in the certification, civil, rolling-stock,
+hardware and operations release checklists linked from [ROADMAP.md](ROADMAP.md).
 
 ---
 

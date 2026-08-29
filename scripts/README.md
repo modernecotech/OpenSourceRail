@@ -33,6 +33,7 @@ stay thin: domain logic belongs in Rust crates, `design-py`, or
 | [`generate-city-finance.py`](generate-city-finance.py) | Reconcile CAPEX; split localization-first external/local capital; compare variable foreign-turnkey cases; emit OPEX, revenue, NPV/IRR/DSCR, renewal, and risk screens |
 | [`generate-national-briefs.py`](generate-national-briefs.py) | Generate concise country-specific city/factory/capital aggregates linked to the common deployment planning reference |
 | [`generate-portfolio-summary.py`](generate-portfolio-summary.py) | Aggregate the current city and national-factory models into `docs/portfolio-summary.md` |
+| [`generate-introduction-brochure.py`](generate-introduction-brochure.py) | Generate and drift-check the one-page public overview from the marketing manifest and LM3 build-cost record |
 | [`recalculate-city-capex.py`](recalculate-city-capex.py) | Recalculate generated city CAPEX after removing duplicated city-level trainset factories |
 | [`validate-city-simulation.py`](validate-city-simulation.py) | Run nominal and mandatory degraded-energy OSR simulations on distinct physical cores, using compact result traces, and write reproducible battery, charging, and depot validation evidence |
 | [`validate-simulation-components.py`](validate-simulation-components.py) | Fail closed unless every deployed software component has one explicit simulation treatment and every tick-linked component remains an `osr-sim` dependency |

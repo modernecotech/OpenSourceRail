@@ -12,7 +12,7 @@ the generated [Markdown documentation index](INDEX.md).
 
 | Reader | Start with |
 |---|---|
-| New reader / non-technical reviewer | [Brochures](brochures/) |
+| New reader / non-technical reviewer | [Generated one-page overview](brochures/open-source-rail-overview.html) |
 | Project reviewer | [ARCHITECTURE.md](ARCHITECTURE.md), [software architecture diagrams](software-architecture-diagrams.md), then [RFCs](rfcs/) |
 | New contributor | [../CONTRIBUTING.md](../CONTRIBUTING.md), [../GOVERNANCE.md](../GOVERNANCE.md), then [GLOSSARY.md](GLOSSARY.md) |
 | Deployment reviewer | [Unified deployment model](deployment-model.md), [deployment roles](deployment-roles.md), then [designs/README.md](../designs/README.md) |
@@ -26,6 +26,7 @@ the generated [Markdown documentation index](INDEX.md).
 | v0.2 contributor | [ROADMAP.md](ROADMAP.md) |
 | Engineering design/simulation contributor | [Engineering design and simulation plan](engineering-design-simulation-plan.md) |
 | Embedded/software-in-loop reviewer | [Simulation software coverage](simulation-software-coverage.md), then [SBC architecture](rfcs/0005-sbc-software-architecture.md) |
+| Government, university, research or funding reviewer | [Marketing and outreach guide](../marketing/README.md), then the [campaign catalogue](../marketing/campaigns/README.md) |
 | Release reviewer | [next release checklist](releases/next.md) |
 
 ## Documentation Sets
@@ -33,13 +34,13 @@ the generated [Markdown documentation index](INDEX.md).
 | Folder | Contents |
 |---|---|
 | [rfcs/](rfcs/README.md) | Design decisions and standards for architecture, rolling stock, track, stations, depots, driverless operation, hardware, energy, and safety |
-| [brochures/](brochures/README.md) | Short PDF introductions and presentation-style summaries |
+| [brochures/](brochures/README.md) | Generated one-page public overview and release-PDF instructions |
 | [deployment-model.md](deployment-model.md) | Unified city/deployment pipeline; Samawah is an instance, not a special fork |
 | [deployment-planning-reference.md](deployment-planning-reference.md) | Canonical shared interpretation for concise generated city READMEs and national briefs |
 | [deployment-roles.md](deployment-roles.md) | Owner/operator, prime integrator, assessor, insurer, EPC, workshop, finance, and regulator responsibilities |
 | [first-adoptable-product.md](first-adoptable-product.md) | Ops Core + simulator + asset register + QA/maintenance/evidence portal as the first low-risk deployment wedge |
 | [rolling-stock/](rolling-stock/README.md) | Light-metro trainset package: GA, body, bogie, traction, BOM, fabrication plan, drawing register, compliance |
-| [civil/](civil/README.md) | Alignment interchange format and civil tool bridge docs |
+| [civil/](civil/README.md) | Alignment, IFC4.3, IDS/BCF, Bonsai coordination, civil design and release evidence |
 | [stations/](stations/README.md) | Station design material |
 | [operations/](operations/) | Rulebook and operating procedures |
 | [operations-portal/](operations-portal/README.md) | Browser portal for asset registers, manufacturing schedule, QA gates, maintenance schedule, Ops Core work orders, defects/NCR, audit, SQLite storage, and reconciliation |
@@ -77,13 +78,14 @@ the generated [Markdown documentation index](INDEX.md).
 | Operations portal | [operations-portal/README.md](operations-portal/README.md) |
 | City design and service-planning studio | [city-studio/README.md](city-studio/README.md) |
 | Generated portfolio capital summary | [portfolio-summary.md](portfolio-summary.md) |
+| Developing-world campaign source and generated packages | [marketing/README.md](../marketing/README.md), [`international-targets.toml`](../marketing/international-targets.toml) |
 | Ops Core operating model | [operations-portal/ops-core.md](operations-portal/ops-core.md) |
 | Acceptance/accreditation evidence status | [certification/evidence-status.md](certification/evidence-status.md) |
 | Construction QA system | [rfcs/0028-construction-quality-assurance.md](rfcs/0028-construction-quality-assurance.md) |
 | Maintenance schedule system | [rfcs/0029-maintenance-schedule-system.md](rfcs/0029-maintenance-schedule-system.md) |
 | Manufacturing schedule system | [rfcs/0030-manufacturing-schedule-system.md](rfcs/0030-manufacturing-schedule-system.md) |
 | Reader-edition PDF | `python3 scripts/build-doc-book.py` → `build/releases/` |
-| Introduction brochure | [brochures/open-source-rail-introduction.html](brochures/open-source-rail-introduction.html) |
+| Generated public overview | [brochures/open-source-rail-overview.html](brochures/open-source-rail-overview.html) |
 | v0.2 roadmap | [ROADMAP.md](ROADMAP.md) |
 | Next release checklist | [releases/next.md](releases/next.md) |
 | GitHub metadata | [../.github/repository-metadata.yml](../.github/repository-metadata.yml) |
@@ -95,6 +97,7 @@ Use the root README for the common commands. The short version:
 ```bash
 scripts/regenerate-city.sh samawah
 python3 scripts/generate-civil-cost-model.py --check
+python3 scripts/generate-introduction-brochure.py --check
 PYTHONPATH=mechanical-py/src python3 -m osr_mech.catalog --out mechanical-py/catalog
 PYTHONPATH=mechanical-py/src mechanical-py/scripts/freecad_trainset.sh --family light-metro-3car
 python3 scripts/repo-health.py --quiet

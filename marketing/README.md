@@ -4,8 +4,8 @@ This directory turns the current design catalogue into reviewable outreach
 packages without sending messages or inventing contact details.
 
 The campaign scope is the developing world: 265 city models in 43 countries.
-The Lyon engineering design remains available for comparison but is excluded
-from campaign metrics, examples, images and recipient packages.
+The European engineering comparison remains available for technical inspection
+but is excluded from campaign metrics, examples, images and recipient packages.
 
 ## What is generated
 

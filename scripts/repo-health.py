@@ -913,6 +913,22 @@ def check_generated_portfolio_summary() -> list[Finding]:
     return []
 
 
+def check_generated_introduction_brochure() -> list[Finding]:
+    path = REPO_ROOT / "docs/brochures/open-source-rail-overview.html"
+    generator = REPO_ROOT / "scripts/generate-introduction-brochure.py"
+    module = runpy.run_path(str(generator))
+    expected = module["render"]()
+    if not path.is_file() or path.read_text() != expected:
+        return [
+            Finding(
+                path,
+                "generated introduction overview is stale; run "
+                "scripts/generate-introduction-brochure.py",
+            )
+        ]
+    return []
+
+
 def check_cost_reference_tables() -> list[Finding]:
     findings: list[Finding] = []
     light_unit = TRAINSET_COST_USD["light-metro-3car"]
@@ -1115,6 +1131,7 @@ def run_checks() -> list[Finding]:
     findings.extend(check_current_network_osr_aln())
     findings.extend(check_generated_cost_model())
     findings.extend(check_generated_portfolio_summary())
+    findings.extend(check_generated_introduction_brochure())
     findings.extend(check_cost_reference_tables())
     findings.extend(check_readme_corpus())
     findings.extend(check_simulation_component_coverage())
