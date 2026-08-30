@@ -16,7 +16,7 @@
   "budget_by_bucket": {
     "charging_microgrid": {
       "budget_usd": 750000.0,
-      "work_packages": 1
+      "work_packages": 12
     },
     "civil": {
       "budget_usd": 31072083.0,
@@ -51,29 +51,29 @@
     "currency": "USD",
     "monthly_requirements": [
       {
-        "cumulative_requirement_usd": 5342825.77,
-        "imported_requirement_usd": 1155640.53,
-        "local_requirement_usd": 4187185.07,
+        "cumulative_requirement_usd": 5317825.75,
+        "imported_requirement_usd": 1145640.51,
+        "local_requirement_usd": 4172185.07,
         "month_index": 0,
-        "planned_requirement_usd": 5342825.77,
+        "planned_requirement_usd": 5317825.75,
         "project_day_finish": -1,
         "project_day_start": -30
       },
       {
-        "cumulative_requirement_usd": 37496330.53,
-        "imported_requirement_usd": 7380528.16,
-        "local_requirement_usd": 24772976.53,
+        "cumulative_requirement_usd": 37233830.51,
+        "imported_requirement_usd": 7285528.16,
+        "local_requirement_usd": 24630476.53,
         "month_index": 1,
-        "planned_requirement_usd": 32153504.76,
+        "planned_requirement_usd": 31916004.76,
         "project_day_finish": 29,
         "project_day_start": 0
       },
       {
         "cumulative_requirement_usd": 73816129.68,
-        "imported_requirement_usd": 7842087.1,
-        "local_requirement_usd": 28477711.89,
+        "imported_requirement_usd": 7947087.12,
+        "local_requirement_usd": 28635211.89,
         "month_index": 2,
-        "planned_requirement_usd": 36319799.15,
+        "planned_requirement_usd": 36582299.17,
         "project_day_finish": 59,
         "project_day_start": 30
       },
@@ -87,20 +87,20 @@
         "project_day_start": 60
       },
       {
-        "cumulative_requirement_usd": 83508760.85,
-        "imported_requirement_usd": 1501322.17,
-        "local_requirement_usd": 3313533.33,
+        "cumulative_requirement_usd": 83487927.53,
+        "imported_requirement_usd": 1492988.85,
+        "local_requirement_usd": 3301033.33,
         "month_index": 4,
-        "planned_requirement_usd": 4814855.39,
+        "planned_requirement_usd": 4794022.07,
         "project_day_finish": 119,
         "project_day_start": 90
       },
       {
         "cumulative_requirement_usd": 88035531.03,
-        "imported_requirement_usd": 1299132.46,
-        "local_requirement_usd": 3227637.63,
+        "imported_requirement_usd": 1307465.78,
+        "local_requirement_usd": 3240137.63,
         "month_index": 5,
-        "planned_requirement_usd": 4526770.18,
+        "planned_requirement_usd": 4547603.5,
         "project_day_finish": 149,
         "project_day_start": 120
       },
@@ -170,10 +170,10 @@
     ],
     "peak_month": {
       "cumulative_requirement_usd": 73816129.68,
-      "imported_requirement_usd": 7842087.1,
-      "local_requirement_usd": 28477711.89,
+      "imported_requirement_usd": 7947087.12,
+      "local_requirement_usd": 28635211.89,
       "month_index": 2,
-      "planned_requirement_usd": 36319799.15,
+      "planned_requirement_usd": 36582299.17,
       "project_day_finish": 59,
       "project_day_start": 30
     },
@@ -231,6 +231,10 @@
     "priced_rows": 2727,
     "quotation_required_rows": 409
   },
+  "product_scope": {
+    "rolling_stock_definition": "detailed LM3 part/BOM/tooling/traveller reference",
+    "rolling_stock_family": "light-metro-3car"
+  },
   "release_gates": [
     "approved surveyed alignment, utilities, land and geotechnical baseline",
     "engineer-released civil, station, systems and rolling-stock design packages",
@@ -239,7 +243,7 @@
     "funding approvals and independently reviewed schedule-linked cashflow",
     "national approvals, independent safety assessment and competent-person release"
   ],
-  "revision_id": "twin-886bcd407dbea1f1",
+  "revision_id": "twin-ec54d8c3d5f489d5",
   "revisions": [
     {
       "approval_status": "candidate-not-approved",
@@ -254,6 +258,13 @@
       "revision_id": "twin-886bcd407dbea1f1",
       "sequence": 2,
       "source_hash": "7a2c3528635d6f75db2104f5c236d7c97a2438327d7d2a6a24180a98771ab878"
+    },
+    {
+      "approval_status": "candidate-not-approved",
+      "kind": "generated-planning-baseline",
+      "revision_id": "twin-ec54d8c3d5f489d5",
+      "sequence": 3,
+      "source_hash": "e934704267251755e83c800645052e1a61f94a2e8363b826c19354754666c041"
     }
   ],
   "schema_version": "1.0",
@@ -272,11 +283,11 @@
     },
     "operations_generator": {
       "path": "tools/automation/generate-qa-maintenance-data.py",
-      "sha256": "3eb5320613558e40a9c897c6203c5b6ff56a62903c02dfa58824fead9d685c78"
+      "sha256": "af75e1e4fad509db93767f984396e3774cb3c017493ee9b77d24b9244ac8e7d8"
     },
     "project_twin_generator": {
       "path": "tools/automation/project_twin.py",
-      "sha256": "017640e0b6a7b0d29d127d534802e5e441bf19f402914afcaa81639fe17547a3"
+      "sha256": "0c5f9f76cafef4cefcb84c1f2a65e7c0de5d2472cac1ddac99fa3bc722f952e9"
     },
     "scenario": {
       "path": "cities/catalogue/east-africa/Angola/Uige/uige.toml",
@@ -286,7 +297,7 @@
   "status": "planning-digital-twin-not-construction-release",
   "totals": {
     "assets": 65,
-    "budget_contracts": 269,
+    "budget_contracts": 280,
     "cashflow_months": 13,
     "critical_work_packages": 35,
     "planned_capex_usd": 98028321.49,

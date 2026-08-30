@@ -137,6 +137,14 @@ def build_project_twin(
         "schema_version": SCHEMA_VERSION,
         "status": PLANNING_STATUS,
         "city": meta.get("city_slug", ""),
+        "product_scope": {
+            "rolling_stock_family": meta.get("rolling_stock_family", ""),
+            "rolling_stock_definition": (
+                "detailed LM3 part/BOM/tooling/traveller reference"
+                if meta.get("rolling_stock_family") == "light-metro-3car"
+                else "family-level schedule and cost only; detailed family release required"
+            ),
+        },
         "revision_id": revision_id,
         "baseline": {
             "kind": "deterministic-planning-baseline",
@@ -280,7 +288,8 @@ def build_budget_contracts(
     buckets = {str(row["bucket"]): row for row in capex.get("buckets", [])}
     by_bucket: dict[str, list[dict[str, Any]]] = defaultdict(list)
     for task in tasks:
-        by_bucket[_task_bucket(task)].append(task)
+        for bucket in _task_buckets(task):
+            by_bucket[bucket].append(task)
 
     contracts: list[dict[str, Any]] = []
     for bucket_name, bucket in sorted(buckets.items()):
@@ -496,6 +505,7 @@ def compact_summary(twin: dict[str, Any]) -> dict[str, Any]:
         "schema_version": twin["schema_version"],
         "status": twin["status"],
         "city": twin["city"],
+        "product_scope": twin["product_scope"],
         "revision_id": twin["revision_id"],
         "baseline": twin["baseline"],
         "sources": twin["sources"],
@@ -560,21 +570,21 @@ def _capex(finance: dict[str, Any] | None) -> dict[str, Any]:
     return {"total_usd": total, "buckets": buckets}
 
 
-def _task_bucket(task: dict[str, Any]) -> str:
+def _task_buckets(task: dict[str, Any]) -> tuple[str, ...]:
     asset_type = str(task.get("asset_type", ""))
     if asset_type == "rolling-stock":
-        return "rolling_stock"
+        return ("rolling_stock",)
     if asset_type == "station":
-        return "stations"
+        return ("stations",)
     if asset_type in {"depot", "depots-production"}:
-        return "depots"
+        return ("depots",)
     if asset_type == "energy":
-        return "solar_plant"
+        return ("solar_plant", "charging_microgrid")
     if asset_type in {"signalling-comms", "waypoint", "hot-axle-detector", "switch"}:
-        return "signalling"
+        return ("signalling",)
     if asset_type in {"track-section", "structure"}:
-        return "civil"
-    return "epc_overhead"
+        return ("civil",)
+    return ("epc_overhead",)
 
 
 def _revision_history(

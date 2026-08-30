@@ -16,7 +16,7 @@
   "budget_by_bucket": {
     "charging_microgrid": {
       "budget_usd": 1725000.0,
-      "work_packages": 1
+      "work_packages": 30
     },
     "civil": {
       "budget_usd": 107643836.0,
@@ -51,74 +51,74 @@
     "currency": "USD",
     "monthly_requirements": [
       {
-        "cumulative_requirement_usd": 6737196.35,
-        "imported_requirement_usd": 1411206.45,
-        "local_requirement_usd": 5325989.63,
+        "cumulative_requirement_usd": 6610696.37,
+        "imported_requirement_usd": 1360606.47,
+        "local_requirement_usd": 5250089.63,
         "month_index": 0,
-        "planned_requirement_usd": 6737196.35,
+        "planned_requirement_usd": 6610696.37,
         "project_day_finish": -1,
         "project_day_start": -30
       },
       {
-        "cumulative_requirement_usd": 57752930.33,
-        "imported_requirement_usd": 10747460.94,
-        "local_requirement_usd": 40268273.04,
+        "cumulative_requirement_usd": 56551180.39,
+        "imported_requirement_usd": 10317360.98,
+        "local_requirement_usd": 39623123.04,
         "month_index": 1,
-        "planned_requirement_usd": 51015733.98,
+        "planned_requirement_usd": 49940484.02,
         "project_day_finish": 29,
         "project_day_start": 0
       },
       {
-        "cumulative_requirement_usd": 114500031.76,
-        "imported_requirement_usd": 11816230.67,
-        "local_requirement_usd": 44930870.76,
+        "cumulative_requirement_usd": 113727615.17,
+        "imported_requirement_usd": 11987964.02,
+        "local_requirement_usd": 45188470.76,
         "month_index": 2,
-        "planned_requirement_usd": 56747101.43,
+        "planned_requirement_usd": 57176434.78,
         "project_day_finish": 59,
         "project_day_start": 30
       },
       {
-        "cumulative_requirement_usd": 164478385.31,
-        "imported_requirement_usd": 10398604.22,
-        "local_requirement_usd": 39579749.5,
+        "cumulative_requirement_usd": 164119968.68,
+        "imported_requirement_usd": 10564204.18,
+        "local_requirement_usd": 39828149.5,
         "month_index": 3,
-        "planned_requirement_usd": 49978353.55,
+        "planned_requirement_usd": 50392353.51,
         "project_day_finish": 89,
         "project_day_start": 60
       },
       {
-        "cumulative_requirement_usd": 215179816.33,
-        "imported_requirement_usd": 10315546.5,
-        "local_requirement_usd": 40385884.61,
+        "cumulative_requirement_usd": 215108899.65,
+        "imported_requirement_usd": 10430546.45,
+        "local_requirement_usd": 40558384.61,
         "month_index": 4,
-        "planned_requirement_usd": 50701431.02,
+        "planned_requirement_usd": 50988930.97,
         "project_day_finish": 119,
         "project_day_start": 90
       },
       {
-        "cumulative_requirement_usd": 236053482.41,
-        "imported_requirement_usd": 3866727.12,
-        "local_requirement_usd": 17006938.88,
+        "cumulative_requirement_usd": 236005565.71,
+        "imported_requirement_usd": 3875927.1,
+        "local_requirement_usd": 17020738.88,
         "month_index": 5,
-        "planned_requirement_usd": 20873666.08,
+        "planned_requirement_usd": 20896666.06,
         "project_day_finish": 149,
         "project_day_start": 120
       },
       {
-        "cumulative_requirement_usd": 245164764.1,
-        "imported_requirement_usd": 2140643.95,
-        "local_requirement_usd": 6970637.96,
+        "cumulative_requirement_usd": 245143680.73,
+        "imported_requirement_usd": 2151377.28,
+        "local_requirement_usd": 6986737.96,
         "month_index": 6,
-        "planned_requirement_usd": 9111281.69,
+        "planned_requirement_usd": 9138115.02,
         "project_day_finish": 179,
         "project_day_start": 150
       },
       {
         "cumulative_requirement_usd": 250099449.86,
-        "imported_requirement_usd": 1287769.52,
-        "local_requirement_usd": 3646916.24,
+        "imported_requirement_usd": 1296202.89,
+        "local_requirement_usd": 3659566.24,
         "month_index": 7,
-        "planned_requirement_usd": 4934685.76,
+        "planned_requirement_usd": 4955769.13,
         "project_day_finish": 209,
         "project_day_start": 180
       },
@@ -304,11 +304,11 @@
       }
     ],
     "peak_month": {
-      "cumulative_requirement_usd": 114500031.76,
-      "imported_requirement_usd": 11816230.67,
-      "local_requirement_usd": 44930870.76,
+      "cumulative_requirement_usd": 113727615.17,
+      "imported_requirement_usd": 11987964.02,
+      "local_requirement_usd": 45188470.76,
       "month_index": 2,
-      "planned_requirement_usd": 56747101.43,
+      "planned_requirement_usd": 57176434.78,
       "project_day_finish": 59,
       "project_day_start": 30
     },
@@ -518,11 +518,15 @@
     "unresolved_external_gates": []
   },
   "procurement": {
-    "earliest_order_by_day": -145,
-    "planned_purchase_orders": 8686,
-    "pre_ntp_order_actions": 1610,
-    "priced_rows": 7676,
-    "quotation_required_rows": 1010
+    "earliest_order_by_day": -60,
+    "planned_purchase_orders": 1390,
+    "pre_ntp_order_actions": 542,
+    "priced_rows": 0,
+    "quotation_required_rows": 1390
+  },
+  "product_scope": {
+    "rolling_stock_definition": "family-level schedule and cost only; detailed family release required",
+    "rolling_stock_family": "tram-2car"
   },
   "release_gates": [
     "approved surveyed alignment, utilities, land and geotechnical baseline",
@@ -532,7 +536,7 @@
     "funding approvals and independently reviewed schedule-linked cashflow",
     "national approvals, independent safety assessment and competent-person release"
   ],
-  "revision_id": "twin-a91736d7a6d0da12",
+  "revision_id": "twin-c207ccf9a6925ab7",
   "revisions": [
     {
       "approval_status": "candidate-not-approved",
@@ -547,6 +551,13 @@
       "revision_id": "twin-a91736d7a6d0da12",
       "sequence": 2,
       "source_hash": "1990ff53ed2e08058fe044787326e676d681e7a89f6e64367bb8473a90ca75a7"
+    },
+    {
+      "approval_status": "candidate-not-approved",
+      "kind": "generated-planning-baseline",
+      "revision_id": "twin-c207ccf9a6925ab7",
+      "sequence": 3,
+      "source_hash": "4861de6f8070f87c436ed8d42ea0e8fa75bac619fd4efc522fc2c4671d67693d"
     }
   ],
   "schema_version": "1.0",
@@ -565,11 +576,11 @@
     },
     "operations_generator": {
       "path": "tools/automation/generate-qa-maintenance-data.py",
-      "sha256": "3eb5320613558e40a9c897c6203c5b6ff56a62903c02dfa58824fead9d685c78"
+      "sha256": "af75e1e4fad509db93767f984396e3774cb3c017493ee9b77d24b9244ac8e7d8"
     },
     "project_twin_generator": {
       "path": "tools/automation/project_twin.py",
-      "sha256": "017640e0b6a7b0d29d127d534802e5e441bf19f402914afcaa81639fe17547a3"
+      "sha256": "0c5f9f76cafef4cefcb84c1f2a65e7c0de5d2472cac1ddac99fa3bc722f952e9"
     },
     "scenario": {
       "path": "cities/catalogue/east-africa/Uganda/Fort-Portal/fort-portal.toml",
@@ -579,13 +590,13 @@
   "status": "planning-digital-twin-not-construction-release",
   "totals": {
     "assets": 167,
-    "budget_contracts": 723,
+    "budget_contracts": 752,
     "cashflow_months": 28,
     "critical_work_packages": 193,
     "planned_capex_usd": 280819965.54,
-    "planned_purchase_orders": 8686,
-    "pre_ntp_order_actions": 1610,
-    "priced_procurement_usd": 52465840.0,
+    "planned_purchase_orders": 1390,
+    "pre_ntp_order_actions": 542,
+    "priced_procurement_usd": 0.0,
     "programme_working_days": 716,
     "work_packages": 722
   },

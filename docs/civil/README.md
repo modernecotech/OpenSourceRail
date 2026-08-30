@@ -40,6 +40,7 @@ release gates are tracked in
 | [`design/component-catalogue/src/osr_mech/civil/`](../../design/component-catalogue/src/osr_mech/civil/) | Parametric girders, piers, abutments, slab/guideway edges, elevated platform units, and civil CAD source |
 | [`tools/automation/bonsai-civil.sh`](../../tools/automation/bonsai-civil.sh) | Deterministic IFC/IDS/BCF generation, Bonsai import, saved review scene, 48-second MP4/GIF, and milestone screenshots |
 | [`tools/automation/generate-civil-cost-model.py`](../../tools/automation/generate-civil-cost-model.py) | Recalculate planning rates from current CAD quantities and reject stale output with `--check` |
+| [`tools/automation/audit-project-twins.py`](../../tools/automation/audit-project-twins.py) | Reconcile every city civil/finance bucket, CPM and cashflow source hash with the validated reference IFC and mechanical package |
 
 The IFC is a generated coordination output, not a competing geometry source.
 Change the parametric CAD/BIM source or reviewed calibration, then regenerate:
@@ -52,3 +53,9 @@ CAD geometry → per-route-km quantity model → civil cost contract
 Project-specific Bonsai detail edits that are intended to become authoritative
 must first be reviewed and promoted into the parametric source; otherwise the
 next deterministic regeneration intentionally replaces them.
+
+The city delivery twin schedules civil work by actual line length, civil class,
+predecessors and finite crews. Its `civil` budget comes from the same generated
+rate contract as city CAPEX; charging work is assigned to energy assets, not an
+overhead placeholder. Survey, geotechnical, utilities, local temporary works,
+permits and engineer release remain recorded gates rather than invented data.

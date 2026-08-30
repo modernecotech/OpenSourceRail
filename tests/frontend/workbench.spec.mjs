@@ -1,5 +1,24 @@
 import { expect, test } from "@playwright/test";
 
+test("Workbench generates and opens a catalogue city delivery twin without a shell", async ({ page }) => {
+  test.setTimeout(120_000);
+  await page.goto("http://127.0.0.1:4177/?module=operations&mode=design&role=designer");
+  await expect(page.locator("#twinCity option")).toHaveCount(266);
+  await page.locator("#twinCity").selectOption("samawah");
+  await page.locator("#generateTwin").click();
+  await expect(page.locator("#twinStatus")).toContainText("Generated and reconciled", { timeout: 90_000 });
+  await expect(page.locator("#twinStatus")).toContainText("work packages");
+  await expect(page.locator("#openTwin")).toBeVisible();
+  await page.locator("#openTwin").click();
+  await expect(page.locator("#contextCity")).toHaveText("samawah");
+  const module = page.frameLocator("#moduleFrame");
+  await expect(module.locator("#cityName")).toHaveText("Samawah", { timeout: 30_000 });
+  await module.locator('[data-tab="projectTwin"]').click();
+  await expect(module.locator("#projectTwin")).toContainText("Critical Path");
+  await page.reload();
+  await expect(module.locator("#cityName")).toHaveText("Samawah", { timeout: 30_000 });
+});
+
 test("Workbench carries an approved revision through simulation, OCC replay, and Ops Core", async ({ page }, testInfo) => {
   test.setTimeout(5 * 60_000);
   const browserFailures = [];

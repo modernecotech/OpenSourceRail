@@ -56,6 +56,7 @@ case "$command_name" in
         python3 -m pytest -q design/city-generation/tests design/component-catalogue/tests \
             tools/osr-aln-convert/tests tools/reference-ma/tests
         npm run test:frontend
+        python3 tools/automation/audit-project-twins.py
         python3 tools/automation/repo-health.py --quiet
         python3 tools/automation/check-markdown-links.py
         ;;

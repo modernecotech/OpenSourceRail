@@ -199,6 +199,16 @@ def build_bundle(
     stations = list(design.get("stations", []))
     lines = list(design.get("lines", []))
     fleets = list(design.get("fleets", []))
+    rolling_stock_families = sorted({
+        str(line.get("rolling_stock", ""))
+        for line in lines
+        if line.get("rolling_stock")
+    })
+    if len(rolling_stock_families) != 1:
+        raise ValueError(
+            f"{design_path}: expected one rolling-stock family, found {rolling_stock_families}"
+        )
+    rolling_stock_family = rolling_stock_families[0]
     depots = list(design.get("depots", []))
     switches = list(design.get("switches", []))
     for depot in depots:
@@ -261,6 +271,7 @@ def build_bundle(
                 "km_end": "",
                 "location": "fleet",
                 "criticality": "service",
+                "product_family": rolling_stock_family,
             })
 
     for station in stations:
@@ -454,6 +465,9 @@ def build_bundle(
             "criticality": "safety",
         })
 
+    for asset in assets:
+        asset.setdefault("product_family", "")
+
     maintenance_tasks = _expand_maintenance_tasks(
         assets=assets,
         intervals=list(maint_template.get("maintenance_interval", [])),
@@ -469,6 +483,7 @@ def build_bundle(
         packages=list(manufacturing_template.get("manufacturing_package", [])),
         city_slug=slug,
     )
+    _apply_rolling_stock_definition_scope(manufacturing_tasks, rolling_stock_family)
     _resolve_manufacturing_predecessors(manufacturing_tasks, assets)
     _schedule_manufacturing_tasks(manufacturing_tasks)
     manufacturing_materials = _expand_manufacturing_materials(
@@ -495,6 +510,7 @@ def build_bundle(
         "city_slug": slug,
         "city_name": _title(slug),
         "country": city.get("country", ""),
+        "rolling_stock_family": rolling_stock_family,
         "population": city.get("population", ""),
         "source_design": _rel(design_path),
         "source_scenario": _rel(scenario_path),
@@ -563,6 +579,35 @@ def build_bundle(
             "civil_production": manufacturing_template.get("civil_production", {}),
         },
     }
+
+
+def _apply_rolling_stock_definition_scope(
+    tasks: list[dict[str, Any]], family: str
+) -> None:
+    """Keep the detailed LM3 build record from being claimed for other families."""
+
+    detailed = family == "light-metro-3car"
+    for task in tasks:
+        task["product_family"] = family if task.get("asset_type") == "rolling-stock" else ""
+        task["design_definition_status"] = "not-applicable"
+        if task.get("asset_type") != "rolling-stock":
+            continue
+        task["design_definition_status"] = (
+            "detailed-reference-package" if detailed else "family-specific-detail-required"
+        )
+        if detailed:
+            continue
+        task["bom_refs"] = f"project_kit:{family}:{task.get('package_id', 'rolling-stock')}"
+        task["work_order_detail"] = (
+            f"Planning-stage {family} work package. The detailed LM3 part, mould and "
+            "traveller package is not claimed for this family; release a family-specific "
+            "part tree, interfaces, tooling, RAMS and acceptance baseline before procurement."
+        )
+        task["evidence_required"] = (
+            "family-specific released EBOM, drawings, interface control, tooling records, "
+            "first-article test plan, RAMS evidence and acceptance baseline"
+        )
+        task["status"] = "planning-gap-family-definition"
 
 
 def _expand_maintenance_tasks(

@@ -317,6 +317,11 @@ the server restarts. Adapter ids, arguments, durations, and binaries are
 allowlisted in Rust—the API never accepts an executable name or arbitrary shell
 text.
 
+Portfolio delivery generation is exposed one level above this project editor:
+**Workbench → Generate a city digital twin** can select any catalogue city and
+open its assembly, CPM, order, costing and cashflow result in Operations. City
+Studio remains the geometry/service editor for the currently opened workspace.
+
 Artifact buttons open the evidence viewer. Before returning content, the server
 canonicalizes the path beneath the City Studio build root, enforces a 4 MB
 preview limit, rejects unknown formats, and recalculates SHA-256. GeoJSON and

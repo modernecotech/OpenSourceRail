@@ -44,6 +44,8 @@ The direct material/supplier-module bucket already includes the requested passen
 | `metro-4car` | $1.1 M | EUR 1.030 M |
 | `metro-6car` | $1.7 M | EUR 1.546 M |
 
+Only `light-metro-3car` currently has the detailed 101-product, 26-assembly, tooling and shop-traveller release reference. Other family values—including tram-2car, metro-4car and metro-6car—are planning units: their city twins keep the correct fleet cost but mark detailed rolling-stock work and procurement as `family-specific-detail-required` instead of reusing LM3 part numbers.
+
 The base value assumes direct procurement, local final assembly, common bogie modules, one-metre clip-on fiberglass non-structural cladding, COTS doors/windows/HVAC/interior modules, open control electronics, and no proprietary CBTC onboard bundle. It includes labour, shop overhead, nominal per-unit QA/acceptance evidence, and local handover logistics. It does **not** repeat fixtures, tooling, production-readiness, warranty, initial spares, or routine commissioning support inside every trainset. Fixtures and tooling are carried in the production-plant line; spares, warranty response, and routine commissioning support are OPEX.
 
 The rolling-stock BOM carries line-level low/base/high bands in generated path `build/bom/rolling_stock_bom.csv`. For the `light-metro-3car`, the direct-material band is 516,027-1,031,521 USD before labour; adding the BOM's 28% assembly allowance gives a 660,515-1,320,347 USD older marketplace-floor consist band, with the base case landing at 848,115 USD. This remains an audit lower bound; the current build estimate above supersedes it for trainset planning.

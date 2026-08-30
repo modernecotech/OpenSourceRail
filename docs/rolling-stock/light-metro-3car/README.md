@@ -101,6 +101,12 @@ The generated buildable package lives under
 [`design/component-catalogue/catalog/buildable-trainset/`](../../../design/component-catalogue/catalog/buildable-trainset/).
 Use it as the bridge from concept CAD to build planning:
 
+This is specifically the `light-metro-3car` detailed reference. The integrated
+city twin uses these parts, moulds and travellers only when that family is
+selected. Other-family cities retain their generated family cost and programme
+but show an explicit family-definition hold until equivalent detailed packages
+are engineered and released.
+
 | Artifact | Use it for |
 |---|---|
 | [`buildable-trainset-manifest.md`](../../../design/component-catalogue/catalog/buildable-trainset/buildable-trainset-manifest.md) | Parts → subassemblies → assemblies → trainset tree, quantities, parentage, acceptance gates |

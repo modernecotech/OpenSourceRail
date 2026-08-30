@@ -99,6 +99,29 @@ def test_twin_reconciles_capex_deduplicates_orders_and_is_deterministic(tmp_path
     assert len(first["visualization_timeline"]) == 2
 
 
+def test_charging_budget_is_allocated_to_energy_work() -> None:
+    energy = _task("ENERGY-1:install")
+    energy["asset_type"] = "energy"
+    twin = build_project_twin(
+        meta={"city_slug": "test", "rolling_stock_family": "light-metro-3car"},
+        assets=[{"asset_id": "ENERGY-1"}],
+        manufacturing_tasks=[energy],
+        manufacturing_materials=[],
+        finance={
+            "capex_usd": {
+                "reconciled_project_total": 30_000.0,
+                "procurement_origin_buckets": [
+                    {"bucket": "solar_plant", "total_usd": 20_000.0, "local_share": 0.5, "imported_share": 0.5},
+                    {"bucket": "charging_microgrid", "total_usd": 10_000.0, "local_share": 0.6, "imported_share": 0.4},
+                ],
+            }
+        },
+        source_paths={},
+    )
+    assert {row["bucket"] for row in twin["budget_contracts"]} == {"solar_plant", "charging_microgrid"}
+    assert {row["asset_id"] for row in twin["budget_contracts"]} == {"ENERGY-1"}
+
+
 def test_ops_core_round_trips_project_actuals(tmp_path: Path) -> None:
     spec = importlib.util.spec_from_file_location(
         "ops_core_server", ROOT / "tools/automation/ops-core-server.py"

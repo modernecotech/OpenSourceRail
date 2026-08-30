@@ -97,6 +97,10 @@ revision, approved baseline, simulation run and selected-asset context without
 merging authority boundaries:
 
 - City Studio owns planning intent and Git-reviewable revisions;
+- the Workbench's allowlisted any-city generator turns a selected catalogue
+  design into assets, family-scoped assembly tasks, finite-resource CPM,
+  schedule of values, order-by plan and local/imported cashflow, then opens it
+  in Operations without accepting shell text or arbitrary paths;
 - GIS, OSR-ALN, IFC4.3, IDS/BCF, CAD, cost and simulation files are generated
   evidence tied to source and tool hashes;
 - planning and training views cannot issue live OCC actions;

@@ -20,6 +20,7 @@ stay thin: domain logic belongs in Rust crates, `design/city-generation`, or
 | [`generate-acceptance-evidence-report.py`](generate-acceptance-evidence-report.py) | Build the acceptance/accreditation evidence-basis report and matrix from the operations bundle |
 | [`export-light-metro-bom.py`](export-light-metro-bom.py) | Export the rolling-stock BOM CSV from the Markdown BOM source plus the generated COTS fit-out cost/source CSV |
 | [`generate-qa-maintenance-data.py`](generate-qa-maintenance-data.py) | Generate operations portal assets, manufacturing schedule/materials/verification, QA register, maintenance CSVs, and a deterministic gzip JSON bundle with integrity manifest |
+| [`audit-project-twins.py`](audit-project-twins.py) | Reconcile city family scope, source hashes, finance buckets, CPM/cashflow totals and the mechanical/civil reference evidence |
 | [`build-doc-book.py`](build-doc-book.py) | Build the complete reader-edition PDF from the validated source manifest and all city models |
 | [`generate-doc-index.py`](generate-doc-index.py) | Rebuild the exhaustive Markdown inventory used for search and CI diagnostics; it is not a second documentation guide |
 | [`render-sim-screenshots.py`](render-sim-screenshots.py) | Generate city-local simulator screenshots from any scenario |

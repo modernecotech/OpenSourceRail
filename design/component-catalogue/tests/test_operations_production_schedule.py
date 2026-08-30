@@ -137,6 +137,22 @@ def test_scheduler_respects_predecessors_and_one_rate_resource() -> None:
     assert rows[2]["planned_start_basis"] == "project_day_17"
 
 
+def test_non_lm3_work_does_not_claim_the_detailed_lm3_bom() -> None:
+    task = {
+        "asset_type": "rolling-stock",
+        "package_id": "rs-20-carbody-bogie",
+        "bom_refs": "rolling_stock_bom:B1; rolling_stock_bom:G1",
+        "work_order_detail": "LM3 detail",
+        "evidence_required": "LM3 evidence",
+        "status": "planned",
+    }
+    GENERATOR._apply_rolling_stock_definition_scope([task], "metro-4car")
+    assert task["product_family"] == "metro-4car"
+    assert task["design_definition_status"] == "family-specific-detail-required"
+    assert task["bom_refs"] == "project_kit:metro-4car:rs-20-carbody-bogie"
+    assert task["status"] == "planning-gap-family-definition"
+
+
 def test_configured_habd_sites_enter_operations_qa_and_maintenance() -> None:
     design_path = ROOT / "cities/catalogue/west-asia/Iraq/Samawah/design.toml"
     scenario_path = ROOT / "cities/catalogue/west-asia/Iraq/Samawah/samawah.toml"

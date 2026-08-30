@@ -52,6 +52,7 @@ section "Building the root documentation book"
 python3 tools/automation/build-doc-book.py
 
 section "Checking the generated repository"
+python3 tools/automation/audit-project-twins.py
 python3 tools/automation/check-readmes.py
 python3 tools/automation/check-markdown-links.py
 python3 tools/automation/repo-health.py --quiet

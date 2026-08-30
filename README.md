@@ -64,8 +64,8 @@ finite-resource CPM → schedule of values → monthly cash requirements
 IFC/visualization state timeline + QA/work orders + recorded actuals
 ```
 
-Run `./osr city <slug>` (or the equivalent City Studio regenerate action) to
-rebuild the city package. Each city publishes a compact
+Use **Workbench → Generate a city digital twin** to select any catalogue city,
+regenerate it and open the result without a shell. Each city publishes a compact
 [`engineering/project-twin/summary.json`](cities/catalogue/west-asia/Iraq/Samawah/engineering/project-twin/summary.json); its reproducible operations bundle
 contains the complete task, procurement, cashflow and visualization records.
 Open **Workbench → Operations → Project Twin** to inspect the baseline and turn
@@ -78,9 +78,9 @@ $885k) and **$60k per supported vehicle/car module** for one shared country fact
 
 ## Current System
 
-| City Studio | Civil IFC coordination | Generated project digital twin |
+| City Studio | Civil IFC coordination | Any-city project digital twin |
 |---|---|---|
-| ![City Studio deterministic GIS workspace](docs/screenshots/city-studio/gis-workspace.png) | ![Bonsai IFC4.3 construction sequence](engineering/models/bim/reference/civil-construction-sequence.gif) | ![Generated city project digital twin with CPM, orders and cashflow](docs/screenshots/operations-portal/project-digital-twin.png) |
+| ![City Studio deterministic GIS workspace](docs/screenshots/city-studio/gis-workspace.png) | ![Bonsai IFC4.3 construction sequence](engineering/models/bim/reference/civil-construction-sequence.gif) | ![Workbench any-city project digital-twin generator](docs/screenshots/workbench/city-twin-generator.png) |
 
 | Trainset assembly | Simulation | Fabrication and civil sequence |
 |---|---|---|

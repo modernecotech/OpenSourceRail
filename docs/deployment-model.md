@@ -27,7 +27,8 @@ requirements, certification evidence structure, and regeneration tools.
 ## Pipeline
 
 1. Add or update the city record and country assumptions.
-2. Run `tools/automation/regenerate-city.sh <slug>`.
+2. Select the city in **Workbench → Generate a city digital twin** (the same
+   deterministic generator remains available to automation).
 3. Review the generated network, scenario, cost, energy, fleet, station,
    depot, and quality outputs.
 4. Export civil alignment from the generated design through OSR-ALN.
@@ -66,6 +67,12 @@ rather than kept as parallel plans.
 | Energy | RFC 0002/0021/0024/0026 | station/depot/solar plant sizing and utility study |
 | Hardware | RFC 0019 integration or RFC 0007 custom boards | SKU freeze, wiring, enclosures, bench records |
 | Certification | `docs/certification/` | assessor report, field evidence, national submission |
+| Delivery controls | manufacturing/resource templates, BOM and finance model | family-scoped assembly plan, CPM, order-by plan, schedule of values, local/imported cashflow and recorded actuals |
+
+The detailed 101-product/26-assembly manufacturing release currently applies
+to `light-metro-3car`. Other-family cities receive their correct family cost,
+fleet and programme scope, but rolling-stock work packages are explicitly held
+at `family-specific-detail-required`; they never borrow LM3 part numbers.
 
 ## Anti-Patterns
 

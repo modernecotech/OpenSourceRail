@@ -52,6 +52,23 @@
     <button id="occHandoff" class="handoff" hidden>Open run in OCC training</button>
   </nav>
 
+  <section class="twin-launcher" aria-labelledby="twinLauncherTitle">
+    <div>
+      <p class="eyebrow">Delivery planning</p>
+      <strong id="twinLauncherTitle">Generate a city digital twin</strong>
+      <small id="twinScope">Choose any tracked city to generate its assets, assembly plan, critical path, order plan, cost and cashflow.</small>
+    </div>
+    <label>Catalogue city
+      <select id="twinCity" aria-label="Catalogue city"></select>
+    </label>
+    <button id="generateTwin" type="button">Generate twin</button>
+    <div class="twin-progress" aria-live="polite">
+      <span id="twinStatus">Catalogue loading…</span>
+      <i id="twinProgress"></i>
+    </div>
+    <button id="openTwin" type="button" hidden>Open in Operations</button>
+  </section>
+
   <main>
     <iframe id="moduleFrame" title="OSR Workbench module"></iframe>
   </main>

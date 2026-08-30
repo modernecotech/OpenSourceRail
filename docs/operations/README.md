@@ -45,6 +45,14 @@ The browser front door for those generated city operations records is
 register, manufacturing schedule, QA actions, maintenance schedule, and
 launch panels for the existing OCC/simulator/back-office crates.
 
+The integrated [Workbench](../workbench/README.md) can generate this complete
+delivery twin for any catalogue city without a shell. Its Project Twin tab
+shows the resource-loaded critical path, budget work packages, order-by dates,
+supplier-anchor/local-equivalent basis and monthly local/imported cash needs.
+Actual purchase orders, deliveries, invoices, payments and progress remain
+separate persisted Ops Core records; a generated plan never becomes an issued
+commercial record by itself.
+
 Healthy trainsets use distributed overnight stabling at powered passenger
 stations under [`dispatcher/s6-shift-end.md`](dispatcher/s6-shift-end.md).
 The main depot remains responsible for defects, inspections beyond the

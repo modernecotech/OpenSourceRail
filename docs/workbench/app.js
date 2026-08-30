@@ -19,6 +19,8 @@ if (context.mode === "live" && !context.baseline_sha256) context.mode = "trainin
 
 let activeModule = MODULES.has(params.get("module")) ? params.get("module") : "studio";
 const frame = document.getElementById("moduleFrame");
+let operationsOverride = sessionStorage.getItem(`osr:twin:${context.city}`) || "";
+let twinJob = null;
 
 document.getElementById("role").value = context.role;
 document.getElementById("mode").value = context.mode;
@@ -45,6 +47,8 @@ document.getElementById("occHandoff").addEventListener("click", () => {
   updateContext({ mode: "training", role: context.role === "designer" ? "reviewer" : context.role });
   navigate("occ");
 });
+document.getElementById("generateTwin").addEventListener("click", generateTwin);
+document.getElementById("openTwin").addEventListener("click", openGeneratedTwin);
 
 window.addEventListener("message", (event) => {
   if (event.origin !== location.origin || event.source !== frame.contentWindow) return;
@@ -144,7 +148,84 @@ function contextQuery() {
 }
 
 function operationsData() {
-  return bootstrap.operations_data;
+  return operationsOverride || bootstrap.operations_data;
+}
+
+async function loadTwinCatalogue() {
+  try {
+    const payload = await fetch("/api/twins/catalogue").then(checkedJson);
+    const selector = document.getElementById("twinCity");
+    selector.innerHTML = payload.cities.map((city) =>
+      `<option value="${escapeHtml(city.slug)}">${escapeHtml(city.country)} · ${escapeHtml(city.name)} · ${escapeHtml(city.rolling_stock_family)}</option>`
+    ).join("");
+    if (payload.cities.some((city) => city.slug === context.city)) selector.value = context.city;
+    document.getElementById("twinStatus").textContent = `${payload.cities.length} cities ready`;
+  } catch (error) {
+    document.getElementById("twinStatus").textContent = error.message;
+    document.getElementById("generateTwin").disabled = true;
+  }
+}
+
+async function generateTwin() {
+  const slug = document.getElementById("twinCity").value;
+  const button = document.getElementById("generateTwin");
+  button.disabled = true;
+  document.getElementById("openTwin").hidden = true;
+  try {
+    twinJob = await fetch(`/api/twins/generate/${encodeURIComponent(slug)}`, { method: "POST" }).then(checkedJson);
+    renderTwinJob();
+    pollTwinJob();
+  } catch (error) {
+    twinJob = { status: "failed", progress_percent: 100, error: error.message };
+    renderTwinJob();
+    button.disabled = false;
+  }
+}
+
+async function pollTwinJob() {
+  if (!twinJob || !["queued", "running"].includes(twinJob.status)) return;
+  await new Promise((resolve) => window.setTimeout(resolve, 500));
+  try {
+    twinJob = await fetch(`/api/twins/jobs/${encodeURIComponent(twinJob.id)}`).then(checkedJson);
+    renderTwinJob();
+    if (["queued", "running"].includes(twinJob.status)) pollTwinJob();
+  } catch (error) {
+    twinJob = { ...twinJob, status: "failed", progress_percent: 100, error: error.message };
+    renderTwinJob();
+  }
+}
+
+function renderTwinJob() {
+  if (!twinJob) return;
+  const progress = Number(twinJob.progress_percent || 0);
+  document.getElementById("twinProgress").style.width = `${Math.max(0, Math.min(100, progress))}%`;
+  const totals = twinJob.summary?.totals;
+  document.getElementById("twinStatus").textContent = twinJob.error
+    || (totals
+      ? `${twinJob.phase} · ${totals.work_packages.toLocaleString()} work packages · $${Math.round(totals.planned_capex_usd).toLocaleString()} planned CAPEX`
+      : `${twinJob.phase} · ${progress}%`);
+  document.getElementById("generateTwin").disabled = ["queued", "running"].includes(twinJob.status);
+  document.getElementById("openTwin").hidden = twinJob.status !== "completed";
+}
+
+function openGeneratedTwin() {
+  if (!twinJob?.operations_data) return;
+  operationsOverride = twinJob.operations_data;
+  sessionStorage.setItem(`osr:twin:${twinJob.city}`, operationsOverride);
+  updateContext({ city: twinJob.city });
+  navigate("operations");
+}
+
+async function checkedJson(response) {
+  const payload = await response.json();
+  if (!response.ok) throw new Error(payload.error || `Request failed (${response.status})`);
+  return payload;
+}
+
+function escapeHtml(value) {
+  return String(value ?? "").replace(/[&<>'"]/g, (character) => ({
+    "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;",
+  })[character]);
 }
 
 function setOptional(key, value, pattern) {
@@ -162,4 +243,5 @@ function valid(value, pattern) {
   return value && pattern.test(value) ? value : "";
 }
 
+loadTwinCatalogue();
 enforceAccess();

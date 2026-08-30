@@ -6,12 +6,15 @@ from __future__ import annotations
 import argparse
 import http.client
 import importlib.util
+import json
 import shutil
 import signal
 import subprocess
 import sys
+import threading
 import time
 import tomllib
+import uuid
 from pathlib import Path
 from urllib.parse import unquote, urlsplit
 
@@ -79,6 +82,8 @@ def main() -> int:
     with OPS.connect(db_path) as connection:
         OPS.init_db(connection)
 
+    twin_manager = ProjectTwinManager(REPO_ROOT)
+
     city_process = subprocess.Popen(
         [
             str(REPO_ROOT / "target" / "debug" / "osr-city-studio"),
@@ -93,6 +98,7 @@ def main() -> int:
         database_path = db_path
         city_port = args.city_port
         bootstrap = {"city": city_slug, "operations_data": operations_url}
+        project_twins = twin_manager
 
     server = OPS.ThreadingHTTPServer((args.host, args.port), Handler)
     signal.signal(signal.SIGTERM, stop_server)
@@ -117,10 +123,19 @@ def main() -> int:
 class WorkbenchHandler(OPS.OpsCoreHandler):
     city_port: int
     bootstrap: dict[str, str]
+    project_twins: "ProjectTwinManager"
 
     def do_GET(self) -> None:
-        if urlsplit(self.path).path == "/api/workbench":
+        path = urlsplit(self.path).path
+        if path == "/api/workbench":
             self._send_json(200, self.bootstrap)
+            return
+        if path == "/api/twins/catalogue":
+            self._send_json(200, {"cities": self.project_twins.catalogue()})
+            return
+        if path.startswith("/api/twins/jobs/"):
+            job = self.project_twins.job(unquote(path.removeprefix("/api/twins/jobs/")))
+            self._send_json(200 if job else 404, job or {"error": "unknown project-twin job"})
             return
         if self._is_city_request():
             self._proxy_city("GET")
@@ -128,6 +143,14 @@ class WorkbenchHandler(OPS.OpsCoreHandler):
         super().do_GET()
 
     def do_POST(self) -> None:
+        path = urlsplit(self.path).path
+        if path.startswith("/api/twins/generate/"):
+            slug = unquote(path.removeprefix("/api/twins/generate/")).strip("/")
+            try:
+                self._send_json(202, self.project_twins.start(slug))
+            except ValueError as error:
+                self._send_json(400, {"error": str(error)})
+            return
         self._proxy_city("POST")
 
     def do_PUT(self) -> None:
@@ -146,6 +169,7 @@ class WorkbenchHandler(OPS.OpsCoreHandler):
             ("/simulator/", REPO_ROOT / "build" / "frontend" / "sim"),
             ("/occ/", REPO_ROOT / "build" / "frontend" / "occ"),
             ("/operations/", REPO_ROOT / "docs" / "operations-portal"),
+            ("/generated/project-twins/", REPO_ROOT / "build" / "workbench" / "project-twins"),
         ]
         if path == "/":
             return str(REPO_ROOT / "docs" / "workbench" / "index.html")
@@ -163,6 +187,7 @@ class WorkbenchHandler(OPS.OpsCoreHandler):
         return path == "/studio" or path.startswith("/studio/") or (
             path.startswith("/api/")
             and not path.startswith("/api/ops-core/")
+            and not path.startswith("/api/twins/")
             and path != "/api/workbench"
         )
 
@@ -218,6 +243,126 @@ def wait_for_city(port: int, process: subprocess.Popen, timeout: float = 30.0) -
 
 def stop_server(_signum, _frame) -> None:
     raise KeyboardInterrupt
+
+
+class ProjectTwinManager:
+    """Allowlisted, asynchronous generation for tracked catalogue cities."""
+
+    def __init__(self, repository_root: Path):
+        self.repository_root = repository_root
+        self.output_root = repository_root / "build" / "workbench" / "project-twins"
+        self.output_root.mkdir(parents=True, exist_ok=True)
+        self._cities = self._discover()
+        self._jobs: dict[str, dict] = {}
+        self._lock = threading.Lock()
+
+    def _discover(self) -> dict[str, dict]:
+        cities: dict[str, dict] = {}
+        for design_path in sorted((self.repository_root / "cities" / "catalogue").glob("*/*/*/design.toml")):
+            design = tomllib.loads(design_path.read_text(encoding="utf-8"))
+            city = design.get("city", {})
+            slug = str(city.get("slug", design_path.parent.name.lower()))
+            families = sorted({
+                str(line.get("rolling_stock"))
+                for line in design.get("lines", [])
+                if line.get("rolling_stock")
+            })
+            finance_path = design_path.parent / "engineering" / "finance" / "summary.json"
+            capex = 0.0
+            if finance_path.is_file():
+                finance = json.loads(finance_path.read_text(encoding="utf-8"))
+                capex = float(finance.get("capex_usd", {}).get("reconciled_project_total", 0.0))
+            cities[slug] = {
+                "slug": slug,
+                "name": str(city.get("name") or design_path.parent.name.replace("-", " ")),
+                "country": str(city.get("country", design_path.parent.parent.name)),
+                "rolling_stock_family": families[0] if len(families) == 1 else "review-required",
+                "lines": len(design.get("lines", [])),
+                "stations": len(design.get("stations", [])),
+                "trainsets": sum(int(row.get("trainset_count", 0)) for row in design.get("fleets", [])),
+                "planned_capex_usd": capex,
+                "design_path": str(design_path),
+            }
+        return cities
+
+    def catalogue(self) -> list[dict]:
+        return [
+            {key: value for key, value in row.items() if key != "design_path"}
+            for row in sorted(self._cities.values(), key=lambda item: (item["country"], item["name"]))
+        ]
+
+    def start(self, slug: str) -> dict:
+        if slug not in self._cities:
+            raise ValueError("select a tracked catalogue city")
+        with self._lock:
+            active = next(
+                (job for job in self._jobs.values() if job["city"] == slug and job["status"] in {"queued", "running"}),
+                None,
+            )
+            if active:
+                return dict(active)
+            job_id = f"twin-{slug}-{uuid.uuid4().hex[:10]}"
+            job = {
+                "id": job_id,
+                "city": slug,
+                "status": "queued",
+                "phase": "Queued deterministic city package generation",
+                "progress_percent": 0,
+                "error": None,
+            }
+            self._jobs[job_id] = job
+        threading.Thread(target=self._run, args=(job_id,), daemon=True).start()
+        return dict(job)
+
+    def job(self, job_id: str) -> dict | None:
+        with self._lock:
+            job = self._jobs.get(job_id)
+            return dict(job) if job else None
+
+    def _update(self, job_id: str, **values) -> None:
+        with self._lock:
+            self._jobs[job_id].update(values)
+
+    def _run(self, job_id: str) -> None:
+        job = self.job(job_id)
+        if not job:
+            return
+        slug = job["city"]
+        city = self._cities[slug]
+        output_dir = self.output_root / slug
+        self._update(job_id, status="running", phase="Generating assets, assembly plan, CPM, orders, costs and cashflow", progress_percent=15)
+        command = [
+            sys.executable,
+            str(self.repository_root / "tools" / "automation" / "generate-qa-maintenance-data.py"),
+            "--design", city["design_path"],
+            "--out-dir", str(output_dir),
+        ]
+        try:
+            result = subprocess.run(
+                command,
+                cwd=self.repository_root,
+                capture_output=True,
+                text=True,
+                timeout=300,
+                check=False,
+            )
+            if result.returncode:
+                raise RuntimeError((result.stderr or result.stdout or "generation failed")[-4000:])
+            summary_path = output_dir / "project-twin-summary.json"
+            summary = json.loads(summary_path.read_text(encoding="utf-8"))
+            self._update(
+                job_id,
+                status="completed",
+                phase="Generated and reconciled",
+                progress_percent=100,
+                revision_id=summary["revision_id"],
+                summary=summary,
+                operations_data=f"/generated/project-twins/{slug}/{slug}-operations.json.gz",
+                artifact_root=f"/generated/project-twins/{slug}/",
+                log_tail=result.stdout[-4000:],
+            )
+        except Exception as error:
+            self._update(job_id, status="failed", phase="Generation failed", progress_percent=100, error=str(error))
 
 
 if __name__ == "__main__":

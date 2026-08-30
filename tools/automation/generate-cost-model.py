@@ -223,6 +223,13 @@ def render_cost_model() -> str:
 
     lines.extend([
         "",
+        "Only `light-metro-3car` currently has the detailed 101-product, "
+        "26-assembly, tooling and shop-traveller release reference. Other family "
+        "values—including tram-2car, metro-4car and metro-6car—are planning units: "
+        "their city twins keep the "
+        "correct fleet cost but mark detailed rolling-stock work and procurement "
+        "as `family-specific-detail-required` instead of reusing LM3 part numbers.",
+        "",
         "The base value assumes direct procurement, local final assembly, common "
         "bogie modules, one-metre clip-on fiberglass non-structural cladding, COTS "
         "doors/windows/HVAC/interior modules, open control electronics, and no "
