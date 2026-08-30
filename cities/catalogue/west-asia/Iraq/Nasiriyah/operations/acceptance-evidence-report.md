@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`nasiriyah-operations.json.gz`](nasiriyah-operations.json.gz)
-- Evidence matrix CSV: [`nasiriyah-acceptance-evidence-matrix.csv`](nasiriyah-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`nasiriyah-manufacturing-schedule.csv`](nasiriyah-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`nasiriyah-manufacturing-materials.csv`](nasiriyah-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`nasiriyah-manufacturing-verification.csv`](nasiriyah-manufacturing-verification.csv)
-- QA register CSV: [`nasiriyah-qa-register.csv`](nasiriyah-qa-register.csv)
-- Maintenance schedule CSV: [`nasiriyah-maintenance-schedule.csv`](nasiriyah-maintenance-schedule.csv)
+- Tracked compact asset register: [`nasiriyah-assets.csv`](nasiriyah-assets.csv)
+- Tracked operations manifest: [`nasiriyah-operations-manifest.json`](nasiriyah-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `nasiriyah-operations.json.gz`
+- `nasiriyah-acceptance-evidence-matrix.csv`
+- `nasiriyah-manufacturing-schedule.csv`
+- `nasiriyah-manufacturing-materials.csv`
+- `nasiriyah-manufacturing-verification.csv`
+- `nasiriyah-qa-register.csv`
+- `nasiriyah-maintenance-schedule.csv`
 
 ## Accreditation Use
 

@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`bafoussam-operations.json.gz`](bafoussam-operations.json.gz)
-- Evidence matrix CSV: [`bafoussam-acceptance-evidence-matrix.csv`](bafoussam-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`bafoussam-manufacturing-schedule.csv`](bafoussam-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`bafoussam-manufacturing-materials.csv`](bafoussam-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`bafoussam-manufacturing-verification.csv`](bafoussam-manufacturing-verification.csv)
-- QA register CSV: [`bafoussam-qa-register.csv`](bafoussam-qa-register.csv)
-- Maintenance schedule CSV: [`bafoussam-maintenance-schedule.csv`](bafoussam-maintenance-schedule.csv)
+- Tracked compact asset register: [`bafoussam-assets.csv`](bafoussam-assets.csv)
+- Tracked operations manifest: [`bafoussam-operations-manifest.json`](bafoussam-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `bafoussam-operations.json.gz`
+- `bafoussam-acceptance-evidence-matrix.csv`
+- `bafoussam-manufacturing-schedule.csv`
+- `bafoussam-manufacturing-materials.csv`
+- `bafoussam-manufacturing-verification.csv`
+- `bafoussam-qa-register.csv`
+- `bafoussam-maintenance-schedule.csv`
 
 ## Accreditation Use
 

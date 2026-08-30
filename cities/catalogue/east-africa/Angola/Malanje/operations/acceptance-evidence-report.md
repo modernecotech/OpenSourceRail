@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`malanje-operations.json.gz`](malanje-operations.json.gz)
-- Evidence matrix CSV: [`malanje-acceptance-evidence-matrix.csv`](malanje-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`malanje-manufacturing-schedule.csv`](malanje-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`malanje-manufacturing-materials.csv`](malanje-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`malanje-manufacturing-verification.csv`](malanje-manufacturing-verification.csv)
-- QA register CSV: [`malanje-qa-register.csv`](malanje-qa-register.csv)
-- Maintenance schedule CSV: [`malanje-maintenance-schedule.csv`](malanje-maintenance-schedule.csv)
+- Tracked compact asset register: [`malanje-assets.csv`](malanje-assets.csv)
+- Tracked operations manifest: [`malanje-operations-manifest.json`](malanje-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `malanje-operations.json.gz`
+- `malanje-acceptance-evidence-matrix.csv`
+- `malanje-manufacturing-schedule.csv`
+- `malanje-manufacturing-materials.csv`
+- `malanje-manufacturing-verification.csv`
+- `malanje-qa-register.csv`
+- `malanje-maintenance-schedule.csv`
 
 ## Accreditation Use
 

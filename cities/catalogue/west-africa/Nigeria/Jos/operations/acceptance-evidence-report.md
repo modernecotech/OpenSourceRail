@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`jos-operations.json.gz`](jos-operations.json.gz)
-- Evidence matrix CSV: [`jos-acceptance-evidence-matrix.csv`](jos-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`jos-manufacturing-schedule.csv`](jos-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`jos-manufacturing-materials.csv`](jos-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`jos-manufacturing-verification.csv`](jos-manufacturing-verification.csv)
-- QA register CSV: [`jos-qa-register.csv`](jos-qa-register.csv)
-- Maintenance schedule CSV: [`jos-maintenance-schedule.csv`](jos-maintenance-schedule.csv)
+- Tracked compact asset register: [`jos-assets.csv`](jos-assets.csv)
+- Tracked operations manifest: [`jos-operations-manifest.json`](jos-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `jos-operations.json.gz`
+- `jos-acceptance-evidence-matrix.csv`
+- `jos-manufacturing-schedule.csv`
+- `jos-manufacturing-materials.csv`
+- `jos-manufacturing-verification.csv`
+- `jos-qa-register.csv`
+- `jos-maintenance-schedule.csv`
 
 ## Accreditation Use
 

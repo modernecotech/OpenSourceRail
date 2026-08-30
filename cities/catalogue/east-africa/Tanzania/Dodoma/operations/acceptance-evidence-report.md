@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`dodoma-operations.json.gz`](dodoma-operations.json.gz)
-- Evidence matrix CSV: [`dodoma-acceptance-evidence-matrix.csv`](dodoma-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`dodoma-manufacturing-schedule.csv`](dodoma-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`dodoma-manufacturing-materials.csv`](dodoma-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`dodoma-manufacturing-verification.csv`](dodoma-manufacturing-verification.csv)
-- QA register CSV: [`dodoma-qa-register.csv`](dodoma-qa-register.csv)
-- Maintenance schedule CSV: [`dodoma-maintenance-schedule.csv`](dodoma-maintenance-schedule.csv)
+- Tracked compact asset register: [`dodoma-assets.csv`](dodoma-assets.csv)
+- Tracked operations manifest: [`dodoma-operations-manifest.json`](dodoma-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `dodoma-operations.json.gz`
+- `dodoma-acceptance-evidence-matrix.csv`
+- `dodoma-manufacturing-schedule.csv`
+- `dodoma-manufacturing-materials.csv`
+- `dodoma-manufacturing-verification.csv`
+- `dodoma-qa-register.csv`
+- `dodoma-maintenance-schedule.csv`
 
 ## Accreditation Use
 

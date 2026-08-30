@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`chimoio-operations.json.gz`](chimoio-operations.json.gz)
-- Evidence matrix CSV: [`chimoio-acceptance-evidence-matrix.csv`](chimoio-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`chimoio-manufacturing-schedule.csv`](chimoio-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`chimoio-manufacturing-materials.csv`](chimoio-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`chimoio-manufacturing-verification.csv`](chimoio-manufacturing-verification.csv)
-- QA register CSV: [`chimoio-qa-register.csv`](chimoio-qa-register.csv)
-- Maintenance schedule CSV: [`chimoio-maintenance-schedule.csv`](chimoio-maintenance-schedule.csv)
+- Tracked compact asset register: [`chimoio-assets.csv`](chimoio-assets.csv)
+- Tracked operations manifest: [`chimoio-operations-manifest.json`](chimoio-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `chimoio-operations.json.gz`
+- `chimoio-acceptance-evidence-matrix.csv`
+- `chimoio-manufacturing-schedule.csv`
+- `chimoio-manufacturing-materials.csv`
+- `chimoio-manufacturing-verification.csv`
+- `chimoio-qa-register.csv`
+- `chimoio-maintenance-schedule.csv`
 
 ## Accreditation Use
 

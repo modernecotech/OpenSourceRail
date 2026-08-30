@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`suez-operations.json.gz`](suez-operations.json.gz)
-- Evidence matrix CSV: [`suez-acceptance-evidence-matrix.csv`](suez-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`suez-manufacturing-schedule.csv`](suez-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`suez-manufacturing-materials.csv`](suez-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`suez-manufacturing-verification.csv`](suez-manufacturing-verification.csv)
-- QA register CSV: [`suez-qa-register.csv`](suez-qa-register.csv)
-- Maintenance schedule CSV: [`suez-maintenance-schedule.csv`](suez-maintenance-schedule.csv)
+- Tracked compact asset register: [`suez-assets.csv`](suez-assets.csv)
+- Tracked operations manifest: [`suez-operations-manifest.json`](suez-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `suez-operations.json.gz`
+- `suez-acceptance-evidence-matrix.csv`
+- `suez-manufacturing-schedule.csv`
+- `suez-manufacturing-materials.csv`
+- `suez-manufacturing-verification.csv`
+- `suez-qa-register.csv`
+- `suez-maintenance-schedule.csv`
 
 ## Accreditation Use
 

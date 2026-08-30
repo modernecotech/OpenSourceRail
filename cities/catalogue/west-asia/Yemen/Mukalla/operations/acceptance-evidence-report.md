@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`mukalla-operations.json.gz`](mukalla-operations.json.gz)
-- Evidence matrix CSV: [`mukalla-acceptance-evidence-matrix.csv`](mukalla-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`mukalla-manufacturing-schedule.csv`](mukalla-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`mukalla-manufacturing-materials.csv`](mukalla-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`mukalla-manufacturing-verification.csv`](mukalla-manufacturing-verification.csv)
-- QA register CSV: [`mukalla-qa-register.csv`](mukalla-qa-register.csv)
-- Maintenance schedule CSV: [`mukalla-maintenance-schedule.csv`](mukalla-maintenance-schedule.csv)
+- Tracked compact asset register: [`mukalla-assets.csv`](mukalla-assets.csv)
+- Tracked operations manifest: [`mukalla-operations-manifest.json`](mukalla-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `mukalla-operations.json.gz`
+- `mukalla-acceptance-evidence-matrix.csv`
+- `mukalla-manufacturing-schedule.csv`
+- `mukalla-manufacturing-materials.csv`
+- `mukalla-manufacturing-verification.csv`
+- `mukalla-qa-register.csv`
+- `mukalla-maintenance-schedule.csv`
 
 ## Accreditation Use
 

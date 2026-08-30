@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`zagazig-operations.json.gz`](zagazig-operations.json.gz)
-- Evidence matrix CSV: [`zagazig-acceptance-evidence-matrix.csv`](zagazig-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`zagazig-manufacturing-schedule.csv`](zagazig-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`zagazig-manufacturing-materials.csv`](zagazig-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`zagazig-manufacturing-verification.csv`](zagazig-manufacturing-verification.csv)
-- QA register CSV: [`zagazig-qa-register.csv`](zagazig-qa-register.csv)
-- Maintenance schedule CSV: [`zagazig-maintenance-schedule.csv`](zagazig-maintenance-schedule.csv)
+- Tracked compact asset register: [`zagazig-assets.csv`](zagazig-assets.csv)
+- Tracked operations manifest: [`zagazig-operations-manifest.json`](zagazig-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `zagazig-operations.json.gz`
+- `zagazig-acceptance-evidence-matrix.csv`
+- `zagazig-manufacturing-schedule.csv`
+- `zagazig-manufacturing-materials.csv`
+- `zagazig-manufacturing-verification.csv`
+- `zagazig-qa-register.csv`
+- `zagazig-maintenance-schedule.csv`
 
 ## Accreditation Use
 

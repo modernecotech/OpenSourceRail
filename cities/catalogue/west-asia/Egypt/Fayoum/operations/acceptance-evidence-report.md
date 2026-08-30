@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`fayoum-operations.json.gz`](fayoum-operations.json.gz)
-- Evidence matrix CSV: [`fayoum-acceptance-evidence-matrix.csv`](fayoum-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`fayoum-manufacturing-schedule.csv`](fayoum-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`fayoum-manufacturing-materials.csv`](fayoum-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`fayoum-manufacturing-verification.csv`](fayoum-manufacturing-verification.csv)
-- QA register CSV: [`fayoum-qa-register.csv`](fayoum-qa-register.csv)
-- Maintenance schedule CSV: [`fayoum-maintenance-schedule.csv`](fayoum-maintenance-schedule.csv)
+- Tracked compact asset register: [`fayoum-assets.csv`](fayoum-assets.csv)
+- Tracked operations manifest: [`fayoum-operations-manifest.json`](fayoum-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `fayoum-operations.json.gz`
+- `fayoum-acceptance-evidence-matrix.csv`
+- `fayoum-manufacturing-schedule.csv`
+- `fayoum-manufacturing-materials.csv`
+- `fayoum-manufacturing-verification.csv`
+- `fayoum-qa-register.csv`
+- `fayoum-maintenance-schedule.csv`
 
 ## Accreditation Use
 

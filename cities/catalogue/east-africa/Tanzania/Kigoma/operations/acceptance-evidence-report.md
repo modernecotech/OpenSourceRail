@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`kigoma-operations.json.gz`](kigoma-operations.json.gz)
-- Evidence matrix CSV: [`kigoma-acceptance-evidence-matrix.csv`](kigoma-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`kigoma-manufacturing-schedule.csv`](kigoma-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`kigoma-manufacturing-materials.csv`](kigoma-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`kigoma-manufacturing-verification.csv`](kigoma-manufacturing-verification.csv)
-- QA register CSV: [`kigoma-qa-register.csv`](kigoma-qa-register.csv)
-- Maintenance schedule CSV: [`kigoma-maintenance-schedule.csv`](kigoma-maintenance-schedule.csv)
+- Tracked compact asset register: [`kigoma-assets.csv`](kigoma-assets.csv)
+- Tracked operations manifest: [`kigoma-operations-manifest.json`](kigoma-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `kigoma-operations.json.gz`
+- `kigoma-acceptance-evidence-matrix.csv`
+- `kigoma-manufacturing-schedule.csv`
+- `kigoma-manufacturing-materials.csv`
+- `kigoma-manufacturing-verification.csv`
+- `kigoma-qa-register.csv`
+- `kigoma-maintenance-schedule.csv`
 
 ## Accreditation Use
 

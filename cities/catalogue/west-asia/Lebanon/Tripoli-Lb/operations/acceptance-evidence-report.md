@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`tripoli-lb-operations.json.gz`](tripoli-lb-operations.json.gz)
-- Evidence matrix CSV: [`tripoli-lb-acceptance-evidence-matrix.csv`](tripoli-lb-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`tripoli-lb-manufacturing-schedule.csv`](tripoli-lb-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`tripoli-lb-manufacturing-materials.csv`](tripoli-lb-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`tripoli-lb-manufacturing-verification.csv`](tripoli-lb-manufacturing-verification.csv)
-- QA register CSV: [`tripoli-lb-qa-register.csv`](tripoli-lb-qa-register.csv)
-- Maintenance schedule CSV: [`tripoli-lb-maintenance-schedule.csv`](tripoli-lb-maintenance-schedule.csv)
+- Tracked compact asset register: [`tripoli-lb-assets.csv`](tripoli-lb-assets.csv)
+- Tracked operations manifest: [`tripoli-lb-operations-manifest.json`](tripoli-lb-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `tripoli-lb-operations.json.gz`
+- `tripoli-lb-acceptance-evidence-matrix.csv`
+- `tripoli-lb-manufacturing-schedule.csv`
+- `tripoli-lb-manufacturing-materials.csv`
+- `tripoli-lb-manufacturing-verification.csv`
+- `tripoli-lb-qa-register.csv`
+- `tripoli-lb-maintenance-schedule.csv`
 
 ## Accreditation Use
 

@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`xai-xai-operations.json.gz`](xai-xai-operations.json.gz)
-- Evidence matrix CSV: [`xai-xai-acceptance-evidence-matrix.csv`](xai-xai-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`xai-xai-manufacturing-schedule.csv`](xai-xai-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`xai-xai-manufacturing-materials.csv`](xai-xai-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`xai-xai-manufacturing-verification.csv`](xai-xai-manufacturing-verification.csv)
-- QA register CSV: [`xai-xai-qa-register.csv`](xai-xai-qa-register.csv)
-- Maintenance schedule CSV: [`xai-xai-maintenance-schedule.csv`](xai-xai-maintenance-schedule.csv)
+- Tracked compact asset register: [`xai-xai-assets.csv`](xai-xai-assets.csv)
+- Tracked operations manifest: [`xai-xai-operations-manifest.json`](xai-xai-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `xai-xai-operations.json.gz`
+- `xai-xai-acceptance-evidence-matrix.csv`
+- `xai-xai-manufacturing-schedule.csv`
+- `xai-xai-manufacturing-materials.csv`
+- `xai-xai-manufacturing-verification.csv`
+- `xai-xai-qa-register.csv`
+- `xai-xai-maintenance-schedule.csv`
 
 ## Accreditation Use
 

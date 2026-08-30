@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`kandy-operations.json.gz`](kandy-operations.json.gz)
-- Evidence matrix CSV: [`kandy-acceptance-evidence-matrix.csv`](kandy-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`kandy-manufacturing-schedule.csv`](kandy-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`kandy-manufacturing-materials.csv`](kandy-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`kandy-manufacturing-verification.csv`](kandy-manufacturing-verification.csv)
-- QA register CSV: [`kandy-qa-register.csv`](kandy-qa-register.csv)
-- Maintenance schedule CSV: [`kandy-maintenance-schedule.csv`](kandy-maintenance-schedule.csv)
+- Tracked compact asset register: [`kandy-assets.csv`](kandy-assets.csv)
+- Tracked operations manifest: [`kandy-operations-manifest.json`](kandy-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `kandy-operations.json.gz`
+- `kandy-acceptance-evidence-matrix.csv`
+- `kandy-manufacturing-schedule.csv`
+- `kandy-manufacturing-materials.csv`
+- `kandy-manufacturing-verification.csv`
+- `kandy-qa-register.csv`
+- `kandy-maintenance-schedule.csv`
 
 ## Accreditation Use
 

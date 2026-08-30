@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`fez-operations.json.gz`](fez-operations.json.gz)
-- Evidence matrix CSV: [`fez-acceptance-evidence-matrix.csv`](fez-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`fez-manufacturing-schedule.csv`](fez-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`fez-manufacturing-materials.csv`](fez-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`fez-manufacturing-verification.csv`](fez-manufacturing-verification.csv)
-- QA register CSV: [`fez-qa-register.csv`](fez-qa-register.csv)
-- Maintenance schedule CSV: [`fez-maintenance-schedule.csv`](fez-maintenance-schedule.csv)
+- Tracked compact asset register: [`fez-assets.csv`](fez-assets.csv)
+- Tracked operations manifest: [`fez-operations-manifest.json`](fez-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `fez-operations.json.gz`
+- `fez-acceptance-evidence-matrix.csv`
+- `fez-manufacturing-schedule.csv`
+- `fez-manufacturing-materials.csv`
+- `fez-manufacturing-verification.csv`
+- `fez-qa-register.csv`
+- `fez-maintenance-schedule.csv`
 
 ## Accreditation Use
 

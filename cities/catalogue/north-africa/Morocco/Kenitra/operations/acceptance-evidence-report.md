@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`kenitra-operations.json.gz`](kenitra-operations.json.gz)
-- Evidence matrix CSV: [`kenitra-acceptance-evidence-matrix.csv`](kenitra-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`kenitra-manufacturing-schedule.csv`](kenitra-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`kenitra-manufacturing-materials.csv`](kenitra-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`kenitra-manufacturing-verification.csv`](kenitra-manufacturing-verification.csv)
-- QA register CSV: [`kenitra-qa-register.csv`](kenitra-qa-register.csv)
-- Maintenance schedule CSV: [`kenitra-maintenance-schedule.csv`](kenitra-maintenance-schedule.csv)
+- Tracked compact asset register: [`kenitra-assets.csv`](kenitra-assets.csv)
+- Tracked operations manifest: [`kenitra-operations-manifest.json`](kenitra-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `kenitra-operations.json.gz`
+- `kenitra-acceptance-evidence-matrix.csv`
+- `kenitra-manufacturing-schedule.csv`
+- `kenitra-manufacturing-materials.csv`
+- `kenitra-manufacturing-verification.csv`
+- `kenitra-qa-register.csv`
+- `kenitra-maintenance-schedule.csv`
 
 ## Accreditation Use
 

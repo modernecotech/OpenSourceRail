@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`luanda-operations.json.gz`](luanda-operations.json.gz)
-- Evidence matrix CSV: [`luanda-acceptance-evidence-matrix.csv`](luanda-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`luanda-manufacturing-schedule.csv`](luanda-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`luanda-manufacturing-materials.csv`](luanda-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`luanda-manufacturing-verification.csv`](luanda-manufacturing-verification.csv)
-- QA register CSV: [`luanda-qa-register.csv`](luanda-qa-register.csv)
-- Maintenance schedule CSV: [`luanda-maintenance-schedule.csv`](luanda-maintenance-schedule.csv)
+- Tracked compact asset register: [`luanda-assets.csv`](luanda-assets.csv)
+- Tracked operations manifest: [`luanda-operations-manifest.json`](luanda-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `luanda-operations.json.gz`
+- `luanda-acceptance-evidence-matrix.csv`
+- `luanda-manufacturing-schedule.csv`
+- `luanda-manufacturing-materials.csv`
+- `luanda-manufacturing-verification.csv`
+- `luanda-qa-register.csv`
+- `luanda-maintenance-schedule.csv`
 
 ## Accreditation Use
 

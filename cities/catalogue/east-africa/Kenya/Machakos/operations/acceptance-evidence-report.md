@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`machakos-operations.json.gz`](machakos-operations.json.gz)
-- Evidence matrix CSV: [`machakos-acceptance-evidence-matrix.csv`](machakos-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`machakos-manufacturing-schedule.csv`](machakos-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`machakos-manufacturing-materials.csv`](machakos-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`machakos-manufacturing-verification.csv`](machakos-manufacturing-verification.csv)
-- QA register CSV: [`machakos-qa-register.csv`](machakos-qa-register.csv)
-- Maintenance schedule CSV: [`machakos-maintenance-schedule.csv`](machakos-maintenance-schedule.csv)
+- Tracked compact asset register: [`machakos-assets.csv`](machakos-assets.csv)
+- Tracked operations manifest: [`machakos-operations-manifest.json`](machakos-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `machakos-operations.json.gz`
+- `machakos-acceptance-evidence-matrix.csv`
+- `machakos-manufacturing-schedule.csv`
+- `machakos-manufacturing-materials.csv`
+- `machakos-manufacturing-verification.csv`
+- `machakos-qa-register.csv`
+- `machakos-maintenance-schedule.csv`
 
 ## Accreditation Use
 

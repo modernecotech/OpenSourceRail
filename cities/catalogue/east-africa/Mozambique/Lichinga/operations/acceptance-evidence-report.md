@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`lichinga-operations.json.gz`](lichinga-operations.json.gz)
-- Evidence matrix CSV: [`lichinga-acceptance-evidence-matrix.csv`](lichinga-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`lichinga-manufacturing-schedule.csv`](lichinga-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`lichinga-manufacturing-materials.csv`](lichinga-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`lichinga-manufacturing-verification.csv`](lichinga-manufacturing-verification.csv)
-- QA register CSV: [`lichinga-qa-register.csv`](lichinga-qa-register.csv)
-- Maintenance schedule CSV: [`lichinga-maintenance-schedule.csv`](lichinga-maintenance-schedule.csv)
+- Tracked compact asset register: [`lichinga-assets.csv`](lichinga-assets.csv)
+- Tracked operations manifest: [`lichinga-operations-manifest.json`](lichinga-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `lichinga-operations.json.gz`
+- `lichinga-acceptance-evidence-matrix.csv`
+- `lichinga-manufacturing-schedule.csv`
+- `lichinga-manufacturing-materials.csv`
+- `lichinga-manufacturing-verification.csv`
+- `lichinga-qa-register.csv`
+- `lichinga-maintenance-schedule.csv`
 
 ## Accreditation Use
 

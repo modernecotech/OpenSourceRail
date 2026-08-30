@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`taiz-operations.json.gz`](taiz-operations.json.gz)
-- Evidence matrix CSV: [`taiz-acceptance-evidence-matrix.csv`](taiz-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`taiz-manufacturing-schedule.csv`](taiz-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`taiz-manufacturing-materials.csv`](taiz-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`taiz-manufacturing-verification.csv`](taiz-manufacturing-verification.csv)
-- QA register CSV: [`taiz-qa-register.csv`](taiz-qa-register.csv)
-- Maintenance schedule CSV: [`taiz-maintenance-schedule.csv`](taiz-maintenance-schedule.csv)
+- Tracked compact asset register: [`taiz-assets.csv`](taiz-assets.csv)
+- Tracked operations manifest: [`taiz-operations-manifest.json`](taiz-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `taiz-operations.json.gz`
+- `taiz-acceptance-evidence-matrix.csv`
+- `taiz-manufacturing-schedule.csv`
+- `taiz-manufacturing-materials.csv`
+- `taiz-manufacturing-verification.csv`
+- `taiz-qa-register.csv`
+- `taiz-maintenance-schedule.csv`
 
 ## Accreditation Use
 

@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`duhok-operations.json.gz`](duhok-operations.json.gz)
-- Evidence matrix CSV: [`duhok-acceptance-evidence-matrix.csv`](duhok-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`duhok-manufacturing-schedule.csv`](duhok-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`duhok-manufacturing-materials.csv`](duhok-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`duhok-manufacturing-verification.csv`](duhok-manufacturing-verification.csv)
-- QA register CSV: [`duhok-qa-register.csv`](duhok-qa-register.csv)
-- Maintenance schedule CSV: [`duhok-maintenance-schedule.csv`](duhok-maintenance-schedule.csv)
+- Tracked compact asset register: [`duhok-assets.csv`](duhok-assets.csv)
+- Tracked operations manifest: [`duhok-operations-manifest.json`](duhok-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `duhok-operations.json.gz`
+- `duhok-acceptance-evidence-matrix.csv`
+- `duhok-manufacturing-schedule.csv`
+- `duhok-manufacturing-materials.csv`
+- `duhok-manufacturing-verification.csv`
+- `duhok-qa-register.csv`
+- `duhok-maintenance-schedule.csv`
 
 ## Accreditation Use
 

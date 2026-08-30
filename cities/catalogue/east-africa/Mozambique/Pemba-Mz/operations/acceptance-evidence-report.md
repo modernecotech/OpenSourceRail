@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`pemba-mz-operations.json.gz`](pemba-mz-operations.json.gz)
-- Evidence matrix CSV: [`pemba-mz-acceptance-evidence-matrix.csv`](pemba-mz-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`pemba-mz-manufacturing-schedule.csv`](pemba-mz-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`pemba-mz-manufacturing-materials.csv`](pemba-mz-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`pemba-mz-manufacturing-verification.csv`](pemba-mz-manufacturing-verification.csv)
-- QA register CSV: [`pemba-mz-qa-register.csv`](pemba-mz-qa-register.csv)
-- Maintenance schedule CSV: [`pemba-mz-maintenance-schedule.csv`](pemba-mz-maintenance-schedule.csv)
+- Tracked compact asset register: [`pemba-mz-assets.csv`](pemba-mz-assets.csv)
+- Tracked operations manifest: [`pemba-mz-operations-manifest.json`](pemba-mz-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `pemba-mz-operations.json.gz`
+- `pemba-mz-acceptance-evidence-matrix.csv`
+- `pemba-mz-manufacturing-schedule.csv`
+- `pemba-mz-manufacturing-materials.csv`
+- `pemba-mz-manufacturing-verification.csv`
+- `pemba-mz-qa-register.csv`
+- `pemba-mz-maintenance-schedule.csv`
 
 ## Accreditation Use
 

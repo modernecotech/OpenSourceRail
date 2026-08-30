@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`lubumbashi-operations.json.gz`](lubumbashi-operations.json.gz)
-- Evidence matrix CSV: [`lubumbashi-acceptance-evidence-matrix.csv`](lubumbashi-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`lubumbashi-manufacturing-schedule.csv`](lubumbashi-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`lubumbashi-manufacturing-materials.csv`](lubumbashi-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`lubumbashi-manufacturing-verification.csv`](lubumbashi-manufacturing-verification.csv)
-- QA register CSV: [`lubumbashi-qa-register.csv`](lubumbashi-qa-register.csv)
-- Maintenance schedule CSV: [`lubumbashi-maintenance-schedule.csv`](lubumbashi-maintenance-schedule.csv)
+- Tracked compact asset register: [`lubumbashi-assets.csv`](lubumbashi-assets.csv)
+- Tracked operations manifest: [`lubumbashi-operations-manifest.json`](lubumbashi-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `lubumbashi-operations.json.gz`
+- `lubumbashi-acceptance-evidence-matrix.csv`
+- `lubumbashi-manufacturing-schedule.csv`
+- `lubumbashi-manufacturing-materials.csv`
+- `lubumbashi-manufacturing-verification.csv`
+- `lubumbashi-qa-register.csv`
+- `lubumbashi-maintenance-schedule.csv`
 
 ## Accreditation Use
 

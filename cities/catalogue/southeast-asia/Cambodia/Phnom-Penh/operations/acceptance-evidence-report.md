@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`phnom-penh-operations.json.gz`](phnom-penh-operations.json.gz)
-- Evidence matrix CSV: [`phnom-penh-acceptance-evidence-matrix.csv`](phnom-penh-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`phnom-penh-manufacturing-schedule.csv`](phnom-penh-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`phnom-penh-manufacturing-materials.csv`](phnom-penh-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`phnom-penh-manufacturing-verification.csv`](phnom-penh-manufacturing-verification.csv)
-- QA register CSV: [`phnom-penh-qa-register.csv`](phnom-penh-qa-register.csv)
-- Maintenance schedule CSV: [`phnom-penh-maintenance-schedule.csv`](phnom-penh-maintenance-schedule.csv)
+- Tracked compact asset register: [`phnom-penh-assets.csv`](phnom-penh-assets.csv)
+- Tracked operations manifest: [`phnom-penh-operations-manifest.json`](phnom-penh-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `phnom-penh-operations.json.gz`
+- `phnom-penh-acceptance-evidence-matrix.csv`
+- `phnom-penh-manufacturing-schedule.csv`
+- `phnom-penh-manufacturing-materials.csv`
+- `phnom-penh-manufacturing-verification.csv`
+- `phnom-penh-qa-register.csv`
+- `phnom-penh-maintenance-schedule.csv`
 
 ## Accreditation Use
 

@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`kumba-operations.json.gz`](kumba-operations.json.gz)
-- Evidence matrix CSV: [`kumba-acceptance-evidence-matrix.csv`](kumba-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`kumba-manufacturing-schedule.csv`](kumba-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`kumba-manufacturing-materials.csv`](kumba-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`kumba-manufacturing-verification.csv`](kumba-manufacturing-verification.csv)
-- QA register CSV: [`kumba-qa-register.csv`](kumba-qa-register.csv)
-- Maintenance schedule CSV: [`kumba-maintenance-schedule.csv`](kumba-maintenance-schedule.csv)
+- Tracked compact asset register: [`kumba-assets.csv`](kumba-assets.csv)
+- Tracked operations manifest: [`kumba-operations-manifest.json`](kumba-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `kumba-operations.json.gz`
+- `kumba-acceptance-evidence-matrix.csv`
+- `kumba-manufacturing-schedule.csv`
+- `kumba-manufacturing-materials.csv`
+- `kumba-manufacturing-verification.csv`
+- `kumba-qa-register.csv`
+- `kumba-maintenance-schedule.csv`
 
 ## Accreditation Use
 

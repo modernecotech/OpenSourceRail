@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`jinja-operations.json.gz`](jinja-operations.json.gz)
-- Evidence matrix CSV: [`jinja-acceptance-evidence-matrix.csv`](jinja-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`jinja-manufacturing-schedule.csv`](jinja-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`jinja-manufacturing-materials.csv`](jinja-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`jinja-manufacturing-verification.csv`](jinja-manufacturing-verification.csv)
-- QA register CSV: [`jinja-qa-register.csv`](jinja-qa-register.csv)
-- Maintenance schedule CSV: [`jinja-maintenance-schedule.csv`](jinja-maintenance-schedule.csv)
+- Tracked compact asset register: [`jinja-assets.csv`](jinja-assets.csv)
+- Tracked operations manifest: [`jinja-operations-manifest.json`](jinja-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `jinja-operations.json.gz`
+- `jinja-acceptance-evidence-matrix.csv`
+- `jinja-manufacturing-schedule.csv`
+- `jinja-manufacturing-materials.csv`
+- `jinja-manufacturing-verification.csv`
+- `jinja-qa-register.csv`
+- `jinja-maintenance-schedule.csv`
 
 ## Accreditation Use
 

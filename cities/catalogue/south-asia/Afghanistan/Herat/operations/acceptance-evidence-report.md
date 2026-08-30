@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`herat-operations.json.gz`](herat-operations.json.gz)
-- Evidence matrix CSV: [`herat-acceptance-evidence-matrix.csv`](herat-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`herat-manufacturing-schedule.csv`](herat-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`herat-manufacturing-materials.csv`](herat-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`herat-manufacturing-verification.csv`](herat-manufacturing-verification.csv)
-- QA register CSV: [`herat-qa-register.csv`](herat-qa-register.csv)
-- Maintenance schedule CSV: [`herat-maintenance-schedule.csv`](herat-maintenance-schedule.csv)
+- Tracked compact asset register: [`herat-assets.csv`](herat-assets.csv)
+- Tracked operations manifest: [`herat-operations-manifest.json`](herat-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `herat-operations.json.gz`
+- `herat-acceptance-evidence-matrix.csv`
+- `herat-manufacturing-schedule.csv`
+- `herat-manufacturing-materials.csv`
+- `herat-manufacturing-verification.csv`
+- `herat-qa-register.csv`
+- `herat-maintenance-schedule.csv`
 
 ## Accreditation Use
 

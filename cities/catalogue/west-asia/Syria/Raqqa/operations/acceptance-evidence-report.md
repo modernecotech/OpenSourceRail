@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`raqqa-operations.json.gz`](raqqa-operations.json.gz)
-- Evidence matrix CSV: [`raqqa-acceptance-evidence-matrix.csv`](raqqa-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`raqqa-manufacturing-schedule.csv`](raqqa-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`raqqa-manufacturing-materials.csv`](raqqa-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`raqqa-manufacturing-verification.csv`](raqqa-manufacturing-verification.csv)
-- QA register CSV: [`raqqa-qa-register.csv`](raqqa-qa-register.csv)
-- Maintenance schedule CSV: [`raqqa-maintenance-schedule.csv`](raqqa-maintenance-schedule.csv)
+- Tracked compact asset register: [`raqqa-assets.csv`](raqqa-assets.csv)
+- Tracked operations manifest: [`raqqa-operations-manifest.json`](raqqa-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `raqqa-operations.json.gz`
+- `raqqa-acceptance-evidence-matrix.csv`
+- `raqqa-manufacturing-schedule.csv`
+- `raqqa-manufacturing-materials.csv`
+- `raqqa-manufacturing-verification.csv`
+- `raqqa-qa-register.csv`
+- `raqqa-maintenance-schedule.csv`
 
 ## Accreditation Use
 

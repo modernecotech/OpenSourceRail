@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`nyeri-operations.json.gz`](nyeri-operations.json.gz)
-- Evidence matrix CSV: [`nyeri-acceptance-evidence-matrix.csv`](nyeri-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`nyeri-manufacturing-schedule.csv`](nyeri-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`nyeri-manufacturing-materials.csv`](nyeri-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`nyeri-manufacturing-verification.csv`](nyeri-manufacturing-verification.csv)
-- QA register CSV: [`nyeri-qa-register.csv`](nyeri-qa-register.csv)
-- Maintenance schedule CSV: [`nyeri-maintenance-schedule.csv`](nyeri-maintenance-schedule.csv)
+- Tracked compact asset register: [`nyeri-assets.csv`](nyeri-assets.csv)
+- Tracked operations manifest: [`nyeri-operations-manifest.json`](nyeri-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `nyeri-operations.json.gz`
+- `nyeri-acceptance-evidence-matrix.csv`
+- `nyeri-manufacturing-schedule.csv`
+- `nyeri-manufacturing-materials.csv`
+- `nyeri-manufacturing-verification.csv`
+- `nyeri-qa-register.csv`
+- `nyeri-maintenance-schedule.csv`
 
 ## Accreditation Use
 

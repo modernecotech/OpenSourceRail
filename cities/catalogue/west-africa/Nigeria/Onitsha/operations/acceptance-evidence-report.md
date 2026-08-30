@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`onitsha-operations.json.gz`](onitsha-operations.json.gz)
-- Evidence matrix CSV: [`onitsha-acceptance-evidence-matrix.csv`](onitsha-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`onitsha-manufacturing-schedule.csv`](onitsha-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`onitsha-manufacturing-materials.csv`](onitsha-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`onitsha-manufacturing-verification.csv`](onitsha-manufacturing-verification.csv)
-- QA register CSV: [`onitsha-qa-register.csv`](onitsha-qa-register.csv)
-- Maintenance schedule CSV: [`onitsha-maintenance-schedule.csv`](onitsha-maintenance-schedule.csv)
+- Tracked compact asset register: [`onitsha-assets.csv`](onitsha-assets.csv)
+- Tracked operations manifest: [`onitsha-operations-manifest.json`](onitsha-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `onitsha-operations.json.gz`
+- `onitsha-acceptance-evidence-matrix.csv`
+- `onitsha-manufacturing-schedule.csv`
+- `onitsha-manufacturing-materials.csv`
+- `onitsha-manufacturing-verification.csv`
+- `onitsha-qa-register.csv`
+- `onitsha-maintenance-schedule.csv`
 
 ## Accreditation Use
 

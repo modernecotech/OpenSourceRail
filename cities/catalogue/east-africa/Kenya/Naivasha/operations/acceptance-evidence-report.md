@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`naivasha-operations.json.gz`](naivasha-operations.json.gz)
-- Evidence matrix CSV: [`naivasha-acceptance-evidence-matrix.csv`](naivasha-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`naivasha-manufacturing-schedule.csv`](naivasha-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`naivasha-manufacturing-materials.csv`](naivasha-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`naivasha-manufacturing-verification.csv`](naivasha-manufacturing-verification.csv)
-- QA register CSV: [`naivasha-qa-register.csv`](naivasha-qa-register.csv)
-- Maintenance schedule CSV: [`naivasha-maintenance-schedule.csv`](naivasha-maintenance-schedule.csv)
+- Tracked compact asset register: [`naivasha-assets.csv`](naivasha-assets.csv)
+- Tracked operations manifest: [`naivasha-operations-manifest.json`](naivasha-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `naivasha-operations.json.gz`
+- `naivasha-acceptance-evidence-matrix.csv`
+- `naivasha-manufacturing-schedule.csv`
+- `naivasha-manufacturing-materials.csv`
+- `naivasha-manufacturing-verification.csv`
+- `naivasha-qa-register.csv`
+- `naivasha-maintenance-schedule.csv`
 
 ## Accreditation Use
 

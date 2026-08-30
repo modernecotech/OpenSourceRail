@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`tete-operations.json.gz`](tete-operations.json.gz)
-- Evidence matrix CSV: [`tete-acceptance-evidence-matrix.csv`](tete-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`tete-manufacturing-schedule.csv`](tete-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`tete-manufacturing-materials.csv`](tete-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`tete-manufacturing-verification.csv`](tete-manufacturing-verification.csv)
-- QA register CSV: [`tete-qa-register.csv`](tete-qa-register.csv)
-- Maintenance schedule CSV: [`tete-maintenance-schedule.csv`](tete-maintenance-schedule.csv)
+- Tracked compact asset register: [`tete-assets.csv`](tete-assets.csv)
+- Tracked operations manifest: [`tete-operations-manifest.json`](tete-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `tete-operations.json.gz`
+- `tete-acceptance-evidence-matrix.csv`
+- `tete-manufacturing-schedule.csv`
+- `tete-manufacturing-materials.csv`
+- `tete-manufacturing-verification.csv`
+- `tete-qa-register.csv`
+- `tete-maintenance-schedule.csv`
 
 ## Accreditation Use
 

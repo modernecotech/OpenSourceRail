@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`bertoua-operations.json.gz`](bertoua-operations.json.gz)
-- Evidence matrix CSV: [`bertoua-acceptance-evidence-matrix.csv`](bertoua-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`bertoua-manufacturing-schedule.csv`](bertoua-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`bertoua-manufacturing-materials.csv`](bertoua-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`bertoua-manufacturing-verification.csv`](bertoua-manufacturing-verification.csv)
-- QA register CSV: [`bertoua-qa-register.csv`](bertoua-qa-register.csv)
-- Maintenance schedule CSV: [`bertoua-maintenance-schedule.csv`](bertoua-maintenance-schedule.csv)
+- Tracked compact asset register: [`bertoua-assets.csv`](bertoua-assets.csv)
+- Tracked operations manifest: [`bertoua-operations-manifest.json`](bertoua-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `bertoua-operations.json.gz`
+- `bertoua-acceptance-evidence-matrix.csv`
+- `bertoua-manufacturing-schedule.csv`
+- `bertoua-manufacturing-materials.csv`
+- `bertoua-manufacturing-verification.csv`
+- `bertoua-qa-register.csv`
+- `bertoua-maintenance-schedule.csv`
 
 ## Accreditation Use
 

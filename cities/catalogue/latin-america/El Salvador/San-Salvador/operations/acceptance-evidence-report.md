@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`san-salvador-operations.json.gz`](san-salvador-operations.json.gz)
-- Evidence matrix CSV: [`san-salvador-acceptance-evidence-matrix.csv`](san-salvador-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`san-salvador-manufacturing-schedule.csv`](san-salvador-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`san-salvador-manufacturing-materials.csv`](san-salvador-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`san-salvador-manufacturing-verification.csv`](san-salvador-manufacturing-verification.csv)
-- QA register CSV: [`san-salvador-qa-register.csv`](san-salvador-qa-register.csv)
-- Maintenance schedule CSV: [`san-salvador-maintenance-schedule.csv`](san-salvador-maintenance-schedule.csv)
+- Tracked compact asset register: [`san-salvador-assets.csv`](san-salvador-assets.csv)
+- Tracked operations manifest: [`san-salvador-operations-manifest.json`](san-salvador-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `san-salvador-operations.json.gz`
+- `san-salvador-acceptance-evidence-matrix.csv`
+- `san-salvador-manufacturing-schedule.csv`
+- `san-salvador-manufacturing-materials.csv`
+- `san-salvador-manufacturing-verification.csv`
+- `san-salvador-qa-register.csv`
+- `san-salvador-maintenance-schedule.csv`
 
 ## Accreditation Use
 

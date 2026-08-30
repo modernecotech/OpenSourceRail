@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`quelimane-operations.json.gz`](quelimane-operations.json.gz)
-- Evidence matrix CSV: [`quelimane-acceptance-evidence-matrix.csv`](quelimane-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`quelimane-manufacturing-schedule.csv`](quelimane-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`quelimane-manufacturing-materials.csv`](quelimane-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`quelimane-manufacturing-verification.csv`](quelimane-manufacturing-verification.csv)
-- QA register CSV: [`quelimane-qa-register.csv`](quelimane-qa-register.csv)
-- Maintenance schedule CSV: [`quelimane-maintenance-schedule.csv`](quelimane-maintenance-schedule.csv)
+- Tracked compact asset register: [`quelimane-assets.csv`](quelimane-assets.csv)
+- Tracked operations manifest: [`quelimane-operations-manifest.json`](quelimane-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `quelimane-operations.json.gz`
+- `quelimane-acceptance-evidence-matrix.csv`
+- `quelimane-manufacturing-schedule.csv`
+- `quelimane-manufacturing-materials.csv`
+- `quelimane-manufacturing-verification.csv`
+- `quelimane-qa-register.csv`
+- `quelimane-maintenance-schedule.csv`
 
 ## Accreditation Use
 

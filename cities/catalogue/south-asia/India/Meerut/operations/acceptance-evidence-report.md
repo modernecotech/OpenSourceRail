@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`meerut-operations.json.gz`](meerut-operations.json.gz)
-- Evidence matrix CSV: [`meerut-acceptance-evidence-matrix.csv`](meerut-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`meerut-manufacturing-schedule.csv`](meerut-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`meerut-manufacturing-materials.csv`](meerut-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`meerut-manufacturing-verification.csv`](meerut-manufacturing-verification.csv)
-- QA register CSV: [`meerut-qa-register.csv`](meerut-qa-register.csv)
-- Maintenance schedule CSV: [`meerut-maintenance-schedule.csv`](meerut-maintenance-schedule.csv)
+- Tracked compact asset register: [`meerut-assets.csv`](meerut-assets.csv)
+- Tracked operations manifest: [`meerut-operations-manifest.json`](meerut-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `meerut-operations.json.gz`
+- `meerut-acceptance-evidence-matrix.csv`
+- `meerut-manufacturing-schedule.csv`
+- `meerut-manufacturing-materials.csv`
+- `meerut-manufacturing-verification.csv`
+- `meerut-qa-register.csv`
+- `meerut-maintenance-schedule.csv`
 
 ## Accreditation Use
 

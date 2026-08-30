@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`mecca-operations.json.gz`](mecca-operations.json.gz)
-- Evidence matrix CSV: [`mecca-acceptance-evidence-matrix.csv`](mecca-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`mecca-manufacturing-schedule.csv`](mecca-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`mecca-manufacturing-materials.csv`](mecca-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`mecca-manufacturing-verification.csv`](mecca-manufacturing-verification.csv)
-- QA register CSV: [`mecca-qa-register.csv`](mecca-qa-register.csv)
-- Maintenance schedule CSV: [`mecca-maintenance-schedule.csv`](mecca-maintenance-schedule.csv)
+- Tracked compact asset register: [`mecca-assets.csv`](mecca-assets.csv)
+- Tracked operations manifest: [`mecca-operations-manifest.json`](mecca-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `mecca-operations.json.gz`
+- `mecca-acceptance-evidence-matrix.csv`
+- `mecca-manufacturing-schedule.csv`
+- `mecca-manufacturing-materials.csv`
+- `mecca-manufacturing-verification.csv`
+- `mecca-qa-register.csv`
+- `mecca-maintenance-schedule.csv`
 
 ## Accreditation Use
 

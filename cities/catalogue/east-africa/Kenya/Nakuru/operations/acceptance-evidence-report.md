@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`nakuru-operations.json.gz`](nakuru-operations.json.gz)
-- Evidence matrix CSV: [`nakuru-acceptance-evidence-matrix.csv`](nakuru-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`nakuru-manufacturing-schedule.csv`](nakuru-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`nakuru-manufacturing-materials.csv`](nakuru-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`nakuru-manufacturing-verification.csv`](nakuru-manufacturing-verification.csv)
-- QA register CSV: [`nakuru-qa-register.csv`](nakuru-qa-register.csv)
-- Maintenance schedule CSV: [`nakuru-maintenance-schedule.csv`](nakuru-maintenance-schedule.csv)
+- Tracked compact asset register: [`nakuru-assets.csv`](nakuru-assets.csv)
+- Tracked operations manifest: [`nakuru-operations-manifest.json`](nakuru-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `nakuru-operations.json.gz`
+- `nakuru-acceptance-evidence-matrix.csv`
+- `nakuru-manufacturing-schedule.csv`
+- `nakuru-manufacturing-materials.csv`
+- `nakuru-manufacturing-verification.csv`
+- `nakuru-qa-register.csv`
+- `nakuru-maintenance-schedule.csv`
 
 ## Accreditation Use
 

@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`lusaka-operations.json.gz`](lusaka-operations.json.gz)
-- Evidence matrix CSV: [`lusaka-acceptance-evidence-matrix.csv`](lusaka-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`lusaka-manufacturing-schedule.csv`](lusaka-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`lusaka-manufacturing-materials.csv`](lusaka-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`lusaka-manufacturing-verification.csv`](lusaka-manufacturing-verification.csv)
-- QA register CSV: [`lusaka-qa-register.csv`](lusaka-qa-register.csv)
-- Maintenance schedule CSV: [`lusaka-maintenance-schedule.csv`](lusaka-maintenance-schedule.csv)
+- Tracked compact asset register: [`lusaka-assets.csv`](lusaka-assets.csv)
+- Tracked operations manifest: [`lusaka-operations-manifest.json`](lusaka-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `lusaka-operations.json.gz`
+- `lusaka-acceptance-evidence-matrix.csv`
+- `lusaka-manufacturing-schedule.csv`
+- `lusaka-manufacturing-materials.csv`
+- `lusaka-manufacturing-verification.csv`
+- `lusaka-qa-register.csv`
+- `lusaka-maintenance-schedule.csv`
 
 ## Accreditation Use
 

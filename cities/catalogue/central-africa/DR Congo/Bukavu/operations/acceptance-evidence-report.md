@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`bukavu-operations.json.gz`](bukavu-operations.json.gz)
-- Evidence matrix CSV: [`bukavu-acceptance-evidence-matrix.csv`](bukavu-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`bukavu-manufacturing-schedule.csv`](bukavu-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`bukavu-manufacturing-materials.csv`](bukavu-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`bukavu-manufacturing-verification.csv`](bukavu-manufacturing-verification.csv)
-- QA register CSV: [`bukavu-qa-register.csv`](bukavu-qa-register.csv)
-- Maintenance schedule CSV: [`bukavu-maintenance-schedule.csv`](bukavu-maintenance-schedule.csv)
+- Tracked compact asset register: [`bukavu-assets.csv`](bukavu-assets.csv)
+- Tracked operations manifest: [`bukavu-operations-manifest.json`](bukavu-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `bukavu-operations.json.gz`
+- `bukavu-acceptance-evidence-matrix.csv`
+- `bukavu-manufacturing-schedule.csv`
+- `bukavu-manufacturing-materials.csv`
+- `bukavu-manufacturing-verification.csv`
+- `bukavu-qa-register.csv`
+- `bukavu-maintenance-schedule.csv`
 
 ## Accreditation Use
 

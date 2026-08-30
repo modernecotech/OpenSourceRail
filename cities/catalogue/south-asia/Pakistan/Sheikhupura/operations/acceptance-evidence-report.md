@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`sheikhupura-operations.json.gz`](sheikhupura-operations.json.gz)
-- Evidence matrix CSV: [`sheikhupura-acceptance-evidence-matrix.csv`](sheikhupura-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`sheikhupura-manufacturing-schedule.csv`](sheikhupura-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`sheikhupura-manufacturing-materials.csv`](sheikhupura-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`sheikhupura-manufacturing-verification.csv`](sheikhupura-manufacturing-verification.csv)
-- QA register CSV: [`sheikhupura-qa-register.csv`](sheikhupura-qa-register.csv)
-- Maintenance schedule CSV: [`sheikhupura-maintenance-schedule.csv`](sheikhupura-maintenance-schedule.csv)
+- Tracked compact asset register: [`sheikhupura-assets.csv`](sheikhupura-assets.csv)
+- Tracked operations manifest: [`sheikhupura-operations-manifest.json`](sheikhupura-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `sheikhupura-operations.json.gz`
+- `sheikhupura-acceptance-evidence-matrix.csv`
+- `sheikhupura-manufacturing-schedule.csv`
+- `sheikhupura-manufacturing-materials.csv`
+- `sheikhupura-manufacturing-verification.csv`
+- `sheikhupura-qa-register.csv`
+- `sheikhupura-maintenance-schedule.csv`
 
 ## Accreditation Use
 

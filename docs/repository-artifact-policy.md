@@ -81,7 +81,9 @@ folder that produced them.
    manifest passes: survey, calibrated demand, local ground/fire/utility data,
    supplier freeze, and independent safety/construction release remain external
    project gates.
-7. The root reader PDF is generated, never hand-edited. Its Markdown and city
+7. Tracked reports link only to tracked review artifacts; local high-volume
+   outputs are named as code, not presented as GitHub links.
+8. The root reader PDF is generated, never hand-edited. Its Markdown and city
    model sources remain authoritative and are printed in the book.
 
 ## Documentation ownership

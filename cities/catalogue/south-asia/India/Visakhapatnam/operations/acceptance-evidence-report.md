@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`visakhapatnam-operations.json.gz`](visakhapatnam-operations.json.gz)
-- Evidence matrix CSV: [`visakhapatnam-acceptance-evidence-matrix.csv`](visakhapatnam-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`visakhapatnam-manufacturing-schedule.csv`](visakhapatnam-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`visakhapatnam-manufacturing-materials.csv`](visakhapatnam-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`visakhapatnam-manufacturing-verification.csv`](visakhapatnam-manufacturing-verification.csv)
-- QA register CSV: [`visakhapatnam-qa-register.csv`](visakhapatnam-qa-register.csv)
-- Maintenance schedule CSV: [`visakhapatnam-maintenance-schedule.csv`](visakhapatnam-maintenance-schedule.csv)
+- Tracked compact asset register: [`visakhapatnam-assets.csv`](visakhapatnam-assets.csv)
+- Tracked operations manifest: [`visakhapatnam-operations-manifest.json`](visakhapatnam-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `visakhapatnam-operations.json.gz`
+- `visakhapatnam-acceptance-evidence-matrix.csv`
+- `visakhapatnam-manufacturing-schedule.csv`
+- `visakhapatnam-manufacturing-materials.csv`
+- `visakhapatnam-manufacturing-verification.csv`
+- `visakhapatnam-qa-register.csv`
+- `visakhapatnam-maintenance-schedule.csv`
 
 ## Accreditation Use
 

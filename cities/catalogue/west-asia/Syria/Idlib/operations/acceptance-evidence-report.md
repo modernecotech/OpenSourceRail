@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`idlib-operations.json.gz`](idlib-operations.json.gz)
-- Evidence matrix CSV: [`idlib-acceptance-evidence-matrix.csv`](idlib-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`idlib-manufacturing-schedule.csv`](idlib-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`idlib-manufacturing-materials.csv`](idlib-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`idlib-manufacturing-verification.csv`](idlib-manufacturing-verification.csv)
-- QA register CSV: [`idlib-qa-register.csv`](idlib-qa-register.csv)
-- Maintenance schedule CSV: [`idlib-maintenance-schedule.csv`](idlib-maintenance-schedule.csv)
+- Tracked compact asset register: [`idlib-assets.csv`](idlib-assets.csv)
+- Tracked operations manifest: [`idlib-operations-manifest.json`](idlib-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `idlib-operations.json.gz`
+- `idlib-acceptance-evidence-matrix.csv`
+- `idlib-manufacturing-schedule.csv`
+- `idlib-manufacturing-materials.csv`
+- `idlib-manufacturing-verification.csv`
+- `idlib-qa-register.csv`
+- `idlib-maintenance-schedule.csv`
 
 ## Accreditation Use
 

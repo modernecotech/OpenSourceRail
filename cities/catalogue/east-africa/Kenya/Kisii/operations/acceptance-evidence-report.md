@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`kisii-operations.json.gz`](kisii-operations.json.gz)
-- Evidence matrix CSV: [`kisii-acceptance-evidence-matrix.csv`](kisii-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`kisii-manufacturing-schedule.csv`](kisii-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`kisii-manufacturing-materials.csv`](kisii-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`kisii-manufacturing-verification.csv`](kisii-manufacturing-verification.csv)
-- QA register CSV: [`kisii-qa-register.csv`](kisii-qa-register.csv)
-- Maintenance schedule CSV: [`kisii-maintenance-schedule.csv`](kisii-maintenance-schedule.csv)
+- Tracked compact asset register: [`kisii-assets.csv`](kisii-assets.csv)
+- Tracked operations manifest: [`kisii-operations-manifest.json`](kisii-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `kisii-operations.json.gz`
+- `kisii-acceptance-evidence-matrix.csv`
+- `kisii-manufacturing-schedule.csv`
+- `kisii-manufacturing-materials.csv`
+- `kisii-manufacturing-verification.csv`
+- `kisii-qa-register.csv`
+- `kisii-maintenance-schedule.csv`
 
 ## Accreditation Use
 

@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`damanhur-operations.json.gz`](damanhur-operations.json.gz)
-- Evidence matrix CSV: [`damanhur-acceptance-evidence-matrix.csv`](damanhur-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`damanhur-manufacturing-schedule.csv`](damanhur-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`damanhur-manufacturing-materials.csv`](damanhur-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`damanhur-manufacturing-verification.csv`](damanhur-manufacturing-verification.csv)
-- QA register CSV: [`damanhur-qa-register.csv`](damanhur-qa-register.csv)
-- Maintenance schedule CSV: [`damanhur-maintenance-schedule.csv`](damanhur-maintenance-schedule.csv)
+- Tracked compact asset register: [`damanhur-assets.csv`](damanhur-assets.csv)
+- Tracked operations manifest: [`damanhur-operations-manifest.json`](damanhur-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `damanhur-operations.json.gz`
+- `damanhur-acceptance-evidence-matrix.csv`
+- `damanhur-manufacturing-schedule.csv`
+- `damanhur-manufacturing-materials.csv`
+- `damanhur-manufacturing-verification.csv`
+- `damanhur-qa-register.csv`
+- `damanhur-maintenance-schedule.csv`
 
 ## Accreditation Use
 

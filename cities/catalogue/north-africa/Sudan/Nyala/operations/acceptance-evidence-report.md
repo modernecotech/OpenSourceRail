@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`nyala-operations.json.gz`](nyala-operations.json.gz)
-- Evidence matrix CSV: [`nyala-acceptance-evidence-matrix.csv`](nyala-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`nyala-manufacturing-schedule.csv`](nyala-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`nyala-manufacturing-materials.csv`](nyala-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`nyala-manufacturing-verification.csv`](nyala-manufacturing-verification.csv)
-- QA register CSV: [`nyala-qa-register.csv`](nyala-qa-register.csv)
-- Maintenance schedule CSV: [`nyala-maintenance-schedule.csv`](nyala-maintenance-schedule.csv)
+- Tracked compact asset register: [`nyala-assets.csv`](nyala-assets.csv)
+- Tracked operations manifest: [`nyala-operations-manifest.json`](nyala-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `nyala-operations.json.gz`
+- `nyala-acceptance-evidence-matrix.csv`
+- `nyala-manufacturing-schedule.csv`
+- `nyala-manufacturing-materials.csv`
+- `nyala-manufacturing-verification.csv`
+- `nyala-qa-register.csv`
+- `nyala-maintenance-schedule.csv`
 
 ## Accreditation Use
 

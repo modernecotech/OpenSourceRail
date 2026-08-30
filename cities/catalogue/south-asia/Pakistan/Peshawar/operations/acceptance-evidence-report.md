@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`peshawar-operations.json.gz`](peshawar-operations.json.gz)
-- Evidence matrix CSV: [`peshawar-acceptance-evidence-matrix.csv`](peshawar-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`peshawar-manufacturing-schedule.csv`](peshawar-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`peshawar-manufacturing-materials.csv`](peshawar-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`peshawar-manufacturing-verification.csv`](peshawar-manufacturing-verification.csv)
-- QA register CSV: [`peshawar-qa-register.csv`](peshawar-qa-register.csv)
-- Maintenance schedule CSV: [`peshawar-maintenance-schedule.csv`](peshawar-maintenance-schedule.csv)
+- Tracked compact asset register: [`peshawar-assets.csv`](peshawar-assets.csv)
+- Tracked operations manifest: [`peshawar-operations-manifest.json`](peshawar-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `peshawar-operations.json.gz`
+- `peshawar-acceptance-evidence-matrix.csv`
+- `peshawar-manufacturing-schedule.csv`
+- `peshawar-manufacturing-materials.csv`
+- `peshawar-manufacturing-verification.csv`
+- `peshawar-qa-register.csv`
+- `peshawar-maintenance-schedule.csv`
 
 ## Accreditation Use
 

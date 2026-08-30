@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`sohag-operations.json.gz`](sohag-operations.json.gz)
-- Evidence matrix CSV: [`sohag-acceptance-evidence-matrix.csv`](sohag-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`sohag-manufacturing-schedule.csv`](sohag-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`sohag-manufacturing-materials.csv`](sohag-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`sohag-manufacturing-verification.csv`](sohag-manufacturing-verification.csv)
-- QA register CSV: [`sohag-qa-register.csv`](sohag-qa-register.csv)
-- Maintenance schedule CSV: [`sohag-maintenance-schedule.csv`](sohag-maintenance-schedule.csv)
+- Tracked compact asset register: [`sohag-assets.csv`](sohag-assets.csv)
+- Tracked operations manifest: [`sohag-operations-manifest.json`](sohag-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `sohag-operations.json.gz`
+- `sohag-acceptance-evidence-matrix.csv`
+- `sohag-manufacturing-schedule.csv`
+- `sohag-manufacturing-materials.csv`
+- `sohag-manufacturing-verification.csv`
+- `sohag-qa-register.csv`
+- `sohag-maintenance-schedule.csv`
 
 ## Accreditation Use
 

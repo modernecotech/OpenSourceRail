@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`jeddah-operations.json.gz`](jeddah-operations.json.gz)
-- Evidence matrix CSV: [`jeddah-acceptance-evidence-matrix.csv`](jeddah-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`jeddah-manufacturing-schedule.csv`](jeddah-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`jeddah-manufacturing-materials.csv`](jeddah-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`jeddah-manufacturing-verification.csv`](jeddah-manufacturing-verification.csv)
-- QA register CSV: [`jeddah-qa-register.csv`](jeddah-qa-register.csv)
-- Maintenance schedule CSV: [`jeddah-maintenance-schedule.csv`](jeddah-maintenance-schedule.csv)
+- Tracked compact asset register: [`jeddah-assets.csv`](jeddah-assets.csv)
+- Tracked operations manifest: [`jeddah-operations-manifest.json`](jeddah-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `jeddah-operations.json.gz`
+- `jeddah-acceptance-evidence-matrix.csv`
+- `jeddah-manufacturing-schedule.csv`
+- `jeddah-manufacturing-materials.csv`
+- `jeddah-manufacturing-verification.csv`
+- `jeddah-qa-register.csv`
+- `jeddah-maintenance-schedule.csv`
 
 ## Accreditation Use
 

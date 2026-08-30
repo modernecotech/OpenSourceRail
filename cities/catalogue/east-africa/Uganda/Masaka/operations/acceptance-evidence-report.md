@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`masaka-operations.json.gz`](masaka-operations.json.gz)
-- Evidence matrix CSV: [`masaka-acceptance-evidence-matrix.csv`](masaka-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`masaka-manufacturing-schedule.csv`](masaka-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`masaka-manufacturing-materials.csv`](masaka-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`masaka-manufacturing-verification.csv`](masaka-manufacturing-verification.csv)
-- QA register CSV: [`masaka-qa-register.csv`](masaka-qa-register.csv)
-- Maintenance schedule CSV: [`masaka-maintenance-schedule.csv`](masaka-maintenance-schedule.csv)
+- Tracked compact asset register: [`masaka-assets.csv`](masaka-assets.csv)
+- Tracked operations manifest: [`masaka-operations-manifest.json`](masaka-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `masaka-operations.json.gz`
+- `masaka-acceptance-evidence-matrix.csv`
+- `masaka-manufacturing-schedule.csv`
+- `masaka-manufacturing-materials.csv`
+- `masaka-manufacturing-verification.csv`
+- `masaka-qa-register.csv`
+- `masaka-maintenance-schedule.csv`
 
 ## Accreditation Use
 

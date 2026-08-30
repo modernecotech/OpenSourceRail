@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`varanasi-operations.json.gz`](varanasi-operations.json.gz)
-- Evidence matrix CSV: [`varanasi-acceptance-evidence-matrix.csv`](varanasi-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`varanasi-manufacturing-schedule.csv`](varanasi-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`varanasi-manufacturing-materials.csv`](varanasi-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`varanasi-manufacturing-verification.csv`](varanasi-manufacturing-verification.csv)
-- QA register CSV: [`varanasi-qa-register.csv`](varanasi-qa-register.csv)
-- Maintenance schedule CSV: [`varanasi-maintenance-schedule.csv`](varanasi-maintenance-schedule.csv)
+- Tracked compact asset register: [`varanasi-assets.csv`](varanasi-assets.csv)
+- Tracked operations manifest: [`varanasi-operations-manifest.json`](varanasi-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `varanasi-operations.json.gz`
+- `varanasi-acceptance-evidence-matrix.csv`
+- `varanasi-manufacturing-schedule.csv`
+- `varanasi-manufacturing-materials.csv`
+- `varanasi-manufacturing-verification.csv`
+- `varanasi-qa-register.csv`
+- `varanasi-maintenance-schedule.csv`
 
 ## Accreditation Use
 

@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`jaffna-operations.json.gz`](jaffna-operations.json.gz)
-- Evidence matrix CSV: [`jaffna-acceptance-evidence-matrix.csv`](jaffna-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`jaffna-manufacturing-schedule.csv`](jaffna-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`jaffna-manufacturing-materials.csv`](jaffna-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`jaffna-manufacturing-verification.csv`](jaffna-manufacturing-verification.csv)
-- QA register CSV: [`jaffna-qa-register.csv`](jaffna-qa-register.csv)
-- Maintenance schedule CSV: [`jaffna-maintenance-schedule.csv`](jaffna-maintenance-schedule.csv)
+- Tracked compact asset register: [`jaffna-assets.csv`](jaffna-assets.csv)
+- Tracked operations manifest: [`jaffna-operations-manifest.json`](jaffna-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `jaffna-operations.json.gz`
+- `jaffna-acceptance-evidence-matrix.csv`
+- `jaffna-manufacturing-schedule.csv`
+- `jaffna-manufacturing-materials.csv`
+- `jaffna-manufacturing-verification.csv`
+- `jaffna-qa-register.csv`
+- `jaffna-maintenance-schedule.csv`
 
 ## Accreditation Use
 

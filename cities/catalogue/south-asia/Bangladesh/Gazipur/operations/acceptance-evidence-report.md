@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`gazipur-operations.json.gz`](gazipur-operations.json.gz)
-- Evidence matrix CSV: [`gazipur-acceptance-evidence-matrix.csv`](gazipur-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`gazipur-manufacturing-schedule.csv`](gazipur-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`gazipur-manufacturing-materials.csv`](gazipur-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`gazipur-manufacturing-verification.csv`](gazipur-manufacturing-verification.csv)
-- QA register CSV: [`gazipur-qa-register.csv`](gazipur-qa-register.csv)
-- Maintenance schedule CSV: [`gazipur-maintenance-schedule.csv`](gazipur-maintenance-schedule.csv)
+- Tracked compact asset register: [`gazipur-assets.csv`](gazipur-assets.csv)
+- Tracked operations manifest: [`gazipur-operations-manifest.json`](gazipur-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `gazipur-operations.json.gz`
+- `gazipur-acceptance-evidence-matrix.csv`
+- `gazipur-manufacturing-schedule.csv`
+- `gazipur-manufacturing-materials.csv`
+- `gazipur-manufacturing-verification.csv`
+- `gazipur-qa-register.csv`
+- `gazipur-maintenance-schedule.csv`
 
 ## Accreditation Use
 

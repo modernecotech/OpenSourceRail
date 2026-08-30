@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`gaza-city-operations.json.gz`](gaza-city-operations.json.gz)
-- Evidence matrix CSV: [`gaza-city-acceptance-evidence-matrix.csv`](gaza-city-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`gaza-city-manufacturing-schedule.csv`](gaza-city-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`gaza-city-manufacturing-materials.csv`](gaza-city-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`gaza-city-manufacturing-verification.csv`](gaza-city-manufacturing-verification.csv)
-- QA register CSV: [`gaza-city-qa-register.csv`](gaza-city-qa-register.csv)
-- Maintenance schedule CSV: [`gaza-city-maintenance-schedule.csv`](gaza-city-maintenance-schedule.csv)
+- Tracked compact asset register: [`gaza-city-assets.csv`](gaza-city-assets.csv)
+- Tracked operations manifest: [`gaza-city-operations-manifest.json`](gaza-city-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `gaza-city-operations.json.gz`
+- `gaza-city-acceptance-evidence-matrix.csv`
+- `gaza-city-manufacturing-schedule.csv`
+- `gaza-city-manufacturing-materials.csv`
+- `gaza-city-manufacturing-verification.csv`
+- `gaza-city-qa-register.csv`
+- `gaza-city-maintenance-schedule.csv`
 
 ## Accreditation Use
 

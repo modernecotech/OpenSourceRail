@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`aleppo-operations.json.gz`](aleppo-operations.json.gz)
-- Evidence matrix CSV: [`aleppo-acceptance-evidence-matrix.csv`](aleppo-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`aleppo-manufacturing-schedule.csv`](aleppo-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`aleppo-manufacturing-materials.csv`](aleppo-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`aleppo-manufacturing-verification.csv`](aleppo-manufacturing-verification.csv)
-- QA register CSV: [`aleppo-qa-register.csv`](aleppo-qa-register.csv)
-- Maintenance schedule CSV: [`aleppo-maintenance-schedule.csv`](aleppo-maintenance-schedule.csv)
+- Tracked compact asset register: [`aleppo-assets.csv`](aleppo-assets.csv)
+- Tracked operations manifest: [`aleppo-operations-manifest.json`](aleppo-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `aleppo-operations.json.gz`
+- `aleppo-acceptance-evidence-matrix.csv`
+- `aleppo-manufacturing-schedule.csv`
+- `aleppo-manufacturing-materials.csv`
+- `aleppo-manufacturing-verification.csv`
+- `aleppo-qa-register.csv`
+- `aleppo-maintenance-schedule.csv`
 
 ## Accreditation Use
 

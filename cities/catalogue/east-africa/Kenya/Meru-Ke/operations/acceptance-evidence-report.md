@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`meru-ke-operations.json.gz`](meru-ke-operations.json.gz)
-- Evidence matrix CSV: [`meru-ke-acceptance-evidence-matrix.csv`](meru-ke-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`meru-ke-manufacturing-schedule.csv`](meru-ke-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`meru-ke-manufacturing-materials.csv`](meru-ke-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`meru-ke-manufacturing-verification.csv`](meru-ke-manufacturing-verification.csv)
-- QA register CSV: [`meru-ke-qa-register.csv`](meru-ke-qa-register.csv)
-- Maintenance schedule CSV: [`meru-ke-maintenance-schedule.csv`](meru-ke-maintenance-schedule.csv)
+- Tracked compact asset register: [`meru-ke-assets.csv`](meru-ke-assets.csv)
+- Tracked operations manifest: [`meru-ke-operations-manifest.json`](meru-ke-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `meru-ke-operations.json.gz`
+- `meru-ke-acceptance-evidence-matrix.csv`
+- `meru-ke-manufacturing-schedule.csv`
+- `meru-ke-manufacturing-materials.csv`
+- `meru-ke-manufacturing-verification.csv`
+- `meru-ke-qa-register.csv`
+- `meru-ke-maintenance-schedule.csv`
 
 ## Accreditation Use
 

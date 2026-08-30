@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`kabul-operations.json.gz`](kabul-operations.json.gz)
-- Evidence matrix CSV: [`kabul-acceptance-evidence-matrix.csv`](kabul-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`kabul-manufacturing-schedule.csv`](kabul-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`kabul-manufacturing-materials.csv`](kabul-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`kabul-manufacturing-verification.csv`](kabul-manufacturing-verification.csv)
-- QA register CSV: [`kabul-qa-register.csv`](kabul-qa-register.csv)
-- Maintenance schedule CSV: [`kabul-maintenance-schedule.csv`](kabul-maintenance-schedule.csv)
+- Tracked compact asset register: [`kabul-assets.csv`](kabul-assets.csv)
+- Tracked operations manifest: [`kabul-operations-manifest.json`](kabul-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `kabul-operations.json.gz`
+- `kabul-acceptance-evidence-matrix.csv`
+- `kabul-manufacturing-schedule.csv`
+- `kabul-manufacturing-materials.csv`
+- `kabul-manufacturing-verification.csv`
+- `kabul-qa-register.csv`
+- `kabul-maintenance-schedule.csv`
 
 ## Accreditation Use
 

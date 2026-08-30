@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`luxor-operations.json.gz`](luxor-operations.json.gz)
-- Evidence matrix CSV: [`luxor-acceptance-evidence-matrix.csv`](luxor-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`luxor-manufacturing-schedule.csv`](luxor-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`luxor-manufacturing-materials.csv`](luxor-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`luxor-manufacturing-verification.csv`](luxor-manufacturing-verification.csv)
-- QA register CSV: [`luxor-qa-register.csv`](luxor-qa-register.csv)
-- Maintenance schedule CSV: [`luxor-maintenance-schedule.csv`](luxor-maintenance-schedule.csv)
+- Tracked compact asset register: [`luxor-assets.csv`](luxor-assets.csv)
+- Tracked operations manifest: [`luxor-operations-manifest.json`](luxor-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `luxor-operations.json.gz`
+- `luxor-acceptance-evidence-matrix.csv`
+- `luxor-manufacturing-schedule.csv`
+- `luxor-manufacturing-materials.csv`
+- `luxor-manufacturing-verification.csv`
+- `luxor-qa-register.csv`
+- `luxor-maintenance-schedule.csv`
 
 ## Accreditation Use
 

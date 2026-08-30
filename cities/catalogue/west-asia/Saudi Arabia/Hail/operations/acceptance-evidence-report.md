@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`hail-operations.json.gz`](hail-operations.json.gz)
-- Evidence matrix CSV: [`hail-acceptance-evidence-matrix.csv`](hail-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`hail-manufacturing-schedule.csv`](hail-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`hail-manufacturing-materials.csv`](hail-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`hail-manufacturing-verification.csv`](hail-manufacturing-verification.csv)
-- QA register CSV: [`hail-qa-register.csv`](hail-qa-register.csv)
-- Maintenance schedule CSV: [`hail-maintenance-schedule.csv`](hail-maintenance-schedule.csv)
+- Tracked compact asset register: [`hail-assets.csv`](hail-assets.csv)
+- Tracked operations manifest: [`hail-operations-manifest.json`](hail-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `hail-operations.json.gz`
+- `hail-acceptance-evidence-matrix.csv`
+- `hail-manufacturing-schedule.csv`
+- `hail-manufacturing-materials.csv`
+- `hail-manufacturing-verification.csv`
+- `hail-qa-register.csv`
+- `hail-maintenance-schedule.csv`
 
 ## Accreditation Use
 

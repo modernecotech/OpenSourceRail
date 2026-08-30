@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`east-london-za-operations.json.gz`](east-london-za-operations.json.gz)
-- Evidence matrix CSV: [`east-london-za-acceptance-evidence-matrix.csv`](east-london-za-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`east-london-za-manufacturing-schedule.csv`](east-london-za-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`east-london-za-manufacturing-materials.csv`](east-london-za-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`east-london-za-manufacturing-verification.csv`](east-london-za-manufacturing-verification.csv)
-- QA register CSV: [`east-london-za-qa-register.csv`](east-london-za-qa-register.csv)
-- Maintenance schedule CSV: [`east-london-za-maintenance-schedule.csv`](east-london-za-maintenance-schedule.csv)
+- Tracked compact asset register: [`east-london-za-assets.csv`](east-london-za-assets.csv)
+- Tracked operations manifest: [`east-london-za-operations-manifest.json`](east-london-za-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `east-london-za-operations.json.gz`
+- `east-london-za-acceptance-evidence-matrix.csv`
+- `east-london-za-manufacturing-schedule.csv`
+- `east-london-za-manufacturing-materials.csv`
+- `east-london-za-manufacturing-verification.csv`
+- `east-london-za-qa-register.csv`
+- `east-london-za-maintenance-schedule.csv`
 
 ## Accreditation Use
 

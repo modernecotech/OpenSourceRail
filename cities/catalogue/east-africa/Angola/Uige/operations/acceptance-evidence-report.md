@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`uige-operations.json.gz`](uige-operations.json.gz)
-- Evidence matrix CSV: [`uige-acceptance-evidence-matrix.csv`](uige-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`uige-manufacturing-schedule.csv`](uige-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`uige-manufacturing-materials.csv`](uige-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`uige-manufacturing-verification.csv`](uige-manufacturing-verification.csv)
-- QA register CSV: [`uige-qa-register.csv`](uige-qa-register.csv)
-- Maintenance schedule CSV: [`uige-maintenance-schedule.csv`](uige-maintenance-schedule.csv)
+- Tracked compact asset register: [`uige-assets.csv`](uige-assets.csv)
+- Tracked operations manifest: [`uige-operations-manifest.json`](uige-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `uige-operations.json.gz`
+- `uige-acceptance-evidence-matrix.csv`
+- `uige-manufacturing-schedule.csv`
+- `uige-manufacturing-materials.csv`
+- `uige-manufacturing-verification.csv`
+- `uige-qa-register.csv`
+- `uige-maintenance-schedule.csv`
 
 ## Accreditation Use
 

@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`rangpur-operations.json.gz`](rangpur-operations.json.gz)
-- Evidence matrix CSV: [`rangpur-acceptance-evidence-matrix.csv`](rangpur-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`rangpur-manufacturing-schedule.csv`](rangpur-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`rangpur-manufacturing-materials.csv`](rangpur-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`rangpur-manufacturing-verification.csv`](rangpur-manufacturing-verification.csv)
-- QA register CSV: [`rangpur-qa-register.csv`](rangpur-qa-register.csv)
-- Maintenance schedule CSV: [`rangpur-maintenance-schedule.csv`](rangpur-maintenance-schedule.csv)
+- Tracked compact asset register: [`rangpur-assets.csv`](rangpur-assets.csv)
+- Tracked operations manifest: [`rangpur-operations-manifest.json`](rangpur-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `rangpur-operations.json.gz`
+- `rangpur-acceptance-evidence-matrix.csv`
+- `rangpur-manufacturing-schedule.csv`
+- `rangpur-manufacturing-materials.csv`
+- `rangpur-manufacturing-verification.csv`
+- `rangpur-qa-register.csv`
+- `rangpur-maintenance-schedule.csv`
 
 ## Accreditation Use
 

@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`hodeidah-operations.json.gz`](hodeidah-operations.json.gz)
-- Evidence matrix CSV: [`hodeidah-acceptance-evidence-matrix.csv`](hodeidah-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`hodeidah-manufacturing-schedule.csv`](hodeidah-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`hodeidah-manufacturing-materials.csv`](hodeidah-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`hodeidah-manufacturing-verification.csv`](hodeidah-manufacturing-verification.csv)
-- QA register CSV: [`hodeidah-qa-register.csv`](hodeidah-qa-register.csv)
-- Maintenance schedule CSV: [`hodeidah-maintenance-schedule.csv`](hodeidah-maintenance-schedule.csv)
+- Tracked compact asset register: [`hodeidah-assets.csv`](hodeidah-assets.csv)
+- Tracked operations manifest: [`hodeidah-operations-manifest.json`](hodeidah-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `hodeidah-operations.json.gz`
+- `hodeidah-acceptance-evidence-matrix.csv`
+- `hodeidah-manufacturing-schedule.csv`
+- `hodeidah-manufacturing-materials.csv`
+- `hodeidah-manufacturing-verification.csv`
+- `hodeidah-qa-register.csv`
+- `hodeidah-maintenance-schedule.csv`
 
 ## Accreditation Use
 

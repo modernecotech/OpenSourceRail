@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`sukkur-operations.json.gz`](sukkur-operations.json.gz)
-- Evidence matrix CSV: [`sukkur-acceptance-evidence-matrix.csv`](sukkur-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`sukkur-manufacturing-schedule.csv`](sukkur-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`sukkur-manufacturing-materials.csv`](sukkur-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`sukkur-manufacturing-verification.csv`](sukkur-manufacturing-verification.csv)
-- QA register CSV: [`sukkur-qa-register.csv`](sukkur-qa-register.csv)
-- Maintenance schedule CSV: [`sukkur-maintenance-schedule.csv`](sukkur-maintenance-schedule.csv)
+- Tracked compact asset register: [`sukkur-assets.csv`](sukkur-assets.csv)
+- Tracked operations manifest: [`sukkur-operations-manifest.json`](sukkur-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `sukkur-operations.json.gz`
+- `sukkur-acceptance-evidence-matrix.csv`
+- `sukkur-manufacturing-schedule.csv`
+- `sukkur-manufacturing-materials.csv`
+- `sukkur-manufacturing-verification.csv`
+- `sukkur-qa-register.csv`
+- `sukkur-maintenance-schedule.csv`
 
 ## Accreditation Use
 

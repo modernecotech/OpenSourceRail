@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`jizan-operations.json.gz`](jizan-operations.json.gz)
-- Evidence matrix CSV: [`jizan-acceptance-evidence-matrix.csv`](jizan-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`jizan-manufacturing-schedule.csv`](jizan-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`jizan-manufacturing-materials.csv`](jizan-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`jizan-manufacturing-verification.csv`](jizan-manufacturing-verification.csv)
-- QA register CSV: [`jizan-qa-register.csv`](jizan-qa-register.csv)
-- Maintenance schedule CSV: [`jizan-maintenance-schedule.csv`](jizan-maintenance-schedule.csv)
+- Tracked compact asset register: [`jizan-assets.csv`](jizan-assets.csv)
+- Tracked operations manifest: [`jizan-operations-manifest.json`](jizan-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `jizan-operations.json.gz`
+- `jizan-acceptance-evidence-matrix.csv`
+- `jizan-manufacturing-schedule.csv`
+- `jizan-manufacturing-materials.csv`
+- `jizan-manufacturing-verification.csv`
+- `jizan-qa-register.csv`
+- `jizan-maintenance-schedule.csv`
 
 ## Accreditation Use
 

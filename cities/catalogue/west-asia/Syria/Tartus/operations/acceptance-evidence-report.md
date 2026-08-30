@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`tartus-operations.json.gz`](tartus-operations.json.gz)
-- Evidence matrix CSV: [`tartus-acceptance-evidence-matrix.csv`](tartus-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`tartus-manufacturing-schedule.csv`](tartus-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`tartus-manufacturing-materials.csv`](tartus-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`tartus-manufacturing-verification.csv`](tartus-manufacturing-verification.csv)
-- QA register CSV: [`tartus-qa-register.csv`](tartus-qa-register.csv)
-- Maintenance schedule CSV: [`tartus-maintenance-schedule.csv`](tartus-maintenance-schedule.csv)
+- Tracked compact asset register: [`tartus-assets.csv`](tartus-assets.csv)
+- Tracked operations manifest: [`tartus-operations-manifest.json`](tartus-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `tartus-operations.json.gz`
+- `tartus-acceptance-evidence-matrix.csv`
+- `tartus-manufacturing-schedule.csv`
+- `tartus-manufacturing-materials.csv`
+- `tartus-manufacturing-verification.csv`
+- `tartus-qa-register.csv`
+- `tartus-maintenance-schedule.csv`
 
 ## Accreditation Use
 

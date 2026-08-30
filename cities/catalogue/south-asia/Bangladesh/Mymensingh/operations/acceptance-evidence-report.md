@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`mymensingh-operations.json.gz`](mymensingh-operations.json.gz)
-- Evidence matrix CSV: [`mymensingh-acceptance-evidence-matrix.csv`](mymensingh-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`mymensingh-manufacturing-schedule.csv`](mymensingh-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`mymensingh-manufacturing-materials.csv`](mymensingh-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`mymensingh-manufacturing-verification.csv`](mymensingh-manufacturing-verification.csv)
-- QA register CSV: [`mymensingh-qa-register.csv`](mymensingh-qa-register.csv)
-- Maintenance schedule CSV: [`mymensingh-maintenance-schedule.csv`](mymensingh-maintenance-schedule.csv)
+- Tracked compact asset register: [`mymensingh-assets.csv`](mymensingh-assets.csv)
+- Tracked operations manifest: [`mymensingh-operations-manifest.json`](mymensingh-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `mymensingh-operations.json.gz`
+- `mymensingh-acceptance-evidence-matrix.csv`
+- `mymensingh-manufacturing-schedule.csv`
+- `mymensingh-manufacturing-materials.csv`
+- `mymensingh-manufacturing-verification.csv`
+- `mymensingh-qa-register.csv`
+- `mymensingh-maintenance-schedule.csv`
 
 ## Accreditation Use
 

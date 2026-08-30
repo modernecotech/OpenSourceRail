@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`khulna-operations.json.gz`](khulna-operations.json.gz)
-- Evidence matrix CSV: [`khulna-acceptance-evidence-matrix.csv`](khulna-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`khulna-manufacturing-schedule.csv`](khulna-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`khulna-manufacturing-materials.csv`](khulna-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`khulna-manufacturing-verification.csv`](khulna-manufacturing-verification.csv)
-- QA register CSV: [`khulna-qa-register.csv`](khulna-qa-register.csv)
-- Maintenance schedule CSV: [`khulna-maintenance-schedule.csv`](khulna-maintenance-schedule.csv)
+- Tracked compact asset register: [`khulna-assets.csv`](khulna-assets.csv)
+- Tracked operations manifest: [`khulna-operations-manifest.json`](khulna-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `khulna-operations.json.gz`
+- `khulna-acceptance-evidence-matrix.csv`
+- `khulna-manufacturing-schedule.csv`
+- `khulna-manufacturing-materials.csv`
+- `khulna-manufacturing-verification.csv`
+- `khulna-qa-register.csv`
+- `khulna-maintenance-schedule.csv`
 
 ## Accreditation Use
 

@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`mbuji-mayi-operations.json.gz`](mbuji-mayi-operations.json.gz)
-- Evidence matrix CSV: [`mbuji-mayi-acceptance-evidence-matrix.csv`](mbuji-mayi-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`mbuji-mayi-manufacturing-schedule.csv`](mbuji-mayi-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`mbuji-mayi-manufacturing-materials.csv`](mbuji-mayi-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`mbuji-mayi-manufacturing-verification.csv`](mbuji-mayi-manufacturing-verification.csv)
-- QA register CSV: [`mbuji-mayi-qa-register.csv`](mbuji-mayi-qa-register.csv)
-- Maintenance schedule CSV: [`mbuji-mayi-maintenance-schedule.csv`](mbuji-mayi-maintenance-schedule.csv)
+- Tracked compact asset register: [`mbuji-mayi-assets.csv`](mbuji-mayi-assets.csv)
+- Tracked operations manifest: [`mbuji-mayi-operations-manifest.json`](mbuji-mayi-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `mbuji-mayi-operations.json.gz`
+- `mbuji-mayi-acceptance-evidence-matrix.csv`
+- `mbuji-mayi-manufacturing-schedule.csv`
+- `mbuji-mayi-manufacturing-materials.csv`
+- `mbuji-mayi-manufacturing-verification.csv`
+- `mbuji-mayi-qa-register.csv`
+- `mbuji-mayi-maintenance-schedule.csv`
 
 ## Accreditation Use
 

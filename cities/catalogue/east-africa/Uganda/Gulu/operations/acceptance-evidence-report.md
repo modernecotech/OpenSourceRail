@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`gulu-operations.json.gz`](gulu-operations.json.gz)
-- Evidence matrix CSV: [`gulu-acceptance-evidence-matrix.csv`](gulu-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`gulu-manufacturing-schedule.csv`](gulu-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`gulu-manufacturing-materials.csv`](gulu-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`gulu-manufacturing-verification.csv`](gulu-manufacturing-verification.csv)
-- QA register CSV: [`gulu-qa-register.csv`](gulu-qa-register.csv)
-- Maintenance schedule CSV: [`gulu-maintenance-schedule.csv`](gulu-maintenance-schedule.csv)
+- Tracked compact asset register: [`gulu-assets.csv`](gulu-assets.csv)
+- Tracked operations manifest: [`gulu-operations-manifest.json`](gulu-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `gulu-operations.json.gz`
+- `gulu-acceptance-evidence-matrix.csv`
+- `gulu-manufacturing-schedule.csv`
+- `gulu-manufacturing-materials.csv`
+- `gulu-manufacturing-verification.csv`
+- `gulu-qa-register.csv`
+- `gulu-maintenance-schedule.csv`
 
 ## Accreditation Use
 

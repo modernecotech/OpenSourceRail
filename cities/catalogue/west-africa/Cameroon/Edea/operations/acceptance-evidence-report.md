@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`edea-operations.json.gz`](edea-operations.json.gz)
-- Evidence matrix CSV: [`edea-acceptance-evidence-matrix.csv`](edea-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`edea-manufacturing-schedule.csv`](edea-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`edea-manufacturing-materials.csv`](edea-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`edea-manufacturing-verification.csv`](edea-manufacturing-verification.csv)
-- QA register CSV: [`edea-qa-register.csv`](edea-qa-register.csv)
-- Maintenance schedule CSV: [`edea-maintenance-schedule.csv`](edea-maintenance-schedule.csv)
+- Tracked compact asset register: [`edea-assets.csv`](edea-assets.csv)
+- Tracked operations manifest: [`edea-operations-manifest.json`](edea-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `edea-operations.json.gz`
+- `edea-acceptance-evidence-matrix.csv`
+- `edea-manufacturing-schedule.csv`
+- `edea-manufacturing-materials.csv`
+- `edea-manufacturing-verification.csv`
+- `edea-qa-register.csv`
+- `edea-maintenance-schedule.csv`
 
 ## Accreditation Use
 

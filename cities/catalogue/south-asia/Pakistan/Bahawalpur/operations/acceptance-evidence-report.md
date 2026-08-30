@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`bahawalpur-operations.json.gz`](bahawalpur-operations.json.gz)
-- Evidence matrix CSV: [`bahawalpur-acceptance-evidence-matrix.csv`](bahawalpur-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`bahawalpur-manufacturing-schedule.csv`](bahawalpur-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`bahawalpur-manufacturing-materials.csv`](bahawalpur-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`bahawalpur-manufacturing-verification.csv`](bahawalpur-manufacturing-verification.csv)
-- QA register CSV: [`bahawalpur-qa-register.csv`](bahawalpur-qa-register.csv)
-- Maintenance schedule CSV: [`bahawalpur-maintenance-schedule.csv`](bahawalpur-maintenance-schedule.csv)
+- Tracked compact asset register: [`bahawalpur-assets.csv`](bahawalpur-assets.csv)
+- Tracked operations manifest: [`bahawalpur-operations-manifest.json`](bahawalpur-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `bahawalpur-operations.json.gz`
+- `bahawalpur-acceptance-evidence-matrix.csv`
+- `bahawalpur-manufacturing-schedule.csv`
+- `bahawalpur-manufacturing-materials.csv`
+- `bahawalpur-manufacturing-verification.csv`
+- `bahawalpur-qa-register.csv`
+- `bahawalpur-maintenance-schedule.csv`
 
 ## Accreditation Use
 

@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`hillah-operations.json.gz`](hillah-operations.json.gz)
-- Evidence matrix CSV: [`hillah-acceptance-evidence-matrix.csv`](hillah-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`hillah-manufacturing-schedule.csv`](hillah-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`hillah-manufacturing-materials.csv`](hillah-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`hillah-manufacturing-verification.csv`](hillah-manufacturing-verification.csv)
-- QA register CSV: [`hillah-qa-register.csv`](hillah-qa-register.csv)
-- Maintenance schedule CSV: [`hillah-maintenance-schedule.csv`](hillah-maintenance-schedule.csv)
+- Tracked compact asset register: [`hillah-assets.csv`](hillah-assets.csv)
+- Tracked operations manifest: [`hillah-operations-manifest.json`](hillah-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `hillah-operations.json.gz`
+- `hillah-acceptance-evidence-matrix.csv`
+- `hillah-manufacturing-schedule.csv`
+- `hillah-manufacturing-materials.csv`
+- `hillah-manufacturing-verification.csv`
+- `hillah-qa-register.csv`
+- `hillah-maintenance-schedule.csv`
 
 ## Accreditation Use
 

@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`ranchi-operations.json.gz`](ranchi-operations.json.gz)
-- Evidence matrix CSV: [`ranchi-acceptance-evidence-matrix.csv`](ranchi-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`ranchi-manufacturing-schedule.csv`](ranchi-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`ranchi-manufacturing-materials.csv`](ranchi-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`ranchi-manufacturing-verification.csv`](ranchi-manufacturing-verification.csv)
-- QA register CSV: [`ranchi-qa-register.csv`](ranchi-qa-register.csv)
-- Maintenance schedule CSV: [`ranchi-maintenance-schedule.csv`](ranchi-maintenance-schedule.csv)
+- Tracked compact asset register: [`ranchi-assets.csv`](ranchi-assets.csv)
+- Tracked operations manifest: [`ranchi-operations-manifest.json`](ranchi-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `ranchi-operations.json.gz`
+- `ranchi-acceptance-evidence-matrix.csv`
+- `ranchi-manufacturing-schedule.csv`
+- `ranchi-manufacturing-materials.csv`
+- `ranchi-manufacturing-verification.csv`
+- `ranchi-qa-register.csv`
+- `ranchi-maintenance-schedule.csv`
 
 ## Accreditation Use
 

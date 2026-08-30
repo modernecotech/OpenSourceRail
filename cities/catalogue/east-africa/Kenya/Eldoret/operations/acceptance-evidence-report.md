@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`eldoret-operations.json.gz`](eldoret-operations.json.gz)
-- Evidence matrix CSV: [`eldoret-acceptance-evidence-matrix.csv`](eldoret-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`eldoret-manufacturing-schedule.csv`](eldoret-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`eldoret-manufacturing-materials.csv`](eldoret-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`eldoret-manufacturing-verification.csv`](eldoret-manufacturing-verification.csv)
-- QA register CSV: [`eldoret-qa-register.csv`](eldoret-qa-register.csv)
-- Maintenance schedule CSV: [`eldoret-maintenance-schedule.csv`](eldoret-maintenance-schedule.csv)
+- Tracked compact asset register: [`eldoret-assets.csv`](eldoret-assets.csv)
+- Tracked operations manifest: [`eldoret-operations-manifest.json`](eldoret-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `eldoret-operations.json.gz`
+- `eldoret-acceptance-evidence-matrix.csv`
+- `eldoret-manufacturing-schedule.csv`
+- `eldoret-manufacturing-materials.csv`
+- `eldoret-manufacturing-verification.csv`
+- `eldoret-qa-register.csv`
+- `eldoret-maintenance-schedule.csv`
 
 ## Accreditation Use
 

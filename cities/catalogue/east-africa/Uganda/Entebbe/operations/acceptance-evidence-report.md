@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`entebbe-operations.json.gz`](entebbe-operations.json.gz)
-- Evidence matrix CSV: [`entebbe-acceptance-evidence-matrix.csv`](entebbe-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`entebbe-manufacturing-schedule.csv`](entebbe-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`entebbe-manufacturing-materials.csv`](entebbe-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`entebbe-manufacturing-verification.csv`](entebbe-manufacturing-verification.csv)
-- QA register CSV: [`entebbe-qa-register.csv`](entebbe-qa-register.csv)
-- Maintenance schedule CSV: [`entebbe-maintenance-schedule.csv`](entebbe-maintenance-schedule.csv)
+- Tracked compact asset register: [`entebbe-assets.csv`](entebbe-assets.csv)
+- Tracked operations manifest: [`entebbe-operations-manifest.json`](entebbe-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `entebbe-operations.json.gz`
+- `entebbe-acceptance-evidence-matrix.csv`
+- `entebbe-manufacturing-schedule.csv`
+- `entebbe-manufacturing-materials.csv`
+- `entebbe-manufacturing-verification.csv`
+- `entebbe-qa-register.csv`
+- `entebbe-maintenance-schedule.csv`
 
 ## Accreditation Use
 

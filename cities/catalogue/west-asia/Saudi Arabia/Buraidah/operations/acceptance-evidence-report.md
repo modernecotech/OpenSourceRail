@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`buraidah-operations.json.gz`](buraidah-operations.json.gz)
-- Evidence matrix CSV: [`buraidah-acceptance-evidence-matrix.csv`](buraidah-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`buraidah-manufacturing-schedule.csv`](buraidah-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`buraidah-manufacturing-materials.csv`](buraidah-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`buraidah-manufacturing-verification.csv`](buraidah-manufacturing-verification.csv)
-- QA register CSV: [`buraidah-qa-register.csv`](buraidah-qa-register.csv)
-- Maintenance schedule CSV: [`buraidah-maintenance-schedule.csv`](buraidah-maintenance-schedule.csv)
+- Tracked compact asset register: [`buraidah-assets.csv`](buraidah-assets.csv)
+- Tracked operations manifest: [`buraidah-operations-manifest.json`](buraidah-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `buraidah-operations.json.gz`
+- `buraidah-acceptance-evidence-matrix.csv`
+- `buraidah-manufacturing-schedule.csv`
+- `buraidah-manufacturing-materials.csv`
+- `buraidah-manufacturing-verification.csv`
+- `buraidah-qa-register.csv`
+- `buraidah-maintenance-schedule.csv`
 
 ## Accreditation Use
 

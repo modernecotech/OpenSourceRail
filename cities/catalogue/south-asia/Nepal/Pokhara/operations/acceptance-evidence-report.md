@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`pokhara-operations.json.gz`](pokhara-operations.json.gz)
-- Evidence matrix CSV: [`pokhara-acceptance-evidence-matrix.csv`](pokhara-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`pokhara-manufacturing-schedule.csv`](pokhara-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`pokhara-manufacturing-materials.csv`](pokhara-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`pokhara-manufacturing-verification.csv`](pokhara-manufacturing-verification.csv)
-- QA register CSV: [`pokhara-qa-register.csv`](pokhara-qa-register.csv)
-- Maintenance schedule CSV: [`pokhara-maintenance-schedule.csv`](pokhara-maintenance-schedule.csv)
+- Tracked compact asset register: [`pokhara-assets.csv`](pokhara-assets.csv)
+- Tracked operations manifest: [`pokhara-operations-manifest.json`](pokhara-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `pokhara-operations.json.gz`
+- `pokhara-acceptance-evidence-matrix.csv`
+- `pokhara-manufacturing-schedule.csv`
+- `pokhara-manufacturing-materials.csv`
+- `pokhara-manufacturing-verification.csv`
+- `pokhara-qa-register.csv`
+- `pokhara-maintenance-schedule.csv`
 
 ## Accreditation Use
 

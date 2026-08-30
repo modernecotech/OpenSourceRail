@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`songea-operations.json.gz`](songea-operations.json.gz)
-- Evidence matrix CSV: [`songea-acceptance-evidence-matrix.csv`](songea-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`songea-manufacturing-schedule.csv`](songea-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`songea-manufacturing-materials.csv`](songea-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`songea-manufacturing-verification.csv`](songea-manufacturing-verification.csv)
-- QA register CSV: [`songea-qa-register.csv`](songea-qa-register.csv)
-- Maintenance schedule CSV: [`songea-maintenance-schedule.csv`](songea-maintenance-schedule.csv)
+- Tracked compact asset register: [`songea-assets.csv`](songea-assets.csv)
+- Tracked operations manifest: [`songea-operations-manifest.json`](songea-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `songea-operations.json.gz`
+- `songea-acceptance-evidence-matrix.csv`
+- `songea-manufacturing-schedule.csv`
+- `songea-manufacturing-materials.csv`
+- `songea-manufacturing-verification.csv`
+- `songea-qa-register.csv`
+- `songea-maintenance-schedule.csv`
 
 ## Accreditation Use
 

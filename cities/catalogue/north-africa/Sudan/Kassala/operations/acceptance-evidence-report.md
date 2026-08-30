@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`kassala-operations.json.gz`](kassala-operations.json.gz)
-- Evidence matrix CSV: [`kassala-acceptance-evidence-matrix.csv`](kassala-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`kassala-manufacturing-schedule.csv`](kassala-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`kassala-manufacturing-materials.csv`](kassala-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`kassala-manufacturing-verification.csv`](kassala-manufacturing-verification.csv)
-- QA register CSV: [`kassala-qa-register.csv`](kassala-qa-register.csv)
-- Maintenance schedule CSV: [`kassala-maintenance-schedule.csv`](kassala-maintenance-schedule.csv)
+- Tracked compact asset register: [`kassala-assets.csv`](kassala-assets.csv)
+- Tracked operations manifest: [`kassala-operations-manifest.json`](kassala-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `kassala-operations.json.gz`
+- `kassala-acceptance-evidence-matrix.csv`
+- `kassala-manufacturing-schedule.csv`
+- `kassala-manufacturing-materials.csv`
+- `kassala-manufacturing-verification.csv`
+- `kassala-qa-register.csv`
+- `kassala-maintenance-schedule.csv`
 
 ## Accreditation Use
 

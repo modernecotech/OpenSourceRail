@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`lyon-operations.json.gz`](lyon-operations.json.gz)
-- Evidence matrix CSV: [`lyon-acceptance-evidence-matrix.csv`](lyon-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`lyon-manufacturing-schedule.csv`](lyon-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`lyon-manufacturing-materials.csv`](lyon-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`lyon-manufacturing-verification.csv`](lyon-manufacturing-verification.csv)
-- QA register CSV: [`lyon-qa-register.csv`](lyon-qa-register.csv)
-- Maintenance schedule CSV: [`lyon-maintenance-schedule.csv`](lyon-maintenance-schedule.csv)
+- Tracked compact asset register: [`lyon-assets.csv`](lyon-assets.csv)
+- Tracked operations manifest: [`lyon-operations-manifest.json`](lyon-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `lyon-operations.json.gz`
+- `lyon-acceptance-evidence-matrix.csv`
+- `lyon-manufacturing-schedule.csv`
+- `lyon-manufacturing-materials.csv`
+- `lyon-manufacturing-verification.csv`
+- `lyon-qa-register.csv`
+- `lyon-maintenance-schedule.csv`
 
 ## Accreditation Use
 

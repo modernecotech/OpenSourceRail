@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`maputo-operations.json.gz`](maputo-operations.json.gz)
-- Evidence matrix CSV: [`maputo-acceptance-evidence-matrix.csv`](maputo-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`maputo-manufacturing-schedule.csv`](maputo-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`maputo-manufacturing-materials.csv`](maputo-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`maputo-manufacturing-verification.csv`](maputo-manufacturing-verification.csv)
-- QA register CSV: [`maputo-qa-register.csv`](maputo-qa-register.csv)
-- Maintenance schedule CSV: [`maputo-maintenance-schedule.csv`](maputo-maintenance-schedule.csv)
+- Tracked compact asset register: [`maputo-assets.csv`](maputo-assets.csv)
+- Tracked operations manifest: [`maputo-operations-manifest.json`](maputo-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `maputo-operations.json.gz`
+- `maputo-acceptance-evidence-matrix.csv`
+- `maputo-manufacturing-schedule.csv`
+- `maputo-manufacturing-materials.csv`
+- `maputo-manufacturing-verification.csv`
+- `maputo-qa-register.csv`
+- `maputo-maintenance-schedule.csv`
 
 ## Accreditation Use
 

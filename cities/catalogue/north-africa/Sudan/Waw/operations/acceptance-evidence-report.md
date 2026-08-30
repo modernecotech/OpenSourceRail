@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`waw-operations.json.gz`](waw-operations.json.gz)
-- Evidence matrix CSV: [`waw-acceptance-evidence-matrix.csv`](waw-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`waw-manufacturing-schedule.csv`](waw-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`waw-manufacturing-materials.csv`](waw-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`waw-manufacturing-verification.csv`](waw-manufacturing-verification.csv)
-- QA register CSV: [`waw-qa-register.csv`](waw-qa-register.csv)
-- Maintenance schedule CSV: [`waw-maintenance-schedule.csv`](waw-maintenance-schedule.csv)
+- Tracked compact asset register: [`waw-assets.csv`](waw-assets.csv)
+- Tracked operations manifest: [`waw-operations-manifest.json`](waw-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `waw-operations.json.gz`
+- `waw-acceptance-evidence-matrix.csv`
+- `waw-manufacturing-schedule.csv`
+- `waw-manufacturing-materials.csv`
+- `waw-manufacturing-verification.csv`
+- `waw-qa-register.csv`
+- `waw-maintenance-schedule.csv`
 
 ## Accreditation Use
 

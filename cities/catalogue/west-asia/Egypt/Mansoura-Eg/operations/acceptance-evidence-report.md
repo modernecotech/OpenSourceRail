@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`mansoura-eg-operations.json.gz`](mansoura-eg-operations.json.gz)
-- Evidence matrix CSV: [`mansoura-eg-acceptance-evidence-matrix.csv`](mansoura-eg-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`mansoura-eg-manufacturing-schedule.csv`](mansoura-eg-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`mansoura-eg-manufacturing-materials.csv`](mansoura-eg-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`mansoura-eg-manufacturing-verification.csv`](mansoura-eg-manufacturing-verification.csv)
-- QA register CSV: [`mansoura-eg-qa-register.csv`](mansoura-eg-qa-register.csv)
-- Maintenance schedule CSV: [`mansoura-eg-maintenance-schedule.csv`](mansoura-eg-maintenance-schedule.csv)
+- Tracked compact asset register: [`mansoura-eg-assets.csv`](mansoura-eg-assets.csv)
+- Tracked operations manifest: [`mansoura-eg-operations-manifest.json`](mansoura-eg-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `mansoura-eg-operations.json.gz`
+- `mansoura-eg-acceptance-evidence-matrix.csv`
+- `mansoura-eg-manufacturing-schedule.csv`
+- `mansoura-eg-manufacturing-materials.csv`
+- `mansoura-eg-manufacturing-verification.csv`
+- `mansoura-eg-qa-register.csv`
+- `mansoura-eg-maintenance-schedule.csv`
 
 ## Accreditation Use
 

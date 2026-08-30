@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`kakamega-operations.json.gz`](kakamega-operations.json.gz)
-- Evidence matrix CSV: [`kakamega-acceptance-evidence-matrix.csv`](kakamega-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`kakamega-manufacturing-schedule.csv`](kakamega-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`kakamega-manufacturing-materials.csv`](kakamega-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`kakamega-manufacturing-verification.csv`](kakamega-manufacturing-verification.csv)
-- QA register CSV: [`kakamega-qa-register.csv`](kakamega-qa-register.csv)
-- Maintenance schedule CSV: [`kakamega-maintenance-schedule.csv`](kakamega-maintenance-schedule.csv)
+- Tracked compact asset register: [`kakamega-assets.csv`](kakamega-assets.csv)
+- Tracked operations manifest: [`kakamega-operations-manifest.json`](kakamega-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `kakamega-operations.json.gz`
+- `kakamega-acceptance-evidence-matrix.csv`
+- `kakamega-manufacturing-schedule.csv`
+- `kakamega-manufacturing-materials.csv`
+- `kakamega-manufacturing-verification.csv`
+- `kakamega-qa-register.csv`
+- `kakamega-maintenance-schedule.csv`
 
 ## Accreditation Use
 

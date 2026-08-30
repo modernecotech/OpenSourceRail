@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`vientiane-operations.json.gz`](vientiane-operations.json.gz)
-- Evidence matrix CSV: [`vientiane-acceptance-evidence-matrix.csv`](vientiane-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`vientiane-manufacturing-schedule.csv`](vientiane-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`vientiane-manufacturing-materials.csv`](vientiane-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`vientiane-manufacturing-verification.csv`](vientiane-manufacturing-verification.csv)
-- QA register CSV: [`vientiane-qa-register.csv`](vientiane-qa-register.csv)
-- Maintenance schedule CSV: [`vientiane-maintenance-schedule.csv`](vientiane-maintenance-schedule.csv)
+- Tracked compact asset register: [`vientiane-assets.csv`](vientiane-assets.csv)
+- Tracked operations manifest: [`vientiane-operations-manifest.json`](vientiane-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `vientiane-operations.json.gz`
+- `vientiane-acceptance-evidence-matrix.csv`
+- `vientiane-manufacturing-schedule.csv`
+- `vientiane-manufacturing-materials.csv`
+- `vientiane-manufacturing-verification.csv`
+- `vientiane-qa-register.csv`
+- `vientiane-maintenance-schedule.csv`
 
 ## Accreditation Use
 

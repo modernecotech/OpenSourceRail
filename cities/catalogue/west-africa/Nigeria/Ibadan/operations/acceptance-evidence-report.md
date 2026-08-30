@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`ibadan-operations.json.gz`](ibadan-operations.json.gz)
-- Evidence matrix CSV: [`ibadan-acceptance-evidence-matrix.csv`](ibadan-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`ibadan-manufacturing-schedule.csv`](ibadan-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`ibadan-manufacturing-materials.csv`](ibadan-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`ibadan-manufacturing-verification.csv`](ibadan-manufacturing-verification.csv)
-- QA register CSV: [`ibadan-qa-register.csv`](ibadan-qa-register.csv)
-- Maintenance schedule CSV: [`ibadan-maintenance-schedule.csv`](ibadan-maintenance-schedule.csv)
+- Tracked compact asset register: [`ibadan-assets.csv`](ibadan-assets.csv)
+- Tracked operations manifest: [`ibadan-operations-manifest.json`](ibadan-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `ibadan-operations.json.gz`
+- `ibadan-acceptance-evidence-matrix.csv`
+- `ibadan-manufacturing-schedule.csv`
+- `ibadan-manufacturing-materials.csv`
+- `ibadan-manufacturing-verification.csv`
+- `ibadan-qa-register.csv`
+- `ibadan-maintenance-schedule.csv`
 
 ## Accreditation Use
 

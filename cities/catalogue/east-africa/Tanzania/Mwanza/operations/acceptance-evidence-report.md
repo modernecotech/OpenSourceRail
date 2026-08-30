@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`mwanza-operations.json.gz`](mwanza-operations.json.gz)
-- Evidence matrix CSV: [`mwanza-acceptance-evidence-matrix.csv`](mwanza-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`mwanza-manufacturing-schedule.csv`](mwanza-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`mwanza-manufacturing-materials.csv`](mwanza-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`mwanza-manufacturing-verification.csv`](mwanza-manufacturing-verification.csv)
-- QA register CSV: [`mwanza-qa-register.csv`](mwanza-qa-register.csv)
-- Maintenance schedule CSV: [`mwanza-maintenance-schedule.csv`](mwanza-maintenance-schedule.csv)
+- Tracked compact asset register: [`mwanza-assets.csv`](mwanza-assets.csv)
+- Tracked operations manifest: [`mwanza-operations-manifest.json`](mwanza-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `mwanza-operations.json.gz`
+- `mwanza-acceptance-evidence-matrix.csv`
+- `mwanza-manufacturing-schedule.csv`
+- `mwanza-manufacturing-materials.csv`
+- `mwanza-manufacturing-verification.csv`
+- `mwanza-qa-register.csv`
+- `mwanza-maintenance-schedule.csv`
 
 ## Accreditation Use
 

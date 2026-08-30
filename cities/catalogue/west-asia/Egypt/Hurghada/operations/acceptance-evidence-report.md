@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`hurghada-operations.json.gz`](hurghada-operations.json.gz)
-- Evidence matrix CSV: [`hurghada-acceptance-evidence-matrix.csv`](hurghada-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`hurghada-manufacturing-schedule.csv`](hurghada-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`hurghada-manufacturing-materials.csv`](hurghada-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`hurghada-manufacturing-verification.csv`](hurghada-manufacturing-verification.csv)
-- QA register CSV: [`hurghada-qa-register.csv`](hurghada-qa-register.csv)
-- Maintenance schedule CSV: [`hurghada-maintenance-schedule.csv`](hurghada-maintenance-schedule.csv)
+- Tracked compact asset register: [`hurghada-assets.csv`](hurghada-assets.csv)
+- Tracked operations manifest: [`hurghada-operations-manifest.json`](hurghada-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `hurghada-operations.json.gz`
+- `hurghada-acceptance-evidence-matrix.csv`
+- `hurghada-manufacturing-schedule.csv`
+- `hurghada-manufacturing-materials.csv`
+- `hurghada-manufacturing-verification.csv`
+- `hurghada-qa-register.csv`
+- `hurghada-maintenance-schedule.csv`
 
 ## Accreditation Use
 

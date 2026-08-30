@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`shinyanga-operations.json.gz`](shinyanga-operations.json.gz)
-- Evidence matrix CSV: [`shinyanga-acceptance-evidence-matrix.csv`](shinyanga-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`shinyanga-manufacturing-schedule.csv`](shinyanga-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`shinyanga-manufacturing-materials.csv`](shinyanga-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`shinyanga-manufacturing-verification.csv`](shinyanga-manufacturing-verification.csv)
-- QA register CSV: [`shinyanga-qa-register.csv`](shinyanga-qa-register.csv)
-- Maintenance schedule CSV: [`shinyanga-maintenance-schedule.csv`](shinyanga-maintenance-schedule.csv)
+- Tracked compact asset register: [`shinyanga-assets.csv`](shinyanga-assets.csv)
+- Tracked operations manifest: [`shinyanga-operations-manifest.json`](shinyanga-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `shinyanga-operations.json.gz`
+- `shinyanga-acceptance-evidence-matrix.csv`
+- `shinyanga-manufacturing-schedule.csv`
+- `shinyanga-manufacturing-materials.csv`
+- `shinyanga-manufacturing-verification.csv`
+- `shinyanga-qa-register.csv`
+- `shinyanga-maintenance-schedule.csv`
 
 ## Accreditation Use
 

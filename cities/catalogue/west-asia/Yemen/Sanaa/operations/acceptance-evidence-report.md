@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`sanaa-operations.json.gz`](sanaa-operations.json.gz)
-- Evidence matrix CSV: [`sanaa-acceptance-evidence-matrix.csv`](sanaa-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`sanaa-manufacturing-schedule.csv`](sanaa-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`sanaa-manufacturing-materials.csv`](sanaa-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`sanaa-manufacturing-verification.csv`](sanaa-manufacturing-verification.csv)
-- QA register CSV: [`sanaa-qa-register.csv`](sanaa-qa-register.csv)
-- Maintenance schedule CSV: [`sanaa-maintenance-schedule.csv`](sanaa-maintenance-schedule.csv)
+- Tracked compact asset register: [`sanaa-assets.csv`](sanaa-assets.csv)
+- Tracked operations manifest: [`sanaa-operations-manifest.json`](sanaa-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `sanaa-operations.json.gz`
+- `sanaa-acceptance-evidence-matrix.csv`
+- `sanaa-manufacturing-schedule.csv`
+- `sanaa-manufacturing-materials.csv`
+- `sanaa-manufacturing-verification.csv`
+- `sanaa-qa-register.csv`
+- `sanaa-maintenance-schedule.csv`
 
 ## Accreditation Use
 

@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`aden-operations.json.gz`](aden-operations.json.gz)
-- Evidence matrix CSV: [`aden-acceptance-evidence-matrix.csv`](aden-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`aden-manufacturing-schedule.csv`](aden-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`aden-manufacturing-materials.csv`](aden-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`aden-manufacturing-verification.csv`](aden-manufacturing-verification.csv)
-- QA register CSV: [`aden-qa-register.csv`](aden-qa-register.csv)
-- Maintenance schedule CSV: [`aden-maintenance-schedule.csv`](aden-maintenance-schedule.csv)
+- Tracked compact asset register: [`aden-assets.csv`](aden-assets.csv)
+- Tracked operations manifest: [`aden-operations-manifest.json`](aden-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `aden-operations.json.gz`
+- `aden-acceptance-evidence-matrix.csv`
+- `aden-manufacturing-schedule.csv`
+- `aden-manufacturing-materials.csv`
+- `aden-manufacturing-verification.csv`
+- `aden-qa-register.csv`
+- `aden-maintenance-schedule.csv`
 
 ## Accreditation Use
 

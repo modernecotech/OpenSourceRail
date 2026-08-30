@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`sidon-operations.json.gz`](sidon-operations.json.gz)
-- Evidence matrix CSV: [`sidon-acceptance-evidence-matrix.csv`](sidon-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`sidon-manufacturing-schedule.csv`](sidon-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`sidon-manufacturing-materials.csv`](sidon-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`sidon-manufacturing-verification.csv`](sidon-manufacturing-verification.csv)
-- QA register CSV: [`sidon-qa-register.csv`](sidon-qa-register.csv)
-- Maintenance schedule CSV: [`sidon-maintenance-schedule.csv`](sidon-maintenance-schedule.csv)
+- Tracked compact asset register: [`sidon-assets.csv`](sidon-assets.csv)
+- Tracked operations manifest: [`sidon-operations-manifest.json`](sidon-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `sidon-operations.json.gz`
+- `sidon-acceptance-evidence-matrix.csv`
+- `sidon-manufacturing-schedule.csv`
+- `sidon-manufacturing-materials.csv`
+- `sidon-manufacturing-verification.csv`
+- `sidon-qa-register.csv`
+- `sidon-maintenance-schedule.csv`
 
 ## Accreditation Use
 

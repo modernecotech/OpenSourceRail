@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`minya-operations.json.gz`](minya-operations.json.gz)
-- Evidence matrix CSV: [`minya-acceptance-evidence-matrix.csv`](minya-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`minya-manufacturing-schedule.csv`](minya-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`minya-manufacturing-materials.csv`](minya-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`minya-manufacturing-verification.csv`](minya-manufacturing-verification.csv)
-- QA register CSV: [`minya-qa-register.csv`](minya-qa-register.csv)
-- Maintenance schedule CSV: [`minya-maintenance-schedule.csv`](minya-maintenance-schedule.csv)
+- Tracked compact asset register: [`minya-assets.csv`](minya-assets.csv)
+- Tracked operations manifest: [`minya-operations-manifest.json`](minya-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `minya-operations.json.gz`
+- `minya-acceptance-evidence-matrix.csv`
+- `minya-manufacturing-schedule.csv`
+- `minya-manufacturing-materials.csv`
+- `minya-manufacturing-verification.csv`
+- `minya-qa-register.csv`
+- `minya-maintenance-schedule.csv`
 
 ## Accreditation Use
 

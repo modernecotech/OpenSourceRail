@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`hyderabad-pk-operations.json.gz`](hyderabad-pk-operations.json.gz)
-- Evidence matrix CSV: [`hyderabad-pk-acceptance-evidence-matrix.csv`](hyderabad-pk-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`hyderabad-pk-manufacturing-schedule.csv`](hyderabad-pk-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`hyderabad-pk-manufacturing-materials.csv`](hyderabad-pk-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`hyderabad-pk-manufacturing-verification.csv`](hyderabad-pk-manufacturing-verification.csv)
-- QA register CSV: [`hyderabad-pk-qa-register.csv`](hyderabad-pk-qa-register.csv)
-- Maintenance schedule CSV: [`hyderabad-pk-maintenance-schedule.csv`](hyderabad-pk-maintenance-schedule.csv)
+- Tracked compact asset register: [`hyderabad-pk-assets.csv`](hyderabad-pk-assets.csv)
+- Tracked operations manifest: [`hyderabad-pk-operations-manifest.json`](hyderabad-pk-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `hyderabad-pk-operations.json.gz`
+- `hyderabad-pk-acceptance-evidence-matrix.csv`
+- `hyderabad-pk-manufacturing-schedule.csv`
+- `hyderabad-pk-manufacturing-materials.csv`
+- `hyderabad-pk-manufacturing-verification.csv`
+- `hyderabad-pk-qa-register.csv`
+- `hyderabad-pk-maintenance-schedule.csv`
 
 ## Accreditation Use
 

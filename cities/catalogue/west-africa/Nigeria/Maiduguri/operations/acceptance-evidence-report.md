@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`maiduguri-operations.json.gz`](maiduguri-operations.json.gz)
-- Evidence matrix CSV: [`maiduguri-acceptance-evidence-matrix.csv`](maiduguri-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`maiduguri-manufacturing-schedule.csv`](maiduguri-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`maiduguri-manufacturing-materials.csv`](maiduguri-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`maiduguri-manufacturing-verification.csv`](maiduguri-manufacturing-verification.csv)
-- QA register CSV: [`maiduguri-qa-register.csv`](maiduguri-qa-register.csv)
-- Maintenance schedule CSV: [`maiduguri-maintenance-schedule.csv`](maiduguri-maintenance-schedule.csv)
+- Tracked compact asset register: [`maiduguri-assets.csv`](maiduguri-assets.csv)
+- Tracked operations manifest: [`maiduguri-operations-manifest.json`](maiduguri-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `maiduguri-operations.json.gz`
+- `maiduguri-acceptance-evidence-matrix.csv`
+- `maiduguri-manufacturing-schedule.csv`
+- `maiduguri-manufacturing-materials.csv`
+- `maiduguri-manufacturing-verification.csv`
+- `maiduguri-qa-register.csv`
+- `maiduguri-maintenance-schedule.csv`
 
 ## Accreditation Use
 

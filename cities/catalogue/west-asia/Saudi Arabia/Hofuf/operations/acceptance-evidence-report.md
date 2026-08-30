@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`hofuf-operations.json.gz`](hofuf-operations.json.gz)
-- Evidence matrix CSV: [`hofuf-acceptance-evidence-matrix.csv`](hofuf-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`hofuf-manufacturing-schedule.csv`](hofuf-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`hofuf-manufacturing-materials.csv`](hofuf-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`hofuf-manufacturing-verification.csv`](hofuf-manufacturing-verification.csv)
-- QA register CSV: [`hofuf-qa-register.csv`](hofuf-qa-register.csv)
-- Maintenance schedule CSV: [`hofuf-maintenance-schedule.csv`](hofuf-maintenance-schedule.csv)
+- Tracked compact asset register: [`hofuf-assets.csv`](hofuf-assets.csv)
+- Tracked operations manifest: [`hofuf-operations-manifest.json`](hofuf-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `hofuf-operations.json.gz`
+- `hofuf-acceptance-evidence-matrix.csv`
+- `hofuf-manufacturing-schedule.csv`
+- `hofuf-manufacturing-materials.csv`
+- `hofuf-manufacturing-verification.csv`
+- `hofuf-qa-register.csv`
+- `hofuf-maintenance-schedule.csv`
 
 ## Accreditation Use
 

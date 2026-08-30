@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`patna-operations.json.gz`](patna-operations.json.gz)
-- Evidence matrix CSV: [`patna-acceptance-evidence-matrix.csv`](patna-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`patna-manufacturing-schedule.csv`](patna-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`patna-manufacturing-materials.csv`](patna-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`patna-manufacturing-verification.csv`](patna-manufacturing-verification.csv)
-- QA register CSV: [`patna-qa-register.csv`](patna-qa-register.csv)
-- Maintenance schedule CSV: [`patna-maintenance-schedule.csv`](patna-maintenance-schedule.csv)
+- Tracked compact asset register: [`patna-assets.csv`](patna-assets.csv)
+- Tracked operations manifest: [`patna-operations-manifest.json`](patna-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `patna-operations.json.gz`
+- `patna-acceptance-evidence-matrix.csv`
+- `patna-manufacturing-schedule.csv`
+- `patna-manufacturing-materials.csv`
+- `patna-manufacturing-verification.csv`
+- `patna-qa-register.csv`
+- `patna-maintenance-schedule.csv`
 
 ## Accreditation Use
 

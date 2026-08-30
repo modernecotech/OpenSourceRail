@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`sulaymaniyah-operations.json.gz`](sulaymaniyah-operations.json.gz)
-- Evidence matrix CSV: [`sulaymaniyah-acceptance-evidence-matrix.csv`](sulaymaniyah-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`sulaymaniyah-manufacturing-schedule.csv`](sulaymaniyah-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`sulaymaniyah-manufacturing-materials.csv`](sulaymaniyah-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`sulaymaniyah-manufacturing-verification.csv`](sulaymaniyah-manufacturing-verification.csv)
-- QA register CSV: [`sulaymaniyah-qa-register.csv`](sulaymaniyah-qa-register.csv)
-- Maintenance schedule CSV: [`sulaymaniyah-maintenance-schedule.csv`](sulaymaniyah-maintenance-schedule.csv)
+- Tracked compact asset register: [`sulaymaniyah-assets.csv`](sulaymaniyah-assets.csv)
+- Tracked operations manifest: [`sulaymaniyah-operations-manifest.json`](sulaymaniyah-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `sulaymaniyah-operations.json.gz`
+- `sulaymaniyah-acceptance-evidence-matrix.csv`
+- `sulaymaniyah-manufacturing-schedule.csv`
+- `sulaymaniyah-manufacturing-materials.csv`
+- `sulaymaniyah-manufacturing-verification.csv`
+- `sulaymaniyah-qa-register.csv`
+- `sulaymaniyah-maintenance-schedule.csv`
 
 ## Accreditation Use
 

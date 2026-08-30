@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`kigali-operations.json.gz`](kigali-operations.json.gz)
-- Evidence matrix CSV: [`kigali-acceptance-evidence-matrix.csv`](kigali-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`kigali-manufacturing-schedule.csv`](kigali-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`kigali-manufacturing-materials.csv`](kigali-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`kigali-manufacturing-verification.csv`](kigali-manufacturing-verification.csv)
-- QA register CSV: [`kigali-qa-register.csv`](kigali-qa-register.csv)
-- Maintenance schedule CSV: [`kigali-maintenance-schedule.csv`](kigali-maintenance-schedule.csv)
+- Tracked compact asset register: [`kigali-assets.csv`](kigali-assets.csv)
+- Tracked operations manifest: [`kigali-operations-manifest.json`](kigali-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `kigali-operations.json.gz`
+- `kigali-acceptance-evidence-matrix.csv`
+- `kigali-manufacturing-schedule.csv`
+- `kigali-manufacturing-materials.csv`
+- `kigali-manufacturing-verification.csv`
+- `kigali-qa-register.csv`
+- `kigali-maintenance-schedule.csv`
 
 ## Accreditation Use
 

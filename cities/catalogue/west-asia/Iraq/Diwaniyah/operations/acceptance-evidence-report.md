@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`diwaniyah-operations.json.gz`](diwaniyah-operations.json.gz)
-- Evidence matrix CSV: [`diwaniyah-acceptance-evidence-matrix.csv`](diwaniyah-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`diwaniyah-manufacturing-schedule.csv`](diwaniyah-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`diwaniyah-manufacturing-materials.csv`](diwaniyah-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`diwaniyah-manufacturing-verification.csv`](diwaniyah-manufacturing-verification.csv)
-- QA register CSV: [`diwaniyah-qa-register.csv`](diwaniyah-qa-register.csv)
-- Maintenance schedule CSV: [`diwaniyah-maintenance-schedule.csv`](diwaniyah-maintenance-schedule.csv)
+- Tracked compact asset register: [`diwaniyah-assets.csv`](diwaniyah-assets.csv)
+- Tracked operations manifest: [`diwaniyah-operations-manifest.json`](diwaniyah-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `diwaniyah-operations.json.gz`
+- `diwaniyah-acceptance-evidence-matrix.csv`
+- `diwaniyah-manufacturing-schedule.csv`
+- `diwaniyah-manufacturing-materials.csv`
+- `diwaniyah-manufacturing-verification.csv`
+- `diwaniyah-qa-register.csv`
+- `diwaniyah-maintenance-schedule.csv`
 
 ## Accreditation Use
 

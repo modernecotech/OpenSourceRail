@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`agra-operations.json.gz`](agra-operations.json.gz)
-- Evidence matrix CSV: [`agra-acceptance-evidence-matrix.csv`](agra-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`agra-manufacturing-schedule.csv`](agra-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`agra-manufacturing-materials.csv`](agra-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`agra-manufacturing-verification.csv`](agra-manufacturing-verification.csv)
-- QA register CSV: [`agra-qa-register.csv`](agra-qa-register.csv)
-- Maintenance schedule CSV: [`agra-maintenance-schedule.csv`](agra-maintenance-schedule.csv)
+- Tracked compact asset register: [`agra-assets.csv`](agra-assets.csv)
+- Tracked operations manifest: [`agra-operations-manifest.json`](agra-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `agra-operations.json.gz`
+- `agra-acceptance-evidence-matrix.csv`
+- `agra-manufacturing-schedule.csv`
+- `agra-manufacturing-materials.csv`
+- `agra-manufacturing-verification.csv`
+- `agra-qa-register.csv`
+- `agra-maintenance-schedule.csv`
 
 ## Accreditation Use
 

@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`kandahar-operations.json.gz`](kandahar-operations.json.gz)
-- Evidence matrix CSV: [`kandahar-acceptance-evidence-matrix.csv`](kandahar-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`kandahar-manufacturing-schedule.csv`](kandahar-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`kandahar-manufacturing-materials.csv`](kandahar-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`kandahar-manufacturing-verification.csv`](kandahar-manufacturing-verification.csv)
-- QA register CSV: [`kandahar-qa-register.csv`](kandahar-qa-register.csv)
-- Maintenance schedule CSV: [`kandahar-maintenance-schedule.csv`](kandahar-maintenance-schedule.csv)
+- Tracked compact asset register: [`kandahar-assets.csv`](kandahar-assets.csv)
+- Tracked operations manifest: [`kandahar-operations-manifest.json`](kandahar-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `kandahar-operations.json.gz`
+- `kandahar-acceptance-evidence-matrix.csv`
+- `kandahar-manufacturing-schedule.csv`
+- `kandahar-manufacturing-materials.csv`
+- `kandahar-manufacturing-verification.csv`
+- `kandahar-qa-register.csv`
+- `kandahar-maintenance-schedule.csv`
 
 ## Accreditation Use
 

@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`nampula-operations.json.gz`](nampula-operations.json.gz)
-- Evidence matrix CSV: [`nampula-acceptance-evidence-matrix.csv`](nampula-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`nampula-manufacturing-schedule.csv`](nampula-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`nampula-manufacturing-materials.csv`](nampula-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`nampula-manufacturing-verification.csv`](nampula-manufacturing-verification.csv)
-- QA register CSV: [`nampula-qa-register.csv`](nampula-qa-register.csv)
-- Maintenance schedule CSV: [`nampula-maintenance-schedule.csv`](nampula-maintenance-schedule.csv)
+- Tracked compact asset register: [`nampula-assets.csv`](nampula-assets.csv)
+- Tracked operations manifest: [`nampula-operations-manifest.json`](nampula-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `nampula-operations.json.gz`
+- `nampula-acceptance-evidence-matrix.csv`
+- `nampula-manufacturing-schedule.csv`
+- `nampula-manufacturing-materials.csv`
+- `nampula-manufacturing-verification.csv`
+- `nampula-qa-register.csv`
+- `nampula-maintenance-schedule.csv`
 
 ## Accreditation Use
 

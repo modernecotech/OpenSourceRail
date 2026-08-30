@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`vadodara-operations.json.gz`](vadodara-operations.json.gz)
-- Evidence matrix CSV: [`vadodara-acceptance-evidence-matrix.csv`](vadodara-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`vadodara-manufacturing-schedule.csv`](vadodara-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`vadodara-manufacturing-materials.csv`](vadodara-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`vadodara-manufacturing-verification.csv`](vadodara-manufacturing-verification.csv)
-- QA register CSV: [`vadodara-qa-register.csv`](vadodara-qa-register.csv)
-- Maintenance schedule CSV: [`vadodara-maintenance-schedule.csv`](vadodara-maintenance-schedule.csv)
+- Tracked compact asset register: [`vadodara-assets.csv`](vadodara-assets.csv)
+- Tracked operations manifest: [`vadodara-operations-manifest.json`](vadodara-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `vadodara-operations.json.gz`
+- `vadodara-acceptance-evidence-matrix.csv`
+- `vadodara-manufacturing-schedule.csv`
+- `vadodara-manufacturing-materials.csv`
+- `vadodara-manufacturing-verification.csv`
+- `vadodara-qa-register.csv`
+- `vadodara-maintenance-schedule.csv`
 
 ## Accreditation Use
 

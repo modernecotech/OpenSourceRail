@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`nacala-operations.json.gz`](nacala-operations.json.gz)
-- Evidence matrix CSV: [`nacala-acceptance-evidence-matrix.csv`](nacala-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`nacala-manufacturing-schedule.csv`](nacala-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`nacala-manufacturing-materials.csv`](nacala-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`nacala-manufacturing-verification.csv`](nacala-manufacturing-verification.csv)
-- QA register CSV: [`nacala-qa-register.csv`](nacala-qa-register.csv)
-- Maintenance schedule CSV: [`nacala-maintenance-schedule.csv`](nacala-maintenance-schedule.csv)
+- Tracked compact asset register: [`nacala-assets.csv`](nacala-assets.csv)
+- Tracked operations manifest: [`nacala-operations-manifest.json`](nacala-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `nacala-operations.json.gz`
+- `nacala-acceptance-evidence-matrix.csv`
+- `nacala-manufacturing-schedule.csv`
+- `nacala-manufacturing-materials.csv`
+- `nacala-manufacturing-verification.csv`
+- `nacala-qa-register.csv`
+- `nacala-maintenance-schedule.csv`
 
 ## Accreditation Use
 

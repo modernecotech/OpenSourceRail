@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`davao-operations.json.gz`](davao-operations.json.gz)
-- Evidence matrix CSV: [`davao-acceptance-evidence-matrix.csv`](davao-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`davao-manufacturing-schedule.csv`](davao-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`davao-manufacturing-materials.csv`](davao-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`davao-manufacturing-verification.csv`](davao-manufacturing-verification.csv)
-- QA register CSV: [`davao-qa-register.csv`](davao-qa-register.csv)
-- Maintenance schedule CSV: [`davao-maintenance-schedule.csv`](davao-maintenance-schedule.csv)
+- Tracked compact asset register: [`davao-assets.csv`](davao-assets.csv)
+- Tracked operations manifest: [`davao-operations-manifest.json`](davao-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `davao-operations.json.gz`
+- `davao-acceptance-evidence-matrix.csv`
+- `davao-manufacturing-schedule.csv`
+- `davao-manufacturing-materials.csv`
+- `davao-manufacturing-verification.csv`
+- `davao-qa-register.csv`
+- `davao-maintenance-schedule.csv`
 
 ## Accreditation Use
 

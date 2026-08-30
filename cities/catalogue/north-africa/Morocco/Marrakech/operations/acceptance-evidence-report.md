@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`marrakech-operations.json.gz`](marrakech-operations.json.gz)
-- Evidence matrix CSV: [`marrakech-acceptance-evidence-matrix.csv`](marrakech-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`marrakech-manufacturing-schedule.csv`](marrakech-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`marrakech-manufacturing-materials.csv`](marrakech-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`marrakech-manufacturing-verification.csv`](marrakech-manufacturing-verification.csv)
-- QA register CSV: [`marrakech-qa-register.csv`](marrakech-qa-register.csv)
-- Maintenance schedule CSV: [`marrakech-maintenance-schedule.csv`](marrakech-maintenance-schedule.csv)
+- Tracked compact asset register: [`marrakech-assets.csv`](marrakech-assets.csv)
+- Tracked operations manifest: [`marrakech-operations-manifest.json`](marrakech-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `marrakech-operations.json.gz`
+- `marrakech-acceptance-evidence-matrix.csv`
+- `marrakech-manufacturing-schedule.csv`
+- `marrakech-manufacturing-materials.csv`
+- `marrakech-manufacturing-verification.csv`
+- `marrakech-qa-register.csv`
+- `marrakech-maintenance-schedule.csv`
 
 ## Accreditation Use
 

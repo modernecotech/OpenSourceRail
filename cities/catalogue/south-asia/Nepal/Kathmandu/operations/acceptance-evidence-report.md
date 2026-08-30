@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`kathmandu-operations.json.gz`](kathmandu-operations.json.gz)
-- Evidence matrix CSV: [`kathmandu-acceptance-evidence-matrix.csv`](kathmandu-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`kathmandu-manufacturing-schedule.csv`](kathmandu-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`kathmandu-manufacturing-materials.csv`](kathmandu-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`kathmandu-manufacturing-verification.csv`](kathmandu-manufacturing-verification.csv)
-- QA register CSV: [`kathmandu-qa-register.csv`](kathmandu-qa-register.csv)
-- Maintenance schedule CSV: [`kathmandu-maintenance-schedule.csv`](kathmandu-maintenance-schedule.csv)
+- Tracked compact asset register: [`kathmandu-assets.csv`](kathmandu-assets.csv)
+- Tracked operations manifest: [`kathmandu-operations-manifest.json`](kathmandu-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `kathmandu-operations.json.gz`
+- `kathmandu-acceptance-evidence-matrix.csv`
+- `kathmandu-manufacturing-schedule.csv`
+- `kathmandu-manufacturing-materials.csv`
+- `kathmandu-manufacturing-verification.csv`
+- `kathmandu-qa-register.csv`
+- `kathmandu-maintenance-schedule.csv`
 
 ## Accreditation Use
 

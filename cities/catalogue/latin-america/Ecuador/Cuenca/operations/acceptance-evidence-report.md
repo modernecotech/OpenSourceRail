@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`cuenca-operations.json.gz`](cuenca-operations.json.gz)
-- Evidence matrix CSV: [`cuenca-acceptance-evidence-matrix.csv`](cuenca-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`cuenca-manufacturing-schedule.csv`](cuenca-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`cuenca-manufacturing-materials.csv`](cuenca-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`cuenca-manufacturing-verification.csv`](cuenca-manufacturing-verification.csv)
-- QA register CSV: [`cuenca-qa-register.csv`](cuenca-qa-register.csv)
-- Maintenance schedule CSV: [`cuenca-maintenance-schedule.csv`](cuenca-maintenance-schedule.csv)
+- Tracked compact asset register: [`cuenca-assets.csv`](cuenca-assets.csv)
+- Tracked operations manifest: [`cuenca-operations-manifest.json`](cuenca-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `cuenca-operations.json.gz`
+- `cuenca-acceptance-evidence-matrix.csv`
+- `cuenca-manufacturing-schedule.csv`
+- `cuenca-manufacturing-materials.csv`
+- `cuenca-manufacturing-verification.csv`
+- `cuenca-qa-register.csv`
+- `cuenca-maintenance-schedule.csv`
 
 ## Accreditation Use
 

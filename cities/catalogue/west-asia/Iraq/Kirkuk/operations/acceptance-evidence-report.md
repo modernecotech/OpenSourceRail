@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`kirkuk-operations.json.gz`](kirkuk-operations.json.gz)
-- Evidence matrix CSV: [`kirkuk-acceptance-evidence-matrix.csv`](kirkuk-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`kirkuk-manufacturing-schedule.csv`](kirkuk-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`kirkuk-manufacturing-materials.csv`](kirkuk-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`kirkuk-manufacturing-verification.csv`](kirkuk-manufacturing-verification.csv)
-- QA register CSV: [`kirkuk-qa-register.csv`](kirkuk-qa-register.csv)
-- Maintenance schedule CSV: [`kirkuk-maintenance-schedule.csv`](kirkuk-maintenance-schedule.csv)
+- Tracked compact asset register: [`kirkuk-assets.csv`](kirkuk-assets.csv)
+- Tracked operations manifest: [`kirkuk-operations-manifest.json`](kirkuk-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `kirkuk-operations.json.gz`
+- `kirkuk-acceptance-evidence-matrix.csv`
+- `kirkuk-manufacturing-schedule.csv`
+- `kirkuk-manufacturing-materials.csv`
+- `kirkuk-manufacturing-verification.csv`
+- `kirkuk-qa-register.csv`
+- `kirkuk-maintenance-schedule.csv`
 
 ## Accreditation Use
 

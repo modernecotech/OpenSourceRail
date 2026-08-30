@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`goma-operations.json.gz`](goma-operations.json.gz)
-- Evidence matrix CSV: [`goma-acceptance-evidence-matrix.csv`](goma-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`goma-manufacturing-schedule.csv`](goma-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`goma-manufacturing-materials.csv`](goma-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`goma-manufacturing-verification.csv`](goma-manufacturing-verification.csv)
-- QA register CSV: [`goma-qa-register.csv`](goma-qa-register.csv)
-- Maintenance schedule CSV: [`goma-maintenance-schedule.csv`](goma-maintenance-schedule.csv)
+- Tracked compact asset register: [`goma-assets.csv`](goma-assets.csv)
+- Tracked operations manifest: [`goma-operations-manifest.json`](goma-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `goma-operations.json.gz`
+- `goma-acceptance-evidence-matrix.csv`
+- `goma-manufacturing-schedule.csv`
+- `goma-manufacturing-materials.csv`
+- `goma-manufacturing-verification.csv`
+- `goma-qa-register.csv`
+- `goma-maintenance-schedule.csv`
 
 ## Accreditation Use
 

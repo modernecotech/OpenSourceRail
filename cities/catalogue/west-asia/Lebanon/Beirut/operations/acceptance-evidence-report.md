@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`beirut-operations.json.gz`](beirut-operations.json.gz)
-- Evidence matrix CSV: [`beirut-acceptance-evidence-matrix.csv`](beirut-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`beirut-manufacturing-schedule.csv`](beirut-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`beirut-manufacturing-materials.csv`](beirut-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`beirut-manufacturing-verification.csv`](beirut-manufacturing-verification.csv)
-- QA register CSV: [`beirut-qa-register.csv`](beirut-qa-register.csv)
-- Maintenance schedule CSV: [`beirut-maintenance-schedule.csv`](beirut-maintenance-schedule.csv)
+- Tracked compact asset register: [`beirut-assets.csv`](beirut-assets.csv)
+- Tracked operations manifest: [`beirut-operations-manifest.json`](beirut-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `beirut-operations.json.gz`
+- `beirut-acceptance-evidence-matrix.csv`
+- `beirut-manufacturing-schedule.csv`
+- `beirut-manufacturing-materials.csv`
+- `beirut-manufacturing-verification.csv`
+- `beirut-qa-register.csv`
+- `beirut-maintenance-schedule.csv`
 
 ## Accreditation Use
 

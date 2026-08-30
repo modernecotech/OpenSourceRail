@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`bhopal-operations.json.gz`](bhopal-operations.json.gz)
-- Evidence matrix CSV: [`bhopal-acceptance-evidence-matrix.csv`](bhopal-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`bhopal-manufacturing-schedule.csv`](bhopal-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`bhopal-manufacturing-materials.csv`](bhopal-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`bhopal-manufacturing-verification.csv`](bhopal-manufacturing-verification.csv)
-- QA register CSV: [`bhopal-qa-register.csv`](bhopal-qa-register.csv)
-- Maintenance schedule CSV: [`bhopal-maintenance-schedule.csv`](bhopal-maintenance-schedule.csv)
+- Tracked compact asset register: [`bhopal-assets.csv`](bhopal-assets.csv)
+- Tracked operations manifest: [`bhopal-operations-manifest.json`](bhopal-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `bhopal-operations.json.gz`
+- `bhopal-acceptance-evidence-matrix.csv`
+- `bhopal-manufacturing-schedule.csv`
+- `bhopal-manufacturing-materials.csv`
+- `bhopal-manufacturing-verification.csv`
+- `bhopal-qa-register.csv`
+- `bhopal-maintenance-schedule.csv`
 
 ## Accreditation Use
 

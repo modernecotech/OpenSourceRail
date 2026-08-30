@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`bloemfontein-operations.json.gz`](bloemfontein-operations.json.gz)
-- Evidence matrix CSV: [`bloemfontein-acceptance-evidence-matrix.csv`](bloemfontein-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`bloemfontein-manufacturing-schedule.csv`](bloemfontein-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`bloemfontein-manufacturing-materials.csv`](bloemfontein-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`bloemfontein-manufacturing-verification.csv`](bloemfontein-manufacturing-verification.csv)
-- QA register CSV: [`bloemfontein-qa-register.csv`](bloemfontein-qa-register.csv)
-- Maintenance schedule CSV: [`bloemfontein-maintenance-schedule.csv`](bloemfontein-maintenance-schedule.csv)
+- Tracked compact asset register: [`bloemfontein-assets.csv`](bloemfontein-assets.csv)
+- Tracked operations manifest: [`bloemfontein-operations-manifest.json`](bloemfontein-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `bloemfontein-operations.json.gz`
+- `bloemfontein-acceptance-evidence-matrix.csv`
+- `bloemfontein-manufacturing-schedule.csv`
+- `bloemfontein-manufacturing-materials.csv`
+- `bloemfontein-manufacturing-verification.csv`
+- `bloemfontein-qa-register.csv`
+- `bloemfontein-maintenance-schedule.csv`
 
 ## Accreditation Use
 

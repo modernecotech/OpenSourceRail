@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`safi-operations.json.gz`](safi-operations.json.gz)
-- Evidence matrix CSV: [`safi-acceptance-evidence-matrix.csv`](safi-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`safi-manufacturing-schedule.csv`](safi-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`safi-manufacturing-materials.csv`](safi-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`safi-manufacturing-verification.csv`](safi-manufacturing-verification.csv)
-- QA register CSV: [`safi-qa-register.csv`](safi-qa-register.csv)
-- Maintenance schedule CSV: [`safi-maintenance-schedule.csv`](safi-maintenance-schedule.csv)
+- Tracked compact asset register: [`safi-assets.csv`](safi-assets.csv)
+- Tracked operations manifest: [`safi-operations-manifest.json`](safi-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `safi-operations.json.gz`
+- `safi-acceptance-evidence-matrix.csv`
+- `safi-manufacturing-schedule.csv`
+- `safi-manufacturing-materials.csv`
+- `safi-manufacturing-verification.csv`
+- `safi-qa-register.csv`
+- `safi-maintenance-schedule.csv`
 
 ## Accreditation Use
 

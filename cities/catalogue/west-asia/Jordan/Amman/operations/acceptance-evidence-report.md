@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`amman-operations.json.gz`](amman-operations.json.gz)
-- Evidence matrix CSV: [`amman-acceptance-evidence-matrix.csv`](amman-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`amman-manufacturing-schedule.csv`](amman-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`amman-manufacturing-materials.csv`](amman-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`amman-manufacturing-verification.csv`](amman-manufacturing-verification.csv)
-- QA register CSV: [`amman-qa-register.csv`](amman-qa-register.csv)
-- Maintenance schedule CSV: [`amman-maintenance-schedule.csv`](amman-maintenance-schedule.csv)
+- Tracked compact asset register: [`amman-assets.csv`](amman-assets.csv)
+- Tracked operations manifest: [`amman-operations-manifest.json`](amman-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `amman-operations.json.gz`
+- `amman-acceptance-evidence-matrix.csv`
+- `amman-manufacturing-schedule.csv`
+- `amman-manufacturing-materials.csv`
+- `amman-manufacturing-verification.csv`
+- `amman-qa-register.csv`
+- `amman-maintenance-schedule.csv`
 
 ## Accreditation Use
 

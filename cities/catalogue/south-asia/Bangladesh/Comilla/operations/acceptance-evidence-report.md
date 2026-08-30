@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`comilla-operations.json.gz`](comilla-operations.json.gz)
-- Evidence matrix CSV: [`comilla-acceptance-evidence-matrix.csv`](comilla-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`comilla-manufacturing-schedule.csv`](comilla-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`comilla-manufacturing-materials.csv`](comilla-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`comilla-manufacturing-verification.csv`](comilla-manufacturing-verification.csv)
-- QA register CSV: [`comilla-qa-register.csv`](comilla-qa-register.csv)
-- Maintenance schedule CSV: [`comilla-maintenance-schedule.csv`](comilla-maintenance-schedule.csv)
+- Tracked compact asset register: [`comilla-assets.csv`](comilla-assets.csv)
+- Tracked operations manifest: [`comilla-operations-manifest.json`](comilla-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `comilla-operations.json.gz`
+- `comilla-acceptance-evidence-matrix.csv`
+- `comilla-manufacturing-schedule.csv`
+- `comilla-manufacturing-materials.csv`
+- `comilla-manufacturing-verification.csv`
+- `comilla-qa-register.csv`
+- `comilla-maintenance-schedule.csv`
 
 ## Accreditation Use
 

@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`mombasa-operations.json.gz`](mombasa-operations.json.gz)
-- Evidence matrix CSV: [`mombasa-acceptance-evidence-matrix.csv`](mombasa-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`mombasa-manufacturing-schedule.csv`](mombasa-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`mombasa-manufacturing-materials.csv`](mombasa-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`mombasa-manufacturing-verification.csv`](mombasa-manufacturing-verification.csv)
-- QA register CSV: [`mombasa-qa-register.csv`](mombasa-qa-register.csv)
-- Maintenance schedule CSV: [`mombasa-maintenance-schedule.csv`](mombasa-maintenance-schedule.csv)
+- Tracked compact asset register: [`mombasa-assets.csv`](mombasa-assets.csv)
+- Tracked operations manifest: [`mombasa-operations-manifest.json`](mombasa-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `mombasa-operations.json.gz`
+- `mombasa-acceptance-evidence-matrix.csv`
+- `mombasa-manufacturing-schedule.csv`
+- `mombasa-manufacturing-materials.csv`
+- `mombasa-manufacturing-verification.csv`
+- `mombasa-qa-register.csv`
+- `mombasa-maintenance-schedule.csv`
 
 ## Accreditation Use
 

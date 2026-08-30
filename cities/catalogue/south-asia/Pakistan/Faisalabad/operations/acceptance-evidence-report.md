@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`faisalabad-operations.json.gz`](faisalabad-operations.json.gz)
-- Evidence matrix CSV: [`faisalabad-acceptance-evidence-matrix.csv`](faisalabad-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`faisalabad-manufacturing-schedule.csv`](faisalabad-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`faisalabad-manufacturing-materials.csv`](faisalabad-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`faisalabad-manufacturing-verification.csv`](faisalabad-manufacturing-verification.csv)
-- QA register CSV: [`faisalabad-qa-register.csv`](faisalabad-qa-register.csv)
-- Maintenance schedule CSV: [`faisalabad-maintenance-schedule.csv`](faisalabad-maintenance-schedule.csv)
+- Tracked compact asset register: [`faisalabad-assets.csv`](faisalabad-assets.csv)
+- Tracked operations manifest: [`faisalabad-operations-manifest.json`](faisalabad-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `faisalabad-operations.json.gz`
+- `faisalabad-acceptance-evidence-matrix.csv`
+- `faisalabad-manufacturing-schedule.csv`
+- `faisalabad-manufacturing-materials.csv`
+- `faisalabad-manufacturing-verification.csv`
+- `faisalabad-qa-register.csv`
+- `faisalabad-maintenance-schedule.csv`
 
 ## Accreditation Use
 

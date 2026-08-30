@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`douala-operations.json.gz`](douala-operations.json.gz)
-- Evidence matrix CSV: [`douala-acceptance-evidence-matrix.csv`](douala-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`douala-manufacturing-schedule.csv`](douala-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`douala-manufacturing-materials.csv`](douala-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`douala-manufacturing-verification.csv`](douala-manufacturing-verification.csv)
-- QA register CSV: [`douala-qa-register.csv`](douala-qa-register.csv)
-- Maintenance schedule CSV: [`douala-maintenance-schedule.csv`](douala-maintenance-schedule.csv)
+- Tracked compact asset register: [`douala-assets.csv`](douala-assets.csv)
+- Tracked operations manifest: [`douala-operations-manifest.json`](douala-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `douala-operations.json.gz`
+- `douala-acceptance-evidence-matrix.csv`
+- `douala-manufacturing-schedule.csv`
+- `douala-manufacturing-materials.csv`
+- `douala-manufacturing-verification.csv`
+- `douala-qa-register.csv`
+- `douala-maintenance-schedule.csv`
 
 ## Accreditation Use
 

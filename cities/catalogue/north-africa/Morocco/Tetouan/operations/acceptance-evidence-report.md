@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`tetouan-operations.json.gz`](tetouan-operations.json.gz)
-- Evidence matrix CSV: [`tetouan-acceptance-evidence-matrix.csv`](tetouan-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`tetouan-manufacturing-schedule.csv`](tetouan-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`tetouan-manufacturing-materials.csv`](tetouan-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`tetouan-manufacturing-verification.csv`](tetouan-manufacturing-verification.csv)
-- QA register CSV: [`tetouan-qa-register.csv`](tetouan-qa-register.csv)
-- Maintenance schedule CSV: [`tetouan-maintenance-schedule.csv`](tetouan-maintenance-schedule.csv)
+- Tracked compact asset register: [`tetouan-assets.csv`](tetouan-assets.csv)
+- Tracked operations manifest: [`tetouan-operations-manifest.json`](tetouan-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `tetouan-operations.json.gz`
+- `tetouan-acceptance-evidence-matrix.csv`
+- `tetouan-manufacturing-schedule.csv`
+- `tetouan-manufacturing-materials.csv`
+- `tetouan-manufacturing-verification.csv`
+- `tetouan-qa-register.csv`
+- `tetouan-maintenance-schedule.csv`
 
 ## Accreditation Use
 

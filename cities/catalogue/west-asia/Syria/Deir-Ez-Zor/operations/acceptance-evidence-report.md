@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`deir-ez-zor-operations.json.gz`](deir-ez-zor-operations.json.gz)
-- Evidence matrix CSV: [`deir-ez-zor-acceptance-evidence-matrix.csv`](deir-ez-zor-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`deir-ez-zor-manufacturing-schedule.csv`](deir-ez-zor-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`deir-ez-zor-manufacturing-materials.csv`](deir-ez-zor-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`deir-ez-zor-manufacturing-verification.csv`](deir-ez-zor-manufacturing-verification.csv)
-- QA register CSV: [`deir-ez-zor-qa-register.csv`](deir-ez-zor-qa-register.csv)
-- Maintenance schedule CSV: [`deir-ez-zor-maintenance-schedule.csv`](deir-ez-zor-maintenance-schedule.csv)
+- Tracked compact asset register: [`deir-ez-zor-assets.csv`](deir-ez-zor-assets.csv)
+- Tracked operations manifest: [`deir-ez-zor-operations-manifest.json`](deir-ez-zor-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `deir-ez-zor-operations.json.gz`
+- `deir-ez-zor-acceptance-evidence-matrix.csv`
+- `deir-ez-zor-manufacturing-schedule.csv`
+- `deir-ez-zor-manufacturing-materials.csv`
+- `deir-ez-zor-manufacturing-verification.csv`
+- `deir-ez-zor-qa-register.csv`
+- `deir-ez-zor-maintenance-schedule.csv`
 
 ## Accreditation Use
 

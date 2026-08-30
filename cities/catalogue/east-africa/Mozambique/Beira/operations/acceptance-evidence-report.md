@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`beira-operations.json.gz`](beira-operations.json.gz)
-- Evidence matrix CSV: [`beira-acceptance-evidence-matrix.csv`](beira-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`beira-manufacturing-schedule.csv`](beira-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`beira-manufacturing-materials.csv`](beira-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`beira-manufacturing-verification.csv`](beira-manufacturing-verification.csv)
-- QA register CSV: [`beira-qa-register.csv`](beira-qa-register.csv)
-- Maintenance schedule CSV: [`beira-maintenance-schedule.csv`](beira-maintenance-schedule.csv)
+- Tracked compact asset register: [`beira-assets.csv`](beira-assets.csv)
+- Tracked operations manifest: [`beira-operations-manifest.json`](beira-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `beira-operations.json.gz`
+- `beira-acceptance-evidence-matrix.csv`
+- `beira-manufacturing-schedule.csv`
+- `beira-manufacturing-materials.csv`
+- `beira-manufacturing-verification.csv`
+- `beira-qa-register.csv`
+- `beira-maintenance-schedule.csv`
 
 ## Accreditation Use
 

@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`el-obeid-operations.json.gz`](el-obeid-operations.json.gz)
-- Evidence matrix CSV: [`el-obeid-acceptance-evidence-matrix.csv`](el-obeid-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`el-obeid-manufacturing-schedule.csv`](el-obeid-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`el-obeid-manufacturing-materials.csv`](el-obeid-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`el-obeid-manufacturing-verification.csv`](el-obeid-manufacturing-verification.csv)
-- QA register CSV: [`el-obeid-qa-register.csv`](el-obeid-qa-register.csv)
-- Maintenance schedule CSV: [`el-obeid-maintenance-schedule.csv`](el-obeid-maintenance-schedule.csv)
+- Tracked compact asset register: [`el-obeid-assets.csv`](el-obeid-assets.csv)
+- Tracked operations manifest: [`el-obeid-operations-manifest.json`](el-obeid-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `el-obeid-operations.json.gz`
+- `el-obeid-acceptance-evidence-matrix.csv`
+- `el-obeid-manufacturing-schedule.csv`
+- `el-obeid-manufacturing-materials.csv`
+- `el-obeid-manufacturing-verification.csv`
+- `el-obeid-qa-register.csv`
+- `el-obeid-maintenance-schedule.csv`
 
 ## Accreditation Use
 

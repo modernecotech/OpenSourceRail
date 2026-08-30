@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`kafr-el-sheikh-operations.json.gz`](kafr-el-sheikh-operations.json.gz)
-- Evidence matrix CSV: [`kafr-el-sheikh-acceptance-evidence-matrix.csv`](kafr-el-sheikh-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`kafr-el-sheikh-manufacturing-schedule.csv`](kafr-el-sheikh-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`kafr-el-sheikh-manufacturing-materials.csv`](kafr-el-sheikh-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`kafr-el-sheikh-manufacturing-verification.csv`](kafr-el-sheikh-manufacturing-verification.csv)
-- QA register CSV: [`kafr-el-sheikh-qa-register.csv`](kafr-el-sheikh-qa-register.csv)
-- Maintenance schedule CSV: [`kafr-el-sheikh-maintenance-schedule.csv`](kafr-el-sheikh-maintenance-schedule.csv)
+- Tracked compact asset register: [`kafr-el-sheikh-assets.csv`](kafr-el-sheikh-assets.csv)
+- Tracked operations manifest: [`kafr-el-sheikh-operations-manifest.json`](kafr-el-sheikh-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `kafr-el-sheikh-operations.json.gz`
+- `kafr-el-sheikh-acceptance-evidence-matrix.csv`
+- `kafr-el-sheikh-manufacturing-schedule.csv`
+- `kafr-el-sheikh-manufacturing-materials.csv`
+- `kafr-el-sheikh-manufacturing-verification.csv`
+- `kafr-el-sheikh-qa-register.csv`
+- `kafr-el-sheikh-maintenance-schedule.csv`
 
 ## Accreditation Use
 

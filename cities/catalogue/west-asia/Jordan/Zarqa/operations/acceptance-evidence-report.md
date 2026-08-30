@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`zarqa-operations.json.gz`](zarqa-operations.json.gz)
-- Evidence matrix CSV: [`zarqa-acceptance-evidence-matrix.csv`](zarqa-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`zarqa-manufacturing-schedule.csv`](zarqa-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`zarqa-manufacturing-materials.csv`](zarqa-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`zarqa-manufacturing-verification.csv`](zarqa-manufacturing-verification.csv)
-- QA register CSV: [`zarqa-qa-register.csv`](zarqa-qa-register.csv)
-- Maintenance schedule CSV: [`zarqa-maintenance-schedule.csv`](zarqa-maintenance-schedule.csv)
+- Tracked compact asset register: [`zarqa-assets.csv`](zarqa-assets.csv)
+- Tracked operations manifest: [`zarqa-operations-manifest.json`](zarqa-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `zarqa-operations.json.gz`
+- `zarqa-acceptance-evidence-matrix.csv`
+- `zarqa-manufacturing-schedule.csv`
+- `zarqa-manufacturing-materials.csv`
+- `zarqa-manufacturing-verification.csv`
+- `zarqa-qa-register.csv`
+- `zarqa-maintenance-schedule.csv`
 
 ## Accreditation Use
 

@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`indore-operations.json.gz`](indore-operations.json.gz)
-- Evidence matrix CSV: [`indore-acceptance-evidence-matrix.csv`](indore-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`indore-manufacturing-schedule.csv`](indore-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`indore-manufacturing-materials.csv`](indore-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`indore-manufacturing-verification.csv`](indore-manufacturing-verification.csv)
-- QA register CSV: [`indore-qa-register.csv`](indore-qa-register.csv)
-- Maintenance schedule CSV: [`indore-maintenance-schedule.csv`](indore-maintenance-schedule.csv)
+- Tracked compact asset register: [`indore-assets.csv`](indore-assets.csv)
+- Tracked operations manifest: [`indore-operations-manifest.json`](indore-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `indore-operations.json.gz`
+- `indore-acceptance-evidence-matrix.csv`
+- `indore-manufacturing-schedule.csv`
+- `indore-manufacturing-materials.csv`
+- `indore-manufacturing-verification.csv`
+- `indore-qa-register.csv`
+- `indore-maintenance-schedule.csv`
 
 ## Accreditation Use
 

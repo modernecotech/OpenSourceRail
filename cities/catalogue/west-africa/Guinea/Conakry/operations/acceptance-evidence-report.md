@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`conakry-operations.json.gz`](conakry-operations.json.gz)
-- Evidence matrix CSV: [`conakry-acceptance-evidence-matrix.csv`](conakry-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`conakry-manufacturing-schedule.csv`](conakry-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`conakry-manufacturing-materials.csv`](conakry-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`conakry-manufacturing-verification.csv`](conakry-manufacturing-verification.csv)
-- QA register CSV: [`conakry-qa-register.csv`](conakry-qa-register.csv)
-- Maintenance schedule CSV: [`conakry-maintenance-schedule.csv`](conakry-maintenance-schedule.csv)
+- Tracked compact asset register: [`conakry-assets.csv`](conakry-assets.csv)
+- Tracked operations manifest: [`conakry-operations-manifest.json`](conakry-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `conakry-operations.json.gz`
+- `conakry-acceptance-evidence-matrix.csv`
+- `conakry-manufacturing-schedule.csv`
+- `conakry-manufacturing-materials.csv`
+- `conakry-manufacturing-verification.csv`
+- `conakry-qa-register.csv`
+- `conakry-maintenance-schedule.csv`
 
 ## Accreditation Use
 

@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`bandung-operations.json.gz`](bandung-operations.json.gz)
-- Evidence matrix CSV: [`bandung-acceptance-evidence-matrix.csv`](bandung-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`bandung-manufacturing-schedule.csv`](bandung-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`bandung-manufacturing-materials.csv`](bandung-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`bandung-manufacturing-verification.csv`](bandung-manufacturing-verification.csv)
-- QA register CSV: [`bandung-qa-register.csv`](bandung-qa-register.csv)
-- Maintenance schedule CSV: [`bandung-maintenance-schedule.csv`](bandung-maintenance-schedule.csv)
+- Tracked compact asset register: [`bandung-assets.csv`](bandung-assets.csv)
+- Tracked operations manifest: [`bandung-operations-manifest.json`](bandung-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `bandung-operations.json.gz`
+- `bandung-acceptance-evidence-matrix.csv`
+- `bandung-manufacturing-schedule.csv`
+- `bandung-manufacturing-materials.csv`
+- `bandung-manufacturing-verification.csv`
+- `bandung-qa-register.csv`
+- `bandung-maintenance-schedule.csv`
 
 ## Accreditation Use
 

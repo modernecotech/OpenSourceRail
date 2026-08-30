@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`lobito-operations.json.gz`](lobito-operations.json.gz)
-- Evidence matrix CSV: [`lobito-acceptance-evidence-matrix.csv`](lobito-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`lobito-manufacturing-schedule.csv`](lobito-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`lobito-manufacturing-materials.csv`](lobito-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`lobito-manufacturing-verification.csv`](lobito-manufacturing-verification.csv)
-- QA register CSV: [`lobito-qa-register.csv`](lobito-qa-register.csv)
-- Maintenance schedule CSV: [`lobito-maintenance-schedule.csv`](lobito-maintenance-schedule.csv)
+- Tracked compact asset register: [`lobito-assets.csv`](lobito-assets.csv)
+- Tracked operations manifest: [`lobito-operations-manifest.json`](lobito-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `lobito-operations.json.gz`
+- `lobito-acceptance-evidence-matrix.csv`
+- `lobito-manufacturing-schedule.csv`
+- `lobito-manufacturing-materials.csv`
+- `lobito-manufacturing-verification.csv`
+- `lobito-qa-register.csv`
+- `lobito-maintenance-schedule.csv`
 
 ## Accreditation Use
 

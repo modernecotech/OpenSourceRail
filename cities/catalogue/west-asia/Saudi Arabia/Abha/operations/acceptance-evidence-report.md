@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`abha-operations.json.gz`](abha-operations.json.gz)
-- Evidence matrix CSV: [`abha-acceptance-evidence-matrix.csv`](abha-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`abha-manufacturing-schedule.csv`](abha-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`abha-manufacturing-materials.csv`](abha-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`abha-manufacturing-verification.csv`](abha-manufacturing-verification.csv)
-- QA register CSV: [`abha-qa-register.csv`](abha-qa-register.csv)
-- Maintenance schedule CSV: [`abha-maintenance-schedule.csv`](abha-maintenance-schedule.csv)
+- Tracked compact asset register: [`abha-assets.csv`](abha-assets.csv)
+- Tracked operations manifest: [`abha-operations-manifest.json`](abha-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `abha-operations.json.gz`
+- `abha-acceptance-evidence-matrix.csv`
+- `abha-manufacturing-schedule.csv`
+- `abha-manufacturing-materials.csv`
+- `abha-manufacturing-verification.csv`
+- `abha-qa-register.csv`
+- `abha-maintenance-schedule.csv`
 
 ## Accreditation Use
 

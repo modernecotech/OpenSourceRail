@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`ilorin-operations.json.gz`](ilorin-operations.json.gz)
-- Evidence matrix CSV: [`ilorin-acceptance-evidence-matrix.csv`](ilorin-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`ilorin-manufacturing-schedule.csv`](ilorin-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`ilorin-manufacturing-materials.csv`](ilorin-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`ilorin-manufacturing-verification.csv`](ilorin-manufacturing-verification.csv)
-- QA register CSV: [`ilorin-qa-register.csv`](ilorin-qa-register.csv)
-- Maintenance schedule CSV: [`ilorin-maintenance-schedule.csv`](ilorin-maintenance-schedule.csv)
+- Tracked compact asset register: [`ilorin-assets.csv`](ilorin-assets.csv)
+- Tracked operations manifest: [`ilorin-operations-manifest.json`](ilorin-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `ilorin-operations.json.gz`
+- `ilorin-acceptance-evidence-matrix.csv`
+- `ilorin-manufacturing-schedule.csv`
+- `ilorin-manufacturing-materials.csv`
+- `ilorin-manufacturing-verification.csv`
+- `ilorin-qa-register.csv`
+- `ilorin-maintenance-schedule.csv`
 
 ## Accreditation Use
 

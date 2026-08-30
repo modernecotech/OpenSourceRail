@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`sayun-operations.json.gz`](sayun-operations.json.gz)
-- Evidence matrix CSV: [`sayun-acceptance-evidence-matrix.csv`](sayun-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`sayun-manufacturing-schedule.csv`](sayun-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`sayun-manufacturing-materials.csv`](sayun-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`sayun-manufacturing-verification.csv`](sayun-manufacturing-verification.csv)
-- QA register CSV: [`sayun-qa-register.csv`](sayun-qa-register.csv)
-- Maintenance schedule CSV: [`sayun-maintenance-schedule.csv`](sayun-maintenance-schedule.csv)
+- Tracked compact asset register: [`sayun-assets.csv`](sayun-assets.csv)
+- Tracked operations manifest: [`sayun-operations-manifest.json`](sayun-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `sayun-operations.json.gz`
+- `sayun-acceptance-evidence-matrix.csv`
+- `sayun-manufacturing-schedule.csv`
+- `sayun-manufacturing-materials.csv`
+- `sayun-manufacturing-verification.csv`
+- `sayun-qa-register.csv`
+- `sayun-maintenance-schedule.csv`
 
 ## Accreditation Use
 

@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`chittagong-operations.json.gz`](chittagong-operations.json.gz)
-- Evidence matrix CSV: [`chittagong-acceptance-evidence-matrix.csv`](chittagong-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`chittagong-manufacturing-schedule.csv`](chittagong-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`chittagong-manufacturing-materials.csv`](chittagong-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`chittagong-manufacturing-verification.csv`](chittagong-manufacturing-verification.csv)
-- QA register CSV: [`chittagong-qa-register.csv`](chittagong-qa-register.csv)
-- Maintenance schedule CSV: [`chittagong-maintenance-schedule.csv`](chittagong-maintenance-schedule.csv)
+- Tracked compact asset register: [`chittagong-assets.csv`](chittagong-assets.csv)
+- Tracked operations manifest: [`chittagong-operations-manifest.json`](chittagong-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `chittagong-operations.json.gz`
+- `chittagong-acceptance-evidence-matrix.csv`
+- `chittagong-manufacturing-schedule.csv`
+- `chittagong-manufacturing-materials.csv`
+- `chittagong-manufacturing-verification.csv`
+- `chittagong-qa-register.csv`
+- `chittagong-maintenance-schedule.csv`
 
 ## Accreditation Use
 

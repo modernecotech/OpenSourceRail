@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`biratnagar-operations.json.gz`](biratnagar-operations.json.gz)
-- Evidence matrix CSV: [`biratnagar-acceptance-evidence-matrix.csv`](biratnagar-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`biratnagar-manufacturing-schedule.csv`](biratnagar-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`biratnagar-manufacturing-materials.csv`](biratnagar-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`biratnagar-manufacturing-verification.csv`](biratnagar-manufacturing-verification.csv)
-- QA register CSV: [`biratnagar-qa-register.csv`](biratnagar-qa-register.csv)
-- Maintenance schedule CSV: [`biratnagar-maintenance-schedule.csv`](biratnagar-maintenance-schedule.csv)
+- Tracked compact asset register: [`biratnagar-assets.csv`](biratnagar-assets.csv)
+- Tracked operations manifest: [`biratnagar-operations-manifest.json`](biratnagar-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `biratnagar-operations.json.gz`
+- `biratnagar-acceptance-evidence-matrix.csv`
+- `biratnagar-manufacturing-schedule.csv`
+- `biratnagar-manufacturing-materials.csv`
+- `biratnagar-manufacturing-verification.csv`
+- `biratnagar-qa-register.csv`
+- `biratnagar-maintenance-schedule.csv`
 
 ## Accreditation Use
 

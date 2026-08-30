@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`baghdad-operations.json.gz`](baghdad-operations.json.gz)
-- Evidence matrix CSV: [`baghdad-acceptance-evidence-matrix.csv`](baghdad-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`baghdad-manufacturing-schedule.csv`](baghdad-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`baghdad-manufacturing-materials.csv`](baghdad-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`baghdad-manufacturing-verification.csv`](baghdad-manufacturing-verification.csv)
-- QA register CSV: [`baghdad-qa-register.csv`](baghdad-qa-register.csv)
-- Maintenance schedule CSV: [`baghdad-maintenance-schedule.csv`](baghdad-maintenance-schedule.csv)
+- Tracked compact asset register: [`baghdad-assets.csv`](baghdad-assets.csv)
+- Tracked operations manifest: [`baghdad-operations-manifest.json`](baghdad-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `baghdad-operations.json.gz`
+- `baghdad-acceptance-evidence-matrix.csv`
+- `baghdad-manufacturing-schedule.csv`
+- `baghdad-manufacturing-materials.csv`
+- `baghdad-manufacturing-verification.csv`
+- `baghdad-qa-register.csv`
+- `baghdad-maintenance-schedule.csv`
 
 ## Accreditation Use
 

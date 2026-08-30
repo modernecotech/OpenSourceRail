@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`dhamar-operations.json.gz`](dhamar-operations.json.gz)
-- Evidence matrix CSV: [`dhamar-acceptance-evidence-matrix.csv`](dhamar-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`dhamar-manufacturing-schedule.csv`](dhamar-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`dhamar-manufacturing-materials.csv`](dhamar-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`dhamar-manufacturing-verification.csv`](dhamar-manufacturing-verification.csv)
-- QA register CSV: [`dhamar-qa-register.csv`](dhamar-qa-register.csv)
-- Maintenance schedule CSV: [`dhamar-maintenance-schedule.csv`](dhamar-maintenance-schedule.csv)
+- Tracked compact asset register: [`dhamar-assets.csv`](dhamar-assets.csv)
+- Tracked operations manifest: [`dhamar-operations-manifest.json`](dhamar-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `dhamar-operations.json.gz`
+- `dhamar-acceptance-evidence-matrix.csv`
+- `dhamar-manufacturing-schedule.csv`
+- `dhamar-manufacturing-materials.csv`
+- `dhamar-manufacturing-verification.csv`
+- `dhamar-qa-register.csv`
+- `dhamar-maintenance-schedule.csv`
 
 ## Accreditation Use
 

@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`kano-operations.json.gz`](kano-operations.json.gz)
-- Evidence matrix CSV: [`kano-acceptance-evidence-matrix.csv`](kano-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`kano-manufacturing-schedule.csv`](kano-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`kano-manufacturing-materials.csv`](kano-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`kano-manufacturing-verification.csv`](kano-manufacturing-verification.csv)
-- QA register CSV: [`kano-qa-register.csv`](kano-qa-register.csv)
-- Maintenance schedule CSV: [`kano-maintenance-schedule.csv`](kano-maintenance-schedule.csv)
+- Tracked compact asset register: [`kano-assets.csv`](kano-assets.csv)
+- Tracked operations manifest: [`kano-operations-manifest.json`](kano-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `kano-operations.json.gz`
+- `kano-acceptance-evidence-matrix.csv`
+- `kano-manufacturing-schedule.csv`
+- `kano-manufacturing-materials.csv`
+- `kano-manufacturing-verification.csv`
+- `kano-qa-register.csv`
+- `kano-maintenance-schedule.csv`
 
 ## Accreditation Use
 

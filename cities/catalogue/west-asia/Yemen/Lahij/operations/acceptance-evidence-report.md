@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`lahij-operations.json.gz`](lahij-operations.json.gz)
-- Evidence matrix CSV: [`lahij-acceptance-evidence-matrix.csv`](lahij-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`lahij-manufacturing-schedule.csv`](lahij-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`lahij-manufacturing-materials.csv`](lahij-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`lahij-manufacturing-verification.csv`](lahij-manufacturing-verification.csv)
-- QA register CSV: [`lahij-qa-register.csv`](lahij-qa-register.csv)
-- Maintenance schedule CSV: [`lahij-maintenance-schedule.csv`](lahij-maintenance-schedule.csv)
+- Tracked compact asset register: [`lahij-assets.csv`](lahij-assets.csv)
+- Tracked operations manifest: [`lahij-operations-manifest.json`](lahij-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `lahij-operations.json.gz`
+- `lahij-acceptance-evidence-matrix.csv`
+- `lahij-manufacturing-schedule.csv`
+- `lahij-manufacturing-materials.csv`
+- `lahij-manufacturing-verification.csv`
+- `lahij-qa-register.csv`
+- `lahij-maintenance-schedule.csv`
 
 ## Accreditation Use
 

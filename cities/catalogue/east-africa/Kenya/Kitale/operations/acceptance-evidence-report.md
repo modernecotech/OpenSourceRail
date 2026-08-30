@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`kitale-operations.json.gz`](kitale-operations.json.gz)
-- Evidence matrix CSV: [`kitale-acceptance-evidence-matrix.csv`](kitale-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`kitale-manufacturing-schedule.csv`](kitale-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`kitale-manufacturing-materials.csv`](kitale-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`kitale-manufacturing-verification.csv`](kitale-manufacturing-verification.csv)
-- QA register CSV: [`kitale-qa-register.csv`](kitale-qa-register.csv)
-- Maintenance schedule CSV: [`kitale-maintenance-schedule.csv`](kitale-maintenance-schedule.csv)
+- Tracked compact asset register: [`kitale-assets.csv`](kitale-assets.csv)
+- Tracked operations manifest: [`kitale-operations-manifest.json`](kitale-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `kitale-operations.json.gz`
+- `kitale-acceptance-evidence-matrix.csv`
+- `kitale-manufacturing-schedule.csv`
+- `kitale-manufacturing-materials.csv`
+- `kitale-manufacturing-verification.csv`
+- `kitale-qa-register.csv`
+- `kitale-maintenance-schedule.csv`
 
 ## Accreditation Use
 

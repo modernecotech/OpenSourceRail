@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`hebron-operations.json.gz`](hebron-operations.json.gz)
-- Evidence matrix CSV: [`hebron-acceptance-evidence-matrix.csv`](hebron-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`hebron-manufacturing-schedule.csv`](hebron-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`hebron-manufacturing-materials.csv`](hebron-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`hebron-manufacturing-verification.csv`](hebron-manufacturing-verification.csv)
-- QA register CSV: [`hebron-qa-register.csv`](hebron-qa-register.csv)
-- Maintenance schedule CSV: [`hebron-maintenance-schedule.csv`](hebron-maintenance-schedule.csv)
+- Tracked compact asset register: [`hebron-assets.csv`](hebron-assets.csv)
+- Tracked operations manifest: [`hebron-operations-manifest.json`](hebron-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `hebron-operations.json.gz`
+- `hebron-acceptance-evidence-matrix.csv`
+- `hebron-manufacturing-schedule.csv`
+- `hebron-manufacturing-materials.csv`
+- `hebron-manufacturing-verification.csv`
+- `hebron-qa-register.csv`
+- `hebron-maintenance-schedule.csv`
 
 ## Accreditation Use
 

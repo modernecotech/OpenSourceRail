@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`aba-ng-operations.json.gz`](aba-ng-operations.json.gz)
-- Evidence matrix CSV: [`aba-ng-acceptance-evidence-matrix.csv`](aba-ng-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`aba-ng-manufacturing-schedule.csv`](aba-ng-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`aba-ng-manufacturing-materials.csv`](aba-ng-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`aba-ng-manufacturing-verification.csv`](aba-ng-manufacturing-verification.csv)
-- QA register CSV: [`aba-ng-qa-register.csv`](aba-ng-qa-register.csv)
-- Maintenance schedule CSV: [`aba-ng-maintenance-schedule.csv`](aba-ng-maintenance-schedule.csv)
+- Tracked compact asset register: [`aba-ng-assets.csv`](aba-ng-assets.csv)
+- Tracked operations manifest: [`aba-ng-operations-manifest.json`](aba-ng-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `aba-ng-operations.json.gz`
+- `aba-ng-acceptance-evidence-matrix.csv`
+- `aba-ng-manufacturing-schedule.csv`
+- `aba-ng-manufacturing-materials.csv`
+- `aba-ng-manufacturing-verification.csv`
+- `aba-ng-qa-register.csv`
+- `aba-ng-maintenance-schedule.csv`
 
 ## Accreditation Use
 

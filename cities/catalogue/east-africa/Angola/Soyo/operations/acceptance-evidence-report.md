@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`soyo-operations.json.gz`](soyo-operations.json.gz)
-- Evidence matrix CSV: [`soyo-acceptance-evidence-matrix.csv`](soyo-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`soyo-manufacturing-schedule.csv`](soyo-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`soyo-manufacturing-materials.csv`](soyo-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`soyo-manufacturing-verification.csv`](soyo-manufacturing-verification.csv)
-- QA register CSV: [`soyo-qa-register.csv`](soyo-qa-register.csv)
-- Maintenance schedule CSV: [`soyo-maintenance-schedule.csv`](soyo-maintenance-schedule.csv)
+- Tracked compact asset register: [`soyo-assets.csv`](soyo-assets.csv)
+- Tracked operations manifest: [`soyo-operations-manifest.json`](soyo-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `soyo-operations.json.gz`
+- `soyo-acceptance-evidence-matrix.csv`
+- `soyo-manufacturing-schedule.csv`
+- `soyo-manufacturing-materials.csv`
+- `soyo-manufacturing-verification.csv`
+- `soyo-qa-register.csv`
+- `soyo-maintenance-schedule.csv`
 
 ## Accreditation Use
 

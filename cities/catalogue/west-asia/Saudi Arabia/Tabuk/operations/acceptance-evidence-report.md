@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`tabuk-operations.json.gz`](tabuk-operations.json.gz)
-- Evidence matrix CSV: [`tabuk-acceptance-evidence-matrix.csv`](tabuk-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`tabuk-manufacturing-schedule.csv`](tabuk-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`tabuk-manufacturing-materials.csv`](tabuk-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`tabuk-manufacturing-verification.csv`](tabuk-manufacturing-verification.csv)
-- QA register CSV: [`tabuk-qa-register.csv`](tabuk-qa-register.csv)
-- Maintenance schedule CSV: [`tabuk-maintenance-schedule.csv`](tabuk-maintenance-schedule.csv)
+- Tracked compact asset register: [`tabuk-assets.csv`](tabuk-assets.csv)
+- Tracked operations manifest: [`tabuk-operations-manifest.json`](tabuk-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `tabuk-operations.json.gz`
+- `tabuk-acceptance-evidence-matrix.csv`
+- `tabuk-manufacturing-schedule.csv`
+- `tabuk-manufacturing-materials.csv`
+- `tabuk-manufacturing-verification.csv`
+- `tabuk-qa-register.csv`
+- `tabuk-maintenance-schedule.csv`
 
 ## Accreditation Use
 

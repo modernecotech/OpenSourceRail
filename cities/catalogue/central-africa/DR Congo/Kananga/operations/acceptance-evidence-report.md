@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`kananga-operations.json.gz`](kananga-operations.json.gz)
-- Evidence matrix CSV: [`kananga-acceptance-evidence-matrix.csv`](kananga-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`kananga-manufacturing-schedule.csv`](kananga-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`kananga-manufacturing-materials.csv`](kananga-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`kananga-manufacturing-verification.csv`](kananga-manufacturing-verification.csv)
-- QA register CSV: [`kananga-qa-register.csv`](kananga-qa-register.csv)
-- Maintenance schedule CSV: [`kananga-maintenance-schedule.csv`](kananga-maintenance-schedule.csv)
+- Tracked compact asset register: [`kananga-assets.csv`](kananga-assets.csv)
+- Tracked operations manifest: [`kananga-operations-manifest.json`](kananga-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `kananga-operations.json.gz`
+- `kananga-acceptance-evidence-matrix.csv`
+- `kananga-manufacturing-schedule.csv`
+- `kananga-manufacturing-materials.csv`
+- `kananga-manufacturing-verification.csv`
+- `kananga-qa-register.csv`
+- `kananga-maintenance-schedule.csv`
 
 ## Accreditation Use
 

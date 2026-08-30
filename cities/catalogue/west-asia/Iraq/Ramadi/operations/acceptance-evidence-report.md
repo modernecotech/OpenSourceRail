@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`ramadi-operations.json.gz`](ramadi-operations.json.gz)
-- Evidence matrix CSV: [`ramadi-acceptance-evidence-matrix.csv`](ramadi-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`ramadi-manufacturing-schedule.csv`](ramadi-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`ramadi-manufacturing-materials.csv`](ramadi-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`ramadi-manufacturing-verification.csv`](ramadi-manufacturing-verification.csv)
-- QA register CSV: [`ramadi-qa-register.csv`](ramadi-qa-register.csv)
-- Maintenance schedule CSV: [`ramadi-maintenance-schedule.csv`](ramadi-maintenance-schedule.csv)
+- Tracked compact asset register: [`ramadi-assets.csv`](ramadi-assets.csv)
+- Tracked operations manifest: [`ramadi-operations-manifest.json`](ramadi-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `ramadi-operations.json.gz`
+- `ramadi-acceptance-evidence-matrix.csv`
+- `ramadi-manufacturing-schedule.csv`
+- `ramadi-manufacturing-materials.csv`
+- `ramadi-manufacturing-verification.csv`
+- `ramadi-qa-register.csv`
+- `ramadi-maintenance-schedule.csv`
 
 ## Accreditation Use
 

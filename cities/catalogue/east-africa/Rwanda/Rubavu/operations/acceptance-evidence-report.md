@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`rubavu-operations.json.gz`](rubavu-operations.json.gz)
-- Evidence matrix CSV: [`rubavu-acceptance-evidence-matrix.csv`](rubavu-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`rubavu-manufacturing-schedule.csv`](rubavu-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`rubavu-manufacturing-materials.csv`](rubavu-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`rubavu-manufacturing-verification.csv`](rubavu-manufacturing-verification.csv)
-- QA register CSV: [`rubavu-qa-register.csv`](rubavu-qa-register.csv)
-- Maintenance schedule CSV: [`rubavu-maintenance-schedule.csv`](rubavu-maintenance-schedule.csv)
+- Tracked compact asset register: [`rubavu-assets.csv`](rubavu-assets.csv)
+- Tracked operations manifest: [`rubavu-operations-manifest.json`](rubavu-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `rubavu-operations.json.gz`
+- `rubavu-acceptance-evidence-matrix.csv`
+- `rubavu-manufacturing-schedule.csv`
+- `rubavu-manufacturing-materials.csv`
+- `rubavu-manufacturing-verification.csv`
+- `rubavu-qa-register.csv`
+- `rubavu-maintenance-schedule.csv`
 
 ## Accreditation Use
 

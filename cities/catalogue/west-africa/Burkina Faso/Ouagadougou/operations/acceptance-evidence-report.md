@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`ouagadougou-operations.json.gz`](ouagadougou-operations.json.gz)
-- Evidence matrix CSV: [`ouagadougou-acceptance-evidence-matrix.csv`](ouagadougou-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`ouagadougou-manufacturing-schedule.csv`](ouagadougou-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`ouagadougou-manufacturing-materials.csv`](ouagadougou-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`ouagadougou-manufacturing-verification.csv`](ouagadougou-manufacturing-verification.csv)
-- QA register CSV: [`ouagadougou-qa-register.csv`](ouagadougou-qa-register.csv)
-- Maintenance schedule CSV: [`ouagadougou-maintenance-schedule.csv`](ouagadougou-maintenance-schedule.csv)
+- Tracked compact asset register: [`ouagadougou-assets.csv`](ouagadougou-assets.csv)
+- Tracked operations manifest: [`ouagadougou-operations-manifest.json`](ouagadougou-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `ouagadougou-operations.json.gz`
+- `ouagadougou-acceptance-evidence-matrix.csv`
+- `ouagadougou-manufacturing-schedule.csv`
+- `ouagadougou-manufacturing-materials.csv`
+- `ouagadougou-manufacturing-verification.csv`
+- `ouagadougou-qa-register.csv`
+- `ouagadougou-maintenance-schedule.csv`
 
 ## Accreditation Use
 

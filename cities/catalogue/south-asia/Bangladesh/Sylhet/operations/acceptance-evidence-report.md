@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`sylhet-operations.json.gz`](sylhet-operations.json.gz)
-- Evidence matrix CSV: [`sylhet-acceptance-evidence-matrix.csv`](sylhet-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`sylhet-manufacturing-schedule.csv`](sylhet-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`sylhet-manufacturing-materials.csv`](sylhet-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`sylhet-manufacturing-verification.csv`](sylhet-manufacturing-verification.csv)
-- QA register CSV: [`sylhet-qa-register.csv`](sylhet-qa-register.csv)
-- Maintenance schedule CSV: [`sylhet-maintenance-schedule.csv`](sylhet-maintenance-schedule.csv)
+- Tracked compact asset register: [`sylhet-assets.csv`](sylhet-assets.csv)
+- Tracked operations manifest: [`sylhet-operations-manifest.json`](sylhet-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `sylhet-operations.json.gz`
+- `sylhet-acceptance-evidence-matrix.csv`
+- `sylhet-manufacturing-schedule.csv`
+- `sylhet-manufacturing-materials.csv`
+- `sylhet-manufacturing-verification.csv`
+- `sylhet-qa-register.csv`
+- `sylhet-maintenance-schedule.csv`
 
 ## Accreditation Use
 

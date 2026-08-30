@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`nelspruit-operations.json.gz`](nelspruit-operations.json.gz)
-- Evidence matrix CSV: [`nelspruit-acceptance-evidence-matrix.csv`](nelspruit-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`nelspruit-manufacturing-schedule.csv`](nelspruit-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`nelspruit-manufacturing-materials.csv`](nelspruit-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`nelspruit-manufacturing-verification.csv`](nelspruit-manufacturing-verification.csv)
-- QA register CSV: [`nelspruit-qa-register.csv`](nelspruit-qa-register.csv)
-- Maintenance schedule CSV: [`nelspruit-maintenance-schedule.csv`](nelspruit-maintenance-schedule.csv)
+- Tracked compact asset register: [`nelspruit-assets.csv`](nelspruit-assets.csv)
+- Tracked operations manifest: [`nelspruit-operations-manifest.json`](nelspruit-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `nelspruit-operations.json.gz`
+- `nelspruit-acceptance-evidence-matrix.csv`
+- `nelspruit-manufacturing-schedule.csv`
+- `nelspruit-manufacturing-materials.csv`
+- `nelspruit-manufacturing-verification.csv`
+- `nelspruit-qa-register.csv`
+- `nelspruit-maintenance-schedule.csv`
 
 ## Accreditation Use
 

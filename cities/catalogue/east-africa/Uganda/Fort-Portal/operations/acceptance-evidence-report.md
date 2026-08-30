@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`fort-portal-operations.json.gz`](fort-portal-operations.json.gz)
-- Evidence matrix CSV: [`fort-portal-acceptance-evidence-matrix.csv`](fort-portal-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`fort-portal-manufacturing-schedule.csv`](fort-portal-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`fort-portal-manufacturing-materials.csv`](fort-portal-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`fort-portal-manufacturing-verification.csv`](fort-portal-manufacturing-verification.csv)
-- QA register CSV: [`fort-portal-qa-register.csv`](fort-portal-qa-register.csv)
-- Maintenance schedule CSV: [`fort-portal-maintenance-schedule.csv`](fort-portal-maintenance-schedule.csv)
+- Tracked compact asset register: [`fort-portal-assets.csv`](fort-portal-assets.csv)
+- Tracked operations manifest: [`fort-portal-operations-manifest.json`](fort-portal-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `fort-portal-operations.json.gz`
+- `fort-portal-acceptance-evidence-matrix.csv`
+- `fort-portal-manufacturing-schedule.csv`
+- `fort-portal-manufacturing-materials.csv`
+- `fort-portal-manufacturing-verification.csv`
+- `fort-portal-qa-register.csv`
+- `fort-portal-maintenance-schedule.csv`
 
 ## Accreditation Use
 

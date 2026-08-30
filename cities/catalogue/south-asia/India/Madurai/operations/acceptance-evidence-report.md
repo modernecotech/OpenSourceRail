@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`madurai-operations.json.gz`](madurai-operations.json.gz)
-- Evidence matrix CSV: [`madurai-acceptance-evidence-matrix.csv`](madurai-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`madurai-manufacturing-schedule.csv`](madurai-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`madurai-manufacturing-materials.csv`](madurai-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`madurai-manufacturing-verification.csv`](madurai-manufacturing-verification.csv)
-- QA register CSV: [`madurai-qa-register.csv`](madurai-qa-register.csv)
-- Maintenance schedule CSV: [`madurai-maintenance-schedule.csv`](madurai-maintenance-schedule.csv)
+- Tracked compact asset register: [`madurai-assets.csv`](madurai-assets.csv)
+- Tracked operations manifest: [`madurai-operations-manifest.json`](madurai-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `madurai-operations.json.gz`
+- `madurai-acceptance-evidence-matrix.csv`
+- `madurai-manufacturing-schedule.csv`
+- `madurai-manufacturing-materials.csv`
+- `madurai-manufacturing-verification.csv`
+- `madurai-qa-register.csv`
+- `madurai-maintenance-schedule.csv`
 
 ## Accreditation Use
 

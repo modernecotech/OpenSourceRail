@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`hoima-operations.json.gz`](hoima-operations.json.gz)
-- Evidence matrix CSV: [`hoima-acceptance-evidence-matrix.csv`](hoima-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`hoima-manufacturing-schedule.csv`](hoima-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`hoima-manufacturing-materials.csv`](hoima-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`hoima-manufacturing-verification.csv`](hoima-manufacturing-verification.csv)
-- QA register CSV: [`hoima-qa-register.csv`](hoima-qa-register.csv)
-- Maintenance schedule CSV: [`hoima-maintenance-schedule.csv`](hoima-maintenance-schedule.csv)
+- Tracked compact asset register: [`hoima-assets.csv`](hoima-assets.csv)
+- Tracked operations manifest: [`hoima-operations-manifest.json`](hoima-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `hoima-operations.json.gz`
+- `hoima-acceptance-evidence-matrix.csv`
+- `hoima-manufacturing-schedule.csv`
+- `hoima-manufacturing-materials.csv`
+- `hoima-manufacturing-verification.csv`
+- `hoima-qa-register.csv`
+- `hoima-maintenance-schedule.csv`
 
 ## Accreditation Use
 

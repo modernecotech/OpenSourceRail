@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`bamenda-operations.json.gz`](bamenda-operations.json.gz)
-- Evidence matrix CSV: [`bamenda-acceptance-evidence-matrix.csv`](bamenda-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`bamenda-manufacturing-schedule.csv`](bamenda-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`bamenda-manufacturing-materials.csv`](bamenda-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`bamenda-manufacturing-verification.csv`](bamenda-manufacturing-verification.csv)
-- QA register CSV: [`bamenda-qa-register.csv`](bamenda-qa-register.csv)
-- Maintenance schedule CSV: [`bamenda-maintenance-schedule.csv`](bamenda-maintenance-schedule.csv)
+- Tracked compact asset register: [`bamenda-assets.csv`](bamenda-assets.csv)
+- Tracked operations manifest: [`bamenda-operations-manifest.json`](bamenda-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `bamenda-operations.json.gz`
+- `bamenda-acceptance-evidence-matrix.csv`
+- `bamenda-manufacturing-schedule.csv`
+- `bamenda-manufacturing-materials.csv`
+- `bamenda-manufacturing-verification.csv`
+- `bamenda-qa-register.csv`
+- `bamenda-maintenance-schedule.csv`
 
 ## Accreditation Use
 

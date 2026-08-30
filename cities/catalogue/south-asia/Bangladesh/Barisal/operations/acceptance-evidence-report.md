@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`barisal-operations.json.gz`](barisal-operations.json.gz)
-- Evidence matrix CSV: [`barisal-acceptance-evidence-matrix.csv`](barisal-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`barisal-manufacturing-schedule.csv`](barisal-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`barisal-manufacturing-materials.csv`](barisal-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`barisal-manufacturing-verification.csv`](barisal-manufacturing-verification.csv)
-- QA register CSV: [`barisal-qa-register.csv`](barisal-qa-register.csv)
-- Maintenance schedule CSV: [`barisal-maintenance-schedule.csv`](barisal-maintenance-schedule.csv)
+- Tracked compact asset register: [`barisal-assets.csv`](barisal-assets.csv)
+- Tracked operations manifest: [`barisal-operations-manifest.json`](barisal-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `barisal-operations.json.gz`
+- `barisal-acceptance-evidence-matrix.csv`
+- `barisal-manufacturing-schedule.csv`
+- `barisal-manufacturing-materials.csv`
+- `barisal-manufacturing-verification.csv`
+- `barisal-qa-register.csv`
+- `barisal-maintenance-schedule.csv`
 
 ## Accreditation Use
 

@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`nairobi-operations.json.gz`](nairobi-operations.json.gz)
-- Evidence matrix CSV: [`nairobi-acceptance-evidence-matrix.csv`](nairobi-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`nairobi-manufacturing-schedule.csv`](nairobi-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`nairobi-manufacturing-materials.csv`](nairobi-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`nairobi-manufacturing-verification.csv`](nairobi-manufacturing-verification.csv)
-- QA register CSV: [`nairobi-qa-register.csv`](nairobi-qa-register.csv)
-- Maintenance schedule CSV: [`nairobi-maintenance-schedule.csv`](nairobi-maintenance-schedule.csv)
+- Tracked compact asset register: [`nairobi-assets.csv`](nairobi-assets.csv)
+- Tracked operations manifest: [`nairobi-operations-manifest.json`](nairobi-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `nairobi-operations.json.gz`
+- `nairobi-acceptance-evidence-matrix.csv`
+- `nairobi-manufacturing-schedule.csv`
+- `nairobi-manufacturing-materials.csv`
+- `nairobi-manufacturing-verification.csv`
+- `nairobi-qa-register.csv`
+- `nairobi-maintenance-schedule.csv`
 
 ## Accreditation Use
 

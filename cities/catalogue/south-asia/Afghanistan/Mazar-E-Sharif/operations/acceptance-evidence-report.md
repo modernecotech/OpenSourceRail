@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`mazar-e-sharif-operations.json.gz`](mazar-e-sharif-operations.json.gz)
-- Evidence matrix CSV: [`mazar-e-sharif-acceptance-evidence-matrix.csv`](mazar-e-sharif-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`mazar-e-sharif-manufacturing-schedule.csv`](mazar-e-sharif-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`mazar-e-sharif-manufacturing-materials.csv`](mazar-e-sharif-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`mazar-e-sharif-manufacturing-verification.csv`](mazar-e-sharif-manufacturing-verification.csv)
-- QA register CSV: [`mazar-e-sharif-qa-register.csv`](mazar-e-sharif-qa-register.csv)
-- Maintenance schedule CSV: [`mazar-e-sharif-maintenance-schedule.csv`](mazar-e-sharif-maintenance-schedule.csv)
+- Tracked compact asset register: [`mazar-e-sharif-assets.csv`](mazar-e-sharif-assets.csv)
+- Tracked operations manifest: [`mazar-e-sharif-operations-manifest.json`](mazar-e-sharif-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `mazar-e-sharif-operations.json.gz`
+- `mazar-e-sharif-acceptance-evidence-matrix.csv`
+- `mazar-e-sharif-manufacturing-schedule.csv`
+- `mazar-e-sharif-manufacturing-materials.csv`
+- `mazar-e-sharif-manufacturing-verification.csv`
+- `mazar-e-sharif-qa-register.csv`
+- `mazar-e-sharif-maintenance-schedule.csv`
 
 ## Accreditation Use
 

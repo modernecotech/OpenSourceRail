@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`yaounde-operations.json.gz`](yaounde-operations.json.gz)
-- Evidence matrix CSV: [`yaounde-acceptance-evidence-matrix.csv`](yaounde-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`yaounde-manufacturing-schedule.csv`](yaounde-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`yaounde-manufacturing-materials.csv`](yaounde-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`yaounde-manufacturing-verification.csv`](yaounde-manufacturing-verification.csv)
-- QA register CSV: [`yaounde-qa-register.csv`](yaounde-qa-register.csv)
-- Maintenance schedule CSV: [`yaounde-maintenance-schedule.csv`](yaounde-maintenance-schedule.csv)
+- Tracked compact asset register: [`yaounde-assets.csv`](yaounde-assets.csv)
+- Tracked operations manifest: [`yaounde-operations-manifest.json`](yaounde-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `yaounde-operations.json.gz`
+- `yaounde-acceptance-evidence-matrix.csv`
+- `yaounde-manufacturing-schedule.csv`
+- `yaounde-manufacturing-materials.csv`
+- `yaounde-manufacturing-verification.csv`
+- `yaounde-qa-register.csv`
+- `yaounde-maintenance-schedule.csv`
 
 ## Accreditation Use
 

@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`yangon-operations.json.gz`](yangon-operations.json.gz)
-- Evidence matrix CSV: [`yangon-acceptance-evidence-matrix.csv`](yangon-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`yangon-manufacturing-schedule.csv`](yangon-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`yangon-manufacturing-materials.csv`](yangon-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`yangon-manufacturing-verification.csv`](yangon-manufacturing-verification.csv)
-- QA register CSV: [`yangon-qa-register.csv`](yangon-qa-register.csv)
-- Maintenance schedule CSV: [`yangon-maintenance-schedule.csv`](yangon-maintenance-schedule.csv)
+- Tracked compact asset register: [`yangon-assets.csv`](yangon-assets.csv)
+- Tracked operations manifest: [`yangon-operations-manifest.json`](yangon-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `yangon-operations.json.gz`
+- `yangon-acceptance-evidence-matrix.csv`
+- `yangon-manufacturing-schedule.csv`
+- `yangon-manufacturing-materials.csv`
+- `yangon-manufacturing-verification.csv`
+- `yangon-qa-register.csv`
+- `yangon-maintenance-schedule.csv`
 
 ## Accreditation Use
 

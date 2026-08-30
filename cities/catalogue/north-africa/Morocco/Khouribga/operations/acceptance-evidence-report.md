@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`khouribga-operations.json.gz`](khouribga-operations.json.gz)
-- Evidence matrix CSV: [`khouribga-acceptance-evidence-matrix.csv`](khouribga-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`khouribga-manufacturing-schedule.csv`](khouribga-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`khouribga-manufacturing-materials.csv`](khouribga-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`khouribga-manufacturing-verification.csv`](khouribga-manufacturing-verification.csv)
-- QA register CSV: [`khouribga-qa-register.csv`](khouribga-qa-register.csv)
-- Maintenance schedule CSV: [`khouribga-maintenance-schedule.csv`](khouribga-maintenance-schedule.csv)
+- Tracked compact asset register: [`khouribga-assets.csv`](khouribga-assets.csv)
+- Tracked operations manifest: [`khouribga-operations-manifest.json`](khouribga-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `khouribga-operations.json.gz`
+- `khouribga-acceptance-evidence-matrix.csv`
+- `khouribga-manufacturing-schedule.csv`
+- `khouribga-manufacturing-materials.csv`
+- `khouribga-manufacturing-verification.csv`
+- `khouribga-qa-register.csv`
+- `khouribga-maintenance-schedule.csv`
 
 ## Accreditation Use
 

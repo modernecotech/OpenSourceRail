@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`amarah-operations.json.gz`](amarah-operations.json.gz)
-- Evidence matrix CSV: [`amarah-acceptance-evidence-matrix.csv`](amarah-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`amarah-manufacturing-schedule.csv`](amarah-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`amarah-manufacturing-materials.csv`](amarah-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`amarah-manufacturing-verification.csv`](amarah-manufacturing-verification.csv)
-- QA register CSV: [`amarah-qa-register.csv`](amarah-qa-register.csv)
-- Maintenance schedule CSV: [`amarah-maintenance-schedule.csv`](amarah-maintenance-schedule.csv)
+- Tracked compact asset register: [`amarah-assets.csv`](amarah-assets.csv)
+- Tracked operations manifest: [`amarah-operations-manifest.json`](amarah-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `amarah-operations.json.gz`
+- `amarah-acceptance-evidence-matrix.csv`
+- `amarah-manufacturing-schedule.csv`
+- `amarah-manufacturing-materials.csv`
+- `amarah-manufacturing-verification.csv`
+- `amarah-qa-register.csv`
+- `amarah-maintenance-schedule.csv`
 
 ## Accreditation Use
 

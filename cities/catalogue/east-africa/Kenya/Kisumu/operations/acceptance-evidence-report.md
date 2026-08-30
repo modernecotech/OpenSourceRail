@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`kisumu-operations.json.gz`](kisumu-operations.json.gz)
-- Evidence matrix CSV: [`kisumu-acceptance-evidence-matrix.csv`](kisumu-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`kisumu-manufacturing-schedule.csv`](kisumu-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`kisumu-manufacturing-materials.csv`](kisumu-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`kisumu-manufacturing-verification.csv`](kisumu-manufacturing-verification.csv)
-- QA register CSV: [`kisumu-qa-register.csv`](kisumu-qa-register.csv)
-- Maintenance schedule CSV: [`kisumu-maintenance-schedule.csv`](kisumu-maintenance-schedule.csv)
+- Tracked compact asset register: [`kisumu-assets.csv`](kisumu-assets.csv)
+- Tracked operations manifest: [`kisumu-operations-manifest.json`](kisumu-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `kisumu-operations.json.gz`
+- `kisumu-acceptance-evidence-matrix.csv`
+- `kisumu-manufacturing-schedule.csv`
+- `kisumu-manufacturing-materials.csv`
+- `kisumu-manufacturing-verification.csv`
+- `kisumu-qa-register.csv`
+- `kisumu-maintenance-schedule.csv`
 
 ## Accreditation Use
 

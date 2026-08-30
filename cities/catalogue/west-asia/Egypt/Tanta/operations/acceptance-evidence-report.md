@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`tanta-operations.json.gz`](tanta-operations.json.gz)
-- Evidence matrix CSV: [`tanta-acceptance-evidence-matrix.csv`](tanta-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`tanta-manufacturing-schedule.csv`](tanta-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`tanta-manufacturing-materials.csv`](tanta-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`tanta-manufacturing-verification.csv`](tanta-manufacturing-verification.csv)
-- QA register CSV: [`tanta-qa-register.csv`](tanta-qa-register.csv)
-- Maintenance schedule CSV: [`tanta-maintenance-schedule.csv`](tanta-maintenance-schedule.csv)
+- Tracked compact asset register: [`tanta-assets.csv`](tanta-assets.csv)
+- Tracked operations manifest: [`tanta-operations-manifest.json`](tanta-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `tanta-operations.json.gz`
+- `tanta-acceptance-evidence-matrix.csv`
+- `tanta-manufacturing-schedule.csv`
+- `tanta-manufacturing-materials.csv`
+- `tanta-manufacturing-verification.csv`
+- `tanta-qa-register.csv`
+- `tanta-maintenance-schedule.csv`
 
 ## Accreditation Use
 

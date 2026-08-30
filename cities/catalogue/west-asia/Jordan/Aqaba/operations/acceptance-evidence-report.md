@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`aqaba-operations.json.gz`](aqaba-operations.json.gz)
-- Evidence matrix CSV: [`aqaba-acceptance-evidence-matrix.csv`](aqaba-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`aqaba-manufacturing-schedule.csv`](aqaba-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`aqaba-manufacturing-materials.csv`](aqaba-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`aqaba-manufacturing-verification.csv`](aqaba-manufacturing-verification.csv)
-- QA register CSV: [`aqaba-qa-register.csv`](aqaba-qa-register.csv)
-- Maintenance schedule CSV: [`aqaba-maintenance-schedule.csv`](aqaba-maintenance-schedule.csv)
+- Tracked compact asset register: [`aqaba-assets.csv`](aqaba-assets.csv)
+- Tracked operations manifest: [`aqaba-operations-manifest.json`](aqaba-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `aqaba-operations.json.gz`
+- `aqaba-acceptance-evidence-matrix.csv`
+- `aqaba-manufacturing-schedule.csv`
+- `aqaba-manufacturing-materials.csv`
+- `aqaba-manufacturing-verification.csv`
+- `aqaba-qa-register.csv`
+- `aqaba-maintenance-schedule.csv`
 
 ## Accreditation Use
 

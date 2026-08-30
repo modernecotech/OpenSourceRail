@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`damietta-operations.json.gz`](damietta-operations.json.gz)
-- Evidence matrix CSV: [`damietta-acceptance-evidence-matrix.csv`](damietta-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`damietta-manufacturing-schedule.csv`](damietta-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`damietta-manufacturing-materials.csv`](damietta-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`damietta-manufacturing-verification.csv`](damietta-manufacturing-verification.csv)
-- QA register CSV: [`damietta-qa-register.csv`](damietta-qa-register.csv)
-- Maintenance schedule CSV: [`damietta-maintenance-schedule.csv`](damietta-maintenance-schedule.csv)
+- Tracked compact asset register: [`damietta-assets.csv`](damietta-assets.csv)
+- Tracked operations manifest: [`damietta-operations-manifest.json`](damietta-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `damietta-operations.json.gz`
+- `damietta-acceptance-evidence-matrix.csv`
+- `damietta-manufacturing-schedule.csv`
+- `damietta-manufacturing-materials.csv`
+- `damietta-manufacturing-verification.csv`
+- `damietta-qa-register.csv`
+- `damietta-maintenance-schedule.csv`
 
 ## Accreditation Use
 

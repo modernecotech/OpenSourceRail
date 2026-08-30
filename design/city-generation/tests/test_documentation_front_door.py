@@ -88,6 +88,31 @@ def test_frontend_ci_provisions_the_complete_ifc_runtime() -> None:
     assert "import _pytest, bcf, ifcopenshell, ifctester, networkx" in workflow
 
 
+def test_acceptance_reports_link_only_to_published_city_artifacts() -> None:
+    reports = sorted(
+        REPO_ROOT.glob(
+            "cities/catalogue/*/*/*/operations/acceptance-evidence-report.md"
+        )
+    )
+    assert len(reports) == 266
+
+    forbidden_suffixes = (
+        "-operations.json.gz)",
+        "-acceptance-evidence-matrix.csv)",
+        "-manufacturing-schedule.csv)",
+        "-manufacturing-materials.csv)",
+        "-manufacturing-verification.csv)",
+        "-qa-register.csv)",
+        "-maintenance-schedule.csv)",
+    )
+    for report in reports:
+        text = report.read_text(encoding="utf-8")
+        slug = report.parents[1].name.lower().replace(" ", "-")
+        assert f"]({slug}-assets.csv)" in text
+        assert f"]({slug}-operations-manifest.json)" in text
+        assert not any(suffix in text for suffix in forbidden_suffixes)
+
+
 def test_thin_wrapper_directories_do_not_return() -> None:
     for relative in (
         "docs/brochures",

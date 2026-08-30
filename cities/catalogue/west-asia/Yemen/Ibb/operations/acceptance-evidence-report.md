@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`ibb-operations.json.gz`](ibb-operations.json.gz)
-- Evidence matrix CSV: [`ibb-acceptance-evidence-matrix.csv`](ibb-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`ibb-manufacturing-schedule.csv`](ibb-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`ibb-manufacturing-materials.csv`](ibb-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`ibb-manufacturing-verification.csv`](ibb-manufacturing-verification.csv)
-- QA register CSV: [`ibb-qa-register.csv`](ibb-qa-register.csv)
-- Maintenance schedule CSV: [`ibb-maintenance-schedule.csv`](ibb-maintenance-schedule.csv)
+- Tracked compact asset register: [`ibb-assets.csv`](ibb-assets.csv)
+- Tracked operations manifest: [`ibb-operations-manifest.json`](ibb-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `ibb-operations.json.gz`
+- `ibb-acceptance-evidence-matrix.csv`
+- `ibb-manufacturing-schedule.csv`
+- `ibb-manufacturing-materials.csv`
+- `ibb-manufacturing-verification.csv`
+- `ibb-qa-register.csv`
+- `ibb-maintenance-schedule.csv`
 
 ## Accreditation Use
 

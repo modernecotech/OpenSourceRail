@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`hama-operations.json.gz`](hama-operations.json.gz)
-- Evidence matrix CSV: [`hama-acceptance-evidence-matrix.csv`](hama-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`hama-manufacturing-schedule.csv`](hama-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`hama-manufacturing-materials.csv`](hama-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`hama-manufacturing-verification.csv`](hama-manufacturing-verification.csv)
-- QA register CSV: [`hama-qa-register.csv`](hama-qa-register.csv)
-- Maintenance schedule CSV: [`hama-maintenance-schedule.csv`](hama-maintenance-schedule.csv)
+- Tracked compact asset register: [`hama-assets.csv`](hama-assets.csv)
+- Tracked operations manifest: [`hama-operations-manifest.json`](hama-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `hama-operations.json.gz`
+- `hama-acceptance-evidence-matrix.csv`
+- `hama-manufacturing-schedule.csv`
+- `hama-manufacturing-materials.csv`
+- `hama-manufacturing-verification.csv`
+- `hama-qa-register.csv`
+- `hama-maintenance-schedule.csv`
 
 ## Accreditation Use
 

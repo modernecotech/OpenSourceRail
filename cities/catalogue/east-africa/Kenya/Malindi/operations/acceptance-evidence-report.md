@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`malindi-operations.json.gz`](malindi-operations.json.gz)
-- Evidence matrix CSV: [`malindi-acceptance-evidence-matrix.csv`](malindi-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`malindi-manufacturing-schedule.csv`](malindi-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`malindi-manufacturing-materials.csv`](malindi-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`malindi-manufacturing-verification.csv`](malindi-manufacturing-verification.csv)
-- QA register CSV: [`malindi-qa-register.csv`](malindi-qa-register.csv)
-- Maintenance schedule CSV: [`malindi-maintenance-schedule.csv`](malindi-maintenance-schedule.csv)
+- Tracked compact asset register: [`malindi-assets.csv`](malindi-assets.csv)
+- Tracked operations manifest: [`malindi-operations-manifest.json`](malindi-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `malindi-operations.json.gz`
+- `malindi-acceptance-evidence-matrix.csv`
+- `malindi-manufacturing-schedule.csv`
+- `malindi-manufacturing-materials.csv`
+- `malindi-manufacturing-verification.csv`
+- `malindi-qa-register.csv`
+- `malindi-maintenance-schedule.csv`
 
 ## Accreditation Use
 

@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`karachi-operations.json.gz`](karachi-operations.json.gz)
-- Evidence matrix CSV: [`karachi-acceptance-evidence-matrix.csv`](karachi-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`karachi-manufacturing-schedule.csv`](karachi-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`karachi-manufacturing-materials.csv`](karachi-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`karachi-manufacturing-verification.csv`](karachi-manufacturing-verification.csv)
-- QA register CSV: [`karachi-qa-register.csv`](karachi-qa-register.csv)
-- Maintenance schedule CSV: [`karachi-maintenance-schedule.csv`](karachi-maintenance-schedule.csv)
+- Tracked compact asset register: [`karachi-assets.csv`](karachi-assets.csv)
+- Tracked operations manifest: [`karachi-operations-manifest.json`](karachi-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `karachi-operations.json.gz`
+- `karachi-acceptance-evidence-matrix.csv`
+- `karachi-manufacturing-schedule.csv`
+- `karachi-manufacturing-materials.csv`
+- `karachi-manufacturing-verification.csv`
+- `karachi-qa-register.csv`
+- `karachi-maintenance-schedule.csv`
 
 ## Accreditation Use
 

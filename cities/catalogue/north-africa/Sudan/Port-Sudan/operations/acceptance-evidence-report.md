@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`port-sudan-operations.json.gz`](port-sudan-operations.json.gz)
-- Evidence matrix CSV: [`port-sudan-acceptance-evidence-matrix.csv`](port-sudan-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`port-sudan-manufacturing-schedule.csv`](port-sudan-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`port-sudan-manufacturing-materials.csv`](port-sudan-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`port-sudan-manufacturing-verification.csv`](port-sudan-manufacturing-verification.csv)
-- QA register CSV: [`port-sudan-qa-register.csv`](port-sudan-qa-register.csv)
-- Maintenance schedule CSV: [`port-sudan-maintenance-schedule.csv`](port-sudan-maintenance-schedule.csv)
+- Tracked compact asset register: [`port-sudan-assets.csv`](port-sudan-assets.csv)
+- Tracked operations manifest: [`port-sudan-operations-manifest.json`](port-sudan-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `port-sudan-operations.json.gz`
+- `port-sudan-acceptance-evidence-matrix.csv`
+- `port-sudan-manufacturing-schedule.csv`
+- `port-sudan-manufacturing-materials.csv`
+- `port-sudan-manufacturing-verification.csv`
+- `port-sudan-qa-register.csv`
+- `port-sudan-maintenance-schedule.csv`
 
 ## Accreditation Use
 

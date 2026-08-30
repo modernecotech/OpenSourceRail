@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`dar-es-salaam-operations.json.gz`](dar-es-salaam-operations.json.gz)
-- Evidence matrix CSV: [`dar-es-salaam-acceptance-evidence-matrix.csv`](dar-es-salaam-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`dar-es-salaam-manufacturing-schedule.csv`](dar-es-salaam-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`dar-es-salaam-manufacturing-materials.csv`](dar-es-salaam-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`dar-es-salaam-manufacturing-verification.csv`](dar-es-salaam-manufacturing-verification.csv)
-- QA register CSV: [`dar-es-salaam-qa-register.csv`](dar-es-salaam-qa-register.csv)
-- Maintenance schedule CSV: [`dar-es-salaam-maintenance-schedule.csv`](dar-es-salaam-maintenance-schedule.csv)
+- Tracked compact asset register: [`dar-es-salaam-assets.csv`](dar-es-salaam-assets.csv)
+- Tracked operations manifest: [`dar-es-salaam-operations-manifest.json`](dar-es-salaam-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `dar-es-salaam-operations.json.gz`
+- `dar-es-salaam-acceptance-evidence-matrix.csv`
+- `dar-es-salaam-manufacturing-schedule.csv`
+- `dar-es-salaam-manufacturing-materials.csv`
+- `dar-es-salaam-manufacturing-verification.csv`
+- `dar-es-salaam-qa-register.csv`
+- `dar-es-salaam-maintenance-schedule.csv`
 
 ## Accreditation Use
 

@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`mogadishu-operations.json.gz`](mogadishu-operations.json.gz)
-- Evidence matrix CSV: [`mogadishu-acceptance-evidence-matrix.csv`](mogadishu-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`mogadishu-manufacturing-schedule.csv`](mogadishu-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`mogadishu-manufacturing-materials.csv`](mogadishu-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`mogadishu-manufacturing-verification.csv`](mogadishu-manufacturing-verification.csv)
-- QA register CSV: [`mogadishu-qa-register.csv`](mogadishu-qa-register.csv)
-- Maintenance schedule CSV: [`mogadishu-maintenance-schedule.csv`](mogadishu-maintenance-schedule.csv)
+- Tracked compact asset register: [`mogadishu-assets.csv`](mogadishu-assets.csv)
+- Tracked operations manifest: [`mogadishu-operations-manifest.json`](mogadishu-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `mogadishu-operations.json.gz`
+- `mogadishu-acceptance-evidence-matrix.csv`
+- `mogadishu-manufacturing-schedule.csv`
+- `mogadishu-manufacturing-materials.csv`
+- `mogadishu-manufacturing-verification.csv`
+- `mogadishu-qa-register.csv`
+- `mogadishu-maintenance-schedule.csv`
 
 ## Accreditation Use
 

@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`lucknow-operations.json.gz`](lucknow-operations.json.gz)
-- Evidence matrix CSV: [`lucknow-acceptance-evidence-matrix.csv`](lucknow-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`lucknow-manufacturing-schedule.csv`](lucknow-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`lucknow-manufacturing-materials.csv`](lucknow-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`lucknow-manufacturing-verification.csv`](lucknow-manufacturing-verification.csv)
-- QA register CSV: [`lucknow-qa-register.csv`](lucknow-qa-register.csv)
-- Maintenance schedule CSV: [`lucknow-maintenance-schedule.csv`](lucknow-maintenance-schedule.csv)
+- Tracked compact asset register: [`lucknow-assets.csv`](lucknow-assets.csv)
+- Tracked operations manifest: [`lucknow-operations-manifest.json`](lucknow-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `lucknow-operations.json.gz`
+- `lucknow-acceptance-evidence-matrix.csv`
+- `lucknow-manufacturing-schedule.csv`
+- `lucknow-manufacturing-materials.csv`
+- `lucknow-manufacturing-verification.csv`
+- `lucknow-qa-register.csv`
+- `lucknow-maintenance-schedule.csv`
 
 ## Accreditation Use
 

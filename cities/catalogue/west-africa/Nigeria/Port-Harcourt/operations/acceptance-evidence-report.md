@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`port-harcourt-operations.json.gz`](port-harcourt-operations.json.gz)
-- Evidence matrix CSV: [`port-harcourt-acceptance-evidence-matrix.csv`](port-harcourt-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`port-harcourt-manufacturing-schedule.csv`](port-harcourt-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`port-harcourt-manufacturing-materials.csv`](port-harcourt-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`port-harcourt-manufacturing-verification.csv`](port-harcourt-manufacturing-verification.csv)
-- QA register CSV: [`port-harcourt-qa-register.csv`](port-harcourt-qa-register.csv)
-- Maintenance schedule CSV: [`port-harcourt-maintenance-schedule.csv`](port-harcourt-maintenance-schedule.csv)
+- Tracked compact asset register: [`port-harcourt-assets.csv`](port-harcourt-assets.csv)
+- Tracked operations manifest: [`port-harcourt-operations-manifest.json`](port-harcourt-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `port-harcourt-operations.json.gz`
+- `port-harcourt-acceptance-evidence-matrix.csv`
+- `port-harcourt-manufacturing-schedule.csv`
+- `port-harcourt-manufacturing-materials.csv`
+- `port-harcourt-manufacturing-verification.csv`
+- `port-harcourt-qa-register.csv`
+- `port-harcourt-maintenance-schedule.csv`
 
 ## Accreditation Use
 

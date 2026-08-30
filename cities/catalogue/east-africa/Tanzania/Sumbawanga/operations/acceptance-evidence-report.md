@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`sumbawanga-operations.json.gz`](sumbawanga-operations.json.gz)
-- Evidence matrix CSV: [`sumbawanga-acceptance-evidence-matrix.csv`](sumbawanga-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`sumbawanga-manufacturing-schedule.csv`](sumbawanga-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`sumbawanga-manufacturing-materials.csv`](sumbawanga-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`sumbawanga-manufacturing-verification.csv`](sumbawanga-manufacturing-verification.csv)
-- QA register CSV: [`sumbawanga-qa-register.csv`](sumbawanga-qa-register.csv)
-- Maintenance schedule CSV: [`sumbawanga-maintenance-schedule.csv`](sumbawanga-maintenance-schedule.csv)
+- Tracked compact asset register: [`sumbawanga-assets.csv`](sumbawanga-assets.csv)
+- Tracked operations manifest: [`sumbawanga-operations-manifest.json`](sumbawanga-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `sumbawanga-operations.json.gz`
+- `sumbawanga-acceptance-evidence-matrix.csv`
+- `sumbawanga-manufacturing-schedule.csv`
+- `sumbawanga-manufacturing-materials.csv`
+- `sumbawanga-manufacturing-verification.csv`
+- `sumbawanga-qa-register.csv`
+- `sumbawanga-maintenance-schedule.csv`
 
 ## Accreditation Use
 

@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`agadir-operations.json.gz`](agadir-operations.json.gz)
-- Evidence matrix CSV: [`agadir-acceptance-evidence-matrix.csv`](agadir-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`agadir-manufacturing-schedule.csv`](agadir-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`agadir-manufacturing-materials.csv`](agadir-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`agadir-manufacturing-verification.csv`](agadir-manufacturing-verification.csv)
-- QA register CSV: [`agadir-qa-register.csv`](agadir-qa-register.csv)
-- Maintenance schedule CSV: [`agadir-maintenance-schedule.csv`](agadir-maintenance-schedule.csv)
+- Tracked compact asset register: [`agadir-assets.csv`](agadir-assets.csv)
+- Tracked operations manifest: [`agadir-operations-manifest.json`](agadir-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `agadir-operations.json.gz`
+- `agadir-acceptance-evidence-matrix.csv`
+- `agadir-manufacturing-schedule.csv`
+- `agadir-manufacturing-materials.csv`
+- `agadir-manufacturing-verification.csv`
+- `agadir-qa-register.csv`
+- `agadir-maintenance-schedule.csv`
 
 ## Accreditation Use
 

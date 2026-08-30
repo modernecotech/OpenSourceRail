@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`la-paz-operations.json.gz`](la-paz-operations.json.gz)
-- Evidence matrix CSV: [`la-paz-acceptance-evidence-matrix.csv`](la-paz-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`la-paz-manufacturing-schedule.csv`](la-paz-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`la-paz-manufacturing-materials.csv`](la-paz-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`la-paz-manufacturing-verification.csv`](la-paz-manufacturing-verification.csv)
-- QA register CSV: [`la-paz-qa-register.csv`](la-paz-qa-register.csv)
-- Maintenance schedule CSV: [`la-paz-maintenance-schedule.csv`](la-paz-maintenance-schedule.csv)
+- Tracked compact asset register: [`la-paz-assets.csv`](la-paz-assets.csv)
+- Tracked operations manifest: [`la-paz-operations-manifest.json`](la-paz-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `la-paz-operations.json.gz`
+- `la-paz-acceptance-evidence-matrix.csv`
+- `la-paz-manufacturing-schedule.csv`
+- `la-paz-manufacturing-materials.csv`
+- `la-paz-manufacturing-verification.csv`
+- `la-paz-qa-register.csv`
+- `la-paz-maintenance-schedule.csv`
 
 ## Accreditation Use
 

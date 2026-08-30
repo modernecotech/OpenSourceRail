@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`durban-operations.json.gz`](durban-operations.json.gz)
-- Evidence matrix CSV: [`durban-acceptance-evidence-matrix.csv`](durban-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`durban-manufacturing-schedule.csv`](durban-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`durban-manufacturing-materials.csv`](durban-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`durban-manufacturing-verification.csv`](durban-manufacturing-verification.csv)
-- QA register CSV: [`durban-qa-register.csv`](durban-qa-register.csv)
-- Maintenance schedule CSV: [`durban-maintenance-schedule.csv`](durban-maintenance-schedule.csv)
+- Tracked compact asset register: [`durban-assets.csv`](durban-assets.csv)
+- Tracked operations manifest: [`durban-operations-manifest.json`](durban-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `durban-operations.json.gz`
+- `durban-acceptance-evidence-matrix.csv`
+- `durban-manufacturing-schedule.csv`
+- `durban-manufacturing-materials.csv`
+- `durban-manufacturing-verification.csv`
+- `durban-qa-register.csv`
+- `durban-maintenance-schedule.csv`
 
 ## Accreditation Use
 

@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`uyo-operations.json.gz`](uyo-operations.json.gz)
-- Evidence matrix CSV: [`uyo-acceptance-evidence-matrix.csv`](uyo-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`uyo-manufacturing-schedule.csv`](uyo-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`uyo-manufacturing-materials.csv`](uyo-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`uyo-manufacturing-verification.csv`](uyo-manufacturing-verification.csv)
-- QA register CSV: [`uyo-qa-register.csv`](uyo-qa-register.csv)
-- Maintenance schedule CSV: [`uyo-maintenance-schedule.csv`](uyo-maintenance-schedule.csv)
+- Tracked compact asset register: [`uyo-assets.csv`](uyo-assets.csv)
+- Tracked operations manifest: [`uyo-operations-manifest.json`](uyo-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `uyo-operations.json.gz`
+- `uyo-acceptance-evidence-matrix.csv`
+- `uyo-manufacturing-schedule.csv`
+- `uyo-manufacturing-materials.csv`
+- `uyo-manufacturing-verification.csv`
+- `uyo-qa-register.csv`
+- `uyo-maintenance-schedule.csv`
 
 ## Accreditation Use
 

@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`baqubah-operations.json.gz`](baqubah-operations.json.gz)
-- Evidence matrix CSV: [`baqubah-acceptance-evidence-matrix.csv`](baqubah-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`baqubah-manufacturing-schedule.csv`](baqubah-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`baqubah-manufacturing-materials.csv`](baqubah-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`baqubah-manufacturing-verification.csv`](baqubah-manufacturing-verification.csv)
-- QA register CSV: [`baqubah-qa-register.csv`](baqubah-qa-register.csv)
-- Maintenance schedule CSV: [`baqubah-maintenance-schedule.csv`](baqubah-maintenance-schedule.csv)
+- Tracked compact asset register: [`baqubah-assets.csv`](baqubah-assets.csv)
+- Tracked operations manifest: [`baqubah-operations-manifest.json`](baqubah-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `baqubah-operations.json.gz`
+- `baqubah-acceptance-evidence-matrix.csv`
+- `baqubah-manufacturing-schedule.csv`
+- `baqubah-manufacturing-materials.csv`
+- `baqubah-manufacturing-verification.csv`
+- `baqubah-qa-register.csv`
+- `baqubah-maintenance-schedule.csv`
 
 ## Accreditation Use
 

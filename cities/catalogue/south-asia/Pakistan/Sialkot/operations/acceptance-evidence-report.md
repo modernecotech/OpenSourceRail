@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`sialkot-operations.json.gz`](sialkot-operations.json.gz)
-- Evidence matrix CSV: [`sialkot-acceptance-evidence-matrix.csv`](sialkot-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`sialkot-manufacturing-schedule.csv`](sialkot-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`sialkot-manufacturing-materials.csv`](sialkot-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`sialkot-manufacturing-verification.csv`](sialkot-manufacturing-verification.csv)
-- QA register CSV: [`sialkot-qa-register.csv`](sialkot-qa-register.csv)
-- Maintenance schedule CSV: [`sialkot-maintenance-schedule.csv`](sialkot-maintenance-schedule.csv)
+- Tracked compact asset register: [`sialkot-assets.csv`](sialkot-assets.csv)
+- Tracked operations manifest: [`sialkot-operations-manifest.json`](sialkot-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `sialkot-operations.json.gz`
+- `sialkot-acceptance-evidence-matrix.csv`
+- `sialkot-manufacturing-schedule.csv`
+- `sialkot-manufacturing-materials.csv`
+- `sialkot-manufacturing-verification.csv`
+- `sialkot-qa-register.csv`
+- `sialkot-maintenance-schedule.csv`
 
 ## Accreditation Use
 

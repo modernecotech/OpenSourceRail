@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`arusha-operations.json.gz`](arusha-operations.json.gz)
-- Evidence matrix CSV: [`arusha-acceptance-evidence-matrix.csv`](arusha-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`arusha-manufacturing-schedule.csv`](arusha-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`arusha-manufacturing-materials.csv`](arusha-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`arusha-manufacturing-verification.csv`](arusha-manufacturing-verification.csv)
-- QA register CSV: [`arusha-qa-register.csv`](arusha-qa-register.csv)
-- Maintenance schedule CSV: [`arusha-maintenance-schedule.csv`](arusha-maintenance-schedule.csv)
+- Tracked compact asset register: [`arusha-assets.csv`](arusha-assets.csv)
+- Tracked operations manifest: [`arusha-operations-manifest.json`](arusha-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `arusha-operations.json.gz`
+- `arusha-acceptance-evidence-matrix.csv`
+- `arusha-manufacturing-schedule.csv`
+- `arusha-manufacturing-materials.csv`
+- `arusha-manufacturing-verification.csv`
+- `arusha-qa-register.csv`
+- `arusha-maintenance-schedule.csv`
 
 ## Accreditation Use
 

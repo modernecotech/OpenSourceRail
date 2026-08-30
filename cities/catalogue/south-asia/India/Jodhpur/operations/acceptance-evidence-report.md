@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`jodhpur-operations.json.gz`](jodhpur-operations.json.gz)
-- Evidence matrix CSV: [`jodhpur-acceptance-evidence-matrix.csv`](jodhpur-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`jodhpur-manufacturing-schedule.csv`](jodhpur-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`jodhpur-manufacturing-materials.csv`](jodhpur-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`jodhpur-manufacturing-verification.csv`](jodhpur-manufacturing-verification.csv)
-- QA register CSV: [`jodhpur-qa-register.csv`](jodhpur-qa-register.csv)
-- Maintenance schedule CSV: [`jodhpur-maintenance-schedule.csv`](jodhpur-maintenance-schedule.csv)
+- Tracked compact asset register: [`jodhpur-assets.csv`](jodhpur-assets.csv)
+- Tracked operations manifest: [`jodhpur-operations-manifest.json`](jodhpur-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `jodhpur-operations.json.gz`
+- `jodhpur-acceptance-evidence-matrix.csv`
+- `jodhpur-manufacturing-schedule.csv`
+- `jodhpur-manufacturing-materials.csv`
+- `jodhpur-manufacturing-verification.csv`
+- `jodhpur-qa-register.csv`
+- `jodhpur-maintenance-schedule.csv`
 
 ## Accreditation Use
 

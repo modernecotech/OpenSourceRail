@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`meknes-operations.json.gz`](meknes-operations.json.gz)
-- Evidence matrix CSV: [`meknes-acceptance-evidence-matrix.csv`](meknes-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`meknes-manufacturing-schedule.csv`](meknes-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`meknes-manufacturing-materials.csv`](meknes-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`meknes-manufacturing-verification.csv`](meknes-manufacturing-verification.csv)
-- QA register CSV: [`meknes-qa-register.csv`](meknes-qa-register.csv)
-- Maintenance schedule CSV: [`meknes-maintenance-schedule.csv`](meknes-maintenance-schedule.csv)
+- Tracked compact asset register: [`meknes-assets.csv`](meknes-assets.csv)
+- Tracked operations manifest: [`meknes-operations-manifest.json`](meknes-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `meknes-operations.json.gz`
+- `meknes-acceptance-evidence-matrix.csv`
+- `meknes-manufacturing-schedule.csv`
+- `meknes-manufacturing-materials.csv`
+- `meknes-manufacturing-verification.csv`
+- `meknes-qa-register.csv`
+- `meknes-maintenance-schedule.csv`
 
 ## Accreditation Use
 

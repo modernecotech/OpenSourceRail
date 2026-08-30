@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`kampala-operations.json.gz`](kampala-operations.json.gz)
-- Evidence matrix CSV: [`kampala-acceptance-evidence-matrix.csv`](kampala-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`kampala-manufacturing-schedule.csv`](kampala-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`kampala-manufacturing-materials.csv`](kampala-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`kampala-manufacturing-verification.csv`](kampala-manufacturing-verification.csv)
-- QA register CSV: [`kampala-qa-register.csv`](kampala-qa-register.csv)
-- Maintenance schedule CSV: [`kampala-maintenance-schedule.csv`](kampala-maintenance-schedule.csv)
+- Tracked compact asset register: [`kampala-assets.csv`](kampala-assets.csv)
+- Tracked operations manifest: [`kampala-operations-manifest.json`](kampala-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `kampala-operations.json.gz`
+- `kampala-acceptance-evidence-matrix.csv`
+- `kampala-manufacturing-schedule.csv`
+- `kampala-manufacturing-materials.csv`
+- `kampala-manufacturing-verification.csv`
+- `kampala-qa-register.csv`
+- `kampala-maintenance-schedule.csv`
 
 ## Accreditation Use
 

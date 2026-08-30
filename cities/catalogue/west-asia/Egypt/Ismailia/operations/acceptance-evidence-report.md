@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`ismailia-operations.json.gz`](ismailia-operations.json.gz)
-- Evidence matrix CSV: [`ismailia-acceptance-evidence-matrix.csv`](ismailia-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`ismailia-manufacturing-schedule.csv`](ismailia-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`ismailia-manufacturing-materials.csv`](ismailia-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`ismailia-manufacturing-verification.csv`](ismailia-manufacturing-verification.csv)
-- QA register CSV: [`ismailia-qa-register.csv`](ismailia-qa-register.csv)
-- Maintenance schedule CSV: [`ismailia-maintenance-schedule.csv`](ismailia-maintenance-schedule.csv)
+- Tracked compact asset register: [`ismailia-assets.csv`](ismailia-assets.csv)
+- Tracked operations manifest: [`ismailia-operations-manifest.json`](ismailia-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `ismailia-operations.json.gz`
+- `ismailia-acceptance-evidence-matrix.csv`
+- `ismailia-manufacturing-schedule.csv`
+- `ismailia-manufacturing-materials.csv`
+- `ismailia-manufacturing-verification.csv`
+- `ismailia-qa-register.csv`
+- `ismailia-maintenance-schedule.csv`
 
 ## Accreditation Use
 

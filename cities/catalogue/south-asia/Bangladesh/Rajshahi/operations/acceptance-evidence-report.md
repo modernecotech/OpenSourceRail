@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`rajshahi-operations.json.gz`](rajshahi-operations.json.gz)
-- Evidence matrix CSV: [`rajshahi-acceptance-evidence-matrix.csv`](rajshahi-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`rajshahi-manufacturing-schedule.csv`](rajshahi-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`rajshahi-manufacturing-materials.csv`](rajshahi-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`rajshahi-manufacturing-verification.csv`](rajshahi-manufacturing-verification.csv)
-- QA register CSV: [`rajshahi-qa-register.csv`](rajshahi-qa-register.csv)
-- Maintenance schedule CSV: [`rajshahi-maintenance-schedule.csv`](rajshahi-maintenance-schedule.csv)
+- Tracked compact asset register: [`rajshahi-assets.csv`](rajshahi-assets.csv)
+- Tracked operations manifest: [`rajshahi-operations-manifest.json`](rajshahi-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `rajshahi-operations.json.gz`
+- `rajshahi-acceptance-evidence-matrix.csv`
+- `rajshahi-manufacturing-schedule.csv`
+- `rajshahi-manufacturing-materials.csv`
+- `rajshahi-manufacturing-verification.csv`
+- `rajshahi-qa-register.csv`
+- `rajshahi-maintenance-schedule.csv`
 
 ## Accreditation Use
 

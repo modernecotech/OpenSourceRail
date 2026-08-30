@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`oujda-operations.json.gz`](oujda-operations.json.gz)
-- Evidence matrix CSV: [`oujda-acceptance-evidence-matrix.csv`](oujda-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`oujda-manufacturing-schedule.csv`](oujda-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`oujda-manufacturing-materials.csv`](oujda-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`oujda-manufacturing-verification.csv`](oujda-manufacturing-verification.csv)
-- QA register CSV: [`oujda-qa-register.csv`](oujda-qa-register.csv)
-- Maintenance schedule CSV: [`oujda-maintenance-schedule.csv`](oujda-maintenance-schedule.csv)
+- Tracked compact asset register: [`oujda-assets.csv`](oujda-assets.csv)
+- Tracked operations manifest: [`oujda-operations-manifest.json`](oujda-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `oujda-operations.json.gz`
+- `oujda-acceptance-evidence-matrix.csv`
+- `oujda-manufacturing-schedule.csv`
+- `oujda-manufacturing-materials.csv`
+- `oujda-manufacturing-verification.csv`
+- `oujda-qa-register.csv`
+- `oujda-maintenance-schedule.csv`
 
 ## Accreditation Use
 

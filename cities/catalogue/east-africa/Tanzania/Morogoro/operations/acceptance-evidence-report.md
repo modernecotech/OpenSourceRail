@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`morogoro-operations.json.gz`](morogoro-operations.json.gz)
-- Evidence matrix CSV: [`morogoro-acceptance-evidence-matrix.csv`](morogoro-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`morogoro-manufacturing-schedule.csv`](morogoro-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`morogoro-manufacturing-materials.csv`](morogoro-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`morogoro-manufacturing-verification.csv`](morogoro-manufacturing-verification.csv)
-- QA register CSV: [`morogoro-qa-register.csv`](morogoro-qa-register.csv)
-- Maintenance schedule CSV: [`morogoro-maintenance-schedule.csv`](morogoro-maintenance-schedule.csv)
+- Tracked compact asset register: [`morogoro-assets.csv`](morogoro-assets.csv)
+- Tracked operations manifest: [`morogoro-operations-manifest.json`](morogoro-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `morogoro-operations.json.gz`
+- `morogoro-acceptance-evidence-matrix.csv`
+- `morogoro-manufacturing-schedule.csv`
+- `morogoro-manufacturing-materials.csv`
+- `morogoro-manufacturing-verification.csv`
+- `morogoro-qa-register.csv`
+- `morogoro-maintenance-schedule.csv`
 
 ## Accreditation Use
 

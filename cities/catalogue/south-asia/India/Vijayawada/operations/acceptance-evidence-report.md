@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`vijayawada-operations.json.gz`](vijayawada-operations.json.gz)
-- Evidence matrix CSV: [`vijayawada-acceptance-evidence-matrix.csv`](vijayawada-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`vijayawada-manufacturing-schedule.csv`](vijayawada-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`vijayawada-manufacturing-materials.csv`](vijayawada-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`vijayawada-manufacturing-verification.csv`](vijayawada-manufacturing-verification.csv)
-- QA register CSV: [`vijayawada-qa-register.csv`](vijayawada-qa-register.csv)
-- Maintenance schedule CSV: [`vijayawada-maintenance-schedule.csv`](vijayawada-maintenance-schedule.csv)
+- Tracked compact asset register: [`vijayawada-assets.csv`](vijayawada-assets.csv)
+- Tracked operations manifest: [`vijayawada-operations-manifest.json`](vijayawada-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `vijayawada-operations.json.gz`
+- `vijayawada-acceptance-evidence-matrix.csv`
+- `vijayawada-manufacturing-schedule.csv`
+- `vijayawada-manufacturing-materials.csv`
+- `vijayawada-manufacturing-verification.csv`
+- `vijayawada-qa-register.csv`
+- `vijayawada-maintenance-schedule.csv`
 
 ## Accreditation Use
 

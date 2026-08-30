@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`larkana-operations.json.gz`](larkana-operations.json.gz)
-- Evidence matrix CSV: [`larkana-acceptance-evidence-matrix.csv`](larkana-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`larkana-manufacturing-schedule.csv`](larkana-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`larkana-manufacturing-materials.csv`](larkana-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`larkana-manufacturing-verification.csv`](larkana-manufacturing-verification.csv)
-- QA register CSV: [`larkana-qa-register.csv`](larkana-qa-register.csv)
-- Maintenance schedule CSV: [`larkana-maintenance-schedule.csv`](larkana-maintenance-schedule.csv)
+- Tracked compact asset register: [`larkana-assets.csv`](larkana-assets.csv)
+- Tracked operations manifest: [`larkana-operations-manifest.json`](larkana-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `larkana-operations.json.gz`
+- `larkana-acceptance-evidence-matrix.csv`
+- `larkana-manufacturing-schedule.csv`
+- `larkana-manufacturing-materials.csv`
+- `larkana-manufacturing-verification.csv`
+- `larkana-qa-register.csv`
+- `larkana-maintenance-schedule.csv`
 
 ## Accreditation Use
 

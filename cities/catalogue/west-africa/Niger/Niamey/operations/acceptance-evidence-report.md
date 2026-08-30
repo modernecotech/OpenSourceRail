@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`niamey-operations.json.gz`](niamey-operations.json.gz)
-- Evidence matrix CSV: [`niamey-acceptance-evidence-matrix.csv`](niamey-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`niamey-manufacturing-schedule.csv`](niamey-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`niamey-manufacturing-materials.csv`](niamey-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`niamey-manufacturing-verification.csv`](niamey-manufacturing-verification.csv)
-- QA register CSV: [`niamey-qa-register.csv`](niamey-qa-register.csv)
-- Maintenance schedule CSV: [`niamey-maintenance-schedule.csv`](niamey-maintenance-schedule.csv)
+- Tracked compact asset register: [`niamey-assets.csv`](niamey-assets.csv)
+- Tracked operations manifest: [`niamey-operations-manifest.json`](niamey-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `niamey-operations.json.gz`
+- `niamey-acceptance-evidence-matrix.csv`
+- `niamey-manufacturing-schedule.csv`
+- `niamey-manufacturing-materials.csv`
+- `niamey-manufacturing-verification.csv`
+- `niamey-qa-register.csv`
+- `niamey-maintenance-schedule.csv`
 
 ## Accreditation Use
 

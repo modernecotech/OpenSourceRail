@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`tangier-operations.json.gz`](tangier-operations.json.gz)
-- Evidence matrix CSV: [`tangier-acceptance-evidence-matrix.csv`](tangier-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`tangier-manufacturing-schedule.csv`](tangier-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`tangier-manufacturing-materials.csv`](tangier-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`tangier-manufacturing-verification.csv`](tangier-manufacturing-verification.csv)
-- QA register CSV: [`tangier-qa-register.csv`](tangier-qa-register.csv)
-- Maintenance schedule CSV: [`tangier-maintenance-schedule.csv`](tangier-maintenance-schedule.csv)
+- Tracked compact asset register: [`tangier-assets.csv`](tangier-assets.csv)
+- Tracked operations manifest: [`tangier-operations-manifest.json`](tangier-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `tangier-operations.json.gz`
+- `tangier-acceptance-evidence-matrix.csv`
+- `tangier-manufacturing-schedule.csv`
+- `tangier-manufacturing-materials.csv`
+- `tangier-manufacturing-verification.csv`
+- `tangier-qa-register.csv`
+- `tangier-maintenance-schedule.csv`
 
 ## Accreditation Use
 

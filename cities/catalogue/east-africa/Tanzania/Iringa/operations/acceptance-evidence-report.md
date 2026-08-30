@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`iringa-operations.json.gz`](iringa-operations.json.gz)
-- Evidence matrix CSV: [`iringa-acceptance-evidence-matrix.csv`](iringa-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`iringa-manufacturing-schedule.csv`](iringa-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`iringa-manufacturing-materials.csv`](iringa-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`iringa-manufacturing-verification.csv`](iringa-manufacturing-verification.csv)
-- QA register CSV: [`iringa-qa-register.csv`](iringa-qa-register.csv)
-- Maintenance schedule CSV: [`iringa-maintenance-schedule.csv`](iringa-maintenance-schedule.csv)
+- Tracked compact asset register: [`iringa-assets.csv`](iringa-assets.csv)
+- Tracked operations manifest: [`iringa-operations-manifest.json`](iringa-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `iringa-operations.json.gz`
+- `iringa-acceptance-evidence-matrix.csv`
+- `iringa-manufacturing-schedule.csv`
+- `iringa-manufacturing-materials.csv`
+- `iringa-manufacturing-verification.csv`
+- `iringa-qa-register.csv`
+- `iringa-maintenance-schedule.csv`
 
 ## Accreditation Use
 

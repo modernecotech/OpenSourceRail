@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`zanzibar-city-operations.json.gz`](zanzibar-city-operations.json.gz)
-- Evidence matrix CSV: [`zanzibar-city-acceptance-evidence-matrix.csv`](zanzibar-city-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`zanzibar-city-manufacturing-schedule.csv`](zanzibar-city-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`zanzibar-city-manufacturing-materials.csv`](zanzibar-city-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`zanzibar-city-manufacturing-verification.csv`](zanzibar-city-manufacturing-verification.csv)
-- QA register CSV: [`zanzibar-city-qa-register.csv`](zanzibar-city-qa-register.csv)
-- Maintenance schedule CSV: [`zanzibar-city-maintenance-schedule.csv`](zanzibar-city-maintenance-schedule.csv)
+- Tracked compact asset register: [`zanzibar-city-assets.csv`](zanzibar-city-assets.csv)
+- Tracked operations manifest: [`zanzibar-city-operations-manifest.json`](zanzibar-city-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `zanzibar-city-operations.json.gz`
+- `zanzibar-city-acceptance-evidence-matrix.csv`
+- `zanzibar-city-manufacturing-schedule.csv`
+- `zanzibar-city-manufacturing-materials.csv`
+- `zanzibar-city-manufacturing-verification.csv`
+- `zanzibar-city-qa-register.csv`
+- `zanzibar-city-maintenance-schedule.csv`
 
 ## Accreditation Use
 

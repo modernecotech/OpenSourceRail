@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`najaf-operations.json.gz`](najaf-operations.json.gz)
-- Evidence matrix CSV: [`najaf-acceptance-evidence-matrix.csv`](najaf-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`najaf-manufacturing-schedule.csv`](najaf-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`najaf-manufacturing-materials.csv`](najaf-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`najaf-manufacturing-verification.csv`](najaf-manufacturing-verification.csv)
-- QA register CSV: [`najaf-qa-register.csv`](najaf-qa-register.csv)
-- Maintenance schedule CSV: [`najaf-maintenance-schedule.csv`](najaf-maintenance-schedule.csv)
+- Tracked compact asset register: [`najaf-assets.csv`](najaf-assets.csv)
+- Tracked operations manifest: [`najaf-operations-manifest.json`](najaf-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `najaf-operations.json.gz`
+- `najaf-acceptance-evidence-matrix.csv`
+- `najaf-manufacturing-schedule.csv`
+- `najaf-manufacturing-materials.csv`
+- `najaf-manufacturing-verification.csv`
+- `najaf-qa-register.csv`
+- `najaf-maintenance-schedule.csv`
 
 ## Accreditation Use
 

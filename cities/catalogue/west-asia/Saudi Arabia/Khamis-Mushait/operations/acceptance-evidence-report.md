@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`khamis-mushait-operations.json.gz`](khamis-mushait-operations.json.gz)
-- Evidence matrix CSV: [`khamis-mushait-acceptance-evidence-matrix.csv`](khamis-mushait-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`khamis-mushait-manufacturing-schedule.csv`](khamis-mushait-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`khamis-mushait-manufacturing-materials.csv`](khamis-mushait-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`khamis-mushait-manufacturing-verification.csv`](khamis-mushait-manufacturing-verification.csv)
-- QA register CSV: [`khamis-mushait-qa-register.csv`](khamis-mushait-qa-register.csv)
-- Maintenance schedule CSV: [`khamis-mushait-maintenance-schedule.csv`](khamis-mushait-maintenance-schedule.csv)
+- Tracked compact asset register: [`khamis-mushait-assets.csv`](khamis-mushait-assets.csv)
+- Tracked operations manifest: [`khamis-mushait-operations-manifest.json`](khamis-mushait-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `khamis-mushait-operations.json.gz`
+- `khamis-mushait-acceptance-evidence-matrix.csv`
+- `khamis-mushait-manufacturing-schedule.csv`
+- `khamis-mushait-manufacturing-materials.csv`
+- `khamis-mushait-manufacturing-verification.csv`
+- `khamis-mushait-qa-register.csv`
+- `khamis-mushait-maintenance-schedule.csv`
 
 ## Accreditation Use
 

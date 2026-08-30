@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`mbale-operations.json.gz`](mbale-operations.json.gz)
-- Evidence matrix CSV: [`mbale-acceptance-evidence-matrix.csv`](mbale-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`mbale-manufacturing-schedule.csv`](mbale-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`mbale-manufacturing-materials.csv`](mbale-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`mbale-manufacturing-verification.csv`](mbale-manufacturing-verification.csv)
-- QA register CSV: [`mbale-qa-register.csv`](mbale-qa-register.csv)
-- Maintenance schedule CSV: [`mbale-maintenance-schedule.csv`](mbale-maintenance-schedule.csv)
+- Tracked compact asset register: [`mbale-assets.csv`](mbale-assets.csv)
+- Tracked operations manifest: [`mbale-operations-manifest.json`](mbale-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `mbale-operations.json.gz`
+- `mbale-acceptance-evidence-matrix.csv`
+- `mbale-manufacturing-schedule.csv`
+- `mbale-manufacturing-materials.csv`
+- `mbale-manufacturing-verification.csv`
+- `mbale-qa-register.csv`
+- `mbale-maintenance-schedule.csv`
 
 ## Accreditation Use
 

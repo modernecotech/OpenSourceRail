@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`rahim-yar-khan-operations.json.gz`](rahim-yar-khan-operations.json.gz)
-- Evidence matrix CSV: [`rahim-yar-khan-acceptance-evidence-matrix.csv`](rahim-yar-khan-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`rahim-yar-khan-manufacturing-schedule.csv`](rahim-yar-khan-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`rahim-yar-khan-manufacturing-materials.csv`](rahim-yar-khan-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`rahim-yar-khan-manufacturing-verification.csv`](rahim-yar-khan-manufacturing-verification.csv)
-- QA register CSV: [`rahim-yar-khan-qa-register.csv`](rahim-yar-khan-qa-register.csv)
-- Maintenance schedule CSV: [`rahim-yar-khan-maintenance-schedule.csv`](rahim-yar-khan-maintenance-schedule.csv)
+- Tracked compact asset register: [`rahim-yar-khan-assets.csv`](rahim-yar-khan-assets.csv)
+- Tracked operations manifest: [`rahim-yar-khan-operations-manifest.json`](rahim-yar-khan-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `rahim-yar-khan-operations.json.gz`
+- `rahim-yar-khan-acceptance-evidence-matrix.csv`
+- `rahim-yar-khan-manufacturing-schedule.csv`
+- `rahim-yar-khan-manufacturing-materials.csv`
+- `rahim-yar-khan-manufacturing-verification.csv`
+- `rahim-yar-khan-qa-register.csv`
+- `rahim-yar-khan-maintenance-schedule.csv`
 
 ## Accreditation Use
 

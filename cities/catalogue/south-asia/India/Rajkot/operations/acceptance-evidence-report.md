@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`rajkot-operations.json.gz`](rajkot-operations.json.gz)
-- Evidence matrix CSV: [`rajkot-acceptance-evidence-matrix.csv`](rajkot-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`rajkot-manufacturing-schedule.csv`](rajkot-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`rajkot-manufacturing-materials.csv`](rajkot-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`rajkot-manufacturing-verification.csv`](rajkot-manufacturing-verification.csv)
-- QA register CSV: [`rajkot-qa-register.csv`](rajkot-qa-register.csv)
-- Maintenance schedule CSV: [`rajkot-maintenance-schedule.csv`](rajkot-maintenance-schedule.csv)
+- Tracked compact asset register: [`rajkot-assets.csv`](rajkot-assets.csv)
+- Tracked operations manifest: [`rajkot-operations-manifest.json`](rajkot-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `rajkot-operations.json.gz`
+- `rajkot-acceptance-evidence-matrix.csv`
+- `rajkot-manufacturing-schedule.csv`
+- `rajkot-manufacturing-materials.csv`
+- `rajkot-manufacturing-verification.csv`
+- `rajkot-qa-register.csv`
+- `rajkot-maintenance-schedule.csv`
 
 ## Accreditation Use
 

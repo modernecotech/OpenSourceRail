@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`jalalabad-af-operations.json.gz`](jalalabad-af-operations.json.gz)
-- Evidence matrix CSV: [`jalalabad-af-acceptance-evidence-matrix.csv`](jalalabad-af-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`jalalabad-af-manufacturing-schedule.csv`](jalalabad-af-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`jalalabad-af-manufacturing-materials.csv`](jalalabad-af-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`jalalabad-af-manufacturing-verification.csv`](jalalabad-af-manufacturing-verification.csv)
-- QA register CSV: [`jalalabad-af-qa-register.csv`](jalalabad-af-qa-register.csv)
-- Maintenance schedule CSV: [`jalalabad-af-maintenance-schedule.csv`](jalalabad-af-maintenance-schedule.csv)
+- Tracked compact asset register: [`jalalabad-af-assets.csv`](jalalabad-af-assets.csv)
+- Tracked operations manifest: [`jalalabad-af-operations-manifest.json`](jalalabad-af-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `jalalabad-af-operations.json.gz`
+- `jalalabad-af-acceptance-evidence-matrix.csv`
+- `jalalabad-af-manufacturing-schedule.csv`
+- `jalalabad-af-manufacturing-materials.csv`
+- `jalalabad-af-manufacturing-verification.csv`
+- `jalalabad-af-qa-register.csv`
+- `jalalabad-af-maintenance-schedule.csv`
 
 ## Accreditation Use
 

@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`garissa-operations.json.gz`](garissa-operations.json.gz)
-- Evidence matrix CSV: [`garissa-acceptance-evidence-matrix.csv`](garissa-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`garissa-manufacturing-schedule.csv`](garissa-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`garissa-manufacturing-materials.csv`](garissa-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`garissa-manufacturing-verification.csv`](garissa-manufacturing-verification.csv)
-- QA register CSV: [`garissa-qa-register.csv`](garissa-qa-register.csv)
-- Maintenance schedule CSV: [`garissa-maintenance-schedule.csv`](garissa-maintenance-schedule.csv)
+- Tracked compact asset register: [`garissa-assets.csv`](garissa-assets.csv)
+- Tracked operations manifest: [`garissa-operations-manifest.json`](garissa-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `garissa-operations.json.gz`
+- `garissa-acceptance-evidence-matrix.csv`
+- `garissa-manufacturing-schedule.csv`
+- `garissa-manufacturing-materials.csv`
+- `garissa-manufacturing-verification.csv`
+- `garissa-qa-register.csv`
+- `garissa-maintenance-schedule.csv`
 
 ## Accreditation Use
 

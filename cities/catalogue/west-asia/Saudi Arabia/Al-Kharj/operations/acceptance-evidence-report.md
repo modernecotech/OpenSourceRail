@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`al-kharj-operations.json.gz`](al-kharj-operations.json.gz)
-- Evidence matrix CSV: [`al-kharj-acceptance-evidence-matrix.csv`](al-kharj-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`al-kharj-manufacturing-schedule.csv`](al-kharj-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`al-kharj-manufacturing-materials.csv`](al-kharj-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`al-kharj-manufacturing-verification.csv`](al-kharj-manufacturing-verification.csv)
-- QA register CSV: [`al-kharj-qa-register.csv`](al-kharj-qa-register.csv)
-- Maintenance schedule CSV: [`al-kharj-maintenance-schedule.csv`](al-kharj-maintenance-schedule.csv)
+- Tracked compact asset register: [`al-kharj-assets.csv`](al-kharj-assets.csv)
+- Tracked operations manifest: [`al-kharj-operations-manifest.json`](al-kharj-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `al-kharj-operations.json.gz`
+- `al-kharj-acceptance-evidence-matrix.csv`
+- `al-kharj-manufacturing-schedule.csv`
+- `al-kharj-manufacturing-materials.csv`
+- `al-kharj-manufacturing-verification.csv`
+- `al-kharj-qa-register.csv`
+- `al-kharj-maintenance-schedule.csv`
 
 ## Accreditation Use
 

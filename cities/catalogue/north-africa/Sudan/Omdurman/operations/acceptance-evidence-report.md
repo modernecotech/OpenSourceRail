@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`omdurman-operations.json.gz`](omdurman-operations.json.gz)
-- Evidence matrix CSV: [`omdurman-acceptance-evidence-matrix.csv`](omdurman-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`omdurman-manufacturing-schedule.csv`](omdurman-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`omdurman-manufacturing-materials.csv`](omdurman-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`omdurman-manufacturing-verification.csv`](omdurman-manufacturing-verification.csv)
-- QA register CSV: [`omdurman-qa-register.csv`](omdurman-qa-register.csv)
-- Maintenance schedule CSV: [`omdurman-maintenance-schedule.csv`](omdurman-maintenance-schedule.csv)
+- Tracked compact asset register: [`omdurman-assets.csv`](omdurman-assets.csv)
+- Tracked operations manifest: [`omdurman-operations-manifest.json`](omdurman-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `omdurman-operations.json.gz`
+- `omdurman-acceptance-evidence-matrix.csv`
+- `omdurman-manufacturing-schedule.csv`
+- `omdurman-manufacturing-materials.csv`
+- `omdurman-manufacturing-verification.csv`
+- `omdurman-qa-register.csv`
+- `omdurman-maintenance-schedule.csv`
 
 ## Accreditation Use
 

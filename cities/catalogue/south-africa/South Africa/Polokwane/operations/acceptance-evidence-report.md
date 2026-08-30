@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`polokwane-operations.json.gz`](polokwane-operations.json.gz)
-- Evidence matrix CSV: [`polokwane-acceptance-evidence-matrix.csv`](polokwane-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`polokwane-manufacturing-schedule.csv`](polokwane-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`polokwane-manufacturing-materials.csv`](polokwane-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`polokwane-manufacturing-verification.csv`](polokwane-manufacturing-verification.csv)
-- QA register CSV: [`polokwane-qa-register.csv`](polokwane-qa-register.csv)
-- Maintenance schedule CSV: [`polokwane-maintenance-schedule.csv`](polokwane-maintenance-schedule.csv)
+- Tracked compact asset register: [`polokwane-assets.csv`](polokwane-assets.csv)
+- Tracked operations manifest: [`polokwane-operations-manifest.json`](polokwane-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `polokwane-operations.json.gz`
+- `polokwane-acceptance-evidence-matrix.csv`
+- `polokwane-manufacturing-schedule.csv`
+- `polokwane-manufacturing-materials.csv`
+- `polokwane-manufacturing-verification.csv`
+- `polokwane-qa-register.csv`
+- `polokwane-maintenance-schedule.csv`
 
 ## Accreditation Use
 

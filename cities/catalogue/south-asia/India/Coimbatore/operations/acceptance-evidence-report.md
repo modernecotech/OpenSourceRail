@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`coimbatore-operations.json.gz`](coimbatore-operations.json.gz)
-- Evidence matrix CSV: [`coimbatore-acceptance-evidence-matrix.csv`](coimbatore-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`coimbatore-manufacturing-schedule.csv`](coimbatore-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`coimbatore-manufacturing-materials.csv`](coimbatore-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`coimbatore-manufacturing-verification.csv`](coimbatore-manufacturing-verification.csv)
-- QA register CSV: [`coimbatore-qa-register.csv`](coimbatore-qa-register.csv)
-- Maintenance schedule CSV: [`coimbatore-maintenance-schedule.csv`](coimbatore-maintenance-schedule.csv)
+- Tracked compact asset register: [`coimbatore-assets.csv`](coimbatore-assets.csv)
+- Tracked operations manifest: [`coimbatore-operations-manifest.json`](coimbatore-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `coimbatore-operations.json.gz`
+- `coimbatore-acceptance-evidence-matrix.csv`
+- `coimbatore-manufacturing-schedule.csv`
+- `coimbatore-manufacturing-materials.csv`
+- `coimbatore-manufacturing-verification.csv`
+- `coimbatore-qa-register.csv`
+- `coimbatore-maintenance-schedule.csv`
 
 ## Accreditation Use
 

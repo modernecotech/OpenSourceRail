@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`bamako-operations.json.gz`](bamako-operations.json.gz)
-- Evidence matrix CSV: [`bamako-acceptance-evidence-matrix.csv`](bamako-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`bamako-manufacturing-schedule.csv`](bamako-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`bamako-manufacturing-materials.csv`](bamako-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`bamako-manufacturing-verification.csv`](bamako-manufacturing-verification.csv)
-- QA register CSV: [`bamako-qa-register.csv`](bamako-qa-register.csv)
-- Maintenance schedule CSV: [`bamako-maintenance-schedule.csv`](bamako-maintenance-schedule.csv)
+- Tracked compact asset register: [`bamako-assets.csv`](bamako-assets.csv)
+- Tracked operations manifest: [`bamako-operations-manifest.json`](bamako-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `bamako-operations.json.gz`
+- `bamako-acceptance-evidence-matrix.csv`
+- `bamako-manufacturing-schedule.csv`
+- `bamako-manufacturing-materials.csv`
+- `bamako-manufacturing-verification.csv`
+- `bamako-qa-register.csv`
+- `bamako-maintenance-schedule.csv`
 
 ## Accreditation Use
 

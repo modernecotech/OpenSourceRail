@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`kut-operations.json.gz`](kut-operations.json.gz)
-- Evidence matrix CSV: [`kut-acceptance-evidence-matrix.csv`](kut-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`kut-manufacturing-schedule.csv`](kut-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`kut-manufacturing-materials.csv`](kut-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`kut-manufacturing-verification.csv`](kut-manufacturing-verification.csv)
-- QA register CSV: [`kut-qa-register.csv`](kut-qa-register.csv)
-- Maintenance schedule CSV: [`kut-maintenance-schedule.csv`](kut-maintenance-schedule.csv)
+- Tracked compact asset register: [`kut-assets.csv`](kut-assets.csv)
+- Tracked operations manifest: [`kut-operations-manifest.json`](kut-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `kut-operations.json.gz`
+- `kut-acceptance-evidence-matrix.csv`
+- `kut-manufacturing-schedule.csv`
+- `kut-manufacturing-materials.csv`
+- `kut-manufacturing-verification.csv`
+- `kut-qa-register.csv`
+- `kut-maintenance-schedule.csv`
 
 ## Accreditation Use
 

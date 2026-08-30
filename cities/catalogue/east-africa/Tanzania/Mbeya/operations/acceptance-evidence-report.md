@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`mbeya-operations.json.gz`](mbeya-operations.json.gz)
-- Evidence matrix CSV: [`mbeya-acceptance-evidence-matrix.csv`](mbeya-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`mbeya-manufacturing-schedule.csv`](mbeya-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`mbeya-manufacturing-materials.csv`](mbeya-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`mbeya-manufacturing-verification.csv`](mbeya-manufacturing-verification.csv)
-- QA register CSV: [`mbeya-qa-register.csv`](mbeya-qa-register.csv)
-- Maintenance schedule CSV: [`mbeya-maintenance-schedule.csv`](mbeya-maintenance-schedule.csv)
+- Tracked compact asset register: [`mbeya-assets.csv`](mbeya-assets.csv)
+- Tracked operations manifest: [`mbeya-operations-manifest.json`](mbeya-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `mbeya-operations.json.gz`
+- `mbeya-acceptance-evidence-matrix.csv`
+- `mbeya-manufacturing-schedule.csv`
+- `mbeya-manufacturing-materials.csv`
+- `mbeya-manufacturing-verification.csv`
+- `mbeya-qa-register.csv`
+- `mbeya-maintenance-schedule.csv`
 
 ## Accreditation Use
 

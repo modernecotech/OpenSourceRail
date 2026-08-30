@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`ngaoundere-operations.json.gz`](ngaoundere-operations.json.gz)
-- Evidence matrix CSV: [`ngaoundere-acceptance-evidence-matrix.csv`](ngaoundere-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`ngaoundere-manufacturing-schedule.csv`](ngaoundere-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`ngaoundere-manufacturing-materials.csv`](ngaoundere-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`ngaoundere-manufacturing-verification.csv`](ngaoundere-manufacturing-verification.csv)
-- QA register CSV: [`ngaoundere-qa-register.csv`](ngaoundere-qa-register.csv)
-- Maintenance schedule CSV: [`ngaoundere-maintenance-schedule.csv`](ngaoundere-maintenance-schedule.csv)
+- Tracked compact asset register: [`ngaoundere-assets.csv`](ngaoundere-assets.csv)
+- Tracked operations manifest: [`ngaoundere-operations-manifest.json`](ngaoundere-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `ngaoundere-operations.json.gz`
+- `ngaoundere-acceptance-evidence-matrix.csv`
+- `ngaoundere-manufacturing-schedule.csv`
+- `ngaoundere-manufacturing-materials.csv`
+- `ngaoundere-manufacturing-verification.csv`
+- `ngaoundere-qa-register.csv`
+- `ngaoundere-maintenance-schedule.csv`
 
 ## Accreditation Use
 

@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`tunis-operations.json.gz`](tunis-operations.json.gz)
-- Evidence matrix CSV: [`tunis-acceptance-evidence-matrix.csv`](tunis-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`tunis-manufacturing-schedule.csv`](tunis-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`tunis-manufacturing-materials.csv`](tunis-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`tunis-manufacturing-verification.csv`](tunis-manufacturing-verification.csv)
-- QA register CSV: [`tunis-qa-register.csv`](tunis-qa-register.csv)
-- Maintenance schedule CSV: [`tunis-maintenance-schedule.csv`](tunis-maintenance-schedule.csv)
+- Tracked compact asset register: [`tunis-assets.csv`](tunis-assets.csv)
+- Tracked operations manifest: [`tunis-operations-manifest.json`](tunis-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `tunis-operations.json.gz`
+- `tunis-acceptance-evidence-matrix.csv`
+- `tunis-manufacturing-schedule.csv`
+- `tunis-manufacturing-materials.csv`
+- `tunis-manufacturing-verification.csv`
+- `tunis-qa-register.csv`
+- `tunis-maintenance-schedule.csv`
 
 ## Accreditation Use
 

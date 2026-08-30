@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`surabaya-operations.json.gz`](surabaya-operations.json.gz)
-- Evidence matrix CSV: [`surabaya-acceptance-evidence-matrix.csv`](surabaya-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`surabaya-manufacturing-schedule.csv`](surabaya-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`surabaya-manufacturing-materials.csv`](surabaya-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`surabaya-manufacturing-verification.csv`](surabaya-manufacturing-verification.csv)
-- QA register CSV: [`surabaya-qa-register.csv`](surabaya-qa-register.csv)
-- Maintenance schedule CSV: [`surabaya-maintenance-schedule.csv`](surabaya-maintenance-schedule.csv)
+- Tracked compact asset register: [`surabaya-assets.csv`](surabaya-assets.csv)
+- Tracked operations manifest: [`surabaya-operations-manifest.json`](surabaya-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `surabaya-operations.json.gz`
+- `surabaya-acceptance-evidence-matrix.csv`
+- `surabaya-manufacturing-schedule.csv`
+- `surabaya-manufacturing-materials.csv`
+- `surabaya-manufacturing-verification.csv`
+- `surabaya-qa-register.csv`
+- `surabaya-maintenance-schedule.csv`
 
 ## Accreditation Use
 

@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`benguela-operations.json.gz`](benguela-operations.json.gz)
-- Evidence matrix CSV: [`benguela-acceptance-evidence-matrix.csv`](benguela-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`benguela-manufacturing-schedule.csv`](benguela-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`benguela-manufacturing-materials.csv`](benguela-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`benguela-manufacturing-verification.csv`](benguela-manufacturing-verification.csv)
-- QA register CSV: [`benguela-qa-register.csv`](benguela-qa-register.csv)
-- Maintenance schedule CSV: [`benguela-maintenance-schedule.csv`](benguela-maintenance-schedule.csv)
+- Tracked compact asset register: [`benguela-assets.csv`](benguela-assets.csv)
+- Tracked operations manifest: [`benguela-operations-manifest.json`](benguela-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `benguela-operations.json.gz`
+- `benguela-acceptance-evidence-matrix.csv`
+- `benguela-manufacturing-schedule.csv`
+- `benguela-manufacturing-materials.csv`
+- `benguela-manufacturing-verification.csv`
+- `benguela-qa-register.csv`
+- `benguela-maintenance-schedule.csv`
 
 ## Accreditation Use
 

@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`beni-mellal-operations.json.gz`](beni-mellal-operations.json.gz)
-- Evidence matrix CSV: [`beni-mellal-acceptance-evidence-matrix.csv`](beni-mellal-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`beni-mellal-manufacturing-schedule.csv`](beni-mellal-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`beni-mellal-manufacturing-materials.csv`](beni-mellal-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`beni-mellal-manufacturing-verification.csv`](beni-mellal-manufacturing-verification.csv)
-- QA register CSV: [`beni-mellal-qa-register.csv`](beni-mellal-qa-register.csv)
-- Maintenance schedule CSV: [`beni-mellal-maintenance-schedule.csv`](beni-mellal-maintenance-schedule.csv)
+- Tracked compact asset register: [`beni-mellal-assets.csv`](beni-mellal-assets.csv)
+- Tracked operations manifest: [`beni-mellal-operations-manifest.json`](beni-mellal-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `beni-mellal-operations.json.gz`
+- `beni-mellal-acceptance-evidence-matrix.csv`
+- `beni-mellal-manufacturing-schedule.csv`
+- `beni-mellal-manufacturing-materials.csv`
+- `beni-mellal-manufacturing-verification.csv`
+- `beni-mellal-qa-register.csv`
+- `beni-mellal-maintenance-schedule.csv`
 
 ## Accreditation Use
 

@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`latakia-operations.json.gz`](latakia-operations.json.gz)
-- Evidence matrix CSV: [`latakia-acceptance-evidence-matrix.csv`](latakia-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`latakia-manufacturing-schedule.csv`](latakia-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`latakia-manufacturing-materials.csv`](latakia-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`latakia-manufacturing-verification.csv`](latakia-manufacturing-verification.csv)
-- QA register CSV: [`latakia-qa-register.csv`](latakia-qa-register.csv)
-- Maintenance schedule CSV: [`latakia-maintenance-schedule.csv`](latakia-maintenance-schedule.csv)
+- Tracked compact asset register: [`latakia-assets.csv`](latakia-assets.csv)
+- Tracked operations manifest: [`latakia-operations-manifest.json`](latakia-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `latakia-operations.json.gz`
+- `latakia-acceptance-evidence-matrix.csv`
+- `latakia-manufacturing-schedule.csv`
+- `latakia-manufacturing-materials.csv`
+- `latakia-manufacturing-verification.csv`
+- `latakia-qa-register.csv`
+- `latakia-maintenance-schedule.csv`
 
 ## Accreditation Use
 

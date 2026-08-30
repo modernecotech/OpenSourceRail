@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`irbid-operations.json.gz`](irbid-operations.json.gz)
-- Evidence matrix CSV: [`irbid-acceptance-evidence-matrix.csv`](irbid-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`irbid-manufacturing-schedule.csv`](irbid-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`irbid-manufacturing-materials.csv`](irbid-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`irbid-manufacturing-verification.csv`](irbid-manufacturing-verification.csv)
-- QA register CSV: [`irbid-qa-register.csv`](irbid-qa-register.csv)
-- Maintenance schedule CSV: [`irbid-maintenance-schedule.csv`](irbid-maintenance-schedule.csv)
+- Tracked compact asset register: [`irbid-assets.csv`](irbid-assets.csv)
+- Tracked operations manifest: [`irbid-operations-manifest.json`](irbid-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `irbid-operations.json.gz`
+- `irbid-acceptance-evidence-matrix.csv`
+- `irbid-manufacturing-schedule.csv`
+- `irbid-manufacturing-materials.csv`
+- `irbid-manufacturing-verification.csv`
+- `irbid-qa-register.csv`
+- `irbid-maintenance-schedule.csv`
 
 ## Accreditation Use
 

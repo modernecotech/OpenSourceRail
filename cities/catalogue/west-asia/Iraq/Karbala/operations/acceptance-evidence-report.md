@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`karbala-operations.json.gz`](karbala-operations.json.gz)
-- Evidence matrix CSV: [`karbala-acceptance-evidence-matrix.csv`](karbala-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`karbala-manufacturing-schedule.csv`](karbala-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`karbala-manufacturing-materials.csv`](karbala-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`karbala-manufacturing-verification.csv`](karbala-manufacturing-verification.csv)
-- QA register CSV: [`karbala-qa-register.csv`](karbala-qa-register.csv)
-- Maintenance schedule CSV: [`karbala-maintenance-schedule.csv`](karbala-maintenance-schedule.csv)
+- Tracked compact asset register: [`karbala-assets.csv`](karbala-assets.csv)
+- Tracked operations manifest: [`karbala-operations-manifest.json`](karbala-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `karbala-operations.json.gz`
+- `karbala-acceptance-evidence-matrix.csv`
+- `karbala-manufacturing-schedule.csv`
+- `karbala-manufacturing-materials.csv`
+- `karbala-manufacturing-verification.csv`
+- `karbala-qa-register.csv`
+- `karbala-maintenance-schedule.csv`
 
 ## Accreditation Use
 

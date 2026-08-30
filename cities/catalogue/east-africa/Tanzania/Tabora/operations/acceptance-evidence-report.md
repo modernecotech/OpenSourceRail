@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`tabora-operations.json.gz`](tabora-operations.json.gz)
-- Evidence matrix CSV: [`tabora-acceptance-evidence-matrix.csv`](tabora-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`tabora-manufacturing-schedule.csv`](tabora-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`tabora-manufacturing-materials.csv`](tabora-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`tabora-manufacturing-verification.csv`](tabora-manufacturing-verification.csv)
-- QA register CSV: [`tabora-qa-register.csv`](tabora-qa-register.csv)
-- Maintenance schedule CSV: [`tabora-maintenance-schedule.csv`](tabora-maintenance-schedule.csv)
+- Tracked compact asset register: [`tabora-assets.csv`](tabora-assets.csv)
+- Tracked operations manifest: [`tabora-operations-manifest.json`](tabora-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `tabora-operations.json.gz`
+- `tabora-acceptance-evidence-matrix.csv`
+- `tabora-manufacturing-schedule.csv`
+- `tabora-manufacturing-materials.csv`
+- `tabora-manufacturing-verification.csv`
+- `tabora-qa-register.csv`
+- `tabora-maintenance-schedule.csv`
 
 ## Accreditation Use
 

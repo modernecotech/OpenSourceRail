@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`homs-operations.json.gz`](homs-operations.json.gz)
-- Evidence matrix CSV: [`homs-acceptance-evidence-matrix.csv`](homs-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`homs-manufacturing-schedule.csv`](homs-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`homs-manufacturing-materials.csv`](homs-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`homs-manufacturing-verification.csv`](homs-manufacturing-verification.csv)
-- QA register CSV: [`homs-qa-register.csv`](homs-qa-register.csv)
-- Maintenance schedule CSV: [`homs-maintenance-schedule.csv`](homs-maintenance-schedule.csv)
+- Tracked compact asset register: [`homs-assets.csv`](homs-assets.csv)
+- Tracked operations manifest: [`homs-operations-manifest.json`](homs-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `homs-operations.json.gz`
+- `homs-acceptance-evidence-matrix.csv`
+- `homs-manufacturing-schedule.csv`
+- `homs-manufacturing-materials.csv`
+- `homs-manufacturing-verification.csv`
+- `homs-qa-register.csv`
+- `homs-maintenance-schedule.csv`
 
 ## Accreditation Use
 

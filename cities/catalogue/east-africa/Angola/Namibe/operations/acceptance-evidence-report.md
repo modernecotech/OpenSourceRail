@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`namibe-operations.json.gz`](namibe-operations.json.gz)
-- Evidence matrix CSV: [`namibe-acceptance-evidence-matrix.csv`](namibe-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`namibe-manufacturing-schedule.csv`](namibe-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`namibe-manufacturing-materials.csv`](namibe-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`namibe-manufacturing-verification.csv`](namibe-manufacturing-verification.csv)
-- QA register CSV: [`namibe-qa-register.csv`](namibe-qa-register.csv)
-- Maintenance schedule CSV: [`namibe-maintenance-schedule.csv`](namibe-maintenance-schedule.csv)
+- Tracked compact asset register: [`namibe-assets.csv`](namibe-assets.csv)
+- Tracked operations manifest: [`namibe-operations-manifest.json`](namibe-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `namibe-operations.json.gz`
+- `namibe-acceptance-evidence-matrix.csv`
+- `namibe-manufacturing-schedule.csv`
+- `namibe-manufacturing-materials.csv`
+- `namibe-manufacturing-verification.csv`
+- `namibe-qa-register.csv`
+- `namibe-maintenance-schedule.csv`
 
 ## Accreditation Use
 

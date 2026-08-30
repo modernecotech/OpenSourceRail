@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`lira-operations.json.gz`](lira-operations.json.gz)
-- Evidence matrix CSV: [`lira-acceptance-evidence-matrix.csv`](lira-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`lira-manufacturing-schedule.csv`](lira-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`lira-manufacturing-materials.csv`](lira-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`lira-manufacturing-verification.csv`](lira-manufacturing-verification.csv)
-- QA register CSV: [`lira-qa-register.csv`](lira-qa-register.csv)
-- Maintenance schedule CSV: [`lira-maintenance-schedule.csv`](lira-maintenance-schedule.csv)
+- Tracked compact asset register: [`lira-assets.csv`](lira-assets.csv)
+- Tracked operations manifest: [`lira-operations-manifest.json`](lira-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `lira-operations.json.gz`
+- `lira-acceptance-evidence-matrix.csv`
+- `lira-manufacturing-schedule.csv`
+- `lira-manufacturing-materials.csv`
+- `lira-manufacturing-verification.csv`
+- `lira-qa-register.csv`
+- `lira-maintenance-schedule.csv`
 
 ## Accreditation Use
 

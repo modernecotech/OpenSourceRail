@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`mahalla-operations.json.gz`](mahalla-operations.json.gz)
-- Evidence matrix CSV: [`mahalla-acceptance-evidence-matrix.csv`](mahalla-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`mahalla-manufacturing-schedule.csv`](mahalla-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`mahalla-manufacturing-materials.csv`](mahalla-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`mahalla-manufacturing-verification.csv`](mahalla-manufacturing-verification.csv)
-- QA register CSV: [`mahalla-qa-register.csv`](mahalla-qa-register.csv)
-- Maintenance schedule CSV: [`mahalla-maintenance-schedule.csv`](mahalla-maintenance-schedule.csv)
+- Tracked compact asset register: [`mahalla-assets.csv`](mahalla-assets.csv)
+- Tracked operations manifest: [`mahalla-operations-manifest.json`](mahalla-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `mahalla-operations.json.gz`
+- `mahalla-acceptance-evidence-matrix.csv`
+- `mahalla-manufacturing-schedule.csv`
+- `mahalla-manufacturing-materials.csv`
+- `mahalla-manufacturing-verification.csv`
+- `mahalla-qa-register.csv`
+- `mahalla-maintenance-schedule.csv`
 
 ## Accreditation Use
 

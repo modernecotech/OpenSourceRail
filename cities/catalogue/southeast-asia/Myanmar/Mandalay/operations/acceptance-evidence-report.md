@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`mandalay-operations.json.gz`](mandalay-operations.json.gz)
-- Evidence matrix CSV: [`mandalay-acceptance-evidence-matrix.csv`](mandalay-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`mandalay-manufacturing-schedule.csv`](mandalay-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`mandalay-manufacturing-materials.csv`](mandalay-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`mandalay-manufacturing-verification.csv`](mandalay-manufacturing-verification.csv)
-- QA register CSV: [`mandalay-qa-register.csv`](mandalay-qa-register.csv)
-- Maintenance schedule CSV: [`mandalay-maintenance-schedule.csv`](mandalay-maintenance-schedule.csv)
+- Tracked compact asset register: [`mandalay-assets.csv`](mandalay-assets.csv)
+- Tracked operations manifest: [`mandalay-operations-manifest.json`](mandalay-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `mandalay-operations.json.gz`
+- `mandalay-acceptance-evidence-matrix.csv`
+- `mandalay-manufacturing-schedule.csv`
+- `mandalay-manufacturing-materials.csv`
+- `mandalay-manufacturing-verification.csv`
+- `mandalay-qa-register.csv`
+- `mandalay-maintenance-schedule.csv`
 
 ## Accreditation Use
 

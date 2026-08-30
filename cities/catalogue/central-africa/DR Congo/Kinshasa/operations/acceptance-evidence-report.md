@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`kinshasa-operations.json.gz`](kinshasa-operations.json.gz)
-- Evidence matrix CSV: [`kinshasa-acceptance-evidence-matrix.csv`](kinshasa-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`kinshasa-manufacturing-schedule.csv`](kinshasa-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`kinshasa-manufacturing-materials.csv`](kinshasa-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`kinshasa-manufacturing-verification.csv`](kinshasa-manufacturing-verification.csv)
-- QA register CSV: [`kinshasa-qa-register.csv`](kinshasa-qa-register.csv)
-- Maintenance schedule CSV: [`kinshasa-maintenance-schedule.csv`](kinshasa-maintenance-schedule.csv)
+- Tracked compact asset register: [`kinshasa-assets.csv`](kinshasa-assets.csv)
+- Tracked operations manifest: [`kinshasa-operations-manifest.json`](kinshasa-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `kinshasa-operations.json.gz`
+- `kinshasa-acceptance-evidence-matrix.csv`
+- `kinshasa-manufacturing-schedule.csv`
+- `kinshasa-manufacturing-materials.csv`
+- `kinshasa-manufacturing-verification.csv`
+- `kinshasa-qa-register.csv`
+- `kinshasa-maintenance-schedule.csv`
 
 ## Accreditation Use
 

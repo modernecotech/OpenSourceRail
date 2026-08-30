@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`erbil-operations.json.gz`](erbil-operations.json.gz)
-- Evidence matrix CSV: [`erbil-acceptance-evidence-matrix.csv`](erbil-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`erbil-manufacturing-schedule.csv`](erbil-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`erbil-manufacturing-materials.csv`](erbil-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`erbil-manufacturing-verification.csv`](erbil-manufacturing-verification.csv)
-- QA register CSV: [`erbil-qa-register.csv`](erbil-qa-register.csv)
-- Maintenance schedule CSV: [`erbil-maintenance-schedule.csv`](erbil-maintenance-schedule.csv)
+- Tracked compact asset register: [`erbil-assets.csv`](erbil-assets.csv)
+- Tracked operations manifest: [`erbil-operations-manifest.json`](erbil-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `erbil-operations.json.gz`
+- `erbil-acceptance-evidence-matrix.csv`
+- `erbil-manufacturing-schedule.csv`
+- `erbil-manufacturing-materials.csv`
+- `erbil-manufacturing-verification.csv`
+- `erbil-qa-register.csv`
+- `erbil-maintenance-schedule.csv`
 
 ## Accreditation Use
 

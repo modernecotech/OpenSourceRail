@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`nador-operations.json.gz`](nador-operations.json.gz)
-- Evidence matrix CSV: [`nador-acceptance-evidence-matrix.csv`](nador-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`nador-manufacturing-schedule.csv`](nador-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`nador-manufacturing-materials.csv`](nador-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`nador-manufacturing-verification.csv`](nador-manufacturing-verification.csv)
-- QA register CSV: [`nador-qa-register.csv`](nador-qa-register.csv)
-- Maintenance schedule CSV: [`nador-maintenance-schedule.csv`](nador-maintenance-schedule.csv)
+- Tracked compact asset register: [`nador-assets.csv`](nador-assets.csv)
+- Tracked operations manifest: [`nador-operations-manifest.json`](nador-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `nador-operations.json.gz`
+- `nador-acceptance-evidence-matrix.csv`
+- `nador-manufacturing-schedule.csv`
+- `nador-manufacturing-materials.csv`
+- `nador-manufacturing-verification.csv`
+- `nador-qa-register.csv`
+- `nador-maintenance-schedule.csv`
 
 ## Accreditation Use
 

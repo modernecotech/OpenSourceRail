@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`lubango-operations.json.gz`](lubango-operations.json.gz)
-- Evidence matrix CSV: [`lubango-acceptance-evidence-matrix.csv`](lubango-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`lubango-manufacturing-schedule.csv`](lubango-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`lubango-manufacturing-materials.csv`](lubango-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`lubango-manufacturing-verification.csv`](lubango-manufacturing-verification.csv)
-- QA register CSV: [`lubango-qa-register.csv`](lubango-qa-register.csv)
-- Maintenance schedule CSV: [`lubango-maintenance-schedule.csv`](lubango-maintenance-schedule.csv)
+- Tracked compact asset register: [`lubango-assets.csv`](lubango-assets.csv)
+- Tracked operations manifest: [`lubango-operations-manifest.json`](lubango-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `lubango-operations.json.gz`
+- `lubango-acceptance-evidence-matrix.csv`
+- `lubango-manufacturing-schedule.csv`
+- `lubango-manufacturing-materials.csv`
+- `lubango-manufacturing-verification.csv`
+- `lubango-qa-register.csv`
+- `lubango-maintenance-schedule.csv`
 
 ## Accreditation Use
 

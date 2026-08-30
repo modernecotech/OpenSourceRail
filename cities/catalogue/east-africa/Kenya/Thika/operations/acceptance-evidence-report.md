@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`thika-operations.json.gz`](thika-operations.json.gz)
-- Evidence matrix CSV: [`thika-acceptance-evidence-matrix.csv`](thika-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`thika-manufacturing-schedule.csv`](thika-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`thika-manufacturing-materials.csv`](thika-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`thika-manufacturing-verification.csv`](thika-manufacturing-verification.csv)
-- QA register CSV: [`thika-qa-register.csv`](thika-qa-register.csv)
-- Maintenance schedule CSV: [`thika-maintenance-schedule.csv`](thika-maintenance-schedule.csv)
+- Tracked compact asset register: [`thika-assets.csv`](thika-assets.csv)
+- Tracked operations manifest: [`thika-operations-manifest.json`](thika-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `thika-operations.json.gz`
+- `thika-acceptance-evidence-matrix.csv`
+- `thika-manufacturing-schedule.csv`
+- `thika-manufacturing-materials.csv`
+- `thika-manufacturing-verification.csv`
+- `thika-qa-register.csv`
+- `thika-maintenance-schedule.csv`
 
 ## Accreditation Use
 

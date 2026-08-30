@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`galle-operations.json.gz`](galle-operations.json.gz)
-- Evidence matrix CSV: [`galle-acceptance-evidence-matrix.csv`](galle-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`galle-manufacturing-schedule.csv`](galle-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`galle-manufacturing-materials.csv`](galle-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`galle-manufacturing-verification.csv`](galle-manufacturing-verification.csv)
-- QA register CSV: [`galle-qa-register.csv`](galle-qa-register.csv)
-- Maintenance schedule CSV: [`galle-maintenance-schedule.csv`](galle-maintenance-schedule.csv)
+- Tracked compact asset register: [`galle-assets.csv`](galle-assets.csv)
+- Tracked operations manifest: [`galle-operations-manifest.json`](galle-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `galle-operations.json.gz`
+- `galle-acceptance-evidence-matrix.csv`
+- `galle-manufacturing-schedule.csv`
+- `galle-manufacturing-materials.csv`
+- `galle-manufacturing-verification.csv`
+- `galle-qa-register.csv`
+- `galle-maintenance-schedule.csv`
 
 ## Accreditation Use
 

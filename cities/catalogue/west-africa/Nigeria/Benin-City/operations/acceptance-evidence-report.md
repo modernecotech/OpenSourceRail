@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`benin-city-operations.json.gz`](benin-city-operations.json.gz)
-- Evidence matrix CSV: [`benin-city-acceptance-evidence-matrix.csv`](benin-city-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`benin-city-manufacturing-schedule.csv`](benin-city-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`benin-city-manufacturing-materials.csv`](benin-city-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`benin-city-manufacturing-verification.csv`](benin-city-manufacturing-verification.csv)
-- QA register CSV: [`benin-city-qa-register.csv`](benin-city-qa-register.csv)
-- Maintenance schedule CSV: [`benin-city-maintenance-schedule.csv`](benin-city-maintenance-schedule.csv)
+- Tracked compact asset register: [`benin-city-assets.csv`](benin-city-assets.csv)
+- Tracked operations manifest: [`benin-city-operations-manifest.json`](benin-city-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `benin-city-operations.json.gz`
+- `benin-city-acceptance-evidence-matrix.csv`
+- `benin-city-manufacturing-schedule.csv`
+- `benin-city-manufacturing-materials.csv`
+- `benin-city-manufacturing-verification.csv`
+- `benin-city-qa-register.csv`
+- `benin-city-maintenance-schedule.csv`
 
 ## Accreditation Use
 

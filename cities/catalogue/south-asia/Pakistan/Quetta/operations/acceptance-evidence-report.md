@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`quetta-operations.json.gz`](quetta-operations.json.gz)
-- Evidence matrix CSV: [`quetta-acceptance-evidence-matrix.csv`](quetta-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`quetta-manufacturing-schedule.csv`](quetta-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`quetta-manufacturing-materials.csv`](quetta-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`quetta-manufacturing-verification.csv`](quetta-manufacturing-verification.csv)
-- QA register CSV: [`quetta-qa-register.csv`](quetta-qa-register.csv)
-- Maintenance schedule CSV: [`quetta-maintenance-schedule.csv`](quetta-maintenance-schedule.csv)
+- Tracked compact asset register: [`quetta-assets.csv`](quetta-assets.csv)
+- Tracked operations manifest: [`quetta-operations-manifest.json`](quetta-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `quetta-operations.json.gz`
+- `quetta-acceptance-evidence-matrix.csv`
+- `quetta-manufacturing-schedule.csv`
+- `quetta-manufacturing-materials.csv`
+- `quetta-manufacturing-verification.csv`
+- `quetta-qa-register.csv`
+- `quetta-maintenance-schedule.csv`
 
 ## Accreditation Use
 

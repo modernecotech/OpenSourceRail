@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`samawah-operations.json.gz`](samawah-operations.json.gz)
-- Evidence matrix CSV: [`samawah-acceptance-evidence-matrix.csv`](samawah-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`samawah-manufacturing-schedule.csv`](samawah-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`samawah-manufacturing-materials.csv`](samawah-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`samawah-manufacturing-verification.csv`](samawah-manufacturing-verification.csv)
-- QA register CSV: [`samawah-qa-register.csv`](samawah-qa-register.csv)
-- Maintenance schedule CSV: [`samawah-maintenance-schedule.csv`](samawah-maintenance-schedule.csv)
+- Tracked compact asset register: [`samawah-assets.csv`](samawah-assets.csv)
+- Tracked operations manifest: [`samawah-operations-manifest.json`](samawah-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `samawah-operations.json.gz`
+- `samawah-acceptance-evidence-matrix.csv`
+- `samawah-manufacturing-schedule.csv`
+- `samawah-manufacturing-materials.csv`
+- `samawah-manufacturing-verification.csv`
+- `samawah-qa-register.csv`
+- `samawah-maintenance-schedule.csv`
 
 ## Accreditation Use
 

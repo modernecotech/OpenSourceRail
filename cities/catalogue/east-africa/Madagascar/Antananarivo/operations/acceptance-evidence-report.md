@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`antananarivo-operations.json.gz`](antananarivo-operations.json.gz)
-- Evidence matrix CSV: [`antananarivo-acceptance-evidence-matrix.csv`](antananarivo-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`antananarivo-manufacturing-schedule.csv`](antananarivo-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`antananarivo-manufacturing-materials.csv`](antananarivo-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`antananarivo-manufacturing-verification.csv`](antananarivo-manufacturing-verification.csv)
-- QA register CSV: [`antananarivo-qa-register.csv`](antananarivo-qa-register.csv)
-- Maintenance schedule CSV: [`antananarivo-maintenance-schedule.csv`](antananarivo-maintenance-schedule.csv)
+- Tracked compact asset register: [`antananarivo-assets.csv`](antananarivo-assets.csv)
+- Tracked operations manifest: [`antananarivo-operations-manifest.json`](antananarivo-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `antananarivo-operations.json.gz`
+- `antananarivo-acceptance-evidence-matrix.csv`
+- `antananarivo-manufacturing-schedule.csv`
+- `antananarivo-manufacturing-materials.csv`
+- `antananarivo-manufacturing-verification.csv`
+- `antananarivo-qa-register.csv`
+- `antananarivo-maintenance-schedule.csv`
 
 ## Accreditation Use
 

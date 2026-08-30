@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`soroti-operations.json.gz`](soroti-operations.json.gz)
-- Evidence matrix CSV: [`soroti-acceptance-evidence-matrix.csv`](soroti-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`soroti-manufacturing-schedule.csv`](soroti-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`soroti-manufacturing-materials.csv`](soroti-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`soroti-manufacturing-verification.csv`](soroti-manufacturing-verification.csv)
-- QA register CSV: [`soroti-qa-register.csv`](soroti-qa-register.csv)
-- Maintenance schedule CSV: [`soroti-maintenance-schedule.csv`](soroti-maintenance-schedule.csv)
+- Tracked compact asset register: [`soroti-assets.csv`](soroti-assets.csv)
+- Tracked operations manifest: [`soroti-operations-manifest.json`](soroti-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `soroti-operations.json.gz`
+- `soroti-acceptance-evidence-matrix.csv`
+- `soroti-manufacturing-schedule.csv`
+- `soroti-manufacturing-materials.csv`
+- `soroti-manufacturing-verification.csv`
+- `soroti-qa-register.csv`
+- `soroti-maintenance-schedule.csv`
 
 ## Accreditation Use
 

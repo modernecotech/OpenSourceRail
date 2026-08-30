@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`garoua-operations.json.gz`](garoua-operations.json.gz)
-- Evidence matrix CSV: [`garoua-acceptance-evidence-matrix.csv`](garoua-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`garoua-manufacturing-schedule.csv`](garoua-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`garoua-manufacturing-materials.csv`](garoua-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`garoua-manufacturing-verification.csv`](garoua-manufacturing-verification.csv)
-- QA register CSV: [`garoua-qa-register.csv`](garoua-qa-register.csv)
-- Maintenance schedule CSV: [`garoua-maintenance-schedule.csv`](garoua-maintenance-schedule.csv)
+- Tracked compact asset register: [`garoua-assets.csv`](garoua-assets.csv)
+- Tracked operations manifest: [`garoua-operations-manifest.json`](garoua-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `garoua-operations.json.gz`
+- `garoua-acceptance-evidence-matrix.csv`
+- `garoua-manufacturing-schedule.csv`
+- `garoua-manufacturing-materials.csv`
+- `garoua-manufacturing-verification.csv`
+- `garoua-qa-register.csv`
+- `garoua-maintenance-schedule.csv`
 
 ## Accreditation Use
 

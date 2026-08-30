@@ -12,7 +12,7 @@ records, release authorities, and predecessor controls must be closed.
 |---|---:|
 | Assets in register | 638 |
 | Manufacturing schedule rows | 2,603 |
-| Manufacturing material/BOM rows | 34,670 |
+| Manufacturing material/BOM rows | 5,486 |
 | Manufacturing QA verification rows | 2,603 |
 | Construction QA action rows | 2,165 |
 | Maintenance handover schedule rows | 2,824 |
@@ -25,9 +25,7 @@ records, release authorities, and predecessor controls must be closed.
 
 | Source | Rows |
 |---|---:|
-| `project_kit` | 4,206 |
-| `rolling_stock_bom` | 28,672 |
-| `rolling_stock_cots_fitout` | 1,792 |
+| `project_kit` | 5,486 |
 
 Rolling-stock rows link to the generated rolling-stock BOM and COTS
 fit-out BOM. Infrastructure rows use controlled `project_kit:*` refs
@@ -91,13 +89,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`mosul-operations.json.gz`](mosul-operations.json.gz)
-- Evidence matrix CSV: [`mosul-acceptance-evidence-matrix.csv`](mosul-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`mosul-manufacturing-schedule.csv`](mosul-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`mosul-manufacturing-materials.csv`](mosul-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`mosul-manufacturing-verification.csv`](mosul-manufacturing-verification.csv)
-- QA register CSV: [`mosul-qa-register.csv`](mosul-qa-register.csv)
-- Maintenance schedule CSV: [`mosul-maintenance-schedule.csv`](mosul-maintenance-schedule.csv)
+- Tracked compact asset register: [`mosul-assets.csv`](mosul-assets.csv)
+- Tracked operations manifest: [`mosul-operations-manifest.json`](mosul-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `mosul-operations.json.gz`
+- `mosul-acceptance-evidence-matrix.csv`
+- `mosul-manufacturing-schedule.csv`
+- `mosul-manufacturing-materials.csv`
+- `mosul-manufacturing-verification.csv`
+- `mosul-qa-register.csv`
+- `mosul-maintenance-schedule.csv`
 
 ## Accreditation Use
 

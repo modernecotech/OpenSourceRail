@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`khartoum-operations.json.gz`](khartoum-operations.json.gz)
-- Evidence matrix CSV: [`khartoum-acceptance-evidence-matrix.csv`](khartoum-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`khartoum-manufacturing-schedule.csv`](khartoum-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`khartoum-manufacturing-materials.csv`](khartoum-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`khartoum-manufacturing-verification.csv`](khartoum-manufacturing-verification.csv)
-- QA register CSV: [`khartoum-qa-register.csv`](khartoum-qa-register.csv)
-- Maintenance schedule CSV: [`khartoum-maintenance-schedule.csv`](khartoum-maintenance-schedule.csv)
+- Tracked compact asset register: [`khartoum-assets.csv`](khartoum-assets.csv)
+- Tracked operations manifest: [`khartoum-operations-manifest.json`](khartoum-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `khartoum-operations.json.gz`
+- `khartoum-acceptance-evidence-matrix.csv`
+- `khartoum-manufacturing-schedule.csv`
+- `khartoum-manufacturing-materials.csv`
+- `khartoum-manufacturing-verification.csv`
+- `khartoum-qa-register.csv`
+- `khartoum-maintenance-schedule.csv`
 
 ## Accreditation Use
 

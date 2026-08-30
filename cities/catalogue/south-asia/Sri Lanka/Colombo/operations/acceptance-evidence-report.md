@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`colombo-operations.json.gz`](colombo-operations.json.gz)
-- Evidence matrix CSV: [`colombo-acceptance-evidence-matrix.csv`](colombo-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`colombo-manufacturing-schedule.csv`](colombo-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`colombo-manufacturing-materials.csv`](colombo-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`colombo-manufacturing-verification.csv`](colombo-manufacturing-verification.csv)
-- QA register CSV: [`colombo-qa-register.csv`](colombo-qa-register.csv)
-- Maintenance schedule CSV: [`colombo-maintenance-schedule.csv`](colombo-maintenance-schedule.csv)
+- Tracked compact asset register: [`colombo-assets.csv`](colombo-assets.csv)
+- Tracked operations manifest: [`colombo-operations-manifest.json`](colombo-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `colombo-operations.json.gz`
+- `colombo-acceptance-evidence-matrix.csv`
+- `colombo-manufacturing-schedule.csv`
+- `colombo-manufacturing-materials.csv`
+- `colombo-manufacturing-verification.csv`
+- `colombo-qa-register.csv`
+- `colombo-maintenance-schedule.csv`
 
 ## Accreditation Use
 

@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`dakar-operations.json.gz`](dakar-operations.json.gz)
-- Evidence matrix CSV: [`dakar-acceptance-evidence-matrix.csv`](dakar-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`dakar-manufacturing-schedule.csv`](dakar-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`dakar-manufacturing-materials.csv`](dakar-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`dakar-manufacturing-verification.csv`](dakar-manufacturing-verification.csv)
-- QA register CSV: [`dakar-qa-register.csv`](dakar-qa-register.csv)
-- Maintenance schedule CSV: [`dakar-maintenance-schedule.csv`](dakar-maintenance-schedule.csv)
+- Tracked compact asset register: [`dakar-assets.csv`](dakar-assets.csv)
+- Tracked operations manifest: [`dakar-operations-manifest.json`](dakar-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `dakar-operations.json.gz`
+- `dakar-acceptance-evidence-matrix.csv`
+- `dakar-manufacturing-schedule.csv`
+- `dakar-manufacturing-materials.csv`
+- `dakar-manufacturing-verification.csv`
+- `dakar-qa-register.csv`
+- `dakar-maintenance-schedule.csv`
 
 ## Accreditation Use
 

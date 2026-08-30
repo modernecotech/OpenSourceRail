@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`mbarara-operations.json.gz`](mbarara-operations.json.gz)
-- Evidence matrix CSV: [`mbarara-acceptance-evidence-matrix.csv`](mbarara-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`mbarara-manufacturing-schedule.csv`](mbarara-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`mbarara-manufacturing-materials.csv`](mbarara-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`mbarara-manufacturing-verification.csv`](mbarara-manufacturing-verification.csv)
-- QA register CSV: [`mbarara-qa-register.csv`](mbarara-qa-register.csv)
-- Maintenance schedule CSV: [`mbarara-maintenance-schedule.csv`](mbarara-maintenance-schedule.csv)
+- Tracked compact asset register: [`mbarara-assets.csv`](mbarara-assets.csv)
+- Tracked operations manifest: [`mbarara-operations-manifest.json`](mbarara-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `mbarara-operations.json.gz`
+- `mbarara-acceptance-evidence-matrix.csv`
+- `mbarara-manufacturing-schedule.csv`
+- `mbarara-manufacturing-materials.csv`
+- `mbarara-manufacturing-verification.csv`
+- `mbarara-qa-register.csv`
+- `mbarara-maintenance-schedule.csv`
 
 ## Accreditation Use
 

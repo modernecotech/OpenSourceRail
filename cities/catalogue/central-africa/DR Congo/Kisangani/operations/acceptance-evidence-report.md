@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`kisangani-operations.json.gz`](kisangani-operations.json.gz)
-- Evidence matrix CSV: [`kisangani-acceptance-evidence-matrix.csv`](kisangani-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`kisangani-manufacturing-schedule.csv`](kisangani-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`kisangani-manufacturing-materials.csv`](kisangani-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`kisangani-manufacturing-verification.csv`](kisangani-manufacturing-verification.csv)
-- QA register CSV: [`kisangani-qa-register.csv`](kisangani-qa-register.csv)
-- Maintenance schedule CSV: [`kisangani-maintenance-schedule.csv`](kisangani-maintenance-schedule.csv)
+- Tracked compact asset register: [`kisangani-assets.csv`](kisangani-assets.csv)
+- Tracked operations manifest: [`kisangani-operations-manifest.json`](kisangani-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `kisangani-operations.json.gz`
+- `kisangani-acceptance-evidence-matrix.csv`
+- `kisangani-manufacturing-schedule.csv`
+- `kisangani-manufacturing-materials.csv`
+- `kisangani-manufacturing-verification.csv`
+- `kisangani-qa-register.csv`
+- `kisangani-maintenance-schedule.csv`
 
 ## Accreditation Use
 

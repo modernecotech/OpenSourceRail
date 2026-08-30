@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`medina-operations.json.gz`](medina-operations.json.gz)
-- Evidence matrix CSV: [`medina-acceptance-evidence-matrix.csv`](medina-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`medina-manufacturing-schedule.csv`](medina-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`medina-manufacturing-materials.csv`](medina-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`medina-manufacturing-verification.csv`](medina-manufacturing-verification.csv)
-- QA register CSV: [`medina-qa-register.csv`](medina-qa-register.csv)
-- Maintenance schedule CSV: [`medina-maintenance-schedule.csv`](medina-maintenance-schedule.csv)
+- Tracked compact asset register: [`medina-assets.csv`](medina-assets.csv)
+- Tracked operations manifest: [`medina-operations-manifest.json`](medina-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `medina-operations.json.gz`
+- `medina-acceptance-evidence-matrix.csv`
+- `medina-manufacturing-schedule.csv`
+- `medina-manufacturing-materials.csv`
+- `medina-manufacturing-verification.csv`
+- `medina-qa-register.csv`
+- `medina-maintenance-schedule.csv`
 
 ## Accreditation Use
 

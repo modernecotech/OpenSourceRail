@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`qena-operations.json.gz`](qena-operations.json.gz)
-- Evidence matrix CSV: [`qena-acceptance-evidence-matrix.csv`](qena-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`qena-manufacturing-schedule.csv`](qena-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`qena-manufacturing-materials.csv`](qena-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`qena-manufacturing-verification.csv`](qena-manufacturing-verification.csv)
-- QA register CSV: [`qena-qa-register.csv`](qena-qa-register.csv)
-- Maintenance schedule CSV: [`qena-maintenance-schedule.csv`](qena-maintenance-schedule.csv)
+- Tracked compact asset register: [`qena-assets.csv`](qena-assets.csv)
+- Tracked operations manifest: [`qena-operations-manifest.json`](qena-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `qena-operations.json.gz`
+- `qena-acceptance-evidence-matrix.csv`
+- `qena-manufacturing-schedule.csv`
+- `qena-manufacturing-materials.csv`
+- `qena-manufacturing-verification.csv`
+- `qena-qa-register.csv`
+- `qena-maintenance-schedule.csv`
 
 ## Accreditation Use
 

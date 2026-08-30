@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`asyut-operations.json.gz`](asyut-operations.json.gz)
-- Evidence matrix CSV: [`asyut-acceptance-evidence-matrix.csv`](asyut-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`asyut-manufacturing-schedule.csv`](asyut-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`asyut-manufacturing-materials.csv`](asyut-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`asyut-manufacturing-verification.csv`](asyut-manufacturing-verification.csv)
-- QA register CSV: [`asyut-qa-register.csv`](asyut-qa-register.csv)
-- Maintenance schedule CSV: [`asyut-maintenance-schedule.csv`](asyut-maintenance-schedule.csv)
+- Tracked compact asset register: [`asyut-assets.csv`](asyut-assets.csv)
+- Tracked operations manifest: [`asyut-operations-manifest.json`](asyut-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `asyut-operations.json.gz`
+- `asyut-acceptance-evidence-matrix.csv`
+- `asyut-manufacturing-schedule.csv`
+- `asyut-manufacturing-materials.csv`
+- `asyut-manufacturing-verification.csv`
+- `asyut-qa-register.csv`
+- `asyut-maintenance-schedule.csv`
 
 ## Accreditation Use
 

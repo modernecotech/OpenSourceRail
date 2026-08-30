@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`basra-operations.json.gz`](basra-operations.json.gz)
-- Evidence matrix CSV: [`basra-acceptance-evidence-matrix.csv`](basra-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`basra-manufacturing-schedule.csv`](basra-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`basra-manufacturing-materials.csv`](basra-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`basra-manufacturing-verification.csv`](basra-manufacturing-verification.csv)
-- QA register CSV: [`basra-qa-register.csv`](basra-qa-register.csv)
-- Maintenance schedule CSV: [`basra-maintenance-schedule.csv`](basra-maintenance-schedule.csv)
+- Tracked compact asset register: [`basra-assets.csv`](basra-assets.csv)
+- Tracked operations manifest: [`basra-operations-manifest.json`](basra-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `basra-operations.json.gz`
+- `basra-acceptance-evidence-matrix.csv`
+- `basra-manufacturing-schedule.csv`
+- `basra-manufacturing-materials.csv`
+- `basra-manufacturing-verification.csv`
+- `basra-qa-register.csv`
+- `basra-maintenance-schedule.csv`
 
 ## Accreditation Use
 

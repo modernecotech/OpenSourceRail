@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`nablus-operations.json.gz`](nablus-operations.json.gz)
-- Evidence matrix CSV: [`nablus-acceptance-evidence-matrix.csv`](nablus-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`nablus-manufacturing-schedule.csv`](nablus-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`nablus-manufacturing-materials.csv`](nablus-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`nablus-manufacturing-verification.csv`](nablus-manufacturing-verification.csv)
-- QA register CSV: [`nablus-qa-register.csv`](nablus-qa-register.csv)
-- Maintenance schedule CSV: [`nablus-maintenance-schedule.csv`](nablus-maintenance-schedule.csv)
+- Tracked compact asset register: [`nablus-assets.csv`](nablus-assets.csv)
+- Tracked operations manifest: [`nablus-operations-manifest.json`](nablus-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `nablus-operations.json.gz`
+- `nablus-acceptance-evidence-matrix.csv`
+- `nablus-manufacturing-schedule.csv`
+- `nablus-manufacturing-materials.csv`
+- `nablus-manufacturing-verification.csv`
+- `nablus-qa-register.csv`
+- `nablus-maintenance-schedule.csv`
 
 ## Accreditation Use
 

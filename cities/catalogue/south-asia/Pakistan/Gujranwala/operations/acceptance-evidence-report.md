@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`gujranwala-operations.json.gz`](gujranwala-operations.json.gz)
-- Evidence matrix CSV: [`gujranwala-acceptance-evidence-matrix.csv`](gujranwala-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`gujranwala-manufacturing-schedule.csv`](gujranwala-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`gujranwala-manufacturing-materials.csv`](gujranwala-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`gujranwala-manufacturing-verification.csv`](gujranwala-manufacturing-verification.csv)
-- QA register CSV: [`gujranwala-qa-register.csv`](gujranwala-qa-register.csv)
-- Maintenance schedule CSV: [`gujranwala-maintenance-schedule.csv`](gujranwala-maintenance-schedule.csv)
+- Tracked compact asset register: [`gujranwala-assets.csv`](gujranwala-assets.csv)
+- Tracked operations manifest: [`gujranwala-operations-manifest.json`](gujranwala-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `gujranwala-operations.json.gz`
+- `gujranwala-acceptance-evidence-matrix.csv`
+- `gujranwala-manufacturing-schedule.csv`
+- `gujranwala-manufacturing-materials.csv`
+- `gujranwala-manufacturing-verification.csv`
+- `gujranwala-qa-register.csv`
+- `gujranwala-maintenance-schedule.csv`
 
 ## Accreditation Use
 

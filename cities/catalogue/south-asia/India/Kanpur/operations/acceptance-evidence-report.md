@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`kanpur-operations.json.gz`](kanpur-operations.json.gz)
-- Evidence matrix CSV: [`kanpur-acceptance-evidence-matrix.csv`](kanpur-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`kanpur-manufacturing-schedule.csv`](kanpur-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`kanpur-manufacturing-materials.csv`](kanpur-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`kanpur-manufacturing-verification.csv`](kanpur-manufacturing-verification.csv)
-- QA register CSV: [`kanpur-qa-register.csv`](kanpur-qa-register.csv)
-- Maintenance schedule CSV: [`kanpur-maintenance-schedule.csv`](kanpur-maintenance-schedule.csv)
+- Tracked compact asset register: [`kanpur-assets.csv`](kanpur-assets.csv)
+- Tracked operations manifest: [`kanpur-operations-manifest.json`](kanpur-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `kanpur-operations.json.gz`
+- `kanpur-acceptance-evidence-matrix.csv`
+- `kanpur-manufacturing-schedule.csv`
+- `kanpur-manufacturing-materials.csv`
+- `kanpur-manufacturing-verification.csv`
+- `kanpur-qa-register.csv`
+- `kanpur-maintenance-schedule.csv`
 
 ## Accreditation Use
 

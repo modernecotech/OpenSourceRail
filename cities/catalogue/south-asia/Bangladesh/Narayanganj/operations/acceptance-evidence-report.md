@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`narayanganj-operations.json.gz`](narayanganj-operations.json.gz)
-- Evidence matrix CSV: [`narayanganj-acceptance-evidence-matrix.csv`](narayanganj-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`narayanganj-manufacturing-schedule.csv`](narayanganj-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`narayanganj-manufacturing-materials.csv`](narayanganj-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`narayanganj-manufacturing-verification.csv`](narayanganj-manufacturing-verification.csv)
-- QA register CSV: [`narayanganj-qa-register.csv`](narayanganj-qa-register.csv)
-- Maintenance schedule CSV: [`narayanganj-maintenance-schedule.csv`](narayanganj-maintenance-schedule.csv)
+- Tracked compact asset register: [`narayanganj-assets.csv`](narayanganj-assets.csv)
+- Tracked operations manifest: [`narayanganj-operations-manifest.json`](narayanganj-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `narayanganj-operations.json.gz`
+- `narayanganj-acceptance-evidence-matrix.csv`
+- `narayanganj-manufacturing-schedule.csv`
+- `narayanganj-manufacturing-materials.csv`
+- `narayanganj-manufacturing-verification.csv`
+- `narayanganj-qa-register.csv`
+- `narayanganj-maintenance-schedule.csv`
 
 ## Accreditation Use
 

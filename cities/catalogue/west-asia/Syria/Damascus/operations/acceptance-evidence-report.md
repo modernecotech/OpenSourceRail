@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`damascus-operations.json.gz`](damascus-operations.json.gz)
-- Evidence matrix CSV: [`damascus-acceptance-evidence-matrix.csv`](damascus-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`damascus-manufacturing-schedule.csv`](damascus-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`damascus-manufacturing-materials.csv`](damascus-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`damascus-manufacturing-verification.csv`](damascus-manufacturing-verification.csv)
-- QA register CSV: [`damascus-qa-register.csv`](damascus-qa-register.csv)
-- Maintenance schedule CSV: [`damascus-maintenance-schedule.csv`](damascus-maintenance-schedule.csv)
+- Tracked compact asset register: [`damascus-assets.csv`](damascus-assets.csv)
+- Tracked operations manifest: [`damascus-operations-manifest.json`](damascus-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `damascus-operations.json.gz`
+- `damascus-acceptance-evidence-matrix.csv`
+- `damascus-manufacturing-schedule.csv`
+- `damascus-manufacturing-materials.csv`
+- `damascus-manufacturing-verification.csv`
+- `damascus-qa-register.csv`
+- `damascus-maintenance-schedule.csv`
 
 ## Accreditation Use
 

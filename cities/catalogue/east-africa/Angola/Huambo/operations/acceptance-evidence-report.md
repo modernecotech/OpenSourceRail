@@ -91,13 +91,20 @@ collects those closures, not as the closure itself.
 
 ## Review Artifacts
 
-- Operations bundle: [`huambo-operations.json.gz`](huambo-operations.json.gz)
-- Evidence matrix CSV: [`huambo-acceptance-evidence-matrix.csv`](huambo-acceptance-evidence-matrix.csv)
-- Manufacturing schedule CSV: [`huambo-manufacturing-schedule.csv`](huambo-manufacturing-schedule.csv)
-- Manufacturing materials CSV: [`huambo-manufacturing-materials.csv`](huambo-manufacturing-materials.csv)
-- Manufacturing verification CSV: [`huambo-manufacturing-verification.csv`](huambo-manufacturing-verification.csv)
-- QA register CSV: [`huambo-qa-register.csv`](huambo-qa-register.csv)
-- Maintenance schedule CSV: [`huambo-maintenance-schedule.csv`](huambo-maintenance-schedule.csv)
+- Tracked compact asset register: [`huambo-assets.csv`](huambo-assets.csv)
+- Tracked operations manifest: [`huambo-operations-manifest.json`](huambo-operations-manifest.json)
+
+The following high-volume files are regenerated in the local city
+package and intentionally excluded from Git. Their names are recorded
+for handover without presenting unavailable GitHub links:
+
+- `huambo-operations.json.gz`
+- `huambo-acceptance-evidence-matrix.csv`
+- `huambo-manufacturing-schedule.csv`
+- `huambo-manufacturing-materials.csv`
+- `huambo-manufacturing-verification.csv`
+- `huambo-qa-register.csv`
+- `huambo-maintenance-schedule.csv`
 
 ## Accreditation Use
 
