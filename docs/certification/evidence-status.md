@@ -21,6 +21,7 @@ For closure criteria on each open item, see
 | Certification pack | `docs/certification/` and GSN claims | Pre-submission scaffold | Independent assessor review and evidence freeze |
 
 The repo health gate (`tools/automation/repo-health.py`) guards generated design
-coherence. It is deliberately not a substitute for EN 50126/50128/50129
+coherence. It is deliberately not a substitute for IEC 62278-1,
+EN 50716/50129
 assessment evidence, hardware bench records, structural FEA, or
 deployment-specific field evidence.

@@ -308,7 +308,7 @@ weight-and-balance evidence, and release drawings listed in
 | Seats | 60 longitudinal seats |
 | Passenger capacity (AW2) | 360 (seated + standing) |
 | Passenger capacity (AW3 crush) | 480 short-duration crush load |
-| Onboard battery | 540 kWh usable / 675 kWh gross LFP (180 / 225 kWh per car, under seats) |
+| Onboard battery | 540 kWh usable / 675 kWh gross LFP (180 / 225 kWh per car), in externally accessed, saloon-isolated side enclosures beneath the seat zone with outward venting |
 | Peak onboard motor output | 1.8 MW operational cap (2.1 MW installed short-duration capability) |
 | Floor height (above ToR) | 350 mm, ~10 m low-floor centre door/PRM zone; 760 mm, ~3 m high-floor end decks over standard bogies |
 | Gauge | 1 435 mm standard gauge |

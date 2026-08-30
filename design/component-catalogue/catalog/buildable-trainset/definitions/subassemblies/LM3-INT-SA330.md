@@ -186,14 +186,14 @@ Evidence required:
 
 ### 11. `LM3-INT-P040` — FRP battery strake covers, seat-base fairings, and service-hatch shells
 
-- Placement zone: under-seat HV bay, side-pin dock zone, and segregated cable route
+- Placement zone: exterior-access side HV bay beneath seat zone, side-pin dock zone, outward vent, and segregated cable route
 - Interfaces: `mechanical datum`, `high-voltage electrical`
 - Join classes: `gasketed-removable-panel`, `bolted-structural-datum`, `electrical-data`
 - Torque authority: released joint calculation plus interface-control drawing and calibrated-tool procedure
 - Joint release status: `joint-calculation-required`
 - Verification:
   - fire-material certificate
-  - service-hatch removal
+  - no-saloon-opening inspection
   - HV warning label check
   - sharp-edge inspection
 

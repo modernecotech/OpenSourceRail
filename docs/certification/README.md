@@ -1,15 +1,17 @@
 # OSR type-certification pre-submission pack
 
-**Target standard:** EN 62267 — Railway applications — Automated
-urban guided transport (AUGT) — Safety requirements, GoA 4
-(Unattended Train Operation).
+**Target framework:** IEC 62267:2009 / applicable EN adoption for
+automated urban guided transport, GoA 4 (Unattended Train Operation).
 
-**Complementary standards referenced:**
+The maintained baseline is [`standards-baseline.md`](standards-baseline.md).
+In particular, v0.3 adopts EN 50716:2023 for railway software,
+IEC 62278-1:2025 for the RAMS lifecycle, and IEC 62290-1:2025 for the
+UGTMS framework. EN 50128 and EN 50657 are legacy transition mappings,
+not the current project software baseline.
 
-- EN 50126 — RAMS process for rail applications
-- EN 50128 — Software for railway control and protection systems
+**Other complementary standards referenced:**
+
 - EN 50129 — Safety-related electronic systems for signalling
-- EN 50657 — Software on board rolling stock (SIL-4 on T-ECU/S)
 - EN 15227 — Crashworthiness requirements for rail vehicle
   bodies (Cat C-II, referenced from RFC 0008 §3)
 - EN 45545 — Fire protection on railway vehicles (referenced from
@@ -60,12 +62,14 @@ certification path.
 4. **[evidence-register.md](evidence-register.md)** — complete
    inventory of verification evidence produced by the OSR
    project, indexed to the requirements + hazards it covers.
-5. **[evidence-status.md](evidence-status.md)** — concise status
+5. **[standards-baseline.md](standards-baseline.md)** — current standards
+   metadata and transition policy.
+6. **[evidence-status.md](evidence-status.md)** — concise status
    matrix separating implemented, simulated, specified, and
    deployment-partner evidence.
-6. **[release-gap-register.md](release-gap-register.md)** — release
+7. **[release-gap-register.md](release-gap-register.md)** — release
    gates still open before a revenue-service type-approval submission.
-7. **[compliance-matrix.md](compliance-matrix.md)** — EN 62267
+8. **[compliance-matrix.md](compliance-matrix.md)** — EN 62267
    clause-by-clause traceability to OSR implementation.
 
 ## How this pack relates to the rest of the repository

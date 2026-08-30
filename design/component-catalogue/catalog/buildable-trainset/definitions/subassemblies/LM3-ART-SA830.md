@@ -60,7 +60,7 @@ Evidence required:
 
 ### 2. `LM3-ART-P030` — inter-car HV/LV jumper, coolant hose loop, energy chain, and drain sleeve kit
 
-- Placement zone: under-seat HV bay, side-pin dock zone, and segregated cable route
+- Placement zone: exterior-access side HV bay beneath seat zone, side-pin dock zone, outward vent, and segregated cable route
 - Interfaces: `mechanical datum`, `high-voltage electrical`, `fluid/thermal`
 - Join classes: `bolted-structural-datum`, `electrical-data`, `fluid-thermal`
 - Torque authority: accepted supplier installation manual plus released OSR interface-control drawing

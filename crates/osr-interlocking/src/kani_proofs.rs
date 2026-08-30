@@ -46,7 +46,7 @@ use osr_core::{
 };
 
 use crate::log::{Entry, EntryPayload, PositionSource, TrainPositionReport, TrainRegistration};
-use crate::ma::{compute_self_ma, MAX_MA_DISTANCE_MM, MA_VALIDITY_WINDOW_NS};
+use crate::ma::{compute_self_ma, MA_VALIDITY_WINDOW_NS};
 
 const REFERENCE_3CAR_LENGTH_MM: i64 = 51_000;
 

@@ -1,11 +1,11 @@
-# Shop traveler — LM3-TRC-P040 — battery-225kwh-lfp-800v under-seat traction battery pack
+# Shop traveler — LM3-TRC-P040 — battery-225kwh-lfp-800v saloon-isolated side traction battery pack
 
 | Field | Value |
 |---|---|
 | Traveler type | `product-item` |
 | Document revision | `A-DRAFT` |
 | Release status | `unsigned-template` |
-| Estimated labor | 2.55 h |
+| Estimated labor | 2.8 h |
 | Route | `BID` |
 | Procurement BOM lines | `T5`, `T6` |
 
@@ -33,7 +33,7 @@ Evidence required:
 - Primary processes: receive, quarantine, evidence review, incoming fit check, release to parent kit
 - Joining methods: bolted/torqued installation, sealed, gasketed, bonded, or clipped interface as supplier envelope requires
 - Special process controls: RFQ envelope freeze, supplier certificate/revision check, incoming quarantine until evidence accepted, HV safety plan, LOTO/service-disconnect rule, EMC/bonding evidence review
-- Inspection methods: incoming visual inspection, envelope fit check, cell/module certificate, isolation test, vent/fire containment data, bond continuity, insulation/isolation check, HVIL functional check where applicable
+- Inspection methods: incoming visual inspection, envelope fit check, cell/module certificate, isolation test, no-saloon-opening inspection, outward vent/fire containment data, bond continuity, insulation/isolation check, HVIL functional check where applicable
 - Tooling basis: RFQ-LM3-TRC-P040, CERT-LM3-TRC-P040, GAUGE-LM3-TRC-P040-ENVELOPE
 - Release level: BID supplier-controlled process; OSR controls envelope and acceptance evidence
 
@@ -55,8 +55,9 @@ Evidence required:
 | 30 | perform envelope, mounting, service-removal, and connector checks | incoming fit-check cell | 0.75 | `GAUGE-LM3-TRC-P040-ENVELOPE`<br>`FIX-LM3-HV-SA510` | component fits without parent datum rework | operator |
 | 40 | verify acceptance gate: cell/module certificate | quality inspection | 0.25 | `QA-LM3-TRC-P040` | cell/module certificate | quality inspector |
 | 50 | verify acceptance gate: isolation test | quality inspection | 0.25 | `ELEC-TEST-LM3-TRC-P040` | isolation test | quality inspector |
-| 60 | verify acceptance gate: vent/fire containment data | quality inspection | 0.25 | `QA-LM3-TRC-P040` | vent/fire containment data | quality inspector |
-| 70 | final item release to parent assembly | production control | 0.25 | `REL-LM3-TRC-P040`<br>`KIT-LM3-HV-SA510` | item is released, tagged, and staged for parent assembly | cell lead |
+| 60 | verify acceptance gate: no-saloon-opening inspection | quality inspection | 0.25 | `QA-LM3-TRC-P040` | no-saloon-opening inspection | quality inspector |
+| 70 | verify acceptance gate: outward vent/fire containment data | quality inspection | 0.25 | `QA-LM3-TRC-P040` | outward vent/fire containment data | quality inspector |
+| 80 | final item release to parent assembly | production control | 0.25 | `REL-LM3-TRC-P040`<br>`KIT-LM3-HV-SA510` | item is released, tagged, and staged for parent assembly | cell lead |
 
 ## Operator / inspection signoff block
 

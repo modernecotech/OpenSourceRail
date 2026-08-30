@@ -1,4 +1,4 @@
-# LM3-TRC-P040 — battery-225kwh-lfp-800v under-seat traction battery pack
+# LM3-TRC-P040 — battery-225kwh-lfp-800v saloon-isolated side traction battery pack
 
 | Field | Value |
 |---|---|
@@ -12,7 +12,7 @@
 
 ## Make / buy basis
 
-Optimizer-selected per-car pack; final supplier must fit tray, cooling, BMS, and vent path.
+Optimizer-selected per-car pack; final supplier must fit the externally accessed side tray, cooling, BMS, fire separation, and outward-only vent path.
 
 ## Supplier anchor and local-equivalent route
 
@@ -53,7 +53,7 @@ Evidence required:
 - Primary processes: receive, quarantine, evidence review, incoming fit check, release to parent kit
 - Joining methods: bolted/torqued installation, sealed, gasketed, bonded, or clipped interface as supplier envelope requires
 - Special process controls: RFQ envelope freeze, supplier certificate/revision check, incoming quarantine until evidence accepted, HV safety plan, LOTO/service-disconnect rule, EMC/bonding evidence review
-- Inspection methods: incoming visual inspection, envelope fit check, cell/module certificate, isolation test, vent/fire containment data, bond continuity, insulation/isolation check, HVIL functional check where applicable
+- Inspection methods: incoming visual inspection, envelope fit check, cell/module certificate, isolation test, no-saloon-opening inspection, outward vent/fire containment data, bond continuity, insulation/isolation check, HVIL functional check where applicable
 - Tooling basis: RFQ-LM3-TRC-P040, CERT-LM3-TRC-P040, GAUGE-LM3-TRC-P040-ENVELOPE
 - Release level: BID supplier-controlled process; OSR controls envelope and acceptance evidence
 
@@ -61,7 +61,8 @@ Evidence required:
 
 - cell/module certificate
 - isolation test
-- vent/fire containment data
+- no-saloon-opening inspection
+- outward vent/fire containment data
 
 ## Source references
 

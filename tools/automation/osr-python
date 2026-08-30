@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+# Run Python through the repository environment when present, with a portable fallback.
+set -euo pipefail
+
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+
+if [[ -x "$ROOT/.venv/bin/python" ]]; then
+    PYTHON_RUNTIME="$ROOT/.venv/bin/python"
+elif command -v python3 >/dev/null 2>&1; then
+    PYTHON_RUNTIME="$(command -v python3)"
+elif command -v python >/dev/null 2>&1; then
+    PYTHON_RUNTIME="$(command -v python)"
+else
+    printf 'OpenSourceRail requires Python 3.11 or newer. Run ./install.sh first.\n' >&2
+    exit 127
+fi
+
+exec "$PYTHON_RUNTIME" "$@"

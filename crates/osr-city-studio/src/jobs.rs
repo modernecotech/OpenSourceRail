@@ -567,7 +567,7 @@ impl JobManager {
         fs::create_dir_all(&output_dir)?;
         self.progress(id, 48, "Writing deterministic IFC4.3 rail federation")
             .await?;
-        let python = self.repository_root.join(".venv/bin/python");
+        let python = self.repository_root.join("tools/automation/osr-python");
         let exporter = self
             .repository_root
             .join("engineering/interchange/civil_bonsai_ifc.py");

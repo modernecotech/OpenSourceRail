@@ -1,7 +1,7 @@
 # RFC 0007 — Control Electronics Reference Designs
 
-**Status:** Draft v1.1 — planning only, no schematics ship with this RFC
-**Date:** 2026-04-22 (v1.1 same day — SoC palette restricted to Raspberry Pi + Radxa)
+**Status:** Draft v1.2 — planning baseline; production safety controller not frozen
+**Date:** 2026-08-30 (v1.2 separates commodity application hosts from safety channels)
 **Depends on:** [RFC 0005 SBC Software Architecture](0005-sbc-software-architecture.md), [RFC 0006 `osr-tcn` design](0006-osr-tcn-design.md)
 
 ## 1. Summary
@@ -28,7 +28,7 @@ and the depot spares-and-repairs pipeline all calcify around the choice.
 Getting the class selection right costs a session of writing; getting
 it wrong costs an order of magnitude more in re-compliance later.
 
-Three non-negotiable constraints shape every decision below:
+Three constraints shape every decision below:
 
 1. **Local manufacturability.** Every board must be producible on a
    4-layer PCB with 0.15 mm trace/space, 0.3 mm vias, standard SMT
@@ -42,16 +42,13 @@ Three non-negotiable constraints shape every decision below:
    exists, we adopt it and design only the baseboard. This reduces
    the domestic engineering burden to a carrier board plus
    enclosure — a fraction of the work of a from-scratch SoC design.
-3. **Two-vendor palette — Raspberry Pi and Radxa only.** Raspberry
-   Pi supplies the consumer-grade CM5 module and the RP2350 safety
-   MCU; Radxa supplies the industrial-temperature CM5 (RK3588S)
-   for pole-mount use. Both vendors are available globally at
-   predictable prices, document their modules openly, and ship with
-   mainline Linux support. This restriction deliberately excludes
-   NXP / ST / Rockchip-direct / MilkV / StarFive bring-up paths —
-   not because those are technically unfit, but because locking on
-   two well-stocked vendors simplifies the domestic procurement and
-   spares story for the operator.
+3. **Simple application palette; qualified safety-channel exception.**
+   Raspberry Pi and Radxa are the application, diagnostic and pilot hosts.
+   Revenue-service safety channels may use an industrial safety MCU selected
+   through the controlled
+   [safety-controller gate](../../control-electronics/safety-controller-selection.md).
+   This exception avoids making commodity computers the certification premise
+   while keeping local procurement and spares simple everywhere else.
 
 ## 2. Non-goals
 
@@ -96,12 +93,11 @@ These apply to every class below unless overridden.
 **Environment:** EN 50155 OT4 (−40…+85 °C), IEC 61373 Cat 1 Class B
 vibration + shock, EN 50121-3-2 EMC.
 
-### 4.1 Safety architecture — 2oo2 composite fail-safe
+### 4.1 Safety architecture — prototype 2oo2 evidence rig
 
-The safety case is anchored in *diverse redundancy between two
-independent microcontrollers*, not in a single silicon vendor's
-lockstep claim. Each T-ECU/S board carries **two Raspberry Pi
-RP2350 MCUs** wired in a 2-out-of-2 voting arrangement:
+The pilot board carries **two Raspberry Pi RP2350 MCUs** wired in a
+2-out-of-2 arrangement. It exercises independent inputs, comparison,
+watchdogs and fail-safe outputs at low cost:
 
 ```text
    sensors ──┬─► RP2350 #A ──► result_A ─┐
@@ -128,33 +124,28 @@ RP2350 MCUs** wired in a 2-out-of-2 voting arrangement:
   lines open) and a downstream hardware watchdog asserts the
   emergency brake relay directly.
 
-This is the "composite fail-safe" pattern that EN 50129 appendix D
-blesses for SIL-4. Because the two chips are physically identical
-(not lockstep within one die), a single-event upset or silicon
-defect affects at most one of them — the other still votes the
-actuator into the safe state. Identical-software redundancy
-handles random hardware faults; RFC 0004's Kani + proptest coverage
-handles systematic software faults.
+This rig is not the SIL-4 argument. Identical chips and identical software have
+systematic and common-cause obligations, while bounded proofs do not replace a
+qualified hardware architecture. Production channels must pass the shared
+[safety-controller selection gate](../../control-electronics/safety-controller-selection.md),
+including assessor review, safety manual/FMEDA inputs and a system-level
+redundancy/diversity argument.
 
 ### 4.2 SoC picks
 
-- **Safety MCU (×2 per board):** Raspberry Pi **RP2350**.
-  Dual Cortex-M33 plus dual Hazard3 RISC-V in the same die (software
-  selects one pair at boot), 520 KB SRAM, 150 MHz. Arm TrustZone-M
+- **Prototype MCU (×2 per board):** Raspberry Pi **RP2350**.
+  It contains two processor sockets; each socket selects Cortex-M33 or Hazard3
+  at boot and the unused implementation is held in reset. It has 520 KB SRAM
+  and runs at 150 MHz. Arm TrustZone-M
   for secure boot, hardware random number generator, and a single
   signed ROM loader. Published datasheet, globally available through
   the Raspberry Pi channel and every major distributor. Per-chip
   price ≈ €1 in 1k volume.
 
-  Why RP2350 for safety — fit against the mission:
-  - Tiny, stable silicon with a 5-year announced support window
-    from Raspberry Pi. Matches the ≥ 20-year service life of the
-    rolling stock better than most MCU vendors' SKUs.
-  - Dual instruction-set option (Arm M33 or RISC-V Hazard3) means
-    a second diverse implementation is available by re-selecting
-    the ISA pair at boot — a future v2 refinement of the 2oo2
-    pattern can go to true *ISA-diverse* 2oo2 without changing
-    the BOM.
+  Why RP2350 remains in the pilot:
+  - low cost and broad availability make it useful for repeatable HIL rigs;
+  - its selectable ISA lets developers exercise two toolchain targets, but
+    selection within the same silicon does not establish hardware diversity;
   - Available in QFN-56 (0.4 mm pitch) — hand-solderable under a
     loupe, trivial on any SMT line.
 
@@ -196,9 +187,9 @@ every output is AND-gated through the external 2oo2 relay stage.
 | ATECC608B × 2, passives, connectors, power | 45 | 45 |
 | **Total** | — | **~€280** |
 
-Two per consist = **€560 per trainset** for the safety-kernel layer.
-Well below the €900 previously budgeted on the NXP-centric plan;
-the RPi-family modules drive the cost down.
+Two pilot boards per consist = **€560 per trainset** for the evidence rig.
+The production safety-controller allowance is frozen only after selection and
+supplier quotation; this pilot number must not be used as that allowance.
 
 ### 4.5 Form factor
 
@@ -266,13 +257,14 @@ trailing module self-tests continuously and publishes an
 modules duplicate the safety evaluator; either can drive the
 brake chain).
 
-**Architecture:** mirrors T-ECU/S: **two Raspberry Pi RP2350**
-safety MCUs running the `osr-obstacle-detect` evaluator in a
+**Pilot architecture:** mirrors the T-ECU/S rig: **two Raspberry Pi RP2350**
+MCUs running the `osr-obstacle-detect` evaluator in a
 2oo2 cross-check plus a **Raspberry Pi CM5** application
 processor for sensor fusion, classifier inference, and the
 non-safety data path. The safety-critical verdict is produced
-*inside* the RP2350 pair; the CM5 supplies pre-processed
+*inside* the evaluator pair; the CM5 supplies pre-processed
 detection lists but cannot emit a `Clear` on its own.
+Production evaluator channels pass the same safety-controller selection gate.
 
 **Peripherals (baseboard):**
 
@@ -333,12 +325,10 @@ Rationale:
   availability across the target regions).
 - RK3588S ships with mainline Linux kernel support; Debian and
   Yocto both build without vendor forks.
-- For safety-role wayside (interlocking + consensus), the A55
-  little cluster is pinned to the safety partition and runs Hubris
-  or seL4; the A76 big cluster carries non-safety services
-  (telemetry, diagnostics) under PREEMPT_RT Linux. The two
-  clusters share the memory controller but are scheduled on
-  separate cores with cache-partitioning hints from the kernel.
+- For safety-related wayside functions, Radxa hosts the application,
+  diagnostics and communications. A separately qualified controller owns
+  field proving, watchdogs and fail-safe outputs. Core pinning or a separation
+  kernel remains useful defence in depth but is not the safety boundary.
 - For non-safety sites (balise reader, energy site) the same
   module runs Debian straight-through.
 

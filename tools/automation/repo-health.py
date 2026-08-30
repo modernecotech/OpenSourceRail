@@ -918,12 +918,10 @@ def check_generated_portfolio_summary() -> list[Finding]:
             )
         )
     _, _, capital, _ = module["portfolio_metrics"]()
-    total = float(capital["total"])
     expected_readme_values = (
-        f"${float(capital['local']) / 1_000_000_000:.2f}B ({float(capital['local']) / total:.1%})",
-        f"${float(capital['external']) / 1_000_000_000:.2f}B ({float(capital['external']) / total:.1%})",
-        f"${float(capital['external_saved']) / 1_000_000_000:.2f}B",
-        f"${float(capital['lifetime_saved']) / 1_000_000_000:.2f}B",
+        f"about ${float(capital['local']) / 1_000_000_000:.0f}B",
+        f"roughly {float(capital['local']) / float(capital['total']):.0%}",
+        "portfolio calculation",
     )
     readme = REPO_ROOT / "README.md"
     readme_text = readme.read_text(encoding="utf-8")

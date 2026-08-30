@@ -1127,7 +1127,7 @@ def roof_solar_system(dims: CarDimensions = CarDimensions()) -> Compound:
 
 
 def battery_pack_set(dims: CarDimensions = CarDimensions()) -> Compound:
-    """Eight under-seat battery module envelopes for one car."""
+    """Eight saloon-isolated side battery modules beneath the seat zone."""
 
     parts: list[Part] = []
     x_offsets = (-6100.0, -4200.0, 4200.0, 6100.0)

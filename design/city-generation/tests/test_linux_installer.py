@@ -87,5 +87,17 @@ def test_launcher_builds_the_book_in_the_managed_python_environment() -> None:
     launcher = LAUNCHER.read_text(encoding="utf-8")
     readme = (REPO_ROOT / "README.md").read_text(encoding="utf-8")
     assert "book [arguments]" in launcher
-    assert 'exec python3 tools/automation/build-doc-book.py "$@"' in launcher
+    assert 'exec tools/automation/osr-python tools/automation/build-doc-book.py "$@"' in launcher
     assert "./osr book" in readme
+
+
+def test_python_runtime_resolver_is_shared_by_launcher_and_city_studio() -> None:
+    resolver = REPO_ROOT / "tools/automation/osr-python"
+    launcher = LAUNCHER.read_text(encoding="utf-8")
+    jobs = (REPO_ROOT / "crates/osr-city-studio/src/jobs.rs").read_text(encoding="utf-8")
+    workflow = (REPO_ROOT / ".github/workflows/ci.yml").read_text(encoding="utf-8")
+    assert resolver.stat().st_mode & stat.S_IXUSR
+    subprocess.run(["bash", "-n", str(resolver)], check=True)
+    assert "tools/automation/osr-python" in launcher
+    assert 'join("tools/automation/osr-python")' in jobs
+    assert "tools/automation/osr-python" in workflow

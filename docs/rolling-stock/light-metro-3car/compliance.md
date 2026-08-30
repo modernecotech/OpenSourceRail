@@ -31,7 +31,7 @@ test-house relationship.
 | **EN 50155** OT4 | On-board electronic equipment ambient class | Per-PCB compliance (RFC 0007 v1 bring-up) |
 | **EN 50121-3-2** | Rolling-stock EMC | Pre-compliance sweep on test car (v3) |
 | **EN 50126** | RAMS lifecycle | SIL-4 safety case — links into `docs/safety-case/` |
-| **EN 50128** | Software for railway control — SIL-4 | Coding standard per RFC 0005 §7; evidence per crate |
+| **EN 50716:2023** | Railway software development — SIL-4 target | Coding standard per RFC 0005 §7; evidence per crate; EN 50128/50657 retained only where a national transition mapping requires them |
 | **EN 50129** | Safety-related electronic systems — SIL-4 | Composite fail-safe argument for T-ECU/S (RFC 0007 §4.1) |
 
 ## Passenger experience + accessibility
@@ -49,7 +49,7 @@ test-house relationship.
 
 | Standard | Scope | Evidence |
 |---|---|---|
-| **EN 50126** / **EN 50128** / **EN 50129** as above for SIL-4 | Every onboard SIL-4 crate has proptest + Kani evidence | Per-crate solution nodes in the GSN safety case |
+| **IEC 62278-1** / **EN 50716** / **EN 50129** as above for the SIL-4 target | Every onboard safety evaluator has proptest + Kani evidence | Per-crate solution nodes in the GSN safety case; physical, process and assessor evidence remain open |
 | **EN 14033** | Rail infrastructure works — applies to self-propelled work consists (n/a for revenue service) | n/a |
 
 ## Target-region overlays (per-deployment)

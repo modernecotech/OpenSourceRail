@@ -135,9 +135,11 @@ UNDERFLOOR_SERVICE_Z_MM = -260.0
 
 # Traction-battery module placement per RFC 0021.
 #
-# OSR uses an **under-seat** pattern: LFP modules are tiled
-# along the inside of each body wall, under the longitudinal bench
-# seats. The low-floor centre aisle and door zone stay clear. This is
+# OSR uses saloon-isolated **side enclosures beneath the seat zone**: LFP
+# modules are tiled along each body wall below the longitudinal benches. The
+# low-floor centre aisle and door zone stay clear. There is no service opening
+# into the saloon; trays withdraw outward through the lower bodyside and
+# pressure relief, drainage and thermal-runaway venting are outward only. This is
 # different from
 # Stadler's Akku (rooftop) and from most Siemens / Alstom BEMUs
 # (deep underfloor) — we pick under-seat because:
@@ -152,8 +154,8 @@ UNDERFLOOR_SERVICE_Z_MM = -260.0
 # - Thermal runaway vents laterally out the body skin (not up into
 #   passengers or down onto the track / bogie).
 #
-# Each visible module is a low slab running along the inside of the
-# skin, with the longitudinal bench seat cantilevered on top.
+# Each module is a low slab behind a fire-separated saloon barrier, with the
+# longitudinal bench seat cantilevered above it.
 BATTERY_STRAKE_WIDTH_MM = 320.0  # into the cabin from the skin
 BATTERY_STRAKE_HEIGHT_MM = 450.0  # rests between floor and seat base
 # Module sits from floor level up to the bench base (≈ 450 mm).
@@ -467,7 +469,7 @@ def _underframe_skirt(dims: CarDimensions) -> list[Part]:
 def _roof_equipment(dims: CarDimensions) -> list[Part]:
     """Rooftop equipment — PV modules plus compact HVAC/end boxes.
 
-    Because OSR is catenary-free and uses under-seat batteries, the
+    Because OSR is catenary-free and uses side battery enclosures beneath the seat zone, the
     concept reserves most roof area for PV panels. HVAC modules sit
     near the car ends, matching the concept roof plan.
     """

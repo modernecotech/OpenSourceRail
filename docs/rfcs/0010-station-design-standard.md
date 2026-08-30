@@ -28,7 +28,7 @@ approaches and a 600 m station-complex consolidation rule.
 
 | Archetype | Platforms | Layout | Canopy | Charging | Dwell | Role |
 |---|---|---|---|---|---|---|
-| `halt` | 1 | side | solar-canopy | 250 kW | 60 s | rural / low-demand stop |
+| `halt` | 1 | side | solar-canopy | none | 60 s | rural / low-demand stop; no trackside energy site |
 | `standard` | 2 | side | solar-canopy | 500 kW | 60 s | default urban / suburban |
 | `major` | 2 | island | solar-canopy | 500 kW | 60 s | anchor stop (hospital / mall / centre) |
 | `interchange` | 4 | same-grade transfer | solar-canopy | 500 kW | 60 s | two-line junction |

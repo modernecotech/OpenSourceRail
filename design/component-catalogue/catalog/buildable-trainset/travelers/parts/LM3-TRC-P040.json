@@ -4,7 +4,7 @@
     "T6"
   ],
   "document_revision": "A-DRAFT",
-  "estimated_labor_hours": 2.55,
+  "estimated_labor_hours": 2.8,
   "id": "LM3-TRC-P040",
   "material_spec": {
     "evidence_required": [
@@ -82,10 +82,21 @@
     },
     {
       "labor_hours": 0.25,
-      "qa_gate": "vent/fire containment data",
+      "qa_gate": "no-saloon-opening inspection",
       "sequence": 60,
       "signoff_role": "quality inspector",
-      "title": "verify acceptance gate: vent/fire containment data",
+      "title": "verify acceptance gate: no-saloon-opening inspection",
+      "tooling_ids": [
+        "QA-LM3-TRC-P040"
+      ],
+      "work_center": "quality inspection"
+    },
+    {
+      "labor_hours": 0.25,
+      "qa_gate": "outward vent/fire containment data",
+      "sequence": 70,
+      "signoff_role": "quality inspector",
+      "title": "verify acceptance gate: outward vent/fire containment data",
       "tooling_ids": [
         "QA-LM3-TRC-P040"
       ],
@@ -94,7 +105,7 @@
     {
       "labor_hours": 0.25,
       "qa_gate": "item is released, tagged, and staged for parent assembly",
-      "sequence": 70,
+      "sequence": 80,
       "signoff_role": "cell lead",
       "title": "final item release to parent assembly",
       "tooling_ids": [
@@ -111,7 +122,8 @@
       "envelope fit check",
       "cell/module certificate",
       "isolation test",
-      "vent/fire containment data",
+      "no-saloon-opening inspection",
+      "outward vent/fire containment data",
       "bond continuity",
       "insulation/isolation check",
       "HVIL functional check where applicable"
@@ -197,7 +209,7 @@
       "status": "blank"
     }
   ],
-  "title": "battery-225kwh-lfp-800v under-seat traction battery pack",
+  "title": "battery-225kwh-lfp-800v saloon-isolated side traction battery pack",
   "traveler_type": "product-item",
   "unit": "ea"
 }

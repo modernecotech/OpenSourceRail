@@ -33,7 +33,7 @@ Evidence required:
 - Primary processes: inspect mould/trim fixture, apply release system, cut dry reinforcement or panel blank, lay up / infuse / press laminate, controlled cure, demould and post-cure where required, trim/drill to controlled datum, fit inserts/clips/gaskets, dry-fit to parent fixture
 - Joining methods: potted/captive inserts, retained fasteners or clip grid, adhesive/sealant only where removal and repair rules allow
 - Special process controls: released laminate schedule, resin/adhesive batch and shelf-life check, mould release record, cure temperature/time record, fire-material certificate check, edge sealing and dust-control rule, passenger-facing edge-radius rule, anti-slip rule for PRM/step panels
-- Inspection methods: laminate coupon, void/delamination visual tap check, trim-line gauge, insert pull-out where classed, fit-up survey, fire-material certificate, service-hatch removal, HV warning label check, sharp-edge inspection, rattle check, cleanability inspection
+- Inspection methods: laminate coupon, void/delamination visual tap check, trim-line gauge, insert pull-out where classed, fit-up survey, fire-material certificate, no-saloon-opening inspection, HV warning label check, sharp-edge inspection, rattle check, cleanability inspection
 - Tooling basis: MOULD/FIX-LM3-INT-P040 plus TRIM-GAUGE-LM3-INT-P040
 - Release level: v2A composite-process controlled MAKE item; generated traveler is unsigned until build
 
@@ -57,7 +57,7 @@ Evidence required:
 | 50 | CNC trim and drill to datum, seal cut edges, and mark serial/revision | trim and drill cell | 0.85 | `TRIM-GAUGE-LM3-INT-P040`<br>`GAUGE-LM3-INT-P040-DATUM` | trim, drill, and sealed-edge records match the released variant | operator |
 | 60 | fit inserts, clips, retainers, gaskets, or captive fasteners and dry-fit to parent fixture | module fit-up cell | 0.8 | `FIX-LM3-INT-SA330`<br>`TORQUE-LM3-INT-P040`<br>`GAUGE-LM3-INT-P040` | fit-up evidence recorded before release to assembly | operator |
 | 70 | verify acceptance gate: fire-material certificate | quality inspection | 0.25 | `QA-LM3-INT-P040` | fire-material certificate | quality inspector |
-| 80 | verify acceptance gate: service-hatch removal | quality inspection | 0.25 | `QA-LM3-INT-P040` | service-hatch removal | quality inspector |
+| 80 | verify acceptance gate: no-saloon-opening inspection | quality inspection | 0.25 | `QA-LM3-INT-P040` | no-saloon-opening inspection | quality inspector |
 | 90 | verify acceptance gate: HV warning label check | quality inspection | 0.25 | `QA-LM3-INT-P040` | HV warning label check | quality inspector |
 | 100 | verify acceptance gate: sharp-edge inspection | quality inspection | 0.25 | `QA-LM3-INT-P040` | sharp-edge inspection | quality inspector |
 | 110 | final item release to parent assembly | production control | 0.25 | `REL-LM3-INT-P040`<br>`KIT-LM3-INT-SA330` | item is released, tagged, and staged for parent assembly | cell lead |

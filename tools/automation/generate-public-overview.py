@@ -45,6 +45,10 @@ def compact_usd(value: float) -> str:
     return f"${value / 1_000:.0f}k"
 
 
+def rounded_billions(value: float) -> str:
+    return f"about ${value / 1_000_000_000:.0f}B"
+
+
 def render() -> str:
     missing = [path for path in REFERENCED_ASSETS if not path.is_file()]
     if missing:
@@ -76,11 +80,9 @@ def render() -> str:
         "regions": str(len(DEVELOPING_WORLD_REGIONS)),
         "estimate": estimate,
         "planning_unit": planning_unit,
-        "local_share": f"{capital['local'] / capital['total']:.1%}",
-        "local_value": compact_usd(capital["local"]),
-        "external_need": compact_usd(capital["external"]),
-        "external_saved": compact_usd(capital["external_saved"]),
-        "lifetime_saved": compact_usd(capital["lifetime_saved"]),
+        "local_share": f"{capital['local'] / capital['total']:.0%}",
+        "local_value": rounded_billions(capital["local"]),
+        "external_need": rounded_billions(capital["external"]),
         "trainset_product_rows": str(len(trainset_manifest["product_items"])),
     }
     values = {key: html.escape(value) for key, value in values.items()}
@@ -129,10 +131,10 @@ def render() -> str:
   </header>
 
   <section class="metrics">
-    <div class="metric"><strong>{values['local_share']}</strong><span>planned domestic value: {values['local_value']} across {values['countries']} country programmes</span></div>
-    <div class="metric"><strong>{values['external_saved']}</strong><span>external capital avoided against the controlled foreign-turnkey sensitivity</span></div>
-    <div class="metric"><strong>{values['lifetime_saved']}</strong><span>external capital plus interest avoided in that sensitivity</span></div>
-    <div class="metric"><strong>{values['planning_unit']}</strong><span>locally assembled 3-car LM3 planning unit; generated build estimate {values['estimate']}</span></div>
+    <div class="metric"><strong>{values['local_value']}</strong><span>roughly {values['local_share']} modeled domestic value across {values['countries']} country programmes</span></div>
+    <div class="metric"><strong>{values['cities']} cities</strong><span>developing-world public evidence models; one European model is comparison-only</span></div>
+    <div class="metric"><strong>{values['planning_unit']}</strong><span>local factory-gate LM3 planning target; generated build record {values['estimate']}</span></div>
+    <div class="metric"><strong>{values['trainset_product_rows']} rows</strong><span>traceable LM3 parts and assemblies with visible supplier and release gaps</span></div>
   </section>
 
   <section class="content">

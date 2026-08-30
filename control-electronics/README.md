@@ -28,17 +28,19 @@ Control electronics have two valid release tracks:
    That track needs KiCad, gerbers, board BOMs, DFM/DFT review,
    assembly drawings, and board bring-up evidence.
 
-**Two-vendor palette — Raspberry Pi and Radxa only.** Every class
-below picks from those two vendors. No NXP, ST, MilkV, StarFive,
-Rockchip-direct, or bespoke silicon. Rationale in
-[RFC 0007 §3 constraint 3](../docs/rfcs/0007-control-electronics-reference-designs.md#3-common-platform-choices).
+**Commodity application hosts; separately qualified safety channels.**
+Raspberry Pi and Radxa remain the simple pilot, application and diagnostic
+palette. Safety-output hardware follows the assessor-controlled
+[`safety-controller-selection.md`](safety-controller-selection.md) gate and may
+use an industrial safety-MCU family. A commodity processor never bypasses the
+external fail-safe output path.
 
 | Class | Role | SoC baseline | RFC 0007 §  |
 |---|---|---|---|
-| [`t-ecu-s/`](t-ecu-s/) | Train safety kernel (SIL-4) | 2 × Raspberry Pi RP2350 (2oo2) + Raspberry Pi CM5 app processor | §4 |
+| [`t-ecu-s/`](t-ecu-s/) | SIL-4-target train safety kernel | Qualified safety-channel pair to be frozen; 2 × RP2350 pilot rig + CM5 app processor | §4 |
 | [`t-ecu-a/`](t-ecu-a/) | Train application (SIL-2/-0) | Raspberry Pi CM5 (Radxa CM5 drop-in) | §5 |
-| [`t-obs/`](t-obs/) | Train obstacle detection (SIL-4 interface) | 2 × Raspberry Pi RP2350 (2oo2) + Raspberry Pi CM5 sensor pre-processor | RFC 0015 §5 |
-| [`w-sbc/`](w-sbc/) | Wayside (SIL-4 / SIL-2) | Radxa CM5 (RK3588S, industrial temp) | §6 |
+| [`t-obs/`](t-obs/) | SIL-4-target obstacle verdict interface | Qualified evaluator channels to be frozen; 2 × RP2350 pilot rig + CM5 pre-processor | RFC 0015 §5 |
+| [`w-sbc/`](w-sbc/) | Wayside application host | Radxa CM5; safety outputs through a separately qualified controller | §6 |
 | [`s-sbc/`](s-sbc/) | Station / depot (SIL-0) | Raspberry Pi CM5 + commodity carrier | §7 |
 
 `O-SRV` (ops server) is a commodity computer and has no reference

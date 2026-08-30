@@ -25,9 +25,11 @@ consumer-grade CM5 matters.
 Raspberry Pi CM5 is the pin-compatible drop-in on the same SO-DIMM
 slot for mild-climate deployments.
 
-For safety-role wayside (interlocking + consensus), the A55 little
-cluster is pinned to the safety partition (Hubris or seL4); the A76
-big cluster handles non-safety services under PREEMPT_RT Linux.
+For safety-related wayside logic, the CM5 hosts application, diagnostics and
+communications only. A separately qualified controller owns field proving,
+watchdogs and fail-safe actuator outputs; see the
+[selection gate](../safety-controller-selection.md). Core pinning or a
+separation kernel on a shared SBC is defence in depth, not a SIL-4 boundary.
 Non-safety sites (balise-only, energy-site) run Debian
 straight-through.
 

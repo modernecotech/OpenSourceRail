@@ -12,7 +12,7 @@
 
 ## Make / buy basis
 
-Sacrificial fire-rated fiberglass covers over under-seat battery strakes, with removable hatches and seat-base fairing returns.
+Sacrificial fire-rated saloon barriers over the side battery enclosures; battery service access and pressure relief remain exterior-only.
 
 ## Material specification
 
@@ -38,14 +38,14 @@ Evidence required:
 - Primary processes: inspect mould/trim fixture, apply release system, cut dry reinforcement or panel blank, lay up / infuse / press laminate, controlled cure, demould and post-cure where required, trim/drill to controlled datum, fit inserts/clips/gaskets, dry-fit to parent fixture
 - Joining methods: potted/captive inserts, retained fasteners or clip grid, adhesive/sealant only where removal and repair rules allow
 - Special process controls: released laminate schedule, resin/adhesive batch and shelf-life check, mould release record, cure temperature/time record, fire-material certificate check, edge sealing and dust-control rule, passenger-facing edge-radius rule, anti-slip rule for PRM/step panels
-- Inspection methods: laminate coupon, void/delamination visual tap check, trim-line gauge, insert pull-out where classed, fit-up survey, fire-material certificate, service-hatch removal, HV warning label check, sharp-edge inspection, rattle check, cleanability inspection
+- Inspection methods: laminate coupon, void/delamination visual tap check, trim-line gauge, insert pull-out where classed, fit-up survey, fire-material certificate, no-saloon-opening inspection, HV warning label check, sharp-edge inspection, rattle check, cleanability inspection
 - Tooling basis: MOULD/FIX-LM3-INT-P040 plus TRIM-GAUGE-LM3-INT-P040
 - Release level: v2A composite-process controlled MAKE item; generated traveler is unsigned until build
 
 ## Acceptance gates
 
 - fire-material certificate
-- service-hatch removal
+- no-saloon-opening inspection
 - HV warning label check
 - sharp-edge inspection
 

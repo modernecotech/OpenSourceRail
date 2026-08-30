@@ -6,7 +6,7 @@ driverless, battery-electric trainset with roof solar, identical
 multi-part fiberglass end cowls with single panoramic glass faces, LED
 headlamps, repeated self-contained cars, one powered bogie and one
 trailer bogie per car, high-floor bogie zones, low-floor centre
-door/PRM zones, and under-seat batteries for the
+door/PRM zones, and externally accessed, saloon-isolated side battery enclosures beneath the seat zone for the
 300 k to 1 M population networks. Samawah is one generated instance of
 this shared family, not the reason the family exists.
 

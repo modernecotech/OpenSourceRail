@@ -23,7 +23,7 @@ The detailed civil marketplace anchors live in [`docs/civil/marketplace-cost-anc
 
 Rolling stock is budgeted by **local-owner trainset-family planning unit**, not by multiplying an inflated per-car price. A 3-car `light-metro-3car` trainset is **$900 k per trainset** with `*_eur` reporting views generated at 0.92 USD->EUR.
 
-The current [`light-metro-3car` build-cost estimate](../design/component-catalogue/catalog/buildable-trainset/trainset-build-cost.md) uses the promoted design candidate cost of 682,431 USD, adds 5,524 h of direct labour at $10/h, then applies a 20% unexpected-cost premium. That gives 885,205 USD per 3-car consist. City CAPEX keeps the rounded 900,000 USD trainset unit so there is still a small nominal QA/acceptance and local handover margin, while fixtures/tooling sit in the railway production plant and warranty, spares, and routine commissioning support sit in OPEX.
+The current [`light-metro-3car` build-cost estimate](../design/component-catalogue/catalog/buildable-trainset/trainset-build-cost.md) uses the promoted design candidate cost of 682,431 USD, adds 5,524 h of direct labour at $10/h, then applies a 20% unexpected-cost premium. That gives a local factory-gate planning target of 885,205 USD per 3-car consist. City CAPEX keeps the rounded 900,000 USD trainset unit so there is still a small nominal QA/acceptance and local handover margin, while fixtures/tooling sit in the railway production plant and warranty, spares, homologation, supplier qualification, first-of-class engineering, and routine commissioning support remain outside that factory-gate comparison.
 
 The direct material/supplier-module bucket already includes the requested passenger fit-out, HVAC, windows, and doors: $18 k for seats/floor systems/grab rails/interior lighting, $17 k for three roof HVAC units, and $112 k for side windows, powered side doors, door sill/emergency kits, and panoramic end glass. The included requested-scope subtotal is $147 k before labour and premium, so no extra $20k interior allowance is added unless a deployment chooses to carry a separate contingency.
 
@@ -139,7 +139,7 @@ There is no route traction-power system in the OSR baseline: no OCS, third rail,
 
 | Station archetype | Unit cost | Included scope |
 |---|---:|---|
-| `halt` | $0 | 250 kW class charger, local protection, compact LV tie |
+| `halt` | $0 | No charger or trackside energy site; shelter electrical service is in station CAPEX |
 | `standard` | $100 k | 500 kW class conductive charger, switchgear, inverter interface |
 | `major` | $100 k | Larger queueing/anchor-stop charger and buffer tie |
 | `terminal` | $100 k | End-of-line charger with higher turnback utilization |

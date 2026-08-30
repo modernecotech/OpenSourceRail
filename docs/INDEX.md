@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **1334**.
+Indexed Markdown files: **1338**.
 
 ## Sections
 
@@ -23,12 +23,12 @@ Indexed Markdown files: **1334**.
 | [LICENSES](#licenses) | 1 |
 | [Repository Root](#repository-root) | 5 |
 | [cities](#cities) | 847 |
-| [control-electronics](#control-electronics) | 40 |
+| [control-electronics](#control-electronics) | 41 |
 | [crates](#crates) | 4 |
 | [deployment](#deployment) | 1 |
 | [design](#design) | 289 |
-| [docs](#docs) | 132 |
-| [engineering](#engineering) | 6 |
+| [docs](#docs) | 134 |
+| [engineering](#engineering) | 7 |
 | [lib](#lib) | 3 |
 | [tools](#tools) | 5 |
 
@@ -48,7 +48,7 @@ Indexed Markdown files: **1334**.
 
 | File | Title |
 |---|---|
-| [`CHANGELOG.md`](../CHANGELOG.md) | OpenSourceRail — milestone 0.2 development baseline |
+| [`CHANGELOG.md`](../CHANGELOG.md) | OpenSourceRail changelog |
 | [`CONTRIBUTING.md`](../CONTRIBUTING.md) | Contributing To OpenSourceRail |
 | [`GOVERNANCE.md`](../GOVERNANCE.md) | OpenSourceRail Governance |
 | [`LICENSE.md`](../LICENSE.md) | OpenSourceRail Licensing |
@@ -921,6 +921,7 @@ Indexed Markdown files: **1334**.
 | [`control-electronics/s-sbc/bring-up.md`](../control-electronics/s-sbc/bring-up.md) | S-SBC bring-up — RPi CM5 on Waveshare CM5-IO |
 | [`control-electronics/s-sbc/diy-assembly/README.md`](../control-electronics/s-sbc/diy-assembly/README.md) | S-SBC DIY assembly |
 | [`control-electronics/s-sbc/schematics/v2-spec/README.md`](../control-electronics/s-sbc/schematics/v2-spec/README.md) | S-SBC v2 schematic specification |
+| [`control-electronics/safety-controller-selection.md`](../control-electronics/safety-controller-selection.md) | Safety-controller selection gate |
 | [`control-electronics/t-ecu-a/README.md`](../control-electronics/t-ecu-a/README.md) | T-ECU/A — Train Application |
 | [`control-electronics/t-ecu-a/bring-up.md`](../control-electronics/t-ecu-a/bring-up.md) | T-ECU/A bring-up — Raspberry Pi CM5 IO Board |
 | [`control-electronics/t-ecu-a/diy-assembly/README.md`](../control-electronics/t-ecu-a/diy-assembly/README.md) | T-ECU/A DIY assembly |
@@ -1090,7 +1091,7 @@ Indexed Markdown files: **1334**.
 | [`design/component-catalogue/catalog/buildable-trainset/definitions/parts/LM3-TRC-P010.md`](../design/component-catalogue/catalog/buildable-trainset/definitions/parts/LM3-TRC-P010.md) | LM3-TRC-P010 — motor-350kw-hm47-class axle traction motor |
 | [`design/component-catalogue/catalog/buildable-trainset/definitions/parts/LM3-TRC-P020.md`](../design/component-catalogue/catalog/buildable-trainset/definitions/parts/LM3-TRC-P020.md) | LM3-TRC-P020 — single-stage reduction gearbox and flexible coupling |
 | [`design/component-catalogue/catalog/buildable-trainset/definitions/parts/LM3-TRC-P030.md`](../design/component-catalogue/catalog/buildable-trainset/definitions/parts/LM3-TRC-P030.md) | LM3-TRC-P030 — two independent motor controllers, isolated LV DC/DC, MPPT, station protection, and cooling-loop kit |
-| [`design/component-catalogue/catalog/buildable-trainset/definitions/parts/LM3-TRC-P040.md`](../design/component-catalogue/catalog/buildable-trainset/definitions/parts/LM3-TRC-P040.md) | LM3-TRC-P040 — battery-225kwh-lfp-800v under-seat traction battery pack |
+| [`design/component-catalogue/catalog/buildable-trainset/definitions/parts/LM3-TRC-P040.md`](../design/component-catalogue/catalog/buildable-trainset/definitions/parts/LM3-TRC-P040.md) | LM3-TRC-P040 — battery-225kwh-lfp-800v saloon-isolated side traction battery pack |
 | [`design/component-catalogue/catalog/buildable-trainset/definitions/parts/LM3-TRC-P050.md`](../design/component-catalogue/catalog/buildable-trainset/definitions/parts/LM3-TRC-P050.md) | LM3-TRC-P050 — roof-mounted regen dump resistor and thermal shield kit |
 | [`design/component-catalogue/catalog/buildable-trainset/definitions/parts/LM3-TRC-P060.md`](../design/component-catalogue/catalog/buildable-trainset/definitions/parts/LM3-TRC-P060.md) | LM3-TRC-P060 — station side-pin charging connector, actuator, shutter, and alignment target |
 | [`design/component-catalogue/catalog/buildable-trainset/definitions/parts/LM3-TRC-P070.md`](../design/component-catalogue/catalog/buildable-trainset/definitions/parts/LM3-TRC-P070.md) | LM3-TRC-P070 — HV contactor, fuse, pre-charge, service-disconnect, and current-sensor panel |
@@ -1227,7 +1228,7 @@ Indexed Markdown files: **1334**.
 | [`design/component-catalogue/catalog/buildable-trainset/travelers/parts/LM3-TRC-P010.md`](../design/component-catalogue/catalog/buildable-trainset/travelers/parts/LM3-TRC-P010.md) | Shop traveler — LM3-TRC-P010 — motor-350kw-hm47-class axle traction motor |
 | [`design/component-catalogue/catalog/buildable-trainset/travelers/parts/LM3-TRC-P020.md`](../design/component-catalogue/catalog/buildable-trainset/travelers/parts/LM3-TRC-P020.md) | Shop traveler — LM3-TRC-P020 — single-stage reduction gearbox and flexible coupling |
 | [`design/component-catalogue/catalog/buildable-trainset/travelers/parts/LM3-TRC-P030.md`](../design/component-catalogue/catalog/buildable-trainset/travelers/parts/LM3-TRC-P030.md) | Shop traveler — LM3-TRC-P030 — two independent motor controllers, isolated LV DC/DC, MPPT, station protection, and cooling-loop kit |
-| [`design/component-catalogue/catalog/buildable-trainset/travelers/parts/LM3-TRC-P040.md`](../design/component-catalogue/catalog/buildable-trainset/travelers/parts/LM3-TRC-P040.md) | Shop traveler — LM3-TRC-P040 — battery-225kwh-lfp-800v under-seat traction battery pack |
+| [`design/component-catalogue/catalog/buildable-trainset/travelers/parts/LM3-TRC-P040.md`](../design/component-catalogue/catalog/buildable-trainset/travelers/parts/LM3-TRC-P040.md) | Shop traveler — LM3-TRC-P040 — battery-225kwh-lfp-800v saloon-isolated side traction battery pack |
 | [`design/component-catalogue/catalog/buildable-trainset/travelers/parts/LM3-TRC-P050.md`](../design/component-catalogue/catalog/buildable-trainset/travelers/parts/LM3-TRC-P050.md) | Shop traveler — LM3-TRC-P050 — roof-mounted regen dump resistor and thermal shield kit |
 | [`design/component-catalogue/catalog/buildable-trainset/travelers/parts/LM3-TRC-P060.md`](../design/component-catalogue/catalog/buildable-trainset/travelers/parts/LM3-TRC-P060.md) | Shop traveler — LM3-TRC-P060 — station side-pin charging connector, actuator, shutter, and alignment target |
 | [`design/component-catalogue/catalog/buildable-trainset/travelers/parts/LM3-TRC-P070.md`](../design/component-catalogue/catalog/buildable-trainset/travelers/parts/LM3-TRC-P070.md) | Shop traveler — LM3-TRC-P070 — HV contactor, fuse, pre-charge, service-disconnect, and current-sensor panel |
@@ -1277,6 +1278,7 @@ Indexed Markdown files: **1334**.
 | [`docs/certification/hazard-log.md`](../docs/certification/hazard-log.md) | Hazard log |
 | [`docs/certification/release-gap-register.md`](../docs/certification/release-gap-register.md) | Certification Release Gap Register |
 | [`docs/certification/safety-requirements.md`](../docs/certification/safety-requirements.md) | Safety requirements specification |
+| [`docs/certification/standards-baseline.md`](../docs/certification/standards-baseline.md) | v0.3 standards baseline |
 | [`docs/certification/system-description.md`](../docs/certification/system-description.md) | System description |
 | [`docs/city-studio.md`](../docs/city-studio.md) | OSR City Studio |
 | [`docs/civil/README.md`](../docs/civil/README.md) | Civil And Alignment |
@@ -1329,6 +1331,7 @@ Indexed Markdown files: **1334**.
 | [`docs/operations-portal/gap-analysis.md`](../docs/operations-portal/gap-analysis.md) | OSR Operations Portal Gap Analysis |
 | [`docs/operations-portal/ops-core.md`](../docs/operations-portal/ops-core.md) | OSR Ops Core |
 | [`docs/portfolio-summary.md`](../docs/portfolio-summary.md) | Portfolio capital summary |
+| [`docs/release-v0.3.md`](../docs/release-v0.3.md) | v0.3 release candidate |
 | [`docs/releases.md`](../docs/releases.md) | Release Policy And Checklist |
 | [`docs/repository-artifact-policy.md`](../docs/repository-artifact-policy.md) | Repository Artifact Policy |
 | [`docs/rfcs/0001-track-state-consensus.md`](../docs/rfcs/0001-track-state-consensus.md) | RFC 0001 — Track State Consensus |
@@ -1403,6 +1406,7 @@ Indexed Markdown files: **1334**.
 |---|---|
 | [`engineering/README.md`](../engineering/README.md) | Engineering Integration and Assurance |
 | [`engineering/assurance/formal/README.md`](../engineering/assurance/formal/README.md) | Formal Models |
+| [`engineering/assurance/formal/consensus-refinement.md`](../engineering/assurance/formal/consensus-refinement.md) | SMRaft-to-Rust refinement argument |
 | [`engineering/assurance/formal/tla/README.md`](../engineering/assurance/formal/tla/README.md) | Formal specs (TLA+) |
 | [`engineering/models/bim/reference/README.md`](../engineering/models/bim/reference/README.md) | Civil BIM Reference Package |
 | [`engineering/models/digital-twins/fabrication-assembly/README.md`](../engineering/models/digital-twins/fabrication-assembly/README.md) | Fabrication and assembly digital twin |

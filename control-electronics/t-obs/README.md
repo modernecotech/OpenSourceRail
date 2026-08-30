@@ -12,10 +12,11 @@ matching mechanical envelope is `trainset-tobs-sensor-pack.png` and
 
 ## Architecture
 
-T-OBS mirrors the T-ECU/S safety pattern: two RP2350 safety channels
+The pilot T-OBS mirrors the T-ECU/S evidence rig: two RP2350 evaluator channels
 cross-check each other, while a CM5 performs non-safety sensor
 pre-processing and logging. The RP2350 pair owns the final
-obstacle-detection safety verdict.
+obstacle-detection verdict. This is not a SIL qualification claim; production
+channels follow the shared [safety-controller selection gate](../safety-controller-selection.md).
 
 See:
 

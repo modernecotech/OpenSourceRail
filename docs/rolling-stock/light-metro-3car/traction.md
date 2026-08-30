@@ -8,6 +8,12 @@ routinely usable liquid-cooled LFP pack, two independent traction
 controllers, two PMSMs, isolated low-voltage DC/DC equipment, direct-HV DC
 HVAC, and one roof-PV MPPT.
 
+The pack modules sit in fire-separated side enclosures beneath the
+longitudinal-seat zone. They have no service opening into the saloon: removal,
+drainage, pressure relief and thermal-runaway venting are all outward through
+the lower bodyside. Interior fairings are non-structural passenger barriers,
+not battery access hatches.
+
 ```text
 Car A: roof PV -> MPPT -----+
        station contact -----+-> 225 kWh LFP -> controller -> PMSM axle 1
@@ -32,7 +38,7 @@ drives inside qualified HVAC equipment remain permitted.
 | Architecture class | 800 V-class |
 | Nominal operating voltage | 650–700 V DC |
 | Provisional normal upper voltage | 740 V DC |
-| Under-seat modules | 8 per car, 4 per side |
+| Side-enclosure modules beneath seat zone | 8 per car, 4 per side |
 | Electrical segmentation | 2 contactor-isolated strings per car, subject to topology study |
 | Cooling | Liquid cold plates, with independent pack limits at 50 °C ambient |
 | Monitoring | Cell/module voltage and temperature plus compartment off-gas detection |

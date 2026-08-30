@@ -1,10 +1,6 @@
 # OpenSourceRail
 
-OpenSourceRail is an open-source, deterministic urban-rail platform with a
-different economic model: retain design authority, software, fabrication,
-integration, operations and maintenance capability in-country instead of
-importing a closed foreign-turnkey system. GIS, CAD/IFC, simulation, cost and
-assurance share one Git-reviewable model.
+OpenSourceRail is an open-source, deterministic urban-rail platform with a different economic model: retain design authority, software, fabrication, integration, operations and maintenance capability in-country instead of importing a closed foreign-turnkey system. GIS, CAD/IFC, simulation, cost and assurance share one Git-reviewable model.
 
 > [!IMPORTANT]
 > Repository outputs are planning and engineering-screening evidence—not bids,
@@ -18,21 +14,21 @@ The public evidence scope covers **265 cities in 43 developing countries**. One 
 
 ## The Economic Case
 
-The developing-world model places **$202.73B (75.4%) of programme value in
-domestic activity** and limits specialist imports to **$66.08B (24.6%)**.
-Against its controlled foreign-turnkey sensitivity, that is **$417.79B less
-external capital** and **$940.22B less external capital plus interest**. These
-are planning sensitivities—not bids, audited origin claims or financing
-offers. See the reproducible [portfolio calculation](docs/portfolio-summary.md).
+The developing-world model places **about $203B—roughly 75% of programme value—in domestic activity**. Specialist imports are modeled at roughly one quarter. Comparative foreign-turnkey savings vary materially with procurement, financing and localisation assumptions, so exact sensitivity results stay in the reproducible [portfolio calculation](docs/portfolio-summary.md), not the headline claim. These are planning scenarios—not bids, audited origin claims or financing offers.
 
-The route keeps civil works, vehicle structures, GFRP panels, interiors, wiring,
-software, integration and maintenance local where qualified. Specialist products
-use [25 real supplier-family anchors](design/component-catalogue/catalog/buildable-trainset/supplier-anchors.md);
-every bought-in row has a fit gap and anchor-or-local-equivalent rule. Operators
-can therefore localise progressively without silently changing safety assumptions,
-retaining skills and maintainable assets while reducing foreign-currency exposure.
+The route keeps civil works, vehicle structures, GFRP panels, interiors, wiring, software, integration and maintenance local where qualified. Specialist products use [25 real supplier-family anchors](design/component-catalogue/catalog/buildable-trainset/supplier-anchors.md); every bought-in row has a fit gap and anchor-or-local-equivalent rule. Operators can localise progressively without silently changing safety assumptions, retaining skills and maintainable assets while reducing foreign-currency exposure.
 
 ## Feature Highlights
+
+OpenSourceRail is three connected products at deliberately different maturity:
+
+| Product | v0.3 maturity | Safe starting use |
+|---|---|---|
+| Design & Delivery Platform | Serious demonstration | City GIS, alignment, cost, IFC, procurement, schedule and project twin |
+| Train + Infrastructure Reference System | Engineering development | Local-manufacture planning, supplier RFQs, prototype and civil option studies |
+| Open GoA 4 Control System | R&D / pre-certification | Simulation, shadow mode, formal review and HIL—not live railway command |
+
+The first adoptable product is the non-safety owner/operator stack: simulator, Ops Core, asset register, QA, maintenance and evidence portal for an existing workshop, depot or pilot corridor. See the [adoption boundary](docs/first-adoptable-product.md).
 
 | Capability | Current implementation |
 |---|---|
@@ -49,10 +45,7 @@ retaining skills and maintainable assets while reducing foreign-currency exposur
 
 ## Generate A City Delivery Twin
 
-The city model is not limited to a route drawing or cost total. Regeneration
-creates a linked planning baseline that answers **what must be built, what must
-be ordered, when it is required, which work is critical, and when local and
-foreign-currency cash is needed**:
+The city model is not limited to a route drawing or cost total. Regeneration creates a linked planning baseline that answers **what must be built, what must be ordered, when it is required, which work is critical, and when local and foreign-currency cash is needed**:
 
 ```text
 city GIS + design + fleet
@@ -64,17 +57,12 @@ finite-resource CPM → schedule of values → monthly cash requirements
 IFC/visualization state timeline + QA/work orders + recorded actuals
 ```
 
-Use **Workbench → Generate a city digital twin** to select any catalogue city,
-regenerate it and open the result without a shell. Each city publishes a compact
-[`engineering/project-twin/summary.json`](cities/catalogue/west-asia/Iraq/Samawah/engineering/project-twin/summary.json); its reproducible operations bundle
-contains the complete task, procurement, cashflow and visualization records.
-Open **Workbench → Operations → Project Twin** to inspect the baseline and turn
-a planned requirement into a persisted draft purchase order. These are
-planning candidates—not issued contracts or construction releases—until the
-city records approval and actual commercial data.
+Use **Workbench → Generate a city digital twin** to select any catalogue city, regenerate it and open the result without a shell. Each city publishes a compact [`engineering/project-twin/summary.json`](cities/catalogue/west-asia/Iraq/Samawah/engineering/project-twin/summary.json); its reproducible operations bundle contains the complete task, procurement, cashflow and visualization records. Open **Workbench → Operations → Project Twin** to inspect the baseline and turn a planned requirement into a persisted draft purchase order. These are planning candidates—not issued contracts or construction releases—until the city records approval and actual commercial data.
 
-The model uses about **$0.9M per 3-car light-metro trainset** (LM3 build record:
-$885k) and **$60k per supported vehicle/car module** for one shared country factory; qualification and deployment remain separate gates.
+The model uses about **$0.9M per 3-car light-metro trainset** as a local
+factory-gate planning target (LM3 build record: $885k) and **$60k per supported vehicle/car module** for one shared country factory. Homologation, supplier
+qualification, first-of-class engineering, warranty and deployment are
+separate gates and cannot be compared directly with an OEM delivered price.
 
 ## Current System
 

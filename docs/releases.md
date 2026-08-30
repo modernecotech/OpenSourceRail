@@ -10,9 +10,11 @@ OpenSourceRail is pre-1.0 and uses semantic `vMAJOR.MINOR.PATCH` tags.
 - Safety approval, hardware release and deployment acceptance are separate
   controlled baselines; a software tag does not imply them.
 
-## Next Release
+## v0.3 release candidate
 
-The next version remains unselected until its scope and evidence are reviewed.
+The selected next version is **v0.3.0**. Scope and claim boundaries are in the
+[v0.3 notes](release-v0.3.md). Do not create the tag until every item below is
+complete on the intended release commit.
 
 - [ ] All intended changes are reviewed and the working tree is clean.
 - [ ] CI, Kani, repository health and generated drift checks pass.
@@ -27,5 +29,5 @@ The next version remains unselected until its scope and evidence are reviewed.
 - [ ] Safety, hardware, rolling-stock, civil and deployment limits remain
   explicit in the published notes.
 
-Before selecting the version, review public API and schema changes, generated
-catalogue compatibility and open audit tasks.
+Before tagging, review public API and schema changes, generated catalogue
+compatibility and open audit tasks.

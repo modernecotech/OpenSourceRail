@@ -53,7 +53,7 @@ Evidence required:
 
 ### 1. `LM3-BDY-P050` — battery tray rails, vent plenum, and service-lid gutter kit
 
-- Placement zone: under-seat HV bay, side-pin dock zone, and segregated cable route
+- Placement zone: exterior-access side HV bay beneath seat zone, side-pin dock zone, outward vent, and segregated cable route
 - Interfaces: `mechanical datum`, `high-voltage electrical`
 - Join classes: `bolted-structural-datum`, `electrical-data`
 - Torque authority: released joint calculation plus interface-control drawing and calibrated-tool procedure
@@ -65,7 +65,7 @@ Evidence required:
 
 ### 2. `LM3-HV-P010` — battery sliding trays, retention straps, service interlocks, and drain pans
 
-- Placement zone: under-seat HV bay, side-pin dock zone, and segregated cable route
+- Placement zone: exterior-access side HV bay beneath seat zone, side-pin dock zone, outward vent, and segregated cable route
 - Interfaces: `mechanical datum`, `high-voltage electrical`, `fluid/thermal`
 - Join classes: `bolted-structural-datum`, `electrical-data`, `fluid-thermal`
 - Torque authority: released joint calculation plus interface-control drawing and calibrated-tool procedure
@@ -78,7 +78,7 @@ Evidence required:
 
 ### 3. `LM3-HV-P020` — segregated HV cable tray, bonding studs, grommets, and orange cover set
 
-- Placement zone: under-seat HV bay, side-pin dock zone, and segregated cable route
+- Placement zone: exterior-access side HV bay beneath seat zone, side-pin dock zone, outward vent, and segregated cable route
 - Interfaces: `mechanical datum`, `high-voltage electrical`
 - Join classes: `bolted-structural-datum`, `electrical-data`
 - Torque authority: released joint calculation plus interface-control drawing and calibrated-tool procedure
@@ -91,7 +91,7 @@ Evidence required:
 
 ### 4. `LM3-HV-P030` — coolant manifold brackets, bleed/drain points, and insulated pipe clamp kit
 
-- Placement zone: under-seat HV bay, side-pin dock zone, and segregated cable route
+- Placement zone: exterior-access side HV bay beneath seat zone, side-pin dock zone, outward vent, and segregated cable route
 - Interfaces: `mechanical datum`, `high-voltage electrical`, `fluid/thermal`
 - Join classes: `bolted-structural-datum`, `electrical-data`, `fluid-thermal`
 - Torque authority: released joint calculation plus interface-control drawing and calibrated-tool procedure
@@ -114,9 +114,9 @@ Evidence required:
   - coolant pressure test
   - EMC/bonding check
 
-### 6. `LM3-TRC-P040` — battery-225kwh-lfp-800v under-seat traction battery pack
+### 6. `LM3-TRC-P040` — battery-225kwh-lfp-800v saloon-isolated side traction battery pack
 
-- Placement zone: under-seat HV bay, side-pin dock zone, and segregated cable route
+- Placement zone: exterior-access side HV bay beneath seat zone, side-pin dock zone, outward vent, and segregated cable route
 - Interfaces: `mechanical datum`, `high-voltage electrical`
 - Join classes: `bolted-structural-datum`, `electrical-data`
 - Torque authority: accepted supplier installation manual plus released OSR interface-control drawing
@@ -124,11 +124,12 @@ Evidence required:
 - Verification:
   - cell/module certificate
   - isolation test
-  - vent/fire containment data
+  - no-saloon-opening inspection
+  - outward vent/fire containment data
 
 ### 7. `LM3-TRC-P060` — station side-pin charging connector, actuator, shutter, and alignment target
 
-- Placement zone: under-seat HV bay, side-pin dock zone, and segregated cable route
+- Placement zone: exterior-access side HV bay beneath seat zone, side-pin dock zone, outward vent, and segregated cable route
 - Interfaces: `mechanical datum`, `high-voltage electrical`, `low-voltage/data`
 - Join classes: `bolted-structural-datum`, `electrical-data`
 - Torque authority: accepted supplier installation manual plus released OSR interface-control drawing
@@ -141,7 +142,7 @@ Evidence required:
 
 ### 8. `LM3-TRC-P070` — HV contactor, fuse, pre-charge, service-disconnect, and current-sensor panel
 
-- Placement zone: under-seat HV bay, side-pin dock zone, and segregated cable route
+- Placement zone: exterior-access side HV bay beneath seat zone, side-pin dock zone, outward vent, and segregated cable route
 - Interfaces: `mechanical datum`, `high-voltage electrical`, `low-voltage/data`
 - Join classes: `bolted-structural-datum`, `electrical-data`
 - Torque authority: accepted supplier installation manual plus released OSR interface-control drawing

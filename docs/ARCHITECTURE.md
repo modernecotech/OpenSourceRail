@@ -185,7 +185,7 @@ This is the heart of the safety argument and receives the most design attention.
 
 **Deprecated:** MVB/WTB, per-vendor ECUs, VxWorks/QNX dependence, pantograph-as-primary-energy-source, diesel-genset rolling stock.
 **Why a single reference ECU:** Two trains of the same class today contain dozens of subtly different PCBs from a supply chain deeply entangled with specific Tier-1s. One reference board (manufactured anywhere with basic SMT capability) for all non-traction-power functions collapses the supply chain dramatically.
-**Why onboard battery instead of continuous electrification:** See D7 for the full argument. Each reference car carries one 225 kWh gross LFP pack in fire-resistant under-seat compartments, for 675 kWh gross across the three-car train.
+**Why onboard battery instead of continuous electrification:** See D7 for the full argument. Each reference car carries one 225 kWh gross LFP pack in fire-resistant side enclosures beneath the longitudinal-seat zone, for 675 kWh gross across the three-car train. The enclosures have no saloon service opening; access and thermal-runaway venting are outward through the lower bodyside.
 
 ### D6. Infrastructure Monitoring
 

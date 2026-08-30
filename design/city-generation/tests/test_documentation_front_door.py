@@ -13,7 +13,7 @@ def test_root_readme_is_a_concise_developing_world_front_door() -> None:
     text = (REPO_ROOT / "README.md").read_text(encoding="utf-8")
     assert len(text.splitlines()) <= 220
     assert "265 cities in 43 developing countries" in text
-    assert "one European comparison model" in text
+    assert "one european comparison model" in text.lower()
     assert "Lyon" not in text
     assert "open-source-rail-introduction.html" not in text
     assert "docs/outreach" not in text

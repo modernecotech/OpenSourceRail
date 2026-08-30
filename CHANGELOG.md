@@ -1,4 +1,18 @@
-# OpenSourceRail — milestone 0.2 development baseline
+# OpenSourceRail changelog
+
+## v0.3.0 — release candidate
+
+v0.3 focuses on a credible product boundary and a reproducible integrated
+delivery platform. It adds the shared Python runtime/CI path, three-product
+maturity model, current standards baseline, safety-controller selection gate,
+all-crate Kani workflow, consensus refinement map, corrected halt energy scope,
+safer battery-enclosure definition and appropriately qualified economic claims.
+
+See [the concise release notes](docs/release-v0.3.md). Physical first articles,
+qualified safety hardware, formal refinement closure, independent assessment
+and deployment approval remain open gates rather than release claims.
+
+## v0.2 development baseline
 
 Post-v0.1 development baseline. The repository has moved beyond the
 initial publication baseline: it now has a complete, buildable software +
@@ -34,20 +48,20 @@ major subsystem is ready for.
 
 ### Software
 
-- **SIL-4 onboard chain** — position fusion → ATP → brake +
+- **SIL-4-target onboard chain** — position fusion → ATP → brake +
   derailment + fire + door-control + obstacle-detect (RFC 0015).
   Every SIL-4 evaluator carries Kani bounded-model proofs and
   proptest coverage; GSN safety-case compiler gates CI.
-- **SIL-4 wayside chain** — MA computer on top of Raft-derived
+- **SIL-4-target wayside chain** — MA computer on top of Raft-derived
   consensus + point-machine controller + intrusion-detect
   (RFC 0016). Same Kani + proptest + GSN discipline.
 - **Two-layer GoA 4 safety envelope** — wayside intrusion gate
   + onboard obstacle detect, both wired into the same brake
   chain, both demonstrable in the sim via scenario fault
   injection.
-- **Distributed signalling** — `osr-consensus` refining the
-  TLA+ `SMRaft` spec, differential-tested against an
-  independent Python twin.
+- **Distributed signalling** — `osr-consensus` designed against the
+  TLA+ `SMRaft` spec and differential-tested against an independent Python
+  twin; formal refinement remains an open certification gate.
 - **Message authentication** — `osr-secbus` (ed25519 on
   `osr-crypto`) plus authenticated consensus proposal/commit paths and
   simulator fault-injection coverage (RFC 0017 v2/v3). Deployment key
@@ -110,7 +124,7 @@ major subsystem is ready for.
   to Raspberry Pi + Radxa for domestic procurement.
 - **Board-level specs** per class: block diagram, power
   budget, pinouts, connector tables, safety-nets (SIL-4
-  boards only).
+  target boards only; none is qualification evidence by itself.
 - **Pilot COTS/DIY path** per RFC 0019: commodity SBCs,
   Pi Pico 2 boards, sensor modules, relay/HAT modules,
   terminal blocks, DIN-rail enclosures, and prepared image

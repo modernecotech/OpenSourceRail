@@ -130,7 +130,7 @@ Evidence required:
 
 ### 7. `LM3-HV-SA510` — per-car LFP battery, two controllers, DC auxiliary/charge interface, mist, and cooling assembly
 
-- Placement zone: under-seat HV bay, side-pin dock zone, and segregated cable route
+- Placement zone: exterior-access side HV bay beneath seat zone, side-pin dock zone, outward vent, and segregated cable route
 - Interfaces: `mechanical datum`, `high-voltage electrical`, `low-voltage/data`, `fluid/thermal`
 - Join classes: `bolted-structural-datum`, `electrical-data`, `fluid-thermal`
 - Torque authority: released joint calculation plus interface-control drawing and calibrated-tool procedure

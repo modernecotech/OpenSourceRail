@@ -9,6 +9,7 @@ consensus layer.
 | Folder | Purpose |
 |---|---|
 | [`tla/`](tla/) | TLA+ `SMRaft` model and TLC configurations for the restricted consensus protocol |
+| [`consensus-refinement.md`](consensus-refinement.md) | State/action abstraction map, assumptions and the remaining proof obligation |
 
 See [`tla/README.md`](tla/README.md) for model-checking commands and
 the connection to `osr-consensus`.

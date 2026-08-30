@@ -1,12 +1,12 @@
 # Roadmap
 
-This page tracks remaining validation and hardening work for the v0.2
-development baseline. It is a planning map, not a release contract.
+This page tracks remaining validation and hardening work after the v0.3
+release-candidate baseline. It is a planning map, not a release contract.
 The open-source CAD, survey, analysis, and simulation selections and the
 evidence-producing work packages for the remaining engineering items are in
 the [engineering design and simulation plan](engineering-design-simulation-plan.md).
 
-## v0.2 Workstream
+## v0.3 Workstream
 
 | Workstream | Target outcome |
 |---|---|
@@ -18,14 +18,14 @@ the [engineering design and simulation plan](engineering-design-simulation-plan.
 | DIY deployment path | Prebuilt SD-card images, checksums, role-specific self-test evidence, and first external build feedback |
 | Software integration | Workbench context plus onboard, station, intrusion and T2G-to-depot CBM/historian/analytics software-in-loop are implemented; signed live actions, production transports, asset-specific points/crossing/fare-gate harnesses, HIL, and authenticated live GUI paths remain |
 | City Studio | Git-backed city projects, source locks, layered offline GIS editing, complete manual line/station/alignment authoring, semantic revision comparison including BCF, OD demand, and per-line IFC survey control, editable service for generated/manual routes, atomic all-route day-type headway scenarios and day-plan copying, deterministic period/OD intent with conservative scheduled-capacity screens, deterministic manifests, source-locked demand-aware alternatives, controlled GIS/simulation/alignment/IFC4.3 civil jobs with native map conversion, hash-verified GIS/alignment/IFC object/IDS/BCF evidence viewers, interactive discipline-filtered 4D envelope playback, searchable multi-asset deterministic BCF topic authoring, evidence-gated coordination management, append-only non-circular revision approvals, and 122-check Playwright browser/restart persistence acceptance (implemented); survey/parcel/utility source packs, native tessellated IFC geometry streaming, passenger assignment, and platform/interchange pedestrian capacity next |
-| Certification evidence | Residual-risk narrative, independent-assessor review notes, first-article field-evidence plan, and traceability updates |
+| Certification evidence | Tool-backed/assessor-accepted consensus refinement, qualified safety-controller freeze, residual-risk narrative, independent-assessor review notes, first-article field-evidence plan, and traceability updates |
 | Civil/station package | Survey-grade Samawah alignment replacement, per-span checks, station archetype variants, and deployment-specific assumptions |
 
 Open release gates for certification, hardware, rolling stock,
 civil/station, and operations are tracked in the relevant section
 checklists rather than left as implicit TODOs.
 
-## v0.2 Definition Of Done
+## v0.3 Definition Of Done
 
 - All top-level domains have local READMEs and current status notes.
 - `python3 tools/automation/repo-health.py --quiet` passes on the release tree.

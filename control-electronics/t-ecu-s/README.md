@@ -16,9 +16,9 @@ consist; neither unit depends on a driver cab being present.
 **Environment:** EN 50155 OT4 (−40…+85 °C), IEC 61373 Cat 1 Class B,
 EN 50121-3-2 EMC.
 
-## 2-out-of-2 composite fail-safe
+## Pilot 2-out-of-2 evidence rig
 
-Each T-ECU/S board carries **two Raspberry Pi RP2350 MCUs** in a
+The current low-cost board carries **two Raspberry Pi RP2350 MCUs** in a
 2oo2 voting arrangement. Both chips receive the same sensor inputs
 on separate pins, both run identical Rust `no_std` code, both
 outputs are AND-gated through an external 2oo2 relay network. Each
@@ -26,13 +26,16 @@ tick they cross-check their computed safety decisions over SPI; on
 mismatch, both chips fail-safe open and a hardware watchdog asserts
 the emergency brake relay directly.
 
-See [RFC 0007 §4.1](../../docs/rfcs/0007-control-electronics-reference-designs.md#41-safety-architecture--2oo2-composite-fail-safe)
-for the rationale against a single-vendor lockstep MCU.
+This is useful for software, I/O and fail-safe-output experiments. It does not
+by itself establish SIL-4: identical devices/software carry systematic and
+common-cause obligations. Revenue-service hardware must pass the
+[`safety-controller-selection.md`](../safety-controller-selection.md) gate.
 
 ## SoC picks
 
-- **Safety MCU × 2:** Raspberry Pi **RP2350**. Dual Cortex-M33 +
-  dual Hazard3 RISC-V in the same die, 520 KB SRAM, 150 MHz,
+- **Prototype MCU × 2:** Raspberry Pi **RP2350**. Two processor sockets;
+  each selects Cortex-M33 or Hazard3 at boot while the unused implementation
+  is held in reset. 520 KB SRAM, 150 MHz,
   TrustZone-M, HW RNG. ~€1.10 in 1k volume. QFN-56 0.4 mm pitch —
   routine SMT.
 - **App processor × 1:** Raspberry Pi **CM5** (BCM2712). Hosts
@@ -61,8 +64,8 @@ Conformal-coated (MG Chemicals 419) before integration. IP54.
 
 ## Target BOM (volume 100+)
 
-~€280 per board. Two boards per trainset = €560 for the safety
-kernel layer. The consist-level procurement quantity is tracked in
+~€280 per prototype board. This is a pilot estimate, not the frozen
+revenue-service safety-controller cost. The consist-level quantity is tracked in
 [`../rolling-stock-integration.md`](../rolling-stock-integration.md)
 and line E1 of the rolling-stock BOM.
 

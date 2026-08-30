@@ -20,19 +20,15 @@ jobs:
           working-directory: .
           args: "-p osr-interlocking"
 
-      # If the above action isn't used / pinned, the manual install is:
-      # - name: Install Kani manually
-      #   run: |
-      #     cargo install --locked kani-verifier
-      #     cargo kani setup
-      # - name: Run harnesses
-      #   run: cargo kani -p osr-interlocking
+  kani-atp-expired-authority:
+    name: Kani — ATP rejects expired movement authority
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
 
-  # Placeholder for additional SIL-4 crates once their Kani harnesses land.
-  # kani-atp:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v4
-  #     - uses: model-checking/kani-github-action@v1
-  #       with:
-  #         args: "-p osr-atp"
+      - name: Prove the release-selected ATP property
+        uses: model-checking/kani-github-action@v1
+        with:
+          working-directory: .
+          args: "-p osr-atp --harness kani_a2_expired_ma_trips"

@@ -190,7 +190,7 @@ functions per the hazard log).
 ### §7.2 — Systematic failures
 
 **Requirement:** systematic failures (specification, design,
-implementation bugs) shall be controlled via the EN 50128
+implementation bugs) shall be controlled via the EN 50716
 process.
 
 **OSR implementation:** Rust `#![forbid(unsafe_code)]`;

@@ -987,8 +987,8 @@ def _product_items(candidate: DesignCandidate) -> tuple[ProductItem, ...]:
             "car kit",
             "LM3-INT-SA330",
             ("cabin-fiberglass.md", "traction.md", "LM3-INT-250"),
-            "Sacrificial fire-rated fiberglass covers over under-seat battery strakes, with removable hatches and seat-base fairing returns.",
-            ("fire-material certificate", "service-hatch removal", "HV warning label check", "sharp-edge inspection"),
+            "Sacrificial fire-rated saloon barriers over the side battery enclosures; battery service access and pressure relief remain exterior-only.",
+            ("fire-material certificate", "no-saloon-opening inspection", "HV warning label check", "sharp-edge inspection"),
             Maturity.BUILDABLE_AFTER_SUPPLIER_FREEZE,
         ),
         ProductItem(
@@ -1046,15 +1046,15 @@ def _product_items(candidate: DesignCandidate) -> tuple[ProductItem, ...]:
         ),
         ProductItem(
             "LM3-TRC-P040",
-            f"{candidate.parameters.battery_id} under-seat traction battery pack",
+            f"{candidate.parameters.battery_id} saloon-isolated side traction battery pack",
             Layer.EXTERNAL_COMPONENT,
             Route.BID,
             cars,
             "ea",
             "LM3-HV-SA510",
             ("design-iteration-summary.md", "systems.py", "LM3-BDY-140"),
-            "Optimizer-selected per-car pack; final supplier must fit tray, cooling, BMS, and vent path.",
-            ("cell/module certificate", "isolation test", "vent/fire containment data"),
+            "Optimizer-selected per-car pack; final supplier must fit the externally accessed side tray, cooling, BMS, fire separation, and outward-only vent path.",
+            ("cell/module certificate", "isolation test", "no-saloon-opening inspection", "outward vent/fire containment data"),
             Maturity.BUILDABLE_AFTER_SUPPLIER_FREEZE,
         ),
         ProductItem(
@@ -2657,7 +2657,7 @@ def _placement_zone(child_id: str, title: str) -> str:
     if "roof" in text or "hvac" in text or "pv" in text or "antenna" in text or "resistor" in text:
         return "roof equipment rail, curb, and service-access zone"
     if "battery" in text or "hv" in text or "inverter" in text or "contactor" in text or "charging" in text:
-        return "under-seat HV bay, side-pin dock zone, and segregated cable route"
+        return "exterior-access side HV bay beneath seat zone, side-pin dock zone, outward vent, and segregated cable route"
     if "bogie" in text or "wheelset" in text or "motor" in text or "gearbox" in text or "brake" in text:
         return "bogie frame, axle, brake, suspension, and underframe marriage datums"
     if "cowl" in text or "coupler" in text or "sensor" in text or "nose" in text:

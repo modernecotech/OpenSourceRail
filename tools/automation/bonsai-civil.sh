@@ -2,7 +2,7 @@
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
-python3 "$ROOT/tools/automation/generate-civil-cost-model.py"
+"$ROOT/tools/automation/osr-python" "$ROOT/tools/automation/generate-civil-cost-model.py"
 OUT_DIR="$ROOT/build/engineering/bonsai-civil"
 ALIGNMENT_INPUT=""
 REVISION_ID="working-tree"
@@ -40,7 +40,7 @@ if ! $DO_GENERATE && ! $DO_CHECK; then
 fi
 
 if $DO_CHECK; then
-    "$ROOT/.venv/bin/python" -c 'import ifcopenshell, importlib.metadata; print("IfcOpenShell", ifcopenshell.version); print("IfcTester", importlib.metadata.version("ifctester")); print("BCF", importlib.metadata.version("bcf-client"))'
+    "$ROOT/tools/automation/osr-python" -c 'import ifcopenshell, importlib.metadata; print("IfcOpenShell", ifcopenshell.version); print("IfcTester", importlib.metadata.version("ifctester")); print("BCF", importlib.metadata.version("bcf-client"))'
     flatpak run org.blender.Blender --version | head -n 1
     flatpak run org.blender.Blender -b --python-expr \
         'import importlib.metadata; print("Bonsai", importlib.metadata.version("bonsai"))' 2>&1 | grep '^Bonsai '
@@ -55,7 +55,7 @@ if $DO_GENERATE; then
     if [[ -n "$ALIGNMENT_INPUT" ]]; then
         args+=(--alignment-input "$ALIGNMENT_INPUT")
     fi
-    "$ROOT/.venv/bin/python" "${args[@]}"
+    "$ROOT/tools/automation/osr-python" "${args[@]}"
 fi
 
 if $DO_RENDER; then
@@ -80,7 +80,7 @@ if $DO_RENDER; then
     fi
     flatpak run org.blender.Blender "${blender_args[@]}"
     if $DO_ANIMATE; then
-        FPS="$(python3 -c 'import json,sys; print(json.load(open(sys.argv[1]))["animation"]["fps"])' "$OUT_DIR/civil-construction-sequence.json")"
+        FPS="$("$ROOT/tools/automation/osr-python" -c 'import json,sys; print(json.load(open(sys.argv[1]))["animation"]["fps"])' "$OUT_DIR/civil-construction-sequence.json")"
         ffmpeg -y -framerate "$FPS" \
             -i "$OUT_DIR/civil-construction-sequence-frames/frame-%04d.png" \
             -c:v libx264 -preset medium -crf 20 -pix_fmt yuv420p \

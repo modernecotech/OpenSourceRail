@@ -179,11 +179,12 @@ def render_cost_model() -> str:
         f"adds {float(trainset_build_cost['labor_hours']):,.0f} h of direct labour at "
         f"${float(trainset_build_cost['labor_rate_usd_per_hour']):.0f}/h, then applies a "
         f"{_pct(float(trainset_build_cost['unexpected_cost_premium_fraction']))} unexpected-cost premium. "
-        f"That gives {_usd_int(recalculated_trainset)} per 3-car consist. City CAPEX "
+        f"That gives a local factory-gate planning target of {_usd_int(recalculated_trainset)} per 3-car consist. City CAPEX "
         f"keeps the rounded {_usd_int(light_unit)} trainset unit so there is still a small "
         "nominal QA/acceptance and local handover margin, while fixtures/tooling sit "
-        "in the railway production plant and warranty, spares, and routine commissioning "
-        "support sit in OPEX.",
+        "in the railway production plant and warranty, spares, homologation, supplier "
+        "qualification, first-of-class engineering, and routine commissioning support "
+        "remain outside that factory-gate comparison.",
         "",
         "The direct material/supplier-module bucket already includes the requested "
         f"passenger fit-out, HVAC, windows, and doors: {_money_short(basic_fitout)} for "
@@ -400,7 +401,7 @@ def render_cost_model() -> str:
     ])
 
     charging_scope = {
-        "halt": "250 kW class charger, local protection, compact LV tie",
+        "halt": "No charger or trackside energy site; shelter electrical service is in station CAPEX",
         "standard": "500 kW class conductive charger, switchgear, inverter interface",
         "major": "Larger queueing/anchor-stop charger and buffer tie",
         "terminal": "End-of-line charger with higher turnback utilization",
