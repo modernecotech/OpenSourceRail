@@ -138,6 +138,8 @@ for package in (
     "ifcopenshell",
     "ifctester",
     "bcf-client",
+    "networkx",
+    "pytest",
     "jupedsim",
     "numba",
     "openseespy",

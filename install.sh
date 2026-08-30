@@ -351,7 +351,7 @@ engineering_ready() {
             || return 1
     done
     "$ROOT/.venv/bin/python" -c \
-        'import ifcopenshell, jupedsim, openseespy, pandapower, pvlib, pybamm, pyswmm' \
+        'import _pytest, ifcopenshell, jupedsim, networkx, openseespy, pandapower, pvlib, pybamm, pyswmm' \
         >/dev/null 2>&1 || return 1
     flatpak run org.blender.Blender -b --python-expr \
         'import importlib.metadata; print(importlib.metadata.version("bonsai"))' \

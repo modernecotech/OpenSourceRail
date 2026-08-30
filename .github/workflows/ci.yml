@@ -84,14 +84,14 @@ jobs:
         run: |
           npm ci
           tools/automation/osr-python -m pip install --upgrade pip
-          tools/automation/osr-python -m pip install -e ./design/component-catalogue ifcopenshell==0.8.5 ifctester==0.8.5 bcf-client==0.8.5
+          tools/automation/osr-python -m pip install -e ./design/component-catalogue ifcopenshell==0.8.5 ifctester==0.8.5 bcf-client==0.8.5 networkx==3.6.1 pytest==9.1.1
           npx playwright install --with-deps chromium
           curl -fsSLo /tmp/trunk.tar.gz https://github.com/trunk-rs/trunk/releases/download/v0.21.8/trunk-x86_64-unknown-linux-gnu.tar.gz
           echo "cd9fb2822c9f0ae111737500c179226cb080241ac55002c1db7344aa51a97fec  /tmp/trunk.tar.gz" | sha256sum -c -
           tar -xzf /tmp/trunk.tar.gz -C /tmp trunk
           sudo install -m 0755 /tmp/trunk /usr/local/bin/trunk
           trunk --version
-      - run: tools/automation/osr-python -c 'import ifcopenshell, ifctester, bcf; print("IFC GUI runtime ready")'
+      - run: tools/automation/osr-python -c 'import _pytest, bcf, ifcopenshell, ifctester, networkx; print("IFC GUI runtime ready")'
       - run: npm run test:frontend
       - name: Upload browser diagnostics
         if: failure()

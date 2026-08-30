@@ -54,5 +54,6 @@ The project is pre-1.0. Generated packages should be regenerated from the v0.3
 sources. Git revisions remain the review/history mechanism; deployment actuals
 remain controlled separately in Ops Core.
 
-Run `./install.sh`, `./osr`, and `./osr test`. A tag is created only after the
-[release checklist](releases.md) is fully satisfied on a clean commit.
+Use the setup and verification commands from the root README. A tag is created
+only after the [release checklist](releases.md) is fully satisfied on a clean
+commit.

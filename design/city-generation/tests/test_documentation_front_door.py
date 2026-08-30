@@ -73,6 +73,20 @@ def test_documentation_and_tooling_have_no_host_specific_paths() -> None:
     assert offenders == []
 
 
+def test_frontend_ci_provisions_the_complete_ifc_runtime() -> None:
+    workflow = (REPO_ROOT / ".github/workflows/ci.yml").read_text(encoding="utf-8")
+    requirement_lines = (
+        REPO_ROOT / "engineering/toolchain/python-requirements.txt"
+    ).read_text(encoding="utf-8").splitlines()
+    pins = {
+        name: next(line for line in requirement_lines if line.startswith(f"{name}=="))
+        for name in ("networkx", "pytest")
+    }
+
+    assert all(pin in workflow for pin in pins.values())
+    assert "import _pytest, bcf, ifcopenshell, ifctester, networkx" in workflow
+
+
 def test_thin_wrapper_directories_do_not_return() -> None:
     for relative in (
         "docs/brochures",
