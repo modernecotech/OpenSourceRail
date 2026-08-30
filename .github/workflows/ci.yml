@@ -40,12 +40,14 @@ jobs:
             design/component-catalogue/pyproject.toml
             tools/osr-aln-convert/pyproject.toml
             tools/reference-ma/pyproject.toml
+            engineering/toolchain/ifc-python-requirements.txt
       - name: Install project test environments
         run: |
           python -m pip install --upgrade pip
           python -m pip install pytest CairoSVG mistune Pillow reportlab
           python -m pip install -e ./design/city-generation -e ./design/component-catalogue
           python -m pip install -e ./tools/osr-aln-convert -e ./tools/reference-ma
+          python -m pip install --requirement engineering/toolchain/ifc-python-requirements.txt
       - run: python -m pytest -q design/city-generation/tests
       - run: python tools/automation/build-doc-book.py --out build/releases/opensource-rail-docs-book.pdf
       - run: python -m pytest -q design/component-catalogue/tests
@@ -79,12 +81,12 @@ jobs:
         with:
           python-version: "3.11"
           cache: pip
-          cache-dependency-path: engineering/toolchain/python-requirements.txt
+          cache-dependency-path: engineering/toolchain/ifc-python-requirements.txt
       - name: Install pinned frontend tools
         run: |
           npm ci
           tools/automation/osr-python -m pip install --upgrade pip
-          tools/automation/osr-python -m pip install -e ./design/component-catalogue ifcopenshell==0.8.5 ifctester==0.8.5 bcf-client==0.8.5 networkx==3.6.1 pytest==9.1.1
+          tools/automation/osr-python -m pip install -e ./design/component-catalogue --requirement engineering/toolchain/ifc-python-requirements.txt
           npx playwright install --with-deps chromium
           curl -fsSLo /tmp/trunk.tar.gz https://github.com/trunk-rs/trunk/releases/download/v0.21.8/trunk-x86_64-unknown-linux-gnu.tar.gz
           echo "cd9fb2822c9f0ae111737500c179226cb080241ac55002c1db7344aa51a97fec  /tmp/trunk.tar.gz" | sha256sum -c -

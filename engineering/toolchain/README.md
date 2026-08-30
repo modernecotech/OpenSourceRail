@@ -32,8 +32,9 @@ Run engineering workflows through the common launcher:
 ./osr engineering --cities --all --allow-input-gaps --jobs 2 --resume
 ```
 
-`python-requirements.txt` pins direct engineering packages. The installer also
-writes a full transitive `pip-freeze.txt` manifest under
+`python-requirements.txt` pins direct engineering packages and includes the
+smaller `ifc-python-requirements.txt` used by IFC CI and GUI jobs. The installer
+also writes a full transitive `pip-freeze.txt` manifest under
 `build/engineering/toolchain/` so evidence captures the exact environment
 that ran it.
 

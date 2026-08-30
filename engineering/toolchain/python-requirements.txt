@@ -1,12 +1,6 @@
 # Python analysis tools adopted by docs/engineering-design-simulation-plan.md.
 # Update deliberately, then run tools/automation/engineering-toolchain.sh --install-python.
-ifcopenshell==0.8.5
-ifctester==0.8.5
-bcf-client==0.8.5
-# IfcOpenShell schedule recalculation and EXPRESS validation import these at
-# runtime even when the caller is not running a Python test suite.
-networkx==3.6.1
-pytest==9.1.1
+-r ifc-python-requirements.txt
 jupedsim==1.4.2
 numba==0.66.0
 openseespy==3.8.0.0
