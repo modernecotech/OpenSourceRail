@@ -19,6 +19,7 @@ from osr_mech.fabrication_assembly_twin import (
     VISUAL_TOUR_DURATION_S,
     VISUAL_TOUR_PHASES,
     fabrication_streams,
+    trainset_assembly_graph,
 )
 
 
@@ -169,6 +170,76 @@ def _train_cell(m, centre=(22.0, 13.0)):
         _cube("LM3 finished end cowl", (x0 + sign * 16.2, y0, 3.15), (0.75, 2.9, 3.0), m["gold"], bevel=0.28, stage="RS-40-FITOUT-STATIC-TEST", offset=(sign * 8, 0, 5))
 
 
+def _trainset_product_graph(m, centre=(22.0, 13.0)) -> None:
+    """Instantiate the complete controlled product DAG as inspectable objects.
+
+    These are deliberately coordination proxies: every controlled row is present
+    once, while quantity metadata preserves repeated occurrences.  The recognisable
+    train geometry remains alongside the graph so the sequence is understandable
+    without falsely presenting unreleased supplier geometry as shop detail.
+    """
+
+    graph = trainset_assembly_graph()
+    x0, y0 = centre
+    subsystem_x = {
+        "BDY": x0 - 11.0, "EXT": x0 - 8.0, "WIN": x0 - 5.0,
+        "DOOR": x0 - 2.0, "INT": x0 + 1.0, "BOG": x0 + 4.0,
+        "TRAC": x0 + 7.0, "BRK": x0 + 9.0, "ELC": x0 + 11.0,
+        "HVAC": x0 + 13.0, "ART": x0 + 15.0,
+    }
+    route_material = {"MAKE": m["teal"], "BID": m["yellow"], "SOURCE": m["gold"]}
+    products = sorted(graph["product_rows"], key=lambda item: item["id"])
+    for index, item in enumerate(products):
+        subsystem = item["id"].split("-")[1]
+        lane = subsystem_x.get(subsystem, x0)
+        target = (
+            lane + ((index % 3) - 1) * 0.46,
+            y0 + 0.35 + ((index // 3) % 5) * 0.34,
+            1.0 + ((index // 15) % 4) * 0.55,
+        )
+        staged = (
+            ((index % 13) - 6) * 0.9,
+            8.5 + (index // 65) * 1.4,
+            4.0 + ((index // 13) % 5) * 0.48,
+        )
+        size = 0.22 + (index % 4) * 0.035
+        obj = _cube(
+            f"PART {item['id']} — {item['title']}", target,
+            (0.55 + size, 0.26 + size * 0.25, 0.22 + size * 0.35),
+            route_material.get(item["route"], m["yellow"]), bevel=0.035,
+            stage=f"LM3NODE:{item['id']}", offset=staged,
+        )
+        obj["osr_id"] = item["id"]
+        obj["osr_parent_id"] = item["parent"]
+        obj["osr_title"] = item["title"]
+        obj["osr_route"] = item["route"]
+        obj["osr_quantity_per_trainset"] = item["quantity_per_trainset"]
+        obj["osr_unit"] = item["unit"]
+        obj["osr_representation"] = "controlled product-family coordination proxy"
+
+    layer_material = {"subassembly": m["steel"], "assembly": m["navy"], "trainset": m["green"]}
+    for index, item in enumerate(sorted(graph["assemblies"], key=lambda value: (value["level"], value["id"]))):
+        level = int(item["level"])
+        column = index % 9
+        row = index // 9
+        target = (x0 - 13.0 + column * 3.25, y0 + 5.6 + row * 0.68, 2.0 + level * 0.62)
+        obj = _cube(
+            f"ASSEMBLY {item['id']} — {item['title']}", target,
+            (2.5, 0.42, 0.32), layer_material.get(item["layer"], m["navy"]),
+            bevel=0.05, stage=f"LM3NODE:{item['id']}",
+            offset=(0.0, 3.0 + level * 0.7, 4.0 + level * 0.8),
+        )
+        obj["osr_id"] = item["id"]
+        obj["osr_title"] = item["title"]
+        obj["osr_layer"] = item["layer"]
+        obj["osr_children"] = ",".join(item["children"])
+        obj["osr_dependency_level"] = level
+        obj["osr_representation"] = "controlled assembly-state coordination proxy"
+
+    _label("101 PART FAMILIES  →  26 CONTROLLED ASSEMBLIES  →  LM3", (x0, y0 + 10.0, 9.5), m["white"], size=0.58)
+    _label("TEAL LOCAL MAKE  •  YELLOW COMPETITIVE BID  •  ORANGE ANCHOR SOURCE", (x0, y0 + 10.0, 8.75), m["white"], size=0.34)
+
+
 def _stage_frames(fps: int) -> dict[str, tuple[int, int]]:
     """Map each product route into its own readable close-up chapter."""
     result: dict[str, tuple[int, int]] = {}
@@ -187,6 +258,11 @@ def _stage_frames(fps: int) -> dict[str, tuple[int, int]]:
                 int((phase_start + cursor / total * phase_duration) * fps),
             )
             result[stage.id] = (start, min(int(float(phase["end_s"]) * fps), end))
+    for node_id, timing in trainset_assembly_graph()["timing"].items():
+        result[f"LM3NODE:{node_id}"] = (
+            max(1, int(float(timing["start_s"]) * fps) + 1),
+            max(3, int(float(timing["end_s"]) * fps)),
+        )
     return result
 
 
@@ -283,6 +359,7 @@ def build(args: argparse.Namespace) -> None:
     _station_cell(m)
     _viaduct_cell(m)
     _train_cell(m)
+    _trainset_product_graph(m)
     for title, pos in (
         ("TRACK PANEL", (-22, -19.0, 1.0)),
         ("STATION KIT", (22, -19.0, 1.0)),
@@ -348,6 +425,7 @@ def build(args: argparse.Namespace) -> None:
     background.inputs["Color"].default_value = (0.055, 0.085, 0.12, 1)
     background.inputs["Strength"].default_value = 0.34
     args.blend.parent.mkdir(parents=True, exist_ok=True)
+    bpy.context.preferences.filepaths.save_version = 0
     bpy.ops.wm.save_as_mainfile(filepath=str(args.blend))
 
 
@@ -360,6 +438,7 @@ def parse_args(argv=None):
     parser.add_argument("--fps", type=int, default=6)
     parser.add_argument("--samples", type=int, default=8)
     parser.add_argument("--still-time", type=float)
+    parser.add_argument("--milestones-dir", type=Path)
     return parser.parse_args(argv)
 
 
@@ -375,6 +454,16 @@ def main(argv=None):
         bpy.ops.render.render(write_still=True)
         print(f"wrote {scene.render.filepath}", flush=True)
         return
+    if args.milestones_dir:
+        args.milestones_dir.mkdir(parents=True, exist_ok=True)
+        for second, filename in (
+            (64.0, "trainset-assembly-parts-staged.png"),
+            (74.0, "trainset-assembly-subassemblies.png"),
+            (82.0, "trainset-assembly-complete.png"),
+        ):
+            scene.frame_set(int(second * args.fps) + 1)
+            scene.render.filepath = str(args.milestones_dir / filename)
+            bpy.ops.render.render(write_still=True)
     scene.render.filepath = str(args.frames_dir / "frame-")
     bpy.ops.render.render(animation=True)
     print(f"wrote {scene.frame_end} fabrication twin frames", flush=True)

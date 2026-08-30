@@ -28,6 +28,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--detail-output", type=Path)
     parser.add_argument("--blend", type=Path, required=True)
     parser.add_argument("--animation-output", type=Path)
+    parser.add_argument("--milestones-dir", type=Path)
     return parser.parse_args(args)
 
 
@@ -132,10 +133,28 @@ def tag_objects() -> dict[str, list[bpy.types.Object]]:
     return by_tag
 
 
+def _construction_offset(ifc_class: str) -> Vector:
+    """Readable, class-specific delivery/erection motion for the 4D review."""
+
+    offsets = {
+        "IfcColumn": (0.0, 0.0, -9.0),
+        "IfcCivilElement": (0.0, 0.0, -6.0),
+        "IfcBearing": (0.0, 0.0, 4.0),
+        "IfcBeam": (-15.0, 0.0, 9.0),
+        "IfcSlab": (0.0, 10.0, 6.0),
+        "IfcRoof": (0.0, 0.0, 12.0),
+        "IfcRail": (-12.0, 0.0, 4.0),
+        "IfcElementAssembly": (-8.0, 7.0, 4.0),
+    }
+    return Vector(offsets.get(ifc_class, (0.0, 7.0, 5.0)))
+
+
 def animate_sequence(sequence: dict, by_tag: dict[str, list[bpy.types.Object]]) -> None:
     scene = bpy.context.scene
-    scene.frame_start = 1
-    scene.frame_end = 192
+    animation = sequence["animation"]
+    scene.frame_start = int(animation["frame_start"])
+    scene.frame_end = int(animation["frame_end"])
+    scene.render.fps = int(animation["fps"])
     starts = [datetime.fromisoformat(task["start"]) for task in sequence["tasks"]]
     finishes = [datetime.fromisoformat(task["finish"]) for task in sequence["tasks"]]
     overall_start, overall_finish = min(starts), max(finishes)
@@ -144,24 +163,38 @@ def animate_sequence(sequence: dict, by_tag: dict[str, list[bpy.types.Object]]) 
     assigned: set[str] = set()
     for task_id, asset_ids in sequence["product_assignments"].items():
         task = task_by_id[task_id]
+        start = datetime.fromisoformat(task["start"])
         finish = datetime.fromisoformat(task["finish"])
-        frame = 10 + round((finish - overall_start).total_seconds() / span_seconds * 172)
+        available = scene.frame_end - scene.frame_start
+        start_frame = scene.frame_start + round((start - overall_start).total_seconds() / span_seconds * available)
+        finish_frame = scene.frame_start + round((finish - overall_start).total_seconds() / span_seconds * available)
+        finish_frame = max(start_frame + 3, min(scene.frame_end, finish_frame))
         for asset_id in asset_ids:
             assigned.add(asset_id)
             for obj in by_tag.get(asset_id, []):
+                target = obj.location.copy()
+                offset = _construction_offset(str(obj.get("osr_ifc_class", "")))
+                obj["osr_construction_task"] = task_id
+                obj["osr_task_start_frame"] = start_frame
+                obj["osr_task_finish_frame"] = finish_frame
                 obj.hide_render = True
                 obj.hide_viewport = True
-                obj.scale = (0.001, 0.001, 0.001)
-                obj.keyframe_insert("hide_render", frame=max(1, frame - 2))
-                obj.keyframe_insert("hide_viewport", frame=max(1, frame - 2))
-                obj.keyframe_insert("scale", frame=max(1, frame - 2))
+                obj.location = target + offset
+                obj.scale = (0.15, 0.15, 0.15)
+                obj.keyframe_insert("hide_render", frame=max(scene.frame_start, start_frame - 1))
+                obj.keyframe_insert("hide_viewport", frame=max(scene.frame_start, start_frame - 1))
+                obj.keyframe_insert("location", frame=max(scene.frame_start, start_frame - 1))
+                obj.keyframe_insert("scale", frame=max(scene.frame_start, start_frame - 1))
                 obj.hide_render = False
                 obj.hide_viewport = False
-                obj.keyframe_insert("hide_render", frame=frame)
-                obj.keyframe_insert("hide_viewport", frame=frame)
-                obj.keyframe_insert("scale", frame=frame)
+                obj.keyframe_insert("hide_render", frame=start_frame)
+                obj.keyframe_insert("hide_viewport", frame=start_frame)
+                obj.keyframe_insert("location", frame=start_frame)
+                obj.keyframe_insert("scale", frame=start_frame)
+                obj.location = target
                 obj.scale = (1, 1, 1)
-                obj.keyframe_insert("scale", frame=min(scene.frame_end, frame + 8))
+                obj.keyframe_insert("location", frame=finish_frame)
+                obj.keyframe_insert("scale", frame=finish_frame)
     # Rolling stock is a clearance/operations reference, not a civil work
     # package. Introduce it only after the constructed civil model is visible.
     for asset_id, objects in by_tag.items():
@@ -173,17 +206,19 @@ def animate_sequence(sequence: dict, by_tag: dict[str, list[bpy.types.Object]]) 
             obj.hide_render = True
             obj.hide_viewport = True
             obj.scale = (0.001, 0.001, 0.001)
-            obj.keyframe_insert("hide_render", frame=176)
-            obj.keyframe_insert("hide_viewport", frame=176)
-            obj.keyframe_insert("scale", frame=176)
+            arrival = max(scene.frame_start, scene.frame_end - int(scene.render.fps * 3))
+            obj.keyframe_insert("hide_render", frame=arrival)
+            obj.keyframe_insert("hide_viewport", frame=arrival)
+            obj.keyframe_insert("scale", frame=arrival)
             obj.hide_render = False
             obj.hide_viewport = False
-            obj.keyframe_insert("hide_render", frame=177)
-            obj.keyframe_insert("hide_viewport", frame=177)
+            obj.keyframe_insert("hide_render", frame=arrival + 1)
+            obj.keyframe_insert("hide_viewport", frame=arrival + 1)
             obj.scale = (1, 1, 1)
-            obj.keyframe_insert("scale", frame=185)
+            obj.keyframe_insert("scale", frame=scene.frame_end)
     scene["osr_schedule_name"] = sequence["schedule_name"]
     scene["osr_animated_assets"] = len(assigned)
+    scene["osr_assignment_count"] = sum(len(value) for value in sequence["product_assignments"].values())
     scene["osr_animation_semantics"] = sequence["animation"]["semantics"]
     scene.frame_set(scene.frame_end)
 
@@ -230,8 +265,26 @@ def render(args: argparse.Namespace) -> None:
     scene.render.image_settings.color_mode = "RGBA"
     scene.view_settings.look = "AgX - Medium High Contrast"
     scene.render.image_settings.color_depth = "8"
+    bpy.context.preferences.filepaths.save_version = 0
     bpy.ops.wm.save_as_mainfile(filepath=str(args.blend.resolve()))
     bpy.ops.render.render(write_still=True)
+
+    if args.milestones_dir:
+        args.milestones_dir.mkdir(parents=True, exist_ok=True)
+        camera = scene.camera
+        camera.location = (165, -175, 105)
+        camera.data.lens = 54
+        point_at(camera, (177, 0, 5.5))
+        for fraction, filename in (
+            (0.28, "civil-assembly-substructure.png"),
+            (0.62, "civil-assembly-superstructure.png"),
+            (0.92, "civil-assembly-track-station.png"),
+        ):
+            frame = scene.frame_start + round((scene.frame_end - scene.frame_start) * fraction)
+            scene.frame_set(frame)
+            scene.render.filepath = str((args.milestones_dir / filename).resolve())
+            bpy.ops.render.render(write_still=True)
+        scene.frame_set(scene.frame_end)
 
     if args.detail_output:
         args.detail_output.parent.mkdir(parents=True, exist_ok=True)

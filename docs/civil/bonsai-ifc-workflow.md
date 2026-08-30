@@ -47,7 +47,8 @@ Generate, import through Bonsai, save a native review scene, and render it:
 tools/automation/bonsai-civil.sh --render
 ```
 
-Render the normalized construction sequence as MP4 as well:
+Render the normalized 48-second construction sequence, native scene, MP4, GIF
+and milestone screenshots as well:
 
 ```bash
 tools/automation/bonsai-civil.sh --animate
@@ -67,15 +68,18 @@ generator publishes the named GitHub-review set beneath
 - `civil-coordination.ifc` — native IFC4.3 model;
 - `civil-coordination.index.json` — object-aware browser index and authority boundary;
 - `civil-construction-sequence.json` — tasks, dates, QA holds and product assignments;
+- `civil-coordination.blend` — native scene with selectable IFC assets and construction keyframes;
+- `civil-construction-sequence.mp4` / `.gif` — full sequence and GitHub preview;
 - `civil-information-requirements.ids` — buildingSMART IDS 1.0 delivery requirements;
 - `civil-information-requirements.report.json` — complete deterministic IDS audit evidence;
 - `civil-coordination-issues.bcf` — BCF 3.0 package with object-linked release issues;
 - `civil-coordination-issues.index.json` — browser-safe issue and IFC selection index;
 - `civil-coordination.validation.json` — reopen, IDS, BCF-link, and exact artifact-hash checks.
 
-The tracked screenshot is under [`docs/screenshots/civil/`](../screenshots/civil/).
-Bonsai `.blend` scenes, animation frames and videos are reproducible review
-outputs and remain under `build/` or tagged GitHub Release storage.
+The named scene, review video and GIF are tracked with the reference federation;
+the three milestone screenshots are under
+[`docs/screenshots/civil/`](../screenshots/civil/). Intermediate PNG frames and
+repeated project renders remain under `build/` and are removed after encoding.
 
 ## Model content
 

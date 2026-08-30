@@ -15,9 +15,9 @@ assurance share one Git-reviewable model.
 **Start here:** [complete PDF book](OpenSourceRail-Book.pdf), [one-page
 overview](docs/open-source-rail-overview.html), or `./install.sh` then `./osr`.
 
-The public evidence scope covers **265 cities in 43 developing countries**. One
-European comparison in the 266-model engineering catalogue is retained only
-for technical inspection and excluded from public evidence and examples.
+The public evidence scope covers **265 cities in 43 developing countries**. The
+one European comparison model in the 266-model engineering catalogue is retained
+only for technical inspection and excluded from public evidence and examples.
 
 ## The Economic Case
 
@@ -56,17 +56,17 @@ $885k) and **$60k per supported vehicle/car module** for one shared country fact
 
 | City Studio | Civil IFC coordination | Operations and evidence |
 |---|---|---|
-| ![City Studio deterministic GIS workspace](docs/screenshots/city-studio/gis-workspace.png) | ![Bonsai IFC4.3 coordination model](docs/screenshots/civil/bonsai-ifc4x3-civil-coordination.png) | ![Operations portal acceptance dashboard](docs/screenshots/operations-portal/acceptance-dashboard.png) |
+| ![City Studio deterministic GIS workspace](docs/screenshots/city-studio/gis-workspace.png) | ![Bonsai IFC4.3 construction sequence](engineering/models/bim/reference/civil-construction-sequence.gif) | ![Operations portal acceptance dashboard](docs/screenshots/operations-portal/acceptance-dashboard.png) |
 
 | Trainset assembly | Simulation | Fabrication and civil sequence |
 |---|---|---|
-| ![LM3 full body and bogie assembly](docs/screenshots/freecad/blender-full-body-assembly.png) | ![OpenSourceRail simulator](docs/screenshots/sim-gui.png) | ![Guided fabrication and assembly digital twin](engineering/models/digital-twins/fabrication-assembly/fabrication-assembly-digital-twin.gif) |
+| ![LM3 complete 127-node assembly](docs/screenshots/assembly/trainset-assembly-complete.png) | ![OpenSourceRail simulator](docs/screenshots/sim-gui.png) | ![Guided fabrication and assembly digital twin](engineering/models/digital-twins/fabrication-assembly/fabrication-assembly-digital-twin.gif) |
 
-The [88-second assembly tour](engineering/models/digital-twins/fabrication-assembly/fabrication-assembly-digital-twin.mp4) provides full-resolution close-ups.
+Review the full [88-second product assembly](engineering/models/digital-twins/fabrication-assembly/fabrication-assembly-digital-twin.mp4) and [48-second civil IFC sequence](engineering/models/bim/reference/civil-construction-sequence.mp4).
 
 ## Find Your Way
 
-Use this front-door table instead of browsing the generated file inventory.
+Use this only human-facing front door instead of browsing the generated file inventory.
 
 | I want to… | Go here |
 |---|---|

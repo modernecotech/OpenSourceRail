@@ -1123,6 +1123,9 @@ def check_public_bim_review_set() -> list[Finding]:
         "civil-coordination-issues.bcf",
         "civil-coordination-issues.index.json",
         "civil-construction-sequence.json",
+        "civil-coordination.blend",
+        "civil-construction-sequence.mp4",
+        "civil-construction-sequence.gif",
     )
     tracked = set(
         subprocess.check_output(["git", "ls-files"], cwd=REPO_ROOT, text=True).splitlines()
@@ -1153,6 +1156,10 @@ def check_public_animation_set() -> list[Finding]:
     assembly_root = REPO_ROOT / "engineering/models/digital-twins/fabrication-assembly"
     assembly_gif = assembly_root / "fabrication-assembly-digital-twin.gif"
     assembly_mp4 = assembly_root / "fabrication-assembly-digital-twin.mp4"
+    civil_root = REPO_ROOT / "engineering/models/bim/reference"
+    civil_gif = civil_root / "civil-construction-sequence.gif"
+    civil_mp4 = civil_root / "civil-construction-sequence.mp4"
+    civil_blend = civil_root / "civil-coordination.blend"
     operations_gif = REPO_ROOT / "docs/assets/digital-twin-animation.gif"
     city_gif = (
         REPO_ROOT
@@ -1164,7 +1171,15 @@ def check_public_animation_set() -> list[Finding]:
         subprocess.check_output(["git", "ls-files"], cwd=REPO_ROOT, text=True).splitlines()
     )
     findings: list[Finding] = []
-    for path in (assembly_gif, assembly_mp4, operations_gif, city_gif, manifest_path):
+    milestone_paths = (
+        REPO_ROOT / "docs/screenshots/assembly/trainset-assembly-parts-staged.png",
+        REPO_ROOT / "docs/screenshots/assembly/trainset-assembly-subassemblies.png",
+        REPO_ROOT / "docs/screenshots/assembly/trainset-assembly-complete.png",
+        REPO_ROOT / "docs/screenshots/civil/civil-assembly-substructure.png",
+        REPO_ROOT / "docs/screenshots/civil/civil-assembly-superstructure.png",
+        REPO_ROOT / "docs/screenshots/civil/civil-assembly-track-station.png",
+    )
+    for path in (assembly_gif, assembly_mp4, civil_gif, civil_mp4, civil_blend, operations_gif, city_gif, manifest_path, *milestone_paths):
         relative = path.relative_to(REPO_ROOT).as_posix()
         if not path.is_file():
             findings.append(Finding(path, "public animation artifact is missing"))
@@ -1175,6 +1190,7 @@ def check_public_animation_set() -> list[Finding]:
 
     gif_contracts = (
         (assembly_gif, 250, 80_000, (640, 360)),
+        (civil_gif, 180, 45_000, (640, 360)),
         (operations_gif, 150, 18_000, (800, 450)),
         (city_gif, 180, 40_000, (640, 360)),
     )
@@ -1213,10 +1229,17 @@ def check_public_animation_set() -> list[Finding]:
         header = assembly_mp4.read_bytes()[:32]
         if b"ftyp" not in header or assembly_mp4.stat().st_size < 1_000_000:
             findings.append(Finding(assembly_mp4, "primary MP4 is missing a valid media header"))
+    if civil_mp4.is_file():
+        header = civil_mp4.read_bytes()[:32]
+        if b"ftyp" not in header or civil_mp4.stat().st_size < 500_000:
+            findings.append(Finding(civil_mp4, "civil MP4 is missing a valid media header"))
     if manifest_path.is_file():
         manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
         if manifest.get("visual_tour", {}).get("duration_s") != 88.0:
             findings.append(Finding(manifest_path, "visual tour duration is not the 88-second contract"))
+        graph = manifest.get("trainset_assembly_graph", {})
+        if graph.get("animated_node_count") != 127 or not graph.get("dependency_timing_valid"):
+            findings.append(Finding(manifest_path, "complete dependency-timed LM3 product graph is missing"))
     return findings
 
 
@@ -1233,6 +1256,7 @@ def check_trainset_manufacturing_package() -> list[Finding]:
         "freecad": REPO_ROOT / "design/component-catalogue/models/cad/lm3-manufacturing-tooling.FCStd",
         "ifc": REPO_ROOT / "engineering/models/bim/reference/lm3-manufacturing-reference.ifc",
         "ifc_index": REPO_ROOT / "engineering/models/bim/reference/lm3-manufacturing-reference.index.json",
+        "product_manifest": REPO_ROOT / "design/component-catalogue/catalog/buildable-trainset/buildable-trainset-manifest.json",
     }
     tracked = set(
         subprocess.check_output(["git", "ls-files"], cwd=REPO_ROOT, text=True).splitlines()
@@ -1272,6 +1296,31 @@ def check_trainset_manufacturing_package() -> list[Finding]:
             findings.append(Finding(paths["ifc_index"], f"LM3 manufacturing IFC counts changed: {observed}"))
         if index.get("supplier_anchor_count") != 25 or index.get("supplier_anchored_external_product_count") != 54:
             findings.append(Finding(paths["ifc_index"], "LM3 IFC supplier-anchor coverage is incomplete"))
+    if paths["product_manifest"].is_file():
+        product_manifest = json.loads(paths["product_manifest"].read_text(encoding="utf-8"))
+        base = paths["product_manifest"].parent
+        expected_ids = {
+            row["id"] for key in ("product_items", "assemblies")
+            for row in product_manifest[key]
+        }
+        definition_ids = {
+            path.stem for path in (base / "definitions").glob("*/*.json")
+        }
+        traveler_ids = {
+            path.stem for path in (base / "travelers").glob("*/*.json")
+        }
+        if definition_ids != expected_ids:
+            findings.append(Finding(base / "definitions", "GitHub part/assembly definitions do not match the 127-node product tree"))
+        if traveler_ids != expected_ids:
+            findings.append(Finding(base / "travelers", "GitHub part/assembly travelers do not match the 127-node product tree"))
+        public_files = [
+            *list((base / "definitions").glob("*/*.*")),
+            *list((base / "travelers").glob("*/*.*")),
+            *list((REPO_ROOT / "design/component-catalogue/models/cad").glob("*.FCStd")),
+        ]
+        for path in public_files:
+            if path.relative_to(REPO_ROOT).as_posix() not in tracked:
+                findings.append(Finding(path, "public LM3 part/assembly artifact is not tracked"))
     return findings
 
 

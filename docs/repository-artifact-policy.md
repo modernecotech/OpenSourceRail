@@ -34,7 +34,8 @@ otherwise cannot inspect the system without installing specialist software.
 - The Samawah OSR-ALN fixture used by converter tests.
 - Compact FreeCAD and Blender review assemblies, including the LM3 selectable
   manufacturing-tool set; the named civil and LM3-manufacturing IFC4.3 review
-  federations under `engineering/models/bim/reference/`; stable documentation
+  federations, native civil construction scene and complete sub-20-MB review
+  animations under `engineering/models/bim/reference/`; stable documentation
   images, and the root `OpenSourceRail-Book.pdf` reader edition. These are
   published review aids generated from authoritative sources, not parallel
   inputs.
@@ -45,8 +46,8 @@ otherwise cannot inspect the system without installing specialist software.
   that are not part of the stable documentation review set.
 - Complete generated city engineering and operations packages except the
   named Mosul and Samawah acceptance references.
-- Generated BOM exports, simulation traces, release-only brochures, videos,
-  repeated CAD/BIM job outputs, and other release binaries.
+- Generated BOM exports, simulation traces, release-only brochures, unnamed or
+  repeated videos, CAD/BIM job outputs, and other release binaries.
 - Files that only preserve an obsolete schema, chemistry, voltage, or API name.
 
 ## Output locations

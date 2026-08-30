@@ -36,6 +36,12 @@ The scripts below replace their stable output filenames on each run, so
 the README screenshots and `.FCStd` links always point at the latest
 generated review set.
 
+The complete GitHub-visible part-to-assembly review is the
+[`fabrication-assembly` twin](../../../../engineering/models/digital-twins/fabrication-assembly/README.md).
+Its native Blender scene contains one inspectable object for every 101 product
+rows and 26 controlled assembly nodes; this directory retains the detailed
+FreeCAD source/review documents from which released geometry must be developed.
+
 ## Add-on and Render Toolchain
 
 The supported launcher checks the `org.freecad.FreeCAD` Flatpak and records the

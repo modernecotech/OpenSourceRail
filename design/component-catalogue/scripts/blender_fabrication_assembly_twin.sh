@@ -9,6 +9,7 @@ OUTPUT="$TWIN_DIR/fabrication-assembly-digital-twin.gif"
 VIDEO="$TWIN_DIR/fabrication-assembly-digital-twin.mp4"
 BLEND="$TWIN_DIR/fabrication-assembly-digital-twin.blend"
 MANIFEST="$TWIN_DIR/fabrication-assembly-digital-twin.json"
+MILESTONES="$REPO_ROOT/docs/screenshots/assembly"
 WIDTH=960
 HEIGHT=540
 FPS=6
@@ -64,7 +65,7 @@ fi
 FONT_FILE="$(fc-match -f '%{file}\n' 'DejaVu Sans Bold' | head -n 1)"
 test -f "$FONT_FILE"
 
-ARGS=(--background --python "$SCRIPT" -- --frames-dir "$FRAME_DIR" --blend "$BLEND" --width "$WIDTH" --height "$HEIGHT" --fps "$FPS" --samples "$SAMPLES")
+ARGS=(--background --python "$SCRIPT" -- --frames-dir "$FRAME_DIR" --blend "$BLEND" --width "$WIDTH" --height "$HEIGHT" --fps "$FPS" --samples "$SAMPLES" --milestones-dir "$MILESTONES")
 if [ -n "$STILL_TIME" ]; then ARGS+=(--still-time "$STILL_TIME"); fi
 "${BLENDER[@]}" "${ARGS[@]}"
 

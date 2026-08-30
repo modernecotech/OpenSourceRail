@@ -170,6 +170,13 @@ def test_civil_ifc_has_rail_semantics_geometry_schedule_and_stable_ids(tmp_path:
     assert index["alignment"]["vertical_segment_type"] == "CONSTANTGRADIENT"
     assert index["alignment"]["cant_status"].startswith("not-modelled")
     assert len(model.by_type("IfcTask")) == 18
+    assert sequence["animation"] == {
+        "fps": 12,
+        "duration_seconds": 48,
+        "frame_start": 1,
+        "frame_end": 576,
+        "semantics": "normalized review animation; IFC task dates retain planning durations",
+    }
     assert {task_id: len(asset_ids) for task_id, asset_ids in sequence["product_assignments"].items()} == {
         "STN-40": 9,
         "TRK-50": 5,

@@ -11,6 +11,7 @@ from osr_mech.fabrication_assembly_twin import (
     assembly_state,
     fabrication_assembly_manifest,
     fabrication_streams,
+    trainset_assembly_graph,
     twin_checks,
     write_manifest,
 )
@@ -67,6 +68,23 @@ def test_manifest_embeds_source_hashes_snapshots_interfaces_and_limitations() ->
         for current, following in zip(VISUAL_TOUR_PHASES, VISUAL_TOUR_PHASES[1:])
     )
     assert manifest["limitations"]
+
+
+def test_complete_trainset_product_dag_is_dependency_animated() -> None:
+    graph = trainset_assembly_graph()
+    assert graph["animated_product_count"] == 101
+    assert graph["animated_assembly_count"] == 26
+    assert graph["animated_node_count"] == 127
+    assert graph["root_id"] == "LM3-TRAINSET-A000"
+    assert graph["dependency_timing_valid"] is True
+    assert set(graph["timing"]) == {
+        *(item["id"] for item in graph["product_rows"]),
+        *(item["id"] for item in graph["assemblies"]),
+    }
+    for assembly in graph["assemblies"]:
+        assert graph["timing"][assembly["id"]]["start_s"] >= max(
+            graph["timing"][child]["end_s"] for child in assembly["children"]
+        )
 
 
 def test_manifest_writer_round_trips_machine_readable_register(tmp_path) -> None:

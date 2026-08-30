@@ -265,6 +265,109 @@ def fabrication_streams() -> tuple[FabricationStream, ...]:
     return track, station, viaduct, train
 
 
+def trainset_assembly_graph() -> dict[str, Any]:
+    """Return the complete LM3 part/assembly DAG and normalized animation timing.
+
+    The visual simulation represents one row for every controlled product family,
+    not every repeated physical occurrence. Quantities remain attached to each row.
+    """
+
+    manifest = json.loads(TRAINSET_MANIFEST_PATH.read_text(encoding="utf-8"))
+    products = {item["id"]: item for item in manifest["product_items"]}
+    assemblies = {item["id"]: item for item in manifest["assemblies"]}
+    nodes = set(products) | set(assemblies)
+    if set(products) & set(assemblies):
+        raise ValueError("trainset product and assembly identifiers overlap")
+    for product in products.values():
+        if product["parent"] not in assemblies:
+            raise ValueError(f"{product['id']} has unknown parent {product['parent']}")
+    for assembly in assemblies.values():
+        missing = sorted(set(assembly["children"]) - nodes)
+        if missing:
+            raise ValueError(f"{assembly['id']} has unknown children {missing}")
+
+    heights: dict[str, int] = {item_id: 0 for item_id in products}
+
+    def height(item_id: str, active: tuple[str, ...] = ()) -> int:
+        if item_id in heights:
+            return heights[item_id]
+        if item_id in active:
+            raise ValueError(f"cycle in trainset assembly graph: {' > '.join((*active, item_id))}")
+        children = assemblies[item_id]["children"]
+        value = 1 + max(height(child, (*active, item_id)) for child in children)
+        heights[item_id] = value
+        return value
+
+    for assembly_id in assemblies:
+        height(assembly_id)
+    maximum_height = max(heights.values())
+    phase_start = 63.0
+    product_end = 69.0
+    assembly_end = 82.0
+    timing: dict[str, dict[str, float | int | str]] = {}
+    sorted_products = sorted(products)
+    for index, product_id in enumerate(sorted_products):
+        wave = index % 6
+        timing[product_id] = {
+            "kind": "product-row",
+            "level": 0,
+            "start_s": round(phase_start + wave * 0.35, 3),
+            "end_s": round(product_end + wave * 0.18, 3),
+        }
+    level_window = (assembly_end - (product_end + 0.9)) / maximum_height
+    for assembly_id in sorted(assemblies, key=lambda value: (heights[value], value)):
+        level = heights[assembly_id]
+        child_release = max(float(timing[child]["end_s"]) for child in assemblies[assembly_id]["children"])
+        nominal_start = product_end + 0.9 + (level - 1) * level_window
+        start = max(child_release, nominal_start)
+        end = min(assembly_end, max(start + 0.45, product_end + 0.9 + level * level_window))
+        timing[assembly_id] = {
+            "kind": assemblies[assembly_id]["layer"],
+            "level": level,
+            "start_s": round(start, 3),
+            "end_s": round(end, 3),
+        }
+
+    return {
+        "source": str(TRAINSET_MANIFEST_PATH.relative_to(REPO_ROOT)),
+        "source_sha256": _sha256(TRAINSET_MANIFEST_PATH),
+        "representation_basis": "one animated object per controlled product row and assembly node; quantity metadata preserves repeated occurrences",
+        "product_rows": [
+            {
+                "id": item["id"],
+                "title": item["title"],
+                "parent": item["parent"],
+                "route": item["route"],
+                "layer": item["layer"],
+                "quantity_per_trainset": item["quantity_per_trainset"],
+                "unit": item["unit"],
+            }
+            for item in manifest["product_items"]
+        ],
+        "assemblies": [
+            {
+                "id": item["id"],
+                "title": item["title"],
+                "layer": item["layer"],
+                "children": item["children"],
+                "level": heights[item["id"]],
+            }
+            for item in manifest["assemblies"]
+        ],
+        "timing": timing,
+        "maximum_level": maximum_height,
+        "animated_product_count": len(products),
+        "animated_assembly_count": len(assemblies),
+        "animated_node_count": len(nodes),
+        "root_id": "LM3-TRAINSET-A000",
+        "dependency_timing_valid": all(
+            float(timing[assembly_id]["start_s"])
+            >= max(float(timing[child]["end_s"]) for child in assembly["children"])
+            for assembly_id, assembly in assemblies.items()
+        ),
+    }
+
+
 def assembly_state(elapsed_s: float) -> tuple[StageState, ...]:
     """Map real animation time to concurrent work-in-progress states."""
 
@@ -321,6 +424,10 @@ def twin_checks(streams: tuple[FabricationStream, ...] | None = None) -> tuple[d
         ("station-product-tree-loaded", len(station_manifest["variants"]) == 7, len(station_manifest["variants"])),
         ("train-product-tree-loaded", len(train_manifest["product_items"]) >= 101 and len(train_manifest["assemblies"]) == 26,
          {"items": len(train_manifest["product_items"]), "assemblies": len(train_manifest["assemblies"])}),
+        ("train-product-tree-fully-animated", trainset_assembly_graph()["animated_node_count"] == 127,
+         trainset_assembly_graph()["animated_node_count"]),
+        ("train-animation-follows-product-dag", trainset_assembly_graph()["dependency_timing_valid"],
+         trainset_assembly_graph()["dependency_timing_valid"]),
     )
     return tuple({"id": check_id, "passed": passed, "observed": observed} for check_id, passed, observed in checks)
 
@@ -340,6 +447,7 @@ def fabrication_assembly_manifest() -> dict[str, Any]:
             "phases": list(VISUAL_TOUR_PHASES),
             "final_overview_s": [82.0, VISUAL_TOUR_DURATION_S],
         },
+        "trainset_assembly_graph": trainset_assembly_graph(),
         "streams": [asdict(stream) for stream in streams],
         "integration_dependencies": [
             {"from": "VIA-55", "to": "VIA-60", "interface": "continuity-connection and deck-to-trackform"},

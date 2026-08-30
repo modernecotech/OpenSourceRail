@@ -38,7 +38,7 @@ release gates are tracked in
 | [`crates/osr-alignment`](../../crates/osr-alignment/) | Alignment geometry, quantities, exports, and stake-out data |
 | [`tools/osr-aln-convert`](../../tools/osr-aln-convert/) | Companion converter for external alignment formats |
 | [`design/component-catalogue/src/osr_mech/civil/`](../../design/component-catalogue/src/osr_mech/civil/) | Parametric girders, piers, abutments, slab/guideway edges, elevated platform units, and civil CAD source |
-| [`tools/automation/bonsai-civil.sh`](../../tools/automation/bonsai-civil.sh) | Deterministic IFC/IDS/BCF generation, Bonsai import, saved review scene, screenshot, and MP4 animation |
+| [`tools/automation/bonsai-civil.sh`](../../tools/automation/bonsai-civil.sh) | Deterministic IFC/IDS/BCF generation, Bonsai import, saved review scene, 48-second MP4/GIF, and milestone screenshots |
 | [`tools/automation/generate-civil-cost-model.py`](../../tools/automation/generate-civil-cost-model.py) | Recalculate planning rates from current CAD quantities and reject stale output with `--check` |
 
 The IFC is a generated coordination output, not a competing geometry source.

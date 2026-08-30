@@ -4,6 +4,12 @@ This is the tracked, deterministic public-review federation. It lets GitHub
 users inspect the current IFC4.3 model and its requirements/evidence without
 installing the complete engineering toolchain.
 
+![48-second civil IFC construction sequence](civil-construction-sequence.gif)
+
+| Substructure | Superstructure | Track and station interfaces |
+|---|---|---|
+| ![IFC substructure construction milestone](../../../../docs/screenshots/civil/civil-assembly-substructure.png) | ![IFC superstructure erection milestone](../../../../docs/screenshots/civil/civil-assembly-superstructure.png) | ![IFC track and station milestone](../../../../docs/screenshots/civil/civil-assembly-track-station.png) |
+
 | File | Purpose |
 |---|---|
 | [`civil-coordination.ifc`](civil-coordination.ifc) | IFC4.3 rail/civil/station/rolling-stock coordination model |
@@ -14,6 +20,9 @@ installing the complete engineering toolchain.
 | [`civil-coordination-issues.bcf`](civil-coordination-issues.bcf) | Open coordination issues in BCF 3.0 form |
 | [`civil-coordination-issues.index.json`](civil-coordination-issues.index.json) | Reviewable BCF issue index |
 | [`civil-construction-sequence.json`](civil-construction-sequence.json) | Deterministic construction stages and object assignments |
+| [`civil-coordination.blend`](civil-coordination.blend) | Native Bonsai/Blender review scene with assigned IFC assets, task IDs and construction keyframes |
+| [`civil-construction-sequence.mp4`](civil-construction-sequence.mp4) | Full 48-second H.264 4D construction review |
+| [`civil-construction-sequence.gif`](civil-construction-sequence.gif) | Complete GitHub-viewable preview of the same sequence |
 | [`lm3-manufacturing-reference.ifc`](lm3-manufacturing-reference.ifc) | IFC4.3 LM3 product hierarchy, semantic doors/windows/fixtures/motors, manufacturing methods, sequenced tasks and 20 tooling families |
 | [`lm3-manufacturing-reference.index.json`](lm3-manufacturing-reference.index.json) | IFC counts, source hashes, semantic classes and deterministic validation summary |
 
@@ -21,11 +30,17 @@ Regenerate it from the authoritative component geometry and engineering
 interchange code:
 
 ```bash
-tools/automation/bonsai-civil.sh --generate \
+tools/automation/bonsai-civil.sh --animate \
   --out-dir engineering/models/bim/reference \
   --revision-id repository-reference
 python3 engineering/interchange/trainset_manufacturing_ifc.py
 ```
+
+The 4D review moves the assigned IFC objects themselves: substructure rises,
+bearings and roofs descend, beams arrive from the erection side, and track feeds
+longitudinally according to the checked task assignments. It is a deterministic
+construction-state simulation, not crane physics, temporary-works verification,
+clash-free path planning or an approved method statement.
 
 These models are coordination, product-structure and manufacturing-method
 evidence, not a construction release. The LM3 IFC deliberately distinguishes

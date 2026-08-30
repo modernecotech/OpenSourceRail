@@ -59,23 +59,41 @@ if $DO_GENERATE; then
 fi
 
 if $DO_RENDER; then
+    REVIEW_OUTPUT="$OUT_DIR/civil-coordination.png"
+    REVIEW_DETAIL="$OUT_DIR/civil-pi25-detail.png"
+    if [[ "$OUT_DIR" == "$ROOT/engineering/models/bim/reference" ]]; then
+        REVIEW_OUTPUT="$ROOT/docs/screenshots/civil/bonsai-ifc4x3-civil-coordination.png"
+        REVIEW_DETAIL="$ROOT/docs/screenshots/civil/bonsai-pi25-support-detail.png"
+    fi
     blender_args=(
         -b --python "$ROOT/tools/automation/bonsai-render-civil.py" --
         --ifc "$OUT_DIR/civil-coordination.ifc"
         --index "$OUT_DIR/civil-coordination.index.json"
         --sequence "$OUT_DIR/civil-construction-sequence.json"
-        --output "$OUT_DIR/civil-coordination.png"
-        --detail-output "$OUT_DIR/civil-pi25-detail.png"
+        --output "$REVIEW_OUTPUT"
+        --detail-output "$REVIEW_DETAIL"
         --blend "$OUT_DIR/civil-coordination.blend"
+        --milestones-dir "$ROOT/docs/screenshots/civil"
     )
     if $DO_ANIMATE; then
         blender_args+=(--animation-output "$OUT_DIR/civil-construction-sequence.mp4")
     fi
     flatpak run org.blender.Blender "${blender_args[@]}"
     if $DO_ANIMATE; then
-        ffmpeg -y -framerate 24 \
+        FPS="$(python3 -c 'import json,sys; print(json.load(open(sys.argv[1]))["animation"]["fps"])' "$OUT_DIR/civil-construction-sequence.json")"
+        ffmpeg -y -framerate "$FPS" \
             -i "$OUT_DIR/civil-construction-sequence-frames/frame-%04d.png" \
             -c:v libx264 -preset medium -crf 20 -pix_fmt yuv420p \
             "$OUT_DIR/civil-construction-sequence.mp4"
+        PALETTE="$OUT_DIR/civil-construction-sequence-palette.png"
+        ffmpeg -v error -y -i "$OUT_DIR/civil-construction-sequence.mp4" \
+            -vf "fps=4,scale=800:450:flags=lanczos,palettegen=max_colors=192:stats_mode=diff" \
+            -frames:v 1 "$PALETTE"
+        ffmpeg -v error -y -i "$OUT_DIR/civil-construction-sequence.mp4" -i "$PALETTE" \
+            -lavfi "fps=4,scale=800:450:flags=lanczos[x];[x][1:v]paletteuse=dither=sierra2_4a:diff_mode=rectangle" \
+            -loop 0 "$OUT_DIR/civil-construction-sequence.gif"
+        test "$(stat -c %s "$OUT_DIR/civil-construction-sequence.gif")" -lt 20000000
+        rm -f "$PALETTE"
+        rm -rf "$OUT_DIR/civil-construction-sequence-frames"
     fi
 fi

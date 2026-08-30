@@ -3407,10 +3407,10 @@ def build_model(
             if row["review_gate_asset_ids"]
         },
         "animation": {
-            "fps": 24,
+            "fps": 12,
             "duration_seconds": 48,
             "frame_start": 1,
-            "frame_end": 1152,
+            "frame_end": 576,
             "semantics": "normalized review animation; IFC task dates retain planning durations",
         },
     }
