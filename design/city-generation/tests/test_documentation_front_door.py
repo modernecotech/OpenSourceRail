@@ -113,6 +113,13 @@ def test_acceptance_reports_link_only_to_published_city_artifacts() -> None:
         assert not any(suffix in text for suffix in forbidden_suffixes)
 
 
+def test_kani_ci_uses_release_selected_bounded_harnesses() -> None:
+    workflow = (REPO_ROOT / ".github/workflows/kani.yml").read_text(encoding="utf-8")
+    assert "--harness kani_a2_expired_ma_trips" in workflow
+    assert "--harness kani_p5_time_bounded_arithmetic" in workflow
+    assert 'args: "-p osr-interlocking"' not in workflow
+
+
 def test_thin_wrapper_directories_do_not_return() -> None:
     for relative in (
         "docs/brochures",

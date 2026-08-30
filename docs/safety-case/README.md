@@ -51,14 +51,12 @@ serialises random log prefixes, shells out to
 `MovementAuthority` JSON. Any divergence between the two twins is a
 bug in at least one of them.
 
-**Honest status:** the harnesses compile under `#[cfg(kani)]` and
-encode each property formally in Rust, but running them requires a
-Kani installation (see below). The P2 and P4 harnesses use
-deliberately small bounds — a 2-section network and 1–2 trains — so
-Kani can discharge them in a reasonable time. Scaling the bounds to
-RFC 0004's targets (8 trains, 50 entries, 100 sections) is left to
-contributors with compute budget; the same harness structure extends
-directly.
+**Honest status:** the harnesses compile under `#[cfg(kani)]` and encode each
+property formally in Rust, but running them requires a Kani installation. CI
+proves the fast P5 arithmetic core. The topology-backed P1–P4 and whole-function
+P5 harnesses currently exceed the hosted runner's 45-minute budget even at
+their small bounds; they are open proof-model/bounding work, not passing CI
+evidence. Scaling toward RFC 0004's targets remains future controlled evidence.
 
 ## What the other SIL-4 crates check today
 
@@ -84,7 +82,7 @@ cargo kani setup
 ### Run a single harness
 
 ```bash
-cargo kani -p osr-interlocking --harness kani_p5_time_bounded
+cargo kani -p osr-interlocking --harness kani_p5_time_bounded_arithmetic
 ```
 
 ### Run all harnesses in a crate
@@ -99,18 +97,18 @@ cargo kani -p osr-interlocking
 cargo kani --workspace
 ```
 
-Kani runs are expected to take seconds for P1, P3, P5 and minutes for
-P2, P4. If P2 or P4 time out (default limit 30 min), narrow the
-bounds further inside the harness — Kani's `kani::assume` clauses at
-the top of each proof are the knobs to turn.
+The arithmetic harness completes in seconds. Whole-function and topology-backed
+harnesses can exceed ordinary CI limits because standard-library map operations
+expand the bounded state space. Treat their bounds and reports as controlled
+formal evidence; never disable unwinding checks merely to obtain a green result.
 
 ## CI
 
-The [Kani workflow](../../.github/workflows/kani.yml) runs all
-harnesses on every push. It uses GitHub Actions' cache for the Kani
-toolchain install so the first minute of each run is just cache
-restore. Full verification takes ~10 minutes on the default
-`ubuntu-latest` runner.
+The [Kani workflow](../../.github/workflows/kani.yml) runs two explicit,
+release-selected properties on every push: ATP rejection of an expired movement
+authority and interlocking validity-window arithmetic. Full topology-backed
+runs are performed and archived separately only after bounds and tool versions
+are reviewed.
 
 ## What's planned
 

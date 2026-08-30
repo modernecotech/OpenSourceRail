@@ -21,9 +21,10 @@ operator evidence management.
 - Commodity Raspberry Pi/Radxa equipment remains the pilot/application path,
   while revenue-service safety channels now have a separate assessor-controlled
   industrial safety-MCU selection gate.
-- The fast ATP expired-authority proof now joins the established interlocking
-  proof job in CI. Topology-heavy ATP proofs remain bounded formal evidence,
-  not an ordinary-CI claim, until their unwind limits are frozen and reviewed.
+- Fast ATP expired-authority and interlocking validity-window arithmetic proofs
+  run in CI. Topology-heavy ATP and interlocking proofs remain bounded formal
+  evidence, not ordinary-CI claims, until their unwind limits are frozen and
+  reviewed.
 - A documented SMRaft-to-Rust abstraction map improves reviewability without
   misrepresenting it as a machine-checked refinement proof.
 

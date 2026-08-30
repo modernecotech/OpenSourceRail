@@ -38,14 +38,14 @@ is observed through committed actions/prefixes in a simulated cluster.
 ## v0.3 closure work
 
 1. Run TLC for the checked configuration and archive its result.
-2. Run the interlocking suite and a fast fail-restrictive ATP release property
-   in CI; archive full bounded ATP runs separately once topology unwind limits
-   and tool versions have been frozen and reviewed.
+2. Run fast release-selected interlocking and fail-restrictive ATP properties
+   in CI; archive full bounded runs separately once topology unwind limits and
+   tool versions have been frozen and reviewed.
 3. Maintain this action/state map under code review.
 4. Add a tool-backed trace/refinement proof or an assessor-accepted refinement
    argument covering initialization, every step action and stuttering.
 
-Items 1–3 are repository evidence. Full ATP bounded-proof completion and item
-4 remain open in the certification gap register. They prevent the project from
-describing ATP coverage as exhaustive or consensus refinement as formally
-proved.
+Items 1–3 are repository evidence. Full ATP/interlocking bounded-proof
+completion and item 4 remain open in the certification gap register. They
+prevent the project from describing bounded coverage as exhaustive or
+consensus refinement as formally proved.

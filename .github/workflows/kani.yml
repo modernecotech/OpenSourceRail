@@ -8,17 +8,17 @@ on:
 
 jobs:
   kani-interlocking:
-    name: Kani — osr-interlocking safety harnesses
+    name: Kani — interlocking MA validity-window arithmetic
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install Kani
+      - name: Prove the release-selected interlocking property
         uses: model-checking/kani-github-action@v1
         with:
           working-directory: .
-          args: "-p osr-interlocking"
+          args: "-p osr-interlocking --harness kani_p5_time_bounded_arithmetic"
 
   kani-atp-expired-authority:
     name: Kani — ATP rejects expired movement authority

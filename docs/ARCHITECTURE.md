@@ -138,7 +138,7 @@ This is the heart of the safety argument and receives the most design attention.
 | | Legacy | OpenSourceRail |
 |---|---|---|
 | Block model | **Fixed block** (track circuits, axle counters) or vendor **CBTC moving block** | **Software-defined moving block** via distributed consensus across wayside nodes + self-reporting trains |
-| Interlocking | Relay panels or proprietary PLC-based (Simis, Smartlock) at $55k–$550k/site | SIL-4-target Rust interlocking on redundant RISC-V SBCs at <$5k/site; formally verified with Kani/Creusot |
+| Interlocking | Relay panels or proprietary PLC-based (Simis, Smartlock) at $55k–$550k/site | SIL-4-target Rust interlocking on redundant RISC-V SBCs at <$5k/site; property-tested with release-selected bounded Kani evidence, with full topology proofs still open |
 | Position | Track circuits + balises (Eurobalise) | Sensor fusion: GNSS + IMU + wheel odometry + low-cost UWB/beacon fixes at switches and platforms |
 | Movement authority | Centralized zone controller issues MA to trains | Distributed Raft-style log holds authoritative track state; each train computes its own MA, cross-validated by two independent wayside nodes |
 | Certification path | Per-vendor SIL-4 case, years to re-certify | Open formal models + continuously regenerated safety-case evidence, assessed per deployment |
